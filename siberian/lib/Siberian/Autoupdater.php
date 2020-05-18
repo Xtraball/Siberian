@@ -43,8 +43,8 @@ class Autoupdater
      */
     public static function configure($host)
     {
-        $current_release = "" . Version::VERSION . "." . time();
-        __set("current_release", $current_release);
+        $current_release = Version::VERSION . '.' . time();
+        __set('current_release', $current_release);
 
         # Clear
         Design::clearCache();
@@ -84,7 +84,6 @@ class Autoupdater
                 $manifest_path = __ss($path . $www_folder . self::$manifest_name);
 
                 $hash = [];
-                $static_assets = [];
 
                 /** Looping trough files */
                 $files = new RecursiveIteratorIterator(
@@ -96,14 +95,13 @@ class Autoupdater
                     }
 
                     $pathname = $file->getPathname();
-                    $relative_path = str_replace($path . $www_folder, "", $pathname);
+                    $relative_path = str_replace($path . $www_folder, '', $pathname);
 
                     # Add only required files
                     if (!self::exclude($relative_path)) {
-                        $static_assets[] = $relative_path;
                         $hash[] = [
-                            "file" => $relative_path,
-                            "hash" => md5_file($pathname),
+                            'file' => $relative_path,
+                            'hash' => md5_file($pathname),
                         ];
                     }
 
@@ -115,9 +113,9 @@ class Autoupdater
 
                 # Release version change
                 $release = [
-                    "content_url" => $host . __ss($platform . $www_folder),
-                    "min_native_interface" => Version::NATIVE_VERSION,
-                    "release" => __get("current_release"),
+                    'content_url' => $host . __ss($platform . $www_folder),
+                    'min_native_interface' => Version::NATIVE_VERSION,
+                    'release' => __get('current_release'),
                 ];
 
                 $release = Json::encode($release, JSON_UNESCAPED_SLASHES | JSON_PRETTY_PRINT);
@@ -147,7 +145,7 @@ class Autoupdater
      * @param $file
      * @return bool
      */
-    public static function exclude($file)
+    public static function exclude($file): bool
     {
         foreach (Assets::$exclude_files as $pattern) {
             if (preg_match("#" . $pattern . "#i", $file)) {

@@ -1,24 +1,34 @@
-# Cordova Music Controls Plugin
+# Cordova Music Controls Plugin 2
 
 <img src='https://imgur.com/fh3ACOq.png' width='564' height='342'>
 
-Music controls for Cordova applications. Display a 'media' notification with play/pause, previous, next buttons, allowing the user to control the play. Handle also headset event (plug, unplug, headset button).
+Music controls for Cordova applications. Display a 'media' notification with play/pause, previous, next buttons, allowing the user to control the play. Handles headset events (plug, unplug, headset button).
+
+This plugin is forked from the original which is no longer maintained but which can be found at:
+https://github.com/homerours/cordova-music-controls-plugin
+
+This plugin is renamed as cordova-plugin-music-controls2 for easy differentiation and to allow for publishing
+updates to npm to make life easier for everyone.
 
 ## Supported platforms
-- Android (4.1+)
+- Android (4.1+) ([homerours](https://github.com/homerours))
 - Windows (10+, by [filfat](https://github.com/filfat))
 - iOS 8+ (by [0505gonzalez](https://github.com/0505gonzalez))
 
 ## Installation
-`cordova plugin add https://github.com/homerours/cordova-music-controls-plugin`
+- Current release
+`npm install cordova-plugin-music-controls2`
+- Bleeding edge direct from github
+`cordova plugin add https://github.com/ghenry22/cordova-plugin-music-controls2`
 
 ## Methods
 - Create the media controls:
 ```javascript
 MusicControls.create({
-    track       : 'Time is Running Out',		// optional, default : ''
+	track       : 'Time is Running Out',		// optional, default : ''
 	artist      : 'Muse',						// optional, default : ''
-    cover       : 'albums/absolution.jpg',		// optional, default : nothing
+	album       : 'Absolution',     // optional, default: ''
+ 	cover       : 'albums/absolution.jpg',		// optional, default : nothing
 	// cover can be a local path (use fullpath 'file:///storage/emulated/...', or only 'my_image.jpg' if my_image.jpg is in the www folder of your app)
 	//			 or a remote url ('http://...', 'https://...', 'ftp://...')
 	isPlaying   : true,							// optional, default : true
@@ -30,7 +40,7 @@ MusicControls.create({
 	hasClose  : true,		// show close button, optional, default: false
 
 	// iOS only, optional
-	album       : 'Absolution',     // optional, default: ''
+	
 	duration : 60, // optional, default: 0
 	elapsed : 10, // optional, default: 0
   	hasSkipForward : true, //optional, default: false. true value overrides hasNext.

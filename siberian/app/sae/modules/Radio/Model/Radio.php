@@ -3,40 +3,37 @@
 /**
  * Class Radio_Model_Radio
  *
+ * @author Xtraball SAS <dev@xtraball.com>
+ * @version 4.18.17
+ *
  * @method $this setVersion(integer $version)
  * @method integer getVersion()
  */
 class Radio_Model_Radio extends Core_Model_Default
 {
     /**
-     * Radio_Model_Radio constructor.
-     * @param array $params
-     * @throws Zend_Exception
+     * @var string
      */
-    public function __construct($params = [])
-    {
-        parent::__construct($params);
-        $this->_db_table = 'Radio_Model_Db_Table_Radio';
-        return $this;
-    }
+    protected $_db_table = Radio_Model_Db_Table_Radio::class;
 
     /**
+     * @param $valueId
      * @return array
      */
-    public function getInappStates($value_id)
+    public function getInappStates($valueId): array
     {
 
-        $in_app_states = [
+        $inAppStates = [
             [
-                "state" => "radio",
-                "offline" => false,
-                "params" => [
-                    "value_id" => $value_id,
+                'state' => 'radio',
+                'offline' => false,
+                'params' => [
+                    'value_id' => $valueId,
                 ],
             ],
         ];
 
-        return $in_app_states;
+        return $inAppStates;
     }
 
     /**

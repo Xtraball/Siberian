@@ -67,7 +67,7 @@ class Customer_Mobile_AccountController extends Application_Controller_Mobile_De
     {
         $title = __("Create");
         if($this->getSession()->isLoggedIn('customer')) {
-            $title = __("My Account");
+            $title = __("My account");
         }
 
         $this->loadPartials($this->getFullActionName('_').'_l'.$this->_layout_id, false);

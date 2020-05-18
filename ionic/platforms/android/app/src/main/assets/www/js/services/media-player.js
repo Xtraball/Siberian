@@ -1,420 +1,549 @@
-/* global
-    App, angular, ionic, MusicControls, DEVICE_TYPE, Audio
- */
-
 /**
  * MediaPlayer
  *
- * @author Xtraball SAS
+ * @author Xtraball SAS <dev@xtraball.com>
+ * @version 4.18.17
  */
-angular.module('starter').service('MediaPlayer', function ($interval, $rootScope, $state, $log, $location, $ionicHistory,
-                                                           $stateParams, $timeout, $translate, $window, Application,
-                                                           HomepageLayout, Dialog, Modal, Loader, SB) {
-    var service = {
-        media: null,
+angular
+    .module('starter')
+    .service('MediaPlayer', function ($interval, $rootScope, $stateParams, $timeout, $translate,
+                                      $window, Dialog, Modal, SB) {
+        var service = {
+            media: null,
+            isInitialized: false,
+            isMinimized: true,
+            isPlaying: false,
+            isRadio: false,
+            isShuffling: false,
+            repeatType: 'playlist',
+            tracks: [],
+            currentIndex: 0,
+            currentTrack: null,
+            currentTab: 'cover',
+            isBuffering: false,
+            listenEvents: false,
+            calledReset: false,
+            isPrev: false,
+            isNext: false,
+            isSelecting: false,
+            duration: 0,
+            elapsedTime: 0,
+            playerModal: null,
+            playerModalIsOpen: false,
+            value_id: null
+        };
 
-        is_initialized: false,
-        is_minimized: false,
-        is_playing: false,
-        is_radio: false,
-        is_shuffling: false,
-        is_stream: false,
+        service.decodeCallback = function (result) {
+            try {
+                return JSON.parse(result);
+            } catch (e) {
+                if (e.message.indexOf('Unexpected token') !== -1) {
+                    return result;
+                }
+            }
+            return result;
+        };
 
-        repeat_type: null,
+        // Empty callback
+        service.blankListener = function (event) {};
 
-        shuffle_tracks: [],
-        tracks: [],
+        service.musicControlsEventsHandler = function (event) {
+            var response = service.decodeCallback(event);
 
-        current_index: 0,
-        current_track: null,
-
-        duration: 0,
-        elapsed_time: 0,
-
-        playlistModal: null,
-
-        value_id: null,
-
-        use_music_controls: (SB.DEVICE.TYPE_BROWSER !== DEVICE_TYPE)
-    };
-
-    /**
-     *
-     * @param scope
-     */
-    service.createModal = function (scope) {
-        if (!service.playlistModal) {
-            Modal
-                .fromTemplateUrl('templates/media/music/l1/player/playlist.html', {
-                    scope: scope
-                })
-                .then(function (modal) {
-                    service.playlistModal = modal;
-                });
-        }
-    };
-
-    /**
-     *
-     */
-    service.openPlaylist = function () {
-        if (service.playlistModal) {
-            service.playlistModal.show();
-        }
-    };
-
-    /**
-     *
-     */
-    service.closePlaylist = function () {
-        if (service.playlistModal) {
-            service.playlistModal.hide();
-        }
-    };
-
-    service.loading = function () {
-        var message = $translate.instant('Loading');
-        if (service.is_radio) {
-            message = $translate.instant('Buffering');
-        }
-
-        Loader.show(message);
-    };
-
-    var music_controls_events = function (event) {
-        var response = JSON.parse(event);
-
-        switch (response.message) {
-            case 'music-controls-next':
+            switch (response.message) {
+                case 'music-controls-next':
                     // Do something
-                    if (!service.is_radio) {
+                    if (!service.isRadio) {
                         service.next();
                     }
-                break;
-            case 'music-controls-previous':
+                    break;
+                case 'music-controls-previous':
                     // Do something
-                    if (!service.is_radio) {
+                    if (!service.isRadio) {
                         service.prev();
                     }
-                break;
-            case 'music-controls-pause':
-            case 'music-controls-play':
-            // External controls (iOS only)
-            case 'music-controls-toggle-play-pause' :
+                    break;
+                case 'music-controls-pause':
+                case 'music-controls-play':
+                case 'music-controls-media-button': // Headset events (Android only)
+                case 'music-controls-toggle-play-pause': // External controls (iOS only)
                     service.playPause();
-                break;
-            case 'music-controls-destroy':
-                    service.destroy("player");
-                break;
+                    break;
+                case 'music-controls-destroy':
+                    service.reset();
+                    break;
 
-            // Headset events (Android only)
-            // All media button events are listed below
-            case 'music-controls-media-button' :
+                case 'music-controls-seek-to':
+                    const seekToInSeconds = response.position;
+                    MusicControls.updateElapsed({
+                        elapsed: seekToInSeconds,
+                        isPlaying: true
+                    });
+                    break;
+
+                case 'music-controls-headset-unplugged':
                     // Do something
-                break;
-            case 'music-controls-headset-unplugged':
+                    break;
+                case 'music-controls-headset-plugged':
                     // Do something
-                break;
-            case 'music-controls-headset-plugged':
-                    // Do something
-                break;
-        }
-    };
-
-    service.init = function (tracks_loader, is_radio, track_index) {
-        // Destroy service when changing media feature!
-        if (service.value_id !== $stateParams.value_id) {
-            service.destroy();
-        }
-
-        if (service.media && (service.current_track.streamUrl !== tracks_loader.tracks[track_index].streamUrl)) {
-            service.destroy();
-        }
-
-        if (!service.media) {
-            service.value_id = $stateParams.value_id;
-            service.is_radio = is_radio;
-            service.current_index = track_index;
-
-            if (tracks_loader) {
-                service.tracks = tracks_loader.tracks;
+                    break;
             }
-        }
-
-        service.is_initialized = true;
-        service.openPlayer();
-    };
-
-    service.play = function () {
-        service.media.play();
-        service.is_playing = true;
-    };
-
-    service.pre_start = function () {
-        // Trying to disable battery optimizations.
-        try {
-            if (DISABLE_BATTERY_OPTIMIZATION === true) {
-                MusicControls.disableBatteryOptimization();
-            }
-        } catch (e) {
-            // Something went wrong when trying to disable battery optimizations!
-            $log.error("Something went wrong when trying to disable battery optimizations!");
-            $log.error(e);
-        }
-
-
-        if (service.media) {
-            service.media.pause();
-        }
-
-        service.is_playing = false;
-        service.duration = 0;
-        service.elapsed_time = 0;
-        service.is_media_loaded = false;
-        service.is_media_stopped = false;
-    };
-
-    service.start = function () {
-        service.current_track = service.tracks[service.current_index];
-
-        $log.info(service.current_track, service.tracks);
-
-        if ((service.current_track.streamUrl.indexOf('http://') === -1) &&
-            (service.current_track.streamUrl.indexOf('https://') === -1)) {
-            Loader.hide();
-            Dialog.alert('Error', 'No current stream to load.', 'OK', -1);
-            return;
-        }
-
-        // Setting the albumCover image
-        if (service.current_track.albumCover) {
-            service.current_track.albumCover = service.current_track.albumCover.replace('100x100bb', $window.innerWidth + 'x' + $window.innerWidth + 'bb');
-        }
-
-        service.is_stream = service.is_radio;
-        $log.debug(service.current_track);
-
-        service.media = new Audio(service.current_track.streamUrl);
-        service.media.onended = function () {
-            service.next();
         };
-        service.play();
 
-        service.updateSeekBar();
+        service.mediaNativeChangeCallback = function (change) {
+            if (!service.listenEvents) {
+                return;
+            }
 
-        Loader.hide();
+            var response = service.decodeCallback(change);
+            // something changed, update controls & infos
+            if (service.media !== null) {
+                service.media.getDuration(function () {
+                    service.duration = service.media._duration;
+                }, function () {});
+            }
 
-        service.updateMusicControls();
-    };
+            // Play next if possible!
+            if (MediaNative.MEDIA_STOPPED === parseInt(response, 10)) {
+                if (!service.calledReset &&
+                    !service.isPrev &&
+                    !service.isNext &&
+                    !service.isSelecting) {
+                    // Reset was not called, it's a "track end stop", so we call next
 
-    service.reset = function () {
-        service.media = null;
-        service.seekbarTimer = null;
-        service.is_shuffling = false;
-        service.is_initialized = false;
+                    service.next();
+                }
+                // Reset locks after a timeout to prevent dupes!
+                service.calledReset = false;
+                service.isPrev = false;
+                service.isNext = false;
+                service.isSelecting = false;
+            }
+        };
 
-        service.is_minimized = false;
-        $rootScope.$broadcast(SB.EVENTS.MEDIA_PLAYER.HIDE);
+        service.mediaNativeErrorCallback = function (error) {
+            if (!service.listenEvents) {
+                return;
+            }
+            var response = service.decodeCallback(error);
 
-        service.repeat_type = null;
-        service.current_index = 0;
-        service.current_track = null;
-        service.shuffle_tracks = [];
+            try {
+                switch (parseInt(response, 10)) {
+                    case MediaError.MEDIA_ERR_NONE_ACTIVE:
+                        // Ignore
+                        break;
+                    case MediaError.MEDIA_ERR_ABORTED:
+                        Dialog.alert('Error', 'Media playing was aborted.', 'OK', -1, 'media');
+                        break;
+                    case MediaError.MEDIA_ERR_NETWORK:
+                        Dialog.alert('Error', 'A network error occurred while loading the media.', 'OK', -1, 'media');
+                        break;
+                    case MediaError.MEDIA_ERR_DECODE:
+                        Dialog.alert('Error', 'Unable to decode this media type.', 'OK', -1, 'media');
+                        break;
+                    case MediaError.MEDIA_ERR_NONE_SUPPORTED:
+                        Dialog.alert('Error', 'This media type is not supported.', 'OK', -1, 'media');
+                        break;
+                }
+            } catch (e) {
+                // Nope!
+            }
+        };
 
-        if (service.use_music_controls) {
-            MusicControls.destroy();
-        }
-    };
+        service.mediaNativeSuccessCallback = function (success) {
+            // Do nothing for now!
+            service.listenEvents = true;
+        };
 
-    service.destroy = function (origin) {
-        $interval.cancel(service.seekbarTimer);
-        if (service.media) {
-            if (service.is_playing) {
+        // Init media player
+        service.init = function (tracksLoader, isRadio, trackIndex) {
+            // Reset service when changing media feature!
+            if ((service.value_id !== $stateParams.value_id) ||
+                (service.media && (service.currentTrack.streamUrl !== tracksLoader.tracks[trackIndex].streamUrl))) {
+                service.reset();
+            }
+            service._initCallback(tracksLoader, isRadio, trackIndex);
+        };
+
+        service._initCallback = function (tracksLoader, isRadio, trackIndex) {
+            if (!service.media) {
+                service.value_id = $stateParams.value_id;
+                service.isRadio = isRadio;
+                service.currentIndex = trackIndex;
+
+                if (tracksLoader) {
+                    service.tracks = tracksLoader.tracks;
+                }
+            }
+
+            service.openPlayer();
+        };
+
+        service.play = function () {
+            if (service.media) {
+                service.isPlaying = true;
+                service.media.play();
+                service.updateSeekBar();
+                service.updateMusicControls();
+            }
+        };
+
+        service.pause = function () {
+            if (service.media) {
+                service.isPlaying = false;
+                service.cancelSeekBar();
                 service.media.pause();
+                MusicControls.updateIsPlaying(service.isPlaying);
             }
-        }
+        };
 
-        service.reset();
+        service.stop = function () {
+            if (service.media) {
+                service.isPlaying = false;
+                service.cancelSeekBar();
+                service.media.stop();
+                MusicControls.updateIsPlaying(service.isPlaying);
+            }
+        };
 
-        if (origin === 'player') {
-            service.goBack(true, true);
-        }
-    };
-
-    service.openPlayer = function () {
-        $state.go("media-player", {
-            value_id: service.value_id
-        });
-
-        service.is_minimized = false;
-
-        $rootScope.$broadcast(SB.EVENTS.MEDIA_PLAYER.HIDE);
-
-        if (!service.media) {
-            $timeout(function () {
-                service.pre_start();
-                service.start();
-            }, 1000);
-        }
-    };
-
-    service.playPause = function () {
-        if (service.is_playing) {
-            service.media.pause();
-
-            $interval.cancel(service.seekbarTimer);
-        } else {
-            service.media.play();
-        }
-
-        service.is_playing = !service.is_playing;
-
-        service.updateMusicControls();
-    };
-
-    service.prev = function () {
-        if (service.repeat_type === 'one') {
-            service.seekTo(0);
-        } else if (service.is_shuffling) {
-                if (service.shuffle_tracks.length >= service.tracks.length && service.repeat_type === 'all') {
-                    service.shuffle_tracks = [];
+        service.preStart = function () {
+            // Disabling battery optimizations, if required!
+            try {
+                if (DISABLE_BATTERY_OPTIMIZATION === true) {
+                    MusicControls.disableBatteryOptimization();
                 }
+            } catch (e) {}
 
-                service._randomSong();
-            } else if ((service.repeat_type === 'all') && (service.current_index === 0)) {
-                service.current_index = service.tracks.length - 1;
-            } else if (service.current_index > 0) {
-                service.current_index = service.current_index - 1;
+            service.pause();
+            service.duration = 0;
+            service.elapsedTime = 0;
+            service.isMediaLoaded = false;
+            service.isMediaStopped = false;
+        };
+
+        service.start = function () {
+            service.listenEvents = false;
+            service.currentTrack = service.tracks[service.currentIndex];
+
+            if ((service.currentTrack.streamUrl.indexOf('http://') === -1) &&
+                (service.currentTrack.streamUrl.indexOf('https://') === -1)) {
+                Dialog.alert('Error', 'No current media to load.', 'OK', -1);
+                return;
             }
 
-        service.pre_start();
-        service.start();
-    };
+            // Setting the albumCover image
+            if (service.currentTrack.albumCover) {
+                service.currentTrack.albumCover = service.currentTrack.albumCover
+                    .replace('100x100bb', $window.innerWidth + 'x' + $window.innerWidth + 'bb');
+            }
 
-    service.next = function () {
-        if (service.repeat_type === 'one') {
-            service.seekTo(0);
-        } else {
-            if (service.is_shuffling) {
-                if ((service.shuffle_tracks.length >= service.tracks.length) && (service.repeat_type === 'all')) {
-                    service.shuffle_tracks = [];
+            // Clear the media on prev/next
+            if (service.media) {
+                service.stop();
+                service.media.release();
+            }
+            service.media = new MediaNative(
+                {
+                    src: service.currentTrack.streamUrl,
+                    isStream: service.isRadio ? 1 : 0
+                },
+                service.mediaNativeSuccessCallback,
+                service.mediaNativeErrorCallback,
+                service.mediaNativeChangeCallback);
+
+            // If it's a browser chrome/safari, user must touch to play, in native we can auto-play!
+            if (SB.DEVICE.TYPE_BROWSER === DEVICE_TYPE) {
+                // Play if it's prev/next (hoping it will work)
+                if (service.isNext || service.isPrev) {
+                    service.play();
                 }
-
-                service._randomSong();
-            } else if ((service.repeat_type === 'all') && (service.current_index >= (service.tracks.length - 1))) {
-                service.current_index = 0;
-            } else if (service.current_index < (service.tracks.length - 1)) {
-                service.current_index = service.current_index + 1;
-            }
-
-            service.pre_start();
-            service.start();
-        }
-    };
-
-    service._randomSong = function () {
-        var random_index = Math.floor(Math.random() * service.tracks.length);
-
-        while ((service.shuffle_tracks.indexOf(random_index) !== -1) || (random_index === service.current_index)) {
-            if (service.shuffle_tracks.indexOf(random_index) !== -1) {
-                random_index = Math.floor(Math.random() * service.tracks.length);
+                // Do nothing for now!
             } else {
-                random_index = random_index + 1;
+                service.play();
             }
-        }
+        };
 
-        if (service.shuffle_tracks.length >= service.tracks.length) {
-            random_index = 0;
-        }
+        // Reset is promised based, as we have to wait on few events!
+        service.reset = function () {
+            service.calledReset = true;
+            // First, we clear the seekbar/buffering updates!
+            $interval.cancel(service.seekbarTimer);
 
-        service.shuffle_tracks.push(random_index);
-        service.current_index = random_index;
+            // Clear the subscriber
+            MusicControls.subscribe(service.blankListener);
 
-        service.updateMusicControls();
-    };
+            // Release before destroy music controls
+            service._releaseMediaPlayer();
+            MusicControls.destroy();
+        };
 
-    service.backward = function () {
-        var tmp_seekto = (service.elapsed_time - 10);
-        if (tmp_seekto < 0) {
-            service.prev();
-        } else {
-            service.elapsed_time = tmp_seekto;
-        }
-        service.seekTo(service.elapsed_time);
-    };
+        service._releaseMediaPlayer = function () {
+            if (service.media) {
+                service.pause();
+                service.stop();
+                service.media.release();
+            }
+            service.media = null;
+            service.seekbarTimer = null;
+            service.isShuffling = false;
+            service.isInitialized = false;
+            $rootScope.$broadcast(SB.EVENTS.MEDIA_PLAYER.HIDE);
 
-    service.forward = function () {
-        var tmp_seekto = (service.elapsed_time + 10);
-        if (tmp_seekto > service.media.duration) {
-            service.next();
-        } else {
-            service.elapsed_time = tmp_seekto;
-        }
-        service.seekTo(service.elapsed_time);
-    };
-
-    service.willSeek = function () {
-        if (service.is_playing) {
-            service.media.pause();
-            service.is_playing = false;
-        }
-    };
-
-    service.seekTo = function (position) {
-        if (position === 0) {
-            service.media.pause();
-            service.is_playing = false;
-        }
-        service.media.currentTime = position;
-        if (!service.is_playing) {
-            service.playPause();
-        }
-    };
-
-    service.repeat = function () {
-        switch (service.repeat_type) {
-            case null:
-                service.repeat_type = 'all';
-                break;
-
-            case 'all':
-                service.repeat_type = 'one';
-                break;
-
-            case 'one':
-                service.repeat_type = null;
-                break;
-        }
-    };
-
-    service.shuffle = function () {
-        service.shuffle_tracks = [];
-        service.is_shuffling = !service.is_shuffling;
-    };
-
-    service.updateMusicControls = function () {
-        // For now we will disable music controls for iOS!
-        if (service.use_music_controls &&
-            DEVICE_TYPE === SB.DEVICE.TYPE_ANDROID) {
-            var hasPrev = true;
-            var hasNext = true;
-            if (service.is_radio) {
-                hasPrev = false;
-                hasNext = false;
+            // Clear player modal!
+            if (service.playerModal !== null) {
+                service.playerModal.remove();
+                service.playerModal = null;
+                service.playerModalIsOpen = false;
             }
 
-            if (service.current_index === 0) {
-                hasPrev = false;
+            service.repeatType = 'playlist';
+            service.currentIndex = 0;
+            service.currentTrack = null;
+        };
+
+        service.openPlayer = function () {
+            if (service.isInitialized ||
+                service.playerModal !== null) {
+                service.openPlayerModal('cover');
+                return;
+            }
+            Modal
+                .fromTemplateUrl('templates/media/music/l1/player/modal/player.html', {
+                    scope: angular.extend($rootScope.$new(true), {
+                        close: service.closePlayerModal
+                    })
+                })
+                .then(function (modal) {
+                    service.isInitialized = true;
+                    service.playerModal = modal;
+
+                    if (!service.media) {
+                        $timeout(function () {
+                            service.preStart();
+                            service.start();
+                        }, 1000);
+                    }
+
+                    service.openPlayerModal('cover');
+                });
+        };
+
+        service.openPlayerModal = function (tab) {
+            service.currentTab = (tab === undefined) ? 'cover' : tab;
+
+            // Radio only has cover for now!
+            if (service.isRadio) {
+                service.currentTab = 'cover';
             }
 
-            if (service.current_index === (service.tracks.length - 1)) {
-                hasNext = false;
+            if (service.playerModal &&
+                service.playerModal.isShown()) {
+                return;
             }
+            if (service.playerModal !== null) {
+                service.playerModal.show();
+                service.playerModalIsOpen = true;
+            }
+        };
+
+        service.closePlayerModal = function () {
+            if (service.playerModal &&
+                !service.playerModal.isShown()) {
+                return;
+            }
+            if (service.playerModal !== null) {
+                service.playerModal.hide();
+                service.playerModalIsOpen = false;
+            }
+        };
+
+        service.playPause = function () {
+            if (service.isPlaying) {
+                service.pause();
+            } else {
+                service.play();
+            }
+        };
+
+        service.selectTrack = function (index) {
+            service.currentTab = 'cover';
+
+            service.isSelecting = true;
+            service.currentIndex = index;
+
+            service.preStart();
+            service.start();
+        };
+
+        service.hasPrev = function () {
+            if (service.isRadio) {
+                return false;
+            }
+            if (service.currentIndex === 0) {
+                return false;
+            }
+            return true;
+        };
+
+        service.prev = function () {
+            if (service.isRadio) {
+                return;
+            }
+
+            // Restart to 0, that's all!
+            if (service.repeatType === 'one') {
+                service.seekTo(0);
+                return;
+            }
+
+            // Prevent change end to call next!
+            service.isPrev = true;
+
+            if (service.isShuffling) {
+                service._randomSong();
+            } else if (service.repeatType === 'playlist') { // Playlist stop at the last track!
+                service.currentIndex--;
+                if (service.currentIndex < 0) {
+                    // We reached end of the playlist!
+                    service.currentIndex = 0;
+                    service.pause();
+
+                    // Prevent change end to call next!
+                    service.isPrev = false;
+
+                    return;
+                }
+            } else if (service.repeatType === 'loop') { // All returns to the first track
+                service.currentIndex--;
+                if (service.currentIndex < 0) {
+                    // We reached end of the playlist!
+                    service.currentIndex = service.tracks.length - 1;
+                }
+            }
+
+            service.preStart();
+            service.start();
+        };
+
+        service.hasNext = function () {
+            if (service.isRadio) {
+                return false;
+            }
+            if ((service.currentIndex === (service.tracks.length - 1))) {
+                return false;
+            }
+            return true;
+        };
+
+        service.next = function () {
+            if (service.isRadio) {
+                return;
+            }
+
+            // Restart to 0, that's all!
+            if (service.repeatType === 'one') {
+                service.seekTo(0);
+                return;
+            }
+
+            // Prevent change end to call next!
+            service.isNext = true;
+
+            if (service.isShuffling) {
+                service._randomSong();
+            } else if (service.repeatType === 'playlist') { // Playlist stop at the last track!
+                service.currentIndex++;
+                if (service.currentIndex >= service.tracks.length) {
+                    // We reached end of the playlist!
+                    service.currentIndex = 0;
+                }
+            } else if (service.repeatType === 'loop') { // All returns to the first track
+                service.currentIndex++;
+                if (service.currentIndex >= service.tracks.length) {
+                    // We reached end of the playlist!
+                    service.currentIndex = 0;
+                }
+            }
+
+            service.preStart();
+            service.start();
+        };
+
+        service._randomSong = function () {
+            var randomIndex = -1;
+            do {
+                randomIndex = Math.floor(Math.random() * service.tracks.length);
+            } while (randomIndex === service.currentIndex);
+
+            service.currentIndex = randomIndex;
+        };
+
+        service.backward = function () {
+            var localSeekto = (service.elapsedTime - 10);
+            if (localSeekto < 0) {
+                service.prev();
+            } else {
+                service.elapsedTime = localSeekto;
+            }
+            service.seekTo(service.elapsedTime);
+        };
+
+        service.forward = function () {
+            var localSeekto = (service.elapsedTime + 10);
+            if (localSeekto > service.media.duration) {
+                service.next();
+            } else {
+                service.elapsedTime = localSeekto;
+            }
+            service.seekTo(service.elapsedTime);
+        };
+
+        service.seekTo = function (position) {
+            if (position === 0) {
+                service.pause();
+            }
+            service.media.seekTo(position * 1000);
+            if (!service.isPlaying) {
+                service.playPause();
+            }
+        };
+
+        service.repeat = function () {
+            switch (service.repeatType) {
+                case 'playlist':
+                    service.repeatType = 'loop';
+                    break;
+
+                case 'loop':
+                    service.repeatType = 'one';
+                    // Shuffle is disabled when we loop a single music
+                    service.isShuffling = false;
+                    break;
+
+                case 'one':
+                    service.repeatType = 'playlist';
+                    break;
+            }
+        };
+
+        service.shuffle = function () {
+            service.isShuffling = !service.isShuffling;
+            if (service.isShuffling) {
+                // Repeat type is automatically ALL when shuffling
+                service.repeatType = 'loop';
+            }
+        };
+
+        service.updateMusicControls = function () {
+            var hasPrev = service.currentIndex !== 0;
+            var hasNext = service.currentIndex !== (service.tracks.length - 1);
+
+            service.media.getCurrentPosition(function () {}, function () {});
 
             var mcDictionnary = {
-                track: service.current_track.name,
-                artist: service.current_track.artistName,
-                cover: service.current_track.albumCover,
+                track: service.currentTrack.name,
+                artist: service.currentTrack.artistName,
+                cover: service.currentTrack.albumCover,
                 isPlaying: true,
                 dismissable: true,
 
@@ -423,92 +552,61 @@ angular.module('starter').service('MediaPlayer', function ($interval, $rootScope
                 hasClose: true,
 
                 // iOS only, optional
-                album: service.current_track.albumName,
-                duration: (service && service.media && service.media.duration) ? service.media.duration * 1 : 0,
-                elapsed: (service && service.media && service.media.currentTime) ? service.media.currentTime * 1 : 0,
+                album: service.currentTrack.albumName,
+                duration: (service && service.media && service.media._duration) ?
+                    service.media._duration * 1 : 0,
+                elapsed: (service && service.media && service.media._position) ?
+                    service.media._position * 1 : 0,
 
                 // Android only, optional
-                ticker: $translate.instant('Now playing ') + service.current_track.name
+                ticker: $translate.instant('Now playing', 'media') + ' ' + service.currentTrack.name
             };
 
-            MusicControls.create(mcDictionnary,
-                function () {
-                $log.debug('success');
-            }, function () {
-                $log.debug('error');
-            });
-
-            MusicControls.subscribe(music_controls_events);
+            MusicControls.subscribe(service.musicControlsEventsHandler);
             MusicControls.listen();
+            $timeout(function () {
+                MusicControls.create(mcDictionnary,
+                    function () {
+                        MusicControls.updateIsPlaying(service.isPlaying);
+                    }, function () {
+                    });
+            }, 20);
+        };
 
-            MusicControls.updateIsPlaying(service.is_playing);
-        }
-    };
+        service.cancelSeekBar = function () {
+            $interval.cancel(service.seekbarTimer);
+        };
 
-    service.updateSeekBar = function () {
-        service.seekbarTimer = $interval(function () {
-            try {
-                if (service.is_playing) {
-                    service.elapsed_time = service.media.currentTime;
-                }
+        service.updateSeekBar = function () {
+            service.lastTime = -0.001;
+            // First cancel to be sure!
+            service.cancelSeekBar();
+            service.seekbarTimer = $interval(function () {
+                try {
+                    service.media.getCurrentPosition(
+                        function (success) {
+                            if (service.media) {
+                                service.elapsedTime = service.media._position;
 
-                if (!service.is_radio && service.is_media_stopped && service.is_media_loaded) {
-                    $interval.cancel(service.seekbarTimer);
-                    service.is_media_stopped = false;
-                    service.next();
-                }
-            } catch (e) {
-                // Automatically cancel if any error found!
-                $interval.cancel(service.seekbarTimer);
-            }
-        }, 100);
-    };
-
-    /**
-     * ShortCut goback
-     */
-    service.goBack = function (radio, destroy) {
-        if (radio && destroy !== undefined) {
-            // l1_fixed && l9 needs another behavior!
-            HomepageLayout.getFeatures()
-                .then(function (features) {
-                    var localFeatures = features;
-                    if (!Application.is_customizing_colors && HomepageLayout.properties.options.autoSelectFirst &&
-                        (localFeatures && localFeatures.first_option !== false)) {
-                        var featIndex = 0;
-                        for (var fi = 0; fi < localFeatures.options.length; fi = fi + 1) {
-                            var feat = localFeatures.options[fi];
-                            // Don't load unwanted features on first page!
-                            if (["code_scan", "radio", "padlock", "tabbar_account"].indexOf(feat.code) === -1) {
-                                featIndex = fi;
-                                break;
+                                // Buffer handling
+                                if (service.media._position === -0.001 ||
+                                    (service.lastTime === service.media._position)) {
+                                    service.isBuffering = true;
+                                } else {
+                                    service.lastTime = service.media._position;
+                                    service.isBuffering = false;
+                                }
                             }
-                        }
-
-                        if (localFeatures.options[featIndex].path !== $location.path()) {
-                            $ionicHistory.nextViewOptions({
-                                historyRoot: true,
-                                disableAnimate: false
-                            });
-
-                            $location.path(localFeatures.options[featIndex].path).replace();
-                        } else {
-                            // do nothing, we will stay on the same page
-                        }
-                    } else {
-                        $timeout(function () {
-                            $ionicHistory.nextViewOptions({
-                                historyRoot: true,
-                                disableAnimate: false
-                            });
-                            $state.go('home');
+                        }, function (error) {
+                            // On error, we try the next track!
+                            service.cancelSeekBar();
+                            service.next();
                         });
-                    }
-                });
-        } else {
-            $ionicHistory.goBack(-1);
-        }
-    };
+                } catch (e) {
+                    service.cancelSeekBar();
+                }
+            }, 500);
+        };
 
-    return service;
-});
+        return service;
+    });

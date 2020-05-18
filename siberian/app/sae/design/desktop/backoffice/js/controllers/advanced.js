@@ -100,6 +100,35 @@ App.config(function($routeProvider) {
             });
     };
 
+    $scope.toggleModule = function (module) {
+        $scope.form_loader_is_visible = true;
+        Advanced
+            .toggleModule(module.id, module.is_enabled)
+            .success(function (data) {
+                var message = '';
+                if (angular.isObject(data) && angular.isDefined(data.message)) {
+                    message = data.message;
+                    $scope.message.isError(false);
+                }
+
+                $scope.message.setText(message)
+                    .show()
+                ;
+            }).error(function (data) {
+            var message = '';
+            if (angular.isObject(data) && angular.isDefined(data.message)) {
+                message = data.message;
+            }
+
+            $scope.message.setText(message)
+                .isError(true)
+                .show()
+            ;
+        }).finally(function () {
+            $scope.form_loader_is_visible = false;
+        });
+    };
+
 }).controller("BackofficeAdvancedConfigurationController", function($log, $http, $scope, $timeout, $interval, $window,
                                                                     Label, Header, AdvancedConfiguration, FileUploader,
                                                                     Url, AdvancedTools) {

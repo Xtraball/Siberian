@@ -1,31 +1,20 @@
 package com.xtraball.musiccontrols;
 
-import org.apache.cordova.CordovaInterface;
-
+import android.R;
+import android.app.*;
+import android.content.Context;
+import android.content.Intent;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.net.Uri;
+import android.os.Build;
 
 import java.io.BufferedInputStream;
+import java.io.File;
 import java.io.FileInputStream;
 import java.io.InputStream;
-import java.io.File;
 import java.net.HttpURLConnection;
 import java.net.URL;
-import java.util.Random;
-
-import android.util.Log;
-import android.R;
-import android.content.Context;
-import android.app.Activity;
-import android.app.Notification;
-import android.app.NotificationManager;
-import android.app.PendingIntent;
-import android.content.Intent;
-import android.os.Bundle;
-import android.os.Build;
-import android.graphics.BitmapFactory;
-import android.graphics.Bitmap;
-import android.net.Uri;
-
-import android.app.NotificationChannel;
 
 public class MusicControlsNotification {
     private Activity cordovaActivity;
@@ -47,9 +36,9 @@ public class MusicControlsNotification {
         // use channelid for Oreo and higher
         if (Build.VERSION.SDK_INT >= 26) {
             // The user-visible name of the channel.
-            CharSequence name = "cordova-music-controls-plugin";
+            CharSequence name = "Audio Controls";
             // The user-visible description of the channel.
-            String description = "cordova-music-controls-plugin notification";
+            String description = "Control Playing Audio";
 
             int importance = NotificationManager.IMPORTANCE_LOW;
 
@@ -64,7 +53,7 @@ public class MusicControlsNotification {
     }
 
     // Show or update notification
-    public Notification updateNotification(MusicControlsInfos newInfos) {
+    public void updateNotification(MusicControlsInfos newInfos) {
         // Check if the cover has changed
         if (!newInfos.cover.isEmpty() && (this.infos == null || !newInfos.cover.equals(this.infos.cover))) {
             this.getBitmapCover(newInfos.cover);
@@ -72,35 +61,23 @@ public class MusicControlsNotification {
         this.infos = newInfos;
         this.createBuilder();
         Notification noti = this.notificationBuilder.build();
-        if (Build.VERSION.SDK_INT < 23) {
-            this.notificationManager.notify(this.notificationID, noti);
-            return (Notification) null;
-        }
-        return noti;
+        this.notificationManager.notify(this.notificationID, noti);
     }
 
     // Toggle the play/pause button
-    public Notification updateIsPlaying(boolean isPlaying) {
+    public void updateIsPlaying(boolean isPlaying) {
         this.infos.isPlaying = isPlaying;
         this.createBuilder();
         Notification noti = this.notificationBuilder.build();
-        if (Build.VERSION.SDK_INT < 23) {
-            this.notificationManager.notify(this.notificationID, noti);
-            return (Notification) null;
-        }
-        return noti;
+        this.notificationManager.notify(this.notificationID, noti);
     }
 
     // Toggle the dismissable status
-    public Notification updateDismissable(boolean dismissable) {
+    public void updateDismissable(boolean dismissable) {
         this.infos.dismissable = dismissable;
         this.createBuilder();
         Notification noti = this.notificationBuilder.build();
-        if (Build.VERSION.SDK_INT < 23) {
-            this.notificationManager.notify(this.notificationID, noti);
-            return (Notification) null;
-        }
-        return noti;
+        this.notificationManager.notify(this.notificationID, noti);
     }
 
     // Get image from url

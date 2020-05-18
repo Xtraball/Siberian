@@ -20,13 +20,13 @@ class Describe extends Cache implements CacheInterface
     /**
      *
      */
-    const CODE = "describe";
+    const CODE = 'describe';
 
     /**
      *
      */
 
-    const CACHE_PATH = "var/cache/table/";
+    const CACHE_PATH = 'var/cache/table/';
 
     /**
      *

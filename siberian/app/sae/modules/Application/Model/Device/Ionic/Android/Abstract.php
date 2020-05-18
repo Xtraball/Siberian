@@ -1,5 +1,7 @@
 <?php
 
+use Siberian\Exception;
+
 /**
  * Class Application_Model_Device_Ionic_Android_Abstract
  *
@@ -31,19 +33,19 @@ abstract class Application_Model_Device_Ionic_Android_Abstract extends Applicati
     protected function ionicResources($application)
     {
         /** Checking paths */
-        $resource_folders = [
+        $resourceFolders = [
             $this->_dest_source_res . '/drawable',
             $this->_dest_source_res . '/drawable-xxxhdpi',
             $this->_dest_source_res . '/mipmap-xxxhdpi',
         ];
 
-        foreach ($resource_folders as $folder) {
+        foreach ($resourceFolders as $folder) {
             if (!file_exists($folder)) {
                 mkdir($folder, 0777, true);
             }
         }
 
-        $pushIcon = Core_Model_Directory::getBasePathTo("/images/application" . $application->getAndroidPushIcon());
+        $pushIcon = path('/images/application' . $application->getAndroidPushIcon());
 
         /** icon/push_icon */
         $appIcon192 = $application->getIcon(192, null, true);
@@ -68,8 +70,8 @@ abstract class Application_Model_Device_Ionic_Android_Abstract extends Applicati
         $_file = $application->getStartupBackgroundUnified();
 
         // Convert to jpeg
-        $jpegStartup = Siberian_Image::open(Core_Model_Directory::getBasePathTo($_file));
-        $_tmpStartup = Core_Model_Directory::getBasePathTo('/var/tmp/' . uniqid() . '.jpg');
+        $jpegStartup = Siberian_Image::open(path($_file));
+        $_tmpStartup = path('/var/tmp/' . uniqid('startup_', true) . '.jpg');
         $jpegStartup->save($_tmpStartup, 'jpg', 70);
 
         foreach ($icons as $icon_dst => $icon_src) {
@@ -95,7 +97,7 @@ abstract class Application_Model_Device_Ionic_Android_Abstract extends Applicati
         }
 
         // Startup screen
-        $startupDest = $this->_dest_source_res . "/drawable-xxxhdpi/screen.jpg";
+        $startupDest = $this->_dest_source_res . '/drawable-xxxhdpi/screen.jpg';
         if (is_readable($_tmpStartup) && is_writable(dirname($startupDest))) {
             if (!copy($_tmpStartup, $startupDest)) {
                 throw new Exception(__('An error occured while copying your app icon. Please check the icon, try to send it again and try again.'));
@@ -104,6 +106,8 @@ abstract class Application_Model_Device_Ionic_Android_Abstract extends Applicati
 
         Siberian_Media::optimize($startupDest);
     }
+
+
 
     /**
      * @throws Exception
@@ -123,20 +127,20 @@ abstract class Application_Model_Device_Ionic_Android_Abstract extends Applicati
         $application = $this->getApplication();
 
         $orientations = Siberian_Json::decode($device->getOrientations());
-        $android = $orientations["android"];
+        $android = $orientations['android'];
 
         $androidValids = [
-            "landscape",
-            "portrait",
-            "reverseLandscape",
-            "reversePortrait",
-            "sensorPortrait",
-            "sensorLandscape",
-            "fullSensor",
+            'landscape',
+            'portrait',
+            'reverseLandscape',
+            'reversePortrait',
+            'sensorPortrait',
+            'sensorLandscape',
+            'fullSensor',
         ];
 
-        if (!in_array($android, $androidValids)) {
-            $android = "fullSensor";
+        if (!in_array($android, $androidValids, false)) {
+            $android = 'fullSensor';
         }
 
         $replacements = [
@@ -145,15 +149,14 @@ abstract class Application_Model_Device_Ionic_Android_Abstract extends Applicati
             "android:screenOrientation=\"unspecified\"" => "android:screenOrientation=\"{$android}\"",
         ];
 
-        $version_name = $device->getVersion();
-        $version_code = str_pad(str_replace('.', '', $version_name), 6, "0");
+        $versionName = $device->getVersion();
+        $device->setBuildNumber($device->getBuildNumber() + 1)->save();
+        $versionCode = Application_Model_Device_Abstract::validatedVersion($device);
 
-        if (($version_code != 1 && $version_code != 10000) || $version_name != "1.0") {
-            $replacements = array_merge($replacements, [
-                "versionCode=\"10000\"" => "versionCode=\"{$version_code}\"",
-                "versionName=\"1.0\"" => "versionName=\"{$version_name}\"",
-            ]);
-        }
+        $replacements = array_merge($replacements, [
+            "versionCode=\"10000\"" => "versionCode=\"{$versionCode}\"",
+            "versionName=\"1.0\"" => "versionName=\"{$versionName}\"",
+        ]);
 
         $disableBatteryOptimization = (boolean) filter_var($application->getDisableBatteryOptimization(), FILTER_VALIDATE_BOOLEAN);
         if (!$disableBatteryOptimization) {
@@ -251,14 +254,14 @@ abstract class Application_Model_Device_Ionic_Android_Abstract extends Applicati
             }
 
             /** Specific case */
-            if ($lang == "es-r419") {
-                $lang = "es-rUS";
+            if ($lang === 'es-r419') {
+                $lang = 'es-rUS';
             }
-            if ($lang == "zh-rHant") {
-                $lang = "zh-rTW";
+            if ($lang === 'zh-rHant') {
+                $lang = 'zh-rTW';
             }
-            if ($lang == "zh-rHans") {
-                $lang = "zh-rCN";
+            if ($lang === 'zh-rHans') {
+                $lang = 'zh-rCN';
             }
 
             // If not, create them out of the English one.

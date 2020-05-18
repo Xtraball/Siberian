@@ -6,6 +6,7 @@ namespace Siberian;
  * Class Security
  * @package Siberian
  * @author Xtraball SAS <dev@xtraball.com>
+ * @version 4.18.17
  */
 class Security
 {
@@ -104,27 +105,27 @@ class Security
             if (!array_key_exists('type', $file)) {
                 // Wipe files without mime/type!
                 unlink($file['tmp_name']);
-                return self::logAlert('Missing mime/type', $session);
+                self::logAlert('Missing mime/type', $session);
             }
 
             // Forbidden extensions!
-            if (in_array($extension, self::FW_FORBIDDEN_EXTENSIONS)) {
+            if (in_array($extension, self::FW_FORBIDDEN_EXTENSIONS, false)) {
                 // Wipe forbidden extensions!
                 unlink($file['tmp_name']);
-                return self::logAlert('Strictly forbidden extension ' . $fileParts['extension'], $session);
+                self::logAlert('Strictly forbidden extension ' . $fileParts['extension'], $session);
             }
 
             // Regex for php
-            if (preg_match("/php/im", $extension)) {
+            if (false !== stripos($extension, "php")) {
                 // Wipe forbidden extensions!
                 unlink($file['tmp_name']);
-                return self::logAlert('Strictly forbidden extension ' . $fileParts['extension'], $session);
+                self::logAlert('Strictly forbidden extension ' . $fileParts['extension'], $session);
             }
 
-            if (!in_array($extension, $allowedExtensionsArray)) {
+            if (!in_array($extension, $allowedExtensionsArray, false)) {
                 // Wipe files without mime/type!
                 unlink($file['tmp_name']);
-                return self::logAlert('Soft forbidden extension ' . $fileParts['extension'], $session);
+                self::logAlert('Soft forbidden extension ' . $fileParts['extension'], $session);
             }
         }
 
@@ -136,7 +137,7 @@ class Security
                     $lastError = $clamav->getLastError();
                     unlink($file['tmp_name']);
                     $filename = $file['name'];
-                    return self::logAlert("Suspicious file detected {$filename} was deleted.", $session, $lastError);
+                    self::logAlert("Suspicious file detected {$filename} was deleted.", $session, $lastError);
                 }
             }
         }
@@ -208,14 +209,11 @@ class Security
         }
 
         foreach (self::TRIGGERS as $trigger) {
-            if (preg_match('~' . preg_quote($trigger, '~') . '~im', $key) === 1) {
-                return self::logAlert("#$origin-001-1: Suspicious data detected.", $session, $trigger, $key);
+            if (preg_match('~' . $trigger . '~im', $key) === 1) {
+                self::logAlert("#$origin-001-1: Suspicious data detected.", $session, $trigger, $key);
             }
-        }
-
-        foreach (self::TRIGGERS as $trigger) {
-            if (preg_match('~' . preg_quote($trigger, '~') . '~im', $value) === 1) {
-                return self::logAlert("#$origin-001-2: Suspicious data detected.", $session, $trigger, $value);
+            if (preg_match('~' . $trigger . '~im', $value) === 1) {
+                self::logAlert("#$origin-001-2: Suspicious data detected.", $session, $trigger, $value);
             }
         }
 
@@ -273,7 +271,7 @@ class Security
         }
 
         if (!empty($trigger) || !empty($value)) {
-            $message = $message . " - Trigger: {$trigger}, Value: {$value}";
+            $message .= " - Trigger: {$trigger}, Value: {$value}";
         }
 
         $fwLog = (new \Firewall_Model_Log());

@@ -33,47 +33,44 @@ class Post extends DbTable
     public function findAllWithCustomer($values = [], $order = null, $params = [])
     {
         $searchByDistance = false;
-        $columns = ["*"];
+        $columns = ['*'];
         $radius = 0;
-        if (array_key_exists("search_by_distance", $values) &&
-            $values["search_by_distance"]) {
+        if (array_key_exists('search_by_distance', $values) &&
+            $values['search_by_distance']) {
             $formula = Geocoding::getDistanceFormula(
-                $values["latitude"],
-                $values["longitude"],
-                "fanwall_post",
-                "latitude",
-                "longitude");
+                $values['latitude'],
+                $values['longitude'],
+                'fanwall_post',
+                'latitude',
+                'longitude');
 
-            $radius = $values["radius"];
+            $radius = $values['radius'];
 
-            unset($values["search_by_distance"]);
-            unset($values["longitude"]);
-            unset($values["longitude"]);
-            unset($values["radius"]);
+            unset($values['search_by_distance'], $values['longitude'], $values['longitude'], $values['radius']);
 
             $searchByDistance = true;
 
-            $columns = ["*", "distance" => $formula];
+            $columns = ['*', 'distance' => $formula];
         }
 
         $select = $this->_db
             ->select()
-            ->from("fanwall_post", $columns)
+            ->from('fanwall_post', $columns)
             ->joinLeft(
-                "customer",
-                "customer.customer_id = fanwall_post.customer_id",
+                'customer',
+                'customer.customer_id = fanwall_post.customer_id',
                 [
-                    "firstname",
-                    "lastname",
-                    "nickname",
-                    "author_image" => new DbExpr("customer.image"),
+                    'firstname',
+                    'lastname',
+                    'nickname',
+                    'author_image' => new DbExpr('customer.image'),
                 ]);
 
         if ($searchByDistance) {
             // Filtering unlocated posts
-            $select->where("(latitude != 0 AND longitude !=0 AND latitude IS NOT NULL AND longitude IS NOT NULL)");
-            $select->having("distance < ?", $radius);
-            $select->order(["distance ASC"]);
+            $select->where('(latitude != 0 AND longitude !=0 AND latitude IS NOT NULL AND longitude IS NOT NULL)');
+            $select->having('distance < ?', $radius);
+            $select->order(['distance ASC']);
         } else {
             if ($order !== null) {
                 $select->order($order);
@@ -84,9 +81,14 @@ class Post extends DbTable
             $select->where($condition, $value);
         }
 
-        if (array_key_exists("limit", $params) &&
-            array_key_exists("offset", $params)) {
-            $select->limit($params["limit"], $params["offset"]);
+        // Scheduled limit
+        $select
+            ->where('((is_scheduled = 1 AND date <= UNIX_TIMESTAMP()) OR (is_scheduled = 0))');
+
+
+        if (array_key_exists('limit', $params) &&
+            array_key_exists('offset', $params)) {
+            $select->limit($params['limit'], $params['offset']);
         }
 
         return $this->toModelClass($this->_db->fetchAll($select));
@@ -118,6 +120,10 @@ class Post extends DbTable
         foreach ($values as $condition => $value) {
             $select->where($condition, $value);
         }
+
+        // Scheduled limit
+        $select
+            ->where('((is_scheduled = 1 AND date <= UNIX_TIMESTAMP()) OR (is_scheduled = 0))');
 
         if ($order !== null) {
             $select->order($order);

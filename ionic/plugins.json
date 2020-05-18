@@ -40,10 +40,6 @@
       "version": "latest",
       "variables": {}
     },
-    "FileTransfer": {
-      "version": "latest",
-      "variables": {}
-    },
     "Geolocation": {
       "version": "latest",
       "variables": {}
@@ -88,6 +84,10 @@
       "version": "latest",
       "variables": {}
     },
+    "MediaNative": {
+      "version": "latest",
+      "variables": {}
+    },
     "Navigator": {
       "version": "latest",
       "variables": {}
@@ -99,9 +99,16 @@
     "Siberian": {
       "version": "latest",
       "variables": {}
+    },
+    "Toast": {
+      "version": "latest",
+      "variables": {}
     }
   },
   "ios": {
+    "AppleSignIn": {
+      "version": "latest"
+    },
     "Chcp": {
       "version": "latest"
     },
@@ -121,10 +128,6 @@
     }
   },
   "android": {
-    "Extension": {
-      "version": "latest",
-      "variables": {}
-    },
     "Chcp": {
       "version": "latest"
     },

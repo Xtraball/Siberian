@@ -101,6 +101,9 @@
     <feature name="MusicControls">
         <param name="ios-package" value="MusicControls" />
     </feature>
+    <feature name="MediaNative">
+        <param name="ios-package" value="CDVSound" />
+    </feature>
     <feature name="Navigator">
         <param name="ios-package" value="CDVNavigator" />
     </feature>
@@ -127,7 +130,7 @@
     <allow-intent href="whatsapp:*" />
     <chcp>
         <config-file url="PLATFORM_URL" />
-        <native-interface version="13" />
+        <native-interface version="14" />
         <auto-download enabled="false" />
         <auto-install enabled="false" />
     </chcp>
@@ -150,6 +153,7 @@
     <preference name="StatusBarStyle" value="lightcontent" />
     <preference name="deployment-target" value="10.0" />
     <preference name="CordovaWebViewEngine" value="CDVWKWebViewEngine" />
+    <preference name="KeepAVAudioSessionAlwaysActive" value="NO" />
     <preference name="webviewbounce" value="false" />
     <preference name="UIWebViewBounce" value="false" />
     <preference name="SplashShowOnlyFirstTime" value="false" />

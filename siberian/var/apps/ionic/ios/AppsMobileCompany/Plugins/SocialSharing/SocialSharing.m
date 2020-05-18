@@ -11,6 +11,7 @@ static NSString *const kShareOptionMessage = @"message";
 static NSString *const kShareOptionSubject = @"subject";
 static NSString *const kShareOptionFiles = @"files";
 static NSString *const kShareOptionUrl = @"url";
+static NSString *const kShareOptionIPadCoordinates = @"iPadCoordinates";
 
 @implementation SocialSharing {
   UIPopoverController *_popover;
@@ -18,11 +19,6 @@ static NSString *const kShareOptionUrl = @"url";
 }
 
 - (void)pluginInitialize {
-    [self.commandDelegate runInBackground:^{
-        if ([self isEmailAvailable]) {
-            [self cycleTheGlobalMailComposer];
-        }
-    }];
 }
 
 - (void)available:(CDVInvokedUrlCommand*)command {
@@ -35,6 +31,9 @@ static NSString *const kShareOptionUrl = @"url";
 }
 
 - (NSString*)getIPadPopupCoordinates {
+  // see https://github.com/EddyVerbruggen/SocialSharing-PhoneGap-Plugin/issues/1052
+  return nil;
+  /*
   if (_popupCoordinates != nil) {
     return _popupCoordinates;
   }
@@ -44,6 +43,7 @@ static NSString *const kShareOptionUrl = @"url";
     // prolly a wkwebview, ignoring for now
     return nil;
   }
+  */
 }
 
 - (void)setIPadPopupCoordinates:(CDVInvokedUrlCommand*)command {
@@ -64,7 +64,8 @@ static NSString *const kShareOptionUrl = @"url";
                         kShareOptionMessage: [command.arguments objectAtIndex:0],
                         kShareOptionSubject: [command.arguments objectAtIndex:1],
                         kShareOptionFiles: [command.arguments objectAtIndex:2],
-                        kShareOptionUrl: [command.arguments objectAtIndex:3]
+                        kShareOptionUrl: [command.arguments objectAtIndex:3],
+                        kShareOptionIPadCoordinates: [command.arguments objectAtIndex:4]
                       }
     isBooleanResponse:YES
 ];
@@ -90,6 +91,15 @@ static NSString *const kShareOptionUrl = @"url";
     NSString *subject   = options[kShareOptionSubject];
     NSArray  *filenames = options[kShareOptionFiles];
     NSString *urlString = options[kShareOptionUrl];
+    NSString *iPadCoordString = options[kShareOptionIPadCoordinates];
+    NSArray *iPadCoordinates;
+
+    if (iPadCoordString != nil && iPadCoordString != [NSNull null]) {
+      iPadCoordinates = [iPadCoordString componentsSeparatedByString:@","];
+    } else {
+      iPadCoordinates = @[];
+    }
+
 
     NSMutableArray *activityItems = [[NSMutableArray alloc] init];
 
@@ -112,7 +122,7 @@ static NSString *const kShareOptionUrl = @"url";
     }
 
     if (urlString != (id)[NSNull null] && urlString != nil) {
-        [activityItems addObject:[NSURL URLWithString:[urlString URLEncodedString]]];
+        [activityItems addObject:[NSURL URLWithString:[urlString SSURLEncodedString]]];
     }
 
     UIActivity *activity = [[UIActivity alloc] init];
@@ -156,8 +166,14 @@ static NSString *const kShareOptionUrl = @"url";
       if ([UIDevice currentDevice].userInterfaceIdiom == UIUserInterfaceIdiomPad) {
         NSString* iPadCoords = [self getIPadPopupCoordinates];
         if (iPadCoords != nil && ![iPadCoords isEqual:@"-1,-1,-1,-1"]) {
-          NSArray *comps = [iPadCoords componentsSeparatedByString:@","];
-          CGRect rect = [self getPopupRectFromIPadPopupCoordinates:comps];
+          CGRect rect;
+          if ([iPadCoordinates count] == 4) {
+
+            rect = CGRectMake((int) [[iPadCoordinates objectAtIndex:0] integerValue], (int) [[iPadCoordinates objectAtIndex:1] integerValue], (int) [[iPadCoordinates objectAtIndex:2] integerValue], (int) [[iPadCoordinates objectAtIndex:3] integerValue]);
+          } else {
+            NSArray *comps = [iPadCoords componentsSeparatedByString:@","];
+            rect = [self getPopupRectFromIPadPopupCoordinates:comps];
+          }
           if ([activityVC respondsToSelector:@selector(popoverPresentationController)]) {
 #if __IPHONE_OS_VERSION_MAX_ALLOWED >= 80000 // iOS 8.0 supported
             activityVC.popoverPresentationController.sourceView = self.webView;
@@ -172,13 +188,19 @@ static NSString *const kShareOptionUrl = @"url";
 #if __IPHONE_OS_VERSION_MAX_ALLOWED >= 80000 // iOS 8.0 supported
           activityVC.popoverPresentationController.sourceView = self.webView;
           // position the popup at the bottom, just like iOS < 8 did (and iPhone still does on iOS 8)
-          NSArray *comps = [NSArray arrayWithObjects:
-                            [NSNumber numberWithInt:(self.viewController.view.frame.size.width/2)-200],
-                            [NSNumber numberWithInt:self.viewController.view.frame.size.height],
-                            [NSNumber numberWithInt:400],
-                            [NSNumber numberWithInt:400],
-                            nil];
-          CGRect rect = [self getPopupRectFromIPadPopupCoordinates:comps];
+          CGRect rect;
+          if ([iPadCoordinates count] == 4) {
+            NSLog([[NSString alloc] initWithFormat:@"test %d", [[iPadCoordinates objectAtIndex:0] integerValue]]);
+            rect = CGRectMake((int) [[iPadCoordinates objectAtIndex:0] integerValue], (int) [[iPadCoordinates objectAtIndex:1] integerValue], (int) [[iPadCoordinates objectAtIndex:2] integerValue], (int) [[iPadCoordinates objectAtIndex:3] integerValue]);
+          } else {
+            NSArray *comps = [NSArray arrayWithObjects:
+                               [NSNumber numberWithInt:(self.viewController.view.frame.size.width/2)-200],
+                               [NSNumber numberWithInt:self.viewController.view.frame.size.height],
+                               [NSNumber numberWithInt:400],
+                               [NSNumber numberWithInt:400],
+                               nil];
+            rect = [self getPopupRectFromIPadPopupCoordinates:comps];
+          }
           activityVC.popoverPresentationController.sourceRect = rect;
 #endif
         }
@@ -234,6 +256,8 @@ static NSString *const kShareOptionUrl = @"url";
   } else if ([@"instagram" caseInsensitiveCompare:via] == NSOrderedSame && [self canShareViaInstagram]) {
     pluginResult = [CDVPluginResult resultWithStatus:CDVCommandStatus_OK];
   } else if ([@"com.apple.social.facebook" caseInsensitiveCompare:via] == NSOrderedSame && [self canShareViaFacebook]) {
+    pluginResult = [CDVPluginResult resultWithStatus:CDVCommandStatus_OK];
+  } else if ([@"com.apple.social.twitter" caseInsensitiveCompare:via] == NSOrderedSame && [self canShareViaTwitter]) {
     pluginResult = [CDVPluginResult resultWithStatus:CDVCommandStatus_OK];
   } else if ([self isAvailableForSharing:command type:via]) {
     pluginResult = [CDVPluginResult resultWithStatus:CDVCommandStatus_OK];
@@ -300,15 +324,15 @@ static NSString *const kShareOptionUrl = @"url";
   }
 
   if (urlString != (id)[NSNull null]) {
-    [composeViewController addURL:[NSURL URLWithString:[urlString URLEncodedString]]];
+    [composeViewController addURL:[NSURL URLWithString:[urlString SSURLEncodedString]]];
   }
 
   [composeViewController setCompletionHandler:^(SLComposeViewControllerResult result) {
     if (SLComposeViewControllerResultCancelled == result) {
       CDVPluginResult * pluginResult = [CDVPluginResult resultWithStatus:CDVCommandStatus_ERROR messageAsString:@"cancelled"];
       [self.commandDelegate sendPluginResult:pluginResult callbackId:command.callbackId];
-    } else if ([self isAvailableForSharing:command type:type]) {
-      CDVPluginResult * pluginResult = [CDVPluginResult resultWithStatus:CDVCommandStatus_OK messageAsBool:SLComposeViewControllerResultDone == result];
+    } else if (SLComposeViewControllerResultDone == result || [self isAvailableForSharing:command type:type]) {
+      CDVPluginResult * pluginResult = [CDVPluginResult resultWithStatus:CDVCommandStatus_OK messageAsBool:true];
       [self.commandDelegate sendPluginResult:pluginResult callbackId:command.callbackId];
     } else {
       CDVPluginResult * pluginResult = [CDVPluginResult resultWithStatus:CDVCommandStatus_ERROR messageAsString:@"not available"];
@@ -409,10 +433,9 @@ static NSString *const kShareOptionUrl = @"url";
     // remember the command, because we need it in the didFinishWithResult method
     _command = command;
 
-    [self.commandDelegate runInBackground:^{
+    dispatch_async(dispatch_get_main_queue(), ^{
       [[self getTopMostViewController] presentViewController:self.globalMailComposer animated:YES completion:nil];
-    }];
-
+    });
   } else {
     CDVPluginResult * pluginResult = [CDVPluginResult resultWithStatus:CDVCommandStatus_ERROR messageAsString:@"not available"];
     [self.commandDelegate sendPluginResult:pluginResult callbackId:command.callbackId];
@@ -446,6 +469,10 @@ static NSString *const kShareOptionUrl = @"url";
   NSString *result = (NSString*)CFBridgingRelease(UTTypeCopyPreferredTagWithClass(type, kUTTagClassMIMEType));
   CFRelease(ext);
   CFRelease(type);
+  if (result == nil) {
+    result = @"application/octet-stream";
+  }
+
   return result;
 }
 
@@ -457,7 +484,7 @@ static NSString *const kShareOptionUrl = @"url";
            didFinishWithResult:(MFMailComposeResult)result
                          error:(NSError*)error {
   bool ok = result == MFMailComposeResultSent;
-  [self.globalMailComposer dismissViewControllerAnimated:YES completion:^{[self cycleTheGlobalMailComposer];}];
+  [self.globalMailComposer dismissViewControllerAnimated:YES completion:nil];
   CDVPluginResult * pluginResult = [CDVPluginResult resultWithStatus:CDVCommandStatus_OK messageAsBool:ok];
   [self.commandDelegate sendPluginResult:pluginResult callbackId:_command.callbackId];
 }
@@ -504,10 +531,10 @@ static NSString *const kShareOptionUrl = @"url";
     }
     // remember the command, because we need it in the didFinishWithResult method
     _command = command;
-    [self.commandDelegate runInBackground:^{
+    dispatch_async(dispatch_get_main_queue(), ^{
       picker.modalTransitionStyle = UIModalTransitionStyleCrossDissolve;
       [[self getTopMostViewController] presentViewController:picker animated:NO completion:nil];
-    }];
+    });
   } else {
     CDVPluginResult * pluginResult = [CDVPluginResult resultWithStatus:CDVCommandStatus_ERROR messageAsString:@"not available"];
     [self.commandDelegate sendPluginResult:pluginResult callbackId:command.callbackId];
@@ -532,6 +559,10 @@ static NSString *const kShareOptionUrl = @"url";
 
 - (bool)canShareViaFacebook {
   return [[UIApplication sharedApplication] canOpenURL: [NSURL URLWithString:@"fb://"]]; // requires whitelisting on iOS9
+}
+
+- (bool)canShareViaTwitter {
+  return [[UIApplication sharedApplication] canOpenURL: [NSURL URLWithString:@"twitter://"]]; // requires whitelisting on iOS9
 }
 
 // this is only an internal test method for now, can be used to open a share sheet with 'Open in xx' links for tumblr, drive, dropbox, ..
@@ -645,7 +676,7 @@ static NSString *const kShareOptionUrl = @"url";
       if ([shareString isEqual: @""]) {
         shareString = urlString;
       } else {
-        shareString = [NSString stringWithFormat:@"%@ %@", shareString, [urlString URLEncodedString]];
+        shareString = [NSString stringWithFormat:@"%@ %@", shareString, [urlString SSURLEncodedString]];
       }
     }
     NSString *encodedShareString = [shareString stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding];
@@ -734,8 +765,23 @@ static NSString *const kShareOptionUrl = @"url";
     if ([fileName hasPrefix:@"http"]) {
       NSURL *url = [NSURL URLWithString:fileName];
       NSData *fileData = [NSData dataWithContentsOfURL:url];
-      NSString *name = (NSString*)[[fileName componentsSeparatedByString: @"/"] lastObject];
-      file = [NSURL fileURLWithPath:[self storeInFile:[name componentsSeparatedByString: @"?"][0] fileData:fileData]];
+      NSURLRequest *request = [NSURLRequest requestWithURL: url];
+      NSHTTPURLResponse *response;
+      [NSURLConnection sendSynchronousRequest: request returningResponse: &response error: nil];
+      if ([response respondsToSelector:@selector(allHeaderFields)]) {
+        NSDictionary *dictionary = [response allHeaderFields];
+        NSLog([dictionary description]);
+        NSString *name = dictionary[@"Content-Disposition"];
+        if (name == nil){
+          NSString *name = (NSString*)[[fileName componentsSeparatedByString: @"/"] lastObject];
+          file = [NSURL fileURLWithPath:[self storeInFile:[name componentsSeparatedByString: @"?"][0] fileData:fileData]];
+        } else {
+          file = [NSURL fileURLWithPath:[self storeInFile:[[name componentsSeparatedByString:@"="] lastObject] fileData:fileData]];
+        }
+      } else {
+	    NSString *name = (NSString*)[[fileName componentsSeparatedByString: @"/"] lastObject];
+        file = [NSURL fileURLWithPath:[self storeInFile:[name componentsSeparatedByString: @"?"][0] fileData:fileData]];
+	  }
     } else if ([fileName hasPrefix:@"www/"]) {
       NSString *bundlePath = [[NSBundle mainBundle] bundlePath];
       NSString *fullPath = [NSString stringWithFormat:@"%@/%@", bundlePath, fileName];

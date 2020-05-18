@@ -209,26 +209,31 @@ class Application_Settings_AdvancedController extends Application_Controller_Def
 
                 $application = $this->getApplication();
 
-                $value = ($data["offline_content"] == 0) ? 0 : 1;
+                $offline_content = ($data['offline_content'] == 0) ? 0 : 1;
+                $disable_updates = ($data['disable_updates'] == 0) ? 0 : 1;
                 $application
-                    ->setOfflineContent($value)
-                    ->setFidelityRate($data["fidelity_rate"]);
+                    ->setOfflineContent($offline_content)
+                    ->setDisableUpdates($disable_updates)
+                    ->setFidelityRate($data['fidelity_rate']);
 
                 $application->save();
 
-                $html = [
-                    'success' => '1',
-                    'success_message' => __("Option successfully saved"),
+                $payload = [
+                    'success' => true,
+                    'success_message' => __('Option successfully saved'),
                     'message_timeout' => 2,
                     'message_button' => 0,
                     'message_loader' => 0,
                 ];
 
             } catch (Exception $e) {
-                $html = ['message' => $e->getMessage()];
+                $payload = [
+                    'error' => true,
+                    'message' => $e->getMessage()
+                ];
             }
 
-            $this->_sendJson($html);
+            $this->_sendJson($payload);
         }
 
     }

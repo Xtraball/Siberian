@@ -69,6 +69,18 @@ $schemas['application_option'] = [
         'charset' => 'utf8',
         'collation' => 'utf8_unicode_ci',
     ],
+    'open_callback_class' => [
+        'type' => 'varchar(255)',
+        'charset' => 'utf8',
+        'collation' => 'utf8_unicode_ci',
+        'is_null' => true,
+    ],
+    'lazy_load' => [
+        'type' => 'varchar(255)',
+        'charset' => 'utf8',
+        'collation' => 'utf8_unicode_ci',
+        'is_null' => true,
+    ],
     'desktop_uri' => [
         'type' => 'varchar(100)',
         'charset' => 'utf8',

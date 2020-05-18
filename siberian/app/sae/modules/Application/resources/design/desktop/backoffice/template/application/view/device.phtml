@@ -28,6 +28,17 @@
                                        id="{{ device.id }}_version"/>
                             </div>
 
+                            <div class="form-group"
+                                 ng-if="device.versionCode">
+                                <label>
+                                    <?php echo p__('application', 'Current versionCode'); ?>
+                                </label>
+                                <p style="font-family: monospace;letter-spacing: 2px;">{{ device.versionCode }}</p>
+                                <div class="alert alert-info">
+                                    <?php echo p__('application', 'The last 3 digits part of version code is increased by 1 after each build/source generation, and is reset to 1 when the version is changed'); ?>
+                                </div>
+                            </div>
+
                             <div class="form-group">
                                 <label for="{{ device.id }}_store_url"><?php echo __('Store URL'); ?></label>
                                 <input type="url"

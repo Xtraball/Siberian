@@ -73,6 +73,10 @@ $schemas['fanwall_post'] = [
     'date' => [
         'type' => 'int(11) unsigned',
     ],
+    'is_scheduled' => [
+        'type' => 'tinyint(1)',
+        'default' => '0',
+    ],
     'is_visible' => [
         'type' => 'int(11)',
         'is_null' => true,
