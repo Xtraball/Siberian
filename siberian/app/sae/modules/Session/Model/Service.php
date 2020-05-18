@@ -9,6 +9,8 @@ class Session_Model_Service
 {
     /**
      * @param null $seconds
+     * @throws Zend_Db_Profiler_Exception
+     * @throws Zend_Db_Statement_Exception
      */
     public static function gc($seconds = null)
     {

@@ -7,18 +7,82 @@
  *
  * @author Xtraball SAS
  */
-angular.module('starter').service('Application', function ($pwaRequest, $ocLazyLoad, $q, $rootScope, $session, $timeout, $ionicPlatform,
-                                                           $window, $queue, $log, Analytics, Dialog, ProgressbarService, PushService, AdmobService) {
+angular.module('starter').service('Application', function ($pwaRequest, $q, $rootScope, $session, $timeout, $ionicPlatform,
+                                                           $window, $queue, $log, Dialog, ProgressbarService) {
     var service = {
+        /** @deprecated, should used DEVICE_TYPE with constants */
         is_webview: !IS_NATIVE_APP,
-        _rawData: {},
-        is_customizing_colors: ($window.location.href.indexOf('application/mobile_customization_colors/') >= 0)
+        known_modules: {
+            // "booking"                   : "Booking", Removed not used anymore.
+            'calendar': 'Event',
+            'catalog': 'Catalog',
+            // "code_scan"                 : "null",
+            // "contact"                   : "Contact", Removed not used anymore.
+            'custom_page': 'Cms',
+            'discount': 'Discount',
+            // "facebook"                  : "null",
+            'fanwall': 'Newswall',
+            // "folder"                    : "Folder", Removed not used anymore.
+            'form': 'Form',
+            // "image_gallery"             : "Image", Removed not used anymore.
+            // "inapp_messages"            : "null",
+            // "loyalty"                   : "LoyaltyCard",Removed not used anymore.
+            // "m_commerce"                : "null",
+            // "magento"                   : "null", weblink_mono, not required
+            // "maps"                      : "null", Removed not used anymore.
+            'music_gallery': 'MusicPlaylist',
+            'newswall': 'Newswall',
+            // "padlock"                   : "null",
+            'places': 'Places',
+            // "prestashop"                : "null",  weblink_mono, not required
+            // "privacy_policy"            : "null", already loaded in loadv2
+            'push_notification': 'Push',
+            'qr_discount': 'Push',
+            // "radio"                     : "Radio",Removed not used anymore.
+            'rss_feed': 'Rss',
+            'set_meal': 'SetMeal',
+            // "shopify"                   : "null", weblink_mono, not required
+            'social_gaming': 'SocialGaming',
+            // "source_code"               : "SourceCode",Removed not used anymore.
+            // "tip"                       : "Tip",Removed not used anymore.
+            // "topic"                     : "Topic",Removed not used anymore.
+            'twitter': 'Twitter',
+            'video_gallery': 'Videos',
+            // "volusion"                  : "null", weblink_mono, not required
+            // "weather"                   : "Weather",Removed not used anymore.
+            // "weblink_mono"              : "null", weblink_mono, not required
+            // "weblink_multi"             : "Links", Removed not used anymore.
+            // "woocommerce"               : "null", weblink_mono, not required
+            'wordpress': 'Wordpress'
+        },
+        lazyLoadCodes: {
+            'calendar': ['event'],
+            'custom_page': ['cms'],
+            'fanwall': ['newswall'],
+            'music_gallery': ['media'],
+            'places': ['cms', 'places'],
+            'qr_discount': ['discount'],
+            'rss_feed': ['rss'],
+            'set_meal': ['catalog'],
+            'video_gallery': ['video'],
+            'push_notification': ['push']
+        }
     };
 
     var _loaded = false;
     var _loaded_resolver = $q.defer();
     var _ready = false;
     var _ready_resolver = $q.defer();
+
+    /**
+     * We are about to pre-load current features.
+     *
+     * @param pages
+     */
+    service.preLoad = function (pages) {
+        // Disabled until 5.0 or further update
+        //return;
+    };
 
     Object.defineProperty(service, 'loaded', {
         get: function () {
@@ -54,227 +118,15 @@ angular.module('starter').service('Application', function ($pwaRequest, $ocLazyL
     service.app_name = null;
     service.googlemaps_key = null;
 
-    /**
-     * Helper to defer loading deps after app is ready!
-     */
-    service.deferDeps = function () {
-        $timeout(function () {
-            service.initProgressBar();
-            service.loadMomentJs();
-            service.analyticsStart();
-            service.chcpListener();
-            service.initPush();
-            service.initAdmob();
-        }, 1000);
-    };
+    /** @todo change this ... */
+    service.is_customizing_colors = ($window.location.href.indexOf('application/mobile_customization_colors/') >= 0);
 
-    service.initProgressBar = function () {
-        try {
-            ProgressbarService.init(service._rawData.application.colors.loader);
-        } catch (error) {
-            $log.error('Unable to initialize AdMob.', error);
+    /** @todo change this ... */
+    Object.defineProperty(service, 'acceptedOfflineMode', {
+        get: function () {
+            return ($window.localStorage.getItem('sb-offline-mode') === 'ok');
         }
-    };
-
-    service.loadMomentJs = function () {
-        // Loads MomentJS async.
-        $ocLazyLoad
-        .load("./dist/lazy/moment.min.js")
-        .then(function () {
-            window.momentjs_loaded = true;
-            try {
-                var tmpLang = language.replace("_", "-").toLowerCase();
-                moment.locale([tmpLang, "en"]);
-            } catch (e) {
-                moment.locale("en");
-            }
-        });
-    };
-
-    service.initPush = function () {
-        if (IS_PREVIEW) {
-            return;
-        }
-        // Then AdMob
-        $timeout(function () {
-            // Configuring PushService & skip if this is a preview.
-            try {
-                PushService.configure(
-                    service._rawData.application.fcmSenderID,
-                    service._rawData.application.pushIconcolor,
-                    service.app_id,
-                    service.app_name);
-                PushService.register();
-            } catch (e) {
-                $log.error('An error occured while registering device for Push.', e.message);
-            }
-        }, 1000);
-    };
-
-    service.initAdmob = function () {
-        // Then AdMob
-        $timeout(function () {
-            try {
-                AdmobService.init(service._rawData.application.admob);
-            } catch (error) {
-                $log.error('Unable to initialize AdMob.', error);
-            }
-        }, 2000);
-    };
-
-    service.analyticsStart = function () {
-        // Register app install
-        if (isNativeApp && !$window.localStorage.getItem("first_running")) {
-            $window.localStorage.setItem("first_running", "true");
-            Analytics.storeInstallation();
-        }
-
-        // Register app start
-        Analytics.storeOpening()
-        .then(function (result) {
-            if (result && result.id) {
-                Analytics.data.storeClosingId = result.id;
-            }
-        });
-    };
-
-    service.chcpListener = function () {
-        if (IS_PREVIEW) {
-            return;
-        }
-
-        $rootScope.fetchupdatetimer = null;
-
-        $ionicPlatform.on('resume', function (resumeResult) {
-            // If app goes live too fast, cancel the update.
-            $timeout.cancel($rootScope.fetchupdatetimer);
-            $rootScope.onPause = false;
-        });
-
-        $rootScope.onPause = false;
-        $ionicPlatform.on('pause', function (pauseResult) {
-            $rootScope.onPause = true;
-
-            var runChcp = function () {
-                // When app goes in pause, try to install if required.
-                if (typeof chcp !== 'undefined') {
-                    $rootScope.fetchupdatetimer = $timeout(function () {
-                        if (localStorage.getItem('install-update' === true)) {
-                            chcp.isUpdateAvailableForInstallation(function (error, data) {
-                                if (error) {
-                                    $log.info('CHCP: Nothing to install');
-                                    $log.info('CHCP: ' + error.description);
-                                    return;
-                                }
-
-                                // update is in cache and can be installed - install it
-                                $log.info('CHCP: Current version: ' + data.currentVersion);
-                                $log.info('CHCP: About to install: ' + data.readyToInstallVersion);
-                                chcp.installUpdate(function (error) {
-                                    if (error) {
-                                        $log.info('CHCP: Something went wrong with the update, will retry later.');
-                                        $log.info('CHCP: ' + error.description);
-                                    } else {
-                                        return;
-                                    }
-                                });
-                            });
-                        } else {
-                            chcp.fetchUpdate(function (error, data) {
-                                if (error) {
-                                    if (error.code === 2) {
-                                        $log.info('CHCP: There is no available update.');
-                                    } else {
-                                        $log.info('CHCP: Failed to load the update with error code: ' + error.code);
-                                    }
-
-                                    $log.info('CHCP: ' + error.description);
-                                    localStorage.setItem('install-update', false);
-                                } else {
-                                    $log.info('CHCP: Update success, trying to install.');
-
-                                    // update is in cache and can be installed - install it
-                                    $log.info('CHCP: Current version: ' + data.currentVersion);
-                                    $log.info('CHCP: About to install: ' + data.readyToInstallVersion);
-                                    chcp.installUpdate(function (error) {
-                                        if (error) {
-                                            $log.info('CHCP: Something went wrong with the update, will retry later.');
-                                            $log.info('CHCP: ' + error.description);
-                                        } else {
-                                            $log.info('CHCP: Update successfully install, restarting new files.');
-                                            localStorage.setItem('install-update', false);
-                                            return;
-                                        }
-                                    });
-                                }
-                            });
-                        }
-                    }, 5000);
-                }
-            };
-
-            // Ensure we won't update an app while the previewer is in progress!
-            window.fileExists(
-                'module.js',
-                function () {
-                    // do nothing when file exists!
-                }, function () {
-                    // run update if file doesn't exists!
-                    runChcp();
-                });
-        });
-
-        // Debug/Support method to check for updates!
-        $rootScope.unlockUpdate = 0;
-        $rootScope.checkForUpdate = function () {
-            if (!$rootScope.isNativeApp) {
-                $log.info('Stop update, Android or iOS is required.');
-                return;
-            }
-
-            if (IS_PREVIEW) {
-                $log.info('Stop update, This an App preview.');
-                return;
-            }
-
-            if ($rootScope.unlockUpdate < 5) {
-                $rootScope.unlockUpdate = $rootScope.unlockUpdate + 1;
-                return;
-            }
-
-            $rootScope.unlockUpdate = 0;
-
-            Dialog.alert('CHCP', 'Checking for update ...', 'OK', -1);
-
-            chcp.fetchUpdate(function (fetchUpdateError, fetchUpdateData) {
-                if (fetchUpdateError) {
-                    $log.info('CHCP: Failed to load the update with error code: ' + fetchUpdateError.code);
-                    if (fetchUpdateError.code === 2) {
-                        Dialog.alert('CHCP', 'There is no available update.', 'Dismiss', -1);
-                    } else {
-                        Dialog.alert('CHCP', fetchUpdateError.description, 'Dismiss', -1);
-                    }
-                } else {
-                    Dialog.alert('CHCP', 'Successfully downloaded update, installing...', 'Dismiss', -1)
-                    .then(function () {
-                        // update is in cache and can be installed - install it
-                        $log.info('CHCP: Current version: ' + fetchUpdateData.currentVersion);
-                        $log.info('CHCP: About to install: ' + fetchUpdateData.readyToInstallVersion);
-                        chcp.installUpdate(function (installUpdateError) {
-                            if (installUpdateError) {
-                                $log.info('CHCP: Something went wrong with the update, will retry later.', -1);
-                                Dialog.alert('CHCP', installUpdateError.description, 'Dismiss');
-                            } else {
-                                Dialog.alert('CHCP', 'Update successfully installed, restarting new files.', 'Dismiss', -1);
-                                return;
-                            }
-                        });
-                    });
-                }
-            });
-        };
-
-    };
+    });
 
     /**
      * Populate Application service on load
@@ -282,10 +134,6 @@ angular.module('starter').service('Application', function ($pwaRequest, $ocLazyL
      * @param data
      */
     service.populate = function (data) {
-        // Save a copy of raw data.
-        service._rawData = angular.copy(data);
-
-        // Shortcuts
         service.app_id = data.application.id;
         service.app_name = data.application.name;
         service.privacyPolicy = data.application.privacyPolicy;
@@ -295,6 +143,9 @@ angular.module('starter').service('Application', function ($pwaRequest, $ocLazyL
         service.offline_content = data.application.offlineContent;
         service.homepage_background = data.application.useHomepageBackground;
         service.backButton = data.application.backButton;
+        service.backButtonClass = data.application.backButtonClass;
+        service.leftToggleClass = data.application.leftToggleClass;
+        service.rightToggleClass = data.application.rightToggleClass;
         service.myAccount = data.application.myAccount;
 
         // Small base64 default image, while loading the real deal!
@@ -305,10 +156,13 @@ angular.module('starter').service('Application', function ($pwaRequest, $ocLazyL
     };
 
     /**
+     *
      * @returns {string}
      */
     service.getBackIcon = function () {
-        if (service.backButton !== undefined) {
+        if (service.backButtonClass !== null) {
+            return service.backButtonClass;
+        } else if (service.backButton !== undefined) {
             switch (service.backButton) {
                 case 'ion-android-arrow-back':
                 case 'ion-arrow-left-a':
@@ -333,8 +187,16 @@ angular.module('starter').service('Application', function ($pwaRequest, $ocLazyL
         return 'icon ion-ios-arrow-back';
     };
 
-<<<<<<< HEAD
-=======
+    service.getLeftToggleIcon = function () {
+        return (service.leftToggleClass !== null) ?
+            service.leftToggleClas : 'icon ion-navicon-round';
+    };
+
+    service.getRightToggleIcon = function () {
+        return (service.rightToggleClass !== null) ?
+            service.rightToggleClass : 'icon ion-navicon-round';
+    };
+
     service.showCacheDownloadModalOrUpdate = function () {
         // Lazy Load progressbar, then dooooo it!
         ProgressbarService
@@ -625,6 +487,5 @@ angular.module('starter').service('Application', function ($pwaRequest, $ocLazyL
         });
     };
 
->>>>>>> hotfix/4.17.6
     return service;
 });

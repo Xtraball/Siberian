@@ -79,13 +79,13 @@ angular
                         is_loading: false,
                         page_title: $scope.privacyPolicyField.modaltitle
                     }),
-                    animation: 'slide-in-up'
+                    animation: 'slide-in-right-left'
                 }).then(function (modal) {
-                $scope.ppModal = modal;
-                $scope.ppModal.show();
+                    $scope.ppModal = modal;
+                    $scope.ppModal.show();
 
-                return modal;
-            });
+                    return modal;
+                });
         };
 
         $scope.closeAction = function () {

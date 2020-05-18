@@ -1,15 +1,10 @@
 package com.xtraball.musiccontrols;
 
-import org.apache.cordova.CallbackContext;
-import org.apache.cordova.CordovaPlugin;
-
-import android.util.Log;
-import android.app.Activity;
+import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
-import android.os.Bundle;
-import android.content.BroadcastReceiver;
 import android.view.KeyEvent;
+import org.apache.cordova.CallbackContext;
 
 public class MusicControlsBroadcastReceiver extends BroadcastReceiver {
     private CallbackContext cb;

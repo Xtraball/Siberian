@@ -33,7 +33,8 @@ class Front_Controller_Api_Base extends Front_Controller_App_Default
         $appId = $application->getId();
         $request = $this->getRequest();
         $session = $this->getSession();
-        $currentLanguage = Core_Model_Language::getCurrentLanguage();
+        $params = $request->getBodyParams();
+        $currentLanguage = $params['user_language'] ?? Core_Model_Language::getCurrentLanguage();
 
         try {
             $cssBlock = $this->_cssBlock($application);
@@ -61,7 +62,7 @@ class Front_Controller_Api_Base extends Front_Controller_App_Default
 
         try {
             // Alter the loadBlock with the customer
-            $loadBlock = $this->_customerBlock($application, $loadBlock);
+            $loadBlock = $this->_customerBlock($application, $loadBlock, $currentLanguage);
             $loadBlock = $this->_settingsBlock($featureBlock, $loadBlock);
         } catch (\Exception $e) {
             // Exception CSS
@@ -83,13 +84,13 @@ class Front_Controller_Api_Base extends Front_Controller_App_Default
         ];
 
         // Init is ready, trigger the hook
-        $data = Hook::trigger("app.init.ready", $data);
+        $data = Hook::trigger('app.init.ready', $data);
 
         /** Force no cache */
         $response = $this->getResponse();
-        $response->setHeader("Cache-Control", "no-store, no-cache, must-revalidate, max-age=0");
-        $response->setHeader("Cache-Control", "post-check=0, pre-check=0", false);
-        $response->setHeader("Pragma", "no-cache");
+        $response->setHeader('Cache-Control', 'no-store, no-cache, must-revalidate, max-age=0');
+        $response->setHeader('Cache-Control', 'post-check=0, pre-check=0', false);
+        $response->setHeader('Pragma', 'no-cache');
 
         $this->_sendJson($data);
     }
@@ -226,6 +227,7 @@ class Front_Controller_Api_Base extends Front_Controller_App_Default
                     'name' => $application->getName(),
                     'is_locked' => (boolean)$application->requireToBeLoggedIn(),
                     'is_bo_locked' => (boolean)$application->getIsLocked(),
+                    'disableUpdates' => (boolean)$application->getDisableUpdates(),
                     'colors' => [
                         'header' => [
                             'statusBarColor' => $colorStatusBarLighten->toCSS('hex'),
@@ -267,6 +269,9 @@ class Front_Controller_Api_Base extends Front_Controller_App_Default
                     ],
                     'useHomepageBackground' => (boolean) $application->getUseHomepageBackgroundImageInSubpages(),
                     'backButton' => (string) $application->getBackButton(),
+                    'backButtonClass' => $application->getBackButtonClass(),
+                    'leftToggleClass' => $application->getLeftToggleClass(),
+                    'rightToggleClass' => $application->getRightToggleClass(),
                     'myAccount' => $myAccount,
                 ],
                 'homepageImage' => $homepageImageB64
@@ -401,6 +406,8 @@ class Front_Controller_Api_Base extends Front_Controller_App_Default
                         'position' => (integer) $optionValue->getPosition(),
                         'homepage' => ($optionValue->getFolderCategoryId() === null),
                         'settings' => $settings,
+                        'lazy_load' => $optionValue->getLazyLoad(),
+                        'open_callback_class' => $optionValue->getOpenCallbackClass(),
                         'touched_at' => (integer) $optionValue->getTouchedAt(),
                         'expires_at' => (integer) $optionValue->getExpiresAt()
                     ];
@@ -658,11 +665,12 @@ class Front_Controller_Api_Base extends Front_Controller_App_Default
     /**
      * @param $application
      * @param $loadBlock
+     * @param $currentLanguage
      * @return mixed
      * @throws Zend_Session_Exception
      * @throws \rock\sanitize\SanitizeException
      */
-    public function _customerBlock ($application, $loadBlock)
+    public function _customerBlock ($application, $loadBlock, $currentLanguage)
     {
         $session = $this->getSession();
         $customer = $session->getCustomer();
@@ -699,6 +707,10 @@ class Front_Controller_Api_Base extends Front_Controller_App_Default
                 $customer->updateSessionUuid(Zend_Session::getId());
             }
 
+            // Update language in DB (for future e-mail, cron, etc...)
+            $customer
+                ->setLanguage($currentLanguage)
+                ->save();
 
             $loadBlock['customer'] = array_merge($loadBlock['customer'], [
                 'civility' => $customer->getCivility(),

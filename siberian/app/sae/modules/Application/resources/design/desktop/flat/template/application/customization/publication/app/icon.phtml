@@ -1,5 +1,6 @@
 <?php
 $application = $this->getApplication();
+$applicationData = $application->getData();
 
 $icon_form = new Application_Form_Customization_Publication_App();
 $icon_form->setAppIcon();
@@ -15,7 +16,15 @@ $android_push_image = "/images/application".$application->getAndroidPushImage();
 
 $appCurrentBackbutton = $application->getBackButton();
 
+// Disable current backButton
+if ($applicationData['back_button_class'] !== null) {
+    $appCurrentBackbutton = null;
+}
+
 $backButtons = Application_Model_Application::$backButtons;
+
+$buttonsForm = new Application_Form_Buttons();
+$buttonsForm->populate($applicationData);
 
 ?>
 <div id="icon_conteneur" class="content sb-tour">
@@ -32,13 +41,25 @@ $backButtons = Application_Model_Application::$backButtons;
         </div>
         <div class="col-md-6 col-sm-12">
             <div id="sb-tour-push-settings"
-                 class="content-options content-white-bkg sb-tour">
+                 class="content-options content-white-bkg sb-tour text-center">
                 <h4><?php echo __("Select your back button appearance") ?></h4>
                 <br />
                 <?php foreach ($backButtons as $backButton): ?>
                     <i rel="<?php echo $backButton ?>"
                        class="appIcon icon <?php echo $backButton ?> <?php echo ($appCurrentBackbutton === $backButton) ? 'active border-purple' : '' ?>"></i>
                 <?php endforeach; ?>
+                <div class="text-left"
+                     style="padding: 0 16px;">
+                    <p class="text-center"
+                       style="font-weight: bold;">
+                        <?php echo p__('application', 'OR USE A CUSTOM CLASS') ?>
+                    </p>
+                    <?php echo $buttonsForm; ?>
+                </div>
+                <div class="alert alert-info">
+                    <?php echo p__('application',
+                        'Leave blank to use default icons.') ?>
+                </div>
             </div>
         </div>
     </div>
@@ -179,6 +200,8 @@ $backButtons = Application_Model_Application::$backButtons;
 
         $("#android_conteneur .sb-form-line .col-sm-7").removeClass("col-sm-7").addClass("col-sm-12");
 
+        var backButtonClass = $('#back_button_class');
+
         var allAppIcons = $('i.appIcon');
         allAppIcons.off('click');
         allAppIcons.on('click', function () {
@@ -191,7 +214,19 @@ $backButtons = Application_Model_Application::$backButtons;
 
             formget('/application/customization_publication_app/backbutton', {
                 backButton: $(this).attr('rel')
-            })
+            }, function () {
+                backButtonClass.val('');
+            }, null, true)
+        });
+
+        backButtonClass.off('change');
+        backButtonClass.on('change', function () {
+            var el = $(this);
+            if (el.val().length > 0) {
+                $('.appIcon')
+                    .removeClass('active')
+                    .removeClass('border-purple');
+            }
         });
     });
 </script>
@@ -333,20 +368,22 @@ $backButtons = Application_Model_Application::$backButtons;
 
     i.appIcon {
         font-size: 32px;
-        padding: 6px;
+        padding: 4px;
         background-color: #e9e9eb;
-        margin-right: 10px;
-        margin-bottom: 10px;
-        width: 60px;
+        margin-right: 2px;
+        margin-bottom: 4px;
+        width: 40px;
         display: inline-block;
         border-radius: 2px;
         text-align: center;
+        height: 40px;
+        line-height: 32px;
     }
 
     i.active {
         border-width: 2px !important;
         border-style: solid !important;
-        padding: 4px;
+        padding: 2px;
     }
 </style>
 <link rel="stylesheet" href="/app/sae/design/desktop/flat/css/ionicons/css/ionicons.min.css" />

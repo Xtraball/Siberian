@@ -1,28 +1,37 @@
 <?php
 
-class Media_Mobile_Api_Music_AlbumController extends Application_Controller_Mobile_Default {
+/**
+ * Class Media_Mobile_Api_Music_AlbumController
+ */
+class Media_Mobile_Api_Music_AlbumController extends Application_Controller_Mobile_Default
+{
 
 
-    public function _toJson($album) {
+    /**
+     * @param $album
+     * @return array
+     */
+    public function _toJson($album)
+    {
 
-        if($album instanceof Media_Model_Gallery_Music_Album) {
+        if ($album instanceof Media_Model_Gallery_Music_Album) {
             $total_duration = $album->getTotalDuration();
             $total_tracks = $album->getTotalTracks();
-            $url = $this->getPath("media/mobile_gallery_music_album/index", array("value_id" => $this->getRequest()->getParam("value_id"), "album_id" => $album->getId()));
+            $url = $this->getPath("media/mobile_gallery_music_album/index", ["value_id" => $this->getRequest()->getParam("value_id"), "album_id" => $album->getId()]);
             $element = "album";
         } else {
             $total_duration = $album->getFormatedDuration();
             $total_tracks = 1;
-            $url = $this->getPath("media/mobile_gallery_music_album/index", array("value_id" => $this->getRequest()->getParam("value_id"), "track_id" => $album->getId()));
+            $url = $this->getPath("media/mobile_gallery_music_album/index", ["value_id" => $this->getRequest()->getParam("value_id"), "track_id" => $album->getId()]);
             $element = "track";
         }
 
         $artworkUrl = $album->getArtworkUrl();
-        if(stripos($artworkUrl, "http") === false) {
+        if (stripos($artworkUrl, "http") === false) {
             $artworkUrl = $this->getRequest()->getBaseUrl() . $artworkUrl;
         }
 
-        $json = array(
+        $json = [
             "id" => $album->getId(),
             "name" => $album->getName(),
             "artworkUrl" => $artworkUrl,
@@ -32,78 +41,85 @@ class Media_Mobile_Api_Music_AlbumController extends Application_Controller_Mobi
             "path" => $url,
             "type" => $album->getType(),
             "element" => $element
-        );
+        ];
 
         return $json;
     }
 
-    public function findAction() {
+    /**
+     * @throws Zend_Controller_Response_Exception
+     */
+    public function findAction()
+    {
 
-        if($value_id = $this->getRequest()->getParam('value_id')
-           && ($album_id = $this->getRequest()->getParam('album_id') OR $track_id = $this->getRequest()->getParam('track_id'))) {
+        if ($value_id = $this->getRequest()->getParam('value_id')
+            && ($album_id = $this->getRequest()->getParam('album_id') OR $track_id = $this->getRequest()->getParam('track_id'))) {
 
             try {
 
                 $elements = new Media_Model_Gallery_Music_Elements();
-                if($album_id) {
+                if ($album_id) {
 
                     $element = $elements->find($album_id, "album_id");
 
                     $album = new Media_Model_Gallery_Music_Album();
                     $album->find($element->getAlbumId());
 
-                    $data = array("album" => $this->_toJson($album));
+                    $data = ["album" => $this->_toJson($album)];
 
-                } else if($track_id) {
+                } else if ($track_id) {
                     $element = $elements->find($track_id, "track_id");
 
                     $track = new Media_Model_Gallery_Music_Track();
                     $track->find($element->getTrackId());
 
-                    $data = array("album" => $this->_toJson($track));
+                    $data = ["album" => $this->_toJson($track)];
 
                 } else {
-                    $data = array('error' => 1, 'message' => $this->_("This element is not an album."));
+                    $data = ['error' => 1, 'message' => $this->_("This element is not an album.")];
                 }
-            }
-            catch(Exception $e) {
-                $data = array('error' => 1, 'message' => $e->getMessage());
+            } catch (Exception $e) {
+                $data = ['error' => 1, 'message' => $e->getMessage()];
             }
 
         } else {
-            $data = array('error' => 1, 'message' => $this->_("An error occurred while loading. Please try again later."));
+            $data = ['error' => 1, 'message' => $this->_("An error occurred while loading. Please try again later.")];
         }
 
         $this->_sendHtml($data);
 
     }
 
-    public function findallAction() {
+    /**
+     * @throws Zend_Controller_Response_Exception
+     */
+    public function findallAction()
+    {
 
-        if($value_id = $this->getRequest()->getParam('value_id')) {
+        if ($value_id = $this->getRequest()->getParam('value_id')) {
 
             try {
 
                 $playlists = new Media_Model_Gallery_Music();
-                $playlists = $playlists->findAll(array('value_id' => $value_id), 'position ASC');
+                $playlists = $playlists->findAll(['value_id' => $value_id], 'position ASC');
 
-                $json = array();
+                $json = [];
 
-                foreach($playlists as $playlist) {
+                foreach ($playlists as $playlist) {
 
                     $elements = new Media_Model_Gallery_Music_Elements();
-                    $elements = $elements->findAll(array('gallery_id' => $playlist->getId()), 'position ASC');
+                    $elements = $elements->findAll(['gallery_id' => $playlist->getId()], 'position ASC');
 
-                    foreach($elements as $element) {
+                    foreach ($elements as $element) {
 
-                        if($element->getAlbumId()) {
+                        if ($element->getAlbumId()) {
 
                             $album = new Media_Model_Gallery_Music_Album();
                             $album->find($element->getAlbumId());
 
                             $json[] = $this->_toJson($album);
 
-                        } else if($element->getTrackId()) {
+                        } else if ($element->getTrackId()) {
 
                             $track = new Media_Model_Gallery_Music_Track();
                             $track->find($element->getTrackId());
@@ -114,44 +130,47 @@ class Media_Mobile_Api_Music_AlbumController extends Application_Controller_Mobi
                     }
                 }
 
-                $data = array("albums" => $json);
+                $data = ["albums" => $json];
 
 
+            } catch (Exception $e) {
+                $data = ['error' => 1, 'message' => $e->getMessage()];
             }
-            catch(Exception $e) {
-                $data = array('error' => 1, 'message' => $e->getMessage());
-            }
 
 
-        }else{
-            $data = array('error' => 1, 'message' => 'An error occurred during process. Please try again later.');
+        } else {
+            $data = ['error' => 1, 'message' => 'An error occurred during process. Please try again later.'];
         }
         $this->_sendHtml($data);
     }
 
-    public function findbyplaylistAction() {
+    /**
+     * @throws Zend_Controller_Response_Exception
+     */
+    public function findbyplaylistAction()
+    {
 
 
-        if($value_id = $this->getRequest()->getParam('value_id')
-           && $playlist_id = $this->getRequest()->getParam('playlist_id')) {
+        if ($value_id = $this->getRequest()->getParam('value_id')
+            && $playlist_id = $this->getRequest()->getParam('playlist_id')) {
 
             try {
 
                 $elements = new Media_Model_Gallery_Music_Elements();
-                $elements = $elements->findAll(array('gallery_id' => $playlist_id), 'position ASC');
+                $elements = $elements->findAll(['gallery_id' => $playlist_id], 'position ASC');
 
-                $json = array();
+                $json = [];
 
-                foreach($elements as $element) {
+                foreach ($elements as $element) {
 
 
-                    if($element->getAlbumId()) {
+                    if ($element->getAlbumId()) {
 
                         $album = new Media_Model_Gallery_Music_Album();
                         $album->find($element->getAlbumId());
 
                         $json[] = $this->_toJson($album);
-                    } else if($element->getTrackId()) {
+                    } else if ($element->getTrackId()) {
 
                         $track = new Media_Model_Gallery_Music_Track();
                         $track->find($element->getTrackId());
@@ -162,51 +181,51 @@ class Media_Mobile_Api_Music_AlbumController extends Application_Controller_Mobi
 
                 }
 
-                $data = array("albums" => $json);
+                $data = ["albums" => $json];
 
+            } catch (Exception $e) {
+                $data = ['error' => 1, 'message' => $e->getMessage()];
             }
-            catch(Exception $e) {
-                $data = array('error' => 1, 'message' => $e->getMessage());
-            }
 
 
-        }else{
-            $data = array('error' => 1, 'message' => 'An error occurred during process. Please try again later.');
+        } else {
+            $data = ['error' => 1, 'message' => 'An error occurred during process. Please try again later.'];
         }
         $this->_sendHtml($data);
     }
 
     /** API v2 introduced in Siberian 5.0 with Progressive Web Apps. */
-    public function findallv2Action() {
+    public function findallv2Action()
+    {
 
         try {
             /** Do your stuff here. */
-            if($value_id = $this->getRequest()->getParam("value_id")) {
+            if ($value_id = $this->getRequest()->getParam("value_id")) {
 
                 $playlists = new Media_Model_Gallery_Music();
-                $playlists = $playlists->findAll(array(
+                $playlists = $playlists->findAll([
                     "value_id" => $value_id
-                ), "position ASC");
+                ], "position ASC");
 
-                $albums_json = array();
+                $albums_json = [];
 
-                foreach($playlists as $playlist) {
+                foreach ($playlists as $playlist) {
 
                     $elements = new Media_Model_Gallery_Music_Elements();
-                    $elements = $elements->findAll(array(
+                    $elements = $elements->findAll([
                         "gallery_id" => $playlist->getId()
-                    ), "position ASC");
+                    ], "position ASC");
 
-                    foreach($elements as $element) {
+                    foreach ($elements as $element) {
 
-                        if($element->getAlbumId()) {
+                        if ($element->getAlbumId()) {
 
                             $album = new Media_Model_Gallery_Music_Album();
                             $album->find($element->getAlbumId());
 
                             $albums_json[] = Media_Model_Gallery_Music_Album::_toJson($value_id, $album);
 
-                        } else if($element->getTrackId()) {
+                        } else if ($element->getTrackId()) {
 
                             $track = new Media_Model_Gallery_Music_Track();
                             $track->find($element->getTrackId());
@@ -217,23 +236,23 @@ class Media_Mobile_Api_Music_AlbumController extends Application_Controller_Mobi
                     }
                 }
 
-                $payload = array(
+                $payload = [
                     "success" => true,
                     "albums" => $albums_json
-                );
+                ];
 
             } else {
-                $payload = array(
+                $payload = [
                     "error" => true,
                     "message" => __("Missing value_id.")
-                );
+                ];
             }
 
-        } catch(Exception $e) {
-            $payload = array(
+        } catch (Exception $e) {
+            $payload = [
                 "error" => true,
                 "message" => __("An unknown error occurred, please try again later.")
-            );
+            ];
         }
 
         $this->_sendJson($payload);

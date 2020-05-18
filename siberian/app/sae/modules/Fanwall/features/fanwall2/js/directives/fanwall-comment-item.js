@@ -18,10 +18,12 @@ angular
                 };
 
                 $scope.authorImagePath = function () {
-                    if ($scope.comment.author.image.length <= 0) {
-                        return "./features/fanwall2/assets/templates/images/customer-placeholder.png"
+                    if ($scope.comment.author &&
+                        $scope.comment.author.image &&
+                        $scope.comment.author.image.length > 0) {
+                        return IMAGE_URL + 'images/customer' + $scope.comment.author.image;
                     }
-                    return IMAGE_URL + "images/customer" + $scope.comment.author.image;
+                    return './features/fanwall2/assets/templates/images/customer-placeholder.png'
                 };
 
                 $scope.isBlocked = function () {
@@ -34,7 +36,7 @@ angular
                 };
 
                 $scope.imagePath = function () {
-                    return IMAGE_URL + "images/application" + $scope.comment.image;
+                    return IMAGE_URL + 'images/application' + $scope.comment.image;
                 };
 
                 $scope.showText = function () {

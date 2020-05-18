@@ -1,5 +1,10 @@
 <?php
 
+/**
+ * @author Xtraball SAS <dev@xtraball.com>
+ * @version 4.18.17
+ */
+
 use \Gettext\Translations;
 use Siberian\File;
 
@@ -7,7 +12,7 @@ use Siberian\File;
  * Polyfill for php <= 7.2
  *
  */
-if (!function_exists("is_countable")) {
+if (!function_exists('is_countable')) {
     function is_countable($var) {
         return (is_array($var) || $var instanceof Countable);
     }

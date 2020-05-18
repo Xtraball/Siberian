@@ -609,9 +609,9 @@ let rebuild = function (platform, copy, prepare, skipRebuild) {
                         gradleArgs = 'cdvBuildRelease -x=:app:processReleaseGoogleServices';
                     }
 
-                    var cordovaGradleArgs = '--gradleArg=-x=:app:processDebugGoogleServices';
+                    var cordovaGradleArgs = '--debug --gradleArg=-x=:app:processDebugGoogleServices';
                     if (type === '--release') {
-                        cordovaGradleArgs = '--gradleArg=-x=:app:processReleaseGoogleServices';
+                        cordovaGradleArgs = '--debug --gradleArg=-x=:app:processReleaseGoogleServices';
                     }
 
                     sprint('cordova ' + silent + ' build ' + type + ' ' + platform + ' -- ' + cordovaGradleArgs);

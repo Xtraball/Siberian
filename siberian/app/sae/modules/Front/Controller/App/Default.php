@@ -105,7 +105,7 @@ class Front_Controller_App_Default extends Application_Controller_Mobile_Default
 
         // Handle development case, unset exception messages in production!
         if (!Siberian_Debug::isDevelopment() && isset($data['exceptionMessage'])) {
-            unset($data["exceptionMessage"]);
+            unset($data['exceptionMessage']);
         }
 
         $json = Siberian_Json::encode($data);

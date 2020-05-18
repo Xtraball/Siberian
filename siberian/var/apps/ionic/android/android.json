@@ -167,14 +167,6 @@
             {
               "xml": "<service android:name=\"com.adobe.phonegap.push.PushInstanceIDListenerService\"><intent-filter><action android:name=\"com.google.firebase.INSTANCE_ID_EVENT\" /></intent-filter></service>",
               "count": 1
-            },
-            {
-              "xml": "<service android:name=\"com.xtraball.musiccontrols.MusicControlsNotificationKiller\" />",
-              "count": 1
-            },
-            {
-              "xml": "<service android:enabled=\"true\" android:exported=\"false\" android:name=\"com.xtraball.musiccontrols.MusicControlsWakeLock\" />",
-              "count": 1
             }
           ],
           "/*": [
@@ -196,6 +188,10 @@
             },
             {
               "xml": "<uses-permission android:name=\"android.permission.READ_EXTERNAL_STORAGE\" />",
+              "count": 1
+            },
+            {
+              "xml": "<uses-permission android:name=\"android.permission.WAKE_LOCK\" />",
               "count": 1
             },
             {
@@ -263,6 +259,14 @@
             {
               "xml": "<receiver android:directBootAware=\"true\" android:exported=\"false\" android:name=\"de.appplant.cordova.plugin.localnotification.RestoreReceiver\"><intent-filter><action android:name=\"android.intent.action.LOCKED_BOOT_COMPLETED\" /><action android:name=\"android.intent.action.BOOT_COMPLETED\" /></intent-filter></receiver>",
               "count": 1
+            },
+            {
+              "xml": "<service android:name=\"com.xtraball.musiccontrols.MusicControlsNotificationKiller\" />",
+              "count": 1
+            },
+            {
+              "xml": "<service android:enabled=\"true\" android:exported=\"false\" android:name=\"com.xtraball.musiccontrols.MusicControlsWakeLock\" />",
+              "count": 1
             }
           ],
           "/manifest": [
@@ -314,7 +318,19 @@
             },
             {
               "xml": "<uses-permission android:name=\"android.permission.WRITE_EXTERNAL_STORAGE\" />",
-              "count": 2
+              "count": 3
+            },
+            {
+              "xml": "<uses-permission android:name=\"android.permission.RECORD_AUDIO\" />",
+              "count": 1
+            },
+            {
+              "xml": "<uses-permission android:name=\"android.permission.MODIFY_AUDIO_SETTINGS\" />",
+              "count": 1
+            },
+            {
+              "xml": "<uses-permission android:name=\"android.permission.READ_PHONE_STATE\" />",
+              "count": 1
             }
           ],
           "application": [
@@ -348,6 +364,10 @@
             },
             {
               "xml": "<feature name=\"LocalNotification\"><param name=\"android-package\" value=\"de.appplant.cordova.plugin.localnotification.LocalNotification\" /></feature>",
+              "count": 1
+            },
+            {
+              "xml": "<feature name=\"MediaNative\"><param name=\"android-package\" value=\"org.apache.cordova.media.AudioHandler\" /></feature>",
               "count": 1
             },
             {
@@ -425,6 +445,7 @@
       "PACKAGE_NAME": "com.appsmobilecompany.base"
     },
     "SocialSharing": {
+      "ANDROID_SUPPORT_V4_VERSION": "27.+",
       "PACKAGE_NAME": "com.appsmobilecompany.base"
     },
     "StatusBar": {
@@ -448,6 +469,9 @@
       "PACKAGE_NAME": "com.appsmobilecompany.base"
     },
     "MusicControls": {
+      "PACKAGE_NAME": "com.appsmobilecompany.base"
+    },
+    "MediaNative": {
       "PACKAGE_NAME": "com.appsmobilecompany.base"
     },
     "Navigator": {
@@ -871,6 +895,22 @@
       ]
     },
     {
+      "id": "MediaNative.MediaError",
+      "file": "plugins/MediaNative/www/MediaError.js",
+      "pluginId": "MediaNative",
+      "clobbers": [
+        "MediaError"
+      ]
+    },
+    {
+      "id": "MediaNative.MediaNative",
+      "file": "plugins/MediaNative/www/Media.js",
+      "pluginId": "MediaNative",
+      "clobbers": [
+        "MediaNative"
+      ]
+    },
+    {
       "id": "Navigator.Navigator",
       "file": "plugins/Navigator/www/navigator.js",
       "pluginId": "Navigator",
@@ -907,14 +947,15 @@
     "Geolocation": "4.0.1",
     "InAppBrowser": "3.1.1-dev",
     "Keyboard": "2.2.0",
-    "SocialSharing": "5.4.0",
+    "SocialSharing": "5.6.4",
     "StatusBar": "2.4.1",
     "WhiteList": "1.2.1",
     "LocalNotification": "0.9.0-beta.3",
     "OfflineMode": "1.0.0",
     "Insomnia": "4.3.0",
     "IonicWebview": "4.0.1",
-    "MusicControls": "2.2.1",
+    "MusicControls": "3.0.4",
+    "MediaNative": "5.0.3",
     "Navigator": "0.1.0",
     "Permissions": "1.0.0",
     "Siberian": "1.0.0"

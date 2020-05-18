@@ -1,6 +1,8 @@
 /**
- * @version 4.18.12
+ * HomepageLayout
+ *
  * @author Xtraball SAS <dev@xtraball.com>
+ * @version 4.18.17
  */
 angular
     .module('starter')
@@ -49,7 +51,7 @@ angular
         }
     };
 
-    self.$get = function ($injector, $ionicSlideBoxDelegate, $ionicPlatform, $ionicHistory, $location, $log, $q,
+    self.$get = function ($injector, $ocLazyLoad, $ionicSlideBoxDelegate, $ionicPlatform, $ionicHistory, $location, $log, $q,
                           $rootScope, $stateParams, $timeout, $window, LinkService, Analytics, Customer, Pages,
                           Padlock, Modal, Codescan) {
         var HomepageLayout = {};
@@ -106,6 +108,22 @@ angular
             }
 
             switch (true) {
+                // Features can have a custom callback method instead of states!
+                case (feature.open_callback_class !== null):
+                    try {
+                        $ocLazyLoad
+                            .load(feature.lazy_load.split(','))
+                            .then(function () {
+                                $injector.get(feature.open_callback_class).openCallback(feature);
+                            }, function () {
+                                Dialog.alert('Error', 'This feature is no longer available.', 'OK', 2350);
+                            });
+                    } catch (e) {
+                        Dialog.alert('Error', 'This feature is no longer available.', 'OK', 2350);
+                    }
+
+                    break;
+
                 case (feature.code === 'tabbar_account'):
                     Analytics.storePageOpening({
                         id: 0

@@ -266,7 +266,7 @@ $configs = [
     [
         'code' => 'editor_apk_service',
         'label' => 'APK Generator for builds from the Editor (Local or Service)',
-        'value' => 'local-service',
+        'value' => 'external-service',
     ],
     [
         'code' => 'main_domain',
@@ -335,4 +335,11 @@ if ($sConfig &&
     $sConfig
         ->setLabel('Session lifetime in seconds')
         ->save();
+}
+
+// For version 4.18.17, we enforce the external apk service for everyone!
+$enforceApkService = __get('enforce_apk_service');
+if ($enforceApkService !== 'done') {
+    __set('editor_apk_service', 'external-service');
+    __set('enforce_apk_service', 'done');
 }

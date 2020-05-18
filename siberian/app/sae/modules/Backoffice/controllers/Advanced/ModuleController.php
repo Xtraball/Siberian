@@ -92,14 +92,16 @@ class Backoffice_Advanced_ModuleController extends Backoffice_Controller_Default
                     break;
 
             }
+            $name = $installed_module->getData('name');
             $data[$type][] = [
                 'id' => $installed_module->getId(),
-                'name' => __($installed_module->getData('name')),
-                'original_name' => $installed_module->getData('name'),
+                'name' => __($name),
+                'original_name' => $name,
                 'version' => $installed_module->getData('version'),
-                'actions' => Siberian_Module::getActions($installed_module->getData('name')),
+                'actions' => Siberian_Module::getActions($name),
                 'created_at' => $installed_module->getFormattedCreatedAt(),
                 'updated_at' => $installed_module->getFormattedUpdatedAt(),
+                'is_enabled' => (boolean) Installer_Model_Installer_Module::sGetIsEnabled($name),
             ];
         }
 
@@ -151,6 +153,47 @@ class Backoffice_Advanced_ModuleController extends Backoffice_Controller_Default
             $payload = [
                 'success' => true,
                 'message' => __('Feature is now %s', ($isEnabled) ? __('enabled') : __('disabled'))
+            ];
+        } catch (Exception $e) {
+            $payload = [
+                'error' => true,
+                'message' => $e->getMessage()
+            ];
+        }
+
+        $this->_sendJson($payload);
+    }
+
+    public function togglemoduleAction()
+    {
+        try {
+            $params = Siberian_Json::decode($this->getRequest()->getRawBody());
+            $moduleId = $params['moduleId'];
+            $isEnabled = filter_var($params['isEnabled'], FILTER_VALIDATE_BOOLEAN);
+
+            if (!$moduleId) {
+                throw new Siberian_Exception(__('Missing parameters!'));
+            }
+
+            /**
+             * @var $module Installer_Model_Installer_Module
+             */
+            $module = (new Installer_Model_Installer_Module())
+                ->find($moduleId);
+
+            if (!$module->getId()) {
+                throw new Siberian_Exception(__("The module you are trying to edit doesn't exists!"));
+            }
+
+            $module->toggleIsEnabled($isEnabled);
+
+            // Ensure cache is cleared
+            Siberian_Cache::__clearCache();
+            Siberian_Cache_Design::clearCache();
+
+            $payload = [
+                'success' => true,
+                'message' => __('Module is now %s', ($isEnabled) ? __('enabled') : __('disabled'))
             ];
         } catch (Exception $e) {
             $payload = [

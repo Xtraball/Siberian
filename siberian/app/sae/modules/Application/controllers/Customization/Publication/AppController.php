@@ -13,6 +13,9 @@ class Application_Customization_Publication_AppController extends Application_Co
         'saveicon' => [
             'tags' => ['app_#APP_ID#'],
         ],
+        'save-buttons' => [
+            'tags' => ['app_#APP_ID#'],
+        ],
         'backbutton' => [
             'tags' => ['app_#APP_ID#'],
         ],
@@ -105,6 +108,7 @@ class Application_Customization_Publication_AppController extends Application_Co
     public function backbuttonAction ()
     {
         $request = $this->getRequest();
+        $application = $this->getApplication();
         try {
             $backButton = $request->getParam('backButton', false);
             if ($backButton === false) {
@@ -117,13 +121,55 @@ class Application_Customization_Publication_AppController extends Application_Co
                     __('This icon is not allowed!'));
             }
 
-            $this->getApplication()
+            /** @var $application Application_Model_Application */
+            $application
                 ->setBackButton($backButton)
+                ->setBackButtonClass(null)
                 ->save();
 
             $payload = [
                 'success' => true,
-                'message' => __('Back button choice saved!'),
+                'message' => p__('application', 'Back button saved!'),
+            ];
+        } catch (Exception $e) {
+            $payload = [
+                'error' => true,
+                'message' => $e->getMessage(),
+            ];
+        }
+
+        $this->_sendJson($payload);
+    }
+
+    public function saveButtonsAction ()
+    {
+        $request = $this->getRequest();
+        $application = $this->getApplication();
+        try {
+            $backButtonClass = trim($request->getParam('back_button_class', ''));
+            if ($backButtonClass === '') {
+                $backButtonClass = null;
+            }
+
+            $leftToggleClass = trim($request->getParam('left_toggle_class', ''));
+            if ($leftToggleClass === '') {
+                $leftToggleClass = null;
+            }
+
+            $rightToggleClass = trim($request->getParam('right_toggle_class', ''));
+            if ($rightToggleClass === '') {
+                $rightToggleClass = null;
+            }
+
+            $application
+                ->setBackButtonClass($backButtonClass)
+                ->setLeftToggleClass($leftToggleClass)
+                ->setRightToggleClass($rightToggleClass)
+                ->save();
+
+            $payload = [
+                'success' => true,
+                'message' => p__('application', 'Buttons class saved!'),
             ];
         } catch (Exception $e) {
             $payload = [

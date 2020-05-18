@@ -1,16 +1,24 @@
 <?php
 
+/**
+ * Class Siberian_Controller_Dispatcher_Standard
+ *
+ * @author Xtraball SAS <dev@xtraball.com>
+ * @version 4.18.17
+ */
 class Siberian_Controller_Dispatcher_Standard extends Zend_Controller_Dispatcher_Standard
 {
 
-    protected $_moduleDirectories = array();
+    /**
+     * @var array
+     */
+    protected $_moduleDirectories = [];
 
     /**
-     * Add a single path to the controller directory stack
-     *
      * @param string $path
-     * @param string $module
-     * @return Zend_Controller_Dispatcher_Standard
+     * @param null $module
+     * @return $this|Zend_Controller_Dispatcher_Standard
+     * @throws Zend_Loader_Exception
      */
     public function addControllerDirectory($path, $module = null)
     {
@@ -18,12 +26,12 @@ class Siberian_Controller_Dispatcher_Standard extends Zend_Controller_Dispatcher
             $module = $this->_defaultModule;
         }
 
-        $module = (string) $module;
-        $path   = rtrim((string) $path, '/\\');
+        $module = (string)$module;
+        $path = rtrim((string)$path, '/\\');
 
         $autoloader = Zend_Loader_Autoloader::getInstance();
         $exists = $autoloader->getNamespaceAutoloaders($module);
-        if(empty($exists)) {
+        if (empty($exists)) {
             $autoloader->registerNamespace($module);
         }
 
@@ -34,24 +42,34 @@ class Siberian_Controller_Dispatcher_Standard extends Zend_Controller_Dispatcher
         return $this;
     }
 
-    public function getModuleDirectories() {
+    /**
+     * @return array
+     */
+    public function getModuleDirectories(): array
+    {
         return $this->_moduleDirectories;
     }
 
-    public function getSortedModuleDirectories() {
+    /**
+     * @return array
+     */
+    public function getSortedModuleDirectories(): array
+    {
         $dirs = $this->_moduleDirectories;
         $dirs = array_unique($dirs);
         sort($dirs);
-        unset($dirs[array_search('Core', $dirs)]);
-        unset($dirs[array_search('Application', $dirs)]);
-        unset($dirs[array_search('Media', $dirs)]);
-        unset($dirs[array_search('Acl', $dirs)]);
+        unset(
+            $dirs[array_search('Core', $dirs, false)],
+            $dirs[array_search('Application', $dirs, false)],
+            $dirs[array_search('Media', $dirs, false)],
+            $dirs[array_search('Acl', $dirs, false)]
+        );
         $dirs = array_reverse($dirs);
-        $dirs[] = "Media";
-        $dirs[] = "Application";
-        $dirs[] = "Core";
+        $dirs[] = 'Media';
+        $dirs[] = 'Application';
+        $dirs[] = 'Core';
         $dirs = array_reverse($dirs);
-        $dirs[] = "Acl";
+        $dirs[] = 'Acl';
 
         return array_values($dirs);
     }
@@ -69,17 +87,16 @@ class Siberian_Controller_Dispatcher_Standard extends Zend_Controller_Dispatcher
      * @param Zend_Controller_Request_Abstract $action
      * @return boolean
      */
-    public function isDispatchable(Zend_Controller_Request_Abstract $request)
+    public function isDispatchable(Zend_Controller_Request_Abstract $request): bool
     {
         $className = $this->getControllerClass($request);
         if (!$className) {
             return false;
         }
 
-        $finalClass  = $className;
+        $finalClass = $className;
         if (($this->_defaultModule != $this->_curModule)
-            || $this->getParam('prefixDefaultModule'))
-        {
+            || $this->getParam('prefixDefaultModule')) {
             $finalClass = $this->formatClassName($this->_curModule, $className);
         }
         if (class_exists($finalClass, false)) {
@@ -87,20 +104,24 @@ class Siberian_Controller_Dispatcher_Standard extends Zend_Controller_Dispatcher
         }
 
 
-        $fileSpec    = $this->classToFilename($className);
+        $fileSpec = $this->classToFilename($className);
         $dispatchDir = $this->getDispatchDirectory();
-        $test        = $dispatchDir . DIRECTORY_SEPARATOR . $fileSpec;
+        $test = $dispatchDir . DIRECTORY_SEPARATOR . $fileSpec;
 
         /** @migration inheritance Search for class in another edition */
         return self::isReadableInherit($test);
     }
 
+    /**
+     * @param string $className
+     * @return string
+     * @throws Zend_Controller_Dispatcher_Exception
+     */
     public function loadClass($className)
     {
-        $finalClass  = $className;
+        $finalClass = $className;
         if (($this->_defaultModule != $this->_curModule)
-            || $this->getParam('prefixDefaultModule'))
-        {
+            || $this->getParam('prefixDefaultModule')) {
             $finalClass = $this->formatClassName($this->_curModule, $className);
         }
         if (class_exists($finalClass, false)) {
@@ -108,7 +129,7 @@ class Siberian_Controller_Dispatcher_Standard extends Zend_Controller_Dispatcher
         }
 
         $dispatchDir = $this->getDispatchDirectory();
-        $loadFile    = $dispatchDir . DIRECTORY_SEPARATOR . $this->classToFilename($className);
+        $loadFile = $dispatchDir . DIRECTORY_SEPARATOR . $this->classToFilename($className);
 
         /** @migration inheritance Search for class in another edition */
         if (self::isReadableInherit($loadFile)) {
@@ -132,18 +153,27 @@ class Siberian_Controller_Dispatcher_Standard extends Zend_Controller_Dispatcher
      * @param bool $return_path
      * @return bool|mixed
      */
-    public static function isReadableInherit($path, $return_path = false) {
-        if(Zend_Loader::isReadable($path)) {
+    public static function isReadableInherit($path, $return_path = false)
+    {
+        if (Zend_Loader::isReadable($path)) {
             return $return_path ? $path : true;
         }
 
         $type = strtolower(Siberian_Version::TYPE);
         $editions = array_reverse(Siberian_Cache::$editions[$type]);
-        foreach($editions as $edition) {
-            # Try local
-            $tmp_path = preg_replace("#app/\w+/modules#i", "app/{$edition}/modules", $path);
-            if(Zend_Loader::isReadable($tmp_path)) {
-                return $return_path ? $tmp_path : true;
+        foreach ($editions as $edition) {
+            // Trying local inheritance!
+            $tmpPath = preg_replace("#app/\w+/modules#i", "app/{$edition}/modules", $path);
+            $disableFlag = preg_replace('#/controllers/.*#i', '/module.disabled', $tmpPath);
+
+            // Skip disabled modules from app/local!
+            if (stripos($disableFlag, '/app/local/modules/') !== false &&
+                is_readable($disableFlag)) {
+                continue;
+            }
+
+            if (Zend_Loader::isReadable($tmpPath)) {
+                return $return_path ? $tmpPath : true;
             }
         }
 

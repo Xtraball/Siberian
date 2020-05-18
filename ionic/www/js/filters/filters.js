@@ -1,20 +1,17 @@
-/*global
-    App, angular, moment
- */
-
 /**
  * Siberian Filters repository.
  *
- * @author Xtraball SAS
- * @version 4.18.0
+ * @author Xtraball SAS <dev@xtraball.comW
+ * @version 4.18.17
  */
 
 
 /**
  * Parse URL in text/html and transform them in a links
  */
-
-angular.module("starter").filter("parseUrlFilter", function() {
+angular
+.module('starter')
+.filter('parseUrlFilter', function() {
     var urlPattern = /(www|http|ftp|https):\/\/[\w-]+(\.[\w-]+)+([\w.,@?^=%&amp;:\/~+#-]*[\w@?^=%&amp;\/~+#-])?/gi;
 
     return function (text, target) {
@@ -33,7 +30,7 @@ angular.module("starter").filter("parseUrlFilter", function() {
 /**
  * Create chunks of the given size
  */
-}).filter("chunk", function($log) {
+}).filter('chunk', function($log) {
 
     return function(items, chunk_size) {
         var chunks = [];
@@ -81,7 +78,7 @@ angular.module("starter").filter("parseUrlFilter", function() {
     /**
      * Parse numbers with given length
      */
-}).filter("numberFixedLen", function () {
+}).filter('numberFixedLen', function () {
 
     return function (n, len) {
         var num = parseInt(n, 10);
@@ -99,7 +96,7 @@ angular.module("starter").filter("parseUrlFilter", function() {
 /**
  * Convert seconds to datetime.
  */
-}).filter("secondsToDateTime", [function() {
+}).filter('secondsToDateTime', [function() {
     return function(seconds) {
         return new Date(1970, 0, 1).setSeconds(seconds);
     };
@@ -130,7 +127,7 @@ angular.module("starter").filter("parseUrlFilter", function() {
 /**
  * Filter with linky, then unescape, then trust as html
  */
-}).filter("trusted_html", function ($sce) {
+}).filter('trusted_html', function ($sce) {
 
     return function (text) {
         return $sce.trustAsHtml(text);
@@ -148,8 +145,6 @@ angular.module("starter").filter("parseUrlFilter", function() {
 
         return text_or_html;
     };
-
-
 /**
  * Assumed default format is mysql date.
  */

@@ -1,5 +1,7 @@
 <?php
 
+use Siberian\File;
+
 /**
  * Class Installer_Model_Installer_Module
  */
@@ -43,20 +45,14 @@ class Installer_Model_Installer_Module extends Core_Model_Default
     protected $_basePath;
 
     /**
+     * @var string
+     */
+    protected $_db_table = Installer_Model_Db_Table_Installer_Module::class;
+
+    /**
      * @var null
      */
     protected $_features = null;
-
-    /**
-     * Installer_Model_Installer_Module constructor.
-     * @param array $config
-     * @throws Zend_Exception
-     */
-    public function __construct($config = [])
-    {
-        $this->_db_table = 'Installer_Model_Db_Table_Installer_Module';
-        parent::__construct($config);
-    }
 
     /**
      * @param $name
@@ -93,6 +89,35 @@ class Installer_Model_Installer_Module extends Core_Model_Default
         $this->_isInstalled = false;
         $this->_basePath = null;
         return $this;
+    }
+
+    /**
+     * @param $isEnabled
+     * @return $this
+     * @throws Zend_Exception
+     */
+    public function toggleIsEnabled ($isEnabled): self
+    {
+        // Finding module path
+        $moduleLockPath = path('/app/local/modules/' . $this->getData('name') . '/module.disabled');
+        if ($isEnabled && is_file($moduleLockPath)) {
+            unlink($moduleLockPath);
+        } else {
+            File::putContents($moduleLockPath, 1);
+        }
+
+        return $this;
+    }
+
+    /**
+     * @param $module
+     * @return bool
+     */
+    public static function sGetIsEnabled ($module): bool
+    {
+        $moduleLockPath = path('/app/local/modules/' . $module . '/module.disabled');
+
+        return (!is_readable($moduleLockPath));
     }
 
     /**
