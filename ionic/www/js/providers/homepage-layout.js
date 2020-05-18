@@ -53,7 +53,7 @@ angular
 
     self.$get = function ($injector, $ocLazyLoad, $ionicSlideBoxDelegate, $ionicPlatform, $ionicHistory, $location, $log, $q,
                           $rootScope, $stateParams, $timeout, $window, LinkService, Analytics, Customer, Pages,
-                          Padlock, Modal, Codescan) {
+                          Padlock, Modal, Codescan, Dialog) {
         var HomepageLayout = {};
 
         // Hooks!
