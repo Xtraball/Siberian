@@ -685,13 +685,9 @@ let patchPreviewer = function (platform) {
             indexContent = indexContent.replace(
                 "<!-- #PREVIEWER# -->",
                 "<!-- Ensure file will never be cached. -->\n" +
-                "<script id=\"script-append-placeholder\"></script>\n" +
                 "<script type=\"text/javascript\">\n" +
-                "    var scriptModule = document.createElement('script');\n" +
-                "    scriptModule.src = '../../../module.js?t=' + Date.now();\n" +
-                "    var scriptAppendPlaceholder = document.getElementById('script-append-placeholder');\n" +
-                "    scriptAppendPlaceholder.after(scriptModule);\n" +
-                "</script>\n");
+                "    document.write('<script src=\"../../../module.js?t=' + Date.now() + '\"><\\/script>');\n" +
+                "</script>");
 
             break;
         case "ios":
@@ -703,17 +699,13 @@ let patchPreviewer = function (platform) {
 
             indexContent = indexContent.replace(
                 "<!-- #PREVIEWER# -->",
-                "<!-- Ensure file will never be cached. -->\n" +
-                "<script id=\"script-append-placeholder\"></script>\n" +
-                "<script type=\"text/javascript\">\n" +
-                "    var _ifopRoot = function () {\n" +
-                "        return (/[?&]root(=([^&#]*)|&|#|$)/.exec(window.location.href))[2].replace(/\+/g, ' ');\n" +
-                "    };\n" +
-                "    var scriptModule = document.createElement('script');\n" +
-                "    scriptModule.src = 'ionic://localhost/_app_file_' + _ifopRoot() + '?t=' + Date.now();\n" +
-                "    var scriptAppendPlaceholder = document.getElementById('script-append-placeholder');\n" +
-                "    scriptAppendPlaceholder.after(scriptModule);\n" +
-                "</script>\n");
+                `<!-- Ensure file will never be cached. -->
+            <script type="text/javascript">
+                var _ifopRoot = function () {
+                    return (/[?&]root(=([^&#]*)|&|#|$)/.exec(window.location.href))[2].replace(/\\+/g, ' ');
+                }
+                document.write('<script src="ionic://localhost/_app_file_' + _ifopRoot() + '?t=' + Date.now() + '"><\\/script>');
+            </script>`);
 
             break;
     }
