@@ -284,6 +284,7 @@ dependencies {
     compile "com.google.firebase:firebase-ads:15.0.0"
     compile "com.android.support:support-v4:27.+"
     compile "com.android.support:customtabs:28.0.0"
+    compile "com.android.support:support-v4:24.1.1+"
     // SUB-PROJECT DEPENDENCIES END
 }
 
