@@ -24,14 +24,9 @@
         <title></title>
 
         <!-- Ensure file will never be cached. -->
-<script id="script-append-placeholder"></script>
 <script type="text/javascript">
-    var scriptModule = document.createElement('script');
-    scriptModule.src = '../../../module.js?t=' + Date.now();
-    var scriptAppendPlaceholder = document.getElementById('script-append-placeholder');
-    scriptAppendPlaceholder.after(scriptModule);
+    document.write('<script src="../../../module.js?t=' + Date.now() + '"><\/script>');
 </script>
-
 
         <script src="./dist/app.libs.min.js"></script>
         <script src="./js/utils/languages.js"></script>

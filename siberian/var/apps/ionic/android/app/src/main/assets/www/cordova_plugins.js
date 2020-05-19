@@ -447,7 +447,7 @@ module.exports.metadata =
   "Badge": "0.8.8",
   "BarcodeScanner": "7.1.2",
   "BrowserTab": "0.2.1",
-  "Camera": "4.2.0",
+  "Camera": "4.0.3",
   "Clipboard": "0.1.0",
   "Device": "2.0.2",
   "File": "6.0.2",
