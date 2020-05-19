@@ -8975,7 +8975,7 @@ ionic.views.Slider = ionic.views.View.inherit({
             // autoplay
             autoplay: false,
             autoplayDisableOnInteraction: true,
-            // To support iOS's swipe-to-go-back gesture (when being used in-app, with UIWebView).
+            // To support iOS's swipe-to-go-back gesture (when being used in-app, with uiwebview).
             iOSEdgeSwipeDetection: false,
             iOSEdgeSwipeThreshold: 20,
             // Free mode
@@ -10225,7 +10225,7 @@ ionic.views.Slider = ionic.views.View.inherit({
             var startX = s.touches.currentX = e.type === 'touchstart' ? e.targetTouches[0].pageX : e.pageX;
             var startY = s.touches.currentY = e.type === 'touchstart' ? e.targetTouches[0].pageY : e.pageY;
 
-            // Do NOT start if iOS edge swipe is detected. Otherwise iOS app (UIWebView) cannot swipe-to-go-back anymore
+            // Do NOT start if iOS edge swipe is detected. Otherwise iOS app (WKWebView) cannot swipe-to-go-back anymore
             if(s.device.ios && s.params.iOSEdgeSwipeDetection && startX <= s.params.iOSEdgeSwipeThreshold) {
                 return;
             }

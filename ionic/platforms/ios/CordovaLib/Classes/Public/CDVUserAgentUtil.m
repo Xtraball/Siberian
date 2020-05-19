@@ -146,10 +146,6 @@ static NSMutableArray* gPendingSetUserAgentBlocks = nil;
     NSAssert(gCurrentLockToken == lockToken, @"Got token %ld, expected %ld", (long)lockToken, (long)gCurrentLockToken);
     VerboseLog(@"User-Agent set to: %@", value);
 
-    // Setting the UserAgent must occur before a UIWebView is instantiated.
-    // It is read per instantiation, so it does not affect previously created views.
-    // Except! When a PDF is loaded, all currently active UIWebViews reload their
-    // User-Agent from the NSUserDefaults some time after the DidFinishLoad of the PDF bah!
     NSDictionary* dict = [[NSDictionary alloc] initWithObjectsAndKeys:value, @"UserAgent", nil];
     [[NSUserDefaults standardUserDefaults] registerDefaults:dict];
 }

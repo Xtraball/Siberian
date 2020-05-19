@@ -373,14 +373,6 @@ cordova.define('cordova/plugin_list', function(require, exports, module) {
       ]
     },
     {
-      "id": "OfflineMode.OfflineMode",
-      "file": "plugins/OfflineMode/www/OfflineMode.js",
-      "pluginId": "OfflineMode",
-      "clobbers": [
-        "window.OfflineMode"
-      ]
-    },
-    {
       "id": "Insomnia.Insomnia",
       "file": "plugins/Insomnia/www/Insomnia.js",
       "pluginId": "Insomnia",
@@ -465,7 +457,7 @@ cordova.define('cordova/plugin_list', function(require, exports, module) {
     "Badge": "0.8.8",
     "BarcodeScanner": "7.1.2",
     "BrowserTab": "0.2.1",
-    "Camera": "4.2.0",
+    "Camera": "4.0.3",
     "Clipboard": "0.1.0",
     "Device": "2.0.2",
     "File": "6.0.2",
@@ -474,7 +466,6 @@ cordova.define('cordova/plugin_list', function(require, exports, module) {
     "Keyboard": "2.2.0",
     "SocialSharing": "5.6.4",
     "StatusBar": "2.4.1",
-    "OfflineMode": "1.0.0",
     "Insomnia": "4.3.0",
     "IonicWebview": "4.0.1",
     "MusicControls": "3.0.4",
