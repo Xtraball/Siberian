@@ -45,23 +45,11 @@
               "count": 1
             },
             {
-              "xml": "<feature name=\"BarcodeScanner\"><param name=\"android-package\" value=\"com.phonegap.plugins.barcodescanner.BarcodeScanner\" /></feature>",
-              "count": 1
-            },
-            {
               "xml": "<feature name=\"Clipboard\"><param name=\"android-package\" value=\"com.verso.cordova.clipboard.Clipboard\" /></feature>",
               "count": 1
             },
             {
               "xml": "<feature name=\"Device\"><param name=\"android-package\" value=\"org.apache.cordova.device.Device\" /></feature>",
-              "count": 1
-            },
-            {
-              "xml": "<feature name=\"File\"><param name=\"android-package\" value=\"org.apache.cordova.file.FileUtils\" /><param name=\"onload\" value=\"true\" /></feature>",
-              "count": 1
-            },
-            {
-              "xml": "<allow-navigation href=\"cdvfile:*\" />",
               "count": 1
             },
             {
@@ -82,10 +70,6 @@
             },
             {
               "xml": "<feature name=\"Whitelist\"><param name=\"android-package\" value=\"org.apache.cordova.whitelist.WhitelistPlugin\" /><param name=\"onload\" value=\"true\" /></feature>",
-              "count": 1
-            },
-            {
-              "xml": "<feature name=\"OfflineMode\"><param name=\"android-package\" value=\"com.appsmobilecompany.base.OfflineMode\" /><param name=\"onload\" value=\"true\" /></feature>",
               "count": 1
             },
             {
@@ -241,26 +225,6 @@
               "count": 1
             },
             {
-              "xml": "<provider android:authorities=\"${applicationId}.localnotifications.provider\" android:exported=\"false\" android:grantUriPermissions=\"true\" android:name=\"de.appplant.cordova.plugin.notification.util.AssetProvider\"><meta-data android:name=\"android.support.FILE_PROVIDER_PATHS\" android:resource=\"@xml/localnotification_provider_paths\" /></provider>",
-              "count": 1
-            },
-            {
-              "xml": "<receiver android:exported=\"false\" android:name=\"de.appplant.cordova.plugin.localnotification.TriggerReceiver\" />",
-              "count": 1
-            },
-            {
-              "xml": "<receiver android:exported=\"false\" android:name=\"de.appplant.cordova.plugin.localnotification.ClearReceiver\" />",
-              "count": 1
-            },
-            {
-              "xml": "<service android:exported=\"false\" android:name=\"de.appplant.cordova.plugin.localnotification.ClickReceiver\" />",
-              "count": 1
-            },
-            {
-              "xml": "<receiver android:directBootAware=\"true\" android:exported=\"false\" android:name=\"de.appplant.cordova.plugin.localnotification.RestoreReceiver\"><intent-filter><action android:name=\"android.intent.action.LOCKED_BOOT_COMPLETED\" /><action android:name=\"android.intent.action.BOOT_COMPLETED\" /></intent-filter></receiver>",
-              "count": 1
-            },
-            {
               "xml": "<service android:name=\"com.xtraball.musiccontrols.MusicControlsNotificationKiller\" />",
               "count": 1
             },
@@ -272,7 +236,7 @@
           "/manifest": [
             {
               "xml": "<uses-permission android:name=\"android.permission.RECEIVE_BOOT_COMPLETED\" />",
-              "count": 2
+              "count": 1
             },
             {
               "xml": "<uses-permission android:name=\"android.permission.ACCESS_COARSE_LOCATION\" />",
@@ -300,10 +264,6 @@
             },
             {
               "xml": "<uses-feature android:name=\"android.hardware.camera\" android:required=\"true\" />",
-              "count": 1
-            },
-            {
-              "xml": "<uses-permission android:name=\"android.permission.WAKE_LOCK\" />",
               "count": 1
             }
           ],
@@ -351,6 +311,10 @@
         "parents": {
           "/*": [
             {
+              "xml": "<feature name=\"BarcodeScanner\"><param name=\"android-package\" value=\"com.phonegap.plugins.barcodescanner.BarcodeScanner\" /></feature>",
+              "count": 1
+            },
+            {
               "xml": "<feature name=\"BrowserTab\"><param name=\"android-package\" value=\"com.google.cordova.plugin.browsertab.BrowserTab\" /></feature>",
               "count": 1
             },
@@ -359,11 +323,15 @@
               "count": 1
             },
             {
-              "xml": "<feature name=\"InAppBrowser\"><param name=\"android-package\" value=\"org.apache.cordova.inappbrowser.InAppBrowser\" /></feature>",
+              "xml": "<feature name=\"File\"><param name=\"android-package\" value=\"org.apache.cordova.file.FileUtils\" /><param name=\"onload\" value=\"true\" /></feature>",
               "count": 1
             },
             {
-              "xml": "<feature name=\"LocalNotification\"><param name=\"android-package\" value=\"de.appplant.cordova.plugin.localnotification.LocalNotification\" /></feature>",
+              "xml": "<allow-navigation href=\"cdvfile:*\" />",
+              "count": 1
+            },
+            {
+              "xml": "<feature name=\"InAppBrowser\"><param name=\"android-package\" value=\"org.apache.cordova.inappbrowser.InAppBrowser\" /></feature>",
               "count": 1
             },
             {
@@ -377,6 +345,10 @@
             {
               "xml": "<feature name=\"Permissions\"><param name=\"android-package\" value=\"com.android.plugins.Permissions\" /></feature>",
               "count": 1
+            },
+            {
+              "xml": "<feature name=\"Toast\"><param name=\"android-package\" value=\"nl.xservices.plugins.Toast\" /></feature>",
+              "count": 1
             }
           ]
         }
@@ -384,9 +356,6 @@
     }
   },
   "installed_plugins": {
-    "Extension": {
-      "PACKAGE_NAME": "com.appsmobilecompany.base"
-    },
     "Chcp": {
       "PACKAGE_NAME": "com.appsmobilecompany.base"
     },
@@ -424,6 +393,7 @@
       "PACKAGE_NAME": "com.appsmobilecompany.base"
     },
     "Camera": {
+      "ANDROID_SUPPORT_V4_VERSION": "27.+",
       "PACKAGE_NAME": "com.appsmobilecompany.base"
     },
     "Clipboard": {
@@ -454,18 +424,10 @@
     "WhiteList": {
       "PACKAGE_NAME": "com.appsmobilecompany.base"
     },
-    "LocalNotification": {
-      "ANDROID_SUPPORT_V4_VERSION": "26.+",
-      "PACKAGE_NAME": "com.appsmobilecompany.base"
-    },
-    "OfflineMode": {
-      "PACKAGE_NAME": "com.appsmobilecompany.base"
-    },
     "Insomnia": {
       "PACKAGE_NAME": "com.appsmobilecompany.base"
     },
     "IonicWebview": {
-      "ANDROID_SUPPORT_ANNOTATIONS_VERSION": "28.0.0",
       "PACKAGE_NAME": "com.appsmobilecompany.base"
     },
     "MusicControls": {
@@ -481,6 +443,9 @@
       "PACKAGE_NAME": "com.appsmobilecompany.base"
     },
     "Siberian": {
+      "PACKAGE_NAME": "com.appsmobilecompany.base"
+    },
+    "Toast": {
       "PACKAGE_NAME": "com.appsmobilecompany.base"
     }
   },
@@ -855,22 +820,6 @@
       "runs": true
     },
     {
-      "id": "LocalNotification.LocalNotification",
-      "file": "plugins/LocalNotification/www/local-notification.js",
-      "pluginId": "LocalNotification",
-      "clobbers": [
-        "cordova.plugins.notification.local"
-      ]
-    },
-    {
-      "id": "OfflineMode.OfflineMode",
-      "file": "plugins/OfflineMode/www/OfflineMode.js",
-      "pluginId": "OfflineMode",
-      "clobbers": [
-        "window.OfflineMode"
-      ]
-    },
-    {
       "id": "Insomnia.Insomnia",
       "file": "plugins/Insomnia/www/Insomnia.js",
       "pluginId": "Insomnia",
@@ -925,10 +874,17 @@
       "clobbers": [
         "cordova.plugins.permissions"
       ]
+    },
+    {
+      "id": "Toast.Toast",
+      "file": "plugins/Toast/www/Toast.js",
+      "pluginId": "Toast",
+      "clobbers": [
+        "window.plugins.toast"
+      ]
     }
   ],
   "plugin_metadata": {
-    "Extension": "1.5.4",
     "Chcp": "1.5.2",
     "Geofence": "0.6.0",
     "SplashScreen": "5.0.2",
@@ -940,24 +896,23 @@
     "Badge": "0.8.8",
     "BarcodeScanner": "7.1.2",
     "BrowserTab": "0.2.1",
-    "Camera": "4.0.3",
+    "Camera": "4.2.0",
     "Clipboard": "0.1.0",
     "Device": "2.0.2",
-    "File": "6.0.1",
+    "File": "6.0.2",
     "Geolocation": "4.0.1",
-    "InAppBrowser": "3.1.1-dev",
+    "InAppBrowser": "3.2.0",
     "Keyboard": "2.2.0",
     "SocialSharing": "5.6.4",
     "StatusBar": "2.4.1",
     "WhiteList": "1.2.1",
-    "LocalNotification": "0.9.0-beta.3",
-    "OfflineMode": "1.0.0",
     "Insomnia": "4.3.0",
     "IonicWebview": "4.0.1",
     "MusicControls": "3.0.4",
     "MediaNative": "5.0.3",
     "Navigator": "0.1.0",
     "Permissions": "1.0.0",
-    "Siberian": "1.0.0"
+    "Siberian": "1.0.0",
+    "Toast": "2.7.2"
   }
 }

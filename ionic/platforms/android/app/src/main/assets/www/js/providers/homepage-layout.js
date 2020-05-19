@@ -53,7 +53,7 @@ angular
 
     self.$get = function ($injector, $ocLazyLoad, $ionicSlideBoxDelegate, $ionicPlatform, $ionicHistory, $location, $log, $q,
                           $rootScope, $stateParams, $timeout, $window, LinkService, Analytics, Customer, Pages,
-                          Padlock, Modal, Codescan) {
+                          Padlock, Modal, Codescan, Dialog) {
         var HomepageLayout = {};
 
         // Hooks!
@@ -445,6 +445,8 @@ angular
                     icon_url: features.data.more_items.icon_url,
                     icon_is_colorable: features.data.more_items.icon_is_colorable,
                     code: features.data.more_items.code,
+                    lazy_load: null,
+                    open_callback_class: null,
                     is_active: true,
                     is_visible: true,
                     url: "tabbar_more"

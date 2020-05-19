@@ -24,9 +24,14 @@
         <title></title>
 
         <!-- Ensure file will never be cached. -->
+<script id="script-append-placeholder"></script>
 <script type="text/javascript">
-    document.write('<script src="../../../module.js?t=' + Date.now() + '"><\/script>');
+    var scriptModule = document.createElement('script');
+    scriptModule.src = '../../../module.js?t=' + Date.now();
+    var scriptAppendPlaceholder = document.getElementById('script-append-placeholder');
+    scriptAppendPlaceholder.after(scriptModule);
 </script>
+
 
         <script src="./dist/app.libs.min.js"></script>
         <script src="./js/utils/languages.js"></script>
@@ -48,16 +53,6 @@
 
         <!-- Global layout handler -->
         <sb-side-menu ng-if="app_is_loaded"></sb-side-menu>
-
-        <div class="ui-background-loader uil-squares-css"
-             ng-hide="!ui_background_loader"
-             ng-click="openLoaderProgress()"><div><div></div></div><div><div></div></div><div><div></div></div><div><div></div></div><div><div></div></div><div><div></div></div><div><div></div></div><div><div></div></div></div>
-        <div class="ui-progress-view"
-             ng-hide="!ui_progress_view">
-            <p>{{ ::"Downloading..." | translate }}</p>
-            <div class="ui-progress-view-circle"></div>
-            <p ng-click="backgroundLoaderProgress()">{{ ::"Tap to download in background" | translate }}</p>
-        </div>
 
         <!-- NoScript javascript alert. -->
         <noscript><div class="javascript-required"><div class="javascript-header">Application</div><div class="javascript-message"><h3>JavaScript Required</h3><p>We're sorry, but this application requires JavaScript in order to work properly, please enable it and reload this page.</p><a class="javascript-button" href="./index-prod.html">Reload</a><div class="javascript-clear"></div></div></div><style type="text/css">div.ui-background-loader {display: none;}div.javascript-required {top: 0;left: 0;position: absolute;width: 100%;height: 100%;color: #333333;background-color: #f8f8f8;}div.javascript-header {width: 100%;height: 40px;font-size: 22px;text-align: center;color: #333333;line-height: 39px;background-color: #0099c7;border-bottom: 1px solid #ffffff;color: white;box-shadow: 0px 1px 1px grey;font-weight: bold;}div.javascript-message {width: 80vw;max-width: 600px;margin: 0 auto;margin-top: 20vh;padding: 40px;border: 1px solid lightgrey;background-color: #f0f0f0;color: #333333;box-shadow: 1px 1px 1px grey;border-radius: 2px;}div.javascript-clear {clear: both;}a.javascript-button {padding: 8px;text-decoration: none;color: white;background-color: #0099c7;border: 1px solid #0088b6;border-radius: 2px;font-weight: 15px;  text-transform: uppercase;  margin-top: 20px;  float: right;  }</style></noscript>
