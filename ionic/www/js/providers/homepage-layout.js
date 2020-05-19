@@ -67,140 +67,145 @@ angular
          * @returns {boolean}
          */
         HomepageLayout.openFeature = function (feature, scope) {
-            if (scope === undefined) {
-                scope = $rootScope;
-            }
+            try {
+                if (scope === undefined) {
+                    scope = $rootScope;
+                }
 
-            // Close more when changing feature.
-            if (HomepageLayout.more_modal) {
-                HomepageLayout.more_modal.hide();
-                scope.tabbar_is_visible = true;
-                scope.pages_list_is_visible = false;
-            }
+                // Close more when changing feature.
+                if (HomepageLayout.more_modal) {
+                    HomepageLayout.more_modal.hide();
+                    scope.tabbar_is_visible = true;
+                    scope.pages_list_is_visible = false;
+                }
 
-            // Close any open modal first!
-            if (Modal.is_open) {
-                Modal.current_modal.hide();
-            }
+                // Close any open modal first!
+                if (Modal.is_open) {
+                    Modal.current_modal.hide();
+                }
 
-            var doClearHistory = false;
+                var doClearHistory = false;
 
-            // Clear history for side-menu feature!
-            switch (Pages.data.layout.position) {
-                case 'left':
-                case 'right':
-                    $rootScope.$broadcast('sideMenu.close');
+                // Clear history for side-menu feature!
+                switch (Pages.data.layout.position) {
+                    case 'left':
+                    case 'right':
+                        $rootScope.$broadcast('sideMenu.close');
 
-                    // Skip clear history for specific features:
-                    var isPadlock = (feature.code === 'padlock');
-                    var isSubFolder = (feature.is_subfolder !== undefined && feature.is_subfolder);
-                    var hasParentFolder = (feature.has_parent_folder !== undefined && feature.has_parent_folder);
+                        // Skip clear history for specific features:
+                        var isPadlock = (feature.code === 'padlock');
+                        var isSubFolder = (feature.is_subfolder !== undefined && feature.is_subfolder);
+                        var hasParentFolder = (feature.has_parent_folder !== undefined && feature.has_parent_folder);
 
-                    if (!isPadlock &&
-                        !isSubFolder &&
-                        !hasParentFolder &&
-                        (feature.path !== $location.path())) {
-                        // do not clear history if we open the padlock, folder, subfolder!
-                        doClearHistory = true;
-                    }
-
-                    break;
-            }
-
-            switch (true) {
-                // Features can have a custom callback method instead of states!
-                case (feature.open_callback_class !== null):
-                    try {
-                        $ocLazyLoad
-                            .load(feature.lazy_load.split(','))
-                            .then(function () {
-                                $injector.get(feature.open_callback_class).openCallback(feature);
-                            }, function () {
-                                Dialog.alert('Error', 'This feature is no longer available.', 'OK', 2350);
-                            });
-                    } catch (e) {
-                        Dialog.alert('Error', 'This feature is no longer available.', 'OK', 2350);
-                    }
-
-                    break;
-
-                case (feature.code === 'tabbar_account'):
-                    Analytics.storePageOpening({
-                        id: 0
-                    });
-
-                    Customer.loginModal(scope);
-
-                    break;
-
-                case (feature.code === 'code_scan'):
-                    Codescan.scanGeneric();
-
-                    break;
-
-                case (feature.code === 'tabbar_more'):
-                    HomepageLayout.getFeatures().then(function (features) {
-                        scope.tabbar_is_visible = false;
-                        scope.pages_list_is_visible = true;
-                        scope.features = features;
-
-                        scope.closeMore = function () {
-                            HomepageLayout.more_modal.hide();
-                            scope.tabbar_is_visible = true;
-                            scope.pages_list_is_visible = false;
-                        };
-
-                        // That's weird!
-                        scope.goTo = function (goToFeature) {
-                            HomepageLayout.openFeature(goToFeature, scope);
-                        };
-
-                        Modal
-                            .fromTemplateUrl(HomepageLayout.getModalTemplate(), {
-                                scope: scope
-                            })
-                            .then(function (modal) {
-                                HomepageLayout.more_modal = modal;
-                                HomepageLayout.more_modal.show();
-
-                                // pages_list_is_visible is true means that the ...
-                                // button in the main menu was clicked!
-                                $ionicPlatform.onHardwareBackButton(function (e) {
-                                    if (scope.pages_list_is_visible) {
-                                        scope.closeMore();
-                                    }
-                                });
-                            });
-                    });
-
-                    break;
-
-                case ($rootScope.isOffline && !feature.offline_mode && $rootScope.isNotAvailableOffline()):
-                    break;
-
-                case (feature.is_link):
-                    Analytics.storePageOpening(feature);
-                    LinkService.openLink(feature.link_url, feature.options, feature.external_browser);
-
-                    break;
-
-                default:
-                    Analytics.storePageOpening(feature);
-
-                    if (!$injector.get('Application').is_customizing_colors &&
-                        HomepageLayout.properties.options.autoSelectFirst) {
-                        if (feature.path !== $location.path()) {
-                            if (doClearHistory) {
-                                $ionicHistory.nextViewOptions({
-                                    historyRoot: true,
-                                    disableAnimate: false
-                                });
-                            }
-                            $location.path(feature.path).replace();
+                        if (!isPadlock &&
+                            !isSubFolder &&
+                            !hasParentFolder &&
+                            (feature.path !== $location.path())) {
+                            // do not clear history if we open the padlock, folder, subfolder!
+                            doClearHistory = true;
                         }
-                    } else {
-                        $location.path(feature.path);
-                    }
+
+                        break;
+                }
+
+                switch (true) {
+                    // Features can have a custom callback method instead of states!
+                    case (feature.open_callback_class !== null):
+                        try {
+                            $ocLazyLoad
+                                .load(feature.lazy_load.split(','))
+                                .then(function () {
+                                    $injector.get(feature.open_callback_class).openCallback(feature);
+                                }, function () {
+                                    Dialog.alert('Error', 'This feature is no longer available.', 'OK', 2350);
+                                });
+                        } catch (e) {
+                            Dialog.alert('Error', 'This feature is no longer available.', 'OK', 2350);
+                        }
+
+                        break;
+
+                    case (feature.code === 'tabbar_account'):
+                        Analytics.storePageOpening({
+                            id: 0
+                        });
+
+                        Customer.loginModal(scope);
+
+                        break;
+
+                    case (feature.code === 'code_scan'):
+                        Codescan.scanGeneric();
+
+                        break;
+
+                    case (feature.code === 'tabbar_more'):
+                        HomepageLayout.getFeatures().then(function (features) {
+                            scope.tabbar_is_visible = false;
+                            scope.pages_list_is_visible = true;
+                            scope.features = features;
+
+                            scope.closeMore = function () {
+                                HomepageLayout.more_modal.hide();
+                                scope.tabbar_is_visible = true;
+                                scope.pages_list_is_visible = false;
+                            };
+
+                            // That's weird!
+                            scope.goTo = function (goToFeature) {
+                                HomepageLayout.openFeature(goToFeature, scope);
+                            };
+
+                            Modal
+                                .fromTemplateUrl(HomepageLayout.getModalTemplate(), {
+                                    scope: scope
+                                })
+                                .then(function (modal) {
+                                    HomepageLayout.more_modal = modal;
+                                    HomepageLayout.more_modal.show();
+
+                                    // pages_list_is_visible is true means that the ...
+                                    // button in the main menu was clicked!
+                                    $ionicPlatform.onHardwareBackButton(function (e) {
+                                        if (scope.pages_list_is_visible) {
+                                            scope.closeMore();
+                                        }
+                                    });
+                                });
+                        });
+
+                        break;
+
+                    case ($rootScope.isOffline && !feature.offline_mode && $rootScope.isNotAvailableOffline()):
+                        break;
+
+                    case (feature.is_link):
+                        Analytics.storePageOpening(feature);
+                        LinkService.openLink(feature.link_url, feature.options, feature.external_browser);
+
+                        break;
+
+                    default:
+                        Analytics.storePageOpening(feature);
+
+                        if (!$injector.get('Application').is_customizing_colors &&
+                            HomepageLayout.properties.options.autoSelectFirst) {
+                            if (feature.path !== $location.path()) {
+                                if (doClearHistory) {
+                                    $ionicHistory.nextViewOptions({
+                                        historyRoot: true,
+                                        disableAnimate: false
+                                    });
+                                }
+                                $location.path(feature.path).replace();
+                            }
+                        } else {
+                            $location.path(feature.path);
+                        }
+                }
+            } catch (e) {
+                console.log('[OpenFeature] ' + e.message);
+                Dialog.alert('Navigation', 'The page you are trying to open is not available!', 'OK', 2350);
             }
         };
 
