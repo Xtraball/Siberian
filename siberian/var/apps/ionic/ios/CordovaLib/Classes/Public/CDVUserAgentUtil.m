@@ -101,8 +101,6 @@ static NSMutableArray* gPendingSetUserAgentBlocks = nil;
 
 + (void)onAppLocaleDidChange:(NSNotification*)notification
 {
-    // TODO: We should figure out how to update the user-agent of existing UIWebViews when this happens.
-    // Maybe use the PDF bug (noted in setUserAgent:).
     gOriginalUserAgent = nil;
 }
 

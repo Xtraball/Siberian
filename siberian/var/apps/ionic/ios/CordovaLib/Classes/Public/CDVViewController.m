@@ -510,25 +510,9 @@
 
 - (UIView*)newCordovaViewWithFrame:(CGRect)bounds
 {
-    NSString* defaultWebViewEngineClass = [self.settings cordovaSettingForKey:@"CordovaDefaultWebViewEngine"];
     NSString* webViewEngineClass = [self.settings cordovaSettingForKey:@"CordovaWebViewEngine"];
 
-    if (!defaultWebViewEngineClass) {
-        defaultWebViewEngineClass = @"CDVUIWebViewEngine";
-    }
-    if (!webViewEngineClass) {
-        webViewEngineClass = defaultWebViewEngineClass;
-    }
-
-    // Find webViewEngine
-    if (NSClassFromString(webViewEngineClass)) {
-        self.webViewEngine = [[NSClassFromString(webViewEngineClass) alloc] initWithFrame:bounds];
-        if (!self.webViewEngine || ![self.webViewEngine conformsToProtocol:@protocol(CDVWebViewEngineProtocol)] || ![self.webViewEngine canLoadRequest:[NSURLRequest requestWithURL:self.appUrl]]) {
-            self.webViewEngine = [[NSClassFromString(defaultWebViewEngineClass) alloc] initWithFrame:bounds];
-        }
-    } else {
-        self.webViewEngine = [[NSClassFromString(defaultWebViewEngineClass) alloc] initWithFrame:bounds];
-    }
+    self.webViewEngine = [[NSClassFromString(webViewEngineClass) alloc] initWithFrame:bounds];
 
     if ([self.webViewEngine isKindOfClass:[CDVPlugin class]]) {
         [self registerPlugin:(CDVPlugin*)self.webViewEngine withClassName:webViewEngineClass];
