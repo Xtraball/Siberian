@@ -41,7 +41,7 @@
             </feature>
         </config-file>
 
-        <config-file target="app/src/main/AndroidManifest.xml"
+        <config-file target="AndroidManifest.xml"
                      parent="/*">
             <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE"/>
             <uses-permission android:name="android.permission.WAKE_LOCK"/>
@@ -51,9 +51,6 @@
 
         <config-file target="AndroidManifest.xml" parent="/manifest/application">
             <service android:name="com.xtraball.musiccontrols.MusicControlsNotificationKiller" />
-            <service android:enabled="true"
-                     android:exported="false"
-                     android:name="com.xtraball.musiccontrols.MusicControlsWakeLock" />
         </config-file>
 
         <source-file src="src/android/MusicControls.java" target-dir="app/src/main/java/com/xtraball/musiccontrols"/>

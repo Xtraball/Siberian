@@ -20,7 +20,7 @@
 
 <plugin xmlns="http://apache.org/cordova/ns/plugins/1.0"
            id="InAppBrowser"
-      version="3.1.1-dev">
+      version="3.2.0">
 
     <name>InAppBrowser</name>
     <description>Cordova InAppBrowser Plugin</description>
@@ -81,7 +81,7 @@
             <feature name="WKInAppBrowser">
                 <param name="ios-package" value="CDVWKInAppBrowser" />
                 <param name="onload" value="true" />
-            </feature>s
+            </feature>
         </config-file>
 
         <header-file src="src/ios/CDVInAppBrowser.h" />
