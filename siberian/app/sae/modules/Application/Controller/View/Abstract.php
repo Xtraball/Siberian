@@ -153,7 +153,7 @@ abstract class Application_Controller_View_Abstract extends Backoffice_Controlle
         $data['application']['disable_battery_optimization'] = (boolean) $data['application']['disable_battery_optimization'];
 
         // Set ios Autopublish informations
-        $appIosAutopublish = (new Application_Model_IosAutopublish())->find($appId);
+        $appIosAutopublish = (new Application_Model_IosAutopublish())->find($appId, 'app_id');
 
         $languages = 'en';
         if ($lang = Siberian_Json::decode($appIosAutopublish->getLanguages())) {
