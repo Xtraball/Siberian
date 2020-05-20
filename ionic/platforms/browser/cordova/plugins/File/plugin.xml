@@ -21,7 +21,7 @@
 <plugin xmlns="http://apache.org/cordova/ns/plugins/1.0"
 xmlns:android="http://schemas.android.com/apk/res/android"
            id="File"
-      version="6.0.1">
+      version="6.0.2">
     <name>File</name>
     <description>Cordova File Plugin</description>
     <license>Apache 2.0</license>
@@ -114,7 +114,18 @@ xmlns:android="http://schemas.android.com/apk/res/android"
 
     <!-- android -->
     <platform name="android">
-        <config-file target="config.xml" parent="/*">
+        <info>
+The Android Persistent storage location now defaults to "Internal". Please check this plugin's README to see if your application needs any changes in its config.xml.
+
+If this is a new application no changes are required.
+
+If this is an update to an existing application that did not specify an "AndroidPersistentFileLocation" you may need to add:
+
+      "&lt;preference name="AndroidPersistentFileLocation" value="Compatibility" /&gt;"
+
+to config.xml in order for the application to find previously stored files.
+        </info>
+        <config-file target="res/xml/config.xml" parent="/*">
             <feature name="File" >
                 <param name="android-package" value="org.apache.cordova.file.FileUtils"/>
                 <param name="onload" value="true" />
@@ -122,7 +133,7 @@ xmlns:android="http://schemas.android.com/apk/res/android"
             <allow-navigation href="cdvfile:*" />
         </config-file>
 
-        <config-file target="app/src/main/AndroidManifest.xml" parent="/*">
+        <config-file target="AndroidManifest.xml" parent="/*">
             <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
         </config-file>
 
@@ -186,7 +197,46 @@ xmlns:android="http://schemas.android.com/apk/res/android"
         <framework src="MobileCoreServices.framework" />
     </platform>
 
-    <!-- browser -->
+    <!-- osx -->
+    <platform name="osx">
+        <config-file target="config.xml" parent="/*">
+            <feature name="File">
+                <param name="ios-package" value="CDVFile" />
+                <param name="onload" value="true" />
+            </feature>
+        </config-file>
+        <header-file src="src/osx/CDVFile.h" />
+        <source-file src="src/osx/CDVFile.m" />
+        <header-file src="src/osx/CDVLocalFilesystem.h" />
+        <source-file src="src/osx/CDVLocalFilesystem.m" />
+
+        <!-- osx specific file apis -->
+        <js-module src="www/osx/FileSystem.js" name="osxFileSystem">
+            <merges target="FileSystem" />
+        </js-module>
+
+        <js-module src="www/fileSystems-roots.js" name="fileSystems-roots">
+            <runs/>
+        </js-module>
+
+        <js-module src="www/fileSystemPaths.js" name="fileSystemPaths">
+            <merges target="cordova" />
+            <runs/>
+        </js-module>
+    </platform>
+
+    <!-- windows -->
+    <platform name="windows">
+        <js-module src="src/windows/FileProxy.js" name="FileProxy">
+            <runs />
+        </js-module>
+
+        <js-module src="www/fileSystemPaths.js" name="fileSystemPaths">
+            <merges target="cordova" />
+            <runs/>
+        </js-module>
+    </platform>
+
     <platform name="browser">
         <!-- File for Chrome -->
         <js-module src="www/browser/Preparing.js" name="Preparing">

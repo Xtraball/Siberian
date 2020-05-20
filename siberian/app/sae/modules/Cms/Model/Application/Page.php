@@ -147,10 +147,10 @@ class Cms_Model_Application_Page extends Core_Model_Default
     public function getAppInitUris($optionValue)
     {
         $featureUrl = __url('/cms/mobile_page_view/index', [
-            'value_id' => $this->getValueId(),
+            'value_id' => $optionValue->getId(),
         ]);
         $featurePath = __path('/cms/mobile_page_view/index', [
-            'value_id' => $this->getValueId(),
+            'value_id' => $optionValue->getId(),
         ]);
 
         return [

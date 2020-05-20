@@ -822,31 +822,47 @@ abstract class Application_Model_Application_Abstract extends Core_Model_Default
      */
     public function createDummyContents($category, $design = null, $_category = null)
     {
-        $design = is_null($design) ? $this->getDesign() : $design;
-        $design_content = new Template_Model_Design_Content();
-        $design_contents = $design_content->findAll(['design_id' => $design->getDesignId()]);
+        try {
+            $design = is_null($design) ? $this->getDesign() : $design;
+            $design_content = new Template_Model_Design_Content();
+            $design_contents = $design_content->findAll(['design_id' => $design->getDesignId()]);
 
-        foreach ($design_contents as $content) {
-            $option_value = new Application_Model_Option_Value();
-            $option = new Application_Model_Option();
-            $option->find($content->getOptionId());
+            foreach ($design_contents as $content) {
+                $option_value = new Application_Model_Option_Value();
+                $option = new Application_Model_Option();
+                $option->find($content->getOptionId());
 
-            if (!$option->getId()) {
-                continue;
+                // Feaeture doesn't exists!
+                if (!$option->getId()) {
+                    continue;
+                }
+
+                // Feaeture is globally disabled!
+                if (!$option->getIsEnabled()) {
+                    continue;
+                }
+
+                // User don't have access to feature
+                $aclList = \Admin_Controller_Default::_getAcl();
+                if ($aclList && !$aclList->isAllowed('feature_' . $option->getCode())) {
+                    continue;
+                }
+
+                $option_value
+                    ->setOptionId($content->getOptionId())
+                    ->setAppId($this->getApplication()->getId())
+                    ->setTabbarName($content->getOptionTabbarName())
+                    ->setIconId($content->getOptionIcon())
+                    ->setBackgroundImage($content->getOptionBackgroundImage())
+                    ->save();
+
+                if ($option->getModel() && $option->getCode() !== 'push_notification') {
+                    $category = ($_category != null) ? $_category : $category;
+                    $option->getObject()->createDummyContents($option_value, $design, $category);
+                }
             }
-
-            $option_value
-                ->setOptionId($content->getOptionId())
-                ->setAppId($this->getApplication()->getId())
-                ->setTabbarName($content->getOptionTabbarName())
-                ->setIconId($content->getOptionIcon())
-                ->setBackgroundImage($content->getOptionBackgroundImage())
-                ->save();
-
-            if ($option->getModel() && $option->getCode() !== 'push_notification') {
-                $category = ($_category != null) ? $_category : $category;
-                $option->getObject()->createDummyContents($option_value, $design, $category);
-            }
+        } catch (\Exception $e) {
+            // Silently continue!
         }
     }
 

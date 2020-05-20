@@ -19,10 +19,9 @@
 -->
 
 <plugin xmlns="http://apache.org/cordova/ns/plugins/1.0"
-    xmlns:rim="http://www.blackberry.com/ns/widgets"
     xmlns:android="http://schemas.android.com/apk/res/android"
     id="cordova-plugin-file-tests"
-    version="6.0.1">
+    version="6.0.2">
 
     <name>Cordova File Plugin Tests</name>
     <license>Apache 2.0</license>
@@ -32,7 +31,7 @@
 
     <platform name="android">
         <source-file src="src/android/TestContentProvider.java" target-dir="src/org/apache/cordova/file/test" />
-        <config-file target="app/src/main/AndroidManifest.xml" parent="/*/application">
+        <config-file target="AndroidManifest.xml" parent="/*/application">
             <provider
                 android:name="org.apache.cordova.file.test.TestContentProvider"
                 android:authorities="org.apache.cordova.file.testprovider"

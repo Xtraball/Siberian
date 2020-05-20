@@ -40,8 +40,12 @@ var mediaObjects = {};
  */
 var Media = function(options, successCallback, errorCallback, statusCallback) {
     argscheck.checkArgs('OFFF', 'MediaNative', arguments);
-    this.id = utils.createUUID();
-    mediaObjects[this.id] = this;
+
+    if (!this.node || !this.node.hasOwnProperty('onplay')) {
+        this.id = utils.createUUID();
+        mediaObjects[this.id] = this;
+    }
+
     this.src = options.src;
     this.successCallback = successCallback;
     this.errorCallback = errorCallback;
@@ -50,7 +54,9 @@ var Media = function(options, successCallback, errorCallback, statusCallback) {
     this._position = -1;
 
     try {
-        this.node = createNode(this);
+        if (!this.node || !this.node.hasOwnProperty('onplay')) {
+            this.node = createNode(this);
+        }
     } catch (err) {
         Media.onStatus(this.id, Media.MEDIA_ERROR, { code: MediaError.MEDIA_ERR_ABORTED });
     }
@@ -108,6 +114,7 @@ Media.MEDIA_STARTING = 1;
 Media.MEDIA_RUNNING = 2;
 Media.MEDIA_PAUSED = 3;
 Media.MEDIA_STOPPED = 4;
+Media.MEDIA_STARTED = 5;
 Media.MEDIA_MSG = ["None", "Starting", "Running", "Paused", "Stopped"];
 
 /**
@@ -124,7 +131,13 @@ Media.prototype.play = function() {
         }
     }
 
-    this.node.play();
+    var transId = this.id; // We need a transId inside promises!
+    this.node.play().then(function() {
+        // Automatic playback started!
+        Media.onStatus(transId, Media.MEDIA_STATE, Media.MEDIA_STARTED );
+    }).catch(function(error) {
+        Media.onStatus(transId, Media.MEDIA_ERROR, { code: MediaError.MEDIA_ERR_PLAY_REJECT });
+    });
 };
 
 /**
@@ -234,7 +247,7 @@ Media.prototype.release = function() {
     try {
         this.pause();
         this.node.src = '';
-        delete this.node;
+        // Deleting the node will cause the touch event to be removed, and required again and again, defeating the media player usage!
     } catch (err) {
         Media.onStatus(this.id, Media.MEDIA_ERROR, err);
     }};

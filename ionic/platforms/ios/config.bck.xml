@@ -42,7 +42,7 @@
     <allow-intent href="whatsapp:*" />
     <chcp>
         <config-file url="PLATFORM_URL" />
-        <native-interface version="14" />
+        <native-interface version="15" />
         <auto-download enabled="false" />
         <auto-install enabled="false" />
     </chcp>
@@ -60,7 +60,6 @@
     <preference name="PaginationBreakingMode" value="page" />
     <preference name="PaginationMode" value="unpaginated" />
     <preference name="webviewbounce" value="false" />
-    <preference name="UIWebViewBounce" value="false" />
     <preference name="SplashShowOnlyFirstTime" value="false" />
     <preference name="AutoHideSplashScreen" value="false" />
     <preference name="FadeSplashScreen" value="true" />
@@ -141,14 +140,6 @@
     </feature>
     <preference name="StatusBarOverlaysWebView" value="true" />
     <preference name="StatusBarStyle" value="lightcontent" />
-    <feature name="LocalNotification">
-        <param name="ios-package" onload="true" value="APPLocalNotification" />
-        <param name="onload" value="true" />
-    </feature>
-    <feature name="OfflineMode">
-        <param name="ios-package" value="CDVOfflineMode" />
-        <param name="onload" value="true" />
-    </feature>
     <feature name="Insomnia">
         <param name="ios-package" value="Insomnia" />
     </feature>
@@ -167,5 +158,8 @@
     <preference name="KeepAVAudioSessionAlwaysActive" value="NO" />
     <feature name="Navigator">
         <param name="ios-package" value="CDVNavigator" />
+    </feature>
+    <feature name="Toast">
+        <param name="ios-package" value="Toast" />
     </feature>
 </widget>

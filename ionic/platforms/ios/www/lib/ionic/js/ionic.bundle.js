@@ -8982,7 +8982,7 @@ ionic.views.Slider = ionic.views.View.inherit({
             // autoplay
             autoplay: false,
             autoplayDisableOnInteraction: true,
-            // To support iOS's swipe-to-go-back gesture (when being used in-app, with UIWebView).
+            // To support iOS's swipe-to-go-back gesture (when being used in-app, with WKWebView).
             iOSEdgeSwipeDetection: false,
             iOSEdgeSwipeThreshold: 20,
             // Free mode
@@ -10232,7 +10232,7 @@ ionic.views.Slider = ionic.views.View.inherit({
             var startX = s.touches.currentX = e.type === 'touchstart' ? e.targetTouches[0].pageX : e.pageX;
             var startY = s.touches.currentY = e.type === 'touchstart' ? e.targetTouches[0].pageY : e.pageY;
 
-            // Do NOT start if iOS edge swipe is detected. Otherwise iOS app (UIWebView) cannot swipe-to-go-back anymore
+            // Do NOT start if iOS edge swipe is detected. Otherwise iOS app (WKWebView) cannot swipe-to-go-back anymore
             if(s.device.ios && s.params.iOSEdgeSwipeDetection && startX <= s.params.iOSEdgeSwipeThreshold) {
                 return;
             }
@@ -58387,9 +58387,9 @@ function($timeout, $document, $q, $ionicClickBlock, $ionicConfig, $ionicNavBarDe
 }]);
 
 /**
- * ==================  angular-ios9-uiwebview.patch.js v1.1.1 ==================
+ * ==================  angular-ios9-wkwebview.patch.js v1.1.1 ==================
  *
- * This patch works around iOS9 UIWebView regression that causes infinite digest
+ * This patch works around iOS9 WKWebView regression that causes infinite digest
  * errors in Angular.
  *
  * The patch can be applied to Angular 1.2.0 – 1.4.5. Newer versions of Angular
