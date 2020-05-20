@@ -157,10 +157,10 @@ angular
                 }, function (error) {
                     Dialog.alert('Error', error.message, 'OK', -1);
                 }).then(function (result) {
-                Loader.hide();
+                    Loader.hide();
 
-                return result;
-            });
+                    return result;
+                });
 
             return promise;
         };

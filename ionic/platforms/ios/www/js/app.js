@@ -382,13 +382,18 @@ var App = angular.module('starter', ['ionic', 'lodash', 'ngRoute', 'ngCordova', 
                                 $ocLazyLoad
                                 .load("./features/previewer/previewer.bundle.min.js")
                                 .then(function () {
-                                    $injector.get("Previewer").fileExists(function () {
-                                            console.info("[PREVIEWER] Preview in progress, aborting.");
-                                        },
-                                        function () {
-                                            console.info("[PREVIEWER] No previewer loaded, continue.");
-                                            runChcp();
-                                        });
+                                    try {
+                                        $injector.get("Previewer").fileExists(function () {
+                                                console.info("[PREVIEWER] Preview in progress, aborting.");
+                                            },
+                                            function () {
+                                                console.info("[PREVIEWER] No previewer loaded, continue.");
+                                                runChcp();
+                                            });
+                                    } catch (e) {
+                                        console.log("[PREVIEWER - WARNING] " + e.message);
+                                        runChcp();
+                                    }
                                 })
                                 .catch(function (error) {
                                     // We were unable to load the previewer, assuming it doesn't exists, continue on chcp!
@@ -428,10 +433,6 @@ var App = angular.module('starter', ['ionic', 'lodash', 'ngRoute', 'ngCordova', 
                             if (!$window.localStorage.getItem('first_running')) {
                                 $window.localStorage.setItem('first_running', 'true');
                                 Analytics.storeInstallation();
-                            }
-
-                            if (Application.offline_content) {
-                                Application.showCacheDownloadModalOrUpdate();
                             }
                         }
 
@@ -749,9 +750,6 @@ var App = angular.module('starter', ['ionic', 'lodash', 'ngRoute', 'ngCordova', 
                             }).catch(function (error) {
                             });
                         });
-
-                        var ProgressbarService = $injector.get('ProgressbarService');
-                        ProgressbarService.init(load.application.colors.loader);
 
                         // Check for padlock!
                         var currentState = $ionicHistory.currentStateName();

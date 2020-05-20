@@ -2398,26 +2398,8 @@ div#progress-label {
         display: none;
     }
 
-    .navbar-header .logo-position {
-        margin-left: calc((100vw - 250px) / 2) !important;
-    }
-
     .sidebar-nav li a {
         padding: 2px 7px;
-    }
-
-    #logo {
-        display: block !important;
-        -ms-transform: scale(0.65);
-        -moz-transform: scale(0.65);
-        -o-transform: scale(0.65);
-        -webkit-transform: scale(0.65);
-        transform: scale(0.65);
-        -ms-transform-origin: 50% 50%;
-        -moz-transform-origin: 50% 50%;
-        -o-transform-origin: 50% 50%;
-        -webkit-transform-origin: 50% 50%;
-        transform-origin: 50% 50%;
     }
 }
 
@@ -2437,34 +2419,6 @@ div#progress-label {
         position: relative;
     }
 }
-
-/**
-@media (min-width: 768px) and (max-width: 960px) {
-    .navbar-header {
-        left: -100px;
-    }
-
-    #wrapper.left-toggled #left-sidebar-wrapper {
-        width: 150px;
-    }
-
-    #wrapper.left-toggled {
-        padding-left: 150px;
-    }
-
-    #left-sidebar-wrapper .sidebar-nav a {
-        font-size: unset;
-    }
-
-    .sidebar-nav .fa.fa-angle-right, .sidebar-nav .fa.fa-angle-down {
-        right: 45%;
-    }
-
-    #logo {
-        position: absolute;
-        left: 100px;
-    }
-}*/
 
 .sidebars.has-sidebar ~ .subcontent {
     padding-left: 205px;

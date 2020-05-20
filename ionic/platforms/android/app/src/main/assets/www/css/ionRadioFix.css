@@ -1,6 +1,6 @@
 /**
  * This CSS uses adjacent selectors instead of general sibling (~) selectors
- * for ion radio that are broken in iOS 9 UIWebView.
+ * for ion radio that are broken in iOS 9 WKWebView.
  *
  * To apply the patch, include this CSS after your ionic.css include.
  */

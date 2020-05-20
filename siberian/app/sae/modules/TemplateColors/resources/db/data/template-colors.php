@@ -49,10 +49,9 @@ $features = [
     'music_gallery' => ['icon' => '/musics/music1-flat.png'],
     'image_gallery' => ['icon' => '/images/image1-flat.png'],
     'video_gallery' => ['icon' => '/videos/video1-flat.png'],
-    'fanwall' => ['icon' => '/fanwall/fanwall1-flat.png'],
+    'fanwall2' => ['icon' => '/fanwall/fanwall1-flat.png'],
     'radio' => ['icon' => '/radio/radio1-flat.png'],
     'calendar' => ['icon' => '/calendar/calendar1-flat.png'],
-    'newswall' => ['icon' => '/newswall/newswall1-flat.png'],
     'code_scan' => ['icon' => '/code_scan/scan1-flat.png']
 ];
 

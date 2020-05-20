@@ -10,6 +10,7 @@ angular
                                       $window, Dialog, Modal, SB) {
         var service = {
             media: null,
+            transAudio: null,
             isInitialized: false,
             isMinimized: true,
             isPlaying: false,
@@ -21,10 +22,11 @@ angular
             currentTrack: null,
             currentTab: 'cover',
             isBuffering: false,
-            listenEvents: false,
+            listenEvents: true,
             calledReset: false,
             isPrev: false,
             isNext: false,
+            isStop: false, // User action stop, not end media stop
             isSelecting: false,
             duration: 0,
             elapsedTime: 0,
@@ -91,33 +93,32 @@ angular
         };
 
         service.mediaNativeChangeCallback = function (change) {
+            console.log('mediaNativeChangeCallback', change);
             if (!service.listenEvents) {
                 return;
             }
 
             var response = service.decodeCallback(change);
-            // something changed, update controls & infos
-            if (service.media !== null) {
-                service.media.getDuration(function () {
-                    service.duration = service.media._duration;
-                }, function () {});
-            }
 
             // Play next if possible!
             if (MediaNative.MEDIA_STOPPED === parseInt(response, 10)) {
                 if (!service.calledReset &&
                     !service.isPrev &&
                     !service.isNext &&
+                    !service.isStop &&
                     !service.isSelecting) {
                     // Reset was not called, it's a "track end stop", so we call next
 
                     service.next();
+                    return;
                 }
-                // Reset locks after a timeout to prevent dupes!
-                service.calledReset = false;
-                service.isPrev = false;
-                service.isNext = false;
-                service.isSelecting = false;
+            }
+
+            // something changed, update controls & infos
+            if (service.media !== null) {
+                service.media.getDuration(function () {
+                    service.duration = service.media._duration;
+                }, function () {});
             }
         };
 
@@ -144,6 +145,13 @@ angular
                     case MediaError.MEDIA_ERR_NONE_SUPPORTED:
                         Dialog.alert('Error', 'This media type is not supported.', 'OK', -1, 'media');
                         break;
+                    case MediaError.MEDIA_ERR_PLAY_REJECT:
+                        Dialog
+                            .alert('Error', 'Tap to continue playing.', 'OK', -1, 'media')
+                            .then(function () {
+                                service.play();
+                            });
+                        break;
                 }
             } catch (e) {
                 // Nope!
@@ -151,8 +159,9 @@ angular
         };
 
         service.mediaNativeSuccessCallback = function (success) {
+            console.log('mediaNativeSuccessCallback', success);
             // Do nothing for now!
-            service.listenEvents = true;
+            //service.listenEvents = true;
         };
 
         // Init media player
@@ -200,6 +209,7 @@ angular
         service.stop = function () {
             if (service.media) {
                 service.isPlaying = false;
+                service.isStop = true;
                 service.cancelSeekBar();
                 service.media.stop();
                 MusicControls.updateIsPlaying(service.isPlaying);
@@ -222,7 +232,7 @@ angular
         };
 
         service.start = function () {
-            service.listenEvents = false;
+            //service.listenEvents = false;
             service.currentTrack = service.tracks[service.currentIndex];
 
             if ((service.currentTrack.streamUrl.indexOf('http://') === -1) &&
@@ -254,13 +264,20 @@ angular
             // If it's a browser chrome/safari, user must touch to play, in native we can auto-play!
             if (SB.DEVICE.TYPE_BROWSER === DEVICE_TYPE) {
                 // Play if it's prev/next (hoping it will work)
-                if (service.isNext || service.isPrev) {
+                if (service.isNext || service.isPrev || service.isSelecting) {
                     service.play();
                 }
                 // Do nothing for now!
             } else {
                 service.play();
             }
+
+            // Reset locks after a success!
+            service.calledReset = false;
+            service.isPrev = false;
+            service.isNext = false;
+            service.isStop = false;
+            service.isSelecting = false;
         };
 
         // Reset is promised based, as we have to wait on few events!
@@ -302,6 +319,17 @@ angular
         };
 
         service.openPlayer = function () {
+            // If it's a browser, ensure we have the blank audio ready!
+            //if (SB.DEVICE.TYPE_BROWSER === DEVICE_TYPE &&
+            //    service.transAudio === null) {
+            //    service.transAudio = new MediaNative(
+            //    {
+            //        src: '/app/sae/modules/Media/resources/assets/silence.mp3',
+            //        isStream: 0
+            //    });
+            //    service.transAudio.play();
+            //}
+
             if (service.isInitialized ||
                 service.playerModal !== null) {
                 service.openPlayerModal('cover');
