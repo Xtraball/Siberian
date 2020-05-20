@@ -72,10 +72,6 @@
     <preference name="KeyboardResizeMode" value="native" />
     <preference name="deployment-target" value="10.0" />
     <preference name="WKWebViewOnly" value="true" />
-    <feature name="SignInWithApple">
-        <param name="ios-package" value="SignInWithApple" />
-        <param name="onload" value="true" />
-    </feature>
     <preference name="loadUrlTimeoutValue" value="60000" />
     <feature name="HotCodePush">
         <param name="ios-package" value="HCPPlugin" />

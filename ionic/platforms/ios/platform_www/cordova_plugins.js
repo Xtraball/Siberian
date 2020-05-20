@@ -1,14 +1,6 @@
 cordova.define('cordova/plugin_list', function(require, exports, module) {
   module.exports = [
     {
-      "id": "AppleSignIn.SignInWithApple",
-      "file": "plugins/AppleSignIn/www/sign-in-with-apple.js",
-      "pluginId": "AppleSignIn",
-      "clobbers": [
-        "cordova.plugins.SignInWithApple"
-      ]
-    },
-    {
       "id": "Chcp.chcp",
       "file": "plugins/Chcp/www/chcp.js",
       "pluginId": "Chcp",
@@ -446,7 +438,6 @@ cordova.define('cordova/plugin_list', function(require, exports, module) {
     }
   ];
   module.exports.metadata = {
-    "AppleSignIn": "0.0.1",
     "Chcp": "1.5.2",
     "SplashScreen": "5.0.2",
     "Push": "1.10.0",
