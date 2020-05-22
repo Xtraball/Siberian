@@ -110,7 +110,7 @@ angular
 
                 switch (true) {
                     // Features can have a custom callback method instead of states!
-                    case (feature.open_callback_class !== null):
+                    case (feature.hasOwnProperty('open_callback_class') && feature.open_callback_class !== null):
                         try {
                             $ocLazyLoad
                                 .load(feature.lazy_load.split(','))
