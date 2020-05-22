@@ -72,7 +72,8 @@ angular
                 }
 
                 // Handles openCallback first
-                if (feature.open_callback_class !== null) {
+                if (feature.hasOwnProperty('open_callback_class') &&
+                    feature.open_callback_class !== null) {
                     try {
                         $ocLazyLoad
                             .load(feature.lazy_load.split(','))
