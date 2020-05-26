@@ -29,8 +29,16 @@ class Front_Controller_Api_Base extends Front_Controller_App_Default
         /** Caching each block independently, to optimize loading */
         $application = $this->getApplication();
         $application->checkForUpgrades();
-
         $appId = $application->getId();
+
+        // Instant loading static JSON
+        if (__getConfig('instantLoad') === true) {
+            $payloadPath = path('/init-' . $appId . '.json');
+            $json = file_get_contents($payloadPath);
+            echo $json;
+            die;
+        }
+
         $request = $this->getRequest();
         $session = $this->getSession();
         $params = $request->getBodyParams();
