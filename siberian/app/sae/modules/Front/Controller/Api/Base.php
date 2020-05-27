@@ -43,6 +43,7 @@ class Front_Controller_Api_Base extends Front_Controller_App_Default
         $session = $this->getSession();
         $params = $request->getBodyParams();
         $currentLanguage = $params['user_language'] ?? Core_Model_Language::getCurrentLanguage();
+        Core_Model_Language::setCurrentLanguage($currentLanguage);
 
         try {
             $cssBlock = $this->_cssBlock($application);
@@ -101,6 +102,48 @@ class Front_Controller_Api_Base extends Front_Controller_App_Default
         $response->setHeader('Pragma', 'no-cache');
 
         $this->_sendJson($data);
+    }
+
+    /**
+     * Reload only the translations, with the given language
+     *
+     * @throws Zend_Controller_Response_Exception
+     */
+    public function translationsAction ()
+    {
+        try {
+            $application = $this->getApplication();
+            $request = $this->getRequest();
+            $session = $this->getSession();
+            $customer = $session->getCustomer();
+            $params = $request->getBodyParams();
+            $currentLanguage = $params['user_language'] ?? Core_Model_Language::getCurrentLanguage();
+            Core_Model_Language::setCurrentLanguage($currentLanguage);
+
+            $featureBlock = $this->_featureBlock($application, $currentLanguage, $request);
+            $translationBlock = $this->_translationBlock($application, $currentLanguage);
+
+            // Save new language to customer!
+            if ($customer) {
+                // Update language in DB (for future e-mail, cron, etc...)
+                $customer
+                    ->setLanguage($currentLanguage)
+                    ->save();
+            }
+
+            $payload = [
+                'success' => true,
+                'features' => $featureBlock,
+                'translations' => $translationBlock,
+            ];
+        } catch (\Exception $e) {
+            $payload = [
+                'error' => true,
+                'message' => $e->getMessage(),
+            ];
+        }
+
+        $this->_sendJson($payload);
     }
 
     /**
