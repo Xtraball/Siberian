@@ -258,10 +258,12 @@ angular
             var stopScan = function () {
                 if (factory.qrCodeScanner !== null) {
                     try {
-                        factory.qrCodeScanner
+                        factory
+                            .qrCodeScanner
                             .stop()
-                            .then(function (ignore) {})
-                            .catch(function (error) {});
+                            .then(function () {
+                                factory.qrCodeScanner.clear();
+                            });
                     } catch (e) {}
                 }
             };
@@ -296,8 +298,13 @@ angular
                 if (factory.currentIndex > factory.devices.length - 1) {
                     factory.currentIndex = 0;
                 }
+
+                factory.currentDevice = factory.devices[factory.currentIndex];
+
+                console.log('factory.currentDevice', factory.currentDevice, 'factory.currentIndex', factory.currentIndex);
+
                 stopScan();
-                startScan(factory.devices[factory.currentIndex].id);
+                startScan(factory.currentDevice.id);
             };
 
             // Local scan method!
@@ -339,6 +346,7 @@ angular
                                     // Fallback on default device if no label can be identified!
                                     if (factory.currentDevice === null) {
                                         factory.currentDevice = factory.devices[0];
+                                        factory.currentIndex = 0;
                                     }
 
                                     startScan(factory.currentDevice.id);
