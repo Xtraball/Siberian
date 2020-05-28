@@ -21,6 +21,11 @@ angular
             ]
         };
 
+        factory._scanner = function () {
+            return (SB.DEVICE.TYPE_BROWSER === DEVICE_TYPE) ?
+                factory.browserScan() : $cordovaBarcodeScanner.scan();
+        };
+
         factory.checkCascade = function (qrCode, next) {
             if (next.length > 0) {
                 var callback = next.shift();
@@ -40,8 +45,8 @@ angular
                 return;
             }
 
-            $cordovaBarcodeScanner
-                .scan()
+            factory
+                ._scanner()
                 .then(function (scannedData) {
                     var qrCode = scannedData.text.replace('sendback:', '');
                     factory.checkDiscount(qrCode);
@@ -86,8 +91,8 @@ angular
         };
 
         factory.scanPadlock = function () {
-            $cordovaBarcodeScanner
-                .scan()
+            factory
+                ._scanner()
                 .then(function (scannedData) {
                     var qrCode = scannedData.text.replace('sendback:', '');
                     factory.checkPadlock(qrCode);
@@ -134,8 +139,8 @@ angular
         factory.scanPassword = function () {
             var defer = $q.defer();
 
-            $cordovaBarcodeScanner
-                .scan()
+            factory
+                ._scanner()
                 .then(function (scannedData) {
                     if (scannedData.cancelled || scannedData.text === '') {
                         defer.reject(scannedData);
@@ -166,8 +171,8 @@ angular
         factory.scanGeneric = function () {
             var defer = $q.defer();
 
-            $cordovaBarcodeScanner
-                .scan()
+            factory
+                ._scanner()
                 .then(function (scannedData) {
 
                     // We resolve regardless what's going on after.
