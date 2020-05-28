@@ -265,6 +265,8 @@ angular
                             .stop()
                             .then(function () {
                                 factory.qrCodeScanner.clear();
+                            }).catch(function () {
+                                // nope!
                             });
                     } catch (e) {}
                 }
