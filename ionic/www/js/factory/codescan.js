@@ -223,10 +223,10 @@ angular
         factory.devices = [];
         factory.currentDevice = null;
         factory.qrCodeScanner = null;
-        factory.browserScan = function (success, error) {
-
+        factory.browserScan = function () {
+            var deferred = $q.defer();
             // Prompt fallback!
-            var promptScan = function (success, error) {
+            var promptScan = function () {
                 Dialog.prompt(
                     'Manual input',
                     'Enter barcode value (empty value will fire the error handler):',
@@ -242,15 +242,15 @@ angular
                                 format: 'Fake',
                                 cancelled: false
                             };
-                            success(result);
+                            deferred.resolve(result);
                         } else {
-                            error('No code provided!');
+                            deferred.reject('No code provided!');
                         }
                     });
             };
 
             // Local scan method!
-            var localScan = function (success, error) {
+            var localScan = function () {
                 Modal
                     .fromTemplateUrl('templates/codescan/modal.html', {
                         scope: angular.extend($rootScope.$new(true), {
@@ -263,16 +263,14 @@ angular
                                         factory.qrCodeScanner
                                             .stop()
                                             .then(function (ignore) {
-                                                factory.browserScanModal.hide();
+                                                //
                                             }).catch(function (error) {
-                                                factory.browserScanModal.hide();
+                                                //
                                             });
-                                    } catch (e) {
-                                        factory.browserScanModal.hide();
-                                    }
-                                } else {
-                                    factory.browserScanModal.hide();
+                                    } catch (e) {}
                                 }
+                                factory.browserScanModal.hide();
+                                deferred.reject('stopped');
                             },
                             toggleCamera: function () {
                                 //
@@ -317,11 +315,11 @@ angular
                                         });
                                 } else {
                                     // Damn, no camera available!
-                                    promptScan(success, error);
+                                    promptScan();
                                 }
-                            }).catch(function (error) {
+                            }).catch(function () {
                                 // Damn, no camera available!
-                                promptScan(success, error);
+                                promptScan();
                             });
                     });
             };
@@ -332,12 +330,14 @@ angular
                 html5QrcodeTag.type = 'text/javascript';
                 html5QrcodeTag.src = './dist/lazy/html5-qrcode.min.js';
                 html5QrcodeTag.onload = function () {
-                    localScan(success, error);
+                    localScan();
                 };
                 document.body.appendChild(html5QrcodeTag);
             } else {
-                localScan(success, error);
+                localScan();
             }
+
+            return deferred.promise;
         };
 
         return factory;
