@@ -1,19 +1,36 @@
 <ion-modal-view sb-page-background
                 class="module-fanwall fanwall-list fanwall-list-l1">
-
-    <ion-header-bar class="bar-custom">
-        <div class="buttons">
-            <button class="button button-clear"
-                    ng-click="close()">
-                <i class="icon ion-android-arrow-back"></i>
-            </button>
-        </div>
-        <h1 class="title">{{ ::'Codescan' | translate:'codescan' }}</h1>
-    </ion-header-bar>
-
     <ion-content>
-        <div id="qrcode-reader"
-             style="width: 100vw; height: 60vh;"></div>
+        <div id="qrcode-reader"></div>
+        <div id="qrcode-actions">
+            <i ng-click="stopCamera()"
+               class="icon ion-admin-cross"></i>
+            <i ng-click="toggleCamera()"
+               class="icon ion-ios-reverse-camera-outline"></i>
+        </div>
     </ion-content>
 
+    <style type="text/css">
+        .module-fanwall ion-content {
+            background-color: black;
+        }
+
+        .module-fanwall #qrcode-reader {
+            position: absolute;
+            top: 0;
+            bottom: 64px;
+            left: 0;
+            right: 0;
+            color: white;
+        }
+
+        .module-fanwall #qrcode-actions {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            height: 64px;
+            color: white;
+        }
+    </style>
 </ion-modal-view>

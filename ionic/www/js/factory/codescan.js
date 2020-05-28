@@ -220,62 +220,105 @@ angular
 
         // Section for html5 qrcode scanner with camera api!
         factory.browserScanModal = null;
+        factory.devices = [];
+        factory.currentDevice = null;
+        factory.qrCodeScanner = null;
         factory.browserScan = function (success, error) {
+
+            // Prompt fallback!
+            var promptScan = function (success, error) {
+                Dialog.prompt(
+                    'Manual input',
+                    'Enter barcode value (empty value will fire the error handler):',
+                    'text',
+                    '',
+                    undefined,
+                    undefined,
+                    'codescan')
+                    .then(function (scannerValue) {
+                        if (scannerValue.trim().length > 0) {
+                            var result = {
+                                text: scannerValue,
+                                format: 'Fake',
+                                cancelled: false
+                            };
+                            success(result);
+                        } else {
+                            error('No code provided!');
+                        }
+                    });
+            };
+
+            // Local scan method!
             var localScan = function (success, error) {
                 Modal
                     .fromTemplateUrl('templates/codescan/modal.html', {
                         scope: angular.extend($rootScope.$new(true), {
                             close: function () {
                                 factory.browserScanModal.hide();
+                            },
+                            stopCamera: function () {
+                                factory.qrCodeScanner
+                                    .stop()
+                                    .then(function (ignore) {
+                                        factory.browserScanModal.hide();
+                                    }).catch(function (error) {
+                                        factory.browserScanModal.hide();
+                                    });
+                            },
+                            toggleCamera: function () {
+                                //
                             }
                         })
-                    }).then(function(modal) {
+                    }).then(function (modal) {
                         factory.browserScanModal = modal;
                         factory.browserScanModal.show();
                         // This method will trigger user permissions
                         Html5Qrcode
                             .getCameras()
-                            .then(devices => {
+                            .then(function (devices) {
                                 if (devices && devices.length) {
-                                    var cameraId = devices[1].id;
-                                    const html5QrCode = new Html5Qrcode('qrcode-reader');
-                                    html5QrCode.start(
-                                        cameraId,
-                                        {
+                                    factory.devices = devices;
+                                    foreach(factory.devices as device)
+                                    {
+                                        if (device.label.indexOf('back') >= 0) {
+                                            factory.currentDevice = device;
+                                        }
+                                    }
+                                    // Fallback on default device if no label can be identified!
+                                    if (factory.currentDevice === null) {
+                                        factory.currentDevice = factory.devices[0];
+                                    }
+
+                                    // So then start scanning!
+                                    factory.qrCodeScanner = new Html5Qrcode('qrcode-reader');
+                                    factory.qrCodeScanner
+                                        .start(factory.currentDevice.id, {
                                             fps: 10,    // Optional frame per seconds for qr code scanning
                                             qrbox: 250  // Optional if you want bounded box UI
                                         },
                                         function (qrCodeMessage) {
-                                            // do something when code is read
-                                            console.log('start qrCodeMessage', qrCodeMessage);
+                                            // Start
+                                            console.log('qrCodeMessage', qrCodeMessage);
                                         },
                                         function (errorMessage) {
-                                            // do something when code is read
-                                            console.log('start errorMessage', errorMessage);
-                                        })
-                                        .catch(err => {
-                                            // Start failed, handle it.
-                                            console.log('something went wrong start', err);
+                                            // Start
+                                            console.log('errorMessage', errorMessage);
+                                        }).catch(function (error) {
+                                            console.log('catch error', error);
                                         });
+                                } else {
+                                    // Damn, no camera available!
+                                    promptScan(success, error);
                                 }
-                            }).catch(err => {
-                                console.log('something went wrong getCameras', err);
+                            }).catch(function (error) {
+                                // Damn, no camera available!
+                                promptScan(success, error);
                             });
                     });
-
-                //var code = window.prompt("Enter barcode value (empty value will fire the error handler):");
-                //if(code) {
-                //    var result = {
-                //        text:code,
-                //        format:"Fake",
-                //        cancelled:false
-                //    };
-                //    success(result);
-                //} else {
-                //    error("No barcode");
-                //}
             };
 
+            // Lazy loading Html5Qrcode JS library!
             if (typeof Html5Qrcode === 'undefined') {
                 var html5QrcodeTag = document.createElement('script');
                 html5QrcodeTag.type = 'text/javascript';
