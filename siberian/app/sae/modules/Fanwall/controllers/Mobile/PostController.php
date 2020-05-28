@@ -87,20 +87,7 @@ class Fanwall_Mobile_PostController extends Application_Controller_Mobile_Defaul
                     }
                 }
 
-                $author = [
-                    'firstname' => (string) $application->getName(),
-                    'lastname' => (string) '',
-                    'nickname' => (string) $application->getName(),
-                    'image' => (string) $application->getIcon(64),
-                ];
-                if (!empty($post->getCustomerId())) {
-                    $author = [
-                        'firstname' => (string) $post->getFirstname(),
-                        'lastname' => (string) $post->getLastname(),
-                        'nickname' => (string) $post->getNickname(),
-                        'image' => (string) $post->getAuthorImage(),
-                    ];
-                }
+                $author = $this->_fetchAuthor($application, $post);
 
                 $images = array_filter(explode(',', $post->getImage()));
 
@@ -202,20 +189,7 @@ class Fanwall_Mobile_PostController extends Application_Controller_Mobile_Defaul
                     }
                 }
 
-                $author = [
-                    'firstname' => (string) $application->getName(),
-                    'lastname' => (string) '',
-                    'nickname' => (string) $application->getName(),
-                    'image' => (string) $application->getIcon(64),
-                ];
-                if (!empty($post->getCustomerId())) {
-                    $author = [
-                        'firstname' => (string) $post->getFirstname(),
-                        'lastname' => (string) $post->getLastname(),
-                        'nickname' => (string) $post->getNickname(),
-                        'image' => (string) $post->getAuthorImage(),
-                    ];
-                }
+                $author = $this->_fetchAuthor($application, $post);
 
                 $images = array_filter(explode(',', $post->getImage()));
 
@@ -331,20 +305,7 @@ class Fanwall_Mobile_PostController extends Application_Controller_Mobile_Defaul
                     }
                 }
 
-                $author = [
-                    'firstname' => (string) $application->getName(),
-                    'lastname' => (string) '',
-                    'nickname' => (string) $application->getName(),
-                    'image' => (string) $application->getIcon(64),
-                ];
-                if (!empty($post->getCustomerId())) {
-                    $author = [
-                        'firstname' => (string) $post->getFirstname(),
-                        'lastname' => (string) $post->getLastname(),
-                        'nickname' => (string) $post->getNickname(),
-                        'image' => (string) $post->getAuthorImage(),
-                    ];
-                }
+                $author = $this->_fetchAuthor($application, $post);
 
                 $distance = (float) $post->getDistance();
                 $distanceUnit = 'km';
@@ -465,20 +426,7 @@ class Fanwall_Mobile_PostController extends Application_Controller_Mobile_Defaul
                     }
                 }
 
-                $author = [
-                    'firstname' => (string) $application->getName(),
-                    'lastname' => (string) '',
-                    'nickname' => (string) $application->getName(),
-                    'image' => (string) $application->getIcon(64),
-                ];
-                if (!empty($post->getCustomerId())) {
-                    $author = [
-                        'firstname' => (string) $post->getFirstname(),
-                        'lastname' => (string) $post->getLastname(),
-                        'nickname' => (string) $post->getNickname(),
-                        'image' => (string) $post->getAuthorImage(),
-                    ];
-                }
+                $author = $this->_fetchAuthor($application, $post);
 
                 $distance = (float) $post->getDistance();
                 $distanceUnit = 'km';
@@ -563,7 +511,7 @@ class Fanwall_Mobile_PostController extends Application_Controller_Mobile_Defaul
                     $userIds = [];
                 }
                 
-                if (sizeof($userIds) > 0) {
+                if (count($userIds) > 0) {
                     $users = (new Customer())->findAll(['customer_id IN (?)' => $userIds]);
                     
                     foreach ($users as $user) {
@@ -1227,6 +1175,40 @@ class Fanwall_Mobile_PostController extends Application_Controller_Mobile_Defaul
         }
 
         $this->_sendJson($payload);
+    }
+
+    /**
+     * @param $application
+     * @param $post
+     * @return array
+     */
+    protected function _fetchAuthor ($application, $post)
+    {
+        $author = [
+            'firstname' => (string) $application->getName(),
+            'lastname' => '',
+            'nickname' => (string) $application->getName(),
+            'image' => (string) $application->getIcon(64),
+        ];
+        if (!empty($post->getCustomerId())) {
+            if (!empty($post->getAuthorId())) {
+                $author = [
+                    'firstname' => (string) $post->getFirstname(),
+                    'lastname' => (string) $post->getLastname(),
+                    'nickname' => (string) $post->getNickname(),
+                    'image' => (string) $post->getAuthorImage(),
+                ];
+            } else {
+                $author = [
+                    'firstname' => 'John',
+                    'lastname' => 'DOE',
+                    'nickname' => 'John',
+                    'image' => '',
+                ];
+            }
+        }
+
+        return $author;
     }
 
 }

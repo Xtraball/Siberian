@@ -44,7 +44,7 @@ class Fanwall_ApplicationController extends Application_Controller_Default
             if ($form->isValid($values)) {
 
                 $post = new Post();
-                $post = $post->find($values["post_id"]);
+                $post = $post->find($values['post_id']);
 
                 $saveToHistory = false;
                 $archivedPost = null;
@@ -242,7 +242,7 @@ class Fanwall_ApplicationController extends Application_Controller_Default
             if ($form->isValid($values)) {
                 $post = new Post();
                 $result = $post
-                    ->find($values["post_id"])
+                    ->find($values['post_id'])
                     ->toggle();
 
                 /** Update touch date, then never expires (until next touch) */
@@ -252,24 +252,24 @@ class Fanwall_ApplicationController extends Application_Controller_Default
                     ->expires(-1);
 
                 $payload = [
-                    "success" => true,
-                    "state" => $result,
-                    "message" => ($result) ?
-                        p__("fanwall", "Post is published") :
-                        p__("fanwall", "Post is unpublished"),
+                    'success' => true,
+                    'state' => $result,
+                    'message' => ($result) ?
+                        p__('fanwall', 'Post is published') :
+                        p__('fanwall', 'Post is unpublished'),
                 ];
             } else {
                 $payload = [
-                    "error" => true,
-                    "message" => $form->getTextErrors(),
-                    "errors" => $form->getTextErrors(true),
+                    'error' => true,
+                    'message' => $form->getTextErrors(),
+                    'errors' => $form->getTextErrors(true),
                 ];
             }
 
         } catch (\Exception $e) {
             $payload = [
-                "error" => true,
-                "message" => $e->getMessage(),
+                'error' => true,
+                'message' => $e->getMessage(),
             ];
         }
 
@@ -289,7 +289,7 @@ class Fanwall_ApplicationController extends Application_Controller_Default
             if ($form->isValid($values)) {
                 $post = new Post();
                 $result = $post
-                    ->find($values["post_id"])
+                    ->find($values['post_id'])
                     ->toggleSticky();
 
                 /** Update touch date, then never expires (until next touch) */
@@ -299,24 +299,24 @@ class Fanwall_ApplicationController extends Application_Controller_Default
                     ->expires(-1);
 
                 $payload = [
-                    "success" => true,
-                    "state" => $result,
-                    "message" => ($result) ?
-                        p__("fanwall", "Post is pinned") :
-                        p__("fanwall", "Post is unpinned"),
+                    'success' => true,
+                    'state' => $result,
+                    'message' => ($result) ?
+                        p__('fanwall', 'Post is pinned') :
+                        p__('fanwall', 'Post is unpinned'),
                 ];
             } else {
                 $payload = [
-                    "error" => true,
-                    "message" => $form->getTextErrors(),
-                    "errors" => $form->getTextErrors(true),
+                    'error' => true,
+                    'message' => $form->getTextErrors(),
+                    'errors' => $form->getTextErrors(true),
                 ];
             }
 
         } catch (\Exception $e) {
             $payload = [
-                "error" => true,
-                "message" => $e->getMessage(),
+                'error' => true,
+                'message' => $e->getMessage(),
             ];
         }
 
@@ -332,7 +332,7 @@ class Fanwall_ApplicationController extends Application_Controller_Default
         $form = new FormPostDelete();
         if ($form->isValid($values)) {
             $post = new Post();
-            $post->find($values["post_id"]);
+            $post->find($values['post_id']);
             $post->delete();
 
             $this
@@ -341,14 +341,14 @@ class Fanwall_ApplicationController extends Application_Controller_Default
                 ->expires(-1);
 
             $html = [
-                "success" => true,
-                "message" => p__("fanwall", "Post successfully deleted."),
+                'success' => true,
+                'message' => p__('fanwall', 'Post successfully deleted.'),
             ];
         } else {
             $html = [
-                "error" => true,
-                "message" => $form->getTextErrors(),
-                "errors" => $form->getTextErrors(true),
+                'error' => true,
+                'message' => $form->getTextErrors(),
+                'errors' => $form->getTextErrors(true),
             ];
         }
 

@@ -1,15 +1,19 @@
+/**
+ * fanwallBlockedUserItem
+ *
+ * @author Xtraball SAS <dev@xtraball.com>
+ * @version 4.18.20
+ */
 angular
-.module("starter")
-.directive("fanwallBlockedUserItem", function ($stateParams, $rootScope, $translate, $q,
-                                               FanwallPost, FanwallUtils, Popover) {
+    .module('starter')
+    .directive('fanwallBlockedUserItem', function ($stateParams, $rootScope, $translate, $q,
+                                                   FanwallPost, FanwallUtils, Popover) {
         return {
             restrict: 'E',
-            templateUrl: "features/fanwall2/assets/templates/l1/modal/profile/blocked-user-item.html",
+            templateUrl: 'features/fanwall2/assets/templates/l1/modal/profile/blocked-user-item.html',
             controller: function ($scope) {
                 $scope.actionsPopover = null;
                 $scope.popoverItems = [];
-
-                FanwallPost.setValueId($stateParams.value_id);
 
                 $scope.customerFullname = function () {
                     return $scope.item.firstname + " " + $scope.item.lastname;
@@ -18,32 +22,32 @@ angular
                 $scope.customerImagePath = function () {
                     // Empty image
                     if ($scope.item.image.length <= 0) {
-                        return "./features/fanwall2/assets/templates/images/customer-placeholder.png";
+                        return './features/fanwall2/assets/templates/images/customer-placeholder.png';
                     }
-                    return IMAGE_URL + "images/customer" + $scope.item.image;
+                    return IMAGE_URL + 'images/customer' + $scope.item.image;
                 };
 
                 $scope.unblockUser = function () {
                     FanwallUtils
-                    .unblockUser($scope.item.id, "from-user")
-                    .then(function () {
-                        $rootScope.$broadcast("fanwall.blockedUsers.refresh");
-                    });
+                        .unblockUser($scope.item.id, 'from-user')
+                        .then(function () {
+                            $rootScope.$broadcast('fanwall.blockedUsers.refresh');
+                        });
                 };
 
                 // Popover actions!
                 $scope.openActions = function ($event) {
                     $scope
-                    .closeActions()
-                    .then(function () {
-                        Popover
-                        .fromTemplateUrl("features/fanwall2/assets/templates/l1/tabs/directives/actions-popover.html", {
-                            scope: $scope
-                        }).then (function (popover) {
-                            $scope.actionsPopover = popover;
-                            $scope.actionsPopover.show($event);
+                        .closeActions()
+                        .then(function () {
+                            Popover
+                                .fromTemplateUrl('features/fanwall2/assets/templates/l1/tabs/directives/actions-popover.html', {
+                                    scope: $scope
+                                }).then(function (popover) {
+                                    $scope.actionsPopover = popover;
+                                    $scope.actionsPopover.show($event);
+                                });
                         });
-                    });
                 };
 
                 $scope.closeActions = function () {
@@ -65,14 +69,14 @@ angular
                     $scope.popoverItems = [];
 
                     $scope.popoverItems.push({
-                        label: $translate.instant("Unblock user", "fanwall"),
-                        icon: "icon ion-android-remove-circle",
+                        label: $translate.instant('Unblock user', 'fanwall'),
+                        icon: 'icon ion-android-remove-circle',
                         click: function () {
                             $scope
-                            .closeActions()
-                            .then(function () {
-                                $scope.unblockUser();
-                            });
+                                .closeActions()
+                                .then(function () {
+                                    $scope.unblockUser();
+                                });
                         }
                     });
                 };

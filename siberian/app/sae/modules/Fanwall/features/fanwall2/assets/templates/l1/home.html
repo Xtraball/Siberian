@@ -13,7 +13,7 @@
         </button>
     </ion-nav-buttons>
 
-    <ion-header-bar ng-if="settingsIsLoaded && displaySubHeader()"
+    <ion-header-bar ng-if="settingsAreLoaded && displaySubHeader()"
                     class="bar-subheader">
         <div class="button-bar">
             <button class="button button-custom button-positive button-positive-custom"
@@ -53,7 +53,7 @@
         </div>
     </ion-header-bar>
 
-    <div ng-if="settingsIsLoaded"
+    <div ng-if="settingsAreLoaded"
          ng-include="'./features/fanwall2/assets/templates/l1/tabs/' + currentTab + '.html'"></div>
 
 </ion-view>
