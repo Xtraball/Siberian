@@ -258,13 +258,21 @@ angular
                                 factory.browserScanModal.hide();
                             },
                             stopCamera: function () {
-                                factory.qrCodeScanner
-                                    .stop()
-                                    .then(function (ignore) {
+                                if (factory.qrCodeScanner !== null) {
+                                    try {
+                                        factory.qrCodeScanner
+                                            .stop()
+                                            .then(function (ignore) {
+                                                factory.browserScanModal.hide();
+                                            }).catch(function (error) {
+                                                factory.browserScanModal.hide();
+                                            });
+                                    } catch (e) {
                                         factory.browserScanModal.hide();
-                                    }).catch(function (error) {
-                                        factory.browserScanModal.hide();
-                                    });
+                                    }
+                                } else {
+                                    factory.browserScanModal.hide();
+                                }
                             },
                             toggleCamera: function () {
                                 //
@@ -279,10 +287,10 @@ angular
                             .then(function (devices) {
                                 if (devices && devices.length) {
                                     factory.devices = devices;
-                                    foreach(factory.devices as device)
+                                    for (var i = 0; i < factory.devices.length; i++)
                                     {
-                                        if (device.label.indexOf('back') >= 0) {
-                                            factory.currentDevice = device;
+                                        if (factory.devices[i].label.indexOf('back') >= 0) {
+                                            factory.currentDevice = factory.devices[i];
                                         }
                                     }
                                     // Fallback on default device if no label can be identified!

@@ -4,9 +4,9 @@
         <div id="qrcode-reader"></div>
         <div id="qrcode-actions">
             <i ng-click="stopCamera()"
-               class="icon ion-admin-cross"></i>
+               class="qr-stop icon ion-admin-cross"></i>
             <i ng-click="toggleCamera()"
-               class="icon ion-ios-reverse-camera-outline"></i>
+               class="qr-toggle pull-right icon ion-ios-reverse-camera-outline"></i>
         </div>
     </ion-content>
 
@@ -22,6 +22,7 @@
             left: 0;
             right: 0;
             color: white;
+            background-color: black;
         }
 
         .module-fanwall #qrcode-actions {
@@ -31,6 +32,27 @@
             right: 0;
             height: 64px;
             color: white;
+            background-color: black;
+        }
+
+        .module-fanwall #qrcode-actions i {
+            padding: 10px;
+            font-size: 24px;
+            border: 2px solid white;
+            width: 48px;
+            display: inline-block;
+            text-align: center;
+            border-radius: 50%;
+        }
+
+        .qr-stop {
+            margin-left: 16px;
+        }
+
+        .module-fanwall #qrcode-actions i.qr-toggle {
+            margin-right: 16px;
+            font-size: 40px;
+            padding: 2px 0px;
         }
     </style>
 </ion-modal-view>
