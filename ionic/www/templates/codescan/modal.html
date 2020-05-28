@@ -6,6 +6,7 @@
             <i ng-click="stopCamera()"
                class="qr-stop icon ion-admin-cross"></i>
             <i ng-click="toggleCamera()"
+               ng-show="canToggle()"
                class="qr-toggle pull-right icon ion-ios-reverse-camera-outline"></i>
         </div>
     </ion-content>
@@ -18,7 +19,7 @@
         .module-fanwall #qrcode-reader {
             position: absolute;
             top: 0;
-            bottom: 64px;
+            bottom: 0;
             left: 0;
             right: 0;
             color: white;
@@ -32,7 +33,6 @@
             right: 0;
             height: 64px;
             color: white;
-            background-color: black;
         }
 
         .module-fanwall #qrcode-actions i {

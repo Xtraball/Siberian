@@ -227,6 +227,7 @@ angular
         factory.browserScanModal = null;
         factory.devices = [];
         factory.currentDevice = null;
+        factory.currentIndex = 0;
         factory.qrCodeScanner = null;
         factory.browserScan = function () {
             var deferred = $q.defer();
@@ -254,6 +255,51 @@ angular
                     });
             };
 
+            var stopScan = function () {
+                if (factory.qrCodeScanner !== null) {
+                    try {
+                        factory.qrCodeScanner
+                            .stop()
+                            .then(function (ignore) {})
+                            .catch(function (error) {});
+                    } catch (e) {}
+                }
+            };
+
+            var startScan = function (deviceId) {
+                // So then start scanning!
+                factory.qrCodeScanner = new Html5Qrcode('qrcode-reader');
+                factory.qrCodeScanner
+                    .start(factory.currentDevice.id, {
+                            fps: 10,    // Optional frame per seconds for qr code scanning
+                            qrbox: 250  // Optional if you want bounded box UI
+                        },
+                        function (qrCodeMessage) {
+                            var result = {
+                                text: qrCodeMessage,
+                                format: 'Fake',
+                                cancelled: false
+                            };
+                            deferred.resolve(result);
+                        },
+                        function (errorMessage) {
+                            // Silently do nothin!
+                        }).catch(function (error) {
+                    // Start failed, try dialog!
+                    promptScan();
+                });
+            };
+
+            var nextDevice = function () {
+                factory.currentIndex++;
+                // Loop indexes!
+                if (factory.currentIndex > factory.devices.length - 1) {
+                    factory.currentIndex = 0;
+                }
+                stopScan();
+                startScan(factory.devices[factory.currentIndex].id);
+            };
+
             // Local scan method!
             var localScan = function () {
                 Modal
@@ -263,22 +309,15 @@ angular
                                 factory.browserScanModal.hide();
                             },
                             stopCamera: function () {
-                                if (factory.qrCodeScanner !== null) {
-                                    try {
-                                        factory.qrCodeScanner
-                                            .stop()
-                                            .then(function (ignore) {
-                                                //
-                                            }).catch(function (error) {
-                                                //
-                                            });
-                                    } catch (e) {}
-                                }
+                                stopScan();
                                 factory.browserScanModal.hide();
                                 deferred.reject('stopped');
                             },
+                            canToggle: function () {
+                                return factory.devices.length > 1;
+                            },
                             toggleCamera: function () {
-                                //
+                                nextDevice();
                             }
                         })
                     }).then(function (modal) {
@@ -294,6 +333,7 @@ angular
                                     {
                                         if (factory.devices[i].label.indexOf('back') >= 0) {
                                             factory.currentDevice = factory.devices[i];
+                                            factory.currentIndex = i;
                                         }
                                     }
                                     // Fallback on default device if no label can be identified!
@@ -301,23 +341,7 @@ angular
                                         factory.currentDevice = factory.devices[0];
                                     }
 
-                                    // So then start scanning!
-                                    factory.qrCodeScanner = new Html5Qrcode('qrcode-reader');
-                                    factory.qrCodeScanner
-                                        .start(factory.currentDevice.id, {
-                                            fps: 10,    // Optional frame per seconds for qr code scanning
-                                            qrbox: 250  // Optional if you want bounded box UI
-                                        },
-                                        function (qrCodeMessage) {
-                                            // Start
-                                            console.log('qrCodeMessage', qrCodeMessage);
-                                        },
-                                        function (errorMessage) {
-                                            // Start
-                                            console.log('errorMessage', errorMessage);
-                                        }).catch(function (error) {
-                                            console.log('catch error', error);
-                                        });
+                                    startScan(factory.currentDevice.id);
                                 } else {
                                     // Damn, no camera available!
                                     promptScan();
