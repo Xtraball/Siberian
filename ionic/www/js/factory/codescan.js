@@ -270,26 +270,59 @@ angular
 
             var startScan = function (deviceId) {
                 // So then start scanning!
-                factory.qrCodeScanner = new Html5Qrcode('qrcode-reader');
-                factory.qrCodeScanner
-                    .start(factory.currentDevice.id, {
-                            fps: 10,    // Optional frame per seconds for qr code scanning
-                            qrbox: 250  // Optional if you want bounded box UI
-                        },
-                        function (qrCodeMessage) {
-                            var result = {
-                                text: qrCodeMessage,
-                                format: 'Fake',
-                                cancelled: false
-                            };
-                            deferred.resolve(result);
-                        },
-                        function (errorMessage) {
-                            // Silently do nothin!
-                        }).catch(function (error) {
-                    // Start failed, try dialog!
-                    promptScan();
-                });
+                if (factory.qrCodeScanner === null) {
+                    factory.qrCodeScanner = new Html5Qrcode('qrcode-reader');
+                }
+                // This method will trigger user permissions
+                Html5Qrcode
+                    .getCameras()
+                    .then(function (devices) {
+                        if (devices && devices.length) {
+                            if (deviceId === undefined) {
+                                factory.devices = devices;
+                                for (var i = 0; i < factory.devices.length; i++)
+                                {
+                                    if (factory.devices[i].label.indexOf('back') >= 0) {
+                                        factory.currentDevice = factory.devices[i];
+                                        factory.currentIndex = i;
+                                    }
+                                }
+                                // Fallback on default device if no label can be identified!
+                                if (factory.currentDevice === null) {
+                                    factory.currentDevice = factory.devices[0];
+                                    factory.currentIndex = 0;
+                                }
+
+                                deviceId = factory.currentDevice.id;
+                            }
+
+                            factory.qrCodeScanner
+                                .start(deviceId, {
+                                        fps: 10,    // Optional frame per seconds for qr code scanning
+                                        qrbox: 250  // Optional if you want bounded box UI
+                                    },
+                                    function (qrCodeMessage) {
+                                        var result = {
+                                            text: qrCodeMessage,
+                                            format: 'Fake',
+                                            cancelled: false
+                                        };
+                                        deferred.resolve(result);
+                                    },
+                                    function (errorMessage) {
+                                        // Silently do nothin!
+                                    }).catch(function (error) {
+                                // Start failed, try dialog!
+                                promptScan();
+                            });
+                        } else {
+                            // Damn, no camera available!
+                            promptScan();
+                        }
+                    }).catch(function () {
+                        // Damn, no camera available!
+                        promptScan();
+                    });
             };
 
             var nextDevice = function () {
@@ -330,34 +363,7 @@ angular
                     }).then(function (modal) {
                         factory.browserScanModal = modal;
                         factory.browserScanModal.show();
-                        // This method will trigger user permissions
-                        Html5Qrcode
-                            .getCameras()
-                            .then(function (devices) {
-                                if (devices && devices.length) {
-                                    factory.devices = devices;
-                                    for (var i = 0; i < factory.devices.length; i++)
-                                    {
-                                        if (factory.devices[i].label.indexOf('back') >= 0) {
-                                            factory.currentDevice = factory.devices[i];
-                                            factory.currentIndex = i;
-                                        }
-                                    }
-                                    // Fallback on default device if no label can be identified!
-                                    if (factory.currentDevice === null) {
-                                        factory.currentDevice = factory.devices[0];
-                                        factory.currentIndex = 0;
-                                    }
-
-                                    startScan(factory.currentDevice.id);
-                                } else {
-                                    // Damn, no camera available!
-                                    promptScan();
-                                }
-                            }).catch(function () {
-                                // Damn, no camera available!
-                                promptScan();
-                            });
+                        startScan();
                     });
             };
 
