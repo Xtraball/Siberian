@@ -233,6 +233,8 @@ angular
             var deferred = $q.defer();
             // Prompt fallback!
             var promptScan = function () {
+                stopScan();
+
                 Dialog.prompt(
                     'Manual input',
                     'Enter barcode value (empty value will fire the error handler):',
@@ -282,7 +284,7 @@ angular
                                 factory.devices = devices;
                                 for (var i = 0; i < factory.devices.length; i++)
                                 {
-                                    if (factory.devices[i].label.indexOf('back') >= 0) {
+                                    if (/back|rear|environment/gi.test(dfactory.devices[i].label)) {
                                         factory.currentDevice = factory.devices[i];
                                         factory.currentIndex = i;
                                     }
@@ -298,7 +300,7 @@ angular
 
                             factory.qrCodeScanner
                                 .start(deviceId, {
-                                        fps: 10,    // Optional frame per seconds for qr code scanning
+                                        fps: 30,    // Optional frame per seconds for qr code scanning
                                         qrbox: 250  // Optional if you want bounded box UI
                                     },
                                     function (qrCodeMessage) {
@@ -307,14 +309,15 @@ angular
                                             format: 'Fake',
                                             cancelled: false
                                         };
+                                        stopScan();
                                         deferred.resolve(result);
                                     },
                                     function (errorMessage) {
                                         // Silently do nothin!
                                     }).catch(function (error) {
-                                // Start failed, try dialog!
-                                promptScan();
-                            });
+                                    // Start failed, try dialog!
+                                    promptScan();
+                                });
                         } else {
                             // Damn, no camera available!
                             promptScan();
