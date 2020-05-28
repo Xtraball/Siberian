@@ -28,6 +28,7 @@ class Fanwall_Mobile_GalleryController extends Application_Controller_Mobile_Def
             $customerId = $session->getCustomerId();
 
             $optionValue = $this->getCurrentOptionValue();
+            $valueId = $optionValue->getId();
             $limit = $request->getParam('limit', 20);
             $offset = $request->getParam('offset', 0);
 
@@ -37,7 +38,7 @@ class Fanwall_Mobile_GalleryController extends Application_Controller_Mobile_Def
             ];
 
             // Exclude blockedUsers
-            $query = Blocked::excludePosts($query, $customerId);
+            $query = Blocked::excludePosts($query, $customerId, $valueId);
 
             $order = [
                 'fanwall_post.sticky DESC',

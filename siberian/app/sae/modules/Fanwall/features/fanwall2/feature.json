@@ -11,7 +11,7 @@
             "controller": "FanwallHomeController",
             "url": "fanwall/mobile_home/index/value_id/:value_id",
             "template": "l1/home.html",
-            "cache": true,
+            "cache": false,
             "root": true
         }
     ],
