@@ -7,7 +7,7 @@ angular
     .module('starter')
     .factory('Codescan', function ($cordovaBarcodeScanner, $cordovaClipboard, $ionicHistory, LinkService,
                                    $state, $window, $rootScope, Application, Dialog, $injector, $ocLazyLoad, SB,
-                                   Customer, Modal, $q) {
+                                   Customer, $q) {
         var factory = {
             scanProtocols: [
                 'tel:',
@@ -21,11 +21,6 @@ angular
             ]
         };
 
-        factory._scanner = function () {
-            return (SB.DEVICE.TYPE_BROWSER === DEVICE_TYPE) ?
-                factory.browserScan() : $cordovaBarcodeScanner.scan();
-        };
-
         factory.checkCascade = function (qrCode, next) {
             if (next.length > 0) {
                 var callback = next.shift();
@@ -33,7 +28,7 @@ angular
             }
         };
 
-        factory.scanDiscount = function () {
+        factory.scanDiscount = function() {
             if (!Customer.isLoggedIn()) {
                 Dialog
                     .confirm('Login required', 'You must be logged in to unlock a coupon.', ['LOGIN OR SIGNUP', 'DONE'], 'text-center', 'codescan')
@@ -45,8 +40,8 @@ angular
                 return;
             }
 
-            factory
-                ._scanner()
+            $cordovaBarcodeScanner
+                .scan()
                 .then(function (scannedData) {
                     var qrCode = scannedData.text.replace('sendback:', '');
                     factory.checkDiscount(qrCode);
@@ -90,9 +85,9 @@ angular
                 });
         };
 
-        factory.scanPadlock = function () {
-            factory
-                ._scanner()
+        factory.scanPadlock = function() {
+            $cordovaBarcodeScanner
+                .scan()
                 .then(function (scannedData) {
                     var qrCode = scannedData.text.replace('sendback:', '');
                     factory.checkPadlock(qrCode);
@@ -136,11 +131,11 @@ angular
 
         };
 
-        factory.scanPassword = function () {
+        factory.scanPassword = function() {
             var defer = $q.defer();
 
-            factory
-                ._scanner()
+            $cordovaBarcodeScanner
+                .scan()
                 .then(function (scannedData) {
                     if (scannedData.cancelled || scannedData.text === '') {
                         defer.reject(scannedData);
@@ -161,9 +156,7 @@ angular
                     if (result) {
                         $cordovaClipboard
                             .copy(text)
-                            .then(function () {
-                            }, function () {
-                            });
+                            .then(function () {}, function () {});
                     }
                 });
         };
@@ -171,8 +164,8 @@ angular
         factory.scanGeneric = function () {
             var defer = $q.defer();
 
-            factory
-                ._scanner()
+            $cordovaBarcodeScanner
+                .scan()
                 .then(function (scannedData) {
 
                     // We resolve regardless what's going on after.
@@ -221,171 +214,6 @@ angular
                 });
 
             return defer.promise;
-        };
-
-        // Section for html5 qrcode scanner with camera api!
-        factory.browserScanModal = null;
-        factory.devices = [];
-        factory.currentDevice = null;
-        factory.currentIndex = 0;
-        factory.qrCodeScanner = null;
-        factory.browserScan = function () {
-            var deferred = $q.defer();
-            // Prompt fallback!
-            var promptScan = function () {
-                stopScan();
-
-                Dialog.prompt(
-                    'Manual input',
-                    'Enter barcode value (empty value will fire the error handler):',
-                    'text',
-                    '',
-                    undefined,
-                    undefined,
-                    'codescan')
-                    .then(function (scannerValue) {
-                        if (scannerValue.trim().length > 0) {
-                            var result = {
-                                text: scannerValue,
-                                format: 'Fake',
-                                cancelled: false
-                            };
-                            deferred.resolve(result);
-                        } else {
-                            deferred.reject('No code provided!');
-                        }
-                    });
-            };
-
-            var stopScan = function () {
-                if (factory.qrCodeScanner !== null) {
-                    try {
-                        factory
-                            .qrCodeScanner
-                            .stop()
-                            .then(function () {
-                                factory.qrCodeScanner.clear();
-                            }).catch(function () {
-                                // nope!
-                            });
-                    } catch (e) {}
-                }
-            };
-
-            var startScan = function (deviceId) {
-                // So then start scanning!
-                if (factory.qrCodeScanner === null) {
-                    factory.qrCodeScanner = new Html5Qrcode('qrcode-reader');
-                }
-                // This method will trigger user permissions
-                Html5Qrcode
-                    .getCameras()
-                    .then(function (devices) {
-                        if (devices && devices.length) {
-                            if (deviceId === undefined) {
-                                factory.devices = devices;
-                                for (var i = 0; i < factory.devices.length; i++)
-                                {
-                                    if (/back|rear|environment/gi.test(dfactory.devices[i].label)) {
-                                        factory.currentDevice = factory.devices[i];
-                                        factory.currentIndex = i;
-                                    }
-                                }
-                                // Fallback on default device if no label can be identified!
-                                if (factory.currentDevice === null) {
-                                    factory.currentDevice = factory.devices[0];
-                                    factory.currentIndex = 0;
-                                }
-
-                                deviceId = factory.currentDevice.id;
-                            }
-
-                            factory.qrCodeScanner
-                                .start(deviceId, {
-                                        fps: 30,    // Optional frame per seconds for qr code scanning
-                                        qrbox: 250  // Optional if you want bounded box UI
-                                    },
-                                    function (qrCodeMessage) {
-                                        var result = {
-                                            text: qrCodeMessage,
-                                            format: 'Fake',
-                                            cancelled: false
-                                        };
-                                        stopScan();
-                                        deferred.resolve(result);
-                                    },
-                                    function (errorMessage) {
-                                        // Silently do nothin!
-                                    }).catch(function (error) {
-                                    // Start failed, try dialog!
-                                    promptScan();
-                                });
-                        } else {
-                            // Damn, no camera available!
-                            promptScan();
-                        }
-                    }).catch(function () {
-                        // Damn, no camera available!
-                        promptScan();
-                    });
-            };
-
-            var nextDevice = function () {
-                factory.currentIndex++;
-                // Loop indexes!
-                if (factory.currentIndex > factory.devices.length - 1) {
-                    factory.currentIndex = 0;
-                }
-
-                factory.currentDevice = factory.devices[factory.currentIndex];
-
-                console.log('factory.currentDevice', factory.currentDevice, 'factory.currentIndex', factory.currentIndex);
-
-                stopScan();
-                startScan(factory.currentDevice.id);
-            };
-
-            // Local scan method!
-            var localScan = function () {
-                Modal
-                    .fromTemplateUrl('templates/codescan/modal.html', {
-                        scope: angular.extend($rootScope.$new(true), {
-                            close: function () {
-                                factory.browserScanModal.hide();
-                            },
-                            stopCamera: function () {
-                                stopScan();
-                                factory.browserScanModal.hide();
-                                deferred.reject('stopped');
-                            },
-                            canToggle: function () {
-                                return factory.devices.length > 1;
-                            },
-                            toggleCamera: function () {
-                                nextDevice();
-                            }
-                        })
-                    }).then(function (modal) {
-                        factory.browserScanModal = modal;
-                        factory.browserScanModal.show();
-                        startScan();
-                    });
-            };
-
-            // Lazy loading Html5Qrcode JS library!
-            if (typeof Html5Qrcode === 'undefined') {
-                var html5QrcodeTag = document.createElement('script');
-                html5QrcodeTag.type = 'text/javascript';
-                html5QrcodeTag.src = './dist/lazy/html5-qrcode.min.js';
-                html5QrcodeTag.onload = function () {
-                    localScan();
-                };
-                document.body.appendChild(html5QrcodeTag);
-            } else {
-                localScan();
-            }
-
-            return deferred.promise;
         };
 
         return factory;

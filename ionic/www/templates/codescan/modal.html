@@ -1,7 +1,9 @@
 <ion-modal-view sb-page-background
                 class="module-fanwall fanwall-list fanwall-list-l1">
     <ion-content>
-        <div id="qrcode-reader"></div>
+        <div id="qrcode-reader">
+            <div id="qrcode-box"></div>
+        </div>
         <div id="qrcode-actions">
             <i ng-click="stopCamera()"
                class="qr-stop icon ion-admin-cross"></i>
@@ -14,6 +16,12 @@
     <style type="text/css">
         .module-fanwall ion-content {
             background-color: black;
+        }
+
+        .module-fanwall #qrcode-box {
+            width: 100%;
+            height: 100%;
+            display: block;
         }
 
         .module-fanwall #qrcode-reader {
