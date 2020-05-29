@@ -7,7 +7,7 @@ angular
     .module('starter')
     .factory('Codescan', function ($cordovaBarcodeScanner, $cordovaClipboard, $ionicHistory, LinkService,
                                    $state, $window, $rootScope, Application, Dialog, $injector, $ocLazyLoad, SB,
-                                   Customer, Modal, $q) {
+                                   Customer, $q) {
         var factory = {
             scanProtocols: [
                 'tel:',
@@ -28,7 +28,7 @@ angular
             }
         };
 
-        factory.scanDiscount = function () {
+        factory.scanDiscount = function() {
             if (!Customer.isLoggedIn()) {
                 Dialog
                     .confirm('Login required', 'You must be logged in to unlock a coupon.', ['LOGIN OR SIGNUP', 'DONE'], 'text-center', 'codescan')
@@ -85,7 +85,7 @@ angular
                 });
         };
 
-        factory.scanPadlock = function () {
+        factory.scanPadlock = function() {
             $cordovaBarcodeScanner
                 .scan()
                 .then(function (scannedData) {
@@ -131,7 +131,7 @@ angular
 
         };
 
-        factory.scanPassword = function () {
+        factory.scanPassword = function() {
             var defer = $q.defer();
 
             $cordovaBarcodeScanner
@@ -156,9 +156,7 @@ angular
                     if (result) {
                         $cordovaClipboard
                             .copy(text)
-                            .then(function () {
-                            }, function () {
-                            });
+                            .then(function () {}, function () {});
                     }
                 });
         };
@@ -216,77 +214,6 @@ angular
                 });
 
             return defer.promise;
-        };
-
-        // Section for html5 qrcode scanner with camera api!
-        factory.browserScanModal = null;
-        factory.browserScan = function (success, error) {
-            var localScan = function (success, error) {
-                Modal
-                    .fromTemplateUrl('templates/codescan/modal.html', {
-                        scope: angular.extend($rootScope.$new(true), {
-                            close: function () {
-                                factory.browserScanModal.hide();
-                            }
-                        })
-                    }).then(function(modal) {
-                        factory.browserScanModal = modal;
-                        factory.browserScanModal.show();
-                        // This method will trigger user permissions
-                        Html5Qrcode
-                            .getCameras()
-                            .then(devices => {
-                                if (devices && devices.length) {
-                                    var cameraId = devices[1].id;
-                                    const html5QrCode = new Html5Qrcode('qrcode-reader');
-                                    html5QrCode.start(
-                                        cameraId,
-                                        {
-                                            fps: 10,    // Optional frame per seconds for qr code scanning
-                                            qrbox: 250  // Optional if you want bounded box UI
-                                        },
-                                        function (qrCodeMessage) {
-                                            // do something when code is read
-                                            console.log('start qrCodeMessage', qrCodeMessage);
-                                        },
-                                        function (errorMessage) {
-                                            // do something when code is read
-                                            console.log('start errorMessage', errorMessage);
-                                        })
-                                        .catch(err => {
-                                            // Start failed, handle it.
-                                            console.log('something went wrong start', err);
-                                        });
-                                }
-                            }).catch(err => {
-                                console.log('something went wrong getCameras', err);
-                            });
-                    });
-
-                //var code = window.prompt("Enter barcode value (empty value will fire the error handler):");
-                //if(code) {
-                //    var result = {
-                //        text:code,
-                //        format:"Fake",
-                //        cancelled:false
-                //    };
-                //    success(result);
-                //} else {
-                //    error("No barcode");
-                //}
-            };
-
-            if (typeof Html5Qrcode === 'undefined') {
-                var html5QrcodeTag = document.createElement('script');
-                html5QrcodeTag.type = 'text/javascript';
-                html5QrcodeTag.src = './dist/lazy/html5-qrcode.min.js';
-                html5QrcodeTag.onload = function () {
-                    localScan(success, error);
-                };
-                document.body.appendChild(html5QrcodeTag);
-            } else {
-                localScan(success, error);
-            }
         };
 
         return factory;

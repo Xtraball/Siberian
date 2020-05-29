@@ -146,6 +146,8 @@ angular
         Fanwall
             .loadSettings()
             .then(function () {
+                $scope.getCardDesign();
+                $scope.getSettings();
                 $scope.settingsAreLoaded = true;
             });
 

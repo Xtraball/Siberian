@@ -9,7 +9,8 @@ angular
     .factory('Fanwall', function ($pwaRequest, $stateParams) {
 
     var factory = {
-        storage: []
+        storage: [],
+        lastValueId: null
     };
 
     factory.loadSettings = function () {
@@ -38,9 +39,16 @@ angular
     };
 
     factory.getSettings = function () {
+        // First the current valudId if inside social wall
         if (factory.storage.hasOwnProperty($stateParams.value_id)) {
+            factory.lastValueId = $stateParams.value_id;
             return factory.storage[$stateParams.value_id].settings;
         }
+        // Fallback on the "last" valueId if we go back
+        if (factory.storage.hasOwnProperty(factory.lastValueId)) {
+            return factory.storage[factory.lastValueId].settings;
+        }
+        // Then default nulled settings
         return {
             cardDesign: false,
             features: {

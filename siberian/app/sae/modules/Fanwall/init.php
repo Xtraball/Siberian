@@ -20,6 +20,6 @@ $init = function ($bootstrap) {
         "/app/sae/modules/Fanwall/features/fanwall/scss/fanwall.scss"
     ]);
 
-    $translationFile = path("/app/sae/modules/Fanwall/resources/translations/default/fanwall.po");
-    Translation::registerExtractor("fanwall", "Fanwall", $translationFile);
+    $translationFile = path('/app/sae/modules/Fanwall/resources/translations/default/fanwall.po');
+    Translation::registerExtractor('fanwall', 'Fanwall', $translationFile);
 };
