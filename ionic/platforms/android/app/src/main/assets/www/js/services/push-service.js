@@ -269,7 +269,7 @@ angular
                 angular.extend(
                     params,
                     {
-                        sound: (DEVICE_TYPE === SB.DEVICE.TYPE_IOS) ? 'res://sb-beep2.caf' : 'res://sb-beep2.mp3'
+                        sound: (DEVICE_TYPE === SB.DEVICE.TYPE_IOS) ? 'res://Sounds/sb_beep2.caf' : 'res://sb_beep2.mp3'
                     }));
         } catch (e) {
             $cordovaLocalNotification.schedule(params);
