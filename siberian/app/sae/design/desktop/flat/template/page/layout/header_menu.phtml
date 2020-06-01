@@ -10,6 +10,9 @@ $application = $this->getApplication();
 $isApplication = ($application && $application->getId());
 $appClass = $isApplication ? 'editing-application' : '';
 
+$lastAppId = $session->getAppId();
+$lastApplication = (new Application_Model_Application())->find($lastAppId);
+
 $supportLink = __get('support_link');
 if (Siberian::$whitelabel) {
     $supportLink = Siberian::$whitelabel->getSupportLink();
@@ -21,6 +24,16 @@ if (empty($supportLink)) {
 
 // Awesome menu
 $editorTree = [
+    'application' => [
+        'hasChilds' => false,
+        'isVisible' => $current !== 'edit' && $lastApplication->getId(),
+        'label' => $lastApplication->getId() ?
+            p__('application', 'Return to') . ' <b>' . cut($lastApplication->getName(), 20) . '</b>' : '',
+        'id' => 'sb-last-application-dashboard',
+        'is_current' => false,
+        'url' => $this->getUrl('/application/customization_features/list'),
+        'icon' => 'icon ion-android-phone-portrait',
+    ],
     'dashboard' => [
         'hasChilds' => false,
         'isVisible' => true,

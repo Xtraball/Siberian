@@ -17,6 +17,11 @@ class Gateway extends Base
     public static $gateways = [];
 
     /**
+     * @var array
+     */
+    public static $usedMobileGateways = [];
+
+    /**
      * @param $code
      * @param array $options
      * @throws Exception
@@ -65,13 +70,23 @@ class Gateway extends Base
             return new self::$gateways[$code]["class"]();
         }
         throw new Exception(
-            p__("payment_method", "This payment gateway doesn't exists, '%s'.", null, $code));
+            p__('payment_method', "This payment gateway doesn't exists, '%s'.", null, $code));
+    }
+
+    /**
+     * @param $code
+     * @throws Exception
+     * @throws \Zend_Exception
+     */
+    public static function use ($code)
+    {
+        self::$usedMobileGateways[] = $code;
+        self::$usedMobileGateways = array_unique(self::$usedMobileGateways);
     }
 
     /**
      * @param $editorTree
      * @return mixed
-     * @throws Exception
      */
     public static function editorNav($editorTree)
     {
@@ -80,20 +95,25 @@ class Gateway extends Base
         $childs = [];
         $accessAny = [];
         foreach (self::$gateways as $code => $gateway) {
+            // If no module is using the gateway, we don't display it
+            if (!in_array($code, self::$usedMobileGateways, true)) {
+                continue;
+            }
+
             $childs[$code] = [
-                "hasChilds" => false,
-                "isVisible" => self::_canAccess($gateway["aclCode"]),
-                "label" => $gateway["label"],
-                "icon" => $gateway["icon"],
-                "url" => self::_getUrl($gateway["url"]),
-                "is_current" => ("/" . $gateway["url"] === $currentUrl),
+                'hasChilds' => false,
+                'isVisible' => self::_canAccess($gateway['aclCode']),
+                'label' => $gateway['label'],
+                'icon' => $gateway['icon'],
+                'url' => self::_getUrl($gateway['url']),
+                'is_current' => ('/' . $gateway['url'] === $currentUrl),
             ];
 
-            $accessAny[] = $gateway["aclCode"];
+            $accessAny[] = $gateway['aclCode'];
         }
 
-        $editorTree["payment_gateways"]["childs"] = $childs;
-        $editorTree["payment_gateways"]["isVisible"] = self::_canAccessAnyOf($accessAny);
+        $editorTree['payment_gateways']['childs'] = $childs;
+        $editorTree['payment_gateways']['isVisible'] = self::_canAccessAnyOf($accessAny);
 
         return $editorTree;
     }
