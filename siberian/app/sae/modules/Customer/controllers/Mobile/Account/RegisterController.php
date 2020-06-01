@@ -54,7 +54,7 @@ class Customer_Mobile_Account_RegisterController extends Application_Controller_
 
             // Throwing all errors at once!
             if (count($requiredFields) > 0) {
-                $message = p__('customer', 'The following fields are required:<br />- ') .
+                $message = p__('customer', 'The following fields are required') . ':<br />- ' .
                     implode('<br />- ', $requiredFields);
 
                 throw new Exception($message);

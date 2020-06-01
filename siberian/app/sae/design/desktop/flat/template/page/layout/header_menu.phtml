@@ -6,6 +6,12 @@ $current = $this->getCurrentLink();
 $editor = $this->getAdmin()->getWhiteLabelEditor();
 $request = $this->getRequest();
 $session = $this->getSession();
+$application = $this->getApplication();
+$isApplication = ($application && $application->getId());
+$appClass = $isApplication ? 'editing-application' : '';
+
+$lastAppId = $session->getAppId();
+$lastApplication = (new Application_Model_Application())->find($lastAppId);
 
 $supportLink = __get('support_link');
 if (Siberian::$whitelabel) {
@@ -18,6 +24,16 @@ if (empty($supportLink)) {
 
 // Awesome menu
 $editorTree = [
+    'application' => [
+        'hasChilds' => false,
+        'isVisible' => $current !== 'edit' && $lastApplication->getId(),
+        'label' => $lastApplication->getId() ?
+            p__('application', 'Return to') . ' <b>' . cut($lastApplication->getName(), 20) . '</b>' : '',
+        'id' => 'sb-last-application-dashboard',
+        'is_current' => false,
+        'url' => $this->getUrl('/application/customization_features/list'),
+        'icon' => 'icon ion-android-phone-portrait',
+    ],
     'dashboard' => [
         'hasChilds' => false,
         'isVisible' => true,
@@ -164,7 +180,7 @@ function renderRecursive($markup, $menus, $isChild = false) {
             } else {
                 $label = $menu['label'];
             }
-            $isCurrent = $menu['is_current'] ? 'is_current' : '-';
+            $isCurrent = $menu['is_current'] ? 'is_current border-blue' : '-';
             $markup .= '
                 <li class="dropdown ' . $isCurrent . '">
                     <a id="' . $menu['id'] . '"
@@ -205,7 +221,8 @@ function renderRecursive($markup, $menus, $isChild = false) {
                 $icon = $menu['icon'];
             }
 
-            $isCurrent = $menu['is_current'] ? 'is_current' : '-';
+            $isCurrent = array_key_exists('is_current', $menu) && $menu['is_current'] ?
+                'is_current border-blue' : '-';
             $markup .= '
                 <li class="' . $isCurrent . '">
                     <a id="' . $id . '"
@@ -242,33 +259,24 @@ if (Version::is(["mae", "pe"])) {
         <p style="text-transform:uppercase"><?php echo __('Customization mode activated'); ?></p>
     </span>
 </div>
-<nav class="navbar navbar-default content-white-bkg">
+<nav class="navbar navbar-default content-white-bkg <?php echo $appClass; ?>">
     <!-- Brand and toggle get grouped for better mobile display -->
     <div class="navbar-header">
         <?php $platform_name = (Siberian::$whitelabel) ? '' : __get('platform_name'); ?>
-        <a id="sb-tour-logo-platform"
-           href="<?php echo $dashboardUrl; ?>"
-           class="sb-tour pull-left logo-position">
-            <img src="<?php echo $this->getLogo(); ?>"
-                 id="logo"
-                 alt="<?php echo $platform_name; ?>"
-                 title="<?php echo $platform_name; ?>"
-                 width="100%" />
-        </a>
-        <div class="logo-block content-white-bkg"></div>
+        <?php if(!$isApplication): ?>
+            <a id="sb-tour-logo-platform"
+               href="<?php echo $dashboardUrl; ?>"
+               class="sb-tour pull-left logo-position">
+                <img src="<?php echo $this->getLogo(); ?>"
+                     id="logo"
+                     alt="<?php echo $platform_name; ?>"
+                     title="<?php echo $platform_name; ?>"
+                     width="100%" />
+            </a>
+            <div class="logo-block content-white-bkg"></div>
+        <?php endif; ?>
     </div>
-    <button type="button"
-            class="navbar-toggle collapsed"
-            data-toggle="collapse"
-            data-target="#bs-navbar"
-            aria-expanded="false">
-        <span class="sr-only">Toggle navigation</span>
-        <span class="icon-bar"></span>
-        <span class="icon-bar"></span>
-        <span class="icon-bar"></span>
-    </button>
-    <div class="collapse navbar-collapse"
-         id="bs-navbar">
+    <div id="bs-navbar">
 
         <?php if (__get('bootstraptour_active') == "1"): ?>
             <button id="sb-tour-enable"
@@ -282,11 +290,11 @@ if (Version::is(["mae", "pe"])) {
         <?php if ($this->isPe() && !$request->isWhiteLabelEditor()) : ?>
             <button id="toggle_customization_sidebar"
                     onclick="wl_editor.toggle();"
-                    class="sb-tour <?php if ($editor->isActive()) : ?>visible <?php endif; ?>wl_panel pull-right btn color-blue"
-                    title="<?php echo __('Customize My Editor'); ?>">
+                    class="whitelabel-editor sb-tour <?php if ($editor->isActive()) : ?>visible <?php endif; ?>wl_panel pull-right btn color-blue"
+                    title="<?php echo __('Customize my editor'); ?>">
                 <i class="fa fa-desktop"></i>
                 <div class="section-responsive">
-                    <?php echo __('Customize My Editor'); ?>
+                    <?php echo __('Customize my editor'); ?>
                 </div>
             </button>
         <?php endif; ?>
@@ -324,8 +332,9 @@ if (Version::is(["mae", "pe"])) {
 
 <style>
     #toggle_customization_sidebar {
-        height: 50px;
+        height: 24px;
         margin-top: 4px;
+        margin-right: 4px;
         display: none
     }
 
@@ -358,7 +367,7 @@ if (Version::is(["mae", "pe"])) {
     }
 
     .development-responsive.small-dev {
-        width: 250px;
+        width: 205px;
         border-right: 2px solid #8a6d3b !important;
     }
 

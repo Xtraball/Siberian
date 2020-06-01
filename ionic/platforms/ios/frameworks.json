@@ -1,8 +1,8 @@
 {
     "PushKit.framework": 1,
     "AdSupport.framework": 1,
-    "AudioToolbox.framework": 1,
-    "AVFoundation.framework": 2,
+    "AudioToolbox.framework": 2,
+    "AVFoundation.framework": 3,
     "CoreBluetooth.framework": 1,
     "CoreLocation.framework": 4,
     "CoreMedia.framework": 1,
@@ -24,5 +24,6 @@
     "ImageIO.framework": 1,
     "Social.framework": 1,
     "UserNotifications.framework": 1,
-    "WebKit.framework": 1
+    "WebKit.framework": 1,
+    "QuartzCore.framework": 1
 }

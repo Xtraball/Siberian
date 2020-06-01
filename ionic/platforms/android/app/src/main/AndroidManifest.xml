@@ -61,7 +61,6 @@
             </intent-filter>
         </receiver>
         <service android:name="com.xtraball.musiccontrols.MusicControlsNotificationKiller" />
-        <service android:enabled="true" android:exported="false" android:name="com.xtraball.musiccontrols.MusicControlsWakeLock" />
     </application>
     <uses-sdk android:minSdkVersion="19" android:targetSdkVersion="28" />
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
@@ -79,4 +78,7 @@
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.FOREGROUND_SERVICE" />
     <uses-permission android:name="android.permission.REQUEST_IGNORE_BATTERY_OPTIMIZATIONS" />
+    <uses-permission android:name="android.permission.RECORD_AUDIO" />
+    <uses-permission android:name="android.permission.MODIFY_AUDIO_SETTINGS" />
+    <uses-permission android:name="android.permission.READ_PHONE_STATE" />
 </manifest>

@@ -16,12 +16,11 @@
     <allow-intent href="whatsapp:*" />
     <chcp>
         <config-file url="PLATFORM_URL" />
-        <native-interface version="13" />
+        <native-interface version="16" />
         <auto-download enabled="false" />
         <auto-install enabled="false" />
     </chcp>
     <preference name="webviewbounce" value="false" />
-    <preference name="UIWebViewBounce" value="false" />
     <preference name="DisallowOverscroll" value="true" />
     <preference name="BackupWebStorage" value="none" />
     <preference name="SplashShowOnlyFirstTime" value="false" />

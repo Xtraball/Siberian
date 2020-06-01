@@ -5206,7 +5206,7 @@ function($timeout, $document, $q, $ionicClickBlock, $ionicConfig, $ionicNavBarDe
 /**
  * ==================  angular-ios9-uiwebview.patch.js v1.1.1 ==================
  *
- * This patch works around iOS9 UIWebView regression that causes infinite digest
+ * This patch works around iOS9 WKWebView regression that causes infinite digest
  * errors in Angular.
  *
  * The patch can be applied to Angular 1.2.0 – 1.4.5. Newer versions of Angular

@@ -144,19 +144,22 @@ class Minify extends AbstractMinify
             $outputJs = self::$PLATFORMS[$platform]['output_js'];
 
             /** Build only if files are not already cached */
-            if ($doCss && !is_file($outputCss)) {
+            if ($doCss &&
+                !is_file($outputCss)) {
                 $this->minifyCss($platform, $indexPath, $outputCss);
             }
 
-            if ($doJs && !is_file($outputJs)) {
+            if ($doJs &&
+                !is_file($outputJs)) {
                 $this->minifyJs($platform, $indexPath, $outputJs);
             }
 
-            $indexDest = str_replace("index", "index-prod", $indexPath);
+            $indexDest = str_replace('index', 'index-prod', $indexPath);
             if (!is_file($indexDest)) {
                 $this->replaceIndex($platform, $indexPath, $doCss, $doJs);
             }
 
+            // LAter we will build service-workers.
             //$this->buildServiceWorker();
         }
     }
@@ -274,14 +277,15 @@ class Minify extends AbstractMinify
 
     /**
      * @param $platform
-     * @param $index_path
-     * @param $output_js
+     * @param $indexPath
+     * @param $outputJs
+     * @throws \MatthiasMullie\Minify\Exceptions\IOException
      */
-    public function minifyJs($platform, $index_path, $output_js)
+    public function minifyJs($platform, $indexPath, $outputJs)
     {
         $regex = '/<script[^>]+src="([a-z0-9\.\/\-_]+\.js)"/mi';
 
-        $this->_minify('js', $regex, $index_path, $output_js, $platform);
+        $this->_minify('js', $regex, $indexPath, $outputJs, $platform);
     }
 
     /**
@@ -301,15 +305,18 @@ class Minify extends AbstractMinify
         $basepath = dirname($content);
 
         switch ($type) {
-            case "css":
+            case 'css':
                 $minifier = new CSS();
                 $minifier->setMaxImportSize(5000);
                 $exclude = self::$EXCLUDE_CSS;
                 break;
-            case "js":
+            case 'js':
                 $minifier = new JS();
                 $exclude = self::$EXCLUDE_JS;
                 break;
+            default:
+                // Stop here, unsupported file type.
+                return;
         }
 
         /** Do not exclude js for browser/pwa */
@@ -326,12 +333,11 @@ class Minify extends AbstractMinify
                     $minifier->add("{$basepath}/{$match}");
                 }
             }
-
         }
 
         /** Ensure we can write file */
         if (is_writable(dirname($output))) {
-            if ($type === "js") {
+            if ($type === 'js') {
                 // js is mostly generally minified before.
                 $minifier->concat($output);
             } else {

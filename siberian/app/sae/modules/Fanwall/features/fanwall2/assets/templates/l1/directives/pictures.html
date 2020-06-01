@@ -1,5 +1,6 @@
 <div>
     <ion-item class="item-image item-custom"
+              ng-class="{'card': cardDesign}"
               ng-repeat="picture in form.pictures track by $index">
         <div>
             <div class="remove-image-card ng-binding badge badge-assertive badge-assertive-custom"
@@ -19,6 +20,7 @@
     </ion-item>
 
     <ion-item class="item-icon-left item-custom upload-action"
+              ng-class="{'card': cardDesign}"
               ng-if="form.pictures.length < form.limit"
               ng-click="takePicture()">
         <div class="row">

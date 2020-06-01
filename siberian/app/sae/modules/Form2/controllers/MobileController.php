@@ -59,8 +59,8 @@ class Form2_MobileController extends Application_Controller_Mobile_Default
 
             Hook::trigger('form2.submit', [
                 'customer_id' => $customerId,
-                'application' => $request,
-                'request' => $application,
+                'application' => $application,
+                'request' => $request,
                 'value_id' => $valueId,
             ]);
 

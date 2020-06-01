@@ -142,7 +142,8 @@
 -(BOOL)isUsageDescriptionSet
 {
   NSDictionary * plist = [[NSBundle mainBundle] infoDictionary];
-  if ([plist objectForKey:@"NSCameraUsageDescription" ]) {
+  if ([plist objectForKey:@"NSCameraUsageDescription" ] ||
+      [[NSBundle mainBundle] localizedStringForKey: @"NSCameraUsageDescription" value: nil table: @"InfoPlist"]) {
     return YES;
   }
   return NO;
@@ -427,11 +428,16 @@ parentViewController:(UIViewController*)parentViewController
 
 //--------------------------------------------------------------------------
 - (void)barcodeScanFailed:(NSString*)message {
-    dispatch_sync(dispatch_get_main_queue(), ^{
+    dispatch_block_t block = ^{
         [self barcodeScanDone:^{
             [self.plugin returnError:message callback:self.callback];
         }];
-    });
+    };
+    if ([NSThread isMainThread]) {
+        block();
+    } else {
+        dispatch_sync(dispatch_get_main_queue(), block);
+    }
 }
 
 //--------------------------------------------------------------------------
@@ -758,7 +764,7 @@ parentViewController:(UIViewController*)parentViewController
 - (void)viewWillAppear:(BOOL)animated {
 
     // set video orientation to what the camera sees
-    self.processor.previewLayer.connection.videoOrientation = (AVCaptureVideoOrientation) [[UIApplication sharedApplication] statusBarOrientation];
+    self.processor.previewLayer.connection.videoOrientation = [self interfaceOrientationToVideoOrientation:[UIApplication sharedApplication].statusBarOrientation];
 
     // this fixes the bug when the statusbar is landscape, and the preview layer
     // starts up in portrait (not filling the whole view)
@@ -773,7 +779,7 @@ parentViewController:(UIViewController*)parentViewController
     previewLayer.videoGravity = AVLayerVideoGravityResizeAspectFill;
 
     if ([previewLayer.connection isVideoOrientationSupported]) {
-        [previewLayer.connection setVideoOrientation:[[UIApplication sharedApplication] statusBarOrientation]];
+        previewLayer.connection.videoOrientation = [self interfaceOrientationToVideoOrientation:[UIApplication sharedApplication].statusBarOrientation];
     }
 
     [self.view.layer insertSublayer:previewLayer below:[[self.view.layer sublayers] objectAtIndex:0]];
@@ -782,6 +788,21 @@ parentViewController:(UIViewController*)parentViewController
     [self startCapturing];
 
     [super viewDidAppear:animated];
+}
+
+- (AVCaptureVideoOrientation)interfaceOrientationToVideoOrientation:(UIInterfaceOrientation)orientation {
+    switch (orientation) {
+        case UIInterfaceOrientationPortrait:
+            return AVCaptureVideoOrientationPortrait;
+        case UIInterfaceOrientationPortraitUpsideDown:
+            return AVCaptureVideoOrientationPortraitUpsideDown;
+        case UIInterfaceOrientationLandscapeLeft:
+            return AVCaptureVideoOrientationLandscapeLeft;
+        case UIInterfaceOrientationLandscapeRight:
+            return AVCaptureVideoOrientationLandscapeRight;
+        default:
+            return AVCaptureVideoOrientationPortrait;
+   }
 }
 
 //--------------------------------------------------------------------------

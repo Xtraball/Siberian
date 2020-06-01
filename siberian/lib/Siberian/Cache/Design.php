@@ -48,7 +48,7 @@ class Design extends Cache implements CacheInterface
     const CACHE_PATH = 'app/local/design/design-cache.json';
 
     /**
-     * @return bool
+     * @return bool|mixed|void
      */
     public static function init()
     {
@@ -71,7 +71,7 @@ class Design extends Cache implements CacheInterface
             $cache = static::getCache();
         }
 
-        $base = path("");
+        $base = path('');
         chdir($base);
         $version = "{$version}design/";
 
@@ -102,6 +102,7 @@ class Design extends Cache implements CacheInterface
         foreach ($module_folders as $module_folder) {
             if ($module_folder->isDir() &&
                 !$module_folder->isDot() &&
+                !is_readable("{$module_folder->getPathname()}/module.disabled") &&
                 is_readable("{$module_folder->getPathname()}/resources/design/")) {
                 $modules_design_codes = new DirectoryIterator("{$module_folder->getPathname()}/resources/design/");
 

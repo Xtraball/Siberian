@@ -27,6 +27,10 @@ $schemas['module'] = [
         'type' => 'tinyint(1) unsigned',
         'default' => '0',
     ],
+    'is_enabled' => [
+        'type' => 'tinyint(1) unsigned',
+        'default' => '1',
+    ],
     'type' => [
         'type' => 'varchar(512)',
         'default' => 'module',

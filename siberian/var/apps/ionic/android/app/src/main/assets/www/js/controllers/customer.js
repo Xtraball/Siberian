@@ -8,10 +8,10 @@
  */
 angular
     .module('starter')
-    .controller('CustomerController', function ($cordovaCamera, $ionicActionSheet, Loader,
+    .controller('CustomerController', function ($state, $ionicHistory, $cordovaCamera, $ionicActionSheet, Loader,
                                                 $ionicPopup, Customer, $ionicScrollDelegate, $rootScope, $scope, $timeout,
                                                 $translate, Application, Dialog, FacebookConnect,
-                                                HomepageLayout, Modal, Picture, CropImage) {
+                                                HomepageLayout, Modal, Picture, CropImage, Pages) {
 
         /**
          * Clears out the customer object!
@@ -33,6 +33,7 @@ angular
         };
 
         angular.extend($scope, {
+            currentLanguage: localStorage.getItem('sb-current-language'),
             customer: Customer.customer || $scope.pristineCustomer(),
             card: {},
             card_design: false,
@@ -57,6 +58,8 @@ angular
             }
         });
 
+
+
         $scope.privacyPolicyField = {
             label: $translate.instant('I have read & agree the privacy policy.', 'customer'),
             value: $scope.customer.privacy_policy,
@@ -79,13 +82,13 @@ angular
                         is_loading: false,
                         page_title: $scope.privacyPolicyField.modaltitle
                     }),
-                    animation: 'slide-in-up'
+                    animation: 'slide-in-right-left'
                 }).then(function (modal) {
-                $scope.ppModal = modal;
-                $scope.ppModal.show();
+                    $scope.ppModal = modal;
+                    $scope.ppModal.show();
 
-                return modal;
-            });
+                    return modal;
+                });
         };
 
         $scope.closeAction = function () {
@@ -94,6 +97,33 @@ angular
             } else {
                 Customer.closeModal();
             }
+        };
+
+        $scope.getLanguages = function () {
+            return window.AVAILABLE_LANGUAGES;
+        };
+
+        $scope.reloadLocale = function (select) {
+            $scope.currentLanguage = select.currentLanguage;
+            localStorage.setItem('sb-current-language', $scope.currentLanguage);
+            Loader.show('Loading translations...');
+            Application
+                .reloadLocale($scope.currentLanguage)
+                .then(function (success) {
+                    $timeout(function () {
+                        $translate.translations = success.translations;
+                        Pages.populate(success.features);
+                        // Clear history, and go home!
+                        $ionicHistory
+                            .clearCache()
+                            .then(function() {
+                                Customer.hideModal();
+                                $state.reload();
+                            });
+                    });
+                }).then(function () {
+                    Loader.hide();
+                });
         };
 
         /**

@@ -40,7 +40,7 @@ class Cms_Form_Block_Source extends Cms_Form_Block_Abstract
             'px' => __('Fixed number of pixels'),
         ]);
         $unit->setBelongsTo('block[' . $this->uniqid . '][source]');
-        $height->setValue('vh');
+        $unit->setValue('vh');
         $unit->setRequired(true);
 
         $value_id = $this->addSimpleHidden('value_id');
@@ -55,7 +55,7 @@ class Cms_Form_Block_Source extends Cms_Form_Block_Abstract
     public function loadBlock($block)
     {
         $this->getElement('source')->setValue($block->getObject()->getOriginal());
-        $this->getElement('height')->setValue($block->getHeight());
+        $this->getElement('height')->setValue($block->getHeight() ?? 20);
         $this->getElement('unit')->setValue($block->getUnit());
 
         return $this;

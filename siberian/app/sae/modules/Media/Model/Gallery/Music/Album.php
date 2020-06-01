@@ -1,15 +1,28 @@
 <?php
 
+/**
+ * Class Media_Model_Gallery_Music_Album
+ */
 class Media_Model_Gallery_Music_Album extends Core_Model_Default {
 
+    /**
+     * @var array
+     */
     protected $_tracks = array();
 
+    /**
+     * Media_Model_Gallery_Music_Album constructor.
+     * @param array $params
+     */
     public function __construct($params = array()) {
         parent::__construct($params);
         $this->_db_table = 'Media_Model_Db_Table_Gallery_Music_Album';
         return $this;
     }
 
+    /**
+     * @return int
+     */
     public function getNextAlbumPosition() {
         $lastPosition = $this->getTable()->getLastAlbumPosition();
         if(!$lastPosition) $lastPosition = 0;
@@ -17,7 +30,10 @@ class Media_Model_Gallery_Music_Album extends Core_Model_Default {
         return ++$lastPosition;
     }
 
-     public function getAllTracks() {
+    /**
+     * @return array
+     */
+    public function getAllTracks() {
 
         if(!$this->_tracks) {
 
@@ -44,24 +60,33 @@ class Media_Model_Gallery_Music_Album extends Core_Model_Default {
         return $this->_tracks;
     }
 
+    /**
+     * @return string
+     */
     public function getArtworkUrl() {
         $artwork_url = $this->getData('artwork_url');
-        if($artwork_url) {
-            if($this->getType() == 'custom') {
+        if ($artwork_url) {
+            // Custom & not url
+            if ($this->getType() === 'custom' &&
+                stripos($artwork_url, 'http') !== 0) {
                 return Application_Model_Application::getImagePath().$artwork_url;
-            } else {
-                return $artwork_url;
             }
-        } else {
-            return Media_Model_Library_Image::getImagePathTo('musics/default_album.jpg');
+            return $artwork_url;
         }
+        return Media_Model_Library_Image::getImagePathTo('musics/default_album.jpg');
     }
 
+    /**
+     * @return int
+     */
     public function getTotalTracks() {
         $total_tracks = $this->getAllTracks(true);
         return count($total_tracks);
     }
 
+    /**
+     * @return string
+     */
     public function getTotalDuration() {
 
         $total_tracks = $this->getAllTracks(true);
@@ -99,6 +124,9 @@ class Media_Model_Gallery_Music_Album extends Core_Model_Default {
         return implode(":", $return);
     }
 
+    /**
+     * @return false|string
+     */
     public function getFormatedName() {
         $name = $this->getData('name');
         $name = utf8_decode($name);

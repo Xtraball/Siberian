@@ -1,0 +1,65 @@
+<ion-modal-view sb-page-background
+                sb-media-player-controls
+                class="audio-player media-player media-player-modal">
+
+    <ion-header-bar class="bar-custom">
+        <div class="buttons">
+            <button class="button button-clear"
+                    ng-click="close()">
+                <i class="icon ion-arrow-shrink"></i>
+            </button>
+        </div>
+        <h1 class="title title-center header-item">
+            <span ng-if="player.currentTab == 'cover'">{{ player.currentTrack.name }}</span>
+            <span ng-if="player.currentTab == 'playlist'">{{ ::'Playlist' | translate:'media' }}</span>
+        </h1>
+        <div class="buttons">
+            <button class="button button-clear"
+                    ng-click="purchase()"
+                    ng-hide="player.isRadio || !player.currentTrack.purchaseUrl">
+                <i class="icon ion-ios-cart-outline"></i>
+            </button>
+            <button class="button button-clear"
+                    ng-if="isNativeApp"
+                    ng-click="share()">
+                <i class="icon ion-android-share-alt"></i>
+            </button>
+            <button class="button button-clear"
+                    ng-click="player.reset()">
+                <i class="icon ion-power-off-thin"></i>
+            </button>
+        </div>
+    </ion-header-bar>
+
+    <!-- Album cover -->
+    <ion-content>
+        <div ng-if="player.currentTab == 'cover'"
+             class="cover"
+             style="background: url('{{ player.currentTrack.albumCover }}') no-repeat center fixed #000000; background-size: cover; height: 100vh;"></div>
+
+        <div ng-if="player.currentTab == 'playlist'">
+            <ion-item class="audio-playlist-item item-custom"
+                      ng-repeat="track in player.tracks"
+                      ng-click="player.selectTrack($index)"
+                      ng-class="{ 'playing': $index == player.currentIndex }">
+                <div class="audio-playlist-flex">
+                    <img class="audio-playlist-cover"
+                         ng-src="{{ track.albumCover }}" />
+                    <div class="audio-playlist-track">
+                        <p>
+                            <b>{{ track.name }} - {{ track.artistName }}</b>
+                        </p>
+                        <p class="album-name">{{ track.albumName }}</p>
+                    </div>
+                    <div class="audio-playlist-duration">
+                        <p>{{ track.formatedDuration }}</p>
+                    </div>
+                </div>
+            </ion-item>
+            <div style="margin-bottom: 60px;"></div>
+        </div>
+    </ion-content>
+
+    <sb-media-mini-player></sb-media-mini-player>
+
+</ion-modal-view>

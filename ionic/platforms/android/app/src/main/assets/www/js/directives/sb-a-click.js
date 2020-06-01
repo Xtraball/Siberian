@@ -1,12 +1,12 @@
 /**
  * sb-a-click
  *
- * @author Xtraball SAS
- * @version 4.18.5
+ * @author Xtraball SAS <dev@xtraball.com>
+ * @version 4.18.17
  */
 angular
 .module('starter')
-.directive('sbAClick', function($rootScope, $timeout, $window, $state, Pages, Dialog, LinkService, Customer) {
+.directive('sbAClick', function($rootScope, $timeout, $window, $state, InAppLinks, Pages, LinkService) {
     return {
         restrict: 'A',
         scope: {},
@@ -14,41 +14,14 @@ angular
         link: function (scope, element) {
             $timeout(function () {
                 // A links
-                var collection = angular.element(element).find("a");
-                angular.forEach(collection, function (elem) {
-                    if(typeof elem.attributes["data-state"] !== "undefined") {
-
-                        var params = elem.attributes["data-params"].value;
-                        params = params.replace(/(^\?)/,'').split(",").map(function(n){return n = n.split(":"),this[n[0].trim()] = n[1],this}.bind({}))[0];
-
-                        var state = elem.attributes["data-state"].value;
-                        var offline = (typeof elem.attributes["data-offline"] !== "undefined") ? (elem.attributes["data-offline"].value === "true") : false;
-
-                        angular.element(elem).bind("click", function (e) {
-                            e.preventDefault();
-
-                            // Special in-app link for my account!
-                            if (state === 'my-account') {
-                                Customer.loginModal();
-                            } else if (!offline && $rootScope.isOffline) {
-                                $rootScope.onlineOnly();
-                            } else {
-                                if (params.hasOwnProperty('value_id')) {
-                                    var feature = Pages.getValueId(params.value_id);
-                                    if (feature && !feature.is_active) {
-                                        Dialog.alert('Error', 'This feature is no longer available.', 'OK', 2350);
-                                        return;
-                                    }
-                                }
-
-                                $state.go(state, params);
-                            }
-                        });
-
+                var collection = angular.element(element).find('a');
+                angular.forEach(collection, function (_element) {
+                    if (_element.attributes.hasOwnProperty('data-state')) {
+                        InAppLinks.handlerLink(_element);
                     } else {
-                        angular.element(elem).bind('click', function (e) {
-                            e.preventDefault();
-                            LinkService.openLink(elem.href, {}, false);
+                        angular.element(_element).bind('click', function (event) {
+                            event.preventDefault();
+                            LinkService.openLink(_element.href, {}, true);
                         });
                     }
                 });

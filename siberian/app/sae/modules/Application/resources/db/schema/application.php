@@ -41,6 +41,24 @@ $schemas['application'] = [
         'collation' => 'utf8_unicode_ci',
         'default' => 'ion-ios-arrow-back',
     ],
+    'back_button_class' => [
+        'type' => 'varchar(255)',
+        'is_null' => true,
+        'charset' => 'utf8',
+        'collation' => 'utf8_unicode_ci',
+    ],
+    'left_toggle_class' => [
+        'type' => 'varchar(255)',
+        'is_null' => true,
+        'charset' => 'utf8',
+        'collation' => 'utf8_unicode_ci',
+    ],
+    'right_toggle_class' => [
+        'type' => 'varchar(255)',
+        'is_null' => true,
+        'charset' => 'utf8',
+        'collation' => 'utf8_unicode_ci',
+    ],
     'bundle_id' => [
         'type' => 'varchar(100)',
         'is_null' => true,
@@ -335,24 +353,12 @@ $schemas['application'] = [
         'is_null' => true,
         'charset' => 'utf8',
         'collation' => 'utf8_unicode_ci',
-        'index' => [
-            'key_name' => 'UNIQUE_KEY_SUBDOMAIN_DOMAIN',
-            'index_type' => 'BTREE',
-            'is_null' => true,
-            'is_unique' => true,
-        ],
     ],
     'subdomain' => [
         'type' => 'varchar(20)',
         'is_null' => true,
         'charset' => 'utf8',
         'collation' => 'utf8_unicode_ci',
-        'index' => [
-            'key_name' => 'UNIQUE_KEY_SUBDOMAIN_DOMAIN',
-            'index_type' => 'BTREE',
-            'is_null' => true,
-            'is_unique' => true,
-        ],
     ],
     'subdomain_is_validated' => [
         'type' => 'tinyint(1)',
@@ -503,6 +509,10 @@ $schemas['application'] = [
     'offline_content' => [
         'type' => 'tinyint(1) unsigned',
         'default' => '1',
+    ],
+    'disable_updates' => [
+        'type' => 'tinyint(1) unsigned',
+        'default' => '0',
     ],
     'privacy_policy' => [
         'type' => 'text',

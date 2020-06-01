@@ -85,8 +85,6 @@ $schemas['application_device'] = array(
     ),
     'build_number' => array(
         'type' => 'integer',
-        'charset' => 'utf8',
-        'collation' => 'utf8_unicode_ci',
         'default' => '1',
     ),
     'developer_account_username' => array(

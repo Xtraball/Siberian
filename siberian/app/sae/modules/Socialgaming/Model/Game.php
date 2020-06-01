@@ -113,7 +113,7 @@ class Socialgaming_Model_Game extends Core_Model_Default {
         );
     }
 
-    public function copyTo($option) {
+    public function copyTo($option, $parent_id = null) {
         $this->setId(null)->setValueId($option->getId())->save();
         return $this;
     }

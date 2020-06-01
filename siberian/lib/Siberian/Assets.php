@@ -479,15 +479,17 @@ class Assets
         }
 
         foreach ($features as $feature) {
-            $name = $feature["name"];
-            $category = $feature["category"];
-            $code = $feature["code"];
-            $model = $feature["model"];
-            $desktop_uri = $feature["desktop_uri"];
-            $my_account = !!$feature["use_account"];
-            $only_once = !!$feature["only_once"];
+            $name = $feature['name'];
+            $category = $feature['category'];
+            $code = $feature['code'];
+            $model = $feature['model'];
+            $desktop_uri = $feature['desktop_uri'];
+            $open_callback_class = $feature['open_callback_class'] ?? null;
+            $lazy_load = $feature['lazy_load'] ?? null;
+            $my_account = (bool) $feature['use_account'];
+            $only_once = (bool) $feature['only_once'];
             $mobile_uri = $feature['mobile_uri'] ?? ''; // Bypassing old _service modules with missing fake mobile_uri!
-            $layouts = $feature["layouts"] ?? [];
+            $layouts = $feature['layouts'] ?? [];
 
             $icons = $feature["icons"];
             if (is_array($icons)) {
@@ -501,33 +503,33 @@ class Assets
             }
 
             $is_ajax = array_key_exists('is_ajax', $feature) ? ($feature['is_ajax'] !== false) : true;
-            $social_sharing = array_key_exists('social_sharing', $feature) ? !!$feature['social_sharing'] : false;
-            $nickname = array_key_exists('use_nickname', $feature) ? !!$feature['use_nickname'] : false;
-            $ranking = array_key_exists('use_ranking', $feature) ? !!$feature['use_ranking'] : false;
+            $social_sharing = array_key_exists('social_sharing', $feature) ? (bool) $feature['social_sharing'] : false;
+            $nickname = array_key_exists('use_nickname', $feature) ? (bool) $feature['use_nickname'] : false;
+            $ranking = array_key_exists('use_ranking', $feature) ? (bool) $feature['use_ranking'] : false;
 
-            $feature_dir = "./features/" . $code;
+            $feature_dir = './features/' . $code;
 
             self::destroyAssets($feature_dir);
-            if (is_dir($feature["__DIR__"] . "/assets")) {
-                self::copyAssets($feature["__DIR__"] . "/assets", null, $feature_dir . "/assets");
+            if (is_dir($feature['__DIR__'] . '/assets')) {
+                self::copyAssets($feature['__DIR__'] . '/assets', null, $feature_dir . '/assets');
             }
 
-            if (is_dir($feature["__DIR__"] . "/templates")) {
-                self::copyAssets($feature["__DIR__"] . "/templates", null, $feature_dir . "/templates");
+            if (is_dir($feature['__DIR__'] . '/templates')) {
+                self::copyAssets($feature['__DIR__'] . '/templates', null, $feature_dir . '/templates');
             }
 
             // build index.js here
-            $out_dir = path("var/tmp/out");
+            $out_dir = path('var/tmp/out');
             if (!is_dir($out_dir)) {
                 mkdir($out_dir, 0777, true);
             }
 
-            $feature_js_path = $feature_dir . "/" . $code . ".js";
-            $feature_js_bundle_path = $feature_dir . "/" . $code . ".bundle.min.js";
+            $feature_js_path = $feature_dir . '/' . $code . '.js';
+            $feature_js_bundle_path = $feature_dir . '/' . $code . '.bundle.min.js';
 
             $feature_js = self::compileFeature($feature, $feature_js_bundle_path);
 
-            $built_file = $out_dir . "/" . $code . ".js";
+            $built_file = $out_dir . '/' . $code . '.js';
 
             File::putContents($built_file, $feature_js);
 
@@ -558,6 +560,8 @@ class Assets
                 'is_ajax' => $is_ajax,
                 'social_sharing_is_available' => $social_sharing,
                 'use_nickname' => $nickname,
+                'lazy_load' => $lazy_load,
+                'open_callback_class' => $open_callback_class,
                 'use_ranking' => $ranking,
             ];
 
@@ -791,11 +795,25 @@ class Assets
                 $index_path = $path . $www_folder . "index.html";
                 $index_content = file_get_contents($index_path);
 
+
                 $index_content = self::preBuildAction($index_content, $index_path, $type, $platform);
 
                 // For browser/overview remove cdvfile
                 if ($type === "browser") {
                     $index_content = self::__cleanAppOnly($index_content);
+                }
+
+                if (in_array($type, ['browser', 'overview'])) {
+                    // Replace available languages
+                    $languagesPath = $path . $www_folder . 'js/utils/languages.js';
+                    $languagesContent = file_get_contents($languagesPath);
+
+                    $languages = array_map(static function ($_item) {
+                        return "'{$_item}'";
+                    }, array_keys(\Core_Model_Language::getLanguages()));
+
+                    $languagesContent = str_replace("['en']", "[" . implode(', ', $languages) . "]", $languagesContent);
+                    file_put_contents($languagesPath, $languagesContent);
                 }
 
                 foreach (self::$preBuildCallbacks as $callback) {
@@ -825,11 +843,11 @@ class Assets
                 }
 
                 // Add features to index.html
-                foreach (['js', 'css'] as $type) {
-                    if (array_key_exists($type, self::$features_assets)) {
-                        foreach (self::$features_assets[$type] as $code => $assets) {
+                foreach (['js', 'css'] as $_fType) {
+                    if (array_key_exists($_fType, self::$features_assets)) {
+                        foreach (self::$features_assets[$_fType] as $code => $assets) {
                             foreach ($assets as $asset) {
-                                $index_content = self::__appendAsset($index_content, $asset, $type, $code);
+                                $index_content = self::__appendAsset($index_content, $asset, $_fType, $code);
                             }
                         }
                     }
@@ -840,9 +858,8 @@ class Assets
                 }
 
                 // Replace platform-browser for the overview, this is required after a restore app sources!
-                if ($platform === "/var/apps/overview/") {
-
-                    $index_content = str_replace("platform-browser", "platform-overview", $index_content);
+                if ($platform === '/var/apps/overview/') {
+                    $index_content = str_replace('platform-browser', 'platform-overview', $index_content);
                 }
 
                 $index_content = self::postBuildAction($index_content, $index_path, $type, $platform);

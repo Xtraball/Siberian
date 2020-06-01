@@ -93,7 +93,6 @@ let debug = true,
             './www/js/factory/maps.js'
         ],
         'media': [
-            './www/js/controllers/media-player.js',
             './www/js/controllers/music.js',
             './www/js/factory/music.js'
         ],
@@ -109,10 +108,6 @@ let debug = true,
         ],
         'push': [
             './www/js/controllers/push.js'
-        ],
-        'radio': [
-            './www/js/controllers/radio.js',
-            './www/js/factory/radio.js'
         ],
         'rss': [
             './www/js/controllers/rss.js',

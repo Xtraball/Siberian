@@ -1,10 +1,9 @@
 package com.xtraball.musiccontrols;
 
-import android.app.Service;
-import android.os.IBinder;
-import android.os.Binder;
 import android.app.NotificationManager;
+import android.app.Service;
 import android.content.Intent;
+import android.os.IBinder;
 
 public class MusicControlsNotificationKiller extends Service {
 
@@ -28,4 +27,11 @@ public class MusicControlsNotificationKiller extends Service {
         mNM = (NotificationManager) getSystemService(NOTIFICATION_SERVICE);
         mNM.cancel(NOTIFICATION_ID);
     }
+
+    @Override
+    public void onDestroy() {
+        mNM = (NotificationManager) getSystemService(NOTIFICATION_SERVICE);
+        mNM.cancel(NOTIFICATION_ID);
+    }
+
 }

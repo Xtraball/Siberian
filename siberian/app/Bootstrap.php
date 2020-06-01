@@ -5,7 +5,6 @@
  */
 class Bootstrap extends Zend_Application_Bootstrap_Bootstrap
 {
-
     /**
      * @var Siberian_Controller_Request_Http
      */
@@ -33,25 +32,23 @@ class Bootstrap extends Zend_Application_Bootstrap_Bootstrap
         $loader->registerNamespace('Core');
         $loader->registerNamespace('Symfony');
         $loader->registerNamespace('Plesk');
-        $loader->registerNamespace('Woocommerce');
         $loader->registerNamespace('PListEditor');
-
 
         $includePaths = [get_include_path()];
         $includePaths[] = realpath(APPLICATION_PATH . '/local/modules');
         switch (\Siberian\Version::TYPE) {
-            case "PE":
-                $includePaths[] = realpath(APPLICATION_PATH . "/pe/modules");
-                $includePaths[] = realpath(APPLICATION_PATH . "/mae/modules");
-                $includePaths[] = realpath(APPLICATION_PATH . "/sae/modules");
+            case 'PE':
+                $includePaths[] = realpath(APPLICATION_PATH . '/pe/modules');
+                $includePaths[] = realpath(APPLICATION_PATH . '/mae/modules');
+                $includePaths[] = realpath(APPLICATION_PATH . '/sae/modules');
                 break;
-            case "MAE":
-                $includePaths[] = realpath(APPLICATION_PATH . "/mae/modules");
-                $includePaths[] = realpath(APPLICATION_PATH . "/sae/modules");
+            case 'MAE':
+                $includePaths[] = realpath(APPLICATION_PATH . '/mae/modules');
+                $includePaths[] = realpath(APPLICATION_PATH . '/sae/modules');
                 break;
-            case "SAE":
+            case 'SAE':
             default:
-                $includePaths[] = realpath(APPLICATION_PATH . "/sae/modules");
+                $includePaths[] = realpath(APPLICATION_PATH . '/sae/modules');
         }
 
         // Updating the include_paths!
@@ -63,8 +60,8 @@ class Bootstrap extends Zend_Application_Bootstrap_Bootstrap
         }
         \Core_Model_Directory::setBasePath($base_path);
 
-        $this->bootstrap("CacheManager");
-        $dbCache = $this->getResource("CacheManager")->getCache("database");
+        $this->bootstrap('CacheManager');
+        $dbCache = $this->getResource('CacheManager')->getCache('database');
         Zend_Db_Table_Abstract::setDefaultMetadataCache($dbCache);
 
         // include Stubs
@@ -109,8 +106,8 @@ class Bootstrap extends Zend_Application_Bootstrap_Bootstrap
      */
     protected function _initCache()
     {
-        $defaultCache = $this->getResource("CacheManager")->getCache("default");
-        $outputCache = $this->getResource("CacheManager")->getCache("output");
+        $defaultCache = $this->getResource('CacheManager')->getCache('default');
+        $outputCache = $this->getResource('CacheManager')->getCache('output');
 
         $cacheDir = Core_Model_Directory::getCacheDirectory(true);
         if (is_writable($cacheDir)) {
@@ -121,11 +118,11 @@ class Bootstrap extends Zend_Application_Bootstrap_Bootstrap
             $backendConf = [
                 'cache_dir' => $cacheDir
             ];
-            $cache = Zend_Cache::factory("Core", "File", $frontendConf, $backendConf);
-            $cache->setOption("automatic_serialization", true);
+            $cache = Zend_Cache::factory('Core', 'File', $frontendConf, $backendConf);
+            $cache->setOption('automatic_serialization', true);
             Zend_Locale::setCache($defaultCache);
-            Zend_Registry::set("cache", $defaultCache);
-            Zend_Registry::set("cacheOutput", $outputCache);
+            Zend_Registry::set('cache', $defaultCache);
+            Zend_Registry::set('cacheOutput', $outputCache);
         }
     }
 
@@ -151,12 +148,14 @@ class Bootstrap extends Zend_Application_Bootstrap_Bootstrap
     }
 
     /**
+     * @throws ReflectionException
      * @throws Zend_Log_Exception
      */
     protected function _initLogger()
     {
-        if (!is_dir(path('var/log'))) {
-            mkdir(path('var/log'), 0777, true);
+        if (!mkdir($concurrentDirectory = path('var/log'), 0777, true) &&
+            !is_dir($concurrentDirectory)) {
+            throw new \RuntimeException(sprintf('Directory "%s" was not created', $concurrentDirectory));
         }
 
         $writer = new \Zend_Log_Writer_Stream(path('var/log/output.log'));
@@ -224,21 +223,21 @@ class Bootstrap extends Zend_Application_Bootstrap_Bootstrap
         switch (\Siberian\Version::TYPE) {
             default:
             case 'SAE':
-                $this->_front_controller->addModuleDirectory($base . '/sae/modules');
+                $this->_front_controller->addModuleDirectory($base . '/sae/modules', false);
                 break;
             case 'MAE':
-                $this->_front_controller->addModuleDirectory($base . '/sae/modules');
-                $this->_front_controller->addModuleDirectory($base . '/mae/modules');
+                $this->_front_controller->addModuleDirectory($base . '/sae/modules', false);
+                $this->_front_controller->addModuleDirectory($base . '/mae/modules', false);
                 break;
             case 'PE':
-                $this->_front_controller->addModuleDirectory($base . '/sae/modules');
-                $this->_front_controller->addModuleDirectory($base . '/mae/modules');
-                $this->_front_controller->addModuleDirectory($base . '/pe/modules');
+                $this->_front_controller->addModuleDirectory($base . '/sae/modules', false);
+                $this->_front_controller->addModuleDirectory($base . '/mae/modules', false);
+                $this->_front_controller->addModuleDirectory($base . '/pe/modules', false);
                 break;
         }
 
         if (is_readable($base . '/local/modules')) {
-            $this->_front_controller->addModuleDirectory($base . '/local/modules');
+            $this->_front_controller->addModuleDirectory($base . '/local/modules', true);
         }
 
         Siberian_Utils::load();
@@ -282,7 +281,16 @@ class Bootstrap extends Zend_Application_Bootstrap_Bootstrap
 
         $module_names = $this->_front_controller->getDispatcher()->getModuleDirectories();
 
+        // Fetch licenses 4.19.x!
+
         foreach ($module_names as $module) {
+
+            // Skipping disabled module!
+            if (method_exists('Installer_Model_Installer_Module', 'sGetIsEnabled') &&
+                !Installer_Model_Installer_Module::sGetIsEnabled($module)) {
+                continue;
+            }
+
             $path = $this->_front_controller->getModuleDirectory($module) . '/bootstrap.php';
             $path_init = $this->_front_controller->getModuleDirectory($module) . '/init.php';
 
@@ -332,41 +340,7 @@ class Bootstrap extends Zend_Application_Bootstrap_Bootstrap
     protected function _initDesign()
     {
         if (!$this->_request->isInstalling()) {
-            // Ensure 'flat' design is used for everyone!
-            try {
-                __set('editor_design', 'flat');
-            } catch (\Exception $e) {
-                // Nope!
-            }
-
-            // Monkey patch admin with wrong parentId
-            try {
-                $adminRole = (new Acl_Model_Role())->find('Admin', 'code');
-                $adminRole->setParentId(null)->save();
-            } catch (\Exception $e) {
-                // Nope!
-            }
-
-            // Check default role
-            try {
-                $fixDefaultRole = __get('fix_default_role_4.15.3');
-                if ($fixDefaultRole !== 'done') {
-                    $roleId = __get('admin_default_role_id');
-                    $role = (new Acl_Model_Role())->find($roleId);
-                    if (!$role->getId()) {
-                        // Get admin role
-                        $adminRole = (new Acl_Model_Role())->find('Admin', 'code');
-                        if ($adminRole->getId()) {
-                            __set('admin_default_role_id', $adminRole->getId());
-                            __set('fix_default_role_4.15.3', 'done');
-                        }
-                    } else {
-                        __set('fix_default_role_4.15.3', 'done');
-                    }
-                }
-            } catch (\Exception $e) {
-                // Nope!
-            }
+           // Monkey patching if needed!
         }
 
         Siberian_Cache_Design::init();

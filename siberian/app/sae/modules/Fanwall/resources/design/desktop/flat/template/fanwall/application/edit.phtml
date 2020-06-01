@@ -38,14 +38,16 @@ if (!$fanWall->getId()) {
 }
 
 # Posts
-$posts = new Post();
 $posts = (new Post())->findAllWithCustomer(
     [
-        "value_id = ?" => $optionValue->getId(),
+        'value_id = ?' => $optionValue->getId(),
     ],
     [
-        "fanwall_post.sticky DESC",
-        "fanwall_post.updated_at DESC"
+        'fanwall_post.sticky DESC',
+        'fanwall_post.updated_at DESC',
+    ],
+    [
+        'all_scheduled' => true,
     ]);
 
 $formPost = new FormPost();

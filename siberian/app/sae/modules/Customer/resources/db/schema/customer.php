@@ -47,6 +47,11 @@ $schemas['customer'] = [
         'charset' => 'utf8',
         'collation' => 'utf8_unicode_ci',
     ],
+    'language' => [
+        'type' => 'varchar(10)',
+        'charset' => 'utf8',
+        'collation' => 'utf8_unicode_ci',
+    ],
     'image' => [
         'type' => 'varchar(255)',
         'is_null' => true,

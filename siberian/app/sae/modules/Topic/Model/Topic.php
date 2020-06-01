@@ -54,7 +54,7 @@ class Topic_Model_Topic extends Core_Model_Default {
      * @param $option_value
      * @return bool
      */
-    public function getEmbedPayload($option_value) {
+    public function getEmbedPayload($option_value = null) {
 
         $payload = array(
             "description"   => $this->getDescription(),
@@ -158,7 +158,7 @@ class Topic_Model_Topic extends Core_Model_Default {
         return $categories;
     }
 
-    public function copyTo($option) {
+    public function copyTo($option, $parent_id = null) {
         $this->unsTopicId()
             ->unsId()
             ->setValueId($option->getId())

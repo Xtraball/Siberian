@@ -1,5 +1,10 @@
 <?php
 
+/**
+ * @author Xtraball SAS <dev@xtraball.com>
+ * @version 4.18.17
+ */
+
 use Siberian\ClamAV;
 use Siberian\Json;
 use Siberian\Security;
@@ -181,43 +186,43 @@ abstract class Core_Controller_Default_Abstract extends Zend_Controller_Action i
                 $params = $request->getParams();
                 $payload_data = Json::decode($request->getRawBody());
                 $valueId = null;
-                if (isset($params["value_id"]) && !empty($params["value_id"])) {
-                    $valueId = $params["value_id"];
-                } else if (isset($params["option_value_id"]) && !empty($params["option_value_id"])) {
-                    $valueId = $params["option_value_id"];
-                } else if (isset($payload_data["value_id"]) && !empty($payload_data["value_id"])) {
-                    $valueId = $payload_data["value_id"];
-                } else if (isset($payload_data["option_value_id"]) && !empty($payload_data["option_value_id"])) {
-                    $valueId = $payload_data["option_value_id"];
+                if (isset($params['value_id']) && !empty($params['value_id'])) {
+                    $valueId = $params['value_id'];
+                } else if (isset($params['option_value_id']) && !empty($params['option_value_id'])) {
+                    $valueId = $params['option_value_id'];
+                } else if (isset($payload_data['value_id']) && !empty($payload_data['value_id'])) {
+                    $valueId = $payload_data['value_id'];
+                } else if (isset($payload_data['option_value_id']) && !empty($payload_data['option_value_id'])) {
+                    $valueId = $payload_data['option_value_id'];
                 }
 
                 # App_id
                 $app = $this->getApplication();
-                $appId = "noapps";
+                $appId = 'noapps';
                 if ($app) {
                     $appId = $app->getId();
                 }
 
-                if (empty($appId) || ($appId === "noapps")) {
+                if (empty($appId) || ($appId === 'noapps')) {
                     # Search in params/payload
-                    if (isset($params["app_id"]) && !empty($params["app_id"])) {
-                        $appId = $params["app_id"];
-                    } else if (isset($payload_data["app_id"]) && !empty($payload_data["app_id"])) {
-                        $appId = $payload_data["app_id"];
+                    if (isset($params['app_id']) && !empty($params['app_id'])) {
+                        $appId = $params['app_id'];
+                    } else if (isset($payload_data['app_id']) && !empty($payload_data['app_id'])) {
+                        $appId = $payload_data['app_id'];
                     }
                 }
 
                 $values = $this->cache_triggers[$action_name];
-                if (isset($values["tags"]) &&
-                    is_array($values["tags"])) {
+                if (isset($values['tags']) &&
+                    is_array($values['tags'])) {
 
                     $finalTags = [];
-                    foreach ($values["tags"] as $tag) {
+                    foreach ($values['tags'] as $tag) {
                         $finalTags[] = str_replace(
                             [
-                                "#APP_ID#",
-                                "#VALUE_ID#",
-                                "#LOCALE#",
+                                '#APP_ID#',
+                                '#VALUE_ID#',
+                                '#LOCALE#',
                             ],
                             [
                                 $appId,
@@ -234,20 +239,20 @@ abstract class Core_Controller_Default_Abstract extends Zend_Controller_Action i
                         $finalTags
                     );
 
-                    $response->setHeader("x-cache-clean", implode(", ", $finalTags));
+                    $response->setHeader('x-cache-clean', implode(', ', $finalTags));
                 }
 
-                if (isset($values["outputTags"]) &&
-                    is_array($values["outputTags"])) {
+                if (isset($values['outputTags']) &&
+                    is_array($values['outputTags'])) {
 
                     $finalTags = [];
-                    foreach ($values["outputTags"] as $outputTag) {
+                    foreach ($values['outputTags'] as $outputTag) {
                         $finalTags[] = str_replace(
                             [
-                                "#APP_ID#",
-                                "#ADMIN_ID#",
-                                "#VALUE_ID#",
-                                "#LOCALE#",
+                                '#APP_ID#',
+                                '#ADMIN_ID#',
+                                '#VALUE_ID#',
+                                '#LOCALE#',
                             ],
                             [
                                 $appId,
@@ -265,7 +270,7 @@ abstract class Core_Controller_Default_Abstract extends Zend_Controller_Action i
                         $finalTags
                     );
 
-                    $response->setHeader("x-cache-output-clean", implode(", ", $finalTags));
+                    $response->setHeader('x-cache-output-clean', implode(', ', $finalTags));
                 }
             }
         }
@@ -277,7 +282,7 @@ abstract class Core_Controller_Default_Abstract extends Zend_Controller_Action i
      */
     public function _($text)
     {
-        return call_user_func_array("__", func_get_args());
+        return call_user_func_array('__', func_get_args());
     }
 
     /**
@@ -287,7 +292,7 @@ abstract class Core_Controller_Default_Abstract extends Zend_Controller_Action i
      */
     public function __call($method, $args)
     {
-        if ('Action' == substr($method, -6)) {
+        if ('Action' === substr($method, -6)) {
             return $this->_forward('noroute');
         }
 
@@ -297,33 +302,33 @@ abstract class Core_Controller_Default_Abstract extends Zend_Controller_Action i
     /**
      * @return bool
      */
-    public function isProduction()
+    public function isProduction(): bool
     {
-        return APPLICATION_ENV == 'production';
+        return APPLICATION_ENV === 'production';
     }
 
     /**
      * @return bool
      */
-    public function isSae()
+    public function isSae(): bool
     {
-        return Siberian_Version::TYPE == "SAE";
+        return Siberian_Version::TYPE === 'SAE';
     }
 
     /**
      * @return bool
      */
-    public function isMae()
+    public function isMae(): bool
     {
-        return Siberian_Version::TYPE == "MAE";
+        return Siberian_Version::TYPE === 'MAE';
     }
 
     /**
      * @return bool
      */
-    public function isPe()
+    public function isPe(): bool
     {
-        return Siberian_Version::TYPE == "PE";
+        return Siberian_Version::TYPE === 'PE';
     }
 
     /**
@@ -334,29 +339,30 @@ abstract class Core_Controller_Default_Abstract extends Zend_Controller_Action i
     public function getSession($type = null)
     {
         if (!$type) {
-            $type = defined("SESSION_TYPE") ? SESSION_TYPE : "admin";
+            $type = defined('SESSION_TYPE') ? SESSION_TYPE : 'admin';
         }
 
         if (isset(self::$_session[$type])) {
             return self::$_session[$type];
-        } else {
-            $session = new Core_Model_Session($type);
-            self::setSession($session, $type);
-            return $session;
         }
+
+        $session = new Core_Model_Session($type);
+        self::setSession($session, $type);
+        return $session;
     }
 
     /**
      * @param $session
      * @param string $type
      */
-    public static function setSession($session, $type = "front")
+    public static function setSession($session, $type = 'front')
     {
         self::$_session[$type] = $session;
     }
 
     /**
      * @return Application_Model_Application
+     * @throws Zend_Exception
      */
     public function getApplication()
     {
@@ -421,8 +427,9 @@ abstract class Core_Controller_Default_Abstract extends Zend_Controller_Action i
 
     /**
      * @return $this
+     * @throws Zend_Exception
      */
-    public function oldbrowserAction()
+    public function oldbrowserAction(): self
     {
         $this->loadPartials('front_index_oldbrowser');
         return $this;
@@ -434,7 +441,8 @@ abstract class Core_Controller_Default_Abstract extends Zend_Controller_Action i
     public function postDispatch()
     {
 
-        if (!$this->getLayout()->isLoaded() AND $this->getRequest()->isDispatched()) {
+        if (!$this->getLayout()->isLoaded() &&
+            $this->getRequest()->isDispatched()) {
             $this->_forward('noroute');
         }
 
@@ -452,7 +460,7 @@ abstract class Core_Controller_Default_Abstract extends Zend_Controller_Action i
             $this->getResponse()->setHeader('HTTP/1.0', '404 Not Found');
             $this->loadPartials('front_index_noroute');
         } else {
-            $this->forward("index", "index");
+            $this->forward('index', 'index');
         }
 
     }

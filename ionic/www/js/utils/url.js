@@ -26,9 +26,6 @@ if (fbtoken) {
     window.location.hash = window.location.hash.replace(/\?__tokenfb__=(.*)/, '');
 }
 
-/** Set default variables */
-var is_https = (document.URL.indexOf('https') === 0);
-
 function getParameterByName(name, url) {
     if (!url) {
         url = window.location.href;
@@ -48,16 +45,9 @@ function getParameterByName(name, url) {
 if (document.URL.indexOf('http') === 0) {
     var BASE_PATH = '/';
     var APP_KEY = null;
-    var CURRENT_LANGUAGE = null;
 
     var DOMAIN = window.location.protocol + '//' + window.location.host;
-
-    if ((window.location.port * 1) === 8100) {
-        checkDevDomain();
-    }
-
     var path = window.location.hash.replace('#', '').split('/').filter(Boolean);
-
 
     if (path.length > 2) {
         APP_KEY = path[0];
@@ -65,13 +55,9 @@ if (document.URL.indexOf('http') === 0) {
     }
 
     path = path.reverse();
-    if (angular.isDefined(path[1])) {
-        CURRENT_LANGUAGE = path[1];
-        localStorage.setItem('sb-current-language', CURRENT_LANGUAGE);
-    } else {
-        var language = localStorage.getItem('sb-current-language');
-        CURRENT_LANGUAGE = !!language ? language : 'en';
-    }
+    var language = localStorage.getItem('sb-current-language');
+    var CURRENT_LANGUAGE = !!language ? language : 'en';
+    localStorage.setItem('sb-current-language', CURRENT_LANGUAGE);
 
     if (angular.isDefined(path[0])) {
         APP_KEY = path[0];
@@ -82,36 +68,7 @@ if (document.URL.indexOf('http') === 0) {
     }
 
     BASE_PATH += APP_KEY;
-
-    localStorage.setItem('sb-current-language', CURRENT_LANGUAGE);
 }
 
 var BASE_URL = DOMAIN + BASE_PATH;
 var IMAGE_URL = DOMAIN + '/';
-
-
-function checkDevDomain() {
-    var dev_domain = localStorage.getItem("dev_domain");
-    while(typeof dev_domain !== "string" || !(/https?:\/\//i.test(dev_domain))) {
-        dev_domain = prompt("Enter your siberiancms dev domain, beginning with https");
-        if(dev_domain === null) {
-            window.setTimeout(function() {
-                if(!window.refreshAfterSet) {
-                    var remove = function(i) { return typeof i === "object" && typeof i.remove === "function" && i.remove(); };
-                    document.getElementsByName("html").forEach(remove);
-                    document.getElementsByName("head").forEach(remove);
-                    document.getElementsByName("body").forEach(remove);
-
-                    document.write("<html><button onclick=\"checkDevDomain()\">Please specify your dev domain.</button></html>");
-                    window.refreshAfterSet = true;
-                }
-            }, 500);
-            throw "Please enter your dev domain.";
-        }
-    }
-    DOMAIN = dev_domain;
-    localStorage.setItem("dev_domain", DOMAIN);
-    if(window.refreshAfterSet) {
-        window.location.reload();
-    }
-}

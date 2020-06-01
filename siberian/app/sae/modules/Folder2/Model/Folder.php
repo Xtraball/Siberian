@@ -36,12 +36,16 @@ class Folder2_Model_Folder extends Core_Model_Default {
     protected $_root_category;
 
     /**
+     * @var string
+     */
+    protected $_db_table = Folder2_Model_Db_Table_Folder::class;
+
+    /**
      * Folder2_Model_Folder constructor.
      * @param array $params
      */
     public function __construct($params = []) {
         parent::__construct($params);
-        $this->_db_table = Folder2_Model_Db_Table_Folder::class;
 
         // Default to version 2!
         $this->setVersion(2);
@@ -159,6 +163,8 @@ class Folder2_Model_Folder extends Core_Model_Default {
                     'icon_is_colorable' => false,
                     'url' => $url,
                     'path' => $url,
+                    'lazy_load' => null,
+                    'open_callback_class' => null,
                     'is_active' => true,
                     'is_visible' => true,
                     'is_locked' => false,
@@ -223,8 +229,8 @@ class Folder2_Model_Folder extends Core_Model_Default {
                     'picture' => null,
                     'thumbnail' => $pictureFile,
                     'icon_is_colorable' => (boolean) $feature->getImage()->getCanBeColorized(),
-                    'url' => $uris["featureUrl"],
-                    'path' => $uris["featurePath"],
+                    'url' => $uris['featureUrl'],
+                    'path' => $uris['featurePath'],
                     'code' => $feature->getCode(),
                     'offline_mode' => (boolean) $feature->getObject()->isCacheable(),
                     'hide_navbar' => (boolean) $hideNavbar,
@@ -233,6 +239,8 @@ class Folder2_Model_Folder extends Core_Model_Default {
                     'has_parent_folder' => true,
                     'is_feature' => true,
                     'settings' => $settings,
+                    'lazy_load' => $feature->getLazyLoad(),
+                    'open_callback_class' => $feature->getOpenCallbackClass(),
                     'is_active' => (boolean) $feature->isActive(),
                     'is_visible' => true,
                     'is_locked' => (boolean) $feature->isLocked(),

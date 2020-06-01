@@ -51,7 +51,7 @@ class Media_Model_Gallery_Image extends Core_Model_Default {
      * @param $option_value
      * @return array|boolean
      */
-    public function getEmbedPayload($option_value) {
+    public function getEmbedPayload($option_value = null) {
 
         $color = $this->getApplication()->getBlock('subheader')->getColor();
         $colorized_picto = Core_Controller_Default_Abstract::sGetColorizedImage(
@@ -238,7 +238,7 @@ class Media_Model_Gallery_Image extends Core_Model_Default {
         return $assets;
     }
 
-    public function copyTo($option) {
+    public function copyTo($option, $parent_id = null) {
 
         $images = array();
         if($this->getTypeId() == 'custom') {

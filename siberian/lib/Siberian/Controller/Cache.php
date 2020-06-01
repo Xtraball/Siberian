@@ -42,21 +42,22 @@ class Siberian_Controller_Cache extends Zend_Controller_Action
         //Tous les dispatch (meme les re-dispatch invoqués par les helper (actions,vues,forward) reconstruisent
         parent::__construct($request, $response, $invokeArgs);
 
-        $this->_logger = Zend_Controller_Front::getInstance()->getParam("bootstrap")->getResource("Log");
+        $this->_logger = Zend_Controller_Front::getInstance()
+            ->getParam('bootstrap')->getResource('Log');
 
-        $this->cache_global = Zend_Controller_Front::getInstance()->getParam("bootstrap")->getResource("CacheManager")->getCache('global');
+        $this->cache_global = Zend_Controller_Front::getInstance()
+            ->getParam('bootstrap')->getResource('CacheManager')->getCache('global');
     }
 
-
     /**
-     * Retourne la config du cache pour cette action ou false
-     * @return mixed Zend_Config|boolean
+     * @return bool|null
+     * @throws Zend_Exception
      */
     protected function getConfig()
     {
         if ($this->_config === null) {
             $name = $this->getCacheName();
-            $this->_config = isset(Zend_Registry::get('config')->cache->$name) ? Zend_Registry::get('config')->cache->$name : false;
+            $this->_config = Zend_Registry::get('config')->cache->$name ?? false;
         }
 
         return $this->_config;
@@ -74,10 +75,11 @@ class Siberian_Controller_Cache extends Zend_Controller_Action
     }
 
     /**
-     * Dispatch the requested action
-     *
-     * @param string $action Method name of action
-     * @return void
+     * @param string $action
+     * @throws Zend_Cache_Exception
+     * @throws Zend_Controller_Action_Exception
+     * @throws Zend_Controller_Response_Exception
+     * @throws Zend_Exception
      */
     public function dispatch($action)
     {

@@ -38,7 +38,7 @@ class Media_Model_Gallery_Video extends Core_Model_Default {
      * @param $option_value
      * @return bool
      */
-    public function getEmbedPayload($option_value) {
+    public function getEmbedPayload($option_value = null) {
 
         $payload = array(
             "collection"                => array(),
@@ -177,7 +177,7 @@ class Media_Model_Gallery_Video extends Core_Model_Default {
         }
     }
 
-    public function copyTo($option) {
+    public function copyTo($option, $parent_id = null) {
 
         $this->getTypeInstance()->setId(null);
         $this->setId(null)

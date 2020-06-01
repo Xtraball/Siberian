@@ -89,19 +89,6 @@
 
 - (void)evalJsHelper:(NSString*)js
 {
-    // Cycle the run-loop before executing the JS.
-    // For _delayResponses -
-    //    This ensures that we don't eval JS during the middle of an existing JS
-    //    function (possible since UIWebViewDelegate callbacks can be synchronous).
-    // For !isMainThread -
-    //    It's a hard error to eval on the non-UI thread.
-    // For !_commandQueue.currentlyExecuting -
-    //     This works around a bug where sometimes alerts() within callbacks can cause
-    //     dead-lock.
-    //     If the commandQueue is currently executing, then we know that it is safe to
-    //     execute the callback immediately.
-    // Using    (dispatch_get_main_queue()) does *not* fix deadlocks for some reason,
-    // but performSelectorOnMainThread: does.
     if (_delayResponses || ![NSThread isMainThread] || !_commandQueue.currentlyExecuting) {
         [self performSelectorOnMainThread:@selector(evalJsHelper2:) withObject:js waitUntilDone:NO];
     } else {

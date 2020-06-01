@@ -67,7 +67,7 @@ class Cms_Model_Application_Page extends Core_Model_Default
      * @param $option_value
      * @return bool
      */
-    public function getEmbedPayload($option_value)
+    public function getEmbedPayload($option_value = null)
     {
 
         switch ($option_value->getCode()) {
@@ -147,10 +147,10 @@ class Cms_Model_Application_Page extends Core_Model_Default
     public function getAppInitUris($optionValue)
     {
         $featureUrl = __url('/cms/mobile_page_view/index', [
-            'value_id' => $this->getValueId(),
+            'value_id' => $optionValue->getId(),
         ]);
         $featurePath = __path('/cms/mobile_page_view/index', [
-            'value_id' => $this->getValueId(),
+            'value_id' => $optionValue->getId(),
         ]);
 
         return [
@@ -711,7 +711,7 @@ class Cms_Model_Application_Page extends Core_Model_Default
     /**
      * @param $option
      */
-    public function copyTo($option)
+    public function copyTo($option, $parent_id = null)
     {
         $blocks = [];
 

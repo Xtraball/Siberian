@@ -120,7 +120,7 @@ class Folder_Model_Folder extends Core_Model_Default
      * @param $option_value
      * @return bool|array
      */
-    public function getEmbedPayload($option_value)
+    public function getEmbedPayload($option_value = null)
     {
 
         $payload = [
@@ -540,7 +540,7 @@ class Folder_Model_Folder extends Core_Model_Default
      * @param $option
      * @return $this
      */
-    public function copyTo($option)
+    public function copyTo($option, $parent_id = null)
     {
         return $this;
     }

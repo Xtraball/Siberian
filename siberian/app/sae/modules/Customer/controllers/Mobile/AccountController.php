@@ -67,7 +67,7 @@ class Customer_Mobile_AccountController extends Application_Controller_Mobile_De
     {
         $title = __("Create");
         if($this->getSession()->isLoggedIn('customer')) {
-            $title = __("My Account");
+            $title = __("My account");
         }
 
         $this->loadPartials($this->getFullActionName('_').'_l'.$this->_layout_id, false);
@@ -459,20 +459,17 @@ class Customer_Mobile_AccountController extends Application_Controller_Mobile_De
                 ->setGdprToken($newToken)
                 ->save();
 
-            $request = $this->getRequest();
+            $host = __get('main_domain');
             $whitelabel = Siberian::getWhitelabel();
             if ($whitelabel !== false) {
-                $host = $whitelabel->getHost();
-            } else {
-                $host = $request->getHttpHost();
+                $wlHost = $whitelabel->getHost();
+                $wlHost = trim($wlHost);
+                if (!empty($wlHost)) {
+                    $host = $wlHost;
+                }
             }
 
-            $protocol = explode('://', $request->getBaseUrl())[0];
-            if (empty($protocol)) {
-                $protocol = 'https';
-            }
-
-            $url = sprintf('%s://%s/%s?token=%s', $protocol, $host, 'customer/account/mydata', $newToken);
+            $url = sprintf('https://%s/%s?token=%s', $host, 'customer/account/mydata', $newToken);
 
             try {
                 // E-Mail back the user!

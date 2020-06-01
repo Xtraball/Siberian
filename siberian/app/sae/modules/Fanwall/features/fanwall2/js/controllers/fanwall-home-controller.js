@@ -2,165 +2,158 @@
  * Module FanWall
  *
  * @author Xtraball SAS <dev@xtraball.com>
- * @version 4.17.0
+ * @version 4.18.20
  */
 angular
-.module("starter")
-.controller("FanwallHomeController", function ($rootScope, $scope, $state, $stateParams, $translate, $timeout,
-                                               $ionicSideMenuDelegate, Customer, Dialog,
-                                               Location, Fanwall, FanwallUtils, GoogleMaps) {
-    angular.extend($scope, {
-        settingsIsLoaded: false,
-        value_id: $stateParams.value_id,
-        collection: [],
-        pageTitle: '',
-        hasMore: false,
-        currentTab: 'post'
-    });
+    .module('starter')
+    .controller('FanwallHomeController', function ($rootScope, $scope, $state, $stateParams, $translate, $timeout,
+                                                   $ionicSideMenuDelegate, Customer, Dialog,
+                                                   Location, Fanwall, FanwallUtils, GoogleMaps) {
+        angular.extend($scope, {
+            settingsAreLoaded: false,
+            value_id: $stateParams.value_id,
+            collection: [],
+            pageTitle: '',
+            hasMore: false,
+            currentTab: 'post'
+        });
 
-    Fanwall.setValueId($stateParams.value_id);
+        $scope.getCardDesign = function () {
+            return Fanwall.getSettings().cardDesign;
+        };
 
-    $scope.getCardDesign = function () {
-        return Fanwall.cardDesign;
-    };
+        $scope.getSettings = function () {
+            return Fanwall.getSettings();
+        };
 
-    $scope.getSettings = function () {
-        return Fanwall.settings;
-    };
+        /**
+         * Are we in a tab that requires the location
+         * @returns {*|number}
+         */
+        $scope.locationTab = function () {
+            return ['nearby', 'map'].indexOf($scope.currentTab) !== -1;
+        };
 
-    /**
-     * Are we in a tab that requires the location
-     * @returns {*|number}
-     */
-    $scope.locationTab = function () {
-        return ['nearby', 'map'].indexOf($scope.currentTab) !== -1;
-    };
+        $scope.locationIsDisabled = function () {
+            return !Location.isEnabled;
+        };
 
-    $scope.locationIsDisabled = function () {
-        return !Location.isEnabled;
-    };
+        $scope.showTab = function (tabName) {
+            $ionicSideMenuDelegate.canDragContent(tabName !== 'map');
 
-    $scope.toggleDesign = function () {
-        Fanwall.toggleDesign();
-    };
+            var homeScope = $scope;
 
-    $scope.showTab = function (tabName) {
-        $ionicSideMenuDelegate.canDragContent(tabName !== "map");
+            if (tabName === 'profile' &&
+                !Customer.isLoggedIn()) {
+                return Customer.loginModal(
+                    undefined,
+                    function () {
+                        homeScope.showTab('profile');
+                    },
+                    undefined,
+                    function () {
+                        homeScope.showTab('profile');
+                    }
+                );
+            }
 
-        var homeScope = $scope;
+            $scope.currentTab = tabName;
+        };
 
-        if (tabName === "profile" &&
-            !Customer.isLoggedIn()) {
-            return Customer.loginModal(
-                undefined,
-                function () {
-                    homeScope.showTab("profile");
-                },
-                undefined,
-                function () {
-                    homeScope.showTab("profile");
-                }
-            );
-        }
+        $scope.$on('$ionicView.afterLeave', function () {
+            $ionicSideMenuDelegate.canDragContent(true);
+        });
 
-        $scope.currentTab = tabName;
-    };
+        $scope.classTab = function (key) {
+            if ($scope.currentTab === key) {
+                return ['fw-icon-selected', 'icon-active-custom'];
+            }
+            return ['icon-custom'];
+        };
 
-    $scope.$on('$ionicView.afterLeave', function () {
-        $ionicSideMenuDelegate.canDragContent(true);
-    });
+        $scope.isEnabled = function (key) {
+            var features = $scope.getSettings().features;
 
-    $scope.classTab = function (key) {
-        if ($scope.currentTab === key) {
-            return ["fw-icon-selected", "icon-active-custom"];
-        }
-        return ["icon-custom"];
-    };
+            return features[key];
+        };
 
-    $scope.isEnabled = function (key) {
-        var features = $scope.getSettings().features;
+        $scope.displayProfile = function () {
+            var features = $scope.getSettings().features;
 
-        return features[key];
-    };
+            return features.enableUserLike ||
+                features.enableUserPost ||
+                features.enableUserComment;
+        };
 
-    $scope.displayProfile = function () {
-        var features = $scope.getSettings().features;
+        $scope.displaySubHeader = function () {
+            var features = $scope.getSettings().features;
 
-        return features.enableUserLike ||
-            features.enableUserPost ||
-            features.enableUserComment;
-    };
+            return features.enableNearby ||
+                features.enableMap ||
+                features.enableGallery ||
+                features.enableUserPost;
+        };
 
-    $scope.displaySubHeader = function () {
-        var features = $scope.getSettings().features;
+        $scope.displayIcon = function (key) {
+            var icons = $scope.getSettings().icons;
+            switch (key) {
+                case 'post':
+                    return (icons.post !== null) ?
+                        "<img class=\"fw-icon-header icon-topics\" src=\"" + icons.post + "\" />" :
+                        "<i class=\"icon ion-sb-fw-topics\"></i>";
+                case 'nearby':
+                    return (icons.nearby !== null) ?
+                        "<img class=\"fw-icon-header icon-nearby\" src=\"" + icons.nearby + "\" />" :
+                        "<i class=\"icon ion-sb-fw-nearby\"></i>";
+                case 'map':
+                    return (icons.map !== null) ?
+                        "<img class=\"fw-icon-header icon-map\" src=\"" + icons.map + "\" />" :
+                        "<i class=\"icon ion-sb-fw-map\"></i>";
+                case 'gallery':
+                    return (icons.gallery !== null) ?
+                        "<img class=\"fw-icon-header icon-gallery\" src=\"" + icons.gallery + "\" />" :
+                        "<i class=\"icon ion-sb-fw-gallery\"></i>";
+                case 'new':
+                    return (icons.new !== null) ?
+                        "<img class=\"fw-icon-header icon-post\" src=\"" + icons.new + "\" />" :
+                        "<i class=\"icon ion-sb-fw-post\"></i>";
+                case 'profile':
+                    return (icons.profile !== null) ?
+                        "<img class=\"fw-icon-header icon-post\" src=\"" + icons.profile + "\" />" :
+                        "<i class=\"icon ion-sb-fw-profile\"></i>";
+            }
+        };
 
-        return features.enableNearby ||
-               features.enableMap ||
-               features.enableGallery ||
-               features.enableUserPost;
-    };
+        $scope.refresh = function () {
+            $rootScope.$broadcast('fanwall.refresh');
+        };
 
-    $scope.displayIcon = function (key) {
-        var icons = $scope.getSettings().icons;
-        switch (key) {
-            case "post":
-                return (icons.post !== null) ?
-                    "<img class=\"fw-icon-header icon-topics\" src=\"" + icons.post + "\" />" :
-                    "<i class=\"icon ion-sb-fw-topics\"></i>";
-            case "nearby":
-                return (icons.nearby !== null) ?
-                    "<img class=\"fw-icon-header icon-nearby\" src=\"" + icons.nearby + "\" />" :
-                    "<i class=\"icon ion-sb-fw-nearby\"></i>";
-            case "map":
-                return (icons.map !== null) ?
-                    "<img class=\"fw-icon-header icon-map\" src=\"" + icons.map + "\" />" :
-                    "<i class=\"icon ion-sb-fw-map\"></i>";
-            case "gallery":
-                return (icons.gallery !== null) ?
-                    "<img class=\"fw-icon-header icon-gallery\" src=\"" + icons.gallery + "\" />" :
-                    "<i class=\"icon ion-sb-fw-gallery\"></i>";
-            case "new":
-                return (icons.new !== null) ?
-                    "<img class=\"fw-icon-header icon-post\" src=\"" + icons.new + "\" />" :
-                    "<i class=\"icon ion-sb-fw-post\"></i>";
-            case "profile":
-                return (icons.profile !== null) ?
-                    "<img class=\"fw-icon-header icon-post\" src=\"" + icons.profile + "\" />" :
-                    "<i class=\"icon ion-sb-fw-profile\"></i>";
-        }
-    };
+        $rootScope.$on('location.request.success', function () {
+            $scope.refresh();
+        });
 
-    $scope.refresh = function () {
-        $rootScope.$broadcast('fanwall.refresh');
-    };
+        // Modal create post!
+        $scope.newPost = function () {
+            if (!Customer.isLoggedIn()) {
+                return Customer.loginModal();
+            }
 
-    $rootScope.$on('location.request.success', function () {
-        $scope.refresh();
-    });
+            return FanwallUtils.postModal();
+        };
 
-    // Modal create post!
-    $scope.newPost = function () {
-        if (!Customer.isLoggedIn()) {
-            return Customer.loginModal();
-        }
+        GoogleMaps.init();
 
-        return FanwallUtils.postModal();
-    };
+        Fanwall
+            .loadSettings()
+            .then(function () {
+                $scope.getCardDesign();
+                $scope.getSettings();
+                $scope.settingsAreLoaded = true;
+            });
 
-    GoogleMaps.init();
-
-    Fanwall
-    .loadSettings()
-    .then(function (payload) {
-        Fanwall.settings = angular.copy(payload.settings);
-        Fanwall.cardDesign = Fanwall.settings.cardDesign;
-
-        $scope.settingsIsLoaded = true;
-    });
-
-    $rootScope.$on('fanwall.pageTitle', function (event, payload) {
-        $timeout(function () {
-            $scope.pageTitle = payload.pageTitle;
+        $rootScope.$on('fanwall.pageTitle', function (event, payload) {
+            $timeout(function () {
+                $scope.pageTitle = payload.pageTitle;
+            });
         });
     });
-});

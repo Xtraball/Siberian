@@ -96,7 +96,7 @@ var IAB = {
                 browserWrap = document.createElement('div');
                 browserWrap.style.position = 'absolute';
                 browserWrap.style.top = '0';
-                browserWrap.class = 'inappbrowser-modal';
+                browserWrap.setAttribute('class', 'inappbrowser-modal');
                 browserWrap.style.left = '0';
                 browserWrap.style.boxSizing = 'border-box';
                 browserWrap.style.borderWidth = '0';
@@ -137,7 +137,7 @@ var IAB = {
                 popup.style.height = 'calc(100% - 28px)';
 
                 navigationButtonsDiv = document.createElement('div');
-                navigationButtonsDiv.style.backgroundColor = '#404040';
+                navigationButtonsDiv.setAttribute('class', 'iab-footer-nav');
                 navigationButtonsDiv.style.zIndex = '999';
                 navigationButtonsDiv.style.height = '28px';
                 navigationButtonsDiv.style.backgroundColor = '#e0e0e0';
@@ -160,6 +160,7 @@ var IAB = {
 
                 backButton = document.createElement('button');
                 backButton.setAttribute('rel', 'iab-button');
+                backButton.setAttribute('class', 'inappbrowser-footer-back iab-footer-button');
                 backButton.style.border = '0';
                 backButton.style.background = 'none';
                 backButton.style.fontSize = '24px';
@@ -173,6 +174,7 @@ var IAB = {
 
                 forwardButton = document.createElement('button');
                 forwardButton.setAttribute('rel', 'iab-button');
+                forwardButton.setAttribute('class', 'inappbrowser-footer-forward iab-footer-button');
                 forwardButton.style.border = '0';
                 forwardButton.style.background = 'none';
                 forwardButton.style.fontSize = '24px';
@@ -185,6 +187,7 @@ var IAB = {
 
                 closeButton = document.createElement('button');
                 closeButton.setAttribute('rel', 'iab-button');
+                closeButton.setAttribute('class', 'inappbrowser-footer-close iab-footer-button');
                 closeButton.style.border = '0';
                 closeButton.style.background = 'none';
                 closeButton.style.fontSize = '24px';

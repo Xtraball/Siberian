@@ -1,18 +1,20 @@
 <?php
 
+use Siberian\Feature;
+
 class Radio_ApplicationController extends Application_Controller_Default
 {
 
     /**
      * @var array
      */
-    public $cache_triggers = array(
-        "editpost" => array(
-            "tags" => array(
-                "homepage_app_#APP_ID#",
-            ),
-        ),
-    );
+    public $cache_triggers = [
+        'editpost' => [
+            'tags' => [
+                'homepage_app_#APP_ID#',
+            ],
+        ],
+    ];
 
     /**
      * Simple edit post, validator
@@ -36,31 +38,19 @@ class Radio_ApplicationController extends Application_Controller_Default
             } else {
                 /** Do whatever you need when form is valid */
                 $radio = new Radio_Model_Radio();
-                $radio->find($values["radio_id"]);
+                $radio->find($values['radio_id']);
                 $radio->setData($values);
-
-                // Fix for shoutcast, force stream! fix once for all!
-                $contentType = Siberian_Request::testStream($radio->getData('link'));
-                if (!in_array(explode('/', $contentType)[0], ['audio']) &&
-                    !in_array($contentType, ['application/ogg'])) {
-                    if (strrpos($radio->getData('link'), ';') === false) {
-                        $radio->setData('link', $radio->getData('link') . '/;');
-                    }
-                }
 
                 // Set version 2 on create/save, means it's been updated
                 $radio->setVersion(2);
 
-                \Siberian\Feature::formImageForOption(
+                Feature::formImageForOption(
                     $this->getCurrentOptionValue(),
                     $radio,
                     $values,
-                    "background",
+                    'background',
                     true
                 );
-
-                /** Alert ipv4 */
-                $warning_message = Siberian_Network::testipv4($values['link']);
 
                 $radio->save();
 
@@ -69,10 +59,10 @@ class Radio_ApplicationController extends Application_Controller_Default
                     ->touch()
                     ->expires(-1);
 
-                $payload = array(
+                $payload = [
                     'success' => true,
                     'message' => __('Success.'),
-                );
+                ];
             }
         } catch (\Exception $e) {
             $payload = [

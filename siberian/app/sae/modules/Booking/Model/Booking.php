@@ -65,7 +65,7 @@ class Booking_Model_Booking extends Core_Model_Default
      * @param $option_value
      * @return array
      */
-    public function getEmbedPayload($option_value)
+    public function getEmbedPayload($option_value = null)
     {
         $payload = [
             "stores" => [],
@@ -141,7 +141,7 @@ class Booking_Model_Booking extends Core_Model_Default
      * @param $option
      * @return $this
      */
-    public function copyTo($option)
+    public function copyTo($option, $parent_id = null)
     {
         $store = new Booking_Model_Store();
         $stores = $store->findAll(['booking_id' => $this->getId()]);

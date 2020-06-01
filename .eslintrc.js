@@ -1,11 +1,5 @@
-/*global
-    module
- */
-
 /**
- * Siberian @ Xtraball SAS
- *
- * @date 17-August-2017
+ * @date 2-May-2020
  * @author Xtraball SAS <dev@xtraball.com>
  */
 module.exports = {

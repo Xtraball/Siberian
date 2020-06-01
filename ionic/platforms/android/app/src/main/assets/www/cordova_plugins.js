@@ -377,14 +377,6 @@ module.exports = [
     ]
   },
   {
-    "id": "OfflineMode.OfflineMode",
-    "file": "plugins/OfflineMode/www/OfflineMode.js",
-    "pluginId": "OfflineMode",
-    "clobbers": [
-      "window.OfflineMode"
-    ]
-  },
-  {
     "id": "Insomnia.Insomnia",
     "file": "plugins/Insomnia/www/Insomnia.js",
     "pluginId": "Insomnia",
@@ -409,6 +401,22 @@ module.exports = [
     ]
   },
   {
+    "id": "MediaNative.MediaError",
+    "file": "plugins/MediaNative/www/MediaError.js",
+    "pluginId": "MediaNative",
+    "clobbers": [
+      "MediaError"
+    ]
+  },
+  {
+    "id": "MediaNative.MediaNative",
+    "file": "plugins/MediaNative/www/Media.js",
+    "pluginId": "MediaNative",
+    "clobbers": [
+      "MediaNative"
+    ]
+  },
+  {
     "id": "Navigator.Navigator",
     "file": "plugins/Navigator/www/navigator.js",
     "pluginId": "Navigator",
@@ -423,12 +431,19 @@ module.exports = [
     "clobbers": [
       "cordova.plugins.permissions"
     ]
+  },
+  {
+    "id": "Toast.Toast",
+    "file": "plugins/Toast/www/Toast.js",
+    "pluginId": "Toast",
+    "clobbers": [
+      "window.plugins.toast"
+    ]
   }
 ];
 module.exports.metadata = 
 // TOP OF METADATA
 {
-  "Extension": "1.5.4",
   "Chcp": "1.5.2",
   "Geofence": "0.6.0",
   "SplashScreen": "5.0.2",
@@ -443,21 +458,22 @@ module.exports.metadata =
   "Camera": "4.0.3",
   "Clipboard": "0.1.0",
   "Device": "2.0.2",
-  "File": "6.0.1",
+  "File": "6.0.2",
   "Geolocation": "4.0.1",
-  "InAppBrowser": "3.1.1-dev",
+  "InAppBrowser": "3.2.0",
   "Keyboard": "2.2.0",
-  "SocialSharing": "5.4.0",
+  "SocialSharing": "5.6.4",
   "StatusBar": "2.4.1",
   "WhiteList": "1.2.1",
   "LocalNotification": "0.9.0-beta.3",
-  "OfflineMode": "1.0.0",
   "Insomnia": "4.3.0",
   "IonicWebview": "4.0.1",
-  "MusicControls": "2.2.1",
+  "MusicControls": "3.0.4",
+  "MediaNative": "5.0.3",
   "Navigator": "0.1.0",
   "Permissions": "1.0.0",
-  "Siberian": "1.0.0"
+  "Siberian": "1.0.0",
+  "Toast": "2.7.2"
 };
 // BOTTOM OF METADATA
 });

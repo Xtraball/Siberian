@@ -3,7 +3,7 @@
  */
 angular
 .module("starter")
-.directive("sbHtml", function ($sce, $filter, $state, $parse, $compile, $timeout, Customer, Pages, Dialog, LinkService) {
+.directive("sbHtml", function ($sce, $filter, $parse, $compile, InAppLinks, LinkService) {
     return {
         restrict: 'A',
         compile: function sbHtmlCompile(tElement, tAttrs) {
@@ -14,35 +14,14 @@ angular
             });
             var bindLinks = function (element) {
                 var linksCollection = angular.element(element).find("a");
-                angular.forEach(linksCollection, function (elem) {
-                    if (typeof elem.attributes["data-state"] !== "undefined") {
+                angular.forEach(linksCollection, function (_element) {
 
-                        var params = elem.attributes["data-params"].value;
-                        params = params.replace(/(^\?)/,'').split(",").map(function(n){return n = n.split(":"),this[n[0].trim()] = n[1],this}.bind({}))[0];
-                        var state = elem.attributes["data-state"].value;
-                        angular.element(elem).bind("click", function (e) {
-                            e.preventDefault();
-
-                            // Special in-app link for my account!
-                            if (state === "my-account") {
-                                Customer.loginModal();
-                            } else {
-                                if (params.hasOwnProperty("value_id")) {
-                                    var feature = Pages.getValueId(params.value_id);
-                                    if (feature && !feature.is_active) {
-                                        Dialog.alert("Error", "This feature is no longer available.", "OK", 2350);
-                                        return;
-                                    }
-                                }
-
-                                $state.go(state, params);
-                            }
-                        });
-
+                    if (_element.attributes.hasOwnProperty('data-state')) {
+                        InAppLinks.handlerLink(_element);
                     } else {
-                        angular.element(elem).bind("click", function (e) {
-                            e.preventDefault();
-                            LinkService.openLink(elem.href, {}, false);
+                        angular.element(_element).bind('click', function (event) {
+                            event.preventDefault();
+                            LinkService.openLink(_element.href, {}, true);
                         });
                     }
                 });

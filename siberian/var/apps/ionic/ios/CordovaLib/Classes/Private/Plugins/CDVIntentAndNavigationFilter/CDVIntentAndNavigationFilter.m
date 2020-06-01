@@ -95,13 +95,8 @@
     return [[self class] filterUrl:url intentsWhitelist:self.allowIntentsWhitelist navigationsWhitelist:self.allowNavigationsWhitelist];
 }
 
-#if WK_WEB_VIEW_ONLY
 #define CDVWebViewNavigationTypeLinkClicked 0
 #define CDVWebViewNavigationTypeOther 5
-#else
-#define CDVWebViewNavigationTypeLinkClicked UIWebViewNavigationTypeLinkClicked
-#define CDVWebViewNavigationTypeOther UIWebViewNavigationTypeOther
-#endif
 
 + (BOOL)shouldOpenURLRequest:(NSURLRequest*)request navigationType:(CDVWebViewNavigationType)navigationType
 {
