@@ -6,5 +6,6 @@
     <ion-radio class="radio-custom radio-item"
                ng-repeat="option in field.options track by $index"
                ng-model="field.value"
+               name="radio_group_{{ field.field_id }}"
                value="{{ option.value }}">{{ option.label }}</ion-radio>
 </div>
