@@ -21,7 +21,7 @@
                   class="show-post">
             <fanwall-post-history-item repeat-done="listDidRender()"
                                        id="{{ item.date }}"
-                                       ng-if="item.date > post.date"
+                                       ng-if="willPresentHistory(post, item)"
                                        ng-repeat="item in post.history track by item.date"></fanwall-post-history-item>
         </ion-list>
     </ion-content>

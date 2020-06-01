@@ -82,6 +82,14 @@ angular
                 modalReady: false,
                 close: function () {
                     factory._showPostHistoryModal.hide();
+                },
+                willPresentHistory: function (post, item) {
+                    if (!post.isScheduled) {
+                        return true;
+                    } else if (item.date > post.date) {
+                        return true;
+                    }
+                    return false;
                 }
             });
 
