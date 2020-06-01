@@ -239,34 +239,41 @@ class Mcommerce_Model_Order extends Core_Model_Default {
         $y = 760;
 
         // Customer information
-        $page->setFont($font_bold, 20);
+        $page->setFont($font_bold, 12);
         $page->drawText(__("Client"), 50, $y); $y -= 30;
 
-        $page->setFont($font_regular, 12);
+        $page->setFont($font_regular, 10);
         $page->drawText($this->fetchCustomerName(), 50, $y);$y-=15;
-        if($this->getCustomerStreet() AND $this->getCustomerCity()) {
-            $page->drawText($this->getCustomerStreet(), 50, $y);$y-=15;
-            $page->drawText($this->getCustomerPostcode() . ", " . $this->getCustomerCity(), 50, $y);$y-=15;
+
+        $customer = $this->getCustomer();
+        $data = $customer->getMetadatas();
+
+        $phone = $data['phone'];
+        $delivery_address = $data['delivery_address'];
+
+        if($delivery_address) {
+            $page->drawText($delivery_address['street'], 50, $y);$y-=15;
+            $page->drawText($delivery_address['postcode'] . ", " . $delivery_address['city'] .", " . $delivery_address['country'], 50, $y);$y-=15;
         }
-        $page->drawText($this->getCustomerPhone(), 50, $y); $y -= 45;
+        $page->drawText($phone, 50, $y); $y -= 45;
 
 
         // Order general information
-        $page->setFont($font_bold, 20);
+        $page->setFont($font_bold, 12);
         $page->drawText(__("Order details"), 50, $y); $y -= 30;
 
-        $page->setFont($font_bold, 12);
+        $page->setFont($font_bold, 10);
         $page->drawText(__("Order Number"), 50, $y);
         $page->drawText(__("Delivery Method"), 250, $y);
         $page->drawText(__("Payment Method"), 450, $y);$y-=15;
 
-        $page->setFont($font_regular, 12);
+        $page->setFont($font_regular, 10);
         $page->drawText($this->getNumber(), 50, $y);
         $page->drawText($this->getDeliveryMethod(), 250, $y);
         $page->drawText($this->getPaymentMethod(), 450, $y);$y-=45;
 
         // Order items
-        $page->setFont($font_bold, 12);
+        $page->setFont($font_bold, 10);
         $page->drawText(__("Product"), 50, $y);
         $page->drawText(__("Unit Price"), 380, $y);
         $page->drawText(__("Qty"), 460, $y);
