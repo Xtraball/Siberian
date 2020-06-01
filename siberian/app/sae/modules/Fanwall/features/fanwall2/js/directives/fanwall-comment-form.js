@@ -1,13 +1,20 @@
-angular.module('starter')
+/**
+ * fanwallCommentForm
+ *
+ * @author Xtraball SAS <dev@xtraball.com>
+ * @version 4.18.20
+ */
+angular
+    .module('starter')
     .directive('fanwallCommentForm', function ($timeout, Customer, Dialog, Picture, FanwallPost) {
         return {
             restrict: 'E',
             replace: true,
-            templateUrl: "features/fanwall2/assets/templates/l1/modal/directives/comment-form.html",
+            templateUrl: 'features/fanwall2/assets/templates/l1/modal/directives/comment-form.html',
             controller: function ($scope) {
                 angular.extend($scope, {
                     form: {
-                        text: "",
+                        text: '',
                         date: null,
                         picture: null
                     },
@@ -33,7 +40,7 @@ angular.module('starter')
                 $scope.clearComment = function () {
                     $timeout(function () {
                         $scope.form = {
-                            text: "",
+                            text: '',
                             picture: null
                         };
                     });
@@ -50,7 +57,7 @@ angular.module('starter')
                         postId: $scope.post.id,
                         customerId: Customer.customer.id,
                         text: text.replace(/(\r\n|\n\r|\r|\n)/g, "<br />"),
-                        image: "",
+                        image: '',
                         isFlagged: false,
                         date: now,
                         history: [],
@@ -96,7 +103,7 @@ angular.module('starter')
 
                     }, function (payload) {
                         // Show error!
-                        Dialog.alert("Error", payload.message, "OK", -1, "fanwall");
+                        Dialog.alert('Error', payload.message, 'OK', -1, 'OK');
 
                         $scope.post.comments.pop();
 

@@ -292,7 +292,7 @@ class Media_Model_Gallery_Music extends Core_Model_Default {
         }
     }
 
-    public function copyTo($option) {
+    public function copyTo($option, $parent_id = null) {
 
         // Duplicate the gallery
         $old_gallery_id = $this->getId();

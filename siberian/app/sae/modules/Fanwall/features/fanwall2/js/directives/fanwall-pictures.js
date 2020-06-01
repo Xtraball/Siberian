@@ -1,7 +1,8 @@
 /**
- * @directive fanwall-pictures
- * @author Xtraball SAS
- * @version 4.18.5
+ * fanwallPictures
+ *
+ * @author Xtraball SAS <dev@xtraball.com>
+ * @version 4.18.20
  */
 angular
     .module('starter')
@@ -35,7 +36,7 @@ angular
                 $scope.takePicture = function () {
                     if ($scope.form.pictures.length >= $scope.form.limit) {
                         // Nope, can't add more! (but input is normally already disabled)
-                        console.log('shit disabled');
+                        console.log('[takePicture] is disabled.');
                         return;
                     }
 

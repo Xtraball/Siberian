@@ -2,7 +2,7 @@
  * Module FanWall
  *
  * @author Xtraball SAS <dev@xtraball.com>
- * @version 4.17.0
+ * @version 4.18.20
  */
 angular
 .module("starter")
@@ -16,11 +16,9 @@ angular
         currentPost: null,
         filters: {
             latitude: 0,
-            longitude: 0,
+            longitude: 0
         }
     });
-
-    FanwallPost.setValueId($stateParams.value_id);
 
     $scope.hideInfoWindow = function () {
         $scope.showInfoWindow = false;
@@ -30,11 +28,11 @@ angular
         FanwallUtils.showPostModal(postGroup);
     };
 
-    $scope.$on("$ionicView.enter", function () {
+    $scope.$on('$ionicView.enter', function () {
         $ionicSideMenuDelegate.canDragContent(false);
     });
 
-    $scope.$on("$ionicView.leave", function () {
+    $scope.$on('$ionicView.leave', function () {
         $ionicSideMenuDelegate.canDragContent(true);
     });
 
@@ -52,7 +50,7 @@ angular
             .findAllMap($scope.filters, 0, false)
             .then(function (payload) {
                 $scope.collection = payload.collection;
-                $rootScope.$broadcast("fanwall.pageTitle", {pageTitle: payload.pageTitle});
+                $rootScope.$broadcast('fanwall.pageTitle', {pageTitle: payload.pageTitle});
 
                 var markers = [];
                 for (var position in $scope.collection) {
@@ -68,26 +66,26 @@ angular
                         })
                     };
 
-                    marker.latitude = position.split("_")[0];
-                    marker.longitude = position.split("_")[1];
+                    marker.latitude = position.split('_')[0];
+                    marker.longitude = position.split('_')[1];
 
                     var pinUrl;
                     switch (postGroup.length) {
                         case 1:
-                            pinUrl = "./features/fanwall2/assets/templates/images/pin1.svg";
+                            pinUrl = './features/fanwall2/assets/templates/images/pin1.svg';
                             break;
                         case 2:
-                            pinUrl = "./features/fanwall2/assets/templates/images/pin2.svg";
+                            pinUrl = './features/fanwall2/assets/templates/images/pin2.svg';
                             break;
                         case 3:
-                            pinUrl = "./features/fanwall2/assets/templates/images/pin3.svg";
+                            pinUrl = './features/fanwall2/assets/templates/images/pin3.svg';
                             break;
                         case 4:
-                            pinUrl = "./features/fanwall2/assets/templates/images/pin4.svg";
+                            pinUrl = './features/fanwall2/assets/templates/images/pin4.svg';
                             break;
                         case 5:
                         default:
-                            pinUrl = "./features/fanwall2/assets/templates/images/pin5.svg";
+                            pinUrl = './features/fanwall2/assets/templates/images/pin5.svg';
                             break;
                     }
 

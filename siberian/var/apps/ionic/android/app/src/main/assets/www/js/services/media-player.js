@@ -180,6 +180,8 @@ angular
                 service.isRadio = isRadio;
                 service.currentIndex = trackIndex;
 
+                $rootScope.$broadcast(SB.EVENTS.MEDIA_PLAYER.SHOW, {isRadio: service.isRadio});
+
                 if (tracksLoader) {
                     service.tracks = tracksLoader.tracks;
                 }

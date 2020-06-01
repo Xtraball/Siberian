@@ -67,7 +67,7 @@ class Cms_Model_Application_Page extends Core_Model_Default
      * @param $option_value
      * @return bool
      */
-    public function getEmbedPayload($option_value)
+    public function getEmbedPayload($option_value = null)
     {
 
         switch ($option_value->getCode()) {
@@ -711,7 +711,7 @@ class Cms_Model_Application_Page extends Core_Model_Default
     /**
      * @param $option
      */
-    public function copyTo($option)
+    public function copyTo($option, $parent_id = null)
     {
         $blocks = [];
 

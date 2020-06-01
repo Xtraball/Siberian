@@ -113,7 +113,7 @@ class Event_Model_Event extends Core_Model_Default {
         return 'AGENDA_OVI_' . sha1($this->getValueId() . Core_Model_Language::getCurrentLanguage());
     }
 
-    public function copyTo($option) {
+    public function copyTo($option, $parent_id = null) {
 
         if($this->getEventType() == 'cstm') {
             $custom_event = new Event_Model_Event_Custom();

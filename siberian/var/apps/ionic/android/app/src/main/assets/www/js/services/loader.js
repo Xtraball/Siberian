@@ -6,7 +6,6 @@
 angular.module('starter').service('Loader', function ($ionicLoading, $translate, $state, $timeout, Dialog) {
     var service = {
         is_open: false,
-        last_config: '',
         promise: null,
         timeout: null,
         keep_timeout: false,
@@ -72,13 +71,11 @@ angular.module('starter').service('Loader', function ($ionicLoading, $translate,
                 }
             }
 
-            if (service.last_config === null) {
-                service.last_config = angular.extend({
-                    template: template
-                }, config);
-            }
+            var localConfig = angular.extend({
+                template: template
+            }, config);
 
-            service.promise = $ionicLoading.show(service.last_config);
+            service.promise = $ionicLoading.show(localConfig);
 
             service.timeout_count = 0;
             if (service.keep_timeout === true) {
@@ -121,7 +118,6 @@ angular.module('starter').service('Loader', function ($ionicLoading, $translate,
             $timeout.cancel(service.timeout);
             service.timeout = null;
             service.timeout_count = 0;
-            service.last_config = null;
         }
 
         service.clearAbsoluteTimeout();

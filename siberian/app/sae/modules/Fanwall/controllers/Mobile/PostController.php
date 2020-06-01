@@ -37,6 +37,7 @@ class Fanwall_Mobile_PostController extends Application_Controller_Mobile_Defaul
             $customerId = $session->getCustomerId();
 
             $optionValue = $this->getCurrentOptionValue();
+            $valueId = $optionValue->getId();
             $limit = $request->getParam('limit', 20);
             $offset = $request->getParam('offset', 0);
 
@@ -46,7 +47,7 @@ class Fanwall_Mobile_PostController extends Application_Controller_Mobile_Defaul
             ];
 
             // Exclude blockedUsers
-            $query = Blocked::excludePosts($query, $customerId);
+            $query = Blocked::excludePosts($query, $customerId, $valueId);
 
             $order = [
                 'fanwall_post.sticky DESC',
@@ -71,7 +72,7 @@ class Fanwall_Mobile_PostController extends Application_Controller_Mobile_Defaul
                 }
 
                 // Exclude blockedUsers
-                $commentCollection = Blocked::excludeComments($commentCollection, $customerId);
+                $commentCollection = Blocked::excludeComments($commentCollection, $customerId, $valueId);
 
                 $iLiked = false;
                 $likes = (new Like())->findForPostId($post->getId());
@@ -87,20 +88,7 @@ class Fanwall_Mobile_PostController extends Application_Controller_Mobile_Defaul
                     }
                 }
 
-                $author = [
-                    'firstname' => (string) $application->getName(),
-                    'lastname' => (string) '',
-                    'nickname' => (string) $application->getName(),
-                    'image' => (string) $application->getIcon(64),
-                ];
-                if (!empty($post->getCustomerId())) {
-                    $author = [
-                        'firstname' => (string) $post->getFirstname(),
-                        'lastname' => (string) $post->getLastname(),
-                        'nickname' => (string) $post->getNickname(),
-                        'image' => (string) $post->getAuthorImage(),
-                    ];
-                }
+                $author = $this->_fetchAuthor($application, $post);
 
                 $images = array_filter(explode(',', $post->getImage()));
 
@@ -118,14 +106,15 @@ class Fanwall_Mobile_PostController extends Application_Controller_Mobile_Defaul
                     'latitude' => (float) $post->getLatitude(),
                     'longitude' => (float) $post->getLongitude(),
                     'isFlagged' => (boolean) $post->getFlag(),
+                    'isScheduled' => (boolean) $post->getIsScheduled(),
                     'sticky' => (boolean) $post->getSticky(),
-                    'iLiked' => (boolean) $iLiked,
-                    'likeLocked' => (boolean) false,
+                    'iLiked' => $iLiked,
+                    'likeLocked' => false,
                     'author' => $author,
                     'comments' => $commentCollection,
                     'likes' => $likeCollection,
                     'history' => $post->getHistoryJson(),
-                    'showDistance' => (boolean) false,
+                    'showDistance' => false,
                 ];
             }
 
@@ -154,6 +143,7 @@ class Fanwall_Mobile_PostController extends Application_Controller_Mobile_Defaul
             $customerId = $session->getCustomerId();
 
             $optionValue = $this->getCurrentOptionValue();
+            $valueId = $optionValue->getId();
             $limit = $request->getParam('limit', 20);
             $offset = $request->getParam('offset', 0);
 
@@ -186,7 +176,7 @@ class Fanwall_Mobile_PostController extends Application_Controller_Mobile_Defaul
                 }
 
                 // Exclude blockedUsers
-                $commentCollection = Blocked::excludeComments($commentCollection, $customerId);
+                $commentCollection = Blocked::excludeComments($commentCollection, $customerId, $valueId);
 
                 $iLiked = false;
                 $likes = (new Like())->findForPostId($post->getId());
@@ -202,20 +192,7 @@ class Fanwall_Mobile_PostController extends Application_Controller_Mobile_Defaul
                     }
                 }
 
-                $author = [
-                    'firstname' => (string) $application->getName(),
-                    'lastname' => (string) '',
-                    'nickname' => (string) $application->getName(),
-                    'image' => (string) $application->getIcon(64),
-                ];
-                if (!empty($post->getCustomerId())) {
-                    $author = [
-                        'firstname' => (string) $post->getFirstname(),
-                        'lastname' => (string) $post->getLastname(),
-                        'nickname' => (string) $post->getNickname(),
-                        'image' => (string) $post->getAuthorImage(),
-                    ];
-                }
+                $author = $this->_fetchAuthor($application, $post);
 
                 $images = array_filter(explode(',', $post->getImage()));
 
@@ -233,6 +210,7 @@ class Fanwall_Mobile_PostController extends Application_Controller_Mobile_Defaul
                     'latitude' => (float) $post->getLatitude(),
                     'longitude' => (float) $post->getLongitude(),
                     'isFlagged' => (boolean) $post->getFlag(),
+                    'isScheduled' => (boolean) $post->getIsScheduled(),
                     'sticky' => (boolean) $post->getSticky(),
                     'iLiked' => (boolean) $iLiked,
                     'likeLocked' => (boolean) false,
@@ -269,6 +247,7 @@ class Fanwall_Mobile_PostController extends Application_Controller_Mobile_Defaul
             $customerId = $session->getCustomerId();
 
             $optionValue = $this->getCurrentOptionValue();
+            $valueId = $optionValue->getId();
             $limit = $request->getParam('limit', 20);
             $offset = $request->getParam('offset', 0);
             $position = [
@@ -290,7 +269,7 @@ class Fanwall_Mobile_PostController extends Application_Controller_Mobile_Defaul
             ];
 
             // Exclude blockedUsers
-            $query = Blocked::excludePosts($query, $customerId);
+            $query = Blocked::excludePosts($query, $customerId, $valueId);
 
             $order = [
                 'fanwall_post.sticky DESC',
@@ -315,7 +294,7 @@ class Fanwall_Mobile_PostController extends Application_Controller_Mobile_Defaul
                 }
 
                 // Exclude blockedUsers
-                $commentCollection = Blocked::excludeComments($commentCollection, $customerId);
+                $commentCollection = Blocked::excludeComments($commentCollection, $customerId, $valueId);
 
                 $iLiked = false;
                 $likes = (new Like())->findForPostId($post->getId());
@@ -331,20 +310,7 @@ class Fanwall_Mobile_PostController extends Application_Controller_Mobile_Defaul
                     }
                 }
 
-                $author = [
-                    'firstname' => (string) $application->getName(),
-                    'lastname' => (string) '',
-                    'nickname' => (string) $application->getName(),
-                    'image' => (string) $application->getIcon(64),
-                ];
-                if (!empty($post->getCustomerId())) {
-                    $author = [
-                        'firstname' => (string) $post->getFirstname(),
-                        'lastname' => (string) $post->getLastname(),
-                        'nickname' => (string) $post->getNickname(),
-                        'image' => (string) $post->getAuthorImage(),
-                    ];
-                }
+                $author = $this->_fetchAuthor($application, $post);
 
                 $distance = (float) $post->getDistance();
                 $distanceUnit = 'km';
@@ -371,6 +337,7 @@ class Fanwall_Mobile_PostController extends Application_Controller_Mobile_Defaul
                     'latitude' => (float) $post->getLatitude(),
                     'longitude' => (float) $post->getLongitude(),
                     'isFlagged' => (boolean) $post->getFlag(),
+                    'isScheduled' => (boolean) $post->getIsScheduled(),
                     'sticky' => (boolean) $post->getSticky(),
                     'iLiked' => (boolean) $iLiked,
                     'likeLocked' => (boolean) false,
@@ -410,6 +377,7 @@ class Fanwall_Mobile_PostController extends Application_Controller_Mobile_Defaul
             $customerId = $session->getCustomerId();
 
             $optionValue = $this->getCurrentOptionValue();
+            $valueId = $optionValue->getId();
             $position = [
                 'latitude' => $request->getParam('latitude', 0),
                 'longitude' => $request->getParam('longitude', 0),
@@ -429,7 +397,7 @@ class Fanwall_Mobile_PostController extends Application_Controller_Mobile_Defaul
             ];
 
             // Exclude blockedUsers
-            $query = Blocked::excludePosts($query, $customerId);
+            $query = Blocked::excludePosts($query, $customerId, $valueId);
 
             $order = [
                 'fanwall_post.sticky DESC',
@@ -449,7 +417,7 @@ class Fanwall_Mobile_PostController extends Application_Controller_Mobile_Defaul
                 }
 
                 // Exclude blockedUsers
-                $commentCollection = Blocked::excludeComments($commentCollection, $customerId);
+                $commentCollection = Blocked::excludeComments($commentCollection, $customerId, $valueId);
 
                 $iLiked = false;
                 $likes = (new Like())->findForPostId($post->getId());
@@ -465,20 +433,7 @@ class Fanwall_Mobile_PostController extends Application_Controller_Mobile_Defaul
                     }
                 }
 
-                $author = [
-                    'firstname' => (string) $application->getName(),
-                    'lastname' => (string) '',
-                    'nickname' => (string) $application->getName(),
-                    'image' => (string) $application->getIcon(64),
-                ];
-                if (!empty($post->getCustomerId())) {
-                    $author = [
-                        'firstname' => (string) $post->getFirstname(),
-                        'lastname' => (string) $post->getLastname(),
-                        'nickname' => (string) $post->getNickname(),
-                        'image' => (string) $post->getAuthorImage(),
-                    ];
-                }
+                $author = $this->_fetchAuthor($application, $post);
 
                 $distance = (float) $post->getDistance();
                 $distanceUnit = 'km';
@@ -505,6 +460,7 @@ class Fanwall_Mobile_PostController extends Application_Controller_Mobile_Defaul
                     'latitude' => (float) $post->getLatitude(),
                     'longitude' => (float) $post->getLongitude(),
                     'isFlagged' => (boolean) $post->getFlag(),
+                    'isScheduled' => (boolean) $post->getIsScheduled(),
                     'sticky' => (boolean) $post->getSticky(),
                     'iLiked' => (boolean) $iLiked,
                     'likeLocked' => (boolean) false,
@@ -553,9 +509,13 @@ class Fanwall_Mobile_PostController extends Application_Controller_Mobile_Defaul
         try {
             $session = $this->getSession();
             $customerId = $session->getCustomerId();
+            $optionValue = $this->getCurrentOptionValue();
 
             $collection = [];
-            $blocked = (new Blocked())->find($customerId, 'customer_id');
+            $blocked = (new Blocked())->find([
+                'customer_id' => $customerId,
+                'value_id' => $optionValue->getId()
+            ]);
             if ($blocked->getId()) {
                 try {
                     $userIds = Json::decode($blocked->getBlockedUsers());
@@ -563,7 +523,7 @@ class Fanwall_Mobile_PostController extends Application_Controller_Mobile_Defaul
                     $userIds = [];
                 }
                 
-                if (sizeof($userIds) > 0) {
+                if (count($userIds) > 0) {
                     $users = (new Customer())->findAll(['customer_id IN (?)' => $userIds]);
                     
                     foreach ($users as $user) {
@@ -832,6 +792,7 @@ class Fanwall_Mobile_PostController extends Application_Controller_Mobile_Defaul
             $request = $this->getRequest();
             $session = $this->getSession();
             $optionValue = $this->getCurrentOptionValue();
+            $valueId = $optionValue->getId();
             $values = $request->getBodyParams();
 
             if (!$session->isLoggedIn()) {
@@ -925,7 +886,7 @@ class Fanwall_Mobile_PostController extends Application_Controller_Mobile_Defaul
             }
 
             // Exclude blockedUsers
-            $commentCollection = Blocked::excludeComments($commentCollection, $customerId);
+            $commentCollection = Blocked::excludeComments($commentCollection, $customerId, $valueId);
 
             $payload = [
                 'success' => true,
@@ -969,6 +930,7 @@ class Fanwall_Mobile_PostController extends Application_Controller_Mobile_Defaul
             }
 
             $postId = $comment->getPostId();
+            $post = (new Post())->find($postId);
             $comment->delete();
 
             $comments = (new Comment())->findForPostId($postId);
@@ -978,7 +940,7 @@ class Fanwall_Mobile_PostController extends Application_Controller_Mobile_Defaul
             }
 
             // Exclude blockedUsers
-            $commentCollection = Blocked::excludeComments($commentCollection, $customerId);
+            $commentCollection = Blocked::excludeComments($commentCollection, $customerId, $post->getValueId());
 
             $payload = [
                 'success' => true,
@@ -1010,6 +972,7 @@ class Fanwall_Mobile_PostController extends Application_Controller_Mobile_Defaul
 
             $data = $request->getBodyParams();
             $optionValue = $this->getCurrentOptionValue();
+            $valueId = $optionValue->getId();
             $customerId = $session->getCustomerId();
             $from = $data['from'];
             $sourceId = $data['sourceId'];
@@ -1039,7 +1002,10 @@ class Fanwall_Mobile_PostController extends Application_Controller_Mobile_Defaul
                     break;
             }
 
-            $blockedUser = (new Blocked())->find($customerId, 'customer_id');
+            $blockedUser = (new Blocked())->find([
+                'customer_id' => $customerId,
+                'value_id' => $optionValue->getId()
+            ]);
 
             $blockedUserList = [];
             if ($blockedUser->getId()) {
@@ -1066,7 +1032,7 @@ class Fanwall_Mobile_PostController extends Application_Controller_Mobile_Defaul
                 }
 
                 // Exclude blockedUsers
-                $commentCollection = Blocked::excludeComments($commentCollection, $customerId);
+                $commentCollection = Blocked::excludeComments($commentCollection, $customerId, $valueId);
             }
 
             $payload = [
@@ -1101,6 +1067,7 @@ class Fanwall_Mobile_PostController extends Application_Controller_Mobile_Defaul
 
             $data = $request->getBodyParams();
             $optionValue = $this->getCurrentOptionValue();
+            $valueId = $optionValue->getId();
             $customerId = $session->getCustomerId();
             $from = $data['from'];
             $sourceId = $data['sourceId'];
@@ -1134,7 +1101,10 @@ class Fanwall_Mobile_PostController extends Application_Controller_Mobile_Defaul
                     break;
             }
 
-            $blockedUser = (new Blocked())->find($customerId, 'customer_id');
+            $blockedUser = (new Blocked())->find([
+                'customer_id' => $customerId,
+                'value_id' => $optionValue->getId()
+            ]);
 
             $blockedUserList = [];
             if ($blockedUser->getId()) {
@@ -1164,7 +1134,7 @@ class Fanwall_Mobile_PostController extends Application_Controller_Mobile_Defaul
                 }
 
                 // Exclude blockedUsers
-                $commentCollection = Blocked::excludeComments($commentCollection, $customerId);
+                $commentCollection = Blocked::excludeComments($commentCollection, $customerId, $valueId);
             }
 
             $payload = [
@@ -1227,6 +1197,40 @@ class Fanwall_Mobile_PostController extends Application_Controller_Mobile_Defaul
         }
 
         $this->_sendJson($payload);
+    }
+
+    /**
+     * @param $application
+     * @param $post
+     * @return array
+     */
+    protected function _fetchAuthor ($application, $post)
+    {
+        $author = [
+            'firstname' => (string) $application->getName(),
+            'lastname' => '',
+            'nickname' => (string) $application->getName(),
+            'image' => (string) $application->getIcon(64),
+        ];
+        if (!empty($post->getCustomerId())) {
+            if (!empty($post->getAuthorId())) {
+                $author = [
+                    'firstname' => (string) $post->getFirstname(),
+                    'lastname' => (string) $post->getLastname(),
+                    'nickname' => (string) $post->getNickname(),
+                    'image' => (string) $post->getAuthorImage(),
+                ];
+            } else {
+                $author = [
+                    'firstname' => 'John',
+                    'lastname' => 'DOE',
+                    'nickname' => 'John',
+                    'image' => '',
+                ];
+            }
+        }
+
+        return $author;
     }
 
 }

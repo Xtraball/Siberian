@@ -83,6 +83,10 @@
         <param name="ios-package" value="CDVStatusBar" />
         <param name="onload" value="true" />
     </feature>
+    <feature name="LocalNotification">
+        <param name="ios-package" onload="true" value="APPLocalNotification" />
+        <param name="onload" value="true" />
+    </feature>
     <feature name="Insomnia">
         <param name="ios-package" value="Insomnia" />
     </feature>
@@ -125,7 +129,7 @@
     <allow-intent href="whatsapp:*" />
     <chcp>
         <config-file url="PLATFORM_URL" />
-        <native-interface version="15" />
+        <native-interface version="16" />
         <auto-download enabled="false" />
         <auto-install enabled="false" />
     </chcp>

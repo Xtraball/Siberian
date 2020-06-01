@@ -1,12 +1,18 @@
+/**
+ * fanwallCommentList
+ *
+ * @author Xtraball SAS <dev@xtraball.com>
+ * @version 4.18.20
+ */
 angular
-.module("starter")
-.directive("fanwallCommentList", function ($timeout, ModalScrollDelegate, Lightbox) {
+    .module('starter')
+    .directive('fanwallCommentList', function ($timeout, ModalScrollDelegate, Lightbox) {
     return {
-        restrict: "E",
+        restrict: 'E',
         replace: true,
-        templateUrl: "features/fanwall2/assets/templates/l1/modal/directives/comment-list.html",
+        templateUrl: 'features/fanwall2/assets/templates/l1/modal/directives/comment-list.html',
         link: function (scope) {
-            scope.$watch("post", function () {
+            scope.$watch('post', function () {
                 // Updating local `post` instance
                 scope._post = scope.post;
             });
@@ -15,11 +21,11 @@ angular
             $scope.scrollToBottom = function () {
                 $timeout(function () {
                     ModalScrollDelegate
-                        .$getByHandle("fanwall-comment-list")
+                        .$getByHandle('fanwall-comment-list')
                         .scrollBottom(true);
 
                     $timeout(function () {
-                        Lightbox.run(".list-comments");
+                        Lightbox.run('.list-comments');
                     }, 200);
                 }, 200);
             };
@@ -28,7 +34,7 @@ angular
                 $scope.scrollToBottom();
             };
 
-            $rootScope.$on("fanwall.refresh.comments", function (event, payload) {
+            $rootScope.$on('fanwall.refresh.comments', function (event, payload) {
                 // Comments are updated!
                 if (payload.postId === $scope.post.id) {
                     $timeout(function () {

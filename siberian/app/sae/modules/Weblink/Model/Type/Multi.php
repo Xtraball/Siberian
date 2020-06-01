@@ -156,7 +156,7 @@ class Weblink_Model_Type_Multi extends Weblink_Model_Weblink
      * @param $option
      * @return $this
      */
-    public function copyTo($option)
+    public function copyTo($option, $parent_id = null)
     {
 
         $old_weblink_id = $this->getId();

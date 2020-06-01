@@ -448,7 +448,7 @@ class Catalog_Model_Product extends Core_Model_Default {
         }
     }
 
-    public function copyTo($option) {
+    public function copyTo($option, $parent_id = null) {
 
         $this->copyPictureTo($option);
         $this->setId(null)

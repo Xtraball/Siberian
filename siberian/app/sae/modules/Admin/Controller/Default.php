@@ -88,6 +88,14 @@ class Admin_Controller_Default extends Core_Controller_Default
     }
 
     /**
+     * @return mixed
+     */
+    public static function _sGetAcl()
+    {
+        return self::$_acl;
+    }
+
+    /**
      * @return bool
      * @throws Zend_Session_Exception
      */
