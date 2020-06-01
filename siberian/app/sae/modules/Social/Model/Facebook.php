@@ -137,7 +137,7 @@ class Social_Model_Facebook extends Core_Model_Default {
      * @param $option
      * @return $this
      */
-    public function copyTo($option) {
+    public function copyTo($option, $parent_id = null) {
         $this->setId(null)->setValueId($option->getId())->save();
         return $this;
     }

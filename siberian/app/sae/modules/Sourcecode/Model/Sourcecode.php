@@ -42,7 +42,7 @@ class Sourcecode_Model_Sourcecode extends Core_Model_Default {
      * @param $option_value
      * @return bool
      */
-    public function getEmbedPayload($option_value) {
+    public function getEmbedPayload($option_value = null) {
 
         $payload = false;
 
@@ -200,7 +200,7 @@ var inAppLinks = document.querySelectorAll("a[data-state]");
      * @param $option
      * @return $this
      */
-    public function copyTo($option) {
+    public function copyTo($option, $parent_id = null) {
 
         # Remove in-app links
         $content = $this->getHtmlCode();

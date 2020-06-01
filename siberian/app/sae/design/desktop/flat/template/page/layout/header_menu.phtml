@@ -221,7 +221,8 @@ function renderRecursive($markup, $menus, $isChild = false) {
                 $icon = $menu['icon'];
             }
 
-            $isCurrent = $menu['is_current'] ? 'is_current border-blue' : '-';
+            $isCurrent = array_key_exists('is_current', $menu) && $menu['is_current'] ?
+                'is_current border-blue' : '-';
             $markup .= '
                 <li class="' . $isCurrent . '">
                     <a id="' . $id . '"

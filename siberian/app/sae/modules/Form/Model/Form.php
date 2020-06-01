@@ -35,7 +35,7 @@ class Form_Model_Form extends Core_Model_Default
      * @param $option_value
      * @return array
      */
-    public function getEmbedPayload($option_value)
+    public function getEmbedPayload($option_value = null)
     {
 
         $payload = [
@@ -137,7 +137,7 @@ class Form_Model_Form extends Core_Model_Default
         }
     }
 
-    public function copyTo($option)
+    public function copyTo($option, $parent_id = null)
     {
 
         $old_value_id = $this->getValueId();

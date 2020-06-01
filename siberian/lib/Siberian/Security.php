@@ -20,7 +20,7 @@ class Security
         "(<\?php|&lt;\?php|<\?|<script|&lt;script)",
         "((INSERT\s+INTO)|(DELETE\s+FROM)|(DROP\s+TABLE)|(UPDATE.*SET.*=.*('\"`))|(TRUNCATE\s+TABLE))\s+",
         //"(src|onclick|onerror)\s*=\s*('|\")",
-        "(self|top|parent)\s*[",
+        "(self|top|parent)\s*\[",
         "=\s*(self|top|parent)",
         "document\s*\.\s*cookie",
         "\\\x[0-9]+",

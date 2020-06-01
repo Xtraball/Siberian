@@ -747,7 +747,8 @@ class Front_Controller_Api_Base extends Front_Controller_App_Default
             }
 
             // Hide stripe customer id for secure purpose!
-            if($metadata->stripe &&
+            if ($metadata &&
+                $metadata->stripe &&
                 array_key_exists('customerId', $metadata->stripe) &&
                 $metadata->stripe['customerId']) {
                 unset($metadata->stripe['customerId']);

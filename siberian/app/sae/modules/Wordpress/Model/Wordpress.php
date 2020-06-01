@@ -281,7 +281,7 @@ class Wordpress_Model_Wordpress extends Core_Model_Default {
 
     }
 
-    public function copyTo($option) {
+    public function copyTo($option, $parent_id = null) {
 
         $old_wp_id = $this->getId();
         $this->setId(null)->setValueId($option->getId())->save();

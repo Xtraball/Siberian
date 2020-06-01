@@ -31,7 +31,7 @@ class Tip_Model_Tip extends Core_Model_Default {
      * @param $option_value
      * @return bool
      */
-    public function getEmbedPayload($option_value) {
+    public function getEmbedPayload($option_value = null) {
 
         $currency = Core_Model_Language::getCurrentCurrency();
         $payload = array(
