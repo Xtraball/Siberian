@@ -407,7 +407,24 @@ class Mcommerce_Model_Order extends Core_Model_Default {
             $page->drawLine(50, $y, 550, $y);$y-=15;
             $page->setFont($font_regular, 11);
             $y_ref = $y;
-            $page->drawText(html_entity_decode($this->getNotes(), ENT_COMPAT, "UTF-8"), 50, $y_ref);
+
+            $note = html_entity_decode($this->getNotes(), ENT_COMPAT, "UTF-8");
+
+            $words = explode(' ', $note);
+            $line = '';
+            $lines = [];
+            foreach ($words as $word) {
+                if (strlen($line) + strlen($word) <= 90) {
+                    $line .= ' ' . $word;
+                } else {
+                    $lines[] = $line;
+                    $line = $word;
+                }
+            }
+
+            foreach ($lines as $line) {
+                $page->drawText($line, 50, $y_ref);$y_ref-=15;
+            }
         }
 
         return $pdf;
