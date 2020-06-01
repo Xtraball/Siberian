@@ -101,6 +101,7 @@ ext {
 apply from: "../Push/base-build.gradle"
 apply from: "../Badge/base-badge.gradle"
 apply from: "../BarcodeScanner/base-barcodescanner.gradle"
+apply from: "../LocalNotification/base-localnotification.gradle"
 // PLUGIN GRADLE EXTENSIONS END
 
 def hasBuildExtras = file('build-extras.gradle').exists()

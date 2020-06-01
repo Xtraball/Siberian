@@ -369,6 +369,14 @@ module.exports = [
     "runs": true
   },
   {
+    "id": "LocalNotification.LocalNotification",
+    "file": "plugins/LocalNotification/www/local-notification.js",
+    "pluginId": "LocalNotification",
+    "clobbers": [
+      "cordova.plugins.notification.local"
+    ]
+  },
+  {
     "id": "Insomnia.Insomnia",
     "file": "plugins/Insomnia/www/Insomnia.js",
     "pluginId": "Insomnia",
@@ -457,6 +465,7 @@ module.exports.metadata =
   "SocialSharing": "5.6.4",
   "StatusBar": "2.4.1",
   "WhiteList": "1.2.1",
+  "LocalNotification": "0.9.0-beta.3",
   "Insomnia": "4.3.0",
   "IonicWebview": "4.0.1",
   "MusicControls": "3.0.4",
