@@ -9,9 +9,9 @@ namespace Siberian;
 class Manifest
 {
     /**
-     *
+     * @param bool $skipCache
      */
-    public static function rebuild ()
+    public static function rebuild ($skipCache = false)
     {
         try {
             $mainDomain = __get('main_domain');
@@ -22,8 +22,10 @@ class Manifest
 
             echo color('Rebuilding application manifest files.', 'brown') . PHP_EOL;
 
-            Cache::__clearCache();
-
+            if (!$skipCache) {
+                Cache::__clearCache();
+            }
+            
             \Zend_Registry::get('cache')
                 ->clean(\Zend_Cache::CLEANING_MODE_ALL);
 
