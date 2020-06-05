@@ -92,7 +92,7 @@ class Promotion_Model_Promotion extends Core_Model_Default
         parent::save();
     }
 
-    public function copyTo($option) {
+    public function copyTo($option, $parent_id = null) {
         $this->setId(null)->setValueId($option->getId())->save();
         return $this;
     }

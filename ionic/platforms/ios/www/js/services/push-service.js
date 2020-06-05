@@ -3,11 +3,12 @@
  *
  * @author Xtraball SAS
  *
- * @version 4.15.7
+ * @version 4.18.20
  */
-angular.module('starter').service('PushService', function ($cordovaLocalNotification, $location, $log, $q, $rootScope,
-                                                           $translate, $window, $session, Application, Dialog,
-                                                           LinkService, Pages, Push, SB) {
+angular
+    .module('starter')
+    .service('PushService', function ($cordovaLocalNotification, $location, $log, $q, $rootScope, $translate,
+                                      $window, $session, Application, Dialog, LinkService, Pages, Push, SB) {
     var service = {
         push: null,
         isReady: null,
@@ -16,7 +17,9 @@ angular.module('starter').service('PushService', function ($cordovaLocalNotifica
             android: {
                 senderID: '01234567890',
                 icon: 'ic_icon',
-                iconColor: '#0099C7'
+                iconColor: '#0099C7',
+                sound: true,
+                vibrate: true
             },
             ios: {
                 clearBadge: true,
@@ -261,7 +264,16 @@ angular.module('starter').service('PushService', function ($cordovaLocalNotifica
             params.icon = 'res://icon.png';
         }
 
-        $cordovaLocalNotification.schedule(params);
+        try {
+            $cordovaLocalNotification.schedule(
+                angular.extend(
+                    params,
+                    {
+                        sound: (DEVICE_TYPE === SB.DEVICE.TYPE_IOS) ? 'res://Sounds/sb_beep2.caf' : 'res://sb_beep2.mp3'
+                    }));
+        } catch (e) {
+            $cordovaLocalNotification.schedule(params);
+        }
 
         Push.markAsDisplayed(messageId);
     };

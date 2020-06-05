@@ -122,7 +122,7 @@ class Places_Model_Place extends Base
      * @return array|bool
      * @throws Zend_Exception
      */
-    public function getEmbedPayload($optionValue)
+    public function getEmbedPayload($optionValue = null)
     {
         $valueId = $optionValue->getId();
         $payload = [
@@ -253,7 +253,7 @@ class Places_Model_Place extends Base
      * @param $option
      * @return Base|void
      */
-    public function copyTo($option)
+    public function copyTo($option, $parent_id = null)
     {
     }
 

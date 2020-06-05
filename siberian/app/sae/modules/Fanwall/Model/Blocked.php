@@ -12,30 +12,28 @@ use Siberian\Json;
 class Blocked extends Base
 {
     /**
-     * Answer constructor.
-     * @param array $datas
-     * @throws \Zend_Exception
+     * @var string
      */
-    public function __construct($datas = [])
-    {
-        parent::__construct($datas);
-        $this->_db_table = 'Fanwall\Model\Db\Table\Blocked';
-    }
+    protected $_db_table = Db\Table\Blocked::class;
 
     /**
      * @param $query
      * @param $customerId
+     * @param $valueId
      * @return mixed
      * @throws \Zend_Exception
      */
-    public static function excludePosts ($query, $customerId)
+    public static function excludePosts ($query, $customerId, $valueId)
     {
         if (empty($customerId)) {
             return $query;
         }
 
         // blocked users mechanism!
-        $blocked = (new self())->find($customerId, "customer_id");
+        $blocked = (new self())->find([
+            'customer_id' => $customerId,
+            'value_id' => $valueId
+        ]);
 
         $blockedUserList = [];
         if ($blocked->getId()) {
@@ -47,7 +45,7 @@ class Blocked extends Base
         }
 
         // If we have some users blocked, we exclude them!
-        if (sizeof($blockedUserList) > 0) {
+        if (count($blockedUserList) > 0) {
             $query["(fanwall_post.customer_id NOT IN (?) OR fanwall_post.customer_id IS NULL)"] = $blockedUserList;
         }
 
@@ -57,17 +55,21 @@ class Blocked extends Base
     /**
      * @param $comments
      * @param $customerId
+     * @param $valueId
      * @return mixed
      * @throws \Zend_Exception
      */
-    public static function excludeComments ($comments, $customerId)
+    public static function excludeComments ($comments, $customerId, $valueId)
     {
         if (empty($customerId)) {
             return $comments;
         }
 
         // blocked users mechanism!
-        $blocked = (new self())->find($customerId, "customer_id");
+        $blocked = (new self())->find([
+            'customer_id' => $customerId,
+            'value_id' => $valueId
+        ]);
 
         $blockedUserList = [];
         if ($blocked->getId()) {
@@ -80,13 +82,13 @@ class Blocked extends Base
 
         $newComments = [];
         foreach ($comments as $comment) {
-            if (!in_array($comment["customerId"], $blockedUserList)) {
+            if (!in_array($comment['customerId'], $blockedUserList)) {
                 $newComments[] = $comment;
             } else {
-                $comment["text"] = (string) "You have blocked this user posts & comments.";
-                $comment["image"] = (string) "";
-                $comment["author"]["image"] = (string) "";
-                $comment["isBlocked"] = (boolean) true;
+                $comment['text'] = 'You have blocked this user posts & comments.';
+                $comment['image'] = '';
+                $comment['author']['image'] = '';
+                $comment['isBlocked'] = true;
 
                 $newComments[] = $comment;
             }

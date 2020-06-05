@@ -51,7 +51,7 @@ class Contact_Model_Contact extends Core_Model_Default
      * @param $option_value
      * @return bool
      */
-    public function getEmbedPayload($option_value)
+    public function getEmbedPayload($option_value = null)
     {
 
         $payload = false;
@@ -227,7 +227,7 @@ class Contact_Model_Contact extends Core_Model_Default
      * @param $option
      * @return $this
      */
-    public function copyTo($option)
+    public function copyTo($option, $parent_id = null)
     {
 
         $this->setId(null)

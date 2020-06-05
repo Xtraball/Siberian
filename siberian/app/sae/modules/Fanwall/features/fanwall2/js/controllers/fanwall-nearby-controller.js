@@ -2,11 +2,11 @@
  * Module FanWall
  *
  * @author Xtraball SAS <dev@xtraball.com>
- * @version 4.17.0
+ * @version 4.18.20
  */
 angular
-    .module("starter")
-    .controller("FanwallNearbyController", function ($ionicScrollDelegate, $rootScope, $scope, $state,
+    .module('starter')
+    .controller('FanwallNearbyController', function ($ionicScrollDelegate, $rootScope, $scope, $state,
                                                      $stateParams, $timeout, Fanwall, FanwallPost, Location) {
         angular.extend($scope, {
             isLoading: true,
@@ -18,10 +18,8 @@ angular
             hasMore: false
         });
 
-        FanwallPost.setValueId($stateParams.value_id);
-
         $scope.getCardDesign = function () {
-            return Fanwall.cardDesign;
+            return Fanwall.getSettings().cardDesign;
         };
 
         $scope.locationIsDisabled = function () {
@@ -42,7 +40,7 @@ angular
                 $scope.collection = [];
 
                 $timeout(function () {
-                    $ionicScrollDelegate.$getByHandle("mainScroll").scrollTop();
+                    $ionicScrollDelegate.$getByHandle('mainScroll').scrollTop();
                 });
             }
 
@@ -51,7 +49,7 @@ angular
                 .then(function (payload) {
                     $scope.collection = $scope.collection.concat(payload.collection);
 
-                    $rootScope.$broadcast("fanwall.pageTitle", {pageTitle: payload.pageTitle});
+                    $rootScope.$broadcast('fanwall.pageTitle', {pageTitle: payload.pageTitle});
 
                     $scope.hasMore = $scope.collection.length < payload.total;
 
@@ -59,7 +57,7 @@ angular
 
                 }).then(function () {
                     if (loadMore === true) {
-                        $scope.$broadcast("scroll.infiniteScrollComplete");
+                        $scope.$broadcast('scroll.infiniteScrollComplete');
                     }
 
                     if (refresh === true) {
@@ -68,9 +66,9 @@ angular
                 });
         };
 
-        $rootScope.$on("fanwall.refresh", function () {
+        $rootScope.$on('fanwall.refresh', function () {
             // Refresh only the "active" tab
-            if ($scope.currentTab === "nearby") {
+            if ($scope.currentTab === 'nearby') {
                 $scope.loadContent(true);
             }
         });

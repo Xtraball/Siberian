@@ -86,7 +86,7 @@ class Rss_Model_Feed extends Rss_Model_Feed_Abstract
      * @param $option
      * @return $this
      */
-    public function copyTo($option)
+    public function copyTo($option, $parent_id = null)
     {
         $this->setId(null)->setValueId($option->getId())->save();
         return $this;

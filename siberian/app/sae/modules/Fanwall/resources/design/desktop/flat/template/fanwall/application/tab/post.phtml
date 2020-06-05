@@ -56,7 +56,7 @@ $appName = $application->getName();
                                 style="width:10%;"><?php echo p__("fanwall", "Author"); ?></th>
                             <th class="sortable"
                                 style="width:50%;"><?php echo p__("fanwall", "Post"); ?></th>
-                            <th class="sortable date"
+                            <th class="sortable numeric"
                                 style="width:20%;"><?php echo p__("fanwall", "Pub. date"); ?></th>
                             <th></th>
                             <th></th>
@@ -84,7 +84,10 @@ $appName = $application->getName();
                                 <?php endif; ?>
                             </td>
                             <td><?php echo cut(base64_decode($post->getText()), 500); ?></td>
-                            <td class="moment_format"><?php echo $post->getDate(); ?></td>
+                            <td>
+                                <span style="display: none;"><?php echo $post->getDate(); ?></span>
+                                <span class="moment_format"><?php echo $post->getDate(); ?></span>
+                            </td>
                             <td class="toggle-action">
                                 <?php
                                 $formPostPin->getElement("post_id")->setValue($post->getId());

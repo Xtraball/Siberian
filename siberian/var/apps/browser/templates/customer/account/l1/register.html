@@ -54,6 +54,22 @@
                    ng-model="customer.email" />
         </label>
 
+
+        <!-- select -->
+        <label ng-show="is_logged_in"
+               class="item item-custom item-input item-select">
+            <div class="input-label">
+                {{ ::'Language' | translate:'customer' }}
+            </div>
+            <select name="currentLanguage"
+                    ng-model="currentLanguage"
+                    ng-change="reloadLocale(this)">
+                <option ng-repeat="language in getLanguages()"
+                        ng-selected="language == currentLanguage"
+                        value="{{ language }}">{{ language.toUpperCase() }}</option>
+            </select>
+        </label>
+
         <label class="item item-custom"
                ng-click="customer.change_password = !customer.change_password"
                ng-if="is_logged_in">

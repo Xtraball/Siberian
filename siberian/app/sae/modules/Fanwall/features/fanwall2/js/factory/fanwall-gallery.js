@@ -2,44 +2,35 @@
  * Module FanWall
  *
  * @author Xtraball SAS <dev@xtraball.com>
- * @version 4.17.0
+ * @version 4.18.20
  */
-angular.module("starter").factory("FanwallGallery", function ($pwaRequest) {
-    var factory = {
-        value_id: null,
-        extendedOptions: {},
-        collection: []
-    };
+angular
+    .module('starter')
+    .factory('FanwallGallery', function ($pwaRequest, $stateParams) {
 
-    /**
-     *
-     * @param value_id
-     */
-    factory.setValueId = function (value_id) {
-        factory.value_id = value_id;
-    };
+        var factory = {
+            storage: []
+        };
 
-    /**
-     *
-     * @param options
-     */
-    factory.setExtendedOptions = function (options) {
-        factory.extendedOptions = options;
-    };
+        factory.findAll = function (offset, refresh) {
+            if (factory.storage.hasOwnProperty($stateParams.value_id)) {
+                return $pwaRequest.resolve(factory.storage[$stateParams.value_id]);
+            }
 
-    factory.findAll = function (offset, refresh) {
-        if (!this.value_id) {
-            return $pwaRequest.reject("[Factory::FanwallGallery.findAll] missing value_id");
-        }
+            var promise = $pwaRequest.get('fanwall/mobile_gallery/find-all', angular.extend({
+                urlParams: {
+                    value_id: $stateParams.value_id,
+                    offset: offset
+                },
+                refresh: refresh
+            }, factory.extendedOptions));
 
-        return $pwaRequest.get("fanwall/mobile_gallery/find-all", angular.extend({
-            urlParams: {
-                value_id: this.value_id,
-                offset: offset
-            },
-            refresh: refresh
-        }, factory.extendedOptions));
-    };
+            promise.then(function (success) {
+                factory.storage[$stateParams.value_id] = success;
+            });
 
-    return factory;
-});
+            return promise;
+        };
+
+        return factory;
+    });

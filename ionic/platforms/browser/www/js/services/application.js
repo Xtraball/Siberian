@@ -145,6 +145,16 @@ angular
         service.ready = true;
     };
 
+    service.reloadLocale = function (language) {
+        return $pwaRequest.post('front/app/translations', {
+            data: {
+                user_language: language,
+            },
+            timeout: 30000,
+            refresh: true
+        });
+    };
+
     /**
      *
      * @returns {string}

@@ -795,11 +795,25 @@ class Assets
                 $index_path = $path . $www_folder . "index.html";
                 $index_content = file_get_contents($index_path);
 
+
                 $index_content = self::preBuildAction($index_content, $index_path, $type, $platform);
 
                 // For browser/overview remove cdvfile
                 if ($type === "browser") {
                     $index_content = self::__cleanAppOnly($index_content);
+                }
+
+                if (in_array($type, ['browser', 'overview'])) {
+                    // Replace available languages
+                    $languagesPath = $path . $www_folder . 'js/utils/languages.js';
+                    $languagesContent = file_get_contents($languagesPath);
+
+                    $languages = array_map(static function ($_item) {
+                        return "'{$_item}'";
+                    }, array_keys(\Core_Model_Language::getLanguages()));
+
+                    $languagesContent = str_replace("['en']", "[" . implode(', ', $languages) . "]", $languagesContent);
+                    file_put_contents($languagesPath, $languagesContent);
                 }
 
                 foreach (self::$preBuildCallbacks as $callback) {
@@ -829,11 +843,11 @@ class Assets
                 }
 
                 // Add features to index.html
-                foreach (['js', 'css'] as $type) {
-                    if (array_key_exists($type, self::$features_assets)) {
-                        foreach (self::$features_assets[$type] as $code => $assets) {
+                foreach (['js', 'css'] as $_fType) {
+                    if (array_key_exists($_fType, self::$features_assets)) {
+                        foreach (self::$features_assets[$_fType] as $code => $assets) {
                             foreach ($assets as $asset) {
-                                $index_content = self::__appendAsset($index_content, $asset, $type, $code);
+                                $index_content = self::__appendAsset($index_content, $asset, $_fType, $code);
                             }
                         }
                     }
@@ -844,9 +858,8 @@ class Assets
                 }
 
                 // Replace platform-browser for the overview, this is required after a restore app sources!
-                if ($platform === "/var/apps/overview/") {
-
-                    $index_content = str_replace("platform-browser", "platform-overview", $index_content);
+                if ($platform === '/var/apps/overview/') {
+                    $index_content = str_replace('platform-browser', 'platform-overview', $index_content);
                 }
 
                 $index_content = self::postBuildAction($index_content, $index_path, $type, $platform);

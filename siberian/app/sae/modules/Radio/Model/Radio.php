@@ -40,7 +40,7 @@ class Radio_Model_Radio extends Core_Model_Default
      * @param $option_value
      * @return bool
      */
-    public function getEmbedPayload($option_value)
+    public function getEmbedPayload($option_value = null)
     {
 
         $payload = false;

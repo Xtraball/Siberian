@@ -24,7 +24,7 @@ class Weblink_Model_Weblink extends Core_Model_Default
      * @param $optionValue
      * @return array|bool
      */
-    public function getEmbedPayload($optionValue)
+    public function getEmbedPayload($optionValue = null)
     {
         $payload = [
             'weblink' => [
