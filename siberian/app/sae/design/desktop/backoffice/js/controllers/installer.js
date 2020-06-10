@@ -88,6 +88,7 @@ App.config(function ($routeProvider) {
         $scope.header.title = data.title;
         $scope.header.icon = data.icon;
         $scope.words = data.words;
+        $scope.ini = data.ini;
     }).finally(function() {
         $scope.content_loader_is_visible = false;
     });
@@ -154,11 +155,18 @@ App.config(function ($routeProvider) {
 
     /*/******** UPLOADER **********/
     $scope.uploader.onWhenAddingFileFailed = function (item, filter, options) {
-        if (filter.name == "zip_only") {
+        if (filter.name === 'zip_only') {
             $scope.message.setText(Label.uploader.error.type.zip).isError(true).show();
         }
-        if (filter.name == "limit") {
+        if (filter.name === 'limit') {
             $scope.message.setText(Label.uploader.error.only_one_at_a_time).isError(true).show();
+        }
+    };
+
+    $scope.uploader.onAfterAddingFile = function (item) {
+        if (item.file.size > $scope.ini.max_size) {
+            $scope.message.setText($scope.words.maxSize).isError(true).show();
+            $scope.uploader.clearQueue();
         }
     };
 
@@ -172,6 +180,10 @@ App.config(function ($routeProvider) {
             $scope.message.setText(Label.uploader.error.general)
                 .isError(true)
                 .show();
+
+            for (var i = 0; i < $scope.uploader.queue.length; i++) {
+                $scope.uploader.queue[i].remove();
+            }
         }
     };
 

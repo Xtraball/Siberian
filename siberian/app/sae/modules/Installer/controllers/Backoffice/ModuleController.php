@@ -1,6 +1,8 @@
 <?php
 
 use Siberian\File;
+use Siberian\Provider;
+use Siberian\Exception;
 
 /**
  * Class Installer_Backoffice_ModuleController
@@ -10,7 +12,7 @@ class Installer_Backoffice_ModuleController extends Backoffice_Controller_Defaul
     /**
      * @var array
      */
-    static $MODULES = [];
+    public static $MODULES = [];
 
     /**
      * @var bool
@@ -27,6 +29,10 @@ class Installer_Backoffice_ModuleController extends Backoffice_Controller_Defaul
             $stats->statistics();
         }
 
+        $postMaxSize = (int) ini_get('post_max_size');
+        $uploadMaxFilesize = (int) ini_get('upload_max_filesize');
+        $max = max($postMaxSize, $uploadMaxFilesize);
+
         $payload = [
             'title' => sprintf('%s > %s',
                 __('Settings'),
@@ -38,6 +44,7 @@ class Installer_Backoffice_ModuleController extends Backoffice_Controller_Defaul
                 'cancelDelete' => __('No, go back!'),
                 'mismatch' => __('The entered text mismatch'),
                 'confirmKey' => 'yes-proceed-to-update-#VERSION#',
+                'maxSize' => p__('backoffice', 'The file you are trying to send is larger than `post_max_size` or `upload_max_filesize`, please check your PHP settings.'),
                 'majorMessage' =>
                     "<b class=\"delete-warning\">" .
                     __("You are about to update to version %s, this version introduces breaking changes in the platform,", "#VERSION#") .
@@ -53,6 +60,11 @@ class Installer_Backoffice_ModuleController extends Backoffice_Controller_Defaul
                     "<br />" .
                     "Please type <code style=\"user-select: none;\">yes-proceed-to-update-#VERSION#</code> to continue or close this modal to cancel."
             ],
+            'ini' => [
+                'max_size' => $max,
+                'post_max_size' => $postMaxSize,
+                'upload_max_filesize' => $uploadMaxFilesize,
+            ]
         ];
 
         $this->_sendJson($payload);
@@ -187,7 +199,9 @@ class Installer_Backoffice_ModuleController extends Backoffice_Controller_Defaul
     }
 
     /**
-     *
+     * @throws Zend_Exception
+     * @throws Zend_File_Transfer_Exception
+     * @throws Zend_Loader_Exception
      */
     public function uploadAction()
     {
@@ -198,7 +212,7 @@ class Installer_Backoffice_ModuleController extends Backoffice_Controller_Defaul
             }
 
             if (empty($_FILES) || empty($_FILES['file']['name'])) {
-                throw new \Siberian\Exception(__("No file has been sent"));
+                throw new Exception(__("No file has been sent"));
             }
 
             $adapter = new Zend_File_Transfer_Adapter_Http();
@@ -206,7 +220,12 @@ class Installer_Backoffice_ModuleController extends Backoffice_Controller_Defaul
 
             if ($adapter->receive()) {
                 $file = $adapter->getFileInfo();
-                $payload = $this->_getPackageDetails($file['file']['tmp_name']);
+                $payload = $this->_getPackageDetails($file['file']['tmp_name'], true);
+
+                // Testing package validity
+                if (!self::_sIsAllowed($payload['package_details']['_name'])) {
+                    throw new Exception(p__('backoffice', 'Only modules sold on our marketplace can be installed on your Hosted service, if you want to know more please contact our support team.'));
+                }
             } else {
                 $messages = $adapter->getMessages();
                 if (!empty($messages)) {
@@ -215,12 +234,13 @@ class Installer_Backoffice_ModuleController extends Backoffice_Controller_Defaul
                     $message = __("An error occurred during the process. Please try again later.");
                 }
 
-                throw new \Siberian\Exception($message);
+                throw new Exception($message);
             }
-        } catch (Exception $e) {
+        } catch (\Exception $e) {
             $payload = [
                 'error' => true,
-                'message' => $e->getMessage()
+                'message' => $e->getMessage(),
+                'trace' => $e->getTrace()
             ];
         }
 
@@ -580,10 +600,16 @@ class Installer_Backoffice_ModuleController extends Backoffice_Controller_Defaul
 
     }
 
-    protected function _getPackageDetails($file)
+    /**
+     * @param $file
+     * @param bool $skipSave
+     * @return array
+     * @throws Zend_Exception
+     */
+    protected function _getPackageDetails($file, $skipSave = false)
     {
         $installer = new Installer_Model_Installer();
-        $installer->parse($file);
+        $installer->parse($file, $skipSave);
 
         $package = $installer->getPackageDetails();
 
@@ -594,6 +620,7 @@ class Installer_Backoffice_ModuleController extends Backoffice_Controller_Defaul
             'success' => 1,
             'filename' => base64_encode($filename),
             'package_details' => [
+                '_name' => $package->getName(),
                 'name' => __('%s Update', $package->getName()),
                 'version' => $package->getVersion(),
                 'description' => $package->getDescription()
@@ -623,6 +650,39 @@ class Installer_Backoffice_ModuleController extends Backoffice_Controller_Defaul
 
         return $data;
 
+    }
+
+    public static function _sIsAllowed ($moduleName)
+    {
+        // Skip for SAE!
+        if (Siberian\Version::is('SAE')) {
+            return true;
+        }
+
+        $licenseCheck = System_Controller_Backoffice_Default::getLicenseType();
+
+        // If it's an hosted, this is on.
+        $isHosted = false;
+        if (array_key_exists('result', $licenseCheck) &&
+            array_key_exists('type', $licenseCheck['result']) &&
+            in_array($licenseCheck['result']['type'], ['mae-hosted', 'pe-hosted'])) {
+            $isHosted = true;
+        }
+
+        // It's not an hosted, skip whitelist!
+        // The whitelist bypass is enforced!
+        if (!$isHosted || (__getConfig('bypass_whitelist') === true)) {
+            return true;
+        }
+
+        // The module is whitelisted, continue the install.
+        $whitelist = Provider::getWhitelistHosted();
+        if (array_key_exists($moduleName, $whitelist)) {
+            return true;
+        }
+
+        // Do not allow the module to be installed!
+        return false;
     }
 
 }

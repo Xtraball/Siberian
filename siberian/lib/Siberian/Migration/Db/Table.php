@@ -713,8 +713,6 @@ class Siberian_Migration_Db_Table extends Zend_Db_Table_Abstract
 
         $create .= "\n) ENGINE={$this->tableEngine} DEFAULT CHARSET={$this->tableCharset} COLLATE={$this->tableCollate};";
 
-        dbg($create);
-
         try {
             $this->execSafe($create);
         } catch (Exception $e) {

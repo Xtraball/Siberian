@@ -124,9 +124,10 @@ class Installer_Model_Installer_Module_Parser extends Core_Model_Default
     }
 
     /**
-     * @throws Exception
+     * @param bool $skipSave
+     * @throws Zend_Exception
      */
-    public function checkDependencies()
+    public function checkDependencies($skipSave = false)
     {
         $package = $this->getPackageDetails();
 
@@ -135,10 +136,10 @@ class Installer_Model_Installer_Module_Parser extends Core_Model_Default
             case 'module':
             case 'layout':
             case 'icons':
-                $this->_checkDependenciesModule($package, $package->getType());
+                $this->_checkDependenciesModule($package, $package->getType(), $skipSave);
                 break;
             default:
-                $this->_checkDependenciesFallback($package);
+                $this->_checkDependenciesFallback($package, $skipSave);
                 break;
         }
     }
@@ -146,10 +147,10 @@ class Installer_Model_Installer_Module_Parser extends Core_Model_Default
     /**
      * @param $package
      * @param string $package_type
-     * @throws Exception
+     * @param bool $skipSave
      * @throws Zend_Exception
      */
-    private function _checkDependenciesModule($package, $package_type = "module")
+    private function _checkDependenciesModule($package, $package_type = "module", $skipSave = false)
     {
         $deps = $package->getDependencies();
 
@@ -181,7 +182,7 @@ class Installer_Model_Installer_Module_Parser extends Core_Model_Default
                         foreach ($missing_deps as $name => $version) {
                             $modules[] = "{$name}@{$version}";
                         }
-                        $modules = join(", ", $modules);
+                        $modules = implode(", ", $modules);
                         throw new Exception(__($message, $modules));
                     }
                     break;
@@ -210,8 +211,10 @@ class Installer_Model_Installer_Module_Parser extends Core_Model_Default
 
         if ($_module->isInstalled() && version_compare($package->getVersion(), $_module->getVersion(), "<=")) {
             throw new Exception(__("#19-016: You already have installed this %s or a newer version.", $package_type));
-        } else {
-            # Set the module as in Local, which could be uninstalled.
+        }
+
+        // Set the module as in Local, which could be uninstalled!
+        if (!$skipSave) {
             $_module
                 ->setCanUninstall(true)
                 ->save();
@@ -220,9 +223,10 @@ class Installer_Model_Installer_Module_Parser extends Core_Model_Default
 
     /**
      * @param $package
-     * @throws Exception
+     * @param bool $skipSave
+     * @throws Zend_Exception
      */
-    private function _checkDependenciesFallback($package)
+    private function _checkDependenciesFallback($package, $skipSave = false)
     {
         $dependencies = $package->getDependencies();
         if (!empty($dependencies) AND is_array($dependencies)) {

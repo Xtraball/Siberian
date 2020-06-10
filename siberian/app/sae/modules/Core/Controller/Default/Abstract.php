@@ -852,6 +852,7 @@ abstract class Core_Controller_Default_Abstract extends Zend_Controller_Action i
     {
         $request = $this->getRequest();
         $session = $this->getSession();
+
         if (!$request->isInstalling() &&
             !$request->isApplication() &&
             !$this->_isInstanceOfBackoffice() &&
@@ -859,19 +860,19 @@ abstract class Core_Controller_Default_Abstract extends Zend_Controller_Action i
 
             $admin = $session->getAdmin();
             $roleId = $admin->getRoleId();
+            if (empty($roleId)) {
+                $roleId = -1;
+            }
             $role = (new Acl_Model_Role())->getRoleById($roleId);
 
             // If empty roleId, go to login page!
             if (!$role || !$role->getId()) {
                 $this->getSession()->resetInstance();
                 $this->getSession()->addError(p__('admin', 'Your account has no role assigned to it, please contact your administrator!'));
-
                 $this->_redirect('');
             }
-
             $acl = new Acl_Model_Acl();
             $acl->prepare($admin);
-
             Core_View_Default::setAcl($acl);
             Admin_Controller_Default::setAcl($acl);
         }
@@ -1087,7 +1088,7 @@ abstract class Core_Controller_Default_Abstract extends Zend_Controller_Action i
      */
     protected function _isInstanceOfBackoffice()
     {
-        return is_subclass_of($this, 'Backoffice_Controller_Default');
+        return $this instanceof \Backoffice_Controller_Default;
     }
 
     /**
