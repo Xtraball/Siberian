@@ -265,9 +265,14 @@ class Zend_Session_SaveHandler_DbTable
      */
     public function rebuildMobile($id, $data): self
     {
-        // Skip overview/webapp session_uuid
+        // Skip overview session_uuid
         if (array_key_exists('HTTP_REFERER', $_SERVER) &&
             stripos($_SERVER['HTTP_REFERER'], '/overview/') !== false) {
+            return $this;
+        }
+        // Skip webapp session_uuid
+        if (array_key_exists('HTTP_REFERER', $_SERVER) &&
+            stripos($_SERVER['HTTP_REFERER'], '/browser/') !== false) {
             return $this;
         }
 
