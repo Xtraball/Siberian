@@ -223,15 +223,18 @@ class Installer_Model_Installer_Module extends Core_Model_Default
 
         # Processing data files
         foreach ($this->_dbFiles as $index => $file) {
+            echo $file . ': ';
+            // Skip old numeric style format files, and *.ec.php wich are encrypted!
+            if (preg_match("/.*([0-9\.]+)\.php$/", $file) ||
+                preg_match("/\.ec\.php$/", $file)) {
+                continue;
+            }
 
+            // *.install.php is a backward compat for old modules!
             if (preg_match("/.*install\.php$/", $file)) {
-                /** Backward compatibiliy (mainly for our modules) */
                 if (!$this->isInstalled()) {
                     $this->_run($file);
                 }
-
-            } else if (preg_match("/.*([0-9\.]+)\.php$/", $file)) {
-                # Never call again old format files (thus they must never pop as the path changed)
             } else {
                 $this->_run($file);
             }
@@ -330,8 +333,10 @@ class Installer_Model_Installer_Module extends Core_Model_Default
                 foreach ($files as $file) {
                     if (!$file->isDot()) {
                         $table_name = str_replace(".php", "", basename($file->getFilename()));
-                        # Higher schema should override.
-                        $this->_schemaFiles[$table_name] = $folder . "/resources/db/schema/" . $file->getFilename();
+                        # Higher schema should override, and skip *.ec.php
+                        if (!preg_match("/\.ec\.php$/", $file->getFilename())) {
+                            $this->_schemaFiles[$table_name] = $folder . "/resources/db/schema/" . $file->getFilename();
+                        }
                     }
                 }
             }
@@ -342,7 +347,6 @@ class Installer_Model_Installer_Module extends Core_Model_Default
             if (is_readable($folder . "/resources/db/data")) {
                 $files = new DirectoryIterator($folder . "/resources/db/data");
                 foreach ($files as $file) {
-
                     /** Database & Template updates */
                     if (preg_match("/^(.*)\.php$/", $file->getFilename())) {
                         $this->_dbFiles[] = $file->getPathName();

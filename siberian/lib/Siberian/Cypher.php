@@ -11,6 +11,11 @@ use \phpseclib\Crypt\RSA as RSA;
 class Cypher
 {
     /**
+     * @var null
+     */
+    public static $lastTmp = null;
+
+    /**
      * @param $publicKeyPath
      * @param $clear
      * @return string
@@ -44,5 +49,29 @@ class Cypher
         $clear = $privateKey->decrypt(base64_decode($cyphered));
 
         return $clear;
+    }
+
+    /**
+     * @param $file
+     * @param $module
+     * @throws Exception
+     */
+    public static function dcRun ($file, $module)
+    {
+        $xt = pathinfo($file, PATHINFO_EXTENSION);
+        $fc = file_get_contents(str_replace('.' . $xt, '.ec.' . $xt, $file));
+        $sk = __get('siberiancms_key');
+        $lk = __get($module . '_key');
+        $dp = openssl_digest($sk . $lk, 'sha256');
+        $il = openssl_cipher_iv_length('aes-256-cbc');
+        $nf = substr($fc, $il);
+        $iv = substr($fc, 0, $il);
+        $dc = openssl_decrypt($nf, 'aes-256-cbc', $dp, OPENSSL_RAW_DATA, $iv);
+        $er = p__('application', 'This module is not activated yet, please contact your administrator.');
+        if ($dc === false) {
+            throw new \Siberian\Exception($er);
+        }
+        // Ok continue!
+        return '?>' . $dc . '<?php';
     }
 }

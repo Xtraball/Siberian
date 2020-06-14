@@ -73,6 +73,17 @@ function extract___($original)
 }
 
 /**
+ * @param $file
+ * @param $module
+ * @return false|string
+ * @throws \Siberian\Exception
+ */
+function __dcRun ($file, $module)
+{
+    return \Siberian\Cypher::dcRun($file, $module);
+}
+
+/**
  * @param $context
  * @param $original
  * @param $flag
