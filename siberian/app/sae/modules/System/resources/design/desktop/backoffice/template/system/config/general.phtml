@@ -88,23 +88,28 @@ $host = $this->getRequest()->getHttpHost();
                     </a>
                 </div>
             </div>
+        </div>
 
+        <div class="clear"></div>
+
+        <div class="subtitle">
+            <h4><?php echo __('Licenses') ?></h4>
+            <div class="clear"></div>
+        </div>
+
+        <div class="form-group">
             <div class="col-md-6">
-                <label for="{{ configs.is_gdpr_enabled.code }}">{{ configs.is_gdpr_enabled.label }}</label>
-                <select class="form-control"
-                        ng-model="configs.is_gdpr_enabled.value">
-                    <option value="1"><?php echo __('Yes') ?></option>
-                    <option value="0"><?php echo __('No') ?></option>
-                </select>
+                <label for="{{ configs.siberiancms_key.code }}">{{ configs.siberiancms_key.label }}</label>
+                <input type="text"
+                       id="{{ configs.siberiancms_key.code }}"
+                       value="{{ configs.siberiancms_key.value }}"
+                       class="form-control"
+                       readonly />
             </div>
 
         </div>
 
-        <div class="subtitle"
-             style="margin-top: 15px;">
-            <h4><?php echo __("Your licenses") ?></h4>
             <div class="clear"></div>
-        </div>
 
         <div ng-if="iosBuildLicenceError !== ''" class="alert alert-danger" role="alert">{{ iosBuildLicenceError }}</div>
         <div class="form-group">
@@ -125,7 +130,8 @@ $host = $this->getRequest()->getHttpHost();
 
     </sb-section>
 
-    <sb-section class="clear" title="'<?php echo __js("Your company","'"); ?>'">
+    <sb-section class="clear"
+                title="'<?php echo __title("Your company"); ?>'">
 
         <div class="form-group">
             <div class="col-md-6">
