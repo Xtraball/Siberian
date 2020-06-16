@@ -46,17 +46,18 @@ class Cypher
         }
         $privateKey->loadKey(file_get_contents($privateKeyPath));
         $privateKey->setEncryptionMode(RSA::ENCRYPTION_PKCS1);
-        $clear = $privateKey->decrypt(base64_decode($cyphered));
 
-        return $clear;
+        return $privateKey->decrypt(base64_decode($cyphered));
     }
 
     /**
      * @param $file
      * @param $module
+     * @return string
      * @throws Exception
+     * @throws \Zend_Exception
      */
-    public static function dcRun ($file, $module)
+    public static function dcRun ($file, $module): string
     {
         $xt = pathinfo($file, PATHINFO_EXTENSION);
         $fc = file_get_contents(str_replace('.' . $xt, '.ec.' . $xt, $file));
@@ -72,6 +73,7 @@ class Cypher
             throw new \Siberian\Exception($er);
         }
         // Ok continue!
-        return '?>' . $dc . '<?php';
+
+        return '?>' . $dc;
     }
 }

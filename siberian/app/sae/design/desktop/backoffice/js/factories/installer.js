@@ -15,14 +15,30 @@ App.factory('Installer', function($http, Url) {
     };
 
     factory.checkForUpdates = function() {
-
         return $http({
             method: 'GET',
             url: Url.get("installer/backoffice_module/checkforupdates"),
             cache: false,
             responseType:'json'
         });
+    };
 
+    factory.checkModuleLicense = function (code, itemId) {
+        return $http({
+            method: 'GET',
+            url: Url.get("installer/backoffice_module/check-module-license", {code: code, itemId: itemId}),
+            cache: false,
+            responseType:'json'
+        });
+    };
+
+    factory.setModuleLicense = function (code, itemId, license) {
+        return $http({
+            method: 'GET',
+            url: Url.get("installer/backoffice_module/set-module-license", {code: code, itemId: itemId, license: license}),
+            cache: false,
+            responseType:'json'
+        });
     };
 
     factory.downloadUpdate = function() {

@@ -120,7 +120,7 @@ class System_Backoffice_Config_GeneralController extends System_Controller_Backo
 
         $licenseKey = $this->_checkLicenceSae();
 
-        $data['siberiancms_key'] = $licenseKey;
+        $data['siberiancms_key']['value'] = $licenseKey;
 
         $this->_sendJson($data);
     }
@@ -143,9 +143,8 @@ class System_Backoffice_Config_GeneralController extends System_Controller_Backo
             // Refetch key
             $licenseKey = __get('siberiancms_key');
 
-
             // Send license to Siberian Database to sync with paid modules
-            $_domain = empty($domain) ?$_SERVER['HTTP_HOST'] : $domain;
+            $_domain = empty($domain) ? $_SERVER['HTTP_HOST'] : $domain;
             $data = [
                 'license' => $licenseKey,
                 'domain' => $_domain,
@@ -154,25 +153,23 @@ class System_Backoffice_Config_GeneralController extends System_Controller_Backo
             ];
 
             try {
+                $url = Siberian\Provider::getLicenses()['sync']['url'] . '?' . http_build_query($data);
                 $curl = curl_init();
-                $license = __get('siberiancms_key');
                 curl_setopt_array($curl, [
-                    CURLOPT_URL => Siberian\Provider::getLicenses()['sync']['url'] . '?' . http_build_query($data),
+                    CURLOPT_URL => $url,
                     CURLOPT_RETURNTRANSFER => true,
-                    CURLOPT_ENCODING => "",
+                    CURLOPT_ENCODING => '',
                     CURLOPT_MAXREDIRS => 10,
                     CURLOPT_TIMEOUT => 30,
                 ]);
-                $response = curl_exec($curl);
-                $err = curl_error($curl);
-
+                curl_exec($curl);
                 curl_close($curl);
             } catch (\Exception $e) {
-                //
+                // Nope!
             }
         }
-        $licenseKey = __get('siberiancms_key');
-        return $licenseKey;
+
+        return __get('siberiancms_key');
     }
 
     /**

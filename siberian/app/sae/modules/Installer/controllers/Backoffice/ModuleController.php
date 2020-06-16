@@ -29,9 +29,25 @@ class Installer_Backoffice_ModuleController extends Backoffice_Controller_Defaul
             $stats->statistics();
         }
 
-        $postMaxSize = (int) ini_get('post_max_size');
-        $uploadMaxFilesize = (int) ini_get('upload_max_filesize');
-        $max = max($postMaxSize, $uploadMaxFilesize);
+        function _return_bytes($val) {
+            $val = trim($val);
+            $last = strtolower($val[strlen($val)-1]);
+            switch($last) {
+                // Le modifieur 'G' est disponible depuis PHP 5.1.0
+                case 'g':
+                    $val *= 1024;
+                case 'm':
+                    $val *= 1024;
+                case 'k':
+                    $val *= 1024;
+            }
+
+            return $val;
+        }
+
+        $postMaxSize = (int) _return_bytes(ini_get('post_max_size'));
+        $uploadMaxFilesize = (int) _return_bytes(ini_get('upload_max_filesize'));
+        $max = min($postMaxSize, $uploadMaxFilesize);
 
         $payload = [
             'title' => sprintf('%s > %s',
@@ -39,6 +55,11 @@ class Installer_Backoffice_ModuleController extends Backoffice_Controller_Defaul
                 __('Updates & Modules')),
             'icon' => 'fa-cloud-download',
             'words' => [
+                'emptyLicense' => p__('backoffice', 'License is required!'),
+                'setLicense' => p__('backoffice', 'Please enter your module license before installing!'),
+                'confirmLicense' => p__('backoffice', 'Validate'),
+                'cancelLicense' => p__('backoffice', 'Go back!'),
+                //
                 'titleMajor' => __('Major update disclaimer, confirmation required!'),
                 'confirmDelete' => __('Yes, Proceed to update!'),
                 'cancelDelete' => __('No, go back!'),
@@ -617,13 +638,15 @@ class Installer_Backoffice_ModuleController extends Backoffice_Controller_Defaul
         $filename = $path['filename'] . '.' . $path['extension'];
 
         $data = [
-            'success' => 1,
+            'success' => true,
             'filename' => base64_encode($filename),
             'package_details' => [
                 '_name' => $package->getName(),
                 'name' => __('%s Update', $package->getName()),
                 'version' => $package->getVersion(),
-                'description' => $package->getDescription()
+                'description' => $package->getDescription(),
+                'code' => $package->getCode() ?? false,
+                'item_id' => $package->getItemId() ?? false,
             ]
         ];
 
@@ -650,6 +673,83 @@ class Installer_Backoffice_ModuleController extends Backoffice_Controller_Defaul
 
         return $data;
 
+    }
+
+    public function checkModuleLicenseAction ()
+    {
+        $code = false;
+        try {
+
+            $request = $this->getRequest();
+            $code = $request->getParam('code', false);
+            $itemId = $request->getParam('itemId', false);
+
+            if ($code === false || $itemId === false) {
+                throw new \Siberian\Exception(p__('backoffice', 'Params code & itemId are required.'));
+            }
+
+            $license = trim(__get($code . '_key'));
+
+            if (empty($license)) {
+                $code = 'license_empty';
+                throw new \Siberian\Exception(p__('backoffice', 'License required.'));
+            }
+
+            try {
+                \Siberian\License::checkModuleLicense($code, $itemId);
+            } catch (\Exception $e) {
+                $code = 'license_error';
+                throw $e;
+            }
+
+            $payload = [
+                'success' => true,
+            ];
+        } catch (\Exception $e) {
+            $payload = [
+                'error' => true,
+                'code' => $code,
+                'message' => $e->getMessage(),
+            ];
+        }
+
+        $this->_sendJson($payload);
+    }
+
+    public function setModuleLicenseAction ()
+    {
+        $code = false;
+        try {
+
+            $request = $this->getRequest();
+            $code = $request->getParam('code', false);
+            $itemId = $request->getParam('itemId', false);
+            $license = trim($request->getParam('license', false));
+
+            if ($code === false || $itemId === false || $license === false) {
+                throw new \Siberian\Exception(p__('backoffice', 'Params code, itemId & license are required.'));
+            }
+
+            try {
+                \Siberian\License::checkModuleLicense($code, $itemId, $license);
+                __set($code . '_key', $license);
+            } catch (\Exception $e) {
+                $code = 'license_error';
+                throw $e;
+            }
+
+            $payload = [
+                'success' => true,
+            ];
+        } catch (\Exception $e) {
+            $payload = [
+                'error' => true,
+                'code' => $code,
+                'message' => $e->getMessage(),
+            ];
+        }
+
+        $this->_sendJson($payload);
     }
 
     public static function _sIsAllowed ($moduleName)

@@ -223,7 +223,6 @@ class Installer_Model_Installer_Module extends Core_Model_Default
 
         # Processing data files
         foreach ($this->_dbFiles as $index => $file) {
-            echo $file . ': ';
             // Skip old numeric style format files, and *.ec.php wich are encrypted!
             if (preg_match("/.*([0-9\.]+)\.php$/", $file) ||
                 preg_match("/\.ec\.php$/", $file)) {
