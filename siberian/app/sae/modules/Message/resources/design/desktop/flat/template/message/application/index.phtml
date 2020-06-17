@@ -1,7 +1,11 @@
-<?php $application = $this->getApplication(); ?>
-<?php $messages = new Message_Model_Application_Message(); ?>
-<?php $messages = $messages->findAllWithFiles($this->getApplication()->getId()); ?>
-<?php $nb_messages = count($messages["messages"]); ?>
+<?php
+
+$application = $this->getApplication();
+$messages = new Message_Model_Application_Message();
+$messages = $messages->findAllWithFiles($this->getApplication()->getId());
+$nb_messages = count($messages["messages"]);
+
+?>
 <div class="row">
     <div class="col-md-12">
         <div class="application_messages page-content-wrapper content solo-page">
@@ -14,39 +18,48 @@
                           class="form-horizontal"
                           method="post"
                           action="<?php echo $this->getUrl('message/application/save'); ?>"
-                          onsubmit="return false;" >
+                          onsubmit="return false;">
                         <div class="form-group">
                             <div class="col-sm-12">
-                                <textarea type="text" id="message" class="replace-with-ckeditor input-flat" name="message"></textarea>
+                                <textarea type="text"
+                                          id="message"
+                                          class="replace-with-ckeditor input-flat"
+                                          name="message"></textarea>
                             </div>
                         </div>
                         <div class="form-group">
                             <div class="col-sm-12">
-                                <button type="submit" class="color-blue btn"><?php echo __("Send"); ?></button>
+                                <button type="submit"
+                                        class="color-blue btn"><?php echo __("Send"); ?></button>
                             </div>
                         </div>
-                        <input type="hidden" id="app_id" name="app_id" value="<?php echo $this->getApplication()->getId(); ?>" />
-                        <input type="hidden" id="author_id" name="author_id" value="<?php echo $this->getApplication()->getAdminId(); ?>" />
+                        <input type="hidden"
+                               id="app_id"
+                               name="app_id"
+                               value="<?php echo $this->getApplication()->getId(); ?>"/>
+                        <input type="hidden"
+                               id="author_id"
+                               name="author_id"
+                               value="<?php echo $this->getApplication()->getAdminId(); ?>"/>
                     </form>
                 </div>
                 <div class="messages_list col-md-12">
-                    <?php foreach($messages["messages"] as $message): ?>
+                    <?php foreach ($messages["messages"] as $message): ?>
                         <?php
-                        if(is_null($message->getFirstname()) OR $message->getFirstname() == "") {
-                            $message->setData("firstname",__("Unknown"));
+                        if (is_null($message->getFirstname()) || $message->getFirstname() == "") {
+                            $message->setData("firstname", __("Unknown"));
                         }
                         echo $this->getLayout()
-                            ->addPartial('row_'.$message->getId(), 'admin_view_default', 'message/application/view/row.phtml')
+                            ->addPartial('row_' . $message->getId(), 'admin_view_default', 'message/application/view/row.phtml')
                             ->setCurrentMessage($message)
-                            ->toHtml()
-                        ;
+                            ->toHtml();
                         ?>
                     <?php endforeach; ?>
-                    <div class="no_message" <?php if(count($messages["messages"])>0) echo "style='display:none'"; ?>>
+                    <div class="no_message" <?php if (count($messages["messages"]) > 0) echo "style='display:none'"; ?>>
                         <?php echo __("No messages for now."); ?>
                     </div>
                 </div>
-                <div class="more row load_more" <?php if(count($messages["messages"])<=0 OR count($messages["messages"])<$messages["display_per_page"] ) echo "style='display:none'"; ?>>
+                <div class="more row load_more" <?php if (count($messages["messages"]) <= 0 || count($messages["messages"]) < $messages["display_per_page"]) echo "style='display:none'"; ?>>
                     <div class="col-sm-5">
                         <hr/>
                     </div>
@@ -54,8 +67,14 @@
                         <div class="text-center">
                             <?php echo __("Load older messages"); ?><br/>
                             <i class="fa-angle-down"></i>
-                            <input type="hidden" id="load_more_app_id" name="load_more_app_id" value="<?php echo $this->getApplication()->getId(); ?>" />
-                            <input type="hidden" id="offset" name="offset" value="<?php echo $nb_messages; ?>" />
+                            <input type="hidden"
+                                   id="load_more_app_id"
+                                   name="load_more_app_id"
+                                   value="<?php echo $this->getApplication()->getId(); ?>"/>
+                            <input type="hidden"
+                                   id="offset"
+                                   name="offset"
+                                   value="<?php echo $nb_messages; ?>"/>
                         </div>
                     </div>
                     <div class="col-sm-5">
@@ -68,12 +87,12 @@
 </div>
 <script type="text/javascript">
 
-    $(document).ready(function(){
+    $(document).ready(function () {
 
         function bindAll() {
             $('#form_post_message').unbind('submit');
-            $('#form_post_message').submit(function() {
-                if($("#message").val() != "") {
+            $('#form_post_message').submit(function () {
+                if ($("#message").val() != "") {
                     reload(this, this.action, true, function (data) {
                         //new message
                         if (data.row_html) {
@@ -90,16 +109,16 @@
             });
         }
 
-        $(".load_more").click(function() {
-            reload(this, '<?php echo $this->getUrl("message/application/loadmore"); ?>', true, function(data) {
+        $(".load_more").click(function () {
+            reload(this, '<?php echo $this->getUrl("message/application/loadmore"); ?>', true, function (data) {
                 //new message
-                if(data.messages.length > 0) {
-                    $.each(data.messages,function(index,elem) {
+                if (data.messages.length > 0) {
+                    $.each(data.messages, function (index, elem) {
                         $('.messages_list').append(elem);
                     });
                     $("#offset").val(parseInt($("#offset").val()) + data.messages.length);
                     bindAll();
-                    if(data.messages.length < data.display_per_page) {
+                    if (data.messages.length < data.display_per_page) {
                         $(".load_more").hide();
                     }
                 } else {
@@ -110,7 +129,25 @@
 
         bindAll();
         var cpt = 0;
-        $('.replace-with-ckeditor').ckeditor();
+        $('.replace-with-ckeditor').ckeditor({
+            language: ckeditor_language,
+            toolbar: [
+                { name: 'insert', items: ['Image'] },
+                {
+                    name: 'basicstyles',
+                    groups: ['basicstyles', 'cleanup'],
+                    items: ['Bold', 'Italic', 'Underline', 'Strike', '-', 'RemoveFormat']
+                },
+                {
+                    name: 'paragraph',
+                    groups: ['indent', 'align'],
+                    items: ['Outdent', 'Indent', '-', 'JustifyLeft', 'JustifyCenter', 'JustifyRight', 'JustifyBlock']
+                },
+                { name: 'styles', items: ['TextColor', 'Format', 'FontSize'] }
+            ],
+            extraPlugins: 'wysiwygarea,codemirror',
+            extraAllowedContent: 'a[*];img[*];'
+        });
     });
 
 </script>

@@ -16,13 +16,10 @@ class Front_Controller_Api_Base extends Front_Controller_App_Default
     public $version = 'v_base';
 
     /**
-     * Here we generate the Application initial payload
-     * its composed of the following blocks
-     * - Application
-     * - CSS
-     * - Features / Options
-     * - Translations
-     * - Customer (never cached)
+     * @throws Zend_Controller_Response_Exception
+     * @throws Zend_Currency_Exception
+     * @throws Zend_Exception
+     * @throws Zend_Session_Exception
      */
     public function initAction()
     {
@@ -32,15 +29,17 @@ class Front_Controller_Api_Base extends Front_Controller_App_Default
         $appId = $application->getId();
 
         // Instant loading static JSON
-        if (__getConfig('instantLoad') === true) {
-            $payloadPath = path('/init-' . $appId . '.json');
+        $instantLoad = __getConfig('instantLoad');
+        $payloadPath = path('/var/tmp/init-' . $appId . '.json');
+
+        if ($instantLoad === true &&
+            is_file($payloadPath)) {
             $json = file_get_contents($payloadPath);
             echo $json;
             die;
         }
 
         $request = $this->getRequest();
-        $session = $this->getSession();
         $params = $request->getBodyParams();
         $currentLanguage = $params['user_language'] ?? Core_Model_Language::getCurrentLanguage();
         Core_Model_Language::setCurrentLanguage($currentLanguage);
@@ -100,6 +99,10 @@ class Front_Controller_Api_Base extends Front_Controller_App_Default
         $response->setHeader('Cache-Control', 'no-store, no-cache, must-revalidate, max-age=0');
         $response->setHeader('Cache-Control', 'post-check=0, pre-check=0', false);
         $response->setHeader('Pragma', 'no-cache');
+
+        if ($instantLoad === true) {
+            file_put_contents($payloadPath, Json::encode($data));
+        }
 
         $this->_sendJson($data);
     }

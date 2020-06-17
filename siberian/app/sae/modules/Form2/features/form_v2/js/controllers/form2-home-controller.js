@@ -121,6 +121,11 @@ angular
         return IMAGE_URL + 'images/application' + image;
     };
 
+    $scope.checkValue = function (field) {
+        field.value += '';
+        field.value = field.value.replace(/[^0-9\.,\-]/, '');
+    };
+
     $scope.formIsValid = function () {
         var required = ['number', 'password', 'text', 'textarea', 'date', 'datetime', 'clickwrap', 'select'];
         var isValid = true;
@@ -133,16 +138,22 @@ angular
                     isValid = false;
                 } else if (field.type === 'number') {
                     var current = parseFloat(field.value);
+                    if (!Number.isFinite(current)) {
+                        text = $translate.instant('is not a number', 'form2');
+                        invalidFields.push('&nbsp;-&nbsp;' + field.label + ' ' + text);
+                        isValid = false;
+                    }
                     var min = Number.parseInt(field.min);
                     var max = Number.parseInt(field.max);
                     var step = parseFloat(field.step);
+                    var text;
                     if (current < min || current > max) {
-                        var text = $translate.instant('is not inside range', 'form2') + ' ' + min + '-' + max;
+                        text = $translate.instant('is not inside range', 'form2') + ' ' + min + '-' + max;
                         invalidFields.push('&nbsp;-&nbsp;' + field.label + ' ' + text);
                         isValid = false;
                     }
                     if (!Number.isInteger(current / step)) {
-                        var text = $translate.instant('must match increment', 'form2') + ' ' + step;
+                        text = $translate.instant('must match increment', 'form2') + ' ' + step;
                         invalidFields.push('&nbsp;-&nbsp;' + field.label + ' ' + text);
                         isValid = false;
                     }
@@ -162,7 +173,7 @@ angular
     };
 
     $scope.submit = function () {
-        Loader.show();
+        Loader.show($translate.instant('Sending...', 'woocommerce2'));
         var isValid = $scope.formIsValid();
         if (!isValid) {
             Loader.hide();

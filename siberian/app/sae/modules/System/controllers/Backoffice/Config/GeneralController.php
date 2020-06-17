@@ -49,6 +49,7 @@ class System_Backoffice_Config_GeneralController extends System_Controller_Backo
         'app_default_identifier_ios',
         'is_gdpr_enabled',
         'main_domain',
+        'siberiancms_key',
         'import_enabled',
         'export_enabled',
     ];
@@ -74,7 +75,7 @@ class System_Backoffice_Config_GeneralController extends System_Controller_Backo
     public function findallAction()
     {
         $data = $this->_findconfig();
-        
+
         $timezones = DateTimeZone::listIdentifiers();
         if (empty($timezones)) {
             $locale = Zend_Registry::get('Zend_Locale');
@@ -105,19 +106,70 @@ class System_Backoffice_Config_GeneralController extends System_Controller_Backo
         $data["countries"] = $fixedCountries;
 
         $languages = array();
-        foreach(Core_Model_Language::getLanguages() as $language) {
+        foreach (Core_Model_Language::getLanguages() as $language) {
             $languages[$language->getCode()] = $language->getName();
         }
-        if(!empty($languages) AND count($languages) > 1) {
+        if (!empty($languages) AND count($languages) > 1) {
             $data["languages"] = $languages;
         }
 
-        $data["application_android_owner_admob_weight"]["value"] = (integer) $data["application_android_owner_admob_weight"]["value"];
-        $data["application_ios_owner_admob_weight"]["value"] = (integer) $data["application_ios_owner_admob_weight"]["value"];
+        $data["application_android_owner_admob_weight"]["value"] = (integer)$data["application_android_owner_admob_weight"]["value"];
+        $data["application_ios_owner_admob_weight"]["value"] = (integer)$data["application_ios_owner_admob_weight"]["value"];
 
         $data['gdpr_countries'] = System_Model_Config::gdprCountries();
 
+        $licenseKey = $this->_checkLicenceSae();
+
+        $data['siberiancms_key']['value'] = $licenseKey;
+
         $this->_sendJson($data);
+    }
+
+    /**
+     * @throws Exception
+     */
+    private function _checkLicenceSae()
+    {
+        if (\Siberian\Version::is('SAE')) {
+            $domain = __get('main_domain');
+
+            // Checking lincese key!
+            $licenseKey = __get('siberiancms_key');
+            if (empty($licenseKey)) {
+                $newLicense = bin2hex(random_bytes(2)) . '-' . bin2hex(random_bytes(16));
+                __set('siberiancms_key', $newLicense);
+            }
+
+            // Refetch key
+            $licenseKey = __get('siberiancms_key');
+
+            // Send license to Siberian Database to sync with paid modules
+            $_domain = empty($domain) ? $_SERVER['HTTP_HOST'] : $domain;
+            $data = [
+                'license' => $licenseKey,
+                'domain' => $_domain,
+                'hash' => openssl_digest($licenseKey.$_domain, 'sha256'),
+                'secret' => Core_Model_Secret::SECRET,
+            ];
+
+            try {
+                $url = Siberian\Provider::getLicenses()['sync']['url'] . '?' . http_build_query($data);
+                $curl = curl_init();
+                curl_setopt_array($curl, [
+                    CURLOPT_URL => $url,
+                    CURLOPT_RETURNTRANSFER => true,
+                    CURLOPT_ENCODING => '',
+                    CURLOPT_MAXREDIRS => 10,
+                    CURLOPT_TIMEOUT => 30,
+                ]);
+                curl_exec($curl);
+                curl_close($curl);
+            } catch (\Exception $e) {
+                // Nope!
+            }
+        }
+
+        return __get('siberiancms_key');
     }
 
     /**
@@ -129,7 +181,7 @@ class System_Backoffice_Config_GeneralController extends System_Controller_Backo
         $data = Siberian_Json::decode($request->getRawBody());
         if (sizeof($data) > 0) {
             try {
-                if(!empty($data['application_free_trial']['value']) &&
+                if (!empty($data['application_free_trial']['value']) &&
                     !is_numeric($data['application_free_trial']['value'])) {
                     throw new Siberian_Exception(__('Free trial period duration must be a numeric value.'));
                 }

@@ -28,16 +28,9 @@ class Acl_Model_Role extends Core_Model_Default
     private $loopFailSafe = 0;
 
     /**
-     * Acl_Model_Role constructor.
-     * @param array $params
-     * @throws Zend_Exception
+     * @var string
      */
-    public function __construct($params = [])
-    {
-        parent::__construct($params);
-        $this->_db_table = 'Acl_Model_Db_Table_Acl_Role';
-        return $this;
-    }
+    protected $_db_table = Acl_Model_Db_Table_Acl_Role::class;
 
     /**
      * @return $this

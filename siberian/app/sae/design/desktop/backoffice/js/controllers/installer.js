@@ -4,7 +4,7 @@ App.config(function ($routeProvider) {
         templateUrl: BASE_URL + '/installer/backoffice_module/template'
     });
 
-}).controller('ModuleController', function ($scope, $interval, $timeout, Backoffice, Header, Installer, Url, Label,
+}).controller('ModuleController', function ($scope, $interval, $timeout, $q, Backoffice, Header, Installer, Url, Label,
                                             FileUploader, AdvancedTools) {
 
     $scope.header = new Header();
@@ -88,6 +88,7 @@ App.config(function ($routeProvider) {
         $scope.header.title = data.title;
         $scope.header.icon = data.icon;
         $scope.words = data.words;
+        $scope.ini = data.ini;
     }).finally(function() {
         $scope.content_loader_is_visible = false;
     });
@@ -152,13 +153,42 @@ App.config(function ($routeProvider) {
         });
     };
 
+    /**
+     * Checking for module license
+     */
+
+    $scope.checkModuleLicense = function (code, itemId) {
+        var defer = $q.defer();
+
+        Installer
+            .checkModuleLicense(code, itemId)
+            .success(function (success) {
+                defer.resolve(true);
+            }).error(function (error) {
+                defer.reject(error.code);
+            });
+
+        return defer.promise;
+    };
+
+    /**
+     * Checking for module license
+     */
+
     /*/******** UPLOADER **********/
     $scope.uploader.onWhenAddingFileFailed = function (item, filter, options) {
-        if (filter.name == "zip_only") {
+        if (filter.name === 'zip_only') {
             $scope.message.setText(Label.uploader.error.type.zip).isError(true).show();
         }
-        if (filter.name == "limit") {
+        if (filter.name === 'limit') {
             $scope.message.setText(Label.uploader.error.only_one_at_a_time).isError(true).show();
+        }
+    };
+
+    $scope.uploader.onAfterAddingFile = function (item) {
+        if (item.file.size > $scope.ini.max_size) {
+            $scope.message.setText($scope.words.maxSize).isError(true).show();
+            $scope.uploader.clearQueue();
         }
     };
 
@@ -172,6 +202,10 @@ App.config(function ($routeProvider) {
             $scope.message.setText(Label.uploader.error.general)
                 .isError(true)
                 .show();
+
+            for (var i = 0; i < $scope.uploader.queue.length; i++) {
+                $scope.uploader.queue[i].remove();
+            }
         }
     };
 
@@ -234,7 +268,73 @@ App.config(function ($routeProvider) {
 
     /*/******** PACKAGE DETAILS **********/
     $scope.showPackageDetails = function () {
-        $scope.package_details.is_visible = true;
+
+        var code = $scope.package_details.code;
+        var itemId = $scope.package_details.item_id;
+        if (code !== false && itemId !== false) {
+            var promise = $scope.checkModuleLicense(code, itemId);
+            promise.then(function (success) {
+                $scope.package_details.is_visible = true;
+            }, function (error) {
+                if (error === 'license_empty') {
+                    // Prompt to set license
+                    $scope.setLicense(code, itemId);
+                }
+                if (error === 'license_error') {
+                    // Prompt to change license
+                    $scope.setLicense(code, itemId);
+                }
+            });
+        } else {
+            $scope.package_details.is_visible = true;
+        }
+    };
+
+    $scope.setLicense = function (code, itemId) {
+        swal({
+            html: true,
+            title: code,
+            type: 'prompt',
+            text: $scope.words.setLicense,
+            showCancelButton: true,
+            closeOnConfirm: false,
+            closeOnCancel: true,
+            confirmButtonColor: '#ff3a2e',
+            confirmButtonText: $scope.words.confirmLicense,
+            cancelButtonText: $scope.words.cancelLicense,
+            buttons: {
+                confirm: {
+                    value: ''
+                }
+            }
+        }, function (value) {
+            if (value.length > 0) {
+                // Trying to validate the license
+                $scope.content_loader_is_visible = true;
+                Installer
+                    .setModuleLicense(code, itemId, value)
+                    .success(function (success) {
+                        $scope
+                            .message
+                            .setText(success.message)
+                            .isError(false)
+                            .show();
+
+                        $scope.package_details.is_visible = true;
+                        swal.close();
+
+                    }).error(function (error) {
+                        swal.showInputError('<code>' + error.message + '</code>');
+                    }).finally(function () {
+                        $scope.content_loader_is_visible = false;
+                    });
+
+                return true;
+            }
+
+            swal.showInputError('<code>' + $scope.words.emptyLicense + '</code>');
+            return false;
+        });
     };
 
     /*/******** PERMISSIONS **********/
