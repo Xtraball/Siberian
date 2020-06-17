@@ -125,6 +125,39 @@ angular
     };
 
 /**
+ * Seconds to minutes
+ */
+}).filter('seconds_to_human', function () {
+    return function (seconds) {
+        if (Number.isNaN(seconds)) {
+            return '0:00';
+        }
+        var shouldPush = false;
+        var parts = [];
+        var numDays = Math.floor((seconds % 31536000) / 86400);
+        if (numDays > 0) {
+            shouldPush = true;
+            parts.push(numDays.toString());
+        }
+        var numHours = Math.floor(((seconds % 31536000) % 86400) / 3600);
+        if (numHours > 0 || shouldPush) {
+            shouldPush = true;
+            parts.push(numHours.toString());
+        }
+        var numMinutes = Math.floor((((seconds % 31536000) % 86400) % 3600) / 60);
+        if (numMinutes > 0 || shouldPush) {
+            shouldPush = true;
+            parts.push(numMinutes.toString().padStart(2, '0'));
+        }
+        var numSeconds = (((seconds % 31536000) % 86400) % 3600) % 60;
+        if (numSeconds > 0 || shouldPush) {
+            parts.push(numSeconds.toString().padStart(2, '0'));
+        }
+
+        return parts.join(':');
+    };
+
+/**
  * Filter with linky, then unescape, then trust as html
  */
 }).filter('trusted_html', function ($sce) {

@@ -35,7 +35,7 @@ angular
                     $scope.player.media &&
                     $scope.player.media._duration &&
                     $scope.player.media._duration > 0) {
-                    return $filter('seconds_to_minutes')(Math.floor($scope.player.media._duration));
+                    return $filter('seconds_to_human')(Math.floor($scope.player.media._duration));
                 }
                 return '0:00';
             };
@@ -55,11 +55,11 @@ angular.module('starter')
             link: function (scope, element) {
                 var refreshTime = function () {
                     $timeout(function () {
-                        scope.elapsedTime = $filter('seconds_to_minutes')(scope.seconds);
+                        scope.elapsedTime = $filter('seconds_to_human')(scope.seconds);
                     }, 0);
                 };
 
-                scope.elapsedTime = $filter('seconds_to_minutes')(scope.seconds);
+                scope.elapsedTime = $filter('seconds_to_human')(scope.seconds);
 
                 var stopTime = $interval(refreshTime, 1000);
                 element.on('$destroy', function () {
