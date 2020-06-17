@@ -10,14 +10,24 @@ class Installer_Model_Installer_Module extends Core_Model_Default
     const DEFAULT_VERSION = '0.0.1';
 
     /**
-     * @var
+     * @var string
      */
     public $_lastVersion;
 
     /**
-     * @var
+     * @var string
      */
     protected $_name;
+
+    /**
+     * @var string|null
+     */
+    protected $_code = null;
+
+    /**
+     * @var bool
+     */
+    protected $_useLicense = false;
 
     /**
      * @var array
@@ -82,12 +92,14 @@ class Installer_Model_Installer_Module extends Core_Model_Default
     /**
      * @return $this
      */
-    public function reset()
+    public function reset(): self
     {
         $this->_lastVersion = null;
         $this->_dbFiles = [];
         $this->_isInstalled = false;
         $this->_basePath = null;
+        $this->_code = null;
+        $this->_useLicense = false;
         return $this;
     }
 
@@ -210,6 +222,11 @@ class Installer_Model_Installer_Module extends Core_Model_Default
                 $table->updateForeignKeys();
             }
 
+            // Save code/license things
+            $this
+                ->setCode($this->_code)
+                ->setUseLicense($this->_useLicense)
+                ->save();
         }
     }
 
@@ -304,6 +321,8 @@ class Installer_Model_Installer_Module extends Core_Model_Default
                 $package_info = $current_package_info;
                 $highest_package_version = $current_package_info["version"];
                 $this->_basePath = dirname($package_file);
+                $this->_code = $current_package_info["code"] ?? null;
+                $this->_useLicense = !is_null($this->_code);
             }
         }
 

@@ -24,7 +24,7 @@ class Backoffice_Advanced_ModuleController extends Backoffice_Controller_Default
 
         $core_modules = (new Installer_Model_Installer_Module())->findAll(
             [
-                'can_uninstall = ?' => 0,
+                'name IN (?)' => \Siberian_Module::$coreModules,
                 'type NOT IN (?)' => ['template']
             ],
             [
@@ -33,7 +33,7 @@ class Backoffice_Advanced_ModuleController extends Backoffice_Controller_Default
         );
         $installed_modules = (new Installer_Model_Installer_Module())->findAll(
             [
-                'can_uninstall = ?' => 1,
+                'name NOT IN (?)' => \Siberian_Module::$coreModules,
                 'type NOT IN (?)' => ['template']
             ],
             [
@@ -93,6 +93,14 @@ class Backoffice_Advanced_ModuleController extends Backoffice_Controller_Default
 
             }
             $name = $installed_module->getData('name');
+            $code = $installed_module->getCode();
+
+            $useLicense = (boolean) $installed_module->getUseLicense();
+            $licenseKey = p__('backoffice', 'n.a.');
+            if ($useLicense) {
+                $licenseKey = substr(__get($code . '_key'), 0, 8) . '**********';
+            }
+
             $data[$type][] = [
                 'id' => $installed_module->getId(),
                 'name' => __($name),
@@ -101,7 +109,9 @@ class Backoffice_Advanced_ModuleController extends Backoffice_Controller_Default
                 'actions' => Siberian_Module::getActions($name),
                 'created_at' => $installed_module->getFormattedCreatedAt(),
                 'updated_at' => $installed_module->getFormattedUpdatedAt(),
-                'is_enabled' => (boolean) Installer_Model_Installer_Module::sGetIsEnabled($name),
+                'use_license' => $useLicense,
+                'license_key' => $licenseKey,
+                'is_enabled' => Installer_Model_Installer_Module::sGetIsEnabled($name),
             ];
         }
 
