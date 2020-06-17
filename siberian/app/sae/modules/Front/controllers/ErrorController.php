@@ -9,7 +9,6 @@ class ErrorController extends Core_Controller_Default
         $errors = $this->_getParam('error_handler');
 
         if (!$errors || !$errors instanceof ArrayObject) {
-//            $this->getView()->message = 'You have reached the error page';
             return;
         }
 

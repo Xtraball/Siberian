@@ -3,23 +3,29 @@
     <table class="table">
         <thead>
             <tr>
-                <th style="width:50%;"><?php echo __("Name") ?></th>
-                <th style="width:20%;"><?php echo __("Version") ?></th>
+                <th style="width:30%;"><?php echo __('Name') ?></th>
+                <th style="width:20%;"><?php echo __('Version') ?></th>
+                <th style="width:20%;"><?php echo __('License key') ?></th>
                 <?php if (isDev()): ?>
-                <th style="width:15%;text-align:right;"><?php echo __("Actions") ?></th>
-                <th style="width:15%;text-align:right;"><?php echo __("Enabled?") ?></th>
+                <th style="width:15%;text-align:right;"><?php echo __('Actions') ?></th>
+                <th style="width:15%;text-align:right;"><?php echo __('Enabled?') ?></th>
                 <?php endif; ?>
             </tr>
         </thead>
         <tbody>
             <tr ng-repeat="module in modules"
                 ng-show="modules.length"
-                ng-class="{'text-danger': !module.is_enabled}">
+                ng-class="{'text-danger red-border': !module.is_enabled}">
                 <td>{{ module.name }}</td>
                 <td>{{ module.version }}</td>
+                <td>
+                    <p>{{ module.license_key }}</p>
+                </td>
                 <?php if (isDev()): ?>
                 <td style="text-align:right;">
-                    <button class="btn btn-xs btn-info" ng-repeat="(k, action) in module.actions" ng-click="moduleAction(module.original_name, k);">{{ action.label }}</button>
+                    <button class="btn btn-xs btn-info"
+                            ng-repeat="(k, action) in module.actions"
+                            ng-click="moduleAction(module.original_name, k);">{{ action.label }}</button>
                 </td>
                 <td style="text-align:right;">
                     <input type="checkbox"
@@ -159,4 +165,16 @@
     </table>
 </sb-section>
 
+<style type="text/css">
+    tr.red-border {
+        border-left: 2px solid #990f0c;
+    }
 
+    thead tr th {
+        font-weight: bold;
+    }
+
+    tbody tr td {
+        padding: 8px 8px 2px !important;
+    }
+</style>

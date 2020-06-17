@@ -6,7 +6,7 @@
  * Last update: 2018-09-17
  *
  */
-$schemas = (!isset($schemas)) ? [] : $schemas;
+$schemas = $schemas ?? [];
 $schemas['module'] = [
     'module_id' => [
         'type' => 'int(11)',
@@ -14,14 +14,24 @@ $schemas['module'] = [
         'primary' => true,
     ],
     'name' => [
-        'type' => 'varchar(50)',
+        'type' => 'varchar(255)',
         'charset' => 'utf8',
         'collation' => 'utf8_unicode_ci',
+    ],
+    'code' => [
+        'type' => 'varchar(255)',
+        'charset' => 'utf8',
+        'collation' => 'utf8_unicode_ci',
+        'is_null' => true,
     ],
     'version' => [
         'type' => 'varchar(30)',
         'charset' => 'utf8',
         'collation' => 'utf8_unicode_ci',
+    ],
+    'use_license' => [
+        'type' => 'tinyint(1) unsigned',
+        'default' => '0',
     ],
     'can_uninstall' => [
         'type' => 'tinyint(1) unsigned',

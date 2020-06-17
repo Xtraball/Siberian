@@ -272,7 +272,7 @@ try {
             Translation::extractAll($module, $context);
             break;
         case 'app:manifest':
-            Manifest::rebuild();
+            Manifest::rebuild(true);
             break;
         case 'app:keystore:restore':
             $deviceId = 2;

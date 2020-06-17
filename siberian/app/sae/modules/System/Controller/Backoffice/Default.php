@@ -8,11 +8,6 @@ use Siberian\Version;
 class System_Controller_Backoffice_Default extends Backoffice_Controller_Default
 {
     /**
-     * @var string
-     */
-    static public $crmApiUrl = "http://krypton.siberiancms.com";
-
-    /**
      *
      */
     public function findallAction()
@@ -21,7 +16,7 @@ class System_Controller_Backoffice_Default extends Backoffice_Controller_Default
     }
 
     /**
-     * @throws Zend_Json_Exception
+     * @throws Zend_Exception
      */
     public function saveAction()
     {
@@ -53,6 +48,7 @@ class System_Controller_Backoffice_Default extends Backoffice_Controller_Default
 
     /**
      * @return array
+     * @throws Zend_Exception
      */
     protected function _findconfig()
     {
@@ -257,8 +253,9 @@ class System_Controller_Backoffice_Default extends Backoffice_Controller_Default
                 'host' => $_SERVER['SERVER_NAME'],
                 'licenseKey' => System_Model_Config::getValueFor('siberiancms_key')
             ];
+
             $json = json_encode($data);
-            $client = new Zend_Http_Client(self::$crmApiUrl . "/siberian-licenses/use");
+            $client = new Zend_Http_Client(Siberian\Provider::getLicenses()['use']['url']);
             $client->setMethod(Zend_Http_Client::POST);
             $client->setAdapter('Zend_Http_Client_Adapter_Curl');
             $client->setHeaders(["Content-type" => 'application/json']);
@@ -298,7 +295,7 @@ class System_Controller_Backoffice_Default extends Backoffice_Controller_Default
             $curl = curl_init();
             $license = __get('siberiancms_key');
             curl_setopt_array($curl, [
-                CURLOPT_URL => "http://krypton.siberiancms.com/siberian-licenses/check",
+                CURLOPT_URL => Siberian\Provider::getLicenses()['check']['url'],
                 CURLOPT_RETURNTRANSFER => true,
                 CURLOPT_ENCODING => "",
                 CURLOPT_MAXREDIRS => 10,
@@ -317,12 +314,12 @@ class System_Controller_Backoffice_Default extends Backoffice_Controller_Default
 
             if ($err) {
                 throw new \Siberian\Exception('#080-00: ' . $err);
-            } else {
-                $payload = [
-                    'success' => true,
-                    'result' => json_decode($response, true)
-                ];
             }
+
+            $payload = [
+                'success' => true,
+                'result' => json_decode($response, true)
+            ];
         } catch (\Exception $e) {
             $payload = [
                 'error' => true,

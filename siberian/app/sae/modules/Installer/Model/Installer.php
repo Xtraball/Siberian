@@ -53,17 +53,6 @@ class Installer_Model_Installer extends Core_Model_Default
     public static $_errors = [];
 
     /**
-     * Installer_Model_Installer constructor.
-     * @param array $params
-     * @throws Zend_Exception
-     */
-    public function __construct($params = [])
-    {
-        parent::__construct($params);
-        return $this;
-    }
-
-    /**
      * @return bool
      */
     public static function hasRequiredPhpVersion()
@@ -160,16 +149,17 @@ class Installer_Model_Installer extends Core_Model_Default
 
     /**
      * @param $file
+     * @param bool $skipSave
      * @return $this
-     * @throws Exception
+     * @throws Zend_Exception
      */
-    public function parse($file)
+    public function parse($file, $skipSave = false)
     {
         $this->_parser = new Installer_Model_Installer_Module_Parser();
         $this->_parser->setFile($file)
             ->extract();
 
-        $this->_parser->checkDependencies();
+        $this->_parser->checkDependencies($skipSave);
 
         return $this;
 
