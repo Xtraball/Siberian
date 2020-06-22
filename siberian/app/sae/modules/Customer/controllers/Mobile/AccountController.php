@@ -25,39 +25,56 @@ class Customer_Mobile_AccountController extends Application_Controller_Mobile_De
     }
 
     /**
-     *
+     * @throws Zend_Controller_Response_Exception
+     * @throws Zend_Exception
      */
     public function avatarAction()
     {
-        $customer_id = $this->getRequest()->getParam("customer");
-        $ignore_stored = $this->getRequest()->getParam("ignore_stored") == "true";
-        if ($customer_id) {
-            if ($customer_id == "default") {
-                $this->_helper->redirector->gotoUrlAndExit("https://www.gravatar.com/avatar/0?s=256&d=mm&r=g&f=y&random=".uniqid(), array("code" => 303));
-                exit();
-            } else {
-                $customer = new Customer_Model_Customer();
-                $customer->find($customer_id);
-                if ($customer->getId()) {
+        $request = $this->getRequest();
+        $customerId = $request->getParam('customer', false);
+        $ignoreStored = $request->getParam('ignore_stored', false) === 'true';
+        $returnJson = filter_var($request->getParam('json', false), FILTER_VALIDATE_BOOLEAN);
+        try {
+            if (!$customerId) {
+                throw new \Siberian\Exception('https://www.gravatar.com/avatar/0?s=256&d=mm&r=g&f=y&random=' . uniqid('rng', true));
+            }
+
+            if ($customerId === 'default') {
+                throw new \Siberian\Exception('https://www.gravatar.com/avatar/0?s=256&d=mm&r=g&f=y&random=' . uniqid('rng', true));
+            }
+
+            if (is_numeric($customerId)) {
+                /**
+                 * @var $customer Customer_Model_Customer
+                 */
+                $customer = (new Customer_Model_Customer())->find($customerId);
+                if ($customer && $customer->getId()) {
                     $image = $customer->getImage();
-                    $path = $customer->getBaseImagePath().$image;
-                    if (!($ignore_stored && $customer->getIsCustomImage()) &&
-                      (!empty($image) && file_exists($path))) {
-                        header("Content-Type: image/jpeg", true, 200);
-                        header("Content-Length: ".filesize($path));
-                        readfile($path);
-                        flush();
-                        exit();
-                    } else {
-                        $email = $customer->getEmail();
-                        $this->_helper->redirector->gotoUrlAndExit("https://www.gravatar.com/avatar/".md5($email)."?s=150&d=mm&r=g&random=".uniqid(), array("code" => 303));
-                        exit();
+                    $path = $customer->getImagePath() . $image;
+                    $basePath = $customer->getBaseImagePath() . $image;
+
+                    // Ok user has custom avatar!
+                    if (
+                        !($ignoreStored && $customer->getIsCustomImage()) &&
+                        (!empty($image) && is_readable($basePath))) {
+                        throw new \Siberian\Exception($path);
                     }
+
+                    $email = md5($customer->getEmail());
+                    throw new \Siberian\Exception('https://www.gravatar.com/avatar/'. $email . '?s=256&d=mm&r=g&f=y&random=' . uniqid('rng', true));
                 }
             }
+
+        } catch (\Exception $e) {
+            if (!$returnJson) {
+                $this->_helper->redirector->gotoUrlAndExit($e->getMessage(), ['code' => 302]);
+                exit();
+            }
+            $this->_sendJson([
+                'success' => true,
+                'url' => $request->getBaseUrl() . $e->getMessage()
+            ]);
         }
-        header("Content-Length: 0", true, 404);
-        exit();
     }
 
     /**
