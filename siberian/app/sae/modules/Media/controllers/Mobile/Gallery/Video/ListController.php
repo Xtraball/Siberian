@@ -61,9 +61,6 @@ class Media_Mobile_Gallery_Video_ListController extends Application_Controller_M
             $params = $request->getBodyParams();
             $application = $this->getApplication();
             $youtubeKey = $application->getYoutubeKey();
-            if (empty($youtubeKey)) {
-                $youtubeKey = Api_Model_Key::findKeysFor('youtube')->getApiKey();
-            }
 
             if (empty($youtubeKey)) {
                 throw new Exception('Missing and/or incorrect API key.');
