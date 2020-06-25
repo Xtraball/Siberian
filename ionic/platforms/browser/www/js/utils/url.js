@@ -3,7 +3,6 @@
  */
 var goto = window.location.hash.match(/\?__goto__=(.*)/);
 var HASH_ON_START = window.location.hash;
-console.log(HASH_ON_START);
 var REDIRECT_URI = false;
 var fbtoken = window.location.hash.match(/\?__tokenfb__=(.*)/);
 var LOGIN_FB = false;
