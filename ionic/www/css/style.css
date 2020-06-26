@@ -383,7 +383,7 @@ ion-content.tc-view .scroll {
 }
 
 .has-footer-fixed .remote-control {
-    bottom: 55px;
+    bottom: calc(var(--safe-area-inset-bottom) + 55px);
 }
 
 .mini-open-player {

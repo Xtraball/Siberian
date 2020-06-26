@@ -61,7 +61,9 @@ $features = $feats;
     <div id="list">
         <h3 class="title-editor no-border-radius title-feature-indent">
             <?php echo __('Add content'); ?>
-            <button type="button" id="add_item" onclick="feature.edit();"
+            <button type="button"
+                    id="add_item"
+                    onclick="feature.edit();"
                     class="toggle_design color-blue pull-right bt-header-right btn">
                 <i class="fa fa-plus"></i>
             </button>
@@ -71,7 +73,8 @@ $features = $feats;
             <div class="margin-top">
                 <h3 class="title-editor no-border-radius title-feature-indent">
                     <?php echo __('Manage content'); ?>
-                    <button type="button" id="toggle_existing_items"
+                    <button type="button"
+                            id="toggle_existing_items"
                             class="toggle_design color-blue pull-right bt-header-right btn">
                         <i class="fa fa-angle-down"></i>
                     </button>
@@ -92,7 +95,8 @@ $features = $feats;
                         <?php foreach ($messages as $message) : ?>
                             <?php $text = trim($message->getText()); ?>
                             <?php if (empty($text)) continue; ?>
-                            <tr id="push_actions_<?php echo $message->getId(); ?>" class="push_actions">
+                            <tr id="push_actions_<?php echo $message->getId(); ?>"
+                                class="push_actions">
                                 <td><?php echo cut($message->getTitle(), 18); ?></td>
                                 <td><?php echo cut($message->getText(), 30); ?></td>
                                 <td>
@@ -108,10 +112,12 @@ $features = $feats;
                                        data-msgid="<?php echo $message->getId(); ?>"></i>
                                 </td>
                                 <td>
-                                    <i class="fa fa-times delete-msg" data-msgid="<?php echo $message->getId(); ?>"></i>
+                                    <i class="fa fa-times delete-msg"
+                                       data-msgid="<?php echo $message->getId(); ?>"></i>
                                 </td>
                             </tr>
-                            <tr id="details_<?php echo $message->getId(); ?>" style="display: none;">
+                            <tr id="details_<?php echo $message->getId(); ?>"
+                                style="display: none;">
                                 <td colspan="6">
                                     <b><?php echo __('Title'); ?>:</b> <?php echo $message->getTitle(); ?>
                                     <br/>
@@ -323,83 +329,28 @@ $features = $feats;
             <?php endif; ?>
         </div>
         <?php $categories = $pntopic->getId() ? $pntopic->getCategories() : null; ?>
-        <div id="push_step_two" class="section push_step" style="display:none;" pos="2">
-            <h3 class="title-editor no-border-radius title-feature-indent">
-                <?php echo __('Locate'); ?>
-            </h3>
-            <div id="push_gmaps" class="container-fluid content-feature">
-                <form id="pushSecondStepForm" method="post" class="form-horizontal">
-                    <div class="form-group first-row-feature">
-                        <div class="col-md-12">
-                            <button type="button" onclick="push.goToStep('one');" class="btn color-blue pull-left"><i
-                                        class="fa fa-angle-left"></i></button>
-                            <button type="submit" class="btn color-blue pull-right"><i class="fa fa-angle-right"></i>
-                            </button>
-                        </div>
-                    </div>
-                    <div class="use_gmaps">
-                        <div class="form-group">
-                            <div class="col-md-12">
-                                <label for="use_gmaps_0" onclick="gmaps.hide(); gmaps.deactivateFields();">
-                                    <input type="radio" id="use_gmaps_0" name="use_gmaps"
-                                           class="use_gmaps color-blue radio-inline" value="0" checked="checked"/>
-                                    <?php echo __("Send to no specific locations"); ?>
-                                </label>
-                            </div>
-                        </div>
-                        <div class="form-group">
-                            <div class="col-md-12">
-                                <label for="use_gmaps_1" onclick="gmaps.init().show();">
-                                    <input type="radio" id="use_gmaps_1" name="use_gmaps"
-                                           class="use_gmaps color-blue radio-inline" value="1"/>
-                                    <?php echo __("Send to a specific location"); ?>
-                                </label>
-                            </div>
-                        </div>
-                    </div>
-                    <div id="gmaps_datas" class="none">
-                        <?php //<div class="relative"> ?>
-                        <div class="form-group">
-                            <div class="col-sm-6">
-                                <label for="title"><?php echo __('Enter a location:'); ?> <span
-                                            class="input-required">*</span></label>
-                            </div>
-                            <div class="col-sm-6">
-                                <label for="title"><?php echo __('And a radius (in Km):'); ?> <span
-                                            class="input-required">*</span></label>
-                            </div>
-                        </div>
-                        <div class="form-group">
-                            <div class="col-sm-6">
-                                <input type="text" placeholder="" class="required gmaps_field input-flat"
-                                       id="push_target" disabled="disabled"/>
-                            </div>
-                            <div class="col-sm-3">
-                                <input type="text" placeholder="" class="required gmaps_field input-flat"
-                                       id="push_radius" disabled="disabled" placeholder="<?php echo __('Radius'); ?>"/>
-                            </div>
-                        </div>
-                        <div class="form-group">
-                            <div class="col-md-12">
-                                <div id="push_map_canvas_receiver">
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </form>
-            </div>
-        </div>
-        <div id="push_step_three" class="section push_step" style="display:none;" pos="3">
+        <div id="push_step_three"
+             class="section push_step"
+             style="display:none;"
+             pos="3">
             <h3 class="title-editor no-border-radius title-feature-indent">
                 <?php echo __('Users'); ?>
             </h3>
-            <div id="push_topics" class="container-fluid content-feature">
-                <form id="pushThirdStepForm" method="post" class="form-horizontal">
+            <div id="push_topics"
+                 class="container-fluid content-feature">
+                <form id="pushThirdStepForm"
+                      method="post"
+                      class="form-horizontal">
                     <div class="form-group first-row-feature">
                         <div class="col-md-12">
-                            <button type="button" onclick="push.goToStep('two');" class="btn color-blue pull-left"><i
-                                        class="fa fa-angle-left"></i></button>
-                            <button type="submit" class="btn color-blue pull-right"><i class="fa fa-angle-right"></i>
+                            <button type="button"
+                                    onclick="push.goToStep('two');"
+                                    class="btn color-blue pull-left">
+                                <i class="fa fa-angle-left"></i>
+                            </button>
+                            <button type="submit"
+                                    class="btn color-blue pull-right">
+                                <i class="fa fa-angle-right"></i>
                             </button>
                         </div>
                     </div>
@@ -917,16 +868,20 @@ $features = $feats;
                         }
 
                         $('#action_value').val(action_value);
-                        this.goToStep('two');
-                    }
-                    return false;
-                }.bind(this));
-                $('#pushSecondStepForm').submit(function (e) {
-                    if ($(e.currentTarget).valid()) {
+
+                        // Jump to three, skip removed geo.
                         this.goToStep('three');
                     }
                     return false;
                 }.bind(this));
+
+                //$('#pushSecondStepForm').submit(function (e) {
+                //    if ($(e.currentTarget).valid()) {
+                //        this.goToStep('three');
+                //    }
+                //    return false;
+                //}.bind(this));
+
                 $('#pushThirdStepForm').submit(function (e) {
                     if ($(e.currentTarget).valid()) {
                         var topicReceiver = $('#topic_receiver'),
@@ -1025,7 +980,7 @@ $features = $feats;
             destroy: function () {
                 $('.push_datetimepicker').datepicker("destroy");
                 $('#pushFirstStepForm').unbind('submit');
-                $('#pushSecondStepForm').unbind('submit');
+                //$('#pushSecondStepForm').unbind('submit');
                 $('#pushThirdStepForm').unbind('submit');
                 $('#pushFourthStepForm').unbind('submit');
                 $('#messageCreateForm').unbind('submit');

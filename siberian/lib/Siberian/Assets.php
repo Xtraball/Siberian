@@ -10,7 +10,7 @@ use MatthiasMullie\Minify\CSS as MinifyCSS;
  *
  * @id 1000
  *
- * @version 4.18.5
+ * @version 4.18.22
  *
  */
 class Assets
@@ -398,7 +398,7 @@ class Assets
         if (!is_array($exclude_types)) {
             $exclude_types = [];
         }
-        $base = path("");
+        $base = path();
         foreach (self::$platforms as $type => $platforms) {
             if (!in_array($type, $exclude_types)) {
                 $www = self::$www[$type];
@@ -463,19 +463,25 @@ class Assets
 
     /**
      * @throws \ErrorException
-     * @throws \Exception
+     * @throws \MatthiasMullie\Minify\Exceptions\IOException
      * @throws \Zend_Exception
      */
     public static function buildFeatures()
     {
-        $module = new \Installer_Model_Installer_Module();
-        $modules = $module->findAll();
+        /**
+         * @var $modules \Installer_Model_Installer_Module[]
+         */
+        $modules = (new \Installer_Model_Installer_Module())->findAll();
+
 
         $features = [];
-
         foreach ($modules as $module) {
-            $module->fetch();
-            $features = array_merge($features, $module->getFeatures());
+            try {
+                $module->fetch();
+                $features = array_merge($features, $module->getFeatures(true));
+            } catch (\Exception $e) {
+                // Something went wrong!
+            }
         }
 
         foreach ($features as $feature) {
@@ -491,12 +497,12 @@ class Assets
             $mobile_uri = $feature['mobile_uri'] ?? ''; // Bypassing old _service modules with missing fake mobile_uri!
             $layouts = $feature['layouts'] ?? [];
 
-            $icons = $feature["icons"];
+            $icons = $feature['icons'];
             if (is_array($icons)) {
-                $basePath = "/" . str_replace(path(""), "", $feature["__DIR__"]);
+                $basePath = '/' . str_replace(path(), '', $feature['__DIR__']);
                 $icons = array_map(
-                    function ($icon) use ($basePath) {
-                        return $basePath . "/" . $icon;
+                    static function ($icon) use ($basePath) {
+                        return $basePath . '/' . $icon;
                     },
                     $icons
                 );
@@ -545,7 +551,7 @@ class Assets
             }
 
             // Fill the array with the value, ensure once!
-            if (!in_array($feature_js_path, self::$features_assets['js'][$code])) {
+            if (!in_array($feature_js_path, self::$features_assets['js'][$code], true)) {
                 self::$features_assets['js'][$code][] = $feature_js_path;
             }
 
@@ -605,33 +611,34 @@ class Assets
      * @param $feature
      * @param null $bundlePath
      * @return string
-     * @throws \Exception
+     * @throws \MatthiasMullie\Minify\Exceptions\IOException
      */
-    public static function compileFeature($feature, $bundlePath = null)
+    public static function compileFeature($feature, $bundlePath = null): string
     {
-
-        $code = $feature["code"];
+        $code = $feature['code'];
         $minifyJs = new MinifyJS();
         $minifyCss = new MinifyCSS();
 
-        $out_dir = path("var/tmp/out");
-        if (!is_dir($out_dir)) {
-            mkdir($out_dir, 0777, true);
+        $out_dir = path('var/tmp/out');
+        if (!is_dir($out_dir) && !mkdir($out_dir, 0777, true)) {
+            throw new \RuntimeException(sprintf('Directory "%s" was not created', $out_dir));
         }
 
-        foreach ($feature["files"] as $file) {
+        foreach ($feature['files'] as $file) {
             // Ignore files with ".." for security reasons!
             if (!preg_match("#\.\.#", $file)) {
-                $inFile = $feature["__DIR__"] . "/" . $file;
+                $inFile = $feature['__DIR__'] . '/' . $file;
                 $ext = pathinfo($file, PATHINFO_EXTENSION);
-                if (is_file($inFile) && in_array($ext, ['scss'])) {
-                    // SCSS Case
-                    $css = self::compileScss($inFile);
-                    $minifyCss->add($css);
-                } else if (is_file($inFile) && in_array($ext, ['js', 'css'])) {
-                    if ($ext === "js") {
+                if (is_readable($inFile)) {
+                    if ($ext === 'scss') {
+                        // SCSS Case
+                        $css = self::compileScss($inFile);
+                        $minifyCss->add($css);
+                    }
+                    if ($ext === 'js') {
                         $minifyJs->add($inFile);
-                    } elseif ($ext === 'css') {
+                    }
+                    if ($ext === 'css') {
                         $minifyCss->add($inFile);
                     }
                 }
@@ -712,7 +719,7 @@ class Assets
                 ' . $scss .
                 $customScss
             );
-        } catch (Exception $e) {
+        } catch (\Exception $e) {
             $css = "/** Error compiling custom module SCSS <" . $e->getMessage() . ">. */";
         }
         return $css;
@@ -726,8 +733,7 @@ class Assets
     public static function buildTemplateCaches($source)
     {
         $phulp = new \Phulp\Phulp();
-
-        $phulp->task('angular-template-cache', function ($phulp) use ($source) {
+        $phulp->task('angular-template-cache', static function ($phulp) use ($source) {
 
             $phulp
                 ->src([$source . '/templates/'], '/html$/')
@@ -799,7 +805,7 @@ class Assets
                 $index_content = self::preBuildAction($index_content, $index_path, $type, $platform);
 
                 // For browser/overview remove cdvfile
-                if ($type === "browser") {
+                if ($type === 'browser') {
                     $index_content = self::__cleanAppOnly($index_content);
                 }
 

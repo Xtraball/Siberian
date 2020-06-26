@@ -1,12 +1,14 @@
 <?php
 
-class Cms_Application_Page_Block_VideoController extends Application_Controller_Default {
+class Cms_Application_Page_Block_VideoController extends Application_Controller_Default
+{
 
     /**
      * Récupère les vidéos youtube ou podcast associées à une recherche
      */
-    public function searchAction() {
-        if($datas = $this->getRequest()->getParams()) {
+    public function searchAction()
+    {
+        if ($datas = $this->getRequest()->getParams()) {
 
             $data = [];
 
@@ -21,8 +23,7 @@ class Cms_Application_Page_Block_VideoController extends Application_Controller_
                     ->setCurrentOptionValue($this->getCurrentOptionValue())
                     ->setTypeId($datas['type_id'])
                     ->setVideos($videos)
-                    ->toHtml()
-                ;
+                    ->toHtml();
 
             } catch (Exception $e) {
                 $data = [
@@ -36,34 +37,37 @@ class Cms_Application_Page_Block_VideoController extends Application_Controller_
         }
     }
 
-    public function searchv2Action() {
-        if($datas = $this->getRequest()->getParams()) {
-            try {
-                $video = new Cms_Model_Application_Page_Block_Video();
-                $video->setTypeId($datas["type"]);
-                $videos = $video->getList($datas["search"]);
+    public function searchv2Action()
+    {
+        try {
+            $request = $this->getRequest();
+            $datas = $request->getParams();
+            $application = $this->getApplication();
+            $youtubeKey = $application->getYoutubeKey();
+            $video = (new Cms_Model_Application_Page_Block_Video())
+                ->setTypeId($datas['type']);
+            $videos = $video->getList($datas['search'], 'video_id', $youtubeKey);
 
-                $vids = [];
-                foreach($videos as $video) {
-                    $vids[] = $video->getData();
-                }
-
-                $data = [
-                    "success" => true,
-                    "videos" => $vids
-                ];
-
-            } catch (Exception $e) {
-                $data = [
-                    "error" => true,
-                    "message" => $e->getMessage(),
-                    "message_button" => 1,
-                    "message_loader" => 1
-                ];
+            $vids = [];
+            foreach ($videos as $video) {
+                $vids[] = $video->getData();
             }
 
-            $this->_sendJson($data);
+            $data = [
+                "success" => true,
+                "videos" => $vids
+            ];
+
+        } catch (\Exception $e) {
+            $data = [
+                "error" => true,
+                "message" => $e->getMessage(),
+                "message_button" => 1,
+                "message_loader" => 1
+            ];
         }
+
+        $this->_sendJson($data);
     }
 
 }

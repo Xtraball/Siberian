@@ -1,6 +1,7 @@
 <?php
 
-class Installer_Model_Db_Table_Installer_Module extends Core_Model_Db_Table {
+class Installer_Model_Db_Table_Installer_Module extends Core_Model_Db_Table
+{
 
     /**
      * @var string
@@ -25,23 +26,25 @@ class Installer_Model_Db_Table_Installer_Module extends Core_Model_Db_Table {
     /**
      * Installer_Model_Db_Table_Installer_Module constructor.
      * @param array $options
+     * @throws Zend_Exception
      */
-    public function __construct($options = array()) {
+    public function __construct($options = [])
+    {
         $this->_logger = Zend_Registry::get("logger");
 
         parent::__construct($options);
         try {
             $this->_db->describeTable($this->_name);
-        }  catch(Exception $e) {
+        } catch (Exception $e) {
             $this->_is_installed = false;
         }
-        return $this;
     }
 
     /**
      * @return bool
      */
-    public function isInstalled() {
+    public function isInstalled()
+    {
         return $this->_is_installed;
     }
 
@@ -50,7 +53,8 @@ class Installer_Model_Db_Table_Installer_Module extends Core_Model_Db_Table {
      * @param $file
      * @throws Exception
      */
-    public function install($module, $file) {
+    public function install($module, $file)
+    {
 
         try {
             $this->start();
@@ -58,30 +62,30 @@ class Installer_Model_Db_Table_Installer_Module extends Core_Model_Db_Table {
             require_once $file;
             $this->query("SET foreign_key_checks = 1;");
             $this->end();
-        }
-        catch(Exception $e) {
+        } catch (Exception $e) {
             $this->_db->rollback();
             $this->query("SET foreign_key_checks = 1;");
-            if(APPLICATION_ENV != "production") {
+            if (APPLICATION_ENV !== 'production') {
                 Zend_Debug::dump($e);
                 die;
-            } else {
-                throw new Exception("An error occurred while upgrading the system. Please, contact your administrator.");
             }
+            throw new \Exception("An error occurred while upgrading the system. Please, contact your administrator.");
         }
     }
 
     /**
      * Starts a DB Transaction
      */
-    public function start() {
+    public function start()
+    {
         $this->_db->beginTransaction();
     }
 
     /**
      * Ends a DB Transaction
      */
-    public function end() {
+    public function end()
+    {
         $this->_db->commit();
     }
 
@@ -91,7 +95,8 @@ class Installer_Model_Db_Table_Installer_Module extends Core_Model_Db_Table {
      * @param $sql
      * @return $this
      */
-    public function query($sql) {
+    public function query($sql)
+    {
         $this->_db->query($sql);
         return $this;
     }
@@ -101,7 +106,8 @@ class Installer_Model_Db_Table_Installer_Module extends Core_Model_Db_Table {
      *
      * @param $message
      */
-    public function log($message) {
+    public function log($message)
+    {
         $this->_logger->info($message);
     }
 
