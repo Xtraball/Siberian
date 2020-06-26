@@ -1,6 +1,7 @@
 <?php
 
-class Mcommerce_Controller_Mobile_Default extends Application_Controller_Mobile_Default {
+class Mcommerce_Controller_Mobile_Default extends Application_Controller_Mobile_Default
+{
 
     /**
      * Panier en cours
@@ -17,46 +18,49 @@ class Mcommerce_Controller_Mobile_Default extends Application_Controller_Mobile_
     protected $_store;
 
     /**
-     * Initialise le panier et le magasin en cours de session
-     *
-     * @return Mcommerce_Mobile_CartController
+     * @return $this|Application_Controller_Mobile_Default|Core_Controller_Default|void
+     * @throws Zend_Exception
+     * @throws Zend_Session_Exception
+     * @throws \Siberian\Exception
      */
-    public function init() {
-
-        $logger = Zend_Registry::get("logger");
-
+    public function init()
+    {
         parent::init();
 
-        $this->_current_option_value = $this->getApplication()->getPage('m_commerce');
+        $logger = Zend_Registry::get('logger');
+
+        $request = $this->getRequest();
+        $application = $this->getApplication();
+        $session = $this->getSession();
+
+        $this->_current_option_value = $application->getPage('m_commerce');
 
         $store = new Mcommerce_Model_Store();
-        if($this->getSession()->store_id) {
-            $store->find($this->getSession()->store_id);
+        if ($session->store_id) {
+            $store->find($session->store_id);
         }
 
-        if(!$store->getId()) {
+        if (!$store->getId()) {
             $store = $this->getCurrentOptionValue()->getObject()->getDefaultStore();
-            $this->getSession()->setStore($store);
+            $session->setStore($store);
         }
         $this->_store = $store;
 
-        $request = $this->getRequest();
         $uriCartId = $request->getParam('cart_id', false);
-        $cart = (new Mcommerce_Model_Cart())
-                ->find($uriCartId);
+        $cart = (new Mcommerce_Model_Cart())->find($uriCartId);
 
         if ($cart->getId()) {
-            $this->getSession()->setCart($cart);
-        } else if (!$this->getSession()->getCart()->getId() && $store->getId()) {
-            $cart = $this->getSession()->getCart();
+            $session->setCart($cart);
+        } else if (!$session->getCart()->getId() && $store->getId()) {
+            $cart = $session->getCart();
 
-            $logger->debug("Create new cart in session.");
-            
-            $cart->setMcommerceId($this->getCurrentOptionValue()->getObject()->getId())
+            $logger->debug('Create new cart in session.');
+
+            $cart
+                ->setMcommerceId($this->getCurrentOptionValue()->getObject()->getId())
                 ->setStoreId($store->getId())
-                ->save()
-            ;
-            $this->getSession()->setCart($cart);
+                ->save();
+            $session->setCart($cart);
         } else {
             // Adding a condition for when the cart has already been validated.
             // We have to check if an order which corresponds to the cart has been saved.
@@ -68,10 +72,10 @@ class Mcommerce_Controller_Mobile_Default extends Application_Controller_Mobile_
                     ->setMcommerceId($this->getCurrentOptionValue()->getObject()->getId())
                     ->setStoreId($store->getId())
                     ->save();
-                $this->getSession()->setCart($cart);
+                $session->setCart($cart);
             } else {
-                $cart = $this->getSession()->getCart();
-                $logger->debug("Cart already exists.");
+                $cart = $session->getCart();
+                $logger->debug('Cart already exists.');
             }
         }
 
@@ -81,11 +85,11 @@ class Mcommerce_Controller_Mobile_Default extends Application_Controller_Mobile_
     }
 
     /**
-     * Verifies if the current cart has been validated and saved into an order.
-     *
-     * @return bool
+     * @return int
+     * @throws Zend_Session_Exception
      */
-    protected function cartAlreadyValidated() {
+    protected function cartAlreadyValidated()
+    {
         $cart = $this->getSession()->getCart();
         $order = new Mcommerce_Model_Order();
         $order->find([
@@ -100,7 +104,8 @@ class Mcommerce_Controller_Mobile_Default extends Application_Controller_Mobile_
      *
      * @return Mcommerce_Model_Cart
      */
-    public function getCart() {
+    public function getCart()
+    {
         return $this->_cart;
     }
 
@@ -109,11 +114,13 @@ class Mcommerce_Controller_Mobile_Default extends Application_Controller_Mobile_
      *
      * @return Mcommerce_Model_Store
      */
-    public function getStore() {
+    public function getStore()
+    {
         return $this->_store;
     }
 
-    protected function computeDiscount() {
+    protected function computeDiscount()
+    {
         $cart = $this->getCart();
         $cart->setCustomerUUID($this->getRequest()->getParam("customer_uuid", ""));
         $promo = Mcommerce_Model_Promo::getApplicablePromo($cart);
@@ -138,7 +145,7 @@ class Mcommerce_Controller_Mobile_Default extends Application_Controller_Mobile_
             $result['message'] = $this->_("Invalid code") . '(' . $cart->getDiscountCode() . ')';
         }
         // If discount failed, re-apply original prices
-        if(!$result['success']){
+        if (!$result['success']) {
             $cart->_compute()->setDiscountCode("")->save();
         }
         return $result;
@@ -147,10 +154,11 @@ class Mcommerce_Controller_Mobile_Default extends Application_Controller_Mobile_
     /**
      * @return Mcommerce_Model_Promo|null
      */
-    protected function getPromo() {
+    protected function getPromo()
+    {
         $cart = $this->getCart();
         $promo = Mcommerce_Model_Promo::getApplicablePromo($cart);
-        if($promo){
+        if ($promo) {
             $valid = $promo->validate($cart);
             if ($valid > 0) {
                 return $promo;

@@ -2,6 +2,7 @@
  window, document, localStorage, angular
  */
 var goto = window.location.hash.match(/\?__goto__=(.*)/);
+var HASH_ON_START = window.location.hash;
 var REDIRECT_URI = false;
 var fbtoken = window.location.hash.match(/\?__tokenfb__=(.*)/);
 var LOGIN_FB = false;

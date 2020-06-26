@@ -6,7 +6,8 @@
  * @method string getKey()
  * @method string getValue()
  */
-class Api_Model_Key extends Core_Model_Default {
+class Api_Model_Key extends Core_Model_Default
+{
 
     /**
      * @var array
@@ -14,20 +15,16 @@ class Api_Model_Key extends Core_Model_Default {
     private static $__keys = [];
 
     /**
-     * Api_Model_Key constructor.
-     * @param array $params
+     * @var string
      */
-    public function __construct($params = []) {
-        parent::__construct($params);
-        $this->_db_table = 'Api_Model_Db_Table_Key';
-        return $this;
-    }
+    protected $_db_table = Api_Model_Db_Table_Key::class;
 
     /**
      * @param $providerCode
      * @return Api_Model_Key|mixed
      */
-    public static function findKeysFor($providerCode) {
+    public static function findKeysFor($providerCode)
+    {
         if (empty(self::$__keys[$providerCode])) {
             $key = new self();
             $provider = (new Api_Model_Provider())

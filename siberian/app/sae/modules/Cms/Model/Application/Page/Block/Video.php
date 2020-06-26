@@ -21,15 +21,9 @@ class Cms_Model_Application_Page_Block_Video extends Cms_Model_Application_Page_
     protected $_type_instance;
 
     /**
-     * Cms_Model_Application_Page_Block_Video constructor.
-     * @param array $params
+     * @var string
      */
-    public function __construct($params = [])
-    {
-        parent::__construct($params);
-        $this->_db_table = "Cms_Model_Db_Table_Application_Page_Block_Video";
-        return $this;
-    }
+    protected $_db_table = Cms_Model_Db_Table_Application_Page_Block_Video::class;
 
     /**
      * @param array $data
@@ -120,15 +114,14 @@ class Cms_Model_Application_Page_Block_Video extends Cms_Model_Application_Page_
     }
 
     /**
-     * @deprecated
-     *
      * @param $search
      * @param null $id
+     * @param string $youtubeKey
      * @return mixed
      */
-    public function getList($search, $id = null)
+    public function getList($search, $id = null, $youtubeKey = '')
     {
-        return $this->getTypeInstance()->getList($search, $id);
+        return $this->getTypeInstance()->getList($search, $id, $youtubeKey);
     }
 
     /**

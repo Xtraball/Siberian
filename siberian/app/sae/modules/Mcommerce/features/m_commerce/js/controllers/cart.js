@@ -1,8 +1,12 @@
-/*global
- App, angular, BASE_PATH, _
+/**
+ * M-Commerce Cart
+ *
+ * @author Xtraball SAS <dev@xtraball.com>
+ * @version 4.18.22
  */
-
-angular.module('starter').controller('MCommerceCartViewController', function ($scope, $state, Loader, $stateParams,
+angular
+    .module('starter')
+    .controller('MCommerceCartViewController', function ($scope, $state, Loader, $stateParams,
                                                                               $translate, $timeout, Dialog,
                                                                               McommerceCart, Customer) {
 
@@ -27,10 +31,12 @@ angular.module('starter').controller('MCommerceCartViewController', function ($s
 
         $scope.is_loading = true;
 
-        McommerceCart.compute()
+        McommerceCart
+            .compute()
             .then(function (computation) {
                 $scope.computation = computation;
-            }).then(function () {
+            })
+            .then(function () {
                 $scope.computation = angular.isObject($scope.computation) ? $scope.computation : {};
 
                 McommerceCart.find()
@@ -144,7 +150,8 @@ angular.module('starter').controller('MCommerceCartViewController', function ($s
         };
 
         if ($scope.object.cart && $scope.object.cart.discount_code) {
-            McommerceCart.adddiscount($scope.object.cart.discount_code, true)
+            McommerceCart
+                .adddiscount($scope.object.cart.discount_code, true)
                 .then(function (data) {
                     if (data && data.success) {
                         gotToNext();
@@ -185,13 +192,13 @@ angular.module('starter').controller('MCommerceCartViewController', function ($s
                 }, function (data) {
                     Dialog.alert('', data.message, 'OK');
                 }).then(function () {
-                Loader.hide();
+                    Loader.hide();
                 });
         }
     };
 
     $scope.cartIdInvalid = function () {
-        Dialog.alert("Sorry", $scope.object.cart.valid_message, "OK", 3700);
+        Dialog.alert('Sorry', $scope.object.cart.valid_message, "OK", 3700);
     };
 
     $scope.goToStoreChoice = function () {

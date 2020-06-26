@@ -1,10 +1,20 @@
-<?php $block = $this->getCurrentBlock(); ?>
-<?php $video = $block->getObject(); ?>
-<?php $youtube_is_available = (bool) Api_Model_Key::findKeysFor('youtube')->getApiKey(); ?>
-<div id="cms_block_<?php echo $this->getPosition(); ?>" class="category content-white-bkg cms_block video" rel="<?php echo $this->getPosition(); ?>">
-    <input type="hidden" class="typeChoose" value="<?php echo $video->getTypeId(); ?>" position="<?php echo $this->getPosition(); ?>" />
+<?php
+$block = $this->getCurrentBlock();
+$video = $block->getObject();
+
+?>
+<div id="cms_block_<?php echo $this->getPosition(); ?>"
+     class="category content-white-bkg cms_block video"
+     rel="<?php echo $this->getPosition(); ?>">
+    <input type="hidden"
+           class="typeChoose"
+           value="<?php echo $video->getTypeId(); ?>"
+           position="<?php echo $this->getPosition(); ?>" />
     <div class="control left">
-        <a class="handle" href="javascript:void(0);"><i class="fa fa-sort"></i></a>
+        <a class="handle"
+           href="javascript:void(0);">
+            <i class="fa fa-sort"></i>
+        </a>
     </div>
     <?php if(!$video->getId()) : ?>
         <div class="row">
@@ -16,20 +26,41 @@
             <div class="col-md-12 text-center">
                 <div class="row">
                     <div class="col-md-4 video_type">
-                        <a href="#" class="color-blue btn link_video capitalize <?php if($youtube_is_available) : ?> link_video_<?php echo $this->getPosition(); ?><?php else : ?>" onclick="featureNotAvailable(); return false;<?php endif; ?>" rel="cms_block_youtube_<?php echo $this->getPosition(); ?>" data-type="youtube">
-                            <img src="<?php echo $this->getImage('pictos/youtube.png'); ?>" title="<?php echo __('Youtube'); ?>" alt="<?php echo __('Youtube'); ?>" width="64" height="64" />
-                            <br/><span><?php echo __('Youtube') ?></span>
+                        <a href="#"
+                           class="color-blue btn link_video capitalize link_video_<?php echo $this->getPosition(); ?>"
+                           rel="cms_block_youtube_<?php echo $this->getPosition(); ?>"
+                           data-type="youtube">
+                            <img src="<?php echo $this->getImage('pictos/youtube.png'); ?>"
+                                 title="<?php echo __('Youtube'); ?>"
+                                 alt="<?php echo __('Youtube'); ?>"
+                                 width="64"
+                                 height="64" />
+                            <br />
+                            <span><?php echo __('Youtube') ?></span>
                         </a>
                     </div>
                     <div class="col-md-4 video_type">
-                        <a href="#" class="color-blue btn link_video capitalize link_video_<?php echo $this->getPosition(); ?>" rel="cms_block_podcast_<?php echo $this->getPosition(); ?>" data-type="podcast">
-                            <img src="<?php echo $this->getImage('pictos/podcast.png'); ?>" title="<?php echo __('Podcast'); ?>" alt="<?php echo __('Podcast'); ?>" width="64" height="64" />
+                        <a href="#" class="color-blue btn link_video capitalize link_video_<?php echo $this->getPosition(); ?>"
+                           rel="cms_block_podcast_<?php echo $this->getPosition(); ?>"
+                           data-type="podcast">
+                            <img src="<?php echo $this->getImage('pictos/podcast.png'); ?>"
+                                 title="<?php echo __('Podcast'); ?>"
+                                 alt="<?php echo __('Podcast'); ?>"
+                                 width="64"
+                                 height="64" />
                             <br/><span><?php echo __('Podcast') ?></span>
                         </a>
                     </div>
                     <div class="col-md-4 video_type">
-                        <a href="#" class="color-blue btn link_video capitalize link_video_<?php echo $this->getPosition(); ?>" rel="cms_block_video_<?php echo $this->getPosition(); ?>" data-type="link">
-                            <img src="<?php echo $this->getImage('pictos/my_video.png'); ?>" title="<?php echo __('My video'); ?>" alt="<?php echo __('My video'); ?>" width="64" height="64" />
+                        <a href="#"
+                           class="color-blue btn link_video capitalize link_video_<?php echo $this->getPosition(); ?>"
+                           rel="cms_block_video_<?php echo $this->getPosition(); ?>"
+                           data-type="link">
+                            <img src="<?php echo $this->getImage('pictos/my_video.png'); ?>"
+                                 title="<?php echo __('My video'); ?>"
+                                 alt="<?php echo __('My video'); ?>"
+                                 width="64"
+                                 height="64" />
                             <br/><span><?php echo __('My video') ?></span>
                         </a>
                     </div>
@@ -38,27 +69,50 @@
         </div>
     <?php endif; ?>
     <div class="control right">
-        <a class="remove" href="javascript:void(0);"><i class="fa fa-times"></i></a>
+        <a class="remove"
+           href="javascript:void(0);">
+            <i class="fa fa-times"></i>
+        </a>
     </div>
     
-    <?php if(!$video->getId() OR $video->getTypeId() == 'youtube') : ?>
-    <div id="cms_block_youtube_<?php echo $this->getPosition(); ?>" style="<?php if(!$video OR $video AND $video->getTypeId() != 'youtube') : ?> display: none;<?php endif; ?>" class="block_video" rel="<?php echo $this->getPosition(); ?>" data-type="youtube">
+    <?php if (!$video->getId() || $video->getTypeId() === 'youtube') : ?>
+    <div id="cms_block_youtube_<?php echo $this->getPosition(); ?>"
+         style="<?php if(!$video || $video && $video->getTypeId() !== 'youtube') : ?> display: none;<?php endif; ?>"
+         class="block_video"
+         rel="<?php echo $this->getPosition(); ?>"
+         data-type="youtube">
         <div class="display_image">
-            <div class="description_cont" rel="<?php echo $this->getPosition() ?>">
+            <div class="description_cont"
+                 rel="<?php echo $this->getPosition() ?>">
                 <?php if(!$video->getId()) : ?>
-                <form name="youtubeForm" class="form-horizontal" action="<?php echo $this->getUrl('cms/application_page_block_video/search'); ?>" onsubmit="searchVideos($(this)); return false;" data-type="youtube">
+                <form name="youtubeForm"
+                      class="form-horizontal"
+                      action="<?php echo $this->getUrl('cms/application_page_block_video/search'); ?>"
+                      onsubmit="searchVideos($(this)); return false;"
+                      data-type="youtube">
                     <div class="row">
                         <div class="col-md-6">
-                            <label for="youtube_search_<?php echo $block->getId(); ?>" class="cont_title" style="line-height: 40px; padding-right: 10px"><?php echo __('Make a search or enter the Youtube Url:'); ?></label><br />
+                            <label for="youtube_search_<?php echo $block->getId(); ?>"
+                                   class="cont_title"
+                                   style="line-height: 40px; padding-right: 10px"><?php echo __('Make a search or enter the Youtube Url:'); ?></label>
+                            <br />
                         </div>
                     </div>
                     <div class="row">
                         <div class="col-sm-6">
-                            <input type="text" id="youtube_search_<?php echo $block->getId(); ?>" name="block[<?php echo $this->getPosition(); ?>][search]" value="<?php if($video->getTypeId() == 'youtube') echo $video->getSearch(); ?>" class="required youtube_search input-flat input_search_<?php echo $this->getPosition(); ?> left input-flat" />
-                            <input type="hidden" name="block[<?php echo $this->getPosition(); ?>][type_id]" value="youtube" />
+                            <input type="text"
+                                   id="youtube_search_<?php echo $block->getId(); ?>"
+                                   name="block[<?php echo $this->getPosition(); ?>][search]"
+                                   value="<?php if($video->getTypeId() == 'youtube') echo $video->getSearch(); ?>"
+                                   class="required youtube_search input-flat input_search_<?php echo $this->getPosition(); ?> left input-flat" />
+                            <input type="hidden"
+                                   name="block[<?php echo $this->getPosition(); ?>][type_id]"
+                                   value="youtube" />
                         </div>
                         <div class="col-sm-2">
-                            <button type="submit" class="btn color-blue get_youtube find_videos_<?php echo $this->getPosition(); ?>" rel="<?php echo $this->getPosition(); ?>"><?php echo __('OK'); ?></button>
+                            <button type="submit"
+                                    class="btn color-blue get_youtube find_videos_<?php echo $this->getPosition(); ?>"
+                                    rel="<?php echo $this->getPosition(); ?>"><?php echo __('OK'); ?></button>
                         </div>
                     </div>
                 </form>
@@ -73,22 +127,49 @@
                         </div>
                         <div class="row">
                             <div class="col-md-12">
-                                <img width="192" title="<?php echo $video->getDescription(); ?>" src="<?php echo $video->getImageUrl(); ?>" />
+                                <img width="192"
+                                     title="<?php echo $video->getDescription(); ?>"
+                                     src="<?php echo $video->getImageUrl(); ?>" />
                                 <p><?php echo $video->getSearch(); ?></p>
                                 <p><?php echo $video->getDescription(); ?></p>
-                                <input type="hidden" id="youtube_search_<?php echo $block->getId(); ?>" name="block[<?php echo $this->getPosition(); ?>][search]" value="<?php if($video->getTypeId() == 'youtube') echo $video->getSearch(); ?>" class="youtube_search input input_search_<?php echo $this->getPosition(); ?> left input-flat" />
-                                <input type="hidden" name="block[<?php echo $this->getPosition(); ?>][type_id]" value="youtube" />
+                                <input type="hidden"
+                                       id="youtube_search_<?php echo $block->getId(); ?>"
+                                       name="block[<?php echo $this->getPosition(); ?>][search]"
+                                       value="<?php if($video->getTypeId() == 'youtube') echo $video->getSearch(); ?>"
+                                       class="youtube_search input input_search_<?php echo $this->getPosition(); ?> left input-flat" />
+                                <input type="hidden"
+                                       name="block[<?php echo $this->getPosition(); ?>][type_id]"
+                                       value="youtube" />
                             </div>
                         </div>
                     <?php endif; ?>
                 </div>
 
-                <input type="hidden" name="block[<?php echo $this->getPosition(); ?>][block_id]" value="<?php echo $block->getBlockId(); ?>" />
-                <input type="hidden" name="block[<?php echo $this->getPosition(); ?>][value_id]" value="<?php echo $block->getValueId(); ?>" />
-                <input type="hidden" name="block[<?php echo $this->getPosition(); ?>][type]" value="video" />
-                <input type="hidden" class="youtube video_link" id="youtube_<?php echo $this->getPosition(); ?>" rel="<?php echo $this->getPosition(); ?>" name="block[<?php echo $this->getPosition(); ?>][youtube]" value="<?php echo $video->getYoutube(); ?>"/>
-                <input type="hidden" name="block[<?php echo $this->getPosition(); ?>][position]" value="<?php echo $this->getPosition(); ?>" class="hidden_pos" rel="<?php echo $this->getPosition(); ?>" />
-                <input type="hidden" name="block[<?php echo $this->getPosition(); ?>][description]" value="<?php echo $video->getDescription(); ?>" class="video_description" rel="<?php echo $this->getPosition(); ?>" />
+                <input type="hidden"
+                       name="block[<?php echo $this->getPosition(); ?>][block_id]"
+                       value="<?php echo $block->getBlockId(); ?>" />
+                <input type="hidden"
+                       name="block[<?php echo $this->getPosition(); ?>][value_id]"
+                       value="<?php echo $block->getValueId(); ?>" />
+                <input type="hidden"
+                       name="block[<?php echo $this->getPosition(); ?>][type]"
+                       value="video" />
+                <input type="hidden"
+                       class="youtube video_link"
+                       id="youtube_<?php echo $this->getPosition(); ?>"
+                       rel="<?php echo $this->getPosition(); ?>"
+                       name="block[<?php echo $this->getPosition(); ?>][youtube]"
+                       value="<?php echo $video->getYoutube(); ?>"/>
+                <input type="hidden"
+                       name="block[<?php echo $this->getPosition(); ?>][position]"
+                       value="<?php echo $this->getPosition(); ?>"
+                       class="hidden_pos"
+                       rel="<?php echo $this->getPosition(); ?>" />
+                <input type="hidden"
+                       name="block[<?php echo $this->getPosition(); ?>][description]"
+                       value="<?php echo $video->getDescription(); ?>"
+                       class="video_description"
+                       rel="<?php echo $this->getPosition(); ?>" />
             </div>
         </div>
     </div>

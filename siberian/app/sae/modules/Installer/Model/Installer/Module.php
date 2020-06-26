@@ -68,6 +68,8 @@ class Installer_Model_Installer_Module extends Core_Model_Default
      * @param $name
      * @param bool $fetch
      * @return $this
+     * @throws Zend_Db_Profiler_Exception
+     * @throws Zend_Db_Statement_Exception
      */
     public function prepare($name, $fetch = true)
     {
@@ -272,12 +274,17 @@ class Installer_Model_Installer_Module extends Core_Model_Default
     protected function readPackage($path)
     {
         $content = file_get_contents($path);
-
+        $result = false;
         if (!empty($content)) {
-            return json_decode($content, true);
+            try {
+                $result = json_decode($content, true, 512, JSON_THROW_ON_ERROR);
+            } catch (\Exception $e) {
+                $result = false;
+                log_err($e->getMessage());
+            }
         }
 
-        return false;
+        return $result;
     }
 
     /**
@@ -286,8 +293,7 @@ class Installer_Model_Installer_Module extends Core_Model_Default
     public function fetch()
     {
         if (is_array($this->_data)) {
-            $name = $this->_data["name"];
-            log_debug($name);
+            $name = $this->_data['name'];
             if (!empty($name)) {
                 $this->fetchModule($name);
             }
@@ -296,10 +302,12 @@ class Installer_Model_Installer_Module extends Core_Model_Default
 
     /**
      * @param $module_name
+     * @throws Zend_Db_Profiler_Exception
+     * @throws Zend_Db_Statement_Exception
      */
     protected function fetchModule($module_name)
     {
-        $basePath = Core_Model_Directory::getBasePathTo("app/sae/modules/{$module_name}");
+        $basePath = path('app/sae/modules/' . $module_name);
         $editions = Siberian_Cache_Design::$editions[strtolower(Siberian_Version::TYPE)];
 
         /** fetching package.json */
@@ -462,7 +470,9 @@ class Installer_Model_Installer_Module extends Core_Model_Default
 
     /**
      * @param bool $refresh
-     * @return array
+     * @return array|null
+     * @throws Zend_Db_Profiler_Exception
+     * @throws Zend_Db_Statement_Exception
      */
     public function getFeatures($refresh = false)
     {
@@ -474,7 +484,6 @@ class Installer_Model_Installer_Module extends Core_Model_Default
             $this->_features = [];
 
             $featuresGlob = glob($this->_basePath . '/features/*/feature.json');
-
             foreach ($featuresGlob as $feature) {
                 $featureJson = Siberian_Json::decode(file_get_contents($feature), true);
 

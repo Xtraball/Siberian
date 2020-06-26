@@ -1,16 +1,22 @@
 <?php
 
+/**
+ * Class Cms_Model_Application_Page_Block_Video_Link
+ */
 class Cms_Model_Application_Page_Block_Video_Link extends Cms_Model_Application_Page_Block_Abstract
 {
 
-    public function __construct($params = []) {
-        parent::__construct($params);
-        $this->_db_table = 'Cms_Model_Db_Table_Application_Page_Block_Video_Link';
-        return $this;
-    }
+    /**
+     * @var string
+     */
+    protected $_db_table = Cms_Model_Db_Table_Application_Page_Block_Video_Link::class;
 
-    public function isValid() {
-        if($this->getLink()) {
+    /**
+     * @return bool|mixed
+     */
+    public function isValid()
+    {
+        if ($this->getLink()) {
             return true;
         }
 
@@ -21,18 +27,22 @@ class Cms_Model_Application_Page_Block_Video_Link extends Cms_Model_Application_
      * @param array $data
      * @return $this
      */
-    public function populate($data = []) {
+    public function populate($data = [])
+    {
         $this
             ->setDescription($data["description"])
             ->setLink($data["video"])
-            ->setImage($data["image"])
-        ;
+            ->setImage($data["image"]);
 
         return $this;
     }
 
-    public function getImageUrl() {
-        return $this->getImage() ? Application_Model_Application::PATH_IMAGE.$this->getImage() : null;
+    /**
+     * @return string|null
+     */
+    public function getImageUrl()
+    {
+        return $this->getImage() ? Application_Model_Application::PATH_IMAGE . $this->getImage() : null;
     }
 
 }
