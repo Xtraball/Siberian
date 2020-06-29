@@ -128,7 +128,7 @@ class StandalonePush extends Base
             ->setCover($cover)
             ->setActionValue($actionValue)
             ->setStatus('sent')
-            ->setMessageJson(Json::encode($jsonMessage))
+            ->setMessageJson(Json::encode($jsonMessage, JSON_UNESCAPED_UNICODE))
             ->save();
 
         $message = self::buildMessage($title, $text, $cover, $actionValue, $appId, $forceAppRoute);
@@ -189,7 +189,7 @@ class StandalonePush extends Base
             ->setActionValue($actionValue)
             ->setSendAt($sendAt)
             ->setStatus('scheduled')
-            ->setMessageJson(Json::encode($jsonMessage))
+            ->setMessageJson(Json::encode($jsonMessage, JSON_UNESCAPED_UNICODE))
             ->save();
     }
 
