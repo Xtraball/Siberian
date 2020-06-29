@@ -273,6 +273,9 @@ class Installer_Model_Installer_Module extends Core_Model_Default
      */
     protected function readPackage($path)
     {
+        // Support for "pre-7.3" versions!
+        defined('JSON_THROW_ON_ERROR') || define('JSON_THROW_ON_ERROR', 4194304);
+
         $content = file_get_contents($path);
         $result = false;
         if (!empty($content)) {
