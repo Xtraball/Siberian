@@ -273,11 +273,21 @@ class Installer_Model_Installer_Module extends Core_Model_Default
      */
     protected function readPackage($path)
     {
+        // Support for "pre-7.3" versions, just to be sure!
+        defined('JSON_THROW_ON_ERROR') || define('JSON_THROW_ON_ERROR', 4194304);
+
         $content = file_get_contents($path);
         $result = false;
         if (!empty($content)) {
             try {
-                $result = json_decode($content, true, 512, JSON_THROW_ON_ERROR);
+                if (version_compare(PHP_VERSION, '7.3.0') < 0) {
+                    $result = json_decode($content, true, 512);
+                    if ($result === null) {
+                        throw new \Siberian\Exception(__('Invalid JSON file %s', $path));
+                    }
+                } else {
+                    $result = json_decode($content, true, 512, JSON_THROW_ON_ERROR);
+                }
             } catch (\Exception $e) {
                 $result = false;
                 log_err($e->getMessage());
