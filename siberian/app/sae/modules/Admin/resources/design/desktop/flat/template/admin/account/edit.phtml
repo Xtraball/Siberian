@@ -474,9 +474,14 @@ if (!($this->getMode()=="management")) {
                 }
             });
 
-            if($form.valid()) {
+            if ($form.valid()) {
+                formget($form.attr('action'), $form.serializeArray(), function (success) {
+                   setTimeout(function () {
+                       window.location.pathname = '/admin/access_management/list';
+                   }, 1800);
+                });
                 reload($form, $form.attr('action'), true);
-            };
+            }
             return false;
         });
 
