@@ -3,7 +3,8 @@
 /**
  * Class Cms_Form_Block_Abstract
  */
-abstract class Cms_Form_Block_Abstract extends Siberian_Form_Abstract {
+abstract class Cms_Form_Block_Abstract extends Siberian_Form_Abstract
+{
 
     /**
      * @var null|string
@@ -23,15 +24,20 @@ abstract class Cms_Form_Block_Abstract extends Siberian_Form_Abstract {
     /**
      * Cms_Form_Block_Abstract constructor.
      * @param null $options
+     * @throws Zend_Form_Exception
      */
-    public function __construct($options = null) {
-
-        $this->uniqid = uniqid();
+    public function __construct($options = null)
+    {
+        $this->uniqid = uniqid('form_', false);
 
         parent::__construct($options);
     }
 
-    public function init() {
+    /**
+     * @throws Zend_Form_Exception
+     */
+    public function init()
+    {
         parent::init();
 
         $uniqid = $this->addSimpleHidden('uniqid_key');
@@ -44,7 +50,8 @@ abstract class Cms_Form_Block_Abstract extends Siberian_Form_Abstract {
     /**
      * @return null|string
      */
-    public function getUniqid() {
+    public function getUniqid()
+    {
         return $this->uniqid;
     }
 
@@ -52,7 +59,8 @@ abstract class Cms_Form_Block_Abstract extends Siberian_Form_Abstract {
      * @param $required
      * @return $this
      */
-    public function setRequired($required) {
+    public function setRequired($required)
+    {
         $this->required = $required;
 
         return $this;
@@ -61,7 +69,8 @@ abstract class Cms_Form_Block_Abstract extends Siberian_Form_Abstract {
     /**
      * @return bool
      */
-    public function getRequired() {
+    public function getRequired()
+    {
         return $this->required;
     }
 

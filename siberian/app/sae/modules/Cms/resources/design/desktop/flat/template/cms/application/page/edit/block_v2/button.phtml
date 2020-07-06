@@ -4,6 +4,8 @@ $type = $this->getType();
 $title = $this->getTitle();
 $form = $this->getForm();
 
+dbg($form);
+
 $block = $this->getCmsBlock();
 
 $load = false;
@@ -63,10 +65,7 @@ $pvar = "p{$uniqid}";
         var <?php echo $pvar; ?> = '#<?php echo $formid; ?>';
 
         $(document).ready(function() {
-            <?php if ($ajaxLoad || $type === 'cms'): ?>
-                bindForms(<?php echo $pvar; ?>);
-            <?php endif; ?>
-
+            bindForms(<?php echo $pvar; ?>);
 
             $(<?php echo $pvar; ?>+" .cms-button-type").on("click", function(event) {
                 event.preventDefault();
