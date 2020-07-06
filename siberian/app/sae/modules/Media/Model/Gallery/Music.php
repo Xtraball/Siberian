@@ -150,16 +150,14 @@ class Media_Model_Gallery_Music extends Core_Model_Default {
         $days = $total_duration % 24;
         $total_duration = floor($total_duration / 24);
 
-        $return = '';
-
-        if($days >= 1) {
-            $return = $days.' '.$days == 1 ? $days.' '.$this->_('day') : $days.' '.$this->_('days');
-        } elseif($hours >= 1) {
-            $return = $hours.' '.$hours == 1 ? $hours.' '.$this->_('hour') : $hours.' '.$this->_('hours');
-        } elseif($minutes >= 1) {
-            $return = $minutes.' '.$minutes == 1 ? $minutes.' '.$this->_('minute') : $minutes.' '.$this->_('minutes');
+        if ($days >= 1) {
+            $return = sprintf('%s %s', $days, ($days === 1) ? __('day') : __('days'));
+        } else if($hours >= 1) {
+            $return = sprintf('%s %s', $hours, ($hours === 1) ? __('hour') : __('hours'));
+        } else if($minutes >= 1) {
+            $return = sprintf('%s %s', $minutes, ($minutes === 1) ? __('minute') : __('minutes'));
         } else {
-            $return = $seconds.' '.$seconds == 1 ? $seconds.' '.$this->_('second') : $seconds.' '.$this->_('seconds');
+            $return = sprintf('%s %s', $seconds, ($seconds <= 1) ? __('second') : __('seconds'));
         }
 
         return $return;
