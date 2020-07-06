@@ -733,6 +733,31 @@ class Application_Customization_Design_StyleController extends Application_Contr
     /**
      *
      */
+    public function resetFontAction()
+    {
+        try {
+            $application = $this->getApplication();
+            $application
+                ->setFontFamily(null)
+                ->save();
+
+            $payload = [
+                'success' => true,
+                'message' => p__('application', 'Font reset!'),
+            ];
+        } catch (\Exception $e) {
+            $payload = [
+                'error' => true,
+                'message' => $e->getMessage(),
+            ];
+        }
+
+        $this->_sendJson($payload);
+    }
+
+    /**
+     *
+     */
     public function saveFontAction()
     {
         try {
