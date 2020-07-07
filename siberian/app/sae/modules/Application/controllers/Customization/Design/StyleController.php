@@ -47,6 +47,12 @@ class Application_Customization_Design_StyleController extends Application_Contr
         "savesliderimages" => [
             "tags" => ["app_#APP_ID#"],
         ],
+        "reset-font" => [
+            "tags" => [
+                "css_app_#APP_ID#",
+                "app_#APP_ID#"
+            ],
+        ],
         "save-font" => [
             "tags" => [
                 "css_app_#APP_ID#",
@@ -740,6 +746,8 @@ class Application_Customization_Design_StyleController extends Application_Contr
             $application
                 ->setFontFamily(null)
                 ->save();
+
+            Template_Model_Design::generateCss($application, false, false, true);
 
             $payload = [
                 'success' => true,
