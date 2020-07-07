@@ -57,6 +57,19 @@ class Contact_ApplicationController extends Application_Controller_Default
             $form = new Contact_Form_Contact();
             if ($form->isValid($values)) {
 
+                // Websites
+                $keys = [
+                    'website',
+                    'facebook',
+                    'twitter',
+                ];
+                foreach ($keys as $_key) {
+                    $_tmpValue = $values[$_key];
+                    if (!empty($_tmpValue)) {
+                        $values[$_key] = preg_replace('#^https?://#i', 'https://', $_tmpValue);
+                    }
+                }
+
                 $contact = new Contact();
                 $contact->find($optionValue->getId(), "value_id");
                 $contact->setData($values);
