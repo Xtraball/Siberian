@@ -135,7 +135,10 @@ class Form2_ApplicationController extends Application_Controller_Default
                     } else {
                         $v = $field['value'];
                     }
-                    $row[$fieldId] = str_replace(';', '-', $v);
+                    $newRow = str_replace(';', '-', $v);
+                    // Replacing line returns to prevent breakage.
+                    $newRow = preg_replace("/[\n\r]/", ' ', $newRow);
+                    $row[$fieldId] = $newRow;
                 }
 
                 $row['date'] = $result->getCreatedAt();
