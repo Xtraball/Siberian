@@ -100,6 +100,10 @@ $schemas['fanwall'] = [
         'collation' => 'utf8_unicode_ci',
         'default' => 'thumbnail',
     ],
+    'max_body_size' => [
+        'type' => 'int(11) unsigned',
+        'default' => '0',
+    ],
     'enable_nearby' => [
         'type' => 'tinyint(1)',
         'default' => '1',

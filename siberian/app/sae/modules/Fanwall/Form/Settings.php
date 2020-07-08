@@ -43,6 +43,10 @@ class Settings extends FormAbstract
             'card' => p__('fanwall', 'Card'),
         ]);
 
+        $maxTextBodyLength = $this->addSimpleNumber('max_body_size',
+            p__('fanwall', 'Post message preview length'), 0, null, true, 1);
+        $maxTextBodyLength->setDescription(p__('fanwall', 'Cut long post messages after N characters, set to 0 for full length posts.'));
+
         $this->addSimpleCheckbox('enable_nearby', p__('fanwall','Enable nearby'));
         $this->addSimpleCheckbox('enable_map', p__('fanwall','Enable map'));
         $this->addSimpleCheckbox('enable_gallery', p__('fanwall','Enable gallery'));

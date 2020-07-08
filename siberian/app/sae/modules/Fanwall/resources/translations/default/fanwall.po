@@ -490,6 +490,7 @@ msgid "Pub. date"
 msgstr "Pub. date"
 
 # GMT 1565173250.0893
+#, mobile
 msgctxt "fanwall"
 msgid "Close"
 msgstr "Close"
@@ -654,6 +655,23 @@ msgstr "After text"
 msgctxt "fanwall"
 msgid "(default)"
 msgstr "(default)"
+
+# GMT 1579097425.7001
+msgctxt "fanwall"
+msgid "Post message preview length"
+msgstr "Post message preview length"
+
+# GMT 1579097425.7002
+msgctxt "fanwall"
+msgid "Cut long post messages after N characters, set to 0 for full length posts."
+msgstr "Cut long post messages after N characters, set to 0 for full length posts."
+
+# GMT 1579097425.7002
+#, mobile
+msgctxt "fanwall"
+msgid "Show more"
+msgstr "Show more"
+
 
 
 

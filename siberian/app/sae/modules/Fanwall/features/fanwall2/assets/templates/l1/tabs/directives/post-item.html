@@ -21,8 +21,14 @@
     <div class="post-body">
         <h2 ng-if="post.title.length > 0">{{ post.title }}</h2>
         <p ng-if="post.subtitle.length > 0">{{ post.subtitle }}</p>
-        <p ng-if="post.text.length > 0"
-           sb-html="post.text"></p>
+        <p ng-if="post.text.length > 0">
+            <span sb-html="post.isFull ? post.text : cutBody()"></span>
+            <span class="pull-right"
+                  ng-if="textIsCut() && !post.isFull"
+                  ng-click="post.isFull = true;">
+                <b>&nbsp;{{ ::'Show more' | translate:'fanwall' }}</b>
+            </span>
+        </p>
     </div>
 
     <div ng-if="photoPosition() == 'after'"

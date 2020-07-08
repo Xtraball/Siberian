@@ -53,6 +53,7 @@ class Fanwall extends Base
         $settings['cardDesign'] = ($this->getDesign() === 'card');
         $settings['photoMode'] = $this->getPhotoMode();
         $settings['photoPosition'] = $this->getPhotoPosition();
+        $settings['maxBodySize'] = (integer)$this->getMaxBodySize();
         $settings['features'] = [
             'enableNearby' => (boolean) $this->getEnableNearby(),
             'enableMap' => (boolean) $this->getEnableMap(),
