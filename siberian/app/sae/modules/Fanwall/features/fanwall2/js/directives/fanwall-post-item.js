@@ -32,6 +32,14 @@ angular
                     return $scope.getSettings().features.enableUserComment;
                 };
 
+                $scope.photoMode = function () {
+                    return $scope.getSettings().photoMode;
+                };
+
+                $scope.photoPosition = function () {
+                    return $scope.getSettings().photoPosition;
+                };
+
                 $scope.showText = function () {
                     return $filter('linky')($scope.post.text);
                 };

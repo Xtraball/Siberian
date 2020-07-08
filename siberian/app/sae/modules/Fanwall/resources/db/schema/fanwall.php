@@ -86,6 +86,20 @@ $schemas['fanwall'] = [
         'charset' => 'utf8',
         'collation' => 'utf8_unicode_ci',
     ],
+    'photo_position' => [
+        'type' => 'varchar(32)',
+        'is_null' => true,
+        'charset' => 'utf8',
+        'collation' => 'utf8_unicode_ci',
+        'default' => 'after',
+    ],
+    'photo_mode' => [
+        'type' => 'varchar(32)',
+        'is_null' => true,
+        'charset' => 'utf8',
+        'collation' => 'utf8_unicode_ci',
+        'default' => 'thumbnail',
+    ],
     'enable_nearby' => [
         'type' => 'tinyint(1)',
         'default' => '1',

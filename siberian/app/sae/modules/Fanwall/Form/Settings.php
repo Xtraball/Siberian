@@ -49,7 +49,31 @@ class Settings extends FormAbstract
         $this->addSimpleCheckbox('enable_user_like', p__('fanwall','Enable user likes'));
         $this->addSimpleCheckbox('enable_user_post', p__('fanwall','Enable user posts'));
         $this->addSimpleCheckbox('enable_user_comment', p__('fanwall','Enable user comments'));
-        
+
+        $this->groupElements('group_features', [
+            'enable_nearby',
+            'enable_map',
+            'enable_gallery',
+            'enable_user_like',
+            'enable_user_post',
+            'enable_user_comment',
+        ], p__('fanwall', 'Features'));
+
+        $this->addSimpleSelect('photo_position', p__('fanwall','Position'), [
+            'after' => p__('fanwall', 'After text') . ' ' . p__('fanwall', '(default)'),
+            'before' => p__('fanwall', 'Before text'),
+        ]);
+
+        $this->addSimpleSelect('photo_mode', p__('fanwall','Display mode'), [
+            'thumbnail' => p__('fanwall', 'Thumbnails') . ' ' . p__('fanwall', '(default)'),
+            'slider' => p__('fanwall', 'Slider'),
+        ]);
+
+        $this->groupElements('group_photo', [
+            'photo_position',
+            'photo_mode',
+        ], p__('fanwall', 'Photo options'));
+
         $this->addSimpleNumber('max_images', p__('fanwall', 'Max pictures allowed') . ' (1-10)', 1, 10, true, 1);
 
         $helpText = p__('fanwall', 'If you enable any of user likes, posts or comments, the user profile & settings will be automatically added.');

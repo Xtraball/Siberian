@@ -14,6 +14,10 @@
             <span ng-if="post.showDistance"> - {{ post.distance }} {{ post.distanceUnit }} ({{ post.locationShort }})</span>
         </p>
     </div>
+
+    <div ng-if="photoPosition() == 'before'"
+         ng-include="'./features/fanwall2/assets/templates/l1/tabs/directives/post-item/post-images.html'"></div>
+
     <div class="post-body">
         <h2 ng-if="post.title.length > 0">{{ post.title }}</h2>
         <p ng-if="post.subtitle.length > 0">{{ post.subtitle }}</p>
@@ -21,61 +25,8 @@
            sb-html="post.text"></p>
     </div>
 
-    <!-- Single image -->
-    <div class="post-image"
-         ng-if="post.image.length > 0 && post.images.length == 1">
-        <a data-fslightbox="{{ 'post-image-id-' + post.id }}"
-           class="fanwall-image-bg"
-           style="background-image: url('{{ imagePath() }}');"
-           href="{{ imagePath() }}">
-        </a>
-    </div>
-
-    <!-- 2+ Images, display only two or three max, other are visible in the lightbox -->
-    <div class="post-images"
-         ng-if="post.images.length > 1">
-        <div class="row fanwall-row">
-            <div class="col-50">
-                <div class="post-image fanwall-bg-1"
-                     ng-class="{'fanwall-bg-card' : getCardDesign()}">
-                    <a data-fslightbox="{{ 'post-image-id-' + post.id + '-' + 0 }}"
-                       class="fanwall-image-bg fanwall-image-bg-1"
-                       style="background-image: url('{{ imagePath(post.images[0]) }}');"
-                       href="{{ imagePath(post.images[0]) }}">
-                    </a>
-                </div>
-            </div>
-            <div class="col-50">
-                <div class="post-image fanwall-bg-2"
-                     ng-class="{'fanwall-bg-card' : getCardDesign()}">
-                    <a data-fslightbox="{{ 'post-image-id-' + post.id + '-' + 1 }}"
-                       class="fanwall-image-bg fanwall-image-bg-2"
-                       style="background-image: url('{{ imagePath(post.images[1]) }}');"
-                       href="{{ imagePath(post.images[1]) }}">
-                    </a>
-                </div>
-            </div>
-        </div>
-
-        <div class="post-image fanwall-bg-3"
-             ng-class="{'fanwall-bg-card' : getCardDesign()}"
-             ng-if="post.images.length > 2">
-            <a data-fslightbox="{{ 'post-image-id-' + post.id + '-' + ($index + 2) }}"
-               class="fanwall-image-bg fanwall-image-bg-3"
-               style="background-image: url('{{ imagePath(post.images[2]) }}');"
-               href="{{ imagePath(post.images[2]) }}">
-            </a>
-        </div>
-
-        <div class="post-image fanwall-bg-n"
-             ng-class="{'fanwall-bg-card' : getCardDesign()}"
-             ng-if="post.images.length > 3"
-             ng-repeat="image in post.images.slice(3) track by $index">
-            <a data-fslightbox="{{ 'post-image-id-' + post.id + '-' + ($index + 3) }}"
-               href="{{ imagePath(image) }}">
-            </a>
-        </div>
-    </div>
+    <div ng-if="photoPosition() == 'after'"
+         ng-include="'./features/fanwall2/assets/templates/l1/tabs/directives/post-item/post-images.html'"></div>
 
     <div class="post-likes"
          ng-click="commentModal()"
