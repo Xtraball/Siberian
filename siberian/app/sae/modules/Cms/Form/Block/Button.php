@@ -107,7 +107,8 @@ class Cms_Form_Block_Button extends Cms_Form_Block_Abstract
                         'options' => $options
                     ]
                 ]
-            ]
+            ],
+            'icon_fake' => $block->getIcon()
         ];
 
         $this->populate($blockData);

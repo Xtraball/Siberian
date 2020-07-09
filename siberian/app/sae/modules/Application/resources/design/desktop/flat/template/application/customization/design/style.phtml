@@ -381,15 +381,18 @@ $splashVersion = (integer) $application->getSplashVersion();
                             <?php echo __("Custom font") ?>
                         </label>
                     </div>
-                    <div class="col-md-7">
+                    <div class="col-md-6">
                         <input id="custom_<?php echo slugify($current) ?>"
                                type="text"
                                name="font_family_custom"
                                value="<?php echo !in_array($current, $fontFamilies) ? $current : "" ?>"
                                class="col-md-7 input-flat" />
                     </div>
-                    <div class="col-md-2 text-right">
+
+                    <div class="col-md-3 text-right">
                         <button class="btn color-red save-custom-font"><?php echo __("Save") ?></button>
+                        <div style="display: inline-block; width: 20px;"></div>
+                        <button class="btn color-red reset-custom-font"><?php echo p__('application', 'Reset font!') ?></button>
                     </div>
 
                     <div style="clear: both;"></div>
@@ -613,6 +616,31 @@ $splashVersion = (integer) $application->getSplashVersion();
 
                     $(".custom-box").removeClass("checked");
                     el.val("");
+                },
+                false);
+        });
+
+        let resetCustomFont = $('.reset-custom-font');
+
+        resetCustomFont.off('click');
+        resetCustomFont.on('click', function () {
+            formget('<?php echo $this->getUrl('application/customization_design_style/reset-font'); ?>',
+                {},
+                function (data) {
+                    feature_form_success(data.message);
+
+                    $("input[name='font_family_custom']").val('');
+
+                    $('.font-label').removeClass('checked');
+                    $('.font-family').removeAttr('checked');
+
+                    // Reload only on success and when done!
+                    setTimeout(function () {
+                        iframe.reload();
+                    }, 1000)
+                },
+                function (data) {
+                    feature_form_error(JSON.parse(data.responseText).message);
                 },
                 false);
         });

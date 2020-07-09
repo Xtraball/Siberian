@@ -42,9 +42,7 @@ $image_template = str_replace("%UNIQID%", $uniqid, Cms_Form_Block_Cover::$image_
         var <?php echo $pvar; ?> = '#<?php echo $formid; ?>';
 
         $(document).ready(function() {
-            <?php if ($ajaxLoad || $type === 'cms'): ?>
             bindForms(<?php echo $pvar; ?>);
-            <?php endif; ?>
 
             $(<?php echo $pvar; ?>+" input[name='files[]']").fileupload({
                 dataType: 'json',

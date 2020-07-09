@@ -140,17 +140,10 @@ class Admin_AccountController extends Admin_Controller_Default
                 if (Siberian_Version::is("sae")) {
                     $this->getApplication()->addAdmin($admin);
                 }
-
                 $payload = [
-                    'success' => 1
+                    'success' => true,
+                    'message' => __('The account has been successfully saved'),
                 ];
-
-                $payload = array_merge($payload, [
-                    'success_message' => __('The account has been successfully saved'),
-                    'message_timeout' => false,
-                    'message_button' => false,
-                    'message_loader' => 1
-                ]);
             } catch (Exception $e) {
                 $payload = [
                     'error' => true,
