@@ -1,23 +1,47 @@
 <?php
 
-class Media_Model_Gallery_Music extends Core_Model_Default {
+/**
+ * Class Media_Model_Gallery_Music
+ */
+class Media_Model_Gallery_Music extends Core_Model_Default
+{
 
+    /**
+     * @var Api_Model_Key|mixed
+     */
     protected $_key;
 
-    protected $_tracks = array();
-    protected $_albums = array();
+    /**
+     * @var array
+     */
+    protected $_tracks = [];
 
-    public function __construct($params = array()) {
+    /**
+     * @var array
+     */
+    protected $_albums = [];
+
+    /**
+     * @var string
+     */
+    protected $_db_table = Media_Model_Db_Table_Gallery_Music::class;
+
+    /**
+     * Media_Model_Gallery_Music constructor.
+     * @param array $params
+     */
+    public function __construct($params = array())
+    {
         parent::__construct($params);
-        $this->_db_table = 'Media_Model_Db_Table_Gallery_Music';
+
         $this->_key = Api_Model_Key::findKeysFor('soundcloud');
-        return $this;
     }
 
     /**
      * @return array
      */
-    public function getInappStates($value_id) {
+    public function getInappStates($value_id)
+    {
 
         $in_app_states = array(
             array(
@@ -32,12 +56,16 @@ class Media_Model_Gallery_Music extends Core_Model_Default {
         return $in_app_states;
     }
 
-    public function getAllAlbums() {
-        if(!$this->_albums) {
+    /**
+     * @return array
+     */
+    public function getAllAlbums()
+    {
+        if (!$this->_albums) {
             $elements = new Media_Model_Gallery_Music_Elements();
             $elements = $elements->findAll(array('gallery_id' => $this->getId()), 'position ASC');
-            foreach($elements as $element) {
-                if($element->getAlbumId()) {
+            foreach ($elements as $element) {
+                if ($element->getAlbumId()) {
                     $album = new Media_Model_Gallery_Music_Album();
                     $album->find($element->getAlbumId());
                     $this->_albums[] = $album;
@@ -47,34 +75,39 @@ class Media_Model_Gallery_Music extends Core_Model_Default {
         return $this->_albums;
     }
 
-    public function getAllTracks($without_albums) {
-        if(!$this->_tracks) {
+    /**
+     * @param $without_albums
+     * @return array
+     */
+    public function getAllTracks($without_albums)
+    {
+        if (!$this->_tracks) {
             $elements = new Media_Model_Gallery_Music_Elements();
             $elements = $elements->findAll(array('gallery_id' => $this->getId()), 'position ASC');
-            foreach($elements as $element) {
-                if($element->getAlbumId()) {
+            foreach ($elements as $element) {
+                if ($element->getAlbumId()) {
                     $album = new Media_Model_Gallery_Music_Album();
                     $album->find($element->getAlbumId());
-                    if($album->getType() != 'podcast') {
+                    if ($album->getType() != 'podcast') {
                         $tracks = new Media_Model_Gallery_Music_Track();
                         $tracks = $tracks->findAll(array('album_id' => $element->getAlbumId()), 'position ASC');
-                        foreach($tracks as $track) {
+                        foreach ($tracks as $track) {
                             $this->_tracks[] = $track;
                         }
                     } else {
                         $podcast = new Media_Model_Gallery_Music_Type_Podcast();
                         $data = $podcast->setFeedUrl($album->getPodcastUrl())->parse();
-                        foreach($data["items"] as $item) {
+                        foreach ($data["items"] as $item) {
                             $track = new Media_Model_Gallery_Music_Track();
                             $track->setName($item["title"])
-                                    ->setDuration($item["duration"])
-                                    ->setStreamUrl($item["stream_url"])
-                                    ->setType('podcast');
+                                ->setDuration($item["duration"])
+                                ->setStreamUrl($item["stream_url"])
+                                ->setType('podcast');
                             $this->_tracks[] = $track;
                         }
                     }
                 } else {
-                    if($without_albums == true) {
+                    if ($without_albums == true) {
                         $track = new Media_Model_Gallery_Music_Track();
                         $track->find($element->getTrackId());
                         $this->_tracks[] = $track;
@@ -86,38 +119,42 @@ class Media_Model_Gallery_Music extends Core_Model_Default {
         return $this->_tracks;
     }
 
-    public function getMosaicArtworkUrl() {
+    /**
+     * @return array
+     */
+    public function getMosaicArtworkUrl()
+    {
         $artwork_url = $this->getData('artwork_url');
         $artwork_urls = array();
-        if($artwork_url) {
-            $artwork_urls[] = Application_Model_Application::getImagePath().$artwork_url;
+        if ($artwork_url) {
+            $artwork_urls[] = Application_Model_Application::getImagePath() . $artwork_url;
         } else {
             $elements = new Media_Model_Gallery_Music_Elements();
             $elements = $elements->findAll(array('gallery_id' => $this->getId()), 'position ASC');
-            if($elements->count() > 0) {
+            if ($elements->count() > 0) {
                 $i = 0;
-                foreach($elements as $element) :
-                    if($element->getAlbumId()) :
+                foreach ($elements as $element) :
+                    if ($element->getAlbumId()) :
                         $objet = new Media_Model_Gallery_Music_Album();
                         $objet->find($element->getAlbumId());
                     endif;
-                    if($element->getTrackId()) :
+                    if ($element->getTrackId()) :
                         $objet = new Media_Model_Gallery_Music_Track();
                         $objet->find($element->getTrackId());
                     endif;
-                    if($i < 4 && $objet->getArtworkUrl()) :
+                    if ($i < 4 && $objet->getArtworkUrl()) :
                         $artwork_urls[] = $objet->getArtworkUrl();
                         $i++;
                     endif;
                 endforeach;
-                while(count($artwork_urls) < 4) {
+                while (count($artwork_urls) < 4) {
                     $objet = new Media_Model_Gallery_Music_Album();
                     $artwork_urls[] = $objet->getArtworkUrl();
                 }
             } else {
                 $album = new Media_Model_Gallery_Music_Album();
                 $artwork_album = $album->getArtworkUrl();
-                for($i = 0; $i < 4; $i++) {
+                for ($i = 0; $i < 4; $i++) {
                     $artwork_urls[] = $artwork_album;
                 }
             }
@@ -125,15 +162,24 @@ class Media_Model_Gallery_Music extends Core_Model_Default {
         return $artwork_urls;
     }
 
-    public function getTotalTracks() {
+    /**
+     * @return int
+     */
+    public function getTotalTracks()
+    {
         $total_tracks = $this->getAllTracks(true);
         return count($total_tracks);
     }
 
-    public function getTotalDuration() {
+    /**
+     * @return string
+     * @throws Zend_Exception
+     */
+    public function getTotalDuration()
+    {
         $total_tracks = $this->getAllTracks(true);
         $total_duration = 0;
-        foreach($total_tracks as $track) {
+        foreach ($total_tracks as $track) {
             $total_duration += $track->getDuration();
         }
 
@@ -152,9 +198,9 @@ class Media_Model_Gallery_Music extends Core_Model_Default {
 
         if ($days >= 1) {
             $return = sprintf('%s %s', $days, ($days === 1) ? __('day') : __('days'));
-        } else if($hours >= 1) {
+        } else if ($hours >= 1) {
             $return = sprintf('%s %s', $hours, ($hours === 1) ? __('hour') : __('hours'));
-        } else if($minutes >= 1) {
+        } else if ($minutes >= 1) {
             $return = sprintf('%s %s', $minutes, ($minutes === 1) ? __('minute') : __('minutes'));
         } else {
             $return = sprintf('%s %s', $seconds, ($seconds <= 1) ? __('second') : __('seconds'));
@@ -163,21 +209,42 @@ class Media_Model_Gallery_Music extends Core_Model_Default {
         return $return;
     }
 
-    public function getSoundcloudId() {
+    /**
+     * @return mixed
+     */
+    public function getSoundcloudId()
+    {
         return $this->_key->getClientId();
     }
 
-    public function getSoundcloudSecret() {
+    /**
+     * @return mixed
+     */
+    public function getSoundcloudSecret()
+    {
         return $this->_key->getSecretId();
     }
 
-    public function getNextElementsPosition() {
+    /**
+     * @return int
+     */
+    public function getNextElementsPosition()
+    {
         $lastPosition = $this->getTable()->getLastElementsPosition();
-        if(!$lastPosition) $lastPosition = 0;
+        if (!$lastPosition) $lastPosition = 0;
         return ++$lastPosition;
     }
 
-    public function createDummyContents($option_value, $design, $category) {
+    /**
+     * @param $option_value
+     * @param $design
+     * @param $category
+     * @throws Services_Soundcloud_Invalid_Http_Response_Code_Exception
+     * @throws Services_Soundcloud_Missing_Client_Id_Exception
+     * @throws Zend_Json_Exception
+     */
+    public function createDummyContents($option_value, $design, $category)
+    {
 
         $dummy_content_xml = $this->_getDummyXml($design, $category);
 
@@ -186,7 +253,7 @@ class Media_Model_Gallery_Music extends Core_Model_Default {
             return;
         }
 
-        if($dummy_content_xml->musics) {
+        if ($dummy_content_xml->musics) {
 
             foreach ($dummy_content_xml->musics->children() as $content) {
 
@@ -195,16 +262,16 @@ class Media_Model_Gallery_Music extends Core_Model_Default {
                     ->setValueId($option_value->getId())
                     ->save();
 
-                if($content->attributes()->type == "soundcloud" && $this->getSoundcloudId()) {
+                if ($content->attributes()->type == "soundcloud" && $this->getSoundcloudId()) {
                     $music = new Media_Model_Gallery_Music();
                     $id = $music->getSoundcloudId();
                     $secret = $music->getSoundcloudSecret();
                     $soundcloud_api = new Media_Model_Library_Soundcloud($id, $secret);
 
-                    foreach($content->songs->children() as $track) {
-                        $track_result = $soundcloud_api->get('tracks/'.$track.'.json');
+                    foreach ($content->songs->children() as $track) {
+                        $track_result = $soundcloud_api->get('tracks/' . $track . '.json');
                         $track = Zend_Json::decode($track_result, Zend_Json::TYPE_OBJECT);
-                        if($track->streamable == true) {
+                        if ($track->streamable == true) {
                             $new_track = new Media_Model_Gallery_Music_Track();
                             $new_track_position = $new_track->getNextTrackPosition();
                             $new_track
@@ -215,8 +282,7 @@ class Media_Model_Gallery_Music extends Core_Model_Default {
                                 ->setArtistName($track->user->username)
                                 ->setStreamUrl($track->stream_url)
                                 ->setType('soundcloud')
-                                ->save()
-                            ;
+                                ->save();
 
                             $music_positions = new Media_Model_Gallery_Music_Elements();
                             $new_element_position = $music_positions->getNextElementsPosition();
@@ -229,8 +295,8 @@ class Media_Model_Gallery_Music extends Core_Model_Default {
                     }
 
                     //Tout un album
-                    foreach($content->albums->children() as $playlist) {
-                        $playlist_result = $soundcloud_api->get('playlists/'.$playlist.'.json');
+                    foreach ($content->albums->children() as $playlist) {
+                        $playlist_result = $soundcloud_api->get('playlists/' . $playlist . '.json');
                         $playlist = Zend_Json::decode($playlist_result, Zend_Json::TYPE_OBJECT);
                         $new_album = new Media_Model_Gallery_Music_Album();
                         $new_album
@@ -251,8 +317,8 @@ class Media_Model_Gallery_Music extends Core_Model_Default {
 
                         //Toutes les chansons de cet album
                         $pos = 0;
-                        foreach($playlist->tracks as $track) {
-                            if($track->streamable == true) {
+                        foreach ($playlist->tracks as $track) {
+                            if ($track->streamable == true) {
                                 $new_track = new Media_Model_Gallery_Music_Track();
                                 $new_track_position = $new_track->getNextTrackPosition();
                                 $new_track
@@ -273,85 +339,73 @@ class Media_Model_Gallery_Music extends Core_Model_Default {
                     }
                 }
 
-//                $this->unsData();
-//                $this->addData((array)$content->content)
-//                    ->setValueId($option_value->getId())
-//                    ->save();
-
-//                if ($content->attributes()->type == "custom") {
-//                    foreach($content->custom as $custom_images) {
-//                        $custom = new Media_Model_Gallery_Music_Album();
-//                        $custom->setGalleryId($this->getId())
-//                            ->addData((array) $custom_images)
-//                            ->save();
-//                    }
-//                }
             }
         }
     }
 
-    public function copyTo($option, $parent_id = null) {
+    /**
+     * @param $option
+     * @param null $parent_id
+     * @return $this
+     */
+    public function copyTo($option, $parent_id = null)
+    {
 
         // Duplicate the gallery
         $old_gallery_id = $this->getId();
         $this->setId(null)
             ->setValueId($option->getId())
-            ->save()
-        ;
+            ->save();
 
         // Retrieve the albums
         $album = new Media_Model_Gallery_Music_Album();
         $albums = $album->findAll(array('gallery_id' => $old_gallery_id));
 
-        foreach($albums as $album) {
+        foreach ($albums as $album) {
 
             // Duplicate the album
             $old_album_id = $album->getId();
 
             $album->setId(null)
                 ->setGalleryId($this->getId())
-                ->save()
-            ;
+                ->save();
 
             // Retrieve the elements for this gallery of this album
             $element = new Media_Model_Gallery_Music_Elements();
             $elements = $element->findAll(array('gallery_id' => $old_gallery_id, 'album_id' => $old_album_id, new Zend_Db_Expr('track_id IS NULL')));
 
-            foreach($elements as $element) {
+            foreach ($elements as $element) {
                 // Duplicate the elements of this gallery & this album
                 $element->setId(null)
                     ->setGalleryId($this->getId())
                     ->setAlbumId($album->getId())
-                    ->save()
-                ;
+                    ->save();
             }
 
             // Retrieve the tracks
             $track = new Media_Model_Gallery_Music_Track();
             $tracks = $track->findAll(array('album_id' => $old_album_id));
 
-            foreach($tracks as $track) {
+            foreach ($tracks as $track) {
 
                 // Duplicate the track
                 $old_track_id = $track->getId();
                 $track->setId(null)
                     ->setAlbumId($album->getId())
                     ->setGalleryId($this->getId())
-                    ->save()
-                ;
+                    ->save();
 
                 // Retrieve the elements for this gallery of this album of this track
                 $element = new Media_Model_Gallery_Music_Elements();
                 $elements = $element->findAll(array('gallery_id' => $old_gallery_id, 'album_id' => $old_album_id, 'track_id' => $old_track_id));
 
-                foreach($elements as $element) {
+                foreach ($elements as $element) {
                     // Duplicate the elements for this gallery of this album of this track
                     $element->setId(null)
                         ->setGalleryId($this->getId())
                         ->setAlbumId($album->getId())
                         ->setTrackId($track->getId())
-                        ->save()
-                    ;
+                        ->save();
                 }
 
             }
@@ -362,8 +416,13 @@ class Media_Model_Gallery_Music extends Core_Model_Default {
 
     }
 
-    public function getFeaturePaths($option_value) {
-        if(!$this->isCacheable()) return array();
+    /**
+     * @param $option_value
+     * @return array
+     */
+    public function getFeaturePaths($option_value)
+    {
+        if (!$this->isCacheable()) return array();
 
         $action_view = $this->getActionView();
 
@@ -380,7 +439,7 @@ class Media_Model_Gallery_Music extends Core_Model_Default {
         $playlists = new Media_Model_Gallery_Music();
         $playlists = $playlists->findAll(array('value_id' => $value_id), 'position ASC');
 
-        foreach($playlists as $playlist) {
+        foreach ($playlists as $playlist) {
             // Albums/Playlists paths
             $params = array(
                 "value_id" => $value_id,
@@ -399,9 +458,9 @@ class Media_Model_Gallery_Music extends Core_Model_Default {
             $elements = new Media_Model_Gallery_Music_Elements();
             $elements = $elements->findAll(array('gallery_id' => $playlist->getId()), 'position ASC');
 
-            foreach($elements as $element) {
+            foreach ($elements as $element) {
 
-                if($element->getAlbumId()) {
+                if ($element->getAlbumId()) {
 
                     $album = new Media_Model_Gallery_Music_Album();
                     $album->find($element->getAlbumId());
@@ -414,7 +473,7 @@ class Media_Model_Gallery_Music extends Core_Model_Default {
                     $paths[] = $this->getPath("media/mobile_api_music_album/find/", $params, false);
                     $paths[] = $this->getPath("media/mobile_api_music_track/findbyalbum/", $params, false);
 
-                } else if($element->getTrackId()) {
+                } else if ($element->getTrackId()) {
 
                     $track = new Media_Model_Gallery_Music_Track();
                     $track->find($element->getTrackId());
@@ -435,8 +494,13 @@ class Media_Model_Gallery_Music extends Core_Model_Default {
         return $paths;
     }
 
-    public function getAssetsPaths($option_value) {
-        if(!$this->isCacheable()) return array();
+    /**
+     * @param $option_value
+     * @return array
+     */
+    public function getAssetsPaths($option_value)
+    {
+        if (!$this->isCacheable()) return array();
 
         $action_view = $this->getActionView();
 
@@ -446,22 +510,22 @@ class Media_Model_Gallery_Music extends Core_Model_Default {
         $playlists = new Media_Model_Gallery_Music();
         $playlists = $playlists->findAll(array('value_id' => $value_id), 'position ASC');
 
-        foreach($playlists as $playlist) {
+        foreach ($playlists as $playlist) {
             // Artwork URLs paths
-            if($artworkUrl = $playlist->getArtworkUrl()) {
+            if ($artworkUrl = $playlist->getArtworkUrl()) {
                 $paths[] = Application_Model_Application::getImagePath() . $artworkUrl;
             }
 
             $elements = new Media_Model_Gallery_Music_Elements();
             $elements = $elements->findAll(array('gallery_id' => $playlist->getId()), 'position ASC');
-            foreach($elements as $element) {
+            foreach ($elements as $element) {
 
-                if($element->getAlbumId()) {
+                if ($element->getAlbumId()) {
 
                     $album = new Media_Model_Gallery_Music_Album();
                     $album->find($element->getAlbumId());
 
-                    if(stripos($album->getArtworkUrl(), "http") !== false) {
+                    if (stripos($album->getArtworkUrl(), "http") !== false) {
                         $paths[] = $album->getArtworkUrl();
                     }
 
@@ -470,12 +534,12 @@ class Media_Model_Gallery_Music extends Core_Model_Default {
                         "value_id" => $value_id,
                         "album_id" => $album->getId()
                     );
-                } else if($element->getTrackId()) {
+                } else if ($element->getTrackId()) {
 
                     $track = new Media_Model_Gallery_Music_Track();
                     $track->find($element->getTrackId());
 
-                    if(stripos($track->getArtworkUrl(), "http") !== false) {
+                    if (stripos($track->getArtworkUrl(), "http") !== false) {
                         $paths[] = $track->getArtworkUrl();
                     }
 
