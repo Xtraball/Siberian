@@ -19,7 +19,7 @@
 
             <div class="item item-divider item-divider-custom"
                  ng-if="team_leader.id">
-                <h2>{{ "Team Leader" | translate }}</h2>
+                <h2>{{ ::'Team Leader' | translate }}</h2>
             </div>
 
             <div class="item item-custom"
@@ -33,7 +33,7 @@
 
             <div class="item item-divider item-divider-custom"
                  ng-if="collection.length">
-                {{ "Challengers" | translate }}
+                {{ ::'Challengers' | translate }}
             </div>
 
             <div class="item item-custom"
@@ -47,7 +47,7 @@
 
             <div class="item item-custom"
                  ng-if="!is_loading && !collection.length">
-                <p>{{ "Currently no challengers" | translate }}</p>
+                <p>{{ ::'Currently no challengers' | translate }}</p>
             </div>
 
         </div>

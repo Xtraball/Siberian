@@ -377,6 +377,7 @@
 
         .post-author {
           padding-top: 16px;
+          margin-bottom: 10px;
         }
       }
     }
@@ -574,6 +575,27 @@
     }
   }
 
+  .more-circle {
+    position: relative;
+    width: 48px;
+    height: 48px;
+    background: rgba(255,255,255,.9);
+    border-radius: 50%;
+    text-align: center;
+    display: flex;
+    justify-content: space-evenly;
+    align-items: center;
+    font-size: 20px;
+    padding: 5px;
+    pointer-events: none;
+    left: calc(75% - 24px);
+    top: calc(-50% - 24px);
+
+    i.icon {
+      font-size: 14px;
+    }
+  }
+
   .fanwall-gallery {
     justify-content: flex-start;
     display: flex;
@@ -604,6 +626,100 @@
       &:nth-child(3n+3) {
         width: 32%;
         margin-top: 2%;
+      }
+    }
+  }
+
+  /** woo commerce image slider */
+  .fanwall-post-image-container {
+    margin: 0 -12px;
+  }
+
+  .fanwall-slider-container {
+    height: 30vh;
+    overflow: hidden;
+  }
+
+  .fanwall-slider-container-product {
+    height: 50vh;
+    margin: 0;
+    overflow: hidden;
+  }
+
+  .fanwall-directive-slider,
+  [fanwall-slider] {
+    height: 100%;
+  }
+
+  &.fanwall-slider,
+  &.fanwall-slider-modal {
+    height: 100%;
+    padding: 0 !important;
+
+    ul[rn-carousel] {
+      height: 100%;
+
+      li {
+        > div {
+          height: 100%;
+          background-size: cover;
+          background-repeat: no-repeat;
+        }
+      }
+    }
+
+    div[rn-carousel-indicators] {
+      text-align: center;
+      background-color: transparent;
+      position: relative;
+      left: 0;
+      right: 0;
+      bottom: 20px;
+
+      div {
+        &.rn-carousel-indicator {
+          span {
+            font-size: 16px;
+            margin: 0 4px;
+            color: #ffffff;
+
+            &.active {
+              color: $util-assertive-custom-text;
+            }
+          }
+        }
+      }
+    }
+
+    &.fullscreen {
+      .bar-header.bar-dark {
+        background-color: black;
+      }
+
+      .scroll {
+        background-color: black;
+        height: 100%;
+        width: 100%;
+
+        ul {
+          li {
+            .scroll-view {
+              background-color: black;
+              height: 100%;
+              width: 100%;
+            }
+
+            .scroll {
+              .image {
+                background-repeat: no-repeat;
+                background-size: contain;
+                background-position: center;
+                height: 100%;
+                width: 100%;
+              }
+            }
+          }
+        }
       }
     }
   }

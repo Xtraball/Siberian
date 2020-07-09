@@ -10,13 +10,16 @@ class Cms_Application_Page_Block_VideoController extends Application_Controller_
     {
         if ($datas = $this->getRequest()->getParams()) {
 
+            $application = $this->getApplication();
+            $youtubeKey = $application->getYoutubeKey();
+
             $data = [];
 
             try {
                 $datas = current($datas['block']);
                 $video = new Cms_Model_Application_Page_Block_Video();
                 $video->setTypeId($datas['type_id']);
-                $videos = $video->getList($datas['search']);
+                $videos = $video->getList($datas['search'], null, $youtubeKey);
 
                 $data['layout'] = $this->getLayout()
                     ->addPartial('row', 'admin_view_default', 'cms/application/page/edit/block/video/search.phtml')

@@ -753,6 +753,7 @@ var App = angular.module('starter', ['ionic', 'lodash', 'ngRoute', 'ngCordova', 
                                         $injector.get(bundle.factory).onStart();
                                     } catch (e) {
                                         // Unable to find/start onStart();
+                                        console.log(e, e.message);
                                     }
                                 }
                             }).catch(function (error) {

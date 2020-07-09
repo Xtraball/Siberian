@@ -15,6 +15,7 @@ angular
             controller: function ($scope) {
                 $scope.actionsPopover = null;
                 $scope.popoverItems = [];
+                $scope.post.isFull = false;
 
                 $scope.getCardDesign = function () {
                     return Fanwall.getSettings().cardDesign;
@@ -32,6 +33,14 @@ angular
                     return $scope.getSettings().features.enableUserComment;
                 };
 
+                $scope.photoMode = function () {
+                    return $scope.getSettings().photoMode;
+                };
+
+                $scope.photoPosition = function () {
+                    return $scope.getSettings().photoPosition;
+                };
+
                 $scope.showText = function () {
                     return $filter('linky')($scope.post.text);
                 };
@@ -43,6 +52,23 @@ angular
 
                 $scope.canLikeOrComment = function () {
                     return ($scope.userLike() || $scope.userComment());
+                };
+
+                $scope.getMaxBodySize = function () {
+                    return $scope.getSettings().maxBodySize;
+                };
+
+                $scope.textIsCut = function () {
+                    var maxLength = $scope.getMaxBodySize();
+                    return maxLength > 0 && $scope.post.text.length > maxLength
+                };
+
+                $scope.cutBody = function () {
+                    var maxLength = $scope.getMaxBodySize();
+                    if (maxLength <= 0 || $scope.post.text.length <= maxLength) {
+                        return $scope.post.text;
+                    }
+                    return $scope.post.text.substring(0, maxLength) + '...';
                 };
 
                 $scope.imagePath = function (path) {

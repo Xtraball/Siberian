@@ -218,7 +218,7 @@ class Template_Model_Design extends Core_Model_Default
         ];
 
         foreach ($scss_files as $file) {
-            $f = fopen(Core_Model_Directory::getBasePathTo("var/apps/browser/scss/{$file}"), "r");
+            $f = fopen(path("var/apps/browser/scss/{$file}"), "r");
             if ($f) {
                 while (($line = fgets($f)) !== false) {
                     preg_match("/([\$a-zA-Z0-9_-]*)/", $line, $matches);
@@ -244,12 +244,12 @@ class Template_Model_Design extends Core_Model_Default
         }
 
         $compiler = Siberian_Scss::getCompiler();
-        $compiler->addImportPath(Core_Model_Directory::getBasePathTo("var/apps/browser/lib/ionic/scss"));
-        $compiler->addImportPath(Core_Model_Directory::getBasePathTo("var/apps/browser/scss"));
+        $compiler->addImportPath(path("var/apps/browser/lib/ionic/scss"));
+        $compiler->addImportPath(path("var/apps/browser/scss"));
 
         // Import custom modules SCSS files!
         foreach (Siberian_Assets::$assets_scss as $scssFile) {
-            $path = Core_Model_Directory::getBasePathTo($scssFile);
+            $path = path($scssFile);
             $custom_app .= file_get_contents($path);
         }
 
@@ -275,14 +275,14 @@ class Template_Model_Design extends Core_Model_Default
 
         if ($javascript) {
             return $css;
-        } else {
-            $folder = Core_Model_Directory::getBasePathTo("var/cache/css");
-            $file = $application->getId() . ".css";
-            if (!is_dir($folder)) {
-                mkdir($folder, 0777, true);
-            }
-            File::putContents("{$folder}/{$file}", $css);
         }
+
+        $folder = path("var/cache/css");
+        $file = $application->getId() . ".css";
+        if (!is_dir($folder)) {
+            mkdir($folder, 0777, true);
+        }
+        File::putContents("{$folder}/{$file}", $css);
 
         return $result;
     }

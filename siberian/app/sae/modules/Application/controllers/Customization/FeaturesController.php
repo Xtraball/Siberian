@@ -737,7 +737,7 @@ class Application_Customization_FeaturesController extends Application_Controlle
             try {
 
                 // Test les données
-                if (empty($datas['option_value_id']) OR empty($datas['tabbar_subtitle'])) {
+                if (empty($datas['option_value_id'])) {
                     throw new Exception(__('An error occurred while saving your page subtitle.'));
                 }
 

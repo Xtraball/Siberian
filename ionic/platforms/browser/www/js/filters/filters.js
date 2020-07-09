@@ -51,7 +51,7 @@ angular
 /**
  * Create asymetric chunks of the given sizes
  */
-}).filter("achunk", function($log) {
+}).filter('achunk', function($log) {
 
     return function(items, size_a, size_b) {
         var chunks = [];
@@ -134,22 +134,23 @@ angular
         }
         var shouldPush = false;
         var parts = [];
-        var numDays = Math.floor((seconds % 31536000) / 86400);
+        var _seconds = Math.floor(seconds); // Ensure we cut millis!
+        var numDays = Math.floor((_seconds % 31536000) / 86400);
         if (numDays > 0) {
             shouldPush = true;
             parts.push(numDays.toString());
         }
-        var numHours = Math.floor(((seconds % 31536000) % 86400) / 3600);
+        var numHours = Math.floor(((_seconds % 31536000) % 86400) / 3600);
         if (numHours > 0 || shouldPush) {
             shouldPush = true;
             parts.push(numHours.toString());
         }
-        var numMinutes = Math.floor((((seconds % 31536000) % 86400) % 3600) / 60);
+        var numMinutes = Math.floor((((_seconds % 31536000) % 86400) % 3600) / 60);
         if (numMinutes > 0 || shouldPush) {
             shouldPush = true;
             parts.push(numMinutes.toString().padStart(2, '0'));
         }
-        var numSeconds = (((seconds % 31536000) % 86400) % 3600) % 60;
+        var numSeconds = (((_seconds % 31536000) % 86400) % 3600) % 60;
         if (numSeconds > 0 || shouldPush) {
             parts.push(numSeconds.toString().padStart(2, '0'));
         }

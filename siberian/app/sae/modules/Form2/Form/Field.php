@@ -266,7 +266,7 @@ RAW;
             $index++;
             $label = $selectOption['label'];
             $value = $selectOption['value'];
-            $options .= "window.addOption('{$formId}', '{$index}', '{$label}', '{$value}');\n";
+            $options .= "window.addOption('{$formId}', '{$index}', '{$value}', '{$label}');\n";
         }
 
         $js = <<<JS

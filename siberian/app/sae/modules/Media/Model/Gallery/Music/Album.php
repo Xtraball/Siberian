@@ -114,7 +114,7 @@ class Media_Model_Gallery_Music_Album extends Core_Model_Default {
         if($hours > 0) {
             $return[] = str_pad($hours, 2, 0, STR_PAD_LEFT);
         }
-        if($hours > 0 OR $minutes > 0) {
+        if($hours > 0 || $minutes > 0) {
             $return[] = str_pad($minutes, 2, 0, STR_PAD_LEFT);
         }
 
