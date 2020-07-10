@@ -331,6 +331,14 @@ module.exports = [
         "clobbers": [
             "cordova.plugins.permissions"
         ]
+    },
+    {
+        "file": "plugins/Toast/www/Toast.js",
+        "id": "Toast.Toast",
+        "pluginId": "Toast",
+        "clobbers": [
+            "window.plugins.toast"
+        ]
     }
 ];
 module.exports.metadata = 
@@ -347,7 +355,8 @@ module.exports.metadata =
     "MusicControls": "3.0.4",
     "MediaNative": "5.0.3",
     "Navigator": "0.1.0",
-    "Permissions": "1.0.0"
+    "Permissions": "1.0.0",
+    "Toast": "2.7.2"
 }
 // BOTTOM OF METADATA
 });
