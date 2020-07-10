@@ -317,21 +317,24 @@ class Mcommerce_Model_Order extends Core_Model_Default {
 
             $page->drawText(html_entity_decode($line->getFormattedBasePriceInclTax(), ENT_COMPAT, "UTF-8"), 380, $y)
                 ->drawText($line->getQty(), 467, $y)
-                ->drawText(html_entity_decode(count($line->getOptions()) ? $line->getFormattedBasePriceInclTax() : $line->getFormattedTotalInclTax(), ENT_COMPAT, "UTF-8"), 500, $y)
+                ->drawText(html_entity_decode($line->formatPrice($line->getFormattedBasePriceInclTax() * $line->getQty()) , ENT_COMPAT, "UTF-8"), 500, $y)
             ;
 
             // Options
             if(count($line->getOptions())) {
 
-                $y_ref -= 15;
                 $page->setFont($font_regular, 9);
+
                 foreach($line->getOptions() as $option) {
+
+                    $y_ref -= 15;
                     $page->drawText("+ {$option->getName()}", 55, $y_ref)
-                        ->drawText(html_entity_decode($option->getFormattedPriceInclTax(), ENT_COMPAT, "UTF-8"), 382, $y_ref)
-                        ->drawText($option->getQty(), 467, $y_ref)
-                        ->drawText(html_entity_decode($option->formatPrice($option->getPriceInclTax() * $option->getQty()), ENT_COMPAT, "UTF-8"), 502, $y_ref)
+                        ->drawText(html_entity_decode($line->formatPrice($option->getBasePrice()) , ENT_COMPAT, "UTF-8"), 382, $y_ref)
+                        ->drawText($option->getQty()." x ".$line->getQty(), 467, $y_ref)
+                        ->drawText(html_entity_decode($option->formatPrice($option->getBasePrice() * $line->getQty() * $option->getQty()), ENT_COMPAT, "UTF-8"), 502, $y_ref)
                     ;
                 }
+                // list choice
 
             }
 
@@ -410,20 +413,34 @@ class Mcommerce_Model_Order extends Core_Model_Default {
 
             $note = html_entity_decode($this->getNotes(), ENT_COMPAT, "UTF-8");
 
-            $words = explode(' ', $note);
             $line = '';
             $lines = [];
-            foreach ($words as $word) {
-                if (strlen($line) + strlen($word) <= 90) {
-                    $line .= ' ' . $word;
-                } else {
-                    $lines[] = $line;
-                    $line = $word;
-                }
-            }
 
-            foreach ($lines as $line) {
-                $page->drawText($line, 50, $y_ref);$y_ref-=15;
+            if (strlen($note) <= 90 ){
+                $page->drawText($note, 50, $y_ref);$y_ref-=15;
+            }
+            else {
+                $words = explode(' ', $note);
+
+                foreach ($words as $word) {
+                    if (strlen($line) + strlen($word) <= 85) {
+                        $line .= ' ' . $word;
+
+                    } else {
+                        $lines[] = $line;
+                        $line = $word;
+                    }
+                }
+                if (!in_array($line, $lines, false)){
+                    $lines[] = $line;
+                }
+                $x =0;
+                foreach ($lines as $line) {
+                    if ($x === 0){
+                        $line=(ltrim($line));
+                    }
+                    $page->drawText($line, 50, $y_ref);$y_ref-=15;
+                }
             }
         }
 
