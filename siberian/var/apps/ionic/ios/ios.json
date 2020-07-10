@@ -17,6 +17,10 @@
               "count": 1
             },
             {
+              "xml": "<feature name=\"InAppPurchase\"><param name=\"ios-package\" value=\"InAppPurchase\" /><param name=\"onload\" value=\"true\" /></feature>",
+              "count": 1
+            },
+            {
               "xml": "<feature name=\"SplashScreen\"><param name=\"ios-package\" value=\"CDVSplashScreen\" /><param name=\"onload\" value=\"true\" /></feature>",
               "count": 1
             },
@@ -241,6 +245,9 @@
     "Chcp": {
       "PACKAGE_NAME": "$(PRODUCT_BUNDLE_IDENTIFIER)"
     },
+    "InAppPurchse": {
+      "PACKAGE_NAME": "$(PRODUCT_BUNDLE_IDENTIFIER)"
+    },
     "SplashScreen": {
       "PACKAGE_NAME": "$(PRODUCT_BUNDLE_IDENTIFIER)"
     },
@@ -332,6 +339,14 @@
       "pluginId": "Chcp",
       "clobbers": [
         "chcp"
+      ]
+    },
+    {
+      "id": "InAppPurchse.InAppPurchase",
+      "file": "plugins/InAppPurchse/www/store-ios.js",
+      "pluginId": "InAppPurchse",
+      "clobbers": [
+        "store"
       ]
     },
     {
@@ -773,6 +788,7 @@
   ],
   "plugin_metadata": {
     "Chcp": "1.5.2",
+    "InAppPurchse": "10.0.1",
     "SplashScreen": "5.0.2",
     "Push": "1.10.0",
     "WebView": "1.0.0",

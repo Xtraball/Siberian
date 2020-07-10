@@ -56,6 +56,7 @@ table tbody td {
     position: relative;
     left: 3px;
     float: left;
+    z-index: 101;
 }
 
 .fanwall-image .fanwall-image-delete {
@@ -65,10 +66,24 @@ table tbody td {
     float: right;
     top: -2px;
     cursor: pointer;
+    z-index: 101;
 }
 
 .fanwall-file .fanwall-file-delete {
     cursor: pointer;
+}
+
+.fanwall-file .fanwall-image-bg {
+    display: block;
+    position: relative;
+    left: 0;
+    float: left;
+    width: 100%;
+    height: 20px;
+    background: rgba(200, 200, 200, 0.8);
+    margin-top: -20px;
+    z-index: 100;
+    border-bottom: 1px solid rgba(0, 0, 0, 0.2);
 }
 
 .fanwall-image img {

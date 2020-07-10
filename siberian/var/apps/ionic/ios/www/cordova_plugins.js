@@ -9,6 +9,14 @@ cordova.define('cordova/plugin_list', function(require, exports, module) {
       ]
     },
     {
+      "id": "InAppPurchse.InAppPurchase",
+      "file": "plugins/InAppPurchse/www/store-ios.js",
+      "pluginId": "InAppPurchse",
+      "clobbers": [
+        "store"
+      ]
+    },
+    {
       "id": "SplashScreen.SplashScreen",
       "file": "plugins/SplashScreen/www/splashscreen.js",
       "pluginId": "SplashScreen",
@@ -447,6 +455,7 @@ cordova.define('cordova/plugin_list', function(require, exports, module) {
   ];
   module.exports.metadata = {
     "Chcp": "1.5.2",
+    "InAppPurchse": "10.0.1",
     "SplashScreen": "5.0.2",
     "Push": "1.10.0",
     "WebView": "1.0.0",

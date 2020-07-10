@@ -31,6 +31,7 @@ class Post extends FormAbstract
     <div class="fanwall-image-delete">
         <i class="fa fa-times"></i>
     </div>
+    <div class="fanwall-image-bg"></div>
     <img src="/images/application/placeholder/blank-512.png" 
          class="fanwall-image-unit" />
     <input type="hidden"
