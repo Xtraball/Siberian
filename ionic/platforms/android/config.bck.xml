@@ -50,6 +50,9 @@
     <feature name="GeofencePlugin">
         <param name="android-package" value="com.cowbell.cordova.geofence.GeofencePlugin" />
     </feature>
+    <feature name="InAppBillingPlugin">
+        <param name="android-package" value="cc.fovea.PurchasePlugin" />
+    </feature>
     <feature name="SplashScreen">
         <param name="android-package" value="org.apache.cordova.splashscreen.SplashScreen" />
         <param name="onload" value="true" />

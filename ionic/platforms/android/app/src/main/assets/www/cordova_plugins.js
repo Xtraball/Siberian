@@ -25,6 +25,14 @@ module.exports = [
     ]
   },
   {
+    "id": "InAppPurchse.InAppBillingPlugin",
+    "file": "plugins/InAppPurchse/www/store-android.js",
+    "pluginId": "InAppPurchse",
+    "clobbers": [
+      "store"
+    ]
+  },
+  {
     "id": "SplashScreen.SplashScreen",
     "file": "plugins/SplashScreen/www/splashscreen.js",
     "pluginId": "SplashScreen",
@@ -446,6 +454,7 @@ module.exports.metadata =
 {
   "Chcp": "1.5.2",
   "Geofence": "0.6.0",
+  "InAppPurchse": "10.0.1",
   "SplashScreen": "5.0.2",
   "Push": "1.10.0",
   "WebView": "1.0.0",

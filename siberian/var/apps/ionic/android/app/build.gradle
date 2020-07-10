@@ -279,6 +279,7 @@ dependencies {
     compile "com.fasterxml.jackson.core:jackson-databind:2.4.4"
     compile "org.greenrobot:eventbus:3.0.0"
     compile "com.google.android.gms:play-services-location:15.0.1"
+    compile "com.android.billingclient:billing:2.0.3"
     compile "com.android.support:support-v13:28.0.0"
     compile "me.leolin:ShortcutBadger:1.1.17@aar"
     compile "com.google.firebase:firebase-messaging:17.0.0"

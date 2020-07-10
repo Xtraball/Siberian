@@ -62,6 +62,9 @@
     <feature name="MusicControls">
         <param name="android-package" value="com.xtraball.musiccontrols.MusicControls" />
     </feature>
+    <feature name="InAppBillingPlugin">
+        <param name="android-package" value="cc.fovea.PurchasePlugin" />
+    </feature>
     <feature name="BarcodeScanner">
         <param name="android-package" value="com.phonegap.plugins.barcodescanner.BarcodeScanner" />
     </feature>
