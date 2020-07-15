@@ -230,13 +230,30 @@
                         class="form-control"
                         ng-model="configs.cpanel_type.value">
                     <option value="-1"><?php echo __('Select a panel type or self-managed') ?></option>
-                    <option value="self"><?php echo __('Unknown - Self-managed'); ?></option>
-                    <option value="plesk"><?php echo __('Plesk 12+'); ?></option>
-                    <option value="cpanel"><?php echo __('WHM cPanel'); ?></option>
-                    <option value="directadmin"><?php echo __('DirectAdmin'); ?></option>
-                    <option value="vestacp"><?php echo __('VestaCP web API'); ?></option>
+                    <option value="self"><?php echo __('Unknown - Self-managed'); ?> <?php echo p__('backoffice', '(unsupported)'); ?></option>
+                    <option value="plesk"><?php echo __('Plesk 12+'); ?> <?php echo p__('backoffice', '(partial support)'); ?></option>
+                    <option value="cpanel"><?php echo __('WHM cPanel'); ?> <?php echo p__('backoffice', '(unsupported)'); ?></option>
+                    <option value="directadmin"><?php echo __('DirectAdmin'); ?> <?php echo p__('backoffice', '(unsupported)'); ?></option>
+                    <option value="vestacp"><?php echo __('VestaCP web API'); ?> <?php echo p__('backoffice', '(deprecated, please upgrade to VestaCP exec API)'); ?></option>
                     <option value="vestacpcli"><?php echo __('VestaCP exec API'); ?></option>
                 </select>
+
+
+                <div ng-if="configs.cpanel_type.value =='plesk'">
+                    <br />
+                    <div class="alert alert-warning">
+                    <?php echo p__('backoffice',
+                        'Plesk panel may required additional setup in order to work, please refer to this %s',
+                        '<a href="https://doc.siberiancms.com/knowledge-base/how-to-setup-install-https-ssl-certificate/" target="_blank">' . p__('backoffice', 'documentation') . '</a>'); ?>
+                    </div>
+                </div>
+
+                <div ng-if="['cpanel', 'directadmin', 'self'].indexOf(configs.cpanel_type.value) >= 0">
+                    <br />
+                    <div class="alert alert-info">
+                        <?php echo p__('backoffice', 'This panel is not officially supported and comes with no guarantee.'); ?>
+                    </div>
+                </div>
 
             </div>
 
