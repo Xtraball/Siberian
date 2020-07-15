@@ -36,12 +36,29 @@ class InAppPurchase extends Base
 
         $currentUrl = str_replace((new self())->getBaseUrl(), '', (new self())->getCurrentUrl());
         $editorTree['in_app_purchase'] = [
-            'hasChilds' => false,
-            'isVisible' => self::_canAccess('in_app_purchase_admin'),
+            'hasChilds' => true,
+            'id' => 'iap_side_menu',
+            'isVisible' => self::_canAccessAnyOf(['iap_products', 'iap_purchases']),
             'label' => p__('iap', 'In app purchases'),
             'icon' => 'fa fa-shopping-cart',
-            'url' => '/inapppurchase/settings',
-            'is_current' => (preg_match('#^\/inapppurchase\/settings#i', $currentUrl) === 1),
+            'childs' => [
+                'iap_products' => [
+                    'hasChilds' => false,
+                    'isVisible' => self::_canAccess('iap_products'),
+                    'label' => p__('iap', 'Products'),
+                    'icon' => 'fa fa-archive',
+                    'url' => '/inapppurchase/settings/products',
+                    'is_current' => (preg_match('#^/inapppurchase/settings/products#i', $currentUrl) === 1),
+                ],
+                'iap_purchases' => [
+                    'hasChilds' => false,
+                    'isVisible' => self::_canAccess('iap_purchases'),
+                    'label' => p__('iap', 'Purchases'),
+                    'icon' => 'fa fa-credit-card',
+                    'url' => '/inapppurchase/settings/purchases',
+                    'is_current' => (preg_match('#^/inapppurchase/settings/purchases#i', $currentUrl) === 1),
+                ]
+            ],
         ];
 
         return $editorTree;
@@ -52,7 +69,7 @@ class InAppPurchase extends Base
      * @return bool
      * @throws \Zend_Controller_Request_Exception
      */
-    protected function _canAccessAnyOf($resources)
+    protected static function _canAccessAnyOf($resources)
     {
         foreach ($resources as $resource) {
             $allowed = self::_canAccess($resource);

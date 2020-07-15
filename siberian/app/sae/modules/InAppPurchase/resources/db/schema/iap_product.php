@@ -46,7 +46,7 @@ $schemas['iap_product'] = [
         'type' => 'varchar(64)',
         'charset' => 'utf8',
         'collation' => 'utf8_unicode_ci',
-        'default' => 'both',
+        'default' => 'NON_CONSUMABLE',
     ],
     'google_id' => [
         'type' => 'varchar(255)',

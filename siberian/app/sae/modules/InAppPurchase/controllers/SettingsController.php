@@ -5,7 +5,12 @@
  */
 class InAppPurchase_SettingsController extends Application_Controller_Default
 {
-    public function indexAction()
+    public function productsAction()
+    {
+        $this->loadPartials();
+    }
+
+    public function purchasesAction()
     {
         $this->loadPartials();
     }

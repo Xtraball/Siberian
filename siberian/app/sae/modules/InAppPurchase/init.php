@@ -11,6 +11,8 @@ use InAppPurchase\Model\InAppPurchase;
 use Siberian\Hook;
 use Siberian\Translation;
 
+class_alias('InAppPurchase\Model\InAppPurchase', 'InAppPurchase_Model_InAppPurchase');
+
 /**
  * @param $editorTree
  * @return mixed

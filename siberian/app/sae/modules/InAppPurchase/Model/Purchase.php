@@ -13,5 +13,5 @@ class Purchase extends Base
     /**
      * @var string
      */
-    protected $_db_table = InAppPurchase\Model\Db\Table\Purchase::class;
+    protected $_db_table = Db\Table\Purchase::class;
 }
