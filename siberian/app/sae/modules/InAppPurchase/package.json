@@ -1,0 +1,11 @@
+{
+  "name": "InAppPurchase",
+  "description": "Enables the configuration of In App Purchase.",
+  "version": "4.19.0",
+  "dependencies": {
+    "system": {
+      "type": "SAE",
+      "version": "4.19.0"
+    }
+  }
+}
