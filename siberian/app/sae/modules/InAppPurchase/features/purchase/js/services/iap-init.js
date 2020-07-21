@@ -6,7 +6,7 @@
  */
 angular
     .module('starter')
-    .service('IAP_Init', function (IAP_Product, SB) {
+    .service('IAP_Init', function (IAP_Product, IAP_Store, SB) {
         var service = {
 
         };
@@ -16,13 +16,14 @@ angular
                 console.info('IAP[Support]: InAppPurchase are not available on the WebApp/Browser.');
                 return;
             }
+
+            IAP_Store.init();
+
             // Android/iOS support!
             IAP_Product
                 .all()
                 .then(function (payload) {
-                    payload.collection.forEach(function (product) {
-                        console.log('IAP[Product]: ', product);
-                    });
+                    IAP_Store.registerCollection(payload.collection);
                 }, function (error) {
                     console.log('IAP[Error]: ', error);
                 });
