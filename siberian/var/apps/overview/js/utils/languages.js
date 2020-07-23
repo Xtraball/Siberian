@@ -2,7 +2,7 @@
  navigator
  */
 
-var AVAILABLE_LANGUAGES = ['en'];
+var AVAILABLE_LANGUAGES = ['en', 'fr'];
 var language = 'en';
 if (navigator.language) {
     var tmp_language = navigator.language.replace('-', '_');

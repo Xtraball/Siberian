@@ -117,7 +117,7 @@ abstract class Application_Model_Device_Abstract extends Core_Model_Default
      * @param bool $regex
      * @throws \Siberian\Exception
      */
-    protected function __replace($replacements, $file, $regex = false)
+    public function __replace($replacements, $file, $regex = false)
     {
         $contents = file_get_contents($file);
         if (!$contents) {

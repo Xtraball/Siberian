@@ -17,12 +17,12 @@ class Settings extends Base
 
     /**
      * @param $appId
-     * @return bool
+     * @return bool|string
      * @throws \Zend_Exception
      */
     public static function getKeyForAppId ($appId)
     {
-        $result = (new self())->getTable()->find($appId, 'app_id');
+        $result = (new self())->find($appId, 'app_id');
         if ($result && $result->getId()) {
             return $result->getGoogleBillingKey();
         }

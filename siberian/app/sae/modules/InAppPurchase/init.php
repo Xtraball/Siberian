@@ -39,7 +39,7 @@ $init = static function ($bootstrap) {
         Source::TYPE_ANDROID,
         'iap_add_billing_key',
         'InAppPurchase',
-        static function ($applicationDevice) {
+        static function (Application_Model_Device_Abstract $applicationDevice) {
             $billingKey = Settings::getKeyForAppId($applicationDevice->app->getId());
             $billingKey = trim($billingKey);
             if (!empty($billingKey)) {

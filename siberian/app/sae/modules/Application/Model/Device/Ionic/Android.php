@@ -47,69 +47,69 @@ class Application_Model_Device_Ionic_Android extends Application_Model_Device_Io
     /**
      * @var string
      */
-    protected $_current_version = '1.0';
+    public $_current_version = '1.0';
 
     /**
      * @var string
      */
-    protected $_folder_name = '';
+    public $_folder_name = '';
 
     /**
      * @var string
      */
-    protected $_formatted_bundle_name = '';
+    public $_formatted_bundle_name = '';
 
     /**
      * @var string
      */
-    protected $_zipname;
+    public $_zipname;
 
     /**
      * @var string
      */
-    protected $_package_name;
+    public $_package_name;
 
     /**
      * @var string
      */
-    protected $_application_id;
+    public $_application_id;
 
     /** Folders */
 
     /**
      * @var string
      */
-    protected $_orig_source;
+    public $_orig_source;
 
     /**
      * @var string
      */
-    protected $_orig_source_src;
+    public $_orig_source_src;
 
     /**
      * @var string
      */
-    protected $_orig_source_res;
+    public $_orig_source_res;
 
     /**
      * @var string
      */
-    protected $_dest_source;
+    public $_dest_source;
 
     /**
      * @var string
      */
-    protected $_dest_source_src;
+    public $_dest_source_src;
 
     /**
      * @var string
      */
-    protected $_dest_source_res;
+    public $_dest_source_res;
 
     /**
      * @var string
      */
-    protected $_dest_archive;
+    public $_dest_archive;
 
     /**
      * Application_Model_Device_Ionic_Android constructor.
@@ -188,6 +188,7 @@ class Application_Model_Device_Ionic_Android extends Application_Model_Device_Io
                 $callback = $beforeArchiveHook['callback'];
                 $callback($this);
             } catch (\Exception $e) {
+                throw $e;
                 // Hooks are enclosed inside catch to be sure we don't break things
             }
         }
