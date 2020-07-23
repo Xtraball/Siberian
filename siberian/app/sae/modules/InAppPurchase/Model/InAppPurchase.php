@@ -57,7 +57,15 @@ class InAppPurchase extends Base
                     'icon' => 'fa fa-credit-card',
                     'url' => '/inapppurchase/settings/purchases',
                     'is_current' => (preg_match('#^/inapppurchase/settings/purchases#i', $currentUrl) === 1),
-                ]
+                ],
+                'iap_settings' => [
+                    'hasChilds' => false,
+                    'isVisible' => self::_canAccess('iap_settings'),
+                    'label' => p__('iap', 'Settings'),
+                    'icon' => 'fa fa-cogs',
+                    'url' => '/inapppurchase/settings/general',
+                    'is_current' => (preg_match('#^/inapppurchase/settings/general#i', $currentUrl) === 1),
+                ],
             ],
         ];
 
