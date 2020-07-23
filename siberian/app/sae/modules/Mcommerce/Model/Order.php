@@ -324,7 +324,6 @@ class Mcommerce_Model_Order extends Core_Model_Default {
             if(count($line->getOptions())) {
 
                 $page->setFont($font_regular, 9);
-
                 foreach($line->getOptions() as $option) {
 
                     $y_ref -= 15;
@@ -422,26 +421,25 @@ class Mcommerce_Model_Order extends Core_Model_Default {
             else {
                 $words = explode(' ', $note);
 
-                foreach ($words as $word) {
+            foreach ($words as $word) {
                     if (strlen($line) + strlen($word) <= 85) {
-                        $line .= ' ' . $word;
-
-                    } else {
-                        $lines[] = $line;
-                        $line = $word;
-                    }
+                    $line .= ' ' . $word;
+                } else {
+                    $lines[] = $line;
+                    $line = $word;
                 }
+            }
                 if (!in_array($line, $lines, false)){
                     $lines[] = $line;
                 }
                 $x =0;
-                foreach ($lines as $line) {
+            foreach ($lines as $line) {
                     if ($x === 0){
                         $line=(ltrim($line));
                     }
-                    $page->drawText($line, 50, $y_ref);$y_ref-=15;
-                }
+                $page->drawText($line, 50, $y_ref);$y_ref-=15;
             }
+        }
         }
 
         return $pdf;

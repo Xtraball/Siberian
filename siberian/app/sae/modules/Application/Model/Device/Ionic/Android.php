@@ -188,7 +188,7 @@ class Application_Model_Device_Ionic_Android extends Application_Model_Device_Io
                 $callback = $beforeArchiveHook['callback'];
                 $callback($this);
             } catch (\Exception $e) {
-                throw $e;
+                // throw $e;
                 // Hooks are enclosed inside catch to be sure we don't break things
             }
         }
@@ -412,7 +412,7 @@ class Application_Model_Device_Ionic_Android extends Application_Model_Device_Io
         }
 
         $appKey = $application->getKey();
-        $disableBatteryOptimization = (boolean)filter_var($application->getDisableBatteryOptimization(), FILTER_VALIDATE_BOOLEAN);
+        $disableBatteryOptimization = (boolean) filter_var($application->getDisableBatteryOptimization(), FILTER_VALIDATE_BOOLEAN);
         $_dbo = $disableBatteryOptimization ? "true" : "false";
 
         $url_js_content = "
@@ -506,7 +506,7 @@ if(navigator.language) {
     /**
      * @return array
      */
-    public function _prepareApk()
+    public function _prepareApk ()
     {
         $device = $this->getDevice();
         $alias = $device->getAlias();

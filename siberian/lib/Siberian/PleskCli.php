@@ -45,9 +45,12 @@ class PleskCli
         $this->config['webspace'] = $pleskCli->getWebspace();
     }
 
-   /**
-    *
-    */
+    /**
+     * @param $sslCertificate
+     * @return bool
+     * @throws Exception
+     * @throws \Zend_Exception
+     */
     public function installCertificate($sslCertificate): bool
     {
         $base = path('/var/apps/certificates/');

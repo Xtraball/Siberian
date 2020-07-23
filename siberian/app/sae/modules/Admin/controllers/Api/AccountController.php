@@ -23,13 +23,13 @@ class Admin_Api_AccountController extends Api_Controller_Default
 
     public function existAction()
     {
-        try {
+            try {
             $request = $this->getRequest();
             $bodyParams = $request->getPost();
 
             if (empty($bodyParams['email'])) {
                 throw new \Siberian\Exception(__('The email is required'));
-            }
+                }
 
             $admin = (new Admin_Model_Admin())->find($bodyParams['email'], 'email');
 
@@ -37,13 +37,13 @@ class Admin_Api_AccountController extends Api_Controller_Default
                 'success' => true,
                 'id' => $admin->getId(),
                 'exists' => (bool) $admin->getId()
-            ];
+                ];
         } catch (\Exception $e) {
             $payload = [
                 'error' => true,
                 'message' => $e->getMessage()
-            ];
-        }
+                ];
+            }
 
         $this->_sendJson($payload);
     }
@@ -183,6 +183,7 @@ class Admin_Api_AccountController extends Api_Controller_Default
                             __("This email address is already used")
                         );
                     }
+
                 }
 
                 $admin->addData($data);

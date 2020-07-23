@@ -231,8 +231,8 @@
                         ng-model="configs.cpanel_type.value">
                     <option value="-1"><?php echo __('Select a panel type or self-managed') ?></option>
                     <option value="self"><?php echo __('Unknown - Self-managed'); ?> <?php echo p__('backoffice', '(unsupported)'); ?></option>
-                    <option value="plesk"><?php echo __('Plesk 12+ web API'); ?> <?php echo p__('backoffice', '(deprecated, please upgrade to Plesk exec API)'); ?></option>
-                    <option value="pleskcli"><?php echo __('Plesk exec API'); ?> <?php echo p__('backoffice', '(partial support)'); ?></option>
+                    <option value="plesk"><?php echo __('Plesk 12+ web API'); ?> <?php echo p__('backoffice', '(deprecated)'); ?></option>
+                    <option value="pleskcli"><?php echo __('Plesk exec API (beta)'); ?> <?php echo p__('backoffice', '(partial support)'); ?></option>
                     <option value="cpanel"><?php echo __('WHM cPanel'); ?> <?php echo p__('backoffice', '(unsupported)'); ?></option>
                     <option value="directadmin"><?php echo __('DirectAdmin'); ?> <?php echo p__('backoffice', '(unsupported)'); ?></option>
                     <option value="vestacp"><?php echo __('VestaCP web API'); ?> <?php echo p__('backoffice', '(deprecated, please upgrade to VestaCP exec API)'); ?></option>
@@ -284,8 +284,7 @@
                        placeholder="<?php echo __('Leave blank if your web space is the current domain.') ?>" />
             </div>
 
-            <div class="col-md-6"
-                 ng-if="configs.cpanel_type.value == 'plesk'">
+            <div class="col-md-6" ng-if="configs.cpanel_type.value == 'plesk'">
                 <br /><br />
 
                 <label><?php echo __("Host") ?> *</label>
