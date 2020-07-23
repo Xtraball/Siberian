@@ -15,12 +15,39 @@ class Post extends FormAbstract
     public $dateField = null;
 
     /**
+     * @var string\null
+     */
+    public $uniqid = null;
+
+    /**
+     * @var string
+     */
+    public static $imageTemplate = '
+<div class="fanwall-image" 
+     style="background-image: url(#THUMBNAIL_PATH#);">
+    <div class="fanwall-image-handle">
+        <i class="fa fa-arrows"></i>
+    </div>
+    <div class="fanwall-image-delete">
+        <i class="fa fa-times"></i>
+    </div>
+    <div class="fanwall-image-bg"></div>
+    <img src="/images/application/placeholder/blank-512.png" 
+         class="fanwall-image-unit" />
+    <input type="hidden"
+           name="images[%UNIQID%][]" 
+           value="%IMAGE_PATH%" />
+</div>';
+
+    /**
      * @throws \Zend_Exception
      * @throws \Zend_Form_Exception
      */
     public function init()
     {
         parent::init();
+
+        $this->uniqid = uniqid('fw_', false);
 
         $this
             ->setAction(__path('/fanwall/application/edit-post'))
@@ -53,10 +80,15 @@ class Post extends FormAbstract
             ->setRichtext()
             ->setRequired(true);
 
-        $this->addSimpleImage('image', p__('fanwall','Add a picture'), p__('fanwall','Add a picture'), [
-            'width' => 1000,
-            'height' => 640,
-        ]);
+        // Multiple image upload
+        $this->addSimpleHidden('image');
+
+        $picturesUploader = $this->addSimpleFile('image_uploader', p__('fanwall', 'Add pictures'), ['multiple' => true]);
+        $picturesUploader->setBelongsTo("images[".$this->uniqid."]");
+        $magesContainer = '
+<div class="fanwall-images-container"></div>';
+
+        $this->addSimpleHtml('fanwall-images-container', $magesContainer);
 
         $valueId = $this->addSimpleHidden('value_id');
         $valueId
@@ -64,6 +96,14 @@ class Post extends FormAbstract
 
         // Defaults date to NOW() for new Pots
         $this->setDate(time());
+    }
+
+    /**
+     * @return string\null
+     */
+    public function getUniqid()
+    {
+        return $this->uniqid;
     }
 
     /**
@@ -93,5 +133,48 @@ class Post extends FormAbstract
     {
         $submit = $this->addSubmit(p__('fanwall', 'Save'), p__('fanwall', 'Save'));
         $submit->addClass('pull-right');
+    }
+
+    /**
+     * @param $images
+     * @return $this
+     * @throws \Zend_Form_Exception
+     */
+    public function loadImages() {
+
+        $imagesHtml = [];
+        $images = explode(',', $this->getElement('image')->getValue());
+        foreach($images as $image) {
+            $tmp = self::$imageTemplate;
+            $tmp = str_replace([
+                "%UNIQID%",
+                "%IMAGE_PATH%",
+                "#THUMBNAIL_PATH#",
+            ], [
+                $this->getUniqid(),
+                $image,
+                '/images/application' . $image,
+            ], $tmp);
+
+            $imagesHtml[] = $tmp;
+        }
+
+        $imagesContainer = '
+<div class="fanwall-images-container">'.implode('', $imagesHtml).'</div>';
+
+        $this->addSimpleHtml('fanwall-images-container', $imagesContainer);
+
+        $formId = $this->getAttrib('id');
+        $bindForm = <<<RAW
+<script type="text/javascript">
+$(document).ready(function () {
+    window.bindUploader('#{$formId}');
+});
+</script>
+RAW;
+
+        $this->addMarkup($bindForm);
+
+        return $this;
     }
 }
