@@ -23,36 +23,29 @@ class Admin_Api_AccountController extends Api_Controller_Default
 
     public function existAction()
     {
-
-        if ($data = $this->getRequest()->getPost()) {
-
             try {
+            $request = $this->getRequest();
+            $bodyParams = $request->getPost();
 
-                if (empty($data["email"])) {
-                    throw new \Siberian\Exception(__("The email is required"));
+            if (empty($bodyParams['email'])) {
+                throw new \Siberian\Exception(__('The email is required'));
                 }
 
-                $email = $data["email"];
-                $data = ["success" => 1];
-                $admin = new Admin_Model_Admin();
-                $admin->find($email, "email");
+            $admin = (new Admin_Model_Admin())->find($bodyParams['email'], 'email');
 
-                $data = [
-                    "success" => 1,
-                    "exists" => (bool)$admin->getId()
+            $payload = [
+                'success' => true,
+                'id' => $admin->getId(),
+                'exists' => (bool) $admin->getId()
                 ];
-
-            } catch (Exception $e) {
-                $data = [
-                    "error" => 1,
-                    "message" => $e->getMessage()
+        } catch (\Exception $e) {
+            $payload = [
+                'error' => true,
+                'message' => $e->getMessage()
                 ];
             }
 
-            $this->_sendJson($data);
-
-        }
-
+        $this->_sendJson($payload);
     }
 
     public function authenticateAction()
