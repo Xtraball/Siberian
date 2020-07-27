@@ -48,27 +48,13 @@ $cacheOutput = Zend_Registry::get("cacheOutput");
 
 <div class="content_editor">
     <h3 class="title-editor border-blue text-center">
-        <?php if ($application_offline_enabled): ?>
-            <?php if ($available_offline == "none"): ?>
-                <span class="no-offline pull-left">
-                <i class="fa fa-circle"></i>
-                <span><?php echo __("Not available offline."); ?></span>
-            </span>
-            <?php elseif ($available_offline == "partial"): ?>
-                <span class="partial-offline pull-left">
-                <i class="fa fa-info-circle"></i>
-                <span><?php echo __("Partially available offline."); ?></span>
-            </span>
-            <?php endif; ?>
-        <?php endif; ?>
-
-        <?php echo __("Page settings"); ?>
+        <?php echo __('Page settings'); ?>
 
         <div class="action-buttons">
             <?php if ($can_export): ?>
                 <button class="color-blue bt-header-right btn import-feature pull-right action-button">
                     <a href="/<?php echo $option->getDesktopUri() ?>export/value_id/<?php echo $option->getId() ?>">
-                        <?php echo __("Export") ?>
+                        <?php echo __('Export') ?>
                     </a>
                 </button>
             <?php endif; ?>
@@ -76,7 +62,7 @@ $cacheOutput = Zend_Registry::get("cacheOutput");
                 <button class="color-blue bt-header-right btn import-feature pull-right action-button">
                     <a class="clearcache"
                        href="/<?php echo $option->getDesktopUri() ?>clearcache/value_id/<?php echo $option->getId() ?>">
-                        <?php echo __("Clear cache") ?>
+                        <?php echo __('Clear cache') ?>
                     </a>
                 </button>
             <?php endif; ?>

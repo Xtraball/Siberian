@@ -8,17 +8,12 @@ class Media_Model_Gallery_Music_Album extends Core_Model_Default {
     /**
      * @var array
      */
-    protected $_tracks = array();
+    protected $_tracks = [];
 
     /**
-     * Media_Model_Gallery_Music_Album constructor.
-     * @param array $params
+     * @var string
      */
-    public function __construct($params = array()) {
-        parent::__construct($params);
-        $this->_db_table = 'Media_Model_Db_Table_Gallery_Music_Album';
-        return $this;
-    }
+    protected $_db_table = Media_Model_Db_Table_Gallery_Music_Album::class;
 
     /**
      * @return int
@@ -111,15 +106,13 @@ class Media_Model_Gallery_Music_Album extends Core_Model_Default {
         $total_duration = floor($total_duration / 60);
 
 
-        if($hours > 0) {
+        if ($hours > 0) {
             $return[] = str_pad($hours, 2, 0, STR_PAD_LEFT);
         }
-        if($hours > 0 || $minutes > 0) {
+        if ($hours > 0 || $minutes > 0) {
             $return[] = str_pad($minutes, 2, 0, STR_PAD_LEFT);
         }
-
         $return[] = str_pad($seconds, 2, 0, STR_PAD_LEFT);
-
 
         return implode(":", $return);
     }

@@ -62,26 +62,35 @@ class Media_Model_Gallery_Music_Track extends Core_Model_Default
         }
 
         $shouldPush = false;
+        $hasDays = false;
+        $hasHours = false;
+        $hasMinutes = false;
         $parts = [];
         $_seconds = floor($millis / 1000);
         $numDays = floor(($_seconds % 31536000) / 86400);
         if ($numDays > 0) {
             $shouldPush = true;
+            $hasDays = true;
             $parts[] = $numDays;
         }
         $numHours = floor((($_seconds % 31536000) % 86400) / 3600);
         if ($numHours > 0 || $shouldPush) {
             $shouldPush = true;
+            $hasHours = true;
             $parts[] = $numHours;
         }
         $numMinutes = floor(((($_seconds % 31536000) % 86400) % 3600) / 60);
         if ($numMinutes > 0 || $shouldPush) {
             $shouldPush = true;
-            $parts[] = str_pad($numMinutes, 2, '0', STR_PAD_RIGHT);
+            $hasMinutes = true;
+            $parts[] = str_pad($numMinutes, 2, '0', STR_PAD_LEFT);
         }
         $numSeconds = ((($_seconds % 31536000) % 86400) % 3600) % 60;
         if ($numSeconds > 0 || $shouldPush) {
-            $parts[] = str_pad($numSeconds, 2, '0', STR_PAD_RIGHT);
+            if (!$hasDays && !$hasHours && !$hasMinutes) {
+                $parts[] = '0';
+            }
+            $parts[] = str_pad($numSeconds, 2, '0', STR_PAD_LEFT);
         }
 
         return implode(':', $parts);

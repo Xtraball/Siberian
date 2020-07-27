@@ -41,10 +41,24 @@ class Fanwall_ApplicationController extends Application_Controller_Default
             $values = $request->getPost();
 
             $form = new FormPost();
+
+            // We do not need these elements!
+            $form->removeElement('image_uploader');
+            $form->removeElement('image_uploader_hidden');
+
             if ($form->isValid($values)) {
 
                 $post = new Post();
                 $post = $post->find($values['post_id']);
+
+                // Images
+                $allImages = [];
+                foreach($values['images'] as $uuid => $images) {
+                    foreach ($images as $image) {
+                        $allImages[] = Siberian_Feature::saveImageForOption($optionValue, $image);
+                    }
+                }
+                $values['image'] = implode(',', $allImages);
 
                 $saveToHistory = false;
                 $archivedPost = null;
@@ -79,11 +93,7 @@ class Fanwall_ApplicationController extends Application_Controller_Default
                     ->addData([
                         'is_active' => true,
                     ])
-                ;
-
-                Feature::formImageForOption($optionValue, $post, $values, 'image', true);
-
-                $post->save();
+                    ->save();
 
                 // Ok everything good, we can insert archive if edit
                 if ($saveToHistory) {
@@ -209,8 +219,10 @@ class Fanwall_ApplicationController extends Application_Controller_Default
             $form->populate($tmpData);
             $form->setValueId($optionValue->getId());
             $form->setPostId($post->getId());
+            $form->setAttrib('id', 'fanwall-post-edit-' . $post->getId());
             $form->setDate($tmpData['date']);
             $form->getElement('text')->setAttrib('id', 'fanwall2-edit-post-' . $postId);
+            $form->loadImages();
             $form->loadFormSubmit();
 
             $payload = [

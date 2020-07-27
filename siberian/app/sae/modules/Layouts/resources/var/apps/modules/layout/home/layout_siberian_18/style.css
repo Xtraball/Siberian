@@ -42,17 +42,14 @@
 
 .layout.layout_siberian_18 {
     position: absolute;
-    height: 80vh !important;
-    padding-left: 12vw;
-    padding-right: 12vw;
-    top: 0 !important;
+    top: 10vh !important;
+    left: 12vw !important;
+    right: 12vw !important;
+    bottom: 10vh !important;
 }
 
 .layout.layout_siberian_18 ion-scroll {
-    position: absolute;
-    width: 74vw;
-    height: 75%;
-    bottom: 0;
+    height: 80vh !important;
 }
 
 /* options */

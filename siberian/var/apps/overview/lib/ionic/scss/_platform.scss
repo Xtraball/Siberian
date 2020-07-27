@@ -201,6 +201,14 @@
   .item {
     padding: $item-padding calc(var(--safe-area-inset-right) + #{$item-padding});
 
+    &.item-avatar {
+      padding-left: calc(var(--safe-area-inset-right) + #{$item-avatar-width} + #{$item-padding} + #{$item-padding});
+    }
+
+    &.item-radio {
+      padding: 0;
+    }
+
     &.item-checkbox {
       padding-left: ($item-padding * 2) + $checkbox-width;
     }

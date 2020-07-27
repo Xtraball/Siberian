@@ -136,22 +136,31 @@ angular
         var parts = [];
         var _seconds = Math.floor(seconds); // Ensure we cut millis!
         var numDays = Math.floor((_seconds % 31536000) / 86400);
+
+        var hasDays, hasHours, hasMinutes = false;
         if (numDays > 0) {
             shouldPush = true;
+            hasDays = true;
             parts.push(numDays.toString());
         }
         var numHours = Math.floor(((_seconds % 31536000) % 86400) / 3600);
         if (numHours > 0 || shouldPush) {
             shouldPush = true;
+            hasHours = true;
             parts.push(numHours.toString());
         }
         var numMinutes = Math.floor((((_seconds % 31536000) % 86400) % 3600) / 60);
         if (numMinutes > 0 || shouldPush) {
             shouldPush = true;
+            hasMinutes = true;
             parts.push(numMinutes.toString().padStart(2, '0'));
         }
         var numSeconds = (((_seconds % 31536000) % 86400) % 3600) % 60;
         if (numSeconds > 0 || shouldPush) {
+            // If only seconds, push 0: minutes before
+            if (!hasDays && !hasHours && !hasMinutes) {
+                parts.push('0');
+            }
             parts.push(numSeconds.toString().padStart(2, '0'));
         }
 

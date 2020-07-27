@@ -16,13 +16,13 @@ $api_providers = [
             'secret_key'
         ]
     ],
-    [
-        'code' => 'youtube',
-        'icon' => 'fa-youtube',
-        'keys' => [
-            'api_key'
-        ]
-    ],
+    //[
+    //    'code' => 'youtube',
+    //    'icon' => 'fa-youtube',
+    //    'keys' => [
+    //        'api_key'
+    //    ]
+    //],
     [
         'code' => 'soundcloud',
         'icon' => 'fa-soundcloud',
@@ -45,16 +45,16 @@ $api_providers = [
             'api_key',
         ]
     ],
-    [
-        'code' => 'plesk',
-        'icon' => 'fa-shield',
-        'keys' => [
-            'host',
-            'user',
-            'password',
-            'webspace',
-        ]
-    ],
+    //[
+    //    'code' => 'plesk',
+    //    'icon' => 'fa-shield',
+    //    'keys' => [
+    //        'host',
+    //        'user',
+    //        'password',
+    //        'webspace',
+    //    ]
+    //],
     [
         'code' => 'cpanel',
         'icon' => 'fa-shield',
@@ -65,21 +65,29 @@ $api_providers = [
             'webspace',
         ]
     ],
-    [
-        'code' => 'vestacp',
-        'icon' => 'fa-shield',
-        'keys' => [
-            'host',
-            'user',
-            'password',
-            'webspace',
-        ]
-    ],
+    //[
+    //    'code' => 'vestacp',
+    //    'icon' => 'fa-shield',
+    //    'keys' => [
+    //        'host',
+    //        'user',
+    //        'password',
+    //        'webspace',
+    //    ]
+    //],
     [
         'code' => 'vestacpcli',
         'icon' => 'fa-shield',
         'keys' => [
             'user',
+            'webspace',
+        ]
+    ],
+    [
+        'code' => 'pleskcli',
+        'icon' => 'fa-shield',
+        'keys' => [
+            'ip',
             'webspace',
         ]
     ],

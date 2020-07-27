@@ -19,6 +19,8 @@ class Api_Backoffice_Key_ListController extends Backoffice_Controller_Default
         "cpanel",
         "plesk",
         "vestacp",
+        "vestacpcli",
+        "pleskcli",
         "directadmin",
         "smtp_credentials",
     ];
