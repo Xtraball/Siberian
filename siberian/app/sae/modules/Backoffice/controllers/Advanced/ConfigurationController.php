@@ -63,12 +63,14 @@ class Backoffice_Advanced_ConfigurationController extends System_Controller_Back
 
         $cpanel = Api_Model_Key::findKeysFor('cpanel');
         $plesk = Api_Model_Key::findKeysFor('plesk');
+        $pleskcli = Api_Model_Key::findKeysFor('pleskcli');
         $vestacp = Api_Model_Key::findKeysFor('vestacp');
         $vestacpcli = Api_Model_Key::findKeysFor('vestacpcli');
         $directadmin = Api_Model_Key::findKeysFor('directadmin');
 
         $data['cpanel'] = $cpanel->getData();
         $data['plesk'] = $plesk->getData();
+        $data['pleskcli'] = $pleskcli->getData();
         $data['vestacp'] = $vestacp->getData();
         $data['vestacpcli'] = $vestacpcli->getData();
         $data['directadmin'] = $directadmin->getData();
@@ -217,6 +219,9 @@ class Backoffice_Advanced_ConfigurationController extends System_Controller_Back
                     $keys = $api_key->findAll(['provider_id = ?' => $panel_api_provider->getId()]);
                     foreach ($keys as $key) {
                         switch ($key->getKey()) {
+                            case 'ip':
+                                $key->setValue($data[$panel_type]['ip'])->save();
+                                break;
                             case 'host':
                                 $key->setValue($data[$panel_type]['host'])->save();
                                 break;
