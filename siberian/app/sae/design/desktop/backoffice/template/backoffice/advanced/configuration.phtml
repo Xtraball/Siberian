@@ -38,6 +38,18 @@
                 </p>
             </div>
 
+            <div class="clear"></div>
+
+            <div class="col-md-6">
+                <label for="configs.redirect_https.code"><?php echo p__('backoffice', 'Enable software HTTPS redirection') ?></label>
+                <select id="configs.redirect_https.code"
+                        class="form-control"
+                        ng-model="configs.redirect_https.value">
+                    <option value="true"><?php echo __('Yes'); ?></option>
+                    <option value="false"><?php echo __('No'); ?></option>
+                </select>
+            </div>
+
         </div>
 
         <div class="form-group">
