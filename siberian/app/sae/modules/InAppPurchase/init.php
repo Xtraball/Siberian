@@ -50,6 +50,6 @@ $init = static function ($bootstrap) {
             }
         });
 
-    InAppPurchase::enable();
+    //InAppPurchase::enable();
 };
 
