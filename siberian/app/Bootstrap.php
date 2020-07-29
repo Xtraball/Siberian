@@ -283,8 +283,6 @@ class Bootstrap extends Zend_Application_Bootstrap_Bootstrap
 
         $module_names = $this->_front_controller->getDispatcher()->getModuleDirectories();
 
-        // Fetch licenses 4.19.x!
-
         foreach ($module_names as $module) {
 
             // Skipping disabled module!
@@ -302,6 +300,7 @@ class Bootstrap extends Zend_Application_Bootstrap_Bootstrap
                     global $init;
                     ob_start();
                     require_once $path_init;
+                    dbg($path_init);
                     if (is_callable($init)) {
                         $init($this);
                     }

@@ -28,6 +28,11 @@ class Core_Model_Language
      */
     protected static $__session = null;
     /**
+     * @var null|string
+     */
+    protected static $cron_language = null;
+
+    /**
      * @var array
      */
     protected static $_languages = [];
@@ -126,11 +131,15 @@ class Core_Model_Language
 
     /**
      * @param $territory
+     * @param bool $cron
      */
-    public static function setCurrentLanguage($territory)
+    public static function setCurrentLanguage($territory, $cron = false)
     {
         if (self::$__session) {
             self::$__session->current_language = $territory;
+        }
+        if ($cron === true) {
+            self::$cron_language = $territory;
         }
     }
 
@@ -142,6 +151,10 @@ class Core_Model_Language
         $current_language = self::getDefaultLanguage();
         if (self::$__session) {
             $current_language = self::$__session->current_language;
+        }
+        // Or cron language
+        if (self::$cron_language) {
+            $current_language = self::$cron_language;
         }
 
         return $current_language;
@@ -292,8 +305,7 @@ class Core_Model_Language
                                     'symbol' => $symbol,
                                     'language' => $tmpLang[$country_code],
                                 ];
-                            }
-                            else if (isset($tmpLang[$short])) {
+                            } else if (isset($tmpLang[$short])) {
                                 $countries[$country_code] = [
                                     'code' => $country_code,
                                     'name' => $name,
