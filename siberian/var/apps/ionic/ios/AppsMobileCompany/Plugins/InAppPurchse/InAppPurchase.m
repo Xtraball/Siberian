@@ -80,7 +80,6 @@ static NSInteger jsErrorCode(NSInteger storeKitErrorCode) {
         case SKErrorPaymentNotAllowed:
             return ERR_PAYMENT_NOT_ALLOWED;
     }
-#if (__IPHONE_OS_VERSION_MIN_REQUIRED >= 120200 || TARGET_OS_OSX)
     if (@available(iOS 12.2, macOS 10.14.4, *)) {
         if (storeKitErrorCode == SKErrorPrivacyAcknowledgementRequired)
             return ERR_PRIVACY_ACKNOWLEDGEMENT_REQUIRED;
@@ -95,7 +94,6 @@ static NSInteger jsErrorCode(NSInteger storeKitErrorCode) {
         if (storeKitErrorCode == SKErrorMissingOfferParams)
             return ERR_MISSING_OFFER_PARAMS;
     }
-#endif
 #if TARGET_OS_IPHONE
     if (@available(iOS 9.3, *)) {
         if (storeKitErrorCode == SKErrorCloudServicePermissionDenied)
@@ -490,6 +488,12 @@ static NSString *priceLocaleCurrencyCode(NSLocale *priceLocale) {
                 }
                 break;
 
+            case SKPaymentTransactionStateDeferred:
+                DLog(@"paymentQueue:updatedTransactions: Deferred...");
+                state = @"PaymentTransactionStateDeferred";
+                productId = transaction.payment.productIdentifier;
+                break;
+
             case SKPaymentTransactionStateFailed:
                 state = @"PaymentTransactionStateFailed";
                 error = transaction.error.localizedDescription;
@@ -633,7 +637,6 @@ static NSString *priceLocaleCurrencyCode(NSLocale *priceLocale) {
 }
 
 - (void) paymentQueue:(SKPaymentQueue *)queue restoreCompletedTransactionsFailedWithError:(NSError *)error {
-
     DLog(@"paymentQueue:restoreCompletedTransactionsFailedWithError:");
     NSString *js = [NSString stringWithFormat:
         @"window.storekit.restoreCompletedTransactionsFailed(%li)", (unsigned long)jsErrorCode(error.code)];
