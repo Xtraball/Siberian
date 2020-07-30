@@ -116,9 +116,15 @@ class Field extends FormAbstract
         $label->setRequired(true);
 
         // Number
-        $this->addSimpleNumber('number_min', p__('form2', 'Min. value'));
-        $this->addSimpleNumber('number_max', p__('form2', 'Max. value'));
-        $this->addSimpleNumber('number_step', p__('form2', 'Step'));
+        $numberMin = $this->addSimpleNumber('number_min', p__('form2', 'Min. value'));
+        $numberMax = $this->addSimpleNumber('number_max', p__('form2', 'Max. value'));
+        $numberStep = $this->addSimpleNumber('number_step', p__('form2', 'Step'));
+        $numberStep->setValue(0);
+        $numberStep->setDescription(p__('form2', 'Set to 0 to ignore the increment/step validation.'));
+
+        $numberMin->setRequired(true);
+        $numberMax->setRequired(true);
+        $numberStep->setRequired(true);
 
         $this->groupElements('group_number', ['number_min', 'number_max', 'number_step'], p__('form2', 'Number options'));
 
@@ -138,6 +144,7 @@ class Field extends FormAbstract
         // Images
         $limit = $this->addSimpleNumber('limit', p__('form2', 'Max pictures allowed') . ' (1-10)', 1, 10, true, 1);
         $limit->setValue(1);
+        $limit->setRequired(true);
 
         $this->addSimpleText('image_addpicture', p__('form2', 'Text for `Add a picture`'));
         $this->addSimpleText('image_addanotherpicture', p__('form2', 'Text for `Add another picture`'));
@@ -184,16 +191,22 @@ class Field extends FormAbstract
         $dateDays->setValue([0, 1, 2, 3, 4, 5, 6]);
 
         // Date
-        $this->addSimpleSelect('date_format', p__('form2', 'Date format'), self::$dateFormats);
+        $dateFormat = $this->addSimpleSelect('date_format', p__('form2', 'Date format'), self::$dateFormats);
         $this->groupElements('group_date', ['date_format', 'date_days'], p__('form2', 'Date options'));
+
+        $dateDays->setRequired(true);
+        $dateFormat->setRequired(true);
 
         // Available datetime days
         $datetimeDays = $this->addSimpleMultiCheckbox('datetime_days', p__('form2', 'Available weekdays'), $weekDays);
         $datetimeDays->setValue([0, 1, 2, 3, 4, 5, 6]);
 
         // Datetime
-        $this->addSimpleSelect('datetime_format', p__('form2', 'Date & time format'), self::$datetimeFormats);
+        $datetimeFormat = $this->addSimpleSelect('datetime_format', p__('form2', 'Date & time format'), self::$datetimeFormats);
         $this->groupElements('group_datetime', ['datetime_format', 'datetime_days'], p__('form2', 'Date & time options'));
+
+        $datetimeDays->setRequired(true);
+        $datetimeFormat->setRequired(true);
 
         // Default
         $this->addSimpleText('default_value', p__('form2', 'Default value'));
@@ -296,6 +309,21 @@ JS;
      */
     public function isValid($data)
     {
+        $elements = [
+            'number_min',
+            'number_max',
+            'number_step',
+            'date_format',
+            'date_days',
+            'datetime_format',
+            'datetime_days',
+            'limit',
+        ];
+        // Reset following elements!
+        foreach ($elements as $element) {
+            $this->getElement($element)->setRequired(false);
+        }
+
         switch ($data['field_type']) {
             case 'number':
                 $this->getElement('number_min')->setRequired(true);
