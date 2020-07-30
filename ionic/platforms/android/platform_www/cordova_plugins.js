@@ -452,7 +452,7 @@ cordova.define('cordova/plugin_list', function(require, exports, module) {
   module.exports.metadata = {
     "Chcp": "1.5.2",
     "Geofence": "0.6.0",
-    "InAppPurchse": "10.0.1",
+    "InAppPurchse": "10.2.0",
     "SplashScreen": "5.0.2",
     "Push": "1.10.0",
     "WebView": "1.0.0",
