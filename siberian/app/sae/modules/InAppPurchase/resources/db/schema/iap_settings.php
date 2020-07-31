@@ -18,7 +18,7 @@ $schemas['iap_settings'] = [
         'foreign_key' => [
             'table' => 'application',
             'column' => 'app_id',
-            'name' => 'IAPPRODUCT_APPID_APP_APPID',
+            'name' => 'IAPSETTINGS_APPID_APP_APPID',
             'on_update' => 'CASCADE',
             'on_delete' => 'CASCADE',
         ],
