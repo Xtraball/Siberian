@@ -22,7 +22,6 @@ class Info
             'PHP memory_limit' => ini_get('memory_limit'),
             'PHP upload_max_filesize' => ini_get('upload_max_filesize'),
             'PHP max_execution_time' => ini_get('max_execution_time'),
-            'Session handler' => __get('session_handler'),
             'Update channel' => __get('update_channel'),
             'Panel type' => __get('cpanel_type'),
             'Let\'s encrypt env' => __get('letsencrypt_env'),
