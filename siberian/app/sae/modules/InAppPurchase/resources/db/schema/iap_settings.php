@@ -23,7 +23,7 @@ $schemas['iap_settings'] = [
             'on_delete' => 'CASCADE',
         ],
         'index' => [
-            'key_name' => 'IAPPRODUCT_APPID',
+            'key_name' => 'IAPSETTINGS_APPID',
             'index_type' => 'BTREE',
             'is_null' => false,
             'is_unique' => false,
