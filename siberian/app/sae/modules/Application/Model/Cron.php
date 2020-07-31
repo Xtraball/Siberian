@@ -1,12 +1,9 @@
 <?php
 
-namespace Application\Model;
-
 /**
- * Class Cron
- * @package Application\Model
+ * Class Application_Model_Cron
  */
-class Cron
+class Application_Model_Cron
 {
     /**
      * @param $cron

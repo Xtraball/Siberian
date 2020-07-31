@@ -8,7 +8,7 @@ try {
 
     Feature::installCronjob(
         p__('application', 'Application cache pre-init.'),
-        'Application\Model\Cron::run',
+        'Application_Model_Cron::run',
         -1,
         -1,
         -1,
