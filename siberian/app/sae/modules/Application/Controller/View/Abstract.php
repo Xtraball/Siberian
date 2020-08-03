@@ -129,8 +129,10 @@ abstract class Application_Controller_View_Abstract extends Backoffice_Controlle
         $data['package_name'] = $application->getPackageName();
         $data['is_active'] = $application->isActive();
         $data['is_locked'] = $application->isLocked();
+        $data['pre_init'] = (boolean) $application->getPreInit();
+        $data['disable_updates'] = (boolean) $application->getDisableUpdates();
         $data['can_be_published'] = $application->canBePublished();
-        $data['owner_use_ads'] = !!$application->getOwnerUseAds();
+        $data['owner_use_ads'] = (boolean) $application->getOwnerUseAds();
 
         if ($application->getFreeUntil()) {
             $data['free_until'] = datetime_to_format($application->getFreeUntil(), Zend_Date::DATE_SHORT);
@@ -303,6 +305,20 @@ abstract class Application_Controller_View_Abstract extends Backoffice_Controlle
                 $application->setDisableBatteryOptimization($val ? 1 : 0);
 
                 unset($data['disable_battery_optimization']);
+            }
+
+            if (array_key_exists('disable_updates', $data)) {
+                $val = filter_var($data['disable_updates'], FILTER_VALIDATE_BOOLEAN);
+                $application->setDisableUpdates($val ? 1 : 0);
+
+                unset($data['disable_updates']);
+            }
+
+            if (array_key_exists('pre_init', $data)) {
+                $val = filter_var($data['pre_init'], FILTER_VALIDATE_BOOLEAN);
+                $application->setData('pre_init', $val ? 1 : 0);
+
+                unset($data['pre_init']);
             }
 
             $application->addData($data)->save();

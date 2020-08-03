@@ -34,8 +34,8 @@
     <preference name="FadeSplashScreenDuration" value="200" />
     <preference name="SplashMaintainAspectRatio" value="true" />
 
-    <preference name="android-minSdkVersion" value="19" />
-    <preference name="android-targetSdkVersion" value="28" />
+    <preference name="android-minSdkVersion" value="21" />
+    <preference name="android-targetSdkVersion" value="29" />
 
     <feature name="StatusBar">
         <param name="ios-package"
@@ -45,7 +45,7 @@
 
     <chcp>
         <config-file url="PLATFORM_URL" />
-        <native-interface version="16" />
+        <native-interface version="17" />
         <auto-download enabled="false" />
         <auto-install enabled="false" />
     </chcp>

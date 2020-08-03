@@ -8,7 +8,7 @@ class_alias('PaymentStripe\Model\Payment', 'PaymentStripe_Model_Payment');
 
 $init = static function ($bootstrap) {
     Assets::registerScss([
-        '/app/local/modules/PaymentStripe/features/payment_stripe/scss/payment-stripe.scss'
+        '/app/sae/modules/PaymentStripe/features/payment_stripe/scss/payment-stripe.scss'
     ]);
 
     Translation::registerExtractor(

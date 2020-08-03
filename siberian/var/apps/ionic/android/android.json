@@ -235,6 +235,10 @@
           ],
           "/*": [
             {
+              "xml": "<uses-permission android:name=\"com.android.vending.BILLING\" />",
+              "count": 1
+            },
+            {
               "xml": "<uses-permission android:name=\"android.permission.INTERNET\" />",
               "count": 1
             },
@@ -305,6 +309,10 @@
         "parents": {
           "/*": [
             {
+              "xml": "<feature name=\"InAppBillingPlugin\"><param name=\"android-package\" value=\"cc.fovea.PurchasePlugin\" /></feature>",
+              "count": 1
+            },
+            {
               "xml": "<feature name=\"BarcodeScanner\"><param name=\"android-package\" value=\"com.phonegap.plugins.barcodescanner.BarcodeScanner\" /></feature>",
               "count": 1
             },
@@ -358,6 +366,9 @@
       "PACKAGE_NAME": "com.appsmobilecompany.base"
     },
     "Geofence": {
+      "PACKAGE_NAME": "com.appsmobilecompany.base"
+    },
+    "InAppPurchse": {
       "PACKAGE_NAME": "com.appsmobilecompany.base"
     },
     "SplashScreen": {
@@ -474,6 +485,14 @@
       "pluginId": "Geofence",
       "clobbers": [
         "geofence"
+      ]
+    },
+    {
+      "id": "InAppPurchse.InAppBillingPlugin",
+      "file": "plugins/InAppPurchse/www/store-android.js",
+      "pluginId": "InAppPurchse",
+      "clobbers": [
+        "store"
       ]
     },
     {
@@ -896,6 +915,7 @@
   "plugin_metadata": {
     "Chcp": "1.5.2",
     "Geofence": "0.6.0",
+    "InAppPurchse": "10.2.0",
     "SplashScreen": "5.0.2",
     "Push": "1.10.0",
     "WebView": "1.0.0",

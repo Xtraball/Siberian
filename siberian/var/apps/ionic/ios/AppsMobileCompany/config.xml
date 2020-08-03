@@ -23,6 +23,10 @@
         <param name="ios-package" value="HCPPlugin" />
         <param name="onload" value="true" />
     </feature>
+    <feature name="InAppPurchase">
+        <param name="ios-package" value="InAppPurchase" />
+        <param name="onload" value="true" />
+    </feature>
     <feature name="SplashScreen">
         <param name="ios-package" value="CDVSplashScreen" />
         <param name="onload" value="true" />
@@ -129,7 +133,7 @@
     <allow-intent href="whatsapp:*" />
     <chcp>
         <config-file url="PLATFORM_URL" />
-        <native-interface version="16" />
+        <native-interface version="17" />
         <auto-download enabled="false" />
         <auto-install enabled="false" />
     </chcp>
@@ -159,8 +163,8 @@
     <preference name="FadeSplashScreen" value="true" />
     <preference name="FadeSplashScreenDuration" value="200" />
     <preference name="SplashMaintainAspectRatio" value="true" />
-    <preference name="android-minSdkVersion" value="19" />
-    <preference name="android-targetSdkVersion" value="28" />
+    <preference name="android-minSdkVersion" value="21" />
+    <preference name="android-targetSdkVersion" value="29" />
     <preference name="HideKeyboardFormAccessoryBar" value="false" />
     <preference name="KeyboardResize" value="true" />
     <preference name="KeyboardResizeMode" value="native" />

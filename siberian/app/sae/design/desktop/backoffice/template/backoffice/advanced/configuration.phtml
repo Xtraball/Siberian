@@ -25,7 +25,7 @@
             </div>
 
             <div class="col-md-6">
-                <br />
+                <br/>
                 <p ng-if="configs.environment.value == 'production'"
                    class="alert alert-info">
                     <b><?php echo __('Production') ?></b>:
@@ -68,8 +68,8 @@
         <div ng-show="configs.update_channel.value == 'preview'">
 
             <div class="clear">
-                <br />
-                <br />
+                <br/>
+                <br/>
             </div>
 
             <div class="form-group">
@@ -77,9 +77,9 @@
                 <div class="col-md-12">
                     <p class="alert alert-danger">
                         <?php echo __("<b>Disclaimer:</b> You are using the <b>preview</b> update channel, this channel is intended for <b>tests & previews</b> of new features, if you are not sure stay with <b>stable channel</b>.") ?>
-                        <br />
+                        <br/>
                         <?php echo __("We recommned using <b>preview</b> on a testing or development server, we won't provide regular ticket support for these update channels, only bug reports via the form below.") ?>
-                        <br /><br />
+                        <br/><br/>
                         <?php echo __("<b>Actual preview version is Siberian 5.0</b>.") ?>
                     </p>
                 </div>
@@ -102,7 +102,7 @@
                         <?php echo __("<b>Note for Bug report:</b> give us a maximum of description of how you reached the bug, and possibly screenshots.") ?>
                     </p>
 
-                    <br />
+                    <br/>
                     <a class="btn btn-primary right"
                        ng-click="submitReport();$event.stopPropagation();"><?php echo __("Send report"); ?></a>
                     <div class="clear"></div>
@@ -111,78 +111,6 @@
             </div>
 
         </div>
-
-
-    </sb-section>
-
-    <sb-section title="'<?php echo __title("Session settings"); ?>'">
-
-        <div class="form-group">
-
-            <div class="col-md-6">
-                <label for="{{ configs.session_handler.code }}">{{ configs.session_handler.label }}</label>
-                <select id="configs.session_handler.code"
-                        class="form-control"
-                        ng-model="configs.session_handler.value">
-                    <option value="mysql"><?php echo __("MySQL (Default)"); ?></option>
-                    <option value="redis"><?php echo __("Redis (requires to install php-redis & Redis server)"); ?></option>
-                </select>
-            </div>
-
-            <div class="col-md-6">
-                <label><?php echo __('Redis enpoint (example: tcp://127.0.0.1:6379)') ?> *</label>
-                <input class="form-control"
-                       type="text"
-                       ng-model="configs.redis_endpoint.value" />
-
-                <label class="config-spacer"><?php echo __('Redis AUTH KEY') ?> </label>
-                <input class="form-control"
-                       type="text"
-                       placeholder="<?php echo __js('Redis AUTH KEY, only required if configured on your Redis server.') ?>"
-                       ng-model="configs.redis_auth.value" />
-            </div>
-        </div>
-
-        <div class="form-group">
-            <div class="col-md-12">
-                <button type="submit"
-                        class="btn btn-primary right"><?php echo __("Save"); ?></button>
-                <sb-loader is_visible="form_loader_is_visible"
-                           type="'inner_content'"
-                           size="'small'"
-                           animation="'no'"
-                           class="form_loader"></sb-loader>
-                <div class="clear"></div>
-            </div>
-        </div>
-
-
-        <div class="form-group">
-            <div class="col-md-12">
-                <h3><?php echo __('Migrate sessions to Redis'); ?></h3>
-                <div class="alert alert-danger">
-                    <i class="fa fa-exclamation-triangle"></i>
-                    <?php echo __("This action is used to migrate all current active session into a Redis server instance, use this only with care if you want to migrate from MySQL session to Redis session storage.") ?>
-                    <br />
-                    <b><?php echo __('Note: the migration will only work if redis is configured & running!') ?></b>
-                </div>
-            </div>
-            <div class="col-md-12">
-                <button type="submit"
-                        ng-click="migrate_sessions($event)"
-                        class="btn btn-primary right">
-                    <i class="fa fa-medkit"></i> <?php echo __('Migrate sessions'); ?>
-                </button>
-                <sb-loader is_visible="form_loader_is_visible"
-                           type="'inner_content'"
-                           size="'small'"
-                           animation="'no'"
-                           class="form_loader"></sb-loader>
-                <div class="clear"></div>
-            </div>
-        </div>
-
-
     </sb-section>
 
     <sb-section title="'<?php echo __title("HTTPS & SSL Certificates"); ?>'">
@@ -203,7 +131,7 @@
                     <option value="production"><?php echo __('Production'); ?></option>
                 </select>
 
-                <br />
+                <br/>
                 <label ng-if="configs.certificates.length"
                        for="config_hostname"><?php echo __('Selected main hostname'); ?></label>
                 <select ng-if="configs.certificates.length"
@@ -212,7 +140,8 @@
                         ng-model="configs.current_domain">
                     <option value=""><?php echo __('Select a hostname') ?></option>
                     <option ng-repeat="certificate in configs.certificates"
-                            ng-value="certificate.hostname">{{ certificate.hostname }}</option>
+                            ng-value="certificate.hostname">{{ certificate.hostname }}
+                    </option>
                 </select>
 
                 <label ng-if="!configs.certificates.length"
@@ -223,7 +152,7 @@
                        class="form-control"
                        ng-model="configs.current_domain">
 
-                <br />
+                <br/>
                 <label ng-show="configs.cpanel_type.value != -1"><?php echo __('Request or renew the certificate via Let\'s Encrypt.') ?></label>
                 <div ng-show="configs.cpanel_type.value != -1">
                     <a class="btn btn-primary left"
@@ -242,27 +171,27 @@
                         class="form-control"
                         ng-model="configs.cpanel_type.value">
                     <option value="-1"><?php echo __('Select a panel type or self-managed') ?></option>
-                    <option value="self"><?php echo __('Unknown - Self-managed'); ?> <?php echo p__('backoffice', '(unsupported)'); ?></option>
-                    <option value="plesk"><?php echo __('Plesk 12+ web API'); ?> <?php echo p__('backoffice', '(deprecated)'); ?></option>
-                    <option value="pleskcli"><?php echo __('Plesk exec API (beta)'); ?> <?php echo p__('backoffice', '(partial support)'); ?></option>
-                    <option value="cpanel"><?php echo __('WHM cPanel'); ?> <?php echo p__('backoffice', '(unsupported)'); ?></option>
-                    <option value="directadmin"><?php echo __('DirectAdmin'); ?> <?php echo p__('backoffice', '(unsupported)'); ?></option>
-                    <option value="vestacp"><?php echo __('VestaCP web API'); ?> <?php echo p__('backoffice', '(deprecated, please upgrade to VestaCP exec API)'); ?></option>
+                    <option value="self"><?php echo __('Unknown - Self-managed'); ?><?php echo p__('backoffice', '(unsupported)'); ?></option>
+                    <option value="plesk"><?php echo __('Plesk 12+ web API'); ?><?php echo p__('backoffice', '(deprecated)'); ?></option>
+                    <option value="pleskcli"><?php echo __('Plesk exec API (beta)'); ?><?php echo p__('backoffice', '(partial support)'); ?></option>
+                    <option value="cpanel"><?php echo __('WHM cPanel'); ?><?php echo p__('backoffice', '(unsupported)'); ?></option>
+                    <option value="directadmin"><?php echo __('DirectAdmin'); ?><?php echo p__('backoffice', '(unsupported)'); ?></option>
+                    <option value="vestacp"><?php echo __('VestaCP web API'); ?><?php echo p__('backoffice', '(deprecated, please upgrade to VestaCP exec API)'); ?></option>
                     <option value="vestacpcli"><?php echo __('VestaCP exec API'); ?></option>
                 </select>
 
 
                 <div ng-if="configs.cpanel_type.value.indexOf('plesk') >= 0">
-                    <br />
+                    <br/>
                     <div class="alert alert-warning">
-                    <?php echo p__('backoffice',
-                        'Plesk panel may required additional setup in order to work, please refer to this %s',
-                        '<a href="https://doc.siberiancms.com/knowledge-base/how-to-setup-install-https-ssl-certificate/" target="_blank">' . p__('backoffice', 'documentation') . '</a>'); ?>
+                        <?php echo p__('backoffice',
+                            'Plesk panel may required additional setup in order to work, please refer to this %s',
+                            '<a href="https://doc.siberiancms.com/knowledge-base/how-to-setup-install-https-ssl-certificate/" target="_blank">' . p__('backoffice', 'documentation') . '</a>'); ?>
                     </div>
                 </div>
 
                 <div ng-if="['cpanel', 'directadmin', 'self'].indexOf(configs.cpanel_type.value) >= 0">
-                    <br />
+                    <br/>
                     <div class="alert alert-info">
                         <?php echo p__('backoffice', 'This panel is not officially supported and comes with no guarantee.'); ?>
                     </div>
@@ -275,23 +204,23 @@
                 <label><?php echo __('Host') ?> *</label>
                 <input class="form-control"
                        type="text"
-                       ng-model="configs.cpanel.host" />
+                       ng-model="configs.cpanel.host"/>
 
                 <label><?php echo __('Username') ?> *</label>
                 <input class="form-control"
                        type="text"
-                       ng-model="configs.cpanel.user" />
+                       ng-model="configs.cpanel.user"/>
 
                 <label><?php echo __('Password') ?> *</label>
                 <input class="form-control"
                        type="password"
-                       ng-model="configs.cpanel.password" />
+                       ng-model="configs.cpanel.password"/>
 
                 <label><?php echo __('Web space') ?></label>
                 <input class="form-control"
                        type="text"
                        ng-model="configs.cpanel.webspace"
-                       placeholder="<?php echo __('Leave blank if your web space is the current domain.') ?>" />
+                       placeholder="<?php echo __('Leave blank if your web space is the current domain.') ?>"/>
             </div>
 
             <div class="col-md-6" ng-if="configs.cpanel_type.value == 'plesk'">
@@ -299,17 +228,17 @@
                 <label><?php echo __("Host") ?> *</label>
                 <input class="form-control"
                        type="text"
-                       ng-model="configs.plesk.host" />
+                       ng-model="configs.plesk.host"/>
 
                 <label class="config-spacer"><?php echo __('Username') ?> *</label>
                 <input class="form-control"
                        type="text"
-                       ng-model="configs.plesk.user" />
+                       ng-model="configs.plesk.user"/>
 
                 <label class="config-spacer"><?php echo __('Password') ?> *</label>
                 <input class="form-control"
                        type="password"
-                       ng-model="configs.plesk.password" />
+                       ng-model="configs.plesk.password"/>
 
                 <label class="config-spacer"><?php echo __('Web space') ?> *</label>
                 <input class="form-control"
@@ -322,7 +251,7 @@
                 <label class="config-spacer"><?php echo __('IP') ?> *</label>
                 <input class="form-control"
                        type="text"
-                       ng-model="configs.pleskcli.ip" />
+                       ng-model="configs.pleskcli.ip"/>
 
                 <label class="config-spacer"><?php echo __('Web space') ?> *</label>
                 <input class="form-control"
@@ -332,22 +261,22 @@
 
             <div class="col-md-6"
                  ng-if="configs.cpanel_type.value == 'vestacp'">
-                <br />
+                <br/>
 
                 <label><?php echo __("Host") ?> *</label>
                 <input class="form-control"
                        type="text"
-                       ng-model="configs.vestacp.host" />
+                       ng-model="configs.vestacp.host"/>
 
                 <label class="config-spacer"><?php echo __('Username') ?> *</label>
                 <input class="form-control"
                        type="text"
-                       ng-model="configs.vestacp.user" />
+                       ng-model="configs.vestacp.user"/>
 
                 <label class="config-spacer"><?php echo __('Password') ?> *</label>
                 <input class="form-control"
                        type="password"
-                       ng-model="configs.vestacp.password" />
+                       ng-model="configs.vestacp.password"/>
 
                 <label class="config-spacer"><?php echo __('Web space') ?> *</label>
                 <input class="form-control"
@@ -356,12 +285,12 @@
             </div>
 
             <div class="col-md-6" ng-if="configs.cpanel_type.value == 'vestacpcli'">
-                <br />
+                <br/>
 
                 <label><?php echo __('Username') ?> *</label>
                 <input class="form-control"
                        type="text"
-                       ng-model="configs.vestacpcli.user" />
+                       ng-model="configs.vestacpcli.user"/>
 
                 <label class="config-spacer"><?php echo __('Web space') ?> *</label>
                 <input class="form-control"
@@ -374,23 +303,23 @@
                 <label><?php echo __("Host") ?> *</label>
                 <input class="form-control"
                        type="text"
-                       ng-model="configs.directadmin.host" />
+                       ng-model="configs.directadmin.host"/>
 
                 <label class="config-spacer"><?php echo __('Username') ?> *</label>
                 <input class="form-control"
                        type="text"
-                       ng-model="configs.directadmin.user" />
+                       ng-model="configs.directadmin.user"/>
 
                 <label class="config-spacer"><?php echo __('Password') ?> *</label>
                 <input class="form-control"
                        type="password"
-                       ng-model="configs.directadmin.password" />
+                       ng-model="configs.directadmin.password"/>
 
                 <label class="config-spacer"><?php echo __('Web space') ?></label>
                 <input class="form-control"
                        type="text"
                        ng-model="configs.directadmin.webspace"
-                       placeholder="<?php echo __('Leave blank if your web space is the current domain.') ?>" />
+                       placeholder="<?php echo __('Leave blank if your web space is the current domain.') ?>"/>
 
             </div>
 
@@ -423,113 +352,114 @@
 
 </form>
 
-    <sb-section title="'<?php echo __title("Issued certificates"); ?>'">
-        <table class="table ssl-certificates">
-            <thead>
-            <tr>
-                <th style="width:32px;"><?php echo __("ID") ?></th>
-                <th style="width:140px;"><?php echo __("Platform hostname") ?></th>
-                <th><?php echo __("Source") ?></th>
-                <th style="width:50px;"><?php echo __("Cert") ?></th>
-                <th style="width:50px;"><?php echo __("CA") ?></th>
-                <th style="width:50px;"><?php echo __("Private") ?></th>
-                <th style="width:130px;"><?php echo __("Updated At") ?></th>
-                <th style="text-align:right;"><?php echo __("Actions") ?></th>
-            </tr>
-            </thead>
-            <tbody ng-repeat="certificate in configs.certificates"
-                   ng-show="configs.certificates.length">
-            <tr class="ssl-line"
-                ng-class="{ 'color-success' : certificate.is_valid, 'color-failed' : !certificate.is_valid }">
-                <td>{{ certificate.id }}</td>
-                <td>{{ certificate.hostname }}</td>
-                <td>{{ certificate.source }}</td>
-                <td><a target="_blank"
-                       title="<?php echo __js("Download Certificate", '"') ?>"
-                       href="<?php echo $this->getUrl("/backoffice/advanced_configuration/downloadcert?type=cert&cert_id="); ?>{{ certificate.id }}">
-                        <img src="/app/sae/design/desktop/backoffice/images/service/mini-cert.png" /></a>
-                </td>
-                <td><a target="_blank"
-                       title="<?php echo __js("Download CA", '"') ?>"
-                       href="<?php echo $this->getUrl("/backoffice/advanced_configuration/downloadcert?type=ca&cert_id="); ?>{{ certificate.id }}">
-                        <img src="/app/sae/design/desktop/backoffice/images/service/mini-cert.png" /></a>
-                </td>
-                <td><a target="_blank"
-                       title="<?php echo __js("Download Private", '"') ?>"
-                       href="<?php echo $this->getUrl("/backoffice/advanced_configuration/downloadcert?type=private&cert_id="); ?>{{ certificate.id }}">
-                        <img src="/app/sae/design/desktop/backoffice/images/service/mini-cert.png" /></a>
-                </td>
-                <td>{{ certificate.updated_at }}</td>
-                <td style="text-align:right;">
-                    <a class="btn btn-xs btn-info"
-                            ng-show="configs.cpanel_type.value != -1"
-                            ng-click="uploadToPanel(certificate.hostname)">
-                        <i class="fa fa-upload"></i>&nbsp;&nbsp;<?php echo __("Upload to panel") ?>
-                    </a>
-                    <a class="btn btn-xs btn-info"
-                            style="margin-right: 10px;"
-                            ng-click="certificate.show_info = !certificate.show_info">
-                        <i class="fa fa-info"></i>&nbsp;&nbsp;<?php echo __("Info") ?>
-                    </a>
-                    <a class="btn btn-xs btn-danger"
-                            ng-click="removeCertificate('<?php echo __js("You are about to delete this certificate, Are you sure ?", "'") ?>', certificate.id)"><span class="fa fa-remove"></span></a>
-                </td>
-            </tr>
-            <tr ng-show="certificate.show_info">
-                <td colspan="8">
-                    <table class="info-table">
-                        <tr ng-if="certificate.domains.length">
-                            <td colspan="2"
-                                style="white-space: normal;">
-                                <b><?php echo __("Hostnames associated with this Certificate") ?>:</b> <span>{{ certificate.domains.join(', ') }}</span>
-                                <br />
-                                <b><?php echo __("Issuer") ?>:</b> <span>{{ certificate.issuer }}</span>
-                                <br />
-                                <b><?php echo __("Valid until") ?>:</b> <span>{{ certificate.valid_until }}</span>
-                                <br />
-                                <br />
-                            </td>
-                        </tr>
-                        <tr ng-if="configs.cpanel_type.value == 'self'">
-                            <td colspan="2"><b><?php echo __("Full path to use within your webserver.") ?></b></td>
-                        </tr>
-                        <tr ng-if="configs.cpanel_type.value == 'self'">
-                            <td style="padding: 4px 10px 4px 0;"><b><?php echo __("Certificate path:") ?></b></td>
-                            <td>{{ certificate.certificate }}</td>
-                        </tr>
-                        <tr ng-if="configs.cpanel_type.value == 'self'">
-                            <td style="padding: 4px 10px 4px 0;"><b><?php echo __("CA path:") ?></b></td>
-                            <td>{{ certificate.chain }}</td>
-                        </tr>
-                        <tr ng-if="configs.cpanel_type.value == 'self'">
-                            <td style="padding: 4px 10px 4px 0;"><b><?php echo __("Private path:") ?></b></td>
-                            <td>{{ certificate.private }}</td>
-                        </tr>
-                        <tr ng-if="!certificate.domains.length && configs.cpanel_type.value != 'self'">
-                            <td colspan="2"><b><?php echo __("No informations.") ?></b></td>
-                        </tr>
-                    </table>
-                </td>
-            </tr>
-            </tbody>
-            <tbody ng-show="!configs.certificates.length">
-            <tr>
-                <td colspan="9"><?php echo __("You have no certificate yet.") ?></td>
-            </tr>
-            </tbody>
-        </table>
+<sb-section title="'<?php echo __title("Issued certificates"); ?>'">
+    <table class="table ssl-certificates">
+        <thead>
+        <tr>
+            <th style="width:32px;"><?php echo __("ID") ?></th>
+            <th style="width:140px;"><?php echo __("Platform hostname") ?></th>
+            <th><?php echo __("Source") ?></th>
+            <th style="width:50px;"><?php echo __("Cert") ?></th>
+            <th style="width:50px;"><?php echo __("CA") ?></th>
+            <th style="width:50px;"><?php echo __("Private") ?></th>
+            <th style="width:130px;"><?php echo __("Updated At") ?></th>
+            <th style="text-align:right;"><?php echo __("Actions") ?></th>
+        </tr>
+        </thead>
+        <tbody ng-repeat="certificate in configs.certificates"
+               ng-show="configs.certificates.length">
+        <tr class="ssl-line"
+            ng-class="{ 'color-success' : certificate.is_valid, 'color-failed' : !certificate.is_valid }">
+            <td>{{ certificate.id }}</td>
+            <td>{{ certificate.hostname }}</td>
+            <td>{{ certificate.source }}</td>
+            <td><a target="_blank"
+                   title="<?php echo __js("Download Certificate", '"') ?>"
+                   href="<?php echo $this->getUrl("/backoffice/advanced_configuration/downloadcert?type=cert&cert_id="); ?>{{ certificate.id }}">
+                    <img src="/app/sae/design/desktop/backoffice/images/service/mini-cert.png"/></a>
+            </td>
+            <td><a target="_blank"
+                   title="<?php echo __js("Download CA", '"') ?>"
+                   href="<?php echo $this->getUrl("/backoffice/advanced_configuration/downloadcert?type=ca&cert_id="); ?>{{ certificate.id }}">
+                    <img src="/app/sae/design/desktop/backoffice/images/service/mini-cert.png"/></a>
+            </td>
+            <td><a target="_blank"
+                   title="<?php echo __js("Download Private", '"') ?>"
+                   href="<?php echo $this->getUrl("/backoffice/advanced_configuration/downloadcert?type=private&cert_id="); ?>{{ certificate.id }}">
+                    <img src="/app/sae/design/desktop/backoffice/images/service/mini-cert.png"/></a>
+            </td>
+            <td>{{ certificate.updated_at }}</td>
+            <td style="text-align:right;">
+                <a class="btn btn-xs btn-info"
+                   ng-show="configs.cpanel_type.value != -1"
+                   ng-click="uploadToPanel(certificate.hostname)">
+                    <i class="fa fa-upload"></i>&nbsp;&nbsp;<?php echo __("Upload to panel") ?>
+                </a>
+                <a class="btn btn-xs btn-info"
+                   style="margin-right: 10px;"
+                   ng-click="certificate.show_info = !certificate.show_info">
+                    <i class="fa fa-info"></i>&nbsp;&nbsp;<?php echo __("Info") ?>
+                </a>
+                <a class="btn btn-xs btn-danger"
+                   ng-click="removeCertificate('<?php echo __js("You are about to delete this certificate, Are you sure ?", "'") ?>', certificate.id)"><span
+                            class="fa fa-remove"></span></a>
+            </td>
+        </tr>
+        <tr ng-show="certificate.show_info">
+            <td colspan="8">
+                <table class="info-table">
+                    <tr ng-if="certificate.domains.length">
+                        <td colspan="2"
+                            style="white-space: normal;">
+                            <b><?php echo __("Hostnames associated with this Certificate") ?>:</b> <span>{{ certificate.domains.join(', ') }}</span>
+                            <br/>
+                            <b><?php echo __("Issuer") ?>:</b> <span>{{ certificate.issuer }}</span>
+                            <br/>
+                            <b><?php echo __("Valid until") ?>:</b> <span>{{ certificate.valid_until }}</span>
+                            <br/>
+                            <br/>
+                        </td>
+                    </tr>
+                    <tr ng-if="configs.cpanel_type.value == 'self'">
+                        <td colspan="2"><b><?php echo __("Full path to use within your webserver.") ?></b></td>
+                    </tr>
+                    <tr ng-if="configs.cpanel_type.value == 'self'">
+                        <td style="padding: 4px 10px 4px 0;"><b><?php echo __("Certificate path:") ?></b></td>
+                        <td>{{ certificate.certificate }}</td>
+                    </tr>
+                    <tr ng-if="configs.cpanel_type.value == 'self'">
+                        <td style="padding: 4px 10px 4px 0;"><b><?php echo __("CA path:") ?></b></td>
+                        <td>{{ certificate.chain }}</td>
+                    </tr>
+                    <tr ng-if="configs.cpanel_type.value == 'self'">
+                        <td style="padding: 4px 10px 4px 0;"><b><?php echo __("Private path:") ?></b></td>
+                        <td>{{ certificate.private }}</td>
+                    </tr>
+                    <tr ng-if="!certificate.domains.length && configs.cpanel_type.value != 'self'">
+                        <td colspan="2"><b><?php echo __("No informations.") ?></b></td>
+                    </tr>
+                </table>
+            </td>
+        </tr>
+        </tbody>
+        <tbody ng-show="!configs.certificates.length">
+        <tr>
+            <td colspan="9"><?php echo __("You have no certificate yet.") ?></td>
+        </tr>
+        </tbody>
+    </table>
 
-    </sb-section>
+</sb-section>
 
-    <sb-section title="'<?php echo __title("Upload your own certificates"); ?>'"
-                class="cert-upload" >
+<sb-section title="'<?php echo __title("Upload your own certificates"); ?>'"
+            class="cert-upload">
 
 
     <div class="cert-upload ng-isolate-scope">
 
         <form ng-submit="createCertificate()"
               class="form-horizontal">
-            <br />
+            <br/>
 
             <div class="form-group">
                 <div class="col-md-12">
@@ -537,23 +467,24 @@
                         <label><?php echo __("Hostname") ?> *</label>
                         <input class="form-control"
                                type="text"
-                               ng-model="form.hostname" />
+                               ng-model="form.hostname"/>
                     </div>
                 </div>
 
                 <div class="col-md-12">
                     <div class="form-group col-md-6">
                         <label><?php echo __("Upload files or use existing certificates on my server") ?></label>
-                        <br />
+                        <br/>
                         <label for="up-cert"><input type="radio"
                                                     id="up-cert"
                                                     ng-model="form.upload"
-                                                    value="1" /> <?php echo __("Upload my certificates") ?></label>
-                        <br />
+                                                    value="1"/> <?php echo __("Upload my certificates") ?></label>
+                        <br/>
                         <label for="path-cert"><input type="radio"
                                                       id="path-cert"
                                                       ng-model="form.upload"
-                                                      value="0" /> <?php echo __("Use existing certificates on my server") ?></label>
+                                                      value="0"/> <?php echo __("Use existing certificates on my server") ?>
+                        </label>
                     </div>
                 </div>
             </div>
@@ -572,7 +503,7 @@
                         <input id="cert_path"
                                type="file"
                                nv-file-select=""
-                               uploader="cert_path" />
+                               uploader="cert_path"/>
                     </div>
                 </div>
 
@@ -649,7 +580,7 @@
                         <input id="private_path"
                                type="file"
                                nv-file-select=""
-                               uploader="private_path" />
+                               uploader="private_path"/>
                     </div>
                 </div>
 
@@ -726,7 +657,7 @@
                         <input id="cert_path"
                                type="file"
                                nv-file-select=""
-                               uploader="fullchain_path" />
+                               uploader="fullchain_path"/>
                     </div>
                 </div>
 
@@ -803,7 +734,7 @@
                         <input id="ca_path"
                                type="file"
                                nv-file-select=""
-                               uploader="ca_path" />
+                               uploader="ca_path"/>
                     </div>
                 </div>
 
@@ -882,7 +813,7 @@
                         </label>
                         <input class="form-control"
                                type="text"
-                               ng-model="form.cert_path" />
+                               ng-model="form.cert_path"/>
                     </div>
                 </div>
 
@@ -893,7 +824,7 @@
                         </label>
                         <input class="form-control"
                                type="text"
-                               ng-model="form.private_path" />
+                               ng-model="form.private_path"/>
                     </div>
                 </div>
 
@@ -904,7 +835,7 @@
                         </label>
                         <input class="form-control"
                                type="text"
-                               ng-model="form.fullchain_path" />
+                               ng-model="form.fullchain_path"/>
                     </div>
                 </div>
 
@@ -915,7 +846,7 @@
                         </label>
                         <input class="form-control"
                                type="text"
-                               ng-model="form.ca_path" />
+                               ng-model="form.ca_path"/>
                     </div>
                 </div>
             </div>
@@ -935,10 +866,7 @@
 
         </form>
     </div>
-
-    </sb-section>
-
-<div class="clear"></div>
+</sb-section>
 
 <style type="text/css">
     .well.drop-zone {

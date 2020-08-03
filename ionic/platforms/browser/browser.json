@@ -73,6 +73,9 @@
     },
     "Permissions": {
       "PACKAGE_NAME": "com.appsmobilecompany.base"
+    },
+    "Toast": {
+      "PACKAGE_NAME": "com.appsmobilecompany.base"
     }
   },
   "dependent_plugins": {},
@@ -408,6 +411,14 @@
       "clobbers": [
         "cordova.plugins.permissions"
       ]
+    },
+    {
+      "file": "plugins/Toast/www/Toast.js",
+      "id": "Toast.Toast",
+      "pluginId": "Toast",
+      "clobbers": [
+        "window.plugins.toast"
+      ]
     }
   ],
   "plugin_metadata": {
@@ -422,6 +433,7 @@
     "MusicControls": "3.0.4",
     "MediaNative": "5.0.3",
     "Navigator": "0.1.0",
-    "Permissions": "1.0.0"
+    "Permissions": "1.0.0",
+    "Toast": "2.7.2"
   }
 }

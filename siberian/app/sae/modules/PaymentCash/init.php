@@ -8,7 +8,7 @@ class_alias('PaymentCash\Model\Cash', 'PaymentCash_Model_Cash');
 
 $init = static function ($bootstrap) {
     Assets::registerScss([
-        '/app/local/modules/PaymentCash/features/payment_cash/scss/payment-cash.scss'
+        '/app/sae/modules/PaymentCash/features/payment_cash/scss/payment-cash.scss'
     ]);
 
     Translation::registerExtractor(

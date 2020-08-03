@@ -1,0 +1,85 @@
+<?php
+$application = $this->getApplication();
+$appId = $application->getId();
+
+$products = (new \InAppPurchase\Model\Product())->findAll([
+    'app_id = ?' => $appId
+]);
+
+?>
+<div class="row">
+    <div class="col-md-12">
+        <div class="page-content-wrapper">
+
+            <div id="payment_cash_form"
+                 class="content solo-page sb-tour">
+
+                <h3 class="title-editor border-blue text-center">
+                    <?php echo p__('iap', 'In app purchases'); ?>
+                </h3>
+                <div class="subcontent content-color">
+                    <div class="col-md-12">
+                        <div class="form-payment"
+                             rel="stripe">
+                            <h4 class="title-editor no-border-radius title-feature-indent">
+                                <?php echo p__('iap', 'Products') ?>
+                            </h4>
+                            <div class="container-fluid content-feature">
+                                <br />
+                                <?php /**echo $formCash*/ ?>
+                                <?php if ($products->count() > 0): ?>
+                                <table class="table table-striped">
+                                    <thead>
+                                        <tr>
+                                            <th><?php echo p__('iap', 'ID') ?></th>
+                                            <th><?php echo p__('iap', 'Alias') ?></th>
+                                            <th><?php echo p__('iap', 'Availibility') ?></th>
+                                            <th><?php echo p__('iap', 'Google ID') ?></th>
+                                            <th><?php echo p__('iap', 'Apple ID') ?></th>
+                                            <th><?php echo p__('iap', 'Type') ?></th>
+                                        </tr>
+                                    </thead>
+                                    <?php foreach ($products as $product): ?>
+                                        <tbody>
+                                            <tr>
+                                                <td>
+                                                    <b>#<?php echo $product->getId() ?></b>
+                                                </td>
+                                                <td><?php echo $product->getAlias() ?></td>
+                                                <td><?php echo ($product->getStores() === 'BOTH') ?
+                                                        p__('iap', 'GOOGLE + APPLE') : p__('iap', $product->getStores()) ?>
+                                                </td>
+                                                <td><?php echo $product->getGoogleId() ?></td>
+                                                <td><?php echo $product->getAppleId() ?></td>
+                                                <td><?php echo $product->getType() ?></td>
+                                            </tr>
+                                        </tbody>
+                                    <?php endforeach; ?>
+                                </table>
+                                <?php else: ?>
+                                    <table>
+                                        <tbody>
+                                            <tr>
+                                                <th><?php echo p__('iap', 'You have no product.') ?></th>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                <?php endif; ?>
+                            </div>
+
+                            <br />
+                        </div>
+
+                    </div>
+                </div>
+
+
+            </div>
+        </div>
+    </div>
+</div>
+<script type="text/javascript">
+$(document).ready(function () {
+    //bindForms("#payment_cash_form");
+});
+</script>

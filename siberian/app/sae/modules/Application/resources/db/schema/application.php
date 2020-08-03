@@ -458,6 +458,10 @@ $schemas['application'] = [
         'type' => 'tinyint(1) unsigned',
         'default' => '1',
     ],
+    'pre_init' => [
+        'type' => 'tinyint(1) unsigned',
+        'default' => '0',
+    ],
     'use_ads' => [
         'type' => 'tinyint(1)',
         'is_null' => true,

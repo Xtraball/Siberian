@@ -1,0 +1,48 @@
+<?php
+$application = $this->getApplication();
+$appId = $application->getId();
+
+$settings = (new \InAppPurchase\Model\Settings())->find($appId, 'app_id');
+$formSettings = new \InAppPurchase\Form\Settings();
+
+$formSettings->populate($settings->getData());
+
+?>
+<div class="row">
+    <div class="col-md-12">
+        <div class="page-content-wrapper">
+
+            <div id="iap_settings"
+                 class="content solo-page sb-tour">
+
+                <h3 class="title-editor border-blue text-center">
+                    <?php echo p__('iap', 'In app purchases'); ?>
+                </h3>
+                <div class="subcontent content-color">
+                    <div class="col-md-12">
+                        <div class="form-payment"
+                             rel="stripe">
+                            <h4 class="title-editor no-border-radius title-feature-indent">
+                                <?php echo p__('iap', 'Settings') ?>
+                            </h4>
+                            <div class="container-fluid content-feature">
+                                <br />
+                                <?php echo $formSettings ?>
+                            </div>
+
+                            <br />
+                        </div>
+
+                    </div>
+                </div>
+
+
+            </div>
+        </div>
+    </div>
+</div>
+<script type="text/javascript">
+$(document).ready(function () {
+    bindForms("#iap_settings");
+});
+</script>

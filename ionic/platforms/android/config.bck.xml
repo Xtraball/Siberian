@@ -23,7 +23,7 @@
     <allow-intent href="whatsapp:*" />
     <chcp>
         <config-file url="PLATFORM_URL" />
-        <native-interface version="16" />
+        <native-interface version="17" />
         <auto-download enabled="false" />
         <auto-install enabled="false" />
     </chcp>
@@ -39,8 +39,8 @@
     <preference name="FadeSplashScreen" value="true" />
     <preference name="FadeSplashScreenDuration" value="200" />
     <preference name="SplashMaintainAspectRatio" value="true" />
-    <preference name="android-minSdkVersion" value="19" />
-    <preference name="android-targetSdkVersion" value="28" />
+    <preference name="android-minSdkVersion" value="21" />
+    <preference name="android-targetSdkVersion" value="29" />
     <preference name="applicationId" value="${applicationId}" />
     <preference name="loadUrlTimeoutValue" value="60000" />
     <feature name="HotCodePush">
@@ -49,6 +49,9 @@
     </feature>
     <feature name="GeofencePlugin">
         <param name="android-package" value="com.cowbell.cordova.geofence.GeofencePlugin" />
+    </feature>
+    <feature name="InAppBillingPlugin">
+        <param name="android-package" value="cc.fovea.PurchasePlugin" />
     </feature>
     <feature name="SplashScreen">
         <param name="android-package" value="org.apache.cordova.splashscreen.SplashScreen" />
