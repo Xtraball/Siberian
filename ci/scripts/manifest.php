@@ -3,7 +3,7 @@
 /**
  * Class Manifest
  *
- * @version 4.14.0
+ * @version 4.19.0
  */
 class Manifest
 {
@@ -54,6 +54,10 @@ class Manifest
         "^var/pid/*",
         "favicon\.",
         "manifest\.json",
+        "app/sae/design/desktop/flat/images/header/logo\.png",
+        "var/apps/browser/js/utils/languages\.js",
+        "var/apps/overview/js/utils/languages\.js",
+        "lib/vendor/gregwar/image/Gregwar/Image/phpunit\.xml\.dist",
     ];
 
     /**
@@ -63,6 +67,7 @@ class Manifest
 
     /**
      * @param $path
+     * @param null $manifest
      */
     public static function build($path, $manifest = null)
     {
@@ -91,7 +96,7 @@ class Manifest
         }
 
         $manifest_path = $path . self::$manifest;
-        if ($manifest != null) {
+        if ($manifest !== null) {
             $manifest_path = $manifest . self::$manifest;
         }
         file_put_contents($manifest_path,

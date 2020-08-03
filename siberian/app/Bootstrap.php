@@ -153,9 +153,11 @@ class Bootstrap extends Zend_Application_Bootstrap_Bootstrap
      */
     protected function _initLogger()
     {
-        if (!mkdir($concurrentDirectory = path('var/log'), 0777, true) &&
-            !is_dir($concurrentDirectory)) {
-            throw new \RuntimeException(sprintf('Directory "%s" was not created', $concurrentDirectory));
+        $concurrentDirectory = path('var/log');
+        if (!is_dir($concurrentDirectory)) {
+            if (!mkdir($concurrentDirectory, 0777, true)) {
+                throw new \RuntimeException(sprintf('Directory "%s" was not created', $concurrentDirectory));
+            }
         }
 
         $writer = new \Zend_Log_Writer_Stream(path('var/log/output.log'));
@@ -281,8 +283,6 @@ class Bootstrap extends Zend_Application_Bootstrap_Bootstrap
 
         $module_names = $this->_front_controller->getDispatcher()->getModuleDirectories();
 
-        // Fetch licenses 4.19.x!
-
         foreach ($module_names as $module) {
 
             // Skipping disabled module!
@@ -300,6 +300,7 @@ class Bootstrap extends Zend_Application_Bootstrap_Bootstrap
                     global $init;
                     ob_start();
                     require_once $path_init;
+                    dbg($path_init);
                     if (is_callable($init)) {
                         $init($this);
                     }

@@ -22,10 +22,6 @@ class Backoffice_Advanced_ConfigurationController extends System_Controller_Back
         'cpanel_type',
         'letsencrypt_env',
         'send_statistics',
-        'session_handler',
-        'redis_endpoint',
-        'redis_prefix',
-        'redis_auth',
         'apk_build_type',
         'java_home',
         'java_options',
@@ -90,6 +86,16 @@ class Backoffice_Advanced_ConfigurationController extends System_Controller_Back
         if ($is_pe) {
             $whitelabel_model = new Whitelabel_Model_Editor();
         }
+
+        // Environment value from config, not DB
+        $data['environment']['value'] = __getConfig('environment');
+
+        // Redirect HTTPS from DB (get real value from config, not DB)
+        $data['redirect_https'] = [
+            'label' => 'redirect_https',
+            'code' => 'redirect_https',
+            'value' => __getConfig('redirect_https') ? 'true' : 'false',
+        ];
 
         $data['current_domain'] = $this->getRequest()->getHttpHost();
         $data['certificates'] = [];
@@ -196,16 +202,43 @@ class Backoffice_Advanced_ConfigurationController extends System_Controller_Back
 
                 $this->_save($data);
 
-                $message = __('Configuration successfully saved');
+                $messageStart = __('Configuration successfully saved');
+                $messages = [];
+
+                $configFile = path('config.php');
+                $configFileSample = path('config.sample.php');
+                $configFileBackup = path('config.backup.php');
+                $contents = file_get_contents($configFile);
+
+                // Ensure file is up-to-date
+                if (stripos($contents, 'redirect_https') === false) {
+                    // Backup the file
+                    rename($configFile, $configFileBackup);
+                    // Copy the sample one
+                    copy($configFileSample, $configFile);
+                    chmod($configFile, 0777);
+
+                    // Reload content
+                    $contents = file_get_contents($configFile);
+                }
 
                 if (isset($data['environment']) && in_array($data['environment']['value'], ['production', 'development'])) {
-                    $config_file = Core_Model_Directory::getBasePathTo('config.php');
-                    if (is_writable($config_file)) {
-                        $contents = file_get_contents($config_file);
+                    if (is_writable($configFile)) {
                         $contents = preg_replace('/("|\')(development|production)("|\')/im', '"' . $data['environment']['value'] . '"', $contents);
-                        File::putContents($config_file, $contents);
+                        File::putContents($configFile, $contents);
                     } else {
-                        $message = __('Configuration partially saved') . "<br />" . __('Error: unable to write Environment in config.php');
+                        $messageStart = __('Configuration partially saved');
+                        $messages[] = __('Error: unable to write Environment in config.php');
+                    }
+                }
+
+                if (isset($data['redirect_https']) && in_array($data['redirect_https']['value'], ['true', 'flase'])) {
+                    if (is_writable($configFile)) {
+                        $contents = preg_replace('/(true|false)/im', $data['redirect_https']['value'], $contents);
+                        File::putContents($configFile, $contents);
+                    } else {
+                        $messageStart = __('Configuration partially saved');
+                        $messages[] = __('Error: unable to write Redirect HTTPS in config.php');
                     }
                 }
 
@@ -242,7 +275,7 @@ class Backoffice_Advanced_ConfigurationController extends System_Controller_Back
 
                 $data = [
                     'success' => true,
-                    'message' => $message,
+                    'message' => $messageStart . '<br />' . implode('<br />', $messages),
                 ];
             } catch (Exception $e) {
                 $data = [

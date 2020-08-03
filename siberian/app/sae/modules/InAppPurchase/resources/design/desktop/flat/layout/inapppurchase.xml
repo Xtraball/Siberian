@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<layout>
+    <inapppurchase_settings_products>
+        <addLayout name="admin_menu"/>
+        <addLayout name="customization_default"/>
+        <base>
+            <title>IAP products</title>
+        </base>
+        <views>
+            <content class="admin_view_default"
+                     template="inapppurchase/settings/products.phtml"/>
+            <customization_sidebar_left class="admin_view_default"
+                                        template="application/customization/index/sidebar_left.phtml"/>
+        </views>
+    </inapppurchase_settings_products>
+
+    <inapppurchase_settings_purchases>
+        <addLayout name="admin_menu"/>
+        <addLayout name="customization_default"/>
+        <base>
+            <title>IAP purchase history</title>
+        </base>
+        <views>
+            <content class="admin_view_default"
+                     template="inapppurchase/settings/purchases.phtml"/>
+            <customization_sidebar_left class="admin_view_default"
+                                        template="application/customization/index/sidebar_left.phtml"/>
+        </views>
+    </inapppurchase_settings_purchases>
+
+    <inapppurchase_settings_general>
+        <addLayout name="admin_menu"/>
+        <addLayout name="customization_default"/>
+        <base>
+            <title>IAP general settings</title>
+        </base>
+        <views>
+            <content class="admin_view_default"
+                     template="inapppurchase/settings/general.phtml"/>
+            <customization_sidebar_left class="admin_view_default"
+                                        template="application/customization/index/sidebar_left.phtml"/>
+        </views>
+    </inapppurchase_settings_general>
+</layout>

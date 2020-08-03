@@ -152,7 +152,7 @@ angular
                         invalidFields.push('&nbsp;-&nbsp;' + field.label + ' ' + text);
                         isValid = false;
                     }
-                    if (!Number.isInteger(current / step)) {
+                    if (step !== 0 && !Number.isInteger(current / step)) {
                         text = $translate.instant('must match increment', 'form2') + ' ' + step;
                         invalidFields.push('&nbsp;-&nbsp;' + field.label + ' ' + text);
                         isValid = false;

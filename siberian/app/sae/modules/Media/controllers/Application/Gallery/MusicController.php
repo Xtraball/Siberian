@@ -1,58 +1,64 @@
 <?php
 
-class Media_Application_Gallery_MusicController extends Application_Controller_Default {
+use Siberian\Request;
 
-    public function formAction() {
+class Media_Application_Gallery_MusicController extends Application_Controller_Default
+{
+
+    public function formAction()
+    {
         $type = $this->getRequest()->getParam('type');
         $gallery_id = $this->getRequest()->getParam('gallery_id');
         $album_id = null;
-        if($this->getRequest()->getParam('album_id')) {
+        if ($this->getRequest()->getParam('album_id')) {
             $album_id = $this->getRequest()->getParam('album_id');
         }
         $html = $this->getLayout()
-                ->addPartial('event_custom', 'admin_view_default', 'media/application/gallery/music/edit/'.$type.'/form.phtml')
-                ->setOptionValue($this->getCurrentOptionValue())
-                ->setGalleryId($gallery_id)
-                ->setAlbumId($album_id)
-                ->toHtml();
+            ->addPartial('event_custom', 'admin_view_default', 'media/application/gallery/music/edit/' . $type . '/form.phtml')
+            ->setOptionValue($this->getCurrentOptionValue())
+            ->setGalleryId($gallery_id)
+            ->setAlbumId($album_id)
+            ->toHtml();
 
         $this->getLayout()->setHtml($html);
     }
 
-    public function listAction() {
+    public function listAction()
+    {
         $this->getLayout()->setBaseRender('content', 'media/application/gallery/music/list.phtml', 'admin_view_default');
     }
 
-    public function editpostAction() {
+    public function editpostAction()
+    {
 
-        if($datas = $this->getRequest()->getPost()) {
+        if ($datas = $this->getRequest()->getPost()) {
 
             $html = '';
 
             try {
 
                 // Test s'il y a un value_id
-                if(empty($datas['value_id'])) throw new Exception($this->_("An error occurred while saving your playlist. Thanks for trying later."));
+                if (empty($datas['value_id'])) throw new Exception($this->_("An error occurred while saving your playlist. Thanks for trying later."));
 
                 // Récupère l'option_value en cours
                 $option_value = new Application_Model_Option_Value();
                 $option_value->find($datas['value_id']);
 
-                if(is_array($datas['gallery_id'])) {
+                if (is_array($datas['gallery_id'])) {
                     $datas['gallery_id'] = $datas['gallery_id'][0];
                 }
 
-                if(isset($datas['artwork_url']) && !empty($datas['artwork_url'])) {
-                    $base_img_src = Core_Model_Directory::getTmpDirectory(true).'/';
-                    if(file_exists($base_img_src.$datas['artwork_url'])) {
-                        $base_img_src = $base_img_src.$datas['artwork_url'];
+                if (isset($datas['artwork_url']) && !empty($datas['artwork_url'])) {
+                    $base_img_src = Core_Model_Directory::getTmpDirectory(true) . '/';
+                    if (file_exists($base_img_src . $datas['artwork_url'])) {
+                        $base_img_src = $base_img_src . $datas['artwork_url'];
                         $relativePath = $option_value->getImagePathTo();
-                        $img_dst = Application_Model_Application::getBaseImagePath().$relativePath;
-                        if(!is_dir($img_dst)) mkdir($img_dst, 0777, true);
-                        $img_dst .= '/'.$datas['artwork_url'];
+                        $img_dst = Application_Model_Application::getBaseImagePath() . $relativePath;
+                        if (!is_dir($img_dst)) mkdir($img_dst, 0777, true);
+                        $img_dst .= '/' . $datas['artwork_url'];
                         @copy($base_img_src, $img_dst);
-                        if(!file_exists($img_dst)) throw new Exception($this->_("An error occurred while saving your picture. Please try againg later."));
-                        $datas['artwork_url'] = $relativePath.'/'.$datas['artwork_url'];
+                        if (!file_exists($img_dst)) throw new Exception($this->_("An error occurred while saving your picture. Please try againg later."));
+                        $datas['artwork_url'] = $relativePath . '/' . $datas['artwork_url'];
                     }
                 }
 
@@ -60,7 +66,7 @@ class Media_Application_Gallery_MusicController extends Application_Controller_D
                 $gallery->find($datas['gallery_id']);
                 $gallery->addData($datas);
 
-                if(isset($datas['delete_image']) && $datas['delete_image'] == 'true') {
+                if (isset($datas['delete_image']) && $datas['delete_image'] == 'true') {
                     $gallery->setArtworkUrl(null);
                 }
 
@@ -70,26 +76,24 @@ class Media_Application_Gallery_MusicController extends Application_Controller_D
                     ->addPartial('edit_content', 'admin_view_default', 'media/application/gallery/music/edit/list.phtml')
                     ->setOptionValue($option_value)
                     ->setGalleryId($gallery->getId())
-                    ->toHtml()
-                ;
+                    ->toHtml();
 
                 $success_message = $this->_("Playlist successfully saved.");
-                if($datas['gallery_id'] != '') {
+                if ($datas['gallery_id'] != '') {
                     $success_message = '';
                 }
 
                 $html = array(
                     'success' => 1,
                     'content_html' => $content_html,
-                    'gallery_id' => (int) $gallery->getId(),
+                    'gallery_id' => (int)$gallery->getId(),
                     'success_message' => $success_message,
                     'message_timeout' => 2,
                     'message_button' => 0,
                     'message_loader' => 0
                 );
 
-            }
-            catch(Exception $e) {
+            } catch (Exception $e) {
                 $html = array(
                     'message' => $e->getMessage(),
                     'message_button' => 1,
@@ -103,16 +107,17 @@ class Media_Application_Gallery_MusicController extends Application_Controller_D
 
     }
 
-    public function sortgalleriesAction() {
+    public function sortgalleriesAction()
+    {
         if ($galleries = $this->getRequest()->getParam('gallery_id')) {
             $html = array();
             try {
 
-                if(!$this->getCurrentOptionValue()) {
+                if (!$this->getCurrentOptionValue()) {
                     throw new Exception($this->_('An error occurred while saving. Please try again later.'));
                 }
 
-                foreach($galleries as $index => $id) {
+                foreach ($galleries as $index => $id) {
                     $gallery = new Media_Model_Gallery_Music();
                     $gallery->find($id, 'gallery_id');
                     $gallery
@@ -134,18 +139,19 @@ class Media_Application_Gallery_MusicController extends Application_Controller_D
         }
     }
 
-    public function sortelementsAction() {
+    public function sortelementsAction()
+    {
         if ($elements = $this->getRequest()->getParam('element_id')) {
             $html = array();
             try {
 
-                if(!$this->getCurrentOptionValue()) {
+                if (!$this->getCurrentOptionValue()) {
                     throw new Exception($this->_('An error occurred while saving. Please try again later.'));
                 }
 
                 $pos = 0;
                 $elements_types = $this->getRequest()->getParam('element_type');
-                foreach($elements as $index => $element_id) {
+                foreach ($elements as $index => $element_id) {
                     $type = $elements_types[$element_id];
                     $music_element = new Media_Model_Gallery_Music_Elements();
                     $success = $music_element->updatePositions($element_id, $type, $pos);
@@ -167,17 +173,18 @@ class Media_Application_Gallery_MusicController extends Application_Controller_D
         }
     }
 
-    public function sorttracksAction() {
+    public function sorttracksAction()
+    {
         if ($tracks = $this->getRequest()->getParam('element_id')) {
             $html = array();
             try {
 
-                if(!$this->getCurrentOptionValue()) {
+                if (!$this->getCurrentOptionValue()) {
                     throw new Exception($this->_('An error occurred while saving. Please try again later.'));
                 }
 
 
-                foreach($tracks as $index => $track_id) {
+                foreach ($tracks as $index => $track_id) {
                     $track = new Media_Model_Gallery_Music_Track();
                     $track->find($track_id);
                     $track
@@ -200,9 +207,10 @@ class Media_Application_Gallery_MusicController extends Application_Controller_D
         }
     }
 
-    public function cropAction() {
+    public function cropAction()
+    {
 
-        if($datas = $this->getRequest()->getPost()) {
+        if ($datas = $this->getRequest()->getPost()) {
             try {
                 $uploader = new Core_Model_Lib_Uploader();
                 $file = $uploader->savecrop($datas);
@@ -220,19 +228,20 @@ class Media_Application_Gallery_MusicController extends Application_Controller_D
                 );
             }
             $this->getLayout()->setHtml(Zend_Json::encode($datas));
-         }
+        }
     }
 
-    public function deletegalleryAction() {
+    public function deletegalleryAction()
+    {
 
-        if($datas = $this->getRequest()->getPost()) {
+        if ($datas = $this->getRequest()->getPost()) {
 
             $html = '';
 
             try {
 
                 // Test s'il y a un value_id
-                if(empty($datas['value_id']) OR empty($datas['gallery_id'])) throw new Exception($this->_("An error occurred while deleting your playlist. Thanks for trying later."));
+                if (empty($datas['value_id']) OR empty($datas['gallery_id'])) throw new Exception($this->_("An error occurred while deleting your playlist. Thanks for trying later."));
 
                 // Récupère l'option_value en cours
                 $option_value = new Application_Model_Option_Value();
@@ -245,8 +254,7 @@ class Media_Application_Gallery_MusicController extends Application_Controller_D
 
                 $html = array('success' => 1);
 
-            }
-            catch(Exception $e) {
+            } catch (Exception $e) {
                 $html = array(
                     'message' => $e->getMessage(),
                     'message_button' => 1,
@@ -259,18 +267,19 @@ class Media_Application_Gallery_MusicController extends Application_Controller_D
         }
     }
 
-    public function deleteelementAction() {
-        if($datas = $this->getRequest()->getPost()) {
+    public function deleteelementAction()
+    {
+        if ($datas = $this->getRequest()->getPost()) {
 
             $html = '';
 
             try {
 
                 // Test s'il y a un value_id
-                if(empty($datas['value_id'])) {
-                    if($datas['type'] == 'album') {
+                if (empty($datas['value_id'])) {
+                    if ($datas['type'] == 'album') {
                         throw new Exception($this->_("An error occurred while deleting your album. Thanks for trying later."));
-                    } elseif($datas['type'] == 'track') {
+                    } elseif ($datas['type'] == 'track') {
                         throw new Exception($this->_("An error occurred while deleting your track. Thanks for trying later."));
                     }
                 }
@@ -279,19 +288,18 @@ class Media_Application_Gallery_MusicController extends Application_Controller_D
                 $option_value = new Application_Model_Option_Value();
                 $option_value->find($datas['value_id']);
 
-                if($datas['type'] == 'album') {
+                if ($datas['type'] == 'album') {
                     $album_id = $datas['element_id'][0];
                     $album = new Media_Model_Gallery_Music_Album();
                     $album->find($album_id)->delete();
-                } elseif($datas['type'] == 'track') {
+                } elseif ($datas['type'] == 'track') {
                     $track_id = $datas['element_id'][0];
                     $track = new Media_Model_Gallery_Music_Track();
                     $track->find($track_id)->delete();
                 }
 
                 $html = array('success' => 1);
-            }
-            catch(Exception $e) {
+            } catch (Exception $e) {
                 $html = array(
                     'message' => $e->getMessage(),
                     'message_button' => 1,
@@ -304,28 +312,30 @@ class Media_Application_Gallery_MusicController extends Application_Controller_D
         }
     }
 
-    public function editalbumAction() {
+    public function editalbumAction()
+    {
         $option_value_id = $this->getRequest()->getParam('option_value_id');
         $album_id = $this->getRequest()->getParam('album_id');
         $html = $this->getLayout()
-                ->addPartial('event_custom', 'admin_view_default', 'media/application/gallery/music/edit/album.phtml')
-                ->setOptionValueId($option_value_id)
-                ->setAlbumId($album_id)
-                ->toHtml();
+            ->addPartial('event_custom', 'admin_view_default', 'media/application/gallery/music/edit/album.phtml')
+            ->setOptionValueId($option_value_id)
+            ->setAlbumId($album_id)
+            ->toHtml();
 
         $this->getLayout()->setHtml($html);
     }
 
-    public function searchitunesAction() {
-        if($datas = $this->getRequest()->getPost()) {
+    public function searchitunesAction()
+    {
+        if ($datas = $this->getRequest()->getPost()) {
 
             $html = '';
             try {
                 $itunes_api = new Media_Model_Library_Itunes();
 
-                if($datas["collectionId"] || $datas["artistId"]) {
+                if ($datas["collectionId"] || $datas["artistId"]) {
                     $datas["entity"] = 'album';
-                    if($datas["collectionId"]) {
+                    if ($datas["collectionId"]) {
                         //Recherche par album ID
                         $results = $itunes_api->lookup($datas["collectionId"], 'id', array(
                             'entity' => $datas['entity'],
@@ -333,7 +343,7 @@ class Media_Application_Gallery_MusicController extends Application_Controller_D
                             'media' => 'music',
                             'sort' => 'recent'
                         ))->results;
-                    } else if($datas["artistId"]) {
+                    } else if ($datas["artistId"]) {
                         $datas['entity'] = 'musicArtist';
                         $artist_id = $datas["artistId"];
                     }
@@ -348,11 +358,11 @@ class Media_Application_Gallery_MusicController extends Application_Controller_D
                 }
 
                 //Si recherche par artiste
-                if($datas['entity'] == 'musicArtist') {
+                if ($datas['entity'] == 'musicArtist') {
                     //Si un seul artiste correspondant, remonte ses albums
-                    if(!isset($results) || count($results) == 1) {
+                    if (!isset($results) || count($results) == 1) {
                         $datas['entity'] = 'album';
-                        if(!isset($artist_id)) $artist_id = $results[0]->artistId;
+                        if (!isset($artist_id)) $artist_id = $results[0]->artistId;
                         //Recherche par artist ID
                         $results = $itunes_api->lookup($artist_id, 'id', array(
                             'entity' => $datas['entity'],
@@ -367,7 +377,7 @@ class Media_Application_Gallery_MusicController extends Application_Controller_D
                     'results' => $results,
                     'entity' => $datas['entity']
                 );
-            } catch(Exception $e) {
+            } catch (Exception $e) {
                 $html = array(
                     'message' => $e->getMessage(),
                     'message_button' => 1,
@@ -379,22 +389,23 @@ class Media_Application_Gallery_MusicController extends Application_Controller_D
 
     }
 
-    public function saveitunesAction() {
-        if($datas = $this->getRequest()->getPost()) {
+    public function saveitunesAction()
+    {
+        if ($datas = $this->getRequest()->getPost()) {
             $html = '';
             $html_content = '';
             try {
 
                 // Test s'il y a un value_id
-                if(empty($datas['value_id'])) throw new Exception($this->_("An error occurred while saving. Please try again later."));
+                if (empty($datas['value_id'])) throw new Exception($this->_("An error occurred while saving. Please try again later."));
 
                 // Récupère l'option_value en cours
                 $option_value = new Application_Model_Option_Value();
                 $option_value->find($datas['value_id']);
 
                 $itunes_api = new Media_Model_Library_Itunes();
-                if(isset($datas['albums'])) {
-                    foreach($datas['albums'] as $album) {
+                if (isset($datas['albums'])) {
+                    foreach ($datas['albums'] as $album) {
                         $tracks_results = $itunes_api->lookup($album, 'id', array(
                             'entity' => 'song',
                             'media' => 'music'
@@ -414,14 +425,14 @@ class Media_Application_Gallery_MusicController extends Application_Controller_D
                         $music_positions = new Media_Model_Gallery_Music_Elements();
                         $new_element_position = $music_positions->getNextElementsPosition();
                         $music_positions
-                                ->setGalleryId($datas['gallery_id'])
-                                ->setAlbumId($new_album->getId())
-                                ->setPosition($new_element_position)
-                                ->save();
+                            ->setGalleryId($datas['gallery_id'])
+                            ->setAlbumId($new_album->getId())
+                            ->setPosition($new_element_position)
+                            ->save();
 
                         $trash = array_shift($tracks_results);
                         $pos = 0;
-                        foreach($tracks_results as $track) {
+                        foreach ($tracks_results as $track) {
                             $new_track = new Media_Model_Gallery_Music_Track();
                             $new_track_position = $new_track->getNextTrackPosition();
                             $new_track
@@ -447,14 +458,13 @@ class Media_Application_Gallery_MusicController extends Application_Controller_D
                             ->setGalleryId($datas['gallery_id'])
                             ->setElement($music_positions)
                             ->setType('album')
-                            ->toHtml()
-                            ;
+                            ->toHtml();
                     }
                 }
                 //Chansons seulement
-                if(isset($datas['songs'])) {
+                if (isset($datas['songs'])) {
                     $return_tracks = array();
-                    foreach($datas['songs'] as $track) {
+                    foreach ($datas['songs'] as $track) {
                         $track_results = $itunes_api->lookup($track, 'id', array(
                             'entity' => 'song',
                             'limit' => 1,
@@ -479,10 +489,10 @@ class Media_Application_Gallery_MusicController extends Application_Controller_D
                         $music_positions = new Media_Model_Gallery_Music_Elements();
                         $new_element_position = $music_positions->getNextElementsPosition();
                         $music_positions
-                                ->setGalleryId($datas['gallery_id'])
-                                ->setTrackId($new_track->getId())
-                                ->setPosition($new_element_position)
-                                ->save();
+                            ->setGalleryId($datas['gallery_id'])
+                            ->setTrackId($new_track->getId())
+                            ->setPosition($new_element_position)
+                            ->save();
 
                         $html_content .= $this->getLayout()
                             ->addPartial('list_element', 'Core_View_Default', 'media/application/gallery/music/edit/list/li.phtml')
@@ -490,8 +500,7 @@ class Media_Application_Gallery_MusicController extends Application_Controller_D
                             ->setGalleryId($datas['gallery_id'])
                             ->setElement($music_positions)
                             ->setType('track')
-                            ->toHtml()
-                            ;
+                            ->toHtml();
                     }
                 }
 
@@ -503,7 +512,7 @@ class Media_Application_Gallery_MusicController extends Application_Controller_D
                     'message_loader' => 0,
                     'content' => $html_content
                 );
-            } catch(Exception $e) {
+            } catch (Exception $e) {
                 $html = array(
                     'message' => $e->getMessage(),
                     'message_button' => 1,
@@ -514,18 +523,20 @@ class Media_Application_Gallery_MusicController extends Application_Controller_D
         }
     }
 
-    public function soundcloudcallbackAction() {
+    public function soundcloudcallbackAction()
+    {
         $this->loadPartials('media_application_gallery_music_soundcloud_callback', false);
     }
 
-    public function savesoundcloudAction() {
-        if($datas = $this->getRequest()->getPost()) {
+    public function savesoundcloudAction()
+    {
+        if ($datas = $this->getRequest()->getPost()) {
             $html = '';
             $html_content = '';
             try {
 
                 // Test s'il y a un value_id
-                if(empty($datas['value_id'])) throw new Exception($this->_("An error occurred while saving. Please try again later."));
+                if (empty($datas['value_id'])) throw new Exception($this->_("An error occurred while saving. Please try again later."));
 
                 // Récupère l'option_value en cours
                 $option_value = new Application_Model_Option_Value();
@@ -536,9 +547,9 @@ class Media_Application_Gallery_MusicController extends Application_Controller_D
                 $secret = $music->getSoundcloudSecret();
                 $soundcloud_api = new Media_Model_Library_Soundcloud($id, $secret);
                 //Ajout playlist perso
-                if(isset($datas['playlists'])) {
-                    foreach($datas['playlists'] as $playlist) {
-                        $playlist_result = $soundcloud_api->get('playlists/'.$playlist.'.json');
+                if (isset($datas['playlists'])) {
+                    foreach ($datas['playlists'] as $playlist) {
+                        $playlist_result = $soundcloud_api->get('playlists/' . $playlist . '.json');
                         $playlist = Zend_Json::decode($playlist_result, Zend_Json::TYPE_OBJECT);
 
                         $new_album = new Media_Model_Gallery_Music_Album();
@@ -553,18 +564,18 @@ class Media_Application_Gallery_MusicController extends Application_Controller_D
                         $music_positions = new Media_Model_Gallery_Music_Elements();
                         $new_element_position = $music_positions->getNextElementsPosition();
                         $music_positions
-                                ->setGalleryId($datas['gallery_id'])
-                                ->setAlbumId($new_album->getId())
-                                ->setPosition($new_element_position)
-                                ->save();
+                            ->setGalleryId($datas['gallery_id'])
+                            ->setAlbumId($new_album->getId())
+                            ->setPosition($new_element_position)
+                            ->save();
 
                         //Chansons sélectionnées dans cette playlist
                         $pos = 0;
-                        if(isset($datas['songs'])) {
-                            foreach($datas['songs'] as $track) {
-                                $track_result = $soundcloud_api->get('tracks/'.$track.'.json');
+                        if (isset($datas['songs'])) {
+                            foreach ($datas['songs'] as $track) {
+                                $track_result = $soundcloud_api->get('tracks/' . $track . '.json');
                                 $track = Zend_Json::decode($track_result, Zend_Json::TYPE_OBJECT);
-                                if($track->streamable == true) {
+                                if ($track->streamable == true) {
                                     $new_track = new Media_Model_Gallery_Music_Track();
                                     $new_track_position = $new_track->getNextTrackPosition();
                                     $new_track
@@ -589,15 +600,14 @@ class Media_Application_Gallery_MusicController extends Application_Controller_D
                             ->setGalleryId($datas['gallery_id'])
                             ->setElement($music_positions)
                             ->setType('album')
-                            ->toHtml()
-                            ;
+                            ->toHtml();
                     }
                 }
 
                 //Tout un album
-                if(isset($datas['albums'])) {
-                    foreach($datas['albums'] as $playlist) {
-                        $playlist_result = $soundcloud_api->get('playlists/'.$playlist.'.json');
+                if (isset($datas['albums'])) {
+                    foreach ($datas['albums'] as $playlist) {
+                        $playlist_result = $soundcloud_api->get('playlists/' . $playlist . '.json');
                         $playlist = Zend_Json::decode($playlist_result, Zend_Json::TYPE_OBJECT);
                         $new_album = new Media_Model_Gallery_Music_Album();
                         $new_album
@@ -611,15 +621,15 @@ class Media_Application_Gallery_MusicController extends Application_Controller_D
                         $music_positions = new Media_Model_Gallery_Music_Elements();
                         $new_element_position = $music_positions->getNextElementsPosition();
                         $music_positions
-                                ->setGalleryId($datas['gallery_id'])
-                                ->setAlbumId($new_album->getId())
-                                ->setPosition($new_element_position)
-                                ->save();
+                            ->setGalleryId($datas['gallery_id'])
+                            ->setAlbumId($new_album->getId())
+                            ->setPosition($new_element_position)
+                            ->save();
 
                         //Toutes les chansons de cet album
                         $pos = 0;
-                        foreach($playlist->tracks as $track) {
-                            if($track->streamable == true) {
+                        foreach ($playlist->tracks as $track) {
+                            if ($track->streamable == true) {
                                 $new_track = new Media_Model_Gallery_Music_Track();
                                 $new_track_position = $new_track->getNextTrackPosition();
                                 $new_track
@@ -643,18 +653,17 @@ class Media_Application_Gallery_MusicController extends Application_Controller_D
                             ->setGalleryId($datas['gallery_id'])
                             ->setElement($music_positions)
                             ->setType('album')
-                            ->toHtml()
-                            ;
+                            ->toHtml();
 
                     }
                 }
 
                 //Chansons isolées
-                if(!isset($datas['playlists']) && !isset($datas['albums']) && isset($datas['songs'])) {
-                    foreach($datas['songs'] as $track) {
-                        $track_result = $soundcloud_api->get('tracks/'.$track.'.json');
+                if (!isset($datas['playlists']) && !isset($datas['albums']) && isset($datas['songs'])) {
+                    foreach ($datas['songs'] as $track) {
+                        $track_result = $soundcloud_api->get('tracks/' . $track . '.json');
                         $track = Zend_Json::decode($track_result, Zend_Json::TYPE_OBJECT);
-                        if($track->streamable == true) {
+                        if ($track->streamable == true) {
                             $new_track = new Media_Model_Gallery_Music_Track();
                             $new_track_position = $new_track->getNextTrackPosition();
                             $new_track
@@ -665,25 +674,23 @@ class Media_Application_Gallery_MusicController extends Application_Controller_D
                                 ->setArtistName($track->user->username)
                                 ->setStreamUrl($track->stream_url)
                                 ->setType('soundcloud')
-                                ->save()
-                            ;
+                                ->save();
 
                             $music_positions = new Media_Model_Gallery_Music_Elements();
                             $new_element_position = $music_positions->getNextElementsPosition();
                             $music_positions
-                                    ->setGalleryId($datas['gallery_id'])
-                                    ->setTrackId($new_track->getId())
-                                    ->setPosition($new_element_position)
-                                    ->save();
+                                ->setGalleryId($datas['gallery_id'])
+                                ->setTrackId($new_track->getId())
+                                ->setPosition($new_element_position)
+                                ->save();
 
                             $html_content .= $this->getLayout()
-                            ->addPartial('list_element', 'Core_View_Default', 'media/application/gallery/music/edit/list/li.phtml')
-                            ->setOptionValue($option_value)
-                            ->setGalleryId($datas['gallery_id'])
-                            ->setElement($music_positions)
-                            ->setType('track')
-                            ->toHtml()
-                            ;
+                                ->addPartial('list_element', 'Core_View_Default', 'media/application/gallery/music/edit/list/li.phtml')
+                                ->setOptionValue($option_value)
+                                ->setGalleryId($datas['gallery_id'])
+                                ->setElement($music_positions)
+                                ->setType('track')
+                                ->toHtml();
 
                         }
                     }
@@ -697,7 +704,7 @@ class Media_Application_Gallery_MusicController extends Application_Controller_D
                     'message_loader' => 0,
                     'content' => $html_content
                 );
-            } catch(Exception $e) {
+            } catch (Exception $e) {
                 $html = array(
                     'message' => $e->getMessage(),
                     'message_button' => 1,
@@ -708,8 +715,9 @@ class Media_Application_Gallery_MusicController extends Application_Controller_D
         }
     }
 
-    public function searchpodcastAction() {
-        if($datas = $this->getRequest()->getPost()) {
+    public function searchpodcastAction()
+    {
+        if ($datas = $this->getRequest()->getPost()) {
 
             $html = '';
             try {
@@ -717,7 +725,7 @@ class Media_Application_Gallery_MusicController extends Application_Controller_D
                 $podcast = new Media_Model_Gallery_Music_Type_Podcast();
                 $data = $podcast->setFeedUrl($datas['podcast_url'])->parse();
 
-                if(empty($data)) {
+                if (empty($data)) {
                     throw new Exception($this->_("Podcast type is invalid or can't be found"));
                 } else {
                     $html = array(
@@ -725,7 +733,7 @@ class Media_Application_Gallery_MusicController extends Application_Controller_D
                         'results' => $data
                     );
                 }
-            } catch(Exception $e) {
+            } catch (Exception $e) {
                 $html = array(
                     'message' => $e->getMessage(),
                     'message_button' => 1,
@@ -736,15 +744,16 @@ class Media_Application_Gallery_MusicController extends Application_Controller_D
         }
     }
 
-    public function savepodcastAction() {
+    public function savepodcastAction()
+    {
 
-        if($datas = $this->getRequest()->getPost()) {
+        if ($datas = $this->getRequest()->getPost()) {
 
             $html_content = '';
             try {
 
                 // Test s'il y a un value_id
-                if(empty($datas['value_id'])) throw new Exception($this->_("An error occurred while saving. Please try again later."));
+                if (empty($datas['value_id'])) throw new Exception($this->_("An error occurred while saving. Please try again later."));
 
                 // Récupère l'option_value en cours
                 $option_value = new Application_Model_Option_Value();
@@ -760,8 +769,7 @@ class Media_Application_Gallery_MusicController extends Application_Controller_D
                     ->setArtistName($podcast_data["author"])
                     ->setPodcastUrl($datas["podcast_url"])
                     ->setType("podcast")
-                    ->save()
-                ;
+                    ->save();
 
                 $music_positions = new Media_Model_Gallery_Music_Elements();
                 $new_element_position = $music_positions->getNextElementsPosition();
@@ -769,8 +777,7 @@ class Media_Application_Gallery_MusicController extends Application_Controller_D
                     ->setGalleryId($datas['gallery_id'])
                     ->setAlbumId($new_album->getId())
                     ->setPosition($new_element_position)
-                    ->save()
-                ;
+                    ->save();
 
                 $html_content .= $this->getLayout()
                     ->addPartial('list_element', 'Core_View_Default', 'media/application/gallery/music/edit/list/li.phtml')
@@ -778,8 +785,7 @@ class Media_Application_Gallery_MusicController extends Application_Controller_D
                     ->setGalleryId($datas['gallery_id'])
                     ->setElement($music_positions)
                     ->setType('album')
-                    ->toHtml()
-                ;
+                    ->toHtml();
 
                 $html = array(
                     'success' => 1,
@@ -790,7 +796,7 @@ class Media_Application_Gallery_MusicController extends Application_Controller_D
                     'content' => $html_content
                 );
 
-            } catch(Exception $e) {
+            } catch (Exception $e) {
                 $html = array(
                     'message' => $e->getMessage(),
                     'message_button' => 1,
@@ -801,14 +807,15 @@ class Media_Application_Gallery_MusicController extends Application_Controller_D
         }
     }
 
-    public function savecustomAction() {
-        if($datas = $this->getRequest()->getPost()) {
+    public function savecustomAction()
+    {
+        if ($datas = $this->getRequest()->getPost()) {
             $html = '';
             $html_content = '';
             try {
 
                 // Test s'il y a un value_id
-                if(empty($datas['value_id']) OR empty($datas['gallery_id'])) throw new Exception($this->_("An error occurred while saving. Please try again later."));
+                if (empty($datas['value_id']) OR empty($datas['gallery_id'])) throw new Exception($this->_("An error occurred while saving. Please try again later."));
 
                 // Récupère l'option_value en cours
                 $option_value = new Application_Model_Option_Value();
@@ -816,7 +823,7 @@ class Media_Application_Gallery_MusicController extends Application_Controller_D
 
                 //Si au moins un titre ou un nom, on crée un album
                 $album = new Media_Model_Gallery_Music_Album();
-                if($datas['album']['name'] || $datas['album']['artist_name']) {
+                if ($datas['album']['name'] || $datas['album']['artist_name']) {
                     $album->find($datas['album_id']);
                     $album
                         ->setGalleryId($datas['gallery_id'])
@@ -824,25 +831,24 @@ class Media_Application_Gallery_MusicController extends Application_Controller_D
                         ->setArtistName($datas['album']['artist_name'])
                         ->setArtworkUrl(null)
                         ->setType('custom')
-                        ->save()
-                    ;
+                        ->save();
 
-                    if(isset($datas['artwork_url']) && !empty($datas['artwork_url'])) {
-                        $base_img_src = Core_Model_Directory::getTmpDirectory(true).'/';
-                        if(file_exists($base_img_src.$datas['artwork_url'])) {
-                            $base_img_src = $base_img_src.$datas['artwork_url'];
+                    if (isset($datas['artwork_url']) && !empty($datas['artwork_url'])) {
+                        $base_img_src = Core_Model_Directory::getTmpDirectory(true) . '/';
+                        if (file_exists($base_img_src . $datas['artwork_url'])) {
+                            $base_img_src = $base_img_src . $datas['artwork_url'];
                             $relativePath = $option_value->getImagePathTo("");
-                            $img_dst = Application_Model_Application::getBaseImagePath().'/'.$relativePath;
-                            if(!is_dir($img_dst)) mkdir($img_dst, 0777, true);
-                            $img_dst .= '/'.$datas['artwork_url'];
+                            $img_dst = Application_Model_Application::getBaseImagePath() . '/' . $relativePath;
+                            if (!is_dir($img_dst)) mkdir($img_dst, 0777, true);
+                            $img_dst .= '/' . $datas['artwork_url'];
                             @rename($base_img_src, $img_dst);
-                            if(!file_exists($img_dst)) throw new Exception($this->_('An error occurred while saving. Please try again later.'));
-                            $artwork_url = '/'.$relativePath.'/'.$datas['artwork_url'];
+                            if (!file_exists($img_dst)) throw new Exception($this->_('An error occurred while saving. Please try again later.'));
+                            $artwork_url = '/' . $relativePath . '/' . $datas['artwork_url'];
                             $album->setArtworkUrl($artwork_url)->save();
                         }
                     }
 
-                    if(isset($datas['delete_image']) && $datas['delete_image'] == 'true') {
+                    if (isset($datas['delete_image']) && $datas['delete_image'] == 'true') {
                         $album->setArtworkUrl(null);
                     }
 
@@ -850,28 +856,26 @@ class Media_Application_Gallery_MusicController extends Application_Controller_D
 
                     $music_positions = new Media_Model_Gallery_Music_Elements();
                     $music_positions->find($datas['album_id'], 'album_id');
-                    if(!$music_positions->getAlbumId()) {
+                    if (!$music_positions->getAlbumId()) {
                         $new_element_position = $music_positions->getNextElementsPosition();
                         $music_positions
                             ->setGalleryId($datas['gallery_id'])
                             ->setAlbumId($album->getId())
                             ->setPosition($new_element_position)
-                            ->save()
-                        ;
+                            ->save();
                     }
                     $has_album = $music_positions;
                 }
 
                 //Suppression album donc remise chansons dans les éléments généraux
-                if($datas['delete_album'] && $datas['album_id']) {
+                if ($datas['delete_album'] && $datas['album_id']) {
                     $tracks = new Media_Model_Gallery_Music_Track();
                     $tracks = $tracks->findAll(array('album_id' => $datas['album_id']), 'position ASC');
-                    foreach($tracks as $track) {
+                    foreach ($tracks as $track) {
                         $track
                             ->setAlbumId(null)
                             ->setGalleryId($datas['gallery_id'])
-                            ->save()
-                        ;
+                            ->save();
 
                         $track_position = new Media_Model_Gallery_Music_Elements();
                         $new_element_position = $track_position->getNextElementsPosition();
@@ -880,8 +884,7 @@ class Media_Application_Gallery_MusicController extends Application_Controller_D
                             ->setGalleryId($datas['gallery_id'])
                             ->setTrackId($track->getId())
                             ->setAlbumId(null)
-                            ->save()
-                        ;
+                            ->save();
 
                         $html_content .= $this->getLayout()
                             ->addPartial('list_element', 'Core_View_Default', 'media/application/gallery/music/edit/list/li.phtml')
@@ -889,16 +892,15 @@ class Media_Application_Gallery_MusicController extends Application_Controller_D
                             ->setGalleryId($datas['gallery_id'])
                             ->setElement($track_position)
                             ->setType('track')
-                            ->toHtml()
-                        ;
+                            ->toHtml();
                     }
                     $album->find($datas['album_id'])->delete();
                 }
 
                 //Nouvel album
                 $pos = 0;
-                if(isset($datas['track'])) {
-                    foreach($datas['track'] as $id => $track) {
+                if (isset($datas['track'])) {
+                    foreach ($datas['track'] as $id => $track) {
                         $new_track = new Media_Model_Gallery_Music_Track();
                         $new_track->find($id);
                         $new_track
@@ -907,28 +909,25 @@ class Media_Application_Gallery_MusicController extends Application_Controller_D
                             ->setArtistName($track['artist'])
                             ->setStreamUrl($track['url'])
                             ->setType('custom')
-                            ->save()
-                        ;
+                            ->save();
 
-                        if(!$datas['delete_album']) {
-                            if($album->getId()) {
+                        if (!$datas['delete_album']) {
+                            if ($album->getId()) {
                                 $new_track
                                     ->setAlbumId($album->getId())
                                     ->setGalleryId(null)
                                     ->setArtworkUrl($album->getArtworkUrl())
-                                    ->save()
-                                ;
+                                    ->save();
 
                             } else {
                                 $new_track
                                     ->setGalleryId($datas['gallery_id'])
                                     ->setAlbumId(null)
-                                    ->save()
-                                ;
+                                    ->save();
                             }
                         }
 
-                        if($album->getId()) {
+                        if ($album->getId()) {
                             $new_track->setPosition($track['position'])->save();
                             $pos++;
                         } else {
@@ -938,31 +937,28 @@ class Media_Application_Gallery_MusicController extends Application_Controller_D
                                 ->setGalleryId($datas['gallery_id'])
                                 ->setTrackId($new_track->getId())
                                 ->setPosition($track['position'])
-                                ->save()
-                            ;
+                                ->save();
                         }
-                        if(!$datas['delete_album'] && !$datas['album_id'] && !$album->getId()) {
+                        if (!$datas['delete_album'] && !$datas['album_id'] && !$album->getId()) {
                             $html_content .= $this->getLayout()
                                 ->addPartial('list_element', 'Core_View_Default', 'media/application/gallery/music/edit/list/li.phtml')
                                 ->setOptionValue($option_value)
                                 ->setGalleryId($datas['gallery_id'])
                                 ->setElement($music_positions)
                                 ->setType('track')
-                                ->toHtml()
-                            ;
+                                ->toHtml();
                         }
                     }
                 }
 
-                if(isset($has_album)) {
+                if (isset($has_album)) {
                     $html_content .= $this->getLayout()
                         ->addPartial('list_element', 'Core_View_Default', 'media/application/gallery/music/edit/list/li.phtml')
                         ->setOptionValue($option_value)
                         ->setGalleryId($datas['gallery_id'])
                         ->setElement($has_album)
                         ->setType('album')
-                        ->toHtml()
-                    ;
+                        ->toHtml();
                 }
 
                 $html = array(
@@ -973,7 +969,7 @@ class Media_Application_Gallery_MusicController extends Application_Controller_D
                     'message_loader' => 0,
                     'content' => $html_content
                 );
-            } catch(Exception $e) {
+            } catch (Exception $e) {
                 $html = array(
                     'message' => $e->getMessage(),
                     'message_button' => 1,
@@ -984,40 +980,42 @@ class Media_Application_Gallery_MusicController extends Application_Controller_D
         }
     }
 
-    public function checkfileAction() {
-        if($datas = $this->getRequest()->getParams()) {
-            $html = '';
-            try {
-                $url = $datas['file'];
-                $url = str_replace(' ', '%20', str_replace('§', '/', $url));
-                $ch = curl_init();
-                curl_setopt($ch, CURLOPT_URL, $url);
-                curl_setopt($ch, CURLOPT_HEADER, false);
-                curl_setopt($ch, CURLOPT_NOBODY, true);
-                curl_setopt($ch,CURLOPT_CONNECTTIMEOUT, 10);
-                $res = curl_exec($ch);
-                $code = curl_getinfo($ch, CURLINFO_HTTP_CODE);
-                switch($code) {
-                    case 200:
-                        $extension = explode('.', $url);
-                        $extension = $extension[count($extension)-1];
-                        if($extension != 'mp3') throw new Exception($this->_("Incorrect filetype."));
-                        $html = array(
-                            'success' => 1
-                        );
-                        break;
-                    default:
-                        throw new Exception($this->_("No file found."));
-                }
-            } catch(Exception $e) {
-                $html = array(
-                    'message' => $e->getMessage(),
-                    'message_button' => 1,
-                    'message_loader' => 1
-                );
+    public function checkfileAction()
+    {
+        try {
+            $request = $this->getRequest();
+            $params = $request->getParams();
+
+            if (empty($params)) {
+                throw new Exception(__('Missing params.'));
             }
-            $this->getLayout()->setHtml(Zend_Json::encode($html));
+
+            $url = $params['file'];
+            $url = str_replace(' ', '%20', str_replace('§', '/', $url));
+            $code = Request::testStream($url);
+
+            switch ($code) {
+                case "audio/mpeg":
+                case "audio/flac":
+                case "audio/ogg":
+                case "audio/wav":
+                    break;
+                default:
+                    throw new Exception(__('No supported audio files.'));
+            }
+            $payload = [
+                'success' => 1,
+                'message' => __('Audio file found'),
+            ];
+        } catch (\Exception $e) {
+            $payload = [
+                'error' => 1,
+                'message' => $e->getMessage(),
+
+            ];
         }
+
+        $this->_sendJson($payload);
     }
 
 }

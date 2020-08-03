@@ -1,0 +1,23 @@
+{
+    "name": "InAppPurchase",
+    "code": "purchase",
+    "version": "1.0.0",
+    "category": "_service",
+    "model": "InAppPurchase_Model_InAppPurchase",
+    "desktop_uri": null,
+    "routes": [],
+    "icons": [],
+    "files": [
+        "js/controllers/iap-home-controller.js",
+        "js/factory/iap-product.js",
+        "js/factory/iap-purchase.js",
+        "js/services/iap-store.js",
+        "js/services/iap-init.js",
+        "scss/iap.scss"
+    ],
+    "compile": true,
+    "use_account": false,
+    "only_once": true,
+    "load_on_start": true,
+    "on_start_factory": "IAP_Init"
+}

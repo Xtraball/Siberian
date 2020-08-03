@@ -185,6 +185,8 @@ class Cache
     public static function __clearCache()
     {
         self::__clearFolderSystem("/var/cache");
+
+        Hook::trigger('cache.clear.cache');
     }
 
     /**
@@ -207,6 +209,8 @@ class Cache
         }
 
         self::__clearFolderSystem("/var/log");
+
+        Hook::trigger('cache.clear.log');
     }
 
     /**
@@ -233,6 +237,8 @@ class Cache
                 }
             }
         }
+
+        Hook::trigger('cache.clear.locks');
     }
 
     /**
@@ -241,6 +247,8 @@ class Cache
     public static function __clearTmp()
     {
         self::__clearFolderSystem("/var/tmp");
+
+        Hook::trigger('cache.clear.tmp');
     }
 
     /**

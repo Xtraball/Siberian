@@ -17,7 +17,7 @@ $init = function ($bootstrap) {
     //    "fanwall/gdpr.phtml");
 
     Assets::registerScss([
-        "/app/sae/modules/Fanwall/features/fanwall/scss/fanwall.scss"
+        "/app/sae/modules/Fanwall/features/fanwall2/scss/fanwall.scss"
     ]);
 
     $translationFile = path('/app/sae/modules/Fanwall/resources/translations/default/fanwall.po');

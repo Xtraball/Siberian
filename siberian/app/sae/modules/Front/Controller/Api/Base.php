@@ -1,8 +1,8 @@
 <?php
 
+use Siberian\Account;
 use Siberian\File;
 use Siberian\Hook;
-use Siberian\Account;
 use Siberian\Json;
 
 /**
@@ -45,13 +45,13 @@ class Front_Controller_Api_Base extends Front_Controller_App_Default
         Core_Model_Language::setCurrentLanguage($currentLanguage);
 
         try {
-            $cssBlock = $this->_cssBlock($application);
+            $cssBlock = self::_cssBlock($application);
         } catch (\Exception $e) {
             // Exception CSS
         }
 
         try {
-            $loadBlock = $this->_loadBlock($application);
+            $loadBlock = self::_loadBlock($application);
         } catch (\Exception $e) {
             // Exception CSS
         }
@@ -63,7 +63,7 @@ class Front_Controller_Api_Base extends Front_Controller_App_Default
         }
 
         try {
-            $translationBlock = $this->_translationBlock($application, $currentLanguage);
+            $translationBlock = self::_translationBlock($currentLanguage);
         } catch (\Exception $e) {
             // Exception CSS
         }
@@ -108,11 +108,80 @@ class Front_Controller_Api_Base extends Front_Controller_App_Default
     }
 
     /**
+     *
+     */
+    public static function preInitApplications ()
+    {
+        // Pre-init only selected applications as this feature is resource heavy!
+        $applications = (new Application_Model_Application())
+            ->findAll([
+                'is_active = ?' => 1,
+                'pre_init = ?' => 1
+            ]);
+
+        self::preInitLanguages();
+
+        foreach ($applications as $application) {
+            echo "\n[pre-init]: #{$application->getId()} {$application->getData('name')}";
+            self::preInit($application);
+            usleep(20);
+            // Checking if cache was triggered again
+            $abort = __get('pre-init-application-cache');
+            if ($abort === 'yes') {
+                echo "\n[pre-init]: Aborting due to new trigger during build-up.";
+                break;
+            }
+        }
+    }
+
+    /**
+     * We use usleep between steps to leave room for the server resources!
+     *
+     * @param $application
+     */
+    public static function preInit ($application)
+    {
+        try {
+            $application->checkForUpgrades();
+        } catch (\Exception $e) {
+            // Exception CSS
+        }
+
+        try {
+            self::_cssBlock($application);
+        } catch (\Exception $e) {
+            // Exception CSS
+        }
+
+        try {
+            self::_loadBlock($application);
+        } catch (\Exception $e) {
+            // Exception CSS
+        }
+    }
+
+    public static function preInitLanguages ()
+    {
+        // Init all languages
+        $languages = Core_Model_Language::getLanguages();
+        foreach ($languages as $language) {
+            try {
+                $currentLanguage = strtolower($language->getCode());
+                Core_Model_Language::setCurrentLanguage($currentLanguage, true);
+                self::_translationBlock($currentLanguage);
+            } catch (\Exception $e) {
+                // Exception CSS
+            }
+            usleep(100);
+        }
+    }
+
+    /**
      * Reload only the translations, with the given language
      *
      * @throws Zend_Controller_Response_Exception
      */
-    public function translationsAction ()
+    public function translationsAction()
     {
         try {
             $application = $this->getApplication();
@@ -124,7 +193,7 @@ class Front_Controller_Api_Base extends Front_Controller_App_Default
             Core_Model_Language::setCurrentLanguage($currentLanguage);
 
             $featureBlock = $this->_featureBlock($application, $currentLanguage, $request);
-            $translationBlock = $this->_translationBlock($application, $currentLanguage);
+            $translationBlock = self::_translationBlock($currentLanguage);
 
             // Save new language to customer!
             if ($customer) {
@@ -151,20 +220,22 @@ class Front_Controller_Api_Base extends Front_Controller_App_Default
 
     /**
      * @param $application
-     * @return array|false|string
+     * @return array
+     * @throws Zend_Exception
      */
-    public function _cssBlock ($application)
+    public static function _cssBlock($application)
     {
+        $cache = Zend_Registry::get('cache');
         $cacheIdCss = 'v4_front_mobile_load_css_app_' . $application->getId();
         $blockStart = microtime(true);
-        if (!$result = $this->cache->load($cacheIdCss)) {
+        if (!$result = $cache->load($cacheIdCss)) {
 
-            $cssFile = Core_Model_Directory::getBasePathTo(Template_Model_Design::getCssPath($application));
+            $cssFile = path(Template_Model_Design::getCssPath($application));
             $blockCss = [
                 'css' => file_get_contents($cssFile)
             ];
 
-            $this->cache->save($blockCss, $cacheIdCss, [
+            $cache->save($blockCss, $cacheIdCss, [
                 'v4',
                 'front_mobile_load_css',
                 'css_app_' . $application->getId()
@@ -189,12 +260,13 @@ class Front_Controller_Api_Base extends Front_Controller_App_Default
      * @return array|false|string
      * @throws Zend_Exception
      */
-    public function _loadBlock ($application)
+    public static function _loadBlock($application)
     {
+        $cache = Zend_Registry::get('cache');
         $appId = $application->getId();
         $cacheId = 'v4_front_mobile_load_app_' . $appId;
         $blockStart = microtime(true);
-        if (!$result = $this->cache->load($cacheId)) {
+        if (!$result = $cache->load($cacheId)) {
 
             // Homepage image url!
             if ($application->getSplashVersion() == '2') {
@@ -302,17 +374,17 @@ class Front_Controller_Api_Base extends Front_Controller_App_Default
                             'color' => $application->getBlock('list_item')->getColor()
                         ]
                     ],
-                    'admob' => $this->_admobSettings($application),
+                    'admob' => self::_admobSettings($application),
                     'facebook' => [
                         'id' => empty($application->getFacebookId()) ? null : $application->getFacebookId(),
                         'scope' => Customer_Model_Customer_Type_Facebook::getScope()
                     ],
                     'pushIconcolor' => $iconColor,
                     'gmapsKey' => $googleMapsKey,
-                    'offlineContent' => (boolean) $application->getOfflineContent(),
+                    'offlineContent' => (boolean)$application->getOfflineContent(),
                     'fcmSenderID' => $credentials->getSenderId(),
-                    'iosStatusBarIsHidden' => (boolean) $application->getIosStatusBarIsHidden(),
-                    'androidStatusBarIsHidden' => (boolean) $application->getAndroidStatusBarIsHidden(),
+                    'iosStatusBarIsHidden' => (boolean)$application->getIosStatusBarIsHidden(),
+                    'androidStatusBarIsHidden' => (boolean)$application->getAndroidStatusBarIsHidden(),
                     'privacyPolicy' => [
                         'title' => $privacyPolicyTitle,
                         'text' => str_replace('#APP_NAME', $application->getName(), $privacyPolicy),
@@ -321,8 +393,8 @@ class Front_Controller_Api_Base extends Front_Controller_App_Default
                     'gdpr' => [
                         'isEnabled' => isGdpr(),
                     ],
-                    'useHomepageBackground' => (boolean) $application->getUseHomepageBackgroundImageInSubpages(),
-                    'backButton' => (string) $application->getBackButton(),
+                    'useHomepageBackground' => (boolean)$application->getUseHomepageBackgroundImageInSubpages(),
+                    'backButton' => (string)$application->getBackButton(),
                     'backButtonClass' => $application->getBackButtonClass(),
                     'leftToggleClass' => $application->getLeftToggleClass(),
                     'rightToggleClass' => $application->getRightToggleClass(),
@@ -330,7 +402,7 @@ class Front_Controller_Api_Base extends Front_Controller_App_Default
                 ],
                 'homepageImage' => $homepageImageB64
             ];
-            $this->cache->save($loadBlock, $cacheId, [
+            $cache->save($loadBlock, $cacheId, [
                 'v4',
                 'front_mobile_load',
                 'app_' . $appId
@@ -435,35 +507,35 @@ class Front_Controller_Api_Base extends Front_Controller_App_Default
 
                     // End link special code!
                     $blockData = [
-                        'value_id' => (integer) $optionValue->getId(),
-                        'id' => (integer) $optionValue->getId(),
-                        'layout_id' => (integer) $optionValue->getLayoutId(),
+                        'value_id' => (integer)$optionValue->getId(),
+                        'id' => (integer)$optionValue->getId(),
+                        'layout_id' => (integer)$optionValue->getLayoutId(),
                         'code' => $optionValue->getCode(),
                         'name' => $optionValue->getTabbarName(),
                         'subtitle' => $optionValue->getTabbarSubtitle(),
-                        'is_active' => (boolean) $optionValue->isActive(),
-                        'is_visible' => (boolean) $optionValue->getIsVisible(),
+                        'is_active' => (boolean)$optionValue->isActive(),
+                        'is_visible' => (boolean)$optionValue->getIsVisible(),
                         'url' => $uris['featureUrl'],
-                        'hide_navbar' => (boolean) $hideNavbar,
-                        'use_external_app' => (boolean) $useExternalApp,
+                        'hide_navbar' => (boolean)$hideNavbar,
+                        'use_external_app' => (boolean)$useExternalApp,
                         'path' => $uris['featurePath'],
                         'icon_url' => $request->getBaseUrl() . $this->_getColorizedImage($optionValue->getIconId(), $color),
-                        'icon_is_colorable' => (boolean) $optionValue->getImage()->getCanBeColorized(),
-                        'is_locked' => (boolean) $optionValue->isLocked(),
-                        'is_link' => !(boolean) $optionValue->getIsAjax(),
-                        'use_my_account' => (boolean) $optionValue->getUseMyAccount(),
-                        'use_nickname' => (boolean) $optionValue->getUseNickname(),
-                        'use_ranking' => (boolean) $optionValue->getUseRanking(),
-                        'offline_mode' => (boolean) $optionValue->getObject()->isCacheable(),
+                        'icon_is_colorable' => (boolean)$optionValue->getImage()->getCanBeColorized(),
+                        'is_locked' => (boolean)$optionValue->isLocked(),
+                        'is_link' => !(boolean)$optionValue->getIsAjax(),
+                        'use_my_account' => (boolean)$optionValue->getUseMyAccount(),
+                        'use_nickname' => (boolean)$optionValue->getUseNickname(),
+                        'use_ranking' => (boolean)$optionValue->getUseRanking(),
+                        'offline_mode' => (boolean)$optionValue->getObject()->isCacheable(),
                         'custom_fields' => $optionValue->getCustomFields(),
                         'embed_payload' => $embedPayload,
-                        'position' => (integer) $optionValue->getPosition(),
+                        'position' => (integer)$optionValue->getPosition(),
                         'homepage' => ($optionValue->getFolderCategoryId() === null),
                         'settings' => $settings,
                         'lazy_load' => $optionValue->getLazyLoad(),
                         'open_callback_class' => $optionValue->getOpenCallbackClass(),
-                        'touched_at' => (integer) $optionValue->getTouchedAt(),
-                        'expires_at' => (integer) $optionValue->getExpiresAt()
+                        'touched_at' => (integer)$optionValue->getTouchedAt(),
+                        'expires_at' => (integer)$optionValue->getExpiresAt()
                     ];
 
                     // 4.18.3 link special options!
@@ -477,8 +549,8 @@ class Front_Controller_Api_Base extends Front_Controller_App_Default
                         $blockData['use_external_app'] = $objectLink->getUseExternalApp();
 
                         // post 4.18.3 options
-                        $blockData['link_url'] = (string) $objectLink->getData('url');
-                        $blockData['external_browser'] = (boolean) $objectLink->getExternalBrowser();
+                        $blockData['link_url'] = (string)$objectLink->getData('url');
+                        $blockData['external_browser'] = (boolean)$objectLink->getExternalBrowser();
                         $blockData['options'] = $objectLink->getOptions();
                     }
 
@@ -514,13 +586,13 @@ class Front_Controller_Api_Base extends Front_Controller_App_Default
                 'code' => $option->getCode(),
                 'name' => $option->getTabbarName(),
                 'subtitle' => $application->getMoreSubtitle(),
-                'is_active' => (boolean) $option->isActive(),
+                'is_active' => (boolean)$option->isActive(),
                 'lazy_load' => null,
                 'open_callback_class' => null,
                 'url' => '',
                 'icon_url' => $request->getBaseUrl() .
                     $this->_getColorizedImage($option->getIconUrl(), $moreColor),
-                'icon_is_colorable' => (boolean) $moreColorizable,
+                'icon_is_colorable' => (boolean)$moreColorizable,
             ];
 
             $option = (new Application_Model_Option())
@@ -545,8 +617,8 @@ class Front_Controller_Api_Base extends Front_Controller_App_Default
                 'code' => $option->getCode(),
                 'name' => $option->getTabbarName(),
                 'subtitle' => $application->getAccountSubtitle(),
-                'is_active' => (boolean) $option->isActive(),
-                'is_visible' => (boolean) $application->usesUserAccount(),
+                'is_active' => (boolean)$option->isActive(),
+                'is_visible' => (boolean)$application->usesUserAccount(),
                 'url' => $this->getUrl('customer/mobile_account_login'),
                 'path' => $this->getPath('customer/mobile_account_login'),
                 'login_url' => $this->getUrl('customer/mobile_account_login'),
@@ -584,20 +656,20 @@ class Front_Controller_Api_Base extends Front_Controller_App_Default
                     'layout_code' => $application->getLayout()->getCode(),
                     'layout_options' => $layoutOptions,
                     'visibility' => $application->getLayoutVisibility(),
-                    'use_horizontal_scroll' => (boolean) $layout->getUseHorizontalScroll(),
+                    'use_horizontal_scroll' => (boolean)$layout->getUseHorizontalScroll(),
                     'position' => $layout->getPosition()
                 ],
-                'limit_to' => (integer) $application->getLayout()->getNumberOfDisplayedIcons(),
+                'limit_to' => (integer)$application->getLayout()->getNumberOfDisplayedIcons(),
                 'layout_id' => 'l' . $application->getLayoutId(),
                 'layout_code' => $application->getLayout()->getCode(),
-                'tabbar_is_transparent' => (boolean) ($backgroundColor === 'transparent'),
-                'homepage_slider_is_visible' => (boolean) $application->getHomepageSliderIsVisible(),
+                'tabbar_is_transparent' => (boolean)($backgroundColor === 'transparent'),
+                'homepage_slider_is_visible' => (boolean)$application->getHomepageSliderIsVisible(),
                 'homepage_slider_duration' => $application->getHomepageSliderDuration(),
-                'homepage_slider_loop_at_beginning' => (boolean) $application->getHomepageSliderLoopAtBeginning(),
+                'homepage_slider_loop_at_beginning' => (boolean)$application->getHomepageSliderLoopAtBeginning(),
                 'homepage_slider_size' => $application->getHomepageSliderSize(),
-                'homepage_slider_opacity' => (integer) $application->getHomepageSliderOpacity(),
-                'homepage_slider_offset' => (integer) $application->getHomepageSliderOffset(),
-                'homepage_slider_is_new' => (boolean) ($application->getHomepageSliderSize() != null),
+                'homepage_slider_opacity' => (integer)$application->getHomepageSliderOpacity(),
+                'homepage_slider_offset' => (integer)$application->getHomepageSliderOffset(),
+                'homepage_slider_is_new' => (boolean)($application->getHomepageSliderSize() != null),
                 'homepage_slider_images' => $homepageSliderImages,
             ];
 
@@ -680,25 +752,25 @@ class Front_Controller_Api_Base extends Front_Controller_App_Default
     }
 
     /**
-     * @param $application
      * @param $currentLanguage
-     * @return array|false|mixed|string
+     * @return array|mixed
+     * @throws Zend_Exception
      */
-    public function _translationBlock ($application, $currentLanguage)
+    public static function _translationBlock($currentLanguage)
     {
         // Cache is based on locale + appId.
-        $appId = $application->getId();
-        $cacheId = 'v4_application_mobile_translation_findall_app_' . $appId . '_locale_' . $currentLanguage;
+        $cache = Zend_Registry::get('cache');
+        $cacheId = 'v4_application_mobile_translation_findall_locale_' . $currentLanguage;
         $blockStart = microtime(true);
-        if (!$result = $this->cache->load($cacheId)) {
+        if (!$result = $cache->load($cacheId)) {
             Siberian_Cache_Translation::init();
             $translationBlock = Core_Model_Translator::getTranslationsFor('ionic');
 
             if (empty($translationBlock)) {
                 $translationBlock = ['_empty-translation-cache_' => true];
             }
-    
-            $this->cache->save($translationBlock, $cacheId, [
+
+            $cache->save($translationBlock, $cacheId, [
                 'v4',
                 'mobile_translation',
                 'mobile_translation_locale_' . $currentLanguage
@@ -714,7 +786,7 @@ class Front_Controller_Api_Base extends Front_Controller_App_Default
 
         // Time to generate the current block!
         $translationBlock['x-delay'] = microtime(true) - $blockStart;
-        
+
         return $translationBlock;
     }
 
@@ -726,7 +798,7 @@ class Front_Controller_Api_Base extends Front_Controller_App_Default
      * @throws Zend_Session_Exception
      * @throws \rock\sanitize\SanitizeException
      */
-    public function _customerBlock ($application, $loadBlock, $currentLanguage)
+    public function _customerBlock($application, $loadBlock, $currentLanguage)
     {
         $session = $this->getSession();
         $customer = $session->getCustomer();
@@ -737,9 +809,9 @@ class Front_Controller_Api_Base extends Front_Controller_App_Default
         $this->_refreshFacebookUserToken($customer);
 
         $loadBlock['customer'] = [
-            'id' => (integer) $customerId,
-            'can_connect_with_facebook' => (boolean) $application->getFacebookId(),
-            'can_access_locked_features' => (boolean) ($customerId && $customer->canAccessLockedFeatures()),
+            'id' => (integer)$customerId,
+            'can_connect_with_facebook' => (boolean)$application->getFacebookId(),
+            'can_access_locked_features' => (boolean)($customerId && $customer->canAccessLockedFeatures()),
             'token' => Zend_Session::getId()
         ];
 
@@ -776,13 +848,13 @@ class Front_Controller_Api_Base extends Front_Controller_App_Default
                 'nickname' => $customer->getNickname(),
                 'image' => $customer->getImage(),
                 'email' => $customer->getEmail(),
-                'show_in_social_gaming' => (boolean) $customer->getShowInSocialGaming(),
-                'is_custom_image' => (boolean) $customer->getIsCustomImage(),
+                'show_in_social_gaming' => (boolean)$customer->getShowInSocialGaming(),
+                'is_custom_image' => (boolean)$customer->getIsCustomImage(),
                 'metadatas' => $metadata,
                 'communication_agreement' => (bool)$customer->getCommunicationAgreement(),
-                'can_connect_with_facebook' => (boolean) $application->getFacebookId(),
+                'can_connect_with_facebook' => (boolean)$application->getFacebookId(),
                 'can_access_locked_features' =>
-                    (boolean) ($customerId && $customer->canAccessLockedFeatures()),
+                    (boolean)($customerId && $customer->canAccessLockedFeatures()),
                 'extendedFields' => Account::getFields([
                     'application' => $application,
                     'request' => $this->getRequest(),
@@ -814,7 +886,7 @@ class Front_Controller_Api_Base extends Front_Controller_App_Default
      * @param $loadBlock
      * @return mixed
      */
-    public function _settingsBlock ($featureBlock, $loadBlock)
+    public function _settingsBlock($featureBlock, $loadBlock)
     {
         $useNickname = false;
         $useRanking = false;
@@ -857,19 +929,19 @@ class Front_Controller_Api_Base extends Front_Controller_App_Default
         $manifestMameBase = Core_Model_Directory::getTmpDirectory(true) . '/webapp_manifest_' . $appId . '.json';
         $manifestName = Core_Model_Directory::getTmpDirectory() . '/webapp_manifest_' . $appId . '.json';
 
-        $appIconBase64 = Siberian_Image::open(Core_Model_Directory::getBasePathTo($appIcon))
+        $appIconBase64 = Siberian_Image::open(path($appIcon))
             ->scaleResize(192, 192);
-        $appIcon144Base64 = Siberian_Image::open(Core_Model_Directory::getBasePathTo($appIcon))
+        $appIcon144Base64 = Siberian_Image::open(path($appIcon))
             ->scaleResize(144, 144);
-        $appIcon512Base64 = Siberian_Image::open(Core_Model_Directory::getBasePathTo($appIcon))
+        $appIcon512Base64 = Siberian_Image::open(path($appIcon))
             ->scaleResize(512, 512);
         $startupImageBase64 = $baseUrl . '/' . $startupImage;
 
-        $appIconBase64 = str_replace(Core_Model_Directory::getBasePathTo(''),
+        $appIconBase64 = str_replace(path(''),
             $baseUrl . '/', $appIconBase64->png());
-        $appIcon144Base64 = str_replace(Core_Model_Directory::getBasePathTo(''),
+        $appIcon144Base64 = str_replace(path(''),
             $baseUrl . '/', $appIcon144Base64->png());
-        $appIcon512Base64 = str_replace(Core_Model_Directory::getBasePathTo(''),
+        $appIcon512Base64 = str_replace(path(''),
             $baseUrl . '/', $appIcon512Base64->png());
 
         $blocks = $application->getBlocks();
@@ -885,7 +957,7 @@ class Front_Controller_Api_Base extends Front_Controller_App_Default
             }
         }
 
-        if (!is_readable($manifestMameBase) || $refresh) {
+        if ($refresh || !is_readable($manifestMameBase)) {
             // Generate manifest!
             $manifest = [
                 'name' => $application->getName(),
@@ -941,7 +1013,7 @@ class Front_Controller_Api_Base extends Front_Controller_App_Default
      * @param $application
      * @return array
      */
-    public function _admobSettings($application)
+    public static function _admobSettings($application)
     {
         $payload = [
             'ios_weight' => [
@@ -988,7 +1060,7 @@ class Front_Controller_Api_Base extends Front_Controller_App_Default
 
         $subscription = null;
         $planUseAds = false;
-        if ($this->isPe()) {
+        if (Siberian\Version::is('PE')) {
             $subscription = $application->getSubscription()->getSubscription();
             $planUseAds = $subscription->getUseAds();
         }
@@ -1000,74 +1072,74 @@ class Front_Controller_Api_Base extends Front_Controller_App_Default
         if ($application->getOwnerUseAds()) {
 
             $ios_types = explode('-', $ios_device->getOwnerAdmobType());
-            $ios_weight = (integer) $ios_device->getOwnerAdmobWeight();
+            $ios_weight = (integer)$ios_device->getOwnerAdmobWeight();
             $android_types = explode('-', $android_device->getOwnerAdmobType());
-            $android_weight = (integer) $android_device->getOwnerAdmobWeight();
+            $android_weight = (integer)$android_device->getOwnerAdmobWeight();
 
             $payload['platform'] = [
                 'ios' => [
                     'banner_id' => $ios_device->getOwnerAdmobId(),
                     'interstitial_id' => $ios_device->getOwnerAdmobInterstitialId(),
-                    'banner' => (boolean) in_array('banner', $ios_types),
-                    'interstitial' => (boolean) in_array('interstitial', $ios_types),
-                    'videos' => (boolean) in_array('videos', $ios_types), # Prepping the future.
+                    'banner' => (boolean)in_array('banner', $ios_types),
+                    'interstitial' => (boolean)in_array('interstitial', $ios_types),
+                    'videos' => (boolean)in_array('videos', $ios_types), # Prepping the future.
                 ],
                 'android' => [
                     'banner_id' => $android_device->getOwnerAdmobId(),
                     'interstitial_id' => $android_device->getOwnerAdmobInterstitialId(),
-                    'banner' => (boolean) in_array('banner', $android_types),
-                    'interstitial' => (boolean) in_array('interstitial', $android_types),
-                    'videos' => (boolean) in_array('videos', $android_types), # Prepping the future.
+                    'banner' => (boolean)in_array('banner', $android_types),
+                    'interstitial' => (boolean)in_array('interstitial', $android_types),
+                    'videos' => (boolean)in_array('videos', $android_types), # Prepping the future.
                 ],
             ];
 
             if (($ios_weight >= 0) && ($ios_weight <= 100)) {
-                $weight = ($ios_weight/100);
+                $weight = ($ios_weight / 100);
                 $payload['ios_weight']['platform'] = $weight;
                 $payload['ios_weight']['app'] = (1 - $weight);
             }
 
             if (($android_weight >= 0) && ($android_weight <= 100)) {
-                $weight = ($android_weight/100);
+                $weight = ($android_weight / 100);
                 $payload['android_weight']['platform'] = $weight;
                 $payload['android_weight']['app'] = (1 - $weight);
             }
 
-        } else if (($planUseAds || System_Model_Config::getValueFor('application_owner_use_ads'))) {
+        } else if (($planUseAds || __get('application_owner_use_ads'))) {
 
             $ios_key = 'application_' . $ios_device->getType()->getOsName() . '_owner_admob_%s';
             $android_key = 'application_' . $android_device->getType()->getOsName() . '_owner_admob_%s';
 
-            $ios_types = explode('-', System_Model_Config::getValueFor(sprintf($ios_key, 'type')));
-            $ios_weight = (integer) System_Model_Config::getValueFor(sprintf($ios_key, 'weight'));
-            $android_types = explode('-', System_Model_Config::getValueFor(sprintf($android_key, 'type')));
-            $android_weight = (integer) System_Model_Config::getValueFor(sprintf($android_key, 'weight'));
+            $ios_types = explode('-', __get(sprintf($ios_key, 'type')));
+            $ios_weight = (integer)__get(sprintf($ios_key, 'weight'));
+            $android_types = explode('-', __get(sprintf($android_key, 'type')));
+            $android_weight = (integer)__get(sprintf($android_key, 'weight'));
 
             $payload['platform'] = [
                 'ios' => [
-                    'banner_id' => System_Model_Config::getValueFor(sprintf($ios_key, 'id')),
-                    'interstitial_id' => System_Model_Config::getValueFor(sprintf($ios_key, 'interstitial_id')),
-                    'banner' => (boolean) in_array('banner', $ios_types),
-                    'interstitial' => (boolean) in_array('interstitial', $ios_types),
-                    'videos' => (boolean) in_array('videos', $ios_types), # Prepping the future.
+                    'banner_id' => __get(sprintf($ios_key, 'id')),
+                    'interstitial_id' => __get(sprintf($ios_key, 'interstitial_id')),
+                    'banner' => (boolean)in_array('banner', $ios_types),
+                    'interstitial' => (boolean)in_array('interstitial', $ios_types),
+                    'videos' => (boolean)in_array('videos', $ios_types), # Prepping the future.
                 ],
                 'android' => [
-                    'banner_id' => System_Model_Config::getValueFor(sprintf($android_key, 'id')),
-                    'interstitial_id' => System_Model_Config::getValueFor(sprintf($android_key, 'interstitial_id')),
-                    'banner' => (boolean) in_array('banner', $android_types),
-                    'interstitial' => (boolean) in_array('interstitial', $android_types),
-                    'videos' => (boolean) in_array('videos', $android_types), # Prepping the future.
+                    'banner_id' => __get(sprintf($android_key, 'id')),
+                    'interstitial_id' => __get(sprintf($android_key, 'interstitial_id')),
+                    'banner' => (boolean)in_array('banner', $android_types),
+                    'interstitial' => (boolean)in_array('interstitial', $android_types),
+                    'videos' => (boolean)in_array('videos', $android_types), # Prepping the future.
                 ],
             ];
 
             if (($ios_weight >= 0) && ($ios_weight <= 100)) {
-                $weight = ($ios_weight/100);
+                $weight = ($ios_weight / 100);
                 $payload['ios_weight']['platform'] = $weight;
                 $payload['ios_weight']['app'] = (1 - $weight);
             }
 
             if (($android_weight >= 0) && ($android_weight <= 100)) {
-                $weight = ($android_weight/100);
+                $weight = ($android_weight / 100);
                 $payload['android_weight']['platform'] = $weight;
                 $payload['android_weight']['app'] = (1 - $weight);
             }
@@ -1082,16 +1154,16 @@ class Front_Controller_Api_Base extends Front_Controller_App_Default
                 'ios' => [
                     'banner_id' => $ios_device->getAdmobId(),
                     'interstitial_id' => $ios_device->getAdmobInterstitialId(),
-                    'banner' => (boolean) in_array('banner', $ios_types),
-                    'interstitial' => (boolean) in_array('interstitial', $ios_types),
-                    'videos' => (boolean) in_array('videos', $ios_types), # Prepping the future.
+                    'banner' => (boolean)in_array('banner', $ios_types),
+                    'interstitial' => (boolean)in_array('interstitial', $ios_types),
+                    'videos' => (boolean)in_array('videos', $ios_types), # Prepping the future.
                 ],
                 'android' => [
                     'banner_id' => $android_device->getAdmobId(),
                     'interstitial_id' => $android_device->getAdmobInterstitialId(),
-                    'banner' => (boolean) in_array('banner', $android_types),
-                    'interstitial' => (boolean) in_array('interstitial', $android_types),
-                    'videos' => (boolean) in_array('videos', $android_types), # Prepping the future.
+                    'banner' => (boolean)in_array('banner', $android_types),
+                    'interstitial' => (boolean)in_array('interstitial', $android_types),
+                    'videos' => (boolean)in_array('videos', $android_types), # Prepping the future.
                 ],
             ];
         } else {
@@ -1110,7 +1182,7 @@ class Front_Controller_Api_Base extends Front_Controller_App_Default
      *
      * @param $customer
      */
-    public function _refreshFacebookUserToken ($customer)
+    public function _refreshFacebookUserToken($customer)
     {
         $customerFacebookDatas = $customer->getSocialDatas('facebook');
 
