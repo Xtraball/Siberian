@@ -522,7 +522,7 @@ class Installer_Model_Installer_Module extends Core_Model_Default
                     if ($valid) {
                         $main_route = array_reduce( // Let's see if we have a mobile_uri
                             $featureJson['routes'],
-                            function ($carry, $item) {
+                            static function ($carry, $item) {
                                 return (array_key_exists('root', $item) && ($item['root'] === true)) ?
                                     $item['url'] : $carry;
                             },
