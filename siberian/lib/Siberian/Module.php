@@ -55,6 +55,7 @@ class Siberian_Module
         'Form2',
         'Front',
         'Importer',
+        'InAppPurchase',
         'Installer',
         'Job',
         'Layouts',
