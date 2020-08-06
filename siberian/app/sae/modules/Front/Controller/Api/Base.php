@@ -334,6 +334,7 @@ class Front_Controller_Api_Base extends Front_Controller_App_Default
                     'enable_registration' => true,
                     'enable_commercial_agreement' => false,
                     'enable_commercial_agreement_label' => '',
+                    'enable_password_verification' => false,
                 ],
             ];
             $myAccount = $defaultSettings;

@@ -26,6 +26,7 @@ angular
                 image: '',
                 change_password: false,
                 password: '',
+                repeat_password: '',
                 privacy_policy: false
             };
 
@@ -53,7 +54,8 @@ angular
                     enable_facebook_login: true,
                     enable_registration: true,
                     enable_commercial_agreement: true,
-                    enable_commercial_agreement_label: $translate.instant("I'd like to hear about offers & services", 'customer')
+                    enable_commercial_agreement_label: $translate.instant("I'd like to hear about offers & services", 'customer'),
+                    enable_password_verification: false,
                 }
             }
         });
@@ -228,6 +230,14 @@ angular
 
         $scope.registerOrSave = function () {
             Loader.show();
+
+            if ($scope.myAccount.settings.enable_password_verification &&
+                ($scope.customer.password !== $scope.customer.repeat_password)) {
+                Loader.hide();
+                Dialog.alert('Error', 'Passwords do not match!', 'OK', -1, 'customer');
+                return;
+            }
+
             Customer
                 .save($scope.customer)
                 .then(function (success) {

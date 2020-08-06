@@ -27,6 +27,7 @@ class Customer_Form_Settings extends Siberian_Form_Abstract
 
         $enableFacebookLogin = $this->addSimpleCheckbox('enable_facebook_login', p__('customer', 'Facebook login'));
         $enableRegistration = $this->addSimpleCheckbox('enable_registration', p__('customer', 'Self registration'));
+        $enablePasswordVerification = $this->addSimpleCheckbox('enable_password_verification', p__('customer', 'Password verification (input twice)'));
 
         $enableCommercialAgreement = $this->addSimpleCheckbox('enable_commercial_agreement', p__('customer', 'Commercial agreement'));
         $commercialAgreementLabel = $this->addSimpleText('enable_commercial_agreement_label', '&nbsp;&gt;&nbsp;' . p__('customer', 'Custom label'));
