@@ -1,8 +1,8 @@
 <?php
 
 use Siberian\Account;
-use Siberian\Hook;
 use Siberian\Exception;
+use Siberian\Hook;
 
 /**
  * Class Customer_Mobile_Account_EditController
@@ -182,6 +182,60 @@ class Customer_Mobile_Account_EditController extends Application_Controller_Mobi
                 'customer' => $currentCustomer
             ];
 
+        } catch (\Exception $e) {
+            $payload = [
+                'error' => true,
+                'message' => $e->getMessage()
+            ];
+        }
+
+        $this->_sendJson($payload);
+    }
+
+    public function saveSettingsAction()
+    {
+        try {
+            $request = $this->getRequest();
+            $data = $request->getBodyParams();
+            $application = $this->getApplication();
+            $appId = $application->getId();
+
+            if (empty($data)) {
+                throw new Exception(p__('customer', 'Missing data!'));
+            }
+
+            switch ((int) $data['deviceType']) {
+                case 1: // Android
+                    $device = (new Push_Model_Android_Device())->find(
+                        ['device_uid' => $data['deviceUid'], 'app_id' => $appId]
+                    );
+                    if ($device && $device->getId()) {
+                        $device->setPushAlert(filter_var($data['push'], FILTER_VALIDATE_BOOLEAN) ?
+                            'enabled' : 'disabled');
+                        $device->save();
+                    }
+                    break;
+                case 2: // iOS
+                    $device = (new Push_Model_Iphone_Device())->find(
+                        ['device_uid' => $data['deviceUid'], 'app_id' => $appId]
+                    );
+                    if ($device && $device->getId()) {
+                        $device->setPushAlert(filter_var($data['push'], FILTER_VALIDATE_BOOLEAN) ?
+                            'enabled' : 'disabled');
+                        $device->save();
+                    }
+                    break;
+                case 3:
+                    // Browser, for later!
+                    break;
+                default:
+                    // Nope!
+            }
+
+            $payload = [
+                'success' => true,
+                'message' => p__('customer', 'Settings saved!'),
+            ];
         } catch (\Exception $e) {
             $payload = [
                 'error' => true,

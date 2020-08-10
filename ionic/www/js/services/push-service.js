@@ -113,6 +113,8 @@ angular
                     }, function (error) {
                         // Reject
                         service.isReady.reject();
+                        Push.lastError = error;
+                        Push.lastErrorMessage = error.message;
                         Dialog
                             .alert('Push registration failed', error.message, 'OK', -1);
                     });

@@ -53,9 +53,8 @@ if (document.URL.indexOf('http') === 0) {
     }
 
     path = path.reverse();
-    var language = localStorage.getItem('sb-current-language');
+    var language = localStorage.getItem('pwa-cache-' + APP_KEY + '/registry-index/sb-current-language').replace(/"/g, '');
     var CURRENT_LANGUAGE = !!language ? language : 'en';
-    localStorage.setItem('sb-current-language', CURRENT_LANGUAGE);
 
     if (angular.isDefined(path[0])) {
         APP_KEY = path[0];

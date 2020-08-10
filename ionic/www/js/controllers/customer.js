@@ -10,7 +10,7 @@ angular
     .module('starter')
     .controller('CustomerController', function ($state, $ionicHistory, $cordovaCamera, $ionicActionSheet, Loader,
                                                 $ionicPopup, Customer, $ionicScrollDelegate, $rootScope, $scope, $timeout,
-                                                $translate, Application, Dialog, FacebookConnect,
+                                                $translate, $session, Application, Dialog, FacebookConnect,
                                                 HomepageLayout, Modal, Picture, CropImage, Pages, Push) {
 
         /**
@@ -34,7 +34,7 @@ angular
         };
 
         angular.extend($scope, {
-            currentLanguage: localStorage.getItem('sb-current-language'),
+            currentLanguage: 'en',
             customer: Customer.customer || $scope.pristineCustomer(),
             card: {},
             card_design: false,
@@ -61,10 +61,33 @@ angular
             },
             settings: {
                 push: true
+            },
+            version: {
+                number: $translate.instant('Latest', 'customer'),
+                code: $translate.instant('latest', 'customer'),
             }
         });
 
+        $session
+            .getItem('sb-current-language')
+            .then(function (value) {
+                $scope.currentLanguage = value;
+            }).catch(function (error) {
+                $scope.currentLanguage = 'en';
+            });
 
+        if (window.IS_NATIVE_APP) {
+            try {
+                cordova.getAppVersion.getVersionNumber(function (versionNumber) {
+                    $scope.version.number = versionNumber;
+                });
+                cordova.getAppVersion.getVersionCode(function (versionCode) {
+                    $scope.version.code = versionCode;
+                });
+            } catch (e) {
+                // Nope
+            }
+        }
 
         $scope.privacyPolicyField = {
             label: $translate.instant('I have read & agree the privacy policy.', 'customer'),
@@ -98,7 +121,8 @@ angular
         };
 
         $scope.closeAction = function () {
-            if ($scope.display_forgot_password_form === true) {
+            if ($scope.display_forgot_password_form === true ||
+                $scope.display_settings === true) {
                 $scope.displayLoginForm();
             } else {
                 Customer.closeModal();
@@ -110,12 +134,32 @@ angular
         };
 
         $scope.getPushToken =  function () {
-            return Push.device_token;
+            let message = $translate.instant('Your device is not registered for Push notifications!', 'customer');
+            if (Push.lastErrorMessage !== null && Push.device_token === null) {
+                message = Push.lastErrorMessage;
+            } else if (Push.device_token !== null && Push.device_token.length > 0) {
+                message = Push.device_token;
+            }
+
+            return message;
+        };
+
+        $scope.updateSettings = function () {
+            Loader.show($translate.instant('Saving...', 'customer'));
+            Customer
+                .saveSettings($scope.settings)
+                .then(function (payload) {
+                    // Saved!
+                }, function (error) {
+                    // Revert!
+                }).then(function () {
+                    Loader.hide();
+                });
         };
 
         $scope.reloadLocale = function (select) {
             $scope.currentLanguage = select.currentLanguage;
-            localStorage.setItem('sb-current-language', $scope.currentLanguage);
+            $session.setItem('sb-current-language', $scope.currentLanguage);
             Loader.show('Loading translations...');
             Application
                 .reloadLocale($scope.currentLanguage)
@@ -280,7 +324,27 @@ angular
                 });
         };
 
+        $scope.willShowSettings = function () {
+            return window.IS_NATIVE_APP;
+        };
+
+        $scope.copyTokenToClipboard = function () {
+            // Only for native for now!
+            if (window.IS_NATIVE_APP) {
+                try {
+                    cordova.plugins.clipboard.copy(Push.device_token);
+                    window.plugins.toast.showShortCenter('Token copied to clipboard!');
+                } catch (e) {
+                    console.error('Something went wrong while copiyng token to clipboard!');
+                }
+            }
+        };
+
         $scope.appSettings = function () {
+            if ($scope.display_settings === true) {
+                $scope.displayLoginForm();
+                return;
+            }
             $scope.scrollTop();
             $scope.display_forgot_password_form = false;
             $scope.display_account_form = false;
@@ -289,6 +353,10 @@ angular
         };
 
         $scope.displayLoginForm = function () {
+            if (Customer.isLoggedIn()) {
+                $scope.displayAccountForm();
+                return;
+            }
             $scope.scrollTop();
             $scope.display_forgot_password_form = false;
             $scope.display_account_form = false;
