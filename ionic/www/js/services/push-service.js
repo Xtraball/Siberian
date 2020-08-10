@@ -257,21 +257,22 @@ angular
         var params = {
             id: messageId,
             title: title,
+            smallIcon: 'res://ic_icon',
+            sound: (DEVICE_TYPE === SB.DEVICE.TYPE_IOS) ? 'res://Sounds/sb_beep4.caf' : 'res://sb_beep4',
             text: localMessage
         };
 
         if (Push.device_type === SB.DEVICE.TYPE_ANDROID) {
-            params.icon = 'res://icon.png';
+            params.icon = 'res://icon';
         }
 
         try {
-            $cordovaLocalNotification.schedule(
-                angular.extend(
-                    params,
-                    {
-                        sound: (DEVICE_TYPE === SB.DEVICE.TYPE_IOS) ? 'res://Sounds/sb_beep2.caf' : 'res://sb_beep2.mp3'
-                    }));
+            $cordovaLocalNotification.schedule(params);
         } catch (e) {
+            console.error('[PushService::Error]');
+            console.error(e);
+            // Seems sound can create issues
+            delete x.sound;
             $cordovaLocalNotification.schedule(params);
         }
 
@@ -432,6 +433,8 @@ angular
                             }
 
                             $log.debug('Message payload (ionicPopup):', messagePayload, config);
+                            // Also copy to "local notification" this way we ensure message is explicitely notified!
+                            service.sendLocalNotification(messageId, trimmedTitle, trimmedMessage);
                             Dialog.ionicPopup(config);
                         }
                     } else {
@@ -445,6 +448,9 @@ angular
                             var localTitle = (messagePayload.title !== undefined) ?
                                 messagePayload.title : 'Notification';
                             $log.debug('Message payload (alert):', messagePayload);
+
+                            // Also copy to "local notification" this way we ensure message is explicitely notified!
+                            service.sendLocalNotification(messageId, otherTrimmedTitle, otherTrimmedMessage);
                             Dialog.alert(localTitle, messagePayload.message, 'OK');
                         }
                     }

@@ -3,7 +3,7 @@
  *
  * This controller handles the login modal.
  *
- * @version 4.18.14
+ * @version 4.19.1
  * @author Xtraball SAS
  */
 angular
@@ -11,7 +11,7 @@ angular
     .controller('CustomerController', function ($state, $ionicHistory, $cordovaCamera, $ionicActionSheet, Loader,
                                                 $ionicPopup, Customer, $ionicScrollDelegate, $rootScope, $scope, $timeout,
                                                 $translate, Application, Dialog, FacebookConnect,
-                                                HomepageLayout, Modal, Picture, CropImage, Pages) {
+                                                HomepageLayout, Modal, Picture, CropImage, Pages, Push) {
 
         /**
          * Clears out the customer object!
@@ -42,6 +42,7 @@ angular
             app_name: Application.app_name,
             display_login_form: (!$scope.is_logged_in) && (!Customer.display_account_form),
             display_account_form: ($scope.is_logged_in || Customer.display_account_form),
+            display_settings: false,
             can_connect_with_facebook: !!Customer.can_connect_with_facebook,
             privacy_policy: Application.privacyPolicy.text,
             privacy_policy_gdpr: Application.privacyPolicy.gdpr,
@@ -57,6 +58,9 @@ angular
                     enable_commercial_agreement_label: $translate.instant("I'd like to hear about offers & services", 'customer'),
                     enable_password_verification: false,
                 }
+            },
+            settings: {
+                push: true
             }
         });
 
@@ -103,6 +107,10 @@ angular
 
         $scope.getLanguages = function () {
             return window.AVAILABLE_LANGUAGES;
+        };
+
+        $scope.getPushToken =  function () {
+            return Push.device_token;
         };
 
         $scope.reloadLocale = function (select) {
@@ -272,10 +280,19 @@ angular
                 });
         };
 
+        $scope.appSettings = function () {
+            $scope.scrollTop();
+            $scope.display_forgot_password_form = false;
+            $scope.display_account_form = false;
+            $scope.display_login_form = false;
+            $scope.display_settings = true;
+        };
+
         $scope.displayLoginForm = function () {
             $scope.scrollTop();
             $scope.display_forgot_password_form = false;
             $scope.display_account_form = false;
+            $scope.display_settings = false;
             $scope.display_login_form = true;
         };
 
@@ -288,6 +305,7 @@ angular
             $scope.scrollTop();
             $scope.display_login_form = false;
             $scope.display_account_form = false;
+            $scope.display_settings = false;
             $scope.display_forgot_password_form = true;
         };
 
@@ -299,6 +317,7 @@ angular
                 $scope.displayLoginForm();
             }
             $scope.display_login_form = false;
+            $scope.display_settings = false;
             $scope.display_forgot_password_form = false;
             $scope.display_account_form = true;
         };

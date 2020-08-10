@@ -1,0 +1,30 @@
+<ion-list ng-class="{'card': card_design}">
+    <div ng-if="card_design"
+         style="margin-top: 20px;"></div>
+
+    <ion-item class="item-divider item-divider-custom">
+        {{ ::'Push' | translate:'customer' }}
+    </ion-item>
+
+    <ion-item class="item-toggle item-custom">
+        {{ ::'Receive push notifications' | translate:'customer' }}
+        <label class="toggle toggle-assertive">
+            <input type="checkbox"
+                   ng-model="settings.push" />
+            <div class="track">
+                <div class="handle"></div>
+            </div>
+        </label>
+    </ion-item>
+
+    <ion-item ng-if="settings.push"
+              class="item-input item-stacked-label item-custom">
+        <span class="input-label">
+            {{ ::'Push token' | translate:'customer' }}
+        </span>
+        <input type="text"
+               value="{{ getPushToken() }}"
+               readonly="readonly" />
+    </ion-item>
+
+</ion-list>

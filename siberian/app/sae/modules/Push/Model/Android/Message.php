@@ -1,5 +1,6 @@
 <?php
 
+use Siberian\CloudMessaging\Notification;
 use Siberian\Hook;
 
 /**
@@ -302,6 +303,12 @@ class Push_Model_Android_Message
         if ($application->useIonicDesign() && ($message->getLongitude() && $message->getLatitude())) {
             $messagePayload->contentAvailable(true);
         }
+
+        // Notification
+        $messageNotification = new Notification();
+        $messageNotification->sound('sb_beep2');
+
+        $messagePayload->notification($messageNotification);
 
         // Trigger an event when the push message is parsed,
         $result = Hook::trigger("push.message.android.parsed",
