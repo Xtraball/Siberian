@@ -83,7 +83,9 @@ angular
     /**
      * Handle registration, and various push events
      */
-    service.register = function () {
+    service.register = function (registerOnly) {
+        let localRegisterOnly = (registerOnly === null) ? false : registerOnly;
+
         service.isReady = $q.defer();
         service.isReadyPromise = service.isReady.promise;
 
@@ -120,26 +122,28 @@ angular
                     });
             });
 
-            service.updateUnreadCount();
+            if (!localRegisterOnly) {
+                service.updateUnreadCount();
 
-            Application.loaded.then(function () {
-                // When Application is loaded, and push registered, look for missed push!
-                service.fetchMessagesOnStart();
+                Application.loaded.then(function () {
+                    // When Application is loaded, and push registered, look for missed push!
+                    service.fetchMessagesOnStart();
 
-                // Register for push events!
-                $rootScope.$on(SB.EVENTS.PUSH.notificationReceived, function (event, data) {
-                    // Refresh to prevent the need for pullToRefresh!
-                    var pushFeature = _.filter(Pages.getActivePages(), function (page) {
-                        return (page.code === 'push_notification');
+                    // Register for push events!
+                    $rootScope.$on(SB.EVENTS.PUSH.notificationReceived, function (event, data) {
+                        // Refresh to prevent the need for pullToRefresh!
+                        var pushFeature = _.filter(Pages.getActivePages(), function (page) {
+                            return (page.code === 'push_notification');
+                        });
+                        if (pushFeature.length >= 1) {
+                            Push.setValueId(pushFeature[0].value_id);
+                            Push.findAll(0, true);
+                        }
+
+                        service.displayNotification(data);
                     });
-                    if (pushFeature.length >= 1) {
-                        Push.setValueId(pushFeature[0].value_id);
-                        Push.findAll(0, true);
-                    }
-
-                    service.displayNotification(data);
                 });
-            });
+            }
         } else {
             $log.debug('Unable to initialize push service.');
             service.isReady.reject();
