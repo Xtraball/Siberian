@@ -174,6 +174,18 @@ angular
                 });
         };
 
+        $scope.forcePushRegistration = function () {
+            PushService.register(true);
+            PushService.isReadyPromise
+                .then(function () {
+                    // Success
+                    console.info('PushService.register success');
+                }, function () {
+                    // Error
+                    console.error('PushService.register error');
+                });
+        };
+
         $scope.sendTestLocal = function () {
             PushService.sendLocalNotification(
                 Date.now(),

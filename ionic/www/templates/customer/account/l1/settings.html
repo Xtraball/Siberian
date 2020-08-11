@@ -31,7 +31,15 @@
             <p>{{ getPushToken() }}</p>
         </ion-item>
 
-        <ion-item ng-if="settings.counter == 0"
+        <ion-item ng-if="settings.push && settings.counter == 0"
+                  ng-click="forcePushRegistration()"
+                  class="item-custom">
+            <h3>
+                {{ ::'Force push registration' | translate:'customer' }}
+            </h3>
+        </ion-item>
+
+        <ion-item ng-if="settings.push && settings.counter == 0"
                   ng-click="sendTestPush()"
                   class="item-custom">
             <h3>
@@ -39,7 +47,7 @@
             </h3>
         </ion-item>
 
-        <ion-item ng-if="settings.counter == 0"
+        <ion-item ng-if="settings.push && settings.counter == 0"
                   ng-click="sendTestLocal()"
                   class="item-custom">
             <h3>
