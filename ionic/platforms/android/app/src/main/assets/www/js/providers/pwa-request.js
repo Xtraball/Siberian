@@ -678,9 +678,9 @@ angular.module("starter").provider("$sbhttp", function () {
 angular.module("starter").service("httpCache", function ($sbhttp, $cacheFactory) {
     return {
         remove: function (url) {
-            var sid = localStorage.getItem("sb-auth-token");
-            if (sid && url.indexOf(".html") == -1) {
-                url = url + "?sb-token=" + sid;
+            var sid = eval(localStorage.getItem('pwa-cache-' + APP_KEY + '/registry-index/sb-current-language'));
+            if (sid && url.indexOf('.html') == -1) {
+                url = url + '?sb-token=' + sid;
             }
             if (angular.isDefined($cacheFactory.get('$http').get(url))) {
                 $cacheFactory.get('$http').remove(url);
