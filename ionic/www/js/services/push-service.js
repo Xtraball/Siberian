@@ -112,7 +112,7 @@ angular
                     .isRegistered()
                     .then(function (success) {
                         service.isReady.resolve();
-                    }, function (error) {
+                    }, function (isRegisteredError) {
                         // Reject
                         service.isReady.reject();
                         Push.lastError = error;

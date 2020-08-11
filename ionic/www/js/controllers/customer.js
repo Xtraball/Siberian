@@ -179,9 +179,12 @@ angular
             PushService.isReadyPromise
                 .then(function () {
                     // Success
-                    console.info('PushService.register success');
+                    Dialog.alert('Success', 'Registration to push services is successful!', 'OK');
                 }, function () {
                     // Error
+                    if (Push.lastErrorMessage && Push.lastErrorMessage.length) {
+                        Dialog.alert('Error', Push.lastErrorMessage, 'OK');
+                    }
                     console.error('PushService.register error');
                 });
         };
