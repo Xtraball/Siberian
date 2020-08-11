@@ -83,7 +83,9 @@ angular
     /**
      * Handle registration, and various push events
      */
-    service.register = function () {
+    service.register = function (registerOnly) {
+        let localRegisterOnly = (registerOnly === null) ? false : registerOnly;
+
         service.isReady = $q.defer();
         service.isReadyPromise = service.isReady.promise;
 
@@ -113,31 +115,35 @@ angular
                     }, function (error) {
                         // Reject
                         service.isReady.reject();
+                        Push.lastError = error;
+                        Push.lastErrorMessage = error.message;
                         Dialog
                             .alert('Push registration failed', error.message, 'OK', -1);
                     });
             });
 
-            service.updateUnreadCount();
+            if (!localRegisterOnly) {
+                service.updateUnreadCount();
 
-            Application.loaded.then(function () {
-                // When Application is loaded, and push registered, look for missed push!
-                service.fetchMessagesOnStart();
+                Application.loaded.then(function () {
+                    // When Application is loaded, and push registered, look for missed push!
+                    service.fetchMessagesOnStart();
 
-                // Register for push events!
-                $rootScope.$on(SB.EVENTS.PUSH.notificationReceived, function (event, data) {
-                    // Refresh to prevent the need for pullToRefresh!
-                    var pushFeature = _.filter(Pages.getActivePages(), function (page) {
-                        return (page.code === 'push_notification');
+                    // Register for push events!
+                    $rootScope.$on(SB.EVENTS.PUSH.notificationReceived, function (event, data) {
+                        // Refresh to prevent the need for pullToRefresh!
+                        var pushFeature = _.filter(Pages.getActivePages(), function (page) {
+                            return (page.code === 'push_notification');
+                        });
+                        if (pushFeature.length >= 1) {
+                            Push.setValueId(pushFeature[0].value_id);
+                            Push.findAll(0, true);
+                        }
+
+                        service.displayNotification(data);
                     });
-                    if (pushFeature.length >= 1) {
-                        Push.setValueId(pushFeature[0].value_id);
-                        Push.findAll(0, true);
-                    }
-
-                    service.displayNotification(data);
                 });
-            });
+            }
         } else {
             $log.debug('Unable to initialize push service.');
             service.isReady.reject();
@@ -257,21 +263,22 @@ angular
         var params = {
             id: messageId,
             title: title,
+            smallIcon: 'res://ic_icon',
+            sound: (DEVICE_TYPE === SB.DEVICE.TYPE_IOS) ? 'res://Sounds/sb_beep4.caf' : 'res://sb_beep4',
             text: localMessage
         };
 
         if (Push.device_type === SB.DEVICE.TYPE_ANDROID) {
-            params.icon = 'res://icon.png';
+            params.icon = 'res://icon';
         }
 
         try {
-            $cordovaLocalNotification.schedule(
-                angular.extend(
-                    params,
-                    {
-                        sound: (DEVICE_TYPE === SB.DEVICE.TYPE_IOS) ? 'res://Sounds/sb_beep2.caf' : 'res://sb_beep2.mp3'
-                    }));
+            $cordovaLocalNotification.schedule(params);
         } catch (e) {
+            console.error('[PushService::Error]');
+            console.error(e);
+            // Seems sound can create issues
+            delete x.sound;
             $cordovaLocalNotification.schedule(params);
         }
 
@@ -432,6 +439,8 @@ angular
                             }
 
                             $log.debug('Message payload (ionicPopup):', messagePayload, config);
+                            // Also copy to "local notification" this way we ensure message is explicitely notified!
+                            service.sendLocalNotification(messageId, trimmedTitle, trimmedMessage);
                             Dialog.ionicPopup(config);
                         }
                     } else {
@@ -445,6 +454,9 @@ angular
                             var localTitle = (messagePayload.title !== undefined) ?
                                 messagePayload.title : 'Notification';
                             $log.debug('Message payload (alert):', messagePayload);
+
+                            // Also copy to "local notification" this way we ensure message is explicitely notified!
+                            service.sendLocalNotification(messageId, otherTrimmedTitle, otherTrimmedMessage);
                             Dialog.alert(localTitle, messagePayload.message, 'OK');
                         }
                     }

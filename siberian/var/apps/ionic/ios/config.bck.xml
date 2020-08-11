@@ -42,7 +42,7 @@
     <allow-intent href="whatsapp:*" />
     <chcp>
         <config-file url="PLATFORM_URL" />
-        <native-interface version="17" />
+        <native-interface version="18" />
         <auto-download enabled="false" />
         <auto-install enabled="false" />
     </chcp>

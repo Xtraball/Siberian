@@ -54,22 +54,6 @@
                    ng-model="customer.email" />
         </label>
 
-
-        <!-- select -->
-        <label ng-show="is_logged_in"
-               class="item item-custom item-input item-select">
-            <div class="input-label">
-                {{ ::'Language' | translate:'customer' }}
-            </div>
-            <select name="currentLanguage"
-                    ng-model="currentLanguage"
-                    ng-change="reloadLocale(this)">
-                <option ng-repeat="language in getLanguages()"
-                        ng-selected="language == currentLanguage"
-                        value="{{ language }}">{{ language.toUpperCase() }}</option>
-            </select>
-        </label>
-
         <label class="item item-custom"
                ng-click="customer.change_password = !customer.change_password"
                ng-if="is_logged_in">
@@ -98,6 +82,17 @@
                    placeholder="{{ ::'Password' | translate:'customer' }}"
                    ng-model="customer.password"
                    ng-disabled="!customer.change_password && is_logged_in" />
+        </label>
+
+        <label class="item item-input item-custom"
+               ng-if="myAccount.settings.enable_password_verification && (customer.change_password || !is_logged_in)">
+            <div class="input-label">
+                <span>{{ ::'Repeat password' | translate:'customer' }}</span>
+            </div>
+            <input class="text-right"
+                   type="password"
+                   placeholder="{{ ::'Repeat password' | translate:'customer' }}"
+                   ng-model="customer.repeat_password" />
         </label>
 
         <sb-clickwrap field="privacyPolicyField"
