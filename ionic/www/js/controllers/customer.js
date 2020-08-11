@@ -152,7 +152,7 @@ angular
                         return;
                     }
                     window.plugins.toast.showShortBottom(
-                        $translate.instant('Tap $1 more to access advanced options!', 'customer').replace('$1', $scope.settings.counter)
+                        $translate.instant('$1 more to access advanced options!', 'customer').replace('$1', $scope.settings.counter)
                     );
                     $scope.settings.counter--;
                 } catch (e) {
@@ -209,7 +209,7 @@ angular
         $scope.reloadLocale = function (select) {
             $scope.currentLanguage = select.currentLanguage;
             $session.setItem('sb-current-language', $scope.currentLanguage);
-            Loader.show('Loading translations...');
+            Loader.show($translate.instant('Loading translations...', 'customer'));
             Application
                 .reloadLocale($scope.currentLanguage)
                 .then(function (success) {
