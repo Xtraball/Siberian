@@ -30,6 +30,22 @@
             </h3>
             <p>{{ getPushToken() }}</p>
         </ion-item>
+
+        <ion-item ng-if="settings.counter == 0"
+                  ng-click="sendTestPush()"
+                  class="item-custom">
+            <h3>
+                {{ ::'Send me a test push' | translate:'customer' }}
+            </h3>
+        </ion-item>
+
+        <ion-item ng-if="settings.counter == 0"
+                  ng-click="sendTestLocal()"
+                  class="item-custom">
+            <h3>
+                {{ ::'Send me a test local notification' | translate:'customer' }}
+            </h3>
+        </ion-item>
     </div>
 
     <div ng-if="willShowSettings() && card_design"
@@ -56,7 +72,8 @@
             </select>
         </label>
 
-        <label class="item item-custom item-input">
+        <label ng-click="devCounter()"
+               class="item item-custom item-input">
             <div class="input-label">
                 {{ ::'Version' | translate:'customer' }}
             </div>

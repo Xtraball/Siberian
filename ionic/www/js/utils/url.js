@@ -8,6 +8,7 @@ var fbtoken = window.location.hash.match(/\?__tokenfb__=(.*)/);
 var LOGIN_FB = false;
 var IS_NATIVE_APP = false;
 var DEVICE_TYPE = 3;
+var AVAILABLE_LANGUAGES = ['en'];
 var DISABLE_BATTERY_OPTIMIZATION = false;
 
 if (goto) {
@@ -53,8 +54,6 @@ if (document.URL.indexOf('http') === 0) {
     }
 
     path = path.reverse();
-    var language = localStorage.getItem('pwa-cache-' + APP_KEY + '/registry-index/sb-current-language').replace(/"/g, '');
-    var CURRENT_LANGUAGE = !!language ? language : 'en';
 
     if (angular.isDefined(path[0])) {
         APP_KEY = path[0];

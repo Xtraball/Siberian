@@ -267,6 +267,15 @@ angular
             });
         };
 
+        factory.sendTestPush = function (deviceToken) {
+            return $pwaRequest.post('customer/mobile_account_edit/send-test-push', {
+                data: {
+                    deviceToken: deviceToken
+                },
+                cache: false
+            });
+        };
+
         factory.forgottenpassword = function (email) {
             Loader.show();
 

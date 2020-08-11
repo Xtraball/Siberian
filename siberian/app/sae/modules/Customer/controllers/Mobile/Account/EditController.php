@@ -192,6 +192,45 @@ class Customer_Mobile_Account_EditController extends Application_Controller_Mobi
         $this->_sendJson($payload);
     }
 
+    public function sendTestPushAction()
+    {
+        try {
+            $request = $this->getRequest();
+            $data = $request->getBodyParams();
+
+            if (empty($data)) {
+                throw new Exception(p__('customer', 'Missing data!'));
+            }
+
+            $tokens = [
+                $data['deviceToken']
+            ];
+
+            $push = \Push\Model\StandalonePush::buildFromTokens($tokens);
+            $push->sendMessage(
+                p__('customer', 'Test push'),
+                p__('customer', 'This is a test push!'),
+                '',
+                null,
+                null,
+                null,
+                false
+            );
+
+            $payload = [
+                'success' => true,
+                'message' => p__('customer', 'Test push sent!'),
+            ];
+        } catch (\Exception $e) {
+            $payload = [
+                'error' => true,
+                'message' => $e->getMessage()
+            ];
+        }
+
+        $this->_sendJson($payload);
+    }
+
     public function saveSettingsAction()
     {
         try {

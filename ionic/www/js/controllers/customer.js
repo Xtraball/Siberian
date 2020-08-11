@@ -11,7 +11,7 @@ angular
     .controller('CustomerController', function ($state, $ionicHistory, $cordovaCamera, $ionicActionSheet, Loader,
                                                 $ionicPopup, Customer, $ionicScrollDelegate, $rootScope, $scope, $timeout,
                                                 $translate, $session, Application, Dialog, FacebookConnect,
-                                                HomepageLayout, Modal, Picture, CropImage, Pages, Push) {
+                                                HomepageLayout, Modal, Picture, CropImage, Pages, Push, PushService) {
 
         /**
          * Clears out the customer object!
@@ -60,7 +60,8 @@ angular
                 }
             },
             settings: {
-                push: true
+                push: true,
+                counter: 7,
             },
             version: {
                 number: $translate.instant('Latest', 'customer'),
@@ -142,6 +143,42 @@ angular
             }
 
             return message;
+        };
+
+        $scope.devCounter = function () {
+            if (window.IS_NATIVE_APP) {
+                try {
+                    if ($scope.settings.counter <= 0) {
+                        return;
+                    }
+                    window.plugins.toast.showShortBottom(
+                        $translate.instant('Tap $1 more to access advanced options!', 'customer').replace('$1', $scope.settings.counter)
+                    );
+                    $scope.settings.counter--;
+                } catch (e) {
+                    console.error('Something went wrong while accessing advanced options!');
+                }
+            }
+        };
+
+        $scope.sendTestPush = function () {
+            Loader.show($translate.instant('Sending...', 'customer'));
+            Customer
+                .sendTestPush(Push.device_token)
+                .then(function (payload) {
+                    // Saved!
+                }, function (error) {
+                    // Revert!
+                }).then(function () {
+                    Loader.hide();
+                });
+        };
+
+        $scope.sendTestLocal = function () {
+            PushService.sendLocalNotification(
+                Date.now(),
+                $translate.instant('Local notification', 'customer'),
+                $translate.instant('This is a local notification test!', 'customer'));
         };
 
         $scope.updateSettings = function () {
@@ -333,7 +370,7 @@ angular
             if (window.IS_NATIVE_APP) {
                 try {
                     cordova.plugins.clipboard.copy(Push.device_token);
-                    window.plugins.toast.showShortCenter('Token copied to clipboard!');
+                    window.plugins.toast.showShortCenter($translate.instant('Token copied to clipboard!', 'customer'));
                 } catch (e) {
                     console.error('Something went wrong while copiyng token to clipboard!');
                 }

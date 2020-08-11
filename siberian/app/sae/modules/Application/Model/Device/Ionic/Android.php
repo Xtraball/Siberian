@@ -414,6 +414,7 @@ class Application_Model_Device_Ionic_Android extends Application_Model_Device_Io
         $appKey = $application->getKey();
         $disableBatteryOptimization = (boolean) filter_var($application->getDisableBatteryOptimization(), FILTER_VALIDATE_BOOLEAN);
         $_dbo = $disableBatteryOptimization ? "true" : "false";
+        $languages = array_keys(Core_Model_Language::getLanguages());
 
         $url_js_content = "
 /** Auto-generated url.js */
@@ -421,7 +422,7 @@ var REDIRECT_URI = false;
 var IS_NATIVE_APP = true;
 var DEVICE_TYPE = 1;
 window.location.hash = window.location.hash.replace(/\?__goto__=(.*)/, \"\");
-var CURRENT_LANGUAGE = AVAILABLE_LANGUAGES.indexOf(language) >= 0 ? language : 'en';
+var AVAILABLE_LANGUAGES = ['" . implode("','", $languages) . "'];
 var DISABLE_BATTERY_OPTIMIZATION = {$_dbo};
 
 // WebView
@@ -461,31 +462,7 @@ var IMAGE_URL = DOMAIN + '/';";
      */
     protected function _prepareLanguages()
     {
-        $languages = array_keys(Core_Model_Language::getLanguages());
-
-        $file_content = "
-/** Auto-generated languages.js */
-var AVAILABLE_LANGUAGES = new Array('" . implode("','", $languages) . "');
-
-/**
- * Find navigator preferred language
- */
-var language = \"en\";
-if(navigator.language) {
-    var tmp_language = navigator.language.replace(\"-\", \"_\");
-
-    try {
-        if(AVAILABLE_LANGUAGES.indexOf(tmp_language) >= 0) {
-            language = tmp_language
-        } else {
-            language = tmp_language.split(\"_\")[0];
-        }
-    } catch(e) {
-        language = \"en\";
-    }
-}";
-
-        File::putContents($this->_dest_source . "/app/src/main/assets/www/js/utils/languages.js", $file_content);
+        // deprecated
     }
 
     /**
