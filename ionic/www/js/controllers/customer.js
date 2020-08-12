@@ -72,7 +72,7 @@ angular
         $session
             .getItem('sb-current-language')
             .then(function (value) {
-                $scope.currentLanguage = value;
+                $scope.currentLanguage = (value === null) ? 'en' : value;
             }).catch(function (error) {
                 $scope.currentLanguage = 'en';
             });
