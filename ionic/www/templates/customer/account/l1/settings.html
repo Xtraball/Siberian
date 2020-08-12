@@ -1,6 +1,5 @@
 <div>
-    <div ng-if="card_design"
-         style="margin-top: 20px;"></div>
+    <div style="margin-top: 20px;"></div>
 
     <div class="list"
          ng-if="willShowSettings()"
@@ -87,8 +86,8 @@
             </div>
             <input type="text"
                    class="text-right"
-                   ng-value="version.number + ' (' + version.code + ')'"
-                   readonly="readonly"/>
+                   ng-value="getVersion()"
+                   readonly="readonly" />
         </label>
 
     </div>

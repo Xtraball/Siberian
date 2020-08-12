@@ -235,6 +235,13 @@ angular
                 });
         };
 
+        $scope.getVersion = function () {
+            if (window.IS_NATIVE_APP) {
+                return $scope.version.number + ' (' + $scope.version.code + ')';
+            }
+            return $scope.version.number;
+        };
+
         /**
          * Check for CHCP live updates!
          */
