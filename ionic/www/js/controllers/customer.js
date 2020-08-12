@@ -151,10 +151,13 @@ angular
                     if ($scope.settings.counter <= 0) {
                         return;
                     }
-                    window.plugins.toast.showShortBottom(
-                        $translate.instant('$1 more to access advanced options!', 'customer').replace('$1', $scope.settings.counter)
-                    );
                     $scope.settings.counter--;
+                    window.plugins.toast.hide();
+                    window.plugins.toast.showShortBottom(
+                        $translate
+                            .instant('$1 more to access advanced options!', 'customer')
+                            .replace('$1', $scope.settings.counter)
+                    );
                 } catch (e) {
                     console.error('Something went wrong while accessing advanced options!');
                 }

@@ -15,7 +15,7 @@ class Push_Model_Db_Table_Iphone_Device extends Core_Model_Db_Table {
             ->group('pad.device_id')
         ;
 
-        if($topics) {
+        if ($topics) {
             $select->joinLeft(array("ps" => "topic_subscription"),"ps.device_uid = pad.device_uid",array())
                 ->where("ps.category_id IN (?)",implode(",",$topics));
         }
