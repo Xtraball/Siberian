@@ -104,6 +104,10 @@ angular
                         service.isEnabled = payload.enabled;
                     });
 
+                // Clear error messages!
+                Push.lastError = null;
+                Push.lastErrorMessage = null;
+
                 // Resolve promise!
                 service.isReady.resolve();
             });
@@ -113,6 +117,9 @@ angular
             service.push.on('error', function (error) {
                 // Before displaying a registration error, we want to check if the device is known in DB
                 console.error('[Push]', error);
+                Push.lastError = error;
+                Push.lastErrorMessage = error.message;
+
                 service
                     .isRegistered()
                     .then(function (success) {
@@ -120,10 +127,10 @@ angular
                     }, function (isRegisteredError) {
                         // Reject
                         service.isReady.reject();
-                        Push.lastError = error;
-                        Push.lastErrorMessage = error.message;
-                        Dialog
-                            .alert('Push registration failed', error.message, 'OK', -1);
+                        if (!registerOnly) {
+                            Dialog
+                                .alert('Push registration failed', error.message, 'OK', -1);
+                        }
                     });
             });
 
