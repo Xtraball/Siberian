@@ -43,11 +43,26 @@ class Feature
         $library = new \Media_Model_Library();
         $library
             ->setData([
-                "name" => $name,
+                'name' => $name,
             ])
-            ->insertOnce(["name"]);
+            ->insertOnce(['name']);
 
-        $icon_id = 0;
+        // Ensure older images are still valid, or wipe them!
+        $removedImageIds = [];
+        $olderImages = (new \Media_Model_Library_Image())->findAll($library->getId(), 'library_id');
+        foreach ($olderImages as $olderImage) {
+            $imagePath = $olderImage->getData('link');
+            // Test only paths starting with /app!
+            if (stripos($imagePath, '/app/') === 0) {
+                $realPath = path($imagePath);
+                if (!is_readable($realPath)) {
+                    $removedImageIds[] = $olderImage->getId();
+                    $olderImage->delete();
+                }
+            }
+        }
+
+        $iconId = 0;
         foreach ($icons as $key => $icon_path) {
             $data = [
                 'library_id' => $library->getId(),
@@ -58,16 +73,26 @@ class Feature
             $image = new \Media_Model_Library_Image();
             $image
                 ->setData($data)
-                ->insertOrUpdate(["library_id", "link"]);
+                ->insertOrUpdate(['library_id', 'link']);
 
-            if ($key == 0) {
-                $icon_id = $image->getId();
+            if ($iconId === 0) {
+                $iconId = $image->getId();
+            }
+        }
+
+        // Replacing removed image ids with the new "default"
+        if (count($removedImageIds) > 0) {
+            $brokenFeatures = (new \Media_Model_Library_Image())->findAll(['icon_id IN (?)' => $removedImageIds]);
+            foreach ($brokenFeatures as $brokenFeature) {
+                $brokenFeature
+                    ->setIconId($iconId)
+                    ->save();
             }
         }
 
         return [
-            "icon_id" => $icon_id,
-            "library_id" => $library->getId(),
+            'icon_id' => $iconId,
+            'library_id' => $library->getId(),
         ];
     }
 

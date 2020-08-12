@@ -3,7 +3,7 @@
 /**
  * Class Manifest
  *
- * @version 4.19.0
+ * @version 4.19.1
  */
 class Manifest
 {
@@ -55,8 +55,6 @@ class Manifest
         "favicon\.",
         "manifest\.json",
         "app/sae/design/desktop/flat/images/header/logo\.png",
-        "var/apps/browser/js/utils/languages\.js",
-        "var/apps/overview/js/utils/languages\.js",
         "lib/vendor/gregwar/image/Gregwar/Image/phpunit\.xml\.dist",
     ];
 

@@ -300,7 +300,6 @@ class Bootstrap extends Zend_Application_Bootstrap_Bootstrap
                     global $init;
                     ob_start();
                     require_once $path_init;
-                    dbg($path_init);
                     if (is_callable($init)) {
                         $init($this);
                     }

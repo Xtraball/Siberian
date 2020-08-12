@@ -15,12 +15,14 @@
               hreflang="<?php echo $language->getCode() ?>" />
         <?php endforeach ?>
 
+        <?php $currentRelease = __get('current_release'); ?>
+
         <script type="text/javascript">
             tmp_directory = "<?php echo Core_Model_Directory::getTmpDirectory() ?>";
             window.messages = {};
             window.messages.uploadInProgress = "<?php echo p__js("application", "Upload in progress ...") ?>";
             let version = "<?php echo Siberian_Version::VERSION ?>";
-            let current_release = "<?php echo __get("current_release") ?>";
+            let current_release = "<?php echo $currentRelease ?>";
             let datepicker_regional = "<?php echo Core_Model_Language::getCurrentLanguageDatepicker() ?>";
 
             <?php $existing_steps = new Tour_Model_Step(); ?>
@@ -90,6 +92,11 @@
               href="<?php echo $this->getFavicon() ?>" />
         <script type="text/javascript">let login_urls = {};</script>
         <?php echo $this->getPartialHtml("css"); ?>
+
+        <link href="/app/local/design/desktop/flat/css/user-style.css?t=<?php echo $currentRelease ?>"
+              media="all"
+              rel="stylesheet"
+              type="text/css" />
 
         <?php echo Siberian_Debug::renderHead(); ?>
 

@@ -71,6 +71,7 @@ class Push_IphoneController extends Core_Controller_Default
 
             $payload = [
                 'success' => true,
+                'enabled' => $device->getPushAlert() === 'enabled',
                 'message' => p__('push', 'Successfully registered %s to push with token %s',
                     'iOS', $params['device_token'])
             ];

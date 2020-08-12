@@ -2,7 +2,7 @@
  * Customer
  *
  * @author Xtraball SAS <dev@xtraball.com>
- * @version 4.18.14
+ * @version 4.19.1
  */
 angular
     .module('starter')
@@ -253,6 +253,27 @@ angular
                 });
 
             return promise;
+        };
+
+        factory.saveSettings = function (settings) {
+            let localSettings = settings;
+
+            localSettings.deviceType = DEVICE_TYPE;
+            localSettings.deviceUid = $session.getDeviceUid();
+
+            return $pwaRequest.post('customer/mobile_account_edit/save-settings', {
+                data: localSettings,
+                cache: false
+            });
+        };
+
+        factory.sendTestPush = function (deviceToken) {
+            return $pwaRequest.post('customer/mobile_account_edit/send-test-push', {
+                data: {
+                    deviceToken: deviceToken
+                },
+                cache: false
+            });
         };
 
         factory.forgottenpassword = function (email) {

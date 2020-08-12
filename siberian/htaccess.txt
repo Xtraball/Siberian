@@ -56,12 +56,6 @@ SetEnvIf Authorization "(.*)" HTTP_AUTHORIZATION=$1
 </IfModule>
 
 ###########################################################################
-# Set the Memory Limit
-<IfModule mod_php5.c>
-    php_value memory_limit 256M
-</IfModule>
-
-###########################################################################
 # Cache Control
 <IfModule mod_headers.c>
     Header unset Cache-Control

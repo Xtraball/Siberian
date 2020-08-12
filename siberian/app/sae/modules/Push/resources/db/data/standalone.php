@@ -1,7 +1,7 @@
 <?php
 /**
  * @author Xtraball SAS <dev@xtraball.com>
- * @version 4.17.6
+ * @version 4.19.1
  */
 
 use Siberian\Feature;
@@ -24,6 +24,7 @@ Feature::installCronjob(
     $module->getId()
 );
 
+// Fixes non-nullable fields!
 $alters = [
     "ALTER TABLE `standalone_push` CHANGE `value_id` `value_id` INT(11) UNSIGNED NULL DEFAULT NULL;",
     "ALTER TABLE `standalone_push` CHANGE `app_id` `app_id` INT(11) UNSIGNED NULL DEFAULT NULL;",
@@ -32,3 +33,11 @@ $alters = [
     "ALTER TABLE `standalone_push` CHANGE `action_value` `action_value` LONGTEXT CHARACTER SET utf8 COLLATE utf8_unicode_ci NULL DEFAULT NULL;",
     "ALTER TABLE `standalone_push` CHANGE `send_at` `send_at` INT(11) UNSIGNED NULL DEFAULT NULL;",
 ];
+
+foreach ($alters as $alter) {
+    try {
+        $this->query($alter);
+    } catch (\Exception $e) {
+        // Fails silently!
+    }
+}

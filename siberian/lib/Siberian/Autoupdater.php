@@ -43,7 +43,6 @@ class Autoupdater
      */
     public static function configure($host)
     {
-        dbg('configure');
         $current_release = Version::VERSION . '.' . time();
         __set('current_release', $current_release);
 

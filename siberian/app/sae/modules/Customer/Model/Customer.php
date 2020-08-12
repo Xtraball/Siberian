@@ -32,19 +32,15 @@ class Customer_Model_Customer extends Core_Model_Default
     protected $_social_instances = [];
 
     /**
-     * Customer_Model_Customer constructor.
-     * @param array $datas
+     * @var string
      */
-    public function __construct($datas = [])
-    {
-        parent::__construct($datas);
-        $this->_db_table = 'Customer_Model_Db_Table_Customer';
-    }
+    protected $_db_table = Customer_Model_Db_Table_Customer::class;
 
     /**
+     * @param $valueId
      * @return array
      */
-    public function getInappStates($valueId)
+    public function getInappStates($valueId): array
     {
         $inAppStates = [
             [
@@ -59,7 +55,9 @@ class Customer_Model_Customer extends Core_Model_Default
 
     /**
      * @param $app_id
-     * @return mixed
+     * @return array
+     * @throws Zend_Db_Select_Exception
+     * @throws Zend_Db_Statement_Exception
      */
     public function findByAppId($app_id)
     {

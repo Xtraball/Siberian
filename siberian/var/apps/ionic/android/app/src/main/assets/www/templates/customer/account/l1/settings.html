@@ -1,0 +1,95 @@
+<div>
+    <div style="margin-top: 20px;"></div>
+
+    <div class="list"
+         ng-if="willShowSettings()"
+         ng-class="{'card': card_design}">
+
+        <ion-item class="item-divider item-divider-custom">
+            {{ ::'Push' | translate:'customer' }}
+        </ion-item>
+
+        <ion-item class="item-toggle item-custom">
+            {{ ::'Receive push notifications' | translate:'customer' }}
+            <label class="toggle toggle-balanced">
+                <input type="checkbox"
+                       ng-change="updateSettings()"
+                       ng-model="settings.push"/>
+                <div class="track">
+                    <div class="handle"></div>
+                </div>
+            </label>
+        </ion-item>
+
+        <ion-item ng-if="settings.push && settings.counter  <= 0"
+                  ng-click="copyTokenToClipboard()"
+                  class="item-custom">
+            <h3>
+                {{ ::'Push token' | translate:'customer' }} <i>({{ ::'Tap to copy!' | translate:'customer' }})</i>
+            </h3>
+            <p>{{ getPushToken() }}</p>
+        </ion-item>
+
+        <ion-item ng-if="settings.push && settings.counter <= 0"
+                  ng-click="forcePushRegistration()"
+                  class="item-custom">
+            <h3>
+                {{ ::'Force push registration' | translate:'customer' }}
+            </h3>
+        </ion-item>
+
+        <ion-item ng-if="settings.push && settings.counter <= 0"
+                  ng-click="sendTestPush()"
+                  class="item-custom">
+            <h3>
+                {{ ::'Send me a test push' | translate:'customer' }}
+            </h3>
+        </ion-item>
+
+        <ion-item ng-if="settings.push && settings.counter <= 0"
+                  ng-click="sendTestLocal()"
+                  class="item-custom">
+            <h3>
+                {{ ::'Send me a test local notification' | translate:'customer' }}
+            </h3>
+        </ion-item>
+    </div>
+
+    <div ng-if="willShowSettings() && card_design"
+         style="margin-top: 20px;"></div>
+
+    <div class="list"
+         ng-class="{'card': card_design}">
+
+        <ion-item class="item-divider item-divider-custom">
+            {{ ::'Application' | translate:'customer' }}
+        </ion-item>
+
+        <label class="item item-custom item-input item-select">
+            <div class="input-label">
+                {{ ::'Language' | translate:'customer' }}
+            </div>
+            <select name="currentLanguage"
+                    ng-model="currentLanguage"
+                    ng-change="reloadLocale(this)">
+                <option ng-repeat="language in getLanguages()"
+                        ng-selected="language == currentLanguage"
+                        value="{{ language }}">{{ language | translate:'locales' }}
+                </option>
+            </select>
+        </label>
+
+        <label ng-click="devCounter()"
+               class="item item-custom item-input">
+            <div class="input-label">
+                {{ ::'Version' | translate:'customer' }}
+            </div>
+            <input type="text"
+                   class="text-right"
+                   ng-value="getVersion()"
+                   readonly="readonly" />
+        </label>
+
+    </div>
+
+</div>

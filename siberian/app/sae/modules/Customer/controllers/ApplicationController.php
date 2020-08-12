@@ -65,6 +65,7 @@ class Customer_ApplicationController extends Application_Controller_Default
                     'enable_registration' => filter_var($values['enable_registration'], FILTER_VALIDATE_BOOLEAN),
                     'enable_commercial_agreement' => filter_var($values['enable_commercial_agreement'], FILTER_VALIDATE_BOOLEAN),
                     'enable_commercial_agreement_label' => $values['enable_commercial_agreement_label'],
+                    'enable_password_verification' => filter_var($values['enable_password_verification'], FILTER_VALIDATE_BOOLEAN),
                 ];
 
                 $optionValue

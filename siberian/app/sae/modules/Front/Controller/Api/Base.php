@@ -334,6 +334,7 @@ class Front_Controller_Api_Base extends Front_Controller_App_Default
                     'enable_registration' => true,
                     'enable_commercial_agreement' => false,
                     'enable_commercial_agreement_label' => '',
+                    'enable_password_verification' => false,
                 ],
             ];
             $myAccount = $defaultSettings;
@@ -765,6 +766,23 @@ class Front_Controller_Api_Base extends Front_Controller_App_Default
         if (!$result = $cache->load($cacheId)) {
             Siberian_Cache_Translation::init();
             $translationBlock = Core_Model_Translator::getTranslationsFor('ionic');
+
+            // Locales
+            $locale = Zend_Registry::get('Zend_Locale');
+            $languages = $locale->getTranslationList('language', new Zend_Locale($currentLanguage));
+            $existingLanguages = Core_Model_Language::getLanguageCodes();
+            foreach ($languages as $k => $language) {
+                if (!$locale->isLocale($k)) {
+                    unset($languages[$k]);
+                }
+            }
+            unset($languages['root']);
+
+            asort($languages, SORT_LOCALE_STRING);
+            $languages = array_map('ucfirst', $languages);
+
+            $translationBlock['_available'] = $existingLanguages;
+            $translationBlock['_context']['locales'] = $languages;
 
             if (empty($translationBlock)) {
                 $translationBlock = ['_empty-translation-cache_' => true];

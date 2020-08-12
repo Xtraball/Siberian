@@ -48,10 +48,6 @@ angular.module('starter').service('$session', function ($log, $pwaCache, $q, $wi
 
         service.session_id = sessionId;
         service.setItem(service.localstorage_key, sessionId);
-
-        /** Fallback */
-        $window.localStorage.setItem(service.localstorage_key, sessionId);
-
         service.setDeviceUid();
     };
 
@@ -159,19 +155,13 @@ angular.module('starter').service('$session', function ($log, $pwaCache, $q, $wi
      * Init once
      */
     service.setDeviceScreen($window.innerWidth, $window.innerHeight);
-    service.getItem(service.localstorage_key)
+    service
+        .getItem(service.localstorage_key)
         .then(function (value) {
-            var fallback = $window.localStorage.getItem(service.localstorage_key);
-
             if ((value !== null) && (value !== undefined)) {
                 $log.debug('Set once $session from pwaRegistry on start: ', value);
                 service.setId(value);
-
                 // Don't forget to log-in the customer.!
-            } else if ((fallback !== null) && (fallback !== undefined)) {
-                $log.debug('Set once $session from fallback localstorage on start: ', fallback);
-
-                service.setId(fallback);
             }
 
             if (service.device_uid === null) {

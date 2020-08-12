@@ -72,7 +72,7 @@ class Push_Model_Iphone_Message extends Core_Model_Default {
             'action-loc-key' => $this->_("See")
         ];
         $aps['aps']['badge'] = $device->getNotRead() + 1;
-        $aps['aps']['sound'] = "Submarine.aiff";
+        $aps['aps']['sound'] = "sb_beep4.caf";
 
         // Push Geolocated //
         if($message->getLongitude() && $message->getLatitude()) {

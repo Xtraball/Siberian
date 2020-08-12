@@ -1,5 +1,6 @@
 <?php
 
+use Siberian\CloudMessaging\Notification;
 use Siberian\Hook;
 
 /**
@@ -81,7 +82,9 @@ class Push_Model_Android_Message
         if ($message->getIsStandalone() === true) {
             $_device = (new Push_Model_Android_Device())
                 ->find($message->getToken(), "registration_id");
-            $devices = [$_device];
+            if ($_device->getPushAlert() === 'enabled') {
+                $devices = [$_device];
+            }
         } else {
             if ($message->getSendToAll() == 0) {
                 $category_message = new Topic_Model_Category_Message();
@@ -99,7 +102,13 @@ class Push_Model_Android_Message
                 }
             }
 
-            $devices = $device->findByAppId($app_id, $allowed_categories, $selected_users);
+            $_dbDevices = $device->findByAppId($app_id, $allowed_categories, $selected_users);
+            $devices = [];
+            foreach ($_dbDevices as $_dbDevice) {
+                if ($_dbDevice->getPushAlert() === 'enabled') {
+                    $devices[] = $_dbDevice;
+                }
+            }
         }
 
         $messagePayload = $this->buildMessage();
@@ -302,6 +311,13 @@ class Push_Model_Android_Message
         if ($application->useIonicDesign() && ($message->getLongitude() && $message->getLatitude())) {
             $messagePayload->contentAvailable(true);
         }
+
+        // Notification
+        $messageNotification = new Notification();
+        $messageNotification->icon('ic_icon');
+        $messageNotification->sound('sb_beep4');
+
+        $messagePayload->notification($messageNotification);
 
         // Trigger an event when the push message is parsed,
         $result = Hook::trigger("push.message.android.parsed",
