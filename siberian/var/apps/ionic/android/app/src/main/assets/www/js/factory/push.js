@@ -2,7 +2,7 @@
  * Push
  *
  * @author Xtraball SAS
- * @version 4.18.5
+ * @version 4.19.1
  */
 angular
 .module('starter')
@@ -11,6 +11,8 @@ angular
         value_id: null,
         device_type: DEVICE_TYPE,
         device_token: null,
+        lastError: null,
+        lastErrorMessage: null,
         unread_count: 0,
         extendedOptions: {}
     };

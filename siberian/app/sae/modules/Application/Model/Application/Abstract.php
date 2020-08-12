@@ -1177,7 +1177,8 @@ abstract class Application_Model_Application_Abstract extends Core_Model_Default
                         'enable_facebook_login' => true,
                         'enable_registration' => true,
                         'enable_commercial_agreement' => true,
-                        'enable_commercial_agreement_label' => ''
+                        'enable_commercial_agreement_label' => '',
+                        'enable_password_verification' => false,
                     ]))
                     ->save();
 

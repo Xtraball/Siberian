@@ -2771,11 +2771,11 @@ div#iphone {
 div#mask-overview.mask {
     display: none;
     background-color: rgba(0, 0, 0, 0.4);
-    left: 10px;
+    left: 9px;
     position: relative;
-    top: calc(-1 * 87vh + 5px);
-    width: calc(48.88vh - 20px);
-    height: calc(87vh - 20px);
+    top: calc(-1 * 87vh + 4px);
+    width: calc(48.88vh - 18px);
+    height: calc(87vh - 18px);
     z-index: 10002;
     border-radius: 19px;
 }
@@ -2801,9 +2801,9 @@ div#phone-bar {
     }
 
     div#mask-overview.mask {
-        top: calc(-1 * 87vh + 5px);
-        width: calc(48.88vh - 20px);
-        height: calc(87vh - 20px);
+        top: calc(-1 * 87vh + 4px);
+        width: calc(48.88vh - 18px);
+        height: calc(87vh - 18px);
     }
 }
 
@@ -2814,9 +2814,9 @@ div#phone-bar {
     }
 
     div#mask-overview.mask {
-        top: calc(-1 * 87vh + 5px);
-        width: calc(48.88vh - 20px);
-        height: calc(87vh - 20px);
+        top: calc(-1 * 87vh + 4px);
+        width: calc(48.88vh - 18px);
+        height: calc(87vh - 18px);
     }
 
     div#phone-bar {

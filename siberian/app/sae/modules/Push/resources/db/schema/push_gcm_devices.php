@@ -74,6 +74,27 @@ $schemas['push_gcm_devices'] = [
         'collation' => 'utf8_unicode_ci',
         'default' => 'production',
     ],
+    'push_badge' => [
+        'type' => 'enum(\'disabled\',\'enabled\')',
+        'is_null' => true,
+        'charset' => 'utf8',
+        'collation' => 'utf8_unicode_ci',
+        'default' => 'enabled',
+    ],
+    'push_alert' => [
+        'type' => 'enum(\'disabled\',\'enabled\')',
+        'is_null' => true,
+        'charset' => 'utf8',
+        'collation' => 'utf8_unicode_ci',
+        'default' => 'enabled',
+    ],
+    'push_sound' => [
+        'type' => 'enum(\'disabled\',\'enabled\')',
+        'is_null' => true,
+        'charset' => 'utf8',
+        'collation' => 'utf8_unicode_ci',
+        'default' => 'enabled',
+    ],
     'status' => [
         'type' => 'enum(\'active\',\'uninstalled\')',
         'charset' => 'utf8',

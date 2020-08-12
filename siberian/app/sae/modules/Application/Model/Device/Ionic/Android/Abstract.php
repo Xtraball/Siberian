@@ -49,6 +49,7 @@ abstract class Application_Model_Device_Ionic_Android_Abstract extends Applicati
 
         /** icon/push_icon */
         $appIcon192 = $application->getIcon(192, null, true);
+        $appIcon96 = $application->getIcon(96, null, true);
         $icons = [
             $this->_dest_source_res . '/drawable-xxxhdpi/icon.png' => $appIcon192,
             $this->_dest_source_res . '/drawable-xxxhdpi/push_icon.png' => $appIcon192,
@@ -59,13 +60,18 @@ abstract class Application_Model_Device_Ionic_Android_Abstract extends Applicati
             $this->_dest_source_res . '/mipmap-xxxhdpi/icon.png' => $appIcon192,
             $this->_dest_source_res . '/mipmap-xxxhdpi/launcher_icon.png' => $appIcon192,
 
+            $this->_dest_source_res . '/drawable/icon.png' => $appIcon96,
+            $this->_dest_source_res . '/drawable/ic_icon.png' => $pushIcon,
+            $this->_dest_source_res . '/drawable-hdpi/ic_icon.png' => $pushIcon,
             $this->_dest_source_res . '/drawable-xxxhdpi/ic_icon.png' => $pushIcon,
 
             $this->_dest_source . '/app/src/main/assets/www/img/app_icon.png' => $appIcon192,
         ];
 
-        /** Clean up screen.xxx */
+        /** Clean up screen.xxx, port-*, land-* */
         array_map('unlink', glob("{$this->_dest_source_res}/drawable*/screen*"));
+        array_map('rmdir', glob("{$this->_dest_source_res}/drawable-land-*"));
+        array_map('rmdir', glob("{$this->_dest_source_res}/drawable-port-*"));
 
         $_file = $application->getStartupBackgroundUnified();
 

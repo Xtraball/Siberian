@@ -30,7 +30,7 @@ class Push_Model_Db_Table_Android_Device extends Core_Model_Db_Table {
 
         $created_at = $this->_db->fetchOne($this->_db->select()->from('push_gcm_devices', array('created_at'))->where('registration_id = ?', $device_uid));
 
-        $join = join(' AND ', array(
+        $join = implode(' AND ', array(
             'pdm.message_id = pm.message_id',
             $this->_db->quoteInto('pdm.device_uid = ?', $device_uid)
         ));

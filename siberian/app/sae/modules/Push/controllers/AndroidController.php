@@ -67,6 +67,7 @@ class Push_AndroidController extends Core_Controller_Default
 
             $payload = [
                 'success' => true,
+                'enabled' => $device->getPushAlert() === 'enabled',
                 'message' => p__('push', 'Successfully registered %s to push with token %s',
                     'Android', $params['registration_id'])
             ];

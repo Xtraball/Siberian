@@ -59,15 +59,9 @@ class StandalonePush extends Base
     public $iosDevices;
 
     /**
-     * StandalonePush constructor.
-     * @param array $params
-     * @throws \Zend_Exception
+     * @var string
      */
-    public function __construct($params = [])
-    {
-        parent::__construct($params);
-        $this->_db_table = 'Push\Model\Db\Table\StandalonePush';
-    }
+    protected $_db_table = Db\Table\StandalonePush::class;
 
     /**
      * @param array $tokens
@@ -81,11 +75,13 @@ class StandalonePush extends Base
         $instance->tokens = $tokens;
 
         $instance->androidDevices = (new AndroidDevice())->findAll([
-            'registration_id IN (?)' => $tokens
+            'registration_id IN (?)' => $tokens,
+            'push_alert = ?' => 'enabled',
         ]);
 
         $instance->iosDevices = (new IosDevice())->findAll([
-            'device_token IN (?)' => $tokens
+            'device_token IN (?)' => $tokens,
+            'push_alert = ?' => 'enabled',
         ]);
 
         return $instance;

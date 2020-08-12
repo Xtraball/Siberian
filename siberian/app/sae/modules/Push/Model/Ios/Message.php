@@ -57,8 +57,10 @@ class Push_Model_Ios_Message {
         if ($message->getIsStandalone() === true) {
             $device = (new Push_Model_Iphone_Device())
                 ->find($message->getToken(), "device_token");
-            $devices = [$device];
-            $this->service_apns->addMessage($message, $device);
+            if ($device->getPushAlert() === 'enabled') {
+                $devices = [$device];
+                $this->service_apns->addMessage($message, $device);
+            }
         } else {
             if ($message->getSendToAll() == 0) {
                 $category_message = new Topic_Model_Category_Message();
@@ -77,8 +79,11 @@ class Push_Model_Ios_Message {
             }
 
             $devices = $device->findByAppId($app_id, $allowed_categories, $selected_users);
-            foreach($devices as $device) {
-                $this->service_apns->addMessage($message, $device);
+            foreach ($devices as $device) {
+                // Send push only to 'enabled' devices!
+                if ($device->getPushAlert() === 'enabled') {
+                    $this->service_apns->addMessage($message, $device);
+                }
             }
         }
 

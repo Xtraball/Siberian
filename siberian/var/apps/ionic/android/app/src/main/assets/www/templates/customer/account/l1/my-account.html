@@ -12,6 +12,12 @@
         </div>
         <h1 class="title"
             ng-click="checkUpdate()">{{ myAccount.title }}</h1>
+        <div class="buttons">
+            <button class="button button-clear"
+                    ng-click="appSettings()">
+                <i class="icon ion-ios-gear-outline"></i>
+            </button>
+        </div>
     </ion-header-bar>
 
     <ion-content>
@@ -27,6 +33,10 @@
         <!-- Register partial -->
         <div ng-show="display_account_form && (myAccount.settings.enable_registration || is_logged_in)"
              ng-include="'templates/customer/account/l1/register.html'"></div>
+
+        <!-- Settings partial -->
+        <div ng-show="display_settings"
+             ng-include="'templates/customer/account/l1/settings.html'"></div>
 
         <div style="height: 60px;"></div>
 

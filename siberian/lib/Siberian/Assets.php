@@ -30,7 +30,6 @@ class Assets
         "chcp.manifest",
         "css/app.css",
         "js/utils/url.js",
-        "js/utils/languages.js",
         "npm-debug.log",
         /// Unused build files to exclude
         "js/controllers/application.js",
@@ -811,15 +810,15 @@ class Assets
 
                 if (in_array($type, ['browser', 'overview'])) {
                     // Replace available languages
-                    $languagesPath = $path . $www_folder . 'js/utils/languages.js';
-                    $languagesContent = file_get_contents($languagesPath);
+                    $urlPath = $path . $www_folder . 'js/utils/url.js';
+                    $urlContent = file_get_contents($urlPath);
 
                     $languages = array_map(static function ($_item) {
                         return "'{$_item}'";
                     }, array_keys(\Core_Model_Language::getLanguages()));
 
-                    $languagesContent = str_replace("['en']", "[" . implode(', ', $languages) . "]", $languagesContent);
-                    file_put_contents($languagesPath, $languagesContent);
+                    $urlContent = str_replace("['en']", "[" . implode(', ', $languages) . "]", $urlContent);
+                    file_put_contents($urlPath, $urlContent);
                 }
 
                 foreach (self::$preBuildCallbacks as $callback) {

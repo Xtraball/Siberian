@@ -52,7 +52,6 @@
                     <prettyPhoto link="css/prettyPhoto.css" />
                     <jcrop link="css/jquery.Jcrop.min.css" />
                     <jquery_ui link="css/jquery-ui.css" />
-                    <user_style link="css/user-style.css" />
                     <sweetalert link="css/sweetalert.css" />
                     <bootstraptour link="css/bootstrap-tour.min.css" />
                     <printstyles link="css/print.css" />
@@ -115,19 +114,6 @@
             <overview class="admin_view_default" template="application/customization/index/overview/iframe.phtml" />
         </views>
     </customization_default>
-
-    <!--<front_index_index>-->
-        <!--<base>-->
-            <!--<scripts>-->
-                <!--<css>-->
-                    <!--<front folder="css/front" />-->
-                <!--</css>-->
-            <!--</scripts>-->
-        <!--</base>-->
-        <!--<views>-->
-            <!--<content class="core_view_default" template="home/view.phtml" />-->
-        <!--</views>-->
-    <!--</front_index_index>-->
 
     <front_index_noroute>
         <base>

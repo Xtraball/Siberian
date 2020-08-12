@@ -11,6 +11,7 @@ var isNativeApp = IS_NATIVE_APP;
 var DEVICE_TYPE = 3;
 var IS_PREVIEW = false;
 var isPwa = false;
+var AVAILABLE_LANGUAGES = ['en'];
 var DISABLE_BATTERY_OPTIMIZATION = false;
 
 if (goto) {
@@ -56,9 +57,6 @@ if (document.URL.indexOf('http') === 0) {
     }
 
     path = path.reverse();
-    var language = localStorage.getItem('sb-current-language');
-    var CURRENT_LANGUAGE = !!language ? language : 'en';
-    localStorage.setItem('sb-current-language', CURRENT_LANGUAGE);
 
     if (angular.isDefined(path[0])) {
         APP_KEY = path[0];

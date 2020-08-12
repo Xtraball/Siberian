@@ -1,7 +1,7 @@
 /**
  * Application Bootstrap
  *
- * @version 4.18.17
+ * @version 4.19.1
  */
 
 window.momentjs_loaded = false;
@@ -43,6 +43,38 @@ var lazyLoadResolver = function (code) {
         }]
     };
 };
+
+// App language!
+// First check in localStorage
+var CURRENT_LANGUAGE = 'en';
+let setupLanguage = function () {
+    var storageLanguage = localStorage.getItem('pwa-cache-' + APP_KEY + '/registry-index/sb-current-language');
+    if (storageLanguage !== null) {
+        storageLanguage = storageLanguage.replace(/"/g, '');
+        if (AVAILABLE_LANGUAGES.indexOf(storageLanguage) >= 0) {
+            CURRENT_LANGUAGE = storageLanguage;
+            return true;
+        }
+    }
+    if (navigator.language) {
+        let tmpLanguage = navigator.language.replace('-', '_');
+        try {
+            if (AVAILABLE_LANGUAGES.indexOf(tmpLanguage) >= 0) {
+                CURRENT_LANGUAGE = tmpLanguage;
+                return true;
+            } else if (AVAILABLE_LANGUAGES.indexOf(tmpLanguage.split('_')[0]) >= 0) {
+                CURRENT_LANGUAGE = tmpLanguage.split('_')[0];
+                return true;
+            }
+        } catch (e) {
+            console.error('[Language] fallback to "en" due to navigator.language error.');
+            CURRENT_LANGUAGE = 'en';
+            return true;
+        }
+    }
+    return false;
+};
+setupLanguage();
 
 angular.module('lodash', []).factory('_', ['$window', function ($window) {
     return $window._;
@@ -228,8 +260,8 @@ var App = angular.module('starter', ['ionic', 'lodash', 'ngRoute', 'ngCordova', 
                             device_uid: $session.getDeviceUid(),
                             device_width: deviceScreen.width,
                             device_height: deviceScreen.height,
-                            user_language: language,
-                            version: '4.18.17'
+                            user_language: CURRENT_LANGUAGE,
+                            version: '4.19.1'
                         },
                         timeout: 20000,
                         cache: !isOverview,
