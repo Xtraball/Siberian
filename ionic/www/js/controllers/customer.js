@@ -177,18 +177,26 @@ angular
                 });
         };
 
+        $scope.messagePushRegistration = function (success) {
+            if (Push.lastErrorMessage && Push.lastErrorMessage.length) {
+                if (success) {
+                    Push.lastErrorMessage += "<br />" +
+                        $translate.instant('Note: the registration refresh failed now, but you still have a valid push token!', 'customer');
+                }
+                Dialog.alert('Error', Push.lastErrorMessage, 'OK');
+            } else {
+                Dialog.alert('Success', 'Your are correctly registered to push!', 'OK');
+            }
+        };
+
         $scope.forcePushRegistration = function () {
             PushService.register(true);
-            PushService.isReadyPromise
+            PushService
+                .isReadyPromise
                 .then(function () {
-                    // Success
-                    Dialog.alert('Success', 'Registration to push services is successful!', 'OK');
+                    $scope.messagePushRegistration(true);
                 }, function () {
-                    // Error
-                    if (Push.lastErrorMessage && Push.lastErrorMessage.length) {
-                        Dialog.alert('Error', Push.lastErrorMessage, 'OK');
-                    }
-                    console.error('PushService.register error');
+                    $scope.messagePushRegistration(false);
                 });
         };
 
