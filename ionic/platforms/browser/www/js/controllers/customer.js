@@ -151,10 +151,13 @@ angular
                     if ($scope.settings.counter <= 0) {
                         return;
                     }
-                    window.plugins.toast.showShortBottom(
-                        $translate.instant('Tap $1 more to access advanced options!', 'customer').replace('$1', $scope.settings.counter)
-                    );
                     $scope.settings.counter--;
+                    window.plugins.toast.hide();
+                    window.plugins.toast.showShortBottom(
+                        $translate
+                            .instant('$1 more to access advanced options!', 'customer')
+                            .replace('$1', $scope.settings.counter)
+                    );
                 } catch (e) {
                     console.error('Something went wrong while accessing advanced options!');
                 }
@@ -179,9 +182,12 @@ angular
             PushService.isReadyPromise
                 .then(function () {
                     // Success
-                    console.info('PushService.register success');
+                    Dialog.alert('Success', 'Registration to push services is successful!', 'OK');
                 }, function () {
                     // Error
+                    if (Push.lastErrorMessage && Push.lastErrorMessage.length) {
+                        Dialog.alert('Error', Push.lastErrorMessage, 'OK');
+                    }
                     console.error('PushService.register error');
                 });
         };
@@ -209,7 +215,7 @@ angular
         $scope.reloadLocale = function (select) {
             $scope.currentLanguage = select.currentLanguage;
             $session.setItem('sb-current-language', $scope.currentLanguage);
-            Loader.show('Loading translations...');
+            Loader.show($translate.instant('Loading translations...', 'customer'));
             Application
                 .reloadLocale($scope.currentLanguage)
                 .then(function (success) {

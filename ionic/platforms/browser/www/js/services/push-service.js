@@ -112,7 +112,7 @@ angular
                     .isRegistered()
                     .then(function (success) {
                         service.isReady.resolve();
-                    }, function (error) {
+                    }, function (isRegisteredError) {
                         // Reject
                         service.isReady.reject();
                         Push.lastError = error;
@@ -263,12 +263,12 @@ angular
         var params = {
             id: messageId,
             title: title,
-            smallIcon: 'res://ic_icon',
             sound: (DEVICE_TYPE === SB.DEVICE.TYPE_IOS) ? 'res://Sounds/sb_beep4.caf' : 'res://sb_beep4',
             text: localMessage
         };
 
         if (Push.device_type === SB.DEVICE.TYPE_ANDROID) {
+            params.smallIcon = 'res://ic_icon';
             params.icon = 'res://icon';
         }
 

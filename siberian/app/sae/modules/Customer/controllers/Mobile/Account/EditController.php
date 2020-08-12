@@ -206,7 +206,8 @@ class Customer_Mobile_Account_EditController extends Application_Controller_Mobi
                 $data['deviceToken']
             ];
 
-            sleep(5);
+            // Adds a little delay!
+            sleep(1);
 
             $push = \Push\Model\StandalonePush::buildFromTokens($tokens);
             $push->sendMessage(

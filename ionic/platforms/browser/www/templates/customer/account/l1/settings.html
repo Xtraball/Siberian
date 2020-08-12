@@ -22,7 +22,7 @@
             </label>
         </ion-item>
 
-        <ion-item ng-if="settings.push"
+        <ion-item ng-if="settings.push && settings.counter  <= 0"
                   ng-click="copyTokenToClipboard()"
                   class="item-custom">
             <h3>
@@ -31,7 +31,7 @@
             <p>{{ getPushToken() }}</p>
         </ion-item>
 
-        <ion-item ng-if="settings.push && settings.counter == 0"
+        <ion-item ng-if="settings.push && settings.counter <= 0"
                   ng-click="forcePushRegistration()"
                   class="item-custom">
             <h3>
@@ -39,7 +39,7 @@
             </h3>
         </ion-item>
 
-        <ion-item ng-if="settings.push && settings.counter == 0"
+        <ion-item ng-if="settings.push && settings.counter <= 0"
                   ng-click="sendTestPush()"
                   class="item-custom">
             <h3>
@@ -47,7 +47,7 @@
             </h3>
         </ion-item>
 
-        <ion-item ng-if="settings.push && settings.counter == 0"
+        <ion-item ng-if="settings.push && settings.counter <= 0"
                   ng-click="sendTestLocal()"
                   class="item-custom">
             <h3>
@@ -75,7 +75,7 @@
                     ng-change="reloadLocale(this)">
                 <option ng-repeat="language in getLanguages()"
                         ng-selected="language == currentLanguage"
-                        value="{{ language }}">{{ language.toUpperCase() }}
+                        value="{{ language }}">{{ language | translate:'locales' }}
                 </option>
             </select>
         </label>

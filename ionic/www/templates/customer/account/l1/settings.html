@@ -75,7 +75,7 @@
                     ng-change="reloadLocale(this)">
                 <option ng-repeat="language in getLanguages()"
                         ng-selected="language == currentLanguage"
-                        value="{{ language }}">{{ language.toUpperCase() }}
+                        value="{{ language }}">{{ language | translate:'locales' }}
                 </option>
             </select>
         </label>
