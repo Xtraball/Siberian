@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<designs>
+    <pizza>
+        <content>
+            <name>Lorem Ipsum</name>
+            <number_of_points>9</number_of_points>
+            <advantage>Lorem ipsum dolor</advantage>
+            <conditions>Lorem ipsum dolor sit amet</conditions>
+        </content>
+    </pizza>
+    <rush_cafe>
+        <content>
+            <name>Lorem Ipsum</name>
+            <number_of_points>9</number_of_points>
+            <advantage>A big coffee</advantage>
+            <conditions>a coffee</conditions>
+        </content>
+    </rush_cafe>
+    <florist>
+        <content>
+            <name>Lorem Ipsum</name>
+            <number_of_points>10</number_of_points>
+            <advantage>1 bunch of roses</advantage>
+            <conditions>1 bunch of flowers</conditions>
+        </content>
+    </florist>
+</designs>

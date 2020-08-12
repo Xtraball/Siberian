@@ -27,26 +27,4 @@ class Wordpress2_Model_Wordpress extends Core_Model_Default
 
         return $inAppStates;
     }
-
-    /**
-     * GET Feature url for app init
-     *
-     * @param $optionValue
-     * @return array
-     */
-    public function getAppInitUris ($optionValue)
-    {
-        $featureUrl = __url("/wordpress2/mobile_list/index", [
-            "value_id" => $this->getValueId(),
-        ]);
-        $featurePath = __path("/wordpress2/mobile_list/index", [
-            "value_id" => $this->getValueId(),
-        ]);
-
-
-        return [
-            "featureUrl" => $featureUrl,
-            "featurePath" => $featurePath,
-        ];
-    }
 }

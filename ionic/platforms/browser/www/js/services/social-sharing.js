@@ -2,11 +2,8 @@
  * SocialSharing
  *
  * @author Xtraball SAS
- * @version 4.17.0
  */
-angular
-.module("starter")
-.service("SocialSharing", function ($translate, $q, Application) {
+angular.module('starter').service('SocialSharing', function ($cordovaSocialSharing, $translate, $q, Application) {
     var service = {
         is_sharing: false
     };
@@ -54,7 +51,7 @@ angular
 
         var deferred = $q.defer();
 
-        window.plugins.socialsharing
+        $cordovaSocialSharing
             .share(_message, _subject, _file, _link)
             .then(function (result) {
                 deferred.resolve(result);

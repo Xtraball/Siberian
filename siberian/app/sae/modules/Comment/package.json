@@ -1,0 +1,14 @@
+{
+  "name": "Comment",
+  "description": "",
+  "version": "4.17.6",
+  "dependencies": {
+    "system": {
+      "type": "SAE",
+      "version": "4.2.0"
+    },
+    "modules": {
+      "Customer": "4.2.0"
+    }
+  }
+}

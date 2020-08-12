@@ -29,28 +29,6 @@ class Topic_Model_Topic extends Core_Model_Default {
     }
 
     /**
-     * GET Feature url for app init
-     *
-     * @param $optionValue
-     * @return array
-     */
-    public function getAppInitUris ($optionValue)
-    {
-        $featureUrl = __url("/topic/mobile_list/index", [
-            "value_id" => $this->getValueId(),
-        ]);
-        $featurePath = __path("/topic/mobile_list/index", [
-            "value_id" => $this->getValueId(),
-        ]);
-
-
-        return [
-            "featureUrl" => $featureUrl,
-            "featurePath" => $featurePath,
-        ];
-    }
-
-    /**
      * @param $option_value
      * @return bool
      */

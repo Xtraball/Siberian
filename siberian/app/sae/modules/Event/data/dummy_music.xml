@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<designs>
+    <dj>
+        <events>
+            <!--<event>-->
+                <!--<content>-->
+                    <!--<name>iCal</name>-->
+                    <!--<event_type>ical</event_type>-->
+                    <!--<url>http://test.com</url>-->
+                <!--</content>-->
+            <!--</event>-->
+            <event>
+                <content>
+                    <name>Lorem Ipsum</name>
+                    <event_type>cstm</event_type>
+                </content>
+                <custom_contents>
+                    <custom_content>
+                        <name>Lorem Ipsum</name>
+                        <start_at>2015-03-31 00:00:00</start_at>
+                        <end_at>2024-01-01 00:00:00</end_at>
+                        <description>
+                            Lorem ipsum dolor sit amet, consectetur adipiscing elit,
+                            sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.
+                        </description>
+                        <location>2345 Market Street, San Francisco, CA, United States</location>
+                        <rsvp>http://www.google.com</rsvp>
+                        <picture>/../../images/templates/dj/content/dj7.png</picture>
+                    </custom_content>
+                    <custom_content>
+                        <name>Lorem Ipsum 2</name>
+                        <start_at>2015-04-15 00:00:00</start_at>
+                        <end_at>2022-11-03 00:00:00</end_at>
+                        <description>
+                            Lorem ipsum dolor sit amet, consectetur adipiscing elit,
+                            sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.
+                        </description>
+                        <location>2345 Market Street, San Francisco, CA, United States</location>
+                        <rsvp>http://www.google.com</rsvp>
+                        <picture>/../../images/templates/dj/content/dj8.png</picture>
+                    </custom_content>
+                </custom_contents>
+            </event>
+        </events>
+    </dj>
+</designs>

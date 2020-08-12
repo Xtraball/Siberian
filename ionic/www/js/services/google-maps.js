@@ -1,7 +1,7 @@
 /*global
     google, App, angular
 */
-angular.module("starter").service('GoogleMaps', function (Location, $location, $q, $rootScope, $translate,
+angular.module("starter").service('GoogleMaps', function ($cordovaGeolocation, $location, $q, $rootScope, $translate,
                                                           $window, Application) {
     "use strict";
 
@@ -202,7 +202,7 @@ angular.module("starter").service('GoogleMaps', function (Location, $location, $
                 var center = new google.maps.LatLng(coordinates.latitude, coordinates.longitude);
                 return service.map.setCenter(center);
             } else {
-                return Location.getCurrentPosition().then(function (position) {
+                return $cordovaGeolocation.getCurrentPosition().then(function (position) {
                     service.setCenter(position.coords);
                 });
             }
@@ -382,7 +382,7 @@ angular.module("starter").service('GoogleMaps', function (Location, $location, $
 
             } else {
 
-                Location.getCurrentPosition().then(function (position) {
+                $cordovaGeolocation.getCurrentPosition().then(function (position) {
 
                     __self._calculateRoute(position.coords, destination, params, rejectWithResponseAndStatus).then(function (route) {
                         deferred.resolve(route);

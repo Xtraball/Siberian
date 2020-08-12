@@ -2,8 +2,6 @@
 
 namespace Siberian;
 
-use Symfony\Component\Yaml\Yaml as SymfonyYaml;
-
 /**
  * Class Siberian_Yaml
  *
@@ -19,7 +17,7 @@ class Yaml
      */
     public static function encode($data)
     {
-        $parser_yaml = new SymfonyYaml();
+        $parser_yaml = new \Symfony\Component\Yaml\Yaml();
         $yaml = $parser_yaml::dump($data);
 
         return $yaml;
@@ -31,7 +29,7 @@ class Yaml
      */
     public static function decode($content)
     {
-        $parser_yaml = new SymfonyYaml();
+        $parser_yaml = new \Symfony\Component\Yaml\Yaml();
         $data = $parser_yaml::parse($content);
 
         return $data;

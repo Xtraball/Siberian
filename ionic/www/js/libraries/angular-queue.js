@@ -4,19 +4,19 @@
  * @author James Seppi
  * @license MIT License, http://jseppi.mit-license.org
  */
-(function (window, angular, undefined) {
+(function(window, angular, undefined) {
     'use strict';
 
     angular.module('ngQueue', []).factory('$queue',
         ['$timeout', '$q',
-            function ($timeout, $q) {
+            function($timeout, $q) {
 
                 var defaults = {
-                    delay: 100,
-                    persistent: false,
-                    max_concurrent: -1,
-                    complete: null,
-                    paused: false
+                    delay           : 100,
+                    persistent      : false,
+                    max_concurrent  : -1,
+                    complete        : null,
+                    paused          : false
                 };
 
                 /**
@@ -35,22 +35,22 @@
                         timeoutProm = null;
 
                     //-- Public variables
-                    this.queue = [];
-                    this.delay = options.delay;
-                    this.complete = options.complete;
-                    this.paused = options.paused;
-                    this.max_concurrent = options.max_concurrent;
-                    this.persistent = options.persistent;
-                    this.user_callback = callback;
-                    this.active_count = 0;
-                    this.global_pause = false;
+                    this.queue              = [];
+                    this.delay              = options.delay;
+                    this.complete           = options.complete;
+                    this.paused             = options.paused;
+                    this.max_concurrent     = options.max_concurrent;
+                    this.persistent         = options.persistent;
+                    this.user_callback      = callback;
+                    this.active_count       = 0;
+                    this.global_pause        = false;
 
                     //-- Private methods
                     /**
                      * stop() stops processing of the queue
                      *
                      */
-                    var stop = function () {
+                    var stop = function() {
                         if (timeoutProm) {
                             $timeout.cancel(timeoutProm);
                         }
@@ -67,13 +67,13 @@
                      * @param item
                      * @returns {*}
                      */
-                    this.callback = function (item) {
+                    this.callback = function(item) {
                         var _this = this;
-                        $timeout(function () {
+                        $timeout(function() {
                             _this.user_callback.call(_this, item);
                         }, 1);
 
-                        if (item.network_promise !== undefined) {
+                        if(item.network_promise !== undefined) {
                             return item.network_promise.promise;
                         } else {
                             return $q.resolve();
@@ -85,7 +85,7 @@
                      *
                      * @return<Number> queue size
                      */
-                    this.size = function () {
+                    this.size = function() {
                         return this.queue.length;
                     };
 
@@ -95,7 +95,7 @@
                      * @param<Object> item
                      * @return<Number> queue size
                      */
-                    this.add = function (item) {
+                    this.add = function(item) {
                         return this.addEach([item]);
                     };
 
@@ -105,7 +105,7 @@
                      * @param<Object> item
                      * @return<Number> queue size
                      */
-                    this.addFirst = function (item) {
+                    this.addFirst = function(item) {
                         return this.addEachFirst([item]);
                     };
 
@@ -115,7 +115,7 @@
                      * @param<Array> items
                      * @return<Number> queue size
                      */
-                    this.addEach = function (items) {
+                    this.addEach = function(items) {
                         if (items) {
                             cleared = false;
                             this.queue = this.queue.concat(items);
@@ -135,7 +135,7 @@
                      * @param<Array> items
                      * @return<Number> queue size
                      */
-                    this.addEachFirst = function (items) {
+                    this.addEachFirst = function(items) {
                         if (items) {
                             cleared = false;
                             this.queue = items.concat(this.queue);
@@ -154,7 +154,7 @@
                      *
                      * @return<Array> the original queue
                      */
-                    this.clear = function () {
+                    this.clear = function() {
                         var orig = this.queue;
                         stop();
                         this.queue = [];
@@ -166,7 +166,7 @@
                      * pause() pauses processing of the queue
                      *
                      */
-                    this.pause = function () {
+                    this.pause = function() {
                         stop();
                         this.paused = true;
                     };
@@ -175,7 +175,7 @@
                      * pause() pauses processing of the queue
                      *
                      */
-                    this.globalPause = function () {
+                    this.globalPause = function() {
                         this.global_pause = true;
                         this.pause();
                     };
@@ -183,7 +183,7 @@
                     /**
                      *
                      */
-                    this.globalStart = function () {
+                    this.globalStart = function() {
                         this.global_pause = false;
                         this.start();
                     };
@@ -194,8 +194,8 @@
                      * start() may be called after pause()
                      *
                      */
-                    this.start = function () {
-                        if (this.global_pause) {
+                    this.start = function() {
+                        if(this.global_pause) {
                             return;
                         }
 
@@ -207,11 +207,11 @@
 
                                 stop();
 
-                                if (_this.paused) {
+                                if(_this.paused) {
                                     return;
                                 }
 
-                                if ((_this.max_concurrent > 0) && (_this.active_count > _this.max_concurrent)) {
+                                if((_this.max_concurrent > 0) && (_this.active_count > _this.max_concurrent)) {
                                     return;
                                 }
 
@@ -225,7 +225,7 @@
                                 }
 
                                 /** Clear when persistent */
-                                if (!_this.size() && _this.persistent) {
+                                if(!_this.size() && _this.persistent) {
                                     cleared = true;
                                     return;
                                 }
@@ -237,28 +237,28 @@
                                 var promise = _this.callback.call(_this, item);
 
                                 /** No max concurrent threads, call after delay */
-                                if (_this.max_concurrent === -1) {
+                                if(_this.max_concurrent === -1) {
 
                                     timeoutProm = $timeout(loopy, _this.delay);
 
                                 } else {
                                     /** Call loopy only when callback is done */
 
-                                    var callnext = function () {
+                                    var callnext = function() {
                                         _this.active_count -= 1;
 
                                         timeoutProm = $timeout(loopy, _this.delay);
                                     };
 
                                     try {
-                                        promise.then(function (success) {
+                                        promise.then(function(success) {
                                             callnext();
-                                        }, function (error) {
+                                        }, function(error) {
                                             callnext();
-                                        }).catch(function (error) {
+                                        }).catch(function(error) {
                                             callnext();
                                         });
-                                    } catch (error) {
+                                    } catch(error) {
                                         callnext();
                                     }
 
@@ -275,7 +275,7 @@
                      * @param<Object> item
                      * @return<Number> index of the item if found, or -1 if not
                      */
-                    this.indexOf = function (item) {
+                    this.indexOf = function(item) {
                         if (this.queue.indexOf) {
                             return this.queue.indexOf(item);
                         }
@@ -307,7 +307,7 @@
                  *          items immediately after the first add or addEach.
                  * @return<Queue> a new Queue
                  */
-                Queue.queue = function (callback, options) {
+                Queue.queue = function(callback, options) {
                     return new Queue(callback, options);
                 };
 

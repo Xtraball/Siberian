@@ -1,12 +1,9 @@
 /**
- * Loader
+ * Modal
  *
  * @author Xtraball SAS
- * @version 4.17.0
  */
-angular
-.module("starter")
-.service("Loader", function ($ionicLoading, $translate, $state, $timeout, Dialog) {
+angular.module('starter').service('Loader', function ($ionicLoading, $translate, $state, $timeout, Dialog) {
     var service = {
         is_open: false,
         promise: null,
@@ -33,14 +30,14 @@ angular
             service.hide();
 
             Dialog.confirm(
-                "Feature timeout",
-                "It seems the feature your are trying to load is taking too much time!<br />Would you like to continue?",
+                'Feature timeout',
+                'It seems the feature your are trying to load is taking too much time!<br />Would you like to continue?',
                 buttons)
                 .then(function (result) {
                     if (result || (service.timeout_count >= 2)) {
                         service.keep_timeout = false;
                         service.hide();
-                        $state.go("home");
+                        $state.go('home');
                     } else {
                         /** Calls only twice. */
                         service.show();

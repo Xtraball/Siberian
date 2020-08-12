@@ -40,28 +40,6 @@ class Twitter_Model_Twitter extends Core_Model_Default {
     }
 
     /**
-     * GET Feature url for app init
-     *
-     * @param $optionValue
-     * @return array
-     */
-    public function getAppInitUris ($optionValue)
-    {
-        $featureUrl = __url("/twitter/mobile_twitter_list/index", [
-            "value_id" => $this->getValueId(),
-        ]);
-        $featurePath = __path("/twitter/mobile_twitter_list/index", [
-            "value_id" => $this->getValueId(),
-        ]);
-
-
-        return [
-            "featureUrl" => $featureUrl,
-            "featurePath" => $featurePath,
-        ];
-    }
-
-    /**
      * Defines twitter keys and set the requested user
      *
      * @return $this

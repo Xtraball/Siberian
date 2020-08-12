@@ -1,8 +1,14 @@
 <?php
 
+/**
+ * Class Weblink_Model_Type_Multi
+ */
 class Weblink_Model_Type_Multi extends Weblink_Model_Weblink
 {
 
+    /**
+     * @var bool
+     */
     protected $_is_cacheable = true;
 
     /**
@@ -32,31 +38,6 @@ class Weblink_Model_Type_Multi extends Weblink_Model_Weblink
         ];
 
         return $in_app_states;
-    }
-
-    /**
-     * @return $this|void
-     */
-    /**
-     * GET Feature url for app init
-     *
-     * @param $optionValue
-     * @return array
-     */
-    public function getAppInitUris ($optionValue)
-    {
-        $featureUrl = __url("/weblink/mobile_multi/index", [
-            "value_id" => $this->getValueId(),
-        ]);
-        $featurePath = __path("/weblink/mobile_multi/index", [
-            "value_id" => $this->getValueId(),
-        ]);
-
-
-        return [
-            "featureUrl" => $featureUrl,
-            "featurePath" => $featurePath,
-        ];
     }
 
     /**

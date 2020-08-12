@@ -66,6 +66,9 @@ set_include_path(implode(PATH_SEPARATOR, [
     dirname(APPLICATION_PATH) . '/lib',
 ]));
 
+/**
+ *
+ */
 function dbg()
 {
     $args = func_get_args();

@@ -479,14 +479,6 @@ let builder = function () {
 
 /**
  *
- */
-let bundleCordova = function () {
-    sh.cd(ROOT + '/ionic/');
-    sh.exec('node builder --bundlecordova');
-};
-
-/**
- *
  * @param platform
  * @param copy
  * @param prepare
@@ -633,11 +625,6 @@ let rebuild = function (platform, copy, prepare, skipRebuild) {
                 patchIos(platform);
             }
 
-            // Compile/pack/bundle files!
-            if (!skipRebuild) {
-                bundleCordova();
-            }
-
             // Cleaning up build files!
             if (copy) {
                 copyPlatform(platform);
@@ -647,7 +634,6 @@ let rebuild = function (platform, copy, prepare, skipRebuild) {
         } else {
             throw new Error('Unknown platform ' + platform);
         }
-
     } catch (e) {
         throw e; // Dont mess with me!
     } finally { // Yes I checked, finally are executed even if exception is re-thrown!
@@ -849,7 +835,7 @@ let copyPlatform = function (platform) {
             // Copy!
             sh.cp('-r', ionicPlatformPath + '/', siberianPlatformPath);
             sh.rm('-rf', siberianPlatformPath + '/platform_www');
-            cleanupWww(siberianPlatformPath + '/app/src/main/assets/www/');
+            cleanupWww(siberianPlatformPath + '/assets/www/');
 
             break;
 
@@ -941,10 +927,7 @@ let cleanupWww = function (basePath, browser) {
         'js/libraries',
         'js/app.js',
         'js/utils/features.js',
-        'js/utils/form-post.js',
-        'cordova.js',
-        'cordova_plugins.js',
-        'plugins'
+        'js/utils/form-post.js'
     ];
 
     if (browser !== true) {

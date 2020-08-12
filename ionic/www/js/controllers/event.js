@@ -115,7 +115,7 @@ angular.module('starter').controller('EventListController', function ($scope, $s
 
     $scope.openLink = function (url) {
         /** @todo Handle links with LinkService */
-        $window.open(url, '_system', 'location=no');
+        $window.open(url, $rootScope.getTargetForLink(), 'location=no');
     };
 
     $scope.openMaps = function () {

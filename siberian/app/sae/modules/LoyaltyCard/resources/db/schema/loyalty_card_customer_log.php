@@ -6,52 +6,52 @@
  * Last update: 2016-04-28
  *
  */
-$schemas = (!isset($schemas)) ? [] : $schemas;
-$schemas['loyalty_card_customer_log'] = [
-    'log_id' => [
+$schemas = (!isset($schemas)) ? array() : $schemas;
+$schemas['loyalty_card_customer_log'] = array(
+    'log_id' => array(
         'type' => 'int(11)',
         'auto_increment' => true,
         'primary' => true,
-    ],
-    'customer_id' => [
+    ),
+    'customer_id' => array(
         'type' => 'int(11) unsigned',
-        'index' => [
+        'index' => array(
             'key_name' => 'KEY_CUSTOMER_ID',
             'index_type' => 'BTREE',
             'is_null' => false,
             'is_unique' => false,
-        ],
-    ],
-    'card_id' => [
+        ),
+    ),
+    'card_id' => array(
         'type' => 'int(11)',
-        'foreign_key' => [
+        'foreign_key' => array(
             'table' => 'loyalty_card',
             'column' => 'card_id',
             'name' => 'loyalty_card_customer_log_ibfk_1',
             'on_update' => 'CASCADE',
             'on_delete' => 'CASCADE',
-        ],
-        'index' => [
+        ),
+        'index' => array(
             'key_name' => 'KEY_CARD_ID',
             'index_type' => 'BTREE',
             'is_null' => false,
             'is_unique' => false,
-        ],
-    ],
-    'password_id' => [
+        ),
+    ),
+    'password_id' => array(
         'type' => 'int(11)',
-        'index' => [
+        'index' => array(
             'key_name' => 'KEY_PASSWORD_ID',
             'index_type' => 'BTREE',
             'is_null' => false,
             'is_unique' => false,
-        ],
-    ],
-    'number_of_points' => [
+        ),
+    ),
+    'number_of_points' => array(
         'type' => 'smallint(5) unsigned',
         'default' => '1',
-    ],
-    'created_at' => [
+    ),
+    'created_at' => array(
         'type' => 'datetime',
-    ],
-];
+    ),
+);

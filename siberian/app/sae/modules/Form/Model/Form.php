@@ -32,28 +32,6 @@ class Form_Model_Form extends Core_Model_Default
     }
 
     /**
-     * GET Feature url for app init
-     *
-     * @param $optionValue
-     * @return array
-     */
-    public function getAppInitUris ($optionValue)
-    {
-        $featureUrl = __url("/form/mobile_view/index", [
-            "value_id" => $this->getValueId(),
-        ]);
-        $featurePath = __path("/form/mobile_view/index", [
-            "value_id" => $this->getValueId(),
-        ]);
-
-
-        return [
-            "featureUrl" => $featureUrl,
-            "featurePath" => $featurePath,
-        ];
-    }
-
-    /**
      * @param $option_value
      * @return array
      */

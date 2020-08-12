@@ -1,9 +1,7 @@
 <?php
-
-use Siberian\Exporter;
-
 $init = function($bootstrap) {
-    # Export/Import
-    Exporter::register("weather", "Weather_Model_Weather");
+    # Exporter
+    Siberian_Exporter::register("weather", "Weather_Model_Weather");
+
 };
 

@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<designs>
+    <paris>
+    </paris>
+    <nyc>
+        <folders>
+            <folder>
+                <category>
+                    <main>
+                        <content>
+                            <type_id>folder</type_id>
+                            <title>Guide</title>
+                            <subtitle>What you must not miss</subtitle>
+                            <picture>/../../app/local/modules/TemplateNyc/resources/images/templates/nyc/content/nyc4.jpeg</picture>
+                        </content>
+                        <features>
+                            <feature>
+                                <code>places</code>
+                                <name>Places</name>
+                                <icon>/../../app/local/modules/TemplateNyc/resources/images/templates/nyc/icons/places.jpeg</icon>
+                                <colorizable>0</colorizable>
+                                <content></content>
+                            </feature>
+                            <feature>
+                                <code>calendar</code>
+                                <name>Temporary exhibitions</name>
+                                <icon>/../../app/local/modules/TemplateNyc/resources/images/templates/nyc/icons/calendar.jpeg</icon>
+                                <colorizable>0</colorizable>
+                                <content></content>
+                            </feature>
+                        </features>
+                    </main>
+                </category>
+            </folder>
+        </folders>
+    </nyc>
+</designs>
+

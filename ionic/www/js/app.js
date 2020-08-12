@@ -326,14 +326,6 @@ var App = angular.module('starter', ['ionic', 'lodash', 'ngRoute', 'ngCordova', 
                         }
 
                         if (!IS_PREVIEW) {
-                            // Configuring PushService & skip if this is a preview.
-                            try {
-                                PushService.configure(load.application.fcmSenderID, load.application.pushIconcolor);
-                                PushService.register();
-                            } catch (e) {
-                                $log.error('An error occured while registering device for Push.', e.message);
-                            }
-
                             // skip chcp inside webview loaded app!
                             $rootScope.fetchupdatetimer = null;
 
@@ -816,6 +808,16 @@ var App = angular.module('starter', ['ionic', 'lodash', 'ngRoute', 'ngCordova', 
                                 }
                                 $window.webview.close();
                             });
+                        } else {
+                            // Configuring PushService & skip if this is a preview.
+                            try {
+                                $timeout(function () {
+                                    PushService.configure(load.application.fcmSenderID, load.application.pushIconcolor);
+                                    PushService.register();
+                                }, 500);
+                            } catch (e) {
+                                console.error('An error occured while registering device for Push.', e.message);
+                            }
                         }
                     }).catch(function (error) {
                         // In case we are unable to refresh loadApp, use cached version and refresh only once

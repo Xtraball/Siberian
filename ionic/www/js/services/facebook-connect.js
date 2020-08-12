@@ -1,7 +1,7 @@
 /**
  * FacebookConnect for users (login)
  */
-angular.module('starter').service('FacebookConnect', function ($rootScope, $timeout, $window, $pwaRequest,
+angular.module('starter').service('FacebookConnect', function ($cordovaOauth, $rootScope, $timeout, $window, $pwaRequest,
                                                               Customer, Dialog, SB, Loader) {
     var _this = this;
 
@@ -43,8 +43,7 @@ angular.module('starter').service('FacebookConnect', function ($rootScope, $time
                 // Fallback on HTTP
                 options.redirect_uri = 'http://localhost/callback';
             }).then(function () {
-                // @todo fix me
-                /**.facebook(_this.app_id, _this.permissions, options)
+                $cordovaOauth.facebook(_this.app_id, _this.permissions, options)
                     .then(function (result) {
                         Customer
                             .loginWithFacebook(result.access_token)
@@ -60,7 +59,7 @@ angular.module('starter').service('FacebookConnect', function ($rootScope, $time
                                 Customer.login_modal.hide();
                                 Loader.hide();
                             });
-                    });*/
+                    });
             });
         }
     };

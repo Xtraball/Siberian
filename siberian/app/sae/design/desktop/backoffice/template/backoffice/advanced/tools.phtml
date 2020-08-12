@@ -3,7 +3,6 @@ $owner = exec("stat -c \"%U\" '" . APPLICATION_PATH . "/../index.php'", $output,
 if ($exitCode === 1) {
     $owner = exec("ls -al  '" . APPLICATION_PATH . "/../index.php' | awk '{print $3}'", $output, $exitCode);
 }
-$currentUser = get_current_user();
 ?>
 
 <form ng-submit="test_integrity()"
@@ -99,10 +98,6 @@ $currentUser = get_current_user();
                     <tr>
                         <th><?php echo __('Web folder Owner'); ?></th>
                         <td><?php echo empty($owner) ? '-' : $owner; ?></td>
-                    </tr>
-                    <tr>
-                        <th><?php echo __('PHP user'); ?></th>
-                        <td><?php echo empty($currentUser) ? '-' : $currentUser; ?></td>
                     </tr>
                     <tr>
                         <th><?php echo __('PHP Version'); ?></th>

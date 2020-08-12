@@ -2,9 +2,6 @@
 
 namespace Siberian;
 
-use RecursiveIteratorIterator;
-use RecursiveDirectoryIterator;
-
 /**
  * Class Translation
  * @package Siberian
@@ -21,10 +18,10 @@ class Translation
     {
         $allKeys = [];
 
-        $languages = path('/languages/default');
-        $files = new RecursiveIteratorIterator(
-            new RecursiveDirectoryIterator($languages, 4096),
-            RecursiveIteratorIterator::SELF_FIRST);
+        $languages = \Core_Model_Directory::getBasePathTo('/languages/default');
+        $files = new \RecursiveIteratorIterator(
+            new \RecursiveDirectoryIterator($languages, 4096),
+            \RecursiveIteratorIterator::SELF_FIRST);
         foreach ($files as $file) {
             if ($file->isDir()) {
                 continue;
@@ -46,10 +43,10 @@ class Translation
             }
         }
 
-        $languagesModules = path('/app');
-        $files = new RecursiveIteratorIterator(
-            new RecursiveDirectoryIterator($languagesModules, 4096),
-            RecursiveIteratorIterator::SELF_FIRST);
+        $languagesModules = \Core_Model_Directory::getBasePathTo('/app');
+        $files = new \RecursiveIteratorIterator(
+            new \RecursiveDirectoryIterator($languagesModules, 4096),
+            \RecursiveIteratorIterator::SELF_FIRST);
         foreach ($files as $file) {
             if ($file->isDir()) {
                 continue;
@@ -78,14 +75,14 @@ class Translation
         $extractTranslate = [];
 
         if ($module !== null) {
-            $appPath = path("/app/local/modules/{$module}");
+            $appPath = \Core_Model_Directory::getBasePathTo("/app/local/modules/{$module}");
         } else {
-            $appPath = path('/app');
+            $appPath = \Core_Model_Directory::getBasePathTo('/app');
         }
 
-        $files = new RecursiveIteratorIterator(
-            new RecursiveDirectoryIterator($appPath, 4096),
-            RecursiveIteratorIterator::SELF_FIRST);
+        $files = new \RecursiveIteratorIterator(
+            new \RecursiveDirectoryIterator($appPath, 4096),
+            \RecursiveIteratorIterator::SELF_FIRST);
         foreach ($files as $file) {
             if ($file->isDir()) {
                 continue;
@@ -136,7 +133,7 @@ class Translation
     /**
      * @param $context
      * @param $module
-     * @param null $path
+     * @param $path
      */
     public static function registerExtractor ($context, $module, $path = null)
     {

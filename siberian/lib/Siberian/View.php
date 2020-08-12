@@ -5,13 +5,12 @@ namespace Siberian;
 use Core_Model_Default;
 use Core_Model_Lib_String;
 use \Siberian\Cache\Design as Design;
-use Zend_View;
 
 /**
  * Class View
  * @package Siberian
  */
-class View extends Zend_View
+class View extends \Zend_View
 {
     public $_file = null;
     public $_filter = [];

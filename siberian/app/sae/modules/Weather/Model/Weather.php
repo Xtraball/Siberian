@@ -38,28 +38,6 @@ class Weather_Model_Weather extends Core_Model_Default
     }
 
     /**
-     * GET Feature url for app init
-     *
-     * @param $optionValue
-     * @return array
-     */
-    public function getAppInitUris ($optionValue)
-    {
-        $featureUrl = __url("/weather/mobile_view/index", [
-            "value_id" => $this->getValueId(),
-        ]);
-        $featurePath = __path("/weather/mobile_view/index", [
-            "value_id" => $this->getValueId(),
-        ]);
-
-
-        return [
-            "featureUrl" => $featureUrl,
-            "featurePath" => $featurePath,
-        ];
-    }
-
-    /**
      * @param null $optionValue
      * @return array
      */

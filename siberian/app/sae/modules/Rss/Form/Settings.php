@@ -35,7 +35,7 @@ class Rss_Form_Settings extends Siberian_Form_Abstract
 
         $this->addSimpleHtml("note_cache_refresh",
             "<div class=\"alert alert-info\">" .
-            p__("rss","Cache is automatically cleared anytime a user hit refresh, whatever the lifetime set.") .
+            __("Cache is automatically cleared anytime a user hit refresh, whatever the lifetime set.") .
             "</div>",
             [
                 "class" => "col-md-offset-3 col-md-7",

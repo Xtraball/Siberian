@@ -2,9 +2,6 @@
 
 namespace Siberian;
 
-use MatthiasMullie\Minify\JS as MinifyJS;
-use MatthiasMullie\Minify\CSS as MinifyCSS;
-
 /**
  * Class \Siberian\Assets
  *
@@ -608,15 +605,15 @@ class Assets
 
     /**
      * @param $feature
-     * @param null $bundlePath
+     * @param null $bundle_path
      * @return string
      * @throws \MatthiasMullie\Minify\Exceptions\IOException
      */
-    public static function compileFeature($feature, $bundlePath = null): string
+    public static function compileFeature($feature, $bundle_path = null): string
     {
         $code = $feature['code'];
-        $minifyJs = new MinifyJS();
-        $minifyCss = new MinifyCSS();
+        $minifier_js = new \MatthiasMullie\Minify\JS();
+        $minifier_css = new \MatthiasMullie\Minify\CSS();
 
         $out_dir = path('var/tmp/out');
         if (!is_dir($out_dir) && !mkdir($out_dir, 0777, true)) {
@@ -632,25 +629,25 @@ class Assets
                     if ($ext === 'scss') {
                         // SCSS Case
                         $css = self::compileScss($inFile);
-                        $minifyCss->add($css);
+                        $minifier_css->add($css);
                     }
                     if ($ext === 'js') {
-                        $minifyJs->add($inFile);
+                        $minifier_js->add($inFile);
                     }
                     if ($ext === 'css') {
-                        $minifyCss->add($inFile);
+                        $minifier_css->add($inFile);
                     }
                 }
             }
         }
 
         // minify assets
-        $bundleCss = $minifyCss->minify();
-        $minifyJs->add("\nFeatures.insertCSS(" . json_encode($bundleCss) . ", \"" . $code . "\");");
+        $bundle_css = $minifier_css->minify();
+        $minifier_js->add("\nFeatures.insertCSS(" . json_encode($bundle_css) . ", \"" . $code . "\");");
 
-        if ($bundlePath !== null) {
-            $tmpFile = "{$out_dir}/feature.{$code}.bundle.min.js";
-            $minifyJs->minify($tmpFile);
+        if ($bundle_path != null) {
+            $tmp_file = "{$out_dir}/feature.{$code}.bundle.min.js";
+            $minifier_js->minify($tmp_file);
 
             /** Replace
              * App.info,
@@ -671,14 +668,14 @@ class Assets
              * with angular.module("starter") for $ocLazyLoad */
             __replace([
                 "#App\.(info|constant|controller|config|factory|service|directive|run|provider|value|decorator|component|register|animation)#im" => 'angular.module("starter").$1',
-            ], $tmpFile, true);
+            ], $tmp_file, true);
 
-            self::copyAssets($tmpFile, null, $bundlePath);
+            self::copyAssets($tmp_file, null, $bundle_path);
 
-            $output = "Features.register(" . $feature["__JSON__"] . ", ['{$bundlePath}']);";
+            $output = " Features.register(" . $feature["__JSON__"] . ", ['{$bundle_path}']); ";
 
         } else {
-            $output = $minifyJs->minify() . "\nFeatures.register(" . $feature["__JSON__"] . ");";
+            $output = $minifier_js->minify() . "\n;Features.register(" . $feature["__JSON__"] . "); ";
         }
 
         return $output;
@@ -725,7 +722,7 @@ class Assets
     }
 
     /**
-     * Compile all templates in the $templateCache for angular
+     * Compile all tepmlates in the $templateCache for angular
      *
      * @param $source
      */
@@ -957,10 +954,11 @@ class Assets
     }
 
     /**
+     * Append assets to every registered index.html
+     *
      * @param $index_content
      * @param $asset_path
      * @param $type
-     * @param null $feature
      * @return mixed
      */
     public static function __appendAsset($index_content, $asset_path, $type, $feature = null)
@@ -1049,7 +1047,6 @@ class Assets
     {
         $asset_path = __ss($asset_path);
         $feature_data = is_string($feature) ? " data-feature=\"$feature\"" : "";
-        $replace = '';
         switch ($type) {
             case 'js':
                 $replace = "\n\t\t<script src=\"{$asset_path}\"{$feature_data}></script>\n\t";
