@@ -13,6 +13,7 @@ angular
         push: null,
         isReady: null,
         isReadyPromise: null,
+        isEnabled: true,
         settings: {
             android: {
                 senderID: '01234567890',
@@ -97,7 +98,11 @@ angular
                 console.log('[Push] device_token: ', data.registrationId);
 
                 Push.device_token = data.registrationId;
-                service.registerDevice();
+                service
+                    .registerDevice()
+                    .then(function (payload) {
+                        service.isEnabled = payload.enabled;
+                    });
 
                 // Resolve promise!
                 service.isReady.resolve();

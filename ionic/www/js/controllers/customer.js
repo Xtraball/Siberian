@@ -60,7 +60,7 @@ angular
                 }
             },
             settings: {
-                push: true,
+                push: PushService.isEnabled,
                 counter: 7,
             },
             version: {
