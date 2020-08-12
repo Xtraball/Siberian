@@ -1,6 +1,5 @@
 <div>
-    <div ng-if="card_design"
-         style="margin-top: 20px;"></div>
+    <div style="margin-top: 20px;"></div>
 
     <div class="list"
          ng-if="willShowSettings()"
@@ -12,7 +11,7 @@
 
         <ion-item class="item-toggle item-custom">
             {{ ::'Receive push notifications' | translate:'customer' }}
-            <label class="toggle toggle-assertive">
+            <label class="toggle toggle-balanced">
                 <input type="checkbox"
                        ng-change="updateSettings()"
                        ng-model="settings.push"/>
@@ -22,7 +21,7 @@
             </label>
         </ion-item>
 
-        <ion-item ng-if="settings.push"
+        <ion-item ng-if="settings.push && settings.counter  <= 0"
                   ng-click="copyTokenToClipboard()"
                   class="item-custom">
             <h3>
@@ -31,7 +30,7 @@
             <p>{{ getPushToken() }}</p>
         </ion-item>
 
-        <ion-item ng-if="settings.push && settings.counter == 0"
+        <ion-item ng-if="settings.push && settings.counter <= 0"
                   ng-click="forcePushRegistration()"
                   class="item-custom">
             <h3>
@@ -39,7 +38,7 @@
             </h3>
         </ion-item>
 
-        <ion-item ng-if="settings.push && settings.counter == 0"
+        <ion-item ng-if="settings.push && settings.counter <= 0"
                   ng-click="sendTestPush()"
                   class="item-custom">
             <h3>
@@ -47,7 +46,7 @@
             </h3>
         </ion-item>
 
-        <ion-item ng-if="settings.push && settings.counter == 0"
+        <ion-item ng-if="settings.push && settings.counter <= 0"
                   ng-click="sendTestLocal()"
                   class="item-custom">
             <h3>
@@ -75,7 +74,7 @@
                     ng-change="reloadLocale(this)">
                 <option ng-repeat="language in getLanguages()"
                         ng-selected="language == currentLanguage"
-                        value="{{ language }}">{{ language.toUpperCase() }}
+                        value="{{ language }}">{{ language | translate:'locales' }}
                 </option>
             </select>
         </label>
@@ -87,8 +86,8 @@
             </div>
             <input type="text"
                    class="text-right"
-                   ng-value="version.number + ' (' + version.code + ')'"
-                   readonly="readonly"/>
+                   ng-value="getVersion()"
+                   readonly="readonly" />
         </label>
 
     </div>

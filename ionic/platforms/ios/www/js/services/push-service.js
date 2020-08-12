@@ -13,6 +13,7 @@ angular
         push: null,
         isReady: null,
         isReadyPromise: null,
+        isEnabled: true,
         settings: {
             android: {
                 senderID: '01234567890',
@@ -97,7 +98,11 @@ angular
                 console.log('[Push] device_token: ', data.registrationId);
 
                 Push.device_token = data.registrationId;
-                service.registerDevice();
+                service
+                    .registerDevice()
+                    .then(function (payload) {
+                        service.isEnabled = payload.enabled;
+                    });
 
                 // Resolve promise!
                 service.isReady.resolve();
@@ -112,7 +117,7 @@ angular
                     .isRegistered()
                     .then(function (success) {
                         service.isReady.resolve();
-                    }, function (error) {
+                    }, function (isRegisteredError) {
                         // Reject
                         service.isReady.reject();
                         Push.lastError = error;
@@ -263,12 +268,12 @@ angular
         var params = {
             id: messageId,
             title: title,
-            smallIcon: 'res://ic_icon',
             sound: (DEVICE_TYPE === SB.DEVICE.TYPE_IOS) ? 'res://Sounds/sb_beep4.caf' : 'res://sb_beep4',
             text: localMessage
         };
 
         if (Push.device_type === SB.DEVICE.TYPE_ANDROID) {
+            params.smallIcon = 'res://ic_icon';
             params.icon = 'res://icon';
         }
 

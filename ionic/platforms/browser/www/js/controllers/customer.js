@@ -60,7 +60,7 @@ angular
                 }
             },
             settings: {
-                push: true,
+                push: PushService.isEnabled,
                 counter: 7,
             },
             version: {
@@ -233,6 +233,13 @@ angular
                 }).then(function () {
                     Loader.hide();
                 });
+        };
+
+        $scope.getVersion = function () {
+            if (window.IS_NATIVE_APP) {
+                return $scope.version.number + ' (' + $scope.version.code + ')';
+            }
+            return $scope.version.number;
         };
 
         /**
