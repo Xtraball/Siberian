@@ -82,7 +82,9 @@ class Push_Model_Android_Message
         if ($message->getIsStandalone() === true) {
             $_device = (new Push_Model_Android_Device())
                 ->find($message->getToken(), "registration_id");
-            $devices = [$_device];
+            if ($_device->getPushAlert() === 'enabled') {
+                $devices = [$_device];
+            }
         } else {
             if ($message->getSendToAll() == 0) {
                 $category_message = new Topic_Model_Category_Message();
@@ -100,7 +102,13 @@ class Push_Model_Android_Message
                 }
             }
 
-            $devices = $device->findByAppId($app_id, $allowed_categories, $selected_users);
+            $_dbDevices = $device->findByAppId($app_id, $allowed_categories, $selected_users);
+            $devices = [];
+            foreach ($_dbDevices as $_dbDevice) {
+                if ($_dbDevice->getPushAlert() === 'enabled') {
+                    $devices[] = $_dbDevice;
+                }
+            }
         }
 
         $messagePayload = $this->buildMessage();
@@ -306,7 +314,8 @@ class Push_Model_Android_Message
 
         // Notification
         $messageNotification = new Notification();
-        $messageNotification->sound('sb_beep2');
+        $messageNotification->icon('ic_icon');
+        $messageNotification->sound('sb_beep4');
 
         $messagePayload->notification($messageNotification);
 

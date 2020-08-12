@@ -52,7 +52,9 @@ class Push_Model_Iphone_Device extends Core_Model_Default
     }
 
     /**
-     * @return mixed
+     * @return string
+     * @throws Zend_Db_Select_Exception
+     * @throws Zend_Db_Statement_Exception
      */
     public function countUnreadMessages()
     {
