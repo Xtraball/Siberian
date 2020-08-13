@@ -4,6 +4,7 @@ use Gettext\Translator;
 use Gettext\Translation;
 use Gettext\Translations;
 use Gettext\Merge;
+use Siberian\Hook;
 
 /**
  * Class Core_Model_Translator
@@ -66,9 +67,11 @@ class Core_Model_Translator
     }
 
     /**
-     * @param null|string $overrideLang
+     * @param null $overrideLang
+     * @param null $application
+     * @throws Zend_Exception
      */
-    public static function loadDefaultsAndUser($overrideLang = null)
+    public static function loadDefaultsAndUser($overrideLang = null, $application = null)
     {
         $translations = new Translations();
 
@@ -126,6 +129,15 @@ class Core_Model_Translator
 
             }
         }
+
+        // Hook when user translations are ready!
+        $payload = Hook::trigger('editor.translation.ready', [
+            'application' => $application,
+            'currentLanguage' => $currentLanguage,
+            'translations' => self::$_translations
+        ]);
+
+        self::$_translations = $payload['translations'];
 
         // Then load into the translator!
         self::$_translator->loadTranslations(self::$_translations);

@@ -64,6 +64,8 @@ class Front_Controller_Api_Base extends Front_Controller_App_Default
 
         try {
             $translationBlock = self::_translationBlock($currentLanguage);
+            // App specific translation hooks
+            $translationBlock = self::_translationBlockApp($translationBlock, $application, $currentLanguage);
         } catch (\Exception $e) {
             // Exception CSS
         }
@@ -804,6 +806,43 @@ class Front_Controller_Api_Base extends Front_Controller_App_Default
 
         // Time to generate the current block!
         $translationBlock['x-delay'] = microtime(true) - $blockStart;
+
+        return $translationBlock;
+    }
+
+    /**
+     * @param $translationBlock
+     * @param $application
+     * @param $currentLanguage
+     * @return mixed
+     */
+    public static function _translationBlockApp($translationBlock, $application, $currentLanguage)
+    {
+        // Cache is based on locale + appId.
+        $cache = Zend_Registry::get('cache');
+        $appId = $application->getId();
+        $cacheId = 'v4_application_mobile_translation_findall_locale_' . $currentLanguage . '_appid_' . $appId;
+        if (!$result = $cache->load($cacheId)) {
+            try {
+                $_newPayload = Hook::trigger('app.translation.ready', [
+                    'application' => $application,
+                    'currentLanguage' => $currentLanguage,
+                    'translationBlock' => $translationBlock,
+                ]);
+
+                $cache->save($_newPayload['translationBlock'], $cacheId, [
+                    'v4',
+                    'mobile_translation',
+                    'mobile_translation_locale_' . $currentLanguage . '_appid_' . $appId
+                ]);
+
+                return $_newPayload['translationBlock'];
+            } catch (\Exception $e) {
+                // Continue to default!
+            }
+        } else {
+            return $result;
+        }
 
         return $translationBlock;
     }

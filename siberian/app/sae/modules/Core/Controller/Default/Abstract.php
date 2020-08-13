@@ -921,7 +921,7 @@ abstract class Core_Controller_Default_Abstract extends Zend_Controller_Action i
         }
 
         // We also load language values in the translator
-        Core_Model_Translator::loadDefaultsAndUser();
+        Core_Model_Translator::loadDefaultsAndUser(null, $this->getSession()->getApplication());
     }
 
     /**
