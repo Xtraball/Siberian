@@ -40,7 +40,7 @@ $schemas['cms_application_page_block_source'] = [
         'collation' => 'utf8_unicode_ci',
     ],
     'height' => [
-        'type' => 'tinyint(1) unsigned',
+        'type' => 'smallint(1) unsigned',
     ],
     'unit' => [
         'type' => 'varchar(2)',
