@@ -82,11 +82,22 @@ class Feature
 
         // Replacing removed image ids with the new "default"
         if (count($removedImageIds) > 0) {
-            $brokenFeatures = (new \Media_Model_Library_Image())->findAll(['icon_id IN (?)' => $removedImageIds]);
-            foreach ($brokenFeatures as $brokenFeature) {
-                $brokenFeature
-                    ->setIconId($iconId)
-                    ->save();
+            try {
+                $brokenOptions = (new \Application_Model_Option())->findAll(['icon_id IN (?)' => $removedImageIds]);
+                foreach ($brokenOptions as $brokenOption) {
+                    $brokenOption
+                        ->setIconId($iconId)
+                        ->save();
+                }
+
+                $brokenFeatures = (new \Application_Model_Option_Value())->findAll(['icon_id IN (?)' => $removedImageIds]);
+                foreach ($brokenFeatures as $brokenFeature) {
+                    $brokenFeature
+                        ->setIconId($iconId)
+                        ->save();
+                }
+            } catch (\Exception $e) {
+                // Skip it!
             }
         }
 
