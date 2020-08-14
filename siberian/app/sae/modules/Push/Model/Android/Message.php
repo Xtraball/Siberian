@@ -312,12 +312,8 @@ class Push_Model_Android_Message
             $messagePayload->contentAvailable(true);
         }
 
-        // Notification
-        $messageNotification = new Notification();
-        $messageNotification->icon('ic_icon');
-        $messageNotification->sound('sb_beep4');
-
-        $messagePayload->notification($messageNotification);
+        // Sound Legacy HTTP Payload!
+        $messagePayload->addData('soundname', 'sb_beep4');
 
         // Trigger an event when the push message is parsed,
         $result = Hook::trigger("push.message.android.parsed",
