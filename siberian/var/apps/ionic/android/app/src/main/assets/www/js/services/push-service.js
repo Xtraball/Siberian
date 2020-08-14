@@ -452,7 +452,9 @@ angular
 
                             $log.debug('Message payload (ionicPopup):', messagePayload, config);
                             // Also copy to "local notification" this way we ensure message is explicitely notified!
-                            service.sendLocalNotification(messageId, trimmedTitle, trimmedMessage);
+                            if (extendedPayload.foreground) {
+                                service.sendLocalNotification(messageId, trimmedTitle, trimmedMessage);
+                            }
                             Dialog.ionicPopup(config);
                         }
                     } else {
@@ -468,7 +470,10 @@ angular
                             $log.debug('Message payload (alert):', messagePayload);
 
                             // Also copy to "local notification" this way we ensure message is explicitely notified!
-                            service.sendLocalNotification(messageId, otherTrimmedTitle, otherTrimmedMessage);
+                            if (extendedPayload.foreground) {
+                                service.sendLocalNotification(messageId, otherTrimmedTitle, otherTrimmedMessage);
+                            }
+
                             Dialog.alert(localTitle, messagePayload.message, 'OK');
                         }
                     }
