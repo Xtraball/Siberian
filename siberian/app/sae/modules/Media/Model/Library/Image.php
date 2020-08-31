@@ -1,43 +1,53 @@
 <?php
 
-class Media_Model_Library_Image extends Core_Model_Default {
+/**
+ * Class Media_Model_Library_Image
+ */
+class Media_Model_Library_Image extends Core_Model_Default
+{
 
     const PATH = '/images/library';
     const APPLICATION_PATH = '/images/application/%d/icons';
 
-    public function __construct($params = array()) {
-        parent::__construct($params);
-        $this->_db_table = 'Media_Model_Db_Table_Library_Image';
-        return $this;
-    }
+    /**
+     * @var string
+     */
+    protected $_db_table = Media_Model_Db_Table_Library_Image::class;
 
-    public static function getImagePathTo($path = '', $app_id = null) {
+    /**
+     * @param string $path
+     * @param null $app_id
+     * @return string
+     */
+    public static function getImagePathTo($path = '', $app_id = null)
+    {
 
-        if(!empty($path) AND substr($path, 0, 1) != '/') {
-            $path = '/'.$path;
+        if (!empty($path) AND substr($path, 0, 1) != '/') {
+            $path = '/' . $path;
         }
 
-        if(!is_null($app_id)) {
-            $path = sprintf(self::APPLICATION_PATH.$path, $app_id);
-        } else if(strpos($path, "/app") === 0) {
+        if (!is_null($app_id)) {
+            $path = sprintf(self::APPLICATION_PATH . $path, $app_id);
+        } else if (strpos($path, "/app") === 0) {
             # Do nothing for /app/* from modules
         } else {
-            $path = self::PATH.$path;
+            $path = self::PATH . $path;
         }
 
         return Core_Model_Directory::getPathTo($path);
     }
 
-    public static function getBaseImagePathTo($path = '', $app_id = null) {
+    public static function getBaseImagePathTo($path = '', $app_id = null)
+    {
 
-        if(!empty($path) AND substr($path,0,1) != '/') $path = '/'.$path;
+        if (!empty($path) AND substr($path, 0, 1) != '/') $path = '/' . $path;
 
-        if(!is_null($app_id)) {
-            $path = sprintf(self::APPLICATION_PATH.$path, $app_id);
-        } else if(strpos($path, "/app") === 0) {
+        if (!is_null($app_id)) {
+            $path = sprintf(self::APPLICATION_PATH . $path, $app_id);
+        } else if (strpos($path, "/app") === 0) {
             # Do nothing for /app/* from modules
         } else {
-            $path = self::PATH.$path;
+            $path = self::PATH . $path;
         }
 
         return Core_Model_Directory::getBasePathTo($path);
@@ -54,31 +64,33 @@ class Media_Model_Library_Image extends Core_Model_Default {
      * @param null $__locale
      * @return string
      */
-    public function getUrl($__url = '', array $__params = array(), $__locale = null) {
+    public function getUrl($__url = '', array $__params = array(), $__locale = null)
+    {
         $url = '';
-        if($this->getLink()) {
+        if ($this->getLink()) {
             $url = self::getImagePathTo($this->getLink(), $this->getAppId());
             $base_url = self::getBaseImagePathTo($this->getLink(), $this->getAppId());
-            if(!file_exists($base_url) ) {
+            if (!file_exists($base_url)) {
                 $url = '';
             }
         }
 
-        if(empty($url)) {
+        if (empty($url)) {
             $url = $this->getNoImage();
         }
         return $url;
 
     }
 
-    public function getSecondaryUrl() {
+    public function getSecondaryUrl()
+    {
         $url = '';
-        if($this->getSecondaryLink()) {
+        if ($this->getSecondaryLink()) {
             $url = self::getImagePathTo($this->getSecondaryLink());
-            if(!file_exists(self::getBaseImagePathTo($this->getSecondaryLink()))) $url = '';
+            if (!file_exists(self::getBaseImagePathTo($this->getSecondaryLink()))) $url = '';
         }
 
-        if(empty($url)) {
+        if (empty($url)) {
             $url = $this->getNoImage();
         }
 
@@ -86,21 +98,23 @@ class Media_Model_Library_Image extends Core_Model_Default {
 
     }
 
-    public function getThumbnailUrl() {
+    public function getThumbnailUrl()
+    {
         $url = '';
-        if($this->getThumbnail()) {
+        if ($this->getThumbnail()) {
             $url = self::getImagePathTo($this->getThumbnail());
-            if(!file_exists(self::getBaseImagePathTo($this->getThumbnail()))) $url = '';
+            if (!file_exists(self::getBaseImagePathTo($this->getThumbnail()))) $url = '';
         }
 
-        if(empty($url)) {
+        if (empty($url)) {
             $url = $this->getUrl();
         }
 
         return $url;
     }
 
-    public function updatePositions($positions) {
+    public function updatePositions($positions)
+    {
         $this->getTable()->updatePositions($positions);
 
         return $this;

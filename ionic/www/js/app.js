@@ -53,26 +53,23 @@ let setupLanguage = function () {
         storageLanguage = storageLanguage.replace(/"/g, '');
         if (AVAILABLE_LANGUAGES.indexOf(storageLanguage) >= 0) {
             CURRENT_LANGUAGE = storageLanguage;
-            return true;
         }
-    }
-    if (navigator.language) {
+    } else if (navigator.language) {
         let tmpLanguage = navigator.language.replace('-', '_');
         try {
             if (AVAILABLE_LANGUAGES.indexOf(tmpLanguage) >= 0) {
                 CURRENT_LANGUAGE = tmpLanguage;
-                return true;
             } else if (AVAILABLE_LANGUAGES.indexOf(tmpLanguage.split('_')[0]) >= 0) {
                 CURRENT_LANGUAGE = tmpLanguage.split('_')[0];
-                return true;
             }
         } catch (e) {
             console.error('[Language] fallback to "en" due to navigator.language error.');
             CURRENT_LANGUAGE = 'en';
-            return true;
         }
+        // We save it the first time we retrieve through 'navigator.language'
+        localStorage.setItem('pwa-cache-' + APP_KEY + '/registry-index/sb-current-language',
+            '"' + CURRENT_LANGUAGE + '"');
     }
-    return false;
 };
 setupLanguage();
 

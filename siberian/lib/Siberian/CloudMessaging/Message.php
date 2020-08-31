@@ -21,6 +21,7 @@ class Message
     const NOTIFICATION_BODY = 'body';
     const NOTIFICATION_ICON = 'icon';
     const NOTIFICATION_SOUND = 'sound';
+    const NOTIFICATION_IMAGE = 'image';
     const NOTIFICATION_BADGE = 'badge';
     const NOTIFICATION_TAG = 'tag';
     const NOTIFICATION_COLOR = 'color';
@@ -270,6 +271,7 @@ class Message
             $message[self::NOTIFICATION][self::NOTIFICATION_COLOR] = $this->notification->getColor();
             $message[self::NOTIFICATION][self::NOTIFICATION_ICON] = $this->notification->getIcon();
             $message[self::NOTIFICATION][self::NOTIFICATION_SOUND] = $this->notification->getSound();
+            $message[self::NOTIFICATION][self::NOTIFICATION_IMAGE] = $this->notification->getImage();
             $message[self::NOTIFICATION][self::NOTIFICATION_TAG] = $this->notification->getTag();
             $message[self::NOTIFICATION][self::NOTIFICATION_TITLE] = $this->notification->getTitle();
             $message[self::NOTIFICATION][self::NOTIFICATION_TITLE_LOC_ARGS] = $this->notification->getTitleLocArgs();
