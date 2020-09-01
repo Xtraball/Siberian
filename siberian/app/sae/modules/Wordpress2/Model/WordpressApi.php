@@ -80,7 +80,7 @@ class Wordpress2_Model_WordpressApi extends Core_Model_Default
         ]);
 
         $allCategories = $categories;
-        while (sizeof($categories) === $perPage && $failSafe > $page) {
+        while (count($categories) === $perPage && $failSafe > $page) {
             $page = $page + 1;
             try {
                 $categories = $this->client->categories()->get(null, [
@@ -118,7 +118,7 @@ class Wordpress2_Model_WordpressApi extends Core_Model_Default
         }
 
         $allPages = $pages;
-        while (sizeof($pages) === $perPage && $failSafe > $page) {
+        while (count($pages) === $perPage && $failSafe > $page) {
             $page = $page + 1;
             try {
                 $pages = $this->client->pages()->get(null, [
@@ -202,9 +202,9 @@ class Wordpress2_Model_WordpressApi extends Core_Model_Default
                 $post['content']['rendered']
             ));
 
-            if ($page['featured_media'] != 0) {
+            if ($post['featured_media'] != 0) {
                 try {
-                    $mediaId = $post["featured_media"];
+                    $mediaId = $post['featured_media'];
                     if (array_key_exists($mediaId, $cachedMedias)) {
                         $post["thumbnail"] = $cachedMedias[$mediaId]["thumbnail"];
                         $post["picture"] = $cachedMedias[$mediaId]["picture"];
@@ -217,8 +217,8 @@ class Wordpress2_Model_WordpressApi extends Core_Model_Default
                     $post['picture'] = null;
                 }
             } else {
-                $page['thumbnail'] = null;
-                $page['picture'] = null;
+                $post['thumbnail'] = null;
+                $post['picture'] = null;
             }
 
             $post = array_filter(
@@ -279,6 +279,8 @@ class Wordpress2_Model_WordpressApi extends Core_Model_Default
                 $page['content']['rendered']
             ));
 
+            dbg('PAGE', $page);
+
             if ($page['featured_media'] != 0) {
                 try {
                     $mediaId = $page["featured_media"];
@@ -300,7 +302,7 @@ class Wordpress2_Model_WordpressApi extends Core_Model_Default
 
             $page = array_filter(
                 $page,
-                function ($key) use ($allowedKeys) {
+                static function ($key) use ($allowedKeys) {
                     return in_array($key, $allowedKeys);
                 },
                 ARRAY_FILTER_USE_KEY
@@ -330,16 +332,32 @@ class Wordpress2_Model_WordpressApi extends Core_Model_Default
         $mediaIds = array_unique(array_values($postMediaIds));
 
         $medias = $this->client->media()->get(null, [
-            "include" => join(",", $mediaIds)
+            "include" => implode(",", $mediaIds)
         ]);
 
         $cachedMedias = [];
         foreach ($medias as $media) {
+            $thumbnail = null;
+            $picture = null;
             $mediaId = $media['id'];
-            $cachedMedias[$mediaId] = [
-                "thumbnail" => $media["media_details"]["sizes"]["thumbnail"]["source_url"],
-                "picture" => $media["media_details"]["sizes"]["medium_large"]["source_url"],
-            ];
+            if (!empty($media['media_details']['sizes'])) {
+                if (isset($media["media_details"]["sizes"]["thumbnail"])) {
+                    $thumbnail = $media["media_details"]["sizes"]["thumbnail"]["source_url"];
+                }
+                if (isset($media["media_details"]["sizes"]["medium_large"])) {
+                    $picture = $media["media_details"]["sizes"]["medium_large"]["source_url"];
+                }
+            } else if (!empty($media['source_url'])) {
+                $thumbnail = $media['source_url'];
+                $picture = $media['source_url'];
+            }
+
+            if (isset($thumbnail, $picture)) {
+                $cachedMedias[$mediaId] = [
+                    "thumbnail" => $thumbnail,
+                    "picture" => $picture,
+                ];
+            }
         }
 
         return $cachedMedias;
