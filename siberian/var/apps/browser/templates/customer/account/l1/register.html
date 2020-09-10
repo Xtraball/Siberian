@@ -80,12 +80,12 @@
 
         <label class="item item-custom"
                ng-click="customer.change_password = !customer.change_password"
-               ng-if="is_logged_in">
+               ng-if="customer.is_logged_in">
             {{ ::'Change password' | translate:'customer' }}
         </label>
 
         <label class="item item-input item-custom"
-               ng-if="customer.change_password && is_logged_in">
+               ng-if="customer.change_password && customer.is_logged_in">
             <div class="input-label">
                 {{ ::'Current password' | translate:'customer' }}
             </div>
@@ -96,7 +96,7 @@
                    ng-model="customer.old_password"/>
         </label>
         <label class="item item-input item-custom"
-               ng-if="customer.change_password || !is_logged_in">
+               ng-if="customer.change_password || !customer.is_logged_in">
             <div class="input-label">
                 <span ng-show="!customer.change_password">{{ ::'Password' | translate:'customer' }}</span>
                 <span ng-show="customer.change_password">{{ ::'New password' | translate:'customer' }}</span>
@@ -106,11 +106,11 @@
                    type="password"
                    placeholder="{{ ::'Password' | translate:'customer' }}"
                    ng-model="customer.password"
-                   ng-disabled="!customer.change_password && is_logged_in"/>
+                   ng-disabled="!customer.change_password && customer.is_logged_in"/>
         </label>
 
         <label class="item item-input item-custom"
-               ng-if="myAccount.settings.enable_password_verification && (customer.change_password || !is_logged_in)">
+               ng-if="myAccount.settings.enable_password_verification && (customer.change_password || !customer.is_logged_in)">
             <div class="input-label">
                 <span>{{ ::'Repeat password' | translate:'customer' }}</span> <span>*</span>
             </div>
@@ -121,7 +121,7 @@
         </label>
 
         <sb-clickwrap field="privacyPolicyField"
-                      ng-if="!is_logged_in"
+                      ng-if="!customer.is_logged_in"
                       model="customer.privacy_policy"
                       card-design="card_design"></sb-clickwrap>
 
@@ -167,7 +167,7 @@
     </div>
 
     <div class="padding text-right"
-         ng-if="is_logged_in">
+         ng-if="customer.is_logged_in">
         <span ng-click="showPrivacyPolicy()">
             {{ ::'Read the' | translate:'customer' }}&nbsp;<span class="bold positive positive-custom">{{ ::'privacy policy' | translate:'customer' }}!</span>
         </span>
@@ -183,13 +183,13 @@
 
     <div class="padding text-center"
          ng-click="requestGdprToken()"
-         ng-if="is_logged_in && gdpr.isEnabled">
+         ng-if="customer.is_logged_in && gdpr.isEnabled">
         {{ ::'Request access to my' | translate:'customer' }}&nbsp;<span class="bold positive positive-custom">{{ ::'personal data' | translate:'customer' }}!</span>
     </div>
 
     <div class="padding text-center"
          ng-click="displayLoginForm()"
-         ng-if="!is_logged_in">
+         ng-if="!customer.is_logged_in">
         {{ ::'Already have an account?' | translate:'customer' }} <span class="bold positive positive-custom">{{ ::'Log in' | translate:'customer' }}!</span>
     </div>
 
@@ -197,8 +197,7 @@
              ng-if="customer.metadatas.fidelity_points"
              ng-show="customer.metadatas.fidelity_points.points > 0">
         <label class="item item-custom">
-            <i class="ion-ios-information-outline"></i><strong> {{ ::'Your loyalty points' | translate:'customer'
-            }}</strong>
+            <i class="ion-ios-information-outline"></i><strong> {{ ::'Your loyalty points' | translate:'customer' }}</strong>
         </label>
 
         <div class="item item-custom">
@@ -211,8 +210,7 @@
              ng-if="show_avatar"
              ng-show="customer.stripe">
         <label class="item item-custom">
-            <i class="ion-ios-information-outline"></i><strong> {{ ::'Stored card information' | translate:'customer'
-            }}</strong>
+            <i class="ion-ios-information-outline"></i><strong> {{ ::'Stored card information' | translate:'customer' }}</strong>
         </label>
 
         <!-- SHOW CARD -->
@@ -237,7 +235,7 @@
 
     <div class="padding text-center"
          ng-click="logout()"
-         ng-if="is_logged_in">
+         ng-if="customer.is_logged_in">
         <span class="bold positive positive-custom">{{ ::'Log out' | translate:'customer' }}!</span>
     </div>
 
