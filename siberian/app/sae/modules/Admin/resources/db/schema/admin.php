@@ -3,10 +3,10 @@
  *
  * Schema definition for 'admin'
  *
- * Last update: 2016-04-28
+ * Last update: 2020-09-10
  *
  */
-$schemas = (!isset($schemas)) ? [] : $schemas;
+$schemas = $schemas ?? [];
 $schemas['admin'] = [
     'admin_id' => [
         'type' => 'int(11) unsigned',
