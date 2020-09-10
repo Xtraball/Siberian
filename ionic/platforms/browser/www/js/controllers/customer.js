@@ -18,17 +18,22 @@ angular
          * @returns {*|$scope.customer|Customer.customer|null}
          */
         $scope.pristineCustomer = function () {
-            $scope.customer = {
-                firstname: '',
-                lastname: '',
-                nickname: '',
-                email: '',
-                image: '',
-                change_password: false,
-                password: '',
-                repeat_password: '',
-                privacy_policy: false
-            };
+            $scope.customer.civility = '';
+            $scope.customer.firstname = '';
+            $scope.customer.lastname = '';
+            $scope.customer.nickname = '';
+            $scope.customer.email = '';
+            $scope.customer.image = '';
+            $scope.customer.change_password = false;
+            $scope.customer.password = '';
+            $scope.customer.repeat_password = '';
+            $scope.customer.privacy_policy = false;
+            $scope.customer.is_custom_image = false;
+            $scope.customer.show_in_social_gaming = false;
+            $scope.customer.metadatas = {};
+            $scope.customer.communication_agreement = false;
+            $scope.customer.can_access_locked_features = false;
+            $scope.customer.extendedFields = Customer.customer.extendedFieldsPristine;
 
             return $scope.customer;
         };
@@ -119,6 +124,23 @@ angular
 
                     return modal;
                 });
+        };
+
+        $scope.displayField = function (field) {
+            var bDisplay = (field.type !== 'spacer' && $scope.card_design) || !$scope.card_design;
+            if (!bDisplay) {
+                return false;
+            }
+
+            if (field.when && field.when === 'guest' && Customer.isLoggedIn()) {
+                return false;
+            }
+
+            if (field.when && field.when === 'customer' && !Customer.isLoggedIn()) {
+                return false;
+            }
+
+            return true;
         };
 
         $scope.closeAction = function () {
