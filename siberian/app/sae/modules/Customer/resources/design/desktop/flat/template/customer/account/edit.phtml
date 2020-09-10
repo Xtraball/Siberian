@@ -100,6 +100,50 @@ try {
         commercialTick.on('change', toggleCommercialLabel);
 
         toggleCommercialLabel();
+
+        let fieldCiv = $('#extra_civility');
+        let requiredCiv = $('#extra_civility_required');
+
+        let fieldMobile = $('#extra_mobile');
+        let requiredMobile = $('#extra_mobile_required');
+
+        // Check civility field if required!
+        let checkCivIfRequired = function () {
+            if (requiredCiv.is(':checked')) {
+                fieldCiv.prop('checked', true);
+            }
+        };
+        requiredCiv.off('change');
+        requiredCiv.on('change', checkCivIfRequired);
+
+        // Uncheck civility required field if disabled!
+        let toggleFieldCiv = function () {
+            if (!fieldCiv.is(':checked')) {
+                requiredCiv.prop('checked', false);
+            }
+        };
+        fieldCiv.off('change');
+        fieldCiv.on('change', toggleFieldCiv);
+
+        // Check mobile field if required!
+        let toggleMobile = function () {
+            if (requiredMobile.is(':checked')) {
+                fieldMobile.prop('checked', true);
+            }
+        };
+        requiredMobile.off('change');
+        requiredMobile.on('change', toggleMobile);
+
+        // Uncheck mobile required field if disabled!
+        let toggleFieldMobile = function () {
+            if (!fieldMobile.is(':checked')) {
+                requiredMobile.prop('checked', false);
+            }
+        };
+        fieldMobile.off('change');
+        fieldMobile.on('change', toggleFieldMobile);
+
+
     });
 </script>
 

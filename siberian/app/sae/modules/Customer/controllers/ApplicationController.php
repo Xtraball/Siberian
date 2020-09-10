@@ -72,6 +72,14 @@ class Customer_ApplicationController extends Application_Controller_Default
                     'extra_civility_required' => filter_var($values['extra_civility_required'], FILTER_VALIDATE_BOOLEAN),
                 ];
 
+                // Enforces logic on backend side (to be sure)
+                if ($settings['extra_mobile_required']) {
+                    $settings['extra_mobile'] = true;
+                }
+                if ($settings['extra_civility_required']) {
+                    $settings['extra_civility'] = true;
+                }
+
                 $optionValue
                     ->setSettings(Json::encode($settings))
                     ->save();

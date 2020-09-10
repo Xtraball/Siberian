@@ -2,6 +2,7 @@
 
 use Siberian\Account;
 use Siberian\Hook;
+use Siberian\Json;
 use Siberian\Layout;
 use Siberian\Exception;
 
@@ -31,6 +32,22 @@ class Customer_Mobile_Account_RegisterController extends Application_Controller_
             $customer = new Customer_Model_Customer();
 
             $requiredFields = [];
+
+            // Check civility & mobile extra fields (and ensure app has a customer account ...)
+            $application->checkCustomerAccount();
+            $myAccountTab = $application->getOption('tabbar_account');
+            $accountSettings = Json::decode($myAccountTab->getSettings());
+            $requireMobile = $accountSettings['extra_mobile_required'];
+            $requireCivility = $accountSettings['extra_civility_required'];
+            if ($requireMobile && empty($data['mobile'])) {
+                $requiredFields[] = p__('customer', 'Mobile');
+            }
+
+            if ($requireCivility && empty($data['civility'])) {
+                $requiredFields[] = p__('customer', 'Civility');
+            }
+
+
             if (empty($data['firstname'])) {
                 $requiredFields[] = p__('customer', 'Firstname');
             }

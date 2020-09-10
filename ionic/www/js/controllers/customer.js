@@ -18,24 +18,7 @@ angular
          * @returns {*|$scope.customer|Customer.customer|null}
          */
         $scope.pristineCustomer = function () {
-            $scope.customer.civility = '';
-            $scope.customer.firstname = '';
-            $scope.customer.lastname = '';
-            $scope.customer.nickname = '';
-            $scope.customer.email = '';
-            $scope.customer.image = '';
-            $scope.customer.change_password = false;
-            $scope.customer.password = '';
-            $scope.customer.repeat_password = '';
-            $scope.customer.privacy_policy = false;
-            $scope.customer.is_custom_image = false;
-            $scope.customer.show_in_social_gaming = false;
-            $scope.customer.metadatas = {};
-            $scope.customer.communication_agreement = false;
-            $scope.customer.can_access_locked_features = false;
-            $scope.customer.extendedFields = Customer.customer.extendedFieldsPristine;
-
-            return $scope.customer;
+            return Customer.pristineCustomer();
         };
 
         angular.extend($scope, {
@@ -408,8 +391,11 @@ angular
                             .then(function (data) {
                                 if (data.success) {
                                     FacebookConnect.logout();
-                                    $scope.pristineCustomer();
                                     Customer.hideModal();
+
+                                    // Reset!
+                                    $scope.is_logged_in = Customer.isLoggedIn();
+                                    $scope.customer = Customer.customer || $scope.pristineCustomer();
                                 }
                             });
                     }
