@@ -41,6 +41,7 @@ class Account
         foreach ($fields as &$field) {
             $field["_moduleKey"] = $moduleKey;
         }
+        unset($field);
         self::$extendedFields[$moduleKey] = $fields;
         self::$callbackPopulateHandlers[$moduleKey] = $callbackPopulate;
         self::$callbackSaveHandlers[$moduleKey] = $callbackSave;

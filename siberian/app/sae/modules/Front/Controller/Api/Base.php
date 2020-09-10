@@ -1,5 +1,6 @@
 <?php
 
+use Core\Model\Base;
 use Siberian\Account;
 use Siberian\File;
 use Siberian\Hook;
@@ -337,6 +338,10 @@ class Front_Controller_Api_Base extends Front_Controller_App_Default
                     'enable_commercial_agreement' => false,
                     'enable_commercial_agreement_label' => '',
                     'enable_password_verification' => false,
+                    'extra_mobile' => false,
+                    'extra_mobile_required' => false,
+                    'extra_civility' => false,
+                    'extra_civility_required' => false,
                 ],
             ];
             $myAccount = $defaultSettings;
@@ -859,6 +864,7 @@ class Front_Controller_Api_Base extends Front_Controller_App_Default
     {
         $session = $this->getSession();
         $customer = $session->getCustomer();
+        $request = $this->getRequest();
         $customerId = $customer->getCustomerId();
         $isLoggedIn = false;
 
@@ -903,6 +909,7 @@ class Front_Controller_Api_Base extends Front_Controller_App_Default
                 'firstname' => $customer->getFirstname(),
                 'lastname' => $customer->getLastname(),
                 'nickname' => $customer->getNickname(),
+                'mobile' => $customer->getMobile(),
                 'image' => $customer->getImage(),
                 'email' => $customer->getEmail(),
                 'show_in_social_gaming' => (boolean)$customer->getShowInSocialGaming(),
@@ -912,11 +919,6 @@ class Front_Controller_Api_Base extends Front_Controller_App_Default
                 'can_connect_with_facebook' => (boolean)$application->getFacebookId(),
                 'can_access_locked_features' =>
                     (boolean)($customerId && $customer->canAccessLockedFeatures()),
-                'extendedFields' => Account::getFields([
-                    'application' => $application,
-                    'request' => $this->getRequest(),
-                    'session' => $session,
-                ]),
             ]);
 
             if (Siberian_CustomerInformation::isRegistered('stripe')) {
@@ -932,7 +934,18 @@ class Front_Controller_Api_Base extends Front_Controller_App_Default
 
         $loadBlock['customer'] = array_merge($loadBlock['customer'], [
             'isLoggedIn' => $isLoggedIn,
-            'is_logged_in' => $isLoggedIn
+            'is_logged_in' => $isLoggedIn,
+            // Extended fields!
+            'extendedFields' => Account::getFields([
+                'application' => $application,
+                'request' => $request,
+                'session' => $session,
+            ]),
+            'extendedFieldsPristine' => Account::getFields([
+                'application' => $application,
+                'request' => $request,
+                'session' => (new Base()),
+            ]),
         ]);
 
         return $loadBlock;

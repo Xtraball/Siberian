@@ -1,5 +1,6 @@
 <?php
 
+use Siberian\Account;
 use Siberian\Hook;
 use Siberian\Layout;
 use Siberian\Exception;
@@ -117,6 +118,12 @@ class Customer_Mobile_Account_RegisterController extends Application_Controller_
             $this->_sendNewAccountEmail($customer, $data['password']);
 
             $currentCustomer = Customer_Model_Customer::getCurrent();
+            // Extended fields!
+            $currentCustomer['extendedFields'] = Account::getFields([
+                'application' => $application,
+                'request' => $request,
+                'session' => $session,
+            ]);
 
             $payload = [
                 'success' => true,
