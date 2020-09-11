@@ -18,19 +18,7 @@ angular
          * @returns {*|$scope.customer|Customer.customer|null}
          */
         $scope.pristineCustomer = function () {
-            $scope.customer = {
-                firstname: '',
-                lastname: '',
-                nickname: '',
-                email: '',
-                image: '',
-                change_password: false,
-                password: '',
-                repeat_password: '',
-                privacy_policy: false
-            };
-
-            return $scope.customer;
+            return Customer.pristineCustomer();
         };
 
         angular.extend($scope, {
@@ -119,6 +107,23 @@ angular
 
                     return modal;
                 });
+        };
+
+        $scope.displayField = function (field) {
+            var bDisplay = (field.type !== 'spacer' && $scope.card_design) || !$scope.card_design;
+            if (!bDisplay) {
+                return false;
+            }
+
+            if (field.when && field.when === 'guest' && Customer.isLoggedIn()) {
+                return false;
+            }
+
+            if (field.when && field.when === 'customer' && !Customer.isLoggedIn()) {
+                return false;
+            }
+
+            return true;
         };
 
         $scope.closeAction = function () {
@@ -386,8 +391,11 @@ angular
                             .then(function (data) {
                                 if (data.success) {
                                     FacebookConnect.logout();
-                                    $scope.pristineCustomer();
                                     Customer.hideModal();
+
+                                    // Reset!
+                                    $scope.is_logged_in = Customer.isLoggedIn();
+                                    $scope.customer = Customer.customer || $scope.pristineCustomer();
                                 }
                             });
                     }

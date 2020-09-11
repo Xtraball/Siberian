@@ -11,6 +11,7 @@ class Wordpress2_Model_Wordpress extends Core_Model_Default
     protected $_db_table = Wordpress2_Model_Db_Table_Wordpress::class;
 
     /**
+     * @param $valueId
      * @return array
      */
     public function getInappStates($valueId): array

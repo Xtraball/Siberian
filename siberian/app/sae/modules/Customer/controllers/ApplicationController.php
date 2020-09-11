@@ -66,7 +66,19 @@ class Customer_ApplicationController extends Application_Controller_Default
                     'enable_commercial_agreement' => filter_var($values['enable_commercial_agreement'], FILTER_VALIDATE_BOOLEAN),
                     'enable_commercial_agreement_label' => $values['enable_commercial_agreement_label'],
                     'enable_password_verification' => filter_var($values['enable_password_verification'], FILTER_VALIDATE_BOOLEAN),
+                    'extra_mobile' => filter_var($values['extra_mobile'], FILTER_VALIDATE_BOOLEAN),
+                    'extra_mobile_required' => filter_var($values['extra_mobile_required'], FILTER_VALIDATE_BOOLEAN),
+                    'extra_civility' => filter_var($values['extra_civility'], FILTER_VALIDATE_BOOLEAN),
+                    'extra_civility_required' => filter_var($values['extra_civility_required'], FILTER_VALIDATE_BOOLEAN),
                 ];
+
+                // Enforces logic on backend side (to be sure)
+                if ($settings['extra_mobile_required']) {
+                    $settings['extra_mobile'] = true;
+                }
+                if ($settings['extra_civility_required']) {
+                    $settings['extra_civility'] = true;
+                }
 
                 $optionValue
                     ->setSettings(Json::encode($settings))

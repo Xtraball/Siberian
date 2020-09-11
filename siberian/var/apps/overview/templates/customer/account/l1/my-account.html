@@ -31,7 +31,7 @@
              ng-include="'templates/customer/account/l1/forgot-password.html'"></div>
 
         <!-- Register partial -->
-        <div ng-show="display_account_form && (myAccount.settings.enable_registration || is_logged_in)"
+        <div ng-show="display_account_form && (myAccount.settings.enable_registration || customer.is_logged_in)"
              ng-include="'templates/customer/account/l1/register.html'"></div>
 
         <!-- Settings partial -->
