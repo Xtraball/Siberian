@@ -9,17 +9,20 @@
  * @method $this setTitle(string $title)
  * @method $this setDescription(string $description)
  */
-class Media_Model_Gallery_Image_Custom extends Media_Model_Gallery_Image_Abstract {
+class Media_Model_Gallery_Image_Custom extends Media_Model_Gallery_Image_Abstract
+{
+    /**
+     * @var string
+     */
+    protected $_db_table = Media_Model_Db_Table_Gallery_Image_Custom::class;
 
-    public function __construct($params = array()) {
-        parent::__construct($params);
-        $this->_db_table = 'Media_Model_Db_Table_Gallery_Image_Custom';
-        return $this;
-    }
-
-    public function getAllTypes() {
+    /**
+     * @return array
+     */
+    public function getAllTypes()
+    {
         $types = [];
-        foreach($this->_flux as $k => $flux) {
+        foreach ($this->_flux as $k => $flux) {
             $types[$k] = new Core_Model_Default([
                 'code' => $k,
                 'url' => $flux,
@@ -29,7 +32,13 @@ class Media_Model_Gallery_Image_Custom extends Media_Model_Gallery_Image_Abstrac
         return $types;
     }
 
-    public function getImages($offset, $limit = self::DISPLAYED_PER_PAGE) {
+    /**
+     * @param $offset
+     * @param int $limit
+     * @return array|mixed
+     */
+    public function getImages($offset, $limit = self::DISPLAYED_PER_PAGE)
+    {
 
         try {
             $params = [];
@@ -41,9 +50,9 @@ class Media_Model_Gallery_Image_Custom extends Media_Model_Gallery_Image_Abstrac
             }
 
             $images = (new Media_Model_Gallery_Image_Custom())->findAll([
-                    'gallery_id' => $this->getImageId()
-                ], 'image_id DESC', $params);
-        } catch(Exception $e) {
+                'gallery_id' => $this->getImageId()
+            ], 'image_id DESC', $params);
+        } catch (Exception $e) {
             $images = [];
         }
 
@@ -54,7 +63,7 @@ class Media_Model_Gallery_Image_Custom extends Media_Model_Gallery_Image_Abstrac
                 'title' => $image->getTitle(),
                 'description' => $image->getDescription(),
                 'author' => null,
-                'image' => Application_Model_Application::getImagePath().$image->getData('url')
+                'image' => Application_Model_Application::getImagePath() . $image->getData('url')
             ]);
         }
 

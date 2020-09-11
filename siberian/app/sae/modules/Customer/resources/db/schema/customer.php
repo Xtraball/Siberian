@@ -6,7 +6,7 @@
  * Last update: 2016-04-28
  *
  */
-$schemas = (!isset($schemas)) ? [] : $schemas;
+$schemas = $schemas ?? [];
 $schemas['customer'] = [
     'customer_id' => [
         'type' => 'int(11) unsigned',
@@ -34,6 +34,16 @@ $schemas['customer'] = [
     ],
     'nickname' => [
         'type' => 'varchar(16)',
+        'charset' => 'utf8',
+        'collation' => 'utf8_unicode_ci'
+    ],
+    'phone' => [
+        'type' => 'varchar(255)',
+        'charset' => 'utf8',
+        'collation' => 'utf8_unicode_ci'
+    ],
+    'mobile' => [
+        'type' => 'varchar(255)',
         'charset' => 'utf8',
         'collation' => 'utf8_unicode_ci'
     ],
