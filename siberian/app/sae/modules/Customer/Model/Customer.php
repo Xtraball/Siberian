@@ -660,6 +660,7 @@ class Customer_Model_Customer extends Core_Model_Default
                 'firstname' => $customer->getFirstname(),
                 'lastname' => $customer->getLastname(),
                 'nickname' => $customer->getNickname(),
+                'mobile' => $customer->getMobile(),
                 'image' => $customer->getImage(),
                 'email' => $customer->getEmail(),
                 'show_in_social_gaming' => (bool)$customer->getShowInSocialGaming(),

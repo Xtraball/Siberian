@@ -86,16 +86,16 @@ class Admin_AccountController extends Admin_Controller_Default
                     }
                 }
 
-                if (empty($data["role_id"]) && $data["mode"] == "management") {
+                if (empty($data["role_id"]) && $data['mode'] === 'management') {
                     throw new \Siberian\Exception(__('The account role is required'));
                 } else {
-                    if ($data["mode"] == "management") {
+                    if ($data['mode'] === 'management') {
                         $admin->setRoleId($data["role_id"]);
                     }
                 }
 
                 // Available roles for the current admin!
-                if ($data['mode'] == 'management') {
+                if ($data['mode'] === 'management') {
                     $role = (new Acl_Model_Role())->find($current_admin->getRoleId());
                     $availableRoles = (new Acl_Model_Role())->getChilds($role);
                     if ($role->getIsSelfAssignable()) {
@@ -121,6 +121,7 @@ class Admin_AccountController extends Admin_Controller_Default
                     ->setAddress2($data['address2'])
                     ->setCity($data['city'])
                     ->setCompany($data['company'])
+                    ->setWebsite($data['website'])
                     ->setZipCode($data['zip_code'])
                     ->setFirstname($data['firstname'])
                     ->setLastname($data['lastname'])

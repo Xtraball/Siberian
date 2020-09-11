@@ -3,161 +3,167 @@
  *
  * Schema definition for 'admin'
  *
- * Last update: 2016-04-28
+ * Last update: 2020-09-10
  *
  */
-$schemas = (!isset($schemas)) ? array() : $schemas;
-$schemas['admin'] = array(
-    'admin_id' => array(
+$schemas = $schemas ?? [];
+$schemas['admin'] = [
+    'admin_id' => [
         'type' => 'int(11) unsigned',
         'auto_increment' => true,
         'primary' => true,
-    ),
-    'parent_id' => array(
+    ],
+    'parent_id' => [
         'type' => 'int(11) unsigned',
         'is_null' => true,
-        'index' => array(
+        'index' => [
             'key_name' => 'KEY_PARENT_ID',
             'index_type' => 'BTREE',
             'is_null' => true,
             'is_unique' => false,
-        ),
-    ),
-    'role_id' => array(
+        ],
+    ],
+    'role_id' => [
         'type' => 'int(11) unsigned',
         'default' => '1',
-        'index' => array(
+        'index' => [
             'key_name' => 'role_id',
             'index_type' => 'BTREE',
             'is_null' => false,
             'is_unique' => false,
-        ),
-    ),
-    'email' => array(
+        ],
+    ],
+    'email' => [
         'type' => 'varchar(255)',
         'charset' => 'utf8',
         'collation' => 'utf8_unicode_ci',
-    ),
-    'password' => array(
+    ],
+    'password' => [
         'type' => 'varchar(100)',
         'charset' => 'utf8',
         'collation' => 'utf8_unicode_ci',
-    ),
-    'is_allowed_to_add_pages' => array(
+    ],
+    'is_allowed_to_add_pages' => [
         'type' => 'tinyint(1) unsigned',
         'default' => '1',
-    ),
-    'is_allowed_to_manage_tour' => array(
+    ],
+    'is_allowed_to_manage_tour' => [
         'type' => 'tinyint(1) unsigned',
         'default' => '0',
-    ),
-    'publication_access_type' => array(
+    ],
+    'publication_access_type' => [
         'type' => 'enum(\'sources\',\'info\')',
         'is_null' => true,
         'charset' => 'utf8',
         'collation' => 'utf8_unicode_ci',
-    ),
-    'generate_apk' => array(
+    ],
+    'generate_apk' => [
         'type' => 'enum(\'no\',\'yes\')',
         'is_null' => true,
         'charset' => 'utf8',
         'collation' => 'utf8_unicode_ci',
-    ),
-    'company' => array(
+    ],
+    'company' => [
+        'type' => 'varchar(255)',
+        'is_null' => true,
+        'charset' => 'utf8',
+        'collation' => 'utf8_unicode_ci',
+    ],
+    'website' => [
+        'type' => 'varchar(255)',
+        'is_null' => true,
+        'charset' => 'utf8',
+        'collation' => 'utf8_unicode_ci',
+    ],
+    'firstname' => [
         'type' => 'varchar(100)',
         'is_null' => true,
         'charset' => 'utf8',
         'collation' => 'utf8_unicode_ci',
-    ),
-    'firstname' => array(
+    ],
+    'lastname' => [
         'type' => 'varchar(100)',
         'is_null' => true,
         'charset' => 'utf8',
         'collation' => 'utf8_unicode_ci',
-    ),
-    'lastname' => array(
-        'type' => 'varchar(100)',
-        'is_null' => true,
-        'charset' => 'utf8',
-        'collation' => 'utf8_unicode_ci',
-    ),
-    'address' => array(
+    ],
+    'address' => [
         'type' => 'text',
         'is_null' => true,
         'charset' => 'utf8',
         'collation' => 'utf8_unicode_ci',
-    ),
-    'address2' => array(
+    ],
+    'address2' => [
         'type' => 'varchar(255)',
         'is_null' => true,
         'charset' => 'utf8',
         'collation' => 'utf8_unicode_ci',
-    ),
-    'city' => array(
+    ],
+    'city' => [
         'type' => 'varchar(255)',
         'is_null' => true,
         'charset' => 'utf8',
         'collation' => 'utf8_unicode_ci',
-    ),
-    'zip_code' => array(
+    ],
+    'zip_code' => [
         'type' => 'varchar(255)',
         'is_null' => true,
         'charset' => 'utf8',
         'collation' => 'utf8_unicode_ci',
-    ),
-    'region_code' => array(
+    ],
+    'region_code' => [
         'type' => 'varchar(255)',
         'is_null' => true,
         'charset' => 'utf8',
         'collation' => 'utf8_unicode_ci',
-    ),
-    'region' => array(
+    ],
+    'region' => [
         'type' => 'varchar(255)',
         'is_null' => true,
         'charset' => 'utf8',
         'collation' => 'utf8_unicode_ci',
-    ),
-    'country_code' => array(
+    ],
+    'country_code' => [
         'type' => 'varchar(10)',
         'is_null' => true,
         'charset' => 'utf8',
         'collation' => 'utf8_unicode_ci',
-    ),
-    'country' => array(
+    ],
+    'country' => [
         'type' => 'varchar(100)',
         'is_null' => true,
         'charset' => 'utf8',
         'collation' => 'utf8_unicode_ci',
-    ),
-    'preferences' => array(
+    ],
+    'preferences' => [
         'type' => 'longtext',
         'is_null' => true,
         'charset' => 'utf8',
         'collation' => 'utf8_unicode_ci',
-    ),
-    'phone' => array(
+    ],
+    'phone' => [
         'type' => 'varchar(20)',
         'is_null' => true,
         'charset' => 'utf8',
         'collation' => 'utf8_unicode_ci',
-    ),
-    'vat_number' => array(
+    ],
+    'vat_number' => [
         'type' => 'varchar(20)',
         'is_null' => true,
         'charset' => 'utf8',
         'collation' => 'utf8_unicode_ci',
-    ),
-    'accept_tos' => array(
+    ],
+    'accept_tos' => [
         'type' => 'tinyint(1) unsigned',
         'default' => '0',
-    ),
-    'last_action' => array(
+    ],
+    'last_action' => [
         'type' => 'datetime',
-    ),
-    'created_at' => array(
+    ],
+    'created_at' => [
         'type' => 'datetime',
-    ),
-    'updated_at' => array(
+    ],
+    'updated_at' => [
         'type' => 'datetime',
-    ),
-);
+    ],
+];

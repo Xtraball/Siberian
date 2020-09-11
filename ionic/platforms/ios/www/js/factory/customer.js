@@ -374,10 +374,36 @@ angular
             $session.setId(uuid);
         };
 
-        factory.clearCredentials = function () {
-            factory.customer = null;
-            factory.can_access_locked_features = false;
+        /**
+         * Clears out the customer object!
+         * @returns {*|$scope.customer|Customer.customer|null}
+         */
+        factory.pristineCustomer = function () {
             factory.is_logged_in = false;
+            factory.customer.civility = '';
+            factory.customer.firstname = '';
+            factory.customer.lastname = '';
+            factory.customer.nickname = '';
+            factory.customer.email = '';
+            factory.customer.image = '';
+            factory.customer.mobile = '';
+            factory.customer.change_password = false;
+            factory.customer.password = '';
+            factory.customer.repeat_password = '';
+            factory.customer.privacy_policy = false;
+            factory.customer.is_custom_image = false;
+            factory.customer.show_in_social_gaming = false;
+            factory.customer.metadatas = {};
+            factory.customer.communication_agreement = false;
+            factory.customer.is_logged_in = false;
+            factory.customer.can_access_locked_features = false;
+            factory.customer.extendedFields = factory.customer.extendedFieldsPristine;
+
+            return factory.customer;
+        };
+
+        factory.clearCredentials = function () {
+            factory.pristineCustomer();
 
             $rootScope.$broadcast(SB.EVENTS.AUTH.logoutSuccess);
 
