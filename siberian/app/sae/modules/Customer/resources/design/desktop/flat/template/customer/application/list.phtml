@@ -1,1 +1,185 @@
-<div class="row">    <div class="col-md-12">        <div class="page-content-wrapper form-horizontal">            <div class="content solo-page">                <h3 class="title-editor border-blue text-center">                    <?php echo __("Users"); ?>                </h3>                <div class="subcontent content-color container-fluid">                    <div class="form-group">                        <div class="col-md-12">                            <div>                                <p><b>PP</b>: <?php echo p__('customer', 'Privacy policy') ?></p>                                <p><b>CA</b>: <?php echo p__('customer', 'Communication agreement') ?> <?php echo p__('customer', '(if enabled in my account)') ?></p>                                <p><b>RG</b>: <?php echo p__('customer', 'Visible in ranking') ?></p>                            </div>                            <a href="/customer/application/edit"                               id="add_customer"                               class="color-blue btn sb-tour pull-right">                                <?php echo __("Create a new user"); ?>                            </a>                            <table id="dynamic-customers"                                   class="table content-white-bkg sb-pager">                                <thead>                                    <tr class="border-grey">                                        <th data-dynatable-column="customer_id"                                            style="width: 5%;"><?php echo __("ID"); ?></th>                                        <th data-dynatable-column="email"                                            style="width: 30%;"><?php echo __("Email"); ?></th>                                        <th data-dynatable-column="firstname"                                            style="width: 30%;"><?php echo __("User"); ?></th>                                        <th data-dynatable-column="privacy_policy"                                            style="width: 10%;">PP</th>                                        <th data-dynatable-column="communication_agreement"                                            style="width: 10%;">CA</th>                                        <th data-dynatable-column="show_in_social_gaming"                                            style="width: 10%;">RG</th>                                        <th data-dynatable-column="created_at"                                            style="width: 20%;"><?php echo __("Registered"); ?></th>                                        <th style="width: 20%;"                                            class="text-right"><?php echo __("Actions"); ?></th>                                    </tr>                                </thead>                                <tbody></tbody>                            </table>                        </div>                    </div>                </div>            </div>        </div>    </div></div><link href="/app/sae/design/desktop/flat/js/dynatable/jquery.dynatable.css"      media="screen"      rel="stylesheet"      type="text/css"><script type="text/javascript"        src="/app/sae/design/desktop/flat/js/dynatable/jquery.dynatable.js"></script><style type="text/css">    #dynamic-customers {        margin-top: 15px;    }</style><script type="text/javascript">    let rowTemplate = `    <tr class="dynarow">        <td>            <b>#(CUSTOMER_ID)</b>        </td>        <td>(EMAIL)</td>        <td>(NAME)</td>        <td>(PP)</td>        <td>(CA)</td>        <td>(RG)</td>        <td>(DATE)</td>        <td class="text-right">            <a href="/customer/application/edit/customer_id/(CUSTOMER_ID)"               class="btn btn-xs color-blue">                <?php echo __js("EDIT") ?>            </a>            <a href="/customer/application/delete-new/customer_id/(CUSTOMER_ID)"               class="btn btn-xs btn-danger delete-customer">                <?php echo __js("DELETE") ?>            </a>        </td>    </tr>`;    function rowWriter(rowIndex, record, columns, cellWriter) {        return rowTemplate            .replace(/\(CUSTOMER_ID\)/g, record.customer_id)            .replace(/\(EMAIL\)/g, record.email)            .replace(/\(NAME\)/g, record.name)            .replace(/\(DATE\)/g, record.created_at)            .replace(/\(PP\)/g, record.privacy_policy ? '<i class="fa fa-check text-success"></i>' : '<i class="fa fa-remove text-danger"></i>')            .replace(/\(CA\)/g, record.communication_agreement ? '<i class="fa fa-check text-success"></i>' : '<i class="fa fa-remove text-danger"></i>')            .replace(/\(RG\)/g, record.show_in_social_gaming ? '<i class="fa fa-check text-success"></i>' : '<i class="fa fa-remove text-danger"></i>')    }    $(document).off("click", ".delete-customer");    $(document).on("click", ".delete-customer", function (e) {        e.preventDefault();        let deleteHref = $(this).attr("href");        swal({            title: '<?php echo __js('Confirmation', "'"); ?>',            text: '<?php echo __js('Are you sure you want to delete this customer?', "'"); ?>',            showCancelButton: true,            confirmButtonColor: '#0099C7',            confirmButtonText: '<?php echo __js('Yes, delete!', "'"); ?>',            cancelButtonText: '<?php echo __js('No, go back', "'"); ?>',            buttons: true        }, function(value) {            if (!value) {                return false;            }            formget(deleteHref,                {},                function (data) {                    feature_form_success(data.message);                    // Reload only on success and when done!                    setTimeout(function () {                        location.reload();                    }, 1500)                },                function (data) {                    feature_form_error(JSON.parse(data.responseText).message);                },                false);        });    });    $.dynatableSetup({        table: {            defaultColumnIdStyle: 'noStyle'        },        features: {            paginate: true,            sort: true,            pushState: true,            search: true,            recordCount: true,            perPageSelect: false        },    });    let tableCustomers = $('#dynamic-customers');    tableCustomers.bind('dynatable:preinit', function(e, dynatable) {        dynatable.utility.textTransform.noStyle = function(text) {            return text;        };    });    // And on the table    tableCustomers.dynatable({        dataset: {            ajax: true,            ajaxUrl: '/customer/application/fetch-customers',            ajaxOnLoad: true,            records: [],            perPageDefault: 25        },        inputs: {            processingText: '<?php echo __jss("Loading ...") ?>',            searchPlaceholder: '<?php echo __jss("Search, filter ...") ?>',            recordCountText: '<?php echo __jss("Showing") ?> ',            filteredFrom: ' (<?php echo __jss("filtered from #TOTAL# total records") ?>)',            recordText: '<?php echo __jss("record") ?>',            recordTextPlural: '<?php echo __jss("records") ?>',            textOf: '<?php echo __jss("of") ?>',            textTo: '<?php echo __jss("to") ?>'        },        writers: {            _rowWriter: rowWriter        }    });</script>
+<div class="row">
+    <div class="col-md-12">
+        <div class="page-content-wrapper form-horizontal">
+            <div class="content solo-page">
+                <h3 class="title-editor border-blue text-center">
+                    <?php echo __("Users"); ?>
+                </h3>
+                <div class="subcontent content-color container-fluid">
+                    <div class="form-group">
+                        <div class="col-md-12">
+                            <div>
+                                <p><b><?php echo p__('customer', 'PP') ?></b>: <?php echo p__('customer', 'Privacy policy') ?></p>
+                                <p><b><?php echo p__('customer', 'CA') ?></b>: <?php echo p__('customer', 'Communication agreement') ?> <?php echo p__('customer', '(if enabled in my account)') ?></p>
+                                <p><b><?php echo p__('customer', 'RG') ?></b>: <?php echo p__('customer', 'Visible in ranking') ?></p>
+                            </div>
+                            <a href="/customer/application/edit"
+                               id="add_customer"
+                               class="color-blue btn sb-tour pull-right">
+                                <?php echo __("Create a new user"); ?>
+                            </a>
+                            <table id="dynamic-customers"
+                                   class="table content-white-bkg sb-pager">
+                                <thead>
+                                    <tr class="border-grey">
+                                        <th data-dynatable-column="customer_id"
+                                            style="width: 5%;"><?php echo __("ID"); ?></th>
+                                        <th data-dynatable-column="firstname"
+                                            style="width: 20%;"><?php echo p__('customer', 'Civility'); ?> / <?php echo __('Name'); ?></th>
+                                        <th data-dynatable-column="email"
+                                            style="width: 10%;"><?php echo __('Email'); ?></th>
+                                        <th data-dynatable-column="phone"
+                                            style="width: 10%;"><?php echo p__('customer', 'Phone'); ?></th>
+                                        <th data-dynatable-column="privacy_policy"
+                                            style="width: 5%;"><?php echo p__('customer', 'PP') ?></th>
+                                        <th data-dynatable-column="communication_agreement"
+                                            style="width: 5%;"><?php echo p__('customer', 'CA') ?></th>
+                                        <th data-dynatable-column="show_in_social_gaming"
+                                            style="width: 5%;"><?php echo p__('customer', 'RG') ?></th>
+                                        <th data-dynatable-column="created_at"
+                                            style="width: 10%;"><?php echo __("Registered"); ?></th>
+                                        <th style="width: 15%;"
+                                            class="text-right"><?php echo __("Actions"); ?></th>
+                                    </tr>
+                                </thead>
+                                <tbody></tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<link href="/app/sae/design/desktop/flat/js/dynatable/jquery.dynatable.css"
+      media="screen"
+      rel="stylesheet"
+      type="text/css">
+<script type="text/javascript"
+        src="/app/sae/design/desktop/flat/js/dynatable/jquery.dynatable.js"></script>
+
+<style type="text/css">
+    #dynamic-customers {
+        margin-top: 15px;
+    }
+</style>
+
+<script type="text/javascript">
+    let rowTemplate = `
+    <tr class="dynarow">
+        <td>
+            <b>#(CUSTOMER_ID)</b>
+        </td>
+        <td>(CIVILITY) (NAME)</td>
+        <td>(EMAIL)</td>
+        <td>(PHONE)</td>
+        <td>(PP)</td>
+        <td>(CA)</td>
+        <td>(RG)</td>
+        <td>(DATE)</td>
+        <td class="text-right">
+            <a href="/customer/application/edit/customer_id/(CUSTOMER_ID)"
+               class="btn btn-xs color-blue">
+                <?php echo __js("EDIT") ?>
+            </a>
+            <a href="/customer/application/delete-new/customer_id/(CUSTOMER_ID)"
+               class="btn btn-xs btn-danger delete-customer">
+                <?php echo __js("DELETE") ?>
+            </a>
+        </td>
+    </tr>`;
+
+    function rowWriter(rowIndex, record, columns, cellWriter) {
+        return rowTemplate
+            .replace(/\(CUSTOMER_ID\)/g, record.customer_id)
+            .replace(/\(EMAIL\)/g, record.email)
+            .replace(/\(CIVILITY\)/g, record.civility)
+            .replace(/\(NAME\)/g, record.name)
+            .replace(/\(PHONE\)/g, record.mobile)
+            .replace(/\(DATE\)/g, record.created_at)
+            .replace(/\(PP\)/g, record.privacy_policy ? '<i class="fa fa-check text-success"></i>' : '<i class="fa fa-remove text-danger"></i>')
+            .replace(/\(CA\)/g, record.communication_agreement ? '<i class="fa fa-check text-success"></i>' : '<i class="fa fa-remove text-danger"></i>')
+            .replace(/\(RG\)/g, record.show_in_social_gaming ? '<i class="fa fa-check text-success"></i>' : '<i class="fa fa-remove text-danger"></i>')
+    }
+
+    $(document).off("click", ".delete-customer");
+    $(document).on("click", ".delete-customer", function (e) {
+        e.preventDefault();
+        let deleteHref = $(this).attr("href");
+        swal({
+            title: '<?php echo __js('Confirmation', "'"); ?>',
+            text: '<?php echo __js('Are you sure you want to delete this customer?', "'"); ?>',
+            showCancelButton: true,
+            confirmButtonColor: '#0099C7',
+            confirmButtonText: '<?php echo __js('Yes, delete!', "'"); ?>',
+            cancelButtonText: '<?php echo __js('No, go back', "'"); ?>',
+            buttons: true
+        }, function(value) {
+            if (!value) {
+                return false;
+            }
+
+            formget(deleteHref,
+                {},
+                function (data) {
+                    feature_form_success(data.message);
+
+                    // Reload only on success and when done!
+                    setTimeout(function () {
+                        location.reload();
+                    }, 1500)
+                },
+                function (data) {
+                    feature_form_error(JSON.parse(data.responseText).message);
+                },
+                false);
+        });
+    });
+
+    $.dynatableSetup({
+        table: {
+            defaultColumnIdStyle: 'noStyle'
+        },
+        features: {
+            paginate: true,
+            sort: true,
+            pushState: true,
+            search: true,
+            recordCount: true,
+            perPageSelect: false
+        },
+    });
+
+    let tableCustomers = $('#dynamic-customers');
+
+    tableCustomers.bind('dynatable:preinit', function(e, dynatable) {
+        dynatable.utility.textTransform.noStyle = function(text) {
+            return text;
+        };
+    });
+
+    // And on the table
+    tableCustomers.dynatable({
+        dataset: {
+            ajax: true,
+            ajaxUrl: '/customer/application/fetch-customers',
+            ajaxOnLoad: true,
+            records: [],
+            perPageDefault: 25
+        },
+        inputs: {
+            processingText: '<?php echo __jss("Loading ...") ?>',
+            searchPlaceholder: '<?php echo __jss("Search, filter ...") ?>',
+            recordCountText: '<?php echo __jss("Showing") ?> ',
+            filteredFrom: ' (<?php echo __jss("filtered from #TOTAL# total records") ?>)',
+            recordText: '<?php echo __jss("record") ?>',
+            recordTextPlural: '<?php echo __jss("records") ?>',
+            textOf: '<?php echo __jss("of") ?>',
+            textTo: '<?php echo __jss("to") ?>'
+        },
+        writers: {
+            _rowWriter: rowWriter
+        }
+    });
+</script>

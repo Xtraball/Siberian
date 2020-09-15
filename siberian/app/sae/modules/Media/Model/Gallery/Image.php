@@ -10,10 +10,21 @@
  * @method string getTypeId()
  * @method integer getGalleryId()
  */
-class Media_Model_Gallery_Image extends Core_Model_Default {
+class Media_Model_Gallery_Image extends Core_Model_Default
+{
+    /**
+     * @var bool
+     */
     protected $_is_cacheable = true;
 
+    /**
+     * @var
+     */
     protected $_type_instance;
+
+    /**
+     * @var array
+     */
     protected $_types = [
         'picasa',
         'custom',
@@ -21,37 +32,40 @@ class Media_Model_Gallery_Image extends Core_Model_Default {
         'flickr',
         'facebook'
     ];
-    protected $_offset = 0;
-
-    public function __construct($params = array()) {
-        parent::__construct($params);
-        $this->_db_table = 'Media_Model_Db_Table_Gallery_Image';
-        return $this;
-    }
 
     /**
+     * @var int
+     */
+    protected $_offset = 0;
+
+    /**
+     * @var string
+     */
+    protected $_db_table = Media_Model_Db_Table_Gallery_Image::class;
+
+    /**
+     * @param $valueId
      * @return array
      */
-    public function getInappStates($value_id) {
-
-        $in_app_states = array(
-            array(
-                "state" => "image-list",
-                "offline" => true,
-                "params" => array(
-                    "value_id" => $value_id,
-                ),
-            ),
-        );
-
-        return $in_app_states;
+    public function getInappStates($valueId): array
+    {
+        return [
+            [
+                'state' => 'image-list',
+                'offline' => true,
+                'params' => [
+                    'value_id' => $valueId,
+                ],
+            ],
+        ];
     }
 
     /**
      * @param $option_value
      * @return array|boolean
      */
-    public function getEmbedPayload($option_value = null) {
+    public function getEmbedPayload($option_value = null)
+    {
 
         $color = $this->getApplication()->getBlock('subheader')->getColor();
         $colorized_picto = Core_Controller_Default_Abstract::sGetColorizedImage(
@@ -71,9 +85,9 @@ class Media_Model_Gallery_Image extends Core_Model_Default {
                     'value_id' => $option_value->getId()
                 ]);
 
-            foreach($galleries as $gallery) {
+            foreach ($galleries as $gallery) {
                 $currentGallery = [
-                    'id' => (integer) $gallery->getGalleryId(),
+                    'id' => (integer)$gallery->getGalleryId(),
                     'name' => $gallery->getLabel() ? $gallery->getLabel() : $gallery->getName(),
                     'type' => $gallery->getTypeId(),
                 ];
@@ -86,18 +100,31 @@ class Media_Model_Gallery_Image extends Core_Model_Default {
     }
 
 
-    public function find($id, $field = null) {
+    /**
+     * @param $id
+     * @param null $field
+     * @return $this
+     */
+    public function find($id, $field = null)
+    {
         parent::find($id, $field);
-        if($this->getId()) {
+        if ($this->getId()) {
             $this->_addTypeDatas();
         }
 
         return $this;
     }
 
-    public function findAll($values = array(), $order = null, $params = array()) {
+    /**
+     * @param array $values
+     * @param null $order
+     * @param array $params
+     * @return mixed
+     */
+    public function findAll($values = [], $order = null, $params = [])
+    {
         $rows = parent::findAll($values, $order, $params);
-        foreach($rows as $row) {
+        foreach ($rows as $row) {
             $row->_addTypeDatas();
         }
         return $rows;
@@ -106,11 +133,12 @@ class Media_Model_Gallery_Image extends Core_Model_Default {
     /**
      * @return Media_Model_Gallery_Image_Abstract
      */
-    public function getTypeInstance() {
-        if(!$this->_type_instance) {
+    public function getTypeInstance()
+    {
+        if (!$this->_type_instance) {
             $type = $this->getTypeId();
-            if(in_array($type, $this->_types)) {
-                $class = 'Media_Model_Gallery_Image_'.ucfirst($type);
+            if (in_array($type, $this->_types)) {
+                $class = 'Media_Model_Gallery_Image_' . ucfirst($type);
                 $this->_type_instance = new $class();
                 $this->_type_instance->addData($this->getData());
             }
@@ -120,31 +148,43 @@ class Media_Model_Gallery_Image extends Core_Model_Default {
 
     }
 
-    public function save() {
+    /**
+     * @return $this
+     */
+    public function save()
+    {
         $isDeleted = $this->getIsDeleted();
         parent::save();
-        if(!$isDeleted AND ($this->getTypeId() === 'picasa' || $this->getTypeId() === 'instagram')) {
-            if($this->getTypeInstance()->getId()) $this->getTypeInstance()->delete();
+        if (!$isDeleted && ($this->getTypeId() === 'picasa' || $this->getTypeId() === 'instagram')) {
+            if ($this->getTypeInstance()->getId()) $this->getTypeInstance()->delete();
             $this->getTypeInstance()->setData($this->_getTypeInstanceData())->setGalleryId($this->getId())->save();
         }
-        if (!$isDeleted AND ($this->getTypeId() === 'flickr')) {
+        if (!$isDeleted && ($this->getTypeId() === 'flickr')) {
             $instance = new Media_Model_Gallery_Image_Flickr();
-            $instance->find(array('gallery_id' => $this->getTypeInstance()->getId()));
+            $instance->find(['gallery_id' => $this->getTypeInstance()->getId()]);
             $instance->setData($this->_getTypeInstanceData())->setGalleryId($this->getId())->save();
         }
         return $this;
     }
 
-    public function getAllTypes() {
-        if($this->getTypeInstance()) {
+    /**
+     * @return array
+     */
+    public function getAllTypes()
+    {
+        if ($this->getTypeInstance()) {
             return $this->getTypeInstance()->getAllTypes();
         }
-        return array();
+        return [];
     }
 
-    public function getImages() {
+    /**
+     * @return array
+     */
+    public function getImages()
+    {
         $results = [];
-        if($this->getId() && $this->getTypeInstance()) {
+        if ($this->getId() && $this->getTypeInstance()) {
             switch (get_class($this->getTypeInstance())) {
                 case 'Media_Model_Gallery_Image_Facebook':
                     $results = $this->getTypeInstance()
@@ -162,130 +202,64 @@ class Media_Model_Gallery_Image extends Core_Model_Default {
         return $results;
     }
 
-    public function getAllImages() {
-        if($this->getId() AND $this->getTypeInstance()) {
+    /**
+     * @return array
+     */
+    public function getAllImages()
+    {
+        if ($this->getId() && $this->getTypeInstance()) {
             return $this->getTypeInstance()->setImageId($this->getId())->getImages(null, null);
         }
 
-        return array();
+        return [];
     }
 
-    public function setOffset($offset) {
+    /**
+     * @param $offset
+     * @return $this
+     */
+    public function setOffset($offset)
+    {
         $this->_offset = $offset;
         return $this;
     }
 
-    public function getFeaturePaths($option_value) {
-
-        if(!$this->isCacheable()) return array();
-
-        $paths = array();
-        $paths[] = $option_value->getPath("findall", array('value_id' => $option_value->getId()), false);
-
-        $galleries = $this->findAll(array('value_id' => $option_value->getId()));
-        foreach($galleries as $gallery) {
-
-            if ($gallery->getId() && $gallery->getValueId() == $option_value->getId()) {
-
-                $offset = 0;
-
-                $more = true;
-                while($more) {
-                    $last_offset = $offset;
-
-                    $paths[] = $option_value->getPath(
-                        "media/mobile_gallery_image_view/find",
-                        array(
-                            "gallery_id" => $gallery->getId(),
-                            "offset" => $offset,
-                            "value_id" => $option_value->getId()
-                        ),
-                        false
-                    );
-
-                    $images = $gallery->setOffset($offset)->getImages();
-
-                    // Stupid foreach to mimick controller and have same URLs as it
-                    foreach ($images as $key => $link) {
-                        $key+=$offset;
-                        $last_offset = $link->getOffset();
-                    }
-
-                    if($gallery->getTypeId() != "custom") {
-                        $more = count($data["images"]) > 0;
-                    } else {
-                        $more = ((($key - $offset) + 1) > (Media_Model_Gallery_Image_Abstract::DISPLAYED_PER_PAGE - 1)) ? true : false;
-                    }
-
-                    if($more) {
-                        $offset = $last_offset + 1;
-                    }
-                }
-
-            }
-        }
-
-        return $paths;
+    /**
+     * @deprecated
+     * @param $option_value
+     * @return array
+     */
+    public function getFeaturePaths($option_value)
+    {
+        return [];
     }
 
-    public function getAssetsPaths($option_value) {
-        $assets = array();
-
-        foreach($this->getAllImages() as $image) {
-            $assets[] = $image->getImage();
-        }
-
-        return $assets;
+    /**
+     * @deprecated
+     * @param $option_value
+     * @return array
+     */
+    public function getAssetsPaths($option_value)
+    {
+        return [];
     }
 
-    public function copyTo($option, $parent_id = null) {
-
-        $images = array();
-        if($this->getTypeId() == 'custom') {
-            $image = new Media_Model_Gallery_Image_Custom();
-            $images = $image->findAll(array('gallery_id' => $this->getId()));
-        }
-
-        $this->getTypeInstance()->setId(null);
-        $this->setId(null)
-            ->setValueId($option->getId())
-            ->save()
-        ;
-
-        foreach($images as $image) {
-
-            if(file_exists(BASE_PATH.Application_Model_Application::PATH_IMAGE.$image->getData('url'))) {
-
-                $image_url = Application_Model_Application::PATH_IMAGE.$image->getData('url');
-                $file = pathinfo($image_url);
-                $filename = $file['basename'];
-
-                $relativePath = $option->getImagePathTo();
-                $folder = Core_Model_Directory::getBasePathTo(Application_Model_Application::PATH_IMAGE.'/'.$relativePath);
-
-                if(!is_dir($folder)) {
-                    mkdir($folder, 0777, true);
-                }
-
-                $img_src = Core_Model_Directory::getBasePathTo($image_url);
-                $img_dst = $folder.'/'.$filename;
-
-                if(copy($img_src, $img_dst)) {
-                    $image->setId(null)
-                        ->setGalleryId($this->getId())
-                        ->setData('url', $relativePath.'/'.$filename)
-                        ->save()
-                    ;
-                }
-
-            }
-        }
-
+    /**
+     * @deprecated
+     * @param $option
+     * @param null $parent_id
+     * @return $this
+     */
+    public function copyTo($option, $parent_id = null)
+    {
         return $this;
-
     }
 
-    protected function _addTypeDatas() {
+    /**
+     * @return $this
+     */
+    protected function _addTypeDatas()
+    {
         if ($this->getTypeInstance()) {
             $this->getTypeInstance()->find($this->getId(), 'gallery_id');
             if ($this->getTypeInstance()->getId()) {
@@ -296,17 +270,27 @@ class Media_Model_Gallery_Image extends Core_Model_Default {
         return $this;
     }
 
-    protected function _getTypeInstanceData() {
+    /**
+     * @return array
+     */
+    protected function _getTypeInstanceData()
+    {
         $fields = $this->getTypeInstance()->getFields();
-        $datas = array();
-        foreach($fields as $field) {
+        $datas = [];
+        foreach ($fields as $field) {
             $datas[$field] = $this->getData($field);
         }
 
         return $datas;
     }
 
-    public function createDummyContents($option_value, $design, $category) {
+    /**
+     * @param $option_value
+     * @param $design
+     * @param $category
+     */
+    public function createDummyContents($option_value, $design, $category)
+    {
 
         $dummy_content_xml = $this->_getDummyXml($design, $category);
 
@@ -315,7 +299,7 @@ class Media_Model_Gallery_Image extends Core_Model_Default {
             return;
         }
 
-        if($dummy_content_xml->images) {
+        if ($dummy_content_xml->images) {
 
             foreach ($dummy_content_xml->images->children() as $content) {
 
@@ -325,10 +309,10 @@ class Media_Model_Gallery_Image extends Core_Model_Default {
                     ->save();
 
                 if ($content->attributes()->type == "custom") {
-                    foreach($content->custom as $custom_images) {
+                    foreach ($content->custom as $custom_images) {
                         $custom = new Media_Model_Gallery_Image_Custom();
                         $custom->setGalleryId($this->getId())
-                            ->addData((array) $custom_images)
+                            ->addData((array)$custom_images)
                             ->save();
                     }
                 }
