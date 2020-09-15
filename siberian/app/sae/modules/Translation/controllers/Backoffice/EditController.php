@@ -96,7 +96,7 @@ class Translation_Backoffice_EditController extends Backoffice_Controller_Defaul
                         "title" => $_tmp,
                         "key" => $key,
                         "value" => $value,
-                        "search" => sprintf("%s %s %s", $_tmp, $key, $value)
+                        "search" => sprintf("%s %s %s %s %s", $_tmp, $key, $value['original'], $value['default'], $value['user'])
                     ];
                 }
             }
