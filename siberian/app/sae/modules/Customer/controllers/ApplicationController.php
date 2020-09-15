@@ -1,6 +1,7 @@
 <?php
 
 use Siberian\Json;
+use Siberian\Exception;
 
 /**
  * Class Customer_ApplicationController
@@ -110,84 +111,111 @@ class Customer_ApplicationController extends Application_Controller_Default
      */
     public function saveAction()
     {
-        if ($data = $this->getRequest()->getPost()) {
+        try {
+            $request = $this->getRequest();
+            $application = $this->getApplication();
+            $appId = $application->getId();
+            $data = $request->getPost();
 
-            try {
-                $customer = new Customer_Model_Customer();
-                if (!empty($data['customer_id'])) {
-                    $customer->find($data['customer_id']);
-                    if (!$customer->getId() || $customer->getAppId() != $this->getApplication()->getId()) {
-                        throw new Exception(__("An error occurred while saving. Please try again later."));
-                    }
+            $customer = new Customer_Model_Customer();
+            if (!empty($data['customer_id'])) {
+                $customer->find($data['customer_id']);
+                if (!$customer->getId() || $customer->getAppId() !== $appId) {
+                    throw new Exception(p__('customer', "This customer doesn't exists."));
                 }
-
-                $isNew = !$customer->getId();
-                $errors = [];
-
-                if (empty($data['civility'])) $errors[] = __("the gender");
-                if (empty($data['firstname'])) $errors[] = __("the first name");
-                if (empty($data['lastname'])) $errors[] = __("the last name");
-                if (empty($data['email'])) $errors[] = __("the email address");
-                if ($isNew AND empty($data['password'])) $errors[] = __("the password");
-
-                if (!empty($errors)) {
-                    $message = [__("Please fill in the following fields:")];
-                    foreach ($errors as $error) {
-                        $message[] = $error;
-                    }
-                    $message = join('<br />- ', $message);
-                    throw new Exception($message);
-                }
-
-                if (!empty($data['email']) AND !Zend_Validate::is($data['email'], 'emailAddress')) throw new Exception(__("Please enter a valid email address"));
-
-                //Test if the email is already used
-                if (empty($data['customer_id'])) {
-                    $customers = $customer->findAll(["email = ?" => $data["email"], "app_id = ?" => $this->getApplication()->getId()]);
-                    if ($customers->count()) {
-                        $message = __("We are sorry but the %s account is already linked to one of our customers", $data["email"]);
-                        throw new Exception($message);
-                    }
-                }
-
-                $data['show_in_social_gaming'] = (int)!empty($data['show_in_social_gaming']);
-                $data['can_access_locked_features'] = (int)!empty($data['can_access_locked_features']);
-
-                if ($isNew) {
-                    $data['app_id'] = $this->getApplication()->getId();
-                    $data['privacy_policy'] = false;
-                    $data['communication_agreement'] = false;
-                }
-
-                if (isset($data['password']) AND empty($data['password'])) {
-                    unset($data['password']);
-                }
-
-                $customer->setData($data);
-                if (!empty($data['password'])) {
-                    $customer->setPassword($data['password']);
-                }
-                $customer->save();
-
-                $this->getSession()->addSuccess(__("Info successfully saved"));
-
-                $html = [
-                    "success" => 1
-                ];
-
-            } catch (Exception $e) {
-                $html = [
-                    "error" => 1,
-                    "message" => $e->getMessage(),
-                    'message_button' => 1,
-                    'message_loader' => 1
-                ];
             }
 
-            $this->getResponse()->setBody(Zend_Json::encode($html))->sendResponse();
-            die;
+            // My account required fields!
+            $myAccountTab = $application->getOption('tabbar_account');
+            $accountSettings = Json::decode($myAccountTab->getSettings());
+            $requireMobile = $accountSettings['extra_mobile_required'];
+            $requireCivility = $accountSettings['extra_civility_required'];
 
+            $isNew = !$customer->getId();
+
+            $errors = [];
+
+            if ($requireCivility && empty($data['civility'])) {
+                $errors[] = p__('customer', 'Civility');
+            }
+            if (empty($data['firstname'])) {
+                $errors[] = p__('customer', 'Firstname');
+            }
+            if (empty($data['lastname'])) {
+                $errors[] = p__('customer', 'Lastname');
+            }
+            if (empty($data['email'])) {
+                $errors[] = p__('customer', 'Email');
+            }
+            if ($requireMobile && empty($data['mobile'])) {
+                $errors[] = p__('customer', 'Mobile');
+            }
+            if ($isNew && empty($data['password'])) {
+                $errors[] = p__('customer', 'Password');
+            }
+
+            if (count($errors) > 0) {
+                $errorMessages = [];
+                $errorMessages[] = p__('customer', 'The following fields are required!');
+                foreach ($errors as $error) {
+                    $errorMessages[] = $error;
+                }
+                $message = implode('<br />- ', $errorMessages);
+                throw new Exception($message);
+            }
+
+            if (!empty($data['email']) && !Zend_Validate::is($data['email'], 'emailAddress')) {
+                throw new Exception(__("Please enter a valid email address"));
+            }
+
+            //Test if the email is already used
+            if (empty($data['customer_id'])) {
+                $customers = $customer->findAll(["email = ?" => $data["email"], "app_id = ?" => $this->getApplication()->getId()]);
+                if ($customers->count()) {
+                    $message = __("We are sorry but the %s account is already linked to one of our customers", $data["email"]);
+                    throw new Exception($message);
+                }
+            }
+
+            $data['show_in_social_gaming'] = (int) !empty($data['show_in_social_gaming']);
+            $data['can_access_locked_features'] = (int) !empty($data['can_access_locked_features']);
+
+            if ($isNew) {
+                $data['app_id'] = $this->getApplication()->getId();
+                $data['privacy_policy'] = false;
+                $data['communication_agreement'] = false;
+            }
+
+            if (isset($data['password']) && empty($data['password'])) {
+                unset($data['password']);
+            }
+
+            $customer->setData($data);
+            if (!empty($data['password'])) {
+                $customer->setPassword($data['password']);
+            }
+            $customer->save();
+
+            $this->getSession()->addSuccess(__("Info successfully saved"));
+
+            $payload = [
+                'success' => true,
+                'message' => p__('customer', 'Customer saved!'),
+            ];
+        } catch (\Exception $e) {
+            $payload = [
+                'error' => true,
+                'message' => $e->getMessage(),
+            ];
         }
+
+        $this->_sendJson($payload);
+
+
+
+
+
+
 
     }
 
@@ -322,10 +350,16 @@ class Customer_ApplicationController extends Application_Controller_Default
             $customersJson = [];
             foreach ($customers as $customer) {
                 $data = $customer->getData();
-                $data['name'] = $customer->getName();
-                $data['privacy_policy'] = (bool) $data['privacy_policy'];
-                $data['communication_agreement'] = (bool) $data['communication_agreement'];
-                $data['show_in_social_gaming'] = (bool) $data['show_in_social_gaming'];
+                $data['name'] = ucfirst($customer->getName());
+                $data['civility'] = $data['civility'] ?? '';
+                if (!empty($data['civility'])) {
+                    $data['civility'] .= '.';
+                    $data['civility'] = ucfirst($data['civility']);
+                }
+                $data['mobile'] = $data['mobile'] ?? '-';
+                $data['privacy_policy'] = (bool)$data['privacy_policy'];
+                $data['communication_agreement'] = (bool)$data['communication_agreement'];
+                $data['show_in_social_gaming'] = (bool)$data['show_in_social_gaming'];
                 $data['created_at'] = datetime_to_format($data['created_at']);
                 $customersJson[] = $data;
             }

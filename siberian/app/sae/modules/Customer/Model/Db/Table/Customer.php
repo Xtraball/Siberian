@@ -104,6 +104,7 @@ class Customer_Model_Db_Table_Customer extends Core_Model_Db_Table
                 [
                     'customer_id',
                     'email',
+                    'mobile',
                     'civility',
                     'firstname',
                     'lastname',

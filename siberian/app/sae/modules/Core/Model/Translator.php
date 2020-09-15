@@ -473,14 +473,22 @@ class Core_Model_Translator
                 continue;
             }
 
-            // Default translation (if exists) mixed csv/mo, mo being more recent!
-            $defaultTranslationCSV = $cachedFiles[$langId]["{$fileBase}.csv"];
-            if (is_file($defaultTranslationCSV)) {
-                $tmpTranslationData = self::parseTypeForBackoffice($tmpTranslationData, $filename, $defaultTranslationCSV, 'csv', 'default');
-            }
-            $defaultTranslationPO = $cachedFiles[$langId]["{$fileBase}.po"];
-            if (is_file($defaultTranslationPO)) {
-                $tmpTranslationData = self::parseTypeForBackoffice($tmpTranslationData, $filename, $defaultTranslationPO, 'po', 'default');
+            // Default translation (if exists) mixed csv/po, po being more recent!
+            if (array_key_exists($langId, $cachedFiles)) {
+                $csvFile = "{$fileBase}.csv";
+                if (array_key_exists($csvFile, $cachedFiles[$langId])) {
+                    $defaultTranslationCSV = $cachedFiles[$langId][$csvFile];
+                    if (is_file($defaultTranslationCSV)) {
+                        $tmpTranslationData = self::parseTypeForBackoffice($tmpTranslationData, $filename, $defaultTranslationCSV, 'csv', 'default');
+                    }
+                }
+                $poFile = "{$fileBase}.po";
+                if (array_key_exists($poFile, $cachedFiles[$langId])) {
+                    $defaultTranslationPO = $cachedFiles[$langId][$poFile];
+                    if (is_file($defaultTranslationPO)) {
+                        $tmpTranslationData = self::parseTypeForBackoffice($tmpTranslationData, $filename, $defaultTranslationPO, 'po', 'default');
+                    }
+                }
             }
 
             if (!empty($tmpTranslationData)) {

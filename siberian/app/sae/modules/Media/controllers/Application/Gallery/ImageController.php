@@ -1,5 +1,9 @@
 <?php
 
+/**
+ * Class Media_Application_Gallery_ImageController
+ */
+
 class Media_Application_Gallery_ImageController extends Application_Controller_Default {
 
     /**
@@ -34,7 +38,7 @@ class Media_Application_Gallery_ImageController extends Application_Controller_D
                 }
 
                 $valueId = $currentOption->getId();
-                $galleryId = isset($formDatas['id']) ? $formDatas['id'] : null;
+                $galleryId = $formDatas['id'] ?? null;
                 unset($formDatas['id']);
                 $app = $this->getApplication();
                 $willSave = true;
@@ -46,7 +50,9 @@ class Media_Application_Gallery_ImageController extends Application_Controller_D
                     ]);
 
                 // Gallery type!
-                if (key_exists('param_instagram', $formDatas) && !empty($formDatas['param_instagram'])) {
+                if (array_key_exists('param_instagram', $formDatas) &&
+                    !empty($formDatas['param_instagram'])) {
+
                     if (!$app->getInstagramClientId() || !$app->getInstagramToken()) {
                         throw new Siberian_Exception(__("Instagram API settings can't be found."));
                     }
@@ -57,7 +63,7 @@ class Media_Application_Gallery_ImageController extends Application_Controller_D
                     }
                     $formDatas['type_id'] = 'instagram';
 
-                } else if (key_exists('param_flickr', $formDatas) && !empty($formDatas['param_flickr'])) {
+                } else if (array_key_exists('param_flickr', $formDatas) && !empty($formDatas['param_flickr'])) {
                     if(!$app->getFlickrKey() || !$app->getFlickrSecret()) {
                         throw new Siberian_Exception(__("Flickr API settings can't be found."));
                     }
@@ -67,7 +73,7 @@ class Media_Application_Gallery_ImageController extends Application_Controller_D
                         ->guessType($formDatas['param_flickr']);
                     $formDatas['identifier'] = $formDatas['param_flickr'];
 
-                } else if (key_exists('param_facebook', $formDatas) && !empty($formDatas['param_facebook'])) {
+                } else if (array_key_exists('param_facebook', $formDatas) && !empty($formDatas['param_facebook'])) {
                     try {
                         (new Social_Model_Facebook())->getAccessToken();
                     } catch (Exception $e) {
@@ -76,7 +82,7 @@ class Media_Application_Gallery_ImageController extends Application_Controller_D
 
                     $formDatas['type_id'] = 'facebook';
 
-                } else if (key_exists('param', $formDatas) && !empty($formDatas['param'])) {
+                } else if (array_key_exists('param', $formDatas) && !empty($formDatas['param'])) {
                     $formDatas['type_id'] = 'picasa';
                 } else {
                     $formDatas['type_id'] = 'custom';
