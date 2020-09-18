@@ -140,7 +140,8 @@ abstract class Core_Model_Default_Abstract
 
             if (preg_match('/^\s*([0-9]+(\.[0-9]+)?)\s*$/', $data)) {
                 return $this->formatPrice($data, !empty($args[0]) ? $args[0] : null);
-            } else if (preg_match('/(\d){2,4}\-(\d){2}\-(\d){2}/', $data)) {
+            }
+            if (preg_match('/(\d){2,4}\-(\d){2}\-(\d){2}/', $data)) {
                 return $this->formatDate($data, !empty($args[0]) ? $args[0] : null);
             }
         }
