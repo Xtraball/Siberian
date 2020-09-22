@@ -645,6 +645,9 @@ class Cron
                                         case 'plesk':
                                             (new \Siberian_Plesk())->uploadCertificate($cert);
                                             break;
+                                        case 'pleskcli':
+                                            (new \Siberian\PleskCli())->installCertificate($cert);
+                                            break;
                                         case 'cpanel':
                                             $cpanel = new \Siberian_Cpanel();
                                             $cpanel->updateCertificate($cert);
