@@ -91,7 +91,7 @@ class Mail extends Zend_Mail
 
             $this->_is_application = true;
         } else */
-        if ($whitelabel !== false) { // 2. Whitelabel!
+        if (($whitelabel !== false) && $whitelabel->getEnableCustomSmtp()) { // 2. Whitelabel!
             $values = Json::decode($whitelabel->getData('smtp_credentials'));
             $smtpCredentials = new Core_Model_Default();
             $smtpCredentials->setData($values);
@@ -131,7 +131,7 @@ class Mail extends Zend_Mail
             $smtpCredentials->setData($values);
 
             $configure = true;
-        } else if (__get("enable_custom_smtp") == "1") {
+        } else if (__get('enable_custom_smtp') == '1') {
             $api_model = new Api_Model_Key();
             $smtpCredentials = $api_model::findKeysFor('smtp_credentials');
 
@@ -197,7 +197,7 @@ class Mail extends Zend_Mail
      * @return Zend_Mail
      * @throws \Zend_Mail_Exception
      */
-    public function setSubject($subject, $params = [])
+    public function setSubject($subject, $params = []): Zend_Mail
     {
         # Write into sprintf(able) subject, params must be declared in the good order
         foreach ($params as $param) {
@@ -217,17 +217,16 @@ class Mail extends Zend_Mail
      * @return Zend_Mail
      * @throws \Zend_Mail_Exception
      */
-    public function setFrom($email, $name = null)
+    public function setFrom($email, $name = null): Zend_Mail
     {
         if (!$this->sameExpeditor($email, $this->_sender_email) && !$this->_reply_to_set) {
             $this->_reply_to_set = true;
 
             return $this->setReplyTo($email, $name);
-        } else {
-            $this->_custom_from = true;
-
-            return parent::setFrom($email, $name);
         }
+        $this->_custom_from = true;
+
+        return parent::setFrom($email, $name);
     }
 
     /**
