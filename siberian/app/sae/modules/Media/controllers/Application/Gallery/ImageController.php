@@ -145,6 +145,7 @@ class Media_Application_Gallery_ImageController extends Application_Controller_D
                     }
 
                     if (isset($formDatas['images']['list_' . $formGalleryId])) {
+                        $position = 1;
                         foreach ($formDatas['images']['list_' . $formGalleryId] as $key => $info) {
 
                             // Check key validity!
@@ -190,6 +191,7 @@ class Media_Application_Gallery_ImageController extends Application_Controller_D
                             $singleImage
                                 ->setTitle(!empty($info['title']) ? $info['title'] : null)
                                 ->setDescription(!empty($info['description']) ? $info['description'] : null)
+                                ->setPosition($position++)
                                 ->save();
                         }
                     }

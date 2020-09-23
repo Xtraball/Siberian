@@ -1,5 +1,10 @@
 <?php
 
+use Siberian_Google_Geocoding as Geocoding;
+
+/**
+ * Class Event_Mobile_ViewController
+ */
 class Event_Mobile_ViewController extends Application_Controller_Mobile_Default {
 
     public function findAction() {
@@ -46,6 +51,7 @@ class Event_Mobile_ViewController extends Application_Controller_Mobile_Default 
                         "id" => $event_id,
                         "title" => $event->getName(),
                         "description" => nl2br($event->getDescription()),
+                        "geo" => false,
                         "address" => $event->getAddress(),
                         "weekday_name" => $start_at->toString(Zend_Date::WEEKDAY_NAME),
                         "start_at" => $formatted_start_at,
@@ -56,6 +62,14 @@ class Event_Mobile_ViewController extends Application_Controller_Mobile_Default 
                         "in_app_page_path" => $in_app_page_path,
                         "social_sharing_active" => (boolean) $option->getSocialSharingIsActive()
                     ];
+
+                    // Geo
+                    $application = $this->getApplication();
+                    $gKey = $application->getGooglemapsKey();
+                    if (!empty($gKey)) {
+                        $geocoded = Geocoding::getLatLng(['address' => $event->getAddress()], $gKey);
+                        $data['event']['geo'] = $geocoded;
+                    }
 
                     $data["cover"] = [
                         "title" => $event->getName(),

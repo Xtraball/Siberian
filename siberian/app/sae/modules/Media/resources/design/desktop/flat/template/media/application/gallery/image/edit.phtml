@@ -42,12 +42,6 @@
             <div id="new_images_galery" style="display:none;" class="container-fluid subcontent content-feature">
                 <div id="choose_type">
                     <ul class="list-group">
-                        <!--li class="color-blue list-group-item btn capitalize" rel="picasa">
-                            <a href="javascript:void(0);" rel="picasa" class="block select_type image_type_select capitalize">
-                                <i title="Picasa" class="icofont icofont-social-picasa block img_icon"></i>
-                                <p><?php echo __('Picasa') ?></p>
-                            </a>
-                        </li-->
                         <li class="color-blue list-group-item btn capitalize" rel="instagram" <?php if(!$instagram_is_available) : ?> onclick="featureNotAvailable()" <?php endif; ?>>
                             <a href="javascript:void(0);" rel="instagram" class="block select_type<?php if($instagram_is_available) : ?> image_type_select<?php endif; ?>">
                                 <i title="Instagram" class="fa fa-instagram block img_icon"></i>
@@ -69,7 +63,9 @@
                     </ul>
                 </div>
 
-                <div id="table_list_images_new" style="display:none" class="container-fluid">
+                <div id="table_list_images_new"
+                     style="display:none"
+                     lass="container-fluid">
                     <div class="row">
                         <div class="col-sm-1"></div>
                         <div class="col-sm-4">
@@ -146,16 +142,20 @@
                                     $images = (new Media_Model_Gallery_Image_Custom())
                                         ->findAll([
                                             'gallery_id' => $gallery->getGalleryId()
-                                        ], 'image_id ASC');
+                                        ], 'position ASC');
                                     foreach ($images as $image): ?>
                                         <li class="list-group-item content-white-bkg">
-                                            <div class="row">
+                                            <div class="row"
+                                                 data-id="<?php echo $image->getId(); ?>">
+                                                <div class="col-sm-1 image-sorter">
+                                                    <i class="fa fa-sort"></i>
+                                                </div>
                                                 <div class="col-sm-2">
                                                     <img class="img_list_<?php echo $gallery->getGalleryId(); ?>"
-                                                         style="height: 60px;"
+                                                         style="height: 60px; max-width: 100%;"
                                                          src="<?php echo Application_Model_Application::getImagePath() . $image->getData('url') ?>" />
                                                 </div>
-                                                <div class="col-sm-5">
+                                                <div class="col-sm-4">
                                                     <label><?php echo __('Title:') ?></label>
                                                     <input type="text"
                                                            id="image_<?php echo $gallery->getGalleryId(); ?>_<?php echo $image->getId(); ?>_title"
@@ -175,11 +175,11 @@
                                                            maxlength="255"
                                                            onkeyup="$('#' + $(this).attr('id') + '_receiver').val($(this).val());" />
                                                 </div>
-                                                <div class="col-sm-1">
+                                                <div class="col-sm-1 image-trasher">
                                                     <a onclick="deleteImage($(this), '<?php echo $gallery->getGalleryId(); ?>', '<?php echo $image->getId(); ?>');"
                                                        href="javascript:void(0);"
-                                                       class="btn color-blue pull-right ">
-                                                        <i class="fa fa-times"></i>
+                                                       class="btn color-red pull-right ">
+                                                        <i class="fa fa-trash"></i>
                                                     </a>
                                                 </div>
                                             </div>
@@ -604,10 +604,15 @@
                         $('#edit_images ul#' + id + ' li:last-child').before('\n\
                         <li class="list-group-item content-white-bkg">\n\
                             <div class="row">\n\
-                                <div class="col-sm-2">\n\
-                                    <img class="img_' + id + '" style="height: 60px;" src="<?php echo Core_Model_Directory::getTmpDirectory() ?>/' + data.result.files + '" />\n\
+                                <div class="col-sm-1 image-sorter">\n\
+                                    \n\<i class=\"fa fa-sort\"></i>\n\
                                 </div>\n\
-                                <div class="col-sm-5">\n\
+                                <div class="col-sm-2">\n\
+                                    <img class="img_' + id + '" \n\
+                                         style="height: 60px; max-width: 100%;" \n\
+                                         src="<?php echo tmp() ?>/' + data.result.files + '" />\n\
+                                </div>\n\
+                                <div class="col-sm-4">\n\
                                     <label><?php echo addslashes(__('Title:')) ?></label>\n\
                                     <input type="text" id="image_' + id + '_' + tmp_image_id + '_title" value="" maxlength="30" class="input-flat" onkeyup="$(\'#\'+$(this).attr(\'id\')+\'_receiver\').val($(this).val());" />\n\
                                 </div>\n\
@@ -615,8 +620,8 @@
                                     <label><?php echo addslashes(__('Description:')) ?></label>\n\
                                     <input type="text" id="image_' + id + '_' + tmp_image_id + '_description" value="" maxlength="255" class="input-flat" onkeyup="$(\'#\'+$(this).attr(\'id\')+\'_receiver\').val($(this).val());" />\n\
                                 </div>\n\
-                                <div class="col-sm-1">\n\
-                                    <a onclick="deleteImage($(this), \'' + short_id + '\',\'' + tmp_image_id + '\');" href="javascript:void(0);" class="btn color-blue pull-right"><i class="fa fa-times"></i></a>\n\
+                                <div class="col-sm-1 image-trasher">\n\
+                                    <a onclick="deleteImage($(this), \'' + short_id + '\',\'' + tmp_image_id + '\');" href="javascript:void(0);" class="btn color-red pull-right"><i class="fa fa-trash"></i></a>\n\
                                 </div>\n\
                             </div>\n\
                             \n\
@@ -644,6 +649,19 @@
             $('.save_image').unbind('click');
             $('.delete_image').unbind('click');
         });
+
+        // Sorter for images!
+        var bindSortable = function () {
+            $('#edit_images ul').sortable({
+                handle: '.image-sorter',
+                axis: 'y',
+                items: ' .list-group-item',
+                opacity: 0.85,
+            });
+        };
+
+        bindSortable();
+
     </script>
     <style>
         .media.images #choose_type ul {
@@ -740,6 +758,13 @@
             max-width: 30px;
             font-size: 24px;
             cursor: pointer;
+        }
+
+        .image-sorter i {
+            margin-top: 22px;
+        }
+        .image-trasher a {
+            margin-top: 15px !important;
         }
     </style>
 </div>
