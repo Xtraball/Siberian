@@ -6,27 +6,27 @@
  * Last update: 2016-04-28
  *
  */
-$schemas = (!isset($schemas)) ? array() : $schemas;
-$schemas['media_gallery_music'] = array(
-    'gallery_id' => array(
+$schemas = (!isset($schemas)) ? [] : $schemas;
+$schemas['media_gallery_music'] = [
+    'gallery_id' => [
         'type' => 'int(11) unsigned',
         'auto_increment' => true,
         'primary' => true,
-    ),
-    'value_id' => array(
+    ],
+    'value_id' => [
         'type' => 'int(11) unsigned',
-    ),
-    'artwork_url' => array(
+    ],
+    'artwork_url' => [
         'type' => 'varchar(255)',
         'charset' => 'utf8',
         'collation' => 'utf8_unicode_ci',
-    ),
-    'name' => array(
+    ],
+    'name' => [
         'type' => 'varchar(255)',
         'charset' => 'utf8',
         'collation' => 'utf8_unicode_ci',
-    ),
-    'position' => array(
+    ],
+    'position' => [
         'type' => 'int(11)',
-    ),
-);
+    ],
+];

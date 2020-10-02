@@ -4,15 +4,15 @@
 
 angular.module('starter').controller('EventListController', function ($scope, $state, $stateParams, $timeout, Event) {
     angular.extend($scope, {
-        is_loading              : true,
-        value_id                : $stateParams.value_id,
-        collection              : [],
-        groups                  : [],
-        load_more               : false,
-        use_pull_refresh        : true,
-        pull_to_refresh         : false,
-        card_design             : false,
-        module_code             : 'event'
+        is_loading: true,
+        value_id: $stateParams.value_id,
+        collection: [],
+        groups: [],
+        load_more: false,
+        use_pull_refresh: true,
+        pull_to_refresh: false,
+        card_design: false,
+        module_code: 'event'
     });
 
     Event.setValueId($stateParams.value_id);
@@ -42,11 +42,11 @@ angular.module('starter').controller('EventListController', function ($scope, $s
 
                 $scope.load_more = (data.collection.length >= data.displayed_per_page);
             }).then(function () {
-                if (loadMore) {
-                    $scope.$broadcast('scroll.infiniteScrollComplete');
-                }
-                $scope.is_loading = false;
-            });
+            if (loadMore) {
+                $scope.$broadcast('scroll.infiniteScrollComplete');
+            }
+            $scope.is_loading = false;
+        });
     };
 
     $scope.pullToRefresh = function () {
@@ -72,13 +72,13 @@ angular.module('starter').controller('EventListController', function ($scope, $s
 
                 $scope.load_more = (data.collection.length === data.displayed_per_page);
             }).then(function () {
-                $scope.$broadcast('scroll.refreshComplete');
-                $scope.pull_to_refresh = false;
+            $scope.$broadcast('scroll.refreshComplete');
+            $scope.pull_to_refresh = false;
 
-                $timeout(function () {
-                    $scope.can_load_older_posts = !!$scope.collection.length;
-                }, 500);
-            });
+            $timeout(function () {
+                $scope.can_load_older_posts = !!$scope.collection.length;
+            }, 500);
+        });
     };
 
     $scope.showItem = function (item) {
@@ -89,11 +89,12 @@ angular.module('starter').controller('EventListController', function ($scope, $s
     };
 
     $scope.loadContent(false);
-}).controller('EventViewController', function ($rootScope, $scope, $state, $stateParams, $window, Dialog, Event) {
+}).controller('EventViewController', function ($rootScope, $scope, $state, $stateParams, $window,
+                                               Dialog, Event, LinkService) {
     angular.extend($scope, {
-        is_loading      : true,
-        value_id        : $stateParams.value_id,
-        card_design     : false
+        is_loading: true,
+        value_id: $stateParams.value_id,
+        card_design: false
     });
 
     Event.setValueId($stateParams.value_id);
@@ -109,13 +110,20 @@ angular.module('starter').controller('EventListController', function ($scope, $s
                     Dialog.alert('Error', data.message, 'OK', -1);
                 }
             }).then(function () {
-                $scope.is_loading = false;
-            });
+            $scope.is_loading = false;
+        });
+    };
+
+    // Open navigation intent!
+    $scope.navigateTo = function (event) {
+        Navigator.navigate({
+            'lat': event.geo[0],
+            'lng': event.geo[1]
+        });
     };
 
     $scope.openLink = function (url) {
-        /** @todo Handle links with LinkService */
-        $window.open(url, $rootScope.getTargetForLink(), 'location=no');
+        LinkService.openLink(url, {}, true);
     };
 
     $scope.openMaps = function () {
@@ -134,36 +142,39 @@ angular.module('starter').controller('EventListController', function ($scope, $s
 
     Event.setValueId($stateParams.value_id);
 
-    Event.getEvent($stateParams.event_id)
-        .then(function (data) {
-            $scope.page_title = data.page_title;
+    $scope.loadEvent = function () {
+        Event
+            .getEvent($stateParams.event_id)
+            .then(function (data) {
+                $scope.page_title = data.page_title;
 
-            if (data.event.address) {
-                GoogleMaps.geocode(data.event.address)
-                    .then(function (position) {
-                        if (position.latitude && position.longitude) {
-                            var marker = {
-                                title: data.event.title + "<br />" + data.event.address,
-                                is_centered: true,
-                                latitude: position.latitude,
-                                longitude: position.longitude
-                            };
+                if (data.event.geo !== false &&
+                    data.event.geo[0] &&
+                    data.event.geo[1]) {
+                    var marker = {
+                        title: data.event.title + "<br />" + data.event.address,
+                        is_centered: true,
+                        latitude: data.event.geo[0],
+                        longitude: data.event.geo[1]
+                    };
 
-                            if (data.cover.picture) {
-                                marker.icon = {
-                                    url: data.cover.picture,
-                                    width: 49,
-                                    height: 49
-                                };
-                            }
+                    if (data.cover.picture) {
+                        marker.icon = {
+                            url: data.cover.picture,
+                            width: 49,
+                            height: 49
+                        };
+                    }
 
-                            $scope.map_config = {
-                                markers: [marker]
-                            };
-                        }
-                    });
-            }
-        }).then(function () {
+                    $scope.map_config = {
+                        markers: [marker]
+                    };
+                }
+            }).then(function () {
             $scope.is_loading = false;
         });
+    };
+
+    // Init and callback, to be sure gmaps is loaded!
+    GoogleMaps.addCallback($scope.loadEvent);
 });

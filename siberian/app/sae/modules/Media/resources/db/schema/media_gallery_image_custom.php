@@ -6,44 +6,48 @@
  * Last update: 2016-04-28
  *
  */
-$schemas = (!isset($schemas)) ? array() : $schemas;
-$schemas['media_gallery_image_custom'] = array(
-    'image_id' => array(
+$schemas = (!isset($schemas)) ? [] : $schemas;
+$schemas['media_gallery_image_custom'] = [
+    'image_id' => [
         'type' => 'int(11)',
         'auto_increment' => true,
         'primary' => true,
-    ),
-    'gallery_id' => array(
+    ],
+    'gallery_id' => [
         'type' => 'int(11) unsigned',
-        'foreign_key' => array(
+        'foreign_key' => [
             'table' => 'media_gallery_image',
             'column' => 'gallery_id',
             'name' => 'media_gallery_image_custom_ibfk_1',
             'on_update' => 'CASCADE',
             'on_delete' => 'CASCADE',
-        ),
-        'index' => array(
+        ],
+        'index' => [
             'key_name' => 'KEY_GALLERY_ID',
             'index_type' => 'BTREE',
             'is_null' => false,
             'is_unique' => false,
-        ),
-    ),
-    'url' => array(
+        ],
+    ],
+    'url' => [
         'type' => 'varchar(255)',
         'charset' => 'utf8',
         'collation' => 'utf8_unicode_ci',
-    ),
-    'title' => array(
+    ],
+    'title' => [
         'type' => 'varchar(30)',
         'is_null' => true,
         'charset' => 'utf8',
         'collation' => 'utf8_unicode_ci',
-    ),
-    'description' => array(
+    ],
+    'description' => [
         'type' => 'varchar(255)',
         'is_null' => true,
         'charset' => 'utf8',
         'collation' => 'utf8_unicode_ci',
-    ),
-);
+    ],
+    'position' => [
+        'type' => 'int(11)',
+        'default' => '0',
+    ],
+];
