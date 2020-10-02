@@ -8,7 +8,8 @@ use Siberian\Json;
 class Siberian_Google_Geocoding
 {
     /**
-     * @param $address
+     * @paaram $address
+     * @paaram $apiKey
      * @return array
      */
     public static function getLatLng($address, $apiKey = null)
@@ -21,7 +22,7 @@ class Siberian_Google_Geocoding
         if (!empty($address["address"])) {
             $address = str_replace(PHP_EOL, " ", $address["address"]);
         } else {
-            $address = join(', ', [
+            $address = implode(', ', [
                 $address['street'],
                 $address['postcode'],
                 $address['city'],

@@ -29,11 +29,19 @@ switch($typeId) {
 
 ?>
 
-<div class="row_image row padding-3 container-fluid" rel="<?php echo $imageGallery->getGalleryId(); ?>">
+<div class="row_image row padding-3 container-fluid"
+     rel="<?php echo $imageGallery->getGalleryId(); ?>">
     <div class="col-sm-1 img-col color-blue">
-        <i title="<?php echo $title; ?>" class="<?php echo $className; ?> bt-margin" style="width: 28px;"></i>
+        <i title="<?php echo $title; ?>"
+           class="<?php echo $className; ?> bt-margin"
+           style="width: 28px;"></i>
     </div>
-    <div class="col-sm-4">
+    <div class="col-sm-1">
+        <?php if ($typeId === 'custom'): ?>
+
+        <?php endif; ?>
+    </div>
+    <div class="col-sm-3">
         <span>
             <input type="text"
                    name="name_<?php echo $imageGallery->getGalleryId(); ?>"
@@ -99,14 +107,25 @@ switch($typeId) {
             }
         ?>
     </div>
-    <div class="col-sm-3" style="text-align: right;">
-        <input type="hidden" name="value_id" value="<?php echo $optionValue->getId(); ?>" />
-        <input type="hidden" name="id" value="<?php echo $imageGallery->getGalleryId(); ?>" />
-        <input type="hidden" id="label_<?php echo $imageGallery->getGalleryId(); ?>" name="label" value="" />
-        <button type="button" class="bt-margin validate btn save_image color-blue" rel="<?php echo $imageGallery->getGalleryId(); ?>">
+    <div class="col-sm-3"
+         style="text-align: right;">
+        <input type="hidden"
+               name="value_id"
+               value="<?php echo $optionValue->getId(); ?>" />
+        <input type="hidden"
+               name="id"
+               value="<?php echo $imageGallery->getGalleryId(); ?>" />
+        <input type="hidden"
+               id="label_<?php echo $imageGallery->getGalleryId(); ?>"
+               name="label"
+               value="" />
+        <button type="button"
+                class="bt-margin validate btn save_image color-blue"
+                rel="<?php echo $imageGallery->getGalleryId(); ?>">
             <?php echo __('Save') ?>
         </button>
-        <button type="button" class="bt-margin color-blue red btn delete_image">
+        <button type="button"
+                class="bt-margin color-blue red btn delete_image">
             <i class="fa fa-times"></i>
         </button>
     </div>
@@ -116,7 +135,8 @@ switch($typeId) {
          style="<?php echo (count($this->getAlbums()) <= 0) ? 'display: none;' : ''; ?>"
          rel="carousel_<?php echo $imageGallery->getGalleryId(); ?>">
         <div class="carousel-container picasa-carousel">
-            <h3 class="title-editor text-center" style="margin-bottom: .5em;">
+            <h3 class="title-editor text-center"
+                style="margin-bottom: .5em;">
                 <?php echo __('Select an album') ?>
             </h3>
             <table class="sb-mini-carousel"

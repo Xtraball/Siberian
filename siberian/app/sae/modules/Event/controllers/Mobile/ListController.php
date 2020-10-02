@@ -1,5 +1,10 @@
 <?php
 
+use Siberian_Google_Geocoding as Geocoding;
+
+/**
+ * Class Event_Mobile_ListController
+ */
 class Event_Mobile_ListController extends Application_Controller_Mobile_Default {
 
     public function findallAction() {
@@ -52,6 +57,16 @@ class Event_Mobile_ListController extends Application_Controller_Mobile_Default 
                     $weekDayName = datetime_to_format($event->getStartAt(), Zend_Date::WEEKDAY_NAME);
                     $endTimeShort = datetime_to_format($event->getEndAt(), Zend_Date::TIME_SHORT);
 
+                    // Geo
+                    $application = $this->getApplication();
+                    $gKey = $application->getGooglemapsKey();
+                    $geocoded = false;
+                    if (!empty($gKey)) {
+                        $geocoded = Geocoding::getLatLng(['address' => $event->getAddress()], $gKey);
+                        dbg($geocoded);
+
+                    }
+
                     $data['collection'][] = [
                         "id" => $key,
                         "picture" => $picture_b64,
@@ -73,6 +88,7 @@ class Event_Mobile_ListController extends Application_Controller_Mobile_Default 
                                 "id" => $event->getId(),
                                 "title" => $event->getName(),
                                 "description" => nl2br($event->getDescription()),
+                                "geo" => $geocoded,
                                 "address" => $event->getAddress(),
                                 "weekday_name" => $weekDayName,
                                 "start_at" => $formatted_start_at,

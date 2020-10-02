@@ -5,6 +5,7 @@ use Siberian\File;
 use Siberian\Hook;
 use Siberian\Json;
 use Siberian\Version;
+use Siberian\Request;
 
 /**
  * Class Backoffice_Advanced_ConfigurationController
@@ -160,8 +161,7 @@ class Backoffice_Advanced_ConfigurationController extends System_Controller_Back
                     ]
                 ];
 
-                $request = new Siberian_Request();
-                $request->post(sprintf("http://stats.xtraball.com/report.php?type=%s", Version::TYPE), $bug_report);
+                Request::post(sprintf("http://stats.xtraball.com/report.php?type=%s", Version::TYPE), $bug_report);
 
                 $payload = [
                     'success' => true,
@@ -635,6 +635,10 @@ class Backoffice_Advanced_ConfigurationController extends System_Controller_Back
             switch ($panelType) {
                 case 'plesk':
                     (new Siberian_Plesk())->uploadCertificate($certificate);
+
+                    break;
+                case 'pleskcli':
+                    (new \Siberian\PleskCli())->installCertificate($certificate);
 
                     break;
                 case 'cpanel':

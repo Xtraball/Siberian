@@ -51,7 +51,7 @@ class Media_Model_Gallery_Image_Custom extends Media_Model_Gallery_Image_Abstrac
 
             $images = (new Media_Model_Gallery_Image_Custom())->findAll([
                 'gallery_id' => $this->getImageId()
-            ], 'image_id DESC', $params);
+            ], 'position ASC', $params);
         } catch (Exception $e) {
             $images = [];
         }

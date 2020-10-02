@@ -207,8 +207,8 @@ class System_Controller_Backoffice_Default extends Backoffice_Controller_Default
                 throw new Exception("No period sent.");
             }
 
-            $from = new Zend_Date($data['from'], __("MM/dd/yyyy"));
-            $to = new Zend_Date($data['to'], __("MM/dd/yyyy"));
+            $from = new Zend_Date($data['from'], 'MM/dd/yyyy');
+            $to = new Zend_Date($data['to'], 'MM/dd/yyyy');
 
             $fromTimestamp = $from->toValue();
             $toTimestamp = $to->toValue();
