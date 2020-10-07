@@ -21,7 +21,7 @@ class Media_Mobile_Gallery_ImageController extends Application_Controller_Mobile
 
                 if($this->getRequest()->getParam("all") == 1) {
                     $imgs = $image->getAllImages();
-                } else {
+                } else {s
                     $imgs = $image->getImages();
                 }
 
