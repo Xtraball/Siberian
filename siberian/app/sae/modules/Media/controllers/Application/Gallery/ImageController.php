@@ -20,6 +20,11 @@ class Media_Application_Gallery_ImageController extends Application_Controller_D
                 'homepage_app_#APP_ID#',
             ],
         ],
+        'sort' => [
+            'tags' => [
+                'homepage_app_#APP_ID#',
+            ],
+        ],
         'delete' => [
             'tags' => [
                 'homepage_app_#APP_ID#',
@@ -231,7 +236,6 @@ class Media_Application_Gallery_ImageController extends Application_Controller_D
             foreach ($data['indexes'] as $galleryId) {
                 (new \Media_Model_Gallery_Image())->updatePosition($galleryId, $position++ );
             }
-
             $payload = [
                 'success' => true,
                 'message' => p__('media', 'Galleries order saved!'),
