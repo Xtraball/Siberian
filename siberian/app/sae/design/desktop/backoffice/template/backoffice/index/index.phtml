@@ -8,7 +8,7 @@ if (empty($backofficeThemeView)) {
 
 $systemError = false;
 
-$allow_url_fopen = (integer) ini_get('allow_url_fopen');
+$allow_url_fopen = (integer)ini_get('allow_url_fopen');
 if ($allow_url_fopen !== 1) {
     $systemError = true;
 }
@@ -17,19 +17,19 @@ if ($max_execution_time < 300) {
     $systemError = true;
 }
 $memory_limit = ini_get('memory_limit');
-$mlNumeric = (int) preg_replace("/[^0-9]/", '', $memory_limit);
+$mlNumeric = (int)preg_replace("/[^0-9]/", '', $memory_limit);
 if ($mlNumeric < 512) {
     $systemError = true;
 }
 
 $post_max_size = ini_get('post_max_size');
-$pmsNumeric = (int) preg_replace("/[^0-9]/", '', $post_max_size);
+$pmsNumeric = (int)preg_replace("/[^0-9]/", '', $post_max_size);
 if ($pmsNumeric < 100) {
     $systemError = true;
 }
 
 $upload_max_filesize = ini_get('upload_max_filesize');
-$umfNnumeric = (int) preg_replace("/[^0-9]/", '', $upload_max_filesize);
+$umfNnumeric = (int)preg_replace("/[^0-9]/", '', $upload_max_filesize);
 if ($umfNnumeric < 100) {
     $systemError = true;
 }
@@ -77,36 +77,36 @@ if (!$varCache) {
     </div>
 
     <?php if ($displayTheme): ?>
-    <div class="col-md-8 col-md-offset-2 col-sm-12">
-        <div class="alert alert-info">
-            <?php echo __('New backoffice themes are available, check them out <a href="/system/backoffice_config_design">here</a>.') ?>
+        <div class="col-md-8 col-md-offset-2 col-sm-12">
+            <div class="alert alert-info">
+                <?php echo __('New backoffice themes are available, check them out <a href="/system/backoffice_config_design">here</a>.') ?>
+            </div>
         </div>
-    </div>
     <?php endif; ?>
 
     <?php if (isDev() || $systemError || $pathError): ?>
-    <div class="col-xs-12 col-md-12">
-        <sb-section title="'<?php echo __title("System diagnostic"); ?>'"
-                    klass="'critical'"
-                    button="button">
+        <div class="col-xs-12 col-md-12">
+            <sb-section title="'<?php echo __title("System diagnostic"); ?>'"
+                        klass="'critical'"
+                        button="button">
 
-            <?php if ($systemError || $pathError): ?>
-            <div class="alert alert-danger">
-                <?php echo p__('backoffice', 'Incorrect settings have been detected on your server, below are all the recommended settings, the ones in red are incorrect and can lead to issue while running the editor & applications.') ?>
-            </div>
-            <?php endif; ?>
+                <?php if ($systemError || $pathError): ?>
+                    <div class="alert alert-danger">
+                        <?php echo p__('backoffice', 'Incorrect settings have been detected on your server, below are all the recommended settings, the ones in red are incorrect and can lead to issue while running the editor & applications.') ?>
+                    </div>
+                <?php endif; ?>
 
-            <table class="table table dashboard no-wrap">
-                <col width="32px" />
-                <col width="150px" />
-                <col width="55%" />
-                <tbody>
+                <table class="table table dashboard no-wrap">
+                    <col width="32px"/>
+                    <col width="150px"/>
+                    <col width="55%"/>
+                    <tbody>
                     <tr>
                         <td rowspan="6">
                             <?php if ($systemError): ?>
-                            <img src="/app/sae/design/desktop/backoffice/images/service/offline-16.png" />
+                                <img src="/app/sae/design/desktop/backoffice/images/service/offline-16.png"/>
                             <?php else: ?>
-                            <img src="/app/sae/design/desktop/backoffice/images/service/running-16.png" />
+                                <img src="/app/sae/design/desktop/backoffice/images/service/running-16.png"/>
                             <?php endif; ?>
                         </td>
                         <td rowspan="6">
@@ -192,9 +192,9 @@ if (!$varCache) {
                     <tr>
                         <td rowspan="6">
                             <?php if ($pathError): ?>
-                                <img src="/app/sae/design/desktop/backoffice/images/service/offline-16.png" />
+                                <img src="/app/sae/design/desktop/backoffice/images/service/offline-16.png"/>
                             <?php else: ?>
-                                <img src="/app/sae/design/desktop/backoffice/images/service/running-16.png" />
+                                <img src="/app/sae/design/desktop/backoffice/images/service/running-16.png"/>
                             <?php endif; ?>
                         </td>
                         <td rowspan="6">
@@ -238,12 +238,12 @@ if (!$varCache) {
                             <?php echo p__('backoffice', 'Must be writeable') ?>
                         </td>
                     </tr>
-                </tbody>
-            </table>
-        </sb-section>
-    </div>
+                    </tbody>
+                </table>
+            </sb-section>
+        </div>
 
-    <div class="clearfix"></div>
+        <div class="clearfix"></div>
     <?php endif; ?>
 
 
@@ -256,32 +256,32 @@ if (!$varCache) {
             </div>
             <table ng-if="!messagesIsLoading"
                    class="table table dashboard no-wrap small-padding">
-                <col width="50%" />
-                <col width="40%" />
-                <col width="10%" />
+                <col width="50%"/>
+                <col width="40%"/>
+                <col width="10%"/>
                 <tbody>
-                    <tr ng-repeat="message in new_messages"
-                        ng-if="new_messages.length">
-                        <td>
-                            <i ng-if="message.source == 'cron' || message.priority"
-                               class="fa fa-exclamation"></i>
-                            {{ message.title }}
-                        </td>
-                        <td class="text-right">{{ message.created_at }}</td>
-                        <td class="text-right">
-                            <a href="<?php echo $this->getUrl("backoffice/notif_message") ?>/message_id/{{ message.id }}"
-                               class="btn btn-xs btn-primary"
-                               target="_blank" ><?php echo __("Read") ?></a>
-                        </td>
-                    </tr>
-                    <tr ng-if="!new_messages.length">
-                        <td colspan="3"><?php echo __("You have no new messages.") ?></td>
-                    </tr>
+                <tr ng-repeat="message in new_messages"
+                    ng-if="new_messages.length">
+                    <td>
+                        <i ng-if="message.source == 'cron' || message.priority"
+                           class="fa fa-exclamation"></i>
+                        {{ message.title }}
+                    </td>
+                    <td class="text-right">{{ message.created_at }}</td>
+                    <td class="text-right">
+                        <a href="<?php echo $this->getUrl("backoffice/notif_message") ?>/message_id/{{ message.id }}"
+                           class="btn btn-xs btn-primary"
+                           target="_blank"><?php echo __("Read") ?></a>
+                    </td>
+                </tr>
+                <tr ng-if="!new_messages.length">
+                    <td colspan="3"><?php echo __("You have no new messages.") ?></td>
+                </tr>
                 </tbody>
             </table>
         </sb-section>
 
-        <br />
+        <br/>
 
         <sb-section title="'<?php echo __title("Services", "'"); ?>'"
                     button="button">
@@ -291,15 +291,15 @@ if (!$varCache) {
             </div>
             <table ng-if="!isLoading"
                    class="table table dashboard no-wrap">
-                <col width="32px" />
-                <col width="180px" />
+                <col width="32px"/>
+                <col width="180px"/>
                 <tbody>
                 <tr>
                     <td>
                         <img ng-if="services.cron"
-                             src="/app/sae/design/desktop/backoffice/images/service/running-16.png" />
+                             src="/app/sae/design/desktop/backoffice/images/service/running-16.png"/>
                         <img ng-if="!services.cron"
-                             src="/app/sae/design/desktop/backoffice/images/service/offline-16.png" />
+                             src="/app/sae/design/desktop/backoffice/images/service/offline-16.png"/>
                     </td>
                     <td>
                         <?php echo __("Cron scheduler") ?>
@@ -307,9 +307,9 @@ if (!$varCache) {
                     <td>
                         <table ng-show="services.cron"
                                class="sub-table">
-                            <col width="50%" />
-                            <col width="0" />
-                            <col width="40%" />
+                            <col width="50%"/>
+                            <col width="0"/>
+                            <col width="40%"/>
                             <tbody>
                             <tr>
                                 <td><i class="fa fa-paper-plane"></i><?php echo __("Push messages:") ?></td>
@@ -337,13 +337,13 @@ if (!$varCache) {
                                                 <i class="fa fa-gears"></i><?php echo __("Average build time in seconds:") ?>
                                             </span>
                                     <span class="group">
-                                                <?php echo __("[Sources]")?> {{ services.average_build_time.source }}
+                                                <?php echo __("[Sources]") ?> {{ services.average_build_time.source }}
                                             </span>
                                     <span class="group">
-                                                <?php echo __("[APK]")?> {{ services.average_build_time.apk }}
+                                                <?php echo __("[APK]") ?> {{ services.average_build_time.apk }}
                                             </span>
                                     <span class="group">
-                                                <?php echo __("[Global]")?> {{ services.average_build_time.global }}
+                                                <?php echo __("[Global]") ?> {{ services.average_build_time.global }}
                                             </span>
                                 </td>
                                 <td></td>
@@ -354,7 +354,9 @@ if (!$varCache) {
                             </tr>
                             <tr ng-show="services.cron_error.full"
                                 ng-class="{ 'no-border-bottom': !cron_error_show }">
-                                <td><i class="fa fa-exclamation-triangle"></i><?php echo __("Last cron error") ?>:[<strong>{{ services.cron_error.date }}</strong>] <span class="service-red"> {{ services.cron_error.short }}</span></td>
+                                <td><i class="fa fa-exclamation-triangle"></i><?php echo __("Last cron error") ?>
+                                    :[<strong>{{ services.cron_error.date }}</strong>] <span class="service-red"> {{ services.cron_error.short }}</span>
+                                </td>
                                 <td></td>
                                 <td class="text-right">
                                     <button class="btn btn-xs btn-primary"
@@ -379,21 +381,25 @@ if (!$varCache) {
                             </tr>
                             </tbody>
                         </table>
-                        <?php if(Cron_Model_Cron::is_active()): ?>
+                        <?php if (Cron_Model_Cron::is_active()): ?>
                             <span ng-show="!services.cron">
-                                <?php echo __("Not running") ?> <a class="btn btn-xs btn-primary" ng-click="showCronModal();"><?php echo __("How to install the cron scheduler ?") ?></a>
+                                <?php echo __("Not running") ?> <a class="btn btn-xs btn-primary"
+                                                                   ng-click="showCronModal();"><?php echo __("How to install the cron scheduler ?") ?></a>
                             </span>
                         <?php else: ?>
                             <span>
-                                <?php echo __("Disabled") ?>, <a href="<?php echo $this->getUrl("backoffice/advanced_cron") ?>"><?php echo __("see Settings > Advanced > Configuration > Cron to edit options.") ?></a>
+                                <?php echo __("Disabled") ?>, <a
+                                        href="<?php echo $this->getUrl("backoffice/advanced_cron") ?>"><?php echo __("see Settings > Advanced > Configuration > Cron to edit options.") ?></a>
                             </span>
                         <?php endif; ?>
                     </td>
                 </tr>
                 <tr>
                     <td>
-                        <img ng-if="extensions.php_sqlite3 || extensions.bin_sqlite3" src="/app/sae/design/desktop/backoffice/images/service/running-16.png" />
-                        <img ng-if="!extensions.php_sqlite3 && !extensions.bin_sqlite3" src="/app/sae/design/desktop/backoffice/images/service/offline-16.png" />
+                        <img ng-if="extensions.php_sqlite3 || extensions.bin_sqlite3"
+                             src="/app/sae/design/desktop/backoffice/images/service/running-16.png"/>
+                        <img ng-if="!extensions.php_sqlite3 && !extensions.bin_sqlite3"
+                             src="/app/sae/design/desktop/backoffice/images/service/offline-16.png"/>
                     </td>
                     <td>
                         <?php echo __("Required extensions") ?>
@@ -404,7 +410,7 @@ if (!$varCache) {
                             <?php $phpVersion = phpversion(); ?>
                                 <?php echo __("PHP version %s:", $phpVersion) ?>
                                 <?php if (version_compare($phpVersion, '7.0', '<') ||
-                                         version_compare($phpVersion, '7.4', '>=')){ ?>
+                                    version_compare($phpVersion, '7.4', '>=')) { ?>
                                     <span class="service-red"><?php echo __("Doesn't meet the requirements") ?></span>,
                                 <?php } else { ?>
                                     <span class="service-green"><i class="fa fa-check"></i></span>
@@ -412,36 +418,45 @@ if (!$varCache) {
 
                             </span>
 
-                        <span class="group">
+                        <span ng-if="extensions.edition != 'SAE'"
+                              class="group">
                                 <?php echo __("JAVA:") ?>
                             <span ng-show="extensions.java"><?php echo __("Installed, version") ?>
                                 <span ng-show="extensions.java_ok" class="service-green"> {{ extensions.java }},</span>
-                                    <span ng-show="!extensions.java_ok" class="service-red"> {{ extensions.java }} - <?php echo __("You must upgrade Java to 1.8") ?>,</span>
+                                    <span ng-show="!extensions.java_ok"
+                                          class="service-red"> {{ extensions.java }} - <?php echo __("You must upgrade Java to 1.8") ?>,</span>
                                 </span>
-                                <span ng-show="!extensions.java"><span class="service-red"><?php echo __("Not found") ?></span>,</span>
+                                <span ng-show="!extensions.java"><span
+                                            class="service-red"><?php echo __("Not found") ?></span>,</span>
                             </span>
 
                         <span class="group">
                                 <?php echo __("Android SDK:") ?>
-                            <span ng-show="extensions.android_sdk"><span class="service-green"><i class="fa fa-check"></i></span></span>
-                                <span ng-show="!extensions.android_sdk"><span class="service-red"><?php echo __("Not found") ?></span>,</span>
+                            <span ng-show="extensions.android_sdk"><span class="service-green"><i
+                                            class="fa fa-check"></i></span></span>
+                                <span ng-show="!extensions.android_sdk"><span
+                                            class="service-red"><?php echo __("Not found") ?></span>,</span>
                             </span>
 
                         <span class="group" ng-show="extensions.php_sqlite3">
                                 <?php echo __("PHP SQLite3:") ?>
-                            <span ng-show="extensions.php_sqlite3" ><span class="service-green"><i class="fa fa-check"></i></span></span>
-                                    <span ng-show="!extensions.php_sqlite3"><span class="service-red"><?php echo __("Not found") ?></span></span>
+                            <span ng-show="extensions.php_sqlite3"><span class="service-green"><i
+                                            class="fa fa-check"></i></span></span>
+                                    <span ng-show="!extensions.php_sqlite3"><span
+                                                class="service-red"><?php echo __("Not found") ?></span></span>
                                 </span>
                         <span ng-show="!extensions.php_sqlite3">
                                     <?php echo __("Bin SQLite3:") ?>
-                            <span ng-show="extensions.bin_sqlite3" ><span class="service-green"><i class="fa fa-check"></i></span></span>
-                                        <span ng-show="!extensions.bin_sqlite3"><span class="service-red"><?php echo __("Not found") ?></span></span>
+                            <span ng-show="extensions.bin_sqlite3"><span class="service-green"><i
+                                            class="fa fa-check"></i></span></span>
+                                        <span ng-show="!extensions.bin_sqlite3"><span
+                                                    class="service-red"><?php echo __("Not found") ?></span></span>
                             </span>
                     </td>
                 </tr>
                 <tr>
                     <td>
-                        <img src="/app/sae/design/desktop/backoffice/images/service/info-16.png" />
+                        <img src="/app/sae/design/desktop/backoffice/images/service/info-16.png"/>
                     </td>
                     <td>
                         <?php echo __("Optional binaries") ?>
@@ -491,7 +506,7 @@ if (!$varCache) {
                 </tr>
                 <tr ng-show="system_diagnostic.length !== 0">
                     <td>
-                        <img src="/app/sae/design/desktop/backoffice/images/service/info-16.png" />
+                        <img src="/app/sae/design/desktop/backoffice/images/service/info-16.png"/>
                     </td>
                     <td>
                         <?php echo __("System Diagnostic") ?>
@@ -502,13 +517,13 @@ if (!$varCache) {
                                 <span ng-class="{
                                     'service-red': !diagnostic.valid,
                                     'service-green': diagnostic.valid }">{{ diagnostic.message }}</span>
-                                <br />
+                                <br/>
                             </span>
                     </td>
                 </tr>
                 <tr ng-show="external_services.length !== 0">
                     <td>
-                        <img src="/app/sae/design/desktop/backoffice/images/service/info-16.png" />
+                        <img src="/app/sae/design/desktop/backoffice/images/service/info-16.png"/>
                     </td>
                     <td>
                         <?php echo __("External extensions") ?>
@@ -522,14 +537,16 @@ if (!$varCache) {
                     <td ng-if="!servicesIsLoading">
                             <span ng-repeat="(name, values) in external_services">
                                 {{ name }}:
-                                <span ng-show="values.status"><span class="service-green"> {{ values.text }}</span> </span>
-                                <span ng-show="!values.status"><span class="service-red"> {{ values.text }}</span> </span>
+                                <span ng-show="values.status"><span
+                                            class="service-green"> {{ values.text }}</span> </span>
+                                <span ng-show="!values.status"><span
+                                            class="service-red"> {{ values.text }}</span> </span>
                             </span>
                     </td>
                 </tr>
                 <tr>
                     <td>
-                        <img src="/app/sae/design/desktop/backoffice/images/service/info-16.png" />
+                        <img src="/app/sae/design/desktop/backoffice/images/service/info-16.png"/>
                     </td>
                     <td>
                         <?php echo __("Web space") ?>
@@ -552,44 +569,51 @@ if (!$varCache) {
                                     {{ server_usage.total }}
                                 </td>
                                 <td class="text-right">
-                                    <button class="btn btn-xs btn-primary" ng-hide="show_more_size" ng-click="show_more_size = !show_more_size;"><?php echo __("Show more") ?></button>
-                                    <button class="btn btn-xs btn-primary" ng-hide="!show_more_size" ng-click="show_more_size = !show_more_size;"><?php echo __("Hide") ?></button>
+                                    <button class="btn btn-xs btn-primary" ng-hide="show_more_size"
+                                            ng-click="show_more_size = !show_more_size;"><?php echo __("Show more") ?></button>
+                                    <button class="btn btn-xs btn-primary" ng-hide="!show_more_size"
+                                            ng-click="show_more_size = !show_more_size;"><?php echo __("Hide") ?></button>
                                 </td>
                             </tr>
                             <tr ng-hide="!show_more_size">
                                 <td class="indent"><?php echo __("Log (var/log, log files)") ?></td>
                                 <td>{{ server_usage.log_size }}</td>
                                 <td class="text-right">
-                                    <button class="btn btn-xs btn-primary" ng-click="clear('log', '<?php echo addcslashes(__("You are about to clean all your log files !\nAre you sure ?"), "'"); ?>');"><?php echo __("Clear") ?></button>
+                                    <button class="btn btn-xs btn-primary"
+                                            ng-click="clear('log', '<?php echo addcslashes(__("You are about to clean all your log files !\nAre you sure ?"), "'"); ?>');"><?php echo __("Clear") ?></button>
                                 </td>
                             </tr>
                             <tr ng-hide="!show_more_size">
                                 <td class="indent"><?php echo __("Cache (var/cache, system cache)") ?></td>
                                 <td>{{ server_usage.cache_size }}</td>
                                 <td class="text-right">
-                                    <button class="btn btn-xs btn-primary" ng-click="clear('cache');"><?php echo __("Clear") ?></button>
+                                    <button class="btn btn-xs btn-primary"
+                                            ng-click="clear('cache');"><?php echo __("Clear") ?></button>
                                 </td>
                             </tr>
                             <tr ng-hide="!show_more_size">
                                 <td class="indent"><?php echo __("Temp (var/tmp, application sources & apk)") ?></td>
                                 <td>{{ server_usage.tmp_size }}</td>
                                 <td class="text-right">
-                                    <button class="btn btn-xs btn-primary" ng-click="clear('tmp', '<?php echo addcslashes(__("You are about to wipe all your temporary files, this includes the generated sources & apk builds !\nAre you sure ?"), "'"); ?>');"><?php echo __("Clear") ?></button>
+                                    <button class="btn btn-xs btn-primary"
+                                            ng-click="clear('tmp', '<?php echo addcslashes(__("You are about to wipe all your temporary files, this includes the generated sources & apk builds !\nAre you sure ?"), "'"); ?>');"><?php echo __("Clear") ?></button>
                                 </td>
                             </tr>
                             <tr ng-hide="!show_more_size">
                                 <td class="indent"><?php echo __("Overview - WebApp (var/apps/browser, overview & webapp cache)") ?></td>
                                 <td>-</td>
                                 <td class="text-right">
-                                    <button class="btn btn-xs btn-primary" ng-click="clear('overview', '<?php echo addcslashes(__("Are you sure ?"), "'"); ?>');"><?php echo __("Clear") ?></button>
+                                    <button class="btn btn-xs btn-primary"
+                                            ng-click="clear('overview', '<?php echo addcslashes(__("Are you sure ?"), "'"); ?>');"><?php echo __("Clear") ?></button>
                                 </td>
                             </tr>
-                            <?php if(APPLICATION_ENV == "development"): ?>
+                            <?php if (APPLICATION_ENV == "development"): ?>
                                 <tr ng-hide="!show_more_size">
                                     <td class="indent"><?php echo __("Applications/Previewer manifest for automatic updates.") ?></td>
                                     <td>-</td>
                                     <td class="text-right">
-                                        <button class="btn btn-xs btn-primary" ng-click="clear('app_manifest', '<?php echo addcslashes(__("Are you sure ?"), "'"); ?>');"><?php echo __("Rebuild") ?></button>
+                                        <button class="btn btn-xs btn-primary"
+                                                ng-click="clear('app_manifest', '<?php echo addcslashes(__("Are you sure ?"), "'"); ?>');"><?php echo __("Rebuild") ?></button>
                                     </td>
                                 </tr>
                             <?php endif; ?>
@@ -600,7 +624,7 @@ if (!$varCache) {
             </table>
         </sb-section>
 
-        <br />
+        <br/>
     </div>
 
     <div class="clearfix visible-xs visible-sm"></div>
@@ -638,26 +662,27 @@ if (!$varCache) {
             <?php
             $base_path = Core_Model_Directory::getBasePathTo("");
             $guessed_php = "/usr/bin/php";
-            if(file_exists("/opt/plesk/php/5.6/bin/php")) {
+            if (file_exists("/opt/plesk/php/5.6/bin/php")) {
                 $guessed_php = "/opt/plesk/php/5.6/bin/php";
             }
             ?>
 
             <span>
-                <?php echo __("Check if this cron command is installed under the web user & if you have set a timezone in Settings > General"); ?><br /><br />
+                <?php echo __("Check if this cron command is installed under the web user & if you have set a timezone in Settings > General"); ?><br/><br/>
                 <pre>* * * * * <?php echo $guessed_php ?> -d memory_limit=512M -f <?php echo $base_path; ?>cron.php >> <?php echo $base_path; ?>var/log/cron.log 2>&1</pre>
-                <br />
+                <br/>
                 <?php echo __("Otherwise install it manually, from your panel, or directly from your ssh access."); ?>
-                <br />
+                <br/>
                 <?php echo __("The PHP executable guessed path <b>'%s'</b> may be incorrect, please double check for it.", $guessed_php); ?>
-                <br /><br />
+                <br/><br/>
                 <b>
                     <?php echo __("Note: we recommand to install under the web user to maintain file & folders permissions, but if this is not possible at all you can install it under the root user."); ?>
                 </b>
             </span>
         </div>
         <div class="modal-footer">
-            <button type="button" class="btn btn-default" ng-click="show_cron_modal = !show_cron_modal;"><?php echo __("Close"); ?></button>
+            <button type="button" class="btn btn-default"
+                    ng-click="show_cron_modal = !show_cron_modal;"><?php echo __("Close"); ?></button>
         </div>
     </div>
 </div>
