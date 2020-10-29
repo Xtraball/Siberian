@@ -3,6 +3,7 @@
 /**
  * Class Media_Model_Gallery_Image
  *
+ * @method Media_Model_Db_Table_Gallery_Image getTable()
  * @method setImageId(integer $imageId)
  * @method setName(string $name)
  * @method setTypeId(string $typeId)
@@ -83,7 +84,7 @@ class Media_Model_Gallery_Image extends Core_Model_Default
             $galleries = (new Media_Model_Gallery_Image())
                 ->findAll([
                     'value_id' => $option_value->getId()
-                ]);
+                ], ['position ASC', 'gallery_id ASC']);
 
             foreach ($galleries as $gallery) {
                 $currentGallery = [
@@ -98,7 +99,6 @@ class Media_Model_Gallery_Image extends Core_Model_Default
 
         return $payload;
     }
-
 
     /**
      * @param $id
@@ -128,6 +128,11 @@ class Media_Model_Gallery_Image extends Core_Model_Default
             $row->_addTypeDatas();
         }
         return $rows;
+    }
+
+    public function updatePosition ($galleryId, $position)
+    {
+        $this->getTable()->updatePosition ($galleryId, $position);
     }
 
     /**

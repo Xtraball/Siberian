@@ -30,5 +30,6 @@ $schemas['media_gallery_image_facebook'] = [
     'position' => [
         'type' => 'int(11)',
         'default' => '0',
+        'is_null' => true,
     ],
 ];

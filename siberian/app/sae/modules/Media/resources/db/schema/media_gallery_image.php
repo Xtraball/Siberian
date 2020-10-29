@@ -46,6 +46,11 @@ $schemas['media_gallery_image'] = [
         'charset' => 'utf8',
         'collation' => 'utf8_unicode_ci',
     ],
+    'position' => [
+        'type' => 'int(11)',
+        'default' => '0',
+        'is_null' => true,
+    ],
     'created_at' => [
         'type' => 'datetime',
         'is_null' => true,
