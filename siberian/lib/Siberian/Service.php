@@ -116,6 +116,9 @@ class Service
         # Android SDK
         $services["android_sdk"] = Application_Model_Tools::isAndroidSDKInstalled();
 
+        # Siberian Edition
+        $services["edition"] = Version::TYPE;
+
         return $services;
     }
 

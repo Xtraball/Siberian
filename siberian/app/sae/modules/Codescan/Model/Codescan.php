@@ -1,29 +1,30 @@
 <?php
-class Codescan_Model_Codescan extends Core_Model_Default {
 
-	protected $_is_cacheable = true;
-	
-    public function __construct($params = array()) {
-        parent::__construct($params);
-        return $this;
-    }
+/**
+ * Class Codescan_Model_Codescan
+ */
+class Codescan_Model_Codescan extends Core_Model_Default
+{
+    /**
+     * @var bool
+     */
+    protected $_is_cacheable = true;
 
     /**
+     * @param $valueId
      * @return array
      */
-    public function getInappStates($value_id) {
-
-        $in_app_states = array(
-            array(
-                "state" => "codescan",
-                "offline" => false,
-                "params" => array(
-                    "value_id" => $value_id,
-                ),
-            ),
-        );
-
-        return $in_app_states;
+    public function getInappStates($valueId): array
+    {
+        return [
+            [
+                'state' => 'codescan',
+                'offline' => false,
+                'params' => [
+                    'value_id' => $valueId,
+                ],
+            ],
+        ];
     }
 
 }

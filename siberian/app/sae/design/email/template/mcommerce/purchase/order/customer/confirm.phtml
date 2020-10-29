@@ -6,14 +6,14 @@ $customer = $order->getCustomer();
 <table width="100%" style="max-width:600px">
     <tr style="padding: 0 15px; color:#888888; font-size: 17px; line-height: 150%; width:600px">
         <td>
-            <p style="font-family: Verdana; font-weight: bold;color: #12a7ff;font-size:18px; line-height:150%;"><?php echo $this->_('Hello,'); ?></p>
+            <p style="font-family: Verdana; font-weight: bold;color: #12a7ff;font-size:18px; line-height:150%;"><?php echo __('Hello,'); ?></p>
             <p align="justify">
                 <span style="color: #000000; font-family: Verdana, Arial, Helvetica, sans-serif; font-size: 13px;">
-                    <?php echo $this->_('Here is the detail of your order'); ?>
+                    <?php echo __('Here is the detail of your order'); ?>
                 </span>
             </p>
 
-            <h4 style="margin:10px 0; color: #000000; font-family: Verdana, Arial, Helvetica, sans-serif; font-size: 15px;"><?php echo $this->_('Delivery address'); ?></h4>
+            <h4 style="margin:10px 0; color: #000000; font-family: Verdana, Arial, Helvetica, sans-serif; font-size: 15px;"><?php echo __('Delivery address'); ?></h4>
             <?php if ($customer) { ?>
                 <?php $metadatas = $customer->getMetadatas(); ?>
                 <p style="margin:0; color: #000000; font-family: Verdana, Arial, Helvetica, sans-serif; font-size: 13px;"><?php echo $customer->getFirstname() . ' ' . $customer->getLastname(); ?></p>
@@ -24,12 +24,12 @@ $customer = $order->getCustomer();
                 <p style="margin:0; color: #000000; font-family: Verdana, Arial, Helvetica, sans-serif; font-size: 13px;"><?php echo $metadatas['phone']; ?></p>
                 <br/>
 
-                <h4 style="margin:10px 0; color: #000000; font-family: Verdana, Arial, Helvetica, sans-serif; font-size: 15px;"><?php echo $this->_('Invoicing address'); ?></h4>
+                <h4 style="margin:10px 0; color: #000000; font-family: Verdana, Arial, Helvetica, sans-serif; font-size: 15px;"><?php echo __('Invoicing address'); ?></h4>
 
                 <p style="margin:0; color: #000000; font-family: Verdana, Arial, Helvetica, sans-serif; font-size: 13px;"><?php echo $customer->getFirstname() . ' ' . $customer->getLastname(); ?></p>
                 <p style="margin:0; color: #000000; font-family: Verdana, Arial, Helvetica, sans-serif; font-size: 13px;"><?php echo $customer->getEmail(); ?></p>
                 <p style="margin:0; color: #000000; font-family: Verdana, Arial, Helvetica, sans-serif; font-size: 13px;"><?php echo $metadatas['invoicing_address']['street']; ?></p>
-                <p style="margin:0; color: #000000; font-family: Verdana, Arial, Helvetica, sans-serif; font-size: 13px;"><?php echo $metadatas['invoicing_address']['postcode']; ?><?php echo $metadatas['invoicing_address']['city']; ?></p>
+                <p style="margin:0; color: #000000; font-family: Verdana, Arial, Helvetica, sans-serif; font-size: 13px;"><?php echo $metadatas['invoicing_address']['postcode']; ?> - <?php echo $metadatas['invoicing_address']['city']; ?></p>
                 <p style="margin:0; color: #000000; font-family: Verdana, Arial, Helvetica, sans-serif; font-size: 13px;"><?php echo $metadatas['invoicing_address']['country']; ?></p>
                 <p style="margin:0; color: #000000; font-family: Verdana, Arial, Helvetica, sans-serif; font-size: 13px;"><?php echo $metadatas['phone']; ?></p>
                 <br/>
@@ -41,13 +41,13 @@ $customer = $order->getCustomer();
                 <p style="margin:0; color: #000000; font-family: Verdana, Arial, Helvetica, sans-serif; font-size: 13px;"><?php echo $order->getCustomerPhone(); ?></p>
                 <br/>
             <?php } ?>
-            <h4 style="margin:10px 0; color: #000000; font-family: Verdana, Arial, Helvetica, sans-serif; font-size: 15px;"><?php echo $this->_('Order details'); ?></h4>
+            <h4 style="margin:10px 0; color: #000000; font-family: Verdana, Arial, Helvetica, sans-serif; font-size: 15px;"><?php echo __('Order details'); ?></h4>
             <table width="400px">
                 <col width="50%"/>
                 <col width="50%"/>
                 <tr>
-                    <th align="left"><?php echo $this->_('Delivery Method'); ?></th>
-                    <th align="left"><?php echo $this->_('Payment Method'); ?></th>
+                    <th align="left"><?php echo __('Delivery Method'); ?></th>
+                    <th align="left"><?php echo __('Payment Method'); ?></th>
                 </tr>
                 <tr>
                     <td><?php echo $order->getDeliveryMethod(); ?></td>
@@ -61,10 +61,10 @@ $customer = $order->getCustomer();
                 <col width="10%"/>
                 <col width="10%"/>
                 <tr>
-                    <th align="left"><?php echo $this->_('Product'); ?></th>
-                    <th><?php echo $this->_('Unit Price'); ?></th>
-                    <th><?php echo $this->_('Qty'); ?></th>
-                    <th><?php echo $this->_('Total'); ?></th>
+                    <th align="left"><?php echo __('Product'); ?></th>
+                    <th><?php echo __('Unit Price'); ?></th>
+                    <th><?php echo __('Qty'); ?></th>
+                    <th><?php echo __('Total'); ?></th>
                 </tr>
                 <tr>
                     <td colspan="4">
@@ -79,7 +79,7 @@ $customer = $order->getCustomer();
                     $displayBasePriceInclTax = Mcommerce_Model_Utility::displayPrice($line->getPrice(), $line->getTaxRate());
                     ?>
                     <?php $format = unserialize($line->getFormat()); ?>
-                    <?php $text_format = isset($format['title']) ? "<br />" . $this->_("Format:") . " " . $format['title'] : ""; ?>
+                    <?php $text_format = isset($format['title']) ? "<br />" . __("Format:") . " " . $format['title'] : ""; ?>
                     <tr>
                         <td><?php echo $line->getName() . $text_format; ?></td>
                         <td align="right"><?php echo $displayBasePriceInclTax; ?></td>
@@ -115,7 +115,7 @@ $customer = $order->getCustomer();
                         ?>
                         <tr>
                             <td style="font-size:13px;">
-                                <?php echo $this->_('From'); ?> <b><?php echo $group->getTitle(); ?></b>, <?php echo $this->_('your choice'); ?>:
+                                <?php echo __('From'); ?> <b><?php echo $group->getTitle(); ?></b>, <?php echo __('your choice'); ?>:
                                 <?php echo implode(" & ", $group->choices); ?>
                             </td>
                             <td style="font-size:13px;" align="right"></td>
@@ -133,7 +133,7 @@ $customer = $order->getCustomer();
                 <?php endforeach; ?>
             </table>
             <br/>
-            <h4 style="margin:0; color: #000000; font-family: Verdana, Arial, Helvetica, sans-serif; font-size: 15px;"><?php echo $this->_('Total'); ?></h4>
+            <h4 style="margin:0; color: #000000; font-family: Verdana, Arial, Helvetica, sans-serif; font-size: 15px;"><?php echo __('Total'); ?></h4>
             <table width="100%">
             <col width="80%"/>
                 <col width="20%"/>
@@ -143,55 +143,55 @@ $customer = $order->getCustomer();
                     </td>
                 </tr>
                 <tr>
-                    <th align="left"><?php echo $this->_('Subtotal'); ?></th>
+                    <th align="left"><?php echo __('Subtotal'); ?></th>
                     <td align="right"><?php echo $order->getFormattedSubtotal(); ?></td>
                 </tr>
                 <?php if($order->getDeliveryCost() > 0) : ?>
                 <tr class="cart_totals">
-                    <th align="left"><?php echo $this->_('Incl.'); ?> <?php echo $this->_('Delivery Fees'); ?></th>
+                    <th align="left"><?php echo __('Incl.'); ?> <?php echo __('Delivery Fees'); ?></th>
                     <td align="right">-<?php echo $order->getFormattedDeliveryTTC(); ?></td>
                 </tr>
                 <?php endif; ?>
                 <?php if($order->getDiscountCode()) { ?>
                     <tr>
-                        <th align="left"><?php echo $this->_('Code Used'); ?></th>
+                        <th align="left"><?php echo __('Code Used'); ?></th>
                         <td align="right"><?php echo $order->getDiscountCode(); ?></td>
                     </tr>
                     <tr>
-                        <th align="left"><?php echo $this->_('Deduction'); ?></th>
+                        <th align="left"><?php echo __('Deduction'); ?></th>
                         <td align="right"><?php echo $order->getFormattedDiscount(); ?></td>
                     </tr>
                 <?php } ?>
                 <tr class="cart_totals">
-                    <th align="left"><?php echo $this->_('Subtotal Excl. Tax'); ?></th>
+                    <th align="left"><?php echo __('Subtotal Excl. Tax'); ?></th>
                     <td align="right"><?php echo $order->getFormattedDeductedTotalHT(); ?></td>
                 </tr>
                 <tr class="cart_totals">
-                    <th align="left"><?php echo $this->_('Tax'); ?></th>
+                    <th align="left"><?php echo __('Tax'); ?></th>
                     <td align="right"><?php echo $order->getFormattedDeductedTva(); ?></td>
                 </tr>
                 <tr class="cart_totals">
-                    <th align="left"><?php echo $this->_('Gratuity'); ?></th>
+                    <th align="left"><?php echo __('Gratuity'); ?></th>
                     <td align="right"><?php echo $order->getFormattedTip(); ?></td>
                 </tr>
                 <tr class="cart_totals">
-                    <th align="left"><?php echo $this->_('Total'); ?></th>
+                    <th align="left"><?php echo __('Total'); ?></th>
                     <td align="right"><?php echo $order->getFormattedTotal(); ?></td>
                 </tr>
                 <?php if($order->getPaidAmount() && !$order->getHidePaidAmount()) : ?>
                     <tr><td colspan="2"><div style="width:100%;margin-top:0px;margin-bottom:5px;border-bottom:2px solid black;"></div></td></tr>
                     <tr>
-                        <th align="left"><?php echo $this->_("I will pay"); ?></th>
+                        <th align="left"><?php echo __("I will pay"); ?></th>
                         <td align="right"><?php echo $order->getFormattedPaidAmount(); ?></td>
                     </tr>
                     <tr>
-                        <th align="left"><?php echo $this->_("Remaining due"); ?></th>
+                        <th align="left"><?php echo __("Remaining due"); ?></th>
                         <td align="right"><?php echo $order->formatPrice($order->getPaidAmount() - $order->getTotal()); ?></td>
                     </tr>
                 <?php endif; ?>
             </table>
             <br />
-            <h4 style="margin:0; color: #000000; font-family: Verdana, Arial, Helvetica, sans-serif; font-size: 15px;"><?php echo $this->_('Notes'); ?></h4>
+            <h4 style="margin:0; color: #000000; font-family: Verdana, Arial, Helvetica, sans-serif; font-size: 15px;"><?php echo __('Notes'); ?></h4>
             <table width="100%">
                 <col width="80%" />
                 <col width="20%" />

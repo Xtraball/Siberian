@@ -6,17 +6,17 @@ class Media_Mobile_Gallery_Image_ListController extends Application_Controller_M
         try {
             if ($value_id = $this->getRequest()->getParam('value_id')) {
                 try {
-                    $images = (new Media_Model_Gallery_Image())
+                    $dbGalleries = (new Media_Model_Gallery_Image())
                         ->findAll([
                             'value_id' => $value_id
-                        ]);
+                        ], ['position ASC', 'gallery_id ASC']);
 
                     $galleries = [];
-                    foreach ($images as $image) {
+                    foreach ($dbGalleries as $dbGallery) {
                         $galleries[] = [
-                            'id' => $image->getGalleryId(),
-                            'name' => $image->getLabel() ? $image->getLabel() : $image->getName(),
-                            'type' => $image->getTypeId(),
+                            'id' => $dbGallery->getGalleryId(),
+                            'name' => $dbGallery->getLabel() ? $dbGallery->getLabel() : $dbGallery->getName(),
+                            'type' => $dbGallery->getTypeId(),
                         ];
                     }
 

@@ -4,7 +4,7 @@
 
     $galleries = (new Media_Model_Gallery_Image())->findAll([
         'value_id' => $optionValue->getId()
-    ], 'gallery_id DESC');
+    ], ['position ASC', 'gallery_id ASC']);
 
     $instagram_is_available = $application->getInstagramClientId() && $application->getInstagramToken();
 
@@ -31,7 +31,7 @@
             </h3>
             <div id="albums_found" style="display: none;">
                 <h3 class="title-editor no-border-radius title-feature-indent">
-                    <?php echo __("Choose an album"); ?> :
+                    <?php echo __('Choose an album'); ?> :
                 </h3>
                 <ul id="albums_found_list">
                 </ul>
@@ -39,25 +39,41 @@
 
             <?php echo $this->createPartialHtml('no_item', 'core_view_default', 'application/customization/features/edit/no_item.phtml'); ?>
 
-            <div id="new_images_galery" style="display:none;" class="container-fluid subcontent content-feature">
+            <div id="new_images_galery"
+                 style="display:none;"
+                 class="container-fluid subcontent content-feature">
                 <div id="choose_type">
                     <ul class="list-group">
-                        <li class="color-blue list-group-item btn capitalize" rel="instagram" <?php if(!$instagram_is_available) : ?> onclick="featureNotAvailable()" <?php endif; ?>>
-                            <a href="javascript:void(0);" rel="instagram" class="block select_type<?php if($instagram_is_available) : ?> image_type_select<?php endif; ?>">
-                                <i title="Instagram" class="fa fa-instagram block img_icon"></i>
-                                <p><?php echo __("Instagram") ?></p>
+                        <li class="color-blue list-group-item btn capitalize"
+                            rel="instagram" <?php if(!$instagram_is_available) : ?>
+                            onclick="featureNotAvailable()" <?php endif; ?>>
+                            <a href="javascript:void(0);"
+                               rel="instagram"
+                               class="block select_type<?php if($instagram_is_available) : ?> image_type_select<?php endif; ?>">
+                                <i title="Instagram"
+                                   class="fa fa-instagram block img_icon"></i>
+                                <p><?php echo __('Instagram') ?></p>
                             </a>
                         </li>
-                        <li class="color-blue list-group-item btn capitalize" rel="flickr" <?php if(!$flickrIsAvailable) : ?> onclick="featureNotAvailable()" <?php endif; ?>>
-                            <a href="javascript:void(0);" rel="flickr" class="block select_type<?php if($flickrIsAvailable) : ?> image_type_select<?php endif; ?>">
-                                <i title="flickr" class="fa fa-flickr block img_icon"></i>
-                                <p><?php echo __("Flickr") ?></p>
+                        <li class="color-blue list-group-item btn capitalize"
+                            rel="flickr" <?php if(!$flickrIsAvailable) : ?>
+                            onclick="featureNotAvailable()" <?php endif; ?>>
+                            <a href="javascript:void(0);"
+                               rel="flickr"
+                               class="block select_type<?php if($flickrIsAvailable) : ?> image_type_select<?php endif; ?>">
+                                <i title="flickr"
+                                   class="fa fa-flickr block img_icon"></i>
+                                <p><?php echo __('Flickr') ?></p>
                             </a>
                         </li>
-                        <li class="color-blue list-group-item btn capitalize" rel="custom">
-                            <a href="javascript:void(0);" rel="custom" class="block select_type image_type_select capitalize">
-                                <i title="<?php echo __("My images"); ?>" class="fa fa-camera block img_icon"></i>
-                                <p><?php echo __("My images") ?></p>
+                        <li class="color-blue list-group-item btn capitalize"
+                            rel="custom">
+                            <a href="javascript:void(0);"
+                               rel="custom"
+                               class="block select_type image_type_select capitalize">
+                                <i title="<?php echo __('My images'); ?>"
+                                   class="fa fa-camera block img_icon"></i>
+                                <p><?php echo __('My images') ?></p>
                             </a>
                         </li>
                     </ul>
@@ -65,7 +81,7 @@
 
                 <div id="table_list_images_new"
                      style="display:none"
-                     lass="container-fluid">
+                     class="container-fluid">
                     <div class="row">
                         <div class="col-sm-1"></div>
                         <div class="col-sm-4">
@@ -75,44 +91,81 @@
                             <label id="label_search"><?php echo __('Search') ?> <span class="required-entry required"> *</span> :</label>
                         </div>
                     </div>
-                    <div class="row" rel="list_new">
+                    <div class="row"
+                         rel="list_new">
                         <div class="col-sm-1 img-col color-blue">
-                            <i id="type_picasa" rel="picasa" class="icofont icofont-social-picasa bt-margin type_selected" title="Picasa" style="display:none;" ></i>
-                            <i id="type_instagram" rel="instagram" class="bt-margin type_selected fa fa-instagram" title="Instagram" style="display:none;" ></i>
-                            <i id="type_flickr" rel="flickr" class="bt-margin type_selected fa fa-flickr" title="Flickr" style="display:none;" ></i>
-                            <i id="type_custom" rel="user" class="margin-top-5 type_selected fa fa-camera" title="<?php echo __("My images"); ?>" style="display:none;"></i>
+                            <i id="type_picasa"
+                               rel="picasa"
+                               class="icofont icofont-social-picasa bt-margin type_selected"
+                               title="Picasa"
+                               style="display:none;" ></i>
+                            <i id="type_instagram"
+                               rel="instagram"
+                               class="bt-margin type_selected fa fa-instagram"
+                               title="Instagram"
+                               style="display:none;" ></i>
+                            <i id="type_flickr"
+                               rel="flickr"
+                               class="bt-margin type_selected fa fa-flickr"
+                               title="Flickr"
+                               style="display:none;" ></i>
+                            <i id="type_custom"
+                               rel="user"
+                               class="margin-top-5 type_selected fa fa-camera"
+                               title="<?php echo __("My images"); ?>"
+                               style="display:none;"></i>
                         </div>
                         <div class="col-sm-4">
                             <span>
-                                <input id="name-input" type="text" name="name" value="" placeholder="<?php echo __('Gallery Name') ?>" class="input-flat required" />
+                                <input id="name-input"
+                                       type="text"
+                                       name="name"
+                                       value=""
+                                       placeholder="<?php echo __('Gallery Name') ?>"
+                                       class="input-flat required" />
                             </span>
 
 
                         </div>
                         <div class="col-sm-4">
-                            <button type="button" id="input_custom"
-                                    class="new_search_input search_input upload_picture btn btn-block required color-blue" rel="list_new">
+                            <button type="button"
+                                    id="input_custom"
+                                    class="new_search_input search_input upload_picture btn btn-block required color-blue"
+                                    rel="list_new">
                                 <?php echo __('Send your pictures') ?>
                             </button>
 
-                            <input type="text" id="input_picasa" name="param" value=""
-                                   placeholder="<?php echo __('Parameter') ?>" class="new_search_input search_input input-flat required" />
-                            <input type="hidden" id="input_instagram" name="param_instagram" value=""
+                            <input type="text"
+                                   id="input_picasa"
+                                   name="param"
+                                   value=""
+                                   placeholder="<?php echo __('Parameter') ?>"
+                                   class="new_search_input search_input input-flat required" />
+                            <input type="hidden"
+                                   id="input_instagram"
+                                   name="param_instagram"
+                                   value=""
                                    class="new_search_input search_input" />
-                            <input type="text" id="input_flickr" name="param_flickr" value=""
-                                   placeholder="<?php echo __('Flickr') ?>" class="new_search_input search_input input-flat required" />
+                            <input type="text"
+                                   id="input_flickr"
+                                   name="param_flickr"
+                                   value=""
+                                   placeholder="<?php echo __('Flickr') ?>"
+                                   class="new_search_input search_input input-flat required" />
                         </div>
                         <div class="col-sm-3" style="text-align: right;">
                             <input type="hidden" name="value_id" value="<?php echo $optionValue->getId(); ?>" />
                             <input type="hidden" id="label" name="label" value="" />
                             <button type="button" class="bt-margin validate btn save_image btn color-blue" rel="create"><?php echo __('Save'); ?></button>
                         </div>
+                        </div>
                     </div>
-                </div>
             </div>
         </div>
 
-        <div id="edit_images" style="display:none;" class="margin-bkg">
+        <div id="edit_images"
+             style="display:none;"
+             class="margin-bkg">
             <i class="icon-caret-up"></i>
 
             <h3 class="title-editor no-border-radius title-feature-indent">
@@ -125,8 +178,15 @@
             </h3>
 
             <div class="container-fluid first-row-feature content-feature">
-                <button type="button" id="trigger_upload_image" class="btn color-blue btn-block"><?php echo __('Browse') ?></button>
-                <input id="upload_image" style="display:none;" multiple type="file" name="files[]" data-url="<?php echo $this->getUrl('template/crop/upload'); ?>" />
+                <button type="button"
+                        id="trigger_upload_image"
+                        class="btn color-blue btn-block"><?php echo __('Browse') ?></button>
+                <input id="upload_image"
+                       style="display:none;"
+                       multiple
+                       type="file"
+                       name="files[]"
+                       data-url="<?php echo $this->getUrl('template/crop/upload'); ?>" />
 
                 <h4 class="conditions">
                     <?php echo __('Maximum size : 2000*2000 px - Allowed filetypes : jpg and png'); ?>
@@ -207,51 +267,56 @@
             <div id="existing_items_section">
                 <h3 class="title-editor no-border-radius title-feature-indent">
                     <?php echo __('Manage content'); ?>
-                    <button type="button" class="toggle_design color-blue pull-right bt-header-right btn" id="toggle_existing_items">
+                    <button type="button"
+                            class="toggle_design color-blue pull-right bt-header-right btn"
+                            id="toggle_existing_items">
                         <i class="fa fa-angle-down"></i>
                     </button>
                 </h3>
-                <div id="existing_items" style="display:none;" class="container-fluid first-row-feature content-feature">
-                    <div id="table_list_images">
-                        <div class="row container-fluid">
-                            <div class="col-sm-1"></div>
-                            <div class="col-sm-4">
-                                <label>
-                                    <?php echo __('Gallery Name') ?>
-                                    <span class="required-entry required"> *</span> :</label>
-                            </div>
-                            <div class="col-sm-5">
-                                <label><?php echo __('Search') ?> <span class="required-entry required"> *</span> :</label>
-                            </div>
-                        </div>
+                <div id="existing_items"
+                     style="display:none;"
+                     class="container-fluid first-row-feature content-feature">
+                    <table class="table table-striped"
+                           id="table_list_images">
+                        <thead>
+                            <tr>
+                               <th style="width: 32px;"></th>
+                               <th style="width: 48px;"><?php echo p__('media', 'Type') ?></th>
+                               <th><?php echo p__('media', 'Name') ?></th>
+                               <th><?php echo p__('media', 'Library / Search') ?></th>
+                               <th></th>
+                            </tr>
+                        </thead>
+                        <tbody class="gallery-sorter">
                         <?php
-                            $albums = [];
-                            $currentGalleryName = null;
-                            foreach ($galleries as $gallery) {
-                                // Here we store fb gallery information for performance purpose!
-                                try {
-                                    if ($gallery->getTypeId() === 'picasa') {
-                                        if ($currentGalleryName !== $gallery->getName()) {
-                                            $currentGalleryName = $gallery->getName();
-                                            $albums = (new Media_Model_Gallery_Image_Picasa())
-                                                ->find([
-                                                    'gallery_id' => $gallery->getGalleryId()
-                                                ])->findAlbums();
-                                        }
+                        $albums = [];
+                        $currentGalleryName = null;
+                        foreach ($galleries as $gallery) {
+                            // Here we store fb gallery information for performance purpose!
+                            try {
+                                if ($gallery->getTypeId() === 'picasa') {
+                                    if ($currentGalleryName !== $gallery->getName()) {
+                                        $currentGalleryName = $gallery->getName();
+                                        $albums = (new Media_Model_Gallery_Image_Picasa())
+                                            ->find([
+                                                'gallery_id' => $gallery->getGalleryId()
+                                            ])->findAlbums();
                                     }
-                                } catch (Exception $e) {
-                                    $albums = [];
                                 }
-
-
-                                echo $this->getLayout()->addPartial('row_' . $gallery->getId(), 'admin_view_default', 'media/application/gallery/image/edit/row.phtml')
-                                    ->setCurrentImageGallery($gallery)
-                                    ->setCurrentOptionValue($optionValue)
-                                    ->setAlbums($albums)
-                                    ->toHtml();
+                            } catch (Exception $e) {
+                                $albums = [];
                             }
+
+
+                            echo $this->getLayout()->addPartial('row_' . $gallery->getId(), 'admin_view_default', 'media/application/gallery/image/edit/row.phtml')
+                                ->setCurrentImageGallery($gallery)
+                                ->setCurrentOptionValue($optionValue)
+                                ->setAlbums($albums)
+                                ->toHtml();
+                        }
                         ?>
-                    </div>
+                        </tbody>
+                    </table>
                 </div>
             </div>
         </div>
@@ -345,10 +410,7 @@
         $('.save_image').on('click', function() {
             var that = $(this);
             var galleryId = that.attr('rel');
-            var formLine = that.parents('div.row_image');
-            if (galleryId === 'create') {
-                formLine = that.parents('div.row');
-            }
+            var formLine = that.parents('tr');
 
             var error = false;
 
@@ -370,7 +432,7 @@
                 return false;
             }
 
-            var formData = $('div.row_image[rel="' + galleryId + '"], #list_' + galleryId)
+            var formData = $('tr[rel="' + galleryId + '"], #list_' + galleryId)
                 .find('input, select, textarea')
                 .serializeArray();
 
@@ -419,7 +481,7 @@
                                 el.addClass('item-selected');
 
                                 // Set album_id value for form!
-                                $('.row_image[rel="' + galleryId + '"]')
+                                $('tr[rel="' + galleryId + '"]')
                                     .find('input[name="album_id"]')
                                     .val(el.attr('data-albumid'));
                             });
@@ -431,14 +493,17 @@
                                 animation: 'none'
                             });
                         }
-
-
                     } else {
                         page.reload();
                     }
                 },
-                null,
-                true
+                function (response) {
+                    try {
+                        feature_form_error(JSON.parse(response.responseText).message);
+                    } catch (e) {
+                        feature_form_error('Unknown error.');
+                    }
+                }
             );
         });
 
@@ -454,8 +519,8 @@
                 cancelButtonText: '<?php echo __js('Cancel', "'"); ?>',
                 buttons: true
             }, function() {
-                var gallery = that.parents('.row_image');
-                var formData = $('div.row_image[rel="' + gallery.attr('rel') + '"]')
+                var gallery = that.parents('tr');
+                var formData = $('tr[rel="' + gallery.attr('rel') + '"]')
                     .find('input, select, textarea')
                     .serializeArray();
 
@@ -549,13 +614,10 @@
             });
 
             $('.upload_picture').click(function() {
-                if ($('#edit_images').is(':visible')) {
-                    slideUp();
-                } else {
-                    slideDown(this);
-                    if (!$('button#trigger_upload_image').is(':visible')) {
-                        $('input#upload_image').show();
-                    }
+                slideUp();
+                slideDown(this);
+                if (!$('button#trigger_upload_image').is(':visible')) {
+                    $('input#upload_image').show();
                 }
             });
 
@@ -662,6 +724,47 @@
 
         bindSortable();
 
+        // Sorter for galleries!
+        var bindSortableGalleries = function () {
+            $('.gallery-sorter').sortable({
+                handle: '.gallery-handle',
+                axis: 'y',
+                items: ' .gallery-item',
+                opacity: 0.85,
+                stop: function() {
+                    let galleries = $('tr.gallery-item[rel]');
+                    let data = {
+                        indexes: []
+                    };
+                    let index = 1;
+                    galleries.each(function() {
+                        let el = $(this);
+                        data.indexes.push(el.attr('rel'));
+                    });
+
+                    data.value_id = '<?php echo $optionValue->getId() ?>';
+
+                    formget(
+                        '/media/application_gallery_image/sort',
+                        data,
+                        function(response) {
+                            feature_form_success(response.message);
+                        },
+                        function(response) {
+                            try {
+                                feature_form_error(JSON.parse(response.responseText).message);
+                            } catch (e) {
+                                feature_form_error('Unknown error.');
+                            }
+                        },
+                        false
+                    );
+                }
+            });
+        };
+
+        bindSortableGalleries();
+
     </script>
     <style>
         .media.images #choose_type ul {
@@ -706,9 +809,6 @@
         }
         #list_images ul li a {
             margin-top: 2em;
-        }
-        .row_image {
-            margin-bottom: 10px;
         }
         #list_new .row .control .btn.color-blue {
             margin-top: 1.9em;

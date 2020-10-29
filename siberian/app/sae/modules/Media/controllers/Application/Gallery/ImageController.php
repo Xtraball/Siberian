@@ -20,6 +20,11 @@ class Media_Application_Gallery_ImageController extends Application_Controller_D
                 'homepage_app_#APP_ID#',
             ],
         ],
+        'sort' => [
+            'tags' => [
+                'homepage_app_#APP_ID#',
+            ],
+        ],
         'delete' => [
             'tags' => [
                 'homepage_app_#APP_ID#',
@@ -212,7 +217,30 @@ class Media_Application_Gallery_ImageController extends Application_Controller_D
                 throw new Siberian_Exception(__('Missing form data!'));
             }
 
-        } catch(Exception $e) {
+        } catch (\Exception $e) {
+            $payload = [
+                'error' => true,
+                'message' => $e->getMessage(),
+            ];
+        }
+
+        $this->_sendJson($payload);
+    }
+
+    public function sortAction () {
+        try {
+            $request = $this->getRequest();
+            $data = $request->getPost();
+
+            $position = 1;
+            foreach ($data['indexes'] as $galleryId) {
+                (new \Media_Model_Gallery_Image())->updatePosition($galleryId, $position++ );
+            }
+            $payload = [
+                'success' => true,
+                'message' => p__('media', 'Galleries order saved!'),
+            ];
+        } catch (\Exception $e) {
             $payload = [
                 'error' => true,
                 'message' => $e->getMessage(),
