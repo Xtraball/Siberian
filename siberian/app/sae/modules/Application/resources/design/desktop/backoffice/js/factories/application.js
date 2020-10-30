@@ -246,6 +246,17 @@ App.factory('Application', function($http, Url, DataLoader) {
         });
     };
 
+    factory.saveAppOwner = function ( app_id, owner_id) {
+        return $http({
+            method: 'POST',
+            data: {
+                app_id: app_id,
+                owner_id: owner_id
+            },
+            url: Url.get('application/backoffice_view/saveowner'),
+            responseType: 'json'
+        });
+    };
     /** Target MAE/PE */
     factory.deleteApplication = function (appId) {
         return $http({
@@ -272,3 +283,4 @@ App.factory('Application', function($http, Url, DataLoader) {
 
     return factory;
 });
+

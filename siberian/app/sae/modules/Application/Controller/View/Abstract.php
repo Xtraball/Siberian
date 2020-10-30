@@ -62,6 +62,46 @@ abstract class Application_Controller_View_Abstract extends Backoffice_Controlle
             $admin_owner = $application->getOwner();
         }
 
+        // if siberian is pe get all admin and add a select menu
+        if (Siberian\Version::is('PE')) {
+
+            //used to show white label domain and custom smtp (green buttons)
+            $owner_whitelabel = (new Whitelabel_Model_Editor())->findAll(
+                ["admin_id = ?" => $admin_owner->getId()]);
+
+            foreach ($owner_whitelabel as $owner_wl){
+                $admin_owner->exist = true;
+                $admin_owner->host = $owner_wl->getHost();
+                $admin_owner->is_active = $owner_wl->getIsActive();
+                $admin_owner->smtp = $owner_wl->getEnableCustomSmtp();
+            }
+
+            // list all platform admin to show them in drop down menu
+            $list_app_admins = (new Admin_Model_Admin())->findAll();
+
+            foreach ($list_app_admins as $app_admin){
+                $owner_whitelabel = (new Whitelabel_Model_Editor())->findAll(
+                    ["admin_id = ?" => $app_admin->getadmin_id()]);
+
+                foreach ($owner_whitelabel as $owner_wl){
+
+                    $app_admin->addData("exist", true);
+                    $app_admin->addData("host", $owner_wl->getHost());
+                    $app_admin->addData("wl_is_active", $owner_wl->getIsActive());
+                    $app_admin->addData("smtp", $owner_wl->getEnableCustomSmtp());
+                }
+                $app_admins[] = [
+                    "admin_id" => $app_admin->getadmin_id(),
+                    "admin_email" => $app_admin-> getEmail(),
+                    "admin_exist" => $app_admin->getExist(),
+                    "admin_host" => $app_admin-> getHost(),
+                    "admin_wl_is_active" => $app_admin-> getWlIsActive(),
+                    "admin_smtp" => $app_admin-> getSmtp()
+                ];
+
+            }
+
+        }
         $admin_list = [];
         foreach ($admins as $admin) {
             $_dataAdmin = $admin;
@@ -70,13 +110,24 @@ abstract class Application_Controller_View_Abstract extends Backoffice_Controlle
             $admin_list[] = $_dataAdmin;
         }
 
-        $admin = [
+        //Replace $admin (not used anyway) by owner so you can't mistake $admin and $owner
+        $owner = [
+            "id" =>  $admin_owner->getId(),
             'name' => $admin_owner->getFirstname() . ' ' . $admin_owner->getLastname(),
             'email' => $admin_owner->getEmail(),
             'company' => $admin_owner->getCompany(),
             'phone' => $admin_owner->getPhone()
         ];
-
+        if (Siberian\Version::is('PE')) {
+            $owner+=
+                ['whitelabel' => [
+                    "exist" => $admin_owner->exist,
+                    "host" => $admin_owner->host,
+                    "is_active" => $admin_owner->is_active,
+                    "smtp" => $admin_owner->smtp
+                ]
+                ];
+        }
 
         $store_categories = Application_Model_Device_Ionic_Ios::getStoreCategeories();
         $devices = [];
@@ -107,7 +158,7 @@ abstract class Application_Controller_View_Abstract extends Backoffice_Controlle
         }
 
         $data = [
-            'admin' => $admin,
+            'owner' => $owner,
             'admin_list' => $admin_list,
             'app_store_icon' => $application->getAppStoreIcon(),
             'google_play_icon' => $application->getGooglePlayIcon(),
@@ -143,6 +194,7 @@ abstract class Application_Controller_View_Abstract extends Backoffice_Controlle
         $data['zip'] = Application_Model_SourceQueue::getPackages($appId);
         $data['queued'] = Application_Model_Queue::getPosition($appId);
         $data['confirm_message_domain'] = __('If your app is already published, changing the URL key or domain will break it. You will have to republish it. Change it anyway?');
+        $data['confirm_message_owner'] = __('You will change the app owner. Are you sure of your choice?');
 
         $application->addData($data);
 
@@ -212,7 +264,7 @@ abstract class Application_Controller_View_Abstract extends Backoffice_Controlle
             'password_filled' => $isFilled,
             'stats' => $appIosAutopublish->getStats(),
         ];
-
+        $data["application"]["list_of_admins"] = $app_admins;
         $this->_sendJson($data);
 
     }
@@ -407,7 +459,7 @@ abstract class Application_Controller_View_Abstract extends Backoffice_Controlle
             }
 
             $application = (new Application_Model_Application())->find($values['app_id']);
-            if (!$application && 
+            if (!$application &&
                 !$application->getId()) {
                 throw new Exception('#783-02: ' . __('An error occurred while saving. Please try again later.'));
             }
@@ -524,7 +576,36 @@ abstract class Application_Controller_View_Abstract extends Backoffice_Controlle
             $this->_sendHtml($data);
         }
     }
+    public function saveownerAction()
+    {
 
+        if ($data = Zend_Json::decode($this->getRequest()->getRawBody())) {
+
+            try {
+                if (!empty($data["app_id"]) && $data["owner_id"] > 0 ){
+                    $application = new Application_Model_Application();
+                    $application->find($data["app_id"]);
+                    $application->setAdminId($data["owner_id"]);
+                    $application->save();
+
+                    $data = [
+                        "success" => 1,
+                        "message" => __("Info successfully saved")
+                    ];
+                }
+                else {
+                    throw new Exception(__("1234: An error occurred while saving. Please try again later."));
+                }
+            } catch (Exception $e) {
+                $data = [
+                    "error" => 1,
+                    "message" => $e->getMessage()
+                ];
+            }
+
+            $this->_sendHtml($data);
+        }
+    }
     public function savebannerAction()
     {
 
@@ -532,7 +613,7 @@ abstract class Application_Controller_View_Abstract extends Backoffice_Controlle
 
             try {
 
-                if (empty($data["app_id"]) OR !is_array($data["devices"]) OR empty($data["devices"])) {
+                if (empty($data["app_id"]) ) {
                     throw new Exception(__("An error occurred while saving. Please try again later."));
                 }
 
@@ -806,5 +887,6 @@ abstract class Application_Controller_View_Abstract extends Backoffice_Controlle
         }
 
     }
+
 
 }
