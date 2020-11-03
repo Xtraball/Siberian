@@ -185,6 +185,7 @@ class Mcommerce_Model_Cart extends Core_Model_Default {
 
         if(!$this->_lines) {
             $line = new Mcommerce_Model_Cart_Line();
+
             $this->_lines = $line->findAll(['cart_id' => $this->getId()]);
         }
 
@@ -206,7 +207,9 @@ class Mcommerce_Model_Cart extends Core_Model_Default {
                 /** @wip #1688 */
                 $price = $option->getPrice();
                 $vat = Siberian_Currency::getVat($option->getPrice(), $product->getTaxRate());
+
                 $priceInclTax = $option->getPrice() + $vat;
+
 
                 $options_datas[] = [
                     'option_id'         => $option->getId(),
@@ -276,7 +279,9 @@ class Mcommerce_Model_Cart extends Core_Model_Default {
     public function getSubtotalInclTax() {
         $total = 0;
         foreach($this->getLines() as $line) {
-            $total += $line->getPriceInclTax() * $line->getQty();
+
+            $total += Mcommerce_Model_Utility::roundPrice($line->getPriceInclTax(), 0) * $line->getQty();
+
         }
 
         //setting it to use getFormatted magic call
@@ -458,7 +463,9 @@ class Mcommerce_Model_Cart extends Core_Model_Default {
 
         foreach($this->getLines() as $line) {
             /** @wip #1688 */
+
             $subtotal_excl_tax += $line->getTotal();
+
             $total_tax += $line->getTotalInclTax() - $line->getTotal();
         }
 
