@@ -411,7 +411,10 @@ try {
     
 " . color('google:test-api-key <apiKey>', 'brown') . "
     Testing a GoogleMaps API key.
-
+    
+" . color('https <on/off>', 'brown') . "
+    Switch redirect to https to on or off
+    
 " . color('help', 'brown') . "
     Prints the current help message.    
 
