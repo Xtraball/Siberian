@@ -191,6 +191,31 @@ try {
                 echo 'Password successfully changed.' . PHP_EOL;
             }
             break;
+        case 'https':
+            if (isset($argv[2])) {
+
+                if ($argv[2] =='on'){
+                    $state = 'true';
+                }
+                elseif($argv[2] =='off'){
+                    $state = 'false';
+                }
+                else{
+                    print('wrong argument: command only accept on or off').PHP_EOL;
+                    die;
+                }
+            } else {
+                print("missing argument: command is https [on/off]").PHP_EOL;
+                die;
+            }
+
+            $configContent = file_get_contents('./config.php');
+            $configContent = preg_replace('#\$_config\[("|\')redirect_https("|\')\] = ("|)(true|false)("|);#im',
+                '$_config[\'redirect_https\'] = '.$state.';', $configContent);
+            file_put_contents('./config.php', $configContent);
+            echo "https set to $state".PHP_EOL;
+        break;
+
         case 'user:create':
             $userEmail = readline('Input new backoffice user e-mail: ');
             $backofficeUser = (new Backoffice_Model_User())
