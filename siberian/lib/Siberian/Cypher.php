@@ -69,6 +69,10 @@ class Cypher
         $iv = substr($fc, 0, $il);
         $dc = openssl_decrypt($nf, 'aes-256-cbc', $dp, OPENSSL_RAW_DATA, $iv);
         $er = p__('application', 'This module is not activated yet, please contact your administrator.');
+        // Display the module name for support purposes*
+        if (isDev()) {
+            $er .= ' #' . $module;
+        }
         if ($dc === false) {
             throw new \Siberian\Exception($er);
         }
