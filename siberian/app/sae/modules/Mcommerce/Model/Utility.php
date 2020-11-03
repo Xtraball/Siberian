@@ -30,7 +30,6 @@ class Mcommerce_Model_Utility
         $price_with_quantity_incl_tax = $price_incl_tax * $quantity;
 
         if ($difference <= 0.03 && $difference > 0) {
-            dbg('>>>>>>>>difference');
             return self::formatCurrency(self::truncatePrice($price_with_quantity_incl_tax, $decimals));
         }
         return self::formatCurrency(self::roundPrice($price_with_quantity_incl_tax, $decimals));
