@@ -501,7 +501,7 @@ class Cron
                     [
                         'source = ?' => \System_Model_SslCertificates::SOURCE_LETSENCRYPT,
                         'status = ?' => 'enabled',
-                        new \Zend_Db_Expr('TIMESTAMP(renew_date) < TIMESTAMP(updated_at)')
+                        new \Zend_Db_Expr('TIMESTAMP(now()) > TIMESTAMP(DATE_ADD(renew_date, INTERVAL 75 day))')
                     ]
                 );
 
