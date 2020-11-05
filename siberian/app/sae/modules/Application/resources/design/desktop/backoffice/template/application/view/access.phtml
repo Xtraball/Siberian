@@ -1,39 +1,78 @@
 <sb-section title="'<?php echo __title("Manage Access"); ?>'">
 
-    <p class="help-block"><?php echo __("Manage Admins access feature by feature."); ?></p>
+    <form ng-submit="saveAppOwner()" class="ng-scope ng-pristine ng-valid">
+        <div class="form-group col-md-8">
 
+            <label class="control-label">Account owner of this app: {{ application.owner.id }} - {{ application.owner.email }}</label>
+
+            <select class="form-control " name="owner" id="owner"
+                    ng-options="owner.admin_id + ' - '+owner.admin_email + ' - '+ owner.admin_host for owner in application.list_of_admins track by owner.admin_id"
+                    ng-init="tmp_application.selectedOwner = tmp_application.admin_id"
+                    ng-model="tmp_application.selectedOwner">
+                <option value="" >Change app owner</option>
+            </select>
+        </div>
+        <div class="form-group col-md-4 text-right" style="margin-top:24px;">
+            <button type="submit" class="btn btn-primary right">Save</button>
+            <div class="form_loader no loader inner_content small no loader inner_content small ng-hide"
+                 ng-show="is_visible" is_visible="form_loader_is_visible" type="'inner_content'" size="'small'"
+                 animation="'no'">
+            </div>
+        </div>
+
+        <div ng-if="tmp_application.selectedOwner.admin_exist === true" class="col-md-8 alert alert-info " style="display: inline-flex; margin-left:15px;margin-right:-15px;">
+                <span ><?php echo __("Account white label info:");?> </span>
+                <span style="margin-left:10px;" >{{ tmp_application.selectedOwner.admin_host }}</span>
+                <span class="btn btn-sm btn-warning" ng-if="tmp_application.selectedOwner.admin_wl_is_active === '0'" style="margin-left:10px;" ><?php echo __("not active"); ?></span>
+                <span class="btn btn-sm btn-success" ng-if="tmp_application.selectedOwner.admin_wl_is_active === '1'" style="margin-left:10px;" ><?php echo __("active"); ?></span>
+
+                <span style="margin-left:10px;"><?php echo __("SMTP:");?> </span>
+                    <span class="btn btn-sm btn-warning" style="margin-left:10px;"
+                          ng-if="tmp_application.selectedOwner.admin_smtp === '0'"><?php echo __("not active"); ?> </span>
+                    <span class="btn btn-sm btn-success" style="margin-left:10px;"
+                          ng-if="tmp_application.selectedOwner.admin_smtp === '1'"><?php echo __("active"); ?> </span>
+                </span>
+        </div>
+
+    </form>
     <br/>
 
-    <table class="table">
-        <colgroup>
-            <col width="3%">
-            <col width="40%">
-            <col width="30%">
-            <col width="17%">
-        </colgroup>
-        <thead>
-        <tr>
-            <th><?php echo __('Id') ?></th>
-            <th><?php echo __('Name') ?></th>
-            <th><?php echo __('Email') ?></th>
-            <th class="text-right"><?php echo __('Actions') ?></th>
-        </tr>
-        </thead>
-        <tbody>
-        <tr ng-repeat="admin in application.admin_list">
-            <td>
-                <b>#{{ admin.admin_id }}</b>
-            </td>
-            <td>{{ admin.firstname }} {{ admin.lastname }}</td>
-            <td>{{ admin.email }}</td>
-            <td class="text-right">
-                <a href="<?php echo $this->getUrl("admin/backoffice_list/loginas"); ?>/key/{{ admin.key }}/admin_id/{{ admin.admin_id }}"
-                   target="_blank"
-                   class="btn btn-sm btn-info"><?php echo __('IMPERSONATE') ?></a>
-                <a href="<?php echo $this->getUrl("application/backoffice_view_acl"); ?>/app_id/{{ application.app_id }}/admin_id/{{ admin.admin_id }}"
-                   class="btn btn-sm btn-primary"><?php echo __('EDIT') ?></a>
-            </td>
-        </tr>
-        </tbody>
-    </table>
+    <div class="col-md-12">
+        <p class="help-block"><?php echo __("Manage Admins access feature by feature."); ?></p>
+
+        <br/>
+
+        <table class="table">
+            <colgroup>
+                <col width="3%">
+                <col width="40%">
+                <col width="30%">
+                <col width="17%">
+            </colgroup>
+            <thead>
+            <tr>
+                <th><?php echo __('Id') ?></th>
+                <th><?php echo __('Name') ?></th>
+                <th><?php echo __('Email') ?></th>
+                <th class="text-right"><?php echo __('Actions') ?></th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr ng-repeat="admin in application.admin_list">
+                <td>
+                    <b>#{{ admin.admin_id }}</b>
+                </td>
+                <td>{{ admin.firstname }} {{ admin.lastname }}</td>
+                <td>{{ admin.email }}</td>
+                <td class="text-right">
+                    <a href="<?php echo $this->getUrl("admin/backoffice_list/loginas"); ?>/key/{{ admin.key }}/admin_id/{{ admin.admin_id }}"
+                       target="_blank"
+                       class="btn btn-sm btn-info"><?php echo __('IMPERSONATE') ?></a>
+                    <a href="<?php echo $this->getUrl("application/backoffice_view_acl"); ?>/app_id/{{ application.app_id }}/admin_id/{{ admin.admin_id }}"
+                       class="btn btn-sm btn-primary"><?php echo __('EDIT') ?></a>
+                </td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
 </sb-section>
