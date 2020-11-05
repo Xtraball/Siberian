@@ -1,4 +1,6 @@
 <sb-section title="'<?php echo __title("Manage Access"); ?>'">
+    <form ng-submit="saveAppOwner()" class="ng-scope ng-pristine ng-valid">
+        <div class="form-group col-md-6">
 
     <form ng-submit="saveAppOwner()" class="ng-scope ng-pristine ng-valid">
         <div class="form-group col-md-8">
@@ -34,6 +36,40 @@
                 </span>
         </div>
 
+=======
+            <label class="control-label">Account owner of this app</label>
+            <select class="form-control " ng-selected="owner.admin_id === application.admin.id" ng-model="tmp_application.owner" name="owner" id="owner">
+                <option ng-repeat="owner in application.list_of_admins"
+                        ng-selected="owner.admin_id === application.owner.id"
+                        value="{{ owner.admin_id }}">
+                    {{ owner.admin_id }} - {{ owner.admin_email }} - {{ owner.admin_host }}
+                </option>
+            </select>
+            <tt>{{ tmp_application.owner }}</tt>
+        </div>
+        <div class="form-group col-md-4" style="margin-top:32px;">
+                <span style="display: inline-flex;"
+                      ng-if="application.owner.whitelabel.exist === true"> <?php echo __("White Label"); ?>:&nbsp;  {{ application.admin.whitelabel.host }}&nbsp; <span/>
+                    <span class="btn btn-sm btn-warning"
+                          ng-if="application.owner.whitelabel.is_active === '0'"><?php echo __("not active"); ?> </span>
+                    <span class="btn btn-sm btn-success"
+                          ng-if="application.owner.whitelabel.is_active === '1'"><?php echo __("active"); ?> </span>
+                <br/>
+                    <span style="display: inline-flex;margin-left:20px;"><?php echo __("Custom SMTP"); ?>:&nbsp;</span>
+                        <span class="btn btn-sm btn-warning"
+                              ng-if="application.owner.whitelabel.smtp === '0'"><?php echo __("not active"); ?> </span>
+                        <span class="btn btn-sm btn-success"
+                              ng-if="application.owner.whitelabel.smtp === '1'"><?php echo __("active"); ?> </span>
+        </div>
+        <div class="form-group col-md-2 text-right" style="margin-top:24px;">
+            <button type="submit" class="btn btn-primary right">Save</button>
+            <div class="form_loader no loader inner_content small no loader inner_content small ng-hide"
+                 ng-show="is_visible" is_visible="form_loader_is_visible" type="'inner_content'" size="'small'"
+                 animation="'no'">
+
+            </div>
+
+        </div>
     </form>
     <br/>
 
