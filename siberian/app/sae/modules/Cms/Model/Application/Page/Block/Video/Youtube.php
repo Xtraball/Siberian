@@ -120,7 +120,7 @@ class Cms_Model_Application_Page_Block_Video_Youtube extends Core_Model_Default
                     }
 
                 } else if ($type === 'video_id') {
-                    return $this->getList($search, 'search', search);
+                    return $this->getList($search, 'search', $youtubeKey);
                 }
 
             } catch (Exception $e) {
