@@ -52,7 +52,6 @@ abstract class Application_Controller_View_Abstract extends Backoffice_Controlle
 
 
         $admin = new Admin_Model_Admin();
-
         if (Siberian_Version::is('SAE')) {
             $admins = $admin->findAll()->toArray();
             $admin_owner = $admin;
@@ -62,46 +61,43 @@ abstract class Application_Controller_View_Abstract extends Backoffice_Controlle
             $admin_owner = $application->getOwner();
         }
 
-        // if siberian is pe get all admin and add a select menu
-        if (Siberian\Version::is('PE')) {
+        //used to show white label domain and custom smtp (green buttons)
+        //$owner_whitelabel = (new Whitelabel_Model_Editor())->findAll(
+        //    ["admin_id = ?" => $admin_owner->getId()]);
 
-            //used to show white label domain and custom smtp (green buttons)
-            $owner_whitelabel = (new Whitelabel_Model_Editor())->findAll(
-                ["admin_id = ?" => $admin_owner->getId()]);
+        //foreach ($owner_whitelabel as $owner_wl) {
+        //    $admin_owner->exist = true;
+        //    $admin_owner->host = $owner_wl->getHost();
+        //    $admin_owner->is_active = $owner_wl->getIsActive();
+        //    $admin_owner->smtp = $owner_wl->getEnableCustomSmtp();
+        //}
 
-            foreach ($owner_whitelabel as $owner_wl) {
-                $admin_owner->exist = true;
-                $admin_owner->host = $owner_wl->getHost();
-                $admin_owner->is_active = $owner_wl->getIsActive();
-                $admin_owner->smtp = $owner_wl->getEnableCustomSmtp();
-            }
-
-            // list all platform admin to show them in drop down menu
-            $list_app_admins = (new Admin_Model_Admin())->findAll();
-
-            foreach ($list_app_admins as $app_admin) {
+        // list all platform admin to show them in drop down menu
+        $appAdmins = [];
+        $listAppAdmins = (new Admin_Model_Admin())->findAll();
+        foreach ($listAppAdmins as $appAdmin) {
+            if (Siberian\Version::is('PE')) {
                 $owner_whitelabel = (new Whitelabel_Model_Editor())->findAll(
-                    ["admin_id = ?" => $app_admin->getadmin_id()]);
+                    ['admin_id = ?' => $appAdmin->getadmin_id()]);
 
                 foreach ($owner_whitelabel as $owner_wl) {
-
-                    $app_admin->addData("exist", true);
-                    $app_admin->addData("host", $owner_wl->getHost());
-                    $app_admin->addData("wl_is_active", $owner_wl->getIsActive());
-                    $app_admin->addData("smtp", $owner_wl->getEnableCustomSmtp());
+                    $appAdmin->addData('exist', true);
+                    $appAdmin->addData('host', $owner_wl->getHost());
+                    //$appAdmin->addData('wl_is_active', $owner_wl->getIsActive());
+                    //$appAdmin->addData('smtp', $owner_wl->getEnableCustomSmtp());
                 }
-                $app_admins[] = [
-                    "admin_id" => $app_admin->getadmin_id(),
-                    "admin_email" => $app_admin->getEmail(),
-                    "admin_exist" => $app_admin->getExist(),
-                    "admin_host" => $app_admin->getHost(),
-                    "admin_wl_is_active" => $app_admin->getWlIsActive(),
-                    "admin_smtp" => $app_admin->getSmtp()
-                ];
-
             }
 
+            $appAdmins[] = [
+                'admin_id' => $appAdmin->getadmin_id(),
+                'admin_email' => $appAdmin->getEmail(),
+                'admin_exist' => $appAdmin->getExist(),
+                'admin_host' => $appAdmin->getHost(),
+                //'admin_wl_is_active' => $appAdmin->getWlIsActive(),
+                //"admin_smtp" => $appAdmin->getSmtp()
+            ];
         }
+        
         $admin_list = [];
         foreach ($admins as $admin) {
             $_dataAdmin = $admin;
@@ -265,7 +261,7 @@ abstract class Application_Controller_View_Abstract extends Backoffice_Controlle
             'password_filled' => $isFilled,
             'stats' => $appIosAutopublish->getStats(),
         ];
-        $data["application"]["list_of_admins"] = $app_admins;
+        $data["application"]["list_of_admins"] = $appAdmins;
         $this->_sendJson($data);
 
     }

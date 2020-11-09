@@ -1,5 +1,10 @@
+<?php
+use Siberian\Version;
+
+?>
 <sb-section title="'<?php echo __title("Manage Access"); ?>'">
 
+    <?php if (Version::is(['MAE', 'PE'])): ?>
     <div class="row">
         <div class="col-md-12">
             <h4 class="section-title "><?php echo p__('backoffice_application', 'Application owner'); ?></h4>
@@ -44,6 +49,7 @@
     </div>
 
     <br />
+    <?php endif; ?>
 
     <div class="row">
         <div class="col-md-12">
@@ -81,9 +87,11 @@
                                    class="btn btn-sm btn-info"><?php echo __('IMPERSONATE') ?></a>
                                 <a href="<?php echo $this->getUrl("application/backoffice_view_acl"); ?>/app_id/{{ application.app_id }}/admin_id/{{ admin.admin_id }}"
                                    class="btn btn-sm btn-primary"><?php echo __('EDIT') ?></a>
+                                <?php if (Version::is(['MAE', 'PE'])): ?>
                                 <a ng-if="admin.admin_id != application.owner.id"
                                    ng-click="removeAppAdmin(application.app_id, admin.admin_id )"
                                    class="btn btn-sm btn-danger"><?php echo __('DELETE') ?></a>
+                                <?php endif; ?>
                             </td>
                         </tr>
                     </tbody>
