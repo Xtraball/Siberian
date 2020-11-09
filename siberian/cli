@@ -192,28 +192,40 @@ try {
             }
             break;
         case 'https':
-            if (isset($argv[2])) {
+            if (!isset($argv[2])) {
+                echo 'Valid arguments are: on, off, 0, 1, true, false' . PHP_EOL;
+                die();
+            }
 
-                if ($argv[2] =='on'){
+            switch ($argv[2]) {
+                case 'on':
+                case '1':
+                case 'true':
                     $state = 'true';
-                }
-                elseif($argv[2] =='off'){
+                    break;
+                case 'off':
+                case '0':
+                case 'false':
                     $state = 'false';
-                }
-                else{
-                    print('wrong argument: command only accept on or off').PHP_EOL;
-                    die;
-                }
-            } else {
-                print("missing argument: command is https [on/off]").PHP_EOL;
-                die;
+                    break;
+
+                default:
+                    echo 'Valid arguments are: on, off, 0, 1, true, false' . PHP_EOL;
+                    die();
             }
 
             $configContent = file_get_contents('./config.php');
-            $configContent = preg_replace('#\$_config\[("|\')redirect_https("|\')\] = ("|)(true|false)("|);#im',
-                '$_config[\'redirect_https\'] = '.$state.';', $configContent);
+            // Check if `redirect_https` is present first
+            if (strpos($configContent, 'redirect_https') === false) {
+                $configContent = $configContent . "\n\n" . '$_config[\'redirect_https\'] = ' . $state . ';';
+            } else {
+                $configContent = preg_replace('#\$_config\[("|\')redirect_https("|\')\] = ("|)(true|false)("|);#im',
+                    '$_config[\'redirect_https\'] = ' . $state . ';', $configContent);
+            }
+
             file_put_contents('./config.php', $configContent);
-            echo "https set to $state".PHP_EOL;
+
+            echo 'Soft HTTP>HTTPS redirection set to ' . $state . PHP_EOL;
         break;
 
         case 'user:create':
