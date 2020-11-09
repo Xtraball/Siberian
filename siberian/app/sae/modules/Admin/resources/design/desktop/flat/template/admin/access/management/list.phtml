@@ -25,19 +25,36 @@ $admins = $admin->findAll(array('parent_id' => $this->getAdmin()->getId()));
                         <div class="col-md-12">
                             <table id="sb-tour-table-account"
                                    class="table table-striped account_list sb-tour">
-                                <col width="30%" />
-                                <col width="30%" />
-                                <col width="30%" />
+                                <col width="15%" />
+                                <col width="15%" />
+                                <col width="15%" />
+                                <col width="15%" />
+                                <col width="10%" />
+                                <col width="10%" />
+                                <col width="10%" />
                                 <col width="10%" />
                                 <tr>
+                                    <th class="border-blue"><?php echo __('Name'); ?></th>
                                     <th class="border-blue"><?php echo __('Email'); ?></th>
+                                    <th class="border-blue"><?php echo __('Address'); ?></th>
+                                    <th class="border-blue"><?php echo __('Phone'); ?></th>
+                                    <th class="border-blue"><?php echo __('Company'); ?></th>
                                     <th class="border-blue"><?php echo __('Created at'); ?></th>
                                     <th class="border-blue"><?php echo __('Updated at'); ?></th>
                                     <th class="border-blue"></th>
                                 </tr>
                                 <?php foreach($admins as $admin) : ?>
                                 <tr id="row_account_<?php echo $admin->getId(); ?>">
+                                    <td><?php echo $admin->getFirstname() . ' ' .$admin->getLastname(); ?></td>
                                     <td><?php echo $admin->getEmail(); ?></td>
+                                    <td>
+                                        <?php
+                                        $address2 = $admin->getAddress2() ? $admin->getAddress2() . '<br />' : '';
+                                        echo implode('', [$admin->getAddress(), '<br />', $address2, $admin->getZipCode(), ' ', $admin->getCity()]);
+                                        ?>
+                                    </td>
+                                    <td><?php echo $admin->getPhone() ?? '-'; ?></td>
+                                    <td><?php echo $admin->getCompany() ?? '-'; ?></td>
                                     <td><?php echo $admin->getFormattedCreatedAt(); ?></td>
                                     <td><?php echo $admin->getFormattedUpdatedAt(); ?></td>
                                     <td class="text-right">
