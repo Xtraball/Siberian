@@ -53,7 +53,7 @@ class Mcommerce_Model_Cart_Line extends Core_Model_Default {
         /** @wip #1688 */
         $total = $price;
         $vat = Siberian_Currency::getVat($price, $this->getTaxRate());
-        $totalInclTax = $total + $vat;
+        $totalInclTax = Mcommerce_Model_Utility::roundPrice($unitPriceInclTax, 2) * $this->getQty();
 
         $this->setPrice($unitPrice)
             ->setPriceInclTax($unitPriceInclTax)
