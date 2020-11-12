@@ -12,39 +12,64 @@ $admins = $admin->findAll(array('parent_id' => $this->getAdmin()->getId()));
                 </h3>
                 <div class="subcontent content-color container-fluid">
                     <div class="form-group">
-                        <div class="col-md-12">
-                            <button id="sb-tour-add-account" class="color-blue btn sb-tour" onclick="window.location = '<?php echo $this->getUrl('admin/access_management/new'); ?>'">
-                                <?php echo __("Add"); ?>
+                        <div class="col-md-12 text-right">
+                            <button id="sb-tour-add-account"
+                                    class="color-blue btn sb-tour"
+                                    onclick="window.location = '<?php echo $this->getUrl('admin/access_management/new'); ?>'">
+                                <?php echo __('Create a new user'); ?>
                             </button>
                         </div>
                     </div>
                     <div class="form-group">
                         <?php if(count($admins)): ?>
                         <div class="col-md-12">
-                            <table id="sb-tour-table-account" class="table account_list sb-tour">
-                                <col width="30%" />
-                                <col width="30%" />
-                                <col width="30%" />
+                            <table id="sb-tour-table-account"
+                                   class="table table-striped account_list sb-tour">
+                                <col width="15%" />
+                                <col width="15%" />
+                                <col width="15%" />
+                                <col width="15%" />
+                                <col width="10%" />
+                                <col width="10%" />
+                                <col width="10%" />
                                 <col width="10%" />
                                 <tr>
-                                    <th class="border-blue"><?php echo $this->_('Email'); ?></th>
-                                    <th class="border-blue"><?php echo $this->_('Created at'); ?></th>
-                                    <th class="border-blue"><?php echo $this->_('Updated at'); ?></th>
+                                    <th class="border-blue"><?php echo __('Name'); ?></th>
+                                    <th class="border-blue"><?php echo __('Email'); ?></th>
+                                    <th class="border-blue"><?php echo __('Address'); ?></th>
+                                    <th class="border-blue"><?php echo __('Phone'); ?></th>
+                                    <th class="border-blue"><?php echo __('Company'); ?></th>
+                                    <th class="border-blue"><?php echo __('Created at'); ?></th>
+                                    <th class="border-blue"><?php echo __('Updated at'); ?></th>
                                     <th class="border-blue"></th>
                                 </tr>
                                 <?php foreach($admins as $admin) : ?>
                                 <tr id="row_account_<?php echo $admin->getId(); ?>">
+                                    <td><?php echo $admin->getFirstname() . ' ' .$admin->getLastname(); ?></td>
                                     <td><?php echo $admin->getEmail(); ?></td>
+                                    <td>
+                                        <?php
+                                        $address2 = $admin->getAddress2() ? $admin->getAddress2() . '<br />' : '';
+                                        echo implode('', [$admin->getAddress(), '<br />', $address2, $admin->getZipCode(), ' ', $admin->getCity()]);
+                                        ?>
+                                    </td>
+                                    <td><?php echo $admin->getPhone() ?? '-'; ?></td>
+                                    <td><?php echo $admin->getCompany() ?? '-'; ?></td>
                                     <td><?php echo $admin->getFormattedCreatedAt(); ?></td>
                                     <td><?php echo $admin->getFormattedUpdatedAt(); ?></td>
-                                    <td>
+                                    <td class="text-right">
                                         <div>
-                                            <a id="admin_edit_<?php echo $admin->getId(); ?>" href="<?php echo $this->getUrl('admin/access_management/edit', array('admin_id' => $admin->getId())); ?>">
-                                                <i class="fa fa-pencil"></i>
+                                            <a id="admin_edit_<?php echo $admin->getId(); ?>"
+                                               class="btn btn-xs color-blue"
+                                               href="<?php echo $this->getUrl('admin/access_management/edit', array('admin_id' => $admin->getId())); ?>">
+                                                <?php echo __('EDIT') ?>
                                             </a>
                                             <?php if($admin->getParentId()) : ?>
-                                            <a id="admin_delete_<?php echo $admin->getId(); ?>" class="icon delete_account" href="<?php echo $this->getUrl('admin/access_management/delete', array('admin_id' => $admin->getId())); ?>" rel="<?php echo $admin->getId(); ?>">
-                                                <i class="fa fa-times"></i>
+                                            <a id="admin_delete_<?php echo $admin->getId(); ?>"
+                                               class="btn btn-xs btn-danger icon delete_account"
+                                               href="<?php echo $this->getUrl('admin/access_management/delete', array('admin_id' => $admin->getId())); ?>"
+                                               rel="<?php echo $admin->getId(); ?>">
+                                                <?php echo __('DELETE') ?>
                                             </a>
                                             <?php endif; ?>
                                         </div>
@@ -65,7 +90,10 @@ $admins = $admin->findAll(array('parent_id' => $this->getAdmin()->getId()));
     </div>
 </div>
 <style>
-    .account_list th, .account_list td{padding:5px}
+    .account_list th,
+    .account_list td{
+        padding: 5px;
+    }
 </style>
 <script type="text/javascript">
     $(document).ready(function() {

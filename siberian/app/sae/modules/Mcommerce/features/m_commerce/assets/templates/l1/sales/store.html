@@ -27,16 +27,29 @@
 
             <ion-radio class="radio-custom"
                        ng-model="selected_store.id"
-                       ng-value="'{{ store.id }}'"
+                       ng-value="store.id"
                        ng-repeat="store in stores"
+                       ng-if="store.id"
                        ng-click="chooseStore(); right_button.action()">
-                {{ store.name }}
-                <br />
-                <span ng-if="store.min_amount && store.min_amount>0">{{ ::'Min. amount' | translate }} {{ store.formatted_min_amount }}</span>
+                <span>
+                    {{ store.name }}
+                    <br />
+                    <span ng-if="store.min_amount && store.min_amount>0">{{ ::'Min. amount' | translate }} {{ store.formatted_min_amount }}</span>
+                </span>
             </ion-radio>
         </ion-list>
 
     </ion-content>
+
+    <style type="text/css">
+        /** CSS Fix for Safari weird behavior of :hover that shows the checked tick when it shouldn't */
+        .mcommerce-view .item-radio input + .radio-content .radio-icon {
+            opacity: 0 !important;
+        }
+        .mcommerce-view .item-radio input:checked + .radio-content .radio-icon {
+            opacity: 1 !important;
+        }
+    </style>
 </ion-view>
 
 

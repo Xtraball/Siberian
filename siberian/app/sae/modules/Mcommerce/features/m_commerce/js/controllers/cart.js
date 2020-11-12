@@ -137,9 +137,8 @@ angular
     };
 
     $scope.proceed = function () {
-        Loader.show();
-
         var gotToNext = function () {
+            Loader.hide();
             if (!$scope.object.cart.valid) {
                 $scope.cartIdInvalid();
             } else if ($scope.nb_stores > 1) {
@@ -150,6 +149,7 @@ angular
         };
 
         if ($scope.object.cart && $scope.object.cart.discount_code) {
+            Loader.show($translate.instant('Loading...', 'm_commerce'));
             McommerceCart
                 .adddiscount($scope.object.cart.discount_code, true)
                 .then(function (data) {
@@ -173,6 +173,7 @@ angular
         } else if ($scope.points_data.use_points) {
             if ($scope.points_data.nb_points_used > 0) {
                 if ($scope.points_data.nb_points_used <= $scope.cart.customer_fidelity_points) {
+                    Loader.show($translate.instant('Loading...', 'm_commerce'));
                     McommerceCart.useFidelityPoints($scope.points_data.nb_points_used)
                         .then(function (data) {
                             gotToNext();
@@ -186,6 +187,7 @@ angular
                 }
             }
         } else {
+            Loader.show($translate.instant('Loading...', 'm_commerce'));
             McommerceCart.removeAllDiscount()
                 .then(function (data) {
                     gotToNext();

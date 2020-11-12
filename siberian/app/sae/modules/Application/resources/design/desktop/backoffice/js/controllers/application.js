@@ -49,6 +49,7 @@ App.config(function($routeProvider) {
         angular.extend($scope.application_admob, data.application);
         $scope.mobile_source.design_code = $scope.application.design_code;
         $scope.confirm_message_domain = data.application.confirm_message_domain;
+        $scope.confirm_message_delete_admin = data.application.confirm_message_delete_admin;
     }).finally(function () {
         $scope.content_loader_is_visible = false;
     });
@@ -83,6 +84,69 @@ App.config(function($routeProvider) {
             $scope.iosBuildLicenceError = '';
         }
     });
+
+    $scope.removeAppAdmin = function (appId, adminId) {
+        if (!window.confirm($scope.confirm_message_delete_admin)) {
+            $scope.application_form_loader_is_visible = false;
+            return false;
+        }
+
+        Application
+            .removeAppAdmin(appId, adminId)
+            .success(function (success) {
+                $scope.message.setText(success.message)
+                    .isError(false)
+                    .show()
+                ;
+            }).error(function (error) {
+                $scope.message.setText(error.message)
+                    .isError(true)
+                    .show()
+                ;
+            }).finally(function () {
+                $timeout(function () {
+                    location.reload();
+                }, 1500);
+            });
+    };
+
+    $scope.saveAppOwner = function () {
+
+        $scope.device_form_loader_is_visible = true;
+        if (!window.confirm($scope.confirm_message_owner)) {
+            $scope.application_form_loader_is_visible = false;
+            return false;
+        }
+
+        Application
+            .saveAppOwner($scope.application.id, $scope.tmp_application.selectedOwner)
+            .success(function (data) {
+                $scope.tmp_application.admin_id = $scope.application.admin_id = $scope.tmp_application.selectedOwner;
+
+                if (angular.isObject(data)) {
+                    $scope.message.setText(data.message)
+                        .isError(false)
+                        .show()
+                    ;
+                } else {
+                    $scope.message.setText(Label.save.error)
+                        .isError(true)
+                        .show()
+                    ;
+                }
+            }).error(function (data) {
+            $scope.message.setText(data.message)
+                .isError(true)
+                .show()
+            ;
+        }).finally(function () {
+            $scope.form_loader_is_visible = false;
+
+            $timeout(function () {
+                location.reload();
+            }, 3000);
+        });
+    };
 
     $scope.sendApkToService = function () {
         $scope.generateSource(2, 0, 'apk');

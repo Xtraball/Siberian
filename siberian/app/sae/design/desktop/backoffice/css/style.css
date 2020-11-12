@@ -750,10 +750,11 @@ a.link, button.as-link {
 
 /** DEFAULT TEMPLATE **/
 .wrapper {
-    width: 1140px;
+    width: 1440px;
     margin: 32px auto auto;
     padding-bottom: 30px;
     border-radius: 0 0 10px 10px;
+    max-width: calc(100% - 32px);
 }
 
 .wrapper .title {
