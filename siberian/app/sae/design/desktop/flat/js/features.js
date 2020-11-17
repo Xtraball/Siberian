@@ -570,13 +570,19 @@ var _bindForms = function (default_parent, color, success_cb, error_cb) {
     // Handle file uploads!
     $(default_parent+' button.feature-upload-button[data-uid]').each(function () {
         var element = $(this);
+        if (element.data('bound') === true) {
+            console.log('Uploader is already bound');
+            return;
+        }
+        // Tagging as bound!
+        element.data('bound', true);
         var uid = element.data('uid');
         var input = element.data('input');
         var width = element.data('width');
         var height = element.data('height');
 
         // Delegate the click!
-        function handleInput(prepare) {
+        function handleInput(uid, prepare) {
             var html = button_picture_html
                 .replace(/%FORMCOLOR%/g, formColor)
                 .replace(/%UID%/g, uid);
@@ -611,10 +617,11 @@ var _bindForms = function (default_parent, color, success_cb, error_cb) {
         }
 
         /** Existing files ! */
-        handleInput(true);
+        handleInput(uid, true);
 
+        element.off('click');
         element.on('click', function () {
-            handleInput(false);
+            handleInput(uid, false);
         });
 
         $(default_parent+' input.feature-upload-input[data-uid=\''+uid+'\']').fileupload({
