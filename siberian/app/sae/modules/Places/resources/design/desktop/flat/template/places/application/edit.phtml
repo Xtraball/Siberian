@@ -6,8 +6,8 @@ $page = new Cms_Model_Application_Page();
 $pages = $page->findAllOrderedByRank($optionValue->getId());
 $places_order = !$optionValue->getMetadataValue("places_order");
 
-$delete_form = new Places_Form_Place_Delete();
-$delete_form->setValueId($optionValue->getId());
+$deleteForm = new Places_Form_Place_Delete();
+$deleteForm->setValueId($optionValue->getId());
 
 $appKey = $application->getGooglemapsKey();
 
@@ -157,7 +157,8 @@ $deleteCategoryForm->setValueId($optionValue->getId());
 
 
             <?php if (count($pages) > 0): ?>
-                <div class="feature-block-list">
+                <div id="places_list"
+                     class="feature-block-list">
                     <div class="margin-top">
                         <h3 class="title-editor no-border-radius title-feature-indent">
                             <?php echo __("Manage"); ?>
@@ -201,16 +202,12 @@ $deleteCategoryForm->setValueId($optionValue->getId());
                                         </td>
                                         <td class="delete-action">
                                             <?php
-                                            $delete_form->setAttrib("data-rowid", "place_manage_element_".$place->getId());
-                                            $delete_form
-                                                ->getElement("id")
-                                                ->setValue($place->getId());
+                                                $deleteForm->setAttrib('data-rowid', 'place_manage_element_' . $place->getId());
+                                                $deleteForm->setAttrib('id', 'form-place-id-' . $place->getId());
+                                                $deleteForm->getElement('id')->setValue($place->getId());
+                                                $deleteForm->getElement('option_value_id')->setValue($optionValue->getId());
 
-                                            $delete_form
-                                                ->getElement("option_value_id")
-                                                ->setValue($optionValue->getId());
-
-                                            echo $delete_form;
+                                                echo $deleteForm;
                                             ?>
                                         </td>
                                     </tr>
@@ -259,7 +256,8 @@ $deleteCategoryForm->setValueId($optionValue->getId());
                             </button>
                         </h3>
                         <div class="container-fluid first-row-feature content-feature feature-manage-items">
-                            <table class="table content-white-bkg sb-pager table-categories">
+                            <table id="table_places_list"
+                                   class="table content-white-bkg sb-pager table-categories">
                                 <thead>
                                     <tr class="border-grey">
                                         <th style="width:32px;"></th>
@@ -577,5 +575,6 @@ $deleteCategoryForm->setValueId($optionValue->getId());
         bindForms('#design');
         bindForms('#new_place');
         bindForms('#new_category');
+        bindForms('#places_list');
     });
 </script>

@@ -190,9 +190,7 @@
     $('#saveCrop').submit(function(){
         loader.show('sb-features');
         reload(this, $('#saveCrop').attr('action'), true, function (payload) {
-            console.log("#saveCrop success", payload);
             if (payload.success) {
-                console.log("#saveCrop success", payload);
                 <?php if($this->getIsColorizable() && $this->getIsColorizable() === true) : ?>
                     <?php echo $this->getUploader(); ?>.callback(payload);
                 <?php else : ?>
