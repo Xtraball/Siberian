@@ -1119,7 +1119,7 @@ iframe.sb-cms-source {
 .layout.l3 li img {
     width: 55px;
     height: 55px;
-    height: 100%;
+    max-height: 100%;
     max-width: 100%;
 }
 
