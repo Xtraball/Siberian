@@ -61,6 +61,75 @@ class Places_ApplicationController extends Application_Controller_Default
     }
 
     /**
+     * Remastered edit post, with new models & rules
+     */
+    public function editpostv2Action() {
+        try {
+            $values = $this->getRequest()->getParams();
+            $option_value = $this->getCurrentOptionValue();
+
+            $form = new Cms_Form_Cms();
+            if($form->isValid($values)) {
+                # Create the cms/page/blocks
+                $page_model = new Cms_Model_Application_Page();
+                $page = $page_model->edit_v2($option_value, $values);
+
+                if (!$page || !$page->getId()) {
+                    throw new \Siberian\Exception('#578-00: ' . __('An error occurred while saving your page.'));
+                }
+
+                /** Update touch date, then never expires (until next touch) */
+                $option_value
+                    ->touch()
+                    ->expires(-1);
+
+                $partial = false;
+
+                $message = __('Success.');
+                if (!empty($page->getData('__invalid_blocks'))) {
+                    $partial = true;
+                    $message = __('Partially saved.') . '<br />' .
+                        implode('<br />', $page->getData('__invalid_blocks'));
+                }
+
+                //
+                $isPlaces = $page->getData('__is_places');
+                $hasAddress = $page->getData('__has_address');
+
+                if ($isPlaces && !$hasAddress) {
+                    throw new \Siberian\Exception('#578-10: ' . __('Places requires at least a valid `address` block.'));
+                }
+
+                $payload = [
+                    'success' => true,
+                    'message' => $message,
+                ];
+
+                if ($partial) {
+                    $payload = [
+                        'warning' => true,
+                        'message' => $message,
+                    ];
+                }
+            } else {
+                /** Do whatever you need when form is not valid */
+                $payload = [
+                    'error' => true,
+                    'message' => $form->getTextErrors(),
+                    'errors' => $form->getTextErrors(true),
+                ];
+            }
+        } catch (\Exception $e) {
+            $payload = [
+                'error' => true,
+                'message' => $e->getMessage(),
+            ];
+        }
+
+        $this->_sendJson($payload);
+    }
+
+    /**
      *
      */
     public function updatePlacesAction()

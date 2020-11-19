@@ -1,11 +1,12 @@
 /**
- * @version 4.18.5
+ * @version 4.19.9
  */
 angular
 .module('starter')
 .controller('PlacesCategoriesController', function ($scope, $state, $stateParams, $session, $rootScope, $pwaRequest,
                                                     Places) {
     angular.extend($scope, {
+        is_loading: true,
         value_id: $stateParams.value_id,
         settings: null,
         module_code: 'places',
@@ -107,6 +108,7 @@ angular
             });
 
         $scope.categories = $scope.settings.categories;
+        $scope.is_loading = false;
     });
 
 });
