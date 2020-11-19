@@ -534,7 +534,12 @@ class Cron
 
                                     $isNotInArray = !in_array($hostname, $certificateHosts);
                                     $endWithDot = preg_match("/.*\.$/im", $hostname);
-                                    $r = dns_get_record($hostname, DNS_CNAME);
+                                    if (checkdnsrr($hostname, 'CNAME')) {
+                                        $r = dns_get_record($hostname, DNS_CNAME);
+                                    }
+                                    else { $r= false;
+                                        $this->log("$hostname has no cname");
+                                    }
                                     $isCname = (
                                         !empty($r) &&
                                         isset($r[0]) &&
@@ -567,11 +572,11 @@ class Cron
                                 $diff = $certContent['validTo_time_t'] - time();
 
                                 //$thirty_days = 2592000;
-                                $eightDays = 691200;
+                                $fifteenDays = 1296000;
                                 //$five_days = 432000;
 
-                                # Go with five days for now.
-                                if ($diff < $eightDays) {
+                                # Go with fifteen days for now.
+                                if ($diff < $fifteenDays) {
                                     # Should renew
                                     $renew = true;
                                     $this->log(__("[Let's Encrypt] will expire in %s days.", floor($diff / 86400)));
