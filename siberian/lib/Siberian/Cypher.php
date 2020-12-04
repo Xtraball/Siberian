@@ -51,6 +51,19 @@ class Cypher
     }
 
     /**
+     * @version 4.19.9 - Moves eval from zip packages to Siberian core to prevent AV false positives!
+     *
+     * @param $file
+     * @param $module
+     * @throws Exception
+     * @throws \Zend_Exception
+     */
+    public static function dcExec ($file, $module)
+    {
+        eval(self::dcRun($file, $module));
+    }
+
+    /**
      * @param $file
      * @param $module
      * @return string
