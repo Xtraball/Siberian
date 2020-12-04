@@ -67,15 +67,19 @@ set_include_path(implode(PATH_SEPARATOR, [
 ]));
 
 /**
- *
+ * @debug
  */
 function dbg()
 {
     $args = func_get_args();
     foreach ($args as $arg) {
+        ob_start();
+        print_r($arg);
+        $content = ob_get_clean();
+
         file_put_contents(
             __DIR__ . '/var/tmp/debug.log',
-            date('d/m/Y H:i:s') . ': ' . print_r($arg, true) . PHP_EOL,
+            date('d/m/Y H:i:s') . ': ' . $content . PHP_EOL,
             FILE_APPEND);
     }
 }

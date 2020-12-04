@@ -1,5 +1,7 @@
 <?php
 
+use Siberian\Security;
+
 /**
  * Class Application_Controller_Default
  */
@@ -30,7 +32,10 @@ class Application_Controller_Default extends Admin_Controller_Default
         $session = $this->getSession();
         $application = $this->getApplication();
 
-        if ($request->getControllerName() == 'privacypolicy') {
+        // Guest routes (doesn't require active auth)
+        $allowed = Security::$routesGuest;
+        if ($request->getControllerName() === 'privacypolicy' ||
+            in_array($this->getFullActionName('_'), $allowed, false)) {
             return $this;
         }
 
@@ -54,17 +59,8 @@ class Application_Controller_Default extends Admin_Controller_Default
             return;
         }
 
-        //$excluded = [
-        //    'admin_application_list',
-        //    'admin_application_new',
-        //    'admin_application_set',
-        //    'admin_application_createpost',
-        //    'front_index_noroute',
-        //    'front_index_error',
-        //];
-
         // Test si un id de value est passé en paramètre
-        if ($id = $request->getParam('option_value_id') OR
+        if ($id = $request->getParam('option_value_id') ||
             $id = $request->getParam('value_id')) {
             // Créé et charge l'objet
             $this->_current_option_value = new Application_Model_Option_Value();
