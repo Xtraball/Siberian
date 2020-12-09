@@ -63,8 +63,6 @@ class Event_Mobile_ListController extends Application_Controller_Mobile_Default 
                     $geocoded = false;
                     if (!empty($gKey)) {
                         $geocoded = Geocoding::getLatLng(['address' => $event->getAddress()], $gKey);
-                        dbg($geocoded);
-
                     }
 
                     $data['collection'][] = [
