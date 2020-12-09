@@ -7,34 +7,34 @@ angular
                                                                   $rootScope, McommerceCart, McommerceSalesCustomer,
                                                                   Customer, Dialog, Application, SB) {
 
-    $scope.hasguestmode = false;
+        $scope.hasguestmode = false;
 
-    angular.extend($scope, {
-        dateTime: {
-            format: "MM/DD/YYYY",
-            title: $translate.instant('Date of birth', 'm_commerce')
-        }
-    });
+        angular.extend($scope, {
+            dateTime: {
+                format: "MM/DD/YYYY",
+                title: $translate.instant('Date of birth', 'm_commerce')
+            }
+        });
 
-    $scope.signupEnabled = function () {
-        return Application.myAccount.settings.enable_registration;
-    };
+        $scope.signupEnabled = function () {
+            return Application.myAccount.settings.enable_registration;
+        };
 
-    $scope.customer_login = function () {
-        Customer.display_account_form = false;
-        Customer.loginModal($scope);
-    };
+        $scope.customer_login = function () {
+            Customer.display_account_form = false;
+            Customer.loginModal($scope);
+        };
 
-    $scope.customer_signup = function () {
-        Customer.display_account_form = true;
-        Customer.loginModal($scope);
-    };
+        $scope.customer_signup = function () {
+            Customer.display_account_form = true;
+            Customer.loginModal($scope);
+        };
 
-    $scope.customer_guestmode = function () {
-        Loader.show();
-        var currentTs = Date.now();
-        var guestmail = 'guest' + currentTs + (parseInt(Math.random() * 1000, 10)) + '@guest.com';
-        Customer.register({
+        $scope.customer_guestmode = function () {
+            Loader.show();
+            let currentTs = Date.now();
+            let guestmail = 'guest' + currentTs + (parseInt(Math.random() * 1000, 10)) + '@guest.com';
+            Customer.register({
                 civility: 'm',
                 firstname: 'Guest',
                 lastname: 'Guest',
@@ -49,104 +49,104 @@ angular
                 $scope.is_loading = false;
                 Loader.hide();
             });
-    };
+        };
 
-    $scope.$on(SB.EVENTS.AUTH.loginSuccess, function () {
-        $scope.is_logged_in = true;
-        $scope.loadContent();
-    });
-
-    $scope.$on(SB.EVENTS.AUTH.logoutSuccess, function () {
-        $scope.is_logged_in = false;
-    });
-
-    $scope.is_loading = true;
-    Loader.show();
-    $scope.is_logged_in = Customer.isLoggedIn();
-
-    McommerceCart.value_id = $stateParams.value_id;
-    McommerceSalesCustomer.value_id = $stateParams.value_id;
-    $scope.value_id = $stateParams.value_id;
-
-    $scope.page_title = $translate.instant('My information', 'm_commerce');
-
-    $scope.loadContent = function () {
-        McommerceSalesCustomer
-            .hasGuestMode()
-            .then(function (dataGuestMode) {
-                // Check if had guest mode!
-                if (dataGuestMode.success && dataGuestMode.activated) {
-                    $scope.hasguestmode = true;
-                }
-                // Getting user!
-                McommerceSalesCustomer
-                    .find()
-                    .then(function (data) {
-                        $scope.customer = data.customer;
-                        $scope.settings = data.settings;
-                    }).then(function () {
-                        $scope.is_loading = false;
-                        Loader.hide();
-                    });
-            }, function (data) {
-                if (data && angular.isDefined(data.message)) {
-                    Dialog.alert('Error', data.message, 'OK');
-                }
-            }).then(function () {
-                $scope.is_loading = false;
-                Loader.hide();
-            });
-    };
-
-    $scope.goToDeliveryPage = function () {
-        $state.go('mcommerce-sales-delivery', {
-            value_id: $stateParams.value_id
+        $scope.$on(SB.EVENTS.AUTH.loginSuccess, function () {
+            $scope.is_logged_in = true;
+            $scope.loadContent();
         });
-    };
 
-    $scope.updateCustomerInfos = function () {
-        $rootScope.loginFeature = true;
-        $rootScope.loginFeatureBack = false;
+        $scope.$on(SB.EVENTS.AUTH.logoutSuccess, function () {
+            $scope.is_logged_in = false;
+        });
 
         $scope.is_loading = true;
         Loader.show();
+        $scope.is_logged_in = Customer.isLoggedIn();
 
-        // Associate the customer to the cart and validate the extra fields!
-        McommerceSalesCustomer
-            .updateCustomerInfos({
-                customer: $scope.customer
-            })
-            .then(function (data) {
-                $scope.customer = data.customer;
+        McommerceCart.value_id = $stateParams.value_id;
+        McommerceSalesCustomer.value_id = $stateParams.value_id;
+        $scope.value_id = $stateParams.value_id;
 
-                // Save Customer info
-                Customer
-                    .save($scope.customer)
-                    .then(function (data) {
-                        if (angular.isDefined(data.message)) {
-                        }
-                        $scope.goToDeliveryPage();
-                    }, function (data) {
-                        if (data && angular.isDefined(data.message)) {
-                            Dialog.alert('Error', data.message, 'OK');
-                        }
-                    }).then(function () {
+        $scope.page_title = $translate.instant('My information', 'm_commerce');
+
+        $scope.loadContent = function () {
+            McommerceSalesCustomer
+                .hasGuestMode()
+                .then(function (dataGuestMode) {
+                    // Check if had guest mode!
+                    if (dataGuestMode.success && dataGuestMode.activated) {
+                        $scope.hasguestmode = true;
+                    }
+                    // Getting user!
+                    McommerceSalesCustomer
+                        .find()
+                        .then(function (data) {
+                            $scope.customer = data.customer;
+                            $scope.settings = data.settings;
+                        }).then(function () {
                         $scope.is_loading = false;
                         Loader.hide();
                     });
-            }, function (data) {
-                $scope.is_loading = false;
-                Loader.hide();
-                if (data && angular.isDefined(data.message)) {
-                    Dialog.alert('Error', data.message, 'OK');
-                }
+                }, function (data) {
+                    if (data && angular.isDefined(data.message)) {
+                        Dialog.alert('Error', data.message, 'OK');
+                    }
+                }).then(function () {
+                    $scope.is_loading = false;
+                    Loader.hide();
+                });
+        };
+
+        $scope.goToDeliveryPage = function () {
+            $state.go('mcommerce-sales-delivery', {
+                value_id: $stateParams.value_id
             });
-    };
+        };
 
-    $scope.right_button = {
-        action: $scope.updateCustomerInfos,
-        label: $translate.instant('Next', 'm_commerce')
-    };
+        $scope.updateCustomerInfos = function () {
+            $rootScope.loginFeature = true;
+            $rootScope.loginFeatureBack = false;
 
-    $scope.loadContent();
-});
+            $scope.is_loading = true;
+            Loader.show();
+
+            // Associate the customer to the cart and validate the extra fields!
+            McommerceSalesCustomer
+                .updateCustomerInfos({
+                    customer: $scope.customer
+                })
+                .then(function (data) {
+                    $scope.customer = data.customer;
+
+                    // Save Customer info
+                    Customer
+                        .save($scope.customer)
+                        .then(function (data) {
+                            if (angular.isDefined(data.message)) {
+                            }
+                            $scope.goToDeliveryPage();
+                        }, function (data) {
+                            if (data && angular.isDefined(data.message)) {
+                                Dialog.alert('Error', data.message, 'OK');
+                            }
+                        }).then(function () {
+                        $scope.is_loading = false;
+                        Loader.hide();
+                    });
+                }, function (data) {
+                    $scope.is_loading = false;
+                    Loader.hide();
+                    if (data && angular.isDefined(data.message)) {
+                        Dialog.alert('Error', data.message, 'OK');
+                    }
+                });
+        };
+
+        $scope.right_button = {
+            action: $scope.updateCustomerInfos,
+            label: $translate.instant('Next', 'm_commerce')
+        };
+
+        $scope.loadContent();
+    });
