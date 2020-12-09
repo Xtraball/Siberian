@@ -129,6 +129,69 @@ class Places_ApplicationController extends Application_Controller_Default
         $this->_sendJson($payload);
     }
 
+    public function deleteAction() {
+
+        if ($data = $this->getRequest()->getPost()) {
+
+            $html = [];
+
+            try {
+
+                // Test s'il y a un value_id
+                if (empty($data['option_value_id']) OR empty($data['id'])) {
+                    throw new Exception(__('An error occurred while saving. Please try again later.'));
+                }
+
+                // Récupère l'option_value en cours
+                $option_value = new Application_Model_Option_Value();
+                $option_value->find($data['option_value_id']);
+
+                if(!$option_value->getId()) {
+                    throw new Exception(__('An error occurred while saving. Please try again later.'));
+                }
+
+                $page = new Cms_Model_Application_Page();
+                $page->find($data["id"]);
+
+                if(!$page->getId() OR $page->getValueId() != $option_value->getId() OR $option_value->getAppId() != $this->getApplication()->getId()) {
+                    throw new Exception(__('An error occurred while saving your page.'));
+                }
+
+                /** Clean up tags */
+                if(get_class($page) == 'Cms_Model_Application_Page') {
+                    $app_tags = new Application_Model_TagOption();
+                    $tags = $app_tags->findAll([
+                        "object_id = ?" => $page->getId(),
+                        "model = ?" => "Cms_Model_Application_Page",
+                    ]);
+
+                    foreach($tags as $tag) {
+                        $tag->delete();
+                    }
+                }
+
+                $page->delete();
+
+                $html = [
+                    'success' => 1,
+                    'success_message' => __('Place successfully deleted'),
+                    'message_timeout' => 2,
+                    'message_button' => 0,
+                    'message_loader' => 0
+                ];
+            } catch (Exception $e) {
+                $html = [
+                    'message' => $e->getMessage(),
+                    'message_button' => 1,
+                    'message_loader' => 1
+                ];
+            }
+
+            $this->getLayout()->setHtml(Zend_Json::encode($html));
+        }
+
+    }
+
     /**
      *
      */
