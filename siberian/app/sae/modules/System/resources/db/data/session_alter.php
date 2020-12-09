@@ -1,7 +1,7 @@
 <?php
 
 $queries = [
-    "ALTER TABLE `siberiancms_pe`.`session` ADD FULLTEXT `IDX_SEARCH_ID` (`session_id`);",
+    "ALTER TABLE `session` ADD FULLTEXT `IDX_SEARCH_ID` (`session_id`);",
     "ALTER TABLE `session` ADD FULLTEXT `IDX_SEARCH_DATA` (`data`);",
 ];
 
