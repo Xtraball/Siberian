@@ -1,5 +1,7 @@
 <?php
 
+use Siberian\Security;
+
 /**
  * Class Backoffice_Controller_Default
  */
@@ -14,29 +16,18 @@ class Backoffice_Controller_Default extends Core_Controller_Default
 
         Siberian_Cache_Translation::init();
 
-        $allowed = [
-            'backoffice_index_index',
-            'backoffice_account_login_index',
-            'backoffice_account_login_post',
-            'backoffice_account_login_forgottenpassword',
-            'application_backoffice_iosautopublish_updatejobstatus', //used by jenkins/fastlane to update job status
-            'application_backoffice_iosautopublish_uploadapk', //used by jenkins/fastlane to update job status
-            'application_backoffice_iosautopublish_apkservicestatus', //used by jenkins/fastlane to update job status
-            'application_backoffice_iosautopublish_uploadcertificate', //used by jenkins/fastlane to update job status
-            'installer_module_getfeature',
-            'backoffice_advanced_tools_testbasicauth',
-            'backoffice_advanced_tools_testbearerauth'
-        ];
+        // Guest routes (doesn't require active auth)
+        $allowed = Security::$routesGuest;
 
         if (!$this->getSession(Core_Model_Session::TYPE_BACKOFFICE)->isLoggedIn()
             // Allowed for a few URLs
-            AND !in_array($this->getFullActionName("_"), $allowed)
+            && !in_array($this->getFullActionName("_"), $allowed)
             // Forbidden when Siberian is not installed
-            AND !$this->getRequest()->isInstalling()
+            && !$this->getRequest()->isInstalling()
             // Forbidden fot the non XHR requests
-            AND !$this->getRequest()->isXmlHttpRequest()
+            && !$this->getRequest()->isXmlHttpRequest()
             // Allowed for the templates
-            AND !preg_match("/(_template)/", $this->getFullActionName("_"))
+            && !preg_match("/(_template)/", $this->getFullActionName("_"))
         ) {
             $this->forward('login', 'account', 'backoffice');
             return $this;

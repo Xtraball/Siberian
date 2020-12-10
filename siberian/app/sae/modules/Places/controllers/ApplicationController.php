@@ -61,6 +61,138 @@ class Places_ApplicationController extends Application_Controller_Default
     }
 
     /**
+     * Remastered edit post, with new models & rules
+     */
+    public function editpostv2Action() {
+        try {
+            $values = $this->getRequest()->getParams();
+            $option_value = $this->getCurrentOptionValue();
+
+            $form = new Cms_Form_Cms();
+            if($form->isValid($values)) {
+                # Create the cms/page/blocks
+                $page_model = new Cms_Model_Application_Page();
+                $page = $page_model->edit_v2($option_value, $values);
+
+                if (!$page || !$page->getId()) {
+                    throw new \Siberian\Exception('#578-00: ' . __('An error occurred while saving your page.'));
+                }
+
+                /** Update touch date, then never expires (until next touch) */
+                $option_value
+                    ->touch()
+                    ->expires(-1);
+
+                $partial = false;
+
+                $message = __('Success.');
+                if (!empty($page->getData('__invalid_blocks'))) {
+                    $partial = true;
+                    $message = __('Partially saved.') . '<br />' .
+                        implode('<br />', $page->getData('__invalid_blocks'));
+                }
+
+                //
+                $isPlaces = $page->getData('__is_places');
+                $hasAddress = $page->getData('__has_address');
+
+                if ($isPlaces && !$hasAddress) {
+                    throw new \Siberian\Exception('#578-10: ' . __('Places requires at least a valid `address` block.'));
+                }
+
+                $payload = [
+                    'success' => true,
+                    'message' => $message,
+                ];
+
+                if ($partial) {
+                    $payload = [
+                        'warning' => true,
+                        'message' => $message,
+                    ];
+                }
+            } else {
+                /** Do whatever you need when form is not valid */
+                $payload = [
+                    'error' => true,
+                    'message' => $form->getTextErrors(),
+                    'errors' => $form->getTextErrors(true),
+                ];
+            }
+        } catch (\Exception $e) {
+            $payload = [
+                'error' => true,
+                'message' => $e->getMessage(),
+            ];
+        }
+
+        $this->_sendJson($payload);
+    }
+
+    public function deleteAction() {
+
+        if ($data = $this->getRequest()->getPost()) {
+
+            $html = [];
+
+            try {
+
+                // Test s'il y a un value_id
+                if (empty($data['option_value_id']) OR empty($data['id'])) {
+                    throw new Exception(__('An error occurred while saving. Please try again later.'));
+                }
+
+                // Récupère l'option_value en cours
+                $option_value = new Application_Model_Option_Value();
+                $option_value->find($data['option_value_id']);
+
+                if(!$option_value->getId()) {
+                    throw new Exception(__('An error occurred while saving. Please try again later.'));
+                }
+
+                $page = new Cms_Model_Application_Page();
+                $page->find($data["id"]);
+
+                if(!$page->getId() OR $page->getValueId() != $option_value->getId() OR $option_value->getAppId() != $this->getApplication()->getId()) {
+                    throw new Exception(__('An error occurred while saving your page.'));
+                }
+
+                /** Clean up tags */
+                if(get_class($page) == 'Cms_Model_Application_Page') {
+                    $app_tags = new Application_Model_TagOption();
+                    $tags = $app_tags->findAll([
+                        "object_id = ?" => $page->getId(),
+                        "model = ?" => "Cms_Model_Application_Page",
+                    ]);
+
+                    foreach($tags as $tag) {
+                        $tag->delete();
+                    }
+                }
+
+                $page->delete();
+
+                $html = [
+                    'success' => 1,
+                    'success_message' => __('Place successfully deleted'),
+                    'message_timeout' => 2,
+                    'message_button' => 0,
+                    'message_loader' => 0
+                ];
+            } catch (Exception $e) {
+                $html = [
+                    'message' => $e->getMessage(),
+                    'message_button' => 1,
+                    'message_loader' => 1
+                ];
+            }
+
+            $this->getLayout()->setHtml(Zend_Json::encode($html));
+        }
+
+    }
+
+    /**
      *
      */
     public function updatePlacesAction()

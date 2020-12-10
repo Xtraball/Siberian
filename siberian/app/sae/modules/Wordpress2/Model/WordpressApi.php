@@ -279,8 +279,6 @@ class Wordpress2_Model_WordpressApi extends Core_Model_Default
                 $page['content']['rendered']
             ));
 
-            dbg('PAGE', $page);
-
             if ($page['featured_media'] != 0) {
                 try {
                     $mediaId = $page["featured_media"];

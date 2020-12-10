@@ -13,7 +13,7 @@ class Places_Form_Place_Delete extends Siberian_Form_Abstract
         parent::init();
 
         $this
-            ->setAction(__path("/cms/application_page/delete"))
+            ->setAction(__path("/places/application/delete"))
             ->setAttrib("id", "form-place-delete")
             ->setConfirmText("You are about to remove this Place ! Are you sure ?");;
 

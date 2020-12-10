@@ -13,7 +13,7 @@ class Places_Form_Search extends Siberian_Form_Abstract
         parent::init();
 
         $this
-            ->setAction(__path("/cms/application_page/editpostv2"))
+            ->setAction(__path('/places/application/editpostv2'))
             ->setAttrib("id", "form-cms");
 
         /** Text */

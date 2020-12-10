@@ -84,6 +84,17 @@ function __dcRun ($file, $module)
 }
 
 /**
+ * @param $file
+ * @param $module
+ * @throws Zend_Exception
+ * @throws \Siberian\Exception
+ */
+function __dcExec ($file, $module)
+{
+    return \Siberian\Cypher::dcExec($file, $module);
+}
+
+/**
  * @param $context
  * @param $original
  * @param $flag
@@ -92,7 +103,7 @@ function __dcRun ($file, $module)
 function extract_p__($context, $original, $flag = null)
 {
     global $extractModules;
-    if (__getConfig("extract") === true) {
+    if (__getConfig('extract') === true) {
         global $extractTranslations;
 
         if (!is_array($extractTranslations)) {
