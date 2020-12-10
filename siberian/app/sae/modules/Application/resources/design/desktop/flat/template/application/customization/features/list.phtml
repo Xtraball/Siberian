@@ -794,12 +794,8 @@ function hideFeature ($canAccess, $option, $option_ids, $masterId, $isBackoffice
                             }
                         }
                         else if (datas.message) {
-                            var page_message = new AlertMessage(datas.message);
-                            page_message.addButton(true);
-                            page_message.addLoader(true);
-                            page_message.setTimer(false);
-                            page_message.isError(true);
-                            page_message.show();
+                            feature_form_error(datas.message);
+
                             if (datas.url) {
                                 window.location = datas.url;
                             }
@@ -818,7 +814,7 @@ function hideFeature ($canAccess, $option, $option_ids, $masterId, $isBackoffice
                     error: function (error) {
                         console.log("error", error);
                         if (error.status === 403) {
-                            feature_form_warning("<?php echo __js("", '"'); ?>");
+                            feature_form_warning("<?php echo __js("You are not allowed to access this feature.", '"'); ?>");
                         } else {
                             feature_form_error("<?php echo __js("An error occurred while loading the feature.", '"'); ?>");
                         }
@@ -839,6 +835,8 @@ function hideFeature ($canAccess, $option, $option_ids, $masterId, $isBackoffice
         },
         close: function (animated) {
             try {
+                $(".option_value.selected").removeClass("selected");
+
                 if (!this.current) return this;
 
                 if (typeof background_image == 'object' && typeof background_image.destroy == 'function') {
@@ -858,8 +856,6 @@ function hideFeature ($canAccess, $option, $option_ids, $masterId, $isBackoffice
                 $('#header_editor').slideUp(animated ? 300 : 0, function () {
                     $('#title_editor').html('');
                 });
-
-                var optionValueSelected = $('.option_value.selected');
 
                 $('a.details.active').removeClass('active');
 
@@ -1001,7 +997,7 @@ function hideFeature ($canAccess, $option, $option_ids, $masterId, $isBackoffice
 
             var newAppearCallback = function () {
                 appearCallback();
-            }
+            };
 
             if (newLeft == 0) newLeft = newDiv.width();
             oldDiv.animate({left: oldLeft, opacity: 0}, 500, null, function () {
@@ -1149,14 +1145,18 @@ function hideFeature ($canAccess, $option, $option_ids, $masterId, $isBackoffice
                 $(this).removeAttr('style');
             });
             var height = $('#icon_and_name').outerHeight(true) + newDiv.outerHeight(true);
-            if ($('#mcomerce_tabs_header').is(':visible')) height += $('#mcomerce_tabs_header').outerHeight(true);
+            if ($('#mcomerce_tabs_header').is(':visible')) {
+                height += $('#mcomerce_tabs_header').outerHeight(true);
+            }
             $('#page').animate({height: height + 50}, 500, null, function () {
                 $(this).removeAttr('style');
             });
 
         },
         appMustBePublished: function (message) {
-            if (!message) message = '<?php echo addslashes(__('You must have published your application to access this feature')); ?>';
+            if (!message) {
+                message = '<?php echo addslashes(__('You must have published your application to access this feature')); ?>';
+            }
             this.alert.setMessage(message);
             this.alert.isError(1);
             this.alert.show();
