@@ -1,5 +1,7 @@
 <?php
 
+use Siberian\Security;
+
 /**
  * Class Admin_Controller_Default
  */
@@ -34,7 +36,10 @@ class Admin_Controller_Default extends Core_Controller_Default
 
         $request = $this->getRequest();
 
-        if ($request->getControllerName() == "privacypolicy") {
+        // Guest routes (doesn't require active auth)
+        $allowed = Security::$routesGuest;
+        if ($request->getControllerName() === 'privacypolicy' ||
+            in_array($this->getFullActionName('_'), $allowed, false)) {
             return $this;
         }
 

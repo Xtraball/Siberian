@@ -468,7 +468,7 @@ ion-nav-view.has-mini-player-controls.mini-audio > ion-view > ion-content {
 }
 
 .has-footer-fixed ion-nav-view.nav-view-l1 ion-content {
-    bottom: 55px;
+    bottom: calc(var(--safe-area-inset-bottom) + 55px);
 }
 
 .has-footer-fixed ion-nav-view.has-mini-player-controls.mini-radio.nav-view-l1 ion-content {

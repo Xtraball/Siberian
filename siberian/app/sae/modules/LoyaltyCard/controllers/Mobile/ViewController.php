@@ -1,5 +1,10 @@
 <?php
 
+use Siberian\Hook;
+
+/**
+ * Class Loyaltycard_Mobile_ViewController
+ */
 class Loyaltycard_Mobile_ViewController extends Application_Controller_Mobile_Default
 {
 
@@ -165,19 +170,28 @@ class Loyaltycard_Mobile_ViewController extends Application_Controller_Mobile_De
                             'number_of_points' => $card->getNumberOfPoints()
                         ];
 
-                        \Siberian\Hook::trigger('loyalty_card.validate', [
+                        $cardData = $card->getData();
+                        $hookPayload = [
+                            'appId' => $application_id,
                             'customerId' => $customer_id,
-                            'card' => $card,
+                            'employeeName' => $password->getName(),
+                            'card' => $cardData,
+                            'customerCardId' => $cardData['customer_card_id'],
                             'points' => $nbr,
                             'unlockType' => 'password'
-                        ]);
+                        ];
+
+                        Hook::trigger('loyalty_card.validate', $hookPayload);
+                        Hook::trigger('loyalty_card.validate_point', $hookPayload);
 
                     } // Sinon, on cloture la carte
                     else {
-                        $card->setIsUsed(1)
+                        $card
+                            ->setIsUsed(1)
                             ->setUsedAt($card->formatDate(null, 'y-MM-dd HH:mm:ss'))
                             ->setValidateBy($password->getId())
                             ->save();
+
                         $html = [
                             'success' => true,
                             'message' => __('You just finished your card'),
@@ -185,11 +199,18 @@ class Loyaltycard_Mobile_ViewController extends Application_Controller_Mobile_De
                             'close_pad' => true
                         ];
 
-                        \Siberian\Hook::trigger('loyalty_card.complete', [
+                        $cardData = $card->getData();
+                        $hookPayload = [
+                            'appId' => $application_id,
                             'customerId' => $customer_id,
-                            'card' => $card,
+                            'employeeName' => $password->getName(),
+                            'card' => $cardData,
+                            'customerCardId' => $cardData['customer_card_id'],
                             'unlockType' => 'password'
-                        ]);
+                        ];
+
+                        Hook::trigger('loyalty_card.complete', $hookPayload);
+                        Hook::trigger('loyalty_card.use_coupon', $hookPayload);
                     }
                 }
             }
@@ -270,19 +291,28 @@ class Loyaltycard_Mobile_ViewController extends Application_Controller_Mobile_De
                             'number_of_points' => $card->getNumberOfPoints()
                         ];
 
-                        \Siberian\Hook::trigger('loyalty_card.validate', [
+                        $cardData = $card->getData();
+                        $hookPayload = [
+                            'appId' => $application_id,
                             'customerId' => $customer_id,
-                            'card' => $card,
+                            'employeeName' => $password->getName(),
+                            'card' => $cardData,
+                            'customerCardId' => $cardData['customer_card_id'],
                             'points' => $nbr,
                             'unlockType' => 'qrcode'
-                        ]);
+                        ];
+
+                        Hook::trigger('loyalty_card.validate', $hookPayload);
+                        Hook::trigger('loyalty_card.validate_point', $hookPayload);
 
                     } // Sinon, on cloture la carte
                     else {
-                        $card->setIsUsed(1)
+                        $card
+                            ->setIsUsed(1)
                             ->setUsedAt($card->formatDate(null, 'y-MM-dd HH:mm:ss'))
                             ->setValidateBy($password->getId())
                             ->save();
+
                         $html = [
                             'success' => true,
                             'message' => __('You just finished your card'),
@@ -290,11 +320,18 @@ class Loyaltycard_Mobile_ViewController extends Application_Controller_Mobile_De
                             'close_pad' => true
                         ];
 
-                        \Siberian\Hook::trigger('loyalty_card.complete', [
+                        $cardData = $card->getData();
+                        $hookPayload = [
+                            'appId' => $application_id,
                             'customerId' => $customer_id,
-                            'card' => $card,
+                            'employeeName' => $password->getName(),
+                            'card' => $cardData,
+                            'customerCardId' => $cardData['customer_card_id'],
                             'unlockType' => 'qrcode'
-                        ]);
+                        ];
+
+                        Hook::trigger('loyalty_card.complete', $hookPayload);
+                        Hook::trigger('loyalty_card.use_coupon', $hookPayload);
                     }
 
                 }

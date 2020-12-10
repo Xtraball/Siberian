@@ -37,6 +37,23 @@ class Security
     public static $routesWhitelist = [];
 
     /**
+     * @var array
+     */
+    public static $routesGuest = [
+        'backoffice_index_index',
+        'backoffice_account_login_index',
+        'backoffice_account_login_post',
+        'backoffice_account_login_forgottenpassword',
+        'application_backoffice_iosautopublish_updatejobstatus', //used by jenkins/fastlane to update job status
+        'application_backoffice_iosautopublish_uploadapk', //used by jenkins/fastlane to update job status
+        'application_backoffice_iosautopublish_apkservicestatus', //used by jenkins/fastlane to update job status
+        'application_backoffice_iosautopublish_uploadcertificate', //used by jenkins/fastlane to update job status
+        'installer_module_getfeature',
+        'backoffice_advanced_tools_testbasicauth',
+        'backoffice_advanced_tools_testbearerauth',
+    ];
+
+    /**
      * @param $extension
      */
     public static function allowExtension($extension)
@@ -47,9 +64,19 @@ class Security
     /**
      * @param $route
      */
+    public static function guestRoute($route)
+    {
+        self::$routesGuest[] = $route;
+        self::$routesGuest = array_unique(self::$routesGuest);
+    }
+
+    /**
+     * @param $route
+     */
     public static function whitelistRoute($route)
     {
         self::$routesWhitelist[] = $route;
+        self::$routesWhitelist = array_unique(self::$routesGuest);
     }
 
     /**

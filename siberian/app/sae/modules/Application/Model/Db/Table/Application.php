@@ -166,24 +166,25 @@ class Application_Model_Db_Table_Application extends Core_Model_Db_Table
      * @param $session_id
      * @param $admin_id
      * @return bool
+     * @throws Zend_Db_Statement_Exception
      */
     public function isSomeoneElseEditingIt($app_id, $session_id, $admin_id)
     {
-
         $str = '%s:14:"editing_app_id";s:' . strlen($app_id) . ':"' . $app_id . '"%';
         $not_like_myself = '%s:9:object_id";s:' . strlen($admin_id) . ':"' . $admin_id . '%';
 
-        $select = $this->_db->select()
-            ->from("session")
-            ->where("data LIKE ?", $str)
-            ->where("data NOT LIKE ?", $not_like_myself)
-            ->where("session_id != ?", $session_id)
-            ->where("`modified` + 300 > ?", new Zend_Db_Expr("UNIX_TIMESTAMP()"));
+        $query = <<<SQL
+SELECT *
+FROM `session`
+WHERE MATCH (data) AGAINST (?)
+AND NOT MATCH (data) AGAINST (?)
+AND NOT MATCH (session_id) AGAINST (?)
+AND `modified` + 300 > UNIX_TIMESTAMP()
+SQL;
 
-        $cols = $this->_db->fetchCol($select);
+        $cols = $this->_db->fetchCol($query, [$str, $not_like_myself, $session_id]);
 
         return count($cols) > 0;
-
     }
 
     /**

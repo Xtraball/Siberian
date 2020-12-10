@@ -728,6 +728,17 @@ var _bindForms = function (default_parent, color, success_cb, error_cb) {
                         setTimeout(function () {
                             button.tooltip();
                         }, 500);
+                        // Custom callback
+                        let callback = form.data('callback');
+                        if (typeof callback === 'function') {
+                            try {
+                                callback(data);
+                            } catch (e) {}
+                        } else if (typeof callback !== 'undefined') {
+                            try {
+                                eval(callback);
+                            } catch (e) {}
+                        }
                     } else if (form.hasClass('onchange')) {
                         /** Do nothing */
                     } else if (form.hasClass('callback')) {

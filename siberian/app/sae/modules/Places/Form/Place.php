@@ -102,6 +102,9 @@ class Places_Form_Place extends Cms_Form_Cms
         $categories->addClass('cms-include');
 
         parent::init();
+
+        /** Custom action for Places (to split with CMS routes & ACL) */
+        $this->setAction(__path('/places/application/editpostv2'));
     }
 
     /**
