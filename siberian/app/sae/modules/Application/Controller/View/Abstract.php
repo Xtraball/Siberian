@@ -50,7 +50,6 @@ abstract class Application_Controller_View_Abstract extends Backoffice_Controlle
             $application = (new Application_Model_Application())->find($appId);
         }
 
-
         $admin = new Admin_Model_Admin();
         if (Siberian_Version::is('SAE')) {
             $admins = $admin->findAll()->toArray();
@@ -59,43 +58,6 @@ abstract class Application_Controller_View_Abstract extends Backoffice_Controlle
         } else {
             $admins = $admin->getAllApplicationAdmins($appId);
             $admin_owner = $application->getOwner();
-        }
-
-        //used to show white label domain and custom smtp (green buttons)
-        //$owner_whitelabel = (new Whitelabel_Model_Editor())->findAll(
-        //    ["admin_id = ?" => $admin_owner->getId()]);
-
-        //foreach ($owner_whitelabel as $owner_wl) {
-        //    $admin_owner->exist = true;
-        //    $admin_owner->host = $owner_wl->getHost();
-        //    $admin_owner->is_active = $owner_wl->getIsActive();
-        //    $admin_owner->smtp = $owner_wl->getEnableCustomSmtp();
-        //}
-
-        // list all platform admin to show them in drop down menu
-        $appAdmins = [];
-        $listAppAdmins = (new Admin_Model_Admin())->findAll();
-        foreach ($listAppAdmins as $appAdmin) {
-            if (Siberian\Version::is('PE')) {
-                $owner_whitelabel = (new Whitelabel_Model_Editor())->findAll(
-                    ['admin_id = ?' => $appAdmin->getadmin_id()]);
-
-                foreach ($owner_whitelabel as $owner_wl) {
-                    $appAdmin->addData('exist', true);
-                    $appAdmin->addData('host', $owner_wl->getHost());
-                    //$appAdmin->addData('wl_is_active', $owner_wl->getIsActive());
-                    //$appAdmin->addData('smtp', $owner_wl->getEnableCustomSmtp());
-                }
-            }
-
-            $appAdmins[] = [
-                'admin_id' => $appAdmin->getadmin_id(),
-                'admin_email' => $appAdmin->getEmail(),
-                'admin_exist' => $appAdmin->getExist(),
-                'admin_host' => $appAdmin->getHost(),
-                //'admin_wl_is_active' => $appAdmin->getWlIsActive(),
-                //"admin_smtp" => $appAdmin->getSmtp()
-            ];
         }
         
         $admin_list = [];
@@ -192,6 +154,8 @@ abstract class Application_Controller_View_Abstract extends Backoffice_Controlle
         $data['confirm_message_domain'] = __('If your app is already published, changing the URL key or domain will break it. You will have to republish it. Change it anyway?');
         $data['confirm_message_owner'] = p__('backoffice_application', 'You will change the app owner. Are you sure of your choice?');
         $data['confirm_message_delete_admin'] = p__('backoffice_application', 'You are about to remove this admin. Are you sure?');
+        $data['filter_too_short'] = p__('backoffice_application', 'Filter must be at least 3 characters long!');
+        $data['filter_no_result'] = p__('backoffice_application', 'No result for your request!');
 
         $application->addData($data);
 
@@ -261,7 +225,9 @@ abstract class Application_Controller_View_Abstract extends Backoffice_Controlle
             'password_filled' => $isFilled,
             'stats' => $appIosAutopublish->getStats(),
         ];
+
         $data["application"]["list_of_admins"] = $appAdmins;
+
         $this->_sendJson($data);
 
     }
@@ -601,6 +567,55 @@ abstract class Application_Controller_View_Abstract extends Backoffice_Controlle
             $payload = [
                 'success' => true,
                 'message' => p__('backoffice_application', 'Application admin is removed!')
+            ];
+        } catch (\Exception $e) {
+            $payload = [
+                'error' => true,
+                'message' => $e->getMessage()
+            ];
+        }
+
+        $this->_sendJson($payload);
+    }
+
+    public function searchOwnerAction()
+    {
+        try {
+            $request = $this->getRequest();
+            $data = $request->getBodyParams();
+            $textualFilter = trim($data['filter']);
+
+            if (mb_strlen($textualFilter) < 3) {
+                throw new Siberian\Exception('#4556-0998' . __('Filter must be at least 3 characters long.'));
+            }
+
+            $textualFilter = "%{$textualFilter}%";
+
+            // list all platform admin to show them in drop down menu
+            $appAdmins = [];
+            $listAppAdmins = (new Admin_Model_Admin())->filterAdmins($textualFilter);
+            foreach ($listAppAdmins as $appAdmin) {
+                if (Siberian\Version::is('PE')) {
+                    $owner_whitelabel = (new Whitelabel_Model_Editor())->findAll(
+                        ['admin_id = ?' => $appAdmin->getadmin_id()]);
+
+                    foreach ($owner_whitelabel as $owner_wl) {
+                        $appAdmin->addData('exist', true);
+                        $appAdmin->addData('host', $owner_wl->getHost());
+                    }
+                }
+
+                $appAdmins[] = [
+                    'admin_id' => $appAdmin->getadmin_id(),
+                    'admin_email' => $appAdmin->getEmail(),
+                    'admin_exist' => $appAdmin->getExist(),
+                    'admin_host' => $appAdmin->getHost(),
+                ];
+            }
+
+            $payload = [
+                'success' => true,
+                'collection' => $appAdmins
             ];
         } catch (\Exception $e) {
             $payload = [
