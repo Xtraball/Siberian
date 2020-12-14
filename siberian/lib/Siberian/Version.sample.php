@@ -10,8 +10,8 @@ class Version
 {
     const TYPE = 'SAE';
     const NAME = 'Single App Edition';
-    const VERSION = '4.19.3';
-    const PREVIOUS_VERSION = '4.19.2';
+    const VERSION = '4.19.10';
+    const PREVIOUS_VERSION = '4.19.9';
     const NATIVE_VERSION = '18';
     const API_VERSION = '4';
 

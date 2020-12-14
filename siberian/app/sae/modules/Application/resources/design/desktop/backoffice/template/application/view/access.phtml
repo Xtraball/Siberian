@@ -20,15 +20,23 @@ use Siberian\Version;
                         <br />
                         <input type="text"
                                class="form-control"
-                               ng-model="filter.owner"
+                               style="float: left; width: 68% !important;"
+                               ng-model="owners.filter"
                                placeholder="<?php echo p__js('backoffice_application', 'Search, filter...', '"') ?>" />
+                        <button type="submit"
+                                style="float: right; width: 30% !important;"
+                                ng-click="searchAppOwners()"
+                                class="col-md-2 btn btn-primary right"><?php echo p__('backoffice_application', 'Search') ?></button>
+                        <br />
+                        <div class="clear"></div>
                         <br />
                         <select class="form-control"
                                 name="owner"
                                 id="owner"
+                                ng-if="owners.list.length > 0"
                                 ng-model="tmp_application.selectedOwner">
                             <option value=""><?php echo p__('backoffice_application', 'Change app owner') ?></option>
-                            <option ng-repeat="owner in application.list_of_admins | filter:filter.owner track by owner.admin_id"
+                            <option ng-repeat="owner in owners.list track by owner.admin_id"
                                     ng-selected="owner.admin_id == tmp_application.selectedOwner"
                                     value="{{ owner.admin_id }}">
                                 #{{ owner.admin_id }} - {{ owner.admin_email }}{{ owner.admin_host ? ' - [WL] ' + owner.admin_host : '' }}
