@@ -11,7 +11,8 @@ App.config(function($routeProvider) {
         templateUrl: BASE_URL+"/application/backoffice_view_acl/template"
     });
 
-}).controller("ApplicationViewController", function($scope, $location, $routeParams, Header, Application, Url, FileUploader, Label, Settings, LicenseService) {
+}).controller("ApplicationViewController", function($scope, $location, $timeout, $routeParams, Header,
+                                                    Application, Url, FileUploader, Label, Settings, LicenseService) {
 
     $scope.header = new Header();
     $scope.header.button.left.is_visible = false;
@@ -32,6 +33,11 @@ App.config(function($routeProvider) {
     $scope.datepicker_visible = false;
     $scope.showApkService = false;
 
+    $scope.owners = {
+        list: [],
+        filter: ''
+    };
+
     Application.loadViewData().success(function (data) {
         $scope.header.title = data.title;
         $scope.header.icon = data.icon;
@@ -49,7 +55,14 @@ App.config(function($routeProvider) {
         angular.extend($scope.application_admob, data.application);
         $scope.mobile_source.design_code = $scope.application.design_code;
         $scope.confirm_message_domain = data.application.confirm_message_domain;
+        $scope.confirm_message_owner = data.application.confirm_message_owner;
         $scope.confirm_message_delete_admin = data.application.confirm_message_delete_admin;
+        $scope.filter_too_short = data.application.filter_too_short;
+        $scope.filter_no_result = data.application.filter_no_result;
+        $scope.tmp_application.selectedOwner = data.application.admin_id;
+        $timeout(function () {
+            $scope.tmp_application.selectedOwner = data.application.admin_id;
+        });
     }).finally(function () {
         $scope.content_loader_is_visible = false;
     });
@@ -107,6 +120,28 @@ App.config(function($routeProvider) {
                 $timeout(function () {
                     location.reload();
                 }, 1500);
+            });
+    };
+
+    $scope.searchAppOwners = function () {
+        if ($scope.owners.filter.length < 3) {
+            window.alert($scope.filter_too_short);
+            return;
+        }
+
+        Application
+            .searchAppOwners($scope.owners.filter)
+            .success(function (data) {
+                if (data.collection.length <= 0) {
+                    window.alert($scope.filter_no_result);
+                } else {
+                    $timeout(function () {
+                        $scope.owners.list = data.collection;
+                    });
+                }
+            }).error(function (data) {
+                //
+                console.error('error searchAppOwners data', data);
             });
     };
 

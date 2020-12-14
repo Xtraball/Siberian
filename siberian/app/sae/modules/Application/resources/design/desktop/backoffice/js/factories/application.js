@@ -262,6 +262,17 @@ App.factory('Application', function ($http, Url, DataLoader) {
         });
     };
 
+    factory.searchAppOwners = function (filter) {
+        return $http({
+            method: 'POST',
+            data: {
+                filter: filter
+            },
+            url: Url.get('application/backoffice_view/search-owner'),
+            responseType: 'json'
+        });
+    };
+
     factory.saveAppOwner = function (app_id, owner_id) {
         return $http({
             method: 'POST',

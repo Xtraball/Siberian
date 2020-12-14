@@ -4,6 +4,7 @@
  * Class Admin_Model_Admin_Abstract
  *
  * @method integer getId()
+ * @method Admin_Model_Db_Table_Admin getTable()
  */
 abstract class Admin_Model_Admin_Abstract extends Core_Model_Default
 {
@@ -446,6 +447,15 @@ abstract class Admin_Model_Admin_Abstract extends Core_Model_Default
     }
 
     /**
+     * @param $filter
+     * @return mixed
+     */
+    public function filterAdmins($filter)
+    {
+        return $this->getTable()->filterAdmins($filter);
+    }
+
+    /**
      * @return $this
      */
     public function updateLastAction()
@@ -465,7 +475,7 @@ abstract class Admin_Model_Admin_Abstract extends Core_Model_Default
         $backofficeUser = (new Backoffice_Model_User())
             ->find($this->getEmail(), 'email');
 
-        return (boolean) $backofficeUser->getId();
+        return (boolean)$backofficeUser->getId();
     }
 
 }
