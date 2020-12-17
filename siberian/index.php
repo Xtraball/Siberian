@@ -178,7 +178,7 @@ try {
             $e->getPrevious()->getTrace() : $e->getTrace();
     }
 
-    exit('<pre>' . json_encode($payload, JSON_UNESCAPED_SLASHES | JSON_PRETTY_PRINT));
+    exit(json_encode($payload, JSON_UNESCAPED_SLASHES | JSON_PRETTY_PRINT));
 }
 
 // Revert umask!
