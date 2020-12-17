@@ -76,7 +76,7 @@ class Security
     public static function whitelistRoute($route)
     {
         self::$routesWhitelist[] = $route;
-        self::$routesWhitelist = array_unique(self::$routesGuest);
+        self::$routesWhitelist = array_unique(self::$routesWhitelist);
     }
 
     /**
