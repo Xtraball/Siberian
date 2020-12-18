@@ -1,0 +1,179 @@
+<ion-view sb-page-background
+          class="cabride cabride-view cabride-home">
+    <ion-nav-title>{{ getPageTitle() }}</ion-nav-title>
+
+    <ion-nav-buttons side="secondary">
+        <location-button></location-button>
+
+        <button ng-if="canClear()"
+                ng-click="clearSearch()"
+                class="button button-clear header-item">
+            <i class="icon ion-sb-clear"></i>
+        </button>
+
+        <button ng-if="!isTaxiLayout()"
+                ng-click="openMenu()"
+                class="button button-clear header-item cabride toggle-taxi-menu">
+            <i class="icon ion-sb-more"></i>
+        </button>
+    </ion-nav-buttons>
+
+    <ion-content scroll="false">
+        <div class="cr-home"
+             ng-if="isLoading">
+            <div class="cr-home-loader-spinner text-center">
+                <img src="./features/cabride/assets/templates/images/007-loader.svg" />
+                <br />
+                {{ ::'Loading ...' | translate:'cabride' }}
+            </div>
+        </div>
+
+        <div ng-if="!isDriver && !isPassenger && !isLoading">
+            <h3 class="cr-home-title">{{ ::'Who are you?' | translate:'cabride' }}</h3>
+
+            <div class="cr-user-choice">
+                <div class="cr-passenger"
+                     ng-click="selectPassenger();">
+                    <img ng-src="{{ passengerPicture() }}" />
+                    <br />
+                    {{ ::'Passenger' | translate:'cabride' }}
+                </div>
+                <div class="cr-driver"
+                     ng-show="driverCanRegister()"
+                     ng-click="selectDriver();">
+                    <img ng-src="{{ driverPicture() }}" />
+                    <br />
+                    {{ ::'Driver' | translate:'cabride' }}
+                </div>
+            </div>
+        </div>
+
+        <div ng-show="(isPassenger || isDriver) && !isLoading">
+            <div class="cr-passenger-home">
+                <!-- The so-said google-map -->
+                <div id="crMap"></div>
+
+                <!-- Complete custom map overlay -->
+                <div id="cr-map-overlay">
+
+                    <!-- Pick-up & Drop-off -->
+                    <div ng-show="isPassenger"
+                         class="cr-map-location">
+                        <div class="cr-map-pickup">
+                            <label class="cr-pickup-text">
+                                <input type="text"
+                                       id="id-cr-pickup"
+                                       name="cr-pickup"
+                                       placeholder="{{ ::'Pick-up location' | translate:'cabride' }}"
+                                       sb-google-autocomplete
+                                       options="gmapsAutocompleteOptions"
+                                       on-address-change="setPickupAddress()"
+                                       place="ride.pickupPlace"
+                                       ng-focus="disableTap('id-cr-pickup')"
+                                       ng-blur="displayMapPin()"
+                                       ng-model="ride.pickupAddress" />
+                            </label>
+                            <span ng-click="geoPickup()">
+                                <i class="icon ion-android-locate pickup"></i>
+                            </span>
+                        </div>
+                        <div class="cr-map-dropoff">
+                            <label class="cr-dropoff-text">
+                                <input type="text"
+                                       id="id-cr-dropoff"
+                                       name="cr-dropoff"
+                                       placeholder="{{ ::'Drop-off location' | translate:'cabride' }}"
+                                       sb-google-autocomplete
+                                       options="gmapsAutocompleteOptions"
+                                       on-address-change="setDropoffAddress()"
+                                       place="ride.dropoffPlace"
+                                       ng-focus="disableTap('id-cr-dropoff')"
+                                       ng-blur="displayMapPin()"
+                                       ng-model="ride.dropoffAddress" />
+                            </label>
+                            <span ng-click="geoDropoff()">
+                                <i class="icon ion-ios-flag dropoff"></i>
+                            </span>
+                        </div>
+                    </div>
+
+                    <!-- Zoom In/Out & Geolocation -->
+                    <div class="cr-map-zoom">
+                        <div class="cr-zoom-center-me"
+                             ng-click="centerMe()">
+                            <i class="icon ion-navigate"></i>
+                        </div>
+                        <div class="cr-zoom-shadow">
+                            <div class="cr-zoom-in"
+                                 ng-click="zoomIn()">
+                                <i class="icon ion-plus"></i>
+                            </div>
+                            <div class="cr-zoom-out"
+                                 ng-click="zoomOut()">
+                                <i class="icon ion-minus"></i>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Direction information & request -->
+                    <div ng-if="isPassenger && pinText().action === 'search'"
+                         class="cr-map-request">
+                        <div class="cr-map-distance">
+                            <span class="cr-request-label">{{ ::'Distance' | translate:'cabride' }}</span>
+                            <span class="pull-right">{{ ride.distance }}</span>
+                        </div>
+                        <div class="cr-map-duration">
+                            <span class="cr-request-label">{{ ::'Est. duration' | translate:'cabride' }}</span>
+                            <span class="pull-right">{{ ride.duration }}</span>
+                        </div>
+                    </div>
+
+                    <!-- Centered static map pinPoint -->
+                    <div ng-show="showMapPin"
+                         class="cr-map-pin">
+                        <div class="cr-pin-text"
+                             ng-if="isPassenger && pinText().action !== 'none'"
+                             ng-click="setPinLocation(pinText().action)"
+                             ng-class="pinText().class"
+                             ng-bind-html="pinText().text"></div>
+                        <div class="cr-pin-icon">
+                            <img ng-src="{{ pinIcon() }}" />
+                        </div>
+                    </div>
+
+                    <!-- Loading overlay! -->
+                    <div ng-if="isPassenger && pinText().action === 'loading'"
+                         class="cr-map-loading">
+                        <div class="cr-map-loader">
+                            <div class="cr-loader-spinner">
+                                <img src="./features/cabride/assets/templates/images/007-loader.svg" />
+                            </div>
+                            <div class="cr-loader-label">{{ ::'Looking for drivers' | translate:'cabride' }}</div>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+
+            <div id="mapInfoWindow"
+                 ng-class="{'hide': !showInfoWindow}"
+                 class="info-window slide-top">
+                <div class="item item-custom item-text-wrap info-window-icon">
+                    <span class="info-window-title">{{ currentPlace.title }}</span>
+                    <br />
+                    <span ng-click="goToPlace(currentPlace.id)"
+                          class="info-window-more">
+                    {{ ::'See details' | translate:'cabride' }} <i class="icon ion-android-open"></i>
+                </span>
+                    <i ng-click="hideInfoWindow()"
+                       class="icon ion-close info-close"></i>
+                </div>
+                <div ng-if="currentPlace"
+                     sb-cms-address
+                     block="currentPlace.address"></div>
+                <div class="item item-custom item-text-wrap"></div>
+            </div>
+        </div>
+
+    </ion-content>
+</ion-view>

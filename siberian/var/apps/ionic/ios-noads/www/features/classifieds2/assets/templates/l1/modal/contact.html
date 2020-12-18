@@ -1,0 +1,51 @@
+<ion-modal-view sb-page-background
+                ng-controller="Classifieds2ContactController"
+                class="module-classifieds2 classifieds2-contact classifieds2-contact-l1">
+
+    <ion-header-bar class="bar-custom">
+        <div class="buttons">
+            <button class="button button-clear"
+                    ng-click="close()">
+                <i ng-class="backButtonIcon()"></i>
+            </button>
+        </div>
+        <h1 class="title">{{ ::'Contact seller' | translate:'classifieds2' }}</h1>
+    </ion-header-bar>
+
+    <ion-content>
+        <div class="list places-filters"
+             ng-class="{'card' : card_design}">
+            <label class="item item-custom item-input item-stacked-label">
+                <span class="input-label">{{ ::'Name' | translate:'classifieds2' }} *</span>
+                <input type="text"
+                       ng-model="contact.name"
+                       placeholder="{{ ::'Name' | translate:'classifieds2' }}" />
+            </label>
+
+            <label class="item item-custom item-input item-stacked-label">
+                <span class="input-label">{{ ::'Email' | translate:'classifieds2' }} *</span>
+                <input type="text"
+                       ng-model="contact.email"
+                       ng-readonly="isLoggedIn()"
+                       placeholder="{{ ::'Email' | translate:'classifieds2' }}" />
+            </label>
+
+            <ion-item class="item-custom">
+                <label>
+                    {{ ::'Message' | translate }} <span>*</span>
+                </label>
+                <textarea ng-model="contact.message"
+                          style="width: 100%;"
+                          rows="6"></textarea>
+            </ion-item>
+
+        </div>
+    </ion-content>
+
+    <button class="submit-message-button button button-assertive button-assertive-custom button-full"
+            ng-click="sendMessage(advert)">
+        <i class="icon ion-sb-origami"></i>
+        {{ ::'Send' | translate:'classifieds2' }}
+    </button>
+
+</ion-modal-view>

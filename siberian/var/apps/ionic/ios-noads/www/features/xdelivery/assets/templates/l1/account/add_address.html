@@ -1,0 +1,88 @@
+<ion-modal-view sb-page-background
+          class="xdelivery xdelivery-add-address" cache-view="false">
+  
+  <ion-header-bar class="bar-custom">
+    <div class="buttons">
+        <button class="button button-clear"
+                ng-click="closeAddAddressModal()">
+            <i ng-class="backButtonIcon()"></i>
+        </button>
+    </div>
+    <h1 class="title">{{page_title}}</h1>
+</ion-header-bar>
+
+ <ion-content class="has-header"> 
+ 	 
+		<div class="list">
+		   <label class="item item-input item-custom item-floating-label">
+		        <span class="input-label">
+		          	{{ ::"Name" | translate:"xdelivery" }}
+		            <span>*</span>
+		        </span>
+		        <input name="customer_name" type="text" placeholder="{{ forTranslate('Enter a Name') }}" ng-model="address_post.customer_name" ng-init="address_post.customer_name === ''" ng-value="">
+		    </label>
+
+		     <label class="item item-input item-custom item-floating-label">
+		        <span class="input-label">
+		          	{{ ::"Phone Number" | translate:"xdelivery" }}
+		            <span>*</span>
+		        </span>
+		        <input name="phone_number" type="text" placeholder="{{ forTranslate('Enter a Phone Number') }}" ng-model="address_post.phone_number" ng-init="address_post.phone_number === ''" ng-value="">
+		     </label>
+	    
+		   <label class="item item-input item-custom item-floating-label">
+		        <span class="input-label">
+		          	{{ ::"Address" | translate:"xdelivery" }}({{ ::"House No" | translate:"xdelivery" }}, {{ ::"Building" | translate:"xdelivery" }}, {{ ::"Street" | translate:"xdelivery" }}, {{ ::"Area" | translate:"xdelivery" }})
+		            <span>*</span>
+		        </span>
+		        <input name="address" type="text" placeholder="{{ forTranslate('Enter a address') }}" ng-model="address_post.address" ng-init="address_post.address === ''" ng-value="">
+		    </label>
+
+		    <label class="item item-input item-custom item-floating-label">
+		        <span class="input-label">
+		          	{{ ::"Locality" | translate:"xdelivery" }}/{{ ::"Town" | translate:"xdelivery" }}
+		            <span>*</span>
+		        </span>
+		        <input name="locality" type="text" placeholder="{{ forTranslate('Enter a Locality') }}" ng-model="address_post.locality">
+		     </label>
+
+		    <label class="item item-input item-custom item-floating-label">
+		        <span class="input-label">
+		          	{{ ::"City" | translate:"xdelivery" }}/{{ ::"District" | translate:"xdelivery" }}
+		            <span>*</span>
+		        </span>
+		        <input name="city" type="text" placeholder="{{ forTranslate('Enter a City') }}" ng-model="address_post.city" ng-init="address_post.city === ''" ng-value="">
+		     </label>
+
+		    <label class="item item-input item-custom item-floating-label">
+		        <span class="input-label">
+		          	{{ ::"Pincode" | translate:"xdelivery" }}
+		            <span>*</span>
+		        </span>
+		        <input name="pincode" type="text" placeholder="{{ forTranslate('Enter a Pincode') }}" ng-model="address_post.pincode"  ng-init="address_post.pincode === ''" ng-value="">
+		    </label>
+        </div>
+
+        <div class="list">
+            <label class="item item-input item-custom item-floating-label remove-border">
+				{{ ::"Type of Address" | translate:"xdelivery" }}<span>*</span> 
+			</label>
+            <ion-radio class="item item-custom" ng-model="address_post.address_type" ng-value="'office'">{{ ::"Office" | translate:"xdelivery" }}</ion-radio>
+
+            <ion-radio class="item item-custom" ng-model="address_post.address_type" ng-value="'home'">{{ ::"Home" | translate:"xdelivery" }}</ion-radio>
+        </div>
+
+        <div class="list">
+        	<ion-checkbox class="item item-custom remove-border" ng-model="address_post.is_default" ng-value="1">{{ ::"Make this as my default address" | translate:"xdelivery" }}</ion-checkbox>
+        </div>
+
+		<button class="button button-full button-positive-custom remove-border" ng-click="addAddress(address_post)"  ng-disabled="((address_post.customer_name === '' || address_post.phone_number === '' || address_post.address === '' || address_post.city === '' || address_post.pincode === '' ) ? true : false)" >
+            {{ ::"Save" | translate:"xdelivery" }}
+        </button>  
+ 
+ <style type="text/css">
+ 	span#_label-2 {
+	    width: 100%;
+	}
+ </style>
+ </ion-modal-view>

@@ -38,7 +38,8 @@ let ROOT = path.resolve(path.dirname(__filename), '../../'),
     DEBUG = false,
     REBUILD_MANIFEST = false,
     PHP_VERSION = 'php',
-    BUILD_TYPE = '--release';
+    BUILD_TYPE = '--release',
+    NO_ADS = false;
 
 
 /**
@@ -233,6 +234,9 @@ let cli = function (inputArgs) {
                  break;
                 case 'build-debug':
                     BUILD_TYPE = '--debug';
+                    break;
+                case 'noads':
+                    NO_ADS = true;
                     break;
             }
         });
@@ -588,7 +592,9 @@ let rebuild = function (platform, copy, prepare, skipRebuild) {
                 if (platform === 'ios') {
                     // Install cocoapods
                     sh.cd(ROOT + '/ionic/platforms/' + platform);
-                    sh.exec('pod install');
+                    sh.exec('pod deintegrate --verbose');
+                    sh.exec('pod install --verbose');
+                    sh.exec('pod update --verbose');
                     sh.cd(ROOT + '/ionic/');
                 }
 
@@ -724,6 +730,11 @@ let patchPreviewer = function (platform) {
  * @param opts
  */
 let installPlugin = function (pluginName, platform, opts) {
+    if (NO_ADS && pluginName === 'Admob') {
+        sprint(clc.blue('Excluding (NO_ADS): ') + clc.red(pluginName + '...'));
+        return;
+    }
+
     let platformBase = platform,
         platformPath = ROOT + '/ionic/platforms/' + platform,
         pluginPath = ROOT + '/plugins/' + pluginName,
@@ -864,6 +875,9 @@ let copyPlatform = function (platform) {
             break;
 
         case 'ios':
+            if (NO_ADS === true) {
+                siberianPlatformPath = siberianPlatformPath.replace(/ios/, 'ios-noads');
+            }
             sh.rm('-rf', ionicPlatformPath + '/build');
             sh.rm('-rf', ionicPlatformPath + '/CordovaLib/build');
             sh.rm('-rf', ionicPlatformPath + '/cordova/plugins');
@@ -1586,22 +1600,36 @@ let archiveSources = function () {
     sprint(clc.blue('Building archives for Apps sources restore'));
 
     let excludes = '--options gzip:compression-level=9 --exclude=\'*.DS_Store*\' --exclude=\'*.idea*\' --exclude=\'*.gitignore*\' --exclude=\'*.localized*\'';
+
+    // Android!
     sh.cd(ROOT + '/siberian/var/apps/ionic');
     sh.rm('-rf', './android/app/src/main/assets/www/features/*');
     sh.rm('-rf', './android/app/src/main/assets/www/modules/*');
     sh.rm('-rf', './android/app/src/main/assets/www/chcp.json');
     sh.rm('-rf', './android/app/src/main/assets/www/chcp.manifest');
     sh.rm('-rf', './android/app/src/main/assets/www/index-prod.html');
+    sh.chmod('-R', '777', './android');
+    sh.exec('tar ' + excludes + ' -p -czf ./android.tgz ./android');
+
+    // iOS (with AdMob)
     sh.rm('-rf', './ios/www/features/*');
     sh.rm('-rf', './ios/www/modules/*');
     sh.rm('-rf', './ios/www/chcp.json');
     sh.rm('-rf', './ios/www/chcp.manifest');
     sh.rm('-rf', './ios/www/index-prod.html');
-    sh.chmod('-R', '777', './android');
-    sh.exec('tar ' + excludes + ' -p -czf ./android.tgz ./android');
     sh.chmod('-R', '777', './ios');
     sh.exec('tar ' + excludes + ' -p -czf ./ios.tgz ./ios');
 
+    // iOS (without AdMob)
+    sh.rm('-rf', './ios-noads/www/features/*');
+    sh.rm('-rf', './ios-noads/www/modules/*');
+    sh.rm('-rf', './ios-noads/www/chcp.json');
+    sh.rm('-rf', './ios-noads/www/chcp.manifest');
+    sh.rm('-rf', './ios-noads/www/index-prod.html');
+    sh.chmod('-R', '777', './ios-noads');
+    sh.exec('tar ' + excludes + ' -p -czf ./ios-noads.tgz ./ios-noads');
+
+    // Browser/HTML5
     sh.cd(ROOT + '/siberian/var/apps');
     sh.rm('-rf', './browser/features/*');
     sh.rm('-rf', './browser/modules/*');

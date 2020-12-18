@@ -1,0 +1,93 @@
+<ion-view sb-page-background
+          class="emenu emenu-orders">
+
+    <ion-nav-title>{{ ::'Orders' | translate:'emenu' }}</ion-nav-title>
+
+    <ion-header-bar class="bar-subheader bar-custom bar bar-header">
+        <div class="button-bar text-center order-header-menu">
+            <div class="button button-custom remove-border"
+                 ng-disabled="is_loading"
+                 ng-click="changeStatus('pending')"
+                 ng-class="{ 'active' : action.tab == 'pending'}">
+                {{ ::'New' | translate:"emenu" }}
+            </div>
+            <div class="button button-custom remove-border"
+                 ng-disabled="is_loading"
+                 ng-click="changeStatus('inprogress')"
+                 ng-class="{ 'active' : action.tab == 'inprogress'}">
+                {{ ::'In Progress' | translate:'emenu' }}
+            </div>
+            <div class="button button-custom remove-border"
+                 ng-disabled="is_loading"
+                 ng-click="changeStatus('completed')"
+                 ng-class="{ 'active' : action.tab == 'completed'}">
+                {{ ::'Completed' | translate:'emenu' }}
+            </div>
+        </div>
+    </ion-header-bar>
+
+    <ion-content class="has-header has-subheader"
+                 id="item-content"
+                 scrollbar-y="false"
+                 overflow-scroll="false"
+                 delegate-handle="mainScroll">
+
+        <ion-refresher ng-if="use_pull_refresh"
+                       class="spinner-custom"
+                       pulling-text="{{ ::'Pull to refresh...' | translate:'emenu' }}"
+                       on-refresh="pullToRefresh()">
+        </ion-refresher>
+
+        <div class="loader"
+             ng-show="is_loading">
+            <ion-spinner icon="android"
+                         class="spinner-custom"></ion-spinner>
+        </div>
+
+        <ion-list class="card"
+                  ng-if="!is_loading && payout.orders.length > 0">
+            <ion-item class="item-custom"
+                      ng-repeat="(key, value) in payout.orders"
+                      ng-click="orderItems(value.id)">
+                <h2>
+                    #{{value.order_number}} 
+                    <span class="pull-right" ng-if="value.table_number > 0">{{ ::'Table' | translate:'emenu' }} - {{value.table_number}}</span>
+
+                    <span class="pull-right" ng-if="value.delivery_type == 'pickup'">{{ ::'Pick-Up' | translate:'emenu' }}</span>
+                    <span class="pull-right" ng-if="value.delivery_type =='deliver'">{{ ::'Home Delivery' | translate:'emenu' }}</span>
+                 </h2>
+                <p><i class="icon ion-person"></i>
+                    {{value.customer_name}} ({{value.total_members}} {{ ::'Members' | translate:'emenu' }})
+                </p>
+                <p ng-show="{{ isMobileNumber(value.phone_number) }}">
+                    <i class="icon ion-iphone"></i> {{value.phone_number}}
+                </p>
+                <p>
+                    <span class="icon icon-active-custom pull-left">{{ value.total_items }} {{ ::'Items' | translate:'emenu' }}</span>
+                    <span class="icon icon-active-custom pull-right">
+                        <b>{{ payout.currency_symbol }}{{ value.total_amount }}</b>
+                       
+                        <i class="pull-right" ng-if="value.payment_status == 'success'">
+                            ({{ ::'Paid' | translate:'emenu' }})
+                        </i>
+                    </span>
+                </p>
+                <p class="pull-right">{{convertDate(value.created_at)}}</p>
+            </ion-item>
+        </ion-list>
+
+        <ion-list ng-if="!is_loading && payout.orders.length == 0">
+            <ion-item class="item-custom">
+                <p class="text-center">{{ ::'No Orders Found!' | translate:'emenu' }}</p>
+            </ion-item>
+        </ion-list>
+
+        <ion-infinite-scroll ng-if="can_load_older_items && !is_loading"
+                             on-infinite="loadMoreOrders()"
+                             immediate-check="false"
+                             distance="50%"
+                             class="spinner-custom">
+        </ion-infinite-scroll>
+
+    </ion-content>
+</ion-view>

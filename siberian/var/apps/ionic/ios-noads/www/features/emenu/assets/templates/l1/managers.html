@@ -1,0 +1,64 @@
+<ion-view sb-page-background
+          class="emenu emenu-accounts">
+    <ion-nav-title>{{ ::'Accounts' | translate:'emenu' }}</ion-nav-title>
+
+    <ion-content class="has-header"
+                 id="item-content"
+                 scrollbar-y="false"
+                 overflow-scroll="false"
+                 delegate-handle="mainScroll">
+
+        <ion-refresher ng-if="use_pull_refresh"
+                       class="spinner-custom"
+                       pulling-text="{{ ::'Pull to refresh...' | translate:'emenu' }}"
+                       on-refresh="pullToRefresh()">
+        </ion-refresher>
+
+        <div class="loader"
+             ng-show="is_loading">
+            <ion-spinner icon="android"
+                         class="spinner-custom"></ion-spinner>
+        </div>
+
+        <ion-list ng-if="!is_loading && payout.admin">
+            <ion-item class="item-divider item-divider-custom remove-border">
+               {{ ::'Admin' | translate:'emenu' }}
+            </ion-item>
+            <ion-item class="item-custom item-avatar">
+                <img ng-src="{{ customer_avatar(payout.admin.image)}}"/>
+                <h2>{{payout.admin.firstname}} {{payout.admin.lastname}} <span ng-if="login_customer_id == payout.admin.customer_id">({{ ::'Me' | translate:'emenu' }})</span></h2>
+                <p>{{payout.admin.email}}</p> 
+             </ion-item>
+        </ion-list>
+
+        <ion-list ng-if="!is_loading && payout.accounts.length > 0">
+            <ion-item class="item-divider item-divider-custom remove-border">
+               {{ ::'Others' | translate:'emenu' }}
+            </ion-item>
+            <ion-item class="item-custom item-avatar item-icon-right"
+                      ng-repeat="(key, value) in payout.accounts">
+                <img ng-src="{{ customer_avatar(value.image)}}"/>
+                <h2>{{value.firstname}} {{value.lastname}} <span ng-if="login_customer_id == value.customer_id">({{ ::'Me' | translate:'emenu' }})</span></h2>
+                <p>{{value.email}}</p>
+                <p>{{value.designation}}</p>
+                <i class="icon ion-android-more-vertical" ng-click="accountSheetOption(value)"></i>
+            </ion-item>
+        </ion-list>
+
+        <ion-list ng-if="!is_loading && payout.accounts.length == 0">
+            <ion-item class="item-divider item-divider-custom remove-border">
+               {{ ::'Others' | translate:'emenu' }}
+            </ion-item>
+            <ion-item class="item-custom">
+                <p class="text-center">{{ ::'No Other Accounts Found!' | translate:'emenu' }}</p>
+            </ion-item>
+        </ion-list>
+ 
+    </ion-content>
+
+     <button class="button light ion-plus-round button-floating-action button-positive button-positive-custom"
+            ng-click="addAccount()">
+    </button>
+
+
+</ion-view>

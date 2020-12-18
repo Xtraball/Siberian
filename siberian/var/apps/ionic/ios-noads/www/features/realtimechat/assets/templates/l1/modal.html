@@ -1,0 +1,62 @@
+<ion-modal-view sb-page-background>
+    <ion-header-bar class="bar-custom">
+        <h1 class="title">{{page_title}}</h1>
+        <button class="button button-clear button-primary" ng-click="closeModal()">{{'Close' | translate}}</button>
+    </ion-header-bar>
+    <ion-content class="realtimechat homepage-custom" has-bouncing="false">
+        <form name="nickname_form">
+            <div class="row">
+                <div class="col" ng-if="chatroom">
+                    <span class="h5">{{'Room description:' | translate}}</span>
+                    <p class="padding-horizontal" ng-if="chatroom.description">{{chatroom.description}}</p>
+                    <p class="padding-horizontal" ng-if="!chatroom.description">{{ "No description" | translate }}</p>
+                </div>
+            </div>
+            <section ng-if="is_logged_in">
+                <hr width="95%" />
+                <div class="row">
+                    <div class="col list">
+                        <div class="padding-vertical">
+                            <span class="h5">
+                                {{ 'Nickname' | translate }}
+                            </span>
+                        </div>
+                        <div class="item item-custom item-input">
+                            <input name="new_nickname" type="text" autocomplete="off" pattern="^[A-Za-z0-9_]{1,15}$" ng-model="new_nickname" id="nickname_input" ng-minlength="1" ng-required="true" ng-maxlength="15">
+                        </div>
+                        <p class="text-center assertive" ng-show="nickname_error.unknown">{{'An unknown error occurred.' | translate}}</p>
+                        <p class="text-center assertive" ng-show="nickname_error.format || nickname_form.new_nickname.$error.pattern">{{'Your nickname can only use letters, numbers, and underscore. No spaces.' | translate}}</p>
+                        <p class="text-center assertive" ng-show="nickname_error.taken">{{'This nickname is already taken' | translate}}</p>
+                        <p class="text-center assertive" ng-show="nickname_error.max || nickname_form.new_nickname.$error.maxlength">{{'This nickname is too long' | translate}}</p>
+                        <p class="text-center assertive" ng-show="nickname_error.min || nickname_form.new_nickname.$error.required || nickname_form.new_nickname.$error.minlength">{{'Please choose a nickname' | translate}}</p>
+                        <div ng-if="chatroom">
+                            <div class="padding-vertical">
+                                <span class="h5">
+                                    {{ 'Notifications' | translate }}
+                                </span>
+                            </div>
+                            <ion-radio class="radio-custom" ng-model="new_notifications.choice" ng-value="'all'">
+                                <i class="icon n-icons ion-android-notifications h4"></i> {{ 'All messages' | translate }}
+                            </ion-radio>
+                            <ion-radio class="radio-custom" ng-model="new_notifications.choice" ng-value="'mentions'">
+                                <i class="icon n-icons ion-android-notifications-none h4"></i> {{ 'Only mentions' | translate }}
+                            </ion-radio>
+                            <ion-radio class="radio-custom" ng-model="new_notifications.choice" ng-value="'none'">
+                                <i class="icon n-icons ion-android-notifications-off h4"></i> {{ 'None' | translate }}
+                            </ion-radio>
+                        </div>
+                    </div>
+                </div>
+                <div class="padding text-center">
+                    <ion-spinner class="spinner-custom" ng-show="is_saving"></ion-spinner>
+                    <button type="submit" ng-show="!is_saving" class="button button-custom button-block button-positive" ng-click="closeModal(true, new_nickname, new_notifications)" ng-disabled="nickname_form.$invalid">
+                        <i class="icon ion-android-done"></i> {{ 'Save' | translate }}
+                    </button>
+                    <button ng-show="room && leaveRoom && !is_saving" class="button button-custom button-block button-assertive" ng-click="leaveRoom(room)">
+                        <i class="icon ion-android-exit"></i> {{ 'Leave room' | translate }}
+                    </button>
+                </div>
+            </section>
+        </form>
+    </ion-content>
+</ion-modal-view>

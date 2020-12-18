@@ -1,0 +1,42 @@
+<ion-view sb-page-background
+          class="emenu emenu-category"
+          cache-view="false">
+
+    <ion-nav-title>{{ ::'Categories' | translate:'emenu' }}</ion-nav-title>
+
+    <ion-content class="has-header">
+
+        <div class="loader"
+             ng-show="is_loading">
+            <ion-spinner icon="android"
+                         class="spinner-custom"></ion-spinner>
+        </div>
+
+        <ion-list ng-if="!is_loading && categories.length > 0">
+            <ion-item class="item-custom item-avatar item-icon-right"
+                      ng-repeat="value in categories">
+                <img src="{{category_image(value.image)}}"
+                     ng-if="!is_loading"/>
+                <h2 class="category_name">
+                    <b>{{ value.category_name }}</b>
+                </h2>
+                <p>{{ ::value.status }}</p>
+                <i class="icon ion-android-more-vertical"
+                   ng-click="categoryMenu(value)" ng-if="aclAccessCheck('categories_manage')"></i>
+            </ion-item>
+        </ion-list>
+
+        <ion-list ng-if="!is_loading && categories.length == 0">
+            <ion-item class="item-custom">
+                <p class="text-center">{{ ::'No category added yet, Please add a category!' | translate:'emenu' }}</p>
+            </ion-item>
+        </ion-list>
+
+    </ion-content>
+
+    <button ng-if="!is_loading"
+            class="button light ion-plus-round button-floating-action button-positive button-positive-custom"
+            ng-click="addCategory()">
+    </button>
+
+</ion-view>

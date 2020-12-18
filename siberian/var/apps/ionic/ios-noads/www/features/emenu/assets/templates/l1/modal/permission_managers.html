@@ -1,0 +1,33 @@
+<ion-modal-view cache-view="false"
+                sb-page-background
+                class="emenu emenu-permission-orders">
+
+    <ion-header-bar class="bar-custom">
+        <div class="buttons">
+            <button class="button button-clear"
+                    ng-click="closeManagePermissionModal()">
+                <i ng-class="backButtonIcon()"></i>
+            </button>
+        </div>
+        <h1 class="title">{{ ::'Permissions' | translate:'emenu' }} </h1>
+    </ion-header-bar>
+
+     <ion-content class="has-header">        
+        <ion-list>
+          
+           <ion-item class="item item-custom item-checkbox" ng-repeat="(key, value) in managerInfo.features_allow">
+                <label class="checkbox">
+                    <input type="checkbox" ng-model="value.status" ng-checked="value.status">
+               </label>
+                <h3>{{value.name}}</h3>
+            </ion-item>
+            <ion-item class="item-custom remove-border">
+                <button ng-click="accountPermissionSave()" class="button button-positive button-positive-custom button-full">
+                      {{ ::'Save' | translate:'emenu' }}
+                </button>
+            </ion-item>
+
+        </ion-list>        
+    </ion-content>
+
+</ion-modal-view>

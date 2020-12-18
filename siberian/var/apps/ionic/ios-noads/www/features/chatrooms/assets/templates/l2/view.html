@@ -1,0 +1,109 @@
+<ion-view sb-page-background
+          class="chatrooms chatrooms-l2-view">
+    <ion-nav-title>
+        <div class="chatrooms">
+            <section ng-if="recipient"
+                     class="friend"
+                     ng-class="{'online': recipient.online}">
+                <span class="status-bubble"></span>
+                {{ recipient.nickname }}
+            </section>
+            <section ng-if="chatroom">
+                {{ chatroom.name }}
+            </section>
+        </div>
+    </ion-nav-title>
+    <ion-nav-buttons side="right">
+
+        <button ng-show="!is_loading"
+                ng-click="toggleNotifications()"
+                class="button button-clear header-item chatrooms notifications-toggle">
+            <i class="icon {{ getNotificationClass() }}"></i>
+        </button>
+
+        <button ng-show="!is_loading"
+                ng-click="showInfos()"
+                class="button button-clear header-item"
+                style="padding: 0 10px 0 10px;">
+            <i class="icon ion-ios-gear-outline"></i>
+        </button>
+
+        <button class="button button-clear"
+                ng-click="toggleMenu()">
+            <i ng-class="getRightToggleIcon()"></i>
+        </button>
+
+    </ion-nav-buttons>
+    <div class="bar bar-subheader bar-assertive"
+         ng-if="!is_loading && !isConnectedToChat">
+      <h6 class="title stable-text">
+          {{ ::'We have trouble connecting you to the chat server. Please try again later.' | translate:'chatrooms' }}
+      </h6>
+    </div>
+    <ion-content ng-class="{'has-subheader': !is_loading && !isConnectedToChat}"
+                 class="chatroom-view"
+                 style="overflow-y: visible !important;">
+        <div class="loader"
+             ng-show="is_loading">
+            <ion-spinner class="spinner-custom"></ion-spinner>
+        </div>
+        <ion-list ng-show="!is_loading">
+            <ion-item class="item-text-wrap item item-custom"
+                      ng-class="isFromMe(message) ? 'item-avatar-right text-right' : 'item-avatar-left text-left'"
+                      ng-click="showCustomer(message.senderID)"
+                      ng-repeat="message in messages track by message.id">
+                <img class="avatar"
+                     ng-src="{{getDefaultAvatar(message.senderID)}}"
+                     height="72"
+                     width="72" />
+                <div>
+                    <b class="nickname">{{message.nickname}}</b>
+                    <span class="time">{{ message.date | moment_calendar}}</span>
+                    <p class="padding-horizontal message"
+                       ng-bind-html="message.message | emojify"></p>
+                </div>
+                <p class="message-img"
+                   ng-if="message.image">
+                    <img ng-src="{{thumbnail_image(message.image)}}"
+                         zoom-view
+                         zoom-src="{{fullsize_image(message.image)}}" />
+                </p>
+            </ion-item>
+        </ion-list>
+
+    </ion-content>
+
+    <ion-footer-bar class="item-input-inset item item-divider item-divider-custom footer-bar"
+                    ng-show="!is_loading"
+                    ng-click="chooseNicknameIfNeeded()">
+        <form name="chat_msg_form">
+            <button type="button"
+                    class="button button-icon icon icon-custom ion-camera button-send-img"
+                    ng-click="sendPhoto()"
+                    ng-disabled="is_sending || no_nickname()">
+                <span class="badge badge-assertive badge-icon">{{ attachements.length }}</span>
+            </button>
+            <label class="item-input-wrapper">
+                <input type="text"
+                       id="chat_message_input"
+                       ng-model="chat_message"
+                       ng-click="_scrollBottom()"
+                       ng-focus="_scrollBottom()"
+                       ng-disabled="is_sending || no_nickname()"
+                       ng-minlength="1"
+                       ng-maxlength="1023"
+                       maxlength="1023"
+                       ng-required="true"
+                       placeholder="{{ ::'Message' | translate:'chatrooms' }}"
+                       autocomplete="off" />
+            </label>
+            <button type="submit"
+                    class="button button-icon icon icon-custom ion-paper-airplane button-send-msg"
+                    ng-click="sendMsg()"
+                    ng-disabled="is_sending || no_nickname() || chat_msg_form.$invalid">
+            </button>
+        </form>
+    </ion-footer-bar>
+
+</ion-view>
+

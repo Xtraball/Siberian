@@ -1,0 +1,10 @@
+<!-- number -->
+<label class="item item-input item-custom form2-number">
+    <div class="input-label">
+        {{ field.label | translate:'form2' }} <span ng-if="field.is_required">*</span>
+    </div>
+    <input class="text-right"
+           type="text"
+           ng-keyup="checkValue(field)"
+           ng-model="field.value" />
+</label>

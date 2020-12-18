@@ -1,0 +1,340 @@
+/* LIST Year */
+.layout.layout_siberian_year .list.row{margin-bottom:5px;padding:0}
+.layout.layout_siberian_year .list.row .item{height:250px}
+.layout.layout_siberian_year .list.row .item-image{height:60%;background-repeat: no-repeat;background-position: center center;background-size: cover;}
+.layout.layout_siberian_year .list.row .item-content{height:40%}
+
+/* LAYOUT Year */
+.layout.layout_siberian_year .item h2 {
+    position: absolute;
+    bottom: -20px;
+    width: 100%;
+}
+
+.layout.layout_siberian_year .item {
+    margin: 0;
+    border-width: 0px;
+    height:100%;
+    background-position: 50% 50%;
+    background-size: 50%;
+    padding:0;
+    background-repeat: no-repeat;
+    overflow: visible;
+}
+.layout.layout_siberian_year .no-border{border:none !important}
+
+.layout.layout_siberian_year .badge-custom { top: 20px; right: 16px; padding: 6px 8px; font-size: 16px;  }
+.layout_siberian_year .homepage-custom.translucent {
+    border-radius: 50%;
+}
+
+.layout.layout_siberian_year {
+    position: absolute;
+    height: 100%;
+    top: 0;
+    width:100%;
+    left:0;
+}
+
+.layout.layout_siberian_year ion-scroll {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    bottom: 0;
+}
+
+/* options */
+.layout.layout_siberian_year .border-custom.border-top {
+    border-top-width: 1px;
+}
+.layout.layout_siberian_year .border-custom.border-right {
+    border-right-width: 1px;
+}
+.layout.layout_siberian_year .border-custom.border-bottom {
+    border-bottom-width: 1px;
+}
+.layout.layout_siberian_year .border-custom.border-left {
+    border-left-width: 1px;
+}
+
+.layout.layout_siberian_year .label-right {
+    text-align: right;
+}
+.layout.layout_siberian_year .label-left {
+    text-align: left;
+}
+
+.layout.layout_siberian_year .title-lowcase {
+    text-transform: inherit;
+}
+.layout.layout_siberian_year .title-uppercase {
+    text-transform: uppercase;
+}
+
+.layout.layout_siberian_year .menu-item,
+.layout.layout_siberian_year .menu-open-button {
+    border-radius: 100%;
+    width: 80px;
+    height: 80px;
+    margin-left: -40px;
+    position: absolute;
+    color: #FFFFFF;
+    text-align: center;
+    -webkit-transform: translate3d(0, 0, 0);
+    transform: translate3d(0, 0, 0);
+    -webkit-transition: -webkit-transform ease-out 200ms;
+    transition: -webkit-transform ease-out 200ms;
+    transition: transform ease-out 200ms;
+    transition: transform ease-out 200ms, -webkit-transform ease-out 200ms;
+    top: 46vh;
+    left: 50%;
+}
+
+.layout.layout_siberian_year .menu-open {
+    display: none;
+}
+
+.layout.layout_siberian_year .lines {
+    width: 25px;
+    height: 3px;
+    background: #596778;
+    display: block;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    margin-left: -12.5px;
+    margin-top: -1.5px;
+    -webkit-transition: -webkit-transform 200ms;
+    transition: -webkit-transform 200ms;
+    transition: transform 200ms;
+    transition: transform 200ms, -webkit-transform 200ms;
+}
+
+.layout.layout_siberian_year .line-1 {
+    -webkit-transform: translate3d(0, -8px, 0);
+    transform: translate3d(0, -8px, 0);
+}
+
+.layout.layout_siberian_year .line-2 {
+    -webkit-transform: translate3d(0, 0, 0);
+    transform: translate3d(0, 0, 0);
+}
+
+.layout.layout_siberian_year .line-3 {
+    -webkit-transform: translate3d(0, 8px, 0);
+    transform: translate3d(0, 8px, 0);
+}
+
+.layout.layout_siberian_year .menu-open:checked + .menu-open-button .line-1 {
+    -webkit-transform: translate3d(0, 0, 0) rotate(45deg);
+    transform: translate3d(0, 0, 0) rotate(45deg);
+}
+
+.layout.layout_siberian_year .menu-open:checked + .menu-open-button .line-2 {
+    -webkit-transform: translate3d(0, 0, 0) scale(0.1, 1);
+    transform: translate3d(0, 0, 0) scale(0.1, 1);
+}
+
+.layout.layout_siberian_year .menu-open:checked + .menu-open-button .line-3 {
+    -webkit-transform: translate3d(0, 0, 0) rotate(-45deg);
+    transform: translate3d(0, 0, 0) rotate(-45deg);
+}
+
+.layout.layout_siberian_year .menu {
+    margin: auto;
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    width: 80px;
+    height: 80px;
+    text-align: center;
+    box-sizing: border-box;
+    font-size: 26px;
+}
+
+.layout.layout_siberian_year .menu-item:nth-child(3) {
+    -webkit-transition-duration: 180ms;
+    transition-duration: 180ms;
+}
+
+.layout.layout_siberian_year .menu-item:nth-child(4) {
+    -webkit-transition-duration: 180ms;
+    transition-duration: 180ms;
+}
+
+.layout.layout_siberian_year .menu-item:nth-child(5) {
+    -webkit-transition-duration: 180ms;
+    transition-duration: 180ms;
+}
+
+.layout.layout_siberian_year .menu-item:nth-child(6) {
+    -webkit-transition-duration: 180ms;
+    transition-duration: 180ms;
+}
+
+.layout.layout_siberian_year .menu-item:nth-child(7) {
+    -webkit-transition-duration: 180ms;
+    transition-duration: 180ms;
+}
+
+.layout.layout_siberian_year .menu-item:nth-child(8) {
+    -webkit-transition-duration: 180ms;
+    transition-duration: 180ms;
+}
+
+.layout.layout_siberian_year .menu-item:nth-child(9) {
+    -webkit-transition-duration: 180ms;
+    transition-duration: 180ms;
+}
+
+.layout.layout_siberian_year .menu-open-button {
+    z-index: 2;
+    -webkit-transition-timing-function: cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    transition-timing-function: cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    -webkit-transition-duration: 400ms;
+    transition-duration: 400ms;
+    -webkit-transform: scale(1.1, 1.1) translate3d(0, 0, 0);
+    transform: scale(1.1, 1.1) translate3d(0, 0, 0);
+    cursor: pointer;
+    box-shadow: 3px 3px 0 0 rgba(0, 0, 0, 0.14);
+}
+
+.layout.layout_siberian_year .menu-open-button:hover {
+    -webkit-transform: scale(1.2, 1.2) translate3d(0, 0, 0);
+    transform: scale(1.2, 1.2) translate3d(0, 0, 0);
+}
+
+.layout.layout_siberian_year .menu-open:checked + .menu-open-button {
+    -webkit-transition-timing-function: linear;
+    transition-timing-function: linear;
+    -webkit-transition-duration: 200ms;
+    transition-duration: 200ms;
+    -webkit-transform: scale(0.8, 0.8) translate3d(0, 0, 0);
+    transform: scale(0.8, 0.8) translate3d(0, 0, 0);
+}
+
+.layout.layout_siberian_year .menu-open:checked ~ .menu-item {
+    -webkit-transition-timing-function: cubic-bezier(0.935, 0, 0.34, 1.33);
+    transition-timing-function: cubic-bezier(0.935, 0, 0.34, 1.33);
+}
+
+.layout.layout_siberian_year .menu-open:checked ~ .menu-item:nth-child(3) {
+    transition-duration: 180ms;
+    -webkit-transition-duration: 180ms;
+    -webkit-transform: translate3d(0.08361px, -104.99997px, 0);
+    transform: translate3d(0.08361px, -104.99997px, 0);
+}
+
+.layout.layout_siberian_year .menu-open:checked ~ .menu-item:nth-child(4) {
+    transition-duration: 280ms;
+    -webkit-transition-duration: 280ms;
+    -webkit-transform: translate3d(90.9466px, -52.47586px, 0);
+    transform: translate3d(90.9466px, -52.47586px, 0);
+}
+
+.layout.layout_siberian_year .menu-open:checked ~ .menu-item:nth-child(5) {
+    transition-duration: 380ms;
+    -webkit-transition-duration: 380ms;
+    -webkit-transform: translate3d(90.9466px, 52.47586px, 0);
+    transform: translate3d(90.9466px, 52.47586px, 0);
+}
+
+.layout.layout_siberian_year .menu-open:checked ~ .menu-item:nth-child(6) {
+    transition-duration: 480ms;
+    -webkit-transition-duration: 480ms;
+    -webkit-transform: translate3d(0.08361px, 104.99997px, 0);
+    transform: translate3d(0.08361px, 104.99997px, 0);
+}
+
+.layout.layout_siberian_year .menu-open:checked ~ .menu-item:nth-child(7) {
+    transition-duration: 580ms;
+    -webkit-transition-duration: 580ms;
+    -webkit-transform: translate3d(-90.86291px, 52.62064px, 0);
+    transform: translate3d(-90.86291px, 52.62064px, 0);
+}
+
+.layout.layout_siberian_year .menu-open:checked ~ .menu-item:nth-child(8) {
+    transition-duration: 680ms;
+    -webkit-transition-duration: 680ms;
+    -webkit-transform: translate3d(-91.03006px, -52.33095px, 0);
+    transform: translate3d(-91.03006px, -52.33095px, 0);
+}
+
+.layout.layout_siberian_year .menu-open:checked ~ .menu-item:nth-child(9) {
+    transition-duration: 780ms;
+    -webkit-transition-duration: 780ms;
+    -webkit-transform: translate3d(-0.25084px, -104.9997px, 0);
+    transform: translate3d(-0.25084px, -104.9997px, 0);
+}
+
+.layout.layout_siberian_year .menu-item h2 {
+    transition-duration: 120ms;
+    -webkit-transition-duration: 120ms;
+    -webkit-transform: translate3d(0px, -40px, 0);
+    transform: translate3d(0px, -40px, 0);
+    opacity: 0;
+}
+
+.layout.layout_siberian_year .menu-open:checked ~ .menu-item h2 {
+    transition-duration: 120ms;
+    -webkit-transition-duration: 120ms;
+    -webkit-transform: translate3d(0px, 0px, 0);
+    transform: translate3d(0px, 0px, 0);
+    opacity: 1;
+}
+
+/* options */
+.layout.layout_siberian_year .menu-item.menu-top {
+    top:24%;
+}
+.layout.layout_siberian_year .menu-item.menu-middle {
+    top:37%;
+}
+.layout.layout_siberian_year .menu-item.menu-bottom {
+    top:64%;
+}
+
+.layout.layout_siberian_year .title-lowcase {
+    text-transform: inherit;
+}
+.layout.layout_siberian_year .title-uppercase {
+    text-transform: uppercase;
+}
+
+.layout.layout_siberian_year .menu-item a h2.titlehidden {
+    display: none;
+}
+
+.layout.layout_siberian_year .menu-item a h2.titlevisible {
+    display: block;
+}
+
+/* LAYOUT 10 MORE */
+.layout.layout_siberian_year.modal {opacity: 1;}
+.layout.layout_siberian_year.modal ul {width:100%; display:inline-block; }
+.layout.layout_siberian_year.modal li {position: relative; float:left;}
+.layout.layout_siberian_year.modal .items {
+    margin: 0 auto;
+    padding: 16% 10% 4% 10%;
+    -webkit-border-radius: 50%;
+    -moz-border-radius: 50%;
+    border-radius: 50%;
+    width: 80px;
+    height: 80px;
+    background-position: center;
+    background-size: 50%;
+    background-repeat: no-repeat;
+}
+.layout.layout_siberian_year.modal .icon {font-size: 4em;}
+.layout.layout_siberian_year.modal img {width: 30px; height: 30px;}
+.layout.layout_siberian_year.modal p {line-height: 20px; height: 20px; overflow: hidden;}
+.layout.layout_siberian_year .no-border{border-top:none; box-shadow: none;}
+
+@media screen and (min-width:680px) {
+    .layout.layout_siberian_year.modal{
+        right: 0 !important;
+        left: 0 !important
+    }
+}

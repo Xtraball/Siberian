@@ -1,0 +1,11 @@
+<ion-checkbox class="checkbox-custom item-custom"
+              ng-model="field.is_checked"
+              ng-change="getLocation()">
+    <h2>
+        <span ng-show="!locationIsLoading">{{ field.label }}</span>
+        <span ng-show="locationIsLoading">{{ ::'Fetching location ...' | translate:'form2' }}</span>
+    </h2>
+    <p ng-if="field.value"
+       ng-bind-html="formatLocation()"
+       style="white-space: normal !important;"></p>
+</ion-checkbox>

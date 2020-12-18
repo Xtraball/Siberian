@@ -1,0 +1,52 @@
+<ion-modal-view sb-page-background
+                ng-controller="CabrideVehicleType"
+                class="cabride cabride-model-vehicle">
+
+    <ion-header-bar class="bar-custom">
+        <div class="buttons">
+            <button class="button button-clear"
+                    ng-click="close()">
+                <i class="icon ion-android-arrow-back"></i>
+            </button>
+        </div>
+        <h1 ng-if="enableCustomForm"
+            class="title">{{ ::'Information & vehicle type' | translate:'cabride' }}</h1>
+        <h1 ng-if="!enableCustomForm"
+            class="title">{{ ::'Select a vehicle type' | translate:'cabride' }}</h1>
+    </ion-header-bar>
+
+    <ion-content ng-class="{'has-footer': enableCustomForm}">
+        <ion-list class="list-item"
+                  ng-if="enableCustomForm">
+            <div ng-include="'./features/cabride/assets/templates/l1/form/form.html'"></div>
+            <div style="margin-top: 20px;"></div>
+        </ion-list>
+
+        <ion-list class="list-item">
+            <ion-item class="item-divider item-divider-custom"
+                      ng-if="enableCustomForm">{{ ::'Vehicle type' | translate:'cabride' }}</ion-item>
+            <ion-item ng-repeat="(vehicleId, vehicleType) in vehicles"
+                 ng-click="select(vehicleId, vehicleType)"
+                 class="item-custom item item-thumbnail-left item-icon-right vehicle-type">
+                <img ng-src="{{ imagePath(vehicleType.icon) }}" />
+                <h2 class="vehicle-type-title">{{ vehicleType.type }}</h2>
+                <p class="default-fares">
+                    <span ng-if="vehicleType.lowPricing != vehicleType.pricing">
+                        {{ ::'Est.' | translate:'cabride' }} {{ vehicleType.lowPricing }} - {{ vehicleType.pricing }}
+                    </span>
+                    <span ng-if="vehicleType.lowPricing == vehicleType.pricing">
+                        {{ ::'Est.' | translate:'cabride' }} {{ vehicleType.pricing }}
+                    </span>
+                </p>
+                <i class="icon ion-checkmark"
+                   ng-show="vehicleId == currentVehicleId"></i>
+            </ion-item>
+        </ion-list>
+    </ion-content>
+
+    <button class="button button-assertive button-assertive-custom button-full validate-button"
+            ng-if="enableCustomForm"
+            ng-click="validate();">
+        {{ ::'Validate' | translate:'cabride' }}
+    </button>
+</ion-modal-view>

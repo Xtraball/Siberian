@@ -1,0 +1,3 @@
+<!-- Custom fields (defaults) -->
+<div ng-repeat="field in customFormFields() track by field.field_id"
+     ng-include="'./features/cabride/assets/templates/l1/form/fields/' + field.type + '.html'"></div>

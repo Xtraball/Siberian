@@ -1,0 +1,91 @@
+<ion-modal-view sb-page-background
+                ng-controller="RequestCancelController"
+                class="cabride cabride-cancel-course">
+
+    <ion-header-bar class="bar-custom">
+        <div class="buttons">
+            <button class="button button-clear"
+                    ng-click="close()">
+                <i class="icon ion-android-arrow-back"></i>
+            </button>
+        </div>
+        <h1 class="title">{{ ::'Cancel course!' | translate:'cabride' }}</h1>
+    </ion-header-bar>
+
+    <ion-content>
+        <div class="list list-item">
+            <div style="margin-bottom: 20px;"></div>
+
+            <div class="item item-divider item-divider-custom">
+                {{ ::'Select a reason' | translate:'cabride' }}
+            </div>
+
+            <div class="item item-custom cancel-reason">
+                <!-- Driver -->
+                <ion-radio class="radio-custom"
+                           ng-if="userType == 'driver'"
+                           ng-model="cancel.reason"
+                           ng-value="'passenger-not-here'">
+                    - {{ ::'Passenger was not here' | translate:'cabride' }}
+                </ion-radio>
+                <ion-radio class="radio-custom"
+                           ng-if="userType == 'driver'"
+                           ng-model="cancel.reason"
+                           ng-value="'incorrect-pickup-location'">
+                    - {{ ::'The pickup location was incorrect' | translate:'cabride' }}
+                </ion-radio>
+                <ion-radio class="radio-custom"
+                           ng-if="userType == 'driver'"
+                           ng-model="cancel.reason"
+                           ng-value="'passenger-cancelled'">
+                    - {{ ::'My passenger cancelled' | translate:'cabride' }}
+                </ion-radio>
+
+                <!-- Passenger -->
+                <ion-radio class="radio-custom"
+                           ng-if="userType == 'client'"
+                           ng-model="cancel.reason"
+                           ng-value="'incorrect-pickup-location'">
+                    - {{ ::'My pickup location was incorrect' | translate:'cabride' }}
+                </ion-radio>
+                <ion-radio class="radio-custom"
+                           ng-if="userType == 'client'"
+                           ng-model="cancel.reason"
+                           ng-value="'driver-cancelled'">
+                    - {{ ::'My driver cancelled' | translate:'cabride' }}
+                </ion-radio>
+                <ion-radio class="radio-custom"
+                           ng-if="userType == 'client'"
+                           ng-model="cancel.reason"
+                           ng-value="'eta-too-long'">
+                    - {{ ::'The ETA was too long' | translate:'cabride' }}
+                </ion-radio>
+
+                <!-- Both -->
+                <ion-radio class="radio-custom"
+                           ng-model="cancel.reason"
+                           ng-value="'other'">
+                    - {{ ::"My reason isn't listed" | translate:'cabride' }}
+                </ion-radio>
+            </div>
+
+            <div style="margin-bottom: 20px;"></div>
+
+            <div class="item item-divider item-divider-custom">
+                {{ ::'Leave us a note' | translate:'cabride' }}
+            </div>
+
+            <label class="item item-input item-custom">
+                <textarea rows="4"
+                          placeholder="{{ ::'Your note ...' | translate:'cabride' }}"
+                          ng-model="cancel.message"></textarea>
+            </label>
+
+            <button type="submit"
+                    class="button button-assertive button-full button-assertive-custom"
+                    ng-click="submit()"
+                    ng-show="!is_loading">{{ ::'Submit' | translate:'cabride' }}</button>
+
+        </div>
+    </ion-content>
+</ion-modal-view>

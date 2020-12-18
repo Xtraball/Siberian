@@ -1,0 +1,196 @@
+<ion-view sb-page-background
+          class="mcommerce-view mcommerce-cart">
+  <ion-nav-title>{{ page_title }}</ion-nav-title>
+
+  <ion-nav-buttons side="secondary">
+    <button ng-click="right_button.action()"
+            class="button button-clear header-item"
+            ng-if="right_button">
+      <span class="back-text">
+        <span class="default-title">{{ right_button.label }}</span>
+      </span>
+      <i class="icon"
+         ng-class="right_button.icon"></i>
+    </button>
+  </ion-nav-buttons>
+
+  <ion-content>
+
+    <div class="card"
+         ng-if="object.cart.lines.length"
+         ng-repeat="line in object.cart.lines">
+      <div class="item item-divider item-divider-custom">
+        <p>
+          <strong>
+            <i class="icon ion-clipboard"></i> {{ line.name }} - {{ line.formattedBasePriceInclTax }}
+          </strong>
+        </p>
+      </div>
+      <div class="item item-thumbnail-left item-icon-right item-custom">
+        <img ng-if="line.product.picture.url"
+             ng-src="{{ line.product.picture.url }}" />
+        <p ng-show="line.format[0].title && line.format[0].title != ''">{{ ::'Format' | translate:'m_commerce' }}: {{ line.format[0].title }}</p>
+        <p ng-repeat="option in line.options">
+          {{ option.qty }} x {{ option.name }} : {{ option.formattedPriceInclTax }}
+        </p>
+        <p ng-repeat="choice in line.choices">
+          {{ choice.title }}:
+          <span ng-repeat="elem in choice.options"><br> &nbsp;&nbsp; {{elem}}</span>
+        </p>
+        <p class="text-right">
+          <strong>{{ ::'Total' | translate:'m_commerce' }}:</strong> {{ line.formattedTotalInclTax }}
+        </p>
+        <i class="icon ion-trash-a"
+           ng-click="removeLine(line)"></i>
+      </div>
+      <sb-input-number value="line.qty"
+                       min="1"
+                       step="1"
+                       label="Qty"
+                       change-qty="changeQuantity(qty,params)"
+                       params="{line:line}"></sb-input-number>
+    </div>
+    <div class="card"
+         ng-if="object.cart.lines.length">
+      <div class="item item-divider item-divider-custom">
+        <p>
+          <strong><i class="icon ion-calculator"></i> {{ ::'Total' | translate:'m_commerce' }}</strong>
+        </p>
+      </div>
+      <div class="item item-custom"
+           ng-if="object.cart.deliveryCost > 0">
+        {{ ::'Delivery fees' | translate:'m_commerce' }}
+        <span class="item-note"
+              ng-if="!is_loading">{{ object.cart.formattedDeliveryTTC }}</span>
+        <span class="item-note"
+              ng-if="is_loading">
+          <ion-spinner class="spinner-custom"></ion-spinner>
+        </span>
+      </div>
+      <div class="item item-custom">
+        <strong>{{ ::'Subtotal' | translate:'m_commerce' }}</strong>
+        <span class="item-note"
+              ng-if="!is_loading">
+          <strong>{{ object.cart.formattedSubtotalExclTax }}</strong>
+        </span>
+        <span class="item-note"
+              ng-if="is_loading">
+          <ion-spinner class="spinner-custom"></ion-spinner>
+        </span>
+      </div>
+      <div class="item item-custom"
+           ng-if="object.cart.discount_enabled">
+        {{ ::'Discount code' | translate:'m_commerce' }}
+        <span class="item-note">
+          <input type="text"
+                 name="discount_code"
+                 ng-model="object.cart.discount_code"
+                 class="discount"
+                 ng-disabled="points_data.use_points"
+                 ng-change="updateTipAndDiscount()">
+        </span>
+      </div>
+      <div class="item item-custom"
+           ng-if="object.cart.discount_enabled && object.cart.discount_code != '' && object.cart.discount">
+        {{ ::'Discount' | translate:'m_commerce' }} ({{ object.cart.discount_message }})
+        <span class="item-note"
+              ng-if="!is_loading">- {{ object.cart.discount }}</span>
+        <span class="item-note"
+              ng-if="is_loading">
+          <ion-spinner class="spinner-custom"></ion-spinner>
+        </span>
+      </div>
+      <ion-checkbox class="checkbox-custom"
+                    ng-model="points_data.use_points"
+                    ng-change="useFidelityChange()"
+                    ng-if="object.cart.customer_fidelity_points && object.cart.fidelity_rate">{{ ::'Use my points?' | translate:'m_commerce' }}</ion-checkbox>
+
+      <div ng-show="points_data.use_points">
+        <div class="item item-custom">
+          {{ ::'Points available' | translate:'m_commerce' }}: {{ object.cart.customer_fidelity_points }}, {{ ::'1 point' | translate:'m_commerce' }} = {{ object.cart.fidelity_rate }} {{ object.cart.currency_code }}
+        </div>
+        <div class="item item-custom">
+          {{ ::'Use' | translate:'m_commerce' }}:
+          <span class="item-note">
+            <input type="number"
+                   name="points"
+                   ng-model="points_data.nb_points_used"
+                   class="cart-tip"
+                   min="1"
+                   max="{{object.cart.customer_fidelity_points}}"
+                   ng-change="updateEstimatedDiscount()">
+          </span>
+        </div>
+        <div class="item item-custom">
+          {{ ::'Estimated discount' | translate:'m_commerce' }}: <span class="item-note"
+                                                        ng-bind-html="object.cart.estimated_fidelity_discount"></span>
+        </div>
+        <div class="item-divider item-divider-custom"></div>
+      </div>
+      <div class="item item-custom"
+           ng-if="object.cart.discount_enabled && object.cart.discount_code != '' && object.cart.discount">
+        <strong>{{ ::'Subtotal' | translate:'m_commerce' }} {{ ::'Incl.' | translate:'m_commerce' | lowercase }} {{ ::'Discount' | translate:'m_commerce' | lowercase }}</strong>
+        <span class="item-note"
+              ng-if="!is_loading">{{ object.cart.formattedSubtotalWithDiscount }}</span>
+        <span class="item-note"
+              ng-if="is_loading">
+          <ion-spinner class="spinner-custom"></ion-spinner>
+        </span>
+      </div>
+      <div class="item item-custom"
+           ng-if="object.cart.deliveryCost > 0">
+        {{ ::'Subtotal excl. tax' | translate:'m_commerce' }}
+        <span class="item-note"
+              ng-if="!is_loading">{{ object.cart.formattedDeductedTotalHT }}</span>
+        <span class="item-note"
+              ng-if="is_loading">
+          <ion-spinner class="spinner-custom"></ion-spinner>
+        </span>
+      </div>
+      <div class="item item-custom">
+        {{ ::'Tax' | translate:'m_commerce' }}
+        <span class="item-note"
+              ng-if="!is_loading">{{ object.cart.formattedTotalTax }}</span>
+        <span class="item-note"
+              ng-if="is_loading">
+          <ion-spinner class="spinner-custom"></ion-spinner>
+        </span>
+      </div>
+      <div class="item item-custom"
+           ng-if="object.cart.add_tip">
+        {{ ::'Add gratuity (optional)' | translate:'m_commerce' }}
+        <span class="item-note">
+          <input type="number"
+                 name="tip"
+                 ng-model="object.cart.tip"
+                 class="cart-tip"
+                 ng-change="updateTipAndDiscount()">
+        </span>
+      </div>
+      <div class="item item-custom">
+        <strong>{{ ::'Total' | translate:'m_commerce' }}</strong>
+        <span class="item-note"
+              ng-if="!is_loading">{{ object.cart.formattedTotal }}</span>
+        <span class="item-note"
+              ng-if="is_loading">
+          <ion-spinner class="spinner-custom"></ion-spinner>
+        </span>
+      </div>
+    </div>
+    <div class="card"
+         ng-if="!object.cart.lines.length">
+      <div class="item item-custom">
+        <p>{{ ::'My cart is empty' | translate:'m_commerce' }}</p>
+            </div>
+        </div>
+        <div class="card">
+            <div class="item item-icon-left item-custom"
+                 ng-click="goToCategories()">
+                <i class="icon ion-ios-arrow-back"></i> {{ ::'Continue shopping' | translate:'m_commerce' }}
+            </div>
+        </div>
+    </ion-content>
+</ion-view>
+
+
+

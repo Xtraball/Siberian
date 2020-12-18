@@ -1,0 +1,68 @@
+<ion-modal-view cache-view="false"
+                sb-page-background
+                class="emenu emenu-search-item">
+
+    <div class="bar bar-custom bar-header item-input-inset">
+        <label class="item-input-wrapper">
+            <i class="icon ion-ios-search placeholder-icon"></i>
+            <input type="search"
+                   ng-modal="searchObj.searchText"
+                   id="contactSearch"
+                   placeholder='{{ ::"Search" | translate:"emenu" }}'
+                   ng-keyup="searchItem()" />
+        </label>
+        <button class="button button-clear"
+                ng-click="closeSearchModal()">
+            {{ ::'Cancel' | translate:'emenu' }}
+        </button>
+    </div>
+
+    <ion-content class="has-header"
+                 scrollbar-y="false"
+                 ng-hide="is_loading"
+                 overflow-scroll="false"
+                 delegate-handle="mainSearchScroll">
+
+        <div class="loader"
+             ng-if="searchObj.searchText || searchObj.searchText !== ''"
+             ng-show="is_loading">
+            <ion-spinner icon="android"
+                         class="spinner-custom"></ion-spinner>
+        </div>
+
+
+        <div class="list">
+            <div class="item item-custom item-avatar item-icon-right"
+                 ng-repeat="value in Searchcollection">
+                <img src="{{ item_image(value.image)}}">
+                <h2>{{value.item_name}}</h2>
+                <p>{{value.category_name}}</p>
+                <p>{{value.currency_symbol}} {{value.price}}
+                    <span class="pull-right icon-active-custom"
+                          ng-if="value.delete_status == 0">{{ ::'Disable' | translate:'emenu' }} </span>
+                </p>
+                <i class="icon ion-android-more-vertical"
+                   ng-click="itemMenu(value.item_id)"></i>
+            </div>
+        </div>
+
+
+        <div class="list"
+             ng-if="!Searchcollection.length">
+            <div class="item text-center item-custom">
+                {{ ::'No items found' | translate:'emenu' }}
+            </div>
+        </div>
+
+        <ion-infinite-scroll ng-if="can_load_search_older_posts"
+                             on-infinite="loadSearchMore()"
+                             immediate-check="false"
+                             distance="50%"
+                             class="spinner-custom">
+        </ion-infinite-scroll>
+
+
+    </ion-content>
+
+
+</ion-modal-view>

@@ -1,0 +1,20 @@
+<ion-content delegate-handle="mainScroll"
+             ng-class="{'has-subheader': displaySubHeader()}"
+             ng-controller="FanwallGalleryController">
+
+    <div class="loader"
+         ng-show="isLoading">
+        <ion-spinner class="spinner-custom"></ion-spinner>
+    </div>
+
+    <div ng-if="!isLoading && collection.length > 0">
+        <fanwall-gallery></fanwall-gallery>
+    </div>
+
+    <ion-list ng-if="!isLoading && !collection.length">
+        <ion-item ng-class="{'card' : getCardDesign()}"
+                  class="item-custom text-center no-post">
+            {{ ::'There is actually no image.' | translate:'fanwall' }}
+        </ion-item>
+    </ion-list>
+</ion-content>

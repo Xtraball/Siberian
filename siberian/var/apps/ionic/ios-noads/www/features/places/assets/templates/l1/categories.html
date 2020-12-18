@@ -1,0 +1,93 @@
+<ion-view class="module-places places places-categories l1"
+          sb-page-background>
+    <ion-nav-title>{{ page_title }}</ion-nav-title>
+
+    <ion-nav-buttons side="secondary">
+        <button ng-click="nextFormat(true)"
+                class="button button-clear header-item places-secondary-button">
+            <i class="icon"
+               ng-class="currentFormatBtn"></i>
+        </button>
+        <button ng-click="goToMap()"
+                class="button button-clear header-item places-secondary-button">
+            <i class="icon ion-sb-map"></i>
+        </button>
+    </ion-nav-buttons>
+
+    <ion-content>
+        <div ng-show="is_loading"
+             class="loader">
+            <ion-spinner class="spinner-custom"></ion-spinner>
+        </div>
+
+        <div ng-if="categories.length > 0 && !is_loading">
+            <div class="places">
+                <div ng-repeat="item in categories"
+                     ng-click="selectCategory(item)"
+                     ng-class="currentFormat"
+                     class="place">
+
+                    <div ng-if="currentFormat == 'place-33'">
+                        <div class="card">
+                            <div class="image category"
+                                 ng-style="{'background-image':'url(' + categoryThumbnailSrc(item) + ')'}">
+                            </div>
+
+                            <div class="text">
+                                <p class="title">{{ item.title ? item.title : item.author }}</p>
+                                <p ng-if="item.subtitle"
+                                   ng-bind-html="item.subtitle"
+                                   class="subtitle"></p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div ng-if="currentFormat == 'place-50'">
+                        <div class="card">
+                            <div class="image category"
+                                 ng-style="{'background-image':'url(' + categoryThumbnailSrc(item) + ')'}">
+                            </div>
+
+                            <div class="text">
+                                <p class="title">{{ item.title ? item.title : item.author }}</p>
+                                <p ng-if="item.subtitle"
+                                   ng-bind-html="item.subtitle"
+                                   class="subtitle"></p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div ng-if="currentFormat == 'place-100'">
+                        <div class="card">
+                            <div class="sb-row">
+                                <div class="sb-col-20">
+                                    <div class="image category"
+                                         ng-style="{'background-image':'url(' + categoryThumbnailSrc(item) + ')'}">
+                                    </div>
+                                </div>
+                                <div class="sb-col-80">
+                                    <div class="text">
+                                        <p class="title">{{ item.title ? item.title : item.author }}</p>
+                                        <p ng-if="item.subtitle"
+                                           ng-bind-html="item.subtitle"
+                                           class="subtitle"></p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+
+            </div>
+        </div>
+
+        <div ng-if="categories.length <= 0 && !is_loading"
+             class="card">
+            <div class="item item-custom">
+                {{ ::'There is no category!' | translate:'places' }}
+            </div>
+        </div>
+
+    </ion-content>
+</ion-view>

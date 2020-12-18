@@ -1,0 +1,38 @@
+<ion-view sb-page-background
+          class="mcommerce-view mcommerce-sales-history">
+    <ion-nav-title>{{ page_title }}</ion-nav-title>
+
+    <ion-content>
+
+        <div class="list">
+            <div class="item item-text-wrap item-custom"
+                 ng-repeat="order in orders"
+                 ng-click="showDetails(order.order_id)">
+                <h2>
+                    <strong>{{ ::'Order N°' | translate:'m_commerce' }}: {{ order.number }}</strong>
+                    <span class="pull-right">{{ order.total }}</span>
+                </h2>
+                <p>
+                    <i class="ion-android-warning"
+                       ng-if="order.status == '1'"> </i>
+                    {{ order.status_label }}
+                </p>
+                <p>
+                    {{ order.date }}
+                </p>
+            </div>
+            <div class="item item-text-wrap item-custom"
+                 ng-if="!orders.length">
+                {{ ::'No items found' | translate:'m_commerce' }}
+            </div>
+        </div>
+
+        <ion-infinite-scroll ng-if="can_load_older_posts"
+                             on-infinite="loadMore()"
+                             immediate-check="false"
+                             distance="10%"
+                             class="spinner-custom">
+        </ion-infinite-scroll>
+
+    </ion-content>
+</ion-view>

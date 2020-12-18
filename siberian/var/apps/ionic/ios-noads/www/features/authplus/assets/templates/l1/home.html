@@ -1,0 +1,54 @@
+<ion-view sb-page-background
+          class="authplus authplus-home">
+    <ion-nav-title> {{ ::"PASSCODE" | translate:"authplus" }}</ion-nav-title>
+    <ion-content class="has-header">
+
+        <ion-list class="card">
+            <ion-item class="item-toggle"
+                      ng-show="payload.data.is_passcode_active==1">
+                {{ ::"Enable Passcode" | translate:"authplus" }}
+                <label class="toggle toggle-positive">
+                    <input type="checkbox"
+                           ng-model="customer_passcode_active"
+                           ng-change="toggleboxChange()">
+                    <div class="track">
+                        <div class="handle"></div>
+                    </div>
+                </label>
+            </ion-item>
+
+            <ion-item class="item-divider item-divider-custom"
+                      ng-show="payload.data.is_passcode_active==0">
+                {{ ::"This features is not activated" | translate:"authplus" }}!
+            </ion-item>
+
+            <ion-item class="item-custom item-body">
+                <p>
+                    {{ ::"Please note the following information when you enable passcode" | translate:"authplus" }}:
+                </p>
+                <p>
+                    - {{ ::"Any PIN registered with passcode on this device will have access to your Mobile App" | translate:"authplus" }}.
+                </p>
+                <p>
+                    - {{ ::"After PIN setup, Allow required pincode when resume the app" | translate:"authplus" }}.
+                </p>
+                <p>
+                    - {{ ::"To enable PIN login, you must first create a PIN after login" | translate:"authplus" }}.
+                </p>
+            </ion-item>
+        </ion-list>
+
+
+        <div class="list card"
+             ng-show="payload.data.is_passcode_active==1">
+            <a class="item item-icon-left item-icon-right"
+               ng-click="changePin()"
+               ng-show="customer_passcode_active">
+                <i class="icon on-ios-locked-outline"></i>
+                {{ ::"Change PIN" | translate:"authplus" }}
+                <i class="icon ion-chevron-right"></i>
+            </a>
+        </div>
+
+    </ion-content>
+</ion-view>

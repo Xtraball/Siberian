@@ -1,0 +1,181 @@
+<ion-modal-view cache-view="false"
+                sb-page-background
+                class="xdelivery xdelivery-details">
+
+    <ion-header-bar class="bar-custom">
+        <div class="buttons">
+            <button class="button button-clear"
+                    ng-click="closeModalProductDetails()">
+                    <i ng-class="backButtonIcon()"></i>
+            </button>
+        </div>
+        <h1 class="title">{{ product_details.product_name}}</h1>
+    </ion-header-bar>
+   
+   <ion-content class="has-header">
+       
+        <div class="loader"
+             ng-show="isLoading">
+            <ion-spinner class="spinner-custom"></ion-spinner>
+        </div>
+
+        <div class="list" ng-if="!is_loading">
+            <!-- Image  -->
+            <div class="item item-body item-custom remove-border product-details-img text-center">
+                <span class="badge badge-assertive badge-assertive-custom" ng-if="product_details.offer_persent > 0">
+                {{ product_details.offer_persent }} %</span>
+                <img class="full-image"  ng-src="{{ ProductImage(product_details.image) }}">
+            </div>
+
+              <!-- price and Name-->
+            <div class="item item-custom remove-border">
+                <h2>{{ product_details.product_name }}</h2>
+                <p class="text-left" ng-if="!product_details.active_special_price">
+                    <span ng-if="product_details.in_stock > 0" class="pull-left">{{ product_details.stock }}
+                    </span>
+                    <span ng-if="product_details.in_stock <= 0" class="pull-left icon-danger-custom">{{ product_details.stock }}
+                    </span>
+                    <span class="pull-right icon-active-custom product_price"> {{product_details.currency}}{{ product_details.price }}</span>
+                </p>
+                <p class="text-left" ng-if="product_details.active_special_price">
+                    <span ng-if="product_details.in_stock > 0" class="pull-left icon-active-custom">{{ product_details.stock }}
+                    </span>
+                    <span ng-if="product_details.in_stock <= 0" class="pull-left icon-danger-custom">{{ product_details.stock }}
+                    </span>
+                    <span class="pull-right icon-active-custom product_price">{{product_details.currency}}{{ product_details.special_price }} <del class="icon-danger-custom">{{ product_details.price }}</del></span> 
+                </p>
+            </div>
+
+            <div class="spacer"
+                         style="margin-top: 20px;"></div>
+
+            <!-- Select Varients  -->
+            <div class="item item-divider item-divider-custom remove-border" ng-if="product_details.is_multiple_options > 0">{{ ::"Select Variant" | translate:"xdelivery" }}
+            </div>
+
+            <label class="item item-custom item-multiple-options" ng-if="product_details.is_multiple_options > 0">               
+          
+            <div class="row" ng-repeat="variant in product_details.varients" ng-if="$index % 2 === 0"> 
+                  
+                  <div class="col-50 text-center" ng-if="$index < product_details.varients.length">
+                   <ion-radio 
+                     ng-click="choiceVariantProduct(product_details.varients[$index])"
+                     ng-checked="{{checkedProduct(product_details.varients[$index].varient_product_id)}}"
+                     ng-model="cart.child_product_id" 
+                     ng-value="{{ product_details.varients[$index].varient_product_id }}" class="item-custom radio-custom radio-multiple-options">                        
+                        <h2 class="text-center" ng-if="!product_details.varients[$index].active_special_price">
+                            {{product_details.currency}}{{ product_details.varients[$index].selling_price }}
+                        </h2>
+                        <h2 class="text-center" ng-if="product_details.varients[$index].active_special_price">
+                            {{product_details.currency}}{{ product_details.varients[$index].special_price }}
+                            <del class="icon-danger-custom">
+                            {{ product_details.varients[$index].price }}
+                            </del>
+                            ( {{product_details.varients[$index].offer_persent}} )%
+                        </h2>
+                        <P class="product-varient-type" ng-repeat="option in product_details.varients[$index].values">
+                            {{option.attribute_name}} : <span> {{option.value_name}}
+                            </span>
+                        </P>
+                     </ion-radio> 
+                  </div>
+
+                  <div class="col-50  text-center" ng-if="$index + 1 < product_details.varients.length">
+                       <ion-radio 
+                          ng-click="choiceVariantProduct(product_details.varients[$index + 1])"
+                           ng-model="cart.child_product_id" 
+                           ng-value="{{ product_details.varients[$index + 1].varient_product_id}}" 
+                           class="item-custom radio-custom radio-multiple-options" 
+                            ng-checked="{{checkedProduct(product_details.varients[$index + 1].varient_product_id)}}"> 
+                           <h2 class="text-center" ng-if="!product_details.varients[$index + 1].active_special_price">
+                            {{product_details.currency}}{{ product_details.varients[$index + 1].selling_price }}
+                        </h2>
+                        <h2 class="text-center" ng-if="product_details.varients[$index + 1].active_special_price">
+                            {{product_details.currency}}{{ product_details.varients[$index + 1].special_price }}
+                            <del class="icon-danger-custom">{{ product_details.varients[$index + 1].price }}</del>
+                            ({{product_details.varients[$index + 1].offer_persent}})%
+                        </h2>
+                        <P class="product-varient-type" ng-repeat="option in product_details.varients[$index + 1].values">
+                            {{option.attribute_name}} : <span> {{option.value_name}}
+                            </span>
+                        </P>
+
+                     </ion-radio>  
+
+                  </div>
+               </div>
+            </label>
+
+            <div class="spacer"
+                         style="margin-top: 20px;"></div>
+
+            <!-- Toppings -->
+             <div class="item item-divider item-divider-custom remove-border" ng-if="product_details.options.length > 0">
+                <h2>{{ ::"Add Toppings" | translate:"xdelivery" }}</h2>
+                <p>{{ ::"You can add more toppings" | translate:"xdelivery" }}</p>
+            </div>
+             <div class="item item-custom item-icon-right" 
+                ng-repeat="topping in product_details.options" 
+                ng-if="product_details.options.length > 0" 
+                ng-click="toppingOptionsModal(topping)">
+                    {{topping.name}} 
+                <span class="pull-right">
+                    {{product_details.currency}} {{ toppingSelectedSum(topping.option_id) }}
+                </span>
+                <i class="icon ion-chevron-right"></i>
+            </div>
+           
+           <div class="spacer"
+                         style="margin-top: 20px;"></div>
+                         
+            <!-- Add To Cart and Save For later buttons -->
+            <div class="item item-custom remove-border">
+                <button class="button button-full button-positive-custom" ng-disabled="((product_details.in_stock > 0 ) ? false : true)" ng-click="addToCart(cart)" ng-if="!product_details.in_cart">
+                    <span ng-if="product_details.in_stock > 0">
+                        {{ ::"ADD TO CART" | translate:"xdelivery" }}
+                    </span>
+                    <span ng-if="product_details.in_stock <= 0">
+                        {{ product_details.stock }}
+                    </span>
+                </button>
+
+                <button class="button button-full button-positive-custom" ng-if="product_details.in_cart">
+                    {{ ::"ALREADY IN CART" | translate:"xdelivery" }}
+                </button>
+
+                <button class="button button-full button-custom" ng-click="saveForLater(product_details.id)">
+                    <span ng-if="!product_details.is_save">{{ ::"SAVE FOR LATER" | translate:"xdelivery" }}</span>
+                    <span  ng-if="product_details.is_save">{{ ::"REMOVE FROM SAVE" | translate:"xdelivery" }}</span>
+                </button>
+            </div>
+           
+            <!-- Additional Information -->
+            <div class="item item-divider item-divider-custom remove-border" ng-if="product_details.attributes.length > 0">
+                {{ ::"Additional information" | translate:"xdelivery" }}
+            </div>
+           
+            <div class="item item-custom remove-border" ng-repeat="attribute2 in product_details.attributes" ng-if="product_details.attributes.length > 0">
+                <p>{{attribute2.attribute_name}} 
+                    <span class="pull-right" ng-repeat="av2 in attribute2.values">
+                        {{av2.value_name}}, 
+                    </span>
+                </p>
+            </div>
+           
+             <!-- Description -->
+            <div class="item item-divider item-divider-custom remove-border" ng-if="product_details.description!=''">
+                {{ ::"Description" | translate:"xdelivery" }}
+            </div>
+            <div class="item item-body item-custom remove-border"  ng-if="product_details.description!=''">
+                <p  ng-bind-html="product_details.description | trusted_html" sb-a-click></p>
+            </div>
+        </div>
+
+    </ion-content>
+    <style type="text/css">
+        .product_price {
+            font-size: 16px;
+            font-weight: 600;
+        }
+    </style>
+</ion-modal-view>

@@ -1,0 +1,81 @@
+<ion-view sb-page-background
+          class="emenu emenu-item"
+          cache-view="false">
+
+    <ion-nav-title>{{ ::'Items' | translate:'emenu' }}</ion-nav-title>
+
+    <ion-nav-buttons side="secondary">
+        <button class="button button-clear header-item"
+                ng-click="itemFilterMenu()"
+                ng-if="!is_loading && collection_items.length > 0">
+            <i class="icon ion-funnel"></i>
+        </button>
+    </ion-nav-buttons>
+
+    <ion-content class="has-header"
+                 id="item-content"
+                 scrollbar-y="false"
+                 overflow-scroll="false"
+                 delegate-handle="mainScroll">
+
+        <div class="loader"
+             ng-show="is_loading">
+            <ion-spinner icon="android"
+                         class="spinner-custom"></ion-spinner>
+        </div>
+
+        <ion-list ng-if="!is_loading && collection_items.length > 0">
+            <div ng-repeat="(key, value) in collection_items">
+
+                <div ng-if="(collection_items[key-1].category_id) !== (collection_items[key].category_id)">
+                   <!--  <div class="spacer"
+                         style="margin-top: 20px;"></div> -->
+                    <ion-item class="item-divider item-divider-custom remove-border"
+                              ng-if="(collection_items[key-1].category_id) !== (collection_items[key].category_id)">
+                        {{ value.category_name }}
+                    </ion-item>
+                </div>
+
+                <ion-item class="item-custom item-avatar item-icon-right">
+                    <img ng-src="{{ item_image(value.image)}}"/>
+                    <h2>
+                        <b>{{value.name}}</b>
+                    </h2>
+                    <p> {{value.currency_symbol}}{{value.price}}
+                        <span>({{ value.status | translate:'emenu' }})</span>
+                        <span ng-if="value.is_popular == 1"
+                              class="badge badge-energized badge-energized-custom">{{ ::'Popular' | translate:'emenu' }}</span>
+                        <span ng-if="value.is_special == 1"
+                              class="badge badge-balanced badge-balanced-custom">{{ ::'Special' | translate:'emenu' }}</span>
+                        <span ng-if="value.item_type == 'Veg'"
+                              class="badge badge-positive badge-positive-custom">{{ ::'Veg' | translate:'emenu' }}</span>
+                    </p>
+                    <i class="icon ion-android-more-vertical"
+                       ng-click="itemMenuSheet(value)" ng-if="aclAccessCheck('item_manage')"></i>
+                </ion-item>
+            </div>
+        </ion-list>
+
+        <ion-list ng-if="collection_items.length == 0 && !is_loading">
+            <div class="item item-custom item-body">
+                <p class="text-center">
+                    {{ ::'No item added yet, Please add and submit!' | translate:'emenu' }}
+                </p>
+            </div>
+        </ion-list>
+
+        <ion-infinite-scroll ng-if="can_load_older_posts_items && !is_loading"
+                             on-infinite="loadMoreItem()"
+                             immediate-check="false"
+                             distance="50%"
+                             class="spinner-custom">
+        </ion-infinite-scroll>
+
+    </ion-content>
+
+    <button class="button light ion-plus-round button-floating-action button-positive button-positive-custom"
+            ng-if="!is_loading"
+            ng-click="addItem()">
+    </button>
+
+</ion-view>

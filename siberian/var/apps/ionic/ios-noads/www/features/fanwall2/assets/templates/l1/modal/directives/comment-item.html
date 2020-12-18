@@ -1,0 +1,26 @@
+<ion-item ng-class="{'card': getCardDesign(), 'blocked-item' : isBlocked()}"
+          class="item-custom item-comment">
+    <div class="item-avatar comment-author">
+        <img ng-src="{{ authorImagePath(comment.author.image) }}" />
+        <h2>
+            {{ authorName(comment.author) }}
+            <i class="icon ion-more pull-right"
+               ng-click="openActions($event)"></i>
+        </h2>
+        <p class="comment-date">{{ publicationDate(comment) }}</p>
+        <p ng-if="comment.text.length > 0 && !isBlocked()"
+           class="comment-text"
+           sb-html="comment.text"></p>
+        <p ng-if="comment.text.length > 0 && isBlocked()"
+           class="comment-text">
+            <i>{{ ::comment.text | translate:'fanwall' }}</i>
+        </p>
+        <p class="comment-image"
+           ng-if="comment.image.length > 0">
+            <a data-fslightbox="comments-gallery"
+               href="{{ imagePath(comment.image) }}">
+                <img ng-src="{{ imagePath(comment.image) }}" />
+            </a>
+        </p>
+    </div>
+</ion-item>

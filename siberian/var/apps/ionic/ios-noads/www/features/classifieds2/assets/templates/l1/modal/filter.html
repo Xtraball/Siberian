@@ -1,0 +1,126 @@
+<ion-modal-view sb-page-background
+                ng-controller="Classifieds2FilterController"
+                class="module-classifieds2 classifieds2-filter classifieds2-filter-l1">
+
+    <ion-header-bar class="bar-custom">
+        <div class="buttons">
+            <button class="button button-clear"
+                    ng-click="close()">
+                <i ng-class="backButtonIcon()"></i>
+            </button>
+        </div>
+        <h1 class="title">{{ ::'Search, filter' | translate:'classifieds2' }}</h1>
+        <div class="buttons">
+            <button class="button button-clear"
+                    ng-click="clearFilters(); validateFilters(); close()">
+                <i class="icon ion-sb-clear-brush"></i>
+            </button>
+        </div>
+    </ion-header-bar>
+
+    <ion-content>
+        <div class="list places-filters"
+             ng-class="{'card' : card_design}">
+            <div class="item item-custom">
+                <div>
+                    <input type="text"
+                           style="width: 100%;"
+                           placeholder="{{ ::'Keywords, locality, etc...' | translate:'classifieds2' }}"
+                           ng-model="globalFilters.fulltext" />
+                    <i ng-show="globalFilters.fulltext.length > 0"
+                       ng-click="clearFullText()"
+                       class="icon ion-backspace-outline clear-text"></i>
+                </div>
+            </div>
+
+            <label class="item item-custom item-input item-select"
+                   ng-if="hasCategories()">
+                <div class="input-label">
+                    {{ ::'Category' | translate:'classifieds2' }}
+                </div>
+                <select ng-model="globalFilters.category"
+                        style="direction: ltr;">
+                    <option value="">{{ ::'Pick a value' | translate:'classifieds2' }}</option>
+                    <option ng-repeat="category in categories track by category.value"
+                            value="{{ category.value }}"
+                            ng-selected="globalFilters.category == category.value"
+                            ng-bind-html="category.label | trusted_html"></option>
+                </select>
+            </label>
+
+            <label class="item item-custom item-select">
+                <div class="input-label">
+                    {{ ::'Sort' | translate:'classifieds2' }}
+                </div>
+                <select class="cls-ltr"
+                        ng-model="globalFilters.orderBy">
+                    <option value="newest"
+                            ng-selected="globalFilters.orderBy == 'newest'">{{ ::'Newest' | translate:'classifieds2' }}</option>
+                    <option value="lowPrice"
+                            ng-selected="globalFilters.orderBy == 'lowPrice'">{{ ::'Lowest price' | translate:'classifieds2' }}</option>
+                    <option value="oldest"
+                            ng-selected="globalFilters.orderBy == 'oldest'">{{ ::'Oldest' | translate:'classifieds2' }}</option>
+                    <option value="highPrice"
+                            ng-selected="globalFilters.orderBy == 'highPrice'">{{ ::'Highest price' | translate:'classifieds2' }}</option>
+                </select>
+            </label>
+
+            <div class="item item-custom no-padding">
+                <div class="row no-padding">
+                    <div class="col col-50 no-padding">
+                        <label class="item item-custom item-input item-stacked-label">
+                            <span class="input-label">{{ ::'Min. price' | translate:'classifieds2' }}</span>
+                            <input type="text"
+                                   ng-model="globalFilters.minPrice"
+                                   placeholder="0" />
+                            <!--i ng-show="globalFilters.minPrice.length > 0"
+                               ng-click="clearMinPrice()"
+                               class="icon ion-backspace-outline clear-text"></i-->
+                        </label>
+                    </div>
+                    <div class="col col-50 no-padding">
+                        <label class="item item-custom item-input item-stacked-label">
+                            <span class="input-label">{{ ::'Max. price' | translate:'classifieds2' }}</span>
+                            <input type="text"
+                                   ng-model="globalFilters.maxPrice"
+                                   placeholder="0" />
+                            <!--i ng-show="globalFilters.maxPrice.length > 0"
+                               ng-click="clearMinPrice()"
+                               class="icon ion-backspace-outline clear-text"></i-->
+                        </label>
+                    </div>
+                </div>
+            </div>
+
+            <div class="item item-custom">
+                <div>
+                    <input type="text"
+                           style="width: 100%;"
+                           placeholder="{{ ::'Zipcode' | translate:'classifieds2' }}"
+                           ng-model="globalFilters.zipCode" />
+                    <i ng-show="globalFilters.zipCode.length > 0"
+                       ng-click="clearZipCode()"
+                       class="icon ion-backspace-outline clear-text"></i>
+                </div>
+            </div>
+
+            <ion-checkbox class="item-custom"
+                          ng-model="globalFilters.withPictures">{{ ::'With photos' | translate:'classifieds2' }}</ion-checkbox>
+
+            <ion-checkbox class="item-custom"
+                          ng-model="globalFilters.withAddress">{{ ::'With an address' | translate:'classifieds2' }}</ion-checkbox>
+
+            <ion-checkbox class="item-custom"
+                          ng-model="globalFilters.withPhone">{{ ::'With a phone number' | translate:'classifieds2' }}</ion-checkbox>
+        </div>
+
+        <div class="cls-spacer"></div>
+    </ion-content>
+
+    <button class="search-button button button-assertive button-assertive-custom button-full"
+            ng-click="validateFilters(); close()">
+        {{ ::'Validate' | translate:'classifieds2' }}&nbsp;&nbsp;&nbsp;&nbsp;
+        <i class="icon ion-sb-search"></i>
+    </button>
+
+</ion-modal-view>

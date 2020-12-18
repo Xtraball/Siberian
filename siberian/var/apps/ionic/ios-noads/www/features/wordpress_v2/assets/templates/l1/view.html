@@ -1,0 +1,37 @@
+<ion-view sb-page-background
+          class="module-wordpress2 wordpress2-layout1 wordpress2-view">
+    <ion-nav-title ng-bind-html="page_title"></ion-nav-title>
+    <ion-content>
+
+        <div class="list"
+             ng-if="post"
+             ng-class="{'card': cardDesign}">
+            <div class="item item-icon-left item-custom">
+                <i class="icon ion-document-text"></i>
+                <h2 ng-if="post.title"
+                    ng-bind-html="post.title "></h2>
+                <p ng-if="post.mtDate">{{ post.mtDate }}</p>
+            </div>
+            <div class="item item-text-wrap item-custom"
+                 ng-if="post.picture">
+                <img ng-src="{{ post.picture }}"
+                     width="100%" />
+            </div>
+            <div ng-if="post.content"
+                 class="post-content">
+                <div class="item item-text-wrap item-description item-custom"
+                     ng-bind-html="post.content | trusted_html"
+                     sb-a-click></div>
+            </div>
+        </div>
+
+        <div class="list"
+             ng-class="{'card': cardDesign}"
+             ng-if="!post">
+            <div class="item text-center item-custom">
+                {{ ::'No item found' | translate }}
+            </div>
+        </div>
+
+    </ion-content>
+</ion-view>

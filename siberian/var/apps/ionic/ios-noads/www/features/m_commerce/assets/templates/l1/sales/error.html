@@ -1,0 +1,24 @@
+<ion-view sb-page-background
+          class="mcommerce-view mcommerce-sales-error">
+    <ion-nav-title>{{ page_title }}</ion-nav-title>
+
+    <ion-nav-buttons side="secondary">
+        <button ng-click="right_button.action()"
+                class="button button-clear header-item"
+                ng-if="right_button">
+            <span class="back-text">
+                <span class="default-title">{{ right_button.label }}</span>
+            </span>
+            <i class="icon"
+               ng-class="right_button.icon"></i>
+        </button>
+    </ion-nav-buttons>
+
+    <ion-content>
+        <div class="card">
+            <div class="item item-text-wrap item-custom">
+                <i class="icon ion-close-round"></i> {{ ::'An error occurred during the payment process.' | translate:'m_commerce' }}
+            </div>
+        </div>
+    </ion-content>
+</ion-view>

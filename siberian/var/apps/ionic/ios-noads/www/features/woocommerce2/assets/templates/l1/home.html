@@ -1,0 +1,180 @@
+<ion-view sb-page-background
+          class="module-woocommerce home-view products-view">
+
+    <ion-nav-title>{{ getCommerceName() }}</ion-nav-title>
+
+    <ion-nav-buttons side="secondary">
+        <button class="button button-clear button-cart"
+                ng-click="goTo('cart')">
+            <i class="woo_font"
+               ng-class="{
+                 'woo-shopping-cart-counter': getCartQuantity() > 0,
+                 'woo-shopping-cart': getCartQuantity() == 0
+               }"></i>
+            <span ng-if="getCartQuantity() > 0"
+                  ng-click="goTo('cart')"
+                  class="button button-clear woo-cart-quantity">{{ getCartQuantityText() }}</span>
+        </button>
+    </ion-nav-buttons>
+
+    <ion-content>
+        <div ng-if="!isReady">
+            <div class="loader">
+                <ion-spinner icon="android"
+                             class="spinner-custom"></ion-spinner>
+                <p>{{ ::'Loading...' | translate:'woocommerce2' }}</p>
+            </div>
+        </div>
+
+        <div ng-if="isReady">
+            <div class="woo-search-bar">
+                <form ng-submit="callSearch()">
+                    <label class="item item-input">
+                        <i class="icon ion-search placeholder-icon"></i>
+                        <input type="text"
+                               ng-model="search.terms"
+                               placeholder="Search" />
+                    </label>
+                </form>
+            </div>
+
+            <div ng-if="getCurrentStore().carousel.length > 0"
+                 class="woo-slider-container slider-home">
+                <woo-slider options="getCurrentStore().carouselOptions"
+                            images="getCurrentStore().carousel"></woo-slider>
+            </div>
+
+            <div class="list">
+                <div class="row">
+                    <div class="col shop-icons shop-icon-products"
+                         ng-click="goTo('products')">
+                        <div class="text-center">
+                            <h1>
+                                <i class="woo_font woo-price-tag"></i>
+                            </h1>
+                            <p>{{ ::'Products' | translate:'woocommerce2' }}</p>
+                        </div>
+                    </div>
+                    <div class="col shop-icons shop-icon-categories"
+                         ng-click="goTo('categories')">
+                        <div class="text-center">
+                            <h1>
+                                <i class="woo_font woo-bullet-list"></i>
+                            </h1>
+                            <p>{{ ::'Categories' | translate:'woocommerce2' }}</p>
+                        </div>
+                    </div>
+                    <div class="col shop-icons shop-icon-orders"
+                         ng-if="isLoggedIn()"
+                         ng-click="goTo('orders')">
+                        <div class="text-center">
+                            <h1>
+                                <i class="woo_font woo-order"></i>
+                            </h1>
+                            <p>{{ ::'Orders' | translate:'woocommerce2' }}</p>
+                        </div>
+                    </div>
+                    <div class="col shop-icons shop-icon-account"
+                         ng-click="goTo('account')">
+                        <div class="text-center">
+                            <h1>
+                                <i class="woo_font woo-user-account"></i>
+                            </h1>
+                            <p>{{ ::'Account' | translate:'woocommerce2' }}</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div ng-if="getCurrentStore().featuredProducts > 0"
+                     class="featured-products-container">
+                    <h4 class="home-featured">{{ ::'Featured products' | translate:'woocommerce2' }}</h4>
+
+                    <div class="loader"
+                         ng-show="featuredProducts == null">
+                        <ion-spinner icon="android"
+                                     class="spinner-custom"></ion-spinner>
+                        <p>{{ ::'Loading...' | translate:'woocommerce2' }}</p>
+                    </div>
+                    <woo-products-mini ng-if="featuredProducts != null"
+                                       products="featuredProducts"></woo-products-mini>
+
+                    <div ng-if="featuredProducts != null && featuredProducts.length == 0"
+                         class="padding text-center">
+                        <div class="badge badge-royal badge-royal-custom">
+                            {{ ::'No featured products.' | translate:'woocommerce2' }}
+                        </div>
+                    </div>
+                </div>
+
+                <div ng-if="getCurrentStore().featuredCategories > 0"
+                     class="featured-categories-container">
+                    <h4 class="categories-featured">{{ ::'Shop by category' | translate:'woocommerce2' }}</h4>
+
+                    <div class="loader"
+                         ng-show="featuredCategories == null">
+                        <ion-spinner icon="android"
+                                     class="spinner-custom"></ion-spinner>
+                        <p>{{ ::'Loading...' | translate:'woocommerce2' }}</p>
+                    </div>
+                    <woo-categories-mini ng-if="featuredCategories != null"
+                                         categories="featuredCategories"></woo-categories-mini>
+
+                    <div ng-if="featuredCategories != null && featuredCategories.length == 0"
+                         class="padding text-center">
+                        <div class="badge badge-royal badge-royal-custom">
+                            {{ ::'No featured categories.' | translate:'woocommerce2' }}
+                        </div>
+                    </div>
+                </div>
+
+                <h4 class="links-featured">{{ ::'Links & social networks' | translate:'woocommerce2' }}</h4>
+
+                <div class="row">
+                    <div class="col social-icon social-icon-webshop"
+                         ng-if="getCurrentStore().store_url"
+                         ng-click="openLink(getCurrentStore().store_url)">
+                        <div class="text-center">
+                            <h1>
+                                <i class="woo_font woo-shopping-bag"></i>
+                            </h1>
+                            <p>{{ ::'Web store' | translate:'woocommerce2' }}</p>
+                        </div>
+                    </div>
+
+                    <div class="col social-icon social-icon-facebook"
+                         ng-if="getCurrentStore().facebook"
+                         ng-click="openLink(getCurrentStore().facebook)">
+                        <div class="text-center">
+                            <h1>
+                                <i class="woo_font woo-facebook"></i>
+                            </h1>
+                            <p>{{ ::'Facebook' | translate:'woocommerce2' }}</p>
+                        </div>
+                    </div>
+
+                    <div class="col social-icon social-icon-twitter"
+                         ng-if="getCurrentStore().twitter"
+                         ng-click="openLink(getCurrentStore().twitter)">
+                        <div class="text-center">
+                            <h1>
+                                <i class="woo_font woo-twitter"></i>
+                            </h1>
+                            <p>{{ ::'Twitter' | translate:'woocommerce2' }}</p>
+                        </div>
+                    </div>
+
+                    <div class="col social-icon social-icon-instagram"
+                         ng-if="getCurrentStore().instagram"
+                         ng-click="openLink(getCurrentStore().instagram)">
+                        <div class="text-center">
+                            <h1>
+                                <i class="woo_font woo-instagram"></i>
+                            </h1>
+                            <p>{{ ::'Instagram' | translate:'woocommerce2' }}</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </ion-content>
+</ion-view>

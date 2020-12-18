@@ -1,0 +1,22 @@
+<!-- datetime -->
+<div class="item item-custom item-icon-left form2-datetime"
+     sb-datetime-picker
+     title="field.label"
+     headers="true"
+     skip-days="field.datetime_skipdays"
+     format="field.datetime_format"
+     model="field.value">
+    <div class="row">
+        <div class="col-50">
+            <i class="icon ion-clock add-image-icon"></i>
+            <p style="line-height: 36px;">{{ field.label | translate:'form2' }} <span ng-if="field.is_required">*</span></p>
+        </div>
+        <div class="col-50">
+            <input type="text"
+                   class="text-right"
+                   style="cursor: pointer !important;"
+                   ng-model="field.value"
+                   readonly="readonly" />
+        </div>
+    </div>
+</div>

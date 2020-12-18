@@ -1,0 +1,94 @@
+<ion-modal-view sb-page-background
+                class="module-job layout modal slide-top job-view job-manage-company">
+
+    <ion-header-bar class="bar-custom">
+        <div class="buttons">
+            <button class="button button-clear"
+                    ng-click="closeManageModal();">
+                <i class="icon ion-sb-close-modal"></i>
+            </button>
+        </div>
+        <h1 class="title">{{ ::'Manage company' | translate:'job' }}</h1>
+    </ion-header-bar>
+
+    <ion-content ng-class="{'has-footer': !cardDesign}">
+
+        <div class="list job-manage"
+             ng-class="{'card' : cardDesign}">
+
+            <div class="item item-divider item-divider-custom job-small-text job-line-return">
+                {{ ::'Statistics' | translate:'job' }}
+            </div>
+
+            <div class="item item-custom">
+                <div class="row"
+                     style="font-size: 14px;">
+                    <div class="col-50">{{ ::'Company views' | translate:'job' }}</div>
+                    <div class="col-50 text-right">{{ company.views }}</div>
+                </div>
+            </div>
+        </div>
+
+        <div class="list job-manage"
+             ng-class="{'card' : cardDesign}">
+
+            <div class="item item-divider item-divider-custom job-small-text job-line-return">
+                {{ ::'For advanced edit options, please use the complete web UI.' | translate:'job' }}
+            </div>
+
+            <label class="item item-input item-custom item-stacked-label">
+                <span class="input-label">{{ ::'Name' | translate:'job' }} *</span>
+                <input type="text"
+                       placeholder="{{ ::'Name' | translate:'job' }}"
+                       ng-model="company_edit.title" />
+            </label>
+
+            <label class="item item-input item-custom item-stacked-label-label">
+                <span class="input-label">{{ ::'Website' | translate:'job' }} *</span>
+                <input type="text"
+                       placeholder="{{ ::'Website' | translate:'job' }}"
+                       ng-model="company_edit.website" />
+            </label>
+
+            <label class="item item-input item-custom item-stacked-label">
+                <span class="input-label">{{ ::'E-mail' | translate:'job' }} *</span>
+                <input type="text"
+                       placeholder="{{ ::'E-mail' | translate:'job' }}"
+                       ng-model="company_edit.email" />
+            </label>
+
+            <label class="item item-input item-custom item-stacked-label">
+                <span class="input-label">{{ ::'Address' | translate:'job' }} *</span>
+                <input type="text"
+                       placeholder="{{ ::'Address' | translate:'job' }}"
+                       ng-model="company_edit.location" />
+            </label>
+
+            <label class="item item-input item-custom item-stacked-label">
+                <span class="input-label">{{ ::'Employee count' | translate:'job' }} *</span>
+                <input type="number"
+                       step="1"
+                       min="0"
+                       max="100000000000"
+                       placeholder="{{ ::'Employee count' | translate:'job' }}"
+                       ng-model="company_edit.employee_count" />
+            </label>
+        </div>
+
+        <div class="padding"
+             ng-if="cardDesign">
+            <button class="button button-positive button-positive-custom button-block"
+                    ng-click="submitManage();">
+                {{ ::'Save' | translate:'job' }}
+            </button>
+        </div>
+
+    </ion-content>
+
+    <button class="search-button button button-positive button-positive-custom button-full"
+            ng-if="!cardDesign"
+            ng-click="submitManage();">
+        {{ ::'Save' | translate:'job' }}
+    </button>
+
+</ion-modal-view>

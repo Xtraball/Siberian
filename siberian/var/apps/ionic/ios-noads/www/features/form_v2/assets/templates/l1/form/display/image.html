@@ -1,0 +1,11 @@
+<!-- image -->
+<div class="form2-pictures">
+    <ion-item class="item-image item-custom"
+              ng-repeat="picture in field.value track by $index"
+              ng-if="field.value.length > 0">
+        <div>
+            <img ng-src="{{ picture }}"
+                 class="form2-pictures" />
+        </div>
+    </ion-item>
+</div>

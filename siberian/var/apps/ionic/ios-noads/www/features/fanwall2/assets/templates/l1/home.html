@@ -1,0 +1,59 @@
+<ion-view sb-page-background
+          class="module-fanwall fanwall-list fanwall-list-l1">
+
+    <ion-nav-title>{{ pageTitle }}</ion-nav-title>
+
+    <ion-nav-buttons side="secondary">
+        <location-button ng-if="locationTab()"
+                         icon-class="'fanwall-location-action'"></location-button>
+
+        <button ng-click="refresh()"
+                class="button button-clear header-item">
+            <i class="icon ion-sb-refresh"></i>
+        </button>
+    </ion-nav-buttons>
+
+    <ion-header-bar ng-if="settingsAreLoaded && displaySubHeader()"
+                    class="bar-subheader">
+        <div class="button-bar">
+            <button class="button button-custom button-positive button-positive-custom"
+                    ng-click="showTab('post')"
+                    ng-class="classTab('post')"
+                    ng-bind-html="displayIcon('post') | trusted_html">
+            </button>
+            <button class="button button-custom button-positive button-positive-custom"
+                    ng-if="isEnabled('enableNearby')"
+                    ng-click="showTab('nearby')"
+                    ng-class="classTab('nearby')"
+                    ng-bind-html="displayIcon('nearby') | trusted_html">
+            </button>
+            <button class="button button-custom button-positive button-positive-custom"
+                    ng-if="isEnabled('enableMap')"
+                    ng-click="showTab('map')"
+                    ng-class="classTab('map')"
+                    ng-bind-html="displayIcon('map') | trusted_html">
+            </button>
+            <button class="button button-custom button-positive button-positive-custom"
+                    ng-if="isEnabled('enableGallery')"
+                    ng-click="showTab('gallery')"
+                    ng-class="classTab('gallery')"
+                    ng-bind-html="displayIcon('gallery') | trusted_html">
+            </button>
+            <button class="button button-custom button-positive button-positive-custom icon-custom"
+                    ng-if="displayProfile()"
+                    ng-click="showTab('profile')"
+                    ng-class="classTab('profile')"
+                    ng-bind-html="displayIcon('profile') | trusted_html">
+            </button>
+            <button class="button button-custom button-positive button-positive-custom icon-custom"
+                    ng-if="isEnabled('enableUserPost')"
+                    ng-click="newPost()"
+                    ng-bind-html="displayIcon('new') | trusted_html">
+            </button>
+        </div>
+    </ion-header-bar>
+
+    <div ng-if="settingsAreLoaded"
+         ng-include="'./features/fanwall2/assets/templates/l1/tabs/' + currentTab + '.html'"></div>
+
+</ion-view>

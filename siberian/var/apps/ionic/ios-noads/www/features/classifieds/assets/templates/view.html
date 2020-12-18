@@ -1,0 +1,121 @@
+<ion-view sb-page-background
+          class="classifieds">
+    <ion-nav-title>{{ ad.title }}</ion-nav-title>
+    <ion-nav-buttons side="secondary">
+        <button ng-show="social_sharing_active"
+                class="button button-clear"
+                ng-click="share()">
+            <i class="icon ion-android-share-alt"></i>
+        </button>
+    </ion-nav-buttons>
+    <ion-content scroll="true"
+                 class="has-header">
+        <div class="list list-custom"
+             ng-show="is_loading">
+            <div class="item item-custom">
+                <center>
+                    <ion-spinner class="spinner-custom"></ion-spinner>
+                </center>
+            </div>
+        </div>
+        <div class="list list-custom"
+             ng-hide="is_loading">
+            <div class="card">
+                <div sb-cms-text
+                     block="adblocks.title"></div>
+            </div>
+
+            <div class="card"
+                 ng-if="adblocks.pictures">
+                <div sb-cms-slider
+                     block="adblocks.pictures"
+                     gallery="adblocks.gallery"></div>
+            </div>
+
+            <div class="card">
+                <div sb-cms-text
+                     block="adblocks.description"></div>
+            </div>
+
+            <div class="card"
+                 ng-if="adblocks.address">
+                <div sb-cms-address
+                     block="adblocks.address"></div>
+            </div>
+
+            <div class="card block-email">
+                <div class="item item-text-wrap item-custom item-icon-left"
+                     ng-click="contact(ad.id)">
+                    <i class="icon ion-android-mail"></i>
+                    <p>{{ "Send an email" | translate }}</p>
+                </div>
+            </div>
+
+            <div class="card"
+                 ng-if="ad.mine">
+                <div sb-cms-text
+                     block="adblocks.status"></div>
+            </div>
+
+            <div class="card"
+                 ng-if="loggedIn && !ad.mine">
+                <div class="item item-text-wrap item-custom item-icon-left"
+                     ng-click="unbookmarkAd(ad.id)"
+                     ng-if="ad.bookmarked">
+                    <i class="icon ion-android-star-outline"></i>
+                    {{ "Unbookmark ad" | translate }}
+                </div>
+                <div class="item item-text-wrap item-custom item-icon-left"
+                     ng-click="bookmarkAd(ad.id)"
+                     ng-if="!ad.bookmarked">
+                    <i class="icon ion-android-star"></i>
+                    {{ "Bookmark ad" | translate }}
+                </div>
+            </div>
+
+            <div class="card"
+                 ng-if="!flagged_from_here && !ad.mine">
+                <div class="item item-text-wrap item-custom item-icon-left"
+                     ng-click="flagAd(ad.id)">
+                    <i class="icon ion-ios-flag"></i>
+                    {{ "Flag as inappropriate" | translate }}
+                </div>
+            </div>
+
+            <div class="card"
+                 ng-if="ad.mine && ad.status != 'expired' && ad.flagged">
+                <div class="item item-text-wrap item-custom">
+                    {{ "Your ad has been flagged" }}
+                </div>
+            </div>
+
+            <div class="card"
+                 ng-if="ad.mine && ad.status != 'expired'">
+                <div class="item item-text-wrap item-custom"
+                     ng-click="editAd(ad.id)">
+                    {{ "Edit ad" | translate }}
+                </div>
+                <div class="item item-text-wrap item-custom"
+                     ng-click="updateStatus(ad.id, 'sold')"
+                     ng-if="ad.status == 'published'">
+                    {{ "Mark ad as sold" | translate }}
+                </div>
+                <div class="item item-text-wrap item-custom"
+                     ng-click="updateStatus(ad.id, 'cancelled')"
+                     ng-if="(ad.status == 'published' || ad.status == 'pending')">
+                    {{ "Cancel ad" | translate }}
+                </div>
+                <div class="item item-text-wrap item-custom"
+                     ng-click="updateStatus(ad.id, 'publish')"
+                     ng-if="ad.status == 'cancelled'">
+                    {{ "Uncancel ad" | translate }}
+                </div>
+                <div class="item item-text-wrap item-custom"
+                     ng-click="updateStatus(ad.id, 'publish')"
+                     ng-if="ad.status == 'sold'">
+                    {{ "Unmark ad as sold" | translate }}
+                </div>
+            </div>
+        </div>
+    </ion-content>
+</ion-view>

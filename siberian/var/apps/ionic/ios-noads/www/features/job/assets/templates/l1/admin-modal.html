@@ -1,0 +1,40 @@
+<ion-modal-view sb-page-background
+                class="module-job layout modal slide-top job-view job-admin-modal">
+
+    <ion-header-bar class="bar-custom">
+        <div class="buttons">
+            <button class="button button-clear"
+                    ng-click="closeAdminModal();">
+                <i class="icon ion-sb-close-modal"></i>
+            </button>
+        </div>
+        <h1 class="title">{{ ::'My companies' | translate:'job' }}</h1>
+    </ion-header-bar>
+
+    <ion-content>
+
+        <div class="list job-more"
+             ng-class="{'card' : cardDesign}">
+            <div class="row item item-custom item-place job-admin"
+                 ng-click="showCompany(company.id)"
+                 ng-repeat="company in admin_companies">
+                <div class="col col-90">
+                    <h3>{{ company.title }}</h3>
+                    <p class="subtitle"
+                       ng-if="company.subtitle"
+                       ng-bind-html="company.subtitle"></p>
+                    <p class="subtitle-company"
+                       ng-if="company.location"
+                       ng-bind-html="company.location"></p>
+                </div>
+                <div class="col col-10">
+                    <i class="item-note ion-chevron-right arrow-center"></i>
+                </div>
+                <div ng-show="!company.is_active"
+                     class="job-inactive">{{ ::'inactive' | translate:'job' }}</div>
+            </div>
+
+        </div>
+
+    </ion-content>
+</ion-modal-view>

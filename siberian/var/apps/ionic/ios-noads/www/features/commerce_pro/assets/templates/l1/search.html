@@ -1,0 +1,63 @@
+<div id="search_section"
+     class="list folder2-search"
+     ng-class="{'card' : cardDesign}"
+     ng-show="showSearch">
+    <label class="item item-input item-custom">
+        <i class="icon ion-search placeholder-icon"></i>
+        <input type="text"
+               placeholder="{{ 'Search' | translate }}"
+               ng-model="search.searchValue">
+    </label>
+    <button class="clear-search"
+            ng-click="resetSearch()"
+            ng-show="search.searchValue.length">
+        <i class="icon ion-backspace"></i>
+    </button>
+</div>
+
+<div class="list folder2-search"
+     ng-class="{'card': cardDesign}"
+     ng-show="search.searchValue && results.length > 0">
+    <a tabbar-items
+       class="item item-custom item-avatar-square"
+       option="item.feature"
+       ng-repeat="item in searchIndex | multiWordsFilter:search.searchValue as results"
+       ng-class="{
+            'item-avatar': item.feature.thumbnail,
+            'item-center': (!item.feature.subtitle && !item.feature.message)}">
+        <img ng-src="{{ imagePath(item.feature.thumbnail) }}"
+             ng-if="item.feature.thumbnail" />
+        <h2>{{ item.ariaTitleShort }}</h2>
+        <p ng-if="item.feature.subtitle">{{ item.feature.subtitle }}</p>
+    </a>
+</div>
+
+<div class="list"
+     ng-class="{'card': cardDesign}"
+     ng-show="showSearch && search.searchValue && results.length === 0">
+    <div class="item text-center item-custom">
+        {{ "No results for your request." | translate }}
+    </div>
+</div>
+
+<style type="text/css">
+    .folder2-search .clear-search {
+        margin-right: 6px;
+        border: 0;
+        background: transparent;
+        position: absolute;
+        right: 0;
+        z-index: 5000;
+        top: 14px;
+    }
+</style>
+
+<style type="text/css"
+       ng-if="allowLineReturn">
+    .module-folder2 .item h2,
+    .module-folder2 .item p {
+        overflow: visible !important;
+        text-overflow: initial !important;
+        white-space: initial !important;
+    }
+</style>

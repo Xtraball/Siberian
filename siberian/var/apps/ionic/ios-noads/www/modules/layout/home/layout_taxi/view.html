@@ -1,0 +1,205 @@
+<div class="layout layout_taxi"
+     ng-controller="LayoutTaxiController">
+    <ion-content class="homepage-custom"
+                 scrollbar-y="false">
+        <div class="taxi-header"
+             ng-style="taxiHeaderStyle">
+            <!-- User logged in -->
+            <div ng-if="isLoggedIn"
+                 class="row">
+                <div class="text-center"
+                     ng-class="{'col-50': isDriver, 'col': !isDriver}">
+                    <div class="taxi-avatar-wrapper"
+                         ng-click="loginOrSignup()">
+                        <img class="taxi-avatar"
+                             ng-src="{{ avatarUrl }}" />
+                    </div>
+                </div>
+                <div class="col-50"
+                     ng-if="isDriver">
+                    <div class="line-status text-right">
+                        <div ng-if="isOnline"
+                             class="online-text">
+                            {{ ::"You are online" | translate }}
+                        </div>
+                        <div ng-if="!isOnline"
+                             class="offline-text">
+                            {{ ::"You are offline" | translate }}
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div ng-if="isLoggedIn"
+                 class="row">
+                <div class="text-center"
+                     ng-class="{'col-50': isDriver, 'col': !isDriver}">
+                    <span class="pull-left customer-name"
+                          ng-if="customer"
+                          ng-click="loginOrSignup()">
+                        {{ customerName() }}
+                    </span>
+                </div>
+                <div class="col-50"
+                     ng-if="isDriver">
+                    <div class="pull-right status-toggler"
+                         ng-class="{'on': isOnline, 'off': !isOnline}"
+                         ng-if="isDriver"
+                         ng-click="toggleStatus()">
+                        <div class="status-pill"></div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- User logged off -->
+            <div ng-if="!isLoggedIn"
+                 class="row">
+                <div class="col-100 text-center"
+                     ng-click="loginOrSignup()">
+                    <span class="taxi-signup">
+                        <span class="taxi-signup-text">{{ ::"SIGNUP" | translate }}</span>
+                        <span class="taxi-or-text">{{ ::"OR" | translate }}</span>
+                        <span class="taxi-login-text">{{ ::"LOGIN" | translate }}</span>
+                    </span>
+                </div>
+            </div>
+
+        </div>
+        <ul class="items homepage-custom">
+
+            <li class="lines border-custom"
+                ng-if="cabride"
+                ng-click="loadPage('cabride-home')">
+                <div class="line-box">
+                    <span class="line-icon-box">
+                        <img class="line-icon"
+                             ng-src="{{ cabride.icon_url }}"/>
+                    </span>
+                    <span class="line-title">{{ cabride.name }}</span>
+                </div>
+            </li>
+
+            <li class="lines border-custom"
+                ng-if="isLoggedIn && isDriver && cabride"
+                ng-click="loadPage('pending-requests')">
+                <div class="line-box">
+                    <span class="line-icon-box">
+                        <i class="line-icon icon ion-cab-timer"></i>
+                    </span>
+                    <span class="line-title">{{ ::"Pending requests" | translate }}</span>
+                    <span ng-if="information && information.counters.pending > 0"
+                          class="badge badge-positive badge-positive-custom">{{ information.counters.pending }}</span>
+                </div>
+            </li>
+
+            <li class="lines border-custom"
+                ng-if="isLoggedIn && isDriver && cabride"
+                ng-click="loadPage('accepted-requests')">
+                <div class="line-box">
+                    <span class="line-icon-box">
+                        <i class="line-icon icon ion-cab-timer-full"></i>
+                    </span>
+                    <span class="line-title">{{ ::"Accepted requests" | translate }}</span>
+                    <span ng-if="information && information.counters.accepted > 0"
+                          class="badge badge-positive badge-positive-custom">{{ information.counters.accepted }}</span>
+                </div>
+            </li>
+
+            <li class="lines border-custom"
+                ng-if="isLoggedIn && isDriver && cabride"
+                ng-click="loadPage('completed-rides')">
+                <div class="line-box">
+                    <span class="line-icon-box">
+                        <i class="line-icon icon ion-cab-thumb-up"></i>
+                    </span>
+                    <span class="line-title">{{ ::"Completed rides" | translate }}</span>
+                    <span ng-if="information && information.counters.completed > 0"
+                          class="badge badge-positive badge-positive-custom">{{ information.counters.completed }}</span>
+                </div>
+            </li>
+
+            <li class="lines border-custom"
+                ng-if="isLoggedIn && isDriver && cabride"
+                ng-click="loadPage('cancelled')">
+                <div class="line-box">
+                    <span class="line-icon-box">
+                        <i class="line-icon icon ion-cab-cancel"></i>
+                    </span>
+                    <span class="line-title">{{ ::"Declined" | translate }}</span>
+                    <span ng-if="information && information.counters.declined > 0"
+                          class="badge badge-positive badge-positive-custom">{{ information.counters.declined }}</span>
+                </div>
+            </li>
+
+            <li class="lines border-custom"
+                ng-if="isLoggedIn && isDriver && cabride"
+                ng-click="loadPage('vehicle-information')">
+                <div class="line-box">
+                    <span class="line-icon-box">
+                        <i class="line-icon icon ion-cab-car"></i>
+                    </span>
+                    <span class="line-title">{{ ::"Vehicle information" | translate }}</span>
+                    <i ng-if="information && information.vehicleWarning"
+                       class="icon ion-alert-circled vehicle-warning"></i>
+                </div>
+            </li>
+
+            <li class="lines border-custom"
+                ng-if="isLoggedIn && isDriver && cabride"
+                ng-click="loadPage('payment-history')">
+                <div class="line-box">
+                    <span class="line-icon-box">
+                        <i class="line-icon icon ion-cab-credit-card"></i>
+                    </span>
+                    <span class="line-title">{{ ::"Payment history" | translate }}</span>
+                    <span ng-if="information && information.counters.paymentHistory > 0"
+                          class="badge badge-positive badge-positive-custom">{{ information.counters.paymentHistory }}</span>
+                </div>
+            </li>
+
+            <li class="lines border-custom"
+                ng-if="isLoggedIn && isPassenger && cabride"
+                ng-click="loadPage('my-rides')">
+                <div class="line-box">
+                    <span class="line-icon-box">
+                        <i class="line-icon icon ion-cab-thumb-up"></i>
+                    </span>
+                    <span class="line-title">{{ ::"My rides" | translate }}</span>
+                    <span ng-if="information && information.counters.rides > 0"
+                          class="badge badge-positive badge-positive-custom">{{ information.counters.rides }}</span>
+                </div>
+            </li>
+
+            <li class="lines border-custom"
+                ng-if="isLoggedIn && isPassenger && cabride"
+                ng-click="loadPage('my-payments')">
+                <div class="line-box">
+                    <span class="line-icon-box">
+                        <i class="line-icon icon ion-cab-credit-card"></i>
+                    </span>
+                    <span class="line-title">{{ ::"My payments" | translate }}</span>
+                </div>
+            </li>
+
+            <li ng-repeat="feature in features.options"
+                ng-if="feature.is_visible"
+                class="lines border-custom"
+                tabbar-items
+                option="feature"
+                id="feature-{{ $index }}"
+                go-to-url="goTo(feature)">
+
+                <div class="line-box">
+                    <span class="line-icon-box">
+                        <img class="line-icon"
+                             ng-src="{{ feature.icon_url }}"/>
+                    </span>
+                    <span class="line-title">{{ feature.name }}</span>
+                </div>
+
+                <div ng-if="feature.code == 'push_notification' && push_badge"
+                     class="badge-custom">{{ push_badge }}
+                </div>
+            </li>
+        </ul>
+    </ion-content>
+</div>

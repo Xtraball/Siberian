@@ -1,0 +1,54 @@
+<ion-view sb-page-background
+          class="xdelivery xdelivery-orders">
+    <ion-nav-title>
+      {{ ::"Orders" | translate:"xdelivery" }}
+    </ion-nav-title>
+ 
+    <ion-content class="has-header">
+       <div class="loader" ng-show="is_loading">
+         <ion-spinner class="spinner-custom"></ion-spinner>
+      </div>
+
+      <div class="card"
+                  ng-if="!is_loading && payout.orders.length > 0" ng-repeat="(key, value) in payout.orders" ng-click="orderDetails(value.order_id)">
+           <div class="item item-divider item-divider-custom">
+             {{ ::"Order" | translate:"xdelivery" }}# {{value.order_number}}
+              <span class="pull-right">
+                {{value.order_status}}
+              </span>
+           </div>
+      	    <div class="item item-custom">
+                <div class="row">
+                  <div class="col-40">
+                  {{ ::"Items" | translate:"xdelivery" }}</div>
+                  <div class="col-60">: {{value.total_qty}}</div>
+                </div>
+                <div class="row">
+                  <div class="col-40">
+                  {{ ::"Amount" | translate:"xdelivery" }}</div>
+                  <div class="col-60">: {{value.currency}}{{value.total_amount}}</div>
+                </div>
+                <div class="row">
+                  <div class="col-40">
+                  {{ ::"Placed On" | translate:"xdelivery" }}</div>
+                  <div class="col-60">: {{convertDate(value.created_at)}}</div>
+                </div>
+                <div class="row">
+                  <div class="col-40">
+                  {{ ::"Delivery Type" | translate:"xdelivery" }}</div>
+                  <div class="col-60">: {{value.delivery_method}}</div>
+                </div>
+
+                <a class="icon icon-active-custom">{{ ::"View Details" | translate:"xdelivery" }}</a>
+            </div>
+        </div>
+
+        <ion-list class="card"
+                  ng-if="!is_loading && payout.orders.length == 0">
+            <ion-item class="item-custom">
+                <P class="text-center">
+                {{ ::"No order yet" | translate:"xdelivery" }}!</P> 
+            </ion-item>
+         </ion-list>
+    </ion-content>
+</ion-view>

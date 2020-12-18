@@ -1,0 +1,114 @@
+<ion-modal-view cache-view="false"
+                sb-page-background
+                class="emenu emenu-item-add">
+
+    <ion-header-bar class="bar-custom">
+        <div class="buttons">
+            <button class="button button-clear"
+                    ng-click="closeAddItemModal()">
+                <i ng-class="backButtonIcon()"></i>
+            </button>
+        </div>
+        <h1 class="title">{{ ::'Add Item' | translate:'emenu' }}</h1>
+    </ion-header-bar>
+
+    <ion-content class="has-header">
+
+        <div class="list">
+            <form name="add_item">
+            <label class="item item-input item-select item-custom ">
+                <div class="input-label">
+                    {{ ::'Category' | translate:'emenu' }} *
+                </div>
+                <select name="category_id"
+                        ng-required="true"
+                        ng-model="item.category_id">
+                    <option ng-value="category.id"
+                            ng-repeat="category in categories">
+                        {{category.category_name}}
+                    </option>
+                </select>
+            </label>
+     
+            <label class="item item-custom item-input item-stacked-label">
+                <span class="input-label">{{ ::'Item Name' | translate:'emenu' }} *</span>
+                <input type="text"
+                       ng-model="item.name"
+                       ng-init="item.name === ''"
+                       ng-value=""
+                       ng-required="true" />
+            </label>
+
+            <label class="item item-custom item-input item-stacked-label">
+                <span class="input-label">{{ ::'Price' | translate:'emenu' }} *</span>
+                <input type="number"
+                       ng-model="item.price"
+                       ng-init="item.price === ''"
+                       ng-value=""
+                       ng-required="true" />
+            </label>
+
+           <label class="item item-input item-select item-custom ">
+                <div class="input-label">
+                {{ ::'Type' | translate:'emenu' }}
+                </div>
+                <select name="item_type"
+                        ng-model="item.item_type">
+                    <option ng-value="veg">{{ ::'Veg' | translate:'emenu' }}</option>
+                    <option ng-value="non-veg">{{ ::'Non Veg' | translate:'emenu' }}</option>
+                </select>
+            </label>
+
+
+            <label class="item item-custom item-input item-stacked-label">
+                <span class="input-label">{{ ::'Description' | translate:'emenu' }} </span>
+                <textarea ng-model="item.description"
+                          ng-init="item.description === ''" ng-value="">
+
+                </textarea>
+            </label>
+
+            <div class="item item-custom item-body"
+                 ng-if="item.image != null">
+                <ol>
+                 <li class="cliams-add-images-box">
+                    <img ng-src="{{item.image }}"
+                         class="full-image"
+                         style="margin-bottom: 2%;">
+                    <i class="icon ion-close emenu-add-images-box-icon"
+                       ng-click="removeImage()"></i>
+                 </li>
+               </ol> 
+               </div>
+   
+
+            <div class="item item-icon-left item-custom"
+                 ng-click="addPicture()">
+                <i class="icon ion-camera"></i> {{ ::'Upload Image' | translate:'emenu' }}
+            </div>
+
+            <div class="item item-custom remove-border">
+                <div class="row">
+                    <div class="col-50">
+                        <button ng-disabled="add_item.$invalid"
+                                ng-click="itemSave(1)"
+                                class="button button-positive-custom pull-left emenu-save-button">
+                            {{ ::'Save' | translate:'emenu' }}
+                        </button>
+                    </div>
+                    <div class="col-50">
+                        <button  ng-disabled="add_item.$invalid"
+                                 ng-click="itemSave(2)"
+                                 class="button button-custom pull-right emenu-save-button">
+                            {{ ::'Add Next' | translate:'emenu' }}
+                        </button>   
+                    </div>
+                </div>
+            </div>
+        </form>
+        </div>
+   
+    </ion-content>
+
+ 
+</ion-modal-view>

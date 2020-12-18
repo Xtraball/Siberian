@@ -1,0 +1,81 @@
+<ion-modal-view cache-view="false"
+                sb-page-background
+                class="emenu emenu-account-add">
+
+    <ion-header-bar class="bar-custom">
+        <div class="buttons">
+            <button class="button button-clear"
+                    ng-click="closeAddAccountModal()">
+                <i ng-class="backButtonIcon()"></i>
+            </button>
+        </div>
+        <h1 class="title">{{ ::'Add Account' | translate:'emenu' }}</h1>
+    </ion-header-bar>
+
+    <ion-content class="has-header">
+
+        <ion-list>
+
+            <label class="item item-custom item-input item-stacked-label">
+                <span class="input-label">
+                    <b>{{ ::'Firstname' | translate:'emenu' }} *</b>
+                </span>
+                <input type="text"
+                       ng-model="account.firstname"
+                       ng-init="account.firstname === ''"
+                       ng-value="" />
+            </label>
+
+            <label class="item item-custom item-input item-stacked-label">
+                <span class="input-label">
+                    <b>{{ ::'Lastname' | translate:'emenu' }} *</b>
+                </span>
+                <input type="text"
+                       ng-model="account.lastname"
+                       ng-init="account.lastname === ''"
+                       ng-value="" />
+            </label>
+
+            <label class="item item-custom item-input item-stacked-label">
+                <span class="input-label">
+                    <b>{{ ::'Email' | translate:'emenu' }} *</b>
+                </span>
+                <input type="text"
+                       ng-model="account.email"
+                       ng-init="account.email === ''"
+                       ng-value="" />
+            </label>
+
+            <label class="item item-custom item-input item-stacked-label">
+                <span class="input-label">
+                    <b>{{ ::'Password' | translate:'emenu' }} *</b>
+                </span>
+                <input type="text"
+                       ng-model="account.password"
+                       ng-init="account.password === ''"
+                       ng-value="" />
+            </label>
+
+            <label class="item item-custom item-input item-stacked-label">
+                <span class="input-label">
+                    <b>{{ ::'Designation' | translate:'emenu' }}</b>
+                </span>
+                <input type="text"
+                       ng-model="account.designation"
+                       ng-init="account.designation === ''"
+                       ng-value="" />
+            </label>
+  
+          <ion-item class="item-custom remove-border">
+              <button ng-click="accountSave(1)"
+                      ng-disabled="((account.password === '' || account.email === '' || account.firstname === '' ) ? true : false)"
+                      class="button button-positive button-positive-custom button-full">
+                  {{ ::'Save' | translate:'emenu' }}
+              </button>
+          </ion-item>
+
+     </ion-list>
+ 
+   </ion-content>
+
+</ion-modal-view>

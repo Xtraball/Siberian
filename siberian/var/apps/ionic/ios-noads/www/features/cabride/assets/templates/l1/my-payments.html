@@ -1,0 +1,128 @@
+<ion-view sb-page-background
+          class="cabride cabride-view cabride-my-payments">
+    <ion-nav-title>{{ pageTitle }}</ion-nav-title>
+
+    <ion-nav-buttons side="secondary">
+        <button ng-click="refresh()"
+                class="button button-clear header-item">
+            <i class="icon ion-sb-refresh"></i>
+        </button>
+
+        <button ng-if="!isTaxiLayout()"
+                ng-click="openMenu()"
+                class="button button-clear header-item cabride toggle-taxi-menu">
+            <i class="icon ion-sb-more"></i>
+        </button>
+    </ion-nav-buttons>
+
+    <ion-content class="has-footer">
+        <div ng-if="isLoading"
+             class="loader">
+            <ion-spinner class="spinner-custom"></ion-spinner>
+        </div>
+
+        <div ng-if="!isLoading"
+             class="list">
+
+            <div ng-if="filterName == 'payments'">
+
+                <div ng-if="payments.length == 0">
+                    <div class="item item-custom text-center">
+                        <span>{{ ::'You have no payments' | translate:'cabride' }}</span>
+                    </div>
+                </div>
+
+                <div ng-repeat="payment in payments"
+                     class="item item-custom item-icon-left"
+                     style="padding-top: 5px; padding-bottom: 5px;">
+                    <div ng-if="payment.method == 'cash'">
+                        <i class="icon">
+                            <img src="./features/cabride/assets/templates/images/010-money.svg"
+                                 style="height: 60%;" />
+                        </i>
+                        <div class="row"
+                             style="margin-left: 10px;">
+                            <div class="col-50"
+                                 style="text-transform: uppercase;">
+                                <b>{{ calendar(payment.timestamp) }}</b>
+                            </div>
+                            <div class="col-50 text-right">
+                                <b>{{ payment.formatted_amount }}</b>
+                            </div>
+                            <div class="row"
+                                 style="margin-left: 10px; font-size: 0.8em;">&nbsp;
+                            </div>
+                        </div>
+                    </div>
+
+                    <div ng-if="payment.method == 'credit-card'">
+                        <i class="icon">
+                            <img src="{{ creditCardBrand(payment.brand) }}"
+                                 style="height: 60%;" />
+                        </i>
+
+                        <div class="row"
+                             style="margin-left: 10px;">
+                            <div class="col-50"
+                                 style="text-transform: uppercase;">
+                                <b>{{ calendar(payment.timestamp) }}</b>
+                            </div>
+                            <div class="col-50 text-right">
+                                <b>{{ payment.formatted_amount }}</b>
+                            </div>
+                        </div>
+                        <div class="row"
+                             style="margin-left: 10px; font-size: 0.8em;">
+                            <span class="last-star">**** **** **** </span>
+                            <span class="last-four">{{ payment.last }}</span>
+                            <span class="exp"> - {{ payment.exp }}</span>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+
+            <div ng-if="filterName == 'cards'">
+
+                <div ng-if="cards.length == 0">
+                    <div class="item item-custom text-center">
+                        <span>{{ ::"You have no card saved" | translate:"cabride" }}</span>
+                    </div>
+                </div>
+
+                <div ng-if="cards.length > 0"
+                     class="list">
+                    <div ng-repeat="card in cards"
+                         class="item item-custom item-icon-left item-icon-right">
+                        <i class="icon">
+                            <img src="{{ creditCardBrand(card.brand) }}"
+                                 style="height: 60%; margin-right: 15px;" />
+                        </i>
+                        <span class="saved-card">
+                            <span class="last-star">**** **** **** </span>
+                            <span class="last-four">{{ card.last }}</span>
+                            <span class="exp"> - {{ card.exp }}</span>
+                        </span>
+                        <i ng-click="deleteVault(card)"
+                           class="icon ion-trash-a"></i>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+
+    </ion-content>
+
+    <div class="tabs tabs-icon-top">
+        <a ng-click="statusFilter('payments')"
+           class="tab-item">
+            <i class="icon ion-clock"></i>
+            {{ ::'Payments' | translate:'cabride' }}
+        </a>
+        <a ng-click="statusFilter('cards')"
+           class="tab-item">
+            <i class="icon ion-archive"></i>
+            {{ ::'Saved cards' | translate:'cabride' }}
+        </a>
+    </div>
+</ion-view>

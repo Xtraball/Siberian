@@ -1,0 +1,15 @@
+<div>
+    <ion-list class="list-comments"
+              ng-if="post.comments.length > 0">
+        <fanwall-comment-item repeat-done="listDidRender()"
+                              id="{{ comment.id }}"
+                              ng-repeat="comment in post.comments track by comment.id"></fanwall-comment-item>
+    </ion-list>
+
+    <ion-list ng-class="{'card' : getCardDesign()}"
+              ng-if="!post.comments.length">
+        <ion-item class="item-custom text-center no-post">
+            {{ ::'Be the first to comment.' | translate:'fanwall' }}
+        </ion-item>
+    </ion-list>
+</div>

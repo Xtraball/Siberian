@@ -1,0 +1,24 @@
+<ion-modal-view sb-page-background
+                ng-controller="FanwallCommentController"
+                class="module-fanwall fanwall-comment fanwall-comment-l1">
+
+    <ion-header-bar class="bar-custom">
+        <div class="buttons">
+            <button class="button button-clear"
+                    ng-click="close()">
+                <i class="icon ion-android-arrow-back"></i>
+            </button>
+        </div>
+        <h1 class="title">{{ ::'Comments' | translate:'fanwall' }}</h1>
+    </ion-header-bar>
+
+    <ion-content delegate-handle="fanwall-comment-list"
+                 class="has-footer-fixed">
+        <fanwall-comment-list class="comment-list"></fanwall-comment-list>
+    </ion-content>
+
+    <ion-footer-bar class="bar-custom comment-footer">
+        <fanwall-comment-form></fanwall-comment-form>
+    </ion-footer-bar>
+
+</ion-modal-view>

@@ -1,0 +1,10 @@
+<!-- textarea -->
+<label class="item item-input item-custom item-stacked-label form2-textarea">
+    <div class="input-label">
+        {{ ::field.label | translate:'form2' }}
+    </div>
+    <textarea rows="6"
+              style="resize: none;"
+              readonly="readonly"
+              ng-model="field.value"></textarea>
+</label>

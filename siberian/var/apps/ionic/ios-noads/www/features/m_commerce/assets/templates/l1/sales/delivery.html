@@ -1,0 +1,93 @@
+<ion-view sb-page-background
+          cache-view="false"
+          class="mcommerce-view mcommerce-sales-error">
+
+    <ion-nav-title>{{ page_title }}</ion-nav-title>
+
+    <ion-nav-buttons side="secondary">
+        <button ng-click="right_button.action()"
+                class="button button-clear header-item"
+                ng-if="right_button">
+            <span class="back-text">
+                <span class="default-title">{{ right_button.label }}</span>
+            </span>
+            <i class="icon"
+               ng-class="right_button.icon"></i>
+        </button>
+    </ion-nav-buttons>
+
+    <ion-content>
+
+        <ion-list>
+            <ion-item class="item-divider item-divider-custom"
+                      style="margin-top: 15px;">
+                <h2>{{ ::'Choose a delivery method' | translate:'m_commerce' }}</h2>
+            </ion-item>
+
+            <ion-radio class="radio-custom"
+                       ng-model="cart.deliveryMethodId"
+                       ng-value="deliveryMethod.id"
+                       ng-repeat="deliveryMethod in selectedStore.deliveryMethods"
+                       ng-click="selectDeliveryMethod(cart, deliveryMethod)">
+                {{ deliveryMethod.name }} <span ng-show="deliveryMethod.price > 0">{{ deliveryMethod.formattedPrice }}</span>
+            </ion-radio>
+
+            <ion-radio class="radio-custom"
+                       disabled="disabled"
+                       ng-repeat="deliveryMethod in selectedStore.deliveryKo">
+                <div>
+                    <p>{{ deliveryMethod.name }}</p>
+                    <p class="assertive assertive-custom">{{ ::'Sorry, you are outside the delivery radius' | translate:'m_commerce' }}</p>
+                </div>
+            </ion-radio>
+
+            <div ng-if="clients_calculate_change_form_is_visible">
+                <ion-item class="item-divider item-divider-custom text-center"
+                          style="margin-top: 20px;">
+                    {{ ::'Delivery change' | translate:'m_commerce' }}
+                </ion-item>
+
+                <ion-item class="item-custom">
+                    <div class="row">
+                        <div class="col-65">
+                            <b>{{ ::'Order total' | translate:'m_commerce' }}</b>
+                        </div>
+                        <div class="col-35 text-right">
+                            {{ cart.total }}
+                        </div>
+                    </div>
+                </ion-item>
+
+                <ion-item class="item-custom">
+                    <div class="row">
+                        <div class="col-65">
+                            <b>{{ ::'Amount you will pay' | translate:'m_commerce' }}</b>
+                        </div>
+                        <div class="col-35 text-right">
+                            <input type="number"
+                                   min="cart.total"
+                                   style="text-align: right;float: right;font-size: 1em;height: 1em;"
+                                   ng-change="calculateAmountDue()"
+                                   ng-model="cart.delivery_method_extra_client_amount" />
+                        </div>
+                    </div>
+                </ion-item>
+
+                <ion-item class="item-custom">
+                    <div class="row">
+                        <div class="col-65">
+                            <b>{{ ::'Change due' | translate:'m_commerce' }}</b>
+                        </div>
+                        <div class="col-35 text-right">
+                            {{ cart.delivery_method_extra_amount_due }}
+                        </div>
+                    </div>
+                </ion-item>
+
+            </div>
+        </ion-list>
+    </ion-content>
+</ion-view>
+
+
+

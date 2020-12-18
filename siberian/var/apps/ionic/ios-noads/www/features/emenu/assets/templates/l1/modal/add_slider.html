@@ -1,0 +1,59 @@
+<ion-modal-view cache-view="false"
+                sb-page-background
+                class="emenu emenu-slider-add">
+
+    <ion-header-bar class="bar-custom">
+        <div class="buttons">
+            <button class="button button-clear"
+                    ng-click="closeAddSliderModal()">
+                <i ng-class="backButtonIcon()"></i>
+            </button>
+        </div>
+        <h1 class="title">{{ ::'Add Slider' | translate:'emenu' }}</h1>
+    </ion-header-bar>
+
+    <ion-content class="has-header">
+
+        <div class="list">
+
+            <label class="item item-custom item-input item-stacked-label">
+                <span class="input-label">{{ ::'Slider Name' | translate:'emenu' }} *</span>
+                <input type="text"
+                       ng-model="slider.name"
+                       ng-init="slider.name === ''"
+                       ng-value="">
+            </label>
+
+            <div class="item item-custom item-body"
+                 ng-if="slider.image != null">
+                <ol>
+                    <li class="cliams-add-images-box">
+                        <img ng-src="{{slider.image }}"
+                             class="full-image"
+                             style="margin-bottom: 2%;">
+                        <i class="icon ion-close emenu-add-images-box-icon"
+                           ng-click="removeImage()"></i>
+                    </li>
+                </ol>
+            </div>
+
+            <div class="item item-icon-left item-custom"
+                 ng-click="addPicture()">
+                <i class="icon ion-camera"></i> {{ ::'Upload Image' | translate:'emenu' }}
+            </div>
+
+            <div class="item item-custom remove-border">
+                <div class="row">
+                    <button ng-disabled="((slider.name === '' ) ? true : false)"
+                            ng-click="sliderSave()"
+                            class="button button-positive-custom button-block">
+                        {{ ::'Save' | translate:'emenu' }}
+                    </button>
+                </div>
+            </div>
+        </div>
+
+    </ion-content>
+
+
+</ion-modal-view>

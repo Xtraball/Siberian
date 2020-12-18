@@ -1,0 +1,87 @@
+<div ng-repeat="product in products">
+    <div class="row no-padding"
+         ng-if="$even">
+        <div class="col col-50"
+             ng-click="showProduct(products[$index])">
+            <div class="card">
+                <a class="product-title  text-center"
+                   ng-href="">
+                    <div class="sale-badge"
+                         ng-if="products[$index].on_sale">
+                        <i class="icon ion-bookmark"></i>
+                    </div>
+                    <div class="out-of-stock"
+                         ng-if="products[$index].stock_status != 'instock'">
+                        {{ ::'Out of stock' | translate:'woocommerce2' }}
+                    </div>
+                    <img ng-if="products[$index].images[0].src"
+                         ng-src="{{ products[$index].images[0].src }}"
+                         class="full-image"/>
+                </a>
+                <div class="item item-custom text-right product-price">
+                    <h5 class="product-name">{{ products[$index].name }}</h5>
+                    <p ng-if="products[$index].price"
+                       class="product-price-current">
+                        <span class="product-sale-badge"
+                              ng-if="isSale(products[$index])">{{ ::'SALE' | translate:'woocommerce2' }}</span>
+                        <span>
+                            {{ formatPrice(products[$index].price, true) }}
+                        </span>
+                    </p>
+                    <p ng-if="isSale(products[$index]) || (products.hasOwnProperty($index+1) && isSale(products[$index+1]))"
+                       class="product-regular-price">
+                        <span class="product-regular-price-1"
+                              ng-if="isSale(products[$index])">{{ formatPrice(products[$index].regular_price, true) }}</span>
+                        <span class="product-discount-amount"
+                              ng-if="isSale(products[$index])">-{{ discountAmount(products[$index]) }}%</span>
+                    </p>
+                    <p class="product-rating">
+                        <i class="icon ion-android-star"></i> {{ textRating(products[$index]) }}
+                    </p>
+                </div>
+
+            </div>
+        </div>
+        <div class="col col-50"
+             ng-click="showProduct(products[$index+1])"
+             ng-if="products[$index+1]">
+            <div class="card">
+                <a class="product-title  text-center"
+                   ng-href="">
+                    <div class="sale-badge"
+                         ng-if="products[$index+1].on_sale">
+                        <i class="icon ion-bookmark"></i>
+                    </div>
+                    <div class="out-of-stock"
+                         ng-if="products[$index+1].stock_status != 'instock'">
+                        {{ ::'Out of stock' | translate:'woocommerce2' }}
+                    </div>
+                    <img ng-if="products[$index+1].images[0].src"
+                         ng-src="{{products[$index+1].images[0].src}}"
+                         class="full-image" />
+                </a>
+                <div class="item item-custom text-right product-price">
+                    <h5 class="product-name">{{products[$index+1].name}}</h5>
+                    <p ng-if="products[$index+1].price"
+                       class="product-price-current">
+                        <span class="product-sale-badge"
+                              ng-if="isSale(products[$index+1])">{{ ::'SALE' | translate:'woocommerce2' }}</span>
+                        <span>
+                            {{ formatPrice(products[$index+1].price, true) }}
+                        </span>
+                    </p>
+                    <p ng-if="isSale(products[$index]) || isSale(products[$index+1])"
+                       class="product-regular-price">
+                        <span class="product-regular-price-1"
+                              ng-if="isSale(products[$index+1])">{{ formatPrice(products[$index+1].regular_price, true) }}</span>
+                        <span class="product-discount-amount"
+                              ng-if="isSale(products[$index+1])">-{{ discountAmount(products[$index+1]) }}%</span>
+                    </p>
+                    <p class="product-rating">
+                        <i class="icon ion-android-star"></i> {{ textRating(products[$index+1]) }}
+                    </p>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

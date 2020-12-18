@@ -1,0 +1,162 @@
+<ion-modal-view cache-view="false"
+                sb-page-background
+                class="eventpro eventpro-event-info">
+
+    <ion-header-bar class="bar-custom">
+        <div class="buttons">
+            <button class="button button-clear"
+                    ng-click="closeModalEventInfo()">
+                    <i ng-class="backButtonIcon()"></i>
+            </button>
+        </div>
+        <h1 class="title">{{ ::"Event Details" | translate:"eventpro" }} </h1>
+    </ion-header-bar>
+
+    <ion-content id="eventpro-content"
+                 class="has-header">
+  
+    <div class="list" ng-if="event_info.id > 0">
+         <div class="item item-custom item-body event-body remove-border">
+              <span class="badge badge-assertive badge-assertive-custom event-category-badge">  
+                {{event_info.category_name}} 
+              </span>
+              <img class="full-image event-feature-img"
+                   ng-src="{{ eventproImage(event_info.event_image) }}">
+             
+               <h2 class="event-list-event-title">{{event_info.event_title}}
+                <span class="pull-right" ng-if="event_info.ticket_type == 'paid'">
+                    {{event_info.currency}} {{event_info.price}}
+                </span>
+                <span class="pull-right" ng-if="event_info.ticket_type == 'free'">
+                  {{ ::'Free' | translate:'eventpro' }}
+                </span>
+              </h2>
+              <p ng-if="event_info.event_short_summary!=''">
+                {{event_info.event_short_summary}}</p>
+              <p>
+                <i class="icon ion-calendar"></i>
+                {{event_info.event_start_date}} - {{event_info.event_end_date}}
+              </p>
+               <p>
+                <i class="icon ion-ios-time-outline"></i>
+                {{event_info.event_start_time}} - {{event_info.event_end_time}}
+              </p>
+              <p  class="event-list-sub-title">
+                <i class="icon ion-location"></i>
+                {{event_info.sub_title}}
+            </p>
+      </div>
+
+    <div class="item item-custom remove-border" ng-if="settings.enable_booking">
+      <p ng-if="!event_info.is_series_parent">
+        {{ ::"Sales start of" }} {{event_info.sales_start_date_time}}
+      </p>
+      <p ng-if="!event_info.is_series_parent">
+        {{ ::"Sales end of" }} {{event_info.sales_end_date_time}}
+      </p>
+      <p ng-if="event_info.is_series_parent && is_choice_date">
+         <span class="item-note" ng-click="choiceEventDate(event_info.id)">{{ ::"Change date" }}
+        </span>
+        {{ ::"Booking Slot" }} : {{carts.child_event.event_start_date}}
+     </p>
+      <button ng-if="is_choice_date && !event_info.is_sold_out && event_info.is_enable_booking && !event_info.is_sale_end" class="button button-positive button-positive-custom button-full" ng-click="bookNow(event_info)">
+         {{ ::"Book" }}
+      </button>
+
+       <button ng-if="event_info.is_sale_end" class="button button-assertive button-assertive-custom button-full" >
+         {{ ::"Sale End" }}
+      </button>
+
+      <button ng-if="event_info.is_sold_out" class="button button-assertive button-assertive-custom button-full">
+         {{ ::"Sold Out" }}
+      </button>
+
+      <button ng-if="event_info.is_series_parent && !is_choice_date" class="button button-positive button-positive-custom button-full" ng-click="choiceEventDate(event_info.id)">
+         {{ ::"Select A Date" }}
+      </button>
+    </div>
+
+    <div class="item item-custom item-body remove-border" ng-if="settings.enable_interested">
+        <h2>{{ ::"Click on intersted to stay updated about this event." | translate:"eventpro" }}</h2>
+        <div class="row">
+          <div class="col-50">
+            <span>
+              <i class="icon ion-thumbsup interest-recently-icon icon-active-custom"></i> 
+              {{event_info.total_favorites}}
+            </span><br>
+            <span class="interest-recently-text">
+            {{ ::"People have shown interest recently" | translate:"eventpro" }}
+          </span>
+          </div>
+          <div class="col-50">
+              <button class="button button-outline button-positive pull-right" ng-click="saveFavorites(event_info.id)">
+                <span ng-if="!event_info.is_favorites">
+                  {{ ::"Interested" | translate:"eventpro" }}
+                </span>
+                <span ng-if="event_info.is_favorites">
+                  {{ ::"Not interested" | translate:"eventpro" }}
+                </span>
+              </button>
+          </div>
+        </div>
+    </div>
+    <div class="item item-divider item-divider-custom" ng-if="event_info.event_description!=''">
+        <h2>{{ ::"About" | translate:"eventpro" }}</h2>
+      </div>
+      <div class="item item-custom item-body remove-border" ng-if="event_info.event_description!=''">
+        <p sb-html="event_info.event_description"></p>
+      </div>
+</div>
+ 
+
+<!-- Artist Grid -->
+<div class="list" ng-if="event_info.id > 0 && event_info.artists.length > 0"> 
+  <div class="item item-divider item-divider-custom">
+    <h2>{{ ::"Artists" | translate:"eventpro" }}</h2>
+  </div>
+
+  <div class="item item-custom eventpro-artist-item artist_grid remove-border">
+    <div class="row" ng-repeat="artist in event_info.artists" ng-if="$index % 3 === 0"> 
+          <div class="col col-33 text-center"  ng-click="artistInfo( event_info.artists[$index].id)"  ng-if="$index < event_info.artists.length">
+           <img class="eventpro-artist-grid-img" ng-src="{{ customerImage(event_info.artists[$index].artist_profile) }}" style="width:100%;">
+            <h2 class="text-center artist_name">{{ event_info.artists[$index].artist_name }}</h2>
+            <p class="artist_specification">{{event_info.artists[$index].specification}}</p>
+          </div>
+
+          <div class="col col-33 text-center" ng-click="artistInfo( event_info.artists[$index + 1].id)" ng-if="$index + 1 < event_info.artists.length">
+           <img class="eventpro-artist-grid-img" ng-src="{{ customerImage(event_info.artists[$index + 1].artist_profile) }}" style="width:100%;">
+            <h2 class="text-center artist_name">{{ event_info.artists[$index + 1].artist_name }}</h2>
+            <p class="artist_specification">{{event_info.artists[$index + 1].specification}}</p>
+          </div>
+
+          <div class="col col-33 text-center" ng-if="$index + 2 < event_info.artists.length" ng-click="artistInfo( event_info.artists[$index + 2].id)">
+           <img class="eventpro-artist-grid-img" ng-src="{{ customerImage(event_info.artists[$index + 2].artist_profile) }}" style="width:100%;">
+            <h2 class="text-center artist_name">{{ event_info.artists[$index + 2].artist_name }}</h2>
+            <p class="artist_specification">{{event_info.artists[$index + 2].specification}}</p>
+          </div>
+     </div>
+   </div>
+</div>
+
+<!-- organizer Grid -->
+<div class="list" ng-if="event_info.id > 0"> 
+  
+  <div class="item item-divider item-divider-custom eventpro-divider-item">
+    <h2>{{ ::"Organizer Info" | translate:"eventpro" }}</h2>
+  </div>
+  <div class="item item-custom item-avatar remove-border text-center">
+      <img ng-src="{{ customerImage(event_info.profile_image) }}">
+      <h2>{{event_info.organizer_name}}</h2>          
+  </div>
+
+  <div class="item item-divider item-divider-custom eventpro-divider-item">
+    <h2>{{ ::"About Organizer" | translate:"eventpro" }}</h2>
+  </div>
+  <div class="item item-custom item-body remove-border text-center">
+       <P sb-html="event_info.description_event_pages"></P>          
+  </div>
+
+</div>
+
+</ion-content>
+</ion-modal-view>

@@ -1,0 +1,90 @@
+<ion-modal-view sb-page-background
+                class="chatrooms chatrooms-friendships"
+                ng-controller="ChatroomsManageFriendsViewController">
+
+    <ion-header-bar class="bar-custom">
+        <button class="button button-clear"
+                ng-click="closeFriendsModal()">
+            <i ng-class="backButtonIcon()"></i>
+        </button>
+        <h1 class="title">{{ ::'Manage friends' | translate:'chatrooms' }}</h1>
+    </ion-header-bar>
+
+    <ion-content class="homepage-custom"
+                 has-bouncing="false">
+
+        <div class="loader"
+             ng-show="is_loading">
+            <ion-spinner class="spinner spinner-custom"></ion-spinner>
+        </div>
+
+        <div class="chatrooms-spacer"></div>
+
+        <ion-list ng-show="!is_loading">
+            <div class="item item-divider item-divider-custom"
+                 ng-if="has_friends">
+                {{ ::'Friends' | translate:'chatrooms' }}
+            </div>
+            <ion-item class="item item-custom"
+                      ng-click="showCustomer(friend.id)"
+                      ng-repeat="(friend_id, friend) in friends track by friend.id">
+                <div class="row friend"
+                     ng-class="{'online': friend.online}">
+                      <h3>
+                          <span class="status-bubble"></span>
+                          {{friend.nickname}}
+                      </h3>
+                </div>
+            </ion-item>
+            <div class="item item-divider item-divider-custom"
+                 ng-if="has_requests">
+                {{ ::'Friend requests' | translate:'chatrooms' }}
+            </div>
+            <ion-item class="item item-custom"
+                      ng-click="showCustomer(request_friend.id)"
+                      ng-repeat="(request_friend_id, request_friend) in requests track by request_friend.id">
+                <div class="row friend">
+                      <h3>
+                          {{ request_friend.nickname }}
+                      </h3>
+                </div>
+            </ion-item>
+            <div class="item item-divider item-divider-custom"
+                 ng-if="has_pending_requests">
+                {{ ::'Your pending requests' | translate:'chatrooms' }}
+            </div>
+            <ion-item class="item item-custom"
+                      ng-click="showCustomer(request_friend.id)"
+                      ng-repeat="(request_friend_id, request_friend) in pending_requests track by request_friend.id">
+                <div class="row friend">
+                      <h3>
+                          {{ request_friend.nickname }}
+                      </h3>
+                </div>
+            </ion-item>
+            <div class="item item-divider item-divider-custom"
+                 ng-if="has_blocked">
+                {{ ::'Blocked users' | translate:'chatrooms' }}
+            </div>
+            <ion-item class="item item-custom"
+                      ng-click="showCustomer(blocked_pal.id)"
+                      ng-repeat="(blocked_id, blocked_pal) in blocked track by blocked_pal.id">
+                <div class="row friend">
+                  <h3>
+                      {{ blocked_pal.nickname }}
+                  </h3>
+                </div>
+            </ion-item>
+        </ion-list>
+
+        <div class="padding">
+            <p class="text-center text-muted"
+               ng-if="!is_loading && !has_friends && !has_requests && !has_pending_requests && !has_blocked">
+                {{ ::'Add friends by tapping on the button below!' | translate:'chatrooms' }}
+            </p>
+
+            <button class="button button-assertive button-assertive-custom button-block"
+                    ng-click="addFriend()">{{ ::'Add a friend' | translate:'chatrooms' }}</button>
+        </div>
+    </ion-content>
+</ion-modal-view>

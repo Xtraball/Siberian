@@ -1,0 +1,47 @@
+<ion-modal-view sb-page-background
+                class="classifieds">
+    <ion-header-bar class="bar-custom">
+        <div class="buttons">
+            <button class="button button-clear"
+                    ng-click="$close()">
+                <i class="icon ion-sb-close-modal"></i>
+            </button>
+        </div>
+        <h1 class="title"
+            ng-click="checkForUpdate();">{{ "Contact" | translate }}</h1>
+    </ion-header-bar>
+    <ion-content>
+        <form ng-submit="send()">
+            <div class="list">
+                <label class="item item-input item-custom">
+          <span class="input-label">
+            {{ 'Your name' | translate }}
+          </span>
+                    <input type="text"
+                           placeholder="{{ 'Your name' | translate }}"
+                           ng-model="message.name"/>
+                </label>
+                <label class="item item-input item-custom">
+          <span class="input-label">
+            {{ 'Your email' | translate }}
+          </span>
+                    <input type="email"
+                           placeholder="{{ 'Your email' | translate }}"
+                           ng-model="message.email"/>
+                </label>
+
+                <div class="item item-custom">
+                    <label>
+                        {{ 'Your message' | translate }}
+                    </label>
+                    <textarea ng-model="message.message"
+                              style="width: 100%;"
+                              rows="6"></textarea>
+                </div>
+
+                <button type="submit"
+                        class="button button-assertive button-assertive-custom button-full">{{ "Send" | translate }}</button>
+            </div>
+        </form>
+    </ion-content>
+</ion-modal-view>

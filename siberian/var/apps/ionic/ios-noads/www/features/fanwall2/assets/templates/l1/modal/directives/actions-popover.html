@@ -1,0 +1,15 @@
+<ion-popover-view class="module-fanwall fanwall-popover popover-custom"
+                  style="height: {{(40 * popoverItems.length) + 'px'}};">
+    <ion-content class="module-fanwall fanwall-popover popover-content-custom">
+        <ion-list class="list">
+            <ion-item class="item-custom"
+                      ng-repeat="item in popoverItems"
+                      ng-click="item.click()">
+                <span class="popover-icon-left">
+                    <i class="{{ ::item.icon }}"></i>
+                </span>
+                <span class="popover-action-title">{{ ::item.label }}</span>
+            </ion-item>
+        </ion-list>
+    </ion-content>
+</ion-popover-view>

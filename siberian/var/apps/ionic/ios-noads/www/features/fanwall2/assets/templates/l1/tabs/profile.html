@@ -1,0 +1,52 @@
+<ion-content class="fanwall-profile"
+             ng-class="{'has-subheader': displaySubHeader()}"
+             ng-controller="FanwallProfileController">
+
+    <div>
+        <div class="customer-image">
+            <img ng-src="{{ customerImagePath() }}"
+                 class="general-custom-border"
+                 alt="profile-picture" />
+        </div>
+        <div class="customer-fullname">
+            {{ customerFullname() }}
+        </div>
+        <div class="customer-actions">
+            <button class="button button-small button-positive button-positive-custom"
+                    ng-click="editProfile()">
+                <i class="ion ion-edit"></i>
+                {{ ::'Edit profile' | translate:'fanwall' }}
+            </button>
+            <button class="button button-small button-positive button-positive-custom"
+                    ng-click="showBlockedUsers()">
+                <i class="ion ion-android-remove-circle"></i>
+                    {{ ::'Blocked users' | translate:'fanwall' }}
+            </button>
+        </div>
+
+        <ion-list class="list-posts">
+
+            <ion-item class="item-divider item-divider-custom section-title">
+                <h2>{{ ::'Your posts' | translate:'fanwall' }}</h2>
+            </ion-item>
+
+            <div class="loader"
+                 ng-show="isLoading">
+                <ion-spinner class="spinner-custom"></ion-spinner>
+            </div>
+
+            <fanwall-post-item ng-if="!isLoading && collection.length > 0"
+                               repeat-done="listDidRender()"
+                               id="{{ post.id }}"
+                               ng-repeat="post in collection track by post.id"></fanwall-post-item>
+        </ion-list>
+
+        <ion-infinite-scroll ng-if="!isLoading && hasMore"
+                             on-infinite="loadMore()"
+                             immediate-check="false"
+                             distance="20%"
+                             class="spinner-custom">
+        </ion-infinite-scroll>
+    </div>
+
+</ion-content>

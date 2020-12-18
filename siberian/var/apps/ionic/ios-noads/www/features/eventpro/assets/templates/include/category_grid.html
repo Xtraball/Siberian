@@ -1,0 +1,26 @@
+<div class="list categories-list">
+  <div class="item item-divider item-divider-custom eventpro-divider-item">
+    <h2 ui-sref="eventpro-categories({value_id: value_id})">
+      {{ ::'Top categories' | translate:'eventpro' }}
+     <span class="pull-right">
+      <i class="icon ion-chevron-right"></i>
+    </span>
+    </h2>
+   </div>
+  <div class="item item-custom eventpro-category-item category-grid">
+     	<div class="row" ng-repeat="category in payout.categories" ng-if="$index % 3 === 0"> 
+          <div class="col col-33 text-center" ui-sref="eventpro-events({value_id: value_id, type: bycategory, category_id: payout.categories[$index].id })"  ng-if="$index < payout.categories.length">
+          	 <p class="text-center category_name">{{ payout.categories[$index].category_name }}</p>
+          </div>
+
+          <div class="col col-33 text-center" ui-sref="eventpro-events({value_id: value_id, category_id: payout.categories[$index+1].id })" ng-if="$index + 1 < payout.categories.length">
+          	 <p class="text-center category_name">{{ payout.categories[$index + 1].category_name }}</p>
+          </div>
+
+          <div class="col col-33 text-center" ui-sref="eventpro-events({value_id: value_id, category_id: payout.categories[$index+2].id })" ng-if="$index + 2 < payout.categories.length">
+             <p class="text-center category_name">{{ payout.categories[$index + 2].category_name }}</p>
+          </div>
+
+      </div>
+  </div> 
+</div>

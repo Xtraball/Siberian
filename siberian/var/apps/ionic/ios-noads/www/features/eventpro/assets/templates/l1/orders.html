@@ -1,0 +1,56 @@
+<ion-view cache-view="false"
+          class="eventpro eventpro-orders"
+          sb-page-background>
+    <ion-nav-title>{{ ::"My Orders" | translate:"eventpro" }}</ion-nav-title>
+   
+    <ion-content id="eventpro-content"
+                 class="has-header">
+        
+        <div class="loader"
+            ng-show="is_loading">
+            <ion-spinner class="spinner-custom"></ion-spinner>
+        </div>
+
+         <ion-list ng-if="!is_loading && payout.orders.length > 0 && is_logged_in">
+            <ion-item class="item-custom item-thumbnail-left"
+                      ng-repeat="(key, value) in payout.orders"
+                      ng-click="orderDetails(value.order_id)">
+               
+                <img class="order-img" src="{{ eventproImage(value.event_image) }}">
+                <h2>{{value.event_title}}</h2> 
+                <p>{{ ::"Order" | translate:"eventpro" }}# {{value.booking_number}}
+                  <span class="pull-right">
+                    {{value.tickets_qty}} * {{value.currency}}{{value.amount}}
+                  </span>
+                </p>                 
+                <p class="event_date"><b>{{value.event_date}}</b>
+                  <span> | </span>
+                  <b>{{value.event_time}}</b>
+                </p> 
+                <p>{{value.sub_title}}</p>
+                <p><span class="pull-right">
+                    {{convertDate(value.created_at)}}
+                  </span>
+                 </p>
+            </ion-item>
+        </ion-list>
+       
+        <ion-list class="card"
+                  ng-if="!is_loading && payout.orders.length == 0 && is_logged_in">
+            <ion-item class="item-custom">
+                <P class="text-center">
+                {{ ::"No order yet" | translate:"eventpro" }}!</P> 
+            </ion-item>
+         </ion-list>
+
+         <ion-list class="card"
+                  ng-if="!is_loading && !is_logged_in">
+            <ion-item class="item-custom text-center">
+               <button class="button button-positive button-positive-custom button-full" ng-click="login()">
+                 {{ ::'Login/Singup' | translate:'eventpro' }}
+               </button>
+            </ion-item>
+         </ion-list>
+
+  </ion-content>
+</ion-view>

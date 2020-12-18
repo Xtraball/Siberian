@@ -1,0 +1,134 @@
+<ion-modal-view sb-page-background
+                class="module-job layout modal slide-top job-view job-contact">
+
+    <ion-header-bar class="bar-custom">
+        <div class="buttons">
+            <button class="button button-clear"
+                    ng-click="closeContactModal();">
+                <i class="icon ion-sb-close-modal"></i>
+            </button>
+        </div>
+        <h1 class="title">{{ ::'Contact' | translate:'job' }}</h1>
+        <div class="buttons">
+            <button class="button button-clear"
+                    ng-click="clearForm();">
+                <i class="icon ion-sb-clear-brush"></i>
+            </button>
+        </div>
+    </ion-header-bar>
+
+    <ion-content ng-class="{'has-footer': !cardDesign}">
+
+        <div class="list job-contact"
+             ng-class="{'card' : cardDesign}">
+
+            <div class="item item-divider item-divider-custom">
+                {{ ::'Identity' | translate:'job' }}
+            </div>
+
+            <label class="item item-input item-custom">
+                <i class="icon ion-person icon-form"></i>
+                <input type="text"
+                       placeholder="{{ ::'Full name' | translate:'job' }} *"
+                       ng-model="form.fullname" />
+            </label>
+
+            <label class="item item-input item-custom">
+                <i class="icon ion-email icon-form"></i>
+                <input type="text"
+                       placeholder="{{ ::'Email' | translate:'job' }} *"
+                       ng-model="form.email" />
+            </label>
+
+            <label class="item item-input item-custom">
+                <i class="icon ion-ios-telephone icon-form"></i>
+                <input type="text"
+                       placeholder="{{ ::'Phone' | translate:'job' }}"
+                       ng-model="form.phone" />
+            </label>
+
+            <label class="item item-input item-custom">
+                <i class="icon ion-ios-location icon-form"></i>
+                <input type="text"
+                       placeholder="{{ ::'Address' | translate:'job' }}"
+                       ng-model="form.address" />
+            </label>
+
+        </div>
+
+        <div class="list job-contact"
+             ng-class="{'card' : cardDesign}">
+
+            <div class="item item-divider item-divider-custom">
+                {{ ::'Message' | translate:'job' }}
+            </div>
+
+            <label class="item item-input item-custom">
+                <textarea placeholder="{{ ::'Message' | translate:'job' }}"
+                          ng-model="form.message"></textarea>
+            </label>
+        </div>
+
+        <div class="list job-contact"
+             ng-class="{'card' : cardDesign}">
+
+            <div class="item item-divider item-divider-custom">
+                {{ ::'Resume' | translate:'job' }}
+                {{ ::'(5 images max.)' | translate:'job' }}
+            </div>
+
+                <div class="item item-image item-custom"
+                     ng-repeat="resume in form.resumes track by $index"
+                     ng-if="form.resumes.length > 0">
+                    <div>
+                        <div class="remove-image-card ng-binding badge badge-assertive badge-assertive-custom"
+                             ng-if="cardDesign"
+                             ng-click="removePicture($index)">
+                            <i class="icon ion-trash-a"></i>
+                        </div>
+                        <div class="remove-image-list ng-binding assertive assertive-custom"
+                             ng-if="!cardDesign"
+                             ng-click="removePicture($index)">
+                            <i class="icon ion-trash-a"></i>
+                        </div>
+
+                        <img ng-src="{{ resume }}"
+                             style="max-height: 20vh; width: auto; max-width: 100%; margin: 6px auto;" />
+                    </div>
+                </div>
+
+                <div class="item item-icon-left item-custom"
+                     ng-if="form.resumes.length < 5"
+                     ng-click="takePicture()">
+                    <div class="row">
+                        <div class="col-90">
+                            <i class="icon ion-image add-image-icon"></i>
+                            <p ng-if="form.resumes.length <= 0">{{ ::'Add a picture of your resume' | translate:'job' }}</p>
+                            <p ng-if="form.resumes.length > 0">{{ ::'Add another picture' | translate:'job' }}</p>
+                        </div>
+                        <div class="col-10">
+                            <i class="item-note ion-chevron-right arrow-center"></i>
+                        </div>
+                    </div>
+                </div>
+        </div>
+
+        <div class="padding"
+             ng-if="cardDesign">
+            <button class="button button-assertive button-assertive-custom button-block"
+                    ng-click="submitContact();">
+                {{ ::'Send contact request' | translate:'job' }}&nbsp;&nbsp;&nbsp;&nbsp;
+                <i class="icon ion-ios-paperplane"></i>
+            </button>
+        </div>
+
+    </ion-content>
+
+    <button class="search-button button button-assertive button-assertive-custom button-full"
+            ng-if="!cardDesign"
+            ng-click="submitContact();">
+        {{ ::'Send contact request' | translate:'job' }}&nbsp;&nbsp;&nbsp;&nbsp;
+        <i class="icon ion-ios-paperplane"></i>
+    </button>
+
+</ion-modal-view>

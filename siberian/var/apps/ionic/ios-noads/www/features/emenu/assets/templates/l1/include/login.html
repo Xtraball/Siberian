@@ -1,0 +1,59 @@
+<div>
+    <ion-list ng-if="!is_loading">
+        <ion-item class="item-custom item-avatar item-icon-right remove-border">
+            <img ng-src="{{ logo_image(payout.vendor.logo)}}" />
+            <h2>{{ ::'Welcome to' | translate:'emenu' }} {{ payout.vendor.name }}</h2>
+            <p>{{ payout.vendor.address }}</p>
+        </ion-item>
+    </ion-list>
+   <div class="spacer"
+             style="margin-top: 20px;"></div>
+
+    <ion-list  ng-if="!is_loading && payout.vendor.enable_default_login">
+         <ion-item class="item-custom text-center remove-border">
+            <button class="button button-block button-positive button-positive-custom"
+                    ng-click="login()">
+                {{ ::'Log in using Email and Password' | translate:'emenu' }}
+            </button>
+        </ion-item>
+    </ion-list>
+    
+    <ion-list  ng-if="!is_loading && payout.vendor.enable_default_login && payout.vendor.enable_default_login">
+         <ion-item class="item-custom text-center remove-border">
+            <h2>----- {{ ::'OR' | translate:'emenu' }} -----</h2>
+           </ion-item>
+     </ion-list>
+
+    <ion-list ng-if="!is_loading && payout.vendor.enable_custom_login">
+         <div class="spacer"
+             style="margin-top: 20px;"></div>
+
+        <ion-item class="item-divider item-divider-custom">
+            {{ ::'Proceed with your' | translate:'emenu' }}
+        </ion-item>
+       <ion-item class="item-custom item-input item-stacked-label">
+            <span class="input-label">{{ ::'Name' | translate:'emenu' }}</span>
+            <input type="text"
+                   ng-model="user.name"
+                   ng-init="user.name === ''"
+                   ng-value=""/>
+        </ion-item>
+
+        <ion-item class="item-custom item-input item-stacked-label">
+            <span class="input-label">{{ ::'Mobile' | translate:'emenu' }}</span>
+            <input type="number"
+                   ng-model="user.phone_number"
+                   ng-init="user.phone_number === ''"
+                   ng-value=""/>
+        </ion-item>
+
+    </ion-list>
+
+    <button ng-click="loginUser()"
+            ng-disabled="((user.name === '' ||  user.phone_number === '') ? true : false)"
+            class="button button-positive-custom button-full" 
+             ng-if="!is_loading && payout.vendor.enable_custom_login">
+        {{ ::'Submit' | translate:'emenu' }}
+    </button>
+
+</div>

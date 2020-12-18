@@ -1,0 +1,186 @@
+<ion-modal-view sb-page-background
+                ng-controller="Woocommerce2ProductController"
+                class="module-woocommerce product-view">
+
+    <ion-header-bar id="woo-opacity-header"
+                    class="bar-custom">
+        <div class="buttons">
+            <button class="button button-clear"
+                    ng-click="close()">
+                <i ng-class="backButtonIcon()"></i>
+            </button>
+        </div>
+        <h1 class="title">{{ product.name }}</h1>
+        <div class="buttons">
+            <button class="button button-clear button-cart"
+                    ng-click="close();goTo('cart')">
+                <i class="woo_font"
+                   ng-class="{
+                        'woo-shopping-cart-counter': getCartQuantity() > 0,
+                        'woo-shopping-cart': getCartQuantity() == 0
+                    }"></i>
+                <span ng-if="getCartQuantity() > 0"
+                      ng-click="close();goTo('cart')"
+                      class="button button-clear woo-cart-quantity">{{ getCartQuantityText() }}</span>
+            </button>
+        </div>
+    </ion-header-bar>
+
+    <ion-content id="woo-product-content"
+                 has-bouncing="false"
+                 class="has-footer-fixed">
+
+        <!-- Product: images, description, rating, price, likes -->
+        <div class="list"
+             ng-class="{ 'card': cardDesign }"
+             ng-if="product">
+
+            <div class="woo-slider-container-product">
+                <woo-slider images="productGallery"></woo-slider>
+            </div>
+
+            <div class="item item-custom item-divider item-text-wrap">
+                <div class="row product-price">
+                    <div class="col-70">
+                        <span ng-if="product.variations.length > 0">
+                            <span ng-show="!hasVariationSelected()">
+                                <span ng-if="getCurrentStore().pricingDisplay == 'range'">
+                                    {{ formatPrice(lowPrice(), true) }} - {{ formatPrice(highPrice(), true) }}
+                                </span>
+                                <span ng-if="getCurrentStore().pricingDisplay == 'from'">
+                                    {{ ::'from' }} {{ formatPrice(lowPrice(), true) }}
+                                </span>
+                            </span>
+                            <span ng-show="hasVariationSelected()">
+                                {{ currentPrice() }}
+                            </span>
+                        </span>
+                        <span ng-if="product.variations.length <= 0">
+                            <span class="product-sale-badge"
+                                  ng-if="isSale(product)">{{ ::'SALE' | translate:'woocommerce2' }}</span>
+                            <span>{{ formatPrice(product.price, true) }}</span>
+                            <p ng-if="isSale(product)"
+                               class="product-regular-price">
+                                <span class="product-regular-price-1">
+                                    {{ formatPrice(product.regular_price, true) }}
+                                </span>
+                                <span class="product-discount-amount">-{{ discountAmount(product) }}%</span>
+                            </p>
+                        </span>
+                    </div>
+                    <div ng-click="toggleLike()"
+                         class="col-30 text-right product-like">
+                        <i class="woo_font"
+                           ng-class="{'woo-like-full like-active': iLike(), 'woo-like like-inactive': !iLike()}"></i>
+                    </div>
+                </div>
+                <p class="product-description"
+                   ng-bind-html="product.short_description"></p>
+                <p class="product-rating">
+                    <span class="product-text-rating">{{ textRating(product) }}</span>
+                    <woo-rating class="energized energized-custom"
+                                rating="product.average_rating"/>
+                </p>
+            </div>
+        </div>
+
+        <!-- Product: variations, description -->
+        <div class="list"
+             ng-class="{ 'card': cardDesign }"
+             ng-if="product">
+            <!--label class="item item-custom item-input">
+                <span class="input-label">{{ ::'Quantity:' | translate:'woocommerce2' }}</span>
+                <form name="quantityForm"
+                      style="width:100%">
+                    <input class='text-right'
+                           name="quantity"
+                           type="number"
+                           min="1"
+                           max="{{product.stock_quantity}}"
+                           ng-model='quantity.value'
+                           required />
+                </form>
+            </label-->
+            <!--label class="item item-custom"
+                   ng-if="product.stock_quantity">
+                <span>{{ ::'Stock Quantity:' | translate:'woocommerce2' }}
+                    <b>{{ product.stock_quantity }}</b>
+                </span>
+            </label-->
+
+            <label class="item item-custom item-input item-select"
+                   ng-if="hasVariations()">
+                <div class="input-label">
+                    <b>{{ textAttributes() | translate:'woocommerce2' }}</b>
+                </div>
+                <select name="product_variation"
+                        ng-change="applyVariation()"
+                        ng-model="options.variation_id">
+                    <option value="">{{ ::'Select' | translate:'woocommerce2' }}</option>
+                    <option ng-repeat="variation in product.variations"
+                            value="{{ variation.id }}">
+                        {{ textVariation(variation) }}
+                    </option>
+                </select>
+            </label>
+
+            <ion-item class="item-custom">
+
+            </ion-item>
+        </div>
+
+        <!-- Product: variations, description -->
+        <div class="list"
+             ng-class="{ 'card': cardDesign }"
+             ng-if="product['reviews']">
+
+            <ion-item class="item-custom">
+                <b class="product-reviews">{{ ::'Customer reviews' | translate:'woocommerce2' }} ({{ product['reviews'].length }})</b>
+            </ion-item>
+
+            <div ng-repeat="review in product['reviews']">
+                <ion-item class="item-custom item-body">
+                    <h2>{{ reviewerName(review) }}</h2>
+                    <p class="text-left">
+                        <woo-rating rating="review.rating"/>
+                    </p>
+                    <p class="text-left">
+                        {{ review.date_created | moment_calendar }}
+                    </p>
+                    <p ng-bind-html="review.review | trusted_html"></p>
+
+                </ion-item>
+            </div>
+        </div>
+
+        <div class="text-center modal-loading-offset"
+             ng-if="isLoading">
+            <ion-spinner icon="android"
+                         class="spinner-custom"></ion-spinner>
+            <p>{{ ::'Loading...' | translate:'woocommerce2' }}</p>
+        </div>
+
+        <div class="item item-custom text-center"
+             ng-if="!isLoading && product == null">
+            {{ ::'This product is not available.' | translate:'woocommerce2' }}
+        </div>
+
+    </ion-content>
+
+    <ion-footer-bar class="bar bar-footer">
+        <div class="action-quantity-container">
+            <button class="action-quantity button button-dark button-dark-custom button-full"
+                    ng-click="decreaseQuantity()">-</button>
+            <input type="number"
+                   class="item-quantity"
+                   ng-model="options.quantity">
+            <button class="action-quantity button button-dark button-dark-custom-custom button-full"
+                    ng-click="increaseQuantity()">+</button>
+        </div>
+        <button ng-click="addToCart()"
+                class="button button-assertive button-assertive-custom button-full button-add-to-cart">
+            {{ ::'Add to cart' | translate:'woocommerce2' }}
+        </button>
+    </ion-footer-bar>
+
+</ion-modal-view>

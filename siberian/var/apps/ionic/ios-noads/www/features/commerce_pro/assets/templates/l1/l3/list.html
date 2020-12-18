@@ -1,0 +1,124 @@
+<ion-view sb-page-background
+          class="module-folder2 folder2-layout2">
+    <ion-nav-title>{{ page_title }}</ion-nav-title>
+    <ion-content>
+
+        <div class="loader"
+             ng-show="is_loading">
+            <ion-spinner class="spinner-custom">
+
+            </ion-spinner>
+        </div>
+
+        <ng-include src="'features/folder_v2/assets/templates/search.html'"></ng-include>
+
+        <ng-include src="'features/folder_v2/assets/templates/cover.html'"></ng-include>
+
+        <div class="list folder-layout folder-l3"
+             ng-class="{'card': cardDesign}"
+             ng-show="collection.length && !search.searchValue">
+            <div class="folder-l3-row"
+                 ng-repeat="chunks in chunks3 track by $index">
+                <div tabbar-items
+                     class="folder-l3-col item item-custom"
+                     option="item"
+                     ng-repeat="item in chunks track by item.url"
+                     ng-class="{'single': chunks.length == 1, 'double': chunks.length == 2}"
+                     ng-style="{'background-image':'url(' + imagePath(item.thumbnail) + ')'}">
+                    <img src="./img/placeholder/blank-512.png" />
+                    <p class="folder-title">{{ item.title }}</p>
+                    <p class="folder-subtitle"
+                       ng-if="item.subtitle">{{ item.subtitle }}</p>
+                </div>
+            </div>
+
+        </div>
+
+        <div class="list"
+             ng-class="{'card': cardDesign}"
+             ng-if="!is_loading && !collection.length && !current && !search.searchValue">
+            <div class="item text-center item-custom">
+                {{ "No items found" | translate }}
+            </div>
+        </div>
+
+    </ion-content>
+
+    <style type="text/css">
+        .folder-layout.folder-l3 {
+            margin-top: 15px;
+        }
+
+        .folder-layout.folder-l3.card {
+            box-shadow: none;
+        }
+
+        .folder-layout.folder-l3 .folder-l3-row {
+            padding: 0;
+            display: flex;
+            margin-top: 12px;
+        }
+
+        .folder-layout.folder-l3 .folder-l3-row:nth-child(1) {
+            margin-top: 0;
+        }
+
+        .folder-layout.folder-l3 .folder-l3-col {
+            padding: 0;
+            width: 33%;
+        }
+
+        .folder-layout.folder-l3 .folder-l3-row div.folder-l3-col.double,
+        .folder-layout.folder-l3 .folder-l3-row div.folder-l3-col.single {
+            flex: 0 1 calc(33% - 6px);
+        }
+
+        .folder-layout.folder-l3 .folder-l3-row div.folder-l3-col {
+            margin: 0 6px;
+            padding: 0;
+            background-position: center center;
+            background-repeat: no-repeat;
+            background-size: 50%;
+        }
+
+        .folder-layout.folder-l3 .folder-l3-row div.folder-l3-col img {
+            width: 100%;
+        }
+
+        .folder-layout.folder-l3.card .folder-l3-row div.folder-l3-col {
+            border: 0;
+            border-radius: 2px;
+        }
+
+        .folder-layout.folder-l3.card .folder-l3-row div.folder-l3-col:nth-child(1) {
+            margin: 0 6px 0 0;
+        }
+
+        .folder-layout.folder-l3.card .folder-l3-row div.folder-l3-col:nth-child(2) {
+            margin: 0 6px 0 6px;
+        }
+
+        .folder-layout.folder-l3.card .folder-l3-row div.folder-l3-col:nth-child(3) {
+            margin: 0 0 0 6px;
+        }
+
+        .folder-layout.folder-l3 .folder-title {
+            position: absolute;
+            bottom: 6px;
+            width: 100%;
+            text-align: center;
+            font-size: 12px;
+            padding: 0 10px;
+        }
+
+        .folder-layout.folder-l3 .folder-subtitle {
+            position: absolute;
+            bottom: -2px;
+            width: 100%;
+            text-align: center;
+            font-size: 10px;
+            padding: 0 10px;
+        }
+    </style>
+
+</ion-view>

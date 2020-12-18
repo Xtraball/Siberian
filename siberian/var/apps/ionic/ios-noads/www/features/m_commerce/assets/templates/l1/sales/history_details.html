@@ -1,0 +1,57 @@
+<ion-view sb-page-background
+          class="mcommerce-view mcommerce-sales-history-details">
+    <ion-nav-title>{{ page_title }}</ion-nav-title>
+
+    <ion-content>
+
+        <div class="list">
+            <div class="item item-divider item-divider-custom item-custom">
+                <h2><strong>{{ ::'Order N°' | translate:'m_commerce' }}: {{ order.details.number }}</strong></h2>
+            </div>
+            <div class="item item-custom">
+                {{ ::'Delivery Method' | translate:'m_commerce' }}: {{ order.details.delivery_method }}
+            </div>
+            <div class="item item-custom">
+                {{ ::'Payment Method' | translate:'m_commerce' }}: {{ order.details.payment_method }}
+            </div>
+            <div class="item item-custom">
+                {{ ::'Status' | translate:'m_commerce' }}: {{ order.details.status_label }}
+            </div>
+            <div class="item item-custom"
+                 ng-if="order.details.discount">
+                {{ ::'Discount used' | translate:'m_commerce' }}: {{ order.details.discount }}
+            </div>
+            <div class="item item-divider item-divider-custom item-custom">
+                <h2><strong>{{ ::'Order Details' | translate:'m_commerce' }}</strong></h2>
+            </div>
+            <div class="item item-custom item-icon-left"
+                 ng-repeat="line in order.lines">
+                <i class="icon ion-pricetag"></i>
+                <h2 ng-bind-html="line.title"></h2>
+                <p>{{ ::'Qty' | translate:'m_commerce' }}: {{ line.qty}}</p>
+                <p class="text-right"><strong>{{ line.total }}</strong></p>
+            </div>
+            <div class="item item-divider item-divider-custom item-custom">
+                <h2><strong>{{ ::'Order Total' | translate:'m_commerce' }}</strong></h2>
+            </div>
+            <div class="item item-custom">
+                {{ ::'Subtotal' | translate:'m_commerce' }}: <span class="pull-right">{{ order.details.subtotal }}</span>
+            </div>
+            <div class="item item-custom">
+                {{ ::'Total tax' | translate:'m_commerce' }}: <span class="pull-right">{{ order.details.total_tax }}</span>
+            </div>
+            <div class="item item-custom"
+                 ng-if="order.details.discount">
+                {{ ::'Discount amount' | translate:'m_commerce' }}: <span class="pull-right">{{ order.details.discount_total }}</span>
+            </div>
+            <div class="item item-custom"
+                 ng-if="order.details.tip">
+                {{ ::'Gratuity' | translate:'m_commerce' }}: <span class="pull-right">{{ order.details.tip }}</span>
+            </div>
+            <div class="item item-custom">
+                {{ ::'Total' | translate:'m_commerce' }}: <span class="pull-right">{{ order.details.total }}</span>
+            </div>
+        </div>
+
+    </ion-content>
+</ion-view>

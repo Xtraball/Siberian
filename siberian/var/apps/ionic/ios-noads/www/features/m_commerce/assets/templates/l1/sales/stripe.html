@@ -1,0 +1,85 @@
+<ion-view sb-page-background
+          class="module-mcommerce mcommerce-view mcommerce-sales-stripe">
+    <ion-nav-title>{{ page_title }}</ion-nav-title>
+    <ion-nav-buttons side="secondary">
+        <button ng-click="right_button.action()"
+                class="button button-clear header-item"
+                ng-if="right_button">
+            <span class="back-text">
+                <span class="default-title">{{ right_button.label }}</span>
+            </span>
+            <i class="icon"
+               ng-class="right_button.icon"></i>
+        </button>
+    </ion-nav-buttons>
+
+    <ion-content>
+
+        <ion-list class="mcommerce-stripe">
+
+            <!-- Previously stored card! -->
+            <ion-item ng-show="payment.hasStoredCard"
+                      style="margin-top: 15px;"
+                      class="item-divider item-divider-custom">
+                {{ ::'Stored card' | translate:'m_commerce' }}
+            </ion-item>
+            <ion-item ng-show="payment.hasStoredCard"
+                      ng-click="useCard()"
+                      class="item-custom item-icon-left item-icon-right">
+                <i class="icon">
+                    <img src="{{ creditCardBrand(card.brand) }}"
+                         style="height: 60%; margin-right: 15px;" />
+                </i>
+                <span class="saved-card">
+                            <span class="last-star">**** **** **** </span>
+                            <span class="last-four">{{ card.last4 }}</span>
+                            <span class="exp"> - {{ card.exp_month }}/{{ (card.exp_year + "").substring(2) }}</span>
+                        </span>
+                <i class="icon ion-android-arrow-forward"></i>
+            </ion-item>
+
+            <button ng-show="payment.hasStoredCard"
+                    ng-click="deleteVault()"
+                    class="button button-full button-assertive button-assertive-custom">
+                {{ ::'Delete card' | translate:'m_commerce' }}
+            </button>
+
+            <!-- Spacer! -->
+            <div ng-show="payment.hasStoredCard"
+                 style="margin-bottom: 20px;"></div>
+
+            <!-- Use a new card! -->
+            <ion-item class="item-divider item-divider-custom">
+                {{ ::'Use a new credit card' | translate:'m_commerce' }}
+            </ion-item>
+            <form>
+                <div class="payment-stripe-form">
+                    <div id="mcommerce_card_element"
+                         class="item item-custom">
+                    </div>
+
+                    <ion-checkbox ng-if="!guest_mode"
+                                  ng-change="debug"
+                                  ng-model="payment.save_card"
+                                  class="item item-custom radio-custom">
+                        {{ ::'Save my card for future payments' | translate:'m_commerce' }}
+                    </ion-checkbox>
+
+                    <div id="mcommerce_card_errors_parent"
+                         class="item item-custom ng-hide">
+                        <span style="font-size: .9em; white-space: normal;"
+                              id="mcommerce_card_errors"
+                              class="assertive assertive-custom"></span>
+                    </div>
+
+                    <button ng-click="validateCard()"
+                            id="mcommerce_save_element"
+                            class="button button-full button-positive button-positive-custom">
+                        {{ ::'Pay' | translate:'m_commerce' }}
+                    </button>
+                </div>
+            </form>
+        </ion-list>
+
+    </ion-content>
+</ion-view>

@@ -1,0 +1,33 @@
+<div class="row course-actions">
+    <div class="action-start"
+         ng-class="{'col-25': showPassengerPhone, 'col-35': !showPassengerPhone}">
+        <button ng-click="driveToPassenger(request)"
+                class="button button-full button-assertive button-assertive-custom">
+            <span class="cabride-drive-to">{{ ::'DRIVE TO' | translate:'cabride' }}</span>
+            <span class="cabride-target">{{ ::'CLIENT' | translate:'cabride' }}</span>
+        </button>
+    </div>
+    <div class="col-35 action-accept"
+         ng-class="{'col-35': showPassengerPhone, 'col-50': !showPassengerPhone}">
+        <button ng-click="driveToDestination(request)"
+                class="button button-full button-energized button-energized-custom">
+            <span class="cabride-drive-to">{{ ::'DRIVE TO' | translate:'cabride' }}</span>
+            <span class="cabride-target">{{ ::'DESTINATION' | translate:'cabride' }}</span>
+        </button>
+    </div>
+    <div ng-if="showPassengerPhone"
+         class="col-25 action-call">
+        <button ng-click="callClient(request)"
+                class="button button-full button-positive button-positive-custom">
+            <span class="cabride-drive-to">{{ ::'CALL' | translate:'cabride' }}</span>
+            <span class="cabride-target">{{ ::'CLIENT' | translate:'cabride' }}</span>
+        </button>
+    </div>
+    <div class="col-15 action-details">
+        <button ng-click="details(request)"
+                class="button button-full button-balanced button-balanced-custom">
+            <i class="icon ion-ios-information-outline"
+               style="font-size: 34px;"></i>
+        </button>
+    </div>
+</div>

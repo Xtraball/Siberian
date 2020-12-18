@@ -1,0 +1,41 @@
+<div>
+    <ion-item class="item-image item-custom"
+              ng-class="{'card': cardDesign}"
+              ng-repeat="picture in form.pictures track by $index">
+        <div>
+            <div class="remove-image-card ng-binding badge badge-assertive badge-assertive-custom"
+                 ng-if="cardDesign"
+                 ng-click="removePicture($index)">
+                <i class="icon ion-trash-a"></i>
+            </div>
+            <div class="remove-image-list ng-binding assertive assertive-custom"
+                 ng-if="!cardDesign"
+                 ng-click="removePicture($index)">
+                <i class="icon ion-trash-a"></i>
+            </div>
+
+            <img ng-src="{{ picturePreview(picture) }}"
+                 class="fanwall-pictures" />
+        </div>
+    </ion-item>
+
+    <ion-item class="item-icon-left item-custom upload-action"
+              ng-class="{'card': cardDesign}"
+              ng-if="form.pictures.length < form.limit"
+              ng-click="takePicture()">
+        <div class="row">
+            <div class="col-90">
+                <i class="icon ion-image add-image-icon"></i>
+                <p ng-if="form.pictures.length <= 0">{{ ::addPictureText | translate:'fanwall' }}
+                    <span ng-if="form.limit > 1">({{ form.limit }} {{ ::'max.' | translate:'fanwall' }})</span>
+                </p>
+                <p ng-if="form.pictures.length > 0">{{ ::addAnotherPictureText | translate:'fanwall' }}
+                    <span ng-if="form.limit > 1">({{ form.limit }} {{ ::'max.' | translate:'fanwall' }})</span>
+                </p>
+            </div>
+            <div class="col-10">
+                <i class="item-note ion-plus arrow-center"></i>
+            </div>
+        </div>
+    </ion-item>
+</div>

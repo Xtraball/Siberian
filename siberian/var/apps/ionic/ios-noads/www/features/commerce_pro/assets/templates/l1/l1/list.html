@@ -1,0 +1,50 @@
+<ion-view sb-page-background
+          class="module-folder2 folder2-layout1">
+    <ion-nav-title>{{ page_title }}</ion-nav-title>
+    <ion-content>
+
+        <div class="loader"
+             ng-show="is_loading">
+            <ion-spinner class="spinner-custom">
+
+            </ion-spinner>
+        </div>
+
+        <ng-include src="'features/folder_v2/assets/templates/search.html'"></ng-include>
+
+        <ng-include src="'features/folder_v2/assets/templates/cover.html'"></ng-include>
+
+        <div class="list"
+             ng-class="{'card': cardDesign}"
+             ng-show="collection.length && !search.searchValue">
+            <a tabbar-items
+               class="item item-custom item-avatar-square"
+               option="item"
+               ng-repeat="item in collection"
+               ng-class="{
+                'item-avatar': item.thumbnail,
+                'item-center': (!item.subtitle && !item.message)}">
+
+                <img ng-src="{{ imagePath(item.thumbnail) }}"
+                     ng-if="item.thumbnail" />
+                <h2>{{ item.title }}</h2>
+                <p ng-if="item.subtitle">{{ item.subtitle }}</p>
+            </a>
+        </div>
+
+        <div class="list folder-layout folder-l1"
+             ng-class="{'card': cardDesign}"
+             ng-if="!is_loading && !collection.length && !cover && !search.searchValue">
+            <div class="item text-center item-custom">
+                {{ ::'No items found' | translate }}
+            </div>
+        </div>
+
+    </ion-content>
+
+    <style type="text/css">
+        .folder-layout.folder-l1 {
+            margin-top: 15px;
+        }
+    </style>
+</ion-view>

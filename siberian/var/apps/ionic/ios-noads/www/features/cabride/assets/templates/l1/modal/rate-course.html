@@ -1,0 +1,67 @@
+<ion-modal-view sb-page-background
+                ng-controller="RequestRateController"
+                class="cabride cabride-rate-course">
+
+    <ion-header-bar class="bar-custom">
+        <div class="buttons">
+            <button class="button button-clear"
+                    ng-click="close()">
+                <i class="icon ion-android-arrow-back"></i>
+            </button>
+        </div>
+        <h1 class="title">{{ ::'How was your course?' | translate:'cabride' }}</h1>
+    </ion-header-bar>
+
+    <ion-content>
+        <div class="list list-item">
+            <div style="margin-bottom: 20px;"></div>
+
+            <div class="item item-divider item-divider-custom">
+                {{ ::'Rating' | translate:'cabride' }}
+            </div>
+
+            <div class="item item-custom rate-course">
+                <div class="row">
+                    <div class="col-20">
+                        <i ng-click="setRating('course', 1)"
+                           class="icon icon-rate {{ getIcon('course', 1) }}"></i>
+                    </div>
+                    <div class="col-20">
+                        <i ng-click="setRating('course', 2)"
+                           class="icon icon-rate {{ getIcon('course', 2) }}"></i>
+                    </div>
+                    <div class="col-20">
+                        <i ng-click="setRating('course', 3)"
+                           class="icon icon-rate {{ getIcon('course', 3) }}"></i>
+                    </div>
+                    <div class="col-20">
+                        <i ng-click="setRating('course', 4)"
+                           class="icon icon-rate {{ getIcon('course', 4) }}"></i>
+                    </div>
+                    <div class="col-20">
+                        <i ng-click="setRating('course', 5)"
+                           class="icon icon-rate {{ getIcon('course', 5) }}"></i>
+                    </div>
+                </div>
+            </div>
+
+            <div style="margin-bottom: 20px;"></div>
+
+            <div class="item item-divider item-divider-custom">
+                {{ ::'Leave a comment' | translate:'cabride' }}
+            </div>
+
+            <label class="item item-input item-custom">
+                <textarea rows="4"
+                          placeholder="{{ ::'Your comment ...' | translate:'cabride' }}"
+                          ng-model="rating.comment"></textarea>
+            </label>
+
+            <button type="submit"
+                    class="button button-assertive button-full button-assertive-custom"
+                    ng-click="submit()"
+                    ng-show="!is_loading">{{ ::'Submit' | translate:'cabride' }}</button>
+
+        </div>
+    </ion-content>
+</ion-modal-view>

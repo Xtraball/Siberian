@@ -1,0 +1,172 @@
+.layout.layout_taxi .taxi-header {
+    width: 100%;
+    background: url('./assets/background.png');
+    background-position: center center;
+    background-size: cover;
+}
+
+.layout_taxi .items {
+    padding-top: 1em;
+}
+
+.layout_taxi .lines {
+    height: 12vw;
+}
+
+.layout_taxi .line-icon {
+    height: 6vw;
+    margin-left: 1em;
+    font-size: 18px;
+    line-height: 22px;
+}
+
+.layout_taxi .line-icon-box {
+    width: 4em;
+    line-height: 6vw;
+    display: flex;
+    justify-content: center;
+}
+
+.layout_taxi .line-title {
+    line-height: 6vw;
+    margin-left: 1em;
+    font-weight: bold;
+    font-variant: small-caps;
+}
+
+.layout_taxi .line-box {
+    display: flex;
+    align-items:center;
+}
+
+.layout_taxi .line-status {
+    font-size: 11px;
+}
+
+.layout_taxi .line-divider {
+    height: 6vw;
+}
+
+.layout_taxi .line-divider span {
+    width: 100%;
+    text-align: center;
+    line-height: 2vw;
+    margin-left: 0;
+}
+
+.layout_taxi .taxi-header .taxi-avatar-wrapper {
+    height: 25vw;
+    width: 25vw;
+    border: 2px solid #303030;
+    border-radius: 50%;
+    overflow: hidden;
+    display: inline-block;
+}
+
+.layout_taxi .taxi-signup {
+    margin: 20px 0;
+}
+
+.layout_taxi .offline-text,
+.layout_taxi .online-text {
+    display: inline-block;
+    border-radius: 100px;
+    font-size: 120%;
+    font-variant: small-caps;
+    letter-spacing: .5px;
+    margin-right: 1vw;
+    transform: translateY(-6px);
+}
+
+.layout_taxi .customer-name {
+    width: 100%;
+    font-size: 80%;
+}
+
+.layout_taxi .status-toggler {
+    background-color: rgba(0,0,0,0.2);
+    border-radius: 12px;
+    padding: 0 9px 0;
+    color: white;
+    font-size: 120%;
+    font-variant: small-caps;
+    letter-spacing: .5px;
+    border: 2px solid transparent;
+    margin-right: 1vw;
+}
+
+.layout_taxi .status-toggler .status-pill {
+    background-color: forestgreen;
+    border-radius: 50%;
+    width: 1em;
+    height: 1em;
+    position: relative;
+    transition: all 300ms;
+    opacity: 0.7;
+}
+
+.layout_taxi .status-toggler.on .status-pill {
+    right: -50%;
+}
+.layout_taxi .status-toggler.off .status-pill {
+    right: 50%;
+    background-color: darkred !important;
+}
+
+.layout_taxi .taxi-header {
+    padding-top: 2em;
+    padding-bottom: .5em;
+}
+
+.layout_taxi .taxi-header .taxi-avatar {
+    height: calc(25vw - 4px);
+    width: calc(25vw - 4px);
+}
+
+/**
+ Media queries
+ */
+@media screen and (min-width: 1024px) {
+    .layout_taxi .line-icon {
+        font-size: 4rem;
+    }
+
+    .layout_taxi .line-title {
+        font-size: 2rem;
+    }
+
+    .layout_taxi .offline-text, .layout_taxi .online-text {
+        border-radius: 1rem;
+        padding: 0 1rem .5rem;
+        font-size: 2rem;
+    }
+
+    .layout_taxi .taxi-header .taxi-avatar-wrapper {
+        height: 20vw;
+        width: 20vw;
+    }
+
+    .layout_taxi .taxi-header .taxi-avatar {
+        height: calc(20vw - 4px);
+        width: calc(20vw - 4px);
+    }
+
+    .layout_taxi .customer-name {
+        font-size: 1.5rem;
+    }
+
+    .layout_taxi .taxi-header {
+        padding-top: 2rem;
+        padding-bottom: 1rem;
+    }
+
+    .layout_taxi .items {
+        padding-top: 3rem;
+    }
+
+    .layout_taxi .status-toggler {
+        border-radius: 2rem;
+        padding: 0 1rem 0;
+        font-size: 2rem;
+    }
+}

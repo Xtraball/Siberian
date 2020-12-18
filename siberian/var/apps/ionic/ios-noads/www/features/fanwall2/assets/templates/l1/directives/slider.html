@@ -1,0 +1,52 @@
+<div class="fanwall-directive-slider">
+    <div class="module-fanwall fanwall-slider">
+        <ul rn-carousel
+            rn-carousel-auto-slide="3"
+            rn-carousel-index="carouselIndex"
+            class="image">
+            <li ng-repeat="image in images">
+                <div sb-image
+                     ng-click="showFullscreen($index)"
+                     image-src="getImageSrc(image)"></div>
+            </li>
+        </ul>
+        <div rn-carousel-indicators
+             rn-carousel-index="carouselIndex"
+             ng-if="images.length > 1"
+             slides="images"></div>
+    </div>
+
+    <script id="zoom-modal.html"
+            type="text/ng-template">
+        <div class="module-fanwall fanwall-slider-modal sb-cms-image modal fullscreen">
+            <ion-header-bar class="bar-dark">
+                <button class="button button-clear pull-right"
+                        ng-click="hideFullscreen()">{{ ::'Close' | translate:'fanwall' }}
+                </button>
+            </ion-header-bar>
+            <ion-content>
+                <ul rn-carousel
+                    rn-carousel-index="carouselIndexModal"
+                    class="image"
+                    id="zoomedImage">
+                    <li ng-repeat="image in images">
+                        <ion-scroll delegate-handle="slide-{{ $index }}"
+                                    overflow-scroll="false"
+                                    direction="xy"
+                                    zooming="true"
+                                    ng-swipe-left="setCarouselIndex($index+1)"
+                                    ng-swipe-right="setCarouselIndex($index-1)">
+                            <div class="image"
+                                 sb-image
+                                 image-src="getImageSrc(image)"></div>
+                        </ion-scroll>
+                    </li>
+                </ul>
+                <div rn-carousel-indicators
+                     rn-carousel-index="carouselIndexModal"
+                     ng-if="images.length > 1"
+                     slides="images"></div>
+            </ion-content>
+        </div>
+    </script>
+</div>

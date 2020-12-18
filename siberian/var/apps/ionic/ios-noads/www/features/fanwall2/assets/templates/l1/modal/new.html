@@ -1,0 +1,60 @@
+<ion-modal-view sb-page-background
+                ng-controller="FanwallNewController"
+                class="module-fanwall fanwall-new fanwall-new-l1">
+
+    <ion-header-bar class="bar-custom">
+        <div class="buttons">
+            <button class="button button-clear"
+                    ng-click="close()">
+                <i class="icon ion-android-arrow-back"></i>
+            </button>
+        </div>
+        <h1 class="title">{{ pageTitle | translate:'fanwall' }}</h1>
+        <location-button icon-class="'fanwall-location-action'"></location-button>
+    </ion-header-bar>
+
+    <ion-content class="has-footer">
+
+        <ion-list class="new-post-items">
+
+            <ion-item class="item-custom item-avatar post-author"
+                      ng-class="{'card': getCardDesign()}">
+                <img ng-src="{{ myAvatar() }}" />
+                <h2 class="new-post-author">
+                    {{ myName() }}
+                    <i class="{{ popoverIcon }} pull-right"
+                       ng-click="openActions($event)"></i>
+                </h2>
+                <p ng-if="!locationIsDisabled() && !fetchingLocation"
+                   class="post-location">
+                    <i style="font-style: italic;">{{ shortLocation }}</i>
+                </p>
+                <p ng-if="!locationIsDisabled() && fetchingLocation"
+                   class="post-location">
+                    <i style="font-style: italic;">{{ ::'Fetching your location...' | translate:'fanwall' }}</i>
+                </p>
+            </ion-item>
+
+            <ion-item class="item-input item-custom"
+                      ng-class="{'card': getCardDesign()}">
+                <label>
+                    <textarea placeholder="{{ ::'Write your message...' | translate:'fanwall' }}"
+                              rows="12"
+                              ng-model="form.text"></textarea>
+                </label>
+            </ion-item>
+
+            <fanwall-pictures form="form"
+                              card-design="cardDesign"></fanwall-pictures>
+
+        </ion-list>
+
+    </ion-content>
+
+    <button class="post-button button button-assertive button-assertive-custom button-full"
+            ng-click="sendPost();">
+        {{ ::'Post' | translate:'fanwall' }}&nbsp;&nbsp;&nbsp;&nbsp;
+        <i class="icon ion-ios-paperplane"></i>
+    </button>
+
+</ion-modal-view>

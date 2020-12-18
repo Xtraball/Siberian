@@ -1,0 +1,13 @@
+<div class="list">
+    <div class="top-message text-center" ng-show="reachedHistoryEnd">
+        {{ "You've reached the history end." | translate:"realtimechat" }}
+    </div>
+    <div class="top-message text-center" ng-show="isGettingHistory">
+        {{ "Retrieving history ..." | translate:"realtimechat" }}
+    </div>
+    <message-item
+        repeat-complete="listDidRender()"
+        id="{{ message.messageId }}"
+        ng-repeat="message in currentRoom.messageStack track by message.messageId"
+        current-message="message"></message-item>
+</div>

@@ -1,0 +1,70 @@
+<ion-view sb-page-background
+          class="module-previewer previewer-list previewer-l1">
+    <ion-nav-title>{{ pageTitle }}</ion-nav-title>
+    <ion-content>
+
+        <div class="loader"
+             ng-show="isLoading">
+            <ion-spinner class="spinner-custom"></ion-spinner>
+        </div>
+
+        <div id="search_section"
+             class="list previewer2-search"
+             ng-class="{'card' : cardDesign}"
+             ng-show="collection.length && !isLoading">
+            <label class="item item-input item-custom">
+                <i class="icon ion-search placeholder-icon"></i>
+                <input type="text"
+                       placeholder="{{ ::'Search' | translate }}"
+                       ng-model="search.searchValue">
+            </label>
+            <button class="clear-search"
+                    ng-click="resetSearch()"
+                    ng-show="search.searchValue.length">
+                <i class="icon ion-backspace"></i>
+            </button>
+        </div>
+
+        <div class="list"
+             ng-class="{'card': cardDesign}"
+             ng-show="results.length && !isLoading">
+            <a class="item item-custom item-avatar-square"
+               ng-click="openApp(item)"
+               ng-repeat="item in collection | filter:search.searchValue as results"
+               ng-class="{
+            'item-avatar': item.thumbnail,
+            'item-center': (!item.subtitle && !item.message)}">
+
+                <img ng-src="{{ imagePath(item.thumbnail) }}"
+                     ng-if="item.thumbnail" />
+                <h2 ng-bind-html="item.title | trusted_html"></h2>
+                <p ng-if="item.subtitle"
+                   ng-bind-html="item.subtitle | trusted_html"></p>
+                <i ng-class="{
+                       'ion-star star-gold': item.starred,
+                       'ion-star star-grey': !item.starred
+                   }"
+                   ng-click="toggleStarred($event, item);"
+                   class="icon star-right"></i>
+            </a>
+        </div>
+
+        <div class="list"
+             ng-class="{'card': cardDesign}"
+             ng-if="isLoggedIn && !isLoading && (!collection.length || results.length === 0)">
+            <div class="item text-center item-custom">
+                {{ "No application found" | translate }}
+            </div>
+        </div>
+
+        <div ng-show="!isLoggedIn"
+             class="item item-custom item-text-wrap">
+            <p class="text-justify">
+                {{ "You must be connected to use this feature. Please connect to your account by clicking on the button below." | translate }}
+            </p>
+        </div>
+        <button class="button button-full button-positive-custom"
+                ng-show="!isLoggedIn"
+                ng-click="login()">{{ "Connect me!" | translate }}</button>
+    </ion-content>
+</ion-view>

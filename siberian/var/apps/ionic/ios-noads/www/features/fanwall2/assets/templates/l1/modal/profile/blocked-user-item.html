@@ -1,0 +1,11 @@
+<ion-item ng-class="{'card': getCardDesign()}"
+          class="item-custom item-comment">
+    <div class="item-avatar comment-author user-blocked">
+        <img ng-src="{{ customerImagePath() }}" />
+        <h2>
+            {{ customerFullname() }}
+            <i class="icon ion-more pull-right"
+               ng-click="openActions($event)"></i>
+        </h2>
+    </div>
+</ion-item>

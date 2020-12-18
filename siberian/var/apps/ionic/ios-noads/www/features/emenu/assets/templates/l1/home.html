@@ -1,0 +1,42 @@
+<ion-view sb-page-background
+          class="emenu emenu-home">
+
+    <ion-nav-title>{{ page_title }}</ion-nav-title>
+
+    <ion-content class="has-header"
+                 id="item-content"
+                 scrollbar-y="false"
+                 overflow-scroll="false"
+                 delegate-handle="mainScroll">
+
+        <div class="loader"
+             ng-show="is_loading">
+            <ion-spinner icon="android"
+                         class="spinner-custom"></ion-spinner>
+        </div>
+
+        <ng-include ng-if="is_logged_in && !is_loading && !is_browser"
+                    src="'./features/emenu/assets/templates/l1/include/manager_menu.html'"></ng-include>
+
+        <ion-list ng-if="!is_logged_in && !is_loading && !is_browser">
+            <ion-item class="item-custom text-center remove-border">
+                <button class="button button-block button-positive button-positive-custom"
+                        ng-click="login()">
+                    {{ ::'Click here for login!' | translate:'emenu' }}
+                </button>
+            </ion-item>
+        </ion-list>
+
+        <ion-list ng-if="is_browser && !is_loading">
+            <ion-item class="item-custom text-center remove-border" ng-if="!is_browser_message">
+                 {{ ::'Please Wait..!' | translate:'emenu' }}
+           </ion-item>
+
+           <ion-item class="item-custom text-center item-body remove-border" ng-if="is_browser_message">
+              {{ ::'Please Scan the QR code to place orders at your restaurants or food shops!' | translate:'emenu' }}
+           </ion-item>
+        </ion-list>
+
+    </ion-content>
+
+</ion-view>

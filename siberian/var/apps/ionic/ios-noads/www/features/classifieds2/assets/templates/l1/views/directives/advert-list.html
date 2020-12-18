@@ -1,0 +1,68 @@
+<div ng-repeat="advert in adverts">
+    <div class="row no-padding"
+         ng-if="$even">
+        <div class="col col-50 no-padding"
+             ng-click="showAdvertModal(adverts[$index])">
+            <div class="advert-block {{ adverts[$index].status }} card no-padding no-margin-bottom">
+                <div class="advert-image text-center"
+                     style="background-image: url('{{ getImageSrc(adverts[$index].image) }}');">
+                    <div ng-if="ownerView"
+                         class="ad-status {{ adverts[$index].status }}">{{ adverts[$index].status }}</div>
+                </div>
+                <div class="advert-text-box item item-custom text-left">
+                    <h5 class="advert-title">{{ adverts[$index].title }}</h5>
+                    <p ng-if="adverts[$index].price"
+                       class="advert-price">
+                        <span>
+                            {{ formatPrice(adverts[$index].price, true) }}
+                        </span>
+                    </p>
+                    <p>
+                        {{ adverts[$index].locationShort }}&nbsp;
+                    </p>
+                </div>
+                <div ng-if="ownerView"
+                     style="margin: 0; padding: 0;"
+                     class="row">
+                    <button ng-click="removeAd($event, adverts[$index])"
+                            style="margin: 0;"
+                            class="col-100 button button-small button-full button-assertive button-assertive-custom">
+                        {{ ::'DELETE' | translate:'classifieds2' }}
+                    </button>
+                </div>
+            </div>
+        </div>
+        <div class="col col-50 no-padding"
+             ng-click="showAdvertModal(adverts[$index+1])"
+             ng-if="adverts[$index+1]">
+            <div class="advert-block {{ adverts[$index+1].status }} card no-padding no-margin-bottom">
+                <div class="advert-image text-center"
+                     style="background-image: url('{{ getImageSrc(adverts[$index+1].image) }}');">
+                    <div ng-if="ownerView"
+                         class="ad-status {{ adverts[$index+1].status }}">{{ adverts[$index+1].status }}</div>
+                </div>
+                <div class="advert-text-box item item-custom text-left">
+                    <h5 class="advert-title">{{adverts[$index+1].title}}</h5>
+                    <p ng-if="adverts[$index+1].price"
+                       class="advert-price">
+                        <span>
+                            {{ formatPrice(adverts[$index+1].price, true) }}
+                        </span>
+                    </p>
+                    <p>
+                        {{ adverts[$index+1].locationShort }}&nbsp;
+                    </p>
+                </div>
+                <div ng-if="ownerView"
+                     style="margin: 0; padding: 0;"
+                     class="row">
+                    <button ng-click="removeAd($event, adverts[$index+1])"
+                            style="margin: 0;"
+                            class="col-100 button button-small button-full button-assertive button-assertive-custom">
+                        {{ ::'DELETE' | translate:'classifieds2' }}
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

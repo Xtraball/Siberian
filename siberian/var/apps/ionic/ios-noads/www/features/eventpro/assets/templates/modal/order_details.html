@@ -1,0 +1,68 @@
+<ion-modal-view cache-view="false"
+                sb-page-background
+                class="eventpro eventpro-event-info">
+
+    <ion-header-bar class="bar-custom">
+        <div class="buttons">
+            <button class="button button-clear"
+                    ng-click="closeModalOrderDeatils()">
+                    <i ng-class="backButtonIcon()"></i>
+            </button>
+        </div>
+        <h1 class="title">{{ ::"Order Details" | translate:"eventpro" }} </h1>
+    </ion-header-bar>
+
+    <ion-content id="eventpro-content"
+                 class="has-header">
+
+        <div class="list" ng-if="order_info.order_id > 0">
+          <div class="item item-custom item-body remove-border">
+             <h2 class="icon {{order_info.status_css}} text-center">
+                {{order_info.status_message}}!
+            </h2>
+            <p class="text-center">{{ ::"Booking ID" | translate:"eventpro" }}: {{order_info.booking_number}}</p>
+           </div>
+            <div class="item item-custom item-body event-body remove-border">
+               <img class="full-image event-feature-img"
+                   ng-src="{{ eventproImage(order_info.event_image) }}">
+                <h2 class="event-list-event-title">{{order_info.event_title}}</h2>
+                <p class="order-info-date">{{order_info.event_date}} | {{order_info.event_time}} 
+                 </p>
+            </div>
+            
+            <div class="item item-divider item-divider-custom"> 
+                {{ ::"Order Summery" | translate:"eventpro" }} 
+             </div>
+            <div class="item item-custom">
+                {{ ::"Booking Date" | translate:"eventpro" }}
+                <span class="pull-right">{{order_info.created_at}}</span>
+            </div>
+            <div class="item item-custom">
+                {{ ::"Ticket Amount" | translate:"eventpro" }}
+                <span class="pull-right">{{order_info.currency}}{{order_info.amount}}</span>
+            </div>
+            <div class="item item-custom">
+                {{ ::"Quantity" | translate:"eventpro" }}
+                <span class="pull-right">{{order_info.tickets_qty}}</span>
+            </div>
+            <div class="item item-divider item-divider-custom">
+                {{ ::"Total" | translate:"eventpro" }} 
+                 <span class="pull-right">{{order_info.currency}}{{order_info.total_amount}}</span>
+             </div>
+            <div class="item item-custom" ng-if="order_info.total_amount >0"> {{ ::"Payment Method" | translate:"eventpro" }}
+                <span class="pull-right">{{order_info.payment_method}}</span>
+            </div>
+            <div class="item item-custom" ng-if="order_info.total_amount >0"> {{ ::"Payment Status" | translate:"eventpro" }}
+                <span class="pull-right">{{order_info.payment_status}}</span>
+            </div>
+            
+            <div class="item item-divider item-divider-custom" style="margin-top: 20px"> {{ ::"Customer Info" | translate:"eventpro" }} 
+             </div>
+            <div class="item item-custom">
+                <h2>{{order_info.firstname}} {{order_info.lastname}}</h2>
+                <p>{{order_info.phone_number}}</p>
+            </div>
+ 
+     </div>   
+    </ion-content>
+</ion-modal-view>

@@ -1,0 +1,64 @@
+<ion-modal-view sb-page-background
+                class="module-places places places-filter l1 modal slide-top">
+
+    <ion-header-bar class="bar-custom">
+        <div class="buttons">
+            <button class="button button-clear"
+                    ng-click="closeFilterModal();">
+                <i class="icon ion-sb-close-modal"></i>
+            </button>
+        </div>
+        <h1 class="title">{{ ::'Search' | translate:'places' }}</h1>
+        <div class="buttons">
+            <button class="button button-clear"
+                    ng-click="clearFilters();">
+                <i class="icon ion-sb-clear-brush"></i>
+            </button>
+        </div>
+    </ion-header-bar>
+
+    <ion-content>
+        <div class="list places-filters"
+             ng-class="{'card' : card_design}">
+            <div class="item item-custom">
+                <div>
+                    <input type="text"
+                           style="width: 100%;"
+                           placeholder="{{ ::'Name, locality, etc...' | translate:'places' }}"
+                           ng-model="filters.fulltext" />
+                    <i ng-show="filters.fulltext.length > 0"
+                       ng-click="filters.fulltext = ''"
+                       class="icon ion-backspace-outline clear-text"></i>
+                </div>
+            </div>
+
+            <div class="item item-divider item-divider-custom"
+                 ng-if="categories.length > 0">
+                {{ ::'Categories' | translate:'places' }}
+            </div>
+
+            <div class="categories-container item item-custom"
+                 ng-if="categories.length > 0">
+                <div class="category-item-block "
+                     ng-repeat="category in categories">
+                    <div class="card">
+                        <div class="category-item item item-custom"
+                             ng-class="{'category-selected': category.isSelected}"
+                             ng-style="{'background-image': 'url('+ imageSrc(category.picture) +')'}"
+
+                             ng-click="category.isSelected = ! category.isSelected">
+                            <img src="./img/placeholder/blank-512.png" />
+                            <h4 ng-if="category.title.length">{{ category.title }}</h4>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </ion-content>
+
+    <button class="search-button button button-assertive button-assertive-custom button-full"
+            ng-click="validateFilters();">
+        {{ ::'Validate' | translate:'places' }}&nbsp;&nbsp;&nbsp;&nbsp;
+        <i class="icon ion-sb-search"></i>
+    </button>
+</ion-modal-view>

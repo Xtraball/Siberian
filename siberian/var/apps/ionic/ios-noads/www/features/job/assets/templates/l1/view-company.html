@@ -1,0 +1,124 @@
+<ion-view sb-page-background
+          class="module-job job-view job-view-contact">
+
+    <ion-nav-title>{{ page_title }}</ion-nav-title>
+
+    <ion-nav-buttons side="secondary">
+        <button ng-show="socialSharing"
+                class="button button-clear"
+                ng-click="share()">
+            <i class="icon ion-android-share-alt"></i>
+        </button>
+        <button ng-click="goHome()"
+                class="button button-clear header-item">
+            <i class="icon ion-sb-list1"></i>
+        </button>
+        <button ng-show="is_admin"
+                ng-click="manageModal()"
+                class="button button-clear header-item">
+            <i class="icon ion-edit job-icon-small"></i>
+        </button>
+    </ion-nav-buttons>
+
+    <ion-content>
+
+        <div class="loader"
+             ng-show="is_loading">
+            <ion-spinner class="spinner-custom"></ion-spinner>
+        </div>
+
+        <div class="list"
+             ng-if="!is_loading"
+             ng-class="{'card' : cardDesign}">
+
+            <div class="item item-image item-custom"
+                 ng-if="company.header" >
+                <img ng-src="{{ company.header }}"
+                     width="100%" />
+
+                <img ng-src="{{ company.logo }}"
+                     ng-if="company.logo"
+                     class="job-company-logo" />
+
+                <div class="item item-divider item-divider-custom job-company-header"
+                     ng-if="company.title">
+                    <h2>{{ company.title }}</h2>
+                    <p ng-if="company.employee_count"
+                       class="employee">
+                        <i class="icon ion-ios-people"></i>{{ company.employee_count }}
+                    </p>
+                    <p ng-if="company.location"
+                       class="location">
+                        <i class="icon ion-ios-location"></i>{{ company.location }}
+                    </p>
+                </div>
+
+                <div ng-show="!company.is_active"
+                     class="job-inactive">{{ ::'inactive' | translate:'job' }}</div>
+            </div>
+
+
+
+            <div class="item item-text-wrap item-custom"
+                 ng-if="company.subtitle">
+                <p ng-bind-html="company.subtitle | trusted_html"></p>
+            </div>
+        </div>
+
+        <div class="list"
+             style="padding-bottom: 0;"
+             ng-show="is_admin"
+             ng-class="{'padding' : cardDesign}">
+
+            <button class="button button-balanced button-balanced-custom"
+                    ng-click="createModal();"
+                    ng-class="{'button-block': cardDesign, 'button-full': !cardDesign}">
+                {{ ::'Create a new job offer' | translate:'job' }}
+            </button>
+        </div>
+
+        <div class="list"
+             ng-class="{'card' : cardDesign}"
+             ng-show="company.places.length">
+
+            <div class="item item-divider item-divider-custom item-button-right">
+                <h2>
+                    {{ ::'Job offers' | translate:'job' }}
+                    <span ng-if="company.places.length > 0">({{ company.places.length }})</span>
+                </h2>
+            </div>
+
+            <div ng-click="showPlace(place.id)"
+                 ng-repeat="place in company.places">
+                <div class="item item-custom item-place"
+                     ng-class="{ 'item-avatar': place.company_logo && options.show_logo }">
+                    <div class="row">
+                        <div class="col col-90">
+                            <img ng-src="{{ place.company_logo }}"
+                                 ng-if="place.company_logo && options.show_logo" />
+                            <h2>{{ place.title }}
+                                <span ng-if="place.contract_type">{{ place.contract_type }}</span>
+                                <span style="float: right;" ng-if="is_admin"><i class="icon ion-eye"></i>&nbsp;{{ place.views }}</span>
+                            </h2>
+                            <p class="subtitle"
+                               ng-if="place.subtitle" ng-bind-html="place.subtitle"></p>
+                            <p class="subtitle-company"
+                               ng-if="place.company_name || place.location">
+                                <span ng-if="place.company_name">{{ place.company_name }}</span>
+                                <span ng-if="place.company_name && place.location">, </span>
+                                <span ng-if="place.location">{{ place.location }}</span>
+                            </p>
+                        </div>
+                        <div class="col col-10">
+                            <i class="item-note ion-chevron-right arrow-center"></i>
+                        </div>
+                    </div>
+                    <div ng-show="!place.is_active"
+                         class="job-inactive">{{ ::'inactive' | translate:'job' }}</div>
+                </div>
+            </div>
+        </div>
+
+    </ion-content>
+    
+</ion-view>

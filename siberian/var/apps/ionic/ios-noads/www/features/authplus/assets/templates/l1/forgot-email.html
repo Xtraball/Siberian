@@ -1,0 +1,27 @@
+<ion-view class="authplus authplus-email-forgot"
+          ng-init="init()">
+    <ion-nav-title>{{ ::"Forgot PIN" | translate:"authplus" }}</ion-nav-title>
+    
+    <ion-content class="has-header">
+
+        <div class="list">  
+            <div class="item item-body">
+                <p class="forgot-pin-messages">
+                    {{ ::"Confirm your email and we'll send the pin on your mail" | translate:"authplus" }} !
+                </p>
+           </div>  
+          <div class="item item-input">
+              <input type="text"
+                     placeholder=""
+                     ng-disabled="true"
+                     ng-model="customer_email">
+          </div>
+       </div>
+
+      <div class="padding">
+        <button ng-click="ResetPinNow()"
+                class="button button-custom button-block button-positive button-positive-custom"> {{ ::"Reset Pin" | translate:"authplus" }}</button>
+      </div>
+       
+    </ion-content> 
+</ion-view>

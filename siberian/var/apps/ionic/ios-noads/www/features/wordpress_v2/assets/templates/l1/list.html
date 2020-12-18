@@ -1,0 +1,114 @@
+<ion-view sb-page-background
+          class="module-wordpress2 wordpress2-layout1 wordpress2-list">
+    <ion-nav-title>{{ page_title }}</ion-nav-title>
+    <ion-content>
+
+        <div class="loader"
+             ng-show="is_loading && !isPullingToRefresh && !isLoadingMore">
+            <ion-spinner class="spinner-custom"></ion-spinner>
+        </div>
+
+        <ion-refresher ng-if="canPullToRefresh()"
+                       class="spinner-custom"
+                       pulling-text="{{ ::'Pull to refresh...' | translate }}"
+                       on-refresh="pullToRefresh()">
+        </ion-refresher>
+
+        <!-- Grouped queries, instantly show posts -->
+        <div ng-if="wordpress.groupQueries">
+
+            <div class="list"
+                 ng-if="(query.showCover || query.showTitle)"
+                 ng-class="{'card': cardDesign}"
+                 ng-show="query">
+                <div class="item item-image item-custom"
+                     ng-if="query.showCover && query.picture">
+                    <img ng-src="{{ imagePath(query.picture) }}" />
+                </div>
+                <div ng-if="query.showTitle && (query.title)"
+                     class="item item-custom">
+                    <h2>{{ query.title }}</h2>
+                    <p ng-if="query.subtitle">{{ query.subtitle }}</p>
+                </div>
+            </div>
+
+            <div class="list"
+                 ng-class="{'card': cardDesign}"
+                 ng-show="collection.length">
+                <a class="item item-custom item-avatar-square"
+                   ng-click="viewPost(item.id)"
+                   ng-repeat="item in collection"
+                   ng-class="{
+                'item-avatar': item.thumbnail,
+                'item-center': (!item.subtitle && !item.message)}">
+
+                    <img ng-src="{{ item.thumbnail }}"
+                         ng-if="item.thumbnail" />
+                    <h2 ng-bind-html="item.title | trusted_html"></h2>
+                    <p ng-if="item.subtitle"
+                       ng-bind-html="item.subtitle | trusted_html"></p>
+                </a>
+            </div>
+
+            <div class="list"
+                 ng-class="{'card': cardDesign}"
+                 ng-if="!is_loading && !collection.length && !cover && !search.searchValue">
+                <div class="item text-center item-custom">
+                    {{ ::'No items found' | translate }}
+                </div>
+            </div>
+        </div>
+
+        <!-- Grouped queries, instantly show posts -->
+        <div ng-if="!wordpress.groupQueries">
+
+            <div class="list"
+                 ng-if="wordpress.showCover"
+                 ng-class="{'card': cardDesign}"
+                 ng-show="wordpress">
+                <div class="item item-image item-custom"
+                     ng-if="wordpress.picture">
+                    <img ng-src="{{ imagePath(wordpress.picture) }}" />
+                </div>
+                <div ng-if="wordpress.showTitle && (wordpress.title)"
+                     class="item item-custom">
+                    <h2>{{ wordpress.title }}</h2>
+                    <p ng-if="wordpress.subtitle">{{ wordpress.subtitle }}</p>
+                </div>
+            </div>
+
+            <div class="list"
+                 ng-class="{'card': cardDesign}"
+                 ng-show="queries.length">
+                <a class="item item-custom item-avatar-square"
+                   ng-click="loadPosts(item.id)"
+                   ng-repeat="item in queries"
+                   ng-class="{
+                'item-avatar': item.thumbnail,
+                'item-center': (!item.subtitle && !item.message)}">
+
+                    <img ng-src="{{ imagePath(item.thumbnail) }}"
+                         ng-if="item.thumbnail" />
+                    <h2 ng-bind-html="item.title | trusted_html"></h2>
+                    <p ng-if="item.subtitle"
+                       ng-bind-html="item.subtitle | trusted_html"></p>
+                </a>
+            </div>
+
+            <div class="list"
+                 ng-class="{'card': cardDesign}"
+                 ng-if="!is_loading && !queries.length">
+                <div class="item text-center item-custom">
+                    {{ ::'No items found' | translate }}
+                </div>
+            </div>
+        </div>
+
+        <ion-infinite-scroll ng-if="canLoadMore()"
+                             on-infinite="loadMore()"
+                             immediate-check="false"
+                             distance="10%">
+        </ion-infinite-scroll>
+
+    </ion-content>
+</ion-view>

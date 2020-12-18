@@ -1,0 +1,78 @@
+<ion-view sb-page-background
+          class="module-job job-list job-view">
+
+    <ion-nav-title>{{ page_title }}</ion-nav-title>
+
+    <ion-nav-buttons side="secondary">
+        <location-button icon-class="'job-location-action'"></location-button>
+
+        <button ng-show="admin_companies.length"
+                ng-click="adminModal()"
+                class="button button-clear header-item">
+            <i class="icon ion-ios-settings-strong"></i>
+        </button>
+    </ion-nav-buttons>
+
+    <div class="search-action"
+         ng-click="filterModal()">
+        <svg version="1.1"
+             xmlns="http://www.w3.org/2000/svg"
+             viewBox="0 0 44 44"
+             xmlns:xlink="http://www.w3.org/1999/xlink"
+             enable-background="new 0 0 44 44">
+            <g>
+                <circle cx="22" cy="22" r="20" class="svg_filter_text"/>
+                <circle cx="20" cy="20" r="8.5" class="svg_filter_bg"/>
+                <path class="svg_filter_bg" d="m22,0c-12.2,0-22,9.8-22,22s9.8,22 22,22 22-9.8 22-22-9.8-22-22-22zm12.7,33.3l-1.4,1.4c-0.4,0.4-1,0.4-1.4,0l-5.4-5.4c-0.2-0.2-0.4-0.2-0.6-0.1-1.7,1.1-3.7,1.7-5.9,1.7-6.1,0-11-4.9-11-11s4.9-11 11-11 11,4.9 11,11c0,2.2-0.6,4.2-1.7,5.9-0.1,0.2-0.1,0.5 0.1,0.6l5.4,5.4c0.3,0.5 0.3,1.1-0.1,1.5z"/>
+            </g>
+        </svg>
+    </div>
+
+    <ion-content class="l1">
+
+        <div class="loader"
+             ng-show="isLoading">
+            <ion-spinner class="spinner-custom"></ion-spinner>
+        </div>
+
+        <div class="list"
+             ng-show="collection.length">
+
+            <div ng-click="showItem(item)"
+                 ng-class="{'card job-card-margin' : cardDesign}"
+                 ng-repeat="item in collection">
+                <div class="item item-custom item-place"
+                     ng-class="{ 'item-thumbnail-custom': item.icon && settings.display_place_icon }">
+                    <img ng-src="{{ item.icon }}"
+                         ng-if="item.icon && settings.display_place_icon" />
+                    <h2>{{ item.title }} <span ng-if="item.contract_type">{{ item.contract_type }}</span></h2>
+                    <p class="subtitle"
+                           ng-if="item.subtitle"
+                           ng-bind-html="item.subtitle"></p>
+                    <p class="subtitle-company"
+                       ng-if="item.company_name || item.location">
+                        <span ng-if="item.company_name">{{ item.company_name }}</span>
+                        <span ng-if="item.company_name && item.location">, </span>
+                        <span ng-if="item.location">{{ item.location }}</span>
+                    </p>
+                </div>
+            </div>
+        </div>
+
+        <div class="list"
+             ng-class="{'card' : cardDesign}"
+             ng-if="!isLoading && !collection.length">
+            <div class="item text-center item-custom">
+                {{ ::'No items found' | translate:'job' }}
+            </div>
+        </div>
+
+        <ion-infinite-scroll ng-if="load_more"
+                             on-infinite="loadMore()"
+                             immediate-check="false"
+                             distance="10%"
+                             class="spinner-custom">
+        </ion-infinite-scroll>
+
+    </ion-content>
+</ion-view>

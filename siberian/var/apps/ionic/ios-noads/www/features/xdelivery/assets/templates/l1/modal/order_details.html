@@ -1,0 +1,148 @@
+<ion-modal-view cache-view="false"
+                sb-page-background
+                class="xdelivery xdelivery-order-details">
+
+    <ion-header-bar class="bar-custom">
+        <div class="buttons">
+            <button class="button button-clear"
+                    ng-click="closeModalOrderDetails()">
+                    <i ng-class="backButtonIcon()"></i>
+            </button>
+        </div>
+        <h1 class="title">{{ ::"Order Details" | translate:"xdelivery" }}</h1>
+    </ion-header-bar>
+   
+   <ion-content class="has-header">
+       
+        <div class="loader"
+             ng-show="isLoading">
+            <ion-spinner class="spinner-custom"></ion-spinner>
+        </div>
+
+        <div class="list" ng-show="!isLoading">
+            
+            <div class="item item-custom remove-border">
+                <h2 class="icon icon-active-custom text-center">
+                    {{order_info.status_message}}!
+                </h2>
+            </div>
+
+            <div class="item item-divider item-divider-custom"> 
+                {{ ::"Order Details" | translate:"xdelivery" }} 
+            </div>
+            
+             <div class="item item-custom">
+                {{ ::"Order ID" | translate:"xdelivery" }}
+            <span class="pull-right">#{{order_info.order_number}}</span>
+            </div>
+            
+
+            <div class="item item-custom" ng-if="order_info.delivery_method == 'pickup' && is_allow_select_date">
+                {{ ::"Date to Pickup" | translate:"xdelivery" }}
+                <span class="pull-right">{{order_info.delivery_date}}</span>
+            </div>
+            <div class="item item-custom" ng-if="order_info.delivery_method == 'pickup' && is_allow_select_time && order_info.delivery_time">
+                {{ ::"Time to Pickups" | translate:"xdelivery" }}
+                <span class="pull-right">{{order_info.delivery_time}}</span>
+            </div>
+
+            <div class="item item-custom" ng-if="order_info.delivery_method == 'delivery' && is_allow_select_date">
+                {{ ::"Date to Delivery" | translate:"xdelivery" }}
+                <span class="pull-right">{{order_info.delivery_date}}</span>
+            </div>
+            <div class="item item-custom" ng-if="order_info.delivery_method == 'delivery' && is_allow_select_time && order_info.delivery_time">
+                {{ ::"Time to Delivery" | translate:"xdelivery" }}
+                <span class="pull-right">{{order_info.delivery_time}}</span>
+            </div>
+
+
+            <div class="item item-custom">
+                {{ ::"Booking Status" | translate:"xdelivery" }}
+                <span class="pull-right">{{order_info.order_status}}</span>
+            </div>
+            <div class="item item-custom">
+                {{ ::"Booking Date" | translate:"xdelivery" }}
+                <span class="pull-right">{{convertDate(order_info.created_at)}}</span>
+            </div>
+            <div class="item item-custom">
+                {{ ::"Phone Number" | translate:"xdelivery" }}
+                <span class="pull-right">{{order_info.customer_phone}}</span>
+            </div>
+            <div class="item item-custom item-body" ng-if="order_info.delivery_method != 'pickup'">
+                {{ ::"Deliver To" | translate:"xdelivery" }}
+                <p>{{order_info.customer_firstname}}, {{order_info.customer_street}}, {{order_info.customer_city}}, {{order_info.customer_postcode}}</p>
+            </div>
+           
+            <div class="item item-divider item-divider-custom"> 
+                {{ ::"Order Summery" | translate:"xdelivery" }} 
+            </div>
+            <div class="item item-custom">
+                {{ ::"Payment Mode" | translate:"xdelivery" }}
+                <span class="pull-right">{{order_info.label_name}}</span>
+            </div>
+            <div class="item item-custom">
+                {{ ::"Payment Status" | translate:"xdelivery" }}
+                <span class="pull-right">{{order_info.payment_status}}</span>
+            </div>
+            <div class="item item-custom">
+                {{ ::"Item Total" | translate:"xdelivery" }}
+                <span class="pull-right">{{order_info.currency}}{{order_info.sub_amount}}</span>
+            </div>
+            <div class="item item-custom">
+                {{ ::"Taxes" | translate:"xdelivery" }}
+                <span class="pull-right">{{order_info.total_tax}}</span>
+            </div>
+            <div class="item item-custom">
+               <h2>{{ ::"Total" | translate:"xdelivery" }}
+                   <span class="pull-right">{{order_info.currency}}{{order_info.total_amount}}</span>
+               </h2>
+            </div>
+            
+            <div class="item item-divider item-divider-custom"> 
+                {{ ::"Items" | translate:"xdelivery" }} 
+            </div>
+
+             <div class="item item-custom" ng-repeat="(key, value) in order_info.items">
+               <h2>{{ value.name}}</h2>
+               <p>{{ value.qty}} * {{order_info.currency}}{{ value.price}}<span ng-if="value.choice_price > 0"> + {{order_info.currency}}{{value.choice_price}}</span>
+                   <span class="pull-right">{{order_info.currency}}{{ value.total}}</span>
+               </p>
+               <p ng-if="value.choices != null" style="white-space: initial;">
+                   <span ng-repeat="(opkey, option) in value.choices">{{option.name}} ({{order_info.currency}}{{option.price}}), </span>
+               </p>
+            </div>
+
+            <div class="item item-divider item-divider-custom"> 
+                {{ ::"Store Info" | translate:"xdelivery" }} 
+            </div>
+            <div class="item item-custom item-body">
+               <h2>{{ order_info.store_name }}</h2>
+               <p><a  href="tel:+{{order_info.store_phone}}">
+                   {{ order_info.store_phone }} </a> / <a  href="mailto:+{{order_info.store_email}}">
+                   {{ order_info.store_email }}</a>
+               </p>
+               <p ng-if="order_info.delivery_method == 'pickup'">
+                   {{ order_info.store_address }}
+               </p>
+            </div>
+       </div> 
+
+      <div class="list" ng-show="!isLoading">
+        <div class="item item-custom item-body">
+           
+            <button class="button button-full button-positive-custom" ng-if="order_info.is_enable_reTryPayment" ng-click="reTryPaymentNow(order_info.order_id)">
+                    {{ ::"Retry payment" | translate:"xdelivery" }}
+            </button>
+            <button class="button button-full button-custom" ng-disabled="!order_info.is_enable_cancel" ng-click="cancelOrder(order_info.order_id)">
+                    {{ ::"Cancel Order" | translate:"xdelivery" }}
+            </button>
+            <p class="text-center icon icon-active-custom">
+                <i class="icon ion-informaticon ion-circled"></i> 
+                {{ ::"As order is accepted, cancellation at order level is not allowed." | translate:"xdelivery" }}
+            </p>
+     
+        </div>
+      </div>
+
+    </ion-content>
+</ion-modal-view>

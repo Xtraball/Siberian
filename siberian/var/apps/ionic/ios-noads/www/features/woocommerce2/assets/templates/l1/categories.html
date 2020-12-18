@@ -1,0 +1,46 @@
+<ion-view sb-page-background
+          class="module-woocommerce categories-view">
+
+    <ion-nav-title>{{ page_title }}</ion-nav-title>
+
+    <ion-nav-buttons side="secondary">
+        <button class="button button-clear button-cart"
+                ng-click="goTo('cart')">
+            <i class="woo_font"
+               ng-class="{
+                'woo-shopping-cart-counter': getCartQuantity() > 0,
+                'woo-shopping-cart': getCartQuantity() == 0
+               }"></i>
+        </button>
+        <span ng-if="getCartQuantity() > 0"
+              ng-click="goTo('cart')"
+              class="button button-clear woo-cart-quantity">{{ getCartQuantityText() }}</span>
+        <button class="button button-clear"
+                ng-click="goTo('home')">
+            <i class="woo_font woo-shop"></i>
+        </button>
+    </ion-nav-buttons>
+
+    <ion-content>
+        <div class="loader"
+             ng-show="isLoading">
+            <ion-spinner icon="android"
+                         class="spinner-custom"></ion-spinner>
+            <p>{{ ::'Loading...' | translate:'woocommerce2' }}</p>
+        </div>
+
+        <div class="list"
+             ng-show="!isLoading">
+
+            <woo-categories all-categories="allCategories"
+                            categories="rootCategories"></woo-categories>
+
+            <div class="card"
+                 ng-if="!rootCategories.length">
+                <div class="item item-custom">
+                    {{ ::'No categories for now' | translate:'woocommerce2' }}
+                </div>
+            </div>
+        </div>
+    </ion-content>
+</ion-view>

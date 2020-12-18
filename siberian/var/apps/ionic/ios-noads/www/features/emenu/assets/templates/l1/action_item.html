@@ -1,0 +1,45 @@
+<ion-view sb-page-background
+          class="emenu emenu-item"
+		  cache-view="false">
+
+    <ion-nav-title>{{page_title}}</ion-nav-title> 
+ 	<ion-content class="has-header"
+				 id="item-content"> 
+        
+        <div class="loader"
+			 ng-show="is_loading">
+	       <ion-spinner icon="android"
+						class="spinner-custom"></ion-spinner>
+	    </div> 
+
+	    <ion-list ng-if="!is_loading && collection_items.length > 0">
+	        <div ng-repeat="(key, value) in collection_items">
+				<div ng-if="(collection_items[key-1].category_id) !== (collection_items[key].category_id)">
+					<div class="spacer"
+						 style="margin-top: 20px;"></div>
+					<ion-item class="item-divider item-divider-custom remove-border">
+						{{value.category_name}}
+					</ion-item>
+				</div>
+		        <ion-item class="item-custom item-avatar item-icon-right">
+					<img ng-src="{{ item_image(value.image)}}" />
+					<h2>
+						<b>{{value.name}}</b>
+					</h2>
+				    <p>{{value.currency_symbol}}{{value.price}}</p>
+		    		<i class="icon ion-close-round" ng-click="removeAction(value)"></i>
+				</ion-item>
+			</div>
+        </ion-list>
+	   
+	    <ion-list ng-if="collection_items.length == 0 && !is_loading">
+	    	<ion-item class="item-custom item-body">
+	    		<p class="text-center">
+		    		{{ ::'No Item Found' | translate:'emenu' }}
+		    	</p>
+	    	</ion-item>
+	    </ion-list>
+
+   </ion-content>
+
+</ion-view>

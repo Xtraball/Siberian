@@ -1,0 +1,108 @@
+<ion-view sb-page-background
+          class="chatrooms chatrooms-list">
+    <script id="chatrooms_popover_menu.html"
+            type="text/ng-template">
+        <ion-popover-view class="chatrooms popover-custom">
+            <ion-content class="chatrooms popover-content-custom">
+                <ion-list class="list">
+                    <div class="item item-custom"
+                         ng-click="joinPrivateRoom()">
+                        {{ ::'Join private chatroom' | translate:'chatrooms' }}
+                    </div>
+                    <div class="item item-custom"
+                         ng-click="manageFriends()">
+                        {{ ::'Manage friends' | translate:'chatrooms' }}
+                    </div>
+                    <div class="item item-custom"
+                         ng-click="showInfos(true)">
+                        {{ ::'Change nickname' | translate:'chatrooms' }}
+                    </div>
+                </ion-list>
+            </ion-content>
+        </ion-popover-view>
+    </script>
+
+  <ion-nav-title>{{ page_title }}</ion-nav-title>
+
+  <ion-nav-buttons side="right">
+      <button ng-click="openPopover($event)"
+              class="button button-clear header-item"
+              style="padding: 0 15px;"
+              ng-show="!is_loading">
+          <i class="icon ion-android-more-vertical"></i>
+      </button>
+  </ion-nav-buttons>
+
+  <ion-content class="chatroom-rooms-list">
+
+      <div class="loader"
+           ng-show="is_loading">
+          <ion-spinner class="spinner spinner-custom"></ion-spinner>
+      </div>
+
+      <div class="chatrooms-spacer"></div>
+
+      <ion-list class="list"
+                ng-show="!is_loading">
+          <div class="item item-divider item-divider-custom">
+              {{ ::'Chatrooms' | translate:'chatrooms' }}
+          </div>
+          <div class="item item-custom"
+               ng-click="goToRoom({value_id: value_id, receiver_id: publicRoom.id})"
+               ng-repeat="publicRoom in publicRooms track by publicRoom.id">
+              <div class="row">
+                  <div class="col col-90">
+                      <h2>{{ publicRoom.name }}</h2>
+                      <p ng-if="publicRoom.description.length">{{ publicRoom.description }}</p>
+                  </div>
+                  <div class="col col-10">
+                      <i class="item-note ion-chevron-right arrow-center"></i>
+                  </div>
+              </div>
+          </div>
+
+          <div class="item item-custom"
+               ng-click="goToRoom({value_id: value_id, receiver_id: privateRoom.id})"
+               ng-repeat="privateRoom in privateRooms track by privateRoom.id">
+              <div class="row">
+                  <div class="col col-90">
+                      <h2>{{ privateRoom.name }} <span>{{ ::'(private)' | translate:'chatrooms' }}</span></h2>
+                      <p ng-if="privateRoom.description.length">{{ privateRoom.description }}</p>
+                  </div>
+                  <div class="col col-10">
+                      <i class="item-note ion-chevron-right arrow-center"></i>
+                  </div>
+              </div>
+          </div>
+      </ion-list>
+
+      <div ng-show="has_friends"
+           class="chatrooms-spacer"></div>
+
+      <ion-list class="list"
+                ng-show="has_friends">
+          <div class="item item-divider item-divider-custom">
+              {{ ::'Friends' | translate:'chatrooms' }}
+          </div>
+          <div class="item item-custom private-room"
+               ng-click="goToRoom({value_id: value_id, type: 'private', receiver_id: friend.id})"
+               ng-repeat="(friend_id, friend) in friends track by friend.id">
+              <div class="row friend"
+                   ng-class="{'online': friend.online}">
+                  <div class="col col-90">
+                      <div>
+                          <span class="status-bubble"></span>
+                          {{ friend.nickname }}
+                      </div>
+                  </div>
+                  <div class="col col-10">
+                    <span class="item-badge"
+                          ng-if="unreadCount(friend) > 0">{{ unreadCount(friend) }}</span>
+                      <i class="item-note ion-chevron-right arrow-center"></i>
+                  </div>
+              </div>
+          </div>
+      </ion-list>
+  </ion-content>
+
+</ion-view>

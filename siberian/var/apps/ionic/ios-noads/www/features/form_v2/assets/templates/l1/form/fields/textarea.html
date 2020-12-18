@@ -1,0 +1,9 @@
+<!-- textarea -->
+<label class="item item-input item-custom item-stacked-label form2-textarea">
+    <div class="input-label">
+        {{ field.label | translate:'form2' }} <span ng-if="field.is_required">*</span>
+    </div>
+    <textarea rows="6"
+              style="resize: none;"
+              ng-model="field.value"></textarea>
+</label>

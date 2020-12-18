@@ -1,0 +1,85 @@
+<ion-view cache-view="false"
+          class="eventpro eventpro-tickets"
+          sb-page-background>
+    <ion-nav-title> 
+      <h1 class="title">{{ ::"Tickets" | translate:"eventpro" }} </h1>
+    </ion-nav-title>
+
+   <ion-content id="eventpro-content"
+                 class="has-header">
+        
+      <div class="loader"
+          ng-show="is_loading">
+          <ion-spinner class="spinner-custom"></ion-spinner>
+      </div>
+
+      <div class="list">
+        <div class="item item-divider item-divider-custom remove-border">
+            {{ ::'Event' | translate:'eventpro' }}
+        </div>
+        <div class="item item-custom item-avatar remove-border">
+          <img ng-src="{{ eventproImage(carts.event.event_image) }}">
+          <h2>{{carts.event.event_title}}</h2>
+          <p>{{carts.event.sub_title}}</p> 
+          <p ng-if="!is_child_event">{{carts.event.event_start_date}}, {{carts.event.event_start_time}} - {{carts.event.event_end_date}}, {{carts.event.event_end_time}}
+          </p> 
+          <p ng-if="is_child_event">
+            {{carts.child_event.event_start_date}} | {{carts.child_event.event_start_time}}
+          </p>     
+        </div>
+
+        <div class="item item-divider item-divider-custom remove-border">
+            {{ carts.event.ticket_name }}
+        </div>
+        <div class="item item-custom remove-border">
+          <p ng-if="carts.event.ticket_type == 'paid'"> 
+            {{carts.event.currency}}{{carts.event.price}}</p>
+          <p ng-if="carts.event.ticket_type == 'free'">
+            {{ ::"Free" | translate:"eventpro" }}
+          </p>
+          <p ng-if="!is_child_event">{{ ::"Sales end of" | translate:"eventpro" }} {{carts.event.sales_end_date_time}}</p>
+          <p ng-if="is_child_event">{{ ::"Sales end of" | translate:"eventpro" }} {{carts.child_event.sales_end_date_time}}</p>
+        </div>
+      
+      </div>
+
+       <div class="list">
+         <div class="item item-divider item-divider-custom remove-border">
+            {{ ::'Tickets' | translate:'eventpro' }}
+        </div>
+        <label class="item item-custom item-input item-select remove-border">
+          <div class="input-label">
+            {{ :: "Select Quantity" | translate:"eventpro" }}<span>*</span>
+          </div>
+            <select ng-required="true" ng-value="{{carts.event.tickets_qty}}" ng-model="carts.event.tickets_qty">
+            <option ng-repeat="n in range(carts.event.minimum_quantity, carts.event.maximum_quantity)">{{n}}</option>
+           </select>
+        </label>
+        <div class="item item-custom remove-border">
+           {{ ::'Per ticket Price' | translate:'eventpro' }}
+           <span class="pull-right">{{carts.event.currency}}{{carts.event.price}}</span>
+        </div>
+      </div>
+
+      <div class="list">
+        <div class="item item-divider item-divider-custom remove-border">
+            {{ ::'Order Summary' | translate:'eventpro' }}
+        </div>
+        <div class="item item-custom remove-border">
+          {{ ::'Total Amount' | translate:'eventpro' }}
+           <br>
+          <i>{{carts.event.tickets_qty}}*{{carts.event.currency}}{{carts.event.price}}</i>
+          <span class="pull-right"> 
+              {{carts.event.currency}}{{carts.event.tickets_qty*carts.event.price}}
+          </span>
+        </div>
+      
+      <div class="item item-custom remove-border">
+        <button class="button button-positive button-positive-custom button-full" ng-click="continueBooking()">
+          {{ ::'Continue' | translate:'eventpro' }}
+        </button>
+      </div>
+   
+    </div>
+  </ion-content>
+</ion-view>

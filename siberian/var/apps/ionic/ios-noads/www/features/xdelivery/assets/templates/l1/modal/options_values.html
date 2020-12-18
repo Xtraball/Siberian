@@ -1,0 +1,46 @@
+<ion-modal-view cache-view="false"
+                sb-page-background
+                class="xdelivery xdelivery-options">
+
+    <ion-header-bar class="bar-custom">
+        <div class="buttons">
+            <button class="button button-clear"
+                    ng-click="closeToppingOptionsModal()">
+                    <i ng-class="backButtonIcon()"></i>
+            </button>
+        </div>
+        <h1 class="title">{{ product_options.topping.name}}</h1>
+    </ion-header-bar>
+   
+   <ion-content class="has-header">
+       
+        <div class="loader"
+             ng-show="isLoading">
+            <ion-spinner class="spinner-custom"></ion-spinner>
+        </div>
+
+      <ion-list class="product-options-list" ng-if="product_options.topping.category_type == 'checkbox-limitedchoice' || product_options.topping.category_type == 'checkbox-multichoice'">
+          <ion-checkbox   ng-click="addToOption(val, 'checkbox')"
+                          ng-checked="{{ checkedOption(val) }}"
+                          class="item-custom checkbox-custom" 
+                          ng-repeat="val in product_options.values">{{val.name}}
+                          <span class="pull-right"> 
+                                {{product_details.currency}}{{val.price}}
+                          </span>
+            </ion-checkbox>
+        </ion-list>
+
+        <ion-list class="product-options-list" ng-if="product_options.topping.category_type == 'single-choice'">
+              <ion-radio ng-checked="{{ checkedOption(val) }}"
+                         ng-click="addToOption(val, 'radio')"
+                         class="item-custom checkbox-custom"
+                         ng-repeat="val in product_options.values"> 
+                            {{val.name}}
+                         <span class="pull-right"> 
+                              {{product_details.currency}}{{val.price}}
+                        </span>
+            </ion-radio >
+        </ion-list>
+
+    </ion-content>
+</ion-modal-view>

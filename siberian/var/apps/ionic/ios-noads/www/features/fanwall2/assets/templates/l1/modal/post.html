@@ -1,0 +1,28 @@
+<ion-modal-view sb-page-background
+                class="module-fanwall fanwall-list fanwall-list-l1">
+
+    <ion-header-bar class="bar-custom">
+        <div class="buttons">
+            <button class="button button-clear"
+                    ng-click="close()">
+                <i class="icon ion-android-arrow-back"></i>
+            </button>
+        </div>
+        <h1 class="title">{{ ::'Post details' | translate:'fanwall' }}</h1>
+    </ion-header-bar>
+
+    <ion-content>
+        <div class="loader"
+             ng-show="!modalReady">
+            <ion-spinner class="spinner-custom"></ion-spinner>
+        </div>
+
+        <ion-list ng-if="modalReady"
+                  class="show-post">
+            <fanwall-post-item repeat-done="listDidRender()"
+                               id="{{ post.id }}"
+                               ng-repeat="post in postGroup track by post.id"></fanwall-post-item>
+        </ion-list>
+    </ion-content>
+
+</ion-modal-view>

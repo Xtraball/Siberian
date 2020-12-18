@@ -1,0 +1,29 @@
+<div class="list"> 
+  <div class="item item-divider item-divider-custom eventpro-divider-item" ui-sref="eventpro-organizers({value_id: value_id})" ng-show="show_header">
+    <h2>
+      {{ ::"Top organizers" | translate:"eventpro" }}
+     <span class="pull-right">
+      <i class="icon ion-chevron-right"></i>
+    </span>
+  </h2>
+  </div>
+
+  <div class="item item-custom eventpro-organizers-item artist_grid remove-border">
+    <div class="row" ng-repeat="organizer in payout.organizers" ng-if="$index % 3 === 0"> 
+          <div class="col col-33 text-center" ng-click="organizerInfo(payout.organizers[$index].id)" ng-if="$index < payout.organizers.length">
+           <img class="eventpro-organizers-grid-img" ng-src="{{ customerImage(payout.organizers[$index].profile_image) }}" style="width:100%;">
+            <h2 class="text-center organizer_name">{{ payout.organizers[$index].organizer_name }}</h2>
+          </div>
+
+          <div class="col col-33 text-center" ng-click="organizerInfo(payout.organizers[$index + 1].id)" ng-if="$index + 1 < payout.organizers.length">
+           <img class="eventpro-organizers-grid-img" ng-src="{{ customerImage(payout.organizers[$index + 1].profile_image) }}" style="width:100%;">
+            <h2 class="text-center organizer_name">{{ payout.organizers[$index + 1].organizer_name }}</h2>
+          </div>
+
+          <div class="col col-33 text-center" ng-click="organizerInfo(payout.organizers[$index + 2].id)" ng-if="$index + 2 < payout.organizers.length">
+           <img class="eventpro-organizers-grid-img" ng-src="{{ customerImage(payout.organizers[$index + 2].profile_image) }}" style="width:100%;">
+            <h2 class="text-center organizer_name">{{ payout.organizers[$index + 2].organizer_name }}</h2>
+          </div>
+     </div>
+   </div>
+</div>

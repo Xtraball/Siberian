@@ -1,0 +1,169 @@
+<ion-modal-view cache-view="false"
+                sb-page-background
+                class="emenu emenu-filter-menu">
+
+    <ion-header-bar class="bar-custom">
+        <div class="buttons">
+            <button class="button button-clear"
+                    ng-click="closeOrderItemsModal()">
+                <i ng-class="backButtonIcon()"></i>
+            </button>
+        </div>
+        <h1 class="title">{{ ::'Order Details' | translate:'emenu' }} </h1>
+    </ion-header-bar>
+
+    <ion-content class="has-header">
+
+        <div class="loader"
+             ng-show="is_loading">
+            <ion-spinner icon="android"
+                         class="spinner-custom"></ion-spinner>
+        </div>
+
+       <ion-list ng-if="!is_loading" style="text-transform: uppercase;">
+           
+            <ion-item class="item item-custom remove-border" ng-if="order_info.order_number!=''">{{ ::'Order Number' | translate:'emenu' }}
+                <span class="pull-right">#{{order_info.order_number}}</span>
+            </ion-item>
+           
+            <ion-item class="item item-custom remove-border" ng-if="order_info.status!=''">{{ ::'Order Status' | translate:'emenu' }}
+                <span  class="pull-right" style="text-transform: capitalize;">{{order_info.status}}</span>
+            </ion-item>
+           
+            <ion-item class="item item-custom remove-border" ng-if="order_info.delivery_type!='' && order_info.delivery_type != null">{{ ::'Delivery Type' | translate:'emenu' }}
+                <span  class="pull-right" style="text-transform: capitalize;" ng-if="order_info.delivery_type != 'deliver'">{{order_info.delivery_type}}
+                </span>
+                <span  class="pull-right" style="text-transform: capitalize;" ng-if="order_info.delivery_type == 'deliver'">
+                   {{ ::'Home Delivery' | translate:'emenu' }}
+               </span>
+            </ion-item>
+           
+            <ion-item class="item item-custom remove-border" ng-if="order_info.payment_method!=''"> {{ ::'Payment Mode' | translate:'emenu' }}
+               <span class="pull-right" style="text-transform: capitalize;" >{{order_info.payment_method}}</span>
+            </ion-item>
+           
+            <ion-item class="item item-custom remove-border" ng-if="order_info.phone_number!='' && order_info.phone_number != null"> {{ ::'Phone Number' | translate:'emenu' }}
+                <span class="pull-right">{{order_info.phone_number}}
+                 <a  href="tel:+{{order_info.phone_number}}" class="icon ion-ios-telephone-outline icon-active-custom"></a>
+                </span>
+            </ion-item>
+           
+            <ion-item class="item item-custom remove-border" ng-if="order_info.address!='' && order_info.address!=null"> {{ ::'Address' | translate:'emenu' }}
+                <span class="pull-right">{{order_info.address}}</span>
+            </ion-item>
+
+            <ion-item class="item item-custom remove-border" ng-if="order_info.payment_status != '' || order_info.payment_status != null">{{ ::'Payment Status' | translate:'emenu' }}
+                <span  class="pull-right" style="text-transform: capitalize;">{{order_info.payment_status}}</span>
+            </ion-item>
+
+       </ion-list>
+
+        <div class="spacer"
+                         style="margin-top: 20px;"></div>
+        <ion-list ng-if="!is_loading && order_info.products.length > 0" class="margin-top-30">
+             <ion-item class="item-divider item-divider-custom remove-border text-center">
+                <h2>{{ ::'Items' | translate:'emenu' }}</h2>
+            </ion-item>
+            <div ng-repeat="(key, value) in order_info.products">
+                <div ng-if="(order_info.products[key-1].category_id) !== (order_info.products[key].category_id)">
+                    <ion-item class="item-divider item-divider-custom remove-border">
+                        <span>{{ value.category_name }}</span>
+                    </ion-item>
+                </div>
+
+                <ion-item class="item-custom item-avatar item-icon-right">
+                    <img ng-src="{{ item_image(value.image)}}" />
+                    <h2>
+                        <b>{{value.name}}</b>
+                        <span class="pull-right">&times;{{ value.quantity }}</span>
+                    </h2>
+                    <p>{{value.currency_symbol}}{{value.price}}</p>
+                </ion-item>
+            </div>
+        </ion-list>
+
+         <div class="spacer"
+                         style="margin-top: 20px;"></div>
+
+        <ion-list ng-if="!is_loading" class="margin-top-30">
+             <ion-item class="item-divider item-divider-custom remove-border"></ion-item>
+              <ion-item class="item-custom" ng-if="order_info.amount != null && order_info.amount != ''">
+                   <h2>{{ ::'Sub Total' | translate:'emenu' }}
+                    <span class="pull-right">
+                        {{order_info.currency_symbol}}{{order_info.amount}}
+                    </span>
+                  </h2>
+              </ion-item>
+
+               <ion-item class="item-custom" ng-if="order_info.tax_amount != null && order_info.tax_amount != ''">
+                   <h2>{{ ::'Tax' | translate:'emenu' }}
+                    <span class="pull-right">
+                        {{order_info.currency_symbol}}{{order_info.tax_amount}}
+                    </span>
+                  </h2>
+              </ion-item>
+
+              <ion-item class="item-custom" ng-if="order_info.delivery_charge != null && order_info.delivery_charge > 0">
+                   <h2>{{ ::'Delivery Charge' | translate:'emenu' }}
+                    <span class="pull-right">
+                        {{order_info.currency_symbol}}{{order_info.delivery_charge}}
+                    </span>
+                  </h2>
+              </ion-item>
+
+              <ion-item class="item-custom" ng-if="order_info.total_amount != null && order_info.total_amount != ''">
+                   <h2>{{ ::'Total Amount' | translate:'emenu' }}
+                    <span class="pull-right">
+                        {{order_info.currency_symbol}}{{order_info.total_amount}}
+                    </span>
+                  </h2>
+              </ion-item>
+
+        </ion-list>
+
+        <div ng-if="!is_loading && fromAdmin && order_info.products.length > 0" class="margin-top-30">
+            <button ng-click="orderStatusUpdate(order_info.id)"
+                    ng-if="order_info.status == 'pending'"
+                    class="button button-full button-energized button-energized-custom">
+                {{ ::'Mark As In Progress' | translate:'emenu' }}
+            </button>
+            <button ng-click="orderStatusUpdate(order_info.id)"
+                    ng-if="order_info.status == 'inprogress'"
+                    class="button button-full button-assertive button-assertive-custom">
+                {{ ::'Mark As Completed' | translate:'emenu' }}
+            </button>
+        </div>
+
+        <div ng-if="!is_loading && fromAdmin && order_info.products.length > 0" class="margin-top-30">
+            <button ng-click="orderCancel(order_info.id)"
+                    ng-if="order_info.status != 'completed'"
+                    class="button button-full button-custom">
+                {{ ::'Cancel' | translate:'emenu' }}
+            </button>
+        </div>
+
+        <div ng-if="!is_loading && !fromAdmin && order_info.products.length > 0" class="margin-top-30">
+            <button ng-click="orderCancel(order_info.id)"
+                    ng-if="order_info.status == 'pending'"
+                    class="button button-full button-custom">
+                {{ ::'Cancel' | translate:'emenu' }}
+            </button>
+        </div>
+
+        <div ng-hide="order_info.payment_status == 'success' || order_info.payment_status == 'refund'" ng-if="!is_loading && !fromAdmin && order_info.products.length > 0 && vendorInfo.enable_online_payment == true" class="margin-top-30">
+            <button ng-click="payOnlinePayment(order_info.id)"
+                    class="button button-full button-royal button-royal-custom">
+                {{ ::'Pay Now' | translate:'emenu' }}
+            </button>
+        </div>
+
+        <ion-list ng-if="!is_loading && order_info.products.length == 0" >
+            <ion-item class="item-custom">
+                <p class="text-center">
+                    {{ ::'No item found!' | translate:'emenu' }}
+                </p>
+            </ion-item>
+        </ion-list>
+
+    </ion-content>
+</ion-modal-view>

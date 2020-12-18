@@ -1,0 +1,29 @@
+<div class="payment-stripe-cards">
+    <div ng-repeat="card in cards track by $index"
+         ng-if="!isLoading && cards.length > 0"
+         ng-click="lineActionTrigger(card)"
+         class="item item-custom item-icon-left item-icon-right">
+        <i class="icon">
+            <img ng-src="{{ brand(card.brand) }}"
+                 style="height: 60%; margin-right: 15px;" />
+        </i>
+        <span class="saved-card">
+            <span class="last-star">**** </span>
+            <span class="last-four">{{ card.last }}</span>
+            <span class="exp"> - {{ card.exp }}</span>
+        </span>
+        <i ng-repeat="action in actions"
+           ng-click="actionCallback(action, card)"
+           class="{{ actionIcon(action) }}"></i>
+    </div>
+
+    <div ng-if="!isLoading && cards.length == 0"
+         class="item item-custom text-center">
+        {{ ::'You have no card saved.' | translate:'payment_stripe' }}
+    </div>
+
+    <div class="loader"
+         ng-show="isLoading">
+        <ion-spinner class="spinner-custom"></ion-spinner>
+    </div>
+</div>

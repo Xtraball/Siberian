@@ -1,0 +1,87 @@
+<ion-view sb-page-background
+          class="emenu emenu-home">
+
+    <ion-nav-title>{{ page_title }}</ion-nav-title>
+    <ion-nav-buttons side="secondary">
+        <label class="header-item"
+                ng-show="action.tab == 'menu'" ng-if="payout.customerCurrentBalance > 0 && payout.isLoggedIn">
+            {{payout.currency_symbol}}{{payout.customerCurrentBalance}}<br>
+            <i style="font-size: 8px;">(Available Balance)</i>
+        </label>
+        <button class="button button-clear header-item"
+                ng-show="action.tab == 'orders'"
+                ng-click="reload()">
+            <i class="icon ion-sb-refresh"></i>
+        </button>
+    </ion-nav-buttons>
+
+    <div ng-show="payout.isLoggedIn && payout.shop_status"
+                class="bar bar-subheader bar-custom">
+        <div class="button-bar text-center">
+            <div class="button button-custom remove-border"
+                 ng-class="{ 'active' : action.tab == 'menu'}"
+                 ng-click="action.tab = 'menu'">
+                {{ ::'Home' | translate:'emenu' }}
+            </div>
+            <div class="button button-custom remove-border"
+                 ng-class="{ 'active' : action.tab == 'mylist'}"
+                 ng-click="action.tab = 'mylist'">
+                {{ ::'My List' | translate:'emenu' }}
+            </div>
+            <div class="button button-custom remove-border"
+                 ng-class="{ 'active' : action.tab == 'orders'}"
+                 ng-click="action.tab = 'orders'">
+                {{ ::'My Orders' | translate:'emenu' }}
+            </div>
+        </div>
+    </div>
+
+    <ion-content class="has-header"
+                 ng-class="{'has-subheader': (payout.isLoggedIn)}"
+                 id="item-content"
+                 scrollbar-y="false"
+                 overflow-scroll="false"
+                 delegate-handle="mainScroll">
+
+        <div class="loader"
+             ng-show="is_loading">
+            <ion-spinner icon="android"
+                         class="spinner-custom"></ion-spinner>
+        </div>
+
+        <div ng-if="payout.shop_status">
+            <ng-include ng-if="!is_loading && payout.isLoggedIn"
+                        src="'./features/emenu/assets/templates/l1/include/customer_menu.html'"
+                        ng-show="action.tab == 'menu'"></ng-include>
+            <ng-include ng-if="!is_loading && payout.isLoggedIn"
+                        src="'./features/emenu/assets/templates/l1/include/carts.html'"
+                        ng-show="action.tab == 'mylist'"></ng-include>
+            <ng-include ng-if="!is_loading && payout.isLoggedIn"
+                        src="'./features/emenu/assets/templates/l1/include/customer_orders.html'"
+                        ng-show="action.tab == 'orders'"></ng-include>
+            <ng-include ng-if="!is_loading && !payout.isLoggedIn"
+                        src="'./features/emenu/assets/templates/l1/include/login.html'"></ng-include>
+        </div>
+
+        <div ng-if="!payout.shop_status && !is_loading">
+          <ion-list>
+            <ion-item class="item-custom text-center item-body  remove-border">
+               <h2>{{payout.vendor.warringMessage}}</h2>
+            </ion-item>
+        </ion-list>
+        </div>
+
+    </ion-content>
+
+    <button class="button light ion-funnel button-floating-action button-positive button-positive-custom"
+            ng-if="!is_loading && payout.isLoggedIn && action.tab == 'menu'"
+            ng-click="homeItemFilterMenu()">
+    </button>
+
+    <style type="text/css">
+        ion-header-bar button[menu-toggle] {
+            display: none;
+        }
+    </style>
+
+</ion-view>

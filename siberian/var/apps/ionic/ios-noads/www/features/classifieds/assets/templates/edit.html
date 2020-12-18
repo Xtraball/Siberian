@@ -1,0 +1,113 @@
+<ion-view sb-page-background
+          class="classifieds"
+          scroll="true">
+    <ion-nav-title>{{ ad.id ? "Edit ad" : "New ad" | translate }}</ion-nav-title>
+    <ion-nav-buttons side="right">
+        <button ng-click="save()" class="classifieds button button-clear header-item" ng-show="!is_loading">
+            {{ "Save" | translate }}
+        </button>
+    </ion-nav-buttons>
+    <ion-content class="classifieds homepage-custom">
+        <div class="list list-custom" ng-show="is_loading">
+            <div class="item item-custom">
+                <center>
+                    <ion-spinner class="spinner-custom"></ion-spinner>
+                </center>
+            </div>
+        </div>
+        <form class="list list-custom" ng-hide="is_loading">
+            <label class="item item-input item-custom">
+                <div class="input-label">
+                    {{ "Title" | translate }}
+                </div>
+                <input class="text-right" type="text" placeholder="{{ 'Title' | translate }}" required
+                       ng-model="ad.title" ng-required="true"/>
+            </label>
+            <label class="item item-custom">
+                <div class="input-label">
+                    {{ "Description" | translate }}
+                </div>
+                <textarea placeholder="{{ 'Description' | translate }}"
+                          ng-model="ad.description"
+                          required
+                          ng-required="true"
+                          style="width: 100%;"
+                          rows="8">
+        </textarea>
+            </label>
+            <div class="item item-custom" ng-repeat="picture in ad.pictures">
+                <div style="text-align: center;">
+                    <img ng-src="{{picture.url || picture.data}}" style="max-width: 200px; max-height: 200px;">
+                </div>
+                <ion-checkbox class="checkbox-custom" ng-model="picture.remove">
+                    {{ "Remove picture" | translate }}
+                </ion-checkbox>
+            </div>
+            <div class="item item-icon-left item-custom" ng-click="addPicture()" ng-if="canAddPicture()">
+                <i class="icon icon-custom ion-plus-circled"></i> {{ "Add picture" | translate }}
+            </div>
+            <div class="item item-input item-custom">
+                <input type="text"
+                       style="padding-right: 0;margin-right: 26px;"
+                       placeholder="{{ 'Address' | translate }}"
+                       ng-model="ad.address"
+                       required
+                       sb-google-autocomplete
+                       location="location"
+                       place="ad.place"
+                       on-address-change="updateAddress()"
+                       ng-focus="disableTap()"
+                       id="pac-input"
+                       data-tap-disabled/>
+            </div>
+            <label class="item item-input item-custom">
+                <div class="input-label">
+                    {{ "Email" | translate }}
+                </div>
+                <input class="text-right" type="email" placeholder="{{ 'Email' | translate }}" required
+                       ng-model="ad.email"/>
+            </label>
+            <label class="item item-input item-custom">
+                <div class="input-label">
+                    {{ "Phone" | translate }}
+                </div>
+                <input class="text-right" type="tel" placeholder="{{ 'Phone' | translate }}" required
+                       ng-model="ad.phone"/>
+            </label>
+            <div class="item item-input item-custom item-select" for="category_select">
+                <div class="input-label">
+                    {{ "Category" | translate }}
+                </div>
+                <select id="category_select" ng-model="ad.category_id" required ng-required="true">
+                    <option value="">{{ "Please choose" | translate }}
+                    <optgroup label="{{root_cat.name}}" ng-repeat="root_cat in categories">
+                        <option value="{{ cat.id }}" ng-repeat="cat in root_cat.children"
+                                ng-selected="cat.id == ad.category_id">{{ cat.name }}
+                        </option>
+                    </optgroup>
+                </select>
+            </div>
+            <label class="item item-input item-custom">
+                <div class="input-label">
+                    {{ "Price" | translate }}
+                </div>
+                <input ng-if="settings.priceRequired" class="text-right" type="number" min="0.001" ng-required="true"
+                       required placeholder="{{ 'Price' | translate }}" ng-model="ad.price"/>
+                <input ng-if="!settings.priceRequired" class="text-right" type="number" min="0.001"
+                       placeholder="{{ 'Price' | translate }}" ng-model="ad.price"/>
+            </label>
+            <ion-checkbox class="checkbox-custom" ng-model="ad.hide_phone">
+                {{ "Hide my phone" | translate }}
+            </ion-checkbox>
+            <ion-checkbox class="checkbox-custom" ng-model="ad.hide_address">
+                {{ "Hide my address" | translate }}
+            </ion-checkbox>
+            <div class="item item-custom item-text-wrap">
+                {{ "If address is hidden, your ad will not be visible on public map" | translate }}
+            </div>
+            <div class="item item-custom item-text-wrap">
+                {{ "All fields are mandatory, photos are optional" | translate }}
+            </div>
+        </form>
+    </ion-content>
+</ion-view>

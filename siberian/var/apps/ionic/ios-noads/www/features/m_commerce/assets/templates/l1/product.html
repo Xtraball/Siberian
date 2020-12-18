@@ -1,0 +1,140 @@
+<ion-view sb-page-background
+          class="mcommerce-view mcommerce-product">
+
+    <ion-nav-title>{{ page_title }}</ion-nav-title>
+
+    <ion-nav-buttons side="secondary">
+        <button ng-click="right_button.action()"
+                class="button button-clear header-item"
+                ng-if="right_button">
+            <span class="back-text">
+                <span class="default-title">{{ right_button.label }}</span>
+            </span>
+            <i class="icon"
+               ng-class="right_button.icon"></i>
+        </button>
+    </ion-nav-buttons>
+
+    <ion-content>
+        <div class="card">
+            <div class="item item-text-wrap text-center item-custom">
+                <h2>
+                    <strong>
+                        {{ product.name | uppercase }}
+                    </strong>
+                </h2>
+            </div>
+            <div ng-if="product.picture.length"
+                 class="item item-custom">
+                <ion-slide-box id="homepage_slider"
+                               auto-play="false"
+                               does-continue="true"
+                               show-pager="true">
+
+                    <ion-slide ng-repeat="picture in product.picture">
+                        <img ng-src="{{picture.url}}"
+                             style="width:100%;" />
+                    </ion-slide>
+                </ion-slide-box>
+            </div>
+        </div>
+        <div class="card">
+            <div class="item item-body item-custom">
+                <i class="ion-pricetag"></i>
+                <span ng-if="product.optionsGroups.length > 0">
+                    {{ ::'From' | translate:'m_commerce' }}:
+                </span>
+                <span>
+                    {{ product.formattedPriceInclTax }}
+                </span>
+                <div ng-show="social_sharing_active"
+                     ng-click="share()"
+                     class="mcommerce_share">
+                    <i class="icon ion-ios-upload-outline "></i>
+                </div>
+            </div>
+            <label class="item item-input item-select item-custom"
+                   ng-if="product.formatGroups.length">
+                <div class="input-label">
+                    {{ ::'Prices' | translate:'m_commerce' }}
+                </div>
+                <select ng-options="format.id as format.title + ' - ' + format.formattedPriceInclTax for format in product.formatGroups"
+                        ng-model="selected_format.id"></select>
+            </label>
+        </div>
+        <div class="card"
+             ng-if="product.optionsGroups.length">
+            <div class="item item-divider item-divider-custom">
+                <h2><i class="ion-gear-b"></i> {{ ::'Options' | translate:'m_commerce' }}</h2>
+            </div>
+            <div ng-repeat="optionsGroup in product.optionsGroups">
+                <div class="list list-inset">
+                    <label class="item item-select item-input item-custom" >
+                        <div class="input-label">
+                            {{ optionsGroup.title }}
+                        </div>
+                        <select name="optionValue"
+                                ng-model="optionsGroup.selectedOptionId" >
+                            <option ng-repeat="option in optionsGroup.options"
+                                    value="{{ option.optionId }}">{{ option.name }} {{ option.formattedPriceInclTax }}</option>
+                        </select>
+                    </label>
+                    <label class="item item-select item-input item-custom" >
+                        <div class="input-label">
+                            {{ ::'Qty' | translate:'m_commerce' }}
+                        </div>
+                        <select ng-model="optionsGroup.selectedQuantity"
+                                ng-options="o as o for o in list_qty"></select>
+                    </label>
+                </div>
+            </div>
+        </div>
+
+        <div ng-if="product.choicesGroups.length">
+            <div class="card"
+                 ng-repeat="(i, choicesGroup) in product.choicesGroups">
+                <div class="item item-divider item-divider-custom">
+                    <h2><i class="ion-gear-b"></i> {{ choicesGroup.title }}</h2>
+                </div>
+                <div>
+                    <div class="list list-inset">
+                        <ul>
+                            <li ng-repeat="(j, option) in choicesGroup.options">
+                                <label class="item item-input item-custom no-left-pad">
+                                    <ion-checkbox ng-model="product.choicesGroups[i].options[j].selected"
+                                                  class="no-bottom-border"></ion-checkbox>
+                                    <div class="input-label">
+                                        {{option.name}}
+                                    </div>
+                                </label>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="card">
+            <sb-input-number ng-if="product"
+                             value="1"
+                             min="1"
+                             step="1"
+                             label="Qty"
+                             change-qty="changeQuantity(qty)"></sb-input-number>
+            <div class="item item-text-wrap item-icon-left item-custom"
+                 ng-click="addProduct()">
+                <i class="icon ion-ios-cart-outline"></i>
+                {{ ::'Add to cart' | translate:'m_commerce' }}
+            </div>
+        </div>
+        <div class="card">
+            <div class="item item-divider item-divider-custom">
+                <h2><i class="ion-information-circled"></i> {{ ::'Description' | translate:'m_commerce' }}</h2>
+            </div>
+            <div class="item item-body item-custom"
+                 ng-bind-html="product.description | trusted_html"
+                 sb-a-click></div>
+        </div>
+    </ion-content>
+</ion-view>
+

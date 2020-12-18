@@ -1,0 +1,39 @@
+<ion-view sb-page-background
+          class="mcommerce-view mcommerce-sales-payment">
+    <ion-nav-title>{{ page_title }}</ion-nav-title>
+    <ion-nav-buttons side="secondary">
+        <button ng-click="right_button.action()"
+                class="button button-clear header-item"
+                ng-if="right_button">
+            <span class="back-text">
+                <span class="default-title">{{ right_button.label }}</span>
+            </span>
+            <i class="icon"
+               ng-class="right_button.icon"></i>
+        </button>
+    </ion-nav-buttons>
+
+    <ion-content>
+
+        <ion-list>
+            <ion-item class="item-divider item-divider-custom"
+                      style="margin-top: 15px;">
+                <h2>{{ ::'Choose a payment method' | translate:'m_commerce' }}</h2>
+            </ion-item>
+
+            <ion-radio class="radio-custom"
+                       ng-model="cart.paymentMethodId"
+                       ng-value="paymentMethod.id"
+                       ng-repeat="paymentMethod in paymentMethods"
+                       ng-click="cart.paymentMethodId = paymentMethod.id; right_button.action();"
+                       ng-if="paymentMethod.code != 'free'">
+                {{ paymentMethod.name }}
+            </ion-radio>
+
+        </ion-list>
+
+    </ion-content>
+</ion-view>
+
+
+

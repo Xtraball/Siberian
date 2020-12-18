@@ -1,0 +1,243 @@
+<ion-view sb-page-background
+          class="classifieds">
+    <ion-nav-title>{{ (my_shop_view ? my_shop_title : page_title) }}</ion-nav-title>
+    <ion-nav-buttons side="right">
+        <button class="button button-clear header-item"
+                ng-show="is_loading">
+            <ion-spinner></ion-spinner>
+        </button>
+        <button ng-click="reloadContent()"
+                class="classifieds button button-clear header-item"
+                ng-show="!is_loading && !my_shop_view">
+            <i class="icon ion-sb-refresh"></i>
+        </button>
+        <button class="classifieds button button-clear header-item"
+                ng-click="newEditAd()"
+                ng-show="my_shop_view">
+            <i class="icon ion-android-add"></i>
+        </button>
+    </ion-nav-buttons>
+    <div id="classifieds_subheader"
+         class="bar bar-subheader bar-custom item-input-inset"
+         ng-class="{'expanded': search_expanded}"
+         ng-hide="my_shop_view">
+        <label class="item-input-wrapper">
+            <i class="icon ion-ios-search placeholder-icon"></i>
+            <input type="search"
+                   placeholder="{{ 'Search' | translate }}"
+                   ng-disabled="is_loading"
+                   ng-model="search_options.queryProxy"
+                   ng-focus="search_expanded = true"
+                   ng-keypress="searchViaEnter($event)"
+                   ng-model-options="{ getterSetter: true }">
+        </label>
+        <div class="buttons-right"
+             ng-show="settings.showMap">
+            <div class="button-bar">
+                <button ng-click="current_view = 'map'"
+                        class="button button-custom header-item ng-click-active"
+                        ng-class="{'active': current_view === 'map' }"
+                        tabindex="-1">
+                    <i class="icon ion-android-map icon-custom"></i>
+                </button>
+                <button ng-click="current_view = 'list'"
+                        class="button button-custom header-item ng-click-active"
+                        ng-class="{'active': current_view === 'list' }"
+                        tabindex="-1">
+                    <i class="icon ion-android-list icon-custom"></i>
+                </button>
+            </div>
+        </div>
+        <ion-content>
+            <div>
+                <div id="search_filters"
+                     class="search_row list list-custom">
+                    <div class="item item-custom full-width">
+                        <label for="bookmarked_ads">
+                            <input id="bookmarked_ads"
+                                   type="checkbox"
+                                   ng-model="search_options.bookmarks_only">
+                            {{"Show bookmarked ads only" | translate}}
+                        </label>
+                    </div>
+                    <div class="item item-custom full-width">
+                        <label for="category_select">{{"Category:" | translate}}
+                            <div class="input">
+                                <select id="category_select"
+                                        ng-model="search_options.category">
+                                    <option value="">{{ "All categories" | translate }}</option>
+                                    <optgroup label="{{root_cat.name}}"
+                                              ng-repeat="root_cat in categories">
+                                        <option value="{{ cat.id }}"
+                                                ng-repeat="cat in root_cat.children">{{ cat.name }}
+                                        </option>
+                                    </optgroup>
+                                </select>
+                            </div>
+                        </label>
+                    </div>
+                    <div class="item item-custom">
+                        <label>{{"Min price:" | translate}}</label>
+                        <input type="number"
+                               ng-model="search_options.min_price"
+                               min="0"
+                               ng-change="updateMax()">
+                    </div>
+                    <div class="item item-custom">
+                        <label>{{"Max price:" | translate}}</label>
+                        <input type="number"
+                               ng-model="search_options.max_price"
+                               min="{{search_options.min_price+1}}">
+                    </div>
+                    <div class="item item-custom">
+                        <label>{{"Zip Code:" | translate}}</label>
+                        <input type="text"
+                               ng-model="search_options.zip">
+                    </div>
+                    <div id="withs" class="item item-custom full-width">
+                        <label class="full-width">{{"Show only ads including:" | translate}}</label>
+                        <label class="with"
+                               for="with_pictures">
+                            <input id="with_pictures"
+                                   type="checkbox"
+                                   ng-model="search_options.with.pictures"> {{"Pictures" | translate}}
+                        </label>
+                        <label class="with"
+                               for="with_address">
+                            <input id="with_address"
+                                   type="checkbox"
+                                   ng-model="search_options.with.address"> {{"Address" | translate}}
+                        </label>
+                        <label class="with"
+                               for="with_phone">
+                            <input id="with_phone"
+                                   type="checkbox"
+                                   ng-model="search_options.with.phone"> {{"Phone" | translate}}
+                        </label>
+                    </div>
+                    <div class="item item-custom full-width">
+                        <label>{{"Order by:" | translate}}</label>
+                        <div class="input">
+                            <select ng-model="search_options.order">
+                                <optgroup label="{{ 'Date' | translate }}">
+                                    <option value="date_desc">{{ "Newest first" | translate }}</option>
+                                    <option value="date_asc">{{ "Oldest first" | translate }}</option>
+                                </optgroup>
+                                <optgroup label="{{ 'Price' | translate }}">
+                                    <option value="price_asc">{{ "Low to High" | translate }}</option>
+                                    <option value="price_desc">{{ "High to Low" | translate }}</option>
+                                </optgroup>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+                <button type="submit"
+                        class="button button-custom search_row"
+                        ng-click="launchSearch()">{{ "Search" | translate }}
+                </button>
+            </div>
+        </ion-content>
+    </div>
+    <ion-content scroll="false"
+                 class="classifieds has-subheader"
+                 ng-show="!is_loading && settings.showMap && current_view == 'map' && !my_shop_view">
+        <div id="mapContainer">
+            <div id="map">
+            </div>
+            <button class="fab button button-custom small"
+                    ng-click="centerMap()"
+                    ng-hide="my_shop_view">
+                <i class="icon ion-android-locate icon"
+                   ng-hide="gps_loading"></i>
+                <ion-spinner class="spinner-custom"
+                             ng-show="gps_loading"></ion-spinner>
+            </button>
+
+            <div id="mapInfoWindow"
+                 ng-if="currentAd"
+                 ng-class="{'hide': !showInfoWindow}"
+                 class="info-window slide-top">
+                <div class="item item-custom item-text-wrap info-window-icon">
+                    <span class="info-window-title">{{ currentAd.title }}</span>
+                    <br />
+                    <span class="info-window-distance">{{ currentAd.formatted_price }}</span>
+                    -
+                    <span ng-click="showAd(currentAd)"
+                          class="info-window-more">
+                    {{ "See details" | translate }} <i class="icon ion-android-open"></i>
+                </span>
+                    <i ng-click="hideInfoWindow()"
+                       class="icon ion-close info-close"></i>
+                </div>
+                <div ng-if="adPicture(currentAd)"
+                     class="ad-picture item item-custom text-center">
+                    <img ng-src="{{ adPicture(currentAd) }}"
+                         style="max-height: 15vh;" />
+                </div>
+                <div ng-if="currentAd.short_description.length"
+                     style="font-size: .75rem;"
+                     class="item item-custom item-text-wrap">
+                    {{ currentAd.short_description }}
+                </div>
+                <div class="item item-custom item-text-wrap"></div>
+            </div>
+        </div>
+    </ion-content>
+    <ion-content scroll="true"
+                 class="classifieds"
+                 ng-class="{ 'has-subheader': !my_shop_view }"
+                 ng-show="!is_loading && (current_view == 'list' || my_shop_view)">
+        <div class="loader"
+             ng-if="is_loading">
+            <ion-spinner class="spinner spinner-custom"></ion-spinner>
+        </div>
+        <ion-list id="list"
+                  ng-hide="is_loading">
+            <div class="item item-custom"
+                 ng-if="filtered_ads.length < 1">
+                <center>{{ "No items found" | translate }}</center>
+            </div>
+            <div class="item item-thumbnail-left item-custom"
+                 ng-click="showAd(ad)"
+                 ng-repeat="ad in filtered_ads">
+                <img ng-src="{{ad.pictures[0].url}}"
+                     style="width: auto!important;; height: auto!important;"
+                     ng-if="ad.pictures.length > 0 && ad.pictures[0].url.length > 0">
+                <div class="row">
+                    <div class="col col-90">
+                        <h2>{{ad.title}}</h2>
+                        <p>{{ad.short_description}}</p>
+                        <bold ng-if="ad.formatted_price">
+                            {{ad.formatted_price}}
+                        </bold>
+                        <div>
+                            <em ng-if="my_shop_view">
+                                {{ad.formatted_status | translate}}
+                            </em>
+                        </div>
+                    </div>
+                    <div class="col col-10">
+                        <i class="item-note ion-chevron-right arrow-center"></i>
+                    </div>
+                </div>
+            </div>
+        </ion-list>
+    </ion-content>
+    <ion-content scroll="false"
+                 class="classifieds"
+                 ng-class="{ 'has-subheader': !my_shop_view }"
+                 ng-show="is_loading">
+        <div class="loader">
+            <ion-spinner class="spinner spinner-custom"></ion-spinner>
+        </div>
+    </ion-content>
+    <ion-footer-bar id="classifieds_footer"
+                    class="bar bar-footer bar-custom"
+                    ng-class="{'search_expanded': search_expanded}">
+        <div class="button-bar">
+            <button class="button button-custom"
+                    ng-click="toggleMyStore()">{{ (my_shop_view ? "Close" : "My shop") | translate }}
+            </button>
+        </div>
+    </ion-footer-bar>
+</ion-view>

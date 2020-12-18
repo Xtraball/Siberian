@@ -1,0 +1,16 @@
+<div class="row course-actions">
+    <div ng-if="request.course_rating < 0"
+         class="col-60 action-details">
+        <button ng-click="rateCourse(request)"
+                class="button button-full button-positive button-positive-custom">
+            {{ ::'RATE COURSE' | translate:'cabride' }}
+        </button>
+    </div>
+    <div class="action-details"
+         ng-class="{'col-100': request.course_rating > 0, 'col-40': request.course_rating < 0}">
+        <button ng-click="details(request)"
+                class="button button-full button-balanced button-balanced-custom">
+            {{ ::'DETAILS' | translate:'cabride' }}
+        </button>
+    </div>
+</div>

@@ -1,0 +1,14 @@
+<div class="list"
+     ng-if="(current.showCover || current.showTitle)"
+     ng-class="{'card': cardDesign}"
+     ng-show="!is_loading && current && !search.searchValue">
+    <div class="item item-image item-custom"
+         ng-if="current.showCover && current.picture">
+        <img ng-src="{{ imagePath(current.picture) }}" />
+    </div>
+    <div ng-if="current.showTitle"
+         class="item item-custom">
+        <h2>{{ current.title }}</h2>
+        <p ng-if="current.subtitle">{{ current.subtitle }}</p>
+    </div>
+</div>

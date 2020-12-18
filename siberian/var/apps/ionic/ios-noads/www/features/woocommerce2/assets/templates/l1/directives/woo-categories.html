@@ -1,0 +1,11 @@
+<div class="card"
+     ng-repeat="category in categories">
+    <!-- Parent -->
+    <woo-category is-callable="rootCallable"
+                  category="category"></woo-category>
+
+    <!-- Sub-categories -->
+    <woo-category-child ng-if="categoryHasChildren(category.id)"
+                        all-categories="allCategories"
+                        parent="category"></woo-category-child>
+</div>

@@ -1,0 +1,25 @@
+<div class="item-input-inset">
+    <a class="icon-active-custom"
+       ng-click="takePicture()">
+        <i class="icon ion-camera"
+           style="font-size: 32px;">
+            <b ng-if="form.picture.length > 0"
+               class="badge badge-assertive badge-assertive-custom picture-badge">1</b>
+        </i>
+    </a>
+    <label class="item-input-wrapper">
+                <textarea rows="1"
+                          ng-model="form.text"
+                          placeholder="{{ ::'Write a comment...' | translate:'fanwall' }}"></textarea>
+    </label>
+    <a class="icon-active-custom clear-comment"
+       ng-show="showClearComment()"
+       ng-click="clearComment()">
+        <i class="icon ion-sb-clear"></i>
+    </a>
+    <a class="icon-active-custom"
+       ng-click="sendComment()">
+        <i class="icon ion-paper-airplane"
+           style="font-size: 28px;"></i>
+    </a>
+</div>

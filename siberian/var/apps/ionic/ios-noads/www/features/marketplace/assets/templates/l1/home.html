@@ -1,0 +1,78 @@
+<ion-view sb-page-background
+          class="module-marketplace marketplace-list marketplace-list-l1">
+    <ion-nav-title>
+        <div ng-bind-html="page_title | trusted_html"></div>
+    </ion-nav-title>
+
+    <ion-content>
+
+        <div class="list">
+
+            <div class="loader"
+                 ng-show="is_loading">
+                <ion-spinner class="spinner-custom"></ion-spinner>
+            </div>
+        </div>
+
+        <div class="list"
+             ng-if="!is_loading && !stores.length">
+
+            <div class="item text-center item-custom card"
+                 ng-show="settings.can_create_store">
+                <h3>{{settings.description}}</h3>
+                <div class="store-name">
+                    <div class="customer-actions">
+                        <button class="button button-small button-positive button-positive-custom"
+                                ng-click="goToCreateStore({{ mcommerce_id }})">
+                            <i class="ion ion-add"></i>
+                            {{ ::'Create' | translate:'marketplace' }}
+                            <span ng-show="settings.text_store">{{ settings.text_store }}</span>
+                            <span ng-show="!settings.text_store">{{ ::'Store' | translate:'marketplace' }}</span>
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+            <div ng-show="!settings.can_create_store"
+                 class="item text-center item-custom card">
+                <h2>
+                    <span ng-show="settings.text_disabled_store">{{ settings.text_disabled_store }}</span>
+                    <span ng-show="!settings.text_disabled_store">{{ ::'Sorry, access denied.' | translate:'marketplace' }}</span>
+                </h2>
+            </div>
+        </div>
+
+        <div class="list"
+             ng-if="!is_loading && stores.length> 1"
+             ng-repeat="(key, store) in stores track by $index">
+            <ion-item class="item-custom card"
+                      style='text-align: center;'>
+                <div class="store-name">
+                    <img ng-show="store.picture"
+                         ng-src="{{store.picture}}"/>
+                    <h2>
+                        {{ store.name }}
+                    </h2>
+                    <div class="customer-actions">
+                        <button class="button button-small button-positive button-positive-custom"
+                                ng-click="goToStore(store.store_id)">
+                            <i class="ion ion-eye"></i>
+                            {{ ::'View' | translate:'marketplace' }}
+                            <span ng-show="settings.text_store"> {{ settings.text_store }}</span>
+                            <span ng-show="!settings.text_store">{{ ::'Store' | translate:'marketplace' }}</span>
+                        </button>
+                    </div>
+                </div>
+
+            </ion-item>
+        </div>
+
+        <div class="list"
+             ng-if="!is_loading && stores.length == 1"
+             ng-controller="MarketplaceStoreController">
+            <div ng-include="'./features/marketplace/assets/templates/l1/store-item.html'"></div>
+        </div>
+
+    </ion-content>
+
+</ion-view>

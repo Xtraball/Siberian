@@ -1,0 +1,56 @@
+<ion-view sb-page-background
+          class="mcommerce-view mcommerce-sales-store">
+    <ion-nav-title>{{ page_title }}</ion-nav-title>
+    <ion-nav-buttons side="secondary">
+        <button ng-click="right_button.action()"
+                class="button button-clear header-item"
+                ng-if="right_button">
+            <span class="back-text">
+                <span class="default-title">{{ right_button.label }}</span>
+            </span>
+            <i class="icon"
+               ng-class="right_button.icon"></i>
+        </button>
+    </ion-nav-buttons>
+
+    <ion-content>
+        <div ng-if="is_loading"
+             class="loader">
+            <ion-spinner class="spinner-custom"></ion-spinner>
+        </div>
+
+        <ion-list ng-if="!is_loading">
+            <ion-item class="item-divider item-divider-custom"
+                      style="margin-top: 15px;">
+                <h2>{{ ::'Choose a store' | translate:'m_commerce' }}</h2>
+            </ion-item>
+
+            <ion-radio class="radio-custom"
+                       ng-model="selected_store.id"
+                       ng-value="store.id"
+                       ng-repeat="store in stores"
+                       ng-if="store.id"
+                       ng-click="chooseStore(); right_button.action()">
+                <span>
+                    {{ store.name }}
+                    <br />
+                    <span ng-if="store.min_amount && store.min_amount>0">{{ ::'Min. amount' | translate }} {{ store.formatted_min_amount }}</span>
+                </span>
+            </ion-radio>
+        </ion-list>
+
+    </ion-content>
+
+    <style type="text/css">
+        /** CSS Fix for Safari weird behavior of :hover that shows the checked tick when it shouldn't */
+        .mcommerce-view .item-radio input + .radio-content .radio-icon {
+            opacity: 0 !important;
+        }
+        .mcommerce-view .item-radio input:checked + .radio-content .radio-icon {
+            opacity: 1 !important;
+        }
+    </style>
+</ion-view>
+
+
+

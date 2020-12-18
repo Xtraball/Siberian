@@ -1,0 +1,91 @@
+<ion-modal-view sb-page-background
+                class="chatrooms chatrooms-modal">
+
+    <ion-header-bar class="bar-custom">
+
+        <button class="button button-clear"
+                ng-click="closeModal()">
+            <i ng-class="backButtonIcon()"></i>
+        </button>
+
+        <h1 class="title">{{ page_title }}</h1>
+
+    </ion-header-bar>
+
+    <ion-content class="chatrooms"
+                 has-bouncing="false">
+
+        <div ng-show="chatroom"
+             class="chatrooms-spacer"></div>
+
+        <ion-list ng-if="chatroom">
+            <ion-item class="item-divider item-divider-custom">
+                    {{ ::'Room description' | translate:'chatrooms' }}
+            </ion-item>
+            <ion-item class="item-custom">
+                <span class="padding-horizontal"
+                   ng-if="chatroom.description">{{chatroom.description}}</span>
+                <span class="padding-horizontal"
+                   ng-if="!chatroom.description">{{ ::'No description' | translate:'chatrooms' }}</span>
+            </ion-item>
+        </ion-list>
+
+        <div ng-show="is_logged_in"
+             class="chatrooms-spacer"></div>
+
+        <ion-list ng-if="is_logged_in">
+            <ion-item class="item-divider item-divider-custom">
+                {{ ::'Nickname' | translate:'chatrooms' }}
+            </ion-item>
+            <label class="item item-input item-custom">
+                <input class="text-left"
+                       type="text"
+                       ng-model="modalForm.nickname" />
+            </label>
+        </ion-list>
+
+        <div ng-show="chatroom"
+             class="chatrooms-spacer"></div>
+
+        <ion-list ng-if="chatroom">
+            <ion-item class="item-divider item-divider-custom">
+                {{ ::'Notifications' | translate:'chatrooms' }}
+            </ion-item>
+            <ion-radio class="radio-custom radio-item"
+                       ng-model="modalForm.notifications.choice"
+                       ng-value="'all'">
+                <i class="icon n-icons ion-android-notifications"></i> {{ ::'All messages' | translate:'chatrooms' }}
+            </ion-radio>
+            <ion-radio class="radio-custom radio-item"
+                       ng-model="modalForm.notifications.choice"
+                       ng-value="'mentions'">
+                <i class="icon n-icons ion-android-notifications-none"></i> {{ ::'Only mentions' | translate:'chatrooms' }}
+            </ion-radio>
+            <ion-radio class="radio-custom radio-item"
+                       ng-model="modalForm.notifications.choice"
+                       ng-value="'none'">
+                <i class="icon n-icons ion-android-notifications-off"></i> {{ ::'None' | translate:'chatrooms' }}
+            </ion-radio>
+        </ion-list>
+
+        <div ng-show="chatroom"
+             class="chatrooms-spacer"></div>
+
+        <ion-list ng-show="chatroom || is_logged_in">
+            <button type="submit"
+                    class="button button-assertive button-assertive-custom button-full button-positive"
+                    ng-click="saveAndClose()">
+                <i class="icon ion-android-done"></i> {{ ::'Save' | translate:'chatrooms' }}
+            </button>
+
+            <div class="padding text-center"
+                 ng-show="room && leaveRoom"
+                 ng-click="leaveRoom(room)">
+                <b>
+                    <i class="icon ion-android-exit"></i> {{ ::'Leave room' | translate:'chatrooms' }}
+                </b>
+            </div>
+        </ion-list>
+
+    </ion-content>
+</ion-modal-view>

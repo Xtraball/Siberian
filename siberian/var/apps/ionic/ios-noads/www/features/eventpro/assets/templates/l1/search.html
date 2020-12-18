@@ -1,0 +1,41 @@
+<ion-view sb-page-background
+          class="event event-search">
+     <ion-nav-title>{{ ::"Search Event" | translate:"eventpro" }}</ion-nav-title>
+ 
+    <ion-content class="has-header">
+     
+      <div class="list list-inset" >
+          <label class="item item-input item-button-right" >
+              <i class="icon ion-search placeholder-icon"></i>
+              <input type="search"
+                     ng-modal="payout.search_text"
+                     ng-init="payout.search_text = ''"
+                     ng-value=""
+                     id="eventSearch"
+                     class="search-input"
+                     placeholder='{{forTranslate("Search a event")}}'  
+                     ng-keyup="loadSearchContent()" />
+          </label>
+      </div>
+
+    <div class="loader" ng-show="is_loading">
+       <ion-spinner class="spinner-custom"></ion-spinner>
+    </div> 
+   
+    <div class="list" ng-if="!is_loading">
+     <div ng-if="payout.search_text != ''">
+            <!--  List -->
+              <ng-include ng-if="!is_loading" src="'./features/eventpro/assets/templates/include/event_list.html'"></ng-include>
+      </div>
+    </div>
+  
+  </ion-content>
+
+  <ion-infinite-scroll ng-if="can_load_older_posts_list"
+                       on-infinite="searchLoadMoreEvents()"
+                       immediate-check="false"
+                       distance="50%"
+                       class="spinner-custom">
+  </ion-infinite-scroll>
+
+</ion-view>

@@ -296,6 +296,7 @@ class Assets
         ],
         'ios' => [
             '/var/apps/ionic/ios/',
+            '/var/apps/ionic/ios-noads/',
         ],
     ];
 

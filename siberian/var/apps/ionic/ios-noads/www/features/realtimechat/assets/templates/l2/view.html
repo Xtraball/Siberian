@@ -1,0 +1,89 @@
+<ion-view sb-page-background class="realtimechat">
+    <ion-nav-title>
+        <div class="realtimechat">
+            <section ng-if="recipient" class="friend" ng-class="{'online': recipient.online}">
+                <span class="status-bubble"></span>
+                {{ recipient.nickname }}
+            </section>
+            <section ng-if="chatroom">
+                {{ chatroom.name }}
+            </section>
+        </div>
+    </ion-nav-title>
+    <ion-nav-buttons side="right">
+        <button ng-click="toggleNotifications()" class="button button-clear header-item realtimechat notifications-toggle" ng-show="!is_loading">
+            <i class="icon ion-android-notifications-none" ng-if="notifications.mentions && !notifications.all"></i>
+            <i class="icon ion-android-notifications" ng-if="notifications.all"></i>
+            <i class="icon ion-android-notifications-off" ng-if="notifications.none"></i>
+        </button>
+        <button ng-click="showInfos()" class="button button-clear header-item" ng-show="!is_loading">
+            <i class="icon ion-information-circled"></i>
+        </button>
+    </ion-nav-buttons>
+    <div class="bar bar-subheader bar-assertive" ng-if="!is_loading && !isConnectedToChat">
+      <h2 class="title stable-text">{{"We have trouble connecting you to the chat server. Please try again later." | translate}}</h2>
+    </div>
+    <ion-content ng-class="{'has-subheader': !is_loading && !isConnectedToChat}" class="chatroom-view" style="overflow-y: visible !important;">
+        <div class="loader" ng-show="is_loading">
+            <ion-spinner class="spinner-custom"></ion-spinner>
+        </div>
+        <ion-list ng-show="!is_loading">
+            <ion-item class="item-text-wrsap item item-custom"
+                      ng-class="isFromMe(message) ? 'item-avatar-right text-right' : 'item-avatar-left text-left'"
+                      ng-click="showCustomer(message.senderID)"
+                      ng-repeat="message in messages track by message.id">
+                <img class="avatar" ng-src="{{customer_avatar(message.senderID)}}" height="72" width="72">
+                <p>
+                    <b class="nickname">{{message.nickname}}</b><span class="time">{{ message.date | moment_calendar}}</span>
+                    <div class="padding-horizontal message" ng-bind-html="message.message | emojify"></div>
+                </p>
+                <p class="message-img" ng-if="message.image">
+                    <img ng-src="{{thumbnail_image(message.image)}}" zoom-view zoom-src="{{fullsize_image(message.image)}}" />
+                </p>
+            </ion-item>
+        </ion-list>
+
+    </ion-content>
+
+    <form name="chat_msg_form">
+        <ion-footer-bar class="item-input-inset item item-divider item-divider-custom footer-bar" ng-show="!is_loading" ng-click="chooseNicknameIfNeeded()">
+            <button type="button" class="button button-icon icon icon-custom ion-camera button-send-img" ng-click="sendPhoto()" ng-disabled="is_sending || no_nickname()">
+                <span class="badge badge-assertive badge-icon">{{attachements.length}}</span>
+            </button>
+            <label class="item-input-wrapper">
+                <input type="text" id="chat_message_input" ng-model="chat_message" ng-click="_scrollBottom()" ng-focus="_scrollBottom()" ng-disabled="is_sending || no_nickname()" ng-minlength="1" ng-maxlength="1023" maxlength="1023" ng-required="true" placeholder="{{ 'Message' | translate }}" autocomplete="off">
+            </label>
+            <button type="submit" class="button button-icon icon icon-custom ion-paper-airplane button-send-msg" ng-click="sendMsg()" ng-disabled="is_sending || no_nickname() || chat_msg_form.$invalid">
+            </button>
+        </ion-footer-bar>
+    </form>
+
+    <style type="text/css">
+        .layout-l1 .has-footer-fixed .realtimechat ion-content.chatroom-view {
+            bottom: 105px;
+        }
+
+        .layout-l1 .has-footer-fixed .realtimechat form[name=chat_msg_form] ion-footer-bar {
+            bottom: 57px;
+            position: fixed;
+            right: 0;
+            left: 0;
+        }
+
+        .realtimechat .message {
+            font-size: 70%;
+            font-variant: normal;
+        }
+
+        .realtimechat .message .emoji {
+            font-size: 100%;
+            margin: 0 3px;
+        }
+
+        .realtimechat.notifications-toggle {
+            margin-right: 10px;
+        }
+
+    </style>
+</ion-view>
+

@@ -1,0 +1,39 @@
+<ion-view cache-view="false"
+          class="eventpro eventpro-events"
+          sb-page-background>
+    <ion-nav-title>{{ page_title }}</ion-nav-title>
+    <ion-content id="eventpro-content"
+                 class="has-header"
+                 scrollbar-y="false"
+                 overflow-scroll="false"
+                 delegate-handle="mainScroll">
+        
+      <div class="loader"
+          ng-show="is_loading">
+          <ion-spinner class="spinner-custom"></ion-spinner>
+      </div>
+     
+     	<!--  List -->
+      <ng-include ng-if="!is_loading" src="'./features/eventpro/assets/templates/include/event_list.html'"></ng-include>
+
+      <ion-infinite-scroll ng-if="can_load_older_posts_list"
+                           on-infinite="loadMoreEvents()"
+                           immediate-check="false"
+                           distance="50%"
+                           class="spinner-custom">
+      </ion-infinite-scroll>
+
+    </ion-content>
+
+<!--    <div class="tabs tabs-striped tabs-footer tabs-background-positive-custom event-tabs">
+        <a class="tab-item tab-item-custom">
+          <i class="icon ion-funnel"></i> 
+         {{ ::"Sorting" | translate:"eventpro" }}
+        </a>
+        <a class="tab-item tab-item-custom">
+          <i class="icon ion-funnel"></i> 
+         {{ ::"Filter" | translate:"eventpro" }}
+        </a>
+    </div>
+ -->
+</ion-view>

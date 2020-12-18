@@ -1,0 +1,116 @@
+<ion-view ng-init="init()"
+          sb-page-background
+          class="authplus authplus-setpin">
+    <ion-nav-title></ion-nav-title>
+    <ion-content class="center-vertical has-header">
+
+        <div class="row">
+            <div class="col col-100 text-center">
+                <h4 ng-hide="is_new_pin_page"> {{ ::"Old PIN" | translate:"authplus" }}</h4>
+                <h4 ng-show="is_new_pin_page"> {{ ::"New Pin" | translate:"authplus" }}</h4>
+
+            </div>
+        </div>
+
+        <div class="pin-section">
+            <div class="row" style="text-align: center;min-height: 50px;">
+                <div class="col col-10 col-offset-15" style="border-bottom: 1px solid black">
+                    {{display_passcode.substring(0, 1)}}
+                </div>
+                <div class="col col-10 col-offset-10" style="border-bottom: 1px solid black">
+                    {{display_passcode.substring(1, 2)}}
+                </div>
+                <div class="col col-10 col-offset-10" style="border-bottom: 1px solid black">
+                    {{display_passcode.substring(2, 3)}}
+                </div>
+                <div class="col col-10 col-offset-10" style="border-bottom: 1px solid black">
+                    {{display_passcode.substring(3, 4)}}
+                </div>
+            </div>
+        </div>
+        <div class="keyboard-section">
+            <div class="row">
+                <div class="col col-20 col-offset-20">
+                    <button class="button button-light button-stretch"
+                            ng-click="add(1)">1
+                    </button>
+                </div>
+                <div class="col col-20">
+                    <button class="button button-light button-stretch"
+                            ng-click="add(2)">2
+                    </button>
+                </div>
+                <div class="col col-20">
+                    <button class="button button-light button-stretch"
+                            ng-click="add(3)">3
+                    </button>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col col-20 col-offset-20">
+                    <button class="button button-light button-stretch"
+                            ng-click="add(4)">4
+                    </button>
+                </div>
+                <div class="col col-20">
+                    <button class="button button-light button-stretch"
+                            ng-click="add(5)">5
+                    </button>
+                </div>
+                <div class="col col-20">
+                    <button class="button button-light button-stretch"
+                            ng-click="add(6)">6
+                    </button>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col col-20 col-offset-20">
+                    <button class="button button-light button-stretch"
+                            ng-click="add(7)">7
+                    </button>
+                </div>
+                <div class="col col-20">
+                    <button class="button button-light button-stretch"
+                            ng-click="add(8)">8
+                    </button>
+                </div>
+                <div class="col col-20">
+                    <button class="button button-light button-stretch"
+                            ng-click="add(9)">9
+                    </button>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col col-20 col-offset-20">
+                    <button class="button icon ion-arrow-left-a button-light button-stretch"
+                            ng-click="delete()"></button>
+                </div>
+                <div class="col col-20">
+                    <button class="button button-light button-stretch"
+                            ng-click="add(0)">0
+                    </button>
+                </div>
+                <div class="col col-20">
+                    <button ng-click="PinVerify()"
+                            ng-disabled="is_save_active"
+                            class="button icon ion-checkmark-round button-light button-stretch"></button>
+                </div>
+            </div>
+        </div>
+    </ion-content>
+
+    <style type="text/css">
+        .button-stretch {
+            width: 100%;
+        }
+
+        .pin-section {
+            margin-top: 0px;
+        }
+
+        .col-offset-15 {
+            margin-left: 15%;
+        }
+
+    </style>
+</ion-view>

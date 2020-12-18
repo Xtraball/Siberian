@@ -1,0 +1,112 @@
+<ion-view sb-page-background
+          class="cabride cabride-view cabride-my-rides">
+    <ion-nav-title>{{ pageTitle }}</ion-nav-title>
+
+    <ion-nav-buttons side="secondary">
+        <button ng-click="refresh()"
+                class="button button-clear header-item">
+            <i class="icon ion-sb-refresh"></i>
+        </button>
+
+        <button ng-if="!isTaxiLayout()"
+                ng-click="openMenu()"
+                class="button button-clear header-item cabride toggle-taxi-menu">
+            <i class="icon ion-sb-more"></i>
+        </button>
+    </ion-nav-buttons>
+
+    <ion-content class="has-footer">
+        <div ng-if="isLoading"
+             class="loader">
+            <ion-spinner class="spinner-custom"></ion-spinner>
+        </div>
+
+        <div ng-if="!isLoading">
+            <div ng-show="filtered.length == 0"
+                 class="list">
+                <div class="item item-custom text-center">
+                    <span ng-if="filterName == 'inprogress'">{{ ::"You have no rides in progress" | translate:"cabride" }}</span>
+                    <span ng-if="filterName == 'torate'">{{ ::"You have no rides to rate" | translate:"cabride" }}</span>
+                    <span ng-if="filterName == 'archived'">{{ ::"You have no rides archived" | translate:"cabride" }}</span>
+                </div>
+            </div>
+
+            <div ng-if="filtered.length > 0"
+                 class="list">
+                <div ng-repeat="request in filtered"
+                     class="item item-custom item-course">
+                    <div class="cabride-course">
+                        <div class="course-image">
+                            <img ng-src="{{ imagePath(request.static_image) }}" />
+                        </div>
+                        <div>
+                            <div class="driver-photo">
+                                <img src="" />
+                            </div>
+                            <span class="course-status {{ request.status }}">{{ request.status | translate:"cabride" }}</span>
+
+                            <span ng-show="filterName == 'inprogress' && request.status == 'pending'"
+                                  class="course-expiration {{ request.status }}">{{ ::"Expires" | translate:"cabride" }} {{ expiration(request) }}</span>
+
+                            <span ng-show="filterName == 'inprogress' && request.status == 'onway'"
+                                  class="course-eta {{ request.status }}">{{ ::"Driver arrival" | translate:"cabride" }} {{ eta(request) }}</span>
+
+                            <span ng-show="filterName == 'archived'"
+                                  class="course-rating {{ request.status }}">
+                                <i class="icon icon-rate-list {{ getRatingIcon(request, 1) }}"></i>
+                                <i class="icon icon-rate-list {{ getRatingIcon(request, 2) }}"></i>
+                                <i class="icon icon-rate-list {{ getRatingIcon(request, 3) }}"></i>
+                                <i class="icon icon-rate-list {{ getRatingIcon(request, 4) }}"></i>
+                                <i class="icon icon-rate-list {{ getRatingIcon(request, 5) }}"></i>
+                            </span>
+
+                            <div class="row course-details">
+                                <div class="col-75">
+                                    <span class="vehicle-type">{{ request.type }}</span>
+                                    <br />
+                                    <span class="course-date">{{ calendar(request.requested_at) }}</span>
+                                </div>
+                                <div class="col-25 course-price">
+                                    <span ng-if="request.formatted_driver_price">
+                                        <b>{{ request.formatted_driver_price }}</b>
+                                        <br />
+                                    </span>
+                                    <span ng-if="request.formatted_price != request.formatted_lowest_price"
+                                          ng-class="{'price-stroke': request.formatted_driver_price}"
+                                          class="course-cost">{{ ::"Est." | translate:"cabride" }} {{ request.formatted_lowest_price }} - {{ request.formatted_price }}</span>
+                                    <span ng-if="request.formatted_price == request.formatted_lowest_price"
+                                          ng-class="{'price-stroke': request.formatted_driver_price}"
+                                          class="course-cost">{{ request.formatted_price }}</span>
+                                </div>
+                            </div>
+                            <div ng-include="'./features/cabride/assets/templates/l1/actions/client-'+ request.status +'.html'"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </ion-content>
+
+    <div class="tabs tabs-icon-top">
+        <a ng-click="statusFilter('inprogress')"
+           ng-class="{'cr-tab-active': filterName == 'inprogress'}"
+           class="tab-item">
+            <i class="icon ion-clock"></i>
+            {{ ::"In progress" | translate:"cabride" }}
+        </a>
+        <a ng-click="statusFilter('torate')"
+           ng-class="{'cr-tab-active': filterName == 'torate'}"
+           class="tab-item">
+            <i class="icon ion-android-star-outline"></i>
+            {{ ::"To rate" | translate:"cabride" }}
+            <span ng-if="toRate.length > 0"
+                  class="badge badge-positive badge-positive-custom">{{ toRate.length }}</span>
+        </a>
+        <a ng-click="statusFilter('archived')"
+           ng-class="{'cr-tab-active': filterName == 'archived'}"
+           class="tab-item">
+            <i class="icon ion-archive"></i>
+            {{ ::"Archived" | translate:"cabride" }}
+        </a>
+    </div>
+</ion-view>

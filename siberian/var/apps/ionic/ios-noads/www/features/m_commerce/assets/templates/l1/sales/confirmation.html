@@ -1,0 +1,142 @@
+<ion-view sb-page-background
+          class="mcommerce-view mcommerce-sales-confirmation">
+
+    <ion-nav-title>{{ page_title }}</ion-nav-title>
+
+    <ion-nav-buttons side="secondary">
+        <button ng-click="right_button.action()"
+                class="button button-clear header-item"
+                ng-if="right_button">
+            <span class="back-text">
+                <span class="default-title">{{ right_button.label }}</span>
+            </span>
+            <i class="icon"
+               ng-class="right_button.icon"></i>
+        </button>
+    </ion-nav-buttons>
+
+    <ion-content>
+
+        <div class="card"
+             ng-if="cart.lines.length"
+             ng-repeat="line in cart.lines">
+            <div class="item item-divider item-divider-custom">
+                <p>
+                    <strong><i class="icon ion-clipboard"></i> {{ line.name }} - {{ line.formattedBasePriceInclTax }}</strong>
+                </p>
+            </div>
+            <div class="item item-thumbnail-left item-icon-right item-custom">
+                <img ng-if="line.product.picture.url"
+                     ng-src="{{ line.product.picture.url }}" />
+                <p ng-show="line.format[0].title && line.format[0].title != ''">{{ ::'Format' | translate:'m_commerce' }}: {{ line.format[0].title }}</p>
+                <p ng-repeat="option in line.options">
+                    {{ option.qty }} x {{ option.name }} : {{ option.formattedPriceInclTax }}
+                </p>
+                <p ng-repeat="choice in line.choices">
+                    {{ choice.title }}:
+                    <span ng-repeat="elem in choice.options"><br> &nbsp;&nbsp; {{elem}}</span>
+                </p>
+                <p class="text-right"><strong>{{ ::'Total' | translate:'m_commerce' }}:</strong> {{ line.formattedTotalInclTax }}</p>
+            </div>
+            <div class="item item-custom">
+                {{ ::'Qty' | translate:'m_commerce' }} : {{ line.qty }}
+            </div>
+        </div>
+        <div class="card"
+             ng-if="cart.lines.length">
+            <div class="item item-divider item-divider-custom">
+              <p><strong><i class="icon ion-calculator"></i> {{ ::'Total' | translate:'m_commerce' }}</strong></p>
+            </div>
+            <div class="item item-custom"
+                 ng-if="cart.deliveryCost > 0">
+              {{ ::'Delivery fees' | translate:'m_commerce' }}
+              <span class="item-note"> {{ cart.formattedDeliveryTTC }}</span>
+            </div>
+            <div class="item item-custom">
+              <strong>{{ ::'Subtotal' | translate:'m_commerce' }}</strong>
+              <span class="item-note"><strong>{{ cart.formattedSubtotal }}</strong></span>
+            </div>
+            <div class="item item-custom"
+                 ng-if="cart.discount_enabled && cart.discount_code != '' && cart.discount">
+              {{ ::'Discount' | translate:'m_commerce' }} ({{ cart.discount_message }})
+              <span class="item-note">- {{ cart.discount }}</span>
+            </div>
+            <div class="item item-custom">
+              <strong>{{ ::'Subtotal' | translate:'m_commerce' }} {{ ::'Incl.' | translate:'m_commerce' | lowercase }} {{ ::'Discount' | translate:'m_commerce' | lowercase }}</strong>
+              <span class="item-note"><strong>{{ cart.formattedSubtotalWithDiscount }}</strong></span>
+            </div>
+            <div class="item item-custom">
+                {{ ::'Subtotal Excl. Tax' | translate:'m_commerce' }}
+                <span class="item-note">{{ cart.formattedDeductedTotalHT }}</span>
+            </div>
+            <div class="item item-custom">
+                {{ ::'Tax' | translate:'m_commerce' }}
+                <span class="item-note">{{ cart.formattedDeductedTva }}</span>
+            </div>
+            <div class="item item-custom"
+                 ng-if="cart.add_tip">
+                {{ ::'Gratuity' | translate:'m_commerce' }}
+                <span class="item-note">{{ cart.formattedTip }}</span>
+            </div>
+            <div class="item item-custom">
+                <strong>{{ ::'Total' | translate:'m_commerce' }}</strong>
+                <span class="item-note"><strong>{{ cart.formattedTotal }}</strong></span>
+            </div>
+
+            <div ng-if="!cart.hide_paid_amount && cart.formatted_paid_amount && cart.formatted_delivery_amount_due">
+
+                <ion-item class="item-divider item-divider-custom"></ion-item>
+
+                <ion-item class="item-custom">
+                    <div class="row">
+                        <div class="col-75 text-right">{{ ::'I will pay' | translate:'m_commerce' }}</div>
+                        <div class="col-25 text-right">{{ cart.formatted_paid_amount }}</div>
+                    </div>
+                </ion-item>
+
+                <ion-item class="item-custom">
+                    <div class="row">
+                        <div class="col-75 text-right">{{ ::'Change due upon delivery' | translate:'m_commerce' }}</div>
+                        <div class="col-25 text-right">{{ cart.formatted_delivery_amount_due }}</div>
+                    </div>
+                </ion-item>
+            </div>
+        </div>
+
+        <div class="card"
+             ng-if="cart.textualDeliveryTime">
+            <ion-item class="item-divider item-divider-custom">
+                <p><strong><i class="icon ion-clock"></i> {{ ::'Delivery time' | translate:'m_commerce' }} </strong></p>
+
+            </ion-item>
+            <ion-item class="item-custom text-right">
+                {{ cart.textualDeliveryTime }}
+            </ion-item>
+        </div>
+
+        <div class="card"
+             ng-if="confirmation_message">
+            <div class="item item-custom">
+                {{ confirmation_message }}
+            </div>
+        </div>
+
+        <!--TG-459-->
+        <div class="card">
+            <div class="item item-divider item-divider-custom">
+                <p><strong><i class="icon ion-clipboard"></i> {{ ::'Notes' | translate:'m_commerce' }} </strong></p>
+            </div>
+            <div class="item">
+                <p>
+                    <label class="item item-input">
+                        <textarea placeholder="Notes"
+                                  ng-model="$parent.notes"></textarea>
+                    </label>
+                </p>
+            </div>
+        </div>
+    </ion-content>
+</ion-view>
+
+
+

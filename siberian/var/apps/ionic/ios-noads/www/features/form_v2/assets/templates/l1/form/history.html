@@ -1,0 +1,16 @@
+<!-- Custom fields (defaults) -->
+<div class="list"
+     ng-class="{'card': cardDesign}">
+    <ion-item class="item-custom"
+              ng-click="displayModal(fieldSet)"
+              ng-repeat="fieldSet in history track by $index">
+        <div class="row">
+            <div class="col-90">
+                <p>{{ submitDate(fieldSet.timestamp) }}</p>
+            </div>
+            <div class="col-10">
+                <i class="item-note ion-plus arrow-center"></i>
+            </div>
+        </div>
+    </ion-item>
+</div>

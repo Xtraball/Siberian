@@ -1,0 +1,30 @@
+<ion-content delegate-handle="mainScroll"
+             ng-class="{'has-subheader': displaySubHeader()}">
+    <div class="loader"
+         ng-show="isLoading">
+        <ion-spinner class="spinner-custom"></ion-spinner>
+    </div>
+
+    <ion-list ng-if="!isLoading && collection.length > 0"
+              class="list-posts">
+        <fanwall-post-item repeat-done="listDidRender()"
+                           id="{{ post.id }}"
+                           ng-repeat="post in collection track by post.id"></fanwall-post-item>
+    </ion-list>
+
+    <ion-list ng-if="!isLoading && !collection.length">
+        <ion-item ng-class="{'card' : getCardDesign()}"
+                  class="item-custom text-center no-post">
+            <p ng-if="currentTab == 'post'">{{ ::'There is no post.' | translate:'fanwall' }}</p>
+            <p ng-if="currentTab == 'nearby'">{{ ::'There is no post around you.' | translate:'fanwall' }}</p>
+            <p ng-if="currentTab == 'profile'">{{ ::'You have no post.' | translate:'fanwall' }}</p>
+        </ion-item>
+    </ion-list>
+
+    <ion-infinite-scroll ng-if="!isLoading && hasMore"
+                         on-infinite="loadMore()"
+                         immediate-check="false"
+                         distance="20%"
+                         class="spinner-custom">
+    </ion-infinite-scroll>
+</ion-content>

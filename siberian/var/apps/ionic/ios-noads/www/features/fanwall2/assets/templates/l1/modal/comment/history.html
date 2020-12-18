@@ -1,0 +1,28 @@
+<ion-modal-view sb-page-background
+                class="module-fanwall fanwall-list fanwall-list-l1">
+
+    <ion-header-bar class="bar-custom">
+        <div class="buttons">
+            <button class="button button-clear"
+                    ng-click="close()">
+                <i class="icon ion-android-arrow-back"></i>
+            </button>
+        </div>
+        <h1 class="title">{{ ::'Comment edit history' | translate:'fanwall' }}</h1>
+    </ion-header-bar>
+
+    <ion-content>
+        <div class="loader"
+             ng-show="!modalReady">
+            <ion-spinner class="spinner-custom"></ion-spinner>
+        </div>
+
+        <ion-list ng-if="modalReady"
+                  class="show-post">
+            <fanwall-comment-history-item repeat-done="listDidRender()"
+                                          id="{{ item.date }}"
+                                          ng-repeat="item in comment.history track by $index"></fanwall-comment-history-item>
+        </ion-list>
+    </ion-content>
+
+</ion-modal-view>

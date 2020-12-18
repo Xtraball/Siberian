@@ -1,0 +1,82 @@
+<ion-view sb-page-background
+          class="module-marketplace marketplace-list marketplace-list-l1">
+    <ion-nav-title>
+        <div>
+            <span ng-show="settings.text_orders">{{ settings.text_orders}}</span>
+            <span ng-show="!settings.text_orders">{{ ::'Orders' | translate:'translate' }}</span>
+        </div>
+    </ion-nav-title>
+    <ion-content>
+
+        <div class="list"
+             ng-if="!is_loading && !orders.length">
+            <div class="item text-center item-custom">
+                {{ ::'No items found' | translate:'translate' }}
+            </div>
+        </div>
+
+
+        <div class="list"
+             ng-if="!is_loading && orders.length">
+
+            <div ng-repeat="item in orders">
+                <div class="item-custom card item">
+                    <div class="item item-divider item-divider-custom"
+                         style="margin-top: 10px !important; padding-top: 10px;"
+                         ng-click="openOrder(item.order_id)">
+                        <span>
+                            <span ng-show="settings.text_orders">{{ settings.text_orders}}</span>
+                            <span ng-show="!settings.text_orders">{{ ::'Order' | translate:'translate' }}</span>
+                            :{{ item.number}}</span>
+                        <span class="item-note"
+                              ng-click="openOrder(item.order_id)">
+                            <i class="icon ion-edit"
+                               style="font-size: 15px;"></i>
+                        </span>
+                    </div>
+                    <div class="item item-custom">
+                        <strong>{{ ::'Customer' | translate:'translate' }}</strong>
+                        <span class="item-note">
+                            <strong>{{ item.customer_name}}</strong>
+                        </span>
+                    </div>
+                    <div class="item item-custom">
+                        <strong>{{ ::'Status' | translate:'translate' }}</strong>
+                        <span class="item-note">
+                            <strong>{{ item.payment_status}}</strong>
+                        </span>
+                    </div>
+                    <div class="item item-custom">
+                        <strong>{{ ::'Total' | translate:'translate' }}</strong>
+                        <span class="item-note">
+                            <strong>{{ item.total}}</strong>
+                        </span>
+                    </div>
+                    <div class="item item-custom"
+                         ng-show="item.pickup_time">
+                        <strong>{{ ::'Pickup Time' | translate:'translate' }}</strong>
+                        <span class="item-note">
+                            <strong>{{ item.pickup_time}}</strong>
+                        </span>
+                    </div>
+                    <div class="item item-custom"
+                         ng-show="item.delivery_time">
+                        <strong>{{ ::'Delivery Time' | translate:'translate' }}</strong>
+                        <span class="item-note">
+                            <strong>{{ item.delivery_time}}</strong>
+                        </span>
+                    </div>
+                    <div class="item item-custom"
+                         ng-show="item.submitted_number">
+                        <strong>{{ item['label_array'][item.delivery_code] !== 'undefined' ?
+                            item['label_array'][item.delivery_code]:"Table No" | translate }}</strong>
+                        <span class="item-note">
+                            <strong>{{ item.submitted_number}}</strong>
+                        </span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </ion-content>
+
+</ion-view>

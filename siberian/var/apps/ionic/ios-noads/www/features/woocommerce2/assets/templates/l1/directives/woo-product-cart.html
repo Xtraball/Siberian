@@ -1,0 +1,49 @@
+<div ng-if="products.length > 0"
+     class="list">
+    <ion-item ng-repeat="product in products track by $index"
+              class="item-custom item-thumbnail-left">
+        <div class="item-image cart-item-image"
+             style="background-image: url('{{product.images[0].src}}')">
+            <img src="./img/placeholder/blank-512.png" />
+        </div>
+        <h2 ng-click="showProduct(product)">{{ product.name }}</h2>
+        <p>
+            <span>
+                <b>{{ currentPrice(product) }}</b>
+            </span>
+            <span style="float: right;">
+                <b>{{ currentPriceLine(product) }}</b>
+            </span>
+        </p>
+        <p ng-if="hasVariation(product)">{{ textVariation(product) }}</p>
+        <p class="text-right">
+            <button class="button-quantity"
+                    ng-click="decreaseQuantity(product, $index)">
+                <i class="icon ion-minus"></i>
+            </button>
+            <span class="text-quantity">{{ product._localCart.quantity }}</span>
+            <button class="button-quantity"
+                    ng-click="increaseQuantity(product)">
+                <i class="icon ion-plus"></i>
+            </button>
+        </p>
+    </ion-item>
+</div>
+
+<div ng-if="products.length <= 0"
+     class="list">
+    <ion-item ng-click="goTo('home')"
+              class="item-custom">
+        {{ ::'Your cart is empty, explore our store now!' | translate:'woocommerce2' }}
+    </ion-item>
+</div>
+
+<div ng-if="products.length > 0"
+     class="list">
+    <ion-item>
+        <div class="row total">
+            <div class="col-50">{{ ::'Subtotal' | translate:'woocommerce2' }}</div>
+            <div class="col-50 text-right">{{ getTotal() }} {{ taxesText() }}</div>
+        </div>
+    </ion-item>
+</div>

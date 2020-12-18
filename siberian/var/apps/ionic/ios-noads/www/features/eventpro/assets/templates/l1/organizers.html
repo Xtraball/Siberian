@@ -1,0 +1,22 @@
+<ion-view cache-view="false"
+          class="eventpro eventpro-organizer"
+          sb-page-background>
+    <ion-nav-title> 
+      <h1 class="title">{{ ::"Organizers" | translate:"eventpro" }} </h1>
+    </ion-nav-title>
+
+   <ion-content id="eventpro-content"
+                 class="has-header">
+        
+        <div class="loader"
+            ng-show="is_loading">
+            <ion-spinner class="spinner-custom"></ion-spinner>
+        </div>
+
+        <!-- Organizer Grid -->
+      <ng-include ng-if="!is_loading && payout.organizers.length > 0 " src="'./features/eventpro/assets/templates/include/organizer_grid.html'"></ng-include>
+
+
+    </ion-content>
+
+</ion-view>

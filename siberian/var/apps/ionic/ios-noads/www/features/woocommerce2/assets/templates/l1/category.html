@@ -1,0 +1,82 @@
+<ion-view sb-page-background
+          class="module-woocommerce category-view">
+
+    <ion-nav-title>{{ page_title }}</ion-nav-title>
+
+    <ion-nav-buttons side="right">
+        <button class="button button-clear button-cart"
+                ng-click="goTo('cart')">
+            <i class="icon ion-ios-cart">
+                <span class="badge cart-badge">{{ getCartQuantityText() }}</span>
+            </i>
+        </button>
+    </ion-nav-buttons>
+
+    <ion-nav-buttons side="secondary">
+        <button class="button button-clear"
+                ng-click="goTo('home')">
+            <i class="icon ion-ios-home"></i>
+        </button>
+    </ion-nav-buttons>
+
+    <ion-content>
+        <div class="loader"
+             ng-show="isLoading">
+            <ion-spinner icon="android"
+                         class="spinner-custom"></ion-spinner>
+        </div>
+
+        <div class="list"
+             ng-show="!isLoading">
+
+            <div ng-class="{'card': cardDesign}">
+                <!-- Current -->
+                <div>
+                    <div class="item item-divider item-divider-custom">
+                        {{ category.name }}
+                    </div>
+                    <img ng-show="category.image.src"
+                         class="full-image"
+                         ng-src="{{category.image.src}}" />
+                    <div class="item item-custom item-text-wrap">
+
+                        <p ng-show="category.description.length"
+                           ng-bind-html="category.description"></p>
+
+                        <p ng-show="!category.description.length"
+                           ng-bind-html="category.name"></p>
+                    </div>
+                </div>
+
+                <!-- Sub-categories -->
+                <div ng-if="categoryHasChildren(category.id)">
+                    <div class="item item-custom"
+                         ng-repeat="children in categoryChildren(category.id)"
+                         ng-click="showCategory(children.id)">
+                        <div class="text-wrap">
+                            <h2 class="uppercase"> - {{ children.name }}</h2>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div ng-class="{'card': cardDesign}">
+                <div woo-products
+                     products="products"
+                     value-id="value_id"></div>
+
+                <div class="item item-custom item-text-wrap"
+                     ng-show="!products.length">
+                    {{ ::'No products in this category.' | translate:'woocommerce2' }}
+                </div>
+
+                <ion-infinite-scroll ng-if="hasMoreProducts()"
+                                     on-infinite="loadMoreProducts()"
+                                     immediate-check="false"
+                                     distance="10%"
+                                     class="spinner-custom"></ion-infinite-scroll>
+            </div>
+
+        </div>
+    </ion-content>
+</ion-view>

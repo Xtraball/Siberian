@@ -1,0 +1,106 @@
+<ion-view sb-page-background
+          class="module-job job-view job-view-job">
+
+    <ion-nav-title>{{ page_title }}</ion-nav-title>
+
+    <ion-nav-buttons side="secondary">
+        <button ng-show="socialSharing"
+                class="button button-clear"
+                ng-click="share()">
+            <i class="icon ion-android-share-alt"></i>
+        </button>
+        <button ng-click="goHome()"
+                class="button button-clear header-item">
+            <i class="icon ion-sb-list1"></i>
+        </button>
+        <button ng-show="is_admin"
+                ng-click="manageModal()"
+                class="button button-clear header-item">
+            <i class="icon ion-edit job-icon-small"></i>
+        </button>
+    </ion-nav-buttons>
+
+    <ion-content>
+
+        <div class="loader"
+             ng-show="is_loading">
+            <ion-spinner class="spinner-custom"></ion-spinner>
+        </div>
+
+        <div class="list"
+             ng-if="!is_loading"
+             ng-class="{'card' : cardDesign}">
+
+            <div class="item item-image item-custom"
+                 ng-if="place.banner" >
+                <img ng-src="{{ place.banner }}"
+                     width="100%" />
+                <div ng-show="!place.is_active"
+                     class="job-inactive">{{ ::'inactive' | translate:'job' }}</div>
+            </div>
+
+            <div class="item item-divider item-divider-custom"
+                 ng-if="place.title">
+                <h2>{{ place.title }}</h2>
+            </div>
+
+            <div class="item item-text-wrap item-custom"
+                 ng-if="place.subtitle">
+                <p ng-bind-html="place.subtitle | trusted_html"></p>
+            </div>
+
+            <div class="item item-text-wrap item-icon-left item-custom"
+                 ng-if="place.location">
+                <i class="icon ion-ios-location-outline"></i>
+                <p>{{ place.location }}</p>
+            </div>
+
+            <div class="item item-text-wrap item-icon-left item-custom"
+                 ng-if="settings.display_income && (place.income_from.length || place.income_to.length)">
+                <i class="icon ion-sb-bank-check"></i>
+                <p>
+                    <span ng-show="place.income_from.length">{{ place.income_from }}</span>
+                    <span ng-show="place.income_to.length"> {{ "to" | translate:"job" }} {{ place.income_to }}</span>
+                </p>
+            </div>
+
+            <div class="item item-text-wrap item-icon-left item-custom"
+                 ng-if="displayContact(place)"
+                 ng-click="contactAction();">
+                <div class="row">
+                    <div class="col col-90">
+                        <i class="icon ion-sb-message"></i>
+                        <p>
+                            <span ng-if="displayContactForm(place)">{{ ::'Contact' | translate:'job' }}</span>
+                            <span ng-if="place.display_contact == 'both'">: </span>
+                            <span ng-if="displayEmail(place)">{{ place.email }}</span>
+                        </p>
+                    </div>
+                    <div class="col col-10">
+                        <i class="item-note ion-chevron-right arrow-center"></i>
+                    </div>
+                </div>
+            </div>
+
+            <div class="item item-text-wrap item-icon-left item-custom"
+                 ng-click="showCompany(place.company_id)"
+                 ng-if="place.company.title">
+
+                <div class="row">
+                    <div class="col col-90">
+                        <i class="icon ion-sb-building"></i>
+                        <p>{{ place.company.title }}</p>
+                    </div>
+                    <div class="col col-10">
+                        <i class="item-note ion-chevron-right arrow-center"></i>
+                    </div>
+                </div>
+            </div>
+
+
+        </div>
+
+    </ion-content>
+    
+</ion-view>
+

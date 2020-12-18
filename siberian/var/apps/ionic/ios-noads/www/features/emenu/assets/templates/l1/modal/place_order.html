@@ -1,0 +1,136 @@
+<ion-modal-view cache-view="false"
+                sb-page-background
+                class="emenu emenu-place-order">
+
+    <ion-header-bar class="bar-custom">
+        <div class="buttons">
+            <button class="button button-clear"
+                    ng-click="closeplaceOrderModal()">
+                <i ng-class="backButtonIcon()"></i>
+            </button>
+        </div>
+
+        <h1 class="title">{{ ::'Confirm Order' | translate:'emenu' }}</h1>
+
+    </ion-header-bar>
+
+    <ion-content class="has-header">
+
+        <div class="spacer"
+             style="margin-top: 20px;"></div>
+
+        <ion-list>
+            <ion-item class="item-divider item-divider-custom">
+               {{ ::'Delivery Type' | translate:'emenu' }}
+                <span class="pull-right" style="text-transform: capitalize;">
+                    {{order.delivery_type}}
+
+                    (<i ng-if="order.delivery_type == 'deliver'" class="text-right">{{vendorInfo.delivery_time}} {{ ::'Mins Delivery' | translate:'emenu' }}</i>
+                    <i ng-if="order.delivery_type == 'pickup'" class="text-right">{{vendorInfo.pickup_time}} {{ ::'Mins Delivery' | translate:'emenu' }}</i>)
+                </span>
+               
+            </ion-item>
+
+            <div class="spacer"
+             style="margin-top: 20px;"></div>
+             
+            <ion-item class="item-divider item-divider-custom" ng-if="order.delivery_charge > 0">
+                {{ ::'Delivery Charge' | translate:'emenu' }}
+                <span class="pull-right">
+                    <b style="font-size: 18px;">{{carts[0].currency_symbol}}{{order.delivery_charge}}</b>
+                </span>
+            </ion-item>
+
+            <ion-item class="item-divider item-divider-custom">
+                {{ ::'Final Amount' | translate:'emenu' }}
+                <span class="pull-right">
+                    <b style="font-size: 18px;">{{carts[0].currency_symbol}}{{order.total_amount}}</b>
+                </span>
+             </ion-item>
+
+            <div class="spacer"
+                         style="margin-top: 20px;"></div>
+            <ion-item class="item-custom item-input item-stacked-label" ng-if="order.delivery_type == 'dine-in'">
+                <span class="input-label">{{ ::'Table Number' | translate:'emenu' }}</span>
+                <input type="number"
+                       ng-model="order.table_number"
+                       ng-init="order.table_number === ''"/>
+            </ion-item>
+
+            <ion-item class="item-custom item-input item-stacked-label" ng-if="order.delivery_type != 'dine-in'">
+                <span class="input-label">{{ ::'Phone Number' | translate:'emenu' }}</span>
+                <input type="number"
+                       ng-model="order.phone_number"
+                       ng-init="order.phone_number === ''"/>
+            </ion-item>
+
+            <ion-item class="item-custom item-input item-stacked-label" ng-if="order.delivery_type == 'deliver'">
+                <span class="input-label">{{ ::'Address' | translate:'emenu' }}</span>
+                <input type="text"
+                       ng-model="order.address"
+                       ng-init="order.address === ''"/>
+            </ion-item>
+
+            <ion-item class="item-custom item-input item-stacked-label">
+                <span class="input-label">{{ ::'Number of people' | translate:'emenu' }}</span>
+                <input type="number"
+                       ng-model="order.total_members"
+                       ng-init="order.total_members === ''"/>
+            </ion-item>
+
+        </ion-list>
+
+
+
+        <ion-list class="margin-top-30">
+            <ion-item class="item-divider item-divider-custom">
+                {{ ::'Payment Mode' | translate:'emenu' }}
+            </ion-item>
+            <ion-radio class="item-custom radio-custom"
+                       ng-click="selectPaymentMethod('ewallet')"
+                       ng-value="ewallet" ng-if="vendorInfo.enable_online_payment">
+                         {{ ::"Online" | translate:"emenu" }}
+            </ion-radio>
+            <ion-radio class="item-custom radio-custom"
+                       ng-click="selectPaymentMethod('cod')"
+                       ng-value="cod" ng-if="vendorInfo.enable_cod">
+                         {{ ::"Cash on delivery" | translate:"emenu" }}
+            </ion-radio>
+           
+        </ion-list>
+
+    <div class="margin-top-30"> 
+        
+        <button ng-click="submitOrderNow()"
+                ng-disabled="((order.total_members === '' || order.table_number === '') ? true : false)"
+                ng-if="order.delivery_type == 'dine-in'"
+                class="button button-positive button-positive-custom button-full">
+            {{ ::'Submit' | translate:'emenu' }}
+        </button>
+
+         <button ng-click="submitOrderNow()"
+                ng-disabled="((order.total_members === '' || order.phone_number === '') ? true : false)"
+                ng-if="order.delivery_type == 'pickup'"
+                class="button button-positive button-positive-custom button-full">
+            {{ ::'Submit' | translate:'emenu' }}
+        </button>
+
+         <button ng-click="submitOrderNow()"
+                ng-disabled="((order.total_members === '' || order.address === '') ? true : false)"
+                ng-if="order.delivery_type == 'deliver'"
+                class="button button-positive button-positive-custom button-full">
+            {{ ::'Submit' | translate:'emenu' }}
+        </button>
+
+         <button ng-click="submitOrderNow()"
+                ng-disabled="((order.total_members === '') ? true : false)"
+                ng-if="order.delivery_type == null"
+                class="button button-positive button-positive-custom button-full">
+            {{ ::'Submit' | translate:'emenu' }}
+        </button>
+
+    </div>
+
+    </ion-content>
+
+</ion-modal-view>

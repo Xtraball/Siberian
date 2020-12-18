@@ -1,0 +1,260 @@
+<ion-view sb-page-background
+          class="module-marketplace marketplace-list marketplace-list-l1">
+    <ion-nav-title>
+        <div ng-bind-html="page_title | trusted_html"></div>
+    </ion-nav-title>
+    <ion-content>
+
+        <div class="list">
+            <div class="loader"
+                 ng-show="is_loading">
+                <ion-spinner class="spinner-custom"></ion-spinner>
+            </div>
+        </div>
+
+
+        <form name="form" ng-if="!is_loading">
+            <div>
+                <div class="list">
+
+                    <label class="item item-custom item-input">
+                        <div class="input-label">
+                            {{ ::'Name' | translate:'translate' }}
+                        </div>
+                        <input type="text"
+                               name="name"
+                               class="text-right"
+                               ng-model="product['name']"/>
+                    </label>
+
+                    <label class="item item-custom item-input">
+                        <div class="input-label">
+                            {{ ::'Description' | translate:'translate' }}
+                        </div>
+                        <textarea ng-model="product['description']"
+                                  rows="3"
+                                  class="text-right1"
+                                  name="description"
+                                  style="width: 100%;"></textarea>
+                    </label>
+
+                    <label class="item item-custom item-input item-select">
+                        <div class="input-label"
+                             style="width: 30%">
+                            {{ ::'Tax' | translate:'translate' }}
+                        </div>
+                        <div class="item-note text-right"
+                             style="width: 65%">
+                            <select ng-model="product['tax_id']"
+                                    ng-options="option.tax_id as option.title for option in taxes">
+                                <option value="">{{ ::'Select' | translate:'translate' }}</option>
+                            </select>
+                        </div>
+                    </label>
+
+                    <label class="item item-custom item-input">
+                        <div class="input-label">
+                            {{ ::'Price (without taxes)' | translate:'translate' }}
+                        </div>
+                        <input type="text"
+                               name="price"
+                               class="text-right"
+                               ng-model="product['price']"/>
+                    </label>
+
+                    <label class="item item-custom item-input">
+                        <div class="input-label">
+                            {{ ::'Available Stock' | translate:'translate' }}
+                        </div>
+                        <input type="text"
+                               name="available_stock"
+                               class="text-right"
+                               ng-model="product['available_stock']"/>
+                    </label>
+
+                    <label class="item item-custom item-input">
+                        <div class="input-label">
+                            {{ ::'Min Order Qty' | translate:'translate' }}
+                        </div>
+                        <input type="text"
+                               name="min_order_qty"
+                               class="text-right"
+                               ng-model="product['min_order_qty']"/>
+                    </label>
+
+                    <label class="item item-custom item-input">
+                        <div class="input-label">
+                            {{ ::'Max Order Qty' | translate:'translate' }}
+                        </div>
+                        <input type="text"
+                               name="max_order_qty"
+                               class="text-right"
+                               ng-model="product['max_order_qty']"/>
+                    </label>
+
+                    <div>
+                        <ion-item class="item-image item-custom"
+                                  ng-repeat="picture in product.pictures track by $index"
+                                  ng-if="product.pictures.length > 0">
+                            <div>
+                                <div class="remove-image-card ng-binding badge badge-assertive badge-assertive-custom"
+                                     ng-click="removePicture($index, picture.id)">
+                                    <i class="icon ion-trash-a"
+                                       style="margin-right: 0!important;"></i>
+                                </div>
+                                <img ng-src="{{ picture.url }}"
+                                     style="max-height: 15vh;
+                                     width: auto; max-width: 90%; margin: 6px auto;"/>
+                            </div>
+                        </ion-item>
+
+                        <div class="item item-icon-left item-custom"
+                             ng-click="takePicture()">
+                            <i class="icon ion-image"></i>
+                            <p>{{ ::'Add Image' | translate:'translate' }} <b>(230x190)</b></p>
+                        </div>
+                    </div>
+
+                    <div class="item item-divider item-divider-custom">
+                        <h2>{{ ::'Formats' | translate:'translate' }}</h2>
+                    </div>
+                    <div class="item item-custom">
+                        <ion-checkbox class="checkbox-custom"
+                                      ng-model="product['is_multiple']">
+                            {{ ::'Multiple' | translate:'translate' }}
+                        </ion-checkbox>
+                        <div ng-if="product['is_multiple']"
+                             style="margin-top: 10px;">
+                            <span ng-repeat="(i, item) in product['product_formats'] track by $index"
+                                  ng-show="!item.is_deleted">
+                                <div class="numbered">{{ $index+1}}</div>
+                                <div class="item item-custom">
+                                    <input type="text"
+                                           placeholder="Format"
+                                           class="text-format"
+                                           ng-model="product['product_formats'][item.option_id]['title']"/>
+                                    <input type="text"
+                                           placeholder="Price"
+                                           class="text-format text-right"
+                                           ng-model="product['product_formats'][item.option_id]['price']"/>
+                                    <div ng-show="$index > 1"
+                                         class="remove-image-card ng-binding badge badge-assertive badge-assertive-custom"
+                                         ng-click="removeFormat(i)"
+                                         style="margin-right: -20px; top: 18px;">
+                                       <i class="icon ion-trash-a"
+                                          style="margin-right: 0!important;"></i>
+                                    </div>
+                                </div>
+                            </span>
+                            <div ng-if="product['product_formats'].length < 1">
+                                <div class="numbered">1</div>
+                                <div class="item item-custom">
+                                    <input type="text"
+                                           placeholder="Format"
+                                           class="text-format"
+                                           ng-model="product['option']['new_0']['title']"/>
+                                    <input type="text"
+                                           placeholder="Price"
+                                           class="text-format text-right"
+                                           ng-model="product['option']['new_0']['price']"/>
+                                    <input type="hidden"
+                                           class="text-format"
+                                           value="0"
+                                           ng-model="product['option']['new_0']['is_deleted']"/>
+                                </div>
+                                <div class="numbered">2</div>
+                                <div class="item item-custom">
+                                    <input type="text"
+                                           placeholder="Format"
+                                           class="text-format"
+                                           ng-model="product['option']['new_1']['title']"/>
+                                    <input type="text"
+                                           placeholder="Price"
+                                           class="text-format text-right"
+                                           ng-model="product['option']['new_1']['price']"/>
+                                    <input type="hidden"
+                                           class="text-format"
+                                           value="0"
+                                           ng-model="product['option']['new_1']['is_deleted']"/>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div ng-if="options_list.length">
+                        <div class="item item-divider item-divider-custom">
+                            <h2>{{ ::'Options' | translate:'translate' }}</h2>
+                        </div>
+
+                        <div class="item item-custom"
+                             ng-repeat="(key, group) in options_list">
+                            <strong>{{ group.title }}</strong>
+                            <ion-item ng-repeat="(a,item) in group.options"
+                                      style="border: none;">
+                                {{ item.title }}
+                                <span class="item-note">
+                                    <input type="text"
+                                           placeholder="enter price"
+                                           class="text-right"
+                                           ng-model="product['product_options'][group.group_id][item.option_id]"
+                                           style="margin-top: -10px;"/>
+                                </span>
+                            </ion-item>
+                        </div>
+                    </div>
+
+                    <div ng-if="choices_list.length">
+                        <div class="item item-divider item-divider-custom">
+                            <h2>{{ ::'List Choice Options' | translate:'translate' }}</h2>
+                        </div>
+
+                        <div class="item item-custom"
+                             ng-repeat="(c, group) in choices_list">
+                            <strong>{{ group.title }}</strong>
+                            <ion-checkbox class="checkbox-custom"
+                                          ng-repeat="(k, option) in group.options"
+                                          ng-model="product['product_choices'][group.choice_id][option.option_id]">
+                                {{option.title}}
+                            </ion-checkbox>
+                        </div>
+                    </div>
+                    <input type="hidden"
+                           ng-model="product['old_option_selections']"/>
+
+                    <div ng-if="categories.length">
+                        <div class="item item-divider item-divider-custom">
+                            <h2>{{ ::'Categories' | translate:'translate' }}</h2>
+                        </div>
+
+                        <div class="item item-custom">
+                            <ion-checkbox class="checkbox-custom"
+                                          ng-repeat="(key, item) in categories"
+                                          ng-value="item.cat_id"
+                                          ng-model="product['product_categories'][item.cat_id]">
+                                {{item.title}}
+                            </ion-checkbox>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="list">
+                <button type="button"
+                        class="button button-block button-custom"
+                        ng-click="post()"
+                        ng-show="!is_loading">{{ ::'Save' | translate:'translate' }}
+                </button>
+
+                <div class="loader"
+                     ng-show="is_loading">
+                    <ion-spinner class="spinner-custom"></ion-spinner>
+                </div>
+            </div>
+
+
+        </form>
+
+
+    </ion-content>
+
+</ion-view>

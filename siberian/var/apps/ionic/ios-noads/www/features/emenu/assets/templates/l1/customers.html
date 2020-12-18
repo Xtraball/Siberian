@@ -1,0 +1,50 @@
+<ion-view sb-page-background
+          class="emenu emenu-customers">
+    <ion-nav-title>{{ ::'Customers' | translate:'emenu' }}</ion-nav-title>
+
+    <ion-content class="has-header"
+                 id="item-content"
+                 scrollbar-y="false"
+                 overflow-scroll="false"
+                 delegate-handle="mainScroll">
+
+        <ion-refresher ng-if="use_pull_refresh"
+                       class="spinner-custom"
+                       pulling-text="{{ ::'Pull to refresh...' | translate:'emenu' }}"
+                       on-refresh="pullToRefresh()">
+        </ion-refresher>
+
+        <div class="loader"
+             ng-show="is_loading">
+            <ion-spinner icon="android"
+                         class="spinner-custom"></ion-spinner>
+        </div>
+
+        <ion-list ng-if="!is_loading">
+            <ion-item class="item-custom item-avatar item-icon-right"
+                      ng-repeat="(key, value) in payout.customers">
+                <img ng-src="{{ customer_avatar(null)}}"/>
+                <h2>
+                    <b>{{value.name}}</b>
+                </h2>
+                <p ng-show="{{ isMobileNumber(value.phone_number) }}">{{value.phone_number}}</p>
+                <a ng-show="{{ isMobileNumber(value.phone_number) }}" href="tel:+{{value.phone_number}}" class="icon ion-ios-telephone-outline icon-active-custom"></a>
+            </ion-item>
+        </ion-list>
+
+        <ion-list ng-if="!is_loading && payout.customers.length == 0">
+            <ion-item class="item-custom">
+                <p class="text-center">{{ ::'No Customers Found!' | translate:'emenu' }}</p>
+            </ion-item>
+        </ion-list>
+
+        <ion-infinite-scroll ng-if="can_load_older_items && !is_loading"
+                             on-infinite="loadMoreCustomers()"
+                             immediate-check="false"
+                             distance="50%"
+                             class="spinner-custom">
+        </ion-infinite-scroll>
+
+    </ion-content>
+
+</ion-view>

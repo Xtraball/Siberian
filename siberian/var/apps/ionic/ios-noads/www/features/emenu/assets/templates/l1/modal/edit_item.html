@@ -1,0 +1,108 @@
+<ion-modal-view cache-view="false"
+                sb-page-background
+                class="emenu emenu-item-add">
+
+    <ion-header-bar class="bar-custom">
+        <div class="buttons">
+            <button class="button button-clear"
+                    ng-click="closeEditItemModal()">
+                <i ng-class="backButtonIcon()"></i>
+            </button>
+        </div>
+        <h1 class="title">{{ ::'Edit Item' | translate:'emenu' }}</h1>
+    </ion-header-bar>
+
+    <ion-content class="has-header">
+
+        <div class="list">
+            <form name="add_item">
+                <label class="item item-custom item-input item-select">
+                    <div class="input-label">
+                        {{ ::'Category' | translate:'emenu' }} *
+                    </div>
+                    <select ng-model="item.category_id"
+                            ng-init="item.category_id"
+                            ng-options="category.id as category.category_name for category in categories">
+                    </select>
+                </label>
+
+                <label class="item item-custom item-input item-stacked-label">
+                    <span class="input-label">{{ ::'Item Name' | translate:'emenu' }} *</span>
+                    <input type="text"
+                           ng-model="item.name"
+                           ng-value=""
+                           ng-required="true" />
+                </label>
+
+                <label class="item item-custom item-input item-stacked-label">
+                    <span class="input-label">{{ ::'Price' | translate:'emenu' }} *</span>
+                    <input type="number"
+                           ng-model="item.price"
+                           ng-required="true" />
+                </label>
+
+                <label class="item item-custom item-input item-select">
+                    <div class="input-label">
+                        {{ ::'Type' | translate:'emenu' }}
+                    </div>
+                    <select name="item_type"
+                            ng-model="item.item_type">
+                        <option ng-value="'veg'"
+                                ng-selected="item.item_type == 'veg'">
+                            {{ ::'Veg' | translate:'emenu' }}
+                        </option>
+                        <option ng-value="'non-veg'"
+                                ng-selected="item.item_type == 'non-veg'">
+                            {{ ::'Non Veg' | translate:'emenu' }}
+                        </option>
+                    </select>
+                </label>
+
+
+                <label class="item item-custom item-input item-stacked-label">
+                    <span class="input-label">{{ ::'Description' | translate:'emenu' }} </span>
+                    <textarea ng-model="item.description">
+                    </textarea>
+                </label>
+
+                <div class="item item-custom item-body"
+                     ng-if="item.image != null">
+                    <ol>
+                        <li class="cliams-add-images-box"
+                            ng-if="is_new_Image">
+                            <img ng-src="{{item.image}}"
+                                 class="full-image"
+                                 style="margin-bottom: 2%;">
+                            <i class="icon ion-close emenu-add-images-box-icon"
+                               ng-click="removeImage()"></i>
+                        </li>
+
+                        <li class="cliams-add-images-box"
+                            ng-if="!is_new_Image">
+                            <img ng-src="{{ item_image(item.image) }}"
+                                 class="full-image"
+                                 style="margin-bottom: 2%;">
+                            <i class="icon ion-close emenu-add-images-box-icon"
+                               ng-click="removeImage()"></i>
+                        </li>
+                    </ol>
+                </div>
+
+
+                <div class="item item-icon-left item-custom"
+                     ng-click="addPicture()">
+                    <i class="icon ion-camera"></i> {{ ::'Upload Image' | translate:'emenu' }}
+                </div>
+
+                <div class="item item-custom remove-border">
+                    <button ng-click="itemUpdate()"
+                            class="button button-full button-positive-custom">
+                        {{ ::'Update' | translate:'emenu' }}
+                    </button>
+                </div>
+            </form>
+        </div>
+
+    </ion-content>
+
+</ion-modal-view>

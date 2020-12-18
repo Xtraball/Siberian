@@ -1,0 +1,123 @@
+<form name="add_restaurant"
+      novalidate
+      ng-submit="add_restaurant.$valid && saveRestaurant(restaurant)">
+    <ion-list>
+
+        <label class="item item-custom item-input item-stacked-label">
+            <span class="input-label">
+                <b>{{ ::'Name' | translate:'emenu' }} *</b>
+            </span>
+            <input ng-required="true"
+                   type="text"
+                   ng-model="restaurant.name"
+                   name="namee"
+                   ng-init="restaurant.name === ''"
+                   ng-value="">
+
+            <div ng-if="add_restaurant.$submitted">
+                <div class="assertive assertive-custom"
+                     ng-show="add_restaurant.namee.$invalid">{{ ::'This field is required.' | translate:'emenu' }}
+                </div>
+            </div>
+        </label>
+
+        <label class="item item-custom item-input item-stacked-label">
+            <span class="input-label">
+                <b>{{ ::'Address' | translate:'emenu' }} *</b>
+            </span>
+            <input ng-required="true"
+                   type="text"
+                   ng-model="restaurant.address"
+                   name="address"
+                   ng-init="restaurant.address === ''"
+                   ng-value="">
+
+            <div ng-if="add_restaurant.$submitted">
+                <div class="assertive assertive-custom"
+                     ng-show="add_restaurant.address.$invalid">
+                    {{ ::'This field is required.' | translate:'emenu' }}
+                </div>
+            </div>
+        </label>
+
+        <label class="item item-custom item-input item-stacked-label">
+            <span class="input-label">
+                <b>{{ ::'Location' | translate:'emenu' }} *</b>
+            </span>
+            <input type="text"
+                   name="location"
+                   ng-model="restaurant.location"
+                   sb-google-autocomplete
+                   location="location"
+                   place="restaurant.place"
+                   on-address-change="updateLoaction()"
+                   ng-focus="disableTap()"
+                   id="pac-input"
+                   ng-init="restaurant.location === ''"
+                   ng-value=""/>
+        </label>
+
+        <label class="item item-custom item-input item-stacked-label">
+            <span class="input-label">
+                <b>{{ ::'Phone Number' | translate:'emenu' }} *</b>
+            </span>
+            <input ng-required="true"
+                   type="text"
+                   name="phone_number"
+                   ng-model="restaurant.phone_number"
+                   ng-init="restaurant.phone_number === ''"
+                   ng-value=""/>
+
+            <div ng-if="add_restaurant.$submitted">
+                <div class="assertive assertive-custom"
+                     ng-show="add_restaurant.phone_number.$invalid">
+                    {{ ::'This field is required.' | translate:'emenu' }}
+                </div>
+            </div>
+        </label>
+
+        <div class="item item-custom item-body"
+             ng-if="restaurant.logo != null && restaurant.logo != ''">
+            <ol>
+                <li class="cliams-add-images-box"
+                    ng-if="is_new_Image">
+                    <img ng-src="{{restaurant.logo}}"
+                         class="full-image"
+                         style="margin-bottom: 2%;">
+                    <i class="icon ion-close emenu-add-images-box-icon"
+                       ng-click="removeImage()"></i>
+                </li>
+
+                <li class="cliams-add-images-box"
+                    ng-if="!is_new_Image">
+                    <img ng-src="{{ logo_image(restaurant.logo) }}"
+                         class="full-image"
+                         style="margin-bottom: 2%;">
+                    <i class="icon ion-close emenu-add-images-box-icon"
+                       ng-click="removeImage()"></i>
+                </li>
+
+            </ol>
+        </div>
+
+        <ion-item class="item-icon-left item-custom"
+             ng-click="addLogo()">
+            <i class="icon ion-camera"></i>{{ ::'Upload Logo' | translate:'emenu' }}
+        </ion-item>
+
+      <ion-checkbox class="item-custom checkbox-custom"
+                ng-model="restaurant.resubmit"
+                ng-if="restaurant.status == 'rejected'"
+                ng-value="1">{{ ::'Resubmit a request' | translate:'emenu' }}
+      </ion-checkbox>
+
+      <ion-item class="item-custom remove-border">
+          <button type="submit" class="button button-positive button-positive-custom button-full">
+              {{ ::'Save' | translate:'emenu' }}
+          </button>
+      </ion-item>
+    
+    </ion-list>
+
+</form>
+
