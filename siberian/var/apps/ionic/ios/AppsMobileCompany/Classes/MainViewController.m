@@ -67,12 +67,16 @@
 
 - (void)viewWillAppear:(BOOL)animated
 {
+    // View defaults to full size.  If you want to customize the view's size, or its subviews (e.g. webView),
+    // you can do so here.
+
     [super viewWillAppear:animated];
 }
 
 - (void)viewDidLoad
 {
     [super viewDidLoad];
+    // Do any additional setup after loading the view from its nib.
 }
 
 - (void)viewDidUnload
@@ -97,9 +101,9 @@
 }
 
 // CB-12098
-#if __IPHONE_OS_VERSION_MAX_ALLOWED < 90000  
+#if __IPHONE_OS_VERSION_MAX_ALLOWED < 90000
 - (NSUInteger)supportedInterfaceOrientations
-#else  
+#else
 - (UIInterfaceOrientationMask)supportedInterfaceOrientations
 #endif
 {
@@ -111,7 +115,7 @@
     return [super shouldAutorotateToInterfaceOrientation:interfaceOrientation];
 }
 
-- (BOOL)shouldAutorotate 
+- (BOOL)shouldAutorotate
 {
     return [super shouldAutorotate];
 }

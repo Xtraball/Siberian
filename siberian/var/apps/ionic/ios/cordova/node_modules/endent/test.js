@@ -109,7 +109,7 @@ test('issue#1', t => {
   const r = endent`
     {
       ${a}: null
-    }    
+    }
   `
   t.equal(r, `{
   "test": null
@@ -129,4 +129,9 @@ test('issue#2', t => {
 x=hello
   world
 bar.`)
+})
+
+test('tab', t => {
+  t.plan(1)
+  t.equal(endent`foo\tbar`, 'foo\tbar')
 })

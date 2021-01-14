@@ -7,12 +7,12 @@ module.exports = endent
 const ENDENT_ID = 'twhZNwxI1aFG3r4'
 
 function endent (strings, ...values) {
-  const raw = typeof strings === 'string' ? [strings] : strings.raw
+  strings = [].concat(strings)
 
   let result = ''
 
-  for (let i = 0; i < raw.length; i++) {
-    result += raw[i]
+  for (let i = 0; i < strings.length; i++) {
+    result += strings[i]
 
     if (i < values.length) {
       let value = values[i]

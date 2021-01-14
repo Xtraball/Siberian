@@ -45,6 +45,5 @@ typedef NSURL* (^ UrlTransformerBlock)(NSURL*);
 - (void)evalJs:(NSString*)js scheduledOnRunLoop:(BOOL)scheduledOnRunLoop;
 // Runs the given block on a background thread using a shared thread-pool.
 - (void)runInBackground:(void (^)(void))block;
-- (NSString*)userAgent;
 
 @end
