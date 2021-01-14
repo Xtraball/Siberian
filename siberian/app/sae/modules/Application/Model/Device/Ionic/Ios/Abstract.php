@@ -307,6 +307,11 @@ abstract class Application_Model_Device_Ionic_Ios_Abstract extends Application_M
         if ($this->withAds) {
             $root->removeProperty('GADApplicationIdentifier');
             $root->addProperty(\PListEditor\PListProperty::PL_STRING, $this->admobAppIdentifier, 'GADApplicationIdentifier');
+
+            // com.appsmobilecompany.base from pbxproj
+            $this->__replace(
+                ['ca-app-pub-0000000000000000~0000000000' => $this->admobAppIdentifier],
+                $this->_dest_source_amc . '/../AppsMobileCompany/config.xml');
         }
 
         $plist->save();
