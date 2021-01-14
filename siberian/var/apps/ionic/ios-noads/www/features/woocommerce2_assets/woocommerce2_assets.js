@@ -1,1 +1,0 @@
- Features.register({"name":"Woocommerce v2 - Assets","code":"woocommerce2_assets","version":"3.0.0","category":"_service","model":null,"desktop_uri":null,"routes":[],"layouts":[],"icons":[],"files":["css\/icons.min.css"],"compile":true,"use_account":false,"only_once":true,"load_on_start":true}, ['./features/woocommerce2_assets/woocommerce2_assets.bundle.min.js']); 

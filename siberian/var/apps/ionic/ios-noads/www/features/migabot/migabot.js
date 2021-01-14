@@ -1,1 +1,0 @@
- Features.register({"name":"Migabot","code":"migabot","version":"1.0.0","category":"_service","model":null,"desktop_uri":null,"routes":[],"layouts":[],"icons":[],"files":["js\/factory\/migabot.js","css\/migabot.css"],"compile":true,"use_account":false,"only_once":true,"load_on_start":true,"on_start_factory":"Migabot"}, ['./features/migabot/migabot.bundle.min.js']); 

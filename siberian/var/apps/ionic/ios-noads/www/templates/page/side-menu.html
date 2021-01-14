@@ -1,0 +1,72 @@
+<ion-side-menus>
+
+    <script type="text/ng-template"
+            id="homepage-menu.html">
+        <div sb-tabbar></div>
+    </script>
+
+    <script type="text/ng-template"
+            id="blank-menu.html">
+        <div></div>
+    </script>
+
+    <ion-side-menu side="left"
+                   width="getLeftMenuWidth()"
+                   ng-class="{'menu-left-open': isMenuLeftOpen()}"
+                   ng-if="getLeftMenuShow()">
+        <div ng-include="getLeftMenuSrc()"
+             class="{{ layout_id }}"></div>
+    </ion-side-menu>
+
+    <ion-side-menu-content
+            ng-class="{
+                'has-footer-fixed': showAlways(),
+                'menu-open' : isMenuOpen()
+            }">
+
+        <ion-nav-bar class="bar-custom">
+            <ion-nav-back-button ng-click="goBack()">
+                <i ng-class="backButtonIcon()"></i>
+            </ion-nav-back-button>
+
+            <ion-nav-buttons side="left">
+                <button ng-show="showLeftButton()"
+                        menu-toggle="left"
+                        class="button button-clear">
+                    <i ng-class="rightToggleIcon()"></i>
+                </button>
+            </ion-nav-buttons>
+
+            <ion-nav-buttons side="right">
+                <button ng-show="showRightButton()"
+                        menu-toggle="right"
+                        class="button button-clear">
+                    <i ng-class="leftToggleIcon()"></i>
+                </button>
+            </ion-nav-buttons>
+
+        </ion-nav-bar>
+
+        <sb-nav-view class="nav-view-{{ layout_id }}"></sb-nav-view>
+
+        <sb-media-mini-player></sb-media-mini-player>
+
+        <!-- Global footer -->
+        <ion-footer-bar mini-player
+                        ng-if="showAlways()"
+                        class="footer-bar-{{ layout_id }}">
+            <ng-include src="'homepage-menu.html'"
+                        class="always {{ layout_id }}"></ng-include>
+        </ion-footer-bar>
+
+    </ion-side-menu-content>
+
+    <ion-side-menu side="right"
+                   width="getRightMenuWidth()"
+                   ng-class="{'menu-right-open': isMenuRightOpen()}"
+                   ng-if="getRightMenuShow()">
+        <div ng-include="getRightMenuSrc()"
+             class="{{ layout_id }}"></div>
+    </ion-side-menu>
+
+</ion-side-menus>

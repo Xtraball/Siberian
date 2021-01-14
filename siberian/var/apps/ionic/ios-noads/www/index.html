@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport"
+              content="viewport-fit=cover, initial-scale=1, maximum-scale=1, user-scalable=no, width=device-width">
+        <meta http-equiv="Content-Security-Policy" content="
+            default-src * filesystem: cdvfile://* ws://* wss://* ionic://* mailto:;
+            script-src * filesystem: cdvfile://* ionic://* 'unsafe-inline' 'unsafe-eval';
+            object-src *;
+            style-src * ionic://* 'unsafe-inline';
+            img-src * data: android-webview-video-poster: ionic://*;
+            media-src * ionic://*;
+            frame-src * gap://ready ws://* wss://* ionic://* mailto:;
+            child-src * gap://ready ws://* wss://* ionic://* mailto:;
+            font-src * data:;
+            connect-src * ws://* wss://* filesystem: cdvfile://* ionic://*;">
+        <meta id="last_meta"
+              name="apple-mobile-web-app-capable"
+              content="yes">
+        <meta name="mobile-web-app-capable"
+              content="yes">
+
+        <title></title>
+
+        <!-- Ensure file will never be cached. -->
+            <script type="text/javascript">
+                var _ifopRoot = function () {
+                    return (/[?&]root(=([^&#]*)|&|#|$)/.exec(window.location.href))[2].replace(/\+/g, ' ');
+                }
+                document.write('<script src="ionic://localhost/_app_file_' + _ifopRoot() + '?t=' + Date.now() + '"><\/script>');
+            </script>
+
+        <script src="./dist/app.libs.min.js"></script>
+        <script src="./js/utils/url.js"></script>
+        <script src="./cordova.js"></script>
+        <script src="./dist/libraries.bundle.min.js"></script>
+        <script src="./dist/app.min.js"></script>
+        <script src="./dist/templates.js"></script>
+        <script src="./dist/utils.bundle.min.js"></script>
+        <script src="./dist/services.bundle.min.js"></script>
+        <script src="./dist/directives.bundle.min.js"></script>
+        <script src="./dist/providers.bundle.min.js"></script>
+        <script src="./dist/features.bundle.min.js"></script>
+        <script src="./dist/onloadchunks.bundle.min.js"></script>
+
+	</head>
+    <body ng-app="starter"
+          class="platform-browser platform-cordova platform-webview">
+
+        <!-- Global layout handler -->
+        <sb-side-menu ng-if="app_is_loaded"></sb-side-menu>
+
+        <!-- NoScript javascript alert. -->
+        <noscript><div class="javascript-required"><div class="javascript-header">Application</div><div class="javascript-message"><h3>JavaScript Required</h3><p>We're sorry, but this application requires JavaScript in order to work properly, please enable it and reload this page.</p><a class="javascript-button" href="./index-prod.html">Reload</a><div class="javascript-clear"></div></div></div><style type="text/css">div.ui-background-loader {display: none;}div.javascript-required {top: 0;left: 0;position: absolute;width: 100%;height: 100%;color: #333333;background-color: #f8f8f8;}div.javascript-header {width: 100%;height: 40px;font-size: 22px;text-align: center;color: #333333;line-height: 39px;background-color: #0099c7;border-bottom: 1px solid #ffffff;color: white;box-shadow: 0px 1px 1px grey;font-weight: bold;}div.javascript-message {width: 80vw;max-width: 600px;margin: 0 auto;margin-top: 20vh;padding: 40px;border: 1px solid lightgrey;background-color: #f0f0f0;color: #333333;box-shadow: 1px 1px 1px grey;border-radius: 2px;}div.javascript-clear {clear: both;}a.javascript-button {padding: 8px;text-decoration: none;color: white;background-color: #0099c7;border: 1px solid #0088b6;border-radius: 2px;font-weight: 15px;  text-transform: uppercase;  margin-top: 20px;  float: right;  }</style></noscript>
+
+        <div class="previewer-load"
+             ng-show="previewerNotice">{{ ::'Triple tap to close the preview' | translate }}</div>
+
+        <div class="previewer-splashscreen"
+             ng-style="previewerSplashscreenStyle"
+             ng-show="previewerSplashscreen">
+            <ion-spinner class="spinner-custom"></ion-spinner>
+        </div>
+
+        <link href="./dist/app.bundle.min.css"
+              rel="stylesheet" />
+    </body>
+</html>
