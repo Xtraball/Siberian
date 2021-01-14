@@ -1568,10 +1568,10 @@ let pack = function (module) {
         return;
     }
 
-    let modulePackage = require(modulePath+'/package.json'),
-        version = modulePackage.version,
-        buildPath = ROOT + '/packages/modules/',
-        zipName = module + '-' + version + '.zip';
+    let modulePackage = require(modulePath+'/package.json');
+    let version = modulePackage.version;
+    let buildPath = ROOT + '/packages/modules/';
+    let zipName = modulePackage.name.toLowerCase() + '-' + version + '.zip';
 
     // Case when tools/pack.sh exists!
     if (fs.existsSync(modulePath + '/tools/pack.sh')) {

@@ -1,5 +1,27 @@
 <sb-section title="'<?php echo __title("Advertising"); ?>'">
     <form ng-submit="saveAdvertisingInfo()">
+
+        <div ng-repeat="device in application_admob.devices">
+
+            <div class="col-md-{{ 12 / application_admob.devices.length }}">
+
+                <div class="subtitle">
+                    <h4>{{ device.name }}</h4>
+                    <div class="clear"></div>
+                </div>
+
+                <div class="form-group">
+                    <label for="admob-appid-{{ device.name }}"><?php echo __('AdMob application ID'); ?></label>
+                    <input type="text"
+                           id="admob-appid-{{ device.name }}"
+                           placeholder="ca-app-pub-0000000000000000~0000000000"
+                           ng-model="device.admob_app_id"
+                           class="form-control" />
+                </div>
+
+            </div>
+        </div>
+
         <div class="form-group">
             <div class="col-md-12">
                 <label for="owner_use_ads"
@@ -75,6 +97,8 @@
 
             </div>
         </div>
+
+
         <div class="form-group">
             <div class="col-md-12">
                 <button type="submit"

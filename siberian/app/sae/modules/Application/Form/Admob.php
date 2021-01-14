@@ -49,6 +49,12 @@ class Application_Form_Admob extends Siberian_Form_Abstract
         ];
 
         // Android ads
+        $androidAdmobAppId = $this->addSimpleText(
+            'android_admob_app_id',
+            __('App ID'),
+            'example: ca-app-id-3940256099942544~6300978111',
+            true);
+        $androidAdmobAppId->setRequired(true);
         $androidAdmobId = $this->addSimpleText(
             'android_admob_id',
             __('Banner ID'),
@@ -67,6 +73,7 @@ class Application_Form_Admob extends Siberian_Form_Abstract
         $this->groupElements(
             'android',
             [
+                'android_admob_app_id',
                 'android_admob_id',
                 'android_admob_interstitial_id',
                 'android_admob_type',
@@ -74,6 +81,12 @@ class Application_Form_Admob extends Siberian_Form_Abstract
             __('Android'));
 
         // iOS Ads
+        $iosAdmobAppId = $this->addSimpleText(
+            'ios_admob_app_id',
+            __('App ID'),
+            'example: ca-app-id-3940256099942544~6300978111',
+            true);
+        $iosAdmobAppId->setRequired(true);
         $iosAdmobId = $this->addSimpleText(
             'ios_admob_id',
             __('Banner ID'),
@@ -92,6 +105,7 @@ class Application_Form_Admob extends Siberian_Form_Abstract
         $this->groupElements(
             'ios',
             [
+                'ios_admob_app_id',
                 'ios_admob_id',
                 'ios_admob_interstitial_id',
                 'ios_admob_type',
@@ -112,12 +126,14 @@ class Application_Form_Admob extends Siberian_Form_Abstract
 
         $androidDevice = $application->getAndroidDevice();
 
+        $this->getElement('android_admob_app_id')->setValue($androidDevice->getAdmobAppId());
         $this->getElement('android_admob_id')->setValue($androidDevice->getAdmobId());
         $this->getElement('android_admob_interstitial_id')->setValue($androidDevice->getAdmobInterstitialId());
         $this->getElement('android_admob_type')->setValue($androidDevice->getAdmobType());
 
         $iosDevice = $application->getIosDevice();
 
+        $this->getElement('ios_admob_app_id')->setValue($iosDevice->getAdmobAppId());
         $this->getElement('ios_admob_id')->setValue($iosDevice->getAdmobId());
         $this->getElement('ios_admob_interstitial_id')->setValue($iosDevice->getAdmobInterstitialId());
         $this->getElement('ios_admob_type')->setValue($iosDevice->getAdmobType());

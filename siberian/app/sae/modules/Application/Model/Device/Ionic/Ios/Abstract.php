@@ -150,14 +150,14 @@ abstract class Application_Model_Device_Ionic_Ios_Abstract extends Application_M
         array_map('unlink', glob("{$this->_dest_source_res}/Images.xcassets/LaunchImage.launchimage/*.png"));
 
         // Startup Images!
-        $universal = Core_Model_Directory::getBasePathTo($application->getStartupBackgroundUnified());
+        $universal = path($application->getStartupBackgroundUnified());
 
         $tmpDest = $this->_dest_source_res;
 
         try {
             // Convert to jpeg
             $jpegStartup = Siberian_Image::open($universal);
-            $_tmpStartup = Core_Model_Directory::getBasePathTo('/var/tmp/' . uniqid() . '.jpg');
+            $_tmpStartup = Core_Model_Directory::getBasePathTo('/var/tmp/' . uniqid('', false) . '.jpg');
             $jpegStartup->save($_tmpStartup, 'jpeg', 70);
 
             $destStartup = $tmpDest . '/Images.xcassets/LaunchStoryboard.imageset/Default@2x~universal~anyany.jpg';
@@ -302,6 +302,12 @@ abstract class Application_Model_Device_Ionic_Ios_Abstract extends Application_M
         // iPad!
         $root->removeProperty('UISupportedInterfaceOrientations~ipad');
         $root->addProperty(\PListEditor\PListProperty::PL_ARRAY, $iPad, 'UISupportedInterfaceOrientations~ipad');
+
+        // AdMob SDK
+        if ($this->withAds) {
+            $root->removeProperty('GADApplicationIdentifier');
+            $root->addProperty(\PListEditor\PListProperty::PL_STRING, $this->admobAppIdentifier, 'GADApplicationIdentifier');
+        }
 
         $plist->save();
 
