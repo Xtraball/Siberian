@@ -21,6 +21,26 @@
               "count": 1
             },
             {
+              "xml": "<allow-navigation href=\"http://localhost/*\" />",
+              "count": 1
+            },
+            {
+              "xml": "<allow-navigation href=\"https://localhost/*\" />",
+              "count": 1
+            },
+            {
+              "xml": "<allow-navigation href=\"ionic://*\" />",
+              "count": 1
+            },
+            {
+              "xml": "<preference name=\"webView\" value=\"com.ionicframework.cordova.webview.IonicWebViewEngine\" />",
+              "count": 1
+            },
+            {
+              "xml": "<feature name=\"IonicWebView\"><param name=\"android-package\" value=\"com.ionicframework.cordova.webview.IonicWebView\" /></feature>",
+              "count": 1
+            },
+            {
               "xml": "<feature name=\"SplashScreen\"><param name=\"android-package\" value=\"org.apache.cordova.splashscreen.SplashScreen\" /><param name=\"onload\" value=\"true\" /></feature>",
               "count": 1
             },
@@ -30,10 +50,6 @@
             },
             {
               "xml": "<feature name=\"WebViewPlugin\"><param name=\"android-package\" value=\"com.webview.WebViewPlugin\" /></feature>",
-              "count": 1
-            },
-            {
-              "xml": "<feature name=\"AdMob\"><param name=\"android-package\" value=\"com.rjfun.cordova.admob.AdMobPlugin\" /><param name=\"onload\" value=\"true\" /></feature>",
               "count": 1
             },
             {
@@ -74,26 +90,6 @@
             },
             {
               "xml": "<feature name=\"Insomnia\"><param name=\"android-package\" value=\"nl.xservices.plugins.Insomnia\" /></feature>",
-              "count": 1
-            },
-            {
-              "xml": "<allow-navigation href=\"http://localhost/*\" />",
-              "count": 1
-            },
-            {
-              "xml": "<allow-navigation href=\"https://localhost/*\" />",
-              "count": 1
-            },
-            {
-              "xml": "<allow-navigation href=\"ionic://*\" />",
-              "count": 1
-            },
-            {
-              "xml": "<preference name=\"webView\" value=\"com.ionicframework.cordova.webview.IonicWebViewEngine\" />",
-              "count": 1
-            },
-            {
-              "xml": "<feature name=\"IonicWebView\"><param name=\"android-package\" value=\"com.ionicframework.cordova.webview.IonicWebView\" /></feature>",
               "count": 1
             },
             {
@@ -193,7 +189,11 @@
               "count": 1
             },
             {
-              "xml": "<activity android:configChanges=\"keyboard|keyboardHidden|orientation|screenLayout|uiMode|screenSize|smallestScreenSize\" android:name=\"com.google.android.gms.ads.AdActivity\" android:theme=\"@android:style/Theme.Translucent\" />",
+              "xml": "<meta-data android:name=\"com.google.android.gms.ads.APPLICATION_ID\" android:value=\"ca-app-pub-0000000000000000~0000000000\" />",
+              "count": 1
+            },
+            {
+              "xml": "<meta-data android:name=\"com.google.android.gms.ads.DELAY_APP_MEASUREMENT_INIT\" android:value=\"true\" />",
               "count": 1
             },
             {
@@ -236,14 +236,6 @@
           "/*": [
             {
               "xml": "<uses-permission android:name=\"com.android.vending.BILLING\" />",
-              "count": 1
-            },
-            {
-              "xml": "<uses-permission android:name=\"android.permission.INTERNET\" />",
-              "count": 1
-            },
-            {
-              "xml": "<uses-permission android:name=\"android.permission.ACCESS_NETWORK_STATE\" />",
               "count": 1
             },
             {
@@ -313,6 +305,10 @@
               "count": 1
             },
             {
+              "xml": "<feature name=\"AdMob\"><param name=\"android-package\" value=\"admob.plugin.AdMob\" /></feature>",
+              "count": 1
+            },
+            {
               "xml": "<feature name=\"BarcodeScanner\"><param name=\"android-package\" value=\"com.phonegap.plugins.barcodescanner.BarcodeScanner\" /></feature>",
               "count": 1
             },
@@ -368,15 +364,16 @@
     "Geofence": {
       "PACKAGE_NAME": "com.appsmobilecompany.base"
     },
-    "InAppPurchse": {
+    "InAppPurchase": {
+      "PACKAGE_NAME": "com.appsmobilecompany.base"
+    },
+    "IonicWebview": {
       "PACKAGE_NAME": "com.appsmobilecompany.base"
     },
     "SplashScreen": {
       "PACKAGE_NAME": "com.appsmobilecompany.base"
     },
     "Push": {
-      "ANDROID_SUPPORT_V13_VERSION": "28.0.0",
-      "FCM_VERSION": "17.0.0",
       "PACKAGE_NAME": "com.appsmobilecompany.base"
     },
     "WebView": {
@@ -385,7 +382,8 @@
     "Promises": {
       "PACKAGE_NAME": "com.appsmobilecompany.base"
     },
-    "AdmobPro": {
+    "Admob": {
+      "APP_ID_ANDROID": "ca-app-pub-0000000000000000~0000000000",
       "PACKAGE_NAME": "com.appsmobilecompany.base"
     },
     "AppVersion": {
@@ -395,7 +393,6 @@
       "PACKAGE_NAME": "com.appsmobilecompany.base"
     },
     "BarcodeScanner": {
-      "ANDROID_SUPPORT_V4_VERSION": "27.+",
       "PACKAGE_NAME": "com.appsmobilecompany.base"
     },
     "BrowserTab": {
@@ -423,7 +420,6 @@
       "PACKAGE_NAME": "com.appsmobilecompany.base"
     },
     "SocialSharing": {
-      "ANDROID_SUPPORT_V4_VERSION": "27.+",
       "PACKAGE_NAME": "com.appsmobilecompany.base"
     },
     "StatusBar": {
@@ -433,13 +429,9 @@
       "PACKAGE_NAME": "com.appsmobilecompany.base"
     },
     "LocalNotification": {
-      "ANDROID_SUPPORT_V4_VERSION": "27.+",
       "PACKAGE_NAME": "com.appsmobilecompany.base"
     },
     "Insomnia": {
-      "PACKAGE_NAME": "com.appsmobilecompany.base"
-    },
-    "IonicWebview": {
       "PACKAGE_NAME": "com.appsmobilecompany.base"
     },
     "MusicControls": {
@@ -488,11 +480,19 @@
       ]
     },
     {
-      "id": "InAppPurchse.InAppBillingPlugin",
-      "file": "plugins/InAppPurchse/www/store-android.js",
-      "pluginId": "InAppPurchse",
+      "id": "InAppPurchase.InAppBillingPlugin",
+      "file": "plugins/InAppPurchase/www/store-android.js",
+      "pluginId": "InAppPurchase",
       "clobbers": [
         "store"
+      ]
+    },
+    {
+      "id": "IonicWebview.IonicWebView",
+      "file": "plugins/IonicWebview/src/www/util.js",
+      "pluginId": "IonicWebview",
+      "clobbers": [
+        "Ionic.WebView"
       ]
     },
     {
@@ -526,11 +526,11 @@
       "runs": true
     },
     {
-      "id": "AdmobPro.AdMob",
-      "file": "plugins/AdmobPro/www/AdMob.js",
-      "pluginId": "AdmobPro",
+      "id": "Admob.AdMob",
+      "file": "plugins/Admob/www/admob.js",
+      "pluginId": "Admob",
       "clobbers": [
-        "window.AdMob"
+        "admob"
       ]
     },
     {
@@ -856,14 +856,6 @@
       ]
     },
     {
-      "id": "IonicWebview.IonicWebView",
-      "file": "plugins/IonicWebview/src/www/util.js",
-      "pluginId": "IonicWebview",
-      "clobbers": [
-        "Ionic.WebView"
-      ]
-    },
-    {
       "id": "MusicControls.MusicControls",
       "file": "plugins/MusicControls/www/MusicControls.js",
       "pluginId": "MusicControls",
@@ -915,12 +907,13 @@
   "plugin_metadata": {
     "Chcp": "1.5.2",
     "Geofence": "0.6.0",
-    "InAppPurchse": "10.2.0",
+    "InAppPurchase": "10.5.0",
+    "IonicWebview": "4.0.1",
     "SplashScreen": "5.0.2",
     "Push": "1.10.0",
     "WebView": "1.0.0",
     "Promises": "4.2.2",
-    "AdmobPro": "2.30.1",
+    "Admob": "0.0.0",
     "AppVersion": "0.1.8",
     "Badge": "0.8.8",
     "BarcodeScanner": "7.1.2",
@@ -930,14 +923,13 @@
     "Device": "2.0.2",
     "File": "6.0.2",
     "Geolocation": "4.0.1",
-    "InAppBrowser": "3.2.0",
+    "InAppBrowser": "4.1.0",
     "Keyboard": "2.2.0",
     "SocialSharing": "5.6.4",
     "StatusBar": "2.4.1",
     "WhiteList": "1.2.1",
     "LocalNotification": "0.9.0-beta.3",
     "Insomnia": "4.3.0",
-    "IonicWebview": "4.0.1",
     "MusicControls": "3.0.4",
     "MediaNative": "5.0.3",
     "Navigator": "0.1.0",
