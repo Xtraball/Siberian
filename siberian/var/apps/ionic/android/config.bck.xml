@@ -73,6 +73,7 @@
     <feature name="AdMob">
         <param name="android-package" value="admob.plugin.AdMob" />
     </feature>
+    <preference name="APP_ID_ANDROID" value="ca-app-pub-0000000000000000~0000000000" />
     <feature name="AppVersion">
         <param name="android-package" value="uk.co.whiteoctober.cordova.AppVersion" />
     </feature>

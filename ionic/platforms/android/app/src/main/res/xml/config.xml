@@ -129,6 +129,7 @@
     <preference name="loglevel" value="DEBUG" />
     <preference name="loadUrlTimeoutValue" value="60000" />
     <preference name="webView" value="com.ionicframework.cordova.webview.IonicWebViewEngine" />
+    <preference name="APP_ID_ANDROID" value="ca-app-pub-0000000000000000~0000000000" />
     <preference name="webviewbounce" value="false" />
     <preference name="DisallowOverscroll" value="true" />
     <preference name="BackupWebStorage" value="none" />

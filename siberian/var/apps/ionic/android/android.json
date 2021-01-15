@@ -309,6 +309,10 @@
               "count": 1
             },
             {
+              "xml": "<preference name=\"APP_ID_ANDROID\" value=\"ca-app-pub-0000000000000000~0000000000\" />",
+              "count": 1
+            },
+            {
               "xml": "<feature name=\"BarcodeScanner\"><param name=\"android-package\" value=\"com.phonegap.plugins.barcodescanner.BarcodeScanner\" /></feature>",
               "count": 1
             },
@@ -383,7 +387,6 @@
       "PACKAGE_NAME": "com.appsmobilecompany.base"
     },
     "Admob": {
-      "APP_ID_ANDROID": "ca-app-pub-0000000000000000~0000000000",
       "PACKAGE_NAME": "com.appsmobilecompany.base"
     },
     "AppVersion": {
