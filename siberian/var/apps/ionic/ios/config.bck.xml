@@ -100,6 +100,7 @@
     <feature name="AdMob">
         <param name="ios-package" value="AMSPlugin" />
     </feature>
+    <preference name="APP_ID_IOS" value="ca-app-pub-0000000000000000~0000000000" />
     <feature name="AppVersion">
         <param name="ios-package" value="AppVersion" />
     </feature>

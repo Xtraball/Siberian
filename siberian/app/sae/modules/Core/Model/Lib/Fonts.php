@@ -67,7 +67,7 @@ class Core_Model_Lib_Fonts
                 "Righteous" => [
                     "cyrillic" => false,
                 ],
-                "Code" => [
+                "Fira Code" => [
                     "cyrillic" => false,
                 ],
                 "Overlock" => [
