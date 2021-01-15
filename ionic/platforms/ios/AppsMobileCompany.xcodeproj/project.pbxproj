@@ -7,119 +7,113 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		00D43ED10BB94CD38C552284 /* StoreKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9FA917C60F49434799515A96 /* StoreKit.framework */; };
 		0207DA581B56EA530066E2B4 /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 0207DA571B56EA530066E2B4 /* Images.xcassets */; };
-		0C66A7DB4FEA48C18EDF8E66 /* CDVWKInAppBrowser.m in Sources */ = {isa = PBXBuildFile; fileRef = B3C4775830224C74A08BB373 /* CDVWKInAppBrowser.m */; };
-		0C9C720480D64A7FAE79C878 /* AMSGenerated.swift in Sources */ = {isa = PBXBuildFile; fileRef = 87BCEA2DEA2C44B7B1749FA0 /* AMSGenerated.swift */; };
-		0D5723E7E651440C865F582D /* AMSAdBase.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2B6084743CB84ED285821225 /* AMSAdBase.swift */; };
-		0F46670D0951470FB17504F3 /* HCPPluginInternalPreferences+UserDefaults.m in Sources */ = {isa = PBXBuildFile; fileRef = 0151FCA27CDC467C91DC4958 /* HCPPluginInternalPreferences+UserDefaults.m */; };
-		114CFC9A641E417CA43D156E /* HCPEvents.m in Sources */ = {isa = PBXBuildFile; fileRef = 51451808FC5046328387B893 /* HCPEvents.m */; };
-		134EC1A36BC34B56B9650CB1 /* NSFileManager+HCPExtension.m in Sources */ = {isa = PBXBuildFile; fileRef = AD97C3B40EBE4C5195EE2944 /* NSFileManager+HCPExtension.m */; };
-		1ADC4652ED5347579D87A07C /* HCPUpdateInstaller.m in Sources */ = {isa = PBXBuildFile; fileRef = CFCEB60E4B5646A0BDFFB9B9 /* HCPUpdateInstaller.m */; };
-		1C25AFF155544FECBA21B1C8 /* SocialSharing.m in Sources */ = {isa = PBXBuildFile; fileRef = 118E8A6C91CB4467AB04B0B7 /* SocialSharing.m */; };
+		02A4A0C4E7FE40C5BAE0633C /* UIImage+CropScaleOrientation.m in Sources */ = {isa = PBXBuildFile; fileRef = 303722ED510D47B09CD93493 /* UIImage+CropScaleOrientation.m */; };
+		04ED763D9537494BBEDD3696 /* APPNotificationCategory.m in Sources */ = {isa = PBXBuildFile; fileRef = 607E602A4B6745B7BAAC4212 /* APPNotificationCategory.m */; };
+		06E42A8C66574A7BB1529550 /* HCPPluginInternalPreferences+UserDefaults.m in Sources */ = {isa = PBXBuildFile; fileRef = 8FB68477F998415FAED7C543 /* HCPPluginInternalPreferences+UserDefaults.m */; };
+		08CB7D3C579A4CBB833D4620 /* UserNotifications.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = FA4D59C7493142C9BEC6BBD7 /* UserNotifications.framework */; };
+		0C739D36C2FF4B35A646174B /* HCPUpdateRequest.m in Sources */ = {isa = PBXBuildFile; fileRef = D13AA990EE5C44EE9FA98F8B /* HCPUpdateRequest.m */; };
+		0D7AEEC1572B426FAB6D0EA4 /* CDVNavigator.m in Sources */ = {isa = PBXBuildFile; fileRef = F8C98C8EF7424B50ACD27708 /* CDVNavigator.m */; };
+		0F2AAB60EA5A41DDAA212401 /* AppVersion.m in Sources */ = {isa = PBXBuildFile; fileRef = 8D568C633CBA46C1B70A611F /* AppVersion.m */; };
+		1803086E601447629D9D84CD /* HCPManifestFile.m in Sources */ = {isa = PBXBuildFile; fileRef = B1E386C80064482FA6C3AD19 /* HCPManifestFile.m */; };
+		18AA8A9129A64FA890DDDDF4 /* CDVBarcodeScanner.mm in Sources */ = {isa = PBXBuildFile; fileRef = F4006C9DE7204B059CE8532E /* CDVBarcodeScanner.mm */; };
 		1D3623260D0F684500981E51 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 1D3623250D0F684500981E51 /* AppDelegate.m */; };
+		1D36586773374C71ABE79C29 /* sb_beep4.caf in Resources */ = {isa = PBXBuildFile; fileRef = 87E0D9DEE848470682FE0756 /* sb_beep4.caf */; };
+		1D49B2DE1EF6401688671571 /* sb_beep2.caf in Resources */ = {isa = PBXBuildFile; fileRef = 7A7B7C206261446CB6D4CD35 /* sb_beep2.caf */; };
 		1D60589B0D05DD56006BFB54 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 29B97316FDCFA39411CA2CEA /* main.m */; };
-		21E4F34B8FD0457E8254CC29 /* CDVInAppBrowserNavigationController.m in Sources */ = {isa = PBXBuildFile; fileRef = 11F4BE9B216F4ADD8AC1B6CE /* CDVInAppBrowserNavigationController.m */; };
-		23768D987EDB419BA9D2D8E2 /* HCPContentManifestStorage.m in Sources */ = {isa = PBXBuildFile; fileRef = FFC64771E2B64F758945B6EC /* HCPContentManifestStorage.m */; };
-		257B83C472FB41B0A15FD13B /* HCPApplicationConfig.m in Sources */ = {isa = PBXBuildFile; fileRef = 5C4EF344E5E6477FAA116FF8 /* HCPApplicationConfig.m */; };
-		25942FD1EF9812A8D9DDED9D /* Entitlements-Release.plist in Sources */ = {isa = PBXBuildFile; fileRef = 320A9298895F7C60803A17CA /* Entitlements-Release.plist */; };
-		259B3AC6D4A44CACB81107D5 /* MediaPlayer.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 247BB8B931A7481AA050494B /* MediaPlayer.framework */; };
-		2734F09AB5C6435F9F136BE3 /* Insomnia.m in Sources */ = {isa = PBXBuildFile; fileRef = 3123DE16FA44446A8BC0330C /* Insomnia.m */; };
-		29D734B3E3F14907BCAFA3C1 /* CDVAssetLibraryFilesystem.m in Sources */ = {isa = PBXBuildFile; fileRef = EE37836A3AB34307BEB72DFD /* CDVAssetLibraryFilesystem.m */; };
-		2A9F68AC14F74026AC5B0C58 /* UIImage+CropScaleOrientation.m in Sources */ = {isa = PBXBuildFile; fileRef = CCD235C093D84329A6D182B5 /* UIImage+CropScaleOrientation.m */; };
-		2C38CC77595F4F8F82142808 /* APPNotificationOptions.m in Sources */ = {isa = PBXBuildFile; fileRef = 0B2B335255E94DAF96BDB994 /* APPNotificationOptions.m */; };
+		21C003777B79FB8738379055 /* Entitlements-Debug.plist in Sources */ = {isa = PBXBuildFile; fileRef = 776A475058EE46C8B3AEF6E8 /* Entitlements-Debug.plist */; };
+		2520BCE1508C4BF5B806F88C /* sb_beep3.caf in Resources */ = {isa = PBXBuildFile; fileRef = 8E8B3A2D90F2464CA806D95C /* sb_beep3.caf */; };
+		294906FDD3884667BB290E57 /* HCPManifestDiff.m in Sources */ = {isa = PBXBuildFile; fileRef = 1B6BDF61FE6F42808A64B221 /* HCPManifestDiff.m */; };
+		29D2B19DF9C0405CB90B0603 /* sb_beep1.caf in Resources */ = {isa = PBXBuildFile; fileRef = EEF7F674E68E4978AF7E0EF2 /* sb_beep1.caf */; };
+		2A718AD6634049F5B75A3EE8 /* MessageUI.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C5F5CBF1CD414C84AF8329AA /* MessageUI.framework */; settings = {ATTRIBUTES = (Weak, ); }; };
 		301BF552109A68D80062928A /* libCordova.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 301BF535109A57CC0062928A /* libCordova.a */; settings = {ATTRIBUTES = (Required, ); }; };
 		302D95F114D2391D003F00A1 /* MainViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 302D95EF14D2391D003F00A1 /* MainViewController.m */; };
 		302D95F214D2391D003F00A1 /* MainViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 302D95F014D2391D003F00A1 /* MainViewController.xib */; };
-		3044A55742824D0BB7B81128 /* NSString+SSURLEncoding.m in Sources */ = {isa = PBXBuildFile; fileRef = 1C34E9B649694933B1E0132B /* NSString+SSURLEncoding.m */; };
-		3084F4A2903B41E596762F6B /* sb_beep3.caf in Resources */ = {isa = PBXBuildFile; fileRef = A8F8C40912C643D0A0D1D4BD /* sb_beep3.caf */; };
-		309DA13226A645D1A9B9FE19 /* NSError+HCPExtension.m in Sources */ = {isa = PBXBuildFile; fileRef = 89A38F2C45C944E882B54173 /* NSError+HCPExtension.m */; };
-		35BD790E759246868D648303 /* HCPInstallationWorker.m in Sources */ = {isa = PBXBuildFile; fileRef = 34A1D8C6B5B3475BAB806E21 /* HCPInstallationWorker.m */; };
-		3B3CEF1122CC478D9A9B0C08 /* Toast+UIView.m in Sources */ = {isa = PBXBuildFile; fileRef = 2D1E077542574E6D8C9B9754 /* Toast+UIView.m */; };
-		3CADEC102F7A44D496B7EC49 /* PushKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = AD1EBFF7D5634E43BD37592B /* PushKit.framework */; };
-		40DB2B7526164498830B14DE /* AMSRewardVideo.swift in Sources */ = {isa = PBXBuildFile; fileRef = 96AAE2D3BB614605B087AF13 /* AMSRewardVideo.swift */; };
-		43A28C23F3324F18B5BED6D2 /* HCPConfigStorageImpl.m in Sources */ = {isa = PBXBuildFile; fileRef = E1DF5AE6982147DB877F3B02 /* HCPConfigStorageImpl.m */; };
-		45977315F87040EDAF26F5EA /* SKProduct+LocalizedPrice.m in Sources */ = {isa = PBXBuildFile; fileRef = F6A841907D734B05AE82AD23 /* SKProduct+LocalizedPrice.m */; };
-		4680EC3F7DBE44C381C382C9 /* HCPDataDownloader.m in Sources */ = {isa = PBXBuildFile; fileRef = FDC3283899AB4EAAA25AA579 /* HCPDataDownloader.m */; };
-		48C4AB318F564FB38FB2DBA0 /* NSData+HCPMD5.m in Sources */ = {isa = PBXBuildFile; fileRef = 335F606F33024C958471E0CC /* NSData+HCPMD5.m */; };
-		4F2E0138B8424B0FB5937D01 /* CDVSound.m in Sources */ = {isa = PBXBuildFile; fileRef = 89728D504B1A407E8142EA10 /* CDVSound.m */; };
-		4FDA5B12EA7947F392173A22 /* NSBundle+HCPExtension.m in Sources */ = {isa = PBXBuildFile; fileRef = 3AA909A52F544C5D8567ED3C /* NSBundle+HCPExtension.m */; };
-		50279F84B5844671B99ADBDD /* sb_beep2.caf in Resources */ = {isa = PBXBuildFile; fileRef = 2306C927C4214AD5B1DA5813 /* sb_beep2.caf */; };
-		55C3E0A9A1C44072B0F0B802 /* APPNotificationCategory.m in Sources */ = {isa = PBXBuildFile; fileRef = B524058B721E4DF89004197A /* APPNotificationCategory.m */; };
-		573D8D6844E041C2839C399D /* FileUtility.m in Sources */ = {isa = PBXBuildFile; fileRef = 4CDBF5AAF58343CC9BF3683B /* FileUtility.m */; };
-		57F6D5A05F7E4D67A27C26FE /* QuartzCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D130D2466B8E4E9CAE913EDB /* QuartzCore.framework */; };
-		5988B7E1AA9C4086933BB2E1 /* UserNotifications.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4A7238633D154BBF9608A9D8 /* UserNotifications.framework */; };
-		5FA591274F7E41C38BA243B2 /* CBTBrowserTab.m in Sources */ = {isa = PBXBuildFile; fileRef = 8A437781B8CF48E0A4253DBB /* CBTBrowserTab.m */; };
-		5FD8493D591E4A6DAF0DFB3C /* AppDelegate+notification.m in Sources */ = {isa = PBXBuildFile; fileRef = CE9212EDA4284EBB8F99C92F /* AppDelegate+notification.m */; };
-		60A6BE01AB3E412E873F5564 /* HCPXmlConfigParser.m in Sources */ = {isa = PBXBuildFile; fileRef = D44FF3BA5FAC42DA8986D746 /* HCPXmlConfigParser.m */; };
-		654CF5E7F7E9452EB2553D3B /* MusicControlsInfo.m in Sources */ = {isa = PBXBuildFile; fileRef = C3D7ECAA441E41C39D76FF85 /* MusicControlsInfo.m */; };
-		6862FAB15B124B1294996F64 /* CDVNavigator.m in Sources */ = {isa = PBXBuildFile; fileRef = 3641A68C0F3A4EDE92B2E69C /* CDVNavigator.m */; };
+		316594B8F2754344AEFCB334 /* PushKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 93CE9B189FFD4ECF96FF4384 /* PushKit.framework */; };
+		3384CB346DC94EC9AB9DD784 /* HCPXmlTags.m in Sources */ = {isa = PBXBuildFile; fileRef = 5FC2C6CBEB6441F3825B825F /* HCPXmlTags.m */; };
+		3866E6D623E5472C9C0B6459 /* HCPContentConfig.m in Sources */ = {isa = PBXBuildFile; fileRef = 1613675B5F0C4F82BC6C01EE /* HCPContentConfig.m */; };
+		39E0BDD6A79C4BEBB02F8AC1 /* APPNotificationOptions.m in Sources */ = {isa = PBXBuildFile; fileRef = 8257E5F9EED942099ADF4B1D /* APPNotificationOptions.m */; };
+		3A2F51CCAB3443BF9DA24735 /* HCPPluginInternalPreferences.m in Sources */ = {isa = PBXBuildFile; fileRef = 7DDE5BBF0CA24E649133B265 /* HCPPluginInternalPreferences.m */; };
+		3A3848290FDD4C748FF4BB8F /* QuartzCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 142F9DF436D84411BA597310 /* QuartzCore.framework */; };
+		3AC58B946F4841979464BC87 /* CDVIonicKeyboard.m in Sources */ = {isa = PBXBuildFile; fileRef = 5FEE5BF0635D4BD3884E64C8 /* CDVIonicKeyboard.m */; };
+		3B3CBE580F5A48F985AD91F7 /* AVFoundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5E68072989C54DDDB24E7FB0 /* AVFoundation.framework */; };
+		3ED2B928CA3E4046AE8017B2 /* CDVLocation.m in Sources */ = {isa = PBXBuildFile; fileRef = 04A35E088ED94386A541355F /* CDVLocation.m */; };
+		3F045725859842CF9DA1E715 /* AppDelegate+notification.m in Sources */ = {isa = PBXBuildFile; fileRef = 864A0BD5957649E48A4D1CA3 /* AppDelegate+notification.m */; };
+		418215BB6BB94A0288660A5C /* HCPEvents.m in Sources */ = {isa = PBXBuildFile; fileRef = 14668597DF3343F9BF34E598 /* HCPEvents.m */; };
+		426E150AD71C4828946422AF /* WebKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = BD1CC724B6324FAD92B0E69A /* WebKit.framework */; settings = {ATTRIBUTES = (Weak, ); }; };
+		4C75045F6EC14743833C503B /* Social.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B03FFD6F47794E33910797E8 /* Social.framework */; settings = {ATTRIBUTES = (Weak, ); }; };
+		4D434BA29EBA47699E63B970 /* CDVLocalFilesystem.m in Sources */ = {isa = PBXBuildFile; fileRef = 55EE29911EBB43578EE1E124 /* CDVLocalFilesystem.m */; };
+		50CD7F348AC4460A8EA24656 /* HCPConfigStorageImpl.m in Sources */ = {isa = PBXBuildFile; fileRef = C52CA0508398400A8A13FFE8 /* HCPConfigStorageImpl.m */; };
+		525103BF4E5E4E5E8FD44DE7 /* HCPAppUpdateRequestAlertDialog.m in Sources */ = {isa = PBXBuildFile; fileRef = FF45C1EE499A48CEACD8A14D /* HCPAppUpdateRequestAlertDialog.m */; };
+		5290A317EE514BC6A50CA1DD /* NSData+HCPMD5.m in Sources */ = {isa = PBXBuildFile; fileRef = 54281357D117412AA8AE2F01 /* NSData+HCPMD5.m */; };
+		52D25CF3419D44C2ABBA4298 /* Toast.m in Sources */ = {isa = PBXBuildFile; fileRef = 8C0A8D87E06F4CEF862762A7 /* Toast.m */; };
+		53396506F18144C1B40EBEC3 /* HCPApplicationConfigStorage.m in Sources */ = {isa = PBXBuildFile; fileRef = 6C47F52024A3410482E0DE56 /* HCPApplicationConfigStorage.m */; };
+		533CEC212B264A72B1746D94 /* PushPlugin.m in Sources */ = {isa = PBXBuildFile; fileRef = 506A9D1A3B774DB6A54AFCDF /* PushPlugin.m */; };
+		57B2C060244845118B0A4229 /* APPNotificationContent.m in Sources */ = {isa = PBXBuildFile; fileRef = AB1101482C06443BA6E44428 /* APPNotificationContent.m */; };
+		5949E0FB0B60465EBF761DD8 /* CDVWKWebViewFileXhr.m in Sources */ = {isa = PBXBuildFile; fileRef = 0F5E5501D8E44915BFDFD95B /* CDVWKWebViewFileXhr.m */; };
+		5A80C8DFF5DF4844A5FA7D9B /* HCPPlugin.m in Sources */ = {isa = PBXBuildFile; fileRef = EE7A7165F87C471D8614BD32 /* HCPPlugin.m */; };
+		5C77B77179F54BA688112D10 /* APPBadge.m in Sources */ = {isa = PBXBuildFile; fileRef = 57C4EAAB016346ABB3E92F8F /* APPBadge.m */; };
+		60838BB810064A148445462F /* InAppPurchase.m in Sources */ = {isa = PBXBuildFile; fileRef = 09CA387508084FA1B41B426C /* InAppPurchase.m */; };
+		64663A39F66746E992690AB5 /* StoreKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 936A63C0DCCB4114A912722E /* StoreKit.framework */; };
+		6532EECFC9234CAD9446BCFA /* UNUserNotificationCenter+APPLocalNotification.m in Sources */ = {isa = PBXBuildFile; fileRef = 2CBA654094C4439E81A6DD6F /* UNUserNotificationCenter+APPLocalNotification.m */; };
+		69649875D1D6404796831C5A /* HCPUpdateLoader.m in Sources */ = {isa = PBXBuildFile; fileRef = 94068FF9A2AE4A489FDAA520 /* HCPUpdateLoader.m */; };
 		6AFF5BF91D6E424B00AB3073 /* CDVLaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 6AFF5BF81D6E424B00AB3073 /* CDVLaunchScreen.storyboard */; };
-		6B5B07C336594AAE81D6F6B1 /* CDVCamera.m in Sources */ = {isa = PBXBuildFile; fileRef = 5548A441131142B588EFF214 /* CDVCamera.m */; };
-		6CD9459ED19A429FA328B310 /* APPNotificationContent.m in Sources */ = {isa = PBXBuildFile; fileRef = 572B8E64A833436A897B2FA9 /* APPNotificationContent.m */; };
-		6CFCCB2F878C4C47ADCE37D9 /* InAppPurchase.m in Sources */ = {isa = PBXBuildFile; fileRef = 0C6DF7CFCF3D47948EA79CF7 /* InAppPurchase.m */; };
-		71FAD4C47D15402BBD56A46D /* HCPAssetsFolderHelper.m in Sources */ = {isa = PBXBuildFile; fileRef = F7969809A147404AB2F3D016 /* HCPAssetsFolderHelper.m */; };
-		779F6B2AF4A944D182071CB2 /* HCPManifestDiff.m in Sources */ = {isa = PBXBuildFile; fileRef = 9E2925B03EB141A5BDF444AC /* HCPManifestDiff.m */; };
-		7819F6B99D75421EB0853E9A /* sb_beep4.caf in Resources */ = {isa = PBXBuildFile; fileRef = 2E1BADB840944E0A8D06DD64 /* sb_beep4.caf */; };
-		78E6A8ED27C74EACAA9B4E8E /* WebViewPlugin.m in Sources */ = {isa = PBXBuildFile; fileRef = 043266E6C3B94C6C910C6025 /* WebViewPlugin.m */; };
-		78F8DFFEEEEC4749A3664AE8 /* CDVStatusBar.m in Sources */ = {isa = PBXBuildFile; fileRef = EC3E35DE5CD2429587519AF7 /* CDVStatusBar.m */; };
-		7AE79E1D225C4A86A1123BC6 /* HCPAppUpdateRequestAlertDialog.m in Sources */ = {isa = PBXBuildFile; fileRef = CA81CEB8695D46299CB24095 /* HCPAppUpdateRequestAlertDialog.m */; };
-		7B0EA59F8C9B477B9B4B83D6 /* HCPXmlConfig.m in Sources */ = {isa = PBXBuildFile; fileRef = 46239139AE6D4DF8A399BFAF /* HCPXmlConfig.m */; };
-		7FC2037B729B4D53B2D79F16 /* HCPPluginInternalPreferences.m in Sources */ = {isa = PBXBuildFile; fileRef = F1369C223EBC47C59D2CFB67 /* HCPPluginInternalPreferences.m */; };
-		81BB7BA4C64941618F4D106C /* Social.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2F4A30C72E01442895F5EC1F /* Social.framework */; settings = {ATTRIBUTES = (Weak, ); }; };
-		83D094C2F0884BBC88E390C1 /* HCPPlugin.m in Sources */ = {isa = PBXBuildFile; fileRef = A13FAF8A74A74BF0B84D4923 /* HCPPlugin.m */; };
-		8639D82A6E3D429BB88789EF /* HCPFetchUpdateOptions.m in Sources */ = {isa = PBXBuildFile; fileRef = 244684C02EA942E1A43912E3 /* HCPFetchUpdateOptions.m */; };
-		893A934A9BBD4DC58AEE89C5 /* Toast.m in Sources */ = {isa = PBXBuildFile; fileRef = 382841493EFC4F3AAAD1ADC3 /* Toast.m */; };
-		897ACF12299484ABDE07C7D8 /* Pods_AppsMobileCompany.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0537655B621BB4B33A60E8AE /* Pods_AppsMobileCompany.framework */; };
-		8A4130B92BC345CC98D8C788 /* APPBadge.m in Sources */ = {isa = PBXBuildFile; fileRef = 0BDC91DAAFBA4EF99B399498 /* APPBadge.m */; };
-		8AF662BAFAAA49749440B93F /* AMSBanner.swift in Sources */ = {isa = PBXBuildFile; fileRef = 02F2C28EFA8D46E48A9BF19F /* AMSBanner.swift */; };
-		9337568325D044C5ACD0B8A2 /* CDVBarcodeScanner.bundle in Resources */ = {isa = PBXBuildFile; fileRef = EEBBC4C25490412681E19172 /* CDVBarcodeScanner.bundle */; };
-		98232B2D05F54C7692850BD4 /* HCPManifestFile.m in Sources */ = {isa = PBXBuildFile; fileRef = F055BE5A58364BC3B7522BE3 /* HCPManifestFile.m */; };
+		6C879B79ABA04D328C9FBA2C /* HCPDataDownloader.m in Sources */ = {isa = PBXBuildFile; fileRef = E051151570F44B18A9625F06 /* HCPDataDownloader.m */; };
+		6EEA9DEF64924D328AB558D2 /* HCPFetchUpdateOptions.m in Sources */ = {isa = PBXBuildFile; fileRef = ACED56B13DC548D8BEB7C4C9 /* HCPFetchUpdateOptions.m */; };
+		7283EA30A8874A5AB7086EA9 /* CDVSound.m in Sources */ = {isa = PBXBuildFile; fileRef = 8A2E45E158DA43DA91C753CA /* CDVSound.m */; };
+		747D6882260E44EC91944F8C /* CDVWKWebViewEngine+HCPPlugin_ReadAccessURL.m in Sources */ = {isa = PBXBuildFile; fileRef = C501A2D685A4499CA105DDE5 /* CDVWKWebViewEngine+HCPPlugin_ReadAccessURL.m */; };
+		74837BF94DCD44AE828786D3 /* CDVJpegHeaderWriter.m in Sources */ = {isa = PBXBuildFile; fileRef = E23E3F73D09D44748C61B00A /* CDVJpegHeaderWriter.m */; };
+		74F7ED9723AD4BF9A13A8466 /* AudioToolbox.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9531F6FA90184242AE4AC85C /* AudioToolbox.framework */; };
+		75705792975A43C9ACC273DB /* HCPUpdateLoaderWorker.m in Sources */ = {isa = PBXBuildFile; fileRef = DF69BBF03AEB4B36AC112B05 /* HCPUpdateLoaderWorker.m */; };
+		7A31EFAEC985420C9AAB4A3F /* APPLocalNotification.m in Sources */ = {isa = PBXBuildFile; fileRef = 7895DB549A99421E9445B9E9 /* APPLocalNotification.m */; };
+		7B28C358C609487BBDFA4B8E /* NSJSONSerialization+HCPExtension.m in Sources */ = {isa = PBXBuildFile; fileRef = 9BDC102E37764CF8A2ACBD44 /* NSJSONSerialization+HCPExtension.m */; };
+		7B32887FC14047FF90EF8174 /* SafariServices.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E7858C9E53C24827B194803C /* SafariServices.framework */; settings = {ATTRIBUTES = (Weak, ); }; };
+		7EE74A3D9C2143D9BBEADC9E /* CBTBrowserTab.m in Sources */ = {isa = PBXBuildFile; fileRef = 04D6947CD9854D8888AE026A /* CBTBrowserTab.m */; };
+		7F5DEF2CD9FB4F95BA8B8F21 /* HCPUpdateInstaller.m in Sources */ = {isa = PBXBuildFile; fileRef = CF7F8F9D03614474AC2A77E3 /* HCPUpdateInstaller.m */; };
+		7FE7BF6CF7F84212937F6985 /* NSError+HCPExtension.m in Sources */ = {isa = PBXBuildFile; fileRef = 8FFF5B24D7BA480C90B2D1D2 /* NSError+HCPExtension.m */; };
+		81E33823E8164F5FB4B93AFA /* MusicControlsInfo.m in Sources */ = {isa = PBXBuildFile; fileRef = 685FF768C1FB4315B3D59C2D /* MusicControlsInfo.m */; };
+		82CB41F200504396AF96959D /* CDVPluginResult+HCPEvents.m in Sources */ = {isa = PBXBuildFile; fileRef = 291F7AA59EAE4364949B6D15 /* CDVPluginResult+HCPEvents.m */; };
+		83919488D41D48CAB2A11045 /* HCPFilesStructure.m in Sources */ = {isa = PBXBuildFile; fileRef = BB4FC5B9E2F4452A969D8A87 /* HCPFilesStructure.m */; };
+		8675C99B17954F08B2EBA16F /* HCPApplicationConfig.m in Sources */ = {isa = PBXBuildFile; fileRef = DB912F2964B345399C48BE04 /* HCPApplicationConfig.m */; };
+		8C32AC751BFA4EFD85A3E102 /* NSFileManager+HCPExtension.m in Sources */ = {isa = PBXBuildFile; fileRef = F246D1AD10104A908106D039 /* NSFileManager+HCPExtension.m */; };
+		8C80A938FA604479BFB58A26 /* CDVInAppBrowserNavigationController.m in Sources */ = {isa = PBXBuildFile; fileRef = 69A5C0BA273D4CABB6060FCD /* CDVInAppBrowserNavigationController.m */; };
+		8F3AFEDCBEED4D1088BA6F5D /* ImageIO.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 262D63EC04BA493AB5D12EED /* ImageIO.framework */; settings = {ATTRIBUTES = (Weak, ); }; };
+		90F3B514EF4A33BC0496D13F /* libPods-AppsMobileCompany.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 10E03C6FDD2E80A529C40D18 /* libPods-AppsMobileCompany.a */; };
+		98A30ACF3E7843E1AAFA11ED /* HCPXmlConfig.m in Sources */ = {isa = PBXBuildFile; fileRef = F2D970D15E8549E8B7D204D7 /* HCPXmlConfig.m */; };
+		98B6A25B392049DE809FB2EA /* CDVDevice.m in Sources */ = {isa = PBXBuildFile; fileRef = A0E7FF8031314889902D361F /* CDVDevice.m */; };
+		9979CC1EFC874B4BB11DFB16 /* UNNotificationRequest+APPLocalNotification.m in Sources */ = {isa = PBXBuildFile; fileRef = 320A51CBB41C4FEA935BDD7B /* UNNotificationRequest+APPLocalNotification.m */; };
+		9A48B18F01B24F64B23AE379 /* CoreLocation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 43FF2B03E1764C8381D4F3E2 /* CoreLocation.framework */; };
 		9AB72E4420ADD50700A1703D /* Constants.m in Sources */ = {isa = PBXBuildFile; fileRef = 9AB72E4320ADD50700A1703D /* Constants.m */; };
-		9AFD58C5C65D41368B1F974A /* SafariServices.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2BDE862A00EC41CEA7736F1F /* SafariServices.framework */; settings = {ATTRIBUTES = (Weak, ); }; };
-		9D701869FC7B483B864A58A2 /* AMSInterstitial.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0051650B33D9410EBD636E54 /* AMSInterstitial.swift */; };
-		9DDA0A57151D49DE943F8231 /* AVFoundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D9412C99A91B4E4D9F31768F /* AVFoundation.framework */; };
-		A789C9A535574FC0A1008BFB /* CDVWKInAppBrowserUIDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 7518B942A3FA4A03B487187C /* CDVWKInAppBrowserUIDelegate.m */; };
-		AB30135F12F849C5A0797018 /* AMSPlugin.swift in Sources */ = {isa = PBXBuildFile; fileRef = 41E8DCC5F7124DA8AA0AC21C /* AMSPlugin.swift */; };
-		AE907FBAC45A4EB4995E67A0 /* SKProductDiscount+LocalizedPrice.m in Sources */ = {isa = PBXBuildFile; fileRef = 987B7595B7154B47AB5461B6 /* SKProductDiscount+LocalizedPrice.m */; };
-		AEF1D2EA594445D6B13A8F88 /* CDVLocalFilesystem.m in Sources */ = {isa = PBXBuildFile; fileRef = 90536C235B1947348DCAE8B5 /* CDVLocalFilesystem.m */; };
-		B25ECC154EF9483F8B407D52 /* CDVLocation.m in Sources */ = {isa = PBXBuildFile; fileRef = 6D30BCFD5DDA40F9A13946D3 /* CDVLocation.m */; };
-		B3048E1670E248E28CD6B2AF /* AppVersion.m in Sources */ = {isa = PBXBuildFile; fileRef = FFA7D05B516F4025A0D0FB75 /* AppVersion.m */; };
-		B4F8A86650E44260A8A14780 /* HCPFileDownloader.m in Sources */ = {isa = PBXBuildFile; fileRef = 01AFE74CE96349CBAE340AA3 /* HCPFileDownloader.m */; };
-		B68C73EFB7644B42A3CF2918 /* WebKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E0B8544923004A2AA320AB52 /* WebKit.framework */; settings = {ATTRIBUTES = (Weak, ); }; };
-		BACD2C0677B8475D9A0952C2 /* CDVClipboard.m in Sources */ = {isa = PBXBuildFile; fileRef = B7D78C22D69D4AB8A272C34E /* CDVClipboard.m */; };
-		BC0562CCBBF944A3ABA95849 /* PushPlugin.m in Sources */ = {isa = PBXBuildFile; fileRef = 2B8D2932E946443B9EF5933B /* PushPlugin.m */; };
-		BC590410CAB34EB6B12CD3C9 /* CDVJpegHeaderWriter.m in Sources */ = {isa = PBXBuildFile; fileRef = 605D488B79EA4DE7BF5B3D08 /* CDVJpegHeaderWriter.m */; };
-		BC64FCD641E543B69C6C4FDF /* CDVPluginResult+HCPEvents.m in Sources */ = {isa = PBXBuildFile; fileRef = 690E02B0903546D484E4676C /* CDVPluginResult+HCPEvents.m */; };
-		BC8D1E2DAD19452E86DA5172 /* MessageUI.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5157519FCECC4A08B7910F4A /* MessageUI.framework */; settings = {ATTRIBUTES = (Weak, ); }; };
-		C02B5D9DB1AD4D568DFABFB6 /* CDVWKWebViewEngine+HCPPlugin_ReadAccessURL.m in Sources */ = {isa = PBXBuildFile; fileRef = 66A8BA8974E7423283CC0506 /* CDVWKWebViewEngine+HCPPlugin_ReadAccessURL.m */; };
-		C1B7C9B89EA94FCD854BF1ED /* CDVDevice.m in Sources */ = {isa = PBXBuildFile; fileRef = E8782B6D498140289A095062 /* CDVDevice.m */; };
-		C23655025E1E4991A329D3D1 /* APPLocalNotification.m in Sources */ = {isa = PBXBuildFile; fileRef = 55349B5733F24DA4A7DB8068 /* APPLocalNotification.m */; };
-		C4429B2A8A3646B7921C4F25 /* MainViewController+MusicControls.m in Sources */ = {isa = PBXBuildFile; fileRef = 591BF80482A9433E90E6E9ED /* MainViewController+MusicControls.m */; };
-		C61D29B9CEF74FDAA9B287C6 /* HCPUpdateRequest.m in Sources */ = {isa = PBXBuildFile; fileRef = 51FF157505E443B48B3E17D4 /* HCPUpdateRequest.m */; };
-		C6A2BB57E78B4BCCA10ADCF4 /* scannerOverlay.xib in Resources */ = {isa = PBXBuildFile; fileRef = FE96541E73FC4A908FBE19EA /* scannerOverlay.xib */; };
-		CEFF468035E9422D82C9AAB6 /* CDVFile.m in Sources */ = {isa = PBXBuildFile; fileRef = DA2DAD59853D4D03A28DAC5E /* CDVFile.m */; };
-		D0F8D95C9FE741478EE4C00C /* HCPUpdateLoader.m in Sources */ = {isa = PBXBuildFile; fileRef = 30170E5482BC4C6CB5FC0138 /* HCPUpdateLoader.m */; };
-		D27B487246A64707BE266D4D /* UNUserNotificationCenter+APPLocalNotification.m in Sources */ = {isa = PBXBuildFile; fileRef = 121EF1D9094945AE87AB9471 /* UNUserNotificationCenter+APPLocalNotification.m */; };
-		D38C1B8DA7EA4DFD8682428B /* HCPApplicationConfigStorage.m in Sources */ = {isa = PBXBuildFile; fileRef = FE08EDBC12D64E2F8754A855 /* HCPApplicationConfigStorage.m */; };
-		D436F201C9D87FE0ABC2263A /* Entitlements-Debug.plist in Sources */ = {isa = PBXBuildFile; fileRef = 0C994E604949996E44595856 /* Entitlements-Debug.plist */; };
-		D4A1F34E69D54F859A68C575 /* HCPXmlTags.m in Sources */ = {isa = PBXBuildFile; fileRef = 47346AE6B98E47F5845E20E2 /* HCPXmlTags.m */; };
-		DB01328B3EF645B2A50EFF1B /* HCPContentConfig.m in Sources */ = {isa = PBXBuildFile; fileRef = A968B2BE22944F658F4FD855 /* HCPContentConfig.m */; };
-		DDB9573E0E0F40B0A3ED0E0B /* MusicControls.m in Sources */ = {isa = PBXBuildFile; fileRef = B4E006959EC345A492871E68 /* MusicControls.m */; };
-		DE5696E884904294BAD73E53 /* CDVInAppBrowserOptions.m in Sources */ = {isa = PBXBuildFile; fileRef = 936ADE67BE7D4EB295354F16 /* CDVInAppBrowserOptions.m */; };
-		DFAAF3104E554037A01A9238 /* HCPCleanupHelper.m in Sources */ = {isa = PBXBuildFile; fileRef = F3A1CB9DAB8D442AB66DE6E8 /* HCPCleanupHelper.m */; };
-		E2965F43B95748EC93EB0EEA /* CDVBarcodeScanner.mm in Sources */ = {isa = PBXBuildFile; fileRef = AEA5241007154B9696FC8A60 /* CDVBarcodeScanner.mm */; };
-		E4AA0C7261CF492FB9BCDE67 /* sb_beep1.caf in Resources */ = {isa = PBXBuildFile; fileRef = DF2177A306EB498AA7F6285B /* sb_beep1.caf */; };
-		E66CAA25875C4FA4B0C14DB8 /* AudioToolbox.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = DA69BA410A884794888D6462 /* AudioToolbox.framework */; };
-		E6B6040496AB44A591CF849D /* HCPUpdateLoaderWorker.m in Sources */ = {isa = PBXBuildFile; fileRef = D16AF5E5FEC34DCF8A6C9808 /* HCPUpdateLoaderWorker.m */; };
-		E7254CB695414A5FA8C2389A /* HCPFilesStructure.m in Sources */ = {isa = PBXBuildFile; fileRef = 77DC789B03ED451B8EFB0C5D /* HCPFilesStructure.m */; };
-		E7EB11D8039144AD9695A293 /* NSJSONSerialization+HCPExtension.m in Sources */ = {isa = PBXBuildFile; fileRef = EBB31EA5C5F74806B893B0F7 /* NSJSONSerialization+HCPExtension.m */; };
-		EAD42F1D7CFB4F4CB28B2B16 /* CDVWKWebViewFileXhr.m in Sources */ = {isa = PBXBuildFile; fileRef = 8D84B5A58D1944A7B5B3C148 /* CDVWKWebViewFileXhr.m */; };
-		ECE3797CEFC04623BF04EC20 /* ImageIO.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 52A0FA23F2D04F289C1F74B1 /* ImageIO.framework */; settings = {ATTRIBUTES = (Weak, ); }; };
-		F2A409DF19724A8AA4388521 /* UNNotificationRequest+APPLocalNotification.m in Sources */ = {isa = PBXBuildFile; fileRef = CCC6764037AE407ABC2C1FE5 /* UNNotificationRequest+APPLocalNotification.m */; };
-		F2C214EA7ACF4623B5F31005 /* CDVIonicKeyboard.m in Sources */ = {isa = PBXBuildFile; fileRef = 7707A357E6494640A648697C /* CDVIonicKeyboard.m */; };
-		F47C642F5E54433BA3E3ABF8 /* HCPContentManifest.m in Sources */ = {isa = PBXBuildFile; fileRef = 34662954C01D437C86346007 /* HCPContentManifest.m */; };
-		FEA9A15C166D471E9AB4DCA5 /* CoreLocation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7B29327416044455827B1AF7 /* CoreLocation.framework */; };
+		9AD17411DFA84971A7F7FF60 /* Toast+UIView.m in Sources */ = {isa = PBXBuildFile; fileRef = EB31F1E0C74344DDBA27485E /* Toast+UIView.m */; };
+		A05DDFB1EFE048619A251497 /* HCPContentManifest.m in Sources */ = {isa = PBXBuildFile; fileRef = 9385548B39CF4EB8BD6A1966 /* HCPContentManifest.m */; };
+		A735106A68214FC1A7B20C1A /* CDVCamera.m in Sources */ = {isa = PBXBuildFile; fileRef = 43A4A3ECF98F40FF95B0A500 /* CDVCamera.m */; };
+		A82107F99FAC43D3BC37CCEA /* SocialSharing.m in Sources */ = {isa = PBXBuildFile; fileRef = B1641C4D865344FFB8A03CD9 /* SocialSharing.m */; };
+		AE9D79A650D343D39826D68F /* CDVClipboard.m in Sources */ = {isa = PBXBuildFile; fileRef = 8E07CB038403418CAE4481DE /* CDVClipboard.m */; };
+		B60BE3135EBA469192A70B92 /* CDVWKInAppBrowserUIDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 5A4C381A4943438E9C1C2204 /* CDVWKInAppBrowserUIDelegate.m */; };
+		B852D8686CF841AC8F7CB0A1 /* WebViewPlugin.m in Sources */ = {isa = PBXBuildFile; fileRef = 39F2FD80F81B421491D6987B /* WebViewPlugin.m */; };
+		B8F8C8D11E8A4A859FE4AEB5 /* CDVStatusBar.m in Sources */ = {isa = PBXBuildFile; fileRef = 2658C857E41E4BDCA05991CD /* CDVStatusBar.m */; };
+		BBD18446A3D44B6EBDC4EFFA /* Insomnia.m in Sources */ = {isa = PBXBuildFile; fileRef = 0E34FE5FA6B9486A928BDF11 /* Insomnia.m */; };
+		BC93F4D5079741F5BB32126D /* NSString+SSURLEncoding.m in Sources */ = {isa = PBXBuildFile; fileRef = 3FF56370EAA54C2E883E44CF /* NSString+SSURLEncoding.m */; };
+		BFC21B17B0EA88B2071F1D77 /* Entitlements-Release.plist in Sources */ = {isa = PBXBuildFile; fileRef = EAF9B1642DB07E7FA383001B /* Entitlements-Release.plist */; };
+		C6B7E2A8D1064849B3FAA5A2 /* FileUtility.m in Sources */ = {isa = PBXBuildFile; fileRef = 481E02D964B1487DA4ECBA95 /* FileUtility.m */; };
+		C7030175883044F0AEB2FC58 /* CDVFile.m in Sources */ = {isa = PBXBuildFile; fileRef = E17858680A7E4BFB8382F0DF /* CDVFile.m */; };
+		C72D0281C9E6438397C6BA6C /* CDVAssetLibraryFilesystem.m in Sources */ = {isa = PBXBuildFile; fileRef = 2F06822FD2C34BB9BA45FB07 /* CDVAssetLibraryFilesystem.m */; };
+		CA88316804CB4E1CB17F56D6 /* CDVInAppBrowserOptions.m in Sources */ = {isa = PBXBuildFile; fileRef = 3CDA078D14B345AFB68F9A02 /* CDVInAppBrowserOptions.m */; };
+		CC6C3760061746FEB627774C /* HCPContentManifestStorage.m in Sources */ = {isa = PBXBuildFile; fileRef = 98EE01FE0B7945ACA7C0CC28 /* HCPContentManifestStorage.m */; };
+		CD88174E531E4BDC8B99472D /* scannerOverlay.xib in Resources */ = {isa = PBXBuildFile; fileRef = 4D1E58BA8DA3467184008501 /* scannerOverlay.xib */; };
+		CE780DB081044FE793B89D2D /* HCPXmlConfigParser.m in Sources */ = {isa = PBXBuildFile; fileRef = 8F4DBACEE8B6465293262E84 /* HCPXmlConfigParser.m */; };
+		D2A99494C0F24ED69527253E /* SKProduct+LocalizedPrice.m in Sources */ = {isa = PBXBuildFile; fileRef = 470D5B149C1D4B058A269F4F /* SKProduct+LocalizedPrice.m */; };
+		D4B94224CF1D41D5BA70D507 /* CDVBarcodeScanner.bundle in Resources */ = {isa = PBXBuildFile; fileRef = F9500A20C1154893BF9DB6CA /* CDVBarcodeScanner.bundle */; };
+		D6110AAE69D64A78BECAD03F /* MusicControls.m in Sources */ = {isa = PBXBuildFile; fileRef = 32D074C7FE5D41A9B4C44034 /* MusicControls.m */; };
+		DC892193B7714A9A9990C756 /* HCPAssetsFolderHelper.m in Sources */ = {isa = PBXBuildFile; fileRef = 7B577DD4DBED4E4B8BDEC2C3 /* HCPAssetsFolderHelper.m */; };
+		DD5DC87D8A874C63900F6F75 /* HCPInstallationWorker.m in Sources */ = {isa = PBXBuildFile; fileRef = F26A79E791C84D76B908B115 /* HCPInstallationWorker.m */; };
+		F558253FA1B0431FA28868E3 /* NSBundle+HCPExtension.m in Sources */ = {isa = PBXBuildFile; fileRef = FE3D7058FE904C0A976513F7 /* NSBundle+HCPExtension.m */; };
+		F72F0E8E0DE2486E983FF701 /* HCPFileDownloader.m in Sources */ = {isa = PBXBuildFile; fileRef = 9F74CFCD56BD49AB9AAD23B3 /* HCPFileDownloader.m */; };
+		F80ACD34B1584A1698A17E47 /* SKProductDiscount+LocalizedPrice.m in Sources */ = {isa = PBXBuildFile; fileRef = 9E8B23AE2B4E4EAFBB782D49 /* SKProductDiscount+LocalizedPrice.m */; };
+		FABC4085C600451A82123EA8 /* HCPCleanupHelper.m in Sources */ = {isa = PBXBuildFile; fileRef = FD3A0F98513744D394EB767F /* HCPCleanupHelper.m */; };
+		FD3F99D00C8544F59A6F64E2 /* MediaPlayer.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 947FC09F391B4C4E9B54EDF9 /* MediaPlayer.framework */; };
+		FF031BEAF4F94282A582E2A1 /* MainViewController+MusicControls.m in Sources */ = {isa = PBXBuildFile; fileRef = 5DEA29A6D4884E43B4A72DB3 /* MainViewController+MusicControls.m */; };
+		FF419DC7ECD6423AA055018A /* CDVWKInAppBrowser.m in Sources */ = {isa = PBXBuildFile; fileRef = 263CB266082C49E79C0A5A1A /* CDVWKInAppBrowser.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -147,216 +141,209 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
-		0051650B33D9410EBD636E54 /* AMSInterstitial.swift */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 4; includeInIndex = 0; lastKnownFileType = sourcecode.swift; name = AMSInterstitial.swift; path = Admob/AMSInterstitial.swift; sourceTree = "<group>"; };
-		00673B46D3BA4295836EB4E8 /* UNNotificationRequest+APPLocalNotification.h */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 4; includeInIndex = 0; lastKnownFileType = sourcecode.c.h; name = "UNNotificationRequest+APPLocalNotification.h"; path = "LocalNotification/UNNotificationRequest+APPLocalNotification.h"; sourceTree = "<group>"; };
-		0151FCA27CDC467C91DC4958 /* HCPPluginInternalPreferences+UserDefaults.m */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 4; includeInIndex = 0; lastKnownFileType = sourcecode.c.objc; name = "HCPPluginInternalPreferences+UserDefaults.m"; path = "Chcp/Storage/HCPPluginInternalPreferences+UserDefaults.m"; sourceTree = "<group>"; };
-		01AFE74CE96349CBAE340AA3 /* HCPFileDownloader.m */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 4; includeInIndex = 0; lastKnownFileType = sourcecode.c.objc; name = HCPFileDownloader.m; path = Chcp/Network/HCPFileDownloader.m; sourceTree = "<group>"; };
-		01D639EA94734AC0843074A3 /* HCPXmlConfig.h */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 4; includeInIndex = 0; lastKnownFileType = sourcecode.c.h; name = HCPXmlConfig.h; path = Chcp/Config/HCPXmlConfig.h; sourceTree = "<group>"; };
 		0207DA571B56EA530066E2B4 /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; name = Images.xcassets; path = AppsMobileCompany/Images.xcassets; sourceTree = SOURCE_ROOT; };
-		02F2C28EFA8D46E48A9BF19F /* AMSBanner.swift */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 4; includeInIndex = 0; lastKnownFileType = sourcecode.swift; name = AMSBanner.swift; path = Admob/AMSBanner.swift; sourceTree = "<group>"; };
-		043266E6C3B94C6C910C6025 /* WebViewPlugin.m */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 4; includeInIndex = 0; lastKnownFileType = sourcecode.c.objc; name = WebViewPlugin.m; path = WebView/WebViewPlugin.m; sourceTree = "<group>"; };
-		0537655B621BB4B33A60E8AE /* Pods_AppsMobileCompany.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_AppsMobileCompany.framework; sourceTree = BUILT_PRODUCTS_DIR; };
-		0B2B335255E94DAF96BDB994 /* APPNotificationOptions.m */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 4; includeInIndex = 0; lastKnownFileType = sourcecode.c.objc; name = APPNotificationOptions.m; path = LocalNotification/APPNotificationOptions.m; sourceTree = "<group>"; };
-		0BDC91DAAFBA4EF99B399498 /* APPBadge.m */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 4; includeInIndex = 0; lastKnownFileType = sourcecode.c.objc; name = APPBadge.m; path = Badge/APPBadge.m; sourceTree = "<group>"; };
-		0C6DF7CFCF3D47948EA79CF7 /* InAppPurchase.m */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 4; includeInIndex = 0; lastKnownFileType = sourcecode.c.objc; name = InAppPurchase.m; path = InAppPurchase/InAppPurchase.m; sourceTree = "<group>"; };
-		0C994E604949996E44595856 /* Entitlements-Debug.plist */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.plist.xml; name = "Entitlements-Debug.plist"; path = "AppsMobileCompany/Entitlements-Debug.plist"; sourceTree = "<group>"; };
-		0EA02B2138FF49B4A1FC6F5F /* CBTBrowserTab.h */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 4; includeInIndex = 0; lastKnownFileType = sourcecode.c.h; name = CBTBrowserTab.h; path = BrowserTab/CBTBrowserTab.h; sourceTree = "<group>"; };
-		0EB88DE1F7CE4C8AAAE9E12A /* HCPUpdateLoader.h */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 4; includeInIndex = 0; lastKnownFileType = sourcecode.c.h; name = HCPUpdateLoader.h; path = Chcp/Updater/HCPUpdateLoader.h; sourceTree = "<group>"; };
-		118E8A6C91CB4467AB04B0B7 /* SocialSharing.m */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 4; includeInIndex = 0; lastKnownFileType = sourcecode.c.objc; name = SocialSharing.m; path = SocialSharing/SocialSharing.m; sourceTree = "<group>"; };
-		11C85895FE614A32BE5D792C /* NSBundle+HCPExtension.h */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 4; includeInIndex = 0; lastKnownFileType = sourcecode.c.h; name = "NSBundle+HCPExtension.h"; path = "Chcp/Utils/NSBundle+HCPExtension.h"; sourceTree = "<group>"; };
-		11F4BE9B216F4ADD8AC1B6CE /* CDVInAppBrowserNavigationController.m */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 4; includeInIndex = 0; lastKnownFileType = sourcecode.c.objc; name = CDVInAppBrowserNavigationController.m; path = InAppBrowser/CDVInAppBrowserNavigationController.m; sourceTree = "<group>"; };
-		120E48B8AD20452095B520F2 /* NSData+HCPMD5.h */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 4; includeInIndex = 0; lastKnownFileType = sourcecode.c.h; name = "NSData+HCPMD5.h"; path = "Chcp/Utils/NSData+HCPMD5.h"; sourceTree = "<group>"; };
-		121EF1D9094945AE87AB9471 /* UNUserNotificationCenter+APPLocalNotification.m */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 4; includeInIndex = 0; lastKnownFileType = sourcecode.c.objc; name = "UNUserNotificationCenter+APPLocalNotification.m"; path = "LocalNotification/UNUserNotificationCenter+APPLocalNotification.m"; sourceTree = "<group>"; };
-		136EAD3CEAF34098819B21B9 /* HCPConfigStorageImpl.h */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 4; includeInIndex = 0; lastKnownFileType = sourcecode.c.h; name = HCPConfigStorageImpl.h; path = Chcp/Storage/HCPConfigStorageImpl.h; sourceTree = "<group>"; };
-		15211F4E557D48E7B3D29F1B /* NSString+SSURLEncoding.h */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 4; includeInIndex = 0; lastKnownFileType = sourcecode.c.h; name = "NSString+SSURLEncoding.h"; path = "SocialSharing/NSString+SSURLEncoding.h"; sourceTree = "<group>"; };
-		15271B9D81534E2A8ABEBCD3 /* HCPUpdateLoaderWorker.h */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 4; includeInIndex = 0; lastKnownFileType = sourcecode.c.h; name = HCPUpdateLoaderWorker.h; path = Chcp/Updater/HCPUpdateLoaderWorker.h; sourceTree = "<group>"; };
-		1B02F7B57BA649C3A203FA70 /* SKProduct+LocalizedPrice.h */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 4; includeInIndex = 0; lastKnownFileType = sourcecode.c.h; name = "SKProduct+LocalizedPrice.h"; path = "InAppPurchase/SKProduct+LocalizedPrice.h"; sourceTree = "<group>"; };
-		1C34E9B649694933B1E0132B /* NSString+SSURLEncoding.m */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 4; includeInIndex = 0; lastKnownFileType = sourcecode.c.objc; name = "NSString+SSURLEncoding.m"; path = "SocialSharing/NSString+SSURLEncoding.m"; sourceTree = "<group>"; };
-		1C58E6AFD24B48F4B765238E /* HCPContentManifestStorage.h */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 4; includeInIndex = 0; lastKnownFileType = sourcecode.c.h; name = HCPContentManifestStorage.h; path = Chcp/Storage/HCPContentManifestStorage.h; sourceTree = "<group>"; };
-		1C6341EC15A245C1AC31FA47 /* MainViewController+MusicControls.h */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 4; includeInIndex = 0; lastKnownFileType = sourcecode.c.h; name = "MainViewController+MusicControls.h"; path = "MusicControls/MainViewController+MusicControls.h"; sourceTree = "<group>"; };
+		022979E8AFF64F99BAC2A2F4 /* CDVAssetLibraryFilesystem.h */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 4; includeInIndex = 0; lastKnownFileType = sourcecode.c.h; name = CDVAssetLibraryFilesystem.h; path = File/CDVAssetLibraryFilesystem.h; sourceTree = "<group>"; };
+		04A35E088ED94386A541355F /* CDVLocation.m */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 4; includeInIndex = 0; lastKnownFileType = sourcecode.c.objc; name = CDVLocation.m; path = Geolocation/CDVLocation.m; sourceTree = "<group>"; };
+		04D6947CD9854D8888AE026A /* CBTBrowserTab.m */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 4; includeInIndex = 0; lastKnownFileType = sourcecode.c.objc; name = CBTBrowserTab.m; path = BrowserTab/CBTBrowserTab.m; sourceTree = "<group>"; };
+		09B7BEBD8C1549078BE288D5 /* HCPCleanupHelper.h */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 4; includeInIndex = 0; lastKnownFileType = sourcecode.c.h; name = HCPCleanupHelper.h; path = Chcp/Utils/HCPCleanupHelper.h; sourceTree = "<group>"; };
+		09CA387508084FA1B41B426C /* InAppPurchase.m */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 4; includeInIndex = 0; lastKnownFileType = sourcecode.c.objc; name = InAppPurchase.m; path = InAppPurchase/InAppPurchase.m; sourceTree = "<group>"; };
+		0E34FE5FA6B9486A928BDF11 /* Insomnia.m */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 4; includeInIndex = 0; lastKnownFileType = sourcecode.c.objc; name = Insomnia.m; path = Insomnia/Insomnia.m; sourceTree = "<group>"; };
+		0F5E5501D8E44915BFDFD95B /* CDVWKWebViewFileXhr.m */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 4; includeInIndex = 0; lastKnownFileType = sourcecode.c.objc; name = CDVWKWebViewFileXhr.m; path = IosXhr/CDVWKWebViewFileXhr.m; sourceTree = "<group>"; };
+		10E03C6FDD2E80A529C40D18 /* libPods-AppsMobileCompany.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-AppsMobileCompany.a"; sourceTree = BUILT_PRODUCTS_DIR; };
+		11913B1E02E340B18EB0ECF5 /* InAppPurchase.h */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 4; includeInIndex = 0; lastKnownFileType = sourcecode.c.h; name = InAppPurchase.h; path = InAppPurchase/InAppPurchase.h; sourceTree = "<group>"; };
+		142F9DF436D84411BA597310 /* QuartzCore.framework */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = undefined; includeInIndex = 0; lastKnownFileType = wrapper.framework; name = QuartzCore.framework; path = System/Library/Frameworks/QuartzCore.framework; sourceTree = SDKROOT; };
+		14668597DF3343F9BF34E598 /* HCPEvents.m */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 4; includeInIndex = 0; lastKnownFileType = sourcecode.c.objc; name = HCPEvents.m; path = Chcp/Events/HCPEvents.m; sourceTree = "<group>"; };
+		1613675B5F0C4F82BC6C01EE /* HCPContentConfig.m */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 4; includeInIndex = 0; lastKnownFileType = sourcecode.c.objc; name = HCPContentConfig.m; path = Chcp/Config/HCPContentConfig.m; sourceTree = "<group>"; };
+		1B6BDF61FE6F42808A64B221 /* HCPManifestDiff.m */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 4; includeInIndex = 0; lastKnownFileType = sourcecode.c.objc; name = HCPManifestDiff.m; path = Chcp/Model/HCPManifestDiff.m; sourceTree = "<group>"; };
+		1BD7E959E97B4FC9820BFE11 /* CDVJpegHeaderWriter.h */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 4; includeInIndex = 0; lastKnownFileType = sourcecode.c.h; name = CDVJpegHeaderWriter.h; path = Camera/CDVJpegHeaderWriter.h; sourceTree = "<group>"; };
 		1D3623240D0F684500981E51 /* AppDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
 		1D3623250D0F684500981E51 /* AppDelegate.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AppDelegate.m; sourceTree = "<group>"; };
 		1D6058910D05DD3D006BFB54 /* AppsMobileCompany.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = AppsMobileCompany.app; sourceTree = BUILT_PRODUCTS_DIR; };
-		1DAE1D158A114739B0D6132F /* HCPUpdateInstaller.h */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 4; includeInIndex = 0; lastKnownFileType = sourcecode.c.h; name = HCPUpdateInstaller.h; path = Chcp/Updater/HCPUpdateInstaller.h; sourceTree = "<group>"; };
-		1EF62D58E8A04CD8BE40734C /* HCPContentConfig.h */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 4; includeInIndex = 0; lastKnownFileType = sourcecode.c.h; name = HCPContentConfig.h; path = Chcp/Config/HCPContentConfig.h; sourceTree = "<group>"; };
-		2306C927C4214AD5B1DA5813 /* sb_beep2.caf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = undefined; includeInIndex = 0; lastKnownFileType = unknown; name = sb_beep2.caf; path = Sounds/sb_beep2.caf; sourceTree = "<group>"; };
-		244684C02EA942E1A43912E3 /* HCPFetchUpdateOptions.m */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 4; includeInIndex = 0; lastKnownFileType = sourcecode.c.objc; name = HCPFetchUpdateOptions.m; path = Chcp/Updater/HCPFetchUpdateOptions.m; sourceTree = "<group>"; };
-		247BB8B931A7481AA050494B /* MediaPlayer.framework */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = undefined; includeInIndex = 0; lastKnownFileType = wrapper.framework; name = MediaPlayer.framework; path = System/Library/Frameworks/MediaPlayer.framework; sourceTree = SDKROOT; };
-		25851A7A2EDB43E0851CA8C9 /* AMSPlugin-Bridging-Header.h */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 4; includeInIndex = 0; lastKnownFileType = sourcecode.c.h; name = "AMSPlugin-Bridging-Header.h"; path = "Admob/AMSPlugin-Bridging-Header.h"; sourceTree = "<group>"; };
+		262D63EC04BA493AB5D12EED /* ImageIO.framework */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = undefined; includeInIndex = 0; lastKnownFileType = wrapper.framework; name = ImageIO.framework; path = System/Library/Frameworks/ImageIO.framework; sourceTree = SDKROOT; };
+		263CB266082C49E79C0A5A1A /* CDVWKInAppBrowser.m */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 4; includeInIndex = 0; lastKnownFileType = sourcecode.c.objc; name = CDVWKInAppBrowser.m; path = InAppBrowser/CDVWKInAppBrowser.m; sourceTree = "<group>"; };
+		2658C857E41E4BDCA05991CD /* CDVStatusBar.m */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 4; includeInIndex = 0; lastKnownFileType = sourcecode.c.objc; name = CDVStatusBar.m; path = StatusBar/CDVStatusBar.m; sourceTree = "<group>"; };
+		291F7AA59EAE4364949B6D15 /* CDVPluginResult+HCPEvents.m */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 4; includeInIndex = 0; lastKnownFileType = sourcecode.c.objc; name = "CDVPluginResult+HCPEvents.m"; path = "Chcp/JS/CDVPluginResult+HCPEvents.m"; sourceTree = "<group>"; };
 		29B97316FDCFA39411CA2CEA /* main.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
-		2B6084743CB84ED285821225 /* AMSAdBase.swift */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 4; includeInIndex = 0; lastKnownFileType = sourcecode.swift; name = AMSAdBase.swift; path = Admob/AMSAdBase.swift; sourceTree = "<group>"; };
-		2B8D2932E946443B9EF5933B /* PushPlugin.m */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 4; includeInIndex = 0; lastKnownFileType = sourcecode.c.objc; name = PushPlugin.m; path = Push/PushPlugin.m; sourceTree = "<group>"; };
-		2BDE862A00EC41CEA7736F1F /* SafariServices.framework */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = undefined; includeInIndex = 0; lastKnownFileType = wrapper.framework; name = SafariServices.framework; path = System/Library/Frameworks/SafariServices.framework; sourceTree = SDKROOT; };
-		2D1E077542574E6D8C9B9754 /* Toast+UIView.m */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 4; includeInIndex = 0; lastKnownFileType = sourcecode.c.objc; name = "Toast+UIView.m"; path = "Toast/Toast+UIView.m"; sourceTree = "<group>"; };
-		2D8757C500834C8191E24582 /* HCPInstallationWorker.h */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 4; includeInIndex = 0; lastKnownFileType = sourcecode.c.h; name = HCPInstallationWorker.h; path = Chcp/Updater/HCPInstallationWorker.h; sourceTree = "<group>"; };
-		2E1BADB840944E0A8D06DD64 /* sb_beep4.caf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = undefined; includeInIndex = 0; lastKnownFileType = unknown; name = sb_beep4.caf; path = Sounds/sb_beep4.caf; sourceTree = "<group>"; };
-		2F4A30C72E01442895F5EC1F /* Social.framework */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = undefined; includeInIndex = 0; lastKnownFileType = wrapper.framework; name = Social.framework; path = System/Library/Frameworks/Social.framework; sourceTree = SDKROOT; };
-		30170E5482BC4C6CB5FC0138 /* HCPUpdateLoader.m */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 4; includeInIndex = 0; lastKnownFileType = sourcecode.c.objc; name = HCPUpdateLoader.m; path = Chcp/Updater/HCPUpdateLoader.m; sourceTree = "<group>"; };
+		2B80A41DF33F4A66A6D59BC9 /* CDVLocalFilesystem.h */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 4; includeInIndex = 0; lastKnownFileType = sourcecode.c.h; name = CDVLocalFilesystem.h; path = File/CDVLocalFilesystem.h; sourceTree = "<group>"; };
+		2B878569643F445E9A15E51C /* FileUtility.h */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 4; includeInIndex = 0; lastKnownFileType = sourcecode.c.h; name = FileUtility.h; path = InAppPurchase/FileUtility.h; sourceTree = "<group>"; };
+		2CBA654094C4439E81A6DD6F /* UNUserNotificationCenter+APPLocalNotification.m */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 4; includeInIndex = 0; lastKnownFileType = sourcecode.c.objc; name = "UNUserNotificationCenter+APPLocalNotification.m"; path = "LocalNotification/UNUserNotificationCenter+APPLocalNotification.m"; sourceTree = "<group>"; };
+		2F06822FD2C34BB9BA45FB07 /* CDVAssetLibraryFilesystem.m */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 4; includeInIndex = 0; lastKnownFileType = sourcecode.c.objc; name = CDVAssetLibraryFilesystem.m; path = File/CDVAssetLibraryFilesystem.m; sourceTree = "<group>"; };
+		2F98AAE8463B4EC9B2F6C6B6 /* HCPUpdateInstaller.h */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 4; includeInIndex = 0; lastKnownFileType = sourcecode.c.h; name = HCPUpdateInstaller.h; path = Chcp/Updater/HCPUpdateInstaller.h; sourceTree = "<group>"; };
 		301BF52D109A57CC0062928A /* CordovaLib.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = CordovaLib.xcodeproj; path = CordovaLib/CordovaLib.xcodeproj; sourceTree = "<group>"; };
 		301BF56E109A69640062928A /* www */ = {isa = PBXFileReference; lastKnownFileType = folder; path = www; sourceTree = SOURCE_ROOT; };
 		302D95EE14D2391D003F00A1 /* MainViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MainViewController.h; sourceTree = "<group>"; };
 		302D95EF14D2391D003F00A1 /* MainViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MainViewController.m; sourceTree = "<group>"; };
 		302D95F014D2391D003F00A1 /* MainViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = MainViewController.xib; sourceTree = "<group>"; };
+		303722ED510D47B09CD93493 /* UIImage+CropScaleOrientation.m */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 4; includeInIndex = 0; lastKnownFileType = sourcecode.c.objc; name = "UIImage+CropScaleOrientation.m"; path = "Camera/UIImage+CropScaleOrientation.m"; sourceTree = "<group>"; };
 		3047A50F1AB8059700498E2A /* build-debug.xcconfig */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xcconfig; name = "build-debug.xcconfig"; path = "cordova/build-debug.xcconfig"; sourceTree = SOURCE_ROOT; };
 		3047A5101AB8059700498E2A /* build-release.xcconfig */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xcconfig; name = "build-release.xcconfig"; path = "cordova/build-release.xcconfig"; sourceTree = SOURCE_ROOT; };
 		3047A5111AB8059700498E2A /* build.xcconfig */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xcconfig; name = build.xcconfig; path = cordova/build.xcconfig; sourceTree = SOURCE_ROOT; };
-		3123DE16FA44446A8BC0330C /* Insomnia.m */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 4; includeInIndex = 0; lastKnownFileType = sourcecode.c.objc; name = Insomnia.m; path = Insomnia/Insomnia.m; sourceTree = "<group>"; };
-		320A9298895F7C60803A17CA /* Entitlements-Release.plist */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.plist.xml; name = "Entitlements-Release.plist"; path = "AppsMobileCompany/Entitlements-Release.plist"; sourceTree = "<group>"; };
+		320A51CBB41C4FEA935BDD7B /* UNNotificationRequest+APPLocalNotification.m */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 4; includeInIndex = 0; lastKnownFileType = sourcecode.c.objc; name = "UNNotificationRequest+APPLocalNotification.m"; path = "LocalNotification/UNNotificationRequest+APPLocalNotification.m"; sourceTree = "<group>"; };
 		32CA4F630368D1EE00C91783 /* AppsMobileCompany-Prefix.pch */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "AppsMobileCompany-Prefix.pch"; sourceTree = "<group>"; };
-		335F606F33024C958471E0CC /* NSData+HCPMD5.m */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 4; includeInIndex = 0; lastKnownFileType = sourcecode.c.objc; name = "NSData+HCPMD5.m"; path = "Chcp/Utils/NSData+HCPMD5.m"; sourceTree = "<group>"; };
-		34662954C01D437C86346007 /* HCPContentManifest.m */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 4; includeInIndex = 0; lastKnownFileType = sourcecode.c.objc; name = HCPContentManifest.m; path = Chcp/Config/HCPContentManifest.m; sourceTree = "<group>"; };
-		34A1D8C6B5B3475BAB806E21 /* HCPInstallationWorker.m */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 4; includeInIndex = 0; lastKnownFileType = sourcecode.c.objc; name = HCPInstallationWorker.m; path = Chcp/Updater/HCPInstallationWorker.m; sourceTree = "<group>"; };
-		3641A68C0F3A4EDE92B2E69C /* CDVNavigator.m */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 4; includeInIndex = 0; lastKnownFileType = sourcecode.c.objc; name = CDVNavigator.m; path = Navigator/CDVNavigator.m; sourceTree = "<group>"; };
-		382841493EFC4F3AAAD1ADC3 /* Toast.m */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 4; includeInIndex = 0; lastKnownFileType = sourcecode.c.objc; name = Toast.m; path = Toast/Toast.m; sourceTree = "<group>"; };
-		395B096E7E994C4E935FC922 /* CDVLocalFilesystem.h */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 4; includeInIndex = 0; lastKnownFileType = sourcecode.c.h; name = CDVLocalFilesystem.h; path = File/CDVLocalFilesystem.h; sourceTree = "<group>"; };
-		3AA909A52F544C5D8567ED3C /* NSBundle+HCPExtension.m */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 4; includeInIndex = 0; lastKnownFileType = sourcecode.c.objc; name = "NSBundle+HCPExtension.m"; path = "Chcp/Utils/NSBundle+HCPExtension.m"; sourceTree = "<group>"; };
-		3AAAE6D723B64E7BB3F04715 /* AppDelegate+notification.h */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 4; includeInIndex = 0; lastKnownFileType = sourcecode.c.h; name = "AppDelegate+notification.h"; path = "Push/AppDelegate+notification.h"; sourceTree = "<group>"; };
-		3B9275EF065746CDA1A65C3E /* WebViewPlugin.h */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 4; includeInIndex = 0; lastKnownFileType = sourcecode.c.h; name = WebViewPlugin.h; path = WebView/WebViewPlugin.h; sourceTree = "<group>"; };
-		3FADB9728D764571B9635CF7 /* CDVJpegHeaderWriter.h */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 4; includeInIndex = 0; lastKnownFileType = sourcecode.c.h; name = CDVJpegHeaderWriter.h; path = Camera/CDVJpegHeaderWriter.h; sourceTree = "<group>"; };
-		41E8DCC5F7124DA8AA0AC21C /* AMSPlugin.swift */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 4; includeInIndex = 0; lastKnownFileType = sourcecode.swift; name = AMSPlugin.swift; path = Admob/AMSPlugin.swift; sourceTree = "<group>"; };
-		46239139AE6D4DF8A399BFAF /* HCPXmlConfig.m */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 4; includeInIndex = 0; lastKnownFileType = sourcecode.c.objc; name = HCPXmlConfig.m; path = Chcp/Config/HCPXmlConfig.m; sourceTree = "<group>"; };
-		47346AE6B98E47F5845E20E2 /* HCPXmlTags.m */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 4; includeInIndex = 0; lastKnownFileType = sourcecode.c.objc; name = HCPXmlTags.m; path = Chcp/Config/HCPXmlTags.m; sourceTree = "<group>"; };
-		47EE4E3FE2954E7998D58580 /* MusicControlsInfo.h */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 4; includeInIndex = 0; lastKnownFileType = sourcecode.c.h; name = MusicControlsInfo.h; path = MusicControls/MusicControlsInfo.h; sourceTree = "<group>"; };
-		4A0CC49FD8444B5BAD32F413 /* HCPDataDownloader.h */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 4; includeInIndex = 0; lastKnownFileType = sourcecode.c.h; name = HCPDataDownloader.h; path = Chcp/Network/HCPDataDownloader.h; sourceTree = "<group>"; };
-		4A7238633D154BBF9608A9D8 /* UserNotifications.framework */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = undefined; includeInIndex = 0; lastKnownFileType = wrapper.framework; name = UserNotifications.framework; path = System/Library/Frameworks/UserNotifications.framework; sourceTree = SDKROOT; };
-		4CDBF5AAF58343CC9BF3683B /* FileUtility.m */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 4; includeInIndex = 0; lastKnownFileType = sourcecode.c.objc; name = FileUtility.m; path = InAppPurchase/FileUtility.m; sourceTree = "<group>"; };
-		4D3DDE185C69443FAC8C095C /* HCPFetchUpdateOptions.h */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 4; includeInIndex = 0; lastKnownFileType = sourcecode.c.h; name = HCPFetchUpdateOptions.h; path = Chcp/Updater/HCPFetchUpdateOptions.h; sourceTree = "<group>"; };
-		4DACFF89F3E8476C9439BEFB /* HCPApplicationConfig.h */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 4; includeInIndex = 0; lastKnownFileType = sourcecode.c.h; name = HCPApplicationConfig.h; path = Chcp/Config/HCPApplicationConfig.h; sourceTree = "<group>"; };
-		4F1DF96DF1FA400D986569F8 /* CDVCamera.h */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 4; includeInIndex = 0; lastKnownFileType = sourcecode.c.h; name = CDVCamera.h; path = Camera/CDVCamera.h; sourceTree = "<group>"; };
-		506A463DC7944C04A9B02CA3 /* HCPAppUpdateRequestAlertDialog.h */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 4; includeInIndex = 0; lastKnownFileType = sourcecode.c.h; name = HCPAppUpdateRequestAlertDialog.h; path = Chcp/Utils/HCPAppUpdateRequestAlertDialog.h; sourceTree = "<group>"; };
-		51451808FC5046328387B893 /* HCPEvents.m */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 4; includeInIndex = 0; lastKnownFileType = sourcecode.c.objc; name = HCPEvents.m; path = Chcp/Events/HCPEvents.m; sourceTree = "<group>"; };
-		5157519FCECC4A08B7910F4A /* MessageUI.framework */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = undefined; includeInIndex = 0; lastKnownFileType = wrapper.framework; name = MessageUI.framework; path = System/Library/Frameworks/MessageUI.framework; sourceTree = SDKROOT; };
-		5197DAA8578F470AB5F30D44 /* HCPManifestFile.h */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 4; includeInIndex = 0; lastKnownFileType = sourcecode.c.h; name = HCPManifestFile.h; path = Chcp/Model/HCPManifestFile.h; sourceTree = "<group>"; };
-		51FF157505E443B48B3E17D4 /* HCPUpdateRequest.m */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 4; includeInIndex = 0; lastKnownFileType = sourcecode.c.objc; name = HCPUpdateRequest.m; path = Chcp/Updater/HCPUpdateRequest.m; sourceTree = "<group>"; };
-		523DE7E89F8D4D42B758B25A /* APPNotificationContent.h */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 4; includeInIndex = 0; lastKnownFileType = sourcecode.c.h; name = APPNotificationContent.h; path = LocalNotification/APPNotificationContent.h; sourceTree = "<group>"; };
-		52A0FA23F2D04F289C1F74B1 /* ImageIO.framework */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = undefined; includeInIndex = 0; lastKnownFileType = wrapper.framework; name = ImageIO.framework; path = System/Library/Frameworks/ImageIO.framework; sourceTree = SDKROOT; };
-		55349B5733F24DA4A7DB8068 /* APPLocalNotification.m */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 4; includeInIndex = 0; lastKnownFileType = sourcecode.c.objc; name = APPLocalNotification.m; path = LocalNotification/APPLocalNotification.m; sourceTree = "<group>"; };
-		5548A441131142B588EFF214 /* CDVCamera.m */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 4; includeInIndex = 0; lastKnownFileType = sourcecode.c.objc; name = CDVCamera.m; path = Camera/CDVCamera.m; sourceTree = "<group>"; };
-		570126871DEF431B85C16E54 /* CDVStatusBar.h */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 4; includeInIndex = 0; lastKnownFileType = sourcecode.c.h; name = CDVStatusBar.h; path = StatusBar/CDVStatusBar.h; sourceTree = "<group>"; };
-		572B8E64A833436A897B2FA9 /* APPNotificationContent.m */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 4; includeInIndex = 0; lastKnownFileType = sourcecode.c.objc; name = APPNotificationContent.m; path = LocalNotification/APPNotificationContent.m; sourceTree = "<group>"; };
-		57C61C611F0E4F37AA2B9129 /* HCPUpdateRequest.h */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 4; includeInIndex = 0; lastKnownFileType = sourcecode.c.h; name = HCPUpdateRequest.h; path = Chcp/Updater/HCPUpdateRequest.h; sourceTree = "<group>"; };
-		5831B4625F8D4E25BB1CF89F /* NSError+HCPExtension.h */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 4; includeInIndex = 0; lastKnownFileType = sourcecode.c.h; name = "NSError+HCPExtension.h"; path = "Chcp/Utils/NSError+HCPExtension.h"; sourceTree = "<group>"; };
-		591BF80482A9433E90E6E9ED /* MainViewController+MusicControls.m */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 4; includeInIndex = 0; lastKnownFileType = sourcecode.c.objc; name = "MainViewController+MusicControls.m"; path = "MusicControls/MainViewController+MusicControls.m"; sourceTree = "<group>"; };
-		59E9929A10734AD8BE5C99B5 /* NSFileManager+HCPExtension.h */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 4; includeInIndex = 0; lastKnownFileType = sourcecode.c.h; name = "NSFileManager+HCPExtension.h"; path = "Chcp/Utils/NSFileManager+HCPExtension.h"; sourceTree = "<group>"; };
-		5C4EF344E5E6477FAA116FF8 /* HCPApplicationConfig.m */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 4; includeInIndex = 0; lastKnownFileType = sourcecode.c.objc; name = HCPApplicationConfig.m; path = Chcp/Config/HCPApplicationConfig.m; sourceTree = "<group>"; };
-		5D66E7532EB6414AB4068779 /* Insomnia.h */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 4; includeInIndex = 0; lastKnownFileType = sourcecode.c.h; name = Insomnia.h; path = Insomnia/Insomnia.h; sourceTree = "<group>"; };
-		5D99F161D07645419878CA4D /* CDVIonicKeyboard.h */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 4; includeInIndex = 0; lastKnownFileType = sourcecode.c.h; name = CDVIonicKeyboard.h; path = Keyboard/CDVIonicKeyboard.h; sourceTree = "<group>"; };
-		605D488B79EA4DE7BF5B3D08 /* CDVJpegHeaderWriter.m */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 4; includeInIndex = 0; lastKnownFileType = sourcecode.c.objc; name = CDVJpegHeaderWriter.m; path = Camera/CDVJpegHeaderWriter.m; sourceTree = "<group>"; };
-		635DDC146FCC40BFB86CAA55 /* AppVersion.h */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 4; includeInIndex = 0; lastKnownFileType = sourcecode.c.h; name = AppVersion.h; path = AppVersion/AppVersion.h; sourceTree = "<group>"; };
-		6553946B31914995B05AC026 /* APPBadge.h */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 4; includeInIndex = 0; lastKnownFileType = sourcecode.c.h; name = APPBadge.h; path = Badge/APPBadge.h; sourceTree = "<group>"; };
-		66A8BA8974E7423283CC0506 /* CDVWKWebViewEngine+HCPPlugin_ReadAccessURL.m */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 4; includeInIndex = 0; lastKnownFileType = sourcecode.c.objc; name = "CDVWKWebViewEngine+HCPPlugin_ReadAccessURL.m"; path = "Chcp/WKWebViewFix/CDVWKWebViewEngine+HCPPlugin_ReadAccessURL.m"; sourceTree = "<group>"; };
-		66EF94A1481143898C75D12D /* CDVLocation.h */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 4; includeInIndex = 0; lastKnownFileType = sourcecode.c.h; name = CDVLocation.h; path = Geolocation/CDVLocation.h; sourceTree = "<group>"; };
-		67F62C4737C54D44BAEC6A19 /* CDVNavigator.h */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 4; includeInIndex = 0; lastKnownFileType = sourcecode.c.h; name = CDVNavigator.h; path = Navigator/CDVNavigator.h; sourceTree = "<group>"; };
-		690E02B0903546D484E4676C /* CDVPluginResult+HCPEvents.m */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 4; includeInIndex = 0; lastKnownFileType = sourcecode.c.objc; name = "CDVPluginResult+HCPEvents.m"; path = "Chcp/JS/CDVPluginResult+HCPEvents.m"; sourceTree = "<group>"; };
+		32D074C7FE5D41A9B4C44034 /* MusicControls.m */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 4; includeInIndex = 0; lastKnownFileType = sourcecode.c.objc; name = MusicControls.m; path = MusicControls/MusicControls.m; sourceTree = "<group>"; };
+		335D05A0AF8F46779540A125 /* HCPUpdateLoader.h */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 4; includeInIndex = 0; lastKnownFileType = sourcecode.c.h; name = HCPUpdateLoader.h; path = Chcp/Updater/HCPUpdateLoader.h; sourceTree = "<group>"; };
+		34AB67E5F19649EC872B02FB /* HCPContentConfig.h */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 4; includeInIndex = 0; lastKnownFileType = sourcecode.c.h; name = HCPContentConfig.h; path = Chcp/Config/HCPContentConfig.h; sourceTree = "<group>"; };
+		3645CDEFD5CD45F490C82627 /* CDVSound.h */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 4; includeInIndex = 0; lastKnownFileType = sourcecode.c.h; name = CDVSound.h; path = MediaNative/CDVSound.h; sourceTree = "<group>"; };
+		38099832CD8C4601AF1E11F4 /* CDVStatusBar.h */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 4; includeInIndex = 0; lastKnownFileType = sourcecode.c.h; name = CDVStatusBar.h; path = StatusBar/CDVStatusBar.h; sourceTree = "<group>"; };
+		39F2FD80F81B421491D6987B /* WebViewPlugin.m */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 4; includeInIndex = 0; lastKnownFileType = sourcecode.c.objc; name = WebViewPlugin.m; path = WebView/WebViewPlugin.m; sourceTree = "<group>"; };
+		3A3D99004ED74BB999CBF73A /* HCPPluginInternalPreferences.h */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 4; includeInIndex = 0; lastKnownFileType = sourcecode.c.h; name = HCPPluginInternalPreferences.h; path = Chcp/Config/HCPPluginInternalPreferences.h; sourceTree = "<group>"; };
+		3B46E14330BC4A64A916EB4E /* CDVCamera.h */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 4; includeInIndex = 0; lastKnownFileType = sourcecode.c.h; name = CDVCamera.h; path = Camera/CDVCamera.h; sourceTree = "<group>"; };
+		3C4CD15D98FC4BCE86D481E3 /* HCPFileDownloader.h */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 4; includeInIndex = 0; lastKnownFileType = sourcecode.c.h; name = HCPFileDownloader.h; path = Chcp/Network/HCPFileDownloader.h; sourceTree = "<group>"; };
+		3CDA078D14B345AFB68F9A02 /* CDVInAppBrowserOptions.m */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 4; includeInIndex = 0; lastKnownFileType = sourcecode.c.objc; name = CDVInAppBrowserOptions.m; path = InAppBrowser/CDVInAppBrowserOptions.m; sourceTree = "<group>"; };
+		3FF56370EAA54C2E883E44CF /* NSString+SSURLEncoding.m */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 4; includeInIndex = 0; lastKnownFileType = sourcecode.c.objc; name = "NSString+SSURLEncoding.m"; path = "SocialSharing/NSString+SSURLEncoding.m"; sourceTree = "<group>"; };
+		414C0C7663E64D95894D949C /* CDVWKWebViewEngine+HCPPlugin_ReadAccessURL.h */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 4; includeInIndex = 0; lastKnownFileType = sourcecode.c.h; name = "CDVWKWebViewEngine+HCPPlugin_ReadAccessURL.h"; path = "Chcp/WKWebViewFix/CDVWKWebViewEngine+HCPPlugin_ReadAccessURL.h"; sourceTree = "<group>"; };
+		42FFD7AF2576499C8634F654 /* HCPWorker.h */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 4; includeInIndex = 0; lastKnownFileType = sourcecode.c.h; name = HCPWorker.h; path = Chcp/Updater/HCPWorker.h; sourceTree = "<group>"; };
+		43A4A3ECF98F40FF95B0A500 /* CDVCamera.m */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 4; includeInIndex = 0; lastKnownFileType = sourcecode.c.objc; name = CDVCamera.m; path = Camera/CDVCamera.m; sourceTree = "<group>"; };
+		43FF2B03E1764C8381D4F3E2 /* CoreLocation.framework */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = undefined; includeInIndex = 0; lastKnownFileType = wrapper.framework; name = CoreLocation.framework; path = System/Library/Frameworks/CoreLocation.framework; sourceTree = SDKROOT; };
+		470D5B149C1D4B058A269F4F /* SKProduct+LocalizedPrice.m */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 4; includeInIndex = 0; lastKnownFileType = sourcecode.c.objc; name = "SKProduct+LocalizedPrice.m"; path = "InAppPurchase/SKProduct+LocalizedPrice.m"; sourceTree = "<group>"; };
+		473529E9518C43C3A5F1A764 /* NSString+SSURLEncoding.h */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 4; includeInIndex = 0; lastKnownFileType = sourcecode.c.h; name = "NSString+SSURLEncoding.h"; path = "SocialSharing/NSString+SSURLEncoding.h"; sourceTree = "<group>"; };
+		481E02D964B1487DA4ECBA95 /* FileUtility.m */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 4; includeInIndex = 0; lastKnownFileType = sourcecode.c.objc; name = FileUtility.m; path = InAppPurchase/FileUtility.m; sourceTree = "<group>"; };
+		4D1E58BA8DA3467184008501 /* scannerOverlay.xib */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = undefined; includeInIndex = 0; lastKnownFileType = file.xib; name = scannerOverlay.xib; path = scannerOverlay.xib; sourceTree = "<group>"; };
+		5057104BFB4F45319CF17A39 /* UIImage+CropScaleOrientation.h */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 4; includeInIndex = 0; lastKnownFileType = sourcecode.c.h; name = "UIImage+CropScaleOrientation.h"; path = "Camera/UIImage+CropScaleOrientation.h"; sourceTree = "<group>"; };
+		506A9D1A3B774DB6A54AFCDF /* PushPlugin.m */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 4; includeInIndex = 0; lastKnownFileType = sourcecode.c.objc; name = PushPlugin.m; path = Push/PushPlugin.m; sourceTree = "<group>"; };
+		54281357D117412AA8AE2F01 /* NSData+HCPMD5.m */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 4; includeInIndex = 0; lastKnownFileType = sourcecode.c.objc; name = "NSData+HCPMD5.m"; path = "Chcp/Utils/NSData+HCPMD5.m"; sourceTree = "<group>"; };
+		5428169FBE8646CB82466D84 /* MusicControls.h */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 4; includeInIndex = 0; lastKnownFileType = sourcecode.c.h; name = MusicControls.h; path = MusicControls/MusicControls.h; sourceTree = "<group>"; };
+		546C888A93C246FBB3D330BB /* MusicControlsInfo.h */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 4; includeInIndex = 0; lastKnownFileType = sourcecode.c.h; name = MusicControlsInfo.h; path = MusicControls/MusicControlsInfo.h; sourceTree = "<group>"; };
+		55977DB526614FDA9C9FCDC1 /* WebViewPlugin.h */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 4; includeInIndex = 0; lastKnownFileType = sourcecode.c.h; name = WebViewPlugin.h; path = WebView/WebViewPlugin.h; sourceTree = "<group>"; };
+		55EE29911EBB43578EE1E124 /* CDVLocalFilesystem.m */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 4; includeInIndex = 0; lastKnownFileType = sourcecode.c.objc; name = CDVLocalFilesystem.m; path = File/CDVLocalFilesystem.m; sourceTree = "<group>"; };
+		56BDF1CBF73446D6AC6BD5BA /* CDVIonicKeyboard.h */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 4; includeInIndex = 0; lastKnownFileType = sourcecode.c.h; name = CDVIonicKeyboard.h; path = Keyboard/CDVIonicKeyboard.h; sourceTree = "<group>"; };
+		57C4EAAB016346ABB3E92F8F /* APPBadge.m */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 4; includeInIndex = 0; lastKnownFileType = sourcecode.c.objc; name = APPBadge.m; path = Badge/APPBadge.m; sourceTree = "<group>"; };
+		586CCD5A6D9E4ECB8DF4EA6A /* UNNotificationRequest+APPLocalNotification.h */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 4; includeInIndex = 0; lastKnownFileType = sourcecode.c.h; name = "UNNotificationRequest+APPLocalNotification.h"; path = "LocalNotification/UNNotificationRequest+APPLocalNotification.h"; sourceTree = "<group>"; };
+		5A4C381A4943438E9C1C2204 /* CDVWKInAppBrowserUIDelegate.m */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 4; includeInIndex = 0; lastKnownFileType = sourcecode.c.objc; name = CDVWKInAppBrowserUIDelegate.m; path = InAppBrowser/CDVWKInAppBrowserUIDelegate.m; sourceTree = "<group>"; };
+		5DB98CEF599D47CEA2DE8A82 /* CBTBrowserTab.h */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 4; includeInIndex = 0; lastKnownFileType = sourcecode.c.h; name = CBTBrowserTab.h; path = BrowserTab/CBTBrowserTab.h; sourceTree = "<group>"; };
+		5DEA29A6D4884E43B4A72DB3 /* MainViewController+MusicControls.m */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 4; includeInIndex = 0; lastKnownFileType = sourcecode.c.objc; name = "MainViewController+MusicControls.m"; path = "MusicControls/MainViewController+MusicControls.m"; sourceTree = "<group>"; };
+		5E68072989C54DDDB24E7FB0 /* AVFoundation.framework */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = undefined; includeInIndex = 0; lastKnownFileType = wrapper.framework; name = AVFoundation.framework; path = System/Library/Frameworks/AVFoundation.framework; sourceTree = SDKROOT; };
+		5FC2C6CBEB6441F3825B825F /* HCPXmlTags.m */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 4; includeInIndex = 0; lastKnownFileType = sourcecode.c.objc; name = HCPXmlTags.m; path = Chcp/Config/HCPXmlTags.m; sourceTree = "<group>"; };
+		5FEE5BF0635D4BD3884E64C8 /* CDVIonicKeyboard.m */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 4; includeInIndex = 0; lastKnownFileType = sourcecode.c.objc; name = CDVIonicKeyboard.m; path = Keyboard/CDVIonicKeyboard.m; sourceTree = "<group>"; };
+		607E602A4B6745B7BAAC4212 /* APPNotificationCategory.m */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 4; includeInIndex = 0; lastKnownFileType = sourcecode.c.objc; name = APPNotificationCategory.m; path = LocalNotification/APPNotificationCategory.m; sourceTree = "<group>"; };
+		611A3BD790624BB9AD40DA0E /* NSFileManager+HCPExtension.h */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 4; includeInIndex = 0; lastKnownFileType = sourcecode.c.h; name = "NSFileManager+HCPExtension.h"; path = "Chcp/Utils/NSFileManager+HCPExtension.h"; sourceTree = "<group>"; };
+		685FF768C1FB4315B3D59C2D /* MusicControlsInfo.m */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 4; includeInIndex = 0; lastKnownFileType = sourcecode.c.objc; name = MusicControlsInfo.m; path = MusicControls/MusicControlsInfo.m; sourceTree = "<group>"; };
+		69A5C0BA273D4CABB6060FCD /* CDVInAppBrowserNavigationController.m */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 4; includeInIndex = 0; lastKnownFileType = sourcecode.c.objc; name = CDVInAppBrowserNavigationController.m; path = InAppBrowser/CDVInAppBrowserNavigationController.m; sourceTree = "<group>"; };
 		6AFF5BF81D6E424B00AB3073 /* CDVLaunchScreen.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; name = CDVLaunchScreen.storyboard; path = AppsMobileCompany/CDVLaunchScreen.storyboard; sourceTree = SOURCE_ROOT; };
-		6D30BCFD5DDA40F9A13946D3 /* CDVLocation.m */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 4; includeInIndex = 0; lastKnownFileType = sourcecode.c.objc; name = CDVLocation.m; path = Geolocation/CDVLocation.m; sourceTree = "<group>"; };
-		6E07001A23DD4202849F024C /* HCPWorker.h */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 4; includeInIndex = 0; lastKnownFileType = sourcecode.c.h; name = HCPWorker.h; path = Chcp/Updater/HCPWorker.h; sourceTree = "<group>"; };
-		6EE305604EE0417C902612F3 /* CDVInAppBrowserOptions.h */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 4; includeInIndex = 0; lastKnownFileType = sourcecode.c.h; name = CDVInAppBrowserOptions.h; path = InAppBrowser/CDVInAppBrowserOptions.h; sourceTree = "<group>"; };
-		6F1D31AA6A2D427280CB3D6A /* HCPContentManifest.h */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 4; includeInIndex = 0; lastKnownFileType = sourcecode.c.h; name = HCPContentManifest.h; path = Chcp/Config/HCPContentManifest.h; sourceTree = "<group>"; };
-		710DE19CEFA64AD187A60F1E /* CDVWKInAppBrowserUIDelegate.h */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 4; includeInIndex = 0; lastKnownFileType = sourcecode.c.h; name = CDVWKInAppBrowserUIDelegate.h; path = InAppBrowser/CDVWKInAppBrowserUIDelegate.h; sourceTree = "<group>"; };
-		7178994D1F474C8FB4BB1ADD /* CDVExif.h */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 4; includeInIndex = 0; lastKnownFileType = sourcecode.c.h; name = CDVExif.h; path = Camera/CDVExif.h; sourceTree = "<group>"; };
-		72032A8344C7415490541337 /* HCPPluginInternalPreferences.h */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 4; includeInIndex = 0; lastKnownFileType = sourcecode.c.h; name = HCPPluginInternalPreferences.h; path = Chcp/Config/HCPPluginInternalPreferences.h; sourceTree = "<group>"; };
-		72345944D14A4DFB85535738 /* UNUserNotificationCenter+APPLocalNotification.h */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 4; includeInIndex = 0; lastKnownFileType = sourcecode.c.h; name = "UNUserNotificationCenter+APPLocalNotification.h"; path = "LocalNotification/UNUserNotificationCenter+APPLocalNotification.h"; sourceTree = "<group>"; };
-		7518B942A3FA4A03B487187C /* CDVWKInAppBrowserUIDelegate.m */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 4; includeInIndex = 0; lastKnownFileType = sourcecode.c.objc; name = CDVWKInAppBrowserUIDelegate.m; path = InAppBrowser/CDVWKInAppBrowserUIDelegate.m; sourceTree = "<group>"; };
-		76C492B670124D5FAE4B7A83 /* UIImage+CropScaleOrientation.h */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 4; includeInIndex = 0; lastKnownFileType = sourcecode.c.h; name = "UIImage+CropScaleOrientation.h"; path = "Camera/UIImage+CropScaleOrientation.h"; sourceTree = "<group>"; };
-		7707A357E6494640A648697C /* CDVIonicKeyboard.m */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 4; includeInIndex = 0; lastKnownFileType = sourcecode.c.objc; name = CDVIonicKeyboard.m; path = Keyboard/CDVIonicKeyboard.m; sourceTree = "<group>"; };
-		77DC789B03ED451B8EFB0C5D /* HCPFilesStructure.m */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 4; includeInIndex = 0; lastKnownFileType = sourcecode.c.objc; name = HCPFilesStructure.m; path = Chcp/Model/HCPFilesStructure.m; sourceTree = "<group>"; };
-		793B4EC24FCD4871BFD69A73 /* NSJSONSerialization+HCPExtension.h */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 4; includeInIndex = 0; lastKnownFileType = sourcecode.c.h; name = "NSJSONSerialization+HCPExtension.h"; path = "Chcp/Utils/NSJSONSerialization+HCPExtension.h"; sourceTree = "<group>"; };
-		795629D223C34F83A6E85A5F /* CDVDevice.h */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 4; includeInIndex = 0; lastKnownFileType = sourcecode.c.h; name = CDVDevice.h; path = Device/CDVDevice.h; sourceTree = "<group>"; };
-		7AC660F3DDD84C92AD5EBB24 /* HCPCleanupHelper.h */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 4; includeInIndex = 0; lastKnownFileType = sourcecode.c.h; name = HCPCleanupHelper.h; path = Chcp/Utils/HCPCleanupHelper.h; sourceTree = "<group>"; };
-		7B29327416044455827B1AF7 /* CoreLocation.framework */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = undefined; includeInIndex = 0; lastKnownFileType = wrapper.framework; name = CoreLocation.framework; path = System/Library/Frameworks/CoreLocation.framework; sourceTree = SDKROOT; };
-		7C3B9035FD444CE0985B20E0 /* SKProductDiscount+LocalizedPrice.h */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 4; includeInIndex = 0; lastKnownFileType = sourcecode.c.h; name = "SKProductDiscount+LocalizedPrice.h"; path = "InAppPurchase/SKProductDiscount+LocalizedPrice.h"; sourceTree = "<group>"; };
-		810CAD48F3264885AD2C7D96 /* HCPFilesStructure.h */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 4; includeInIndex = 0; lastKnownFileType = sourcecode.c.h; name = HCPFilesStructure.h; path = Chcp/Model/HCPFilesStructure.h; sourceTree = "<group>"; };
-		8278E07E409242E49D7F109B /* CDVInAppBrowserNavigationController.h */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 4; includeInIndex = 0; lastKnownFileType = sourcecode.c.h; name = CDVInAppBrowserNavigationController.h; path = InAppBrowser/CDVInAppBrowserNavigationController.h; sourceTree = "<group>"; };
-		8285352BEA2F4D742C02D4A8 /* Pods-AppsMobileCompany.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-AppsMobileCompany.debug.xcconfig"; path = "Target Support Files/Pods-AppsMobileCompany/Pods-AppsMobileCompany.debug.xcconfig"; sourceTree = "<group>"; };
-		838DABC5A26C4B018819088B /* SocialSharing.h */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 4; includeInIndex = 0; lastKnownFileType = sourcecode.c.h; name = SocialSharing.h; path = SocialSharing/SocialSharing.h; sourceTree = "<group>"; };
-		83BAF8B50859496BAAEA320A /* FileUtility.h */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 4; includeInIndex = 0; lastKnownFileType = sourcecode.c.h; name = FileUtility.h; path = InAppPurchase/FileUtility.h; sourceTree = "<group>"; };
-		84E90C58A4934A1FB4E7CF54 /* CDVWKWebViewEngine+HCPPlugin_ReadAccessURL.h */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 4; includeInIndex = 0; lastKnownFileType = sourcecode.c.h; name = "CDVWKWebViewEngine+HCPPlugin_ReadAccessURL.h"; path = "Chcp/WKWebViewFix/CDVWKWebViewEngine+HCPPlugin_ReadAccessURL.h"; sourceTree = "<group>"; };
-		854F91FDFD604ED6A054196C /* HCPXmlTags.h */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 4; includeInIndex = 0; lastKnownFileType = sourcecode.c.h; name = HCPXmlTags.h; path = Chcp/Config/HCPXmlTags.h; sourceTree = "<group>"; };
-		87BCEA2DEA2C44B7B1749FA0 /* AMSGenerated.swift */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 4; includeInIndex = 0; lastKnownFileType = sourcecode.swift; name = AMSGenerated.swift; path = Admob/AMSGenerated.swift; sourceTree = "<group>"; };
-		896B80C46BE84B46B66A7E52 /* APPLocalNotification.h */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 4; includeInIndex = 0; lastKnownFileType = sourcecode.c.h; name = APPLocalNotification.h; path = LocalNotification/APPLocalNotification.h; sourceTree = "<group>"; };
-		89728D504B1A407E8142EA10 /* CDVSound.m */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 4; includeInIndex = 0; lastKnownFileType = sourcecode.c.objc; name = CDVSound.m; path = MediaNative/CDVSound.m; sourceTree = "<group>"; };
-		89A38F2C45C944E882B54173 /* NSError+HCPExtension.m */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 4; includeInIndex = 0; lastKnownFileType = sourcecode.c.objc; name = "NSError+HCPExtension.m"; path = "Chcp/Utils/NSError+HCPExtension.m"; sourceTree = "<group>"; };
-		8A437781B8CF48E0A4253DBB /* CBTBrowserTab.m */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 4; includeInIndex = 0; lastKnownFileType = sourcecode.c.objc; name = CBTBrowserTab.m; path = BrowserTab/CBTBrowserTab.m; sourceTree = "<group>"; };
+		6C47F52024A3410482E0DE56 /* HCPApplicationConfigStorage.m */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 4; includeInIndex = 0; lastKnownFileType = sourcecode.c.objc; name = HCPApplicationConfigStorage.m; path = Chcp/Storage/HCPApplicationConfigStorage.m; sourceTree = "<group>"; };
+		6F6D9F2F1AE949278F390BD6 /* HCPEvents.h */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 4; includeInIndex = 0; lastKnownFileType = sourcecode.c.h; name = HCPEvents.h; path = Chcp/Events/HCPEvents.h; sourceTree = "<group>"; };
+		71202EAF91004206A37671C3 /* CDVNavigator.h */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 4; includeInIndex = 0; lastKnownFileType = sourcecode.c.h; name = CDVNavigator.h; path = Navigator/CDVNavigator.h; sourceTree = "<group>"; };
+		7155C19234194323BD9752CB /* SocialSharing.h */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 4; includeInIndex = 0; lastKnownFileType = sourcecode.c.h; name = SocialSharing.h; path = SocialSharing/SocialSharing.h; sourceTree = "<group>"; };
+		72A185962C8844A0987AB1F8 /* Toast+UIView.h */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 4; includeInIndex = 0; lastKnownFileType = sourcecode.c.h; name = "Toast+UIView.h"; path = "Toast/Toast+UIView.h"; sourceTree = "<group>"; };
+		7313C8893E3E476DAE860373 /* HCPDataDownloader.h */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 4; includeInIndex = 0; lastKnownFileType = sourcecode.c.h; name = HCPDataDownloader.h; path = Chcp/Network/HCPDataDownloader.h; sourceTree = "<group>"; };
+		740F98BDCDAB43839061A8C8 /* HCPUpdateLoaderWorker.h */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 4; includeInIndex = 0; lastKnownFileType = sourcecode.c.h; name = HCPUpdateLoaderWorker.h; path = Chcp/Updater/HCPUpdateLoaderWorker.h; sourceTree = "<group>"; };
+		776A475058EE46C8B3AEF6E8 /* Entitlements-Debug.plist */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.plist.xml; name = "Entitlements-Debug.plist"; path = "AppsMobileCompany/Entitlements-Debug.plist"; sourceTree = "<group>"; };
+		7840EE52411B47F2AEF63C1E /* HCPConfigFileStorage.h */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 4; includeInIndex = 0; lastKnownFileType = sourcecode.c.h; name = HCPConfigFileStorage.h; path = Chcp/Storage/HCPConfigFileStorage.h; sourceTree = "<group>"; };
+		7895DB549A99421E9445B9E9 /* APPLocalNotification.m */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 4; includeInIndex = 0; lastKnownFileType = sourcecode.c.objc; name = APPLocalNotification.m; path = LocalNotification/APPLocalNotification.m; sourceTree = "<group>"; };
+		79AABE3D79E54CA38D42ADE7 /* UNUserNotificationCenter+APPLocalNotification.h */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 4; includeInIndex = 0; lastKnownFileType = sourcecode.c.h; name = "UNUserNotificationCenter+APPLocalNotification.h"; path = "LocalNotification/UNUserNotificationCenter+APPLocalNotification.h"; sourceTree = "<group>"; };
+		7A7B7C206261446CB6D4CD35 /* sb_beep2.caf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = undefined; includeInIndex = 0; lastKnownFileType = unknown; name = sb_beep2.caf; path = Sounds/sb_beep2.caf; sourceTree = "<group>"; };
+		7B577DD4DBED4E4B8BDEC2C3 /* HCPAssetsFolderHelper.m */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 4; includeInIndex = 0; lastKnownFileType = sourcecode.c.objc; name = HCPAssetsFolderHelper.m; path = Chcp/Utils/HCPAssetsFolderHelper.m; sourceTree = "<group>"; };
+		7D3F71243FE236F361391537 /* Pods-AppsMobileCompany.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-AppsMobileCompany.release.xcconfig"; path = "Target Support Files/Pods-AppsMobileCompany/Pods-AppsMobileCompany.release.xcconfig"; sourceTree = "<group>"; };
+		7DDE5BBF0CA24E649133B265 /* HCPPluginInternalPreferences.m */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 4; includeInIndex = 0; lastKnownFileType = sourcecode.c.objc; name = HCPPluginInternalPreferences.m; path = Chcp/Config/HCPPluginInternalPreferences.m; sourceTree = "<group>"; };
+		7FE11153F4944068B3A75188 /* CDVFile.h */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 4; includeInIndex = 0; lastKnownFileType = sourcecode.c.h; name = CDVFile.h; path = File/CDVFile.h; sourceTree = "<group>"; };
+		8257E5F9EED942099ADF4B1D /* APPNotificationOptions.m */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 4; includeInIndex = 0; lastKnownFileType = sourcecode.c.objc; name = APPNotificationOptions.m; path = LocalNotification/APPNotificationOptions.m; sourceTree = "<group>"; };
+		864A0BD5957649E48A4D1CA3 /* AppDelegate+notification.m */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 4; includeInIndex = 0; lastKnownFileType = sourcecode.c.objc; name = "AppDelegate+notification.m"; path = "Push/AppDelegate+notification.m"; sourceTree = "<group>"; };
+		87E0D9DEE848470682FE0756 /* sb_beep4.caf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = undefined; includeInIndex = 0; lastKnownFileType = unknown; name = sb_beep4.caf; path = Sounds/sb_beep4.caf; sourceTree = "<group>"; };
+		8825C45C7FA015AA44D632D4 /* Pods-AppsMobileCompany.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-AppsMobileCompany.debug.xcconfig"; path = "Target Support Files/Pods-AppsMobileCompany/Pods-AppsMobileCompany.debug.xcconfig"; sourceTree = "<group>"; };
+		8A2E45E158DA43DA91C753CA /* CDVSound.m */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 4; includeInIndex = 0; lastKnownFileType = sourcecode.c.objc; name = CDVSound.m; path = MediaNative/CDVSound.m; sourceTree = "<group>"; };
+		8C0A8D87E06F4CEF862762A7 /* Toast.m */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 4; includeInIndex = 0; lastKnownFileType = sourcecode.c.objc; name = Toast.m; path = Toast/Toast.m; sourceTree = "<group>"; };
+		8C9E0486DB18463798206558 /* HCPApplicationConfigStorage.h */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 4; includeInIndex = 0; lastKnownFileType = sourcecode.c.h; name = HCPApplicationConfigStorage.h; path = Chcp/Storage/HCPApplicationConfigStorage.h; sourceTree = "<group>"; };
 		8D1107310486CEB800E47090 /* AppsMobileCompany-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = "AppsMobileCompany-Info.plist"; path = "AppsMobileCompany/AppsMobileCompany-Info.plist"; plistStructureDefinitionIdentifier = "com.apple.xcode.plist.structure-definition.iphone.info-plist"; sourceTree = SOURCE_ROOT; };
-		8D84B5A58D1944A7B5B3C148 /* CDVWKWebViewFileXhr.m */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 4; includeInIndex = 0; lastKnownFileType = sourcecode.c.objc; name = CDVWKWebViewFileXhr.m; path = IosXhr/CDVWKWebViewFileXhr.m; sourceTree = "<group>"; };
-		90536C235B1947348DCAE8B5 /* CDVLocalFilesystem.m */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 4; includeInIndex = 0; lastKnownFileType = sourcecode.c.objc; name = CDVLocalFilesystem.m; path = File/CDVLocalFilesystem.m; sourceTree = "<group>"; };
-		92E80CF98B974CB29D2D12BB /* HCPEvents.h */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 4; includeInIndex = 0; lastKnownFileType = sourcecode.c.h; name = HCPEvents.h; path = Chcp/Events/HCPEvents.h; sourceTree = "<group>"; };
-		933C71A975C34C9FBD247F0B /* HCPPlugin.h */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 4; includeInIndex = 0; lastKnownFileType = sourcecode.c.h; name = HCPPlugin.h; path = Chcp/HCPPlugin.h; sourceTree = "<group>"; };
-		936ADE67BE7D4EB295354F16 /* CDVInAppBrowserOptions.m */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 4; includeInIndex = 0; lastKnownFileType = sourcecode.c.objc; name = CDVInAppBrowserOptions.m; path = InAppBrowser/CDVInAppBrowserOptions.m; sourceTree = "<group>"; };
-		96AAE2D3BB614605B087AF13 /* AMSRewardVideo.swift */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 4; includeInIndex = 0; lastKnownFileType = sourcecode.swift; name = AMSRewardVideo.swift; path = Admob/AMSRewardVideo.swift; sourceTree = "<group>"; };
-		987B7595B7154B47AB5461B6 /* SKProductDiscount+LocalizedPrice.m */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 4; includeInIndex = 0; lastKnownFileType = sourcecode.c.objc; name = "SKProductDiscount+LocalizedPrice.m"; path = "InAppPurchase/SKProductDiscount+LocalizedPrice.m"; sourceTree = "<group>"; };
+		8D568C633CBA46C1B70A611F /* AppVersion.m */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 4; includeInIndex = 0; lastKnownFileType = sourcecode.c.objc; name = AppVersion.m; path = AppVersion/AppVersion.m; sourceTree = "<group>"; };
+		8DB521D9EB0146A1899F2A10 /* HCPInstallationWorker.h */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 4; includeInIndex = 0; lastKnownFileType = sourcecode.c.h; name = HCPInstallationWorker.h; path = Chcp/Updater/HCPInstallationWorker.h; sourceTree = "<group>"; };
+		8E07CB038403418CAE4481DE /* CDVClipboard.m */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 4; includeInIndex = 0; lastKnownFileType = sourcecode.c.objc; name = CDVClipboard.m; path = Clipboard/CDVClipboard.m; sourceTree = "<group>"; };
+		8E6D655B8277443F817819B7 /* APPNotificationCategory.h */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 4; includeInIndex = 0; lastKnownFileType = sourcecode.c.h; name = APPNotificationCategory.h; path = LocalNotification/APPNotificationCategory.h; sourceTree = "<group>"; };
+		8E8B3A2D90F2464CA806D95C /* sb_beep3.caf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = undefined; includeInIndex = 0; lastKnownFileType = unknown; name = sb_beep3.caf; path = Sounds/sb_beep3.caf; sourceTree = "<group>"; };
+		8F4DBACEE8B6465293262E84 /* HCPXmlConfigParser.m */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 4; includeInIndex = 0; lastKnownFileType = sourcecode.c.objc; name = HCPXmlConfigParser.m; path = Chcp/Config/HCPXmlConfigParser.m; sourceTree = "<group>"; };
+		8FB68477F998415FAED7C543 /* HCPPluginInternalPreferences+UserDefaults.m */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 4; includeInIndex = 0; lastKnownFileType = sourcecode.c.objc; name = "HCPPluginInternalPreferences+UserDefaults.m"; path = "Chcp/Storage/HCPPluginInternalPreferences+UserDefaults.m"; sourceTree = "<group>"; };
+		8FFF5B24D7BA480C90B2D1D2 /* NSError+HCPExtension.m */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 4; includeInIndex = 0; lastKnownFileType = sourcecode.c.objc; name = "NSError+HCPExtension.m"; path = "Chcp/Utils/NSError+HCPExtension.m"; sourceTree = "<group>"; };
+		936A63C0DCCB4114A912722E /* StoreKit.framework */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = undefined; includeInIndex = 0; lastKnownFileType = wrapper.framework; name = StoreKit.framework; path = System/Library/Frameworks/StoreKit.framework; sourceTree = SDKROOT; };
+		9385548B39CF4EB8BD6A1966 /* HCPContentManifest.m */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 4; includeInIndex = 0; lastKnownFileType = sourcecode.c.objc; name = HCPContentManifest.m; path = Chcp/Config/HCPContentManifest.m; sourceTree = "<group>"; };
+		93CE9B189FFD4ECF96FF4384 /* PushKit.framework */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = undefined; includeInIndex = 0; lastKnownFileType = wrapper.framework; name = PushKit.framework; path = System/Library/Frameworks/PushKit.framework; sourceTree = SDKROOT; };
+		94068FF9A2AE4A489FDAA520 /* HCPUpdateLoader.m */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 4; includeInIndex = 0; lastKnownFileType = sourcecode.c.objc; name = HCPUpdateLoader.m; path = Chcp/Updater/HCPUpdateLoader.m; sourceTree = "<group>"; };
+		947FC09F391B4C4E9B54EDF9 /* MediaPlayer.framework */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = undefined; includeInIndex = 0; lastKnownFileType = wrapper.framework; name = MediaPlayer.framework; path = System/Library/Frameworks/MediaPlayer.framework; sourceTree = SDKROOT; };
+		9531F6FA90184242AE4AC85C /* AudioToolbox.framework */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = undefined; includeInIndex = 0; lastKnownFileType = wrapper.framework; name = AudioToolbox.framework; path = System/Library/Frameworks/AudioToolbox.framework; sourceTree = SDKROOT; };
+		970B47D1FA4149F49B51D34E /* CDVWKInAppBrowserUIDelegate.h */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 4; includeInIndex = 0; lastKnownFileType = sourcecode.c.h; name = CDVWKInAppBrowserUIDelegate.h; path = InAppBrowser/CDVWKInAppBrowserUIDelegate.h; sourceTree = "<group>"; };
+		98D6191D58F9479FAD00F75E /* APPNotificationContent.h */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 4; includeInIndex = 0; lastKnownFileType = sourcecode.c.h; name = APPNotificationContent.h; path = LocalNotification/APPNotificationContent.h; sourceTree = "<group>"; };
+		98EE01FE0B7945ACA7C0CC28 /* HCPContentManifestStorage.m */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 4; includeInIndex = 0; lastKnownFileType = sourcecode.c.objc; name = HCPContentManifestStorage.m; path = Chcp/Storage/HCPContentManifestStorage.m; sourceTree = "<group>"; };
+		991A391E26A847FC8DB9CD08 /* APPNotificationOptions.h */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 4; includeInIndex = 0; lastKnownFileType = sourcecode.c.h; name = APPNotificationOptions.h; path = LocalNotification/APPNotificationOptions.h; sourceTree = "<group>"; };
 		9AB72E3F20ADD50600A1703D /* Constants.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Constants.h; sourceTree = "<group>"; };
 		9AB72E4320ADD50700A1703D /* Constants.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Constants.m; sourceTree = "<group>"; };
-		9AD1E637446F4E99BCC89BD2 /* PushPlugin.h */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 4; includeInIndex = 0; lastKnownFileType = sourcecode.c.h; name = PushPlugin.h; path = Push/PushPlugin.h; sourceTree = "<group>"; };
-		9E2925B03EB141A5BDF444AC /* HCPManifestDiff.m */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 4; includeInIndex = 0; lastKnownFileType = sourcecode.c.objc; name = HCPManifestDiff.m; path = Chcp/Model/HCPManifestDiff.m; sourceTree = "<group>"; };
-		9FA917C60F49434799515A96 /* StoreKit.framework */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = undefined; includeInIndex = 0; lastKnownFileType = wrapper.framework; name = StoreKit.framework; path = System/Library/Frameworks/StoreKit.framework; sourceTree = SDKROOT; };
-		A08490EDDC4A4A4193C79654 /* HCPJsonConvertable.h */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 4; includeInIndex = 0; lastKnownFileType = sourcecode.c.h; name = HCPJsonConvertable.h; path = Chcp/Model/HCPJsonConvertable.h; sourceTree = "<group>"; };
-		A13FAF8A74A74BF0B84D4923 /* HCPPlugin.m */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 4; includeInIndex = 0; lastKnownFileType = sourcecode.c.objc; name = HCPPlugin.m; path = Chcp/HCPPlugin.m; sourceTree = "<group>"; };
-		A2168F621C4D43AFA7F70D5F /* MusicControls.h */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 4; includeInIndex = 0; lastKnownFileType = sourcecode.c.h; name = MusicControls.h; path = MusicControls/MusicControls.h; sourceTree = "<group>"; };
-		A2ABFFA4AE454A2994CC0E34 /* CDVSound.h */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 4; includeInIndex = 0; lastKnownFileType = sourcecode.c.h; name = CDVSound.h; path = MediaNative/CDVSound.h; sourceTree = "<group>"; };
-		A8F8C40912C643D0A0D1D4BD /* sb_beep3.caf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = undefined; includeInIndex = 0; lastKnownFileType = unknown; name = sb_beep3.caf; path = Sounds/sb_beep3.caf; sourceTree = "<group>"; };
-		A968B2BE22944F658F4FD855 /* HCPContentConfig.m */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 4; includeInIndex = 0; lastKnownFileType = sourcecode.c.objc; name = HCPContentConfig.m; path = Chcp/Config/HCPContentConfig.m; sourceTree = "<group>"; };
-		A9CA321DD8E74FD396F70354 /* HCPAssetsFolderHelper.h */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 4; includeInIndex = 0; lastKnownFileType = sourcecode.c.h; name = HCPAssetsFolderHelper.h; path = Chcp/Utils/HCPAssetsFolderHelper.h; sourceTree = "<group>"; };
-		AD1EBFF7D5634E43BD37592B /* PushKit.framework */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = undefined; includeInIndex = 0; lastKnownFileType = wrapper.framework; name = PushKit.framework; path = System/Library/Frameworks/PushKit.framework; sourceTree = SDKROOT; };
-		AD97C3B40EBE4C5195EE2944 /* NSFileManager+HCPExtension.m */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 4; includeInIndex = 0; lastKnownFileType = sourcecode.c.objc; name = "NSFileManager+HCPExtension.m"; path = "Chcp/Utils/NSFileManager+HCPExtension.m"; sourceTree = "<group>"; };
-		AEA5241007154B9696FC8A60 /* CDVBarcodeScanner.mm */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = undefined; includeInIndex = 0; lastKnownFileType = unknown; name = CDVBarcodeScanner.mm; path = BarcodeScanner/CDVBarcodeScanner.mm; sourceTree = "<group>"; };
-		AEE21F3F654947FDAD480313 /* HCPPluginInternalPreferences+UserDefaults.h */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 4; includeInIndex = 0; lastKnownFileType = sourcecode.c.h; name = "HCPPluginInternalPreferences+UserDefaults.h"; path = "Chcp/Storage/HCPPluginInternalPreferences+UserDefaults.h"; sourceTree = "<group>"; };
-		B3C4775830224C74A08BB373 /* CDVWKInAppBrowser.m */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 4; includeInIndex = 0; lastKnownFileType = sourcecode.c.objc; name = CDVWKInAppBrowser.m; path = InAppBrowser/CDVWKInAppBrowser.m; sourceTree = "<group>"; };
-		B4E006959EC345A492871E68 /* MusicControls.m */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 4; includeInIndex = 0; lastKnownFileType = sourcecode.c.objc; name = MusicControls.m; path = MusicControls/MusicControls.m; sourceTree = "<group>"; };
-		B524058B721E4DF89004197A /* APPNotificationCategory.m */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 4; includeInIndex = 0; lastKnownFileType = sourcecode.c.objc; name = APPNotificationCategory.m; path = LocalNotification/APPNotificationCategory.m; sourceTree = "<group>"; };
-		B62E21001E5E4957BD3A0F25 /* HCPConfigFileStorage.h */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 4; includeInIndex = 0; lastKnownFileType = sourcecode.c.h; name = HCPConfigFileStorage.h; path = Chcp/Storage/HCPConfigFileStorage.h; sourceTree = "<group>"; };
-		B7D78C22D69D4AB8A272C34E /* CDVClipboard.m */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 4; includeInIndex = 0; lastKnownFileType = sourcecode.c.objc; name = CDVClipboard.m; path = Clipboard/CDVClipboard.m; sourceTree = "<group>"; };
-		B9A580C7415C439897E7CD86 /* HCPApplicationConfigStorage.h */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 4; includeInIndex = 0; lastKnownFileType = sourcecode.c.h; name = HCPApplicationConfigStorage.h; path = Chcp/Storage/HCPApplicationConfigStorage.h; sourceTree = "<group>"; };
-		BF30CBC9FA794C75A3FF5FDD /* HCPManifestDiff.h */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 4; includeInIndex = 0; lastKnownFileType = sourcecode.c.h; name = HCPManifestDiff.h; path = Chcp/Model/HCPManifestDiff.h; sourceTree = "<group>"; };
-		C3D7ECAA441E41C39D76FF85 /* MusicControlsInfo.m */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 4; includeInIndex = 0; lastKnownFileType = sourcecode.c.objc; name = MusicControlsInfo.m; path = MusicControls/MusicControlsInfo.m; sourceTree = "<group>"; };
-		C5C01ECDAE154D7C996621A9 /* CDVClipboard.h */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 4; includeInIndex = 0; lastKnownFileType = sourcecode.c.h; name = CDVClipboard.h; path = Clipboard/CDVClipboard.h; sourceTree = "<group>"; };
-		C61CE833EED240CAB9418486 /* CDVFile.h */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 4; includeInIndex = 0; lastKnownFileType = sourcecode.c.h; name = CDVFile.h; path = File/CDVFile.h; sourceTree = "<group>"; };
-		C713A1CD1AA34ED48E219F98 /* CDVWKInAppBrowser.h */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 4; includeInIndex = 0; lastKnownFileType = sourcecode.c.h; name = CDVWKInAppBrowser.h; path = InAppBrowser/CDVWKInAppBrowser.h; sourceTree = "<group>"; };
-		CA81CEB8695D46299CB24095 /* HCPAppUpdateRequestAlertDialog.m */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 4; includeInIndex = 0; lastKnownFileType = sourcecode.c.objc; name = HCPAppUpdateRequestAlertDialog.m; path = Chcp/Utils/HCPAppUpdateRequestAlertDialog.m; sourceTree = "<group>"; };
-		CCC6764037AE407ABC2C1FE5 /* UNNotificationRequest+APPLocalNotification.m */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 4; includeInIndex = 0; lastKnownFileType = sourcecode.c.objc; name = "UNNotificationRequest+APPLocalNotification.m"; path = "LocalNotification/UNNotificationRequest+APPLocalNotification.m"; sourceTree = "<group>"; };
-		CCD235C093D84329A6D182B5 /* UIImage+CropScaleOrientation.m */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 4; includeInIndex = 0; lastKnownFileType = sourcecode.c.objc; name = "UIImage+CropScaleOrientation.m"; path = "Camera/UIImage+CropScaleOrientation.m"; sourceTree = "<group>"; };
-		CE9212EDA4284EBB8F99C92F /* AppDelegate+notification.m */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 4; includeInIndex = 0; lastKnownFileType = sourcecode.c.objc; name = "AppDelegate+notification.m"; path = "Push/AppDelegate+notification.m"; sourceTree = "<group>"; };
-		CFCEB60E4B5646A0BDFFB9B9 /* HCPUpdateInstaller.m */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 4; includeInIndex = 0; lastKnownFileType = sourcecode.c.objc; name = HCPUpdateInstaller.m; path = Chcp/Updater/HCPUpdateInstaller.m; sourceTree = "<group>"; };
-		D130D2466B8E4E9CAE913EDB /* QuartzCore.framework */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = undefined; includeInIndex = 0; lastKnownFileType = wrapper.framework; name = QuartzCore.framework; path = System/Library/Frameworks/QuartzCore.framework; sourceTree = SDKROOT; };
-		D16AF5E5FEC34DCF8A6C9808 /* HCPUpdateLoaderWorker.m */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 4; includeInIndex = 0; lastKnownFileType = sourcecode.c.objc; name = HCPUpdateLoaderWorker.m; path = Chcp/Updater/HCPUpdateLoaderWorker.m; sourceTree = "<group>"; };
-		D44FF3BA5FAC42DA8986D746 /* HCPXmlConfigParser.m */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 4; includeInIndex = 0; lastKnownFileType = sourcecode.c.objc; name = HCPXmlConfigParser.m; path = Chcp/Config/HCPXmlConfigParser.m; sourceTree = "<group>"; };
-		D9412C99A91B4E4D9F31768F /* AVFoundation.framework */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = undefined; includeInIndex = 0; lastKnownFileType = wrapper.framework; name = AVFoundation.framework; path = System/Library/Frameworks/AVFoundation.framework; sourceTree = SDKROOT; };
-		DA2DAD59853D4D03A28DAC5E /* CDVFile.m */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 4; includeInIndex = 0; lastKnownFileType = sourcecode.c.objc; name = CDVFile.m; path = File/CDVFile.m; sourceTree = "<group>"; };
-		DA69BA410A884794888D6462 /* AudioToolbox.framework */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = undefined; includeInIndex = 0; lastKnownFileType = wrapper.framework; name = AudioToolbox.framework; path = System/Library/Frameworks/AudioToolbox.framework; sourceTree = SDKROOT; };
-		DDC12EEE855145A39BAD85BE /* InAppPurchase.h */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 4; includeInIndex = 0; lastKnownFileType = sourcecode.c.h; name = InAppPurchase.h; path = InAppPurchase/InAppPurchase.h; sourceTree = "<group>"; };
-		DF2177A306EB498AA7F6285B /* sb_beep1.caf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = undefined; includeInIndex = 0; lastKnownFileType = unknown; name = sb_beep1.caf; path = Sounds/sb_beep1.caf; sourceTree = "<group>"; };
-		E0B8544923004A2AA320AB52 /* WebKit.framework */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = undefined; includeInIndex = 0; lastKnownFileType = wrapper.framework; name = WebKit.framework; path = System/Library/Frameworks/WebKit.framework; sourceTree = SDKROOT; };
-		E18240D561CC451A90A0CBB0 /* APPNotificationCategory.h */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 4; includeInIndex = 0; lastKnownFileType = sourcecode.c.h; name = APPNotificationCategory.h; path = LocalNotification/APPNotificationCategory.h; sourceTree = "<group>"; };
-		E1DF5AE6982147DB877F3B02 /* HCPConfigStorageImpl.m */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 4; includeInIndex = 0; lastKnownFileType = sourcecode.c.objc; name = HCPConfigStorageImpl.m; path = Chcp/Storage/HCPConfigStorageImpl.m; sourceTree = "<group>"; };
-		E5835D5FD2338044FAE1801C /* Pods-AppsMobileCompany.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-AppsMobileCompany.release.xcconfig"; path = "Target Support Files/Pods-AppsMobileCompany/Pods-AppsMobileCompany.release.xcconfig"; sourceTree = "<group>"; };
-		E61577D89CDA433A828A4D9D /* Toast+UIView.h */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 4; includeInIndex = 0; lastKnownFileType = sourcecode.c.h; name = "Toast+UIView.h"; path = "Toast/Toast+UIView.h"; sourceTree = "<group>"; };
-		E8447D3D1FC446B893C61A47 /* APPNotificationOptions.h */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 4; includeInIndex = 0; lastKnownFileType = sourcecode.c.h; name = APPNotificationOptions.h; path = LocalNotification/APPNotificationOptions.h; sourceTree = "<group>"; };
-		E8782B6D498140289A095062 /* CDVDevice.m */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 4; includeInIndex = 0; lastKnownFileType = sourcecode.c.objc; name = CDVDevice.m; path = Device/CDVDevice.m; sourceTree = "<group>"; };
+		9BDC102E37764CF8A2ACBD44 /* NSJSONSerialization+HCPExtension.m */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 4; includeInIndex = 0; lastKnownFileType = sourcecode.c.objc; name = "NSJSONSerialization+HCPExtension.m"; path = "Chcp/Utils/NSJSONSerialization+HCPExtension.m"; sourceTree = "<group>"; };
+		9D5D41614F1B4D6DA80C725F /* AppVersion.h */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 4; includeInIndex = 0; lastKnownFileType = sourcecode.c.h; name = AppVersion.h; path = AppVersion/AppVersion.h; sourceTree = "<group>"; };
+		9E8B23AE2B4E4EAFBB782D49 /* SKProductDiscount+LocalizedPrice.m */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 4; includeInIndex = 0; lastKnownFileType = sourcecode.c.objc; name = "SKProductDiscount+LocalizedPrice.m"; path = "InAppPurchase/SKProductDiscount+LocalizedPrice.m"; sourceTree = "<group>"; };
+		9F74CFCD56BD49AB9AAD23B3 /* HCPFileDownloader.m */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 4; includeInIndex = 0; lastKnownFileType = sourcecode.c.objc; name = HCPFileDownloader.m; path = Chcp/Network/HCPFileDownloader.m; sourceTree = "<group>"; };
+		9F8DAB4AB62B4574A8D16AC5 /* SKProductDiscount+LocalizedPrice.h */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 4; includeInIndex = 0; lastKnownFileType = sourcecode.c.h; name = "SKProductDiscount+LocalizedPrice.h"; path = "InAppPurchase/SKProductDiscount+LocalizedPrice.h"; sourceTree = "<group>"; };
+		9F90335BD2BF4681BAEECE23 /* CDVExif.h */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 4; includeInIndex = 0; lastKnownFileType = sourcecode.c.h; name = CDVExif.h; path = Camera/CDVExif.h; sourceTree = "<group>"; };
+		A0E7FF8031314889902D361F /* CDVDevice.m */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 4; includeInIndex = 0; lastKnownFileType = sourcecode.c.objc; name = CDVDevice.m; path = Device/CDVDevice.m; sourceTree = "<group>"; };
+		A124162E438941E6B2C5D0FA /* HCPFetchUpdateOptions.h */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 4; includeInIndex = 0; lastKnownFileType = sourcecode.c.h; name = HCPFetchUpdateOptions.h; path = Chcp/Updater/HCPFetchUpdateOptions.h; sourceTree = "<group>"; };
+		A27AC0117DB64557B217455F /* HCPContentManifest.h */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 4; includeInIndex = 0; lastKnownFileType = sourcecode.c.h; name = HCPContentManifest.h; path = Chcp/Config/HCPContentManifest.h; sourceTree = "<group>"; };
+		A8446346DD8E48E7A95C7FAE /* HCPAssetsFolderHelper.h */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 4; includeInIndex = 0; lastKnownFileType = sourcecode.c.h; name = HCPAssetsFolderHelper.h; path = Chcp/Utils/HCPAssetsFolderHelper.h; sourceTree = "<group>"; };
+		A9E29E2FAFA240EC88BC827E /* HCPUpdateRequest.h */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 4; includeInIndex = 0; lastKnownFileType = sourcecode.c.h; name = HCPUpdateRequest.h; path = Chcp/Updater/HCPUpdateRequest.h; sourceTree = "<group>"; };
+		AB1101482C06443BA6E44428 /* APPNotificationContent.m */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 4; includeInIndex = 0; lastKnownFileType = sourcecode.c.objc; name = APPNotificationContent.m; path = LocalNotification/APPNotificationContent.m; sourceTree = "<group>"; };
+		ACED56B13DC548D8BEB7C4C9 /* HCPFetchUpdateOptions.m */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 4; includeInIndex = 0; lastKnownFileType = sourcecode.c.objc; name = HCPFetchUpdateOptions.m; path = Chcp/Updater/HCPFetchUpdateOptions.m; sourceTree = "<group>"; };
+		AFEE77E5A9FD4EAAAC96D12C /* NSData+HCPMD5.h */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 4; includeInIndex = 0; lastKnownFileType = sourcecode.c.h; name = "NSData+HCPMD5.h"; path = "Chcp/Utils/NSData+HCPMD5.h"; sourceTree = "<group>"; };
+		B03FFD6F47794E33910797E8 /* Social.framework */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = undefined; includeInIndex = 0; lastKnownFileType = wrapper.framework; name = Social.framework; path = System/Library/Frameworks/Social.framework; sourceTree = SDKROOT; };
+		B085B32461CC43028836C3BF /* APPLocalNotification.h */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 4; includeInIndex = 0; lastKnownFileType = sourcecode.c.h; name = APPLocalNotification.h; path = LocalNotification/APPLocalNotification.h; sourceTree = "<group>"; };
+		B0B8C98CEC044326A304259C /* CDVInAppBrowserNavigationController.h */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 4; includeInIndex = 0; lastKnownFileType = sourcecode.c.h; name = CDVInAppBrowserNavigationController.h; path = InAppBrowser/CDVInAppBrowserNavigationController.h; sourceTree = "<group>"; };
+		B0C4F31CB9984F478C86DB50 /* CDVWKWebViewFileXhr.h */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 4; includeInIndex = 0; lastKnownFileType = sourcecode.c.h; name = CDVWKWebViewFileXhr.h; path = IosXhr/CDVWKWebViewFileXhr.h; sourceTree = "<group>"; };
+		B1641C4D865344FFB8A03CD9 /* SocialSharing.m */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 4; includeInIndex = 0; lastKnownFileType = sourcecode.c.objc; name = SocialSharing.m; path = SocialSharing/SocialSharing.m; sourceTree = "<group>"; };
+		B1E386C80064482FA6C3AD19 /* HCPManifestFile.m */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 4; includeInIndex = 0; lastKnownFileType = sourcecode.c.objc; name = HCPManifestFile.m; path = Chcp/Model/HCPManifestFile.m; sourceTree = "<group>"; };
+		B249BBE5997A4CB79C2C8560 /* HCPXmlConfigParser.h */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 4; includeInIndex = 0; lastKnownFileType = sourcecode.c.h; name = HCPXmlConfigParser.h; path = Chcp/Config/HCPXmlConfigParser.h; sourceTree = "<group>"; };
+		BAA61E86B11A45508BD48EA1 /* HCPPlugin.h */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 4; includeInIndex = 0; lastKnownFileType = sourcecode.c.h; name = HCPPlugin.h; path = Chcp/HCPPlugin.h; sourceTree = "<group>"; };
+		BAC7C9EB524843329A1AF7EF /* PushPlugin.h */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 4; includeInIndex = 0; lastKnownFileType = sourcecode.c.h; name = PushPlugin.h; path = Push/PushPlugin.h; sourceTree = "<group>"; };
+		BB4FC5B9E2F4452A969D8A87 /* HCPFilesStructure.m */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 4; includeInIndex = 0; lastKnownFileType = sourcecode.c.objc; name = HCPFilesStructure.m; path = Chcp/Model/HCPFilesStructure.m; sourceTree = "<group>"; };
+		BBB40C4D217F44EE95F6EC3A /* HCPManifestFile.h */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 4; includeInIndex = 0; lastKnownFileType = sourcecode.c.h; name = HCPManifestFile.h; path = Chcp/Model/HCPManifestFile.h; sourceTree = "<group>"; };
+		BD1CC724B6324FAD92B0E69A /* WebKit.framework */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = undefined; includeInIndex = 0; lastKnownFileType = wrapper.framework; name = WebKit.framework; path = System/Library/Frameworks/WebKit.framework; sourceTree = SDKROOT; };
+		BE4BDDB88AEB417598D5BDFD /* AppDelegate+notification.h */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 4; includeInIndex = 0; lastKnownFileType = sourcecode.c.h; name = "AppDelegate+notification.h"; path = "Push/AppDelegate+notification.h"; sourceTree = "<group>"; };
+		C04952A141844E578AF2AB82 /* Toast.h */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 4; includeInIndex = 0; lastKnownFileType = sourcecode.c.h; name = Toast.h; path = Toast/Toast.h; sourceTree = "<group>"; };
+		C28F54C97E3C4D558E900D46 /* SKProduct+LocalizedPrice.h */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 4; includeInIndex = 0; lastKnownFileType = sourcecode.c.h; name = "SKProduct+LocalizedPrice.h"; path = "InAppPurchase/SKProduct+LocalizedPrice.h"; sourceTree = "<group>"; };
+		C501A2D685A4499CA105DDE5 /* CDVWKWebViewEngine+HCPPlugin_ReadAccessURL.m */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 4; includeInIndex = 0; lastKnownFileType = sourcecode.c.objc; name = "CDVWKWebViewEngine+HCPPlugin_ReadAccessURL.m"; path = "Chcp/WKWebViewFix/CDVWKWebViewEngine+HCPPlugin_ReadAccessURL.m"; sourceTree = "<group>"; };
+		C52CA0508398400A8A13FFE8 /* HCPConfigStorageImpl.m */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 4; includeInIndex = 0; lastKnownFileType = sourcecode.c.objc; name = HCPConfigStorageImpl.m; path = Chcp/Storage/HCPConfigStorageImpl.m; sourceTree = "<group>"; };
+		C5F5CBF1CD414C84AF8329AA /* MessageUI.framework */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = undefined; includeInIndex = 0; lastKnownFileType = wrapper.framework; name = MessageUI.framework; path = System/Library/Frameworks/MessageUI.framework; sourceTree = SDKROOT; };
+		C68FDB2C563749519E96AD17 /* HCPContentManifestStorage.h */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 4; includeInIndex = 0; lastKnownFileType = sourcecode.c.h; name = HCPContentManifestStorage.h; path = Chcp/Storage/HCPContentManifestStorage.h; sourceTree = "<group>"; };
+		C8B4EC6F8A0940A79B9037BB /* HCPFilesStructure.h */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 4; includeInIndex = 0; lastKnownFileType = sourcecode.c.h; name = HCPFilesStructure.h; path = Chcp/Model/HCPFilesStructure.h; sourceTree = "<group>"; };
+		C8CEC306BAB14D85A0E04B6D /* HCPApplicationConfig.h */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 4; includeInIndex = 0; lastKnownFileType = sourcecode.c.h; name = HCPApplicationConfig.h; path = Chcp/Config/HCPApplicationConfig.h; sourceTree = "<group>"; };
+		CB60E1BDDF9F4888A2AA728A /* CDVLocation.h */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 4; includeInIndex = 0; lastKnownFileType = sourcecode.c.h; name = CDVLocation.h; path = Geolocation/CDVLocation.h; sourceTree = "<group>"; };
+		CE9E27559C604C3190BEB26B /* CDVDevice.h */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 4; includeInIndex = 0; lastKnownFileType = sourcecode.c.h; name = CDVDevice.h; path = Device/CDVDevice.h; sourceTree = "<group>"; };
+		CF7F8F9D03614474AC2A77E3 /* HCPUpdateInstaller.m */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 4; includeInIndex = 0; lastKnownFileType = sourcecode.c.objc; name = HCPUpdateInstaller.m; path = Chcp/Updater/HCPUpdateInstaller.m; sourceTree = "<group>"; };
+		D04C4095C0994E10955B8380 /* CDVWKInAppBrowser.h */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 4; includeInIndex = 0; lastKnownFileType = sourcecode.c.h; name = CDVWKInAppBrowser.h; path = InAppBrowser/CDVWKInAppBrowser.h; sourceTree = "<group>"; };
+		D072D5B65A32400DA54BC29D /* CDVClipboard.h */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 4; includeInIndex = 0; lastKnownFileType = sourcecode.c.h; name = CDVClipboard.h; path = Clipboard/CDVClipboard.h; sourceTree = "<group>"; };
+		D12F3E41EC394E07A851E6BE /* HCPXmlConfig.h */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 4; includeInIndex = 0; lastKnownFileType = sourcecode.c.h; name = HCPXmlConfig.h; path = Chcp/Config/HCPXmlConfig.h; sourceTree = "<group>"; };
+		D13AA990EE5C44EE9FA98F8B /* HCPUpdateRequest.m */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 4; includeInIndex = 0; lastKnownFileType = sourcecode.c.objc; name = HCPUpdateRequest.m; path = Chcp/Updater/HCPUpdateRequest.m; sourceTree = "<group>"; };
+		D4BB68374AFA45468B26CF5A /* HCPJsonConvertable.h */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 4; includeInIndex = 0; lastKnownFileType = sourcecode.c.h; name = HCPJsonConvertable.h; path = Chcp/Model/HCPJsonConvertable.h; sourceTree = "<group>"; };
+		DB912F2964B345399C48BE04 /* HCPApplicationConfig.m */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 4; includeInIndex = 0; lastKnownFileType = sourcecode.c.objc; name = HCPApplicationConfig.m; path = Chcp/Config/HCPApplicationConfig.m; sourceTree = "<group>"; };
+		DF69BBF03AEB4B36AC112B05 /* HCPUpdateLoaderWorker.m */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 4; includeInIndex = 0; lastKnownFileType = sourcecode.c.objc; name = HCPUpdateLoaderWorker.m; path = Chcp/Updater/HCPUpdateLoaderWorker.m; sourceTree = "<group>"; };
+		E051151570F44B18A9625F06 /* HCPDataDownloader.m */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 4; includeInIndex = 0; lastKnownFileType = sourcecode.c.objc; name = HCPDataDownloader.m; path = Chcp/Network/HCPDataDownloader.m; sourceTree = "<group>"; };
+		E05C2E2991384CC7BC83FA05 /* NSJSONSerialization+HCPExtension.h */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 4; includeInIndex = 0; lastKnownFileType = sourcecode.c.h; name = "NSJSONSerialization+HCPExtension.h"; path = "Chcp/Utils/NSJSONSerialization+HCPExtension.h"; sourceTree = "<group>"; };
+		E17858680A7E4BFB8382F0DF /* CDVFile.m */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 4; includeInIndex = 0; lastKnownFileType = sourcecode.c.objc; name = CDVFile.m; path = File/CDVFile.m; sourceTree = "<group>"; };
+		E23E3F73D09D44748C61B00A /* CDVJpegHeaderWriter.m */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 4; includeInIndex = 0; lastKnownFileType = sourcecode.c.objc; name = CDVJpegHeaderWriter.m; path = Camera/CDVJpegHeaderWriter.m; sourceTree = "<group>"; };
+		E6A87D9D9E8F4E2C84B95AD7 /* CDVPluginResult+HCPEvents.h */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 4; includeInIndex = 0; lastKnownFileType = sourcecode.c.h; name = "CDVPluginResult+HCPEvents.h"; path = "Chcp/JS/CDVPluginResult+HCPEvents.h"; sourceTree = "<group>"; };
+		E7858C9E53C24827B194803C /* SafariServices.framework */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = undefined; includeInIndex = 0; lastKnownFileType = wrapper.framework; name = SafariServices.framework; path = System/Library/Frameworks/SafariServices.framework; sourceTree = SDKROOT; };
+		E7F86FD00DFA4654B3DA4BCD /* CDVInAppBrowserOptions.h */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 4; includeInIndex = 0; lastKnownFileType = sourcecode.c.h; name = CDVInAppBrowserOptions.h; path = InAppBrowser/CDVInAppBrowserOptions.h; sourceTree = "<group>"; };
+		E87B57E0A60C448C90A6A216 /* HCPConfigStorageImpl.h */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 4; includeInIndex = 0; lastKnownFileType = sourcecode.c.h; name = HCPConfigStorageImpl.h; path = Chcp/Storage/HCPConfigStorageImpl.h; sourceTree = "<group>"; };
+		EAF9B1642DB07E7FA383001B /* Entitlements-Release.plist */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.plist.xml; name = "Entitlements-Release.plist"; path = "AppsMobileCompany/Entitlements-Release.plist"; sourceTree = "<group>"; };
+		EB31F1E0C74344DDBA27485E /* Toast+UIView.m */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 4; includeInIndex = 0; lastKnownFileType = sourcecode.c.objc; name = "Toast+UIView.m"; path = "Toast/Toast+UIView.m"; sourceTree = "<group>"; };
 		EB87FDF31871DA8E0020F90C /* www */ = {isa = PBXFileReference; lastKnownFileType = folder; name = www; path = ../../www; sourceTree = "<group>"; };
 		EB87FDF41871DAF40020F90C /* config.xml */ = {isa = PBXFileReference; lastKnownFileType = text.xml; name = config.xml; path = ../../config.xml; sourceTree = "<group>"; };
-		EBB31EA5C5F74806B893B0F7 /* NSJSONSerialization+HCPExtension.m */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 4; includeInIndex = 0; lastKnownFileType = sourcecode.c.objc; name = "NSJSONSerialization+HCPExtension.m"; path = "Chcp/Utils/NSJSONSerialization+HCPExtension.m"; sourceTree = "<group>"; };
-		EC3E35DE5CD2429587519AF7 /* CDVStatusBar.m */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 4; includeInIndex = 0; lastKnownFileType = sourcecode.c.objc; name = CDVStatusBar.m; path = StatusBar/CDVStatusBar.m; sourceTree = "<group>"; };
-		EC459BC415754A078D3B0632 /* HCPFileDownloader.h */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 4; includeInIndex = 0; lastKnownFileType = sourcecode.c.h; name = HCPFileDownloader.h; path = Chcp/Network/HCPFileDownloader.h; sourceTree = "<group>"; };
 		ED33DF2A687741AEAF9F8254 /* Bridging-Header.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "Bridging-Header.h"; sourceTree = "<group>"; };
-		EE37836A3AB34307BEB72DFD /* CDVAssetLibraryFilesystem.m */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 4; includeInIndex = 0; lastKnownFileType = sourcecode.c.objc; name = CDVAssetLibraryFilesystem.m; path = File/CDVAssetLibraryFilesystem.m; sourceTree = "<group>"; };
-		EEBBC4C25490412681E19172 /* CDVBarcodeScanner.bundle */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = undefined; includeInIndex = 0; lastKnownFileType = "wrapper.plug-in"; name = CDVBarcodeScanner.bundle; path = CDVBarcodeScanner.bundle; sourceTree = "<group>"; };
-		EF28FFA131BF412096EE83A5 /* CDVWKWebViewFileXhr.h */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 4; includeInIndex = 0; lastKnownFileType = sourcecode.c.h; name = CDVWKWebViewFileXhr.h; path = IosXhr/CDVWKWebViewFileXhr.h; sourceTree = "<group>"; };
-		F055BE5A58364BC3B7522BE3 /* HCPManifestFile.m */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 4; includeInIndex = 0; lastKnownFileType = sourcecode.c.objc; name = HCPManifestFile.m; path = Chcp/Model/HCPManifestFile.m; sourceTree = "<group>"; };
-		F1369C223EBC47C59D2CFB67 /* HCPPluginInternalPreferences.m */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 4; includeInIndex = 0; lastKnownFileType = sourcecode.c.objc; name = HCPPluginInternalPreferences.m; path = Chcp/Config/HCPPluginInternalPreferences.m; sourceTree = "<group>"; };
-		F3A1CB9DAB8D442AB66DE6E8 /* HCPCleanupHelper.m */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 4; includeInIndex = 0; lastKnownFileType = sourcecode.c.objc; name = HCPCleanupHelper.m; path = Chcp/Utils/HCPCleanupHelper.m; sourceTree = "<group>"; };
-		F48312D0FE1C4369837F52F5 /* CDVPluginResult+HCPEvents.h */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 4; includeInIndex = 0; lastKnownFileType = sourcecode.c.h; name = "CDVPluginResult+HCPEvents.h"; path = "Chcp/JS/CDVPluginResult+HCPEvents.h"; sourceTree = "<group>"; };
-		F6A841907D734B05AE82AD23 /* SKProduct+LocalizedPrice.m */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 4; includeInIndex = 0; lastKnownFileType = sourcecode.c.objc; name = "SKProduct+LocalizedPrice.m"; path = "InAppPurchase/SKProduct+LocalizedPrice.m"; sourceTree = "<group>"; };
-		F7969809A147404AB2F3D016 /* HCPAssetsFolderHelper.m */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 4; includeInIndex = 0; lastKnownFileType = sourcecode.c.objc; name = HCPAssetsFolderHelper.m; path = Chcp/Utils/HCPAssetsFolderHelper.m; sourceTree = "<group>"; };
+		EE7A7165F87C471D8614BD32 /* HCPPlugin.m */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 4; includeInIndex = 0; lastKnownFileType = sourcecode.c.objc; name = HCPPlugin.m; path = Chcp/HCPPlugin.m; sourceTree = "<group>"; };
+		EEF7F674E68E4978AF7E0EF2 /* sb_beep1.caf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = undefined; includeInIndex = 0; lastKnownFileType = unknown; name = sb_beep1.caf; path = Sounds/sb_beep1.caf; sourceTree = "<group>"; };
+		F246D1AD10104A908106D039 /* NSFileManager+HCPExtension.m */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 4; includeInIndex = 0; lastKnownFileType = sourcecode.c.objc; name = "NSFileManager+HCPExtension.m"; path = "Chcp/Utils/NSFileManager+HCPExtension.m"; sourceTree = "<group>"; };
+		F26A79E791C84D76B908B115 /* HCPInstallationWorker.m */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 4; includeInIndex = 0; lastKnownFileType = sourcecode.c.objc; name = HCPInstallationWorker.m; path = Chcp/Updater/HCPInstallationWorker.m; sourceTree = "<group>"; };
+		F28096F370014E279CBAB531 /* HCPAppUpdateRequestAlertDialog.h */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 4; includeInIndex = 0; lastKnownFileType = sourcecode.c.h; name = HCPAppUpdateRequestAlertDialog.h; path = Chcp/Utils/HCPAppUpdateRequestAlertDialog.h; sourceTree = "<group>"; };
+		F2D970D15E8549E8B7D204D7 /* HCPXmlConfig.m */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 4; includeInIndex = 0; lastKnownFileType = sourcecode.c.objc; name = HCPXmlConfig.m; path = Chcp/Config/HCPXmlConfig.m; sourceTree = "<group>"; };
+		F4006C9DE7204B059CE8532E /* CDVBarcodeScanner.mm */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = undefined; includeInIndex = 0; lastKnownFileType = unknown; name = CDVBarcodeScanner.mm; path = BarcodeScanner/CDVBarcodeScanner.mm; sourceTree = "<group>"; };
+		F611FED2678241F7BF3FDF88 /* APPBadge.h */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 4; includeInIndex = 0; lastKnownFileType = sourcecode.c.h; name = APPBadge.h; path = Badge/APPBadge.h; sourceTree = "<group>"; };
+		F7529F8B78E34AC0A04F3E87 /* HCPXmlTags.h */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 4; includeInIndex = 0; lastKnownFileType = sourcecode.c.h; name = HCPXmlTags.h; path = Chcp/Config/HCPXmlTags.h; sourceTree = "<group>"; };
+		F76EAAC4D0DF4DB38F7C6E27 /* HCPPluginInternalPreferences+UserDefaults.h */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 4; includeInIndex = 0; lastKnownFileType = sourcecode.c.h; name = "HCPPluginInternalPreferences+UserDefaults.h"; path = "Chcp/Storage/HCPPluginInternalPreferences+UserDefaults.h"; sourceTree = "<group>"; };
+		F778720030B84F8FA562F1A2 /* NSBundle+HCPExtension.h */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 4; includeInIndex = 0; lastKnownFileType = sourcecode.c.h; name = "NSBundle+HCPExtension.h"; path = "Chcp/Utils/NSBundle+HCPExtension.h"; sourceTree = "<group>"; };
+		F815D5EC82EE485DB1AE21FF /* HCPManifestDiff.h */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 4; includeInIndex = 0; lastKnownFileType = sourcecode.c.h; name = HCPManifestDiff.h; path = Chcp/Model/HCPManifestDiff.h; sourceTree = "<group>"; };
 		F840E1F0165FE0F500CFE078 /* config.xml */ = {isa = PBXFileReference; lastKnownFileType = text.xml; name = config.xml; path = AppsMobileCompany/config.xml; sourceTree = "<group>"; };
-		F855B1D96E544DA2BDDD3FF9 /* Toast.h */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 4; includeInIndex = 0; lastKnownFileType = sourcecode.c.h; name = Toast.h; path = Toast/Toast.h; sourceTree = "<group>"; };
-		FDC3283899AB4EAAA25AA579 /* HCPDataDownloader.m */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 4; includeInIndex = 0; lastKnownFileType = sourcecode.c.objc; name = HCPDataDownloader.m; path = Chcp/Network/HCPDataDownloader.m; sourceTree = "<group>"; };
-		FE08EDBC12D64E2F8754A855 /* HCPApplicationConfigStorage.m */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 4; includeInIndex = 0; lastKnownFileType = sourcecode.c.objc; name = HCPApplicationConfigStorage.m; path = Chcp/Storage/HCPApplicationConfigStorage.m; sourceTree = "<group>"; };
-		FE69EE426584462FB27F428C /* HCPXmlConfigParser.h */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 4; includeInIndex = 0; lastKnownFileType = sourcecode.c.h; name = HCPXmlConfigParser.h; path = Chcp/Config/HCPXmlConfigParser.h; sourceTree = "<group>"; };
-		FE96541E73FC4A908FBE19EA /* scannerOverlay.xib */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = undefined; includeInIndex = 0; lastKnownFileType = file.xib; name = scannerOverlay.xib; path = scannerOverlay.xib; sourceTree = "<group>"; };
-		FFA7D05B516F4025A0D0FB75 /* AppVersion.m */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 4; includeInIndex = 0; lastKnownFileType = sourcecode.c.objc; name = AppVersion.m; path = AppVersion/AppVersion.m; sourceTree = "<group>"; };
-		FFC64771E2B64F758945B6EC /* HCPContentManifestStorage.m */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 4; includeInIndex = 0; lastKnownFileType = sourcecode.c.objc; name = HCPContentManifestStorage.m; path = Chcp/Storage/HCPContentManifestStorage.m; sourceTree = "<group>"; };
-		FFD30861518E44D08D839215 /* CDVAssetLibraryFilesystem.h */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 4; includeInIndex = 0; lastKnownFileType = sourcecode.c.h; name = CDVAssetLibraryFilesystem.h; path = File/CDVAssetLibraryFilesystem.h; sourceTree = "<group>"; };
+		F8C98C8EF7424B50ACD27708 /* CDVNavigator.m */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 4; includeInIndex = 0; lastKnownFileType = sourcecode.c.objc; name = CDVNavigator.m; path = Navigator/CDVNavigator.m; sourceTree = "<group>"; };
+		F8E5BD5272A843DDBC30F248 /* MainViewController+MusicControls.h */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 4; includeInIndex = 0; lastKnownFileType = sourcecode.c.h; name = "MainViewController+MusicControls.h"; path = "MusicControls/MainViewController+MusicControls.h"; sourceTree = "<group>"; };
+		F9500A20C1154893BF9DB6CA /* CDVBarcodeScanner.bundle */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = undefined; includeInIndex = 0; lastKnownFileType = "wrapper.plug-in"; name = CDVBarcodeScanner.bundle; path = CDVBarcodeScanner.bundle; sourceTree = "<group>"; };
+		FA4D59C7493142C9BEC6BBD7 /* UserNotifications.framework */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = undefined; includeInIndex = 0; lastKnownFileType = wrapper.framework; name = UserNotifications.framework; path = System/Library/Frameworks/UserNotifications.framework; sourceTree = SDKROOT; };
+		FA51046B840448BE82EFE8D2 /* Insomnia.h */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 4; includeInIndex = 0; lastKnownFileType = sourcecode.c.h; name = Insomnia.h; path = Insomnia/Insomnia.h; sourceTree = "<group>"; };
+		FD25B79FC7D54A589E55EBC9 /* NSError+HCPExtension.h */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 4; includeInIndex = 0; lastKnownFileType = sourcecode.c.h; name = "NSError+HCPExtension.h"; path = "Chcp/Utils/NSError+HCPExtension.h"; sourceTree = "<group>"; };
+		FD3A0F98513744D394EB767F /* HCPCleanupHelper.m */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 4; includeInIndex = 0; lastKnownFileType = sourcecode.c.objc; name = HCPCleanupHelper.m; path = Chcp/Utils/HCPCleanupHelper.m; sourceTree = "<group>"; };
+		FE3D7058FE904C0A976513F7 /* NSBundle+HCPExtension.m */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 4; includeInIndex = 0; lastKnownFileType = sourcecode.c.objc; name = "NSBundle+HCPExtension.m"; path = "Chcp/Utils/NSBundle+HCPExtension.m"; sourceTree = "<group>"; };
+		FF45C1EE499A48CEACD8A14D /* HCPAppUpdateRequestAlertDialog.m */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 4; includeInIndex = 0; lastKnownFileType = sourcecode.c.objc; name = HCPAppUpdateRequestAlertDialog.m; path = Chcp/Utils/HCPAppUpdateRequestAlertDialog.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -365,20 +352,20 @@
 			buildActionMask = 2147483647;
 			files = (
 				301BF552109A68D80062928A /* libCordova.a in Frameworks */,
-				00D43ED10BB94CD38C552284 /* StoreKit.framework in Frameworks */,
-				B68C73EFB7644B42A3CF2918 /* WebKit.framework in Frameworks */,
-				3CADEC102F7A44D496B7EC49 /* PushKit.framework in Frameworks */,
-				9DDA0A57151D49DE943F8231 /* AVFoundation.framework in Frameworks */,
-				E66CAA25875C4FA4B0C14DB8 /* AudioToolbox.framework in Frameworks */,
-				9AFD58C5C65D41368B1F974A /* SafariServices.framework in Frameworks */,
-				ECE3797CEFC04623BF04EC20 /* ImageIO.framework in Frameworks */,
-				FEA9A15C166D471E9AB4DCA5 /* CoreLocation.framework in Frameworks */,
-				81BB7BA4C64941618F4D106C /* Social.framework in Frameworks */,
-				BC8D1E2DAD19452E86DA5172 /* MessageUI.framework in Frameworks */,
-				5988B7E1AA9C4086933BB2E1 /* UserNotifications.framework in Frameworks */,
-				259B3AC6D4A44CACB81107D5 /* MediaPlayer.framework in Frameworks */,
-				57F6D5A05F7E4D67A27C26FE /* QuartzCore.framework in Frameworks */,
-				897ACF12299484ABDE07C7D8 /* Pods_AppsMobileCompany.framework in Frameworks */,
+				64663A39F66746E992690AB5 /* StoreKit.framework in Frameworks */,
+				426E150AD71C4828946422AF /* WebKit.framework in Frameworks */,
+				316594B8F2754344AEFCB334 /* PushKit.framework in Frameworks */,
+				3B3CBE580F5A48F985AD91F7 /* AVFoundation.framework in Frameworks */,
+				74F7ED9723AD4BF9A13A8466 /* AudioToolbox.framework in Frameworks */,
+				7B32887FC14047FF90EF8174 /* SafariServices.framework in Frameworks */,
+				8F3AFEDCBEED4D1088BA6F5D /* ImageIO.framework in Frameworks */,
+				9A48B18F01B24F64B23AE379 /* CoreLocation.framework in Frameworks */,
+				4C75045F6EC14743833C503B /* Social.framework in Frameworks */,
+				2A718AD6634049F5B75A3EE8 /* MessageUI.framework in Frameworks */,
+				08CB7D3C579A4CBB833D4620 /* UserNotifications.framework in Frameworks */,
+				FD3F99D00C8544F59A6F64E2 /* MediaPlayer.framework in Frameworks */,
+				3A3848290FDD4C748FF4BB8F /* QuartzCore.framework in Frameworks */,
+				90F3B514EF4A33BC0496D13F /* libPods-AppsMobileCompany.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -421,9 +408,9 @@
 				29B97317FDCFA39411CA2CEA /* Resources */,
 				29B97323FDCFA39411CA2CEA /* Frameworks */,
 				19C28FACFE9D520D11CA2CBB /* Products */,
-				2F61816D7F95FC172AE10C3D /* Pods */,
-				0C994E604949996E44595856 /* Entitlements-Debug.plist */,
-				320A9298895F7C60803A17CA /* Entitlements-Release.plist */,
+				509B7699A5298A75322A332B /* Pods */,
+				776A475058EE46C8B3AEF6E8 /* Entitlements-Debug.plist */,
+				EAF9B1642DB07E7FA383001B /* Entitlements-Release.plist */,
 			);
 			name = CustomTemplate;
 			sourceTree = "<group>";
@@ -446,12 +433,12 @@
 				3047A50E1AB8057F00498E2A /* config */,
 				8D1107310486CEB800E47090 /* AppsMobileCompany-Info.plist */,
 				6AFF5BF81D6E424B00AB3073 /* CDVLaunchScreen.storyboard */,
-				FE96541E73FC4A908FBE19EA /* scannerOverlay.xib */,
-				EEBBC4C25490412681E19172 /* CDVBarcodeScanner.bundle */,
-				DF2177A306EB498AA7F6285B /* sb_beep1.caf */,
-				2306C927C4214AD5B1DA5813 /* sb_beep2.caf */,
-				A8F8C40912C643D0A0D1D4BD /* sb_beep3.caf */,
-				2E1BADB840944E0A8D06DD64 /* sb_beep4.caf */,
+				4D1E58BA8DA3467184008501 /* scannerOverlay.xib */,
+				F9500A20C1154893BF9DB6CA /* CDVBarcodeScanner.bundle */,
+				EEF7F674E68E4978AF7E0EF2 /* sb_beep1.caf */,
+				7A7B7C206261446CB6D4CD35 /* sb_beep2.caf */,
+				8E8B3A2D90F2464CA806D95C /* sb_beep3.caf */,
+				87E0D9DEE848470682FE0756 /* sb_beep4.caf */,
 			);
 			name = Resources;
 			path = AppsMobileCompany/Resources;
@@ -460,32 +447,22 @@
 		29B97323FDCFA39411CA2CEA /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
-				9FA917C60F49434799515A96 /* StoreKit.framework */,
-				E0B8544923004A2AA320AB52 /* WebKit.framework */,
-				AD1EBFF7D5634E43BD37592B /* PushKit.framework */,
-				D9412C99A91B4E4D9F31768F /* AVFoundation.framework */,
-				DA69BA410A884794888D6462 /* AudioToolbox.framework */,
-				2BDE862A00EC41CEA7736F1F /* SafariServices.framework */,
-				52A0FA23F2D04F289C1F74B1 /* ImageIO.framework */,
-				7B29327416044455827B1AF7 /* CoreLocation.framework */,
-				2F4A30C72E01442895F5EC1F /* Social.framework */,
-				5157519FCECC4A08B7910F4A /* MessageUI.framework */,
-				4A7238633D154BBF9608A9D8 /* UserNotifications.framework */,
-				247BB8B931A7481AA050494B /* MediaPlayer.framework */,
-				D130D2466B8E4E9CAE913EDB /* QuartzCore.framework */,
-				0537655B621BB4B33A60E8AE /* Pods_AppsMobileCompany.framework */,
+				936A63C0DCCB4114A912722E /* StoreKit.framework */,
+				BD1CC724B6324FAD92B0E69A /* WebKit.framework */,
+				93CE9B189FFD4ECF96FF4384 /* PushKit.framework */,
+				5E68072989C54DDDB24E7FB0 /* AVFoundation.framework */,
+				9531F6FA90184242AE4AC85C /* AudioToolbox.framework */,
+				E7858C9E53C24827B194803C /* SafariServices.framework */,
+				262D63EC04BA493AB5D12EED /* ImageIO.framework */,
+				43FF2B03E1764C8381D4F3E2 /* CoreLocation.framework */,
+				B03FFD6F47794E33910797E8 /* Social.framework */,
+				C5F5CBF1CD414C84AF8329AA /* MessageUI.framework */,
+				FA4D59C7493142C9BEC6BBD7 /* UserNotifications.framework */,
+				947FC09F391B4C4E9B54EDF9 /* MediaPlayer.framework */,
+				142F9DF436D84411BA597310 /* QuartzCore.framework */,
+				10E03C6FDD2E80A529C40D18 /* libPods-AppsMobileCompany.a */,
 			);
 			name = Frameworks;
-			sourceTree = "<group>";
-		};
-		2F61816D7F95FC172AE10C3D /* Pods */ = {
-			isa = PBXGroup;
-			children = (
-				8285352BEA2F4D742C02D4A8 /* Pods-AppsMobileCompany.debug.xcconfig */,
-				E5835D5FD2338044FAE1801C /* Pods-AppsMobileCompany.release.xcconfig */,
-			);
-			name = Pods;
-			path = Pods;
 			sourceTree = "<group>";
 		};
 		301BF52E109A57CC0062928A /* Products */ = {
@@ -510,174 +487,177 @@
 		307C750510C5A3420062BCA9 /* Plugins */ = {
 			isa = PBXGroup;
 			children = (
-				A13FAF8A74A74BF0B84D4923 /* HCPPlugin.m */,
-				5C4EF344E5E6477FAA116FF8 /* HCPApplicationConfig.m */,
-				A968B2BE22944F658F4FD855 /* HCPContentConfig.m */,
-				34662954C01D437C86346007 /* HCPContentManifest.m */,
-				F1369C223EBC47C59D2CFB67 /* HCPPluginInternalPreferences.m */,
-				46239139AE6D4DF8A399BFAF /* HCPXmlConfig.m */,
-				47346AE6B98E47F5845E20E2 /* HCPXmlTags.m */,
-				D44FF3BA5FAC42DA8986D746 /* HCPXmlConfigParser.m */,
-				51451808FC5046328387B893 /* HCPEvents.m */,
-				690E02B0903546D484E4676C /* CDVPluginResult+HCPEvents.m */,
-				77DC789B03ED451B8EFB0C5D /* HCPFilesStructure.m */,
-				9E2925B03EB141A5BDF444AC /* HCPManifestDiff.m */,
-				F055BE5A58364BC3B7522BE3 /* HCPManifestFile.m */,
-				01AFE74CE96349CBAE340AA3 /* HCPFileDownloader.m */,
-				FDC3283899AB4EAAA25AA579 /* HCPDataDownloader.m */,
-				FE08EDBC12D64E2F8754A855 /* HCPApplicationConfigStorage.m */,
-				E1DF5AE6982147DB877F3B02 /* HCPConfigStorageImpl.m */,
-				FFC64771E2B64F758945B6EC /* HCPContentManifestStorage.m */,
-				0151FCA27CDC467C91DC4958 /* HCPPluginInternalPreferences+UserDefaults.m */,
-				244684C02EA942E1A43912E3 /* HCPFetchUpdateOptions.m */,
-				34A1D8C6B5B3475BAB806E21 /* HCPInstallationWorker.m */,
-				CFCEB60E4B5646A0BDFFB9B9 /* HCPUpdateInstaller.m */,
-				30170E5482BC4C6CB5FC0138 /* HCPUpdateLoader.m */,
-				D16AF5E5FEC34DCF8A6C9808 /* HCPUpdateLoaderWorker.m */,
-				51FF157505E443B48B3E17D4 /* HCPUpdateRequest.m */,
-				F3A1CB9DAB8D442AB66DE6E8 /* HCPCleanupHelper.m */,
-				3AA909A52F544C5D8567ED3C /* NSBundle+HCPExtension.m */,
-				335F606F33024C958471E0CC /* NSData+HCPMD5.m */,
-				89A38F2C45C944E882B54173 /* NSError+HCPExtension.m */,
-				AD97C3B40EBE4C5195EE2944 /* NSFileManager+HCPExtension.m */,
-				EBB31EA5C5F74806B893B0F7 /* NSJSONSerialization+HCPExtension.m */,
-				CA81CEB8695D46299CB24095 /* HCPAppUpdateRequestAlertDialog.m */,
-				F7969809A147404AB2F3D016 /* HCPAssetsFolderHelper.m */,
-				66A8BA8974E7423283CC0506 /* CDVWKWebViewEngine+HCPPlugin_ReadAccessURL.m */,
-				933C71A975C34C9FBD247F0B /* HCPPlugin.h */,
-				4DACFF89F3E8476C9439BEFB /* HCPApplicationConfig.h */,
-				1EF62D58E8A04CD8BE40734C /* HCPContentConfig.h */,
-				6F1D31AA6A2D427280CB3D6A /* HCPContentManifest.h */,
-				72032A8344C7415490541337 /* HCPPluginInternalPreferences.h */,
-				01D639EA94734AC0843074A3 /* HCPXmlConfig.h */,
-				854F91FDFD604ED6A054196C /* HCPXmlTags.h */,
-				FE69EE426584462FB27F428C /* HCPXmlConfigParser.h */,
-				92E80CF98B974CB29D2D12BB /* HCPEvents.h */,
-				F48312D0FE1C4369837F52F5 /* CDVPluginResult+HCPEvents.h */,
-				810CAD48F3264885AD2C7D96 /* HCPFilesStructure.h */,
-				A08490EDDC4A4A4193C79654 /* HCPJsonConvertable.h */,
-				BF30CBC9FA794C75A3FF5FDD /* HCPManifestDiff.h */,
-				5197DAA8578F470AB5F30D44 /* HCPManifestFile.h */,
-				EC459BC415754A078D3B0632 /* HCPFileDownloader.h */,
-				4A0CC49FD8444B5BAD32F413 /* HCPDataDownloader.h */,
-				B9A580C7415C439897E7CD86 /* HCPApplicationConfigStorage.h */,
-				B62E21001E5E4957BD3A0F25 /* HCPConfigFileStorage.h */,
-				136EAD3CEAF34098819B21B9 /* HCPConfigStorageImpl.h */,
-				1C58E6AFD24B48F4B765238E /* HCPContentManifestStorage.h */,
-				AEE21F3F654947FDAD480313 /* HCPPluginInternalPreferences+UserDefaults.h */,
-				4D3DDE185C69443FAC8C095C /* HCPFetchUpdateOptions.h */,
-				2D8757C500834C8191E24582 /* HCPInstallationWorker.h */,
-				1DAE1D158A114739B0D6132F /* HCPUpdateInstaller.h */,
-				0EB88DE1F7CE4C8AAAE9E12A /* HCPUpdateLoader.h */,
-				15271B9D81534E2A8ABEBCD3 /* HCPUpdateLoaderWorker.h */,
-				57C61C611F0E4F37AA2B9129 /* HCPUpdateRequest.h */,
-				6E07001A23DD4202849F024C /* HCPWorker.h */,
-				7AC660F3DDD84C92AD5EBB24 /* HCPCleanupHelper.h */,
-				11C85895FE614A32BE5D792C /* NSBundle+HCPExtension.h */,
-				120E48B8AD20452095B520F2 /* NSData+HCPMD5.h */,
-				5831B4625F8D4E25BB1CF89F /* NSError+HCPExtension.h */,
-				59E9929A10734AD8BE5C99B5 /* NSFileManager+HCPExtension.h */,
-				793B4EC24FCD4871BFD69A73 /* NSJSONSerialization+HCPExtension.h */,
-				506A463DC7944C04A9B02CA3 /* HCPAppUpdateRequestAlertDialog.h */,
-				A9CA321DD8E74FD396F70354 /* HCPAssetsFolderHelper.h */,
-				84E90C58A4934A1FB4E7CF54 /* CDVWKWebViewEngine+HCPPlugin_ReadAccessURL.h */,
-				0C6DF7CFCF3D47948EA79CF7 /* InAppPurchase.m */,
-				F6A841907D734B05AE82AD23 /* SKProduct+LocalizedPrice.m */,
-				987B7595B7154B47AB5461B6 /* SKProductDiscount+LocalizedPrice.m */,
-				4CDBF5AAF58343CC9BF3683B /* FileUtility.m */,
-				DDC12EEE855145A39BAD85BE /* InAppPurchase.h */,
-				1B02F7B57BA649C3A203FA70 /* SKProduct+LocalizedPrice.h */,
-				7C3B9035FD444CE0985B20E0 /* SKProductDiscount+LocalizedPrice.h */,
-				83BAF8B50859496BAAEA320A /* FileUtility.h */,
-				8D84B5A58D1944A7B5B3C148 /* CDVWKWebViewFileXhr.m */,
-				EF28FFA131BF412096EE83A5 /* CDVWKWebViewFileXhr.h */,
-				CE9212EDA4284EBB8F99C92F /* AppDelegate+notification.m */,
-				2B8D2932E946443B9EF5933B /* PushPlugin.m */,
-				3AAAE6D723B64E7BB3F04715 /* AppDelegate+notification.h */,
-				9AD1E637446F4E99BCC89BD2 /* PushPlugin.h */,
-				043266E6C3B94C6C910C6025 /* WebViewPlugin.m */,
-				3B9275EF065746CDA1A65C3E /* WebViewPlugin.h */,
-				2B6084743CB84ED285821225 /* AMSAdBase.swift */,
-				02F2C28EFA8D46E48A9BF19F /* AMSBanner.swift */,
-				87BCEA2DEA2C44B7B1749FA0 /* AMSGenerated.swift */,
-				0051650B33D9410EBD636E54 /* AMSInterstitial.swift */,
-				41E8DCC5F7124DA8AA0AC21C /* AMSPlugin.swift */,
-				96AAE2D3BB614605B087AF13 /* AMSRewardVideo.swift */,
-				25851A7A2EDB43E0851CA8C9 /* AMSPlugin-Bridging-Header.h */,
-				FFA7D05B516F4025A0D0FB75 /* AppVersion.m */,
-				635DDC146FCC40BFB86CAA55 /* AppVersion.h */,
-				0BDC91DAAFBA4EF99B399498 /* APPBadge.m */,
-				6553946B31914995B05AC026 /* APPBadge.h */,
-				AEA5241007154B9696FC8A60 /* CDVBarcodeScanner.mm */,
-				8A437781B8CF48E0A4253DBB /* CBTBrowserTab.m */,
-				0EA02B2138FF49B4A1FC6F5F /* CBTBrowserTab.h */,
-				CCD235C093D84329A6D182B5 /* UIImage+CropScaleOrientation.m */,
-				5548A441131142B588EFF214 /* CDVCamera.m */,
-				605D488B79EA4DE7BF5B3D08 /* CDVJpegHeaderWriter.m */,
-				76C492B670124D5FAE4B7A83 /* UIImage+CropScaleOrientation.h */,
-				4F1DF96DF1FA400D986569F8 /* CDVCamera.h */,
-				3FADB9728D764571B9635CF7 /* CDVJpegHeaderWriter.h */,
-				7178994D1F474C8FB4BB1ADD /* CDVExif.h */,
-				B7D78C22D69D4AB8A272C34E /* CDVClipboard.m */,
-				C5C01ECDAE154D7C996621A9 /* CDVClipboard.h */,
-				E8782B6D498140289A095062 /* CDVDevice.m */,
-				795629D223C34F83A6E85A5F /* CDVDevice.h */,
-				DA2DAD59853D4D03A28DAC5E /* CDVFile.m */,
-				90536C235B1947348DCAE8B5 /* CDVLocalFilesystem.m */,
-				EE37836A3AB34307BEB72DFD /* CDVAssetLibraryFilesystem.m */,
-				C61CE833EED240CAB9418486 /* CDVFile.h */,
-				395B096E7E994C4E935FC922 /* CDVLocalFilesystem.h */,
-				FFD30861518E44D08D839215 /* CDVAssetLibraryFilesystem.h */,
-				6D30BCFD5DDA40F9A13946D3 /* CDVLocation.m */,
-				66EF94A1481143898C75D12D /* CDVLocation.h */,
-				936ADE67BE7D4EB295354F16 /* CDVInAppBrowserOptions.m */,
-				11F4BE9B216F4ADD8AC1B6CE /* CDVInAppBrowserNavigationController.m */,
-				B3C4775830224C74A08BB373 /* CDVWKInAppBrowser.m */,
-				7518B942A3FA4A03B487187C /* CDVWKInAppBrowserUIDelegate.m */,
-				6EE305604EE0417C902612F3 /* CDVInAppBrowserOptions.h */,
-				8278E07E409242E49D7F109B /* CDVInAppBrowserNavigationController.h */,
-				C713A1CD1AA34ED48E219F98 /* CDVWKInAppBrowser.h */,
-				710DE19CEFA64AD187A60F1E /* CDVWKInAppBrowserUIDelegate.h */,
-				7707A357E6494640A648697C /* CDVIonicKeyboard.m */,
-				5D99F161D07645419878CA4D /* CDVIonicKeyboard.h */,
-				1C34E9B649694933B1E0132B /* NSString+SSURLEncoding.m */,
-				118E8A6C91CB4467AB04B0B7 /* SocialSharing.m */,
-				15211F4E557D48E7B3D29F1B /* NSString+SSURLEncoding.h */,
-				838DABC5A26C4B018819088B /* SocialSharing.h */,
-				EC3E35DE5CD2429587519AF7 /* CDVStatusBar.m */,
-				570126871DEF431B85C16E54 /* CDVStatusBar.h */,
-				55349B5733F24DA4A7DB8068 /* APPLocalNotification.m */,
-				B524058B721E4DF89004197A /* APPNotificationCategory.m */,
-				572B8E64A833436A897B2FA9 /* APPNotificationContent.m */,
-				0B2B335255E94DAF96BDB994 /* APPNotificationOptions.m */,
-				121EF1D9094945AE87AB9471 /* UNUserNotificationCenter+APPLocalNotification.m */,
-				CCC6764037AE407ABC2C1FE5 /* UNNotificationRequest+APPLocalNotification.m */,
-				896B80C46BE84B46B66A7E52 /* APPLocalNotification.h */,
-				E18240D561CC451A90A0CBB0 /* APPNotificationCategory.h */,
-				523DE7E89F8D4D42B758B25A /* APPNotificationContent.h */,
-				E8447D3D1FC446B893C61A47 /* APPNotificationOptions.h */,
-				72345944D14A4DFB85535738 /* UNUserNotificationCenter+APPLocalNotification.h */,
-				00673B46D3BA4295836EB4E8 /* UNNotificationRequest+APPLocalNotification.h */,
-				3123DE16FA44446A8BC0330C /* Insomnia.m */,
-				5D66E7532EB6414AB4068779 /* Insomnia.h */,
-				591BF80482A9433E90E6E9ED /* MainViewController+MusicControls.m */,
-				B4E006959EC345A492871E68 /* MusicControls.m */,
-				C3D7ECAA441E41C39D76FF85 /* MusicControlsInfo.m */,
-				1C6341EC15A245C1AC31FA47 /* MainViewController+MusicControls.h */,
-				A2168F621C4D43AFA7F70D5F /* MusicControls.h */,
-				47EE4E3FE2954E7998D58580 /* MusicControlsInfo.h */,
-				89728D504B1A407E8142EA10 /* CDVSound.m */,
-				A2ABFFA4AE454A2994CC0E34 /* CDVSound.h */,
-				3641A68C0F3A4EDE92B2E69C /* CDVNavigator.m */,
-				67F62C4737C54D44BAEC6A19 /* CDVNavigator.h */,
-				2D1E077542574E6D8C9B9754 /* Toast+UIView.m */,
-				382841493EFC4F3AAAD1ADC3 /* Toast.m */,
-				E61577D89CDA433A828A4D9D /* Toast+UIView.h */,
-				F855B1D96E544DA2BDDD3FF9 /* Toast.h */,
+				EE7A7165F87C471D8614BD32 /* HCPPlugin.m */,
+				DB912F2964B345399C48BE04 /* HCPApplicationConfig.m */,
+				1613675B5F0C4F82BC6C01EE /* HCPContentConfig.m */,
+				9385548B39CF4EB8BD6A1966 /* HCPContentManifest.m */,
+				7DDE5BBF0CA24E649133B265 /* HCPPluginInternalPreferences.m */,
+				F2D970D15E8549E8B7D204D7 /* HCPXmlConfig.m */,
+				5FC2C6CBEB6441F3825B825F /* HCPXmlTags.m */,
+				8F4DBACEE8B6465293262E84 /* HCPXmlConfigParser.m */,
+				14668597DF3343F9BF34E598 /* HCPEvents.m */,
+				291F7AA59EAE4364949B6D15 /* CDVPluginResult+HCPEvents.m */,
+				BB4FC5B9E2F4452A969D8A87 /* HCPFilesStructure.m */,
+				1B6BDF61FE6F42808A64B221 /* HCPManifestDiff.m */,
+				B1E386C80064482FA6C3AD19 /* HCPManifestFile.m */,
+				9F74CFCD56BD49AB9AAD23B3 /* HCPFileDownloader.m */,
+				E051151570F44B18A9625F06 /* HCPDataDownloader.m */,
+				6C47F52024A3410482E0DE56 /* HCPApplicationConfigStorage.m */,
+				C52CA0508398400A8A13FFE8 /* HCPConfigStorageImpl.m */,
+				98EE01FE0B7945ACA7C0CC28 /* HCPContentManifestStorage.m */,
+				8FB68477F998415FAED7C543 /* HCPPluginInternalPreferences+UserDefaults.m */,
+				ACED56B13DC548D8BEB7C4C9 /* HCPFetchUpdateOptions.m */,
+				F26A79E791C84D76B908B115 /* HCPInstallationWorker.m */,
+				CF7F8F9D03614474AC2A77E3 /* HCPUpdateInstaller.m */,
+				94068FF9A2AE4A489FDAA520 /* HCPUpdateLoader.m */,
+				DF69BBF03AEB4B36AC112B05 /* HCPUpdateLoaderWorker.m */,
+				D13AA990EE5C44EE9FA98F8B /* HCPUpdateRequest.m */,
+				FD3A0F98513744D394EB767F /* HCPCleanupHelper.m */,
+				FE3D7058FE904C0A976513F7 /* NSBundle+HCPExtension.m */,
+				54281357D117412AA8AE2F01 /* NSData+HCPMD5.m */,
+				8FFF5B24D7BA480C90B2D1D2 /* NSError+HCPExtension.m */,
+				F246D1AD10104A908106D039 /* NSFileManager+HCPExtension.m */,
+				9BDC102E37764CF8A2ACBD44 /* NSJSONSerialization+HCPExtension.m */,
+				FF45C1EE499A48CEACD8A14D /* HCPAppUpdateRequestAlertDialog.m */,
+				7B577DD4DBED4E4B8BDEC2C3 /* HCPAssetsFolderHelper.m */,
+				C501A2D685A4499CA105DDE5 /* CDVWKWebViewEngine+HCPPlugin_ReadAccessURL.m */,
+				BAA61E86B11A45508BD48EA1 /* HCPPlugin.h */,
+				C8CEC306BAB14D85A0E04B6D /* HCPApplicationConfig.h */,
+				34AB67E5F19649EC872B02FB /* HCPContentConfig.h */,
+				A27AC0117DB64557B217455F /* HCPContentManifest.h */,
+				3A3D99004ED74BB999CBF73A /* HCPPluginInternalPreferences.h */,
+				D12F3E41EC394E07A851E6BE /* HCPXmlConfig.h */,
+				F7529F8B78E34AC0A04F3E87 /* HCPXmlTags.h */,
+				B249BBE5997A4CB79C2C8560 /* HCPXmlConfigParser.h */,
+				6F6D9F2F1AE949278F390BD6 /* HCPEvents.h */,
+				E6A87D9D9E8F4E2C84B95AD7 /* CDVPluginResult+HCPEvents.h */,
+				C8B4EC6F8A0940A79B9037BB /* HCPFilesStructure.h */,
+				D4BB68374AFA45468B26CF5A /* HCPJsonConvertable.h */,
+				F815D5EC82EE485DB1AE21FF /* HCPManifestDiff.h */,
+				BBB40C4D217F44EE95F6EC3A /* HCPManifestFile.h */,
+				3C4CD15D98FC4BCE86D481E3 /* HCPFileDownloader.h */,
+				7313C8893E3E476DAE860373 /* HCPDataDownloader.h */,
+				8C9E0486DB18463798206558 /* HCPApplicationConfigStorage.h */,
+				7840EE52411B47F2AEF63C1E /* HCPConfigFileStorage.h */,
+				E87B57E0A60C448C90A6A216 /* HCPConfigStorageImpl.h */,
+				C68FDB2C563749519E96AD17 /* HCPContentManifestStorage.h */,
+				F76EAAC4D0DF4DB38F7C6E27 /* HCPPluginInternalPreferences+UserDefaults.h */,
+				A124162E438941E6B2C5D0FA /* HCPFetchUpdateOptions.h */,
+				8DB521D9EB0146A1899F2A10 /* HCPInstallationWorker.h */,
+				2F98AAE8463B4EC9B2F6C6B6 /* HCPUpdateInstaller.h */,
+				335D05A0AF8F46779540A125 /* HCPUpdateLoader.h */,
+				740F98BDCDAB43839061A8C8 /* HCPUpdateLoaderWorker.h */,
+				A9E29E2FAFA240EC88BC827E /* HCPUpdateRequest.h */,
+				42FFD7AF2576499C8634F654 /* HCPWorker.h */,
+				09B7BEBD8C1549078BE288D5 /* HCPCleanupHelper.h */,
+				F778720030B84F8FA562F1A2 /* NSBundle+HCPExtension.h */,
+				AFEE77E5A9FD4EAAAC96D12C /* NSData+HCPMD5.h */,
+				FD25B79FC7D54A589E55EBC9 /* NSError+HCPExtension.h */,
+				611A3BD790624BB9AD40DA0E /* NSFileManager+HCPExtension.h */,
+				E05C2E2991384CC7BC83FA05 /* NSJSONSerialization+HCPExtension.h */,
+				F28096F370014E279CBAB531 /* HCPAppUpdateRequestAlertDialog.h */,
+				A8446346DD8E48E7A95C7FAE /* HCPAssetsFolderHelper.h */,
+				414C0C7663E64D95894D949C /* CDVWKWebViewEngine+HCPPlugin_ReadAccessURL.h */,
+				09CA387508084FA1B41B426C /* InAppPurchase.m */,
+				470D5B149C1D4B058A269F4F /* SKProduct+LocalizedPrice.m */,
+				9E8B23AE2B4E4EAFBB782D49 /* SKProductDiscount+LocalizedPrice.m */,
+				481E02D964B1487DA4ECBA95 /* FileUtility.m */,
+				11913B1E02E340B18EB0ECF5 /* InAppPurchase.h */,
+				C28F54C97E3C4D558E900D46 /* SKProduct+LocalizedPrice.h */,
+				9F8DAB4AB62B4574A8D16AC5 /* SKProductDiscount+LocalizedPrice.h */,
+				2B878569643F445E9A15E51C /* FileUtility.h */,
+				0F5E5501D8E44915BFDFD95B /* CDVWKWebViewFileXhr.m */,
+				B0C4F31CB9984F478C86DB50 /* CDVWKWebViewFileXhr.h */,
+				864A0BD5957649E48A4D1CA3 /* AppDelegate+notification.m */,
+				506A9D1A3B774DB6A54AFCDF /* PushPlugin.m */,
+				BE4BDDB88AEB417598D5BDFD /* AppDelegate+notification.h */,
+				BAC7C9EB524843329A1AF7EF /* PushPlugin.h */,
+				39F2FD80F81B421491D6987B /* WebViewPlugin.m */,
+				55977DB526614FDA9C9FCDC1 /* WebViewPlugin.h */,
+				8D568C633CBA46C1B70A611F /* AppVersion.m */,
+				9D5D41614F1B4D6DA80C725F /* AppVersion.h */,
+				57C4EAAB016346ABB3E92F8F /* APPBadge.m */,
+				F611FED2678241F7BF3FDF88 /* APPBadge.h */,
+				F4006C9DE7204B059CE8532E /* CDVBarcodeScanner.mm */,
+				04D6947CD9854D8888AE026A /* CBTBrowserTab.m */,
+				5DB98CEF599D47CEA2DE8A82 /* CBTBrowserTab.h */,
+				303722ED510D47B09CD93493 /* UIImage+CropScaleOrientation.m */,
+				43A4A3ECF98F40FF95B0A500 /* CDVCamera.m */,
+				E23E3F73D09D44748C61B00A /* CDVJpegHeaderWriter.m */,
+				5057104BFB4F45319CF17A39 /* UIImage+CropScaleOrientation.h */,
+				3B46E14330BC4A64A916EB4E /* CDVCamera.h */,
+				1BD7E959E97B4FC9820BFE11 /* CDVJpegHeaderWriter.h */,
+				9F90335BD2BF4681BAEECE23 /* CDVExif.h */,
+				8E07CB038403418CAE4481DE /* CDVClipboard.m */,
+				D072D5B65A32400DA54BC29D /* CDVClipboard.h */,
+				A0E7FF8031314889902D361F /* CDVDevice.m */,
+				CE9E27559C604C3190BEB26B /* CDVDevice.h */,
+				E17858680A7E4BFB8382F0DF /* CDVFile.m */,
+				55EE29911EBB43578EE1E124 /* CDVLocalFilesystem.m */,
+				2F06822FD2C34BB9BA45FB07 /* CDVAssetLibraryFilesystem.m */,
+				7FE11153F4944068B3A75188 /* CDVFile.h */,
+				2B80A41DF33F4A66A6D59BC9 /* CDVLocalFilesystem.h */,
+				022979E8AFF64F99BAC2A2F4 /* CDVAssetLibraryFilesystem.h */,
+				04A35E088ED94386A541355F /* CDVLocation.m */,
+				CB60E1BDDF9F4888A2AA728A /* CDVLocation.h */,
+				3CDA078D14B345AFB68F9A02 /* CDVInAppBrowserOptions.m */,
+				69A5C0BA273D4CABB6060FCD /* CDVInAppBrowserNavigationController.m */,
+				263CB266082C49E79C0A5A1A /* CDVWKInAppBrowser.m */,
+				5A4C381A4943438E9C1C2204 /* CDVWKInAppBrowserUIDelegate.m */,
+				E7F86FD00DFA4654B3DA4BCD /* CDVInAppBrowserOptions.h */,
+				B0B8C98CEC044326A304259C /* CDVInAppBrowserNavigationController.h */,
+				D04C4095C0994E10955B8380 /* CDVWKInAppBrowser.h */,
+				970B47D1FA4149F49B51D34E /* CDVWKInAppBrowserUIDelegate.h */,
+				5FEE5BF0635D4BD3884E64C8 /* CDVIonicKeyboard.m */,
+				56BDF1CBF73446D6AC6BD5BA /* CDVIonicKeyboard.h */,
+				3FF56370EAA54C2E883E44CF /* NSString+SSURLEncoding.m */,
+				B1641C4D865344FFB8A03CD9 /* SocialSharing.m */,
+				473529E9518C43C3A5F1A764 /* NSString+SSURLEncoding.h */,
+				7155C19234194323BD9752CB /* SocialSharing.h */,
+				2658C857E41E4BDCA05991CD /* CDVStatusBar.m */,
+				38099832CD8C4601AF1E11F4 /* CDVStatusBar.h */,
+				7895DB549A99421E9445B9E9 /* APPLocalNotification.m */,
+				607E602A4B6745B7BAAC4212 /* APPNotificationCategory.m */,
+				AB1101482C06443BA6E44428 /* APPNotificationContent.m */,
+				8257E5F9EED942099ADF4B1D /* APPNotificationOptions.m */,
+				2CBA654094C4439E81A6DD6F /* UNUserNotificationCenter+APPLocalNotification.m */,
+				320A51CBB41C4FEA935BDD7B /* UNNotificationRequest+APPLocalNotification.m */,
+				B085B32461CC43028836C3BF /* APPLocalNotification.h */,
+				8E6D655B8277443F817819B7 /* APPNotificationCategory.h */,
+				98D6191D58F9479FAD00F75E /* APPNotificationContent.h */,
+				991A391E26A847FC8DB9CD08 /* APPNotificationOptions.h */,
+				79AABE3D79E54CA38D42ADE7 /* UNUserNotificationCenter+APPLocalNotification.h */,
+				586CCD5A6D9E4ECB8DF4EA6A /* UNNotificationRequest+APPLocalNotification.h */,
+				0E34FE5FA6B9486A928BDF11 /* Insomnia.m */,
+				FA51046B840448BE82EFE8D2 /* Insomnia.h */,
+				5DEA29A6D4884E43B4A72DB3 /* MainViewController+MusicControls.m */,
+				32D074C7FE5D41A9B4C44034 /* MusicControls.m */,
+				685FF768C1FB4315B3D59C2D /* MusicControlsInfo.m */,
+				F8E5BD5272A843DDBC30F248 /* MainViewController+MusicControls.h */,
+				5428169FBE8646CB82466D84 /* MusicControls.h */,
+				546C888A93C246FBB3D330BB /* MusicControlsInfo.h */,
+				8A2E45E158DA43DA91C753CA /* CDVSound.m */,
+				3645CDEFD5CD45F490C82627 /* CDVSound.h */,
+				F8C98C8EF7424B50ACD27708 /* CDVNavigator.m */,
+				71202EAF91004206A37671C3 /* CDVNavigator.h */,
+				EB31F1E0C74344DDBA27485E /* Toast+UIView.m */,
+				8C0A8D87E06F4CEF862762A7 /* Toast.m */,
+				72A185962C8844A0987AB1F8 /* Toast+UIView.h */,
+				C04952A141844E578AF2AB82 /* Toast.h */,
 			);
 			name = Plugins;
 			path = AppsMobileCompany/Plugins;
 			sourceTree = SOURCE_ROOT;
+		};
+		509B7699A5298A75322A332B /* Pods */ = {
+			isa = PBXGroup;
+			children = (
+				8825C45C7FA015AA44D632D4 /* Pods-AppsMobileCompany.debug.xcconfig */,
+				7D3F71243FE236F361391537 /* Pods-AppsMobileCompany.release.xcconfig */,
+			);
+			name = Pods;
+			path = Pods;
+			sourceTree = "<group>";
 		};
 		EB87FDF11871DA420020F90C /* Staging */ = {
 			isa = PBXGroup;
@@ -695,12 +675,11 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = 1D6058960D05DD3E006BFB54 /* Build configuration list for PBXNativeTarget "AppsMobileCompany" */;
 			buildPhases = (
-				BDDD27817391DD921C698F1D /* [CP] Check Pods Manifest.lock */,
+				E724A98C27D9F4722B3971C9 /* [CP] Check Pods Manifest.lock */,
 				304B58A110DAC018002A0835 /* Copy www directory */,
 				1D60588D0D05DD3D006BFB54 /* Resources */,
 				1D60588E0D05DD3D006BFB54 /* Sources */,
 				1D60588F0D05DD3D006BFB54 /* Frameworks */,
-				D8A93A751429F01F612932A8 /* [CP] Embed Pods Frameworks */,
 			);
 			buildRules = (
 			);
@@ -779,12 +758,12 @@
 				302D95F214D2391D003F00A1 /* MainViewController.xib in Resources */,
 				0207DA581B56EA530066E2B4 /* Images.xcassets in Resources */,
 				6AFF5BF91D6E424B00AB3073 /* CDVLaunchScreen.storyboard in Resources */,
-				C6A2BB57E78B4BCCA10ADCF4 /* scannerOverlay.xib in Resources */,
-				9337568325D044C5ACD0B8A2 /* CDVBarcodeScanner.bundle in Resources */,
-				E4AA0C7261CF492FB9BCDE67 /* sb_beep1.caf in Resources */,
-				50279F84B5844671B99ADBDD /* sb_beep2.caf in Resources */,
-				3084F4A2903B41E596762F6B /* sb_beep3.caf in Resources */,
-				7819F6B99D75421EB0853E9A /* sb_beep4.caf in Resources */,
+				CD88174E531E4BDC8B99472D /* scannerOverlay.xib in Resources */,
+				D4B94224CF1D41D5BA70D507 /* CDVBarcodeScanner.bundle in Resources */,
+				29D2B19DF9C0405CB90B0603 /* sb_beep1.caf in Resources */,
+				1D49B2DE1EF6401688671571 /* sb_beep2.caf in Resources */,
+				2520BCE1508C4BF5B806F88C /* sb_beep3.caf in Resources */,
+				1D36586773374C71ABE79C29 /* sb_beep4.caf in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -806,7 +785,7 @@
 			shellScript = "\"$SRCROOT/AppsMobileCompany/Scripts/copy-www-build-step.sh\"";
 			showEnvVarsInLog = 0;
 		};
-		BDDD27817391DD921C698F1D /* [CP] Check Pods Manifest.lock */ = {
+		E724A98C27D9F4722B3971C9 /* [CP] Check Pods Manifest.lock */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -828,23 +807,6 @@
 			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
 			showEnvVarsInLog = 0;
 		};
-		D8A93A751429F01F612932A8 /* [CP] Embed Pods Frameworks */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputFileListPaths = (
-				"${PODS_ROOT}/Target Support Files/Pods-AppsMobileCompany/Pods-AppsMobileCompany-frameworks-${CONFIGURATION}-input-files.xcfilelist",
-			);
-			name = "[CP] Embed Pods Frameworks";
-			outputFileListPaths = (
-				"${PODS_ROOT}/Target Support Files/Pods-AppsMobileCompany/Pods-AppsMobileCompany-frameworks-${CONFIGURATION}-output-files.xcfilelist",
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-AppsMobileCompany/Pods-AppsMobileCompany-frameworks.sh\"\n";
-			showEnvVarsInLog = 0;
-		};
 /* End PBXShellScriptBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
@@ -856,91 +818,85 @@
 				1D3623260D0F684500981E51 /* AppDelegate.m in Sources */,
 				302D95F114D2391D003F00A1 /* MainViewController.m in Sources */,
 				9AB72E4420ADD50700A1703D /* Constants.m in Sources */,
-				83D094C2F0884BBC88E390C1 /* HCPPlugin.m in Sources */,
-				257B83C472FB41B0A15FD13B /* HCPApplicationConfig.m in Sources */,
-				DB01328B3EF645B2A50EFF1B /* HCPContentConfig.m in Sources */,
-				F47C642F5E54433BA3E3ABF8 /* HCPContentManifest.m in Sources */,
-				7FC2037B729B4D53B2D79F16 /* HCPPluginInternalPreferences.m in Sources */,
-				7B0EA59F8C9B477B9B4B83D6 /* HCPXmlConfig.m in Sources */,
-				D4A1F34E69D54F859A68C575 /* HCPXmlTags.m in Sources */,
-				60A6BE01AB3E412E873F5564 /* HCPXmlConfigParser.m in Sources */,
-				114CFC9A641E417CA43D156E /* HCPEvents.m in Sources */,
-				BC64FCD641E543B69C6C4FDF /* CDVPluginResult+HCPEvents.m in Sources */,
-				E7254CB695414A5FA8C2389A /* HCPFilesStructure.m in Sources */,
-				779F6B2AF4A944D182071CB2 /* HCPManifestDiff.m in Sources */,
-				98232B2D05F54C7692850BD4 /* HCPManifestFile.m in Sources */,
-				B4F8A86650E44260A8A14780 /* HCPFileDownloader.m in Sources */,
-				4680EC3F7DBE44C381C382C9 /* HCPDataDownloader.m in Sources */,
-				D38C1B8DA7EA4DFD8682428B /* HCPApplicationConfigStorage.m in Sources */,
-				43A28C23F3324F18B5BED6D2 /* HCPConfigStorageImpl.m in Sources */,
-				23768D987EDB419BA9D2D8E2 /* HCPContentManifestStorage.m in Sources */,
-				0F46670D0951470FB17504F3 /* HCPPluginInternalPreferences+UserDefaults.m in Sources */,
-				8639D82A6E3D429BB88789EF /* HCPFetchUpdateOptions.m in Sources */,
-				35BD790E759246868D648303 /* HCPInstallationWorker.m in Sources */,
-				1ADC4652ED5347579D87A07C /* HCPUpdateInstaller.m in Sources */,
-				D0F8D95C9FE741478EE4C00C /* HCPUpdateLoader.m in Sources */,
-				E6B6040496AB44A591CF849D /* HCPUpdateLoaderWorker.m in Sources */,
-				C61D29B9CEF74FDAA9B287C6 /* HCPUpdateRequest.m in Sources */,
-				DFAAF3104E554037A01A9238 /* HCPCleanupHelper.m in Sources */,
-				4FDA5B12EA7947F392173A22 /* NSBundle+HCPExtension.m in Sources */,
-				48C4AB318F564FB38FB2DBA0 /* NSData+HCPMD5.m in Sources */,
-				309DA13226A645D1A9B9FE19 /* NSError+HCPExtension.m in Sources */,
-				134EC1A36BC34B56B9650CB1 /* NSFileManager+HCPExtension.m in Sources */,
-				E7EB11D8039144AD9695A293 /* NSJSONSerialization+HCPExtension.m in Sources */,
-				7AE79E1D225C4A86A1123BC6 /* HCPAppUpdateRequestAlertDialog.m in Sources */,
-				71FAD4C47D15402BBD56A46D /* HCPAssetsFolderHelper.m in Sources */,
-				C02B5D9DB1AD4D568DFABFB6 /* CDVWKWebViewEngine+HCPPlugin_ReadAccessURL.m in Sources */,
-				6CFCCB2F878C4C47ADCE37D9 /* InAppPurchase.m in Sources */,
-				45977315F87040EDAF26F5EA /* SKProduct+LocalizedPrice.m in Sources */,
-				AE907FBAC45A4EB4995E67A0 /* SKProductDiscount+LocalizedPrice.m in Sources */,
-				573D8D6844E041C2839C399D /* FileUtility.m in Sources */,
-				EAD42F1D7CFB4F4CB28B2B16 /* CDVWKWebViewFileXhr.m in Sources */,
-				5FD8493D591E4A6DAF0DFB3C /* AppDelegate+notification.m in Sources */,
-				BC0562CCBBF944A3ABA95849 /* PushPlugin.m in Sources */,
-				78E6A8ED27C74EACAA9B4E8E /* WebViewPlugin.m in Sources */,
-				0D5723E7E651440C865F582D /* AMSAdBase.swift in Sources */,
-				8AF662BAFAAA49749440B93F /* AMSBanner.swift in Sources */,
-				0C9C720480D64A7FAE79C878 /* AMSGenerated.swift in Sources */,
-				9D701869FC7B483B864A58A2 /* AMSInterstitial.swift in Sources */,
-				AB30135F12F849C5A0797018 /* AMSPlugin.swift in Sources */,
-				40DB2B7526164498830B14DE /* AMSRewardVideo.swift in Sources */,
-				B3048E1670E248E28CD6B2AF /* AppVersion.m in Sources */,
-				8A4130B92BC345CC98D8C788 /* APPBadge.m in Sources */,
-				E2965F43B95748EC93EB0EEA /* CDVBarcodeScanner.mm in Sources */,
-				5FA591274F7E41C38BA243B2 /* CBTBrowserTab.m in Sources */,
-				2A9F68AC14F74026AC5B0C58 /* UIImage+CropScaleOrientation.m in Sources */,
-				6B5B07C336594AAE81D6F6B1 /* CDVCamera.m in Sources */,
-				BC590410CAB34EB6B12CD3C9 /* CDVJpegHeaderWriter.m in Sources */,
-				BACD2C0677B8475D9A0952C2 /* CDVClipboard.m in Sources */,
-				C1B7C9B89EA94FCD854BF1ED /* CDVDevice.m in Sources */,
-				CEFF468035E9422D82C9AAB6 /* CDVFile.m in Sources */,
-				AEF1D2EA594445D6B13A8F88 /* CDVLocalFilesystem.m in Sources */,
-				29D734B3E3F14907BCAFA3C1 /* CDVAssetLibraryFilesystem.m in Sources */,
-				B25ECC154EF9483F8B407D52 /* CDVLocation.m in Sources */,
-				DE5696E884904294BAD73E53 /* CDVInAppBrowserOptions.m in Sources */,
-				21E4F34B8FD0457E8254CC29 /* CDVInAppBrowserNavigationController.m in Sources */,
-				0C66A7DB4FEA48C18EDF8E66 /* CDVWKInAppBrowser.m in Sources */,
-				A789C9A535574FC0A1008BFB /* CDVWKInAppBrowserUIDelegate.m in Sources */,
-				F2C214EA7ACF4623B5F31005 /* CDVIonicKeyboard.m in Sources */,
-				3044A55742824D0BB7B81128 /* NSString+SSURLEncoding.m in Sources */,
-				1C25AFF155544FECBA21B1C8 /* SocialSharing.m in Sources */,
-				78F8DFFEEEEC4749A3664AE8 /* CDVStatusBar.m in Sources */,
-				C23655025E1E4991A329D3D1 /* APPLocalNotification.m in Sources */,
-				55C3E0A9A1C44072B0F0B802 /* APPNotificationCategory.m in Sources */,
-				6CD9459ED19A429FA328B310 /* APPNotificationContent.m in Sources */,
-				2C38CC77595F4F8F82142808 /* APPNotificationOptions.m in Sources */,
-				D27B487246A64707BE266D4D /* UNUserNotificationCenter+APPLocalNotification.m in Sources */,
-				F2A409DF19724A8AA4388521 /* UNNotificationRequest+APPLocalNotification.m in Sources */,
-				2734F09AB5C6435F9F136BE3 /* Insomnia.m in Sources */,
-				C4429B2A8A3646B7921C4F25 /* MainViewController+MusicControls.m in Sources */,
-				DDB9573E0E0F40B0A3ED0E0B /* MusicControls.m in Sources */,
-				654CF5E7F7E9452EB2553D3B /* MusicControlsInfo.m in Sources */,
-				4F2E0138B8424B0FB5937D01 /* CDVSound.m in Sources */,
-				6862FAB15B124B1294996F64 /* CDVNavigator.m in Sources */,
-				3B3CEF1122CC478D9A9B0C08 /* Toast+UIView.m in Sources */,
-				893A934A9BBD4DC58AEE89C5 /* Toast.m in Sources */,
-				D436F201C9D87FE0ABC2263A /* Entitlements-Debug.plist in Sources */,
-				25942FD1EF9812A8D9DDED9D /* Entitlements-Release.plist in Sources */,
+				5A80C8DFF5DF4844A5FA7D9B /* HCPPlugin.m in Sources */,
+				8675C99B17954F08B2EBA16F /* HCPApplicationConfig.m in Sources */,
+				3866E6D623E5472C9C0B6459 /* HCPContentConfig.m in Sources */,
+				A05DDFB1EFE048619A251497 /* HCPContentManifest.m in Sources */,
+				3A2F51CCAB3443BF9DA24735 /* HCPPluginInternalPreferences.m in Sources */,
+				98A30ACF3E7843E1AAFA11ED /* HCPXmlConfig.m in Sources */,
+				3384CB346DC94EC9AB9DD784 /* HCPXmlTags.m in Sources */,
+				CE780DB081044FE793B89D2D /* HCPXmlConfigParser.m in Sources */,
+				418215BB6BB94A0288660A5C /* HCPEvents.m in Sources */,
+				82CB41F200504396AF96959D /* CDVPluginResult+HCPEvents.m in Sources */,
+				83919488D41D48CAB2A11045 /* HCPFilesStructure.m in Sources */,
+				294906FDD3884667BB290E57 /* HCPManifestDiff.m in Sources */,
+				1803086E601447629D9D84CD /* HCPManifestFile.m in Sources */,
+				F72F0E8E0DE2486E983FF701 /* HCPFileDownloader.m in Sources */,
+				6C879B79ABA04D328C9FBA2C /* HCPDataDownloader.m in Sources */,
+				53396506F18144C1B40EBEC3 /* HCPApplicationConfigStorage.m in Sources */,
+				50CD7F348AC4460A8EA24656 /* HCPConfigStorageImpl.m in Sources */,
+				CC6C3760061746FEB627774C /* HCPContentManifestStorage.m in Sources */,
+				06E42A8C66574A7BB1529550 /* HCPPluginInternalPreferences+UserDefaults.m in Sources */,
+				6EEA9DEF64924D328AB558D2 /* HCPFetchUpdateOptions.m in Sources */,
+				DD5DC87D8A874C63900F6F75 /* HCPInstallationWorker.m in Sources */,
+				7F5DEF2CD9FB4F95BA8B8F21 /* HCPUpdateInstaller.m in Sources */,
+				69649875D1D6404796831C5A /* HCPUpdateLoader.m in Sources */,
+				75705792975A43C9ACC273DB /* HCPUpdateLoaderWorker.m in Sources */,
+				0C739D36C2FF4B35A646174B /* HCPUpdateRequest.m in Sources */,
+				FABC4085C600451A82123EA8 /* HCPCleanupHelper.m in Sources */,
+				F558253FA1B0431FA28868E3 /* NSBundle+HCPExtension.m in Sources */,
+				5290A317EE514BC6A50CA1DD /* NSData+HCPMD5.m in Sources */,
+				7FE7BF6CF7F84212937F6985 /* NSError+HCPExtension.m in Sources */,
+				8C32AC751BFA4EFD85A3E102 /* NSFileManager+HCPExtension.m in Sources */,
+				7B28C358C609487BBDFA4B8E /* NSJSONSerialization+HCPExtension.m in Sources */,
+				525103BF4E5E4E5E8FD44DE7 /* HCPAppUpdateRequestAlertDialog.m in Sources */,
+				DC892193B7714A9A9990C756 /* HCPAssetsFolderHelper.m in Sources */,
+				747D6882260E44EC91944F8C /* CDVWKWebViewEngine+HCPPlugin_ReadAccessURL.m in Sources */,
+				60838BB810064A148445462F /* InAppPurchase.m in Sources */,
+				D2A99494C0F24ED69527253E /* SKProduct+LocalizedPrice.m in Sources */,
+				F80ACD34B1584A1698A17E47 /* SKProductDiscount+LocalizedPrice.m in Sources */,
+				C6B7E2A8D1064849B3FAA5A2 /* FileUtility.m in Sources */,
+				5949E0FB0B60465EBF761DD8 /* CDVWKWebViewFileXhr.m in Sources */,
+				3F045725859842CF9DA1E715 /* AppDelegate+notification.m in Sources */,
+				533CEC212B264A72B1746D94 /* PushPlugin.m in Sources */,
+				B852D8686CF841AC8F7CB0A1 /* WebViewPlugin.m in Sources */,
+				0F2AAB60EA5A41DDAA212401 /* AppVersion.m in Sources */,
+				5C77B77179F54BA688112D10 /* APPBadge.m in Sources */,
+				18AA8A9129A64FA890DDDDF4 /* CDVBarcodeScanner.mm in Sources */,
+				7EE74A3D9C2143D9BBEADC9E /* CBTBrowserTab.m in Sources */,
+				02A4A0C4E7FE40C5BAE0633C /* UIImage+CropScaleOrientation.m in Sources */,
+				A735106A68214FC1A7B20C1A /* CDVCamera.m in Sources */,
+				74837BF94DCD44AE828786D3 /* CDVJpegHeaderWriter.m in Sources */,
+				AE9D79A650D343D39826D68F /* CDVClipboard.m in Sources */,
+				98B6A25B392049DE809FB2EA /* CDVDevice.m in Sources */,
+				C7030175883044F0AEB2FC58 /* CDVFile.m in Sources */,
+				4D434BA29EBA47699E63B970 /* CDVLocalFilesystem.m in Sources */,
+				C72D0281C9E6438397C6BA6C /* CDVAssetLibraryFilesystem.m in Sources */,
+				3ED2B928CA3E4046AE8017B2 /* CDVLocation.m in Sources */,
+				CA88316804CB4E1CB17F56D6 /* CDVInAppBrowserOptions.m in Sources */,
+				8C80A938FA604479BFB58A26 /* CDVInAppBrowserNavigationController.m in Sources */,
+				FF419DC7ECD6423AA055018A /* CDVWKInAppBrowser.m in Sources */,
+				B60BE3135EBA469192A70B92 /* CDVWKInAppBrowserUIDelegate.m in Sources */,
+				3AC58B946F4841979464BC87 /* CDVIonicKeyboard.m in Sources */,
+				BC93F4D5079741F5BB32126D /* NSString+SSURLEncoding.m in Sources */,
+				A82107F99FAC43D3BC37CCEA /* SocialSharing.m in Sources */,
+				B8F8C8D11E8A4A859FE4AEB5 /* CDVStatusBar.m in Sources */,
+				7A31EFAEC985420C9AAB4A3F /* APPLocalNotification.m in Sources */,
+				04ED763D9537494BBEDD3696 /* APPNotificationCategory.m in Sources */,
+				57B2C060244845118B0A4229 /* APPNotificationContent.m in Sources */,
+				39E0BDD6A79C4BEBB02F8AC1 /* APPNotificationOptions.m in Sources */,
+				6532EECFC9234CAD9446BCFA /* UNUserNotificationCenter+APPLocalNotification.m in Sources */,
+				9979CC1EFC874B4BB11DFB16 /* UNNotificationRequest+APPLocalNotification.m in Sources */,
+				BBD18446A3D44B6EBDC4EFFA /* Insomnia.m in Sources */,
+				FF031BEAF4F94282A582E2A1 /* MainViewController+MusicControls.m in Sources */,
+				D6110AAE69D64A78BECAD03F /* MusicControls.m in Sources */,
+				81E33823E8164F5FB4B93AFA /* MusicControlsInfo.m in Sources */,
+				7283EA30A8874A5AB7086EA9 /* CDVSound.m in Sources */,
+				0D7AEEC1572B426FAB6D0EA4 /* CDVNavigator.m in Sources */,
+				9AD17411DFA84971A7F7FF60 /* Toast+UIView.m in Sources */,
+				52D25CF3419D44C2ABBA4298 /* Toast.m in Sources */,
+				21C003777B79FB8738379055 /* Entitlements-Debug.plist in Sources */,
+				BFC21B17B0EA88B2071F1D77 /* Entitlements-Release.plist in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
