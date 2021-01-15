@@ -150,14 +150,14 @@ abstract class Application_Model_Device_Ionic_Ios_Abstract extends Application_M
         array_map('unlink', glob("{$this->_dest_source_res}/Images.xcassets/LaunchImage.launchimage/*.png"));
 
         // Startup Images!
-        $universal = Core_Model_Directory::getBasePathTo($application->getStartupBackgroundUnified());
+        $universal = path($application->getStartupBackgroundUnified());
 
         $tmpDest = $this->_dest_source_res;
 
         try {
             // Convert to jpeg
             $jpegStartup = Siberian_Image::open($universal);
-            $_tmpStartup = Core_Model_Directory::getBasePathTo('/var/tmp/' . uniqid() . '.jpg');
+            $_tmpStartup = Core_Model_Directory::getBasePathTo('/var/tmp/' . uniqid('', false) . '.jpg');
             $jpegStartup->save($_tmpStartup, 'jpeg', 70);
 
             $destStartup = $tmpDest . '/Images.xcassets/LaunchStoryboard.imageset/Default@2x~universal~anyany.jpg';
@@ -182,92 +182,6 @@ abstract class Application_Model_Device_Ionic_Ios_Abstract extends Application_M
         $this->__replace(
             [$this->_default_bundle_name => $this->_package_name],
             $this->_dest_source_amc . '/../AppsMobileCompany.xcodeproj/project.pbxproj');
-    }
-
-    /**
-     * This feature removes AdMob Pro from the ios sources!
-     *
-     * @throws Exception
-     */
-    protected function removeAds()
-    {
-        // Remove feature from config.xml
-        $this->__replace(
-            [
-                '#(<feature name="AdMob">.*)<feature name="AppVersion">#sm' => '<feature name="AppVersion">'
-            ],
-            $this->_dest_source_amc . '/config.xml',
-            true);
-
-        // Remove all AdmobPro folders
-        exec("rm -rf '{$this->_dest_source_amc}/Plugins/AdmobPro'");
-        exec("rm -rf '{$this->_dest_source_amc}/../www/plugins/AdmobPro'");
-        exec("rm -rf '{$this->_dest_source_amc}/../config.bck.xml'");
-
-        // Remove AdMob references from pbxproj
-        $refsRegex = [
-            '~([A-Z0-9]{24} /\* (GenericAdPlugin|AdMobMediation|libCordovaGenericAd|CDVAdMobPlugin|AdSupport|GoogleMobileAds|CDVPluginExt|PluginAdapterDelegate)[a-zA-Z"<>+.\-\s/*={;0-9]+(};|/,))~sm' => '',
-        ];
-
-        $this->__replace(
-            $refsRegex,
-            $this->_dest_source_amc . '/../AppsMobileCompany.xcodeproj/project.pbxproj',
-            true);
-
-        $this->__replace(
-            [$this->_default_bundle_name => $this->_package_name],
-            $this->_dest_source_amc . '/config.xml');
-
-        $refsString = [
-            '"\"AppsMobileCompany/Plugins/AdmobPro\"",' => '',
-            '"\"$(SRCROOT)/AppsMobileCompany/Plugins/AdmobPro\"",' => '',
-        ];
-
-        $this->__replace(
-            $refsString,
-            $this->_dest_source_amc . '/../AppsMobileCompany.xcodeproj/project.pbxproj',
-            false);
-
-        $cordovaPlugins = [
-            '~({\s+"id": "AdmobPro\.AdMob.*window\.AdMob"\s+]\s+},)~sm' => '',
-        ];
-
-        $this->__replace(
-            $cordovaPlugins,
-            $this->_dest_source_amc . '/../www/cordova_plugins.js',
-            true);
-
-        $cordovaPluginsString = [
-            '"AdmobPro": "2.30.1",' => '',
-        ];
-
-        $this->__replace(
-            $cordovaPluginsString,
-            $this->_dest_source_amc . '/../www/cordova_plugins.js',
-            false);
-
-        $this->__replace(
-            [
-                '"AdSupport.framework": 1,' => '',
-            ],
-            $this->_dest_source_amc . '/../frameworks.json',
-            false);
-
-        $this->__replace(
-            [
-                '~({\s+"id": "AdmobPro\.AdMob.*window\.AdMob"\s+]\s+},)~sm' => '',
-                '~("AdmobPro": {\s+"PACKAGE_NAME": "com.appsmobilecompany.base"\s+},)~sm' => '',
-                '~({\s+"xml":\s+"<feature name=\\\"AdMob\\\"><param name=\\\"ios-package\\\" value=\\\"CDVAdMobPlugin\\\" /><param name=\\\"onload\\\" value=\\\"true\\\" /></feature>",\s+"count": 1\s+},)~sm' => '',
-            ],
-            $this->_dest_source_amc . '/../ios.json',
-            true);
-
-        $this->__replace(
-            [
-                '"AdmobPro": "2.30.1",' => '',
-            ],
-            $this->_dest_source_amc . '/../ios.json',
-            false);
     }
 
     protected function buildPList()
@@ -388,6 +302,17 @@ abstract class Application_Model_Device_Ionic_Ios_Abstract extends Application_M
         // iPad!
         $root->removeProperty('UISupportedInterfaceOrientations~ipad');
         $root->addProperty(\PListEditor\PListProperty::PL_ARRAY, $iPad, 'UISupportedInterfaceOrientations~ipad');
+
+        // AdMob SDK
+        if ($this->withAds) {
+            $root->removeProperty('GADApplicationIdentifier');
+            $root->addProperty(\PListEditor\PListProperty::PL_STRING, $this->admobAppIdentifier, 'GADApplicationIdentifier');
+
+            // com.appsmobilecompany.base from pbxproj
+            $this->__replace(
+                ['ca-app-pub-0000000000000000~0000000000' => $this->admobAppIdentifier],
+                $this->_dest_source_amc . '/../AppsMobileCompany/config.xml');
+        }
 
         $plist->save();
 

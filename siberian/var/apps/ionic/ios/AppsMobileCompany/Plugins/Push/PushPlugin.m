@@ -28,9 +28,9 @@
 
 #import "PushPlugin.h"
 #import "AppDelegate+notification.h"
-@import FirebaseInstanceID;
-@import FirebaseMessaging;
-@import FirebaseAnalytics;
+//@import FirebaseInstanceID;
+//@import FirebaseMessaging;
+//@import FirebaseAnalytics;
 
 @implementation PushPlugin : CDVPlugin
 
@@ -53,25 +53,25 @@
 
 -(void)initRegistration;
 {
-    NSString * registrationToken = [[FIRInstanceID instanceID] token];
+    //NSString * registrationToken = [[FIRInstanceID instanceID] token];
 
-    if (registrationToken != nil) {
-        NSLog(@"FCM Registration Token: %@", registrationToken);
-        [self setFcmRegistrationToken: registrationToken];
-
-        id topics = [self fcmTopics];
-        if (topics != nil) {
-            for (NSString *topic in topics) {
-                NSLog(@"subscribe to topic: %@", topic);
-                id pubSub = [FIRMessaging messaging];
-                [pubSub subscribeToTopic:topic];
-            }
-        }
-
-        [self registerWithToken:registrationToken];
-    } else {
+    //if (registrationToken != nil) {
+    //    NSLog(@"FCM Registration Token: %@", //registrationToken);
+    //    [self setFcmRegistrationToken: registrationToken];
+//
+    //    id topics = [self fcmTopics];
+    //    if (topics != nil) {
+    //        for (NSString *topic in topics) {
+    //            NSLog(@"subscribe to topic: %@", topic);
+    //            //id pubSub = [FIRMessaging messaging];
+    //            //[pubSub subscribeToTopic:topic];
+    //        }
+    //    }
+//
+    //    [self registerWithToken:registrationToken];
+    //} else {
         NSLog(@"FCM token is null");
-    }
+    //}
 
 }
 
@@ -81,7 +81,7 @@
 #if !TARGET_IPHONE_SIMULATOR
     // A rotation of the registration tokens is happening, so the app needs to request a new token.
     NSLog(@"The FCM registration token needs to be changed.");
-    [[FIRInstanceID instanceID] token];
+    //[[FIRInstanceID instanceID] token];
     [self initRegistration];
 #endif
 }
@@ -114,10 +114,10 @@
     NSArray* topics = [command argumentAtIndex:0];
 
     if (topics != nil) {
-        id pubSub = [FIRMessaging messaging];
+        //id pubSub = [FIRMessaging messaging];
         for (NSString *topic in topics) {
             NSLog(@"unsubscribe from topic: %@", topic);
-            [pubSub unsubscribeFromTopic:topic];
+            //[pubSub unsubscribeFromTopic:topic];
         }
     } else {
         [[UIApplication sharedApplication] unregisterForRemoteNotifications];
@@ -131,8 +131,8 @@
 
     if (topic != nil) {
         NSLog(@"subscribe from topic: %@", topic);
-        id pubSub = [FIRMessaging messaging];
-        [pubSub subscribeToTopic:topic];
+        //id pubSub = [FIRMessaging messaging];
+        //[pubSub subscribeToTopic:topic];
         NSLog(@"Successfully subscribe to topic %@", topic);
         [self successWithMessage:command.callbackId withMsg:[NSString stringWithFormat:@"Successfully subscribe to topic %@", topic]];
     } else {
@@ -147,8 +147,8 @@
 
     if (topic != nil) {
         NSLog(@"unsubscribe from topic: %@", topic);
-        id pubSub = [FIRMessaging messaging];
-        [pubSub unsubscribeFromTopic:topic];
+        //id pubSub = [FIRMessaging messaging];
+        //[pubSub unsubscribeFromTopic:topic];
         NSLog(@"Successfully unsubscribe from topic %@", topic);
         [self successWithMessage:command.callbackId withMsg:[NSString stringWithFormat:@"Successfully unsubscribe from topic %@", topic]];
     } else {
@@ -174,11 +174,11 @@
         }];
     } else {
         NSLog(@"Push Plugin VoIP missing or false");
-        [[NSNotificationCenter defaultCenter]
+        /**[[NSNotificationCenter defaultCenter]
          addObserver:self selector:@selector(onTokenRefresh)
          name:kFIRInstanceIDTokenRefreshNotification object:nil];
-
-        [[NSNotificationCenter defaultCenter]
+*/
+        /**[[NSNotificationCenter defaultCenter]
          addObserver:self selector:@selector(sendDataMessageFailure:)
          name:FIRMessagingSendErrorNotification object:nil];
 
@@ -189,6 +189,7 @@
         [[NSNotificationCenter defaultCenter]
          addObserver:self selector:@selector(didDeleteMessagesOnServer)
          name:FIRMessagingMessagesDeletedNotification object:nil];
+         */
 
         [self.commandDelegate runInBackground:^ {
             NSLog(@"Push Plugin register called");
@@ -308,8 +309,8 @@
                 NSLog(@"Using FCM Notification");
                 [self setUsesFCM: YES];
                 dispatch_async(dispatch_get_main_queue(), ^{
-                    if([FIRApp defaultApp] == nil)
-                        [FIRApp configure];
+                    //if([FIRApp defaultApp] == nil)
+                    //    [FIRApp configure];
                     [self initRegistration];
                 });
             } else {
@@ -503,7 +504,7 @@
             [matchingNotificationIdentifiers addObject:notification.request.identifier];
         }
         [[UNUserNotificationCenter currentNotificationCenter] removeDeliveredNotificationsWithIdentifiers:matchingNotificationIdentifiers];
-        
+
         NSString *message = [NSString stringWithFormat:@"Cleared notification with ID: %@", notId];
         CDVPluginResult *commandResult = [CDVPluginResult resultWithStatus:CDVCommandStatus_OK messageAsString:message];
         [self.commandDelegate sendPluginResult:commandResult callbackId:command.callbackId];

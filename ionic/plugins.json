@@ -4,7 +4,7 @@
       "version": "latest",
       "variables": {}
     },
-    "AdmobPro": {
+    "Admob": {
       "version": "latest",
       "variables": {}
     },
@@ -72,10 +72,6 @@
       "version": "latest",
       "variables": {}
     },
-    "IonicWebview": {
-      "version": "latest",
-      "variables": {}
-    },
     "MusicControls": {
       "version": "latest",
       "variables": {}
@@ -108,9 +104,8 @@
     "InAppPurchase": {
       "version": "latest"
     },
-    "SplashScreen": {
-      "version": "latest",
-      "variables": {}
+    "IosXhr": {
+      "version": "latest"
     },
     "Push": {
       "version": "latest",
@@ -133,6 +128,10 @@
     },
     "InAppPurchase": {
       "version": "latest"
+    },
+    "IonicWebview": {
+      "version": "latest",
+      "variables": {}
     },
     "SplashScreen": {
       "version": "latest",

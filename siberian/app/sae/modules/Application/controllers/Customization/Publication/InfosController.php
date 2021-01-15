@@ -249,6 +249,7 @@ class Application_Customization_Publication_InfosController extends Application_
 
                 $androidDevice = $application->getAndroidDevice();
                 $androidDevice
+                    ->setAdmobAppId($params['android_admob_app_id'])
                     ->setAdmobId($params['android_admob_id'])
                     ->setAdmobInterstitialId($params['android_admob_interstitial_id'])
                     ->setAdmobType($params['android_admob_type'])
@@ -256,7 +257,7 @@ class Application_Customization_Publication_InfosController extends Application_
 
                 $iosDevice = $application->getIosDevice();
                 $iosDevice
-                    ->setAdmobId($params['ios_admob_id'])
+                    ->setAdmobAppId($params['ios_admob_app_id'])
                     ->setAdmobInterstitialId($params['ios_admob_interstitial_id'])
                     ->setAdmobType($params['ios_admob_type'])
                     ->save();

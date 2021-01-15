@@ -190,6 +190,7 @@ abstract class Application_Model_Device_Ionic_Android_Abstract extends Applicati
             // Ok we can add it safely!
             $replacements = array_merge($replacements, [
                 "<application " => "<application android:usesCleartextTraffic=\"true\" ",
+                'ca-app-pub-0000000000000000~0000000000' => $this->admobAppIdentifier
             ]);
         }
 
@@ -198,6 +199,7 @@ abstract class Application_Model_Device_Ionic_Android_Abstract extends Applicati
         // config.xml
         $this->__replace([
             '${applicationId}' => $tmp_application_id,
+            'ca-app-pub-0000000000000000~0000000000' => $this->admobAppIdentifier
         ], "{$this->_dest_source}/app/src/main/res/xml/config.xml");
     }
 

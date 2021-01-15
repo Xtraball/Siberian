@@ -21,7 +21,7 @@
               "count": 1
             },
             {
-              "xml": "<feature name=\"SplashScreen\"><param name=\"ios-package\" value=\"CDVSplashScreen\" /><param name=\"onload\" value=\"true\" /></feature>",
+              "xml": "<feature name=\"CDVWKWebViewFileXhr\"><param name=\"ios-package\" value=\"CDVWKWebViewFileXhr\" /><param name=\"onload\" value=\"true\" /></feature>",
               "count": 1
             },
             {
@@ -33,7 +33,11 @@
               "count": 1
             },
             {
-              "xml": "<feature name=\"AdMob\"><param name=\"ios-package\" value=\"CDVAdMobPlugin\" /><param name=\"onload\" value=\"true\" /></feature>",
+              "xml": "<feature name=\"AdMob\"><param name=\"ios-package\" value=\"AMSPlugin\" /></feature>",
+              "count": 1
+            },
+            {
+              "xml": "<preference name=\"APP_ID_IOS\" value=\"ca-app-pub-0000000000000000~0000000000\" />",
               "count": 1
             },
             {
@@ -77,11 +81,7 @@
               "count": 1
             },
             {
-              "xml": "<feature name=\"InAppBrowser\"><param name=\"ios-package\" value=\"CDVInAppBrowser\" /><param name=\"onload\" value=\"true\" /></feature>",
-              "count": 1
-            },
-            {
-              "xml": "<feature name=\"WKInAppBrowser\"><param name=\"ios-package\" value=\"CDVWKInAppBrowser\" /><param name=\"onload\" value=\"true\" /></feature>",
+              "xml": "<feature name=\"InAppBrowser\"><param name=\"ios-package\" value=\"CDVWKInAppBrowser\" /><param name=\"onload\" value=\"true\" /></feature>",
               "count": 1
             },
             {
@@ -110,22 +110,6 @@
             },
             {
               "xml": "<feature name=\"Insomnia\"><param name=\"ios-package\" value=\"Insomnia\" /></feature>",
-              "count": 1
-            },
-            {
-              "xml": "<allow-navigation href=\"ionic://*\" />",
-              "count": 1
-            },
-            {
-              "xml": "<preference name=\"deployment-target\" value=\"11.0\" />",
-              "count": 1
-            },
-            {
-              "xml": "<feature name=\"IonicWebView\"><param name=\"ios-package\" value=\"CDVWKWebViewEngine\" /></feature>",
-              "count": 1
-            },
-            {
-              "xml": "<preference name=\"CordovaWebViewEngine\" value=\"CDVWKWebViewEngine\" />",
               "count": 1
             },
             {
@@ -163,9 +147,15 @@
               "count": 1
             }
           ],
-          "NSAppTransportSecurity": [
+          "GADApplicationIdentifier": [
             {
-              "xml": "<dict><key>NSExceptionDomains</key><dict /><key>NSAllowsArbitraryLoads</key><true /><key>NSAllowsArbitraryLoadsForMedia</key><true /><key>NSAllowsArbitraryLoadsInWebContent</key><true /></dict>",
+              "xml": "<string>ca-app-pub-0000000000000000~0000000000</string>",
+              "count": 1
+            }
+          ],
+          "SKAdNetworkItems": [
+            {
+              "xml": "<array><dict><key>SKAdNetworkIdentifier</key><string>cstr6suwn9.skadnetwork</string></dict></array>",
               "count": 1
             }
           ],
@@ -243,92 +233,89 @@
   },
   "installed_plugins": {
     "Chcp": {
-      "PACKAGE_NAME": "$(PRODUCT_BUNDLE_IDENTIFIER)"
+      "PACKAGE_NAME": "com.appsmobilecompany.base"
     },
-    "InAppPurchse": {
-      "PACKAGE_NAME": "$(PRODUCT_BUNDLE_IDENTIFIER)"
+    "InAppPurchase": {
+      "PACKAGE_NAME": "com.appsmobilecompany.base"
     },
-    "SplashScreen": {
-      "PACKAGE_NAME": "$(PRODUCT_BUNDLE_IDENTIFIER)"
+    "IosXhr": {
+      "PACKAGE_NAME": "com.appsmobilecompany.base"
     },
     "Push": {
-      "PACKAGE_NAME": "$(PRODUCT_BUNDLE_IDENTIFIER)"
+      "PACKAGE_NAME": "com.appsmobilecompany.base"
     },
     "WebView": {
-      "PACKAGE_NAME": "$(PRODUCT_BUNDLE_IDENTIFIER)"
+      "PACKAGE_NAME": "com.appsmobilecompany.base"
     },
     "Promises": {
-      "PACKAGE_NAME": "$(PRODUCT_BUNDLE_IDENTIFIER)"
+      "PACKAGE_NAME": "com.appsmobilecompany.base"
     },
-    "AdmobPro": {
-      "PACKAGE_NAME": "$(PRODUCT_BUNDLE_IDENTIFIER)"
+    "Admob": {
+      "PACKAGE_NAME": "com.appsmobilecompany.base"
     },
     "AppVersion": {
-      "PACKAGE_NAME": "$(PRODUCT_BUNDLE_IDENTIFIER)"
+      "PACKAGE_NAME": "com.appsmobilecompany.base"
     },
     "Badge": {
-      "PACKAGE_NAME": "$(PRODUCT_BUNDLE_IDENTIFIER)"
+      "PACKAGE_NAME": "com.appsmobilecompany.base"
     },
     "BarcodeScanner": {
-      "PACKAGE_NAME": "$(PRODUCT_BUNDLE_IDENTIFIER)"
+      "PACKAGE_NAME": "com.appsmobilecompany.base"
     },
     "BrowserTab": {
-      "PACKAGE_NAME": "$(PRODUCT_BUNDLE_IDENTIFIER)"
+      "PACKAGE_NAME": "com.appsmobilecompany.base"
     },
     "Camera": {
-      "PACKAGE_NAME": "$(PRODUCT_BUNDLE_IDENTIFIER)"
+      "PACKAGE_NAME": "com.appsmobilecompany.base"
     },
     "Clipboard": {
-      "PACKAGE_NAME": "$(PRODUCT_BUNDLE_IDENTIFIER)"
+      "PACKAGE_NAME": "com.appsmobilecompany.base"
     },
     "Device": {
-      "PACKAGE_NAME": "$(PRODUCT_BUNDLE_IDENTIFIER)"
+      "PACKAGE_NAME": "com.appsmobilecompany.base"
     },
     "File": {
-      "PACKAGE_NAME": "$(PRODUCT_BUNDLE_IDENTIFIER)"
+      "PACKAGE_NAME": "com.appsmobilecompany.base"
     },
     "Geolocation": {
-      "PACKAGE_NAME": "$(PRODUCT_BUNDLE_IDENTIFIER)"
+      "PACKAGE_NAME": "com.appsmobilecompany.base"
     },
     "InAppBrowser": {
-      "PACKAGE_NAME": "$(PRODUCT_BUNDLE_IDENTIFIER)"
+      "PACKAGE_NAME": "com.appsmobilecompany.base"
     },
     "Keyboard": {
-      "PACKAGE_NAME": "$(PRODUCT_BUNDLE_IDENTIFIER)"
+      "PACKAGE_NAME": "com.appsmobilecompany.base"
     },
     "SocialSharing": {
-      "PACKAGE_NAME": "$(PRODUCT_BUNDLE_IDENTIFIER)"
+      "PACKAGE_NAME": "com.appsmobilecompany.base"
     },
     "StatusBar": {
-      "PACKAGE_NAME": "$(PRODUCT_BUNDLE_IDENTIFIER)"
+      "PACKAGE_NAME": "com.appsmobilecompany.base"
     },
     "LocalNotification": {
-      "PACKAGE_NAME": "$(PRODUCT_BUNDLE_IDENTIFIER)"
+      "PACKAGE_NAME": "com.appsmobilecompany.base"
     },
     "Insomnia": {
-      "PACKAGE_NAME": "$(PRODUCT_BUNDLE_IDENTIFIER)"
-    },
-    "IonicWebview": {
-      "PACKAGE_NAME": "$(PRODUCT_BUNDLE_IDENTIFIER)"
+      "PACKAGE_NAME": "com.appsmobilecompany.base"
     },
     "MusicControls": {
-      "PACKAGE_NAME": "$(PRODUCT_BUNDLE_IDENTIFIER)"
+      "PACKAGE_NAME": "com.appsmobilecompany.base"
     },
     "MediaNative": {
       "KEEP_AVAUDIOSESSION_ALWAYS_ACTIVE": "NO",
-      "PACKAGE_NAME": "$(PRODUCT_BUNDLE_IDENTIFIER)"
+      "PACKAGE_NAME": "com.appsmobilecompany.base"
     },
     "Navigator": {
-      "PACKAGE_NAME": "$(PRODUCT_BUNDLE_IDENTIFIER)"
+      "PACKAGE_NAME": "com.appsmobilecompany.base"
     },
     "Permissions": {
-      "PACKAGE_NAME": "$(PRODUCT_BUNDLE_IDENTIFIER)"
+      "PACKAGE_NAME": "com.appsmobilecompany.base"
     },
     "Siberian": {
-      "PACKAGE_NAME": "$(PRODUCT_BUNDLE_IDENTIFIER)"
+      "PACKAGE_NAME": "com.appsmobilecompany.base"
     },
     "Toast": {
-      "PACKAGE_NAME": "$(PRODUCT_BUNDLE_IDENTIFIER)"
+      "PACKAGE_NAME": "com.appsmobilecompany.base"
     }
   },
   "dependent_plugins": {},
@@ -342,20 +329,36 @@
       ]
     },
     {
-      "id": "InAppPurchse.InAppPurchase",
-      "file": "plugins/InAppPurchse/www/store-ios.js",
-      "pluginId": "InAppPurchse",
+      "id": "InAppPurchase.InAppPurchase",
+      "file": "plugins/InAppPurchase/www/store-ios.js",
+      "pluginId": "InAppPurchase",
       "clobbers": [
         "store"
       ]
     },
     {
-      "id": "SplashScreen.SplashScreen",
-      "file": "plugins/SplashScreen/www/splashscreen.js",
-      "pluginId": "SplashScreen",
-      "clobbers": [
-        "navigator.splashscreen"
-      ]
+      "id": "IosXhr.formdata-polyfill",
+      "file": "plugins/IosXhr/src/www/ios/formdata-polyfill.js",
+      "pluginId": "IosXhr",
+      "runs": true
+    },
+    {
+      "id": "IosXhr.xhr-polyfill",
+      "file": "plugins/IosXhr/src/www/ios/xhr-polyfill.js",
+      "pluginId": "IosXhr",
+      "runs": true
+    },
+    {
+      "id": "IosXhr.fetch-bootstrap",
+      "file": "plugins/IosXhr/src/www/ios/fetch-bootstrap.js",
+      "pluginId": "IosXhr",
+      "runs": true
+    },
+    {
+      "id": "IosXhr.fetch-polyfill",
+      "file": "plugins/IosXhr/src/www/ios/whatwg-fetch-2.0.3.js",
+      "pluginId": "IosXhr",
+      "runs": true
     },
     {
       "id": "Push.PushNotification",
@@ -380,11 +383,11 @@
       "runs": true
     },
     {
-      "id": "AdmobPro.AdMob",
-      "file": "plugins/AdmobPro/www/AdMob.js",
-      "pluginId": "AdmobPro",
+      "id": "Admob.AdMob",
+      "file": "plugins/Admob/www/admob.js",
+      "pluginId": "Admob",
       "clobbers": [
-        "window.AdMob"
+        "admob"
       ]
     },
     {
@@ -722,22 +725,6 @@
       ]
     },
     {
-      "id": "IonicWebview.IonicWebView",
-      "file": "plugins/IonicWebview/src/www/util.js",
-      "pluginId": "IonicWebview",
-      "clobbers": [
-        "Ionic.WebView"
-      ]
-    },
-    {
-      "id": "IonicWebview.ios-wkwebview-exec",
-      "file": "plugins/IonicWebview/src/www/ios/ios-wkwebview-exec.js",
-      "pluginId": "IonicWebview",
-      "clobbers": [
-        "cordova.exec"
-      ]
-    },
-    {
       "id": "MusicControls.MusicControls",
       "file": "plugins/MusicControls/www/MusicControls.js",
       "pluginId": "MusicControls",
@@ -788,12 +775,12 @@
   ],
   "plugin_metadata": {
     "Chcp": "1.5.2",
-    "InAppPurchse": "10.2.0",
-    "SplashScreen": "5.0.2",
+    "InAppPurchase": "10.5.0",
+    "IosXhr": "1.0.8",
     "Push": "1.10.0",
     "WebView": "1.0.0",
     "Promises": "4.2.2",
-    "AdmobPro": "2.30.1",
+    "Admob": "0.0.0",
     "AppVersion": "0.1.8",
     "Badge": "0.8.8",
     "BarcodeScanner": "7.1.2",
@@ -803,13 +790,12 @@
     "Device": "2.0.2",
     "File": "6.0.2",
     "Geolocation": "4.0.1",
-    "InAppBrowser": "3.2.0",
+    "InAppBrowser": "4.1.0",
     "Keyboard": "2.2.0",
     "SocialSharing": "5.6.4",
     "StatusBar": "2.4.1",
     "LocalNotification": "0.9.0-beta.3",
     "Insomnia": "4.3.0",
-    "IonicWebview": "4.0.1",
     "MusicControls": "3.0.4",
     "MediaNative": "5.0.3",
     "Navigator": "0.1.0",
