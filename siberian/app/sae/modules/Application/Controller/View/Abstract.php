@@ -516,10 +516,9 @@ abstract class Application_Controller_View_Abstract extends Backoffice_Controlle
                     $device = $application->getDevice($deviceData["type_id"]);
                     $data_device_to_save = [
                         "admob_app_id" => $deviceData["admob_app_id"],
-                        "owner_admob_id" => $deviceData["owner_admob_id"],
-                        "owner_admob_interstitial_id" => $deviceData["owner_admob_interstitial_id"],
-                        "owner_admob_type" => $deviceData["owner_admob_type"],
-                        "owner_admob_weight" => $deviceData["owner_admob_weight"]
+                        "admob_id" => $deviceData["admob_id"],
+                        "admob_interstitial_id" => $deviceData["admob_interstitial_id"],
+                        "admob_type" => $deviceData["admob_type"]
                     ];
                     $device->addData($data_device_to_save)->save();
                 }

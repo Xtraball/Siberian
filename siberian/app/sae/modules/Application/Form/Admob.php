@@ -48,38 +48,6 @@ class Application_Form_Admob extends Siberian_Form_Abstract
             'banner-interstitial' => __('Banner & Interstitial'),
         ];
 
-        // Android ads
-        $androidAdmobAppId = $this->addSimpleText(
-            'android_admob_app_id',
-            __('App ID'),
-            'example: ca-app-id-3940256099942544~6300978111',
-            true);
-        $androidAdmobAppId->setRequired(true);
-        $androidAdmobId = $this->addSimpleText(
-            'android_admob_id',
-            __('Banner ID'),
-            'example: ca-app-pub-3940256099942544/6300978111',
-            true);
-        $androidAdmobInterstitialId = $this->addSimpleText(
-            'android_admob_interstitial_id',
-            __('Interstitial ID'),
-            'example: ca-app-pub-3940256099942544/1033173712',
-            true);
-        $androidAdmobType = $this->addSimpleSelect(
-            'android_admob_type',
-            __('Ads type'),
-            $adTypes);
-
-        $this->groupElements(
-            'android',
-            [
-                'android_admob_app_id',
-                'android_admob_id',
-                'android_admob_interstitial_id',
-                'android_admob_type',
-            ],
-            __('Android'));
-
         // iOS Ads
         $iosAdmobAppId = $this->addSimpleText(
             'ios_admob_app_id',
@@ -111,6 +79,38 @@ class Application_Form_Admob extends Siberian_Form_Abstract
                 'ios_admob_type',
             ],
             __('iOS'));
+
+        // Android ads
+        $androidAdmobAppId = $this->addSimpleText(
+            'android_admob_app_id',
+            __('App ID'),
+            'example: ca-app-id-3940256099942544~6300978111',
+            true);
+        $androidAdmobAppId->setRequired(true);
+        $androidAdmobId = $this->addSimpleText(
+            'android_admob_id',
+            __('Banner ID'),
+            'example: ca-app-pub-3940256099942544/6300978111',
+            true);
+        $androidAdmobInterstitialId = $this->addSimpleText(
+            'android_admob_interstitial_id',
+            __('Interstitial ID'),
+            'example: ca-app-pub-3940256099942544/1033173712',
+            true);
+        $androidAdmobType = $this->addSimpleSelect(
+            'android_admob_type',
+            __('Ads type'),
+            $adTypes);
+
+        $this->groupElements(
+            'android',
+            [
+                'android_admob_app_id',
+                'android_admob_id',
+                'android_admob_interstitial_id',
+                'android_admob_type',
+            ],
+            __('Android'));
 
         $submit = $this->addSubmit(__('Save'));
         $submit->addClass('pull-right');

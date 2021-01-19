@@ -258,6 +258,7 @@ class Application_Customization_Publication_InfosController extends Application_
                 $iosDevice = $application->getIosDevice();
                 $iosDevice
                     ->setAdmobAppId($params['ios_admob_app_id'])
+                    ->setAdmobId($params['ios_admob_id'])
                     ->setAdmobInterstitialId($params['ios_admob_interstitial_id'])
                     ->setAdmobType($params['ios_admob_type'])
                     ->save();

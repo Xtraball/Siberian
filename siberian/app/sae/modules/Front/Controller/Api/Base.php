@@ -1128,92 +1128,8 @@ class Front_Controller_Api_Base extends Front_Controller_App_Default
             ]
         ];
 
-        $subscription = null;
-        $planUseAds = false;
-        if (Siberian\Version::is('PE')) {
-            $subscription = $application->getSubscription()->getSubscription();
-            $planUseAds = $subscription->getUseAds();
-        }
-
         $ios_device = $application->getDevice(1);
         $android_device = $application->getDevice(2);
-
-        # Platform/Subscription settings
-        if ($application->getOwnerUseAds()) {
-
-            $ios_types = explode('-', $ios_device->getOwnerAdmobType());
-            $ios_weight = (integer)$ios_device->getOwnerAdmobWeight();
-            $android_types = explode('-', $android_device->getOwnerAdmobType());
-            $android_weight = (integer)$android_device->getOwnerAdmobWeight();
-
-            $payload['platform'] = [
-                'ios' => [
-                    'banner_id' => $ios_device->getOwnerAdmobId(),
-                    'interstitial_id' => $ios_device->getOwnerAdmobInterstitialId(),
-                    'banner' => (boolean)in_array('banner', $ios_types),
-                    'interstitial' => (boolean)in_array('interstitial', $ios_types),
-                    'videos' => (boolean)in_array('videos', $ios_types), # Prepping the future.
-                ],
-                'android' => [
-                    'banner_id' => $android_device->getOwnerAdmobId(),
-                    'interstitial_id' => $android_device->getOwnerAdmobInterstitialId(),
-                    'banner' => (boolean)in_array('banner', $android_types),
-                    'interstitial' => (boolean)in_array('interstitial', $android_types),
-                    'videos' => (boolean)in_array('videos', $android_types), # Prepping the future.
-                ],
-            ];
-
-            if (($ios_weight >= 0) && ($ios_weight <= 100)) {
-                $weight = ($ios_weight / 100);
-                $payload['ios_weight']['platform'] = $weight;
-                $payload['ios_weight']['app'] = (1 - $weight);
-            }
-
-            if (($android_weight >= 0) && ($android_weight <= 100)) {
-                $weight = ($android_weight / 100);
-                $payload['android_weight']['platform'] = $weight;
-                $payload['android_weight']['app'] = (1 - $weight);
-            }
-
-        } else if (($planUseAds || __get('application_owner_use_ads'))) {
-
-            $ios_key = 'application_' . $ios_device->getType()->getOsName() . '_owner_admob_%s';
-            $android_key = 'application_' . $android_device->getType()->getOsName() . '_owner_admob_%s';
-
-            $ios_types = explode('-', __get(sprintf($ios_key, 'type')));
-            $ios_weight = (integer)__get(sprintf($ios_key, 'weight'));
-            $android_types = explode('-', __get(sprintf($android_key, 'type')));
-            $android_weight = (integer)__get(sprintf($android_key, 'weight'));
-
-            $payload['platform'] = [
-                'ios' => [
-                    'banner_id' => __get(sprintf($ios_key, 'id')),
-                    'interstitial_id' => __get(sprintf($ios_key, 'interstitial_id')),
-                    'banner' => (boolean)in_array('banner', $ios_types),
-                    'interstitial' => (boolean)in_array('interstitial', $ios_types),
-                    'videos' => (boolean)in_array('videos', $ios_types), # Prepping the future.
-                ],
-                'android' => [
-                    'banner_id' => __get(sprintf($android_key, 'id')),
-                    'interstitial_id' => __get(sprintf($android_key, 'interstitial_id')),
-                    'banner' => (boolean)in_array('banner', $android_types),
-                    'interstitial' => (boolean)in_array('interstitial', $android_types),
-                    'videos' => (boolean)in_array('videos', $android_types), # Prepping the future.
-                ],
-            ];
-
-            if (($ios_weight >= 0) && ($ios_weight <= 100)) {
-                $weight = ($ios_weight / 100);
-                $payload['ios_weight']['platform'] = $weight;
-                $payload['ios_weight']['app'] = (1 - $weight);
-            }
-
-            if (($android_weight >= 0) && ($android_weight <= 100)) {
-                $weight = ($android_weight / 100);
-                $payload['android_weight']['platform'] = $weight;
-                $payload['android_weight']['app'] = (1 - $weight);
-            }
-        }
 
         if ($application->getUseAds()) {
 
@@ -1236,12 +1152,6 @@ class Front_Controller_Api_Base extends Front_Controller_App_Default
                     'videos' => (boolean)in_array('videos', $android_types), # Prepping the future.
                 ],
             ];
-        } else {
-            // If user don't use admob, split revenue is 100% for platform!
-            $payload['ios_weight']['platform'] = 1;
-            $payload['ios_weight']['app'] = 0;
-            $payload['android_weight']['platform'] = 1;
-            $payload['android_weight']['app'] = 0;
         }
 
         return $payload;
