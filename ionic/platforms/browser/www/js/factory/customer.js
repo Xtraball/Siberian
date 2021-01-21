@@ -256,7 +256,7 @@ angular
         };
 
         factory.saveSettings = function (settings) {
-            let localSettings = settings;
+            var localSettings = settings;
 
             localSettings.deviceType = DEVICE_TYPE;
             localSettings.deviceUid = $session.getDeviceUid();
