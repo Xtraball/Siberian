@@ -166,6 +166,8 @@ abstract class Application_Controller_View_Abstract extends Backoffice_Controlle
         ];
 
         $data['application']['disable_battery_optimization'] = (boolean)$data['application']['disable_battery_optimization'];
+        $data['application']['use_ads'] = (boolean)$data['application']['use_ads'];
+        $data['application']['test_ads'] = (boolean)$data['application']['test_ads'];
 
         // Set ios Autopublish informations
         $appIosAutopublish = (new Application_Model_IosAutopublish())->find($appId, 'app_id');
@@ -226,7 +228,7 @@ abstract class Application_Controller_View_Abstract extends Backoffice_Controlle
             'stats' => $appIosAutopublish->getStats(),
         ];
 
-        $data["application"]["list_of_admins"] = $appAdmins;
+        $data["application"]["list_of_admins"] = [];
 
         $this->_sendJson($data);
 
@@ -506,13 +508,16 @@ abstract class Application_Controller_View_Abstract extends Backoffice_Controlle
                     throw new Exception(__("An error occurred while saving. Please try again later."));
                 }
 
-                $data_app_to_save = [
-                    "owner_use_ads" => $data["owner_use_ads"]
-                ];
-
-                $application->addData($data_app_to_save)->save();
+                $application
+                    ->setUseAds(filter_var($data['use_ads'], FILTER_VALIDATE_BOOLEAN))
+                    ->setTestAds(filter_var($data['test_ads'], FILTER_VALIDATE_BOOLEAN))
+                    ->save();
 
                 foreach ($data["devices"] as $deviceData) {
+                    if (in_array($deviceData["admob_app_id"], ['', 'ca-app-pub-0000000000000000~0000000000'], true)) {
+                        throw new Exception(p__('backoffice_application', 'AdMob app id is required!'));
+                    }
+
                     $device = $application->getDevice($deviceData["type_id"]);
                     $data_device_to_save = [
                         "admob_app_id" => $deviceData["admob_app_id"],

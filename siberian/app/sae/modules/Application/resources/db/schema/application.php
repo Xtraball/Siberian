@@ -467,6 +467,11 @@ $schemas['application'] = [
         'is_null' => true,
         'default' => '0',
     ],
+    'test_ads' => [
+        'type' => 'tinyint(1)',
+        'is_null' => true,
+        'default' => '0',
+    ],
     'owner_use_ads' => [
         'type' => 'tinyint(1)',
         'default' => '0',

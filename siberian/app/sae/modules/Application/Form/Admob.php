@@ -23,13 +23,17 @@ class Application_Form_Admob extends Siberian_Form_Abstract
 
         self::addClass('create', $this);
 
+        $htmlAdmobAppId = '
+<div class="col-md-12"><div class="alert alert-warning">' . p__('application', 'Latest store updates require you to register and AdMob app, and set the ID below.') . '</div></div>';
+        $this->addSimpleHtml(
+            'html_admob_app_id',
+            $htmlAdmobAppId);
+
         $useAds = $this->addSimpleCheckbox('use_ads', __('Monetize my app using AdMob'));
 
-        $htmlAdmob1 = '
-<div class="col-md-12">' . __('Enter your AdMob ID for each platform.') . '</div>';
-        $this->addSimpleHtml(
-            'html_admob_1',
-            $htmlAdmob1);
+        $testAds = $this->addSimpleCheckbox('test_ads', p__('application', 'Display only test ads (useful when developing the application)'));
+
+
 
         $htmlAdmob2 = '
 <div class="col-md-12">
@@ -41,6 +45,12 @@ class Application_Form_Admob extends Siberian_Form_Abstract
             'html_admob_2',
             $htmlAdmob2
             );
+
+        $htmlAdmob1 = '
+<div class="col-md-12">' . __('Enter your AdMob ID for each platform.') . '</div>';
+        $this->addSimpleHtml(
+            'html_admob_1',
+            $htmlAdmob1);
 
         $adTypes = [
             'banner' => __('Banner'),
@@ -123,6 +133,7 @@ class Application_Form_Admob extends Siberian_Form_Abstract
     public function fill($application)
     {
         $this->getElement('use_ads')->setValue((boolean) $application->getUseAds());
+        $this->getElement('test_ads')->setValue((boolean) $application->getTestAds());
 
         $androidDevice = $application->getAndroidDevice();
 

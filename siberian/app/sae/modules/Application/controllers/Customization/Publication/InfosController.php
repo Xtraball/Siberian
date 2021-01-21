@@ -245,6 +245,7 @@ class Application_Customization_Publication_InfosController extends Application_
 
                 $application
                     ->setUseAds(filter_var($params['use_ads'], FILTER_VALIDATE_BOOLEAN))
+                    ->setTestAds(filter_var($params['test_ads'], FILTER_VALIDATE_BOOLEAN))
                     ->save();
 
                 $androidDevice = $application->getAndroidDevice();

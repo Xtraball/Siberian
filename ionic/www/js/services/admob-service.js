@@ -70,17 +70,19 @@ angular.module('starter').service('AdmobService', function ($log, $rootScope) {
         viewEnterCount: 0,
         options: {},
         forbiddenStates: [],
+        canReloadBanner: true,
         currentPlatform: null,
+        interstitialPromise: null,
         lastBannerId: null,
         lastInterstitialId: null,
         lastRewardedVideoId: null
     };
 
     service.getWeight = function (probs) {
-        let random = _.random(0, 1000);
-        let offset = 0;
-        let keyUsed = 'app';
-        let match = false;
+        var random = _.random(0, 1000);
+        var offset = 0;
+        var keyUsed = 'app';
+        var match = false;
         _.forEach(probs, function (value, key) {
             offset = offset + (value * 1000);
             if (!match && (random <= offset)) {
@@ -94,13 +96,13 @@ angular.module('starter').service('AdmobService', function ($log, $rootScope) {
 
     service.init = function (options) {
         if ($rootScope.isNativeApp && admob) {
-            let whom = 'app';
+            var whom = 'app';
             if (ionic.Platform.isIOS()) {
                 service.currentPlatform = 'ios';
                 $log.debug('AdMob init iOS');
                 whom = service.getWeight(options.ios_weight);
                 service.options = options[whom].ios;
-                service.initWithOptions();
+                service.initWithOptions(options);
             }
 
             if (ionic.Platform.isAndroid()) {
@@ -108,7 +110,93 @@ angular.module('starter').service('AdmobService', function ($log, $rootScope) {
                 $log.debug('AdMob init Android');
                 whom = service.getWeight(options.android_weight);
                 service.options = options[whom].android;
-                service.initWithOptions();
+                service.initWithOptions(options);
+            }
+
+            // Ionic view enter is global (if banner and/or interstitial are enabled)
+            if (service.options.banner || service.options.interstitial) {
+                $rootScope.$on('$ionicView.enter', function (event, data) {
+
+                    // Check for any forbidden stateName
+                    service.canReloadBanner = false;
+                    if (service.forbiddenStates.indexOf(data.stateName) !== -1) {
+                        service.removeBanner();
+                    } else {
+                        service.canReloadBanner = true;
+                    }
+
+                    service.viewEnterCount = service.viewEnterCount + 1;
+
+                    // After 10 views, increase chances to show an Interstitial ad!
+                    if (service.viewEnterCount >= 10) {
+                        service.interstitialState = 'medium';
+                    }
+
+                    var action = service.getWeight(service.interstitialWeights[service.interstitialState]);
+                    if (action === 'show') {
+                        document.addEventListener('admob.interstitial.close', service._reload);
+
+                        try {
+                            if (service.interstitialPromise !== null) {
+                                service.interstitialPromise.then(function () {
+                                    admob.interstitial.show();
+                                }, function () {
+                                    $log.error('Failed to load interstitial! (Promise)');
+                                });
+                            }
+                        } catch (e) {
+                            $log.error('Interstitial failed to show (Exception)');
+                        }
+
+                        /** Then prepare the next one. */
+                        service.preloadInterstitial();
+
+                        if (service.interstitialState === 'start') {
+                            service.interstitialState = 'low';
+                        } else {
+                            service.interstitialState = 'default';
+                        }
+
+                        service.viewEnterCount = 0;
+                    } else {
+                        service._reload();
+                    }
+                });
+            }
+
+            // Extensive logging of admob
+            if (service.options.banner) {
+                document.addEventListener('admob.banner.load', () => {
+                    $log.info('admob banner loaded.');
+                });
+                document.addEventListener('admob.banner.load_fail', () => {
+                    $log.info('admob banner load failed.');
+                });
+                document.addEventListener('admob.banner.open', () => {
+                    $log.info('admob banner opened.');
+                });
+                document.addEventListener('admob.banner.exit_app', () => {
+                    $log.info('admob banner exit_app.');
+                });
+                document.addEventListener('admob.banner.close', () => {
+                    $log.info('admob banner return app (close).');
+                });
+            }
+
+            // Extensive logging of admob
+            if (service.options.interstitial) {
+                document.addEventListener('admob.interstitial.load', () => {
+                    $log.info('admob interstitial loaded.');
+                });
+                document.addEventListener('admob.interstitial.load_fail', () => {
+                    $log.info('admob interstitial load failed.');
+                });
+                document.addEventListener('admob.interstitial.open', () => {
+                    $log.info('admob interstitial opened.');
+                });
+                document.addEventListener('admob.interstitial.exit_app', () => {
+                    $log.info('admob interstitial exit_app.');
+                });
             }
         }
     };
@@ -116,7 +204,11 @@ angular.module('starter').service('AdmobService', function ($log, $rootScope) {
     /**
      *
      */
-    service.initWithOptions = function () {
+    service.initWithOptions = function (options) {
+        // Enable dev mode from backoffice settings
+        if (options.isTesting) {
+            admob.setDevMode(true);
+        }
         service.loadBanner();
         service.prepareInterstitial();
     };
@@ -128,7 +220,11 @@ angular.module('starter').service('AdmobService', function ($log, $rootScope) {
         if (service.options.banner) {
             $log.info('init admob banner');
 
-            let optsId = service.currentPlatform === 'ios' ?
+            if (!service.canReloadBanner) {
+                $log.info('admob banner not allowed on this page');
+            }
+
+            var optsId = service.currentPlatform === 'ios' ?
                 {ios: service.options.banner_id} : {android: service.options.banner_id};
 
             service.removeBanner();
@@ -149,10 +245,14 @@ angular.module('starter').service('AdmobService', function ($log, $rootScope) {
     service.removeBanner = function () {
         if (service.options.banner && service.lastBannerId !== null) {
 
-            let optsId = service.currentPlatform === 'ios' ?
+            var optsId = service.currentPlatform === 'ios' ?
                 {ios: service.options.banner_id} : {android: service.options.banner_id};
 
-            admob.banner.hide(optsId);
+            try {
+                admob.banner.hide(optsId);
+            } catch (e) {
+                $log.error('admob hide banner error: ' + e.message);
+            }
         }
     };
 
@@ -172,60 +272,16 @@ angular.module('starter').service('AdmobService', function ($log, $rootScope) {
             $log.info('init interstitial banner');
 
             service.preloadInterstitial();
-
-            $rootScope.$on('$ionicView.enter', function (event, data) {
-
-                // Check for any forbidden stateName
-                let canReloadBanner = false;
-                if (service.forbiddenStates.indexOf(data.stateName) !== -1) {
-                    service.removeBanner();
-                    // Return
-                    return;
-                } else {
-                    canReloadBanner = true;
-                }
-
-                service.viewEnterCount = service.viewEnterCount + 1;
-
-                // After 10 views, increase chances to show an Interstitial ad!
-                if (service.viewEnterCount >= 10) {
-                    service.interstitialState = 'medium';
-                }
-
-                let action = service.getWeight(service.interstitialWeights[service.interstitialState]);
-                if (action === 'show') {
-                    document.addEventListener('admob.interstitial.close', service._reload);
-
-                    try {
-                        admob.interstitial.show();
-                    } catch (e) {
-                        $log.error('interstitial failed to show');
-                    }
-
-                    /** Then prepare the next one. */
-                    service.preloadInterstitial();
-
-                    if (service.interstitialState === 'start') {
-                        service.interstitialState = 'low';
-                    } else {
-                        service.interstitialState = 'default';
-                    }
-
-                    service.viewEnterCount = 0;
-                } else if (canReloadBanner) {
-                    service._reload();
-                }
-            });
         } else {
             $log.info('!ko init interstitial banner');
         }
     };
 
     service.preloadInterstitial = function () {
-        let optsId = service.currentPlatform === 'ios' ?
+        var optsId = service.currentPlatform === 'ios' ?
             {ios: service.options.interstitial_id} : {android: service.options.interstitial_id};
 
-        admob.interstitial.load({
+        service.interstitialPromise = admob.interstitial.load({
             id: optsId,
         });
     };

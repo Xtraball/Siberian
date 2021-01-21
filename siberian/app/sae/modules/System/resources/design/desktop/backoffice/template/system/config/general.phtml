@@ -124,6 +124,19 @@ $host = $this->getRequest()->getHttpHost();
             </div>
         </div>
 
+        <div class="form-group">
+            <div class="col-md-12">
+                <button type="submit"
+                        class="btn btn-primary right"><?php echo __("Save"); ?></button>
+                <sb-loader is_visible="form_loader_is_visible"
+                           type="'inner_content'"
+                           size="'small'"
+                           animation="'no'"
+                           class="form_loader"></sb-loader>
+                <div class="clear"></div>
+            </div>
+        </div>
+
     </sb-section>
 
     <sb-section class="clear"
@@ -188,6 +201,20 @@ $host = $this->getRequest()->getHttpHost();
                 <div class="alert alert-info"><?php echo __('The european <b>General Data Protection Regulation (GDPR)</b> is applicable to your country, you must enable it in the privacy settings below.') ?></div>
             </div>
         </div>
+
+        <div class="form-group">
+            <div class="col-md-12">
+                <button type="submit"
+                        class="btn btn-primary right"><?php echo __("Save"); ?></button>
+                <sb-loader is_visible="form_loader_is_visible"
+                           type="'inner_content'"
+                           size="'small'"
+                           animation="'no'"
+                           class="form_loader"></sb-loader>
+                <div class="clear"></div>
+            </div>
+        </div>
+
     </sb-section>
 
     <div class="clear"></div>
@@ -233,6 +260,19 @@ $host = $this->getRequest()->getHttpHost();
 
         </div>
 
+        <div class="form-group">
+            <div class="col-md-12">
+                <button type="submit"
+                        class="btn btn-primary right"><?php echo __("Save"); ?></button>
+                <sb-loader is_visible="form_loader_is_visible"
+                           type="'inner_content'"
+                           size="'small'"
+                           animation="'no'"
+                           class="form_loader"></sb-loader>
+                <div class="clear"></div>
+            </div>
+        </div>
+
     </sb-section>
 
     <sb-section title="'<?php echo __js("Analytics","'"); ?>'" ng-show="is_flat_design">
@@ -266,120 +306,22 @@ $host = $this->getRequest()->getHttpHost();
                 </div>
             </div>
         </div>
+
+        <div class="form-group">
+            <div class="col-md-12">
+                <button type="submit"
+                        class="btn btn-primary right"><?php echo __("Save"); ?></button>
+                <sb-loader is_visible="form_loader_is_visible"
+                           type="'inner_content'"
+                           size="'small'"
+                           animation="'no'"
+                           class="form_loader"></sb-loader>
+                <div class="clear"></div>
+            </div>
+        </div>
     </sb-section>
 
     <div class="clear"></div>
 
-    <!--sb-section title="'<?php echo __js("Advertising","'"); ?>'">
-        <div class="form-group">
-            <div class="col-md-6">
-                <label for="{{ configs.application_owner_use_ads.code }}"><?php echo __("Force all app to use Owner AdMob"); ?></label>
-                <select id="{{ configs.application_owner_use_ads.code }}" class="form-control" ng-model="configs.application_owner_use_ads.value">
-                    <option value="1"><?php echo __("Yes") ?></option>
-                    <option value="0"><?php echo __("No") ?></option>
-                </select>
-            </div>
-        </div>
-
-        <div class="form-group">
-            <div class="col-md-12">
-                <div class="alert alert-info" role="alert">
-                    <?php echo __("If user doesn't use AdMob, split revenue will default to 100.") ?>
-                </div>
-            </div>
-        </div>
-
-        <div class="form-group">
-            <div class="col-md-6">
-
-                <div class="subtitle">
-                    <h4><?php echo __("Ios") ?></h4>
-                    <div class="clear"></div>
-                </div>
-
-                <div class="form-group">
-                    <div class="col-md-12">
-                        <label for="{{ configs.application_ios_owner_admob_weight.code }}"><?php echo __("Split Ad revenue (percent for you)"); ?></label>
-                        <input type="number" min="0" max="100" step="1" id="{{ configs.application_ios_owner_admob_weight.value }}" ng-model="configs.application_ios_owner_admob_weight.value" class="form-control"/>
-                    </div>
-                </div>
-
-                <div class="form-group">
-                    <div class="col-md-12">
-                        <label for="{{ configs.application_ios_owner_admob_id.code }}"><?php echo __("Admob Banner ID"); ?></label>
-                        <input type="text" id="{{ configs.application_ios_owner_admob_id.value }}" ng-model="configs.application_ios_owner_admob_id.value" class="form-control" />
-                    </div>
-                </div>
-
-                <div class="form-group">
-                    <div class="col-md-12">
-                        <label for="{{ configs.application_ios_owner_admob_interstitial_id.code }}"><?php echo __("Admob Interstitial ID"); ?></label>
-                        <input type="text" id="{{ configs.application_ios_owner_admob_interstitial_id.value }}" ng-model="configs.application_ios_owner_admob_interstitial_id.value" class="form-control" />
-                    </div>
-                </div>
-
-                <div class="form-group">
-                    <div class="col-md-12">
-                        <label for="{{ configs.application_ios_owner_admob_type.code }}"><?php echo __("Admob type"); ?></label>
-                        <select id="{{ configs.application_ios_owner_admob_type.code }}" class="form-control" ng-model="configs.application_ios_owner_admob_type.value">
-                            <option value="banner"><?php echo __("Banner") ?></option>
-                            <option value="interstitial"><?php echo __("Interstitial") ?></option>
-                            <option value="banner-interstitial"><?php echo __("Banner & Interstitial") ?></option>
-                        </select>
-                    </div>
-                </div>
-
-            </div>
-            <div class="col-md-6">
-
-                <div class="subtitle">
-                    <h4><?php echo __("Android") ?></h4>
-                    <div class="clear"></div>
-                </div>
-
-                <div class="form-group">
-                    <div class="col-md-12">
-                        <label for="{{ configs.application_android_owner_admob_weight.code }}"><?php echo __("Split Ad revenue (percent for you)"); ?></label>
-                        <input type="number" min="0" max="100" step="1" id="{{ configs.application_android_owner_admob_weight.value }}" ng-model="configs.application_android_owner_admob_weight.value" class="form-control"/>
-                    </div>
-                </div>
-
-                <div class="form-group">
-                    <div class="col-md-12">
-                        <label for="{{ configs.application_android_owner_admob_id.code }}"><?php echo __("Admob Banner ID"); ?></label>
-                        <input type="text" id="{{ configs.application_android_owner_admob_id.value }}" ng-model="configs.application_android_owner_admob_id.value" class="form-control"/>
-                    </div>
-                </div>
-
-                <div class="form-group">
-                    <div class="col-md-12">
-                        <label for="{{ configs.application_android_owner_admob_interstitial_id.code }}"><?php echo __("Admob Interstitial ID"); ?></label>
-                        <input type="text" id="{{ configs.application_android_owner_admob_interstitial_id.value }}" ng-model="configs.application_android_owner_admob_interstitial_id.value" class="form-control" />
-                    </div>
-                </div>
-                
-                <div class="form-group">
-                    <div class="col-md-12">
-                        <label for="{{ configs.application_android_owner_admob_type.code }}"><?php echo __("Admob type"); ?></label>
-                        <select id="{{ configs.application_android_owner_admob_type.code }}" class="form-control" ng-model="configs.application_android_owner_admob_type.value">
-                            <option value="banner"><?php echo __("Banner") ?></option>
-                            <option value="interstitial"><?php echo __("Interstitial") ?></option>
-                            <option value="banner-interstitial"><?php echo __("Banner & Interstitial") ?></option>
-                        </select>
-                    </div>
-                </div>
-
-            </div>
-        </div>
-
-         <div class="form-group">
-             <div class="col-md-12">
-                <button type="submit" class="btn btn-primary right"><?php echo __("Save"); ?></button>
-                <sb-loader is_visible="form_loader_is_visible" type="'inner_content'" size="'small'" animation="'no'" class="form_loader"></sb-loader>
-                <div class="clear"></div>
-            </div>
-        </div>
-
-    </sb-section-->
 
 </form>

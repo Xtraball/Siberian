@@ -10,11 +10,6 @@ use Siberian\Version;
         <div class="col-md-12">
             <div class="section-content">
 
-                <div class="alert alert-warning">
-                    <?php echo p__('backoffice',
-                        "iOS with AdMob can't be used for newly created applications because of the presence of the UIWebView inside the AdMob SDK<br />Please use iOS (without AdMob)") ?>
-                </div>
-
                 <table class="table queue">
 
                     <colgroup>
@@ -31,7 +26,7 @@ use Siberian\Version;
                                 <span class="source-hint"><?php echo __("Xcode 12.2") ?>
                                     , <?php echo __("iOS 11+") ?></span>
                             </td>
-                            <td>
+                            <td ng-if="['', 'ca-app-pub-0000000000000000~0000000000'].indexOf(application.devices[0].admob_app_id.trim()) === -1">
                                 <a ng-if="application.zip.ios"
                                    href="<?php echo $this->getUrl("") ?>{{ application.zip.ios.path }}"
                                    class="help-block"
@@ -42,7 +37,8 @@ use Siberian\Version;
 
                                 <span ng-if="!application.zip.ios"><?php echo __("Not yet generated.") ?></span>
                             </td>
-                            <td class="text-right">
+                            <td ng-if="['', 'ca-app-pub-0000000000000000~0000000000'].indexOf(application.devices[0].admob_app_id.trim()) === -1"
+                                class="text-right">
                                 <a ng-if="application.queued.positions.ios == 0"
                                    ng-click="generateSource(1, 0)"
                                    href="javascript:void(0)"
@@ -61,6 +57,12 @@ use Siberian\Version;
                                    href="javascript:void(0)">
                                     <i class="fa fa-times"></i> <?php echo __("Cancel") ?>
                                 </a>
+                            </td>
+                            <td colspan="2"
+                                ng-if="['', 'ca-app-pub-0000000000000000~0000000000'].indexOf(application.devices[0].admob_app_id.trim()) !== -1">
+                                <div class="alert alert-warning">
+                                    <?php echo p__('backoffice_application', 'AdMob app id is required to generate iOS sources.') ?>
+                                </div>
                             </td>
                         </tr>
 
