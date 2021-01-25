@@ -1086,6 +1086,7 @@ class Front_Controller_Api_Base extends Front_Controller_App_Default
     public static function _admobSettings($application)
     {
         $payload = [
+            'isTesting' => (boolean) $application->getTestAds(),
             'ios_weight' => [
                 'app' => 1,
                 'platform' => 0,

@@ -53,17 +53,17 @@ angular.module('starter').service('AdmobService', function ($log, $rootScope) {
                 'show': 0.333,
                 'skip': 0.667
             },
+            medium: {
+                'show': 0.25,
+                'skip': 0.75
+            },
             low: {
-                'show': 0.025,
-                'skip': 0.975
+                'show': 0.05,
+                'skip': 0.95
             },
             default: {
-                'show': 0.06,
-                'skip': 0.94
-            },
-            medium: {
-                'show': 0.125,
-                'skip': 0.875
+                'show': 0.15,
+                'skip': 0.85
             }
         },
         interstitialState: 'start',
@@ -75,13 +75,14 @@ angular.module('starter').service('AdmobService', function ($log, $rootScope) {
         interstitialPromise: null,
         lastBannerId: null,
         lastInterstitialId: null,
-        lastRewardedVideoId: null
+        lastRewardedVideoId: null,
+        willShowInterstitial: false
     };
 
     service.getWeight = function (probs) {
         var random = _.random(0, 1000);
         var offset = 0;
-        var keyUsed = 'app';
+        var keyUsed = 'start';
         var match = false;
         _.forEach(probs, function (value, key) {
             offset = offset + (value * 1000);
@@ -96,68 +97,89 @@ angular.module('starter').service('AdmobService', function ($log, $rootScope) {
 
     service.init = function (options) {
         if ($rootScope.isNativeApp && admob) {
-            var whom = 'app';
             if (ionic.Platform.isIOS()) {
                 service.currentPlatform = 'ios';
                 $log.debug('AdMob init iOS');
-                whom = service.getWeight(options.ios_weight);
-                service.options = options[whom].ios;
+                service.options = options.app.ios;
                 service.initWithOptions(options);
             }
 
             if (ionic.Platform.isAndroid()) {
                 service.currentPlatform = 'android';
                 $log.debug('AdMob init Android');
-                whom = service.getWeight(options.android_weight);
-                service.options = options[whom].android;
+                service.options = options.app.android;
                 service.initWithOptions(options);
             }
 
             // Ionic view enter is global (if banner and/or interstitial are enabled)
             if (service.options.banner || service.options.interstitial) {
                 $rootScope.$on('$ionicView.enter', function (event, data) {
+                    $log.info('admob $ionicView.enter.');
 
                     // Check for any forbidden stateName
                     service.canReloadBanner = false;
                     if (service.forbiddenStates.indexOf(data.stateName) !== -1) {
                         service.removeBanner();
+                        $log.info('admob $ionicView.enter forbidden state.', data.stateName);
                     } else {
                         service.canReloadBanner = true;
+                        $log.info('admob $ionicView.enter service.canReloadBanner = true;');
                     }
 
                     service.viewEnterCount = service.viewEnterCount + 1;
 
                     // After 10 views, increase chances to show an Interstitial ad!
-                    if (service.viewEnterCount >= 10) {
+                    if (service.viewEnterCount >= 9) {
                         service.interstitialState = 'medium';
                     }
 
                     var action = service.getWeight(service.interstitialWeights[service.interstitialState]);
-                    if (action === 'show') {
-                        document.addEventListener('admob.interstitial.close', service._reload);
 
+                    $log.info('admob action', action);
+
+                    if (service.willShowInterstitial === false && action === 'show') {
+                        service.willShowInterstitial = true;
+                        $log.info('admob action service.willShowInterstitial = true;');
+                    }
+
+                    if (service.willShowInterstitial) {
+                        $log.info('admob enter service.willShowInterstitial');
                         try {
                             if (service.interstitialPromise !== null) {
+                                $log.info('service.interstitialPromise !== null');
                                 service.interstitialPromise.then(function () {
+                                    $log.info('service.interstitialPromise.then OK');
+                                    document.addEventListener('admob.interstitial.close', service._reload);
                                     admob.interstitial.show();
+                                    service.willShowInterstitial = false;
+
+                                    /** On success, we change the randomness */
+                                    if (service.interstitialState === 'start') {
+                                        service.interstitialState = 'low';
+                                    } else {
+                                        service.interstitialState = 'default';
+                                    }
+
+                                    service.viewEnterCount = 0;
+
+                                    /** Then prepare the next one. */
+                                    service.preloadInterstitial();
                                 }, function () {
                                     $log.error('Failed to load interstitial! (Promise)');
+                                    $log.info('service.interstitialPromise.then KO');
+                                    service.willShowInterstitial = false;
+                                    /** Then prepare the next one. */
+                                    service.preloadInterstitial();
                                 });
+                            } else {
+                                service.preloadInterstitial();
                             }
                         } catch (e) {
                             $log.error('Interstitial failed to show (Exception)');
+                            service.willShowInterstitial = false;
+                            /** Then prepare the next one. */
+                            service.preloadInterstitial();
                         }
-
-                        /** Then prepare the next one. */
-                        service.preloadInterstitial();
-
-                        if (service.interstitialState === 'start') {
-                            service.interstitialState = 'low';
-                        } else {
-                            service.interstitialState = 'default';
-                        }
-
-                        service.viewEnterCount = 0;
                     } else {
                         service._reload();
                     }
