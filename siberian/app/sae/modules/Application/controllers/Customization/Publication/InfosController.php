@@ -16,6 +16,9 @@ class Application_Customization_Publication_InfosController extends Application_
         "switchtoionic" => [
             "tags" => ["app_#APP_ID#"],
         ],
+        "save-admob" => [
+            "tags" => ["app_#APP_ID#"],
+        ],
     ];
 
     /**
