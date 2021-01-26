@@ -2,7 +2,7 @@
 
 rm -rf .tmp
 mkdir .tmp
-./node_modules/.bin/browserify index.js > .tmp/bundle.js
+./node_modules/.bin/browserify classifieds2-home.js > .tmp/bundle.js
 uglifyjs .tmp/bundle.js -c -m > .tmp/bundle.min.js
 cat > www/promise.js << EOL
 /*!
