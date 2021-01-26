@@ -250,8 +250,14 @@ abstract class Application_Model_Device_Ionic_Ios_Abstract extends Application_M
             'NSLocationWhenInUseUsageDescription' => 'ns_location_when_in_use_ud',
             'NSLocationAlwaysUsageDescription' => 'ns_location_always_ud',
             'NSLocationAlwaysAndWhenInUseUsageDescription' => 'ns_location_always_and_when_in_use_ud',
-            'NSMotionUsageDescription' => 'ns_motion_ud'
+            'NSMotionUsageDescription' => 'ns_motion_ud',
         ];
+
+        // If ads are available
+        if ($this->withAds) {
+            $NSDescriptions['NSUserTrackingUsageDescription'] = 'ns_user_tracking_ud';
+        }
+
         foreach ($NSDescriptions as $key => $NSDescription) {
             // Placeholders!
             $dataString = str_replace('#APP_NAME', $this->_application_name, $device->getData($NSDescription));

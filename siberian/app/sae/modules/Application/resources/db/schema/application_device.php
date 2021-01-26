@@ -161,6 +161,13 @@ $schemas['application_device'] = [
         'charset' => 'utf8',
         'collation' => 'utf8_unicode_ci',
     ],
+    'ns_user_tracking_ud' => [
+        'type' => 'varchar(256)',
+        'is_null' => true,
+        'charset' => 'utf8',
+        'collation' => 'utf8_unicode_ci',
+        'default' => 'This identifier will be used to deliver personalized ads to you.',
+    ],
     'ns_camera_ud' => [
         'type' => 'varchar(256)',
         'is_null' => true,
