@@ -63,14 +63,6 @@ cordova.define('cordova/plugin_list', function(require, exports, module) {
       "runs": true
     },
     {
-      "id": "Admob.AdMob",
-      "file": "plugins/Admob/www/admob.js",
-      "pluginId": "Admob",
-      "clobbers": [
-        "admob"
-      ]
-    },
-    {
       "id": "AppVersion.AppVersionPlugin",
       "file": "plugins/AppVersion/www/AppVersionPlugin.js",
       "pluginId": "AppVersion",
@@ -460,7 +452,6 @@ cordova.define('cordova/plugin_list', function(require, exports, module) {
     "Push": "1.10.0",
     "WebView": "1.0.0",
     "Promises": "4.2.2",
-    "Admob": "0.0.0",
     "AppVersion": "0.1.8",
     "Badge": "0.8.8",
     "BarcodeScanner": "7.1.2",
