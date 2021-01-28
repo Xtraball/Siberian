@@ -126,8 +126,8 @@
     <allow-intent href="google.navigation:*" />
     <allow-intent href="whatsapp:*" />
     <chcp>
-        <config-file url="https://mae415.siberiancms.com/var/apps/ionic/ios-noads/www/chcp.json" />
-        <native-interface version="18" />
+        <config-file url="PLATFORM_URL" />
+        <native-interface version="19" />
         <auto-download enabled="false" />
         <auto-install enabled="false" />
     </chcp>
