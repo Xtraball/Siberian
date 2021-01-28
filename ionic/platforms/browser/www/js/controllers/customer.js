@@ -140,7 +140,7 @@ angular
         };
 
         $scope.getPushToken =  function () {
-            let message = $translate.instant('Your device is not registered for Push notifications!', 'customer');
+            var message = $translate.instant('Your device is not registered for Push notifications!', 'customer');
             if (Push.lastErrorMessage !== null && Push.device_token === null) {
                 message = Push.lastErrorMessage;
             } else if (Push.device_token !== null && Push.device_token.length > 0) {

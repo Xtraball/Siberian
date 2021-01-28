@@ -15,10 +15,6 @@ function splitPath(p) {
     return p.split(':');
 }
 
-function checkPath(path) {
-  return fs.existsSync(path) && fs.statSync(path).isDirectory() == false;
-}
-
 //@
 //@ ### which(command)
 //@
@@ -46,7 +42,7 @@ function _which(options, cmd) {
         return; // already found it
 
       var attempt = path.resolve(dir + '/' + cmd);
-      if (checkPath(attempt)) {
+      if (fs.existsSync(attempt)) {
         where = attempt;
         return;
       }
@@ -54,17 +50,17 @@ function _which(options, cmd) {
       if (common.platform === 'win') {
         var baseAttempt = attempt;
         attempt = baseAttempt + '.exe';
-        if (checkPath(attempt)) {
+        if (fs.existsSync(attempt)) {
           where = attempt;
           return;
         }
         attempt = baseAttempt + '.cmd';
-        if (checkPath(attempt)) {
+        if (fs.existsSync(attempt)) {
           where = attempt;
           return;
         }
         attempt = baseAttempt + '.bat';
-        if (checkPath(attempt)) {
+        if (fs.existsSync(attempt)) {
           where = attempt;
           return;
         }
@@ -73,7 +69,7 @@ function _which(options, cmd) {
   }
 
   // Command not found anywhere?
-  if (!checkPath(cmd) && !where)
+  if (!fs.existsSync(cmd) && !where)
     return null;
 
   where = where || path.resolve(cmd);

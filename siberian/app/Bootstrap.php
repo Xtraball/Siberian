@@ -283,6 +283,10 @@ class Bootstrap extends Zend_Application_Bootstrap_Bootstrap
 
         $module_names = $this->_front_controller->getDispatcher()->getModuleDirectories();
 
+        // Mmobilcart is known to cause issues & side-effects
+        __set('mobilcart_warning',
+            in_array('Mmobilcart', $module_names, true) ? 'show' : 'dismiss');
+
         foreach ($module_names as $module) {
 
             // Skipping disabled module!

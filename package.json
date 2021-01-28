@@ -1,7 +1,7 @@
 {
   "name": "Siberian",
-  "version": "4.19.13",
-  "lastversion": "4.19.12",
+  "version": "4.20.0",
+  "lastversion": "4.19.13",
   "nativeVersion": "18",
   "apiVersion": "4",
   "description": "Mobile App CMS",
@@ -19,10 +19,8 @@
     "cli-color": "^1.4.0",
     "command-exists": "^1.2.8",
     "concat": "^1.0.3",
-    "cordova": "8.0.0",
-    "cordova-common": "^2.2.5",
+    "cordova": "^10.0.0",
     "cordova-hot-code-push-cli": "latest",
-    "cordova-lib": "8.0.0",
     "glob-array": "^1.0.0",
     "glob-watcher": "^4.0.0",
     "ionic": "1.7.14",
@@ -32,11 +30,13 @@
     "node-sass": "^4.12.0",
     "nopt": "^4.0.1",
     "npm": "^6.13.4",
-    "plugman": "^2.0.0",
+    "plugman": "^3.0.1",
     "run-sequence": "^2.2.1",
     "shelljs": "^0.7.8",
     "uglify-es": "^3.3.10",
-    "underscore": "1.7.0"
+    "underscore": "1.7.0",
+    "unorm": "^1.6.0",
+    "xcode": "^3.0.1"
   },
   "scripts": {
     "preversion": "./bin/preversion",

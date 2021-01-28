@@ -117,6 +117,7 @@ if (!empty($appDomain)) {
         </div>
     </div>
 
+    <?php if ($this->_canAccess('editor_publication_admob')): ?>
     <div id="sb-tour-monetize-source"
          class="content sb-tour">
         <h3 class="title-editor border-green text-center">
@@ -132,6 +133,7 @@ if (!empty($appDomain)) {
             </div>
         </div>
     </div>
+    <?php endif; ?>
 
     <?php if (!$mustUpgrade): ?>
         <div id="sb-tour-mobile-source"
@@ -176,25 +178,31 @@ if (!empty($appDomain)) {
                                     <?php endif; ?>
                                 </div>
                                 <div class="col-sm-4 text-right">
-                                    <?php if ($positions["ios"] == 0): ?>
-                                        <a class="generate-source btn default_button color-green"
-                                           onclick="generateSource(1, 0);"
-                                           href="javascript:void(0)">
-                                            <i class="fa fa-gears"></i> <?php echo __('Generate source'); ?>
+                                    <?php if (in_array($application->getDevice(1)->getAdmobAppId(), ['', 'ca-app-pub-0000000000000000~0000000000'], false) !== false): ?>
+                                        <a class="btn default_button color-red">
+                                            <?php echo p__('application', 'AdMob app id is required!'); ?>
                                         </a>
-                                    <?php endif; ?>
-                                    <?php if ($positions["ios"] == 1): ?>
-                                        <i class="fa fa-gear"></i> <?php echo __('Generating'); ?>
-                                    <?php endif; ?>
-                                    <?php if ($positions["ios"] > 1): ?>
-                                        <i class="fa fa-gears"></i> <?php echo __('Queued %s/%s', $positions["ios"], $total); ?>
-                                    <?php endif; ?>
-                                    <?php if ($positions["ios"] > 1): ?>
-                                        <a class="cancel-queue"
-                                           onclick="cancelQueue(1, 0);"
-                                           href="javascript:void(0)">
-                                            <i class="fa fa-times"></i> <?php echo __('Cancel'); ?>
-                                        </a>
+                                    <?php else: ?>
+                                        <?php if ($positions["ios"] == 0): ?>
+                                            <a class="generate-source btn default_button color-green"
+                                               onclick="generateSource(1, 0);"
+                                               href="javascript:void(0)">
+                                                <i class="fa fa-gears"></i> <?php echo __('Generate source'); ?>
+                                            </a>
+                                        <?php endif; ?>
+                                        <?php if ($positions["ios"] == 1): ?>
+                                            <i class="fa fa-gear"></i> <?php echo __('Generating'); ?>
+                                        <?php endif; ?>
+                                        <?php if ($positions["ios"] > 1): ?>
+                                            <i class="fa fa-gears"></i> <?php echo __('Queued %s/%s', $positions["ios"], $total); ?>
+                                        <?php endif; ?>
+                                        <?php if ($positions["ios"] > 1): ?>
+                                            <a class="cancel-queue"
+                                               onclick="cancelQueue(1, 0);"
+                                               href="javascript:void(0)">
+                                                <i class="fa fa-times"></i> <?php echo __('Cancel'); ?>
+                                            </a>
+                                        <?php endif; ?>
                                     <?php endif; ?>
                                 </div>
                             </div>

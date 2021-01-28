@@ -78,6 +78,16 @@ class Application_Model_Device_Ionic_Ios extends Application_Model_Device_Ionic_
     protected $_dest_archive;
 
     /**
+     * @var bool
+     */
+    public $withAds = false;
+
+    /**
+     * @var string
+     */
+    public $admobAppIdentifier = 'ca-app-pub-0000000000000000~0000000000';
+
+    /**
      * Application_Model_Device_Ionic_Ios constructor.
      * @param array $data
      * @throws Zend_Exception
@@ -85,9 +95,8 @@ class Application_Model_Device_Ionic_Ios extends Application_Model_Device_Ionic_
     public function __construct($data = [])
     {
         parent::__construct($data);
-        $this->_os_name = "ios";
-        $this->_logger = Zend_Registry::get("logger");
-        return $this;
+        $this->_os_name = 'ios';
+        $this->_logger = Zend_Registry::get('logger');
     }
 
     /**
@@ -196,11 +205,6 @@ class Application_Model_Device_Ionic_Ios extends Application_Model_Device_Ionic_
         $this->_cpFolder();
         $this->_cleanAssets();
 
-        // Remove Ads from sources!
-        if ($this->getDevice()->getExcludeAds()) {
-            $this->removeAds();
-        }
-
         $this->replaceBundleId();
 
         $this->_prepareUrl();
@@ -220,25 +224,35 @@ class Application_Model_Device_Ionic_Ios extends Application_Model_Device_Ionic_
     {
         // Ads!
         $_package_ads_suffix = $_source_ads_suffix = "";
-        if ($this->getDevice()->getExcludeAds()) {
+        $this->withAds = true;
+        $device = $this->getDevice();
+        if ($device->getExcludeAds()) {
+            $this->withAds = false;
             $_package_ads_suffix = $_source_ads_suffix = "-noads";
         }
+        $this->admobAppIdentifier = $device->getAdmobAppId();
 
         $this->_app_name_formatted = Core_Model_Lib_String::format($this->currentApplication->getName(), true);
         $this->_folder_name = $this->_app_name_formatted . '-' . $this->currentApplication->getId();
 
         // Ionic sources!
-        $this->_orig_source = Core_Model_Directory::getBasePathTo(self::SOURCE_FOLDER);
+        $this->_orig_source = path(self::SOURCE_FOLDER);
+        if (!$this->withAds) {
+            $this->_orig_source = str_replace('/ios', '/ios-noads', $this->_orig_source);
+        }
         $this->_orig_source_amc = $this->_orig_source . "/AppsMobileCompany";
         $this->_orig_source_res = $this->_orig_source_amc . "/Resources";
 
         /** /var/tmp/applications/[DESIGN]/[PLATFORM]/[APP_NAME]/AppsMobileCompany */
-        $this->_dest_source = Core_Model_Directory::getBasePathTo(self::DEST_FOLDER);
+        $this->_dest_source = path(self::DEST_FOLDER);
+        if (!$this->withAds) {
+            $this->_dest_source = str_replace('/ios', '/ios-noads', $this->_dest_source);
+        }
         $this->_dest_source = sprintf($this->_dest_source, $this->_folder_name);
         $this->_dest_source_amc = $this->_dest_source . "/AppsMobileCompany";
         $this->_dest_source_res = $this->_dest_source_amc . "/";
 
-        $this->_dest_archive = Core_Model_Directory::getBasePathTo(self::ARCHIVE_FOLDER);
+        $this->_dest_archive = path(self::ARCHIVE_FOLDER);
 
         /** Vars */
         $this->_zipname = sprintf("%s_%s_%s%s",

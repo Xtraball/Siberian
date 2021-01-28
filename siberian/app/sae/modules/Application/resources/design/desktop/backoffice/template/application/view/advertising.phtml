@@ -1,29 +1,38 @@
 <sb-section title="'<?php echo __title("Advertising"); ?>'">
     <form ng-submit="saveAdvertisingInfo()">
-        <div class="form-group">
-            <div class="col-md-12">
-                <label for="owner_use_ads"
-                       class="control-label">
-                    <input type="checkbox"
-                           id="owner_use_ads"
-                           ng-model="application_admob.owner_use_ads"
-                           ng-checked="application_admob.owner_use_ads"/>
-                    <?php echo __("Use Owner AdMob"); ?>
-                </label>
-            </div>
-        </div>
 
-        <div class="form-group">
-            <div class="col-md-12">
-                <div class="alert alert-info"
-                     role="alert">
-                    <?php echo __("If user doesn't use AdMob, split revenue will default to 100.") ?>
+        <div class="col-md-12">
+
+            <div class="form-group">
+                <div class="checkbox">
+                    <label for="admob_enable_ads">
+                        <input type="checkbox"
+                               id="admob_enable_ads"
+                               ng-model="application_admob.use_ads"
+                               ng-checked="application_admob.use_ads"
+                               class="form-control" />
+                            <?php echo p__('backoffice_application', 'Enable Ads'); ?>
+                    </label>
                 </div>
             </div>
+
+            <div class="form-group">
+                <div class="checkbox">
+                    <label for="admob_test_ads"
+                           class="control-label">
+                        <input type="checkbox"
+                               id="admob_test_ads"
+                               class="form-control"
+                               ng-model="application_admob.test_ads"
+                               ng-checked="application_admob.test_ads" />
+                            <?php echo p__('backoffice_application', 'Display test Ads') ?>
+                    </label>
+                </div>
+            </div>
+
         </div>
 
-        <div ng-repeat="device in application_admob.devices"
-             ng-if="application_admob.owner_use_ads">
+        <div ng-repeat="device in application_admob.devices">
 
             <div class="col-md-{{ 12 / application_admob.devices.length }}">
 
@@ -33,14 +42,12 @@
                 </div>
 
                 <div class="form-group">
-                    <label for="admob-weight-{{ device.name }}"><?php echo __("Split Ad revenue (percent for you)"); ?></label>
-                    <input type="number"
-                           min="0"
-                           max="100"
-                           step="1"
-                           id="admob-weight-{{ device.name }}"
-                           ng-model="device.owner_admob_weight"
-                           class="form-control"/>
+                    <label for="admob-appid-{{ device.name }}"><?php echo __('AdMob application ID'); ?> *</label>
+                    <input type="text"
+                           id="admob-appid-{{ device.name }}"
+                           placeholder="ca-app-pub-0000000000000000~0000000000"
+                           ng-model="device.admob_app_id"
+                           class="form-control" />
                 </div>
 
                 <div class="form-group">
@@ -49,7 +56,7 @@
                     <input type="text"
                            id="admob-id-{{ device.name }}"
                            class="form-control"
-                           ng-model="device.owner_admob_id"/>
+                           ng-model="device.admob_id"/>
                 </div>
 
                 <div class="form-group">
@@ -58,7 +65,7 @@
                     <input type="text"
                            id="admob-interstitial-id-{{ device.name }}"
                            class="form-control"
-                           ng-model="device.owner_admob_interstitial_id"/>
+                           ng-model="device.admob_interstitial_id"/>
                 </div>
 
                 <div class="form-group">
@@ -66,7 +73,7 @@
                            class="control-label"><?php echo __("AdMob Type"); ?></label>
                     <select id="admob-type-{{ device.name }}"
                             class="form-control"
-                            ng-model="device.owner_admob_type">
+                            ng-model="device.admob_type">
                         <option value="banner"><?php echo __("Banner") ?></option>
                         <option value="interstitial"><?php echo __("Interstitial") ?></option>
                         <option value="banner-interstitial"><?php echo __("Banner & Interstitial") ?></option>
@@ -74,7 +81,10 @@
                 </div>
 
             </div>
+
         </div>
+
+
         <div class="form-group">
             <div class="col-md-12">
                 <button type="submit"

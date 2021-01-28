@@ -1,0 +1,55 @@
+<div>
+
+    <div style="margin-bottom: 20px;"></div>
+
+    <div class="list"
+         ng-class="{'card': card_design}">
+
+        <div class="item item-text-wrap item-icon-left item-custom"
+             ng-click="loginFacebook()"
+             ng-if="!customer.is_logged_in && myAccount.settings.enable_facebook_login"
+             ng-show="_facebook_enabled">
+            <i class="icon ion-social-facebook-outline"></i>
+            {{ ::'Log in with Facebook' | translate:'customer' }}
+        </div>
+
+        <div class="item item-divider item-divider-custom text-center"
+             ng-if="!customer.is_logged_in && myAccount.settings.enable_facebook_login"
+             ng-show="_facebook_enabled">
+            <p>{{ ::'Or with your account' | translate:'customer' }}</p>
+        </div>
+
+        <label class="item item-input item-custom">
+            <i class="icon ion-ios-person"></i>
+            <input type="email"
+                   placeholder="{{ ::'Email' | translate:'customer' }}"
+                   ng-model="customer.email" />
+        </label>
+
+        <label class="item item-input item-custom">
+            <i class="icon ion-locked"></i>
+            <input type="password"
+                   placeholder="{{ ::'Password' | translate:'customer' }}"
+                   ng-model="customer.password" />
+        </label>
+    </div>
+
+    <div class="padding text-right">
+            <span ng-click="displayForgotPasswordForm()"
+                  class="bold positive positive-custom">{{ ::'Forgot your password?' | translate:'customer' }}</span>
+    </div>
+
+    <div ng-class="{'padding': card_design}">
+        <button class="button button-positive button-positive-custom"
+                ng-click="loginEmail()"
+                ng-class="{'button-block': card_design, 'button-full': !card_design}"
+                ng-show="!is_loading">{{ ::'Log in' | translate:'customer' }}</button>
+    </div>
+
+    <div class="padding text-center"
+         ng-if="myAccount.settings.enable_registration"
+         ng-click="displayAccountForm()">
+        {{ ::"Don't have an account yet?" | translate:'customer' }}&nbsp;<span class="bold positive positive-custom">{{ ::'Create an account' | translate:'customer' }}!</span>
+    </div>
+
+</div>

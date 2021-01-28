@@ -26,7 +26,7 @@ class Application_Form_AppleGoogle extends Siberian_Form_Abstract
         $applePublicationOptions = [
             '1' => __('I have an Apple developer account'),
             '0' => __('I don\'t have an Apple developer account and I want to create one'),
-            '2' => __('I let you publish my application under your Apple developer account'),
+            //'2' => __('I let you publish my application under your Apple developer account'),
         ];
 
         // Apple
@@ -58,7 +58,7 @@ class Application_Form_AppleGoogle extends Siberian_Form_Abstract
         $googlePublicationOptions = [
             '1' => __('I have a Google developer account'),
             '0' => __('I don\'t have a Google developer account and I want to create one'),
-            '2' => __('I let you publish my application under your Google developer account'),
+            //'2' => __('I let you publish my application under your Google developer account'),
         ];
 
         $googleChoice = $this->addSimpleRadio(

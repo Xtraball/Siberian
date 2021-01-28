@@ -1,5 +1,11 @@
 <?xml version='1.0' encoding='utf-8'?>
 <widget id="com.appsmobilecompany.base" version="1.0" xmlns="http://www.w3.org/ns/widgets" xmlns:cdv="http://cordova.apache.org/ns/1.0">
+    <feature name="CDVWebViewEngine">
+        <param name="ios-package" value="CDVWebViewEngine" />
+    </feature>
+    <feature name="LaunchScreen">
+        <param name="ios-package" value="CDVLaunchScreen" />
+    </feature>
     <feature name="LocalStorage">
         <param name="ios-package" value="CDVLocalStorage" />
     </feature>
@@ -51,7 +57,7 @@
     <preference name="DisallowOverscroll" value="true" />
     <preference name="EnableViewportScale" value="false" />
     <preference name="KeyboardDisplayRequiresUserAction" value="true" />
-    <preference name="MediaPlaybackRequiresUserAction" value="false" />
+    <preference name="MediaTypesRequiringUserActionForPlayback" value="none" />
     <preference name="SuppressesIncrementalRendering" value="false" />
     <preference name="SuppressesLongPressGesture" value="false" />
     <preference name="Suppresses3DTouchGesture" value="false" />
@@ -70,7 +76,7 @@
     <preference name="HideKeyboardFormAccessoryBar" value="false" />
     <preference name="KeyboardResize" value="true" />
     <preference name="KeyboardResizeMode" value="native" />
-    <preference name="deployment-target" value="10.0" />
+    <preference name="deployment-target" value="11.0" />
     <preference name="WKWebViewOnly" value="true" />
     <preference name="loadUrlTimeoutValue" value="60000" />
     <feature name="HotCodePush">
@@ -81,8 +87,8 @@
         <param name="ios-package" value="InAppPurchase" />
         <param name="onload" value="true" />
     </feature>
-    <feature name="SplashScreen">
-        <param name="ios-package" value="CDVSplashScreen" />
+    <feature name="CDVWKWebViewFileXhr">
+        <param name="ios-package" value="CDVWKWebViewFileXhr" />
         <param name="onload" value="true" />
     </feature>
     <feature name="PushNotification">
@@ -92,9 +98,9 @@
         <param name="ios-package" value="WebViewPlugin" />
     </feature>
     <feature name="AdMob">
-        <param name="ios-package" value="CDVAdMobPlugin" />
-        <param name="onload" value="true" />
+        <param name="ios-package" value="AMSPlugin" />
     </feature>
+    <preference name="APP_ID_IOS" value="ca-app-pub-0000000000000000~0000000000" />
     <feature name="AppVersion">
         <param name="ios-package" value="AppVersion" />
     </feature>
@@ -125,10 +131,6 @@
         <param name="ios-package" value="CDVLocation" />
     </feature>
     <feature name="InAppBrowser">
-        <param name="ios-package" value="CDVInAppBrowser" />
-        <param name="onload" value="true" />
-    </feature>
-    <feature name="WKInAppBrowser">
         <param name="ios-package" value="CDVWKInAppBrowser" />
         <param name="onload" value="true" />
     </feature>
@@ -151,12 +153,6 @@
     <feature name="Insomnia">
         <param name="ios-package" value="Insomnia" />
     </feature>
-    <allow-navigation href="ionic://*" />
-    <preference name="deployment-target" value="11.0" />
-    <feature name="IonicWebView">
-        <param name="ios-package" value="CDVWKWebViewEngine" />
-    </feature>
-    <preference name="CordovaWebViewEngine" value="CDVWKWebViewEngine" />
     <feature name="MusicControls">
         <param name="ios-package" value="MusicControls" />
     </feature>
