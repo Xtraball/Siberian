@@ -44,12 +44,12 @@ class CordovaEventEmitter extends EventEmitter {
             throw new Error('Cordova events can be redirected to another EventEmitter instance only');
         }
 
-        // CB-10940 Skipping forwarding to self to avoid infinite recursion.
+        // CB-10940 Skipping forwarding to this to avoid infinite recursion.
         // This is the case when the modules are npm-linked.
         if (this !== eventEmitter) {
             EVENTS_RECEIVER = eventEmitter;
         } else {
-            // Reset forwarding if we are subscribing to self
+            // Reset forwarding if we are subscribing to this
             EVENTS_RECEIVER = undefined;
         }
     }

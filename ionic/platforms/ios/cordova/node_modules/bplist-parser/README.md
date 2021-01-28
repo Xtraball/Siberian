@@ -1,5 +1,4 @@
-bplist-parser
-=============
+# bplist-parser
 
 Binary Mac OS X Plist (property list) parser.
 
@@ -12,13 +11,15 @@ $ npm install bplist-parser
 ## Quick Examples
 
 ```javascript
-var bplist = require('bplist-parser');
+const bplist = require('bplist-parser');
 
-bplist.parseFile('myPlist.bplist', function(err, obj) {
-  if (err) throw err;
+(async () => {
+
+  const obj = await bplist.parseFile('myPlist.bplist');
 
   console.log(JSON.stringify(obj));
-});
+
+})();
 ```
 
 ## License

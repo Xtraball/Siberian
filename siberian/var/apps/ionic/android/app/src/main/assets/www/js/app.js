@@ -47,7 +47,7 @@ var lazyLoadResolver = function (code) {
 // App language!
 // First check in localStorage
 var CURRENT_LANGUAGE = 'en';
-let setupLanguage = function () {
+var setupLanguage = function () {
     var storageLanguage = localStorage.getItem('pwa-cache-' + APP_KEY + '/registry-index/sb-current-language');
     if (storageLanguage !== null) {
         storageLanguage = storageLanguage.replace(/"/g, '');
@@ -55,7 +55,7 @@ let setupLanguage = function () {
             CURRENT_LANGUAGE = storageLanguage;
         }
     } else if (navigator.language) {
-        let tmpLanguage = navigator.language.replace('-', '_');
+        var tmpLanguage = navigator.language.replace('-', '_');
         try {
             if (AVAILABLE_LANGUAGES.indexOf(tmpLanguage) >= 0) {
                 CURRENT_LANGUAGE = tmpLanguage;

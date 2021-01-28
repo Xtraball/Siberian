@@ -1,0 +1,80 @@
+<ion-view sb-page-background
+          class="links-view">
+    <ion-nav-title>{{ page_title }}</ion-nav-title>
+    <ion-content>
+
+        <div id="search_section"
+             class="list links-search"
+             ng-class="{'card' : cardDesign}"
+             ng-show="showSearch">
+            <label class="item item-input item-custom">
+                <i class="icon ion-search placeholder-icon"></i>
+                <input type="text"
+                       placeholder="{{ ::'Search' | translate }}"
+                       ng-model="search.searchValue">
+            </label>
+            <button class="clear-search"
+                    ng-click="resetSearch()"
+                    ng-show="search.searchValue.length">
+                <i class="icon ion-backspace"></i>
+            </button>
+        </div>
+
+        <div class="loader"
+             ng-show="is_loading">
+            <ion-spinner class="spinner-custom"></ion-spinner>
+        </div>
+
+        <div class="list"
+             ng-class="{'padding': cardDesign}"
+             ng-show="results.length > 0 && !is_loading">
+
+            <div class="item item-custom"
+                 ng-if="weblink.cover_url">
+                <img ng-src="{{ weblink.cover_url }}"
+                     width="100%" />
+            </div>
+
+            <button class="button button-custom item-center button-avatar"
+                    ng-class="{'button-full': !cardDesign, 'button-block': cardDesign}"
+                    ng-repeat="link in weblink.links | multiWordsFilter:search.searchValue as results"
+                    ng-click="openLink(link);">
+
+                <img ng-show="link.picto_url"
+                     ng-src="{{ link.picto_url }}"
+                     width="21"
+                     height="21" />
+                {{ link.title }}
+            </button>
+        </div>
+
+        <div class="list"
+             ng-class="{'card': cardDesign}"
+             ng-show="showSearch && search.searchValue && results.length === 0">
+            <div class="item text-center item-custom">
+                {{ ::'No results for your request.' | translate }}
+            </div>
+        </div>
+
+        <div class="list"
+             ng-class="{'card': cardDesign}"
+             ng-show="!showSearch && weblink.links.length <= 0">
+            <div class="item text-center item-custom">
+                {{ ::'No link.' | translate }}
+            </div>
+        </div>
+
+        <style type="text/css">
+            .links-view .clear-search {
+                margin-right: 6px;
+                border: 0;
+                background: transparent;
+                position: absolute;
+                right: 0;
+                z-index: 5000;
+                top: 14px;
+            }
+        </style>
+
+    </ion-content>
+</ion-view>

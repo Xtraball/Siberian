@@ -1,0 +1,15 @@
+<div class="layout l17"
+     ng-class="{ 'no-text' : features.layoutOptions.visible == '0' }">
+    <ion-content id="metro-scroll">
+
+        <!-- Default -->
+        <ng-include ng-if="!features.layoutOptions.icons || (features.layoutOptions.icons == 'default')"
+                    src="'templates/home/l17/default.html'"></ng-include>
+
+
+        <!-- Cover -->
+        <ng-include ng-if="features.layoutOptions.icons == 'cover'"
+                    src="'templates/home/l17/cover.html'"></ng-include>
+
+    </ion-content>
+</div>

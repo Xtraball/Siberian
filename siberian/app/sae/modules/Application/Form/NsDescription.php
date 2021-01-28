@@ -55,6 +55,11 @@ class Application_Form_NsDescription extends Siberian_Form_Abstract {
             ->setDescription(__('Specifies the reason for your app to access the device\'s accelerometer.'))
             ->setAttrib('maxlength', 256);
 
+        $this->addSimpleText('ns_user_tracking_ud',
+            __('NSUserTrackingUsageDescription'))
+            ->setDescription(__('Specifies the reason for your app to serve personalized ads (only for iOS 14+ users).'))
+            ->setAttrib('maxlength', 256);
+
         $this->addSubmit(__('Save'));
     }
 }

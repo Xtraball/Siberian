@@ -16,6 +16,9 @@ class Application_Customization_Publication_InfosController extends Application_
         "switchtoionic" => [
             "tags" => ["app_#APP_ID#"],
         ],
+        "save-admob" => [
+            "tags" => ["app_#APP_ID#"],
+        ],
     ];
 
     /**
@@ -245,10 +248,12 @@ class Application_Customization_Publication_InfosController extends Application_
 
                 $application
                     ->setUseAds(filter_var($params['use_ads'], FILTER_VALIDATE_BOOLEAN))
+                    ->setTestAds(filter_var($params['test_ads'], FILTER_VALIDATE_BOOLEAN))
                     ->save();
 
                 $androidDevice = $application->getAndroidDevice();
                 $androidDevice
+                    ->setAdmobAppId($params['android_admob_app_id'])
                     ->setAdmobId($params['android_admob_id'])
                     ->setAdmobInterstitialId($params['android_admob_interstitial_id'])
                     ->setAdmobType($params['android_admob_type'])
@@ -256,6 +261,7 @@ class Application_Customization_Publication_InfosController extends Application_
 
                 $iosDevice = $application->getIosDevice();
                 $iosDevice
+                    ->setAdmobAppId($params['ios_admob_app_id'])
                     ->setAdmobId($params['ios_admob_id'])
                     ->setAdmobInterstitialId($params['ios_admob_interstitial_id'])
                     ->setAdmobType($params['ios_admob_type'])

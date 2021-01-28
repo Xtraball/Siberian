@@ -24,7 +24,6 @@
 #endif
 
 #import <Cordova/CDVPluginResult.h>
-#import <Cordova/CDVUserAgentUtil.h>
 
 #define    kInAppBrowserTargetSelf @"_self"
 #define    kInAppBrowserTargetSystem @"_system"
@@ -36,7 +35,6 @@
 #define    IAB_BRIDGE_NAME @"cordova_iab"
 
 #define    TOOLBAR_HEIGHT 44.0
-#define    STATUSBAR_HEIGHT 20.0
 #define    LOCATIONBAR_HEIGHT 21.0
 #define    FOOTER_HEIGHT ((TOOLBAR_HEIGHT) + (LOCATIONBAR_HEIGHT))
 
@@ -62,11 +60,6 @@ static CDVWKInAppBrowser* instance = nil;
     _callbackIdPattern = nil;
     _beforeload = @"";
     _waitForBeforeload = NO;
-}
-
-- (id)settingForKey:(NSString*)key
-{
-    return [self.commandDelegate.settings objectForKey:[key lowercaseString]];
 }
 
 - (void)onReset
@@ -205,16 +198,7 @@ static CDVWKInAppBrowser* instance = nil;
     }
 
     if (self.inAppBrowserViewController == nil) {
-        NSString* userAgent = [CDVUserAgentUtil originalUserAgent];
-        NSString* overrideUserAgent = [self settingForKey:@"OverrideUserAgent"];
-        NSString* appendUserAgent = [self settingForKey:@"AppendUserAgent"];
-        if(overrideUserAgent){
-            userAgent = overrideUserAgent;
-        }
-        if(appendUserAgent){
-            userAgent = [userAgent stringByAppendingString: appendUserAgent];
-        }
-        self.inAppBrowserViewController = [[CDVWKInAppBrowserViewController alloc] initWithUserAgent:userAgent prevUserAgent:[self.commandDelegate userAgent] browserOptions: browserOptions];
+        self.inAppBrowserViewController = [[CDVWKInAppBrowserViewController alloc] initWithBrowserOptions: browserOptions andSettings:self.commandDelegate.settings];
         self.inAppBrowserViewController.navigationDelegate = self;
         
         if ([self.viewController conformsToProtocol:@protocol(CDVScreenOrientationDelegate)]) {
@@ -306,7 +290,8 @@ static CDVWKInAppBrowser* instance = nil;
     nav.orientationDelegate = self.inAppBrowserViewController;
     nav.navigationBarHidden = YES;
     nav.modalPresentationStyle = self.inAppBrowserViewController.modalPresentationStyle;
-    
+    nav.presentationController.delegate = self.inAppBrowserViewController;
+
     __weak CDVWKInAppBrowser* weakSelf = self;
     
     // Run later to avoid the "took a long time" log message.
@@ -322,7 +307,6 @@ static CDVWKInAppBrowser* instance = nil;
                 strongSelf->tmpWindow = [[UIWindow alloc] initWithFrame:frame];
             }
             UIViewController *tmpController = [[UIViewController alloc] init];
-
             [strongSelf->tmpWindow setRootViewController:tmpController];
             [strongSelf->tmpWindow setWindowLevel:UIWindowLevelNormal];
 
@@ -339,6 +323,7 @@ static CDVWKInAppBrowser* instance = nil;
     // Set tmpWindow to hidden to make main webview responsive to touch again
     // https://stackoverflow.com/questions/4544489/how-to-remove-a-uiwindow
     self->tmpWindow.hidden = YES;
+    self->tmpWindow = nil;
 
     if (self.inAppBrowserViewController == nil) {
         NSLog(@"Tried to hide IAB after it was closed.");
@@ -365,14 +350,17 @@ static CDVWKInAppBrowser* instance = nil;
 - (void)openInCordovaWebView:(NSURL*)url withOptions:(NSString*)options
 {
     NSURLRequest* request = [NSURLRequest requestWithURL:url];
-
+    // the webview engine itself will filter for this according to <allow-navigation> policy
+    // in config.xml for cordova-ios-4.0
     [self.webViewEngine loadRequest:request];
 }
 
 - (void)openInSystem:(NSURL*)url
 {
-    [[NSNotificationCenter defaultCenter] postNotification:[NSNotification notificationWithName:CDVPluginHandleOpenURLNotification object:url]];
-    [[UIApplication sharedApplication] openURL:url];
+    if ([[UIApplication sharedApplication] openURL:url] == NO) {
+        [[NSNotificationCenter defaultCenter] postNotification:[NSNotification notificationWithName:CDVPluginHandleOpenURLNotification object:url]];
+        [[UIApplication sharedApplication] openURL:url];
+    }
 }
 
 - (void)loadAfterBeforeload:(CDVInvokedUrlCommand*)command
@@ -689,7 +677,8 @@ static CDVWKInAppBrowser* instance = nil;
     // Set tmpWindow to hidden to make main webview responsive to touch again
     // Based on https://stackoverflow.com/questions/4544489/how-to-remove-a-uiwindow
     self->tmpWindow.hidden = YES;
-    
+    self->tmpWindow = nil;
+
     if (IsAtLeastiOSVersion(@"7.0")) {
         if (_previousStatusBarStyle != -1) {
             [[UIApplication sharedApplication] setStatusBarStyle:_previousStatusBarStyle];
@@ -708,16 +697,15 @@ static CDVWKInAppBrowser* instance = nil;
 
 @synthesize currentURL;
 
-BOOL viewRenderedAtLeastOnce = FALSE;
+CGFloat lastReducedStatusBarHeight = 0.0;
 BOOL isExiting = FALSE;
 
-- (id)initWithUserAgent:(NSString*)userAgent prevUserAgent:(NSString*)prevUserAgent browserOptions: (CDVInAppBrowserOptions*) browserOptions
+- (id)initWithBrowserOptions: (CDVInAppBrowserOptions*) browserOptions andSettings:(NSDictionary *)settings
 {
     self = [super init];
     if (self != nil) {
-        _userAgent = userAgent;
-        _prevUserAgent = prevUserAgent;
         _browserOptions = browserOptions;
+        _settings = settings;
         self.webViewUIDelegate = [[CDVWKInAppBrowserUIDelegate alloc] initWithTitle:[[NSBundle mainBundle] objectForInfoDictionaryKey:@"CFBundleDisplayName"]];
         [self.webViewUIDelegate setViewController:self];
         
@@ -741,6 +729,15 @@ BOOL isExiting = FALSE;
     WKUserContentController* userContentController = [[WKUserContentController alloc] init];
     
     WKWebViewConfiguration* configuration = [[WKWebViewConfiguration alloc] init];
+
+    NSString *userAgent = configuration.applicationNameForUserAgent;
+    if (
+        [self settingForKey:@"OverrideUserAgent"] == nil &&
+        [self settingForKey:@"AppendUserAgent"] != nil
+        ) {
+        userAgent = [NSString stringWithFormat:@"%@ %@", userAgent, [self settingForKey:@"AppendUserAgent"]];
+    }
+    configuration.applicationNameForUserAgent = userAgent;
     configuration.userContentController = userContentController;
 #if __has_include("CDVWKProcessPoolFactory.h")
     configuration.processPool = [[CDVWKProcessPoolFactory sharedFactory] sharedProcessPool];
@@ -760,7 +757,16 @@ BOOL isExiting = FALSE;
         configuration.mediaPlaybackRequiresUserAction = _browserOptions.mediaplaybackrequiresuseraction;
     }
     
-    
+    if (@available(iOS 13.0, *)) {
+        NSString *contentMode = [self settingForKey:@"PreferredContentMode"];
+        if ([contentMode isEqual: @"mobile"]) {
+            configuration.defaultWebpagePreferences.preferredContentMode = WKContentModeMobile;
+        } else if ([contentMode  isEqual: @"desktop"]) {
+            configuration.defaultWebpagePreferences.preferredContentMode = WKContentModeDesktop;
+        }
+
+    }
+
 
     self.webView = [[WKWebView alloc] initWithFrame:webViewBounds configuration:configuration];
     
@@ -771,7 +777,10 @@ BOOL isExiting = FALSE;
     self.webView.navigationDelegate = self;
     self.webView.UIDelegate = self.webViewUIDelegate;
     self.webView.backgroundColor = [UIColor whiteColor];
-    
+    if ([self settingForKey:@"OverrideUserAgent"] != nil) {
+        self.webView.customUserAgent = [self settingForKey:@"OverrideUserAgent"];
+    }
+
     self.webView.clearsContextBeforeDrawing = YES;
     self.webView.clipsToBounds = YES;
     self.webView.contentMode = UIViewContentModeScaleToFill;
@@ -895,10 +904,15 @@ BOOL isExiting = FALSE;
         [self.toolbar setItems:@[self.closeButton, flexibleSpaceButton, self.backButton, fixedSpaceButton, self.forwardButton]];
     }
     
-    self.view.backgroundColor = [UIColor grayColor];
+    self.view.backgroundColor = [UIColor clearColor];
     [self.view addSubview:self.toolbar];
     [self.view addSubview:self.addressLabel];
     [self.view addSubview:self.spinner];
+}
+
+- (id)settingForKey:(NSString*)key
+{
+    return [_settings objectForKey:[key lowercaseString]];
 }
 
 - (void) setWebViewFrame : (CGRect) frame {
@@ -1036,7 +1050,6 @@ BOOL isExiting = FALSE;
 
 - (void)viewDidLoad
 {
-    viewRenderedAtLeastOnce = FALSE;
     [super viewDidLoad];
 }
 
@@ -1051,7 +1064,12 @@ BOOL isExiting = FALSE;
 
 - (UIStatusBarStyle)preferredStatusBarStyle
 {
-    return UIStatusBarStyleDefault;
+    NSString* statusBarStylePreference = [self settingForKey:@"InAppBrowserStatusBarStyle"];
+    if (statusBarStylePreference && [statusBarStylePreference isEqualToString:@"lightcontent"]) {
+        return UIStatusBarStyleLightContent;
+    } else {
+        return UIStatusBarStyleDefault;
+    }
 }
 
 - (BOOL)prefersStatusBarHidden {
@@ -1060,7 +1078,6 @@ BOOL isExiting = FALSE;
 
 - (void)close
 {
-    [CDVUserAgentUtil releaseLock:&_userAgentLockToken];
     self.currentURL = nil;
     
     __weak UIViewController* weakSelf = self;
@@ -1068,6 +1085,7 @@ BOOL isExiting = FALSE;
     // Run later to avoid the "took a long time" log message.
     dispatch_async(dispatch_get_main_queue(), ^{
         isExiting = TRUE;
+        lastReducedStatusBarHeight = 0.0;
         if ([weakSelf respondsToSelector:@selector(presentingViewController)]) {
             [[weakSelf presentingViewController] dismissViewControllerAnimated:YES completion:nil];
         } else {
@@ -1078,17 +1096,11 @@ BOOL isExiting = FALSE;
 
 - (void)navigateTo:(NSURL*)url
 {
-    NSURLRequest* request = [NSURLRequest requestWithURL:url];
-    
-    if (_userAgentLockToken != 0) {
-        [self.webView loadRequest:request];
+    if ([url.scheme isEqualToString:@"file"]) {
+        [self.webView loadFileURL:url allowingReadAccessToURL:url];
     } else {
-        __weak CDVWKInAppBrowserViewController* weakSelf = self;
-        [CDVUserAgentUtil acquireLock:^(NSInteger lockToken) {
-            _userAgentLockToken = lockToken;
-            [CDVUserAgentUtil setUserAgent:_userAgent lockToken:lockToken];
-            [weakSelf.webView loadRequest:request];
-        }];
+        NSURLRequest* request = [NSURLRequest requestWithURL:url];
+        [self.webView loadRequest:request];
     }
 }
 
@@ -1104,17 +1116,6 @@ BOOL isExiting = FALSE;
 
 - (void)viewWillAppear:(BOOL)animated
 {
-    if (IsAtLeastiOSVersion(@"7.0") && !viewRenderedAtLeastOnce) {
-        viewRenderedAtLeastOnce = TRUE;
-        CGRect viewBounds = [self.webView bounds];
-        CGRect statusBarFrame = [UIApplication sharedApplication].statusBarFrame;
-        CGFloat statusBarHeight = statusBarFrame.size.height;
-
-        viewBounds.origin.y = statusBarHeight;
-        viewBounds.size.height = viewBounds.size.height - statusBarHeight;
-        self.webView.frame = viewBounds;
-        [[UIApplication sharedApplication] setStatusBarStyle:[self preferredStatusBarStyle]];
-    }
     [self rePositionViews];
     
     [super viewWillAppear:animated];
@@ -1126,16 +1127,28 @@ BOOL isExiting = FALSE;
 // change that value.
 //
 - (float) getStatusBarOffset {
-    CGRect statusBarFrame = [[UIApplication sharedApplication] statusBarFrame];
-    float statusBarOffset = IsAtLeastiOSVersion(@"7.0") ? MIN(statusBarFrame.size.width, statusBarFrame.size.height) : 0.0;
-    return statusBarOffset;
+    return (float) IsAtLeastiOSVersion(@"7.0") ? [[UIApplication sharedApplication] statusBarFrame].size.height : 0.0;
 }
 
 - (void) rePositionViews {
-    if ([_browserOptions.toolbarposition isEqualToString:kInAppBrowserToolbarBarPositionTop]) {
-        [self.webView setFrame:CGRectMake(self.webView.frame.origin.x, TOOLBAR_HEIGHT, self.webView.frame.size.width, self.webView.frame.size.height)];
-        [self.toolbar setFrame:CGRectMake(self.toolbar.frame.origin.x, [self getStatusBarOffset], self.toolbar.frame.size.width, self.toolbar.frame.size.height)];
+    CGRect viewBounds = [self.webView bounds];
+    CGFloat statusBarHeight = [self getStatusBarOffset];
+
+    // orientation portrait or portraitUpsideDown: status bar is on the top and web view is to be aligned to the bottom of the status bar
+    // orientation landscapeLeft or landscapeRight: status bar height is 0 in but lets account for it in case things ever change in the future
+    viewBounds.origin.y = statusBarHeight;
+
+    // account for web view height portion that may have been reduced by a previous call to this method
+    viewBounds.size.height = viewBounds.size.height - statusBarHeight + lastReducedStatusBarHeight;
+    lastReducedStatusBarHeight = statusBarHeight;
+
+    if ((_browserOptions.toolbar) && ([_browserOptions.toolbarposition isEqualToString:kInAppBrowserToolbarBarPositionTop])) {
+        // if we have to display the toolbar on top of the web view, we need to account for its height
+        viewBounds.origin.y += TOOLBAR_HEIGHT;
+        self.toolbar.frame = CGRectMake(self.toolbar.frame.origin.x, statusBarHeight, self.toolbar.frame.size.width, self.toolbar.frame.size.height);
     }
+
+    self.webView.frame = viewBounds;
 }
 
 // Helper function to convert hex color string to UIColor
@@ -1192,11 +1205,6 @@ BOOL isExiting = FALSE;
     
     [self.spinner stopAnimating];
 
-    BOOL isPDF = NO;
-    if (isPDF) {
-        [CDVUserAgentUtil setUserAgent:_prevUserAgent lockToken:_userAgentLockToken];
-    }
-    
     [self.navigationDelegate didFinishNavigation:theWebView];
 }
     
@@ -1242,7 +1250,7 @@ BOOL isExiting = FALSE;
     return YES;
 }
 
-- (NSUInteger)supportedInterfaceOrientations
+- (UIInterfaceOrientationMask)supportedInterfaceOrientations
 {
     if ((self.orientationDelegate != nil) && [self.orientationDelegate respondsToSelector:@selector(supportedInterfaceOrientations)]) {
         return [self.orientationDelegate supportedInterfaceOrientations];
@@ -1251,14 +1259,23 @@ BOOL isExiting = FALSE;
     return 1 << UIInterfaceOrientationPortrait;
 }
 
-- (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation
+- (void)viewWillTransitionToSize:(CGSize)size withTransitionCoordinator:(id<UIViewControllerTransitionCoordinator>)coordinator
 {
-    if ((self.orientationDelegate != nil) && [self.orientationDelegate respondsToSelector:@selector(shouldAutorotateToInterfaceOrientation:)]) {
-        return [self.orientationDelegate shouldAutorotateToInterfaceOrientation:interfaceOrientation];
-    }
-    
-    return YES;
+    [coordinator animateAlongsideTransition:^(id<UIViewControllerTransitionCoordinatorContext> context)
+    {
+        [self rePositionViews];
+    } completion:^(id<UIViewControllerTransitionCoordinatorContext> context)
+    {
+
+    }];
+
+    [super viewWillTransitionToSize:size withTransitionCoordinator:coordinator];
 }
 
+#pragma mark UIAdaptivePresentationControllerDelegate
+
+- (void)presentationControllerWillDismiss:(UIPresentationController *)presentationController {
+    isExiting = TRUE;
+}
 
 @end //CDVWKInAppBrowserViewController

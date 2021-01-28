@@ -20,7 +20,7 @@
 
 <plugin xmlns="http://apache.org/cordova/ns/plugins/1.0"
            id="InAppBrowser"
-      version="3.2.0">
+      version="4.1.0">
 
     <name>InAppBrowser</name>
     <description>Cordova InAppBrowser Plugin</description>
@@ -37,6 +37,7 @@
     <platform name="android">
         <js-module src="www/inappbrowser.js" name="inappbrowser">
             <clobbers target="cordova.InAppBrowser.open" />
+            <!-- @todo check if we must remove it or not. -->
             <clobbers target="window.open" />
         </js-module>
         <config-file target="res/xml/config.xml" parent="/*">
@@ -71,21 +72,15 @@
     <platform name="ios">
         <js-module src="www/inappbrowser.js" name="inappbrowser">
             <clobbers target="cordova.InAppBrowser.open" />
+            <!-- @todo check if we must remove it or not. -->
             <clobbers target="window.open" />
         </js-module>
         <config-file target="config.xml" parent="/*">
             <feature name="InAppBrowser">
-                <param name="ios-package" value="CDVInAppBrowser" />
-                <param name="onload" value="true" />
-            </feature>
-            <feature name="WKInAppBrowser">
                 <param name="ios-package" value="CDVWKInAppBrowser" />
                 <param name="onload" value="true" />
             </feature>
         </config-file>
-
-        <header-file src="src/ios/CDVInAppBrowser.h" />
-	    <source-file src="src/ios/CDVInAppBrowser.m" />
         <header-file src="src/ios/CDVInAppBrowserOptions.h" />
         <source-file src="src/ios/CDVInAppBrowserOptions.m" />
         <header-file src="src/ios/CDVInAppBrowserNavigationController.h" />
@@ -102,6 +97,7 @@
     <platform name="osx">
         <js-module src="www/inappbrowser.js" name="inappbrowser">
             <clobbers target="cordova.InAppBrowser.open" />
+            <!-- @todo check if we must remove it or not. -->
             <clobbers target="window.open" />
         </js-module>
         <config-file target="config.xml" parent="/*">
@@ -118,6 +114,7 @@
     <platform name="windows">
         <js-module src="www/inappbrowser.js" name="inappbrowser">
             <clobbers target="cordova.InAppBrowser.open" />
+            <!-- @todo check if we must remove it or not. -->
             <clobbers target="window.open" />
         </js-module>
         <js-module src="src/windows/InAppBrowserProxy.js" name="InAppBrowserProxy">
@@ -130,6 +127,7 @@
     <platform name="browser">
         <js-module src="www/inappbrowser.js" name="inappbrowser">
             <clobbers target="cordova.InAppBrowser.open" />
+            <!-- @todo check if we must remove it or not. -->
             <clobbers target="window.open" />
         </js-module>
         <js-module src="src/browser/InAppBrowserProxy.js" name="InAppBrowserProxy">
