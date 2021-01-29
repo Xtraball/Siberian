@@ -359,6 +359,7 @@ class Version
         $filesToRemove = [
             $path . '/var/apps/ionic/android.tgz',
             $path . '/var/apps/ionic/ios.tgz',
+            $path . '/var/apps/ionic/ios-noads.tgz',
             $path . '/var/apps/browser.tgz',
             $path . '/app/sae/design/desktop/flat/images/header/logo.png',
         ];
