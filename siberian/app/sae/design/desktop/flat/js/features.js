@@ -704,7 +704,7 @@ var _bindForms = function (default_parent, color, success_cb, error_cb) {
             return;
         }
 
-        $.ajax({
+        var ajaxOptions = {
             type: 'POST',
             url: form.attr('action'),
             data: form.serialize(),
@@ -795,7 +795,16 @@ var _bindForms = function (default_parent, color, success_cb, error_cb) {
 
                 loader.hide('sb-features');
             }
-        });
+        };
+
+        // Switch for specific multipart/form-data
+        if (form.attr('enctype') === 'multipart/form-data') {
+            ajaxOptions.data = new FormData(form[0]);
+            ajaxOptions.processData = false;
+            ajaxOptions.contentType = false;
+        }
+
+        $.ajax(ajaxOptions);
 
         return false;
     };
