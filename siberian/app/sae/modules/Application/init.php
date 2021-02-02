@@ -1,6 +1,7 @@
 <?php
 
 use Siberian\Hook;
+use Siberian\Security;
 
 $init = static function ($bootstrap) {
     Hook::listen(
@@ -9,4 +10,9 @@ $init = static function ($bootstrap) {
         static function () {
             Application_Model_Cron::triggerRun();
         });
+
+    // Ensure apk, aab & pks are always allowed!
+    Security::allowExtension('apk');
+    Security::allowExtension('aab');
+    Security::allowExtension('pks');
 };
