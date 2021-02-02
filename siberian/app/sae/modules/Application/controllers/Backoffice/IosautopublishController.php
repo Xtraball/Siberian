@@ -207,45 +207,63 @@ class Application_Backoffice_IosautopublishController extends Backoffice_Control
             }
             $adapter = new Zend_File_Transfer_Adapter_Http();
             $adapter->setDestination(Core_Model_Directory::getTmpDirectory(true));
-
-            $queue = Application_Model_SourceQueue::getApkServiceStatus($appId);
-
             if ($adapter->receive()) {
-                $file = $adapter->getFileInfo();
+                $files = $adapter->getFileInfo();
 
-                $destination = $basePath . $file['file_0_']['name'];
-                exec("rm -f '{$destination}'");
-                if (!rename($file['file_0_']['tmp_name'], $destination)) {
-                    throw new \Siberian\Exception(
-                        '#565-01: ' .
-                        __("An error occurred while saving your APK. Please try again later."));
-                }
+                $destinationApk = '';
+                $destinationAab = '';
 
-                if (isset($file['file_1_'])) {
-                    // We have a new keystore
-                    $destinationKeystore = Core_Model_Directory::getBasePathTo(
-                        '/var/apps/android/keystore/' . $appId . '.pks');
+                foreach ($files as $file) {
+                    $name = $file['name'];
+                    $tmpName = $file['tmp_name'];
+                    $ext = pathinfo($file['name'], PATHINFO_EXTENSION);
+                    switch ($ext) {
+                        case 'apk':
+                            $destinationApk = $basePath . $name;
+                            exec("rm -f '{$destinationApk}'");
+                            if (!rename($tmpName, $destinationApk)) {
+                                throw new \Siberian\Exception(
+                                    '#565-01: ' .
+                                    __("An error occurred while saving your APK. Please try again later."));
+                            }
+                            break;
+                        case 'aab':
+                            $destinationAab = $basePath . $name;
+                            exec("rm -f '{$destinationAab}'");
+                            if (!rename($tmpName, $destinationAab)) {
+                                throw new \Siberian\Exception(
+                                    '#565-01-1: ' .
+                                    __("An error occurred while saving your AAB. Please try again later."));
+                            }
+                            break;
+                        case 'pks':
+                            // We have a new keystore
+                            $destinationKeystore = path('/var/apps/android/keystore/' . $appId . '.pks');
 
-                    // If there is already a pks, we will rename/backup it!
-                    if (is_file($destinationKeystore)) {
-                        rename($destinationKeystore, str_replace(
-                            '.pks',
-                            '-backup-' . date('Y-m-d_H-i-s') .  '.pks',
-                            $destinationKeystore));
-                    }
+                            // If there is already a pks, we will rename/backup it!
+                            if (is_file($destinationKeystore)) {
+                                rename($destinationKeystore, str_replace(
+                                    '.pks',
+                                    '-backup-' . date('Y-m-d_H-i-s') .  '.pks',
+                                    $destinationKeystore));
+                            }
 
-                    if (!rename($file['file_1_']['tmp_name'], $destinationKeystore)) {
-                        throw new \Siberian\Exception(
-                            '#565-05: ' .
-                            __("An error occurred while saving your Keystore. Please try again later."));
+                            if (!rename($tmpName, $destinationKeystore)) {
+                                throw new \Siberian\Exception(
+                                    '#565-05: ' .
+                                    __("An error occurred while saving your Keystore. Please try again later."));
+                            }
+                            break;
                     }
                 }
 
                 $serviceQueue = Application_Model_SourceQueue::getApkServiceQueue($appId);
                 $serviceQueue
-                    ->setApkPath($destination)
+                    ->setApkPath($destinationApk)
+                    ->setAabPath($destinationAab)
                     ->setStatus('success')
                     ->setApkStatus('success')
+                    ->setApkMessage('')
                     ->save();
 
                 $this->apkServiceEmail($serviceQueue);
