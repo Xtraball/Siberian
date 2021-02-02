@@ -24,7 +24,7 @@ class Application_Form_Admob extends Siberian_Form_Abstract
         self::addClass('create', $this);
 
         $htmlAdmobAppId = '
-<div class="col-md-12"><div class="alert alert-warning">' . p__('application', 'Latest store updates require you to register and AdMob app, and set the ID below.') . '</div></div>';
+<div class="col-md-12"><div class="alert alert-warning">' . p__('application', 'Latest store updates require you to register an AdMob app, and set the ID below.') . '</div></div>';
         $this->addSimpleHtml(
             'html_admob_app_id',
             $htmlAdmobAppId);
