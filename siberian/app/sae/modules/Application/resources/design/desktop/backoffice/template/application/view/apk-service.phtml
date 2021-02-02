@@ -13,15 +13,19 @@
                                     <br/>
                                     <b><?php echo __('Message'); ?></b>: {{ application.apk_service.message }}
                                 </span>
-                            <span ng-if="application.apk_service.path">
-                                    <br/>
-                                    <a href="{{ application.apk_service.path }}"
-                                       target="_self"><?php echo __('Download APK'); ?> {{ application.apk_service.date }}</a>
-                                <br/>
-                                    <a href="{{ application.apk_service.aab_path }}"
-                                       target="_self"><?php echo __('Download AAB'); ?> {{ application.apk_service.date }}</a>
-                                </span>
                         </div>
+                        <a class="btn btn-success"
+                           href="{{ application.apk_service.path }}"
+                           target="_self"
+                           ng-if="application.apk_service.path">
+                            <?php echo __('Download APK'); ?> - {{ application.apk_service.date }}
+                        </a>
+                        <a class="btn btn-success"
+                           href="{{ application.apk_service.aab_path }}"
+                           target="_self"
+                           ng-if="application.apk_service.aab_path">
+                            <?php echo __('Download Android App Bundle (.aab)'); ?> - {{ application.apk_service.date }}
+                        </a>
                     </div>
                 </div>
 

@@ -232,7 +232,7 @@ class Application_Backoffice_IosautopublishController extends Backoffice_Control
                             exec("rm -f '{$destinationAab}'");
                             if (!rename($tmpName, $destinationAab)) {
                                 throw new \Siberian\Exception(
-                                    '#565-01: ' .
+                                    '#565-01-1: ' .
                                     __("An error occurred while saving your AAB. Please try again later."));
                             }
                             break;
