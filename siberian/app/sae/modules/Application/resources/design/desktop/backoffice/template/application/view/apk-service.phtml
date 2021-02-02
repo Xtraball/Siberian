@@ -10,13 +10,16 @@
                         <div class="alert alert-info">
                             <b><?php echo __('Status'); ?></b>: {{ application.apk_service.status }}
                             <span ng-if="application.apk_service.message">
-                                    <br />
+                                    <br/>
                                     <b><?php echo __('Message'); ?></b>: {{ application.apk_service.message }}
                                 </span>
                             <span ng-if="application.apk_service.path">
-                                    <br />
+                                    <br/>
                                     <a href="{{ application.apk_service.path }}"
                                        target="_self"><?php echo __('Download APK'); ?> {{ application.apk_service.date }}</a>
+                                <br/>
+                                    <a href="{{ application.apk_service.aab_path }}"
+                                       target="_self"><?php echo __('Download AAB'); ?> {{ application.apk_service.date }}</a>
                                 </span>
                         </div>
                     </div>
@@ -24,7 +27,7 @@
 
                 <button type="submit"
                         class="btn btn-primary left">
-                    <i class="fa fa-send"></i> <?php echo __('Request APK generation'); ?>
+                    <i class="fa fa-send"></i> <?php echo __('Request APK & AAB generation'); ?>
                 </button>
                 <sb-loader is_visible="refreshPublishApk"
                            type="'inner_content'"

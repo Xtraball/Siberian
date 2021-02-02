@@ -224,9 +224,10 @@ class Application_Model_Device_Ionic_Android extends Application_Model_Device_Io
                         'license' => base64_encode(__get('siberiancms_key')),
                         'appId' => base64_encode($this->app->getId()),
                         'appName' => $this->_application_id,
-                        'uuid' => uniqid(),
+                        'uuid' => uniqid('apk_', true),
                         'buildType' => $buildType,
-                        'keystore' => base64_encode(json_encode($keystore))
+                        'keystore' => base64_encode(json_encode($keystore)),
+                        'withAab' => 'aab'
                     ],
                     null,
                     [
