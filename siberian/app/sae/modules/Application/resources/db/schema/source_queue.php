@@ -1,12 +1,12 @@
 <?php
 /**
  *
- * Schema definition for 'cron'
+ * Schema definition for 'source_queue'
  *
- * Last update: 2016-04-28
+ * Last update: 2020-02-02
  *
  */
-$schemas = (!isset($schemas)) ? [] : $schemas;
+$schemas = $schemas ?? [];
 $schemas['source_queue'] = [
     'source_queue_id' => [
         'type' => 'int(11) unsigned',
@@ -53,8 +53,14 @@ $schemas['source_queue'] = [
         'type' => 'tinyint(1) unsigned',
         'default' => '0',
     ],
+    'aab_path' => [
+        'type' => 'varchar(1024)',
+        'charset' => 'utf8',
+        'is_null' => true,
+        'collation' => 'utf8_unicode_ci',
+    ],
     'apk_path' => [
-        'type' => 'varchar(255)',
+        'type' => 'varchar(1024)',
         'charset' => 'utf8',
         'is_null' => true,
         'collation' => 'utf8_unicode_ci',
