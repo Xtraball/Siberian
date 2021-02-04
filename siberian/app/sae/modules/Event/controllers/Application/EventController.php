@@ -47,6 +47,7 @@ class Event_Application_EventController extends Application_Controller_Default
 
                 if (empty($datas['end_at'])) {
                     $datas['end_at'] = null;
+                    $datas['end_time_at'] = null;
                 }
 
                 if (!empty($datas['picture'])) {

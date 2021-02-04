@@ -62,8 +62,8 @@ class Event_Mobile_ListController extends Application_Controller_Mobile_Default 
                     $weekDayName = datetime_to_format($event->getStartAt(), Zend_Date::WEEKDAY_NAME);
 
                     $endTimeShort = null;
-                    if (!empty($event->getEndAt())) {
-                        $endTimeShort = datetime_to_format($event->getEndAt(), Zend_Date::TIME_SHORT);
+                    if (!empty($event->getEndAt()) && !empty($event->getEndTimeAt())) {
+                        $endTimeShort = $event->getEndTimeAt();
                     }
 
                     // Geo
