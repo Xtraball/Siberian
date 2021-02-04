@@ -130,6 +130,55 @@ class Event_Application_EventController extends Application_Controller_Default
 
     }
 
+    public function duplicateAction()
+    {
+        try {
+            $request = $this->getRequest();
+            $application = $this->getApplication();
+            $data = $request->getParams();
+
+            if (!isset($data['eventId']) || empty($data['eventId'])) {
+                throw new Exception(p__('event', 'Missing event id for duplication!'));
+            }
+
+            $event = (new Event_Model_Event_Custom())->find($data['eventId']);
+            if (!$event || !$event->getId()) {
+                throw new Exception(p__('event', "This event doesn't exists!"));
+            }
+
+            $agenda = (new Event_Model_Event())->find($event->getAgendaId());
+            if (!$agenda || !$agenda->getId()) {
+                throw new Exception(p__('event', "This calendar doesn't exists!"));
+            }
+
+            if (!$application->valueIdBelongsTo($agenda->getValueId())) {
+                throw new Exception(p__('event', "You do not own this calendar!"));
+            }
+
+            // Ok passed all checks!
+            $copyEvent = $event->getData();
+            $newEvent = new Event_Model_Event_Custom();
+
+            unset($copyEvent['id']);
+            unset($copyEvent['event_id']);
+            $copyEvent['name'] = p__('event', 'Copy') . ' - ' . $copyEvent['name'];
+
+            $newEvent->setData($copyEvent);
+            $newEvent->save();
+
+            $payload = [
+                'success' => true,
+                'message' => p__('event', 'Event is duplicated'),
+            ];
+        } catch (\Exception $e) {
+            $payload = [
+                'error' => true,
+                'message' => $e->getMessage(),
+            ];
+        }
+        $this->_sendJson($payload);
+    }
+
     public function formAction()
     {
 
