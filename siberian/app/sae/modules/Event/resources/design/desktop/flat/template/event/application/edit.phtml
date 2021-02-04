@@ -14,7 +14,7 @@ $event_type_list = [
     <div class="form_content">
         <div id="list">
             <h3 class="title-editor no-border-radius title-feature-indent">
-                <?php echo $this->_(('Add content')) ?>
+                <?php echo __('Add content') ?>
                 <button type="button"
                         onclick="$('#new_event').hide(); $('#new_events_gallery').fadeIn(); $('#no_item').hide();"
                         class="btn color-blue toggle_design pull-right bt-header-right btn" id="add_item">
@@ -30,7 +30,7 @@ $event_type_list = [
                         <div>
                             <li class="color-blue list-group-item btn editCurrentEvent">
                                 <i class="fa fa-apple" title="iCal" alt="iCal"></i>
-                                <p><?php echo $this->_('iCal') ?></p>
+                                <p><?php echo __('iCal') ?></p>
                                 <input type="hidden" name="option_value_id"
                                        value="<?php echo $option_value->getId(); ?>"/>
                                 <input type="hidden" name="event_type" value="ical"/>
@@ -41,7 +41,7 @@ $event_type_list = [
                         <div>
                             <li class="color-blue list-group-item btn editCurrentEvent">
                                 <i class="fa fa-calendar" title="Cstm" alt="Cstm"></i>
-                                <p><?php echo $this->_('Custom Page') ?></p>
+                                <p><?php echo __('Custom Page') ?></p>
                                 <input type="hidden" name="option_value_id"
                                        value="<?php echo $option_value->getId(); ?>"/>
                                 <input type="hidden" name="event_type" value="cstm"/>
@@ -58,7 +58,7 @@ $event_type_list = [
             <?php if ($events->count() > 0) : ?>
                 <div id="existing_items_section">
                     <h3 class="title-editor no-border-radius title-feature-indent">
-                        <?php echo $this->_(('Manage content')); ?>
+                        <?php echo __(('Manage content')); ?>
                         <button type="button" class="color-blue pull-right bt-header-right btn"
                                 id="toggle_existing_items">
                             <i class="fa fa-angle-down"></i>
@@ -74,7 +74,7 @@ $event_type_list = [
                                             <?php echo $event->getName(); ?>
                                         </div>
                                         <div class="col-sm-4 bold">
-                                            <?php echo $this->_($event_type_list[$event->getEventType()]); ?>
+                                            <?php echo __($event_type_list[$event->getEventType()]); ?>
                                         </div>
                                         <div class="col-sm-2 text-right bold actions">
                                             <i class="editCurrentEvent fa fa-pencil"></i>
@@ -113,7 +113,7 @@ $event_type_list = [
         <i class="icon-caret-up"></i>
 
         <h4 class="no-border-radius">
-            <span class="inner_content"><?php echo $this->_('Send your pictures') ?></span>
+            <span class="inner_content"><?php echo __('Send your pictures') ?></span>
             <span class="inner_content right">
             <a id="close_panel" class="pull-right btn color-blue" href="javascript:void(0);">
                 <i class="fa fa-times"></i>
@@ -123,11 +123,11 @@ $event_type_list = [
 
         <!--[if gte IE 10]><!-->
         <button type="button" id="trigger_upload_image"
-                class="btn reverse btn-block color-blue"><?php echo $this->_('Browse') ?></button>
+                class="btn reverse btn-block color-blue"><?php echo __('Browse') ?></button>
         <!--<![endif]-->
         <input id="upload_image" style="display:none;" multiple type="file" name="files[]"
                data-url="<?php echo $this->getUrl('template/crop/upload'); ?>"/>
-        <p class="conditions"><?php echo $this->_('Max size: 2000x2000px - allowed formats: jpg & png') ?></p>
+        <p class="conditions"><?php echo __('Max size: 2000x2000px - allowed formats: jpg & png') ?></p>
         <div id="list_images">
             <?php foreach ($events as $event) : ?>
                 <ul style="display:none" id="list_<?php echo $event->getId(); ?>" class="list-group">
@@ -141,7 +141,7 @@ $event_type_list = [
                                          src="<?php echo Application_Model_Application::getImagePath() . $p->getData('url') ?>"/>
                                 </div>
                                 <div class="pull-left">
-                                    <label><?php echo $this->_('Title:') ?></label>
+                                    <label><?php echo __('Title:') ?></label>
                                     <input type="text"
                                            id="image_<?php echo $event->getId(); ?>_<?php echo $p->getId(); ?>_title"
                                            name="images[list_<?php echo $event->getId(); ?>][<?php echo $p->getId(); ?>][title]"
@@ -149,7 +149,7 @@ $event_type_list = [
                                            onkeyup="$('#'+$(this).attr('id')+'_receiver').val($(this).val());"/>
                                 </div>
                                 <div class="pull-left">
-                                    <label><?php echo $this->_('Description:') ?></label>
+                                    <label><?php echo __('Description:') ?></label>
                                     <input type="text"
                                            id="image_<?php echo $event->getId(); ?>_<?php echo $p->getId(); ?>_description"
                                            name="images[list_<?php echo $event->getId(); ?>][<?php echo $p->getId(); ?>][description]"
@@ -253,7 +253,7 @@ $event_type_list = [
             });
 
             $('.delete_event').click(function () {
-                if (confirm('<?php echo $this->_('Delete this calendar?') ?>')) {
+                if (confirm('<?php echo __('Delete this calendar?') ?>')) {
                     var td = $(this.parentNode);
                     var tr = $(this.parentNode.parentNode);
                     reload(tr, '<?php echo $this->getUrl('event/application/delete'); ?>', true, function (datas) {
@@ -271,8 +271,7 @@ $event_type_list = [
                     if ($(this).is(':visible')) {
                         $('#toggle_existing_items').children('i').removeClass('fa-angle-down').addClass('fa-angle-up');
                         $('#toggle_existing_items').removeClass('color-blue');
-                    }
-                    else {
+                    } else {
                         $('#toggle_existing_items').children('i').removeClass('fa-angle-up').addClass('fa-angle-down');
                         $('#toggle_existing_items').addClass('color-blue');
                     }
