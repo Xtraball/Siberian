@@ -79,7 +79,8 @@ class Contact_Model_Contact extends Core_Model_Default
                     "form_url" => __path("contact/mobile_form/index", ["value_id" => $option_value->getId()]),
                     "website_url" => $this->getWebsite(),
                     "facebook_url" => $this->getFacebook(),
-                    "twitter_url" => $this->getTwitter()
+                    "twitter_url" => $this->getTwitter(),
+                    "display_locate_action" => (boolean) $this->getDisplayLocateAction()
                 ],
                 "card_design" => (boolean) ($this->getDesign() === "card"),
                 "page_title" => $option_value->getTabbarName()
