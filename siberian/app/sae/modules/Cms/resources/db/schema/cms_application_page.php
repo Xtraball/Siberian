@@ -59,6 +59,10 @@ $schemas['cms_application_page'] = [
         'charset' => 'utf8',
         'collation' => 'utf8_unicode_ci',
     ],
+    'hide_pin' => [
+        'type' => 'tinyint(1) unsigned',
+        'default' => '0',
+    ],
     'map_icon' => [
         'type' => 'varchar(32)',
         'is_null' => true,
