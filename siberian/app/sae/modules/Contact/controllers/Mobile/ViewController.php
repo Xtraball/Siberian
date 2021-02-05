@@ -52,7 +52,8 @@ class Contact_Mobile_ViewController extends Application_Controller_Mobile_Defaul
             "form_url" => $this->getPath("contact/mobile_form/index", ['value_id' => $option->getId()]),
             "website_url" => $contact->getWebsite(),
             "facebook_url" => $contact->getFacebook(),
-            "twitter_url" => $contact->getTwitter()
+            "twitter_url" => $contact->getTwitter(),
+            "display_locate_action" => (boolean) $contact->getDisplayLocateButton()
         ];
 
         if ($contact->getLatitude() && $contact->getLongitude()) {
