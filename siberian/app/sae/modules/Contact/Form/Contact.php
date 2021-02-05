@@ -41,6 +41,9 @@ class Contact_Form_Contact extends Siberian_Form_Abstract
         $address
             ->setRequired(true);
 
+        $displayLocateButton = $this->addSimpleCheckbox('display_locate_action',
+            p__('contact', 'Display locate button'));
+
         $description = $this->addSimpleTextarea("description", p__("contact","Description"));
         $description
             ->setRequired(true)

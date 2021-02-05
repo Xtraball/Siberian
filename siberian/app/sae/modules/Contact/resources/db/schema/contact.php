@@ -129,6 +129,10 @@ $schemas['contact'] = [
         'charset' => 'utf8',
         'collation' => 'utf8_unicode_ci',
     ],
+    'display_locate_action' => [
+        'type' => 'tinyint(1)',
+        'default' => '1',
+    ],
     'version' => [
         'type' => 'tinyint(1)',
         'default' => "1",
