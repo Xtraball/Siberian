@@ -23,6 +23,10 @@ class Places_Model_Db_Table_Place extends Core_Model_Db_Table
      */
     public function findAllWithFilters($valueId, $values, $params = [])
     {
+        // Map options!
+        $isMaps = $params['_isMaps'];
+        unset($params['_isMaps']);
+
         $formula = new Zend_Db_Expr("0");
         $sortingType = $params["sortingType"];
 
@@ -84,6 +88,11 @@ class Places_Model_Db_Table_Place extends Core_Model_Db_Table
                 }
 
             }
+        }
+
+        // Hide pins
+        if ($isMaps) {
+            $select->where("page.hide_pin = ?", 0);
         }
 
         switch ($sortingType) {
