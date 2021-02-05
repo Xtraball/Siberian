@@ -77,8 +77,12 @@ $event_type_list = [
                                             <?php echo __($event_type_list[$event->getEventType()]); ?>
                                         </div>
                                         <div class="col-sm-2 text-right bold actions">
-                                            <i class="editCurrentEvent fa fa-pencil"></i>
-                                            <i class="delete_event fa fa-remove"></i>
+                                            <a class="editCurrentEvent btn btn-xs color-blue">
+                                                <?php echo p__('event', 'edit') ?>
+                                            </a>
+                                            <a class="delete_event btn btn-xs btn-danger">
+                                                <?php echo p__('event', 'delete') ?>
+                                            </a>
                                             <input type="hidden" name="id" value="<?php echo $event->getId(); ?>"/>
                                             <input type="hidden" name="name" value="<?php echo $event->getName(); ?>"/>
                                             <input type="hidden" name="option_value_id"
@@ -206,6 +210,10 @@ $event_type_list = [
 
         #choose_type ul {
             padding-left: 20%;
+        }
+
+        .actions {
+            text-transform: uppercase;
         }
 
         #choose_type li {

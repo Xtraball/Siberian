@@ -66,26 +66,27 @@
                             <?php foreach ($this->getEvents() as $event): ?>
                                 <li class="list-group-item">
                                     <div id="custom_line_<?php echo $event->getId() ?>" class="event_rows row">
-                                        <div class="col-sm-5 events_name">
+                                        <div class="col-sm-4 events_name">
                                             <label><?php echo Core_Model_Lib_String::truncate($event->getName(), 35) ?></label>
                                         </div>
-                                        <div class="col-sm-5 start_at">
+                                        <div class="col-sm-3 start_at">
                                             <?php echo datetime_to_format($event->getStartAt(), Zend_Date::DATETIME_SHORT, Core_Model_Language::getCurrentLanguage()); ?>
                                         </div>
-                                        <div class="col-sm-2 actions">
-                                            <a class="copy_event"
+                                        <div class="col-sm-5 actions">
+                                            <a class="copy_event btn btn-xs btn-info"
                                                rel="<?php echo $event->getId() ?>"
                                                href="javascript:void(0);">
-                                                <i class="fa fa-copy"></i>
+                                                <?php echo p__('event', 'duplicate') ?>
                                             </a>
-                                            <a class="edit_event"
+                                            <a class="edit_event btn btn-xs color-blue"
                                                href="<?php echo $this->getUrl('event/application_event/form', array('agenda_id' => $agenda->getId(), 'event_id' => $event->getId(), 'option_value_id' => $option_value->getId())); ?>?ajax=true">
-                                                <i class="fa fa-pencil"></i>
+                                                <?php echo p__('event', 'edit') ?>
                                             </a>
-                                            <a href="javascript:void(0);"
+                                            <a class="btn btn-xs btn-danger"
+                                               href="javascript:void(0);"
                                                id="custom_<?php echo $event->getId() ?>"
                                                onclick="custom.remove(<?php echo $event->getId() ?>)">
-                                                <i class="fa fa-times"></i>
+                                                <?php echo p__('event', 'delete') ?>
                                                 <input type="hidden"
                                                        name="option_value_id"
                                                        value="<?php echo $option_value->getId(); ?>"/>
@@ -271,6 +272,7 @@
 
     .actions {
         text-align: right;
+        text-transform: uppercase;
     }
 
     form#customEventForm {
