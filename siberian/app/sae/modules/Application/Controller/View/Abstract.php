@@ -986,18 +986,19 @@ dbg($values);
 
                     $file = $adapter->getFileInfo();
                     $file_path = $file['file']['tmp_name'];
+                    $timestamp= (new DateTime())->getTimestamp();
                     $file_ext = pathinfo($file_path, PATHINFO_EXTENSION);
                     if ($file_ext !== 'zip') {
                         throw new Exception(__("File format is not allowed"));
                     }
 
-                    exec("unzip -o $file_path -d $tmp_path/$app_id-import" , $output, $return);
-                    $file_list = scandir("$tmp_path/$app_id-import");
+                    exec("unzip -o $file_path -d $tmp_path/$app_id-$timestamp-import" , $output, $return);
+                    $file_list = scandir("$tmp_path/$app_id-$timestamp-import");
 
                     if (!in_array('passwords.txt', $file_list) ) {
                         throw new Exception(__("file passwords.txt is missing"));
                     }
-                    $passwords_raw =file ("$tmp_path/$app_id-import/passwords.txt");
+                    $passwords_raw =file ("$tmp_path/$app_id-$timestamp-import/passwords.txt");
 
                     #get info from password file
                     foreach ($passwords_raw as $line){
@@ -1030,7 +1031,7 @@ dbg($values);
                     # creating zip file of previous passwords and keystore
                     $passwords_to_file = "key_pass:".$current_passwords["key_pass"]."\nstore_pass:".$current_passwords["store_pass"]."\nalias:".$current_passwords["alias"];
                     file_put_contents("$base_path/$app_id-passwords.txt", $passwords_to_file);
-                    $timestamp= (new DateTime())->getTimestamp();
+
                     $command = "cd $base_path &&zip $app_id-$timestamp-keystore.zip $app_id-passwords.txt bck_import_$app_id.pks";
 
                     exec($command, $output, $return);
@@ -1042,7 +1043,7 @@ dbg($values);
                     #importing new keystore from .pfx
                     if (in_array('cert.pfx', $file_list, true)){
                        $trick = escapeshellarg("$store_pass".'\n'."$store_pass".'\n'."$store_pass");
-                       $command = "printf $trick | keytool -importkeystore -srckeystore $tmp_path/$app_id-import/cert.pfx -srcstoretype pkcs12 -destkeystore $base_path/$app_id.pks -deststoretype JKS > $base_path/$app_id-import.log 2>&1";
+                       $command = "printf $trick | keytool -importkeystore -srckeystore $tmp_path/$app_id-$timestamp-import/cert.pfx -srcstoretype pkcs12 -destkeystore $base_path/$app_id.pks -deststoretype JKS > $base_path/$app_id-import.log 2>&1";
 
                        exec($command, $output, $return);
                        if ($return !==0){
@@ -1053,7 +1054,7 @@ dbg($values);
                     }
                     #importing new keystore from .pks
                     if (in_array('keystore.pks', $file_list, true) ){
-                        $command = "cp -p $tmp_path/$app_id-import/keystore.pks $base_path/$app_id.pks > $base_path/$app_id-import.log 2>&1";
+                        $command = "cp -p $tmp_path/$app_id-$timestamp-import/keystore.pks $base_path/$app_id.pks > $base_path/$app_id-import.log 2>&1";
                         exec($command, $output, $return);
                         if ($return !==0){
                             $error = file_get_contents("$base_path/$app_id-import.log");
@@ -1063,7 +1064,7 @@ dbg($values);
                     }
                     #importing new keystore from .jks
                     if (in_array('keystore.jks', $file_list, true) ){
-                        $command = "cp -p $tmp_path/$app_id-import/keystore.jks $base_path/$app_id.pks > $base_path/$app_id-import.log 2>&1";
+                        $command = "cp -p $tmp_path/$app_id-$timestamp-import/keystore.jks $base_path/$app_id.pks > $base_path/$app_id-import.log 2>&1";
                         exec($command, $output, $return);
                         if ($return !==0){
                             $error = file_get_contents("$base_path/$app_id-import.log");
@@ -1072,6 +1073,9 @@ dbg($values);
 
                     }
 
+
+
+
                     # Save new password in database
 
                     $device = $application->getDevice(2);
@@ -1079,12 +1083,12 @@ dbg($values);
                     $device->setKeyPass($key_pass);
                     $device->setStorePass($store_pass);
                     $device->save();
-                    print_r($device);die;
+
 
                     # return
                     $data = [
                         "success" => 1,
-                        "device" => $current_passwords,
+                        "device" => 'info'.$current_passwords,
                         "message" => __("The file has been successfully uploaded")
                     ];
 
