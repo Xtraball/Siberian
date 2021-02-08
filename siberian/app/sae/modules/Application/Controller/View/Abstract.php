@@ -411,12 +411,14 @@ abstract class Application_Controller_View_Abstract extends Backoffice_Controlle
     }
 
 
+
     public function savedeviceAction()
     {
+
         try {
             $request = $this->getRequest();
             $values = $request->getBodyParams();
-
+dbg($values);
             if (empty($values['app_id']) || !is_array($values['devices']) || empty($values['devices'])) {
                 throw new Exception('#783-01: ' . __('An error occurred while saving. Please try again later.'));
             }
@@ -487,6 +489,7 @@ abstract class Application_Controller_View_Abstract extends Backoffice_Controlle
 
         $this->_sendJson($payload);
     }
+
 
     public function saveadvertisingAction()
     {
@@ -925,6 +928,148 @@ abstract class Application_Controller_View_Abstract extends Backoffice_Controlle
                     $data = [
                         "success" => 1,
                         "pem_infos" => Push_Model_Certificate::getInfos($app_id),
+                        "message" => __("The file has been successfully uploaded")
+                    ];
+
+                } else {
+                    $messages = $adapter->getMessages();
+                    if (!empty($messages)) {
+                        $message = implode("\n", $messages);
+                    } else {
+                        $message = __("An error occurred during the process. Please try again later.");
+                    }
+
+                    throw new Exception($message);
+                }
+            } catch (Exception $e) {
+                $data = [
+                    "error" => 1,
+                    "message" => $e->getMessage()
+                ];
+            }
+
+            $this->_sendHtml($data);
+
+        }
+
+    }
+    public function uploadkeystoreAction()
+    {
+
+        if ($app_id = $this->getRequest()->getParam('app_id')) {
+
+            try {
+
+                if (empty($_FILES) || empty($_FILES['file']['name'])) {
+                    throw new Exception('No file has been sent');
+                }
+
+                if (\Siberian\Version::is('SAE')) {
+                    $application = Application_Model_Application::getInstance();
+                    $app_id = $application->getId();
+                } else {
+                    $application = (new Application_Model_Application())->find($app_id);
+                    if (!$application ||
+                        !$application->getId()) {
+                        throw new Exception(__('An error occurred while saving. Please try again later.'));
+                    }
+                }
+
+                $base_path = Core_Model_Directory::getBasePathTo("var/apps/android/keystore");
+                $tmp_path= tmp(true);
+                if (!is_dir($base_path)) mkdir($base_path, 0775, true);
+                $path = Core_Model_Directory::getPathTo("var/apps/android/keystore");
+                $adapter = new Zend_File_Transfer_Adapter_Http();
+                $adapter->setDestination(Core_Model_Directory::getTmpDirectory(true));
+
+                if ($adapter->receive()) {
+
+                    $file = $adapter->getFileInfo();
+                    $file_path = $file['file']['tmp_name'];
+                    $file_ext = pathinfo($file_path, PATHINFO_EXTENSION);
+                    if ($file_ext !== 'zip') {
+                        throw new Exception(__("File format is not allowed"));
+                    }
+
+                    exec("unzip -o $file_path -d $tmp_path/$app_id-import" , $output, $return);
+                    $file_list = scandir("$tmp_path/$app_id-import");
+
+                    if (!in_array('passwords.txt', $file_list) ) {
+                        throw new Exception(__("file passwords.txt is missing"));
+                    }
+                    $passwords_raw =file ("$tmp_path/$app_id-import/passwords.txt");
+                    foreach ($passwords_raw as $line){
+                       $values= explode(':', $line);
+
+                       $passwords[$values[0]]= $values[1];
+
+                    }
+                    $store_pass = trim($passwords['store_pass']);
+                    if (!in_array('cert.pfx', $file_list, true) && !in_array('keystore.pks', $file_list, true)) {
+                        throw new Exception(__("file cert.pfx or keystore.pks is missing"));
+                    }
+                    # backup current keystore pass and alias
+                    if (file_exists("$base_path/$app_id.pks")){
+                        $command ="mv $base_path/$app_id.pks  $base_path/bck_import_$app_id.pks";
+                        exec($command, $output_mv, $return_mv);
+                        if (!is_file("$base_path/bck_import_$app_id.pks")) {
+                            throw new Exception(__("Error when creating a backup of the current keystore file "));
+                        }
+                    }
+                    $current_passwords = (new Application_Model_Device())->find([
+                        'app_id' => $app_id,
+                        'type_id' => 2
+                    ])->getData();
+
+                    # creating zip file of previous passwords and keystore
+                    $passwords_to_file = "key_pass:".$current_passwords["key_pass"]."\nstore_pass:".$current_passwords["store_pass"]."\nalias:".$current_passwords["alias"];
+                    file_put_contents("$base_path/$app_id-passwords.txt", $passwords_to_file);
+                    $timestamp= (new DateTime())->getTimestamp();
+                    $command = "cd $base_path &&zip $app_id-$timestamp-keystore.zip $app_id-passwords.txt bck_import_$app_id.pks";
+                    print_r($command);
+                    exec($command, $output, $return);
+                    if ($return !== 0) {
+                        throw new Exception(__("Error when archiving previous keystore and passwords"));
+                    }
+
+
+                    #importing new keystore from .pfx
+                    if (in_array('cert.pfx', $file_list, true)){
+                       $trick = escapeshellarg("$store_pass".'\n'."$store_pass".'\n'."$store_pass");
+                       $command = "printf $trick | keytool -importkeystore -srckeystore $tmp_path/$app_id-import/cert.pfx -srcstoretype pkcs12 -destkeystore $base_path/$app_id.pks -deststoretype JKS > $base_path/$app_id-import.log 2>&1";
+                       print_r($command);
+                       exec($command, $output, $return);
+                       if ($return !==0){
+                           $error = file_get_contents("$base_path/$app_id-import.log");
+                           throw new Exception(__("Error while converting to keystore file: ".($error)));
+                       }
+
+                    }
+                    #importing new keystore from .pks
+                    if (in_array('keystore.pks', $file_list, true) ){
+                        $command = "cp -p $tmp_path/$app_id-import/keystore.pks $base_path/$app_id.pks > $base_path/$app_id-import.log 2>&1";
+                        exec($command, $output, $return);
+                        if ($return !==0){
+                            $error = file_get_contents("$base_path/$app_id-import.log");
+                            throw new Exception(__("Error while copying keystore file: ".($error)));
+                        }
+
+                    }
+                    #importing new keystore from .jks
+                    if (in_array('keystore.jks', $file_list, true) ){
+                        $command = "cp -p $tmp_path/$app_id-import/keystore.jks $base_path/$app_id.pks > $base_path/$app_id-import.log 2>&1";
+                        exec($command, $output, $return);
+                        if ($return !==0){
+                            $error = file_get_contents("$base_path/$app_id-import.log");
+                            throw new Exception(__("Error while copying keystore file: ".($error)));
+                        }
+
+                    }
+
+
+                    $data = [
+                        "success" => 1,
+                        "device" => $current_passwords,
                         "message" => __("The file has been successfully uploaded")
                     ];
 

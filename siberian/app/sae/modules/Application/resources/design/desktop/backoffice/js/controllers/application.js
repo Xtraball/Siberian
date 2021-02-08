@@ -456,6 +456,7 @@ App.config(function($routeProvider) {
 
     };
 
+
     $scope.saveDeviceInfo = function(confirm) {
 
         $scope.device_form_loader_is_visible = true;

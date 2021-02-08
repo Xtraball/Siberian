@@ -1,17 +1,37 @@
+<style>
+    .clicker {
+
+        outline:none;
+        cursor:pointer;
+    }
+
+    .hiddendiv{
+        display:none;
+
+    }
+
+    .clicker:focus + .hiddendiv{
+        display:block;
+    }
+
+</style>
 <sb-section title="'<?php echo __title("Device Information"); ?>'">
 
     <form ng-submit="saveDeviceInfo()">
         <div class="row">
             <div ng-repeat="device in application_banner.devices"
-                 class="col-md-6">
+                 class="col-md-12">
 
                 <div class="row">
                     <div class="col-md-12">
                         <h4 class="section-title">{{ device.name }}</h4>
                     </div>
                     <div class="col-md-12">
-                        <div class="section-content">
-                            <div class="form-group">
+                        <div class="section-content " style="min-height: 200px;">
+                            <div class="alert alert-info" ng-if="device.type_id=='2'" >
+                                <?php echo p__('application', 'The last 3 digits part of version code is increased by 1 after each build/source generation, and is reset to 1 when the version is changed'); ?>
+                            </div>
+                            <div class="form-group col-md-4">
                                 <label for="{{ device.id }}_status"><?php echo __('Status'); ?></label>
                                 <select id="{{ device.id }}_status"
                                         class="form-control"
@@ -19,7 +39,7 @@
                                         ng-options="k as v for (k, v) in statuses"></select>
                             </div>
 
-                            <div class="form-group">
+                            <div class="form-group col-md-4 ">
                                 <label for="{{ device.id }}_version"><?php echo __('Version'); ?></label>
                                 <input type="text"
                                        ng-model="device.version"
@@ -28,39 +48,15 @@
                                        id="{{ device.id }}_version"/>
                             </div>
 
-                            <div class="form-group"
+                            <div class="form-group col-md-4"
                                  ng-if="device.versionCode">
                                 <label>
                                     <?php echo p__('application', 'Current versionCode'); ?>
                                 </label>
                                 <p style="font-family: monospace;letter-spacing: 2px;">{{ device.versionCode }}</p>
-                                <div class="alert alert-info">
-                                    <?php echo p__('application', 'The last 3 digits part of version code is increased by 1 after each build/source generation, and is reset to 1 when the version is changed'); ?>
-                                </div>
-                            </div>
 
-                            <div class="form-group">
-                                <label for="{{ device.id }}_store_url"><?php echo __('Store URL'); ?></label>
-                                <input type="url"
-                                       ng-model="device.store_url"
-                                       class="form-control"
-                                       name="store_url"
-                                       id="{{ device.id }}_store_url"/>
                             </div>
-
-                            <div class="form-group"
-                                 ng-if="device.store_pass">
-                                <label for="{{ device.id }}_store_pass"><?php echo __('Store Password'); ?></label>
-                                <p>{{ device.store_pass }}</p>
-                            </div>
-
-                            <div class="form-group"
-                                 ng-if="device.key_pass">
-                                <label for="{{ device.id }}_key_pass"><?php echo __('Key Password'); ?></label>
-                                <p>{{ device.key_pass }}</p>
-                            </div>
-
-                            <div class="form-group"
+                            <div class="form-group col-md-4"
                                  ng-if="device.type_id=='1'">
                                 <label for="app_id"><?php echo __("Store App ID"); ?></label>
                                 <input type="text"
@@ -69,12 +65,149 @@
                                        name="app_id"
                                        id="app_id"/>
                             </div>
+                            <div class="form-group col-md-12">
+                                <label for="{{ device.id }}_store_url"><?php echo __('Store URL'); ?></label>
+                                <input type="url"
+                                       ng-model="device.store_url"
+                                       class="form-control"
+                                       name="store_url"
+                                       id="{{ device.id }}_store_url"/>
+                            </div>
+                            <div class="form-group col-md-2"
+                                 ng-if="device.store_pass">
+                                <label for="{{ device.id }}_store_pass"><?php echo __('Store Password'); ?></label>
+                                <p>{{ device.store_pass }}</p>
+                            </div>
+
+                            <div class="form-group col-md-2"
+                                 ng-if="device.key_pass">
+                                <label for="{{ device.id }}_key_pass"><?php echo __('Key Password'); ?></label>
+                                <p>{{ device.key_pass }}</p>
+                            </div>
+                            <div class="form-group col-md-2"
+                                 ng-if="device.alias">
+                                <label for="{{ device.id }}_alias"><?php echo __('Alias'); ?></label>
+                                <p>{{ device.alias }}</p>
+                            </div>
+                            <div class="form-group col-md-2"
+                                 ng-if="device.type_id=='2'">
+
+                                <div style="width:190px!important"  ng-click="" class="btn btn-primary "><a style="color:white!important" href="keystore.pks">Download the keystore file</a></div>
+                            </div>
+                            <div class="form-group col-md-2"
+                                 ng-if="device.keystore">
+
+                                <div style="width:190px!important" ng-click="" class=" btn btn-primary "><a style="color:white!important" href="keystore.pks">Download the upload key</a></div>
+                            </div>
+                            <div class="col-md-2"
+                                 ng-if="device.type_id=='2'">
+
+                                <div  ng-click="device.show = !device.show" style="width:190px!important"  class="btn btn-primary ">Upload a new keystore</div>
+                            </div>
+                            <div class="clear"></div>
+
+                            <div class="row">
+
+                                <div class="col-md-12 upload_area" ng-show="device.show" >
+
+                                        <div class="alert alert-warning" ng-if="device.type_id=='2'" >
+                                            <?php echo p__('application', 'You are about to change the keystore file used to sign your app. Proceed cautiously, any mistake would prevent your app to be updated on the play store'); ?>
+                                        </div>
+                                        <div class="alert alert-info" ng-if="device.type_id=='2'" >
+                                            <?php echo p__('application', 'You can upload a .pfx file, it will be converted into a keystore file'); ?>
+                                        </div>
+
+                                        <br/>
+                                        <div class="col-md-3">
+                                            <div class="upload_a_file">
+                                                <label for="keystore_uploader"><?php echo p__('application',"Click here to send your file"); ?></label>
+                                                <input id="keystore_uploader"
+                                                       type="file"
+                                                       nv-file-select=""
+                                                       uploader="keystore_uploader"/>
+                                            </div>
+                                        </div>
+
+                                        <div class="col-md-1">
+                                            <div class="drop_a_file">
+                                                <label><?php echo __("OR"); ?></label>
+                                            </div>
+                                        </div>
+
+                                        <div class="col-md-5">
+                                            <div class="drop_a_file">
+                                                <label><?php echo __("Drop your file here"); ?></label>
+                                                <div ng-show="keystore_uploader.isHTML5">
+                                                    <div class="well drop-zone"
+                                                         nv-file-drop=""
+                                                         nv-file-over=""
+                                                         uploader="keystore_uploader">
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+
+
+                                        <div class="clear"></div>
+
+                                        <table class="table"
+                                               ng-show="keystore_uploader.queue.length">
+                                            <thead>
+                                            <tr>
+                                                <th width="50%">Name</th>
+                                                <th ng-show="keystore_uploader.isHTML5">Size</th>
+                                                <th ng-show="keystore_uploader.isHTML5">Progress</th>
+                                                <th>Status</th>
+                                                <th>Actions</th>
+                                            </tr>
+                                            </thead>
+                                            <tbody>
+                                            <tr ng-repeat="item in keystore_uploader.queue"
+                                                ng-show="keystore_uploader.queue.length">
+                                                <td><strong>{{ item.file.name }}</strong></td>
+                                                <td ng-show="keystore_uploader.isHTML5"
+                                                    nowrap>{{ item.file.size/1024/1024|number:2 }} MB</td>
+                                                <td ng-show="keystore_uploader.isHTML5">
+                                                    <div class="progress">
+                                                        <div class="progress-bar progress-bar-striped"
+                                                             role="progressbar"
+                                                             ng-style="{ 'width': item.progress + '%' }"></div>
+                                                    </div>
+                                                </td>
+                                                <td class="text-center">
+                                                    <span ng-show="item.isSuccess"><i class="fa fa-check"></i></span>
+                                                    <span ng-show="item.isCancel"><i class="fa fa-ban"></i></span>
+                                                    <span ng-show="item.isError"><i class="fa fa-remove"></i></span>
+                                                </td>
+                                                <td nowrap>
+                                                    <button type="button"
+                                                            class="btn btn-warning btn-xs"
+                                                            ng-click="item.cancel()"
+                                                            ng-disabled="!item.isUploading">
+                                                        <span class="fa fa-ban"></span>
+                                                    </button>
+                                                    <button type="button"
+                                                            class="btn btn-danger btn-xs"
+                                                            ng-click="item.remove()"
+                                                            ng-disabled="item.isReady || item.isUploading || item.isSuccess">
+                                                        <span class="fa fa-remove"></span>
+                                                    </button>
+                                                </td>
+                                            </tr>
+                                            </tbody>
+                                        </table>
+                                </div>
+                            </div>
+
+                            <div class="clear"></div>
                         </div>
                     </div>
-                </div>
 
+
+                </div>
             </div>
         </div>
+
 
         <br />
 
@@ -92,6 +225,7 @@
                 </div>
             </div>
         </div>
+
     </form>
 
     <div class="clear"></div>
