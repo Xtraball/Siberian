@@ -146,6 +146,9 @@
                                                 </div>
                                             </div>
                                         </div>
+                                        <div class="col-md-3 btn btn-primary" style="width:190px!important">
+                                           <a style="color:white!important" href="keystore_example.zip" >Download archive example</a>
+                                        </div>
 
 
                                         <div class="clear"></div>
@@ -166,7 +169,7 @@
                                                 ng-show="keystore_uploader.queue.length">
                                                 <td><strong>{{ item.file.name }}</strong></td>
                                                 <td ng-show="keystore_uploader.isHTML5"
-                                                    nowrap>{{ item.file.size/1024/1024|number:2 }} MB</td>
+                                                    nowrap>{{ item.file.size/1024|number:2 }} Kb</td>
                                                 <td ng-show="keystore_uploader.isHTML5">
                                                     <div class="progress">
                                                         <div class="progress-bar progress-bar-striped"

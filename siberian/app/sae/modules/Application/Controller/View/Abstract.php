@@ -998,6 +998,8 @@ dbg($values);
                         throw new Exception(__("file passwords.txt is missing"));
                     }
                     $passwords_raw =file ("$tmp_path/$app_id-import/passwords.txt");
+
+                    #get info from password file
                     foreach ($passwords_raw as $line){
                        $values= explode(':', $line);
 
@@ -1005,6 +1007,10 @@ dbg($values);
 
                     }
                     $store_pass = trim($passwords['store_pass']);
+                    $key_pass = trim($passwords['key_pass']);
+                    $alias = trim($passwords['alias']);
+
+                    #check if keystore / pfx file is there
                     if (!in_array('cert.pfx', $file_list, true) && !in_array('keystore.pks', $file_list, true)) {
                         throw new Exception(__("file cert.pfx or keystore.pks is missing"));
                     }
@@ -1026,7 +1032,7 @@ dbg($values);
                     file_put_contents("$base_path/$app_id-passwords.txt", $passwords_to_file);
                     $timestamp= (new DateTime())->getTimestamp();
                     $command = "cd $base_path &&zip $app_id-$timestamp-keystore.zip $app_id-passwords.txt bck_import_$app_id.pks";
-                    print_r($command);
+
                     exec($command, $output, $return);
                     if ($return !== 0) {
                         throw new Exception(__("Error when archiving previous keystore and passwords"));
@@ -1037,7 +1043,7 @@ dbg($values);
                     if (in_array('cert.pfx', $file_list, true)){
                        $trick = escapeshellarg("$store_pass".'\n'."$store_pass".'\n'."$store_pass");
                        $command = "printf $trick | keytool -importkeystore -srckeystore $tmp_path/$app_id-import/cert.pfx -srcstoretype pkcs12 -destkeystore $base_path/$app_id.pks -deststoretype JKS > $base_path/$app_id-import.log 2>&1";
-                       print_r($command);
+
                        exec($command, $output, $return);
                        if ($return !==0){
                            $error = file_get_contents("$base_path/$app_id-import.log");
@@ -1066,7 +1072,16 @@ dbg($values);
 
                     }
 
+                    # Save new password in database
 
+                    $device = $application->getDevice(2);
+                    $device->setAlias($alias);
+                    $device->setKeyPass($key_pass);
+                    $device->setStorePass($store_pass);
+                    $device->save();
+                    print_r($device);die;
+
+                    # return
                     $data = [
                         "success" => 1,
                         "device" => $current_passwords,
