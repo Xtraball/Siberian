@@ -57,6 +57,10 @@ angular
             }
         });
 
+        $scope.backButtonIcon = function () {
+            return Application.getBackIcon();
+        };
+
         $session
             .getItem('sb-current-language')
             .then(function (value) {

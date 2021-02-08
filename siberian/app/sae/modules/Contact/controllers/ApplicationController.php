@@ -115,6 +115,7 @@ class Contact_ApplicationController extends Application_Controller_Default
                 $cover = Feature::saveImageForOptionDelete($optionValue, $values["cover"]);
 
                 $contact->setCover($cover);
+                $contact->setDisplayLocateAction(filter_var($values['display_locate_action'], FILTER_VALIDATE_BOOLEAN));
                 $contact->setVersion(2);
                 $contact->save();
 

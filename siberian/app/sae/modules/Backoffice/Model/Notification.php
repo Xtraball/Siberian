@@ -167,7 +167,7 @@ class Backoffice_Model_Notification extends Core_Model_Default {
         $type = (Siberian_Version::is("PE")) ? "platform" : "multiapps";
 
         $last_id = $this->findLastId();
-        $url = 'http://www.tigerappcreator.com/en/front/notification/list/type/'.$type.'/last_id/'.$last_id;
+        $url = 'https://www.tigerappcreator.com/en/front/notification/list/type/'.$type.'/last_id/'.$last_id;
         try {
             if($datas = file_get_contents($url)) {
                 $datas = Zend_Json::decode($datas);
@@ -181,7 +181,7 @@ class Backoffice_Model_Notification extends Core_Model_Default {
                     }
                 }
             }
-        } catch(Exception $e) {
+        } catch(\Exception $e) {
 
         }
     }

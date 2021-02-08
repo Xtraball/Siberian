@@ -32,11 +32,10 @@ $allIcons = $library->getAllFeatureIcons();
 $layout_id = $application->getLayoutId();
 $layout_model = new Application_Model_Layout_Homepage();
 $layout = $layout_model->find($layout_id);
-$use_subtitle = ($layout->getUseSubtitle());
 
 # Exporter
 $can_export = Siberian_Exporter::isRegistered($option->getCode()) && (__get('export_enabled'));
-$can_clearcache = Siberian_Cache::isRegistered($option->getCode()) && (APPLICATION_ENV != "production");
+$can_clearcache = Siberian_Cache::isRegistered($option->getCode()) && (APPLICATION_ENV !== 'production');
 
 $option_object = $option->getObject();
 $available_offline = $option_object->availableOffline();
@@ -69,38 +68,55 @@ $cacheOutput = Zend_Registry::get("cacheOutput");
         </div>
 
     </h3>
-    <div id="icon_and_name" class="icon_and_name container-fluid first-row-feature">
+    <div id="icon_and_name"
+         class="icon_and_name container-fluid first-row-feature">
         <div class="row">
-            <div class="<?php echo ($use_subtitle) ? "col-md-4 col-xs-4" : "col-md-6 col-xs-6 col-icon" ?>">
+            <div class="col-md-4 col-xs-4">
                 <div class="col-icon-button">
-                    <button type="button" id="change_icon" class="color-blue btn" data-image="330" data-style="area"
+                    <button type="button"
+                            id="change_icon"
+                            class="color-blue btn"
+                            data-image="330"
+                            data-style="area"
                             data-color="color">
                         <span class="edit-btn"><i class="fa fa-pencil"></i></span>
-                        <img id="current_icon" src="<?php echo $this->getIconUrl($option); ?>" width="auto" height="40"
-                             data-image="<?php echo $option->getIconId(); ?>" data-style="color-blue"
+                        <img id="current_icon"
+                             src="<?php echo $this->getIconUrl($option); ?>"
+                             width="auto"
+                             height="40"
+                             data-image="<?php echo $option->getIconId(); ?>"
+                             data-style="color-blue"
                              data-color="color"/>
                     </button>
                 </div>
                 <div class="col-icon-first">
                     <label for="tabbar_name"><?php echo __('Page name:'); ?></label>
                     <br/>
-                    <input type="text" id="tabbar_name" class="input-flat" name="tabbar_name"
+                    <input type="text"
+                           id="tabbar_name"
+                           class="input-flat"
+                           name="tabbar_name"
                            value="<?php echo $option->getTabbarName(); ?>"/>
-                    <input type="hidden" id="tabbar_name_id" name="option_value_id"
+                    <input type="hidden"
+                           id="tabbar_name_id"
+                           name="option_value_id"
                            value="<?php echo $option->getId() ?>"/>
                 </div>
             </div>
 
-            <?php if ($use_subtitle): ?>
-                <div class="col-md-2 col-xs-2">
-                    <label for="tabbar_subtitle"><?php echo __('Subtitle:'); ?></label>
-                    <br/>
-                    <input type="text" id="tabbar_subtitle" class="input-flat" name="tabbar_subtitle"
-                           value="<?php echo $option->getTabbarSubtitle(); ?>"/>
-                    <input type="hidden" id="tabbar_subtitle_id" name="option_value_id"
-                           value="<?php echo $option->getId() ?>"/>
-                </div>
-            <?php endif; ?>
+            <div class="col-md-2 col-xs-2">
+                <label for="tabbar_subtitle"><?php echo __('Subtitle:'); ?></label>
+                <br/>
+                <input type="text"
+                       id="tabbar_subtitle"
+                       class="input-flat"
+                       name="tabbar_subtitle"
+                       value="<?php echo $option->getTabbarSubtitle(); ?>"/>
+                <input type="hidden"
+                       id="tabbar_subtitle_id"
+                       name="option_value_id"
+                       value="<?php echo $option->getId() ?>"/>
+            </div>
 
             <?php if (is_numeric($option->getId())) : ?>
                 <div class="col-md-6">
