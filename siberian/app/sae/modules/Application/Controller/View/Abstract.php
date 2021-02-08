@@ -1072,10 +1072,6 @@ dbg($values);
                         }
 
                     }
-
-
-
-
                     # Save new password in database
 
                     $device = $application->getDevice(2);
