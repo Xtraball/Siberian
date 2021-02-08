@@ -24,6 +24,11 @@ angular.module("starter").controller("ContactViewController", function ($rootSco
         $scope.is_loading = false;
     });
 
+    $scope.canShowLocate = function () {
+        return $scope.contact.display_locate_action &&
+            !$scope.contact.handle_geo_protocol &&
+            ($scope.contact.coordinates || $scope.contact.street && $scope.contact.postcode && $scope.contact.city);
+    };
 
     $scope.call = function () {
         $window.location = "tel:" + $scope.contact.phone;

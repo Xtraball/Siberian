@@ -20,12 +20,17 @@ class Event_Mobile_ListController extends Application_Controller_Mobile_Default 
 
                 foreach ($events as $key => $event) {
                     $formatted_start_at = datetime_to_format($event->getStartAt(), Zend_Date::DATE_MEDIUM);
-                    $formatted_end_at = datetime_to_format($event->getEndAt(), Zend_Date::DATE_MEDIUM);
+
+                    $formatted_end_at = null;
+                    if (!empty($event->getEndAt())) {
+                        $formatted_end_at = datetime_to_format($event->getEndAt(), Zend_Date::DATE_MEDIUM);
+                    }
+
                     $in_app_page_path = null;
                     if (is_numeric($event->getInAppValueId())) {
                         $option = new Application_Model_Option_Value();
                         $option->find($event->getInAppValueId());
-                        if($option->getId() AND $option->isActive() AND $option->getAppId() == $this->getApplication()->getId()) {
+                        if($option->getId() && $option->isActive() && $option->getAppId() == $this->getApplication()->getId()) {
                             $in_app_page_path = $option->getPath("index");
                         }
                     }
@@ -40,22 +45,26 @@ class Event_Mobile_ListController extends Application_Controller_Mobile_Default 
                     }
 
                     $picture = $event->getPicture() ? $this->getRequest()->getBaseUrl().$event->getPicture() : null;
-                    if ($event->getType() == "facebook") {
+                    if ($event->getType() === 'facebook') {
                         $picture = $event->getPicture();
                     }
 
                     $picture_b64 = null;
                     if ($event->getPicture()) {
-                        $picture = Core_Model_Directory::getBasePathTo($event->getPicture());
+                        $picture = path($event->getPicture());
                         $picture_b64 = Siberian_Image::open($picture)->inline('jpg');
                     }
 
-                    if ($event->getType() == "facebook") {
+                    if ($event->getType() === 'facebook') {
                         $picture_b64 = Siberian_Image::open($event->getPicture())->inline('jpg');
                     }
 
                     $weekDayName = datetime_to_format($event->getStartAt(), Zend_Date::WEEKDAY_NAME);
-                    $endTimeShort = datetime_to_format($event->getEndAt(), Zend_Date::TIME_SHORT);
+
+                    $endTimeShort = null;
+                    if (!empty($event->getEndAt()) && !empty($event->getEndTimeAt())) {
+                        $endTimeShort = $event->getEndTimeAt();
+                    }
 
                     // Geo
                     $application = $this->getApplication();
@@ -63,6 +72,9 @@ class Event_Mobile_ListController extends Application_Controller_Mobile_Default 
                     $geocoded = false;
                     if (!empty($gKey)) {
                         $geocoded = Geocoding::getLatLng(['address' => $event->getAddress()], $gKey);
+                        if (empty($geocoded[0]) || empty($geocoded[1])) {
+                            $geocoded = false;
+                        }
                     }
 
                     $data['collection'][] = [

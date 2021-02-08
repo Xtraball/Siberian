@@ -34,6 +34,11 @@ ion-modal-view {
   background-color: opacify($general-custom-bg, 1) !important;
 }
 
+/** 100vh height is important for iOS viewport */
+ion-side-menus {
+  height: 100vh !important;
+}
+
 ion-side-menu {
   background-color: $homepage-custom-bg !important;
 }

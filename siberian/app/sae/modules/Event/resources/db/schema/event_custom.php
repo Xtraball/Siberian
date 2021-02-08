@@ -55,6 +55,12 @@ $schemas['event_custom'] = [
         'type' => 'datetime',
         'is_null' => true,
     ],
+    'end_time_at' => [
+        'type' => 'varchar(50)',
+        'is_null' => true,
+        'charset' => 'utf8',
+        'collation' => 'utf8_unicode_ci',
+    ],
     'description' => [
         'type' => 'longtext',
         'is_null' => true,
