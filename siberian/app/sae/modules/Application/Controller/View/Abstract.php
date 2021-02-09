@@ -966,7 +966,7 @@ abstract class Application_Controller_View_Abstract extends Backoffice_Controlle
             try {
 
                 if (empty($_FILES) || empty($_FILES['file']['name'])) {
-                    throw new Exception('No file has been sent');
+                    throw new Exception($message = __('No file has been sent'));
                 }
 
                 if (\Siberian\Version::is('SAE')) {
@@ -976,7 +976,7 @@ abstract class Application_Controller_View_Abstract extends Backoffice_Controlle
                     $application = (new Application_Model_Application())->find($app_id);
                     if (!$application ||
                         !$application->getId()) {
-                        throw new Exception(__('An error occurred while saving. Please try again later.'));
+                        throw new Exception($message = __('An error occurred while saving. Please try again later.'));
                     }
                 }
 
@@ -994,14 +994,14 @@ abstract class Application_Controller_View_Abstract extends Backoffice_Controlle
                     $timestamp= (new DateTime())->getTimestamp();
                     $file_ext = pathinfo($file_path, PATHINFO_EXTENSION);
                     if ($file_ext !== 'zip') {
-                        throw new Exception(__("File format is not allowed"));
+                        throw new Exception($message = __("File format is not allowed"));
                     }
 
                     exec("unzip -o $file_path -d $tmp_path/$app_id-$timestamp-import" , $output, $return);
                     $file_list = scandir("$tmp_path/$app_id-$timestamp-import");
 
                     if (!in_array('passwords.txt', $file_list) ) {
-                        throw new Exception(__("file passwords.txt is missing"));
+                        throw new Exception($message = __("file passwords.txt is missing"));
                     }
                     $passwords_raw =file ("$tmp_path/$app_id-$timestamp-import/passwords.txt");
 
@@ -1018,14 +1018,14 @@ abstract class Application_Controller_View_Abstract extends Backoffice_Controlle
 
                     #check if keystore / pfx file is there
                     if (!in_array('cert.pfx', $file_list, true) && !in_array('keystore.pks', $file_list, true)) {
-                        throw new Exception(__("file cert.pfx or keystore.pks is missing"));
+                        throw new Exception(__($message = __("file cert.pfx or keystore.pks is missing")));
                     }
                     # backup current keystore pass and alias
                     if (file_exists("$base_path/$app_id.pks")){
                         $command ="mv $base_path/$app_id.pks  $base_path/bck_import_$app_id.pks";
                         exec($command, $output_mv, $return_mv);
                         if (!is_file("$base_path/bck_import_$app_id.pks")) {
-                            throw new Exception(__("Error when creating a backup of the current keystore file "));
+                            throw new Exception($message = __("Error when creating a backup of the current keystore file "));
                         }
                     }
                     $current_passwords = (new Application_Model_Device())->find([
@@ -1041,7 +1041,7 @@ abstract class Application_Controller_View_Abstract extends Backoffice_Controlle
 
                     exec($command, $output, $return);
                     if ($return !== 0) {
-                        throw new Exception(__("Error when archiving previous keystore and passwords"));
+                        throw new Exception(__($message = __("Error when archiving previous keystore and passwords")));
                     }
 
 
@@ -1053,7 +1053,7 @@ abstract class Application_Controller_View_Abstract extends Backoffice_Controlle
                        exec($command, $output, $return);
                        if ($return !==0){
                            $error = file_get_contents("$base_path/$app_id-import.log");
-                           throw new Exception(__("Error while converting to keystore file: ".($error)));
+                           throw new Exception($message = __("Error while converting to keystore file: ".($error)));
                        }
 
                     }
@@ -1061,9 +1061,17 @@ abstract class Application_Controller_View_Abstract extends Backoffice_Controlle
                     if (in_array('keystore.pks', $file_list, true) ){
                         $command = "cp -p $tmp_path/$app_id-$timestamp-import/keystore.pks $base_path/$app_id.pks > $base_path/$app_id-import.log 2>&1";
                         exec($command, $output, $return);
+
                         if ($return !==0){
                             $error = file_get_contents("$base_path/$app_id-import.log");
-                            throw new Exception(__("Error while copying keystore file: ".($error)));
+                            throw new Exception($message = __("Error while copying keystore file: ".($error)));
+                        }
+                        $command = "printf $store_pass | keytool -list -v -keystore $base_path/$app_id.pks";
+
+                        exec($command, $output, $return);
+                        if ($return !==0){
+                            $output = json_encode(preg_grep('/keytool error/i',$output));
+                            throw new Exception($message = __("Error when opening keystore with provided password: ".($output)));
                         }
 
                     }
@@ -1073,7 +1081,13 @@ abstract class Application_Controller_View_Abstract extends Backoffice_Controlle
                         exec($command, $output, $return);
                         if ($return !==0){
                             $error = file_get_contents("$base_path/$app_id-import.log");
-                            throw new Exception(__("Error while copying keystore file: ".($error)));
+                            throw new Exception($message = __("Error while copying keystore file: ".($error)));
+                        }
+                        $command = "printf $store_pass | keytool -list -v -keystore $base_path/$app_id.jks";
+                        exec($command, $output, $return);
+                        if ($return !==0){
+                            $output = json_encode(preg_grep('/keytool error/i',$output));
+                            throw new Exception($message = __("Error when opening keystore with provided password: ".($output)));
                         }
 
                     }
