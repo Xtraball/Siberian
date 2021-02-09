@@ -90,15 +90,15 @@
                                 <p>{{ device.alias }}</p>
                             </div>
                             <div class="form-group col-md-2"
-                                 ng-if="device.type_id=='2'">
+                                 ng-if="device.Keystore">
 
-                                <div style="width:190px!important"  ng-click="" class="btn btn-primary "><a style="color:white!important" href="keystore.pks">Download the keystore file</a></div>
+                                <div style="width:190px!important"  ng-click=""  class="btn btn-info"><a style="color:white!important" href="var/apps/android/keystore/{{device.app_id}}.pks" target="_self">Download the keystore file</a></div>
                             </div>
-                            <div class="form-group col-md-2"
-                                 ng-if="device.keystore">
-
-                                <div style="width:190px!important" ng-click="" class=" btn btn-primary "><a style="color:white!important" href="keystore.pks">Download the upload key</a></div>
-                            </div>
+<!--                            <div class="form-group col-md-2"-->
+<!--                                 ng-if="device.Keystore">-->
+<!---->
+<!--                                <div style="width:190px!important" ng-click="" class=" btn btn-primary "><a style="color:white!important" href="keystore.pks" >Download the upload key</a></div>-->
+<!--                            </div>-->
                             <div class="col-md-2"
                                  ng-if="device.type_id=='2'">
 
@@ -109,7 +109,7 @@
                             <div class="row">
 
                                 <div class="col-md-12 upload_area" ng-show="device.show" >
-
+                                    <br>
                                         <div class="alert alert-warning" ng-if="device.type_id=='2'" >
                                             <?php echo p__('application', 'You are about to change the keystore file used to sign your app. Proceed cautiously, any mistake would prevent your app to be updated on the play store'); ?>
                                         </div>
@@ -146,9 +146,13 @@
                                                 </div>
                                             </div>
                                         </div>
-                                        <div class="col-md-3 btn btn-primary" style="width:190px!important">
-                                           <a style="color:white!important" href="keystore_example.zip" >Download archive example</a>
+                                        <div class="col-md-3 btn btn-info" >
+                                           <a style="color:white!important" href="var/apps/android/cert_pfx_example.zip" target="_self" >Download cert.pfx example</a>
                                         </div>
+                                    <br><br>
+                                    <div class="col-md-3 btn btn-info" >
+                                        <a style="color:white!important" href="var/apps/android/keystore_example.zip" target="_self">Download keystore.pks example</a>
+                                    </div>
 
 
                                         <div class="clear"></div>

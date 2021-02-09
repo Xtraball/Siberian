@@ -98,7 +98,10 @@ abstract class Application_Controller_View_Abstract extends Backoffice_Controlle
                 (!$device->getDeveloperAccountUsername() || !$device->getDeveloperAccountPassword())
             );
             $data = $device->getData();
-
+            if ($data['type_id'] === '2') {
+                $keystore_path = \Core_Model_Directory::getBasePathTo("var/apps/android/keystore/$appId.pks");
+                $data['Keystore'] = is_file($keystore_path);
+            }
             $data['owner_admob_weight'] = (integer)$data['owner_admob_weight'];
 
             if ((int)$device->getTypeId() === 2) {
@@ -114,6 +117,7 @@ abstract class Application_Controller_View_Abstract extends Backoffice_Controlle
 
             $devices[] = $data;
         }
+
 
         $data = [
             'owner' => $owner,
@@ -154,6 +158,7 @@ abstract class Application_Controller_View_Abstract extends Backoffice_Controlle
         $data['confirm_message_domain'] = __('If your app is already published, changing the URL key or domain will break it. You will have to republish it. Change it anyway?');
         $data['confirm_message_owner'] = p__('backoffice_application', 'You will change the app owner. Are you sure of your choice?');
         $data['confirm_message_delete_admin'] = p__('backoffice_application', 'You are about to remove this admin. Are you sure?');
+        $data['confirm_upload_keystore'] = p__('backoffice_application', 'Uploading a new keystore file can prevent your app to be updated on the play store. Are you sure to upload a new keystore ?');
         $data['filter_too_short'] = p__('backoffice_application', 'Filter must be at least 3 characters long!');
         $data['filter_no_result'] = p__('backoffice_application', 'No result for your request!');
 
@@ -418,7 +423,7 @@ abstract class Application_Controller_View_Abstract extends Backoffice_Controlle
         try {
             $request = $this->getRequest();
             $values = $request->getBodyParams();
-dbg($values);
+
             if (empty($values['app_id']) || !is_array($values['devices']) || empty($values['devices'])) {
                 throw new Exception('#783-01: ' . __('An error occurred while saving. Please try again later.'));
             }
@@ -1084,7 +1089,7 @@ dbg($values);
                     # return
                     $data = [
                         "success" => 1,
-                        "device" => 'info'.$current_passwords,
+                        "devices" => $current_passwords,
                         "message" => __("The file has been successfully uploaded")
                     ];
 
