@@ -1,0 +1,88 @@
+<ion-view sb-page-background
+          class="rss-list rss-list-l3">
+    <ion-nav-title>{{ page_title }}</ion-nav-title>
+
+    <ion-nav-buttons side="secondary">
+        <button ng-click="refresh()"
+                class="button button-clear header-item">
+            <i class="icon ion-sb-refresh"></i>
+        </button>
+    </ion-nav-buttons>
+
+    <ion-content>
+
+        <div class="loader"
+             ng-show="is_loading">
+            <ion-spinner class="spinner-custom"></ion-spinner>
+        </div>
+
+        <div class="list design-cover"
+             ng-class="{'card': settings.design == 'card'}"
+             ng-show="!is_loading && settings.displayCover">
+            <div ng-click="showItem(cover)">
+                <div class="item item-image item-custom"
+                     ng-if="cover.media">
+                    <img ng-src="{{ cover.media }}" />
+                </div>
+                <div class="item item-custom">
+                    <h2 class="rss-title">{{ cover.title }}</h2>
+                    <p class="rss-subtitle"
+                       ng-if="cover.subtitle"
+                       ng-bind-html="cover.subtitle | trusted_html"></p>
+                    <p class="rss-date"
+                       ng-if="cover.date.date">{{ cover.date.date | moment_calendar }}</p>
+                </div>
+            </div>
+        </div>
+
+        <div ng-show="!is_loading && collection.length"
+             ng-class="{
+                'design-card': settings.design == 'card',
+                'design-list': settings.design == 'list',
+                'no-cover': !settings.displayCover
+            }">
+
+            <div class="list row"
+                 ng-class="{'notcard': settings.design == 'list'}"
+                 ng-repeat="chunk in collection_achunks">
+
+                <div class="col"
+                     ng-class="{
+                        'card': settings.design == 'card',
+                        'col-50': chunk.length == 2
+                     }"
+                     ng-click="showItem(item)"
+                     ng-repeat="item in chunk">
+
+                    <div class="item item-custom item-body">
+                        <img ng-if="item.media && settings.displayThumbnail"
+                             src="./img/placeholder/blank-512.png"
+                             class="rss-item-thumbnail"
+                             ng-style="{'background-image': 'url({{ item.media }})'}" />
+                        <div class="item-content">
+                            <h2 class="rss-title">{{ item.title }}</h2>
+                            <p class="rss-subtitle"
+                               ng-if="item.subtitle_30 && chunk.length == 2"
+                               ng-bind-html="item.subtitle_30 | trusted_html"></p>
+                            <p class="rss-subtitle"
+                               ng-if="item.subtitle && chunk.length == 1"
+                               ng-bind-html="item.subtitle | trusted_html"></p>
+                            <p class="rss-date"
+                               ng-if="item.date.date">{{ item.date.date | moment_calendar }}</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+
+        <div class="list"
+             ng-class="{'card': settings.design == 'card'}"
+             ng-if="!is_loading && !collection.length">
+            <div class="item text-center item-custom">
+                {{ "No items found" | translate:"rss" }}
+            </div>
+        </div>
+
+    </ion-content>
+</ion-view>

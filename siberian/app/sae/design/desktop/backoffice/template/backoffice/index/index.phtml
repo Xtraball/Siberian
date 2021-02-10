@@ -74,6 +74,18 @@ if (!$varCache) {
                ng-show="!sslWarning">
                 <?php echo __('HTTPS is not available on your server.') ?></p>
         </span>
+
+        <?php
+        $mobilcartFlag = __get('mobilcart_warning');
+        ?>
+        <?php if ($mobilcartFlag === 'show'): ?>
+            <div class="alert alert-warning">
+                <?php echo __('You have Mmobilcart installed, this module is known to cause a lot of side-effects and it is recommended to remove it'); ?>
+                <br />
+                <?php echo __('Please note it can affect: emails, templates & pages behavior') ?>
+                <br />
+            </div>
+        <?php endif; ?>
     </div>
 
     <?php if ($displayTheme): ?>

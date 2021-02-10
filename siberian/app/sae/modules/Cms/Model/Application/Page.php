@@ -890,6 +890,7 @@ class Cms_Model_Application_Page extends Core_Model_Default
         $picture = Siberian_Feature::saveImageForOptionDelete($optionValue, $datas['places_file']);
         $thumbnail = Siberian_Feature::saveImageForOptionDelete($optionValue, $datas['places_thumbnail']);
         $pin = Siberian_Feature::saveImageForOptionDelete($optionValue, $datas['places_pin']);
+        $hidePin = filter_var($datas['hide_pin'], FILTER_VALIDATE_BOOLEAN);
 
         $this
             ->setTitle($datas['title'])
@@ -898,6 +899,7 @@ class Cms_Model_Application_Page extends Core_Model_Default
             ->setPicture($picture)
             ->setThumbnail($thumbnail)
             ->setPin($pin)
+            ->setHidePin($hidePin)
             ->setMapIcon($datas['map_icon'])
             ->setPlaceVersion(2)
             ->setTags($datas['tags'])

@@ -12,4 +12,8 @@ angular.module('starter').controller('PrivacyPolicyController', function ($scope
             isEnabled: Application.gdpr.isEnabled
         }
     });
+
+    $scope.backButtonIcon = function () {
+        return Application.getBackIcon();
+    };
 });

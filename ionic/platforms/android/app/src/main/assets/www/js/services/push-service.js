@@ -85,7 +85,7 @@ angular
      * Handle registration, and various push events
      */
     service.register = function (registerOnly) {
-        let localRegisterOnly = (registerOnly === null) ? false : registerOnly;
+        var localRegisterOnly = (registerOnly === null) ? false : registerOnly;
 
         service.isReady = $q.defer();
         service.isReadyPromise = service.isReady.promise;

@@ -80,6 +80,7 @@ class Places_Mobile_ListController extends Application_Controller_Mobile_Default
                 "sortingType" => $sortingType,
             ];
 
+            $params['_isMaps'] = $isMaps;
             if ($isMaps) {
                 $params["offset"] = 0;
                 $params["limit"] = null;

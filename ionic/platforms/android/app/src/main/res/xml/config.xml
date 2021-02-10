@@ -7,6 +7,12 @@
     <feature name="GeofencePlugin">
         <param name="android-package" value="com.cowbell.cordova.geofence.GeofencePlugin" />
     </feature>
+    <allow-navigation href="http://localhost/*" />
+    <allow-navigation href="https://localhost/*" />
+    <allow-navigation href="ionic://*" />
+    <feature name="IonicWebView">
+        <param name="android-package" value="com.ionicframework.cordova.webview.IonicWebView" />
+    </feature>
     <feature name="SplashScreen">
         <param name="android-package" value="org.apache.cordova.splashscreen.SplashScreen" />
         <param name="onload" value="true" />
@@ -16,10 +22,6 @@
     </feature>
     <feature name="WebViewPlugin">
         <param name="android-package" value="com.webview.WebViewPlugin" />
-    </feature>
-    <feature name="AdMob">
-        <param name="android-package" value="com.rjfun.cordova.admob.AdMobPlugin" />
-        <param name="onload" value="true" />
     </feature>
     <feature name="AppVersion">
         <param name="android-package" value="uk.co.whiteoctober.cordova.AppVersion" />
@@ -53,17 +55,14 @@
     <feature name="Insomnia">
         <param name="android-package" value="nl.xservices.plugins.Insomnia" />
     </feature>
-    <allow-navigation href="http://localhost/*" />
-    <allow-navigation href="https://localhost/*" />
-    <allow-navigation href="ionic://*" />
-    <feature name="IonicWebView">
-        <param name="android-package" value="com.ionicframework.cordova.webview.IonicWebView" />
-    </feature>
     <feature name="MusicControls">
         <param name="android-package" value="com.xtraball.musiccontrols.MusicControls" />
     </feature>
     <feature name="InAppBillingPlugin">
         <param name="android-package" value="cc.fovea.PurchasePlugin" />
+    </feature>
+    <feature name="AdMob">
+        <param name="android-package" value="admob.plugin.AdMob" />
     </feature>
     <feature name="BarcodeScanner">
         <param name="android-package" value="com.phonegap.plugins.barcodescanner.BarcodeScanner" />
@@ -120,7 +119,7 @@
     <allow-intent href="whatsapp:*" />
     <chcp>
         <config-file url="PLATFORM_URL" />
-        <native-interface version="18" />
+        <native-interface version="19" />
         <auto-download enabled="false" />
         <auto-install enabled="false" />
     </chcp>
@@ -130,6 +129,7 @@
     <preference name="loglevel" value="DEBUG" />
     <preference name="loadUrlTimeoutValue" value="60000" />
     <preference name="webView" value="com.ionicframework.cordova.webview.IonicWebViewEngine" />
+    <preference name="APP_ID_ANDROID" value="ca-app-pub-0000000000000000~0000000000" />
     <preference name="webviewbounce" value="false" />
     <preference name="DisallowOverscroll" value="true" />
     <preference name="BackupWebStorage" value="none" />

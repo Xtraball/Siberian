@@ -4,6 +4,7 @@
 
 $allowedExtensions = [
     'pem',
+    'aab',
     'apk',
     'pks',
     'png',

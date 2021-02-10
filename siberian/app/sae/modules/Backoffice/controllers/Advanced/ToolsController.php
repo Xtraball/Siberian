@@ -57,11 +57,13 @@ class Backoffice_Advanced_ToolsController extends System_Controller_Backoffice_D
             $browser = 'https://github.com/Xtraball/Siberian/raw/v' . $version . '/siberian/var/apps/browser.tgz';
             $android = 'https://github.com/Xtraball/Siberian/raw/v' . $version . '/siberian/var/apps/ionic/android.tgz';
             $ios = 'https://github.com/Xtraball/Siberian/raw/v' . $version . '/siberian/var/apps/ionic/ios.tgz';
+            $iosNoads = 'https://github.com/Xtraball/Siberian/raw/v' . $version . '/siberian/var/apps/ionic/ios-noads.tgz';
 
             // Clean-up before run!
             chdir($varApps . '/ionic');
             exec('rm -f ./android.tgz');
             exec('rm -f ./ios.tgz');
+            exec('rm -f ./ios-noads.tgz');
             exec('rm -f ../browser.tgz');
 
             // Download archives from GitHub
@@ -70,10 +72,12 @@ class Backoffice_Advanced_ToolsController extends System_Controller_Backoffice_D
             chdir($varApps . '/ionic');
             exec('wget ' . $android);
             exec('wget ' . $ios);
+            exec('wget ' . $iosNoads);
 
-            if (!file_exists('./android.tgz') ||
-                !file_exists('./ios.tgz') ||
-                !file_exists('../browser.tgz')) {
+            if (!is_readable('./android.tgz') ||
+                !is_readable('./ios.tgz') ||
+                !is_readable('./ios-noads.tgz') ||
+                !is_readable('../browser.tgz')) {
                 throw new Exception(__('Something went wrong while restoring files, process aborted!'));
             }
 
@@ -87,11 +91,14 @@ class Backoffice_Advanced_ToolsController extends System_Controller_Backoffice_D
             exec('tar pxzf android.tgz');
             exec('rm -Rf ./ios');
             exec('tar pxzf ios.tgz');
+            exec('rm -Rf ./ios-noads');
+            exec('tar pxzf ios-noads.tgz');
 
             // Clean-up after work!
             chdir($varApps . '/ionic');
             exec('rm -f ./android.tgz');
             exec('rm -f ./ios.tgz');
+            exec('rm -f ./ios-noads.tgz');
             exec('rm -f ../browser.tgz');
 
             // Ensure all folders are writable
@@ -101,6 +108,7 @@ class Backoffice_Advanced_ToolsController extends System_Controller_Backoffice_D
                 '/overview',
                 '/ionic/android',
                 '/ionic/ios',
+                '/ionic/ios-noads',
             ];
 
             // CHMOD recursive

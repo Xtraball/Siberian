@@ -16,6 +16,9 @@ class Application_Customization_Publication_InfosController extends Application_
         "switchtoionic" => [
             "tags" => ["app_#APP_ID#"],
         ],
+        "save-admob" => [
+            "tags" => ["app_#APP_ID#"],
+        ],
     ];
 
     /**
@@ -146,37 +149,28 @@ class Application_Customization_Publication_InfosController extends Application_
                 throw new \Siberian\Exception(__('This application does not exists.'));
             }
 
-            $form = new Application_Form_Admob();
-            if ($form->isValid($request->getParams())) {
-                $application = $this->getApplication();
+            $application = $this->getApplication();
 
-                $androidDevice = $application->getAndroidDevice();
+            $androidDevice = $application->getAndroidDevice();
 
-                $currentVersion = Application_Model_Device_Abstract::validatedVersion($androidDevice);
-                $newVersion = Application_Model_Device_Abstract::validatedVersion($androidDevice, $params['version'], 1);
+            $currentVersion = Application_Model_Device_Abstract::validatedVersion($androidDevice);
+            $newVersion = Application_Model_Device_Abstract::validatedVersion($androidDevice, $params['version'], 1);
 
-                // Ask user to confirm intent!
-                if ($newVersion < $currentVersion) {
-                    throw new \Siberian\Exception(p__('application',
-                        'The new version must be greater than the current one, please ask your administrator to change it if there was an error.'), 100);
-                }
-
-                $androidDevice
-                    ->setVersion($params['version'])
-                    ->save();
-
-                $payload = [
-                    'success' => true,
-                    'message' => __('Success.'),
-                ];
-            } else {
-                /** Do whatever you need when form is not valid */
-                $payload = [
-                    'error' => true,
-                    'message' => $form->getTextErrors(),
-                    'errors' => $form->getTextErrors(true),
-                ];
+            // Ask user to confirm intent!
+            if ($newVersion < $currentVersion) {
+                throw new \Siberian\Exception(p__('application',
+                    'The new version must be greater than the current one, please ask your administrator to change it if there was an error.'), 100);
             }
+
+            $androidDevice
+                ->setVersion($params['version'])
+                ->save();
+
+            $payload = [
+                'success' => true,
+                'message' => __('Success.'),
+            ];
+
         } catch (\Exception $e) {
             $payload = [
                 'error' => true,
@@ -245,10 +239,12 @@ class Application_Customization_Publication_InfosController extends Application_
 
                 $application
                     ->setUseAds(filter_var($params['use_ads'], FILTER_VALIDATE_BOOLEAN))
+                    ->setTestAds(filter_var($params['test_ads'], FILTER_VALIDATE_BOOLEAN))
                     ->save();
 
                 $androidDevice = $application->getAndroidDevice();
                 $androidDevice
+                    ->setAdmobAppId($params['android_admob_app_id'])
                     ->setAdmobId($params['android_admob_id'])
                     ->setAdmobInterstitialId($params['android_admob_interstitial_id'])
                     ->setAdmobType($params['android_admob_type'])
@@ -256,6 +252,7 @@ class Application_Customization_Publication_InfosController extends Application_
 
                 $iosDevice = $application->getIosDevice();
                 $iosDevice
+                    ->setAdmobAppId($params['ios_admob_app_id'])
                     ->setAdmobId($params['ios_admob_id'])
                     ->setAdmobInterstitialId($params['ios_admob_interstitial_id'])
                     ->setAdmobType($params['ios_admob_type'])

@@ -2,11 +2,6 @@
 
 $application = $this->getApplication();
 
-$peUseAds = false;
-if ($this->isPe()) {
-    $peUseAds = $application->getSubscription()->getSubscription()->getUseAds();
-}
-
 $ios_device = $application->getDevice(1);
 $android_device = $application->getDevice(2);
 
@@ -77,13 +72,11 @@ if (!empty($appDomain)) {
         </div>
     </div>
 
-    <?php if (!$application->getOwnerUseAds() &&
-              !__get("application_owner_use_ads") &&
-              !$peUseAds): ?>
-    <div id="monetize-content"
+    <?php if ($this->_canAccess('editor_publication_admob')): ?>
+    <div id="sb-tour-monetize-source"
          class="content sb-tour">
         <h3 class="title-editor border-green text-center">
-            <?php echo __("Monetize your app"); ?>
+            <?php echo __('Monetize your app'); ?>
             <i class="icon ion-ios-information-outline display_tooltip"
                data-toggle="tooltip"
                title="<?php echo p__js("application", "You can monetize your app by adding ad banners or interstitials that will be displayed to your app users.", '"') ?>"></i>

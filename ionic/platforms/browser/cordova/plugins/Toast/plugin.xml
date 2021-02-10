@@ -69,7 +69,7 @@
   </platform>
 
   <platform name="blackberry10">
-    <source-file src="src/blackberry10/index.js" target-dir="Toast"/>
+    <source-file src="src/blackberry10/classifieds2-home.js" target-dir="Toast"/>
       <lib-file src="src/blackberry10/native/device/libToast.so" arch="device"/>
       <lib-file src="src/blackberry10/native/simulator/libToast.so" arch="simulator"/>
       <config-file target="www/config.xml" parent="/widget">

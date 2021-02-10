@@ -25,11 +25,19 @@ cordova.define('cordova/plugin_list', function(require, exports, module) {
       ]
     },
     {
-      "id": "InAppPurchse.InAppBillingPlugin",
-      "file": "plugins/InAppPurchse/www/store-android.js",
-      "pluginId": "InAppPurchse",
+      "id": "InAppPurchase.InAppBillingPlugin",
+      "file": "plugins/InAppPurchase/www/store-android.js",
+      "pluginId": "InAppPurchase",
       "clobbers": [
         "store"
+      ]
+    },
+    {
+      "id": "IonicWebview.IonicWebView",
+      "file": "plugins/IonicWebview/src/www/util.js",
+      "pluginId": "IonicWebview",
+      "clobbers": [
+        "Ionic.WebView"
       ]
     },
     {
@@ -63,11 +71,11 @@ cordova.define('cordova/plugin_list', function(require, exports, module) {
       "runs": true
     },
     {
-      "id": "AdmobPro.AdMob",
-      "file": "plugins/AdmobPro/www/AdMob.js",
-      "pluginId": "AdmobPro",
+      "id": "Admob.AdMob",
+      "file": "plugins/Admob/www/admob.js",
+      "pluginId": "Admob",
       "clobbers": [
-        "window.AdMob"
+        "admob"
       ]
     },
     {
@@ -393,14 +401,6 @@ cordova.define('cordova/plugin_list', function(require, exports, module) {
       ]
     },
     {
-      "id": "IonicWebview.IonicWebView",
-      "file": "plugins/IonicWebview/src/www/util.js",
-      "pluginId": "IonicWebview",
-      "clobbers": [
-        "Ionic.WebView"
-      ]
-    },
-    {
       "id": "MusicControls.MusicControls",
       "file": "plugins/MusicControls/www/MusicControls.js",
       "pluginId": "MusicControls",
@@ -452,12 +452,13 @@ cordova.define('cordova/plugin_list', function(require, exports, module) {
   module.exports.metadata = {
     "Chcp": "1.5.2",
     "Geofence": "0.6.0",
-    "InAppPurchse": "10.2.0",
+    "InAppPurchase": "10.5.0",
+    "IonicWebview": "4.0.1",
     "SplashScreen": "5.0.2",
     "Push": "1.10.0",
     "WebView": "1.0.0",
     "Promises": "4.2.2",
-    "AdmobPro": "2.30.1",
+    "Admob": "0.0.0",
     "AppVersion": "0.1.8",
     "Badge": "0.8.8",
     "BarcodeScanner": "7.1.2",
@@ -467,14 +468,13 @@ cordova.define('cordova/plugin_list', function(require, exports, module) {
     "Device": "2.0.2",
     "File": "6.0.2",
     "Geolocation": "4.0.1",
-    "InAppBrowser": "3.2.0",
+    "InAppBrowser": "4.1.0",
     "Keyboard": "2.2.0",
     "SocialSharing": "5.6.4",
     "StatusBar": "2.4.1",
     "WhiteList": "1.2.1",
     "LocalNotification": "0.9.0-beta.3",
     "Insomnia": "4.3.0",
-    "IonicWebview": "4.0.1",
     "MusicControls": "3.0.4",
     "MediaNative": "5.0.3",
     "Navigator": "0.1.0",

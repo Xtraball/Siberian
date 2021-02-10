@@ -65,14 +65,6 @@ let debug = true,
         'facebook': [
             './www/js/controllers/facebook.js'
         ],
-        'folder': [
-            './www/js/controllers/folder.js',
-            './www/js/factory/folder.js'
-        ],
-        'form': [
-            './www/js/controllers/form.js',
-            './www/js/factory/form.js'
-        ],
         'homepage': [
             './www/js/controllers/homepage.js'
         ],
@@ -141,10 +133,6 @@ let debug = true,
             './www/js/controllers/weather.js',
             './www/js/factory/weather.js',
             './www/js/factory/weather/rain-effect.js'
-        ],
-        'wordpress': [
-            './www/js/controllers/wordpress.js',
-            './www/js/factory/wordpress.js'
         ],
         'youtube': [
             './www/js/factory/youtube.js'

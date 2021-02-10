@@ -23,13 +23,17 @@ class Application_Form_Admob extends Siberian_Form_Abstract
 
         self::addClass('create', $this);
 
+        $htmlAdmobAppId = '
+<div class="col-md-12"><div class="alert alert-warning">' . p__('application', 'Latest store updates require you to register an AdMob app, and set the ID below.') . '</div></div>';
+        $this->addSimpleHtml(
+            'html_admob_app_id',
+            $htmlAdmobAppId);
+
         $useAds = $this->addSimpleCheckbox('use_ads', __('Monetize my app using AdMob'));
 
-        $htmlAdmob1 = '
-<div class="col-md-12">' . __('Enter your AdMob ID for each platform.') . '</div>';
-        $this->addSimpleHtml(
-            'html_admob_1',
-            $htmlAdmob1);
+        $testAds = $this->addSimpleCheckbox('test_ads', p__('application', 'Display only test ads (useful when developing the application)'));
+
+
 
         $htmlAdmob2 = '
 <div class="col-md-12">
@@ -42,38 +46,25 @@ class Application_Form_Admob extends Siberian_Form_Abstract
             $htmlAdmob2
             );
 
+        $htmlAdmob1 = '
+<div class="col-md-12">' . __('Enter your AdMob ID for each platform.') . '</div>';
+        $this->addSimpleHtml(
+            'html_admob_1',
+            $htmlAdmob1);
+
         $adTypes = [
             'banner' => __('Banner'),
             'interstitial' => __('Interstitial'),
             'banner-interstitial' => __('Banner & Interstitial'),
         ];
 
-        // Android ads
-        $androidAdmobId = $this->addSimpleText(
-            'android_admob_id',
-            __('Banner ID'),
-            'example: ca-app-pub-3940256099942544/6300978111',
-            true);
-        $androidAdmobInterstitialId = $this->addSimpleText(
-            'android_admob_interstitial_id',
-            __('Interstitial ID'),
-            'example: ca-app-pub-3940256099942544/1033173712',
-            true);
-        $androidAdmobType = $this->addSimpleSelect(
-            'android_admob_type',
-            __('Ads type'),
-            $adTypes);
-
-        $this->groupElements(
-            'android',
-            [
-                'android_admob_id',
-                'android_admob_interstitial_id',
-                'android_admob_type',
-            ],
-            __('Android'));
-
         // iOS Ads
+        $iosAdmobAppId = $this->addSimpleText(
+            'ios_admob_app_id',
+            __('App ID'),
+            'example: ca-app-id-3940256099942544~6300978111',
+            true);
+        $iosAdmobAppId->setRequired(true);
         $iosAdmobId = $this->addSimpleText(
             'ios_admob_id',
             __('Banner ID'),
@@ -92,11 +83,44 @@ class Application_Form_Admob extends Siberian_Form_Abstract
         $this->groupElements(
             'ios',
             [
+                'ios_admob_app_id',
                 'ios_admob_id',
                 'ios_admob_interstitial_id',
                 'ios_admob_type',
             ],
             __('iOS'));
+
+        // Android ads
+        $androidAdmobAppId = $this->addSimpleText(
+            'android_admob_app_id',
+            __('App ID'),
+            'example: ca-app-id-3940256099942544~6300978111',
+            true);
+        $androidAdmobAppId->setRequired(true);
+        $androidAdmobId = $this->addSimpleText(
+            'android_admob_id',
+            __('Banner ID'),
+            'example: ca-app-pub-3940256099942544/6300978111',
+            true);
+        $androidAdmobInterstitialId = $this->addSimpleText(
+            'android_admob_interstitial_id',
+            __('Interstitial ID'),
+            'example: ca-app-pub-3940256099942544/1033173712',
+            true);
+        $androidAdmobType = $this->addSimpleSelect(
+            'android_admob_type',
+            __('Ads type'),
+            $adTypes);
+
+        $this->groupElements(
+            'android',
+            [
+                'android_admob_app_id',
+                'android_admob_id',
+                'android_admob_interstitial_id',
+                'android_admob_type',
+            ],
+            __('Android'));
 
         $submit = $this->addSubmit(__('Save'));
         $submit->addClass('pull-right');
@@ -109,15 +133,18 @@ class Application_Form_Admob extends Siberian_Form_Abstract
     public function fill($application)
     {
         $this->getElement('use_ads')->setValue((boolean) $application->getUseAds());
+        $this->getElement('test_ads')->setValue((boolean) $application->getTestAds());
 
         $androidDevice = $application->getAndroidDevice();
 
+        $this->getElement('android_admob_app_id')->setValue($androidDevice->getAdmobAppId());
         $this->getElement('android_admob_id')->setValue($androidDevice->getAdmobId());
         $this->getElement('android_admob_interstitial_id')->setValue($androidDevice->getAdmobInterstitialId());
         $this->getElement('android_admob_type')->setValue($androidDevice->getAdmobType());
 
         $iosDevice = $application->getIosDevice();
 
+        $this->getElement('ios_admob_app_id')->setValue($iosDevice->getAdmobAppId());
         $this->getElement('ios_admob_id')->setValue($iosDevice->getAdmobId());
         $this->getElement('ios_admob_interstitial_id')->setValue($iosDevice->getAdmobInterstitialId());
         $this->getElement('ios_admob_type')->setValue($iosDevice->getAdmobType());

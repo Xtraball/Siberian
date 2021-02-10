@@ -112,6 +112,11 @@ class Application_Model_Device_Ionic_Android extends Application_Model_Device_Io
     public $_dest_archive;
 
     /**
+     * @var string
+     */
+    public $admobAppIdentifier = 'ca-app-pub-0000000000000000~0000000000';
+
+    /**
      * Application_Model_Device_Ionic_Android constructor.
      * @param array $data
      * @throws Zend_Exception
@@ -219,9 +224,10 @@ class Application_Model_Device_Ionic_Android extends Application_Model_Device_Io
                         'license' => base64_encode(__get('siberiancms_key')),
                         'appId' => base64_encode($this->app->getId()),
                         'appName' => $this->_application_id,
-                        'uuid' => uniqid(),
+                        'uuid' => uniqid('apk_', true),
                         'buildType' => $buildType,
-                        'keystore' => base64_encode(json_encode($keystore))
+                        'keystore' => base64_encode(json_encode($keystore)),
+                        'withAab' => 'aab'
                     ],
                     null,
                     [
@@ -261,6 +267,11 @@ class Application_Model_Device_Ionic_Android extends Application_Model_Device_Io
     protected function _preparePathsVars()
     {
         $this->_folder_name = $this->getDevice()->getTmpFolderName();
+
+        $admobAppId = $this->getDevice()->getAdmobAppId();
+        if (!empty($admobAppId)) {
+            $this->admobAppIdentifier = $admobAppId;
+        }
 
         /** Ionic sources */
         $this->_orig_source = Core_Model_Directory::getBasePathTo(self::SOURCE_FOLDER);

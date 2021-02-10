@@ -58,6 +58,9 @@ class Places_Form_Place extends Cms_Form_Cms
             'cms-include' => true,
         ]);
 
+        $hide_pin = $this->addSimpleCheckbox('hide_pin', p__('places', 'Hide pin on map'));
+        $hide_pin->addClass('cms-include');
+
         //if not available will fallback to defaults Google Maps pin
 
         $mapIcon = $this->addSimpleSelect(
@@ -79,12 +82,9 @@ class Places_Form_Place extends Cms_Form_Cms
 
         $pinsHint = $this->addSimpleHtml("super-pins", $pinsHintHtml);
 
-
-
         // Featured places are disabled for now.
         //$isFeatured = $this->addSimpleCheckbox('is_featured', __('Feature this place?'));
         //$isFeatured->addClass('cms-include');
-
 
         $tags = $this->addSimpleText('tags', __('Tags'));
         $tags->addClass('cms-include');
@@ -146,6 +146,7 @@ class Places_Form_Place extends Cms_Form_Cms
         $this->getElement('places_file')->setValue($values['picture']);
         $this->getElement('places_thumbnail')->setValue($values['thumbnail']);
         $this->getElement('places_pin')->setValue($values['pin']);
+        $this->getElement('hide_pin')->setValue($values['hide_pin']);
         $this->getElement('show_image')->setValue($page->getMetadata('show_image')->getPayload());
         $this->getElement('show_titles')->setValue($page->getMetadata('show_titles')->getPayload());
         $this->getElement('show_subtitle')->setValue($page->getMetadata('show_subtitle')->getPayload());

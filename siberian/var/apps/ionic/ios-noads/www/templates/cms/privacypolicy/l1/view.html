@@ -1,0 +1,9 @@
+<div class="list"
+     ng-class="{'card' : cardDesign}">
+    <ion-item class="item-custom item-text-wrap"
+         ng-bind-html="privacy_policy | trusted_html"></ion-item>
+
+    <ion-item class="item-custom item-text-wrap"
+         ng-if="gdpr.isEnabled"
+         ng-bind-html="privacy_policy_gdpr | trusted_html"></ion-item>
+</div>

@@ -109,15 +109,15 @@ class CordovaLogger {
             return this;
         }
 
-        var isVerbose = this.logLevel === CordovaLogger.VERBOSE;
-        var cursor = this.stdoutCursor;
+        const isVerbose = this.logLevel === CordovaLogger.VERBOSE;
+        let cursor = this.stdoutCursor;
 
         if (message instanceof Error || logLevel === CordovaLogger.ERROR) {
             message = formatError(message, isVerbose);
             cursor = this.stderrCursor;
         }
 
-        var color = this.colors[logLevel];
+        const color = this.colors[logLevel];
         if (color) {
             cursor.bold().fg[color]();
         }

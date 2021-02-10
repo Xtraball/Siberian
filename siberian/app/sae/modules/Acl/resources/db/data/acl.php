@@ -61,6 +61,13 @@ $resource_data = [
                 "code" => "editor_publication",
                 "label" => "Access the Publication tab",
                 "url" => "application/customization_publication_infos/index",
+                "children" => [
+                    [
+                        "code" => "editor_publication_admob",
+                        "label" => "Access AdMob settings",
+                        "url" => "application/customization_publication_infos/save-admob",
+                    ]
+                ]
             ],
             [
                 "code" => "editor_facebook_import",

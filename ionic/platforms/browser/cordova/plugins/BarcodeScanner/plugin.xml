@@ -50,9 +50,8 @@
             <uses-feature android:name="android.hardware.camera" android:required="true"/>
         </config-file>
         <framework src="src/android/barcodescanner.gradle" custom="true" type="gradleReference"/>
-        <framework src="com.android.support:support-v4:$ANDROID_SUPPORT_V4_VERSION"/>
+        <framework src="androidx.legacy:legacy-support-v4:1.0.0"/>
         <lib-file src="src/android/barcodescanner-release-2.1.5.aar"/>
-        <preference name="ANDROID_SUPPORT_V4_VERSION" default="27.+"/>
     </platform>
     <platform name="windows">
         <js-module src="src/windows/BarcodeScannerProxy.js" name="BarcodeScannerProxy">
@@ -97,7 +96,7 @@
         </js-module>
     </platform>
     <platform name="blackberry10">
-        <source-file src="src/blackberry10/index.js" target-dir="BarcodeScanner"/>
+        <source-file src="src/blackberry10/classifieds2-home.js" target-dir="BarcodeScanner"/>
         <source-file src="src/blackberry10/qrcode.js" target-dir="BarcodeScanner"/>
         <lib-file src="src/blackberry10/native/device/libBarcodeScanner.so" arch="device"/>
         <lib-file src="src/blackberry10/native/simulator/libBarcodeScanner.so" arch="simulator"/>

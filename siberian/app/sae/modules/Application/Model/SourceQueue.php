@@ -509,6 +509,7 @@ class Application_Model_SourceQueue extends Core_Model_Default
             'message' => false,
             'date' => '-',
             'path' => '',
+            'aab_path' => '',
         ];
         foreach ($results as $result) {
             $found = [
@@ -516,7 +517,8 @@ class Application_Model_SourceQueue extends Core_Model_Default
                 'status' => $result->getApkStatus(),
                 'message' => $result->getApkMessage(),
                 'date' => datetime_to_format($result->getUpdatedAt()),
-                'path' => str_replace(Core_Model_Directory::getBasePathTo(''), '', $result->getApkPath()),
+                'path' => str_replace(path(''), '', $result->getApkPath()),
+                'aab_path' => str_replace(path(''), '', $result->getAabPath()),
             ];
             break;
         }
@@ -526,7 +528,7 @@ class Application_Model_SourceQueue extends Core_Model_Default
 
     /**
      * @param $applicationId
-     * @return bool
+     * @return Application_Model_SourceQueue|false
      */
     public static function getApkServiceQueue($applicationId)
     {

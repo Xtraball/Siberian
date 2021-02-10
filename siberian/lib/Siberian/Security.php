@@ -125,7 +125,17 @@ class Security
 
         $newFiles = normalizeFiles($_files);
 
+        $filesToScan = [];
         foreach ($newFiles as $file) {
+            // Check for errors/empty files
+            $fileSize = (int) $file['size'];
+            $fileError = (int) $file['error'];
+            if (($fileSize === 0) ||
+                ($fileError === UPLOAD_ERR_NO_FILE)) {
+                // Skip this file if/when empty
+                continue;
+            }
+
             $fileParts = pathinfo($file['name']);
             $extension = strtolower($fileParts['extension']);
 
@@ -154,16 +164,19 @@ class Security
                 unlink($file['tmp_name']);
                 self::logAlert('Soft forbidden extension ' . $fileParts['extension'], $session);
             }
+
+            // OK we can scan the file
+            $filesToScan[] = $file;
         }
 
         // Second pass will use ClamAV (if available)
         $clamav = new ClamAV();
         if ($clamav->ping()) {
-            foreach ($newFiles as $file) {
-                if (!$clamav->scan($file['tmp_name'])) {
+            foreach ($filesToScan as $fileToScan) {
+                if (!$clamav->scan($fileToScan['tmp_name'])) {
                     $lastError = $clamav->getLastError();
-                    unlink($file['tmp_name']);
-                    $filename = $file['name'];
+                    unlink($fileToScan['tmp_name']);
+                    $filename = $fileToScan['name'];
                     self::logAlert("Suspicious file detected {$filename} was deleted.", $session, $lastError);
                 }
             }
