@@ -565,6 +565,10 @@ App.config(function($routeProvider) {
         });
     };
 
+    $scope.keystore_uploader = new FileUploader({
+        url: Url.get("application/backoffice_view/uploadcertificate")
+    });
+
     $scope.certificate_uploader = new FileUploader({
         url: Url.get("application/backoffice_view/uploadcertificate")
     });

@@ -1,34 +1,36 @@
 <style>
     .clicker {
 
-        outline:none;
-        cursor:pointer;
+        outline: none;
+        cursor: pointer;
     }
 
-    .hiddendiv{
-        display:none;
+    .hiddendiv {
+        display: none;
 
     }
 
-    .clicker:focus + .hiddendiv{
-        display:block;
+    .clicker:focus + .hiddendiv {
+        display: block;
     }
 
 </style>
 <sb-section title="'<?php echo __title("Device Information"); ?>'">
 
-    <form ng-submit="saveDeviceInfo()">
+    <form>
         <div class="row">
             <div ng-repeat="device in application_banner.devices"
                  class="col-md-12">
 
                 <div class="row">
+                    <br/>
                     <div class="col-md-12">
                         <h4 class="section-title">{{ device.name }}</h4>
                     </div>
                     <div class="col-md-12">
-                        <div class="section-content " style="min-height: 200px;">
-                            <div class="alert alert-info" ng-if="device.type_id=='2'" >
+                        <div class="section-content">
+                            <div class="alert alert-info"
+                                 ng-if="device.type_id=='2'">
                                 <?php echo p__('application', 'The last 3 digits part of version code is increased by 1 after each build/source generation, and is reset to 1 when the version is changed'); ?>
                             </div>
                             <div class="form-group col-md-4">
@@ -92,117 +94,155 @@
                             <div class="form-group col-md-2"
                                  ng-if="device.Keystore">
 
-                                <div style="width:190px!important"  ng-click=""  class="btn btn-info"><a style="color:white!important" href="var/apps/android/keystore/{{device.app_id}}.pks" target="_self">Download the keystore file</a></div>
+                                <div style="width:190px!important"
+                                     class="btn btn-info">
+                                    <a href="var/apps/android/keystore/{{device.app_id}}.pks"
+                                       target="_self">Download the keystore file</a>
+                                </div>
                             </div>
-<!--                            <div class="form-group col-md-2"-->
-<!--                                 ng-if="device.Keystore">-->
-<!---->
-<!--                                <div style="width:190px!important" ng-click="" class=" btn btn-primary "><a style="color:white!important" href="keystore.pks" >Download the upload key</a></div>-->
-<!--                            </div>-->
-                            <div class="col-md-2"
-                                 ng-if="device.type_id=='2'">
-
-                                <div  ng-click="device.show = !device.show" style="width:190px!important"  class="btn btn-primary ">Upload a new keystore</div>
-                            </div>
-                            <div class="clear"></div>
 
                             <div class="row">
+                                <div class="col-md-12">
+                                    <div class="form-group">
+                                        <button type="submit"
+                                                ng-click="saveDeviceInfo()"
+                                                class="btn btn-primary right"><?php echo p__('application', 'Save status & version'); ?></button>
+                                        <sb-loader is_visible="device_form_loader_is_visible"
+                                                   type="'inner_content'"
+                                                   size="'small'"
+                                                   animation="'no'"
+                                                   class="form_loader"></sb-loader>
+                                        <div class="clear"></div>
+                                    </div>
+                                </div>
+                            </div>
 
-                                <div class="col-md-12 upload_area" ng-show="device.show" >
-                                    <br>
-                                        <div class="alert alert-warning" ng-if="device.type_id=='2'" >
-                                            <?php echo p__('application', 'You are about to change the keystore file used to sign your app. Proceed cautiously, any mistake would prevent your app to be updated on the play store'); ?>
+                            <div ng-if="device.type_id=='2'">
+                                <div class="row">
+
+                                    <div class="col-md-12 upload_area">
+                                        <br>
+                                        <div class="alert alert-danger">
+                                            <?php echo p__('application', 'The section below allows you to upload your own app signing key:'); ?>
                                         </div>
-                                        <div class="alert alert-info" ng-if="device.type_id=='2'" >
-                                            <?php echo p__('application', 'You can upload a .pfx file, it will be converted into a keystore file'); ?>
+                                        <div class="alert alert-warning">
+                                            <?php echo p__('application', 'You are about to change the keystore file used to sign your app.'); ?>
+                                            <br/>
+                                            <?php echo p__('application', 'Proceed cautiously, any mistake will prevent your app to be updated on the play store'); ?>
                                         </div>
 
                                         <br/>
-                                        <div class="col-md-3">
-                                            <div class="upload_a_file">
-                                                <label for="keystore_uploader"><?php echo p__('application',"Click here to send your file"); ?></label>
-                                                <input id="keystore_uploader"
-                                                       type="file"
-                                                       nv-file-select=""
-                                                       uploader="keystore_uploader"/>
-                                            </div>
-                                        </div>
 
-                                        <div class="col-md-1">
-                                            <div class="drop_a_file">
-                                                <label><?php echo __("OR"); ?></label>
+                                        <div class="container-uploader">
+                                            <br/>
+                                            <div class="col-md-3">
+                                                <div class="upload_a_file">
+                                                    <label for="keystore_uploader"><?php echo p__('application', 'Click here to select your zip package'); ?></label>
+                                                    <input id="keystore_uploader"
+                                                           type="file"
+                                                           nv-file-select=""
+                                                           uploader="keystore_uploader"/>
+                                                </div>
                                             </div>
-                                        </div>
 
-                                        <div class="col-md-5">
-                                            <div class="drop_a_file">
-                                                <label><?php echo __("Drop your file here"); ?></label>
-                                                <div ng-show="keystore_uploader.isHTML5">
-                                                    <div class="well drop-zone"
-                                                         nv-file-drop=""
-                                                         nv-file-over=""
-                                                         uploader="keystore_uploader">
+                                            <div class="col-md-1">
+                                                <div class="drop_a_file">
+                                                    <label><?php echo p__('application', 'OR'); ?></label>
+                                                </div>
+                                            </div>
+
+                                            <div class="col-md-4">
+                                                <div class="drop_a_file">
+                                                    <label><?php echo p__('application', 'Drop your zip package here'); ?></label>
+                                                    <div ng-show="keystore_uploader.isHTML5">
+                                                        <div class="well drop-zone"
+                                                             nv-file-drop=""
+                                                             nv-file-over=""
+                                                             uploader="keystore_uploader">
+                                                        </div>
                                                     </div>
                                                 </div>
                                             </div>
-                                        </div>
-                                        <div class="col-md-3 btn btn-info" >
-                                           <a style="color:white!important" href="var/apps/android/cert_pfx_example.zip" target="_self" >Download cert.pfx example</a>
-                                        </div>
-                                    <br><br>
-                                    <div class="col-md-3 btn btn-info" >
-                                        <a style="color:white!important" href="var/apps/android/keystore_example.zip" target="_self">Download keystore.pks example</a>
-                                    </div>
 
+                                            <div class="col-md-4">
+                                                <div class="alert alert-info">
+                                                    <?php echo p__('application', 'Accepted key formats are pks & pfx, but you must upload a zip archive, you can download the structure examples below'); ?>
+                                                    <br />
+                                                    <a class="btn btn-primary btn-xs"
+                                                       href="/var/apps/android/cert_pfx_example.zip"
+                                                       target="_self"><?php echo p__('application', 'Download PFX'); ?></a>
+                                                    <a class="btn btn-primary btn-xs"
+                                                       href="/var/apps/android/keystore_example.zip"
+                                                       target="_self"><?php echo p__('application', 'Download PKS'); ?></a>
+                                                </div>
+                                            </div>
+
+                                            <table class="table"
+                                                   ng-show="keystore_uploader.queue.length">
+                                                <thead>
+                                                <tr>
+                                                    <th width="50%"><?php echo p__('application', 'Name') ?></th>
+                                                    <th ng-show="keystore_uploader.isHTML5"><?php echo p__('application', 'Size') ?></th>
+                                                    <th ng-show="keystore_uploader.isHTML5"><?php echo p__('application', 'Progress') ?></th>
+                                                    <th><?php echo p__('application', 'Status') ?></th>
+                                                    <th><?php echo p__('application', 'Actions') ?></th>
+                                                </tr>
+                                                </thead>
+                                                <tbody>
+                                                <tr ng-repeat="item in keystore_uploader.queue"
+                                                    ng-show="keystore_uploader.queue.length">
+                                                    <td><strong>{{ item.file.name }}</strong></td>
+                                                    <td ng-show="keystore_uploader.isHTML5"
+                                                        nowrap>{{ item.file.size/1024/1024|number:2 }} MB</td>
+                                                    <td ng-show="keystore_uploader.isHTML5">
+                                                        <div class="progress">
+                                                            <div class="progress-bar progress-bar-striped"
+                                                                 role="progressbar"
+                                                                 ng-style="{ 'width': item.progress + '%' }"></div>
+                                                        </div>
+                                                    </td>
+                                                    <td class="text-center">
+                                                        <span ng-show="item.isSuccess"><i class="fa fa-check"></i></span>
+                                                        <span ng-show="item.isCancel"><i class="fa fa-ban"></i></span>
+                                                        <span ng-show="item.isError"><i class="fa fa-remove"></i></span>
+                                                    </td>
+                                                    <td nowrap>
+                                                        <button type="button"
+                                                                class="btn btn-warning btn-xs"
+                                                                ng-click="item.cancel()"
+                                                                ng-disabled="!item.isUploading">
+                                                            <span class="fa fa-ban"></span>
+                                                        </button>
+                                                        <button type="button"
+                                                                class="btn btn-danger btn-xs"
+                                                                ng-click="item.remove()"
+                                                                ng-disabled="item.isReady || item.isUploading || item.isSuccess">
+                                                            <span class="fa fa-remove"></span>
+                                                        </button>
+                                                    </td>
+                                                </tr>
+                                                </tbody>
+                                            </table>
+                                        </div>
+
+                                        <div class="row">
+                                            <div class="col-md-12">
+                                                <div class="form-group">
+                                                    <button type="submit"
+                                                            ng-click="alert('toto');"
+                                                            class="btn btn-primary right"><?php echo p__('application', 'Upload keystore'); ?></button>
+                                                    <sb-loader is_visible="device_form_loader_is_visible"
+                                                               type="'inner_content'"
+                                                               size="'small'"
+                                                               animation="'no'"
+                                                               class="form_loader"></sb-loader>
+                                                    <div class="clear"></div>
+                                                </div>
+                                            </div>
+                                        </div>
 
                                         <div class="clear"></div>
-
-                                        <table class="table"
-                                               ng-show="keystore_uploader.queue.length">
-                                            <thead>
-                                            <tr>
-                                                <th width="50%">Name</th>
-                                                <th ng-show="keystore_uploader.isHTML5">Size</th>
-                                                <th ng-show="keystore_uploader.isHTML5">Progress</th>
-                                                <th>Status</th>
-                                                <th>Actions</th>
-                                            </tr>
-                                            </thead>
-                                            <tbody>
-                                            <tr ng-repeat="item in keystore_uploader.queue"
-                                                ng-show="keystore_uploader.queue.length">
-                                                <td><strong>{{ item.file.name }}</strong></td>
-                                                <td ng-show="keystore_uploader.isHTML5"
-                                                    nowrap>{{ item.file.size/1024|number:2 }} Kb</td>
-                                                <td ng-show="keystore_uploader.isHTML5">
-                                                    <div class="progress">
-                                                        <div class="progress-bar progress-bar-striped"
-                                                             role="progressbar"
-                                                             ng-style="{ 'width': item.progress + '%' }"></div>
-                                                    </div>
-                                                </td>
-                                                <td class="text-center">
-                                                    <span ng-show="item.isSuccess"><i class="fa fa-check"></i></span>
-                                                    <span ng-show="item.isCancel"><i class="fa fa-ban"></i></span>
-                                                    <span ng-show="item.isError"><i class="fa fa-remove"></i></span>
-                                                </td>
-                                                <td nowrap>
-                                                    <button type="button"
-                                                            class="btn btn-warning btn-xs"
-                                                            ng-click="item.cancel()"
-                                                            ng-disabled="!item.isUploading">
-                                                        <span class="fa fa-ban"></span>
-                                                    </button>
-                                                    <button type="button"
-                                                            class="btn btn-danger btn-xs"
-                                                            ng-click="item.remove()"
-                                                            ng-disabled="item.isReady || item.isUploading || item.isSuccess">
-                                                        <span class="fa fa-remove"></span>
-                                                    </button>
-                                                </td>
-                                            </tr>
-                                            </tbody>
-                                        </table>
+                                    </div>
                                 </div>
                             </div>
 
@@ -211,24 +251,6 @@
                     </div>
 
 
-                </div>
-            </div>
-        </div>
-
-
-        <br />
-
-        <div class="row">
-            <div class="col-md-12">
-                <div class="form-group">
-                    <button type="submit"
-                            class="btn btn-primary right"><?php echo __("Save"); ?></button>
-                    <sb-loader is_visible="device_form_loader_is_visible"
-                               type="'inner_content'"
-                               size="'small'"
-                               animation="'no'"
-                               class="form_loader"></sb-loader>
-                    <div class="clear"></div>
                 </div>
             </div>
         </div>
