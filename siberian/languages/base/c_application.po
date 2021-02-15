@@ -270,3 +270,155 @@ msgstr "Display only test ads (useful when developing the application)"
 msgctxt "application"
 msgid "AdMob app id is required!"
 msgstr "AdMob app id is required!"
+
+
+
+# GMT 1580398379.0000
+msgctxt "application"
+msgid "We are unable to find the application."
+msgstr "We are unable to find the application."
+
+# GMT 1580398379.0001
+msgctxt "application"
+msgid "Missing file."
+msgstr "Missing file."
+
+# GMT 1580398379.0002
+msgctxt "application"
+msgid "An unknown error occured during the file upload."
+msgstr "An unknown error occured during the file upload."
+
+# GMT 1580398379.0003
+msgctxt "application"
+msgid "You must upload a zip archive containing the required files."
+msgstr "You must upload a zip archive containing the required files."
+
+# GMT 1580398379.0004
+msgctxt "application"
+msgid "The file passwords.txt is missing"
+msgstr "The file passwords.txt is missing"
+
+# GMT 1580398379.0005
+msgctxt "application"
+msgid "The file cert.pfx or keystore.pks is missing"
+msgstr "The file cert.pfx or keystore.pks is missing"
+
+# GMT 1580398379.0006
+msgctxt "application"
+msgid "Error when creating a backup of the current keystore file!"
+msgstr "Error when creating a backup of the current keystore file!"
+
+# GMT 1580398379.0007
+msgctxt "application"
+msgid "Error when archiving previous keystore and passwords"
+msgstr "Error when archiving previous keystore and passwords"
+
+# GMT 1580398379.0008
+msgctxt "application"
+msgid "Error while converting to keystore file: %s"
+msgstr "Error while converting to keystore file: %s"
+
+# GMT 1580398379.0009
+msgctxt "application"
+msgid "Error while copying keystore file: %s"
+msgstr "Error while copying keystore file: %s"
+
+# GMT 1580398367.00010
+msgctxt "application"
+msgid "Error when opening keystore with provided password: %s"
+msgstr "Error when opening keystore with provided password: %s"
+
+# GMT 1580398367.00011
+msgctxt "application"
+msgid "Error while copying keystore file: %s"
+msgstr "Error while copying keystore file: %s"
+
+# GMT 1580398367.00012
+msgctxt "application"
+msgid "Error when opening keystore with provided password: %s"
+msgstr "Error when opening keystore with provided password: %s"
+
+# GMT 1580398367.00013
+msgctxt "application"
+msgid "The keystore is imported successfully!"
+msgstr "The keystore is imported successfully!"
+
+# GMT 1580398367.01
+msgctxt "application"
+msgid "The section below allows you to upload your own app signing key:"
+msgstr "The section below allows you to upload your own app signing key:"
+
+# GMT 1580398367.2
+msgctxt "application"
+msgid "You are about to change the keystore file used to sign your app."
+msgstr "You are about to change the keystore file used to sign your app."
+
+# GMT 1580398367.3
+msgctxt "application"
+msgid "Proceed cautiously, any mistake will prevent your app to be updated on the play store"
+msgstr "Proceed cautiously, any mistake will prevent your app to be updated on the play store"
+
+# GMT 1580398367.4
+msgctxt "application"
+msgid "Click here to select your zip package"
+msgstr "Click here to select your zip package"
+
+# GMT 1580398367.5
+msgctxt "application"
+msgid "OR"
+msgstr "OR"
+
+# GMT 1580398367.6
+msgctxt "application"
+msgid "Drop your zip package here"
+msgstr "Drop your zip package here"
+
+# GMT 1580398367.7
+msgctxt "application"
+msgid "Accepted key formats are pks & pfx, but you must upload a zip archive, you can download the structure examples below"
+msgstr "Accepted key formats are pks & pfx, but you must upload a zip archive, you can download the structure examples below"
+
+# GMT 1580398367.8
+msgctxt "application"
+msgid "Download PFX"
+msgstr "Download PFX"
+
+# GMT 1580398367.9
+msgctxt "application"
+msgid "Download PKS"
+msgstr "Download PKS"
+
+# GMT 1580398367.10
+msgctxt "application"
+msgid "Please note that example files are failing on purpose to prevent unintended keystore alteration."
+msgstr "Please note that example files are failing on purpose to prevent unintended keystore alteration."
+
+# GMT 1580398367.11
+msgctxt "application"
+msgid "Name"
+msgstr "Name"
+
+# GMT 1580398367.12
+msgctxt "application"
+msgid "Size"
+msgstr "Size"
+
+# GMT 1580398367.13
+msgctxt "application"
+msgid "Progress"
+msgstr "Progress"
+
+# GMT 1580398367.14
+msgctxt "application"
+msgid "Status"
+msgstr "Status"
+
+# GMT 1580398367.15
+msgctxt "application"
+msgid "Actions"
+msgstr "Actions"
+
+# GMT 1580398367.16
+msgctxt "application"
+msgid "Upload keystore"
+msgstr "Upload keystore"

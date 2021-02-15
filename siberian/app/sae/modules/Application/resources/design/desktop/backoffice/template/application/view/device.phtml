@@ -168,12 +168,18 @@
                                                 <div class="alert alert-info">
                                                     <?php echo p__('application', 'Accepted key formats are pks & pfx, but you must upload a zip archive, you can download the structure examples below'); ?>
                                                     <br />
+                                                    <br/>
                                                     <a class="btn btn-primary btn-xs"
                                                        href="/var/apps/android/cert_pfx_example.zip"
                                                        target="_self"><?php echo p__('application', 'Download PFX'); ?></a>
                                                     <a class="btn btn-primary btn-xs"
                                                        href="/var/apps/android/keystore_example.zip"
                                                        target="_self"><?php echo p__('application', 'Download PKS'); ?></a>
+                                                    <br />
+                                                    <br />
+                                                    <b>
+                                                        <?php echo p__('application', 'Please note that example files are failing on purpose to prevent unintended keystore alteration.'); ?>
+                                                    </b>
                                                 </div>
                                             </div>
 
@@ -193,7 +199,8 @@
                                                     ng-show="keystore_uploader.queue.length">
                                                     <td><strong>{{ item.file.name }}</strong></td>
                                                     <td ng-show="keystore_uploader.isHTML5"
-                                                        nowrap>{{ item.file.size/1024/1024|number:2 }} MB</td>
+                                                        nowrap>{{ item.file.size/1024/1024|number:2 }} MB
+                                                    </td>
                                                     <td ng-show="keystore_uploader.isHTML5">
                                                         <div class="progress">
                                                             <div class="progress-bar progress-bar-striped"
@@ -202,7 +209,8 @@
                                                         </div>
                                                     </td>
                                                     <td class="text-center">
-                                                        <span ng-show="item.isSuccess"><i class="fa fa-check"></i></span>
+                                                        <span ng-show="item.isSuccess"><i
+                                                                    class="fa fa-check"></i></span>
                                                         <span ng-show="item.isCancel"><i class="fa fa-ban"></i></span>
                                                         <span ng-show="item.isError"><i class="fa fa-remove"></i></span>
                                                     </td>
@@ -229,9 +237,9 @@
                                             <div class="col-md-12">
                                                 <div class="form-group">
                                                     <button type="submit"
-                                                            ng-click="alert('toto');"
+                                                            ng-click="uploadKeystore();"
                                                             class="btn btn-primary right"><?php echo p__('application', 'Upload keystore'); ?></button>
-                                                    <sb-loader is_visible="device_form_loader_is_visible"
+                                                    <sb-loader is_visible="keystoreLoader"
                                                                type="'inner_content'"
                                                                size="'small'"
                                                                animation="'no'"
