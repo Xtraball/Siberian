@@ -99,6 +99,15 @@ RAW;
         //$showNonFeatured = $this->addSimpleCheckbox("show_non_featured", __("Show non-featured labels"));
         //$nonFeaturedLabel = $this->addSimpleText("non_featured_label", __("Non-featured label"));
 
+
+        $center = $this->addSimpleText('address', p__('places', 'City'));
+        $center->setDescription(p__('places', 'Default map center to use as fallback.'));
+
+        $lat = $this->addSimpleText('lat', p__('places', 'Latitude'));
+        $lat->setAttrib('readonly', 'readonly');
+        $lng = $this->addSimpleText('lng', p__('places', 'Longitude'));
+        $lng->setAttrib('readonly', 'readonly');
+
         $submit = $this->addSubmit(__('Save'), __('Save'));
         $submit->addClass('pull-right');
     }

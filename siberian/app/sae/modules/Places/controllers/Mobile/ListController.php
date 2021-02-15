@@ -133,6 +133,70 @@ class Places_Mobile_ListController extends Application_Controller_Mobile_Default
     /**
      *
      */
+    public function findAllMapsAction()
+    {
+        try {
+            $request = $this->getRequest();
+
+            $data = $request->getBodyParams();
+            $east = (float) ($data['e'] ?? 0);
+            $north = (float) ($data['n'] ?? 0);
+            $south = (float) ($data['s'] ?? 0);
+            $west = (float) ($data['w'] ?? 0);
+            $zoom = (int) ($data['zoom'] ?? 0);
+
+            $fulltext = $data['fulltext'] ?? null;
+            $categories = $data['categories'] ?? [];
+
+            $position = [
+                'east' => $east,
+                'north' => $north,
+                'south' => $south,
+                'west' => $west,
+                'zoom' => $zoom,
+            ];
+
+            $optionValue = $this->getCurrentOptionValue();
+            $valueId = $optionValue->getId();
+
+            // Default sort is distance, model will determine if location is sent and sort by alpha ion fallback!
+            $sortingType = 'distance';
+            $params = [
+                'fulltext' => $fulltext,
+                'categories' => $categories,
+                'sortingType' => $sortingType,
+                'position' => $position,
+            ];
+
+            /**
+             * @var $places Places_Model_Place[]
+             */
+            $places = (new Places_Model_Place())
+                ->findAllMapWithFilters($valueId, [], $params);
+
+            $collection = [];
+            foreach ($places as $place) {
+                $collection[] = $place->toJson($optionValue, $request->getBaseUrl());
+            }
+
+            $payload = [
+                'success' => true,
+                'total' => count($collection),
+                'places' => $collection
+            ];
+        } catch (\Exception $e) {
+            $payload = [
+                'error' => true,
+                'message' => $e->getMessage(),
+            ];
+        }
+
+        $this->_sendJson($payload);
+    }
+
+    /**
+     *
+     */
     public function fetchSettingsAction ()
     {
         try {
