@@ -68,13 +68,11 @@ angular
             return $pwaRequest.reject('[Factory::Places.findAll] missing value_id');
         }
 
-        var parameters = angular.extend({
-            value_id: this.value_id,
-            maps: true
-        }, filters);
-
-        return $pwaRequest.get('places/mobile_list/findall', angular.extend({
-            urlParams: parameters,
+        return $pwaRequest.post('places/mobile_list/find-all-maps', angular.extend({
+            urlParams: {
+                value_id: this.value_id
+            },
+            data: filters,
             refresh: refresh
         }, factory.extendedOptions));
     };

@@ -20,7 +20,7 @@ angular
         categories: [],
         total: 0,
         filters: {
-            fulltext: "",
+            fulltext: '',
             categories: null,
             longitude: 0,
             latitude: 0

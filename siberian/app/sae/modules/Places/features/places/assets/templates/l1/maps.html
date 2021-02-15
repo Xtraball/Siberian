@@ -1,5 +1,6 @@
 <ion-view class="module-places places places-map l1"
           sb-page-background>
+
     <ion-nav-title>{{ page_title }}</ion-nav-title>
 
     <ion-nav-buttons side="secondary">
@@ -11,44 +12,68 @@
         </button>
     </ion-nav-buttons>
 
-    <ion-content scroll="false"
-                 class="maps">
+    <ion-content scroll="false">
+        <!-- The so-said google-map -->
+        <div id="crMap"></div>
 
-        <div class="loader"
-             ng-show="is_loading">
-            <ion-spinner class="spinner-custom"></ion-spinner>
-        </div>
+        <!-- Complete custom map overlay -->
+        <div id="cr-map-overlay">
 
-        <div id="google-maps"
-             class="map-canvas"
-             sb-maps
-             map="map"
-             config="map_config"
-             ng-if="map_config"
-             data-tap-disabled="true"></div>
+            <!-- Zoom In/Out & Geolocation -->
+            <div ng-class="{'hide': showInfoWindow}"
+                 class="cr-map-zoom">
+                <div class="cr-zoom-center-me"
+                     ng-click="centerMe()">
+                    <i class="icon ion-navigate"></i>
+                </div>
+                <div class="cr-zoom-shadow">
+                    <div class="cr-zoom-in"
+                         ng-click="zoomIn()">
+                        <i class="icon ion-plus"></i>
+                    </div>
+                    <div class="cr-zoom-out"
+                         ng-click="zoomOut()">
+                        <i class="icon ion-minus"></i>
+                    </div>
+                </div>
+            </div>
 
-        <div id="mapInfoWindow"
-             ng-class="{'hide': !showInfoWindow}"
-             class="info-window slide-top">
-            <div class="item item-custom item-text-wrap info-window-icon">
-                <span class="info-window-title">{{ currentPlace.title }}</span>
-                <br />
-                <span class="info-window-distance"
-                      ng-if="currentPlace.distance != 0">{{ ::'Distance' | translate:'places' }}: {{ currentPlace.distance }} {{ currentPlace.distanceUnit }}</span>
-                -
-                <span ng-click="goToPlace(currentPlace.id)"
-                      class="info-window-more">
+            <div ng-if="isShortLoading"
+                 class="cr-map-loading-small">{{ ::'Loading...' | translate:'classifieds2' }}</div>
+
+            <div ng-if="!isLoading && !isShortLoading && collection.length <= 0"
+                 ng-click="filterModal()"
+                 class="cr-map-loading-small">{{ ::'No result.' | translate:'classifieds2' }}</div>
+
+            <!--div ng-if="!isLoading"
+                 class="cr-map-search-bar">
+                <p ng-click="filterModal()"
+                   ng-bind-html="filtersToString() | trusted_html"></p>
+                <i ng-show="filtersToString().length > 0"
+                   ng-click="clearFilters(); validateFilters()"
+                   class="icon ion-sb-clear-brush clear-fullsearch-map"></i>
+            </div-->
+
+            <div id="mapInfoWindow"
+                 ng-class="{'hide': !showInfoWindow}"
+                 class="info-window slide-top">
+                <div class="item item-custom item-text-wrap info-window-icon">
+                    <span class="info-window-title">{{ currentPlace.title }}</span>
+                    <br />
+                    <span ng-click="goToPlace(currentPlace.id)"
+                          class="info-window-more">
                     {{ ::'See details' | translate:'places' }} <i class="icon ion-android-open"></i>
                 </span>
-                <i ng-click="hideInfoWindow()"
-                   class="icon ion-close info-close"></i>
+                    <i ng-click="hideInfoWindow()"
+                       class="icon ion-close info-close"></i>
+                </div>
+                <div ng-if="currentPlace"
+                     sb-cms-address
+                     block="currentPlace.address"
+                     on-show-map="onShowMap(currentPlace.address)"></div>
+                <div class="item item-custom item-text-wrap"></div>
             </div>
-            <div ng-if="currentPlace"
-                 sb-cms-address
-                 block="currentPlace.address"
-                 on-show-map="onShowMap(currentPlace.address)"></div>
-            <div class="item item-custom item-text-wrap"></div>
         </div>
-
     </ion-content>
+
 </ion-view>
