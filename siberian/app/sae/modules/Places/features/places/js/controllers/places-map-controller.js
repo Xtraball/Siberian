@@ -26,6 +26,7 @@ angular
         });
 
         window.markers = [];
+        window.markersConfig = [];
         window.markerClusterer;
 
         Places.setValueId($stateParams.value_id);
@@ -56,7 +57,20 @@ angular
             $scope.crMap.setZoom($scope.crMap.getZoom() - 1);
         };
 
-         $scope.loadContent = function (refresh) {
+        $scope.markerClick = function (marker) {
+            console.log(marker);
+            $timeout(function () {
+                if (Places.settings.mapAction &&
+                    Places.settings.mapAction === 'gotoPlace') {
+                    $scope.goToPlace(marker.config.place.id);
+                } else {
+                    $scope.showInfoWindow = true;
+                    $scope.currentPlace = marker.config.place;
+                }
+            });
+        };
+
+        $scope.loadContent = function (refresh) {
 
             Places
                 .findAllMaps($scope.filters, refresh)
@@ -66,27 +80,17 @@ angular
                         window.markers[i].setMap(null);
                     }
                     window.markers = [];
+                    window.markersConfig = [];
 
                     $scope.collection = payload.places;
 
-                    for (var i = 0; i < $scope.collection.length; i = i + 1) {
-                        var place = $scope.collection[i];
+                    for (var j = 0; j < $scope.collection.length; j++) {
+                        var place = $scope.collection[j];
                         var marker = {
                             config: {
                                 id: angular.copy(place.id),
                                 place: angular.copy(place)
-                            },
-                            onClick: (function (marker) {
-                                $timeout(function () {
-                                    if (Places.settings.mapAction &&
-                                        Places.settings.mapAction === 'gotoPlace') {
-                                        $scope.goToPlace(marker.config.place.id);
-                                    } else {
-                                        $scope.showInfoWindow = true;
-                                        $scope.currentPlace = marker.config.place;
-                                    }
-                                });
-                            })
+                            }
                         };
 
                         if (place.address.latitude && place.address.longitude) {
@@ -130,23 +134,25 @@ angular
                         var tmpMarker = new google.maps.Marker({
                             position: new google.maps.LatLng(marker.latitude, marker.longitude),
                             map: $scope.crMap,
+                            index: angular.copy(j),
                             icon: marker.icon
                         });
                         google.maps.event.addListener(tmpMarker, 'click', function () {
-                            marker.onClick(marker);
+                            $scope.markerClick(window.markersConfig[this.index]);
                         });
+                        window.markersConfig.push(angular.copy(marker));
                         window.markers.push(tmpMarker);
                         window.markerClusterer.addMarker(tmpMarker);
                     }
 
                 }).finally(function () {
-                    if ($scope.isLoading === true) {
-                        $scope.isLoading = false;
-                        Loader.hide();
-                    }
+                if ($scope.isLoading === true) {
+                    $scope.isLoading = false;
+                    Loader.hide();
+                }
 
-                    $scope.isShortLoading = false;
-                });
+                $scope.isShortLoading = false;
+            });
         };
 
         $scope.goToPlace = function (placeId) {
