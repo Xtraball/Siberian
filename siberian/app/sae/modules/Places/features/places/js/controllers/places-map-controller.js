@@ -14,6 +14,7 @@ angular
             collection: [],
             showInfoWindow: false,
             currentPlace: null,
+            isUserCentered: false,
             filters: {
                 e: 0,
                 n: 0,
@@ -55,7 +56,7 @@ angular
             $scope.crMap.setZoom($scope.crMap.getZoom() - 1);
         };
 
-        $scope.loadContent = function (refresh) {
+         $scope.loadContent = function (refresh) {
 
             Places
                 .findAllMaps($scope.filters, refresh)
@@ -155,19 +156,27 @@ angular
             });
         };
 
-        $scope.centerMe = function () {
+        $scope.centerMe = function (startup) {
+            // If user already hit the button, skip!
+            if (startup !== undefined && $scope.isUserCentered === true) {
+                return;
+            }
+
+            $scope.isUserCentered = true;
             Location
                 .getLocation()
                 .then(function (position) {
                     $scope.crMap.setCenter(new google.maps.LatLng(position.coords.latitude, position.coords.longitude));
                     $scope.crMap.setZoom(15);
                 }, function () {
-                    Dialog.alert(
-                        'Location',
-                        'Sorry we are unable to locate you, please check your GPS settings & authorization.',
-                        'OK',
-                        -1,
-                        'Places');
+                    if (startup === undefined) {
+                        Dialog.alert(
+                            'Location',
+                            'Sorry we are unable to locate you, please check your GPS settings & authorization.',
+                            'OK',
+                            -1,
+                            'Places');
+                    }
                 });
         };
 
@@ -204,6 +213,12 @@ angular
             // Debounced idler
             google.maps.event.addListener($scope.crMap, 'idle', function () {
                 $timeout.cancel($scope.idleTimer);
+
+                // Call auto center just in case!
+                if (!$scope.isUserCentered) {
+                    $scope.centerMe(true);
+                }
+
                 $scope.idleTimer = $timeout(function () {
                     $scope.updateBounds();
                     $scope.isShortLoading = !$scope.isLoading;
