@@ -4,7 +4,7 @@
 angular
     .module('starter')
     .controller('PlacesMapController', function ($rootScope, $scope, $ionicSideMenuDelegate, $state,
-                                                 $stateParams, $translate, $timeout, Location, Loader,
+                                                 $stateParams, $translate, $timeout, Dialog, Location, Loader,
                                                  Places, GoogleMaps) {
 
         angular.extend($scope, {
