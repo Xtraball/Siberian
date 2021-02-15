@@ -182,11 +182,18 @@ angular
         };
 
         $scope.initMap = function () {
+            var lat = 43.604652;
+            var lng = 1.444209;
+            if (Places.settings.hasOwnProperty('lat') && Places.settings.hasOwnProperty('lng')) {
+                lat = parseFloat(Places.settings.lat);
+                lng = parseFloat(Places.settings.lng);
+            }
+
             $scope.mapSettings = {
                 zoom: 10,
                 center: {
-                    lat: 43.604652,
-                    lng: 1.444209
+                    lat: lat,
+                    lng: lng
                 },
                 cluster: true,
                 disableDefaultUI: true,
