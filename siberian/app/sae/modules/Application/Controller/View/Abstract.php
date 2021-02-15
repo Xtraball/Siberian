@@ -528,10 +528,10 @@ abstract class Application_Controller_View_Abstract extends Backoffice_Controlle
 
                     $device = $application->getDevice($deviceData["type_id"]);
                     $data_device_to_save = [
-                        "admob_app_id" => $deviceData["admob_app_id"],
-                        "admob_id" => $deviceData["admob_id"],
-                        "admob_interstitial_id" => $deviceData["admob_interstitial_id"],
-                        "admob_type" => $deviceData["admob_type"]
+                        "admob_app_id" => trim($deviceData["admob_app_id"]),
+                        "admob_id" => trim($deviceData["admob_id"]),
+                        "admob_interstitial_id" => trim($deviceData["admob_interstitial_id"]),
+                        "admob_type" => trim($deviceData["admob_type"])
                     ];
                     $device->addData($data_device_to_save)->save();
                 }
@@ -541,7 +541,7 @@ abstract class Application_Controller_View_Abstract extends Backoffice_Controlle
                     "message" => __("Info successfully saved")
                 ];
 
-            } catch (Exception $e) {
+            } catch (\Exception $e) {
                 $data = [
                     "error" => 1,
                     "message" => $e->getMessage()

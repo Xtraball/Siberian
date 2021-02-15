@@ -244,18 +244,18 @@ class Application_Customization_Publication_InfosController extends Application_
 
                 $androidDevice = $application->getAndroidDevice();
                 $androidDevice
-                    ->setAdmobAppId($params['android_admob_app_id'])
-                    ->setAdmobId($params['android_admob_id'])
-                    ->setAdmobInterstitialId($params['android_admob_interstitial_id'])
-                    ->setAdmobType($params['android_admob_type'])
+                    ->setAdmobAppId(trim($params['android_admob_app_id']))
+                    ->setAdmobId(trim($params['android_admob_id']))
+                    ->setAdmobInterstitialId(trim($params['android_admob_interstitial_id']))
+                    ->setAdmobType(trim($params['android_admob_type']))
                     ->save();
 
                 $iosDevice = $application->getIosDevice();
                 $iosDevice
-                    ->setAdmobAppId($params['ios_admob_app_id'])
-                    ->setAdmobId($params['ios_admob_id'])
-                    ->setAdmobInterstitialId($params['ios_admob_interstitial_id'])
-                    ->setAdmobType($params['ios_admob_type'])
+                    ->setAdmobAppId(trim($params['ios_admob_app_id']))
+                    ->setAdmobId(trim($params['ios_admob_id']))
+                    ->setAdmobInterstitialId(trim($params['ios_admob_interstitial_id']))
+                    ->setAdmobType(trim($params['ios_admob_type']))
                     ->save();
 
                 $payload = [
