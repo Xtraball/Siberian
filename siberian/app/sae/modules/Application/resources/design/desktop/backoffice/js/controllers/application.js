@@ -63,6 +63,8 @@ App.config(function($routeProvider) {
         $timeout(function () {
             $scope.tmp_application.selectedOwner = data.application.admin_id;
         });
+
+        $scope.initKeystoreUploader();
     }).finally(function () {
         $scope.content_loader_is_visible = false;
     });
@@ -456,6 +458,77 @@ App.config(function($routeProvider) {
 
     };
 
+    $scope.cleanKeystoreQueue = function () {
+        // Clean-up
+        for (var i = 0; i < $scope.keystore_uploader.queue.length; i++) {
+            $scope.keystore_uploader.queue[i].remove();
+        }
+    };
+
+    $scope.initKeystoreUploader = function () {
+        $scope.keystore_uploader = new FileUploader({
+            url: Url.get("application/backoffice_view/uploadkeystore", {appId: $scope.application.id})
+        });
+
+        $scope.keystore_uploader.filters.push({
+            name: 'limit',
+            fn: function (item, options) {
+                return this.queue.length < 1;
+            }
+        });
+
+        $scope.keystore_uploader.onWhenAddingFileFailed = function (item, filter, options) {
+            if (filter.name === 'limit') {
+                $scope.message.setText(Label.uploader.error.only_one_at_a_time).isError(true).show();
+            }
+        };
+
+        $scope.keystore_uploader.onSuccessItem = function (fileItem, response, status, headers) {
+            $scope.keystoreLoader = false;
+            if (angular.isObject(response) && response.success) {
+                $scope
+                    .message
+                    .setText(response.message)
+                    .isError(false)
+                    .show();
+            } else {
+                $scope
+                    .message
+                    .setText(response.message)
+                    .isError(true)
+                    .show();
+            }
+
+            $scope.cleanKeystoreQueue();
+        };
+
+        $scope.keystore_uploader.onErrorItem = function (fileItem, response, status, headers) {
+            $scope.keystoreLoader = false;
+            $scope
+                .message
+                .setText(response.message)
+                .isError(true)
+                .show();
+
+            $scope.cleanKeystoreQueue();
+        };
+    };
+
+    $scope.keystoreLoader = false;
+    $scope.uploadKeystore = function () {
+        if ($scope.keystore_uploader.queue.length < 1) {
+            window.alert('You must upload a package first!');
+            return;
+        }
+        console.log($scope.keystore_uploader.queue[0]);
+        if ($scope.keystore_uploader.queue[0].file.name.split('.').pop() !== 'zip') {
+            window.alert('Package must be a zip archive!');
+            $scope.cleanKeystoreQueue();
+            return;
+        }
+        $scope.keystoreLoader = true;
+        $scope.keystore_uploader.queue[0].upload();
+    };
 
     $scope.saveDeviceInfo = function(confirm) {
 
