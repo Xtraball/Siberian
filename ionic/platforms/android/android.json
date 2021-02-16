@@ -9,14 +9,6 @@
         "parents": {
           "/*": [
             {
-              "xml": "<preference name=\"loadUrlTimeoutValue\" value=\"60000\" />",
-              "count": 1
-            },
-            {
-              "xml": "<feature name=\"HotCodePush\"><param name=\"android-package\" value=\"com.nordnetab.chcp.main.HotCodePushPlugin\" /><param name=\"onload\" value=\"true\" /></feature>",
-              "count": 1
-            },
-            {
               "xml": "<feature name=\"GeofencePlugin\"><param name=\"android-package\" value=\"com.cowbell.cordova.geofence.GeofencePlugin\" /></feature>",
               "count": 1
             },
@@ -101,60 +93,6 @@
       },
       "AndroidManifest.xml": {
         "parents": {
-          "/manifest": [
-            {
-              "xml": "<uses-permission android:name=\"android.permission.INTERNET\" />",
-              "count": 3
-            },
-            {
-              "xml": "<uses-permission android:name=\"android.permission.ACCESS_NETWORK_STATE\" />",
-              "count": 2
-            },
-            {
-              "xml": "<uses-permission android:name=\"android.permission.ACCESS_WIFI_STATE\" />",
-              "count": 1
-            },
-            {
-              "xml": "<uses-permission android:name=\"android.permission.WRITE_EXTERNAL_STORAGE\" />",
-              "count": 1
-            },
-            {
-              "xml": "<uses-permission android:name=\"android.permission.RECEIVE_BOOT_COMPLETED\" />",
-              "count": 2
-            },
-            {
-              "xml": "<uses-permission android:name=\"android.permission.ACCESS_COARSE_LOCATION\" />",
-              "count": 1
-            },
-            {
-              "xml": "<uses-permission android:name=\"android.permission.ACCESS_FINE_LOCATION\" />",
-              "count": 1
-            },
-            {
-              "xml": "<uses-permission android:name=\"android.permission.VIBRATE\" />",
-              "count": 2
-            },
-            {
-              "xml": "<uses-permission android:name=\"android.permission.WAKE_LOCK\" />",
-              "count": 2
-            },
-            {
-              "xml": "<uses-permission android:name=\"android.permission.CAMERA\" />",
-              "count": 1
-            },
-            {
-              "xml": "<uses-permission android:name=\"android.permission.FLASHLIGHT\" />",
-              "count": 1
-            },
-            {
-              "xml": "<uses-feature android:name=\"android.hardware.camera\" android:required=\"true\" />",
-              "count": 1
-            },
-            {
-              "xml": "<uses-permission android:name=\"android.permission.ACCESS_NOTIFICATION_POLICY\" />",
-              "count": 1
-            }
-          ],
           "/manifest/application": [
             {
               "xml": "<service android:exported=\"false\" android:label=\"@string/app_name\" android:name=\"com.cowbell.cordova.geofence.ReceiveTransitionsIntentService\"></service>",
@@ -238,6 +176,52 @@
             },
             {
               "xml": "<service android:name=\"com.xtraball.musiccontrols.MusicControlsNotificationKiller\" />",
+              "count": 1
+            }
+          ],
+          "/manifest": [
+            {
+              "xml": "<uses-permission android:name=\"android.permission.RECEIVE_BOOT_COMPLETED\" />",
+              "count": 2
+            },
+            {
+              "xml": "<uses-permission android:name=\"android.permission.ACCESS_COARSE_LOCATION\" />",
+              "count": 1
+            },
+            {
+              "xml": "<uses-permission android:name=\"android.permission.ACCESS_FINE_LOCATION\" />",
+              "count": 1
+            },
+            {
+              "xml": "<uses-permission android:name=\"android.permission.VIBRATE\" />",
+              "count": 2
+            },
+            {
+              "xml": "<uses-permission android:name=\"android.permission.INTERNET\" />",
+              "count": 2
+            },
+            {
+              "xml": "<uses-permission android:name=\"android.permission.ACCESS_NETWORK_STATE\" />",
+              "count": 1
+            },
+            {
+              "xml": "<uses-permission android:name=\"android.permission.WAKE_LOCK\" />",
+              "count": 2
+            },
+            {
+              "xml": "<uses-permission android:name=\"android.permission.CAMERA\" />",
+              "count": 1
+            },
+            {
+              "xml": "<uses-permission android:name=\"android.permission.FLASHLIGHT\" />",
+              "count": 1
+            },
+            {
+              "xml": "<uses-feature android:name=\"android.hardware.camera\" android:required=\"true\" />",
+              "count": 1
+            },
+            {
+              "xml": "<uses-permission android:name=\"android.permission.ACCESS_NOTIFICATION_POLICY\" />",
               "count": 1
             }
           ],
@@ -370,9 +354,6 @@
     }
   },
   "installed_plugins": {
-    "Chcp": {
-      "PACKAGE_NAME": "com.appsmobilecompany.base"
-    },
     "Geofence": {
       "PACKAGE_NAME": "com.appsmobilecompany.base"
     },
@@ -469,14 +450,6 @@
   },
   "dependent_plugins": {},
   "modules": [
-    {
-      "id": "Chcp.chcp",
-      "file": "plugins/Chcp/www/chcp.js",
-      "pluginId": "Chcp",
-      "clobbers": [
-        "chcp"
-      ]
-    },
     {
       "id": "Geofence.TransitionType",
       "file": "plugins/Geofence/www/TransitionType.js",
@@ -919,7 +892,6 @@
     }
   ],
   "plugin_metadata": {
-    "Chcp": "1.5.2",
     "Geofence": "0.6.0",
     "InAppPurchase": "10.5.0",
     "IonicWebview": "4.0.1",

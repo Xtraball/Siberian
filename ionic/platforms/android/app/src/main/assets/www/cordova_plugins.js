@@ -1,14 +1,6 @@
 cordova.define('cordova/plugin_list', function(require, exports, module) {
   module.exports = [
     {
-      "id": "Chcp.chcp",
-      "file": "plugins/Chcp/www/chcp.js",
-      "pluginId": "Chcp",
-      "clobbers": [
-        "chcp"
-      ]
-    },
-    {
       "id": "Geofence.TransitionType",
       "file": "plugins/Geofence/www/TransitionType.js",
       "pluginId": "Geofence",
@@ -450,7 +442,6 @@ cordova.define('cordova/plugin_list', function(require, exports, module) {
     }
   ];
   module.exports.metadata = {
-    "Chcp": "1.5.2",
     "Geofence": "0.6.0",
     "InAppPurchase": "10.5.0",
     "IonicWebview": "4.0.1",
