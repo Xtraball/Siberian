@@ -9,14 +9,6 @@
         "parents": {
           "/*": [
             {
-              "xml": "<preference name=\"loadUrlTimeoutValue\" value=\"60000\" />",
-              "count": 1
-            },
-            {
-              "xml": "<feature name=\"HotCodePush\"><param name=\"ios-package\" value=\"HCPPlugin\" /><param name=\"onload\" value=\"true\" /></feature>",
-              "count": 1
-            },
-            {
               "xml": "<feature name=\"InAppPurchase\"><param name=\"ios-package\" value=\"InAppPurchase\" /><param name=\"onload\" value=\"true\" /></feature>",
               "count": 1
             },
@@ -232,9 +224,6 @@
     }
   },
   "installed_plugins": {
-    "Chcp": {
-      "PACKAGE_NAME": "com.appsmobilecompany.base"
-    },
     "InAppPurchase": {
       "PACKAGE_NAME": "com.appsmobilecompany.base"
     },
@@ -323,14 +312,6 @@
   },
   "dependent_plugins": {},
   "modules": [
-    {
-      "id": "Chcp.chcp",
-      "file": "plugins/Chcp/www/chcp.js",
-      "pluginId": "Chcp",
-      "clobbers": [
-        "chcp"
-      ]
-    },
     {
       "id": "InAppPurchase.InAppPurchase",
       "file": "plugins/InAppPurchase/www/store-ios.js",
@@ -777,7 +758,6 @@
     }
   ],
   "plugin_metadata": {
-    "Chcp": "1.5.2",
     "InAppPurchase": "10.5.0",
     "IosXhr": "1.0.8",
     "Push": "1.10.0",

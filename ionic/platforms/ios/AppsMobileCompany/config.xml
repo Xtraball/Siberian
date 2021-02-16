@@ -25,10 +25,6 @@
         <param name="ios-package" value="CDVGestureHandler" />
         <param name="onload" value="true" />
     </feature>
-    <feature name="HotCodePush">
-        <param name="ios-package" value="HCPPlugin" />
-        <param name="onload" value="true" />
-    </feature>
     <feature name="InAppPurchase">
         <param name="ios-package" value="InAppPurchase" />
         <param name="onload" value="true" />
@@ -147,7 +143,6 @@
     <preference name="PageLength" value="0" />
     <preference name="PaginationBreakingMode" value="page" />
     <preference name="PaginationMode" value="unpaginated" />
-    <preference name="loadUrlTimeoutValue" value="60000" />
     <preference name="APP_ID_IOS" value="ca-app-pub-0000000000000000~0000000000" />
     <preference name="CameraUsesGeolocation" value="false" />
     <preference name="StatusBarOverlaysWebView" value="true" />
