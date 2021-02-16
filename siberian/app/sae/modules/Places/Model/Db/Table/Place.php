@@ -83,8 +83,7 @@ class Places_Model_Db_Table_Place extends Core_Model_Db_Table
                         ->orWhere("page_block_address.phone LIKE ?", "%{$term}%")
                         ->orWhere("page_block_address.website LIKE ?", "%{$term}%")
                         ->orWhere("category.title LIKE ?", "%{$term}%")
-                        ->orWhere("category.subtitle LIKE ?)", "%{$term}%")
-                    ;
+                        ->orWhere("category.subtitle LIKE ?)", "%{$term}%");
                 }
 
             }
@@ -114,6 +113,92 @@ class Places_Model_Db_Table_Place extends Core_Model_Db_Table
         $select
             ->where('page.value_id = ?', $valueId)
             ->distinct("page.page_id");
+
+        return $this->toModelClass($this->_db->fetchAll($select));
+    }
+
+    /**
+     * @param $valueId
+     * @param array $values
+     * @param array $params
+     * @return mixed
+     * @throws Zend_Db_Select_Exception
+     * @throws Zend_Db_Statement_Exception
+     * @throws Zend_Exception
+     */
+    public function findAllMapWithFilters($valueId, $values = [], $params = [])
+    {
+        $columns = ['*', 'time' => 'UNIX_TIMESTAMP(page.created_at)'];
+        $boundaries = [
+            'east' => $params['position']['east'],
+            'north' => $params['position']['north'],
+            'south' => $params['position']['south'],
+            'west' => $params['position']['west']
+        ];
+
+        $select = $this->_db->select()
+            ->from(
+                [
+                    'page' => 'cms_application_page'
+                ], 
+                $columns)
+            ->join([
+                'page_block' => 'cms_application_page_block'
+            ],
+                'page.page_id = page_block.page_id AND page_block.block_id = 4')
+            ->join([
+                'page_block_address' => 'cms_application_page_block_address'
+            ],
+                'page_block.value_id = page_block_address.value_id')
+            ->limit($params['limit'], $params['offset']);
+
+        // Category filter
+        if (array_key_exists('categories', $params) && !empty($params['categories'])) {
+            $categories = explode(',', $params['categories']);
+            $select
+                ->join(['page_category' => 'place_page_category'], 'page_category.page_id = page.page_id', [])
+                ->join(['category' => 'place_category'], 'category.category_id = page_category.category_id', []);
+
+            $select->where('category.category_id IN (?)', $categories);
+        } else {
+            $select
+                ->joinLeft(['page_category' => 'place_page_category'], 'page_category.page_id = page.page_id', [])
+                ->joinLeft(['category' => 'place_category'], 'category.category_id = page_category.category_id', []);
+        }
+
+        // Fulltext search
+        if (array_key_exists('fulltext', $params)) {
+            $fulltext = trim($params['fulltext']);
+            if (!empty($fulltext)) {
+                $terms = explode(' ', $fulltext);
+                foreach ($terms as $term) {
+                    $select
+                        ->where('(page.title LIKE ?', "%{$term}%")
+                        ->orWhere('page.content LIKE ?', "%{$term}%")
+                        ->orWhere('page.tags LIKE ?', "%{$term}%")
+                        ->orWhere('page_block_address.label LIKE ?', "%{$term}%")
+                        ->orWhere('page_block_address.address LIKE ?', "%{$term}%")
+                        ->orWhere('page_block_address.phone LIKE ?', "%{$term}%")
+                        ->orWhere('page_block_address.website LIKE ?', "%{$term}%")
+                        ->orWhere('category.title LIKE ?', "%{$term}%")
+                        ->orWhere('category.subtitle LIKE ?)', "%{$term}%");
+                }
+            }
+        }
+
+        $select
+            // Filtering unlocated posts
+            ->where('(latitude != 0 AND longitude !=0 AND latitude IS NOT NULL AND longitude IS NOT NULL)')
+            ->where('latitude >= ?', $boundaries['south'])
+            ->where('latitude <= ?', $boundaries['north'])
+            ->where('longitude >= ?', $boundaries['west'])
+            ->where('longitude <= ?', $boundaries['east'])
+            // Hide pins
+            ->where("page.hide_pin = ?", 0)
+            ->where('page.value_id = ?', $valueId)
+            ->distinct("page.page_id");
+
+        dbg($select->__toString());
 
         return $this->toModelClass($this->_db->fetchAll($select));
     }

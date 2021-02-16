@@ -270,7 +270,7 @@ class Application_Model_Device_Ionic_Android extends Application_Model_Device_Io
 
         $admobAppId = $this->getDevice()->getAdmobAppId();
         if (!empty($admobAppId)) {
-            $this->admobAppIdentifier = $admobAppId;
+            $this->admobAppIdentifier = trim($admobAppId);
         }
 
         /** Ionic sources */

@@ -230,7 +230,7 @@ class Application_Model_Device_Ionic_Ios extends Application_Model_Device_Ionic_
             $this->withAds = false;
             $_package_ads_suffix = $_source_ads_suffix = "-noads";
         }
-        $this->admobAppIdentifier = $device->getAdmobAppId();
+        $this->admobAppIdentifier = trim($device->getAdmobAppId());
 
         $this->_app_name_formatted = Core_Model_Lib_String::format($this->currentApplication->getName(), true);
         $this->_folder_name = $this->_app_name_formatted . '-' . $this->currentApplication->getId();

@@ -10,6 +10,7 @@ $deleteForm = new Places_Form_Place_Delete();
 $deleteForm->setValueId($optionValue->getId());
 
 $appKey = $application->getGooglemapsKey();
+$appGmapsKey = $application->getGooglemapsKey();
 
 $settingsForm = new Places_Form_Settings();
 
@@ -354,6 +355,34 @@ $deleteCategoryForm->setValueId($optionValue->getId());
 
 <script type="text/javascript">
     $(document).ready(function() {
+        // Location settings
+        let address = $("#address");
+        let latitude = $("#lat");
+        let longitude = $("#lng");
+
+        window.initMap = function () {
+            let searchBox = new google.maps.places.SearchBox(address.get(0));
+            address.data('search_box', searchBox);
+            google.maps.event.addListener(searchBox, 'places_changed', function () {
+                let places = address.data("search_box").getPlaces();
+                if (places) {
+                    let place = places[0];
+                    latitude.val(place.geometry.location.lat());
+                    longitude.val(place.geometry.location.lng());
+                }
+            });
+        };
+
+        if (!$("#gmaps_libraries").length) {
+            let scriptTag = document.createElement('script');
+            scriptTag.setAttribute('id', 'gmaps_libraries');
+            scriptTag.setAttribute('type', 'text/javascript');
+            scriptTag.setAttribute('src', 'https://maps.google.com/maps/api/js?callback=window.initMap&sensor=false&libraries=places&key=<?php echo $appGmapsKey; ?>');
+            (document.getElementsByTagName('head')[0] || document.documentElement).appendChild(scriptTag);
+        } else {
+            window.initMap();
+        }
+
         $(".feature-toggle-add[rel='places'], .edit-action[rel='places']").on("click", function(event) {
             event.preventDefault();
 
