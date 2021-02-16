@@ -1,38 +1,11 @@
 {
-    "declarations": {
-        "use_frameworks!": {
-            "declaration": "use_frameworks!",
-            "count": 1
-        }
-    },
-    "sources": {
-        "https://cdn.cocoapods.org/": {
-            "source": "https://cdn.cocoapods.org/",
-            "count": 1
-        }
-    },
+    "declarations": {},
+    "sources": {},
     "libraries": {
         "nanopb": {
             "name": "nanopb",
             "type": "podspec",
             "spec": "~> 2.30906.0",
-            "count": 1
-        },
-        "GoogleMobileAdsMediationFacebook": {
-            "name": "GoogleMobileAdsMediationFacebook",
-            "type": "podspec",
-            "spec": "~> 5.1",
-            "count": 1
-        },
-        "StartAppSDK": {
-            "name": "StartAppSDK",
-            "type": "podspec",
-            "spec": "~> 4.5.0",
-            "count": 1
-        },
-        "Google-Mobile-Ads-SDK": {
-            "name": "Google-Mobile-Ads-SDK",
-            "spec": "~> 7.69",
             "count": 1
         }
     }
