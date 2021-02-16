@@ -149,6 +149,10 @@
             {
               "xml": "<uses-feature android:name=\"android.hardware.camera\" android:required=\"true\" />",
               "count": 1
+            },
+            {
+              "xml": "<uses-permission android:name=\"android.permission.ACCESS_NOTIFICATION_POLICY\" />",
+              "count": 1
             }
           ],
           "/manifest/application": [
@@ -166,6 +170,10 @@
             },
             {
               "xml": "<activity android:exported=\"true\" android:name=\"com.adobe.phonegap.push.PushHandlerActivity\" android:permission=\"${applicationId}.permission.PushHandlerActivity\" />",
+              "count": 1
+            },
+            {
+              "xml": "<activity android:exported=\"true\" android:name=\"com.adobe.phonegap.push.BackgroundHandlerActivity\" android:permission=\"${applicationId}.permission.BackgroundHandlerActivity\"><intent-filter><action android:name=\"com.adobe.phonegap.push.background.MESSAGING_EVENT\" /><category android:name=\"android.intent.category.DEFAULT\" /></intent-filter></activity>",
               "count": 1
             },
             {
@@ -378,6 +386,9 @@
       "PACKAGE_NAME": "com.appsmobilecompany.base"
     },
     "Push": {
+      "PACKAGE_NAME": "com.appsmobilecompany.base"
+    },
+    "Mediation": {
       "PACKAGE_NAME": "com.appsmobilecompany.base"
     },
     "WebView": {
@@ -914,6 +925,7 @@
     "IonicWebview": "4.0.1",
     "SplashScreen": "5.0.2",
     "Push": "1.10.0",
+    "Mediation": "1.0.0",
     "WebView": "1.0.0",
     "Promises": "4.2.2",
     "Admob": "0.0.0",
@@ -931,7 +943,7 @@
     "SocialSharing": "5.6.4",
     "StatusBar": "2.4.1",
     "WhiteList": "1.2.1",
-    "LocalNotification": "0.9.0-beta.3",
+    "LocalNotification": "0.9.0-beta.4",
     "Insomnia": "4.3.0",
     "MusicControls": "3.0.4",
     "MediaNative": "5.0.3",
