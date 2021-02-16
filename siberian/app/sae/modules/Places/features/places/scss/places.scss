@@ -546,6 +546,124 @@
     font-size: 1.25rem !important;
   }
 
+  /** Map view */
+  &.places-map {
+    .map-container {
+      height: 100%;
+    }
+
+    #crMap {
+      position: absolute;
+      width: 100vw;
+      top: 0;
+      bottom: 0;
+    }
+
+    #cr-map-overlay {
+
+      /** Map zoom actions */
+      .cr-map-zoom {
+        position: absolute;
+        right: 1rem;
+        bottom: 1rem;
+        text-align: center;
+
+        .cr-zoom-center-me {
+          border: 0;
+          background-color: rgba(255, 255, 255, 0.9);
+          padding: .4rem 0.75rem;
+          border-radius: 4px;
+          margin-bottom: 1rem;
+          box-shadow: 2px 2px 5px #8a8a8a;
+        }
+
+        .cr-zoom-shadow {
+          box-shadow: 2px 2px 5px #8a8a8a;
+          border-radius: 4px;
+
+          .cr-zoom-in {
+            border: 0;
+            background-color: rgba(255, 255, 255, 0.9);
+            padding: .4rem 0.75rem;
+          }
+
+          .cr-zoom-out {
+            border: 0;
+            border-top: 1px solid lightgrey;
+            background-color: rgba(255, 255, 255, 0.9);
+            padding: .4rem 0.75rem;
+          }
+        }
+      }
+
+      /** Overlay loader */
+      .cr-map-loading {
+        position: absolute;
+        left: 40vw;
+        top: 50vh;
+        transform: translate(-15vw, -15vh);
+        text-align: center;
+        border: 0;
+        background-color: rgba(255, 255, 255, 0.9);
+        font-variant: small-caps;
+        text-transform: lowercase;
+        letter-spacing: 0.05em;
+        font-size: 1rem;
+        border-radius: 4px;
+        box-shadow: 2px 2px 5px #8a8a8a;
+
+        .cr-map-loader {
+          .cr-loader-spinner {
+            img {
+              width: 80%;
+              height: auto;
+            }
+          }
+
+          .cr-loader-label {
+            margin-bottom: .5rem;
+            padding: 0 10px;
+          }
+        }
+      }
+
+      /** Small overlay loader */
+      .cr-map-loading-small {
+        position: absolute;
+        top: 15px;
+        left: 15px;
+        background-color: rgba(255, 255, 255, 0.9);
+        font-variant: small-caps;
+        text-transform: lowercase;
+        letter-spacing: 0.05em;
+        font-size: 1rem;
+        border-radius: 4px;
+        box-shadow: 2px 2px 5px #8a8a8a;
+        padding: 3px 15px 5px 15px;
+      }
+
+      .cr-map-search-bar {
+        p {
+          position: absolute;
+          top: 15px;
+          left: 15px;
+          background-color: rgba(255, 255, 255, 0.9);
+          font-variant: small-caps;
+          text-transform: lowercase;
+          letter-spacing: 0.05em;
+          font-size: 1rem;
+          border-radius: 4px;
+          box-shadow: 2px 2px 5px #8a8a8a;
+          padding: 5px 14px 7px 14px;
+          width: calc(100vw - 30px);
+          cursor: text;
+          overflow: hidden;
+          height: 32px;
+        }
+      }
+    }
+  }
+
 }
 
 /** Extra namespace */

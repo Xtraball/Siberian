@@ -20,7 +20,7 @@ angular
         categories: [],
         total: 0,
         filters: {
-            fulltext: "",
+            fulltext: '',
             categories: null,
             longitude: 0,
             latitude: 0
@@ -236,7 +236,7 @@ angular
     });
 
     // Loading places feature settings
-    $pwaRequest.get("places/mobile_list/fetch-settings'", {
+    $pwaRequest.get("places/mobile_list/fetch-settings", {
         urlParams: {
             value_id: $scope.value_id,
             t: Date.now()

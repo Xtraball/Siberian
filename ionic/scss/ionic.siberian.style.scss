@@ -35,8 +35,10 @@ ion-modal-view {
 }
 
 /** 100vh height is important for iOS viewport */
-ion-side-menus {
-  height: 100vh !important;
+.platform-ios14 {
+  ion-side-menus {
+    height: 100vh !important;
+  }
 }
 
 ion-side-menu {

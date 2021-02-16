@@ -1,6 +1,7 @@
 <?php
 
 use Siberian\Exception;
+use Siberian\Version;
 
 /**
  * Class Application_Controller_View_Abstract
@@ -59,7 +60,7 @@ abstract class Application_Controller_View_Abstract extends Backoffice_Controlle
             $admins = $admin->getAllApplicationAdmins($appId);
             $admin_owner = $application->getOwner();
         }
-        
+
         $admin_list = [];
         foreach ($admins as $admin) {
             $_dataAdmin = $admin;
@@ -98,7 +99,10 @@ abstract class Application_Controller_View_Abstract extends Backoffice_Controlle
                 (!$device->getDeveloperAccountUsername() || !$device->getDeveloperAccountPassword())
             );
             $data = $device->getData();
-
+            if ($data['type_id'] === '2') {
+                $keystore_path = \Core_Model_Directory::getBasePathTo("var/apps/android/keystore/$appId.pks");
+                $data['Keystore'] = is_file($keystore_path);
+            }
             $data['owner_admob_weight'] = (integer)$data['owner_admob_weight'];
 
             if ((int)$device->getTypeId() === 2) {
@@ -114,6 +118,7 @@ abstract class Application_Controller_View_Abstract extends Backoffice_Controlle
 
             $devices[] = $data;
         }
+
 
         $data = [
             'owner' => $owner,
@@ -154,6 +159,7 @@ abstract class Application_Controller_View_Abstract extends Backoffice_Controlle
         $data['confirm_message_domain'] = __('If your app is already published, changing the URL key or domain will break it. You will have to republish it. Change it anyway?');
         $data['confirm_message_owner'] = p__('backoffice_application', 'You will change the app owner. Are you sure of your choice?');
         $data['confirm_message_delete_admin'] = p__('backoffice_application', 'You are about to remove this admin. Are you sure?');
+        $data['confirm_upload_keystore'] = p__('backoffice_application', 'Uploading a new keystore file can prevent your app to be updated on the play store. Are you sure to upload a new keystore ?');
         $data['filter_too_short'] = p__('backoffice_application', 'Filter must be at least 3 characters long!');
         $data['filter_no_result'] = p__('backoffice_application', 'No result for your request!');
 
@@ -415,6 +421,7 @@ abstract class Application_Controller_View_Abstract extends Backoffice_Controlle
 
     public function savedeviceAction()
     {
+
         try {
             $request = $this->getRequest();
             $values = $request->getBodyParams();
@@ -490,6 +497,7 @@ abstract class Application_Controller_View_Abstract extends Backoffice_Controlle
         $this->_sendJson($payload);
     }
 
+
     public function saveadvertisingAction()
     {
 
@@ -520,10 +528,10 @@ abstract class Application_Controller_View_Abstract extends Backoffice_Controlle
 
                     $device = $application->getDevice($deviceData["type_id"]);
                     $data_device_to_save = [
-                        "admob_app_id" => $deviceData["admob_app_id"],
-                        "admob_id" => $deviceData["admob_id"],
-                        "admob_interstitial_id" => $deviceData["admob_interstitial_id"],
-                        "admob_type" => $deviceData["admob_type"]
+                        "admob_app_id" => trim($deviceData["admob_app_id"]),
+                        "admob_id" => trim($deviceData["admob_id"]),
+                        "admob_interstitial_id" => trim($deviceData["admob_interstitial_id"]),
+                        "admob_type" => trim($deviceData["admob_type"])
                     ];
                     $device->addData($data_device_to_save)->save();
                 }
@@ -533,7 +541,7 @@ abstract class Application_Controller_View_Abstract extends Backoffice_Controlle
                     "message" => __("Info successfully saved")
                 ];
 
-            } catch (Exception $e) {
+            } catch (\Exception $e) {
                 $data = [
                     "error" => 1,
                     "message" => $e->getMessage()
@@ -919,9 +927,9 @@ abstract class Application_Controller_View_Abstract extends Backoffice_Controlle
                             ->setAppId($app_id);
                     }
 
-                    $new_name = uniqid("cert_") . ".pem";
-                    if (!rename($file["file"]["tmp_name"], $base_path . $new_name)) {
-                        throw new Exception(__("An error occurred while saving. Please try again later."));
+                    $new_name = uniqid('cert_', true) . ".pem";
+                    if (!rename($file['file']['tmp_name'], $base_path . $new_name)) {
+                        throw new Exception(p__('application', 'An error occurred while saving. Please try again later.'));
                     }
 
                     $certificat->setPath($path . $new_name)
@@ -953,6 +961,177 @@ abstract class Application_Controller_View_Abstract extends Backoffice_Controlle
             $this->_sendHtml($data);
 
         }
+
+    }
+
+    public function uploadkeystoreAction()
+    {
+        try {
+            $request = $this->getRequest();
+            $appId = $request->getParam('appId', null);
+            $requestTimestamp = time();
+
+            if (empty($appId)) {
+                throw new Exception(p__('application', 'We are unable to find the application.'));
+            }
+
+            if (empty($_FILES) || empty($_FILES['file']['name'])) {
+                throw new Exception(p__('application', 'Missing file.'));
+            }
+
+            if (Version::is('SAE')) {
+                $application = Application_Model_Application::getInstance();
+            } else {
+                $application = (new Application_Model_Application())->find($appId);
+                if (!$application || !$application->getId()) {
+                    throw new Exception(p__('application', 'We are unable to find the application.'));
+                }
+            }
+
+            $base_path = path('var/apps/android/keystore');
+            $tmp_path = tmp(true);
+            if (!mkdir($base_path, 0775, true) && !is_dir($base_path)) {
+                throw new \RuntimeException(sprintf('Directory "%s" was not created', $base_path));
+            }
+            $adapter = new Zend_File_Transfer_Adapter_Http();
+            $adapter->setDestination(tmp(true));
+
+            if (!$adapter->receive()) {
+                $messages = $adapter->getMessages();
+                if (!empty($messages)) {
+                    $message = implode("\n", $messages);
+                    throw new Exception($message);
+                }
+                throw new Exception(p__('application', 'An unknown error occured during the file upload.'));
+            }
+
+            $file = $adapter->getFileInfo();
+            $file_path = $file['file']['tmp_name'];
+            $file_ext = pathinfo($file_path, PATHINFO_EXTENSION);
+            if ($file_ext !== 'zip') {
+                throw new Exception(p__('application', 'You must upload a zip archive containing the required files.'));
+            }
+
+            exec("unzip -o $file_path -d $tmp_path/$appId-$requestTimestamp-import", $output, $return);
+            $file_list = scandir("$tmp_path/$appId-$requestTimestamp-import");
+
+            if (!in_array('passwords.txt', $file_list, true)) {
+                throw new Exception(p__('application', 'The file passwords.txt is missing'));
+            }
+            $passwords_raw = file("$tmp_path/$appId-$requestTimestamp-import/passwords.txt");
+
+            // Get info from password file!
+            $passwords = [];
+            foreach ($passwords_raw as $line) {
+                $values = explode(':', $line);
+                $passwords[$values[0]] = $values[1];
+            }
+            $store_pass = trim($passwords['store_pass']);
+            $key_pass = trim($passwords['key_pass']);
+            $alias = trim($passwords['alias']);
+
+            // Check if keystore / pfx file is there
+            if (!in_array('cert.pfx', $file_list, true) &&
+                !in_array('keystore.pks', $file_list, true)) {
+                throw new Exception(p__('application', 'The file cert.pfx or keystore.pks is missing'));
+            }
+            // Backup current keystore pass and alias
+            if (is_readable("$base_path/$appId.pks")) {
+                $backupPath = "$base_path/backup_import_$appId-$requestTimestamp.pks";
+                $command = "mv $base_path/$appId.pks $backupPath";
+                exec($command, $output_mv, $return_mv);
+                if (!is_readable($backupPath)) {
+                    throw new Exception(p__('application', 'Error when creating a backup of the current keystore file!'));
+                }
+            }
+            $currentPasswords = (new Application_Model_Device())->find([
+                'app_id' => $appId,
+                'type_id' => 2
+            ])->getData();
+
+            # creating zip file of previous passwords and keystore
+            $passwords_to_file = "key_pass:" . $currentPasswords["key_pass"] . "\nstore_pass:" . $currentPasswords["store_pass"] . "\nalias:" . $currentPasswords["alias"];
+            file_put_contents("$base_path/$appId-passwords.txt", $passwords_to_file);
+
+            $command = "cd $base_path && zip $appId-$requestTimestamp-keystore.zip $appId-passwords.txt bck_import_$appId.pks";
+
+            exec($command, $output, $return);
+            if ($return !== 0) {
+                throw new Exception(p__('application', 'Error when archiving previous keystore and passwords'));
+            }
+
+
+            #importing new keystore from .pfx
+            if (in_array('cert.pfx', $file_list, true)) {
+                $trick = escapeshellarg("$store_pass\n$store_pass\n$store_pass");
+                $command = "printf $trick | keytool -importkeystore -srckeystore $tmp_path/$appId-$requestTimestamp-import/cert.pfx -srcstoretype pkcs12 -destkeystore $base_path/$appId.pks -deststoretype JKS > $base_path/$appId-import.log 2>&1";
+
+                exec($command, $output, $return);
+                if ($return !== 0) {
+                    $error = file_get_contents("$base_path/$appId-import.log");
+                    throw new Exception(p__('application', 'Error while converting to keystore file: %s', $error));
+                }
+
+            }
+            #importing new keystore from .pks
+            if (in_array('keystore.pks', $file_list, true)) {
+                $command = "cp -p $tmp_path/$appId-$requestTimestamp-import/keystore.pks $base_path/$appId.pks > $base_path/$appId-import.log 2>&1";
+                exec($command, $output, $return);
+
+                if ($return !== 0) {
+                    $error = file_get_contents("$base_path/$appId-import.log");
+                    throw new Exception(p__('application', 'Error while copying keystore file: %s', $error));
+                }
+                $command = "printf $store_pass | keytool -list -v -keystore $base_path/$appId.pks";
+
+                exec($command, $output, $return);
+                if ($return !== 0) {
+                    $output = json_encode(preg_grep('/keytool error/i', $output));
+                    throw new Exception(p__('application', 'Error when opening keystore with provided password: %s', $output));
+                }
+
+            }
+            #importing new keystore from .jks
+            if (in_array('keystore.jks', $file_list, true)) {
+                $command = "cp -p $tmp_path/$appId-$requestTimestamp-import/keystore.jks $base_path/$appId.pks > $base_path/$appId-import.log 2>&1";
+                exec($command, $output, $return);
+                if ($return !== 0) {
+                    $error = file_get_contents("$base_path/$appId-import.log");
+                    throw new Exception(p__('application', 'Error while copying keystore file: %s', $error));
+                }
+                $command = "printf $store_pass | keytool -list -v -keystore $base_path/$appId.jks";
+                exec($command, $output, $return);
+                if ($return !== 0) {
+                    $output = json_encode(preg_grep('/keytool error/i', $output));
+                    throw new Exception(p__('application', 'Error when opening keystore with provided password: %s', $output));
+                }
+
+            }
+            # Save new password in database
+
+            $device = $application->getDevice(2);
+            $device->setAlias($alias);
+            $device->setKeyPass($key_pass);
+            $device->setStorePass($store_pass);
+            $device->save();
+
+
+            # return
+            $payload = [
+                'success' => true,
+                'devices' => $currentPasswords,
+                'message' => p__('application', 'The keystore is imported successfully!')
+            ];
+
+
+        } catch (\Exception $e) {
+            $payload = [
+                'error' => true,
+                'message' => $e->getMessage()
+            ];
+        }
+
+        $this->_sendJson($payload);
 
     }
 
