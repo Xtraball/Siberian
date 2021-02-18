@@ -1,5 +1,6 @@
 <?php
 
+use Siberian\Json;
 use Siberian\Provider;
 use Siberian\Version;
 
@@ -73,6 +74,21 @@ if (array_key_exists(Version::VERSION, $updates)) {
     $statusText = $current['statusText'];
 }
 
+// google-services.json verification
+$firebaseCredential = (new Push_Model_Firebase())->find(1);
+$showFirebaseNotice = false;
+if ($firebaseCredential && $firebaseCredential->getId()) {
+    try {
+        $googleServices = Json::decode($firebaseCredential->getGoogleService());
+        $services = $googleServices['client'][0]['services']['appinvite_service'];
+        if (empty($services['other_platform_oauth_client'])) {
+            $showFirebaseNotice = true;
+        }
+    } catch (\Exception $e) {
+        $showFirebaseNotice = false;
+    }
+}
+
 ?>
 <div class="row">
     <div class="col-md-8 col-md-offset-2 col-sm-12">
@@ -95,24 +111,35 @@ if (array_key_exists(Version::VERSION, $updates)) {
         <?php if ($mobilcartFlag === 'show'): ?>
             <div class="alert alert-warning">
                 <?php echo __('You have Mmobilcart installed, this module is known to cause a lot of side-effects and it is recommended to remove it'); ?>
-                <br />
+                <br/>
                 <?php echo __('Please note it can affect: emails, templates & pages behavior') ?>
-                <br />
+                <br/>
             </div>
         <?php endif; ?>
 
         <?php if ($isUnstable && !isDev()): ?>
             <div class="alert alert-danger">
-                <?php echo p__('backoffice', 'You are currenctly running a version of Siberian marked as unstable for production, please follow the instructions'); ?>:
+                <?php echo p__('backoffice', 'You are currenctly running a version of Siberian marked as unstable for production, please follow the instructions'); ?>
+                :
                 <a href="/installer/backoffice_module"
                    style="letter-spacing: 2px;"><?php echo $statusText ?></a>
-                <br />
+                <br/>
                 <?php echo p__('backoffice', 'You can review the release notes and their statuses'); ?>:
                 <a style="letter-spacing: 2px;"
                    href="https://updates02.siberiancms.com/release-notes/all/index.php"
                    target="_blank"><?php echo p__('backoffice', 'Release notes'); ?></a>
             </div>
         <?php endif; ?>
+
+        <?php if ($showFirebaseNotice): ?>
+            <div class="alert alert-danger">
+                <?php echo p__('backoffice', 'Your firebase configuration file %s is outdated and require an upgrade, please upload it again!', '<code style="border-radius: 3px !important;">google-services.json</code>'); ?>
+                :
+                <a href="/push/backoffice_certificate"
+                   style="letter-spacing: 2px;"><?php echo p__('backoffice', 'Upload a new one') ?></a>
+            </div>
+        <?php endif; ?>
+
     </div>
 
     <?php if ($displayTheme): ?>
