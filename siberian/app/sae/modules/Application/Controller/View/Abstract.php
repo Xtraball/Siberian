@@ -1060,7 +1060,6 @@ abstract class Application_Controller_View_Abstract extends Backoffice_Controlle
                 throw new Exception(p__('application', 'Error when archiving previous keystore and passwords'));
             }
 
-
             #importing new keystore from .pfx
             if (in_array('cert.pfx', $file_list, true)) {
                 $trick = escapeshellarg("$store_pass\n$store_pass\n$store_pass");
@@ -1071,8 +1070,14 @@ abstract class Application_Controller_View_Abstract extends Backoffice_Controlle
                     $error = file_get_contents("$base_path/$appId-import.log");
                     throw new Exception(p__('application', 'Error while converting to keystore file: %s', $error));
                 }
-
+                #getAlias
+                $commandx = "cat $base_path/$appId-import.log";
+                exec($commandx, $outputx, $returnx);
+                $aliasL = preg_grep("/[^{]+(?=})/", $outputx);
+                preg_match("/[^{]+(?=})/", end($aliasL), $alias);
+                $alias = "{" . end($alias) . "}";
             }
+
             #importing new keystore from .pks
             if (in_array('keystore.pks', $file_list, true)) {
                 $command = "cp -p $tmp_path/$appId-$requestTimestamp-import/keystore.pks $base_path/$appId.pks > $base_path/$appId-import.log 2>&1";
@@ -1115,11 +1120,10 @@ abstract class Application_Controller_View_Abstract extends Backoffice_Controlle
             $device->setStorePass($store_pass);
             $device->save();
 
-
             # return
             $payload = [
                 'success' => true,
-                'devices' => $currentPasswords,
+                'device' => $device->getData(),
                 'message' => p__('application', 'The keystore is imported successfully!')
             ];
 
