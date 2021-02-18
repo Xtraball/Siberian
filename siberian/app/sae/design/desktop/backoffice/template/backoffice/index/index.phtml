@@ -1,4 +1,8 @@
 <?php
+
+use Siberian\Provider;
+use Siberian\Version;
+
 $backofficeThemeView = __get('display_backoffice_theme');
 
 $displayTheme = false;
@@ -59,6 +63,16 @@ if (!$varCache) {
     $pathError = true;
 }
 
+// Unstable notice
+$updates = Provider::getUpdates();
+$isUnstable = false;
+$statusText = '';
+if (array_key_exists(Version::VERSION, $updates)) {
+    $current = $updates[Version::VERSION];
+    $isUnstable = ('unstable' === strtolower($current['status']));
+    $statusText = $current['statusText'];
+}
+
 ?>
 <div class="row">
     <div class="col-md-8 col-md-offset-2 col-sm-12">
@@ -84,6 +98,19 @@ if (!$varCache) {
                 <br />
                 <?php echo __('Please note it can affect: emails, templates & pages behavior') ?>
                 <br />
+            </div>
+        <?php endif; ?>
+
+        <?php if ($isUnstable && !isDev()): ?>
+            <div class="alert alert-danger">
+                <?php echo p__('backoffice', 'You are currenctly running a version of Siberian marked as unstable for production, please follow the instructions'); ?>:
+                <a href="/installer/backoffice_module"
+                   style="letter-spacing: 2px;"><?php echo $statusText ?></a>
+                <br />
+                <?php echo p__('backoffice', 'You can review the release notes and their statuses'); ?>:
+                <a style="letter-spacing: 2px;"
+                   href="https://updates02.siberiancms.com/release-notes/all/index.php"
+                   target="_blank"><?php echo p__('backoffice', 'Release notes'); ?></a>
             </div>
         <?php endif; ?>
     </div>
