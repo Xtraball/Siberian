@@ -214,7 +214,7 @@
         },
         saveStep: function() {
             if(($("#step-title").val() && $("#step-text").val()) || $("#step-delete").is(':checked')) {
-                reload($("#form-step-modal"), "<?php echo $this->getUrl("Tour/application/save"); ?>", true, function(data) {
+                reload($("#form-step-modal"), "<?php echo $this->getUrl("tour/application/save"); ?>", true, function(data) {
                     if(data.success) {
                         if(data.step_exists) {
                             existing_steps[data.elem_id].title = $("#step-title").val();
@@ -316,14 +316,14 @@
                 last_item = $(this);
             });
             $(last_item).css("margin-bottom", "15px");
-            $.post("<?php echo $this->getUrl("Tour/application/reorder"); ?>", {new_order}, function() {
+            $.post("<?php echo $this->getUrl("tour/application/reorder"); ?>", {new_order}, function() {
 
             }).fail(function() {
                 alert("<?php echo __('An error occurred while saving. Please try again later.'); ?>");
             });
         },
         changeLanguage: function() {
-            reload($("#form-language"), "<?php echo $this->getUrl("Tour/application/findforlanguage"); ?>", true, function(data) {
+            reload($("#form-language"), "<?php echo $this->getUrl("tour/application/findforlanguage"); ?>", true, function(data) {
                 if(data.success) {
                     existing_steps = data.steps;
                     $("#step-delete").prop('checked', false);

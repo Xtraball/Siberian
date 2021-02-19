@@ -1,125 +1,139 @@
 <?php
 
+use Siberian\Exception;
+
 class Tour_ApplicationController extends Application_Controller_Default
 {
 
-    public function saveAction() {
+    public function saveAction()
+    {
         try {
-            if($data = $this->getRequest()->getPost()) {
-                if($data["step-elem-id"] AND $data["step-language-code"]) {
-                    //Check if step exists
-                    $step = new Tour_Model_Step();
-                    $step = $step->find(array(
-                        "element_id" => $data["step-elem-id"],
-                        "language_code" => $data["step-language-code"],
-                        "url" => $data["step-url"]
-                    ));
-                    $step_exists = $step->getId() ? true : false;
+            $request = $this->getRequest();
+            $data = $request->getPost();
 
-                    //Delete step if needed
-                    if($step_exists AND $data["step-delete"]) {
-                        $step->delete();
-                        $step_exists = false;
-                    } else {
-                        $step->setTitle($data["step-title"])
-                            ->setLanguageCode($data["step-language-code"])
-                            ->setText($data["step-text"])
-                            ->setPlacement($data["step-placement"])
-                            ->setElementId($data["step-elem-id"])
-                            ->setUrl($data["step-url"])
-                        ;
-
-                        if(!$step_exists) {
-                            $step->setOrderIndex($data["step-order"]);
-                        }
-
-                        $step->save();
-                    }
-
-                    $html = array(
-                        'success' => true,
-                        'success_message' => __("Step saved successfully."),
-                        'message_timeout' => 2,
-                        'step_exists' => $step_exists,
-                        'elem_id' => $data["step-elem-id"]
-                    );
-                } else {
-                    throw new Siberian_Exception(__('An error occurred while saving. Please try again later.'));
-                }
-            }
-            else {
-                throw new Siberian_Exception(__('An error occurred while saving. Please try again later.'));
+            if (empty($data)) {
+                throw new Exception(p__('tour', 'Params are missing!'));
             }
 
-        }
-        catch(Exception $e) {
-            $html = array(
-                'error' => true,
-                'message' => $e->getMessage(),
-                'message_timeout' => 2
-            );
-        }
+            if (!array_key_exists('step-elem-id', $data) ||
+                !array_key_exists('step-language-code', $data)) {
+                throw new Exception(p__('tour', 'Missing element to configure!'));
+            }
 
-        $this->_sendHtml($html);
-    }
 
-    public function reorderAction() {
-        try {
-            if($data = $this->getRequest()->getPost()) {
-                foreach($data["new_order"] as $step_order) {
-                    $step = new Tour_Model_Step();
-                    $step->find(array("element_id" => $step_order["id"]));
-                    if($step->getId()) {
-                        $step->setOrderIndex($step_order["order"])->save();
-                    }
+            //Check if step exists
+            $step = new Tour_Model_Step();
+            $step = $step->find(array(
+                'element_id' => $data['step-elem-id'],
+                'language_code' => $data['step-language-code'],
+                'url' => $data['step-url']
+            ));
+            $step_exists = $step->getId() ? true : false;
+
+            // Delete step if needed
+            if ($step_exists && $data['step-delete']) {
+                $step->delete();
+                $step_exists = false;
+            } else {
+                $step
+                    ->setTitle($data['step-title'])
+                    ->setLanguageCode($data['step-language-code'])
+                    ->setText($data['step-text'])
+                    ->setPlacement($data['step-placement'])
+                    ->setElementId($data['step-elem-id'])
+                    ->setUrl($data['step-url']);
+
+                if (!$step_exists) {
+                    $step->setOrderIndex($data['step-order']);
                 }
 
-                $html = array(
-                    'success' => true,
-                    'message' => "ok",
-                    'message_timeout' => 2
-                );
-            }
-            else {
-                throw new Siberian_Exception(__('An error occurred while saving. Please try again later.'));
+                $step->save();
             }
 
-        }
-        catch(Exception $e) {
-            $html = array(
+            $payload = [
+                'success' => true,
+                'message' => p__('tour', 'Step saved successfully.'),
+                'step_exists' => $step_exists,
+                'elem_id' => $data['step-elem-id']
+            ];
+
+        } catch (\Exception $e) {
+            $payload = [
                 'error' => true,
                 'message' => $e->getMessage(),
-                'message_timeout' => 2
-            );
+            ];
         }
 
-        $this->_sendHtml($html);
+        $this->_sendJson($payload);
     }
 
-    public function findforlanguageAction() {
+    public function reorderAction()
+    {
         try {
-            if($data = $this->getRequest()->getPost()) {
-                $existing_steps = new Tour_Model_Step();
-                $existing_steps = $existing_steps->findAllForJS($data["language-code"], $data["url"]);
+            $request = $this->getRequest();
+            $data = $request->getPost();
 
-                $html = array(
-                    'success' => true,
-                    'steps' => $existing_steps
-                );
+            if (empty($data)) {
+                throw new Exception(p__('tour', 'Params are missing!'));
             }
-            else {
-                throw new Siberian_Exception(__('An error occurred. Please try again later.'));
+
+            if (!array_key_exists('new_order', $data)) {
+                throw new Exception(p__('tour', 'Missing elements to configure!'));
             }
-        }
-        catch(Exception $e) {
-            $html = array(
+
+            foreach ($data['new_order'] as $step_order) {
+                $step = new Tour_Model_Step();
+                $step->find(['element_id' => $step_order['id']]);
+                if ($step->getId()) {
+                    $step->setOrderIndex($step_order['order'])->save();
+                }
+            }
+
+            $payload = [
+                'success' => true,
+                'message' => p__('tour', 'Saved!'),
+            ];
+
+        } catch (\Exception $e) {
+            $payload = [
                 'error' => true,
                 'message' => $e->getMessage(),
-                'message_timeout' => 2
-            );
+            ];
         }
 
-        $this->_sendHtml($html);
+        $this->_sendJson($payload);
+    }
+
+    public function findforlanguageAction()
+    {
+        try {
+            $request = $this->getRequest();
+            $data = $request->getPost();
+
+            if (empty($data)) {
+                throw new Exception(p__('tour', 'Params are missing!'));
+            }
+
+            if (!array_key_exists('language-code', $data) ||
+                !array_key_exists('url', $data)) {
+                throw new Exception(p__('tour', 'Missing element to configure!'));
+            }
+
+            $existing_steps = new Tour_Model_Step();
+            $existing_steps = $existing_steps->findAllForJS($data['language-code'], $data['url']);
+
+            $payload = [
+                'success' => true,
+                'steps' => $existing_steps
+            ];
+        } catch (\Exception $e) {
+            $payload = [
+                'error' => true,
+                'message' => $e->getMessage(),
+            ];
+        }
+
+        $this->_sendJson($payload);
     }
 
 }
