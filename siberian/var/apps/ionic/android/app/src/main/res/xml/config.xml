@@ -1,9 +1,5 @@
 <?xml version='1.0' encoding='utf-8'?>
 <widget id="com.appsmobilecompany.base" version="1.0" xmlns="http://www.w3.org/ns/widgets" xmlns:cdv="http://cordova.apache.org/ns/1.0">
-    <feature name="HotCodePush">
-        <param name="android-package" value="com.nordnetab.chcp.main.HotCodePushPlugin" />
-        <param name="onload" value="true" />
-    </feature>
     <feature name="GeofencePlugin">
         <param name="android-package" value="com.cowbell.cordova.geofence.GeofencePlugin" />
     </feature>
@@ -119,7 +115,7 @@
     <allow-intent href="whatsapp:*" />
     <chcp>
         <config-file url="PLATFORM_URL" />
-        <native-interface version="19" />
+        <native-interface version="20" />
         <auto-download enabled="false" />
         <auto-install enabled="false" />
     </chcp>
@@ -127,7 +123,6 @@
     <splash density="xxxhdpi" src="resources/android/splash/drawable-xxxhdpi-screen.jpg" />
     <resource-file src="resources/google-services.json" target="app/google-services.json" />
     <preference name="loglevel" value="DEBUG" />
-    <preference name="loadUrlTimeoutValue" value="60000" />
     <preference name="webView" value="com.ionicframework.cordova.webview.IonicWebViewEngine" />
     <preference name="APP_ID_ANDROID" value="ca-app-pub-0000000000000000~0000000000" />
     <preference name="webviewbounce" value="false" />

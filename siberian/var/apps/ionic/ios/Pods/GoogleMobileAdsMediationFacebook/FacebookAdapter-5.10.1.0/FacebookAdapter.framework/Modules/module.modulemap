@@ -1,0 +1,12 @@
+framework module FacebookAdapter {
+  umbrella header "FacebookAdapter.h"
+
+  export *
+  module * { export * }
+
+  link framework "Foundation"
+  link framework "UIKit"
+
+  header "GADFBExtraAssets.h"
+  header "GADFBNetworkExtras.h"
+}

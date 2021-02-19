@@ -169,24 +169,6 @@ $globalEditor = __get("application_free_trial_editor") === "1";
         <div class="col-md-6">
             <div class="form-group">
                 <div class="checkbox">
-                    <label for="application_disable_updates">
-                        <input type="checkbox"
-                               id="application_disable_updates"
-                               ng-model="tmp_application.disable_updates"
-                               ng-checked="tmp_application.disable_updates"/>
-                        <?php echo p__('application', 'Lock application updates'); ?>
-                    </label>
-                </div>
-                <div class="alert alert-info">
-                    <?php echo p__('application',
-                        'When used, the application code/source will be locked & can only be updated through store updates, features content will not be affected') ?>
-                </div>
-            </div>
-        </div>
-
-        <div class="col-md-6">
-            <div class="form-group">
-                <div class="checkbox">
                     <label for="application_pre_init">
                         <input type="checkbox"
                                id="application_pre_init"

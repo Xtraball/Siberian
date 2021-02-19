@@ -730,7 +730,7 @@ let patchPreviewer = function (platform) {
  * @param opts
  */
 let installPlugin = function (pluginName, platform, opts) {
-    if (NO_ADS && pluginName === 'Admob') {
+    if (NO_ADS && ['Admob', 'Mediation'].indexOf(pluginName) !== -1) {
         sprint(clc.blue('Excluding (NO_ADS): ') + clc.red(pluginName + '...'));
         return;
     }

@@ -25,10 +25,6 @@
         <param name="ios-package" value="CDVGestureHandler" />
         <param name="onload" value="true" />
     </feature>
-    <feature name="HotCodePush">
-        <param name="ios-package" value="HCPPlugin" />
-        <param name="onload" value="true" />
-    </feature>
     <feature name="InAppPurchase">
         <param name="ios-package" value="InAppPurchase" />
         <param name="onload" value="true" />
@@ -127,7 +123,7 @@
     <allow-intent href="whatsapp:*" />
     <chcp>
         <config-file url="PLATFORM_URL" />
-        <native-interface version="19" />
+        <native-interface version="20" />
         <auto-download enabled="false" />
         <auto-install enabled="false" />
     </chcp>
@@ -144,7 +140,6 @@
     <preference name="PageLength" value="0" />
     <preference name="PaginationBreakingMode" value="page" />
     <preference name="PaginationMode" value="unpaginated" />
-    <preference name="loadUrlTimeoutValue" value="60000" />
     <preference name="CameraUsesGeolocation" value="false" />
     <preference name="StatusBarOverlaysWebView" value="true" />
     <preference name="StatusBarStyle" value="lightcontent" />
