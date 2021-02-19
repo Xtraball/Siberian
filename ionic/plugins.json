@@ -98,9 +98,6 @@
     }
   },
   "ios": {
-    "Chcp": {
-      "version": "latest"
-    },
     "InAppPurchase": {
       "version": "latest"
     },
@@ -113,15 +110,16 @@
         "SENDER_ID": "01234567890"
       }
     },
+    "Mediation": {
+      "version": "latest",
+      "variables": {}
+    },
     "WebView": {
       "version": "latest",
       "variables": {}
     }
   },
   "android": {
-    "Chcp": {
-      "version": "latest"
-    },
     "Geofence": {
       "version": "latest",
       "variables": {}
@@ -142,6 +140,10 @@
       "variables": {
         "SENDER_ID": "01234567890"
       }
+    },
+    "Mediation": {
+      "version": "latest",
+      "variables": {}
     },
     "WebView": {
       "version": "latest",

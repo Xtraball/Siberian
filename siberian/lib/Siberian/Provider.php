@@ -50,6 +50,14 @@ class Provider
     /**
      * @return array|mixed
      */
+    public static function getUpdates ()
+    {
+        return self::_getContent('updates', self::getMaster()['updates']['url']);
+    }
+
+    /**
+     * @return array|mixed
+     */
     public static function getWhitelistHosted ()
     {
         return self::_getContent('whitelist_hosted', self::getModules()['whitelist_hosted']['url']);

@@ -1,14 +1,6 @@
 cordova.define('cordova/plugin_list', function(require, exports, module) {
   module.exports = [
     {
-      "id": "Chcp.chcp",
-      "file": "plugins/Chcp/www/chcp.js",
-      "pluginId": "Chcp",
-      "clobbers": [
-        "chcp"
-      ]
-    },
-    {
       "id": "InAppPurchase.InAppPurchase",
       "file": "plugins/InAppPurchase/www/store-ios.js",
       "pluginId": "InAppPurchase",
@@ -454,10 +446,10 @@ cordova.define('cordova/plugin_list', function(require, exports, module) {
     }
   ];
   module.exports.metadata = {
-    "Chcp": "1.5.2",
     "InAppPurchase": "10.5.0",
     "IosXhr": "1.0.8",
     "Push": "1.10.0",
+    "Mediation": "1.0.0",
     "WebView": "1.0.0",
     "Promises": "4.2.2",
     "Admob": "0.0.0",
@@ -474,7 +466,7 @@ cordova.define('cordova/plugin_list', function(require, exports, module) {
     "Keyboard": "2.2.0",
     "SocialSharing": "5.6.4",
     "StatusBar": "2.4.1",
-    "LocalNotification": "0.9.0-beta.3",
+    "LocalNotification": "0.9.0-beta.4",
     "Insomnia": "4.3.0",
     "MusicControls": "3.0.4",
     "MediaNative": "5.0.3",

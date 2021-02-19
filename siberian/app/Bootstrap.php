@@ -284,8 +284,10 @@ class Bootstrap extends Zend_Application_Bootstrap_Bootstrap
         $module_names = $this->_front_controller->getDispatcher()->getModuleDirectories();
 
         // Mmobilcart is known to cause issues & side-effects
-        __set('mobilcart_warning',
-            in_array('Mmobilcart', $module_names, true) ? 'show' : 'dismiss');
+        if (!$this->_request->isInstalling()) {
+            __set('mobilcart_warning',
+                in_array('Mmobilcart', $module_names, true) ? 'show' : 'dismiss');
+        }
 
         foreach ($module_names as $module) {
 
@@ -344,7 +346,7 @@ class Bootstrap extends Zend_Application_Bootstrap_Bootstrap
     protected function _initDesign()
     {
         if (!$this->_request->isInstalling()) {
-           // Monkey patching if needed!
+            // Monkey patching if needed!
         }
 
         Siberian_Cache_Design::init();

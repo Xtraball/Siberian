@@ -1,14 +1,6 @@
 cordova.define('cordova/plugin_list', function(require, exports, module) {
   module.exports = [
     {
-      "id": "Chcp.chcp",
-      "file": "plugins/Chcp/www/chcp.js",
-      "pluginId": "Chcp",
-      "clobbers": [
-        "chcp"
-      ]
-    },
-    {
       "id": "Geofence.TransitionType",
       "file": "plugins/Geofence/www/TransitionType.js",
       "pluginId": "Geofence",
@@ -450,12 +442,12 @@ cordova.define('cordova/plugin_list', function(require, exports, module) {
     }
   ];
   module.exports.metadata = {
-    "Chcp": "1.5.2",
     "Geofence": "0.6.0",
     "InAppPurchase": "10.5.0",
     "IonicWebview": "4.0.1",
     "SplashScreen": "5.0.2",
     "Push": "1.10.0",
+    "Mediation": "1.0.0",
     "WebView": "1.0.0",
     "Promises": "4.2.2",
     "Admob": "0.0.0",
@@ -473,7 +465,7 @@ cordova.define('cordova/plugin_list', function(require, exports, module) {
     "SocialSharing": "5.6.4",
     "StatusBar": "2.4.1",
     "WhiteList": "1.2.1",
-    "LocalNotification": "0.9.0-beta.3",
+    "LocalNotification": "0.9.0-beta.4",
     "Insomnia": "4.3.0",
     "MusicControls": "3.0.4",
     "MediaNative": "5.0.3",
