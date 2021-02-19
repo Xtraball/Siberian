@@ -306,7 +306,7 @@
             last_item = null;
         },
         manualReorder: function() {
-            var new_order = new Array();
+            var new_order = [];
             var order = 1;
             $(".sb-tour-list-elem").css("margin-bottom", "0");
             var last_item = null;
@@ -316,19 +316,17 @@
                 last_item = $(this);
             });
             $(last_item).css("margin-bottom", "15px");
-            $.post("<?php echo $this->getUrl("tour/application/reorder"); ?>", {new_order}, function() {
-
-            }).fail(function() {
-                alert("<?php echo __('An error occurred while saving. Please try again later.'); ?>");
+            $.post("<?php echo $this->getUrl("tour/application/reorder"); ?>", {new_order}, function(payload) {
+                feature_form_success(payload.message)
+            }).fail(function(payload) {
+                feature_form_error(JSON.parse(payload.responseText).message);
             });
         },
         changeLanguage: function() {
             reload($("#form-language"), "<?php echo $this->getUrl("tour/application/findforlanguage"); ?>", true, function(data) {
-                if(data.success) {
-                    existing_steps = data.steps;
-                    $("#step-delete").prop('checked', false);
-                    sbTour.reorderStepList();
-                }
+                existing_steps = data.steps;
+                $("#step-delete").prop('checked', false);
+                sbTour.reorderStepList();
             });
         },
         switchTourEdition: function() {

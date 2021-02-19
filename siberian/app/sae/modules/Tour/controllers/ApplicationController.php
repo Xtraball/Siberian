@@ -124,6 +124,7 @@ class Tour_ApplicationController extends Application_Controller_Default
 
             $payload = [
                 'success' => true,
+                'message' => p__('tour', 'Elements loaded!'),
                 'steps' => $existing_steps
             ];
         } catch (\Exception $e) {
