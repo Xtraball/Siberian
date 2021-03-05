@@ -81,7 +81,7 @@ class Push_Model_Message_Global extends Core_Model_Default
                 $this->save();
 
                 foreach ($applications as $application_id) {
-                    $application_id = intval($application_id);
+                    $application_id = (int) $application_id;
 
                     $pushMessage = new Push_Model_Message();
                     $pushMessage->setMessageGlobalId($this->getId());

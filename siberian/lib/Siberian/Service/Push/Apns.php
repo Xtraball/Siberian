@@ -54,13 +54,9 @@ class Siberian_Service_Push_Apns
     public function __construct($sProviderCertificateFile, $sandbox = null)
     {
         $this->logger = Zend_Registry::get("logger");
-        if (is_null($sandbox)) {
-            $sandbox = isDev();
-        }
-
         $this->connection = new Apns2Connection(
             [
-                'sandbox' => $sandbox,
+                'sandbox' => false,
                 'cert-path' => $sProviderCertificateFile
             ]);
     }
@@ -80,7 +76,7 @@ class Siberian_Service_Push_Apns
         $aps->alert->cover = $messagePayload->getCoverUrl();
         $aps->alert->open_webview = $messagePayload->getCoverUrl();
         $aps->sound = 'sb_beep4.caf';
-        $aps->message_id = $messagePayload->getId() . uniqid('.push_apns2_', true);
+        $aps->message_id = \Ramsey\Uuid\v4();
 
         # Action
         $application = new Application_Model_Application();
