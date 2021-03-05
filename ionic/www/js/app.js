@@ -235,6 +235,7 @@ var App = angular.module('starter', ['ionic', 'lodash', 'ngRoute', 'ngCordova', 
         };
 
         $ionicPlatform.ready(function () {
+
             $ionicNavBarDelegate.align('center');
             $timeout(function () {
                 $ionicNavBarDelegate.showBar(false);
@@ -244,6 +245,16 @@ var App = angular.module('starter', ['ionic', 'lodash', 'ngRoute', 'ngCordova', 
                 // Fallback empty objects for browser!
                 $window.cordova = $window.cordova || {};
                 $window.device = $window.device || {};
+
+                try {
+                    // Set device footprint
+                    $window.footprint = $window.device.manufacturer + ' - ' +
+                        $window.device.model + ' - ' +
+                        $window.device.platform + ' ' +
+                        $window.device.version;
+                } catch (e) {
+                    $window.footprint = 'Unknown device';
+                }
 
                 var networkPromise = $q.defer();
 
@@ -257,6 +268,7 @@ var App = angular.module('starter', ['ionic', 'lodash', 'ngRoute', 'ngCordova', 
                             device_uid: $session.getDeviceUid(),
                             device_width: deviceScreen.width,
                             device_height: deviceScreen.height,
+                            footprint: $window.footprint,
                             user_language: CURRENT_LANGUAGE,
                             version: '4.20.7'
                         },

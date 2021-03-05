@@ -84,6 +84,8 @@ class Push_Model_Certificate extends Core_Model_Default
                 throw new \Siberian\Exception('PEM is unreadable.');
             }
 
+            $app = (new Application_Model_Application())->find($app_id);
+
             $pemInfo = [
                 'production' => false !== stripos($pemInfo['name'], 'Development'),
                 'package_name' => $pemInfo['subject']['UID'],
@@ -95,9 +97,7 @@ class Push_Model_Certificate extends Core_Model_Default
                 'is_valid' => ($pemInfo['validTo_time_t'] > time()),
             ];
 
-            $pemInfo['apns_feedback'] = self::testApnsPort(2196);
-            $pemInfo['test_pem'] = self::testPem($certificate);
-            $pemInfo['port_open'] = self::testApnsPort(2195);
+            $pemInfo['test_pem'] = self::testPem($certificate, $app->getBundleId());
 
         } catch (\Exception $e) {
             $pemInfo = [
@@ -109,47 +109,42 @@ class Push_Model_Certificate extends Core_Model_Default
     }
 
     /**
-     * @return bool
-     */
-    public static function testApnsPort($port = 2195)
-    {
-        $host = 'gateway.push.apple.com';
-
-        $connection = @fsockopen($host, $port, $errno, $errstr, 2);
-        if (is_resource($connection)) {
-            fclose($connection);
-            return true;
-        } else {
-            return false;
-        }
-    }
-
-    /**
-     * Connection test
-     *
      * @param $certificate
-     * @return bool
+     * @param $bundleId
+     * @return array
      */
-    public static function testPem($certificate)
+    public static function testPem($certificate, $bundleId): array
     {
-        require_once Core_Model_Directory::getBasePathTo('lib/ApnsPHP/Autoload.php');
-
-        $nEnvironment = (APPLICATION_ENV == "production") ? ApnsPHP_Push::ENVIRONMENT_PRODUCTION : ApnsPHP_Push::ENVIRONMENT_SANDBOX;
-
         try {
-            $push_service = new ApnsPHP_Push(
-                $nEnvironment,
-                Core_Model_Directory::getBasePathTo($certificate)
-            );
-            $push_service->setConnectTimeout(2);
-            $push_service->setConnectRetryTimes(1);
-            $push_service->connect();
-            $push_service->disconnect();
-
-            return true;
-        } catch (ApnsPHP_Exception $e) {
-            return false;
+            $apnsService = new Siberian_Service_Push_Apns(path($certificate));
+            $results = $apnsService->connection->send([
+                '74fbf7e296f6c94755832a48476182e4e9586a380116e18a46531b62349504f1' // invalid
+            ], [
+                'aps' => [
+                    'alert' => 'pem-test',
+                    'sound' => 'default',
+                ]
+            ], [
+                'apns-topic' => $bundleId
+            ]);
+            $apnsService->connection->close();
+            if ($results && $results[0] && $results[0]->reason) {
+                return [
+                    'success' => true,
+                    'message' => p__('push', 'Success')
+                ];
+            }
+        } catch (\Exception $e) {
+            return [
+                'success' => false,
+                'message' => $e->getMessage()
+            ];
         }
+
+        return [
+            'success' => false,
+            'message' => p_('push', 'Unkown error.')
+        ];
     }
 
     /**

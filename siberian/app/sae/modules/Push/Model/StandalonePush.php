@@ -206,7 +206,7 @@ class StandalonePush extends Base
                 $message->setToken($device->getDeviceToken());
 
                 if (is_file($iosCertificate)) {
-                    $instance = new IosMessage(new Apns(null, $iosCertificate));
+                    $instance = new IosMessage(new Apns($iosCertificate));
                     $instance->setMessage($message);
                     $instance->push();
                 } else {

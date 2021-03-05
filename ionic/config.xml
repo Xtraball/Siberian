@@ -43,13 +43,6 @@
                value="CDVStatusBar" />
     </feature>
 
-    <chcp>
-        <config-file url="PLATFORM_URL" />
-        <native-interface version="20" />
-        <auto-download enabled="false" />
-        <auto-install enabled="false" />
-    </chcp>
-
     <platform name="android">
         <icon density="xxxhdpi"
               src="resources/android/icon/drawable-xxxhdpi-icon.png" />
