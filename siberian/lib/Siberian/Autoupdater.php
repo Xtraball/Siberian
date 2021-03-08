@@ -5,13 +5,10 @@ namespace Siberian;
 use Siberian\Cache\Design;
 use Siberian\Cache\Translation;
 
-use RecursiveIteratorIterator;
-use RecursiveDirectoryIterator;
-
 /**
  * Class \Siberian\Autoupdater
  *
- * @version 4.16.0
+ * @version 4.20.7
  *
  */
 
