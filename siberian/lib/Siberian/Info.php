@@ -22,6 +22,7 @@ class Info
             'PHP memory_limit' => ini_get('memory_limit'),
             'PHP upload_max_filesize' => ini_get('upload_max_filesize'),
             'PHP max_execution_time' => ini_get('max_execution_time'),
+            'PHP cURL HTTP/2 support' => defined('CURL_HTTP_VERSION_2_0') ? 'Yes' : 'No',
             'Update channel' => __get('update_channel'),
             'Panel type' => __get('cpanel_type'),
             'Let\'s encrypt env' => __get('letsencrypt_env'),

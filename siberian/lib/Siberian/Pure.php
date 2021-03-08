@@ -258,6 +258,24 @@ function log_exception(Exception $e)
 }
 
 /**
+ * @param $aclCode
+ * @return bool
+ */
+function canAccess($aclCode)
+{
+    try {
+        $aclList = \Admin_Controller_Default::_sGetAcl();
+        if ($aclList) {
+            return $aclList->isAllowed($aclCode);
+        }
+    } catch (\Exception $e) {
+        // Do nothing!
+    }
+
+    return true;
+}
+
+/**
  * @param $path
  * @param bool $external
  * @return bool

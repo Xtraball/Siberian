@@ -1,5 +1,7 @@
 <?php
 
+use Siberian\AdNetwork;
+
 /**
  * Class Application_Customization_Publication_InfosController
  */
@@ -241,6 +243,13 @@ class Application_Customization_Publication_InfosController extends Application_
                     ->setUseAds(filter_var($params['use_ads'], FILTER_VALIDATE_BOOLEAN))
                     ->setTestAds(filter_var($params['test_ads'], FILTER_VALIDATE_BOOLEAN))
                     ->save();
+
+                if (AdNetwork::$mediationEnabled && canAccess('editor_publication_admob_mediation')) {
+                    $application
+                        ->setMediationFacebook(filter_var($params['mediation_facebook'], FILTER_VALIDATE_BOOLEAN))
+                        ->setMediationStartapp(filter_var($params['mediation_startapp'], FILTER_VALIDATE_BOOLEAN))
+                        ->save();
+                }
 
                 $androidDevice = $application->getAndroidDevice();
                 $androidDevice

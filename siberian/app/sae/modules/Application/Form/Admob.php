@@ -1,5 +1,7 @@
 <?php
 
+use Siberian\AdNetwork;
+
 /**
  * Class Application_Form_Admob
  */
@@ -30,6 +32,11 @@ class Application_Form_Admob extends Siberian_Form_Abstract
             $htmlAdmobAppId);
 
         $useAds = $this->addSimpleCheckbox('use_ads', __('Monetize my app using AdMob'));
+
+        if (AdNetwork::$mediationEnabled && canAccess('editor_publication_admob_mediation')) {
+            $this->addSimpleCheckbox('mediation_facebook', __('Enable Facebook audience network mediation'));
+            $this->addSimpleCheckbox('mediation_startapp', __('Enable StartApp network mediation'));
+        }
 
         $testAds = $this->addSimpleCheckbox('test_ads', p__('application', 'Display only test ads (useful when developing the application)'));
 
@@ -148,6 +155,11 @@ class Application_Form_Admob extends Siberian_Form_Abstract
         $this->getElement('ios_admob_id')->setValue($iosDevice->getAdmobId());
         $this->getElement('ios_admob_interstitial_id')->setValue($iosDevice->getAdmobInterstitialId());
         $this->getElement('ios_admob_type')->setValue($iosDevice->getAdmobType());
+
+        if (AdNetwork::$mediationEnabled && canAccess('editor_publication_admob_mediation')) {
+            $this->getElement('mediation_facebook')->setValue((boolean) $application->getMediationFacebook());
+            $this->getElement('mediation_startapp')->setValue((boolean) $application->getMediationStartapp());
+        }
 
         return $this;
     }

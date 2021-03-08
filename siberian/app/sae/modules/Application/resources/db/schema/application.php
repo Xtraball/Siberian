@@ -6,7 +6,7 @@
  * Last update: 2016-04-28
  *
  */
-$schemas = (!isset($schemas)) ? [] : $schemas;
+$schemas = $schemas ?? [];
 $schemas['application'] = [
     'app_id' => [
         'type' => 'int(11) unsigned',
@@ -579,6 +579,14 @@ $schemas['application'] = [
         'charset' => 'utf8',
         'collation' => 'utf8_unicode_ci',
         'default' => '',
+    ],
+    'mediation_facebook' => [
+        'type' => 'tinyint(1)',
+        'default' => '0',
+    ],
+    'mediation_startapp' => [
+        'type' => 'tinyint(1)',
+        'default' => '0',
     ],
     'size_on_disk' => [
         'type' => 'int(11) unsigned',
