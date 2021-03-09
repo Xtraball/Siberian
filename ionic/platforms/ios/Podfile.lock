@@ -1,76 +1,20 @@
 PODS:
-  - FBAudienceNetwork (5.10.1):
-    - FBSDKCoreKit/Basics (>= 5.6.0)
-  - FBSDKCoreKit/Basics (9.0.1)
-  - Google-Mobile-Ads-SDK (7.69.0):
-    - GoogleAppMeasurement (~> 7.0)
-    - GoogleUserMessagingPlatform (~> 1.1)
-  - GoogleAppMeasurement (7.3.0):
-    - GoogleUtilities/AppDelegateSwizzler (~> 7.0)
-    - GoogleUtilities/MethodSwizzler (~> 7.0)
-    - GoogleUtilities/Network (~> 7.0)
-    - "GoogleUtilities/NSData+zlib (~> 7.0)"
-    - nanopb (~> 2.30906.0)
-  - GoogleMobileAdsMediationFacebook (5.10.1.0):
-    - FBAudienceNetwork (= 5.10.1)
-    - Google-Mobile-Ads-SDK (>= 7.62.0)
-  - GoogleUserMessagingPlatform (1.4.0)
-  - GoogleUtilities/AppDelegateSwizzler (7.2.2):
-    - GoogleUtilities/Environment
-    - GoogleUtilities/Logger
-    - GoogleUtilities/Network
-  - GoogleUtilities/Environment (7.2.2):
-    - PromisesObjC (~> 1.2)
-  - GoogleUtilities/Logger (7.2.2):
-    - GoogleUtilities/Environment
-  - GoogleUtilities/MethodSwizzler (7.2.2):
-    - GoogleUtilities/Logger
-  - GoogleUtilities/Network (7.2.2):
-    - GoogleUtilities/Logger
-    - "GoogleUtilities/NSData+zlib"
-    - GoogleUtilities/Reachability
-  - "GoogleUtilities/NSData+zlib (7.2.2)"
-  - GoogleUtilities/Reachability (7.2.2):
-    - GoogleUtilities/Logger
   - nanopb (2.30906.0):
     - nanopb/decode (= 2.30906.0)
     - nanopb/encode (= 2.30906.0)
   - nanopb/decode (2.30906.0)
   - nanopb/encode (2.30906.0)
-  - PromisesObjC (1.2.12)
-  - StartAppSDK (4.5.0)
 
 DEPENDENCIES:
-  - Google-Mobile-Ads-SDK (~> 7.69)
-  - GoogleMobileAdsMediationFacebook (~> 5.1)
   - nanopb (~> 2.30906.0)
-  - StartAppSDK (~> 4.5.0)
 
 SPEC REPOS:
   trunk:
-    - FBAudienceNetwork
-    - FBSDKCoreKit
-    - Google-Mobile-Ads-SDK
-    - GoogleAppMeasurement
-    - GoogleMobileAdsMediationFacebook
-    - GoogleUserMessagingPlatform
-    - GoogleUtilities
     - nanopb
-    - PromisesObjC
-    - StartAppSDK
 
 SPEC CHECKSUMS:
-  FBAudienceNetwork: 6cdcc40aa475e8045ab14398e181a3dc90a5014e
-  FBSDKCoreKit: fada1a6a0076724678993ff05a633848765ff18c
-  Google-Mobile-Ads-SDK: 2f288748a42920d1c744946a460896a95b0e9110
-  GoogleAppMeasurement: 8d3c0aeede16ab7764144b5a4ca8e1d4323841b7
-  GoogleMobileAdsMediationFacebook: 22e37144dabf56418439e7a48a12495838f153f2
-  GoogleUserMessagingPlatform: b168e8c46cd8f92aa3e34b584c4ca78a411ce367
-  GoogleUtilities: 31c5b01f978a70c6cff2afc6272b3f1921614b43
   nanopb: 1bf24dd71191072e120b83dd02d08f3da0d65e53
-  PromisesObjC: 3113f7f76903778cf4a0586bd1ab89329a0b7b97
-  StartAppSDK: d4680feb85ffb81d42b247f1a68affb56625ba7e
 
-PODFILE CHECKSUM: 3a70b6dad5290b4f9a8a95661ea7cca7da023f6c
+PODFILE CHECKSUM: faac7ca6f2abb046540690d06df6f50f9ffce83a
 
 COCOAPODS: 1.10.0
