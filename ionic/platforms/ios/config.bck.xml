@@ -46,12 +46,6 @@
     <allow-intent href="waze:*" />
     <allow-intent href="google.navigation:*" />
     <allow-intent href="whatsapp:*" />
-    <chcp>
-        <config-file url="PLATFORM_URL" />
-        <native-interface version="20" />
-        <auto-download enabled="false" />
-        <auto-install enabled="false" />
-    </chcp>
     <preference name="AllowInlineMediaPlayback" value="false" />
     <preference name="BackupWebStorage" value="none" />
     <preference name="DisallowOverscroll" value="true" />
@@ -92,6 +86,10 @@
     <feature name="WebViewPlugin">
         <param name="ios-package" value="WebViewPlugin" />
     </feature>
+    <feature name="AdMob">
+        <param name="ios-package" value="AMSPlugin" />
+    </feature>
+    <preference name="APP_ID_IOS" value="ca-app-pub-0000000000000000~0000000000" />
     <feature name="AppVersion">
         <param name="ios-package" value="AppVersion" />
     </feature>
