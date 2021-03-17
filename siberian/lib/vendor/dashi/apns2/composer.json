@@ -1,0 +1,34 @@
+{
+  "name": "dashi/apns2",
+  "type": "library",
+  "license": "MIT",
+  "homepage": "https://github.com/huxia/apns2",
+  "description": "Simple & expressive PHP HTTP2 API for Apple Push Notification service (APNs) with comprehensive docs/constants.",
+  "authors": [
+    {
+      "name": "Huizhe",
+      "email": "huizhe.xiao@gmail.com"
+    }
+  ],
+  "keywords": [
+    "apns",
+    "http2",
+    "apple",
+    "push",
+    "notification",
+    "simple",
+    "php"
+  ],
+  "require": {
+    "php": ">=5.4.0",
+    "ramsey/uuid": "^3.6"
+  },
+  "autoload": {
+    "psr-4": {
+      "Dashi\\Apns2\\": "src/"
+    }
+  },
+  "config": {
+    "bin-dir": "bin"
+  }
+}

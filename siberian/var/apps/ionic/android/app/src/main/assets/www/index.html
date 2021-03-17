@@ -25,7 +25,10 @@
 
         <!-- Ensure file will never be cached. -->
 <script type="text/javascript">
-    document.write('<script src="../../../module.js?t=' + Date.now() + '"><\/script>');
+    var cdvModulePath = localStorage.getItem('shared-cdv-module-path');
+    if (cdvModulePath !== null) {
+        document.write('<script src="' + cdvModulePath + '?t=' + Date.now() + '"><\/script>');
+    }
 </script>
 
         <script src="./dist/app.libs.min.js"></script>

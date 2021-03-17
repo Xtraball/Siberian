@@ -1,7 +1,7 @@
 /**
  * Application Bootstrap
  *
- * @version 4.19.1
+ * @version 4.20.7
  */
 
 window.momentjs_loaded = false;
@@ -235,6 +235,7 @@ var App = angular.module('starter', ['ionic', 'lodash', 'ngRoute', 'ngCordova', 
         };
 
         $ionicPlatform.ready(function () {
+
             $ionicNavBarDelegate.align('center');
             $timeout(function () {
                 $ionicNavBarDelegate.showBar(false);
@@ -244,6 +245,16 @@ var App = angular.module('starter', ['ionic', 'lodash', 'ngRoute', 'ngCordova', 
                 // Fallback empty objects for browser!
                 $window.cordova = $window.cordova || {};
                 $window.device = $window.device || {};
+
+                try {
+                    // Set device footprint
+                    $window.footprint = $window.device.manufacturer + ' - ' +
+                        $window.device.model + ' - ' +
+                        $window.device.platform + ' ' +
+                        $window.device.version;
+                } catch (e) {
+                    $window.footprint = 'Unknown device';
+                }
 
                 var networkPromise = $q.defer();
 
@@ -257,8 +268,9 @@ var App = angular.module('starter', ['ionic', 'lodash', 'ngRoute', 'ngCordova', 
                             device_uid: $session.getDeviceUid(),
                             device_width: deviceScreen.width,
                             device_height: deviceScreen.height,
+                            footprint: $window.footprint,
                             user_language: CURRENT_LANGUAGE,
-                            version: '4.19.1'
+                            version: '4.20.7'
                         },
                         timeout: 20000,
                         cache: !isOverview,
@@ -683,6 +695,19 @@ var App = angular.module('starter', ['ionic', 'lodash', 'ngRoute', 'ngCordova', 
                                 }, 500);
                             } catch (e) {
                                 console.error('An error occured while registering device for Push.', e.message);
+                            }
+
+                            // Saving shared device path, path is unique on every device*
+                            try {
+                                var sharedCdvModulePath = null;
+                                if (DEVICE_TYPE === 1) {
+                                    sharedCdvModulePath = Ionic.WebView.convertFileSrc(cordova.file.dataDirectory + 'module.js');
+                                } else {
+                                    sharedCdvModulePath = cordova.file.tempDirectory + 'module.js';
+                                }
+                                localStorage.setItem('shared-cdv-module-path', sharedCdvModulePath);
+                            } catch (e) {
+                                // Ignore me!
                             }
                         }
                     }).catch(function (error) {

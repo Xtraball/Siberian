@@ -24,12 +24,12 @@
         <title></title>
 
         <!-- Ensure file will never be cached. -->
-            <script type="text/javascript">
-                var _ifopRoot = function () {
-                    return (/[?&]root(=([^&#]*)|&|#|$)/.exec(window.location.href))[2].replace(/\+/g, ' ');
-                }
-                document.write('<script src="ionic://localhost/_app_file_' + _ifopRoot() + '?t=' + Date.now() + '"><\/script>');
-            </script>
+<script type="text/javascript">
+    var cdvModulePath = localStorage.getItem('shared-cdv-module-path');
+    if (cdvModulePath !== null) {
+        document.write('<script src="' + cdvModulePath + '?t=' + Date.now() + '"><\/script>');
+    }
+</script>
 
         <script src="./dist/app.libs.min.js"></script>
         <script src="./js/utils/url.js"></script>

@@ -20,6 +20,7 @@
 package com.appsmobilecompany.base;
 
 import android.os.Bundle;
+import android.util.Log;
 import org.apache.cordova.*;
 
 // Clear temp files on startup! @siberian
@@ -39,7 +40,7 @@ public class MainActivity extends CordovaActivity
         }
 
         // Clear temp files on startup! @siberian
-        deleteTempFiles(getCacheDir());
+        deleteTempFiles(getFilesDir());
 
         // Set by <content src="index.html" /> in config.xml
         loadUrl(launchUrl);
@@ -49,21 +50,16 @@ public class MainActivity extends CordovaActivity
      * @description siberian
      *
      * @param file
-     * @return
+     * @return boolean
      */
     private boolean deleteTempFiles(File file) {
-        if (file.isDirectory()) {
-            File[] files = file.listFiles();
-            if (files != null) {
-                for (File f : files) {
-                    if (f.isDirectory()) {
-                        deleteTempFiles(f);
-                    } else {
-                        f.delete();
-                    }
-                }
-            }
+        File module = new File(file.getAbsolutePath() + "/module.js");
+        if (module.exists()) {
+            Log.v("WebView", "Removing webView module.js temp file!");
+            module.delete();
+            return true;
         }
-        return file.delete();
+        Log.v("WebView", "Removing webView module.js temp file!");
+        return false;
     }
 }

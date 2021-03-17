@@ -1,3 +1,7 @@
+<?php
+use Siberian\AdNetwork;
+?>
+
 <sb-section title="'<?php echo __title("Advertising"); ?>'">
     <form ng-submit="saveAdvertisingInfo()">
 
@@ -29,6 +33,36 @@
                     </label>
                 </div>
             </div>
+
+            <?php if (AdNetwork::$mediationEnabled): ?>
+                <div class="form-group">
+                    <div class="checkbox">
+                        <label for="mediation_facebook"
+                               class="control-label">
+                            <input type="checkbox"
+                                   id="mediation_facebook"
+                                   class="form-control"
+                                   ng-model="application_admob.mediation_facebook"
+                                   ng-checked="application_admob.mediation_facebook" />
+                            <?php echo p__('backoffice_application', 'Enable Facebook audience network mediation') ?>
+                        </label>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <div class="checkbox">
+                        <label for="mediation_startapp"
+                               class="control-label">
+                            <input type="checkbox"
+                                   id="mediation_startapp"
+                                   class="form-control"
+                                   ng-model="application_admob.mediation_startapp"
+                                   ng-checked="application_admob.mediation_startapp" />
+                            <?php echo p__('backoffice_application', 'Enable StartApp network mediation') ?>
+                        </label>
+                    </div>
+                </div>
+            <?php endif; ?>
 
         </div>
 

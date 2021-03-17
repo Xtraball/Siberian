@@ -21,12 +21,6 @@
     <allow-intent href="waze:*" />
     <allow-intent href="google.navigation:*" />
     <allow-intent href="whatsapp:*" />
-    <chcp>
-        <config-file url="PLATFORM_URL" />
-        <native-interface version="20" />
-        <auto-download enabled="false" />
-        <auto-install enabled="false" />
-    </chcp>
     <preference name="webviewbounce" value="false" />
     <preference name="DisallowOverscroll" value="true" />
     <preference name="BackupWebStorage" value="none" />

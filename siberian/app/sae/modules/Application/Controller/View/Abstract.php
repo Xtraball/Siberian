@@ -1,5 +1,6 @@
 <?php
 
+use Siberian\AdNetwork;
 use Siberian\Exception;
 use Siberian\Version;
 
@@ -174,6 +175,8 @@ abstract class Application_Controller_View_Abstract extends Backoffice_Controlle
         $data['application']['disable_battery_optimization'] = (boolean)$data['application']['disable_battery_optimization'];
         $data['application']['use_ads'] = (boolean)$data['application']['use_ads'];
         $data['application']['test_ads'] = (boolean)$data['application']['test_ads'];
+        $data['application']['mediation_facebook'] = (boolean)$data['application']['mediation_facebook'];
+        $data['application']['mediation_startapp'] = (boolean)$data['application']['mediation_startapp'];
 
         // Set ios Autopublish informations
         $appIosAutopublish = (new Application_Model_IosAutopublish())->find($appId, 'app_id');
@@ -520,6 +523,14 @@ abstract class Application_Controller_View_Abstract extends Backoffice_Controlle
                     ->setUseAds(filter_var($data['use_ads'], FILTER_VALIDATE_BOOLEAN))
                     ->setTestAds(filter_var($data['test_ads'], FILTER_VALIDATE_BOOLEAN))
                     ->save();
+
+                // Mediation configuration
+                if (AdNetwork::$mediationEnabled) {
+                    $application
+                        ->setMediationFacebook(filter_var($data['mediation_facebook'], FILTER_VALIDATE_BOOLEAN))
+                        ->setMediationStartapp(filter_var($data['mediation_startapp'], FILTER_VALIDATE_BOOLEAN))
+                        ->save();
+                }
 
                 foreach ($data["devices"] as $deviceData) {
                     if (in_array($deviceData["admob_app_id"], ['', 'ca-app-pub-0000000000000000~0000000000'], true)) {
