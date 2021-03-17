@@ -9,6 +9,7 @@
 #import "AppDelegate+notification.h"
 #import "PushPlugin.h"
 #import <objc/runtime.h>
+#include <AudioToolbox/AudioToolbox.h>
 
 static char launchNotificationKey;
 static char coldstartKey;
@@ -81,56 +82,47 @@ NSString *const pushPluginApplicationDidBecomeActiveNotification = @"pushPluginA
 - (void)application:(UIApplication *)application didReceiveRemoteNotification:(NSDictionary *)userInfo fetchCompletionHandler:(void (^)(UIBackgroundFetchResult))completionHandler {
     NSLog(@"didReceiveNotification with fetchCompletionHandler");
 
-    // app is in the background or inactive, so only call notification callback if this is a silent push
-    if (application.applicationState != UIApplicationStateActive) {
+    // do some convoluted logic to find out if this should be a silent push.
+    long silent = 0;
+    id aps = [userInfo objectForKey:@"aps"];
+    id contentAvailable = [aps objectForKey:@"content-available"];
+    if ([contentAvailable isKindOfClass:[NSString class]] && [contentAvailable isEqualToString:@"1"]) {
+        silent = 1;
+    } else if ([contentAvailable isKindOfClass:[NSNumber class]]) {
+        silent = [contentAvailable integerValue];
+    }
 
-        NSLog(@"app in-active");
+    if (silent == 1) {
+        NSLog(@"this should be a silent push");
+        void (^safeHandler)(UIBackgroundFetchResult) = ^(UIBackgroundFetchResult result){
+            dispatch_async(dispatch_get_main_queue(), ^{
+                completionHandler(result);
+            });
+        };
 
-        // do some convoluted logic to find out if this should be a silent push.
-        long silent = 0;
-        id aps = [userInfo objectForKey:@"aps"];
-        id contentAvailable = [aps objectForKey:@"content-available"];
-        if ([contentAvailable isKindOfClass:[NSString class]] && [contentAvailable isEqualToString:@"1"]) {
-            silent = 1;
-        } else if ([contentAvailable isKindOfClass:[NSNumber class]]) {
-            silent = [contentAvailable integerValue];
+        PushPlugin *pushHandler = [self getCommandInstance:@"PushNotification"];
+
+        if (pushHandler.handlerObj == nil) {
+            pushHandler.handlerObj = [NSMutableDictionary dictionaryWithCapacity:2];
         }
 
-        if (silent == 1) {
-            NSLog(@"this should be a silent push");
-            void (^safeHandler)(UIBackgroundFetchResult) = ^(UIBackgroundFetchResult result){
-                dispatch_async(dispatch_get_main_queue(), ^{
-                    completionHandler(result);
-                });
-            };
-
-            PushPlugin *pushHandler = [self getCommandInstance:@"PushNotification"];
-
-            if (pushHandler.handlerObj == nil) {
-                pushHandler.handlerObj = [NSMutableDictionary dictionaryWithCapacity:2];
-            }
-
-            id notId = [userInfo objectForKey:@"notId"];
-            if (notId != nil) {
-                NSLog(@"Push Plugin notId %@", notId);
-                [pushHandler.handlerObj setObject:safeHandler forKey:notId];
-            } else {
-                NSLog(@"Push Plugin notId handler");
-                [pushHandler.handlerObj setObject:safeHandler forKey:@"handler"];
-            }
-
-            pushHandler.notificationMessage = userInfo;
-            pushHandler.isInline = NO;
-            [pushHandler notificationReceived];
+        id notId = [userInfo objectForKey:@"notId"];
+        if (notId != nil) {
+            NSLog(@"Push Plugin notId %@", notId);
+            [pushHandler.handlerObj setObject:safeHandler forKey:notId];
         } else {
-            NSLog(@"just put it in the shade");
-            //save it for later
-            self.launchNotification = userInfo;
-            completionHandler(UIBackgroundFetchResultNewData);
+            NSLog(@"Push Plugin notId handler");
+            [pushHandler.handlerObj setObject:safeHandler forKey:@"handler"];
         }
 
+        pushHandler.notificationMessage = userInfo;
+        pushHandler.isInline = NO;
+        [pushHandler notificationReceived];
     } else {
-        completionHandler(UIBackgroundFetchResultNoData);
+        NSLog(@"just put it in the shade");
+        //save it for later
+        self.launchNotification = userInfo;
+        completionHandler(UIBackgroundFetchResultNewData);
     }
 }
 
@@ -154,7 +146,7 @@ NSString *const pushPluginApplicationDidBecomeActiveNotification = @"pushPluginA
 - (void)pushPluginOnApplicationDidBecomeActive:(NSNotification *)notification {
 
     NSLog(@"active");
-    
+
     NSString *firstLaunchKey = @"firstLaunchKey";
     NSUserDefaults *defaults = [[NSUserDefaults alloc] initWithSuiteName:@"phonegap-plugin-push"];
     if (![defaults boolForKey:firstLaunchKey]) {
@@ -194,10 +186,22 @@ NSString *const pushPluginApplicationDidBecomeActiveNotification = @"pushPluginA
     // custom code to handle push while app is in the foreground
     PushPlugin *pushHandler = [self getCommandInstance:@"PushNotification"];
     pushHandler.notificationMessage = notification.request.content.userInfo;
-    pushHandler.isInline = YES;
+    pushHandler.isInline = NO;
     [pushHandler notificationReceived];
 
-    completionHandler(UNNotificationPresentationOptionNone);
+    // Enforces sound with localNotification in foreground!
+    SystemSoundID soundID;
+    CFBundleRef mainBundle = CFBundleGetMainBundle();
+    CFURLRef ref = CFBundleCopyResourceURL(mainBundle, (CFStringRef)@"sb_beep4.caf", NULL, NULL);
+    AudioServicesCreateSystemSoundID(ref, &soundID);
+    AudioServicesPlaySystemSound(soundID);
+
+    // Enforces vibration
+    AudioServicesPlaySystemSound(kSystemSoundID_Vibrate);
+    sleep(1);
+    AudioServicesPlaySystemSound(kSystemSoundID_Vibrate);
+
+    completionHandler(UNNotificationPresentationOptionAlert);
 }
 
 - (void)userNotificationCenter:(UNUserNotificationCenter *)center

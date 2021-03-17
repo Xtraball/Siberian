@@ -196,6 +196,9 @@ class Push_Model_Message extends Core_Model_Default
 
     /**
      * @return Zend_Db_Table_Rowset_Abstract
+     * @throws Zend_Db_Select_Exception
+     * @throws Zend_Db_Table_Exception
+     * @throws Zend_Exception
      */
     public function getMessages()
     {
@@ -250,7 +253,7 @@ class Push_Model_Message extends Core_Model_Default
     /**
      * @param $device_uid
      * @param null $message_id
-     * @return $this
+     * @return Push_Model_Db_Table_Message
      * @throws Zend_Db_Adapter_Exception
      */
     public function markAsRead($device_uid, $message_id = null)
@@ -274,6 +277,8 @@ class Push_Model_Message extends Core_Model_Default
      * @param $typeId
      * @param int $limit
      * @return mixed
+     * @throws Zend_Db_Statement_Exception
+     * @throws Zend_Exception
      */
     public function findAllForFeature($appId, $typeId, $limit = 100)
     {
@@ -284,7 +289,10 @@ class Push_Model_Message extends Core_Model_Default
      * @param $device_id
      * @param $app_id
      * @param int $offset
-     * @return mixed
+     * @return Zend_Db_Table_Rowset_Abstract
+     * @throws Zend_Db_Select_Exception
+     * @throws Zend_Db_Table_Exception
+     * @throws Zend_Exception
      */
     public function findByDeviceId($device_id, $app_id, $offset = 0)
     {
@@ -301,7 +309,9 @@ class Push_Model_Message extends Core_Model_Default
 
     /**
      * @param $device_id
-     * @return mixed
+     * @return int
+     * @throws Zend_Db_Select_Exception
+     * @throws Zend_Db_Statement_Exception
      */
     public function countByDeviceId($device_id)
     {
@@ -312,6 +322,9 @@ class Push_Model_Message extends Core_Model_Default
      * @param $device_id
      * @param $app_id
      * @return $this
+     * @throws Zend_Db_Select_Exception
+     * @throws Zend_Db_Table_Exception
+     * @throws Zend_Exception
      */
     public function findLastPushMessage($device_id, $app_id)
     {
@@ -324,6 +337,13 @@ class Push_Model_Message extends Core_Model_Default
      * @param $app_id
      * @param $device_id
      * @return $this
+     * @throws Zend_Date_Exception
+     * @throws Zend_Db_Profiler_Exception
+     * @throws Zend_Db_Select_Exception
+     * @throws Zend_Db_Statement_Exception
+     * @throws Zend_Db_Table_Exception
+     * @throws Zend_Exception
+     * @throws Zend_Locale_Exception
      */
     public function findLastInAppMessage($app_id, $device_id)
     {
@@ -336,23 +356,26 @@ class Push_Model_Message extends Core_Model_Default
     }
 
     /**
-     * In fact it's "MARK PUSH AS READ"
-     *
      * @param $app_id
      * @param $device_id
      * @param $device_type
-     * @return mixed
+     * @return Push_Model_Db_Table_Message
+     * @throws Zend_Date_Exception
+     * @throws Zend_Db_Select_Exception
+     * @throws Zend_Db_Statement_Exception
+     * @throws Zend_Db_Table_Exception
+     * @throws Zend_Locale_Exception
      */
     public function markInAppAsRead($app_id, $device_id, $device_type)
     {
+        // Mark push as read!
         return $this->getTable()->markInAppAsRead($app_id, $device_id, $device_type);
     }
 
     /**
-     * InApp Message is read!
-     *
      * @param $messageId
      * @param $deviceUid
+     * @throws Zend_Exception
      */
     public function markRealInAppAsRead($messageId, $deviceUid)
     {
@@ -370,13 +393,13 @@ class Push_Model_Message extends Core_Model_Default
 
         foreach ($this->_types as $type => $class_name) {
 
-            if ($type == 'ios') {
+            if ($type === 'ios') {
 
-                if (in_array($this->getTargetDevices(), ["ios", "all", "", null])) {
+                if (in_array($this->getTargetDevices(), ['ios', 'all', '', null], false)) {
                     try {
-                        $ios_certificate = Core_Model_Directory::getBasePathTo(Push_Model_Certificate::getiOSCertificat($this->getAppId()));
+                        $ios_certificate = path(Push_Model_Certificate::getiOSCertificat($this->getAppId()));
                         if (is_readable($ios_certificate) && is_file($ios_certificate)) {
-                            $instance = new Push_Model_Ios_Message(new Siberian_Service_Push_Apns(null, $ios_certificate));
+                            $instance = new Push_Model_Ios_Message(new Siberian_Service_Push_Apns($ios_certificate));
                             $instance->setMessage($this);
                             $instance->push();
                         } else {
@@ -395,9 +418,9 @@ class Push_Model_Message extends Core_Model_Default
                 }
             }
 
-            if ($type == 'android') {
+            if ($type === 'android') {
 
-                if (in_array($this->getTargetDevices(), ["android", "all", "", null])) {
+                if (in_array($this->getTargetDevices(), ['android', 'all', '', null], false)) {
                     try {
 
                         $gcmKey = Push_Model_Certificate::getAndroidKey();
@@ -425,7 +448,6 @@ class Push_Model_Message extends Core_Model_Default
                         }
 
                     } catch (\Exception $e) {
-                        print_r($e->getTraceAsString());
                         $this->logger->info(sprintf("[CRON: %s]: " . $e->getMessage(),
                             date("Y-m-d H:i:s")), "cron_push");
                         $this->_log("Siberian_Service_Push_Fcm", $e->getMessage());
@@ -467,7 +489,9 @@ class Push_Model_Message extends Core_Model_Default
     public function createLog($device, $status, $id = null)
     {
 
-        if (!$id) $id = $device->getDeviceUid();
+        if (!$id) {
+            $id = $device->getDeviceUid();
+        }
         $is_displayed = !$this->getLatitude() && !$this->getLongitude();
         $datas = [
             'device_id' => $device->getId(),

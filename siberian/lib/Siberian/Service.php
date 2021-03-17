@@ -81,41 +81,6 @@ class Service
             $services["bin_sqlite3"] = false;
         }
 
-        # Java
-        try {
-            $java_version = false;
-            exec("which java 2>&1", $java);
-            if (!empty($java) && isset($java[0])) {
-                exec($java[0] . " -version 2>&1", $version);
-            } else {
-                exec("/usr/bin/java -version 2>&1", $version);
-            }
-
-            if (!empty($version) && isset($version[0])) {
-                preg_match("/.*\"([0-9\._-]+).*\"/", $version[0], $matches);
-                if (isset($matches[1])) {
-                    $java_version = $matches[1];
-                }
-            }
-
-            $services["java"] = $java_version;
-
-        } catch (Exception $e) {
-            $services["java"] = false;
-        }
-
-
-        # Testing java version
-        $services["java_ok"] = false;
-        if ($services["java"]) {
-            if (version_compare($services["java"], "1.8.0", ">=")) {
-                $services["java_ok"] = true;
-            }
-        }
-
-        # Android SDK
-        $services["android_sdk"] = Application_Model_Tools::isAndroidSDKInstalled();
-
         # Siberian Edition
         $services["edition"] = Version::TYPE;
 

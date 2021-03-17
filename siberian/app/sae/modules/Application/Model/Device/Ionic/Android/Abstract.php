@@ -201,6 +201,30 @@ abstract class Application_Model_Device_Ionic_Android_Abstract extends Applicati
             '${applicationId}' => $tmp_application_id,
             'ca-app-pub-0000000000000000~0000000000' => $this->admobAppIdentifier
         ], "{$this->_dest_source}/app/src/main/res/xml/config.xml");
+
+        // FB Mediation
+        if ($application->getMediationFacebook() !== '1') {
+            $this->__replace([
+                'implementation "com.facebook.android:audience-network-sdk:+"' => '',
+                'implementation "com.google.ads.mediation:facebook:+"' => ''
+            ], "{$this->_dest_source}/app/build.gradle");
+            $this->__replace([
+                'cordova.system.library.6=com.facebook.android:audience-network-sdk:+' => '',
+                'cordova.system.library.7=com.google.ads.mediation:facebook:+' => ''
+            ], "{$this->_dest_source}/project.properties");
+        }
+
+        // StartApp Mediation
+        if ($application->getMediationStartapp() !== '1') {
+            $this->__replace([
+                'implementation "com.startapp:inapp-sdk:4.5.0"' => '',
+                'implementation "com.startapp:admob-mediation:2.0.0"' => ''
+            ], "{$this->_dest_source}/app/build.gradle");
+            $this->__replace([
+                'cordova.system.library.8=com.startapp:inapp-sdk:4.5.0' => '',
+                'cordova.system.library.9=com.startapp:admob-mediation:2.0.0' => ''
+            ], "{$this->_dest_source}/project.properties");
+        }
     }
 
     /**

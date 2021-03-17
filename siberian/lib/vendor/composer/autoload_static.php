@@ -16,6 +16,7 @@ class ComposerStaticInitc45135ea47c87544c5381729474d0166
         '0a68d60a5e4dce3adf20d45be4cf37c2' => __DIR__ . '/..' . '/romeoz/rock-base/src/polyfills.php',
         '25072dd6e2470089de65ae7bf11d3109' => __DIR__ . '/..' . '/symfony/polyfill-php72/bootstrap.php',
         '626dcc41390ebdaa619faa02d99943b0' => __DIR__ . '/..' . '/khanamiryan/qrcode-detector-decoder/lib/common/customFunctions.php',
+        'e39a8b23c42d4e1452234d762b03835a' => __DIR__ . '/..' . '/ramsey/uuid/src/functions.php',
         '667aeda72477189d0494fecd327c3641' => __DIR__ . '/..' . '/symfony/var-dumper/Resources/functions/dump.php',
         '2cffec82183ee1cea088009cef9a6fc3' => __DIR__ . '/..' . '/ezyang/htmlpurifier/library/HTMLPurifier.composer.php',
         'decc78cc4436b1292c6c0d151b19445c' => __DIR__ . '/..' . '/phpseclib/phpseclib/phpseclib/bootstrap.php',
@@ -55,6 +56,7 @@ class ComposerStaticInitc45135ea47c87544c5381729474d0166
             'React\\Stream\\' => 13,
             'React\\EventLoop\\' => 16,
             'React\\ChildProcess\\' => 19,
+            'Ramsey\\Uuid\\' => 12,
         ),
         'P' => 
         array (
@@ -92,6 +94,7 @@ class ComposerStaticInitc45135ea47c87544c5381729474d0166
         array (
             'Doctrine\\Common\\Collections\\' => 28,
             'DebugBar\\' => 9,
+            'Dashi\\Apns2\\' => 12,
         ),
         'B' => 
         array (
@@ -176,6 +179,10 @@ class ComposerStaticInitc45135ea47c87544c5381729474d0166
         array (
             0 => __DIR__ . '/..' . '/react/child-process/src',
         ),
+        'Ramsey\\Uuid\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/ramsey/uuid/src',
+        ),
         'Psr\\Log\\' => 
         array (
             0 => __DIR__ . '/..' . '/psr/log/Psr/Log',
@@ -251,6 +258,10 @@ class ComposerStaticInitc45135ea47c87544c5381729474d0166
         'DebugBar\\' => 
         array (
             0 => __DIR__ . '/..' . '/maximebf/debugbar/src/DebugBar',
+        ),
+        'Dashi\\Apns2\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/dashi/apns2/src',
         ),
         'Braintree\\' => 
         array (

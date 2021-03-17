@@ -11,6 +11,7 @@ angular.module('starter').service('$session', function ($log, $pwaCache, $q, $wi
         device_width: 512,
         device_height: 512,
         device_orientation: 'portrait',
+        footprint: null,
         is_loaded: false,
         resolver: $q.defer()
     };

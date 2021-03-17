@@ -39,6 +39,11 @@ if ($umfNnumeric < 100) {
     $systemError = true;
 }
 
+$curlHttp2 = defined('CURL_HTTP_VERSION_2_0');
+if (!$curlHttp2) {
+    $systemError = true;
+}
+
 $exec = function_exists('exec');
 if (!$exec) {
     $systemError = true;
@@ -112,7 +117,7 @@ if ($firebaseCredential && $firebaseCredential->getId()) {
             <div class="alert alert-warning">
                 <?php echo __('You have Mmobilcart installed, this module is known to cause a lot of side-effects and it is recommended to remove it'); ?>
                 <br/>
-                <?php echo __('Please note it can affect: emails, templates & pages behavior') ?>
+                <?php echo __('Please note it affects: emails, templates & pages behavior in editor, backoffice & applications.') ?>
                 <br/>
             </div>
         <?php endif; ?>
@@ -133,7 +138,7 @@ if ($firebaseCredential && $firebaseCredential->getId()) {
 
         <?php if ($showFirebaseNotice): ?>
             <div class="alert alert-danger">
-                <?php echo p__('backoffice', 'Your firebase configuration file %s is outdated and require an upgrade, please upload it again!', '<code style="border-radius: 3px !important;">google-services.json</code>'); ?>
+                <?php echo p__('backoffice', 'Your android push/firebase configuration file %s is outdated and require an upgrade, please upload it again!', '<code style="border-radius: 3px !important;">google-services.json</code>'); ?>
                 :
                 <a href="/push/backoffice_certificate"
                    style="letter-spacing: 2px;"><?php echo p__('backoffice', 'Upload a new one') ?></a>
@@ -168,15 +173,15 @@ if ($firebaseCredential && $firebaseCredential->getId()) {
                     <col width="55%"/>
                     <tbody>
                     <tr>
-                        <td rowspan="6">
+                        <td rowspan="7">
                             <?php if ($systemError): ?>
                                 <img src="/app/sae/design/desktop/backoffice/images/service/offline-16.png"/>
                             <?php else: ?>
                                 <img src="/app/sae/design/desktop/backoffice/images/service/running-16.png"/>
                             <?php endif; ?>
                         </td>
-                        <td rowspan="6">
-                            <?php echo __("PHP Settings") ?>
+                        <td rowspan="7">
+                            <?php echo __('PHP Settings') ?>
                         </td>
                         <td>allow_url_fopen</td>
                         <td>
@@ -253,6 +258,19 @@ if ($firebaseCredential && $firebaseCredential->getId()) {
                         </td>
                         <td class="text-right">
                             <?php echo p__('backoffice', 'Must be enabled') ?>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>HTTP/2 support (Apple push)</td>
+                        <td>
+                            <?php if ($curlHttp2): ?>
+                                <span class="service-green"> <?php echo p__('backoffice', 'Available') ?></span>
+                            <?php else: ?>
+                                <span class="service-red"> <?php echo p__('backoffice', 'Not available') ?></span>
+                            <?php endif; ?>
+                        </td>
+                        <td class="text-right">
+                            <?php echo p__('backoffice', 'Must be available') ?>
                         </td>
                     </tr>
                     <tr>
@@ -482,26 +500,6 @@ if ($firebaseCredential && $firebaseCredential->getId()) {
                                     <span class="service-green"><i class="fa fa-check"></i></span>
                                 <?php } ?>
 
-                            </span>
-
-                        <span ng-if="extensions.edition != 'SAE'"
-                              class="group">
-                                <?php echo __("JAVA:") ?>
-                            <span ng-show="extensions.java"><?php echo __("Installed, version") ?>
-                                <span ng-show="extensions.java_ok" class="service-green"> {{ extensions.java }},</span>
-                                    <span ng-show="!extensions.java_ok"
-                                          class="service-red"> {{ extensions.java }} - <?php echo __("You must upgrade Java to 1.8") ?>,</span>
-                                </span>
-                                <span ng-show="!extensions.java"><span
-                                            class="service-red"><?php echo __("Not found") ?></span>,</span>
-                            </span>
-
-                        <span class="group">
-                                <?php echo __("Android SDK:") ?>
-                            <span ng-show="extensions.android_sdk"><span class="service-green"><i
-                                            class="fa fa-check"></i></span></span>
-                                <span ng-show="!extensions.android_sdk"><span
-                                            class="service-red"><?php echo __("Not found") ?></span>,</span>
                             </span>
 
                         <span class="group" ng-show="extensions.php_sqlite3">

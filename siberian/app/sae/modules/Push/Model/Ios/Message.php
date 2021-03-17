@@ -5,7 +5,8 @@ use Siberian\Hook;
 /**
  * Class Push_Model_Ios_Message
  */
-class Push_Model_Ios_Message {
+class Push_Model_Ios_Message
+{
 
     /**
      * @var null|Siberian_Service_Push_Apns
@@ -26,7 +27,8 @@ class Push_Model_Ios_Message {
      * Push_Model_Ios_Message constructor.
      * @param Siberian_Service_Push_Apns $service_apns
      */
-    public function __construct(Siberian_Service_Push_Apns $service_apns) {
+    public function __construct(Siberian_Service_Push_Apns $service_apns)
+    {
         $this->service_apns = $service_apns;
         $this->logger = Zend_Registry::get("logger");
     }
@@ -34,32 +36,37 @@ class Push_Model_Ios_Message {
     /**
      * @param Push_Model_Message $message
      */
-    public function setMessage(Push_Model_Message $message) {
+    public function setMessage(Push_Model_Message $message)
+    {
         $this->message = $message;
     }
 
     /**
      * @return Push_Model_Message
      */
-    public function getMessage() {
+    public function getMessage()
+    {
         return $this->message;
     }
 
     /**
      * Push message to selected devices
      */
-    public function push() {
-        $device = new Push_Model_Iphone_Device();
+    public function push()
+    {
+        $devices = [];
         $message = $this->getMessage();
-        $app_id = $message->getAppId();
+        $appId = $message->getAppId();
+        $app = (new Application_Model_Application())->find($appId);
+        $bundleId = $app->getBundleId();
 
         // New standalone push
         if ($message->getIsStandalone() === true) {
-            $device = (new Push_Model_Iphone_Device())
-                ->find($message->getToken(), "device_token");
-            if ($device->getPushAlert() === 'enabled') {
-                $devices = [$device];
-                $this->service_apns->addMessage($message, $device);
+            $deviceObj = (new Push_Model_Iphone_Device())
+                ->find($message->getToken(), 'device_token');
+            if ($deviceObj->getPushAlert() === 'enabled') {
+                $devices = [$deviceObj];
+                $this->service_apns->addMessage($message, $bundleId, $devices);
             }
         } else {
             if ($message->getSendToAll() == 0) {
@@ -71,73 +78,64 @@ class Push_Model_Ios_Message {
 
             # Individual push, push to user(s)
             $selected_users = null;
-            if(Push_Model_Message::hasIndividualPush()) {
-                if ($message->getSendToSpecificCustomer() == 1) {
-                    $customer_message = new Push_Model_Customer_Message();
-                    $selected_users = $customer_message->findCustomersByMessageId($message->getId());
-                }
+            if (Push_Model_Message::hasIndividualPush() &&
+                $message->getSendToSpecificCustomer() == 1) {
+                $customer_message = new Push_Model_Customer_Message();
+                $selected_users = $customer_message->findCustomersByMessageId($message->getId());
             }
 
-            $devices = $device->findByAppId($app_id, $allowed_categories, $selected_users);
-            foreach ($devices as $device) {
-                // Send push only to 'enabled' devices!
-                if ($device->getPushAlert() === 'enabled') {
-                    $this->service_apns->addMessage($message, $device);
-                }
-            }
+            $devices = (new Push_Model_Iphone_Device())->findByAppId($appId, $allowed_categories, $selected_users);
+            $this->service_apns->addMessage($message, $bundleId, $devices);
         }
 
         # Send all queued messages
         $this->service_apns->sendAll();
 
         # Fetch errors
-        $apns_errors = $this->service_apns->getErrors();
-        $device_errors = array();
-        foreach($apns_errors as $error) {
-            $err_string = (isset($error["ERRORS"]) && isset($error["ERRORS"][0])) ? $error["ERRORS"][0]["statusMessage"] : "Unknown APNS Push Error";
-            $message = $error["MESSAGE"];
-            $custom_identifier = $message->getCustomIdentifier();
-            $tmp = explode("-", $custom_identifier);
-            $device_id = $tmp[1];
-
-            $device_errors[$device_id] = $err_string;
+        $responses = $this->service_apns->responses;
+        $deviceUidErrors = [];
+        foreach ($responses as $response) {
+            $badDevice = \Dashi\Apns2\Response::REASON_BAD_DEVICE_TOKEN;
+            if ($response->reason === $badDevice) {
+                $deviceUidErrors[$response->deviceId] = strtolower($badDevice);
+            }
         }
 
         # Create logs & Dump errors into log.
-        foreach ($devices as $device) {
+        foreach ($devices as $_device) {
             try {
-
-                if(!array_key_exists($device->getId(), $device_errors)) {
+                $uid = strtolower($_device->getDeviceUid());
+                if (!array_key_exists($uid, $deviceUidErrors)) {
                     # Push ok, so create log
-                    $this->message->createLog($device, 1);
+                    $this->message->createLog($_device, 1);
                 } else {
                     # Handle error
-                    $error_count = $device->getErrorCount();
-                    if($error_count >= 2) {
+                    $errorCount = $_device->getErrorCount();
+                    if ($errorCount >= 2) {
                         # Remove device from list
-                        $msg = sprintf("#800-01: iOS Device with ID: %s, Token: %s, removed after 3 failed push.", $device->getId(), $device->getDeviceToken());
+                        $msg = sprintf("#800-01: iOS Device with ID: %s, Token: %s, removed after 3 failed push.", $_device->getId(), $_device->getDeviceToken());
 
-                        Hook::trigger("push.ios.delete_token", [
-                            "device" => $device
+                        Hook::trigger('push.ios.delete_token', [
+                            'device' => $_device
                         ]);
 
-                        $device->delete();
+                        $_device->delete();
                         $this->logger->info($msg, "push_ios", false);
                     } else {
-                        $device->setErrorCount(++$error_count)->save();
+                        $_device->setErrorCount(++$errorCount)->save();
 
-                        $msg = sprintf("#800-02: iOS Device with ID: %s, Token: %s, failed push ! Errors count: %s.", $device->getId(), $device->getDeviceToken(), $error_count);
-                        $this->logger->info($msg, "push_ios", false);
+                        $msg = sprintf("#800-02: iOS Device with ID: %s, Token: %s, failed push ! Errors count: %s.", $_device->getId(), $_device->getDeviceToken(), $errorCount);
+                        $this->logger->info($msg, 'push_ios', false);
                     }
 
-                    if(isset($msg)) {
+                    if (isset($msg)) {
                         $this->service_apns->_log($msg);
                     }
                 }
 
-            } catch(Exception $e) {
-                $msg = sprintf("#800-03: iOS Device with ID: %s, Token: %s, failed ! Error message: %s.", $device->getId(), $device->getDeviceToken(), $e->getMessage());
-                $this->logger->info($msg, "push_ios", false);
+            } catch (\Exception $e) {
+                $msg = sprintf("#800-03: iOS Device with ID: %s, Token: %s, failed ! Error message: %s.", $_device->getId(), $_device->getDeviceToken(), $e->getMessage());
+                $this->logger->info($msg, 'push_ios', false);
             }
         }
 

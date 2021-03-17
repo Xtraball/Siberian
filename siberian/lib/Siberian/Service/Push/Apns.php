@@ -1,134 +1,163 @@
 <?php
 
 use Siberian\Hook;
+use Dashi\Apns2\Connection as Apns2Connection;
+use Dashi\Apns2\MessageAPSBody as Apns2MessageAPSBody;
+use Dashi\Apns2\Message as Apns2Message;
+use Dashi\Apns2\Options as Apns2Options;
 
-require_once Core_Model_Directory::getBasePathTo('lib/ApnsPHP/Autoload.php');
-
-class Siberian_Service_Push_Apns extends ApnsPHP_Push {
-
+/**
+ * Class Siberian_Service_Push_Apns
+ */
+class Siberian_Service_Push_Apns
+{
+    /**
+     *
+     */
     const ROOT_CA = "/var/apps/certificates/root_ca.pem";
 
-    public function __construct($nEnvironment, $sProviderCertificateFile) {
-        if(is_null($nEnvironment)) {
-            $nEnvironment = (APPLICATION_ENV == "production") ? ApnsPHP_Push::ENVIRONMENT_PRODUCTION : ApnsPHP_Push::ENVIRONMENT_SANDBOX;
-        }
+    /**
+     * @var \Dashi\Apns2\Connection
+     */
+    public $connection;
 
-        parent::__construct($nEnvironment, $sProviderCertificateFile);
+    /**
+     * @var \Dashi\Apns2\Response[]
+     */
+    public $responses;
 
-        $root_ca = Core_Model_Directory::getBasePathTo(self::ROOT_CA);
-        $this->setRootCertificationAuthority($root_ca);
+    /**
+     * @var string[]
+     */
+    public $recipients;
 
-        $this->connect();
+    /**
+     * @var Dashi\Apns2\Message
+     */
+    public $message;
+
+    /**
+     * @var Dashi\Apns2\Options
+     */
+    public $options;
+
+    /**
+     * @var mixed
+     */
+    public $logger;
+
+    /**
+     * Siberian_Service_Push_Apns constructor.
+     * @param $sProviderCertificateFile
+     * @param null $sandbox
+     */
+    public function __construct($sProviderCertificateFile, $sandbox = null)
+    {
+        $this->logger = Zend_Registry::get("logger");
+        $this->connection = new Apns2Connection(
+            [
+                'sandbox' => false,
+                'cert-path' => $sProviderCertificateFile
+            ]);
     }
 
     /**
-     * @param $push_message
-     * @param $device
-     * @throws ApnsPHP_Message_Exception
+     * @param $messagePayload
+     * @param $bundleId
+     * @param $devices
+     * @throws Zend_Exception
      */
-    public function addMessage($push_message, $device) {
-
-        $message = new Siberian_Service_Push_Apns_Message($device->getDeviceToken());
-
-        # Custom identifier for further feedback
-        $message->setCustomIdentifier(sprintf("device_id-%s", $device->getId()));
-
-        # Badge count
-        $message->setBadge($device->getNotRead() + 1);
-
-        # Message
-        $message->setTitle($push_message->getTitle());
-        $message->setText($push_message->getText());
-        $message->setActionLocKey(__("See"));
-
-        # Sound
-        $message->setSound("Submarine.aiff");
-
-        # Cover
-        $message->setCover($push_message->getCoverUrl());
-
-        # Cover
-        $message->setValueId($push_message->getValueId());
+    public function addMessage($messagePayload, $bundleId, $devices)
+    {
+        $aps = new Apns2MessageAPSBody();
+        $aps->alert->title = $messagePayload->getTitle();
+        $aps->alert->body = $messagePayload->getText();
+        $aps->alert->actionLocKey = p__('push', 'Read');
+        $aps->alert->cover = $messagePayload->getCoverUrl();
+        $aps->alert->open_webview = $messagePayload->getCoverUrl();
+        $aps->sound = 'sb_beep4.caf';
+        $aps->message_id = \Ramsey\Uuid\v4();
 
         # Action
         $application = new Application_Model_Application();
-        $application->find($push_message->getAppId());
-        if (is_numeric($push_message->getActionValue())) {
+        $application->find($messagePayload->getAppId());
+
+        if (is_numeric($messagePayload->getActionValue())) {
             $option_value = new Application_Model_Option_Value();
-            $option_value->find($push_message->getActionValue());
+            $option_value->find($messagePayload->getActionValue());
 
             $mobileUri = $option_value->getMobileUri();
             if (preg_match('/^goto\/feature/', $mobileUri)) {
-                $action_url = sprintf("/%s/%s/value_id/%s",
+                $actionUrl = sprintf("/%s/%s/value_id/%s",
                     $application->getKey(),
                     $mobileUri,
                     $option_value->getId());
             } else {
-                $action_url = sprintf("/%s/%sindex/value_id/%s",
+                $actionUrl = sprintf("/%s/%sindex/value_id/%s",
                     $application->getKey(),
                     $option_value->getMobileUri(),
                     $option_value->getId());
             }
         } else {
-            $action_url = $push_message->getActionValue();
+            $actionUrl = $messagePayload->getActionValue();
         }
 
-        $message->setActionValue($action_url);
+        $aps->alert->action_value = $actionUrl;
+        $aps->alert->open_webview = !is_numeric($messagePayload->getActionValue());
 
-        # Whether the action should open a webview
-        $message->setOpenWebView((!is_numeric($push_message->getActionValue())));
-        $message->setMessageId($push_message->getId() . uniqid('push_apns_', true));
+        $message = new Apns2Message();
+        $message->aps = $aps;
 
-        # Geolocation @TODO finish geolocation push when merged
-        if($push_message->getLongitude() && $push_message->getLatitude()) {
-            # Fetch current message as array.
-            $payload = $message->_getPayload();
-            $user_info = $payload[Siberian_Service_Push_Apns_Message::APPLE_RESERVED_NAMESPACE];
-
-            # Build new message
-            $geolocated_message = new Siberian_Service_Push_Apns_Message();
-            $geolocated_message->setContentAvailable(true);
-            $geolocated_message->setSound('');
-            $geolocated_message->setGeolocation($push_message->getLatitude(), $push_message->getLongitude(), $push_message->getRadius());
-            $geolocated_message->setSendUntil($push_message->getSendUntil() ? $push_message->getSendUntil() : null);
-            $geolocated_message->setUserInfo($user_info);
-            $geolocated_message->setMessageId($push_message->getId());
-
-            # Set the empty alert (silent)
-            $geolocated_message->setCover("");
-            $geolocated_message->setActionValue($action_url);
-            $geolocated_message->setOpenWebView((!is_numeric($push_message->getActionValue())));
-
-            # Add recipient
-            $geolocated_message->addRecipient($device->getDeviceToken());
-
-            # Custom identifier for further feedback
-            $geolocated_message->setCustomIdentifier(sprintf("device_id-%s", $device->getId()));
-
-            $message = $geolocated_message;
-        }
+        $this->options = new Apns2Options();
+        $this->options->apnsId = $aps->message_id;
+        $this->options->apnsTopic = $bundleId;
+        $this->options->apnsPushType = 'alert';
+        $this->options->apnsPriority = 10;
+        $this->options->apnsExpiration = 0;
 
         // Trigger an event when the push message is parsed!
-        $result = Hook::trigger("push.message.ios.parsed",
+        $result = Hook::trigger('push.message.ios.parsed',
             [
-                "message" => $message,
-                "application" => $application
+                'message' => $message,
+                'application' => $application
             ]);
-        $message = $result["message"];
 
-        # Add message to the message queue
-        $this->add($message);
-    }
+        // Recipients
+        foreach ($devices as $device) {
+            if ($device->getPushAlert() === 'enabled') {
+                $this->recipients[] = $device->getDeviceToken();
+            }
+        }
 
-    public function sendAll() {
-        $this->send();
-        $this->disconnect();
+        $this->message = $result['message'];
     }
 
     /**
-     * @param $sMessage
+     * @param $message
      */
-    public function _log($sMessage) {
-        parent::_log($sMessage);
+    public function add($message)
+    {
+        $this->recipients[] = $message->_aDeviceToken;
+    }
+
+    /**
+     * @throws Exception
+     */
+    public function sendAll()
+    {
+        $this->responses = $this->connection->send(
+            $this->recipients,
+            $this->message,
+            $this->options
+        );
+        $this->connection->close();
+    }
+
+    /**
+     * @param $message
+     */
+    public function _log($message)
+    {
+        // @todo logger
     }
 }
