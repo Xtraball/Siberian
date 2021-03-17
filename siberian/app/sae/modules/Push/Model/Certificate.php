@@ -143,7 +143,7 @@ class Push_Model_Certificate extends Core_Model_Default
 
         return [
             'success' => false,
-            'message' => p_('push', 'Unkown error.')
+            'message' => p__('push', 'Unkown error.')
         ];
     }
 
