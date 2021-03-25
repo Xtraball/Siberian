@@ -231,7 +231,16 @@ angular
 
         $scope.reloadLocale = function (select) {
             $scope.currentLanguage = select.currentLanguage;
+
+            // Save in session
             $session.setItem('sb-current-language', $scope.currentLanguage);
+
+            // Update momentjs
+            var tmpLang = $scope.currentLanguage.replace('_', '-').toLowerCase();
+            var langPriority = [tmpLang, tmpLang.split('-')[0], 'en'];
+            moment.locale(langPriority);
+
+            // Reload from server
             Loader.show($translate.instant('Loading translations...', 'customer'));
             Application
                 .reloadLocale($scope.currentLanguage)
