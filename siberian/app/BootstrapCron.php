@@ -205,7 +205,11 @@ class BootstrapCron extends Zend_Application_Bootstrap_Bootstrap
     {
         $module_names = $this->_front_controller->getDispatcher()->getModuleDirectories();
 
-        // Fetch licenses 4.19.x!
+        // Hotcheck ACL Admin!
+        $rootRole = (new Acl_Model_Role())->find(1);
+        if ($rootRole->getParentId()) {
+            $rootRole->setParentId(null)->save();
+        }
 
         foreach ($module_names as $module) {
 
