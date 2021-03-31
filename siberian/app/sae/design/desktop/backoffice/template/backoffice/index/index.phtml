@@ -39,8 +39,9 @@ if ($umfNnumeric < 100) {
     $systemError = true;
 }
 
-$curlHttp2 = defined('CURL_HTTP_VERSION_2_0');
-if (!$curlHttp2) {
+$curlHttp2 = Push_Model_Certificate::testHttp2();
+$curlHttp2Message = $curlHttp2['message'];
+if (!$curlHttp2['success']) {
     $systemError = true;
 }
 
@@ -263,10 +264,10 @@ if ($firebaseCredential && $firebaseCredential->getId()) {
                     <tr>
                         <td>HTTP/2 support (Apple push)</td>
                         <td>
-                            <?php if ($curlHttp2): ?>
-                                <span class="service-green"> <?php echo p__('backoffice', 'Available') ?></span>
+                            <?php if ($curlHttp2['success']): ?>
+                                <span class="service-green"> <?php echo p__('backoffice', $curlHttp2['message']) ?></span>
                             <?php else: ?>
-                                <span class="service-red"> <?php echo p__('backoffice', 'Not available') ?></span>
+                                <span class="service-red"> <?php echo p__('backoffice', $curlHttp2['message']) ?></span>
                             <?php endif; ?>
                         </td>
                         <td class="text-right">

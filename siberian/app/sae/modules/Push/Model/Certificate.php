@@ -108,6 +108,50 @@ class Push_Model_Certificate extends Core_Model_Default
         return $pemInfo;
     }
 
+    public static function testHttp2 ()
+    {
+        try {
+            if (!defined('CURL_HTTP_VERSION_2_0')) {
+                define('CURL_HTTP_VERSION_2_0', 3);
+            }
+            $ch = curl_init();
+            curl_setopt($ch, CURLOPT_HTTP_VERSION, CURL_HTTP_VERSION_2_0);
+            $host = 'https://api.development.push.apple.com';
+            curl_setopt_array($ch, [
+                CURLOPT_URL => "$host/3/device/74fbf7e296f6c94755832a48476182e4e9586a380116e18a46531b62349504f1",
+                CURLOPT_PORT => 443,
+                CURLOPT_POST => true,
+                CURLOPT_POSTFIELDS => json_encode([]),
+                CURLOPT_RETURNTRANSFER => true,
+                CURLOPT_TIMEOUT => 10,
+                CURLOPT_SSL_VERIFYPEER => false,
+                CURLOPT_HEADER => 1
+            ]);
+
+            $result = curl_exec($ch);
+            if ($result === false) {
+                throw new \Exception('Curl failed with error: ' . curl_error($ch));
+            }
+
+            if (strpos($result, 'HTTP/2') !== 0) {
+                throw new \Exception('Request doesn\'t match HTTP/2');
+            }
+
+            $payload = [
+                'success' => true,
+                'message' => 'Available',
+                'result' => $result
+            ];
+        } catch (\Exception $e) {
+            $payload = [
+                'success' => false,
+                'message' => $e->getMessage()
+            ];
+        }
+
+        return $payload;
+    }
+
     /**
      * @param $certificate
      * @param $bundleId
