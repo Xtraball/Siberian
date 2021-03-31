@@ -209,6 +209,9 @@ class BootstrapCron extends Zend_Application_Bootstrap_Bootstrap
         $rootRole = (new Acl_Model_Role())->find(1);
         if ($rootRole->getParentId()) {
             $rootRole->setParentId(null)->save();
+
+            $logger = Zend_Registry::get('logger');
+            $logger->info('Admin parent_id was reset to null.');
         }
 
         foreach ($module_names as $module) {
