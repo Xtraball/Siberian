@@ -203,7 +203,6 @@ class Push_Model_Certificate extends Core_Model_Default
         }
 
         return self::$_android_key;
-
     }
 
     /**
