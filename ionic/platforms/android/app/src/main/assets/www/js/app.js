@@ -635,8 +635,9 @@ var App = angular.module('starter', ['ionic', 'lodash', 'ngRoute', 'ngCordova', 
                         .then(function () {
                             window.momentjs_loaded = true;
                             try {
-                                var tmpLang = language.replace('_', '-').toLowerCase();
-                                moment.locale([tmpLang, 'en']);
+                                var tmpLang = CURRENT_LANGUAGE.replace('_', '-').toLowerCase();
+                                var langPriority = [tmpLang, tmpLang.split('-')[0], 'en'];
+                                moment.locale(langPriority);
                             } catch (e) {
                                 moment.locale('en');
                             }

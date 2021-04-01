@@ -317,7 +317,7 @@ angular
                     inappMessage.config = {
                         buttons: [
                             {
-                                text: $translate.instant('OK'),
+                                text: $translate.instant('OK', 'push'),
                                 type: 'button-custom',
                                 onTap: function () {
                                     Push.markInAppAsRead();
@@ -386,7 +386,7 @@ angular
                         var config = {
                             buttons: [
                                 {
-                                    text: $translate.instant('Cancel'),
+                                    text: $translate.instant('Cancel', 'push'),
                                     type: 'button-custom',
                                     onTap: function () {
                                         if (isInAppMessage) {
@@ -396,7 +396,7 @@ angular
                                     }
                                 },
                                 {
-                                    text: $translate.instant('View'),
+                                    text: $translate.instant('View', 'push'),
                                     type: 'button-custom',
                                     onTap: function () {
                                         if (isInAppMessage) {
@@ -441,7 +441,7 @@ angular
                                 (extendedPayload.action_value === null)) {
                                 config.buttons = [
                                     {
-                                        text: $translate.instant('OK'),
+                                        text: $translate.instant('OK', 'push'),
                                         type: 'button-custom',
                                         onTap: function () {
                                             // Simply closes!
