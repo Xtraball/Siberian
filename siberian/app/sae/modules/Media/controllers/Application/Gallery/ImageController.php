@@ -78,15 +78,6 @@ class Media_Application_Gallery_ImageController extends Application_Controller_D
                         ->guessType($formDatas['param_flickr']);
                     $formDatas['identifier'] = $formDatas['param_flickr'];
 
-                } else if (array_key_exists('param_facebook', $formDatas) && !empty($formDatas['param_facebook'])) {
-                    try {
-                        (new Social_Model_Facebook())->getAccessToken();
-                    } catch (Exception $e) {
-                        throw new Siberian_Exception(__('No valid Facebook API key and secret.'));
-                    }
-
-                    $formDatas['type_id'] = 'facebook';
-
                 } else if (array_key_exists('param', $formDatas) && !empty($formDatas['param'])) {
                     $formDatas['type_id'] = 'picasa';
                 } else {
@@ -134,20 +125,6 @@ class Media_Application_Gallery_ImageController extends Application_Controller_D
                     }
 
                     $imageGallery->save();
-
-                    // Facebook case!
-                    if ($formDatas['type_id'] === 'facebook') {
-                        $facebookGallery = new Media_Model_Gallery_Image_Facebook(
-                            [
-                                'gallery_id' => $imageGallery->getGalleryId(),
-                                'album_id' => $formDatas['param_facebook']
-                            ]
-                        );
-                        if ($formDatas['image_id']){
-                            $facebookGallery->setImageId($formDatas['image_id']);
-                        }
-                        $facebookGallery->save();
-                    }
 
                     if (isset($formDatas['images']['list_' . $formGalleryId])) {
                         $position = 1;
@@ -317,43 +294,6 @@ class Media_Application_Gallery_ImageController extends Application_Controller_D
         $this->getLayout()->setHtml(Zend_Json::encode($html));
     }
 
-    public function albumsAction() {
-        $html = array();
-        try {
-            $pageid = $this->getRequest()->getParam('pageid');
-            if (!$pageid) {
-                throw new Exception("Please specify the page ID");
-            }
-            $facebook = new Social_Model_Facebook();
-            // Verify the page exists
-            $facebook->getPage($pageid);
-            // Return the albums
-            $albums = $facebook->getAlbums($pageid);
-
-            if(!$albums) {
-                $html = array(
-                    'message' => __("An error occurred while retrieving your page. Please check your page id."),
-                    'message_button' => 1,
-                    'message_loader' => 1
-                );
-            } else {
-                $html = $albums;
-            }
-        } catch (Exception $e) {
-            $html = array(
-                'message' => __($e->getMessage()),
-                'message_button' => 1,
-                'message_loader' => 1
-            );
-        }
-        $this->getLayout()->setHtml(Zend_Json::encode($html));
-    }
-
-
-
-
-
-
     /**
      * @deprecated
      */
@@ -414,13 +354,6 @@ class Media_Application_Gallery_ImageController extends Application_Controller_D
                     } else {
                         throw new Exception(__("Flickr API settings can't be found."));
                     }
-                } elseif (!empty($datas['param_facebook'])) {
-                    $facebook = new Social_Model_Facebook();
-                    $facebook_is_available = $facebook->getAccessToken() != null;
-                    if(!$facebook_is_available){
-                        throw new Exception(__("No valid Facebook API key and secret."));
-                    }
-                    $datas['type_id'] = 'facebook';
                 } elseif (!empty($datas['param'])) {
                     $datas['type_id'] = 'picasa';
                 } else {
@@ -451,20 +384,6 @@ class Media_Application_Gallery_ImageController extends Application_Controller_D
                     $image
                         ->setData($datas)
                         ->save();
-
-                    // save facebook parameters if necessary
-                    if ($datas['param_facebook']) {
-                        $facebook_gallery = new Media_Model_Gallery_Image_Facebook(
-                            array(
-                                'gallery_id' => $image->getGalleryId(),
-                                'album_id' => $datas['param_facebook']
-                            )
-                        );
-                        if($datas['image_id']){
-                            $facebook_gallery->setImageId($datas['image_id']);
-                        }
-                        $facebook_gallery->save();
-                    }
 
                     $html['id'] = (int) $image->getId();
                     $html['is_new'] = (int) $isNew;

@@ -292,7 +292,7 @@
                         $albums = [];
                         $currentGalleryName = null;
                         foreach ($galleries as $gallery) {
-                            // Here we store fb gallery information for performance purpose!
+                            // Here we store galleries information for performance purpose!
                             try {
                                 if ($gallery->getTypeId() === 'picasa') {
                                     if ($currentGalleryName !== $gallery->getName()) {

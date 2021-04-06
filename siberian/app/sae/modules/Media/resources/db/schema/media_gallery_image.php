@@ -30,7 +30,7 @@ $schemas['media_gallery_image'] = [
         ],
     ],
     'type_id' => [
-        'type' => 'enum(\'picasa\',\'custom\',\'instagram\',\'flickr\',\'facebook\')',
+        'type' => 'enum(\'picasa\',\'custom\',\'instagram\',\'flickr\')',
         'charset' => 'utf8',
         'collation' => 'utf8_unicode_ci',
     ],
