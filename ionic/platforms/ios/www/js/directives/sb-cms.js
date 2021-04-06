@@ -345,14 +345,6 @@ angular.module('starter').directive('sbCmsText', function () {
                     scope.icon = 'ion-ios-world-outline';
                     scope.label = ((scope.block.label !== null) && (scope.block.label.length > 0)) ?
                         scope.block.label : 'Website';
-                    a.on('click', function (e) {
-                        e.preventDefault();
-                        scope.openLink();
-                        return false;
-                    });
-                    scope.$on('$destroy', function () {
-                        a.off('click');
-                    });
                     break;
 
                 case 'email':
@@ -364,12 +356,17 @@ angular.module('starter').directive('sbCmsText', function () {
                         scope.block.label : 'Email';
                     scope.url = scope.block.content;
                     scope.target = '_self';
-
-                    scope.$on('$destroy', function () {
-                        a.off('click');
-                    });
                     break;
             }
+
+            a.on('click', function (e) {
+                e.preventDefault();
+                scope.openLink();
+                return false;
+            });
+            scope.$on('$destroy', function () {
+                a.off('click');
+            });
 
             /** Icon image */
             scope.show_icon = true;
