@@ -436,7 +436,7 @@ class Push_Model_Message extends Core_Model_Default
                         $fcmInstance = null;
                         if (!empty($fcmKey)) {
                             $fcmInstance = new \Siberian\CloudMessaging\Sender\Fcm($fcmKey);
-                        }else {
+                        } else {
                             // Only FCM is mandatory by now!
                             throw new \Siberian\Exception("You must provide FCM Credentials");
                         }
