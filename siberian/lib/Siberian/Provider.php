@@ -58,6 +58,14 @@ class Provider
     /**
      * @return array|mixed
      */
+    public static function getSourcess ()
+    {
+        return self::_getContent('sources', self::getMaster()['sources']['url']);
+    }
+
+    /**
+     * @return array|mixed
+     */
     public static function getWhitelistHosted ()
     {
         return self::_getContent('whitelist_hosted', self::getModules()['whitelist_hosted']['url']);

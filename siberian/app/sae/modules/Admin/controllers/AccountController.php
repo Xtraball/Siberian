@@ -1,6 +1,8 @@
 <?php
 
 use Siberian\File;
+use Siberian\Mail;
+use Siberian\Layout;
 
 /**
  * Class Admin_AccountController
@@ -320,18 +322,21 @@ class Admin_AccountController extends Admin_Controller_Default
 
                 $admin->setPassword($password)->save();
 
-                $layout = $this->getLayout()->loadEmail('admin', 'forgot_password');
-                $subject = __('%s - Your new password');
-                $layout->getPartial('content_email')->setPassword($password);
+                // E-Mail back the user!
+                $title = p__('admin', 'New password');
+                $baseEmail = $this->baseEmail('forgot_password', $title, '', true);
+                $baseEmail->setContentFor('header', 'show_logo', true);
+                $mail = new Mail();
 
-                $content = $layout->render();
+                $baseEmail->setContentFor('content_email', 'password', $password);
 
-                # @version 4.8.7 - SMTP
-                $mail = new Siberian_Mail();
+                $content = $baseEmail->render();
+
                 $mail->setBodyHtml($content);
                 $mail->addTo($admin->getEmail(), $admin->getName());
-                $mail->setSubject($subject, ["_sender_name"]);
+                $mail->setSubject(__('%s - Your new password'), ["_sender_name"]);
                 $mail->send();
+
 
                 $this->getSession()->addSuccess(__('Your new password has been sent to the entered email address'));
 
@@ -343,6 +348,29 @@ class Admin_AccountController extends Admin_Controller_Default
         $this->_redirect('/');
         return $this;
 
+    }
+
+    /**
+     * @param $nodeName
+     * @param $title
+     * @param $message
+     * @param $showLegals
+     * @return Siberian_Layout|Siberian_Layout_Email
+     * @throws Zend_Layout_Exception
+     */
+    public function baseEmail($nodeName,
+                              $title,
+                              $message = '',
+                              $showLegals = false)
+    {
+        $layout = new Layout();
+        $layout = $layout->loadEmail('admin', $nodeName);
+        $layout
+            ->setContentFor('base', 'email_title', $title)
+            ->setContentFor('content_email', 'message', $message)
+            ->setContentFor('footer', 'show_legals', $showLegals);
+
+        return $layout;
     }
 
     public function logoutAction()

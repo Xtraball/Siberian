@@ -17,10 +17,6 @@ switch ($typeId) {
         $title = __('Flickr');
         $className = 'fa fa-flickr';
         break;
-    case 'facebook':
-        $title = __('Facebook');
-        $className = 'fa fa-facebook';
-        break;
     default: // 'custom'!
         $title = __('User');
         $className = 'fa fa-camera';
@@ -49,26 +45,6 @@ switch ($typeId) {
                    class="input-flat"/>
         </span>
         <br/>
-        <?php if ($typeId === 'facebook'): ?>
-            <span>
-            <label for="gallery_name_<?php echo $imageGallery->getGalleryId(); ?>">
-                <?php echo __("Gallery Name"); ?>
-            </label>
-            <input id="gallery_name_<?php echo $imageGallery->getGalleryId(); ?>"
-                   type="text"
-                   name="gallery_name_<?php echo $imageGallery->getGalleryId(); ?>"
-                   value="<?php echo $imageGallery->getLabel(); ?>"
-                   placeholder="<?php echo __('Gallery Name') ?>"
-                   class="input-flat change_label"
-                   onchange="changeGalleryLabel(<?php echo $imageGallery->getGalleryId(); ?>)"/>
-            <?php echo __('If set, will appear instead of the Facebook page Id in app.'); ?>
-            <script type="text/javascript">
-                $(document).ready(function () {
-                    changeGalleryLabel(<?php echo $imageGallery->getGalleryId(); ?>);
-                });
-            </script>
-        </span>
-        <?php endif; ?>
     </td>
     <td class="col-sm-4">
         <?php

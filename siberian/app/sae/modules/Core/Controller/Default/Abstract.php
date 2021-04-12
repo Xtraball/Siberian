@@ -783,11 +783,16 @@ abstract class Core_Controller_Default_Abstract extends Zend_Controller_Action i
     {
         $request = $this->getRequest();
 
+        // Be sure session is configured correctly
+        try {
+            Siberian_Session::init();
+        } catch (\Exception $e) {
+            // Already init!
+        }
+
         if (!$this->skipSession($request) &&
             !Zend_Session::isStarted() &&
             !$request->isInstalling()) {
-
-            Siberian_Session::init();
 
             $sbToken = $request->getParam('sb-token', null);
             $xsbAuth = $request->getHeader('XSB_AUTH');
