@@ -47,7 +47,6 @@ $queries = [
     "ALTER TABLE `media_gallery_image_flickr` CHANGE `position` `position` INT(11) NULL DEFAULT '0';",
     "ALTER TABLE `media_gallery_image_custom` CHANGE `position` `position` INT(11) NULL DEFAULT '0';",
     "ALTER TABLE `media_gallery_image_instagram` CHANGE `position` `position` INT(11) NULL DEFAULT '0';",
-    "ALTER TABLE `media_gallery_image_facebook` CHANGE `position` `position` INT(11) NULL DEFAULT '0';",
     "ALTER TABLE `media_gallery_image_picasa` CHANGE `position` `position` INT(11) NULL DEFAULT '0';",
 ];
 

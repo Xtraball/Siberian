@@ -26,3 +26,4 @@
 //
 
 #import <Cordova/CDV.h>
+#import "AMSPlugin-Bridging-Header.h"

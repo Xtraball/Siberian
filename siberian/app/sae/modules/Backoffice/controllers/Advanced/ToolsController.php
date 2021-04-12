@@ -46,33 +46,36 @@ class Backoffice_Advanced_ToolsController extends System_Controller_Backoffice_D
             $varApps = path('var/apps');
 
             $version = Version::VERSION;
+            $versionKey = '%VERSION%';
 
             // Check if release exists
-            $releaseUrl = 'https://github.com/Xtraball/Siberian/tree/v' . $version;
+            $sources = \Siberian\Provider::getSourcess();
+
+            $releaseUrl = str_replace($versionKey, $version, $sources['release_url']['url']);
             Request::get($releaseUrl);
             if (Request::$statusCode == '404') {
                 throw new Exception(__('There is not corresponding release to restore from, process aborted!'));
             }
 
-            $browser = 'https://github.com/Xtraball/Siberian/raw/v' . $version . '/siberian/var/apps/browser.tgz';
-            $android = 'https://github.com/Xtraball/Siberian/raw/v' . $version . '/siberian/var/apps/ionic/android.tgz';
-            $ios = 'https://github.com/Xtraball/Siberian/raw/v' . $version . '/siberian/var/apps/ionic/ios.tgz';
-            $iosNoads = 'https://github.com/Xtraball/Siberian/raw/v' . $version . '/siberian/var/apps/ionic/ios-noads.tgz';
+            $browser = str_replace($versionKey, $version, $sources['browser']['url']);
+            $android = str_replace($versionKey, $version, $sources['android']['url']);
+            $ios = str_replace($versionKey, $version, $sources['ios']['url']);
+            $iosNoads = str_replace($versionKey, $version, $sources['ios_noads']['url']);
 
             // Clean-up before run!
             chdir($varApps . '/ionic');
-            exec('rm -f ./android.tgz');
-            exec('rm -f ./ios.tgz');
-            exec('rm -f ./ios-noads.tgz');
-            exec('rm -f ../browser.tgz');
+            self::verboseExec('rm -fv ./android.tgz');
+            self::verboseExec('rm -fv ./ios.tgz');
+            self::verboseExec('rm -fv ./ios-noads.tgz');
+            self::verboseExec('rm -fv ../browser.tgz');
 
             // Download archives from GitHub
             chdir($varApps);
-            exec('wget ' . $browser);
+            self::verboseExec('wget -v ' . $browser);
             chdir($varApps . '/ionic');
-            exec('wget ' . $android);
-            exec('wget ' . $ios);
-            exec('wget ' . $iosNoads);
+            self::verboseExec('wget -v ' . $android);
+            self::verboseExec('wget -v ' . $ios);
+            self::verboseExec('wget -v ' . $iosNoads);
 
             if (!is_readable('./android.tgz') ||
                 !is_readable('./ios.tgz') ||
@@ -83,23 +86,25 @@ class Backoffice_Advanced_ToolsController extends System_Controller_Backoffice_D
 
             // Clean-up & Extract!
             chdir($varApps);
-            exec('rm -Rf ./browser ./overview');
-            exec('tar pxzf browser.tgz');
-            exec('cp -rp ./browser ./overview');
+            self::verboseExec('rm -Rfv ./browser');
+            self::verboseExec('rm -Rfv ./overview');
+            self::verboseExec('tar pvxzf browser.tgz');
+            self::verboseExec('mv ./browser ./overview'); // use mv, instead of cp, and untar browser a second time
+            self::verboseExec('tar pvxzf browser.tgz');
             chdir($varApps . '/ionic');
-            exec('rm -Rf ./android');
-            exec('tar pxzf android.tgz');
-            exec('rm -Rf ./ios');
-            exec('tar pxzf ios.tgz');
-            exec('rm -Rf ./ios-noads');
-            exec('tar pxzf ios-noads.tgz');
+            self::verboseExec('rm -Rfv ./android');
+            self::verboseExec('tar pvxzf android.tgz');
+            self::verboseExec('rm -Rfv ./ios');
+            self::verboseExec('tar pvxzf ios.tgz');
+            self::verboseExec('rm -Rfv ./ios-noads');
+            self::verboseExec('tar pxzf ios-noads.tgz');
 
             // Clean-up after work!
             chdir($varApps . '/ionic');
-            exec('rm -f ./android.tgz');
-            exec('rm -f ./ios.tgz');
-            exec('rm -f ./ios-noads.tgz');
-            exec('rm -f ../browser.tgz');
+            self::verboseExec('rm -fv ./android.tgz');
+            self::verboseExec('rm -fv ./ios.tgz');
+            self::verboseExec('rm -fv ./ios-noads.tgz');
+            self::verboseExec('rm -fv ../browser.tgz');
 
             // Ensure all folders are writable
             chdir($varApps);
@@ -114,7 +119,7 @@ class Backoffice_Advanced_ToolsController extends System_Controller_Backoffice_D
             // CHMOD recursive
             foreach ($writable as $folder) {
                 $tmpPath = path($varApps . $folder);
-                exec('chmod -R 777 "' . $tmpPath . '"');
+                self::verboseExec('chmod -Rv 777 "' . $tmpPath . '"');
             }
 
             foreach ($writable as $folder) {
@@ -139,6 +144,16 @@ class Backoffice_Advanced_ToolsController extends System_Controller_Backoffice_D
         }
 
         $this->_sendJson($payload);
+    }
+
+    /**
+     * @param $command
+     */
+    public static function verboseExec($command)
+    {
+        $output = [];
+        exec($command, $output);
+        dbg($output);
     }
 
     /**

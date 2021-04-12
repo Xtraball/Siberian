@@ -274,9 +274,19 @@ class Analytics_Model_Aggregate {
         if(is_array($res_query)) {
             //calcul metrics
             foreach ($res_query as $row) {
-                if(count($row) !== 1) continue;
+                if(count($row) !== 1) {
+                    continue;
+                }
                 $featureId = $row[0];
+
+                // Skip unknown feature!
+                if (!array_key_exists($featureId, $allFeatures) &&
+                    !array_key_exists('appId', $allFeatures[$featureId])) {
+                    continue;
+                }
+
                 $appId = $allFeatures[$featureId]['appId'];
+
                 //default val for app
                 if(!array_key_exists($appId, $aggregatedData)) {
                     $aggregatedData[$appId] = [];

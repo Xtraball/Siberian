@@ -30,8 +30,7 @@ class Media_Model_Gallery_Image extends Core_Model_Default
         'picasa',
         'custom',
         'instagram',
-        'flickr',
-        'facebook'
+        'flickr'
     ];
 
     /**

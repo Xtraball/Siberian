@@ -198,8 +198,6 @@ class Places_Model_Db_Table_Place extends Core_Model_Db_Table
             ->where('page.value_id = ?', $valueId)
             ->distinct("page.page_id");
 
-        dbg($select->__toString());
-
         return $this->toModelClass($this->_db->fetchAll($select));
     }
 

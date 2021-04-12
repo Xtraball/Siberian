@@ -24,15 +24,6 @@ class Media_Mobile_Gallery_Image_ViewController extends Application_Controller_M
 
             $payload = [];
 
-            switch ($image->getTypeId()) {
-                case 'facebook':
-                        $facebookInstance = $image->getTypeInstance();
-                        $albumUrls = $facebookInstance->getAlbumUrls();
-                        $payload['currentPage'] = $albumUrls['currentPage'];
-                        $payload['nextPage'] = $albumUrls['nextPage'];
-                    break;
-            }
-
             $collection = [];
             $key = 0;
             foreach ($images as $key => $link) {
@@ -78,66 +69,6 @@ class Media_Mobile_Gallery_Image_ViewController extends Application_Controller_M
                         (Media_Model_Gallery_Image_Abstract::DISPLAYED_PER_PAGE - 1));
             }
         } catch (Exception $e) {
-            $payload = [
-                'error' => true,
-                'message' => $e->getMessage()
-            ];
-        }
-
-        $this->_sendJson($payload);
-    }
-
-    public function findfacebookAction() {
-        try {
-            // Do your stuff here!
-            $request = $this->getRequest();
-            if (!$galleryId = $request->getParam('gallery_id')) {
-                throw new Siberian_Exception(__('Missing gallery_id'));
-            }
-
-            $imageGallery = (new Media_Model_Gallery_Image())
-                ->find($galleryId);
-
-            if (!$imageGallery->getId()) {
-                throw new Siberian_Exception(__('An error occurred while loading pictures. Please try later.'));
-            }
-
-            $facebookGallery = $imageGallery
-                ->getTypeInstance();
-
-            $albumUrl = $request->getParam('album_url', null);
-            if ($albumUrl !== null) {
-                $albumUrl = base64_decode($albumUrl);
-            }
-            $facebookUrls = $facebookGallery->getAlbumUrls($albumUrl);
-
-            $facebookImages = $facebookGallery->getImagesForUrl($facebookUrls['currentPage']);
-
-            $collection = [];
-            foreach($facebookImages as $facebookImage) {
-                $sub = $facebookImage->getTitle();
-                $sub = $sub . ($sub !== '') ? '<br />' . $facebookImage->getDescription() : $facebookImage->getDescription();
-
-                $collection[] = [
-                    'gallery_id' => (integer) $galleryId,
-                    'is_visible' => false,
-                    'src' => $facebookImage->getImage(),
-                    'thumb' => $facebookImage->getThumbnail(),
-                    'sub' => $sub,
-                    'title' => $facebookImage->getTitle(),
-                    'description' => $facebookImage->getDescription(),
-                    'author' => null
-                ];
-            }
-
-            $payload = [
-                'success' => true,
-                'collection' => $collection,
-                'currentPage' => $facebookUrls['currentPage'],
-                'nextPage' => $facebookUrls['nextPage'],
-            ];
-
-        } catch(Exception $e) {
             $payload = [
                 'error' => true,
                 'message' => $e->getMessage()

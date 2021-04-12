@@ -68,7 +68,7 @@ class StandalonePush extends Base
      * @return StandalonePush
      * @throws \Zend_Exception
      */
-    public static function buildFromTokens (array $tokens = [])
+    public static function buildFromTokens (array $tokens = []): StandalonePush
     {
         $instance = new self();
 
@@ -171,6 +171,7 @@ class StandalonePush extends Base
             'text' => $text,
             'cover' => $cover,
             'actionValue' => $actionValue,
+            'appId' => $appId,
             'forceAppRoute' => $forceAppRoute,
         ];
 
@@ -252,6 +253,7 @@ class StandalonePush extends Base
         }
     }
 
+
     /**
      * @param Cron $cron
      * @throws \Zend_Exception
@@ -286,6 +288,7 @@ class StandalonePush extends Base
                 $pushMessage['text'],
                 $pushMessage['cover'],
                 $pushMessage['actionValue'],
+                $pushMessage['appId'],
                 $pushMessage['forceAppRoute']);
 
             // try/catch are already handled inside sendPush
@@ -307,15 +310,16 @@ class StandalonePush extends Base
     }
 
     /**
-     * @param string $title
-     * @param string $text
-     * @param string $cover
-     * @param mixed $actionValue
-     * @param boolean $forceAppRoute
+     * @param $title
+     * @param $text
+     * @param $cover
+     * @param $actionValue
+     * @param null $appId
+     * @param bool $forceAppRoute
      * @return Message
      * @throws \Zend_Exception
      */
-    public static function buildMessage ($title, $text, $cover, $actionValue, $appId = null, $forceAppRoute = true)
+    public static function buildMessage ($title, $text, $cover, $actionValue, $appId = null, $forceAppRoute = true): Message
     {
         $message = new Message();
         $message

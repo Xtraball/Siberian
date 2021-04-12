@@ -4,7 +4,7 @@
 /**
  * Siberian
  *
- * @version 4.18.3
+ * @version 4.20.8
  * @author Xtraball SAS <dev@xtraball.com>
  */
 
@@ -226,6 +226,41 @@ try {
             file_put_contents('./config.php', $configContent);
 
             echo 'Soft HTTP>HTTPS redirection set to ' . $state . PHP_EOL;
+        break;
+
+        case 'test:http2':
+            try {
+                if (!defined('CURL_HTTP_VERSION_2_0')) {
+                    define('CURL_HTTP_VERSION_2_0', 3);
+                }
+                $ch = curl_init();
+                curl_setopt($ch, CURLOPT_HTTP_VERSION, CURL_HTTP_VERSION_2_0);
+                $host = 'https://api.development.push.apple.com';
+                curl_setopt_array($ch, [
+                    CURLOPT_URL => "$host/3/device/74fbf7e296f6c94755832a48476182e4e9586a380116e18a46531b62349504f1",
+                    CURLOPT_PORT => 443,
+                    CURLOPT_POST => true,
+                    CURLOPT_POSTFIELDS => json_encode([]),
+                    CURLOPT_RETURNTRANSFER => true,
+                    CURLOPT_TIMEOUT => 10,
+                    CURLOPT_SSL_VERIFYPEER => false,
+                    CURLOPT_HEADER => 1
+                ]);
+
+                $result = curl_exec($ch);
+                if ($result === false) {
+                    throw new \Exception('Curl failed with error: ' . curl_error($ch));
+                }
+
+                if (strpos($result, 'HTTP/2') !== 0) {
+                    throw new \Exception('Request doesn\'t match HTTP/2');
+                }
+
+                echo 'HTTP/2 support: Available' . PHP_EOL;
+
+            } catch (\Exception $e) {
+                echo 'HTTP/2 support: ' . $e->getMessage() . PHP_EOL;
+            }
         break;
 
         case 'user:create':
@@ -451,6 +486,9 @@ try {
     
 " . color('https <on/off>', 'brown') . "
     Switch redirect to https to on or off
+    
+" . color('test:http2', 'brown') . "
+    Test if HTTP/2 support is available in php-curl for the cli & cron.
     
 " . color('help', 'brown') . "
     Prints the current help message.    

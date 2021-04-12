@@ -35,6 +35,10 @@ class Acl_Backoffice_Role_ListController extends Backoffice_Controller_Default
     public function findallAction()
     {
         $rootRole = (new Acl_Model_Role())->find(1);
+        if ($rootRole->getParentId()) {
+            $rootRole->setParentId(null)->save();
+        }
+
         $defaultRole = __get(Acl_Model_Role::DEFAULT_ADMIN_ROLE_CODE);
 
         $currentParent = null;
