@@ -5,7 +5,10 @@
   "dependencies": {
     "system": {
       "type": "SAE",
-      "version": "4.2.0"
+      "version": "4.20.9"
+    },
+    "modules": {
+      "Acl": "4.20.9"
     }
   }
 }

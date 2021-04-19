@@ -49,6 +49,13 @@ $categories = (new Template_Model_Category())
             continue;
         }
 
+        // ACL
+        $aclCode = 'template_' . $design->getCode();
+        if (!$this->_canAccess($aclCode)) {
+            // Skip excluded ACL templates!
+            continue;
+        }
+
         $activeClass = '';
         if($application->getDesignId() == $design->getId()) {
             $activeClass = 'current';
