@@ -121,6 +121,7 @@ class Backoffice_Advanced_ModuleController extends Backoffice_Controller_Default
                 'name' => __($template->getData('name')),
                 'original_name' => $template->getData('name'),
                 'version' => $template->getData('version'),
+                'is_enabled' => Installer_Model_Installer_Module::sGetIsEnabled($template->getData('name')),
             ];
         }
 
@@ -203,7 +204,7 @@ class Backoffice_Advanced_ModuleController extends Backoffice_Controller_Default
 
             $payload = [
                 'success' => true,
-                'message' => __('Module is now %s', ($isEnabled) ? __('enabled') : __('disabled'))
+                'message' => __('%s is now %s', __(ucfirst($module->getType())), ($isEnabled) ? __('enabled') : __('disabled'))
             ];
         } catch (Exception $e) {
             $payload = [

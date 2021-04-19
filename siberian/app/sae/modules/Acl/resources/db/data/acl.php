@@ -41,6 +41,16 @@ $resource_data = [
                 "code" => "editor_design",
                 "label" => "Access the Design tab",
                 "url" => "application/customization_design_style/edit",
+                "children" => [
+                    [
+                        "code" => "editor_design_template",
+                        "label" => "Templates",
+                    ],
+                    [
+                        "code" => "editor_design_layout",
+                        "label" => "Layouts",
+                    ]
+                ]
             ],
             [
                 "code" => "editor_colors",
