@@ -956,7 +956,10 @@ class Front_Controller_Api_Base extends Front_Controller_App_Default
                     $data['stripe'] = $info ?: [];
                 }
             }
+
         }
+
+
 
         $loadBlock['customer'] = array_merge($loadBlock['customer'], [
             'isLoggedIn' => $isLoggedIn,
@@ -971,7 +974,7 @@ class Front_Controller_Api_Base extends Front_Controller_App_Default
                 'application' => $application,
                 'request' => $request,
                 'session' => (new Base()),
-            ]),
+            ])
         ]);
 
         return $loadBlock;

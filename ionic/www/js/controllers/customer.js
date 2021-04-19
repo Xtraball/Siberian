@@ -487,7 +487,7 @@ angular
 
         $scope.removeCreditCard = function () {
             Dialog
-                .confirm('Confirmation', 'Do you confirm you want to remove your card?')
+                .confirm('Confirmation', 'Do you confirm you want to remove your card?', ['Yes, delete!','No, go back!'], '', 'customer')
                 .then(function (result) {
                     if (result) {
                         $scope.is_loading = true;
