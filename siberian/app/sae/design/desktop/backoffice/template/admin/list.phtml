@@ -2,15 +2,20 @@
     <br />
     <div class="form-group">
         <label for="filter"><?php echo __("Search"); ?></label>
-        <input type="text" id="filter" class="form-control" ng-model="urlParams.filter" placeholder="<?php echo __("Search"); ?>" />
+        <input type="text"
+               id="filter"
+               class="form-control"
+               ng-model="urlParams.filter"
+               placeholder="<?php echo __("Search"); ?>" />
     </div>
     <br />
     <table class="table">
         <col width="5%" />
-        <col width="20%" />
-        <col width="20%" />
-        <col width="20%" />
-        <col width="10%" />
+        <col width="14%" />
+        <col width="14%" />
+        <col width="14%" />
+        <col width="14%" />
+        <col width="14%" />
         <col width="25%" />
         <thead>
             <tr>
@@ -23,20 +28,39 @@
                 <th class="pointer"
                     ng-class="{'pointer-up': urlParams.order == 'firstname' && urlParams.by, 'pointer-down': urlParams.order == 'firstname' && !urlParams.by}"
                     ng-click="urlParams.order = 'firstname'; urlParams.by = !urlParams.by"><?php echo __("Name"); ?></th>
+                <th><?php echo __("Phone"); ?></th>
                 <th class="pointer"
                     ng-class="{'pointer-up': urlParams.order == 'company' && urlParams.by, 'pointer-down': urlParams.order == 'company' && !urlParams.by}"
                     ng-click="urlParams.order = 'company'; urlParams.by = !urlParams.by"><?php echo __("Company"); ?></th>
                 <th class="pointer"
                     ng-class="{'pointer-up': urlParams.order == 'created_at' && urlParams.by, 'pointer-down': urlParams.order == 'created_at' && !urlParams.by}"
                     ng-click="urlParams.order = 'created_at'; urlParams.by = !urlParams.by"><?php echo __("Created At"); ?></th>
-                <th><?php echo __("Actions"); ?></th>
+                <th class="text-right"><?php echo __("Actions"); ?></th>
             </tr>
         </thead>
-        <tbody >
+        <tbody>
             <tr ng-repeat="admin in admins">
                 <td>{{ admin.id }}</td>
-                <td>{{ admin.email }}</td>
+                <td style="overflow: visible;">
+                    {{ admin.email }}
+                    <br />
+                    <span class="tos-optin">
+                        <b><?php echo __('Accepted Terms of Service') ?></b>&nbsp;&nbsp;
+                        <span class="text-danger"
+                              ng-if="admin.accept_tos !== '1'"><?php echo __('NO') ?></span>
+                        <span class="text-success"
+                              ng-if="admin.accept_tos === '1'"><?php echo __('YES') ?></span>&nbsp;&nbsp;&bull;&nbsp;&nbsp;
+                        <b><?php echo __('Opt-in e-mails') ?></b>&nbsp;&nbsp;
+                        <span class="text-danger"
+                              ng-if="admin.optin_email !== '1'"><?php echo __('NO') ?></span>
+                        <span class="text-success"
+                              ng-if="admin.optin_email === '1'"><?php echo __('YES') ?></span>
+                        <span ng-if="admin.website">&nbsp;&nbsp;&bull;&nbsp;&nbsp;<b><?php echo __('Website') ?></b>&nbsp;&nbsp;<a href="{{ ::admin.website }}" target="_blank">{{ ::admin.website }}</a></span>
+                        <span>&nbsp;&nbsp;&bull;&nbsp;&nbsp;<b><?php echo __('Role') ?></b>&nbsp;&nbsp;{{ admin.label }}</span>
+                    </span>
+                </td>
                 <td>{{ admin.name }}</td>
+                <td>{{ admin.phone }}</td>
                 <td>{{ admin.company }}</td>
                 <td>{{ admin.created_at }}</td>
                 <td class="text-right"
@@ -52,7 +76,8 @@
                 </td>
             </tr>
             <tr ng-show="!admins.length">
-                <td colspan="5" class="a-center"><?php echo __("You don't have any users yet"); ?></td>
+                <td colspan="7"
+                    class="a-center"><?php echo __("You don't have any users yet"); ?></td>
             </tr>
         </tbody>
     </table>
@@ -84,6 +109,14 @@
         a.btn-sm,
         a.btn-sm:hover {
             text-decoration: none !important;
+        }
+
+        .tos-optin {
+            font-style: italic;
+            font-size: 13px;
+            line-height: 16px;
+            display: inline-block;
+            padding-top: 6px;
         }
     </style>
 </sb-section>
