@@ -44,6 +44,7 @@ class Backoffice_Advanced_ToolsController extends System_Controller_Backoffice_D
     {
         try {
             $varApps = path('var/apps');
+            self::checkWriteable();
 
             $version = Version::VERSION;
             $versionKey = '%VERSION%';
@@ -106,21 +107,7 @@ class Backoffice_Advanced_ToolsController extends System_Controller_Backoffice_D
             self::verboseExec('rm -fv ./ios-noads.tgz');
             self::verboseExec('rm -fv ../browser.tgz');
 
-            // Ensure all folders are writable
-            chdir($varApps);
-            $writable = [
-                '/browser',
-                '/overview',
-                '/ionic/android',
-                '/ionic/ios',
-                '/ionic/ios-noads',
-            ];
-
-            // CHMOD recursive
-            foreach ($writable as $folder) {
-                $tmpPath = path($varApps . $folder);
-                self::verboseExec('chmod -Rv 777 "' . $tmpPath . '"');
-            }
+            self::checkWriteable();
 
             foreach ($writable as $folder) {
                 $tmpPath = path($varApps . $folder);
@@ -144,6 +131,29 @@ class Backoffice_Advanced_ToolsController extends System_Controller_Backoffice_D
         }
 
         $this->_sendJson($payload);
+    }
+
+    /**
+     *
+     */
+    public static function checkWriteable()
+    {
+        // Ensure all folders are writable
+        $varApps = path('var/apps');
+        chdir($varApps);
+        $writable = [
+            '/browser',
+            '/overview',
+            '/ionic/android',
+            '/ionic/ios',
+            '/ionic/ios-noads',
+        ];
+
+        // CHMOD recursive
+        foreach ($writable as $folder) {
+            $tmpPath = path($varApps . $folder);
+            self::verboseExec('chmod -Rv 777 "' . $tmpPath . '"');
+        }
     }
 
     /**
