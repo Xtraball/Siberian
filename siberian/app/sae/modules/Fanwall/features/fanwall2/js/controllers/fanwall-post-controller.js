@@ -40,14 +40,14 @@ angular
                 }, function (payload) {
 
                 }).then(function () {
-                if (loadMore === true) {
-                    $scope.$broadcast('scroll.infiniteScrollComplete');
-                }
+                    if (loadMore === true) {
+                        $scope.$broadcast('scroll.infiniteScrollComplete');
+                    }
 
-                if (refresh === true) {
-                    $scope.isLoading = false;
-                }
-            });
+                    if (refresh === true) {
+                        $scope.isLoading = false;
+                    }
+                });
         };
 
 

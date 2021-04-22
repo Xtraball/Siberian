@@ -7,8 +7,8 @@
 angular
     .module('starter')
     .directive('fanwallPostItem', function ($rootScope, $filter, $sce, $translate, $timeout, $q,
-                                            Customer, Dialog, Loader, Fanwall, FanwallPost, FanwallUtils,
-                                            Lightbox, Popover) {
+                                            Application, Customer, Dialog, Loader, Fanwall, FanwallPost, FanwallUtils,
+                                            Lightbox, Popover, SocialSharing) {
         return {
             restrict: 'E',
             templateUrl: 'features/fanwall2/assets/templates/l1/tabs/directives/post-item.html',
@@ -34,11 +34,11 @@ angular
                 };
 
                 $scope.userShareBig = function () {
-                    return $scope.getSettings().features.enableUserShare === 'big';
+                    return ['big', 'both'].indexOf($scope.getSettings().features.enableUserShare) >= 0;
                 };
 
                 $scope.userShareSmall = function () {
-                    return $scope.getSettings().features.enableUserShare === 'small';
+                    return ['small', 'both'].indexOf($scope.getSettings().features.enableUserShare) >= 0;
                 };
 
                 $scope.getColSizeTextual = function () {
@@ -183,6 +183,24 @@ angular
                     return $q.resolve();
                 };
 
+                $scope.sharePost = function () {
+                    var shareLink = [
+                        'https://',
+                        Application.application.share_domain,
+                        '/',
+                        APP_KEY,
+                        '/fanwall/post/',
+                        Fanwall.lastValueId,
+                        '/',
+                        $scope.post.id
+                    ].join('');
+                    SocialSharing.share(
+                        '',
+                        $translate.instant('Check this post!', 'fanwall'),
+                        '',
+                        shareLink);
+                };
+
                 $scope.flagPost = function () {
                     var title = $translate.instant('Report this message!', 'fanwall');
                     var message = $translate.instant('Please let us know why you think this message is inappropriate.', 'fanwall');
@@ -231,7 +249,7 @@ angular
                     if ($scope.userShareSmall()) {
                         $scope.popoverItems.push({
                             label: $translate.instant('Share', 'fanwall'),
-                            icon: 'icon ion-android-share-alt',
+                            icon: 'icon ion-sb-share-filled',
                             click: function () {
                                 $scope
                                     .closeActions()

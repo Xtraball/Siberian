@@ -684,6 +684,7 @@
 .ion-sb-temperature:before,
 .ion-sb-turn-right:before,
 .ion-sb-weather:before,
+.ion-sb-whatsapp-outline:before,
 .ion-scissors:before,
 .ion-search:before,
 .ion-settings:before,
@@ -3705,6 +3706,10 @@
 
 .ion-sb-weather:before {
   content: "";
+}
+
+.ion-sb-whatsapp-outline:before {
+  content: "";
 }
 
 .ion-scissors:before {

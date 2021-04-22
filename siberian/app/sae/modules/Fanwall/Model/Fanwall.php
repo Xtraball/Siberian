@@ -61,6 +61,7 @@ class Fanwall extends Base
             'enableUserLike' => (boolean) $this->getEnableUserLike(),
             'enableUserPost' => (boolean) $this->getEnableUserPost(),
             'enableUserComment' => (boolean) $this->getEnableUserComment(),
+            'enableUserShare' => (string) $this->getEnableUserShare(),
         ];
 
         return $settings;

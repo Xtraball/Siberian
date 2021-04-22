@@ -128,4 +128,10 @@ $schemas['fanwall'] = [
         'type' => 'tinyint(1)',
         'default' => '1',
     ],
+    'enable_user_share' => [
+        'type' => 'varchar(32)',
+        'charset' => 'utf8',
+        'collation' => 'utf8_unicode_ci',
+        'default' => 'none',
+    ],
 ];
