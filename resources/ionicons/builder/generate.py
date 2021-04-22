@@ -26,7 +26,7 @@ def main():
 
 
 def generate_font_files():
-  print "Generate Fonts"
+  print ("Generate Fonts")
   cmd = "fontforge -script %s/scripts/generate_font.py" % (BUILDER_PATH)
   call(cmd, shell=True)
 
@@ -49,7 +49,7 @@ def rename_svg_glyph_names(data):
 
 
 def generate_less(data):
-  print "Generate LESS"
+  print ("Generate LESS")
   font_name = data['name']
   font_version = data['version']
   css_prefix = data['prefix']
@@ -101,7 +101,7 @@ def generate_less(data):
 
 
 def generate_scss(data):
-  print "Generate SCSS"
+  print ("Generate SCSS")
   font_name = data['name']
   font_version = data['version']
   css_prefix = data['prefix']
@@ -155,10 +155,10 @@ def generate_css_from_scss(data):
   css_file_path = os.path.join(CSS_FOLDER_PATH, 'ionicons.css')
   css_min_file_path = os.path.join(CSS_FOLDER_PATH, 'ionicons.min.css')
 
-  cmd = "sass %s %s --style compact" % (scss_file_path, css_file_path)
+  cmd = "sass %s %s --style expanded" % (scss_file_path, css_file_path)
   call(cmd, shell=True)
 
-  print "Generate Minified CSS From SCSS"
+  print ("Generate Minified CSS From SCSS")
   cmd = "sass %s %s --style compressed" % (scss_file_path, css_min_file_path)
   call(cmd, shell=True)
 
@@ -205,7 +205,7 @@ def generate_cheatsheet(data):
 
 
 def generate_component_json(data):
-  print "Generate component.json"
+  print ("Generate component.json")
   d = {
     "name": data['name'],
     "repo": "driftyco/ionicons",
@@ -234,7 +234,7 @@ def generate_component_json(data):
 
 
 def generate_composer_json(data):
-  print "Generate composer.json"
+  print ("Generate composer.json")
   d = {
     "name": "driftyco/ionicons",
     "description": "The premium icon font for Ionic Framework.",
@@ -272,7 +272,7 @@ def generate_composer_json(data):
 
 
 def generate_bower_json(data):
-  print "Generate bower.json"
+  print ("Generate bower.json")
   d = {
     "name": data['name'],
     "version": data['version'],
