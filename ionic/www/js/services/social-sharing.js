@@ -100,7 +100,6 @@ angular
         service.webShare = function (message, subject, link, file) {
             var payload = link ? link : file;
             payload = [message, payload].join(' ').trim();
-            var payloadWeb = [subject, message, payload].join(' ').trim();
 
             var android = navigator.userAgent.match(/Android/i);
             var ios = navigator.userAgent.match(/iPhone|iPad|iPod/i);
@@ -108,11 +107,11 @@ angular
 
             // sms on ios 'sms:;body='+payload, on Android 'sms:?body='+payload
             var shareUrls = {
-                whatsapp: (isDesktop ? 'https://api.whatsapp.com/send?text=' : 'whatsapp://send?text=') + payloadWeb,
-                facebook: 'https://www.facebook.com/sharer/sharer.php?u=' + payloadWeb,
-                twitter: 'https://twitter.com/intent/tweet?text=' + payloadWeb,
+                whatsapp: (isDesktop ? 'https://api.whatsapp.com/send?text=' : 'whatsapp://send?text=') + payload,
+                facebook: 'https://www.facebook.com/sharer/sharer.php?u=' + payload,
+                twitter: 'https://twitter.com/intent/tweet?text=' + payload,
                 email: 'mailto:?subject=' + subject + '&body=' + payload,
-                sms: 'sms:?body=' + payloadWeb
+                sms: 'sms:?body=' + payload
             };
 
             var _buttons = [
