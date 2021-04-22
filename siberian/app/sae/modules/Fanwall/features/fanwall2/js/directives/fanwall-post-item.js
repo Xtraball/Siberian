@@ -33,6 +33,57 @@ angular
                     return $scope.getSettings().features.enableUserComment;
                 };
 
+                $scope.userShareBig = function () {
+                    return $scope.getSettings().features.enableUserShare === 'big';
+                };
+
+                $scope.userShareSmall = function () {
+                    return $scope.getSettings().features.enableUserShare === 'small';
+                };
+
+                $scope.getColSizeTextual = function () {
+                    var counter = 0;
+                    if ($scope.userLike()) {
+                        counter++;
+                    }
+                    if ($scope.userComment()) {
+                        counter++;
+                    }
+
+                    switch (counter) {
+                        default:
+                        case 0:
+                        case 1:
+                            return 'col-100';
+                        case 2:
+                            return 'col-50';
+                    }
+                };
+
+                $scope.getColSize = function () {
+                    var counter = 0;
+                    if ($scope.userLike()) {
+                        counter++;
+                    }
+                    if ($scope.userComment()) {
+                        counter++;
+                    }
+                    if ($scope.userShareBig()) {
+                        counter++;
+                    }
+
+                    switch (counter) {
+                        default:
+                        case 0:
+                        case 1:
+                            return 'col-100';
+                        case 2:
+                            return 'col-50';
+                        case 3:
+                            return 'col-33';
+                    }
+                };
+
                 $scope.photoMode = function () {
                     return $scope.getSettings().photoMode;
                 };
@@ -114,9 +165,9 @@ angular
                                 .fromTemplateUrl('features/fanwall2/assets/templates/l1/tabs/directives/actions-popover.html', {
                                     scope: $scope
                                 }).then(function (popover) {
-                                $scope.actionsPopover = popover;
-                                $scope.actionsPopover.show($event);
-                            });
+                                    $scope.actionsPopover = popover;
+                                    $scope.actionsPopover.show($event);
+                                });
                         });
                 };
 
@@ -176,6 +227,20 @@ angular
                                 });
                         }
                     };
+
+                    if ($scope.userShareSmall()) {
+                        $scope.popoverItems.push({
+                            label: $translate.instant('Share', 'fanwall'),
+                            icon: 'icon ion-android-share-alt',
+                            click: function () {
+                                $scope
+                                    .closeActions()
+                                    .then(function () {
+                                        $scope.sharePost();
+                                    });
+                            }
+                        });
+                    }
 
                     if ($scope.isOwner()) {
                         $scope.popoverItems.push({
