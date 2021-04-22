@@ -31,7 +31,7 @@ angular.module("starter").controller("ContactViewController", function ($rootSco
     };
 
     $scope.call = function () {
-        $window.location = "tel:" + $scope.contact.phone;
+        LinkService.openLink("tel:" + $scope.contact.phone, {}, true);
     };
 
     $scope.openForm = function () {
