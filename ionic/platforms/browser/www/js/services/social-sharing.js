@@ -2,6 +2,7 @@
  * SocialSharing
  *
  * @author Xtraball SAS
+ * @version 4.20.9
  */
 angular
     .module('starter')
@@ -33,8 +34,9 @@ angular
                 content = 'this';
             }
 
-            // For mobile!
-            var download_app_link = DOMAIN + '/application/device/downloadapp/app_id/' + Application.app_id;
+            // For mobile! (uses the share domain, which can be the whitelabel
+            var domain = Application.application.share_domain;
+            var download_app_link = 'https://' + domain + '/application/device/downloadapp/app_id/' + Application.app_id;
 
             // Generic message!
             var generic_message = $translate.instant('Hi. I just found $1 in the $2 app.')
@@ -98,7 +100,6 @@ angular
         service.webShare = function (message, subject, link, file) {
             var payload = link ? link : file;
             payload = [message, payload].join(' ').trim();
-            var payloadWeb = [subject, message, payload].join(' ').trim();
 
             var android = navigator.userAgent.match(/Android/i);
             var ios = navigator.userAgent.match(/iPhone|iPad|iPod/i);
@@ -106,11 +107,11 @@ angular
 
             // sms on ios 'sms:;body='+payload, on Android 'sms:?body='+payload
             var shareUrls = {
-                whatsapp: (isDesktop ? 'https://api.whatsapp.com/send?text=' : 'whatsapp://send?text=') + payloadWeb,
-                facebook: 'https://www.facebook.com/sharer/sharer.php?u=' + payloadWeb,
-                twitter: 'https://twitter.com/intent/tweet?text=' + payloadWeb,
+                whatsapp: (isDesktop ? 'https://api.whatsapp.com/send?text=' : 'whatsapp://send?text=') + payload,
+                facebook: 'https://www.facebook.com/sharer/sharer.php?u=' + payload,
+                twitter: 'https://twitter.com/intent/tweet?text=' + payload,
                 email: 'mailto:?subject=' + subject + '&body=' + payload,
-                sms: 'sms:?body=' + payloadWeb
+                sms: 'sms:?body=' + payload
             };
 
             var _buttons = [

@@ -310,14 +310,6 @@ class Assets
     ];
 
     /**
-     * @var array
-     */
-    public static $config_xml = [
-        'android' => '/app/src/main/res/xml/config.xml',
-        'ios' => '/AppsMobileCompany/config.xml',
-    ];
-
-    /**
      * Hook method to exclude assets, used for external modules
      *
      * @param array $assets
@@ -823,7 +815,7 @@ class Assets
                     $index_content = $callback($index_content, $index_path, $type, $platform);
                 }
 
-                # Build the templateCache, Siberian 5.0
+                # Build the templateCache
                 self::buildTemplateCaches($path . $www_folder);
 
                 foreach (self::$assets_js as $asset_js) {
