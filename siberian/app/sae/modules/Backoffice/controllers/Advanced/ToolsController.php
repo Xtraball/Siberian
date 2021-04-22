@@ -138,22 +138,9 @@ class Backoffice_Advanced_ToolsController extends System_Controller_Backoffice_D
      */
     public static function checkWriteable()
     {
-        // Ensure all folders are writable
+        // Ensure all folders var/apps are writable, parent MUST be writeable in order to remove file in it.
         $varApps = path('var/apps');
-        chdir($varApps);
-        $writable = [
-            '/browser',
-            '/overview',
-            '/ionic/android',
-            '/ionic/ios',
-            '/ionic/ios-noads',
-        ];
-
-        // CHMOD recursive
-        foreach ($writable as $folder) {
-            $tmpPath = path($varApps . $folder);
-            self::verboseExec('chmod -Rv 777 "' . $tmpPath . '"');
-        }
+        self::verboseExec('chmod -Rv 777 "' . $varApps . '"');
     }
 
     /**
