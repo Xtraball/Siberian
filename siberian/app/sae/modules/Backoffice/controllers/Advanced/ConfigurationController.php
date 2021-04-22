@@ -758,7 +758,7 @@ class Backoffice_Advanced_ConfigurationController extends System_Controller_Back
             }
 
             // Ensure folders have good rights
-            exec("chmod -R 775 {$base}");
+            exec("chmod -R 777 {$base}");
             exec("chmod -R 777 {$root}/.well-known");
 
             $acme = new Cert($letsencrypt_env !== 'staging');
@@ -939,7 +939,7 @@ class Backoffice_Advanced_ConfigurationController extends System_Controller_Back
             }
 
             // Ensure folders have good rights
-            exec("chmod -R 775 {$base}");
+            exec("chmod -R 777 {$base}");
             exec("chmod -R 777 {$root}/.well-known");
 
             $data = [

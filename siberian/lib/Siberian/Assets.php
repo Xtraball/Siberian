@@ -414,7 +414,7 @@ class Assets
                         // Ensure folders exists
                         if (file_exists(preg_replace("#/\*$#", "", $path_from))) {
                             exec("cp -r {$path_from} {$path_to}");
-                            exec("chmod -R 775 {$path_to}");
+                            exec("chmod -R 777 {$path_to}");
                         }
                     }
                 }
@@ -442,7 +442,7 @@ class Assets
                         exec("rm -r {$path}");
                         // Ensure folders exists
                         if (file_exists($path)) {
-                            exec("chmod -R 775 {$path}");
+                            exec("chmod -R 777 {$path}");
                         }
                     }
                 }

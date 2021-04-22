@@ -42,9 +42,18 @@ class Backoffice_Advanced_ToolsController extends System_Controller_Backoffice_D
      */
     public function restoreappsAction()
     {
+        $oldUmask = umask(0);
         try {
+
             $varApps = path('var/apps');
             self::checkWriteable();
+
+            if (!is_writable($varApps)) {
+                throw new Exception(
+                    p__('backoffice',
+                        'The folder %s is not writable, please check that your web user can write to it.',
+                        $varApps));
+            }
 
             $version = Version::VERSION;
             $versionKey = '%VERSION%';
@@ -109,16 +118,6 @@ class Backoffice_Advanced_ToolsController extends System_Controller_Backoffice_D
 
             self::checkWriteable();
 
-            foreach ($writable as $folder) {
-                $tmpPath = path($varApps . $folder);
-                if (!is_writable($tmpPath)) {
-                    throw new Exception(
-                        p__('backoffice',
-                            'The folder %s is not writable, please check that your web user can write to it.',
-                            $tmpPath));
-                }
-            }
-
             $payload = [
                 'success' => true,
                 'message' => __('Sources are successfully restored.')
@@ -129,6 +128,8 @@ class Backoffice_Advanced_ToolsController extends System_Controller_Backoffice_D
                 'message' => $e->getMessage()
             ];
         }
+
+        umask($oldUmask);
 
         $this->_sendJson($payload);
     }
@@ -154,7 +155,7 @@ class Backoffice_Advanced_ToolsController extends System_Controller_Backoffice_D
 
         // Final loggind
         $logger = Zend_Registry::get('logger');
-        $logger->info($output . PHP_EOL);
+        $logger->info(print_r($output, true) . PHP_EOL);
 
         dbg($output);
     }

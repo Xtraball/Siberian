@@ -482,9 +482,9 @@ class Cron
             $panel_type = __get('cpanel_type');
 
             // Ensure folders have good rights
-            exec("chmod -R 775 {$base}");
+            exec("chmod -R 777 {$base}");
             if (is_readable("{$root}/.well-known")) {
-                exec("chmod -R 775 {$root}/.well-known");
+                exec("chmod -R 777 {$root}/.well-known");
             }
 
             $letsencrypt_env = __get('letsencrypt_env');
