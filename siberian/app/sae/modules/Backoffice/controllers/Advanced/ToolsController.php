@@ -148,11 +148,17 @@ class Backoffice_Advanced_ToolsController extends System_Controller_Backoffice_D
 
     /**
      * @param $command
+     * @throws Zend_Exception
      */
     public static function verboseExec($command)
     {
         $output = [];
         exec($command, $output);
+
+        // Final loggind
+        $logger = Zend_Registry::get('logger');
+        $logger->info($output . PHP_EOL);
+
         dbg($output);
     }
 
