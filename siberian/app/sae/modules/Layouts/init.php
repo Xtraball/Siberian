@@ -1,5 +1,9 @@
 <?php
-$init = function($bootstrap) {
+
+/**
+ * @param $bootstrap
+ */
+$init = static function ($bootstrap) {
 
     $js = [];
     $css = [];
@@ -245,4 +249,36 @@ $init = function($bootstrap) {
     Siberian_Assets::addJavascripts($js);
     Siberian_Assets::addStylesheets($css);
     #===== /All layouts css/js =====#
+
+    // Hotpatch ACL
+    $layoutsAcl = __get('layout_acl_4.20.9_patch');
+    if ($layoutsAcl !== 'done') {
+        // 4.20.9 installing Layouts ACLs
+        try {
+            $designResource = (new \Acl_Model_Resource())->find('editor_design_layout', 'code');
+            if ($designResource && $designResource->getId()) {
+                $layouts = (new Application_Model_Layout_Homepage())->findAll();
+                foreach ($layouts as $layout) {
+                    $code = $layout->getCode();
+                    $name = $layout->getName();
+
+                    // Create or update
+                    $resource = new \Acl_Model_Resource();
+                    $resource
+                        ->setData(
+                            [
+                                'parent_id' => $designResource->getId(),
+                                'code' => 'layout_' . $code,
+                                'label' => $name,
+                            ]
+                        )
+                        ->insertOrUpdate(['code']);
+                }
+                __set('layout_acl_4.20.9_patch', 'done');
+            }
+            // Abort if something is wrong!
+        } catch (\Exception $e) {
+            // Silently fails!
+        }
+    }
 };
