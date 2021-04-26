@@ -134,6 +134,89 @@ class Fanwall_Mobile_PostController extends Application_Controller_Mobile_Defaul
         $this->_sendJson($payload);
     }
 
+    public function findOneAction()
+    {
+        try {
+            $request = $this->getRequest();
+            $application = $this->getApplication();
+
+            $optionValue = $this->getCurrentOptionValue();
+            $valueId = $optionValue->getId();
+            $postId = $request->getParam('postId', null);
+
+            $query = [
+                'fanwall_post.post_id = ?' => $postId,
+                'fanwall_post.value_id = ?' => $valueId,
+                'fanwall_post.is_visible = ?' => 1,
+            ];
+
+            $posts = (new Post())->findAllWithCustomer($query);
+            if ($posts->count() === 0) {
+                throw new Exception(p__('fanwall', 'The post you are looking for is not available!'));
+            }
+
+            $collection = [];
+            foreach ($posts as $post) {
+
+                $comments = (new Comment())->findForPostId($post->getId());
+                $commentCollection = [];
+                foreach ($comments as $comment) {
+                    $commentCollection[] = $comment->forJson();
+                }
+
+                $likes = (new Like())->findForPostId($post->getId());
+                $likeCollection = [];
+                foreach ($likes as $like) {
+                    $likeCollection[] = [
+                        'id' => (integer) $like->getId(),
+                        'customerId' => (integer) $like->getCustomerId(),
+                    ];
+                }
+
+                $author = $this->_fetchAuthor($application, $post);
+
+                $images = array_filter(explode(',', $post->getImage()));
+
+                $collection[] = [
+                    'id' => (integer) $post->getId(),
+                    'customerId' => (integer) $post->getCustomerId(),
+                    'title' => (string) $post->getTitle(),
+                    'subtitle' => (string) $post->getSubtitle(),
+                    'text' => (string) Xss::sanitize(base64_decode($post->getText())),
+                    'image' => (string) ($images[0] ?? ''),
+                    'images' => $images,
+                    'date' => (integer) $post->getDate(),
+                    'likeCount' => (integer) $likes->count(),
+                    'commentCount' => (integer) $comments->count(),
+                    'latitude' => (float) $post->getLatitude(),
+                    'longitude' => (float) $post->getLongitude(),
+                    'isFlagged' => (boolean) $post->getFlag(),
+                    'isScheduled' => (boolean) $post->getIsScheduled(),
+                    'sticky' => (boolean) $post->getSticky(),
+                    'iLiked' => false,
+                    'likeLocked' => false,
+                    'author' => $author,
+                    'comments' => $commentCollection,
+                    'likes' => $likeCollection,
+                    'history' => $post->getHistoryJson(),
+                    'showDistance' => false,
+                ];
+            }
+
+            $payload = [
+                'success' => true,
+                'collection' => $collection,
+            ];
+        } catch (\Exception $e) {
+            $payload = [
+                'error' => true,
+                'message' => $e->getMessage(),
+            ];
+        }
+
+        $this->_sendJson($payload);
+    }
+
     public function findAllProfileAction()
     {
         try {

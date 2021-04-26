@@ -2,15 +2,17 @@
  * Module FanWall
  *
  * @author Xtraball SAS <dev@xtraball.com>
- * @version 4.18.20
+ * @version 4.20.9
  */
 angular
     .module('starter')
-    .factory('Fanwall', function ($pwaRequest, $stateParams) {
+    .factory('Fanwall', function ($pwaRequest, $stateParams, $state, $rootScope, Application) {
 
     var factory = {
         storage: [],
-        lastValueId: null
+        lastValueId: null,
+        initValueId: null,
+        initPostId: null
     };
 
     factory.loadSettings = function () {
@@ -57,7 +59,8 @@ angular
                 enableNearby: true,
                 enableUserComment: true,
                 enableUserLike: true,
-                enableUserPost: true
+                enableUserPost: true,
+                enableUserShare: 'none'
             },
             icons: {
                 gallery: null,
@@ -69,6 +72,32 @@ angular
             },
             max_images: 10
         };
+    };
+
+    factory.onStart = function () {
+        // Do not load if app locked!
+        if ($rootScope.app_is_bo_locked ||
+            Application.is_locked ||
+            $rootScope.app_is_locked) {
+            return;
+        }
+
+        // Checking start_hash, start hash always has the priority over the session!
+        // /fanwall/post/:id
+        var hash = HASH_ON_START.match(/\?__goto__=(.*)/);
+        if (hash && hash.length >= 2) {
+            // We use a short path here!
+            var path = hash[1];
+            var parts = path.match(/\/fanwall\/post\/([0-9]+)\/([0-9]+)/);
+            if (parts && parts.length > 2) {
+                // Go to the post page
+                factory.initValueId = parts[1];
+                factory.initPostId = parts[2];
+                $state.go('fanwall-home', {
+                    value_id: factory.initValueId
+                });
+            }
+        }
     };
 
     return factory;

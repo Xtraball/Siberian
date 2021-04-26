@@ -51,5 +51,7 @@
     "is_ajax": true,
     "compile": true,
     "use_account": true,
-    "only_once": false
+    "only_once": false,
+    "on_start_factory": "Fanwall",
+    "load_on_start": true
 }

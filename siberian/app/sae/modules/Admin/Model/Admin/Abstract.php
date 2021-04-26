@@ -181,6 +181,11 @@ abstract class Admin_Model_Admin_Abstract extends Core_Model_Default
         return $admin_applications;
     }
 
+    public function findAllForBackoffice($filters, $order = null, $params = [])
+    {
+        return $this->getTable()->findAllForBackoffice($filters, $order, $params);
+    }
+
     public function findByEmail($email)
     {
         return $this->find($email, 'email');

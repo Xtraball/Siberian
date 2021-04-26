@@ -6,10 +6,8 @@
                 <th style="width:30%;"><?php echo __('Name') ?></th>
                 <th style="width:20%;"><?php echo __('Version') ?></th>
                 <th style="width:20%;"><?php echo __('License key') ?></th>
-                <?php if (isDev()): ?>
                 <th style="width:15%;text-align:right;"><?php echo __('Actions') ?></th>
                 <th style="width:15%;text-align:right;"><?php echo __('Enabled?') ?></th>
-                <?php endif; ?>
             </tr>
         </thead>
         <tbody>
@@ -21,7 +19,6 @@
                 <td>
                     <p>{{ module.license_key }}</p>
                 </td>
-                <?php if (isDev()): ?>
                 <td style="text-align:right;">
                     <button class="btn btn-xs btn-info"
                             ng-repeat="(k, action) in module.actions"
@@ -32,7 +29,6 @@
                            ng-model="module.is_enabled"
                            ng-change="toggleModule(module)" />
                 </td>
-                <?php endif; ?>
             </tr>
             <tr ng-show="!modules.length">
                 <td colspan="<?php echo (isDev()) ? '4' : '2' ?>"><?php echo __("No modules") ?></td>
@@ -46,16 +42,24 @@
     <table class="table">
         <thead>
         <tr>
-            <th style="width:50%;"><?php echo __("Name") ?></th>
+            <th style="width:35%;"><?php echo __("Name") ?></th>
             <th style="width:30%;"><?php echo __("Version") ?></th>
             <th style="width:20%;text-align:right;"><?php echo __("Actions") ?></th>
+            <th style="width:15%;text-align:right;"><?php echo __('Enabled?') ?></th>
         </tr>
         </thead>
         <tbody>
-        <tr ng-repeat="layout in layouts" ng-show="layouts.length">
+        <tr ng-repeat="layout in layouts"
+            ng-show="layouts.length"
+            ng-class="{'text-danger red-border': !layout.is_enabled}">
             <td>{{ layout.name }}</td>
             <td>{{ layout.version }}</td>
             <td style="text-align:right;">-</td>
+            <td style="text-align:right;">
+                <input type="checkbox"
+                       ng-model="layout.is_enabled"
+                       ng-change="toggleModule(layout)" />
+            </td>
         </tr>
         <tr ng-show="!layouts.length">
             <td colspan="3"><?php echo __("No layouts") ?></td>
@@ -69,15 +73,22 @@
     <table class="table">
         <thead>
         <tr>
-            <th style="width:50%;"><?php echo __("Name") ?></th>
-            <th style="width:50%;text-align: right"><?php echo __("Version") ?></th>
+            <th style="width:45%;"><?php echo __("Name") ?></th>
+            <th style="width:40%;text-align: right"><?php echo __("Version") ?></th>
+            <th style="width:15%;text-align:right;"><?php echo __('Enabled?') ?></th>
         </tr>
         </thead>
         <tbody>
         <tr ng-repeat="template in templates"
-            ng-show="templates.length">
+            ng-show="templates.length"
+            ng-class="{'text-danger red-border': !template.is_enabled}">
             <td>{{ template.name }}</td>
             <td style="text-align: right">{{ template.version }}</td>
+            <td style="text-align:right;">
+                <input type="checkbox"
+                       ng-model="template.is_enabled"
+                       ng-change="toggleModule(template)" />
+            </td>
         </tr>
         <tr ng-show="!templates.length">
             <td colspan="3"><?php echo __("No templates") ?></td>

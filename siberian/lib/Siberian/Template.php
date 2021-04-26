@@ -49,6 +49,24 @@ class Template
             ->setPosition($position)
             ->save();
 
+        // Create or update
+        $designResource = (new \Acl_Model_Resource())->find('editor_design_template', 'code');
+        if ($designResource && $designResource->getId()) {
+            // When done, create it's ACL
+            $code = $templateDesign->getCode();
+            $name = $templateDesign->getName();
+            $resource = new \Acl_Model_Resource();
+            $resource
+                ->setData(
+                    [
+                        'parent_id' => $designResource->getId(),
+                        'code' => 'template_' . $code,
+                        'label' => $name,
+                    ]
+                )
+                ->insertOrUpdate(['code']);
+        }
+
         return $templateDesign;
     }
 

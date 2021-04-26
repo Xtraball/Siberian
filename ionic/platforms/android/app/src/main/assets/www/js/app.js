@@ -164,7 +164,7 @@ var App = angular.module('starter', ['ionic', 'lodash', 'ngRoute', 'ngCordova', 
     .run(function ($injector, $ionicConfig, $ionicHistory, $ionicNavBarDelegate, $ionicPlatform, $ionicPopup,
                    $ionicScrollDelegate, $ionicSlideBoxDelegate, $location, $log, $ocLazyLoad, $pwaRequest, $q,
                    $rootScope, $session, $state, $templateCache, $timeout, $translate, $window, AdmobService,
-                   Analytics, Application, Customer, Codescan, Dialog, Facebook, FacebookConnect, Padlock,
+                   Analytics, Application, Customer, Codescan, Dialog, Padlock,
                    Pages, Push, PushService, SB, InAppLinks) {
 
         // $rootScope object!
@@ -294,13 +294,7 @@ var App = angular.module('starter', ['ionic', 'lodash', 'ngRoute', 'ngCordova', 
                         $ionicConfig.backButton.icon('none');
 
                         Customer.populate(data.loadBlock.customer);
-                        Customer.setFacebookLogin(data.loadBlock.application.facebook);
                         Pages.populate(data.featureBlock);
-
-                        // Login Facebook HTML5!
-                        if (LOGIN_FB) {
-                            Customer.loginWithFacebook(fbtoken);
-                        }
 
                         var HomepageLayout = $injector.get('HomepageLayout');
 
@@ -415,12 +409,6 @@ var App = angular.module('starter', ['ionic', 'lodash', 'ngRoute', 'ngCordova', 
                         $window.colors = load.application.colors;
                         if (window.StatusBar !== undefined) {
                             window.updateStatusBar($window.colors.header.statusBarColor);
-                        }
-
-                        if (load.application.facebook.id) {
-                            FacebookConnect.permissions = (!Array.isArray(load.application.facebook.scope)) ?
-                                [load.application.facebook.scope] : load.application.facebook.scope;
-                            FacebookConnect.app_id = load.application.facebook.id;
                         }
 
                         try {

@@ -2,7 +2,7 @@
  * Application
  *
  * @author Xtraball SAS <dev@xtraball.com>
- * @version 4.18.18
+ * @version 4.20.9
  */
 angular
     .module('starter')
@@ -125,6 +125,7 @@ angular
      * @param data
      */
     service.populate = function (data) {
+        service.application = data.application;
         service.app_id = data.application.id;
         service.app_name = data.application.name;
         service.privacyPolicy = data.application.privacyPolicy;

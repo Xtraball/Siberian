@@ -59,6 +59,16 @@ class Template_Backoffice_Category_ListController extends Backoffice_Controller_
         ];
 
         foreach ($templates as $template) {
+
+            // Fetching install path with overview_new
+            $overviewNew = $template->getOverviewNew();
+            preg_match("#^\/app\/[a-z]+\/modules\/([a-z]+)\/.*#i", $overviewNew, $matches);
+            if (isset($matches[1]) &&
+                !Installer_Model_Installer_Module::sGetIsEnabled($matches[1])) {
+                // Skip disabled templates!
+                continue;
+            }
+
             $payload['templates'][] = [
                 'template_id' => $template->getId(),
                 'name' => $template->getName(),

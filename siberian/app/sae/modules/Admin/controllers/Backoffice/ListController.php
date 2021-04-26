@@ -5,6 +5,9 @@
  */
 class Admin_Backoffice_ListController extends Backoffice_Controller_Default
 {
+    /**
+     *
+     */
     public function loadAction()
     {
         $payload = [
@@ -21,64 +24,76 @@ class Admin_Backoffice_ListController extends Backoffice_Controller_Default
 
     public function findallAction()
     {
-
-        $offset = $this->getRequest()->getParam("offset") ? $this->getRequest()->getParam("offset") : null;
+        try {
+            $request = $this->getRequest();
+            $offset = $request->getParam('offset', null);
         $limit = Admin_Model_Admin::BO_DISPLAYED_PER_PAGE;
+            $range = $request->getHeader('Range');
 
-        $request = $this->getRequest();
-        if ($range = $request->getHeader("Range")) {
-            $parts = explode("-", $range);
+            // Default range!
+            $parts = [0, 20];
+            if ($range) {
+                $parts = explode('-', $range);
             $offset = $parts[0];
             $limit = ($parts[1] - $parts[0]) + 1;
         }
 
         $params = [
-            "offset" => $offset,
-            "limit" => $limit
+                'offset' => $offset,
+                'limit' => $limit
         ];
 
         $filters = [];
-        if ($_filter = $this->getRequest()->getParam("filter", false)) {
-            $filters["(email LIKE ? OR admin_id LIKE ? OR company LIKE ? OR firstname LIKE ? OR lastname LIKE ?)"] = "%{$_filter}%";
+            $_filter = $request->getParam('filter', false);
+            if ($_filter) {
+                $filters["(a.email LIKE ? OR a.admin_id LIKE ? OR a.company LIKE ? OR a.website LIKE ? OR a.firstname LIKE ? OR a.lastname LIKE ? OR r.code LIKE ? OR r.label LIKE ?)"] = "%{$_filter}%";
         }
 
-        $order = $this->getRequest()->getParam("order", false);
-        $by = filter_var($this->getRequest()->getParam("by", false), FILTER_VALIDATE_BOOLEAN);
+            $order = $request->getParam('order', false);
+            $by = filter_var($request->getParam('by', false), FILTER_VALIDATE_BOOLEAN);
         if ($order) {
-            $order_by = ($by) ? "ASC" : "DESC";
+                $order_by = ($by) ? 'ASC' : 'DESC';
             $order = sprintf("%s %s", $order, $order_by);
         }
 
-        $admin = new Admin_Model_Admin();
-        $all_admins = $admin->findAll($filters, $order);
-        $total = $all_admins->count();
+            $allAdmins = (new Admin_Model_Admin())->findAllForBackoffice($filters, $order);
+            $total = $allAdmins->count();
 
-        $admins = $admin->findAll($filters, $order, $params);
-        $data = [
-            "display_per_page" => $limit,
-            "collection" => []
-        ];
+            $admins = (new Admin_Model_Admin())->findAllForBackoffice($filters, $order, $params);
 
-        if ($range = $request->getHeader("Range")) {
+            if ($range) {
             $start = $parts[0];
             $end = ($total <= $parts[1]) ? $total : $parts[1];
 
-            $this->getResponse()->setHeader("Content-Range", sprintf("%s-%s/%s", $start, $end, $total));
-            $this->getResponse()->setHeader("Range-Unit", "items");
+                $this->getResponse()->setHeader('Content-Range', sprintf("%s-%s/%s", $start, $end, $total));
+                $this->getResponse()->setHeader('Range-Unit', 'items');
         }
 
+            $payload = [];
         foreach ($admins as $admin) {
-            $data["collection"][] = [
-                "id" => $admin->getId(),
-                "email" => $admin->getEmail(),
-                "name" => $admin->getFirstname() . " " . $admin->getLastname(),
-                "company" => $admin->getCompany(),
-                "key" => sha1($admin->getFirstname() . $admin->getId()),
-                "created_at" => $admin->getFormattedCreatedAt(__("MM/dd/yyyy"))
+                $payload[] = [
+                    'id' => $admin->getId(),
+                    'email' => $admin->getEmail(),
+                    'label' => $admin->getLabel(),
+                    'name' => $admin->getFirstname() . ' ' . $admin->getLastname(),
+                    'company' => $admin->getCompany(),
+                    'website' => $admin->getWebsite(),
+                    'phone' => $admin->getPhone(),
+                    'accept_tos' => $admin->getAcceptTos(),
+                    'optin_email' => $admin->getOptinEmail(),
+                    'key' => sha1($admin->getFirstname() . $admin->getId()),
+                    'created_at' => datetime_to_format($admin->getCreatedAt()),
+                    'is_active' => $admin->getIsActive()
+                ];
+            }
+        } catch (\Exception $e) {
+            $payload = [
+                'error' => true,
+                'message' => $e->getMessage()
             ];
         }
 
-        $this->_sendHtml($data["collection"]);
+        $this->_sendJson($payload);
     }
 
     public function deleteAction()

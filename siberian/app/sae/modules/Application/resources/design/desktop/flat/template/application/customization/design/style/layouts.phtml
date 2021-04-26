@@ -36,6 +36,14 @@
 </div>
 <div class="content-no-padding layouts_content_preview col-md-9 col-xs-9">
     <?php foreach($layouts as $layout) :
+
+        // ACL
+        $aclCode = 'layout_' . $layout->getCode();
+        if (!$this->_canAccess($aclCode)) {
+            // Skip excluded ACL layouts!
+            continue;
+        }
+
         $isCurrent = ($application->getLayoutId() == $layout->getId());
         ?>
         <?php $with_options = (Siberian_Feature::getLayoutOptionsCallbacks($layout->getCode())); ?>

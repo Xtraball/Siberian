@@ -10,7 +10,7 @@ angular
     .module('starter')
     .controller('CustomerController', function ($state, $ionicHistory, $cordovaCamera, $ionicActionSheet, Loader,
                                                 $ionicPopup, Customer, $ionicScrollDelegate, $rootScope, $scope, $timeout,
-                                                $translate, $session, Application, Dialog, FacebookConnect,
+                                                $translate, $session, Application, Dialog,
                                                 HomepageLayout, Modal, Picture, CropImage, Pages, Push, PushService) {
 
         /**
@@ -31,7 +31,6 @@ angular
             display_login_form: (!$scope.is_logged_in) && (!Customer.display_account_form),
             display_account_form: ($scope.is_logged_in || Customer.display_account_form),
             display_settings: false,
-            can_connect_with_facebook: !!Customer.can_connect_with_facebook,
             privacy_policy: Application.privacyPolicy.text,
             privacy_policy_gdpr: Application.privacyPolicy.gdpr,
             gdpr: {
@@ -40,7 +39,6 @@ angular
             myAccount: {
                 title: $translate.instant('My account', 'customer'),
                 settings: {
-                    enable_facebook_login: true,
                     enable_registration: true,
                     enable_commercial_agreement: true,
                     enable_commercial_agreement_label: $translate.instant("I'd like to hear about offers & services", 'customer'),
@@ -287,10 +285,6 @@ angular
             Customer.requestToken();
         };
 
-        $scope.loginFacebook = function () {
-            FacebookConnect.login();
-        };
-
         $scope.avatarUrl = function () {
             // Means the customer image was edited!
             if ($scope.customer.image &&
@@ -403,7 +397,6 @@ angular
                             .logout()
                             .then(function (data) {
                                 if (data.success) {
-                                    FacebookConnect.logout();
                                     Customer.hideModal();
 
                                     // Reset!
@@ -487,7 +480,7 @@ angular
 
         $scope.removeCreditCard = function () {
             Dialog
-                .confirm('Confirmation', 'Do you confirm you want to remove your card?')
+                .confirm('Confirmation', 'Do you confirm you want to remove your card?', ['Yes, delete!','No, go back!'], '', 'customer')
                 .then(function (result) {
                     if (result) {
                         $scope.is_loading = true;
