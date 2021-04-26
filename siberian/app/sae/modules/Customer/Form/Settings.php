@@ -25,13 +25,12 @@ class Customer_Form_Settings extends Siberian_Form_Abstract
             'card' => p__('customer', 'Card'),
         ]);
 
-        $enableFacebookLogin = $this->addSimpleCheckbox('enable_facebook_login', p__('customer', 'Facebook login'));
         $enableRegistration = $this->addSimpleCheckbox('enable_registration', p__('customer', 'Self registration'));
         $enablePasswordVerification = $this->addSimpleCheckbox('enable_password_verification', p__('customer', 'Password verification (input twice)'));
 
         $group1 = $this->groupElements(
             'group1', [
-                'design', 'enable_facebook_login', 'enable_registration', 'enable_password_verification'],
+                'design', 'enable_registration', 'enable_password_verification'],
                 p__('customer', 'Options')
             );
 

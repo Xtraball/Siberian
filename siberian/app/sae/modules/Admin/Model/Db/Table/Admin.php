@@ -84,6 +84,38 @@ class Admin_Model_Db_Table_Admin extends Core_Model_Db_Table
     }
 
     /**
+     * @param $filters
+     * @param null $order
+     * @param array $params
+     * @return mixed
+     * @throws Zend_Db_Select_Exception
+     * @throws Zend_Db_Statement_Exception
+     * @throws Zend_Exception
+     */
+    public function findAllForBackoffice($filters, $order = null, $params = [])
+    {
+        $select = $this->_db->select()
+            ->from(['a' => $this->_name], ['*']);
+
+        $select->join(['r' => 'acl_role'], 'a.role_id = r.role_id', ['code', 'label']);
+        $select->joinLeft(['pa' => $this->_name], 'a.parent_id = pa.admin_id', ['parent_firstname' => 'pa.firstname', 'parent_lastname' => 'pa.lastname']);
+
+        foreach ($filters as $fKey => $fValue) {
+            $select->where($fKey, $fValue);
+        }
+
+        if ($order !== null) {
+            $select->order($order);
+        }
+
+        if (array_key_exists('offset', $params) && array_key_exists('limit', $params)) {
+            $select->limit($params['limit'], $params['offset']);
+        }
+
+        return $this->toModelClass($this->_db->fetchAll($select));
+    }
+
+    /**
      * @param $filter
      * @return mixed
      * @throws Zend_Db_Select_Exception

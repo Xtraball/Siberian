@@ -40,6 +40,22 @@ $categories = (new Template_Model_Category())
 <div class="content-no-padding templates_content_preview col-md-9 col-xs-9">
     <?php foreach ($designs as $design):
 
+        // Fetching install path with overview_new
+        $overviewNew = $design->getOverviewNew();
+        preg_match("#^\/app\/[a-z]+\/modules\/([a-z]+)\/.*#i", $overviewNew, $matches);
+        if (isset($matches[1]) &&
+            !Installer_Model_Installer_Module::sGetIsEnabled($matches[1])) {
+            // Skip disabled templates!
+            continue;
+        }
+
+        // ACL
+        $aclCode = 'template_' . $design->getCode();
+        if (!$this->_canAccess($aclCode)) {
+            // Skip excluded ACL templates!
+            continue;
+        }
+
         $activeClass = '';
         if($application->getDesignId() == $design->getId()) {
             $activeClass = 'current';

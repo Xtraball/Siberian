@@ -54,6 +54,13 @@ class Settings extends FormAbstract
         $this->addSimpleCheckbox('enable_user_post', p__('fanwall','Enable user posts'));
         $this->addSimpleCheckbox('enable_user_comment', p__('fanwall','Enable user comments'));
 
+        $this->addSimpleSelect('enable_user_share', p__('fanwall', 'Post sharing options'), [
+            'none' => p__('fanwall', 'Disabled'),
+            'big' => p__('fanwall', 'Below post body'),
+            'small' => p__('fanwall', 'Inside contextual menu'),
+            'both' => p__('fanwall', 'Inside contextual menu & below post body'),
+        ]);
+
         $this->groupElements('group_features', [
             'enable_nearby',
             'enable_map',

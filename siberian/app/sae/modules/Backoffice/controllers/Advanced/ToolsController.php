@@ -42,8 +42,18 @@ class Backoffice_Advanced_ToolsController extends System_Controller_Backoffice_D
      */
     public function restoreappsAction()
     {
+        $oldUmask = umask(0);
         try {
+
             $varApps = path('var/apps');
+            self::checkWriteable();
+
+            if (!is_writable($varApps)) {
+                throw new Exception(
+                    p__('backoffice',
+                        'The folder %s is not writable, please check that your web user can write to it.',
+                        $varApps));
+            }
 
             $version = Version::VERSION;
             $versionKey = '%VERSION%';
@@ -106,31 +116,7 @@ class Backoffice_Advanced_ToolsController extends System_Controller_Backoffice_D
             self::verboseExec('rm -fv ./ios-noads.tgz');
             self::verboseExec('rm -fv ../browser.tgz');
 
-            // Ensure all folders are writable
-            chdir($varApps);
-            $writable = [
-                '/browser',
-                '/overview',
-                '/ionic/android',
-                '/ionic/ios',
-                '/ionic/ios-noads',
-            ];
-
-            // CHMOD recursive
-            foreach ($writable as $folder) {
-                $tmpPath = path($varApps . $folder);
-                self::verboseExec('chmod -Rv 777 "' . $tmpPath . '"');
-            }
-
-            foreach ($writable as $folder) {
-                $tmpPath = path($varApps . $folder);
-                if (!is_writable($tmpPath)) {
-                    throw new Exception(
-                        p__('backoffice',
-                            'The folder %s is not writable, please check that your web user can write to it.',
-                            $tmpPath));
-                }
-            }
+            self::checkWriteable();
 
             $payload = [
                 'success' => true,
@@ -143,16 +129,34 @@ class Backoffice_Advanced_ToolsController extends System_Controller_Backoffice_D
             ];
         }
 
+        umask($oldUmask);
+
         $this->_sendJson($payload);
     }
 
     /**
+     *
+     */
+    public static function checkWriteable()
+    {
+        // Ensure all folders var/apps are writable, parent MUST be writeable in order to remove file in it.
+        $varApps = path('var/apps');
+        self::verboseExec('chmod -Rv 777 "' . $varApps . '"');
+    }
+
+    /**
      * @param $command
+     * @throws Zend_Exception
      */
     public static function verboseExec($command)
     {
         $output = [];
         exec($command, $output);
+
+        // Final loggind
+        $logger = Zend_Registry::get('logger');
+        $logger->info(print_r($output, true) . PHP_EOL);
+
         dbg($output);
     }
 

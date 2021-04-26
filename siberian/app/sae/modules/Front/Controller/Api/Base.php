@@ -271,6 +271,9 @@ class Front_Controller_Api_Base extends Front_Controller_App_Default
         $blockStart = microtime(true);
         if (!$result = $cache->load($cacheId)) {
 
+            // Fetching whitelabel for app!
+            $whitelabel = Siberian::getWhitelabel();
+
             // Homepage image url!
             if ($application->getSplashVersion() == '2') {
                 $homepageImage = path($application->getHomepageBackgroundUnified());
@@ -359,6 +362,8 @@ class Front_Controller_Api_Base extends Front_Controller_App_Default
                 'application' => [
                     'id' => $appId,
                     'name' => $application->getName(),
+                    'share_domain' => ($whitelabel && $whitelabel->getHost()) ?
+                        $whitelabel->getHost() : __get('main_domain'),
                     'is_locked' => (boolean)$application->requireToBeLoggedIn(),
                     'is_bo_locked' => (boolean)$application->getIsLocked(),
                     'disableUpdates' => (boolean)$application->getDisableUpdates(),
@@ -956,7 +961,10 @@ class Front_Controller_Api_Base extends Front_Controller_App_Default
                     $data['stripe'] = $info ?: [];
                 }
             }
+
         }
+
+
 
         $loadBlock['customer'] = array_merge($loadBlock['customer'], [
             'isLoggedIn' => $isLoggedIn,
@@ -971,7 +979,7 @@ class Front_Controller_Api_Base extends Front_Controller_App_Default
                 'application' => $application,
                 'request' => $request,
                 'session' => (new Base()),
-            ]),
+            ])
         ]);
 
         return $loadBlock;

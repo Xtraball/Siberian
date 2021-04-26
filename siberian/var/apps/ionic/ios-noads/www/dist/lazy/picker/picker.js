@@ -873,10 +873,12 @@
                 var year = this.format.year ?
                     this.date.getFullYear() : (new Date()).getFullYear();
                 var dayOfWeek = (new Date(year+ '-' + month + '-' + textContent)).getDay();
-                if (this.options.showWeekDays) {
+                if (this.options.showWeekDays &&
+                    this.options.weekDays.hasOwnProperty(dayOfWeek)) {
                     textContent = this.options.weekDays[dayOfWeek] + ' ' + textContent;
                 }
-                if (this.options.showWeekDaysShort) {
+                if (this.options.showWeekDaysShort &&
+                    this.options.weekDaysShort.hasOwnProperty(dayOfWeek)) {
                     textContent = this.options.weekDaysShort[dayOfWeek] + ' ' + textContent;
                 }
             }
@@ -1106,6 +1108,10 @@
             }
 
             addClass(picker, CLASS_OPENED);
+
+            // Prevent today to not be disbled!
+            this.nextDay();
+            this.prevDay();
 
             if (immediate) {
                 done();

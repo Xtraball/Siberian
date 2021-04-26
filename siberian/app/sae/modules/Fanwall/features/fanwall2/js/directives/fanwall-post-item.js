@@ -7,8 +7,8 @@
 angular
     .module('starter')
     .directive('fanwallPostItem', function ($rootScope, $filter, $sce, $translate, $timeout, $q,
-                                            Customer, Dialog, Loader, Fanwall, FanwallPost, FanwallUtils,
-                                            Lightbox, Popover) {
+                                            Application, Customer, Dialog, Loader, Fanwall, FanwallPost, FanwallUtils,
+                                            Lightbox, Popover, SocialSharing) {
         return {
             restrict: 'E',
             templateUrl: 'features/fanwall2/assets/templates/l1/tabs/directives/post-item.html',
@@ -31,6 +31,57 @@ angular
 
                 $scope.userComment = function () {
                     return $scope.getSettings().features.enableUserComment;
+                };
+
+                $scope.userShareBig = function () {
+                    return ['big', 'both'].indexOf($scope.getSettings().features.enableUserShare) >= 0;
+                };
+
+                $scope.userShareSmall = function () {
+                    return ['small', 'both'].indexOf($scope.getSettings().features.enableUserShare) >= 0;
+                };
+
+                $scope.getColSizeTextual = function () {
+                    var counter = 0;
+                    if ($scope.userLike()) {
+                        counter++;
+                    }
+                    if ($scope.userComment()) {
+                        counter++;
+                    }
+
+                    switch (counter) {
+                        default:
+                        case 0:
+                        case 1:
+                            return 'col-100';
+                        case 2:
+                            return 'col-50';
+                    }
+                };
+
+                $scope.getColSize = function () {
+                    var counter = 0;
+                    if ($scope.userLike()) {
+                        counter++;
+                    }
+                    if ($scope.userComment()) {
+                        counter++;
+                    }
+                    if ($scope.userShareBig()) {
+                        counter++;
+                    }
+
+                    switch (counter) {
+                        default:
+                        case 0:
+                        case 1:
+                            return 'col-100';
+                        case 2:
+                            return 'col-50';
+                        case 3:
+                            return 'col-33';
+                    }
                 };
 
                 $scope.photoMode = function () {
@@ -114,9 +165,9 @@ angular
                                 .fromTemplateUrl('features/fanwall2/assets/templates/l1/tabs/directives/actions-popover.html', {
                                     scope: $scope
                                 }).then(function (popover) {
-                                $scope.actionsPopover = popover;
-                                $scope.actionsPopover.show($event);
-                            });
+                                    $scope.actionsPopover = popover;
+                                    $scope.actionsPopover.show($event);
+                                });
                         });
                 };
 
@@ -130,6 +181,24 @@ angular
                     }
 
                     return $q.resolve();
+                };
+
+                $scope.sharePost = function () {
+                    var shareLink = [
+                        'https://',
+                        Application.application.share_domain,
+                        '/',
+                        APP_KEY,
+                        '/fanwall/post/',
+                        Fanwall.lastValueId,
+                        '/',
+                        $scope.post.id
+                    ].join('');
+                    SocialSharing.share(
+                        '',
+                        $translate.instant('Check this post!', 'fanwall'),
+                        '',
+                        shareLink);
                 };
 
                 $scope.flagPost = function () {
@@ -176,6 +245,20 @@ angular
                                 });
                         }
                     };
+
+                    if ($scope.userShareSmall()) {
+                        $scope.popoverItems.push({
+                            label: $translate.instant('Share', 'fanwall'),
+                            icon: 'icon ion-sb-share-filled',
+                            click: function () {
+                                $scope
+                                    .closeActions()
+                                    .then(function () {
+                                        $scope.sharePost();
+                                    });
+                            }
+                        });
+                    }
 
                     if ($scope.isOwner()) {
                         $scope.popoverItems.push({

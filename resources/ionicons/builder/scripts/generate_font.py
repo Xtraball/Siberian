@@ -4,7 +4,7 @@
 
 import fontforge
 import os
-import md5
+import hashlib
 import subprocess
 import tempfile
 import json
@@ -19,7 +19,7 @@ AUTO_WIDTH = True
 KERNING = 15
 
 cp = 0xf100
-m = md5.new()
+m = hashlib.new('md5')
 
 f = fontforge.font()
 f.encoding = 'UnicodeFull'
@@ -31,14 +31,14 @@ f.descent = 64
 manifest_file = open(MANIFEST_PATH, 'r')
 manifest_data = json.loads(manifest_file.read())
 manifest_file.close()
-print "Load Manifest, Icons: %s" % ( len(manifest_data['icons']) )
+print ("Load Manifest, Icons: %s" % ( len(manifest_data['icons']) ))
 
 build_data = copy.deepcopy(manifest_data)
 build_data['icons'] = []
 
 font_name = manifest_data['name']
-m.update(font_name + ';')
-m.update(manifest_data['prefix'] + ';')
+m.update((font_name + ';').encode('utf-8'))
+m.update((manifest_data['prefix'] + ';').encode('utf-8'))
 
 for dirname, dirnames, filenames in os.walk(INPUT_SVG_DIR):
   for filename in filenames:
@@ -57,7 +57,7 @@ for dirname, dirnames, filenames in os.walk(INPUT_SVG_DIR):
 
       if chr_code is None:
         # this is a new src icon
-        print 'New Icon: \n - %s' % (name)
+        print ('New Icon: \n - %s' % (name))
 
         while True:
           chr_code = '0x%x' % (cp)
@@ -71,7 +71,7 @@ for dirname, dirnames, filenames in os.walk(INPUT_SVG_DIR):
           if not already_exists:
             break
 
-        print ' - %s' % chr_code
+        print (' - %s' % chr_code)
         manifest_data['icons'].append({
           'name': name,
           'code': chr_code
@@ -93,7 +93,7 @@ for dirname, dirnames, filenames in os.walk(INPUT_SVG_DIR):
         svgtext = svgtext.replace('<switch>', '')
         svgtext = svgtext.replace('</switch>', '')
 
-        tmpsvgfile.file.write(svgtext)
+        tmpsvgfile.file.write(svgtext.encode())
 
         svgfile.close()
         tmpsvgfile.file.close()
@@ -101,7 +101,7 @@ for dirname, dirnames, filenames in os.walk(INPUT_SVG_DIR):
         filePath = tmpsvgfile.name
         # end hack
 
-      m.update(name + str(size) + ';')
+      m.update((name + str(size) + ';').encode('utf-8'))
       glyph = f.createChar( int(chr_code, 16) )
       glyph.importOutlines(filePath)
 
@@ -123,7 +123,7 @@ for dirname, dirnames, filenames in os.walk(INPUT_SVG_DIR):
 build_hash = m.hexdigest()
 
 if build_hash == manifest_data.get('build_hash'):
-  print "Source files unchanged, did not rebuild fonts"
+  print ("Source files unchanged, did not rebuild fonts")
 
 else:
   manifest_data['build_hash'] = build_hash
@@ -161,12 +161,12 @@ else:
   manifest_data['icons'] = sorted(manifest_data['icons'], key=lambda k: k['name'])
   build_data['icons'] = sorted(build_data['icons'], key=lambda k: k['name'])
 
-  print "Save Manifest, Icons: %s" % ( len(manifest_data['icons']) )
+  print ("Save Manifest, Icons: %s" % ( len(manifest_data['icons']) ))
   f = open(MANIFEST_PATH, 'w')
   f.write( json.dumps(manifest_data, indent=2, separators=(',', ': ')) )
   f.close()
 
-  print "Save Build, Icons: %s" % ( len(build_data['icons']) )
+  print ("Save Build, Icons: %s" % ( len(build_data['icons']) ))
   f = open(BUILD_DATA_PATH, 'w')
   f.write( json.dumps(build_data, indent=2, separators=(',', ': ')) )
   f.close()

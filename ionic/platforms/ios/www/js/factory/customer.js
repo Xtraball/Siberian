@@ -17,7 +17,6 @@ angular
             display_account_form: false,
             login_modal_hidden_subscriber: null,
             is_logged_in: false,
-            facebook_login_enabled: false,
             loginScope: null
         };
 
@@ -30,22 +29,12 @@ angular
             factory.is_logged_in = customer.isLoggedIn;
             factory.id = customer.id;
             factory.can_access_locked_features = customer.can_access_locked_features;
-            factory.can_connect_with_facebook = customer.can_connect_with_facebook;
 
             if (factory.is_logged_in) {
                 $rootScope.$broadcast(SB.EVENTS.AUTH.loginSuccess);
             }
 
             factory.saveCredentials(customer.token);
-        };
-
-        /**
-         * Disable facebook login if no API is set.
-         *
-         * @param facebook
-         */
-        factory.setFacebookLogin = function (facebook) {
-            factory.facebook_login_enabled = !(facebook.id === null || facebook.id === '');
         };
 
         /**
@@ -160,31 +149,6 @@ angular
                     Loader.hide();
 
                     return result;
-                });
-
-            return promise;
-        };
-
-        factory.loginWithFacebook = function (token) {
-            var data = {
-                device_uid: device.uuid,
-                token: token
-            };
-
-            var promise = $pwaRequest.post('customer/mobile_account_login/loginwithfacebook', {
-                data: data,
-                cache: false
-            });
-
-            promise
-                .then(function (result) {
-                    factory.populate(result.customer);
-
-                    return result;
-                }, function (error) {
-                    Dialog.alert('Error', error.message, 'OK', -1);
-
-                    return error;
                 });
 
             return promise;

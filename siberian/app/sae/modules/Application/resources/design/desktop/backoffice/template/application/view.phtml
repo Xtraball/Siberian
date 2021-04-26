@@ -23,16 +23,6 @@ echo getSection("device", true);
 echo getSection("store", true);
 echo getSection("advertising", true);
 echo getSection("banner", true);
-
-?>
-
-<?php
-if (!\Siberian\Version::is("sae")) {
-    echo getSection("user", true);
-}
-?>
-
-<?php
 echo getSection("developer", true);
 echo getSection("media", true);
 ?>

@@ -166,6 +166,52 @@
              ng-include="'templates/customer/account/l1/fields/' + field.type + '.html'"></div>
     </div>
 
+    <div class="list"
+         ng-if="customer.metadatas.fidelity_points"
+         ng-class="{'card': card_design}">
+        <ion-item class="item-divider item-divider-custom">
+            {{ ::'Loyalty program' | translate:'customer' }}
+        </ion-item>
+
+        <label class="item item-input item-custom">
+            <div class="input-label">
+                {{ ::'Loyalty points' | translate:'customer' }}
+            </div>
+            <input class="text-right"
+                   type="text"
+                   readonly="readonly"
+                   value="{{ customer.metadatas.fidelity_points.points }}" />
+        </label>
+    </div>
+
+    <div class="list"
+         style="padding: 0 !important;"
+         ng-if="customer.stripe"
+         ng-class="{'card': card_design}">
+        <ion-item class="item-divider item-divider-custom">
+            {{ ::'Stored card information' | translate:'customer' }}
+        </ion-item>
+
+        <!-- SHOW CARD -->
+        <div ng-show="customer.stripe.brand"
+             class="item item-custom">
+            <span>{{ ::'**** **** ****' }} {{ customer.stripe.last4 }} - {{ ::'CVC ***' }}</span>
+            <span class="text-right">{{ ::'EXP' }} {{ customer.stripe.exp_month }}/{{ customer.stripe.exp_year }}</span>
+        </div>
+        <button ng-show="customer.stripe.brand"
+                type="button"
+                style="margin: 0 !important;"
+                class="button button-full button-assertive button-assertive-custom"
+                ng-click="removeCreditCard()">{{ ::'Remove card' | translate:'customer' }}
+        </button>
+
+        <!-- ADD CARD -->
+        <label ng-show="!customer.stripe.brand"
+               class="item item-text-wrap item-custom">
+            {{ ::'You have no card stored. To add a card make an order.' | translate:'customer' }}
+        </label>
+    </div>
+
     <div class="padding text-right"
          ng-if="customer.is_logged_in">
         <span ng-click="showPrivacyPolicy()">
@@ -192,46 +238,6 @@
          ng-if="!customer.is_logged_in">
         {{ ::'Already have an account?' | translate:'customer' }} <span class="bold positive positive-custom">{{ ::'Log in' | translate:'customer' }}!</span>
     </div>
-
-    <section class="avatar text-center"
-             ng-if="customer.metadatas.fidelity_points"
-             ng-show="customer.metadatas.fidelity_points.points > 0">
-        <label class="item item-custom">
-            <i class="ion-ios-information-outline"></i><strong> {{ ::'Your loyalty points' | translate:'customer' }}</strong>
-        </label>
-
-        <div class="item item-custom">
-            {{ customer.metadatas.fidelity_points.points }}
-        </div>
-        <br/>
-    </section>
-
-    <section class="avatar text-center"
-             ng-if="show_avatar"
-             ng-show="customer.stripe">
-        <label class="item item-custom">
-            <i class="ion-ios-information-outline"></i><strong> {{ ::'Stored card information' | translate:'customer' }}</strong>
-        </label>
-
-        <!-- SHOW CARD -->
-        <div ng-show="customer.stripe.brand"
-             class="item item-custom">
-            {{ ::'XXXX XXXX XXXX' }} {{ customer.stripe.last4 }}
-            <br/>
-            {{ ::'CVC ***' }} - {{ ::'EXP' }} {{ customer.stripe.exp_month }}/{{ customer.stripe.exp_year }}
-        </div>
-        <button ng-show="customer.stripe.brand"
-                type="button"
-                class="button button-block button-custom activated"
-                ng-click="removeCreditCard()">{{ ::'Remove card' | translate:'customer' }}
-        </button>
-
-        <!-- ADD CARD -->
-        <label ng-show="!customer.stripe.brand"
-               class="item item-text-wrap item-custom">
-            {{ ::'You have no card stored. To add a card make an order.' | translate:'customer' }}
-        </label>
-    </section>
 
     <div class="padding text-center"
          ng-click="logout()"

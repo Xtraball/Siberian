@@ -310,14 +310,6 @@ class Assets
     ];
 
     /**
-     * @var array
-     */
-    public static $config_xml = [
-        'android' => '/app/src/main/res/xml/config.xml',
-        'ios' => '/AppsMobileCompany/config.xml',
-    ];
-
-    /**
      * Hook method to exclude assets, used for external modules
      *
      * @param array $assets
@@ -422,7 +414,7 @@ class Assets
                         // Ensure folders exists
                         if (file_exists(preg_replace("#/\*$#", "", $path_from))) {
                             exec("cp -r {$path_from} {$path_to}");
-                            exec("chmod -R 775 {$path_to}");
+                            exec("chmod -R 777 {$path_to}");
                         }
                     }
                 }
@@ -450,7 +442,7 @@ class Assets
                         exec("rm -r {$path}");
                         // Ensure folders exists
                         if (file_exists($path)) {
-                            exec("chmod -R 775 {$path}");
+                            exec("chmod -R 777 {$path}");
                         }
                     }
                 }
@@ -823,7 +815,7 @@ class Assets
                     $index_content = $callback($index_content, $index_path, $type, $platform);
                 }
 
-                # Build the templateCache, Siberian 5.0
+                # Build the templateCache
                 self::buildTemplateCaches($path . $www_folder);
 
                 foreach (self::$assets_js as $asset_js) {

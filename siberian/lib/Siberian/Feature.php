@@ -135,6 +135,24 @@ class Feature
         $layout
             ->setData($datas)
             ->insertOrUpdate(["code"]);
+
+        // Create or update
+        $designResource = (new \Acl_Model_Resource())->find('editor_design_layout', 'code');
+        if ($designResource && $designResource->getId()) {
+            // When done, create it's ACL
+            $code = $layout->getCode();
+            $name = $layout->getName();
+            $resource = new \Acl_Model_Resource();
+            $resource
+                ->setData(
+                    [
+                        'parent_id' => $designResource->getId(),
+                        'code' => 'layout_' . $code,
+                        'label' => $name,
+                    ]
+                )
+                ->insertOrUpdate(['code']);
+        }
     }
 
     /**

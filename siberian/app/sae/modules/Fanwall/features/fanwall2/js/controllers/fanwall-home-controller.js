@@ -7,8 +7,8 @@
 angular
     .module('starter')
     .controller('FanwallHomeController', function ($rootScope, $scope, $state, $stateParams, $translate, $timeout,
-                                                   $ionicSideMenuDelegate, Customer, Dialog,
-                                                   Location, Fanwall, FanwallUtils, GoogleMaps) {
+                                                   $ionicSideMenuDelegate, Customer, Dialog, Loader,
+                                                   Location, Fanwall, FanwallPost, FanwallUtils, GoogleMaps) {
         angular.extend($scope, {
             settingsAreLoaded: false,
             value_id: $stateParams.value_id,
@@ -149,6 +149,25 @@ angular
                 $scope.getCardDesign();
                 $scope.getSettings();
                 $scope.settingsAreLoaded = true;
+
+                // Check appInit load post
+                if (Fanwall.initPostId !== null) {
+                    // Fetching the post!
+                    Loader.show($translate.instant('Loading post...', 'fanwall'));
+                    FanwallPost
+                        .findOne(Fanwall.initPostId)
+                        .then(function (payload) {
+                            FanwallUtils.showPostModal(payload.collection);
+                        }, function (error) {
+                            Loader.hide();
+                            Dialog.alert('Sorry', 'The post you are looking for is not available!', 'Dismiss', -1, 'fanwall');
+                        }).then(function () {
+                            Loader.hide();
+                            // No matter what, we clear the initPostId, initValuetId
+                            Fanwall.initValuetId = null;
+                            Fanwall.initPostId = null;
+                        });
+                }
             });
 
         $rootScope.$on('fanwall.pageTitle', function (event, payload) {

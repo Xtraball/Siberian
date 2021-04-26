@@ -13,7 +13,6 @@ angular
         };
 
         factory.findAll = function (offset, refresh) {
-            console.log('offset', offset, 'refresh', refresh);
             var storageKey = [$stateParams.value_id, 'findAll', offset].join('_');
             if (refresh !== true &&
                 factory.storage.hasOwnProperty(storageKey)) {
@@ -33,6 +32,16 @@ angular
             });
 
             return promise;
+        };
+
+        factory.findOne = function (postId) {
+            return $pwaRequest.get('fanwall/mobile_post/find-one', angular.extend({
+                urlParams: {
+                    value_id: $stateParams.value_id,
+                    postId: postId
+                },
+                refresh: true
+            }, factory.extendedOptions));
         };
 
         factory.findAllNearby = function (location, offset, refresh) {
