@@ -80,16 +80,29 @@ RAW;
 
         /**
          * Google maps pin action
-        $mapActions = [
-            'infoWindow' => __('Show info popup (default)'),
-            'gotoPlace' => __('Open place directly'),
-        ];
-
-        $mapAction = $this->addSimpleSelect(
-            'mapAction',
-            __('Action on map pin click'),
-            $mapActions);
+         * $mapActions = [
+         * 'infoWindow' => __('Show info popup (default)'),
+         * 'gotoPlace' => __('Open place directly'),
+         * ];
+         *
+         * $mapAction = $this->addSimpleSelect(
+         * 'mapAction',
+         * __('Action on map pin click'),
+         * $mapActions);
          */
+
+        $levels = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20];
+        $combined = array_combine($levels, $levels);
+
+        $this->addSimpleSelect(
+            'defaultMapZoom',
+            p__('places', 'Default level of zoom on map'),
+            $combined);
+
+        $this->addSimpleSelect(
+            'defaultCenterZoom',
+            p__('places', 'Default level of zoom with user location'),
+            $combined);
 
         // Featured places are disabled for now.
 

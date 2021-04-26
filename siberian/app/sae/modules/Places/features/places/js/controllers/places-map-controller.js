@@ -20,7 +20,7 @@ angular
                 n: 0,
                 s: 0,
                 w: 0,
-                zoom: 10
+                zoom: Places.settings.defaultMapZoom
             },
             idleTimer: null
         });
@@ -58,7 +58,6 @@ angular
         };
 
         $scope.markerClick = function (marker) {
-            console.log(marker);
             $timeout(function () {
                 if (Places.settings.mapAction &&
                     Places.settings.mapAction === 'gotoPlace') {
@@ -173,7 +172,7 @@ angular
                 .getLocation()
                 .then(function (position) {
                     $scope.crMap.setCenter(new google.maps.LatLng(position.coords.latitude, position.coords.longitude));
-                    $scope.crMap.setZoom(15);
+                    $scope.crMap.setZoom(Places.settings.defaultCenterZoom);
                 }, function () {
                     if (startup === undefined) {
                         Dialog.alert(
@@ -205,7 +204,7 @@ angular
             }
 
             $scope.mapSettings = {
-                zoom: 10,
+                zoom: Places.settings.defaultMapZoom,
                 center: {
                     lat: lat,
                     lng: lng
