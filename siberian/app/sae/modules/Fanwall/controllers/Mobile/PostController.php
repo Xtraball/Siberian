@@ -97,7 +97,7 @@ class Fanwall_Mobile_PostController extends Application_Controller_Mobile_Defaul
                     'customerId' => (integer) $post->getCustomerId(),
                     'title' => (string) $post->getTitle(),
                     'subtitle' => (string) $post->getSubtitle(),
-                    'text' => (string) Xss::sanitize(base64_decode($post->getText())),
+                    'text' => (string) self::removeHref(Xss::sanitize(base64_decode($post->getText()))),
                     'image' => (string) ($images[0] ?? ''),
                     'images' => $images,
                     'date' => (integer) $post->getDate(),
@@ -1316,4 +1316,8 @@ class Fanwall_Mobile_PostController extends Application_Controller_Mobile_Defaul
         return $author;
     }
 
+    public static function removeHref ($text)
+    {
+        return preg_replace('/<a.*href="(.+)".*>.*<\/a>/im', '$1', $text);
+    }
 }
