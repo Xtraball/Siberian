@@ -1,5 +1,5 @@
 /**
- * @version 4.19.9
+ * @version 4.20.10
  */
 angular
     .module('starter')
@@ -20,7 +20,7 @@ angular
                 n: 0,
                 s: 0,
                 w: 0,
-                zoom: Places.settings.defaultMapZoom
+                zoom: Places.settings.defaultMapZoom || 8
             },
             idleTimer: null
         });
@@ -172,7 +172,7 @@ angular
                 .getLocation()
                 .then(function (position) {
                     $scope.crMap.setCenter(new google.maps.LatLng(position.coords.latitude, position.coords.longitude));
-                    $scope.crMap.setZoom(Places.settings.defaultCenterZoom);
+                    $scope.crMap.setZoom(Places.settings.defaultCenterZoom || 8);
                 }, function () {
                     if (startup === undefined) {
                         Dialog.alert(
@@ -204,7 +204,7 @@ angular
             }
 
             $scope.mapSettings = {
-                zoom: Places.settings.defaultMapZoom,
+                zoom: Places.settings.defaultMapZoom || 8,
                 center: {
                     lat: lat,
                     lng: lng
