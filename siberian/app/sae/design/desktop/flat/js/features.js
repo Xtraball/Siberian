@@ -161,6 +161,8 @@ let handleFormError = function (form, data) {
 let feature_form_error = function (html, options) {
     let _html = html;
     if (_html === undefined || _html.length === 0) {
+        console.log('Trace for Unknown error in feature_form_error.');
+        console.trace();
         _html = "Unknown error.";
     }
 

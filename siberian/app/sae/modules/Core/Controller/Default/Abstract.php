@@ -785,7 +785,9 @@ abstract class Core_Controller_Default_Abstract extends Zend_Controller_Action i
 
         // Be sure session is configured correctly
         try {
-            Siberian_Session::init();
+            if (!$request->isInstalling()) {
+                Siberian_Session::init();
+            }
         } catch (\Exception $e) {
             // Already init!
         }
