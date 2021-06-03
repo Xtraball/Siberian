@@ -269,7 +269,7 @@ angular
 
         service.showBanner = function () {
             service.bannerObj.load().then(function () {
-                service.showBanner();
+                service.bannerObj.show();
             });
         };
 
