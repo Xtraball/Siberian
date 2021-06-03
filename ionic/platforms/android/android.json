@@ -135,6 +135,10 @@
               "count": 1
             },
             {
+              "xml": "<activity android:configChanges=\"keyboard|keyboardHidden|orientation|screenLayout|uiMode|screenSize|smallestScreenSize\" android:excludeFromRecents=\"true\" android:name=\"com.google.android.gms.ads.AdActivity\" android:noHistory=\"true\" />",
+              "count": 1
+            },
+            {
               "xml": "<meta-data android:name=\"com.google.android.gms.ads.APPLICATION_ID\" android:value=\"ca-app-pub-0000000000000000~0000000000\" />",
               "count": 1
             },
@@ -297,7 +301,7 @@
               "count": 1
             },
             {
-              "xml": "<feature name=\"AdMob\"><param name=\"android-package\" value=\"admob.plugin.AdMob\" /></feature>",
+              "xml": "<feature name=\"AdMob\"><param name=\"android-package\" value=\"admob.plus.cordova.AdMob\" /></feature>",
               "count": 1
             },
             {

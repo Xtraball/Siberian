@@ -58,7 +58,7 @@
         <param name="android-package" value="cc.fovea.PurchasePlugin" />
     </feature>
     <feature name="AdMob">
-        <param name="android-package" value="admob.plugin.AdMob" />
+        <param name="android-package" value="admob.plus.cordova.AdMob" />
     </feature>
     <feature name="BarcodeScanner">
         <param name="android-package" value="com.phonegap.plugins.barcodescanner.BarcodeScanner" />
