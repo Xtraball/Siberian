@@ -6,7 +6,6 @@
 //
 
 #import <Foundation/Foundation.h>
-#import <GoogleMobileAds/GADRequestError.h>
 
 @class GADAdLoader;
 
@@ -16,7 +15,7 @@
 
 /// Called when adLoader fails to load an ad.
 - (void)adLoader:(nonnull GADAdLoader *)adLoader
-    didFailToReceiveAdWithError:(nonnull GADRequestError *)error;
+    didFailToReceiveAdWithError:(nonnull NSError *)error;
 
 @optional
 

@@ -44,12 +44,4 @@
 /// Indicates whether the testing property has been set in GADRequest.
 @property(nonatomic, readonly, assign) BOOL isTesting;
 
-#pragma mark Deprecated methods
-
-/// Deprecated. User's gender set in GADRequest. If not specified, returns kGADGenderUnknown.
-@property(nonatomic, readonly, assign) GADGender userGender GAD_DEPRECATED_ATTRIBUTE;
-
-/// Deprecated. User's birthday set in GADRequest. If not specified, returns nil.
-@property(nonatomic, readonly, copy, nullable) NSDate *userBirthday GAD_DEPRECATED_ATTRIBUTE;
-
 @end

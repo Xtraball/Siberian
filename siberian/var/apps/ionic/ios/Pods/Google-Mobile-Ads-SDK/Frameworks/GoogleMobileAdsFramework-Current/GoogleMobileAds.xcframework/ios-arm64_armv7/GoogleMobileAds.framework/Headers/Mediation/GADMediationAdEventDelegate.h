@@ -19,6 +19,7 @@
 - (void)reportClick;
 
 /// Notifies Google Mobile Ads SDK that the GADMediationAd will present a full screen modal view.
+/// Maps to adDidPresentFullScreenContent: for full screen ads.
 - (void)willPresentFullScreenView;
 
 /// Notifies Google Mobile Ads SDK that the GADMediationAd failed to present with an error.

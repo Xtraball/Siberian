@@ -14,14 +14,6 @@ typedef NS_ENUM(NSInteger, UMPConsentStatus) {
       3,  ///< User consent obtained, personalized vs non-personalized undefined.
 };
 
-/// Type of user consent.
-typedef NS_ENUM(NSInteger, UMPConsentType) {
-  UMPConsentTypeUnknown = 0,          ///< User consent either not obtained or personalized vs
-                                      ///< non-personalized status undefined.
-  UMPConsentTypePersonalized = 1,     ///< User consented to personalized ads.
-  UMPConsentTypeNonPersonalized = 2,  ///< User consented to non-personalized ads.
-};
-
 /// State values for whether the user has a consent form available to them. To check whether form
 /// status has changed, an update can be requested through
 /// requestConsentInfoUpdateWithParameters:completionHandler.
@@ -51,10 +43,6 @@ typedef void (^UMPConsentInformationUpdateCompletionHandler)(NSError *_Nullable 
 /// The user's consent status. This value is cached between app sessions and can be read before
 /// requesting updated parameters.
 @property(nonatomic, readonly) UMPConsentStatus consentStatus;
-
-/// The user's consent type. This value is cached between app sessions and can be read before
-/// requesting updated parameters.
-@property(nonatomic, readonly) UMPConsentType consentType;
 
 /// Consent form status. This value defaults to UMPFormStatusUnknown and requires a call to
 /// requestConsentInfoUpdateWithParameters:completionHandler to update.

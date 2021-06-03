@@ -12,8 +12,13 @@
 
 #import "FBSDKBasicUtility.h"
 #import "FBSDKCoreKit_Basics.h"
+#import "FBSDKCrashHandler+CrashHandlerProtocol.h"
 #import "FBSDKCrashHandler.h"
+#import "FBSDKCrashHandlerProtocol.h"
 #import "FBSDKCrashObserving.h"
+#import "FBSDKFileDataExtracting.h"
+#import "FBSDKFileManaging.h"
+#import "FBSDKInfoDictionaryProviding.h"
 #import "FBSDKJSONValue.h"
 #import "FBSDKLibAnalyzer.h"
 #import "FBSDKSafeCast.h"
@@ -22,6 +27,7 @@
 #import "FBSDKURLSession.h"
 #import "FBSDKURLSessionTask.h"
 #import "FBSDKUserDataStore.h"
+#import "NSBundle+InfoDictionaryProviding.h"
 
 FOUNDATION_EXPORT double FBSDKCoreKitVersionNumber;
 FOUNDATION_EXPORT const unsigned char FBSDKCoreKitVersionString[];

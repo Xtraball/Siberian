@@ -6,7 +6,6 @@
 //
 
 #import <Foundation/Foundation.h>
-#import <GoogleMobileAds/GADRequestError.h>
 
 /// Error codes in the Google Mobile Ads SDK domain that surface due to errors when attempting to
 /// present an ad.

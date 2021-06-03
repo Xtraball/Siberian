@@ -11,14 +11,13 @@
 typedef NSString *GADAdLoaderAdType NS_STRING_ENUM;
 
 /// Use with GADAdLoader to request native custom template ads. To receive ads, the ad loader's
-/// delegate must conform to the GADNativeCustomTemplateAdLoaderDelegate protocol. See
-/// GADNativeCustomTemplateAd.h.
-GAD_EXTERN GADAdLoaderAdType _Nonnull const kGADAdLoaderAdTypeNativeCustomTemplate;
+/// delegate must conform to the GADCustomNativeAdLoaderDelegate protocol. See GADCustomNativeAd.h.
+GAD_EXTERN GADAdLoaderAdType _Nonnull const kGADAdLoaderAdTypeCustomNative;
 
 /// Use with GADAdLoader to request Google Ad Manager banner ads. To receive ads, the ad loader's
-/// delegate must conform to the DFPBannerAdLoaderDelegate protocol. See DFPBannerView.h.
-GAD_EXTERN GADAdLoaderAdType _Nonnull const kGADAdLoaderAdTypeDFPBanner;
+/// delegate must conform to the GAMBannerAdLoaderDelegate protocol. See GAMBannerView.h.
+GAD_EXTERN GADAdLoaderAdType _Nonnull const kGADAdLoaderAdTypeGAMBanner;
 
 /// Use with GADAdLoader to request native ads. To receive ads, the ad loader's delegate must
-/// conform to the GADUnifiedNativeAdLoaderDelegate protocol. See GADUnifiedNativeAd.h.
-GAD_EXTERN GADAdLoaderAdType _Nonnull const kGADAdLoaderAdTypeUnifiedNative;
+/// conform to the GADNativeAdLoaderDelegate protocol. See GADNativeAd.h.
+GAD_EXTERN GADAdLoaderAdType _Nonnull const kGADAdLoaderAdTypeNative;

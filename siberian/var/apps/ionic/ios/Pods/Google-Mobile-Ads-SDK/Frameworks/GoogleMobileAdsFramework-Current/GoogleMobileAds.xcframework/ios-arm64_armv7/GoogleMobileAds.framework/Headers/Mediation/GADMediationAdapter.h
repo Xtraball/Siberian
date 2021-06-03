@@ -59,7 +59,7 @@ typedef void (^GADMediationAdapterSetUpCompletionBlock)(NSError *_Nullable error
 /// load time.
 @protocol GADMediationAdapter <NSObject>
 /// Returns the adapter version.
-+ (GADVersionNumber)version;
++ (GADVersionNumber)adapterVersion;
 
 /// Returns the ad SDK version.
 + (GADVersionNumber)adSDKVersion;

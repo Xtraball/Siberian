@@ -10,7 +10,7 @@
 
 /// Displays native ad media content.
 ///
-/// To display media content in GADUnifiedNativeAdView instances, add a GADMediaView subview,
+/// To display media content in GADNativeAdView instances, add a GADMediaView subview,
 /// assign the native ad view's mediaView property, and set the native ad's mediaContent property to
 /// the media view.
 ///

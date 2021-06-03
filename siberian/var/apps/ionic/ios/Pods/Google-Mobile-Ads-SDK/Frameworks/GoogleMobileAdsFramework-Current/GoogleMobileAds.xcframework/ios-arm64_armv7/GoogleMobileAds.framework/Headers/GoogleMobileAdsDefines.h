@@ -54,10 +54,3 @@
 #else
 #error "Use latest Xcode version."
 #endif
-
-// Pre-Xcode 11 versions must replace UIWindowScene with NSObject.
-#if __IPHONE_OS_VERSION_MAX_ALLOWED < 130000
-#ifndef UIWindowScene
-#define UIWindowScene NSObject
-#endif
-#endif

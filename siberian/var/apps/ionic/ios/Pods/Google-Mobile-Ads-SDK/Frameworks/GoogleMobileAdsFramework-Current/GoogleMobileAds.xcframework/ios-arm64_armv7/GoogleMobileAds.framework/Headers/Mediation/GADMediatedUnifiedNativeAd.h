@@ -6,8 +6,8 @@
 //
 
 #import <Foundation/Foundation.h>
+#import <GoogleMobileAds/GADNativeAdAssetIdentifiers.h>
 #import <GoogleMobileAds/GADNativeAdImage.h>
-#import <GoogleMobileAds/GADUnifiedNativeAdAssetIdentifiers.h>
 
 /// Provides methods used for constructing native ads. The adapter must return an object conforming
 /// to this protocol for native ad requests.
@@ -69,9 +69,9 @@
 /// nonclickable asset views. viewController should be used to present modal views for the ad.
 - (void)didRenderInView:(nonnull UIView *)view
        clickableAssetViews:
-           (nonnull NSDictionary<GADUnifiedNativeAssetIdentifier, UIView *> *)clickableAssetViews
+           (nonnull NSDictionary<GADNativeAssetIdentifier, UIView *> *)clickableAssetViews
     nonclickableAssetViews:
-        (nonnull NSDictionary<GADUnifiedNativeAssetIdentifier, UIView *> *)nonclickableAssetViews
+        (nonnull NSDictionary<GADNativeAssetIdentifier, UIView *> *)nonclickableAssetViews
             viewController:(nonnull UIViewController *)viewController;
 
 /// Tells the receiver that an impression is recorded. This method is called only once per mediated
@@ -81,7 +81,7 @@
 /// Tells the receiver that a user click is recorded on the asset named |assetName|. Full screen
 /// actions should be presented from viewController. This method is called only if
 /// -[GADMAdNetworkAdapter handlesUserClicks] returns NO.
-- (void)didRecordClickOnAssetWithName:(nonnull GADUnifiedNativeAssetIdentifier)assetName
+- (void)didRecordClickOnAssetWithName:(nonnull GADNativeAssetIdentifier)assetName
                                  view:(nonnull UIView *)view
                        viewController:(nonnull UIViewController *)viewController;
 

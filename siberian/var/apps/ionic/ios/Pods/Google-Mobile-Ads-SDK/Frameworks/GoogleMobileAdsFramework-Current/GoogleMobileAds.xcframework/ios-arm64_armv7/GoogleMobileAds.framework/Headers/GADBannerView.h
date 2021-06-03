@@ -9,9 +9,7 @@
 #import <GoogleMobileAds/GADAdSizeDelegate.h>
 #import <GoogleMobileAds/GADAdValue.h>
 #import <GoogleMobileAds/GADBannerViewDelegate.h>
-#import <GoogleMobileAds/GADInAppPurchaseDelegate.h>
 #import <GoogleMobileAds/GADRequest.h>
-#import <GoogleMobileAds/GADRequestError.h>
 #import <GoogleMobileAds/GADResponseInfo.h>
 #import <UIKit/UIKit.h>
 
@@ -74,28 +72,5 @@
 
 /// Called when ad is estimated to have earned money. Available for allowlisted accounts only.
 @property(nonatomic, nullable, copy) GADPaidEventHandler paidEventHandler;
-
-#pragma mark Deprecated
-
-/// Indicates whether the currently displayed ad (or most recent failure) was a result of auto
-/// refreshing as specified on server. This property is set to NO after each loadRequest: method.
-@property(nonatomic, readonly, assign) BOOL hasAutoRefreshed GAD_DEPRECATED_ATTRIBUTE;
-
-/// Deprecated delegate. GADInAppPurchase is deprecated.
-@property(nonatomic, weak, nullable) IBOutlet id<GADInAppPurchaseDelegate> inAppPurchaseDelegate
-    GAD_DEPRECATED_ATTRIBUTE;
-
-/// The mediated ad network's underlying ad view. You may use this property to read the ad's actual
-/// size and adjust this banner view's frame origin. However, modifying the banner view's frame size
-/// triggers the Mobile Ads SDK to request a new ad. Only update the banner view's frame origin.
-@property(nonatomic, readonly, weak, nullable)
-    UIView *mediatedAdView GAD_DEPRECATED_MSG_ATTRIBUTE("Use responseInfo.adNetworkClassName.");
-
-/// The ad network class name that fetched the current ad. Returns nil while the latest ad request
-/// is in progress or if the latest ad request failed. For both standard and mediated Google AdMob
-/// ads, this property returns @"GADMAdapterGoogleAdMobAds". For ads fetched via mediation custom
-/// events, this property returns @"GADMAdapterCustomEvents".
-@property(nonatomic, readonly, nullable) NSString *adNetworkClassName GAD_DEPRECATED_MSG_ATTRIBUTE(
-    "Use responseInfo.adNetworkClassName.");
 
 @end

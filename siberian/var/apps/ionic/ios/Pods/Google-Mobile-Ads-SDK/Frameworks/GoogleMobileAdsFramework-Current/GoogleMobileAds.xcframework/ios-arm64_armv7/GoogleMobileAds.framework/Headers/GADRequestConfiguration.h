@@ -56,4 +56,8 @@ GAD_EXTERN GADMaxAdContentRating _Nonnull const GADMaxAdContentRatingMatureAudie
 /// termination of your Google account.
 - (void)tagForChildDirectedTreatment:(BOOL)childDirectedTreatment;
 
+/// Controls whether the Google Mobile Ads SDK Same App Key is enabled. The value set persists
+/// across app sessions. The key is enabled by default.
+- (void)setSameAppKeyEnabled:(BOOL)enabled;
+
 @end

@@ -40,13 +40,4 @@ NS_SWIFT_NAME(SessionProviding)
 
 @end
 
-// MARK: Default Protocol Conformances
-
-@interface NSURLSessionDataTask (SessionDataTask) <FBSDKSessionDataTask>
-@end
-
-@interface NSURLSession (SessionProviding) <FBSDKSessionProviding>
-@end
-
-
 NS_ASSUME_NONNULL_END
