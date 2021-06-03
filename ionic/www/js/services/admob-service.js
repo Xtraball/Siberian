@@ -229,7 +229,14 @@ angular
         service.initWithOptions = function (options) {
             // Enable dev mode from backoffice settings
             if (options.isTesting) {
-                admob.setDevMode(true);
+                if (ionic.Platform.isIOS()) {
+                    service.options.banner_id = 'ca-app-pub-3940256099942544/2934735716';
+                    service.options.interstitial_id = 'ca-app-pub-3940256099942544/4411468910';
+                }
+                if (ionic.Platform.isAndroid()) {
+                    service.options.banner_id = 'ca-app-pub-3940256099942544/6300978111';
+                    service.options.interstitial_id = 'ca-app-pub-3940256099942544/1033173712';
+                }
             }
 
             admob.start().then(function () {
@@ -261,7 +268,9 @@ angular
         };
 
         service.showBanner = function () {
-            service.bannerObj.show();
+            service.bannerObj.load().then(function () {
+                service.showBanner();
+            });
         };
 
         return service;
