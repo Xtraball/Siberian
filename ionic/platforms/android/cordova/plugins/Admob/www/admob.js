@@ -1,4 +1,3 @@
-cordova.define("Admob.AdMob", function(require, exports, module) {
 'use strict';
 
 /*! *****************************************************************************
@@ -532,5 +531,3 @@ var AdMob = /** @class */ (function () {
 var admob = new AdMob();
 
 module.exports = admob;
-
-});
