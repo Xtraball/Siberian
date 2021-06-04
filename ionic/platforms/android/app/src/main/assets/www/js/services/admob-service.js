@@ -180,7 +180,7 @@ angular
                                 service.loadInterstitial();
                             }
                         }
-                    };
+                    });
                 });
             }
 
