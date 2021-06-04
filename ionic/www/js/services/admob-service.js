@@ -143,8 +143,6 @@ angular
                             action === 'show') {
                             service.willShowInterstitial = true;
                             $log.info('admob action service.willShowInterstitial = true;');
-
-                            service.loadInterstitial();
                         }
 
                         if (service.willShowInterstitial) {
@@ -168,10 +166,12 @@ angular
                                         }
 
                                         service.viewEnterCount = 0;
+                                        service.loadInterstitial();
                                     }, function () {
                                         $log.error('Failed to load interstitial! (Promise)');
                                         $log.info('service.interstitialPromise.then KO');
                                         service.willShowInterstitial = false;
+                                        service.loadInterstitial();
                                     });
                                 }
                             } catch (e) {
