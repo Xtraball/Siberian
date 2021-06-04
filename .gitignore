@@ -33,3 +33,8 @@ npm-debug.log
 # Locally built packages
 /packages/*
 /siberian/init*.json
+
+/siberian/var/apps/browser.tgz
+/siberian/var/apps/ionic/android.tgz
+/siberian/var/apps/ionic/ios.tgz
+/siberian/var/apps/ionic/ios-noads.tgz
