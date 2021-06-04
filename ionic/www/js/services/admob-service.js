@@ -113,71 +113,74 @@ angular
                 // Entering a new view
                 $rootScope.$on('$ionicView.enter', function (event, data) {
 
-                    // Check for any forbidden stateName
-                    service.canReloadBanner = false;
-                    if (service.forbiddenStates.indexOf(data.stateName) !== -1) {
-                        service.hideBanner();
-                        $log.info('admob $ionicView.enter forbidden state.', data.stateName);
-                        return;
-                    }
+                    service.admobReady.then(function () {
 
-                    // Show banner
-                    if (service.options.banner) {
-                        service.showBanner();
-                    }
+                        // Check for any forbidden stateName
+                        service.canReloadBanner = false;
+                        if (service.forbiddenStates.indexOf(data.stateName) !== -1) {
+                            service.hideBanner();
+                            $log.info('admob $ionicView.enter forbidden state.', data.stateName);
+                            return;
+                        }
 
-                    // Increase counter only on non-forbidden states
-                    service.viewEnterCount = service.viewEnterCount + 1;
+                        // Show banner
+                        if (service.options.banner) {
+                            service.showBanner();
+                        }
 
-                    // After 10 views, increase chances to show an Interstitial ad!
-                    if (service.viewEnterCount >= 9) {
-                        service.interstitialState = 'medium';
-                    }
+                        // Increase counter only on non-forbidden states
+                        service.viewEnterCount = service.viewEnterCount + 1;
 
-                    var action = service.getWeight(service.interstitialWeights[service.interstitialState]);
-                    $log.info('admob action', action);
+                        // After 10 views, increase chances to show an Interstitial ad!
+                        if (service.viewEnterCount >= 9) {
+                            service.interstitialState = 'medium';
+                        }
 
-                    if (service.willShowInterstitial === false &&
-                        action === 'show') {
-                        service.willShowInterstitial = true;
-                        $log.info('admob action service.willShowInterstitial = true;');
+                        var action = service.getWeight(service.interstitialWeights[service.interstitialState]);
+                        $log.info('admob action', action);
 
-                        service.loadInterstitial();
-                    }
+                        if (service.willShowInterstitial === false &&
+                            action === 'show') {
+                            service.willShowInterstitial = true;
+                            $log.info('admob action service.willShowInterstitial = true;');
 
-                    if (service.willShowInterstitial) {
-                        $log.info('admob enter service.willShowInterstitial');
-                        try {
-                            if (service.interstitialObjPromise !== null) {
-                                $log.info('service.interstitialObjPromise !== null');
-                                service.interstitialObjPromise.then(function () {
-
-                                    // Show interstitial!
-                                    service.interstitialObj.show();
-
-                                    $log.info('service.interstitialObjPromise.then OK');
-                                    service.willShowInterstitial = false;
-
-                                    /** On success, we change the randomness */
-                                    if (service.interstitialState === 'start') {
-                                        service.interstitialState = 'low';
-                                    } else {
-                                        service.interstitialState = 'default';
-                                    }
-
-                                    service.viewEnterCount = 0;
-                                }, function () {
-                                    $log.error('Failed to load interstitial! (Promise)');
-                                    $log.info('service.interstitialPromise.then KO');
-                                    service.willShowInterstitial = false;
-                                });
-                            }
-                        } catch (e) {
-                            $log.error('Interstitial failed to show (Exception)');
-                            service.willShowInterstitial = false;
                             service.loadInterstitial();
                         }
-                    }
+
+                        if (service.willShowInterstitial) {
+                            $log.info('admob enter service.willShowInterstitial');
+                            try {
+                                if (service.interstitialObjPromise !== null) {
+                                    $log.info('service.interstitialObjPromise !== null');
+                                    service.interstitialObjPromise.then(function () {
+
+                                        // Show interstitial!
+                                        service.interstitialObj.show();
+
+                                        $log.info('service.interstitialObjPromise.then OK');
+                                        service.willShowInterstitial = false;
+
+                                        /** On success, we change the randomness */
+                                        if (service.interstitialState === 'start') {
+                                            service.interstitialState = 'low';
+                                        } else {
+                                            service.interstitialState = 'default';
+                                        }
+
+                                        service.viewEnterCount = 0;
+                                    }, function () {
+                                        $log.error('Failed to load interstitial! (Promise)');
+                                        $log.info('service.interstitialPromise.then KO');
+                                        service.willShowInterstitial = false;
+                                    });
+                                }
+                            } catch (e) {
+                                $log.error('Interstitial failed to show (Exception)');
+                                service.willShowInterstitial = false;
+                                service.loadInterstitial();
+                            }
+                        }
+                    };
                 });
             }
 
@@ -239,7 +242,8 @@ angular
                 }
             }
 
-            admob.start().then(function () {
+            service.admobReady = admob.start();
+            service.admobReady.then(function () {
                 if (service.options.banner) {
                     service.bannerObj = new admob.BannerAd({
                         adUnitId: service.options.banner_id,
@@ -260,16 +264,22 @@ angular
         };
 
         service.loadInterstitial = function () {
-            service.interstitialObjPromise = service.interstitialObj.load();
+            service.admobReady.then(function () {
+                service.interstitialObjPromise = service.interstitialObj.load();
+            });
         };
 
         service.hideBanner = function () {
-            service.bannerObj.hide();
+            service.admobReady.then(function () {
+                service.bannerObj.hide();
+            });
         };
 
         service.showBanner = function () {
-            service.bannerObj.load().then(function () {
-                service.bannerObj.show();
+            service.admobReady.then(function () {
+                service.bannerObj.load().then(function () {
+                    service.bannerObj.show();
+                });
             });
         };
 

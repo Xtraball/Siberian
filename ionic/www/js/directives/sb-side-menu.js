@@ -38,11 +38,6 @@ angular
                 $ionicHistory.goBack();
             };
 
-            // Special trick to handle manual updates!
-            $scope.checkForUpdate = function () {
-                $rootScope.checkForUpdate();
-            };
-
             $scope.showBottom = function () {
                 return (
                     $scope.layout_id &&
