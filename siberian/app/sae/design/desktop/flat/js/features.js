@@ -161,6 +161,8 @@ let handleFormError = function (form, data) {
 let feature_form_error = function (html, options) {
     let _html = html;
     if (_html === undefined || _html.length === 0) {
+        console.log('Trace for Unknown error in feature_form_error.');
+        console.trace();
         _html = "Unknown error.";
     }
 
@@ -359,6 +361,13 @@ var _bindRow = function (default_parent) {
     /** Table toggle edit */
     $(default_parent+' table .open-edit').on('click', function () {
         var el = $(this);
+        if (el.data('is-loading') === true) {
+            console.log('prevents multi-click on open-edit');
+            return;
+        }
+
+        el.data('is-loading', true);
+
         var object_id = el.data('id');
         var callback = el.data('callback');
 
@@ -380,6 +389,7 @@ var _bindRow = function (default_parent) {
                 url: el.data('form-url'),
                 dataType: 'json',
                 success: function (data) {
+                    el.data('is-loading', false);
                     if (data.success) {
                         $('tr.edit-form[data-id='+object_id+'] p.close-edit').after(data.form);
                         $('tr.edit-form[data-id='+object_id+'] .loader-'+object_id).remove();
@@ -397,11 +407,13 @@ var _bindRow = function (default_parent) {
                     }
                 },
                 error: function () {
+                    el.data('is-loading', false);
                     feature_form_error('An error occured, please try again.');
                 }
             });
         } else {
             setTimeout(function () {
+                el.data('is-loading', false);
                 bindForms('tr.edit-form[data-id='+object_id+']');
                 if (typeof callback !== 'undefined') {
                     try {
@@ -410,6 +422,7 @@ var _bindRow = function (default_parent) {
                 }
             }, 100);
         }
+
     });
 
     /** Table toggle edit */

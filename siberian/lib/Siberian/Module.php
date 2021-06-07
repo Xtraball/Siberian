@@ -163,8 +163,9 @@ class Siberian_Module
      * @param $code
      * @param $title
      * @param $link
-     * @param $icon
-     * @param $aclCode
+     * @param string $icon
+     * @param null $aclCode
+     * @throws Zend_Exception
      */
     public static function addEditorMenu($module, $code, $title, $link, $icon = '', $aclCode = null)
     {

@@ -491,6 +491,10 @@ class Assets
                 $basePath = '/' . str_replace(path(), '', $feature['__DIR__']);
                 $icons = array_map(
                     static function ($icon) use ($basePath) {
+                        if (is_array($icon)) {
+                            $icon['path'] = $basePath . '/' . $icon['path'];
+                            return $icon;
+                        }
                         return $basePath . '/' . $icon;
                     },
                     $icons

@@ -25,7 +25,7 @@
               "count": 1
             },
             {
-              "xml": "<feature name=\"AdMob\"><param name=\"ios-package\" value=\"AMSPlugin\" /></feature>",
+              "xml": "<feature name=\"AdMob\"><param name=\"ios-package\" value=\"AMBPlugin\" /></feature>",
               "count": 1
             },
             {
@@ -145,9 +145,21 @@
               "count": 1
             }
           ],
+          "GADDelayAppMeasurementInit": [
+            {
+              "xml": "<true />",
+              "count": 1
+            }
+          ],
+          "NSAppTransportSecurity": [
+            {
+              "xml": "<dict><key>NSAllowsArbitraryLoads</key><true /><key>NSAllowsArbitraryLoadsForMedia</key><true /><key>NSAllowsArbitraryLoadsInWebContent</key><true /></dict>",
+              "count": 1
+            }
+          ],
           "SKAdNetworkItems": [
             {
-              "xml": "<array><dict><key>SKAdNetworkIdentifier</key><string>cstr6suwn9.skadnetwork</string></dict></array>",
+              "xml": "<array><dict><key>SKAdNetworkIdentifier</key><string>cstr6suwn9.skadnetwork</string></dict><dict><key>SKAdNetworkIdentifier</key><string>v9wttpbfk9.skadnetwork</string></dict><dict><key>SKAdNetworkIdentifier</key><string>n38lu8286q.skadnetwork</string></dict><dict><key>SKAdNetworkIdentifier</key><string>5l3tpt7t6e.skadnetwork</string></dict></array>",
               "count": 1
             }
           ],
@@ -243,6 +255,7 @@
       "PACKAGE_NAME": "com.appsmobilecompany.base"
     },
     "Admob": {
+      "DISABLESDKCRASHREPORTING": "false",
       "PACKAGE_NAME": "com.appsmobilecompany.base"
     },
     "AppVersion": {

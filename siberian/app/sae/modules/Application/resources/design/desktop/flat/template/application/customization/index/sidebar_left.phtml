@@ -181,9 +181,9 @@ $editorTree = [
     ],
 ];
 
-if ($customLinks) {
-    $oneIsvisible = false;
-    $childs = [];
+$oneIsvisible = false;
+$childs = [];
+if (is_array($customLinks)) {
     foreach ($customLinks as $module => $links) {
         foreach ($links as $link) {
 
@@ -208,20 +208,18 @@ if ($customLinks) {
             }
         }
     }
-
-    if ($oneIsvisible) {
-        $editorTree['modules'] = [
-            'hasChilds' => true,
-            'isVisible' => true,
-            'label' => __('Modules'),
-            'id' => 'sidebar-left-group-modules',
-            'is_current' => false,
-            'url' => $this->getUrl('/'),
-            'icon' => 'fa fa-cubes',
-            'childs' => $childs
-        ];
-    }
 }
+
+$editorTree['modules'] = [
+    'hasChilds' => true,
+    'isVisible' => $oneIsvisible,
+    'label' => __('Modules'),
+    'id' => 'sidebar-left-group-modules',
+    'is_current' => false,
+    'url' => $this->getUrl('/'),
+    'icon' => 'fa fa-cubes',
+    'childs' => $childs
+];
 
 $editorTree = \Siberian\Hook::trigger('editor.left.menu.ready', $editorTree);
 
