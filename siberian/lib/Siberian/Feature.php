@@ -38,7 +38,7 @@ class Feature
      * @param $can_be_colorized
      * @return array()
      */
-    public static function installIcons($name, $icons = [], $can_be_colorized = true)
+    public static function installIcons($name, $icons = [], $can_be_colorized = true): array
     {
         $library = new \Media_Model_Library();
         $library
@@ -64,10 +64,21 @@ class Feature
 
         $iconId = 0;
         foreach ($icons as $key => $icon_path) {
+            $canBeColorized = $can_be_colorized;
+            $iconPath = $icon_path;
+            if (is_array($icon_path)) {
+                if (array_key_exists('colorize', $icon_path)) {
+                    $canBeColorized = filter_has_var($icon_path['colorize'], FILTER_VALIDATE_BOOLEAN);
+                }
+                if (array_key_exists('path', $icon_path)) {
+                    $iconPath = $icon_path['path'];
+                }
+            }
+
             $data = [
                 'library_id' => $library->getId(),
-                'link' => $icon_path,
-                'can_be_colorized' => $can_be_colorized
+                'link' => $iconPath,
+                'can_be_colorized' => $canBeColorized
             ];
 
             $image = new \Media_Model_Library_Image();

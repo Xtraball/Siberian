@@ -545,8 +545,11 @@ class Siberian_Migration_Db_Table extends Zend_Db_Table_Abstract
         }
         $index = "";
         if (array_key_exists('index', $col)) {
-            $upper_name = strtoupper($column_name);
-            $index = "ALTER TABLE `{$this->tableName}` ADD INDEX `INDEX_{$upper_name}` (`{$column_name}`);";
+            $upper_name = 'INDEX_' . strtoupper($column_name);
+            if (array_key_exists('key_name', $col['index'])) {
+                $upper_name = strtoupper($col['index']['key_name']);
+            }
+            $index = "ALTER TABLE `{$this->tableName}` ADD INDEX `{$upper_name}` (`{$column_name}`);";
         }
 
         /** Index/Unique on multiple columns */

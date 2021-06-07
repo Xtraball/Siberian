@@ -25,14 +25,6 @@
               "count": 1
             },
             {
-              "xml": "<feature name=\"AdMob\"><param name=\"ios-package\" value=\"AMSPlugin\" /></feature>",
-              "count": 1
-            },
-            {
-              "xml": "<preference name=\"APP_ID_IOS\" value=\"ca-app-pub-0000000000000000~0000000000\" />",
-              "count": 1
-            },
-            {
               "xml": "<feature name=\"AppVersion\"><param name=\"ios-package\" value=\"AppVersion\" /></feature>",
               "count": 1
             },
@@ -139,18 +131,6 @@
               "count": 1
             }
           ],
-          "GADApplicationIdentifier": [
-            {
-              "xml": "<string>ca-app-pub-0000000000000000~0000000000</string>",
-              "count": 1
-            }
-          ],
-          "SKAdNetworkItems": [
-            {
-              "xml": "<array><dict><key>SKAdNetworkIdentifier</key><string>cstr6suwn9.skadnetwork</string></dict></array>",
-              "count": 1
-            }
-          ],
           "NSLocationWhenInUseUsageDescription": [
             {
               "xml": "<string>Use the GPS for live navigation</string>",
@@ -233,16 +213,10 @@
     "Push": {
       "PACKAGE_NAME": "com.appsmobilecompany.base"
     },
-    "Mediation": {
-      "PACKAGE_NAME": "com.appsmobilecompany.base"
-    },
     "WebView": {
       "PACKAGE_NAME": "com.appsmobilecompany.base"
     },
     "Promises": {
-      "PACKAGE_NAME": "com.appsmobilecompany.base"
-    },
-    "Admob": {
       "PACKAGE_NAME": "com.appsmobilecompany.base"
     },
     "AppVersion": {
@@ -365,14 +339,6 @@
       "file": "plugins/Promises/www/promise.js",
       "pluginId": "Promises",
       "runs": true
-    },
-    {
-      "id": "Admob.AdMob",
-      "file": "plugins/Admob/www/admob.js",
-      "pluginId": "Admob",
-      "clobbers": [
-        "admob"
-      ]
     },
     {
       "id": "AppVersion.AppVersionPlugin",
@@ -761,10 +727,8 @@
     "InAppPurchase": "10.5.0",
     "IosXhr": "1.0.8",
     "Push": "1.10.0",
-    "Mediation": "1.0.0",
     "WebView": "1.0.0",
     "Promises": "4.2.2",
-    "Admob": "0.0.0",
     "AppVersion": "0.1.8",
     "Badge": "0.8.8",
     "BarcodeScanner": "7.1.2",

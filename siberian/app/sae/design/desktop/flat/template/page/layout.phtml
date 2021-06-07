@@ -17,13 +17,19 @@
 
         <?php $currentRelease = __get('current_release'); ?>
 
+        <!-- MomentJS is requried before setting it up -->
+        <script type="text/javascript"
+                src="/app/sae/design/desktop/flat/js/moment.min.js?t=<?php echo $currentRelease ?>"></script>
+
         <script type="text/javascript">
-            tmp_directory = "<?php echo Core_Model_Directory::getTmpDirectory() ?>";
+            tmp_directory = "<?php echo tmp() ?>";
             window.messages = {};
             window.messages.uploadInProgress = "<?php echo p__js("application", "Upload in progress ...") ?>";
             let version = "<?php echo Siberian_Version::VERSION ?>";
             let current_release = "<?php echo $currentRelease ?>";
             let datepicker_regional = "<?php echo Core_Model_Language::getCurrentLanguageDatepicker() ?>";
+
+            moment.locale(datepicker_regional);
 
             <?php $existing_steps = new Tour_Model_Step(); ?>
             <?php $existing_steps = $existing_steps->findAllForJS(Core_Model_Language::getCurrentLanguage(), $_SERVER['REQUEST_URI']); ?>

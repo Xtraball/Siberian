@@ -33,7 +33,7 @@ class Places_Mobile_ListController extends Application_Controller_Mobile_Default
             $payload = [
                 "success" => true,
                 "social_sharing_active" => (boolean) $optionValue->getSocialSharingIsActive(),
-                "page_title" => "title",
+                "page_title" => $place["embed_payload"]["page"]["title"],
                 "place" => $place["embed_payload"],
                 "page" => $place["embed_payload"]["page"],
                 "blocks" => $place["embed_payload"]["blocks"],

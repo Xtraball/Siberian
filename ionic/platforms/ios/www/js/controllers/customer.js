@@ -266,13 +266,6 @@ angular
             return $scope.version.number;
         };
 
-        /**
-         * Check for CHCP live updates!
-         */
-        $scope.checkUpdate = function () {
-            $rootScope.checkForUpdate();
-        };
-
         $scope.loginEmail = function () {
             Customer.login($scope.customer);
         };

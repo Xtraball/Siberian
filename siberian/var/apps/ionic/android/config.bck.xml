@@ -60,7 +60,7 @@
         <param name="android-package" value="com.webview.WebViewPlugin" />
     </feature>
     <feature name="AdMob">
-        <param name="android-package" value="admob.plugin.AdMob" />
+        <param name="android-package" value="admob.plus.cordova.AdMob" />
     </feature>
     <preference name="APP_ID_ANDROID" value="ca-app-pub-0000000000000000~0000000000" />
     <feature name="AppVersion">
