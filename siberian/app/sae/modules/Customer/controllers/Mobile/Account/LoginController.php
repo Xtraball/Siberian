@@ -2,6 +2,7 @@
 
 use Siberian\Hook;
 use Siberian\Json;
+use Siberian\Exception;
 
 /**
  * Class Customer_Mobile_Account_LoginController
@@ -76,7 +77,8 @@ class Customer_Mobile_Account_LoginController extends Application_Controller_Mob
                 $customer = new Customer_Model_Customer();
                 $customer->find([
                     'email' => $datas['email'],
-                    'app_id' => $application->getId()
+                    'app_id' => $application->getId(),
+                    'is_deleted' => 0
                 ]);
 
                 $password = $datas['password'];
@@ -195,7 +197,11 @@ class Customer_Mobile_Account_LoginController extends Application_Controller_Mob
 
                     // Load the customer based on the email address in order to link the 2 accounts together
                     if ($user->email) {
-                        $customer->find(["email" => $user->email, "app_id" => $app_id]);
+                        $customer->find([
+                            'email' => $user->email,
+                            'app_id' => $app_id,
+                            'is_deleted' => 0
+                        ]);
                     }
 
                     // If the email doesn't exist, create the account
@@ -376,6 +382,75 @@ class Customer_Mobile_Account_LoginController extends Application_Controller_Mob
             'customerId' => $customerId,
             'request' => $request
         ]);
+
+        $this->_sendJson($payload);
+    }
+
+    public function deleteAccountAction ()
+    {
+        $application = $this->getApplication();
+        $request = $this->getRequest();
+        $session = $this->getSession();
+
+        Hook::trigger('mobile.delete', [
+            'appId' => $application->getId(),
+            'request' => $request,
+            'type' => 'account'
+        ]);
+
+        try {
+            if (!$session->isLoggedIn()) {
+                throw new Exception(p__('customer', 'You must be logged-in to delete your account.'));
+            }
+
+            $customerId = $session->getcustomerId();
+            $customer = (new Customer_Model_Customer())->find($customerId);
+            if (!$customer || !$customer->getId()) {
+                throw new Exception(p__('customer', 'This account does not exists!'));
+            }
+
+            $email = $customer->getEmail();
+
+            Hook::trigger('mobile.delete.success', [
+                'appId' => $application->getId(),
+                'customerId' => $customerId,
+                'customer' => $customer->getData(),
+                'token' => Zend_Session::getId(),
+                'type' => 'account',
+                'request' => $request,
+            ]);
+
+            // Blanking customer, keep only track of email!
+            $customer
+                ->setEmail(sprintf("deleted_%s_%s", time(), $email))
+                ->setFirstname('-removed-')
+                ->setLastname('-removed-')
+                ->setNickname('-removed-')
+                ->setImage(null)
+                ->setSessionUuid(null)
+                ->setCustomFields('{}')
+                ->setIsActive(0)
+                ->setIsDeleted(1)
+                ->save();
+
+            $payload = [
+                'success' => true,
+                'message' => p__('customer', 'Your account has been removed!')
+            ];
+
+        } catch (Exception $e) {
+            $payload = [
+                'error' => true,
+                'message' => $e->getMessage()
+            ];
+
+            Hook::trigger('mobile.delete.error', [
+                'appId' => $application->getId(),
+                'message' => $e->getMessage(),
+                'type' => 'account',
+                'request' => $request,
+            ]);
+        }
 
         $this->_sendJson($payload);
     }
