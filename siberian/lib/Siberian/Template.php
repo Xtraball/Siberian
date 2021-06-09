@@ -1,5 +1,12 @@
 <?php
 
+/**
+ * Template tools
+ *
+ * @version 4.20.11
+ * @author Xtraball SAS <dev@xtraball.com>
+ */
+
 namespace Siberian;
 
 /**
@@ -14,10 +21,13 @@ class Template
      * @param $code
      * @param $layoutCode
      * @param array $categories
-     * @param $colors
-     * @param $options
+     * @param array $colors
+     * @param array $options
      * @param int $position
-     * @return \Template_Model_Design
+     * @return mixed
+     * @throws \Zend_Db_Statement_Exception
+     * @throws \Zend_Exception
+     * @throws \Zend_Validate_Exception
      */
     public static function installOrUpdate($moduleName,
                                            $name,
@@ -104,7 +114,8 @@ class Template
      * @param $name
      * @param $code
      * @param $layoutCode
-     * @return \Template_Model_Design
+     * @return mixed
+     * @throws \Zend_Exception
      */
     public static function design ($moduleName, $name, $code, $layoutCode)
     {
@@ -155,6 +166,8 @@ class Template
     /**
      * @param $colors
      * @param $design
+     * @throws \Zend_Exception
+     * @throws \Zend_Validate_Exception
      */
     public static function ionicColors($colors, $design)
     {
@@ -194,6 +207,7 @@ class Template
     /**
      * @param $categories
      * @param $code
+     * @throws \Zend_Exception
      */
     public static function linkTemplateAndCategories ($categories, $code)
     {
@@ -239,6 +253,8 @@ class Template
 
     /**
      * @param $design
+     * @throws \Zend_Db_Profiler_Exception
+     * @throws \Zend_Db_Statement_Exception
      */
     public static function clearDesign($design)
     {
@@ -250,6 +266,8 @@ class Template
     /**
      * @param $design
      * @param $options
+     * @throws \Zend_Db_Statement_Exception
+     * @throws \Zend_Exception
      */
     public static function features($design, $options)
     {
@@ -263,19 +281,29 @@ class Template
     /**
      * @param $design
      * @param $options
+     * @throws \Zend_Exception
      */
     public static function addFeatures($design, $options)
     {
         foreach ($options as $code => $optionData) {
+
+            // To allow for multiple times the same feature, we must get rid of the "code" as array key,
+            // but require a fallback!
+            $optionCode = $code;
+            if (array_key_exists('code', $optionData)) {
+                $optionCode = $optionData['code'];
+            }
+
             $option = (new \Application_Model_Option())
-                ->find($code, 'code');
+                ->find($optionCode, 'code');
 
             // Just skip missing features!
             if (!$option->getId()) {
                 continue;
             }
 
-            $iconId = null;
+            $iconId = array_key_exists('icon_id', $optionData) ?
+                (string) $optionData['icon_id'] : null;
             $iconLink = $optionData['icon'];
             $name = array_key_exists('name', $optionData) ?
                 (string) $optionData['name'] : null;
@@ -286,7 +314,8 @@ class Template
             $colorized = array_key_exists('colorized', $optionData) ?
                 (boolean) $optionData['colorized'] : true;
 
-            if (isset($iconLink)) {
+            if (isset($iconLink) &&
+                is_null($iconId)) {
                 $icon = (new \Media_Model_Library_Image());
                 $icon
                     ->setLibraryId($option->getLibraryId())
