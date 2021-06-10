@@ -1810,25 +1810,31 @@ iframe.sb-cms-source {
 
 .layout.l14 li {
     float: left;
-    margin: 3%;
     position: relative;
-    width: calc((100% / 3) - 6%);
+    width: calc((100vw / 3));
 }
 
 .layout.l14 li img {
-    width: 55px;
-    max-height: 55px;
+    width: 60%;
+    height: 60%;
+    top: 12.5%;
+    position: absolute;
+    left: 20%;
 }
 
 .layout.l14 li .item {
-    height: 100%;
+    height: calc((100vw / 3) - 6vw);
+    width: calc((100vw / 3) - 6vw);
+    display: inline-block;
+    margin: 3vw;
+    padding: 0;
 }
 
 .layout.l14 li p {
-    bottom: 0;
-    font-size: 12px;
-    height: 15px;
-    line-height: 20px;
+    bottom: 4vw;
+    font-size: 3vw;
+    height: 3vw;
+    line-height: 3vw;
     overflow: hidden;
     position: absolute;
     text-transform: uppercase;

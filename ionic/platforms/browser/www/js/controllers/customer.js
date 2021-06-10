@@ -33,6 +33,7 @@ angular
             display_settings: false,
             privacy_policy: Application.privacyPolicy.text,
             privacy_policy_gdpr: Application.privacyPolicy.gdpr,
+            XS_VERSION: XS_VERSION,
             gdpr: {
                 isEnabled: Application.gdpr.isEnabled
             },
