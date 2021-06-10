@@ -82,11 +82,22 @@
         <label ng-click="devCounter()"
                class="item item-custom item-input">
             <div class="input-label">
-                {{ ::'Version' | translate:'customer' }}
+                {{ ::'App version' | translate:'customer' }}
             </div>
             <input type="text"
                    class="text-right"
                    ng-value="getVersion()"
+                   readonly="readonly" />
+        </label>
+
+        <label ng-if="XS_VERSION != false && settings.counter <= 0"
+               class="item item-custom item-input">
+            <div class="input-label">
+                {{ ::'System version' | translate:'customer' }}
+            </div>
+            <input type="text"
+                   class="text-right"
+                   ng-value="XS_VERSION"
                    readonly="readonly" />
         </label>
 

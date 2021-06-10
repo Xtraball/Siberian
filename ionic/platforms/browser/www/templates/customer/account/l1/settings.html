@@ -92,7 +92,8 @@
 
     </div>
 
-    <div class="padding text-center">
+    <div ng-if="customer.is_logged_in"
+         class="padding text-center">
             <span ng-click="deleteAccount()"
                   class="bold positive positive-custom">{{ ::'Delete my account' | translate:'customer' }}</span>
     </div>
