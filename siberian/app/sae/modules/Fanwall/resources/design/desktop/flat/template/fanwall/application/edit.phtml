@@ -216,14 +216,6 @@ $imageTemplate = str_replace("%UNIQID%", $uniqid, FormPost::$imageTemplate);
             }
         });
 
-        $(formId + " .fanwall-image-delete").off('click');
-        $(formId + " .fanwall-image-delete").on('click', function() {
-            let el = $(this);
-            if (window.confirm('<?php echo p__js('fanwall', 'Please confirm you want to delete this image?', "'") ?>')) {
-                el.parents('.fanwall-image').remove();
-            }
-        });
-
         setTimeout(function() {
             $(formId + ' .fanwall-images-container').sortable({
                 handle: '.fanwall-image-handle',
@@ -235,5 +227,13 @@ $imageTemplate = str_replace("%UNIQID%", $uniqid, FormPost::$imageTemplate);
 
     $(document).ready(function () {
         window.bindUploader('#<?php echo $formid ?>');
+
+        $(document).off('click', '.fanwall-image-delete');
+        $(document).on('click', '.fanwall-image-delete', function() {
+            let el = $(this);
+            if (window.confirm('<?php echo p__js('fanwall', 'Please confirm you want to delete this image?', "'") ?>')) {
+                el.parents('.fanwall-image').remove();
+            }
+        });
     });
 </script>

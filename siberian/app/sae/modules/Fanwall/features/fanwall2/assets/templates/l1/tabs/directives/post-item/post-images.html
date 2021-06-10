@@ -15,7 +15,8 @@
         <div class="post-images"
              ng-if="post.images.length > 1">
             <div class="row fanwall-row">
-                <div class="col-50">
+                <div class="col-50"
+                     style="overflow: hidden;">
                     <div class="post-image fanwall-bg-1"
                          ng-class="{'fanwall-bg-card' : getCardDesign()}">
                         <a data-fslightbox="{{ 'post-image-id-' + post.id + '-' + 0 }}"
@@ -25,7 +26,8 @@
                         </a>
                     </div>
                 </div>
-                <div class="col-50">
+                <div class="col-50"
+                     style="overflow: hidden;">
                     <div class="post-image fanwall-bg-2"
                          ng-class="{'fanwall-bg-card' : getCardDesign()}">
                         <a data-fslightbox="{{ 'post-image-id-' + post.id + '-' + 1 }}"
