@@ -30,6 +30,9 @@ class Message
     const NOTIFICATION_BODY_LOC_ARGS = 'body_loc_args';
     const NOTIFICATION_TITLE_LOC_KEY = 'title_loc_key';
     const NOTIFICATION_TITLE_LOC_ARGS = 'title_loc_args';
+    const NOTIFICATION_NOTIFICATION_PRIORITY = 'notification_priority';
+    const NOTIFICATION_VIBRATE_TIMINGS = 'vibrate_timings';
+    const NOTIFICATION_LIGHT_SETTINGS = 'light_settings';
     const CONTENT_AVAILABLE = 'content_available';
     const PRIORITY = 'priority';
 
@@ -276,8 +279,21 @@ class Message
             $message[self::NOTIFICATION][self::NOTIFICATION_TITLE] = $this->notification->getTitle();
             $message[self::NOTIFICATION][self::NOTIFICATION_TITLE_LOC_ARGS] = $this->notification->getTitleLocArgs();
             $message[self::NOTIFICATION][self::NOTIFICATION_TITLE_LOC_KEY] = $this->notification->getTitleLocKey();
+            if ($this->notification->getNotificationPriority() != null) {
+                $message[self::NOTIFICATION][self::NOTIFICATION_NOTIFICATION_PRIORITY] = $this->notification->getNotificationPriority();
+            }
+            if ($this->notification->getVibrateTimings() != null) {
+                $message[self::NOTIFICATION][self::NOTIFICATION_VIBRATE_TIMINGS] = $this->notification->getVibrateTimings();
+            }
+            if ($this->notification->getLightSettings() != null) {
+                $message[self::NOTIFICATION][self::NOTIFICATION_LIGHT_SETTINGS] = $this->notification->getLightSettings();
+            }
         }
 
-        return json_encode($message, JSON_UNESCAPED_SLASHES);
+        $jsonMessage = json_encode($message, JSON_UNESCAPED_SLASHES);
+
+        dbg($jsonMessage);
+
+        return $jsonMessage;
     }
 }

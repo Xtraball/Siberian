@@ -212,7 +212,7 @@ class StandalonePush extends Base
                     $instance->setMessage($message);
                     $instance->push();
                 } else {
-                    throw new Exception("You must provide an APNS Certificate for the App ID: {$appId}");
+                    throw new Exception("You must provide an Apple push HTTP2 Certificate for the App ID: {$appId}");
                 }
             } catch (\Exception $e) {
                 $logger->err(
@@ -231,13 +231,12 @@ class StandalonePush extends Base
 
                 $fcmKey = $credentials->getServerKey();
                 $fcmInstance = null;
-                if (!empty($fcmKey)) {
-                    $fcmInstance = new Fcm($fcmKey);
-                } else {
+                if (empty($fcmKey)) {
                     // Only FCM is mandatory by now!
-                    throw new Exception('You must provide FCM Credentials');
+                    throw new Exception('You must provide Firebase credentials');
                 }
 
+                $fcmInstance = new Fcm($fcmKey);
                 $instance = new AndroidMessage($fcmInstance, null);
                 $instance->setMessage($message);
                 $instance->push();

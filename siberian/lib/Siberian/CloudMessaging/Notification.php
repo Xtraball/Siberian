@@ -22,6 +22,9 @@ class Notification
     private $bodyLocArgs;
     private $titleLocKey;
     private $titleLocArgs;
+    private $lightSettings;
+    private $vibrateTimings;
+    private $notificationPriority;
 
     public function __construct()
     {
@@ -269,5 +272,38 @@ class Notification
     public function getTitleLocArgs()
     {
         return $this->titleLocArgs;
+    }
+
+    public function notificationPriority($notificationPriority)
+    {
+        $this->notificationPriority = $notificationPriority;
+        return $this;
+    }
+
+    public function getNotificationPriority()
+    {
+        return $this->notificationPriority;
+    }
+
+    public function vibrateTimings($vibrateTimings)
+    {
+        $this->vibrateTimings = $vibrateTimings;
+        return $this;
+    }
+
+    public function getVibrateTimings()
+    {
+        return $this->vibrateTimings;
+    }
+
+    public function lightSettings($lightSettings)
+    {
+        $this->lightSettings = $lightSettings;
+        return $this;
+    }
+
+    public function getLightSettings()
+    {
+        return $this->lightSettings;
     }
 }
