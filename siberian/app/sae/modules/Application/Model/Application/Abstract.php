@@ -664,7 +664,7 @@ abstract class Application_Model_Application_Abstract extends Core_Model_Default
      */
     public function useIonicDesign()
     {
-        return $this->getDesignCode() == self::DESIGN_CODE_IONIC;
+        return true;
     }
 
     /**

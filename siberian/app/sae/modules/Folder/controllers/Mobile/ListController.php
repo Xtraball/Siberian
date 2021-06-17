@@ -65,10 +65,7 @@ class Folder_Mobile_ListController extends Application_Controller_Mobile_Default
                     throw new Exception(__('An error occurred during process. Please try again later.'));
                 }
 
-                $color_code = 'background';
-                if ($this->getApplication()->useIonicDesign()) {
-                    $color_code = 'list_item';
-                }
+                $color_code = 'list_item';
                 $color = $this->getApplication()->getBlock($color_code)->getImageColor();
 
                 //Here we get the list used for the search in folder feature

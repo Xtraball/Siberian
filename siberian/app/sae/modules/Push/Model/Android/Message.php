@@ -271,7 +271,7 @@ class Push_Model_Android_Message
             }
         }
 
-        if ($application->useIonicDesign() && ($message->getLongitude() && $message->getLatitude())) {
+        if ($message->getLongitude() && $message->getLatitude()) {
             $messagePayload->contentAvailable(true);
         }
 
