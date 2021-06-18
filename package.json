@@ -10,6 +10,7 @@
   "private": true,
   "dependencies": {
     "https": "^1.0.0",
+    "node-sass": "^6.0.0",
     "sass": "^1.26.5"
   },
   "devDependencies": {
@@ -27,7 +28,6 @@
     "jshint": "^2.10.2",
     "native-promise-deferred": "^1.0.1",
     "node-notifier": "^5.4.1",
-    "node-sass": "^4.12.0",
     "nopt": "^4.0.1",
     "npm": "^6.13.4",
     "plugman": "^3.0.1",

@@ -20,6 +20,24 @@
                 <action android:name="com.cowbell.cordova.geofence.TRANSITION" />
             </intent-filter>
         </receiver>
+        <receiver android:enabled="true" android:name="com.sunmi.trans.PrinterStatusReceiver">
+            <intent-filter android:priority="1000">
+                <action android:name="woyou.aidlservice.jiuv5.OUT_OF_PAPER_ACTION" />
+                <action android:name="woyou.aidlservice.jiuv5.ERROR_ACTION" />
+                <action android:name="woyou.aidlservice.jiuv5.NORMAL_ACTION" />
+                <action android:name="woyou.aidlservice.jiuv5.COVER_OPEN_ACTION" />
+                <action android:name="woyou.aidlservice.jiuv5.COVER_ERROR_ACTION" />
+                <action android:name="woyou.aidlservice.jiuv5.KNIFE_ERROR_ACTION_1" />
+                <action android:name="woyou.aidlservice.jiuv5.KNIFE_ERROR_ACTION_2" />
+                <action android:name="woyou.aidlservice.jiuv5.OVER_HEATING_ACITON" />
+                <action android:name="woyou.aidlservice.jiuv5.FIRMWARE_UPDATING_ACITON" />
+            </intent-filter>
+        </receiver>
+        <service android:name="woyou.aidlservice.jiuiv5.IWoyouService">
+            <intent-filter>
+                <action android:name="woyou.aidlservice.jiuiv5.IWoyouService" />
+            </intent-filter>
+        </service>
         <activity android:exported="true" android:name="com.adobe.phonegap.push.PushHandlerActivity" android:permission="${applicationId}.permission.PushHandlerActivity" />
         <activity android:exported="true" android:name="com.adobe.phonegap.push.BackgroundHandlerActivity" android:permission="${applicationId}.permission.BackgroundHandlerActivity">
             <intent-filter>

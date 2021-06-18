@@ -53,6 +53,10 @@
         <param name="android-package" value="org.apache.cordova.splashscreen.SplashScreen" />
         <param name="onload" value="true" />
     </feature>
+    <feature name="Printer">
+        <param name="android-package" value="com.sunmi.trans.Printer" />
+        <param name="onload" value="true" />
+    </feature>
     <feature name="PushNotification">
         <param name="android-package" value="com.adobe.phonegap.push.PushPlugin" />
     </feature>

@@ -41,6 +41,14 @@ cordova.define('cordova/plugin_list', function(require, exports, module) {
       ]
     },
     {
+      "id": "SunmiPrinter.InnerPrinter",
+      "file": "plugins/SunmiPrinter/www/innerprinter.js",
+      "pluginId": "SunmiPrinter",
+      "clobbers": [
+        "sunmiInnerPrinter"
+      ]
+    },
+    {
       "id": "Push.PushNotification",
       "file": "plugins/Push/www/push.js",
       "pluginId": "Push",
@@ -446,6 +454,7 @@ cordova.define('cordova/plugin_list', function(require, exports, module) {
     "InAppPurchase": "10.5.0",
     "IonicWebview": "4.0.1",
     "SplashScreen": "5.0.2",
+    "SunmiPrinter": "1.0.3",
     "Push": "1.10.0",
     "Mediation": "1.0.0",
     "WebView": "1.0.0",

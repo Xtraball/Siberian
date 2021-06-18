@@ -57,6 +57,10 @@
     <feature name="InAppBillingPlugin">
         <param name="android-package" value="cc.fovea.PurchasePlugin" />
     </feature>
+    <feature name="Printer">
+        <param name="android-package" value="com.sunmi.trans.Printer" />
+        <param name="onload" value="true" />
+    </feature>
     <feature name="AdMob">
         <param name="android-package" value="admob.plus.cordova.AdMob" />
     </feature>

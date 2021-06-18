@@ -6,8 +6,8 @@
  */
 angular
     .module('starter')
-    .factory('Customer', function ($pwaRequest, $rootScope, $session, $timeout, $injector, Application, Loader,
-                                   Modal, Dialog, Url, SB) {
+    .factory('Customer', function ($pwaRequest, $rootScope, $session, $timeout, $injector, $translate,
+                                   Application, Loader, Modal, Dialog, Url, SB) {
 
         var factory = {
             customer: null,
@@ -260,7 +260,7 @@ angular
         };
 
         factory.logout = function () {
-            Loader.show();
+            Loader.show($translate.instant('Signing out...', 'customer'));
 
             var promise = $pwaRequest.get('customer/mobile_account_login/logout', {
                 cache: false
@@ -298,6 +298,10 @@ angular
 
         factory.find = function () {
             return $pwaRequest.get('customer/mobile_account_edit/find');
+        };
+
+        factory.deleteAccount = function () {
+            return $pwaRequest.get('customer/mobile_account_login/delete-account');
         };
 
         factory.isLoggedIn = function () {
