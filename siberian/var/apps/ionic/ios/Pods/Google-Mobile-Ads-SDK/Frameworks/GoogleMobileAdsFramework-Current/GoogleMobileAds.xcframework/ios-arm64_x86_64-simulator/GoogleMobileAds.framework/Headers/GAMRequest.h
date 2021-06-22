@@ -9,7 +9,7 @@
 #import <GoogleMobileAds/GADRequest.h>
 
 /// Add this constant to the testDevices property's array to receive test ads on the simulator.
-GAD_EXTERN const id _Nonnull kGAMSimulatorID;
+GAD_EXTERN NSString *_Nonnull const kGAMSimulatorID;
 
 /// Specifies optional parameters for ad requests.
 @interface GAMRequest : GADRequest
