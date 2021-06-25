@@ -8,6 +8,7 @@ var fbtoken = window.location.hash.match(/\?__tokenfb__=(.*)/);
 var LOGIN_FB = false;
 var IS_NATIVE_APP = false;
 var DEVICE_TYPE = 3;
+var XS_VERSION = false;
 var AVAILABLE_LANGUAGES = ['en'];
 var DISABLE_BATTERY_OPTIMIZATION = false;
 
