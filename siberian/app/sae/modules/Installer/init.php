@@ -1,7 +1,11 @@
 <?php
+
+use Siberian\Security;
+
 /**
  * @param $bootstrap
  */
-$init = function ($bootstrap) {
-    \Siberian\Security::allowExtension("zip");
+$init = static function ($bootstrap) {
+    Security::allowExtension('zip');
+    Security::allowExtension('sib');
 };
