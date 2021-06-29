@@ -375,7 +375,8 @@ class Application_Customization_FeaturesController extends Application_Controlle
         } catch (\Exception $e) {
             $payload = [
                 'error' => true,
-                'message' => $e->getMessage()
+                'message' => $e->getMessage(),
+                'trace' => $e->getTrace()
             ];
         }
 

@@ -57,7 +57,6 @@ framework module GoogleMobileAds {
   header "GADCustomNativeAd.h"
   header "GADCustomNativeAdDelegate.h"
   header "GADDebugOptionsViewController.h"
-  header "GADDelayedAdRenderingOptions.h"
   header "GADDisplayAdMeasurement.h"
   header "GADDynamicHeightSearchRequest.h"
   header "GADExtras.h"

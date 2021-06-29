@@ -107,6 +107,14 @@
               "count": 1
             },
             {
+              "xml": "<receiver android:enabled=\"true\" android:name=\"com.sunmi.trans.PrinterStatusReceiver\"><intent-filter android:priority=\"1000\"><action android:name=\"woyou.aidlservice.jiuv5.OUT_OF_PAPER_ACTION\" /><action android:name=\"woyou.aidlservice.jiuv5.ERROR_ACTION\" /><action android:name=\"woyou.aidlservice.jiuv5.NORMAL_ACTION\" /><action android:name=\"woyou.aidlservice.jiuv5.COVER_OPEN_ACTION\" /><action android:name=\"woyou.aidlservice.jiuv5.COVER_ERROR_ACTION\" /><action android:name=\"woyou.aidlservice.jiuv5.KNIFE_ERROR_ACTION_1\" /><action android:name=\"woyou.aidlservice.jiuv5.KNIFE_ERROR_ACTION_2\" /><action android:name=\"woyou.aidlservice.jiuv5.OVER_HEATING_ACITON\" /><action android:name=\"woyou.aidlservice.jiuv5.FIRMWARE_UPDATING_ACITON\" /></intent-filter></receiver>",
+              "count": 1
+            },
+            {
+              "xml": "<service android:name=\"woyou.aidlservice.jiuiv5.IWoyouService\"><intent-filter><action android:name=\"woyou.aidlservice.jiuiv5.IWoyouService\" /></intent-filter></service>",
+              "count": 1
+            },
+            {
               "xml": "<activity android:exported=\"true\" android:name=\"com.adobe.phonegap.push.PushHandlerActivity\" android:permission=\"${applicationId}.permission.PushHandlerActivity\" />",
               "count": 1
             },
@@ -301,6 +309,10 @@
               "count": 1
             },
             {
+              "xml": "<feature name=\"Printer\"><param name=\"android-package\" value=\"com.sunmi.trans.Printer\" /><param name=\"onload\" value=\"true\" /></feature>",
+              "count": 1
+            },
+            {
               "xml": "<feature name=\"AdMob\"><param name=\"android-package\" value=\"admob.plus.cordova.AdMob\" /></feature>",
               "count": 1
             },
@@ -368,6 +380,9 @@
       "PACKAGE_NAME": "com.appsmobilecompany.base"
     },
     "SplashScreen": {
+      "PACKAGE_NAME": "com.appsmobilecompany.base"
+    },
+    "SunmiPrinter": {
       "PACKAGE_NAME": "com.appsmobilecompany.base"
     },
     "Push": {
@@ -492,6 +507,14 @@
       "pluginId": "SplashScreen",
       "clobbers": [
         "navigator.splashscreen"
+      ]
+    },
+    {
+      "id": "SunmiPrinter.InnerPrinter",
+      "file": "plugins/SunmiPrinter/www/innerprinter.js",
+      "pluginId": "SunmiPrinter",
+      "clobbers": [
+        "sunmiInnerPrinter"
       ]
     },
     {
@@ -900,6 +923,7 @@
     "InAppPurchase": "10.5.0",
     "IonicWebview": "4.0.1",
     "SplashScreen": "5.0.2",
+    "SunmiPrinter": "1.0.3",
     "Push": "1.10.0",
     "Mediation": "1.0.0",
     "WebView": "1.0.0",

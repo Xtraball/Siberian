@@ -116,6 +116,8 @@
     <access launch-external="yes" origin="waze:*" />
     <access launch-external="yes" origin="google.navigation:*" />
     <access launch-external="yes" origin="whatsapp:*" />
+    <access launch-external="yes" origin="instagram:*" />
+    <access launch-external="yes" origin="fb:*" />
     <allow-navigation href="*" />
     <allow-intent href="tel:*" />
     <allow-intent href="geo:*" />
@@ -124,6 +126,8 @@
     <allow-intent href="waze:*" />
     <allow-intent href="google.navigation:*" />
     <allow-intent href="whatsapp:*" />
+    <allow-intent href="instagram:*" />
+    <allow-intent href="fb:*" />
     <preference name="AllowInlineMediaPlayback" value="false" />
     <preference name="BackupWebStorage" value="none" />
     <preference name="DisallowOverscroll" value="true" />

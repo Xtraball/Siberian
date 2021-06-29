@@ -90,12 +90,7 @@ FB_CLASS_EXPORT FB_SUBCLASSING_RESTRICTED @interface FBAudienceNetworkAds : NSOb
 + (void)initializeWithSettings:(nullable FBAdInitSettings *)settings
              completionHandler:(nullable void (^)(FBAdInitResults *results))completionHandler;
 
-/**
- Returns ad format type name for a given placement id.
-
- @param placementId Placement id that is configured for the current app.
- */
-+ (FBAdFormatTypeName)adFormatTypeNameForPlacementId:(NSString *)placementId;
++ (void)handleDeeplink:(NSURL *)deeplink;
 
 @end
 

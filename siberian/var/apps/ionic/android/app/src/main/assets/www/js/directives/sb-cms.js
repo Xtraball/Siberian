@@ -1,6 +1,6 @@
 /**
  * CMS Directives
- * @version 4.18.5
+ * @version 4.20.11
  */
 angular.module('starter').directive('sbCmsText', function () {
     return {
@@ -302,31 +302,20 @@ angular.module('starter').directive('sbCmsText', function () {
             block: '='
         },
         template:
-        '<a href="{{ url }}" ' +
-        '   target="{{ target }}" ' +
-        '   class="item item-text-wrap item-icon-left item-custom">' +
+        '<div ng-click="openLink()" ' +
+        '     class="item item-text-wrap item-icon-left item-custom">' +
         '   <i class="icon" ' +
         '      ng-class="icon" ' +
         '      ng-if="show_icon"></i>' +
         '   <i class="icon flex-button-icon" ' +
         '      ng-if="!show_icon">' +
         '       <img ng-src="{{ icon_src }}" ' +
+        '            alt="button" ' +
         '            style="width: 32px; height: 32px;" />' +
         '   </i>' +
         '   {{ label | translate }}' +
-        '</a>',
-        controller: function ($scope, LinkService) {
-            $scope.openLink = function () {
-                var externalBrowser = $scope.block.external_browser === undefined ?
-                    true : $scope.block.external_browser;
-                LinkService.openLink(
-                    $scope.block.content,
-                    $scope.block.options || {},
-                    externalBrowser);
-            };
-        },
-        link: function (scope, element) {
-            var a = angular.element(element).find('a');
+        '</div>',
+        link: function (scope) {
             switch (scope.block.type_id) {
                 case 'phone':
                     scope.icon = 'ion-ios-telephone-outline';
@@ -337,8 +326,6 @@ angular.module('starter').directive('sbCmsText', function () {
                         scope.block.content = 'tel:' + scope.block.content;
                     }
 
-                    scope.url = scope.block.content;
-                    scope.target = '_self';
                     break;
 
                 case 'link':
@@ -354,26 +341,26 @@ angular.module('starter').directive('sbCmsText', function () {
                     scope.icon = 'ion-ios-email';
                     scope.label = ((scope.block.label !== null) && (scope.block.label.length > 0)) ?
                         scope.block.label : 'Email';
-                    scope.url = scope.block.content;
-                    scope.target = '_self';
                     break;
             }
 
-            a.on('click', function (e) {
-                e.preventDefault();
-                scope.openLink();
-                return false;
-            });
-            scope.$on('$destroy', function () {
-                a.off('click');
-            });
-
-            /** Icon image */
+            // Icon image!
             scope.show_icon = true;
             if (scope.block.icon.length) {
                 scope.show_icon = false;
                 scope.icon_src = scope.block.icon;
             }
+        },
+        controller: function ($scope, LinkService) {
+            $scope.openLink = function () {
+                var externalBrowser = $scope.block.external_browser === undefined ?
+                    true : $scope.block.external_browser;
+
+                LinkService.openLink(
+                    $scope.block.content,
+                    $scope.block.options || {},
+                    externalBrowser);
+            };
         }
     };
 }).directive('sbCmsFile', function () {

@@ -36,8 +36,9 @@ FB_EXPORT void FBAdSettingsBridgeAddTestDevice(char const *deviceID);
 FB_EXPORT void FBAdSettingsBridgeSetURLPrefix(char const *urlPrefix);
 FB_EXPORT void FBAdSettingsBridgeSetIsChildDirected(bool isChildDirected);
 FB_EXPORT void FBAdSettingsBridgeSetMixedAudience(bool mixedAudience);
-FB_EXPORT void FBAdSettingsBridgeSetDataProcessingOptions(char const *_Nonnull options[], int length);
-FB_EXPORT void FBAdSettingsBridgeSetDetailedDataProcessingOptions(char const *_Nonnull options[],
+FB_EXPORT void FBAdSettingsBridgeSetAdvertiserTrackingEnabled(bool advertiserTrackingEnabled);
+FB_EXPORT void FBAdSettingsBridgeSetDataProcessingOptions(char const *_Nonnull options[_Nonnull], int length);
+FB_EXPORT void FBAdSettingsBridgeSetDetailedDataProcessingOptions(char const *_Nonnull options[_Nonnull],
                                                                   int length,
                                                                   int country,
                                                                   int state);

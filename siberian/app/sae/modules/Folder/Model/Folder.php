@@ -145,10 +145,7 @@ class Folder_Model_Folder extends Core_Model_Default
                 throw new Siberian_Exception(__("An error occurred during process. Please try again later."));
             }
 
-            $color_code = "background";
-            if ($this->getApplication()->useIonicDesign()) {
-                $color_code = "tabbar";
-            }
+            $color_code = "tabbar";
             $color = $this->getApplication()->getBlock($color_code)->getImageColor();
 
             //Here we get the list used for the search in folder feature

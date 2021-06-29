@@ -84,6 +84,10 @@ $schemas['customer'] = [
         'type' => 'tinyint(1)',
         'default' => '1',
     ],
+    'is_deleted' => [
+        'type' => 'tinyint(1)',
+        'default' => '0',
+    ],
     'gdpr_token' => [
         'type' => 'varchar(255)',
         'is_null' => true,

@@ -19,14 +19,14 @@ angular
                 senderID: '01234567890',
                 icon: 'ic_icon',
                 iconColor: '#0099C7',
-                sound: true,
+                sound: 'sb_beep4',
                 vibrate: true
             },
             ios: {
                 clearBadge: true,
                 alert: true,
                 badge: true,
-                sound: true
+                sound: 'sb_beep4'
             },
             windows: {}
         }

@@ -4,7 +4,7 @@
 //
 //  Created by StartApp on 6/25/14.
 //  Copyright (c) 2014 StartApp. All rights reserved.
-//  SDK version 4.5.0
+//  SDK version 4.6.5
 
 #import <Foundation/Foundation.h>
 #import <UIKit/UIKit.h>

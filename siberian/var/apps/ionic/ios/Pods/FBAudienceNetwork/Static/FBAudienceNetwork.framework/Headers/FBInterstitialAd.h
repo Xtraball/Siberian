@@ -18,6 +18,7 @@
 
 #import <Foundation/Foundation.h>
 
+#import <FBAudienceNetwork/FBAdCompanionView.h>
 #import <FBAudienceNetwork/FBAdDefines.h>
 #import <FBAudienceNetwork/FBAdExtraHint.h>
 #import <FBAudienceNetwork/FBAdView.h>
@@ -44,6 +45,11 @@ FB_CLASS_EXPORT FB_SUBCLASSING_RESTRICTED @interface FBInterstitialAd : NSObject
  FBAdExtraHint to provide extra info
  */
 @property (nonatomic, strong, nullable) FBAdExtraHint *extraHint;
+
+/**
+  Experimental Feature, DO NOT USE IN PRODUCTION!
+ */
+@property (nonatomic) BOOL shouldShowCompanionView;
 
 /**
   This is a method to initialize an FBInterstitialAd matching the given placement id.
@@ -146,6 +152,13 @@ FB_CLASS_EXPORT FB_SUBCLASSING_RESTRICTED @interface FBInterstitialAd : NSObject
  @param interstitialAd An FBInterstitialAd object sending the message.
  */
 - (void)interstitialAdWillLogImpression:(FBInterstitialAd *)interstitialAd;
+
+/**
+  Experimental Feature, DO NOT USE IN PRODUCTION!
+
+ @param FBAdCompanionView should return a Companion View for the Interstitial Ad.
+ */
+- (void)interstitialAdCompanionViewProvider:(void (^)(FBAdCompanionView *_Nullable))completion;
 
 @end
 

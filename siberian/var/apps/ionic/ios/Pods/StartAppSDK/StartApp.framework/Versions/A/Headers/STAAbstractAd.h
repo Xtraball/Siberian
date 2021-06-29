@@ -3,7 +3,7 @@
 //  StartAppAdSDK
 //
 //  Copyright (c) 2013 StartApp. All rights reserved.
-//  SDK version 4.5.0
+//  SDK version 4.6.5
 
 #import <Foundation/Foundation.h>
 
@@ -21,6 +21,8 @@
 - (void)didClickAd:(STAAbstractAd *)ad;
 - (void)didCloseInAppStore:(STAAbstractAd *)ad;
 - (void)didCompleteVideo:(STAAbstractAd *)ad;
+
+- (void)didShowNativeAdDetails:(STANativeAdDetails *)nativeAdDetails;
 - (void)didClickNativeAdDetails:(STANativeAdDetails *)nativeAdDetails;
 
 @end

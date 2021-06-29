@@ -77,8 +77,7 @@ class Post extends FormAbstract
             false,
             ['ckeditor' => 'social_wall']);
         $text
-            ->setRichtext()
-            ->setRequired(true);
+            ->setRichtext();
 
         // Multiple image upload
         $this->addSimpleHidden('image');

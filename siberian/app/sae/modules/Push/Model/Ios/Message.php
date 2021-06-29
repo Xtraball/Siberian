@@ -26,11 +26,12 @@ class Push_Model_Ios_Message
     /**
      * Push_Model_Ios_Message constructor.
      * @param Siberian_Service_Push_Apns $service_apns
+     * @throws Zend_Exception
      */
     public function __construct(Siberian_Service_Push_Apns $service_apns)
     {
         $this->service_apns = $service_apns;
-        $this->logger = Zend_Registry::get("logger");
+        $this->logger = Zend_Registry::get('logger');
     }
 
     /**

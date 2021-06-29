@@ -59,6 +59,10 @@ class Fanwall_ApplicationController extends Application_Controller_Default
                     }
                 }
                 $values['image'] = implode(',', $allImages);
+                $text = trim($values['text']);
+                if (empty($text) && empty($values['image'])) {
+                    throw new Exception(p__('fanwall2', 'You must send at least a message or a picture.'));
+                }
 
                 $saveToHistory = false;
                 $archivedPost = null;

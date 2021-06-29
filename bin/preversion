@@ -11,6 +11,7 @@ rm -f package.json.bck
 cd ./siberian
 php -f cli cache:design pe
 cd -
+git add package.json
 git add siberian/*
 git commit -m "chore: release routines: cache design, resources archives, language clean-up."
 

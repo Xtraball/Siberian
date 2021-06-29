@@ -63,6 +63,11 @@ class Push_Model_Message extends Core_Model_Default
     protected $_messageType;
 
     /**
+     * @var string
+     */
+    protected $_db_table = Push_Model_Db_Table_Message::class;
+
+    /**
      * Push_Model_Message constructor.
      * @param array $datas
      * @throws Zend_Exception
@@ -70,40 +75,38 @@ class Push_Model_Message extends Core_Model_Default
     public function __construct($datas = [])
     {
         parent::__construct($datas);
-        $this->_db_table = 'Push_Model_Db_Table_Message';
 
-        $this->logger = Zend_Registry::get("logger");
-
+        $this->logger = Zend_Registry::get('logger');
         $this->_initMessageType();
     }
 
     /**
+     * @param $valueId
      * @return array
      */
-    public function getInappStates($value_id)
+    public function getInappStates($valueId): array
     {
-
-        $in_app_states = [
+        return [
             [
-                "state" => "push-list",
-                "offline" => true,
-                "params" => [
-                    "value_id" => $value_id,
+                'state' => 'push-list',
+                'offline' => true,
+                'params' => [
+                    'value_id' => $valueId,
                 ],
             ],
         ];
-
-        return $in_app_states;
     }
 
     /**
      * @param $option_value
-     * @return array|string[]
+     * @return array
      * @throws Zend_Exception
      */
-    public function getFeaturePaths($option_value)
+    public function getFeaturePaths($option_value): array
     {
-        if (!$this->isCacheable()) return [];
+        if (!$this->isCacheable()) {
+            return [];
+        }
 
         $value_id = $option_value->getId();
         $cache_id = "feature_paths_valueid_{$value_id}";
@@ -383,7 +386,7 @@ class Push_Model_Message extends Core_Model_Default
     }
 
     /**
-     *
+     * @throws Zend_Log_Exception
      */
     public function push()
     {
@@ -414,7 +417,7 @@ class Push_Model_Message extends Core_Model_Default
                     }
                 } else {
                     $this->logger->info(sprintf("[CRON: %s]: ios is not in the target list, skipping.", date("Y-m-d H:i:s")), "cron_push");
-                    $this->_log("Siberian_Service_Push_Apns", "ios is not in the target list, skipping.");
+                    $this->_log("Siberian_Service_Push_Apple_Http2", "ios is not in the target list, skipping.");
                 }
             }
 
@@ -423,34 +426,24 @@ class Push_Model_Message extends Core_Model_Default
                 if (in_array($this->getTargetDevices(), ['android', 'all', '', null], false)) {
                     try {
 
-                        $gcmKey = Push_Model_Certificate::getAndroidKey();
-                        $gcmInstance = null;
-                        if (!empty($gcmKey)) {
-                            $gcmInstance = new \Siberian\CloudMessaging\Sender\Gcm($gcmKey);
-                        }
-
                         $credentials = (new Push_Model_Firebase())
                             ->find('0', 'admin_id');
 
                         $fcmKey = $credentials->getServerKey();
                         $fcmInstance = null;
-                        if (!empty($fcmKey)) {
-                            $fcmInstance = new \Siberian\CloudMessaging\Sender\Fcm($fcmKey);
-                        } else {
-                            // Only FCM is mandatory by now!
+                        if (empty($fcmKey)) {
                             throw new \Siberian\Exception("You must provide FCM Credentials");
                         }
 
-                        if ($fcmInstance || $gcmInstance) {
-                            $instance = new Push_Model_Android_Message($fcmInstance, $gcmInstance);
-                            $instance->setMessage($this);
-                            $instance->push();
-                        }
+                        $fcmInstance = new \Siberian\CloudMessaging\Sender\Fcm($fcmKey);
+                        $instance = new Push_Model_Android_Message($fcmInstance);
+                        $instance->setMessage($this);
+                        $instance->push();
 
                     } catch (\Exception $e) {
                         $this->logger->info(sprintf("[CRON: %s]: " . $e->getMessage(),
                             date("Y-m-d H:i:s")), "cron_push");
-                        $this->_log("Siberian_Service_Push_Fcm", $e->getMessage());
+                        $this->_log("Siberian_Service_Push_Firebase", $e->getMessage());
                         $errors[] = $e->getMessage();
 
                         $success_android = false;
@@ -479,14 +472,13 @@ class Push_Model_Message extends Core_Model_Default
     }
 
     /**
-     * Create the log to fetch push inside app
-     *
      * @param $device
      * @param $status
      * @param null $id
      * @return $this
+     * @throws Zend_Db_Adapter_Exception
      */
-    public function createLog($device, $status, $id = null)
+    public function createLog($device, $status, $id = null): self
     {
 
         if (!$id) {
