@@ -34,10 +34,6 @@ GAD_EXTERN NSString *_Nonnull const GADCustomNativeAdMediaViewKey;
 /// Array of available asset keys.
 @property(nonatomic, readonly, nonnull) NSArray<NSString *> *availableAssetKeys;
 
-/// Returns media view for rendering video loaded by the receiver. Returns nil if receiver doesn't
-/// have a video.
-@property(nonatomic, readonly, nullable) GADMediaView *mediaView;
-
 /// Custom click handler. Set this property only if this ad is configured with a custom click
 /// action, otherwise set it to nil. If this property is set to a non-nil value, the ad's built-in
 /// click actions are ignored and |customClickHandler| is executed when a click on the asset is
@@ -76,6 +72,11 @@ GAD_EXTERN NSString *_Nonnull const GADCustomNativeAdMediaViewKey;
 /// Call when the ad is displayed on screen to the user. Can be called multiple times. Only the
 /// first impression is recorded.
 - (void)recordImpression;
+
+/// Returns media view for rendering video loaded by the receiver. Returns nil if receiver doesn't
+/// have a video.
+@property(nonatomic, readonly, nullable) GADMediaView *mediaView GAD_DEPRECATED_MSG_ATTRIBUTE(
+    "Use the mediaContent property to set the media content on your own GADMediaView.");
 
 @end
 

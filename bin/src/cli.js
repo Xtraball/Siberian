@@ -1656,6 +1656,7 @@ let mver = function (version, module) {
         developer = require(ROOT + '/developer.json'),
         currentVersion = fs.readFileSync(versionPath, 'utf8'),
         currentEdition = currentVersion.match(/const TYPE = '([a-z])+';/gi),
+        mysqlHost = developer.mysql.host,
         mysqlUsername = developer.mysql.username,
         mysqlPassword = developer.mysql.password,
         mysqlDatabasePrefix = developer.mysql.databasePrefix,
@@ -1667,8 +1668,17 @@ let mver = function (version, module) {
         query = query + ' WHERE `name` LIKE "%' + module.trim() + '%"';
     }
 
-    sh.exec('mysql -u ' + mysqlUsername +
-        ' -p' + mysqlPassword + ' ' + mysqlDatabasePrefix + currentEdition + ' -e \'' + query + ';\'');
+    var sqlQuery = [
+        'mysql -u',
+        mysqlUsername,
+        '-h',
+        mysqlHost,
+        '-p'+mysqlPassword,
+        mysqlDatabasePrefix+currentEdition,
+        '-e \'' + query + ';\''
+    ].join(' ');
+
+    sh.exec(sqlQuery);
 };
 
 /**

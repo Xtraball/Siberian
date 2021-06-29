@@ -7,7 +7,7 @@
 angular
     .module('starter')
     .controller('FanwallNewController', function ($scope, $rootScope, $session, $state, $stateParams, $translate, $q,
-                                                  Customer, Fanwall, FanwallPost, Dialog, Picture, Loader, Location,
+                                                  Customer, Fanwall, FanwallPost, Dialog, Loader, Location,
                                                   GoogleMaps, Popover, $timeout) {
 
         angular.extend($scope, {
@@ -54,34 +54,14 @@ angular
             return './features/fanwall2/assets/templates/images/customer-placeholder.png';
         };
 
-        $scope.picturePreview = function () {
-            // Empty image
-            if ($scope.form.picture.indexOf('/') === 0) {
-                return IMAGE_URL + 'images/application' + $scope.form.picture;
-            }
-            return $scope.form.picture;
-        };
-
         $scope.myName = function () {
             return Customer.customer.firstname + ' ' + Customer.customer.lastname;
-        };
-
-        $scope.takePicture = function () {
-            return Picture
-                .takePicture()
-                .then(function (success) {
-                    $scope.form.picture = success.image;
-                });
-        };
-
-        $scope.removePicture = function () {
-            $scope.form.picture = '';
         };
 
         $scope.clearForm = function () {
             $scope.form = {
                 text: '',
-                picture: '',
+                pictures: [],
                 location: {
                     latitude: 0,
                     longitude: 0,
@@ -91,7 +71,7 @@ angular
         };
 
         $scope.canSend = function () {
-            return ($scope.form.text.length > 0 || $scope.form.picture.length > 0);
+            return ($scope.form.text.length > 0 || $scope.form.pictures.length > 0);
         };
 
         $scope.sendPost = function () {

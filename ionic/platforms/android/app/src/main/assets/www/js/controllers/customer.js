@@ -33,6 +33,7 @@ angular
             display_settings: false,
             privacy_policy: Application.privacyPolicy.text,
             privacy_policy_gdpr: Application.privacyPolicy.gdpr,
+            XS_VERSION: XS_VERSION,
             gdpr: {
                 isEnabled: Application.gdpr.isEnabled
             },
@@ -126,6 +127,34 @@ angular
             }
 
             return true;
+        };
+
+        $scope.deleteAccount = function () {
+            Dialog
+                .confirm(
+                    'Attention',
+                    'Your are about to delete your account, this action can not be reverted<br />Please confirm!', ['YES, DELETE', 'NO, GO BACK'], '', 'customer')
+                .then(function (result) {
+                    if (result) {
+                        // Delete account!
+                        Loader.show($translate.instant('Please wait...', 'customer'));
+                        Customer
+                            .deleteAccount()
+                            .then(function (payload) {
+                                // Also forces logout
+                                Loader.hide();
+                                Customer.logout();
+                                //
+                                Dialog.alert(undefined, payload.message, 'OK', -1, 'customer');
+                                // Removed!
+                            }, function (error) {
+                                Dialog.alert('Error', error.message, 'OK', -1, 'customer');
+                                // Revert!
+                            }).then(function () {
+                                Loader.hide();
+                            });
+                    }
+                });
         };
 
         $scope.closeAction = function () {

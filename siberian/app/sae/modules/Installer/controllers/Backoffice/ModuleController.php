@@ -29,10 +29,11 @@ class Installer_Backoffice_ModuleController extends Backoffice_Controller_Defaul
             $stats->statistics();
         }
 
-        function _return_bytes($val) {
+        function _return_bytes($val)
+        {
             $val = trim($val);
-            $last = strtolower($val[strlen($val)-1]);
-            switch($last) {
+            $last = strtolower($val[strlen($val) - 1]);
+            switch ($last) {
                 // Le modifieur 'G' est disponible depuis PHP 5.1.0
                 case 'g':
                     $val *= 1024;
@@ -45,8 +46,8 @@ class Installer_Backoffice_ModuleController extends Backoffice_Controller_Defaul
             return $val;
         }
 
-        $postMaxSize = (int) _return_bytes(ini_get('post_max_size'));
-        $uploadMaxFilesize = (int) _return_bytes(ini_get('upload_max_filesize'));
+        $postMaxSize = (int)_return_bytes(ini_get('post_max_size'));
+        $uploadMaxFilesize = (int)_return_bytes(ini_get('upload_max_filesize'));
         $max = min($postMaxSize, $uploadMaxFilesize);
 
         $payload = [
@@ -597,7 +598,6 @@ class Installer_Backoffice_ModuleController extends Backoffice_Controller_Defaul
         }
 
         $response = $client->request();
-
         $content = $response->getBody();
 
         if (empty($content)) {
@@ -608,13 +608,15 @@ class Installer_Backoffice_ModuleController extends Backoffice_Controller_Defaul
         if ($response->getStatus() != 200) {
 
             $message = __("Unable to check for updates now. Please, try again later.");
-            if (!empty($content["error"]) AND !empty($content["message"])) {
+            if (!empty($content["error"]) && !empty($content["message"])) {
                 $message = __($content["message"]);
             }
 
             throw new Siberian_Exception($message);
-        } else if (empty($content["url"])) {
-            $content["message"] = __("Your system is up to date.");
+        }
+
+        if (empty($content['url'])) {
+            $content['message'] = __('Your system is up to date.');
         }
 
         return $content;
@@ -650,32 +652,18 @@ class Installer_Backoffice_ModuleController extends Backoffice_Controller_Defaul
             ]
         ];
 
-        $data['release_note'] = [
-            'url' => false,
-            'show' => false,
-        ];
-
-        if (($release_note = $package->getReleaseNote())) {
-            $data['release_note'] = $package->getReleaseNote();
-        }
-
-        $data['package_details']['restore_apps'] = false;
-        if (($restore_apps = $package->getRestoreApps())) {
-            $data['package_details']['restore_apps'] = $package->getRestoreApps();
-        }
-
-        // @version 4.18.5
-        // cleanup_files is used to clear previous installed folder and remove all potentially unused files!
-        $data['package_details']['cleanup_files'] = false;
-        if (($restore_apps = $package->getCleanupFiles())) {
-            $data['package_details']['cleanup_files'] = $package->getCleanupFiles();
-        }
+        $data['release_note'] = $package->getReleaseNote() ??
+            [
+                'url' => false,
+                'show' => false,
+            ];
+        $data['package_details']['restore_apps'] = $package->getRestoreApps() ?? false;
+        $data['package_details']['cleanup_files'] = $package->getCleanupFiles() ?? false;
 
         return $data;
-
     }
 
-    public function checkModuleLicenseAction ()
+    public function checkModuleLicenseAction()
     {
         $code = false;
         try {
@@ -716,7 +704,7 @@ class Installer_Backoffice_ModuleController extends Backoffice_Controller_Defaul
         $this->_sendJson($payload);
     }
 
-    public function setModuleLicenseAction ()
+    public function setModuleLicenseAction()
     {
         $code = false;
         try {
@@ -752,7 +740,7 @@ class Installer_Backoffice_ModuleController extends Backoffice_Controller_Defaul
         $this->_sendJson($payload);
     }
 
-    public static function _sIsAllowed ($moduleName)
+    public static function _sIsAllowed($moduleName)
     {
         // Skip for SAE!
         if (Siberian\Version::is('SAE')) {

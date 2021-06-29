@@ -4,7 +4,7 @@
 //
 //  Created by StartApp on 11/25/13.
 //  Copyright (c) 2013 StartApp. All rights reserved.!
-//  SDK version 4.5.0
+//  SDK version 4.6.5
 
 #import <UIKit/UIKit.h>
 
@@ -37,11 +37,3 @@ extern STABannerSize const STA_MRecAdSize_300x250;
 extern STABannerSize const STA_CoverAdSize;
 
 extern STABannerSize const STA_AutoAdSize;
-
-
-
-
-
-
-
-

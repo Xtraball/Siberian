@@ -1,12 +1,3 @@
-<?php
-// Show deprecated GCM settings for Siberian before 4.14.0!
-$pre414 = false;
-$installationVersion = __get('installation_version');
-if (empty($installationVersion)) {
-    $pre414 = true;
-}
-?>
-
 <sb-section title="'<?php echo __js('Firebase Cloud Messaging', "'") ?>'">
     <form ng-submit="saveFirebaseProject()">
         <div class="form-group">
@@ -98,43 +89,6 @@ if (empty($installationVersion)) {
 
     </form>
 </sb-section>
-
-<?php if ($pre414): ?>
-<form ng-submit="saveKeys()">
-    <sb-section title="'<?php echo __js('Google Cloud Messaging (GCM, Deprecated)', "'") ?>'">
-        <div class="form-group">
-            <div class="col-md-4">
-                <label for="SenderId"><?php echo __('Sender ID') ?></label>
-                <input type="text"
-                       id="SenderId"
-                       ng-model="gcm.android_sender_id"
-                       class="form-control"
-                       autocomplete="new-password"
-                       placeholder="<?php echo __js('Sender ID', "'") ?>"/>
-            </div>
-            <div class="col-md-4">
-                <label for="Key"><?php echo __('GCM Key') ?></label>
-                <input type="text"
-                       id="Key"
-                       ng-model="gcm.android_key"
-                       class="form-control"
-                       autocomplete="new-password"
-                       placeholder="<?php echo __js('GCM Key', "'") ?>"/>
-            </div>
-            <div class="col-md-4"
-                 style="padding-top: 24px;">
-                <button type="submit"
-                        class="btn btn-primary left"><?php echo __('Save GCM settings'); ?></button>
-                <sb-loader is_visible="form_loader_is_visible"
-                           type="'inner_content'"
-                           size="'small'"
-                           animation="'no'"
-                           class="form_loader"></sb-loader>
-            </div>
-            <div class="clear"></div>
-    </sb-section>
-</form>
-<?php endif; ?>
 
 <style type="text/css">
     .upload_area .well.drop-zone {

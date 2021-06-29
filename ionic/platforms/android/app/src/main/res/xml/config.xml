@@ -57,6 +57,10 @@
     <feature name="InAppBillingPlugin">
         <param name="android-package" value="cc.fovea.PurchasePlugin" />
     </feature>
+    <feature name="Printer">
+        <param name="android-package" value="com.sunmi.trans.Printer" />
+        <param name="onload" value="true" />
+    </feature>
     <feature name="AdMob">
         <param name="android-package" value="admob.plus.cordova.AdMob" />
     </feature>
@@ -105,6 +109,8 @@
     <access launch-external="yes" origin="waze:*" />
     <access launch-external="yes" origin="google.navigation:*" />
     <access launch-external="yes" origin="whatsapp:*" />
+    <access launch-external="yes" origin="instagram:*" />
+    <access launch-external="yes" origin="fb:*" />
     <allow-navigation href="*" />
     <allow-intent href="tel:*" />
     <allow-intent href="geo:*" />
@@ -113,6 +119,8 @@
     <allow-intent href="waze:*" />
     <allow-intent href="google.navigation:*" />
     <allow-intent href="whatsapp:*" />
+    <allow-intent href="instagram:*" />
+    <allow-intent href="fb:*" />
     <icon density="xxxhdpi" src="resources/android/icon/drawable-xxxhdpi-icon.png" />
     <splash density="xxxhdpi" src="resources/android/splash/drawable-xxxhdpi-screen.jpg" />
     <resource-file src="resources/google-services.json" target="app/google-services.json" />

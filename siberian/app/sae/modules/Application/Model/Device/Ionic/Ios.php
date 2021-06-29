@@ -278,12 +278,14 @@ class Application_Model_Device_Ionic_Ios extends Application_Model_Device_Ionic_
 
         $app_key = $this->currentApplication->getKey();
         $languages = array_keys(Core_Model_Language::getLanguages());
+        $version = \Siberian\Version::VERSION;
 
         $url_js_content = "
 /** Auto-generated url.js */
 var REDIRECT_URI = false;
 var IS_NATIVE_APP = true;
 var DEVICE_TYPE = 2;
+var XS_VERSION = '{$version}';
 window.location.hash = window.location.hash.replace(/\?__goto__=(.*)/, \"\");
 var AVAILABLE_LANGUAGES = ['" . implode("','", $languages) . "'];
 var DISABLE_BATTERY_OPTIMIZATION = false;

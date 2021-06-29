@@ -19,6 +19,11 @@ class Siberian_Migration_Db_Table extends Zend_Db_Table_Abstract
     static public $debug = false;
 
     /**
+     * @var array
+     */
+    static public $lastExceptions = [];
+
+    /**
      * @var array|null
      */
     public $config = null;
@@ -174,11 +179,11 @@ class Siberian_Migration_Db_Table extends Zend_Db_Table_Abstract
     }
 
     /**
-     * Check whether a Table exists or not
-     *
-     * @param $try_create
-     * @return boolean
-     * @throws Exception
+     * @param bool $try_create
+     * @param bool $update
+     * @return bool
+     * @throws Zend_Exception
+     * @throws \Siberian\Exception
      */
     public function tableExists($try_create = true, $update = true)
     {
@@ -193,9 +198,16 @@ class Siberian_Migration_Db_Table extends Zend_Db_Table_Abstract
         } catch (Exception $e) {
             // Try to create the table if it doesn't exist yet for installation purpose.!
             if ($try_create && !$this->createTable()) {
+                $previousMessage = [];
+                if (count(self::$lastExceptions) > 0) {
+                    foreach (self::$lastExceptions as $ex) {
+                        $previousMessage[] = $ex->getMessage();
+                    }
+                }
+                $previousMessage[] = $e->getMessage();
                 throw new \Siberian\Exception(
                     __("Unable to create table '{$this->tableName}', with previous Exception %s.",
-                        $e->getMessage())
+                        implode("\n", $previousMessage))
                 );
             }
         }
@@ -719,6 +731,7 @@ class Siberian_Migration_Db_Table extends Zend_Db_Table_Abstract
         try {
             $this->execSafe($create);
         } catch (Exception $e) {
+            self::$lastExceptions[] = $e;
             return false;
         }
 
@@ -774,6 +787,8 @@ class Siberian_Migration_Db_Table extends Zend_Db_Table_Abstract
             $this->query("SET FOREIGN_KEY_CHECKS = 1;");
             $this->commit();
         } catch (Exception $e) {
+
+            self::$lastExceptions[] = $e;
 
             $this->revert();
             $this->query("SET FOREIGN_KEY_CHECKS = 1;");

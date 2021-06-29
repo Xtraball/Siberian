@@ -82,7 +82,7 @@
         <label ng-click="devCounter()"
                class="item item-custom item-input">
             <div class="input-label">
-                {{ ::'Version' | translate:'customer' }}
+                {{ ::'App version' | translate:'customer' }}
             </div>
             <input type="text"
                    class="text-right"
@@ -90,6 +90,23 @@
                    readonly="readonly" />
         </label>
 
+        <label ng-if="XS_VERSION != false && settings.counter <= 0"
+               class="item item-custom item-input">
+            <div class="input-label">
+                {{ ::'System version' | translate:'customer' }}
+            </div>
+            <input type="text"
+                   class="text-right"
+                   ng-value="XS_VERSION"
+                   readonly="readonly" />
+        </label>
+
+    </div>
+
+    <div ng-if="customer.is_logged_in"
+         class="padding text-center">
+            <span ng-click="deleteAccount()"
+                  class="bold positive positive-custom">{{ ::'Delete my account' | translate:'customer' }}</span>
     </div>
 
 </div>

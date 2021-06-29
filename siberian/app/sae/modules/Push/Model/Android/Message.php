@@ -1,6 +1,5 @@
 <?php
 
-use Siberian\CloudMessaging\Notification;
 use Siberian\Hook;
 
 /**
@@ -8,12 +7,6 @@ use Siberian\Hook;
  */
 class Push_Model_Android_Message
 {
-
-    /**
-     * @var \Siberian\CloudMessaging\Sender\Gcm
-     */
-    private $service_gcm = null;
-
     /**
      * @var \Siberian\CloudMessaging\Sender\Fcm
      */
@@ -32,24 +25,12 @@ class Push_Model_Android_Message
     /**
      * Push_Model_Android_Message constructor.
      * @param \Siberian\CloudMessaging\Sender\Fcm $serviceFcm
-     * @param \Siberian\CloudMessaging\Sender\Gcm $serviceGcm
      * @throws Zend_Exception
      */
-    public function __construct($serviceFcm, $serviceGcm)
+    public function __construct($serviceFcm)
     {
-        $this->service_gcm = $serviceGcm;
         $this->service_fcm = $serviceFcm;
         $this->logger = Zend_Registry::get("logger");
-    }
-
-    /**
-     * Binder for CA
-     *
-     * @param $path
-     */
-    public function certificatePath($path)
-    {
-        $this->service_gcm->certificatePath($path);
     }
 
     /**
@@ -79,6 +60,7 @@ class Push_Model_Android_Message
         $app_id = $message->getAppId();
 
         // New standalone push
+        $devices = [];
         if ($message->getIsStandalone() === true) {
             $_device = (new Push_Model_Android_Device())
                 ->find($message->getToken(), "registration_id");
@@ -103,7 +85,6 @@ class Push_Model_Android_Message
             }
 
             $_dbDevices = $device->findByAppId($app_id, $allowed_categories, $selected_users);
-            $devices = [];
             foreach ($_dbDevices as $_dbDevice) {
                 if ($_dbDevice->getPushAlert() === 'enabled') {
                     $devices[] = $_dbDevice;
@@ -111,46 +92,25 @@ class Push_Model_Android_Message
             }
         }
 
-        $messagePayload = $this->buildMessage();
-
-        // Split devices by provider!
-        $deviceByTokenGcm = [];
-        $registrationTokensGcm = [];
-        foreach ($devices as $device) {
-            if ($device->getProvider() === 'gcm') {
-                $deviceByTokenGcm[$device->getRegistrationId()] = $device;
-                $registrationTokensGcm[] = $device->getRegistrationId();
-            }
+        if (empty($devices)) {
+            $this->service_fcm->logger->log('No Android devices found, aborting.');
+            return;
         }
+
+        $messagePayload = $this->buildMessage();
 
         $deviceByTokenFcm = [];
         $registrationTokensFcm = [];
         foreach ($devices as $device) {
-            if ($device->getProvider() === 'fcm') {
-                $deviceByTokenFcm[$device->getRegistrationId()] = $device;
-                $registrationTokensFcm[] = $device->getRegistrationId();
-            }
+            $deviceByTokenFcm[$device->getRegistrationId()] = $device;
+            $registrationTokensFcm[] = $device->getRegistrationId();
         }
 
-        // If both lists are empty ... aborting!
-        if (empty($registrationTokensGcm) && empty($registrationTokensFcm)) {
-            $this->service_fcm->logger->log('No Android devices registered, done.');
+        if (empty($registrationTokensFcm)) {
+            $this->service_fcm->logger->log('No Android devices registered for push, aborting.');
             return;
         }
 
-        // Handler GCM (deprecated)
-        if (isset($this->service_gcm) &&
-            !empty($registrationTokensGcm)) {
-            try {
-                $this->_pushToProvider($this->service_gcm,
-                    $messagePayload, $registrationTokensGcm, $deviceByTokenGcm);
-            } catch (\Exception $e) {
-                // Ignore
-                $this->service_gcm->logger->log($e->getMessage());
-            }
-        }
-
-        // Handler FCM, from 4.14.0
         try {
             $this->_pushToProvider($this->service_fcm,
                 $messagePayload, $registrationTokensFcm, $deviceByTokenFcm);
@@ -169,7 +129,7 @@ class Push_Model_Android_Message
      * @param $deviceByToken
      * @throws Siberian_Exception
      */
-    private function _pushToProvider ($provider, $message, $tokens, $deviceByToken)
+    private function _pushToProvider($provider, $message, $tokens, $deviceByToken)
     {
         // Send message!
         $error = '';
@@ -215,11 +175,11 @@ class Push_Model_Android_Message
             }
 
         } catch (InvalidArgumentException $e) { # $deviceRegistrationId was null
-            $error = sprintf("#810-03: PushGCM InvalidArgumentException with error: %s.", $e->getMessage());
+            $error = sprintf("#810-03: PushFirebase InvalidArgumentException with error: %s.", $e->getMessage());
         } catch (\Siberian\CloudMessaging\InvalidRequestException $e) { # server returned HTTP code other than 200 or 503
-            $error = sprintf("#810-04: PushGCM InvalidRequestException with error: %s.", $e->getMessage());
+            $error = sprintf("#810-04: PushFirebase InvalidRequestException with error: %s.", $e->getMessage());
         } catch (\Exception $e) { # message could not be sent
-            $error = sprintf("#810-05: PushGCM Exception with error: %s.", $e->getMessage());
+            $error = sprintf("#810-05: PushFirebase Exception with error: %s.", $e->getMessage());
         }
 
         if (!empty($error)) {
@@ -229,6 +189,7 @@ class Push_Model_Android_Message
 
     /**
      * @return \Siberian\Service\Push\CloudMessaging\Message
+     * @throws Zend_Exception
      */
     public function buildMessage()
     {
@@ -238,6 +199,8 @@ class Push_Model_Android_Message
 
         $application = new Application_Model_Application();
         $application->find($message->getAppId());
+
+        $pushColor = strtoupper($application->getAndroidPushColor() ?? '#0099C7');
 
         if (is_numeric($message->getActionValue())) {
             $option_value = new Application_Model_Option_Value();
@@ -308,20 +271,30 @@ class Push_Model_Android_Message
             }
         }
 
-        if ($application->useIonicDesign() && ($message->getLongitude() && $message->getLatitude())) {
+        if ($message->getLongitude() && $message->getLatitude()) {
             $messagePayload->contentAvailable(true);
         }
 
         // Sound Legacy HTTP Payload!
         $messagePayload->addData('soundname', 'sb_beep4');
 
+        // Notification for FCM latest
+        $notification = new \Siberian\CloudMessaging\Notification();
+        $notification->title($messagePayload->getData()['title']);
+        $notification->body($messagePayload->getData()['message']);
+        $notification->sound('sb_beep4');
+        $notification->icon('ic_icon');
+        $notification->color($pushColor);
+        $notification->notificationPriority('high');
+        $messagePayload->notification($notification);
+
         // Trigger an event when the push message is parsed,
-        $result = Hook::trigger("push.message.android.parsed",
+        $result = Hook::trigger('push.message.android.parsed',
             [
-                "message" => $messagePayload,
-                "application" => $application
+                'message' => $messagePayload,
+                'application' => $application
             ]);
-        $messagePayload = $result["message"];
+        $messagePayload = $result['message'];
 
         return $messagePayload;
     }

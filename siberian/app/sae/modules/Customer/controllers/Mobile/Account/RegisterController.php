@@ -86,7 +86,8 @@ class Customer_Mobile_Account_RegisterController extends Application_Controller_
 
                 $dummy = (new Customer_Model_Customer())->find([
                     'nickname' => $data['nickname'],
-                    'app_id' => $appId
+                    'app_id' => $appId,
+                    'is_deleted' => 0
                 ]);
 
                 if ($dummy &&
@@ -100,6 +101,7 @@ class Customer_Mobile_Account_RegisterController extends Application_Controller_
             $dummy->find([
                 'email' => $data['email'],
                 'app_id' => $appId,
+                'is_deleted' => 0
             ]);
 
             if ($dummy->getId()) {

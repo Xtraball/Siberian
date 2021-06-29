@@ -4,7 +4,7 @@
 //
 //  Created by StartApp on 9/17/14.
 //  Copyright (c) 2014 StartApp. All rights reserved.
-//  SDK version 4.5.0
+//  SDK version 4.6.5
 
 
 #import <UIKit/UIKit.h>
@@ -18,8 +18,6 @@ typedef NS_ENUM(NSInteger, STANativeAdBitmapSize) {
     SIZE_150X150    = 2, //Default
     SIZE_340X340    = 3,
     SIZE_1200X628   = 4, //Not supported by secondaryImageSize, default will be used instead
-    SIZE_320X480    = 5,
-    SIZE_480X320    = 6
 };
 
 typedef NS_ENUM(NSUInteger, STANativeAdVideoMode) {
