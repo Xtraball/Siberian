@@ -5,7 +5,7 @@
  */
 angular
     .module('starter')
-    .service('AdmobService', function ($log, $rootScope) {
+    .service('AdmobService', function ($log, $rootScope, SB) {
         var service = {
             interstitialWeights: {
                 start: {

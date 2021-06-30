@@ -110,6 +110,7 @@
 .ion-android-navigate:before,
 .ion-android-notifications:before,
 .ion-android-notifications-none:before,
+.ion-android-notifications-none2:before,
 .ion-android-notifications-off:before,
 .ion-android-open:before,
 .ion-android-options:before,
@@ -1410,6 +1411,10 @@
 
 .ion-android-notifications-none:before {
   content: "";
+}
+
+.ion-android-notifications-none2:before {
+  content: "";
 }
 
 .ion-android-notifications-off:before {
