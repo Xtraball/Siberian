@@ -81,7 +81,7 @@ angular
                 return;
             }
 
-            if (ionic.Platform.isIOS()) {
+            if (SB.DEVICE.TYPE_IOS === DEVICE_TYPE) {
                 service.currentPlatform = 'ios';
                 $log.debug('AdMob init iOS');
                 service.options = options.app.ios;
@@ -99,7 +99,7 @@ angular
                     });
             }
 
-            if (ionic.Platform.isAndroid()) {
+            if (SB.DEVICE.TYPE_ANDROID === DEVICE_TYPE) {
                 service.currentPlatform = 'android';
                 $log.debug('AdMob init Android');
                 service.options = options.app.android;
@@ -232,11 +232,11 @@ angular
         service.initWithOptions = function (options) {
             // Enable dev mode from backoffice settings
             if (options.isTesting) {
-                if (ionic.Platform.isIOS()) {
+                if (SB.DEVICE.TYPE_IOS === DEVICE_TYPE) {
                     service.options.banner_id = 'ca-app-pub-3940256099942544/2934735716';
                     service.options.interstitial_id = 'ca-app-pub-3940256099942544/4411468910';
                 }
-                if (ionic.Platform.isAndroid()) {
+                if (SB.DEVICE.TYPE_ANDROID === DEVICE_TYPE) {
                     service.options.banner_id = 'ca-app-pub-3940256099942544/6300978111';
                     service.options.interstitial_id = 'ca-app-pub-3940256099942544/1033173712';
                 }
