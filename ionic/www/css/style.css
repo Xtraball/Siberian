@@ -1163,53 +1163,61 @@ iframe.sb-cms-source {
     height: 100%;
 }
 
-.layout.l4 ul {
-    padding-left: 10px;
-    padding-top: 3px;
-}
-
 .layout.l4 li {
     float: left;
-    width: 27%;
-    height: 110px;
-    margin: 0 2% 5px 3%;
+}
+
+.layout.l4 li .items {
+    position: relative;
+    border-width: 3px;
+    border-style: solid;
+    margin: 0 auto;
+}
+
+.layout.l4 li p {
+    text-transform: uppercase;
+    overflow: hidden;
+    font-weight: 700;
+    letter-spacing: 1px;
+    width: 33.33vw;
+    padding: 0 2vw;
 }
 
 @media screen and (orientation:portrait) {
+    .layout.l4 li {
+        margin: 0 0 2vh 0;
+    }
     .layout.l4 li .items {
-        position: relative;
         height: 11vh;
-        padding: 15px;
         border-radius: 11vh;
-        border-width: 3px;
-        border-style: solid;
         width: 11vh;
-        margin: 0 auto;
+        padding: 2vh;
+    }
+    .layout.l4 li p {
+        line-height: 2vh;
+        font-size: 1.5vh;
+        height: 4vh;
     }
 }
 @media screen and (orientation:landscape) {
+    .layout.l4 li {
+        margin: 0 0 2vw 0;
+    }
     .layout.l4 li .items {
-        position: relative;
         height: 11vw;
-        padding: 15px;
         border-radius: 11vw;
-        border-width: 3px;
-        border-style: solid;
         width: 11vw;
-        margin: 0 auto;
+        padding: 2vw;
+    }
+    .layout.l4 li p {
+        line-height: 2vw;
+        font-size: 1.5vw;
+        height: 4vw;
     }
 }
 
 .layout.l4 li img {
     max-width: 100%;
-}
-
-.layout.l4 li p {
-    text-transform: uppercase;
-    line-height: 20px;
-    height: 20px;
-    overflow: hidden;
-    font-size: 12px;
 }
 
 .layout.l4 .no-border {
