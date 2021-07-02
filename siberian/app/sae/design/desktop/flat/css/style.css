@@ -792,7 +792,6 @@ li .sub-bar a {
     height: 100%;
     left: 0;
     z-index: 1;
-    transition: 0.5s ease-out 0s;
     top: 0;
 }
 
@@ -802,7 +801,8 @@ li .sub-bar a {
 
 .layouts_content_preview img.layout-preview-new:hover {
     left: 0;
-    top: -310px;
+    top: initial;
+    bottom: 0;
 }
 
 span.checked.color-red:hover {
@@ -2130,8 +2130,8 @@ div.current p.template_image {
 }
 
 .templates_content_preview img:hover {
-    left: -100%;
-    transition: 0.5s ease-out 0s;
+    left: initial;
+    right: 0;
 }
 
 .templates_content_preview img:active, .templates_content_preview img:focus, .templates_content_preview img:visited {
