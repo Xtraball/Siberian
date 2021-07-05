@@ -14,10 +14,10 @@
          ng-class="{'card': card_design}">
 
         <label class="item item-input item-custom item-select"
-               ng-if="myAccount.settings.extra_civility">
+               ng-if="myAccount.settings.use_civility || myAccount.settings.extra_civility">
             <div class="input-label">
-                {{ ::'Civility' | translate:'customer' }} <span
-                    ng-if="myAccount.settings.extra_civility_required">*</span>
+                {{ ::'Civility' | translate:'customer' }}
+                <span ng-if="myAccount.settings.extra_civility_required">*</span>
             </div>
             <select ng-model="customer.civility">
                 <option value="">{{ ::'Select' | translate:'customer' }}</option>
@@ -46,10 +46,29 @@
                    ng-model="customer.lastname"/>
         </label>
 
-        <label class="item item-input item-custom"
-               ng-if="myAccount.settings.use_nickname">
+        <label ng-if="myAccount.settings.use_birthdate || myAccount.settings.extra_birthdate"
+               class="item item-input item-custom"
+               sb-datetime-picker
+               headers="true"
+               format="'DD/MM/YYYY'"
+               model="customer.birthdate">
+            <i class="icon ion-ios-clock"></i>
             <div class="input-label">
-                {{ ::'Nickname' | translate:'customer' }} <span>*</span>
+                {{ ::'Birthdate' | translate:'customer' }}
+                <span ng-show="myAccount.settings.extra_birthdate_required">*</span>
+            </div>
+            <input type="text"
+                   class="text-right"
+                   style="cursor: pointer !important;"
+                   ng-model="customer.birthdate"
+                   readonly="readonly" />
+        </label>
+
+        <label class="item item-input item-custom"
+               ng-if="myAccount.settings.use_nickname || myAccount.settings.extra_nickname">
+            <div class="input-label">
+                {{ ::'Nickname' | translate:'customer' }}
+                <span ng-show="myAccount.settings.extra_nickname_required">*</span>
             </div>
             <input class="text-right"
                    type="text"
@@ -68,7 +87,7 @@
         </label>
 
         <label class="item item-input item-custom"
-               ng-if="myAccount.settings.extra_mobile">
+               ng-if="myAccount.settings.use_mobile || myAccount.settings.extra_mobile">
             <div class="input-label">
                 {{ ::'Mobile' | translate:'customer' }} <span ng-if="myAccount.settings.extra_mobile_required">*</span>
             </div>

@@ -2,6 +2,7 @@
 
 use Siberian\Json;
 
+$application = $this->getApplication();
 $optionValue = $this->getOptionValue();
 $formSettings = new Customer_Form_Settings();
 $formSettings->setValueId($optionValue->getId());
@@ -22,6 +23,8 @@ try {
         ]
     );
 }
+
+$formSettings->setOverrides($application);
 
 ?>
 

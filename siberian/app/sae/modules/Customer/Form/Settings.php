@@ -40,13 +40,40 @@ class Customer_Form_Settings extends Siberian_Form_Abstract
         $civility = $this->addSimpleCheckbox('extra_civility', p__('customer', 'Civility'));
         $civilityRequired = $this->addSimpleCheckbox('extra_civility_required', p__('customer', 'Civility required?'));
 
+        $birthdate = $this->addSimpleCheckbox('extra_birthdate', p__('customer', 'Birthdate'));
+        $birthdateRequired = $this->addSimpleCheckbox('extra_birthdate_required', p__('customer', 'Birthdate required?'));
+
+        $nickname = $this->addSimpleCheckbox('extra_nickname', p__('customer', 'Nickname'));
+        $nicknameRequired = $this->addSimpleCheckbox('extra_nickname_required', p__('customer', 'Nickname required?'));
+
         $enableCommercialAgreement = $this->addSimpleCheckbox('enable_commercial_agreement', p__('customer', 'Commercial agreement'));
         $commercialAgreementLabel = $this->addSimpleText('enable_commercial_agreement_label', '&nbsp;&gt;&nbsp;' . p__('customer', 'Custom label'));
         $commercialAgreementLabel->setDescription(p__('customer', 'Default') . ': ' . p__('customer', "I'd like to hear about offers & services"));
 
+        $text = p__('customer', 'Please note that some modules can enforce the use of custom fields, and will override the settings below!');
+        $fieldsHelper = <<<HHLP
+<div class="col-md-7 col-md-offset-3">
+    <div class="alert alert-warning">{$text}</div>
+</div>
+HHLP;
+
+        $htmlHelper = $this->addSimpleHtml('fields_helper', $fieldsHelper);
+
         $group2 = $this->groupElements(
-            'group2', [
-            'extra_mobile', 'extra_mobile_required', 'extra_civility', 'extra_civility_required', 'enable_commercial_agreement', 'enable_commercial_agreement_label'],
+            'group2',
+            [
+                'fields_helper',
+                'extra_mobile',
+                'extra_mobile_required',
+                'extra_civility',
+                'extra_civility_required',
+                'extra_birthdate',
+                'extra_birthdate_required',
+                'extra_nickname',
+                'extra_nickname_required',
+                'enable_commercial_agreement',
+                'enable_commercial_agreement_label'
+            ],
             p__('customer', 'Extra fields')
         );
 
@@ -54,5 +81,67 @@ class Customer_Form_Settings extends Siberian_Form_Abstract
 
         $save = $this->addSubmit(__('Save'), __('Save'));
         $save->addClass('pull-right');
+    }
+
+    /**
+     * @param Application_Model_Application $application
+     * @throws Zend_Exception
+     * @throws \Siberian\Exception
+     */
+    public function setOverrides (Application_Model_Application $application)
+    {
+        $features = $application->getOptions();
+
+        $useNickname = [];
+        //$useRanking = [];
+        $useBirthdate = [];
+        $useCivility = [];
+        $useMobile = [];
+
+        foreach ($features as $feature) {
+            if ($feature->getUseNickname()) {
+                $useNickname[] = $feature->getTabbarName() . ' (' . $feature->getCode() . ')';
+            }
+            //if ($feature->getUseRanking()) {
+            //    $useRanking[] = $feature->getTabbarName() . ' (' . $feature->getCode() . ')';
+            //}
+            if ($feature->getUseBirthdate()) {
+                $useBirthdate[] = $feature->getTabbarName() . ' (' . $feature->getCode() . ')';
+            }
+            if ($feature->getUseCivility()) {
+                $useCivility[] = $feature->getTabbarName() . ' (' . $feature->getCode() . ')';
+            }
+            if ($feature->getUseMobile()) {
+                $useMobile[] = $feature->getTabbarName() . ' (' . $feature->getCode() . ')';
+            }
+        }
+
+        if (!empty($useNickname)) {
+            $extraNickname = $this->getElement('extra_nickname');
+            $extraNickname->setDescription(implode(', ', $useNickname));
+            $extraNickname->setValue(true);
+            $extraNickname->setAttrib('disabled', 'disabled');
+        }
+        //if (!empty($useRanking)) {
+        //    $this->getElement('extra_ranking')->setDescription(implode(', ', $useRanking));
+        //}
+        if (!empty($useBirthdate)) {
+            $extraBirthdate = $this->getElement('extra_birthdate');
+            $extraBirthdate->setDescription(implode(', ', $useBirthdate));
+            $extraBirthdate->setValue(true);
+            $extraBirthdate->setAttrib('disabled', 'disabled');
+        }
+        if (!empty($useCivility)) {
+            $extraCivility = $this->getElement('extra_civility');
+            $extraCivility->setDescription(implode(', ', $useCivility));
+            $extraCivility->setValue(true);
+            $extraCivility->setAttrib('disabled', 'disabled');
+        }
+        if (!empty($useMobile)) {
+            $extraMobile = $this->getElement('extra_mobile');
+            $extraMobile->setDescription(implode(', ', $useMobile));
+            $extraMobile->setValue(true);
+            $extraMobile->setAttrib('disabled', 'disabled');
+        }
     }
 }
