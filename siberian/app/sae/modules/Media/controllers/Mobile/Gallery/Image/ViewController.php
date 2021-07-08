@@ -36,6 +36,7 @@ class Media_Mobile_Gallery_Image_ViewController extends Application_Controller_M
                 $sub = $sub . ($sub !== '') ? '<br />' . $description : $description;
 
                 $loopPicture = [
+                    'id' => uniqid('img_', true),
                     'offset' => (integer) $key,
                     'gallery_id' => (integer) $gallery_id,
                     'is_visible' => false,

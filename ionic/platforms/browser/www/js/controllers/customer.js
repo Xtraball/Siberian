@@ -39,6 +39,7 @@ angular
             },
             myAccount: {
                 title: $translate.instant('My account', 'customer'),
+                localBirthdateTitle: $translate.instant('Birthdate', 'customer'),
                 settings: {
                     enable_registration: true,
                     enable_commercial_agreement: true,
@@ -122,6 +123,10 @@ angular
             }
             return result;
         };
+        $scope.rndEmail = $scope.rndName(20);
+        $scope.rndOldPassword = $scope.rndName(20);
+        $scope.rndPassword = $scope.rndName(20);
+        $scope.rndPasswordRepeat = $scope.rndName(20);
 
         $scope.displayField = function (field) {
             var bDisplay = (field.type !== 'spacer' && $scope.card_design) || !$scope.card_design;
