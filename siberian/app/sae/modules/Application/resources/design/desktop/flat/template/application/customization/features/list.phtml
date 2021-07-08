@@ -281,15 +281,21 @@ function hideFeature ($canAccess, $option, $option_ids, $masterId, $isBackoffice
                                 <ul id="add_page_list" class="sb-tour">
                                     <?php foreach ($options as $key => $option) : ?>
                                         <?php if (hideFeature ($this->_canAccess('feature_' . $option->getCode(), 'all'), $option, $option_ids, $masterId, $isBackofficeUser)) continue; ?>
-                                        <?php $preview = $option->getPreview(); ?>
+                                        <?php
+                                        $preview = $option->getPreview();
+                                        $iconUrl = $this->getIconUrl($option);
+                                        if (!is_readable(path($iconUrl))) {
+                                            $iconUrl = '/app/sae/design/desktop/flat/images/placeholder/blank-feature-icon.png';
+                                        }
+                                        ?>
                                         <li id="add_page_<?php echo $option->getId(); ?>"
                                             data-search="<?php echo __js(strtolower($option->getName() . ' ' . $option->getCode() . ' ' . $option->getData('name') . ' ' . $cats[$option->getCategoryId()] . ' ' . __($cats[$option->getCategoryId()])), '"'); ?>"
                                             class="feature_search sb-tour add_option_value col-md-3 col-sm-3 col-xs-4 category_option category_option_<?php echo $option->getCategoryId(); ?>">
                                             <a href="<?php echo $this->getUrl('application/customization_features/save'); ?>"
-                                               class="details <?php if ($preview->getId() AND $preview->getTitle()) : ?>show_previews<?php else : ?>add_page<?php endif; ?>"
+                                               class="details <?php if ($preview->getId() && $preview->getTitle()) : ?>show_previews<?php else : ?>add_page<?php endif; ?>"
                                                rel="<?php echo $option->getId(); ?>">
                                                 <div class="color-blue block_add_pages_icon btn default_size_details"
-                                                     style="background-image: url('<?php echo $this->getIconUrl($option); ?>')">
+                                                     style="background-image: url('<?php echo $this->getColorizedImage($iconUrl, '#0099C7'); ?>')">
                                                     <img src="/app/sae/design/desktop/flat/images/placeholder/blank-512.png"
                                                          alt="<?php echo $option->getName(); ?>"
                                                          title="<?php echo $option->getName(); ?>" width="auto"

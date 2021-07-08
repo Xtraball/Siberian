@@ -3,6 +3,9 @@
 /**
  * @var $application Application_Model_Application
  */
+
+use Siberian\Json;
+
 $application = $this->getApplication();
 $option = $this->getOptionValue();
 $features = $application->getOptions();
@@ -55,553 +58,646 @@ usort($feats, 'alphasortPushFeatures');
 
 $features = $feats;
 
+$formSettings = new Push\Form\Settings();
+
+$settings = [
+    'design' => 'list'
+];
+try {
+    $dbSettings = Json::decode($option->getSettings());
+} catch (\Exception $e) {
+    $dbSettings = [];
+}
+$settings = array_merge($settings, $dbSettings);
+$formSettings->populate($dbSettings);
+$formSettings->setValueId($option->getId());
+
 ?>
 
 <div class="edit_page push_notif">
-    <div id="list">
-        <h3 class="title-editor no-border-radius title-feature-indent">
-            <?php echo __('Add content'); ?>
-            <button type="button"
-                    id="add_item"
-                    onclick="feature.edit();"
-                    class="toggle_design color-blue pull-right bt-header-right btn">
-                <i class="fa fa-plus"></i>
-            </button>
-        </h3>
-        <?php echo $this->createPartialHtml('no_item', 'core_view_default', 'application/customization/features/edit/no_item.phtml'); ?>
-        <?php if ($messages->count()) : ?>
-            <div class="margin-top">
+
+    <!-- Nav tabs -->
+    <ul class="nav nav-tabs"
+        role="tablist">
+
+        <li role="presentation"
+            class="active">
+            <a href="#tab-message"
+               aria-controls="tab-message"
+               role="tab"
+               data-toggle="tab">
+                <i class="fa fa-comments"></i>
+                <?php echo p__('push', 'Messages') ?>
+            </a>
+        </li>
+
+        <li role="presentation">
+            <a href="#tab-settings"
+               aria-controls="tab-settings"
+               role="tab"
+               data-toggle="tab">
+                <i class="fa fa-gears"></i>
+                <?php echo p__('push', 'Settings') ?>
+            </a>
+        </li>
+
+        <li role="presentation">
+            <a href="#tab-design"
+               aria-controls="tab-design"
+               role="tab"
+               data-toggle="tab">
+                <i class="fa fa-image"></i>
+                <?php echo p__('push', 'Design') ?>
+            </a>
+        </li>
+
+    </ul>
+
+    <div class="tab-content">
+
+        <!-- MESSAGES -->
+        <div role="tabpanel"
+             class="tab-pane active"
+             id="tab-message">
+
+            <div id="list">
                 <h3 class="title-editor no-border-radius title-feature-indent">
-                    <?php echo __('Manage content'); ?>
+                    <?php echo __('Add content'); ?>
                     <button type="button"
-                            id="toggle_existing_items"
+                            id="add_item"
+                            onclick="feature.edit();"
                             class="toggle_design color-blue pull-right bt-header-right btn">
-                        <i class="fa fa-angle-down"></i>
+                        <i class="fa fa-plus"></i>
                     </button>
                 </h3>
-                <div id="existing_items" class="container-fluid first-row-feature content-feature">
-                    <table class="table content-white-bkg">
-                        <thead>
-                        <tr class="border-grey">
-                            <th style="width:16%;"><?php echo __("Title"); ?></th>
-                            <th style="width:24%;"><?php echo __("Message"); ?></th>
-                            <th><?php echo __("Status"); ?></th>
-                            <th><?php echo __("Creation date"); ?></th>
-                            <th></th>
-                            <th></th>
-                        </tr>
-                        </thead>
-                        <tbody>
-                        <?php foreach ($messages as $message) : ?>
-                            <?php $text = trim($message->getText()); ?>
-                            <?php if (empty($text)) continue; ?>
-                            <tr id="push_actions_<?php echo $message->getId(); ?>"
-                                class="push_actions">
-                                <td><?php echo cut($message->getTitle(), 18); ?></td>
-                                <td><?php echo cut($message->getText(), 30); ?></td>
-                                <td>
-                                    <?php if (!empty($message->getSendAt())): ?>
-                                        <?php echo __("Scheduled for <i>%s</i>", $message->getFormattedSendAt()); ?>
-                                    <?php else: ?>
-                                        <?php echo __(ucfirst($message->getStatus())); ?>
-                                    <?php endif; ?>
-                                </td>
-                                <td><?php echo datetime_to_format($message->getCreatedAt(), Zend_Date::DATETIME_MEDIUM); ?></td>
-                                <td>
-                                    <i class="fa fa-search toggle-more"
-                                       data-msgid="<?php echo $message->getId(); ?>"></i>
-                                </td>
-                                <td>
-                                    <i class="fa fa-times delete-msg"
-                                       data-msgid="<?php echo $message->getId(); ?>"></i>
-                                </td>
-                            </tr>
-                            <tr id="details_<?php echo $message->getId(); ?>"
-                                style="display: none;">
-                                <td colspan="6">
-                                    <b><?php echo __('Title'); ?>:</b> <?php echo $message->getTitle(); ?>
-                                    <br/>
-                                    <b><?php echo __('Message'); ?>:</b> <?php echo $message->getText(); ?>
-                                    <br/>
-                                    <b><?php echo __('Creation date'); ?>
-                                        :</b> <?php echo datetime_to_format($message->getCreatedAt(), Zend_Date::DATETIME_MEDIUM); ?>
-                                    <br/>
-                                    <?php if ((!empty($message->getSendAt())) && ($message->getStatus() !== 'delivered')): ?>
-                                        <b><?php echo __('Sending date'); ?>
-                                            :</b> <?php echo __("Scheduled for <i>%s</i>", datetime_to_format($message->getCreatedAt(), Zend_Date::DATETIME_MEDIUM)); ?>
-                                    <?php else: ?>
-                                        <b><?php echo __('Sending date'); ?>
-                                            :</b> <?php echo ($message->getStatus() == 'delivered') ? $message->getFormattedDeliveredAt() : __(ucfirst($message->getStatus())); ?>
-                                    <?php endif; ?>
-                                </td>
-                            </tr>
-                        <?php endforeach; ?>
-                        </tbody>
-                    </table>
-
-                </div>
-            </div>
-        <?php endif; ?>
-
-        <?php echo $this->importBackground($option); ?>
-    </div>
-
-    <div id="cover_crop"
-         style="display: none;">
-        <button type="button"
-                id="cancel_cover_crop"
-                class="btn color-blue pull-left"><i class="fa fa-times"></i>
-        </button>
-        <button type="button"
-                id="validate_cover_crop"
-                class="btn color-blue pull-right">
-            <?php echo __('OK') ?>
-        </button>
-        <p><?php echo __('Resize your picture:') ?></p>
-    </div>
-    <div id="cover_crop_content"></div>
-
-    <div id="edit"
-         style="display: none;">
-        <div id="push_step_one"
-             class="push_step"
-             pos="1">
-            <h3 class="title-editor no-border-radius title-feature-indent">
-                <?php echo __('Editing'); ?>
-            </h3>
-            <?php if ($canSendMessages): ?>
-                <div class="block container-fluid content-feature">
-                    <form id="pushFirstStepForm"
-                          method="post"
-                          class="form-horizontal">
-                        <div class="form-group first-row-feature">
-                            <div class="col-md-12">
-                                <button type="button"
-                                        onclick="feature.list()"
-                                        class="btn color-blue pull-left"><i class="fa fa-angle-left"></i></button>
-                                <button type="submit"
-                                        class="btn color-blue pull-right"><i class="fa fa-angle-right"></i></button>
-                            </div>
-                        </div>
-                        <div class="form-group">
-                            <div class="col-sm-4">
-                                <label for="title"><?php echo __('Title:'); ?> <span
-                                            class="input-required">*</span></label>
-                            </div>
-                            <div class="col-sm-4">
-                                <input type="text"
-                                       id="push_title"
-                                       name="title"
-                                       class="required input-flat"
-                                       value="" />
-                            </div>
-                        </div>
-                        <div class="form-group">
-                            <div class="col-sm-4">
-                                <label for="text"><?php echo __('Message:'); ?>
-                                    <span class="input-required">*</span>
-                                </label>
-                            </div>
-                            <div class="col-sm-4">
-                                <input type="text"
-                                       id="push_text"
-                                       name="text"
-                                       class="required input-flat"
-                                       value=""
-                                       maxlength="255" />
-                            </div>
-                        </div>
-                        <?php if ($messageobj->getInAppCode() != $option->getOptionId()): ?>
-                            <div class="form-group">
-                                <div class="col-sm-12">
-                                    <label>
-                                        <input type="checkbox"
-                                               id="open_features"
-                                               class="checkbox-inline color-blue"/> <?php echo __("Open a feature or a custom URL"); ?>
-                                    </label>
-                                </div>
-                            </div>
-                            <div id="features_list"
-                                 class="hide container-fluid">
-                                <div class="form-group">
-                                    <div class="row">
-                                        <?php $i = 0;
-                                        foreach ($features as $feature):
-                                            $i++;
-                                            if ($i > count($features) / 2):
-                                                $i = 0; ?>
-
+                <?php echo $this->createPartialHtml('no_item', 'core_view_default', 'application/customization/features/edit/no_item.phtml'); ?>
+                <?php if ($messages->count()) : ?>
+                    <div class="margin-top">
+                        <h3 class="title-editor no-border-radius title-feature-indent">
+                            <?php echo __('Manage content'); ?>
+                            <button type="button"
+                                    id="toggle_existing_items"
+                                    class="toggle_design color-blue pull-right bt-header-right btn">
+                                <i class="fa fa-angle-down"></i>
+                            </button>
+                        </h3>
+                        <div id="existing_items" class="container-fluid first-row-feature content-feature">
+                            <table class="table content-white-bkg">
+                                <thead>
+                                <tr class="border-grey">
+                                    <th style="width:16%;"><?php echo __("Title"); ?></th>
+                                    <th style="width:24%;"><?php echo __("Message"); ?></th>
+                                    <th><?php echo __("Status"); ?></th>
+                                    <th><?php echo __("Creation date"); ?></th>
+                                    <th></th>
+                                    <th></th>
+                                </tr>
+                                </thead>
+                                <tbody>
+                                <?php foreach ($messages as $message) : ?>
+                                    <?php $text = trim($message->getText()); ?>
+                                    <?php if (empty($text)) continue; ?>
+                                    <tr id="push_actions_<?php echo $message->getId(); ?>"
+                                        class="push_actions">
+                                        <td><?php echo cut($message->getTitle(), 18); ?></td>
+                                        <td><?php echo cut($message->getText(), 30); ?></td>
+                                        <td>
+                                            <?php if (!empty($message->getSendAt())): ?>
+                                                <?php echo __("Scheduled for <i>%s</i>", $message->getFormattedSendAt()); ?>
+                                            <?php else: ?>
+                                                <?php echo __(ucfirst($message->getStatus())); ?>
                                             <?php endif; ?>
+                                        </td>
+                                        <td><?php echo datetime_to_format($message->getCreatedAt(), Zend_Date::DATETIME_MEDIUM); ?></td>
+                                        <td>
+                                            <i class="fa fa-search toggle-more"
+                                               data-msgid="<?php echo $message->getId(); ?>"></i>
+                                        </td>
+                                        <td>
+                                            <i class="fa fa-times delete-msg"
+                                               data-msgid="<?php echo $message->getId(); ?>"></i>
+                                        </td>
+                                    </tr>
+                                    <tr id="details_<?php echo $message->getId(); ?>"
+                                        style="display: none;">
+                                        <td colspan="6">
+                                            <b><?php echo __('Title'); ?>:</b> <?php echo $message->getTitle(); ?>
+                                            <br/>
+                                            <b><?php echo __('Message'); ?>:</b> <?php echo $message->getText(); ?>
+                                            <br/>
+                                            <b><?php echo __('Creation date'); ?>
+                                                :</b> <?php echo datetime_to_format($message->getCreatedAt(), Zend_Date::DATETIME_MEDIUM); ?>
+                                            <br/>
+                                            <?php if ((!empty($message->getSendAt())) && ($message->getStatus() !== 'delivered')): ?>
+                                                <b><?php echo __('Sending date'); ?>
+                                                    :</b> <?php echo __("Scheduled for <i>%s</i>", datetime_to_format($message->getCreatedAt(), Zend_Date::DATETIME_MEDIUM)); ?>
+                                            <?php else: ?>
+                                                <b><?php echo __('Sending date'); ?>
+                                                    :</b> <?php echo ($message->getStatus() == 'delivered') ? $message->getFormattedDeliveredAt() : __(ucfirst($message->getStatus())); ?>
+                                            <?php endif; ?>
+                                        </td>
+                                    </tr>
+                                <?php endforeach; ?>
+                                </tbody>
+                            </table>
 
-                                            <?php if ($myAccount->getOptionId() == $feature->getOptionId()) {
-                                                continue;
-                                            } ?>
+                        </div>
+                    </div>
+                <?php endif; ?>
 
-                                            <?php if ('weblink_mono' === $feature->getCode()) {
-                                                continue;
-                                            } ?>
 
-                                            <div class="col-xs-12 col-md-6">
-                                                <label for="<?php echo $feature->getId(); ?>">
-                                                    <input type="radio"
-                                                           name="action_value"
-                                                           class="color-blue chk_action_value use_gmaps radio-inline"
-                                                           id="<?php echo $feature->getId(); ?>"
-                                                           value="<?php echo $feature->getId(); ?>"/>
-                                                    <?php echo $feature->getTabbarName() ?>
-                                                    -
-                                                    <?php echo $feature->getId() ?>
-                                                    <?php if (!$feature->getIsVisible()): ?>
-                                                        <i class="feature-hidden"><?php echo p__('padlock', '(hidden from menu)') ?></i>
-                                                    <?php endif; ?>
+            </div>
 
-                                                    <?php if (!$feature->getIsActive()): ?>
-                                                        <i class="feature-disabled"><?php echo p__('padlock', '(not published)') ?></i>
-                                                    <?php endif; ?>
-                                                </label>
-                                            </div>
-                                        <?php endforeach; ?>
-                                        <div class="col-xs-12 col-md-12"
-                                             style="margin-top: 15px;">
+            <div id="cover_crop"
+                 style="display: none;">
+                <button type="button"
+                        id="cancel_cover_crop"
+                        class="btn color-blue pull-left"><i class="fa fa-times"></i>
+                </button>
+                <button type="button"
+                        id="validate_cover_crop"
+                        class="btn color-blue pull-right">
+                    <?php echo __('OK') ?>
+                </button>
+                <p><?php echo __('Resize your picture:') ?></p>
+            </div>
+            <div id="cover_crop_content"></div>
+
+            <div id="edit"
+                 style="display: none;">
+                <div id="push_step_one"
+                     class="push_step"
+                     pos="1">
+                    <h3 class="title-editor no-border-radius title-feature-indent">
+                        <?php echo __('Editing'); ?>
+                    </h3>
+                    <?php if ($canSendMessages): ?>
+                        <div class="block container-fluid content-feature">
+                            <form id="pushFirstStepForm"
+                                  method="post"
+                                  class="form-horizontal">
+                                <div class="form-group first-row-feature">
+                                    <div class="col-md-12">
+                                        <button type="button"
+                                                onclick="feature.list()"
+                                                class="btn color-blue pull-left"><i class="fa fa-angle-left"></i></button>
+                                        <button type="submit"
+                                                class="btn color-blue pull-right"><i class="fa fa-angle-right"></i></button>
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <div class="col-sm-4">
+                                        <label for="title"><?php echo __('Title:'); ?> <span
+                                                    class="input-required">*</span></label>
+                                    </div>
+                                    <div class="col-sm-4">
+                                        <input type="text"
+                                               id="push_title"
+                                               name="title"
+                                               class="required input-flat"
+                                               value="" />
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <div class="col-sm-4">
+                                        <label for="text"><?php echo __('Message:'); ?>
+                                            <span class="input-required">*</span>
+                                        </label>
+                                    </div>
+                                    <div class="col-sm-4">
+                                        <input type="text"
+                                               id="push_text"
+                                               name="text"
+                                               class="required input-flat"
+                                               value=""
+                                               maxlength="255" />
+                                    </div>
+                                </div>
+                                <?php if ($messageobj->getInAppCode() != $option->getOptionId()): ?>
+                                    <div class="form-group">
+                                        <div class="col-sm-12">
                                             <label>
-                                                <input type="radio"
-                                                       class="chk_action_value custom color-blue radio-inline"
-                                                       name="action_value"
-                                                       id="<?php echo $feature->getId(); ?>"/> <?php echo __('Custom URL'); ?>
-                                                <span class="hide"
-                                                      id="custom_action_value_field">
+                                                <input type="checkbox"
+                                                       id="open_features"
+                                                       class="checkbox-inline color-blue"/> <?php echo __("Open a feature or a custom URL"); ?>
+                                            </label>
+                                        </div>
+                                    </div>
+                                    <div id="features_list"
+                                         class="hide container-fluid">
+                                        <div class="form-group">
+                                            <div class="row">
+                                                <?php $i = 0;
+                                                foreach ($features as $feature):
+                                                    $i++;
+                                                    if ($i > count($features) / 2):
+                                                        $i = 0; ?>
+
+                                                    <?php endif; ?>
+
+                                                    <?php if ($myAccount->getOptionId() == $feature->getOptionId()) {
+                                                    continue;
+                                                } ?>
+
+                                                    <?php if ('weblink_mono' === $feature->getCode()) {
+                                                    continue;
+                                                } ?>
+
+                                                    <div class="col-xs-12 col-md-6">
+                                                        <label for="<?php echo $feature->getId(); ?>">
+                                                            <input type="radio"
+                                                                   name="action_value"
+                                                                   class="color-blue chk_action_value use_gmaps radio-inline"
+                                                                   id="<?php echo $feature->getId(); ?>"
+                                                                   value="<?php echo $feature->getId(); ?>"/>
+                                                            <?php echo $feature->getTabbarName() ?>
+                                                            -
+                                                            <?php echo $feature->getId() ?>
+                                                            <?php if (!$feature->getIsVisible()): ?>
+                                                                <i class="feature-hidden"><?php echo p__('padlock', '(hidden from menu)') ?></i>
+                                                            <?php endif; ?>
+
+                                                            <?php if (!$feature->getIsActive()): ?>
+                                                                <i class="feature-disabled"><?php echo p__('padlock', '(not published)') ?></i>
+                                                            <?php endif; ?>
+                                                        </label>
+                                                    </div>
+                                                <?php endforeach; ?>
+                                                <div class="col-xs-12 col-md-12"
+                                                     style="margin-top: 15px;">
+                                                    <label>
+                                                        <input type="radio"
+                                                               class="chk_action_value custom color-blue radio-inline"
+                                                               name="action_value"
+                                                               id="<?php echo $feature->getId(); ?>"/> <?php echo __('Custom URL'); ?>
+                                                        <span class="hide"
+                                                              id="custom_action_value_field">
                                                 <input type="text"
                                                        class="input-flat custom_action_value"
                                                        name="custom_action_value_field"
                                                        value="" />
                                             </span>
+                                                    </label>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                <?php endif; ?>
+                                <div class="form-group">
+                                    <div class="col-sm-4">
+                                        <!--[if gte IE 10]><!-->
+                                        <button id="upload_push_picture"
+                                                type="button"
+                                                class="upload_contact_picture btn color-blue image_left">
+                                            <i class="icon-camera-retro"></i>
+                                            <?php echo p__('push', 'Insert a cover image'); ?>
+                                        </button>
+                                        <!--<![endif]-->
+                                    </div>
+                                    <div class="col-sm-8 text-left">
+                                        <p id="uploader_logo_ie_description"
+                                           style="display:none;"><?php echo p__('push', 'Insert a cover image'); ?></span></p>
+                                        <input id="push_file"
+                                               class="uploader"
+                                               style="display:none"
+                                               type="file"
+                                               name="files[]"
+                                               data-url="<?php echo $this->getUrl('template/crop/upload'); ?>">
+                                        <img id="cover_img"
+                                             src="<?php echo $messageobj->getCoverUrl(); ?>"
+                                             width="210"
+                                             height="110"<?php if (!$messageobj->getCover()) : ?>
+                                            style="display:none;"<?php endif; ?> />
+                                        <a href=""
+                                           style="<?php if (!$messageobj->getCover()) : ?>display:none;<?php endif; ?>"
+                                           id="remove_cover_img"
+                                           class="btn color-blue">
+                                            <i class="fa fa-times"></i>
+                                        </a>
+                                    </div>
+                                </div>
+                            </form>
+                        </div>
+                    <?php else: ?>
+                        <div class="block container-fluid content-feature">
+                            <br/>
+                            <div class="alert alert-info">
+                                <?php echo __('Before you can send push notification, you must have at least one of iOS or Android application in a published state.') ?>
+                                <button type="button"
+                                        onclick="feature.list()"
+                                        class="btn color-blue"><?php echo __('Go back') ?></button>
+                            </div>
+                        </div>
+                    <?php endif; ?>
+                </div>
+                <?php $categories = $pntopic->getId() ? $pntopic->getCategories() : null; ?>
+                <div id="push_step_three"
+                     class="section push_step"
+                     style="display:none;"
+                     pos="3">
+                    <h3 class="title-editor no-border-radius title-feature-indent">
+                        <?php echo __('Users'); ?>
+                    </h3>
+                    <div id="push_topics"
+                         class="container-fluid content-feature">
+                        <form id="pushThirdStepForm"
+                              method="post"
+                              class="form-horizontal">
+                            <div class="form-group first-row-feature">
+                                <div class="col-md-12">
+                                    <button type="button"
+                                            onclick="push.goToStep('two');"
+                                            class="btn color-blue pull-left">
+                                        <i class="fa fa-angle-left"></i>
+                                    </button>
+                                    <button type="submit"
+                                            class="btn color-blue pull-right">
+                                        <i class="fa fa-angle-right"></i>
+                                    </button>
+                                </div>
+                            </div>
+                            <div class="use_gmaps">
+
+                                <?php if ($option->getCode() === 'push_notification'): ?>
+                                    <div class="form-group" id="target_devices">
+                                        <div class="col-md-12">
+                                            <label for="target_devices">
+                                                <?php echo __("Target specific devices"); ?>
+                                                <select class="styled-select color-blue" name="target_devices"
+                                                        onchange="$('#devices').val($(this).val());">
+                                                    <?php if ($enable_android && $enable_ios): ?>
+                                                        <option value="all"><?php echo __("iOS & Android") ?></option>
+                                                    <?php else: ?>
+                                                        <option value="all"
+                                                                disabled="disabled"><?php echo __("iOS & Android (You must set both a Firebase Key & upload a Push Certificate for the Application)") ?></option>
+                                                    <?php endif; ?>
+
+                                                    <?php if ($enable_ios): ?>
+                                                        <option value="ios"><?php echo __("iOS only") ?></option>
+                                                    <?php else: ?>
+                                                        <option value="ios"
+                                                                disabled="disabled"><?php echo __("iOS only (You must upload a Push Certificate for the Application)") ?></option>
+                                                    <?php endif; ?>
+
+                                                    <?php if ($enable_android): ?>
+                                                        <option value="android"><?php echo __("Android only") ?></option>
+                                                    <?php else: ?>
+                                                        <option value="android"
+                                                                disabled="disabled"><?php echo __("Android only (You must set a Firebase Key)") ?></option>
+                                                    <?php endif; ?>
+                                                </select>
                                             </label>
                                         </div>
                                     </div>
-                                </div>
-                            </div>
-                        <?php endif; ?>
-                        <div class="form-group">
-                            <div class="col-sm-4">
-                                <!--[if gte IE 10]><!-->
-                                <button id="upload_push_picture"
-                                        type="button"
-                                        class="upload_contact_picture btn color-blue image_left">
-                                    <i class="icon-camera-retro"></i>
-                                    <?php echo p__('push', 'Insert a cover image'); ?>
-                                </button>
-                                <!--<![endif]-->
-                            </div>
-                            <div class="col-sm-8 text-left">
-                                <p id="uploader_logo_ie_description"
-                                   style="display:none;"><?php echo p__('push', 'Insert a cover image'); ?></span></p>
-                                <input id="push_file"
-                                       class="uploader"
-                                       style="display:none"
-                                       type="file"
-                                       name="files[]"
-                                       data-url="<?php echo $this->getUrl('template/crop/upload'); ?>">
-                                <img id="cover_img"
-                                     src="<?php echo $messageobj->getCoverUrl(); ?>"
-                                     width="210"
-                                     height="110"<?php if (!$messageobj->getCover()) : ?>
-                                    style="display:none;"<?php endif; ?> />
-                                <a href=""
-                                   style="<?php if (!$messageobj->getCover()) : ?>display:none;<?php endif; ?>"
-                                   id="remove_cover_img"
-                                   class="btn color-blue">
-                                    <i class="fa fa-times"></i>
-                                </a>
-                            </div>
-                        </div>
-                    </form>
-                </div>
-            <?php else: ?>
-                <div class="block container-fluid content-feature">
-                    <br/>
-                    <div class="alert alert-info">
-                        <?php echo __('Before you can send push notification, you must have at least one of iOS or Android application in a published state.') ?>
-                        <button type="button"
-                                onclick="feature.list()"
-                                class="btn color-blue"><?php echo __('Go back') ?></button>
-                    </div>
-                </div>
-            <?php endif; ?>
-        </div>
-        <?php $categories = $pntopic->getId() ? $pntopic->getCategories() : null; ?>
-        <div id="push_step_three"
-             class="section push_step"
-             style="display:none;"
-             pos="3">
-            <h3 class="title-editor no-border-radius title-feature-indent">
-                <?php echo __('Users'); ?>
-            </h3>
-            <div id="push_topics"
-                 class="container-fluid content-feature">
-                <form id="pushThirdStepForm"
-                      method="post"
-                      class="form-horizontal">
-                    <div class="form-group first-row-feature">
-                        <div class="col-md-12">
-                            <button type="button"
-                                    onclick="push.goToStep('two');"
-                                    class="btn color-blue pull-left">
-                                <i class="fa fa-angle-left"></i>
-                            </button>
-                            <button type="submit"
-                                    class="btn color-blue pull-right">
-                                <i class="fa fa-angle-right"></i>
-                            </button>
-                        </div>
-                    </div>
-                    <div class="use_gmaps">
-
-                        <?php if ($option->getCode() === 'push_notification'): ?>
-                            <div class="form-group" id="target_devices">
-                                <div class="col-md-12">
-                                    <label for="target_devices">
-                                        <?php echo __("Target specific devices"); ?>
-                                        <select class="styled-select color-blue" name="target_devices"
-                                                onchange="$('#devices').val($(this).val());">
-                                            <?php if ($enable_android && $enable_ios): ?>
-                                                <option value="all"><?php echo __("iOS & Android") ?></option>
-                                            <?php else: ?>
-                                                <option value="all"
-                                                        disabled="disabled"><?php echo __("iOS & Android (You must set both a Firebase Key & upload a Push Certificate for the Application)") ?></option>
-                                            <?php endif; ?>
-
-                                            <?php if ($enable_ios): ?>
-                                                <option value="ios"><?php echo __("iOS only") ?></option>
-                                            <?php else: ?>
-                                                <option value="ios"
-                                                        disabled="disabled"><?php echo __("iOS only (You must upload a Push Certificate for the Application)") ?></option>
-                                            <?php endif; ?>
-
-                                            <?php if ($enable_android): ?>
-                                                <option value="android"><?php echo __("Android only") ?></option>
-                                            <?php else: ?>
-                                                <option value="android"
-                                                        disabled="disabled"><?php echo __("Android only (You must set a Firebase Key)") ?></option>
-                                            <?php endif; ?>
-                                        </select>
-                                    </label>
-                                </div>
-                            </div>
-                        <?php else: ?>
-                            <input type="hidden"
-                                   name="target_devices"
-                                   value="all"/>
-                        <?php endif; ?>
-
-                        <div class="form-group">
-                            <div class="col-md-12">
-                                <label for="all_user"
-                                       onclick="<?php if ($categories AND $categories->count()): ?>topic.hide();customers.hide();<?php endif; ?>$('#target_devices').show();">
-                                    <input type="radio" id="all_user" name="topic_user"
-                                           class="use_gmaps color-blue radio-inline" value="0" checked="checked"/>
-                                    <?php echo __("Send to all my users"); ?>
-                                </label>
-                            </div>
-                        </div>
-                        <?php if (Push_Model_Message::hasIndividualPush()): ?>
-                            <div class="form-group">
-                                <div class="col-md-12">
-                                    <label for="all_user_2" onclick="customers.show();">
-                                        <label for="all_user_2" onclick="customers.show();$('#target_devices').hide();">
-                                            <input type="radio" id="all_user_2" name="topic_user"
-                                                   class="use_gmaps color-blue radio-inline" value="1"/>
-                                            <?php echo __("Send to specific users"); ?>
-                                        </label>
-                                </div>
-                            </div>
-                        <?php endif; ?>
-                        <div class="form-group">
-                            <div class="col-md-12">
-                                <label for="all_user_1"
-                                       <?php if ($categories AND $categories->count()): ?>onclick="topic.show();$('#target_devices').hide();"<?php endif; ?>>
-                                    <input type="radio" id="all_user_1" name="topic_user"
-                                           class="use_gmaps color-blue radio-inline"
-                                           value="1" <?php if (!$categories OR ($categories AND !$categories->count())): ?> disabled <?php endif; ?>/>
-                                    <?php echo __("Send to specific topics"); ?>
-                                </label>
-                            </div>
-                        </div>
-                    </div>
-                    <div id="topics_list" style="display:none">
-                        <ul class="list-group">
-                            <?php if (!$categories OR ($categories AND !$categories->count())): ?>
-                                <li id="no_topics"
-                                    class="list-group-item content-white-bkg"><?php echo __("No items."); ?></li>
-                            <?php else: ?>
-                                <?php foreach ($categories as $category): ?>
-                                    <?php $children = $category->getChildren(); ?>
-                                    <li class="list-group-item content-white-bkg">
-                                        <label>
-                                            <input type="checkbox" id="<?php echo $category->getId(); ?>"
-                                                   class="color-blue checkbox-inline chk_topic <?php if (count($children) > 0): ?>chk_topic_parent<?php endif; ?>"/> <?php echo $category->getName(); ?>
-                                        </label>
-                                        <?php if ($children) : ?>
-                                            <ul id="children_of_<?php echo $category->getId(); ?>"
-                                                class="clear tree topic_children list-group">
-                                                <?php foreach ($children as $child) : ?>
-                                                    <li class="list-group-item content-white-bkg">
-                                                        <label>
-                                                            <input type="checkbox" id="<?php echo $child->getId(); ?>"
-                                                                   class="checkbox-inline chk_topic color-blue"/> <?php echo $child->getName(); ?>
-                                                        </label>
-                                                    </li>
-                                                <?php endforeach ?>
-                                            </ul>
-                                        <?php endif; ?>
-                                    </li>
-                                <?php endforeach; ?>
-                            <?php endif; ?>
-                        </ul>
-                    </div>
-                    <?php if (Push_Model_Message::hasIndividualPush()): ?>
-                        <div id="customers_list" style="display:none">
-
-                            <table class="table content-white-bkg sb-pager">
-                                <thead>
-                                <tr class="border-blue">
-                                    <th>
-                                        <div class="control control--checkbox fix-pos">
-                                            <input type="checkbox"
-                                                   id="send_to_all"
-                                                   class="sb-form-checkbox color-blue flatbox">
-                                            <div class="color-blue control__indicator"></div>
-                                        </div>
-                                    </th>
-                                    <th class="sortable"><?php echo __('Email'); ?></th>
-                                    <th class="sortable"><?php echo __('User'); ?></th>
-                                    <th class="sortable"><?php echo __('Created at'); ?></th>
-                                </tr>
-                                </thead>
-                                <tbody>
-                                <?php foreach ($customers as $customer) : ?>
-                                    <?php if (!empty($customer['registration_id']) || !empty($customer['device_uid'])): ?>
-                                        <tr id="customer_element_<?php echo $customer['customer_id']; ?>"
-                                            class="sb-pager">
-                                            <td>
-                                                <div class="control control--checkbox fix-pos">
-                                                    <input type="checkbox"
-                                                           name="customers[<?php echo $customer['customer_id']; ?>]"
-                                                           data-customerid="<?php echo $customer['customer_id']; ?>"
-                                                           class="customerid-checkbox sb-form-checkbox color-blue flatbox">
-                                                    <div class="color-blue control__indicator"></div>
-                                                </div>
-                                            </td>
-                                            <td><?php echo $customer['email']; ?></td>
-                                            <td><?php echo $customer['firstname'] . ' ' . $customer['lastname']; ?></td>
-                                            <td><?php echo $customer['created_at']; ?></td>
-                                        </tr>
-                                    <?php endif; ?>
-                                <?php endforeach; ?>
-                                </tbody>
-
-                                <?php if (count($customers) <= 0): ?>
-                                    <tfoot>
-                                    <tr>
-                                        <td colspan="5"><?php echo __('No customers available.') ?></td>
-                                    </tr>
-                                    </tfoot>
+                                <?php else: ?>
+                                    <input type="hidden"
+                                           name="target_devices"
+                                           value="all"/>
                                 <?php endif; ?>
-                            </table>
-                        </div>
-                    <?php endif; ?>
-                </form>
-            </div>
-        </div>
 
-        <div id="push_step_four" class="push_step" style="display:none;" pos="4">
-            <h3 class="title-editor no-border-radius title-feature-indent">
-                <?php echo __('Additionnal Information'); ?>
-            </h3>
-            <div class="container-fluid content-feature">
-                <form id="pushFourthStepForm" action="<?php echo $this->getUrl('push/application/editpost') ?>"
-                      method="post" class="form-horizontal">
-                    <div class="form-group first-row-feature">
-                        <div class="col-md-12">
-                            <button type="button" onclick="push.goToStep('three');" class="color-blue btn pull-left"><i
-                                        class="fa fa-angle-left"></i></button>
-                            <button type="submit" class="btn color-blue pull-right"><?php echo __('OK'); ?></button>
-                        </div>
-                    </div>
-                    <div class="details">
-                        <div class="row">
-                            <div class="col-md-12">
-                                <ul class="list-group">
-                                    <?php if ($messageobj->getMessageType() == 2): ?>
-                                        <li class="list-group-item content-white-bkg">
-                                            <label for="send_until_inapp_message">
-                                                <?php echo __("Please enter an expiration date for your message:"); ?>
-                                                <input type="text" id="inapp_datepicker_send_until"
-                                                       class="input-flat push_datetimepicker required "
-                                                       name="inapp_datepicker_send_until" value=""/>
-                                            </label>
-                                        </li>
-                                    <?php endif; ?>
-                                    <li class="list-group-item content-white-bg">
-                                        <span><?php echo __("I want to send it"); ?></span>
-                                    </li>
-                                    <li class="list-group-item content-white-bkg">
-                                        <label for="send_now"
-                                               onclick="$('#push_datepicker_send_at').fadeOut(150).attr('disabled', 'disabled');">
-                                            <input type="radio" id="send_now" name="send_at_a_specific_datetime"
-                                                   value="0" checked="checked" class="color-blue radio-inline"/>
-                                            <?php echo __("now"); ?>
+                                <div class="form-group">
+                                    <div class="col-md-12">
+                                        <label for="all_user"
+                                               onclick="<?php if ($categories AND $categories->count()): ?>topic.hide();customers.hide();<?php endif; ?>$('#target_devices').show();">
+                                            <input type="radio" id="all_user" name="topic_user"
+                                                   class="use_gmaps color-blue radio-inline" value="0" checked="checked"/>
+                                            <?php echo __("Send to all my users"); ?>
                                         </label>
-                                    </li>
-                                    <?php if (Cron_Model_Cron::is_active()): ?>
-                                        <li class="list-group-item content-white-bkg">
-                                            <label for="send_at_a_specific_datetime"
-                                                   onclick="$('#push_datepicker_send_at').removeAttr('disabled').fadeIn(150, function() {$('#push_datepicker_send_at').focus();});">
-                                                <input type="radio" id="send_at_a_specific_datetime"
-                                                       name="send_at_a_specific_datetime" value="1"
-                                                       class="color-blue radio-inline"/>
-                                                <?php echo __("on a specific date"); ?>
-                                            </label>
-                                            <div class="row">
-                                                <div class="col-md-4">
-                                                    <input type="text" id="push_datepicker_send_at"
-                                                           class="input-flat push_datetimepicker required "
-                                                           name="send_at" value="" style="display:none;"/>
-                                                </div>
-                                            </div>
-                                        </li>
+                                    </div>
+                                </div>
+                                <?php if (Push_Model_Message::hasIndividualPush()): ?>
+                                    <div class="form-group">
+                                        <div class="col-md-12">
+                                            <label for="all_user_2" onclick="customers.show();">
+                                                <label for="all_user_2" onclick="customers.show();$('#target_devices').hide();">
+                                                    <input type="radio" id="all_user_2" name="topic_user"
+                                                           class="use_gmaps color-blue radio-inline" value="1"/>
+                                                    <?php echo __("Send to specific users"); ?>
+                                                </label>
+                                        </div>
+                                    </div>
+                                <?php endif; ?>
+                                <div class="form-group">
+                                    <div class="col-md-12">
+                                        <label for="all_user_1"
+                                               <?php if ($categories AND $categories->count()): ?>onclick="topic.show();$('#target_devices').hide();"<?php endif; ?>>
+                                            <input type="radio" id="all_user_1" name="topic_user"
+                                                   class="use_gmaps color-blue radio-inline"
+                                                   value="1" <?php if (!$categories OR ($categories AND !$categories->count())): ?> disabled <?php endif; ?>/>
+                                            <?php echo __("Send to specific topics"); ?>
+                                        </label>
+                                    </div>
+                                </div>
+                            </div>
+                            <div id="topics_list" style="display:none">
+                                <ul class="list-group">
+                                    <?php if (!$categories OR ($categories AND !$categories->count())): ?>
+                                        <li id="no_topics"
+                                            class="list-group-item content-white-bkg"><?php echo __("No items."); ?></li>
+                                    <?php else: ?>
+                                        <?php foreach ($categories as $category): ?>
+                                            <?php $children = $category->getChildren(); ?>
+                                            <li class="list-group-item content-white-bkg">
+                                                <label>
+                                                    <input type="checkbox" id="<?php echo $category->getId(); ?>"
+                                                           class="color-blue checkbox-inline chk_topic <?php if (count($children) > 0): ?>chk_topic_parent<?php endif; ?>"/> <?php echo $category->getName(); ?>
+                                                </label>
+                                                <?php if ($children) : ?>
+                                                    <ul id="children_of_<?php echo $category->getId(); ?>"
+                                                        class="clear tree topic_children list-group">
+                                                        <?php foreach ($children as $child) : ?>
+                                                            <li class="list-group-item content-white-bkg">
+                                                                <label>
+                                                                    <input type="checkbox" id="<?php echo $child->getId(); ?>"
+                                                                           class="checkbox-inline chk_topic color-blue"/> <?php echo $child->getName(); ?>
+                                                                </label>
+                                                            </li>
+                                                        <?php endforeach ?>
+                                                    </ul>
+                                                <?php endif; ?>
+                                            </li>
+                                        <?php endforeach; ?>
                                     <?php endif; ?>
                                 </ul>
                             </div>
-                        </div>
+                            <?php if (Push_Model_Message::hasIndividualPush()): ?>
+                                <div id="customers_list" style="display:none">
 
+                                    <table class="table content-white-bkg sb-pager">
+                                        <thead>
+                                        <tr class="border-blue">
+                                            <th>
+                                                <div class="control control--checkbox fix-pos">
+                                                    <input type="checkbox"
+                                                           id="send_to_all"
+                                                           class="sb-form-checkbox color-blue flatbox">
+                                                    <div class="color-blue control__indicator"></div>
+                                                </div>
+                                            </th>
+                                            <th class="sortable"><?php echo __('Email'); ?></th>
+                                            <th class="sortable"><?php echo __('User'); ?></th>
+                                            <th class="sortable"><?php echo __('Created at'); ?></th>
+                                        </tr>
+                                        </thead>
+                                        <tbody>
+                                        <?php foreach ($customers as $customer) : ?>
+                                            <?php if (!empty($customer['registration_id']) || !empty($customer['device_uid'])): ?>
+                                                <tr id="customer_element_<?php echo $customer['customer_id']; ?>"
+                                                    class="sb-pager">
+                                                    <td>
+                                                        <div class="control control--checkbox fix-pos">
+                                                            <input type="checkbox"
+                                                                   name="customers[<?php echo $customer['customer_id']; ?>]"
+                                                                   data-customerid="<?php echo $customer['customer_id']; ?>"
+                                                                   class="customerid-checkbox sb-form-checkbox color-blue flatbox">
+                                                            <div class="color-blue control__indicator"></div>
+                                                        </div>
+                                                    </td>
+                                                    <td><?php echo $customer['email']; ?></td>
+                                                    <td><?php echo $customer['firstname'] . ' ' . $customer['lastname']; ?></td>
+                                                    <td><?php echo $customer['created_at']; ?></td>
+                                                </tr>
+                                            <?php endif; ?>
+                                        <?php endforeach; ?>
+                                        </tbody>
+
+                                        <?php if (count($customers) <= 0): ?>
+                                            <tfoot>
+                                            <tr>
+                                                <td colspan="5"><?php echo __('No customers available.') ?></td>
+                                            </tr>
+                                            </tfoot>
+                                        <?php endif; ?>
+                                    </table>
+                                </div>
+                            <?php endif; ?>
+                        </form>
                     </div>
+                </div>
 
-                    <input type="hidden" name="option_value_id" value="<?php echo $option->getId(); ?>"/>
-                    <input type="hidden" id="push_title_receiver" name="title" value=""/>
-                    <input type="hidden" id="push_text_receiver" name="text" value=""/>
-                    <input type="hidden" id="push_latitude_receiver" name="latitude" class="gmaps_field" value=""
-                           disabled="disabled"/>
-                    <input type="hidden" id="push_longitude_receiver" name="longitude" class="gmaps_field" value=""
-                           disabled="disabled"/>
-                    <input type="hidden" id="push_radius_receiver" name="radius" class="gmaps_field" value=""
-                           disabled="disabled"/>
-                    <input type="hidden" id="cover_file" name="file"/>
-                    <input type="hidden" id="remove_cover" name="remove_cover" value="0"/>
-                    <input type="hidden" id="topic_receiver" name="topic_receiver" value=""/>
-                    <input type="hidden" id="customers_receiver" name="customers_receiver" value=""/>
-                    <input type="hidden" id="action_value" name="action_value" value=""/>
-                    <input type="hidden" id="devices" name="devices" value=""/>
-                </form>
+                <div id="push_step_four" class="push_step" style="display:none;" pos="4">
+                    <h3 class="title-editor no-border-radius title-feature-indent">
+                        <?php echo __('Additionnal Information'); ?>
+                    </h3>
+                    <div class="container-fluid content-feature">
+                        <form id="pushFourthStepForm" action="<?php echo $this->getUrl('push/application/editpost') ?>"
+                              method="post" class="form-horizontal">
+                            <div class="form-group first-row-feature">
+                                <div class="col-md-12">
+                                    <button type="button" onclick="push.goToStep('three');" class="color-blue btn pull-left"><i
+                                                class="fa fa-angle-left"></i></button>
+                                    <button type="submit" class="btn color-blue pull-right"><?php echo __('OK'); ?></button>
+                                </div>
+                            </div>
+                            <div class="details">
+                                <div class="row">
+                                    <div class="col-md-12">
+                                        <ul class="list-group">
+                                            <?php if ($messageobj->getMessageType() == 2): ?>
+                                                <li class="list-group-item content-white-bkg">
+                                                    <label for="send_until_inapp_message">
+                                                        <?php echo __("Please enter an expiration date for your message:"); ?>
+                                                        <input type="text" id="inapp_datepicker_send_until"
+                                                               class="input-flat push_datetimepicker required "
+                                                               name="inapp_datepicker_send_until" value=""/>
+                                                    </label>
+                                                </li>
+                                            <?php endif; ?>
+                                            <li class="list-group-item content-white-bg">
+                                                <span><?php echo __("I want to send it"); ?></span>
+                                            </li>
+                                            <li class="list-group-item content-white-bkg">
+                                                <label for="send_now"
+                                                       onclick="$('#push_datepicker_send_at').fadeOut(150).attr('disabled', 'disabled');">
+                                                    <input type="radio" id="send_now" name="send_at_a_specific_datetime"
+                                                           value="0" checked="checked" class="color-blue radio-inline"/>
+                                                    <?php echo __("now"); ?>
+                                                </label>
+                                            </li>
+                                            <?php if (Cron_Model_Cron::is_active()): ?>
+                                                <li class="list-group-item content-white-bkg">
+                                                    <label for="send_at_a_specific_datetime"
+                                                           onclick="$('#push_datepicker_send_at').removeAttr('disabled').fadeIn(150, function() {$('#push_datepicker_send_at').focus();});">
+                                                        <input type="radio" id="send_at_a_specific_datetime"
+                                                               name="send_at_a_specific_datetime" value="1"
+                                                               class="color-blue radio-inline"/>
+                                                        <?php echo __("on a specific date"); ?>
+                                                    </label>
+                                                    <div class="row">
+                                                        <div class="col-md-4">
+                                                            <input type="text" id="push_datepicker_send_at"
+                                                                   class="input-flat push_datetimepicker required "
+                                                                   name="send_at" value="" style="display:none;"/>
+                                                        </div>
+                                                    </div>
+                                                </li>
+                                            <?php endif; ?>
+                                        </ul>
+                                    </div>
+                                </div>
+
+                            </div>
+
+                            <input type="hidden" name="option_value_id" value="<?php echo $option->getId(); ?>"/>
+                            <input type="hidden" id="push_title_receiver" name="title" value=""/>
+                            <input type="hidden" id="push_text_receiver" name="text" value=""/>
+                            <input type="hidden" id="push_latitude_receiver" name="latitude" class="gmaps_field" value=""
+                                   disabled="disabled"/>
+                            <input type="hidden" id="push_longitude_receiver" name="longitude" class="gmaps_field" value=""
+                                   disabled="disabled"/>
+                            <input type="hidden" id="push_radius_receiver" name="radius" class="gmaps_field" value=""
+                                   disabled="disabled"/>
+                            <input type="hidden" id="cover_file" name="file"/>
+                            <input type="hidden" id="remove_cover" name="remove_cover" value="0"/>
+                            <input type="hidden" id="topic_receiver" name="topic_receiver" value=""/>
+                            <input type="hidden" id="customers_receiver" name="customers_receiver" value=""/>
+                            <input type="hidden" id="action_value" name="action_value" value=""/>
+                            <input type="hidden" id="devices" name="devices" value=""/>
+                        </form>
+                    </div>
+                </div>
+
+
+            </div>
+
+        </div>
+        <!-- MESSAGES -->
+
+        <!-- SETTINGS -->
+        <div role="tabpanel"
+             class="tab-pane"
+             id="tab-settings">
+            <div class="feature-block-add">
+                <h3 class="title-editor no-border-radius title-feature-indent">
+                    <?php echo p__('push', 'Settings'); ?>
+                </h3>
+
+                <div id="push-form-settings"
+                     class="container-fluid first-row-feature content-feature feature-manage-items">
+                    <?php echo $formSettings; ?>
+                </div>
             </div>
         </div>
+        <!-- SETTINGS -->
 
+        <!-- BACKGROUND -->
+        <div role="tabpanel"
+             class="tab-pane"
+             id="tab-design">
+            <?php echo $this->importBackground($option, false, false); ?>
+        </div>
+        <!-- BACKGROUND -->
 
     </div>
+
+
     <script type="text/javascript">
 
 
         $(document).ready(function () {
             bindForms('#list');
+            bindForms('#push-form-settings');
+            bindForms('#tab-design');
 
             var sendToAll = $('#send_to_all'),
                 customerIdCheckboxes = $('input.customerid-checkbox');

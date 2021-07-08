@@ -26,9 +26,11 @@
 
         <ion-list class="list-posts">
 
-            <ion-item class="item-divider item-divider-custom section-title">
-                <h2>{{ ::'Your posts' | translate:'fanwall' }}</h2>
-            </ion-item>
+            <div ng-class="{'card': getCardDesign()}">
+                <ion-item class="item-divider item-divider-custom section-title">
+                    <h2>{{ ::'Your posts' | translate:'fanwall' }}</h2>
+                </ion-item>
+            </div>
 
             <div class="loader"
                  ng-show="isLoading">

@@ -6,7 +6,7 @@
  */
 angular
     .module('starter')
-    .directive('fanwallCommentList', function ($timeout, ModalScrollDelegate, Lightbox) {
+    .directive('fanwallCommentList', function ($timeout, $interval, ModalScrollDelegate, Lightbox, FanwallPost) {
     return {
         restrict: 'E',
         replace: true,
@@ -34,8 +34,35 @@ angular
                 $scope.scrollToBottom();
             };
 
+            //$scope.$on('destroy', function () {
+            //    $interval.cancel($scope.liveComments);
+            //});
+
+            // Refresh comments every 5 seconds!
+            //$scope.liveComments = $interval(function () {
+            //    if ($scope.refreshInProgress) {
+            //        return;
+            //    }
+//
+            //    $scope.refreshInProgress = true;
+            //    FanwallPost
+            //        .findOne($scope.post.id)
+            //        .then(function (payload) {
+            //            $scope.refreshInProgress = false;
+            //            $rootScope.$broadcast('fanwall.refresh.comments', {
+            //                comments: payload.collection[0].comments,
+            //                postId: payload.collection[0].id
+            //            });
+            //        }, function () {
+            //            $scope.refreshInProgress = false;
+            //        });
+            //}, 5000);
+
             $rootScope.$on('fanwall.refresh.comments', function (event, payload) {
-                // Comments are updated!
+                // Comments are updated, but we don't want to interfere were interval auto-refresh!
+                //if ($scope.refreshInProgress) {
+                //    return;
+                //}
                 if (payload.postId === $scope.post.id) {
                     $timeout(function () {
                         $scope.post.comments = angular.copy(payload.comments);

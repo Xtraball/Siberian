@@ -2,6 +2,7 @@
 
 use Fanwall\Model\Fanwall;
 use Fanwall\Model\Post;
+use Fanwall\Model\Approval;
 use Fanwall\Form\Post as FormPost;
 use Fanwall\Form\Settings as FormSettings;
 use Fanwall\Form\Post\Pin as FormPostPin;
@@ -73,6 +74,10 @@ $uniqid = $formPost->getUniqid();
 $pvar = "p{$uniqid}";
 $imageTemplate = str_replace("%UNIQID%", $uniqid, FormPost::$imageTemplate);
 
+
+// Approval requests
+$approvals = (new Approval())->findAllWithPost($optionValue->getId());
+
 ?>
 
 
@@ -99,6 +104,19 @@ $imageTemplate = str_replace("%UNIQID%", $uniqid, FormPost::$imageTemplate);
                data-toggle="tab">
                 <i class="fa fa-suitcase"></i>
                 <?php echo p__("fanwall", "Posts") ?>
+            </a>
+        </li>
+
+        <li role="presentation">
+            <a href="#approval"
+               aria-controls="approval"
+               role="tab"
+               data-toggle="tab">
+                <i class="fa fa-check"></i>
+                <?php echo p__("fanwall", "Awaiting approval") ?>
+                <?php if ($approvals->count() > 0): ?>
+                <span class="badge color-red"><?php echo $approvals->count() ?></span>
+                <?php endif; ?>
             </a>
         </li>
 
@@ -136,6 +154,13 @@ $imageTemplate = str_replace("%UNIQID%", $uniqid, FormPost::$imageTemplate);
             "posts" => $posts,
         ]); ?>
         <!-- /END POST TAB -->
+
+        <!-- START APPROVAL TAB -->
+        <?php echo getSection('approval', [
+            'option_value' => $optionValue,
+            'approvals' => $approvals,
+        ]); ?>
+        <!-- /END APPROVAL TAB -->
 
         <!-- START DESIGN TAB -->
         <div role="tabpanel"

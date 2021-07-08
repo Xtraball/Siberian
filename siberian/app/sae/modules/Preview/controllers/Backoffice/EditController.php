@@ -55,9 +55,9 @@ class Preview_Backoffice_EditController extends Backoffice_Controller_Default
                 $data["previews"] = $data_tmp;
             }
 
-            $data["section_title_one"] = $this->_("Edit the preview");
+            $data["section_title_one"] = p__('preview', "Edit the preview");
         } else {
-            $data["section_title_one"] = $this->_("Create a new preview");
+            $data["section_title_one"] = p__('preview', "Create a new preview");
             $option = new Application_Model_Option();
             $option_list = array();
             $options = $option->findAll(array(), 'position ASC');
@@ -67,7 +67,7 @@ class Preview_Backoffice_EditController extends Backoffice_Controller_Default
             $data["options"] = $option_list;
         }
 
-        $data["section_title_two"] = $this->_("Preview images");
+        $data["section_title_two"] = p__('preview', "Preview images");
 
         $languages = Core_Model_Language::getLanguages();
         $language_list = array();
@@ -90,7 +90,7 @@ class Preview_Backoffice_EditController extends Backoffice_Controller_Default
                 $option_id = !empty($data["option_id"]) ? $data["option_id"] : null;
                 $preview_id = !empty($data["preview_id"]) ? $data["preview_id"] : null;
 
-                if(empty($previews)) throw new Exception($this->_("An error occurred while saving your previews. Please try again later."));
+                if(empty($previews)) throw new Exception(p__('preview', "An error occurred while saving your previews. Please try again later."));
 
                 $preview = new Preview_Model_Preview();
 
@@ -98,7 +98,7 @@ class Preview_Backoffice_EditController extends Backoffice_Controller_Default
                     //No preview for this option yet, we create one if it doesn't exists.
                     $preview->find($option_id,"option_id");
                     if($preview->getId()){
-                        throw new Exception($this->_("Sorry, but an existing preview for this feature has been found. Please edit existing one."));
+                        throw new Exception(p__('preview', "Sorry, but an existing preview for this feature has been found. Please edit existing one."));
                     }
 
                     $preview->setData("option_id",$option_id);
@@ -107,7 +107,7 @@ class Preview_Backoffice_EditController extends Backoffice_Controller_Default
                     if(!empty($preview_id)) {
                         $preview->find($data["preview_id"]);
                     } else {
-                        throw new Exception($this->_("An error occurred while saving your previews. Please try again later."));
+                        throw new Exception(p__('preview', "An error occurred while saving your previews. Please try again later."));
                     }
                 }
 
@@ -142,12 +142,12 @@ class Preview_Backoffice_EditController extends Backoffice_Controller_Default
 
                             if (!is_dir($new_path)) {
                                 if(!mkdir($new_path, 0777, true)) {
-                                    throw new Exception($this->_("Unable to create the directory."));
+                                    throw new Exception(p__('preview', "Unable to create the directory."));
                                 }
                             }
 
                             if(!rename($old_path."/".$image["filename"],$new_path."/".$image["filename"])){
-                                throw new Exception($this->_("Unable to copy the file."));
+                                throw new Exception(p__('preview', "Unable to copy the file."));
                             }
 
                             $data_image = array(
@@ -168,13 +168,18 @@ class Preview_Backoffice_EditController extends Backoffice_Controller_Default
                         }
 
                         //We delete images to delete
-                        if($image["to_delete"] == 1 AND $image["new"] == 0) {
-                            if(!unlink(Core_Model_Directory::getBasePathTo($image["link"]))) {
-                                throw new Exception($this->_("Unable to delete the file."));
+                        if($image["to_delete"] == 1 && $image["new"] == 0) {
+                            $imagePath = path($image["link"]);
+
+                            // Blind unlink, we don't really care!
+                            unlink($imagePath);
+
+                            $libraryImage = new Media_Model_Library_Image();
+                            $libraryImage->find($image["id"]);
+                            if ($libraryImage && $libraryImage->getId()) {
+                                $libraryImage->delete();
                             }
-                            $library_image = new Media_Model_Library_Image();
-                            $library_image->find($image["id"]);
-                            $library_image->delete();
+
                         }
                     }
 
@@ -191,7 +196,7 @@ class Preview_Backoffice_EditController extends Backoffice_Controller_Default
 
                 $data = array(
                     "success" => 1,
-                    "message" => $this->_("Preview successfully saved")
+                    "message" => p__('preview', "Preview successfully saved")
                 );
 
             } catch(Exception $e) {
@@ -244,12 +249,12 @@ class Preview_Backoffice_EditController extends Backoffice_Controller_Default
 
                 $this->_sendHtml(array(
                     "success" => 1,
-                    "message" => $this->_("Your image has been successfully saved"),
+                    "message" => p__('preview', "Your image has been successfully saved"),
                     "filename" => $file
                 ));
 
             } else {
-                $message = $this->_("An error occurred during the process. Please try again later.");
+                $message = p__('preview', "An error occurred during the process. Please try again later.");
                 throw new Exception($message);
             }
         } catch(Exception $e) {
@@ -275,12 +280,12 @@ class Preview_Backoffice_EditController extends Backoffice_Controller_Default
 
                 $data = array(
                     "success" => 1,
-                    "message" => $this->_("Your preview translation has been deleted successfully.")
+                    "message" => p__('preview', "Your preview translation has been deleted successfully.")
                 );
                 $this->_sendHtml($data);
 
             } else {
-                throw new Exception($this->_("An error occurred while deleting your preview. Please try again later."));
+                throw new Exception(p__('preview', "An error occurred while deleting your preview. Please try again later."));
             }
         } catch(Exception $e) {
 

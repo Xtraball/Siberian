@@ -75,6 +75,19 @@ class Application_Model_Option_Value extends Application_Model_Option
     }
 
     /**
+     * @return int
+     */
+    public function getPendingActions (): int
+    {
+        $object = $this->getObject();
+        if (method_exists($object, 'getPendingActions')) {
+            return $object->getPendingActions($this);
+        }
+
+        return 0;
+    }
+
+    /**
      * @return array
      * @throws Zend_Exception
      */

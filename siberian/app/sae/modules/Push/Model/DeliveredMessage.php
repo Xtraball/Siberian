@@ -2,17 +2,13 @@
 
 /**
  * Class Push_Model_DeliveredMessage
+ *
+ * @method Push_Model_Db_Table_DeliveredMessage getTable()
  */
 class Push_Model_DeliveredMessage extends Core_Model_Default
 {
     /**
-     * Push_Model_DeliveredMessage constructor.
-     * @param array $datas
-     * @throws Zend_Exception
+     * @var string
      */
-    public function __construct($datas = [])
-    {
-        parent::__construct($datas);
-        $this->_db_table = 'Push_Model_Db_Table_DeliveredMessage';
-    }
+    protected $_db_table = Push_Model_Db_Table_DeliveredMessage::class;
 }

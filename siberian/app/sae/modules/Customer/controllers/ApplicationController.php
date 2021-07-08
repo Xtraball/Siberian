@@ -71,6 +71,10 @@ class Customer_ApplicationController extends Application_Controller_Default
                     'extra_mobile_required' => filter_var($values['extra_mobile_required'], FILTER_VALIDATE_BOOLEAN),
                     'extra_civility' => filter_var($values['extra_civility'], FILTER_VALIDATE_BOOLEAN),
                     'extra_civility_required' => filter_var($values['extra_civility_required'], FILTER_VALIDATE_BOOLEAN),
+                    'extra_birthdate' => filter_var($values['extra_birthdate'], FILTER_VALIDATE_BOOLEAN),
+                    'extra_birthdate_required' => filter_var($values['extra_birthdate_required'], FILTER_VALIDATE_BOOLEAN),
+                    'extra_nickname' => filter_var($values['extra_nickname'], FILTER_VALIDATE_BOOLEAN),
+                    'extra_nickname_required' => filter_var($values['extra_nickname_required'], FILTER_VALIDATE_BOOLEAN),
                 ];
 
                 // Enforces logic on backend side (to be sure)
@@ -79,6 +83,12 @@ class Customer_ApplicationController extends Application_Controller_Default
                 }
                 if ($settings['extra_civility_required']) {
                     $settings['extra_civility'] = true;
+                }
+                if ($settings['extra_birthdate_required']) {
+                    $settings['extra_birthdate'] = true;
+                }
+                if ($settings['extra_nickname_required']) {
+                    $settings['extra_nickname'] = true;
                 }
 
                 $optionValue

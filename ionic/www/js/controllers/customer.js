@@ -65,8 +65,8 @@ angular
             .then(function (value) {
                 $scope.currentLanguage = (value === null) ? 'en' : value;
             }).catch(function (error) {
-                $scope.currentLanguage = 'en';
-            });
+            $scope.currentLanguage = 'en';
+        });
 
         if (window.IS_NATIVE_APP) {
             try {
@@ -112,6 +112,17 @@ angular
                 });
         };
 
+        $scope.rndName = function (length) {
+            var result = '';
+            var characters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
+            var charactersLength = characters.length;
+            for (var i = 0; i < length; i++) {
+                result += characters.charAt(Math.floor(Math.random() *
+                    charactersLength));
+            }
+            return result;
+        };
+
         $scope.displayField = function (field) {
             var bDisplay = (field.type !== 'spacer' && $scope.card_design) || !$scope.card_design;
             if (!bDisplay) {
@@ -151,8 +162,8 @@ angular
                                 Dialog.alert('Error', error.message, 'OK', -1, 'customer');
                                 // Revert!
                             }).then(function () {
-                                Loader.hide();
-                            });
+                            Loader.hide();
+                        });
                     }
                 });
         };
@@ -170,7 +181,7 @@ angular
             return window.AVAILABLE_LANGUAGES;
         };
 
-        $scope.getPushToken =  function () {
+        $scope.getPushToken = function () {
             var message = $translate.instant('Your device is not registered for Push notifications!', 'customer');
             if (Push.lastErrorMessage !== null && Push.device_token === null) {
                 message = Push.lastErrorMessage;
@@ -209,8 +220,8 @@ angular
                 }, function (error) {
                     // Revert!
                 }).then(function () {
-                    Loader.hide();
-                });
+                Loader.hide();
+            });
         };
 
         $scope.messagePushRegistration = function (success) {
@@ -252,8 +263,8 @@ angular
                 }, function (error) {
                     // Revert!
                 }).then(function () {
-                    Loader.hide();
-                });
+                Loader.hide();
+            });
         };
 
         $scope.reloadLocale = function (select) {
@@ -278,14 +289,14 @@ angular
                         // Clear history, and go home!
                         $ionicHistory
                             .clearCache()
-                            .then(function() {
+                            .then(function () {
                                 Customer.hideModal();
                                 $state.reload();
                             });
                     });
                 }).then(function () {
-                    Loader.hide();
-                });
+                Loader.hide();
+            });
         };
 
         $scope.getVersion = function () {
@@ -406,8 +417,8 @@ angular
                 }, function (error) {
                     Dialog.alert('Error', error.message, 'OK', -1);
                 }).then(function () {
-                    Loader.hide();
-                });
+                Loader.hide();
+            });
         };
 
         $scope.logout = function () {
@@ -502,7 +513,7 @@ angular
 
         $scope.removeCreditCard = function () {
             Dialog
-                .confirm('Confirmation', 'Do you confirm you want to remove your card?', ['Yes, delete!','No, go back!'], '', 'customer')
+                .confirm('Confirmation', 'Do you confirm you want to remove your card?', ['Yes, delete!', 'No, go back!'], '', 'customer')
                 .then(function (result) {
                     if (result) {
                         $scope.is_loading = true;

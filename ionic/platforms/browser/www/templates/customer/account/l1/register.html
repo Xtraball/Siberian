@@ -82,6 +82,7 @@
             </div>
             <input class="text-right"
                    type="text"
+                   name="'{{ rndName(20) }}'"
                    placeholder="{{ ::'Email' | translate:'customer' }}"
                    ng-model="customer.email"/>
         </label>
@@ -97,7 +98,8 @@
                    ng-model="customer.mobile"/>
         </label>
 
-        <label class="item item-custom"
+        <label class="item item-custom bold"
+               style="padding-left: 15px;"
                ng-click="customer.change_password = !customer.change_password"
                ng-if="customer.is_logged_in">
             {{ ::'Change password' | translate:'customer' }}
@@ -106,10 +108,11 @@
         <label class="item item-input item-custom"
                ng-if="customer.change_password && customer.is_logged_in">
             <div class="input-label">
-                {{ ::'Current password' | translate:'customer' }}
+                {{ ::'Current password' | translate:'customer' }}<span>&nbsp;*</span>
             </div>
             <input class="text-right"
                    type="password"
+                   name="'{{ rndName(20) }}'"
                    placeholder="{{ 'Current password' | translate:'customer' }}"
                    ng-disabled="!customer.change_password"
                    ng-model="customer.old_password"/>
@@ -119,10 +122,11 @@
             <div class="input-label">
                 <span ng-show="!customer.change_password">{{ ::'Password' | translate:'customer' }}</span>
                 <span ng-show="customer.change_password">{{ ::'New password' | translate:'customer' }}</span>
-                <span>*</span>
+                <span>&nbsp;*</span>
             </div>
             <input class="text-right"
                    type="password"
+                   name="'{{ rndName(20) }}'"
                    placeholder="{{ ::'Password' | translate:'customer' }}"
                    ng-model="customer.password"
                    ng-disabled="!customer.change_password && customer.is_logged_in"/>
@@ -131,10 +135,12 @@
         <label class="item item-input item-custom"
                ng-if="myAccount.settings.enable_password_verification && (customer.change_password || !customer.is_logged_in)">
             <div class="input-label">
-                <span>{{ ::'Repeat password' | translate:'customer' }}</span> <span>*</span>
+                <span>{{ ::'Repeat password' | translate:'customer' }}</span>
+                <span>&nbsp;*</span>
             </div>
             <input class="text-right"
                    type="password"
+                   name="'{{ rndName(20) }}'"
                    placeholder="{{ ::'Repeat password' | translate:'customer' }}"
                    ng-model="customer.repeat_password"/>
         </label>

@@ -98,6 +98,25 @@ ion-content.has-background-image, [sb-page-background] {
     border-bottom: none;
 }
 
+.super-click:before {
+    content: " ";
+    display: block;
+    width: 38px;
+    height: 38px;
+    position: absolute;
+    right: 0;
+    top: 0;
+}
+.super-click-a:after {
+    content: " ";
+    display: block;
+    width: 38px;
+    height: 38px;
+    position: absolute;
+    right: 0;
+    top: 0;
+}
+
 .button .icon {
     color: inherit;
 }
