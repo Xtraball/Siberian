@@ -39,7 +39,6 @@ angular
             },
             myAccount: {
                 title: $translate.instant('My account', 'customer'),
-                localBirthdateTitle: $translate.instant('Birthdate', 'customer'),
                 settings: {
                     enable_registration: true,
                     enable_commercial_agreement: true,
@@ -57,6 +56,8 @@ angular
             }
         });
 
+        $scope.myAccount.localBirthdateTitle = $translate.instant('Birthdate', 'customer');
+
         $scope.backButtonIcon = function () {
             return Application.getBackIcon();
         };
@@ -66,8 +67,8 @@ angular
             .then(function (value) {
                 $scope.currentLanguage = (value === null) ? 'en' : value;
             }).catch(function (error) {
-            $scope.currentLanguage = 'en';
-        });
+                $scope.currentLanguage = 'en';
+            });
 
         if (window.IS_NATIVE_APP) {
             try {

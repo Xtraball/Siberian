@@ -938,11 +938,15 @@ class Front_Controller_Api_Base extends Front_Controller_App_Default
                 ->setLanguage($currentLanguage)
                 ->save();
 
+            $birthdate = new Zend_Date();
+            $birthdate->setTimestamp($customer->getBirthdate());
+
             $loadBlock['customer'] = array_merge($loadBlock['customer'], [
                 'civility' => $customer->getCivility(),
                 'firstname' => $customer->getFirstname(),
                 'lastname' => $customer->getLastname(),
                 'nickname' => $customer->getNickname(),
+                "birthdate" => $birthdate->toString('dd/MM/y'),
                 'mobile' => $customer->getMobile(),
                 'image' => $customer->getImage(),
                 'email' => $customer->getEmail(),

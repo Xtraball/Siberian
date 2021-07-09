@@ -271,15 +271,29 @@ class Push_Model_Android_Message
             }
         }
 
-        if ($message->getLongitude() && $message->getLatitude()) {
+        if ($message->getLongitude() &&
+            $message->getLatitude()) {
             $messagePayload->contentAvailable(true);
         }
 
         // Sound Legacy HTTP Payload!
         $messagePayload->addData('soundname', 'sb_beep4');
 
+        // High priority!
+        $messagePayload->priority('high');
+
+        // Silent push enforced!
+        $isSilentPush = $message->getIsSilent();
+
+        // Check for "implicit" silent
+        $noTitle = trim($messagePayload->getData()['title']);
+        $noBody = trim($messagePayload->getData()['message']);
+        if (empty($noTitle) && empty($noBody)) {
+            $isSilentPush = true;
+        }
+
         // Notification for FCM latest
-        if (!$message->getIsSilent()) {
+        if (!$isSilentPush) {
             $notification = new \Siberian\CloudMessaging\Notification();
             $notification->title($messagePayload->getData()['title']);
             $notification->body($messagePayload->getData()['message']);
@@ -289,13 +303,14 @@ class Push_Model_Android_Message
             $notification->notificationPriority('high');
             $messagePayload->notification($notification);
         }
-        
+
         // Trigger an event when the push message is parsed,
         $result = Hook::trigger('push.message.android.parsed',
             [
                 'message' => $messagePayload,
                 'application' => $application
             ]);
+
         $messagePayload = $result['message'];
 
         return $messagePayload;

@@ -31,12 +31,16 @@ class Customer_Mobile_Account_EditController extends Application_Controller_Mobi
                 unset($metadatas->stripe["customerId"]);
             }
 
+            $birthdate = new Zend_Date();
+            $birthdate->setTimestamp($customer->getBirthdate());
+
             $payload = [
                 "id" => $customer->getId(),
                 "civility" => $customer->getCivility(),
                 "firstname" => $customer->getFirstname(),
                 "lastname" => $customer->getLastname(),
                 "nickname" => $customer->getNickname(),
+                "birthdate" => $birthdate->toString('dd/MM/y'),
                 "email" => $customer->getEmail(),
                 "show_in_social_gaming" => (bool)$customer->getShowInSocialGaming(),
                 "is_custom_image" => (bool)$customer->getIsCustomImage(),
@@ -120,6 +124,12 @@ class Customer_Mobile_Account_EditController extends Application_Controller_Mobi
             }
             if (isset($data['customer_id'])) {
                 unset($data['customer_id']);
+            }
+
+            if (isset($data['birthdate'])) {
+                $birthdate = new Zend_Date();
+                $birthdate->setDate($data['birthdate'], 'DD/MM/YYYY');
+                $data['birthdate'] = $birthdate->getTimestamp();
             }
 
             $customer->saveImage($data['image']);
