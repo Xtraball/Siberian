@@ -47,7 +47,6 @@ class Customer_Mobile_Account_RegisterController extends Application_Controller_
                 $requiredFields[] = p__('customer', 'Civility');
             }
 
-
             if (empty($data['firstname'])) {
                 $requiredFields[] = p__('customer', 'Firstname');
             }

@@ -23,6 +23,7 @@ angular
                     locationShort: ''
                 }
             },
+            enbleModeration: Fanwall.getSettings().enable_moderation,
             cardDesign: Fanwall.getSettings().cardDesign,
             fetchingLocation: false,
             shortLocation: '',

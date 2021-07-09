@@ -17,7 +17,7 @@
                    ng-if="myAccount.settings.use_civility || myAccount.settings.extra_civility">
                 <div class="input-label">
                     {{ ::'Civility' | translate:'customer' }}
-                    <span ng-if="myAccount.settings.extra_civility_required">*</span>
+                    <span ng-if="myAccount.settings.use_civility || myAccount.settings.extra_civility_required">*</span>
                 </div>
                 <select ng-model="customer.civility">
                     <option value="">{{ ::'Select' | translate:'customer' }}</option>
@@ -51,11 +51,11 @@
                    sb-datetime-picker
                    headers="true"
                    format="'DD/MM/YYYY'"
-                   title="myAccount.localBirthdateTitle"
+                   title="i18n.localBirthdateTitle"
                    model="customer.birthdate">
                 <div class="input-label">
                     {{ ::'Birthdate' | translate:'customer' }}
-                    <span ng-show="myAccount.settings.extra_birthdate_required">*</span>
+                    <span ng-show="myAccount.settings.use_birthdate || myAccount.settings.extra_birthdate_required">*</span>
                 </div>
                 <input type="text"
                        class="text-right"
@@ -68,7 +68,7 @@
                    ng-if="myAccount.settings.use_nickname || myAccount.settings.extra_nickname">
                 <div class="input-label">
                     {{ ::'Nickname' | translate:'customer' }}
-                    <span ng-show="myAccount.settings.extra_nickname_required">*</span>
+                    <span ng-show="myAccount.settings.use_nickname || myAccount.settings.extra_nickname_required">*</span>
                 </div>
                 <input class="text-right"
                        type="text"
@@ -82,7 +82,6 @@
                 </div>
                 <input class="text-right"
                        type="text"
-                       name="{{ ::Email }}"
                        placeholder="{{ ::'Email' | translate:'customer' }}"
                        ng-model="customer.email"/>
             </label>
@@ -90,7 +89,7 @@
             <label class="item item-input item-custom"
                    ng-if="myAccount.settings.use_mobile || myAccount.settings.extra_mobile">
                 <div class="input-label">
-                    {{ ::'Mobile' | translate:'customer' }} <span ng-if="myAccount.settings.extra_mobile_required">*</span>
+                    {{ ::'Mobile' | translate:'customer' }} <span ng-if="myAccount.settings.use_mobile || myAccount.settings.extra_mobile_required">*</span>
                 </div>
                 <input class="text-right"
                        type="text"
@@ -113,9 +112,6 @@
                 <input class="text-right"
                        type="password"
                        name="{{ ::rndOldPassword }}"
-                       style="cursor: text !important;"
-                       readonly
-                       onfocus="this.removeAttribute('readonly')"
                        placeholder="{{ 'Current password' | translate:'customer' }}"
                        ng-disabled="!customer.change_password"
                        ng-model="customer.old_password"/>
@@ -130,9 +126,6 @@
                 <input class="text-right"
                        type="password"
                        name="{{ ::rndPassword }}"
-                       style="cursor: text !important;"
-                       readonly
-                       onfocus="this.removeAttribute('readonly')"
                        placeholder="{{ ::'Password' | translate:'customer' }}"
                        ng-model="customer.password"
                        ng-disabled="!customer.change_password && customer.is_logged_in"/>
@@ -148,8 +141,6 @@
                        type="password"
                        name="{{ ::rndPasswordRepeat }}"
                        style="cursor: text !important;"
-                       readonly
-                       onfocus="this.removeAttribute('readonly')"
                        placeholder="{{ ::'Repeat password' | translate:'customer' }}"
                        ng-model="customer.repeat_password"/>
             </label>

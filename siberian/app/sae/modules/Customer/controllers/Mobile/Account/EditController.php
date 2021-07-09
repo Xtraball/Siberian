@@ -15,54 +15,14 @@ class Customer_Mobile_Account_EditController extends Application_Controller_Mobi
      */
     public function findAction()
     {
+        $customerPayload = Customer_Model_Customer::getCurrent();
+        $customerPayload['extendedFields'] = Account::getFields([
+            'application' => $this->getApplication(),
+            'request' => $this->getRequest(),
+            'session' => $this->getSession(),
+        ]);
 
-        $customer = $this->getSession()->getCustomer();
-        $payload = [];
-        $payload['is_logged_in'] = false;
-
-        if ($customer->getId()) {
-            $metadatas = $customer->getMetadatas();
-            if (empty($metadatas)) {
-                $metadatas = json_decode("{}"); // we really need a javascript object here
-            }
-
-            //hide stripe customer id for secure purpose
-            if ($metadatas->stripe && array_key_exists("customerId", $metadatas->stripe) && $metadatas->stripe["customerId"]) {
-                unset($metadatas->stripe["customerId"]);
-            }
-
-            $birthdate = new Zend_Date();
-            $birthdate->setTimestamp($customer->getBirthdate());
-
-            $payload = [
-                "id" => $customer->getId(),
-                "civility" => $customer->getCivility(),
-                "firstname" => $customer->getFirstname(),
-                "lastname" => $customer->getLastname(),
-                "nickname" => $customer->getNickname(),
-                "birthdate" => $birthdate->toString('dd/MM/y'),
-                "email" => $customer->getEmail(),
-                "show_in_social_gaming" => (bool)$customer->getShowInSocialGaming(),
-                "is_custom_image" => (bool)$customer->getIsCustomImage(),
-                "metadatas" => $metadatas
-            ];
-
-            if (Siberian_CustomerInformation::isRegistered("stripe")) {
-                $exporter_class = Siberian_CustomerInformation::getClass("stripe");
-                if (class_exists($exporter_class) && method_exists($exporter_class, "getInformation")) {
-                    $tmp_class = new $exporter_class();
-                    $info = $tmp_class->getInformation($customer->getId());
-                    $payload["stripe"] = $info ? $info : [];
-                }
-            }
-
-            $payload["is_logged_in"] = true;
-            $payload["isLoggedIn"] = true;
-
-        }
-
-        $this->_sendJson($payload);
-
+        $this->_sendJson($customerPayload);
     }
 
     /**
@@ -177,9 +137,7 @@ class Customer_Mobile_Account_EditController extends Application_Controller_Mobi
 
             $customer->save();
 
-
             $currentCustomer = Customer_Model_Customer::getCurrent();
-
             $currentCustomer['extendedFields'] = Account::getFields([
                 'application' => $this->getApplication(),
                 'request' => $this->getRequest(),

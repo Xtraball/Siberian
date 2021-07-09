@@ -8,6 +8,7 @@
     <ion-list ng-if="!isLoading && collection.length > 0"
               class="list-posts">
         <fanwall-post-item repeat-done="listDidRender()"
+                           rel="fanwall-gallery-{{ post.id }}"
                            id="{{ post.id }}"
                            ng-repeat="post in collection track by post.id"></fanwall-post-item>
     </ion-list>

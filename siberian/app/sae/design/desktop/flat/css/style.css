@@ -2012,7 +2012,7 @@ input[type=text]:before {
     display: block;
     background: #a7a7a7;
     top: -0.25em;
-    z-index: 1000;
+    z-index: 10;
     border-radius: 0.75em;
     font-family: 'FontAwesome';
     color: white;

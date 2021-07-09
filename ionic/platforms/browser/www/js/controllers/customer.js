@@ -53,10 +53,17 @@ angular
             version: {
                 number: $translate.instant('Latest', 'customer'),
                 code: $translate.instant('latest', 'customer'),
-            }
+            },
+            /** Variants for chrome */
+            user: {
+                email: '',
+                password: ''
+            },
         });
 
-        $scope.myAccount.localBirthdateTitle = $translate.instant('Birthdate', 'customer');
+        $scope.i18n = {
+            localBirthdateTitle: $translate.instant('Birthdate', 'customer')
+        };
 
         $scope.backButtonIcon = function () {
             return Application.getBackIcon();

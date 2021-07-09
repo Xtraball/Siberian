@@ -299,6 +299,7 @@ class Fanwall_Mobile_PostController extends Application_Controller_Mobile_Defaul
                     'sticky' => (boolean) $post->getSticky(),
                     'iLiked' => (boolean) $iLiked,
                     'isVisible' => (boolean) $post->getIsVisible(),
+                    'status' => $post->getStatus(),
                     'likeLocked' => (boolean) false,
                     'author' => $author,
                     'comments' => $commentCollection,

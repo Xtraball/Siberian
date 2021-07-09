@@ -4,11 +4,20 @@
             <img ng-src="{{ authorImagePath() }}"/>
             <h2>
                 {{ authorName() }}
-                <span ng-if="currentTab == 'profile' && !post.isVisible"
+
+                <span ng-if="currentTab == 'profile' && post.isVisible && post.status == 'published'"
+                      class="badge badge-balanced badge-balanced-custom"
+                      style="margin-right: 15px;margin-top: 1.5px;">{{ ::'Published' | translate:'fanwall' }}</span>
+                <span ng-if="currentTab == 'profile' && !post.isVisible && post.status == 'pending'"
                       class="badge badge-energized badge-energized-custom"
                       style="margin-right: 15px;margin-top: 1.5px;">{{ ::'Awaiting approval' | translate:'fanwall' }}</span>
+                <span ng-if="currentTab == 'profile' && !post.isVisible && post.status == 'rejected'"
+                      class="badge badge-assertive badge-assertive-custom"
+                      style="margin-right: 15px;margin-top: 1.5px;">{{ ::'Rejected' | translate:'fanwall' }}</span>
+
                 <i class="icon ion-more pull-right super-click-a"
                    ng-click="openActions($event)"></i>
+
                 <i class="icon ion-pin icon-pin pull-right balanced balanced-custom"
                    ng-if="post.sticky"></i>
             </h2>
