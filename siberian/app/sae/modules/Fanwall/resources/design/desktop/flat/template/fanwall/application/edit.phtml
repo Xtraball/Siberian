@@ -25,6 +25,7 @@ function getSection($name, $data = [])
 
 $application = $this->getApplication();
 $optionValue = $this->getOptionValue();
+$valueId = $optionValue->getId();
 
 $appKey = $application->getGooglemapsKey();
 
@@ -115,7 +116,8 @@ $approvals = (new Approval())->findAllWithPost($optionValue->getId());
                 <i class="fa fa-check"></i>
                 <?php echo p__("fanwall", "Awaiting approval") ?>
                 <?php if ($approvals->count() > 0): ?>
-                <span class="badge color-red"><?php echo $approvals->count() ?></span>
+                <span rel="<?php echo $valueId ?>"
+                      class="badge color-red live-badge"><?php echo $approvals->count() ?></span>
                 <?php endif; ?>
             </a>
         </li>

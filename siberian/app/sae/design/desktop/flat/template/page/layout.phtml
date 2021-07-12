@@ -141,15 +141,6 @@
 
             <div class="footer">
                 <?php echo $this->getPartialHtml('footer') ?>
-                <div id="up"
-                     style="display:none">
-                <a href="javascript:void(0)"
-                   class="box foo"
-                   data-image="341"
-                   data-style="header"
-                   data-color="background_color"><i class="fa fa-caret-up"></i>
-                </a>
-                </div>
             </div>
 
             <div id="mask"
@@ -177,15 +168,15 @@
             </div>
         <script type="text/javascript">
             let tour = null;
+
             <?php
-                if($this->getApplication()) {
+                $appId = "";
+                if ($this->getApplication()) {
                     $application = $this->getApplication();
-                    $app_id = $this->getApplication()->getAppId();
-                } else {
-                    $app_id = "";
+                    $appId = $this->getApplication()->getAppId();
                 }
 
-                if(!empty($app_id) && !Siberian_Version::is("SAE")):
+                if (!empty($appId) && !Siberian_Version::is('SAE')):
             ?>
             (function() {
 
@@ -193,30 +184,57 @@
                 let timeout = 120000;
                 setInterval(function () {
                     $.ajax({
-                        "url":"/application/security/check?app_id=<?php echo $app_id; ?>"
+                        url: '/application/security/check?app_id=<?php echo $appId; ?>'
                     })
-                }, 120000);
+                }, timeout);
+                <?php endif; ?>
+            }());
+            <?php endif; ?>
 
-                $.ajaxSetup({
-                    statusCode: {
-                        400: function (err) {
+            // Hooking up ajax responses for badges feature
+            $.ajaxSetup({
+                statusCode: {
+                    400: function (err) {
+                        try {
                             let refresh = JSON.parse(err.responseText).refresh;
                             // If the refresh flag is set, ie response is like {"refresh": true}
                             if (refresh) {
                                 // alert the user and refresh the page
                                 alert("<?php echo __js("You cannot have multiple sessions to manage apps, so the session for this app is closed. This page is about to be reloaded.") ?>");
                                 window.location.reload();
-                            } else {
-                                /** Increase timeout on false to reduce server load. */
-                                timeout = 42000;
+                            }
+                        } catch (e) {
+                            // Silent
+                        }
+                    }
+                },
+                dataFilter: function (data, type) {
+                    if (type === 'json') {
+                        var _data = JSON.parse(data);
+                        if (_data.hasOwnProperty('badge')) {
+                            try {
+                                var valueId = _data.badge.valueId;
+                                var badge = $('.live-badge[rel=' + valueId + ']');
+                                var count = parseInt(_data.badge.count);
+                                if (count > 0) {
+                                    if (count > 99) {
+                                        count = '99+';
+                                    }
+                                    // Update badges
+                                    badge.text(count);
+                                    badge.show();
+                                } else {
+                                    badge.hide();
+                                }
+                            } catch (e) {
+                                // Silent
                             }
                         }
                     }
-                });
-                <?php endif; ?>
 
-            }());
-            <?php endif; ?>
+                    return data;
+                }
+            });
 
             $(document).ready(function() {
                 loader.init();
@@ -224,13 +242,9 @@
                     $('#loader').show();
                     window.location = $(this).val();
                 });
-                $("input, textarea").placeholder();
-                $('#up').children('a').click(function() {
-                    $('html').animate({scrollTop:0}, 'slow');
-                    return false;
-                });
+
                 // Instance the tour
-                <?php if(System_Model_Config::getValueFor("bootstraptour_active") == "1"): ?>
+                <?php if (__get('bootstraptour_active') === '1'): ?>
                     launchBootstrapTour();
                 <?php endif; ?>
 
@@ -245,7 +259,7 @@
         </script>
         <?php
             if (!$this->getRequest()->isWhiteLabelEditor()) {
-                echo __get("support_chat_code");
+                echo __get('support_chat_code');
             }
         ?>
     </body>

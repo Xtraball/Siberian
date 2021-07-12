@@ -150,7 +150,7 @@ class Fanwall_ApplicationController extends Application_Controller_Default
             $values = $request->getPost();
 
             $post = (new Post())->find($values['post_id']);
-            if (!$post && !$post->getId()) {
+            if (!$post || !$post->getId()) {
                 throw new Exception(p__('fanwall', 'This post does not exists.'));
             }
 
@@ -161,7 +161,7 @@ class Fanwall_ApplicationController extends Application_Controller_Default
                 ]
             );
 
-            if (!$approval && !$approval->getId()) {
+            if (!$approval || !$approval->getId()) {
                 throw new Exception(p__('fanwall', 'This approval request does not exists.'));
             }
 
@@ -176,6 +176,10 @@ class Fanwall_ApplicationController extends Application_Controller_Default
             $payload = [
                 'success' => true,
                 'message' => p__('fanwall', 'The post is approved & published!'),
+                'badge' => [
+                    'valueId' => $valueId,
+                    'count' => (new Fanwall())->getPendingActions($optionValue)
+                ]
             ];
 
         } catch (\Exception $e) {
@@ -197,7 +201,7 @@ class Fanwall_ApplicationController extends Application_Controller_Default
             $values = $request->getPost();
 
             $post = (new Post())->find($values['post_id']);
-            if (!$post && !$post->getId()) {
+            if (!$post || !$post->getId()) {
                 throw new Exception(p__('fanwall', 'This post does not exists.'));
             }
 
@@ -208,7 +212,7 @@ class Fanwall_ApplicationController extends Application_Controller_Default
                 ]
             );
 
-            if (!$approval && !$approval->getId()) {
+            if (!$approval || !$approval->getId()) {
                 throw new Exception(p__('fanwall', 'This approval request does not exists.'));
             }
 
@@ -223,6 +227,10 @@ class Fanwall_ApplicationController extends Application_Controller_Default
             $payload = [
                 'success' => true,
                 'message' => p__('fanwall', 'The post is rejected!'),
+                'badge' => [
+                    'valueId' => $valueId,
+                    'count' => (new Fanwall())->getPendingActions($optionValue)
+                ]
             ];
 
         } catch (\Exception $e) {

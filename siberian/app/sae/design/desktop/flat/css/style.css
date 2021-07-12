@@ -1826,6 +1826,7 @@ a.details.add_page {
     height: 6em !important;
     background-size: calc(100% - 2em) !important;
     background-position: 50% 50%;
+    background-color: #ffffff !important;
 }
 
 #add_page_list {

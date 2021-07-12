@@ -33,7 +33,8 @@ $pendingActions = $option->getPendingActions();
         <?php $icon_id_url = $option->getIconId() ? $option->getIconId() : $this->getIconUrl($option); ?>
 
         <?php if ($pendingActions > 0): ?>
-            <span class="badge color-red badge-actions"><?php echo ($pendingActions > 99) ? '99+' : $pendingActions; ?></span>
+            <span rel="<?php echo $option->getId() ?>"
+                  class="badge color-red badge-actions live-badge"><?php echo ($pendingActions > 99) ? '99+' : $pendingActions; ?></span>
         <?php endif; ?>
 
         <img id="icon_<?php echo $option->getId(); ?>"
