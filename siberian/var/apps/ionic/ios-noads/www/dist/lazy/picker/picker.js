@@ -1632,6 +1632,10 @@
             removeData(element, NAMESPACE);
             picker.parentNode.removeChild(picker);
             return this;
+        },
+        // Update title
+        setTitle: function setTitle(title) {
+            this.picker.getElementsByClassName('picker-title')[0].textContent = title;
         }
     };
 

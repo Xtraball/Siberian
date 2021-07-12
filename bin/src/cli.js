@@ -569,7 +569,7 @@ let rebuild = function (platform, copy, prepare, skipRebuild) {
                 }
 
                 // tmp object for the rebuild all, otherwise this will extends upon each platform!
-                let localPlugins = require(Rionic/platforms/ios/cordova/node_modules/cordova-common/src/superspawn.jsOOT + '/ionic/plugins.json');
+                let localPlugins = require(ROOT + '/ionic/plugins.json');
                 let tmpPlugins = localPlugins.default;
                 let platformPlugins = localPlugins[platform];
                 let requiredPlugins = Object.assign(tmpPlugins, platformPlugins);
