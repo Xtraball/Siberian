@@ -3,6 +3,7 @@
 use Siberian\Account;
 use Siberian\Exception;
 use Siberian\Hook;
+use Siberian\Json;
 
 /**
  * Class Customer_Mobile_Account_EditController
@@ -79,12 +80,90 @@ class Customer_Mobile_Account_EditController extends Application_Controller_Mobi
                 $data['show_in_social_gaming'] = 0;
             }
 
+            // Clear ID's
             if (isset($data['id'])) {
                 unset($data['id']);
             }
             if (isset($data['customer_id'])) {
                 unset($data['customer_id']);
             }
+
+            // Clear email, must not be changed
+            unset($data['email']);
+
+            // Check against required fields
+            $requiredFields = [];
+
+            // Check civility & mobile extra fields (and ensure app has a customer account ...)
+            $application->checkCustomerAccount();
+            $myAccountTab = $application->getOption('tabbar_account');
+            $accountSettings = Json::decode($myAccountTab->getSettings());
+            $requireMobile = $accountSettings['extra_mobile_required'];
+            $requireCivility = $accountSettings['extra_civility_required'];
+            $requireBirthdate = $accountSettings['extra_birthdate_required'];
+            $requireNickname = $accountSettings['extra_nickname_required'];
+
+            // Adds check for modules extras*
+            $useNickname = false;
+            $useBirthdate = false;
+            $useCivility = false;
+            $useMobile = false;
+            foreach ($application->getOptions() as $feature) {
+                if ($feature->getUseNickname()) {
+                    $useNickname = true;
+                }
+                if ($feature->getUseBirthdate()) {
+                    $useBirthdate = true;
+                }
+                if ($feature->getUseCivility()) {
+                    $useCivility = true;
+                }
+                if ($feature->getUseMobile()) {
+                    $useMobile = true;
+                }
+
+                // All are true, we can abort here!
+                if ($useNickname &&
+                    $useBirthdate &&
+                    $useCivility &&
+                    $useMobile) {
+                    break;
+                }
+            }
+
+            if (($requireMobile || $useMobile) && empty($data['mobile'])) {
+                $requiredFields[] = p__('customer', 'Mobile');
+            }
+
+            if (($requireCivility || $useCivility) && empty($data['civility'])) {
+                $requiredFields[] = p__('customer', 'Civility');
+            }
+
+            if (($requireBirthdate || $useBirthdate) && empty($data['birthdate'])) {
+                $requiredFields[] = p__('customer', 'Birthdate');
+            }
+
+            if (($requireNickname || $useNickname) && empty($data['nickname'])) {
+                $requiredFields[] = p__('customer', 'Nickname');
+            }
+
+            if (empty($data['firstname'])) {
+                $requiredFields[] = p__('customer', 'Firstname');
+            }
+
+            if (empty($data['lastname'])) {
+                $requiredFields[] = p__('customer', 'Lastname');
+            }
+
+            // Throwing all errors at once!
+            if (count($requiredFields) > 0) {
+                $message = p__('customer', 'The following fields are required') . ':<br />- ' .
+                    implode('<br />- ', $requiredFields);
+
+                throw new Exception($message);
+            }
+            // Check against required fields
+
 
             if (isset($data['birthdate'])) {
                 $birthdate = new Zend_Date();

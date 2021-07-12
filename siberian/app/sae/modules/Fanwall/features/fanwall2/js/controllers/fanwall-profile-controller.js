@@ -6,7 +6,7 @@
  */
 angular
     .module('starter')
-    .controller('FanwallProfileController', function ($scope, $stateParams, $timeout,
+    .controller('FanwallProfileController', function ($scope, $rootScope, $stateParams, $timeout,
                                                       Customer, FanwallUtils, FanwallPost, Lightbox) {
         angular.extend($scope, {
             isLoading: true,
@@ -77,13 +77,17 @@ angular
                 }, function (payload) {
                     // Error!
                 }).then(function () {
-                if (loadMore === true) {
-                    $scope.$broadcast('scroll.infiniteScrollComplete');
-                }
+                    if (loadMore === true) {
+                        $scope.$broadcast('scroll.infiniteScrollComplete');
+                    }
 
-                $scope.isLoading = false;
-            });
+                    $scope.isLoading = false;
+                });
         };
+
+        $rootScope.$on('fanwall.profile.reload', function () {
+            $scope.loadContent(true, false);
+        });
 
         $scope.loadContent(true, false);
     });

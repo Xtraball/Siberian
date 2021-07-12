@@ -39,12 +39,51 @@ class Customer_Mobile_Account_RegisterController extends Application_Controller_
             $accountSettings = Json::decode($myAccountTab->getSettings());
             $requireMobile = $accountSettings['extra_mobile_required'];
             $requireCivility = $accountSettings['extra_civility_required'];
-            if ($requireMobile && empty($data['mobile'])) {
+            $requireBirthdate = $accountSettings['extra_birthdate_required'];
+            $requireNickname = $accountSettings['extra_nickname_required'];
+
+            // Adds check for modules extras*
+            $useNickname = false;
+            $useBirthdate = false;
+            $useCivility = false;
+            $useMobile = false;
+            foreach ($application->getOptions() as $feature) {
+                if ($feature->getUseNickname()) {
+                    $useNickname = true;
+                }
+                if ($feature->getUseBirthdate()) {
+                    $useBirthdate = true;
+                }
+                if ($feature->getUseCivility()) {
+                    $useCivility = true;
+                }
+                if ($feature->getUseMobile()) {
+                    $useMobile = true;
+                }
+
+                // All are true, we can abort here!
+                if ($useNickname &&
+                    $useBirthdate &&
+                    $useCivility &&
+                    $useMobile) {
+                    break;
+                }
+            }
+
+            if (($requireMobile || $useMobile) && empty($data['mobile'])) {
                 $requiredFields[] = p__('customer', 'Mobile');
             }
 
-            if ($requireCivility && empty($data['civility'])) {
+            if (($requireCivility || $useCivility) && empty($data['civility'])) {
                 $requiredFields[] = p__('customer', 'Civility');
+            }
+
+            if (($requireBirthdate || $useBirthdate) && empty($data['birthdate'])) {
+                $requiredFields[] = p__('customer', 'Birthdate');
+            }
+
+            if (($requireNickname || $useNickname) && empty($data['nickname'])) {
+                $requiredFields[] = p__('customer', 'Nickname');
             }
 
             if (empty($data['firstname'])) {
@@ -75,6 +114,12 @@ class Customer_Mobile_Account_RegisterController extends Application_Controller_
                     implode('<br />- ', $requiredFields);
 
                 throw new Exception($message);
+            }
+
+            if (isset($data['birthdate'])) {
+                $birthdate = new Zend_Date();
+                $birthdate->setDate($data['birthdate'], 'DD/MM/YYYY');
+                $data['birthdate'] = $birthdate->getTimestamp();
             }
 
             if (!empty($data['nickname'])) {
@@ -237,7 +282,7 @@ class Customer_Mobile_Account_RegisterController extends Application_Controller_
                               $message = '',
                               $showLegals = false)
     {
-        $layout = new Siberian\Layout();
+        $layout = new Layout();
         $layout = $layout->loadEmail('customer', $nodeName);
         $layout
             ->setContentFor('base', 'email_title', $title)

@@ -848,9 +848,15 @@ class Fanwall_Mobile_PostController extends Application_Controller_Mobile_Defaul
             }
 
             // All done, time for moderation
-            $post
-                ->setIsVisible(!$settings['enable_moderation'])
-                ->save();
+            $isVisible = true;
+            if ($settings['enable_moderation']) {
+                $isVisible = false;
+
+                $post
+                    ->setStatus('pending')
+                    ->setIsVisible($isVisible)
+                    ->save();
+            }
 
             // Ok everything good, we can insert archive if edit
             if ($saveToHistory) {

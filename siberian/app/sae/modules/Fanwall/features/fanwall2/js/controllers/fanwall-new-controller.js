@@ -98,6 +98,7 @@ angular
                 .then(function (payload) {
                     Loader.hide();
                     $rootScope.$broadcast('fanwall.refresh');
+                    $rootScope.$broadcast('fanwall.profile.reload');
                     $scope.close();
                 }, function (payload) {
                     // Show error!

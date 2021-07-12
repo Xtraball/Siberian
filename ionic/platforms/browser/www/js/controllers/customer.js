@@ -58,7 +58,7 @@ angular
             user: {
                 email: '',
                 password: ''
-            },
+            }
         });
 
         $scope.i18n = {
@@ -408,6 +408,16 @@ angular
                 });
         };
 
+        $scope.checkPasswordStatus =  function () {
+            if (!$scope.customer.change_password) {
+                $timeout(function () {
+                    $scope.customer.old_password = '';
+                    $scope.customer.password = '';
+                    $scope.customer.repeat_password = '';
+                });
+            }
+        };
+
         $scope.registerOrSave = function () {
             Loader.show();
 
@@ -417,6 +427,8 @@ angular
                 Dialog.alert('Error', 'Passwords do not match!', 'OK', -1, 'customer');
                 return;
             }
+
+            $scope.checkPasswordStatus();
 
             Customer
                 .save($scope.customer)
