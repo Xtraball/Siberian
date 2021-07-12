@@ -30,6 +30,11 @@
                 <ion-item class="item-divider item-divider-custom section-title">
                     <h2>{{ ::'Your posts' | translate:'fanwall' }}</h2>
                 </ion-item>
+
+                <ion-item ng-if="hasRejected"
+                          class="item-custom">
+                    {{ ::'You have rejected posts, you can edit their content to submit them again for review!' | translate:'fanwall' }}
+                </ion-item>
             </div>
 
             <div class="loader"
@@ -38,6 +43,7 @@
             </div>
 
             <fanwall-post-item ng-if="!isLoading && collection.length > 0"
+                               rel="fanwall-gallery-{{ post.id }}"
                                repeat-done="listDidRender()"
                                id="{{ post.id }}"
                                ng-repeat="post in collection track by post.id"></fanwall-post-item>

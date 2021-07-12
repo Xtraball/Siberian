@@ -64,8 +64,15 @@ angular
                     $scope.collection = $scope.collection.concat(payload.collection);
                     $scope.hasMore = $scope.collection.length < payload.total;
 
+                    $scope.hasRejected = _.find($scope.collection, {'status': 'rejected'}) !== undefined;
+
                     $timeout(function () {
-                        Lightbox.run('.list-posts');
+                        // We need a single instance for every post*
+                        document
+                            .querySelectorAll('.list-posts fanwall-post-item')
+                            .forEach(function (item) {
+                                Lightbox.run('[rel="fanwall-gallery-' + item.id + '"]');
+                            });
                     }, 200);
                 }, function (payload) {
                     // Error!
