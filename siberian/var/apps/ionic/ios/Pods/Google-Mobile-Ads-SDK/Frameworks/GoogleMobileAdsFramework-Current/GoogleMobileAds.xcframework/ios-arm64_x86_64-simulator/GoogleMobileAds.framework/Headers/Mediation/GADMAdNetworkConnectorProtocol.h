@@ -52,8 +52,6 @@
 
 /// Tells the connector that the adapter recorded a user click.
 - (void)adapterDidGetAdClick:(id<GADMAdNetworkAdapter>)adapter;
-/// Tells the connector that the adapter will leave the application because of a user action.
-- (void)adapterWillLeaveApplication:(id<GADMAdNetworkAdapter>)adapter;
 
 // Adapter should call as many of these as possible, during the lifecycle of the loaded banner ad.
 
@@ -88,5 +86,8 @@
 /// Deprecated. Use -adapter:didFailAd:.
 - (void)adapter:(id<GADMAdNetworkAdapter>)adapter
     didFailInterstitial:(NSError *)error GAD_DEPRECATED_MSG_ATTRIBUTE("Use -adapter:didFailAd:");
+
+/// Deprecated. No replacement.
+- (void)adapterWillLeaveApplication:(id<GADMAdNetworkAdapter>)adapter GAD_DEPRECATED_ATTRIBUTE;
 
 @end

@@ -355,6 +355,7 @@ angular
             factory.customer.email = '';
             factory.customer.image = '';
             factory.customer.mobile = '';
+            factory.customer.birthdate = '';
             factory.customer.change_password = false;
             factory.customer.password = '';
             factory.customer.repeat_password = '';

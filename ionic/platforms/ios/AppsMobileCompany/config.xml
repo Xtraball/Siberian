@@ -25,19 +25,8 @@
         <param name="ios-package" value="CDVGestureHandler" />
         <param name="onload" value="true" />
     </feature>
-    <feature name="InAppPurchase">
-        <param name="ios-package" value="InAppPurchase" />
-        <param name="onload" value="true" />
-    </feature>
-    <feature name="CDVWKWebViewFileXhr">
-        <param name="ios-package" value="CDVWKWebViewFileXhr" />
-        <param name="onload" value="true" />
-    </feature>
-    <feature name="PushNotification">
-        <param name="ios-package" value="PushPlugin" />
-    </feature>
-    <feature name="WebViewPlugin">
-        <param name="ios-package" value="WebViewPlugin" />
+    <feature name="AdMob">
+        <param name="ios-package" value="AMBPlugin" />
     </feature>
     <feature name="AppVersion">
         <param name="ios-package" value="AppVersion" />
@@ -100,6 +89,20 @@
     <feature name="Toast">
         <param name="ios-package" value="Toast" />
     </feature>
+    <feature name="InAppPurchase">
+        <param name="ios-package" value="InAppPurchase" />
+        <param name="onload" value="true" />
+    </feature>
+    <feature name="CDVWKWebViewFileXhr">
+        <param name="ios-package" value="CDVWKWebViewFileXhr" />
+        <param name="onload" value="true" />
+    </feature>
+    <feature name="PushNotification">
+        <param name="ios-package" value="PushPlugin" />
+    </feature>
+    <feature name="WebViewPlugin">
+        <param name="ios-package" value="WebViewPlugin" />
+    </feature>
     <name>AppsMobileCompany</name>
     <description>Apps Mobile Company app source code</description>
     <author>Apps Mobile Company Dev Team</author>
@@ -138,6 +141,7 @@
     <preference name="PageLength" value="0" />
     <preference name="PaginationBreakingMode" value="page" />
     <preference name="PaginationMode" value="unpaginated" />
+    <preference name="APP_ID_IOS" value="ca-app-pub-0000000000000000~0000000000" />
     <preference name="CameraUsesGeolocation" value="false" />
     <preference name="StatusBarOverlaysWebView" value="true" />
     <preference name="StatusBarStyle" value="lightcontent" />

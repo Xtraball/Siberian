@@ -76,20 +76,10 @@
     <preference name="KeyboardResizeMode" value="native" />
     <preference name="deployment-target" value="11.0" />
     <preference name="WKWebViewOnly" value="true" />
-    <feature name="InAppPurchase">
-        <param name="ios-package" value="InAppPurchase" />
-        <param name="onload" value="true" />
+    <feature name="AdMob">
+        <param name="ios-package" value="AMBPlugin" />
     </feature>
-    <feature name="CDVWKWebViewFileXhr">
-        <param name="ios-package" value="CDVWKWebViewFileXhr" />
-        <param name="onload" value="true" />
-    </feature>
-    <feature name="PushNotification">
-        <param name="ios-package" value="PushPlugin" />
-    </feature>
-    <feature name="WebViewPlugin">
-        <param name="ios-package" value="WebViewPlugin" />
-    </feature>
+    <preference name="APP_ID_IOS" value="ca-app-pub-0000000000000000~0000000000" />
     <feature name="AppVersion">
         <param name="ios-package" value="AppVersion" />
     </feature>
@@ -154,5 +144,19 @@
     </feature>
     <feature name="Toast">
         <param name="ios-package" value="Toast" />
+    </feature>
+    <feature name="InAppPurchase">
+        <param name="ios-package" value="InAppPurchase" />
+        <param name="onload" value="true" />
+    </feature>
+    <feature name="CDVWKWebViewFileXhr">
+        <param name="ios-package" value="CDVWKWebViewFileXhr" />
+        <param name="onload" value="true" />
+    </feature>
+    <feature name="PushNotification">
+        <param name="ios-package" value="PushPlugin" />
+    </feature>
+    <feature name="WebViewPlugin">
+        <param name="ios-package" value="WebViewPlugin" />
     </feature>
 </widget>

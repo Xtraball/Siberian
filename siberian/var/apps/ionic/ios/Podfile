@@ -4,10 +4,10 @@ platform :ios, '11.0'
 use_frameworks!
 target 'AppsMobileCompany' do
 	project 'AppsMobileCompany.xcodeproj'
+	pod 'Google-Mobile-Ads-SDK', '8.7.0'
 	pod 'nanopb', '~> 2.30906.0'
-	pod 'GoogleMobileAdsMediationFacebook', '6.5.0'
-	pod 'StartAppSDK', '4.6.5'
-	pod 'Google-Mobile-Ads-SDK', '8.6.0'
+	pod 'GoogleMobileAdsMediationFacebook', '6.5.1'
+	pod 'StartAppSDK', '4.6.6'
 end
 post_install do |installer|
   installer.pods_project.targets.each do |target|

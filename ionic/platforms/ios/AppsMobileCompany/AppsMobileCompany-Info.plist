@@ -199,10 +199,28 @@
 		<key>NSAllowsArbitraryLoads</key>
 		<true/>
 	</dict>
-	<key>UIBackgroundModes</key>
+	<key>GADApplicationIdentifier</key>
+	<string>ca-app-pub-0000000000000000~0000000000</string>
+	<key>GADDelayAppMeasurementInit</key>
+	<true/>
+	<key>SKAdNetworkItems</key>
 	<array>
-		<string>remote-notification</string>
-		<string>audio</string>
+		<dict>
+			<key>SKAdNetworkIdentifier</key>
+			<string>cstr6suwn9.skadnetwork</string>
+		</dict>
+		<dict>
+			<key>SKAdNetworkIdentifier</key>
+			<string>v9wttpbfk9.skadnetwork</string>
+		</dict>
+		<dict>
+			<key>SKAdNetworkIdentifier</key>
+			<string>n38lu8286q.skadnetwork</string>
+		</dict>
+		<dict>
+			<key>SKAdNetworkIdentifier</key>
+			<string>5l3tpt7t6e.skadnetwork</string>
+		</dict>
 	</array>
 	<key>NSLocationWhenInUseUsageDescription</key>
 	<string>Use the GPS for live navigation</string>
@@ -211,6 +229,11 @@
 		<string>waze</string>
 		<string>comgooglemaps</string>
 		<string>comgooglemaps-x-callback</string>
+	</array>
+	<key>UIBackgroundModes</key>
+	<array>
+		<string>audio</string>
+		<string>remote-notification</string>
 	</array>
 	<key>NSLocationAlwaysAndWhenInUseUsageDescription</key>
 	<string>Background location is used to send you geolocated push notifications.</string>
