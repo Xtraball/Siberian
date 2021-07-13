@@ -91,9 +91,7 @@ class Fanwall_Mobile_PostController extends Application_Controller_Mobile_Defaul
 
                 $author = $this->_fetchAuthor($application, $post);
 
-                $images = array_filter(explode(',', $post->getImage()), function ($item) {
-                    return !empty($item);
-                });
+                $images = array_filter(explode(',', $post->getImage()));
 
                 $collection[] = [
                     'id' => (integer) $post->getId(),

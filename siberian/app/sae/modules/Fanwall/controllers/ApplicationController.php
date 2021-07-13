@@ -11,7 +11,6 @@ use Fanwall\Model\Approval;
 use Siberian\Exception;
 use Siberian\Feature;
 use Siberian\Json;
-use Siberian\Xss;
 
 /**
  * Class Fanwall2_ApplicationController
@@ -98,6 +97,8 @@ class Fanwall_ApplicationController extends Application_Controller_Default
                     ->addData([
                         'is_active' => true,
                     ])
+                    ->setIsVisible(true)
+                    ->setStatus('published')
                     ->save();
 
                 // Ok everything good, we can insert archive if edit
