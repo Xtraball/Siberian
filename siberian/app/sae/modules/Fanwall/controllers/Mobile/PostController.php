@@ -111,6 +111,7 @@ class Fanwall_Mobile_PostController extends Application_Controller_Mobile_Defaul
                     'sticky' => (boolean) $post->getSticky(),
                     'iLiked' => $iLiked,
                     'isVisible' => (boolean) $post->getIsVisible(),
+                    'status' => $post->getStatus(),
                     'likeLocked' => false,
                     'author' => $author,
                     'comments' => $commentCollection,
@@ -197,6 +198,7 @@ class Fanwall_Mobile_PostController extends Application_Controller_Mobile_Defaul
                     'sticky' => (boolean) $post->getSticky(),
                     'iLiked' => false,
                     'isVisible' => (boolean) $post->getIsVisible(),
+                    'status' => $post->getStatus(),
                     'likeLocked' => false,
                     'author' => $author,
                     'comments' => $commentCollection,
@@ -428,6 +430,7 @@ class Fanwall_Mobile_PostController extends Application_Controller_Mobile_Defaul
                     'sticky' => (boolean) $post->getSticky(),
                     'iLiked' => (boolean) $iLiked,
                     'isVisible' => (boolean) $post->getIsVisible(),
+                    'status' => $post->getStatus(),
                     'likeLocked' => (boolean) false,
                     'author' => $author,
                     'comments' => $commentCollection,
@@ -552,6 +555,7 @@ class Fanwall_Mobile_PostController extends Application_Controller_Mobile_Defaul
                     'sticky' => (boolean) $post->getSticky(),
                     'iLiked' => (boolean) $iLiked,
                     'isVisible' => (boolean) $post->getIsVisible(),
+                    'status' => $post->getStatus(),
                     'likeLocked' => (boolean) false,
                     'author' => $author,
                     'comments' => $commentCollection,
@@ -1300,13 +1304,20 @@ class Fanwall_Mobile_PostController extends Application_Controller_Mobile_Defaul
             }
 
             // Make post invisible!
-            $post
-                ->setIsVisible(false)
-                ->save();
+            if ($post->getStatus() === 'deleted') {
+                $post->delete();
+                $message = 'Your post is permanently removed.';
+            } else {
+                $post
+                    ->setIsVisible(false)
+                    ->setStatus('deleted')
+                    ->save();
+                $message = 'Your post is trashed.';
+            }
 
             $payload = [
                 'success' => true,
-                'message' => 'Your post is trashed.',
+                'message' => $message,
             ];
         } catch (\Exception $e) {
             $payload = [

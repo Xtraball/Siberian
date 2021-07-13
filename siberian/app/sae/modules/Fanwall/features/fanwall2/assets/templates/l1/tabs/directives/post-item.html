@@ -14,6 +14,9 @@
                 <span ng-if="currentTab == 'profile' && !post.isVisible && post.status == 'rejected'"
                       class="badge badge-assertive badge-assertive-custom"
                       style="margin-right: 15px;margin-top: 1.5px;">{{ ::'Rejected' | translate:'fanwall' }}</span>
+                <span ng-if="currentTab == 'profile' && !post.isVisible && post.status == 'deleted'"
+                      class="badge badge-assertive badge-assertive-custom"
+                      style="margin-right: 15px;margin-top: 1.5px;">{{ ::'Trashed' | translate:'fanwall' }}</span>
 
                 <i class="icon ion-more pull-right super-click-a"
                    ng-click="openActions($event)"></i>
