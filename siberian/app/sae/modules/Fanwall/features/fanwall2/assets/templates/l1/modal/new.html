@@ -16,9 +16,9 @@
     <ion-content class="has-footer">
 
         <div class="list"
+             ng-if="enbleModeration"
              ng-class="{'card': getCardDesign()}">
-            <div class="item item-custom item-text-wrap"
-                 ng-if="enbleModeration">
+            <div class="item item-custom item-text-wrap">
                 {{ ::'Moderation is enabled, your new post & edits will require admin approval!' | translate:'fanwall' }}
             </div>
         </div>

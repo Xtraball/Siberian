@@ -6,6 +6,7 @@
        class="history-text"
        sb-html="item.text"></p>
     <p class="history-image"
+       ng-if="image.length > 0"
        ng-repeat="image in item.images track by $index">
         <a data-fslightbox="history-gallery"
            href="{{ imagePath(image) }}"
