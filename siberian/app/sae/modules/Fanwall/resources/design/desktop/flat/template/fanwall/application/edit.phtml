@@ -115,7 +115,7 @@ $approvals = (new Approval())->findAllWithPost($optionValue->getId());
                data-toggle="tab">
                 <i class="fa fa-check"></i>
                 <?php echo p__("fanwall", "Awaiting approval") ?>
-                <span style="<?php echo ($approvals->count() < 1) ? 'disaply: none;' : ''; ?>"
+                <span style="<?php echo ($approvals->count() < 1) ? 'display: none;' : ''; ?>"
                       rel="<?php echo $valueId ?>"
                       class="badge color-red live-badge"><?php echo $approvals->count() ?></span>
             </a>
