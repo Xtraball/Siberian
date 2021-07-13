@@ -51,6 +51,10 @@ $cacheOutput = Zend_Registry::get("cacheOutput");
 
 $backgroundColor = $this->getBlock("color-blue")->getBackgroundColor();
 
+if (strtolower($backgroundColor) === 'transparent') {
+    $backgroundColor = '#0099C7';
+}
+
 /**
  * @param $canAccess
  * @param $option
