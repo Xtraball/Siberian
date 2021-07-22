@@ -137,9 +137,10 @@ class Application_Model_Option_Value extends Application_Model_Option
      * but way more portable
      *
      * @param Application_Model_Option_Value $option
+     * @param $color
      * @return string
      */
-    public static function sGetIconUrl($option)
+    public static function sGetIconUrl($option, $color = null)
     {
         $application = (new Application_Model_Application())
             ->find($option->getAppId());
@@ -170,9 +171,16 @@ class Application_Model_Option_Value extends Application_Model_Option
 
         $iconUrl = $iconId;
         if ($colorizable) {
-            $iconColor = "#FFFFFF";
-            if (Siberian_Version::is('pe')) {
-                $iconColor = Core_View_Default_Abstract::sGetBlock('area')->getColor();
+            if ($color !== null) {
+                $iconColor = $color;
+            } else {
+                $iconColor = '#0099C7';
+                if (Siberian_Version::is('pe')) {
+                    $iconColor = Core_View_Default_Abstract::sGetBlock('area')->getColor();
+                    if ($iconColor === 'transparent') {
+                        $iconColor = '#0099C7';
+                    }
+                }
             }
 
             $iconUrl = Core_Controller_Default_Abstract::sGetColorizedImage($iconId, $iconColor);

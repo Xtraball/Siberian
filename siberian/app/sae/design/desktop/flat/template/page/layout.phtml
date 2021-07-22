@@ -181,12 +181,12 @@
             (function() {
 
                 <?php if(!Siberian_Debug::$render): /** Do not call when in debug mode, log pollution */ ?>
-                let timeout = 120000;
-                setInterval(function () {
-                    $.ajax({
-                        url: '/application/security/check?app_id=<?php echo $appId; ?>'
-                    })
-                }, timeout);
+                //let timeout = 120000;
+                //setInterval(function () {
+                //    $.ajax({
+                //        url: '/application/security/check?app_id=<?php echo $appId; ?>'
+                //    })
+                //}, timeout);
                 <?php endif; ?>
             }());
             <?php endif; ?>

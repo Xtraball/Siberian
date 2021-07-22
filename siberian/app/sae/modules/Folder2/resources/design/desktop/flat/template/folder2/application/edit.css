@@ -133,49 +133,51 @@ ul.nested-folders.deep .placeholder {
     border-color: red !important;
 }
 
+
+/** Pages */
+#folder_add_page_list .block_add_pages_icon {
+    border-radius: 2px;
+    padding: 0 !important;
+    width: 6em !important;
+    height: 6em !important;
+    background-size: calc(100% - 2em) !important;
+    background-position: 50% 50%;
+    background-color: #f3f3f3 !important;
+}
+
 #folder_add_page_list {
-    padding: 0;
-    margin: 0;
-    list-style-type: none;
+    padding-left: 15px;
+}
+
+#folder_add_page_list .block_add_pages_icon:hover {
+    cursor: pointer;
 }
 
 #folder_add_page_list .folder_add_page {
     text-align: center;
     margin-bottom: 10px;
     list-style: none;
-    padding-right: 15px;
-    width: 98px;
+    padding-right: 0;
     display: inline-block;
-    padding-left: 0;
+    padding-left: 15px;
+    width: 9em;
+    height: 9em;
 }
 
-
-#folder_add_page_list li span {
+#folder_add_page_list .folder_add_page span {
     display: block;
     font-size: 0.73em;
     text-transform: uppercase;
-    margin-top: 0.2em;
+    margin-top: 4em;
+    margin-left: -15px;
+    text-align: center;
+    margin-right: -15px;
+    color: black;
     overflow: hidden;
-    text-overflow: ellipsis;
-    white-space: nowrap;
 }
+/** Pages */
 
-#folder_add_page_list p.feature_name {
-    font-size: 9px;
-    text-transform: uppercase;
-    text-overflow: ellipsis;
-    overflow: hidden;
-    margin: 0;
-}
 
 .sweet-alert p {
     padding: 10px 20px !important;
-}
-
-ul#folder_add_page_list li {
-    filter: grayscale(100%);
-}
-
-ul#folder_add_page_list li:hover {
-    filter: grayscale(0%);
 }
