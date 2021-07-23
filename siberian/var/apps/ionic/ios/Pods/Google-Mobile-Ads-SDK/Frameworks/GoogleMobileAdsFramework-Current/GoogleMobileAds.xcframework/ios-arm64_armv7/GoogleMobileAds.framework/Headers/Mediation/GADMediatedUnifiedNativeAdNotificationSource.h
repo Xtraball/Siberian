@@ -34,10 +34,6 @@
 /// dismissed.
 + (void)mediatedNativeAdDidDismissScreen:(nonnull id<GADMediatedUnifiedNativeAd>)mediatedNativeAd;
 
-/// Must be called by the adapter just before mediatedNativeAd leaves the application.
-+ (void)mediatedNativeAdWillLeaveApplication:
-    (nonnull id<GADMediatedUnifiedNativeAd>)mediatedNativeAd;
-
 #pragma mark - Mediated Native Video Ad Notifications
 
 /// Called by the adapter when native video playback has begun or resumed.
@@ -49,5 +45,11 @@
 /// Called by the adapter when native video playback has ended.
 + (void)mediatedNativeAdDidEndVideoPlayback:
     (nonnull id<GADMediatedUnifiedNativeAd>)mediatedNativeAd;
+
+#pragma mark - Deprecated
+
+/// Deprecated. No replacement.
++ (void)mediatedNativeAdWillLeaveApplication:
+    (nonnull id<GADMediatedUnifiedNativeAd>)mediatedNativeAd GAD_DEPRECATED_ATTRIBUTE;
 
 @end

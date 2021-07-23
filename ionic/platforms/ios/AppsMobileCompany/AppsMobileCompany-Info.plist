@@ -199,11 +199,6 @@
 		<key>NSAllowsArbitraryLoads</key>
 		<true/>
 	</dict>
-	<key>UIBackgroundModes</key>
-	<array>
-		<string>remote-notification</string>
-		<string>audio</string>
-	</array>
 	<key>NSLocationWhenInUseUsageDescription</key>
 	<string>Use the GPS for live navigation</string>
 	<key>LSApplicationQueriesSchemes</key>
@@ -211,6 +206,11 @@
 		<string>waze</string>
 		<string>comgooglemaps</string>
 		<string>comgooglemaps-x-callback</string>
+	</array>
+	<key>UIBackgroundModes</key>
+	<array>
+		<string>audio</string>
+		<string>remote-notification</string>
 	</array>
 	<key>NSLocationAlwaysAndWhenInUseUsageDescription</key>
 	<string>Background location is used to send you geolocated push notifications.</string>

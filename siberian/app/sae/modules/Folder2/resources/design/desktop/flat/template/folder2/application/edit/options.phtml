@@ -6,9 +6,11 @@ $features = (new Application_Model_Option_Value())
             'excluded_options' => new Zend_Db_Expr('folder_category_id IS NULL')
         ],
         'position ASC');
+$valueId = $this->getValueId();
+$backgroundColor = '#0099C7';
 ?>
 <ul id="folder_add_page_list">
-    <?php foreach ($features as $feature) : ?>
+    <?php /**foreach ($features as $feature) : ?>
     <?php if (in_array($feature->getCode(), ['folder', 'folder_v2'])) { continue; } ?>
     <?php if (!$this->_canAccess('feature_' . $feature->getCode(), 'all')) { continue; } ?>
 
@@ -42,5 +44,57 @@ $features = (new Application_Model_Option_Value())
             </div>
         </a>
     </li>
+    <?php endforeach; */?>
+
+
+    <?php foreach ($features as $key => $feature) : ?>
+        <?php if (in_array($feature->getCode(), ['folder', 'folder_v2'])) { continue; } ?>
+        <?php if (!$this->_canAccess('feature_' . $feature->getCode(), 'all')) { continue; } ?>
+
+
+        <?php
+            $iconIdUrl = $feature->getIconId() ?
+                $feature->getIconId() : $this->getIconUrl($feature);
+            $iconUrl = $this->getColorizedImage($iconIdUrl, '#0099C7');
+            if (!is_readable(path($iconUrl)) || is_dir(path($iconUrl))) {
+                $iconUrl = $this->getColorizedImage('/app/sae/design/desktop/flat/images/placeholder/blank-feature-icon.png', '#0099C7');
+            }
+        ?>
+        <li id="add_page_<?php echo $feature->getId(); ?>"
+            class="folder_add_page">
+            <a href="<?php echo $this->getUrl('application/customization_features/save'); ?>"
+               class="add_feature_folder2 details"
+               rel="<?php echo $feature->getId(); ?>">
+                <div class="border-blue block_add_pages_icon btn default_size_details"
+                     style="background-image: url('<?php echo $iconUrl ?>')">
+                    <img src="/app/sae/design/desktop/flat/images/placeholder/blank-512.png"
+                         alt="<?php echo $feature->getName(); ?>"
+                         title="<?php echo $feature->getName(); ?>"
+                         width="auto"
+                         height="50"
+                         class="block"
+                         data-image="<?php echo $feature->getIconId() ?>"
+                         data-style="area"
+                         data-color="color"/>
+                    <span><?php echo cut($feature->getName(), 20); ?></span>
+
+
+                    <input type="hidden"
+                           name="option_id"
+                           value="<?php echo $feature->getId() ?>"/>
+                    <input type="hidden"
+                           name="value_id"
+                           value="<?php echo $valueId ?>" />
+                    <input type="hidden"
+                           name="category_value_id"
+                           value="<?php echo $feature->getId() ?>" />
+                    <input type="hidden"
+                           name="category_id"
+                           value=""
+                           class="option_value_category_id" />
+                </div>
+            </a>
+        </li>
     <?php endforeach; ?>
+
 </ul>

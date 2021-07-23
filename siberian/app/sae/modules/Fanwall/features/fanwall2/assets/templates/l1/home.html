@@ -14,6 +14,7 @@
     </ion-nav-buttons>
 
     <ion-header-bar ng-if="settingsAreLoaded && displaySubHeader()"
+                    ng-class="{'option-card' : getCardDesign()}"
                     class="bar-subheader">
         <div class="button-bar">
             <button class="button button-custom button-positive button-positive-custom"
@@ -54,6 +55,7 @@
     </ion-header-bar>
 
     <div ng-if="settingsAreLoaded"
+         ng-class="{'option-card' : getCardDesign()}"
          ng-include="'./features/fanwall2/assets/templates/l1/tabs/' + currentTab + '.html'"></div>
 
 </ion-view>

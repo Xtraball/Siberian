@@ -57,7 +57,11 @@
             <ion-spinner class="spinner-custom"></ion-spinner>
         </div>
 
-        <link href="./dist/app.bundle.min.css"
+        <link id="app_bundle_css"
               rel="stylesheet" />
+        <script type="text/javascript">
+            // Ensure bundle css is never cached!
+            document.getElementById('app_bundle_css').href = './dist/app.bundle.min.css?t=' + Date.now();
+        </script>
     </body>
 </html>

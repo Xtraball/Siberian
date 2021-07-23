@@ -15,36 +15,47 @@
 
     <ion-content class="has-footer">
 
+        <div class="list"
+             ng-if="enbleModeration"
+             ng-class="{'card': getCardDesign()}">
+            <div class="item item-custom item-text-wrap">
+                {{ ::'Moderation is enabled, your new post & edits will require admin approval!' | translate:'fanwall' }}
+            </div>
+        </div>
+
         <ion-list class="new-post-items">
 
-            <ion-item class="item-custom item-avatar post-author"
-                      ng-class="{'card': getCardDesign()}">
-                <img ng-src="{{ myAvatar() }}" />
-                <h2 class="new-post-author">
-                    {{ myName() }}
-                    <i class="{{ popoverIcon }} pull-right"
-                       ng-click="openActions($event)"></i>
-                </h2>
-                <p ng-if="!locationIsDisabled() && !fetchingLocation"
-                   class="post-location">
-                    <i style="font-style: italic;">{{ shortLocation }}</i>
-                </p>
-                <p ng-if="!locationIsDisabled() && fetchingLocation"
-                   class="post-location">
-                    <i style="font-style: italic;">{{ ::'Fetching your location...' | translate:'fanwall' }}</i>
-                </p>
-            </ion-item>
+            <div ng-class="{'card': getCardDesign()}">
+                <ion-item class="item-custom item-avatar post-author">
+                    <img ng-src="{{ myAvatar() }}" />
+                    <h2 class="new-post-author">
+                        {{ myName() }}
+                        <i class="{{ popoverIcon }} pull-right"
+                           ng-click="openActions($event)"></i>
+                    </h2>
+                    <p ng-if="!locationIsDisabled() && !fetchingLocation"
+                       class="post-location">
+                        <i style="font-style: italic;">{{ shortLocation }}</i>
+                    </p>
+                    <p ng-if="!locationIsDisabled() && fetchingLocation"
+                       class="post-location">
+                        <i style="font-style: italic;">{{ ::'Fetching your location...' | translate:'fanwall' }}</i>
+                    </p>
+                </ion-item>
+            </div>
 
-            <ion-item class="item-input item-custom"
-                      ng-class="{'card': getCardDesign()}">
-                <label>
-                    <textarea placeholder="{{ ::'Write your message...' | translate:'fanwall' }}"
-                              rows="12"
-                              ng-model="form.text"></textarea>
-                </label>
-            </ion-item>
+            <div ng-class="{'card': getCardDesign()}">
+                <ion-item class="item-input item-custom">
+                    <label>
+                        <textarea placeholder="{{ ::'Write your message...' | translate:'fanwall' }}"
+                                  rows="12"
+                                  ng-model="form.text"></textarea>
+                    </label>
+                </ion-item>
+            </div>
 
-            <fanwall-pictures form="form"
+            <fanwall-pictures ng-show="form.limit > 0"
+                              form="form"
                               card-design="cardDesign"></fanwall-pictures>
 
         </ion-list>

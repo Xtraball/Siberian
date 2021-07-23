@@ -1,54 +1,6 @@
 cordova.define('cordova/plugin_list', function(require, exports, module) {
   module.exports = [
     {
-      "id": "InAppPurchase.InAppPurchase",
-      "file": "plugins/InAppPurchase/www/store-ios.js",
-      "pluginId": "InAppPurchase",
-      "clobbers": [
-        "store"
-      ]
-    },
-    {
-      "id": "IosXhr.formdata-polyfill",
-      "file": "plugins/IosXhr/src/www/ios/formdata-polyfill.js",
-      "pluginId": "IosXhr",
-      "runs": true
-    },
-    {
-      "id": "IosXhr.xhr-polyfill",
-      "file": "plugins/IosXhr/src/www/ios/xhr-polyfill.js",
-      "pluginId": "IosXhr",
-      "runs": true
-    },
-    {
-      "id": "IosXhr.fetch-bootstrap",
-      "file": "plugins/IosXhr/src/www/ios/fetch-bootstrap.js",
-      "pluginId": "IosXhr",
-      "runs": true
-    },
-    {
-      "id": "IosXhr.fetch-polyfill",
-      "file": "plugins/IosXhr/src/www/ios/whatwg-fetch-2.0.3.js",
-      "pluginId": "IosXhr",
-      "runs": true
-    },
-    {
-      "id": "Push.PushNotification",
-      "file": "plugins/Push/www/push.js",
-      "pluginId": "Push",
-      "clobbers": [
-        "PushNotification"
-      ]
-    },
-    {
-      "id": "WebView.webview",
-      "file": "plugins/WebView/www/webViewPlugin.js",
-      "pluginId": "WebView",
-      "clobbers": [
-        "window.webview"
-      ]
-    },
-    {
       "id": "Promises.Promise",
       "file": "plugins/Promises/www/promise.js",
       "pluginId": "Promises",
@@ -435,13 +387,57 @@ cordova.define('cordova/plugin_list', function(require, exports, module) {
       "clobbers": [
         "window.plugins.toast"
       ]
+    },
+    {
+      "id": "InAppPurchase.InAppPurchase",
+      "file": "plugins/InAppPurchase/www/store-ios.js",
+      "pluginId": "InAppPurchase",
+      "clobbers": [
+        "store"
+      ]
+    },
+    {
+      "id": "IosXhr.formdata-polyfill",
+      "file": "plugins/IosXhr/src/www/ios/formdata-polyfill.js",
+      "pluginId": "IosXhr",
+      "runs": true
+    },
+    {
+      "id": "IosXhr.xhr-polyfill",
+      "file": "plugins/IosXhr/src/www/ios/xhr-polyfill.js",
+      "pluginId": "IosXhr",
+      "runs": true
+    },
+    {
+      "id": "IosXhr.fetch-bootstrap",
+      "file": "plugins/IosXhr/src/www/ios/fetch-bootstrap.js",
+      "pluginId": "IosXhr",
+      "runs": true
+    },
+    {
+      "id": "IosXhr.fetch-polyfill",
+      "file": "plugins/IosXhr/src/www/ios/whatwg-fetch-2.0.3.js",
+      "pluginId": "IosXhr",
+      "runs": true
+    },
+    {
+      "id": "Push.PushNotification",
+      "file": "plugins/Push/www/push.js",
+      "pluginId": "Push",
+      "clobbers": [
+        "PushNotification"
+      ]
+    },
+    {
+      "id": "WebView.webview",
+      "file": "plugins/WebView/www/webViewPlugin.js",
+      "pluginId": "WebView",
+      "clobbers": [
+        "window.webview"
+      ]
     }
   ];
   module.exports.metadata = {
-    "InAppPurchase": "10.5.0",
-    "IosXhr": "1.0.8",
-    "Push": "1.10.0",
-    "WebView": "1.0.0",
     "Promises": "4.2.2",
     "AppVersion": "0.1.8",
     "Badge": "0.8.8",
@@ -463,6 +459,10 @@ cordova.define('cordova/plugin_list', function(require, exports, module) {
     "Navigator": "0.1.0",
     "Permissions": "1.0.0",
     "Siberian": "1.0.0",
-    "Toast": "2.7.2"
+    "Toast": "2.7.2",
+    "InAppPurchase": "10.5.0",
+    "IosXhr": "1.0.8",
+    "Push": "1.10.0",
+    "WebView": "1.0.0"
   };
 });

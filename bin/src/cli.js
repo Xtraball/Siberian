@@ -572,7 +572,7 @@ let rebuild = function (platform, copy, prepare, skipRebuild) {
                 let localPlugins = require(ROOT + '/ionic/plugins.json');
                 let tmpPlugins = localPlugins.default;
                 let platformPlugins = localPlugins[platform];
-                let requiredPlugins = Object.assign(platformPlugins, tmpPlugins);
+                let requiredPlugins = Object.assign(tmpPlugins, platformPlugins);
 
                 Object.keys(requiredPlugins).forEach(function (pluginName) {
                     installPlugin(pluginName, platform, requiredPlugins[pluginName]);

@@ -75,6 +75,16 @@ angular
         });
     };
 
+    factory.deletePush = function (deliverId) {
+        return $pwaRequest.post('/push/mobile_list/delete', {
+            data: {
+                device_uid: $session.getDeviceUid(),
+                deliver_id: deliverId
+            },
+            cache: false
+        });
+    };
+
     factory.findAll = function (offset, refresh) {
         if (!this.value_id) {
             $pwaRequest.reject('[Factory::Push.findAll] missing value_id');
@@ -91,7 +101,15 @@ angular
     };
 
     factory.getSample = function () {
-        return $pwaRequest.get('push/mobile_list/get-sample');
+        if (!this.value_id) {
+            $pwaRequest.reject('[Factory::Push.getSample] missing value_id');
+        }
+
+        return $pwaRequest.get('push/mobile_list/get-sample', {
+            urlParams: {
+                value_id: this.value_id,
+            }
+        });
     };
 
     /**

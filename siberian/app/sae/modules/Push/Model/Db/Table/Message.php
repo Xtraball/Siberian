@@ -122,7 +122,7 @@ class Push_Model_Db_Table_Message extends Core_Model_Db_Table
         unset($cols['delivered_at']);
 
         $select = $this->select()
-            ->from(['pdm' => 'push_delivered_message'], ['is_read', 'delivered_at'])
+            ->from(['pdm' => 'push_delivered_message'], ['deliver_id', 'is_read', 'delivered_at'])
             ->joinLeft(['pm' => $this->_name], "pm.message_id = pdm.message_id", $cols)
             ->where('pdm.device_uid = ?', $device_uid)
             ->where('pdm.status = 1')

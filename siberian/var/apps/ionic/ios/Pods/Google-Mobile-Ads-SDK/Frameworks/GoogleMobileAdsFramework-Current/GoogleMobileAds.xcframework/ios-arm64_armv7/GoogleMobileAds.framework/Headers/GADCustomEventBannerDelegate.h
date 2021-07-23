@@ -52,14 +52,15 @@
 /// gone away.
 - (void)customEventBannerDidDismissModal:(nonnull id<GADCustomEventBanner>)customEvent;
 
-/// Your Custom Event should call this method when a user action will result in App switching.
-- (void)customEventBannerWillLeaveApplication:(nonnull id<GADCustomEventBanner>)customEvent;
-
 #pragma mark Deprecated
 
 /// Deprecated. Use customEventBannerWasClicked:.
 - (void)customEventBanner:(nonnull id<GADCustomEventBanner>)customEvent
         clickDidOccurInAd:(nonnull UIView *)view
     GAD_DEPRECATED_MSG_ATTRIBUTE("Use customEventBannerWasClicked:.");
+
+/// Deprecated. No replacment.
+- (void)customEventBannerWillLeaveApplication:(nonnull id<GADCustomEventBanner>)customEvent
+    GAD_DEPRECATED_ATTRIBUTE;
 
 @end

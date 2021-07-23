@@ -6,7 +6,7 @@
  */
 angular
     .module('starter')
-    .controller('FanwallProfileController', function ($scope, $stateParams, $timeout,
+    .controller('FanwallProfileController', function ($scope, $rootScope, $stateParams, $timeout,
                                                       Customer, FanwallUtils, FanwallPost, Lightbox) {
         angular.extend($scope, {
             isLoading: true,
@@ -64,19 +64,30 @@ angular
                     $scope.collection = $scope.collection.concat(payload.collection);
                     $scope.hasMore = $scope.collection.length < payload.total;
 
+                    $scope.hasRejected = _.find($scope.collection, {'status': 'rejected'}) !== undefined;
+
                     $timeout(function () {
-                        Lightbox.run('.list-posts');
+                        // We need a single instance for every post*
+                        document
+                            .querySelectorAll('.list-posts fanwall-post-item')
+                            .forEach(function (item) {
+                                Lightbox.run('[rel="fanwall-gallery-' + item.id + '"]');
+                            });
                     }, 200);
                 }, function (payload) {
                     // Error!
                 }).then(function () {
-                if (loadMore === true) {
-                    $scope.$broadcast('scroll.infiniteScrollComplete');
-                }
+                    if (loadMore === true) {
+                        $scope.$broadcast('scroll.infiniteScrollComplete');
+                    }
 
-                $scope.isLoading = false;
-            });
+                    $scope.isLoading = false;
+                });
         };
+
+        $rootScope.$on('fanwall.profile.reload', function () {
+            $scope.loadContent(true, false);
+        });
 
         $scope.loadContent(true, false);
     });

@@ -44,15 +44,15 @@
 /// Your Custom Event should call this when the interstitial has been dismissed.
 - (void)customEventInterstitialDidDismiss:(nonnull id<GADCustomEventInterstitial>)customEvent;
 
-/// Your Custom Event should call this method when a user action will result in app switching.
-- (void)customEventInterstitialWillLeaveApplication:
-    (nonnull id<GADCustomEventInterstitial>)customEvent;
-
 #pragma mark Deprecated
 
 /// Deprecated. Use customEventInterstitialDidReceiveAd:.
 - (void)customEventInterstitial:(nonnull id<GADCustomEventInterstitial>)customEvent
                    didReceiveAd:(nonnull NSObject *)ad
     GAD_DEPRECATED_MSG_ATTRIBUTE("Use customEventInterstitialDidReceiveAd:.");
+
+/// Deprecated. No replacement.
+- (void)customEventInterstitialWillLeaveApplication:
+    (nonnull id<GADCustomEventInterstitial>)customEvent GAD_DEPRECATED_ATTRIBUTE;
 
 @end

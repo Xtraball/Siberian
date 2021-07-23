@@ -1,4 +1,5 @@
-<ion-view sb-page-background class="image-view">
+<ion-view sb-page-background
+          class="image-view">
     <ion-nav-title>{{ page_title }}</ion-nav-title>
     <ion-nav-buttons side="secondary">
         <div sb-tooltip
@@ -14,19 +15,24 @@
 
     <ion-content>
 
-        <div class="loader"
-             ng-show="is_loading">
-            <ion-spinner class="spinner-custom"></ion-spinner>
+        <div class="media-images-gallery">
+            <div class="gallery-item"
+                 repeat-done="listDidRender()"
+                 ng-repeat="item in collection track by item.id"
+                 ng-style="{'background-image':'url(' + imagePath(item.src) + ')'}">
+                <a href="{{ imagePath(item.src) }}"
+                   data-caption="{{ item.description }}">
+                    <img alt="{{ item.description }}"
+                         src="./img/placeholder/blank-512.png" />
+                </a>
+            </div>
         </div>
-
-        <ion-gallery ion-gallery-items="collection"
-                     ng-if="collection.length"></ion-gallery>
 
         <div class="list"
              ng-class="{'card': card_design}"
-             ng-if="!collection.length">
+             ng-if="!is_loading && !collection.length">
             <div class="item text-center item-custom">
-                {{ "No images found" | translate }}
+                {{ ::'This gallery is empty!' | translate:'media' }}
             </div>
         </div>
 
@@ -38,5 +44,41 @@
         </ion-infinite-scroll>
 
     </ion-content>
+
+    <style type="text/css">
+        .media-images-gallery {
+            justify-content: flex-start;
+            display: flex;
+            flex-direction: row;
+            flex-flow: row wrap;
+            margin: 0 1.5%;
+            padding-bottom: 10%;
+        }
+        .media-images-gallery .gallery-item {
+            background-position: center center;
+            background-repeat: no-repeat;
+            background-size: cover;
+            background-color: #efefef;
+            border: 4px solid white;
+        }
+        .media-images-gallery .gallery-item img {
+            width: 100%;
+        }
+        .media-images-gallery .gallery-item:nth-child(3n+1) {
+            width: 32%;
+            margin-top: 2%;
+        }
+        .media-images-gallery .gallery-item:nth-child(3n+2) {
+            width: 32%;
+            margin-left: 2%;
+            margin-right: 2%;
+            margin-top: 2%;
+        }
+        .media-images-gallery .gallery-item:nth-child(3n+3) {
+            width: 32%;
+            margin-top: 2%;
+        }
+
+    </style>
 
 </ion-view>

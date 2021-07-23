@@ -23,6 +23,7 @@ angular
                     locationShort: ''
                 }
             },
+            enbleModeration: Fanwall.getSettings().enable_moderation,
             cardDesign: Fanwall.getSettings().cardDesign,
             fetchingLocation: false,
             shortLocation: '',
@@ -97,6 +98,7 @@ angular
                 .then(function (payload) {
                     Loader.hide();
                     $rootScope.$broadcast('fanwall.refresh');
+                    $rootScope.$broadcast('fanwall.profile.reload');
                     $scope.close();
                 }, function (payload) {
                     // Show error!

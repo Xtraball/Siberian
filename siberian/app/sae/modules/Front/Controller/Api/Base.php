@@ -538,7 +538,10 @@ class Front_Controller_Api_Base extends Front_Controller_App_Default
                         'is_link' => !(boolean)$optionValue->getIsAjax(),
                         'use_my_account' => (boolean)$optionValue->getUseMyAccount(),
                         'use_nickname' => (boolean)$optionValue->getUseNickname(),
+                        'use_birthdate' => (boolean)$optionValue->getUseBirthdate(),
                         'use_ranking' => (boolean)$optionValue->getUseRanking(),
+                        "use_civility" => (boolean)$optionValue->getUseCivility(),
+                        "use_mobile" => (boolean)$optionValue->getUseMobile(),
                         'offline_mode' => (boolean)$optionValue->getObject()->isCacheable(),
                         'custom_fields' => $optionValue->getCustomFields(),
                         'embed_payload' => $embedPayload,
@@ -935,11 +938,15 @@ class Front_Controller_Api_Base extends Front_Controller_App_Default
                 ->setLanguage($currentLanguage)
                 ->save();
 
+            $birthdate = new Zend_Date();
+            $birthdate->setTimestamp($customer->getBirthdate());
+
             $loadBlock['customer'] = array_merge($loadBlock['customer'], [
                 'civility' => $customer->getCivility(),
                 'firstname' => $customer->getFirstname(),
                 'lastname' => $customer->getLastname(),
                 'nickname' => $customer->getNickname(),
+                "birthdate" => $birthdate->toString('dd/MM/y'),
                 'mobile' => $customer->getMobile(),
                 'image' => $customer->getImage(),
                 'email' => $customer->getEmail(),
@@ -994,6 +1001,9 @@ class Front_Controller_Api_Base extends Front_Controller_App_Default
     {
         $useNickname = false;
         $useRanking = false;
+        $useBirthdate = false;
+        $useCivility = false;
+        $useMobile = false;
 
         $features = $featureBlock['pages'];
         foreach ($features as $feature) {
@@ -1003,15 +1013,31 @@ class Front_Controller_Api_Base extends Front_Controller_App_Default
             if ($feature['use_ranking']) {
                 $useRanking = true;
             }
+            if ($feature['use_birthdate']) {
+                $useBirthdate = true;
+            }
+            if ($feature['use_civility']) {
+                $useCivility = true;
+            }
+            if ($feature['use_mobile']) {
+                $useMobile = true;
+            }
 
-            // Both are true, we can abort here!
-            if ($useNickname && $useRanking) {
+            // All are true, we can abort here!
+            if ($useNickname &&
+                $useRanking &&
+                $useBirthdate &&
+                $useCivility &&
+                $useMobile) {
                 break;
             }
         }
 
+        $loadBlock['application']['myAccount']['settings']['use_birthdate'] = $useBirthdate;
         $loadBlock['application']['myAccount']['settings']['use_nickname'] = $useNickname;
         $loadBlock['application']['myAccount']['settings']['use_ranking'] = $useRanking;
+        $loadBlock['application']['myAccount']['settings']['use_civility'] = $useCivility;
+        $loadBlock['application']['myAccount']['settings']['use_mobile'] = $useMobile;
 
         return $loadBlock;
     }

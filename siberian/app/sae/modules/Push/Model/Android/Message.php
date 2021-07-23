@@ -258,7 +258,7 @@ class Push_Model_Android_Message
         $customImage = $message->getCustomImage();
         $path_custom_image = path("/images/application" . $customImage);
         if (strpos($customImage, '/images/assets') === 0 &&
-            is_file(Core_Model_Directory::getBasePathTo($customImage))) {
+            is_file(path($customImage))) {
             $messagePayload->setImage($message->getData('base_url') . $customImage);
         } else if (is_readable($path_custom_image) && !is_dir($path_custom_image)) {
             $messagePayload->setImage($message->getData('base_url') . '/images/application' . $customImage);
@@ -271,22 +271,38 @@ class Push_Model_Android_Message
             }
         }
 
-        if ($message->getLongitude() && $message->getLatitude()) {
+        if ($message->getLongitude() &&
+            $message->getLatitude()) {
             $messagePayload->contentAvailable(true);
         }
 
         // Sound Legacy HTTP Payload!
         $messagePayload->addData('soundname', 'sb_beep4');
 
+        // High priority!
+        $messagePayload->priority('high');
+
+        // Silent push enforced!
+        $isSilentPush = $message->getIsSilent();
+
+        // Check for "implicit" silent
+        $noTitle = trim($messagePayload->getData()['title']);
+        $noBody = trim($messagePayload->getData()['message']);
+        if (empty($noTitle) && empty($noBody)) {
+            $isSilentPush = true;
+        }
+
         // Notification for FCM latest
-        $notification = new \Siberian\CloudMessaging\Notification();
-        $notification->title($messagePayload->getData()['title']);
-        $notification->body($messagePayload->getData()['message']);
-        $notification->sound('sb_beep4');
-        $notification->icon('ic_icon');
-        $notification->color($pushColor);
-        $notification->notificationPriority('high');
-        $messagePayload->notification($notification);
+        if (!$isSilentPush) {
+            $notification = new \Siberian\CloudMessaging\Notification();
+            $notification->title($messagePayload->getData()['title']);
+            $notification->body($messagePayload->getData()['message']);
+            $notification->sound('sb_beep4');
+            $notification->icon('ic_icon');
+            $notification->color($pushColor);
+            $notification->notificationPriority('high');
+            $messagePayload->notification($notification);
+        }
 
         // Trigger an event when the push message is parsed,
         $result = Hook::trigger('push.message.android.parsed',
@@ -294,6 +310,7 @@ class Push_Model_Android_Message
                 'message' => $messagePayload,
                 'application' => $application
             ]);
+
         $messagePayload = $result['message'];
 
         return $messagePayload;

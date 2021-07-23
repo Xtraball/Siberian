@@ -7,10 +7,10 @@ use Fanwall\Form\Post\Pin as FormPostPin;
 use Fanwall\Form\Post\Delete as FormPostDelete;
 use Fanwall\Model\Fanwall;
 use Fanwall\Model\Post;
+use Fanwall\Model\Approval;
 use Siberian\Exception;
 use Siberian\Feature;
 use Siberian\Json;
-use Siberian\Xss;
 
 /**
  * Class Fanwall2_ApplicationController
@@ -53,7 +53,7 @@ class Fanwall_ApplicationController extends Application_Controller_Default
 
                 // Images
                 $allImages = [];
-                foreach($values['images'] as $uuid => $images) {
+                foreach ($values['images'] as $uuid => $images) {
                     foreach ($images as $image) {
                         $allImages[] = Siberian_Feature::saveImageForOption($optionValue, $image);
                     }
@@ -61,7 +61,7 @@ class Fanwall_ApplicationController extends Application_Controller_Default
                 $values['image'] = implode(',', $allImages);
                 $text = trim($values['text']);
                 if (empty($text) && empty($values['image'])) {
-                    throw new Exception(p__('fanwall2', 'You must send at least a message or a picture.'));
+                    throw new Exception(p__('fanwall', 'You must send at least a message or a picture.'));
                 }
 
                 $saveToHistory = false;
@@ -69,16 +69,16 @@ class Fanwall_ApplicationController extends Application_Controller_Default
                 if ($post->getId()) {
                     $saveToHistory = true;
                     $archivedPost = [
-                        'id' => (integer) $post->getId(),
-                        'customerId' => (integer) $post->getCustomerId(),
-                        'title' => (string) $post->getTitle(),
-                        'subtitle' => (string) $post->getSubtitle(),
-                        'text' => (string) $post->getText(),
-                        'image' => (string) $post->getImage(),
-                        'date' => (integer) $post->getDate(),
-                        'latitude' => (float) $post->getLatitude(),
-                        'longitude' => (float) $post->getLongitude(),
-                        'locationShort' => (string) $post->getLocationShort(),
+                        'id' => (integer)$post->getId(),
+                        'customerId' => (integer)$post->getCustomerId(),
+                        'title' => (string)$post->getTitle(),
+                        'subtitle' => (string)$post->getSubtitle(),
+                        'text' => (string)$post->getText(),
+                        'image' => (string)$post->getImage(),
+                        'date' => (integer)$post->getDate(),
+                        'latitude' => (float)$post->getLatitude(),
+                        'longitude' => (float)$post->getLongitude(),
+                        'locationShort' => (string)$post->getLocationShort(),
                     ];
                 }
 
@@ -97,6 +97,8 @@ class Fanwall_ApplicationController extends Application_Controller_Default
                     ->addData([
                         'is_active' => true,
                     ])
+                    ->setIsVisible(true)
+                    ->setStatus('published')
                     ->save();
 
                 // Ok everything good, we can insert archive if edit
@@ -136,7 +138,109 @@ class Fanwall_ApplicationController extends Application_Controller_Default
                 'message' => $e->getMessage(),
             ];
         }
-        
+
+        $this->_sendJson($payload);
+    }
+
+    public function approvePostAction()
+    {
+        try {
+            $request = $this->getRequest();
+            $optionValue = $this->getCurrentOptionValue();
+            $valueId = $optionValue->getId();
+            $values = $request->getPost();
+
+            $post = (new Post())->find($values['post_id']);
+            if (!$post || !$post->getId()) {
+                throw new Exception(p__('fanwall', 'This post does not exists.'));
+            }
+
+            $approval = (new Approval())->find(
+                [
+                    'value_id' => $valueId,
+                    'post_id' => $values['post_id']
+                ]
+            );
+
+            if (!$approval || !$approval->getId()) {
+                throw new Exception(p__('fanwall', 'This approval request does not exists.'));
+            }
+
+            // Remove the approval request
+            $approval->delete();
+
+            $post
+                ->setIsVisible(true)
+                ->setStatus('published')
+                ->save();
+
+            $payload = [
+                'success' => true,
+                'message' => p__('fanwall', 'The post is approved & published!'),
+                'badge' => [
+                    'valueId' => $valueId,
+                    'count' => (new Fanwall())->getPendingActions($optionValue)
+                ]
+            ];
+
+        } catch (\Exception $e) {
+            $payload = [
+                'error' => true,
+                'message' => $e->getMessage(),
+            ];
+        }
+
+        $this->_sendJson($payload);
+    }
+
+    public function rejectPostAction()
+    {
+        try {
+            $request = $this->getRequest();
+            $optionValue = $this->getCurrentOptionValue();
+            $valueId = $optionValue->getId();
+            $values = $request->getPost();
+
+            $post = (new Post())->find($values['post_id']);
+            if (!$post || !$post->getId()) {
+                throw new Exception(p__('fanwall', 'This post does not exists.'));
+            }
+
+            $approval = (new Approval())->find(
+                [
+                    'value_id' => $valueId,
+                    'post_id' => $values['post_id']
+                ]
+            );
+
+            if (!$approval || !$approval->getId()) {
+                throw new Exception(p__('fanwall', 'This approval request does not exists.'));
+            }
+
+            // Remove the approval request
+            $approval->delete();
+
+            $post
+                ->setIsVisible(false)
+                ->setStatus('rejected')
+                ->save();
+
+            $payload = [
+                'success' => true,
+                'message' => p__('fanwall', 'The post is rejected!'),
+                'badge' => [
+                    'valueId' => $valueId,
+                    'count' => (new Fanwall())->getPendingActions($optionValue)
+                ]
+            ];
+
+        } catch (\Exception $e) {
+            $payload = [
+                'error' => true,
+                'message' => $e->getMessage(),
+            ];
+        }
+
         $this->_sendJson($payload);
     }
 
@@ -248,7 +352,8 @@ class Fanwall_ApplicationController extends Application_Controller_Default
     /**
      * Toggle place
      */
-    public function togglePostAction() {
+    public function togglePostAction()
+    {
         try {
             $request = $this->getRequest();
             $values = $request->getPost();
@@ -295,7 +400,8 @@ class Fanwall_ApplicationController extends Application_Controller_Default
     /**
      * Toggle place
      */
-    public function pinPostAction() {
+    public function pinPostAction()
+    {
         try {
             $request = $this->getRequest();
             $values = $request->getPost();
@@ -342,7 +448,8 @@ class Fanwall_ApplicationController extends Application_Controller_Default
     /**
      * Delete place
      */
-    public function deletePostAction() {
+    public function deletePostAction()
+    {
         $values = $this->getRequest()->getPost();
 
         $form = new FormPostDelete();

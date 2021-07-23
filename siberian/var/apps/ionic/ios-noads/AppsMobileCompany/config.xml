@@ -25,20 +25,6 @@
         <param name="ios-package" value="CDVGestureHandler" />
         <param name="onload" value="true" />
     </feature>
-    <feature name="InAppPurchase">
-        <param name="ios-package" value="InAppPurchase" />
-        <param name="onload" value="true" />
-    </feature>
-    <feature name="CDVWKWebViewFileXhr">
-        <param name="ios-package" value="CDVWKWebViewFileXhr" />
-        <param name="onload" value="true" />
-    </feature>
-    <feature name="PushNotification">
-        <param name="ios-package" value="PushPlugin" />
-    </feature>
-    <feature name="WebViewPlugin">
-        <param name="ios-package" value="WebViewPlugin" />
-    </feature>
     <feature name="AppVersion">
         <param name="ios-package" value="AppVersion" />
     </feature>
@@ -99,6 +85,20 @@
     </feature>
     <feature name="Toast">
         <param name="ios-package" value="Toast" />
+    </feature>
+    <feature name="InAppPurchase">
+        <param name="ios-package" value="InAppPurchase" />
+        <param name="onload" value="true" />
+    </feature>
+    <feature name="CDVWKWebViewFileXhr">
+        <param name="ios-package" value="CDVWKWebViewFileXhr" />
+        <param name="onload" value="true" />
+    </feature>
+    <feature name="PushNotification">
+        <param name="ios-package" value="PushPlugin" />
+    </feature>
+    <feature name="WebViewPlugin">
+        <param name="ios-package" value="WebViewPlugin" />
     </feature>
     <name>AppsMobileCompany</name>
     <description>Apps Mobile Company app source code</description>

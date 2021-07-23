@@ -76,7 +76,7 @@ $configs = [
     ],
     [
         'code' => 'system_generate_apk',
-        'label' => 'Users can generate APK',
+        'label' => 'Users can generate APK/AAB',
         'value' => 'no'
     ],
     [
@@ -265,7 +265,7 @@ $configs = [
     ],
     [
         'code' => 'editor_apk_service',
-        'label' => 'APK Generator for builds from the Editor (Local or Service)',
+        'label' => 'APK/AAB Generator for builds from the Editor (Local or Service)',
         'value' => 'external-service',
     ],
     [

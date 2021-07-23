@@ -2,6 +2,7 @@
 
 use Siberian\Json;
 
+$application = $this->getApplication();
 $optionValue = $this->getOptionValue();
 $formSettings = new Customer_Form_Settings();
 $formSettings->setValueId($optionValue->getId());
@@ -22,6 +23,8 @@ try {
         ]
     );
 }
+
+$formSettings->setOverrides($application);
 
 ?>
 
@@ -107,6 +110,12 @@ try {
         let fieldMobile = $('#extra_mobile');
         let requiredMobile = $('#extra_mobile_required');
 
+        let fieldBirthdate = $('#extra_birthdate');
+        let requiredBirthdate = $('#extra_birthdate_required');
+
+        let fieldNickname = $('#extra_nickname');
+        let requiredNickname = $('#extra_nickname_required');
+
         // Check civility field if required!
         let checkCivIfRequired = function () {
             if (requiredCiv.is(':checked')) {
@@ -142,6 +151,42 @@ try {
         };
         fieldMobile.off('change');
         fieldMobile.on('change', toggleFieldMobile);
+
+        // Check mobile field if required!
+        let toggleBirthdate = function () {
+            if (requiredBirthdate.is(':checked')) {
+                fieldBirthdate.prop('checked', true);
+            }
+        };
+        requiredBirthdate.off('change');
+        requiredBirthdate.on('change', toggleBirthdate);
+
+        // Uncheck mobile required field if disabled!
+        let toggleFieldBirthdate = function () {
+            if (!fieldBirthdate.is(':checked')) {
+                requiredBirthdate.prop('checked', false);
+            }
+        };
+        fieldBirthdate.off('change');
+        fieldBirthdate.on('change', toggleFieldBirthdate);
+
+        // Check nickname field if required!
+        let toggleNickname = function () {
+            if (requiredNickname.is(':checked')) {
+                fieldNickname.prop('checked', true);
+            }
+        };
+        requiredNickname.off('change');
+        requiredNickname.on('change', toggleNickname);
+
+        // Uncheck nickname required field if disabled!
+        let toggleFieldNickname = function () {
+            if (!fieldNickname.is(':checked')) {
+                requiredNickname.prop('checked', false);
+            }
+        };
+        fieldNickname.off('change');
+        fieldNickname.on('change', toggleFieldNickname);
 
 
     });

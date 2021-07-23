@@ -149,5 +149,5 @@ install_xcframework() {
   echo "Copied $source to $destination"
 }
 
-install_xcframework "${PODS_ROOT}/GoogleMobileAdsMediationFacebook/FacebookAdapter-6.5.0.0/FacebookAdapter.xcframework" "FacebookAdapter" "framework" "ios-arm64_armv7" "ios-x86_64-simulator"
+install_xcframework "${PODS_ROOT}/GoogleMobileAdsMediationFacebook/FacebookAdapter-6.5.1.0/FacebookAdapter.xcframework" "FacebookAdapter" "framework" "ios-x86_64-simulator" "ios-arm64_armv7"
 

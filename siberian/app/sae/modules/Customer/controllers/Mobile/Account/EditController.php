@@ -3,6 +3,7 @@
 use Siberian\Account;
 use Siberian\Exception;
 use Siberian\Hook;
+use Siberian\Json;
 
 /**
  * Class Customer_Mobile_Account_EditController
@@ -15,50 +16,14 @@ class Customer_Mobile_Account_EditController extends Application_Controller_Mobi
      */
     public function findAction()
     {
+        $customerPayload = Customer_Model_Customer::getCurrent();
+        $customerPayload['extendedFields'] = Account::getFields([
+            'application' => $this->getApplication(),
+            'request' => $this->getRequest(),
+            'session' => $this->getSession(),
+        ]);
 
-        $customer = $this->getSession()->getCustomer();
-        $payload = [];
-        $payload['is_logged_in'] = false;
-
-        if ($customer->getId()) {
-            $metadatas = $customer->getMetadatas();
-            if (empty($metadatas)) {
-                $metadatas = json_decode("{}"); // we really need a javascript object here
-            }
-
-            //hide stripe customer id for secure purpose
-            if ($metadatas->stripe && array_key_exists("customerId", $metadatas->stripe) && $metadatas->stripe["customerId"]) {
-                unset($metadatas->stripe["customerId"]);
-            }
-
-            $payload = [
-                "id" => $customer->getId(),
-                "civility" => $customer->getCivility(),
-                "firstname" => $customer->getFirstname(),
-                "lastname" => $customer->getLastname(),
-                "nickname" => $customer->getNickname(),
-                "email" => $customer->getEmail(),
-                "show_in_social_gaming" => (bool)$customer->getShowInSocialGaming(),
-                "is_custom_image" => (bool)$customer->getIsCustomImage(),
-                "metadatas" => $metadatas
-            ];
-
-            if (Siberian_CustomerInformation::isRegistered("stripe")) {
-                $exporter_class = Siberian_CustomerInformation::getClass("stripe");
-                if (class_exists($exporter_class) && method_exists($exporter_class, "getInformation")) {
-                    $tmp_class = new $exporter_class();
-                    $info = $tmp_class->getInformation($customer->getId());
-                    $payload["stripe"] = $info ? $info : [];
-                }
-            }
-
-            $payload["is_logged_in"] = true;
-            $payload["isLoggedIn"] = true;
-
-        }
-
-        $this->_sendJson($payload);
-
+        $this->_sendJson($customerPayload);
     }
 
     /**
@@ -115,11 +80,95 @@ class Customer_Mobile_Account_EditController extends Application_Controller_Mobi
                 $data['show_in_social_gaming'] = 0;
             }
 
+            // Clear ID's
             if (isset($data['id'])) {
                 unset($data['id']);
             }
             if (isset($data['customer_id'])) {
                 unset($data['customer_id']);
+            }
+
+            // Clear email, must not be changed
+            unset($data['email']);
+
+            // Check against required fields
+            $requiredFields = [];
+
+            // Check civility & mobile extra fields (and ensure app has a customer account ...)
+            $application->checkCustomerAccount();
+            $myAccountTab = $application->getOption('tabbar_account');
+            $accountSettings = Json::decode($myAccountTab->getSettings());
+            $requireMobile = $accountSettings['extra_mobile_required'];
+            $requireCivility = $accountSettings['extra_civility_required'];
+            $requireBirthdate = $accountSettings['extra_birthdate_required'];
+            $requireNickname = $accountSettings['extra_nickname_required'];
+
+            // Adds check for modules extras*
+            $useNickname = false;
+            $useBirthdate = false;
+            $useCivility = false;
+            $useMobile = false;
+            foreach ($application->getOptions() as $feature) {
+                if ($feature->getUseNickname()) {
+                    $useNickname = true;
+                }
+                if ($feature->getUseBirthdate()) {
+                    $useBirthdate = true;
+                }
+                if ($feature->getUseCivility()) {
+                    $useCivility = true;
+                }
+                if ($feature->getUseMobile()) {
+                    $useMobile = true;
+                }
+
+                // All are true, we can abort here!
+                if ($useNickname &&
+                    $useBirthdate &&
+                    $useCivility &&
+                    $useMobile) {
+                    break;
+                }
+            }
+
+            if (($requireMobile || $useMobile) && empty($data['mobile'])) {
+                $requiredFields[] = p__('customer', 'Mobile');
+            }
+
+            if (($requireCivility || $useCivility) && empty($data['civility'])) {
+                $requiredFields[] = p__('customer', 'Civility');
+            }
+
+            if (($requireBirthdate || $useBirthdate) && empty($data['birthdate'])) {
+                $requiredFields[] = p__('customer', 'Birthdate');
+            }
+
+            if (($requireNickname || $useNickname) && empty($data['nickname'])) {
+                $requiredFields[] = p__('customer', 'Nickname');
+            }
+
+            if (empty($data['firstname'])) {
+                $requiredFields[] = p__('customer', 'Firstname');
+            }
+
+            if (empty($data['lastname'])) {
+                $requiredFields[] = p__('customer', 'Lastname');
+            }
+
+            // Throwing all errors at once!
+            if (count($requiredFields) > 0) {
+                $message = p__('customer', 'The following fields are required') . ':<br />- ' .
+                    implode('<br />- ', $requiredFields);
+
+                throw new Exception($message);
+            }
+            // Check against required fields
+
+
+            if (isset($data['birthdate'])) {
+                $birthdate = new Zend_Date();
+                $birthdate->setDate($data['birthdate'], 'DD/MM/YYYY');
+                $data['birthdate'] = $birthdate->getTimestamp();
             }
 
             $customer->saveImage($data['image']);
@@ -167,9 +216,7 @@ class Customer_Mobile_Account_EditController extends Application_Controller_Mobi
 
             $customer->save();
 
-
             $currentCustomer = Customer_Model_Customer::getCurrent();
-
             $currentCustomer['extendedFields'] = Account::getFields([
                 'application' => $this->getApplication(),
                 'request' => $this->getRequest(),

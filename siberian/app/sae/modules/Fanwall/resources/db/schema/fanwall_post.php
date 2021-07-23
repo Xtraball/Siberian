@@ -82,6 +82,13 @@ $schemas['fanwall_post'] = [
         'is_null' => true,
         'default' => '1',
     ],
+    'status' => [
+        'type' => 'varchar(255)',
+        'is_null' => true,
+        'charset' => 'utf8',
+        'collation' => 'utf8_unicode_ci',
+        'default' => 'published',
+    ],
     'latitude' => [
         'type' => 'decimal(11,8)',
         'is_null' => true,

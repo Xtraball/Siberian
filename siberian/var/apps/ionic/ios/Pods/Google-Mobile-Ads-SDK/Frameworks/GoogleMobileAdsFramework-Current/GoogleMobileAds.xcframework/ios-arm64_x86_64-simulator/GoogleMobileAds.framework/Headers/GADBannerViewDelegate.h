@@ -29,6 +29,9 @@
 /// Tells the delegate that an impression has been recorded for an ad.
 - (void)bannerViewDidRecordImpression:(nonnull GADBannerView *)bannerView;
 
+/// Tells the delegate that a click has been recorded for the ad.
+- (void)bannerViewDidRecordClick:(nonnull GADBannerView *)bannerView;
+
 #pragma mark Click-Time Lifecycle Notifications
 
 /// Tells the delegate that a full screen view will be presented in response to the user clicking on

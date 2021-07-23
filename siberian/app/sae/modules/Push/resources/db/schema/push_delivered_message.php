@@ -6,50 +6,50 @@
  * Last update: 2016-04-28
  *
  */
-$schemas = (!isset($schemas)) ? array() : $schemas;
-$schemas['push_delivered_message'] = array(
-    'deliver_id' => array(
+$schemas = (!isset($schemas)) ? [] : $schemas;
+$schemas['push_delivered_message'] = [
+    'deliver_id' => [
         'type' => 'int(11)',
         'auto_increment' => true,
         'primary' => true,
-    ),
-    'device_id' => array(
+    ],
+    'device_id' => [
         'type' => 'int(11)',
-        'index' => array(
+        'index' => [
             'key_name' => 'KEY_DEVICE_ID',
             'index_type' => 'BTREE',
             'is_null' => false,
             'is_unique' => false,
-        ),
-    ),
-    'device_uid' => array(
+        ],
+    ],
+    'device_uid' => [
         'type' => 'varchar(255)',
-        'index' => array(
+        'index' => [
             'key_name' => 'push_delivered_message_device_uid_index',
             'index_type' => 'BTREE',
             'is_null' => false,
             'is_unique' => false,
-        ),
-    ),
-    'device_type' => array(
+        ],
+    ],
+    'device_type' => [
         'type' => 'tinyint(1)',
-    ),
-    'message_id' => array(
+    ],
+    'message_id' => [
         'type' => 'int(11)',
-    ),
-    'status' => array(
+    ],
+    'status' => [
         'type' => 'tinyint(1)',
         'default' => '0',
-    ),
-    'is_read' => array(
+    ],
+    'is_read' => [
         'type' => 'tinyint(1)',
         'default' => '0',
-    ),
-    'is_displayed' => array(
+    ],
+    'is_displayed' => [
         'type' => 'int(11)',
         'default' => '0',
-    ),
-    'delivered_at' => array(
+    ],
+    'delivered_at' => [
         'type' => 'datetime',
-    ),
-);
+    ],
+];

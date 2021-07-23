@@ -1,87 +1,103 @@
-<ion-item ng-class="{'card' : getCardDesign()}"
-          class="item-custom">
-    <div class="item-avatar post-author">
-        <img ng-src="{{ authorImagePath() }}" />
-        <h2>
-            {{ authorName() }}
-            <i class="icon ion-more pull-right"
-               ng-click="openActions($event)"></i>
-            <i class="icon ion-pin icon-pin pull-right balanced balanced-custom"
-               ng-if="post.sticky"></i>
-        </h2>
-        <p class="post-date">
-            {{ publicationDate() }}
-            <span ng-if="post.showDistance"> - {{ post.distance }} {{ post.distanceUnit }} ({{ post.locationShort }})</span>
-        </p>
-    </div>
+<div ng-class="{'card' : getCardDesign()}">
+    <ion-item class="item-custom">
+        <div class="item-avatar post-author">
+            <img ng-src="{{ authorImagePath() }}"/>
+            <h2>
+                {{ authorName() }}
 
-    <div ng-if="photoPosition() == 'before'"
-         ng-include="'./features/fanwall2/assets/templates/l1/tabs/directives/post-item/post-images.html'"></div>
+                <span ng-if="currentTab == 'profile' && post.isVisible && post.status == 'published'"
+                      class="badge badge-balanced badge-balanced-custom"
+                      style="margin-right: 15px;margin-top: 1.5px;">{{ ::'Published' | translate:'fanwall' }}</span>
+                <span ng-if="currentTab == 'profile' && !post.isVisible && post.status == 'pending'"
+                      class="badge badge-energized badge-energized-custom"
+                      style="margin-right: 15px;margin-top: 1.5px;">{{ ::'Awaiting approval' | translate:'fanwall' }}</span>
+                <span ng-if="currentTab == 'profile' && !post.isVisible && post.status == 'rejected'"
+                      class="badge badge-assertive badge-assertive-custom"
+                      style="margin-right: 15px;margin-top: 1.5px;">{{ ::'Rejected' | translate:'fanwall' }}</span>
+                <span ng-if="currentTab == 'profile' && !post.isVisible && post.status == 'deleted'"
+                      class="badge badge-assertive badge-assertive-custom"
+                      style="margin-right: 15px;margin-top: 1.5px;">{{ ::'Trashed' | translate:'fanwall' }}</span>
 
-    <div class="post-body">
-        <h2 ng-if="post.title.length > 0">{{ post.title }}</h2>
-        <p ng-if="post.subtitle.length > 0">{{ post.subtitle }}</p>
-        <p ng-if="post.text.length > 0">
-            <span sb-html="post.isFull ? post.text : cutBody()"></span>
-            <span class="pull-right"
-                  ng-if="textIsCut()"
-                  ng-click="post.isFull = !post.isFull;">
+                <i class="icon ion-more pull-right super-click-a"
+                   ng-click="openActions($event)"></i>
+
+                <i class="icon ion-pin icon-pin pull-right balanced balanced-custom"
+                   ng-if="post.sticky"></i>
+            </h2>
+            <p class="post-date">
+                {{ publicationDate() }}
+                <span ng-if="post.showDistance"> - {{ post.distance }} {{ post.distanceUnit }} ({{ post.locationShort }})</span>
+            </p>
+        </div>
+
+        <div ng-if="photoPosition() == 'before'"
+             ng-include="'./features/fanwall2/assets/templates/l1/tabs/directives/post-item/post-images.html'"></div>
+
+        <div class="post-body">
+            <h2 ng-if="post.title.length > 0">{{ post.title }}</h2>
+            <p ng-if="post.subtitle.length > 0">{{ post.subtitle }}</p>
+            <p ng-if="post.text.length > 0">
+                <span sb-html="post.isFull ? post.text : cutBody()"></span>
+                <span class="pull-right"
+                      ng-if="textIsCut()"
+                      ng-click="post.isFull = !post.isFull;">
                 <b ng-show="!post.isFull">&nbsp;{{ ::'Show more' | translate:'fanwall' }}</b>
                 <b ng-show="post.isFull">&nbsp;{{ ::'Show less' | translate:'fanwall' }}</b>
             </span>
-        </p>
-        <div style="clear:both;"></div>
-    </div>
+            </p>
+            <div style="clear:both;"></div>
+        </div>
 
-    <div ng-if="photoPosition() == 'after'"
-         ng-include="'./features/fanwall2/assets/templates/l1/tabs/directives/post-item/post-images.html'"></div>
+        <div ng-if="photoPosition() == 'after'"
+             ng-include="'./features/fanwall2/assets/templates/l1/tabs/directives/post-item/post-images.html'"></div>
 
-    <div class="post-likes"
-         ng-click="commentModal()"
-         ng-if="showLikeOrComment()">
-        <div class="row">
-            <div class="text-left"
-                 ng-class="getColSizeTextual()"
-                 ng-if="userLike()">
-                <span ng-if="post.likeCount == 1">{{ post.likeCount }} {{ ::'like' | translate:'fanwall' }}</span>
-                <span ng-if="post.likeCount > 1">{{ post.likeCount }} {{ ::'likes' | translate:'fanwall' }}</span>
-            </div>
-            <div class="text-right"
-                 ng-class="getColSizeTextual()"
-                 ng-if="userComment()">
-                <span ng-if="post.commentCount == 1">{{ post.commentCount }} {{ ::'comment' | translate:'fanwall' }}</span>
-                <span ng-if="post.commentCount > 1">{{ post.commentCount }} {{ ::'comments' | translate:'fanwall' }}</span>
+        <div class="post-likes"
+             ng-click="commentModal()"
+             ng-if="showLikeOrComment()">
+            <div class="row">
+                <div class="text-left"
+                     ng-class="getColSizeTextual()"
+                     ng-if="userLike()">
+                    <span ng-if="post.likeCount == 1">{{ post.likeCount }} {{ ::'like' | translate:'fanwall' }}</span>
+                    <span ng-if="post.likeCount > 1">{{ post.likeCount }} {{ ::'likes' | translate:'fanwall' }}</span>
+                </div>
+                <div class="text-right"
+                     ng-class="getColSizeTextual()"
+                     ng-if="userComment()">
+                    <span ng-if="post.commentCount == 1">{{ post.commentCount }} {{ ::'comment' | translate:'fanwall' }}</span>
+                    <span ng-if="post.commentCount > 1">{{ post.commentCount }} {{ ::'comments' | translate:'fanwall' }}</span>
+                </div>
             </div>
         </div>
-    </div>
 
-    <div class="post-actions"
-         ng-if="canLikeOrComment() || userShareBig()">
-        <div class="row">
-            <div class="text-center"
-                 ng-class="getColSize()"
-                 ng-if="userLike()"
-                 ng-click="toggleLike()">
+        <div class="post-actions"
+             ng-if="canLikeOrComment() || userShareBig()">
+            <div class="row">
+                <div class="text-center"
+                     ng-class="getColSize()"
+                     ng-if="userLike()"
+                     ng-click="toggleLike()">
                 <span ng-if="post.iLiked"
                       class="positive positive-custom">
                     <i class="icon ion-sb-like-filled post-action-icon"></i> {{ ::'Like' | translate:'fanwall' }}
                 </span>
-                <span ng-if="!post.iLiked">
+                    <span ng-if="!post.iLiked">
                     <i class="icon ion-sb-like post-action-icon"></i> {{ ::'Like' | translate:'fanwall' }}
                 </span>
-            </div>
-            <div class="text-center"
-                 ng-class="getColSize()"
-                 ng-if="userComment()"
-                 ng-click="commentModal()">
-                <i class="icon ion-sb-comment post-action-icon"></i> {{ ::'Comment' | translate:'fanwall' }}
-            </div>
-            <div class="text-center"
-                 ng-class="getColSize()"
-                 ng-if="userShareBig()"
-                 ng-click="sharePost()">
-                <i class="icon ion-sb-share-outline post-action-icon"></i> {{ ::'Share' | translate:'fanwall' }}
+                </div>
+                <div class="text-center"
+                     ng-class="getColSize()"
+                     ng-if="userComment()"
+                     ng-click="commentModal()">
+                    <i class="icon ion-sb-comment post-action-icon"></i> {{ ::'Comment' | translate:'fanwall' }}
+                </div>
+                <div class="text-center"
+                     ng-class="getColSize()"
+                     ng-if="userShareBig()"
+                     ng-click="sharePost()">
+                    <i class="icon ion-sb-share-outline post-action-icon"></i> {{ ::'Share' | translate:'fanwall' }}
+                </div>
             </div>
         </div>
-    </div>
-</ion-item>
+    </ion-item>
+</div>

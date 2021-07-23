@@ -134,4 +134,8 @@ $schemas['fanwall'] = [
         'collation' => 'utf8_unicode_ci',
         'default' => 'none',
     ],
+    'enable_moderation' => [
+        'type' => 'tinyint(1)',
+        'default' => '0',
+    ],
 ];

@@ -344,7 +344,12 @@ try {
             Translation::extractAll($module, $context);
             break;
         case 'app:manifest':
-            Manifest::rebuild(true);
+            $skipCache = false;
+            if (isset($argv[2]) &&
+                $argv[2] === '--skip-cache') {
+                $skipCache = true;
+            }
+            Manifest::rebuild($skipCache);
             break;
         case 'app:keystore:restore':
             $deviceId = 2;
@@ -466,7 +471,7 @@ try {
 " . color('i18n:extract', 'brown') . "
     Extracts all missing translations.
     
-" . color('app:manifest', 'brown') . "
+" . color('app:manifest [--skip-cache]', 'brown') . "
     Rebuilds the application manifest.
     
 " . color('app:keystore:restore <appId>', 'brown') . "

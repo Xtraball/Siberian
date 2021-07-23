@@ -6,32 +6,32 @@
  * Last update: 2016-04-28
  *
  */
-$schemas = (!isset($schemas)) ? array() : $schemas;
-$schemas['push_certificate'] = array(
-    'certificate_id' => array(
+$schemas = (!isset($schemas)) ? [] : $schemas;
+$schemas['push_certificate'] = [
+    'certificate_id' => [
         'type' => 'int(11)',
         'auto_increment' => true,
         'primary' => true,
-    ),
-    'app_id' => array(
+    ],
+    'app_id' => [
         'type' => 'int(11)',
         'is_null' => true,
-    ),
-    'type' => array(
+    ],
+    'type' => [
         'type' => 'varchar(30)',
         'charset' => 'utf8',
         'collation' => 'utf8_unicode_ci',
-    ),
-    'path' => array(
+    ],
+    'path' => [
         'type' => 'varchar(255)',
         'is_null' => true,
         'charset' => 'utf8',
         'collation' => 'utf8_unicode_ci',
-    ),
-    'created_at' => array(
+    ],
+    'created_at' => [
         'type' => 'datetime',
-    ),
-    'updated_at' => array(
+    ],
+    'updated_at' => [
         'type' => 'datetime',
-    ),
-);
+    ],
+];

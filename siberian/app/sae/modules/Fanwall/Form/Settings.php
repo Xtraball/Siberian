@@ -61,6 +61,9 @@ class Settings extends FormAbstract
             'both' => p__('fanwall', 'Inside contextual menu & below post body'),
         ]);
 
+        $postModeration = $this->addSimpleCheckbox('enable_moderation', p__('fanwall','Enable post moderation'));
+        $postModeration->setDescription(p__('fanwall', 'When enabled, user posts from the application must be approved by an admin to be published.'));
+
         $this->groupElements('group_features', [
             'enable_nearby',
             'enable_map',
@@ -85,7 +88,8 @@ class Settings extends FormAbstract
             'photo_mode',
         ], p__('fanwall', 'Photo options'));
 
-        $this->addSimpleNumber('max_images', p__('fanwall', 'Max pictures allowed') . ' (1-10)', 1, 10, true, 1);
+        $maxImages = $this->addSimpleNumber('max_images', p__('fanwall', 'Max pictures allowed') . ' (0-10)', 0, 10, true, 1);
+        $maxImages->setDescription(p__('fanwall', 'Set to 0 to disable image upload from the application.'));
 
         $helpText = p__('fanwall', 'If you enable any of user likes, posts or comments, the user profile & settings will be automatically added.');
         $help = <<<RAW

@@ -3,14 +3,14 @@ $name = "In-App Messages";
 $category = "contact";
 
 # Install icons
-$icons = array(
+$icons = [
     '/inapp_messages/inapp1.png'
-);
+];
 
 $result = Siberian_Feature::installIcons($name, $icons);
 
 # Install the Feature
-$data = array(
+$data = [
     'library_id'    => $result["library_id"],
     'icon_id'       => $result["icon_id"],
     'code'          => "inapp_messages",
@@ -22,15 +22,15 @@ $data = array(
     'is_ajax'       => 1,
     'position'      => 130,
     "use_my_account" => 0,
-);
+];
 
-$option = Siberian_Feature::install($category, $data, array('code'));
+$option = Siberian_Feature::install($category, $data, ['code']);
 
 # Icons Flat
-$icons = array(
+$icons = [
     '/inapp_messages/inapp1-flat.png',
     '/inapp_messages/inapp2-flat.png',
     '/inapp_messages/inapp3-flat.png',
-);
+];
 
 Siberian_Feature::installIcons("{$name}-flat", $icons);

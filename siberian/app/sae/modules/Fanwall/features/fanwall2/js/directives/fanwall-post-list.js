@@ -20,7 +20,12 @@ angular
             controller: function ($scope) {
                 $scope.listDidRender = function () {
                     $timeout(function () {
-                        Lightbox.run('.list-posts');
+                        // We need a single instance for every post*
+                        document
+                            .querySelectorAll('.list-posts fanwall-post-item')
+                            .forEach(function (item) {
+                                Lightbox.run('[rel="fanwall-gallery-' + item.id + '"]');
+                            });
                     }, 200);
                 };
             }

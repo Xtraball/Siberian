@@ -62,7 +62,7 @@ typedef NS_ENUM(NSInteger, GADGender) {
 
 /// Array of keyword strings. Keywords are words or phrases describing the current user activity
 /// such as @"Sports Scores" or @"Football". Set this property to nil to clear the keywords.
-@property(nonatomic, copy, nullable) NSArray *keywords;
+@property(nonatomic, copy, nullable) NSArray<NSString *> *keywords;
 
 /// URL string for a webpage whose content matches the app's primary content. This webpage content
 /// is used for targeting and brand safety purposes.

@@ -11,6 +11,9 @@ if ($option->getCode() === "catalog") {
         ->getId();
 }
 
+// Query feature indicator
+$pendingActions = $option->getPendingActions();
+
 ?>
 
 <?php if (!$tiedToMcommerce): ?>
@@ -28,6 +31,11 @@ if ($option->getCode() === "catalog") {
        rel="<?php echo $option->getId(); ?>"
        pos="<?php echo $option->getPosition(); ?>">
         <?php $icon_id_url = $option->getIconId() ? $option->getIconId() : $this->getIconUrl($option); ?>
+
+        <span style="<?php echo ($pendingActions < 1) ? 'display: none;' : '' ?>"
+              rel="<?php echo $option->getId() ?>"
+              class="badge color-red badge-actions live-badge"><?php echo ($pendingActions > 99) ? '99+' : $pendingActions; ?></span>
+
         <img id="icon_<?php echo $option->getId(); ?>"
              src="<?php echo $this->getColorizedImage($icon_id_url, "#0099C7"); ?>"
              alt="<?php echo $option->getName(); ?>"

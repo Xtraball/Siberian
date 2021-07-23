@@ -12,14 +12,14 @@ class Application_Customization_Publication_InfosController extends Application_
      * @var array
      */
     public $cache_triggers = [
-        "save" => [
-            "tags" => ["app_#APP_ID#"],
+        'save' => [
+            'tags' => ['app_#APP_ID#'],
         ],
-        "switchtoionic" => [
-            "tags" => ["app_#APP_ID#"],
+        'switchtoionic' => [
+            'tags' => ['app_#APP_ID#'],
         ],
-        "save-admob" => [
-            "tags" => ["app_#APP_ID#"],
+        'save-admob' => [
+            'tags' => ['app_#APP_ID#'],
         ],
     ];
 
@@ -191,7 +191,7 @@ class Application_Customization_Publication_InfosController extends Application_
             $application = $this->getApplication();
 
             if (!$application->getId()) {
-                throw new \Siberian\Exception(__("This application does not exists."));
+                throw new \Siberian\Exception(__('This application does not exists.'));
             }
 
             $form = new Application_Form_Android();
@@ -199,7 +199,7 @@ class Application_Customization_Publication_InfosController extends Application_
                 $application = $this->getApplication();
 
                 $application
-                    ->setDisableBatteryOptimization($params["disable_battery_optimization"])
+                    ->setDisableBatteryOptimization($params['disable_battery_optimization'])
                     ->save();
 
                 $payload = [
@@ -372,19 +372,19 @@ class Application_Customization_Publication_InfosController extends Application_
 
                 $request = $this->getRequest();
 
-                $type = $request->getParam("type");
-                $device = ($request->getParam("device_id") == 1) ? "ios" : "android";
-                $noads = ($request->getParam("no_ads") == 1) ? "noads" : "";
-                $pDesign = $request->getParam("design_code");
-                $design_code = (!empty($pDesign)) ? $pDesign : "ionic";
-                $isApkService = $request->getParam("apk", false) === "apk";
+                $type = $request->getParam('type');
+                $device = ($request->getParam('device_id') == 1) ? 'ios' : 'android';
+                $noads = ($request->getParam('no_ads') == 1) ? 'noads' : '';
+                $pDesign = $request->getParam('design_code');
+                $design_code = (!empty($pDesign)) ? $pDesign : 'ionic';
+                $isApkService = $request->getParam('apk', false) === 'apk';
 
                 # ACL Apk user
-                if ($type == "apk" && !$this->getAdmin()->canGenerateApk()) {
-                    throw new \Siberian\Exception("You are not allowed to generate APK.");
+                if ($type === 'apk' && !$this->getAdmin()->canGenerateApk()) {
+                    throw new \Siberian\Exception('You are not allowed to generate APK.');
                 }
 
-                if ($type == "apk" && !$isApkService) {
+                if ($type === 'apk' && !$isApkService) {
                     $queue = new Application_Model_ApkQueue();
 
                     $queue->setAppId($application->getId());
@@ -400,7 +400,7 @@ class Application_Customization_Publication_InfosController extends Application_
                 }
 
                 // New case for source to apk generator!
-                if ($isApkService && $device === "android") {
+                if ($device === 'android') {
                     $queue->setIsApkService(1);
                     $queue->setApkStatus('pending');
                 }
@@ -414,30 +414,30 @@ class Application_Customization_Publication_InfosController extends Application_
                 $reload = false;
                 if (!Cron_Model_Cron::is_active()) {
                     $cron = new Cron_Model_Cron();
-                    $value = ($type == "apk") ? "apkgenerator" : "sources";
-                    $task = $cron->find($value, "command");
+                    $value = ($type === 'apk') ? 'apkgenerator' : 'sources';
+                    $task = $cron->find($value, 'command');
                     Siberian_Cache::__clearLocks();
                     $siberian_cron = new Siberian_Cron();
                     $siberian_cron->execute($task);
                     $reload = true;
                 }
 
-                $more["apk"] = Application_Model_ApkQueue::getPackages($application->getId());
-                $more["zip"] = Application_Model_SourceQueue::getPackages($application->getId());
-                $more["queued"] = Application_Model_Queue::getPosition($application->getId());
-                $more["apk_service"] = Application_Model_SourceQueue::getApkServiceStatus($application->getId());
+                $more['apk'] = Application_Model_ApkQueue::getPackages($application->getId());
+                $more['zip'] = Application_Model_SourceQueue::getPackages($application->getId());
+                $more['queued'] = Application_Model_Queue::getPosition($application->getId());
+                $more['apk_service'] = Application_Model_SourceQueue::getApkServiceStatus($application->getId());
 
                 $data = [
-                    "success" => 1,
-                    "message" => __("Application successfully queued for generation."),
-                    "more" => $more,
-                    "reload" => $reload,
+                    'success' => 1,
+                    'message' => __('Application successfully queued for generation.'),
+                    'more' => $more,
+                    'reload' => $reload,
                 ];
 
             } else {
                 $data = [
-                    "error" => 1,
-                    "message" => __("Missing parameters for generation."),
+                    'error' => 1,
+                    'message' => __('Missing parameters for generation.'),
                 ];
             }
 
