@@ -116,7 +116,8 @@ class Customer_Mobile_Account_RegisterController extends Application_Controller_
                 throw new Exception($message);
             }
 
-            if (isset($data['birthdate'])) {
+            if (($requireBirthdate || $useBirthdate) &&
+                isset($data['birthdate'])) {
                 $birthdate = new Zend_Date();
                 $birthdate->setDate($data['birthdate'], 'DD/MM/YYYY');
                 $data['birthdate'] = $birthdate->getTimestamp();
