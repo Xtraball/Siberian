@@ -23,6 +23,7 @@ class Manifest
             echo color('Rebuilding application manifest files.', 'brown') . PHP_EOL;
 
             if (!$skipCache) {
+                echo color('Clearing cache...', 'red') . PHP_EOL;
                 Cache::__clearCache();
             }
             

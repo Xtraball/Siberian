@@ -1,0 +1,207 @@
+<?php
+
+$optionValue = $this->getOptionValue();
+$valueId = $optionValue->getId();
+$approvals = $this->getApprovals();
+$application = $this->getApplication();
+$appName = $application->getName();
+
+?>
+
+<div role="tabpanel"
+     class="tab-pane"
+     id="approval">
+
+    <div class="feature-block-list">
+        <div>
+            <h3 class="title-editor no-border-radius title-feature-indent">
+                <?php echo p__('fanwall', 'Publications awaiting approval'); ?>
+                <button type="button"
+                        class="toggle_design color-blue pull-right bt-header-right btn feature-toggle-items">
+                    <i class="fa fa-angle-down"></i>
+                </button>
+            </h3>
+            <div class="container-fluid first-row-feature content-feature feature-manage-items">
+                <table class="table content-white-bkg sb-pager">
+                    <thead>
+                        <tr class="border-grey">
+                            <th class="sortable"
+                                style="width:25%;"><?php echo p__('fanwall', 'Author'); ?></th>
+                            <th class="sortable"
+                                style="width:40%;"><?php echo p__('fanwall', 'Post'); ?></th>
+                            <th class="sortable numeric"
+                                style="width:20%;"><?php echo p__('fanwall', 'Pub. date'); ?></th>
+                            <th style="width:15%;"></th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                    <?php if ($approvals->count() > 0): ?>
+                        <?php foreach ($approvals as $approval) : ?>
+                            <tr class="line-approval"
+                                id="approval_element_<?php echo $approval->getId(); ?>">
+                                <td>
+                                    <?php if ($approval->getcustomerId()): ?>
+                                        <a class="btn btn-xs btn-info"
+                                           href="<?php echo __path("/customer/application/edit/", [
+                                               "customer_id" => $approval->getCustomerId()
+                                           ]); ?>">
+                                            #<?php echo $approval->getcustomerId() ?> - <i><?php echo $approval->getFirstname() . " " . $approval->getLastname(); ?></i>
+                                        </a>
+                                    <?php else: ?>
+                                        <b><?php echo $appName; ?></b> <i>(<?php echo p__("fanwall", "App") ?>)</i>
+                                    <?php endif; ?>
+                                </td>
+                                <td><?php echo cut(base64_decode($approval->getText()), 500); ?></td>
+                                <td>
+                                    <span style="display: none;"><?php echo $approval->getDate(); ?></span>
+                                    <span class="moment_format"><?php echo $approval->getDate(); ?></span>
+                                </td>
+                                <td class="text-right">
+                                    <button rel="<?php echo $approval->getPostId(); ?>"
+                                            class="btn btn-xs btn-success approve-post"><?php echo p__('fanwall', 'Approve') ?></button>
+                                    <button rel="<?php echo $approval->getPostId(); ?>"
+                                            class="btn btn-xs btn-danger reject-post"><?php echo p__('fanwall', 'Reject') ?></button>
+                                </td>
+                            </tr>
+                        <?php endforeach; ?>
+                    <?php endif; ?>
+                        <tr class="footer-empty"
+                            style="display: none;">
+                            <td colspan="5"><?php echo p__('fanwall', 'No pending requests.') ?></td>
+                        </tr>
+                    </tbody>
+                </table>
+
+            </div>
+        </div>
+    </div>
+
+    <script type="text/javascript">
+        $(document).ready(function () {
+
+            var posts = {};
+            <?php foreach ($approvals as $approval): $images = explode(',', $approval->getImage()) ?>
+                var images = [];
+                <?php foreach ($images as $image): if (empty($image)) continue; ?>
+                    images.push('<img src="/images/application<?php echo $image ?>" />');
+                <?php endforeach; ?>
+
+                posts[<?php echo $approval->getPostId() ?>] = `<?php echo base64_decode($approval->getText()) ?>`;
+                posts[<?php echo $approval->getPostId() ?>] += '<br /><br />';
+                posts[<?php echo $approval->getPostId() ?>] += images.join('<br />');
+            <?php endforeach; ?>
+
+            var checkLines = function () {
+                var lines = $('.line-approval').length;
+                if (lines > 0) {
+                    $('.footer-empty').hide();
+                } else {
+                    $('.footer-empty').show();
+                }
+            };
+            checkLines();
+
+            var approvePost = function (postId) {
+
+                swal({
+                    html: true,
+                    title: '<?php echo p__js('fanwall', 'Are you sure you want to approve this post?', "'") ?>',
+                    text: posts[postId],
+                    customClass: 'social-wall-moderation',
+                    allowOutsideClick: true,
+                    showCancelButton: true,
+                    closeOnConfirm: false,
+                    closeOnCancel: true,
+                    confirmButtonColor: '#5cb85c',
+                    confirmButtonText: '<?php echo p__js('fanwall', 'Yes, approve post', "'") ?>',
+                    cancelButtonText: '<?php echo p__js('fanwall', 'No, go back!', "'") ?>',
+                }, function (value) {
+                    if (value === false) {
+                        return;
+                    }
+                    formget(
+                        '/fanwall/application/approve-post/value_id/<?php echo $valueId ?>',
+                        {
+                            post_id: postId,
+                        }, function (response) {
+                            feature_form_success(response.message);
+                            $('.approve-post[rel="' + postId + '"]').parents('tr').remove();
+                            checkLines();
+                        }, function (response) {
+                            feature_form_error(JSON.parse(response.responseText).message);
+                        });
+
+                    swal.close();
+                    return true;
+                });
+
+            };
+
+            var approveAction = $('.approve-post');
+            approveAction.off('click');
+            approveAction.on('click', function () {
+                approvePost($(this).attr('rel'));
+            });
+
+            var rejectPost = function (postId) {
+                swal({
+                    html: true,
+                    title: '<?php echo p__js('fanwall', 'Are you sure you want to reject this post?', "'") ?>',
+                    text: posts[postId],
+                    customClass: 'social-wall-moderation',
+                    allowOutsideClick: true,
+                    showCancelButton: true,
+                    closeOnConfirm: false,
+                    closeOnCancel: true,
+                    confirmButtonColor: '#ff3a2e',
+                    confirmButtonText: '<?php echo p__js('fanwall', 'Yes, reject post', "'") ?>',
+                    cancelButtonText: '<?php echo p__js('fanwall', 'No, go back!', "'") ?>',
+                }, function (value) {
+                    if (value === false) {
+                        return;
+                    }
+                    formget(
+                        '/fanwall/application/reject-post/value_id/<?php echo $valueId ?>',
+                        {
+                            post_id: postId,
+                        }, function (response) {
+                            feature_form_success(response.message);
+                            $('.reject-post[rel="' + postId + '"]').parents('tr').remove();
+                            checkLines();
+                        }, function (response) {
+                            feature_form_error(JSON.parse(response.responseText).message);
+                        });
+
+                    swal.close();
+                    return true;
+                });
+            };
+
+            var rejectAction = $('.reject-post');
+            rejectAction.off('click');
+            rejectAction.on('click', function () {
+                rejectPost($(this).attr('rel'));
+            });
+        });
+    </script>
+
+    <style type="text/css">
+        .social-wall-moderation.sweet-alert {
+            top: 10vh !important;
+            bottom: 10vh !important;
+            left: 30vh !important;
+            right: 30vh !important;
+            margin: 0 !important;
+            position: absolute !important;
+            width: auto;
+        }
+        .social-wall-moderation.sweet-alert p {
+            height: calc(100% - 216px);
+            overflow: scroll;
+        }
+        .social-wall-moderation.sweet-alert p img {
+            width: 300px;
+            max-width: 80%;
+        }
+    </style>
+</div>

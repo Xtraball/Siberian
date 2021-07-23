@@ -8,17 +8,19 @@
     <ion-list ng-if="!isLoading && collection.length > 0"
               class="list-posts">
         <fanwall-post-item repeat-done="listDidRender()"
+                           rel="fanwall-gallery-{{ post.id }}"
                            id="{{ post.id }}"
                            ng-repeat="post in collection track by post.id"></fanwall-post-item>
     </ion-list>
 
     <ion-list ng-if="!isLoading && !collection.length">
-        <ion-item ng-class="{'card' : getCardDesign()}"
-                  class="item-custom text-center no-post">
-            <p ng-if="currentTab == 'post'">{{ ::'There is no post.' | translate:'fanwall' }}</p>
-            <p ng-if="currentTab == 'nearby'">{{ ::'There is no post around you.' | translate:'fanwall' }}</p>
-            <p ng-if="currentTab == 'profile'">{{ ::'You have no post.' | translate:'fanwall' }}</p>
-        </ion-item>
+        <div ng-class="{'card' : getCardDesign()}">
+            <ion-item class="item-custom text-center no-post">
+                <p ng-if="currentTab == 'post'">{{ ::'There is no post.' | translate:'fanwall' }}</p>
+                <p ng-if="currentTab == 'nearby'">{{ ::'There is no post around you.' | translate:'fanwall' }}</p>
+                <p ng-if="currentTab == 'profile'">{{ ::'You have no post.' | translate:'fanwall' }}</p>
+            </ion-item>
+        </div>
     </ion-list>
 
     <ion-infinite-scroll ng-if="!isLoading && hasMore"

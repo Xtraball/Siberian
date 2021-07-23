@@ -9,22 +9,6 @@
         "parents": {
           "/*": [
             {
-              "xml": "<feature name=\"InAppPurchase\"><param name=\"ios-package\" value=\"InAppPurchase\" /><param name=\"onload\" value=\"true\" /></feature>",
-              "count": 1
-            },
-            {
-              "xml": "<feature name=\"CDVWKWebViewFileXhr\"><param name=\"ios-package\" value=\"CDVWKWebViewFileXhr\" /><param name=\"onload\" value=\"true\" /></feature>",
-              "count": 1
-            },
-            {
-              "xml": "<feature name=\"PushNotification\"><param name=\"ios-package\" value=\"PushPlugin\" /></feature>",
-              "count": 1
-            },
-            {
-              "xml": "<feature name=\"WebViewPlugin\"><param name=\"ios-package\" value=\"WebViewPlugin\" /></feature>",
-              "count": 1
-            },
-            {
               "xml": "<feature name=\"AppVersion\"><param name=\"ios-package\" value=\"AppVersion\" /></feature>",
               "count": 1
             },
@@ -115,22 +99,28 @@
             {
               "xml": "<feature name=\"Toast\"><param name=\"ios-package\" value=\"Toast\" /></feature>",
               "count": 1
+            },
+            {
+              "xml": "<feature name=\"InAppPurchase\"><param name=\"ios-package\" value=\"InAppPurchase\" /><param name=\"onload\" value=\"true\" /></feature>",
+              "count": 1
+            },
+            {
+              "xml": "<feature name=\"CDVWKWebViewFileXhr\"><param name=\"ios-package\" value=\"CDVWKWebViewFileXhr\" /><param name=\"onload\" value=\"true\" /></feature>",
+              "count": 1
+            },
+            {
+              "xml": "<feature name=\"PushNotification\"><param name=\"ios-package\" value=\"PushPlugin\" /></feature>",
+              "count": 1
+            },
+            {
+              "xml": "<feature name=\"WebViewPlugin\"><param name=\"ios-package\" value=\"WebViewPlugin\" /></feature>",
+              "count": 1
             }
           ]
         }
       },
       "*-Info.plist": {
         "parents": {
-          "UIBackgroundModes": [
-            {
-              "xml": "<array><string>remote-notification</string></array>",
-              "count": 1
-            },
-            {
-              "xml": "<array><string>audio</string></array>",
-              "count": 1
-            }
-          ],
           "NSLocationWhenInUseUsageDescription": [
             {
               "xml": "<string>Use the GPS for live navigation</string>",
@@ -140,6 +130,16 @@
           "LSApplicationQueriesSchemes": [
             {
               "xml": "<array><string>waze</string><string>comgooglemaps</string><string>comgooglemaps-x-callback</string></array>",
+              "count": 1
+            }
+          ],
+          "UIBackgroundModes": [
+            {
+              "xml": "<array><string>audio</string></array>",
+              "count": 1
+            },
+            {
+              "xml": "<array><string>remote-notification</string></array>",
               "count": 1
             }
           ],
@@ -204,18 +204,6 @@
     }
   },
   "installed_plugins": {
-    "InAppPurchase": {
-      "PACKAGE_NAME": "com.appsmobilecompany.base"
-    },
-    "IosXhr": {
-      "PACKAGE_NAME": "com.appsmobilecompany.base"
-    },
-    "Push": {
-      "PACKAGE_NAME": "com.appsmobilecompany.base"
-    },
-    "WebView": {
-      "PACKAGE_NAME": "com.appsmobilecompany.base"
-    },
     "Promises": {
       "PACKAGE_NAME": "com.appsmobilecompany.base"
     },
@@ -282,58 +270,22 @@
     },
     "Toast": {
       "PACKAGE_NAME": "com.appsmobilecompany.base"
+    },
+    "InAppPurchase": {
+      "PACKAGE_NAME": "com.appsmobilecompany.base"
+    },
+    "IosXhr": {
+      "PACKAGE_NAME": "com.appsmobilecompany.base"
+    },
+    "Push": {
+      "PACKAGE_NAME": "com.appsmobilecompany.base"
+    },
+    "WebView": {
+      "PACKAGE_NAME": "com.appsmobilecompany.base"
     }
   },
   "dependent_plugins": {},
   "modules": [
-    {
-      "id": "InAppPurchase.InAppPurchase",
-      "file": "plugins/InAppPurchase/www/store-ios.js",
-      "pluginId": "InAppPurchase",
-      "clobbers": [
-        "store"
-      ]
-    },
-    {
-      "id": "IosXhr.formdata-polyfill",
-      "file": "plugins/IosXhr/src/www/ios/formdata-polyfill.js",
-      "pluginId": "IosXhr",
-      "runs": true
-    },
-    {
-      "id": "IosXhr.xhr-polyfill",
-      "file": "plugins/IosXhr/src/www/ios/xhr-polyfill.js",
-      "pluginId": "IosXhr",
-      "runs": true
-    },
-    {
-      "id": "IosXhr.fetch-bootstrap",
-      "file": "plugins/IosXhr/src/www/ios/fetch-bootstrap.js",
-      "pluginId": "IosXhr",
-      "runs": true
-    },
-    {
-      "id": "IosXhr.fetch-polyfill",
-      "file": "plugins/IosXhr/src/www/ios/whatwg-fetch-2.0.3.js",
-      "pluginId": "IosXhr",
-      "runs": true
-    },
-    {
-      "id": "Push.PushNotification",
-      "file": "plugins/Push/www/push.js",
-      "pluginId": "Push",
-      "clobbers": [
-        "PushNotification"
-      ]
-    },
-    {
-      "id": "WebView.webview",
-      "file": "plugins/WebView/www/webViewPlugin.js",
-      "pluginId": "WebView",
-      "clobbers": [
-        "window.webview"
-      ]
-    },
     {
       "id": "Promises.Promise",
       "file": "plugins/Promises/www/promise.js",
@@ -721,13 +673,57 @@
       "clobbers": [
         "window.plugins.toast"
       ]
+    },
+    {
+      "id": "InAppPurchase.InAppPurchase",
+      "file": "plugins/InAppPurchase/www/store-ios.js",
+      "pluginId": "InAppPurchase",
+      "clobbers": [
+        "store"
+      ]
+    },
+    {
+      "id": "IosXhr.formdata-polyfill",
+      "file": "plugins/IosXhr/src/www/ios/formdata-polyfill.js",
+      "pluginId": "IosXhr",
+      "runs": true
+    },
+    {
+      "id": "IosXhr.xhr-polyfill",
+      "file": "plugins/IosXhr/src/www/ios/xhr-polyfill.js",
+      "pluginId": "IosXhr",
+      "runs": true
+    },
+    {
+      "id": "IosXhr.fetch-bootstrap",
+      "file": "plugins/IosXhr/src/www/ios/fetch-bootstrap.js",
+      "pluginId": "IosXhr",
+      "runs": true
+    },
+    {
+      "id": "IosXhr.fetch-polyfill",
+      "file": "plugins/IosXhr/src/www/ios/whatwg-fetch-2.0.3.js",
+      "pluginId": "IosXhr",
+      "runs": true
+    },
+    {
+      "id": "Push.PushNotification",
+      "file": "plugins/Push/www/push.js",
+      "pluginId": "Push",
+      "clobbers": [
+        "PushNotification"
+      ]
+    },
+    {
+      "id": "WebView.webview",
+      "file": "plugins/WebView/www/webViewPlugin.js",
+      "pluginId": "WebView",
+      "clobbers": [
+        "window.webview"
+      ]
     }
   ],
   "plugin_metadata": {
-    "InAppPurchase": "10.5.0",
-    "IosXhr": "1.0.8",
-    "Push": "1.10.0",
-    "WebView": "1.0.0",
     "Promises": "4.2.2",
     "AppVersion": "0.1.8",
     "Badge": "0.8.8",
@@ -749,6 +745,10 @@
     "Navigator": "0.1.0",
     "Permissions": "1.0.0",
     "Siberian": "1.0.0",
-    "Toast": "2.7.2"
+    "Toast": "2.7.2",
+    "InAppPurchase": "10.5.0",
+    "IosXhr": "1.0.8",
+    "Push": "1.10.0",
+    "WebView": "1.0.0"
   }
 }

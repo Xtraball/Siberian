@@ -8,4 +8,5 @@ use Siberian\Security;
 $init = static function ($bootstrap) {
     Security::allowExtension('zip');
     Security::allowExtension('sib');
+    Security::allowExtension('json');
 };

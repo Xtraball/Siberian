@@ -1,5 +1,6 @@
 <?php
 
+use Fanwall\Model\Approval;
 use Fanwall\Model\Fanwall;
 use Fanwall\Model\Post;
 use Fanwall\Model\Like;
@@ -109,6 +110,8 @@ class Fanwall_Mobile_PostController extends Application_Controller_Mobile_Defaul
                     'isScheduled' => (boolean) $post->getIsScheduled(),
                     'sticky' => (boolean) $post->getSticky(),
                     'iLiked' => $iLiked,
+                    'isVisible' => (boolean) $post->getIsVisible(),
+                    'status' => $post->getStatus(),
                     'likeLocked' => false,
                     'author' => $author,
                     'comments' => $commentCollection,
@@ -194,6 +197,8 @@ class Fanwall_Mobile_PostController extends Application_Controller_Mobile_Defaul
                     'isScheduled' => (boolean) $post->getIsScheduled(),
                     'sticky' => (boolean) $post->getSticky(),
                     'iLiked' => false,
+                    'isVisible' => (boolean) $post->getIsVisible(),
+                    'status' => $post->getStatus(),
                     'likeLocked' => false,
                     'author' => $author,
                     'comments' => $commentCollection,
@@ -232,7 +237,6 @@ class Fanwall_Mobile_PostController extends Application_Controller_Mobile_Defaul
 
             $query = [
                 'fanwall_post.value_id = ?' => $optionValue->getId(),
-                'fanwall_post.is_visible = ?' => 1,
                 'fanwall_post.customer_id = ?' => $customerId,
             ];
 
@@ -296,6 +300,8 @@ class Fanwall_Mobile_PostController extends Application_Controller_Mobile_Defaul
                     'isScheduled' => (boolean) $post->getIsScheduled(),
                     'sticky' => (boolean) $post->getSticky(),
                     'iLiked' => (boolean) $iLiked,
+                    'isVisible' => (boolean) $post->getIsVisible(),
+                    'status' => $post->getStatus(),
                     'likeLocked' => (boolean) false,
                     'author' => $author,
                     'comments' => $commentCollection,
@@ -423,6 +429,8 @@ class Fanwall_Mobile_PostController extends Application_Controller_Mobile_Defaul
                     'isScheduled' => (boolean) $post->getIsScheduled(),
                     'sticky' => (boolean) $post->getSticky(),
                     'iLiked' => (boolean) $iLiked,
+                    'isVisible' => (boolean) $post->getIsVisible(),
+                    'status' => $post->getStatus(),
                     'likeLocked' => (boolean) false,
                     'author' => $author,
                     'comments' => $commentCollection,
@@ -546,6 +554,8 @@ class Fanwall_Mobile_PostController extends Application_Controller_Mobile_Defaul
                     'isScheduled' => (boolean) $post->getIsScheduled(),
                     'sticky' => (boolean) $post->getSticky(),
                     'iLiked' => (boolean) $iLiked,
+                    'isVisible' => (boolean) $post->getIsVisible(),
+                    'status' => $post->getStatus(),
                     'likeLocked' => (boolean) false,
                     'author' => $author,
                     'comments' => $commentCollection,
@@ -736,7 +746,10 @@ class Fanwall_Mobile_PostController extends Application_Controller_Mobile_Defaul
             $request = $this->getRequest();
             $session = $this->getSession();
             $optionValue = $this->getCurrentOptionValue();
+            $valueId = $optionValue->getId();
             $values = $request->getBodyParams();
+            $fanWall = (new Fanwall())->find($valueId, 'value_id');
+            $settings = $fanWall->buildSettings();
 
             if (!$session->isLoggedIn()) {
                 throw new Exception('You must be logged-in to create a post.');
@@ -838,7 +851,21 @@ class Fanwall_Mobile_PostController extends Application_Controller_Mobile_Defaul
                 $post->setImage('');
             }
 
-            $post->save();
+            // All done, time for moderation
+            $isVisible = true;
+            if ($settings['enable_moderation']) {
+                $isVisible = false;
+
+                $post
+                    ->setStatus('pending')
+                    ->setIsVisible($isVisible)
+                    ->save();
+            } else {
+                $post
+                    ->setStatus('published')
+                    ->setIsVisible(true)
+                    ->save();
+            }
 
             // Ok everything good, we can insert archive if edit
             if ($saveToHistory) {
@@ -855,14 +882,27 @@ class Fanwall_Mobile_PostController extends Application_Controller_Mobile_Defaul
                     ->save();
             }
 
+            $message = p__('fanwall', 'Your post is published!');
+            if ($settings['enable_moderation']) {
+                $message = p__('fanwall', 'Your post is awaiting admin approval!');
+
+                // Saving approval to history (one line per post only)
+                $approval = (new Approval())->find($post->getId(), 'post_id');
+                $approval
+                    ->setPostId($post->getId())
+                    ->setValueId($valueId)
+                    ->save();
+            }
+
             $payload = [
                 'success' => true,
-                'message' => 'Your post is saved!',
+                'message' => $message,
             ];
         } catch (\Exception $e) {
             $payload = [
                 'error' => true,
                 'message' => $e->getMessage(),
+                'trace' => $e->getTrace(),
             ];
         }
 
@@ -1264,13 +1304,20 @@ class Fanwall_Mobile_PostController extends Application_Controller_Mobile_Defaul
             }
 
             // Make post invisible!
-            $post
-                ->setIsVisible(false)
-                ->save();
+            if ($post->getStatus() === 'deleted') {
+                $post->delete();
+                $message = 'Your post is permanently removed.';
+            } else {
+                $post
+                    ->setIsVisible(false)
+                    ->setStatus('deleted')
+                    ->save();
+                $message = 'Your post is trashed.';
+            }
 
             $payload = [
                 'success' => true,
-                'message' => 'Your post is trashed.',
+                'message' => $message,
             ];
         } catch (\Exception $e) {
             $payload = [

@@ -18,12 +18,12 @@
 
     NSString *toLat = [NSString stringWithFormat:@"%@",[latlng objectAtIndex:0]];
     NSString *toLng = [NSString stringWithFormat:@"%@",[latlng objectAtIndex:1]];
-    
+
     UIAlertController * alert = [UIAlertController
                                  alertControllerWithTitle:nil
                                  message:nil
                                  preferredStyle:UIAlertControllerStyleActionSheet];
-    
+
     UIAlertAction* waze = [UIAlertAction
                            actionWithTitle:@"Waze"
                            style:UIAlertActionStyleDefault
@@ -34,7 +34,7 @@
                                    [self openByUrl:@"http://itunes.apple.com/us/app/id323229106"];
                                }
                            }];
-    
+
     UIAlertAction* googleMaps = [UIAlertAction
                                  actionWithTitle:@"Google Maps"
                                  style:UIAlertActionStyleDefault
@@ -58,19 +58,29 @@
                                           [self openByUrl:@"https://itunes.apple.com/us/app/maps/id915056765?mt=8"];
                                       }
                                   }];
-    
+
     UIAlertAction* cancel = [UIAlertAction
                              actionWithTitle:@"OK"
                              style:UIAlertActionStyleCancel
                              handler:^(UIAlertAction * action) {
                                  [alert dismissViewControllerAnimated:true completion:nil];
                              }];
-    
+
     [alert addAction:waze];
     [alert addAction:googleMaps];
     [alert addAction:appleMaps];
     [alert addAction:cancel];
-    
+
+    // iPad presentation style
+    if (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad) {
+        [alert setModalPresentationStyle:UIModalPresentationPopover];
+        UIPopoverPresentationController *popPresenter = [alert popoverPresentationController];
+        popPresenter.sourceView = self.webView.superview;
+        [popPresenter setPermittedArrowDirections:0];
+        popPresenter.sourceView = self.webView.superview;
+        popPresenter.sourceRect = CGRectMake(CGRectGetMidX(self.webView.bounds), CGRectGetMidY(self.webView.bounds), 0, 0);
+    }
+
     [self.viewController presentViewController:alert animated:YES completion:nil];
 }
 

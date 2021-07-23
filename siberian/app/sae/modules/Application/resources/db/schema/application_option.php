@@ -133,7 +133,19 @@ $schemas['application_option'] = [
         'type' => 'tinyint(1)',
         'default' => '0',
     ],
+    'use_birthdate' => [
+        'type' => 'tinyint(1)',
+        'default' => '0',
+    ],
     'use_ranking' => [
+        'type' => 'tinyint(1)',
+        'default' => '0',
+    ],
+    'use_civility' => [
+        'type' => 'tinyint(1)',
+        'default' => '0',
+    ],
+    'use_mobile' => [
         'type' => 'tinyint(1)',
         'default' => '0',
     ],

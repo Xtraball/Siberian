@@ -49,6 +49,7 @@ class Fanwall extends Base
             }
         }
 
+        $settings['enable_moderation'] = (boolean) $this->getEnableModeration();
         $settings['max_images'] = (integer) $this->getMaxImages();
         $settings['cardDesign'] = ($this->getDesign() === 'card');
         $settings['photoMode'] = $this->getPhotoMode();
@@ -108,6 +109,15 @@ class Fanwall extends Base
         ];
     }
 
+    /**
+     * @return int
+     */
+    public function getPendingActions ($optionValue): int
+    {
+        $approval = (new Approval())->findAll(['value_id = ?' => $optionValue->getId()]);
+
+        return $approval->count();
+    }
 
     /**
      * @param null $optionValue

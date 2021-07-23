@@ -148,7 +148,6 @@ class Preview_Model_Db_Table_Preview extends Core_Model_Db_Table
     {
         foreach ($language_data as $language_code => $data) {
             $data["preview_id"] = $preview_id;
-            $data["description"] = strip_tags($data["description"]);
             $this->_db->delete($this->_name . '_language', ['preview_id = ?' => $preview_id, 'language_code = ?' => $data["language_code"]]);
             $this->_db->insert($this->_name . '_language', $data);
         }

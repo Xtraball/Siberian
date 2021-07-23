@@ -7,8 +7,8 @@
 
 angular
 .module('starter')
-.controller('PushController', function ($location, $rootScope, $scope, $stateParams,
-                                                             LinkService, SB, Push) {
+.controller('PushController', function ($location, $rootScope, $scope, $stateParams, $timeout,
+                                        LinkService, SB, Push, Dialog) {
     angular.extend($scope, {
         is_loading: true,
         value_id: $stateParams.value_id,
@@ -28,6 +28,10 @@ angular
                 .getSample()
                 .then(function (payload) {
                     $scope.collection = payload.collection;
+                    $scope.settings = payload.settings;
+                    $timeout(function () {
+                        $scope.card_design = (payload.settings.design === 'card');
+                    });
                     $scope.is_loading = false;
                 });
             return;
@@ -39,6 +43,10 @@ angular
             .then(function (data) {
                 if (data.collection) {
                     $scope.collection = $scope.collection.concat(data.collection);
+                    $scope.settings = data.settings;
+                    $timeout(function () {
+                        $scope.card_design = (data.settings.design === 'card');
+                    });
                     $rootScope.$broadcast(SB.EVENTS.PUSH.readPush);
                 }
 
@@ -84,6 +92,29 @@ angular
             });
     };
 
+    $scope.deletePush = function (item) {
+        Dialog
+            .confirm(
+                'Confirmation',
+                'Please confirm you want to delete this notification!',
+                ['Yes', 'No'],
+                '',
+                'chatrooms')
+            .then(function (result) {
+                if (result) {
+                    Push
+                        .deletePush(item.deliver_id)
+                        .then(function (success) {
+                            $scope.pullToRefresh();
+                            Dialog.alert('Success', success.message, 'OK', -1, 'push');
+                        }, function (error) {
+                            Dialog.alert('Error', error.message, 'OK', -1, 'push');
+                        });
+                }
+            });
+
+    };
+
     /**
      * Toggle item or open link/feature
      * @param item
@@ -102,7 +133,7 @@ angular
 
     $scope.hasItem = function (item) {
         return (item.url || item.action_value);
-    }
+    };
 
     $scope.loadMore = function () {
         $scope.loadContent(true);

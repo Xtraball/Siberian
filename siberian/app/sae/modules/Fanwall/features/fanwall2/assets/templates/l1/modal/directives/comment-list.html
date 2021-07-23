@@ -6,10 +6,11 @@
                               ng-repeat="comment in post.comments track by comment.id"></fanwall-comment-item>
     </ion-list>
 
-    <ion-list ng-class="{'card' : getCardDesign()}"
-              ng-if="!post.comments.length">
-        <ion-item class="item-custom text-center no-post">
-            {{ ::'Be the first to comment.' | translate:'fanwall' }}
-        </ion-item>
-    </ion-list>
+    <div ng-class="{'card' : getCardDesign()}">
+        <ion-list ng-if="!post.comments.length">
+            <ion-item class="item-custom text-center no-post">
+                {{ ::'Be the first to comment.' | translate:'fanwall' }}
+            </ion-item>
+        </ion-list>
+    </div>
 </div>

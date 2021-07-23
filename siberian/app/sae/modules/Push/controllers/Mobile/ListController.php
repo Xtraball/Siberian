@@ -1,10 +1,56 @@
 <?php
 
+use Siberian\Json;
+
 /**
  * Class Push_Mobile_ListController
  */
 class Push_Mobile_ListController extends Application_Controller_Mobile_Default
 {
+
+    public function deleteAction ()
+    {
+        try {
+            $request = $this->getRequest();
+            $params = $request->getBodyParams();
+            $deviceUid = $params['device_uid'];
+            $deliverId = $params['deliver_id'];
+
+            // Sample use-case for overview test
+            if ('sample' === $deliverId) {
+                $this->_sendJson([
+                    'success' => true,
+                    'message' => p__('push', '[Sample] Notification deleted!<br /><br />This is a sample overview, no action were done!')
+                ], true);
+            }
+
+            if (empty($deliverId) || empty($deviceUid)) {
+                throw new Exception(p__('push', 'Missing parameters!'));
+            }
+
+            $pushDelivered = (new Push_Model_DeliveredMessage())->find([
+                'deliver_id' => $deliverId,
+                'device_uid' => $deviceUid,
+            ]);
+            if (!$pushDelivered || !$pushDelivered->getId()) {
+                throw new Exception(p__('push', "This record doesn't exists!"));
+            }
+
+            $pushDelivered->delete();
+
+            $payload = [
+                'success' => true,
+                'message' => p__('push', 'Notification deleted!')
+            ];
+        } catch (\Exception $e) {
+            $payload = [
+                'error' => true,
+                'message' => $e->getMessage()
+            ];
+        }
+
+        $this->_sendJson($payload);
+    }
 
     /**
      * @throws Zend_Date_Exception
@@ -97,6 +143,7 @@ class Push_Mobile_ListController extends Application_Controller_Mobile_Default
 
                 $payload['collection'][] = [
                     'id' => (integer)$message->getId(),
+                    'deliver_id' => (integer)$message->getDeliverId(),
                     'author' => $message->getTitle(),
                     'message' => $message->getText(),
                     'topic' => $message->getLabel(),
@@ -112,8 +159,19 @@ class Push_Mobile_ListController extends Application_Controller_Mobile_Default
 
         }
 
+        // Settings
+        try {
+            $dbSettings = Json::decode($option->getSettings());
+        } catch (\Exception $e) {
+            $dbSettings = [];
+        }
+        $settings = array_merge([
+            'design' => 'list',
+        ], $dbSettings);
+
         $payload['page_title'] = $this->getCurrentOptionValue()->getTabbarName();
         $payload['displayed_per_page'] = Push_Model_Message::DISPLAYED_PER_PAGE;
+        $payload['settings'] = $settings;
 
         $this->_sendJson($payload);
 
@@ -124,8 +182,13 @@ class Push_Mobile_ListController extends Application_Controller_Mobile_Default
         $application = $this->getApplication();
         $icon = $application->getIcon(128);
         $mainDomain = __get('main_domain');
-        $icon = "https://{$mainDomain}{$icon}";
         $image = "https://{$mainDomain}/app/sae/modules/Job/features/job/assets/templates/l1/img/job-header.png";
+
+        $icon = $application::getBaseImagePath() . $application->getData('icon');
+        $icon = Siberian_Image::open($icon);
+        $icon->resize(128);
+        $icon->fillBackground(0xf3f3f3);
+        $icon = $icon->inline('png', 100);
 
         $collection = [];
         for ($i = 0; $i < 10; $i++) {
@@ -137,6 +200,7 @@ class Push_Mobile_ListController extends Application_Controller_Mobile_Default
             $date = date( $year . '-' . $month . '-d H:i:s');
             $collection[] = [
                 'id' => (integer) $i,
+                'deliver_id' => 'sample',
                 'author' => ($i % 2 === 0) ? p__('push', 'John DOE') : p__('push', 'Jane DOE'),
                 'message' => p__('push', 'This a sample push message, this sample is only available from the application overview. Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.'),
                 'topic' => '',
@@ -154,8 +218,20 @@ class Push_Mobile_ListController extends Application_Controller_Mobile_Default
             ];
         }
 
+        // Settings
+        try {
+            $option = $this->getCurrentOptionValue();
+            $dbSettings = Json::decode($option->getSettings());
+        } catch (\Exception $e) {
+            $dbSettings = [];
+        }
+        $settings = array_merge([
+            'design' => 'list',
+        ], $dbSettings);
+
         $this->_sendJson([
             'success' => true,
+            'settings' => $settings,
             'collection' => $collection
         ]);
     }

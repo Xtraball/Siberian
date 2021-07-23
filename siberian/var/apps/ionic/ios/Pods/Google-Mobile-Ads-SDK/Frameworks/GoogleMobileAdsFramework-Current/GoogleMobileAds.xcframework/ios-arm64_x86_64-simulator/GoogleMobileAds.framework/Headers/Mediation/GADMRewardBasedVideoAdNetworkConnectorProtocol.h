@@ -51,12 +51,14 @@
 - (void)adapter:(id<GADMRewardBasedVideoAdNetworkAdapter>)rewardBasedVideoAd
     didRewardUserWithReward:(GADAdReward *)reward;
 
-/// Tells the delegate that a reward based video ad's action will leave the application.
-- (void)adapterWillLeaveApplication:
-    (id<GADMRewardBasedVideoAdNetworkAdapter>)rewardBasedVideoAdAdapter;
-
 /// Tells the delegate that a reward based video ad failed to load.
 - (void)adapter:(id<GADMRewardBasedVideoAdNetworkAdapter>)rewardBasedVideoAdAdapter
     didFailToLoadRewardBasedVideoAdwithError:(NSError *)error;
+
+#pragma mark Deprecated
+
+/// Deprecated. No replacement.
+- (void)adapterWillLeaveApplication:
+    (id<GADMRewardBasedVideoAdNetworkAdapter>)rewardBasedVideoAdAdapter GAD_DEPRECATED_ATTRIBUTE;
 
 @end

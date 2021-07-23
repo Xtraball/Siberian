@@ -1,10 +1,10 @@
 <?php
-$option = new Application_Model_Option();
-$options = $option->findAll([
+$application = $this->getApplication();
+$options = (new Application_Model_Option())->findAll([
     'is_enabled = ?' => 1
 ]);
-$option_ids = $this->getApplication()->getOptionIds();
-$application = $this->getApplication();
+
+$option_ids = $application->getOptionIds();
 $appId = $application->getId();
 
 $session = $this->getSession();
@@ -19,8 +19,8 @@ $opts = [];
 foreach ($options as $option) {
     $opts[] = $option;
 }
-function alphasort($a, $b)
-{
+
+function alphasort($a, $b) {
     return strcasecmp($a->getName(), $b->getName());
 }
 
@@ -42,13 +42,18 @@ $categories = (new Application_Model_Option_Category())
 $isBackofficeUser = $admin->isBackofficeUser();
 $masterId = null;
 
-
 $adminId = $admin->getId();
 
 /**
  * @var $cacheOutput Zend_Cache_Frontend_Output
  */
 $cacheOutput = Zend_Registry::get("cacheOutput");
+
+$backgroundColor = $this->getBlock("color-blue")->getBackgroundColor();
+
+if (strtolower($backgroundColor) === 'transparent') {
+    $backgroundColor = '#0099C7';
+}
 
 /**
  * @param $canAccess
@@ -58,13 +63,14 @@ $cacheOutput = Zend_Registry::get("cacheOutput");
  * @param $isBackofficeUser
  * @return bool
  */
-function hideFeature ($canAccess, $option, $option_ids, $masterId, $isBackofficeUser)
+function hideFeature($canAccess, $option, $option_ids, $masterId, $isBackofficeUser)
 {
     return
         !$canAccess ||
         ($option->onlyOnce() && in_array($option->getId(), $option_ids)) ||
         (!$isBackofficeUser && ($masterId == $option->getCategoryId()));
 }
+
 ?>
 
 <script type="text/javascript">
@@ -100,14 +106,12 @@ function hideFeature ($canAccess, $option, $option_ids, $masterId, $isBackoffice
                data-toggle="tooltip"
                title="<?php echo p__js("application", "Here are displayed the features, and so the pages that you have added to your app. You can add content, change the position and remove any page anytime.", '"') ?>"></i>
 
-
             <?php if (__get('import_enabled')): ?>
-            <button id="feature_import_export"
-                    class="sb-tour color-blue bt-header-right btn import-feature pull-right export-button">
-                <?php echo __("Import") ?>
-            </button>
+                <button id="feature_import_export"
+                        class="sb-tour color-blue bt-header-right btn import-feature pull-right export-button">
+                    <?php echo __("Import") ?>
+                </button>
             <?php endif; ?>
-
         </h3>
         <div id="pages_list"
              class="subcontent content-color sb-tour">
@@ -121,9 +125,12 @@ function hideFeature ($canAccess, $option, $option_ids, $masterId, $isBackoffice
         </div>
     </div>
 
-    <div id="header_editor" style="display: none;">
-        <div id="page" class="content-color"></div>
-        <div id="push_map_canvas_container" style="display:none;">
+    <div id="header_editor"
+         style="display: none;">
+        <div id="page"
+             class="content-color"></div>
+        <div id="push_map_canvas_container"
+             style="display:none;">
             <div id="push_map_canvas"></div>
         </div>
     </div>
@@ -168,7 +175,7 @@ function hideFeature ($canAccess, $option, $option_ids, $masterId, $isBackoffice
                         <div id="previews_<?php echo $option->getId(); ?>"
                              class="preview"
                              style="position:relative">
-                            <div class="row">
+                            <div class="row preview_text_block">
                                 <div class="col-md-12">
                                     <ul id="preview_<?php echo $option->getId(); ?>"
                                         data-pager="pager_<?php echo $option->getId(); ?>">
@@ -256,23 +263,23 @@ function hideFeature ($canAccess, $option, $option_ids, $masterId, $isBackoffice
                                        class="filter_category color-blue button_handler active"
                                        rel="all"><?php echo strtoupper(__("All")); ?></a></li>
                                 <?php
-                                    $cats = [];
-                                    foreach ($categories as $category):
-                                        $cats[$category->getId()] = $category->getData('name');
+                                $cats = [];
+                                foreach ($categories as $category):
+                                    $cats[$category->getId()] = $category->getData('name');
 
                                     // Skip master features!
                                     if ($category->getCode() === '_master' && !$isBackofficeUser) {
                                         $masterId = $category->getId();
                                         continue;
                                     }
-                                ?>
+                                    ?>
                                     <li>
                                         <a href="javascript:void(0)"
                                            class="filter_category"
                                            rel="<?php echo $category->getId() ?>"><?php echo strtoupper(__($category->getName())); ?></a>
                                     </li>
                                 <?php
-                                    endforeach;
+                                endforeach;
                                 ?>
                             </ul>
                         </div>
@@ -280,23 +287,29 @@ function hideFeature ($canAccess, $option, $option_ids, $masterId, $isBackoffice
                             <div>
                                 <ul id="add_page_list" class="sb-tour">
                                     <?php foreach ($options as $key => $option) : ?>
-                                        <?php if (hideFeature ($this->_canAccess('feature_' . $option->getCode(), 'all'), $option, $option_ids, $masterId, $isBackofficeUser)) continue; ?>
-                                        <?php $preview = $option->getPreview(); ?>
+                                        <?php if (hideFeature($this->_canAccess('feature_' . $option->getCode(), 'all'), $option, $option_ids, $masterId, $isBackofficeUser)) continue; ?>
+                                        <?php
+                                            $preview = $option->getPreview();
+                                            $iconUrl = $this->getIconUrl($option);
+                                            if (!is_readable(path($iconUrl))) {
+                                                $iconUrl = '/app/sae/design/desktop/flat/images/placeholder/blank-feature-icon.png';
+                                            }
+                                            ?>
                                         <li id="add_page_<?php echo $option->getId(); ?>"
                                             data-search="<?php echo __js(strtolower($option->getName() . ' ' . $option->getCode() . ' ' . $option->getData('name') . ' ' . $cats[$option->getCategoryId()] . ' ' . __($cats[$option->getCategoryId()])), '"'); ?>"
                                             class="feature_search sb-tour add_option_value col-md-3 col-sm-3 col-xs-4 category_option category_option_<?php echo $option->getCategoryId(); ?>">
                                             <a href="<?php echo $this->getUrl('application/customization_features/save'); ?>"
-                                               class="details <?php if ($preview->getId() AND $preview->getTitle()) : ?>show_previews<?php else : ?>add_page<?php endif; ?>"
+                                               class="details <?php if ($preview->getId() && $preview->getTitle()) : ?>show_previews<?php else : ?>add_page<?php endif; ?>"
                                                rel="<?php echo $option->getId(); ?>">
-                                                <div class="color-blue block_add_pages_icon btn default_size_details"
-                                                     style="background-image: url('<?php echo $this->getIconUrl($option); ?>')">
+                                                <div class="border-blue block_add_pages_icon btn default_size_details"
+                                                     style="background-image: url('<?php echo $this->getColorizedImage($iconUrl, $backgroundColor); ?>')">
                                                     <img src="/app/sae/design/desktop/flat/images/placeholder/blank-512.png"
                                                          alt="<?php echo $option->getName(); ?>"
                                                          title="<?php echo $option->getName(); ?>" width="auto"
                                                          height="50" class="block"
                                                          data-image="<?php echo $option->getIconId() ?>"
                                                          data-style="area" data-color="color"/>
-                                                    <span><?php echo cut($option->getName(), 14); ?></span>
+                                                    <span><?php echo cut($option->getName(), 20); ?></span>
                                                     <input type="hidden" name="option_id"
                                                            value="<?php echo $option->getId(); ?>"/>
                                                 </div>
@@ -363,6 +376,7 @@ function hideFeature ($canAccess, $option, $option_ids, $masterId, $isBackoffice
 
         },
         loadNewSlider: function (category_id, value_id, showCategoryManage) {
+
             $('#option_values li').hide();
             if (category_id === 'default') {
                 page.close(true);
@@ -388,7 +402,9 @@ function hideFeature ($canAccess, $option, $option_ids, $masterId, $isBackoffice
             });
 
         },
+
         resetElement: function (option_value_id) {
+
             var li = $('#option_value_' + option_value_id);
             var new_li = li.clone().hide().attr('rel', '');
             new_li.removeAttr("data-folder-id");
@@ -531,7 +547,7 @@ function hideFeature ($canAccess, $option, $option_ids, $masterId, $isBackoffice
                 $('.option_value').off('mouseenter mouseout');
                 var pagesList = $('#pages_list');
 
-                //Supprime option slider
+                // Supprime option slider
                 pagesList.off('click', '.delete_page');
                 pagesList.on('click', '.delete_page', function (e) {
                     var confirm_message = '<?php echo __jss('Delete this page?') ?>';
@@ -540,6 +556,7 @@ function hideFeature ($canAccess, $option, $option_ids, $masterId, $isBackoffice
                     }
 
                     if (confirm(confirm_message)) {
+
                         reload($(this).parent(), '<?php echo $this->getUrl('application/customization_features/delete'); ?>', true, function (datas) {
 
                             iframe.f.reloadTabbar();
@@ -647,13 +664,12 @@ function hideFeature ($canAccess, $option, $option_ids, $masterId, $isBackoffice
                         options.loadNewSlider('default');
                     }
 
-                    reload(this.parentNode, "<?php echo $this->getUrl('application/customization_features/save'); ?>", true, function (datas) {
-                        if (datas.page_html) {
-                            var li = createElementFromHTML(datas.page_html);
+                    reload(this.parentNode, "<?php echo $this->getUrl('application/customization_features/save'); ?>", true, function (payload) {
+                        if (payload.page_html) {
+                            var li = createElementFromHTML(payload.page_html);
                             li = $(li);
 
                             var a = li.children('a');
-
                             $("#option_values").append(li);
                             this.close();
                             preview.close(true);
@@ -663,7 +679,8 @@ function hideFeature ($canAccess, $option, $option_ids, $masterId, $isBackoffice
                             iframe.f.reloadTabbar();
 
                             //Scroll to top after adding a feature
-                            var d = (navigator.userAgent && navigator.userAgent.indexOf('WebKit')) != -1 ? document.body : document.documentElement;
+                            var d = (navigator.userAgent && navigator.userAgent.indexOf('WebKit')) != -1 ?
+                                document.body : document.documentElement;
                             $(d).animate({scrollTop: $('body').offset().top});
                             page.processEvents();
 
@@ -675,8 +692,8 @@ function hideFeature ($canAccess, $option, $option_ids, $masterId, $isBackoffice
                             featureSearch.clearSearch();
                         }
 
-                        if (datas.my_account) {
-                            let myAccountLi = createElementFromHTML(datas.my_account);
+                        if (payload.my_account) {
+                            let myAccountLi = createElementFromHTML(payload.my_account);
                             myAccountLi = $(myAccountLi);
 
                             let idAccount = myAccountLi.attr("id");
@@ -686,9 +703,9 @@ function hideFeature ($canAccess, $option, $option_ids, $masterId, $isBackoffice
                             }
                         }
 
-                        if (datas.delete_features && datas.delete_features.length) {
-                            for (var i = 0; i < datas.delete_features.length; i++) {
-                                $('#add_page_' + datas.delete_features[i]).remove();
+                        if (payload.delete_features && payload.delete_features.length) {
+                            for (var i = 0; i < payload.delete_features.length; i++) {
+                                $('#add_page_' + payload.delete_features[i]).remove();
                             }
                         }
                     }.bind(page));
@@ -1418,7 +1435,6 @@ function hideFeature ($canAccess, $option, $option_ids, $masterId, $isBackoffice
                 });
                 return false;
             });
-
             //Sauvegarde l'upload d'image de la catégorie
             $('.folderForm_cont').on('click', '.save_background_image', function () {
                 $('.folderForm').submit();
@@ -1647,7 +1663,7 @@ function hideFeature ($canAccess, $option, $option_ids, $masterId, $isBackoffice
         left: 0;
         height: 100%;
         width: 100%;
-        z-index: 10001;
+        z-index: 10009;
     }
 
     #previews #preview_mask {
@@ -1658,22 +1674,32 @@ function hideFeature ($canAccess, $option, $option_ids, $masterId, $isBackoffice
         width: 100%;
         background-color: black;
         opacity: 0.8;
-        z-index: 10000;
+        z-index: 10009;
+    }
+
+    #previews .preview {
+        height: calc(100% - 36px);
     }
 
     #previews .previews_list {
-        position: relative;
-        width: 900px;
-        max-height: 635px;
-        min-height: 355px;
-        margin: 20px auto;
+        position: fixed;
         background-color: white;
         color: #404040;
-        z-index: 10001;
+        z-index: 10010;
+        left: 20vw;
+        right: 20vw;
+        top: 10vh;
+        bottom: 10vh;
     }
 
     #previews .previews_list .preview {
         padding: 15px;
+    }
+
+    #previews .previews_list .preview_text_block {
+        height: calc(100% - 32px) !important;
+        max-height: calc(100% - 32px) !important;
+        overflow: auto !important;
     }
 
     #previews ul {
@@ -1688,15 +1714,12 @@ function hideFeature ($canAccess, $option, $option_ids, $masterId, $isBackoffice
         border: 1px solid #000;
     }
 
-    .img-responsive, .thumbnail > img, .thumbnail a > img, .carousel-inner > .item > img, .carousel-inner > .item > a > img {
+    .img-responsive,
+    .thumbnail > img,
+    .thumbnail a > img,
+    .carousel-inner > .item > img,
+    .carousel-inner > .item > a > img {
         height: 480px;
-    }
-
-    @media screen and (max-width: 960px) {
-        #previews .previews_list {
-            width: 90%;
-            max-width: 90%;
-        }
     }
 
     /*END PREVIEW MODAL*/
@@ -1709,7 +1732,9 @@ function hideFeature ($canAccess, $option, $option_ids, $masterId, $isBackoffice
         float: left;
     }
 
-    #carousel-container ul li a.details.selected, .pages #carousel-container ul li a.details.hover, .pages #carousel-container ul li.page_placeholder {
+    #carousel-container ul li a.details.selected,
+    .pages #carousel-container ul li a.details.hover,
+    .pages #carousel-container ul li.page_placeholder {
         padding: 5px;
         border-radius: 7px;
     }
@@ -1747,7 +1772,8 @@ function hideFeature ($canAccess, $option, $option_ids, $masterId, $isBackoffice
         z-index: 10;
     }
 
-    .carret li a.button_handler.active:after, .carret li a.button_handler:hover:after {
+    .carret li a.button_handler.active:after,
+    .carret li a.button_handler:hover:after {
         border-color: rgba(136, 183, 213, 0);
         border-left-color: #1397C8;
         border-width: 15px;
@@ -1763,19 +1789,17 @@ function hideFeature ($canAccess, $option, $option_ids, $masterId, $isBackoffice
     #add_page_list .block_add_pages_icon {
         padding-top: 10px;
         padding-bottom: 10px;
-        transition: all 0.3s ease 0s;
-        -moz-transition: all 0.3s ease 0s;
-        -webkit-transition: all 0.3s ease 0s;
-        -o-transition: all 0.3s ease 0s;
         width: 100%;
     }
 
-    li:nth-child(1) i.fa.fa-arrows-h, li:nth-child(1) i.fa.fa-arrows-h:before {
+    li:nth-child(1) i.fa.fa-arrows-h,
+    li:nth-child(1) i.fa.fa-arrows-h:before {
         content: "\f178";
         cursor: e-resize;
     }
 
-    li:nth-last-child() i.fa.fa-arrows-h, li:nth-last-child() i.fa.fa-arrows-h:before {
+    li:nth-last-child() i.fa.fa-arrows-h,
+    li:nth-last-child() i.fa.fa-arrows-h:before {
         content: "\f177";
     }
 
@@ -1802,6 +1826,7 @@ function hideFeature ($canAccess, $option, $option_ids, $masterId, $isBackoffice
         background-position: 15px 10px;
         background-repeat: no-repeat;
     }
+
 </style>
-    <?php $cacheOutput->end(["cache_admin", "app_{$appId}", "admin_{$adminId}"]); endif; ?>
+<?php $cacheOutput->end(["cache_admin", "app_{$appId}", "admin_{$adminId}"]); endif; ?>
 

@@ -277,8 +277,13 @@ angular
                             $scope.popoverItems.push(viewHistory);
                         }
 
+                        var deleteText = $translate.instant('Trash post', 'fanwall');
+                        if ($scope.post.status === 'deleted') {
+                            deleteText = $translate.instant('Delete permanently', 'fanwall');
+                        }
+
                         $scope.popoverItems.push({
-                            label: $translate.instant('Delete post', 'fanwall'),
+                            label: deleteText,
                             icon: 'icon ion-android-delete',
                             click: function () {
                                 $scope

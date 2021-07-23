@@ -39,7 +39,6 @@ $allowedExtensions = [
     'm4a',
     'psd',
     'ai',
-    'json',
 ];
 
 // Register default allowed extensions!

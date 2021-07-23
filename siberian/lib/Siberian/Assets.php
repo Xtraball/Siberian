@@ -505,6 +505,9 @@ class Assets
             $social_sharing = array_key_exists('social_sharing', $feature) ? (bool) $feature['social_sharing'] : false;
             $nickname = array_key_exists('use_nickname', $feature) ? (bool) $feature['use_nickname'] : false;
             $ranking = array_key_exists('use_ranking', $feature) ? (bool) $feature['use_ranking'] : false;
+            $civility = array_key_exists('use_civility', $feature) ? (bool) $feature['use_civility'] : false;
+            $mobile = array_key_exists('use_mobile', $feature) ? (bool) $feature['use_mobile'] : false;
+            $birthdate = array_key_exists('use_birthdate', $feature) ? (bool) $feature['use_birthdate'] : false;
 
             $feature_dir = './features/' . $code;
 
@@ -558,10 +561,13 @@ class Assets
                 'only_once' => $only_once,
                 'is_ajax' => $is_ajax,
                 'social_sharing_is_available' => $social_sharing,
-                'use_nickname' => $nickname,
                 'lazy_load' => $lazy_load,
                 'open_callback_class' => $open_callback_class,
+                'use_nickname' => $nickname,
                 'use_ranking' => $ranking,
+                'use_civility' => $civility,
+                'use_mobile' => $mobile,
+                'use_birthdate' => $birthdate,
             ];
 
             if (array_key_exists('position', $feature)) {

@@ -1497,7 +1497,7 @@ abstract class Application_Model_Application_Abstract extends Core_Model_Default
         }
 
         $icon = self::getBaseImagePath() . $this->getData('icon');
-        if (!is_file($icon) || !file_exists($icon)) {
+        if (!is_readable($icon) || !is_file($icon)) {
             $icon = self::getBaseImagePath() . '/placeholder/no-image.png';
             $image = Siberian_Image::open($icon);
             $image->fillBackground(0xf3f3f3);

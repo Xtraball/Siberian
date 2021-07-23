@@ -10,6 +10,7 @@
 #endif
 #endif
 
+#import "FBSDKBase64.h"
 #import "FBSDKBasicUtility.h"
 #import "FBSDKCoreKit_Basics.h"
 #import "FBSDKCrashHandler+CrashHandlerProtocol.h"
@@ -29,6 +30,6 @@
 #import "FBSDKUserDataStore.h"
 #import "NSBundle+InfoDictionaryProviding.h"
 
-FOUNDATION_EXPORT double FBSDKCoreKitVersionNumber;
-FOUNDATION_EXPORT const unsigned char FBSDKCoreKitVersionString[];
+FOUNDATION_EXPORT double FBSDKCoreKit_BasicsVersionNumber;
+FOUNDATION_EXPORT const unsigned char FBSDKCoreKit_BasicsVersionString[];
 

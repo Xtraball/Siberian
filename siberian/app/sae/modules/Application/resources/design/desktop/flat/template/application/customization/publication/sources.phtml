@@ -300,7 +300,7 @@ if (!empty($appDomain)) {
                                  style="margin-top: 15px;">
                                 <div class="form-group">
                                     <div class="col-sm-4">
-                                        <label for="name"><?php echo __("Android APK version"); ?></label>
+                                        <label for="name"><?php echo p__('application', 'Android APK/AAB version'); ?></label>
                                     </div>
                                     <div class="col-sm-5">
                                         <input type="text"
@@ -320,7 +320,7 @@ if (!empty($appDomain)) {
                                 </div>
                                 <div class="form-group">
                                     <div class="col-sm-4">
-                                        <?php echo __('Generate Android APK'); ?>
+                                        <?php echo p__('application', 'Generate Android APK/AAB'); ?>
                                     </div>
                                     <div class="col-sm-4">
                                         <?php if (!$isHosted): ?>
@@ -334,7 +334,13 @@ if (!empty($appDomain)) {
                                             <?php if (!empty($apk_service["path"])): ?>
                                                 <a href="<?php echo $this->getUrl("") . $apk_service["path"]; ?>"
                                                    class="btn default_button color-green">
-                                                    <i class="fa fa-download"></i> <?php echo __('Download latest APK'); ?>
+                                                    <i class="fa fa-download"></i> <?php echo p__('application', 'Download latest APK'); ?>
+                                                </a>
+                                            <?php endif; ?>
+                                            <?php if (!empty($apk_service["aab_path"])): ?>
+                                                <a href="<?php echo $this->getUrl("") . $apk_service["aab_path"]; ?>"
+                                                   class="btn default_button color-green">
+                                                    <i class="fa fa-download"></i> <?php echo p__('application', 'Download latest AAB'); ?>
                                                 </a>
                                             <?php endif; ?>
                                         <?php endif; ?>
@@ -344,7 +350,7 @@ if (!empty($appDomain)) {
                                             <a class="generate-source btn default_button color-green"
                                                onclick="generateSource(2, 0, 'apk');"
                                                href="javascript:void(0)">
-                                                <i class="fa fa-gears"></i> <?php echo __('Generate APK'); ?>
+                                                <i class="fa fa-gears"></i> <?php echo p__('application', 'Generate APK/AAB'); ?>
                                             </a>
                                         <?php endif; ?>
                                         <?php if ($positions["apk"] == 1): ?>

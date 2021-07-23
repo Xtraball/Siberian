@@ -104,6 +104,10 @@ $(document).ready(function () {
         isInit = true;
         options.loadNewSlider(categoryId);
 
+        // Set new folder title
+        var title = $('.folder-sortable[rel="' + categoryId + '"] .folder-title').text();
+        $('#curren_folder_name').text(title);
+
         // Then load new form/features available to insert!
         var container = $('.folder-form-container');
         $.ajax({
@@ -207,6 +211,9 @@ $(document).ready(function () {
         var title = $(this);
         $('li.folder-sortable[rel="' + title.attr('rel') + '"] > span > span.folder-title')
             .text(title.val());
+
+        // Set new folder title
+        $('#curren_folder_name').text(title.val());
     });
 
     // Add feature
