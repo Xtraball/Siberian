@@ -165,10 +165,15 @@ class Customer_Mobile_Account_EditController extends Application_Controller_Mobi
             // Check against required fields
 
 
-            if (isset($data['birthdate'])) {
-                $birthdate = new Zend_Date();
-                $birthdate->setDate($data['birthdate'], 'DD/MM/YYYY');
-                $data['birthdate'] = $birthdate->getTimestamp();
+            if (($requireBirthdate || $useBirthdate) &&
+                isset($data['birthdate'])) {
+                try {
+                    $birthdate = new Zend_Date();
+                    $birthdate->setDate($data['birthdate'], 'DD/MM/YYYY');
+                    $data['birthdate'] = $birthdate->getTimestamp();
+                } catch (\Exception $e) {
+                    throw new Exception(p__('customer', 'Invalid birthdate.'));
+                }
             }
 
             $customer->saveImage($data['image']);

@@ -50,7 +50,6 @@ angular.module('starter').directive('sbGoogleAutocomplete', function (GoogleMaps
                     $timeout(function () {
                         scope.location.address = val;
                         scope.onAddressChange(scope);
-                        console.log('address changed ...... fuck');
                     });
                 });
             });

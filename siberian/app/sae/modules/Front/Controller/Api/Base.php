@@ -946,7 +946,7 @@ class Front_Controller_Api_Base extends Front_Controller_App_Default
                 'firstname' => $customer->getFirstname(),
                 'lastname' => $customer->getLastname(),
                 'nickname' => $customer->getNickname(),
-                "birthdate" => $birthdate->toString('dd/MM/y'),
+                'birthdate' => $birthdate->toString('dd/MM/y'),
                 'mobile' => $customer->getMobile(),
                 'image' => $customer->getImage(),
                 'email' => $customer->getEmail(),

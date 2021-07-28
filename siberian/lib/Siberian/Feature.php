@@ -5,7 +5,7 @@ namespace Siberian;
 /**
  * Class \Siberian\Feature
  *
- * @version 4.16.0
+ * @version 4.20.13
  *
  * Utility class to install/update modules & features
  *
@@ -52,8 +52,9 @@ class Feature
         $olderImages = (new \Media_Model_Library_Image())->findAll($library->getId(), 'library_id');
         foreach ($olderImages as $olderImage) {
             $imagePath = $olderImage->getData('link');
-            // Test only paths starting with /app!
-            if (stripos($imagePath, '/app/') === 0) {
+            // Test only paths starting with /app/, app/!
+            if (stripos($imagePath, '/app/') === 0 ||
+                stripos($imagePath, 'app/') === 0) {
                 $realPath = path($imagePath);
                 if (!is_readable($realPath)) {
                     $removedImageIds[] = $olderImage->getId();

@@ -118,9 +118,13 @@ class Customer_Mobile_Account_RegisterController extends Application_Controller_
 
             if (($requireBirthdate || $useBirthdate) &&
                 isset($data['birthdate'])) {
-                $birthdate = new Zend_Date();
-                $birthdate->setDate($data['birthdate'], 'DD/MM/YYYY');
-                $data['birthdate'] = $birthdate->getTimestamp();
+                try {
+                    $birthdate = new Zend_Date();
+                    $birthdate->setDate($data['birthdate'], 'DD/MM/YYYY');
+                    $data['birthdate'] = $birthdate->getTimestamp();
+                } catch (\Exception $e) {
+                    throw new Exception(p__('customer', 'Invalid birthdate.'));
+                }
             }
 
             if (!empty($data['nickname'])) {
