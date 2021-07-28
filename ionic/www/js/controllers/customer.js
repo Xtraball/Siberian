@@ -1,4 +1,4 @@
-/**
+custom_fields/**
  * CustomerController
  *
  * This controller handles the login modal.
