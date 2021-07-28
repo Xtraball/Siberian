@@ -654,9 +654,16 @@ class Customer_Model_Customer extends Core_Model_Default
                 unset($metadatas->stripe['customerId']);
             }
 
-            $birthdateTimestamp = $customer->getBirthdate();
-            $birthdate = new Zend_Date();
-            $birthdate->setTimestamp($customer->getBirthdate());
+            $birthdateString = '';
+            try {
+                if ($customer->getBirthdate() > 0) {
+                    $birthdate = new Zend_Date();
+                    $birthdate->setTimestamp($customer->getBirthdate());
+                    $birthdateString = $birthdate->toString('dd/MM/y');
+                }
+            } catch (\Exception $e) {
+                $birthdateString = '';
+            }
 
             $payload = [
                 'id' => $customer->getId(),
@@ -664,7 +671,7 @@ class Customer_Model_Customer extends Core_Model_Default
                 'firstname' => $customer->getFirstname(),
                 'lastname' => $customer->getLastname(),
                 'nickname' => $customer->getNickname(),
-                "birthdate" => ($birthdateTimestamp > 0) ? $birthdate->toString('dd/MM/y') : '',
+                'birthdate' => $birthdateString,
                 'mobile' => $customer->getMobile(),
                 'image' => $customer->getImage(),
                 'email' => $customer->getEmail(),

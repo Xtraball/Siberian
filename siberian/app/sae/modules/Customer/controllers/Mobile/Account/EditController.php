@@ -166,7 +166,8 @@ class Customer_Mobile_Account_EditController extends Application_Controller_Mobi
 
 
             if (($requireBirthdate || $useBirthdate) &&
-                isset($data['birthdate'])) {
+                isset($data['birthdate']) &&
+                !empty($data['birthdate'])) {
                 try {
                     $birthdate = new Zend_Date();
                     $birthdate->setDate($data['birthdate'], 'DD/MM/YYYY');
