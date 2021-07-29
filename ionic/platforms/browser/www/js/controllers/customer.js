@@ -3,7 +3,7 @@
  *
  * This controller handles the login modal.
  *
- * @version 4.19.1
+ * @version 4.20.13
  * @author Xtraball SAS
  */
 angular

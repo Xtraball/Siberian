@@ -187,13 +187,11 @@ var App = angular.module('starter', ['ionic', 'lodash', 'ngRoute', 'ngCordova', 
 
         // Listeners for network events!
         $window.addEventListener('online', function () {
-            $log.info('online');
             $rootScope.isOnline = true;
             $rootScope.isOffline = false;
         });
 
         $window.addEventListener('offline', function () {
-            $log.info('offline');
             $rootScope.isOnline = false;
             $rootScope.isOffline = true;
         });
@@ -330,7 +328,6 @@ var App = angular.module('starter', ['ionic', 'lodash', 'ngRoute', 'ngCordova', 
 
                         if (!IS_PREVIEW) {
                             $ionicPlatform.on('resume', function (resumeResult) {
-                                $log.info('-- app is resumed --');
                                 Analytics.storeOpening().then(function (result) {
                                     Analytics.data.storeClosingId = result.id;
                                 });
@@ -352,7 +349,7 @@ var App = angular.module('starter', ['ionic', 'lodash', 'ngRoute', 'ngCordova', 
                                                 console.info("[PREVIEWER] Preview in progress, aborting.");
                                             },
                                             function () {
-                                                console.info("[PREVIEWER] No previewer loaded, continue.");
+                                                //console.info("[PREVIEWER] No previewer loaded, continue.");
                                             });
                                     } catch (e) {
                                         console.log("[PREVIEWER - WARNING] " + e.message);

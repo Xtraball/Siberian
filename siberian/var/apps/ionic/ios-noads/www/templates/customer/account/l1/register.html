@@ -167,12 +167,12 @@
 
     <div class="list"
          ng-class="{'card': card_design}"
-         ng-repeat="cfo in custom_fields track by cf.code">
+         ng-repeat="cfo in custom_fields track by $index">
         <ion-item class="item-divider item-divider-custom">
             <p>{{ cfo.name }}:</p>
         </ion-item>
 
-        <label ng-repeat="cf in cfo.custom_fields"
+        <label ng-repeat="cf in cfo.custom_fields track by $index"
                class="item item-input item-custom">
             <div class="input-label">
                 {{ cf.label | translate }}

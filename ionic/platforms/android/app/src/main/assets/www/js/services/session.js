@@ -1,8 +1,11 @@
 /**
  * $session service
+ *
+ * @version 4.20.13
  */
-angular.module('starter').service('$session', function ($log, $pwaCache, $q, $window) {
-    $log.debug('Init once $session');
+angular
+    .module('starter')
+    .service('$session', function ($log, $pwaCache, $q, $window) {
 
     var service = {
         localstorage_key: 'sb-auth-token',

@@ -150,7 +150,6 @@ let debug = true,
         libraries: {
             files: [
                 './www/js/libraries/angular-queue.js',
-                './www/js/libraries/angular-queue.min.js',
                 './www/js/libraries/angular-touch.min.js',
                 './www/js/libraries/base64.min.js',
                 './www/js/libraries/ion-gallery.min.js',

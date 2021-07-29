@@ -5,7 +5,7 @@
  */
 angular
     .module('starter')
-    .service('AdmobService', function ($log, $rootScope) {
+    .service('AdmobService', function ($log, $rootScope, SB) {
         var service = {
             interstitialWeights: {
                 start: {
@@ -81,9 +81,8 @@ angular
                 return;
             }
 
-            if (ionic.Platform.isIOS()) {
+            if (SB.DEVICE.TYPE_IOS === DEVICE_TYPE) {
                 service.currentPlatform = 'ios';
-                $log.debug('AdMob init iOS');
                 service.options = options.app.ios;
 
                 // App Tracking Transparency!
@@ -99,9 +98,8 @@ angular
                     });
             }
 
-            if (ionic.Platform.isAndroid()) {
+            if (SB.DEVICE.TYPE_ANDROID === DEVICE_TYPE) {
                 service.currentPlatform = 'android';
-                $log.debug('AdMob init Android');
                 service.options = options.app.android;
                 service.initWithOptions(options);
             }
@@ -137,25 +135,19 @@ angular
                         }
 
                         var action = service.getWeight(service.interstitialWeights[service.interstitialState]);
-                        $log.info('admob action', action);
 
                         if (service.willShowInterstitial === false &&
                             action === 'show') {
                             service.willShowInterstitial = true;
-                            $log.info('admob action service.willShowInterstitial = true;');
                         }
 
                         if (service.willShowInterstitial) {
-                            $log.info('admob enter service.willShowInterstitial');
                             try {
                                 if (service.interstitialObjPromise !== null) {
-                                    $log.info('service.interstitialObjPromise !== null');
                                     service.interstitialObjPromise.then(function () {
 
                                         // Show interstitial!
                                         service.interstitialObj.show();
-
-                                        $log.info('service.interstitialObjPromise.then OK');
                                         service.willShowInterstitial = false;
 
                                         /** On success, we change the randomness */
@@ -168,14 +160,11 @@ angular
                                         service.viewEnterCount = 0;
                                         service.loadInterstitial();
                                     }, function () {
-                                        $log.error('Failed to load interstitial! (Promise)');
-                                        $log.info('service.interstitialPromise.then KO');
                                         service.willShowInterstitial = false;
                                         service.loadInterstitial();
                                     });
                                 }
                             } catch (e) {
-                                $log.error('Interstitial failed to show (Exception)');
                                 service.willShowInterstitial = false;
                                 service.loadInterstitial();
                             }
@@ -186,42 +175,24 @@ angular
 
             // Extensive logging of admob
             if (service.options.banner) {
-                document.addEventListener('admob.banner.load', async () => {
-                    $log.info('admob banner load.');
-                });
-                document.addEventListener('admob.banner.load_fail', async () => {
-                    $log.info('admob banner load_fail.');
-                });
-                document.addEventListener('admob.banner.impression', async () => {
-                    $log.info('admob banner impression.');
-                });
-                document.addEventListener('admob.banner.size', async () => {
-                    $log.info('admob banner size.');
-                });
+                //document.addEventListener('admob.banner.load', async () => {});
+                //document.addEventListener('admob.banner.load_fail', async () => {});
+                //document.addEventListener('admob.banner.impression', async () => {});
+                //document.addEventListener('admob.banner.size', async () => {});
             }
 
             // Extensive logging of admob
             if (service.options.interstitial) {
-                document.addEventListener('admob.interstitial.load', async () => {
-                    $log.info('admob interstitial load.');
-                });
-                document.addEventListener('admob.interstitial.loadfail', async () => {
-                    $log.info('admob interstitial loadfail.');
-                });
-                document.addEventListener('admob.interstitial.show', async () => {
-                    $log.info('admob interstitial show.');
-                });
+                //document.addEventListener('admob.interstitial.load', async () => {});
+                //document.addEventListener('admob.interstitial.loadfail', async () => {});
+                //document.addEventListener('admob.interstitial.show', async () => {});
                 document.addEventListener('admob.interstitial.showfail', async () => {
-                    $log.info('admob interstitial showfail.');
                     service.loadInterstitial();
                 });
                 document.addEventListener('admob.interstitial.dismiss', async () => {
-                    $log.info('admob interstitial dismiss.');
                     service.loadInterstitial();
                 });
-                document.addEventListener('admob.interstitial.impression', async () => {
-                    $log.info('admob interstitial impression.');
-                });
+                //document.addEventListener('admob.interstitial.impression', async () => {});
             }
 
         };
@@ -232,11 +203,11 @@ angular
         service.initWithOptions = function (options) {
             // Enable dev mode from backoffice settings
             if (options.isTesting) {
-                if (ionic.Platform.isIOS()) {
+                if (SB.DEVICE.TYPE_IOS === DEVICE_TYPE) {
                     service.options.banner_id = 'ca-app-pub-3940256099942544/2934735716';
                     service.options.interstitial_id = 'ca-app-pub-3940256099942544/4411468910';
                 }
-                if (ionic.Platform.isAndroid()) {
+                if (SB.DEVICE.TYPE_ANDROID === DEVICE_TYPE) {
                     service.options.banner_id = 'ca-app-pub-3940256099942544/6300978111';
                     service.options.interstitial_id = 'ca-app-pub-3940256099942544/1033173712';
                 }

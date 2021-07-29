@@ -1,70 +1,6 @@
 cordova.define('cordova/plugin_list', function(require, exports, module) {
   module.exports = [
     {
-      "id": "Geofence.TransitionType",
-      "file": "plugins/Geofence/www/TransitionType.js",
-      "pluginId": "Geofence",
-      "clobbers": [
-        "TransitionType"
-      ]
-    },
-    {
-      "id": "Geofence.geofence",
-      "file": "plugins/Geofence/www/geofence.js",
-      "pluginId": "Geofence",
-      "clobbers": [
-        "geofence"
-      ]
-    },
-    {
-      "id": "InAppPurchase.InAppBillingPlugin",
-      "file": "plugins/InAppPurchase/www/store-android.js",
-      "pluginId": "InAppPurchase",
-      "clobbers": [
-        "store"
-      ]
-    },
-    {
-      "id": "IonicWebview.IonicWebView",
-      "file": "plugins/IonicWebview/src/www/util.js",
-      "pluginId": "IonicWebview",
-      "clobbers": [
-        "Ionic.WebView"
-      ]
-    },
-    {
-      "id": "SplashScreen.SplashScreen",
-      "file": "plugins/SplashScreen/www/splashscreen.js",
-      "pluginId": "SplashScreen",
-      "clobbers": [
-        "navigator.splashscreen"
-      ]
-    },
-    {
-      "id": "SunmiPrinter.InnerPrinter",
-      "file": "plugins/SunmiPrinter/www/innerprinter.js",
-      "pluginId": "SunmiPrinter",
-      "clobbers": [
-        "sunmiInnerPrinter"
-      ]
-    },
-    {
-      "id": "Push.PushNotification",
-      "file": "plugins/Push/www/push.js",
-      "pluginId": "Push",
-      "clobbers": [
-        "PushNotification"
-      ]
-    },
-    {
-      "id": "WebView.webview",
-      "file": "plugins/WebView/www/webViewPlugin.js",
-      "pluginId": "WebView",
-      "clobbers": [
-        "window.webview"
-      ]
-    },
-    {
       "id": "Promises.Promise",
       "file": "plugins/Promises/www/promise.js",
       "pluginId": "Promises",
@@ -447,17 +383,73 @@ cordova.define('cordova/plugin_list', function(require, exports, module) {
       "clobbers": [
         "window.plugins.toast"
       ]
+    },
+    {
+      "id": "Geofence.TransitionType",
+      "file": "plugins/Geofence/www/TransitionType.js",
+      "pluginId": "Geofence",
+      "clobbers": [
+        "TransitionType"
+      ]
+    },
+    {
+      "id": "Geofence.geofence",
+      "file": "plugins/Geofence/www/geofence.js",
+      "pluginId": "Geofence",
+      "clobbers": [
+        "geofence"
+      ]
+    },
+    {
+      "id": "InAppPurchase.InAppBillingPlugin",
+      "file": "plugins/InAppPurchase/www/store-android.js",
+      "pluginId": "InAppPurchase",
+      "clobbers": [
+        "store"
+      ]
+    },
+    {
+      "id": "IonicWebview.IonicWebView",
+      "file": "plugins/IonicWebview/src/www/util.js",
+      "pluginId": "IonicWebview",
+      "clobbers": [
+        "Ionic.WebView"
+      ]
+    },
+    {
+      "id": "SplashScreen.SplashScreen",
+      "file": "plugins/SplashScreen/www/splashscreen.js",
+      "pluginId": "SplashScreen",
+      "clobbers": [
+        "navigator.splashscreen"
+      ]
+    },
+    {
+      "id": "SunmiPrinter.InnerPrinter",
+      "file": "plugins/SunmiPrinter/www/innerprinter.js",
+      "pluginId": "SunmiPrinter",
+      "clobbers": [
+        "sunmiInnerPrinter"
+      ]
+    },
+    {
+      "id": "Push.PushNotification",
+      "file": "plugins/Push/www/push.js",
+      "pluginId": "Push",
+      "clobbers": [
+        "PushNotification"
+      ]
+    },
+    {
+      "id": "WebView.webview",
+      "file": "plugins/WebView/www/webViewPlugin.js",
+      "pluginId": "WebView",
+      "clobbers": [
+        "window.webview"
+      ]
     }
   ];
   module.exports.metadata = {
-    "Geofence": "0.6.0",
-    "InAppPurchase": "10.5.0",
-    "IonicWebview": "4.0.1",
-    "SplashScreen": "5.0.2",
-    "SunmiPrinter": "1.0.3",
-    "Push": "1.10.0",
-    "Mediation": "1.0.0",
-    "WebView": "1.0.0",
     "Promises": "4.2.2",
     "Admob": "0.0.0",
     "AppVersion": "0.1.8",
@@ -481,6 +473,14 @@ cordova.define('cordova/plugin_list', function(require, exports, module) {
     "Navigator": "0.1.0",
     "Permissions": "1.0.0",
     "Siberian": "1.0.0",
-    "Toast": "2.7.2"
+    "Toast": "2.7.2",
+    "Geofence": "0.6.0",
+    "InAppPurchase": "10.5.0",
+    "IonicWebview": "4.0.1",
+    "SplashScreen": "5.0.2",
+    "SunmiPrinter": "1.0.3",
+    "Push": "1.10.0",
+    "Mediation": "1.0.0",
+    "WebView": "1.0.0"
   };
 });

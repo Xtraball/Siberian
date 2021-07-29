@@ -12,140 +12,167 @@
 
     <div class="list"
          ng-class="{'card': card_design}">
+        <form autocomplete="off">
+            <label class="item item-input item-custom item-select"
+                   ng-if="myAccount.settings.use_civility || myAccount.settings.extra_civility">
+                <div class="input-label">
+                    {{ ::'Civility' | translate:'customer' }}
+                    <span ng-if="myAccount.settings.use_civility || myAccount.settings.extra_civility_required">*</span>
+                </div>
+                <select ng-model="customer.civility">
+                    <option value="">{{ ::'Select' | translate:'customer' }}</option>
+                    <option value="mr">{{ ::'Mr' | translate:'customer' }}</option>
+                    <option value="ms">{{ ::'Ms' | translate:'customer' }}</option>
+                </select>
+            </label>
 
-        <label class="item item-input item-custom item-select"
-               ng-if="myAccount.settings.extra_civility">
-            <div class="input-label">
-                {{ ::'Civility' | translate:'customer' }} <span
-                    ng-if="myAccount.settings.extra_civility_required">*</span>
+            <div class="item item-input item-custom">
+                <div class="input-label">
+                    {{ ::'Firstname' | translate:'customer' }} <span>*</span>
+                </div>
+                <input class="text-right"
+                       type="text"
+                       placeholder="{{ ::'Firstname' | translate:'customer' }}"
+                       ng-model="customer.firstname"/>
             </div>
-            <select ng-model="customer.civility">
-                <option value="">{{ ::'Select' | translate:'customer' }}</option>
-                <option value="mr">{{ ::'Mr' | translate:'customer' }}</option>
-                <option value="ms">{{ ::'Ms' | translate:'customer' }}</option>
-            </select>
-        </label>
 
-        <div class="item item-input item-custom">
-            <div class="input-label">
-                {{ ::'Firstname' | translate:'customer' }} <span>*</span>
-            </div>
-            <input class="text-right"
-                   type="text"
-                   placeholder="{{ ::'Firstname' | translate:'customer' }}"
-                   ng-model="customer.firstname"/>
-        </div>
+            <label class="item item-input item-custom">
+                <div class="input-label">
+                    {{ ::'Lastname' | translate:'customer' }} <span>*</span>
+                </div>
+                <input class="text-right"
+                       type="text"
+                       placeholder="{{ ::'Lastname' | translate:'customer' }}"
+                       ng-model="customer.lastname"/>
+            </label>
 
-        <label class="item item-input item-custom">
-            <div class="input-label">
-                {{ ::'Lastname' | translate:'customer' }} <span>*</span>
-            </div>
-            <input class="text-right"
-                   type="text"
-                   placeholder="{{ ::'Lastname' | translate:'customer' }}"
-                   ng-model="customer.lastname"/>
-        </label>
+            <label ng-if="myAccount.settings.use_birthdate || myAccount.settings.extra_birthdate"
+                   class="item item-input item-custom"
+                   sb-datetime-picker
+                   headers="true"
+                   format="'DD/MM/YYYY'"
+                   title="i18n.localBirthdateTitle"
+                   model="customer.birthdate">
+                <div class="input-label">
+                    {{ ::'Birthdate' | translate:'customer' }}
+                    <span ng-show="myAccount.settings.use_birthdate || myAccount.settings.extra_birthdate_required">*</span>
+                </div>
+                <input type="text"
+                       class="text-right"
+                       style="cursor: pointer !important;"
+                       ng-model="customer.birthdate"
+                       readonly="readonly" />
+            </label>
 
-        <label class="item item-input item-custom"
-               ng-if="myAccount.settings.use_nickname">
-            <div class="input-label">
-                {{ ::'Nickname' | translate:'customer' }} <span>*</span>
-            </div>
-            <input class="text-right"
-                   type="text"
-                   placeholder="{{ ::'Nickname' | translate:'customer' }}"
-                   ng-model="customer.nickname"/>
-        </label>
+            <label class="item item-input item-custom"
+                   ng-if="myAccount.settings.use_nickname || myAccount.settings.extra_nickname">
+                <div class="input-label">
+                    {{ ::'Nickname' | translate:'customer' }}
+                    <span ng-show="myAccount.settings.use_nickname || myAccount.settings.extra_nickname_required">*</span>
+                </div>
+                <input class="text-right"
+                       type="text"
+                       placeholder="{{ ::'Nickname' | translate:'customer' }}"
+                       ng-model="customer.nickname"/>
+            </label>
 
-        <label class="item item-input item-custom">
-            <div class="input-label">
-                {{ ::'Email' | translate:'customer' }} <span>*</span>
-            </div>
-            <input class="text-right"
-                   type="text"
-                   placeholder="{{ ::'Email' | translate:'customer' }}"
-                   ng-model="customer.email"/>
-        </label>
+            <label class="item item-input item-custom">
+                <div class="input-label">
+                    {{ ::'Email' | translate:'customer' }} <span>*</span>
+                </div>
+                <input class="text-right"
+                       type="text"
+                       ng-disabled="customer.isLoggedIn"
+                       placeholder="{{ ::'Email' | translate:'customer' }}"
+                       ng-model="customer.email"/>
+            </label>
 
-        <label class="item item-input item-custom"
-               ng-if="myAccount.settings.extra_mobile">
-            <div class="input-label">
-                {{ ::'Mobile' | translate:'customer' }} <span ng-if="myAccount.settings.extra_mobile_required">*</span>
-            </div>
-            <input class="text-right"
-                   type="text"
-                   placeholder="{{ ::'Mobile' | translate:'customer' }}"
-                   ng-model="customer.mobile"/>
-        </label>
+            <label class="item item-input item-custom"
+                   ng-if="myAccount.settings.use_mobile || myAccount.settings.extra_mobile">
+                <div class="input-label">
+                    {{ ::'Mobile' | translate:'customer' }} <span ng-if="myAccount.settings.use_mobile || myAccount.settings.extra_mobile_required">*</span>
+                </div>
+                <input class="text-right"
+                       type="text"
+                       placeholder="{{ ::'Mobile' | translate:'customer' }}"
+                       ng-model="customer.mobile"/>
+            </label>
 
-        <label class="item item-custom"
-               ng-click="customer.change_password = !customer.change_password"
-               ng-if="customer.is_logged_in">
-            {{ ::'Change password' | translate:'customer' }}
-        </label>
+            <label class="item item-custom bold"
+                   style="padding-left: 15px;"
+                   ng-click="customer.change_password = !customer.change_password; checkPasswordStatus()"
+                   ng-if="customer.is_logged_in">
+                {{ ::'Change password' | translate:'customer' }}
+            </label>
 
-        <label class="item item-input item-custom"
-               ng-if="customer.change_password && customer.is_logged_in">
-            <div class="input-label">
-                {{ ::'Current password' | translate:'customer' }}
-            </div>
-            <input class="text-right"
-                   type="password"
-                   placeholder="{{ 'Current password' | translate:'customer' }}"
-                   ng-disabled="!customer.change_password"
-                   ng-model="customer.old_password"/>
-        </label>
-        <label class="item item-input item-custom"
-               ng-if="customer.change_password || !customer.is_logged_in">
-            <div class="input-label">
-                <span ng-show="!customer.change_password">{{ ::'Password' | translate:'customer' }}</span>
-                <span ng-show="customer.change_password">{{ ::'New password' | translate:'customer' }}</span>
-                <span>*</span>
-            </div>
-            <input class="text-right"
-                   type="password"
-                   placeholder="{{ ::'Password' | translate:'customer' }}"
-                   ng-model="customer.password"
-                   ng-disabled="!customer.change_password && customer.is_logged_in"/>
-        </label>
+            <label class="item item-input item-custom"
+                   ng-if="customer.change_password && customer.is_logged_in">
+                <div class="input-label">
+                    {{ ::'Current password' | translate:'customer' }}<span>&nbsp;*</span>
+                </div>
+                <input class="text-right"
+                       type="password"
+                       name="{{ ::rndOldPassword }}"
+                       ng-disabled="!customer.change_password"
+                       placeholder="{{ 'Current password' | translate:'customer' }}"
+                       ng-model="customer.old_password"/>
+            </label>
+            <label class="item item-input item-custom"
+                   ng-if="customer.change_password || !customer.is_logged_in">
+                <div class="input-label">
+                    <span ng-show="!customer.change_password">{{ ::'Password' | translate:'customer' }}</span>
+                    <span ng-show="customer.change_password">{{ ::'New password' | translate:'customer' }}</span>
+                    <span>&nbsp;*</span>
+                </div>
+                <input class="text-right"
+                       type="password"
+                       name="{{ ::rndPassword }}"
+                       ng-disabled="!customer.change_password && customer.is_logged_in"
+                       placeholder="{{ ::'Password' | translate:'customer' }}"
+                       ng-model="customer.password"/>
+            </label>
 
-        <label class="item item-input item-custom"
-               ng-if="myAccount.settings.enable_password_verification && (customer.change_password || !customer.is_logged_in)">
-            <div class="input-label">
-                <span>{{ ::'Repeat password' | translate:'customer' }}</span> <span>*</span>
-            </div>
-            <input class="text-right"
-                   type="password"
-                   placeholder="{{ ::'Repeat password' | translate:'customer' }}"
-                   ng-model="customer.repeat_password"/>
-        </label>
+            <label class="item item-input item-custom"
+                   ng-if="myAccount.settings.enable_password_verification && (customer.change_password || !customer.is_logged_in)">
+                <div class="input-label">
+                    <span>{{ ::'Repeat password' | translate:'customer' }}</span>
+                    <span>&nbsp;*</span>
+                </div>
+                <input class="text-right"
+                       type="password"
+                       name="{{ ::rndPasswordRepeat }}"
+                       style="cursor: text !important;"
+                       placeholder="{{ ::'Repeat password' | translate:'customer' }}"
+                       ng-model="customer.repeat_password"/>
+            </label>
 
-        <sb-clickwrap field="privacyPolicyField"
-                      ng-if="!customer.is_logged_in"
-                      model="customer.privacy_policy"
-                      card-design="card_design"></sb-clickwrap>
+            <sb-clickwrap field="privacyPolicyField"
+                          ng-if="!customer.is_logged_in"
+                          model="customer.privacy_policy"
+                          card-design="card_design"></sb-clickwrap>
 
-        <ion-checkbox class="checkbox-custom item-custom item-text-wrap"
-                      ng-model="customer.communication_agreement"
-                      ng-if="myAccount.settings.enable_commercial_agreement">
-            {{ ::myAccount.settings.enable_commercial_agreement_label | translate:'customer' }}
-        </ion-checkbox>
+            <ion-checkbox class="checkbox-custom item-custom item-text-wrap"
+                          ng-model="customer.communication_agreement"
+                          ng-if="myAccount.settings.enable_commercial_agreement">
+                {{ ::myAccount.settings.enable_commercial_agreement_label | translate:'customer' }}
+            </ion-checkbox>
 
-        <ion-checkbox class="checkbox-custom item-custom"
-                      ng-model="customer.show_in_social_gaming"
-                      ng-if="myAccount.settings.use_ranking">
-            {{ ::'Show me in ranking' | translate:'customer' }}
-        </ion-checkbox>
+            <ion-checkbox class="checkbox-custom item-custom"
+                          ng-model="customer.show_in_social_gaming"
+                          ng-if="myAccount.settings.use_ranking">
+                {{ ::'Show me in ranking' | translate:'customer' }}
+            </ion-checkbox>
+        </form>
     </div>
 
     <div class="list"
          ng-class="{'card': card_design}"
-         ng-repeat="cfo in custom_fields track by cf.code">
+         ng-repeat="cfo in custom_fields track by $index">
         <ion-item class="item-divider item-divider-custom">
             <p>{{ cfo.name }}:</p>
         </ion-item>
 
-        <label ng-repeat="cf in cfo.custom_fields"
+        <label ng-repeat="cf in cfo.custom_fields track by $index"
                class="item item-input item-custom">
             <div class="input-label">
                 {{ cf.label | translate }}
