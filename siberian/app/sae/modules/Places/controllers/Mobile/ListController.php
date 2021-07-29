@@ -204,12 +204,14 @@ class Places_Mobile_ListController extends Application_Controller_Mobile_Default
 
             // Set default settings
             $defaults = [
-                "default_page" => (string) "places",
-                "default_layout" => (string) "place-100",
-                "distance_unit" => (string) "km",
-                "listImagePriority" => (string) "thumbnail",
-                "defaultPin" => (string) "pin",
-                "categories" => []
+                'default_page' => 'places',
+                'default_layout' => 'place-100',
+                'distance_unit' => 'km',
+                'listImagePriority' => 'thumbnail',
+                'defaultPin' => 'pin',
+                'defaultMapZoom' => 8,
+                'defaultCenterZoom' => 8,
+                'categories' => []
             ];
 
             if (!$optionValue->getId()) {
@@ -220,6 +222,9 @@ class Places_Mobile_ListController extends Application_Controller_Mobile_Default
                 } catch (\Exception $e) {
                     $settings = $defaults;
                 }
+
+                $settings['defaultMapZoom'] = (int) $settings['defaultMapZoom'];
+                $settings['defaultCenterZoom'] = (int) $settings['defaultCenterZoom'];
 
                 $categories = (new Places_Model_Category())
                     ->findAll(["value_id" => $optionValue->getId()], "position ASC");

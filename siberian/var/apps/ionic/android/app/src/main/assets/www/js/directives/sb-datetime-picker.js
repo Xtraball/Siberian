@@ -22,17 +22,17 @@ angular
                     showWeekDays: scope.showWeekDays || false,
                     showWeekDaysShort: scope.showWeekDaysShort || false,
                     format: scope.format || "YYYY-MM-DD HH:mm",
+                    date: (scope.model && scope.model.length > 0) ? scope.model : null,
                     pick: function (e) {
                         scope.model = scope.pickerInstance.getDate(true);
                         scope.$apply();
                     }
                 });
 
-                if (scope.title !== undefined) {
-                    options.text.title = scope.title;
-                }
-
                 scope.pickerInstance = new Picker(element[0], options);
+                if (scope.title !== undefined) {
+                    scope.pickerInstance.setTitle(scope.title);
+                }
             });
         }
     };

@@ -142,7 +142,7 @@ class Media_Model_Library extends Core_Model_Default
         /** Icon packs */
         $module = new Installer_Model_Installer_Module();
         $icon_packs = $module->findAll([
-            "type = ?" => "icons",
+            'type IN (?)' => ['icons', 'layout', 'template'],
         ]);
 
         foreach ($icon_packs as $icon_pack) {
@@ -150,7 +150,7 @@ class Media_Model_Library extends Core_Model_Default
         }
 
         $libraries = $this->findAll([
-            "name IN (?)" => $names
+            'name IN (?)' => $names
         ]);
 
         $library_ids = [];

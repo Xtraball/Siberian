@@ -9,7 +9,6 @@ angular
 .service("CustomTab", function (SB, LinkService) {
     return {
         openLink: function(url, options) {
-            console.log("CustomTab.openLink", url, options);
 
             // For the browser, we just fallback on the LinkService inAppBrowser
             if (DEVICE_TYPE === SB.DEVICE.TYPE_BROWSER) {

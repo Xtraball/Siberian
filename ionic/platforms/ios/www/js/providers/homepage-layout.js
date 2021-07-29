@@ -204,7 +204,6 @@ angular
                         }
                 }
             } catch (e) {
-                console.log('[OpenFeature] ' + e.message);
                 Dialog.alert('Navigation', 'The page you are trying to open is not available!', 'OK', 2350);
             }
         };

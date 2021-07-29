@@ -121,10 +121,10 @@ angular.module("starter").provider("$pwaRequest", function httpCacheLayerProvide
 
             if (provider.queue === null) {
                 provider.queue = $queue.queue(provider.handleRequest, {
-                    delay: 100,
+                    delay: 5,
                     paused: false,
                     persistent: true,
-                    max_concurrent: 5
+                    max_concurrent: -1
                 });
                 provider.queue.start();
             }
@@ -318,14 +318,14 @@ angular.module("starter").provider("$pwaRequest", function httpCacheLayerProvide
                                         options.timeout = 60000;
 
                                         // direct handle for pull to refresh
-                                        provider.queue.globalPause();
+                                        //provider.queue.globalPause();
                                         options.return_response = true;
                                         provider.handleRequest(options);
-                                        options.deferred_promise.promise
-                                            .then(function () {
-                                                // restart queue when done
-                                                provider.queue.globalStart();
-                                            });
+                                        //options.deferred_promise.promise
+                                        //    .then(function () {
+                                        //        // restart queue when done
+                                        //        provider.queue.globalStart();
+                                        //    });
                                     } else {
                                         options.return_response = false;
                                         provider.queue.add(options);

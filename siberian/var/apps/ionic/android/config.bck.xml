@@ -40,33 +40,6 @@
     <preference name="android-minSdkVersion" value="21" />
     <preference name="android-targetSdkVersion" value="29" />
     <preference name="applicationId" value="${applicationId}" />
-    <feature name="GeofencePlugin">
-        <param name="android-package" value="com.cowbell.cordova.geofence.GeofencePlugin" />
-    </feature>
-    <feature name="InAppBillingPlugin">
-        <param name="android-package" value="cc.fovea.PurchasePlugin" />
-    </feature>
-    <allow-navigation href="http://localhost/*" />
-    <allow-navigation href="https://localhost/*" />
-    <allow-navigation href="ionic://*" />
-    <preference name="webView" value="com.ionicframework.cordova.webview.IonicWebViewEngine" />
-    <feature name="IonicWebView">
-        <param name="android-package" value="com.ionicframework.cordova.webview.IonicWebView" />
-    </feature>
-    <feature name="SplashScreen">
-        <param name="android-package" value="org.apache.cordova.splashscreen.SplashScreen" />
-        <param name="onload" value="true" />
-    </feature>
-    <feature name="Printer">
-        <param name="android-package" value="com.sunmi.trans.Printer" />
-        <param name="onload" value="true" />
-    </feature>
-    <feature name="PushNotification">
-        <param name="android-package" value="com.adobe.phonegap.push.PushPlugin" />
-    </feature>
-    <feature name="WebViewPlugin">
-        <param name="android-package" value="com.webview.WebViewPlugin" />
-    </feature>
     <feature name="AdMob">
         <param name="android-package" value="admob.plus.cordova.AdMob" />
     </feature>
@@ -137,5 +110,32 @@
     </feature>
     <feature name="Toast">
         <param name="android-package" value="nl.xservices.plugins.Toast" />
+    </feature>
+    <feature name="GeofencePlugin">
+        <param name="android-package" value="com.cowbell.cordova.geofence.GeofencePlugin" />
+    </feature>
+    <feature name="InAppBillingPlugin">
+        <param name="android-package" value="cc.fovea.PurchasePlugin" />
+    </feature>
+    <allow-navigation href="http://localhost/*" />
+    <allow-navigation href="https://localhost/*" />
+    <allow-navigation href="ionic://*" />
+    <preference name="webView" value="com.ionicframework.cordova.webview.IonicWebViewEngine" />
+    <feature name="IonicWebView">
+        <param name="android-package" value="com.ionicframework.cordova.webview.IonicWebView" />
+    </feature>
+    <feature name="SplashScreen">
+        <param name="android-package" value="org.apache.cordova.splashscreen.SplashScreen" />
+        <param name="onload" value="true" />
+    </feature>
+    <feature name="Printer">
+        <param name="android-package" value="com.sunmi.trans.Printer" />
+        <param name="onload" value="true" />
+    </feature>
+    <feature name="PushNotification">
+        <param name="android-package" value="com.adobe.phonegap.push.PushPlugin" />
+    </feature>
+    <feature name="WebViewPlugin">
+        <param name="android-package" value="com.webview.WebViewPlugin" />
     </feature>
 </widget>
