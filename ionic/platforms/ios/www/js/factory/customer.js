@@ -365,6 +365,7 @@ angular
             factory.customer.metadatas = {};
             factory.customer.communication_agreement = false;
             factory.customer.is_logged_in = false;
+            factory.customer.isLoggedIn = false;
             factory.customer.can_access_locked_features = false;
             factory.customer.extendedFields = factory.customer.extendedFieldsPristine;
 
