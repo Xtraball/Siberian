@@ -95,8 +95,6 @@ angular
         if (service.push &&
             $rootScope.isNativeApp) {
             service.push.on('registration', function (data) {
-                console.log('[Push] device_token: ', data.registrationId);
-
                 Push.device_token = data.registrationId;
                 service
                     .registerDevice()

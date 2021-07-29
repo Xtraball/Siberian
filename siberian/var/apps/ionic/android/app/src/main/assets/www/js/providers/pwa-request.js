@@ -121,10 +121,10 @@ angular.module("starter").provider("$pwaRequest", function httpCacheLayerProvide
 
             if (provider.queue === null) {
                 provider.queue = $queue.queue(provider.handleRequest, {
-                    delay: 100,
+                    delay: 5,
                     paused: false,
                     persistent: true,
-                    max_concurrent: 5
+                    max_concurrent: -1
                 });
                 provider.queue.start();
             }
@@ -318,14 +318,14 @@ angular.module("starter").provider("$pwaRequest", function httpCacheLayerProvide
                                         options.timeout = 60000;
 
                                         // direct handle for pull to refresh
-                                        provider.queue.globalPause();
+                                        //provider.queue.globalPause();
                                         options.return_response = true;
                                         provider.handleRequest(options);
-                                        options.deferred_promise.promise
-                                            .then(function () {
-                                                // restart queue when done
-                                                provider.queue.globalStart();
-                                            });
+                                        //options.deferred_promise.promise
+                                        //    .then(function () {
+                                        //        // restart queue when done
+                                        //        provider.queue.globalStart();
+                                        //    });
                                     } else {
                                         options.return_response = false;
                                         provider.queue.add(options);
@@ -667,7 +667,7 @@ angular.module("starter").provider("$sbhttp", function () {
         var j, i = {alwaysCache: b.alwaysCache, neverCache: !b.alwaysCache && b.neverCache, debug: !0 === b.debug};
         return j = {}, j.getItem = j.setItem = j.removeItem = function () {
             return f.reject("no offline mode cache in webview")
-        }, (ionic.Platform.isIOS() || ionic.Platform.isAndroid()) && window.localforage && (window.localforage.config({
+        }, ([2, 3].indexOf(DEVICE_TYPE) !== -1) && window.localforage && (window.localforage.config({
             name: "sb-offline-mode",
             storeName: "keyvaluepairs",
             size: 262144e3

@@ -1,23 +1,46 @@
 <?xml version='1.0' encoding='utf-8'?>
 <widget id="com.appsmobilecompany.base" version="1.0" xmlns="http://www.w3.org/ns/widgets" xmlns:cdv="http://cordova.apache.org/ns/1.0">
-    <feature name="GeofencePlugin">
-        <param name="android-package" value="com.cowbell.cordova.geofence.GeofencePlugin" />
+    <feature name="AdMob">
+        <param name="android-package" value="admob.plus.cordova.AdMob" />
     </feature>
-    <allow-navigation href="http://localhost/*" />
-    <allow-navigation href="https://localhost/*" />
-    <allow-navigation href="ionic://*" />
-    <feature name="IonicWebView">
-        <param name="android-package" value="com.ionicframework.cordova.webview.IonicWebView" />
+    <feature name="BarcodeScanner">
+        <param name="android-package" value="com.phonegap.plugins.barcodescanner.BarcodeScanner" />
     </feature>
-    <feature name="SplashScreen">
-        <param name="android-package" value="org.apache.cordova.splashscreen.SplashScreen" />
+    <feature name="BrowserTab">
+        <param name="android-package" value="com.google.cordova.plugin.browsertab.BrowserTab" />
+    </feature>
+    <feature name="Camera">
+        <param name="android-package" value="org.apache.cordova.camera.CameraLauncher" />
+    </feature>
+    <feature name="File">
+        <param name="android-package" value="org.apache.cordova.file.FileUtils" />
         <param name="onload" value="true" />
     </feature>
-    <feature name="PushNotification">
-        <param name="android-package" value="com.adobe.phonegap.push.PushPlugin" />
+    <allow-navigation href="cdvfile:*" />
+    <feature name="InAppBrowser">
+        <param name="android-package" value="org.apache.cordova.inappbrowser.InAppBrowser" />
     </feature>
-    <feature name="WebViewPlugin">
-        <param name="android-package" value="com.webview.WebViewPlugin" />
+    <feature name="LocalNotification">
+        <param name="android-package" value="de.appplant.cordova.plugin.localnotification.LocalNotification" />
+    </feature>
+    <feature name="MediaNative">
+        <param name="android-package" value="org.apache.cordova.media.AudioHandler" />
+    </feature>
+    <feature name="Navigator">
+        <param name="android-package" value="com.xtraball.cordova.plugin.Navigator" />
+    </feature>
+    <feature name="Permissions">
+        <param name="android-package" value="com.android.plugins.Permissions" />
+    </feature>
+    <feature name="Toast">
+        <param name="android-package" value="nl.xservices.plugins.Toast" />
+    </feature>
+    <feature name="InAppBillingPlugin">
+        <param name="android-package" value="cc.fovea.PurchasePlugin" />
+    </feature>
+    <feature name="Printer">
+        <param name="android-package" value="com.sunmi.trans.Printer" />
+        <param name="onload" value="true" />
     </feature>
     <feature name="AppVersion">
         <param name="android-package" value="uk.co.whiteoctober.cordova.AppVersion" />
@@ -54,47 +77,24 @@
     <feature name="MusicControls">
         <param name="android-package" value="com.xtraball.musiccontrols.MusicControls" />
     </feature>
-    <feature name="InAppBillingPlugin">
-        <param name="android-package" value="cc.fovea.PurchasePlugin" />
+    <feature name="GeofencePlugin">
+        <param name="android-package" value="com.cowbell.cordova.geofence.GeofencePlugin" />
     </feature>
-    <feature name="Printer">
-        <param name="android-package" value="com.sunmi.trans.Printer" />
+    <allow-navigation href="http://localhost/*" />
+    <allow-navigation href="https://localhost/*" />
+    <allow-navigation href="ionic://*" />
+    <feature name="IonicWebView">
+        <param name="android-package" value="com.ionicframework.cordova.webview.IonicWebView" />
+    </feature>
+    <feature name="SplashScreen">
+        <param name="android-package" value="org.apache.cordova.splashscreen.SplashScreen" />
         <param name="onload" value="true" />
     </feature>
-    <feature name="AdMob">
-        <param name="android-package" value="admob.plus.cordova.AdMob" />
+    <feature name="PushNotification">
+        <param name="android-package" value="com.adobe.phonegap.push.PushPlugin" />
     </feature>
-    <feature name="BarcodeScanner">
-        <param name="android-package" value="com.phonegap.plugins.barcodescanner.BarcodeScanner" />
-    </feature>
-    <feature name="BrowserTab">
-        <param name="android-package" value="com.google.cordova.plugin.browsertab.BrowserTab" />
-    </feature>
-    <feature name="Camera">
-        <param name="android-package" value="org.apache.cordova.camera.CameraLauncher" />
-    </feature>
-    <feature name="File">
-        <param name="android-package" value="org.apache.cordova.file.FileUtils" />
-        <param name="onload" value="true" />
-    </feature>
-    <allow-navigation href="cdvfile:*" />
-    <feature name="InAppBrowser">
-        <param name="android-package" value="org.apache.cordova.inappbrowser.InAppBrowser" />
-    </feature>
-    <feature name="LocalNotification">
-        <param name="android-package" value="de.appplant.cordova.plugin.localnotification.LocalNotification" />
-    </feature>
-    <feature name="MediaNative">
-        <param name="android-package" value="org.apache.cordova.media.AudioHandler" />
-    </feature>
-    <feature name="Navigator">
-        <param name="android-package" value="com.xtraball.cordova.plugin.Navigator" />
-    </feature>
-    <feature name="Permissions">
-        <param name="android-package" value="com.android.plugins.Permissions" />
-    </feature>
-    <feature name="Toast">
-        <param name="android-package" value="nl.xservices.plugins.Toast" />
+    <feature name="WebViewPlugin">
+        <param name="android-package" value="com.webview.WebViewPlugin" />
     </feature>
     <name>AppsMobileCompany</name>
     <description>Apps Mobile Company app source code</description>
@@ -125,8 +125,8 @@
     <splash density="xxxhdpi" src="resources/android/splash/drawable-xxxhdpi-screen.jpg" />
     <resource-file src="resources/google-services.json" target="app/google-services.json" />
     <preference name="loglevel" value="DEBUG" />
-    <preference name="webView" value="com.ionicframework.cordova.webview.IonicWebViewEngine" />
     <preference name="APP_ID_ANDROID" value="ca-app-pub-0000000000000000~0000000000" />
+    <preference name="webView" value="com.ionicframework.cordova.webview.IonicWebViewEngine" />
     <preference name="webviewbounce" value="false" />
     <preference name="DisallowOverscroll" value="true" />
     <preference name="BackupWebStorage" value="none" />

@@ -229,18 +229,16 @@ angular.module('starter').directive('sbCmsText', function () {
         '          ng-if="block.address">{{ block.address }}</p>' +
         '   </div>' +
         '   <div class="item item-text-wrap item-icon-left item-custom sb-cms-block-address-phone" ' +
+        '        ng-click="telIntent()"' +
         '        ng-if="block.phone.length && block.show_phone">' +
         '       <i class="icon ion-android-call"></i>' +
-        '       <p>' +
-        '           <a href="tel:{{ block.phone }}">{{ block.phone }}</a>' +
-        '       </p>' +
+        '       <p>{{ block.phone }}</p>' +
         '   </div>' +
         '   <div class="item item-text-wrap item-icon-left item-custom sb-cms-block-address-website" ' +
+        '        ng-click="openWebsite()"' +
         '        ng-if="block.website.length && block.show_website">' +
         '       <i class="icon ion-earth"></i>' +
-        '       <p>' +
-        '           <a ng-click="openWebsite(block.website)">{{ block._label }}</a>' +
-        '       </p>' +
+        '       <p>{{ block._label }}</p>' +
         '   </div>' +
         '</div>',
         link: function (scope) {
@@ -254,14 +252,13 @@ angular.module('starter').directive('sbCmsText', function () {
             });
         },
         controller: function (Location, Loader, LinkService, $rootScope, $scope) {
-            $scope.showMap = function () {
-                if ($rootScope.isNotAvailableInOverview()) {
-                    return;
-                }
+            $scope.telIntent = function () {
+                var intent = $scope.block.phone.startsWith('tel:') ? $scope.block.phone:
+                    'tel:' + $scope.block.phone;
+                LinkService.openLink(intent);
+            };
 
-                if ($rootScope.isNotAvailableOffline()) {
-                    return;
-                }
+            $scope.showMap = function () {
                 var to = {
                     lat: $scope.block.latitude * 1,
                     lng: $scope.block.longitude * 1
@@ -284,8 +281,8 @@ angular.module('starter').directive('sbCmsText', function () {
                 LinkService.openLink($scope.itinerary_link, {}, true);
             };
 
-            $scope.openWebsite = function (url) {
-                LinkService.openLink(url, {}, true);
+            $scope.openWebsite = function () {
+                LinkService.openLink($scope.block.website, {}, true);
             };
 
             $scope.addToContact = function () {

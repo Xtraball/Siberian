@@ -179,7 +179,6 @@ angular.module("starter").service('GoogleMaps', function ($cordovaGeolocation, $
             service.map = new google.maps.Map(document.getElementById(element), options);
 
             google.maps.event.addListener(service.map, "tilesloaded", function() {
-                console.log("Maps is loaded");
                 __self.is_loaded = true;
             });
 
