@@ -218,7 +218,10 @@ $(document).ready(function () {
 
     // Add feature
     $(document).off('click', '.add_feature_folder2');
-    $(document).on('click', '.add_feature_folder2', function () {
+    $(document).on('click', '.add_feature_folder2', function (event) {
+        event.preventDefault();
+        event.stopImmediatePropagation();
+
         var feature = $(this);
         var featureId = feature.attr('rel');
         var parentId = folder.current_category_id;
