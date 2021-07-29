@@ -25,14 +25,14 @@ class Places_Form_Place extends Cms_Form_Cms
         $title->setRequired(true);
         $title->addClass('cms-include');
 
-        $show_titles = $this->addSimpleCheckbox('show_titles', __("Display title in page"));
+        $show_titles = $this->addSimpleCheckbox('show_titles', __("Display title overlay on illustration"));
         $show_titles->setBelongsTo('metadata');
         $show_titles->addClass('cms-include');
 
         $subtitle = $this->addSimpleText('content', __("Subtitle"));
         $subtitle->addClass('cms-include');
 
-        $show_subtitle = $this->addSimpleCheckbox('show_subtitle', __("Display subtitle in page"));
+        $show_subtitle = $this->addSimpleCheckbox('show_subtitle', __("Display subtitle overlay on illustration"));
         $show_subtitle->setBelongsTo('metadata');
         $show_subtitle->addClass('cms-include');
 
