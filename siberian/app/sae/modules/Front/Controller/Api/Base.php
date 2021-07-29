@@ -940,11 +940,10 @@ class Front_Controller_Api_Base extends Front_Controller_App_Default
 
             $birthdateString = '';
             try {
-                if ($customer->getBirthdate() > 0) {
-                    $birthdate = new Zend_Date();
-                    $birthdate->setTimestamp($customer->getBirthdate());
-                    $birthdateString = $birthdate->toString('dd/MM/y');
-                }
+                $bdInt = (int) $customer->getBirthdate();
+                $birthdate = new DateTime();
+                $birthdate->setTimestamp($bdInt);
+                $birthdateString = $birthdate->format('d/m/Y');
             } catch (\Exception $e) {
                 $birthdateString = '';
             }

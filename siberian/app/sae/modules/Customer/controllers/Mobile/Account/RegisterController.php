@@ -43,10 +43,11 @@ class Customer_Mobile_Account_RegisterController extends Application_Controller_
             $requireNickname = $accountSettings['extra_nickname_required'];
 
             // Adds check for modules extras*
-            $useNickname = false;
-            $useBirthdate = false;
-            $useCivility = false;
-            $useMobile = false;
+            $useNickname = $accountSettings['extra_nickname'] ?? false;
+            $useBirthdate = $accountSettings['extra_birthdate'] ?? false;
+            $useCivility = $accountSettings['extra_civility'] ?? false;
+            $useMobile = $accountSettings['extra_mobile'] ?? false;
+
             foreach ($application->getOptions() as $feature) {
                 if ($feature->getUseNickname()) {
                     $useNickname = true;

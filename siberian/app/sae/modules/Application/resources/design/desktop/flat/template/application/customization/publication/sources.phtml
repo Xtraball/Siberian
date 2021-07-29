@@ -323,26 +323,17 @@ if (!empty($appDomain)) {
                                         <?php echo p__('application', 'Generate Android APK/AAB'); ?>
                                     </div>
                                     <div class="col-sm-4">
-                                        <?php if (!$isHosted): ?>
-                                            <?php if (!empty($apk["path"]) && $positions["apk"] == 0): ?>
-                                                <a href="<?php echo $this->getUrl("") . $apk["path"]; ?>"
-                                                   class="btn default_button color-green">
-                                                    <i class="fa fa-download"></i> <?php echo __('Download latest'); ?>
-                                                </a>
-                                            <?php endif; ?>
-                                        <?php else: ?>
-                                            <?php if (!empty($apk_service["path"])): ?>
-                                                <a href="<?php echo $this->getUrl("") . $apk_service["path"]; ?>"
-                                                   class="btn default_button color-green">
-                                                    <i class="fa fa-download"></i> <?php echo p__('application', 'Download latest APK'); ?>
-                                                </a>
-                                            <?php endif; ?>
-                                            <?php if (!empty($apk_service["aab_path"])): ?>
-                                                <a href="<?php echo $this->getUrl("") . $apk_service["aab_path"]; ?>"
-                                                   class="btn default_button color-green">
-                                                    <i class="fa fa-download"></i> <?php echo p__('application', 'Download latest AAB'); ?>
-                                                </a>
-                                            <?php endif; ?>
+                                        <?php if (!empty($apk_service["path"])): ?>
+                                            <a href="<?php echo $this->getUrl("") . $apk_service["path"]; ?>"
+                                               class="btn default_button color-green">
+                                                <i class="fa fa-download"></i> <?php echo p__('application', 'Download latest APK'); ?>
+                                            </a>
+                                        <?php endif; ?>
+                                        <?php if (!empty($apk_service["aab_path"])): ?>
+                                            <a href="<?php echo $this->getUrl("") . $apk_service["aab_path"]; ?>"
+                                               class="btn default_button color-green">
+                                                <i class="fa fa-download"></i> <?php echo p__('application', 'Download latest AAB'); ?>
+                                            </a>
                                         <?php endif; ?>
                                     </div>
                                     <div class="col-sm-4 text-right">
@@ -369,8 +360,9 @@ if (!empty($appDomain)) {
 
                                     </div>
 
-                                    <?php if ($isHosted && ($apk_service['status'] === 'pending')): ?>
+                                    <?php if ($apk_service['status'] === 'pending'): ?>
                                         <div class="col-sm-12">
+                                            <br />
                                             <div class="alert alert-info">
                                                 <b><?php echo __('Status')  ?>: </b> <?php echo __($apk_service['status']); ?>
                                             </div>
@@ -445,12 +437,7 @@ if (!empty($appDomain)) {
 <script type="text/javascript">
 
     let disable = false;
-
-    <?php if ($isHosted): ?>
     let isApkService = 'apk';
-    <?php else: ?>
-    let isApkService = false;
-    <?php endif; ?>
 
     function generateSource(device_id, no_ads, type) {
         <?php if(Cron_Model_Cron::is_active()): ?>

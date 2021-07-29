@@ -104,11 +104,13 @@ class Customer_Mobile_Account_EditController extends Application_Controller_Mobi
             $requireNickname = $accountSettings['extra_nickname_required'];
 
             // Adds check for modules extras*
-            $useNickname = false;
-            $useBirthdate = false;
-            $useCivility = false;
-            $useMobile = false;
+            $useNickname = $accountSettings['extra_nickname'] ?? false;
+            $useBirthdate = $accountSettings['extra_birthdate'] ?? false;
+            $useCivility = $accountSettings['extra_civility'] ?? false;
+            $useMobile = $accountSettings['extra_mobile'] ?? false;
+
             foreach ($application->getOptions() as $feature) {
+
                 if ($feature->getUseNickname()) {
                     $useNickname = true;
                 }
@@ -164,13 +166,12 @@ class Customer_Mobile_Account_EditController extends Application_Controller_Mobi
             }
             // Check against required fields
 
-
             if (($requireBirthdate || $useBirthdate) &&
                 isset($data['birthdate']) &&
                 !empty($data['birthdate'])) {
                 try {
                     $birthdate = new Zend_Date();
-                    $birthdate->setDate($data['birthdate'], 'DD/MM/YYYY');
+                    $birthdate->setDate($data['birthdate'], 'dd/MM/y');
                     $data['birthdate'] = $birthdate->getTimestamp();
                 } catch (\Exception $e) {
                     throw new Exception(p__('customer', 'Invalid birthdate.'));
