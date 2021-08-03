@@ -315,12 +315,6 @@ cordova.define('cordova/plugin_list', function(require, exports, module) {
       ]
     },
     {
-      "id": "WhiteList.whitelist",
-      "file": "plugins/WhiteList/whitelist.js",
-      "pluginId": "WhiteList",
-      "runs": true
-    },
-    {
       "id": "LocalNotification.LocalNotification",
       "file": "plugins/LocalNotification/www/local-notification.js",
       "pluginId": "LocalNotification",
@@ -401,9 +395,9 @@ cordova.define('cordova/plugin_list', function(require, exports, module) {
       ]
     },
     {
-      "id": "InAppPurchase.InAppBillingPlugin",
-      "file": "plugins/InAppPurchase/www/store-android.js",
-      "pluginId": "InAppPurchase",
+      "id": "cordova-plugin-purchase.InAppBillingPlugin",
+      "file": "plugins/cordova-plugin-purchase/www/store-android.js",
+      "pluginId": "cordova-plugin-purchase",
       "clobbers": [
         "store"
       ]
@@ -465,7 +459,6 @@ cordova.define('cordova/plugin_list', function(require, exports, module) {
     "Keyboard": "2.2.0",
     "SocialSharing": "5.6.4",
     "StatusBar": "2.4.1",
-    "WhiteList": "1.2.1",
     "LocalNotification": "0.9.0-beta.4",
     "Insomnia": "4.3.0",
     "MusicControls": "3.0.4",
@@ -475,7 +468,7 @@ cordova.define('cordova/plugin_list', function(require, exports, module) {
     "Siberian": "1.0.0",
     "Toast": "2.7.2",
     "Geofence": "0.6.0",
-    "InAppPurchase": "10.5.0",
+    "cordova-plugin-purchase": "10.6.1",
     "IonicWebview": "4.0.1",
     "SplashScreen": "5.0.2",
     "SunmiPrinter": "1.0.3",
