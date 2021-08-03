@@ -117,6 +117,7 @@
     <allow-intent href="whatsapp:*" />
     <allow-intent href="instagram:*" />
     <allow-intent href="fb:*" />
+    <allow-intent href="market:*" />
     <icon density="xxxhdpi" src="resources/android/icon/drawable-xxxhdpi-icon.png" />
     <splash density="xxxhdpi" src="resources/android/splash/drawable-xxxhdpi-screen.jpg" />
     <resource-file src="resources/google-services.json" target="app/google-services.json" />

@@ -312,7 +312,7 @@ dependencies {
     implementation "com.android.billingclient:billing:3.0.3"
     implementation "androidx.legacy:legacy-support-v13:1.0.0"
     implementation "me.leolin:ShortcutBadger:1.1.22@aar"
-    implementation "com.google.firebase:firebase-messaging:21.0.0"
+    implementation "com.google.firebase:firebase-messaging:21.0.1"
     implementation "com.facebook.android:audience-network-sdk:+"
     implementation "com.google.ads.mediation:facebook:+"
     implementation "com.startapp:inapp-sdk:4.8.+"
