@@ -28,6 +28,7 @@
     <allow-intent href="whatsapp:*" />
     <allow-intent href="instagram:*" />
     <allow-intent href="fb:*" />
+    <allow-intent href="market:*" />
 
     <preference name="webviewbounce" value="false" />
     <preference name="DisallowOverscroll" value="true" />
