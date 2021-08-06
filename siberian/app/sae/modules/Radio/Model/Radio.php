@@ -37,33 +37,21 @@ class Radio_Model_Radio extends Core_Model_Default
     }
 
     /**
-     * @param $option_value
-     * @return bool
+     * @param null $optionValue
+     * @return array|bool
      */
-    public function getEmbedPayload($option_value = null)
+    public function getEmbedPayload($optionValue = null)
     {
-
         $payload = false;
 
         if ($this->getId()) {
-
-            // Fix for shoutcast, force stream!
-            $contentType = Siberian_Request::testStream($this->getLink());
-            if (!in_array(explode('/', $contentType)[0], ['audio']) &&
-                !in_array($contentType, ['application/ogg'])) {
-                if (strrpos($this->getLink(), ';') === false) {
-                    $this->setLink($this->getLink() . '/;');
-                }
-            }
-
             $payload = [
-                "radio" => [
-                    "url" => addslashes($this->getLink()),
-                    "title" => $this->getTitle(),
-                    "background" => $option_value->getBaseUrl() . "/images/application" . $this->getBackground(),
+                'radio' => [
+                    'url' => addslashes($this->getLink()),
+                    'title' => $this->getTitle(),
+                    'background' => $optionValue->getBaseUrl() . '/images/application' . $this->getBackground(),
                 ]
             ];
-
         }
 
         return $payload;

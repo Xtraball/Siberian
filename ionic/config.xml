@@ -28,6 +28,7 @@
     <allow-intent href="whatsapp:*" />
     <allow-intent href="instagram:*" />
     <allow-intent href="fb:*" />
+    <allow-intent href="market:*" />
 
     <preference name="webviewbounce" value="false" />
     <preference name="DisallowOverscroll" value="true" />
@@ -39,7 +40,7 @@
     <preference name="SplashMaintainAspectRatio" value="true" />
 
     <preference name="android-minSdkVersion" value="21" />
-    <preference name="android-targetSdkVersion" value="29" />
+    <preference name="android-targetSdkVersion" value="30" />
 
     <feature name="StatusBar">
         <param name="ios-package"

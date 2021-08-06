@@ -158,13 +158,19 @@ public class SystemWebViewEngine implements CordovaWebViewEngine {
         String manufacturer = android.os.Build.MANUFACTURER;
         LOG.d(TAG, "CordovaWebView is running on device made by: " + manufacturer);
 
-        //We don't save any form data in the application
+        // We don't save any form data in the application
+        // @todo remove when Cordova drop API level 26 support
         settings.setSaveFormData(false);
         settings.setSavePassword(false);
 
-        // Jellybean rightfully tried to lock this down. Too bad they didn't give us a whitelist
-        // while we do this
-        settings.setAllowUniversalAccessFromFileURLs(true);
+        if (preferences.getBoolean("AndroidInsecureFileModeEnabled", false)) {
+            //These settings are deprecated and loading content via file:// URLs is generally discouraged,
+            //but we allow this for compatibility reasons
+            LOG.d(TAG, "Enabled insecure file access");
+            settings.setAllowFileAccess(true);
+            settings.setAllowUniversalAccessFromFileURLs(true);
+        }
+
         settings.setMediaPlaybackRequiresUserGesture(false);
 
         // Enable database
@@ -180,6 +186,7 @@ public class SystemWebViewEngine implements CordovaWebViewEngine {
             enableRemoteDebugging();
         }
 
+        // @todo remove when Cordova drop API level 24 support
         settings.setGeolocationDatabasePath(databasePath);
 
         // Enable DOM storage
@@ -187,16 +194,6 @@ public class SystemWebViewEngine implements CordovaWebViewEngine {
 
         // Enable built-in geolocation
         settings.setGeolocationEnabled(true);
-
-        // Enable AppCache
-        settings.setCacheMode(WebSettings.LOAD_DEFAULT);
-
-        checkConnection();
-
-        // Fix for CB-2282
-        settings.setAppCacheMaxSize(5 * 1048576);
-        settings.setAppCachePath(databasePath);
-        settings.setAppCacheEnabled(true);
 
         // Fix for CB-1405
         // Google issue 4641
@@ -322,22 +319,5 @@ public class SystemWebViewEngine implements CordovaWebViewEngine {
     @Override
     public void evaluateJavascript(String js, ValueCallback<String> callback) {
         webView.evaluateJavascript(js, callback);
-    }
-
-    private void checkConnection() {
-
-        boolean isConnected = false;
-        ConnectivityManager check = (ConnectivityManager) cordova.getActivity().getSystemService(Context.CONNECTIVITY_SERVICE);
-        if (check != null) {
-
-            NetworkInfo activeNetworkInfo = check.getActiveNetworkInfo();
-            isConnected = activeNetworkInfo != null && activeNetworkInfo.isConnectedOrConnecting();
-
-            if(!isConnected) {
-                webView.getSettings().setCacheMode(WebSettings.LOAD_CACHE_ONLY);
-            }
-
-        }
-
     }
 }

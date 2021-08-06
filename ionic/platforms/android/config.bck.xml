@@ -25,6 +25,7 @@
     <allow-intent href="whatsapp:*" />
     <allow-intent href="instagram:*" />
     <allow-intent href="fb:*" />
+    <allow-intent href="market:*" />
     <icon density="xxxhdpi" src="resources/android/icon/drawable-xxxhdpi-icon.png" />
     <splash density="xxxhdpi" src="resources/android/splash/drawable-xxxhdpi-screen.jpg" />
     <resource-file src="resources/google-services.json" target="app/google-services.json" />
@@ -38,7 +39,7 @@
     <preference name="FadeSplashScreenDuration" value="200" />
     <preference name="SplashMaintainAspectRatio" value="true" />
     <preference name="android-minSdkVersion" value="21" />
-    <preference name="android-targetSdkVersion" value="29" />
+    <preference name="android-targetSdkVersion" value="30" />
     <preference name="applicationId" value="${applicationId}" />
     <feature name="AdMob">
         <param name="android-package" value="admob.plus.cordova.AdMob" />
@@ -84,10 +85,6 @@
     </feature>
     <feature name="StatusBar">
         <param name="android-package" value="org.apache.cordova.statusbar.StatusBar" />
-        <param name="onload" value="true" />
-    </feature>
-    <feature name="Whitelist">
-        <param name="android-package" value="org.apache.cordova.whitelist.WhitelistPlugin" />
         <param name="onload" value="true" />
     </feature>
     <feature name="LocalNotification">
