@@ -9,25 +9,18 @@ class Core_Model_Statistics {
     }
 
     public function statistics() {
-        if (System_Model_Config::getValueFor("send_statistics") != "1") {
-            $this->log("Statistics are disabled.");
-            return;
+        if (__get('send_statistics') !== '1') {
+            $this->log('Statistics are disabled.');
         }
 
-        $system_model_config = new System_Model_Config();
-        $system_config = $system_model_config->find("campaign_is_active", "code");
-
-        if ($system_config->getValue() == "1") {
+        if (__get('campaign_is_active') === '1') {
             try {
                 $db = Zend_Db_Table::getDefaultAdapter();
 
                 $editor_user_count = $db->fetchRow($db->select()->from("admin", array(new Zend_Db_Expr("COUNT(*) AS total"))));
                 $backoffice_user_count = $db->fetchRow($db->select()->from("backoffice_user", array(new Zend_Db_Expr("COUNT(*) AS total"))));
                 $apps_app_count = $db->fetchRow($db->select()->from("application", array(new Zend_Db_Expr("COUNT(*) AS total"))));
-                $apps_angular_count = $db->fetchRow($db->select()->from("application", array(new Zend_Db_Expr("COUNT(*) AS total")))->where("design_code = ?", "angular"));
-                $apps_ionic_count = $db->fetchRow($db->select()->from("application", array(new Zend_Db_Expr("COUNT(*) AS total")))->where("design_code = ?", "ionic"));
                 $apps_domain_count = $db->fetchRow($db->select()->from("application", array(new Zend_Db_Expr("COUNT(*) AS total")))->where("domain IS NOT NULL"));
-                $apps_offline_count = $db->fetchRow($db->select()->from("application", array(new Zend_Db_Expr("COUNT(*) AS total")))->where("offline_content = 1"));
                 if (Siberian_Version::is("PE")) {
                     $whitelabel_count = $db->fetchRow($db->select()->from("whitelabel_editor", array(new Zend_Db_Expr("COUNT(*) AS total"))));
                 } else {
@@ -80,7 +73,32 @@ class Core_Model_Statistics {
                         );
                         $exists[] = $feature_name;
                     }
+                }
+                unset($count, $count_active, $feature_name, $exists, $application_options);
 
+                // Average customers per app
+                $templates_usage = $db->fetchAll("
+SELECT
+  template_design.code as code,
+  template_design.name AS name,
+  COUNT(template_design.design_id) AS total
+FROM application
+JOIN template_design ON template_design.design_id = application.design_id
+WHERE application.design_id IS NOT NULL
+GROUP BY application.design_id
+ORDER BY total DESC;");
+
+                $templates = [];
+                foreach ($templates_usage as $template_usage) {
+                    $code = $template_usage['code'];
+                    $name = $template_usage['name'];
+                    $total = $template_usage['total'];
+
+                    $templates[] = [
+                        'code' => $code,
+                        'name' => $name,
+                        'total' => $total,
+                    ];
                 }
 
                 // Average customers per app
@@ -209,24 +227,26 @@ GROUP BY status");
                     "secret" => Core_Model_Secret::SECRET,
                     "data" => array(
                         "siberian_version"              => Siberian_Version::VERSION,
+                        "siberian_installation_version" => __get("installation_version"),
                         "siberian_type"                 => Siberian_Version::TYPE,
                         "siberian_design"               => design_code(),
                         "siberian_use_https"            => true,
-                        "siberian_disable_cron"         => System_Model_Config::getValueFor("disable_cron"),
-                        "siberian_environment"          => System_Model_Config::getValueFor("environment"),
-                        "siberian_update_channel"       => System_Model_Config::getValueFor("update_channel"),
-                        "siberian_cpanel_type"          => System_Model_Config::getValueFor("cpanel_type"),
-                        "siberian_analytic_app_limit"   => System_Model_Config::getValueFor("analytic_app_limit"),
-                        "siberian_signup_mode"          => System_Model_Config::getValueFor("signup_mode"),
-                        "siberian_cron_interval"        => System_Model_Config::getValueFor("cron_interval"),
-                        "siberian_node_binary_path"     => System_Model_Config::getValueFor("node_binary_path"),
-                        "siberian_installation_date"    => System_Model_Config::getValueFor("installation_date"),
-                        "siberian_licence_key"          => System_Model_Config::getValueFor("siberiancms_key"),
-                        "siberian_disk_usage"           => System_Model_Config::getValueFor("disk_usage_cache"),
-                        "siberian_letsencrypt_disabled" => System_Model_Config::getValueFor("letsencrypt_disabled"),
-                        "siberian_ios_autobuild_key"    => System_Model_Config::getValueFor("ios_autobuild_key"),
+                        "siberian_disable_cron"         => __get("disable_cron"),
+                        "siberian_environment"          => __get("environment"),
+                        "siberian_update_channel"       => __get("update_channel"),
+                        "siberian_cpanel_type"          => __get("cpanel_type"),
+                        "siberian_analytic_app_limit"   => __get("analytic_app_limit"),
+                        "siberian_signup_mode"          => __get("signup_mode"),
+                        "siberian_cron_interval"        => __get("cron_interval"),
+                        "siberian_node_binary_path"     => __get("node_binary_path"),
+                        "siberian_installation_date"    => __get("installation_date"),
+                        "siberian_licence_key"          => __get("siberiancms_key"),
+                        "siberian_disk_usage"           => __get("disk_usage_cache"),
+                        "siberian_letsencrypt_disabled" => __get("letsencrypt_disabled"),
+                        "siberian_ios_autobuild_key"    => __get("ios_autobuild_key"),
                         "siberian_modules"              => $modules,
                         "siberian_features"             => $features_usage,
+                        "siberian_templates"            => $templates,
                         "siberian_layouts"              => $layouts_usage,
                         "editor_user_count"             => $editor_user_count["total"],
                         "editor_whitelabel_count"       => $whitelabel_count["total"],
@@ -234,10 +254,7 @@ GROUP BY status");
 
                         // Apps
                         "apps_app_count"                => $apps_app_count["total"],
-                        "apps_angular_count"            => $apps_angular_count["total"],
-                        "apps_ionic_count"              => $apps_ionic_count["total"],
                         "apps_with_domain"              => $apps_domain_count["total"],
-                        "apps_offline_count"            => $apps_offline_count["total"],
                         "apps_customer_min"             => $average_customers["min"],
                         "apps_customer_max"             => $average_customers["max"],
                         "apps_customer_avg"             => $average_customers["avg"],
@@ -267,15 +284,14 @@ GROUP BY status");
                 );
 
                 $request = new Siberian_Request();
-                $request->post(sprintf("http://stats.xtraball.com/campaign.php?type=%s", Siberian_Version::TYPE), $statistics);
-
+                $request->post(sprintf("https://stats.xtraball.com/campaign.php?type=%s", Siberian_Version::TYPE), $statistics);
             } catch(Exception $e){}
         } else {
             // Do nothing campaign is disabled
         }
 
         // Disable campaign until next.
-        $system_config->setValue("0")->save();
+        __set('campaign_is_active', '0');
     }
 
     /**

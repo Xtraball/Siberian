@@ -469,7 +469,7 @@ cordova.define('cordova/plugin_list', function(require, exports, module) {
     "Permissions": "1.0.0",
     "Siberian": "1.0.0",
     "Toast": "2.7.2",
-    "InAppPurchase": "10.5.0",
+    "InAppPurchase": "10.6.1",
     "IosXhr": "1.0.8",
     "Push": "1.10.0",
     "Mediation": "1.0.0",

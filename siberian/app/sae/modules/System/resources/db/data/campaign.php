@@ -1,3 +1,3 @@
 <?php
-// Enable campaign statistics for 4.12.20, Campaign December 2017
-System_Model_Config::setValueFor('campaign_is_active', '0');
+// Enable campaign statistics for 4.20.15, August 2020
+__set('campaign_is_active', '1');

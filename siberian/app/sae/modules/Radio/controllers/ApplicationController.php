@@ -1,6 +1,7 @@
 <?php
 
 use Siberian\Feature;
+use Siberian\Request;
 
 class Radio_ApplicationController extends Application_Controller_Default
 {
@@ -37,9 +38,19 @@ class Radio_ApplicationController extends Application_Controller_Default
                 ];
             } else {
                 /** Do whatever you need when form is valid */
+
                 $radio = new Radio_Model_Radio();
                 $radio->find($values['radio_id']);
                 $radio->setData($values);
+
+                // Fix for shoutcast, force stream!
+                $contentType = Request::testStream($radio->getLink());
+                if (explode('/', $contentType)[0] !== 'audio' &&
+                    $contentType !== 'application/ogg') {
+                    if (strrpos($radio->getLink(), ';') === false) {
+                        $radio->setLink($radio->getLink() . '/;');
+                    }
+                }
 
                 // Set version 2 on create/save, means it's been updated
                 $radio->setVersion(2);
