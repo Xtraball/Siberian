@@ -26,6 +26,57 @@ class Customer_Mobile_Account_EditController extends Application_Controller_Mobi
         $this->_sendJson($customerPayload);
     }
 
+    public function postMcommerceAction ()
+    {
+        try {
+            $request = $this->getRequest();
+            $data = $request->getBodyParams();
+            $session = $this->getSession();
+            $customer = $session->getCustomer();
+
+            if (!$customer->getId()) {
+                throw new Exception(p__('customer', "The profile you are trying to edit doesn't exists!"));
+            }
+
+            if (!Zend_Validate::is($data['email'], 'EmailAddress')) {
+                throw new Exception(p__('customer', 'The e-mail you used is not valid!'));
+            }
+
+            // Clear email, MUST not be changed
+            unset($data['email']);
+
+            if (empty($data['firstname'])) {
+                $requiredFields[] = p__('customer', 'Firstname');
+            }
+
+            if (empty($data['lastname'])) {
+                $requiredFields[] = p__('customer', 'Lastname');
+            }
+
+            $customer->setData($data);
+            if (!empty($data['metadatas'])) {
+                $customer->setMetadatas($data['metadatas']);
+            }
+
+            $customer->save();
+            $currentCustomer = Customer_Model_Customer::getCurrent();
+
+            $payload = [
+                'success' => true,
+                'message' => p__('customer', 'Settings saved!'),
+                'customer' => $currentCustomer
+            ];
+
+        } catch (\Exception $e) {
+            $payload = [
+                'error' => true,
+                'message' => $e->getMessage()
+            ];
+        }
+
+        $this->_sendJson($payload);
+    }
+
     /**
      *
      */
@@ -38,6 +89,14 @@ class Customer_Mobile_Account_EditController extends Application_Controller_Mobi
             $customer = $session->getCustomer();
             $application = $this->getApplication();
             $appId = $application->getId();
+
+            // This is a M-commerce request (maybe), must be moved later outside here.
+            if (!array_key_exists('extendedFieldsPristine', $data) &&
+                !array_key_exists('id', $data)
+            ) {
+                // Get out of my way!
+                return $this->postMcommerceAction();
+            }
 
             if (!$customer->getId()) {
                 throw new Exception(p__('customer', "The profile you are trying to edit doesn't exists!"));
@@ -206,7 +265,6 @@ class Customer_Mobile_Account_EditController extends Application_Controller_Mobi
                     'token' => Zend_Session::getId(),
                     'type' => 'account'
                 ]);
-
             }
             if (!empty($data['metadatas'])) {
                 $customer->setMetadatas($data['metadatas']);

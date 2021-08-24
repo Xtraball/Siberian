@@ -155,7 +155,7 @@ ul.nested-folders.deep .placeholder {
 
 #folder_add_page_list .folder_add_page {
     text-align: center;
-    margin-bottom: 10px;
+    margin-bottom: 20px;
     list-style: none;
     padding-right: 0;
     display: inline-block;
@@ -166,7 +166,7 @@ ul.nested-folders.deep .placeholder {
 
 #folder_add_page_list .folder_add_page span {
     display: block;
-    font-size: 0.73em;
+    font-size: 0.8em;
     text-transform: uppercase;
     margin-top: 4em;
     margin-left: -15px;

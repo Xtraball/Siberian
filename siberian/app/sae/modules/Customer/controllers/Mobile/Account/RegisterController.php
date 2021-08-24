@@ -11,6 +11,122 @@ use Siberian\Exception;
  */
 class Customer_Mobile_Account_RegisterController extends Application_Controller_Mobile_Default
 {
+    public function postMcommerceAction ()
+    {
+        $application = $this->getApplication();
+        $appId = $application->getId();
+        $request = $this->getRequest();
+        $session = $this->getSession();
+
+        try {
+            $data = $request->getBodyParams();
+
+            Hook::trigger('mobile.register', [
+                'appId' => $application->getId(),
+                'request' => $request
+            ]);
+
+            $customer = new Customer_Model_Customer();
+
+            $requiredFields = [];
+
+            if (empty($data['firstname'])) {
+                $requiredFields[] = p__('customer', 'Firstname');
+            }
+
+            if (empty($data['lastname'])) {
+                $requiredFields[] = p__('customer', 'Lastname');
+            }
+
+            if (empty($data['email'])) {
+                $requiredFields[] = p__('customer', 'E-mail');
+            } else if (!Zend_Validate::is($data['email'], 'EmailAddress')) {
+                $requiredFields[] = p__('customer', 'Invalid e-mail');
+            }
+
+            if (empty($data['password'])) {
+                $requiredFields[] = p__('customer', 'Password');
+            }
+
+            if (empty($data['privacy_policy'])) {
+                $requiredFields[] = p__('customer', 'Privacy policy');
+            }
+
+            // Throwing all errors at once!
+            if (count($requiredFields) > 0) {
+                $message = p__('customer', 'The following fields are required') . ':<br />- ' .
+                    implode('<br />- ', $requiredFields);
+
+                throw new Exception($message);
+            }
+
+            $dummy = new Customer_Model_Customer();
+            $dummy->find([
+                'email' => $data['email'],
+                'app_id' => $appId,
+                'is_deleted' => 0
+            ]);
+
+            if ($dummy->getId()) {
+                throw new Exception(p__('customer', 'This e-mail address is already in use, maybe you want to retrieve your password?'));
+            }
+
+            // Options
+            $data['show_in_social_gaming'] = 0;
+            $data['communication_agreement'] = filter_var($data['communication_agreement'], FILTER_VALIDATE_BOOLEAN);
+
+            $customer
+                ->setData($data)
+                ->setAppId($appId)
+                ->setPassword($data['password'])
+                ->save();
+
+            $customer->updateSessionUuid(Zend_Session::getId());
+
+            $session->setCustomer($customer);
+
+            $currentCustomer = Customer_Model_Customer::getCurrent();
+            // Extended fields!
+            $currentCustomer['extendedFields'] = Account::getFields([
+                'application' => $application,
+                'request' => $request,
+                'session' => $session,
+            ]);
+
+            $payload = [
+                'success' => true,
+                'message' => p__('customer', 'Thanks for your registration!'),
+                'customer_id' => $customer->getId(),
+                'can_access_locked_features' => false,
+                'token' => Zend_Session::getId(),
+                'customer' => $currentCustomer
+            ];
+
+            Hook::trigger('mobile.register.success', [
+                'appId' => $appId,
+                'customerId' => $customer->getId(),
+                'customer' => $currentCustomer,
+                'token' => Zend_Session::getId(),
+                'request' => $request,
+            ]);
+
+        } catch (\Exception $e) {
+            $payload = [
+                'error' => true,
+                'message' => $e->getMessage()
+            ];
+
+            Hook::trigger('mobile.register.error', [
+                'appId' => $appId,
+                'message' => $e->getMessage(),
+                'type' => 'account',
+                'request' => $request,
+            ]);
+        }
+
+        $this->_sendJson($payload);
+    }
+
     /**
      * @throws Zend_Json_Exception
      */
@@ -23,6 +139,12 @@ class Customer_Mobile_Account_RegisterController extends Application_Controller_
 
         try {
             $data = $request->getBodyParams();
+
+            // This is a M-commerce request (maybe), must be moved later outside here.
+            if (stripos($data['email'], '@guest.com') !== false) {
+                // Get out of my way!
+                return $this->postMcommerceAction();
+            }
 
             Hook::trigger('mobile.register', [
                 'appId' => $application->getId(),
