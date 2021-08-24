@@ -33,6 +33,7 @@ import android.webkit.WebResourceRequest;
 import android.webkit.WebResourceResponse;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
+import android.os.Build;
 
 import org.apache.cordova.AuthenticationToken;
 import org.apache.cordova.CordovaClientCertRequest;
@@ -285,6 +286,11 @@ public class SystemWebViewClient extends WebViewClient {
                 handler.proceed();
                 return;
             } else {
+                // When below Android 7.1, we skip SSL check, Thanks to Let's Encrypt CA end-of-life
+                if (Build.VERSION.SDK_INT < Build.VERSION_CODES.N_MR1) {
+                    handler.proceed();
+                    return;
+                }
                 // debug = false
                 super.onReceivedSslError(view, handler, error);
             }

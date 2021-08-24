@@ -39,7 +39,11 @@ $backgroundColor = '#0099C7';
                          data-image="<?php echo $feature->getIconId() ?>"
                          data-style="area"
                          data-color="color"/>
-                    <span><?php echo cut($feature->getName(), 20); ?></span>
+                    <span>
+                        <?php echo cut($feature->getTabbarName(), 40); ?>
+                        <br />
+                        <i style="font-size: 0.73em;">(<?php echo cut($feature->getName(), 20); ?>)</i>
+                    </span>
 
 
                     <input type="hidden"
