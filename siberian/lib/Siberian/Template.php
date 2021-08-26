@@ -115,6 +115,7 @@ class Template
      * @param $code
      * @param $layoutCode
      * @return mixed
+     * @throws Exception
      * @throws \Zend_Exception
      */
     public static function design ($moduleName, $name, $code, $layoutCode)
@@ -122,6 +123,15 @@ class Template
         // Searching for the layout!
         $layout = (new \Application_Model_Layout_Homepage())
             ->find($layoutCode, 'code');
+
+        if (!$layout && !$layout->getId()) {
+            $layout = (new \Application_Model_Layout_Homepage())
+                ->find('layout_6', 'code');
+
+            if (!$layout && !$layout->getId()) {
+                throw new Exception(p__('backoffice', 'The layout with code %s does not exists.'), $layoutCode);
+            }
+        }
 
         // Module path
         $frontController = \Zend_Controller_Front::getInstance();
