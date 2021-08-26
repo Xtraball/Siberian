@@ -69,7 +69,7 @@ $results = (new Result())->findAll(
                aria-controls="tab-settings"
                role="tab"
                data-toggle="tab">
-                <i class="fa fa-search"></i>
+                <i class="fa fa-cogs"></i>
                 <?php echo p__('form2', 'Settings') ?>
             </a>
         </li>
@@ -79,7 +79,7 @@ $results = (new Result())->findAll(
                aria-controls="tab-results"
                role="tab"
                data-toggle="tab">
-                <i class="fa fa-cogs"></i>
+                <i class="fa fa-search"></i>
                 <?php echo p__('form2', 'Results') ?>
             </a>
         </li>
@@ -269,6 +269,10 @@ $results = (new Result())->findAll(
                                                 $v = $field['value'];
                                             }
                                             $v = purify($v);
+                                            if ($field['type'] === 'textarea') {
+                                                $v = nl2br($v);
+                                            }
+                                            
                                             echo "
                                             <tr>
                                                 <th>{$field['label']}</th>
