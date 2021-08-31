@@ -180,6 +180,7 @@ let debug = true,
         },
         onloadchunks: {
             files: [
+                './www/js/controllers/not-supported-controller.js',
                 './www/js/factory/facebook.js',
                 './www/js/factory/codescan.js',
                 './www/js/factory/padlock.js',

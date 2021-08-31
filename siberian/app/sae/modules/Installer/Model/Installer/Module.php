@@ -497,6 +497,10 @@ class Installer_Model_Installer_Module extends Core_Model_Default
             foreach ($featuresGlob as $feature) {
                 $featureJson = Siberian_Json::decode(file_get_contents($feature), true);
 
+                // We assume every module is not ES5 compliant unless it is tested with ES-CHECK later*
+                // ES5 compliance means support for Android 7.1 and below
+                $featureJson['es5_compliant'] = false;
+
                 if ($featureJson) {
                     $featureJson['__JSON__'] = json_encode($featureJson);
                     $featureJson['__FILE__'] = $feature;

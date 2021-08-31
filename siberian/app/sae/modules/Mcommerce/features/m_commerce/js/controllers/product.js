@@ -39,13 +39,13 @@ angular
 
                         $scope.is_sharing = true;
 
-                        let app_name = Application.app_name;
-                        let link = DOMAIN + '/application/device/downloadapp/app_id/' + Application.app_id;
-                        let subject = '';
-                        let file = ($scope.product.picture[0] && $scope.product.picture[0].url) ?
+                        var app_name = Application.app_name;
+                        var link = DOMAIN + '/application/device/downloadapp/app_id/' + Application.app_id;
+                        var subject = '';
+                        var file = ($scope.product.picture[0] && $scope.product.picture[0].url) ?
                             $scope.product.picture[0].url : '';
-                        let content = $scope.product.name;
-                        let message = $translate.instant('Hi. I just found: $1 in the $2 app.').replace('$1', content).replace('$2', app_name);
+                        var content = $scope.product.name;
+                        var message = $translate.instant('Hi. I just found: $1 in the $2 app.').replace('$1', content).replace('$2', app_name);
                         $cordovaSocialSharing
                             .share(message, subject, file, link) // Share via native share sheet
                             .then(function (result) {
@@ -73,8 +73,8 @@ angular
             $scope.is_loading = true;
             Loader.show();
 
-            let errors = [];
-            let postParameters = {
+            var errors = [];
+            var postParameters = {
                 'product_id': $scope.product_id,
                 'category_id': McommerceCategory.category_id,
                 'qty': $scope.product_quantity,
@@ -94,7 +94,7 @@ angular
                 }, {}),
                 'choices': $scope.product.choicesGroups.reduce(function (choices, choicesGroup) {
 
-                    let selected = [];
+                    var selected = [];
                     choicesGroup.options.forEach(function (e, i) {
                         if (e.selected) {
                             selected.push(e.id);
@@ -143,7 +143,7 @@ angular
                         Loader.hide();
                     });
             } else {
-                let message = errors.join('<br />');
+                var message = errors.join('<br />');
                 Dialog.alert('', message, 'OK');
 
                 $scope.is_loading = false;
