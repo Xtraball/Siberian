@@ -1059,26 +1059,18 @@ iframe.sb-cms-source {
 }
 
 .layout.l1 .tabs.shadow {
-    -webkit-box-shadow: 0 -7px 8px rgba(0, 0, 0, 0.3);
-    -moz-box-shadow: 0 -7px 8px rgba(0, 0, 0, 0.3);
     box-shadow: 0 -7px 8px rgba(0, 0, 0, 0.3);
 }
 
 .layout.l1 .tabs.no-shadow {
-    -webkit-box-shadow: none;
-    -moz-box-shadow: none;
     box-shadow: none;
 }
 
 .layout.l2 .tabs.shadow {
-    -webkit-box-shadow: 0 -7px 8px rgba(0, 0, 0, 0.3);
-    -moz-box-shadow: 0 -7px 8px rgba(0, 0, 0, 0.3);
     box-shadow: 0 -7px 8px rgba(0, 0, 0, 0.3);
 }
 
 .layout.l2 .tabs.no-shadow {
-    -webkit-box-shadow: none;
-    -moz-box-shadow: none;
     box-shadow: none;
 }
 
