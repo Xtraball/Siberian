@@ -13,12 +13,17 @@ angular.module('starter').directive('sbCmsText', function () {
         '   <img alt="cms-image" ' +
         '        width="{{block.size}}%" ' +
         '        ng-src="{{ block.image_url }}" ' +
-        '        ng-if="block.image.length" ' +
+        '        ng-if="block.image.length && block.position != \'after\'" ' +
         '        class="{{ block.alignment }}" />' +
         '   <div class="content" ' +
         '        ng-bind-html="block.content | trusted_html" ' +
         '        sb-a-click></div>' +
         '   <div class="cb"></div>' +
+        '   <img alt="cms-image" ' +
+        '        width="{{block.size}}%" ' +
+        '        ng-src="{{ block.image_url }}" ' +
+        '        ng-if="block.image.length && block.position == \'after\'" ' +
+        '        class="{{ block.alignment }}" />' +
         '</div>'
     };
 }).directive('sbCmsImage', function () {

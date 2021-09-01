@@ -46,6 +46,12 @@ $schemas['cms_application_page_block_text'] = [
         'charset' => 'utf8',
         'collation' => 'utf8_unicode_ci',
     ],
+    'position' => [
+        'type' => 'varchar(10)',
+        'is_null' => true,
+        'charset' => 'utf8',
+        'collation' => 'utf8_unicode_ci',
+    ],
     'alignment' => [
         'type' => 'varchar(10)',
         'is_null' => true,

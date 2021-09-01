@@ -50,6 +50,7 @@
         line-height: 2.5vh;
         font-size: 1.5vh;
         height: 4vh;
+        overflow: visible;
     }
 }
 @media screen and (orientation:landscape) {
@@ -65,6 +66,7 @@
         line-height: 2.5vw;
         font-size: 1.5vw;
         height: 4vw;
+        overflow: visible;
     }
 }
 

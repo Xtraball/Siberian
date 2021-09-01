@@ -883,6 +883,16 @@ input[type=range].mini-player:focus::-ms-fill-upper {
     margin-right: 10px;
 }
 
+.sb-cms-text img.center {
+    display: block;
+    margin: 0 auto;
+}
+
+.sb-cms-text img.justify {
+    display: block;
+    width: 100%;
+}
+
 .sb-cms-text .right {
     float: right;
     margin-left: 10px;
