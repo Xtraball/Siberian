@@ -84,3 +84,12 @@
 .layout.layout_siberian_18 .title-uppercase {
     text-transform: uppercase;
 }
+
+.layout.l18 {
+    position: absolute;
+    top: var(--safe-area-inset-top) !important;
+    left: var(--safe-area-inset-left) !important;
+    right: var(--safe-area-inset-right) !important;
+    bottom: var(--safe-area-inset-bottom) !important;
+    z-index: 100;
+}

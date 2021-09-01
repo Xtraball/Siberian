@@ -1,0 +1,50 @@
+/* LAYOUT 12 (LAYOUT 4 Horizontal) */
+.layout.l12 .slider {
+    height: calc(244px + var(--safe-area-inset-bottom));
+}
+
+.layout.l12 a {
+    position: relative;
+    float: left;
+    width: 28%;
+    height: 110px;
+    margin: 0 2% 5px 3%;
+}
+
+@media screen and (orientation:portrait) {
+    .layout.l12 a .items {
+        height: 11vh;
+        padding: 14px;
+        border-width: 3px;
+        border-style: solid;
+        border-radius: 11vh;
+        width: 11vh;
+        margin: 0 auto;
+    }
+}
+@media screen and (orientation:landscape) {
+    .layout.l12 a .items {
+        height: 11vw;
+        padding: 14px;
+        border-width: 3px;
+        border-style: solid;
+        border-radius: 11vw;
+        width: 11vw;
+        margin: 0 auto;
+    }
+}
+
+.layout.l12 a p {
+    text-transform: uppercase;
+    line-height: 20px;
+    height: 20px;
+    overflow: hidden;
+}
+
+.layout.l12 a img {
+    max-width: 100%;
+}
+
+.layout.l12 .no-border {
+    border: none !important
+}
