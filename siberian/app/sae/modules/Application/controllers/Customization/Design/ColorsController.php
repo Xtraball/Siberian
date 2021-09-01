@@ -1,6 +1,7 @@
 <?php
 
 use Siberian\Json;
+use Siberian\File;
 use Siberian\Exception;
 
 /**
@@ -127,5 +128,40 @@ class Application_Customization_Design_ColorsController extends Application_Cont
         }
 
         $this->_sendJson($payload);
+    }
+
+    public function exportAction ()
+    {
+        try {
+            $application = $this->getApplication();
+            $appId = $application->getId();
+            $designId = $application->getDesignId();
+
+            $tdbs = (new Template_Model_Design_Block())->findAllExport($appId);
+
+            $datasetTbs = [];
+            foreach ($tdbs as $tdb) {
+                $tdbData = $tdb->getData();
+                $tdbData['created_at'] = null;
+                $tdbData['updated_at'] = null;
+
+                $blockId = $tdb->getBlockId();
+                $datasetTbs[$blockId] = $tdbData;
+            }
+
+            $colors = Siberian_Yaml::encode($datasetTbs);
+            $filename = 'colors-app-' . $appId . '-' . date('Y-m-d_H_i_s') . '.yml';
+            $exportPath = path('var/tmp/' . $filename);
+            File::putContents($exportPath, $colors);
+
+            $this->_download($exportPath, $filename, 'application/x-yaml');
+
+        } catch (\Exception $e) {
+            $payload = [
+                'error' => true,
+                'message' => $e->getMessage(),
+            ];
+            $this->_sendJson($payload);
+        }
     }
 }
