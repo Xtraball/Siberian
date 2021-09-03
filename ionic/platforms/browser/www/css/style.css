@@ -913,8 +913,8 @@ input[type=range].mini-player:focus::-ms-fill-upper {
 .sb-cms-block-image.cms--block-more-images::after {
     content: "+";
     position: relative;
-    bottom: calc(20vw + 25px);
-    left: calc(80vw - 16px);
+    bottom: calc(20vw + 36px);
+    left: calc(80vw - 20px);
     z-index: 15000;
     display: block;
     background: rgba(255,255,255,0.9);
