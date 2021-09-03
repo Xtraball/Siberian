@@ -26,24 +26,28 @@ angular.module('starter').directive('sbCmsText', function () {
         '        class="{{ block.alignment }}" />' +
         '</div>'
     };
-}).directive('sbCmsImage', function () {
+}).directive('sbCmsImage', function ($timeout, Lightbox) {
     return {
         restrict: 'A',
         scope: {
             block: '=',
             gallery: '='
         },
-        template:
-        '<div class="sb-cms-block-image">' +
-        '    <div class="item item-image-gallery item-custom">' +
-        '        <ion-scroll direction="y">' +
-        '           <ion-gallery ion-gallery-items="block.gallery" ' +
-        '                        ng-if="!is_loading"></ion-gallery>' +
-        '       </ion-scroll>' +
-        '    </div>' +
-        '    <div ng-if="block.description" ' +
-        '         class="item item-custom padding description">{{ block.description }}</div>' +
-        '</div>'
+        templateUrl: 'templates/cms/directives/image.html',
+        controller: function ($scope) {
+            $scope.listDidRender = function () {
+                $timeout(function () {
+                    Lightbox.run('.sb-cms-block-image');
+                }, 200);
+            };
+
+            $scope.imagePath = function (image) {
+                if (image.src.indexOf('http') === 0) {
+                    return image.src;
+                }
+                return IMAGE_URL + 'images/application' + image.src;
+            };
+        }
     };
 }).directive('sbPlaceImage', function () {
     return {

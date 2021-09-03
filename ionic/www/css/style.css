@@ -898,6 +898,66 @@ input[type=range].mini-player:focus::-ms-fill-upper {
     margin-left: 10px;
 }
 
+.cms-block-image {
+    background-position: center center;
+    background-repeat: no-repeat;
+    background-size: cover;
+    height: 100%;
+    display: inline-block;
+}
+
+.count-images-default {
+    width: 40vw;
+}
+
+.sb-cms-block-image.cms--block-more-images::after {
+    content: "+";
+    position: relative;
+    bottom: calc(20vw + 36px);
+    left: calc(80vw - 20px);
+    z-index: 15000;
+    display: block;
+    background: rgba(255,255,255,0.9);
+    width: 40px;
+    height: 40px;
+    border-radius: 50px;
+    text-align: center;
+    line-height: 32px;
+    font-size: 35px;
+    padding: 0 0 0 1px;
+    box-shadow: -1px -1px 2px black, 1px 1px 2px black;
+}
+
+.count-images-1 {
+    width: calc(100vw - 10px)!important
+}
+.count-images-2 {
+    width: calc(50vw - 10px)!important
+}
+
+.cms-block-image img {
+    width: 100%;
+}
+
+@media screen and (orientation:portrait) {
+    [sb-cms-image] {
+        width: 100%;
+    }
+}
+
+@media screen and (orientation:landscape) {
+    [sb-cms-image] {
+        width: 100%;
+    }
+}
+
+.sb-cms-block-image {
+    height: 40vw;
+    width: 50000px;
+    overflow: hidden;
+}
+
+
 .sb-cms-image {
     padding: 0 !important;
 }
