@@ -296,26 +296,38 @@ $cacheOutput = Zend_Registry::get("cacheOutput");
                         <div class="row">
                             <div class="col-md-12">
                                 <h3 class="subtitle">
-                                    <span><?php echo __("Library icons") ?></span>
+                                    <span><?php echo __('Library icons') ?></span>
                                 </h3>
                                 <div class="form-group filter-icons">
                                     <input type="text"
                                            class="input-flat"
                                            style="width: 200px;"
-                                           placeholder="<?php echo __("Search by keywords ...") ?>"/>
+                                           placeholder="<?php echo p__('application', 'Search by keywords...') ?>"/>
                                     <button type="reset"
-                                            class="btn color-blue"><?php echo __("Reset") ?></button>
+                                            class="btn color-blue"><?php echo p__('application', 'Clear') ?></button>
                                 </div>
                             </div>
                         </div>
                         <?php if (!$cacheOutput->start("all_feature_icons")): ?>
                             <div class="row">
+                                <div class="filter-empty col-md-12">
+                                    <div class="alert alert-info">
+                                        <?php echo p__('application', 'Start to type in the input box up there to search within the icons library.') ?>
+                                    </div>
+                                </div>
+                                <div class="filter-no-results col-md-12"
+                                     style="display: none;">
+                                    <div class="alert alert-warning">
+                                        <?php echo p__('application', 'No results available for the current filter.') ?>
+                                    </div>
+                                </div>
                                 <div class="col-md-12">
                                     <ul class="icons_list filter_list">
                                         <?php $allIconIds = []; ?>
                                         <?php foreach ($allIcons as $icon) : ?>
                                             <?php if ($icon->getUrl() && !in_array($icon->getId(), $allIconIds)) : ?>
-                                                <li data-filter="<?php echo $icon->getLink() ?>"
+                                                <li data-filter="<?php echo $icon->getFilterKeywords() ?>"
+                                                    style="display: none;"
                                                     rel="#OPTION_VALUE_ID#"
                                                     class="<?php echo ($icon->getCanBeColorized() == 0) ? "colorizable" : "color-blue"; ?>">
                                                     <a href="/application/customization_features/seticon"
@@ -648,37 +660,62 @@ $cacheOutput = Zend_Registry::get("cacheOutput");
             $('#tabbar_name').unbind('keyup').unbind('blur');
         });
 
+        var filterEmpty = $('.filter-empty');
+        var filterNoResults = $('.filter-no-results');
+
+        var iconsSearchText = $('.filter-icons input[type=text]');
+        var iconsCache = $('.filter_list li[data-filter]');
+
         /** Icon filtering */
-        $(".filter-icons input[type=text]").off("keyup");
-        $(".filter-icons input[type=text]").on("keyup", function () {
+        iconsSearchText.off('keyup');
+        iconsSearchText.on('keyup', function () {
             var search = $(this);
-            var value = search.val();
+            var value = search.val().toLowerCase();
 
-            $(".filter_list li[data-filter]").hide();
-            $(".filter_list li[data-filter]").each(function () {
-                var el = $(this);
-                var filter = el.data("filter");
+            if (value.length === 0) {
+                iconsCache.hide();
+                filterEmpty.show();
+                filterNoResults.hide();
+            } else {
+                iconsCache.hide();
+                filterEmpty.hide();
+                filterNoResults.hide();
+                var gotOne = false;
+                iconsCache.each(function () {
+                    var el = $(this);
+                    var filter = el.data('filter');
 
-                if (filter.indexOf(value) > -1) {
-                    el.show();
+                    if (filter.indexOf(value) > -1) {
+                        gotOne = true;
+                        el.show();
+                    }
+                });
+                if (!gotOne) {
+                    filterNoResults.show();
                 }
-            });
+            }
         });
 
-        $(".filter-icons button").off("click");
-        $(".filter-icons button").on("click", function () {
-            $(".filter-icons input[type=text]").val("");
-            $(".filter_list li[data-filter]").show();
+        var filterIcons = $(".filter-icons button");
+
+        filterIcons.off('click');
+        filterIcons.on('click', function () {
+            iconsSearchText.val('');
+            iconsCache.hide();
+            filterNoResults.hide();
+            filterEmpty.show();
         });
 
         /** Clearcache action */
-        $(".clearcache").off("click");
-        $(".clearcache").on("click", function (e) {
+        var clearCache = $('.clearcache');
+
+        clearCache.off('click');
+        clearCache.on('click', function (e) {
             e.preventDefault();
 
             var el = $(this);
 
-            simpleget(el.attr("href"));
+            simpleget(el.attr('href'));
 
             return false;
         });

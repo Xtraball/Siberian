@@ -119,4 +119,42 @@ class Media_Model_Library_Image extends Core_Model_Default
 
         return $this;
     }
+
+    /**
+     * Keywords for icon library filters
+     * @return string
+     */
+    public function getFilterKeywords()
+    {
+        $link = $this->getLink();
+
+        // Link must be filtered off from regular words
+        $link = str_replace([
+            'app/',
+            'sae/',
+            'mae/',
+            'pe/',
+            'local/',
+            'modules/',
+            'resources/',
+            'features/',
+            'icons/',
+            'media/',
+            'library/',
+            '.png',
+            '.jpg',
+            '.jpeg',
+            '.bmp',
+            '.gif',
+        ], '', $link);
+        $link = str_replace('/', ',', $link);
+        $link = strtolower(trim(preg_replace("/,+/", ',', $link), ','));
+
+        $keywords = $link.','.$this->getKeywords();
+
+        $list = explode(',', $keywords);
+        $list = array_keys(array_flip($list));
+
+        return implode(',', $list);
+    }
 }

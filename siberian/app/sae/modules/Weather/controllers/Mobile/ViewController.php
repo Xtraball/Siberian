@@ -8,12 +8,7 @@ class Weather_Mobile_ViewController extends Application_Controller_Mobile_Defaul
     /**
      * @var string
      */
-    public static $owmCurrentEndpoint = "https://api.openweathermap.org/data/2.5/weather";
-
-    /**
-     * @var string
-     */
-    public static $owmForecastEndpoint = "https://api.openweathermap.org/data/2.5/forecast";
+    public static $owmEndpoint = "https://api.openweathermap.org/data/2.5/onecall";
 
     /**
      *
@@ -59,6 +54,7 @@ class Weather_Mobile_ViewController extends Application_Controller_Mobile_Defaul
             $request = $this->getRequest();
             $params = $request->getBodyParams();
             $application = $this->getApplication();
+            $googleKey = $application->getGooglemapsKey();
             $appId = $application->getId();
             
             if (empty($params)) {
@@ -67,57 +63,51 @@ class Weather_Mobile_ViewController extends Application_Controller_Mobile_Defaul
 
             $data = [
                 "units" => $params["units"],
+                "exclude" => "minutely,hourly,alerts",
                 "appid" => $application->getOwmKey(),
             ];
 
             $isCoord = isset($params["lat"]);
-            $isZip = isset($params["zip"]);
-            if ($isCoord) {
+            if (!$isCoord) {
+                $reversed = Siberian_Google_Geocoding::getLatLng($params['q'], $googleKey);
+                $data["lat"] = $reversed[0];
+                $data["lon"] = $reversed[1];
+                $place = $params['q'];
+            } else {
+                $reversed = Siberian_Google_Geocoding::geoReverse($params["lat"], $params["lon"], $googleKey);
                 $data["lat"] = $params["lat"];
                 $data["lon"] = $params["lon"];
-                $slugged = slugify($data["lat"] . "-" . $data["lon"]);
-            } /**else if ($isZip) {
-                $data["zip"] = $params["zip"];
-                $slugged = slugify($data["zip"]);
-            } */else {
-                $data["q"] = $params["q"];
-                $slugged = slugify($data["q"]);
+                $place = $reversed['locality'] . ', '. $reversed['country'];
             }
+
+            $slugged = slugify($data["lat"] . "-" . $data["lon"]);
 
             $units = $params["units"];
             $cacheIdWeather = preg_replace(
                 "/[^a-zA-Z0-9_]/",
                 "_",
-                "weather_{$appId}_{$slugged}_{$units}");
+                "weather2_{$appId}_{$slugged}_{$units}");
 
             $result = $this->cache->load($cacheIdWeather);
             if (!$result) {
 
-                $weather = Siberian_Request::get(self::$owmCurrentEndpoint, $data);
-                $responseWeather = Siberian_Json::decode($weather);
+                $onecall = Siberian_Request::get(self::$owmEndpoint, $data);
+                $responseOnecall = Siberian_Json::decode($onecall);
 
                 // Transfer error code if cod match 40x
-                if (strpos($responseWeather["cod"], "40") === 0) {
-                    throw new \Siberian\Exception($responseWeather["message"]);
-                }
-
-                $forecast = Siberian_Request::get(self::$owmForecastEndpoint, $data);
-                $responseForecast = Siberian_Json::decode($forecast);
-
-                // Transfer error code if cod match 40x
-                if (strpos($responseForecast["cod"], "40") === 0) {
-                    throw new \Siberian\Exception($responseForecast["message"]);
+                if (strpos($responseOnecall['cod'], '40') === 0) {
+                    throw new \Siberian\Exception($responseOnecall["message"]);
                 }
 
                 $payload = [
                     "success" => true,
                     "cache" => "MISS",
-                    "weather" => $responseWeather,
-                    "forecast" => $responseForecast,
+                    "place" => $place,
+                    "weather" => $responseOnecall,
                 ];
 
-                // Cache for 1 hour! (free data is refreshed every 2 hours
-                $this->cache->save($payload, $cacheIdWeather, ["weather"], 3600);
+                // Cache for 1 hour! (free data is refreshed every 2 hours)
+                $this->cache->save($payload, $cacheIdWeather, ["weather2"], 3600);
             } else {
                 $payload = $result;
 

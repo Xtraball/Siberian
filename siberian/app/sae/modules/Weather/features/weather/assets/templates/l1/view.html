@@ -1,5 +1,5 @@
 <ion-view sb-page-background
-          class="weather-view weather-layout1">
+          class="module-weather weather-view weather-layout1">
     <ion-nav-title>{{ page_title }}</ion-nav-title>
     <ion-nav-buttons side="secondary">
         <button ng-click="openChangeLocationForm()"
@@ -38,7 +38,7 @@
                  ng-show="!error">
                 <div class="item item-custom text-center"
                      ng-click="openChangeLocationForm()">
-                    <h2 style="font-size: 1.25em;">{{ weatherData.name }}, {{ weatherData.sys.country }}</h2>
+                    <h2 style="font-size: 1.25em;">{{ place }}</h2>
                     <i style="font-size: .9em;">{{ weatherDate }}</i>
                 </div>
 
@@ -49,16 +49,16 @@
                             <tr>
                                 <td width="45%"
                                     class="text-center">
-                                    <i class="{{ getIcon(weatherData.weather[0].id) }} big-icon" />
+                                    <i class="{{ getIcon(forecastBuild[0].weather.id) }} big-icon" />
                                 </td>
                                 <td width="55%"
                                     class="temp text-center">
-                                    {{ roundDegrees(weatherData.main.temp) }}°{{ newLocation.unit }}
+                                    {{ roundDegrees(forecastBuild[0].temp) }}°{{ newLocation.unit }}
                                 </td>
                             </tr>
                             <tr>
                                 <td colspan="2"
-                                    class="text-center temp-fork">{{ roundDegrees(weatherData.main.temp_min) }}°/{{ roundDegrees(weatherData.main.temp_max) }}°</td>
+                                    class="text-center temp-fork">{{ roundDegrees(forecastBuild[0].min) }}°/{{ roundDegrees(forecastBuild[0].max) }}°</td>
                             </tr>
                             <tr>
                                 <td colspan="2"
@@ -200,14 +200,8 @@
                                    style="margin-left: 15px;"></i>
                             </button>
                         </div>
-
-
                     </div>
-
-
-
                 </ion-content>
-
             </ion-modal-view>
         </script>
 
@@ -231,17 +225,17 @@
                         </div>
 
                         <div class="item item-custom line-item"
-                             ng-show="weatherData.sys.sunrise">
+                             ng-show="weatherData.current.sunrise">
                             <div class="row">
                                 <p class="col-50">{{ "Sunrise" | translate }}</p>
-                                <p class="col-50 text-right">{{ getSuntime(weatherData.sys.sunrise * 1000) }}</p>
+                                <p class="col-50 text-right">{{ getSuntime((weatherData.current.sunrise * 1000) + (weatherData.timezone_offset) * 1000) }}</p>
                             </div>
                         </div>
                         <div class="item item-custom line-item"
-                             ng-show="weatherData.sys.sunset">
+                             ng-show="weatherData.current.sunset">
                             <div class="row">
                                 <p class="col-50">{{ "Sunset" | translate }}</p>
-                                <p class="col-50 text-right">{{ getSuntime(weatherData.sys.sunset * 1000) }}</p>
+                                <p class="col-50 text-right">{{ getSuntime((weatherData.current.sunset * 1000) + (weatherData.timezone_offset) * 1000) }}</p>
                             </div>
                         </div>
                     </div>
@@ -252,30 +246,30 @@
                             <h2>{{ "Atmosphere" | translate }}</h2>
                         </div>
                         <div class="item item-custom line-item"
-                             ng-show="weatherData.main.humidity">
+                             ng-show="weatherData.current.humidity">
                             <div class="row">
                                 <p class="col-50">{{ "Humidity" | translate }}</p>
-                                <p class="col-50 text-right">{{ weatherData.main.humidity }}%</p>
+                                <p class="col-50 text-right">{{ weatherData.current.humidity }}%</p>
                             </div>
                         </div>
                         <div class="item item-custom line-item"
-                             ng-show="weatherData.main.pressure">
+                             ng-show="weatherData.current.pressure">
                             <div class="row">
                                 <p class="col-50">{{ "Pressure" | translate }}</p>
                                 <p ng-if="newLocation.unit == 'C'"
-                                   class="col-50 text-right">{{ weatherData.main.pressure }} hPa</p>
+                                   class="col-50 text-right">{{ weatherData.current.pressure }} hPa</p>
                                 <p ng-if="newLocation.unit == 'F'"
-                                   class="col-50 text-right">{{ weatherData.main.pressure }} mBar</p>
+                                   class="col-50 text-right">{{ weatherData.current.pressure }} mBar</p>
                             </div>
                         </div>
                         <div class="item item-custom line-item"
-                             ng-show="weatherData.visibility">
+                             ng-show="weatherData.current.visibility">
                             <div class="row">
                                 <p class="col-50">{{ "Visibility" | translate }}</p>
-                                <p ng-if="weatherData.visibility <= 1000"
-                                   class="col-50 text-right">{{ weatherData.visibility }} m</p>
-                                <p ng-if="weatherData.visibility > 1000"
-                                   class="col-50 text-right">{{ (weatherData.visibility/1000).toFixed(2) }} km</p>
+                                <p ng-if="weatherData.current.visibility <= 1000"
+                                   class="col-50 text-right">{{ weatherData.current.visibility }} m</p>
+                                <p ng-if="weatherData.current.visibility > 1000"
+                                   class="col-50 text-right">{{ (weatherData.current.visibility/1000).toFixed(2) }} km</p>
                             </div>
                         </div>
                     </div>
@@ -293,83 +287,27 @@
                             </div>
                         </div>
                         <div class="item item-custom line-item"
-                             ng-show=" weatherData.wind.deg">
+                             ng-show="weatherData.current.wind_deg">
                             <div class="row">
                                 <p class="col-50">{{ "Direction" | translate }}</p>
-                                <p class="col-50 text-right">{{ d2d(weatherData.wind.deg) }} ({{ weatherData.wind.deg }}°)</p>
+                                <p class="col-50 text-right">{{ d2d(weatherData.current.wind_deg) }} ({{ weatherData.current.wind_deg }}°)</p>
                             </div>
                         </div>
                         <div class="item item-custom line-item"
-                             ng-show="weatherData.wind.speed">
+                             ng-show="weatherData.current.wind_speed">
                             <div class="row">
                                 <p class="col-50">{{ "Speed" | translate }}</p>
                                 <p ng-if="newLocation.unit == 'C'"
-                                   class="col-50 text-right">{{ speedKmh(weatherData.wind.speed) }} km/h</p>
+                                   class="col-50 text-right">{{ speedKmh(weatherData.current.wind_speed) }} km/h</p>
                                 <p ng-if="newLocation.unit == 'F'"
-                                   class="col-50 text-right">{{ weatherData.wind.speed }} mi/h</p>
+                                   class="col-50 text-right">{{ weatherData.current.wind_speed }} mi/h</p>
                             </div>
                         </div>
                     </div>
 
-                    <style type="text/css">
-                        .weather-astronomy .line-item {
-                            padding: 5px 7px;
-                        }
-
-                        .weather-astronomy .item-icon-right i {
-                            font-size: 1.25em;
-                        }
-                    </style>
-
                 </ion-content>
             </ion-modal-view>
         </script>
-
-        <style type="text/css">
-            @media (orientation: landscape) {
-                i.big-icon {
-                    font-size: 35vh;
-                }
-
-                .weather .current-weather .temp {
-                    font-size: 18vh !important;
-                }
-
-                i.small-icon {
-                    font-size: 16vh;
-                }
-
-                tr.forecast td {
-                    padding-top: 10px;
-                }
-                tr.forecast {
-                    font-size: 4vh;
-                    letter-spacing: 1px;
-                }
-            }
-
-            @media (orientation: portrait) {
-                i.big-icon {
-                    font-size: 35vw;
-                }
-
-                .weather .current-weather .temp {
-                    font-size: 18vw !important;
-                }
-
-                i.small-icon {
-                    font-size: 16vw;
-                }
-
-                tr.forecast td {
-                    padding-top: 10px;
-                }
-                tr.forecast {
-                    font-size: 4vw;
-                    letter-spacing: 1px;
-                }
-            }
-        </style>
 
     </ion-content>
 </ion-view>

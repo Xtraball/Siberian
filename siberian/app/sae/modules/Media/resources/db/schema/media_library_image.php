@@ -47,6 +47,11 @@ $schemas['media_library_image'] = [
         'charset' => 'utf8',
         'collation' => 'utf8_unicode_ci',
     ],
+    'keywords' => [
+        'type' => 'text',
+        'charset' => 'utf8',
+        'collation' => 'utf8_unicode_ci',
+    ],
     'option_id' => [
         'type' => 'int(11)',
         'is_null' => true,

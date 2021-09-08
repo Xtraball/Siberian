@@ -18,7 +18,6 @@ angular.module("starter").controller("WeatherController", function (Modal, $scop
         },
         iconBase: "https://openweathermap.org/img/w/%ICON%.png",
         weatherData: null,
-        forecastData: null,
         forecastBuild: null,
         weatherDate: null,
         card_design: false
@@ -52,54 +51,23 @@ angular.module("starter").controller("WeatherController", function (Modal, $scop
     };
 
     $scope.buildForecast = function () {
-        var list = $scope.forecastData.list;
-        var days = {
-            0: {
-                min: null,
-                max: null
-            },
-            1: {
-                min: null,
-                max: null
-            },
-            2: {
-                min: null,
-                max: null
-            },
-            3: {
-                min: null,
-                max: null
-            },
-            4: {
-                min: null,
-                max: null
-            },
-            5: {
-                min: null,
-                max: null
-            }
-        };
-
-        var previous = moment($scope.weatherData.dt * 1000);
+        var forecastDays = $scope.weatherData.daily;
+        var days = [];
         var currentDay = 0;
-        list.forEach(function (segment) {
-            var dateSegment = segment.dt * 1000;
-            if (!previous.isSame(dateSegment, "day")) {
-                currentDay = currentDay + 1;
-                days[currentDay].day = $scope.dayForDate(dateSegment);
-                days[currentDay].weather = segment.weather[0];
-                days[currentDay].min = segment.main.temp_min.toFixed(0);
-                days[currentDay].max = segment.main.temp_max.toFixed(0);
 
-                previous = moment(dateSegment);
-            } else {
-                if (segment.main.temp_min < days[currentDay].min) {
-                    days[currentDay].min = segment.main.temp_min.toFixed(0);
-                }
-                if (segment.main.temp_max > days[currentDay].max) {
-                    days[currentDay].max = segment.main.temp_max.toFixed(0);
-                }
-            }
+        // Iterate forecast days
+        forecastDays.forEach(function (day) {
+            days[currentDay] = {
+                original: day,
+                day: $scope.dayForDate(day.dt * 1000),
+                weather: day.weather[0],
+                min: day.temp.min.toFixed(0),
+                temp: day.temp.day.toFixed(0),
+                max: day.temp.max.toFixed(0)
+            };
+
+            // Change day
+            currentDay++;
         });
 
         $scope.forecastBuild = days;
@@ -485,8 +453,8 @@ angular.module("starter").controller("WeatherController", function (Modal, $scop
             .then(function (data) {
 
                 $scope.weatherData = data.weather;
-                $scope.forecastData = data.forecast;
-                $scope.weatherDate = moment($scope.weatherData.dt * 1000).calendar();
+                $scope.place = data.place;
+                $scope.weatherDate = moment($scope.weatherData.current.dt * 1000).calendar();
 
                 $scope.buildForecast();
 
@@ -564,23 +532,12 @@ angular.module("starter").controller("WeatherController", function (Modal, $scop
                 });
         } else {
             if ($scope.newLocation.city.trim() !== "") {
-                /** ZipCode search on OWM is bugged for now ... 25/01/2019 */
-                /**var reg = new RegExp("[a-z]{4,}", "i");
-                 if (!reg.test($scope.newLocation.city)) {
-                    q = {
-                        zip: $scope.newLocation.city.trim()
-                    };
-                    if ($scope.newLocation.country.trim() !== "") {
-                        q.zip += "," + $scope.newLocation.country.trim();
-                    }
-                } else {*/
                 q = {
                     q: $scope.newLocation.city.trim()
                 };
                 if ($scope.newLocation.country.trim() !== "") {
                     q.q += "," + $scope.newLocation.country.trim();
                 }
-                //}
 
                 Loader.hide();
                 deferred.resolve();
