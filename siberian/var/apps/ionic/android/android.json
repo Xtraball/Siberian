@@ -101,7 +101,7 @@
               "count": 1
             },
             {
-              "xml": "<activity android:configChanges=\"orientation|keyboardHidden|keyboard|screenSize|locale\" android:exported=\"true\" android:label=\"@string/activity_name\" android:launchMode=\"standard\" android:name=\"com.webview.WebViewActivity\" android:theme=\"@android:style/Theme.DeviceDefault.NoActionBar\" android:windowSoftInputMode=\"adjustResize\"></activity>",
+              "xml": "<activity android:configChanges=\"orientation|keyboardHidden|keyboard|screenSize|locale\" android:exported=\"true\" android:label=\"@string/activity_name\" android:launchMode=\"standard\" android:name=\"com.webview.WebViewActivity\" android:theme=\"@style/Theme.AppCompat.NoActionBar\" android:windowSoftInputMode=\"adjustResize\"></activity>",
               "count": 1
             }
           ],
@@ -438,7 +438,7 @@
     "Geofence": {
       "PACKAGE_NAME": "com.appsmobilecompany.base"
     },
-    "cordova-plugin-purchase": {
+    "InAppPurchase": {
       "PACKAGE_NAME": "com.appsmobilecompany.base"
     },
     "IonicWebview": {
@@ -857,9 +857,9 @@
       ]
     },
     {
-      "id": "cordova-plugin-purchase.InAppBillingPlugin",
-      "file": "plugins/cordova-plugin-purchase/www/store-android.js",
-      "pluginId": "cordova-plugin-purchase",
+      "id": "InAppPurchase.InAppBillingPlugin",
+      "file": "plugins/InAppPurchase/www/store-android.js",
+      "pluginId": "InAppPurchase",
       "clobbers": [
         "store"
       ]
@@ -930,7 +930,7 @@
     "Siberian": "1.0.0",
     "Toast": "2.7.2",
     "Geofence": "0.6.0",
-    "cordova-plugin-purchase": "10.6.1",
+    "InAppPurchase": "10.6.1",
     "IonicWebview": "4.0.1",
     "SplashScreen": "5.0.2",
     "SunmiPrinter": "1.0.3",

@@ -186,10 +186,10 @@ angular
                 //document.addEventListener('admob.interstitial.load', async () => {});
                 //document.addEventListener('admob.interstitial.loadfail', async () => {});
                 //document.addEventListener('admob.interstitial.show', async () => {});
-                document.addEventListener('admob.interstitial.showfail', async () => {
+                document.addEventListener('admob.interstitial.showfail', function () {
                     service.loadInterstitial();
                 });
-                document.addEventListener('admob.interstitial.dismiss', async () => {
+                document.addEventListener('admob.interstitial.dismiss', function () {
                     service.loadInterstitial();
                 });
                 //document.addEventListener('admob.interstitial.impression', async () => {});

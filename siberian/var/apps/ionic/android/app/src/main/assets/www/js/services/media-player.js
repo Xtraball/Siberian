@@ -76,7 +76,7 @@ angular
                     break;
 
                 case 'music-controls-seek-to':
-                    const seekToInSeconds = response.position;
+                    var seekToInSeconds = response.position;
                     MusicControls.updateElapsed({
                         elapsed: seekToInSeconds,
                         isPlaying: true

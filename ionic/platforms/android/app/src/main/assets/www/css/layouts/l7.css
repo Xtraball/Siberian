@@ -1,0 +1,111 @@
+/* LAYOUT 7 */
+.layout.l7 ion-content {
+    height: 100%;
+    padding-top: var(--safe-area-inset-top);
+    padding-left: var(--safe-area-inset-left);
+}
+
+.layout.l7 li img {
+    width: 30px;
+    height: 30px;
+    margin: 0 auto;
+    max-height: 100%;
+}
+
+.layout.l7 li p {
+    font-size: 10px;
+    line-height: 20px;
+    height: 20px;
+    overflow: hidden;
+}
+
+.layout.l7 .sidebar {
+    position: absolute;
+    top: 0;
+    left: 0;
+    bottom: 0;
+    width: calc(90px + var(--safe-area-inset-left));
+    border-right-width: 1px;
+    border-right-style: solid;
+}
+
+.layout.l7 .sidebar ul.items li {
+    position: relative;
+    width: 90px;
+    height: 80px;
+    margin: 0;
+    padding: 0;
+    border-bottom-width: 1px;
+    border-bottom-style: solid;
+}
+
+.layout.l7 .sidebar ul.items li:last-child {
+    border: 0;
+}
+
+.layout.l7 .sidebar ul.items li {
+    display: block;
+    width: 90px;
+    height: 80px;
+    padding: 10px 5px;
+    text-align: center;
+}
+
+.layout.l7 .sidebar ul.items li p {
+    font-size: 13px;
+    margin-top: 4px;
+}
+
+.layout.l7 .no-border {
+    border: none !important
+}
+
+.layout.l7 .sidebar.no-border {
+    border-right: none;
+}
+
+.layout.l7 li img.titlehidden {
+    margin-top: 13px;
+    display: block;
+}
+
+.layout.l7 .sidebar ul.items li.border-custom:not(.border-top) {
+    border-top: none;
+}
+
+.layout.l7 .sidebar ul.items li.border-custom:not(.border-right) {
+    border-right: none;
+}
+
+.layout.l7 .sidebar ul.items li.border-custom:not(.border-bottom) {
+    border-bottom: none;
+}
+
+.layout.l7 .sidebar ul.items li.border-custom:not(.border-left) {
+    border-left: none;
+}
+
+.layout.l7 .sidebar ul.items li.border-custom.no-border {
+    border: none;
+}
+
+.layout.l7 .title-lowcase {
+    text-transform: inherit;
+}
+
+.layout.l7 .title-uppercase {
+    text-transform: uppercase;
+}
+
+.layout.l7 .titlehidden {
+    display: none;
+}
+
+.layout.l7 .titlevisible {
+    display: block;
+}
+
+.layout.l7 .badge-custom {
+    top: 4px;
+    right: 4px;
+}
