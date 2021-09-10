@@ -657,11 +657,11 @@ if ($firebaseCredential && $firebaseCredential->getId()) {
                                 </td>
                             </tr>
                             <tr ng-hide="!show_more_size">
-                                <td class="indent"><?php echo __("Temp (var/tmp, application sources & apk)") ?></td>
+                                <td class="indent"><?php echo __("Temp (var/tmp, application sources)") ?></td>
                                 <td>{{ server_usage.tmp_size }}</td>
                                 <td class="text-right">
                                     <button class="btn btn-xs btn-primary"
-                                            ng-click="clear('tmp', '<?php echo addcslashes(__("You are about to wipe all your temporary files, this includes the generated sources & apk builds !\nAre you sure ?"), "'"); ?>');"><?php echo __("Clear") ?></button>
+                                            ng-click="clear('tmp', '<?php echo addcslashes(__("You are about to wipe all your temporary files, this includes the generated sources builds !\nAre you sure ?"), "'"); ?>');"><?php echo __("Clear") ?></button>
                                 </td>
                             </tr>
                             <tr ng-hide="!show_more_size">
