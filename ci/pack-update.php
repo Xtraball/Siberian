@@ -99,7 +99,7 @@ class Packager
     /**
      * @var string
      */
-    private $zipExcludeArgs = '--exclude=*.DS_Store* --exclude=*.idea* --exclude=*.git* --exclude=*.localized*';
+    private $zipExcludeArgs = '--symlinks --exclude=*.DS_Store* --exclude=*.idea* --exclude=*.git* --exclude=*.localized*';
 
     /**
      * Packager constructor.
