@@ -99,7 +99,7 @@ class Packager
     /**
      * @var string
      */
-    private $zipExcludeArgs = '--symlinks --exclude=*.DS_Store* --exclude=*.idea* --exclude=*.git* --exclude=*.localized*';
+    private $zipExcludeArgs = '--exclude=*.DS_Store* --exclude=*.idea* --exclude=*.git* --exclude=*.localized*';
 
     /**
      * Packager constructor.
@@ -395,7 +395,7 @@ class Version
     {
         chdir($path);
 
-        $zipCommand = sprintf("zip -r -9 %s ../siberian_%s.update.%s.zip ./",
+        $zipCommand = sprintf("zip -r -y -9 %s ../siberian_%s.update.%s.zip ./",
             $this->zipExcludeArgs,
             strtolower($type),
             $this->release);
