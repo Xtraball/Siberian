@@ -262,7 +262,7 @@ class Packager
             if (!is_dir($targetDirectory)) {
                 mkdir($targetDirectory, 0777, true);
             }
-            exec("cp --preserve=links '{$source}' '{$destination}'");
+            exec("cp -P '{$source}' '{$destination}'");
         }
 
         return $this;
