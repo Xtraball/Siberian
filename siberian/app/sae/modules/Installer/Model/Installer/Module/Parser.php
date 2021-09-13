@@ -584,7 +584,7 @@ class Installer_Model_Installer_Module_Parser extends Core_Model_Default
                 if (!$is_copied) {
 
                     $src = $file['source'];
-                    $dst = str_replace(Core_Model_Directory::getBasePathTo(""), "", $file['destination']);
+                    $dst = str_replace(path(""), "", $file['destination']);
 
                     if ($this->__getFtp()) {
                         $this->__getFtp()->addFile($src, $dst);
