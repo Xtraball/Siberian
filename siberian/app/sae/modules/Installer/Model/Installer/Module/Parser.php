@@ -570,31 +570,31 @@ class Installer_Model_Installer_Module_Parser extends Core_Model_Default
             $this->_addError($message);
 
             return false;
+        }
 
-        } else {
-            foreach ($this->_files as $file) {
-                $is_copied = false;
+        foreach ($this->_files as $file) {
 
-                if (is_link($file['source'])) {
-                    $is_copied = symlink(readlink($file['source']), $file['destination']);
-                } else {
-                    $is_copied = copy($file['source'], $file['destination']);
+            if (is_link($file['source'])) {
+                // If we are about to create a symlink, and a file/link already exists, we must remove it before!
+                if (is_readable($file['destination'])) {
+                    unlink($file['destination']);
                 }
-
-                if (!$is_copied) {
-
-                    $src = $file['source'];
-                    $dst = str_replace(path(""), "", $file['destination']);
-
-                    if ($this->__getFtp()) {
-                        $this->__getFtp()->addFile($src, $dst);
-                    }
-                }
+                $isCopied = symlink(readlink($file['source']), $file['destination']);
+            } else {
+                $isCopied = copy($file['source'], $file['destination']);
             }
 
-            if ($this->__getFtp()) {
-                $this->__getFtp()->send();
+            if (!$isCopied) {
+                $src = $file['source'];
+                $dst = str_replace(path(""), "", $file['destination']);
+                if ($this->__getFtp()) {
+                    $this->__getFtp()->addFile($src, $dst);
+                }
             }
+        }
+
+        if ($this->__getFtp()) {
+            $this->__getFtp()->send();
         }
 
         return true;
