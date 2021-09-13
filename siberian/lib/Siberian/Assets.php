@@ -623,8 +623,8 @@ class Assets
 
         // Binaries must be executable (but es-check is not really a bin, just in case*)
         try {
-            chmod($nodePath, '777');
-            chmod($esCheckPath, '777');
+            chmod($nodePath, 0777);
+            chmod($esCheckPath, 0777);
         } catch (\Exception $e) {
             // Oups
         }
