@@ -1,7 +1,7 @@
 {
   "name": "Siberian",
-  "version": "4.20.16",
-  "lastversion": "4.20.15",
+  "version": "4.20.17",
+  "lastversion": "4.20.16",
   "nativeVersion": "20",
   "apiVersion": "4",
   "description": "Mobile App CMS",
@@ -10,6 +10,7 @@
   "private": true,
   "dependencies": {
     "cordova-js": "^6.1.0",
+    "es-check": "^6.0.0",
     "https": "^1.0.0",
     "node-sass": "^6.0.0",
     "sass": "^1.26.5"

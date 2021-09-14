@@ -1,0 +1,79 @@
+/** LAYOUT 8 */
+.iOS7 .layout.l8 ul {
+    height: calc(100% - 21px);
+    padding-top: 21px;
+}
+
+.layout.l8 {
+    position: absolute;
+    width: 99%;
+    height: 100%;
+    margin: 0;
+    overflow-y: auto;
+    overflow-x: hidden;
+    -webkit-overflow-scrolling: touch
+}
+
+.layout.l8 a {
+    background-repeat: no-repeat;
+    -webkit-background-size: cover;
+    -moz-background-size: cover;
+    -o-background-size: cover;
+    background-size: cover;
+    background-position: center center;
+}
+
+.layout.l8 ul li.info-bar {
+    height: 48px;
+    margin: 0;
+    padding: 0;
+    text-align: right;
+}
+
+.layout.l8 ul li.info-bar a {
+    width: 24px;
+    height: 24px;
+    display: block;
+    margin: 12px 0;
+    overflow: hidden;
+}
+
+.layout.l8 ul li.info-bar a.close_previewer {
+    float: left;
+    width: 22px;
+    height: 20px;
+    margin-left: 2%;
+}
+
+.layout.l8 ul li.info-bar a.info {
+    float: right;
+}
+
+.layout.l8 ul li.info-bar a img {
+    width: 24px;
+    height: 24px;
+}
+
+.layout.l8 ul li.items {
+    float: left;
+    width: 100%;
+    height: auto;
+    margin: 0;
+    padding: 0;
+}
+
+.layout.l8 ul li.items a {
+    display: block;
+    float: left;
+    height: 103px;
+    width: 32.33333%;
+    margin: 0 0 1% 1%;
+    padding: 0;
+}
+
+.layout.l8 ul li.items a:first-child,
+.layout.l8 ul li.items a:nth-child(7),
+.layout.l8 ul li.items a:nth-child(13n+1),
+.layout.l8 ul li.items a:nth-child(13n+7) {
+    width: 65.66666%;
+}

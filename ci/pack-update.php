@@ -262,7 +262,7 @@ class Packager
             if (!is_dir($targetDirectory)) {
                 mkdir($targetDirectory, 0777, true);
             }
-            exec("cp '{$source}' '{$destination}'");
+            exec("cp -P '{$source}' '{$destination}'");
         }
 
         return $this;
@@ -395,7 +395,7 @@ class Version
     {
         chdir($path);
 
-        $zipCommand = sprintf("zip -r -9 %s ../siberian_%s.update.%s.zip ./",
+        $zipCommand = sprintf("zip -r -y -9 %s ../siberian_%s.update.%s.zip ./",
             $this->zipExcludeArgs,
             strtolower($type),
             $this->release);

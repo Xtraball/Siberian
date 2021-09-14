@@ -133,7 +133,9 @@ class Media_Model_Library extends Core_Model_Default
     {
         $options = (new Application_Model_Option())->findAll();
 
-        $names = [];
+        $names = [
+            'icons-home',
+        ];
         foreach ($options as $option) {
             $names[] = $option->getData("name");
             $names[] = $option->getData("name") . "-flat";

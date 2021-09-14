@@ -18,7 +18,7 @@ class Autoupdater
      * @param $host
      * @throws \Exception
      */
-    public static function configure($host)
+    public static function configure()
     {
         $current_release = Version::VERSION . '.' . time();
         __set('current_release', $current_release);

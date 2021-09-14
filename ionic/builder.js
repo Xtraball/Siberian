@@ -26,6 +26,24 @@ let debug = true,
     levels = ['info', 'debug', 'warning', 'error', 'exception', 'throw'],
     cssSrcs = [
         './www/css/ionRadioFix.css',
+        './www/css/layouts/layout.css',
+        './www/css/layouts/l1.css',
+        './www/css/layouts/l2.css',
+        './www/css/layouts/l3.css',
+        './www/css/layouts/l3_h_l11.css',
+        './www/css/layouts/l4.css',
+        './www/css/layouts/l4_h_l12.css',
+        './www/css/layouts/l5.css',
+        './www/css/layouts/l5_h_l13.css',
+        './www/css/layouts/l6.css',
+        './www/css/layouts/l7.css',
+        './www/css/layouts/l8.css',
+        './www/css/layouts/l9.css',
+        './www/css/layouts/l10.css',
+        './www/css/layouts/l14.css',
+        './www/css/layouts/l15.css',
+        './www/css/layouts/l16.css',
+        './www/css/layouts/l17.css',
         './www/css/style.css',
         './www/css/ionic.app.min.css',
         './www/css/ng-animation.css',
@@ -129,11 +147,6 @@ let debug = true,
             './www/js/controllers/video.js',
             './www/js/factory/video.js'
         ],
-        'weather': [
-            './www/js/controllers/weather.js',
-            './www/js/factory/weather.js',
-            './www/js/factory/weather/rain-effect.js'
-        ],
         'youtube': [
             './www/js/factory/youtube.js'
         ]
@@ -180,6 +193,7 @@ let debug = true,
         },
         onloadchunks: {
             files: [
+                './www/js/controllers/not-supported-controller.js',
                 './www/js/factory/facebook.js',
                 './www/js/factory/codescan.js',
                 './www/js/factory/padlock.js',

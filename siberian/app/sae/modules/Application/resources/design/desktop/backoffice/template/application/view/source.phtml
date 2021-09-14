@@ -5,7 +5,7 @@ use Siberian\Version;
 
     <div class="row">
         <div class="col-md-12">
-            <h4 class="section-title "><?php echo p__("backoffice_application","Sources & APK"); ?></h4>
+            <h4 class="section-title "><?php echo p__("backoffice_application","Sources"); ?></h4>
         </div>
         <div class="col-md-12">
             <div class="section-content">
@@ -155,105 +155,6 @@ use Siberian\Version;
                         </tr>
                     </tbody>
                 </table>
-
-                <?php if (Version::is(["MAE", "PE"])): ?>
-                    <table class="table queue"
-                           ng-show="licenseType !== 'mae-hosted' && licenseType !== 'pe-hosted'">
-                        <colgroup>
-                            <col width="20%">
-                            <col width="50%">
-                            <col width="30%">
-                        </colgroup>
-                        <thead>
-                        <tr>
-                            <th>
-                                <?php echo __("Local APK build"); ?>
-                            </th>
-                            <th></th>
-                            <th></th>
-                        </tr>
-                        </thead>
-                        <tbody>
-                        <tr>
-                            <td colspan="3">
-                                <?php
-                                try {
-                                    exec('ldd --version', $o);
-                                    $match = false;
-                                    if (isset($o) && count($o) > 0) {
-                                        $version = $o[0];
-                                        preg_match('/(\d+\.\d+){1,}/', $version, $matches);
-                                        if (isset($matches[0])) {
-                                            $match = true;
-                                            $result = version_compare($matches[0], '2.14', '>=');
-                                        }
-                                    }
-
-                                    $showApk = true;
-                                    if (!$match) {
-                                        $showApk = false;
-                                        echo '<div class="alert alert-danger">';
-                                        echo __('We were unable to determine your %s version.', '<b>glibc</b>');
-                                        echo __('The local APK generator ' .
-                                            'requires %s, you can check the version via SSH with ' .
-                                            'the following command %s.', '<b>glibc >= 2.14</b>', '`ldd --version`');
-                                        echo '</div>';
-
-                                    } else if (!$result) {
-                                        $showApk = false;
-                                        echo '<div class="alert alert-danger">';
-                                        echo __('The local APK generator requires %s', '<b>glibc >= 2.14</b>');
-                                        echo '</div>';
-                                    }
-                                } catch (\Exception $e) {
-                                    // Silent!
-                                }
-                                ?>
-                            </td>
-                        </tr>
-                        <?php if ($showApk): ?>
-                            <tr>
-                                <td>
-                                    <label class="control-label"><?php echo __("Android APK"); ?></label>
-                                </td>
-                                <td>
-                                    <p class="help-block"
-                                       ng-if="!application.android_sdk"><?php echo __("Android SDK is not installed") ?></p>
-                                    <a href="{{ application.apk.path }}"
-                                       class="help-block"
-                                       target="_self"
-                                       ng-if="application.android_sdk && application.apk.path">
-                                        <i class="fa fa-cloud-download"></i> <?php echo __("Download latest APK"); ?> {{
-                                        application.apk.date }}
-                                    </a>
-                                    <span ng-if="!application.apk.path"><?php echo __("No build.") ?></span>
-                                </td>
-                                <td class="text-right">
-                                    <a ng-if="application.android_sdk && application.queued.positions.apk == 0"
-                                       ng-click="downloadAndroidApk()"
-                                       href="javascript:void(0)"
-                                       class="block">
-                                        <i class="fa fa-android"></i> <?php echo __("Generate build"); ?></a>
-                                    <span ng-show="application.android_sdk && application.queued.positions.apk == 1">
-                                            <img class="gear-loader"
-                                                 src="/app/sae/design/desktop/backoffice/images/loader/gears.gif"/><?php echo __("Generating") ?>
-                                        </span>
-                                    <span ng-show="application.android_sdk && application.queued.positions.apk > 1">
-                                            <i class="fa fa-random"></i> <?php echo __("Queued") ?>: {{ application.queued.positions.apk }}/{{ application.queued.total }}
-                                        </span>
-                                    <a ng-show="application.queued.positions.apk > 1"
-                                       ng-click="cancelQueue(2, 0, 'apk')"
-                                       href="javascript:void(0)">
-                                        <i class="fa fa-times"></i> <?php echo __("Cancel") ?>
-                                    </a>
-                                </td>
-                            </tr>
-                        <?php endif; ?>
-                        </tbody>
-
-                    </table>
-                <?php endif; ?>
-
             </div>
         </div>
     </div>

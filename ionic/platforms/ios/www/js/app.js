@@ -1,7 +1,7 @@
 /**
  * Application Bootstrap
  *
- * @version 4.20.7
+ * @version 4.20.17
  */
 
 window.momentjs_loaded = false;
@@ -14,6 +14,7 @@ if (LOGIN_FB === undefined) {
 if (IS_PREVIEW === undefined) {
     var IS_PREVIEW = false;
 }
+
 // Fallback for non re-published apps
 var isNativeApp = IS_NATIVE_APP;
 var isOverview = (window.location.href.indexOf('/apps/overview/') !== -1);

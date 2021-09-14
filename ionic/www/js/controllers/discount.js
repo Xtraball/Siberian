@@ -180,7 +180,7 @@ angular
                 $scope.promotion = data.promotion;
                 $scope.modal_title = data.confirm_message;
                 $scope.tc_id = data.tc_id;
-                $scope.social_sharing_active = (data.social_sharing_is_active && isNativeApp);
+                $scope.social_sharing_active = data.social_sharing_is_active;
                 $scope.page_title = data.page_title;
             }).then(function () {
                 $scope.is_loading = false;

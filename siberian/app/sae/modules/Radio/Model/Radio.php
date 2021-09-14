@@ -45,11 +45,26 @@ class Radio_Model_Radio extends Core_Model_Default
         $payload = false;
 
         if ($this->getId()) {
+
+            $baseUrl = $optionValue->getBaseUrl();
+            $background = '/app/sae/modules/Radio/features/radio/img/radio-default.jpg';
+
+            $radioBackground = '/images/application' . $this->getBackground();
+            $featureBackground = path($radioBackground);
+
+            // Ensure we have a file uploaded!
+            if (!empty($featureBackground) &&
+                basename($featureBackground) !== 'application' &&
+                is_file($featureBackground)) {
+                $background = $radioBackground;
+            }
+
             $payload = [
                 'radio' => [
-                    'url' => addslashes($this->getLink()),
+                    'url' => addslashes($this->getData('link')),
                     'title' => $this->getTitle(),
-                    'background' => $optionValue->getBaseUrl() . '/images/application' . $this->getBackground(),
+                    'background' => $baseUrl . $background,
+                    'backgroundNew' => $background
                 ]
             ];
         }

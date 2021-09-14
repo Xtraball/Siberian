@@ -1,0 +1,33 @@
+{
+    "name": "Weather",
+    "code": "weather",
+    "version": "0.0.1",
+    "category": "integration",
+    "model": "Weather_Model_Weather",
+    "desktop_uri": "weather/application/",
+    "routes": [
+        {
+            "root": true,
+            "state": "weather-view",
+            "controller": "WeatherController",
+            "url": "weather/mobile_view/index/value_id/:value_id",
+            "template": "l1/view.html",
+            "cache": false
+        }
+    ],
+    "icons": [
+        "icons/weather3.png",
+        "icons/weather2.png",
+        "icons/weather1.png"
+    ],
+    "files": [
+        "js/controllers/weather.js",
+        "js/factory/weather.js",
+        "js/factory/weather/rain-effect.js",
+        "scss/weather.scss"
+    ],
+    "is_ajax": true,
+    "compile": true,
+    "use_account": false,
+    "only_once": false
+}

@@ -1,0 +1,38 @@
+/* LAYOUT 1 */
+.layout.l1 .tabs {
+    height: 55px;
+    padding: 4px;
+    padding-top: 0;
+    box-shadow: 0 -7px 8px rgba(0, 0, 0, 0.3);
+}
+
+.layout.l1 p {
+    line-height: 11px;
+    font-size: 11px;
+    height: 16px;
+    margin-top: 2px;
+    overflow: hidden;
+}
+
+.layout.l1 .tab-item img {
+    width: 30px;
+    height: 30px;
+    max-height: 80%;
+}
+
+.layout.l1 .no-border {
+    border-top: none
+}
+
+.layout.l1 .tabs.shadow {
+    box-shadow: 0 -7px 8px rgba(0, 0, 0, 0.3);
+}
+
+.layout.l1 .tabs.no-shadow {
+    box-shadow: none;
+}
+
+/* LAYOUT 1 Fixed */
+.always .layout.l1 .tabs {
+    box-shadow: 0 0 10px #000000; /** fix css footer */
+}

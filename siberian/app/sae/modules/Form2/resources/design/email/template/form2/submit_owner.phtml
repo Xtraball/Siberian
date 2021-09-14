@@ -19,8 +19,17 @@ $no = p__('form2', 'No');
                     case 'divider':
                             echo "<h3 style=\"text-align: center;background-color: #eaeaea;padding: 6px 0;text-transform: uppercase;\">{$label}</h3>";
                         break;
-                    case 'text':
                     case 'textarea':
+                        if (empty($value)) {
+                            $value = '<i>' . p__('form2', '- not filled -') . '</i>';
+                        }
+                        $value = nl2br($value);
+
+                        echo "<b>{$label}</b> :";
+                        echo "<div>{$value}</div>";
+
+                        break;
+                    case 'text':
                     case 'select':
                     case 'number':
                     case 'password':

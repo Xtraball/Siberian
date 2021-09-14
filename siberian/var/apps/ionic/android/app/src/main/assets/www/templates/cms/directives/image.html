@@ -1,0 +1,18 @@
+<div>
+    <div class="sb-cms-block-image"
+         ng-class="{'cms--block-more-images': block.gallery.length > 2}">
+        <div class="cms-block-image count-images-default count-images-{{ block.gallery.length }}"
+             repeat-done="listDidRender()"
+             ng-repeat="image in block.gallery track by image.id"
+             ng-style="{'background-image':'url(' + imagePath(image) + ')'}">
+            <a data-fslightbox="gallery-item-image"
+               class="cms-image"
+               href="{{ imagePath(image) }}">
+                <img alt=""
+                     src="./img/placeholder/blank-512.png"/>
+            </a>
+        </div>
+    </div>
+    <div ng-if="block.description"
+         class="item item-custom item-text-wrap">{{ block.description }}</div>
+</div>

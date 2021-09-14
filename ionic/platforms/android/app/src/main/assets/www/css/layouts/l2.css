@@ -1,0 +1,41 @@
+/* LAYOUT 2 */
+.layout.l2 .tabs {
+    height: 55px;
+    padding: 4px;
+    padding-top: 0;
+    box-shadow: 0 -7px 8px rgba(0, 0, 0, 0.3);
+}
+
+.layout.l2 p {
+    line-height: 11px;
+    font-size: 11px;
+    height: 16px;
+    margin-top: 2px;
+    overflow: hidden;
+}
+
+.layout.l2 .tab-item img {
+    width: 30px;
+    height: 30px;
+    max-height: 80%;
+}
+
+.layout.l2 .tabs {
+    height: calc(var(--safe-area-inset-bottom) + 115px) !important;
+}
+
+.layout.l2 .tab-item {
+    height: 55px;
+}
+
+.layout.l2 .no-border {
+    border-top: none
+}
+
+.layout.l2 .tabs.shadow {
+    box-shadow: 0 -7px 8px rgba(0, 0, 0, 0.3);
+}
+
+.layout.l2 .tabs.no-shadow {
+    box-shadow: none;
+}

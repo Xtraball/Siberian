@@ -106,7 +106,7 @@ angular
                 $scope.is_loading = true;
                 Loader.show();
 
-                let postParameters = {
+                var postParameters = {
                     'delivery_method_id': $scope.cart.deliveryMethodId,
                     'paid_amount': $scope.clients_calculate_change_form_is_visible ? $scope.cart.delivery_method_extra_client_amount : null,
                     'store_id': $scope.selectedStore.id
@@ -134,7 +134,7 @@ angular
         };
 
         $scope.right_button = {
-            action: $scope.updateDeliveryInfos,
+            action: $scope.updatsiberian/lib/Siberian/Assets.phpeDeliveryInfos,
             label: $translate.instant('Next', 'm_commerce')
         };
 

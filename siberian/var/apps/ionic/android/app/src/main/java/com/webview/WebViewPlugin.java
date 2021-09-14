@@ -7,6 +7,7 @@ import org.apache.cordova.CordovaWebView;
 import org.apache.cordova.CallbackContext;
 import org.apache.cordova.CordovaPlugin;
 import org.apache.cordova.CordovaInterface;
+import org.apache.cordova.CordovaPreferences;
 import org.apache.cordova.PluginResult;
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -16,7 +17,7 @@ import android.net.Uri;
 import android.provider.Browser;
 
 import java.util.ArrayList;
-import java.util.Map;
+import java.util.Map;   
 
 public class WebViewPlugin extends CordovaPlugin {
 
@@ -44,6 +45,24 @@ public class WebViewPlugin extends CordovaPlugin {
     public void initialize(CordovaInterface cordova, CordovaWebView webView) {
         super.initialize(cordova, webView);
         webViewPlugin = this;
+    }
+
+    /**
+     * [AppsMobileCompany] override CordovaPlugin super.init
+     *
+     * @param serviceName
+     * @param cordova
+     * @param webView
+     * @param preferences
+     */
+    @Override
+    public void privateInitialize(String serviceName, CordovaInterface cordova, CordovaWebView webView, CordovaPreferences preferences) {
+        super.serviceName = serviceName;
+        super.cordova = cordova;
+        super.webView = webView;
+        super.preferences = preferences;
+        super.initialize(cordova, webView);
+        super.pluginInitialize();
     }
 
     /**

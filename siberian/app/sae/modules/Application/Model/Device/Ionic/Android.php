@@ -2,6 +2,7 @@
 
 use Siberian\File;
 use Siberian\Hook\Source as HookSource;
+use Siberian\Provider;
 
 /**
  * Class Application_Model_Device_Ionic_Android
@@ -198,67 +199,67 @@ class Application_Model_Device_Ionic_Android extends Application_Model_Device_Io
             }
         }
 
-        if ($this->getDevice()->getDownloadType() !== 'apk') {
 
-            if (defined('IS_APK_SERVICE')) {
-                $queue = Application_Model_SourceQueue::getApkServiceStatus($this->app->getId());
-                $keystore = $this->_prepareApk();
+        if (defined('IS_APK_SERVICE')) {
+            $queue = Application_Model_SourceQueue::getApkServiceStatus($this->app->getId());
+            $keystore = $this->_prepareApk();
 
-                $zip = $this->zipFolder();
+            $zip = $this->zipFolder();
 
-                $basePath = Core_Model_Directory::getBasePathTo("");
-                $zipPath = str_replace($basePath, '', $zip);
+            $basePath = path("");
+            $zipPath = str_replace($basePath, '', $zip);
 
-                $jobUrl = sprintf("https://%s/%s",
-                    $queue['host'],
-                    $zipPath);
+            $jobUrl = sprintf("https://%s/%s",
+                $queue['host'],
+                $zipPath);
 
-                $buildType = __get('apk_build_type') === 'debug' ? 'cdvBuildDebug' : 'cdvBuildRelease';
+            $buildType = __get('apk_build_type') === 'debug' ? 'cdvBuildDebug' : 'cdvBuildRelease';
 
-                Siberian_Request::get(
-                    "https://jenkins-prod02.xtraball.com/job/apk-generator/buildWithParameters",
-                    [
-                        'token' => 'NZDMeOBA2SLM8KyJtApAQbrN6Oy9dg6m',
-                        'jobUrl' => base64_encode($jobUrl),
-                        'jobName' => base64_encode($this->_application_id),
-                        'license' => base64_encode(__get('siberiancms_key')),
-                        'appId' => base64_encode($this->app->getId()),
-                        'appName' => $this->_application_id,
-                        'uuid' => uniqid('apk_', true),
-                        'buildType' => $buildType,
-                        'keystore' => base64_encode(json_encode($keystore)),
-                        'withAab' => 'aab'
-                    ],
-                    null,
-                    [
-                        'type' => 'basic',
-                        'username' => 'ios-builder',
-                        'password' => 'ced2eb561db43afb09c633b8f68c1f17',
-                    ]);
+            $buildUrl = Provider::getApkAabBuilder();
 
-                if (!in_array(Siberian_Request::$statusCode, [100, 200, 201])) {
-                    throw new \Siberian\Exception(__('Cannot send APK build to service %s.',
-                        Siberian_Request::$statusCode));
-                }
-            } else {
-                $this->_prepareApk();
+            Siberian_Request::get(
+                $buildUrl,
+                [
+                    'token' => 'NZDMeOBA2SLM8KyJtApAQbrN6Oy9dg6m',
+                    'jobUrl' => base64_encode($jobUrl),
+                    'jobName' => base64_encode($this->_application_id),
+                    'license' => base64_encode(__get('siberiancms_key')),
+                    'appId' => base64_encode($this->app->getId()),
+                    'appName' => $this->_application_id,
+                    'uuid' => uniqid('apk_', true),
+                    'buildType' => $buildType,
+                    'keystore' => base64_encode(json_encode($keystore)),
+                    'withAab' => 'aab'
+                ],
+                null,
+                [
+                    'type' => 'basic',
+                    'username' => 'ios-builder',
+                    'password' => 'ced2eb561db43afb09c633b8f68c1f17',
+                ]);
 
-                // Check
-                $keystoreFilename = $this->app->getId() . '.pks';
-                $keystorePath = Core_Model_Directory::getBasePathTo(self::BACKWARD_ANDROID . '/keystore/' . $keystoreFilename);
-
-                if (!is_file($keystorePath)) {
-                    $releaseSigning = Core_Model_Directory::getBasePathTo("{$this->_dest_source}/release-signing.properties");
-                    unlink($releaseSigning);
-                }
-
-                $zip = $this->zipFolder();
+            if (!in_array(Siberian_Request::$statusCode, [100, 200, 201])) {
+                throw new \Siberian\Exception(__('Cannot send APK build to service %s.',
+                    Siberian_Request::$statusCode));
             }
 
-            return $zip;
+        } else { // Sources only
+            $this->_prepareApk();
+
+            // Check
+            $keystoreFilename = $this->app->getId() . '.pks';
+            $keystorePath = path(self::BACKWARD_ANDROID . '/keystore/' . $keystoreFilename);
+
+            // Do not embed if not keystore is provided!
+            if (!is_file($keystorePath)) {
+                $releaseSigning = path("{$this->_dest_source}/release-signing.properties");
+                unlink($releaseSigning);
+            }
+
+            $zip = $this->zipFolder();
         }
 
-        return $this->_generateApk();
+        return $zip;
     }
 
     /**
@@ -274,12 +275,12 @@ class Application_Model_Device_Ionic_Android extends Application_Model_Device_Io
         }
 
         /** Ionic sources */
-        $this->_orig_source = Core_Model_Directory::getBasePathTo(self::SOURCE_FOLDER);
+        $this->_orig_source = path(self::SOURCE_FOLDER);
         $this->_orig_source_src = $this->_orig_source . '/app/src/main/java';
         $this->_orig_source_res = $this->_orig_source . '/app/src/main/res';
 
         /** /var/tmp/applications/[DESIGN]/[PLATFORM]/[APP_NAME] */
-        $this->_dest_source = Core_Model_Directory::getBasePathTo(self::DEST_FOLDER);
+        $this->_dest_source = path(self::DEST_FOLDER);
         $this->_dest_source = sprintf($this->_dest_source, $this->_folder_name);
         $this->_dest_source_src = $this->_dest_source . '/app/src/main/java';
         $this->_dest_source_res = $this->_dest_source . '/app/src/main/res';
@@ -287,7 +288,7 @@ class Application_Model_Device_Ionic_Android extends Application_Model_Device_Io
         $this->_dest_source_package = $this->_dest_source_src . '/' .
             str_replace('.', '/', $this->_package_name);
 
-        $this->_dest_archive = Core_Model_Directory::getBasePathTo(self::ARCHIVE_FOLDER);
+        $this->_dest_archive = path(self::ARCHIVE_FOLDER);
 
         /** Vars */
         $this->_zipname = sprintf(
@@ -333,7 +334,7 @@ class Application_Model_Device_Ionic_Android extends Application_Model_Device_Io
         }
 
         if ($save) {
-            $path_android = Core_Model_Directory::getBasePathTo('var/apps/android');
+            $path_android = path('var/apps/android');
             if (!file_exists("{$path_android}/pwd")) {
                 mkdir("{$path_android}/pwd", 0775);
             }
@@ -511,7 +512,7 @@ var IMAGE_URL = DOMAIN + '/';";
 
         // Generating Keystore (or not)!
         $keystoreFilename = $this->app->getId() . '.pks';
-        $keystorePath = Core_Model_Directory::getBasePathTo(self::BACKWARD_ANDROID . '/keystore/' . $keystoreFilename);
+        $keystorePath = path(self::BACKWARD_ANDROID . '/keystore/' . $keystoreFilename);
         if (!is_dir(dirname($keystorePath))) {
             mkdir(dirname($keystorePath), 0777, true);
         }
@@ -537,7 +538,7 @@ var IMAGE_URL = DOMAIN + '/';";
         }
 
         // Signing informations!
-        $releaseSigning = Core_Model_Directory::getBasePathTo("{$this->_dest_source}/release-signing.properties");
+        $releaseSigning = path("{$this->_dest_source}/release-signing.properties");
         $signing = "keyAlias={$alias}
 keyPassword={$keypass}
 storeFile=keystore.pks
@@ -547,227 +548,4 @@ storePassword={$storepass}";
         return $keystore;
     }
 
-    /**
-     * @param bool $cron
-     * @return array
-     * @throws Exception
-     * @throws Zend_Exception
-     */
-    protected function _generateApk($cron = false)
-    {
-        // Replace JAVA_HOME if set in config.php priority is given to "system_config"
-        $configJavaHome = __get('java_home');
-        $javaHomeOpts = '';
-        if ($configJavaHome !== false) {
-            $javaHomeOpts = 'export JAVA_HOME="' . $configJavaHome . '"' . "\n";
-            $javaHomeOptsKeytool = "export JAVA_HOME='$configJavaHome';";
-        }
-
-        // Fallback with value from config.php if existing
-        $configJavaHome = __getConfig('java_home');
-        if ($configJavaHome !== false) {
-            $javaHomeOpts = 'export JAVA_HOME="' . $configJavaHome . '"' . "\n";
-            $javaHomeOptsKeytool = "export JAVA_HOME='$configJavaHome';";
-        }
-
-        /** Fetching vars. */
-        $output = [];
-
-        /** Needed for build permissions etc ... */
-        exec("chmod -R 777 {$this->_dest_source}");
-
-        /** Setting up Android SDK */
-        $ionic_path = Core_Model_Directory::getBasePathTo(self::IONIC_FOLDER);
-        $tools_path = Core_Model_Directory::getBasePathTo(self::IONIC_FOLDER . "/tools");
-        $android_sdk_path = Core_Model_Directory::getBasePathTo(self::IONIC_FOLDER . "/tools/android-sdk");
-        $keystore_folder = Core_Model_Directory::getBasePathTo(self::BACKWARD_ANDROID . "/keystore");
-        $var_log = Core_Model_Directory::getBasePathTo(self::VAR_FOLDER . "/log");
-        $var_path = Core_Model_Directory::getBasePathTo(self::VAR_FOLDER);
-        $gradle_path = Core_Model_Directory::getBasePathTo(self::IONIC_FOLDER . "/tools/gradle");
-
-
-        /** Damn licenses */
-        $licenses_folder = Core_Model_Directory::getBasePathTo(self::IONIC_FOLDER . "/tools/android-sdk/licenses");
-        if (!file_exists($licenses_folder)) {
-            mkdir($licenses_folder, 0777, true);
-        }
-        if (!file_exists($licenses_folder . "/android-sdk-license")) {
-            File::putContents($licenses_folder . "/android-sdk-license", "\n8933bad161af4178b1185d1a37fbf41ea5269c55");
-            chmod($licenses_folder . "/android-sdk-license", 0777);
-        }
-
-        /** Joker /!\ */
-        exec("chmod -R 777 {$var_path}");
-
-        /** Checking write permissions */
-        $files_to_test = [$ionic_path, $tools_path, $keystore_folder];
-        foreach ($files_to_test as $file) {
-            if (file_exists($file)) {
-                if (!is_writable($file) && chmod($file, 0777) === false) {
-                    $output[] = "Folder is not writable {$file}";
-                    $this->_logger->sendException(print_r($output, true), "apk_generation_", false);
-                }
-            } else {
-                mkdir($file, 0777, true);
-            }
-        }
-
-        $alias = $this->getDevice()->getAlias();
-        $app_id = $this->app->getId();
-
-        $store_password = $this->getDevice()->getStorePass();
-        $key_password = $this->getDevice()->getKeyPass();
-
-        // Generating Keystore!
-        $keystore_filename = "{$app_id}.pks";
-        $keystore_path = Core_Model_Directory::getBasePathTo(self::BACKWARD_ANDROID . '/keystore/' . $keystore_filename);
-        if (!file_exists($keystore_path)) {
-            // Sanitize organization name, or default if empty!
-            $organization = preg_replace('/[,\s\']+/', ' ', System_Model_Config::getValueFor('company_name'));
-            if (!$organization) {
-                $organization = 'Default';
-            }
-
-            $keytool = Core_Model_Directory::getBasePathTo('app/sae/modules/Application/Model/Device/Ionic/bin/helper');
-            // keytool alias companyName keystorePath storePassword keyPassword
-
-            chmod($keytool, 0777);
-            exec("{$javaHomeOptsKeytool} {$keytool} '{$alias}' '{$organization}' '{$keystore_path}' '{$store_password}' '{$key_password}'");
-
-            // Copy PKS with a uniqid/date somewhere else!
-            copy($keystore_path, str_replace('.pks', date('d-m-Y') . '-' . uniqid() . '.pks', $keystore_path));
-        }
-        // Copy the keystore locally!
-        copy($keystore_path, "{$this->_dest_source}/{$keystore_filename}");
-
-        // Backup PKS in DB!
-        $pks_content = $this->getDevice()->getPks();
-        if (empty($pks_content)) {
-            $pks_content = file_get_contents($keystore_path, FILE_BINARY);
-            $this->getDevice()->setPks(bin2hex($pks_content))->save();
-        }
-
-        // Gradle configuration!
-        $gradlew_path = Core_Model_Directory::getBasePathTo("{$this->_dest_source}/gradlew");
-
-        $javaOptions = __get('java_options');
-        if (empty($javaOptions)) {
-            $javaOptions = '-Xmx384m -Xms384m -XX:MaxPermSize=384m';
-        }
-
-        $gradleOptions = __get('gradle_options');
-        if (empty($gradleOptions)) {
-            $gradleOptions = '-Dorg.gradle.daemon=true';
-        }
-
-        /** Adding a call to the sdk-updater.php at the gradlew top */
-        $search = "DEFAULT_JVM_OPTS=\"\"";
-        $replace = $javaHomeOpts . "      
-export _JAVA_OPTIONS=\"$javaOptions\"
-export ANDROID_HOME=\"$android_sdk_path\"
-export GRADLE_USER_HOME=\"$gradle_path\"
-export GRADLE_HOME=\"$gradle_path\"
-export GRADLE_OPTS=\"$gradleOptions\"
-
-DEFAULT_JVM_OPTS=\"\"
-";
-
-        $this->__replace([$search => $replace], $gradlew_path);
-
-        $android_sdk = "sdk.dir={$android_sdk_path}";
-
-        $local_properties_path = Core_Model_Directory::getBasePathTo("{$this->_dest_source}/local.properties");
-        File::putContents($local_properties_path, $android_sdk);
-        $local_properties_path_cordova = Core_Model_Directory::getBasePathTo("{$this->_dest_source}/CordovaLib/local.properties");
-        File::putContents($local_properties_path_cordova, $android_sdk);
-
-        /** Signing informations */
-        $release_signing_gradle_path = Core_Model_Directory::getBasePathTo("{$this->_dest_source}/release-signing.properties");
-        $signing = "keyAlias={$alias}
-keyPassword={$key_password}
-storeFile={$keystore_filename}
-storePassword={$store_password}";
-
-        // Controlling release signing.
-        File::putContents($release_signing_gradle_path, $signing);
-
-        // Change current directory
-        $projectSourcePath = Core_Model_Directory::getBasePathTo("{$this->_dest_source}");
-        chdir($projectSourcePath);
-
-        // Creating ENV PATH
-        $gradle_path = Core_Model_Directory::getBasePathTo(self::IONIC_FOLDER . "/tools/gradle");
-        putenv("GRADLE_USER_HOME={$gradle_path}");
-        putenv("GRADLE_HOME={$gradle_path}");
-        putenv("ANDROID_HOME={$android_sdk_path}");
-
-        // Replace JAVA_HOME if set in config.php
-        $configJaveHome = __getConfig('java_home');
-        if ($configJaveHome !== false) {
-            putenv('JAVA_HOME=' . $configJaveHome);
-        }
-
-        // Executing gradlew!
-        if (file_exists($var_log)) {
-            unlink($var_log);
-        }
-
-        // APK Build type!
-        $buildType = 'cdvBuildRelease';
-        switch (System_Model_Config::getValueFor('apk_build_type')) {
-            case 'debug':
-                $buildType = 'cdvBuildDebug';
-                break;
-            default:
-                $buildType = 'cdvBuildRelease';
-        }
-
-        // We restart connection to be sure MySQL is still answering!
-        $db = Zend_Registry::get('db');
-        $db->closeConnection();
-
-        $sdkManager = Core_Model_Directory::getBasePathTo('/var/apps/ionic/tools/sdkmanager.php');
-
-        // /Require sdk manager to start!
-        require_once $sdkManager;
-        // !End sdk manager!
-
-        chdir($projectSourcePath);
-        exec("bash -l gradlew " . $buildType . " 2>&1", $output);
-        $db->getConnection();
-
-        $result = implode('', $output);
-        if (!defined("CRON")) {
-            if (strpos($result, 'BUILD SUCCESSFUL') === false) {
-                $this->_logger->sendException(print_r($output, true), "apk_generation_", false);
-                return false;
-            }
-            exit('Done ...');
-        } else {
-            $success = (strpos($result, 'BUILD SUCCESSFUL') !== false);
-            $apkBasePathRelease = "{$this->_dest_source}/app/build/outputs/apk/release/app-release.apk";
-            $apkBasePathDebug = "{$this->_dest_source}/app/build/outputs/apk/debug/app-debug.apk";
-
-            if (is_readable($apkBasePathRelease)) {
-                $targetPath = Core_Model_Directory::getBasePathTo("var/tmp/applications/ionic/") . "{$this->_folder_name}-release.apk";
-                rename($apkBasePathRelease, $targetPath);
-            } else if (is_readable($apkBasePathDebug)) {
-                $targetPath = Core_Model_Directory::getBasePathTo("var/tmp/applications/ionic/") . "{$this->_folder_name}-debug.apk";
-                rename($apkBasePathDebug, $targetPath);
-            }
-
-            # Clean-up dest files.
-            $logFailed = Core_Model_Directory::getBasePathTo("var/log/apk_fail_{$this->_folder_name}.log");
-            if (!$success) {
-                File::putContents($logFailed, implode("\n", $output));
-            }
-
-            return [
-                'success' => $success,
-                'log' => $output,
-                'path' => is_readable($targetPath) ? $targetPath : false,
-            ];
-        }
-
-    }
 }

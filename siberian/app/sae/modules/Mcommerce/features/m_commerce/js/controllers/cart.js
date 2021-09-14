@@ -251,7 +251,7 @@ angular
 
             $scope.is_loading = true;
 
-            let localLine = angular.copy(params.line);
+            var localLine = angular.copy(params.line);
             localLine.qty = angular.copy(qty);
 
             return McommerceCart
@@ -276,7 +276,7 @@ angular
                             .show();
                     }
                 }).then(function (data) {
-                    let scopeLineIndex = _.findIndex($scope.object.cart.lines, function (line) {
+                    var scopeLineIndex = _.findIndex($scope.object.cart.lines, function (line) {
                         return line.id == data.line.id;
                     });
 

@@ -5,36 +5,26 @@
  */
 class Weather_Model_Weather extends Core_Model_Default
 {
-
     /**
-     * Weather_Model_Weather constructor.
-     * @param array $params
-     * @throws Zend_Exception
+     * @var string
      */
-    public function __construct($params = [])
-    {
-        parent::__construct($params);
-        $this->_db_table = 'Weather_Model_Db_Table_Weather';
-        return $this;
-    }
+    protected $_db_table = Weather_Model_Db_Table_Weather::class;
 
     /**
      * @return array
      */
-    public function getInappStates($value_id)
+    public function getInappStates($valueId)
     {
 
-        $in_app_states = [
+        return [
             [
-                "state" => "weather-view",
-                "offline" => false,
-                "params" => [
-                    "value_id" => $value_id,
+                'state' => 'weather-view',
+                'offline' => false,
+                'params' => [
+                    'value_id' => $valueId,
                 ],
             ],
         ];
-
-        return $in_app_states;
     }
 
     /**

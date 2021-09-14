@@ -30,11 +30,11 @@ class Promotion_Mobile_ViewController extends Application_Controller_Mobile_Defa
                 );
 
                 $payload['confirm_message'] = __('Do you want to use this coupon?');
-                $payload['social_sharing_is_active'] = $option->getSocialSharingIsActive();
+                $payload['social_sharing_is_active'] = (boolean) $option->getSocialSharingIsActive();
                 $payload['page_title'] = $promotion->getTitle();
 
                 $payload['promotion']['confirm_message'] = __('Do you want to use this coupon?');
-                $payload['promotion']['social_sharing_is_active'] = $option->getSocialSharingIsActive();
+                $payload['promotion']['social_sharing_is_active'] = (boolean) $option->getSocialSharingIsActive();
                 $payload['promotion']['page_title'] = $promotion->getTitle();
 
                 $tc = new Application_Model_Tc();
