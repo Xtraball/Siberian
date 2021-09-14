@@ -35,7 +35,7 @@ angular
 
     // Check if section has at least a real field (not spacer)!
     $scope.validateSection = function (sections) {
-        let hasOneValidField = false;
+        var hasOneValidField = false;
         sections.forEach(function (checkField) {
             if (checkField.type !== 'spacer') {
                 hasOneValidField = true;

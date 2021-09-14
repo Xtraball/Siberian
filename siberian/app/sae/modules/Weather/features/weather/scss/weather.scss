@@ -1,0 +1,80 @@
+/** Weather */
+.module-weather {
+
+  .weather-astronomy {
+    .line-item {
+      padding: 5px 7px;
+    }
+
+    .item-icon-right {
+      i {
+        font-size: 1.25em;
+      }
+    }
+  }
+}
+
+@media (orientation: landscape) {
+  .module-weather {
+    i {
+      &.big-icon {
+        font-size: 35vh;
+      }
+
+      &.small-icon {
+        font-size: 16vh;
+      }
+    }
+
+    .weather {
+      .current-weather {
+        .temp {
+          font-size: 18vh !important;
+        }
+      }
+    }
+
+    tr {
+      .forecast {
+        font-size: 4vh;
+
+        td {
+          padding-top: 10px;
+        }
+      }
+    }
+  }
+}
+
+@media (orientation: portrait) {
+  .module-weather {
+    i {
+      &.big-icon {
+        font-size: 35vw;
+      }
+
+      &.small-icon {
+        font-size: 16vw;
+      }
+    }
+
+    .weather {
+      .current-weather {
+        .temp {
+          font-size: 18vw !important;
+        }
+      }
+    }
+
+    tr {
+      .small-icon {
+        font-size: 16vw;
+      }
+
+      .forecast {
+        font-size: 4vw;
+        letter-spacing: 1px;
+      }
+    }
+  }
+}

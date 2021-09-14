@@ -173,13 +173,12 @@ class Backoffice_Controller_Index_Abstract extends Backoffice_Controller_Default
                         $message = __("Rebuilding application manifest files.");
 
                         Siberian_Cache::__clearCache();
-                        unlink(Core_Model_Directory::getBasePathTo('/var/cache/design.cache'));
+                        unlink(path('/var/cache/design.cache'));
 
                         $default_cache = Zend_Registry::get("cache");
                         $default_cache->clean(Zend_Cache::CLEANING_MODE_ALL);
 
-                        $protocol = isset($_SERVER['HTTPS']) ? 'https://' : 'http://';
-                        Siberian_Autoupdater::configure($protocol . $this->getRequest()->getHttpHost());
+                        Siberian_Autoupdater::configure();
                         break;
                     case "cron_error":
                         $message = __("Cleared cron errors.");

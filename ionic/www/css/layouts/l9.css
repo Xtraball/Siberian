@@ -1,0 +1,69 @@
+
+.layout.l9 ion-content.homepage-custom.scroll-content.ionic-scroll {
+    background-position: center;
+    background-attachment: fixed;
+    background-repeat: no-repeat;
+}
+
+.layout.l9 ion-content ul {
+    padding-top: var(--safe-area-inset-top);
+    padding-bottom: var(--safe-area-inset-bottom);
+}
+
+.layout.l9 .title-lowcase {
+    text-transform: inherit;
+}
+
+.layout.l9 .title-uppercase {
+    text-transform: uppercase;
+}
+
+.layout.l9 .titlehidden {
+    display: none;
+}
+
+.layout.l9 .titlevisible {
+    display: block;
+}
+
+/* LAYOUT 9 */
+.layout.l9 li img {
+    width: 30px;
+    height: 30px;
+    margin: 0 auto;
+    max-height: 100%;
+}
+
+.layout.l9 li p {
+    font-size: 10px;
+    line-height: 20px;
+    height: 20px;
+    overflow: hidden;
+}
+
+.layout.l9 {
+    position: absolute;
+    top: 0;
+    left: 0;
+    bottom: 0;
+    width: 100%;
+    border: 0;
+}
+
+.layout.l9 ul.items li {
+    position: relative;
+    display: block;
+    width: 100%;
+    height: 70px;
+    padding: 10px 5px 10px var(--safe-area-inset-left);
+    text-align: center;
+}
+
+.layout.l9 ul.items li p {
+    font-size: 13px;
+}
+
+.layout.l9 .badge-custom {
+    top: 4px;
+    right: 4px;
+}

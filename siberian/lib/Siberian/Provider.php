@@ -58,9 +58,25 @@ class Provider
     /**
      * @return array|mixed
      */
-    public static function getSourcess ()
+    public static function getSources ()
     {
         return self::_getContent('sources', self::getMaster()['sources']['url']);
+    }
+
+    /**
+     * @return array|mixed
+     */
+    public static function getServices ()
+    {
+        return self::_getContent('services', self::getMaster()['services']['url']);
+    }
+
+    /**
+     * @return array|mixed
+     */
+    public static function getApkAabBuilder ()
+    {
+        return self::getServices()['apk_aab_builder']['url'];
     }
 
     /**

@@ -46,10 +46,16 @@ class Cms_Form_Block_Text extends Cms_Form_Block_Abstract {
     <span class="option-title col-md-3">'.__("Alignment").'</span>
     <div class="col-md-7">
         <a href="javascript:void(0);" class="btn color-blue cms-text-align selected" data-align="left">
-            <i class="fa fa-align-left"></i>
+            <i class="fa fa-align-left"></i> '.p__('cms', "Left").'
+        </a>
+        <a href="javascript:void(0);" class="btn color-blue cms-text-align" data-align="center">
+            <i class="fa fa-align-center"></i> '.p__('cms', "Center").'
+        </a>
+        <a href="javascript:void(0);" class="btn color-blue cms-text-align" data-align="justify">
+            <i class="fa fa-align-justify"></i> '.p__('cms', "Justify").'
         </a>
         <a href="javascript:void(0);" class="btn color-blue cms-text-align" data-align="right">
-            <i class="fa fa-align-right"></i>
+            <i class="fa fa-align-right"></i> '.p__('cms', "Right").'
         </a>
     </div>
 </div>';
@@ -70,6 +76,18 @@ class Cms_Form_Block_Text extends Cms_Form_Block_Abstract {
         $image_size = $this->addSimpleHtml("image_size", $html_size);
         $image_size->addClass("cms-text-image");
 
+        $html_position = '
+<div class="cms-text-option">
+    <div class="option-title col-md-3">'.p__('cms', "Position").'</div>
+    <div class="col-md-7">
+        <a href="javascript:void(0);" class="btn color-blue cms-text-position selected" data-position="before">'.p__('cms', "Before text").'</a>
+        <a href="javascript:void(0);" class="btn color-blue cms-text-position" data-position="after">'.p__('cms', "After text").'</a>
+    </div>
+</div>';
+
+        $image_position = $this->addSimpleHtml("image_position", $html_position);
+        $image_position->addClass("cms-text-image");
+
         $alignment_input = $this->addSimpleHidden("alignment");
         $alignment_input->setBelongsTo("block[".$this->uniqid."][text]");
         $alignment_input->addClass("cms-text-alignment-input");
@@ -79,6 +97,11 @@ class Cms_Form_Block_Text extends Cms_Form_Block_Abstract {
         $size_input->setBelongsTo("block[".$this->uniqid."][text]");
         $size_input->addClass("cms-text-size-input");
         $size_input->setValue(25);
+
+        $position_input = $this->addSimpleHidden("position");
+        $position_input->setBelongsTo("block[".$this->uniqid."][text]");
+        $position_input->addClass("cms-text-position-input");
+        $position_input->setValue("before");
 
         $value_id = $this->addSimpleHidden("value_id");
         $value_id
@@ -94,6 +117,7 @@ class Cms_Form_Block_Text extends Cms_Form_Block_Abstract {
         $this->getElement("text")->setValue($block->getContent());
         $this->getElement("size")->setValue($block->getSize());
         $this->getElement("alignment")->setValue($block->getAlignment());
+        $this->getElement("position")->setValue($block->getPosition());
         $this->getElement("image_upload")->setValue($block->getImage());
 
         return $this;

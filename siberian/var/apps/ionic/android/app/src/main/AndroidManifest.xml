@@ -86,7 +86,7 @@
                 <action android:name="com.google.firebase.INSTANCE_ID_EVENT" />
             </intent-filter>
         </service>
-        <activity android:configChanges="orientation|keyboardHidden|keyboard|screenSize|locale" android:exported="true" android:label="@string/activity_name" android:launchMode="standard" android:name="com.webview.WebViewActivity" android:theme="@android:style/Theme.DeviceDefault.NoActionBar" android:windowSoftInputMode="adjustResize" />
+        <activity android:configChanges="orientation|keyboardHidden|keyboard|screenSize|locale" android:exported="true" android:label="@string/activity_name" android:launchMode="standard" android:name="com.webview.WebViewActivity" android:theme="@style/Theme.AppCompat.NoActionBar" android:windowSoftInputMode="adjustResize" />
     </application>
     <uses-permission android:name="android.permission.CAMERA" />
     <uses-permission android:name="android.permission.FLASHLIGHT" />

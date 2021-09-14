@@ -59,7 +59,7 @@ class Backoffice_Advanced_ToolsController extends System_Controller_Backoffice_D
             $versionKey = '%VERSION%';
 
             // Check if release exists
-            $sources = \Siberian\Provider::getSourcess();
+            $sources = \Siberian\Provider::getSources();
 
             $releaseUrl = str_replace($versionKey, $version, $sources['release_url']['url']);
             Request::get($releaseUrl);

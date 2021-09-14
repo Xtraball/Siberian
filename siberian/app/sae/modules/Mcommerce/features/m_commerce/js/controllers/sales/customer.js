@@ -32,8 +32,8 @@ angular
 
         $scope.customer_guestmode = function () {
             Loader.show();
-            let currentTs = Date.now();
-            let guestmail = 'guest' + currentTs + (parseInt(Math.random() * 1000, 10)) + '@guest.com';
+            var currentTs = Date.now();
+            var guestmail = 'guest' + currentTs + (parseInt(Math.random() * 1000, 10)) + '@guest.com';
             Customer.register({
                 civility: 'm',
                 firstname: 'Guest',

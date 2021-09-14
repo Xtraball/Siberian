@@ -1,0 +1,71 @@
+
+/* LAYOUT 5 */
+.layout.l5 ion-content {
+    position: absolute;
+    width: 100vw;
+    height: calc(50vh - var(--safe-area-inset-bottom));
+    bottom: var(--safe-area-inset-bottom);
+    top: initial;
+}
+
+.layout.l5 .inner-scroll {
+    width: 100%;
+    height: 100%;
+}
+
+.layout.l5 ul {
+    padding-left: 8px;
+}
+
+.layout.l5 li {
+    float: left;
+    width: 45%;
+    height: 135px;
+    margin: 0 2% 3% 2%;
+    border: 0;
+}
+
+.layout.l5 li .items {
+    position: relative;
+    width: 100%;
+    padding: 20px 0;
+    border: 0;
+}
+
+.layout.l5 li img {
+    height: 70px;
+    width: 70px;
+}
+
+.layout.l5 li p {
+    text-transform: uppercase;
+    line-height: 36px;
+    height: 30px;
+    overflow: hidden;
+}
+
+.layout.l5 .title-lowcase {
+    text-transform: inherit;
+}
+
+.layout.l5 .title-uppercase {
+    text-transform: uppercase;
+}
+
+.layout.l5 .titlehidden {
+    display: none;
+}
+
+.layout.l5 .titlevisible {
+    display: block;
+}
+
+.layout.l5 img.titlehidden-img {
+    margin-top: 12px;
+}
+
+.layout.l5 .badge-custom {
+    top: 16px;
+    right: 50%;
+    margin-right: -45px;
+}

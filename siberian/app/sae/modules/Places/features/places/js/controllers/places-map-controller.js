@@ -186,7 +186,7 @@ angular
         };
 
         $scope.updateBounds = function () {
-            let jsonBounds = $scope.crMap.getBounds().toJSON();
+            var jsonBounds = $scope.crMap.getBounds().toJSON();
 
             $scope.filters.e = jsonBounds.east;
             $scope.filters.n = jsonBounds.north;

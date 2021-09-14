@@ -1,3 +1,8 @@
+
+// We must check ES5 support, so we can skip few modules*
+var SupportsES6 = function() {try {new Function("(a = 0) => a");return true;} catch (err) {return false;}}();
+
+// Features Lazy Loader
 window.Features = (new (function Features() {
     var _app = angular.module('starter'); // WARNING: Must be the same as in app.js
     var $this = {};
@@ -23,6 +28,38 @@ window.Features = (new (function Features() {
     };
 
     $this.register = function (json, bundle) {
+        // Check ES5 support
+        if (!SupportsES6 && angular.isDefined(json.es5_compliant) && !json.es5_compliant) {
+            // Module/Feature is not ES5 compliant & browser does not supports ES6+
+            console.error('[Feature] ' + json.code + ' is not ES5 compliant, and your browser/device does not support ES6+ JavaScript.');
+
+            // We will build an special route.
+            _app.config(
+                [
+                    '$stateProvider',
+                    function ($stateProvider) {
+                        var routes = {};
+                        angular.forEach(json.routes, function (r) {
+                            this[r.state] = {
+                                'url': BASE_PATH + '/' + r.url,
+                                'controller': 'NotSupportedController',
+                                'templateUrl': 'templates/error/not-supported.html',
+                                'cache': false
+                            };
+                        }, routes);
+
+                        angular.forEach(routes, function (route, state) {
+                            $stateProvider.state(state, route);
+                        });
+                    }
+                ]
+            );
+
+            __features[json.code] = json;
+
+            return;
+        }
+
         if (angular.isDefined(json.load_on_start) && json.load_on_start) {
             var onStart = {
                 path: bundle

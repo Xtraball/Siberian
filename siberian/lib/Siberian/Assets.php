@@ -474,6 +474,9 @@ class Assets
         }
 
         foreach ($features as $feature) {
+            $output = [];
+            $return = null;
+
             $name = $feature['name'];
             $category = $feature['category'];
             $code = $feature['code'];
@@ -614,6 +617,23 @@ class Assets
      */
     public static function compileFeature($feature, $bundle_path = null): string
     {
+        // Validate ES5 module
+        $nodePath = path('lib/Siberian/bin/node_64');
+        $esCheckPath = path('lib/tools/node_modules/.bin/es-check');
+
+        // Binaries must be executable (but es-check is not really a bin, just in case*)
+        try {
+            chmod($nodePath, 0777);
+            chmod($esCheckPath, 0777);
+        } catch (\Exception $e) {
+            // Oups
+        }
+
+        exec('uname', $uname);
+        if (strpos(strtolower(implode('', $uname)), 'arwin') !== false) {
+            $nodePath .= '.osx';
+        }
+
         $code = $feature['code'];
         $minifier_js = new \MatthiasMullie\Minify\JS();
         $minifier_css = new \MatthiasMullie\Minify\CSS();
@@ -651,6 +671,31 @@ class Assets
         if ($bundle_path != null) {
             $tmp_file = "{$out_dir}/feature.{$code}.bundle.min.js";
             $minifier_js->minify($tmp_file);
+
+            // Validate ES5 module
+            try {
+                $commandEs5 = implode(' ', [
+                    $nodePath,
+                    $esCheckPath,
+                    'es5',
+                    $tmp_file
+                ]);
+
+                exec($commandEs5, $output, $return);
+
+                // Debug statement for developers*
+                if ($return === 1 && isDev()) {
+                    dbg($output);
+                }
+
+                if ($return === 0) {
+                    $featureJson = json_decode($feature["__JSON__"], JSON_OBJECT_AS_ARRAY);
+                    $featureJson['es5_compliant'] = true;
+                    $feature["__JSON__"] = json_encode($featureJson);
+                }
+            } catch (\Exception $e) {
+                // Something went wrong while executing node_64, please check file has +x
+            }
 
             /** Replace
              * App.info,

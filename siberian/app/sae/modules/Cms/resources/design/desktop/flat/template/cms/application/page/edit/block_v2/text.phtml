@@ -94,6 +94,13 @@ $image_template = str_replace("%UNIQID%", $uniqid, Cms_Form_Block_Text::$image_t
                 $(<?php echo $pvar; ?>+" .cms-text-size-input").val(el.data("size"));
             });
 
+            $(<?php echo $pvar; ?>+" .cms-text-position").on("click", function() {
+                $(<?php echo $pvar; ?>+" .cms-text-position").removeClass("selected");
+                var el = $(this);
+                el.addClass("selected");
+                $(<?php echo $pvar; ?>+" .cms-text-position-input").val(el.data("position"));
+            });
+
             /** Load align/size/image */
             var align_val = $(<?php echo $pvar; ?>+" .cms-text-alignment-input").val();
             if(align_val !== "") {
@@ -103,6 +110,11 @@ $image_template = str_replace("%UNIQID%", $uniqid, Cms_Form_Block_Text::$image_t
             var size_val = $(<?php echo $pvar; ?>+" .cms-text-size-input").val();
             if(size_val !== "") {
                 $(<?php echo $pvar; ?>+" .cms-text-size[data-size='" + size_val + "']").trigger("click");
+            }
+
+            var position_val = $(<?php echo $pvar; ?>+" .cms-text-position-input").val();
+            if(position_val !== "") {
+                $(<?php echo $pvar; ?>+" .cms-text-position[data-position='" + position_val + "']").trigger("click");
             }
 
             var image_path = $(<?php echo $pvar; ?>+" button[id$='-text-image_upload']").val();
@@ -132,11 +144,15 @@ $image_template = str_replace("%UNIQID%", $uniqid, Cms_Form_Block_Text::$image_t
     </script>
 
     <style type="text/css">
-        .cms-text-align, .cms-text-size {
+        .cms-text-align,
+        .cms-text-position,
+        .cms-text-size {
             filter: grayscale(100%);
         }
 
-        .cms-text-align.selected, .cms-text-size.selected {
+        .cms-text-align.selected,
+        .cms-text-position.selected,
+        .cms-text-size.selected {
             filter: grayscale(0);
         }
     </style>

@@ -42,13 +42,14 @@ public class CordovaPlugin {
     public CordovaWebView webView;
     public CordovaInterface cordova;
     protected CordovaPreferences preferences;
-    private String serviceName;
+    public String serviceName;
 
     /**
      * Call this after constructing to initialize the plugin.
-     * Final because we want to be able to change args without breaking plugins.
+     * [AppsMobileCompany][REMOVED] Final because we want to be able to change args without breaking plugins.
+     * We have ho issue with this method changes.
      */
-    public final void privateInitialize(String serviceName, CordovaInterface cordova, CordovaWebView webView, CordovaPreferences preferences) {
+    public void privateInitialize(String serviceName, CordovaInterface cordova, CordovaWebView webView, CordovaPreferences preferences) {
         assert this.cordova == null;
         this.serviceName = serviceName;
         this.cordova = cordova;

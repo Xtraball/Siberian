@@ -10,11 +10,25 @@ class Radio_Mobile_RadioController extends Application_Controller_Mobile_Default
      * @return array
      */
     public function _toJson($radio){
+
+        $baseUrl = $this->getRequest()->getBaseUrl();
+        $background = '/app/sae/modules/Radio/features/radio/img/radio-default.jpg';
+
+        $radioBackground = '/images/application' . $radio->getBackground();
+        $featureBackground = path($radioBackground);
+
+        // Ensure we have a file uploaded!
+        if (!empty($featureBackground) &&
+            basename($featureBackground) !== 'application' &&
+            is_file($featureBackground)) {
+            $background = $radioBackground;
+        }
+
         $json = [
             'url' => addslashes($radio->getData('link')),
             'title' => $radio->getTitle(),
-            'background' => $this->getRequest()->getBaseUrl() .
-                '/images/application' . $radio->getBackground(),
+            'background' => $baseUrl . $background,
+            'backgroundNew' => $background
         ];
 
         return $json;

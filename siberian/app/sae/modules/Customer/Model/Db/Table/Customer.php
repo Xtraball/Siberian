@@ -272,6 +272,9 @@ class Customer_Model_Db_Table_Customer extends Core_Model_Db_Table
             $select->where('c.app_id = ?', $app_id);
         }
 
+        // Prevents any duplicate due to the various joinLeft*
+        $select->group('c.customer_id');
+
         return $this->_db->fetchAll($select);
     }
 

@@ -31,7 +31,7 @@ angular
             service.is_sharing = true;
 
             if (content === undefined) {
-                content = 'this';
+                content = $translate.instant('this', 'social_sharing');
             }
 
             // For mobile! (uses the share domain, which can be the whitelabel

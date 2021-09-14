@@ -395,9 +395,9 @@ cordova.define('cordova/plugin_list', function(require, exports, module) {
       ]
     },
     {
-      "id": "cordova-plugin-purchase.InAppBillingPlugin",
-      "file": "plugins/cordova-plugin-purchase/www/store-android.js",
-      "pluginId": "cordova-plugin-purchase",
+      "id": "InAppPurchase.InAppBillingPlugin",
+      "file": "plugins/InAppPurchase/www/store-android.js",
+      "pluginId": "InAppPurchase",
       "clobbers": [
         "store"
       ]
@@ -468,7 +468,7 @@ cordova.define('cordova/plugin_list', function(require, exports, module) {
     "Siberian": "1.0.0",
     "Toast": "2.7.2",
     "Geofence": "0.6.0",
-    "cordova-plugin-purchase": "10.6.1",
+    "InAppPurchase": "10.6.1",
     "IonicWebview": "4.0.1",
     "SplashScreen": "5.0.2",
     "SunmiPrinter": "1.0.3",

@@ -1,0 +1,38 @@
+
+/* LAYOUT 11 (LAYOUT 3 Horizontal) */
+.layout.l11 .slider {
+    height: calc(244px + var(--safe-area-inset-bottom));
+}
+
+.layout.l11 a {
+    position: relative;
+    float: left;
+    width: 28%;
+    height: 110px;
+    margin: 0 2% 5px 3%;
+}
+
+.layout.l11 a .items {
+    height: 85px;
+    padding: 15px;
+    margin: 0;
+    border-width: 1px;
+    border-style: solid;
+}
+
+.layout.l11 a p {
+    text-transform: uppercase;
+    line-height: 20px;
+    height: 20px;
+    overflow: hidden;
+}
+
+.layout.l11 a img {
+    width: 55px;
+    height: 55px;
+    max-width: 100%;
+}
+
+.layout.l11 .no-border {
+    border: none !important
+}

@@ -1,0 +1,93 @@
+/* LAYOUT 3 */
+.layout.l3 ion-content {
+    position: absolute;
+    width: 100vw;
+    height: 50vh;
+    padding-bottom: var(--safe-area-inset-bottom);
+    bottom: 0;
+    top: initial;
+}
+@media screen and (orientation:landscape) {
+    .layout.l3 ion-content {
+        height: 60vh !important;
+    }
+}
+
+.layout.l3 .inner-scroll {
+    width: 100%;
+    height: 100%;
+}
+
+.layout.l3 li {
+    float: left;
+}
+
+.layout.l3 li .item {
+    position: relative;
+    border-width: 1px;
+    border-style: solid;
+    margin: 0 auto;
+}
+
+.layout.l3 li p {
+    text-transform: uppercase;
+    overflow: hidden;
+    letter-spacing: 1px;
+    width: 33.33vw;
+    padding: 0 2vw;
+}
+
+@media screen and (orientation:portrait) {
+    .layout.l3 li {
+        margin: 0 0 2vh 0;
+    }
+    .layout.l3 li .item {
+        height: 11vh;
+        width: 11vh;
+        padding: 2vh;
+    }
+    .layout.l3 li p {
+        line-height: 2.5vh;
+        font-size: 1.5vh;
+        height: 4vh;
+        overflow: visible;
+    }
+}
+@media screen and (orientation:landscape) {
+    .layout.l3 li {
+        margin: 0 0 2vw 0;
+    }
+    .layout.l3 li .item {
+        height: 11vw;
+        width: 11vw;
+        padding: 2vw;
+    }
+    .layout.l3 li p {
+        line-height: 2.5vw;
+        font-size: 1.5vw;
+        height: 4vw;
+        overflow: visible;
+    }
+}
+
+.layout.l3 li img {
+    max-width: 100%;
+}
+
+.layout.l3 .no-border {
+    border: none !important
+}
+
+.layout.l3 .titlehidden {
+    display: none;
+}
+
+.layout.l3 .titlevisible {
+    display: block;
+}
+
+.layout.l3 .badge-custom {
+    top: 0;
+    right: 0;
+    z-index: 10;
+}

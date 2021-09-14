@@ -1,0 +1,36 @@
+/* LAYOUT 13 (LAYOUT 5 Horizontal) */
+.layout.l13 .slider {
+    height: calc(310px + var(--safe-area-inset-bottom));
+}
+
+.layout.l13 a {
+    position: relative;
+    float: left;
+    width: 44%;
+    height: 140px;
+    margin: 0 2% 5px 3%;
+}
+
+.layout.l13 a .items {
+    height: 125px;
+    padding: 20px 20px 30px 20px;
+    margin: 0;
+}
+
+.layout.l13 a .items p {
+    text-transform: uppercase;
+    line-height: 30px;
+    height: 30px;
+    overflow: hidden;
+}
+
+.layout.l13 a .items img {
+    height: 100%;
+    max-width: 100%;
+}
+
+.layout.l13 .badge-custom {
+    top: 16px;
+    right: 50%;
+    margin-right: -45px;
+}

@@ -13,32 +13,41 @@ angular.module('starter').directive('sbCmsText', function () {
         '   <img alt="cms-image" ' +
         '        width="{{block.size}}%" ' +
         '        ng-src="{{ block.image_url }}" ' +
-        '        ng-if="block.image.length" ' +
+        '        ng-if="block.image.length && block.position != \'after\'" ' +
         '        class="{{ block.alignment }}" />' +
         '   <div class="content" ' +
         '        ng-bind-html="block.content | trusted_html" ' +
         '        sb-a-click></div>' +
         '   <div class="cb"></div>' +
+        '   <img alt="cms-image" ' +
+        '        width="{{block.size}}%" ' +
+        '        ng-src="{{ block.image_url }}" ' +
+        '        ng-if="block.image.length && block.position == \'after\'" ' +
+        '        class="{{ block.alignment }}" />' +
         '</div>'
     };
-}).directive('sbCmsImage', function () {
+}).directive('sbCmsImage', function ($timeout, Lightbox) {
     return {
         restrict: 'A',
         scope: {
             block: '=',
             gallery: '='
         },
-        template:
-        '<div class="sb-cms-block-image">' +
-        '    <div class="item item-image-gallery item-custom">' +
-        '        <ion-scroll direction="y">' +
-        '           <ion-gallery ion-gallery-items="block.gallery" ' +
-        '                        ng-if="!is_loading"></ion-gallery>' +
-        '       </ion-scroll>' +
-        '    </div>' +
-        '    <div ng-if="block.description" ' +
-        '         class="item item-custom padding description">{{ block.description }}</div>' +
-        '</div>'
+        templateUrl: 'templates/cms/directives/image.html',
+        controller: function ($scope) {
+            $scope.listDidRender = function () {
+                $timeout(function () {
+                    Lightbox.run('.sb-cms-block-image');
+                }, 200);
+            };
+
+            $scope.imagePath = function (image) {
+                if (image.src.indexOf('http') === 0) {
+                    return image.src;
+                }
+                return IMAGE_URL + 'images/application' + image.src;
+            };
+        }
     };
 }).directive('sbPlaceImage', function () {
     return {
