@@ -80,12 +80,12 @@ class Cms_Form_Block_Text extends Cms_Form_Block_Abstract {
 <div class="cms-text-option">
     <div class="option-title col-md-3">'.p__('cms', "Position").'</div>
     <div class="col-md-7">
-        <a href="javascript:void(0);" class="btn color-blue cms-text-position selected" data-position="before">'.p__('cms', "Before text").'</a>
-        <a href="javascript:void(0);" class="btn color-blue cms-text-position" data-position="after">'.p__('cms', "After text").'</a>
+        <a href="javascript:void(0);" class="btn color-blue cms-text-image-position selected" data-position="before">'.p__('cms', "Before text").'</a>
+        <a href="javascript:void(0);" class="btn color-blue cms-text-image-position" data-position="after">'.p__('cms', "After text").'</a>
     </div>
 </div>';
 
-        $image_position = $this->addSimpleHtml("image_position", $html_position);
+        $image_position = $this->addSimpleHtml("html_image_position", $html_position);
         $image_position->addClass("cms-text-image");
 
         $alignment_input = $this->addSimpleHidden("alignment");
@@ -98,9 +98,9 @@ class Cms_Form_Block_Text extends Cms_Form_Block_Abstract {
         $size_input->addClass("cms-text-size-input");
         $size_input->setValue(25);
 
-        $position_input = $this->addSimpleHidden("position");
+        $position_input = $this->addSimpleHidden("image_position");
         $position_input->setBelongsTo("block[".$this->uniqid."][text]");
-        $position_input->addClass("cms-text-position-input");
+        $position_input->addClass("cms-text-image-position-input");
         $position_input->setValue("before");
 
         $value_id = $this->addSimpleHidden("value_id");
@@ -114,11 +114,11 @@ class Cms_Form_Block_Text extends Cms_Form_Block_Abstract {
      * @return $this
      */
     public function loadBlock($block) {
-        $this->getElement("text")->setValue($block->getContent());
-        $this->getElement("size")->setValue($block->getSize());
-        $this->getElement("alignment")->setValue($block->getAlignment());
-        $this->getElement("position")->setValue($block->getPosition());
-        $this->getElement("image_upload")->setValue($block->getImage());
+        $this->getElement('text')->setValue($block->getContent());
+        $this->getElement('size')->setValue($block->getSize());
+        $this->getElement('alignment')->setValue($block->getAlignment());
+        $this->getElement('image_position')->setValue($block->getImagePosition());
+        $this->getElement('image_upload')->setValue($block->getImage());
 
         return $this;
     }

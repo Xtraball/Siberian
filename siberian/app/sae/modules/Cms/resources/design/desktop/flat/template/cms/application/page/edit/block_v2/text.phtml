@@ -94,11 +94,11 @@ $image_template = str_replace("%UNIQID%", $uniqid, Cms_Form_Block_Text::$image_t
                 $(<?php echo $pvar; ?>+" .cms-text-size-input").val(el.data("size"));
             });
 
-            $(<?php echo $pvar; ?>+" .cms-text-position").on("click", function() {
-                $(<?php echo $pvar; ?>+" .cms-text-position").removeClass("selected");
+            $(<?php echo $pvar; ?>+" .cms-text-image-position").on("click", function() {
+                $(<?php echo $pvar; ?>+" .cms-text-image-position").removeClass("selected");
                 var el = $(this);
                 el.addClass("selected");
-                $(<?php echo $pvar; ?>+" .cms-text-position-input").val(el.data("position"));
+                $(<?php echo $pvar; ?>+" .cms-text-image-position-input").val(el.data("position"));
             });
 
             /** Load align/size/image */
@@ -112,9 +112,9 @@ $image_template = str_replace("%UNIQID%", $uniqid, Cms_Form_Block_Text::$image_t
                 $(<?php echo $pvar; ?>+" .cms-text-size[data-size='" + size_val + "']").trigger("click");
             }
 
-            var position_val = $(<?php echo $pvar; ?>+" .cms-text-position-input").val();
+            var position_val = $(<?php echo $pvar; ?>+" .cms-text-image-position-input").val();
             if(position_val !== "") {
-                $(<?php echo $pvar; ?>+" .cms-text-position[data-position='" + position_val + "']").trigger("click");
+                $(<?php echo $pvar; ?>+" .cms-text-image-position[data-position='" + position_val + "']").trigger("click");
             }
 
             var image_path = $(<?php echo $pvar; ?>+" button[id$='-text-image_upload']").val();
@@ -145,13 +145,13 @@ $image_template = str_replace("%UNIQID%", $uniqid, Cms_Form_Block_Text::$image_t
 
     <style type="text/css">
         .cms-text-align,
-        .cms-text-position,
+        .cms-text-image-position,
         .cms-text-size {
             filter: grayscale(100%);
         }
 
         .cms-text-align.selected,
-        .cms-text-position.selected,
+        .cms-text-image-position.selected,
         .cms-text-size.selected {
             filter: grayscale(0);
         }

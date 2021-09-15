@@ -102,6 +102,7 @@ class Cms_Model_Application_Block extends Core_Model_Default
                     $block_data['image_url'] = '';
                     $block_data['image'] = '';
                 }
+                $block_data['position'] = $block_data['image_position'];
 
                 break;
             case 'source':
