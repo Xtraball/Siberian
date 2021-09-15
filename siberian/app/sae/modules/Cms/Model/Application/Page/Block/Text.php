@@ -30,7 +30,7 @@ class Cms_Model_Application_Page_Block_Text extends Cms_Model_Application_Page_B
         $this
             ->setContent(\Siberian\Xss::sanitize($data['text']))
             ->setSize($data['size'])
-            ->setPosition($data['position'])
+            ->setImagePosition($data['image_position'])
             ->setAlignment($data['alignment'])
             ->setImage($image);
 
