@@ -2,9 +2,6 @@
 
 namespace PaymentStripe\Model;
 
-use Siberian\Json;
-use Siberian\Exception;
-
 /**
  * Class Currency
  * @package PaymentStripe\Model
