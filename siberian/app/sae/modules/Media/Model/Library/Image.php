@@ -2,6 +2,8 @@
 
 /**
  * Class Media_Model_Library_Image
+ *
+ * @method Media_Model_Db_Table_Library_Image getTable()
  */
 class Media_Model_Library_Image extends Core_Model_Default
 {

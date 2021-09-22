@@ -14,11 +14,11 @@ if ($option->getValueId() === "customer_account") {
 
 $available_icons = [$library->getIcons()];
 
-if ($option->getCode() == 'folder') {
+if ($option->getCode() === 'folder') {
     $a_option = new Application_Model_Option();
     $options = $a_option->findAll();
     foreach ($options as $other_option) {
-        if ($other_option->getCode() == 'folder') {
+        if ($other_option->getCode() === 'folder') {
             continue;
         }
         $new_icons = $other_option->getLibrary()->getIcons();

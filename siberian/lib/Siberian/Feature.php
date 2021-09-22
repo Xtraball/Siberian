@@ -47,22 +47,6 @@ class Feature
             ])
             ->insertOnce(['name']);
 
-        // Ensure older images are still valid, or wipe them!
-        $removedImageIds = [];
-        $olderImages = (new \Media_Model_Library_Image())->findAll($library->getId(), 'library_id');
-        foreach ($olderImages as $olderImage) {
-            $imagePath = $olderImage->getData('link');
-            // Test only paths starting with /app/, app/!
-            if (stripos($imagePath, '/app/') === 0 ||
-                stripos($imagePath, 'app/') === 0) {
-                $realPath = path($imagePath);
-                if (!is_readable($realPath)) {
-                    $removedImageIds[] = $olderImage->getId();
-                    $olderImage->delete();
-                }
-            }
-        }
-
         $iconId = 0;
         foreach ($icons as $key => $icon_path) {
             $canBeColorized = $can_be_colorized;
@@ -83,6 +67,23 @@ class Feature
 
             $libraryId = $library->getId();
 
+            // Find all and clean-up dupes*
+            $allIcons = (new \Media_Model_Library_Image())->findAll([
+                'library_id' => $libraryId,
+                'link' => $iconPath,
+            ], ['image_id ASC']);
+
+            $isFirst = true;
+            foreach ($allIcons as $allIcon) {
+                // Skip the first
+                if ($isFirst === true) {
+                    $isFirst = false;
+                    continue;
+                }
+                // Good bye!
+                $allIcon->delete();
+            }
+
             $data = [
                 'library_id' => $libraryId,
                 'link' => $iconPath,
@@ -90,50 +91,14 @@ class Feature
                 'can_be_colorized' => $canBeColorized
             ];
 
-
             $image = new \Media_Model_Library_Image();
             $image
                 ->setData($data)
                 ->insertOrUpdate(['library_id', 'link']);
 
             $goodImageId = $image->getId();
-
-            // Clear dupes if possible
-            $dupes = (new \Media_Model_Library_Image())
-                ->findAll(
-                    [
-                        'library_id = ?' => $libraryId,
-                        'link = ?' => $iconPath,
-                        'image_id != ?' => $goodImageId
-                    ]
-                );
-            foreach ($dupes as $dupe) {
-                $dupe->delete();
-            }
-
             if ($iconId === 0) {
                 $iconId = $goodImageId;
-            }
-        }
-
-        // Replacing removed image ids with the new "default"
-        if (count($removedImageIds) > 0) {
-            try {
-                $brokenOptions = (new \Application_Model_Option())->findAll(['icon_id IN (?)' => $removedImageIds]);
-                foreach ($brokenOptions as $brokenOption) {
-                    $brokenOption
-                        ->setIconId($iconId)
-                        ->save();
-                }
-
-                $brokenFeatures = (new \Application_Model_Option_Value())->findAll(['icon_id IN (?)' => $removedImageIds]);
-                foreach ($brokenFeatures as $brokenFeature) {
-                    $brokenFeature
-                        ->setIconId($iconId)
-                        ->save();
-                }
-            } catch (\Exception $e) {
-                // Skip it!
             }
         }
 

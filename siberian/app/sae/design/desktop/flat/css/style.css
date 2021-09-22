@@ -2004,18 +2004,21 @@ input[type=text]:before {
     opacity: 0.1;
 }
 
-.show_previews .bubble {
+.has_preview .bubble {
     position: absolute;
     right: 0.25em;
-    width: 1.5em;
-    height: 1.5em;
+    width: 2em;
+    height: 2em;
     display: block;
     background: #a7a7a7;
     top: -0.25em;
     z-index: 10;
-    border-radius: 0.75em;
+    border-radius: 1em;
     color: white;
-    padding-top: 1px;
+    padding-top: 4px;
+}
+.has_preview .bubble:hover {
+    cursor: help !important;
 }
 
 .btn:before {

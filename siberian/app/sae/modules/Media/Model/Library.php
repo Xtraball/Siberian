@@ -151,6 +151,8 @@ class Media_Model_Library extends Core_Model_Default
             $names[] = $icon_pack->getData('name');
         }
 
+        dbg($names);
+
         $libraries = $this->findAll([
             'name IN (?)' => $names
         ]);
