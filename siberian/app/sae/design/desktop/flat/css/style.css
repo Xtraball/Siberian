@@ -2004,8 +2004,7 @@ input[type=text]:before {
     opacity: 0.1;
 }
 
-.show_previews:after {
-    content: "\f129";
+.show_previews .bubble {
     position: absolute;
     right: 0.25em;
     width: 1.5em;
@@ -2015,7 +2014,6 @@ input[type=text]:before {
     top: -0.25em;
     z-index: 10;
     border-radius: 0.75em;
-    font-family: 'FontAwesome';
     color: white;
     padding-top: 1px;
 }

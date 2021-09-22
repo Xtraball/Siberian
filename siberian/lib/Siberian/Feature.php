@@ -81,20 +81,38 @@ class Feature
                 }
             }
 
+            $libraryId = $library->getId();
+
             $data = [
-                'library_id' => $library->getId(),
+                'library_id' => $libraryId,
                 'link' => $iconPath,
                 'keywords' => $keywords,
                 'can_be_colorized' => $canBeColorized
             ];
+
 
             $image = new \Media_Model_Library_Image();
             $image
                 ->setData($data)
                 ->insertOrUpdate(['library_id', 'link']);
 
+            $goodImageId = $image->getId();
+
+            // Clear dupes if possible
+            $dupes = (new \Media_Model_Library_Image())
+                ->findAll(
+                    [
+                        'library_id = ?' => $libraryId,
+                        'link = ?' => $iconPath,
+                        'image_id != ?' => $goodImageId
+                    ]
+                );
+            foreach ($dupes as $dupe) {
+                $dupe->delete();
+            }
+
             if ($iconId === 0) {
-                $iconId = $image->getId();
+                $iconId = $goodImageId;
             }
         }
 

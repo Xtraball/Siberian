@@ -31,7 +31,7 @@ App.config(function($routeProvider) {
     $scope.iosBuildActivationRemain = false;
 
     $scope.datepicker_visible = false;
-    $scope.showApkService = false;
+    $scope.showApkService = true;
 
     $scope.owners = {
         list: [],

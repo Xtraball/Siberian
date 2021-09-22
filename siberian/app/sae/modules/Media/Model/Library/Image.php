@@ -148,6 +148,7 @@ class Media_Model_Library_Image extends Core_Model_Default
             '.gif',
         ], '', $link);
         $link = str_replace('/', ',', $link);
+        $link = preg_replace("/\d/", '', $link); // Also replace numbers
         $link = strtolower(trim(preg_replace("/,+/", ',', $link), ','));
 
         $keywords = $link.','.$this->getKeywords();
@@ -155,6 +156,18 @@ class Media_Model_Library_Image extends Core_Model_Default
         $list = explode(',', $keywords);
         $list = array_keys(array_flip($list));
 
-        return implode(',', $list);
+        // Automatically adds keywords to the translation file
+        foreach ($list as $l) {
+            extract_p__('keywords', $l, null, true);
+        }
+
+        $withTranslation = $list;
+        foreach ($list as $l) {
+            $withTranslation[] = strtolower(p__('keywords', $l));
+        }
+        // Again, remove dupes*
+        $withTranslation = array_keys(array_flip($withTranslation));
+
+        return implode(',', $withTranslation);
     }
 }
