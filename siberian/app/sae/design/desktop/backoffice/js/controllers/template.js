@@ -97,11 +97,11 @@ App.config(function($routeProvider) {
             (entries, observer) => {
                 entries.forEach(entry => {
                     if (entry.intersectionRatio > 0.0) {
-                        img = entry.target;
-                        if (!img.hasAttribute('src')) {
-                            img.setAttribute('src', img.dataset.src);
+                        let div = entry.target;
+                        if (div.style.backgroundImage.length < 1) {
+                            div.style.setProperty('background-image', 'url('+div.dataset.src+')', 'important');
                             // Stop observing
-                            observer.unobserve(img);
+                            observer.unobserve(div);
                         }
                     }
                 });
@@ -109,8 +109,8 @@ App.config(function($routeProvider) {
             {}
         );
 
-        for (let img of document.querySelectorAll('.view-grid img.not-preload')) {
-            observer.observe(img);
+        for (let div of document.querySelectorAll('.overview-grid.not-preload')) {
+            observer.observe(div);
         }
     };
 
@@ -160,7 +160,7 @@ App.config(function($routeProvider) {
     $scope.toggleIcon = function (icon) {
         $scope.content_loader_is_visible = true;
         TemplateIcons
-            .toggleIcon(icon.image_id, icon.is_active)
+            .toggleIcon(icon.link, icon.is_active)
             .success(function (data) {
                 var message = '';
                 if (angular.isObject(data) && angular.isDefined(data.message)) {

@@ -314,10 +314,10 @@ $featureCode = preg_replace("/\d/", '', $option->getCode());
                                     <input type="text"
                                            class="input-flat"
                                            style="width: 200px;"
-                                           placeholder="<?php echo p__('application', 'Search by keywords...') ?>"/>
-                                    <button class="btn color-blue clear"><?php echo p__('application', 'Clear') ?></button>
-                                    <button class="btn btn-primary default-set"><?php echo p__('application', 'Default set') ?></button>
-                                    <button class="btn btn-danger all-icons"><?php echo p__('application', 'Show all icons') ?></button>
+                                           placeholder="<?php echo p__('icons', 'Search by keywords...') ?>"/>
+                                    <button class="btn color-blue clear"><?php echo p__('icons', 'Clear') ?></button>
+                                    <button class="btn btn-primary default-set"><?php echo p__('icons', 'Default feature set') ?></button>
+                                    <button class="btn btn-danger all-icons"><?php echo p__('icons', 'Show all icons') ?></button>
                                 </div>
                             </div>
                         </div>
@@ -325,13 +325,13 @@ $featureCode = preg_replace("/\d/", '', $option->getCode());
                             <div class="row">
                                 <div class="filter-empty col-md-12">
                                     <div class="alert alert-info">
-                                        <?php echo p__('application', 'Start to type in the input box up there to search within the icons library.') ?>
+                                        <?php echo p__('icons', 'Start to type in the input box up there to search within the icons library.') ?>
                                     </div>
                                 </div>
                                 <div class="filter-no-results col-md-12"
                                      style="display: none;">
                                     <div class="alert alert-warning">
-                                        <?php echo p__('application', 'No results available for the current filter.') ?>
+                                        <?php echo p__('icons', 'No results available for the current filter.') ?>
                                     </div>
                                 </div>
                                 <div class="col-md-12">
@@ -839,7 +839,7 @@ $featureCode = preg_replace("/\d/", '', $option->getCode());
             (entries, observer) => {
                 entries.forEach(entry => {
                     if (entry.intersectionRatio > 0.0) {
-                        button = entry.target;
+                        var button = entry.target;
                         if (button.style.backgroundImage.length < 1) {
                             button.style.backgroundImage = 'url('+button.dataset.src+')';
                             // Stop observing

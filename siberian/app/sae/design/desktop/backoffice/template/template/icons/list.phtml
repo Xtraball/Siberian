@@ -11,7 +11,7 @@
                        ng-model="settings.icons_library_default_filter"
                        class="form-control"
                        value="feature" />
-                <?php echo p__('icons', 'Feature set'); ?>
+                <?php echo p__('icons', 'Feature set, icons associated with the opened feature'); ?>
             </label>
         </div>
         <div class="form-group radio">
@@ -40,8 +40,12 @@
         <div class="clear"></div>
 
         <div ng-show="settings.icons_library_default_filter == 'all'"
-             class="alert alert-danger">
+             class="alert alert-warning">
             <?php echo p__('icons', 'Displaying all icons in the library can have a big performance impact on both the browser & the server.') ?>
+        </div>
+        <div ng-show="settings.icons_library_default_filter == 'feature'"
+             class="alert alert-success">
+            <?php echo p__('icons', 'The feature set will filter icons based on the feature default keywordss and display a limited amount of icons.') ?>
         </div>
 
         <div class="clear"></div>
@@ -77,10 +81,11 @@
     <div class="list-flex view-grid">
         <div ng-repeat="icon in icons"
              ng-init="$last && startObserver()"
-             class="col-20">
-            <div class="overview-grid"
+             class="element-grid">
+            <div class="overview-grid not-preload"
+                 data-src="{{ icon.path }}"
                  ng-class="{'overview-grayscale': !icon.is_active}">
-                <img data-src="{{ icon.path }}"
+                <img src="/app/sae/design/desktop/flat/images/placeholder/blank-512.png"
                      alt="{{ icon.filename }}"
                      class="icon-overview not-preload" />
                 <div class="overview-grid-toggler">
@@ -98,6 +103,12 @@
     </div>
 
     <style type="text/css">
+        .element-grid {
+            padding: 15px;
+            margin-bottom: 15px;
+            background: #e6e6e6 !important;
+        }
+
         img.small-list {
             display: inline-block;
             height: 64px;
@@ -126,9 +137,9 @@
         }
 
         .overview-grid {
-            background: #ffffff;
-            padding: 15px;
-            margin-bottom: 15px;
+            background-repeat: no-repeat !important;
+            background-size: contain !important;
+            background-position: top center !important;
         }
 
         .overview-grid-title span.label {

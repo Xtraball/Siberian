@@ -34,15 +34,16 @@ class Template_Backoffice_Icons_ListController extends Backoffice_Controller_Def
             $icons = [];
             $urlDuped = [];
             foreach ($allIcons as $icon) {
-                $url = $icon->getUrl();
+                $url = trim($icon->getUrl());
 
-                if (in_array($url, $urlDuped)) {
+                if (empty($url) || in_array($url, $urlDuped)) {
                     continue;
                 }
 
                 $icons[] = [
                     'image_id' => (integer)$icon->getId(),
                     'path' => $icon->getUrl(),
+                    'link' => $icon->getLink(),
                     'filename' => basename($icon->getUrl()),
                     'keywords' => $icon->getKeywords(),
                     'is_active' => filter_var($icon->getIsActive(), FILTER_VALIDATE_BOOLEAN),
@@ -110,23 +111,21 @@ class Template_Backoffice_Icons_ListController extends Backoffice_Controller_Def
             $params = $request->getBodyParams();
 
             if (empty($params)) {
-                throw new \Siberian\Exception(p__('icons', 'Missing params.'));
+                throw new \Siberian\Exception(p__('icons', 'Missing params!'));
             }
 
-            if (!isset($params['iconId']) || !isset($params['isActive'])) {
-                throw new \Siberian\Exception(p__('icons', 'Missing iconId.'));
+            if (!isset($params['link']) || !isset($params['isActive'])) {
+                throw new \Siberian\Exception(p__('icons', 'Missing params!'));
             }
 
-            $image = (new Media_Model_Library_Image())
-                ->find($params['iconId']);
+            $images = (new Media_Model_Library_Image())
+                ->findAll(['link' => $params['link']]);
 
-            if (!$image->getId()) {
-                throw new \Siberian\Exception(p__('icons', 'The given image does not exists.'));
+            foreach ($images as $image) {
+                $image
+                    ->setIsActive($params['isActive'])
+                    ->save();
             }
-
-            $image
-                ->setIsActive($params['isActive'])
-                ->save();
 
             // Clear cache
             $cacheKey = 'backoffice_icons_list';

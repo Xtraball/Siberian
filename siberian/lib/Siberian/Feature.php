@@ -35,53 +35,33 @@ class Feature
      *
      * @param $name
      * @param $icons
-     * @param $can_be_colorized
+     * @param $canBeColorized
      * @return array()
      */
-    public static function installIcons($name, $icons = [], $can_be_colorized = true): array
+    public static function installIcons($name, $icons = [], $canBeColorized = true): array
     {
-        $library = new \Media_Model_Library();
-        $library
-            ->setData([
-                'name' => $name,
-            ])
-            ->insertOnce(['name']);
+        $library = (new \Media_Model_Library())->find($name, 'name');
+        if (!$library || !$library->getId()) {
+            $library
+                ->setName($name)
+                ->save();
+        }
+        $libraryId = $library->getId();
 
         $iconId = 0;
-        foreach ($icons as $key => $icon_path) {
-            $canBeColorized = $can_be_colorized;
-            $iconPath = $icon_path;
+        foreach ($icons as $key => $iconPath) {
             $keywords = '';
-            if (is_array($icon_path)) {
-                if (array_key_exists('colorize', $icon_path)) {
-                    $canBeColorized = filter_var($icon_path['colorize'], FILTER_VALIDATE_BOOLEAN);
+            if (is_array($iconPath)) {
+                if (array_key_exists('colorize', $iconPath)) {
+                    $canBeColorized = filter_var($iconPath['colorize'], FILTER_VALIDATE_BOOLEAN);
                 }
-                if (array_key_exists('path', $icon_path)) {
-                    $iconPath = $icon_path['path'];
+                if (array_key_exists('path', $iconPath)) {
+                    $iconPath = $iconPath['path'];
                 }
                 // Siberian 4.20.17+ support for keywords
-                if (array_key_exists('keywords', $icon_path)) {
-                    $keywords = $icon_path['keywords'];
+                if (array_key_exists('keywords', $iconPath)) {
+                    $keywords = $iconPath['keywords'];
                 }
-            }
-
-            $libraryId = $library->getId();
-
-            // Find all and clean-up dupes*
-            $allIcons = (new \Media_Model_Library_Image())->findAll([
-                'library_id' => $libraryId,
-                'link' => $iconPath,
-            ], ['image_id ASC']);
-
-            $isFirst = true;
-            foreach ($allIcons as $allIcon) {
-                // Skip the first
-                if ($isFirst === true) {
-                    $isFirst = false;
-                    continue;
-                }
-                // Good bye!
-                $allIcon->delete();
             }
 
             $data = [
@@ -91,10 +71,20 @@ class Feature
                 'can_be_colorized' => $canBeColorized
             ];
 
-            $image = new \Media_Model_Library_Image();
-            $image
-                ->setData($data)
-                ->insertOrUpdate(['library_id', 'link']);
+            $image = (new \Media_Model_Library_Image())->find([
+                'library_id = ?' => $libraryId,
+                'link = ?' => $iconPath,
+            ]);
+            if (!$image || !$image->getId()) {
+                $image
+                    ->setData($data)
+                    ->save();
+            } else {
+                $image
+                    ->setKeywords($keywords)
+                    ->setCanBeColorized($canBeColorized)
+                    ->save();
+            }
 
             $goodImageId = $image->getId();
             if ($iconId === 0) {

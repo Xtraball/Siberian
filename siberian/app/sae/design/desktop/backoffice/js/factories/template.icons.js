@@ -33,16 +33,16 @@ App.factory('TemplateIcons', function($http, Url) {
     /**
      * Toggle an icon enable state
      *
-     * @param iconId
+     * @param link
      * @param isActive
      * @returns {*}
      */
-    factory.toggleIcon = function (iconId, isActive) {
+    factory.toggleIcon = function (link, isActive) {
         return $http({
             method: 'POST',
             url: Url.get('template/backoffice_icons_list/toggle-active'),
             data: {
-                iconId: iconId,
+                link: link,
                 isActive: isActive
             },
             cache: false,
