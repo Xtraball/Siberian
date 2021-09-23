@@ -1,7 +1,5 @@
 <?php
 
-use Siberian\Json;
-
 /**
  * Class Media_Model_Library
  */
@@ -14,15 +12,9 @@ class Media_Model_Library extends Core_Model_Default
     protected $_images;
 
     /**
-     * Media_Model_Library constructor.
-     * @param array $params
+     * @var string
      */
-    public function __construct($params = [])
-    {
-        parent::__construct($params);
-        $this->_db_table = 'Media_Model_Db_Table_Library';
-        return $this;
-    }
+    protected $_db_table = Media_Model_Db_Table_Library::class;
 
     /**
      * @return array
@@ -126,12 +118,15 @@ class Media_Model_Library extends Core_Model_Default
 
     /**
      * @param null $optionId
+     * @param true $withInactive
      * @return mixed
      * @throws Zend_Exception
      */
-    public function getAllFeatureIcons($optionId = null)
+    public function getAllFeatureIcons($optionId = null, $withInactive = true)
     {
         $options = (new Application_Model_Option())->findAll();
+
+        $where = [];
 
         $names = [
             'icons-home',
@@ -151,8 +146,6 @@ class Media_Model_Library extends Core_Model_Default
             $names[] = $icon_pack->getData('name');
         }
 
-        dbg($names);
-
         $libraries = $this->findAll([
             'name IN (?)' => $names
         ]);
@@ -161,18 +154,23 @@ class Media_Model_Library extends Core_Model_Default
         foreach ($libraries as $library) {
             $library_ids[] = $library->getId();
         }
+        $where['library_id IN (?)'] = $library_ids;
 
         $app_id = [];
-        if ($this->getApplication()->getId()) {
+        if ($this->getApplication() && $this->getApplication()->getId()) {
             $app_id[] = $this->getApplication()->getId();
+
+            $where['(app_id IN (?) OR app_id IS NULL)'] = $app_id;
+        }
+
+        $where['(option_id = ? OR option_id IS NULL)'] = $optionId;
+
+        if ($withInactive === false) {
+            $where['is_active = ?'] = 1;
         }
 
         $image = new Media_Model_Library_Image();
-        $allIcons = $image->findAll([
-            'library_id IN (?)' => $library_ids,
-            '(app_id IN (?) OR app_id IS NULL)' => $app_id,
-            '(option_id = ? OR option_id IS NULL)' => $optionId,
-        ], ['position ASC', 'image_id ASC', 'can_be_colorized DESC']);
+        $allIcons = $image->findAll($where, ['image_id DESC']);
 
         return $allIcons;
     }

@@ -27,7 +27,7 @@ if ($option->getCode() === 'folder') {
 }
 
 $library = new Media_Model_Library();
-$allIcons = $library->getAllFeatureIcons();
+$allIcons = $library->getAllFeatureIcons(null, false);
 
 $layout_id = $application->getLayoutId();
 $layout_model = new Application_Model_Layout_Homepage();
@@ -248,25 +248,35 @@ $featureCode = preg_replace("/\d/", '', $option->getCode());
                         </div>
                         <div class="row">
                             <div class="col-md-12">
-                                <ul class="icons_list">
-                                    <?php $icon_ids = []; ?>
+                                <ul class="icons_list feature_icons_default">
+                                    <?php
+                                        $icon_ids = [];
+                                        // Prevent duped
+                                        $iconUrls = [];
+                                    ?>
                                     <?php foreach ($available_icons as $lib_icon) : ?>
                                         <?php foreach ($lib_icon as $icon) : ?>
                                             <?php if ($icon->getUrl() &&
                                                 (!$icon->getAppId() || $icon->getAppId() == $application->getId()) &&
                                                 !in_array($icon->getId(), $icon_ids)) : ?>
+
+                                            <?php if (in_array($icon->getUrl(), $iconUrls)): continue; endif; ?>
+
+                                            <?php $iconUrls[] = $icon->getUrl(); ?>
+
                                                 <li rel="<?php echo $option->getId(); ?>"
                                                     class="color-blue">
                                                     <a href="/application/customization_features/seticon"
                                                        class="left icon"
                                                        rel="<?php echo $option->getId(); ?>">
-                                                        <button class="select_icon btn"
+
+                                                        <button class="select_icon icn not-preload"
+                                                                style="background-image: url(<?php echo $icon->getUrl() ?>);"
                                                                 type="button">
-                                                            <img src="<?php echo $icon->getUrl(); ?>"
-                                                                 width="auto"
-                                                                 height="65"
-                                                                 class="colorize"/>
+                                                            <img src="/app/sae/design/desktop/flat/images/placeholder/blank-512.png"
+                                                                 class="colorize img-icon-size"/>
                                                         </button>
+
                                                         <input type="hidden"
                                                                name="option_value_id"
                                                                value="<?php echo $option->getValueId(); ?>"/>
@@ -305,10 +315,9 @@ $featureCode = preg_replace("/\d/", '', $option->getCode());
                                            class="input-flat"
                                            style="width: 200px;"
                                            placeholder="<?php echo p__('application', 'Search by keywords...') ?>"/>
-                                    <button type="reset"
-                                            class="btn color-blue"><?php echo p__('application', 'Clear') ?></button>
-                                    <button type="reset"
-                                            class="btn color-blue default-set"><?php echo p__('application', 'Default set') ?></button>
+                                    <button class="btn color-blue clear"><?php echo p__('application', 'Clear') ?></button>
+                                    <button class="btn btn-primary default-set"><?php echo p__('application', 'Default set') ?></button>
+                                    <button class="btn btn-danger all-icons"><?php echo p__('application', 'Show all icons') ?></button>
                                 </div>
                             </div>
                         </div>
@@ -327,10 +336,18 @@ $featureCode = preg_replace("/\d/", '', $option->getCode());
                                 </div>
                                 <div class="col-md-12">
                                     <ul class="icons_list filter_list">
-                                        <?php $allIconIds = []; ?>
+                                        <?php
+                                        $allIconIds = [];
+                                        // Prevent duped
+                                        $iconUrls = [];
+                                        ?>
                                         <?php foreach ($allIcons as $icon) :
                                             $keywords = $icon->getFilterKeywords();
                                             ?>
+
+                                            <?php if (in_array($icon->getUrl(), $iconUrls)): continue; endif; ?>
+                                            <?php $iconUrls[] = $icon->getUrl(); ?>
+
                                             <?php if ($icon->getUrl() && !in_array($icon->getId(), $allIconIds)) : ?>
                                                 <li data-filter="<?php echo $keywords ?>"
                                                     style="display: none;"
@@ -339,12 +356,11 @@ $featureCode = preg_replace("/\d/", '', $option->getCode());
                                                     <a href="/application/customization_features/seticon"
                                                        class="left icon"
                                                        rel="#OPTION_VALUE_ID#">
-                                                        <button class="select_icon btn"
+                                                        <button class="select_icon icn not-preload"
+                                                                data-src="<?php echo $icon->getUrl() ?>"
                                                                 type="button">
-                                                            <img data-src="<?php echo $icon->getUrl(); ?>"
-                                                                 width="auto"
-                                                                 height="65"
-                                                                 class="colorize not-preload"/>
+                                                            <img src="/app/sae/design/desktop/flat/images/placeholder/blank-512.png"
+                                                                 class="colorize img-icon-size not-preload"/>
                                                         </button>
                                                         <input type="hidden"
                                                                name="option_value_id"
@@ -380,7 +396,6 @@ $featureCode = preg_replace("/\d/", '', $option->getCode());
         </div>
     </div>
     <!-- /Icons modal -->
-
 
 
     <div class="edit_page container-fluid subcontent">
@@ -702,6 +717,7 @@ $featureCode = preg_replace("/\d/", '', $option->getCode());
             var search = $(this);
             // remove any accents, then lowercase
             var value = search.val().normalize("NFD").replace(/[\u0300-\u036f]/g, "").toLowerCase();
+            var searchValues = value.split(/[^a-z]+/i);
 
             // At least two characters
             if (value.length < 2) {
@@ -717,35 +733,62 @@ $featureCode = preg_replace("/\d/", '', $option->getCode());
                 var gotOne = false;
                 iconsCache.each(function () {
                     var el = $(this);
-                    var filter = el.data('filter-san');
+                    var filters = el.data('filter-san');
 
-                    if (filter.indexOf(value) > -1) {
-                        gotOne = true;
-                        el.show();
-                        // Only set SRC when displaying image to reduce server load*
-                        setTimeout(function () {
-                            var img = el.find('img.not-preload');
-                            img[0].src = img[0].dataset.src;
-                        }, 20);
-                    }
+                    searchValues.forEach(function (searchValue) {
+                        if (filters.indexOf(searchValue) > -1) {
+                            gotOne = true;
+                            el.show();
+                        }
+                    });
+
                 });
                 if (!gotOne) {
                     filterNoResults.show();
                 }
             }
-        }, 400));
+        }, 600));
 
         // clear icons
         var clearIconsSrc = function () {
             iconsCache.hide();
-            iconsCache.each(function () {
-                var el = $(this);
-                var img = el.find('img[data-src]');
-                img[0].src = '';
-            });
         };
 
-        var filterIcons = $(".filter-icons button");
+        var allIcons = $('.filter-icons button.all-icons');
+
+        function splitArrayIntoChunksOfLen(arr, len) {
+            var chunks = [], i = 0, n = arr.length;
+            while (i < n) {
+                chunks.push(arr.slice(i, i += len));
+            }
+            return chunks;
+        }
+
+        var showAllIcons = function () {
+            var chunks = splitArrayIntoChunksOfLen(iconsCache, 20);
+
+            var asyncTimedLoopShow = function () {
+                if (chunks.length <= 0) {
+                    return;
+                }
+                setTimeout(function () {
+                    chunks.shift().show();
+                    asyncTimedLoopShow();
+                }, 20);
+            };
+            asyncTimedLoopShow();
+        };
+
+        allIcons.off('click');
+        allIcons.on('click', function () {
+            filterNoResults.hide();
+            filterEmpty.hide();
+            iconsCache.hide();
+            iconsSearchText.val('');
+            showAllIcons();
+        });
+
+        var filterIcons = $(".filter-icons button.clear");
 
         filterIcons.off('click');
         filterIcons.on('click', function () {
@@ -791,20 +834,49 @@ $featureCode = preg_replace("/\d/", '', $option->getCode());
 
         $('.display_tooltip').tooltip();
 
-        // Triggers a default search
-        $('.filter-icons input').val(defaultValue).trigger('keyup');
+        // Observer to lazy load images as they display
+        var observer = new IntersectionObserver(
+            (entries, observer) => {
+                entries.forEach(entry => {
+                    if (entry.intersectionRatio > 0.0) {
+                        button = entry.target;
+                        if (button.style.backgroundImage.length < 1) {
+                            button.style.backgroundImage = 'url('+button.dataset.src+')';
+                            // Stop observing
+                            observer.unobserve(button);
+                        }
+                    }
+                });
+            },
+            {}
+        );
+        for (let button of document.querySelectorAll('.filter_list button.not-preload')) {
+            observer.observe(button);
+        }
+
+        var defaultOption = '<?php echo __get('icons_library_default_filter') ?? 'feature' ?>';
+
+        switch (defaultOption) {
+            default:
+                // Triggers a default search
+                $('.filter-icons input').val(defaultValue).trigger('keyup');
+                break;
+            case 'none':
+                // Do nothing
+                break;
+            case 'all':
+                showAllIcons();
+                break;
+        }
 
     </script>
-    <style>
+    <style type="text/css">
         .custom_modal .modal_content li {
             margin: 5px;
             background: #0099C7;
             color: white;
-            border-radius: 0px;
             float: left;
             list-style: none;
-            -webkit-border-radius: 3px;
-            -moz-border-radius: 3px;
             border-radius: 3px;
             position: relative;
         }
@@ -836,10 +908,6 @@ $featureCode = preg_replace("/\d/", '', $option->getCode());
             border: none;
             background: transparent;
             font-size: 25px;
-        }
-
-        .col-icon {
-            /*padding-left: 90px;*/
         }
 
         #icon_and_name .col-icon-button {
@@ -887,28 +955,6 @@ $featureCode = preg_replace("/\d/", '', $option->getCode());
             text-align: left;
         }
 
-        .icons_list.filter_list li {
-            background-color: #a7a7ab !important;
-            z-index: 1;
-            opacity: 0.6;
-        }
-
-        .icons_list.filter_list li:hover {
-            opacity: 1;
-            -webkit-transform: scale(1.2);
-            -moz-transform: scale(1.2);
-            -ms-transform: scale(1.2);
-            -o-transform: scale(1.2);
-            transform: scale(1.2);
-            background-color: initial;
-        }
-
-        .icon_and_name .text-resize {
-            letter-spacing: -0.5px;
-            font-size: 0.9em;
-            margin-bottom: 0.5em;
-        }
-
         .col-icon-first {
             padding-left: 70px;
         }
@@ -926,6 +972,31 @@ $featureCode = preg_replace("/\d/", '', $option->getCode());
 
         .tabbar-check > div {
             display: inline-block;
+        }
+
+        .icn {
+            background-size: contain !important;
+            background-repeat: no-repeat !important;
+            display: inline-block;
+            padding: 0;
+            margin-bottom: 0;
+        }
+
+        ul.feature_icons_default li,
+        ul.filter_list li {
+            background-color: #a0a0a0 !important;
+            padding: 10px !important;
+        }
+
+        img.img-icon-size {
+            width: 96px;
+            height: 96px;
+        }
+
+        ul.filter_list {
+            display: flex;
+            justify-content: flex-start;
+            flex-wrap: wrap;
         }
     </style>
 </div>

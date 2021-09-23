@@ -68,4 +68,8 @@ $schemas['media_library_image'] = [
         'type' => 'tinyint(1) unsigned',
         'default' => '0',
     ],
+    'is_active' => [
+        'type' => 'tinyint(1) unsigned',
+        'default' => '1',
+    ],
 ];

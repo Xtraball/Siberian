@@ -8,4 +8,11 @@
         </views>
     </template_backoffice_category_list_template>
 
+    <template_backoffice_icons_list_template>
+        <views>
+            <content class="core_view_default" template="html/default.phtml" />
+            <page_content class="core_view_default" template="template/icons/list.phtml" />
+        </views>
+    </template_backoffice_icons_list_template>
+
 </layout>
