@@ -174,11 +174,6 @@ $configs = [
         'value' => 'stable'
     ],
     [
-        'code' => 'ios_autobuild_key',
-        'label' => 'Your iOS autobuild License Key',
-        'value' => ''
-    ],
-    [
         'code' => 'siberiancms_key',
         'label' => 'Your CMS License Key',
         'value' => ''

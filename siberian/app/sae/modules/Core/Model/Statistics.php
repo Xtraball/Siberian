@@ -243,7 +243,6 @@ GROUP BY status");
                         "siberian_licence_key"          => __get("siberiancms_key"),
                         "siberian_disk_usage"           => __get("disk_usage_cache"),
                         "siberian_letsencrypt_disabled" => __get("letsencrypt_disabled"),
-                        "siberian_ios_autobuild_key"    => __get("ios_autobuild_key"),
                         "siberian_modules"              => $modules,
                         "siberian_features"             => $features_usage,
                         "siberian_templates"            => $templates,
