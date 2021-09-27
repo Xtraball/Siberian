@@ -561,8 +561,11 @@ class Installer_Backoffice_ModuleController extends Backoffice_Controller_Defaul
         $updates_url = "https://updates02.siberiancms.com";
 
         $update_channel = __get("update_channel");
-        if (in_array($update_channel, ["stable", "beta", "preview"])) {
+        if (in_array($update_channel, ["production", "stable", "beta", "preview"])) {
             switch ($update_channel) {
+                case "production":
+                    $updates_url = "https://production-updates02.siberiancms.com";
+                    break;
                 case "stable":
                     $updates_url = "https://updates02.siberiancms.com";
                     break;

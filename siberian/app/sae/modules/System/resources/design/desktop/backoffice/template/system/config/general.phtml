@@ -106,24 +106,7 @@ $host = $this->getRequest()->getHttpHost();
 
         </div>
 
-            <div class="clear"></div>
-
-        <div ng-if="iosBuildLicenceError !== ''" class="alert alert-danger" role="alert">{{ iosBuildLicenceError }}</div>
-        <div class="form-group">
-            <div class="col-md-6">
-                <label for="{{ configs.ios_autobuild_key.code }}">{{ configs.ios_autobuild_key.label }}</label>
-                <input type="text" id="{{ configs.ios_autobuild_key.code }}" ng-model="configs.ios_autobuild_key.value" class="form-control" placeholder="{{ configs.ios_autobuild_key.label }}" />
-            </div>
-            <div class="col-md-6">
-                <label for="activatiom_remain"><?php echo __("Remaining builds");?></label>
-                <div ng-if="iosBuildActivationRemain === false">
-                    <div class="cssloader-small"></div>
-                </div>
-                <div ng-if="iosBuildActivationRemain !== false">
-                    {{ iosBuildActivationRemain }}
-                </div>
-            </div>
-        </div>
+        <div class="clear"></div>
 
         <div class="form-group">
             <div class="col-md-12">

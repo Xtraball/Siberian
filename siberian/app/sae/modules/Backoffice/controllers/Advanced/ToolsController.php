@@ -156,8 +156,6 @@ class Backoffice_Advanced_ToolsController extends System_Controller_Backoffice_D
         // Final loggind
         $logger = Zend_Registry::get('logger');
         $logger->info(print_r($output, true) . PHP_EOL);
-
-        dbg($output);
     }
 
     /**

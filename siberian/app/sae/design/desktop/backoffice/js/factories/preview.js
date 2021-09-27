@@ -55,6 +55,16 @@ App.factory('Preview', function($http, Url) {
         });
     };
 
+    factory.saveSettings = function(settings) {
+        return $http({
+            method: 'POST',
+            data: settings,
+            url: Url.get("preview/backoffice_list/save-settings"),
+            cache: false,
+            responseType:'json'
+        });
+    };
+
     factory.delete = function(preview_id,language_code) {
         var param = {preview_id: preview_id,language_code:language_code};
 

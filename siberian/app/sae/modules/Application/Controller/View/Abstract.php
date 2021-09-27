@@ -178,65 +178,6 @@ abstract class Application_Controller_View_Abstract extends Backoffice_Controlle
         $data['application']['mediation_facebook'] = (boolean)$data['application']['mediation_facebook'];
         $data['application']['mediation_startapp'] = (boolean)$data['application']['mediation_startapp'];
 
-        // Set ios Autopublish informations
-        $appIosAutopublish = (new Application_Model_IosAutopublish())->find($appId, 'app_id');
-
-        $languages = 'en';
-        if ($lang = Siberian_Json::decode($appIosAutopublish->getLanguages())) {
-            foreach ($lang as $code => $value) {
-                if ($value) {
-                    $languages = $code;
-                    break;
-                }
-            }
-        }
-
-        // Sanitize vars
-        if (isset($data['infos']['want_to_autopublish']) &&
-            $data['infos']['want_to_autopublish'] === null) {
-            $data['infos']['want_to_autopublish'] = false;
-        }
-        if (isset($data['infos']['itunes_login']) &&
-            $data['infos']['itunes_login'] === null) {
-            $data['infos']['itunes_login'] = '';
-        }
-        if (isset($data['infos']['itunes_password']) &&
-            $data['infos']['itunes_password'] === null) {
-            $data['infos']['itunes_password'] = '';
-        }
-
-        $accountType = 'non2fa';
-        $itunesLogin = $appIosAutopublish->getItunesLogin();
-
-        $isFilled = mb_strlen($appIosAutopublish->getCypheredCredentials()) > 0;
-
-        $data['ios_publish_informations'] = [
-            'id' => $appIosAutopublish->getId(),
-            'want_to_autopublish' => $appIosAutopublish->getWantToAutopublish(),
-            'account_type' => $accountType,
-            'itunes_login' => $itunesLogin,
-            'itunes_original_login' => $appIosAutopublish->getItunesOriginalLogin(),
-            'itunes_password' => $isFilled ? Application_Model_IosAutopublish::$fakePassword : '',
-            'has_ads' => (bool)$appIosAutopublish->getHasAds(),
-            'has_bg_locate' => (bool)$appIosAutopublish->getHasBgLocate(),
-            'has_audio' => (bool)$appIosAutopublish->getHasAudio(),
-            'languages' => $languages,
-            'last_start' => $appIosAutopublish->getLastStart(),
-            'last_success' => $appIosAutopublish->getLastSuccess(),
-            'last_finish' => $appIosAutopublish->getLastFinish(),
-            'last_build_status' => $appIosAutopublish->getLastBuildStatus(),
-            'last_builded_version' => $appIosAutopublish->getLastBuildedVersion(),
-            'last_builded_ipa_link' => $appIosAutopublish->getLastBuildedIpaLink(),
-            'error_message' => $appIosAutopublish->getErrorMessage(),
-            'teams' => $appIosAutopublish->getTeamsArray(),
-            'itcProviders' => $appIosAutopublish->getItcProvidersArray(),
-            'selected_team' => $appIosAutopublish->getTeamId(),
-            'selected_team_name' => $appIosAutopublish->getTeamName(),
-            'selected_provider' => $appIosAutopublish->getItcProvider(),
-            'password_filled' => $isFilled,
-            'stats' => $appIosAutopublish->getStats(),
-        ];
-
         $data["application"]["list_of_admins"] = [];
 
         $this->_sendJson($data);
