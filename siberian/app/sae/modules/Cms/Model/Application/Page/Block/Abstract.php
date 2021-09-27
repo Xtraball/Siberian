@@ -51,8 +51,6 @@ abstract class Cms_Model_Application_Page_Block_Abstract extends Core_Model_Defa
      */
     public function createBlock($block_type, $page, $block_position)
     {
-        dbg('create block', $block_type, $page->getId(), $block_position);
-
         $cms_application_block = new Cms_Model_Application_Block();
         $cms_application_block->find($block_type, "type");
 

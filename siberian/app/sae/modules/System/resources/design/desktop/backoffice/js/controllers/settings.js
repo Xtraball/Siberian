@@ -64,22 +64,6 @@ App.config(function ($routeProvider) {
                 $scope.prepareDesignUploaders();
             }
 
-            // We check license info on config succes!
-            if (configs.ios_autobuild_key && configs.ios_autobuild_key.value !== "") {
-                LicenseService
-                    .getIosBuildLicenseInfo(configs.ios_autobuild_key.value)
-                    .then(function (infos) {
-                        $scope.iosBuildActivationRemain = infos.remainingBuild;
-                        $scope.iosBuildLicenceError = infos.errorMessage;
-                    }, function (reason){
-                        $scope.iosBuildActivationRemain = 'n/a';
-                        $scope.iosBuildLicenceError = 'We cannot get your license information';
-                    });
-            } else {
-                $scope.iosBuildActivationRemain = 'n/a';
-                $scope.iosBuildLicenceError = '';
-            }
-
         }).finally(function () {
             $scope.content_loader_is_visible = false;
 

@@ -1,0 +1,172 @@
+<form ng-submit="save()">
+    <sb-section title="'<?php echo p__js("icons", "Settings") ?>'">
+        <div class="form-group">
+            <?php echo p__('icons', 'Icons library default filters'); ?>
+        </div>
+        <div class="form-group radio">
+            <label for="icons_library_default_filter1">
+                <input type="radio"
+                       id="icons_library_default_filter1"
+                       name="icons_library_default_filter"
+                       ng-model="settings.icons_library_default_filter"
+                       class="form-control"
+                       value="feature" />
+                <?php echo p__('icons', 'Feature set, icons associated with the opened feature'); ?>
+            </label>
+        </div>
+        <div class="form-group radio">
+            <label for="icons_library_default_filter3">
+                <input type="radio"
+                       id="icons_library_default_filter3"
+                       name="icons_library_default_filter"
+                       ng-model="settings.icons_library_default_filter"
+                       class="form-control"
+                       value="all" />
+                <?php echo p__('icons', 'Display all available icons!'); ?>
+            </label>
+        </div>
+        <div class="form-group radio">
+            <label for="icons_library_default_filter2">
+                <input type="radio"
+                       id="icons_library_default_filter2"
+                       name="icons_library_default_filter"
+                       ng-model="settings.icons_library_default_filter"
+                       class="form-control"
+                       value="none" />
+                <?php echo p__('icons', 'None, no default search!'); ?>
+            </label>
+        </div>
+
+        <div class="clear"></div>
+
+        <div ng-show="settings.icons_library_default_filter == 'all'"
+             class="alert alert-warning">
+            <?php echo p__('icons', 'Displaying all icons in the library can have a big performance impact on both the browser & the server.') ?>
+        </div>
+        <div ng-show="settings.icons_library_default_filter == 'feature'"
+             class="alert alert-success">
+            <?php echo p__('icons', 'The feature set will filter icons based on the feature default keywordss and display a limited amount of icons.') ?>
+        </div>
+
+        <div class="clear"></div>
+
+        <div class="col-md-12 text-right">
+            <div class="form-group">
+                <button type="submit"
+                        class="btn btn-primary"><?php echo __("Save"); ?></button>
+                <sb-loader is_visible="form_loader_is_visible"
+                           type="'inner_content'"
+                           size="'small'"
+                           animation="'no'"
+                           class="form_loader"></sb-loader>
+            </div>
+        </div>
+
+        <div class="clear"></div>
+    </sb-section>
+</form>
+
+<sb-section title="'<?php echo __title("All icons"); ?>'">
+
+    <div class="alert alert-info">
+        <?php echo p__('icons', 'A disabled icon is not removed from published applications, but users can\'t select it anymore!') ?>
+    </div>
+
+    <div class="nothing">
+        <i>{{ strings.totalIcons }}</i>
+    </div>
+
+    <br />
+
+    <div class="list-flex view-grid">
+        <div ng-repeat="icon in icons"
+             ng-init="$last && startObserver()"
+             class="element-grid">
+            <div class="overview-grid not-preload"
+                 data-src="{{ icon.path }}"
+                 ng-class="{'overview-grayscale': !icon.is_active}">
+                <img src="/app/sae/design/desktop/flat/images/placeholder/blank-512.png"
+                     alt="{{ icon.filename }}"
+                     class="icon-overview not-preload" />
+                <div class="overview-grid-toggler">
+                    <label for="toggler_{{ icon.image_id }}"
+                           style="font-weight: normal;">
+                        <?php echo p__('icons', 'Enabled?') ?>
+                    </label>
+                    <input type="checkbox"
+                           id="toggler_{{ icon.image_id }}"
+                           ng-model="icon.is_active"
+                           ng-change="toggleIcon(icon)" />
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <style type="text/css">
+        .element-grid {
+            padding: 15px;
+            margin-bottom: 15px;
+            background: #e6e6e6 !important;
+        }
+
+        img.small-list {
+            display: inline-block;
+            height: 64px;
+            width: auto;
+            margin: 0 auto;
+        }
+
+        .list-flex {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: space-between;
+        }
+
+        .overview-grayscale {
+            filter: grayscale(100%) opacity(50%);
+        }
+
+        .selectors span {
+            filter: brightness(50%);
+            cursor: pointer;
+        }
+
+        .selectors span.active {
+            font-weight: bold;
+            filter: brightness(0%);
+        }
+
+        .overview-grid {
+            background-repeat: no-repeat !important;
+            background-size: contain !important;
+            background-position: top center !important;
+        }
+
+        .overview-grid-title span.label {
+            top: -3px;
+            position: relative;
+        }
+
+        .overview-grid-toggler {
+            background: #ffffff;
+            position: relative;
+            bottom: -6px;
+            right: -5px;
+            padding: 6px 0 0 6px;
+            text-align: right;
+        }
+
+        .icon-overview {
+            width: 128px;
+        }
+
+        .list-flex input[type="checkbox"]:before {
+            top: 0 !important;
+        }
+
+        .list-flex input[type="checkbox"]:checked:after {
+            top: -12px !important;
+            left: 3px !important;
+        }
+    </style>
+</sb-section>

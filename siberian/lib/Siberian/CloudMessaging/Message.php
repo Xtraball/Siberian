@@ -292,8 +292,6 @@ class Message
 
         $jsonMessage = json_encode($message, JSON_UNESCAPED_SLASHES);
 
-        dbg($jsonMessage);
-
         return $jsonMessage;
     }
 }

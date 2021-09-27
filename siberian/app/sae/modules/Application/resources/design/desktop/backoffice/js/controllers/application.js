@@ -12,7 +12,7 @@ App.config(function($routeProvider) {
     });
 
 }).controller("ApplicationViewController", function($scope, $location, $timeout, $routeParams, Header,
-                                                    Application, Url, FileUploader, Label, Settings, LicenseService) {
+                                                    Application, Url, FileUploader, Label) {
 
     $scope.header = new Header();
     $scope.header.button.left.is_visible = false;
@@ -27,11 +27,9 @@ App.config(function($routeProvider) {
     };
     $scope.application_banner = {};
     $scope.application_admob = {};
-    $scope.iosBuildLicenceError = '';
-    $scope.iosBuildActivationRemain = false;
 
     $scope.datepicker_visible = false;
-    $scope.showApkService = false;
+    $scope.showApkService = true;
 
     $scope.owners = {
         list: [],
@@ -49,7 +47,6 @@ App.config(function($routeProvider) {
         $scope.statuses = data.statuses;
         $scope.design_codes = data.design_codes;
         $scope.section_title = data.section_title;
-        $scope.ios_publish_informations = data.ios_publish_informations;
         angular.extend($scope.tmp_application, data.application);
         angular.extend($scope.application_banner, data.application);
         angular.extend($scope.application_admob, data.application);
@@ -82,23 +79,6 @@ App.config(function($routeProvider) {
                 $scope.licenseType = response.result.type;
             }
         });
-
-    Settings.type = "general";
-    Settings.findAll().success(function(configs) {
-        //we check license info on config sucees
-        if(configs.ios_autobuild_key && configs.ios_autobuild_key.value !== "") {
-            LicenseService.getIosBuildLicenseInfo(configs.ios_autobuild_key.value).then(function(infos) {
-                $scope.iosBuildActivationRemain = infos.remainingBuild;
-                $scope.iosBuildLicenceError = infos.errorMessage;
-            },function(reason){
-                $scope.iosBuildActivationRemain = 'n/a';
-                $scope.iosBuildLicenceError = 'We cannot get your license information';
-            });
-        } else {
-            $scope.iosBuildActivationRemain = 'n/a';
-            $scope.iosBuildLicenceError = '';
-        }
-    });
 
     $scope.removeAppAdmin = function (appId, adminId) {
         if (!window.confirm($scope.confirm_message_delete_admin)) {
@@ -323,96 +303,6 @@ App.config(function($routeProvider) {
 
     $scope.noop = function () {
         // Do nothing!
-    };
-
-    $scope.disableRequest = function () {
-        if (!$scope.ios_publish_informations) {
-            return true;
-        }
-        var val =
-            ($scope.ios_publish_informations.id === null || $scope.ios_publish_informations.id === undefined);
-        return val;
-    };
-
-    $scope.refreshCredentialsLoader = false;
-    $scope.saveCredentialsAutopublish = function () {
-        $scope.refreshCredentialsLoader = true;
-
-        Application
-            .saveCredentialsAutopublish(
-                $scope.application.id,
-                $scope.ios_publish_informations)
-            .success(function (data) {
-
-                $scope.ios_publish_informations.id = data.id;
-
-                $scope.message.setText(data.message)
-                    .isError(false)
-                    .show();
-            }).error(function (data) {
-                $scope.message.setText(data.message)
-                    .isError(true)
-                    .show();
-
-            }).finally(function () {
-                $scope.refreshCredentialsLoader = false;
-            });
-    };
-
-    $scope.refreshPublish = false;
-    $scope.requestPublication = function () {
-
-        $scope.refreshPublish = true;
-
-        Application
-            .requestPublication(
-                $scope.application.id,
-                $scope.ios_publish_informations)
-            .success(function (data) {
-
-                $scope.application.zip = data.more.zip;
-                $scope.application.queued = data.more.queued;
-
-                $scope.message.setText(data.message)
-                    .isError(false)
-                    .show();
-            }).error(function (data) {
-                $scope.message.setText(data.message)
-                    .isError(true)
-                    .show();
-            }).finally(function () {
-                $scope.refreshPublish = false;
-            });
-    };
-
-    $scope.requestPem = false;
-    $scope.requestPemCertificate = function () {
-        $scope.requestPem = true;
-
-        $scope.ios_publish_informations.refresh_pem = true;
-
-        Application
-            .saveInfoIosAutopublish(
-                $scope.application.id,
-                $scope.ios_publish_informations)
-            .success(function (data) {
-
-                $scope.application.zip = data.more.zip;
-                $scope.application.queued = data.more.queued;
-
-                $scope.message.setText(data.message)
-                .isError(false)
-                .show();
-
-            }).error(function (data) {
-                $scope.message.setText(data.message)
-                .isError(true)
-                .show();
-
-            }).finally(function () {
-                $scope.requestPem = false;
-                $scope.ios_publish_informations.refresh_pem = false;
-            });
     };
 
     $scope.saveInfo = function() {

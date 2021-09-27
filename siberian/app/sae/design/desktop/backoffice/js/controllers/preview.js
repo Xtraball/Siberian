@@ -21,9 +21,14 @@ App.config(function($routeProvider) {
         $location.path("preview/backoffice_edit");
     });
 
+    $scope.settings = {
+        split_preview_actions: false
+    };
+
     Preview.loadListData().success(function(data) {
         $scope.header.title = data.title;
         $scope.header.icon = data.icon;
+        $scope.settings = data.settings;
     });
 
     Preview.findAll().success(function(data) {
@@ -53,7 +58,27 @@ App.config(function($routeProvider) {
                 ;
             });
         }
-    }
+    };
+
+    $scope.saveSettings = function () {
+        Preview
+            .saveSettings($scope.settings)
+            .success(function(data) {
+                $scope
+                    .message
+                    .setText(data.message)
+                    .isError(false)
+                    .show()
+                ;
+            }).error(function(data){
+                $scope
+                    .message
+                    .setText(data.message)
+                    .isError(true)
+                    .show()
+                ;
+            });
+    };
 
 }).controller("PreviewEditController", function($scope, $location, $routeParams, $filter, Header, SectionButton, Label, Preview, FileUploader, Url) {
 

@@ -12,6 +12,9 @@ class Preview_Backoffice_ListController extends Backoffice_Controller_Default
                 __('Appearance'),
                 __('Previews')),
             "icon" => "fa-desktop",
+            "settings" => [
+                "split_preview_actions" => filter_var(__get('split_preview_actions'), FILTER_VALIDATE_BOOLEAN)
+            ],
         ];
 
         $this->_sendJson($payload);
@@ -34,7 +37,7 @@ class Preview_Backoffice_ListController extends Backoffice_Controller_Default
             ];
         }
 
-        $this->_sendHtml($data);
+        $this->_sendJson($data);
     }
 
     public function deleteAction()
@@ -59,20 +62,39 @@ class Preview_Backoffice_ListController extends Backoffice_Controller_Default
                     "success" => 1,
                     "message" => $this->_("Your preview has been deleted successfully.")
                 ];
-                $this->_sendHtml($data);
+                $this->_sendJson($data);
 
             } else {
                 throw new Exception($this->_("An error occurred while deleting your preview. Please try again later."));
             }
-        } catch (Exception $e) {
-
+        } catch (\Exception $e) {
             $data = [
                 "error" => 1,
                 "message" => $e->getMessage()
             ];
-            $this->_sendHtml($data);
-
+            $this->_sendJson($data);
         }
+    }
+
+    public function saveSettingsAction()
+    {
+        try {
+            $request = $this->getRequest();
+            $params = $request->getBodyParams();
+
+            __set('split_preview_actions', filter_var($params['split_preview_actions'], FILTER_VALIDATE_BOOLEAN));
+
+            $payload = [
+                'success' => true,
+                'message' => p__('preview', 'Settings saved!'),
+            ];
+        } catch (\Exception $e) {
+            $payload = [
+                'error' => true,
+                'message' => $e->getMessage()
+            ];
+        }
+        $this->_sendJson($payload);
     }
 
 }

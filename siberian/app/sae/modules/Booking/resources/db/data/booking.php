@@ -4,17 +4,50 @@ $category = 'contact';
 
 # Install icons
 $icons = [
-    '/booking/booking1.png',
-    '/booking/booking2.png',
-    '/booking/booking3.png',
-    '/booking/booking4.png',
-    '/booking/booking5.png',
-    '/booking/booking6.png',
-    '/booking/booking7.png',
-    '/booking/booking8.png',
-    '/booking/booking9.png',
-    '/booking/booking10.png',
-    '/booking/booking11.png'
+    [
+        'path' => '/booking/booking1.png',
+        'keywords' => 'paper,letter',
+    ],
+    [
+        'path' => '/booking/booking2.png',
+        'keywords' => 'carnet',
+    ],
+    [
+        'path' => '/booking/booking3.png',
+        'keywords' => '',
+    ],
+    [
+        'path' => '/booking/booking4.png',
+        'keywords' => '',
+    ],
+    [
+        'path' => '/booking/booking5.png',
+        'keywords' => 'enveloppe,letter',
+    ],
+    [
+        'path' => '/booking/booking6.png',
+        'keywords' => 'enveloppe,letter',
+    ],
+    [
+        'path' => '/booking/booking7.png',
+        'keywords' => 'phone,mobile',
+    ],
+    [
+        'path' => '/booking/booking8.png',
+        'keywords' => 'phone,mobile',
+    ],
+    [
+        'path' => '/booking/booking9.png',
+        'keywords' => 'phone,mobile',
+    ],
+    [
+        'path' => '/booking/booking10.png',
+        'keywords' => 'calendar',
+    ],
+    [
+        'path' => '/booking/booking11.png',
+        'keywords' => 'notes',
+    ]
 ];
 
 $result = Siberian_Feature::installIcons($name, $icons);
@@ -39,9 +72,18 @@ $option = Siberian_Feature::install($category, $data, ['code']);
 
 # Icons Flat
 $icons = [
-    '/booking/booking1-flat.png',
-    '/booking/booking2-flat.png',
-    '/booking/booking3-flat.png',
+    [
+        'path' => '/booking/booking1-flat.png',
+        'keywords' => 'carnet',
+    ],
+    [
+        'path' => '/booking/booking2-flat.png',
+        'keywords' => 'carnet',
+    ],
+    [
+        'path' => '/booking/booking3-flat.png',
+        'keywords' => 'carnet',
+    ],
 ];
 
 Siberian_Feature::installIcons("{$name}-flat", $icons);

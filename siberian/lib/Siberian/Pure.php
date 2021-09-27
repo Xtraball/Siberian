@@ -97,14 +97,19 @@ function __dcExec ($file, $module)
 /**
  * @param $context
  * @param $original
- * @param $flag
+ * @param null $flag
+ * @param bool $force forcing the extraction
  * @throws Zend_Exception
  */
-function extract_p__($context, $original, $flag = null)
+function extract_p__($context, $original, $flag = null, $force = false)
 {
     global $extractModules;
-    if (__getConfig('extract') === true) {
+    if ((__getConfig('extract') === true) ||
+        ($force === true)) {
         global $extractTranslations;
+        global $forcedExtractTranslations;
+
+        $forcedExtractTranslations = $force;
 
         if (!is_array($extractTranslations)) {
             $extractTranslations = [];
@@ -131,13 +136,17 @@ function extract_p__($context, $original, $flag = null)
             $extractTranslations[$file] = [];
         }
 
+        $trimmed = trim($original);
+
         // That's all for now!
-        $extractTranslations[$file][] = [
-            "flag" => $flag,
-            "context" => $context,
-            "original" => $original,
-            "translation" => $original,
-        ];
+        if (!empty($trimmed)) {
+            $extractTranslations[$file][] = [
+                "flag" => $flag,
+                "context" => $context,
+                "original" => $original,
+                "translation" => $original,
+            ];
+        }
     }
 }
 
@@ -149,7 +158,9 @@ function extract_p__($context, $original, $flag = null)
 function shutdown_extract_p ()
 {
     global $extractTranslations;
-    if (__getConfig("extract") === true) {
+    global $forcedExtractTranslations;
+    if ((__getConfig("extract") === true) ||
+        ($forcedExtractTranslations === true)) {
 
         foreach ($extractTranslations as $file => $translations) {
             $poFile = Translations::fromPoFile($file);
