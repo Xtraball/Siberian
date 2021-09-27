@@ -14,11 +14,11 @@ if ($option->getValueId() === "customer_account") {
 
 $available_icons = [$library->getIcons()];
 
-if ($option->getCode() == 'folder') {
+if ($option->getCode() === 'folder') {
     $a_option = new Application_Model_Option();
     $options = $a_option->findAll();
     foreach ($options as $other_option) {
-        if ($other_option->getCode() == 'folder') {
+        if ($other_option->getCode() === 'folder') {
             continue;
         }
         $new_icons = $other_option->getLibrary()->getIcons();
@@ -27,7 +27,7 @@ if ($option->getCode() == 'folder') {
 }
 
 $library = new Media_Model_Library();
-$allIcons = $library->getAllFeatureIcons();
+$allIcons = $library->getAllFeatureIcons(null, false);
 
 $layout_id = $application->getLayoutId();
 $layout_model = new Application_Model_Layout_Homepage();
@@ -42,6 +42,8 @@ $available_offline = $option_object->availableOffline();
 $application_offline_enabled = ($application->getOfflineContent() == 1);
 
 $cacheOutput = Zend_Registry::get("cacheOutput");
+
+$featureCode = preg_replace("/\d/", '', $option->getCode());
 
 ?>
 
@@ -246,25 +248,35 @@ $cacheOutput = Zend_Registry::get("cacheOutput");
                         </div>
                         <div class="row">
                             <div class="col-md-12">
-                                <ul class="icons_list">
-                                    <?php $icon_ids = []; ?>
+                                <ul class="icons_list feature_icons_default">
+                                    <?php
+                                        $icon_ids = [];
+                                        // Prevent duped
+                                        $iconUrls = [];
+                                    ?>
                                     <?php foreach ($available_icons as $lib_icon) : ?>
                                         <?php foreach ($lib_icon as $icon) : ?>
-                                            <?php if ($icon->getUrl() AND
-                                                (!$icon->getAppId() OR $icon->getAppId() == $application->getId()) AND
+                                            <?php if ($icon->getUrl() &&
+                                                (!$icon->getAppId() || $icon->getAppId() == $application->getId()) &&
                                                 !in_array($icon->getId(), $icon_ids)) : ?>
+
+                                            <?php if (in_array($icon->getUrl(), $iconUrls)): continue; endif; ?>
+
+                                            <?php $iconUrls[] = $icon->getUrl(); ?>
+
                                                 <li rel="<?php echo $option->getId(); ?>"
                                                     class="color-blue">
                                                     <a href="/application/customization_features/seticon"
                                                        class="left icon"
                                                        rel="<?php echo $option->getId(); ?>">
-                                                        <button class="select_icon btn"
+
+                                                        <button class="select_icon icn not-preload"
+                                                                style="background-image: url(<?php echo $icon->getUrl() ?>);"
                                                                 type="button">
-                                                            <img src="<?php echo $icon->getUrl(); ?>"
-                                                                 width="auto"
-                                                                 height="65"
-                                                                 class="colorize"/>
+                                                            <img src="/app/sae/design/desktop/flat/images/placeholder/blank-512.png"
+                                                                 class="colorize img-icon-size"/>
                                                         </button>
+
                                                         <input type="hidden"
                                                                name="option_value_id"
                                                                value="<?php echo $option->getValueId(); ?>"/>
@@ -302,9 +314,10 @@ $cacheOutput = Zend_Registry::get("cacheOutput");
                                     <input type="text"
                                            class="input-flat"
                                            style="width: 200px;"
-                                           placeholder="<?php echo p__('application', 'Search by keywords...') ?>"/>
-                                    <button type="reset"
-                                            class="btn color-blue"><?php echo p__('application', 'Clear') ?></button>
+                                           placeholder="<?php echo p__('icons', 'Search by keywords...') ?>"/>
+                                    <button class="btn color-blue clear"><?php echo p__('icons', 'Clear') ?></button>
+                                    <button class="btn btn-primary default-set"><?php echo p__('icons', 'Default feature set') ?></button>
+                                    <button class="btn btn-danger all-icons"><?php echo p__('icons', 'Show all icons') ?></button>
                                 </div>
                             </div>
                         </div>
@@ -312,33 +325,42 @@ $cacheOutput = Zend_Registry::get("cacheOutput");
                             <div class="row">
                                 <div class="filter-empty col-md-12">
                                     <div class="alert alert-info">
-                                        <?php echo p__('application', 'Start to type in the input box up there to search within the icons library.') ?>
+                                        <?php echo p__('icons', 'Start to type in the input box up there to search within the icons library.') ?>
                                     </div>
                                 </div>
                                 <div class="filter-no-results col-md-12"
                                      style="display: none;">
                                     <div class="alert alert-warning">
-                                        <?php echo p__('application', 'No results available for the current filter.') ?>
+                                        <?php echo p__('icons', 'No results available for the current filter.') ?>
                                     </div>
                                 </div>
                                 <div class="col-md-12">
                                     <ul class="icons_list filter_list">
-                                        <?php $allIconIds = []; ?>
-                                        <?php foreach ($allIcons as $icon) : ?>
+                                        <?php
+                                        $allIconIds = [];
+                                        // Prevent duped
+                                        $iconUrls = [];
+                                        ?>
+                                        <?php foreach ($allIcons as $icon) :
+                                            $keywords = $icon->getFilterKeywords();
+                                            ?>
+
+                                            <?php if (in_array($icon->getUrl(), $iconUrls)): continue; endif; ?>
+                                            <?php $iconUrls[] = $icon->getUrl(); ?>
+
                                             <?php if ($icon->getUrl() && !in_array($icon->getId(), $allIconIds)) : ?>
-                                                <li data-filter="<?php echo $icon->getFilterKeywords() ?>"
+                                                <li data-filter="<?php echo $keywords ?>"
                                                     style="display: none;"
                                                     rel="#OPTION_VALUE_ID#"
                                                     class="<?php echo ($icon->getCanBeColorized() == 0) ? "colorizable" : "color-blue"; ?>">
                                                     <a href="/application/customization_features/seticon"
                                                        class="left icon"
                                                        rel="#OPTION_VALUE_ID#">
-                                                        <button class="select_icon btn"
+                                                        <button class="select_icon icn not-preload"
+                                                                data-src="<?php echo $icon->getUrl() ?>"
                                                                 type="button">
-                                                            <img src="<?php echo $icon->getUrl(); ?>"
-                                                                 width="auto"
-                                                                 height="65"
-                                                                 class="colorize"/>
+                                                            <img src="/app/sae/design/desktop/flat/images/placeholder/blank-512.png"
+                                                                 class="colorize img-icon-size not-preload"/>
                                                         </button>
                                                         <input type="hidden"
                                                                name="option_value_id"
@@ -376,11 +398,25 @@ $cacheOutput = Zend_Registry::get("cacheOutput");
     <!-- /Icons modal -->
 
 
-
     <div class="edit_page container-fluid subcontent">
         <?php echo $this->getPartialHtml('content_editor'); ?>
     </div>
     <script type="text/javascript">
+
+        function iconsLoaderDebounce(func, wait, immediate) {
+            var timeout;
+            return function() {
+                var context = this, args = arguments;
+                var later = function() {
+                    timeout = null;
+                    if (!immediate) func.apply(context, args);
+                };
+                var callNow = immediate && !timeout;
+                clearTimeout(timeout);
+                timeout = setTimeout(later, wait);
+                if (callNow) func.apply(context, args);
+            };
+        };
 
         window.custom_icon_uploader = new Uploader();
 
@@ -666,14 +702,28 @@ $cacheOutput = Zend_Registry::get("cacheOutput");
         var iconsSearchText = $('.filter-icons input[type=text]');
         var iconsCache = $('.filter_list li[data-filter]');
 
-        /** Icon filtering */
-        iconsSearchText.off('keyup');
-        iconsSearchText.on('keyup', function () {
-            var search = $(this);
-            var value = search.val().toLowerCase();
+        /** Caching icons filter */
+        iconsCache.each(function () {
+            var el = $(this);
+            el.data('filter-san', el.data('filter').normalize("NFD").replace(/[\u0300-\u036f]/g, "").toLowerCase());
+        });
 
-            if (value.length === 0) {
-                iconsCache.hide();
+        /** Icon filtering */
+
+        var defaultValue = '<?php echo addcslashes($featureCode, "'") ?>';
+
+        iconsSearchText.off('keyup');
+        iconsSearchText.on('keyup', iconsLoaderDebounce(function () {
+            var search = $(this);
+            // remove any accents, then lowercase
+            var value = search.val().normalize("NFD").replace(/[\u0300-\u036f]/g, "").toLowerCase();
+            var searchValues = value.split(/[^a-z]+/i);
+
+            // At least two characters
+            if (value.length < 2) {
+                // Clear Icons & SRC
+                clearIconsSrc();
+
                 filterEmpty.show();
                 filterNoResults.hide();
             } else {
@@ -683,27 +733,79 @@ $cacheOutput = Zend_Registry::get("cacheOutput");
                 var gotOne = false;
                 iconsCache.each(function () {
                     var el = $(this);
-                    var filter = el.data('filter');
+                    var filters = el.data('filter-san');
 
-                    if (filter.indexOf(value) > -1) {
-                        gotOne = true;
-                        el.show();
-                    }
+                    searchValues.forEach(function (searchValue) {
+                        if (filters.indexOf(searchValue) > -1) {
+                            gotOne = true;
+                            el.show();
+                        }
+                    });
+
                 });
                 if (!gotOne) {
                     filterNoResults.show();
                 }
             }
+        }, 600));
+
+        // clear icons
+        var clearIconsSrc = function () {
+            iconsCache.hide();
+        };
+
+        var allIcons = $('.filter-icons button.all-icons');
+
+        function splitArrayIntoChunksOfLen(arr, len) {
+            var chunks = [], i = 0, n = arr.length;
+            while (i < n) {
+                chunks.push(arr.slice(i, i += len));
+            }
+            return chunks;
+        }
+
+        var showAllIcons = function () {
+            var chunks = splitArrayIntoChunksOfLen(iconsCache, 20);
+
+            var asyncTimedLoopShow = function () {
+                if (chunks.length <= 0) {
+                    return;
+                }
+                setTimeout(function () {
+                    chunks.shift().show();
+                    asyncTimedLoopShow();
+                }, 20);
+            };
+            asyncTimedLoopShow();
+        };
+
+        allIcons.off('click');
+        allIcons.on('click', function () {
+            filterNoResults.hide();
+            filterEmpty.hide();
+            iconsCache.hide();
+            iconsSearchText.val('');
+            showAllIcons();
         });
 
-        var filterIcons = $(".filter-icons button");
+        var filterIcons = $(".filter-icons button.clear");
 
         filterIcons.off('click');
         filterIcons.on('click', function () {
             iconsSearchText.val('');
-            iconsCache.hide();
+            // Clear Icons & SRC
+            clearIconsSrc();
+
             filterNoResults.hide();
             filterEmpty.show();
+        });
+
+        var defaultIcons = $(".filter-icons button.default-set");
+
+        defaultIcons.off('click');
+        defaultIcons.on('click', function () {
+            iconsSearchText.val(defaultValue);
+            iconsSearchText.trigger('keyup');
         });
 
         /** Clearcache action */
@@ -732,17 +834,49 @@ $cacheOutput = Zend_Registry::get("cacheOutput");
 
         $('.display_tooltip').tooltip();
 
+        // Observer to lazy load images as they display
+        var observer = new IntersectionObserver(
+            (entries, observer) => {
+                entries.forEach(entry => {
+                    if (entry.intersectionRatio > 0.0) {
+                        var button = entry.target;
+                        if (button.style.backgroundImage.length < 1) {
+                            button.style.backgroundImage = 'url('+button.dataset.src+')';
+                            // Stop observing
+                            observer.unobserve(button);
+                        }
+                    }
+                });
+            },
+            {}
+        );
+        for (let button of document.querySelectorAll('.filter_list button.not-preload')) {
+            observer.observe(button);
+        }
+
+        var defaultOption = '<?php echo __get('icons_library_default_filter') ?? 'feature' ?>';
+
+        switch (defaultOption) {
+            default:
+                // Triggers a default search
+                $('.filter-icons input').val(defaultValue).trigger('keyup');
+                break;
+            case 'none':
+                // Do nothing
+                break;
+            case 'all':
+                showAllIcons();
+                break;
+        }
+
     </script>
-    <style>
+    <style type="text/css">
         .custom_modal .modal_content li {
             margin: 5px;
             background: #0099C7;
             color: white;
-            border-radius: 0px;
             float: left;
             list-style: none;
-            -webkit-border-radius: 3px;
-            -moz-border-radius: 3px;
             border-radius: 3px;
             position: relative;
         }
@@ -774,10 +908,6 @@ $cacheOutput = Zend_Registry::get("cacheOutput");
             border: none;
             background: transparent;
             font-size: 25px;
-        }
-
-        .col-icon {
-            /*padding-left: 90px;*/
         }
 
         #icon_and_name .col-icon-button {
@@ -825,28 +955,6 @@ $cacheOutput = Zend_Registry::get("cacheOutput");
             text-align: left;
         }
 
-        .icons_list.filter_list li {
-            background-color: #a7a7ab !important;
-            z-index: 1;
-            opacity: 0.6;
-        }
-
-        .icons_list.filter_list li:hover {
-            opacity: 1;
-            -webkit-transform: scale(1.2);
-            -moz-transform: scale(1.2);
-            -ms-transform: scale(1.2);
-            -o-transform: scale(1.2);
-            transform: scale(1.2);
-            background-color: initial;
-        }
-
-        .icon_and_name .text-resize {
-            letter-spacing: -0.5px;
-            font-size: 0.9em;
-            margin-bottom: 0.5em;
-        }
-
         .col-icon-first {
             padding-left: 70px;
         }
@@ -864,6 +972,31 @@ $cacheOutput = Zend_Registry::get("cacheOutput");
 
         .tabbar-check > div {
             display: inline-block;
+        }
+
+        .icn {
+            background-size: contain !important;
+            background-repeat: no-repeat !important;
+            display: inline-block;
+            padding: 0;
+            margin-bottom: 0;
+        }
+
+        ul.feature_icons_default li,
+        ul.filter_list li {
+            background-color: #a0a0a0 !important;
+            padding: 10px !important;
+        }
+
+        img.img-icon-size {
+            width: 96px;
+            height: 96px;
+        }
+
+        ul.filter_list {
+            display: flex;
+            justify-content: flex-start;
+            flex-wrap: wrap;
         }
     </style>
 </div>

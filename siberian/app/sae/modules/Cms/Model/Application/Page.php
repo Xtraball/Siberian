@@ -424,10 +424,6 @@ class Cms_Model_Application_Page extends Core_Model_Default
             $this->_blocks = $block->findByPage($this->getId());
         }
 
-        foreach ($this->_blocks as $b) {
-            dbg($b->getData());
-        }
-
         return $this->_blocks;
     }
 

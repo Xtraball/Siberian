@@ -35,87 +35,60 @@ class Feature
      *
      * @param $name
      * @param $icons
-     * @param $can_be_colorized
+     * @param $canBeColorized
      * @return array()
      */
-    public static function installIcons($name, $icons = [], $can_be_colorized = true): array
+    public static function installIcons($name, $icons = [], $canBeColorized = true): array
     {
-        $library = new \Media_Model_Library();
-        $library
-            ->setData([
-                'name' => $name,
-            ])
-            ->insertOnce(['name']);
-
-        // Ensure older images are still valid, or wipe them!
-        $removedImageIds = [];
-        $olderImages = (new \Media_Model_Library_Image())->findAll($library->getId(), 'library_id');
-        foreach ($olderImages as $olderImage) {
-            $imagePath = $olderImage->getData('link');
-            // Test only paths starting with /app/, app/!
-            if (stripos($imagePath, '/app/') === 0 ||
-                stripos($imagePath, 'app/') === 0) {
-                $realPath = path($imagePath);
-                if (!is_readable($realPath)) {
-                    $removedImageIds[] = $olderImage->getId();
-                    $olderImage->delete();
-                }
-            }
+        $library = (new \Media_Model_Library())->find($name, 'name');
+        if (!$library || !$library->getId()) {
+            $library
+                ->setName($name)
+                ->save();
         }
+        $libraryId = $library->getId();
 
         $iconId = 0;
-        foreach ($icons as $key => $icon_path) {
-            $canBeColorized = $can_be_colorized;
-            $iconPath = $icon_path;
+        foreach ($icons as $key => $iconPath) {
             $keywords = '';
-            if (is_array($icon_path)) {
-                if (array_key_exists('colorize', $icon_path)) {
-                    $canBeColorized = filter_var($icon_path['colorize'], FILTER_VALIDATE_BOOLEAN);
+            if (is_array($iconPath)) {
+                if (array_key_exists('colorize', $iconPath)) {
+                    $canBeColorized = filter_var($iconPath['colorize'], FILTER_VALIDATE_BOOLEAN);
                 }
-                if (array_key_exists('path', $icon_path)) {
-                    $iconPath = $icon_path['path'];
+                if (array_key_exists('path', $iconPath)) {
+                    $iconPath = $iconPath['path'];
                 }
                 // Siberian 4.20.17+ support for keywords
-                if (array_key_exists('keywords', $icon_path)) {
-                    $keywords = $icon_path['keywords'];
+                if (array_key_exists('keywords', $iconPath)) {
+                    $keywords = $iconPath['keywords'];
                 }
             }
 
             $data = [
-                'library_id' => $library->getId(),
+                'library_id' => $libraryId,
                 'link' => $iconPath,
                 'keywords' => $keywords,
                 'can_be_colorized' => $canBeColorized
             ];
 
-            $image = new \Media_Model_Library_Image();
-            $image
-                ->setData($data)
-                ->insertOrUpdate(['library_id', 'link']);
-
-            if ($iconId === 0) {
-                $iconId = $image->getId();
+            $image = (new \Media_Model_Library_Image())->find([
+                'library_id = ?' => $libraryId,
+                'link = ?' => $iconPath,
+            ]);
+            if (!$image || !$image->getId()) {
+                $image
+                    ->setData($data)
+                    ->save();
+            } else {
+                $image
+                    ->setKeywords($keywords)
+                    ->setCanBeColorized($canBeColorized)
+                    ->save();
             }
-        }
 
-        // Replacing removed image ids with the new "default"
-        if (count($removedImageIds) > 0) {
-            try {
-                $brokenOptions = (new \Application_Model_Option())->findAll(['icon_id IN (?)' => $removedImageIds]);
-                foreach ($brokenOptions as $brokenOption) {
-                    $brokenOption
-                        ->setIconId($iconId)
-                        ->save();
-                }
-
-                $brokenFeatures = (new \Application_Model_Option_Value())->findAll(['icon_id IN (?)' => $removedImageIds]);
-                foreach ($brokenFeatures as $brokenFeature) {
-                    $brokenFeature
-                        ->setIconId($iconId)
-                        ->save();
-                }
-            } catch (\Exception $e) {
-                // Skip it!
+            $goodImageId = $image->getId();
+            if ($iconId === 0) {
+                $iconId = $goodImageId;
             }
         }
 

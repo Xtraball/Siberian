@@ -1,24 +1,24 @@
 <sb-section title="'<?php echo __title("List of existing previews"); ?>'"
             button="button">
-    <br />
+    <br/>
     <div class="form-group">
         <label for="filter"><?php echo __("Search"); ?></label>
-        <input type="text" 
-               id="filter" 
-               class="form-control" 
-               ng-model="filter" 
-               placeholder="<?php echo __("Search"); ?>" />
+        <input type="text"
+               id="filter"
+               class="form-control"
+               ng-model="filter"
+               placeholder="<?php echo __("Search"); ?>"/>
     </div>
-    <br />
+    <br/>
     <table class="table">
-        <col width="5%" />
-        <col width="75%" />
-        <col width="20%" />
+        <col width="5%"/>
+        <col width="75%"/>
+        <col width="20%"/>
         <thead>
         <tr>
-            <th class="pointer" 
+            <th class="pointer"
                 ng-click="order = 'id'; by = !by"><?php echo __("Id"); ?></th>
-            <th class="pointer" 
+            <th class="pointer"
                 ng-click="order = 'feature_name'; by = !by"><?php echo __("Feature"); ?></th>
             <th><?php echo __("Actions"); ?></th>
         </tr>
@@ -42,6 +42,34 @@
         </tr>
         </tbody>
     </table>
+</sb-section>
+
+<sb-section title="'<?php echo p__js("preview", "Settings"); ?>'">
+    <div class="row">
+        <div class="col-md-12">
+            <div class="form-group">
+                <div class="checkbox">
+                    <label for="split_preview_actions">
+                        <input type="checkbox"
+                               id="split_preview_actions"
+                               class="form-control"
+                               ng-model="settings.split_preview_actions"/>
+                        <?php echo p__('preview', 'Display preview only when clicking on info bubble.'); ?>
+                    </label>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-md-12">
+            <button class="btn btn-primary right"
+                    ng-click="saveSettings()"><?php echo p__('preview', 'Save') ?></button>
+        </div>
+    </div>
+
+    <div class="clear"></div>
+
 </sb-section>
 
 <style type="text/css">

@@ -134,7 +134,7 @@ angular
         };
 
         $scope.right_button = {
-            action: $scope.updatsiberian/lib/Siberian/Assets.phpeDeliveryInfos,
+            action: $scope.updateDeliveryInfos,
             label: $translate.instant('Next', 'm_commerce')
         };
 
