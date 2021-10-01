@@ -112,8 +112,6 @@ class Event_Model_Event extends Core_Model_Default
         foreach ($events as $event) {
             if ($event->getEventType() === 'ical') {
                 $this->_parseIcalAgenda($event->getData('url'));
-            } elseif ($event->getEventType() === 'fb') {
-                $this->_parseFBAgenda($event->getData('url'));
             } else {
                 $this->_parseCustomAgenda($event->getId());
             }
@@ -246,89 +244,6 @@ class Event_Model_Event extends Core_Model_Default
         }
         return $this;
     }
-
-    /**
-     * @param $username
-     * @return $this
-     * @throws Zend_Date_Exception
-     * @throws Zend_Locale_Exception
-     */
-    protected function _parseFBAgenda($username)
-    {
-
-        $access_token = Core_Model_Lib_Facebook::getAppToken();
-
-        $date = new Zend_Date();
-
-        $url = "https://graph.facebook.com/v2.7/$username/events?since=" . $date->toString("YYYY-MM-dd") . "&access_token=$access_token";
-
-        $response = file_get_contents($url);
-
-        if (!$response) {
-            return $this;
-        }
-
-        $events = Siberian_Json::decode($response);
-
-        if (!empty($events) && !empty($events['data'])) {
-            foreach ($events['data'] as $key => $event) {
-                $event_datas = file_get_contents("https://graph.facebook.com/v2.7/{$event['id']}?access_token=$access_token");
-
-                if (!$event_datas) continue;
-                $description = '';
-                if (!$event_datas) continue;
-
-                $event_datas = Siberian_Json::decode($event_datas);
-
-                $updated_at = date_create($event_datas['updated_time'])->format('Y-m-d H:i:s');
-
-                if (!empty($event_datas['venue'])) {
-                    if (!empty($event_datas["venue"]["name"])) {
-                        $address = $event_datas["venue"]["name"];
-                    } else {
-                        $address = [];
-                        foreach (["street", "zip", "city"] as $address_element) {
-                            if (!empty($event_datas['venue'][$address_element])) {
-                                $address[] = $event_datas['venue'][$address_element];
-                            }
-                        }
-                        $address = implode(", ", $address);
-                    }
-                }
-
-                $start_at = null;
-                $start_time_at = null;
-                if (!empty($event['start_time'])) {
-                    $start_at = new Zend_Date($event['start_time'], Zend_Date::ISO_8601);
-                    $start_time_at = $start_at->toString('HH:mm');
-                    $start_at = $start_at->toString('y-MM-dd HH:mm:ss');
-                }
-
-                $this->_tmp_list[] = [
-                    "id" => $key,
-                    "name" => $event['name'],
-                    "start_at" => $start_at,
-                    "start_time_at" => $start_time_at,
-                    "end_at" => date_create(isset($event['end_time']) ? $event['end_time'] : "")->format('Y-m-d H:i:s'),
-                    "description" => !empty($event_datas['description']) ? $event_datas['description'] : null,
-                    "location" => $address,
-                    "rsvp" => '',
-                    "picture" => 'https://graph.facebook.com/' . $event['id'] . '/picture?type=large',
-                    "created_at" => null,
-                    "type" => "facebook",
-                    "updated_at" => $updated_at
-
-                ];
-//                }
-            }
-        }
-
-        $this->_tmp_list = array_reverse($this->_tmp_list);
-
-        return $this;
-
-    }
-
 
     /**
      * @param $custom_agenda_id
