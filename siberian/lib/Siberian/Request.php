@@ -41,6 +41,8 @@ class Request
         curl_setopt($request, CURLOPT_TIMEOUT, $timeout);
         curl_setopt($request, CURLOPT_FOLLOWLOCATION, true);
         curl_setopt($request, CURLOPT_POST, true);
+
+        # Settings for sake of Let's Encrypt
         curl_setopt($request, CURLOPT_SSL_VERIFYHOST, false);
         curl_setopt($request, CURLOPT_SSL_VERIFYPEER, false);
 
