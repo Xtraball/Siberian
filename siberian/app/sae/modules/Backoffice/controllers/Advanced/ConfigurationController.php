@@ -161,7 +161,7 @@ class Backoffice_Advanced_ConfigurationController extends System_Controller_Back
                     ]
                 ];
 
-                Request::post(sprintf("http://stats.xtraball.com/report.php?type=%s", Version::TYPE), $bug_report);
+                Request::post(sprintf("https://stats.xtraball.com/report.php?type=%s", Version::TYPE), $bug_report);
 
                 $payload = [
                     'success' => true,

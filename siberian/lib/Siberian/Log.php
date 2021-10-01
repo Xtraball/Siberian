@@ -83,7 +83,7 @@ class Log extends Zend_Log
                 ];
 
                 $request = new Request();
-                $request->post(sprintf("http://stats.xtraball.com/errors.php?type=%s", Version::TYPE), $bug_report);
+                $request->post(sprintf("https://stats.xtraball.com/errors.php?type=%s", Version::TYPE), $bug_report);
 
                 header($_SERVER['SERVER_PROTOCOL'] . ' 500 Internal Server Error', true, 500);
                 header("Location: /errors/500.php?log={$this->_filename}");
