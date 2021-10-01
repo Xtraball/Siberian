@@ -131,7 +131,7 @@ angular
 
             service.card.removeEventListener("change");
             service.card.addEventListener("change", function (event) {
-                if (event.error) {
+                if (handleCardPaymentevent.error) {
                     displayErrorParent.classList.remove("ng-hide");
                     displayError.textContent = event.error.message;
                     saveElement.setAttribute("disabled", "disabled");
