@@ -1,59 +1,77 @@
 <?php
 
-class Application_View_Customization_Features_List_Options extends Core_View_Default {
+use Siberian\Version;
 
+/**
+ * Class Application_View_Customization_Features_List_Options
+ */
+class Application_View_Customization_Features_List_Options extends Core_View_Default
+{
+    /**
+     * @var string
+     */
     protected $_icon_color;
 
-    protected function getIconUrl($option) {
-
-        $colorizable = true;
-
-        switch($option->getOptionId()) {
-            case "customer_account":
-                    if($this->getApplication()->getAccountIconId()) {
-                        $image = new Media_Model_Library_Image();
-                        $image->find($this->getApplication()->getAccountIconId());
-                        $icon_url = $image->getUrl();
-                        $colorizable = $image->getCanBeColorized();
-
-                        break;
-                    }
-            case "more_items":
-                    if($this->getApplication()->getMoreIconId()) {
-                        $image = new Media_Model_Library_Image();
-                        $image->find($this->getApplication()->getMoreIconId());
-                        $icon_url = $image->getUrl();
-                        $colorizable = $image->getCanBeColorized();
-
-                        break;
-                    }
-            default:
-                $colorizable = (!$option->getImage()->getId() OR $option->getImage()->getCanBeColorized());
-                $icon_url = $option->getIconUrl();
+    /**
+     * @param $option
+     * @param null $enforcedColor
+     * @param bool $forceColorizable
+     * @return string
+     * @throws Zend_Exception
+     * @throws Zend_Validate_Exception
+     */
+    protected function getIconUrl($option, $enforcedColor = null, $forceColorizable = false)
+    {
+        // Enforces a color (but not the colorization*)
+        if ($enforcedColor !== null && empty($this->_icon_color)) {
+            $this->_icon_color = $enforcedColor;
         }
 
-        if($colorizable) {
+        if ($option->getOptionId() === 'customer_account' &&
+            $this->getApplication()->getAccountIconId()) {
 
-            if(!$this->_icon_color) {
+            $image = (new Media_Model_Library_Image())
+                ->find($this->getApplication()->getAccountIconId());
+            $iconUrl = $image->getUrl();
+            $colorizable = $image->getCanBeColorized();
+        } else if ($option->getOptionId() === 'more_items' &&
+            $this->getApplication()->getMoreIconId()) {
+
+            $image = (new Media_Model_Library_Image())
+                ->find($this->getApplication()->getMoreIconId());
+            $iconUrl = $image->getUrl();
+            $colorizable = $image->getCanBeColorized();
+        } else {
+            $image = (new Media_Model_Library_Image())
+                ->find($option->getIconId());
+            $iconUrl = $image->getUrl();
+            $colorizable = $image->getCanBeColorized();
+        }
+
+        if ($colorizable || $forceColorizable) {
+            if (!$this->_icon_color) {
                 $this->_initIconColor();
             }
 
-            $icon_url = $this->getColorizedImage($icon_url, $this->_icon_color);
+            $iconUrl = $this->getColorizedImage($iconUrl, $this->_icon_color);
         }
 
-        return $icon_url;
-
+        return $iconUrl;
     }
 
-    protected function _initIconColor() {
-
-        $this->_icon_color = "#FFFFFF";
-        if(Siberian_Version::is('PE')) {
-            $this->_icon_color = $this->getBlock("area")->getColor();
+    /**
+     * @return $this
+     * @throws Zend_Exception
+     * @throws Zend_Validate_Exception
+     */
+    protected function _initIconColor()
+    {
+        $this->_icon_color = '#FFFFFF';
+        if (Version::is('PE')) {
+            $this->_icon_color = $this->getBlock('border-blue')->getBorderColor();
         }
 
         return $this;
-
     }
 
 }

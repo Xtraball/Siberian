@@ -118,6 +118,7 @@ class Application_Model_Option_Value extends Application_Model_Option
      */
     public function getIconUrl($base = false)
     {
+        dbg('helper3');
         if (empty($this->_icon_url) AND $this->getIconId()) {
             if ($this->getIcon() AND !$base) {
                 $this->_icon_url = Media_Model_Library_Image::getImagePathTo($this->getIcon(), $this->getAppId());

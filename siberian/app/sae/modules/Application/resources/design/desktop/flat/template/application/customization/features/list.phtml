@@ -65,8 +65,11 @@ if (strtolower($backgroundColor) === 'transparent') {
  */
 function hideFeature($canAccess, $option, $option_ids, $masterId, $isBackofficeUser)
 {
+    $moduleIsIsntalled = class_exists($option->getModel());
+
     return
         !$canAccess ||
+        !$moduleIsIsntalled ||
         ($option->onlyOnce() && in_array($option->getId(), $option_ids)) ||
         (!$isBackofficeUser && ($masterId == $option->getCategoryId()));
 }
@@ -294,25 +297,17 @@ $splitPreviewActions = filter_var(__get('split_preview_actions'), FILTER_VALIDAT
                         </div>
                         <div class="icons-list col-md-9">
                             <div>
-                                <ul id="add_page_list" class="sb-tour">
+                                <ul id="add_page_list"
+                                    class="sb-tour">
                                     <?php foreach ($options as $key => $option) : ?>
                                         <?php if (hideFeature($this->_canAccess('feature_' . $option->getCode(), 'all'), $option, $option_ids, $masterId, $isBackofficeUser)) continue; ?>
                                         <?php
                                             $preview = $option->getPreview();
-                                            $iconUrl = $this->getIconUrl($option);
-                                            $icon = (new Media_Model_Library_Image())->find($option->getIconId());
-                                            $colorizable = $icon->getCanBeColorized() === '1';
-                                            if (!is_readable(path($iconUrl))) {
-                                                $iconUrl = '/app/sae/design/desktop/flat/images/placeholder/blank-feature-icon.png';
-                                            }
+                                            $iconUrl = $this->getIconUrl($option, '#0099C7', false);
                                             $hasPreview = $preview->getId() && $preview->getTitle();
                                             $showPreviewIcon = $hasPreview && !$splitPreviewActions;
                                             $showPreviewBubble = $hasPreview && $splitPreviewActions;
 
-                                            // Icon
-                                            if ($colorizable) {
-                                                $iconUrl = $this->getColorizedImage($iconUrl, $backgroundColor);
-                                            }
                                             ?>
                                         <li id="add_page_<?php echo $option->getId(); ?>"
                                             data-search="<?php echo __js(strtolower($option->getName() . ' ' . $option->getCode() . ' ' . $option->getData('name') . ' ' . $cats[$option->getCategoryId()] . ' ' . __($cats[$option->getCategoryId()])), '"'); ?>"

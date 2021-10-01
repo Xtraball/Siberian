@@ -1,11 +1,13 @@
 <?php
 
+use Core\Model\Base;
+
 /**
  * Class Media_Model_Library_Image
  *
  * @method Media_Model_Db_Table_Library_Image getTable()
  */
-class Media_Model_Library_Image extends Core_Model_Default
+class Media_Model_Library_Image extends Base
 {
 
     const PATH = '/images/library';
@@ -18,42 +20,45 @@ class Media_Model_Library_Image extends Core_Model_Default
 
     /**
      * @param string $path
-     * @param null $app_id
+     * @param null $appId
      * @return string
      */
-    public static function getImagePathTo($path = '', $app_id = null)
+    public static function getImagePathTo($path = '', $appId = null): string
     {
+        return self::_getImagePath($path, $appId, false);
+    }
 
-        if (!empty($path) AND substr($path, 0, 1) != '/') {
+    /**
+     * @param string $path
+     * @param null $appId
+     * @return string
+     */
+    public static function getBaseImagePathTo($path = '', $appId = null): string
+    {
+        return self::_getImagePath($path, $appId, true);
+    }
+
+    /**
+     * @param string $path
+     * @param null $appId
+     * @param bool $base
+     * @return string
+     */
+    public static function _getImagePath($path = '', $appId = null, $base = true): string
+    {
+        if (!empty($path) && $path[0] !== '/') {
             $path = '/' . $path;
         }
 
-        if (!is_null($app_id)) {
-            $path = sprintf(self::APPLICATION_PATH . $path, $app_id);
-        } else if (strpos($path, "/app") === 0) {
+        if (!is_null($appId)) {
+            $path = sprintf(self::APPLICATION_PATH . $path, $appId);
+        } else if (strpos($path, '/app') === 0) {
             # Do nothing for /app/* from modules
         } else {
             $path = self::PATH . $path;
         }
 
-        return Core_Model_Directory::getPathTo($path);
-    }
-
-    public static function getBaseImagePathTo($path = '', $app_id = null)
-    {
-
-        if (!empty($path) AND substr($path, 0, 1) != '/') $path = '/' . $path;
-
-        if (!is_null($app_id)) {
-            $path = sprintf(self::APPLICATION_PATH . $path, $app_id);
-        } else if (strpos($path, "/app") === 0) {
-            # Do nothing for /app/* from modules
-        } else {
-            $path = self::PATH . $path;
-        }
-
-        return Core_Model_Directory::getBasePathTo($path);
-
+        return $base ? path($path) : rpath($path);
     }
 
     /**
@@ -68,20 +73,23 @@ class Media_Model_Library_Image extends Core_Model_Default
      */
     public function getUrl($__url = '', array $__params = array(), $__locale = null)
     {
-        $url = '';
         if ($this->getLink()) {
             $url = self::getImagePathTo($this->getLink(), $this->getAppId());
-            $base_url = self::getBaseImagePathTo($this->getLink(), $this->getAppId());
-            if (!file_exists($base_url)) {
-                $url = '';
+            $baseUrl = self::getBaseImagePathTo($this->getLink(), $this->getAppId());
+            if (is_file($baseUrl)) {
+                return $url;
             }
         }
 
-        if (empty($url)) {
-            $url = $this->getNoImage();
-        }
-        return $url;
+        return $this->getNoImage();
+    }
 
+    /**
+     * @return string
+     */
+    public function getNoImage()
+    {
+        return '/app/sae/design/desktop/flat/images/placeholder/blank-feature-icon.png';
     }
 
     public function getSecondaryUrl()
@@ -153,7 +161,7 @@ class Media_Model_Library_Image extends Core_Model_Default
         $link = preg_replace("/\d/", '', $link); // Also replace numbers
         $link = strtolower(trim(preg_replace("/,+/", ',', $link), ','));
 
-        $keywords = $link.','.$this->getKeywords();
+        $keywords = $link . ',' . $this->getKeywords();
 
         $list = explode(',', $keywords);
         $list = array_keys(array_flip($list));

@@ -294,7 +294,6 @@ class Application_Model_Option extends Core_Model_Default
      */
     public function getIconUrl($base = false)
     {
-
         if (empty($this->_icon_url) AND $this->getIconId()) {
             if ($this->getIcon() AND !$base) {
                 $this->_icon_url = Media_Model_Library_Image::getImagePathTo($this->getIcon(), $this->getAppId());
