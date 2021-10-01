@@ -81,11 +81,11 @@ class Backoffice_Advanced_ToolsController extends System_Controller_Backoffice_D
 
             // Download archives from GitHub
             chdir($varApps);
-            self::verboseExec('wget -v ' . $browser);
+            self::verboseExec('wget --no-check-certificate -v ' . $browser);
             chdir($varApps . '/ionic');
-            self::verboseExec('wget -v ' . $android);
-            self::verboseExec('wget -v ' . $ios);
-            self::verboseExec('wget -v ' . $iosNoads);
+            self::verboseExec('wget --no-check-certificate -v ' . $android);
+            self::verboseExec('wget --no-check-certificate -v ' . $ios);
+            self::verboseExec('wget --no-check-certificate -v ' . $iosNoads);
 
             if (!is_readable('./android.tgz') ||
                 !is_readable('./ios.tgz') ||
