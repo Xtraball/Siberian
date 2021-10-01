@@ -300,12 +300,19 @@ $splitPreviewActions = filter_var(__get('split_preview_actions'), FILTER_VALIDAT
                                         <?php
                                             $preview = $option->getPreview();
                                             $iconUrl = $this->getIconUrl($option);
+                                            $icon = (new Media_Model_Library_Image())->find($option->getIconId());
+                                            $colorizable = $icon->getCanBeColorized() === '1';
                                             if (!is_readable(path($iconUrl))) {
                                                 $iconUrl = '/app/sae/design/desktop/flat/images/placeholder/blank-feature-icon.png';
                                             }
                                             $hasPreview = $preview->getId() && $preview->getTitle();
                                             $showPreviewIcon = $hasPreview && !$splitPreviewActions;
                                             $showPreviewBubble = $hasPreview && $splitPreviewActions;
+
+                                            // Icon
+                                            if ($colorizable) {
+                                                $iconUrl = $this->getColorizedImage($iconUrl, $backgroundColor);
+                                            }
                                             ?>
                                         <li id="add_page_<?php echo $option->getId(); ?>"
                                             data-search="<?php echo __js(strtolower($option->getName() . ' ' . $option->getCode() . ' ' . $option->getData('name') . ' ' . $cats[$option->getCategoryId()] . ' ' . __($cats[$option->getCategoryId()])), '"'); ?>"
@@ -314,7 +321,7 @@ $splitPreviewActions = filter_var(__get('split_preview_actions'), FILTER_VALIDAT
                                                class="details <?php if ($showPreviewIcon) : ?>show_previews<?php else : ?>add_page<?php endif; ?> <?php if ($hasPreview) : ?>has_preview<?php endif; ?>"
                                                rel="<?php echo $option->getId(); ?>">
                                                 <div class="border-blue block_add_pages_icon btn default_size_details"
-                                                     style="background-image: url('<?php echo $this->getColorizedImage($iconUrl, $backgroundColor); ?>')">
+                                                     style="background-image: url('<?php echo $iconUrl ?>')">
                                                     <img src="/app/sae/design/desktop/flat/images/placeholder/blank-512.png"
                                                          alt="<?php echo $option->getName(); ?>"
                                                          title="<?php echo $option->getName(); ?>" width="auto"

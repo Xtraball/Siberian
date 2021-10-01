@@ -386,10 +386,10 @@ class Feature
         if (!file_exists($img_dst) && !copy($img_src, $img_dst)) {
             throw new Exception('#343-01: ' .
                 __('An error occurred while saving your picture. Please try again later.'));
-        } else {
-            $path = $relative_path . '/' . $filename;
-            unlink($img_src);
         }
+
+        $path = $relative_path . '/' . $filename;
+        unlink($img_src);
 
         return $path;
     }
