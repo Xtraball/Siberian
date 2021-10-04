@@ -224,8 +224,6 @@ class Feature
         $feature_data["library_id"] = $feature_icons["library_id"];
         $feature_data["icon_id"] = $feature_icons["icon_id"];
 
-        dbg($feature_data);
-
         $option = self::install($category, $feature_data, ['code']);
         self::installAcl($option);
 

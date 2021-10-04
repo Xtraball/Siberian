@@ -13,7 +13,7 @@ class Application_View_Customization_Features_List_Options extends Core_View_Def
     protected $_icon_color;
 
     /**
-     * @param $option
+     * @param Application_Model_Option $option
      * @param null $enforcedColor
      * @param bool $forceColorizable
      * @return string
@@ -27,36 +27,49 @@ class Application_View_Customization_Features_List_Options extends Core_View_Def
             $this->_icon_color = $enforcedColor;
         }
 
-        if ($option->getOptionId() === 'customer_account' &&
-            $this->getApplication()->getAccountIconId()) {
+        $image = (new Media_Model_Library_Image());
 
-            $image = (new Media_Model_Library_Image())
-                ->find($this->getApplication()->getAccountIconId());
-            $iconUrl = $image->getUrl();
-            $colorizable = $image->getCanBeColorized();
-        } else if ($option->getOptionId() === 'more_items' &&
-            $this->getApplication()->getMoreIconId()) {
-
-            $image = (new Media_Model_Library_Image())
-                ->find($this->getApplication()->getMoreIconId());
-            $iconUrl = $image->getUrl();
-            $colorizable = $image->getCanBeColorized();
+        if ($option->getOptionId() === 'customer_account') {
+            if ($this->getApplication()->getAccountIconId()) {
+                $image->find($this->getApplication()->getAccountIconId());
+            } else {
+                $image->find($option->getDefaultIconId());
+            }
+        } else if ($option->getOptionId() === 'more_items') {
+            if ($this->getApplication()->getMoreIconId()) {
+                $image->find($this->getApplication()->getMoreIconId());
+            } else {
+                $image->find($option->getDefaultIconId());
+            }
         } else {
-            $image = (new Media_Model_Library_Image())
-                ->find($option->getIconId());
-            $iconUrl = $image->getUrl();
-            $colorizable = $image->getCanBeColorized();
+            if ($option->getIconId()) {
+                $image->find($option->getIconId());
+            } else {
+                $image->find($option->getDefaultIconId());
+            }
         }
+
+        dbg('checking image');
+        if (!$image->checkFile()) {
+            // Ok we got here!
+            $iii = $option->getDefaultIconId();
+            dbg('$option->getDefaultIconId()', $iii);
+            $image->find($iii);
+        }
+
+
+        $iconRelPath = $image->getRelativePath();
+        $colorizable = $image->getCanBeColorized();
 
         if ($colorizable || $forceColorizable) {
             if (!$this->_icon_color) {
                 $this->_initIconColor();
             }
 
-            $iconUrl = $this->getColorizedImage($iconUrl, $this->_icon_color);
+            $iconRelPath = $this->getColorizedImage($iconRelPath, $this->_icon_color);
         }
 
-        return $iconUrl;
+        return $iconRelPath;
     }
 
     /**

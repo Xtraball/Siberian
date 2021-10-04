@@ -6,6 +6,7 @@ use Core\Model\Base;
  * Class Media_Model_Library_Image
  *
  * @method Media_Model_Db_Table_Library_Image getTable()
+ * @method boolean getCanBeColorized()
  */
 class Media_Model_Library_Image extends Base
 {
@@ -73,6 +74,14 @@ class Media_Model_Library_Image extends Base
      */
     public function getUrl($__url = '', array $__params = array(), $__locale = null)
     {
+        return $this->getRelativePath();
+    }
+
+    /**
+     * @return string
+     */
+    public function getRelativePath(): string
+    {
         if ($this->getLink()) {
             $url = self::getImagePathTo($this->getLink(), $this->getAppId());
             $baseUrl = self::getBaseImagePathTo($this->getLink(), $this->getAppId());
@@ -82,6 +91,19 @@ class Media_Model_Library_Image extends Base
         }
 
         return $this->getNoImage();
+    }
+
+    /**
+     * @return bool
+     */
+    public function checkFile(): bool
+    {
+        if ($this->getLink()) {
+            $baseUrl = self::getBaseImagePathTo($this->getLink(), $this->getAppId());
+            return is_file($baseUrl);
+        }
+
+        return false;
     }
 
     /**

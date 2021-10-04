@@ -312,11 +312,13 @@ class Application_Model_Option extends Core_Model_Default
      */
     public function getDefaultIconId()
     {
-        $library = $this->getLibrary();
-
-        $icon = $library->getFirstIcon();
-
-        return $icon->getId();
+        try {
+            $library = $this->getLibrary();
+            $icon = $library->getFirstIcon();
+            return $icon->getId();
+        } catch (\Exception $e) {
+            return null;
+        }
     }
 
     /**

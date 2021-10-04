@@ -260,9 +260,14 @@ $featureCode = preg_replace("/\d/", '', $option->getCode());
                                                 (!$icon->getAppId() || $icon->getAppId() == $application->getId()) &&
                                                 !in_array($icon->getId(), $icon_ids)) : ?>
 
-                                            <?php if (in_array($icon->getUrl(), $iconUrls)): continue; endif; ?>
+                                           <?php
+                                               if (!$icon->checkFile() || in_array($icon->getUrl(), $iconUrls, true)) {
+                                                   continue;
+                                               }
 
-                                            <?php $iconUrls[] = $icon->getUrl(); ?>
+                                               $_tmpUrl = $icon->getRelativePath();
+                                               $iconUrls[] = $_tmpUrl;
+                                            ?>
 
                                                 <li rel="<?php echo $option->getId(); ?>"
                                                     class="color-blue">
@@ -271,7 +276,7 @@ $featureCode = preg_replace("/\d/", '', $option->getCode());
                                                        rel="<?php echo $option->getId(); ?>">
 
                                                         <button class="select_icon icn not-preload"
-                                                                style="background-image: url(<?php echo $icon->getUrl() ?>);"
+                                                                style="background-image: url(<?php echo $_tmpUrl ?>);"
                                                                 type="button">
                                                             <img src="/app/sae/design/desktop/flat/images/placeholder/blank-512.png"
                                                                  class="colorize img-icon-size"/>
@@ -343,12 +348,15 @@ $featureCode = preg_replace("/\d/", '', $option->getCode());
                                         ?>
                                         <?php foreach ($allIcons as $icon) :
                                             $keywords = $icon->getFilterKeywords();
+
+                                            if (!$icon->checkFile() || in_array($icon->getRelativePath(), $iconUrls, true)) {
+                                                continue;
+                                            }
+                                            $_tmpUrl = $icon->getRelativePath();
+                                            $iconUrls[] = $_tmpUrl;
                                             ?>
 
-                                            <?php if (in_array($icon->getUrl(), $iconUrls)): continue; endif; ?>
-                                            <?php $iconUrls[] = $icon->getUrl(); ?>
-
-                                            <?php if ($icon->getUrl() && !in_array($icon->getId(), $allIconIds)) : ?>
+                                            <?php if ($_tmpUrl && !in_array($icon->getId(), $allIconIds)) : ?>
                                                 <li data-filter="<?php echo $keywords ?>"
                                                     style="display: none;"
                                                     rel="#OPTION_VALUE_ID#"
@@ -357,7 +365,7 @@ $featureCode = preg_replace("/\d/", '', $option->getCode());
                                                        class="left icon"
                                                        rel="#OPTION_VALUE_ID#">
                                                         <button class="select_icon icn not-preload"
-                                                                data-src="<?php echo $icon->getUrl() ?>"
+                                                                data-src="<?php echo $_tmpUrl ?>"
                                                                 type="button">
                                                             <img src="/app/sae/design/desktop/flat/images/customization/ajax/eclipse-loader-3s.svg"
                                                                  class="colorize img-icon-size not-preload"/>
