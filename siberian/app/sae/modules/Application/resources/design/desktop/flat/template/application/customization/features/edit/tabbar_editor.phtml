@@ -83,7 +83,7 @@ $featureCode = preg_replace("/\d/", '', $option->getCode());
                             data-color="color">
                         <span class="edit-btn"><i class="fa fa-pencil"></i></span>
                         <img id="current_icon"
-                             src="<?php echo $this->getIconUrl($option); ?>"
+                             src="<?php echo $this->getIconUrl($option, '#ffffff'); ?>"
                              width="auto"
                              height="40"
                              data-image="<?php echo $option->getIconId(); ?>"
@@ -359,7 +359,7 @@ $featureCode = preg_replace("/\d/", '', $option->getCode());
                                                         <button class="select_icon icn not-preload"
                                                                 data-src="<?php echo $icon->getUrl() ?>"
                                                                 type="button">
-                                                            <img src="/app/sae/design/desktop/flat/images/placeholder/blank-512.png"
+                                                            <img src="/app/sae/design/desktop/flat/images/customization/ajax/eclipse-loader-3s.svg"
                                                                  class="colorize img-icon-size not-preload"/>
                                                         </button>
                                                         <input type="hidden"
@@ -841,7 +841,14 @@ $featureCode = preg_replace("/\d/", '', $option->getCode());
                     if (entry.intersectionRatio > 0.0) {
                         var button = entry.target;
                         if (button.style.backgroundImage.length < 1) {
-                            button.style.backgroundImage = 'url('+button.dataset.src+')';
+                            var preLoadImage = new Image();
+                            preLoadImage.onload = function() {
+                                // There is only the blank img!
+                                button.firstElementChild.src = '/app/sae/design/desktop/flat/images/placeholder/blank-512.png';
+                                button.style.backgroundImage = 'url('+button.dataset.src+')';
+                            };
+                            preLoadImage.src = button.dataset.src;
+
                             // Stop observing
                             observer.unobserve(button);
                         }
@@ -911,10 +918,14 @@ $featureCode = preg_replace("/\d/", '', $option->getCode());
         }
 
         #icon_and_name .col-icon-button {
-            padding-top: 5px;
+            padding-top: 1px;
             width: 70px;
             position: absolute;
             left: 15px;
+        }
+
+        #change_icon {
+            padding: 9px !important;
         }
 
         #icon_library {
