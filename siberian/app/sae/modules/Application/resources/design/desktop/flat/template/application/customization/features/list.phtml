@@ -512,14 +512,21 @@ $splitPreviewActions = filter_var(__get('split_preview_actions'), FILTER_VALIDAT
                     reload($('#option_values'), order_url, true, function () {
                         //Order dans la feature folder
                         if ($('.manage_categories').length > 0) {
-                            iframe.f.reload();
-                            //Order directement dans une feature d'une catégorie
+                            try {
+                                iframe.f.reload();
+                            } catch (e) {
+                                // Silent noop!
+                            }
                         }
                     });
                 } else {
                     var order_url = "<?php echo $this->getUrl('application/customization_features/seticonpositions'); ?>?" + order;
                     reload($('#option_values'), order_url, true, function () {
-                        iframe.f.reloadTabbar();
+                        try {
+                            iframe.f.reloadTabbar();
+                        } catch (e) {
+                            // Silent noop!
+                        }
                         $('ul#option_values li.option_value').each(function (index, value) {
                             $(this).attr('data-pos', index + 1);
                             $(this).find('a').attr('pos', index + 1);
@@ -579,14 +586,17 @@ $splitPreviewActions = filter_var(__get('split_preview_actions'), FILTER_VALIDAT
 
                         reload($(this).parent(), '<?php echo $this->getUrl('application/customization_features/delete'); ?>', true, function (datas) {
 
-                            iframe.f.reloadTabbar();
-
-                            if (datas.path && iframe.f.getPath() == datas.path) {
-                                if (!iframe.isHomepage()) {
-                                    iframe.f.showHomepage();
-                                } else {
-                                    iframe.f.reload();
+                            try {
+                                iframe.f.reloadTabbar();
+                                if (datas.path && iframe.f.getPath() == datas.path) {
+                                    if (!iframe.isHomepage()) {
+                                        iframe.f.showHomepage();
+                                    } else {
+                                        iframe.f.reload();
+                                    }
                                 }
+                            } catch (e) {
+                                // Silent noop
                             }
 
                             //Cas folder
@@ -691,14 +701,26 @@ $splitPreviewActions = filter_var(__get('split_preview_actions'), FILTER_VALIDAT
 
                             var a = li.children('a');
                             $("#option_values").append(li);
+                            // Push more items to the end (if it exists!)
+
+                            try {
+                                $('#option_values').append($('#option_value_more_items'))
+                            } catch (e) {
+                                // Silent noop!
+                            }
+
                             this.close();
                             preview.close(true);
 
                             page.load(a);
 
-                            iframe.f.reloadTabbar();
+                            try {
+                                iframe.f.reloadTabbar();
+                            } catch (e) {
+                                // Silent noop!
+                            }
 
-                            //Scroll to top after adding a feature
+                            // Scroll to top after adding a feature
                             var d = (navigator.userAgent && navigator.userAgent.indexOf('WebKit')) != -1 ?
                                 document.body : document.documentElement;
                             $(d).animate({scrollTop: $('body').offset().top});
@@ -911,7 +933,11 @@ $splitPreviewActions = filter_var(__get('split_preview_actions'), FILTER_VALIDAT
 
                     if (!folder.id && !folder.current_option_id && this.current.attr('rel') != folder.id) {
                         if (!this.next) {
-                            iframe.f.showHomepage();
+                            try {
+                                iframe.f.showHomepage();
+                            } catch (e) {
+                                // Silent noop!
+                            }
                         }
                     }
                 }
@@ -1578,8 +1604,12 @@ $splitPreviewActions = filter_var(__get('split_preview_actions'), FILTER_VALIDAT
 
                     var feature_count = $('#option_values li.option_value:visible').length;
                     $('.button_handler[rel="' + cat_id + '"]').find('.features_number').html('(' + feature_count + ')');
-                    if (iframe.f.isHomepage()) {
-                        iframe.f.reload();
+                    try {
+                        if (iframe.f.isHomepage()) {
+                            iframe.f.reload();
+                        }
+                    } catch (e) {
+                        // Silent noop
                     }
                 }
             });

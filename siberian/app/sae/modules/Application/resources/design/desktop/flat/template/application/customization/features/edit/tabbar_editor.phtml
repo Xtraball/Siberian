@@ -260,13 +260,13 @@ $featureCode = preg_replace("/\d/", '', $option->getCode());
                                                 (!$icon->getAppId() || $icon->getAppId() == $application->getId()) &&
                                                 !in_array($icon->getId(), $icon_ids)) : ?>
 
-                                           <?php
-                                               if (!$icon->checkFile() || in_array($icon->getUrl(), $iconUrls, true)) {
-                                                   continue;
-                                               }
+                                            <?php
+                                                if (!$icon->checkFile() || in_array($icon->getUrl(), $iconUrls, true)) {
+                                                    continue;
+                                                }
 
-                                               $_tmpUrl = $icon->getRelativePath();
-                                               $iconUrls[] = $_tmpUrl;
+                                                $_tmpUrl = $icon->getRelativePath();
+                                                $iconUrls[] = $_tmpUrl;
                                             ?>
 
                                                 <li rel="<?php echo $option->getId(); ?>"

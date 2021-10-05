@@ -61,9 +61,15 @@ class Media_Model_Library extends Core_Model_Default
             }
 
             $apath = path($link);
-            if (is_file($apath)) {
-                return $image;
+            if (is_file($apath) === false) {
+                // Else delete the record!
+                $image->delete();
+                // Then jump on next!
+                continue;
             }
+
+            // Or send the working image!
+            return $image;
         }
 
         throw new Exception('This library has no image!');
@@ -181,9 +187,8 @@ class Media_Model_Library extends Core_Model_Default
         }
 
         $image = new Media_Model_Library_Image();
-        $allIcons = $image->findAll($where, ['image_id DESC']);
 
-        return $allIcons;
+        return $image->findAll($where, ['image_id DESC']);
     }
 
 }

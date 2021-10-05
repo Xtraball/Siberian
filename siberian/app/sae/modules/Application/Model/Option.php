@@ -1,5 +1,7 @@
 <?php
 
+use Siberian\Version;
+
 /**
  * Class Application_Model_Option
  *
@@ -48,15 +50,9 @@ class Application_Model_Option extends Core_Model_Default
     protected $_xml = null;
 
     /**
-     * Application_Model_Option constructor.
-     * @param array $datas
-     * @throws Zend_Exception
+     * @var string
      */
-    public function __construct($datas = [])
-    {
-        parent::__construct($datas);
-        $this->_db_table = 'Application_Model_Db_Table_Option';
-    }
+    protected $_db_table = Application_Model_Db_Table_Option::class;
 
     /**
      * @return $this
@@ -78,9 +74,9 @@ class Application_Model_Option extends Core_Model_Default
      */
     public function find($id, $field = null)
     {
-        if ($id == 'customer_account') {
+        if ($id === 'customer_account') {
             $this->findTabbarAccount();
-        } else if ($id == 'more_items') {
+        } else if ($id === 'more_items') {
             $this->findTabbarMore();
         } else {
             parent::find($id, $field);
@@ -114,6 +110,7 @@ class Application_Model_Option extends Core_Model_Default
             ->setData($datas)
             ->setId('customer_account');
 
+        // @todo review icons
         if ($application->getAccountIconId()) {
             $icon_id = $application->getAccountIconId();
             $icon = new Media_Model_Library_Image();
@@ -133,10 +130,12 @@ class Application_Model_Option extends Core_Model_Default
 
     /**
      * @return $this
+     * @throws Zend_Exception
      */
-    public function findTabbarMore()
+    public function findTabbarMore(): self
     {
-        $more_items = (design_code() == "flat") ? '/tabbar/more_items-flat.png' : '/tabbar/more_items.png';
+        $application = $this->getApplication();
+        $moreItems = '/tabbar/more_items-flat.png';
 
         $datas = [
             'option_id' => 'more_items',
@@ -155,18 +154,16 @@ class Application_Model_Option extends Core_Model_Default
             ->setData($datas)
             ->setId('more_items');
 
-        if ($this->getApplication()->getMoreIconId()) {
-            $icon_id = $this->getApplication()->getMoreIconId();
-            $icon = new Media_Model_Library_Image();
-            $icon->find($icon_id);
-            $icon_url = $icon->getUrl();
+        if ($application->getMoreIconId()) {
+            $icon_id = $application->getMoreIconId();
+            $icon = (new Media_Model_Library_Image())->find($icon_id);
+            $iconUrl = $icon->getRelativePath();
 
-            $this->setIconUrl($icon_url);
-            $this->setBaseIconUrl($icon_url);
-
+            $this->setIconUrl($iconUrl);
+            $this->setBaseIconUrl(path($iconUrl));
         } else {
-            $this->setIconUrl(Media_Model_Library_Image::getImagePathTo($more_items));
-            $this->setBaseIconUrl(Media_Model_Library_Image::getBaseImagePathTo($more_items));
+            $this->setIconUrl(Media_Model_Library_Image::getImagePathTo($moreItems));
+            $this->setBaseIconUrl(Media_Model_Library_Image::getBaseImagePathTo($moreItems));
         }
 
         return $this;
@@ -216,7 +213,7 @@ class Application_Model_Option extends Core_Model_Default
                     $this->_object = new $class(); // New class on line ensure the object exists at least!
                     $this->_object->find($this->getValueId(), 'value_id');
                 } catch (Exception $e) {
-                    $this->_object = class_exists($class) ? new $class() : new Core_Model_Default();
+                    $this->_object = new Core_Model_Default();
                 }
             } else {
                 $this->_object = new Core_Model_Default();
@@ -233,7 +230,7 @@ class Application_Model_Option extends Core_Model_Default
     }
 
     /**
-     * @return mixed|string
+     * @return mixed
      */
     public function getName()
     {
@@ -241,7 +238,7 @@ class Application_Model_Option extends Core_Model_Default
     }
 
     /**
-     * @return array|mixed|null|string
+     * @return mixed
      */
     public function getUri()
     {
@@ -253,11 +250,12 @@ class Application_Model_Option extends Core_Model_Default
     }
 
     /**
-     * @return mixed|null|string
+     * @return null
      */
     public function getTabbarName()
     {
-        return $this->getData('tabbar_name') ? __(mb_convert_encoding($this->getData('tabbar_name'), 'UTF-8', 'UTF-8')) : null;
+        return $this->getData("tabbar_name") ?
+            __(mb_convert_encoding($this->getData("tabbar_name"), "UTF-8", "UTF-8")) : null;
     }
 
     /**
@@ -274,37 +272,31 @@ class Application_Model_Option extends Core_Model_Default
      */
     public function getLayouts()
     {
-
         if (empty($this->_layouts)) {
             $layout = new Application_Model_Option_Layout();
             $this->_layouts = $layout->findAll(["option_id = ?" => $this->getOptionId()]);
         }
 
         return $this->_layouts;
-
     }
 
     /**
-     * Overrides with design taken into account
-     *
-     * Flat 4.2.0
-     *
      * @param bool $base
      * @return string
+     * @throws Zend_Exception
      */
-    public function getIconUrl($base = false)
+    public function getIconUrl($base = false): string
     {
-        if (empty($this->_icon_url) AND $this->getIconId()) {
-            if ($this->getIcon() AND !$base) {
-                $this->_icon_url = Media_Model_Library_Image::getImagePathTo($this->getIcon(), $this->getAppId());
-            } else {
-                $icon = new Media_Model_Library_Image();
+        if (empty($this->_icon_url)) {
+            $icon = new Media_Model_Library_Image();
+            $icon->find($this->getIconId());
+            if (!$icon->checkFile()) {
                 $icon->find($this->getDefaultIconId());
-                $this->_icon_url = $icon->getUrl();
             }
+            $this->_icon_url = $icon->getRelativePath();
         }
 
-        return $this->_icon_url;
+        return $base ? path($this->_icon_url) : $this->_icon_url;
     }
 
     /**
@@ -325,7 +317,7 @@ class Application_Model_Option extends Core_Model_Default
      * @param $url
      * @return $this
      */
-    public function setIconUrl($url)
+    public function setIconUrl($url): self
     {
         $this->_icon_url = $url;
         return $this;
@@ -334,7 +326,7 @@ class Application_Model_Option extends Core_Model_Default
     /**
      * @return $this
      */
-    public function resetIconUrl()
+    public function resetIconUrl(): self
     {
         $this->_icon_url = null;
         return $this;
@@ -343,12 +335,13 @@ class Application_Model_Option extends Core_Model_Default
     /**
      * @return Media_Model_Library_Image
      */
-    public function getImage()
+    public function getImage(): \Media_Model_Library_Image
     {
-
         if (empty($this->_image)) {
             $this->_image = new Media_Model_Library_Image();
-            if ($this->getIconId()) $this->_image->find($this->getIconId());
+            if ($this->getIconId()) {
+                $this->_image->find($this->getIconId());
+            }
         }
 
         return $this->_image;
@@ -357,14 +350,14 @@ class Application_Model_Option extends Core_Model_Default
     /**
      * @return $this
      */
-    public function resetImage()
+    public function resetImage(): self
     {
         $this->_image = null;
         return $this;
     }
 
     /**
-     * @return array|mixed|null|string
+     * @return mixed
      */
     public function onlyOnce()
     {
@@ -388,7 +381,7 @@ class Application_Model_Option extends Core_Model_Default
      * @return array|mixed|null|string
      * @throws Zend_Exception
      */
-    public function getUrl($action, $params = [], $feature_url = true, $env = null)
+    public function getUrl($action = '', $params = [], $feature_url = true, $env = null)
     {
         $url = null;
         if ($this->getUri()) {
@@ -415,21 +408,20 @@ class Application_Model_Option extends Core_Model_Default
     }
 
     /**
-     * @param string $action
+     * @param $action
      * @param array $params
      * @param null $env
-     * @return array|mixed|null|string
-     * @throws Zend_Exception
+     * @return null|string
      */
-    public function getPath($action, $params = [], $env = null)
+    public function getPath($action = '', array $params = [], $env = null)
     {
-
         if ($this->getValueId()) {
-            $params["value_id"] = $this->getValueId();
+            $params['value_id'] = $this->getValueId();
         }
 
         $request = Zend_Controller_Front::getInstance()->getRequest();
-        $use_key = $request->useApplicationKey();
+        $appUseKey = Version::is(['SAE']) ?
+            $request->getApplicationKey() : $request->useApplicationKey();
         $path = null;
         $force_uri = stripos($action, "/") !== false;
 
@@ -447,16 +439,16 @@ class Application_Model_Option extends Core_Model_Default
                     $uri = $this->getData("{$env}_uri");
                 }
 
-                if ($env == "mobile") {
-                    $request->useApplicationKey(true);
-                }
-
-                if ($env == "mobile_custom") {
-                    $request->useApplicationKey(true);
+                if (in_array($env, ['mobile', 'mobile_custom'], true)) {
+                    if (Version::is(['SAE'])) {
+                        $request->useApplicationKey(true);
+                    } else {
+                        $request->setApplicationKey($this->getApplication()->getKey());
+                    }
                 }
             }
 
-            if ($env != "desktop" &&
+            if ($env !== 'desktop' &&
                 !$this->getIsAjax() &&
                 $this->getObject()->getLink()) {
                 $path = $this->getObject()->getLink()->getUrl();
@@ -467,7 +459,11 @@ class Application_Model_Option extends Core_Model_Default
             $path = '/front/index/noroute';
         }
 
-        $request->useApplicationKey($use_key);
+        if (Version::is(['SAE'])) {
+            $request->useApplicationKey($appUseKey);
+        } else {
+            $request->setApplicationKey($appUseKey);
+        }
 
         return $path;
     }
@@ -475,7 +471,7 @@ class Application_Model_Option extends Core_Model_Default
     /**
      * @param $action
      * @param array $params
-     * @return array|mixed|null|string
+     * @return null|string
      */
     public function getMobileViewUri($action, $params = [])
     {
@@ -491,7 +487,7 @@ class Application_Model_Option extends Core_Model_Default
     }
 
     /**
-     * @return $this|null
+     * @return mixed
      */
     public function getPreview()
     {
@@ -504,11 +500,10 @@ class Application_Model_Option extends Core_Model_Default
         return $this->_preview;
     }
 
-
     /**
-     * Fetch the Library associated with this option, regarding the Design (siberian, flat, ...)
+     * @return Media_Model_Library
      */
-    public function getLibrary()
+    public function getLibrary(): \Media_Model_Library
     {
         if (empty($this->_library)) {
             $library = new Media_Model_Library();

@@ -515,6 +515,86 @@ abstract class Core_View_Default_Abstract extends Siberian\View
     }
 
     /**
+     * @var string
+     */
+    protected $_icon_color;
+
+    /**
+     * @param Application_Model_Option $option
+     * @param null $enforcedColor
+     * @param bool $forceColorizable
+     * @return string
+     * @throws Zend_Exception
+     * @throws Zend_Validate_Exception
+     */
+    protected function getIconUrl($option, $enforcedColor = null, $forceColorizable = false): string
+    {
+        // Enforces a color (but not the colorization*)
+        if ($enforcedColor !== null && empty($this->_icon_color)) {
+            $this->_icon_color = $enforcedColor;
+        }
+
+        $image = (new Media_Model_Library_Image());
+
+        if ($option->getOptionId() === 'customer_account') {
+            if ($this->getApplication()->getAccountIconId()) {
+                $image->find($this->getApplication()->getAccountIconId());
+            } else {
+                $image->find($option->getDefaultIconId());
+            }
+        } else if ($option->getOptionId() === 'more_items') {
+            if ($this->getApplication()->getMoreIconId()) {
+                $image->find($this->getApplication()->getMoreIconId());
+            } else {
+                $image
+                    ->setLink('/tabbar/more_items-flat.png')
+                    ->setCanBeColorized(true);
+            }
+        } else {
+            if ($option->getIconId()) {
+                $image->find($option->getIconId());
+            } else {
+                $image->find($option->getDefaultIconId());
+            }
+        }
+
+        if (!$image->checkFile()) {
+            // Ok we got here!
+            $image->find($option->getDefaultIconId());
+        }
+
+        $iconRelPath = $image->getRelativePath();
+        $colorizable = $image->getCanBeColorized();
+
+        if ($colorizable || $forceColorizable) {
+            if (!$this->_icon_color) {
+                $this->_initIconColor();
+            }
+
+            $iconRelPath = $this->getColorizedImage($iconRelPath, $this->_icon_color);
+        }
+
+        return $iconRelPath;
+    }
+
+
+
+    /**
+     * @return $this
+     * @throws Zend_Exception
+     * @throws Zend_Validate_Exception
+     */
+    protected function _initIconColor(): self
+    {
+        $this->_icon_color = '#FFFFFF';
+        if (Version::is('PE')) {
+            $this->_icon_color = $this->getBlock('border-blue')->getBorderColor();
+        }
+
+        return $this;
+    }
+
+    /**
      * @return bool|mixed|string
      * @throws Zend_Exception
      */
