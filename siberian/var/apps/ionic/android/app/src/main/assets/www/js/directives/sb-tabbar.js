@@ -65,7 +65,7 @@ angular
                         for (var fi = 0; fi < features.options.length; fi = fi + 1) {
                             var feat = features.options[fi];
                             // Don't load unwanted features on first page!
-                            if (["code_scan", "radio", "padlock", "tabbar_account"].indexOf(feat.code) === -1) {
+                            if (['code_scan', 'radio', 'padlock', 'tabbar_account'].indexOf(feat.code) === -1) {
                                 feat_index = fi;
                                 break;
                             }
@@ -186,10 +186,10 @@ angular
                 return;
             }
 
-            element.attr("data-value-id", scope.option.value_id);
-            element.attr("data-colorize", scope.option.icon_is_colorable);
-            element.on("click", function () {
-                $rootScope.$broadcast("OPTION_POSITION", scope.option.position);
+            element.attr('data-value-id', scope.option.value_id);
+            element.attr('data-colorize', scope.option.icon_is_colorable);
+            element.on('click', function () {
+                $rootScope.$broadcast('OPTION_POSITION', scope.option.position);
 
                 $timeout(function () {
                     HomepageLayout.openFeature(scope.option, scope);
