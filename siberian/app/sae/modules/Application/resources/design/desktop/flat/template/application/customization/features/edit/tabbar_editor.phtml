@@ -614,22 +614,26 @@ $featureCode = preg_replace("/\d/", '', $option->getCode());
                 }
             });
 
+            /**
+             * Live update on carousel icon & app (if visible)
+             */
             function updateLayout(datas) {
                 //your pages
-                $('#icon_<?php echo $option->getId(); ?>').attr('src', datas.icon_url).attr('data-image', datas.icon_id);
-                //icone en cours feature
-                var current_icon = datas.colored_reverse_color_icon_url ? datas.colored_reverse_color_icon_url : datas.icon_url;
-                $('#current_icon').attr('src', current_icon);
-                //drodown
+                $('#icon_<?php echo $option->getId(); ?>')
+                    .attr('src', datas.icon_url_colorized)
+                    .attr('data-image', datas.icon_id);
+                $('#current_icon').attr('src', datas.icon_url);
                 $('#change_icon').removeClass('open');
                 $('#icons').slideUp();
-
-                iframe.f.changeIcon(page.current.attr("rel"), datas.colored_icon_url);
-
+                try {
+                    iframe.f.changeIcon(datas.value_id, datas.icon_url_colorized_app);
+                } catch (e) {
+                    // Silent noop!
+                }
             }
 
             $('#tabbar_name').keyup(function (e) {
-                if (e.keyCode == 13) {
+                if (e.keyCode === 13) {
                     this.blur();
                 } else {
                     let val = $(this).val().trim();

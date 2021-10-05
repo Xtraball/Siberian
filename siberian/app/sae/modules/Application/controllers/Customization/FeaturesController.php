@@ -274,7 +274,7 @@ class Application_Customization_FeaturesController extends Application_Controlle
             $optionValue = (new Application_Model_Option_Value())
                 ->find($params['value_id']);
 
-            if (!$optionValue->getId() || 
+            if (!$optionValue->getId() ||
                 $optionValue->getAppId() !== $appId) {
                 throw new Exception(p__("application",
                     "The feature you are trying to remove doesn't belong to this Application."));
@@ -430,145 +430,103 @@ class Application_Customization_FeaturesController extends Application_Controlle
      */
     public function seticonAction()
     {
+        try {
+            $request = $this->getRequest();
+            $datas = $request->getPost();
 
-        if ($datas = $this->getRequest()->getPost()) {
+            $iconSaved = $this->setIcon($datas['icon_id'], $datas['option_value_id']);
+            if (!empty($iconSaved)) {
 
-            try {
+                $valueId = $iconSaved['value_id'];
+                $iconId = $iconSaved['icon_id'];
+                $iconUrl = $iconSaved['icon_url'];
+                $iconUrlColorized = $iconSaved['icon_url_colorized'];
+                $iconUrlColorizedApp = $iconSaved['icon_url_colorized_app'];
 
-                // Charge l'icône
-                $icon = new Media_Model_Library_Image();
-                $icon->find($datas['icon_id']);
-
-                // Test si l'option_value_id est passé en paramètre
-                if (empty($datas['option_value_id'])) {
-                    throw new Exception(__('#110: An error occurred while saving'));
-                }
-                if (empty($datas['icon_id'])) {
-                    throw new Exception(__('An error occurred while saving. The selected icon is not valid.'));
-                }
-
-                $icon_saved = $this->setIcon($datas['icon_id'], $datas['option_value_id']);
-                if (!empty($icon_saved)) {
-
-                    // Charge l'option_value
-                    $optionValue = new Application_Model_Option_Value();
-                    $optionValue->find($datas['option_value_id']);
-                    $icon_color = $this->getApplication()->getBlock('tabbar')->getImageColor();
-
-                    $icon_url = $icon_saved['icon_url'];
-                    if ($icon->getCanBeColorized()) {
-                        Siberian_Media::disableTemporary();
-                        $icon_url = $this->_getColorizedImage($icon->getImageId(), $optionValue->getIconColor());
-                    }
-
-                    $icon_url_reverse_color = null;
-                    if ($icon_reverse_color = $optionValue->getIconReverseColor()) {
-                        Siberian_Media::disableTemporary();
-                        $icon_url_reverse_color = $this->_getColorizedImage($icon->getImageId(), $icon_reverse_color);
-                    }
-
-                    $html = [
-                        'success' => 1,
-                        'icon_id' => $icon->getId(),
-                        'icon_url' => $icon_url,
-                        'colored_icon_url' => $this->getUrl('template/block/colorize', ['id' => $datas['icon_id'], 'color' => str_replace('#', '', $icon_color)]),
-                        'colored_header_icon_url' => $icon_saved['colored_header_icon_url'],
-                        'colored_reverse_color_icon_url' => $icon_url_reverse_color
-                    ];
-
-                } else {
-                    throw new Exception(__('#111: An error occurred while saving'));
-                }
-
-            } catch (\Exception $e) {
-                $html = [
-                    'message' => $e->getMessage(),
-                    'message_button' => 1,
-                    'message_loader' => 1
+                $payload = [
+                    'success' => true,
+                    'value_id' => $valueId,
+                    'icon_id' => $iconId,
+                    'icon_url' => $iconUrl,
+                    'icon_url_colorized' => $iconUrlColorized,
+                    'icon_url_colorized_app' => $iconUrlColorizedApp,
                 ];
+
+            } else {
+                throw new Exception(__('#111: An error occurred while saving'));
             }
 
-            $this->_sendHtml($html);
-
+        } catch (\Exception $e) {
+            $payload = [
+                'error' => 'true',
+                'message' => $e->getMessage()
+            ];
         }
 
+        $this->_sendJson($payload);
     }
 
     /**
-     * @param $icon_id
-     * @param $optionValue_id
+     * @param $iconId
+     * @param $valueId
      * @return array|bool
      */
-    private function setIcon($icon_id, $optionValue_id)
+    private function setIcon($iconId, $valueId)
     {
-
         try {
-
-            $custom = false;
-            if (in_array($optionValue_id, ["customer_account", "more_items"])) {
-                $custom = true;
-            }
-
-            // Récupère l'application
-            $application = $this->getApplication();
-
-            // Charge l'icône
-            $icon = new Media_Model_Library_Image();
-            $icon->find($icon_id);
+            $icon = (new Media_Model_Library_Image())
+                ->find($iconId);
 
             if (!$icon->getId()) {
                 throw new Exception(__('An error occurred while saving. The selected icon is not valid.'));
             }
 
-            // Charge l'option_value
-            if (!$custom) {
+            $app = $this->getApplication();
+
+            $specialIcon = false;
+            if (in_array($valueId, ['customer_account', 'more_items'])) {
+                $specialIcon = true;
+            }
+
+            if (!$specialIcon) {
                 $optionValue = new Application_Model_Option_Value();
-                $optionValue->find($optionValue_id);
+                $optionValue->find($valueId);
                 // Tout va bien, on met à jour l'icône pour cette option_value
-                $optionValue->setIconId($icon->getId())
-                    ->setIcon(null)
+                $optionValue
+                    ->setIconId($icon->getId())
+                    ->setIcon(null)/** This is not used! */
                     ->save();
-                $icon_url = $optionValue->resetIconUrl()->getIconUrl(true);
-                $colorizable = $optionValue->getImage()->getCanBeColorized();
-
             } else {
-                $app = $this->getApplication();
-
-                switch ($optionValue_id) {
-                    case "customer_account":
-                        $app->setAccountIconId($icon->getId())->save();
+                switch ($valueId) {
+                    case 'customer_account':
+                        $app
+                            ->setAccountIconId($iconId)
+                            ->save();
                         break;
-                    case "more_items":
-                        $app->setMoreIconId($icon->getId())->save();
+                    case 'more_items':
+                        $app
+                            ->setMoreIconId($iconId)
+                            ->save();
                         break;
                 }
-
-                $icon = new Media_Model_Library_Image();
-                $icon->find($icon->getId());
-                $icon_url = $icon->getUrl();
-
-                $colorizable = $icon->getCanBeColorized();
             }
 
+            $iconUrl = $icon->getRelativePath();
+            $iconUrlColorized = $icon->getCanBeColorized() ?
+                Core_Controller_Default_Abstract::sGetColorizedImage($iconId, '#0099C7') : $iconUrl;
+            $iconUrlColorizedApp = $icon->getCanBeColorized() ?
+                Core_Controller_Default_Abstract::sGetColorizedImage($iconId, $app->getBlock('tabbar')->getImageColor()) : $iconUrl;
 
-            $colored_header_icon_url = $icon_url;
-            if ($colorizable) {
-                Siberian_Media::disableTemporary();
-                $header_color = $application->getBlock('header')->getColor();
-                $colored_header_icon_url = $this->getUrl('template/block/colorize', ['id' => $icon->getId(), 'color' => str_replace('#', '', $header_color)]);
-            }
-
-            $return = [
-                'colored_header_icon_url' => $colored_header_icon_url,
-                'icon_url' => $icon_url
+            return [
+                'value_id' => $valueId,
+                'icon_id' => (integer) $iconId,
+                'icon_url' => $iconUrl,
+                'icon_url_colorized' => $iconUrlColorized,
+                'icon_url_colorized_app' => $iconUrlColorizedApp,
             ];
-
-            return $return;
-
         } catch (\Exception $e) {
             return false;
         }
-
     }
 
     /**

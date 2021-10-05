@@ -520,7 +520,7 @@ $splitPreviewActions = filter_var(__get('split_preview_actions'), FILTER_VALIDAT
                         }
                     });
                 } else {
-                    var order_url = "<?php echo $this->getUrl('application/customization_features/seticonpositions'); ?>?" + order;
+                    var order_url = '/application/customization_features/seticonpositions?' + order;
                     reload($('#option_values'), order_url, true, function () {
                         try {
                             iframe.f.reloadTabbar();

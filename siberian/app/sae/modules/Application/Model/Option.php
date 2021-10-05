@@ -421,7 +421,7 @@ class Application_Model_Option extends Core_Model_Default
 
         $request = Zend_Controller_Front::getInstance()->getRequest();
         $appUseKey = Version::is(['SAE']) ?
-            $request->getApplicationKey() : $request->useApplicationKey();
+            $request->useApplicationKey() : $request->getApplicationKey();
         $path = null;
         $force_uri = stripos($action, "/") !== false;
 
