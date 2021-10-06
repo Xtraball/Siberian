@@ -7,22 +7,14 @@ $features = (new Application_Model_Option_Value())
         ],
         'position ASC');
 $valueId = $this->getValueId();
-$backgroundColor = '#0099C7';
+
 ?>
 <ul id="folder_add_page_list">
     <?php foreach ($features as $key => $feature) : ?>
         <?php if (in_array($feature->getCode(), ['folder', 'folder_v2'])) { continue; } ?>
         <?php if (!$this->_canAccess('feature_' . $feature->getCode(), 'all')) { continue; } ?>
 
-
-        <?php
-            $iconIdUrl = $feature->getIconId() ?
-                $feature->getIconId() : $this->getIconUrl($feature);
-            $iconUrl = $this->getColorizedImage($iconIdUrl, '#0099C7');
-            if (!is_readable(path($iconUrl)) || is_dir(path($iconUrl))) {
-                $iconUrl = $this->getColorizedImage('/app/sae/design/desktop/flat/images/placeholder/blank-feature-icon.png', '#0099C7');
-            }
-        ?>
+        <?php $iconUrl = $this->getIconUrl($feature, '#0099C7'); ?>
         <li id="add_page_<?php echo $feature->getId(); ?>"
             class="folder_add_page">
             <a href="<?php echo $this->getUrl('application/customization_features/save'); ?>"

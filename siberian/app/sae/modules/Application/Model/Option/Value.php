@@ -91,121 +91,32 @@ class Application_Model_Option_Value extends Application_Model_Option
      * @return array
      * @throws Zend_Exception
      */
-    public function getAppInitUris()
+    public function getAppInitUris(): array
     {
         $object = $this->getObject();
-        if (method_exists($object, "getAppInitUris")) {
+        if (method_exists($object, 'getAppInitUris')) {
             return $object->getAppInitUris($this);
         }
 
         // Special uri places
         $featureUrl = $this->getUrl(null, [
-            "value_id" => $this->getId()
+            'value_id' => $this->getId()
         ], false);
         $featurePath = $this->getPath(null, [
-            "value_id" => $this->getId()
-        ], "mobile");
+            'value_id' => $this->getId()
+        ], 'mobile');
 
         return [
-            "featureUrl" => $featureUrl,
-            "featurePath" => $featurePath,
+            'featureUrl' => $featureUrl,
+            'featurePath' => $featurePath,
         ];
-    }
-
-    /**
-     * @param bool $base
-     * @return string
-     */
-    public function getIconUrl($base = false)
-    {
-        if (empty($this->_icon_url) AND $this->getIconId()) {
-            if ($this->getIcon() AND !$base) {
-                $this->_icon_url = Media_Model_Library_Image::getImagePathTo($this->getIcon(), $this->getAppId());
-            } else {
-                $icon = new Media_Model_Library_Image();
-                $icon->find($this->getIconId());
-                $this->_icon_url = $icon->getUrl();
-            }
-        }
-
-        return $this->_icon_url;
-    }
-
-    /**
-     * Extended static version of the colorizable icon url helper
-     * seen in Application_View_Customization_Features_List_Options
-     * but way more portable
-     *
-     * @param Application_Model_Option_Value $option
-     * @param $color
-     * @return string
-     */
-    public static function sGetIconUrl($option, $color = null)
-    {
-        $application = (new Application_Model_Application())
-            ->find($option->getAppId());
-        $iconId = null;
-        switch ($option->getOptionId()) {
-            case 'customer_account':
-                if ($application->getAccountIconId()) {
-                    $image = (new Media_Model_Library_Image())
-                        ->find($application->getAccountIconId());
-                    $iconId = $image->getId();
-                    $colorizable = $image->getCanBeColorized();
-
-                    break;
-                }
-            case 'more_items':
-                if ($application->getMoreIconId()) {
-                    $image = (new Media_Model_Library_Image())
-                        ->find($application->getMoreIconId());
-                    $iconId = $image->getId();
-                    $colorizable = $image->getCanBeColorized();
-
-                    break;
-                }
-            default:
-                $colorizable = (!$option->getImage()->getId() || $option->getImage()->getCanBeColorized());
-                $iconId = $option->getIconUrl() ? $option->getIconUrl() : $option->getIconId();
-        }
-
-        $iconUrl = $iconId;
-        if ($colorizable) {
-            if ($color !== null) {
-                $iconColor = $color;
-            } else {
-                $iconColor = '#0099C7';
-                if (Siberian_Version::is('pe')) {
-                    $iconColor = Core_View_Default_Abstract::sGetBlock('area')->getColor();
-                    if ($iconColor === 'transparent') {
-                        $iconColor = '#0099C7';
-                    }
-                }
-            }
-
-            $iconUrl = Core_Controller_Default_Abstract::sGetColorizedImage($iconId, $iconColor);
-        }
-
-        return $iconUrl;
-    }
-
-    /**
-     * @return $this
-     */
-    protected function _initIconColor()
-    {
-        $this->_icon_color = "#FFFFFF";
-        if (Siberian_Version::is('PE')) {
-            $this->_icon_color = $this->getBlock("area")->getColor();
-        }
-
-        return $this;
     }
 
     /**
      * @param $id
      * @param null $field
-     * @return $this|null
+     * @return $this|Application_Model_Option|null
+     * @throws Zend_Exception
      */
     public function find($id, $field = null)
     {
@@ -222,7 +133,7 @@ class Application_Model_Option_Value extends Application_Model_Option
      * @param $app_id
      * @return bool
      */
-    public function valueIdBelongsTo($value_id, $app_id)
+    public function valueIdBelongsTo($value_id, $app_id): bool
     {
         return $this->getTable()->valueIdBelongsTo($value_id, $app_id);
     }

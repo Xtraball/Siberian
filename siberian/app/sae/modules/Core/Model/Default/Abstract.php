@@ -246,14 +246,17 @@ abstract class Core_Model_Default_Abstract
      */
     public function find($id, $field = null)
     {
-        if (!$this->hasTable()) return null;
+        if (!$this->hasTable()) {
+            return null;
+        }
 
         if (is_array($id)) {
             $row = $this->getTable()->findByArray($id);
-        } elseif (is_null($field))
+        } else if (is_null($field)) {
             $row = $this->getTable()->findById($id);
-        else
+        } else {
             $row = $this->getTable()->findByField($id, $field);
+        }
 
         $this->_prepareDatas($row);
 
@@ -907,7 +910,8 @@ abstract class Core_Model_Default_Abstract
         $this->uns();
 
         if ($row) {
-            $this->setData($row->getData())
+            $this
+                ->setData($row->getData())
                 ->setOrigData($row->getData())
                 ->setId($row->getId());
         }

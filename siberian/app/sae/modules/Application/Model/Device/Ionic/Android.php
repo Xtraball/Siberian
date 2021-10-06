@@ -3,6 +3,7 @@
 use Siberian\File;
 use Siberian\Hook\Source as HookSource;
 use Siberian\Provider;
+use Siberian\Request;
 
 /**
  * Class Application_Model_Device_Ionic_Android
@@ -217,7 +218,7 @@ class Application_Model_Device_Ionic_Android extends Application_Model_Device_Io
 
             $buildUrl = Provider::getApkAabBuilder();
 
-            Siberian_Request::get(
+            Request::get(
                 $buildUrl,
                 [
                     'token' => 'NZDMeOBA2SLM8KyJtApAQbrN6Oy9dg6m',

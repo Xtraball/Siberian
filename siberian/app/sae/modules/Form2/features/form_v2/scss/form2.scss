@@ -90,6 +90,13 @@
       }
     }
   }
+}
 
-
+/** Special case for layout 1 fixed */
+.layout-always-visible {
+  .module-form2 {
+    .form2-tabs {
+      bottom: calc(var(--safe-area-inset-bottom) + 55px);
+    }
+  }
 }

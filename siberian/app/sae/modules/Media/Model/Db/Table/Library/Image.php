@@ -20,10 +20,13 @@ class Media_Model_Db_Table_Library_Image extends Core_Model_Db_Table
      * @param null $order
      * @param array $params
      * @return Zend_Db_Table_Rowset_Abstract
+     * @throws Zend_Exception
      */
     public function findAll($values, $order = null, $params = [])
     {
-        if (is_null($order)) $order = 'position ASC';
+        if (is_null($order)) {
+            $order = 'position ASC';
+        }
 
         return parent::findAll($values, $order, $params);
     }

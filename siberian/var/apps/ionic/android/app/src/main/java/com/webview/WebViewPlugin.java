@@ -17,7 +17,7 @@ import android.net.Uri;
 import android.provider.Browser;
 
 import java.util.ArrayList;
-import java.util.Map;   
+import java.util.Map;
 
 public class WebViewPlugin extends CordovaPlugin {
 

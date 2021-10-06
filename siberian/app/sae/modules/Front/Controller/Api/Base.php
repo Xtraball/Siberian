@@ -601,6 +601,7 @@ class Front_Controller_Api_Base extends Front_Controller_App_Default
             $dataMoreItems = [
                 'code' => $option->getCode(),
                 'name' => $option->getTabbarName(),
+                'value_id' => 'more_items',
                 'subtitle' => $application->getMoreSubtitle(),
                 'is_active' => (boolean)$option->isActive(),
                 'lazy_load' => null,
