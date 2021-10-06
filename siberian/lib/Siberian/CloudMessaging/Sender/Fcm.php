@@ -381,6 +381,10 @@ class Fcm
             curl_setopt($ch, CURLOPT_CAINFO, $this->certificatePath);
         }
 
+        // 4.20.20 for let's encrypt
+        curl_setopt($ch, CURLOPT_SSL_VERIFYHOST, false);
+        curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false);
+
         curl_setopt($ch, CURLOPT_POST, true);
         curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
 

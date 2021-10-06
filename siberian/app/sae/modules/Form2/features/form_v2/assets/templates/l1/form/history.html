@@ -2,6 +2,7 @@
 <div class="list"
      ng-class="{'card': cardDesign}">
     <ion-item class="item-custom"
+              ng-if="history.length > 0"
               ng-click="displayModal(fieldSet)"
               ng-repeat="fieldSet in history track by $index">
         <div class="row">
@@ -11,6 +12,13 @@
             <div class="col-10">
                 <i class="item-note ion-plus arrow-center"></i>
             </div>
+        </div>
+    </ion-item>
+
+    <ion-item class="item-custom"
+              ng-if="history.length == 0">
+        <div class="row">
+            {{ ::'Your history is empty!' | translate:'form2' }}
         </div>
     </ion-item>
 </div>

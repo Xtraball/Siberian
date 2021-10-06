@@ -96,7 +96,7 @@ class Provider
     {
         if (!array_key_exists($cacheKey, self::$cached)) {
             try {
-                $jsonContent = file_get_contents($endpoint);
+                $jsonContent = Request::get($endpoint);
                 $content = Json::decode($jsonContent);
             } catch (\Exception $e) {
                 $content = [];

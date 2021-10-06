@@ -48,7 +48,9 @@ class Feature
         }
         $libraryId = $library->getId();
 
-        $iconId = 0;
+        // When we have multiple icons for a library, we use the first as default
+        $iconId = null;
+
         foreach ($icons as $key => $iconPath) {
             $keywords = '';
             if (is_array($iconPath)) {
@@ -87,7 +89,7 @@ class Feature
             }
 
             $goodImageId = $image->getId();
-            if ($iconId === 0) {
+            if ($iconId === null) {
                 $iconId = $goodImageId;
             }
         }
@@ -386,10 +388,10 @@ class Feature
         if (!file_exists($img_dst) && !copy($img_src, $img_dst)) {
             throw new Exception('#343-01: ' .
                 __('An error occurred while saving your picture. Please try again later.'));
-        } else {
-            $path = $relative_path . '/' . $filename;
-            unlink($img_src);
         }
+
+        $path = $relative_path . '/' . $filename;
+        unlink($img_src);
 
         return $path;
     }

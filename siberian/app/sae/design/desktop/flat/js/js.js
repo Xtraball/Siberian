@@ -162,7 +162,9 @@ function reload(element, url, showLoader, success_callback, error_callback) {
                 console.error(e);
                 console.log('Trace for Unknown error in reload.success.');
                 console.trace();
-                feature_form_error("Unknown error.");
+                if (e.message.indexOf('iframe.f.reloadTabbar') === -1) {
+                    feature_form_error('Unknown error.');
+                }
             }
         },
         error: function (payload) {
