@@ -124,13 +124,13 @@ class Request
         curl_setopt($request, CURLOPT_FOLLOWLOCATION, true);
 
         $timeout = 3;
-        if (array_key_exists("timeout", $options)) {
-            $timeout = intval($options["timeout"]);
+        if (array_key_exists('timeout', $options)) {
+            $timeout = (int) $options['timeout'];
         }
 
         curl_setopt($request, CURLOPT_TIMEOUT, $timeout);
-        //curl_setopt($request, CURLOPT_SSL_VERIFYHOST, false);
-        //curl_setopt($request, CURLOPT_SSL_VERIFYPEER, false);
+        curl_setopt($request, CURLOPT_SSL_VERIFYHOST, false);
+        curl_setopt($request, CURLOPT_SSL_VERIFYPEER, false);
 
         if ($auth !== null && is_array($auth)) {
             switch ($auth['type']) {

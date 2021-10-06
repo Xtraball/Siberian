@@ -1,6 +1,6 @@
 <?php
-// TODO: Use mssafe_csv in this controller for better CSV
-class Analytics_AnalyticsController extends Application_Controller_Default {
+// @todo: Use mssafe_csv in this controller for better CSV
+class Analytics_AnalyticsController extends Admin_Controller_Default {
 
     public function getinstallsmetricAction() {
 
