@@ -6,16 +6,10 @@ use Siberian\Version;
 
 class Backoffice_Model_Notification extends Core_Model_Default
 {
-
     /**
-     * Backoffice_Model_Notification constructor.
-     * @param array $datas
+     * @var string
      */
-    public function __construct($datas = array())
-    {
-        parent::__construct($datas);
-        $this->_db_table = 'Backoffice_Model_Db_Table_Notification';
-    }
+    protected $_db_table = Backoffice_Model_Db_Table_Notification::class;
 
     /**
      * @return $this|void
