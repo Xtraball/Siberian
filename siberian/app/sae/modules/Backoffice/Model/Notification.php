@@ -24,10 +24,10 @@ class Backoffice_Model_Notification extends Core_Model_Default
         if (!$this->getId() && ($this->getSource() == "cron") && ($this->getType() == "alert")) {
             # Check for duplicates.
             $model = new self();
-            $existing = $model->find(array(
+            $existing = $model->find([
                 "object_type" => $this->getObjectType(),
                 "object_id" => $this->getObjectId()
-            ));
+            ]);
 
             if ($existing->getId()) {
                 # Avoid dupes.
@@ -51,10 +51,10 @@ class Backoffice_Model_Notification extends Core_Model_Default
         try {
 
             $model = new self();
-            $notifications = $model->findAll(array(
+            $notifications = $model->findAll([
                 "object_type = ?" => $object_type,
                 "object_id = ?" => $object_id
-            ));
+            ]);
 
             foreach ($notifications as $notification) {
                 $notification->delete();
@@ -81,12 +81,12 @@ class Backoffice_Model_Notification extends Core_Model_Default
     public static function notificationExists($object_type, $object_id, $source, $type, $time = null)
     {
         $model = new self();
-        $options = array(
+        $options = [
             "object_type = ?" => $object_type,
             "object_id = ?" => $object_id,
             "source = ?" => $source,
             "type = ?" => $type,
-        );
+        ];
 
         if (isset($time)) {
             $date = time_to_date(time() - $time, "YYYY-MM-dd HH:mm:ss");
@@ -204,19 +204,26 @@ class Backoffice_Model_Notification extends Core_Model_Default
             $backoffice_notification_model = new self();
             $backoffice_notification_model->update();
             $messages = $backoffice_notification_model->findAll(
-                array("is_read = ?" => 0),
-                array("created_at DESC", "original_notification_id DESC"),
-                array("limit" => 10)
+                ["is_read = ?" => 0],
+                ["created_at DESC", "original_notification_id DESC"],
+                ["limit" => 10]
             );
 
-            $unread_messages = array();
+            $unread_messages = [];
             foreach ($messages as $message) {
                 $link = $message->getLink();
                 if (strpos($link, "updates.siberiancms.com") !== false) {
                     $link = str_replace("http://", "https://", $link);
                 }
 
-                $unread_messages[] = array(
+                $whatDate = $message->getSentAt();
+                if ('0000-00-00 00:00:00' === $whatDate || empty($whatDate)) {
+                    $whatDate = $message->getFormattedCreatedAt(Zend_Date::DATETIME_SHORT);
+                } else {
+                    $whatDate = $message->getFormattedSentAt(Zend_Date::DATETIME_SHORT);
+                }
+
+                $unread_messages[] = [
                     "id" => $message->getId(),
                     "title" => $message->getTitle(),
                     "description" => $message->getDescription(),
@@ -224,12 +231,12 @@ class Backoffice_Model_Notification extends Core_Model_Default
                     "priority" => ($message->getIsHighPriority()),
                     "source" => $message->getSource(),
                     "type" => $message->getType(),
-                    "created_at" => $message->getFormattedCreatedAt(Zend_Date::DATETIME_SHORT)
-                );
+                    "created_at" => $whatDate
+                ];
             }
 
         } catch (Exception $e) {
-            $unread_messages = array();
+            $unread_messages = [];
         }
 
         return $unread_messages;

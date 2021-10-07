@@ -62,7 +62,7 @@ $schemas['backoffice_notification'] = [
         'type' => 'tinyint(1)',
         'default' => '0',
     ],
-    'send_at' => [
+    'sent_at' => [
         'type' => 'datetime',
     ],
     'created_at' => [
