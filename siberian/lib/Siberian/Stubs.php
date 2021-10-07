@@ -36,6 +36,7 @@ class Stubs {
         class_alias(Autoupdater::class, 'Siberian_Autoupdater');
         class_alias(Json::class, 'Siberian_Json');
         class_alias(Image::class, 'Siberian_Image');
+        class_alias(Media::class, 'Siberian_Media');
         class_alias(Minify::class, 'Siberian_Minify');
         class_alias(Feature::class, 'Siberian_Feature');
         class_alias(Scss::class, 'Siberian_Scss');

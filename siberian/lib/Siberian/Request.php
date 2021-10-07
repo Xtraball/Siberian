@@ -26,14 +26,21 @@ class Request
      * @param null $auth
      * @param null $headers
      * @param array $options
+     * @param array $curlOpts
      * @return mixed
      */
-    public static function post($endpoint, $data, $cookie_path = null, $auth = null, $headers = null, $options = [])
+    public static function post($endpoint,
+                                $data,
+                                $cookie_path = null,
+                                $auth = null,
+                                $headers = null,
+                                $options = [],
+                                $curlOpts = [])
     {
 
         $request = curl_init();
 
-        $timeout = (array_key_exists('timeout', $options)) ? intval($options['options']) : 3;
+        $timeout = (array_key_exists('timeout', $options)) ? (int) $options['timeout'] : 3;
 
         # Setting options
         curl_setopt($request, CURLOPT_URL, $endpoint);
@@ -77,6 +84,9 @@ class Request
             curl_setopt($request, CURLOPT_POSTFIELDS, $query_string);
         }
 
+        // Adds/Replace custom opts if needed
+        curl_setopt_array($request, $curlOpts);
+
         # Call
         $result = curl_exec($request);
         $status_code = curl_getinfo($request, CURLINFO_HTTP_CODE);
@@ -102,9 +112,10 @@ class Request
      * @param null $auth
      * @param null $headers
      * @param array $options
+     * @param array $curlOpts
      * @return mixed
      */
-    public static function get($endpoint, $data = [], $cookie_path = null, $auth = null, $headers = null, $options = [])
+    public static function get($endpoint, $data = [], $cookie_path = null, $auth = null, $headers = null, $options = [], $curlOpts = [])
     {
 
         $request = curl_init();
@@ -146,7 +157,7 @@ class Request
             }
         }
 
-        if ($cookie_path != null) {
+        if ($cookie_path !== null) {
             curl_setopt($request, CURLOPT_COOKIEJAR, $cookie_path);
             curl_setopt($request, CURLOPT_COOKIEFILE, $cookie_path);
         }
@@ -154,6 +165,9 @@ class Request
         if ($headers !== null) {
             curl_setopt($request, CURLOPT_HTTPHEADER, $headers);
         }
+
+        // Adds/Replace custom opts if needed
+        curl_setopt_array($request, $curlOpts);
 
         # Call
         $result = curl_exec($request);

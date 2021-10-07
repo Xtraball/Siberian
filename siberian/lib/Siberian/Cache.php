@@ -184,7 +184,7 @@ class Cache
      */
     public static function __clearCache()
     {
-        self::__clearFolderSystem("/var/cache");
+        self::__clearFolderSystem('/var/cache');
 
         Hook::trigger('cache.clear.cache');
     }
@@ -194,21 +194,21 @@ class Cache
      */
     public static function __clearLog()
     {
-        $folder = path("var/log/");
+        $folder = path('/var/log');
 
         /** Backup android_pwd files */
-        $android_pwd_backup = path("var/apps/android/pwd");
+        $androidPwdBackup = path('var/apps/android/pwd');
         $logs = new DirectoryIterator($folder);
         foreach ($logs as $log) {
             if (!$log->isDir() && !$log->isDot()) {
                 $filename = $log->getFilename();
                 if (preg_match("/android_pwd/", $filename)) {
-                    copy($log->getPathname(), "{$android_pwd_backup}/{$filename}");
+                    copy($log->getPathname(), "{$androidPwdBackup}/{$filename}");
                 }
             }
         }
 
-        self::__clearFolderSystem("/var/log");
+        self::__clearFolderSystem('/var/log');
 
         Hook::trigger('cache.clear.log');
     }
