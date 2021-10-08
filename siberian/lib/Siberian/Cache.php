@@ -16,7 +16,6 @@ use \Zend_Registry;
  *
  * Contains all common references for Siberian_Cache_*
  */
-
 class Cache
 {
     /**
@@ -190,6 +189,16 @@ class Cache
     }
 
     /**
+     * Alias to clear cache images
+     */
+    public static function __clearCacheImages()
+    {
+        self::__clearFolderSystem('/var/cache_images');
+
+        Hook::trigger('cache.clear.cache_images');
+    }
+
+    /**
      * Alias to clear cache
      */
     public static function __clearLog()
@@ -267,73 +276,83 @@ class Cache
                 'total' => '-',
                 'log_size' => '-',
                 'cache_size' => '-',
+                'cache_images_size' => '-',
                 'tmp_size' => '-',
             ];
-        } else {
-            /**
-             * @param $start
-             * @throws \Siberian\Exception
-             */
-            function timeout($start)
-            {
-                if ((time() - $start) > 300) {
-                    throw new Exception('timelimit hit');
-                }
-            }
-
-            $total_size = "-";
-            $var_log_size = "-";
-            $var_cache_size = "-";
-            $var_tmp_size = "-";
-
-            try {
-                $start = time();
-
-                $var_log = path('var/log');
-                exec("du -cksh {$var_log}", $output);
-                $parts = explode("\t", end($output));
-                $var_log_size = $parts[0];
-
-                timeout($start);
-
-                $var_cache = path('var/cache');
-                exec("du -cksh {$var_cache}", $output);
-                $parts = explode("\t", end($output));
-                $var_cache_size = $parts[0];
-
-                timeout($start);
-
-                $var_tmp = path('var/tmp');
-                exec("du -cksh {$var_tmp}", $output);
-                $parts = explode("\t", end($output));
-                $var_tmp_size = $parts[0];
-
-                timeout($start);
-
-                $total = path('');
-                exec("du -cksh {$total}", $output);
-                $parts = explode("\t", end($output));
-                $total_size = $parts[0];
-
-            } catch (Exception $e) {
-                $logger = Zend_Registry::get('logger');
-                $logger->info(
-                    'Siberian_Cache::getDiskUsage() timeout ' .
-                    $e->getMessage()
-                );
-            }
-
-            $result = [
-                'total' => $total_size,
-                'log_size' => $var_log_size,
-                'cache_size' => $var_cache_size,
-                'tmp_size' => $var_tmp_size,
-            ];
-            $encodedResult = Json::encode($result);
-            __set('disk_usage_cache', $encodedResult);
-
-            return $result;
         }
+
+        /**
+         * @param $start
+         * @throws \Siberian\Exception
+         */
+        function timeout($start)
+        {
+            if ((time() - $start) > 300) {
+                throw new Exception('timelimit hit');
+            }
+        }
+
+        $total_size = "-";
+        $var_log_size = "-";
+        $var_cache_size = "-";
+        $var_cache_images_size = "-";
+        $var_tmp_size = "-";
+
+        try {
+            $start = time();
+
+            $var_log = path('var/log');
+            exec("du -cksh {$var_log}", $output);
+            $parts = explode("\t", end($output));
+            $var_log_size = $parts[0];
+
+            timeout($start);
+
+            $var_cache = path('var/cache');
+            exec("du -cksh {$var_cache}", $output);
+            $parts = explode("\t", end($output));
+            $var_cache_size = $parts[0];
+
+            timeout($start);
+
+            $var_cache_images = path('var/cache_images');
+            exec("du -cksh {$var_cache_images}", $output);
+            $parts = explode("\t", end($output));
+            $var_cache_images_size = $parts[0];
+
+            timeout($start);
+
+            $var_tmp = path('var/tmp');
+            exec("du -cksh {$var_tmp}", $output);
+            $parts = explode("\t", end($output));
+            $var_tmp_size = $parts[0];
+
+            timeout($start);
+
+            $total = path('');
+            exec("du -cksh {$total}", $output);
+            $parts = explode("\t", end($output));
+            $total_size = $parts[0];
+
+        } catch (Exception $e) {
+            $logger = Zend_Registry::get('logger');
+            $logger->info(
+                'Siberian_Cache::getDiskUsage() timeout ' .
+                $e->getMessage()
+            );
+        }
+
+        $result = [
+            'total' => $total_size,
+            'log_size' => $var_log_size,
+            'cache_size' => $var_cache_size,
+            'cache_images_size' => $var_cache_images_size,
+            'tmp_size' => $var_tmp_size,
+        ];
+        $encodedResult = Json::encode($result);
+        __set('disk_usage_cache', $encodedResult);
+
+        return $result;
     }
 
     /**
@@ -341,7 +360,7 @@ class Cache
      */
     public static function register($feature)
     {
-        if (!in_array($feature, self::$registered_caches)) {
+        if (!in_array($feature, self::$registered_caches, true)) {
             self::$registered_caches[] = $feature;
         }
     }
@@ -350,9 +369,9 @@ class Cache
      * @param $feature
      * @return bool
      */
-    public static function isRegistered($feature)
+    public static function isRegistered($feature): bool
     {
-        return (in_array($feature, self::$registered_caches));
+        return (in_array($feature, self::$registered_caches, true));
     }
 
 }
