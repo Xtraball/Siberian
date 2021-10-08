@@ -1,6 +1,7 @@
 <?php
 
 use Siberian\Json;
+use Siberian\Provider;
 use Siberian\Request;
 use Siberian\Version;
 
@@ -174,8 +175,9 @@ class Backoffice_Model_Notification extends Core_Model_Default
 
         $type = Version::is('PE') ? 'platform' : 'multiapps';
 
-        $last_id = $this->findLastId();
-        $url = 'https://www.tigerappcreator.com/en/front/notification/list/type/' . $type . '/last_id/' . $last_id;
+        $lastId = $this->findLastId();
+        $urlNotifs = Provider::getBackofficeNotification();
+        $url = sprintf("%s/type/%s/last_id/%s", $urlNotifs, $type, $lastId);
         try {
             if ($datas = Request::get($url, [], null, null, null, ['timeout' => 10])) {
                 $datas = Json::decode($datas);
