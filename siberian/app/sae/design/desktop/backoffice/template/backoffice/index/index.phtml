@@ -657,6 +657,14 @@ if ($firebaseCredential && $firebaseCredential->getId()) {
                                 </td>
                             </tr>
                             <tr ng-hide="!show_more_size">
+                                <td class="indent"><?php echo __("Cache (var/cache_images, images cache)") ?></td>
+                                <td>{{ server_usage.cache_images_size }}</td>
+                                <td class="text-right">
+                                    <button class="btn btn-xs btn-primary"
+                                            ng-click="clear('cache_images');"><?php echo __("Clear") ?></button>
+                                </td>
+                            </tr>
+                            <tr ng-hide="!show_more_size">
                                 <td class="indent"><?php echo __("Temp (var/tmp, application sources)") ?></td>
                                 <td>{{ server_usage.tmp_size }}</td>
                                 <td class="text-right">

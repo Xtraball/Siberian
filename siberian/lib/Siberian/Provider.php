@@ -82,6 +82,14 @@ class Provider
     /**
      * @return array|mixed
      */
+    public static function getBackofficeNotification ()
+    {
+        return self::getServices()['backoffice_notification']['url'];
+    }
+
+    /**
+     * @return array|mixed
+     */
     public static function getWhitelistHosted ()
     {
         return self::_getContent('whitelist_hosted', self::getModules()['whitelist_hosted']['url']);

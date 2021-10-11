@@ -130,23 +130,26 @@ class Backoffice_Controller_Index_Abstract extends Backoffice_Controller_Default
             try {
 
                 switch ($type) {
-                    case "log":
+                    case 'log':
                         $message = __("Logs cleared.");
 
                         Siberian_Cache::__clearLog();
                         break;
-                    case "cache":
+                    case 'cache':
                         Siberian_Cache::__clearCache();
                         Siberian_Cache_Design::clearCache();
                         break;
-                    case "tmp":
+                    case 'cache_images':
+                        Siberian_Cache::__clearCacheImages();
+                        break;
+                    case 'tmp':
                         /** When clearing TPM out we need to clear APK/Source queue links, file doesn't exists anymore */
                         Siberian_Cache::__clearTmp();
                         Application_Model_SourceQueue::clearPaths();
                         Application_Model_ApkQueue::clearPaths();
 
                         break;
-                    case "overview":
+                    case 'overview':
                         $message = __("Overview cache cleared.");
 
                         Siberian_Minify::clearCache();
@@ -154,22 +157,22 @@ class Backoffice_Controller_Index_Abstract extends Backoffice_Controller_Default
                         $protocol = isset($_SERVER['HTTPS']) ? 'https://' : 'http://';
                         Siberian_Autoupdater::configure($protocol . $this->getRequest()->getHttpHost());
                         break;
-                    case "locks":
+                    case 'locks':
                         $message = __("Removing CRON Scheduler lock files.");
 
                         Siberian_Cache::__clearLocks();
                         break;
-                    case "source_locks":
+                    case 'source_locks':
                         $message = __("Removing CRON Scheduler source lock files.");
 
                         Siberian_Cache::__clearLocks("source_locks");
                         break;
-                    case "generator":
+                    case 'generator':
                         $message = __("Removing CRON Scheduler generator lock files.");
 
                         Siberian_Cache::__clearLocks("generator");
                         break;
-                    case "app_manifest":
+                    case 'app_manifest':
                         $message = __("Rebuilding application manifest files.");
 
                         Siberian_Cache::__clearCache();
@@ -180,13 +183,13 @@ class Backoffice_Controller_Index_Abstract extends Backoffice_Controller_Default
 
                         Siberian_Autoupdater::configure();
                         break;
-                    case "cron_error":
+                    case 'cron_error':
                         $message = __("Cleared cron errors.");
 
                         (new Cron_Model_Cron())
                             ->clearErrors();
                         break;
-                    case "android_sdk":
+                    case 'android_sdk':
                         (new Cron_Model_Cron())
                             ->clearErrors();
 
