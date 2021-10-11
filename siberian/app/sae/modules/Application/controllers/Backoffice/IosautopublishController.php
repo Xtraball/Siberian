@@ -258,6 +258,10 @@ class Application_Backoffice_IosautopublishController extends Backoffice_Control
                 }
 
                 $serviceQueue = Application_Model_SourceQueue::getApkServiceQueue($appId);
+                if ($serviceQueue === false) {
+                    throw new \Siberian\Exception('This application is not in queue.');
+                }
+
                 $serviceQueue
                     ->setApkPath($destinationApk)
                     ->setAabPath($destinationAab)
@@ -284,13 +288,15 @@ class Application_Backoffice_IosautopublishController extends Backoffice_Control
             }
         } catch (\Exception $e) {
             $serviceQueue = Application_Model_SourceQueue::getApkServiceQueue($appId);
-            $serviceQueue
-                ->setStatus('failed')
-                ->setApkStatus('failed')
-                ->setApkMessage($e->getMessage())
-                ->save();
+            if ($serviceQueue !== false) {
+                $serviceQueue
+                    ->setStatus('failed')
+                    ->setApkStatus('failed')
+                    ->setApkMessage($e->getMessage())
+                    ->save();
 
-            $this->apkServiceEmail($serviceQueue);
+                $this->apkServiceEmail($serviceQueue);
+            }
 
             $payload = [
                 'error' => true,
@@ -321,6 +327,10 @@ class Application_Backoffice_IosautopublishController extends Backoffice_Control
             $message = $request->getParam('message', false);
 
             $serviceQueue = Application_Model_SourceQueue::getApkServiceQueue($appId);
+            if ($serviceQueue === false) {
+                throw new \Siberian\Exception('#566-02: ' . __('This instance does not exists!'));
+            }
+
             $serviceQueue
                 ->setStatus($status)
                 ->setApkStatus($status)

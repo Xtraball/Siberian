@@ -1,9 +1,15 @@
 <?php
 
+namespace Siberian;
+
 /**
- * Class Siberian_Media
+ * Class Media
+ * @package Siberian
+ *
+ * @author Xtraball SAS <dev@xtraball.com>
+ * @version 4.20.21
  */
-class Siberian_Media
+class Media
 {
     /**
      * @var bool
@@ -13,42 +19,34 @@ class Siberian_Media
      * @var array
      */
     public static $tools = [
-        "jpg" => [
-            "jpegoptim" => [
-                "bin" => "/usr/local/bin/jpegoptim",
-                "cli" => "/usr/local/bin/jpegoptim -s -q -m 60 %s"
+        'jpg' => [
+            'jpegoptim' => [
+                'bin' => '/usr/local/bin/jpegoptim',
+                'cli' => '/usr/local/bin/jpegoptim -s -q -m 60 %s'
             ],
-            //"imageoptim" => [
-            //    "bin" => "/usr/local/bin/imageoptim",
-            //    "cli" => "/usr/local/bin/imageoptim --jpegmini --quality 60-80 --speed 1 %s"
-            //],
         ],
-        "png" => [
-            "pngquant" => [
-                "bin" => "/usr/local/bin/pngquant",
-                "cli" => "/usr/local/bin/pngquant --skip-if-larger --ext .png --force -- %s"
+        'png' => [
+            'pngquant' => [
+                'bin' => '/usr/local/bin/pngquant',
+                'cli' => '/usr/local/bin/pngquant --skip-if-larger --ext .png --force -- %s'
             ],
-            "optipng" => [
-                "bin" => "/usr/local/bin/optipng",
-                "cli" => "/usr/local/bin/optipng -strip all -quiet -o3 %s"
+            'optipng' => [
+                'bin' => '/usr/local/bin/optipng',
+                'cli' => '/usr/local/bin/optipng -strip all -quiet -o3 %s'
             ],
-            //"imageoptim" => [
-            //    "bin" => "/usr/local/bin/imageoptim",
-            //    "cli" => "/usr/local/bin/imageoptim --imagealpha --quality 60-80 --speed 1 %s"
-            //],
         ],
     ];
 
     /**
-     * @param $image_path
+     * @param $imagePath
      * @param bool $force
-     * @throws Zend_Exception
+     * @throws \Zend_Exception
      */
-    public static function optimize($image_path, $force = false)
+    public static function optimize($imagePath, $force = false)
     {
         /** Dev global disable. */
-        $_config = Zend_Registry::get("_config");
-        if (isset($_config["disable_media"])) {
+        $_config = \Zend_Registry::get('_config');
+        if (isset($_config['disable_media'])) {
             return;
         }
 
@@ -59,33 +57,33 @@ class Siberian_Media
 
         /** Disable if not cron && sae */
         if (!$force) {
-            if (!Cron_Model_Cron::is_active()) {
+            if (!\Cron_Model_Cron::is_active()) {
                 return;
             }
         }
 
-        if (!is_writable($image_path)) {
+        if (!is_writable($imagePath)) {
             return;
         }
 
-        $filetype = strtolower(pathinfo($image_path, PATHINFO_EXTENSION));
+        $filetype = strtolower(pathinfo($imagePath, PATHINFO_EXTENSION));
         if (array_key_exists($filetype, self::$tools)) {
             $tools = self::$tools[$filetype];
 
             foreach ($tools as $toolbin => $options) {
-                $path = self::isInstalled($options["bin"]);
+                $path = self::isInstalled($options['bin']);
 
                 if ($path !== false) {
                     exec("{$path} -h", $output);
                     if (isset($output) && isset($output[0]) && !empty($output[0])) {
-                        if (strpos($path, "/local") !== false) {
-                            $cli = $options["cli"];
+                        if (strpos($path, '/local') !== false) {
+                            $cli = $options['cli'];
                         } else {
-                            $cli = str_replace("/local", "", $options["cli"]);
+                            $cli = str_replace('/local', '', $options['cli']);
                         }
-                        $bin = sprintf($cli, $image_path);
+                        $bin = sprintf($cli, $imagePath);
 
-                        self::log(__("[Siberian_Media] optimizing media %s", $bin));
+                        self::log("optimizing media %s", $bin);
 
                         exec($bin . " 2>&1", $result);
                     }
@@ -100,7 +98,7 @@ class Siberian_Media
     public static function disableTemporary()
     {
         if (!self::$temporary_disabled) {
-            self::log("[Siberian_Media] disableTemporary");
+            self::log('disableTemporary');
 
             self::$temporary_disabled = true;
         }
@@ -126,12 +124,13 @@ class Siberian_Media
      * @param $binary_path
      * @return bool|mixed
      */
-    public static function isInstalled($binary_path)
+    public static function isInstalled($binaryPath)
     {
-        if (self::exists_path($binary_path)) {
-            return $binary_path;
-        } elseif (self::exists_path(str_replace("/local", "", $binary_path))) {
-            return str_replace("/local", "", $binary_path);
+        if (self::exists_path($binaryPath)) {
+            return $binaryPath;
+        }
+        if (self::exists_path(str_replace("/local", "", $binaryPath))) {
+            return str_replace("/local", "", $binaryPath);
         }
         return false;
     }
@@ -140,7 +139,7 @@ class Siberian_Media
      * @param $binary_path
      * @return bool
      */
-    public static function exists_path($binary_path)
+    public static function exists_path($binary_path): bool
     {
         $result = file_exists($binary_path);
         if (!$result) {
@@ -149,7 +148,7 @@ class Siberian_Media
                 if (!empty($output) && isset($output[0])) {
                     $result = ($output[0] == 1);
                 }
-            } catch (Exception $e) {
+            } catch (\Exception $e) {
                 $result = false;
             }
         }
@@ -162,7 +161,7 @@ class Siberian_Media
      *
      * @return array
      */
-    public static function getLibraries()
+    public static function getLibraries(): array
     {
         $libraries = [];
         foreach (self::$tools as $tools) {
@@ -172,7 +171,7 @@ class Siberian_Media
         }
 
         // ClamAV test
-        $clamav = new \Siberian\ClamAV();
+        $clamav = new ClamAV();
         $libraries['clamav'] = $clamav->ping();
 
         return $libraries;
@@ -182,13 +181,12 @@ class Siberian_Media
      * @param $path
      * @return string
      */
-    public static function toBase64($path)
+    public static function toBase64($path): string
     {
         $type = pathinfo($path, PATHINFO_EXTENSION);
         $data = file_get_contents($path);
-        $base64 = sprintf("data:image/%s;base64,%s", $type, base64_encode($data));
 
-        return $base64;
+        return sprintf("data:image/%s;base64,%s", $type, base64_encode($data));
     }
 
     /**
@@ -196,9 +194,10 @@ class Siberian_Media
      */
     public static function log($message)
     {
+        $message = sprintf("[Siberian\Media] %s \n", $message);
         log_info($message);
         if (defined("CRON")) {
-            echo sprintf("[Siberian_Media] %s \n", $message);
+            echo $message;
         }
     }
 }

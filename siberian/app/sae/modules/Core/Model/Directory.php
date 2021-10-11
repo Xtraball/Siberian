@@ -120,7 +120,7 @@ class Core_Model_Directory
 
     public static function getImageCacheDirectory($base = false)
     {
-        return $base ? self::getBasePathTo('/var/cache/images') : self::getPathTo('/var/cache/images');
+        return $base ? self::getBasePathTo('/var/cache_images') : self::getPathTo('/var/cache_images');
     }
 
     public static function setPath($path = '')
@@ -176,7 +176,6 @@ class Core_Model_Directory
 
     public static function duplicate($src, $dst, $permission = 0777)
     {
-
         $is_mac_os = false;
         if (function_exists("posix_uname")) {
             $system = posix_uname();
@@ -201,7 +200,6 @@ class Core_Model_Directory
      */
     public static function zip($source, $destination)
     {
-
         if (!is_dir($source)) {
             return null;
         }
