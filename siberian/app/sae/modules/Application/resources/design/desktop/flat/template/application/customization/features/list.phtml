@@ -306,7 +306,7 @@ $splitPreviewActions = filter_var(__get('split_preview_actions'), FILTER_VALIDAT
                                             $iconUrl = $this->getIconUrl($option, '#0099C7', false);
                                             $hasPreview = $preview->getId() && $preview->getTitle();
                                             $showPreviewIcon = $hasPreview && !$splitPreviewActions;
-                                            $showPreviewBubble = $hasPreview && $splitPreviewActions;
+                                            $showPreviewBubble = $hasPreview;
 
                                             ?>
                                         <li id="add_page_<?php echo $option->getId(); ?>"
@@ -328,7 +328,7 @@ $splitPreviewActions = filter_var(__get('split_preview_actions'), FILTER_VALIDAT
                                                            value="<?php echo $option->getId(); ?>"/>
                                                 </div>
                                                 <?php if ($hasPreview): ?>
-                                                <div class="bubble <?php if ($showPreviewBubble) : ?>show_previews<?php else : ?>add_page<?php endif; ?>"
+                                                <div class="bubble <?php if ($showPreviewBubble) : ?>show_previews<?php endif; ?>"
                                                      rel="<?php echo $option->getId(); ?>">
                                                     <i class="fa fa-info"></i>
                                                 </div>
