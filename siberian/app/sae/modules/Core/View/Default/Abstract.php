@@ -1,5 +1,8 @@
 <?php
 
+use Siberian\Version;
+use Siberian\Image;
+
 /**
  * Class Core_View_Default_Abstract
  */
@@ -358,7 +361,8 @@ abstract class Core_View_Default_Abstract extends Siberian\View
 
         try {
             $image = new Core_Model_Lib_Image();
-            $image->setId($id)
+            $image
+                ->setId($id)
                 ->setPath($path)
                 ->setColor($color)
                 ->colorize();
@@ -515,12 +519,25 @@ abstract class Core_View_Default_Abstract extends Siberian\View
     }
 
     /**
+     * @var array
+     */
+    static public $lastIconInfos = [];
+
+    /**
+     * @return array
+     */
+    protected function getLastIconInfos ()
+    {
+        return static::$lastIconInfos;
+    }
+
+    /**
      * @var string
      */
     protected $_icon_color;
 
     /**
-     * @param Application_Model_Option $option
+     * @param $option
      * @param null $enforcedColor
      * @param bool $forceColorizable
      * @return string
@@ -571,12 +588,45 @@ abstract class Core_View_Default_Abstract extends Siberian\View
                 $this->_initIconColor();
             }
 
-            $iconRelPath = $this->getColorizedImage($iconRelPath, $this->_icon_color);
+            // Moving image to tmp cache
+            $ext = pathinfo($iconRelPath, PATHINFO_EXTENSION);
+            $tmpAbsPath = path('/var/tmp/image_scol_' . uniqid('', true) . '.' . $ext);
+            copy(path($iconRelPath), $tmpAbsPath);
+
+            Core_Model_Lib_Image::sColorize($tmpAbsPath, $this->_icon_color);
+
+            $image = Image::open($tmpAbsPath)->cacheFile('png', 100);
+
+            // Continue normal ops!
+            $iconRelPath = str_replace(path(''), '', '/' . $image);
         }
+
+        /** To use immediatly after calling the function */
+        static::$lastIconInfos = [
+            'colorizable' => $colorizable,
+            'relativePath' => $iconRelPath
+        ];
 
         return $iconRelPath;
     }
 
+    /**
+     * @param $path
+     * @param $hexColor
+     * @return bool|false|string
+     * @throws Exception
+     */
+    public function colorizeImage ($path, $hexColor)
+    {
+        $absPath = path($path);
+        list($r, $g, $b) = sscanf($hexColor, "#%02x%02x%02x");
+        $image = Image::open($absPath);
+        //$image->colorize($r, $g, $b);
+        $image->colorize(128, 34, 56);
+
+        // Return png, we must preserve opacity!
+        return $image->png(100);
+    }
 
 
     /**

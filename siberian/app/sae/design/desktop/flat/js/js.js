@@ -19,7 +19,23 @@ String.prototype.toHex = function () {
         ("0" + parseInt(rgb[1], 10).toString(16)).slice(-2) +
         ("0" + parseInt(rgb[2], 10).toString(16)).slice(-2) +
         ("0" + parseInt(rgb[3], 10).toString(16)).slice(-2);
-}
+};
+
+var _hexToRgb = function (hex) {
+    // Expand shorthand form (e.g. "03F") to full form (e.g. "0033FF")
+    const shorthandRegex = /^#?([a-f\d])([a-f\d])([a-f\d])$/i;
+    hex = hex.replace(shorthandRegex, (m, r, g, b) => {
+        return r + r + g + g + b + b;
+    });
+    const result = /^#?([a-f\d]{2})([a-f\d]{2})([a-f\d]{2})$/i.exec(hex);
+    return result
+        ? [
+            parseInt(result[1], 16),
+            parseInt(result[2], 16),
+            parseInt(result[3], 16),
+        ]
+        : null;
+};
 
 String.prototype.hexToRgb = function () {
     var hex = this.replace('#', '');
@@ -28,7 +44,7 @@ String.prototype.hexToRgb = function () {
     rgb['g'] = parseInt(hex.substring(2, 4), 16);
     rgb['b'] = parseInt(hex.substring(4, 6), 16);
     return rgb;
-}
+};
 
 Object.getSize = function (object) {
     var size = 0;
@@ -38,7 +54,7 @@ Object.getSize = function (object) {
         }
     }
     return size;
-}
+};
 
 function hexToR(h) {
     return parseInt((cutHex(h)).substring(0, 2), 16)

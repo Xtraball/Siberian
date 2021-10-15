@@ -13,7 +13,11 @@ if ($option->getCode() === "catalog") {
 
 // Query feature indicator
 $pendingActions = $option->getPendingActions();
-$iconUrl = $this->getIconUrl($option, '#0099C7');
+
+$iconColorList = __get('feature_icons_color');
+$iconColorList = empty($iconColorList) ?? '#0099C7';
+
+$iconUrl = $this->getIconUrl($option, $iconColorList);
 
 ?>
 

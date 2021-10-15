@@ -378,6 +378,8 @@ class Image
     protected function addOperation($method, $args)
     {
         $this->operations[] = array($method, $args);
+
+        print_r($this->operations);
     }
 
     /**
