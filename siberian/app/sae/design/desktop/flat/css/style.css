@@ -585,9 +585,13 @@ li .sub-bar a {
 }
 
 #customization_sidebar button.btn.bt-header-right {
-    top: 7px;
-    width: auto;
-    padding: 0 5px;
+    margin-top: 7px !important;
+    width: auto !important;
+    padding: 0 5px !important;
+    float: right !important;
+    position: unset !important;
+    margin-right: -8px !important;
+    margin-left: 15px !important;
 }
 
 #customization_container .square_label {
