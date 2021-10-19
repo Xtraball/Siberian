@@ -17,7 +17,7 @@ use Siberian\Autoupdater;
 class Tools
 {
     const RESTORE_APP_SOURCES = 'backoffice_cron.restore_app_sources';
-    const REBUILD_MANIFEST = 'backoffice_cron.restore_app_sources';
+    const REBUILD_MANIFEST = 'backoffice_cron.rebuild_manifest';
 
     /**
      * @param Cron|null $cron
@@ -49,6 +49,12 @@ class Tools
      */
     public static function scheduleTask ($name)
     {
+        // Not scheduling any new task if RESTORE_APP_SOURCES is already due!
+        $restoreAppSources = filter_var(__get(self::RESTORE_APP_SOURCES), FILTER_VALIDATE_BOOLEAN);
+        if ($restoreAppSources === true) {
+            return;
+        }
+
         switch ($name) {
             case self::RESTORE_APP_SOURCES:
                 __set(self::RESTORE_APP_SOURCES, 1);
@@ -73,7 +79,9 @@ class Tools
 
             $restoreAppSources = filter_var(__get(self::RESTORE_APP_SOURCES), FILTER_VALIDATE_BOOLEAN);
             if ($restoreAppSources === true) {
+                // In that event, we set the manifest to 0 to prevent acting twice.
                 __set(self::RESTORE_APP_SOURCES, 0);
+                __set(self::REBUILD_MANIFEST, 0);
                 return self::restoreapps($cron);
             }
 
@@ -98,6 +106,12 @@ class Tools
     {
         $oldUmask = umask(0);
         try {
+            $wgetBin = 'wget';
+            $isDarwin = exec('uname');
+            # MacOSX
+            if (strpos($isDarwin, 'arwin') !== false) {
+                $wgetBin = '/usr/local/bin/wget';
+            }
 
             $varApps = path('var/apps');
             self::checkWriteable();
@@ -135,11 +149,11 @@ class Tools
 
             // Download archives from GitHub
             chdir($varApps);
-            self::verboseExec('wget --no-check-certificate -v ' . $browser);
+            self::verboseExec($wgetBin . ' --no-check-certificate -v ' . $browser);
             chdir($varApps . '/ionic');
-            self::verboseExec('wget --no-check-certificate -v ' . $android);
-            self::verboseExec('wget --no-check-certificate -v ' . $ios);
-            self::verboseExec('wget --no-check-certificate -v ' . $iosNoads);
+            self::verboseExec($wgetBin . ' --no-check-certificate -v ' . $android);
+            self::verboseExec($wgetBin . ' --no-check-certificate -v ' . $ios);
+            self::verboseExec($wgetBin . ' --no-check-certificate -v ' . $iosNoads);
 
             if (!is_readable('./android.tgz') ||
                 !is_readable('./ios.tgz') ||

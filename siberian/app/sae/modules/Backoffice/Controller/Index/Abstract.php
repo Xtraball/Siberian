@@ -151,14 +151,6 @@ class Backoffice_Controller_Index_Abstract extends Backoffice_Controller_Default
                         Application_Model_ApkQueue::clearPaths();
 
                         break;
-                    case 'overview':
-                        $message = __("Overview cache cleared.");
-
-                        Siberian_Minify::clearCache();
-
-                        $protocol = isset($_SERVER['HTTPS']) ? 'https://' : 'http://';
-                        Siberian_Autoupdater::configure($protocol . $this->getRequest()->getHttpHost());
-                        break;
                     case 'locks':
                         $message = __("Removing CRON Scheduler lock files.");
 
@@ -174,6 +166,7 @@ class Backoffice_Controller_Index_Abstract extends Backoffice_Controller_Default
 
                         Siberian_Cache::__clearLocks("generator");
                         break;
+
                     case 'app_manifest':
                         // Moved to cron
 

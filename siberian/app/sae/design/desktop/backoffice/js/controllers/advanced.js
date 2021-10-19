@@ -580,15 +580,10 @@ App.config(function($routeProvider) {
         $scope.content_loader_is_visible = true;
         AdvancedTools.restoreapps()
             .success(function (data) {
-                Backoffice.clearCache('app_manifest')
-                    .success(function (manifestData) {
-                        $scope.message.setText(manifestData.message)
-                            .isError(false)
-                            .show()
-                        ;
-                    }).finally(function () {
-                        $scope.content_loader_is_visible = false;
-                    });
+                $scope.message.setText(data.message)
+                    .isError(false)
+                    .show()
+                ;
             })
             .error(function (errorData) {
                 $scope.message
