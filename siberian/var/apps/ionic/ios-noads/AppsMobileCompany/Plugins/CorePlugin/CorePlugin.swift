@@ -25,12 +25,14 @@ class CorePlugin: CDVPlugin {
 
     @objc(requestTrackingAuthorization:)
     func requestTrackingAuthorization(command: CDVInvokedUrlCommand) {
+        let context = AMBContext(command)
+
         if #available(iOS 14, *) {
             ATTrackingManager.requestTrackingAuthorization(completionHandler: { status in
-                self.commandDelegate.send(CDVPluginResult(status: CDVCommandStatus_OK, messageAs: true), callbackId: command.callbackId)
+                context.success(status.rawValue)
             })
         } else {
-            self.commandDelegate.send(CDVPluginResult(status: CDVCommandStatus_ERROR, messageAs: false), callbackId: command.callbackId)
+            context.success(false)
         }
     }
 
