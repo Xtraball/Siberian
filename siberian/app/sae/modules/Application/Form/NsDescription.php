@@ -56,9 +56,11 @@ class Application_Form_NsDescription extends Siberian_Form_Abstract {
             ->setAttrib('maxlength', 256);
 
         $this->addSimpleText('ns_user_tracking_ud',
-            __('NSUserTrackingUsageDescription'))
-            ->setDescription(__('Specifies the reason for your app to serve personalized ads (only for iOS 14+ users).'))
+            p__('application', 'NSUserTrackingUsageDescription (for AdMob & ATT)'))
+            ->setDescription(p__('application', 'Specifies the reason for your app to serve personalized ads and/or track personal data.'))
             ->setAttrib('maxlength', 256);
+
+        $this->addSimpleCheckbox('request_tracking_authorization', p__('application', 'Enforce ATT (App Tracking Transparency) modal for iOS 14+ Apps without AdMob.'));
 
         $this->addSubmit(__('Save'));
     }
