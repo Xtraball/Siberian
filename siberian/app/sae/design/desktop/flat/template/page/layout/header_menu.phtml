@@ -1,6 +1,7 @@
 <?php
 
 use Siberian\Version;
+use Siberian\Hook;
 
 $current = $this->getCurrentLink();
 $editor = $this->getAdmin()->getWhiteLabelEditor();
@@ -149,7 +150,10 @@ $editorTree = [
     ],
 ];
 
-if ($this->isPe() && !$request->isWhiteLabelEditor()) {
+if ($editor &&
+    $editor->getId() &&
+    $this->isPe() &&
+    !$request->isWhiteLabelEditor()) {
     $editorTree['whitelabel']['childs']['customize'] = [
         'hasChilds' => false,
         'isVisible' => true,
@@ -160,7 +164,7 @@ if ($this->isPe() && !$request->isWhiteLabelEditor()) {
     ];
 }
 
-$editorTree = \Siberian\Hook::trigger('editor.header.menu.ready', $editorTree);
+$editorTree = Hook::trigger('editor.header.menu.ready', $editorTree);
 
 /**
  * @param $markup
