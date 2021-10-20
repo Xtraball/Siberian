@@ -7,6 +7,14 @@ cordova.define('cordova/plugin_list', function(require, exports, module) {
       "runs": true
     },
     {
+      "id": "Admob.AdMob",
+      "file": "plugins/Admob/www/admob.js",
+      "pluginId": "Admob",
+      "clobbers": [
+        "admob"
+      ]
+    },
+    {
       "id": "AppVersion.AppVersionPlugin",
       "file": "plugins/AppVersion/www/AppVersionPlugin.js",
       "pluginId": "AppVersion",
@@ -381,6 +389,14 @@ cordova.define('cordova/plugin_list', function(require, exports, module) {
       ]
     },
     {
+      "id": "CorePlugin.CorePlugin",
+      "file": "plugins/CorePlugin/www/CorePlugin.js",
+      "pluginId": "CorePlugin",
+      "clobbers": [
+        "cordova.plugins.CorePlugin"
+      ]
+    },
+    {
       "id": "Toast.Toast",
       "file": "plugins/Toast/www/Toast.js",
       "pluginId": "Toast",
@@ -439,6 +455,7 @@ cordova.define('cordova/plugin_list', function(require, exports, module) {
   ];
   module.exports.metadata = {
     "Promises": "4.2.2",
+    "Admob": "0.0.0",
     "AppVersion": "0.1.8",
     "Badge": "0.8.8",
     "BarcodeScanner": "7.1.2",
@@ -458,11 +475,12 @@ cordova.define('cordova/plugin_list', function(require, exports, module) {
     "MediaNative": "5.0.3",
     "Navigator": "0.1.0",
     "Permissions": "1.0.0",
-    "Siberian": "1.0.0",
+    "CorePlugin": "1.1.0",
     "Toast": "2.7.2",
     "InAppPurchase": "10.6.1",
     "IosXhr": "1.0.8",
     "Push": "1.10.0",
+    "Mediation": "1.0.0",
     "WebView": "1.0.0"
   };
 });
