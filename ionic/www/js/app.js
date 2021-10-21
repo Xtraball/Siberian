@@ -420,7 +420,7 @@ var App = angular.module('starter', ['ionic', 'lodash', 'ngRoute', 'ngCordova', 
                         // Only for iOS 14* we can ask the ATT modal (if Admob didn't first)
                         try {
                             if (DEVICE_TYPE === SB.DEVICE.TYPE_IOS &&
-                                Application.requestTrackingAuthorization === true) {
+                                load.application.requestTrackingAuthorization === true) {
                                 cordova.plugins.CorePlugin.requestTrackingAuthorization();
                             }
                         } catch (error) {
