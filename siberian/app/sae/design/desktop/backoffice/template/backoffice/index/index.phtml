@@ -673,23 +673,13 @@ if ($firebaseCredential && $firebaseCredential->getId()) {
                                 </td>
                             </tr>
                             <tr ng-hide="!show_more_size">
-                                <td class="indent"><?php echo __("Overview - WebApp (var/apps/browser, overview & webapp cache)") ?></td>
+                                <td class="indent"><?php echo __("Applications/Previewer manifest for automatic updates.") ?></td>
                                 <td>-</td>
                                 <td class="text-right">
                                     <button class="btn btn-xs btn-primary"
-                                            ng-click="clear('overview', '<?php echo addcslashes(__("Are you sure ?"), "'"); ?>');"><?php echo __("Clear") ?></button>
+                                            ng-click="clear('app_manifest', '<?php echo addcslashes(__("Are you sure ?"), "'"); ?>');"><?php echo __("Rebuild") ?></button>
                                 </td>
                             </tr>
-                            <?php if (APPLICATION_ENV == "development"): ?>
-                                <tr ng-hide="!show_more_size">
-                                    <td class="indent"><?php echo __("Applications/Previewer manifest for automatic updates.") ?></td>
-                                    <td>-</td>
-                                    <td class="text-right">
-                                        <button class="btn btn-xs btn-primary"
-                                                ng-click="clear('app_manifest', '<?php echo addcslashes(__("Are you sure ?"), "'"); ?>');"><?php echo __("Rebuild") ?></button>
-                                    </td>
-                                </tr>
-                            <?php endif; ?>
                         </table>
                     </td>
                 </tr>

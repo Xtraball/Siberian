@@ -5,8 +5,11 @@
     $form = new Application_Form_Advanced();
     $form->populate($application->getData());
 
+    $iosData = $ios->getData();
+    $iosData['request_tracking_authorization'] = $application->getRequestTrackingAuthorization();
+
     $formNsDescription = new Application_Form_NsDescription();
-    $formNsDescription->populate($ios->getData());
+    $formNsDescription->populate($iosData);
 
     $orientations = Siberian_Json::decode($ios->getOrientations());
 ?>

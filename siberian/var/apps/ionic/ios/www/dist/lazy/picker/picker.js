@@ -872,7 +872,12 @@
                 // In case we have a "day/month" format only, the year is the current one.
                 var year = this.format.year ?
                     this.date.getFullYear() : (new Date()).getFullYear();
-                var dayOfWeek = (new Date(year+ '-' + month + '-' + textContent)).getDay();
+
+                // Fixing weekDays shift caused by timezones*
+                var _dayMillis = (new Date(year+ '-' + month + '-' + textContent));
+                var _dayWithoutTimezone = _dayMillis.getTime() + (_dayMillis.getTimezoneOffset() * 60 * 1000);
+                var dayOfWeek = (new Date(_dayWithoutTimezone)).getDay();
+
                 if (this.options.showWeekDays &&
                     this.options.weekDays.hasOwnProperty(dayOfWeek)) {
                     textContent = this.options.weekDays[dayOfWeek] + ' ' + textContent;

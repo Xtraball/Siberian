@@ -545,6 +545,10 @@ $schemas['application'] = [
         'type' => 'tinyint(1) unsigned',
         'default' => '0',
     ],
+    'request_tracking_authorization' => [
+        'type' => 'tinyint(1) unsigned',
+        'default' => '0',
+    ],
     'can_access_editor' => [
         'type' => 'varchar(255)',
         'charset' => 'utf8',

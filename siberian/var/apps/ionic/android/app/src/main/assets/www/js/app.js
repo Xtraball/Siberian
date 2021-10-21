@@ -269,7 +269,7 @@ var App = angular.module('starter', ['ionic', 'lodash', 'ngRoute', 'ngCordova', 
                             device_height: deviceScreen.height,
                             footprint: $window.footprint,
                             user_language: CURRENT_LANGUAGE,
-                            version: '4.20.7'
+                            version: '4.20.22'
                         },
                         timeout: 20000,
                         cache: !isOverview,
@@ -412,7 +412,21 @@ var App = angular.module('starter', ['ionic', 'lodash', 'ngRoute', 'ngCordova', 
                         try {
                             AdmobService.init(load.application.admob);
                         } catch (error) {
-                            $log.error('Unable to initialize AdMob.', error);
+                            if (DEBUG) {
+                                $log.error('Unable to initialize AdMob.', error);
+                            }
+                        }
+
+                        // Only for iOS 14* we can ask the ATT modal (if Admob didn't first)
+                        try {
+                            if (DEVICE_TYPE === SB.DEVICE.TYPE_IOS &&
+                                load.application.requestTrackingAuthorization === true) {
+                                cordova.plugins.CorePlugin.requestTrackingAuthorization();
+                            }
+                        } catch (error) {
+                            if (DEBUG) {
+                                $log.error('Unable to request ATT.', error);
+                            }
                         }
 
                         if (Customer.isLoggedIn()) {

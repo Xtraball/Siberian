@@ -429,7 +429,7 @@
     "Permissions": {
       "PACKAGE_NAME": "com.appsmobilecompany.base"
     },
-    "Siberian": {
+    "CorePlugin": {
       "PACKAGE_NAME": "com.appsmobilecompany.base"
     },
     "Toast": {
@@ -833,6 +833,14 @@
       ]
     },
     {
+      "id": "CorePlugin.CorePlugin",
+      "file": "plugins/CorePlugin/www/CorePlugin.js",
+      "pluginId": "CorePlugin",
+      "clobbers": [
+        "cordova.plugins.CorePlugin"
+      ]
+    },
+    {
       "id": "Toast.Toast",
       "file": "plugins/Toast/www/Toast.js",
       "pluginId": "Toast",
@@ -927,7 +935,7 @@
     "MediaNative": "5.0.3",
     "Navigator": "0.1.0",
     "Permissions": "1.0.0",
-    "Siberian": "1.0.0",
+    "CorePlugin": "1.1.0",
     "Toast": "2.7.2",
     "Geofence": "0.6.0",
     "InAppPurchase": "10.6.1",

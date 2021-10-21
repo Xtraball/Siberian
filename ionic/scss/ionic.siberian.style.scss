@@ -34,8 +34,12 @@ ion-modal-view {
   background-color: opacify($general-custom-bg, 1) !important;
 }
 
-/** 100vh height is important for iOS viewport */
-.platform-ios14 {
+/** 100vh height is important for iOS 14+ viewports */
+.platform-ios14,
+.platform-ios15,
+.platform-ios16,
+.platform-ios17,
+.platform-ios18 {
   ion-side-menus {
     height: 100vh !important;
   }

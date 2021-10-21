@@ -68,10 +68,15 @@ class Core_Model_Lib_Image
                         }
                     }
 
-                    imagesavealpha($img2, true);
-                    imagepng($img2, $cache . $image_name);
+                    $imagePath = $cache . $image_name;
 
-                    Siberian_Media::optimize($cache . $image_name, true);
+                    imagesavealpha($img2, true);
+                    imagepng($img2, $imagePath);
+
+                    Siberian_Media::optimize($imagePath, true);
+
+                    // Caching image
+                    $cached = Siberian\Image::open($imagePath)->savePng(100);
 
                     $this->_resources = $img2;
                 }

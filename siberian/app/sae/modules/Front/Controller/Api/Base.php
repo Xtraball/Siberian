@@ -364,6 +364,7 @@ class Front_Controller_Api_Base extends Front_Controller_App_Default
                     'name' => $application->getName(),
                     'share_domain' => ($whitelabel && $whitelabel->getHost()) ?
                         $whitelabel->getHost() : __get('main_domain'),
+                    'requestTrackingAuthorization' => (boolean)$application->getRequestTrackingAuthorization(),
                     'is_locked' => (boolean)$application->requireToBeLoggedIn(),
                     'is_bo_locked' => (boolean)$application->getIsLocked(),
                     'disableUpdates' => (boolean)$application->getDisableUpdates(),

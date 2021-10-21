@@ -143,6 +143,9 @@
     <feature name="Navigator">
         <param name="ios-package" value="CDVNavigator" />
     </feature>
+    <feature name="CorePlugin">
+        <param name="ios-package" value="CorePlugin" />
+    </feature>
     <feature name="Toast">
         <param name="ios-package" value="Toast" />
     </feature>

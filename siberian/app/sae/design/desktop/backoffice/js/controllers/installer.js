@@ -89,7 +89,7 @@ App.config(function ($routeProvider) {
         $scope.header.icon = data.icon;
         $scope.words = data.words;
         $scope.ini = data.ini;
-    }).finally(function() {
+    }).finally(function () {
         $scope.content_loader_is_visible = false;
     });
 
@@ -97,12 +97,12 @@ App.config(function ($routeProvider) {
     $scope.checkForUpdates = function () {
         $scope.check_for_updates.loader_is_visible = true;
 
-        Installer.checkForUpdates().success(function(data) {
+        Installer.checkForUpdates().success(function (data) {
             $scope.check_for_updates.check = false;
-            if(data.url) {
+            if (data.url) {
                 $scope.check_for_updates.next_version = data.version;
                 $scope.check_for_updates.download = true;
-            } else if(data.message) {
+            } else if (data.message) {
                 $scope.message.setText(data.message)
                     .isError(false)
                     .show()
@@ -110,12 +110,12 @@ App.config(function ($routeProvider) {
                 $scope.check_for_updates.no_updates_available = true;
             }
 
-        }).error(function(data) {
+        }).error(function (data) {
             $scope.message.setText(data.message)
                 .isError(true)
                 .show()
             ;
-        }).finally(function() {
+        }).finally(function () {
             $scope.check_for_updates.loader_is_visible = false;
         });
     };
@@ -123,7 +123,7 @@ App.config(function ($routeProvider) {
     $scope.downloadUpdate = function () {
         $scope.check_for_updates.loader_is_visible = true;
 
-        Installer.downloadUpdate().success(function(data) {
+        Installer.downloadUpdate().success(function (data) {
             $scope.package_full = data;
 
             if (data.filename) {
@@ -131,7 +131,7 @@ App.config(function ($routeProvider) {
                 $scope.showPackageDetails();
                 Installer.filename = data.filename;
                 $scope.check_for_updates.check = false;
-            } else if(data.message) {
+            } else if (data.message) {
                 $scope.message.setText(data.message)
                     .isError(false)
                     .show()
@@ -143,12 +143,12 @@ App.config(function ($routeProvider) {
                     .show()
                 ;
             }
-        }).error(function(data) {
+        }).error(function (data) {
             $scope.message.setText(data.message)
                 .isError(true)
                 .show()
             ;
-        }).finally(function() {
+        }).finally(function () {
             $scope.check_for_updates.loader_is_visible = false;
         });
     };
@@ -165,8 +165,8 @@ App.config(function ($routeProvider) {
             .success(function (success) {
                 defer.resolve(true);
             }).error(function (error) {
-                defer.reject(error.code);
-            });
+            defer.reject(error.code);
+        });
 
         return defer.promise;
     };
@@ -324,10 +324,10 @@ App.config(function ($routeProvider) {
                         swal.close();
 
                     }).error(function (error) {
-                        swal.showInputError('<code>' + error.message + '</code>');
-                    }).finally(function () {
-                        $scope.content_loader_is_visible = false;
-                    });
+                    swal.showInputError('<code>' + error.message + '</code>');
+                }).finally(function () {
+                    $scope.content_loader_is_visible = false;
+                });
 
                 return true;
             }
@@ -368,13 +368,13 @@ App.config(function ($routeProvider) {
             if (!data || !data.message) {
                 // Seems we got an issue, try to rebuild manifest once
                 Backoffice.clearCache("app_manifest")
-                .success(function (data) {
-                    $scope.content_loader_is_visible = true;
-                    $scope.message.setText(data.message)
-                        .isError(false)
-                        .show()
-                    ;
-                }).finally(function () {
+                    .success(function (data) {
+                        $scope.content_loader_is_visible = true;
+                        $scope.message.setText(data.message)
+                            .isError(false)
+                            .show()
+                        ;
+                    }).finally(function () {
                     $scope.installation.install.running = false;
                     $timeout(function () {
                         location.reload();
@@ -498,20 +498,17 @@ App.config(function ($routeProvider) {
                     ($scope.package_details.restore_apps !== undefined) &&
                     ($scope.package_details.restore_apps === true)) {
                     AdvancedTools.restoreapps()
-                        .finally(function () {
-                            Backoffice.clearCache('app_manifest')
-                                .success(function (manifestData) {
-                                    $scope.content_loader_is_visible = true;
-                                    $scope.message.setText(manifestData.message)
-                                        .isError(false)
-                                        .show()
-                                    ;
-                                }).finally(function () {
-                                    $scope.installation.install.running = false;
-                                    $timeout(function () {
-                                        location.reload();
-                                    }, 1500);
-                                });
+                        .success(function () {
+                            $scope.content_loader_is_visible = true;
+                            $scope.message.setText(manifestData.message)
+                                .isError(false)
+                                .show()
+                            ;
+                        }).finally(function () {
+                            $scope.installation.install.running = false;
+                            $timeout(function () {
+                                location.reload();
+                            }, 1500);
                         });
                 } else {
                     Backoffice.clearCache('app_manifest')
@@ -562,7 +559,7 @@ App.config(function ($routeProvider) {
         $scope.installation.install.error = false;
         $scope.installation.install.running = true;
 
-        $interval(function() {
+        $interval(function () {
             $scope.increaseProgressBar('install');
         }, 500, 1);
 

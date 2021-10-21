@@ -79,7 +79,7 @@ class Core_Model_Lib_Uploader extends Core_Model_Default
         return $return_file;
     }
 
-    public function savecrop($params = array()) {
+    public function savecrop($params = []) {
 
         $temp = Core_Model_Directory::getTmpDirectory(true).'/';
         $file = $temp.$params['file'];
