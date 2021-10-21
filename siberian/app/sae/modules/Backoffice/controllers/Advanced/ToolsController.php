@@ -44,6 +44,11 @@ class Backoffice_Advanced_ToolsController extends System_Controller_Backoffice_D
     public function restoreappsAction()
     {
         Tools::scheduleTask(Tools::RESTORE_APP_SOURCES);
+
+        $this->_sendJson([
+            'success' => true,
+            'message' => __('Restore app sources is scheduled.')
+        ]);
     }
 
     /**
