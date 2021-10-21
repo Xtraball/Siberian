@@ -1,5 +1,7 @@
 <?php
 
+use Backoffice\Model\Tools;
+
 /**
  * Class Backoffice_Controller_Index_Abstract
  */
@@ -149,14 +151,6 @@ class Backoffice_Controller_Index_Abstract extends Backoffice_Controller_Default
                         Application_Model_ApkQueue::clearPaths();
 
                         break;
-                    case 'overview':
-                        $message = __("Overview cache cleared.");
-
-                        Siberian_Minify::clearCache();
-
-                        $protocol = isset($_SERVER['HTTPS']) ? 'https://' : 'http://';
-                        Siberian_Autoupdater::configure($protocol . $this->getRequest()->getHttpHost());
-                        break;
                     case 'locks':
                         $message = __("Removing CRON Scheduler lock files.");
 
@@ -172,16 +166,14 @@ class Backoffice_Controller_Index_Abstract extends Backoffice_Controller_Default
 
                         Siberian_Cache::__clearLocks("generator");
                         break;
+
                     case 'app_manifest':
-                        $message = __("Rebuilding application manifest files.");
+                        // Moved to cron
 
-                        Siberian_Cache::__clearCache();
-                        unlink(path('/var/cache/design.cache'));
+                        $message = p__('backoffice','App manifest rebuild have been scheduled!');
 
-                        $default_cache = Zend_Registry::get("cache");
-                        $default_cache->clean(Zend_Cache::CLEANING_MODE_ALL);
+                        Tools::scheduleTask(Tools::REBUILD_MANIFEST);
 
-                        Siberian_Autoupdater::configure();
                         break;
                     case 'cron_error':
                         $message = __("Cleared cron errors.");

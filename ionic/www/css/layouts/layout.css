@@ -1,11 +1,22 @@
 /* LAYOUTS */
 .layout_modal_generic .list {
     padding-top: var(--safe-area-inset-top);
-    padding-bottom: var(--safe-area-inset-bottom);
+    padding-bottom: calc(55px + var(--safe-area-inset-bottom));
 }
 
 .layout .tabs {
     display: inline-block;
+}
+
+.layout_modal_generic .close-action {
+    position: absolute;
+    left: 0;
+    bottom: 0;
+    width: 100vw;
+    border: 0;
+    margin: 0;
+    height: calc(55px + var(--safe-area-inset-bottom));
+    box-shadow: 0 -1px 3px black;
 }
 
 .layout .tab-item {
@@ -23,13 +34,13 @@
     box-shadow: none !important;
 }
 
+.layout.modal {
+    background-color: rgba(0, 0, 0, .3) !important;
+}
+
 .layout a {
     color: inherit;
     text-decoration: none;
-}
-
-.layout.modal {
-    opacity: 0.7;
 }
 
 /* Horizontal Layouts */

@@ -221,12 +221,12 @@ class Color {
      * @since 1.0.0
      * @param string|array $color The color.
      * @param string       $mode  Mode to be used.
-     * @return Avada_Color (object)
+     * @return Color (object)
      */
     public static function newColor( $color, $mode = 'auto' ) {
 
         // Get an md5 for this color.
-        $color_md5 = ( is_array( $color ) ) ? md5( wp_json_encode( $color ) . $mode ) : md5( $color . $mode );
+        $color_md5 = ( is_array( $color ) ) ? md5( json_encode( $color ) . $mode ) : md5( $color . $mode );
         // Set the instance if it does not already exist.
         if ( ! isset( self::$instances[ $color_md5 ] ) ) {
             self::$instances[ $color_md5 ] = new self( $color, $mode );
@@ -242,7 +242,7 @@ class Color {
      * @since 1.1
      * @param string|array $color The color.
      * @param string       $mode  Mode to be used.
-     * @return Avada_Color (object)
+     * @return Color (object)
      */
     public static function new_color( $color, $mode = 'auto' ) {
         return self::newColor( $color, $mode );
@@ -263,7 +263,7 @@ class Color {
      *                             lightness,
      *                             brightness.
      * @param int|float|string $value      The new value.
-     * @return Avada_Color|null
+     * @return Color|null
      */
     public function getNew( $property = '', $value = '' ) {
 
@@ -272,11 +272,14 @@ class Color {
             $value = max( 0, min( 255, $value ) );
             if ( 'red' === $property ) {
                 return self::new_color( 'rgba(' . $value . ',' . $this->green . ',' . $this->blue . ',' . $this->alpha . ')', 'rgba' );
-            } elseif ( 'green' === $property ) {
+            }
+            if ( 'green' === $property ) {
                 return self::new_color( 'rgba(' . $this->red . ',' . $value . ',' . $this->blue . ',' . $this->alpha . ')', 'rgba' );
-            } elseif ( 'blue' === $property ) {
+            }
+            if ( 'blue' === $property ) {
                 return self::new_color( 'rgba(' . $this->red . ',' . $this->green . ',' . $value . ',' . $this->alpha . ')', 'rgba' );
-            } elseif ( 'alpha' === $property ) {
+            }
+            if ( 'alpha' === $property ) {
                 return self::new_color( 'rgba(' . $this->red . ',' . $this->green . ',' . $this->blue . ',' . $value . ')', 'rgba' );
             }
         } elseif ( in_array( $property, array( 'hue', 'saturation', 'lightness' ), true ) ) {
@@ -285,9 +288,11 @@ class Color {
 
             if ( 'hue' === $property ) {
                 return self::new_color( 'hsla(' . $value . ',' . $this->saturation . '%,' . $this->lightness . '%,' . $this->alpha . ')', 'hsla' );
-            } elseif ( 'saturation' === $property ) {
+            }
+            if ( 'saturation' === $property ) {
                 return self::new_color( 'hsla(' . $this->hue . ',' . $value . '%,' . $this->lightness . '%,' . $this->alpha . ')', 'hsla' );
-            } elseif ( 'lightness' === $property ) {
+            }
+            if ( 'lightness' === $property ) {
                 return self::new_color( 'hsla(' . $this->hue . ',' . $this->saturation . '%,' . $value . '%,' . $this->alpha . ')', 'hsla' );
             }
         } elseif ( 'brightness' === $property ) {
@@ -324,7 +329,7 @@ class Color {
      *                             lightness,
      *                             brightness.
      * @param int|float|string $value      The new value.
-     * @return Avada_Color|null
+     * @return Color|null
      */
     public function get_new( $property = '', $value = '' ) {
         return $this->getNew( $property, $value );
@@ -346,7 +351,8 @@ class Color {
             if ( isset( $color['rgba'] ) ) {
                 $this->color = $color['rgba'];
                 return 'rgba';
-            } elseif ( isset( $color['color'] ) ) {
+            }
+            if ( isset( $color['color'] ) ) {
                 // Does the array have a 'color' key?
                 $this->color = $color['color'];
                 if ( is_string( $color['color'] ) && false !== strpos( $color['color'], 'rgba' ) ) {
@@ -358,7 +364,8 @@ class Color {
             if ( 4 === count( $color ) && isset( $color[0] ) && isset( $color[1] ) && isset( $color[2] ) && isset( $color[3] ) ) {
                 $this->color = 'rgba(' . intval( $color[0] ) . ',' . intval( $color[1] ) . ',' . intval( $color[2] ) . ',' . intval( $color[3] ) . ')';
                 return 'rgba';
-            } elseif ( 3 === count( $color ) && isset( $color[0] ) && isset( $color[1] ) && isset( $color[2] ) ) {
+            }
+            if ( 3 === count( $color ) && isset( $color[0] ) && isset( $color[1] ) && isset( $color[2] ) ) {
                 // Is this a simple array with 3 items?
                 $this->color = 'rgba(' . intval( $color[0] ) . ',' . intval( $color[1] ) . ',' . intval( $color[2] ) . ',1)';
                 return 'rgba';

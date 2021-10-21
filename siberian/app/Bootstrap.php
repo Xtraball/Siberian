@@ -291,8 +291,7 @@ class Bootstrap extends Zend_Application_Bootstrap_Bootstrap
         foreach ($module_names as $module) {
 
             // Skipping disabled module!
-            if (method_exists('Installer_Model_Installer_Module', 'sGetIsEnabled') &&
-                !Installer_Model_Installer_Module::sGetIsEnabled($module)) {
+            if (!Installer_Model_Installer_Module::sGetIsEnabled($module)) {
                 continue;
             }
 

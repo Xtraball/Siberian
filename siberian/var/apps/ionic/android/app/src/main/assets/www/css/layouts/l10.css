@@ -94,9 +94,14 @@
     box-shadow: 0 -2px 0 rgba(0, 0, 0, 0.5);
 }
 
+.layout_10_modal .close-button {
+    width: 100vw;
+    margin-top: 40px;
+}
+
 .layout_10_modal ion-content {
-    padding-top: var(--safe-area-inset-top);
-    padding-bottom: var(--safe-area-inset-bottom);
+    margin-top: calc(100px + var(--safe-area-inset-top));
+    margin-bottom: calc(90px + var(--safe-area-inset-bottom));
 }
 
 .layout.modal.l10 .badge-custom {

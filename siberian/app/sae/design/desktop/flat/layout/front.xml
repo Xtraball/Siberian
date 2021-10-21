@@ -39,6 +39,8 @@
                     <featherlight link="js/featherlight/featherlight.js" />
                     <tingle link="js/tingle/tingle.min.js" />
                     <toastr link="js/toastr/toastr.js" />
+                    <color_solver link="js/color-solver.js" />
+                    <mini_color link="js/minicolor/jquery.minicolors.js" />
                 </js>
                 <css>
                     <bootstrap link="css/bootstrap.css" />
@@ -58,6 +60,7 @@
                     <featherlight link="js/featherlight/featherlight.css" />
                     <tingle link="css/tingle/tingle.min.css" />
                     <toastr link="js/toastr/toastr.css" />
+                    <mini_color link="js/minicolor/jquery.minicolors.css" />
                 </css>
             </scripts>
             <metas>

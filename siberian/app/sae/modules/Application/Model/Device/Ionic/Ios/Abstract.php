@@ -254,7 +254,8 @@ abstract class Application_Model_Device_Ionic_Ios_Abstract extends Application_M
         ];
 
         // If ads are available
-        if ($this->withAds) {
+        if ($this->withAds ||
+            $this->currentApplication->getRequestTrackingAuthorization()) {
             $NSDescriptions['NSUserTrackingUsageDescription'] = 'ns_user_tracking_ud';
         }
 

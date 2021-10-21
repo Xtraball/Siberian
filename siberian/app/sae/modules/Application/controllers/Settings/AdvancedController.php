@@ -89,6 +89,10 @@ class Application_Settings_AdvancedController extends Application_Controller_Def
                     ->setNsUserTrackingUd($values['ns_user_tracking_ud'])
                     ->save();
 
+                $application
+                    ->setRequestTrackingAuthorization(filter_var($values['request_tracking_authorization'], FILTER_VALIDATE_BOOLEAN))
+                    ->save();
+
                 $payload = [
                     'success' => true,
                     'message' => __('iOS Descriptions saved!')
