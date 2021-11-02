@@ -152,6 +152,7 @@ class Cache
     /**
      * Clear a folder cache
      *
+     * @deprecated do not use!
      * @param $folder
      */
     public static function __clearFolder($folder)
@@ -170,12 +171,12 @@ class Cache
     }
 
     /**
-     * @param $pathFromSiberian
-     */
+ * @param $pathFromSiberian
+ */
     public static function __clearFolderSystem($pathFromSiberian)
     {
         $base = path($pathFromSiberian);
-        exec("find {$base}/. -name '*' -delete");
+        exec("find {$base}/. -name '*' ! -name 'android_pwd*' ! -name '.gitignore' -delete");
     }
 
     /**
