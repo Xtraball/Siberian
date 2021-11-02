@@ -175,7 +175,7 @@ class Cache
     public static function __clearFolderSystem($pathFromSiberian)
     {
         $base = path($pathFromSiberian);
-        exec("rm -rf {$base}/*");
+        exec("find {$base}/. -name '*' -delete");
     }
 
     /**
