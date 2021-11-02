@@ -296,14 +296,14 @@ class Bootstrap extends Zend_Application_Bootstrap_Bootstrap
             }
 
             $path = $this->_front_controller->getModuleDirectory($module) . '/bootstrap.php';
-            $path_init = $this->_front_controller->getModuleDirectory($module) . '/init.php';
+            $pathInit = $this->_front_controller->getModuleDirectory($module) . '/init.php';
 
             // Init is the new flavor 5.0, and has priority over bootstrap!
-            if (is_readable($path_init)) {
+            if (is_readable($pathInit)) {
                 try {
                     global $init;
                     ob_start();
-                    require_once $path_init;
+                    require_once $pathInit;
                     if (is_callable($init)) {
                         $init($this);
                     }
