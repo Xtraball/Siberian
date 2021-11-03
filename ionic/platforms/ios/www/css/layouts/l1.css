@@ -28,6 +28,11 @@
     box-shadow: 0 -7px 8px rgba(0, 0, 0, 0.3);
 }
 
+.layout.l1 .tabs {
+    border-top-width: 1px !important;
+    border-top-style: solid !important;
+}
+
 .layout.l1 .tabs.no-shadow {
     box-shadow: none;
 }
