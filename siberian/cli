@@ -118,6 +118,14 @@ try {
         }
     }
 
+    if (array_key_exists('cli:tasks', $_config)) {
+        $userTasks = $_config['cli:tasks'];
+        if (array_key_exists($action, $userTasks)) {
+            $userTasks[$action]();
+            return;
+        }
+    }
+
     switch ($action) {
         case 'info':
         case 'infos':
