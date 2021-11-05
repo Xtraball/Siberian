@@ -410,7 +410,7 @@ $tabbarBlock = $this->getApplication()->getBlock('tabbar');
             $.minicolors.defaults.opacity = true;
             $.minicolors.defaults.displayValue = true;
 
-            $(".color-picker").each(function () {
+            $("#colorsForm .color-picker").each(function () {
                 let input = $(this);
                 input.minicolors({
                     change: function(value, opacity) {
@@ -606,8 +606,6 @@ $tabbarBlock = $this->getApplication()->getBlock('tabbar');
         .minicolors-theme-default {
             width: 22px !important;
             height: 22px !important;
-            border: 1px solid #303030;
-            border-radius: 2px;
         }
 
         .minicolors input[type=hidden] + .minicolors-swatch {

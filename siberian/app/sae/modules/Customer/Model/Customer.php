@@ -654,9 +654,11 @@ class Customer_Model_Customer extends Core_Model_Default
                 unset($metadatas->stripe['customerId']);
             }
 
-            $birthdateString = '';
             try {
                 $bdInt = (int) $customer->getBirthdate();
+                if ($bdInt === 0) {
+                    throw new \Siberian\Exception('Jump to empty');
+                }
                 $birthdate = new DateTime();
                 $birthdate->setTimestamp($bdInt);
                 $birthdateString = $birthdate->format('d/m/Y');
