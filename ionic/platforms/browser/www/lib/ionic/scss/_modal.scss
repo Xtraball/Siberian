@@ -34,6 +34,8 @@
 .modal-open {
   pointer-events: none;
 
+  // picker is a modal too!
+  .picker,
   .modal,
   .modal-backdrop {
     pointer-events: auto;
