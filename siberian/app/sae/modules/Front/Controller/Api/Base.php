@@ -364,6 +364,7 @@ class Front_Controller_Api_Base extends Front_Controller_App_Default
                     'name' => $application->getName(),
                     'share_domain' => ($whitelabel && $whitelabel->getHost()) ?
                         $whitelabel->getHost() : __get('main_domain'),
+                    'requestTrackingAuthorization' => (boolean)$application->getRequestTrackingAuthorization(),
                     'is_locked' => (boolean)$application->requireToBeLoggedIn(),
                     'is_bo_locked' => (boolean)$application->getIsLocked(),
                     'disableUpdates' => (boolean)$application->getDisableUpdates(),
@@ -601,6 +602,7 @@ class Front_Controller_Api_Base extends Front_Controller_App_Default
             $dataMoreItems = [
                 'code' => $option->getCode(),
                 'name' => $option->getTabbarName(),
+                'value_id' => 'more_items',
                 'subtitle' => $application->getMoreSubtitle(),
                 'is_active' => (boolean)$option->isActive(),
                 'lazy_load' => null,
@@ -938,9 +940,11 @@ class Front_Controller_Api_Base extends Front_Controller_App_Default
                 ->setLanguage($currentLanguage)
                 ->save();
 
-            $birthdateString = '';
             try {
                 $bdInt = (int) $customer->getBirthdate();
+                if ($bdInt === 0) {
+                    throw new \Siberian\Exception('Jump to empty');
+                }
                 $birthdate = new DateTime();
                 $birthdate->setTimestamp($bdInt);
                 $birthdateString = $birthdate->format('d/m/Y');

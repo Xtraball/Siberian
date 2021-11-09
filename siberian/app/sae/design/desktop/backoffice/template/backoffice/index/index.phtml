@@ -657,6 +657,14 @@ if ($firebaseCredential && $firebaseCredential->getId()) {
                                 </td>
                             </tr>
                             <tr ng-hide="!show_more_size">
+                                <td class="indent"><?php echo __("Cache (var/cache_images, images cache)") ?></td>
+                                <td>{{ server_usage.cache_images_size }}</td>
+                                <td class="text-right">
+                                    <button class="btn btn-xs btn-primary"
+                                            ng-click="clear('cache_images');"><?php echo __("Clear") ?></button>
+                                </td>
+                            </tr>
+                            <tr ng-hide="!show_more_size">
                                 <td class="indent"><?php echo __("Temp (var/tmp, application sources)") ?></td>
                                 <td>{{ server_usage.tmp_size }}</td>
                                 <td class="text-right">
@@ -665,23 +673,13 @@ if ($firebaseCredential && $firebaseCredential->getId()) {
                                 </td>
                             </tr>
                             <tr ng-hide="!show_more_size">
-                                <td class="indent"><?php echo __("Overview - WebApp (var/apps/browser, overview & webapp cache)") ?></td>
+                                <td class="indent"><?php echo __("Applications/Previewer manifest for automatic updates.") ?></td>
                                 <td>-</td>
                                 <td class="text-right">
                                     <button class="btn btn-xs btn-primary"
-                                            ng-click="clear('overview', '<?php echo addcslashes(__("Are you sure ?"), "'"); ?>');"><?php echo __("Clear") ?></button>
+                                            ng-click="clear('app_manifest', '<?php echo addcslashes(__("Are you sure ?"), "'"); ?>');"><?php echo __("Rebuild") ?></button>
                                 </td>
                             </tr>
-                            <?php if (APPLICATION_ENV == "development"): ?>
-                                <tr ng-hide="!show_more_size">
-                                    <td class="indent"><?php echo __("Applications/Previewer manifest for automatic updates.") ?></td>
-                                    <td>-</td>
-                                    <td class="text-right">
-                                        <button class="btn btn-xs btn-primary"
-                                                ng-click="clear('app_manifest', '<?php echo addcslashes(__("Are you sure ?"), "'"); ?>');"><?php echo __("Rebuild") ?></button>
-                                    </td>
-                                </tr>
-                            <?php endif; ?>
                         </table>
                     </td>
                 </tr>

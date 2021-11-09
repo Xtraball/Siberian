@@ -2,6 +2,9 @@
 
 /**
  * Class Media_Model_Library
+ *
+ * @method integer getId()
+ * @method Media_Model_Db_Table_Library_Image getTable()
  */
 class Media_Model_Library extends Core_Model_Default
 {
@@ -21,7 +24,6 @@ class Media_Model_Library extends Core_Model_Default
      */
     public function getImages()
     {
-
         if (empty($this->_images)) {
             $this->_images = [];
             $image = new Media_Model_Library_Image();
@@ -35,26 +37,42 @@ class Media_Model_Library extends Core_Model_Default
     }
 
     /**
-     * @return $this
+     * @return Media_Model_Library_Image|Zend_Db_Table_Row_Abstract
+     * @throws Zend_Db_Select_Exception
+     * @throws Zend_Db_Statement_Exception
+     * @throws Zend_Db_Table_Exception
+     * @throws Zend_Exception
      */
     public function getFirstIcon()
     {
         if (!$this->getId()) {
-            return $this;
+            throw new Exception('This library does not exists!');
         }
 
-        $image = new Media_Model_Library_Image();
+        $images = (new Media_Model_Library_Image())
+            ->findAll(
+                ['library_id' => $this->getId()],
+                ['image_id ASC']
+            );
+        foreach ($images as $image) {
+            $link = $image->getData('link');
+            if (stripos($link, '/app') === false) {
+                $link = '/images/library' . $link;
+            }
 
-        $db = $image->getTable();
-        $select = $db->select()->where("library_id = ?", $this->getId())->order("image_id ASC");
+            $apath = path($link);
+            if (is_file($apath) === false) {
+                // Else delete the record!
+                $image->delete();
+                // Then jump on next!
+                continue;
+            }
 
-        $result = $db->fetchRow($select);
-
-        if ($result) {
-            return $image->find($result->getId());
+            // Or send the working image!
+            return $image;
         }
 
-        return $this;
+        throw new Exception('This library has no image!');
     }
 
     /**
@@ -79,7 +97,7 @@ class Media_Model_Library extends Core_Model_Default
             $filename = $file['basename'];
 
             $relativePath = $option->getImagePathTo();
-            $folder = Core_Model_Directory::getBasePathTo(Application_Model_Application::PATH_IMAGE . $relativePath);
+            $folder = path(Application_Model_Application::PATH_IMAGE . $relativePath);
 
             if (!is_dir($folder)) {
                 mkdir($folder, 0777, true);
@@ -100,18 +118,17 @@ class Media_Model_Library extends Core_Model_Default
     }
 
     /**
-     * Fetch the Library associated with this option, regarding the Design (siberian, flat, ...)
-     *
-     * @param $library_id
+     * @param $libraryId
      * @return $this
      */
-    public function getLibraryForDesign($library_id)
+    public function getLibraryForDesign($libraryId)
     {
-        $this->find($library_id);
-
-        $library_name = (design_code() == "flat") ? "{$this->getName()}-flat" : $this->getName();
-
-        $this->find($library_name, "name");
+        $this->find($libraryId);
+        $libraryName = $this->getName();
+        // We add `-flat` prefix only if it is not present!
+        if (stripos($libraryName, '-flat') === false) {
+            $this->find($libraryName . '-flat', 'name');
+        }
 
         return $this;
     }
@@ -170,9 +187,8 @@ class Media_Model_Library extends Core_Model_Default
         }
 
         $image = new Media_Model_Library_Image();
-        $allIcons = $image->findAll($where, ['image_id DESC']);
 
-        return $allIcons;
+        return $image->findAll($where, ['image_id DESC']);
     }
 
 }

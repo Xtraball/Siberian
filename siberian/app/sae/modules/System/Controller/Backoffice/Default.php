@@ -1,5 +1,8 @@
 <?php
 
+use Siberian\Json;
+use Siberian\Provider;
+use Siberian\Request;
 use Siberian\Version;
 
 /**
@@ -281,7 +284,7 @@ class System_Controller_Backoffice_Default extends Backoffice_Controller_Default
     /**
      * Alias action endpoint
      */
-    public function getlicensetypeAction ()
+    public function getlicensetypeAction()
     {
         $this->_sendJson(self::getLicenseType());
     }
@@ -289,36 +292,36 @@ class System_Controller_Backoffice_Default extends Backoffice_Controller_Default
     /**
      * @return array
      */
-    public static function getLicenseType ()
+    public static function getLicenseType(): array
     {
         try {
-            $curl = curl_init();
             $license = __get('siberiancms_key');
-            curl_setopt_array($curl, [
-                CURLOPT_URL => Siberian\Provider::getLicenses()['check']['url'],
-                CURLOPT_RETURNTRANSFER => true,
-                CURLOPT_ENCODING => "",
-                CURLOPT_MAXREDIRS => 10,
-                CURLOPT_TIMEOUT => 30,
-                CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
-                CURLOPT_CUSTOMREQUEST => "POST",
-                CURLOPT_POSTFIELDS => "{\n\t\"licenseKey\": \"" . $license . "\"\n}",
-                CURLOPT_HTTPHEADER => [
-                    "content-type: application/json"
+            $checkUrl = Provider::getLicenses()['check']['url'];
+
+            $response = Request::post(
+                $checkUrl,
+                Json::encode([
+                    'licenseKey' => $license
+                ]),
+                null,
+                null,
+                [
+                    'content-type: application/json'
                 ],
-            ]);
-            $response = curl_exec($curl);
-            $err = curl_error($curl);
+                [
+                    'json_body' => true,
+                    'timeout' => 30
+                ]
+            );
 
-            curl_close($curl);
-
-            if ($err) {
-                throw new \Siberian\Exception('#080-00: ' . $err);
+            $responseDecoded = Json::decode($response);
+            if (Request::$statusCode !== 200) {
+                throw new \Siberian\Exception('#080-00: ' . $responseDecoded['message']);
             }
 
             $payload = [
                 'success' => true,
-                'result' => json_decode($response, true)
+                'result' => $responseDecoded
             ];
         } catch (\Exception $e) {
             $payload = [

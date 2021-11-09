@@ -389,6 +389,14 @@ cordova.define('cordova/plugin_list', function(require, exports, module) {
       ]
     },
     {
+      "id": "CorePlugin.CorePlugin",
+      "file": "plugins/CorePlugin/www/CorePlugin.js",
+      "pluginId": "CorePlugin",
+      "clobbers": [
+        "cordova.plugins.CorePlugin"
+      ]
+    },
+    {
       "id": "Toast.Toast",
       "file": "plugins/Toast/www/Toast.js",
       "pluginId": "Toast",
@@ -467,7 +475,7 @@ cordova.define('cordova/plugin_list', function(require, exports, module) {
     "MediaNative": "5.0.3",
     "Navigator": "0.1.0",
     "Permissions": "1.0.0",
-    "Siberian": "1.0.0",
+    "CorePlugin": "1.1.0",
     "Toast": "2.7.2",
     "InAppPurchase": "10.6.1",
     "IosXhr": "1.0.8",

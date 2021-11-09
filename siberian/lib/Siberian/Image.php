@@ -49,7 +49,13 @@ class Image extends GregwarImage
 
         $this->originalFile = $originalFile;
 
-        $this->setCacheDir(SiberianDirectory::getImageCacheDirectory(true));
+        $cacheDir = SiberianDirectory::getImageCacheDirectory(true);
+        if (!is_dir($cacheDir)) {
+            if (!mkdir($cacheDir, 0777, true) && !is_dir($cacheDir)) {
+                throw new \RuntimeException(sprintf('Directory "%s" was not created', $cacheDir));
+            }
+        }
+        $this->setCacheDir($cacheDir);
         $this->setCacheDirMode(0755);
     }
 

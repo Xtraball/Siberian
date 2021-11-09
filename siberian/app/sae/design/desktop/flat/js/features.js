@@ -279,8 +279,13 @@ var simpleget = function (uri) {
     });
 };
 
-var formget = function (uri, formData, callbackSuccess, callbackError, preventDefault) {
-    loader.show('sb-formget');
+var formget = function (uri, formData, callbackSuccess, callbackError, preventDefault, showLoader) {
+    if (showLoader === undefined) {
+        showLoader = true;
+    }
+    if (showLoader) {
+        loader.show('sb-formget');
+    }
     var localPreventDefault = (preventDefault === undefined) ? false : preventDefault;
 
     $.ajax({
@@ -323,7 +328,9 @@ var formget = function (uri, formData, callbackSuccess, callbackError, preventDe
                 }
             }
 
-            loader.hide('sb-formget');
+            if (showLoader) {
+                loader.hide('sb-formget');
+            }
         },
         error: function (data) {
             if (localPreventDefault) {
@@ -334,7 +341,9 @@ var formget = function (uri, formData, callbackSuccess, callbackError, preventDe
                 callbackError(data);
             }
 
-            loader.hide('sb-formget');
+            if (showLoader) {
+                loader.hide('sb-formget');
+            }
         }
     });
 };

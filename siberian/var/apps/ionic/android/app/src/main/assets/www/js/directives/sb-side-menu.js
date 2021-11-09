@@ -47,11 +47,7 @@ angular
             };
 
             $scope.showAlways = function () {
-                return (
-                    $scope.layout_id &&
-                    ($scope.layout.menu.position === 'bottom') &&
-                    ($scope.layout.menu.visibility === 'always')
-                );
+                return Application.layoutShowAlways;
             };
 
             $scope.isMenuOpen = function() {
@@ -285,20 +281,41 @@ angular
 
             // Init when ready!
             HomepageLayout
-            .getFeatures()
-            .then(function () {
+                .getFeatures()
+                .then(function () {
 
-                // Default settings, module, layout!
-                $scope.layout = HomepageLayout.properties;
-                $scope.layout_id = HomepageLayout.properties.layoutId;
-                angular.element($rootElement)
-                .addClass(("layout-" + $scope.layout_id)
-                .replace(/[^a-zA-Z0-9_\-]+/, '-')
-                .replace('.', '-')
-                .replace(/\-\-*/, '-'));
+                    // Default settings, module, layout!
+                    $scope.layout = HomepageLayout.properties;
+                    $scope.layout_id = HomepageLayout.properties.layoutId;
+                    $scope.layout_code = HomepageLayout.properties.layoutCode;
 
-                $scope.init();
-            });
+                    // Store the nature of the fixed layout
+                    Application.layoutShowAlways = (
+                        $scope.layout_id &&
+                        ($scope.layout.menu.position === 'bottom') &&
+                        ($scope.layout.menu.visibility === 'always')
+                    );
+
+                    var layoutId = ('layout-' + $scope.layout_id)
+                        .replace(/[^a-zA-Z0-9_\-]+/, '-')
+                        .replace('.', '-')
+                        .replace(/\-\-*/, '-');
+
+                    var extendedClass = [
+                        layoutId,
+                        $scope.layout_code
+                    ];
+
+                    if (Application.layoutShowAlways) {
+                        extendedClass.push('layout-always-visible');
+                    }
+
+                    angular
+                        .element($rootElement)
+                        .addClass(extendedClass.join(' '));
+
+                    $scope.init();
+                });
         }
     };
 });

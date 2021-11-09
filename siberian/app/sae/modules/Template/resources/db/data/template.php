@@ -32,7 +32,8 @@ $datas = [
     [
         'code' => 'subheader',
         'name' => 'Subheader',
-        'use_color' => 1, 'color' => '#00377a',
+        'use_color' => 1,
+        'color' => '#00377a',
         'use_background_color' => 1,
         'background_color' => '#739c03',
         'position' => 20
@@ -103,7 +104,7 @@ $datas = [
     ]
 ];
 
-foreach($datas as $data) {
+foreach ($datas as $data) {
     $data['type_id'] = 1;
     $block = new Template_Model_Block();
     $block
@@ -116,14 +117,14 @@ foreach($datas as $data) {
 $layouts = [];
 $layout = new Application_Model_Layout_Homepage();
 
-foreach($layout->findAll() as $layout) {
+foreach ($layout->findAll() as $layout) {
     $layouts[$layout->getCode()] = $layout;
 }
 
 # Listings all block ids
 $block_ids = [];
 $block = new Template_Model_Block();
-foreach($block->findAll() as $block) {
+foreach ($block->findAll() as $block) {
     $block_ids[$block->getCode()] = $block->getId();
 }
 
@@ -720,7 +721,7 @@ $blocks = [
 ];
 
 
-foreach($blocks as $data) {
+foreach ($blocks as $data) {
 
     $data['type_id'] = 3;
     $block = new Template_Model_Block();
@@ -728,10 +729,10 @@ foreach($blocks as $data) {
         ->setData($data)
         ->insertOrUpdate(['code', 'type_id']);
 
-    if(!empty($data['children'])) {
+    if (!empty($data['children'])) {
 
         $position = $block->getPosition();
-        foreach($data['children'] as $child_data) {
+        foreach ($data['children'] as $child_data) {
 
             $position += 2;
             $child_data['type_id'] = 3;
@@ -750,7 +751,7 @@ foreach($blocks as $data) {
 $layouts = [];
 $layout = new Application_Model_Layout_Homepage();
 
-foreach($layout->findAll() as $layout) {
+foreach ($layout->findAll() as $layout) {
     $layouts[$layout->getCode()] = $layout;
 }
 
@@ -758,10 +759,10 @@ foreach($layout->findAll() as $layout) {
 $block_ids = [];
 $blocks = new Template_Model_Block();
 
-foreach($blocks->findAll() as $block) {
+foreach ($blocks->findAll() as $block) {
     $block_ids[$block->getCode()] = $block->getId();
     $children = $block->getChildren() ? $block->getChildren() : [$block];
-    foreach($children as $child) {
+    foreach ($children as $child) {
         $block_ids[$child->getCode()] = $child->getId();
     }
 }

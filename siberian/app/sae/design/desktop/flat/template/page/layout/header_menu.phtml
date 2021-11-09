@@ -1,6 +1,7 @@
 <?php
 
 use Siberian\Version;
+use Siberian\Hook;
 
 $current = $this->getCurrentLink();
 $editor = $this->getAdmin()->getWhiteLabelEditor();
@@ -109,6 +110,7 @@ $editorTree = [
                 'isVisible' => $session->getAdmin()->isAllowedToManageTour(),
                 'label' => __('Manage tour'),
                 'extra' => 'onclick="sbTour.switchTourEdition()"',
+                'url' => 'javascript:void(0)',
                 'is_current' => false,
             ],
             'profile_divider' => [
@@ -148,7 +150,21 @@ $editorTree = [
     ],
 ];
 
-$editorTree = \Siberian\Hook::trigger('editor.header.menu.ready', $editorTree);
+if ($editor &&
+    $editor->getId() &&
+    $this->isPe() &&
+    !$request->isWhiteLabelEditor()) {
+    $editorTree['whitelabel']['childs']['customize'] = [
+        'hasChilds' => false,
+        'isVisible' => true,
+        'label' => p__('whitelabel', 'Customize my editor'),
+        'url' => 'javascript:void(0)',
+        'extra' => 'onclick="whitelabelEditor.toggle();"',
+        'is_current' => false,
+    ];
+}
+
+$editorTree = Hook::trigger('editor.header.menu.ready', $editorTree);
 
 /**
  * @param $markup
@@ -221,12 +237,17 @@ function renderRecursive($markup, $menus, $isChild = false) {
                 $icon = $menu['icon'];
             }
 
+            $href = '';
+            if (array_key_exists('url', $menu)) {
+                $href = 'href="' . $menu['url'] . '"';
+            }
+
             $isCurrent = array_key_exists('is_current', $menu) && $menu['is_current'] ?
                 'is_current border-blue' : '-';
             $markup .= '
                 <li class="' . $isCurrent . '">
                     <a id="' . $id . '"
-                       href="' . $menu['url'] . '"
+                       ' . $href . '
                        ' . $extra . '
                        class="sb-tour"
                        title="' . $menu['label'] . '">
@@ -284,18 +305,6 @@ if (Version::is(["mae", "pe"])) {
                     onclick="launchBootstrapTour()">
                 <i class="fa fa-question-circle-o"
                    style="font-size: 20px;"></i>
-            </button>
-        <?php endif; ?>
-
-        <?php if ($this->isPe() && !$request->isWhiteLabelEditor()) : ?>
-            <button id="toggle_customization_sidebar"
-                    onclick="wl_editor.toggle();"
-                    class="whitelabel-editor sb-tour <?php if ($editor->isActive()) : ?>visible <?php endif; ?>wl_panel pull-right btn color-blue"
-                    title="<?php echo __('Customize my editor'); ?>">
-                <i class="fa fa-desktop"></i>
-                <div class="section-responsive">
-                    <?php echo __('Customize my editor'); ?>
-                </div>
             </button>
         <?php endif; ?>
 

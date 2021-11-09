@@ -1,5 +1,6 @@
 <?php
 
+use Backoffice\Model\Tools;
 use Siberian\Version;
 use Siberian\Request;
 use Siberian\Exception;
@@ -38,124 +39,16 @@ class Backoffice_Advanced_ToolsController extends System_Controller_Backoffice_D
     }
 
     /**
-     *
+     * @deprecated moved outside to run inside a cron job!
      */
     public function restoreappsAction()
     {
-        $oldUmask = umask(0);
-        try {
+        Tools::scheduleTask(Tools::RESTORE_APP_SOURCES);
 
-            $varApps = path('var/apps');
-            self::checkWriteable();
-
-            if (!is_writable($varApps)) {
-                throw new Exception(
-                    p__('backoffice',
-                        'The folder %s is not writable, please check that your web user can write to it.',
-                        $varApps));
-            }
-
-            $version = Version::VERSION;
-            $versionKey = '%VERSION%';
-
-            // Check if release exists
-            $sources = \Siberian\Provider::getSources();
-
-            $releaseUrl = str_replace($versionKey, $version, $sources['release_url']['url']);
-            Request::get($releaseUrl);
-            if (Request::$statusCode == '404') {
-                throw new Exception(__('There is not corresponding release to restore from, process aborted!'));
-            }
-
-            $browser = str_replace($versionKey, $version, $sources['browser']['url']);
-            $android = str_replace($versionKey, $version, $sources['android']['url']);
-            $ios = str_replace($versionKey, $version, $sources['ios']['url']);
-            $iosNoads = str_replace($versionKey, $version, $sources['ios_noads']['url']);
-
-            // Clean-up before run!
-            chdir($varApps . '/ionic');
-            self::verboseExec('rm -fv ./android.tgz');
-            self::verboseExec('rm -fv ./ios.tgz');
-            self::verboseExec('rm -fv ./ios-noads.tgz');
-            self::verboseExec('rm -fv ../browser.tgz');
-
-            // Download archives from GitHub
-            chdir($varApps);
-            self::verboseExec('wget --no-check-certificate -v ' . $browser);
-            chdir($varApps . '/ionic');
-            self::verboseExec('wget --no-check-certificate -v ' . $android);
-            self::verboseExec('wget --no-check-certificate -v ' . $ios);
-            self::verboseExec('wget --no-check-certificate -v ' . $iosNoads);
-
-            if (!is_readable('./android.tgz') ||
-                !is_readable('./ios.tgz') ||
-                !is_readable('./ios-noads.tgz') ||
-                !is_readable('../browser.tgz')) {
-                throw new Exception(__('Something went wrong while restoring files, process aborted!'));
-            }
-
-            // Clean-up & Extract!
-            chdir($varApps);
-            self::verboseExec('rm -Rfv ./browser');
-            self::verboseExec('rm -Rfv ./overview');
-            self::verboseExec('tar pvxzf browser.tgz');
-            self::verboseExec('mv ./browser ./overview'); // use mv, instead of cp, and untar browser a second time
-            self::verboseExec('tar pvxzf browser.tgz');
-            chdir($varApps . '/ionic');
-            self::verboseExec('rm -Rfv ./android');
-            self::verboseExec('tar pvxzf android.tgz');
-            self::verboseExec('rm -Rfv ./ios');
-            self::verboseExec('tar pvxzf ios.tgz');
-            self::verboseExec('rm -Rfv ./ios-noads');
-            self::verboseExec('tar pxzf ios-noads.tgz');
-
-            // Clean-up after work!
-            chdir($varApps . '/ionic');
-            self::verboseExec('rm -fv ./android.tgz');
-            self::verboseExec('rm -fv ./ios.tgz');
-            self::verboseExec('rm -fv ./ios-noads.tgz');
-            self::verboseExec('rm -fv ../browser.tgz');
-
-            self::checkWriteable();
-
-            $payload = [
-                'success' => true,
-                'message' => __('Sources are successfully restored.')
-            ];
-        } catch (\Exception $e) {
-            $payload = [
-                'error' => true,
-                'message' => $e->getMessage()
-            ];
-        }
-
-        umask($oldUmask);
-
-        $this->_sendJson($payload);
-    }
-
-    /**
-     *
-     */
-    public static function checkWriteable()
-    {
-        // Ensure all folders var/apps are writable, parent MUST be writeable in order to remove file in it.
-        $varApps = path('var/apps');
-        self::verboseExec('chmod -Rv 777 "' . $varApps . '"');
-    }
-
-    /**
-     * @param $command
-     * @throws Zend_Exception
-     */
-    public static function verboseExec($command)
-    {
-        $output = [];
-        exec($command, $output);
-
-        // Final loggind
-        $logger = Zend_Registry::get('logger');
-        $logger->info(print_r($output, true) . PHP_EOL);
+        $this->_sendJson([
+            'success' => true,
+            'message' => __('Restore app sources is scheduled.')
+        ]);
     }
 
     /**

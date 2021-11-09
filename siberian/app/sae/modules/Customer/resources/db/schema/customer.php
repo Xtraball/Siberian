@@ -47,6 +47,9 @@ $schemas['customer'] = [
         'charset' => 'utf8',
         'collation' => 'utf8_unicode_ci'
     ],
+    'birthdate' => [
+        'type' => 'bigint(20) unsigned',
+    ],
     'email' => [
         'type' => 'varchar(255)',
         'charset' => 'utf8',

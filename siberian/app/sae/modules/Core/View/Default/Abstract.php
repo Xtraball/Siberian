@@ -1,5 +1,8 @@
 <?php
 
+use Siberian\Version;
+use Siberian\Image;
+
 /**
  * Class Core_View_Default_Abstract
  */
@@ -358,7 +361,8 @@ abstract class Core_View_Default_Abstract extends Siberian\View
 
         try {
             $image = new Core_Model_Lib_Image();
-            $image->setId($id)
+            $image
+                ->setId($id)
                 ->setPath($path)
                 ->setColor($color)
                 ->colorize();
@@ -512,6 +516,132 @@ abstract class Core_View_Default_Abstract extends Siberian\View
             ->toHtml();
 
         return $layout_section;
+    }
+
+    /**
+     * @var array
+     */
+    static public $lastIconInfos = [];
+
+    /**
+     * @return array
+     */
+    protected function getLastIconInfos ()
+    {
+        return static::$lastIconInfos;
+    }
+
+    /**
+     * @var string
+     */
+    protected $_icon_color;
+
+    /**
+     * @param $option
+     * @param null $enforcedColor
+     * @param bool $forceColorizable
+     * @return string
+     * @throws Zend_Exception
+     * @throws Zend_Validate_Exception
+     */
+    protected function getIconUrl($option, $enforcedColor = null, $forceColorizable = false): string
+    {
+        // Enforces a color (but not the colorization*)
+        if ($enforcedColor !== null && empty($this->_icon_color)) {
+            $this->_icon_color = $enforcedColor;
+        }
+
+        $image = (new Media_Model_Library_Image());
+
+        if ($option->getOptionId() === 'customer_account') {
+            if ($this->getApplication()->getAccountIconId()) {
+                $image->find($this->getApplication()->getAccountIconId());
+            } else {
+                $image->find($option->getDefaultIconId());
+            }
+        } else if ($option->getOptionId() === 'more_items') {
+            if ($this->getApplication()->getMoreIconId()) {
+                $image->find($this->getApplication()->getMoreIconId());
+            } else {
+                $image
+                    ->setLink('/tabbar/more_items-flat.png')
+                    ->setCanBeColorized(true);
+            }
+        } else {
+            if ($option->getIconId()) {
+                $image->find($option->getIconId());
+            } else {
+                $image->find($option->getDefaultIconId());
+            }
+        }
+
+        if (!$image->checkFile()) {
+            // Ok we got here!
+            $image->find($option->getDefaultIconId());
+        }
+
+        $iconRelPath = $image->getRelativePath();
+        $colorizable = $image->getCanBeColorized();
+
+        if ($colorizable || $forceColorizable) {
+            if (!$this->_icon_color) {
+                $this->_initIconColor();
+            }
+
+            // Moving image to tmp cache
+            $ext = pathinfo($iconRelPath, PATHINFO_EXTENSION);
+            $tmpAbsPath = path('/var/tmp/image_scol_' . uniqid('', true) . '.' . $ext);
+            copy(path($iconRelPath), $tmpAbsPath);
+
+            Core_Model_Lib_Image::sColorize($tmpAbsPath, $this->_icon_color);
+
+            $image = Image::open($tmpAbsPath)->cacheFile('png', 100);
+
+            // Continue normal ops!
+            $iconRelPath = str_replace(path(''), '', '/' . $image);
+        }
+
+        /** To use immediatly after calling the function */
+        static::$lastIconInfos = [
+            'colorizable' => $colorizable,
+            'relativePath' => $iconRelPath
+        ];
+
+        return $iconRelPath;
+    }
+
+    /**
+     * @param $path
+     * @param $hexColor
+     * @return bool|false|string
+     * @throws Exception
+     */
+    public function colorizeImage ($path, $hexColor)
+    {
+        $absPath = path($path);
+        list($r, $g, $b) = sscanf($hexColor, "#%02x%02x%02x");
+        $image = Image::open($absPath);
+        //$image->colorize($r, $g, $b);
+        $image->colorize(128, 34, 56);
+
+        // Return png, we must preserve opacity!
+        return $image->png(100);
+    }
+
+
+    /**
+     * @return $this
+     * @throws Zend_Exception
+     * @throws Zend_Validate_Exception
+     */
+    protected function _initIconColor(): self
+    {
+        $this->_icon_color = '#FFFFFF';
+        if (Version::is('PE')) {
+            $this->_icon_color = $this->getBlock('border-blue')->getBorderColor();
+        }
+
+        return $this;
     }
 
     /**

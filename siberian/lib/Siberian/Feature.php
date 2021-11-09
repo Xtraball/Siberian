@@ -48,7 +48,9 @@ class Feature
         }
         $libraryId = $library->getId();
 
-        $iconId = 0;
+        // When we have multiple icons for a library, we use the first as default
+        $iconId = null;
+
         foreach ($icons as $key => $iconPath) {
             $keywords = '';
             if (is_array($iconPath)) {
@@ -87,7 +89,7 @@ class Feature
             }
 
             $goodImageId = $image->getId();
-            if ($iconId === 0) {
+            if ($iconId === null) {
                 $iconId = $goodImageId;
             }
         }

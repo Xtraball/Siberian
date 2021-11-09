@@ -83,7 +83,7 @@ $featureCode = preg_replace("/\d/", '', $option->getCode());
                             data-color="color">
                         <span class="edit-btn"><i class="fa fa-pencil"></i></span>
                         <img id="current_icon"
-                             src="<?php echo $this->getIconUrl($option); ?>"
+                             src="<?php echo $this->getIconUrl($option, '#ffffff'); ?>"
                              width="auto"
                              height="40"
                              data-image="<?php echo $option->getIconId(); ?>"
@@ -260,9 +260,14 @@ $featureCode = preg_replace("/\d/", '', $option->getCode());
                                                 (!$icon->getAppId() || $icon->getAppId() == $application->getId()) &&
                                                 !in_array($icon->getId(), $icon_ids)) : ?>
 
-                                            <?php if (in_array($icon->getUrl(), $iconUrls)): continue; endif; ?>
+                                            <?php
+                                                if (!$icon->checkFile() || in_array($icon->getUrl(), $iconUrls, true)) {
+                                                    continue;
+                                                }
 
-                                            <?php $iconUrls[] = $icon->getUrl(); ?>
+                                                $_tmpUrl = $icon->getRelativePath();
+                                                $iconUrls[] = $_tmpUrl;
+                                            ?>
 
                                                 <li rel="<?php echo $option->getId(); ?>"
                                                     class="color-blue">
@@ -271,7 +276,7 @@ $featureCode = preg_replace("/\d/", '', $option->getCode());
                                                        rel="<?php echo $option->getId(); ?>">
 
                                                         <button class="select_icon icn not-preload"
-                                                                style="background-image: url(<?php echo $icon->getUrl() ?>);"
+                                                                style="background-image: url(<?php echo $_tmpUrl ?>);"
                                                                 type="button">
                                                             <img src="/app/sae/design/desktop/flat/images/placeholder/blank-512.png"
                                                                  class="colorize img-icon-size"/>
@@ -343,12 +348,15 @@ $featureCode = preg_replace("/\d/", '', $option->getCode());
                                         ?>
                                         <?php foreach ($allIcons as $icon) :
                                             $keywords = $icon->getFilterKeywords();
+
+                                            if (!$icon->checkFile() || in_array($icon->getRelativePath(), $iconUrls, true)) {
+                                                continue;
+                                            }
+                                            $_tmpUrl = $icon->getRelativePath();
+                                            $iconUrls[] = $_tmpUrl;
                                             ?>
 
-                                            <?php if (in_array($icon->getUrl(), $iconUrls)): continue; endif; ?>
-                                            <?php $iconUrls[] = $icon->getUrl(); ?>
-
-                                            <?php if ($icon->getUrl() && !in_array($icon->getId(), $allIconIds)) : ?>
+                                            <?php if ($_tmpUrl && !in_array($icon->getId(), $allIconIds)) : ?>
                                                 <li data-filter="<?php echo $keywords ?>"
                                                     style="display: none;"
                                                     rel="#OPTION_VALUE_ID#"
@@ -357,9 +365,9 @@ $featureCode = preg_replace("/\d/", '', $option->getCode());
                                                        class="left icon"
                                                        rel="#OPTION_VALUE_ID#">
                                                         <button class="select_icon icn not-preload"
-                                                                data-src="<?php echo $icon->getUrl() ?>"
+                                                                data-src="<?php echo $_tmpUrl ?>"
                                                                 type="button">
-                                                            <img src="/app/sae/design/desktop/flat/images/placeholder/blank-512.png"
+                                                            <img src="/app/sae/design/desktop/flat/images/customization/ajax/eclipse-loader-3s.svg"
                                                                  class="colorize img-icon-size not-preload"/>
                                                         </button>
                                                         <input type="hidden"
@@ -606,22 +614,26 @@ $featureCode = preg_replace("/\d/", '', $option->getCode());
                 }
             });
 
+            /**
+             * Live update on carousel icon & app (if visible)
+             */
             function updateLayout(datas) {
                 //your pages
-                $('#icon_<?php echo $option->getId(); ?>').attr('src', datas.icon_url).attr('data-image', datas.icon_id);
-                //icone en cours feature
-                var current_icon = datas.colored_reverse_color_icon_url ? datas.colored_reverse_color_icon_url : datas.icon_url;
-                $('#current_icon').attr('src', current_icon);
-                //drodown
+                $('#icon_<?php echo $option->getId(); ?>')
+                    .attr('src', datas.icon_url_colorized)
+                    .attr('data-image', datas.icon_id);
+                $('#current_icon').attr('src', datas.icon_url);
                 $('#change_icon').removeClass('open');
                 $('#icons').slideUp();
-
-                iframe.f.changeIcon(page.current.attr("rel"), datas.colored_icon_url);
-
+                try {
+                    iframe.f.changeIcon(datas.value_id, datas.icon_url_colorized_app);
+                } catch (e) {
+                    // Silent noop!
+                }
             }
 
             $('#tabbar_name').keyup(function (e) {
-                if (e.keyCode == 13) {
+                if (e.keyCode === 13) {
                     this.blur();
                 } else {
                     let val = $(this).val().trim();
@@ -841,7 +853,14 @@ $featureCode = preg_replace("/\d/", '', $option->getCode());
                     if (entry.intersectionRatio > 0.0) {
                         var button = entry.target;
                         if (button.style.backgroundImage.length < 1) {
-                            button.style.backgroundImage = 'url('+button.dataset.src+')';
+                            var preLoadImage = new Image();
+                            preLoadImage.onload = function() {
+                                // There is only the blank img!
+                                button.firstElementChild.src = '/app/sae/design/desktop/flat/images/placeholder/blank-512.png';
+                                button.style.backgroundImage = 'url('+button.dataset.src+')';
+                            };
+                            preLoadImage.src = button.dataset.src;
+
                             // Stop observing
                             observer.unobserve(button);
                         }
@@ -911,10 +930,14 @@ $featureCode = preg_replace("/\d/", '', $option->getCode());
         }
 
         #icon_and_name .col-icon-button {
-            padding-top: 5px;
+            padding-top: 1px;
             width: 70px;
             position: absolute;
             left: 15px;
+        }
+
+        #change_icon {
+            padding: 9px !important;
         }
 
         #icon_library {

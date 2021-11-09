@@ -1,5 +1,7 @@
 <?php
 
+use Backoffice\Model\Tools;
+
 /**
  * Class Backoffice_Controller_Index_Abstract
  */
@@ -130,63 +132,56 @@ class Backoffice_Controller_Index_Abstract extends Backoffice_Controller_Default
             try {
 
                 switch ($type) {
-                    case "log":
+                    case 'log':
                         $message = __("Logs cleared.");
 
                         Siberian_Cache::__clearLog();
                         break;
-                    case "cache":
+                    case 'cache':
                         Siberian_Cache::__clearCache();
                         Siberian_Cache_Design::clearCache();
                         break;
-                    case "tmp":
+                    case 'cache_images':
+                        Siberian_Cache::__clearCacheImages();
+                        break;
+                    case 'tmp':
                         /** When clearing TPM out we need to clear APK/Source queue links, file doesn't exists anymore */
                         Siberian_Cache::__clearTmp();
                         Application_Model_SourceQueue::clearPaths();
                         Application_Model_ApkQueue::clearPaths();
 
                         break;
-                    case "overview":
-                        $message = __("Overview cache cleared.");
-
-                        Siberian_Minify::clearCache();
-
-                        $protocol = isset($_SERVER['HTTPS']) ? 'https://' : 'http://';
-                        Siberian_Autoupdater::configure($protocol . $this->getRequest()->getHttpHost());
-                        break;
-                    case "locks":
+                    case 'locks':
                         $message = __("Removing CRON Scheduler lock files.");
 
                         Siberian_Cache::__clearLocks();
                         break;
-                    case "source_locks":
+                    case 'source_locks':
                         $message = __("Removing CRON Scheduler source lock files.");
 
                         Siberian_Cache::__clearLocks("source_locks");
                         break;
-                    case "generator":
+                    case 'generator':
                         $message = __("Removing CRON Scheduler generator lock files.");
 
                         Siberian_Cache::__clearLocks("generator");
                         break;
-                    case "app_manifest":
-                        $message = __("Rebuilding application manifest files.");
 
-                        Siberian_Cache::__clearCache();
-                        unlink(path('/var/cache/design.cache'));
+                    case 'app_manifest':
+                        // Moved to cron
 
-                        $default_cache = Zend_Registry::get("cache");
-                        $default_cache->clean(Zend_Cache::CLEANING_MODE_ALL);
+                        $message = p__('backoffice','App manifest rebuild have been scheduled!');
 
-                        Siberian_Autoupdater::configure();
+                        Tools::scheduleTask(Tools::REBUILD_MANIFEST);
+
                         break;
-                    case "cron_error":
+                    case 'cron_error':
                         $message = __("Cleared cron errors.");
 
                         (new Cron_Model_Cron())
                             ->clearErrors();
                         break;
-                    case "android_sdk":
+                    case 'android_sdk':
                         (new Cron_Model_Cron())
                             ->clearErrors();
 

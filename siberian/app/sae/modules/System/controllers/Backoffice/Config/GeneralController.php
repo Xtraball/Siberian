@@ -1,5 +1,8 @@
 <?php
 
+use Siberian\Provider;
+use Siberian\Request;
+
 /**
  * Class System_Backoffice_Config_GeneralController
  */
@@ -152,17 +155,8 @@ class System_Backoffice_Config_GeneralController extends System_Controller_Backo
             ];
 
             try {
-                $url = Siberian\Provider::getLicenses()['sync']['url'] . '?' . http_build_query($data);
-                $curl = curl_init();
-                curl_setopt_array($curl, [
-                    CURLOPT_URL => $url,
-                    CURLOPT_RETURNTRANSFER => true,
-                    CURLOPT_ENCODING => '',
-                    CURLOPT_MAXREDIRS => 10,
-                    CURLOPT_TIMEOUT => 30,
-                ]);
-                curl_exec($curl);
-                curl_close($curl);
+                $syncSaeUrl = Provider::getLicenses()['sync']['url'];
+                Request::get($syncSaeUrl, $data, null, null, null, ['timeout' => 30]);
             } catch (\Exception $e) {
                 // Nope!
             }
@@ -178,7 +172,7 @@ class System_Backoffice_Config_GeneralController extends System_Controller_Backo
     {
         $request = $this->getRequest();
         $data = Siberian_Json::decode($request->getRawBody());
-        if (sizeof($data) > 0) {
+        if (count($data) > 0) {
             try {
                 if (!empty($data['application_free_trial']['value']) &&
                     !is_numeric($data['application_free_trial']['value'])) {

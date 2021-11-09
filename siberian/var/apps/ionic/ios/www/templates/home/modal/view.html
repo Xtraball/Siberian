@@ -14,12 +14,12 @@
                 <div ng-if="feature.code == 'push_notification' && push_badge"
                      class="badge-custom">{{ push_badge }}</div>
             </div>
-            <div class="item item-center item-avatar item-icon-left item-custom"
-                 ng-click="closeMore();">
-                <i class="icon ion-close"></i>
-                <h2>{{ ::"Close" | translate }}</h2>
-            </div>
         </div>
 
     </ion-content>
+
+    <div class="item item-custom text-center close-action"
+         ng-click="closeMore();">
+        <h2>{{ ::"Close" | translate }}</h2>
+    </div>
 </ion-modal-view>

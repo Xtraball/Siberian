@@ -9,7 +9,7 @@ use Siberian\Cache as Cache;
 /**
  * Class Siberian\Cache_Apps
  *
- * @version 4.18.17
+ * @version 4.20.25
  *
  * Adding inheritance system in the var apps merger
  *

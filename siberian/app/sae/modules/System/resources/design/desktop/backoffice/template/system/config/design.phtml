@@ -1,3 +1,9 @@
+<link ng-if="configs.backoffice_theme.value == 'default' || configs.backoffice_theme.value == ''"
+      href="/app/sae/design/desktop/backoffice/css/theme-default/styles.css?t=<?php echo time() ?>"
+      media="all"
+      rel="stylesheet"
+      type="text/css"/>
+
 <link ng-if="configs.backoffice_theme.value == 'modern'"
       href="/app/sae/design/desktop/backoffice/css/theme-modern/styles.css?t=<?php echo time() ?>"
       media="all"
@@ -42,8 +48,8 @@
                     <select id="backoffice_theme"
                             class="form-control"
                             ng-model="configs.backoffice_theme.value">
-                        <option value=""
-                                ng-selected="configs.backoffice_theme.value == ''"><?php echo __('Default') ?></option>
+                        <option value="default"
+                                ng-selected="configs.backoffice_theme.value == 'default' || configs.backoffice_theme.value == ''"><?php echo __('Default') ?></option>
                         <option value="elegance"
                                 ng-selected="configs.backoffice_theme.value == 'elegance'"><?php echo __('Elegance') ?></option>
                         <option value="modern"
