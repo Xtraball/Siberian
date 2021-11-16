@@ -3,8 +3,9 @@
 use Siberian\Assets;
 use Siberian\Translation;
 use PaymentMethod\Model\Gateway;
+use PaymentCash\Model\Cash;
 
-class_alias('PaymentCash\Model\Cash', 'PaymentCash_Model_Cash');
+class_alias(Cash::class, 'PaymentCash_Model_Cash');
 
 $init = static function ($bootstrap) {
     Assets::registerScss([

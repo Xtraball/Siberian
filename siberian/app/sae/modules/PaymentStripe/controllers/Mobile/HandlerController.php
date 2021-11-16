@@ -32,29 +32,29 @@ class PaymentStripe_Mobile_HandlerController
             $customerId = $session->getCustomerId();
             $customer = (new Customer())->find($customerId);
 
-            if (!$customer->getId()) {
-                throw new Exception(p__("payment_stripe",
-                    "Your session expired!"));
+            if (!$customer || !$customer->getId()) {
+                throw new Exception(p__('payment_stripe',
+                    'Your session expired!'));
             }
 
             // Mobile app paymentMethod object!
-            $paymentMethodPayload = $data["payload"];
+            $paymentMethodPayload = $data['payload'];
 
             PaymentStripeApplication::init($application->getId());
 
             // Attach the card (PaymentMethod) to the customer!
-            $paymentIntent = PaymentIntent::retrieve($paymentMethodPayload["paymentIntent"]["id"]);
+            $paymentIntent = PaymentIntent::retrieve($paymentMethodPayload['paymentIntent']['id']);
             $paymentIntent->confirm();
 
             $payload = [
-                "success" => true,
-                "paymentIntent" => $paymentIntent
+                'success' => true,
+                'paymentIntent' => $paymentIntent
             ];
         } catch (\Exception $e) {
             $payload = [
-                "error" => true,
-                "message" => $e->getMessage(),
-                "trace" => $e->getTrace()
+                'error' => true,
+                'message' => $e->getMessage(),
+                'trace' => $e->getTrace()
             ];
         }
 
@@ -98,46 +98,46 @@ class PaymentStripe_Mobile_HandlerController
             $customerId = $session->getCustomerId();
             $customer = (new Customer())->find($customerId);
 
-            if (!$customer->getId()) {
-                throw new Exception(p__("payment_stripe",
-                    "Your session expired!"));
+            if (!$customer || !$customer->getId()) {
+                throw new Exception(p__('payment_stripe',
+                    'Your session expired!'));
             }
 
             // Mobile app paymentMethod object!
-            $paymentMethodPayload = $data["payload"];
+            $paymentMethodPayload = $data['payload'];
 
             PaymentStripeApplication::init($application->getId());
             $stripeCustomer = PaymentStripeCustomer::getForCustomerId($customerId);
 
             // Attach the card (PaymentMethod) to the customer!
-            $paymentMethod = PaymentMethod::retrieve($paymentMethodPayload["setupIntent"]["payment_method"]);
-            $paymentMethod->attach(["customer" => $stripeCustomer->getToken()]);
+            $paymentMethod = PaymentMethod::retrieve($paymentMethodPayload['setupIntent']['payment_method']);
+            $paymentMethod->attach(['customer' => $stripeCustomer->getToken()]);
 
             // Search for a similar card!
             $similarCards = (new PaymentStripePaymentMethod())->findAll([
-                "exp = ?" => $paymentMethod["card"]["exp_month"] . "/" . substr($paymentMethod["card"]["exp_year"], 2),
-                "last = ?" => $paymentMethod["card"]["last4"],
-                "brand LIKE ?" => $paymentMethod["card"]["brand"],
-                "stripe_customer_id = ?" => $stripeCustomer->getId(),
-                "type = ?" => PaymentStripePaymentMethod::TYPE_CREDIT_CARD,
-                "is_removed = ?" => "0",
+                'exp = ?' => $paymentMethod['card']['exp_month'] . '/' . substr($paymentMethod['card']['exp_year'], 2),
+                'last = ?' => $paymentMethod['card']['last4'],
+                'brand LIKE ?' => $paymentMethod['card']['brand'],
+                'stripe_customer_id = ?' => $stripeCustomer->getId(),
+                'type = ?' => PaymentStripePaymentMethod::TYPE_CREDIT_CARD,
+                'is_removed = ?' => '0',
             ]);
 
             if ($similarCards->count() > 0) {
                 throw new Exception(p__(
-                    "payment_stripe",
-                    "Seems you already added this card! If the error persists, please remove the existing card first, then add it again."));
+                    'payment_stripe',
+                    'Seems you already added this card! If the error persists, please remove the existing card first, then add it again.'));
             }
 
             $card = new PaymentStripePaymentMethod();
             $card
                 ->setStripeCustomerId($stripeCustomer->getId())
                 ->setType(PaymentStripePaymentMethod::TYPE_CREDIT_CARD)
-                ->setBrand($paymentMethod["card"]["brand"])
-                ->setExp($paymentMethod["card"]["exp_month"] . "/" . substr($paymentMethod["card"]["exp_year"], 2))
-                ->setLast($paymentMethod["card"]["last4"])
-                ->setToken($paymentMethod["id"])
-                ->setRawPayload(Json::encode($paymentMethod))
+                ->setBrand($paymentMethod['card']['brand'])
+                ->setExp($paymentMethod['card']['exp_month'] . '/' . substr($paymentMethod['card']['exp_year'], 2))
+                ->setLast($paymentMethod['card']['last4'])
+                ->setToken($paymentMethod['id'])
+                ->setRawPayload($paymentMethod)
                 ->setIsRemoved(0)
                 ->save();
 
@@ -152,15 +152,15 @@ class PaymentStripe_Mobile_HandlerController
             }
 
             $payload = [
-                "success" => true,
-                "lastCardId" => $card->getId(),
-                "cards" => $cards
+                'success' => true,
+                'lastCardId' => $card->getId(),
+                'cards' => $cards
             ];
         } catch (\Exception $e) {
             $payload = [
-                "error" => true,
-                "message" => $e->getMessage(),
-                "trace" => $e->getTrace()
+                'error' => true,
+                'message' => $e->getMessage(),
+                'trace' => $e->getTrace()
             ];
         }
 

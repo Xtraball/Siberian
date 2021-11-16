@@ -13,13 +13,13 @@ abstract class AbstractMobilePaymentController
     implements AbstractPaymentInterface
 {
     /**
-     * Test endpoint for payment_method!
+     * @throws \Zend_Controller_Response_Exception
      */
     public function testAction()
     {
         $this->_sendJson([
-            "success" => true,
-            "message" => "Success",
+            'success' => true,
+            'message' => 'Success',
         ]);
     }
 }

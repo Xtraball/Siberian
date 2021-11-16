@@ -17,6 +17,18 @@ class Application extends Base
 {
     /**
      * @var string
+     *
+     * Mode is used to split test/live keys & tokens!
+     */
+    public static $_mode = 'live';
+
+    /**
+     * @var bool
+     */
+    public static $_isInitialized = false;
+
+    /**
+     * @var string
      */
     protected $_db_table = Db\Table\Application::class;
 
@@ -28,8 +40,27 @@ class Application extends Base
     public static function init($appId = null)
     {
         $settings = self::getSettings($appId);
+        $secretKey = $settings->getSecretKey();
+
+        // Mode is set depending on the key, no need for an extra option!
+        self::$_mode = stripos($secretKey, 'test') === false ? 'live' : 'test';
 
         Stripe::setApiKey($settings->getSecretKey());
+
+        self::$_isInitialized = true;
+    }
+
+    /**
+     * @return string
+     * @throws Exception
+     * @throws \Zend_Exception
+     */
+    public static function getMode(): string
+    {
+        if (!self::$_isInitialized) {
+            self::init();
+        }
+        return self::$_mode;
     }
 
     /**

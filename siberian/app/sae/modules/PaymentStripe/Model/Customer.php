@@ -4,7 +4,7 @@ namespace PaymentStripe\Model;
 
 use Core\Model\Base;
 use Stripe\Customer as StripeCustomer;
-use Stripe\Error\InvalidRequest;
+use PaymentStripe\Model\Application as PaymentStripeApplication;
 
 use Admin_Model_Admin as SiberianAdmin;
 use Customer_Model_Customer as SiberianCustomer;
@@ -14,6 +14,10 @@ use Siberian\Exception;
 /**
  * Class Customer
  * @package PaymentStripe\Model
+ *
+ * @method int getId()
+ * @method setAdminId(int $adminId)
+ * @method setCustomerId(int $customerId)
  */
 class Customer extends Base
 {
@@ -33,25 +37,55 @@ class Customer extends Base
     protected $_db_table = Db\Table\Customer::class;
 
     /**
-     * @param $adminId
-     * @return mixed|StripeCustomer
+     * @param string $token
+     * @return $this
      * @throws Exception
-     * @throws InvalidRequest
      * @throws \Zend_Exception
      */
-    public static function getForAdminId($adminId)
+    public function setToken (string $token): self
+    {
+        if (PaymentStripeApplication::getMode() === 'live') {
+            $this->setData('token', trim($token));
+        } else {
+            $this->setData('test_token', trim($token));
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return string
+     * @throws Exception
+     * @throws \Zend_Exception
+     */
+    public function getToken (): string
+    {
+        if (PaymentStripeApplication::getMode() === 'live') {
+            return trim($this->getData('token'));
+        }
+        return trim($this->getData('test_token'));
+    }
+
+    /**
+     * @param $adminId
+     * @return Customer
+     * @throws Exception
+     * @throws \Stripe\Exception\ApiErrorException
+     * @throws \Zend_Exception
+     */
+    public static function getForAdminId($adminId): Customer
     {
         return self::fetchCustomer($adminId, self::TYPE_ADMIN);
     }
 
     /**
      * @param $customerId
-     * @return mixed|StripeCustomer
+     * @return Customer
      * @throws Exception
-     * @throws InvalidRequest
+     * @throws \Stripe\Exception\ApiErrorException
      * @throws \Zend_Exception
      */
-    public static function getForCustomerId($customerId)
+    public static function getForCustomerId($customerId): Customer
     {
         return self::fetchCustomer($customerId, self::TYPE_CUSTOMER);
     }
@@ -59,12 +93,12 @@ class Customer extends Base
     /**
      * @param $adminOrCustomerId
      * @param $type
-     * @return mixed|StripeCustomer
+     * @return Customer
      * @throws Exception
-     * @throws InvalidRequest
+     * @throws \Stripe\Exception\ApiErrorException
      * @throws \Zend_Exception
      */
-    public static function fetchCustomer($adminOrCustomerId, $type)
+    public static function fetchCustomer($adminOrCustomerId, $type): Customer
     {
         // First, we fetch or create a payment_stripe_customer!
         $paymentStripeCustomer = new self();
@@ -93,8 +127,9 @@ class Customer extends Base
                 break;
         }
 
+        $stripeCustomerToken = $paymentStripeCustomer->getToken();
+
         // Ok now we have for sure a payment_stripe_customer, we must find or create a stripe_customer!
-        $stripeCustomerToken = trim($paymentStripeCustomer->getToken());
         if (mb_strlen($stripeCustomerToken) <= 0) {
             // Ok we create the Stripe customer then
             switch ($type) {
@@ -126,6 +161,7 @@ class Customer extends Base
             $paymentStripeCustomer
                 ->setToken($stripeCustomer['id'])
                 ->save();
+
         } else {
             // We just try to fetch the stripe_customer, if it's ko, we'll get an exception!
             StripeCustomer::retrieve($stripeCustomerToken);
@@ -137,8 +173,9 @@ class Customer extends Base
 
     /**
      * @return StripeCustomer
+     * @throws \Stripe\Exception\ApiErrorException
      */
-    public function getStripeCustomer ()
+    public function getStripeCustomer (): StripeCustomer
     {
         return StripeCustomer::retrieve($this->getToken());
     }

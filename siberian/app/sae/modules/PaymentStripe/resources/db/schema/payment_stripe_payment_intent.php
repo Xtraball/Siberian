@@ -3,10 +3,10 @@
  *
  * Schema definition for 'payment_stripe_payment_intent'
  *
- * Last update: 2019-09-11
+ * Last update: 2021-10-11
  *
  */
-$schemas = (!isset($schemas)) ? [] : $schemas;
+$schemas = $schemas ?? [];
 $schemas['payment_stripe_payment_intent'] = [
     'stripe_payment_intent_id' => [
         'type' => 'int(11) unsigned',

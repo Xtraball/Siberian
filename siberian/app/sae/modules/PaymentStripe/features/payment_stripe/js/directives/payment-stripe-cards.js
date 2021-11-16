@@ -15,6 +15,7 @@ angular
             if (!attrs.actions) {
                 attrs.actions = [
                     PaymentMethod.ACTION_PAY,
+                    PaymentMethod.ACTION_AUTHORIZE,
                     PaymentMethod.ACTION_DELETE
                 ];
             }

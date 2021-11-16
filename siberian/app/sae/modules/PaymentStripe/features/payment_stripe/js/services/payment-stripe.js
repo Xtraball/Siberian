@@ -3,17 +3,19 @@
  */
 angular
 .module("starter")
-.service("PaymentStripe", function (Application, $rootScope, $injector, $translate, $pwaRequest, $q) {
+.service("PaymentStripe", function (Application, Loader, $rootScope, $injector, $translate, $pwaRequest, $q) {
     var service = {
         card: null,
+        elements: null,
         stripe: null,
         settings: null,
         isReadyPromise: $q.defer(),
-        publishableKey: null
+        publishableKey: null,
+        setupIntent: null
     };
 
     service.onStart = function () {
-        if (typeof Stripe === "undefined") {
+        if (typeof Stripe === 'undefined') {
             var stripeJS = document.createElement("script");
             stripeJS.type = "text/javascript";
             stripeJS.src = "https://js.stripe.com/v3/";
@@ -94,14 +96,14 @@ angular
         return service
         .isReady()
         .then(function () {
-            var cardElementParent = document.getElementById("card_element");
+            var cardElementParent = document.getElementById('card_element');
             try {
                 cardElementParent.firstChild.remove();
             } catch (e) {
                 // Silent!
             }
 
-            var elements = service.stripe.elements();
+            service.elements = service.stripe.elements();
             var style = {
                 base: {
                     color: "#32325d",
@@ -118,7 +120,7 @@ angular
                 }
             };
 
-            service.card = elements.create("card", {
+            service.card = service.elements.create('card', {
                 hidePostalCode: true,
                 style: style
             });
@@ -131,9 +133,13 @@ angular
 
             service.card.removeEventListener("change");
             service.card.addEventListener("change", function (event) {
-                if (handleCardPaymentevent.error) {
+                if (!event.complete) {
                     displayErrorParent.classList.remove("ng-hide");
-                    displayError.textContent = event.error.message;
+                    try {
+                        displayError.textContent = event.error.message;
+                    } catch (e) {
+                        console.log('unknown error: ', event);
+                    }
                     saveElement.setAttribute("disabled", "disabled");
                 } else {
                     displayErrorParent.classList.add("ng-hide");
@@ -151,61 +157,49 @@ angular
         var deferred = $q.defer();
 
         try {
-            var displayError = document.getElementById("card_errors");
-            var displayErrorParent = document.getElementById("card_error_parent");
+            Loader.show($translate.instant('Authorizing payment...', 'payment_stripe'));
 
-            // We will fetch the setupIntent
+            var displayError = document.getElementById('card_errors');
+            var displayErrorParent = document.getElementById('card_error_parent');
+
             service
-            .fetchPaymentIntent(options)
-            .then(function (intentPayload) {
-                // Card doesn't need to be auth'd! Continue without 3DS2/SCA
-                if (intentPayload.paymentIntent.status === "requires_capture") {
-                    deferred.resolve({
-                        intentPayload: intentPayload,
-                    });
-                } else {
-                    service
-                    .stripe
-                    .handleCardAction(intentPayload.paymentIntent.client_secret)
-                    .then(function (result) {
-                        if (result.error) {
-                            // Inform the customer that there was an error.
-                            displayErrorParent.classList.remove("ng-hide");
-                            displayError.textContent = $translate.instant(result.error.message);
+                .fetchPaymentIntent()
+                .then(function (success) {
+                    stripe
+                        .confirmCardPayment(success.client_secret, {
+                            payment_method: {
+                                card: service.card,
+                            },
+                        })
+                        .then(function(result) {
+                            Loader.hide();
+                            if (result.error) {
+                                // Inform the customer that there was an error.
+                                displayErrorParent.classList.remove('ng-hide');
+                                displayError.textContent = $translate.instant(result.error.message);
 
-                            service
-                            .authorizationError(result.error.message)
-                            .then(function (payload) {
-                                deferred.reject(payload);
-                            });
-                        } else {
-                            // Sending the success token!
-                            displayErrorParent.classList.add("ng-hide");
+                                return;
+                            }
+                            if (result.status === 'succeeded') {
+                                // Continue to save card infos!
+                                Loader.show();
+                                service
+                                    .authorizationSuccess(result)
+                                    .then(function (success) {
+                                        Loader.hide();
 
-                            service
-                            .authorizationSuccess(result)
-                            .then(function (authorizationPayload) {
-                                deferred.resolve({
-                                    intentPayload: intentPayload,
-                                    authorizationPayload: authorizationPayload
-                                });
+                                    }, function (error) {
+                                        Loader.hide();
 
-                                $rootScope.$broadcast("paymentStripeCards.refresh");
-                            });
-                        }
-                    });
-                }
+                                    })
+                            }
+                        });
+                }, function (error) {
 
-            }, function (error) {
-                throw new Error(error.message);
-            });
+                });
 
         } catch (e) {
-            service
-            .setupError(e.message)
-            .then(function (payload) {
-                deferred.reject(payload);
-            });
+            console.log('error', e);
         }
 
         return deferred.promise;
@@ -252,7 +246,8 @@ angular
                     });
                 } else {
                     // Sending the success token!
-                    displayErrorParent.classList.add("ng-hide");
+                    displayErrorParent.classList.add('ng-hide');
+                    displayError.textContent = '';
 
                     service
                     .paymentSuccess(result)
@@ -294,50 +289,55 @@ angular
         var deferred = $q.defer();
 
         try {
-            var displayError = document.getElementById("card_errors");
-            var displayErrorParent = document.getElementById("card_errors_parent");
+            Loader.show($translate.instant('Verifying information...', 'payment_stripe'));
 
-            // We will fetch the setupIntent
+            var displayError = document.getElementById('card_errors');
+            var displayErrorParent = document.getElementById('card_errors_parent');
+
             service
-            .fetchSetupIntent()
-            .then(function (payload) {
-                service
-                .stripe
-                .handleCardSetup(payload.setupIntent.client_secret, service.card)
-                .then(function (result) {
-                    if (result.error) {
-                        // Inform the customer that there was an error.
-                        displayErrorParent.classList.remove("ng-hide");
-                        displayError.textContent = $translate.instant(result.error.message);
+                .fetchSetupIntent()
+                .then(function (payload) {
+                    service.setupIntent = payload.setupIntent;
+                    service
+                        .stripe
+                        .confirmCardSetup(service.setupIntent.client_secret, {
+                            payment_method: {
+                                card: service.card
+                            },
+                        })
+                        .then(function(result) {
+                            console.log('result', result);
+                            Loader.hide();
+                            if (result.error) {
+                                // Inform the user there was an error!
+                                // Inform the customer that there was an error.
+                                displayErrorParent.classList.remove('ng-hide');
+                                displayError.textContent = $translate.instant(result.error.message);
 
-                        service
-                        .setupError(result.error.message)
-                        .then(function (payload) {
-                            deferred.reject(payload);
+                                return;
+                            }
+                            if (result.setupIntent &&
+                                result.setupIntent.status === 'succeeded') {
+                                displayErrorParent.classList.add('ng-hide');
+                                displayError.textContent = '';
+
+                                // Continue to save card infos!
+                                Loader.show();
+                                service
+                                    .setupSuccess(result)
+                                    .then(function (success) {
+                                        Loader.hide();
+
+                                    }, function (error) {
+                                        Loader.hide();
+
+                                    })
+                            }
                         });
-                    } else {
-                        // Sending the success token!
-                        displayErrorParent.classList.add("ng-hide");
-
-                        service
-                        .setupSuccess(result)
-                        .then(function (payload) {
-                            deferred.resolve(payload);
-
-                            $rootScope.$broadcast("paymentStripeCards.refresh");
-                        });
-                    }
-                });
-            }, function (error) {
-                throw new Error(error.message);
-            });
+                })
 
         } catch (e) {
-            service
-            .setupError(e.message)
-            .then(function (payload) {
-                deferred.reject(payload);
-            });
+            console.log('error', e);
         }
 
         return deferred.promise;

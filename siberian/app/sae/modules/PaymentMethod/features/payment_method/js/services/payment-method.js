@@ -8,6 +8,7 @@ angular
         modal: null,
         PAYMENT: 'payment',
         AUTHORIZATION: 'authorization',
+        SETUP: 'setup',
         ACTION_PAY: 'pay',
         ACTION_AUTHORIZE: 'authorize',
         ACTION_DELETE: 'delete',

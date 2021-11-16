@@ -1,43 +1,67 @@
 /**
- * Directive payment-stripe-form
+ * @directive paymentStripeForm <payment-stripe-form>
  */
 angular
-.module("starter")
-.directive("paymentStripeForm", function () {
-    return {
-        restrict: "E",
-        replace: true,
-        templateUrl: "features/payment_stripe/assets/templates/l1/payment-stripe-form.html",
-        controller: function ($scope, $translate, PaymentStripe) {
-            if ($scope.options.enableVaults) {
-                $scope.buttonText = "Save card";
-                $scope.action = "card-setup";
-            } else {
-                $scope.buttonText = "Pay";
-                $scope.action = "card-payment";
-            }
-            $scope.title = "Card details";
+    .module('starter')
+    .directive('paymentStripeForm', function (Dialog, Loader) {
+        return {
+            restrict: 'E',
+            replace: true,
+            templateUrl: 'features/payment_stripe/assets/templates/l1/payment-stripe-form.html',
+            controller: function ($scope, $translate, PaymentStripe, PaymentMethod) {
 
-            $scope.validateAction = function () {
-                switch ($scope.action) {
-                    case "card-payment":
-                    default:
-                        PaymentStripe
-                        .handleCardPayment()
-                        .then(function (payload) {
-                            // Callback to the main paymentHandler
-                            $scope._pmOnSelect(payload);
-                        });
-                        break;
-                    case "card-setup":
-                        PaymentStripe
-                        .handleCardSetup();
-                        // No callback here, we just save a new card!
-                        break;
+                // Default is direct pay!
+                $scope.buttonText = 'Pay';
+                $scope.action = 'card-payment';
+
+                // Authorize
+                if (PaymentMethod.AUTHORIZATION === $scope.options.type) {
+                    $scope.buttonText = 'Save';
+                    $scope.action = 'card-setup';
                 }
-            };
 
-            PaymentStripe.initCardForm();
-        }
-    };
-});
+                $scope.title = 'Card details';
+
+                $scope.validateAction = function () {
+                    switch ($scope.action) {
+                        case 'card-payment':
+                        default:
+                            PaymentStripe
+                                .handleCardPayment()
+                                .then(function (payload) {
+                                    console.log('handleCardPayment', payload);
+                                    // Callback to the main paymentHandler
+                                    //$scope._pmOnSelect(payload);
+                                });
+                            break;
+                        case 'card-authorize':
+                            PaymentStripe
+                                .handleCardAuthorization()
+                                .then(function (payload) {
+                                    console.log('handleCardAuthorization', payload);
+                                    // Callback to the main paymentHandler
+                                    //$scope._pmOnSelect(payload);
+                                });
+                            // No callback here, we just save a new card!
+                            break;
+                        case 'card-setup':
+                            PaymentStripe
+                                .handleCardSetup()
+                                .then(function (payload) {
+                                    console.log('handleCardSetup', payload);
+                                    // Callback to the main paymentHandler
+                                    //$scope._pmOnSelect(payload);
+                                });
+                                // No callback here, we just save a new card!
+                            break;
+                    }
+                };
+
+                $scope.init = function () {
+                    PaymentStripe.initCardForm();
+                };
+
+                $scope.init();
+            }
+        };
+    });

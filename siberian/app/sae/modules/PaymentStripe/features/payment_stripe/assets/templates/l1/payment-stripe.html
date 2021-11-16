@@ -7,11 +7,11 @@
             <img src="./features/payment_cash/assets/templates/images/010-money.svg"
                  style="height: 60%; margin-right: 15px;" />
         </i>
-        <b>{{ ::"Pay with cash" | translate:"payment_cash" }}</b>
+        <b>{{ ::"Pay with card" | translate:"payment_cash" }}</b>
         <i class="icon ion-android-arrow-forward"></i>
     </div>
 
-    <div ng-show="payWithStripe">
+    <div ng-show="showPaymentForm">
 
         <div ng-if="options.enableVaults">
             <div style="margin-bottom: 20px;"></div>
