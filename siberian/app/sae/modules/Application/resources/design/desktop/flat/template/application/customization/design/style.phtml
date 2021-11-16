@@ -9,11 +9,11 @@ $layout = $layout_model->find($application->getLayoutId());
 
 $layout_options = Siberian_Feature::getLayoutOptionsCallbacks($layout->getCode());
 $layout_form = false;
-if(isset($layout_options["form"]) && class_exists($layout_options["form"])) {
+if (isset($layout_options["form"]) && class_exists($layout_options["form"])) {
     $layout_form = new $layout_options["form"]($layout);
 
     $layout_options = $application->getLayoutOptions();
-    if(!empty($layout_options) && $values = Siberian_Json::decode($layout_options)) {
+    if (!empty($layout_options) && $values = Siberian_Json::decode($layout_options)) {
         $layout_form->populate(array_merge($application->getData(), $values));
     }
 }
@@ -36,7 +36,7 @@ $app_id = Core_Model_Lib_Facebook::getAppId();
 $app_secret = Core_Model_Lib_Facebook::getSecretKey();
 $app_linked_fb_page = $application->getFacebookLinkedPage();
 
-$splashVersion = (integer) $application->getSplashVersion();
+$splashVersion = (integer)$application->getSplashVersion();
 
 ?>
 <div class="page-content-wrapper">
@@ -53,7 +53,7 @@ $splashVersion = (integer) $application->getSplashVersion();
             <div class="row">
                 <div id="sb-tour-change-template-section"
                      class="col-sm-4 col-xs-6 sb-tour">
-                    <?php if ($this->_canAccess("application_create")) : ?>
+                    <?php if ($this->_canAccess('editor_design_template')) : ?>
                         <div id="show_templates"
                              class="pointer">
                             <p>
@@ -67,13 +67,13 @@ $splashVersion = (integer) $application->getSplashVersion();
                                     <img id="design_overview"
                                          src="<?php echo $application->getDesign()->getOverview("overview_new"); ?>"
                                          width="100% "
-                                         height="100%" />
+                                         height="100%"/>
                                 <?php else: ?>
                                     <img id="design_overview"
                                          class="overview-old"
                                          src="<?php echo $application->getDesign()->getOverview(); ?>"
                                          width="100% "
-                                         height="100%" />
+                                         height="100%"/>
                                 <?php endif; ?>
                             </p>
                             <button id="sb-tour-change-template"
@@ -81,103 +81,139 @@ $splashVersion = (integer) $application->getSplashVersion();
                                     class="show_templates btn-grey btn btn-full-width sb-tour">
                                 <?php echo __("Change your template"); ?>
                             </button>
-                            </div>
+                        </div>
+                    <?php else: ?>
+                        <div>
+                            <p>
+                                <?php if (empty($design_id)): ?>
+                                    <img id="design_overview"
+                                         class="overview-old"
+                                         src="/images/templates/blank/overview.png"
+                                         width="100%"
+                                         height="100%"/>
+                                <?php elseif (!empty($overview_new)): ?>
+                                    <img id="design_overview"
+                                         src="<?php echo $application->getDesign()->getOverview("overview_new"); ?>"
+                                         width="100% "
+                                         height="100%"/>
+                                <?php else: ?>
+                                    <img id="design_overview"
+                                         class="overview-old"
+                                         src="<?php echo $application->getDesign()->getOverview(); ?>"
+                                         width="100% "
+                                         height="100%"/>
+                                <?php endif; ?>
+                            </p>
+                        </div>
                     <?php endif; ?>
                 </div>
                 <div id="sb-tour-change-layout-section"
                      class="col-sm-4 col-xs-6 sb-tour">
-                    <div id="show_layouts"
-                         class="pointer">
-                        <div id="layout_overview">
-                            <p>
-                            <img id="layout_overview"
-                                 src="<?php echo $this->getImage($layout->getPreview()); ?>"
-                                 width="100% "
-                                 height="100%" />
-                            </p>
+                    <?php if ($this->_canAccess('editor_design_layout')) : ?>
+                        <div id="show_layouts"
+                             class="pointer">
+                            <div id="layout_overview">
+                                <p>
+                                    <img id="layout_overview"
+                                         src="<?php echo $this->getImage($layout->getPreview()); ?>"
+                                         width="100% "
+                                         height="100%"/>
+                                </p>
+                            </div>
+                            <button id="sb-tour-change-layout"
+                                    type="button"
+                                    class="show_layouts btn-grey btn btn-full-width sb-tour">
+                                <?php echo __("Change your layout"); ?>
+                            </button>
                         </div>
-                        <button id="sb-tour-change-layout"
-                                type="button"
-                                class="show_layouts btn-grey btn btn-full-width sb-tour">
-                            <?php echo __("Change your layout"); ?>
-                        </button>
-                    </div>
+                    <?php else: ?>
+                        <div>
+                            <div id="layout_overview">
+                                <p>
+                                    <img id="layout_overview"
+                                         src="<?php echo $this->getImage($layout->getPreview()); ?>"
+                                         width="100% "
+                                         height="100%"/>
+                                </p>
+                            </div>
+                        </div>
+                    <?php endif; ?>
                 </div>
                 <div id="layouts"
                      class="col-sm-4 col-xs-12 sb-tour">
 
                     <?php if (!$layout_form_options->isEmpty()): ?>
-                    <div id="default-options"
-                         class="content-options content-white-bkg">
-                        <h4><?php echo p__("application", "Homepage options") ?></h4>
-                        <?php echo $layout_form_options; ?>
-                        <div style="clear: both;"></div>
-                    </div>
+                        <div id="default-options"
+                             class="content-options content-white-bkg">
+                            <h4><?php echo p__("application", "Homepage options") ?></h4>
+                            <?php echo $layout_form_options; ?>
+                            <div style="clear: both;"></div>
+                        </div>
 
-                    <hr class="general spacer" />
+                        <hr class="general spacer"/>
                     <?php endif; ?>
 
                     <?php if ($layout_form !== false): ?>
-                    <div id="custom-options"
-                         class="content-options content-white-bkg">
-                        <h4><?php echo p__("application", "Layout options") ?></h4>
-                        <?php if($layout_form->getPresets()): ?>
-                            <p class="preset-title"><?php echo p__("application", "Preset") ?></p>
-                            <div class="preset-sets"
-                                 data-form="<?php echo $layout_form->getId(); ?>">
-                                <table style="text-align: center;" class="sb-mini-carousel" data-items="3">
-                                    <tr>
-                                        <td class="prev-arrow">
-                                            <i class="fa fa-chevron-left"></i>
-                                        </td>
-                                        <td class="sb-carousel-items">
-                                            <div class="sb-carousel-inline">
-                                                <?php foreach($layout_form->getPresets() as $preset): ?>
-                                                <?php
-                                                $values = "";
-                                                foreach($preset["values"] as $key => $value) {
-                                                    $values .= " data-$key=\"$value\"";
-                                                }
-                                                ?>
-                                                <a class="sb-carousel-item preset-link"
-                                                   style="display: none;"
-                                                   href="javascript:void(0)" <?php echo $values; ?>>
-                                                    <img src="<?php echo $preset["preview"] ?>" />
-                                                </a>
-                                                <?php endforeach; ?>
-                                            </div>
-                                        </td>
-                                        <td class="next-arrow">
-                                            <i class="fa fa-chevron-right"></i>
-                                        </td>
-                                    </tr>
-                                </table>
-                            </div>
-                        <?php endif; ?>
-                        <?php echo $layout_form; ?>
-                    </div>
+                        <div id="custom-options"
+                             class="content-options content-white-bkg">
+                            <h4><?php echo p__("application", "Layout options") ?></h4>
+                            <?php if ($layout_form->getPresets()): ?>
+                                <p class="preset-title"><?php echo p__("application", "Preset") ?></p>
+                                <div class="preset-sets"
+                                     data-form="<?php echo $layout_form->getId(); ?>">
+                                    <table style="text-align: center;" class="sb-mini-carousel" data-items="3">
+                                        <tr>
+                                            <td class="prev-arrow">
+                                                <i class="fa fa-chevron-left"></i>
+                                            </td>
+                                            <td class="sb-carousel-items">
+                                                <div class="sb-carousel-inline">
+                                                    <?php foreach ($layout_form->getPresets() as $preset): ?>
+                                                        <?php
+                                                        $values = "";
+                                                        foreach ($preset["values"] as $key => $value) {
+                                                            $values .= " data-$key=\"$value\"";
+                                                        }
+                                                        ?>
+                                                        <a class="sb-carousel-item preset-link"
+                                                           style="display: none;"
+                                                           href="javascript:void(0)" <?php echo $values; ?>>
+                                                            <img src="<?php echo $preset["preview"] ?>"/>
+                                                        </a>
+                                                    <?php endforeach; ?>
+                                                </div>
+                                            </td>
+                                            <td class="next-arrow">
+                                                <i class="fa fa-chevron-right"></i>
+                                            </td>
+                                        </tr>
+                                    </table>
+                                </div>
+                            <?php endif; ?>
+                            <?php echo $layout_form; ?>
+                        </div>
                     <?php endif; ?>
 
                     <?php if (($layout_form === false) && $layout_form_options->isEmpty()): ?>
-                    <div class="content-options content-white-bkg">
-                        <p class="preset-title text-center"><?php echo p__("application", "This layout has no option.") ?></p>
-                    </div>
+                        <div class="content-options content-white-bkg">
+                            <p class="preset-title text-center"><?php echo p__("application", "This layout has no option.") ?></p>
+                        </div>
                     <?php endif; ?>
                 </div>
             </div>
 
             <!-- Homepage Carousel -->
-            <?php if(($application->getLayoutVisibility() == Application_Model_Layout_Homepage::VISIBILITY_HOMEPAGE) &&
+            <?php if (($application->getLayoutVisibility() == Application_Model_Layout_Homepage::VISIBILITY_HOMEPAGE) &&
                 $application->getHomepageSliderIsVisible() && $layout->getUseHomepageSlider()): ?>
-            <div id="sb-tour-slider-section"
-                 class="row content-in sb-tour">
-                <div class="col-sm-12 col-xs-12 col-md-12">
-                    <div class="content-options content-white-bkg">
-                        <div id="homepage_slider">
-                            <div id="homepage_slider_options">
-                                <?php
+                <div id="sb-tour-slider-section"
+                     class="row content-in sb-tour">
+                    <div class="col-sm-12 col-xs-12 col-md-12">
+                        <div class="content-options content-white-bkg">
+                            <div id="homepage_slider">
+                                <div id="homepage_slider_options">
+                                    <?php
                                     $size = $application->getHomepageSliderSize();
-                                    if(empty($size)) {
+                                    if (empty($size)) {
                                         $application->setHomepageSliderSize(33)->save();
                                         $application->setData("homepage_slider_size", 33)->save();
                                     }
@@ -185,75 +221,75 @@ $splashVersion = (integer) $application->getSplashVersion();
                                     $form_slider = new Application_Form_HomepageSlider();
                                     $form_slider->populate($application->getData());
                                     echo $form_slider;
-                                ?>
-                                <div class="slider_images">
-                                    <div id="uploaded_slider_images"
-                                         class="listing">
-                                        <div>
-                                            <ul id="slider_images"
-                                                class="images_list">
-                                                <?php foreach($application->getSliderImages() as $slider_image): ?>
-                                                    <li id="slider_image_<?php echo $slider_image->getImageId(); ?>"
-                                                        class="slider_image sortable">
+                                    ?>
+                                    <div class="slider_images">
+                                        <div id="uploaded_slider_images"
+                                             class="listing">
+                                            <div>
+                                                <ul id="slider_images"
+                                                    class="images_list">
+                                                    <?php foreach ($application->getSliderImages() as $slider_image): ?>
+                                                        <li id="slider_image_<?php echo $slider_image->getImageId(); ?>"
+                                                            class="slider_image sortable">
                                                         <span class="details">
                                                             <img width="195"
-                                                                 src="<?php echo $slider_image->getLink(); ?>" />
+                                                                 src="<?php echo $slider_image->getLink(); ?>"/>
                                                         </span>
 
-                                                        <div class="actions">
-                                                            <a class="move_page pull-left"
-                                                               href="javascript:void(0)">
-                                                                <i class="icon ion-admin-move"></i>
-                                                            </a>
-                                                            <a class="delete_page delete_slider_image pull-right"
-                                                               rel="<?php echo $slider_image->getImageId(); ?>"
-                                                               href="javascript:void(0)">
-                                                                <i class="icon ion-admin-cross-2"></i>
-                                                            </a>
-                                                            <input type="hidden"
-                                                                   class="image_id"
-                                                                   value="<?php echo $slider_image->getImageId(); ?>" />
-                                                        </div>
+                                                            <div class="actions">
+                                                                <a class="move_page pull-left"
+                                                                   href="javascript:void(0)">
+                                                                    <i class="icon ion-admin-move"></i>
+                                                                </a>
+                                                                <a class="delete_page delete_slider_image pull-right"
+                                                                   rel="<?php echo $slider_image->getImageId(); ?>"
+                                                                   href="javascript:void(0)">
+                                                                    <i class="icon ion-admin-cross-2"></i>
+                                                                </a>
+                                                                <input type="hidden"
+                                                                       class="image_id"
+                                                                       value="<?php echo $slider_image->getImageId(); ?>"/>
+                                                            </div>
 
-                                                    </li>
-                                                <?php endforeach; ?>
-                                            </ul>
+                                                        </li>
+                                                    <?php endforeach; ?>
+                                                </ul>
+                                            </div>
+                                            <a id="carousel_prev">
+                                                <i class="fa fa-angle-left"></i>
+                                            </a>
+                                            <a id="carousel_next">
+                                                <i class="fa fa-angle-right"></i>
+                                            </a>
                                         </div>
-                                        <a id="carousel_prev">
-                                            <i class="fa fa-angle-left"></i>
-                                        </a>
-                                        <a id="carousel_next">
-                                            <i class="fa fa-angle-right"></i>
-                                        </a>
                                     </div>
-                                </div>
-                                <div class="slider_images_uploader_action text-right">
+                                    <div class="slider_images_uploader_action text-right">
 
-                                    <?php
-                                    $textInfo = p__("application", "Please note that images can be slightly cropped on both sides, consider using a margin if you need to display textual information.");
-                                    ?>
-                                    <div class="alert alert-info text-left">
-                                        <?php echo $textInfo; ?>
+                                        <?php
+                                        $textInfo = p__("application", "Please note that images can be slightly cropped on both sides, consider using a margin if you need to display textual information.");
+                                        ?>
+                                        <div class="alert alert-info text-left">
+                                            <?php echo $textInfo; ?>
+                                        </div>
+
+                                        <button type="button"
+                                                class="upload_images btn color-red"
+                                                rel="<?php echo $this->getPosition(); ?>">
+                                            <?php echo __('Add pictures'); ?>
+                                        </button>
+                                        <input style="display:none"
+                                               enctype="multipart/form-data"
+                                               rel="slider_images"
+                                               class="fileupload"
+                                               type="file"
+                                               name="files[]"
+                                               data-url="<?php echo $this->getUrl('template/crop/upload'); ?>"/>
                                     </div>
-
-                                    <button type="button"
-                                            class="upload_images btn color-red"
-                                            rel="<?php echo $this->getPosition(); ?>">
-                                        <?php echo __('Add pictures'); ?>
-                                    </button>
-                                    <input style="display:none"
-                                           enctype="multipart/form-data"
-                                           rel="slider_images"
-                                           class="fileupload"
-                                           type="file"
-                                           name="files[]"
-                                           data-url="<?php echo $this->getUrl('template/crop/upload'); ?>" />
                                 </div>
                             </div>
                         </div>
                     </div>
                 </div>
-            </div>
             <?php endif; ?>
             <!-- /Homepage Carousel -->
 
@@ -261,31 +297,31 @@ $splashVersion = (integer) $application->getSplashVersion();
     </div>
 
     <?php if ($splashVersion == 2): ?>
-    <div id="homepage_content"
-         class="content sb-tour">
-        <h3 class="title-editor border-red text-center">
-            <?php echo __('Unified homepage'); ?>
-            <i class="icon ion-ios-information-outline display_tooltip"
-               data-toggle="tooltip"
-               title="<?php echo p__js("application", "The unified homepage tool helps you choose a homepage image/background that will be compatible will all device screen sizes.", '"') ?>"></i>
-        </h3>
-        <div id="homepage" class="subcontent content-color container-fluid">
-            <div class="icon_color">
-                <input type="hidden"
-                       id="homepage_image_name"
-                       name="homepage_image"
-                       value="" />
-                <input type="hidden"
-                       id="homepage_image_has_changed"
-                       name="homepage_image_has_changed"
-                       value="0" />
-            </div>
-            <?php echo $this->createPartialHtml(
+        <div id="homepage_content"
+             class="content sb-tour">
+            <h3 class="title-editor border-red text-center">
+                <?php echo __('Unified homepage'); ?>
+                <i class="icon ion-ios-information-outline display_tooltip"
+                   data-toggle="tooltip"
+                   title="<?php echo p__js("application", "The unified homepage tool helps you choose a homepage image/background that will be compatible will all device screen sizes.", '"') ?>"></i>
+            </h3>
+            <div id="homepage" class="subcontent content-color container-fluid">
+                <div class="icon_color">
+                    <input type="hidden"
+                           id="homepage_image_name"
+                           name="homepage_image"
+                           value=""/>
+                    <input type="hidden"
+                           id="homepage_image_has_changed"
+                           name="homepage_image_has_changed"
+                           value="0"/>
+                </div>
+                <?php echo $this->createPartialHtml(
                     'homepage_create',
                     'admin_view_default',
                     'application/customization/design/style/homepage-unified.phtml'); ?>
+            </div>
         </div>
-    </div>
     <?php else: ?>
         <div id="homepage_content"
              class="content sb-tour">
@@ -297,11 +333,11 @@ $splashVersion = (integer) $application->getSplashVersion();
                     <input type="hidden"
                            id="homepage_image_name"
                            name="homepage_image"
-                           value="" />
+                           value=""/>
                     <input type="hidden"
                            id="homepage_image_has_changed"
                            name="homepage_image_has_changed"
-                           value="0" />
+                           value="0"/>
                 </div>
                 <?php echo $this->createPartialHtml(
                     'homepage_create',
@@ -330,7 +366,8 @@ $splashVersion = (integer) $application->getSplashVersion();
                                 class="styled-select color-red sb-tour">
                             <option value=""><?php echo p__("application", "Select a currency") ?></option>
                             <?php foreach (Currency::getAllCurrencies() as $currency) : ?>
-                                <option value="<?php echo $currency["code"] ?>"<?php if ($application->getCurrency() === $currency["code"]) : ?> selected="selected"<?php endif; ?>><?php echo $currency["code"] ?> - <?php echo $currency["symbol_native"] ?></option>
+                                <option value="<?php echo $currency["code"] ?>"<?php if ($application->getCurrency() === $currency["code"]) : ?> selected="selected"<?php endif; ?>><?php echo $currency["code"] ?>
+                                    - <?php echo $currency["symbol_native"] ?></option>
                             <?php endforeach; ?>
                         </select>
                     </div>
@@ -341,8 +378,10 @@ $splashVersion = (integer) $application->getSplashVersion();
                                 name="locale"
                                 class="styled-select color-red sb-tour">
                             <option value=""><?php echo p__("application", "Select a default country") ?></option>
-                            <?php foreach(Core_Model_Language::getCountriesList() as $country) : ?>
-                                <option value="<?php echo $country->getCode() ?>"<?php if($application->getLocale() === $country->getCode()) : ?> selected="selected"<?php endif; ?>><?php echo ucfirst($country->getLanguage()) ?> (<?php echo $country->getCode() ?>)</option>
+                            <?php foreach (Core_Model_Language::getCountriesList() as $country) : ?>
+                                <option value="<?php echo $country->getCode() ?>"<?php if ($application->getLocale() === $country->getCode()) : ?> selected="selected"<?php endif; ?>><?php echo ucfirst($country->getLanguage()) ?>
+                                    (<?php echo $country->getCode() ?>)
+                                </option>
                             <?php endforeach; ?>
                         </select>
                     </div>
@@ -386,7 +425,7 @@ $splashVersion = (integer) $application->getSplashVersion();
                                type="text"
                                name="font_family_custom"
                                value="<?php echo !in_array($current, $fontFamilies) ? $current : "" ?>"
-                               class="col-md-7 input-flat" />
+                               class="col-md-7 input-flat"/>
                     </div>
 
                     <div class="col-md-3 text-right">
@@ -401,30 +440,30 @@ $splashVersion = (integer) $application->getSplashVersion();
         </div>
         <div id="fonts"
              class="subcontent content-color">
-            <?php foreach($fontGroupFamilies as $groupName => $families) : ?>
+            <?php foreach ($fontGroupFamilies as $groupName => $families) : ?>
                 <div class="col-md-12 clear">
                     <h5 class="font-group"><?php echo __($groupName) ?></h5>
                 </div>
                 <?php foreach ($families as $fontFamily => $options): ?>
-                <div class="col-md-6">
-                    <label for="<?php echo slugify($fontFamily) ?>"
-                           class="font-label <?php if ($current === $fontFamily): ?>checked<?php endif; ?>">
-                        <input id="<?php echo slugify($fontFamily) ?>"
-                               type="radio"
-                               name="font_family"
-                               value="<?php echo $fontFamily ?>"
-                               <?php if ($current === $fontFamily): ?>checked="checked" <?php endif; ?>
-                               class="color-red font-family" />
-                        <span class="font-name"><?php echo str_replace("+", " ", $fontFamily); ?></span>
-                        <span class="font-example"
-                           style="font-family: '<?php echo str_replace("+", " ", $fontFamily); ?>' !important;">
+                    <div class="col-md-6">
+                        <label for="<?php echo slugify($fontFamily) ?>"
+                               class="font-label <?php if ($current === $fontFamily): ?>checked<?php endif; ?>">
+                            <input id="<?php echo slugify($fontFamily) ?>"
+                                   type="radio"
+                                   name="font_family"
+                                   value="<?php echo $fontFamily ?>"
+                                   <?php if ($current === $fontFamily): ?>checked="checked" <?php endif; ?>
+                                   class="color-red font-family"/>
+                            <span class="font-name"><?php echo str_replace("+", " ", $fontFamily); ?></span>
+                            <span class="font-example"
+                                  style="font-family: '<?php echo str_replace("+", " ", $fontFamily); ?>' !important;">
                             Lorem Ipsum DOLOR SIT AMET
                             <?php if ($options["cyrillic"] === true): ?>
-                            <span class="cyrillic"> + <?php echo __("CYRILLIC") ?></span>
+                                <span class="cyrillic"> + <?php echo __("CYRILLIC") ?></span>
                             <?php endif; ?>
                         </span>
-                    </label>
-                </div>
+                        </label>
+                    </div>
                 <?php endforeach; ?>
             <?php endforeach; ?>
         </div>
@@ -435,7 +474,7 @@ $splashVersion = (integer) $application->getSplashVersion();
     @import url('https://fonts.googleapis.com/css?family=<?php echo join("|", $fontFamilies + [$current]) ?>&subset=latin,greek,cyrillic');
 
     .font-group {
-        border-bottom: 2px solid rgba(0,0,0,0.3);
+        border-bottom: 2px solid rgba(0, 0, 0, 0.3);
         text-align: left;
         font-style: italic;
         padding: 4px;
@@ -446,7 +485,7 @@ $splashVersion = (integer) $application->getSplashVersion();
     .font-label {
         background-color: #f0f0f0;
         padding: 2px 6px 0 10px;
-        border: 1px solid rgba(0,0,0,0.1);
+        border: 1px solid rgba(0, 0, 0, 0.1);
         border-radius: 2px;
         width: 100%;
         font-size: 12px;
@@ -461,7 +500,7 @@ $splashVersion = (integer) $application->getSplashVersion();
     .custom-box {
         background-color: #f0f0f0;
         padding: 6px;
-        border: 1px solid rgba(0,0,0,0.1);
+        border: 1px solid rgba(0, 0, 0, 0.1);
         border-radius: 2px;
         width: 100%;
     }
@@ -514,7 +553,7 @@ $splashVersion = (integer) $application->getSplashVersion();
     var modal_layouts;
     var modal_fb_import;
 
-    function bindSliderDelete () {
+    function bindSliderDelete() {
         // Slider delete!
         let sliderDeleteImage = $(".delete_slider_image");
         sliderDeleteImage.off("click");
@@ -535,22 +574,22 @@ $splashVersion = (integer) $application->getSplashVersion();
         });
     }
 
-    $(document).ready(function(){
+    $(document).ready(function () {
 
         bindForms("#default-options", "color-red", function () {
-            setTimeout(function() {
+            setTimeout(function () {
                 location.reload();
             }, 200);
         });
         bindForms("#custom-options", "color-red", function () {
-            setTimeout(function() {
+            setTimeout(function () {
                 iframe.reload();
             }, 200);
         });
         bindForms("#homepage_slider_options");
 
-        $("#homepage_slider_options").on("change", function() {
-            setTimeout(function() {
+        $("#homepage_slider_options").on("change", function () {
+            setTimeout(function () {
                 iframe.reload();
             }, 2000);
         });
@@ -645,8 +684,8 @@ $splashVersion = (integer) $application->getSplashVersion();
                 false);
         });
 
-        $('#select_currency').change(function() {
-            reload(this.parentNode, '<?php echo $this->getUrl('application/customization_design_style/save-currency'); ?>', false, function(datas) {
+        $('#select_currency').change(function () {
+            reload(this.parentNode, '<?php echo $this->getUrl('application/customization_design_style/save-currency'); ?>', false, function (datas) {
                 if (datas.success) {
                     $("#currency-warning").remove();
                     try {
@@ -658,8 +697,8 @@ $splashVersion = (integer) $application->getSplashVersion();
             });
         });
 
-        $('#select_locale').change(function() {
-            reload(this.parentNode, '<?php echo $this->getUrl('application/customization_design_style/save-locale'); ?>', false, function(datas) {
+        $('#select_locale').change(function () {
+            reload(this.parentNode, '<?php echo $this->getUrl('application/customization_design_style/save-locale'); ?>', false, function (datas) {
                 if (datas.success) {
                     $("#locale-warning").remove();
                     try {
@@ -681,7 +720,7 @@ $splashVersion = (integer) $application->getSplashVersion();
 
         var showTemplatesButton = $("#show_templates");
 
-        showTemplatesButton.click(function() {
+        showTemplatesButton.click(function () {
             modal_preview.show();
         });
 
@@ -693,22 +732,22 @@ $splashVersion = (integer) $application->getSplashVersion();
             height: 'auto'
         });
 
-        $('#show_layouts').click(function() {
+        $('#show_layouts').click(function () {
             modal_layouts.show();
         });
 
         <?php if ($app_id AND $app_secret): ?>
-            modal_fb_import = new Modal({
-                id: 'modal_fb_import',
-                url: '<?php echo $this->getUrl('importer/facebook/getmodaltemplate'); ?>',
-                is_retain: true,
-                width: 800,
-                height: 'auto'
-            });
+        modal_fb_import = new Modal({
+            id: 'modal_fb_import',
+            url: '<?php echo $this->getUrl('importer/facebook/getmodaltemplate'); ?>',
+            is_retain: true,
+            width: 800,
+            height: 'auto'
+        });
         <?php endif;?>
 
         <?php if (empty($design_id) && $application->getPages(0)->count() <= 0): # Show template modal until one is selected or there is no features. ?>
-            modal_preview.show();
+        modal_preview.show();
         <?php endif ?>
 
         if ($("#slider_images").length) {
@@ -719,27 +758,32 @@ $splashVersion = (integer) $application->getSplashVersion();
     });
 
     /** Homepage Image Slider **/
-    var currentHeight = function(intialHeight) {
+    var currentHeight = function (intialHeight) {
         var current_scale = $("#homepage_slider_size").val();
         var target_height = intialHeight * current_scale;
         return Math.ceil(parseFloat(target_height));
     };
 
     var sliderImages = $("#slider_images");
-    var initCarousel = function() {
+    var initCarousel = function () {
         // Images slider carousel
         createCarouselSortable();
-        sliderImages.sbCarousel({item_width: 195, items_per_page: 3, next_button: $("#carousel_next"), prev_button: $("#carousel_prev")});
+        sliderImages.sbCarousel({
+            item_width: 195,
+            items_per_page: 3,
+            next_button: $("#carousel_next"),
+            prev_button: $("#carousel_prev")
+        });
         carousel = sliderImages.data('carousel');
         carousel.update();
     };
 
     var previousSize = $("#homepage_slider_size").val();
 
-    $("#homepage_slider_size").on("change", function() {
+    $("#homepage_slider_size").on("change", function () {
         var image_counts = $(".slider_image.sortable").length;
 
-        if(image_counts != 0) {
+        if (image_counts != 0) {
             var confirm_client = confirm("<?php echo __js('If you decide to change the slider size, all images will be dropped. Are you sure ?');?>");
             if (confirm_client) {
                 $(".delete_page.delete_slider_image").each(function (idx, elm) {
@@ -754,19 +798,19 @@ $splashVersion = (integer) $application->getSplashVersion();
             }
         }
 
-        if(image_counts > 0) {
+        if (image_counts > 0) {
             iframe.reload();
         }
     });
 
-    $("#homepage_slider_options .upload_images").click(function() {
+    $("#homepage_slider_options .upload_images").click(function () {
         $('.fileupload[rel="slider_images"]').trigger('click');
     });
 
     var slider_images_uploader = new Uploader();
     $('.fileupload[rel="slider_images"]').fileupload({
         dataType: 'json',
-        add: function(e, data) {
+        add: function (e, data) {
             data.formData = {
                 minwidth: '100',
                 minheight: '200',
@@ -776,14 +820,14 @@ $splashVersion = (integer) $application->getSplashVersion();
             data.submit();
             slider_images_uploader.showProgressbar();
         },
-        progressall: function(e, data) {
+        progressall: function (e, data) {
             slider_images_uploader.moveProgressbar(data);
         },
         fail: function (el, data) {
             slider_images_uploader.hide();
             slider_images_uploader.showError(JSON.parse(data.jqXHR.responseText).message);
         },
-        done: function(e, data) {
+        done: function (e, data) {
             if (data.result.error) {
                 slider_images_uploader.hide();
                 slider_images_uploader.showError(data.result.message);
@@ -795,11 +839,11 @@ $splashVersion = (integer) $application->getSplashVersion();
                 params["file"] = data.result.files;
                 params["uploader"] = 'slider_images_uploader';
                 params["output_w"] = 1080;
-                params["output_h"] = 1920*$("#homepage_slider_size").val()/100;
+                params["output_h"] = 1920 * $("#homepage_slider_size").val() / 100;
                 params["output_url"] = '<?php echo str_replace('/', '$', $this->getUrl('application/customization_design_style/savesliderimages')) ?>';
 
                 slider_images_uploader.crop(params);
-                slider_images_uploader.callback = function(file) {
+                slider_images_uploader.callback = function (file) {
                     sliderImages.append(
                         `
                         <li id="slider_image_` + file.id + `"
@@ -836,7 +880,7 @@ $splashVersion = (integer) $application->getSplashVersion();
         }
     });
 
-    var createCarouselSortable = function() {
+    var createCarouselSortable = function () {
         sliderImages.sortable({
             items: '> li.sortable:visible',
             cursor: "ew-resize",
@@ -883,18 +927,22 @@ $splashVersion = (integer) $application->getSplashVersion();
         width: 100%;
         display: block;
     }
+
     .slider_size > label {
-        width:100%;
+        width: 100%;
     }
+
     /** IMAGE SLIDER CAROUSEL **/
     #homepage_slider .slider_images {
         left: 0;
         position: relative;
         padding: 15px 0 0 0;
     }
+
     #homepage_slider .slider_images_uploader_action {
         margin-top: 10px;
     }
+
     #uploaded_slider_images {
         overflow: hidden;
         width: 100%;
@@ -905,11 +953,13 @@ $splashVersion = (integer) $application->getSplashVersion();
         padding: 15px 40px;
         border-radius: 2px;
     }
+
     #uploaded_slider_images > div {
         margin: auto;
         overflow: hidden;
         min-width: 100%;
     }
+
     #uploaded_slider_images.listing ul {
         height: 100%;
         -webkit-transition: all 0.4s ease 0s;
@@ -920,6 +970,7 @@ $splashVersion = (integer) $application->getSplashVersion();
         list-style: none;
         padding: 0;
     }
+
     #uploaded_slider_images.listing ul li {
         float: left;
         width: 185px;
@@ -930,6 +981,7 @@ $splashVersion = (integer) $application->getSplashVersion();
         position: relative;
         margin: 0 5px;
     }
+
     #uploaded_slider_images.listing ul li:hover {
         background-color: #ffffff;
     }
@@ -942,12 +994,14 @@ $splashVersion = (integer) $application->getSplashVersion();
         background: white;
         border-radius: 2px;
     }
+
     #uploaded_slider_images.listing ul li span.details img {
         width: 100%;
         height: 100%;
         border-radius: 2px;
         border: 1px solid #afafaf;
     }
+
     #uploaded_slider_images.listing ul li.slider_image div.actions {
         position: absolute;
         top: 0;
@@ -955,6 +1009,7 @@ $splashVersion = (integer) $application->getSplashVersion();
         right: 0;
         z-index: 2;
     }
+
     #uploaded_slider_images.listing ul li.slider_image div.actions .move_page {
         cursor: ew-resize;
         left: 0;
@@ -965,6 +1020,7 @@ $splashVersion = (integer) $application->getSplashVersion();
         color: inherit;
         background: white;
     }
+
     #uploaded_slider_images.listing ul li.slider_image div.actions .delete_page {
         right: 0;
         top: 0;
@@ -974,12 +1030,15 @@ $splashVersion = (integer) $application->getSplashVersion();
         color: inherit;
         background: white;
     }
+
     #uploaded_slider_images #carousel_prev {
         left: 15px;
     }
+
     #uploaded_slider_images #carousel_next {
         right: 15px;
     }
+
     #uploaded_slider_images #carousel_prev, #uploaded_slider_images #carousel_next {
         position: absolute;
         top: 68px;
@@ -992,9 +1051,21 @@ $splashVersion = (integer) $application->getSplashVersion();
     }
 
 
-    .opacity_container { width: 100%; }
-    .opacity_container input[type=range] { float: left; width: 90%; }
-    .opacity_container span { float: right; font-size: 11px; margin-top: -1px }
+    .opacity_container {
+        width: 100%;
+    }
+
+    .opacity_container input[type=range] {
+        float: left;
+        width: 90%;
+    }
+
+    .opacity_container span {
+        float: right;
+        font-size: 11px;
+        margin-top: -1px
+    }
+
     /** /IMAGE SLIDER CAROUSEL **/
 
     .preset-title {
