@@ -1,20 +1,30 @@
 <?php
 
+use Siberian_Image as Image;
+
+/**
+ * Class Weblink_Model_Weblink
+ */
 class Weblink_Model_Weblink extends Core_Model_Default
 {
-
+    /**
+     * @var
+     */
     public $_type_id;
 
-    public function __construct($params = [])
-    {
-        parent::__construct($params);
-        $this->_db_table = Weblink_Model_Db_Table_Weblink::class;
-    }
+    /**
+     * @var string
+     */
+    protected $_db_table = Weblink_Model_Db_Table_Weblink::class;
 
+    /**
+     * @return $this
+     */
     public function save()
     {
-
-        if (!$this->getId()) $this->setTypeId($this->_type_id);
+        if (!$this->getId()) {
+            $this->setTypeId($this->_type_id);
+        }
         parent::save();
 
         return $this;
@@ -36,11 +46,8 @@ class Weblink_Model_Weblink extends Core_Model_Default
 
         if ($this->getId()) {
 
-            $payload['weblink']['cover_url'] = null;
-            if ($this->getCoverUrl()) {
-                $picture_file = Core_Model_Directory::getBasePathTo($this->getCoverUrl());
-                $payload['weblink']['cover_url'] = Siberian_Image::open($picture_file)->inline('png');
-            }
+            $baseUrl = $optionValue->getBaseUrl();
+            $payload['weblink']['cover_url'] = $baseUrl . $this->getCoverUrl();
 
             try {
                 $settings = \Siberian_Json::decode($optionValue->getSettings());
@@ -50,34 +57,33 @@ class Weblink_Model_Weblink extends Core_Model_Default
 
             $payload['settings'] = $settings;
 
-            if ($optionValue->getCode() === 'weblink_multi')
-            {
+            if ($optionValue->getCode() === 'weblink_multi') {
                 foreach ($this->getLinks() as $link) {
 
                     $picto_b64 = null;
                     if ($link->getPictoUrl()) {
                         $picture_file = path($link->getPictoUrl());
-                        $picto_b64 = Siberian_Image::open($picture_file)->inline('png');
+                        $picto_b64 = Image::open($picture_file)->inline('png');
                     }
 
                     $payload['weblink']['links'][] = [
-                        'id' => (integer) $link->getId(),
-                        'title' => (string) $link->getTitle(),
-                        'picto_url' => (string) $picto_b64,
-                        'url' => (string) $link->getUrl(),
+                        'id' => (integer)$link->getId(),
+                        'title' => (string)$link->getTitle(),
+                        'picto_url' => (string)$picto_b64,
+                        'url' => (string)$link->getUrl(),
                         // pre 4.18.3 options
-                        'hide_navbar' => (boolean) $link->getHideNavbar(),
-                        'use_external_app' => (boolean) $link->getUseExternalApp(),
+                        'hide_navbar' => (boolean)$link->getHideNavbar(),
+                        'use_external_app' => (boolean)$link->getUseExternalApp(),
                         // post 4.18.3 options
-                        'external_browser' => (boolean) $link->getExternalBrowser(),
+                        'external_browser' => (boolean)$link->getExternalBrowser(),
                         'options' => $link->getOptions()
                     ];
                 }
             } else {
                 $link = $this->getLink();
                 if ($link && $link->getId()) {
-                    $payload['link_url'] = (string) $link->getUrl();
-                    $payload['external_browser'] = (boolean) $link->getExternalBrowser();
+                    $payload['link_url'] = (string)$link->getUrl();
+                    $payload['external_browser'] = (boolean)$link->getExternalBrowser();
                     $payload['options'] = $link->getOptions();
                 }
 
@@ -87,6 +93,11 @@ class Weblink_Model_Weblink extends Core_Model_Default
         return $payload;
     }
 
+    /**
+     * @param $id
+     * @param null $field
+     * @return $this
+     */
     public function find($id, $field = null)
     {
         parent::find($id, $field);
@@ -94,8 +105,19 @@ class Weblink_Model_Weblink extends Core_Model_Default
         return $this;
     }
 
-    public function addLinks() {}
+    /**
+     *
+     */
+    public function addLinks()
+    {
+    }
 
+    /**
+     * @param array $values
+     * @param null $order
+     * @param array $params
+     * @return mixed
+     */
     public function findAll($values = [], $order = null, $params = [])
     {
         $weblinks = $this->getTable()->findAll($values, $order, $params);
@@ -106,8 +128,7 @@ class Weblink_Model_Weblink extends Core_Model_Default
     }
 
     /**
-     * @param bool $base64
-     * @return string
+     * @return mixed
      */
     public function _getCover()
     {
@@ -226,7 +247,7 @@ class Weblink_Model_Weblink extends Core_Model_Default
                             ->unsData("id")
                             ->unsData("link_id")
                             ->save();
-                        }
+                    }
                 }
             }
 
