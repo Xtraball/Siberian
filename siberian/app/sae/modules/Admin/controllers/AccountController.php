@@ -1,6 +1,7 @@
 <?php
 
 use Siberian\File;
+use Siberian\Hook;
 use Siberian\Mail;
 use Siberian\Layout;
 
@@ -243,61 +244,81 @@ class Admin_AccountController extends Admin_Controller_Default
 
     }
 
+    /**
+     * @throws Zend_Exception
+     * @throws Zend_Session_Exception
+     */
     public function signuppostAction()
     {
+        try {
+            $request = $this->getRequest();
+            $data = $request->getPost();
 
-        if ($data = $this->getRequest()->getPost()) {
-            try {
+            Hook::trigger('admin.register', [
+                'origin' => 'web',
+                'request' => $request
+            ]);
 
-                // Check l'email et le mot de passe
-                if (empty($data['email']) OR !Zend_Validate::is($data['email'], 'emailAddress')) {
-                    throw new Exception(__('Please enter a valid email address.'));
-                }
-                if (empty($data['password']) OR strlen($data['password']) < 6) {
-                    throw new Exception(__('The password must be at least 6 characters.'));
-                }
-                if (empty($data['confirm_password']) OR $data['password'] != $data['confirm_password']) {
-                    throw new Exception(__('The password and the confirmation does not match.'));
-                }
-
-                $admin = new Admin_Model_Admin();
-                $admin->findByEmail($data['email']);
-
-                if ($admin->getId()) {
-                    throw new Exception(__('We are sorry but this email address is already used.'));
-                }
-
-                $role = new Acl_Model_Role();
-                if ($default_role = $role->findDefaultRoleId()) {
-                    $admin->setRoleId($default_role);
-                }
-
-                // Créé le user
-                $admin->setEmail($data['email'])
-                    ->setPassword($data['password'])
-                    ->save();
-
-                // Met le user en session
-                $this->getSession()
-                    ->setAdmin($admin);
-
-                $admin->sendAccountCreationEmail($data["password"]);
-
-                $redirect_to = 'admin/application/list';
-
-            } catch (Exception $e) {
-                if ($this->getSession()->isLoggedIn()) {
-                    $redirect_to = 'admin/application/list';
-                } else {
-                    $this->getSession()->addError($e->getMessage());
-                    $redirect_to = "/";
-                }
+            // Check l'email et le mot de passe
+            if (empty($data['email']) OR !Zend_Validate::is($data['email'], 'emailAddress')) {
+                throw new Exception(__('Please enter a valid email address.'));
+            }
+            if (empty($data['password']) OR strlen($data['password']) < 6) {
+                throw new Exception(__('The password must be at least 6 characters.'));
+            }
+            if (empty($data['confirm_password']) OR $data['password'] != $data['confirm_password']) {
+                throw new Exception(__('The password and the confirmation does not match.'));
             }
 
-            $this->redirect($redirect_to);
+            $admin = new Admin_Model_Admin();
+            $admin->findByEmail($data['email']);
 
+            if ($admin->getId()) {
+                throw new Exception(__('We are sorry but this email address is already used.'));
+            }
+
+            $role = new Acl_Model_Role();
+            if ($default_role = $role->findDefaultRoleId()) {
+                $admin->setRoleId($default_role);
+            }
+
+            // Créé le user
+            $admin->setEmail($data['email'])
+                ->setPassword($data['password'])
+                ->save();
+
+            // Met le user en session
+            $this->getSession()
+                ->setAdmin($admin);
+
+            $admin->sendAccountCreationEmail($data["password"]);
+
+            $redirect_to = 'admin/application/list';
+
+            Hook::trigger('admin.register.success', [
+                'origin' => 'web',
+                'adminId' => $admin->getId(),
+                'admin' => $admin,
+                'token' => Zend_Session::getId(),
+                'request' => $request,
+            ]);
+
+        } catch (Exception $e) {
+            if ($this->getSession()->isLoggedIn()) {
+                $redirect_to = 'admin/application/list';
+            } else {
+                $this->getSession()->addError($e->getMessage());
+                $redirect_to = "/";
+            }
+
+            Hook::trigger('admin.register.error', [
+                'origin' => 'web',
+                'message' => $e->getMessage(),
+                'request' => $request,
+            ]);
         }
 
+        $this->redirect($redirect_to);
     }
 
     public function forgotpasswordpostAction()

@@ -172,39 +172,43 @@ class Customer_Mobile_Account_EditController extends Application_Controller_Mobi
 
                 if ($feature->getUseNickname()) {
                     $useNickname = true;
+                    $requireNickname = true;
                 }
                 if ($feature->getUseBirthdate()) {
                     $useBirthdate = true;
+                    $requireBirthdate = true;
                 }
                 if ($feature->getUseCivility()) {
                     $useCivility = true;
+                    $requireCivility = true;
                 }
                 if ($feature->getUseMobile()) {
                     $useMobile = true;
+                    $requireMobile = true;
                 }
 
                 // All are true, we can abort here!
-                if ($useNickname &&
-                    $useBirthdate &&
-                    $useCivility &&
-                    $useMobile) {
+                if ($requireNickname &&
+                    $requireBirthdate &&
+                    $requireCivility &&
+                    $requireMobile) {
                     break;
                 }
             }
 
-            if (($requireMobile || $useMobile) && empty($data['mobile'])) {
+            if ($requireMobile && empty($data['mobile'])) {
                 $requiredFields[] = p__('customer', 'Mobile');
             }
 
-            if (($requireCivility || $useCivility) && empty($data['civility'])) {
+            if ($requireCivility && empty($data['civility'])) {
                 $requiredFields[] = p__('customer', 'Civility');
             }
 
-            if (($requireBirthdate || $useBirthdate) && empty($data['birthdate'])) {
+            if ($requireBirthdate && empty($data['birthdate'])) {
                 $requiredFields[] = p__('customer', 'Birthdate');
             }
 
-            if (($requireNickname || $useNickname) && empty($data['nickname'])) {
+            if ($requireNickname && empty($data['nickname'])) {
                 $requiredFields[] = p__('customer', 'Nickname');
             }
 
@@ -225,7 +229,7 @@ class Customer_Mobile_Account_EditController extends Application_Controller_Mobi
             }
             // Check against required fields
 
-            if (($requireBirthdate || $useBirthdate) &&
+            if ($useBirthdate &&
                 isset($data['birthdate']) &&
                 !empty($data['birthdate'])) {
                 try {

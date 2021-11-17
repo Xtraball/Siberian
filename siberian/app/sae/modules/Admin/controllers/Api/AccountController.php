@@ -1,5 +1,7 @@
 <?php
 
+use Siberian\Hook;
+
 /**
  * Class Admin_Api_AccountController
  */
@@ -95,7 +97,14 @@ class Admin_Api_AccountController extends Api_Controller_Default
     public function createAction()
     {
         try {
-            $data = $this->getRequest()->getPost();
+            $request = $this->getRequest();
+            $data = $request->getPost();
+
+            Hook::trigger('admin.register', [
+                'origin' => 'api',
+                'request' => $request
+            ]);
+
             if (!$data) {
                 throw new \Siberian\Exception('dqzdqzdzq');
             }
@@ -133,11 +142,25 @@ class Admin_Api_AccountController extends Api_Controller_Default
                 "redirect_url" => "{$domain}/admin/api_account/autologin?email={$data['email']}&token={$token}",
             ];
 
+            Hook::trigger('admin.register.success', [
+                'origin' => 'api',
+                'adminId' => $admin->getId(),
+                'admin' => $admin,
+                'token' => Zend_Session::getId(),
+                'request' => $request,
+            ]);
+
         } catch (\Exception $e) {
             $data = [
                 'error' => 1,
                 'message' => $e->getMessage()
             ];
+
+            Hook::trigger('admin.register.error', [
+                'origin' => 'api',
+                'message' => $e->getMessage(),
+                'request' => $request,
+            ]);
         }
 
         $this->_sendJson($data);

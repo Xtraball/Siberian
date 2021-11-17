@@ -63,10 +63,10 @@ class Weblink_Model_Type_Multi extends Weblink_Model_Weblink
      */
     public function getCoverUrl()
     {
-        $cover_path = Application_Model_Application::getImagePath() . $this->getCover();
-        $cover_base_path = Application_Model_Application::getBaseImagePath() . $this->getCover();
-        if ($this->getCover() && file_exists($cover_base_path)) {
-            return $cover_path;
+        $coverPath = Application_Model_Application::getImagePath() . $this->getCover();
+        $coverBasePath = Application_Model_Application::getBaseImagePath() . $this->getCover();
+        if ($this->getCover() && file_exists($coverBasePath)) {
+            return $coverPath;
         }
         return null;
     }
