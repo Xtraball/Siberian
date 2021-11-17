@@ -1,872 +1,873 @@
 {
-  "images": [
+  "images" : [
     {
-      "idiom": "universal",
-      "scale": "1x",
-      "width-class": "compact",
-      "height-class": "compact"
+      "idiom" : "universal",
+      "scale" : "1x"
     },
     {
-      "idiom": "universal",
-      "scale": "1x",
-      "width-class": "compact",
-      "height-class": "compact",
-      "appearances": [
+      "appearances" : [
         {
-          "appearance": "luminosity",
-          "value": "dark"
+          "appearance" : "luminosity",
+          "value" : "light"
         }
-      ]
+      ],
+      "idiom" : "universal",
+      "scale" : "1x"
     },
     {
-      "idiom": "universal",
-      "scale": "1x",
-      "width-class": "compact",
-      "height-class": "compact",
-      "appearances": [
+      "appearances" : [
         {
-          "appearance": "luminosity",
-          "value": "light"
+          "appearance" : "luminosity",
+          "value" : "dark"
         }
-      ]
+      ],
+      "idiom" : "universal",
+      "scale" : "1x"
     },
     {
-      "idiom": "universal",
-      "scale": "1x",
-      "width-class": "compact"
+      "filename" : "Default@2x~universal~anyany.jpg",
+      "idiom" : "universal",
+      "scale" : "2x"
     },
     {
-      "idiom": "universal",
-      "scale": "1x",
-      "width-class": "compact",
-      "appearances": [
+      "appearances" : [
         {
-          "appearance": "luminosity",
-          "value": "dark"
+          "appearance" : "luminosity",
+          "value" : "light"
         }
-      ]
+      ],
+      "idiom" : "universal",
+      "scale" : "2x"
     },
     {
-      "idiom": "universal",
-      "scale": "1x",
-      "width-class": "compact",
-      "appearances": [
+      "appearances" : [
         {
-          "appearance": "luminosity",
-          "value": "light"
+          "appearance" : "luminosity",
+          "value" : "dark"
         }
-      ]
+      ],
+      "idiom" : "universal",
+      "scale" : "2x"
     },
     {
-      "idiom": "universal",
-      "scale": "1x",
-      "height-class": "compact"
+      "idiom" : "universal",
+      "scale" : "3x"
     },
     {
-      "idiom": "universal",
-      "scale": "1x",
-      "height-class": "compact",
-      "appearances": [
+      "appearances" : [
         {
-          "appearance": "luminosity",
-          "value": "dark"
+          "appearance" : "luminosity",
+          "value" : "light"
         }
-      ]
+      ],
+      "idiom" : "universal",
+      "scale" : "3x"
     },
     {
-      "idiom": "universal",
-      "scale": "1x",
-      "height-class": "compact",
-      "appearances": [
+      "appearances" : [
         {
-          "appearance": "luminosity",
-          "value": "light"
+          "appearance" : "luminosity",
+          "value" : "dark"
         }
-      ]
+      ],
+      "idiom" : "universal",
+      "scale" : "3x"
     },
     {
-      "idiom": "universal",
-      "scale": "1x"
+      "height-class" : "compact",
+      "idiom" : "universal",
+      "scale" : "1x"
     },
     {
-      "idiom": "universal",
-      "scale": "1x",
-      "appearances": [
+      "appearances" : [
         {
-          "appearance": "luminosity",
-          "value": "dark"
+          "appearance" : "luminosity",
+          "value" : "light"
         }
-      ]
+      ],
+      "height-class" : "compact",
+      "idiom" : "universal",
+      "scale" : "1x"
     },
     {
-      "idiom": "universal",
-      "scale": "1x",
-      "appearances": [
+      "appearances" : [
         {
-          "appearance": "luminosity",
-          "value": "light"
+          "appearance" : "luminosity",
+          "value" : "dark"
         }
-      ]
+      ],
+      "height-class" : "compact",
+      "idiom" : "universal",
+      "scale" : "1x"
     },
     {
-      "idiom": "universal",
-      "scale": "2x",
-      "width-class": "compact",
-      "height-class": "compact"
+      "height-class" : "compact",
+      "idiom" : "universal",
+      "scale" : "2x"
     },
     {
-      "idiom": "universal",
-      "scale": "2x",
-      "width-class": "compact",
-      "height-class": "compact",
-      "appearances": [
+      "appearances" : [
         {
-          "appearance": "luminosity",
-          "value": "dark"
+          "appearance" : "luminosity",
+          "value" : "light"
         }
-      ]
+      ],
+      "height-class" : "compact",
+      "idiom" : "universal",
+      "scale" : "2x"
     },
     {
-      "idiom": "universal",
-      "scale": "2x",
-      "width-class": "compact",
-      "height-class": "compact",
-      "appearances": [
+      "appearances" : [
         {
-          "appearance": "luminosity",
-          "value": "light"
+          "appearance" : "luminosity",
+          "value" : "dark"
         }
-      ]
+      ],
+      "height-class" : "compact",
+      "idiom" : "universal",
+      "scale" : "2x"
     },
     {
-      "idiom": "universal",
-      "scale": "2x",
-      "width-class": "compact"
+      "height-class" : "compact",
+      "idiom" : "universal",
+      "scale" : "3x"
     },
     {
-      "idiom": "universal",
-      "scale": "2x",
-      "width-class": "compact",
-      "appearances": [
+      "appearances" : [
         {
-          "appearance": "luminosity",
-          "value": "dark"
+          "appearance" : "luminosity",
+          "value" : "light"
         }
-      ]
+      ],
+      "height-class" : "compact",
+      "idiom" : "universal",
+      "scale" : "3x"
     },
     {
-      "idiom": "universal",
-      "scale": "2x",
-      "width-class": "compact",
-      "appearances": [
+      "appearances" : [
         {
-          "appearance": "luminosity",
-          "value": "light"
+          "appearance" : "luminosity",
+          "value" : "dark"
         }
-      ]
+      ],
+      "height-class" : "compact",
+      "idiom" : "universal",
+      "scale" : "3x"
     },
     {
-      "idiom": "universal",
-      "scale": "2x",
-      "height-class": "compact"
+      "idiom" : "universal",
+      "scale" : "1x",
+      "width-class" : "compact"
     },
     {
-      "idiom": "universal",
-      "scale": "2x",
-      "height-class": "compact",
-      "appearances": [
+      "appearances" : [
         {
-          "appearance": "luminosity",
-          "value": "dark"
+          "appearance" : "luminosity",
+          "value" : "light"
         }
-      ]
+      ],
+      "idiom" : "universal",
+      "scale" : "1x",
+      "width-class" : "compact"
     },
     {
-      "idiom": "universal",
-      "scale": "2x",
-      "height-class": "compact",
-      "appearances": [
+      "appearances" : [
         {
-          "appearance": "luminosity",
-          "value": "light"
+          "appearance" : "luminosity",
+          "value" : "dark"
         }
-      ]
+      ],
+      "idiom" : "universal",
+      "scale" : "1x",
+      "width-class" : "compact"
     },
     {
-      "idiom": "universal",
-      "scale": "2x"
+      "idiom" : "universal",
+      "scale" : "2x",
+      "width-class" : "compact"
     },
     {
-      "idiom": "universal",
-      "scale": "2x",
-      "appearances": [
+      "appearances" : [
         {
-          "appearance": "luminosity",
-          "value": "dark"
+          "appearance" : "luminosity",
+          "value" : "light"
         }
-      ]
+      ],
+      "idiom" : "universal",
+      "scale" : "2x",
+      "width-class" : "compact"
     },
     {
-      "idiom": "universal",
-      "scale": "2x",
-      "appearances": [
+      "appearances" : [
         {
-          "appearance": "luminosity",
-          "value": "light"
+          "appearance" : "luminosity",
+          "value" : "dark"
         }
-      ]
+      ],
+      "idiom" : "universal",
+      "scale" : "2x",
+      "width-class" : "compact"
     },
     {
-      "idiom": "universal",
-      "scale": "3x",
-      "width-class": "compact",
-      "height-class": "compact"
+      "idiom" : "universal",
+      "scale" : "3x",
+      "width-class" : "compact"
     },
     {
-      "idiom": "universal",
-      "scale": "3x",
-      "width-class": "compact",
-      "height-class": "compact",
-      "appearances": [
+      "appearances" : [
         {
-          "appearance": "luminosity",
-          "value": "dark"
+          "appearance" : "luminosity",
+          "value" : "light"
         }
-      ]
+      ],
+      "idiom" : "universal",
+      "scale" : "3x",
+      "width-class" : "compact"
     },
     {
-      "idiom": "universal",
-      "scale": "3x",
-      "width-class": "compact",
-      "height-class": "compact",
-      "appearances": [
+      "appearances" : [
         {
-          "appearance": "luminosity",
-          "value": "light"
+          "appearance" : "luminosity",
+          "value" : "dark"
         }
-      ]
+      ],
+      "idiom" : "universal",
+      "scale" : "3x",
+      "width-class" : "compact"
     },
     {
-      "idiom": "universal",
-      "scale": "3x",
-      "width-class": "compact"
+      "height-class" : "compact",
+      "idiom" : "universal",
+      "scale" : "1x",
+      "width-class" : "compact"
     },
     {
-      "idiom": "universal",
-      "scale": "3x",
-      "width-class": "compact",
-      "appearances": [
+      "appearances" : [
         {
-          "appearance": "luminosity",
-          "value": "dark"
+          "appearance" : "luminosity",
+          "value" : "light"
         }
-      ]
+      ],
+      "height-class" : "compact",
+      "idiom" : "universal",
+      "scale" : "1x",
+      "width-class" : "compact"
     },
     {
-      "idiom": "universal",
-      "scale": "3x",
-      "width-class": "compact",
-      "appearances": [
+      "appearances" : [
         {
-          "appearance": "luminosity",
-          "value": "light"
+          "appearance" : "luminosity",
+          "value" : "dark"
         }
-      ]
+      ],
+      "height-class" : "compact",
+      "idiom" : "universal",
+      "scale" : "1x",
+      "width-class" : "compact"
     },
     {
-      "idiom": "universal",
-      "scale": "3x",
-      "height-class": "compact"
+      "height-class" : "compact",
+      "idiom" : "universal",
+      "scale" : "2x",
+      "width-class" : "compact"
     },
     {
-      "idiom": "universal",
-      "scale": "3x",
-      "height-class": "compact",
-      "appearances": [
+      "appearances" : [
         {
-          "appearance": "luminosity",
-          "value": "dark"
+          "appearance" : "luminosity",
+          "value" : "light"
         }
-      ]
+      ],
+      "height-class" : "compact",
+      "idiom" : "universal",
+      "scale" : "2x",
+      "width-class" : "compact"
     },
     {
-      "idiom": "universal",
-      "scale": "3x",
-      "height-class": "compact",
-      "appearances": [
+      "appearances" : [
         {
-          "appearance": "luminosity",
-          "value": "light"
+          "appearance" : "luminosity",
+          "value" : "dark"
         }
-      ]
+      ],
+      "height-class" : "compact",
+      "idiom" : "universal",
+      "scale" : "2x",
+      "width-class" : "compact"
     },
     {
-      "idiom": "universal",
-      "scale": "3x"
+      "height-class" : "compact",
+      "idiom" : "universal",
+      "scale" : "3x",
+      "width-class" : "compact"
     },
     {
-      "idiom": "universal",
-      "scale": "3x",
-      "appearances": [
+      "appearances" : [
         {
-          "appearance": "luminosity",
-          "value": "dark"
+          "appearance" : "luminosity",
+          "value" : "light"
         }
-      ]
+      ],
+      "height-class" : "compact",
+      "idiom" : "universal",
+      "scale" : "3x",
+      "width-class" : "compact"
     },
     {
-      "idiom": "universal",
-      "scale": "3x",
-      "appearances": [
+      "appearances" : [
         {
-          "appearance": "luminosity",
-          "value": "light"
+          "appearance" : "luminosity",
+          "value" : "dark"
         }
-      ]
+      ],
+      "height-class" : "compact",
+      "idiom" : "universal",
+      "scale" : "3x",
+      "width-class" : "compact"
     },
     {
-      "idiom": "ipad",
-      "scale": "1x",
-      "width-class": "compact",
-      "height-class": "compact"
+      "idiom" : "iphone",
+      "scale" : "1x"
     },
     {
-      "idiom": "ipad",
-      "scale": "1x",
-      "width-class": "compact",
-      "height-class": "compact",
-      "appearances": [
+      "appearances" : [
         {
-          "appearance": "luminosity",
-          "value": "dark"
+          "appearance" : "luminosity",
+          "value" : "light"
         }
-      ]
+      ],
+      "idiom" : "iphone",
+      "scale" : "1x"
     },
     {
-      "idiom": "ipad",
-      "scale": "1x",
-      "width-class": "compact",
-      "height-class": "compact",
-      "appearances": [
+      "appearances" : [
         {
-          "appearance": "luminosity",
-          "value": "light"
+          "appearance" : "luminosity",
+          "value" : "dark"
         }
-      ]
+      ],
+      "idiom" : "iphone",
+      "scale" : "1x"
     },
     {
-      "idiom": "ipad",
-      "scale": "1x",
-      "width-class": "compact"
+      "idiom" : "iphone",
+      "scale" : "2x"
     },
     {
-      "idiom": "ipad",
-      "scale": "1x",
-      "width-class": "compact",
-      "appearances": [
+      "appearances" : [
         {
-          "appearance": "luminosity",
-          "value": "dark"
+          "appearance" : "luminosity",
+          "value" : "light"
         }
-      ]
+      ],
+      "idiom" : "iphone",
+      "scale" : "2x"
     },
     {
-      "idiom": "ipad",
-      "scale": "1x",
-      "width-class": "compact",
-      "appearances": [
+      "appearances" : [
         {
-          "appearance": "luminosity",
-          "value": "light"
+          "appearance" : "luminosity",
+          "value" : "dark"
         }
-      ]
+      ],
+      "idiom" : "iphone",
+      "scale" : "2x"
     },
     {
-      "idiom": "ipad",
-      "scale": "1x",
-      "height-class": "compact"
+      "idiom" : "iphone",
+      "scale" : "3x"
     },
     {
-      "idiom": "ipad",
-      "scale": "1x",
-      "height-class": "compact",
-      "appearances": [
+      "appearances" : [
         {
-          "appearance": "luminosity",
-          "value": "dark"
+          "appearance" : "luminosity",
+          "value" : "light"
         }
-      ]
+      ],
+      "idiom" : "iphone",
+      "scale" : "3x"
     },
     {
-      "idiom": "ipad",
-      "scale": "1x",
-      "height-class": "compact",
-      "appearances": [
+      "appearances" : [
         {
-          "appearance": "luminosity",
-          "value": "light"
+          "appearance" : "luminosity",
+          "value" : "dark"
         }
-      ]
+      ],
+      "idiom" : "iphone",
+      "scale" : "3x"
     },
     {
-      "idiom": "ipad",
-      "scale": "1x"
+      "height-class" : "compact",
+      "idiom" : "iphone",
+      "scale" : "1x"
     },
     {
-      "idiom": "ipad",
-      "scale": "1x",
-      "appearances": [
+      "appearances" : [
         {
-          "appearance": "luminosity",
-          "value": "dark"
+          "appearance" : "luminosity",
+          "value" : "light"
         }
-      ]
+      ],
+      "height-class" : "compact",
+      "idiom" : "iphone",
+      "scale" : "1x"
     },
     {
-      "idiom": "ipad",
-      "scale": "1x",
-      "appearances": [
+      "appearances" : [
         {
-          "appearance": "luminosity",
-          "value": "light"
+          "appearance" : "luminosity",
+          "value" : "dark"
         }
-      ]
+      ],
+      "height-class" : "compact",
+      "idiom" : "iphone",
+      "scale" : "1x"
     },
     {
-      "idiom": "ipad",
-      "scale": "2x",
-      "width-class": "compact",
-      "height-class": "compact"
+      "height-class" : "compact",
+      "idiom" : "iphone",
+      "scale" : "2x"
     },
     {
-      "idiom": "ipad",
-      "scale": "2x",
-      "width-class": "compact",
-      "height-class": "compact",
-      "appearances": [
+      "appearances" : [
         {
-          "appearance": "luminosity",
-          "value": "dark"
+          "appearance" : "luminosity",
+          "value" : "light"
         }
-      ]
+      ],
+      "height-class" : "compact",
+      "idiom" : "iphone",
+      "scale" : "2x"
     },
     {
-      "idiom": "ipad",
-      "scale": "2x",
-      "width-class": "compact",
-      "height-class": "compact",
-      "appearances": [
+      "appearances" : [
         {
-          "appearance": "luminosity",
-          "value": "light"
+          "appearance" : "luminosity",
+          "value" : "dark"
         }
-      ]
+      ],
+      "height-class" : "compact",
+      "idiom" : "iphone",
+      "scale" : "2x"
     },
     {
-      "idiom": "ipad",
-      "scale": "2x",
-      "width-class": "compact"
+      "height-class" : "compact",
+      "idiom" : "iphone",
+      "scale" : "3x"
     },
     {
-      "idiom": "ipad",
-      "scale": "2x",
-      "width-class": "compact",
-      "appearances": [
+      "appearances" : [
         {
-          "appearance": "luminosity",
-          "value": "dark"
+          "appearance" : "luminosity",
+          "value" : "light"
         }
-      ]
+      ],
+      "height-class" : "compact",
+      "idiom" : "iphone",
+      "scale" : "3x"
     },
     {
-      "idiom": "ipad",
-      "scale": "2x",
-      "width-class": "compact",
-      "appearances": [
+      "appearances" : [
         {
-          "appearance": "luminosity",
-          "value": "light"
+          "appearance" : "luminosity",
+          "value" : "dark"
         }
-      ]
+      ],
+      "height-class" : "compact",
+      "idiom" : "iphone",
+      "scale" : "3x"
     },
     {
-      "idiom": "ipad",
-      "scale": "2x",
-      "height-class": "compact"
+      "idiom" : "iphone",
+      "scale" : "1x",
+      "width-class" : "compact"
     },
     {
-      "idiom": "ipad",
-      "scale": "2x",
-      "height-class": "compact",
-      "appearances": [
+      "appearances" : [
         {
-          "appearance": "luminosity",
-          "value": "dark"
+          "appearance" : "luminosity",
+          "value" : "light"
         }
-      ]
+      ],
+      "idiom" : "iphone",
+      "scale" : "1x",
+      "width-class" : "compact"
     },
     {
-      "idiom": "ipad",
-      "scale": "2x",
-      "height-class": "compact",
-      "appearances": [
+      "appearances" : [
         {
-          "appearance": "luminosity",
-          "value": "light"
+          "appearance" : "luminosity",
+          "value" : "dark"
         }
-      ]
+      ],
+      "idiom" : "iphone",
+      "scale" : "1x",
+      "width-class" : "compact"
     },
     {
-      "idiom": "ipad",
-      "scale": "2x"
+      "idiom" : "iphone",
+      "scale" : "2x",
+      "width-class" : "compact"
     },
     {
-      "idiom": "ipad",
-      "scale": "2x",
-      "appearances": [
+      "appearances" : [
         {
-          "appearance": "luminosity",
-          "value": "dark"
+          "appearance" : "luminosity",
+          "value" : "light"
         }
-      ]
+      ],
+      "idiom" : "iphone",
+      "scale" : "2x",
+      "width-class" : "compact"
     },
     {
-      "idiom": "ipad",
-      "scale": "2x",
-      "appearances": [
+      "appearances" : [
         {
-          "appearance": "luminosity",
-          "value": "light"
+          "appearance" : "luminosity",
+          "value" : "dark"
         }
-      ]
+      ],
+      "idiom" : "iphone",
+      "scale" : "2x",
+      "width-class" : "compact"
     },
     {
-      "idiom": "iphone",
-      "scale": "1x",
-      "width-class": "compact",
-      "height-class": "compact"
+      "idiom" : "iphone",
+      "scale" : "3x",
+      "width-class" : "compact"
     },
     {
-      "idiom": "iphone",
-      "scale": "1x",
-      "width-class": "compact",
-      "height-class": "compact",
-      "appearances": [
+      "appearances" : [
         {
-          "appearance": "luminosity",
-          "value": "dark"
+          "appearance" : "luminosity",
+          "value" : "light"
         }
-      ]
+      ],
+      "idiom" : "iphone",
+      "scale" : "3x",
+      "width-class" : "compact"
     },
     {
-      "idiom": "iphone",
-      "scale": "1x",
-      "width-class": "compact",
-      "height-class": "compact",
-      "appearances": [
+      "appearances" : [
         {
-          "appearance": "luminosity",
-          "value": "light"
+          "appearance" : "luminosity",
+          "value" : "dark"
         }
-      ]
+      ],
+      "idiom" : "iphone",
+      "scale" : "3x",
+      "width-class" : "compact"
     },
     {
-      "idiom": "iphone",
-      "scale": "1x",
-      "width-class": "compact"
+      "height-class" : "compact",
+      "idiom" : "iphone",
+      "scale" : "1x",
+      "width-class" : "compact"
     },
     {
-      "idiom": "iphone",
-      "scale": "1x",
-      "width-class": "compact",
-      "appearances": [
+      "appearances" : [
         {
-          "appearance": "luminosity",
-          "value": "dark"
+          "appearance" : "luminosity",
+          "value" : "light"
         }
-      ]
+      ],
+      "height-class" : "compact",
+      "idiom" : "iphone",
+      "scale" : "1x",
+      "width-class" : "compact"
     },
     {
-      "idiom": "iphone",
-      "scale": "1x",
-      "width-class": "compact",
-      "appearances": [
+      "appearances" : [
         {
-          "appearance": "luminosity",
-          "value": "light"
+          "appearance" : "luminosity",
+          "value" : "dark"
         }
-      ]
+      ],
+      "height-class" : "compact",
+      "idiom" : "iphone",
+      "scale" : "1x",
+      "width-class" : "compact"
     },
     {
-      "idiom": "iphone",
-      "scale": "1x",
-      "height-class": "compact"
+      "height-class" : "compact",
+      "idiom" : "iphone",
+      "scale" : "2x",
+      "width-class" : "compact"
     },
     {
-      "idiom": "iphone",
-      "scale": "1x",
-      "height-class": "compact",
-      "appearances": [
+      "appearances" : [
         {
-          "appearance": "luminosity",
-          "value": "dark"
+          "appearance" : "luminosity",
+          "value" : "light"
         }
-      ]
+      ],
+      "height-class" : "compact",
+      "idiom" : "iphone",
+      "scale" : "2x",
+      "width-class" : "compact"
     },
     {
-      "idiom": "iphone",
-      "scale": "1x",
-      "height-class": "compact",
-      "appearances": [
+      "appearances" : [
         {
-          "appearance": "luminosity",
-          "value": "light"
+          "appearance" : "luminosity",
+          "value" : "dark"
         }
-      ]
+      ],
+      "height-class" : "compact",
+      "idiom" : "iphone",
+      "scale" : "2x",
+      "width-class" : "compact"
     },
     {
-      "idiom": "iphone",
-      "scale": "1x"
+      "height-class" : "compact",
+      "idiom" : "iphone",
+      "scale" : "3x",
+      "width-class" : "compact"
     },
     {
-      "idiom": "iphone",
-      "scale": "1x",
-      "appearances": [
+      "appearances" : [
         {
-          "appearance": "luminosity",
-          "value": "dark"
+          "appearance" : "luminosity",
+          "value" : "light"
         }
-      ]
+      ],
+      "height-class" : "compact",
+      "idiom" : "iphone",
+      "scale" : "3x",
+      "width-class" : "compact"
     },
     {
-      "idiom": "iphone",
-      "scale": "1x",
-      "appearances": [
+      "appearances" : [
         {
-          "appearance": "luminosity",
-          "value": "light"
+          "appearance" : "luminosity",
+          "value" : "dark"
         }
-      ]
+      ],
+      "height-class" : "compact",
+      "idiom" : "iphone",
+      "scale" : "3x",
+      "width-class" : "compact"
     },
     {
-      "idiom": "iphone",
-      "scale": "2x",
-      "width-class": "compact",
-      "height-class": "compact"
+      "idiom" : "ipad",
+      "scale" : "1x"
     },
     {
-      "idiom": "iphone",
-      "scale": "2x",
-      "width-class": "compact",
-      "height-class": "compact",
-      "appearances": [
+      "appearances" : [
         {
-          "appearance": "luminosity",
-          "value": "dark"
+          "appearance" : "luminosity",
+          "value" : "light"
         }
-      ]
+      ],
+      "idiom" : "ipad",
+      "scale" : "1x"
     },
     {
-      "idiom": "iphone",
-      "scale": "2x",
-      "width-class": "compact",
-      "height-class": "compact",
-      "appearances": [
+      "appearances" : [
         {
-          "appearance": "luminosity",
-          "value": "light"
+          "appearance" : "luminosity",
+          "value" : "dark"
         }
-      ]
+      ],
+      "idiom" : "ipad",
+      "scale" : "1x"
     },
     {
-      "idiom": "iphone",
-      "scale": "2x",
-      "width-class": "compact"
+      "idiom" : "ipad",
+      "scale" : "2x"
     },
     {
-      "idiom": "iphone",
-      "scale": "2x",
-      "width-class": "compact",
-      "appearances": [
+      "appearances" : [
         {
-          "appearance": "luminosity",
-          "value": "dark"
+          "appearance" : "luminosity",
+          "value" : "light"
         }
-      ]
+      ],
+      "idiom" : "ipad",
+      "scale" : "2x"
     },
     {
-      "idiom": "iphone",
-      "scale": "2x",
-      "width-class": "compact",
-      "appearances": [
+      "appearances" : [
         {
-          "appearance": "luminosity",
-          "value": "light"
+          "appearance" : "luminosity",
+          "value" : "dark"
         }
-      ]
+      ],
+      "idiom" : "ipad",
+      "scale" : "2x"
     },
     {
-      "idiom": "iphone",
-      "scale": "2x",
-      "height-class": "compact"
+      "height-class" : "compact",
+      "idiom" : "ipad",
+      "scale" : "1x"
     },
     {
-      "idiom": "iphone",
-      "scale": "2x",
-      "height-class": "compact",
-      "appearances": [
+      "appearances" : [
         {
-          "appearance": "luminosity",
-          "value": "dark"
+          "appearance" : "luminosity",
+          "value" : "light"
         }
-      ]
+      ],
+      "height-class" : "compact",
+      "idiom" : "ipad",
+      "scale" : "1x"
     },
     {
-      "idiom": "iphone",
-      "scale": "2x",
-      "height-class": "compact",
-      "appearances": [
+      "appearances" : [
         {
-          "appearance": "luminosity",
-          "value": "light"
+          "appearance" : "luminosity",
+          "value" : "dark"
         }
-      ]
+      ],
+      "height-class" : "compact",
+      "idiom" : "ipad",
+      "scale" : "1x"
     },
     {
-      "idiom": "iphone",
-      "scale": "2x"
+      "height-class" : "compact",
+      "idiom" : "ipad",
+      "scale" : "2x"
     },
     {
-      "idiom": "iphone",
-      "scale": "2x",
-      "appearances": [
+      "appearances" : [
         {
-          "appearance": "luminosity",
-          "value": "dark"
+          "appearance" : "luminosity",
+          "value" : "light"
         }
-      ]
+      ],
+      "height-class" : "compact",
+      "idiom" : "ipad",
+      "scale" : "2x"
     },
     {
-      "idiom": "iphone",
-      "scale": "2x",
-      "appearances": [
+      "appearances" : [
         {
-          "appearance": "luminosity",
-          "value": "light"
+          "appearance" : "luminosity",
+          "value" : "dark"
         }
-      ]
+      ],
+      "height-class" : "compact",
+      "idiom" : "ipad",
+      "scale" : "2x"
     },
     {
-      "idiom": "iphone",
-      "scale": "3x",
-      "width-class": "compact",
-      "height-class": "compact"
+      "idiom" : "ipad",
+      "scale" : "1x",
+      "width-class" : "compact"
     },
     {
-      "idiom": "iphone",
-      "scale": "3x",
-      "width-class": "compact",
-      "height-class": "compact",
-      "appearances": [
+      "appearances" : [
         {
-          "appearance": "luminosity",
-          "value": "dark"
+          "appearance" : "luminosity",
+          "value" : "light"
         }
-      ]
+      ],
+      "idiom" : "ipad",
+      "scale" : "1x",
+      "width-class" : "compact"
     },
     {
-      "idiom": "iphone",
-      "scale": "3x",
-      "width-class": "compact",
-      "height-class": "compact",
-      "appearances": [
+      "appearances" : [
         {
-          "appearance": "luminosity",
-          "value": "light"
+          "appearance" : "luminosity",
+          "value" : "dark"
         }
-      ]
+      ],
+      "idiom" : "ipad",
+      "scale" : "1x",
+      "width-class" : "compact"
     },
     {
-      "idiom": "iphone",
-      "scale": "3x",
-      "width-class": "compact"
+      "idiom" : "ipad",
+      "scale" : "2x",
+      "width-class" : "compact"
     },
     {
-      "idiom": "iphone",
-      "scale": "3x",
-      "width-class": "compact",
-      "appearances": [
+      "appearances" : [
         {
-          "appearance": "luminosity",
-          "value": "dark"
+          "appearance" : "luminosity",
+          "value" : "light"
         }
-      ]
+      ],
+      "idiom" : "ipad",
+      "scale" : "2x",
+      "width-class" : "compact"
     },
     {
-      "idiom": "iphone",
-      "scale": "3x",
-      "width-class": "compact",
-      "appearances": [
+      "appearances" : [
         {
-          "appearance": "luminosity",
-          "value": "light"
+          "appearance" : "luminosity",
+          "value" : "dark"
         }
-      ]
+      ],
+      "idiom" : "ipad",
+      "scale" : "2x",
+      "width-class" : "compact"
     },
     {
-      "idiom": "iphone",
-      "scale": "3x",
-      "height-class": "compact"
+      "height-class" : "compact",
+      "idiom" : "ipad",
+      "scale" : "1x",
+      "width-class" : "compact"
     },
     {
-      "idiom": "iphone",
-      "scale": "3x",
-      "height-class": "compact",
-      "appearances": [
+      "appearances" : [
         {
-          "appearance": "luminosity",
-          "value": "dark"
+          "appearance" : "luminosity",
+          "value" : "light"
         }
-      ]
+      ],
+      "height-class" : "compact",
+      "idiom" : "ipad",
+      "scale" : "1x",
+      "width-class" : "compact"
     },
     {
-      "idiom": "iphone",
-      "scale": "3x",
-      "height-class": "compact",
-      "appearances": [
+      "appearances" : [
         {
-          "appearance": "luminosity",
-          "value": "light"
+          "appearance" : "luminosity",
+          "value" : "dark"
         }
-      ]
+      ],
+      "height-class" : "compact",
+      "idiom" : "ipad",
+      "scale" : "1x",
+      "width-class" : "compact"
     },
     {
-      "idiom": "iphone",
-      "scale": "3x"
+      "height-class" : "compact",
+      "idiom" : "ipad",
+      "scale" : "2x",
+      "width-class" : "compact"
     },
     {
-      "idiom": "iphone",
-      "scale": "3x",
-      "appearances": [
+      "appearances" : [
         {
-          "appearance": "luminosity",
-          "value": "dark"
+          "appearance" : "luminosity",
+          "value" : "light"
         }
-      ]
+      ],
+      "height-class" : "compact",
+      "idiom" : "ipad",
+      "scale" : "2x",
+      "width-class" : "compact"
     },
     {
-      "idiom": "iphone",
-      "scale": "3x",
-      "appearances": [
+      "appearances" : [
         {
-          "appearance": "luminosity",
-          "value": "light"
+          "appearance" : "luminosity",
+          "value" : "dark"
         }
-      ]
+      ],
+      "height-class" : "compact",
+      "idiom" : "ipad",
+      "scale" : "2x",
+      "width-class" : "compact"
     }
   ],
-  "info": {
-    "author": "Xcode",
-    "version": 1
+  "info" : {
+    "author" : "xcode",
+    "version" : 1
   }
 }
