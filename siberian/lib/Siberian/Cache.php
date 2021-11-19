@@ -10,7 +10,7 @@ use \Zend_Registry;
 /**
  * Class \Siberian\Cache
  *
- * @version 4.16.0
+ * @version 4.20.27
  *
  * Cache system for inheritance
  *
@@ -136,6 +136,30 @@ class Cache
     public static function walk()
     {
         static::fetch(self::LOCAL_PATH);
+    }
+
+    /**
+     *
+     */
+    public static function clearOpCache()
+    {
+        try {
+            if (function_exists('apc_clear_cache')) {
+                apc_clear_cache();
+                apc_clear_cache('user');
+                apc_clear_cache('opcode');
+            }
+        } catch (\Exception $e) {
+            //
+        }
+
+        try {
+            if (function_exists('opcache_reset')) {
+                opcache_reset();
+            }
+        } catch (\Exception $e) {
+            //
+        }
     }
 
     /**

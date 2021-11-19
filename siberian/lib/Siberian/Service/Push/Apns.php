@@ -76,6 +76,7 @@ class Siberian_Service_Push_Apns
         $aps->alert->cover = $messagePayload->getCoverUrl();
         $aps->alert->open_webview = $messagePayload->getCoverUrl();
         $aps->sound = 'sb_beep4.caf';
+        $aps->badge = 1;
         $aps->message_id = \Ramsey\Uuid\v4();
 
         # Action
