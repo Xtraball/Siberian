@@ -156,14 +156,25 @@ class PaymentStripe_Mobile_CardsController extends Application_Controller_Mobile
 
             $paymentMethod = (new PaymentStripePaymentMethod())->find($card['id']);
 
+            if (!$paymentMethod || !$paymentMethod->getId()) {
+                throw new \Siberian\Exception(p__('payment_stripe', 'This card no longer exists!'));
+            }
+
+            $paymentMethodToken = trim($paymentMethod->getToken());
+            if (empty($paymentMethodToken)) {
+                throw new \Siberian\Exception(p__('payment_stripe', 'This card no longer exists!'));
+            }
+
             PaymentStripeApplication::init($application->getId());
             $stripeCustomer = PaymentStripeCustomer::getForCustomerId($customerId);
 
+            if (!$stripeCustomer || !$stripeCustomer->getId()) {
+                throw new \Siberian\Exception(p__('payment_stripe', 'There is an issue retrieving your card!'));
+            }
+
             $paymentIntent = PaymentIntent::create([
-                //'payment_method' => $paymentMethod->getToken(),
+                'payment_method' => $paymentMethod->getToken(),
                 'currency' => $currency,
-                //'confirmation_method' => 'manual',
-                //'confirm' => true,
                 'capture_method' => 'manual',
                 'amount' => PaymentStripeCurrency::getAmountForCurrency($amount, $currency),
                 'customer' => $stripeCustomer->getToken()

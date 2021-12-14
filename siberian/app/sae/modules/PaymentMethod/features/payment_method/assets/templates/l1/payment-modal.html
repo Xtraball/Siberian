@@ -32,7 +32,10 @@
                     </div>
                     <div class="item item-custom">
                         <span class="text-center"
-                              style="font-size: 32px;">{{ ::options.payment.displayAmount }}</span>
+                              style="font-size: 26px; margin-top: 8px;">{{ ::options.payment.formattedAmount }}</span>
+                        <span ng-if="options.labels.amountExtra"
+                              class="text-center"
+                              style="margin-top: 15px;">{{ ::options.labels.amountExtra }}</span>
                     </div>
                     <div style="margin-bottom: 20px;"></div>
                 </div>

@@ -163,7 +163,7 @@ angular
             var displayErrorParent = document.getElementById('card_error_parent');
 
             service
-                .fetchPaymentIntent()
+                .fetchPaymentIntent(options)
                 .then(function (success) {
                     stripe
                         .confirmCardPayment(success.client_secret, {
@@ -306,7 +306,6 @@ angular
                             },
                         })
                         .then(function(result) {
-                            console.log('result', result);
                             Loader.hide();
                             if (result.error) {
                                 // Inform the user there was an error!

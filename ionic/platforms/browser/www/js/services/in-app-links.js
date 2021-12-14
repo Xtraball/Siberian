@@ -44,16 +44,20 @@ angular
      * @param element
      */
     service.parseElement = function (element) {
-        var params = element.attributes['data-params'].value;
-        params = params
-            .replace(/(^\?)/,'')
-            .split(",")
-            .map(function(n){return n = n.split(":"),this[n[0].trim()] = n[1],this}.bind({}))[0];
-        params.state = element.attributes['data-state'].value;
-        params.offline = (typeof element.attributes["data-offline"] !== "undefined") ?
-            (element.attributes["data-offline"].value === "true") : false;
+        try {
+            var params = element.attributes['data-params'].value;
+            params = params
+                .replace(/(^\?)/,'')
+                .split(",")
+                .map(function(n){return n = n.split(":"),this[n[0].trim()] = n[1],this}.bind({}))[0];
+            params.state = element.attributes['data-state'].value;
+            params.offline = (typeof element.attributes["data-offline"] !== "undefined") ?
+                (element.attributes["data-offline"].value === "true") : false;
 
-        return params;
+            return params;
+        } catch (e) {
+            return false;
+        }
     };
 
     service.action = function (params) {
@@ -110,6 +114,11 @@ angular
 
     service.handlerLink = function (element) {
         var params = service.parseElement(element);
+        // Stop here in case of error!
+        if (params === false) {
+            console.error('This in-app-link is malformed.');
+            return;
+        }
 
         angular.element(element).bind('click', function (e) {
             e.preventDefault();

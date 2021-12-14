@@ -15,7 +15,6 @@ angular
             if (!attrs.actions) {
                 attrs.actions = [
                     PaymentMethod.ACTION_PAY,
-                    PaymentMethod.ACTION_AUTHORIZE,
                     PaymentMethod.ACTION_DELETE
                 ];
             }
@@ -39,33 +38,33 @@ angular
                 });
             };
 
-            $scope.lineActionTrigger = function (card) {
-                Loader.show();
-                if ($scope.actions.length > 0) {
-                    // first action = line action
-                    var firstAction = $scope.actions[0];
-                    $scope
-                    .doAction(firstAction, card)
-                    .then(function (payload) {
-                        // Callback the main payment handler!
-                        switch (firstAction) {
-                            case PaymentMethod.ACTION_PAY:
-                            case PaymentMethod.ACTION_AUTHORIZE:
-                                if (typeof $scope.$parent.paymentModal.onSelect === 'function') {
-                                    $scope.$parent.paymentModal.onSelect(payload.intentPayload.paymentId);
-                                }
-                                break;
-                            default:
-                                // Do nothing yet!
-                        }
-
-                    }, function (error) {
-                        // Sorry!
-                    }).then(function () {
-                        Loader.hide();
-                    });
-                }
-            };
+            //$scope.lineActionTrigger = function (card) {
+            //    Loader.show();
+            //    if ($scope.actions.length > 0) {
+            //        // first action = line action
+            //        var firstAction = $scope.actions[0];
+            //        $scope
+            //        .doAction(firstAction, card)
+            //        .then(function (payload) {
+            //            // Callback the main payment handler!
+            //            switch (firstAction) {
+            //                case PaymentMethod.ACTION_PAY:
+            //                case PaymentMethod.ACTION_AUTHORIZE:
+            //                    if (typeof $scope.$parent.paymentModal.onSelect === 'function') {
+            //                        $scope.$parent.paymentModal.onSelect(payload.intentPayload.paymentId);
+            //                    }
+            //                    break;
+            //                default:
+            //                    // Do nothing yet!
+            //            }
+//
+            //        }, function (error) {
+            //            // Sorry!
+            //        }).then(function () {
+            //            Loader.hide();
+            //        });
+            //    }
+            //};
 
             $scope.doAction = function (action, card) {
                 var defer = $q.defer();
