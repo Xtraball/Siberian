@@ -47,7 +47,7 @@ class Backoffice_Advanced_ToolsController extends System_Controller_Backoffice_D
 
         $this->_sendJson([
             'success' => true,
-            'message' => __('Restore app sources is scheduled.')
+            'message' => p__('backoffice', 'Restore app sources have been scheduled to be processed imminently!')
         ]);
     }
 
