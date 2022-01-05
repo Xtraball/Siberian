@@ -162,7 +162,7 @@ $formSettings->setValueId($option->getId());
                                         <td><?php echo cut($message->getTitle(), 18); ?></td>
                                         <td><?php echo cut($message->getText(), 30); ?></td>
                                         <td>
-                                            <?php if (!empty($message->getSendAt())): ?>
+                                            <?php if (!empty($message->getSendAt()) && ($message->getStatus() !== 'delivered')): ?>
                                                 <?php echo __("Scheduled for <i>%s</i>", $message->getFormattedSendAt()); ?>
                                             <?php else: ?>
                                                 <?php echo __(ucfirst($message->getStatus())); ?>
