@@ -6,8 +6,8 @@ target 'AppsMobileCompany' do
 	project 'AppsMobileCompany.xcodeproj'
 	pod 'Google-Mobile-Ads-SDK', '8.7.0'
 	pod 'nanopb', '~> 2.30906.0'
-	pod 'GoogleMobileAdsMediationFacebook', '6.5.1'
-	pod 'StartAppSDK', '4.6.6'
+	pod 'GoogleMobileAdsMediationFacebook', '6.9.0'
+	pod 'StartAppSDK', '4.7.0'
 end
 post_install do |installer|
   installer.pods_project.targets.each do |target|
