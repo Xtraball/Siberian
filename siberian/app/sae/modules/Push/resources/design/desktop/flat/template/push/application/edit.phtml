@@ -142,13 +142,15 @@ $formSettings->setValueId($option->getId());
                             </button>
                         </h3>
                         <div id="existing_items" class="container-fluid first-row-feature content-feature">
-                            <table class="table content-white-bkg">
+                            <table class="table content-white-bkg sb-pager">
                                 <thead>
                                 <tr class="border-grey">
-                                    <th style="width:16%;"><?php echo __("Title"); ?></th>
-                                    <th style="width:24%;"><?php echo __("Message"); ?></th>
-                                    <th><?php echo __("Status"); ?></th>
-                                    <th><?php echo __("Creation date"); ?></th>
+                                    <th class="sortable"
+                                        style="width:16%;"><?php echo __("Title"); ?></th>
+                                    <th class="sortable"
+                                        style="width:24%;"><?php echo __("Message"); ?></th>
+                                    <th class="sortable"><?php echo __("Status"); ?></th>
+                                    <th class="sortable"><?php echo __("Creation date"); ?></th>
                                     <th></th>
                                     <th></th>
                                 </tr>
@@ -158,7 +160,7 @@ $formSettings->setValueId($option->getId());
                                     <?php $text = trim($message->getText()); ?>
                                     <?php if (empty($text)) continue; ?>
                                     <tr id="push_actions_<?php echo $message->getId(); ?>"
-                                        class="push_actions">
+                                        class="push_actions sb-pager">
                                         <td><?php echo cut($message->getTitle(), 18); ?></td>
                                         <td><?php echo cut($message->getText(), 30); ?></td>
                                         <td>
@@ -1057,9 +1059,9 @@ $formSettings->setValueId($option->getId());
                 var appearCallback = function () {
                     $('#page').removeAttr('style');
                     newDiv.removeAttr('style');
-                }
+                };
 
-                if (step == 'two') {
+                if (step === 'two') {
                     appearCallback = function () {
                         if ($('#use_gmaps_1').is(':checked')) {
                             gmaps.show();
@@ -1082,7 +1084,7 @@ $formSettings->setValueId($option->getId());
                 $('#messageCreateForm').unbind('submit');
                 $('.use_gmaps').unbind('change');
             }
-        }
+        };
 
         /** Toggle more informations */
         $("i.toggle-more").click(function () {
@@ -1119,7 +1121,9 @@ $formSettings->setValueId($option->getId());
         }
 
     </script>
-    <link href="/app/sae/design/desktop/flat/template/push/application/edit.css" media="screen" rel="stylesheet"
+    <link href="/app/sae/design/desktop/flat/template/push/application/edit.css"
+          media="screen"
+          rel="stylesheet"
           type="text/css">
     <style type="text/css">
         .toggle-more, .delete-msg {
