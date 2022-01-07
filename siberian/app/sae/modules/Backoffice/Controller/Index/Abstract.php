@@ -170,7 +170,7 @@ class Backoffice_Controller_Index_Abstract extends Backoffice_Controller_Default
                     case 'app_manifest':
                         // Moved to cron
 
-                        $message = p__('backoffice','App manifest rebuild have been scheduled!');
+                        $message = p__('backoffice','App manifest rebuild have been scheduled to be processed imminently!');
 
                         Tools::scheduleTask(Tools::REBUILD_MANIFEST);
 
