@@ -175,6 +175,8 @@ class PaymentStripe_Mobile_CardsController extends Application_Controller_Mobile
             $paymentIntent = PaymentIntent::create([
                 'payment_method' => $paymentMethod->getToken(),
                 'currency' => $currency,
+                'confirmation_method' => 'manual',
+                'confirm' => true,
                 'capture_method' => 'manual',
                 'amount' => PaymentStripeCurrency::getAmountForCurrency($amount, $currency),
                 'customer' => $stripeCustomer->getToken()

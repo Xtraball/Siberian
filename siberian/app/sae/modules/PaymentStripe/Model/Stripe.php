@@ -4,6 +4,7 @@ namespace PaymentStripe\Model;
 
 use PaymentMethod\Model\GatewayAbstract;
 use PaymentMethod\Model\GatewayInterface;
+use PaymentStripe\Model\Application as PaymentStripeApplication;
 use Siberian\Exception;
 use Stripe\PaymentIntent as StripePaymentIntent;
 
@@ -32,6 +33,20 @@ class Stripe
     public function isSetup($appId = null): bool
     {
         return Application::isEnabled($appId);
+    }
+
+    /**
+     * @param $appId
+     * @return bool
+     * @throws Exception
+     * @throws \Zend_Exception
+     */
+    public static function isProd($appId = null): bool
+    {
+        $settings = PaymentStripeApplication::getSettings($appId);
+        $publishableKey = $settings->getPublishableKey();
+
+        return (stripos($publishableKey, '_test_') === false);
     }
 
     /**

@@ -127,9 +127,8 @@ class Customer extends Base
                 break;
         }
 
-        $stripeCustomerToken = $paymentStripeCustomer->getToken();
-
         // Ok now we have for sure a payment_stripe_customer, we must find or create a stripe_customer!
+        $stripeCustomerToken = $paymentStripeCustomer->getToken();
         if (mb_strlen($stripeCustomerToken) <= 0) {
             // Ok we create the Stripe customer then
             switch ($type) {

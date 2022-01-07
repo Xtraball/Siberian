@@ -121,6 +121,8 @@ class PaymentMethod extends Base
 
     /**
      * @return array|string
+     * @throws Exception
+     * @throws \Zend_Exception
      */
     public function toJson()
     {

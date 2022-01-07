@@ -8,17 +8,9 @@ angular
         restrict: 'E',
         replace: true,
         scope: {
-            actions: '=?'
+            actions: '='
         },
         templateUrl: 'features/payment_stripe/assets/templates/l1/payment-stripe-cards.html',
-        compile: function (element, attrs) {
-            if (!attrs.actions) {
-                attrs.actions = [
-                    PaymentMethod.ACTION_PAY,
-                    PaymentMethod.ACTION_DELETE
-                ];
-            }
-        },
         controller: function ($scope, $rootScope, $pwaRequest, $q, $timeout, Dialog, Loader, PaymentStripe) {
             $scope.isLoading = true;
 
