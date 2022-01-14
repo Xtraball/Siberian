@@ -3,9 +3,8 @@
 namespace PaymentStripe\Model;
 
 use Core\Model\Base;
-use PaymentStripe\Model\Stripe as PaymentStripe;
+use PaymentStripe\Model\Application as PaymentStripeApplication;
 use Siberian\Exception;
-use Application_Model_Application as SiberianApplication;
 
 /**
  * Class PaymentIntent
@@ -38,7 +37,7 @@ class PaymentIntent extends Base
      */
     public function getToken ()
     {
-        return PaymentStripe::isProd(SiberianApplication::getApplication()->getId()) ?
+        return PaymentStripeApplication::isLive() ?
             $this->getData('token') : $this->getData('test_token');
     }
 
@@ -48,9 +47,9 @@ class PaymentIntent extends Base
      * @throws Exception
      * @throws \Zend_Exception
      */
-    public function setToken($token)
+    public function setToken($token): PaymentIntent
     {
-        return PaymentStripe::isProd(SiberianApplication::getApplication()->getId()) ?
+        return PaymentStripeApplication::isLive() ?
             $this->setData('token', $token) : $this->setData('test_token', $token);
     }
 

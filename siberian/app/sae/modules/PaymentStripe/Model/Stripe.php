@@ -36,24 +36,11 @@ class Stripe
     }
 
     /**
-     * @param $appId
-     * @return bool
-     * @throws Exception
-     * @throws \Zend_Exception
-     */
-    public static function isProd($appId = null): bool
-    {
-        $settings = PaymentStripeApplication::getSettings($appId);
-        $publishableKey = $settings->getPublishableKey();
-
-        return (stripos($publishableKey, '_test_') === false);
-    }
-
-    /**
      * @param Customer $stripeCustomer
      * @param array $params
      * @return PaymentIntent
      * @throws Exception
+     * @throws \Stripe\Exception\ApiErrorException
      * @throws \Zend_Exception
      */
     public function authorize(Customer $stripeCustomer, array $params): PaymentIntent

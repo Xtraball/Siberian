@@ -44,7 +44,7 @@ class Customer extends Base
      */
     public function setToken (string $token): self
     {
-        if (PaymentStripeApplication::getMode() === 'live') {
+        if (PaymentStripeApplication::isLive()) {
             $this->setData('token', trim($token));
         } else {
             $this->setData('test_token', trim($token));
@@ -60,7 +60,7 @@ class Customer extends Base
      */
     public function getToken (): string
     {
-        if (PaymentStripeApplication::getMode() === 'live') {
+        if (PaymentStripeApplication::isLive()) {
             return trim($this->getData('token'));
         }
         return trim($this->getData('test_token'));

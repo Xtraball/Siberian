@@ -64,6 +64,16 @@ class Application extends Base
     }
 
     /**
+     * @return string
+     * @throws Exception
+     * @throws \Zend_Exception
+     */
+    public static function isLive(): string
+    {
+        return self::getMode() === 'live';
+    }
+
+    /**
      * @param null $appId
      * @return Application|null
      * @throws Exception
