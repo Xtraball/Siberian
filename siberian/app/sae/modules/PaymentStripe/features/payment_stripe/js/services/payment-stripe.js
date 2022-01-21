@@ -2,397 +2,430 @@
  * PaymentStripe service
  */
 angular
-.module("starter")
-.service("PaymentStripe", function (Application, Loader, $rootScope, $injector, $translate, $pwaRequest, $q) {
-    var service = {
-        card: null,
-        elements: null,
-        stripe: null,
-        settings: null,
-        isReadyPromise: $q.defer(),
-        publishableKey: null,
-        setupIntent: null
-    };
+    .module('starter')
+    .service('PaymentStripe', function (Application, Loader, Dialog, $rootScope, $injector, $translate, $pwaRequest, $q) {
+        var service = {
+            card: null,
+            elements: null,
+            stripe: null,
+            settings: null,
+            isReadyPromise: $q.defer(),
+            publishableKey: null,
+            setupIntent: null
+        };
 
-    service.onStart = function () {
-        if (typeof Stripe === 'undefined') {
-            var stripeJS = document.createElement("script");
-            stripeJS.type = "text/javascript";
-            stripeJS.src = "https://js.stripe.com/v3/";
-            stripeJS.onload = function () {
+        service.onStart = function () {
+            if (typeof Stripe === 'undefined') {
+                var stripeJS = document.createElement("script");
+                stripeJS.type = "text/javascript";
+                stripeJS.src = "https://js.stripe.com/v3/";
+                stripeJS.onload = function () {
+                    service.isReadyPromise.resolve(Stripe);
+
+                    // When Stripe is ready, we can load the key!
+                    service
+                        .fetchSettings()
+                        .then(function (payload) {
+                            service.settings = payload.settings;
+
+                            service.setPublishableKey(service.settings.publishable_key);
+                        }, function (error) {
+                            //
+                            console.error(error.message);
+                        });
+                };
+                document.body.appendChild(stripeJS);
+            } else {
                 service.isReadyPromise.resolve(Stripe);
+            }
+        };
 
-                // When Stripe is ready, we can load the key!
-                service
-                .fetchSettings()
-                .then(function (payload) {
-                    service.settings = payload.settings;
-
-                    service.setPublishableKey(service.settings.publishable_key);
-                }, function (error) {
-                    //
-                    console.error(error.message);
-                });
-            };
-            document.body.appendChild(stripeJS);
-        } else {
-            service.isReadyPromise.resolve(Stripe);
-        }
-    };
-
-    service.isReady = function () {
-        // Force rejection if publishable key is missing!
-        if (!angular.isDefined(service.publishableKey)) {
-            return $q.reject($translate.instant("Stripe publishable key is required."));
-        }
-
-        return service.isReadyPromise.promise;
-    };
-
-    service.setPublishableKey = function (publishableKey) {
-        var deferred = $q.defer();
-
-        if (publishableKey !== undefined &&
-            publishableKey.length <= 0) {
-            deferred.reject("publishableKey is required.");
-            throw new Error("publishableKey is required.");
-        }
-
-        // Creating a new instance of the Stripe service!
-        if (service.publishableKey !== publishableKey ||
-            !service.stripe) {
-            service.publishableKey = publishableKey;
-
-            try {
-                service.stripe = Stripe(service.publishableKey);
-            } catch (e) {
-                // Silent!
-                console.warn('[Stripe]: ' + e.message);
+        service.isReady = function () {
+            // Force rejection if publishable key is missing!
+            if (!angular.isDefined(service.publishableKey)) {
+                return $q.reject($translate.instant("Stripe publishable key is required."));
             }
 
-            try {
-                service.card.destroy();
-            } catch (e) {
-                // Silent!
-            }
-        }
+            return service.isReadyPromise.promise;
+        };
 
-        // Ensute stripe instance exists!
-        if (!service.stripe) {
-            try {
-                service.stripe = Stripe(service.publishableKey);
-                service.card.destroy();
-            } catch (e) {
-                // Silent!
-            }
-        }
+        service.setPublishableKey = function (publishableKey) {
+            var deferred = $q.defer();
 
-        deferred.resolve(service.publishableKey);
-
-        return deferred.promise;
-    };
-
-    service.initCardForm = function () {
-        return service
-        .isReady()
-        .then(function () {
-            var cardElementParent = document.getElementById('card_element');
-            try {
-                cardElementParent.firstChild.remove();
-            } catch (e) {
-                // Silent!
+            if (publishableKey !== undefined &&
+                publishableKey.length <= 0) {
+                deferred.reject("publishableKey is required.");
+                throw new Error("publishableKey is required.");
             }
 
-            service.elements = service.stripe.elements();
-            var style = {
-                base: {
-                    color: "#32325d",
-                    fontFamily: "'Helvetica Neue', Helvetica, sans-serif",
-                    fontSmoothing: "antialiased",
-                    fontSize: "16px",
-                    "::placeholder": {
-                        color: "#aab7c4"
-                    }
-                },
-                invalid: {
-                    color: "#fa755a",
-                    iconColor: "#fa755a"
+            // Creating a new instance of the Stripe service!
+            if (service.publishableKey !== publishableKey ||
+                !service.stripe) {
+                service.publishableKey = publishableKey;
+
+                try {
+                    service.stripe = Stripe(service.publishableKey);
+                } catch (e) {
+                    // Silent!
+                    console.warn('[Stripe]: ' + e.message);
                 }
-            };
 
-            service.card = service.elements.create('card', {
-                hidePostalCode: true,
-                style: style
-            });
+                try {
+                    service.card.destroy();
+                } catch (e) {
+                    // Silent!
+                }
+            }
 
-            var saveElement = document.getElementById("save_element");
-            var displayError = document.getElementById("card_errors");
-            var displayErrorParent = document.getElementById("card_errors_parent");
+            // Ensute stripe instance exists!
+            if (!service.stripe) {
+                try {
+                    service.stripe = Stripe(service.publishableKey);
+                    service.card.destroy();
+                } catch (e) {
+                    // Silent!
+                }
+            }
 
-            saveElement.setAttribute("disabled", "disabled");
+            deferred.resolve(service.publishableKey);
 
-            service.card.removeEventListener("change");
-            service.card.addEventListener("change", function (event) {
-                if (!event.complete) {
-                    displayErrorParent.classList.remove("ng-hide");
+            return deferred.promise;
+        };
+
+        service.initCardForm = function () {
+            return service
+                .isReady()
+                .then(function () {
+                    var cardElementParent = document.getElementById('card_element');
                     try {
-                        displayError.textContent = event.error.message;
+                        cardElementParent.firstChild.remove();
                     } catch (e) {
-                        console.log('unknown error: ', event);
+                        // Silent!
                     }
-                    saveElement.setAttribute("disabled", "disabled");
-                } else {
-                    displayErrorParent.classList.add("ng-hide");
-                    displayError.textContent = "";
-                    saveElement.removeAttribute("disabled");
-                }
-            });
 
-            service.card.mount("#card_element");
-        });
-    };
-
-
-    service.handleCardAuthorization = function (options) {
-        var deferred = $q.defer();
-
-        try {
-            Loader.show($translate.instant('Authorizing payment...', 'payment_stripe'));
-
-            var displayError = document.getElementById('card_errors');
-            var displayErrorParent = document.getElementById('card_error_parent');
-
-            service
-                .fetchPaymentIntent(options)
-                .then(function (success) {
-                    stripe
-                        .confirmCardPayment(success.client_secret, {
-                            payment_method: {
-                                card: service.card,
-                            },
-                        })
-                        .then(function(result) {
-                            Loader.hide();
-                            if (result.error) {
-                                // Inform the customer that there was an error.
-                                displayErrorParent.classList.remove('ng-hide');
-                                displayError.textContent = $translate.instant(result.error.message);
-
-                                return;
+                    service.elements = service.stripe.elements();
+                    var style = {
+                        base: {
+                            color: "#32325d",
+                            fontFamily: "'Helvetica Neue', Helvetica, sans-serif",
+                            fontSmoothing: "antialiased",
+                            fontSize: "16px",
+                            "::placeholder": {
+                                color: "#aab7c4"
                             }
-                            if (result.status === 'succeeded') {
-                                // Continue to save card infos!
-                                Loader.show();
-                                service
-                                    .authorizationSuccess(result)
-                                    .then(function (success) {
-                                        Loader.hide();
+                        },
+                        invalid: {
+                            color: "#fa755a",
+                            iconColor: "#fa755a"
+                        }
+                    };
 
-                                    }, function (error) {
-                                        Loader.hide();
+                    service.card = service.elements.create('card', {
+                        hidePostalCode: true,
+                        style: style
+                    });
 
-                                    })
+                    var saveElement = document.getElementById('save_element');
+                    var displayError = document.getElementById('card_errors');
+                    var displayErrorParent = document.getElementById('card_errors_parent');
+
+                    saveElement.setAttribute('disabled', 'disabled');
+
+                    service.card.removeEventListener('change');
+                    service.card.addEventListener('change', function (event) {
+                        if (!event.complete) {
+                            displayErrorParent.classList.remove('ng-hide');
+                            try {
+                                displayError.textContent = event.error.message;
+                            } catch (e) {
+                                console.log('unknown error: ', event);
                             }
-                        });
-                }, function (error) {
+                            saveElement.setAttribute('disabled', 'disabled');
+                        } else {
+                            displayErrorParent.classList.add('ng-hide');
+                            displayError.textContent = '';
+                            saveElement.removeAttribute('disabled');
+                        }
+                    });
 
+                    service.card.mount("#card_element");
                 });
+        };
 
-        } catch (e) {
-            console.log('error', e);
-        }
 
-        return deferred.promise;
-    };
+        service.handleCardAuthorization = function (card, options) {
+            var deferred = $q.defer();
 
-    service.authorizationError = function (message) {
-        return $pwaRequest.post("/paymentstripe/mobile_handler/authorization-error",
-            {
-                data: {
-                    message: message
-                }
-            });
-    };
+            try {
+                var authorizeMessage = options.labels.authorizeLoaderMessage ?
+                    options.labels.authorizeLoaderMessage :
+                    $translate.instant('Authorizing payment...', 'payment_stripe');
 
-    service.authorizationSuccess = function (payload) {
-        return $pwaRequest.post("/paymentstripe/mobile_handler/authorization-success",
-            {
-                data: {
-                    payload: payload
-                }
-            });
-    };
+                Loader.show(authorizeMessage);
 
-    service.handleCardPayment = function (options) {
-        var deferred = $q.defer();
+                service
+                    .fetchPaymentIntent(card, options)
+                    .then(function (fpiSuccess) {
+                        // If requires "requires_confirmation" or "requires_action"
 
-        try {
-            var displayError = document.getElementById("card_errors");
-            var displayErrorParent = document.getElementById("card_errors_parent");
+                        console.log('[REMOVE ME]', fpiSuccess, ['requires_confirmation', 'requires_action'].indexOf(fpiSuccess.pi_status));
 
-            service
-            .stripe
-            .handleCardPayment(service.card)
-            .then(function (result) {
-                if (result.error) {
-                    // Inform the customer that there was an error.
-                    displayErrorParent.classList.remove("ng-hide");
-                    displayError.textContent = $translate.instant(result.error.message);
+                        if (['requires_confirmation', 'requires_action'].indexOf(fpiSuccess.pi_status) !== -1) {
+                            service
+                                .stripe
+                                .confirmCardPayment(fpiSuccess.client_secret)
+                                .then(function (ccpResponse) {
+                                    if (ccpResponse.error) {
+                                        Loader.hide();
+                                        Dialog.alert('Error', ccpResponse.error.message, 'OK', -1, 'payment_stripe');
 
-                    service
-                    .paymentError(result.error.message)
+                                        service
+                                            .authorizationError(fpiSuccess.pi_id, ccpResponse.error)
+                                            .then(function (aeSuccess) {
+                                                deferred.reject(aeSuccess);
+                                            }, function (aeError) {
+                                                deferred.reject(aeError);
+                                            });
+
+                                        return;
+                                    }
+                                    if (ccpResponse.paymentIntent &&
+                                        ccpResponse.paymentIntent.status === 'requires_capture') {
+                                        // Continue to save card infos!
+                                        service
+                                            .authorizationSuccess(fpiSuccess.pi_id)
+                                            .then(function (asSuccess) {
+                                                Loader.hide();
+                                                deferred.resolve(asSuccess);
+                                            }, function (asError) {
+                                                Loader.hide();
+                                                deferred.resolve(asError);
+                                            });
+                                    }
+                                });
+                        } else {
+                            // Continue to save card infos!
+                            service
+                                .authorizationSuccess(fpiSuccess.pi_id)
+                                .then(function (asSuccess) {
+                                    Loader.hide();
+                                    deferred.resolve(asSuccess);
+                                }, function (asError) {
+                                    Loader.hide();
+                                    deferred.resolve(asError);
+                                });
+                        }
+
+                    }, function (fpiError) {
+                        Loader.hide();
+                        Dialog.alert('Error', fpiError.message, 'OK', -1, 'payment_stripe');
+
+                        deferred.reject(fpiError);
+                    });
+
+            } catch (tcError) {
+                console.log('[REMOVE ME]', 'caught f***ing error', tcError);
+                deferred.reject(tcError);
+            }
+
+            return deferred.promise;
+        };
+
+        service.authorizationError = function (paymentIntentId, error) {
+            return $pwaRequest.post('/paymentstripe/mobile_handler/authorization-error',
+                {
+                    data: {
+                        paymentIntentId: paymentIntentId,
+                        error: error
+                    }
+                });
+        };
+
+        service.authorizationSuccess = function (paymentIntentId) {
+            return $pwaRequest.post('/paymentstripe/mobile_handler/authorization-success',
+                {
+                    data: {
+                        paymentIntentId: paymentIntentId
+                    }
+                });
+        };
+
+        service.handleCardPayment = function (card, options) {
+            var deferred = $q.defer();
+
+            try {
+                var displayError = document.getElementById('card_errors');
+                var displayErrorParent = document.getElementById('card_errors_parent');
+
+                service
+                    .stripe
+                    .handleCardPayment(service.card)
+                    .then(function (result) {
+                        if (result.error) {
+                            // Inform the customer that there was an error.
+                            displayErrorParent.classList.remove('ng-hide');
+                            displayError.textContent = $translate.instant(result.error.message);
+
+                            service
+                                .paymentError(result.error.message)
+                                .then(function (payload) {
+                                    deferred.reject(payload);
+                                });
+                        } else {
+                            // Sending the success token!
+                            displayErrorParent.classList.add('ng-hide');
+                            displayError.textContent = '';
+
+                            service
+                                .paymentSuccess(result)
+                                .then(function (payload) {
+                                    deferred.reject(payload);
+                                });
+                        }
+                    });
+            } catch (e) {
+                service
+                    .paymentError(e.message)
                     .then(function (payload) {
                         deferred.reject(payload);
                     });
-                } else {
-                    // Sending the success token!
-                    displayErrorParent.classList.add('ng-hide');
-                    displayError.textContent = '';
+            }
 
-                    service
-                    .paymentSuccess(result)
+            return deferred.promise;
+        };
+
+        service.paymentError = function (message) {
+            return $pwaRequest.post("/paymentstripe/mobile_handler/payment-error",
+                {
+                    data: {
+                        message: message
+                    }
+                });
+        };
+
+        service.paymentSuccess = function (payload) {
+            return $pwaRequest.post("/paymentstripe/mobile_handler/payment-success",
+                {
+                    data: {
+                        payload: payload
+                    }
+                });
+        };
+
+        service.handleCardSetup = function () {
+            var deferred = $q.defer();
+
+            try {
+                Loader.show($translate.instant('Verifying information...', 'payment_stripe'));
+
+                var displayError = document.getElementById('card_errors');
+                var displayErrorParent = document.getElementById('card_errors_parent');
+
+                service
+                    .fetchSetupIntent()
                     .then(function (payload) {
-                        deferred.reject(payload);
-                    });
-                }
-            });
-        } catch (e) {
-            service
-            .paymentError(e.message)
-            .then(function (payload) {
-                deferred.reject(payload);
-            });
-        }
+                        service.setupIntent = payload.setupIntent;
+                        service
+                            .stripe
+                            .confirmCardSetup(service.setupIntent.client_secret, {
+                                payment_method: {
+                                    card: service.card
+                                },
+                            })
+                            .then(function (result) {
+                                Loader.hide();
+                                if (result.error) {
+                                    // Inform the user there was an error!
+                                    // Inform the customer that there was an error.
+                                    displayErrorParent.classList.remove('ng-hide');
+                                    displayError.textContent = $translate.instant(result.error.message);
 
-        return deferred.promise;
-    };
+                                    service.card.clear();
 
-    service.paymentError = function (message) {
-        return $pwaRequest.post("/paymentstripe/mobile_handler/payment-error",
-            {
-                data: {
-                    message: message
-                }
-            });
-    };
+                                    return;
+                                }
+                                if (result.setupIntent &&
+                                    result.setupIntent.status === 'succeeded') {
 
-    service.paymentSuccess = function (payload) {
-        return $pwaRequest.post("/paymentstripe/mobile_handler/payment-success",
-            {
-                data: {
-                    payload: payload
-                }
-            });
-    };
+                                    service.card.clear();
 
-    service.handleCardSetup = function () {
-        var deferred = $q.defer();
+                                    displayErrorParent.classList.add('ng-hide');
+                                    displayError.textContent = '';
 
-        try {
-            Loader.show($translate.instant('Verifying information...', 'payment_stripe'));
+                                    // Continue to save card infos!
+                                    Loader.show();
+                                    service
+                                        .setupSuccess(result)
+                                        .then(function (success) {
+                                            Loader.hide();
+                                        }, function (error) {
+                                            Loader.hide();
+                                        })
+                                }
+                            });
+                    })
 
-            var displayError = document.getElementById('card_errors');
-            var displayErrorParent = document.getElementById('card_errors_parent');
+            } catch (e) {
+                console.log('error', e);
+            }
 
-            service
-                .fetchSetupIntent()
-                .then(function (payload) {
-                    service.setupIntent = payload.setupIntent;
-                    service
-                        .stripe
-                        .confirmCardSetup(service.setupIntent.client_secret, {
-                            payment_method: {
-                                card: service.card
-                            },
-                        })
-                        .then(function(result) {
-                            Loader.hide();
-                            if (result.error) {
-                                // Inform the user there was an error!
-                                // Inform the customer that there was an error.
-                                displayErrorParent.classList.remove('ng-hide');
-                                displayError.textContent = $translate.instant(result.error.message);
+            return deferred.promise;
+        };
 
-                                return;
-                            }
-                            if (result.setupIntent &&
-                                result.setupIntent.status === 'succeeded') {
-                                displayErrorParent.classList.add('ng-hide');
-                                displayError.textContent = '';
+        service.setupError = function (message) {
+            return $pwaRequest.post('/paymentstripe/mobile_handler/setup-error',
+                {
+                    data: {
+                        message: message
+                    }
+                });
+        };
 
-                                // Continue to save card infos!
-                                Loader.show();
-                                service
-                                    .setupSuccess(result)
-                                    .then(function (success) {
-                                        Loader.hide();
+        service.setupSuccess = function (payload) {
+            return $pwaRequest.post('/paymentstripe/mobile_handler/setup-success',
+                {
+                    data: {
+                        payload: payload
+                    }
+                });
+        };
 
-                                    }, function (error) {
-                                        Loader.hide();
+        service.deletePaymentMethod = function (card) {
+            return $pwaRequest.post('/paymentstripe/mobile_cards/delete-payment-method',
+                {
+                    data: {
+                        card: card
+                    }
+                });
+        };
 
-                                    })
-                            }
-                        });
-                })
+        service.fetchSettings = function () {
+            return $pwaRequest.post('/paymentstripe/mobile_cards/fetch-settings');
+        };
 
-        } catch (e) {
-            console.log('error', e);
-        }
+        service.fetchVaults = function () {
+            return $pwaRequest.post('/paymentstripe/mobile_cards/fetch-vaults');
+        };
 
-        return deferred.promise;
-    };
+        service.fetchSetupIntent = function () {
+            return $pwaRequest.post('/paymentstripe/mobile_cards/fetch-setup-intent');
+        };
 
-    service.setupError = function (message) {
-        return $pwaRequest.post("/paymentstripe/mobile_handler/setup-error",
-            {
-                data: {
-                    message: message
-                }
-            });
-    };
+        service.fetchPaymentIntent = function (card, options) {
+            return $pwaRequest.post('/paymentstripe/mobile_cards/fetch-payment-intent',
+                {
+                    data: {
+                        card: card,
+                        options: options
+                    }
+                });
+        };
 
-    service.setupSuccess = function (payload) {
-        return $pwaRequest.post("/paymentstripe/mobile_handler/setup-success",
-            {
-                data: {
-                    payload: payload
-                }
-            });
-    };
+        service.clearForm = function () {
+            // Clear form on success!
+            service.card.clear();
+            service.card.blur();
+        };
 
-    service.deletePaymentMethod = function (card) {
-        return $pwaRequest.post("/paymentstripe/mobile_cards/delete-payment-method",
-            {
-                data: {
-                    card: card
-                }
-            });
-    };
-
-    service.fetchSettings = function () {
-        return $pwaRequest.post("/paymentstripe/mobile_cards/fetch-settings");
-    };
-
-    service.fetchVaults = function () {
-        return $pwaRequest.post("/paymentstripe/mobile_cards/fetch-vaults");
-    };
-
-    service.fetchSetupIntent = function () {
-        return $pwaRequest.post("/paymentstripe/mobile_cards/fetch-setup-intent");
-    };
-
-    service.fetchPaymentIntent = function (options) {
-        return $pwaRequest.post("/paymentstripe/mobile_cards/fetch-payment-intent",
-            {
-                data: options
-            });
-    };
-
-    service.clearForm = function () {
-        // Clear form on success!
-        service.card.clear();
-        service.card.blur();
-    };
-
-    return service;
-});
+        return service;
+    });

@@ -30,12 +30,12 @@
                     <div class="item item-divider item-divider-custom text-center"
                          ng-bind-html="options.labels.amount | trusted_html">
                     </div>
-                    <div class="item item-custom">
-                        <span class="text-center"
-                              style="font-size: 26px; margin-top: 8px;">{{ ::options.payment.formattedAmount }}</span>
-                        <span ng-if="options.labels.amountExtra"
-                              class="text-center"
-                              style="margin-top: 15px;">{{ ::options.labels.amountExtra }}</span>
+                    <div class="item item-custom item-text-wrap">
+                        <p class="text-center"
+                           style="font-size: 26px; margin-top: 8px;">{{ ::options.payment.formattedAmount }}</p>
+                        <p ng-if="options.labels.amountExtra"
+                           class="text-center"
+                           style="margin-top: 15px;">{{ ::options.labels.amountExtra }}</p>
                     </div>
                     <div style="margin-bottom: 20px;"></div>
                 </div>

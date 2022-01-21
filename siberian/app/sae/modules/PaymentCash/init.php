@@ -18,13 +18,17 @@ $init = static function ($bootstrap) {
         path('app/sae/modules/PaymentCash/resources/translations/default/payment_cash.po'));
 
     Gateway::register('cash', [
-        'class' => '\PaymentCash\Model\Cash',
+        'class' => Cash::class,
         'aclCode' => 'payment_cash_settings',
         'label' => p__('payment_cash', 'Cash'),
         'url' => 'paymentcash/settings',
         'icon' => 'icon ion-cash',
-        'paymentMethod' => 'cash',
-        'shortName' => 'cash',
+        'paymentMethod' => Cash::$paymentMethod,
+        'shortName' => Cash::$shortName,
+        'accepts' => [
+            Gateway::PAY,
+            Gateway::AUTHORIZE /** Having authorize is a bypass, because there is no such thing */
+        ],
         'templateUrl' => './features/payment_cash/assets/templates/l1/payment-cash.html',
     ]);
 };

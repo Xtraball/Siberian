@@ -13,7 +13,7 @@ $schemas['payment_method_payment'] = [
         'auto_increment' => true,
         'primary' => true,
     ],
-    'method_class' => [
+    'method_code' => [
         'type' => 'varchar(256)',
         'charset' => 'utf-8',
         'collation' => 'utf8_unicode_ci',

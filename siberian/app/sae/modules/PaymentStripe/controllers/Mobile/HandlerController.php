@@ -2,17 +2,14 @@
 
 use Customer_Model_Customer as Customer;
 use PaymentMethod\Controller\AbstractMobilePaymentController;
-use PaymentMethod\Model\Payment;
 use PaymentStripe\Model\Application as PaymentStripeApplication;
 use PaymentStripe\Model\Customer as PaymentStripeCustomer;
 use PaymentStripe\Model\PaymentMethod as PaymentStripePaymentMethod;
-use PaymentStripe\Model\PaymentIntent as PaymentStripePaymentIntent;
+use PaymentStripe\Model\Log;
 use Siberian\Exception;
 use Siberian\Json;
 use Stripe\PaymentMethod;
 use Stripe\PaymentIntent;
-
-
 
 /**
  * Class PaymentStripe_Mobile_HandlerController
@@ -38,13 +35,17 @@ class PaymentStripe_Mobile_HandlerController
             }
 
             // Mobile app paymentMethod object!
-            $paymentMethodPayload = $data['payload'];
+            $paymentIntentId = $data['paymentIntentId'];
 
             PaymentStripeApplication::init($application->getId());
 
             // Attach the card (PaymentMethod) to the customer!
-            $paymentIntent = PaymentIntent::retrieve($paymentMethodPayload['paymentIntent']['id']);
-            $paymentIntent->confirm();
+            $paymentIntent = PaymentIntent::retrieve($paymentIntentId);
+
+            // Else nothing to do!
+            if ($paymentIntent->status === 'requires_confirmation') {
+                $paymentIntent->confirm();
+            }
 
             $payload = [
                 'success' => true,
@@ -63,7 +64,56 @@ class PaymentStripe_Mobile_HandlerController
 
     public function authorizationErrorAction()
     {
-        $this->__debug();
+        // Saving the new payment method (credit-card), that's all!
+        // Stripe add/remove cards is standalone!
+        try {
+            $application = $this->getApplication();
+            $request = $this->getRequest();
+            $session = $this->getSession();
+            $data = $request->getBodyParams();
+            $customerId = $session->getCustomerId();
+            $customer = (new Customer())->find($customerId);
+
+            if (!$customer || !$customer->getId()) {
+                throw new Exception(p__('payment_stripe',
+                    'Your session expired!'));
+            }
+
+            // Mobile app paymentMethod object!
+            $paymentIntentId = $data['paymentIntentId'];
+            $error = $data['error'];
+
+            // Logging the error ASAP
+            $log = new Log();
+            $log
+                ->setRawPayload(Json::encode($error))
+                ->save();
+
+            PaymentStripeApplication::init($application->getId());
+
+            // Attach the card (PaymentMethod) to the customer!
+            $paymentIntent = PaymentIntent::retrieve($paymentIntentId);
+
+            // Else nothing to do!
+            if ($paymentIntent->status === 'requires_confirmation') {
+                $paymentIntent->cancel([
+                    'cancellation_reason' => 'abandoned'
+                ]);
+            }
+
+            $payload = [
+                'success' => true,
+                'paymentIntent' => $paymentIntent
+            ];
+        } catch (\Exception $e) {
+            $payload = [
+                'error' => true,
+                'message' => $e->getMessage(),
+                'trace' => $e->getTrace()
+            ];
+        }
+
+        $this->_sendJson($payload);
     }
 
     public function captureSuccessAction()

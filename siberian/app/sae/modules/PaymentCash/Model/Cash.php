@@ -16,18 +16,18 @@ class Cash
     /**
      * @var string
      */
-    public static $paymentMethod = "cash";
+    public static $paymentMethod = 'cash';
 
     /**
      * @var string
      */
-    public static $shortName = "cash";
+    public static $shortName = 'cash';
 
     /**
      * @param null $appId
      * @return bool
      */
-    public function isSetup($appId = null)
+    public function isSetup($appId = null): bool
     {
         return Application::isEnabled($appId);
     }

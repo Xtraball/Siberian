@@ -1,35 +1,31 @@
 <div class="payment-stripe-cards">
     <div ng-repeat="card in cards track by $index"
          ng-if="!isLoading && cards.length > 0"
-         style="padding: 0 5px;"
-         class="item item-custom">
-        <div class="card-item row">
-            <div class="col-15">
-                <i class="icon">
-                    <img ng-src="{{ brand(card.brand) }}"
-                         alt="{{ card.brand }}"
-                         style="height: 60%; margin-right: 15px;" />
-                </i>
-            </div>
-            <div class="col-35">
-                <span class="saved-card">
-                    <span class="last-star">**** </span>
-                    <span class="last-four">{{ card.last }}</span>
-                    <span class="exp"> - {{ card.exp }}</span>
-                </span>
-            </div>
-            <div class="card-actions"
-                 ng-repeat="action in actions"
-                 ng-click="doAction(action, card)"
-                 ng-class="{'col-25': actions.length > 1, 'col-50': actions.length <= 1}">
-                <button ng-if="action == 'pay'"
-                        class="button button-full button-positive button-positive-custom">{{ ::'Pay' | translate:'payment_stripe' }}</button>
-                <button ng-if="action == 'authorize'"
-                        class="button button-full button-positive button-positive-custom">{{ ::'Authorize' | translate:'payment_stripe' }}</button>
-                <button ng-if="action == 'delete'"
-                        class="button button-full button-assertive button-assertive-custom">{{ ::'Delete' | translate:'payment_stripe' }}</button>
-            </div>
-        </div>
+         class="item item-custom item-icon-left item-button-right">
+        <i class="icon">
+            <img ng-src="{{ brand(card.brand) }}"
+                 alt="{{ card.brand }}"
+                 style="height: 60%; margin-right: 15px;" />
+        </i>
+
+        <span class="saved-card">
+            <span class="last-star">**** </span>
+            <span class="last-four">{{ card.last }}</span>
+            <span class="exp"> - {{ card.exp }}</span>
+        </span>
+
+        <button ng-if="actions[0] == ''"
+                ng-click="doAction('pay', card)"
+                style="margin-top: 3px;margin-right: -5px;"
+                class="button button-positive button-positive-custom">{{ ::'PAY' | translate:'payment_stripe' }}</button>
+        <button ng-if="actions[0] == 'authorize'"
+                ng-click="doAction('authorize', card)"
+                style="margin-top: 3px;margin-right: -5px;"
+                class="button button-positive button-positive-custom">{{ ::'AUTHORIZE' | translate:'payment_stripe' }}</button>
+        <button ng-if="actions[0] == 'delete'"
+                ng-click="doAction('delete', card)"
+                style="margin-top: 3px;margin-right: -5px;"
+                class="button button-assertive button-assertive-custom">{{ ::'DELETE' | translate:'payment_stripe' }}</button>
     </div>
 
     <div ng-if="!isLoading && cards.length == 0"

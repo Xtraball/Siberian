@@ -8,7 +8,10 @@
                  style="height: 60%; margin-right: 15px;" />
         </i>
         <b>{{ ::"Pay with card" | translate:"payment_cash" }}</b>
-        <i class="icon ion-android-arrow-forward"></i>
+        <i ng-if="!showPaymentForm"
+           class="icon ion-android-arrow-forward"></i>
+        <i ng-if="showPaymentForm"
+           class="icon ion-android-arrow-down"></i>
     </div>
 
     <div ng-show="showPaymentForm">

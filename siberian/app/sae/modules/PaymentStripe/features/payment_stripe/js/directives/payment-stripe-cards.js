@@ -70,10 +70,7 @@ angular
                         break;
                     case PaymentMethod.ACTION_PAY:
                         PaymentStripe
-                            .handleCardPayment({
-                                card: card,
-                                amount: $scope.$parent.options.payment.amount
-                            })
+                            .handleCardPayment(card, $scope.$parent.options)
                             .then(function (success) {
                                 defer.resolve(success);
                             }, function (error) {
@@ -82,10 +79,7 @@ angular
                         break;
                     case PaymentMethod.ACTION_AUTHORIZE:
                         PaymentStripe
-                            .handleCardAuthorization({
-                                card: card,
-                                amount: $scope.$parent.options.payment.amount
-                            })
+                            .handleCardAuthorization(card, $scope.$parent.options)
                             .then(function (success) {
                                 defer.resolve(success);
                             }, function (error) {

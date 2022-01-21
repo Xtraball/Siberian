@@ -10,6 +10,10 @@ angular
         });
 
         $scope.lineActionTrigger = function () {
+            if ($scope.showPaymentForm === true) {
+                $scope.showPaymentForm = false;
+                return;
+            }
             // Callback the main payment handler!
             if (typeof $scope.$parent.paymentModal.onSelect === 'function') {
                 $scope.$parent.paymentModal.onSelect({

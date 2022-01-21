@@ -149,8 +149,9 @@ class PaymentStripe_Mobile_CardsController extends Application_Controller_Mobile
             $customerId = $session->getCustomerId();
             $request = $this->getRequest();
             $data = $request->getBodyParams();
-            $amount = $data['amount'];
             $card = $data['card'];
+            $options = $data['options'];
+            $amount = $options['payment']['amount'];
 
             $currency = $application->getCurrency();
 
@@ -172,13 +173,15 @@ class PaymentStripe_Mobile_CardsController extends Application_Controller_Mobile
                 throw new \Siberian\Exception(p__('payment_stripe', 'There is an issue retrieving your card!'));
             }
 
+            $stripeAmount = PaymentStripeCurrency::getAmountForCurrency($amount, $currency);
             $paymentIntent = PaymentIntent::create([
                 'payment_method' => $paymentMethod->getToken(),
                 'currency' => $currency,
-                'confirmation_method' => 'manual',
+                'confirmation_method' => 'automatic',
                 'confirm' => true,
                 'capture_method' => 'manual',
-                'amount' => PaymentStripeCurrency::getAmountForCurrency($amount, $currency),
+                'setup_future_usage' => 'off_session',
+                'amount' => $stripeAmount,
                 'customer' => $stripeCustomer->getToken()
             ]);
 
@@ -188,18 +191,28 @@ class PaymentStripe_Mobile_CardsController extends Application_Controller_Mobile
                 ->setToken($paymentIntent['id'])
                 ->setPmToken($paymentMethod->getToken())
                 ->setPmId($paymentMethod->getId())
+                ->setCurrency($currency)
+                ->setConfirmationMethod('automatic')
+                ->setCaptureMethod('manual')
+                ->setSetupFutureUsage('off_session')
+                ->setAmount($amount)
+                ->setStripeAmount($stripeAmount)
+                ->setCustomerId($customerId)
+                ->setStripeCustomerToken($stripeCustomer->getToken())
                 ->setStatus($paymentIntent['status'])
                 ->save();
 
             // Attaching to a generic payment
             $payment = PaymentMethodPayment::createFromModal([
                 'id' => $stripePaymentIntent->getId(),
-                'method' => '\\PaymentStripe\\Model\\Stripe'
+                'code' => \PaymentStripe\Model\Stripe::$shortName
             ]);
 
             $payload = [
                 'success' => true,
-                'paymentIntent' => $paymentIntent,
+                'client_secret' => $paymentIntent['client_secret'],
+                'pi_status' => $paymentIntent['status'],
+                'pi_id' => $paymentIntent['id'],
                 'paymentId' => $payment->getId()
             ];
         } catch (\Exception $e) {
