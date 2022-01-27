@@ -14,7 +14,7 @@
             <span class="exp"> - {{ card.exp }}</span>
         </span>
 
-        <button ng-if="actions[0] == ''"
+        <button ng-if="actions[0] == 'pay'"
                 ng-click="doAction('pay', card)"
                 style="margin-top: 3px;margin-right: -5px;"
                 class="button button-positive button-positive-custom">{{ ::'PAY' | translate:'payment_stripe' }}</button>

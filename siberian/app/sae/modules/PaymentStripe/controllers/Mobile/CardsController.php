@@ -213,7 +213,7 @@ class PaymentStripe_Mobile_CardsController extends Application_Controller_Mobile
                 'client_secret' => $paymentIntent['client_secret'],
                 'pi_status' => $paymentIntent['status'],
                 'pi_id' => $paymentIntent['id'],
-                'paymentId' => $payment->getId()
+                'paymentId' => (integer) $payment->getId()
             ];
         } catch (\Exception $e) {
             $payload = [

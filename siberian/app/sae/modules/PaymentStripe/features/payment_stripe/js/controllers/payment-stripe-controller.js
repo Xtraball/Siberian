@@ -3,27 +3,23 @@
  */
 angular
     .module('starter')
-    .controller('PaymentStripeController', function ($scope) {
+    .controller('PaymentStripeController', function ($scope, PaymentStripe) {
         angular.extend($scope, {
             showForm: false,
             showPaymentForm: false
         });
 
-        $scope.lineActionTrigger = function () {
-            if ($scope.showPaymentForm === true) {
-                $scope.showPaymentForm = false;
-                return;
-            }
-            // Callback the main payment handler!
-            if (typeof $scope.$parent.paymentModal.onSelect === 'function') {
-                $scope.$parent.paymentModal.onSelect({
-                    method: '\\PaymentCash\\Model\\Stripe',
-                    type: 'credit-card',
-                    id: 'stripe'
-                });
-            }
+        $scope.onSelect = function () {
+            $scope.showPaymentForm = !$scope.showPaymentForm;
 
-            $scope.showPaymentForm = true;
+            try {
+                $scope.options.onSelect({
+                    paymentId: PaymentStripe.paymentId,
+                    shortName: 'stripe'
+                });
+            } catch (e) {
+                console.error('Something wrong occurred, please review your Stripe configuration.', e);
+            }
         };
 
         $scope.toggleForm = function () {

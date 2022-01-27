@@ -11,14 +11,15 @@ angular
             settings: null,
             isReadyPromise: $q.defer(),
             publishableKey: null,
-            setupIntent: null
+            setupIntent: null,
+            paymentId: null
         };
 
         service.onStart = function () {
             if (typeof Stripe === 'undefined') {
-                var stripeJS = document.createElement("script");
-                stripeJS.type = "text/javascript";
-                stripeJS.src = "https://js.stripe.com/v3/";
+                var stripeJS = document.createElement('script');
+                stripeJS.type = 'text/javascript';
+                stripeJS.src = 'https://js.stripe.com/v3/';
                 stripeJS.onload = function () {
                     service.isReadyPromise.resolve(Stripe);
 
@@ -166,6 +167,10 @@ angular
                 service
                     .fetchPaymentIntent(card, options)
                     .then(function (fpiSuccess) {
+
+                        // Saving the current paymentId!
+                        service.paymentId = fpiSuccess.paymentId;
+
                         // If requires "requires_confirmation" or "requires_action"
 
                         console.log('[REMOVE ME]', fpiSuccess, ['requires_confirmation', 'requires_action'].indexOf(fpiSuccess.pi_status));
@@ -254,6 +259,13 @@ angular
             var deferred = $q.defer();
 
             try {
+
+                var payMessage = options.labels.payLoaderMessage ?
+                    options.labels.payLoaderMessage :
+                    $translate.instant('Processing payment...', 'payment_stripe');
+
+                Loader.show(payMessage);
+
                 var displayError = document.getElementById('card_errors');
                 var displayErrorParent = document.getElementById('card_errors_parent');
 
