@@ -134,7 +134,8 @@ angular
 
                     service.card.removeEventListener('change');
                     service.card.addEventListener('change', function (event) {
-                        if (!event.complete) {
+                        if (!event.complete &&
+                            (event.error !== undefined)) {
                             displayErrorParent.classList.remove('ng-hide');
                             try {
                                 displayError.textContent = event.error.message;
@@ -229,7 +230,7 @@ angular
                     });
 
             } catch (tcError) {
-                console.log('[REMOVE ME]', 'caught f***ing error', tcError);
+                console.log('[tcError]', tcError);
                 deferred.reject(tcError);
             }
 
@@ -346,21 +347,17 @@ angular
                             })
                             .then(function (result) {
                                 Loader.hide();
+                                service.card.clear();
                                 if (result.error) {
-                                    // Inform the user there was an error!
-                                    // Inform the customer that there was an error.
                                     displayErrorParent.classList.remove('ng-hide');
                                     displayError.textContent = $translate.instant(result.error.message);
 
-                                    service.card.clear();
+                                    deferred.reject(result.error.message);
 
                                     return;
                                 }
                                 if (result.setupIntent &&
                                     result.setupIntent.status === 'succeeded') {
-
-                                    service.card.clear();
-
                                     displayErrorParent.classList.add('ng-hide');
                                     displayError.textContent = '';
 
@@ -369,9 +366,9 @@ angular
                                     service
                                         .setupSuccess(result)
                                         .then(function (success) {
-                                            Loader.hide();
+                                            deferred.resolve();
                                         }, function (error) {
-                                            Loader.hide();
+                                            deferred.reject(error);
                                         })
                                 }
                             });

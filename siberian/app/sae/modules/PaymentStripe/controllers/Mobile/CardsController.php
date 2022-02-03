@@ -152,8 +152,7 @@ class PaymentStripe_Mobile_CardsController extends Application_Controller_Mobile
             $card = $data['card'];
             $options = $data['options'];
             $amount = $options['payment']['amount'];
-
-            $currency = $application->getCurrency();
+            $currency = $options['payment']['currency'] ?? $application->getCurrency();
 
             $paymentMethod = (new PaymentStripePaymentMethod())->find($card['id']);
 
