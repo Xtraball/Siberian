@@ -4,6 +4,7 @@ namespace PaymentStripe\Model;
 
 use PaymentMethod\Model\GatewayAbstract;
 use PaymentMethod\Model\GatewayInterface;
+use PaymentStripe\Model\Application as PaymentStripeApplication;
 use Siberian\Exception;
 use Stripe\PaymentIntent as StripePaymentIntent;
 
@@ -39,6 +40,7 @@ class Stripe
      * @param array $params
      * @return PaymentIntent
      * @throws Exception
+     * @throws \Stripe\Exception\ApiErrorException
      * @throws \Zend_Exception
      */
     public function authorize(Customer $stripeCustomer, array $params): PaymentIntent

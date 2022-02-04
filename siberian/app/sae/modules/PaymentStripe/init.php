@@ -3,6 +3,7 @@
 use Siberian\Assets;
 use Siberian\Translation;
 use PaymentMethod\Model\Gateway;
+use PaymentStripe\Model\Stripe as PaymentStripe;
 
 class_alias('PaymentStripe\Model\Payment', 'PaymentStripe_Model_Payment');
 
@@ -17,13 +18,18 @@ $init = static function ($bootstrap) {
         path('app/sae/modules/PaymentStripe/resources/translations/default/payment_stripe.po'));
 
     Gateway::register('stripe', [
-        'class' => '\PaymentStripe\Model\Stripe',
+        'class' => PaymentStripe::class,
         'aclCode' => 'payment_stripe_settings',
         'label' => p__('payment_stripe', 'Stripe'),
         'url' => 'paymentstripe/settings',
         'icon' => 'icon ion-sb-stripe',
-        'paymentMethod' => 'credit-card',
-        'shortName' => 'stripe',
+        'paymentMethod' => PaymentStripe::$paymentMethod,
+        'shortName' => PaymentStripe::$shortName,
+        'accepts' => [
+            Gateway::PAY,
+            Gateway::AUTHORIZE,
+            Gateway::SUBSCRIPTION
+        ],
         'templateUrl' => './features/payment_stripe/assets/templates/l1/payment-stripe.html'
     ]);
 };

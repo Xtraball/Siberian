@@ -210,6 +210,13 @@ input[type="checkbox"] {
     visibility: hidden;
 }
 
+/** Mozilla really don't want to do pseudo css on inputs */
+@-moz-document url-prefix() {
+    input[type="checkbox"] {
+        visibility: visible;
+    }
+}
+
 input[type="checkbox"]:before {
     content: " ";
     display: block;

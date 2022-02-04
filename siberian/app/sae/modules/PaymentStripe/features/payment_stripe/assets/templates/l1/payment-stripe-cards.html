@@ -1,20 +1,31 @@
 <div class="payment-stripe-cards">
     <div ng-repeat="card in cards track by $index"
          ng-if="!isLoading && cards.length > 0"
-         ng-click="lineActionTrigger(card)"
-         class="item item-custom item-icon-left item-icon-right">
+         class="item item-custom item-icon-left item-button-right">
         <i class="icon">
             <img ng-src="{{ brand(card.brand) }}"
+                 alt="{{ card.brand }}"
                  style="height: 60%; margin-right: 15px;" />
         </i>
+
         <span class="saved-card">
             <span class="last-star">**** </span>
             <span class="last-four">{{ card.last }}</span>
             <span class="exp"> - {{ card.exp }}</span>
         </span>
-        <i ng-repeat="action in actions"
-           ng-click="actionCallback(action, card)"
-           class="{{ actionIcon(action) }}"></i>
+
+        <button ng-if="actions[0] == 'pay'"
+                ng-click="doAction('pay', card)"
+                style="margin-top: 3px;margin-right: -5px;"
+                class="button button-positive button-positive-custom">{{ ::'PAY' | translate:'payment_stripe' }}</button>
+        <button ng-if="actions[0] == 'authorize'"
+                ng-click="doAction('authorize', card)"
+                style="margin-top: 3px;margin-right: -5px;"
+                class="button button-positive button-positive-custom">{{ ::'AUTHORIZE' | translate:'payment_stripe' }}</button>
+        <button ng-if="actions[0] == 'delete'"
+                ng-click="doAction('delete', card)"
+                style="margin-top: 3px;margin-right: -5px;"
+                class="button button-assertive button-assertive-custom">{{ ::'DELETE' | translate:'payment_stripe' }}</button>
     </div>
 
     <div ng-if="!isLoading && cards.length == 0"

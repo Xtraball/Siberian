@@ -22,6 +22,21 @@ class Gateway extends Base
     public static $usedMobileGateways = [];
 
     /**
+     *
+     */
+    const PAY = 'pay';
+
+    /**
+     *
+     */
+    const AUTHORIZE = 'authorize';
+
+    /**
+     *
+     */
+    const SUBSCRIPTION = 'subscription';
+
+    /**
      * @param $code
      * @param array $options
      * @throws Exception
@@ -61,13 +76,14 @@ class Gateway extends Base
 
     /**
      * @param $code
-     * @return mixed
+     * @return GatewayAbstract|mixed
      * @throws Exception
+     * @throws \Zend_Exception
      */
     public static function get ($code)
     {
         if (array_key_exists($code, self::$gateways)) {
-            return new self::$gateways[$code]["class"]();
+            return new self::$gateways[$code]['class']();
         }
         throw new Exception(
             p__('payment_method', "This payment gateway doesn't exists, '%s'.", null, $code));
@@ -130,6 +146,7 @@ class Gateway extends Base
                 return true;
             }
         }
+        return false;
     }
 
     /**

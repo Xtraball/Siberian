@@ -12,14 +12,9 @@ use PaymentStripe\Model\PaymentIntent as PaymentStripePaymentIntent;
 
 use PaymentMethod\Model\Payment as PaymentMethodPayment;
 
-use Stripe\Stripe;
 use Stripe\SetupIntent;
 use Stripe\PaymentIntent;
 use Stripe\PaymentMethod;
-use Stripe\Customer as StripeCustomer;
-use Stripe\Error\InvalidRequest;
-
-use Cabride\Model\Client;
 
 /**
  * Class PaymentStripe_Mobile_CardsController
@@ -51,32 +46,32 @@ class PaymentStripe_Mobile_CardsController extends Application_Controller_Mobile
 
             // Attach the card (PaymentMethod) to the customer!
             $paymentMethod = PaymentMethod::retrieve($paymentMethodPayload['setupIntent']['payment_method']);
-            $paymentMethod->attach(["customer" => $stripeCustomer->getToken()]);
+            $paymentMethod->attach(['customer' => $stripeCustomer->getToken()]);
 
             // Search for a similar card!
             $similarCards = (new PaymentStripePaymentMethod())->findAll([
-                'exp = ?' => $paymentMethod['card']['exp_month'] . "/" . substr($paymentMethod['card']['exp_year'], 2),
-                "last = ?" => $paymentMethod["card"]["last4"],
-                "brand LIKE ?" => $paymentMethod["card"]["brand"],
-                "stripe_customer_id = ?" => $stripeCustomer->getId(),
-                "type = ?" => PaymentStripePaymentMethod::TYPE_CREDIT_CARD,
-                "is_removed = ?" => "0",
+                'exp = ?' => $paymentMethod['card']['exp_month'] . '/' . substr($paymentMethod['card']['exp_year'], 2),
+                'last = ?' => $paymentMethod['card']['last4'],
+                'brand LIKE ?' => $paymentMethod['card']['brand'],
+                'stripe_customer_id = ?' => $stripeCustomer->getId(),
+                'type = ?' => PaymentStripePaymentMethod::TYPE_CREDIT_CARD,
+                'is_removed = ?' => '0',
             ]);
 
             if ($similarCards->count() > 0) {
                 throw new Exception(p__(
-                    "payment_stripe",
-                    "Seems you already added this card! If the error persists, please remove the existing card first, then add it again."));
+                    'payment_stripe',
+                    'Seems you already added this card! If the error persists, please remove the existing card first, then add it again.'));
             }
 
             $card = new PaymentStripePaymentMethod();
             $card
                 ->setStripeCustomerId($stripeCustomer->getId())
                 ->setType(PaymentStripePaymentMethod::TYPE_CREDIT_CARD)
-                ->setBrand($paymentMethod["card"]["brand"])
-                ->setExp($paymentMethod["card"]["exp_month"] . "/" . substr($paymentMethod["card"]["exp_year"], 2))
-                ->setLast($paymentMethod["card"]["last4"])
-                ->setPaymentMethod($paymentMethod["id"])
+                ->setBrand($paymentMethod['card']['brand'])
+                ->setExp($paymentMethod['card']['exp_month'] . '/' . substr($paymentMethod['card']['exp_year'], 2))
+                ->setLast($paymentMethod['card']['last4'])
+                ->setPaymentMethod($paymentMethod['id'])
                 ->setRawPayload(Json::encode($paymentMethod))
                 ->setIsRemoved(0)
                 ->save();
@@ -92,15 +87,15 @@ class PaymentStripe_Mobile_CardsController extends Application_Controller_Mobile
             }
 
             $payload = [
-                "success" => true,
-                "lastCardId" => $card->getId(),
-                "cards" => $cards
+                'success' => true,
+                'lastCardId' => $card->getId(),
+                'cards' => $cards
             ];
         } catch (\Exception $e) {
             $payload = [
-                "error" => true,
-                "message" => $e->getMessage(),
-                "trace" => $e->getTrace()
+                'error' => true,
+                'message' => $e->getMessage(),
+                'trace' => $e->getTrace()
             ];
         }
 
@@ -108,7 +103,7 @@ class PaymentStripe_Mobile_CardsController extends Application_Controller_Mobile
     }
 
     /**
-     *
+     * @throws Zend_Controller_Response_Exception
      */
     public function fetchSetupIntentAction ()
     {
@@ -118,21 +113,25 @@ class PaymentStripe_Mobile_CardsController extends Application_Controller_Mobile
             $customerId = $session->getCustomerId();
 
             PaymentStripeApplication::init($application->getId());
+
+            // Here we create the customer in the Stripe account
             $stripeCustomer = PaymentStripeCustomer::getForCustomerId($customerId);
 
             $setupIntent = SetupIntent::create([
-                "payment_method_types" => ["card"],
-                "customer" => $stripeCustomer->getToken()
+                'payment_method_types' => [
+                    'card'
+                ],
+                'customer' => $stripeCustomer->getToken()
             ]);
 
             $payload = [
-                "success" => true,
-                "setupIntent" => $setupIntent
+                'success' => true,
+                'setupIntent' => $setupIntent
             ];
         } catch (\Exception $e) {
             $payload = [
-                "error" => true,
-                "message" => $e->getMessage()
+                'error' => true,
+                'message' => $e->getMessage()
             ];
         }
 
@@ -150,50 +149,75 @@ class PaymentStripe_Mobile_CardsController extends Application_Controller_Mobile
             $customerId = $session->getCustomerId();
             $request = $this->getRequest();
             $data = $request->getBodyParams();
-            $amount = $data["amount"];
-            $card = $data["card"];
+            $card = $data['card'];
+            $options = $data['options'];
+            $amount = $options['payment']['amount'];
+            $currency = $options['payment']['currency'] ?? $application->getCurrency();
 
-            $currency = $application->getCurrency();
+            $paymentMethod = (new PaymentStripePaymentMethod())->find($card['id']);
 
-            $paymentMethod = (new PaymentStripePaymentMethod())->find($card["id"]);
+            if (!$paymentMethod || !$paymentMethod->getId()) {
+                throw new \Siberian\Exception(p__('payment_stripe', 'This card no longer exists!'));
+            }
+
+            $paymentMethodToken = trim($paymentMethod->getToken());
+            if (empty($paymentMethodToken)) {
+                throw new \Siberian\Exception(p__('payment_stripe', 'This card no longer exists!'));
+            }
 
             PaymentStripeApplication::init($application->getId());
             $stripeCustomer = PaymentStripeCustomer::getForCustomerId($customerId);
 
+            if (!$stripeCustomer || !$stripeCustomer->getId()) {
+                throw new \Siberian\Exception(p__('payment_stripe', 'There is an issue retrieving your card!'));
+            }
+
+            $stripeAmount = PaymentStripeCurrency::getAmountForCurrency($amount, $currency);
             $paymentIntent = PaymentIntent::create([
-                "payment_method" => $paymentMethod->getToken(),
-                "currency" => $currency,
-                "confirmation_method" => "manual",
-                "confirm" => true,
-                "capture_method" => "manual",
-                "amount" => PaymentStripeCurrency::getAmountForCurrency($amount, $currency),
-                "customer" => $stripeCustomer->getToken()
+                'payment_method' => $paymentMethod->getToken(),
+                'currency' => $currency,
+                'confirmation_method' => 'automatic',
+                'confirm' => true,
+                'capture_method' => 'manual',
+                'setup_future_usage' => 'off_session',
+                'amount' => $stripeAmount,
+                'customer' => $stripeCustomer->getToken()
             ]);
 
             $stripePaymentIntent = new PaymentStripePaymentIntent();
             $stripePaymentIntent
                 ->setStripeCustomerId($stripeCustomer->getId())
-                ->setToken($paymentIntent["id"])
+                ->setToken($paymentIntent['id'])
                 ->setPmToken($paymentMethod->getToken())
                 ->setPmId($paymentMethod->getId())
-                ->setStatus($paymentIntent["status"])
+                ->setCurrency($currency)
+                ->setConfirmationMethod('automatic')
+                ->setCaptureMethod('manual')
+                ->setSetupFutureUsage('off_session')
+                ->setAmount($amount)
+                ->setStripeAmount($stripeAmount)
+                ->setCustomerId($customerId)
+                ->setStripeCustomerToken($stripeCustomer->getToken())
+                ->setStatus($paymentIntent['status'])
                 ->save();
 
             // Attaching to a generic payment
             $payment = PaymentMethodPayment::createFromModal([
-                "id" => $stripePaymentIntent->getId(),
-                "method" => "\\PaymentStripe\\Model\\Stripe"
+                'id' => $stripePaymentIntent->getId(),
+                'code' => \PaymentStripe\Model\Stripe::$shortName
             ]);
 
             $payload = [
-                "success" => true,
-                "paymentIntent" => $paymentIntent,
-                "paymentId" => $payment->getId()
+                'success' => true,
+                'client_secret' => $paymentIntent['client_secret'],
+                'pi_status' => $paymentIntent['status'],
+                'pi_id' => $paymentIntent['id'],
+                'paymentId' => (integer) $payment->getId()
             ];
         } catch (\Exception $e) {
             $payload = [
-                "error" => true,
-                "message" => $e->getMessage()
+                'error' => true,
+                'message' => $e->getMessage()
             ];
         }
 

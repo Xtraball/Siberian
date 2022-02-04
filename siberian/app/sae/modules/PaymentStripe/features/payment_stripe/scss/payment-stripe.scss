@@ -14,3 +14,15 @@
   user-select: all !important;
   pointer-events: all !important;
 }
+
+.payment-stripe-cards {
+  .card-item {
+    padding: 0;
+    margin: -1px;
+  }
+  .card-actions {
+    button {
+      margin: 0;
+    }
+  }
+}
