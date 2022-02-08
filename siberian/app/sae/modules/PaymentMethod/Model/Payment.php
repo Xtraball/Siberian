@@ -38,7 +38,7 @@ class Payment extends Base
      * @return Payment|null
      * @throws \Zend_Exception
      */
-    public static function createFromModal($paymentId)
+    public static function createOrGetFromModal($paymentId)
     {
         if (is_array($paymentId)) {
             $instance = new self();

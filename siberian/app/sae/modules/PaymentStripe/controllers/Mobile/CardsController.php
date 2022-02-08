@@ -202,7 +202,7 @@ class PaymentStripe_Mobile_CardsController extends Application_Controller_Mobile
                 ->save();
 
             // Attaching to a generic payment
-            $payment = PaymentMethodPayment::createFromModal([
+            $payment = PaymentMethodPayment::createOrGetFromModal([
                 'id' => $stripePaymentIntent->getId(),
                 'code' => \PaymentStripe\Model\Stripe::$shortName
             ]);
