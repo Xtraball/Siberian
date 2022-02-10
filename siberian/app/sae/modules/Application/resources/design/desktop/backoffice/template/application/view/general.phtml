@@ -184,6 +184,20 @@ $globalEditor = __get("application_free_trial_editor") === "1";
             </div>
         </div>
 
+        <div class="col-md-6">
+            <div class="form-group">
+                <div class="checkbox">
+                    <label for="request_tracking_authorization">
+                        <input type="checkbox"
+                               id="request_tracking_authorization"
+                               ng-model="tmp_application.request_tracking_authorization"
+                               ng-checked="tmp_application.request_tracking_authorization"/>
+                        <?php echo p__('application', 'Enforce ATT (App Tracking Transparency) modal for iOS 14+ Apps without AdMob'); ?>
+                    </label>
+                </div>
+            </div>
+        </div>
+
         <div class="col-md-12">
             <div class="form-group">
                 <button type="submit"
