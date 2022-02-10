@@ -181,21 +181,24 @@ $formSettings->setValueId($option->getId());
                                         </td>
                                     </tr>
                                     <tr id="details_<?php echo $message->getId(); ?>"
+                                        rel="push_details"
                                         style="display: none;">
                                         <td colspan="6">
-                                            <b><?php echo __('Title'); ?>:</b> <?php echo $message->getTitle(); ?>
+                                            <b><?php echo __('Title'); ?></b> <?php echo $message->getTitle(); ?>
                                             <br/>
-                                            <b><?php echo __('Message'); ?>:</b> <?php echo $message->getText(); ?>
+                                            <b><?php echo __('Message'); ?></b> <?php echo $message->getText(); ?>
                                             <br/>
                                             <b><?php echo __('Creation date'); ?>
-                                                :</b> <?php echo datetime_to_format($message->getCreatedAt(), Zend_Date::DATETIME_MEDIUM); ?>
+                                                </b> <?php echo datetime_to_format($message->getCreatedAt(), Zend_Date::DATETIME_MEDIUM); ?>
                                             <br/>
                                             <?php if ((!empty($message->getSendAt())) && ($message->getStatus() !== 'delivered')): ?>
                                                 <b><?php echo __('Sending date'); ?>
-                                                    :</b> <?php echo __("Scheduled for <i>%s</i>", datetime_to_format($message->getCreatedAt(), Zend_Date::DATETIME_MEDIUM)); ?>
+                                                    </b> <?php echo __("Scheduled for <i>%s</i>", datetime_to_format($message->getCreatedAt(), Zend_Date::DATETIME_MEDIUM)); ?>
                                             <?php else: ?>
                                                 <b><?php echo __('Sending date'); ?>
-                                                    :</b> <?php echo ($message->getStatus() == 'delivered') ? $message->getFormattedDeliveredAt() : __(ucfirst($message->getStatus())); ?>
+                                                    </b> <?php echo ($message->getStatus() == 'delivered') ?
+                                                    datetime_to_format($message->getDeliveredAt(), Zend_Date::DATETIME_MEDIUM) :
+                                                    __(ucfirst($message->getStatus())); ?>
                                             <?php endif; ?>
                                         </td>
                                     </tr>
@@ -710,10 +713,11 @@ $formSettings->setValueId($option->getId());
 
             $('table.sb-pager')
             .sbpager({
-                items_per_page: 25,
+                items_per_page: 15,
                 with_search: true,
                 search_placeholder: "<?php echo __('Search, filter ...') ?>",
                 callback_goto_page: function () {
+                    $("[rel='push_details']").hide();
                 }
             });
 
@@ -1087,10 +1091,16 @@ $formSettings->setValueId($option->getId());
         };
 
         /** Toggle more informations */
-        $("i.toggle-more").click(function () {
-            var msgid = $(this).data("msgid");
-
+        $("i.toggle-more").off('click');
+        $("i.toggle-more").on('click', function () {
+            var msgid = $(this).data('msgid');
             var details = $('#details_' + msgid);
+
+            $("[rel='push_details']").hide();
+
+            // Replace it after the correct element*
+            $('#details_' + msgid).insertAfter($('#push_actions_' + msgid));
+
             if (details.is(":visible")) {
                 details.slideUp();
             } else {
@@ -1099,7 +1109,8 @@ $formSettings->setValueId($option->getId());
         });
 
         /** Delete handler */
-        $("i.delete-msg").click(function () {
+        $("i.delete-msg").off('click');
+        $("i.delete-msg").on('click', function () {
             var msgid = $(this).data("msgid");
 
             deleteMessage(msgid);
@@ -1140,6 +1151,17 @@ $formSettings->setValueId($option->getId());
             list-style: none;
             margin: 0;
             padding: 0;
+        }
+
+        [rel="push_details"] td {
+            border-top: 1px solid #b7b7b7 !important;
+            background: #ededed;
+            border-bottom: 1px solid #b7b7b7 !important;
+            color: #5c5c5c;
+        }
+        [rel="push_details"] td b {
+            width: 180px;
+            display: inline-block;
         }
     </style>
 </div>
