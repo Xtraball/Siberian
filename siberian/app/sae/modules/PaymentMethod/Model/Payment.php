@@ -25,12 +25,24 @@ class Payment extends Base
             $id = $this->getMethodId();
 
             $gateway = Gateway::get($code);
-            $gateway->getPaymentById($id);
+            return $gateway->getPaymentById($id);
         } catch (\Exception $e) {
             return null;
         }
+    }
 
-        return null;
+    /**
+     * @return GatewayAbstract|null
+     */
+    public function gateway ()
+    {
+        try {
+            $code = $this->getMethodCode();
+
+            return Gateway::get($code);
+        } catch (\Exception $e) {
+            return null;
+        }
     }
 
     /**

@@ -145,6 +145,7 @@ class PaymentStripe_Mobile_CardsController extends Application_Controller_Mobile
     {
         try {
             $application = $this->getApplication();
+            $appId = $application->getId();
             $session = $this->getSession();
             $customerId = $session->getCustomerId();
             $request = $this->getRequest();
@@ -165,7 +166,7 @@ class PaymentStripe_Mobile_CardsController extends Application_Controller_Mobile
                 throw new \Siberian\Exception(p__('payment_stripe', 'This card no longer exists!'));
             }
 
-            PaymentStripeApplication::init($application->getId());
+            PaymentStripeApplication::init($appId);
             $stripeCustomer = PaymentStripeCustomer::getForCustomerId($customerId);
 
             if (!$stripeCustomer || !$stripeCustomer->getId()) {
@@ -186,8 +187,9 @@ class PaymentStripe_Mobile_CardsController extends Application_Controller_Mobile
 
             $stripePaymentIntent = new PaymentStripePaymentIntent();
             $stripePaymentIntent
+                ->setAppId($appId)
                 ->setStripeCustomerId($stripeCustomer->getId())
-                ->setToken($paymentIntent['id'])
+                ->setData('token', $paymentIntent->id)
                 ->setPmToken($paymentMethod->getToken())
                 ->setPmId($paymentMethod->getId())
                 ->setCurrency($currency)

@@ -54,6 +54,14 @@ class PaymentIntent extends Base
     }
 
     /**
+     * @throws \Zend_Exception
+     */
+    public function getPaymentMethod()
+    {
+        return (new \PaymentStripe\Model\PaymentMethod())->find($this->getPmId());
+    }
+
+    /**
      * @return array|string
      * @throws Exception
      * @throws \Zend_Exception

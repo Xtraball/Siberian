@@ -13,6 +13,10 @@ $schemas['payment_stripe_log'] = [
         'auto_increment' => true,
         'primary' => true,
     ],
+    'message' => [
+        'type' => 'text',
+        'null' => true,
+    ],
     'raw_payload' => [
         'type' => 'longtext',
         'null' => true,

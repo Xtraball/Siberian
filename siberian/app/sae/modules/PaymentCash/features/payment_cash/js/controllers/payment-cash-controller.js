@@ -9,8 +9,6 @@ angular
         });
 
         $scope.onSelect = function () {
-            $scope.showPaymentForm = !$scope.showPaymentForm;
-
             try {
                 Dialog
                     .confirm('Confirmation', 'Are you sure you want to pay with cash?', ['Yes, continue', 'No'], 'text-center', 'payment_cash')
@@ -27,7 +25,7 @@ angular
                         }
                     });
             } catch (e) {
-                console.error('Something wrong occurred, please review your Stripe configuration.', e);
+                console.error('Something wrong occurred, please review your Cash configuration.', e);
             }
         };
     });

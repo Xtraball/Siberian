@@ -22,6 +22,15 @@ $schemas['payment_stripe_payment_intent'] = [
             'is_unique' => false,
         ],
     ],
+    'app_id' => [
+        'type' => 'int(11) unsigned',
+        'index' => [
+            'key_name' => 'PSPI_KEY_APP_ID',
+            'index_type' => 'BTREE',
+            'is_null' => false,
+            'is_unique' => false,
+        ],
+    ],
     'token' => [
         'type' => 'varchar(128)',
         'charset' => 'utf-8',
