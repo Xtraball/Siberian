@@ -42,6 +42,16 @@ class Cash
 
     }
 
+    /**
+     * @param null $intent
+     * @param array $params
+     */
+    public function capture($intent = null, $params = [])
+    {
+        // Placeholder method to match siblings*
+        // It's cash, so there is nothing to capture.
+    }
+
     public function captureSuccess()
     {
 
