@@ -1,9 +1,13 @@
-/* global
-    App, angular, window
+/**
+ * sbPageBackground
+ *
+ * @author Xtraball SAS <dev@xtraball.com>
+ * @version 4.20.27
  */
-
-angular.module('starter').directive('sbPageBackground', function ($rootScope, $state, $stateParams, $pwaRequest,
-                                                                  $session, $timeout, $window, Application) {
+angular
+    .module('starter')
+    .directive('sbPageBackground', function ($rootScope, $state, $stateParams, $pwaRequest, $session, $timeout,
+                                             $window, $injector, Application) {
     var init = false,
         isUpdating = false,
         deviceScreen = $session.getDeviceScreen(),
@@ -36,7 +40,12 @@ angular.module('starter').directive('sbPageBackground', function ($rootScope, $s
     return {
         restrict: 'A',
         controller: function ($scope) {
-            $scope.valueId = ($state.current.name === 'home') ? 'home' : $stateParams.value_id;
+            $scope.valueId = $stateParams.value_id;
+            if ($state.current.name === 'padlock') {
+                $scope.valueId = $injector.get('Padlock').value_id;
+            } else if ($state.current.name === 'home') {
+                $scope.valueId = 'home';
+            }
         },
         link: function (scope, element) {
             var networkDone = false;

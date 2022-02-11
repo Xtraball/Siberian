@@ -1,9 +1,12 @@
-/* global
-    angular, BASE_PATH
+/**
+ * PadlockController
+ *
+ * @author Xtraball SAS <dev@xtraball.com>
+ * @version 4.20.27
  */
-
-angular.module('starter').controller('PadlockController', function ($scope, $stateParams, $q, Customer, Dialog,
-                                                                    Padlock, Pages) {
+angular
+    .module('starter')
+    .controller('PadlockController', function ($scope, $stateParams, $q, Customer, Dialog, Padlock, Pages) {
     angular.extend($scope, {
         is_loading: true,
         is_logged_in: Customer.isLoggedIn()
