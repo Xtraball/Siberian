@@ -212,10 +212,6 @@
 		<string>audio</string>
 		<string>remote-notification</string>
 	</array>
-	<key>BGTaskSchedulerPermittedIdentifiers</key>
-	<array>
-		<string>$(PRODUCT_BUNDLE_IDENTIFIER)</string>
-	</array>
 	<key>NSLocationAlwaysAndWhenInUseUsageDescription</key>
 	<string>Background location is used to send you geolocated push notifications.</string>
 	<key>NSLocationAlwaysUsageDescription</key>

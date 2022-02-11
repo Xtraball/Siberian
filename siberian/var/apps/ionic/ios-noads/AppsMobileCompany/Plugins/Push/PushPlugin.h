@@ -50,6 +50,7 @@
 @property (nonatomic, copy) NSString *callback;
 
 @property (nonatomic, strong) NSDictionary *notificationMessage;
+@property (nonatomic, strong) NSString *soundName;
 @property BOOL isInline;
 @property BOOL coldstart;
 @property BOOL clearBadge;
