@@ -427,7 +427,7 @@ if (!($this->getMode()=="management")) {
     <?php endif; ?>
 </div>
 
-<?php if (isGdpr()): ?>
+<?php if (isGdpr() && $admin->getId()): ?>
     <!-- RGPD -->
     <div class="row">
         <div class="col-md-12">
