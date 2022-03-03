@@ -192,7 +192,7 @@ NSString *const pushPluginApplicationDidBecomeActiveNotification = @"pushPluginA
     // Enforces sound with localNotification in foreground!
     SystemSoundID soundID;
     CFBundleRef mainBundle = CFBundleGetMainBundle();
-    CFURLRef ref = CFBundleCopyResourceURL(mainBundle, (CFStringRef)@"sb_beep4.caf", NULL, NULL);
+    CFURLRef ref = CFBundleCopyResourceURL(mainBundle, (CFStringRef)pushHandler.soundName, NULL, NULL);
     AudioServicesCreateSystemSoundID(ref, &soundID);
     AudioServicesPlaySystemSound(soundID);
 

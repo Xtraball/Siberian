@@ -37,6 +37,7 @@
 @synthesize notificationMessage;
 @synthesize isInline;
 @synthesize coldstart;
+@synthesize soundName;
 
 @synthesize callbackId;
 @synthesize notificationCallbackId;
@@ -202,6 +203,7 @@
 
             id badgeArg = [iosOptions objectForKey:@"badge"];
             id soundArg = [iosOptions objectForKey:@"sound"];
+            id soundNameArg = [iosOptions objectForKey:@"soundname"];
             id alertArg = [iosOptions objectForKey:@"alert"];
             id criticalArg = [iosOptions objectForKey:@"critical"];
             id clearBadgeArg = [iosOptions objectForKey:@"clearBadge"];
@@ -214,6 +216,12 @@
             if (([soundArg isKindOfClass:[NSString class]] && [soundArg isEqualToString:@"true"]) || [soundArg boolValue])
             {
                 authorizationOptions |= UNAuthorizationOptionSound;
+            }
+
+            self.soundName = @"sb_beep4"; // Default sound name!
+            if ([soundNameArg isKindOfClass:[NSString class]])
+            {
+                self.soundName = soundNameArg;
             }
 
             if (([alertArg isKindOfClass:[NSString class]] && [alertArg isEqualToString:@"true"]) || [alertArg boolValue])

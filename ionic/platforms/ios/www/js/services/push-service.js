@@ -3,7 +3,7 @@
  *
  * @author Xtraball SAS
  *
- * @version 4.18.20
+ * @version 4.20.28
  */
 angular
     .module('starter')
@@ -19,14 +19,17 @@ angular
                 senderID: '01234567890',
                 icon: 'ic_icon',
                 iconColor: '#0099C7',
-                sound: 'sb_beep4',
+                sound: true,
+                soundname: 'sb_beep4',
                 vibrate: true
             },
             ios: {
-                clearBadge: true,
+                clearBadge: false,
+                critical: Application.useCriticalPush,
                 alert: true,
                 badge: true,
-                sound: 'sb_beep4'
+                sound: true,
+                soundname: 'sb_beep4',
             },
             windows: {}
         }

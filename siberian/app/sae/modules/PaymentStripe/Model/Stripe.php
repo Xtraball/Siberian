@@ -4,7 +4,9 @@ namespace PaymentStripe\Model;
 
 use PaymentMethod\Model\GatewayAbstract;
 use PaymentMethod\Model\GatewayInterface;
+use PaymentStripe\Model\Application as PaymentStripeApplication;
 use Siberian\Exception;
+use Siberian\Json;
 use Stripe\PaymentIntent as StripePaymentIntent;
 
 /**
@@ -37,29 +39,10 @@ class Stripe
     /**
      * @param Customer $stripeCustomer
      * @param array $params
-     * @return PaymentIntent
-     * @throws Exception
-     * @throws \Zend_Exception
      */
-    public function authorize(Customer $stripeCustomer, array $params): PaymentIntent
+    public function authorize(Customer $stripeCustomer, array $params)
     {
-        $stripePaymentIntent = StripePaymentIntent::create($params);
 
-        $paymentIntent = new PaymentIntent();
-        $paymentIntent
-            ->setStripeCustomerId($stripeCustomer->getId())
-            ->setToken($stripePaymentIntent['id'])
-            ->setStatus($stripePaymentIntent['status'])
-            ->setIsRemoved(0)
-            ->save();
-
-        if (!in_array($stripePaymentIntent['status'], ['requires_capture', 'requires_action']) ) {
-            throw new Exception(p__('cabride',
-                "The payment authorization was declined, '%s'",
-                $stripePaymentIntent['status']));
-        }
-
-        return $paymentIntent;
     }
 
     public function authorizationSuccess()
@@ -72,9 +55,37 @@ class Stripe
 
     }
 
-    public function capture()
+    /**
+     * @param null $intent
+     * @param array $params
+     * @throws Exception
+     * @throws \Zend_Exception
+     */
+    public function capture($intent = null, $params = [])
     {
+        try {
+            $appId = $intent->getAppId();
 
+            // Init stripe
+            PaymentStripeApplication::init($appId);
+
+            $paymentIntent = StripePaymentIntent::retrieve($intent->getData('token'));
+            $paymentIntent->capture($params);
+
+            // Update DB intent*
+            $intent
+                ->setStatus($paymentIntent->status)
+                ->save();
+
+        } catch (\Exception $e) {
+            $log = new Log();
+            $log
+                ->setMessage($e->getMessage())
+                ->setRawPayload(Json::encode($e->getTrace()))
+                ->save();
+
+            throw new \Siberian\Exception(p__('payment_stripe', 'Something went wrong while capturing the payment intent'));
+        }
     }
 
     public function captureSuccess()
