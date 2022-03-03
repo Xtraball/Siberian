@@ -511,6 +511,7 @@ class Assets
             $civility = array_key_exists('use_civility', $feature) ? (bool) $feature['use_civility'] : false;
             $mobile = array_key_exists('use_mobile', $feature) ? (bool) $feature['use_mobile'] : false;
             $birthdate = array_key_exists('use_birthdate', $feature) ? (bool) $feature['use_birthdate'] : false;
+            $critical_push = array_key_exists('use_critical_push', $feature) ? (bool) $feature['use_critical_push'] : false;
 
             $feature_dir = './features/' . $code;
 
@@ -571,6 +572,7 @@ class Assets
                 'use_civility' => $civility,
                 'use_mobile' => $mobile,
                 'use_birthdate' => $birthdate,
+                'use_critical_push' => $critical_push,
             ];
 
             if (array_key_exists('position', $feature)) {

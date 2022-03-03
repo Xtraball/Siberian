@@ -19,6 +19,7 @@
             <div ng-class="{'card': card_design}"
                  ng-repeat="item in collection">
                 <ion-item class="item-custom"
+                          ng-click="showItem(item)"
                           ng-class="{ 'item-avatar item-avatar-square': item.icon }">
                     <img ng-src="{{ item.icon }}"
                          alt="{{ item.icon }}"
@@ -37,7 +38,7 @@
                        ng-bind-html="item.message"
                        class="text-no-wrap"></p>
 
-                    <div ng-click="showItem(item)">
+                    <div>
                         <img ng-src="{{ item.picture }}"
                              alt="{{ item.picture }}"
                              style="width: 100%; height: auto;"

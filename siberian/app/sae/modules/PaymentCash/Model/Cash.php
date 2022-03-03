@@ -16,18 +16,18 @@ class Cash
     /**
      * @var string
      */
-    public static $paymentMethod = "cash";
+    public static $paymentMethod = 'cash';
 
     /**
      * @var string
      */
-    public static $shortName = "cash";
+    public static $shortName = 'cash';
 
     /**
      * @param null $appId
      * @return bool
      */
-    public function isSetup($appId = null)
+    public function isSetup($appId = null): bool
     {
         return Application::isEnabled($appId);
     }
@@ -40,6 +40,16 @@ class Cash
     public function authorizationError()
     {
 
+    }
+
+    /**
+     * @param null $intent
+     * @param array $params
+     */
+    public function capture($intent = null, $params = [])
+    {
+        // Placeholder method to match siblings*
+        // It's cash, so there is nothing to capture.
     }
 
     public function captureSuccess()

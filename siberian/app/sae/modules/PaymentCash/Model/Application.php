@@ -15,16 +15,9 @@ use Siberian\Exception;
 class Application extends Base
 {
     /**
-     * Application constructor.
-     * @param array $params
-     * @throws \Zend_Exception
+     * @var string
      */
-    public function __construct($params = [])
-    {
-        parent::__construct($params);
-        $this->_db_table = "PaymentCash\Model\Db\Table\Application";
-        return $this;
-    }
+    protected $_db_table = Db\Table\Application::class;
 
     /**
      * @param null $appId

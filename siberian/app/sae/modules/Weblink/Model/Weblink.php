@@ -47,7 +47,10 @@ class Weblink_Model_Weblink extends Core_Model_Default
         if ($this->getId()) {
 
             $baseUrl = $optionValue->getBaseUrl();
-            $payload['weblink']['cover_url'] = $baseUrl . $this->getCoverUrl();
+            if (!empty($this->getCoverUrl())) {
+                $payload['weblink']['cover_url'] = $baseUrl . $this->getCoverUrl();
+            }
+
 
             try {
                 $settings = \Siberian_Json::decode($optionValue->getSettings());

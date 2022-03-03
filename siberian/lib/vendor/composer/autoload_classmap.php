@@ -6,6 +6,7 @@ $vendorDir = dirname(dirname(__FILE__));
 $baseDir = dirname(dirname($vendorDir));
 
 return array(
+    'Composer\\InstalledVersions' => $vendorDir . '/composer/InstalledVersions.php',
     'QrReader' => $vendorDir . '/khanamiryan/qrcode-detector-decoder/lib/QrReader.php',
     'Zebra_Image' => $vendorDir . '/stefangabos/zebra_image/Zebra_Image.php',
     'Zxing\\Binarizer' => $vendorDir . '/khanamiryan/qrcode-detector-decoder/lib/Binarizer.php',

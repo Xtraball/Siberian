@@ -3,10 +3,10 @@
  *
  * Schema definition for 'payment_stripe_payment_method'
  *
- * Last update: 2019-09-11
+ * Last update: 2021-10-11
  *
  */
-$schemas = (!isset($schemas)) ? [] : $schemas;
+$schemas = $schemas ?? [];
 $schemas['payment_stripe_payment_method'] = [
     'stripe_payment_method_id' => [
         'type' => 'int(11) unsigned',
@@ -23,6 +23,11 @@ $schemas['payment_stripe_payment_method'] = [
         ],
     ],
     'token' => [
+        'type' => 'varchar(128)',
+        'charset' => 'utf-8',
+        'collation' => 'utf8_unicode_ci',
+    ],
+    'test_token' => [
         'type' => 'varchar(128)',
         'charset' => 'utf-8',
         'collation' => 'utf8_unicode_ci',
@@ -52,6 +57,10 @@ $schemas['payment_stripe_payment_method'] = [
         'default' => '0',
     ],
     'raw_payload' => [
+        'type' => 'longtext',
+        'null' => true,
+    ],
+    'test_raw_payload' => [
         'type' => 'longtext',
         'null' => true,
     ],

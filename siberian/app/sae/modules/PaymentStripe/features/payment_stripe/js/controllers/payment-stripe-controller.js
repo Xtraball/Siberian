@@ -1,12 +1,29 @@
+/**
+ * PaymentStripeController
+ */
 angular
-.module("starter")
-.controller("PaymentStripeController", function ($scope) {
-    angular.extend($scope, {
-        showForm: false
-    });
+    .module('starter')
+    .controller('PaymentStripeController', function ($scope, PaymentStripe) {
+        angular.extend($scope, {
+            showForm: false,
+            showPaymentForm: false
+        });
 
-    $scope.toggleForm = function () {
-        $scope.showForm = !$scope.showForm;
-    };
-});
+        $scope.onSelect = function () {
+            $scope.showPaymentForm = !$scope.showPaymentForm;
+
+            try {
+                $scope.options.onSelect({
+                    paymentId: PaymentStripe.paymentId,
+                    shortName: 'stripe'
+                });
+            } catch (e) {
+                console.error('Something wrong occurred, please review your Stripe configuration.', e);
+            }
+        };
+
+        $scope.toggleForm = function () {
+            $scope.showForm = !$scope.showForm;
+        };
+    });
 

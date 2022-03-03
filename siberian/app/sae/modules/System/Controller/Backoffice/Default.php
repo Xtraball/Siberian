@@ -254,13 +254,16 @@ class System_Controller_Backoffice_Default extends Backoffice_Controller_Default
         try {
             $data = [
                 'host' => $_SERVER['SERVER_NAME'],
-                'licenseKey' => System_Model_Config::getValueFor('siberiancms_key')
+                'licenseKey' => __get('siberiancms_key')
             ];
 
             $json = json_encode($data);
-            $client = new Zend_Http_Client(Siberian\Provider::getLicenses()['use']['url']);
+
+            $client = new Zend_Http_Client(Siberian\Provider::getLicenses()['use']['url'], [
+                'adapter' => 'Zend_Http_Client_Adapter_Curl',
+                'curloptions' => [CURLOPT_SSL_VERIFYPEER => false],
+            ]);
             $client->setMethod(Zend_Http_Client::POST);
-            $client->setAdapter('Zend_Http_Client_Adapter_Curl');
             $client->setHeaders(["Content-type" => 'application/json']);
             $response = $client->setRawData($json)->request();
             if ($response->getRawBody() === "License has no more activation left") {

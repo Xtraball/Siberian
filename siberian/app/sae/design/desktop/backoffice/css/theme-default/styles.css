@@ -250,6 +250,13 @@ input[type="radio"] {
     visibility: hidden;
 }
 
+/** Mozilla really don't want to do pseudo css on inputs */
+@-moz-document url-prefix() {
+    input[type="checkbox"] {
+        visibility: visible;
+    }
+}
+
 input[type="radio"]:before {
     content: " ";
     display: block;

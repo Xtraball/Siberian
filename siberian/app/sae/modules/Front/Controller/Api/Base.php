@@ -1015,6 +1015,7 @@ class Front_Controller_Api_Base extends Front_Controller_App_Default
         $useBirthdate = false;
         $useCivility = false;
         $useMobile = false;
+        $useCriticalPush = false;
 
         $features = $featureBlock['pages'];
         foreach ($features as $feature) {
@@ -1033,12 +1034,16 @@ class Front_Controller_Api_Base extends Front_Controller_App_Default
             if ($feature['use_mobile']) {
                 $useMobile = true;
             }
+            if ($feature['use_critical_push']) {
+                $useCriticalPush = true;
+            }
 
             // All are true, we can abort here!
             if ($useNickname &&
                 $useRanking &&
                 $useBirthdate &&
                 $useCivility &&
+                $useCriticalPush &&
                 $useMobile) {
                 break;
             }
@@ -1049,6 +1054,7 @@ class Front_Controller_Api_Base extends Front_Controller_App_Default
         $loadBlock['application']['myAccount']['settings']['use_ranking'] = $useRanking;
         $loadBlock['application']['myAccount']['settings']['use_civility'] = $useCivility;
         $loadBlock['application']['myAccount']['settings']['use_mobile'] = $useMobile;
+        $loadBlock['application']['useCriticalPush'] = $useCriticalPush;
 
         return $loadBlock;
     }

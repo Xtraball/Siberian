@@ -11,29 +11,38 @@ use Core\Model\Base;
 class Payment extends Base
 {
     /**
-     * Customer constructor.
-     * @param array $params
-     * @throws \Zend_Exception
+     * @var string
      */
-    public function __construct($params = [])
-    {
-        parent::__construct($params);
-        $this->_db_table = 'PaymentMethod\Model\Db\Table\Payment';
-    }
+    protected $_db_table = Db\Table\Payment::class;
 
     /**
      * @return GatewayAbstract|null
      */
     public function retrieve ()
     {
-        $class = $this->getMethodClass();
-        $id = $this->getMethodId();
+        try {
+            $code = $this->getMethodCode();
+            $id = $this->getMethodId();
 
-        if (class_exists($class)) {
-            return (new $class())->getPaymentById($id);
+            $gateway = Gateway::get($code);
+            return $gateway->getPaymentById($id);
+        } catch (\Exception $e) {
+            return null;
         }
+    }
 
-        return null;
+    /**
+     * @return GatewayAbstract|null
+     */
+    public function gateway ()
+    {
+        try {
+            $code = $this->getMethodCode();
+
+            return Gateway::get($code);
+        } catch (\Exception $e) {
+            return null;
+        }
     }
 
     /**
@@ -41,13 +50,13 @@ class Payment extends Base
      * @return Payment|null
      * @throws \Zend_Exception
      */
-    static public function createFromModal($paymentId)
+    public static function createOrGetFromModal($paymentId)
     {
         if (is_array($paymentId)) {
             $instance = new self();
             $instance
-                ->setMethodId($paymentId["id"])
-                ->setMethodClass($paymentId["method"])
+                ->setMethodCode($paymentId['code'])
+                ->setMethodId($paymentId['id'])
                 ->save();
         } else {
             $instance = (new self())->find($paymentId);
@@ -56,20 +65,4 @@ class Payment extends Base
         return $instance;
     }
 
-    /**
-     * @param $methodClass
-     * @return Payment
-     */
-    public function setMethodClass($methodClass)
-    {
-        return $this->setData("method_class", base64_encode($methodClass));
-    }
-
-    /**
-     * @return bool|string
-     */
-    public function getMethodClass()
-    {
-        return base64_decode($this->getData("method_class"));
-    }
 }

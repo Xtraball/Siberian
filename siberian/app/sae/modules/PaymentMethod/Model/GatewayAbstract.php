@@ -25,7 +25,7 @@ abstract class GatewayAbstract extends Base
      * @param $paymentMethod
      * @return bool
      */
-    public function supports($paymentMethod)
+    public function supports($paymentMethod): bool
     {
         return mb_strtolower($paymentMethod) === mb_strtolower(static::$paymentMethod);
     }
@@ -34,7 +34,7 @@ abstract class GatewayAbstract extends Base
      * @param null $appId
      * @return bool
      */
-    public function isSetup($appId = null)
+    public function isSetup($appId = null): bool
     {
         return false;
     }
@@ -42,6 +42,7 @@ abstract class GatewayAbstract extends Base
     /**
      * @param $paymentId
      * @throws Exception
+     * @throws \Zend_Exception
      */
     public function getPaymentById($paymentId)
     {

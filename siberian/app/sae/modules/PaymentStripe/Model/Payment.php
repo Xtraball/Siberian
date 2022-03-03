@@ -3,7 +3,6 @@
 namespace PaymentStripe\Model;
 
 use Core\Model\Base;
-use Siberian\Exception;
 
 /**
  * Class Payment
