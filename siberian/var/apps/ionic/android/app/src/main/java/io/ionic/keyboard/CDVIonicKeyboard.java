@@ -15,6 +15,7 @@ import android.util.DisplayMetrics;
 import android.view.View;
 import android.view.ViewTreeObserver;
 import android.view.ViewTreeObserver.OnGlobalLayoutListener;
+import android.view.Window;
 import android.view.inputmethod.InputMethodManager;
 
 // import additionally required classes for calculating screen height
@@ -64,7 +65,7 @@ public class CDVIonicKeyboard extends CordovaPlugin {
         if ("init".equals(action)) {
             cordova.getThreadPool().execute(new Runnable() {
                 public void run() {
-                	//calculate density-independent pixels (dp)
+                    //calculate density-independent pixels (dp)
                     //http://developer.android.com/guide/practices/screens_support.html
                     DisplayMetrics dm = new DisplayMetrics();
                     cordova.getActivity().getWindowManager().getDefaultDisplay().getMetrics(dm);
@@ -114,7 +115,7 @@ public class CDVIonicKeyboard extends CordovaPlugin {
                                 callbackContext.sendPluginResult(result);
                             }
                             else if ( pixelHeightDiff != previousHeightDiff && ( previousHeightDiff - pixelHeightDiff ) > 100 ){
-                            	String msg = "H";
+                                String msg = "H";
                                 result = new PluginResult(PluginResult.Status.OK, msg);
                                 result.setKeepCallback(true);
                                 callbackContext.sendPluginResult(result);
@@ -134,7 +135,14 @@ public class CDVIonicKeyboard extends CordovaPlugin {
                         private int computeUsableHeight() {
                             Rect r = new Rect();
                             mChildOfContent.getWindowVisibleDisplayFrame(r);
-                            return (r.bottom - r.top);
+                            return isFullScreen() ? r.bottom - r.top : r.height();
+                        }
+
+                        private boolean isFullScreen() {
+                            final Window window = cordova.getActivity().getWindow();
+                            // Flag set by status bar plugin to make content full screen
+                            int fullScreenFlag = View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN;
+                            return (window.getDecorView().getSystemUiVisibility() & fullScreenFlag) == fullScreenFlag;
                         }
                     };
 
