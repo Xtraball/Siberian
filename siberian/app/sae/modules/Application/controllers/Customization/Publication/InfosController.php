@@ -400,7 +400,8 @@ class Application_Customization_Publication_InfosController extends Application_
                 }
 
                 // New case for source to apk generator!
-                if ($device === 'android') {
+                if ($device === 'android' &&
+                    $isApkService) {
                     $queue->setIsApkService(1);
                     $queue->setApkStatus('pending');
                 }
