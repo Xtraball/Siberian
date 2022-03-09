@@ -92,7 +92,7 @@ class Customer_ApplicationController extends Application_Controller_Default
                 }
 
                 $optionValue
-                    ->setSettings(Json::encode($settings))
+                    ->setSettings(Json::encode($settings, JSON_UNESCAPED_UNICODE))
                     ->save();
 
                 $payload = [

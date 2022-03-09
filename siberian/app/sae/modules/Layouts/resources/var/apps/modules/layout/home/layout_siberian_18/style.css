@@ -26,7 +26,7 @@
 
 .layout.layout_siberian_18 .item {
     margin: 0;
-    border-width: 0px;
+    border-width: 0;
 }
 
 .layout.layout_siberian_18 .no-border {
@@ -46,6 +46,8 @@
     left: 12vw !important;
     right: 12vw !important;
     bottom: 10vh !important;
+    overflow-x: hidden;
+    overflow-y: scroll;
 }
 
 .layout.layout_siberian_18 ion-scroll {

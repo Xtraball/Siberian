@@ -440,29 +440,16 @@ if (!empty($appDomain)) {
     let isApkService = 'apk';
 
     function generateSource(device_id, no_ads, type) {
-        <?php if(Cron_Model_Cron::is_active()): ?>
-        loader.show('reload');
-        <?php else: ?>
-        message.reset();
-        message.setMessage("<?php echo __js("Please wait while we generate application source.") ?>");
-        message.isError(false);
-        message.addLoader(true);
-        message.show();
-        setTimeout(function () {
-            $("#alert").css("top", "60px");
-        }, 500);
-        loader.show('reload');
-        <?php endif; ?>
-        let url = "<?php echo $this->getUrl("application/customization_publication_infos/downloadsource"); ?>";
-
-        if (typeof type == "undefined") {
-            type = "zip";
-        }
-
         if (disable) {
             return;
         }
+
         disable = true;
+        loader.show('reload');
+        let url = "<?php echo $this->getUrl("application/customization_publication_infos/downloadsource"); ?>";
+        if (typeof type === 'undefined') {
+            type = 'zip';
+        }
 
         $.ajax({
             url: url,
@@ -470,18 +457,12 @@ if (!empty($appDomain)) {
                 device_id: device_id,
                 no_ads: no_ads,
                 type: type,
-                apk: (type==='apk') ? isApkService : false
+                apk: (type === 'apk') ? isApkService : false
             },
             success: function (data) {
                 // reload
-                <?php if(Cron_Model_Cron::is_active()): ?>
-                location.reload();
-                <?php else: ?>
-                location.href = getUrl(data.more, device_id, no_ads, type);
-                <?php endif; ?>
                 loader.hide('reload');
-                $("#alert").css("top", "0");
-                message.hide();
+                location.reload();
             },
             dataType: 'json'
         });
