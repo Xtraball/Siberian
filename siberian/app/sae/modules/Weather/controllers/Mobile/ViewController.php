@@ -68,8 +68,14 @@ class Weather_Mobile_ViewController extends Application_Controller_Mobile_Defaul
             ];
 
             $isCoord = isset($params["lat"]);
+
             if (!$isCoord) {
-                $reversed = Siberian_Google_Geocoding::getLatLng($params['q'], $googleKey);
+                $parts = explode(',', $params['q']);
+                $gParams = [
+                    'address' => $parts[0],
+                    'country' => $parts[1],
+                ];
+                $reversed = Siberian_Google_Geocoding::getLatLng($gParams, $googleKey);
                 $data["lat"] = $reversed[0];
                 $data["lon"] = $reversed[1];
                 $place = $params['q'];

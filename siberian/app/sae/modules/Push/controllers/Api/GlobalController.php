@@ -46,7 +46,7 @@ class Push_Api_GlobalController extends Api_Controller_Default
 
                 $result = [];
                 if (!empty($applications)) {
-                    $ids = join(',', $applications);
+                    $ids = implode(',', $applications);
                     $result = $application_table->getAdapter()->fetchAll('
                         SELECT `app_id`, `name`, `key`, `bundle_id`, `package_name`, `admin_id`
                         FROM `application`
