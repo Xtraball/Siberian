@@ -10,10 +10,21 @@ class Application_ApiController extends Api_Controller_Default {
     /**
      * @var array
      */
-    public $secured_actions = array(
+    public $secured_actions = [
         'create',
         'update',
-    );
+    ];
+
+    /**
+     * @var array
+     */
+    public $cache_triggers = [
+        'update' => [
+            'tags' => [
+                'app_#APP_ID#'
+            ],
+        ],
+    ];
 
     public function createAction() {
 
