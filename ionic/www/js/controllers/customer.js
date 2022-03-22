@@ -430,20 +430,34 @@ angular
 
             $scope.checkPasswordStatus();
 
+            var hooks = [];
+            if (Customer.isLoggedIn()) {
+                hooks.push('customer.before.update');
+            } else {
+                hooks.push('customer.before.register');
+            }
+
             Customer
-                .save($scope.customer)
-                .then(function (success) {
-                    Dialog
-                        .alert('Account', success.message, 'OK', -1, 'customer')
-                        .then(function () {
-                            Customer.closeModal();
+                .runHooks(hooks, $scope.customer)
+                .then(function () {
+                    Customer
+                        .save($scope.customer)
+                        .then(function (success) {
+                            Dialog
+                                .alert('Account', success.message, 'OK', -1, 'customer')
+                                .then(function () {
+                                    Customer.closeModal();
+                                });
+                            return success;
+                        }, function (error) {
+                            Dialog.alert('Error', error.message, 'OK', -1);
+                        }).then(function () {
+                            Loader.hide();
                         });
-                    return success;
                 }, function (error) {
-                    Dialog.alert('Error', error.message, 'OK', -1);
-                }).then(function () {
-                Loader.hide();
-            });
+                    Loader.hide();
+                    Dialog.alert('Oups something went wrong!!!!');
+                });
         };
 
         $scope.logout = function () {
@@ -530,6 +544,18 @@ angular
             $scope.display_settings = false;
             $scope.display_forgot_password_form = false;
             $scope.display_account_form = true;
+
+            if (!Customer.isLoggedIn() &&
+                ($scope.myAccount.settings.use_mobile || $scope.myAccount.settings.extra_mobile)) {
+
+                Customer
+                    .getIpInfo()
+                    .then(function (payload) {
+                        Customer.initIti('customer_mobile', payload.country);
+                    }, function (error) {
+                        Customer.initIti('customer_mobile', CURRENT_LANGUAGE);
+                    });
+            }
         };
 
         $scope.scrollTop = function () {

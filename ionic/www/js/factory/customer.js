@@ -2,12 +2,12 @@
  * Customer
  *
  * @author Xtraball SAS <dev@xtraball.com>
- * @version 4.19.1
+ * @version 4.20.30
  */
 angular
     .module('starter')
-    .factory('Customer', function ($pwaRequest, $rootScope, $session, $timeout, $injector, $translate,
-                                   Application, Loader, Modal, Dialog, Url, SB) {
+    .factory('Customer', function ($pwaRequest, $rootScope, $session, $timeout, $injector, $translate, $q,
+                                   Application, Loader, Modal, Dialog, Url, SB, TelInput) {
 
         var factory = {
             customer: null,
@@ -17,7 +17,8 @@ angular
             display_account_form: false,
             login_modal_hidden_subscriber: null,
             is_logged_in: false,
-            loginScope: null
+            loginScope: null,
+            itis: {}
         };
 
         /**
@@ -65,60 +66,62 @@ angular
          * @return Promise|boolean
          */
         factory.loginModal = function (scope, loginCallback, logoutCallback, registerCallback) {
-            if ($rootScope.isNotAvailableOffline()) {
-                return false;
-            }
+            TelInput.isLoaded().then(function () {
+                if ($rootScope.isNotAvailableOffline()) {
+                    return false;
+                }
 
-            // Event handlers to spread accross the application!
-            var modalScope = $rootScope.$new(true);
+                // Event handlers to spread accross the application!
+                var modalScope = $rootScope.$new(true);
 
-            modalScope.$on('modal.shown', function () {
-                var loginSuccessSubscriber = modalScope.$on(SB.EVENTS.AUTH.loginSuccess, function () {
-                    if (typeof loginCallback === 'function') {
-                        loginCallback();
-                    }
-                    factory.login_modal.hide();
+                modalScope.$on('modal.shown', function () {
+                    var loginSuccessSubscriber = modalScope.$on(SB.EVENTS.AUTH.loginSuccess, function () {
+                        if (typeof loginCallback === 'function') {
+                            loginCallback();
+                        }
+                        factory.login_modal.hide();
+                    });
+
+                    var logoutSuccessSubscriber = modalScope.$on(SB.EVENTS.AUTH.logoutSuccess, function () {
+                        if (typeof logoutCallback === 'function') {
+                            logoutCallback();
+                        }
+                        factory.login_modal.hide();
+                    });
+
+                    var registerSubscriber = modalScope.$on(SB.EVENTS.AUTH.registerSuccess, function () {
+                        if (typeof registerCallback === 'function') {
+                            registerCallback();
+                        }
+                        factory.login_modal.hide();
+                    });
+
+                    // Listening for modal.hidden dynamically!
+                    factory.login_modal_hidden_subscriber = modalScope.$on('modal.hidden', function () {
+                        // Un-subscribe from modal.hidden RIGHT NOW, otherwise we will create a loop with the automated clean-up!
+                        factory.login_modal_hidden_subscriber();
+
+                        // CLean-up callback listeners!
+                        loginSuccessSubscriber();
+                        logoutSuccessSubscriber();
+                        registerSubscriber();
+                    });
                 });
 
-                var logoutSuccessSubscriber = modalScope.$on(SB.EVENTS.AUTH.logoutSuccess, function () {
-                    if (typeof logoutCallback === 'function') {
-                        logoutCallback();
-                    }
-                    factory.login_modal.hide();
-                });
+                // Layout options!
+                var layout = 'templates/customer/account/l1/my-account.html';
 
-                var registerSubscriber = modalScope.$on(SB.EVENTS.AUTH.registerSuccess, function () {
-                    if (typeof registerCallback === 'function') {
-                        registerCallback();
-                    }
-                    factory.login_modal.hide();
-                });
+                return Modal
+                    .fromTemplateUrl(layout, {
+                        scope: modalScope,
+                        animation: 'slide-in-up'
+                    }).then(function (modal) {
+                        factory.login_modal = modal;
+                        factory.login_modal.show();
 
-                // Listening for modal.hidden dynamically!
-                factory.login_modal_hidden_subscriber = modalScope.$on('modal.hidden', function () {
-                    // Un-subscribe from modal.hidden RIGHT NOW, otherwise we will create a loop with the automated clean-up!
-                    factory.login_modal_hidden_subscriber();
-
-                    // CLean-up callback listeners!
-                    loginSuccessSubscriber();
-                    logoutSuccessSubscriber();
-                    registerSubscriber();
-                });
+                        return modal;
+                    });
             });
-
-            // Layout options!
-            var layout = 'templates/customer/account/l1/my-account.html';
-
-            return Modal
-                .fromTemplateUrl(layout, {
-                    scope: modalScope,
-                    animation: 'slide-in-up'
-                }).then(function (modal) {
-                    factory.login_modal = modal;
-                    factory.login_modal.show();
-
-                    return modal;
-                });
         };
 
         // Binder to close the login modal!
@@ -296,12 +299,48 @@ angular
             return promise;
         };
 
+        factory.initIti = function (elementId, country, options) {
+            var localOptions = (typeof options === 'undefined') ? {} : options;
+            var itiOptions = angular.extend({}, {
+                allowDropdown: true,
+                nationalMode: false,
+                formatOnDisplay: true,
+                autoHideDialCode: false,
+                placeholderNumberType: 'MOBILE',
+                separateDialCode: false,
+                initialCountry: country,
+                autoPlaceholder: 'off',
+                dropdownContainer: document.body
+            }, localOptions);
+
+            var input = document.getElementById(elementId);
+            if (factory.itis.hasOwnProperty(elementId)) {
+                factory.itis[elementId].destroy();
+                factory.itis[elementId] = null;
+            }
+
+            factory.itis[elementId] = window.intlTelInput(input, itiOptions);
+        };
+
+        factory.getIti = function (elementId) {
+            if (factory.itis.hasOwnProperty(elementId)) {
+                return factory.itis[elementId];
+            }
+            return null;
+        };
+
         factory.find = function () {
             return $pwaRequest.get('customer/mobile_account_edit/find');
         };
 
         factory.deleteAccount = function () {
             return $pwaRequest.get('customer/mobile_account_login/delete-account');
+        };
+
+        factory.getIpInfo = function () {
+            return $pwaRequest.get('https://ipinfo.io', {
+                cache: false
+            });
         };
 
         factory.isLoggedIn = function () {
@@ -340,6 +379,52 @@ angular
 
         factory.saveCredentials = function (uuid) {
             $session.setId(uuid);
+        };
+
+        // Hooks key-array
+        factory.hooks = {
+            'customer.before.update': [],
+            'customer.before.register': []
+        };
+
+        factory.registerHook = function (key, callback) {
+            if (!factory.hooks.hasOwnProperty(key)) {
+                console.error('[Customer.addHook] invalid hook key.');
+                return;
+            }
+
+            if (typeof callback !== 'function') {
+                console.error('[Customer.addHook] callback must be a function.');
+                return;
+            }
+
+            factory.hooks[key].push(callback);
+        };
+
+        factory.runHooks = function (hooksList, payload) {
+            var promises = [];
+            for (var key in hooksList) {
+                var index = hooksList[key];
+                if (factory.hooks.hasOwnProperty(index)) {
+                    var _hooks = factory.hooks[index];
+                    for (var _key in _hooks) {
+                        var _hook = _hooks[_key];
+                        var _tmpQ = $q.defer();
+                        promises.push(_tmpQ.promise);
+                        var _untouchedPayload = angular.copy(payload);
+                        try {
+                            _hook(payload, _tmpQ);
+                        } catch (e) {
+                            // We also revert the payload to before
+                            payload = _untouchedPayload;
+                            // Something went wrong with the hook
+                            _tmpQ.reject('An unknown error occured please try again! ' + _hook.toString());
+                        }
+                    }
+                }
+            }
+
+            return $q.all(promises);
         };
 
         /**
