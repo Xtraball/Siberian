@@ -383,8 +383,12 @@ angular
 
         // Hooks key-array
         factory.hooks = {
+            'customer.before.login': [],
+            'customer.after.login': [],
             'customer.before.update': [],
-            'customer.before.register': []
+            'customer.after.update': [],
+            'customer.before.register': [],
+            'customer.after.register': []
         };
 
         factory.registerHook = function (key, callback) {
