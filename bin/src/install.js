@@ -14,7 +14,7 @@ const install = function (inputArgs) {
     sh.cp('-r', './bin/config/main.js', './node_modules/plugman/main.js');
 
     // Configuring environment!
-    sh.exec('git config core.fileMode false');
+    //sh.exec('git config core.fileMode false');
 
     console.log('Done.');
 

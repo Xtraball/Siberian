@@ -175,6 +175,12 @@ angular
      * Registration!
      */
     service.registerDevice = function () {
+        try {
+            cordova.plugins.notification.badge.clear();
+        } catch (e) {
+            // Nope!
+        }
+
         if (Push.device_type === SB.DEVICE.TYPE_ANDROID) {
             return service.registerAndroid();
         }
