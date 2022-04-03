@@ -40,7 +40,6 @@ class Customer_Mobile_VerifmailController extends Application_Controller_Mobile_
                 $requestApp->delete();
             }
 
-
             $requestApp = new \Customer\Model\RequestApp();
             $token = \Siberian\UUID::v4();
             $requestApp

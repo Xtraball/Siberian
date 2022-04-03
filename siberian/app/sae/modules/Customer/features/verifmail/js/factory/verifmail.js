@@ -56,7 +56,7 @@ angular
                                     }
 
                                     Dialog
-                                        .confirm('Email validation', 'To continue we must validate your e-mail, we will send you an e-mail with an activation link!', ['YES', 'NO'], '', 'verify')
+                                        .confirm('Email validation', 'To continue we must validate your e-mail, we will send you an e-mail with an activation link!', ['YES', 'NO'], '', 'customer')
                                         .then(function (confirm) {
                                             if (confirm) {
                                                 Loader.show($translate.instant('Sending e-mail...', 'customer'));
@@ -67,52 +67,56 @@ angular
                                                     .sendEmail(payload.customer.email)
                                                     .then(function (success) {
 
-                                                        Dialog.alert('Email', 'Please check your inbox and click on the link to confirm your address!', 'OK', -1, 'customer');
-
                                                         Loader.hide();
-                                                        Loader.show(trText);
+                                                        Dialog
+                                                            .alert('Email', 'Please check your inbox and click on the link to confirm your address!', 'OK', -1, 'customer')
+                                                            .then(function () {
 
-                                                        var start = Math.floor(Date.now()/1000) + 120;
-                                                        var repeat = 0;
-                                                        var inprogress = false;
-                                                        var cancelVerify = $interval(function () {
-                                                            if (inprogress) {
-                                                                // Just skip if already in progress
-                                                                return;
-                                                            }
-                                                            inprogress = true;
-                                                            repeat++;
-                                                            Loader.hide();
-                                                            Loader.show(trText + '.'.repeat((repeat % 3) + 1));
-                                                            factory
-                                                                .checkEmail(payload.customer.email)
-                                                                .then(function (success) {
-                                                                        if (success.status === 'valid') {
-                                                                            // saving the currenct valid status in session
-                                                                            factory.cached_validations[payload.customer.email] = true;
-                                                                            // then in session
-                                                                            $session.setItem('verifmail_cached_validations', factory.cached_validations);
+                                                                Loader.show(trText);
 
-                                                                            promise.resolve('valid');
-                                                                            $interval.cancel(cancelVerify);
-                                                                        }
-                                                                        // else continue up to 60 seconds
-                                                                    },
-                                                                    function (error) {
-                                                                        promise.reject(error.message);
+                                                                var start = Math.floor(Date.now()/1000) + 120;
+                                                                var repeat = 0;
+                                                                var inprogress = false;
+                                                                var cancelVerify = $interval(function () {
+                                                                    if (inprogress) {
+                                                                        // Just skip if already in progress
+                                                                        return;
+                                                                    }
+                                                                    inprogress = true;
+                                                                    repeat++;
+                                                                    Loader.hide();
+                                                                    Loader.show(trText + '.'.repeat((repeat % 3) + 1));
+                                                                    factory
+                                                                        .checkEmail(payload.customer.email)
+                                                                        .then(function (success) {
+                                                                                if (success.status === 'valid') {
+                                                                                    // saving the currenct valid status in session
+                                                                                    factory.cached_validations[payload.customer.email] = true;
+                                                                                    // then in session
+                                                                                    $session.setItem('verifmail_cached_validations', factory.cached_validations);
+
+                                                                                    promise.resolve('valid');
+                                                                                    $interval.cancel(cancelVerify);
+                                                                                }
+                                                                                // else continue up to 60 seconds
+                                                                            },
+                                                                            function (error) {
+                                                                                promise.reject($translate.instant(error.message, 'customer'));
+                                                                                $interval.cancel(cancelVerify);
+                                                                            });
+
+                                                                    // We waited 2 minutes...
+                                                                    if (Math.floor(Date.now()/1000) > start) {
+                                                                        promise.reject($translate.instant('Request timed out, please try again!', 'customer'));
                                                                         $interval.cancel(cancelVerify);
-                                                                    });
+                                                                    }
+                                                                    inprogress = false;
+                                                                }, 2500)
 
-                                                            // We waited 2 minutes...
-                                                            if (Math.floor(Date.now()/1000) > start) {
-                                                                promise.reject('Request timed out, please try again!');
-                                                                $interval.cancel(cancelVerify);
-                                                            }
-                                                            inprogress = false;
-                                                        }, 2500)
+                                                            });
                                                     }, function (error) {
                                                         Loader.hide();
-                                                        promise.reject(error.message);
+                                                        promise.reject($translate.instant(error.message, 'customer'));
                                                     });
 
                                             } else {
@@ -127,7 +131,7 @@ angular
                                         });
                                 } catch (e) {
                                     // We just place it here to re-throw, because errors are glopped inside promises.
-                                    promise.reject(e.message);
+                                    promise.reject($translate.instant(e.message, 'customer'));
                                 }
                             })
                         }

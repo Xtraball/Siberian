@@ -15,7 +15,7 @@ $schemas['customer_request_app'] = [
         'type' => 'int(11) unsigned',
     ],
     'email' => [
-        'type' => 'int(11) unsigned',
+        'type' => 'varchar(255)',
     ],
     'token' => [
         'type' => 'varchar(255)',
