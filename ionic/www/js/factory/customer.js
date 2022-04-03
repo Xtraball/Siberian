@@ -21,6 +21,13 @@ angular
             itis: {}
         };
 
+        factory.uuidv4 = function () {
+            return 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, function(c) {
+                var r = Math.random() * 16 | 0, v = c === 'x' ? r : (r & 0x3 | 0x8);
+                return v.toString(16);
+            });
+        };
+
         /**
          *
          * @param customer
@@ -127,6 +134,7 @@ angular
         // Binder to close the login modal!
         factory.closeModal = function () {
             factory.login_modal.hide();
+            factory.login_modal.remove();
         };
 
         factory.login = function (data) {
@@ -299,7 +307,7 @@ angular
             return promise;
         };
 
-        factory.initIti = function (elementId, country, options) {
+        factory.initIti = function (selector, country, options) {
             var localOptions = (typeof options === 'undefined') ? {} : options;
             var itiOptions = angular.extend({}, {
                 allowDropdown: true,
@@ -313,18 +321,18 @@ angular
                 dropdownContainer: document.body
             }, localOptions);
 
-            var input = document.getElementById(elementId);
-            if (factory.itis.hasOwnProperty(elementId)) {
-                factory.itis[elementId].destroy();
-                factory.itis[elementId] = null;
+            var input = document.getElementById(selector);
+            if (factory.itis.hasOwnProperty(selector)) {
+                factory.itis[selector].destroy();
+                delete factory.itis[selector];
             }
 
-            factory.itis[elementId] = window.intlTelInput(input, itiOptions);
+            factory.itis[selector] = window.intlTelInput(input, itiOptions);
         };
 
-        factory.getIti = function (elementId) {
-            if (factory.itis.hasOwnProperty(elementId)) {
-                return factory.itis[elementId];
+        factory.getIti = function (selector) {
+            if (factory.itis.hasOwnProperty(selector)) {
+                return factory.itis[selector];
             }
             return null;
         };
@@ -338,9 +346,21 @@ angular
         };
 
         factory.getIpInfo = function () {
-            return $pwaRequest.get('https://ipinfo.io', {
-                cache: false
-            });
+            var defer = $q.defer();
+            function ipSsuccess () {
+                defer.resolve(JSON.parse(this.responseText));
+            }
+            function ipFail () {
+                defer.reject();
+            }
+
+            var oReq = new XMLHttpRequest();
+            oReq.onload = ipSsuccess;
+            oReq.onerror = ipFail;
+            oReq.open('get', 'https://ipinfo.io/json', true);
+            oReq.send();
+
+            return defer.promise;
         };
 
         factory.isLoggedIn = function () {
@@ -405,30 +425,57 @@ angular
             factory.hooks[key].push(callback);
         };
 
+        factory.nextHook = function (payload, _hooks, deferred) {
+            if (_hooks.length === 0) {
+                deferred.resolve('All done!');
+                return;
+            }
+            var _currentHook = _hooks.shift();
+
+            console.log('Running hook: ' + _currentHook.toString());
+
+            var _tmpQ = $q.defer();
+            var _untouchedPayload = angular.copy(payload);
+            try {
+                _currentHook(payload, _tmpQ);
+                _tmpQ.promise.then(function (success) {
+                    // Continue
+                    factory.nextHook(payload, _hooks, deferred);
+                }, function (error) {
+                    deferred.reject('An error occured please try again! ' + error.toString());
+                })
+            } catch (e) {
+                console.log('running hook catch wtf, ', e.message);
+                console.log(e);
+                // We also revert the payload to before
+                payload = _untouchedPayload;
+                // Something went wrong with the hook
+                deferred.reject('An unknown error occured please try again! ' + _currentHook.toString());
+            }
+        };
+
         factory.runHooks = function (hooksList, payload) {
-            var promises = [];
+            var deferred = $q.defer();
+            var _hooks = [];
+
             for (var key in hooksList) {
                 var index = hooksList[key];
                 if (factory.hooks.hasOwnProperty(index)) {
-                    var _hooks = factory.hooks[index];
-                    for (var _key in _hooks) {
-                        var _hook = _hooks[_key];
-                        var _tmpQ = $q.defer();
-                        promises.push(_tmpQ.promise);
-                        var _untouchedPayload = angular.copy(payload);
-                        try {
-                            _hook(payload, _tmpQ);
-                        } catch (e) {
-                            // We also revert the payload to before
-                            payload = _untouchedPayload;
-                            // Something went wrong with the hook
-                            _tmpQ.reject('An unknown error occured please try again! ' + _hook.toString());
-                        }
-                    }
+                    _hooks = _hooks.concat(angular.copy(factory.hooks[index]));
                 }
             }
 
-            return $q.all(promises);
+            // Sorting hooks by priority
+            _hooks.sort(function (a, b) {
+                if (a.hasOwnProperty('priority') && b.hasOwnProperty('priority')) {
+                    return a['priority'] - b['priority'];
+                }
+                return 0;
+            });
+
+            factory.nextHook(payload, _hooks, deferred);
+
+            return deferred.promise;
         };
 
         /**

@@ -335,6 +335,7 @@ angular
                             Customer.runHooks(hooksAfterLoginError, {customer: $scope.customer, error: error});
                         });
                 }, function (error) {
+                    console.log('runHooks', error);
                     Dialog.alert('Error', error.message, 'OK', -1);
                 });
         };
@@ -610,9 +611,8 @@ angular
             $scope.display_forgot_password_form = false;
             $scope.display_account_form = true;
 
-            if (!Customer.isLoggedIn() &&
-                ($scope.myAccount.settings.use_mobile || $scope.myAccount.settings.extra_mobile)) {
-
+            if ($scope.myAccount.settings.use_mobile ||
+                $scope.myAccount.settings.extra_mobile) {
                 Customer
                     .getIpInfo()
                     .then(function (payload) {

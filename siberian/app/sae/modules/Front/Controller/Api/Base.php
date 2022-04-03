@@ -336,15 +336,20 @@ class Front_Controller_Api_Base extends Front_Controller_App_Default
                 'title' => $myAccountFeature->getTabbarName(),
                 'settings' => [
                     'design' => 'list',
-                    'enable_facebook_login' => true,
+                    'email_validation' => false,
+                    'enable_facebook_login' => false,
                     'enable_registration' => true,
                     'enable_commercial_agreement' => false,
                     'enable_commercial_agreement_label' => '',
                     'enable_password_verification' => false,
                     'extra_mobile' => false,
                     'extra_mobile_required' => false,
+                    'extra_birthdate' => false,
+                    'extra_birthdate_required' => false,
                     'extra_civility' => false,
                     'extra_civility_required' => false,
+                    'extra_nickname' => false,
+                    'extra_nickname_required' => false,
                 ],
             ];
             $myAccount = $defaultSettings;
