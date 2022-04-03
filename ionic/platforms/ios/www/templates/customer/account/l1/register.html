@@ -87,16 +87,17 @@
                        ng-model="customer.email"/>
             </label>
 
-            <label class="item item-input item-custom"
+            <div class="item item-input item-custom iti-mobile-custom"
                    ng-if="myAccount.settings.use_mobile || myAccount.settings.extra_mobile">
                 <div class="input-label">
                     {{ ::'Mobile' | translate:'customer' }} <span ng-if="myAccount.settings.use_mobile || myAccount.settings.extra_mobile_required">*</span>
                 </div>
-                <input class="text-right"
+                <input class="text-right customer_mobile_iti"
+                       id="customer_mobile"
+                       name="{{ 'random_mobile_phone_' + Date.now() }}"
                        type="text"
-                       placeholder="{{ ::'Mobile' | translate:'customer' }}"
                        ng-model="customer.mobile"/>
-            </label>
+            </div>
 
             <label class="item item-custom bold"
                    style="padding-left: 15px;"
@@ -250,7 +251,9 @@
         <button class="button button-positive button-positive-custom"
                 ng-click="registerOrSave()"
                 ng-class="{'button-block': card_design, 'button-full': !card_design}"
-                ng-show="!is_loading">{{ ::'Save' | translate:'customer' }}
+                ng-show="!is_loading">
+            <span ng-if="customer.is_logged_in">{{ ::'Save' | translate:'customer' }}</span>
+            <span ng-if="!customer.is_logged_in">{{ ::'Register' | translate:'customer' }}</span>
         </button>
     </div>
 
