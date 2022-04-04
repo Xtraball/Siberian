@@ -11,6 +11,11 @@ angular.module('starter').service('Loader', function ($ionicLoading, $translate,
         keep_timeout: false,
         timeout_count: 0,
         absolute_timeout: null,
+        last_config: {
+            text: null,
+            config: null,
+            replace: null
+        }
     };
 
     /**
@@ -55,6 +60,14 @@ angular.module('starter').service('Loader', function ($ionicLoading, $translate,
      * @returns {null}
      */
     service.show = function (text, config, replace) {
+
+        // Saving last config
+        service.last_config = {
+            text: text,
+            config: config,
+            replace: replace
+        };
+
         if (replace === undefined) {
             replace = false;
         }
@@ -105,6 +118,21 @@ angular.module('starter').service('Loader', function ($ionicLoading, $translate,
             $timeout.cancel(service.absolute_timeout);
             service.absolute_timeout = null;
         }
+    };
+
+    /**
+     *
+     * @returns {boolean}
+     */
+    service.isOpen = function () {
+        return service.is_open;
+    };
+
+    /**
+     *
+     */
+    service.reOpenLast = function () {
+        service.show(service.last_config.text, service.last_config.config, service.last_config.replace);
     };
 
     /**

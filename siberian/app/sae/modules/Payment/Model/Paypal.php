@@ -535,6 +535,91 @@ class Payment_Model_Paypal extends Payment_Model_Abstract
                             __('Outstanding balance of %s %s.',
                                 $result['OUTSTANDINGBALANCE'], $result['CURRENCYCODE']) . '</b>');
                     }
+
+                    try {
+                        // Trying to resync invoices
+                        $startDate = \DateTime::createFromFormat(\DateTime::ATOM, $result['PROFILESTARTDATE']);
+                        $lastPaymentDate = \DateTime::createFromFormat(\DateTime::ATOM, $result['LASTPAYMENTDATE']);
+                        $currentIterator = $lastPaymentDate;
+
+                        // Checking if there is an invoice for this year/month
+                        $invoices = (new Sales_Model_Invoice())->getTable()->_findAll([
+                            'payment_platform_id = ?' => $paymentData['profile_id']
+                        ], [
+                            'created_at DESC'
+                        ]);
+                        // Pre-formatting invoices
+                        $_invoicesIndex = [];
+                        $_lastInvoice = null;
+                        foreach ($invoices as $invoice) {
+                            $createdAt = \DateTime::createFromFormat('Y-m-d H:i:s', $invoice->getCreatedAt());
+                            $key = $createdAt->format('Y-m');
+                            $_invoicesIndex[$key] = $invoice;
+                            $_lastInvoice = $invoice;
+                        }
+
+                        // Last invoice lines
+                        if ($_lastInvoice !== null) {
+                            $lines = (new Sales_Model_Invoice_Line())->findAll([
+                                'invoice_id = ?' => $_lastInvoice->getId()
+                            ]);
+
+                            $footerMessage = __get('invoice_footer_message');
+
+                            // Iterating looper
+                            $diff = $startDate->diff($currentIterator);
+                            $diffDays = $diff->days * ($diff->invert ? -1 : 1);
+                            while ($diffDays > 0) {
+                                // Checking
+                                $_key = $currentIterator->format('Y-m');
+                                $_currentDate = $currentIterator->format('Y-m-d H:i:s');
+                                if (!array_key_exists($_key, $_invoicesIndex)) {
+                                    echo "[Subscription::PayPal::syncInvoices] Going to sync this payment \n";
+                                    echo "[Subscription::PayPal::syncInvoices] Payment date to sync {$_key} \n";
+
+                                    // Copy invoice from the first iteration
+                                    $invoice = new Sales_Model_Invoice();
+                                    $invoice
+                                        ->setData($_lastInvoice->getData())
+                                        ->unsNumber()
+                                        ->unsCreatedAt()
+                                        ->setId(null);
+
+                                    foreach ($lines as $line) {
+                                        $invoiceLine = new Sales_Model_Invoice_Line();
+                                        $invoiceLine
+                                            ->setData($line->getData())
+                                            ->setId(null);
+
+                                        $invoice
+                                            ->addLine($invoiceLine);
+                                    }
+
+                                    $invoice
+                                        ->setFooterMessage($footerMessage)
+                                        ->save();
+
+                                    $invoice
+                                        ->setNumber(sprintf("INV-%s-%s",
+                                            $currentIterator->format('dmY'),
+                                            $invoice->getId()
+                                        ))
+                                        ->setCreatedAt($_currentDate) /** Created at must be the payment date */
+                                        ->save();
+
+                                    echo "[Subscription::PayPal::syncInvoices] Invoice saved {$invoice->getId()} \n";
+                                }
+
+                                // Going down by one
+                                $diff = $startDate->diff($currentIterator);
+                                $diffDays = $diff->days * ($diff->invert ? -1 : 1);
+                                $currentIterator->sub(DateInterval::createFromDateString('1 month'));
+                            }
+                        }
+                    } catch (\Exception $e) {
+                        echo "[Subscription::PayPal::exception] {$e->getMessage()} \n";
+                    }
+
                 } else {
                     throw new \Siberian\Exception(__('PayPal subscription is %s.', $result['STATUS']));
                 }

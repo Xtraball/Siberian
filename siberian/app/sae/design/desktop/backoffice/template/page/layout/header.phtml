@@ -11,7 +11,8 @@ foreach($customLinks as $module => $links) {
         $childs[] = [
             'hasChilds' => false,
             'isVisible' => true,
-            'label' => $link['title'],
+            'label' => isset($link['context']) ?
+                p__($link['context'], $link['title']) : __($link['title']),
             'url' => $this->getUrl($link['link']),
             'icon' => !empty($link['icon']) ? $link['icon'] : 'fa fa-cogs',
         ];

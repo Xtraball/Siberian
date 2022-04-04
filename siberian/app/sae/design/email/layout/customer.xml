@@ -22,4 +22,12 @@
         </views>
     </gdpr_token>
 
+    <send_token>
+        <addLayout name="application_base_layout" />
+        <views>
+            <content_email class="core_view_email_default"
+                           template="customer/mail/token.phtml" />
+        </views>
+    </send_token>
+
 </layout>

@@ -130,9 +130,11 @@ class Siberian_Module
      * @param $code
      * @param $title
      * @param $link
-     * @param $icon
+     * @param string $icon
+     * @param null $context
+     * @throws Zend_Exception
      */
-    public static function addMenu($module, $code, $title, $link, $icon = '')
+    public static function addMenu($module, $code, $title, $link, $icon = '', $context = null)
     {
         if (!isset(self::$menus[$module])) {
             self::$menus[$module] = [];
@@ -140,8 +142,9 @@ class Siberian_Module
 
         if (!isset(self::$menus[$module][$code])) {
             self::$menus[$module][$code] = [
-                "title" => __($title),
+                "title" => $title,
                 "link" => $link,
+                "context" => $context,
                 "icon" => $icon,
             ];
         }
@@ -165,9 +168,10 @@ class Siberian_Module
      * @param $link
      * @param string $icon
      * @param null $aclCode
+     * @param null $context
      * @throws Zend_Exception
      */
-    public static function addEditorMenu($module, $code, $title, $link, $icon = '', $aclCode = null)
+    public static function addEditorMenu($module, $code, $title, $link, $icon = '', $aclCode = null, $context = null)
     {
         if (!isset(self::$editor_menus[$module])) {
             self::$editor_menus[$module] = [];
@@ -175,8 +179,9 @@ class Siberian_Module
 
         if (!isset(self::$editor_menus[$module][$code])) {
             self::$editor_menus[$module][$code] = [
-                "title" => __($title),
+                "title" => $title,
                 "link" => $link,
+                "context" => $context,
                 "icon" => $icon,
                 "code" => $code,
                 "acl_code" => $aclCode,
@@ -197,21 +202,21 @@ class Siberian_Module
 
     /**
      * @param $module
+     * @param $root
      */
     public static function addModuleRoot($module, $root)
     {
-        $moduleKey = trim(strtolower($module));
+        $moduleKey = strtolower(trim($module));
         if (!isset(self::$modules_roots[$moduleKey])) {
             self::$modules_roots[$moduleKey] = $root;
         }
     }
 
-    /**
-     * @return array|bool
-     */
+    //**
+
     public static function getModuleRoot($module)
     {
-        $moduleKey = trim(strtolower($module));
+        $moduleKey = strtolower(trim($module));
         if (!empty(self::$modules_roots[$moduleKey])) {
             return self::$modules_roots[$moduleKey];
         }

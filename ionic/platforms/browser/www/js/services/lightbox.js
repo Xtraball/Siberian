@@ -2,9 +2,9 @@
  * Lightbox
  *
  * @author Xtraball SAS
- * @version 4.17.0
+ * @version 4.20.29
  */
-angular.module("starter").service("Lightbox", function ($ocLazyLoad, $q) {
+angular.module('starter').service('Lightbox', function ($ocLazyLoad, $q) {
     var service = {
         loadedPromise: $q.defer(),
         defaults: {

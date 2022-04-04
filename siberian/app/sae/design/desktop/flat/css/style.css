@@ -3114,11 +3114,11 @@ input[type=radio]:checked:after {
 
 input[type=checkbox],
 input[type=radio] {
-    height: 20px;
     background: none;
     box-shadow: none;
     margin: 0;
-    width: 20px;
+    width: 18px !important;
+    height: 18px !important;
 }
 
 input[type=checkbox]:before {

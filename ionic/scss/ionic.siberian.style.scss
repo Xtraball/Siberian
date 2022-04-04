@@ -43,6 +43,13 @@ ion-modal-view {
   ion-side-menus {
     height: 100vh !important;
   }
+
+  /** Specific hint for ios & browser */
+  &.platform-browser {
+    ion-side-menus {
+      height: var(--app-height) !important;
+    }
+  }
 }
 
 ion-side-menu {

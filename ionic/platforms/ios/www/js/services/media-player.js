@@ -573,7 +573,8 @@ angular
             var mcDictionnary = {
                 track: service.currentTrack.name,
                 artist: service.currentTrack.artistName,
-                cover: service.currentTrack.albumCover,
+                //cover: service.currentTrack.albumCover,
+                cover: null,
                 isPlaying: true,
                 dismissable: true,
 

@@ -47,6 +47,11 @@ img-crop canvas {
     left: 0;
 }
 
+.iti-mobile-custom .iti {
+    width: 100%;
+    padding-right: 15px;
+}
+
 @media screen and (min-height: 532px) and (min-width: 532px) {
     .avatar-crop .popup .popup-body {
         width: 512px;

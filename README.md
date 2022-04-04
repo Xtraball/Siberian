@@ -34,7 +34,7 @@
 
 * PHP
 
-    * Version: 7.0, 7.1 & 7.2
+    * Version: 7.3
     
     * Extensions: `gd`, `pdo_mysql`, `SimpleXML`, `curl`, `dom`, `SQLite3`.
     

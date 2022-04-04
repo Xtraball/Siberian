@@ -5,8 +5,8 @@
  * @version 4.17.0
  */
 angular
-.module("starter")
-.service("CustomTab", function (SB, LinkService) {
+.module('starter')
+.service('CustomTab', function (SB, LinkService) {
     return {
         openLink: function(url, options) {
 

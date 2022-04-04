@@ -189,7 +189,8 @@ if (is_array($customLinks)) {
 
             $acl = isset($link['acl_code']) ? $this->_canAccess($link['acl_code']) : true;
             $isCurrent = isset($link['code']) ? ($link['code'] === $currentLink) : false;
-            $title = $link['title'];
+            $title = isset($link['context']) ?
+                p__($link['context'], $link['title']) : __($link['title']);
             $icon = $link['icon'];
             $url = $link['link'];
             $slug = slugify($title);
