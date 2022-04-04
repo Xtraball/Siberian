@@ -34,6 +34,8 @@ class Customer_Form_Settings extends Siberian_Form_Abstract
                 p__('customer', 'Options')
             );
 
+        $emailValidation = $this->addSimpleCheckbox('email_validation', p__('customer', 'Enable e-mail confirmation'));
+
         $mobileNumber = $this->addSimpleCheckbox('extra_mobile', p__('customer', 'Mobile number'));
         $mobileNumberRequired = $this->addSimpleCheckbox('extra_mobile_required', p__('customer', 'Mobile number required?'));
 
@@ -51,11 +53,11 @@ class Customer_Form_Settings extends Siberian_Form_Abstract
         $commercialAgreementLabel->setDescription(p__('customer', 'Default') . ': ' . p__('customer', "I'd like to hear about offers & services"));
 
         $text = p__('customer', 'Please note that some modules can enforce the use of custom fields, and will override the settings below!');
-        $fieldsHelper = <<<HHLP
+        $fieldsHelper = <<<HELP
 <div class="col-md-7 col-md-offset-3">
     <div class="alert alert-warning">{$text}</div>
 </div>
-HHLP;
+HELP;
 
         $htmlHelper = $this->addSimpleHtml('fields_helper', $fieldsHelper);
 
@@ -63,6 +65,7 @@ HHLP;
             'group2',
             [
                 'fields_helper',
+                'email_validation',
                 'extra_mobile',
                 'extra_mobile_required',
                 'extra_civility',

@@ -2,12 +2,12 @@
  * Customer
  *
  * @author Xtraball SAS <dev@xtraball.com>
- * @version 4.19.1
+ * @version 4.20.30
  */
 angular
     .module('starter')
-    .factory('Customer', function ($pwaRequest, $rootScope, $session, $timeout, $injector, $translate,
-                                   Application, Loader, Modal, Dialog, Url, SB) {
+    .factory('Customer', function ($pwaRequest, $rootScope, $session, $timeout, $injector, $translate, $q,
+                                   Application, Loader, Modal, Dialog, Url, SB, TelInput) {
 
         var factory = {
             customer: null,
@@ -17,7 +17,15 @@ angular
             display_account_form: false,
             login_modal_hidden_subscriber: null,
             is_logged_in: false,
-            loginScope: null
+            loginScope: null,
+            itis: {}
+        };
+
+        factory.uuidv4 = function () {
+            return 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, function(c) {
+                var r = Math.random() * 16 | 0, v = c === 'x' ? r : (r & 0x3 | 0x8);
+                return v.toString(16);
+            });
         };
 
         /**
@@ -65,65 +73,68 @@ angular
          * @return Promise|boolean
          */
         factory.loginModal = function (scope, loginCallback, logoutCallback, registerCallback) {
-            if ($rootScope.isNotAvailableOffline()) {
-                return false;
-            }
+            TelInput.isLoaded().then(function () {
+                if ($rootScope.isNotAvailableOffline()) {
+                    return false;
+                }
 
-            // Event handlers to spread accross the application!
-            var modalScope = $rootScope.$new(true);
+                // Event handlers to spread accross the application!
+                var modalScope = $rootScope.$new(true);
 
-            modalScope.$on('modal.shown', function () {
-                var loginSuccessSubscriber = modalScope.$on(SB.EVENTS.AUTH.loginSuccess, function () {
-                    if (typeof loginCallback === 'function') {
-                        loginCallback();
-                    }
-                    factory.login_modal.hide();
+                modalScope.$on('modal.shown', function () {
+                    var loginSuccessSubscriber = modalScope.$on(SB.EVENTS.AUTH.loginSuccess, function () {
+                        if (typeof loginCallback === 'function') {
+                            loginCallback();
+                        }
+                        factory.login_modal.hide();
+                    });
+
+                    var logoutSuccessSubscriber = modalScope.$on(SB.EVENTS.AUTH.logoutSuccess, function () {
+                        if (typeof logoutCallback === 'function') {
+                            logoutCallback();
+                        }
+                        factory.login_modal.hide();
+                    });
+
+                    var registerSubscriber = modalScope.$on(SB.EVENTS.AUTH.registerSuccess, function () {
+                        if (typeof registerCallback === 'function') {
+                            registerCallback();
+                        }
+                        factory.login_modal.hide();
+                    });
+
+                    // Listening for modal.hidden dynamically!
+                    factory.login_modal_hidden_subscriber = modalScope.$on('modal.hidden', function () {
+                        // Un-subscribe from modal.hidden RIGHT NOW, otherwise we will create a loop with the automated clean-up!
+                        factory.login_modal_hidden_subscriber();
+
+                        // CLean-up callback listeners!
+                        loginSuccessSubscriber();
+                        logoutSuccessSubscriber();
+                        registerSubscriber();
+                    });
                 });
 
-                var logoutSuccessSubscriber = modalScope.$on(SB.EVENTS.AUTH.logoutSuccess, function () {
-                    if (typeof logoutCallback === 'function') {
-                        logoutCallback();
-                    }
-                    factory.login_modal.hide();
-                });
+                // Layout options!
+                var layout = 'templates/customer/account/l1/my-account.html';
 
-                var registerSubscriber = modalScope.$on(SB.EVENTS.AUTH.registerSuccess, function () {
-                    if (typeof registerCallback === 'function') {
-                        registerCallback();
-                    }
-                    factory.login_modal.hide();
-                });
+                return Modal
+                    .fromTemplateUrl(layout, {
+                        scope: modalScope,
+                        animation: 'slide-in-up'
+                    }).then(function (modal) {
+                        factory.login_modal = modal;
+                        factory.login_modal.show();
 
-                // Listening for modal.hidden dynamically!
-                factory.login_modal_hidden_subscriber = modalScope.$on('modal.hidden', function () {
-                    // Un-subscribe from modal.hidden RIGHT NOW, otherwise we will create a loop with the automated clean-up!
-                    factory.login_modal_hidden_subscriber();
-
-                    // CLean-up callback listeners!
-                    loginSuccessSubscriber();
-                    logoutSuccessSubscriber();
-                    registerSubscriber();
-                });
+                        return modal;
+                    });
             });
-
-            // Layout options!
-            var layout = 'templates/customer/account/l1/my-account.html';
-
-            return Modal
-                .fromTemplateUrl(layout, {
-                    scope: modalScope,
-                    animation: 'slide-in-up'
-                }).then(function (modal) {
-                    factory.login_modal = modal;
-                    factory.login_modal.show();
-
-                    return modal;
-                });
         };
 
         // Binder to close the login modal!
         factory.closeModal = function () {
             factory.login_modal.hide();
+            factory.login_modal.remove();
         };
 
         factory.login = function (data) {
@@ -296,12 +307,60 @@ angular
             return promise;
         };
 
+        factory.initIti = function (selector, country, options) {
+            var localOptions = (typeof options === 'undefined') ? {} : options;
+            var itiOptions = angular.extend({}, {
+                allowDropdown: true,
+                nationalMode: false,
+                formatOnDisplay: true,
+                autoHideDialCode: false,
+                placeholderNumberType: 'MOBILE',
+                separateDialCode: false,
+                initialCountry: country,
+                autoPlaceholder: 'off',
+                dropdownContainer: document.body
+            }, localOptions);
+
+            var input = document.getElementById(selector);
+            if (factory.itis.hasOwnProperty(selector)) {
+                factory.itis[selector].destroy();
+                delete factory.itis[selector];
+            }
+
+            factory.itis[selector] = window.intlTelInput(input, itiOptions);
+        };
+
+        factory.getIti = function (selector) {
+            if (factory.itis.hasOwnProperty(selector)) {
+                return factory.itis[selector];
+            }
+            return null;
+        };
+
         factory.find = function () {
             return $pwaRequest.get('customer/mobile_account_edit/find');
         };
 
         factory.deleteAccount = function () {
             return $pwaRequest.get('customer/mobile_account_login/delete-account');
+        };
+
+        factory.getIpInfo = function () {
+            var defer = $q.defer();
+            function ipSsuccess () {
+                defer.resolve(JSON.parse(this.responseText));
+            }
+            function ipFail () {
+                defer.reject();
+            }
+
+            var oReq = new XMLHttpRequest();
+            oReq.onload = ipSsuccess;
+            oReq.onerror = ipFail;
+            oReq.open('get', 'https://ipinfo.io/json', true);
+            oReq.send();
+
+            return defer.promise;
         };
 
         factory.isLoggedIn = function () {
@@ -340,6 +399,83 @@ angular
 
         factory.saveCredentials = function (uuid) {
             $session.setId(uuid);
+        };
+
+        // Hooks key-array
+        factory.hooks = {
+            'customer.before.login': [],
+            'customer.after.login': [],
+            'customer.before.update': [],
+            'customer.after.update': [],
+            'customer.before.register': [],
+            'customer.after.register': []
+        };
+
+        factory.registerHook = function (key, callback) {
+            if (!factory.hooks.hasOwnProperty(key)) {
+                console.error('[Customer.addHook] invalid hook key.');
+                return;
+            }
+
+            if (typeof callback !== 'function') {
+                console.error('[Customer.addHook] callback must be a function.');
+                return;
+            }
+
+            factory.hooks[key].push(callback);
+        };
+
+        factory.nextHook = function (payload, _hooks, deferred) {
+            if (_hooks.length === 0) {
+                deferred.resolve('All done!');
+                return;
+            }
+            var _currentHook = _hooks.shift();
+
+            console.log('Running hook: ' + _currentHook.toString());
+
+            var _tmpQ = $q.defer();
+            var _untouchedPayload = angular.copy(payload);
+            try {
+                _currentHook(payload, _tmpQ);
+                _tmpQ.promise.then(function (success) {
+                    // Continue
+                    factory.nextHook(payload, _hooks, deferred);
+                }, function (error) {
+                    deferred.reject('An error occured please try again! ' + error.toString());
+                })
+            } catch (e) {
+                console.log('running hook catch wtf, ', e.message);
+                console.log(e);
+                // We also revert the payload to before
+                payload = _untouchedPayload;
+                // Something went wrong with the hook
+                deferred.reject('An unknown error occured please try again! ' + _currentHook.toString());
+            }
+        };
+
+        factory.runHooks = function (hooksList, payload) {
+            var deferred = $q.defer();
+            var _hooks = [];
+
+            for (var key in hooksList) {
+                var index = hooksList[key];
+                if (factory.hooks.hasOwnProperty(index)) {
+                    _hooks = _hooks.concat(angular.copy(factory.hooks[index]));
+                }
+            }
+
+            // Sorting hooks by priority
+            _hooks.sort(function (a, b) {
+                if (a.hasOwnProperty('priority') && b.hasOwnProperty('priority')) {
+                    return a['priority'] - b['priority'];
+                }
+                return 0;
+            });
+
+            factory.nextHook(payload, _hooks, deferred);
+
+            return deferred.promise;
         };
 
         /**

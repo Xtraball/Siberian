@@ -57,7 +57,7 @@ angular.module('starter').service('Dialog', function ($ionicPopup, $timeout, $tr
     service.alert = function (title, message, button, dismiss, context) {
         var deferred = $q.defer();
 
-        /** Stack alert */
+        // Stack alert!
         service.stack.push({
             type: 'alert',
             data: {

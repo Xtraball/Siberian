@@ -161,6 +161,7 @@ class Customer_Mobile_Account_RegisterController extends Application_Controller_
             $application->checkCustomerAccount();
             $myAccountTab = $application->getOption('tabbar_account');
             $accountSettings = Json::decode($myAccountTab->getSettings());
+            $emailValidation = $accountSettings['email_validation'];
             $requireMobile = $accountSettings['extra_mobile_required'];
             $requireCivility = $accountSettings['extra_civility_required'];
             $requireBirthdate = $accountSettings['extra_birthdate_required'];
@@ -302,7 +303,6 @@ class Customer_Mobile_Account_RegisterController extends Application_Controller_
 
             // In case there is an image!
             $customer->saveImage($data['image']);
-
             $customer->updateSessionUuid(Zend_Session::getId());
 
             // PUSH INDIVIDUAL TO USER ONLY

@@ -320,7 +320,24 @@ angular
         };
 
         $scope.loginEmail = function () {
-            Customer.login($scope.customer);
+            var hooksBeforeLogin = ['customer.before.login'];
+            var hooksAfterLogin = ['customer.after.login'];
+            var hooksAfterLoginError = ['customer.after.login.error'];
+
+            Customer
+                .runHooks(hooksBeforeLogin, $scope.customer)
+                .then(function () {
+                    Customer
+                        .login($scope.customer)
+                        .then(function(success) {
+                            Customer.runHooks(hooksAfterLogin, {customer: $scope.customer, success: success});
+                        }, function(error) {
+                            Customer.runHooks(hooksAfterLoginError, {customer: $scope.customer, error: error});
+                        });
+                }, function (error) {
+                    console.log('runHooks', error);
+                    Dialog.alert('Error', error.message, 'OK', -1);
+                });
         };
 
         $scope.retrieveForgotPassword = function () {
@@ -418,6 +435,27 @@ angular
             }
         };
 
+        $scope.checkMobile =  function () {
+            if ($scope.myAccount.settings.use_mobile ||
+                $scope.myAccount.settings.extra_mobile) {
+                var iti = Customer.getIti('customer_mobile');
+
+                if (!iti) { // in case it is not init
+                    return true;
+                }
+                // trim spaces
+
+                if (!iti.isValidNumber()) {
+                    return false;
+                }
+
+                //Apply valid formatted number to the customer scope
+                $scope.customer.mobile = iti.getNumber();
+            }
+            // in case it's not configured
+            return true;
+        };
+
         $scope.registerOrSave = function () {
             Loader.show();
 
@@ -429,21 +467,63 @@ angular
             }
 
             $scope.checkPasswordStatus();
+            if (!$scope.checkMobile()) {
+                Loader.hide();
+                Dialog.alert('Error', 'Your mobile number is not valid!', 'OK', -1, 'customer');
+                return;
+            }
+
+            var hooksBefore = [];
+            var hooksAfter = [];
+            var hooksAfterError = [];
+            if (Customer.isLoggedIn()) {
+                hooksBefore.push('customer.before.update');
+                hooksAfter.push('customer.after.update');
+                hooksAfterError.push('customer.after.update.error');
+            } else {
+                hooksBefore.push('customer.before.register');
+                hooksAfter.push('customer.after.register');
+                hooksAfterError.push('customer.after.register.error');
+            }
 
             Customer
-                .save($scope.customer)
-                .then(function (success) {
-                    Dialog
-                        .alert('Account', success.message, 'OK', -1, 'customer')
-                        .then(function () {
-                            Customer.closeModal();
+                .runHooks(hooksBefore, {customer: $scope.customer, settings: $scope.myAccount.settings})
+                .then(function () {
+                    Customer
+                        .save($scope.customer)
+                        .then(function (success) {
+                            Customer
+                                .runHooks(hooksAfter, {customer: $scope.customer, success: success})
+                                .then(function () {
+                                    Loader.hide();
+                                    Dialog
+                                        .alert('Account', success.message, 'OK', -1, 'customer')
+                                        .then(function () {
+                                            Customer.closeModal();
+                                        });
+                                }, function (error) {
+                                    Loader.hide();
+                                    Dialog.alert('Error', error.message, 'OK', -1);
+                                });
+
+                            return success;
+                        }, function (error) {
+                            Customer
+                                .runHooks(hooksAfterError, {customer: $scope.customer, error: error})
+                                .then(function () {
+                                    Loader.hide();
+                                    Dialog.alert('Error', error.message, 'OK', -1);
+                                }, function (error) {
+                                    Loader.hide();
+                                    Dialog.alert('Error', error.message, 'OK', -1);
+                                });
+                        }).then(function () {
+                            Loader.hide();
                         });
-                    return success;
                 }, function (error) {
+                    Loader.hide();
                     Dialog.alert('Error', error.message, 'OK', -1);
-                }).then(function () {
-                Loader.hide();
-            });
+                });
         };
 
         $scope.logout = function () {
@@ -530,6 +610,17 @@ angular
             $scope.display_settings = false;
             $scope.display_forgot_password_form = false;
             $scope.display_account_form = true;
+
+            if ($scope.myAccount.settings.use_mobile ||
+                $scope.myAccount.settings.extra_mobile) {
+                Customer
+                    .getIpInfo()
+                    .then(function (payload) {
+                        Customer.initIti('customer_mobile', payload.country);
+                    }, function (error) {
+                        Customer.initIti('customer_mobile', CURRENT_LANGUAGE);
+                    });
+            }
         };
 
         $scope.scrollTop = function () {
