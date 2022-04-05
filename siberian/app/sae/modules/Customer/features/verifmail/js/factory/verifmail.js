@@ -79,6 +79,7 @@ angular
                                                                         $interval.cancel(cancelVerify);
                                                                         promise.reject($translate.instant('You cancelled the e-mail verification!', 'customer'));
                                                                     },
+                                                                    withTimeout: false,
                                                                     template: "<ion-spinner class=\"spinner-custom\"></ion-spinner><br /><span>" + $translate.instant(trText) + "</span>"
                                                                 });
 
