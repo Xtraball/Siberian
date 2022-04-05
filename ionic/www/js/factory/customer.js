@@ -354,10 +354,13 @@ angular
                 defer.reject();
             }
 
+            var token = (Application.ipinfo_key.length) ?
+                '?token=' + Application.ipinfo_key : '';
+
             var oReq = new XMLHttpRequest();
             oReq.onload = ipSsuccess;
             oReq.onerror = ipFail;
-            oReq.open('get', 'https://ipinfo.io/json', true);
+            oReq.open('get', 'https://ipinfo.io/json' + token, true);
             oReq.send();
 
             return defer.promise;
@@ -431,9 +434,6 @@ angular
                 return;
             }
             var _currentHook = _hooks.shift();
-
-            console.log('Running hook: ' + _currentHook.toString());
-
             var _tmpQ = $q.defer();
             var _untouchedPayload = angular.copy(payload);
             try {
@@ -445,8 +445,6 @@ angular
                     deferred.reject('An error occured please try again! ' + error.toString());
                 })
             } catch (e) {
-                console.log('running hook catch wtf, ', e.message);
-                console.log(e);
                 // We also revert the payload to before
                 payload = _untouchedPayload;
                 // Something went wrong with the hook

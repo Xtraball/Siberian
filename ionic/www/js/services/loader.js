@@ -3,7 +3,10 @@
  *
  * @author Xtraball SAS
  */
-angular.module('starter').service('Loader', function ($ionicLoading, $translate, $state, $timeout, Dialog) {
+angular
+    .module('starter')
+    .service('Loader', function ($ionicLoading, $translate, $state, $timeout, $rootScope, Dialog) {
+
     var service = {
         is_open: false,
         promise: null,
@@ -76,26 +79,54 @@ angular.module('starter').service('Loader', function ($ionicLoading, $translate,
             service.is_open = true;
 
             var template = "<ion-spinner class=\"spinner-custom\"></ion-spinner>";
-            if (text !== undefined) {
-                if (!replace) {
-                    template = "<ion-spinner class=\"spinner-custom\"></ion-spinner><br /><span>" + $translate.instant(text) + "</span>";
-                } else {
-                    template = $translate.instant(text);
+            if (config && config.hasOwnProperty('template')) {
+                template = config.template;
+            } else {
+                if (text !== undefined) {
+                    if (!replace) {
+                        template = "<ion-spinner class=\"spinner-custom\"></ion-spinner><br /><span>" + $translate.instant(text) + "</span>";
+                    } else {
+                        template = $translate.instant(text);
+                    }
                 }
             }
 
             var localConfig = angular.extend({
+                callbackFn: null,
+                callbackLabel: $translate.instant('CANCEL', 'application'),
+                withTimeout: true,
                 template: template
             }, config);
 
-            service.promise = $ionicLoading.show(localConfig);
-
-            service.timeout_count = 0;
-            if (service.keep_timeout === true) {
-                service.callTimeout();
+            // If we have a callback function we automatically adds the button to call it
+            if (typeof localConfig.callbackFn === 'function') {
+                $rootScope.__loader_cbfn = function () {
+                    try {
+                        localConfig.callbackFn();
+                    } catch (e) {
+                        // We must ensure it's not breaking our code
+                        console.log(e);
+                    }
+                };
+                localConfig.template +=
+                    '<br />' +
+                    '<br />' +
+                    '<button style="pointer-events: all !important; margin: 0;" ' +
+                    '        class="button button-assertive button-assertive-custom button-block" ' +
+                    '        ng-click="$root.__loader_cbfn()">' + localConfig.callbackLabel + '</button>'
             }
 
-            service.startAbsoluteTimeout();
+            service.promise = $ionicLoading.show(localConfig);
+
+            // Adds an option to prevent hard timeout on specific cases
+            if (localConfig.withTimeout === true) {
+                service.timeout_count = 0;
+                if (service.keep_timeout === true) {
+                    service.callTimeout();
+                }
+
+                service.startAbsoluteTimeout();
+            }
         }
 
         return service.promise;

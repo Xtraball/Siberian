@@ -72,7 +72,15 @@ angular
                                                             .alert('Email', 'Please check your inbox and click on the link to confirm your address!', 'OK', -1, 'customer')
                                                             .then(function () {
 
-                                                                Loader.show(trText);
+                                                                Loader.show(null, {
+                                                                    callbackFn: function () {
+                                                                        // Cancel verification just in case we allow user to do so!
+                                                                        Loader.hide();
+                                                                        $interval.cancel(cancelVerify);
+                                                                        promise.reject($translate.instant('You cancelled the e-mail verification!', 'customer'));
+                                                                    },
+                                                                    template: "<ion-spinner class=\"spinner-custom\"></ion-spinner><br /><span>" + $translate.instant(trText) + "</span>"
+                                                                });
 
                                                                 var start = Math.floor(Date.now()/1000) + 120;
                                                                 var repeat = 0;
@@ -84,8 +92,6 @@ angular
                                                                     }
                                                                     inprogress = true;
                                                                     repeat++;
-                                                                    Loader.hide();
-                                                                    Loader.show(trText + '.'.repeat((repeat % 3) + 1));
                                                                     factory
                                                                         .checkEmail(payload.customer.email)
                                                                         .then(function (success) {
@@ -99,10 +105,14 @@ angular
                                                                                     $interval.cancel(cancelVerify);
                                                                                 }
                                                                                 // else continue up to 60 seconds
+
+                                                                                inprogress = false;
                                                                             },
                                                                             function (error) {
                                                                                 promise.reject($translate.instant(error.message, 'customer'));
                                                                                 $interval.cancel(cancelVerify);
+
+                                                                                inprogress = false;
                                                                             });
 
                                                                     // We waited 2 minutes...
@@ -110,9 +120,7 @@ angular
                                                                         promise.reject($translate.instant('Request timed out, please try again!', 'customer'));
                                                                         $interval.cancel(cancelVerify);
                                                                     }
-                                                                    inprogress = false;
                                                                 }, 2500)
-
                                                             });
                                                     }, function (error) {
                                                         Loader.hide();
