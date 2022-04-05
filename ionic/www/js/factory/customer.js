@@ -442,13 +442,13 @@ angular
                     // Continue
                     factory.nextHook(payload, _hooks, deferred);
                 }, function (error) {
-                    deferred.reject('An error occured please try again! ' + error.toString());
+                    deferred.reject('An error occured please try again!<br />' + error.toString());
                 })
             } catch (e) {
                 // We also revert the payload to before
                 payload = _untouchedPayload;
                 // Something went wrong with the hook
-                deferred.reject('An unknown error occured please try again! ' + _currentHook.toString());
+                deferred.reject('An unknown error occured please try again!');
             }
         };
 
