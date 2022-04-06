@@ -243,7 +243,7 @@ let cli = function (inputArgs) {
 
         if (args.rebuild) {
             if (remain.length >= 1) {
-                rebuild(remain[0], COPY, false);
+                rebuild(remain[0], COPY , false);
             } else {
                 sprint(clc.red('Missing required argument <platform>'));
             }
@@ -607,6 +607,7 @@ let rebuild = function (platform, copy, prepare, skipRebuild) {
                         gradleArgs = 'cdvBuildRelease -x=:app:processReleaseGoogleServices';
                     }
 
+                    // org.gradle.jvmargs=-Xmx1536M
                     var cordovaGradleArgs = '--debug --gradleArg=-x=:app:processDebugGoogleServices';
                     if (type === '--release') {
                         cordovaGradleArgs = '--debug --gradleArg=-x=:app:processReleaseGoogleServices';

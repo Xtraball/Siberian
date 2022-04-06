@@ -138,6 +138,7 @@ angular
         service.leftToggleClass = data.application.leftToggleClass;
         service.rightToggleClass = data.application.rightToggleClass;
         service.myAccount = data.application.myAccount;
+        service.ipinfo_key = data.application.ipinfo_key;
 
         // Small base64 default image, while loading the real deal!
         service.default_background = data.homepageImage;

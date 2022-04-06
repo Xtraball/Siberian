@@ -315,7 +315,7 @@ dependencies {
     implementation "com.google.firebase:firebase-messaging:21.0.1"
     implementation "com.facebook.android:audience-network-sdk:+"
     implementation "com.google.ads.mediation:facebook:+"
-    implementation "com.startapp:inapp-sdk:4.9.1"
+    implementation "com.startapp:inapp-sdk:4.9.2"
     implementation "com.startapp:admob-mediation:2.5.0"
     // SUB-PROJECT DEPENDENCIES END
 }

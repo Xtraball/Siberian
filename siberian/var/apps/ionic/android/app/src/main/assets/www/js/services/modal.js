@@ -6,7 +6,8 @@
 angular.module('starter').service('Modal', function ($ionicModal, $timeout, $q) {
     var service = {
         stack: [],
-        current_modal: null
+        current_modal: null,
+        allStack: []
     };
 
     /**
@@ -63,6 +64,7 @@ angular.module('starter').service('Modal', function ($ionicModal, $timeout, $q) 
         .fromTemplateUrl(data.templateUrl, data.config)
         .then(function (modal) {
             service.current_modal = modal;
+            service.allStack.push(modal);
             data.promise.resolve(modal);
         });
     };
@@ -99,8 +101,23 @@ angular.module('starter').service('Modal', function ($ionicModal, $timeout, $q) 
         .fromTemplate(data.template, data.config)
         .then(function (modal) {
             service.current_modal = modal;
+            service.allStack.push(modal);
             data.promise.resolve(modal);
         });
+    };
+
+    /**
+     *
+     */
+    service.trashAll = function () {
+        while(service.allStack.length) {
+            try {
+                service.allStack.shift().remove();
+            } catch (e) {
+                // Nope!
+                console.log(e.message);
+            }
+        }
     };
 
     return service;
