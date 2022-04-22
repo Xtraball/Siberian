@@ -6,7 +6,7 @@
  */
 angular
 .module('starter')
-.service('InAppLinks', function ($rootScope, $state, $injector, $ocLazyLoad, Customer, Codescan, Dialog, Pages) {
+.service('InAppLinks', function ($rootScope, $state, $injector, $ocLazyLoad, Customer, Codescan, Dialog, Pages, Modal) {
     var service = {};
 
     /**
@@ -69,6 +69,13 @@ angular
         } else if (!params.offline && $rootScope.isOffline) {
             $rootScope.isNotAvailableOffline();
         } else {
+            // If a modal is open do close it
+            try {
+                Modal.trashAll();
+            } catch (e) {
+                // Nope, weird!!
+            }
+
             // It's a feature!
             if (params.hasOwnProperty('value_id')) {
                 var feature = Pages.getValueId(params.value_id);

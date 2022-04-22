@@ -33,24 +33,6 @@ class Application_Form_Apis extends Siberian_Form_Abstract
 
         self::addClass('create', $this);
 
-        if ($acl->isAllowed('editor_settings_facebook')) {
-            $this->addSimpleHtml(
-                'hint_callback_uri',
-                '<div class="col-md-3">' . __('Callback URIs')
-                . '</div><div class="col-md-7"><p style="letter-spacing: 1px;">' .  $this->callbackUri . ' https://localhost/callback</p></div>');
-            $this->addSimpleText('facebook_id', __('App id'));
-            $this->addSimpleText('facebook_key', __('Secret Key'));
-            $this->groupElements(
-                'facebook',
-                [
-                    'hint_callback_uri',
-                    'facebook_id',
-                    'facebook_key'
-                ],
-                __('Facebook API settings'));
-            $something = true;
-        }
-
         if ($acl->isAllowed('editor_settings_twitter')) {
             $this->addSimpleText('twitter_consumer_key', __('Twitter consumer key'));
             $this->addSimpleText('twitter_consumer_secret', __('Twitter consumer secret'));
@@ -117,6 +99,18 @@ class Application_Form_Apis extends Siberian_Form_Abstract
                 'openweathermap_key'
             ],
             __('OpenWeatherMap settings'));
+
+        $ipinfo = $this->addSimpleText('ipinfo_key', __('IPInfo API key'));
+        $ipinfo->setDescription(
+            __('IPInfo is used to fetch user location to help with mobile region, etc...') . '<br />' .
+            __('This key is not mandatory but highly required if you are using mobile phone number in the account section'));
+        $this->groupElements(
+            'ipinfo',
+            [
+                'ipinfo_key'
+            ],
+            __('IPInfo settings'));
+
         $something = true;
 
         if ($something) {

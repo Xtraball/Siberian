@@ -639,6 +639,7 @@ class Assets
         $code = $feature['code'];
         $minifier_js = new \MatthiasMullie\Minify\JS();
         $minifier_css = new \MatthiasMullie\Minify\CSS();
+        $minifier_css->add()
 
         $out_dir = path('var/tmp/out');
         if (!is_dir($out_dir) && !mkdir($out_dir, 0777, true)) {
