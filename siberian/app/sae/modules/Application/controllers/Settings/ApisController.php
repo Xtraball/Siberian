@@ -24,12 +24,6 @@ class Application_Settings_ApisController extends Application_Controller_Default
 
                 $application = $this->getApplication();
 
-                if ($this->_canAccess('editor_settings_facebook')) {
-                    $application
-                        ->setFacebookId($data['facebook_id'])
-                        ->setFacebookKey($data['facebook_key']);
-                }
-
                 if ($this->_canAccess('editor_settings_twitter')) {
                     $application
                         ->setTwitterConsumerKey($data['twitter_consumer_key'])
@@ -76,6 +70,14 @@ class Application_Settings_ApisController extends Application_Controller_Default
                 } else {
                     $application
                         ->setOwmKey('');
+                }
+
+                if (!empty($data['ipinfo_key'])) {
+                    $application
+                        ->setIpinfoKey($data['ipinfo_key']);
+                } else {
+                    $application
+                        ->setIpinfoKey('');
                 }
 
 

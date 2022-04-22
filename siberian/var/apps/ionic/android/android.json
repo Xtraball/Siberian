@@ -61,19 +61,19 @@
               "count": 1
             },
             {
-              "xml": "<receiver android:name=\"com.cowbell.cordova.geofence.BootReceiver\"><intent-filter><action android:name=\"android.intent.action.BOOT_COMPLETED\" /></intent-filter></receiver>",
+              "xml": "<receiver android:exported=\"true\" android:name=\"com.cowbell.cordova.geofence.BootReceiver\"><intent-filter><action android:name=\"android.intent.action.BOOT_COMPLETED\" /></intent-filter></receiver>",
               "count": 1
             },
             {
-              "xml": "<receiver android:name=\"com.cowbell.cordova.geofence.TransitionReceiver\"><intent-filter><action android:name=\"com.cowbell.cordova.geofence.TRANSITION\" /></intent-filter></receiver>",
+              "xml": "<receiver android:exported=\"true\" android:name=\"com.cowbell.cordova.geofence.TransitionReceiver\"><intent-filter><action android:name=\"com.cowbell.cordova.geofence.TRANSITION\" /></intent-filter></receiver>",
               "count": 1
             },
             {
-              "xml": "<receiver android:enabled=\"true\" android:name=\"com.sunmi.trans.PrinterStatusReceiver\"><intent-filter android:priority=\"1000\"><action android:name=\"woyou.aidlservice.jiuv5.OUT_OF_PAPER_ACTION\" /><action android:name=\"woyou.aidlservice.jiuv5.ERROR_ACTION\" /><action android:name=\"woyou.aidlservice.jiuv5.NORMAL_ACTION\" /><action android:name=\"woyou.aidlservice.jiuv5.COVER_OPEN_ACTION\" /><action android:name=\"woyou.aidlservice.jiuv5.COVER_ERROR_ACTION\" /><action android:name=\"woyou.aidlservice.jiuv5.KNIFE_ERROR_ACTION_1\" /><action android:name=\"woyou.aidlservice.jiuv5.KNIFE_ERROR_ACTION_2\" /><action android:name=\"woyou.aidlservice.jiuv5.OVER_HEATING_ACITON\" /><action android:name=\"woyou.aidlservice.jiuv5.FIRMWARE_UPDATING_ACITON\" /></intent-filter></receiver>",
+              "xml": "<receiver android:enabled=\"true\" android:exported=\"true\" android:name=\"com.sunmi.trans.PrinterStatusReceiver\"><intent-filter android:priority=\"1000\"><action android:name=\"woyou.aidlservice.jiuv5.OUT_OF_PAPER_ACTION\" /><action android:name=\"woyou.aidlservice.jiuv5.ERROR_ACTION\" /><action android:name=\"woyou.aidlservice.jiuv5.NORMAL_ACTION\" /><action android:name=\"woyou.aidlservice.jiuv5.COVER_OPEN_ACTION\" /><action android:name=\"woyou.aidlservice.jiuv5.COVER_ERROR_ACTION\" /><action android:name=\"woyou.aidlservice.jiuv5.KNIFE_ERROR_ACTION_1\" /><action android:name=\"woyou.aidlservice.jiuv5.KNIFE_ERROR_ACTION_2\" /><action android:name=\"woyou.aidlservice.jiuv5.OVER_HEATING_ACITON\" /><action android:name=\"woyou.aidlservice.jiuv5.FIRMWARE_UPDATING_ACITON\" /></intent-filter></receiver>",
               "count": 1
             },
             {
-              "xml": "<service android:name=\"woyou.aidlservice.jiuiv5.IWoyouService\"><intent-filter><action android:name=\"woyou.aidlservice.jiuiv5.IWoyouService\" /></intent-filter></service>",
+              "xml": "<service android:exported=\"true\" android:name=\"woyou.aidlservice.jiuiv5.IWoyouService\"><intent-filter><action android:name=\"woyou.aidlservice.jiuiv5.IWoyouService\" /></intent-filter></service>",
               "count": 1
             },
             {
@@ -93,11 +93,11 @@
               "count": 1
             },
             {
-              "xml": "<service android:name=\"com.adobe.phonegap.push.FCMService\"><intent-filter><action android:name=\"com.google.firebase.MESSAGING_EVENT\" /></intent-filter></service>",
+              "xml": "<service android:exported=\"true\" android:name=\"com.adobe.phonegap.push.FCMService\"><intent-filter><action android:name=\"com.google.firebase.MESSAGING_EVENT\" /></intent-filter></service>",
               "count": 1
             },
             {
-              "xml": "<service android:name=\"com.adobe.phonegap.push.PushInstanceIDListenerService\"><intent-filter><action android:name=\"com.google.firebase.INSTANCE_ID_EVENT\" /></intent-filter></service>",
+              "xml": "<service android:exported=\"true\" android:name=\"com.adobe.phonegap.push.PushInstanceIDListenerService\"><intent-filter><action android:name=\"com.google.firebase.INSTANCE_ID_EVENT\" /></intent-filter></service>",
               "count": 1
             },
             {
@@ -209,7 +209,7 @@
           ],
           "/*/application": [
             {
-              "xml": "<receiver android:enabled=\"true\" android:name=\"nl.xservices.plugins.ShareChooserPendingIntent\"><intent-filter><action android:name=\"android.intent.action.SEND\" /></intent-filter></receiver>",
+              "xml": "<receiver android:enabled=\"true\" android:exported=\"true\" android:name=\"nl.xservices.plugins.ShareChooserPendingIntent\"><intent-filter><action android:name=\"android.intent.action.SEND\" /></intent-filter></receiver>",
               "count": 1
             }
           ]

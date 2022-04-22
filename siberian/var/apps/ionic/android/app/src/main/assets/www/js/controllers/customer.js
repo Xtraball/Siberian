@@ -512,17 +512,17 @@ angular
                                 .runHooks(hooksAfterError, {customer: $scope.customer, error: error})
                                 .then(function () {
                                     Loader.hide();
-                                    Dialog.alert('Error', error.message, 'OK', -1);
+                                    Dialog.alert('Error', error, 'OK', -1);
                                 }, function (error) {
                                     Loader.hide();
-                                    Dialog.alert('Error', error.message, 'OK', -1);
+                                    Dialog.alert('Error', error, 'OK', -1);
                                 });
                         }).then(function () {
                             Loader.hide();
                         });
                 }, function (error) {
                     Loader.hide();
-                    Dialog.alert('Error', error.message, 'OK', -1);
+                    Dialog.alert('Error', error, 'OK', -1);
                 });
         };
 

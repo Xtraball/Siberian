@@ -412,6 +412,7 @@ class Front_Controller_Api_Base extends Front_Controller_App_Default
                     'gdpr' => [
                         'isEnabled' => isGdpr(),
                     ],
+                    'ipinfo_key' => (string)$application->getIpinfoKey(),
                     'useHomepageBackground' => (boolean)$application->getUseHomepageBackgroundImageInSubpages(),
                     'backButton' => (string)$application->getBackButton(),
                     'backButtonClass' => $application->getBackButtonClass(),

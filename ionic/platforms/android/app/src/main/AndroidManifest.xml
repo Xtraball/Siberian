@@ -3,7 +3,7 @@
     <supports-screens android:anyDensity="true" android:largeScreens="true" android:normalScreens="true" android:resizeable="true" android:smallScreens="true" android:xlargeScreens="true" />
     <uses-permission android:name="android.permission.INTERNET" />
     <application android:hardwareAccelerated="true" android:icon="@mipmap/ic_launcher" android:label="@string/app_name" android:largeHeap="true" android:supportsRtl="true">
-        <activity android:screenOrientation="unspecified" android:configChanges="orientation|keyboardHidden|keyboard|screenSize|locale|smallestScreenSize|screenLayout|uiMode" android:label="@string/activity_name" android:launchMode="singleTop" android:name="MainActivity" android:theme="@style/Theme.AppCompat.NoActionBar" android:windowSoftInputMode="adjustResize">
+        <activity android:screenOrientation="unspecified" android:configChanges="orientation|keyboardHidden|keyboard|screenSize|locale|smallestScreenSize|screenLayout|uiMode" android:exported="true" android:label="@string/activity_name" android:launchMode="singleTop" android:name="MainActivity" android:theme="@style/Theme.AppCompat.NoActionBar" android:windowSoftInputMode="adjustResize">
             <intent-filter android:label="@string/launcher_name">
                 <action android:name="android.intent.action.MAIN" />
                 <category android:name="android.intent.category.LAUNCHER" />
@@ -17,7 +17,7 @@
         <provider android:authorities="${applicationId}.provider" android:exported="false" android:grantUriPermissions="true" android:name="org.apache.cordova.camera.FileProvider">
             <meta-data android:name="android.support.FILE_PROVIDER_PATHS" android:resource="@xml/camera_provider_paths" />
         </provider>
-        <receiver android:enabled="true" android:name="nl.xservices.plugins.ShareChooserPendingIntent">
+        <receiver android:enabled="true" android:exported="true" android:name="nl.xservices.plugins.ShareChooserPendingIntent">
             <intent-filter>
                 <action android:name="android.intent.action.SEND" />
             </intent-filter>
@@ -39,17 +39,17 @@
         </receiver>
         <service android:name="com.xtraball.musiccontrols.MusicControlsNotificationKiller" />
         <service android:exported="false" android:label="@string/app_name" android:name="com.cowbell.cordova.geofence.ReceiveTransitionsIntentService" />
-        <receiver android:name="com.cowbell.cordova.geofence.BootReceiver">
+        <receiver android:exported="true" android:name="com.cowbell.cordova.geofence.BootReceiver">
             <intent-filter>
                 <action android:name="android.intent.action.BOOT_COMPLETED" />
             </intent-filter>
         </receiver>
-        <receiver android:name="com.cowbell.cordova.geofence.TransitionReceiver">
+        <receiver android:exported="true" android:name="com.cowbell.cordova.geofence.TransitionReceiver">
             <intent-filter>
                 <action android:name="com.cowbell.cordova.geofence.TRANSITION" />
             </intent-filter>
         </receiver>
-        <receiver android:enabled="true" android:name="com.sunmi.trans.PrinterStatusReceiver">
+        <receiver android:enabled="true" android:exported="true" android:name="com.sunmi.trans.PrinterStatusReceiver">
             <intent-filter android:priority="1000">
                 <action android:name="woyou.aidlservice.jiuv5.OUT_OF_PAPER_ACTION" />
                 <action android:name="woyou.aidlservice.jiuv5.ERROR_ACTION" />
@@ -62,7 +62,7 @@
                 <action android:name="woyou.aidlservice.jiuv5.FIRMWARE_UPDATING_ACITON" />
             </intent-filter>
         </receiver>
-        <service android:name="woyou.aidlservice.jiuiv5.IWoyouService">
+        <service android:exported="true" android:name="woyou.aidlservice.jiuiv5.IWoyouService">
             <intent-filter>
                 <action android:name="woyou.aidlservice.jiuiv5.IWoyouService" />
             </intent-filter>
@@ -76,12 +76,12 @@
         </activity>
         <receiver android:name="com.adobe.phonegap.push.BackgroundActionButtonHandler" />
         <receiver android:name="com.adobe.phonegap.push.PushDismissedHandler" />
-        <service android:name="com.adobe.phonegap.push.FCMService">
+        <service android:exported="true" android:name="com.adobe.phonegap.push.FCMService">
             <intent-filter>
                 <action android:name="com.google.firebase.MESSAGING_EVENT" />
             </intent-filter>
         </service>
-        <service android:name="com.adobe.phonegap.push.PushInstanceIDListenerService">
+        <service android:exported="true" android:name="com.adobe.phonegap.push.PushInstanceIDListenerService">
             <intent-filter>
                 <action android:name="com.google.firebase.INSTANCE_ID_EVENT" />
             </intent-filter>

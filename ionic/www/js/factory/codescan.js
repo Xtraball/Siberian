@@ -189,12 +189,11 @@ angular
                             }
 
                             // Special case for Apple
-                            if (DEVICE_TYPE === SB.DEVICE.TYPE_IOS) {
-                                if (factory.scanProtocols[i] === 'smsto:') {
-                                    contentUrl = contentUrl
-                                        .replace(/(smsto):/i, 'sms:')
-                                        .replace(/([0-9]):(.*)/, "$1");
-                                }
+                            if (DEVICE_TYPE === SB.DEVICE.TYPE_IOS &&
+                                scannedProtocol === 'smsto:') {
+                                contentUrl = contentUrl
+                                    .replace(/(smsto):/i, 'sms:')
+                                    .replace(/([0-9]):(.*)/, "$1");
                             }
 
                             LinkService.openLink(contentUrl, {global: {browser: 'external_browser'}});
