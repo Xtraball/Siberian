@@ -27,6 +27,9 @@ RUN docker-php-ext-install zip
 RUN docker-php-ext-configure hash --with-mhash
 RUN docker-php-ext-install sockets
 
+# Well!
+RUN ln -s /usr/local/bin/php /usr/bin/php
+
 WORKDIR /var/www/html
 
 EXPOSE 9000
