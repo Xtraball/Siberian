@@ -835,7 +835,8 @@ let copyPlatform = function (platform) {
     sprint('Copying ' + platform + ' ...');
 
     let ionicPlatformPath = ROOT + '/ionic/platforms/' + platform,
-        siberianPlatformPath = ROOT + '/siberian/var/apps/ionic/' + platform;
+        siberianPlatformBasePath = ROOT + '/siberian/var/apps/ionic/';
+        siberianPlatformPath = siberianPlatformBasePath + platform;
 
     switch (platform) {
         case 'android':
@@ -848,7 +849,7 @@ let copyPlatform = function (platform) {
             sh.rm('-rf', siberianPlatformPath);
 
             // Copy with rsync to preserve dot files!
-            sh.rsync('-arv', ionicPlatformPath, siberianPlatformPath + '/');
+            sh.exec('rsync -arv ' + ionicPlatformPath + ' ' + siberianPlatformBasePath);
             sh.rm('-rf', siberianPlatformPath + '/platform_www');
             cleanupWww(siberianPlatformPath + '/assets/www/');
 
