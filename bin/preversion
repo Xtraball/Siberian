@@ -6,7 +6,6 @@ sed -i".bck" -e 's/"lastversion": ".*",/"lastversion": "'$LASTVERSION'",/g' pack
 rm -f package.json.bck
 
 # Pack resources
-./ci/pack-resources.sh
 ./sb archivesources
 cd ./siberian
 php -f cli cache:design pe

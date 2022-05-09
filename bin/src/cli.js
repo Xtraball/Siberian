@@ -1604,7 +1604,7 @@ let pack = function (module) {
 let archiveSources = function () {
     sprint(clc.blue('Building archives for Apps sources restore'));
 
-    let excludes = '--options gzip:compression-level=9 --exclude=\'*.DS_Store*\' --exclude=\'*.idea*\' --exclude=\'*.gitignore*\' --exclude=\'*.localized*\'';
+    let excludes = '--exclude=\'*.DS_Store*\' --exclude=\'*.idea*\' --exclude=\'*.gitignore*\' --exclude=\'*.localized*\'';
 
     // Android!
     sh.cd(ROOT + '/siberian/var/apps/ionic');
@@ -1614,7 +1614,7 @@ let archiveSources = function () {
     sh.rm('-rf', './android/app/src/main/assets/www/chcp.manifest');
     sh.rm('-rf', './android/app/src/main/assets/www/index-prod.html');
     sh.chmod('-R', '777', './android');
-    sh.exec('tar ' + excludes + ' -p -czf ./android.tgz ./android');
+    sh.exec('tar ' + excludes + ' -pcvf - ./android | pigz -9 - > ./android.tgz');
 
     // iOS (with AdMob)
     sh.rm('-rf', './ios/www/features/*');
@@ -1623,7 +1623,7 @@ let archiveSources = function () {
     sh.rm('-rf', './ios/www/chcp.manifest');
     sh.rm('-rf', './ios/www/index-prod.html');
     sh.chmod('-R', '777', './ios');
-    sh.exec('tar ' + excludes + ' -p -czf ./ios.tgz ./ios');
+    sh.exec('tar ' + excludes + ' -pcvf - ./ios | pigz -9 - > ./ios.tgz');
 
     // iOS (without AdMob)
     sh.rm('-rf', './ios-noads/www/features/*');
@@ -1632,7 +1632,7 @@ let archiveSources = function () {
     sh.rm('-rf', './ios-noads/www/chcp.manifest');
     sh.rm('-rf', './ios-noads/www/index-prod.html');
     sh.chmod('-R', '777', './ios-noads');
-    sh.exec('tar ' + excludes + ' -p -czf ./ios-noads.tgz ./ios-noads');
+    sh.exec('tar ' + excludes + ' -pcvf - ./ios-noads | pigz -9 - > ./ios-noads.tgz');
 
     // Browser/HTML5
     sh.cd(ROOT + '/siberian/var/apps');
@@ -1642,7 +1642,7 @@ let archiveSources = function () {
     sh.rm('-rf', './browser/chcp.manifest');
     sh.rm('-rf', './browser/index-prod.html');
     sh.chmod('-R', '777', './browser');
-    sh.exec('tar ' + excludes + ' -p -czf ./browser.tgz ./browser');
+    sh.exec('tar ' + excludes + ' -pcvf - ./browser | pigz -9 - > ./browser.tgz');
 
     sprint(clc.green('Archives done!'));
 };
