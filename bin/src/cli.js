@@ -847,8 +847,8 @@ let copyPlatform = function (platform) {
             // Clean-up!
             sh.rm('-rf', siberianPlatformPath);
 
-            // Copy!
-            sh.cp('-r', ionicPlatformPath + '/', siberianPlatformPath);
+            // Copy with rsync to preserve dot files!
+            sh.rsync('-arv', ionicPlatformPath, siberianPlatformPath + '/');
             sh.rm('-rf', siberianPlatformPath + '/platform_www');
             cleanupWww(siberianPlatformPath + '/assets/www/');
 

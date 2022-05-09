@@ -6,8 +6,6 @@ services:
     image: percona/percona-server:8.0.26-17
     ports:
       - 3306:3306
-    volumes:
-      - ./mysql:/var/lib/mysql
     networks:
       - siberian-bridge
 
