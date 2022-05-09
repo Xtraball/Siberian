@@ -835,7 +835,7 @@ let copyPlatform = function (platform) {
     sprint('Copying ' + platform + ' ...');
 
     let ionicPlatformPath = ROOT + '/ionic/platforms/' + platform,
-        siberianPlatformBasePath = ROOT + '/siberian/var/apps/ionic/';
+        siberianPlatformBasePath = ROOT + '/siberian/var/apps/ionic/',
         siberianPlatformPath = siberianPlatformBasePath + platform;
 
     switch (platform) {
