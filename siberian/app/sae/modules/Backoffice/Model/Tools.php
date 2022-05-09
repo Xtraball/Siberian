@@ -8,6 +8,7 @@ use Siberian\Provider;
 use Siberian\Request;
 use Siberian\Version;
 use Siberian\Cache;
+use Siberian\Cache\Design as CacheDesign;
 use Siberian\Autoupdater;
 
 /**
@@ -33,6 +34,7 @@ class Tools
 
             Cache::__clearCache();
             unlink(path('/var/cache/design.cache'));
+            CacheDesign::rebuild(Version::TYPE);
 
             $defaultCache = \Zend_Registry::get("cache");
             $defaultCache->clean(\Zend_Cache::CLEANING_MODE_ALL);
