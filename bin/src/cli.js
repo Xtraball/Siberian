@@ -358,7 +358,9 @@ let cli = function (inputArgs) {
 
             // Ensure we are on root!
             sh.cd(ROOT);
+            sh.exec('./bin/preversion');
             sh.exec('npm version --no-git-tag-version ' + npmVersion);
+            sh.exec('./bin/postversion');
         } else if (args.linkmodule) {
             if (remain.length >= 1) {
                 linkModule(remain[0].toLowerCase());

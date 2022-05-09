@@ -39,8 +39,8 @@
     "xcode": "^3.0.1"
   },
   "scripts": {
-    "preversion": "./bin/preversion",
-    "postversion": "./bin/postversion",
+    "dis_preversion": "./bin/preversion",
+    "dis_postversion": "./bin/postversion",
     "postinstall": "./bin/install"
   },
   "bugs": {
