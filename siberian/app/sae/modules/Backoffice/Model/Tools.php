@@ -34,7 +34,6 @@ class Tools
 
             Cache::__clearCache();
             unlink(path('/var/cache/design.cache'));
-            CacheDesign::rebuild(Version::TYPE);
 
             $defaultCache = \Zend_Registry::get("cache");
             $defaultCache->clean(\Zend_Cache::CLEANING_MODE_ALL);

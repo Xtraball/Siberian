@@ -138,6 +138,7 @@ class Design extends Cache implements CacheInterface
      */
     public static function rebuild($type)
     {
+        echo "CacheDesign::rebuild \n";
         $localType = strtolower($type);
         switch ($localType) {
             default:
@@ -154,6 +155,7 @@ class Design extends Cache implements CacheInterface
                 static::saveCache('pe', self::PE_PATH);
                 break;
         }
+        echo "CacheDesign::rebuild \n";
     }
 
     /**
@@ -175,6 +177,7 @@ class Design extends Cache implements CacheInterface
                 File::putContents($editionCache, $jsonCache);
             }
         } catch (\Exception $e) {
+            echo "Error::{$e->getMessage()} \n";
             // Something went wrong while saving cache!
         }
 
