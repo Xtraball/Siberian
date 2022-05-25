@@ -3,11 +3,15 @@ version: '3'
 services:
   db:
     restart: always
-    image: percona/percona-server:8.0.26-17
+    image: mariadb:latest
     ports:
       - 3306:3306
     networks:
       - siberian-bridge
+    volumes:
+      - ./mysql:/var/lib/mysql
+    env_file:
+      - .env
 
   php:
     restart: always
@@ -18,14 +22,16 @@ services:
     volumes:
       - ../siberian:/var/www/html
       - ./php/docker.conf:/etc/php/7.3/fpm/pool.d/
-      - ./php/php.ini:/etc/php/7.3/fpm/php.ini
-      - ../modules:/Volumes/hackintosh/devs/repos/siberian/modules
+      - ./php/php.ini:/usr/local/etc/php/php.ini
+      - "../modules:${PROJECT_PATH}/modules"
     ports:
       - "${SOCKETIO_RANGE}:${SOCKETIO_RANGE}"
     links:
       - db
     networks:
       - siberian-bridge
+    env_file:
+      - .env
 
   nginx:
     restart: always
@@ -37,21 +43,21 @@ services:
       - ../siberian:/var/www/html
       - ./nginx/default.conf:/etc/nginx/conf.d/default.conf
       - "${SSL_CERT_PATH}:/etc/nginx/ssl-certificates"
-      - ../modules:/Volumes/hackintosh/devs/repos/siberian/modules
+      - "../modules:${PROJECT_PATH}/modules"
     links:
       - php
     networks:
       - siberian-bridge
+    env_file:
+      - .env
 
   pma:
     image: phpmyadmin
     restart: always
     ports:
       - 8080:80
-    environment:
-      - PMA_HOST=db
-      - PMA_USER=root
-      - PMA_PASSWORD=toor
+    env_file:
+      - .env
     networks:
       - siberian-bridge
 
