@@ -27,6 +27,7 @@ import android.content.Intent;
 import android.graphics.Bitmap;
 import android.net.Uri;
 import android.os.Bundle;
+import android.os.Build;
 import androidx.core.app.NotificationCompat;
 import androidx.core.app.NotificationCompat.MessagingStyle.Message;
 import androidx.media.app.NotificationCompat.MediaStyle;
@@ -70,6 +71,8 @@ public final class Builder {
 
     // Additional extras to merge into each intent
     private Bundle extras;
+
+    private int PendingIntentFlag = 0;
 
     /**
      * Constructor
@@ -118,6 +121,10 @@ public final class Builder {
      */
     public Notification build() {
         NotificationCompat.Builder builder;
+
+        if (Build.VERSION.SDK_INT >= 31) {
+            PendingIntentFlag = PendingIntent.FLAG_MUTABLE;
+        }
 
         if (options.isSilent()) {
             return new Notification(context, options);
@@ -203,7 +210,7 @@ public final class Builder {
 
         int reqCode = random.nextInt();
         // request code and flags not added for demo purposes
-        PendingIntent pendingIntent = PendingIntent.getActivity(context, reqCode, intent, FLAG_UPDATE_CURRENT);
+        PendingIntent pendingIntent = PendingIntent.getActivity(context, reqCode, intent, PendingIntentFlag | FLAG_UPDATE_CURRENT);
 
         builder.setFullScreenIntent(pendingIntent, true);
     }
@@ -399,7 +406,7 @@ public final class Builder {
         int reqCode = random.nextInt();
 
         PendingIntent deleteIntent = PendingIntent.getBroadcast(
-                context, reqCode, intent, FLAG_UPDATE_CURRENT);
+                context, reqCode, intent, PendingIntentFlag|FLAG_UPDATE_CURRENT);
 
         builder.setDeleteIntent(deleteIntent);
     }
@@ -428,7 +435,7 @@ public final class Builder {
         int reqCode = random.nextInt();
 
         PendingIntent contentIntent = PendingIntent.getService(
-                context, reqCode, intent, FLAG_UPDATE_CURRENT);
+                context, reqCode, intent, PendingIntentFlag|FLAG_UPDATE_CURRENT);
 
         builder.setContentIntent(contentIntent);
     }
@@ -478,7 +485,7 @@ public final class Builder {
         int reqCode = random.nextInt();
 
         return PendingIntent.getService(
-                context, reqCode, intent, FLAG_UPDATE_CURRENT);
+                context, reqCode, intent, PendingIntentFlag|FLAG_UPDATE_CURRENT);
     }
 
     /**

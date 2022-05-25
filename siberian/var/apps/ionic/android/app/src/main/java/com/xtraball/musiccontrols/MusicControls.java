@@ -38,6 +38,7 @@ public class MusicControls extends CordovaPlugin {
     private AudioManager mAudioManager;
     private PendingIntent mediaButtonPendingIntent;
     private boolean mediaButtonAccess = true;
+    private int PendingIntentFlag = 0;
 
     private Activity cordovaActivity;
 
@@ -71,6 +72,10 @@ public class MusicControls extends CordovaPlugin {
 
     @Override
     public void initialize(CordovaInterface cordova, CordovaWebView webView) {
+        if (Build.VERSION.SDK_INT >= 31) {
+            PendingIntentFlag = PendingIntent.FLAG_MUTABLE;
+        }
+
         super.initialize(cordova, webView);
         final Activity activity = this.cordova.getActivity();
         final Context context = activity.getApplicationContext();
@@ -95,7 +100,7 @@ public class MusicControls extends CordovaPlugin {
         try {
             this.mAudioManager = (AudioManager) context.getSystemService(Context.AUDIO_SERVICE);
             Intent headsetIntent = new Intent("music-controls-media-button");
-            this.mediaButtonPendingIntent = PendingIntent.getBroadcast(context, 0, headsetIntent, PendingIntent.FLAG_UPDATE_CURRENT);
+            this.mediaButtonPendingIntent = PendingIntent.getBroadcast(context, 0, headsetIntent, PendingIntentFlag | PendingIntent.FLAG_UPDATE_CURRENT);
             this.registerMediaButtonEvent();
         } catch (Exception e) {
             this.mediaButtonAccess = false;

@@ -49,41 +49,45 @@ class Log extends Zend_Log
 
         if ($exception) {
             if (APPLICATION_ENV === "production") {
-                # Submit bug report automatically. (Only when in production)
-                ob_start();
-                phpinfo();
-                $phpinfo = ob_get_clean();
+                try {
+                    # Submit bug report automatically. (Only when in production)
+                    ob_start();
+                    phpinfo();
+                    $phpinfo = ob_get_clean();
 
-                # system config
-                $system_model = new System_Model_Config();
-                $entries = $system_model->findAll();
-                $_config = [];
-                foreach ($entries as $entry) {
-                    $_config[] = [
-                        "code" => $entry->getCode(),
-                        "label" => $entry->getLabel(),
-                        "value" => $entry->getValue(),
+                    # system config
+                    $system_model = new System_Model_Config();
+                    $entries = $system_model->findAll();
+                    $_config = [];
+                    foreach ($entries as $entry) {
+                        $_config[] = [
+                            "code" => $entry->getCode(),
+                            "label" => $entry->getLabel(),
+                            "value" => $entry->getValue(),
+                        ];
+                    }
+
+                    # error file content
+                    $path = path("/var/log/{$this->_filename}");
+                    $_error = file_get_contents($path);
+
+                    $bug_report = [
+                        "secret" => Core_Model_Secret::SECRET,
+                        "data" => [
+                            "servername" => $_SERVER["SERVER_NAME"],
+                            "config" => $_config,
+                            "type" => Version::TYPE,
+                            "version" => Version::VERSION,
+                            "raw_error" => base64_encode($_error),
+                            "phpinfo" => base64_encode($phpinfo)
+                        ]
                     ];
+
+                    $request = new Request();
+                    $request->post(sprintf("https://stats.xtraball.com/errors.php?type=%s", Version::TYPE), $bug_report);
+                } catch (\Exception $e) {
+                    // Nope!
                 }
-
-                # error file content
-                $path = path("/var/log/{$this->_filename}");
-                $_error = file_get_contents($path);
-
-                $bug_report = [
-                    "secret" => Core_Model_Secret::SECRET,
-                    "data" => [
-                        "servername" => $_SERVER["SERVER_NAME"],
-                        "config" => $_config,
-                        "type" => Version::TYPE,
-                        "version" => Version::VERSION,
-                        "raw_error" => base64_encode($_error),
-                        "phpinfo" => base64_encode($phpinfo)
-                    ]
-                ];
-
-                $request = new Request();
-                $request->post(sprintf("https://stats.xtraball.com/errors.php?type=%s", Version::TYPE), $bug_report);
 
                 header($_SERVER['SERVER_PROTOCOL'] . ' 500 Internal Server Error', true, 500);
                 header("Location: /errors/500.php?log={$this->_filename}");

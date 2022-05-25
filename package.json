@@ -1,7 +1,7 @@
 {
   "name": "Siberian",
-  "version": "4.20.31",
-  "lastversion": "4.20.30",
+  "version": "4.20.32",
+  "lastversion": "4.20.31",
   "nativeVersion": "20",
   "apiVersion": "4",
   "description": "Mobile App CMS",
@@ -35,11 +35,12 @@
     "uglify-es": "^3.3.9",
     "underscore": "^1.13.2",
     "unorm": "^1.6.0",
+    "util": "^0.12.4",
     "xcode": "^3.0.1"
   },
   "scripts": {
-    "preversion": "./bin/preversion",
-    "postversion": "./bin/postversion",
+    "dis_preversion": "./bin/preversion",
+    "dis_postversion": "./bin/postversion",
     "postinstall": "./bin/install"
   },
   "bugs": {
