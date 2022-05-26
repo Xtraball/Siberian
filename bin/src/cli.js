@@ -314,22 +314,7 @@ let cli = function (inputArgs) {
             let moduleName = null;
 
             if (remain.length >= 1) {
-                moduleName = remain[0].toLowerCase();
-            } else {
-                let modulesdirIndex = PWD.indexOf(ROOT + '/modules/');
-                if (modulesdirIndex >= 0) {
-                    let modulesdir = ROOT + '/modules/';
-                    let modulesdirLength = modulesdir.length;
-                    if (PWD.length > modulesdirLength) {
-                        let nextSlash = PWD.indexOf('/', modulesdirLength);
-                        moduleName = PWD.substring(modulesdirLength, nextSlash >= 0 ? nextSlash : undefined);
-                        if ((typeof moduleName === 'string') && (moduleName.trim().length > 0)) {
-                            moduleName = moduleName.toLowerCase();
-                        } else {
-                            moduleName = null;
-                        }
-                    }
-                }
+                moduleName = remain[0];
             }
 
             if (moduleName === null) {
@@ -338,9 +323,7 @@ let cli = function (inputArgs) {
                 pack(moduleName);
             }
         } else if (args.packall) {
-            packModules.forEach(function (module) {
-                pack(module);
-            });
+            sprint(clc.red('Deprecated method packall.'));
         } else if (args.moduleversion) {
             let mverModuleName = '';
             if (remain.length >= 2) {
@@ -1594,6 +1577,7 @@ let pack = function (module) {
         // Zip the Module!
         sh.cd(modulePath);
         sh.rm('-f', buildPath + zipName);
+        sprint('zip -r -9 ' + zipExclude + ' ' + buildPath + zipName + ' ./');
         sh.exec('zip -r -9 ' + zipExclude + ' ' + buildPath + zipName + ' ./');
 
         sprint(clc.green('Package done. ' + buildPath + zipName));
