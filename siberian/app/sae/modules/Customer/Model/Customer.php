@@ -136,6 +136,10 @@ class Customer_Model_Customer extends Core_Model_Default
      * @param $appId
      * @param array $params
      * @return Customer_Model_Customer[]
+     * @throws Zend_Db_Select_Exception
+     * @throws Zend_Db_Statement_Exception
+     * @throws Zend_Db_Table_Exception
+     * @throws Zend_Exception
      */
     public function findAllForApp($appId, $params = [])
     {

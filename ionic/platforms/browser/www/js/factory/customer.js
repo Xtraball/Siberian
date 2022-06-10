@@ -311,9 +311,8 @@ angular
             var localOptions = (typeof options === 'undefined') ? {} : options;
             var itiOptions = angular.extend({}, {
                 allowDropdown: true,
-                nationalMode: false,
+                nationalMode: true,
                 formatOnDisplay: true,
-                autoHideDialCode: false,
                 placeholderNumberType: 'MOBILE',
                 separateDialCode: false,
                 initialCountry: country,
