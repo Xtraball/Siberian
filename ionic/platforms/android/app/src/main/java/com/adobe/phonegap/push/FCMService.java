@@ -53,6 +53,7 @@ public class FCMService extends FirebaseMessagingService implements PushConstant
 
   private static final String LOG_TAG = "Push_FCMService";
   private static HashMap<Integer, ArrayList<String>> messageMap = new HashMap<Integer, ArrayList<String>>();
+  private int PendingIntentFlag = 0;
 
   public void setNotification (int notId, String message) {
     ArrayList<String> messageList = messageMap.get(notId);
@@ -70,6 +71,10 @@ public class FCMService extends FirebaseMessagingService implements PushConstant
 
   @Override
   public void onMessageReceived (RemoteMessage message) {
+
+    if (Build.VERSION.SDK_INT >= 31) {
+        PendingIntentFlag = PendingIntent.FLAG_MUTABLE;
+    }
 
     String from = message.getFrom();
     Log.d(LOG_TAG, "onMessage - from: " + from);
@@ -401,7 +406,7 @@ public class FCMService extends FirebaseMessagingService implements PushConstant
     SecureRandom random = new SecureRandom();
     int requestCode = random.nextInt();
     PendingIntent contentIntent = PendingIntent.getActivity(this, requestCode, notificationIntent,
-                                                            PendingIntent.FLAG_UPDATE_CURRENT
+        PendingIntentFlag | PendingIntent.FLAG_UPDATE_CURRENT
     );
 
     Intent dismissedNotificationIntent = new Intent(this, PushDismissedHandler.class);
@@ -415,7 +420,7 @@ public class FCMService extends FirebaseMessagingService implements PushConstant
       this,
       requestCode,
       dismissedNotificationIntent,
-      PendingIntent.FLAG_CANCEL_CURRENT
+        PendingIntentFlag | PendingIntent.FLAG_CANCEL_CURRENT
     );
 
     NotificationCompat.Builder mBuilder = null;
@@ -606,7 +611,7 @@ public class FCMService extends FirebaseMessagingService implements PushConstant
                 this,
                 uniquePendingIntentRequestCode,
                 intent,
-                PendingIntent.FLAG_ONE_SHOT
+                  PendingIntentFlag | PendingIntent.FLAG_ONE_SHOT
               );
             } else {
               Log.d(LOG_TAG, "push receiver for notId " + notId);
@@ -614,7 +619,7 @@ public class FCMService extends FirebaseMessagingService implements PushConstant
                 this,
                 uniquePendingIntentRequestCode,
                 intent,
-                PendingIntent.FLAG_ONE_SHOT
+                  PendingIntentFlag | PendingIntent.FLAG_ONE_SHOT
               );
             }
           } else if (foreground) {
@@ -623,7 +628,7 @@ public class FCMService extends FirebaseMessagingService implements PushConstant
             pIntent = PendingIntent.getActivity(
               this, uniquePendingIntentRequestCode,
               intent,
-              PendingIntent.FLAG_UPDATE_CURRENT
+                PendingIntentFlag | PendingIntent.FLAG_UPDATE_CURRENT
             );
           } else {
             intent = new Intent(this, BackgroundActionButtonHandler.class);
@@ -631,7 +636,7 @@ public class FCMService extends FirebaseMessagingService implements PushConstant
             pIntent = PendingIntent.getBroadcast(
               this, uniquePendingIntentRequestCode,
               intent,
-              PendingIntent.FLAG_UPDATE_CURRENT
+                PendingIntentFlag | PendingIntent.FLAG_UPDATE_CURRENT
             );
           }
 

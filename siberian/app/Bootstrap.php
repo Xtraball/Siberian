@@ -154,9 +154,11 @@ class Bootstrap extends Zend_Application_Bootstrap_Bootstrap
     protected function _initLogger()
     {
         $concurrentDirectory = path('var/log');
-        if (!mkdir($concurrentDirectory, 0777, true) &&
-            !is_dir($concurrentDirectory)) {
-            throw new \RuntimeException(sprintf('Directory "%s" was not created', $concurrentDirectory));
+        if (!is_dir($concurrentDirectory)) {
+            if (!mkdir($concurrentDirectory, 0777, true) &&
+                !is_dir($concurrentDirectory)) {
+                throw new \RuntimeException(sprintf('Directory "%s" was not created', $concurrentDirectory));
+            }
         }
 
         $writer = new \Zend_Log_Writer_Stream(path('var/log/output.log'));
