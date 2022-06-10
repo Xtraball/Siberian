@@ -34,6 +34,7 @@ import android.service.notification.StatusBarNotification;
 import android.util.Pair;
 import android.util.Log;
 import android.util.SparseArray;
+import android.os.Build;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -96,6 +97,8 @@ public final class Notification {
 
     // Builder with full configuration
     private final NotificationCompat.Builder builder;
+
+    private int PendingIntentFlag = 0;
 
     /**
      * Constructor
@@ -181,6 +184,10 @@ public final class Notification {
      * @param receiver Receiver to handle the trigger event.
      */
     void schedule(Request request, Class<?> receiver) {
+        if (Build.VERSION.SDK_INT >= 31) {
+            PendingIntentFlag = PendingIntent.FLAG_MUTABLE;
+        }
+
         List<Pair<Date, Intent>> intents = new ArrayList<Pair<Date, Intent>>();
         Set<String> ids                  = new ArraySet<String>();
         AlarmManager mgr                 = getAlarmMgr();
@@ -226,7 +233,7 @@ public final class Notification {
                 continue;
 
             PendingIntent pi = PendingIntent.getBroadcast(
-                    context, 0, intent, FLAG_UPDATE_CURRENT);
+                    context, 0, intent, PendingIntentFlag|FLAG_UPDATE_CURRENT);
 
             try {
                 switch (options.getPrio()) {
@@ -314,7 +321,7 @@ public final class Notification {
             Intent intent = new Intent(action);
 
             PendingIntent pi = PendingIntent.getBroadcast(
-                    context, 0, intent, 0);
+                    context, 0, intent, PendingIntentFlag);
 
             if (pi != null) {
                 getAlarmMgr().cancel(pi);

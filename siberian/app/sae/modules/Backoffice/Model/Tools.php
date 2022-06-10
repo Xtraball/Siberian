@@ -8,6 +8,7 @@ use Siberian\Provider;
 use Siberian\Request;
 use Siberian\Version;
 use Siberian\Cache;
+use Siberian\Cache\Design as CacheDesign;
 use Siberian\Autoupdater;
 
 /**

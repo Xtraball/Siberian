@@ -1,0 +1,66 @@
+version: '3'
+
+services:
+  db:
+    restart: always
+    image: mariadb:latest
+    ports:
+      - 3306:3306
+    networks:
+      - siberian-bridge
+    volumes:
+      - ./mysql:/var/lib/mysql
+    env_file:
+      - .env
+
+  php:
+    restart: always
+    image: siberian:php-fpm.7.3
+    build:
+      context: .
+      dockerfile: ./php/Dockerfile
+    volumes:
+      - ../siberian:/var/www/html
+      - ./php/docker.conf:/etc/php/7.3/fpm/pool.d/
+      - ./php/php.ini:/usr/local/etc/php/php.ini
+      - "../modules:${PROJECT_PATH}/modules"
+    ports:
+      - "${SOCKETIO_RANGE}:${SOCKETIO_RANGE}"
+    links:
+      - db
+    networks:
+      - siberian-bridge
+    env_file:
+      - .env
+
+  nginx:
+    restart: always
+    image: nginx:latest
+    ports:
+      - "${HTTP_PORT}:80"
+      - "${HTTPS_PORT}:443"
+    volumes:
+      - ../siberian:/var/www/html
+      - ./nginx/default.conf:/etc/nginx/conf.d/default.conf
+      - "${SSL_CERT_PATH}:/etc/nginx/ssl-certificates"
+      - "../modules:${PROJECT_PATH}/modules"
+    links:
+      - php
+    networks:
+      - siberian-bridge
+    env_file:
+      - .env
+
+  pma:
+    image: phpmyadmin
+    restart: always
+    ports:
+      - 8080:80
+    env_file:
+      - .env
+    networks:
+      - siberian-bridge
+
+networks:
+  siberian-bridge:
+    driver: bridge

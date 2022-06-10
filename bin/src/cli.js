@@ -314,22 +314,7 @@ let cli = function (inputArgs) {
             let moduleName = null;
 
             if (remain.length >= 1) {
-                moduleName = remain[0].toLowerCase();
-            } else {
-                let modulesdirIndex = PWD.indexOf(ROOT + '/modules/');
-                if (modulesdirIndex >= 0) {
-                    let modulesdir = ROOT + '/modules/';
-                    let modulesdirLength = modulesdir.length;
-                    if (PWD.length > modulesdirLength) {
-                        let nextSlash = PWD.indexOf('/', modulesdirLength);
-                        moduleName = PWD.substring(modulesdirLength, nextSlash >= 0 ? nextSlash : undefined);
-                        if ((typeof moduleName === 'string') && (moduleName.trim().length > 0)) {
-                            moduleName = moduleName.toLowerCase();
-                        } else {
-                            moduleName = null;
-                        }
-                    }
-                }
+                moduleName = remain[0];
             }
 
             if (moduleName === null) {
@@ -338,9 +323,7 @@ let cli = function (inputArgs) {
                 pack(moduleName);
             }
         } else if (args.packall) {
-            packModules.forEach(function (module) {
-                pack(module);
-            });
+            sprint(clc.red('Deprecated method packall.'));
         } else if (args.moduleversion) {
             let mverModuleName = '';
             if (remain.length >= 2) {
@@ -358,7 +341,9 @@ let cli = function (inputArgs) {
 
             // Ensure we are on root!
             sh.cd(ROOT);
+            sh.exec('./bin/preversion');
             sh.exec('npm version --no-git-tag-version ' + npmVersion);
+            sh.exec('./bin/postversion');
         } else if (args.linkmodule) {
             if (remain.length >= 1) {
                 linkModule(remain[0].toLowerCase());
@@ -835,7 +820,8 @@ let copyPlatform = function (platform) {
     sprint('Copying ' + platform + ' ...');
 
     let ionicPlatformPath = ROOT + '/ionic/platforms/' + platform,
-        siberianPlatformPath = ROOT + '/siberian/var/apps/ionic/' + platform;
+        siberianPlatformBasePath = ROOT + '/siberian/var/apps/ionic/',
+        siberianPlatformPath = siberianPlatformBasePath + platform;
 
     switch (platform) {
         case 'android':
@@ -847,8 +833,8 @@ let copyPlatform = function (platform) {
             // Clean-up!
             sh.rm('-rf', siberianPlatformPath);
 
-            // Copy!
-            sh.cp('-r', ionicPlatformPath + '/', siberianPlatformPath);
+            // Copy with rsync to preserve dot files!
+            sh.exec('rsync -arv ' + ionicPlatformPath + ' ' + siberianPlatformBasePath);
             sh.rm('-rf', siberianPlatformPath + '/platform_www');
             cleanupWww(siberianPlatformPath + '/assets/www/');
 
@@ -1591,6 +1577,7 @@ let pack = function (module) {
         // Zip the Module!
         sh.cd(modulePath);
         sh.rm('-f', buildPath + zipName);
+        sprint('zip -r -9 ' + zipExclude + ' ' + buildPath + zipName + ' ./');
         sh.exec('zip -r -9 ' + zipExclude + ' ' + buildPath + zipName + ' ./');
 
         sprint(clc.green('Package done. ' + buildPath + zipName));
@@ -1603,7 +1590,7 @@ let pack = function (module) {
 let archiveSources = function () {
     sprint(clc.blue('Building archives for Apps sources restore'));
 
-    let excludes = '--options gzip:compression-level=9 --exclude=\'*.DS_Store*\' --exclude=\'*.idea*\' --exclude=\'*.gitignore*\' --exclude=\'*.localized*\'';
+    let excludes = '--exclude=\'*.DS_Store*\' --exclude=\'*.idea*\' --exclude=\'*.gitignore*\' --exclude=\'*.localized*\'';
 
     // Android!
     sh.cd(ROOT + '/siberian/var/apps/ionic');
@@ -1613,7 +1600,7 @@ let archiveSources = function () {
     sh.rm('-rf', './android/app/src/main/assets/www/chcp.manifest');
     sh.rm('-rf', './android/app/src/main/assets/www/index-prod.html');
     sh.chmod('-R', '777', './android');
-    sh.exec('tar ' + excludes + ' -p -czf ./android.tgz ./android');
+    sh.exec('tar ' + excludes + ' -pcvf - ./android | pigz -9 - > ./android.tgz');
 
     // iOS (with AdMob)
     sh.rm('-rf', './ios/www/features/*');
@@ -1622,7 +1609,7 @@ let archiveSources = function () {
     sh.rm('-rf', './ios/www/chcp.manifest');
     sh.rm('-rf', './ios/www/index-prod.html');
     sh.chmod('-R', '777', './ios');
-    sh.exec('tar ' + excludes + ' -p -czf ./ios.tgz ./ios');
+    sh.exec('tar ' + excludes + ' -pcvf - ./ios | pigz -9 - > ./ios.tgz');
 
     // iOS (without AdMob)
     sh.rm('-rf', './ios-noads/www/features/*');
@@ -1631,7 +1618,7 @@ let archiveSources = function () {
     sh.rm('-rf', './ios-noads/www/chcp.manifest');
     sh.rm('-rf', './ios-noads/www/index-prod.html');
     sh.chmod('-R', '777', './ios-noads');
-    sh.exec('tar ' + excludes + ' -p -czf ./ios-noads.tgz ./ios-noads');
+    sh.exec('tar ' + excludes + ' -pcvf - ./ios-noads | pigz -9 - > ./ios-noads.tgz');
 
     // Browser/HTML5
     sh.cd(ROOT + '/siberian/var/apps');
@@ -1641,7 +1628,7 @@ let archiveSources = function () {
     sh.rm('-rf', './browser/chcp.manifest');
     sh.rm('-rf', './browser/index-prod.html');
     sh.chmod('-R', '777', './browser');
-    sh.exec('tar ' + excludes + ' -p -czf ./browser.tgz ./browser');
+    sh.exec('tar ' + excludes + ' -pcvf - ./browser | pigz -9 - > ./browser.tgz');
 
     sprint(clc.green('Archives done!'));
 };
