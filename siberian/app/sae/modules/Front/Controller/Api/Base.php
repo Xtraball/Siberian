@@ -965,6 +965,7 @@ class Front_Controller_Api_Base extends Front_Controller_App_Default
                 'nickname' => $customer->getNickname(),
                 'birthdate' => $birthdateString,
                 'mobile' => $customer->getMobile(),
+                'intl_mobile' => $customer->getMobile(),
                 'image' => $customer->getImage(),
                 'email' => $customer->getEmail(),
                 'show_in_social_gaming' => (boolean)$customer->getShowInSocialGaming(),
