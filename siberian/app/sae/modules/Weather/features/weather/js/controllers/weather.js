@@ -91,8 +91,11 @@ angular.module("starter").controller("WeatherController", function (Modal, $scop
         return Math.round(speedMs * 3.6);
     };
 
-    $scope.getSuntime = function (timestamp) {
-        return moment(timestamp).format("LT");
+    $scope.getSuntime = function (timestamp, offset) {
+        var mydt = moment.utc(timestamp);
+        var offsetinhour = offset / 3600 ;
+        mydt.utcOffset(offsetinhour);
+        return  mydt.format("LT");
     };
 
     $scope.roundDegrees = function (degrees) {
