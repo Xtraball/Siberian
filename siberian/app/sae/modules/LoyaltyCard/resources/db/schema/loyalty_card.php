@@ -37,6 +37,9 @@ $schemas['loyalty_card'] = array(
     'number_of_points' => array(
         'type' => 'smallint(5)',
     ),
+    'number_of_points_to_validate' => array(
+        'type' => 'smallint(5)',
+    ),
     'advantage' => array(
         'type' => 'varchar(255)',
         'charset' => 'utf8',

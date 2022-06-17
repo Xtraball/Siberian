@@ -33,6 +33,13 @@ class LoyaltyCard_Form_Create extends Siberian_Form_Abstract
         $number_of_points
             ->setRequired(true);
 
+        $number_of_points_to_validate = $this->addSimpleSelect(
+            "number_of_points_to_validate",
+            __("Maximum number of points to validate"),
+            array_combine(range(1, 20), range(1, 20)));
+        $number_of_points_to_validate
+            ->setRequired(true);
+
         $reward = $this->addSimpleText("advantage", __("Reward"));
         $reward
             ->setRequired(true);
