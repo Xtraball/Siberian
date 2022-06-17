@@ -88,8 +88,8 @@ class Push_Mobile_ListController extends Application_Controller_Mobile_Default
                 $meta = [
                     'date' => [
                         'picto' => $icon_pencil,
-                        'text' => datetime_to_format($message->getCreatedAt()),
-                        'mt_text' => $message->getCreatedAt()
+                        'text' => datetime_to_format($message->getSendAt() ?? $message->getCreatedAt()),
+                        'mt_text' => $message->getSendAt() ?? $message->getCreatedAt()
                     ]
                 ];
 
