@@ -449,7 +449,7 @@ angular
                     return false;
                 }
 
-                //Apply valid formatted number to the customer scope
+                // Apply valid formatted number to the customer scope
                 $scope.customer.mobile = iti.getNumber();
             }
             // in case it's not configured
@@ -512,10 +512,10 @@ angular
                                 .runHooks(hooksAfterError, {customer: $scope.customer, error: error})
                                 .then(function () {
                                     Loader.hide();
-                                    Dialog.alert('Error', error, 'OK', -1);
+                                    Dialog.alert('Error', error.message, 'OK', -1);
                                 }, function (error) {
                                     Loader.hide();
-                                    Dialog.alert('Error', error, 'OK', -1);
+                                    Dialog.alert('Error', error.message, 'OK', -1);
                                 });
                         }).then(function () {
                             Loader.hide();
@@ -613,6 +613,7 @@ angular
 
             if ($scope.myAccount.settings.use_mobile ||
                 $scope.myAccount.settings.extra_mobile) {
+
                 Customer
                     .getIpInfo()
                     .then(function (payload) {
