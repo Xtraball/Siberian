@@ -64,8 +64,15 @@ class Application_Settings_DomainController extends Application_Controller_Defau
                 }
             }
 
+            $application->setDomain($hostname);
+
+            $enableSmtp = filter_var($request->getParam("enable_custom_smtp"), FILTER_VALIDATE_BOOLEAN);
+            if ($enableSmtp) {
+                $application->setSmtpCredentials(Siberian_Json::encode($request->getParam("smtp_credentials")));
+            }
+
             $application
-                ->setDomain($hostname)
+                ->setEnableCustomSmtp($enableSmtp)
                 ->save();
 
             // App link callback dynamic
