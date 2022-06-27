@@ -115,6 +115,9 @@ angular
         }
 
         var remaining = card.max_number_of_points - card.number_of_points;
+        if (remaining > card.number_of_points_to_validate) {
+            remaining = card.number_of_points_to_validate;
+        }
         var points = [];
         for (var i = 0; i <= remaining-1; i = i + 1) {
             points[i] = i+1;
