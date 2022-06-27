@@ -48,6 +48,8 @@ class Loyaltycard_Mobile_ViewController extends Application_Controller_Mobile_De
                     'advantage' => $current_card->getAdvantage(),
                     'conditions' => $current_card->getConditions(),
                     'number_of_points' => (integer)$current_card->getNumberOfPoints(),
+                    'number_of_points_to_validate' => (integer) (($current_card->getNumberOfPointsToValidate() > 0) ?
+                        $current_card->getNumberOfPointsToValidate() : $current_card->getMaxNumberOfPoints()),
                     'max_number_of_points' => (integer)$current_card->getMaxNumberOfPoints()
                 ];
 

@@ -228,14 +228,14 @@
                              ng-show="weatherData.current.sunrise">
                             <div class="row">
                                 <p class="col-50">{{ "Sunrise" | translate }}</p>
-                                <p class="col-50 text-right">{{ getSuntime((weatherData.current.sunrise * 1000) + (weatherData.timezone_offset) * 1000) }}</p>
+                                <p class="col-50 text-right">{{ getSuntime((weatherData.current.sunrise * 1000), weatherData.timezone_offset) }}</p>
                             </div>
                         </div>
                         <div class="item item-custom line-item"
                              ng-show="weatherData.current.sunset">
                             <div class="row">
                                 <p class="col-50">{{ "Sunset" | translate }}</p>
-                                <p class="col-50 text-right">{{ getSuntime((weatherData.current.sunset * 1000) + (weatherData.timezone_offset) * 1000) }}</p>
+                                <p class="col-50 text-right">{{ getSuntime((weatherData.current.sunset * 1000), weatherData.timezone_offset) }}</p>
                             </div>
                         </div>
                     </div>

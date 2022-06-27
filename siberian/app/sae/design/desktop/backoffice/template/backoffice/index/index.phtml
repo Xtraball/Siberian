@@ -156,6 +156,14 @@ if ($firebaseCredential && $firebaseCredential->getId()) {
         </div>
     <?php endif; ?>
 
+    <?php if (version_compare(explode("-", PHP_VERSION)[0], "7.4.0", ">=")): ?>
+        <div class="col-md-8 col-md-offset-2 col-sm-12">
+            <div class="alert alert-danger">
+                <?php echo __("You are using PHP version " . explode("-", PHP_VERSION)[0] . ", the required version is 7.3.X!") ?>
+            </div>
+        </div>
+    <?php endif; ?>
+
     <?php if (isDev() || $systemError || $pathError): ?>
         <div class="col-xs-12 col-md-12">
             <sb-section title="'<?php echo __title("System diagnostic"); ?>'"
