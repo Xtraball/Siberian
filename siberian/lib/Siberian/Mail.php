@@ -76,10 +76,11 @@ class Mail extends Zend_Mail
     public $_whitelabel = null;
 
     /**
-     * Siberian_Mail constructor.
+     * Mail constructor.
      * @param string $charset
+     * @param array $options
      */
-    public function __construct($charset = 'UTF-8')
+    public function __construct($charset = 'UTF-8', $options = [])
     {
         parent::__construct($charset);
 
