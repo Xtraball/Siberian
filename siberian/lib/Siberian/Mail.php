@@ -58,24 +58,40 @@ class Mail extends Zend_Mail
     /**
      * @var bool
      */
-    public $_is_application = true;
+    public $_is_application = false;
 
     /**
-     * Siberian_Mail constructor.
-     * @param string $charset
+     * @var bool
      */
-    public function __construct($charset = 'UTF-8')
+    public $_application = null;
+
+    /**
+     * @var bool
+     */
+    public $_is_whitelabel = false;
+
+    /**
+     * @var bool
+     */
+    public $_whitelabel = null;
+
+    /**
+     * Mail constructor.
+     * @param string $charset
+     * @param array $options
+     */
+    public function __construct($charset = 'UTF-8', $options = [])
     {
         parent::__construct($charset);
 
         $configure = false;
 
-        //$application = \Siberian::getApplication();
-        $whitelabel = \Siberian::getWhitelabel();
+        $this->_application = \Siberian::getApplication();
+        $this->_whitelabel = \Siberian::getWhitelabel();
 
         // Name & E-mails, enable & test
-        /**if ($application !== false) { // 1. Application standalone settings!
-            $values = Json::decode($application->getData('smtp_credentials'));
+        if ($this->_application !== false) { // 1. Application standalone settings!
+            $values = Json::decode($this->_application->getData('smtp_credentials'));
             $smtpCredentials = new Core_Model_Default();
             $smtpCredentials->setData($values);
 
@@ -90,9 +106,8 @@ class Mail extends Zend_Mail
             }
 
             $this->_is_application = true;
-        } else */
-        if (($whitelabel !== false) && $whitelabel->getEnableCustomSmtp()) { // 2. Whitelabel!
-            $values = Json::decode($whitelabel->getData('smtp_credentials'));
+        } else if (($this->_whitelabel !== false) && $this->_whitelabel->getEnableCustomSmtp()) { // 2. Whitelabel!
+            $values = Json::decode($this->_whitelabel->getData('smtp_credentials'));
             $smtpCredentials = new Core_Model_Default();
             $smtpCredentials->setData($values);
 
@@ -105,6 +120,8 @@ class Mail extends Zend_Mail
             if (!empty($sender_email)) {
                 $this->_sender_email = $sender_email;
             }
+
+            $this->_is_whitelabel = true;
         } else { // 3. Platform Wide!
             $sender_name = __get('support_name');
             if (!empty($sender_name)) {
@@ -118,15 +135,14 @@ class Mail extends Zend_Mail
         }
 
         // Custom SMTP
-        /**if ($application->getEnableCustomSmtp()) {
-            $values = Siberian_Json::decode($application->getData("smtp_credentials"));
+        if ($this->_application->getEnableCustomSmtp()) {
+            $values = Json::decode($this->_application->getData("smtp_credentials"));
             $smtpCredentials = new Core_Model_Default();
             $smtpCredentials->setData($values);
 
             $configure = true;
-        } else*/
-        if (($whitelabel !== false) && $whitelabel->getEnableCustomSmtp()) {
-            $values = Json::decode($whitelabel->getData("smtp_credentials"));
+        } else if (($this->_whitelabel !== false) && $this->_whitelabel->getEnableCustomSmtp()) {
+            $values = Json::decode($this->_whitelabel->getData("smtp_credentials"));
             $smtpCredentials = new Core_Model_Default();
             $smtpCredentials->setData($values);
 

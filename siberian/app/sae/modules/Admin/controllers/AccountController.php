@@ -120,16 +120,18 @@ class Admin_AccountController extends Admin_Controller_Default
                 }
 
                 $admin
-                    ->setAddress($data['address'])
-                    ->setAddress2($data['address2'])
-                    ->setCity($data['city'])
                     ->setCompany($data['company'])
-                    ->setWebsite($data['website'])
-                    ->setZipCode($data['zip_code'])
+                    ->setEmail($data['email'])
                     ->setFirstname($data['firstname'])
                     ->setLastname($data['lastname'])
+                    ->setAddress($data['address'])
+                    ->setAddress2($data['address2'])
+                    ->setZipCode($data['zip_code'])
+                    ->setCity($data['city'])
+                    ->setCountryCode($data['country_code'])
+                    ->setRegionCode($data['region_code'])
                     ->setPhone($data['phone'])
-                    ->setEmail($data['email'])
+                    ->setWebsite($data['website'])
                     ->setOptinEmail($data['optin_email'] === 'on')
                     ->save();
 
