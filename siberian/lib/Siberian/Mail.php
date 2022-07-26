@@ -135,7 +135,7 @@ class Mail extends Zend_Mail
         }
 
         // Custom SMTP
-        if ($this->_application->getEnableCustomSmtp()) {
+        if (($this->_application !== false) && $this->_application->getEnableCustomSmtp()) {
             $values = Json::decode($this->_application->getData("smtp_credentials"));
             $smtpCredentials = new Core_Model_Default();
             $smtpCredentials->setData($values);
