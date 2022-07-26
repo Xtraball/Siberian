@@ -3,8 +3,10 @@ $application = $this->getApplication();
 
 $form = new Application_Form_Domain();
 $form->populate($application->getData());
+$form->populate(Siberian_Json::decode($application->getData('smtp_credentials')));
 
 // App link
+$appId = $application->getId();
 $appDomain = $application->getDomain();
 $appKey = $application->getKey();
 $currentDomain = parse_url($this->getRequest()->getBaseUrl(), PHP_URL_HOST);
@@ -12,6 +14,31 @@ if (!empty($appDomain)) {
     $appLink = "http://{$appDomain}";
 } else {
     $appLink = "https://{$currentDomain}/{$appKey}";
+}
+
+$logs = (new Mail_Model_Log())->findAll(
+    [
+            'app_id' => $appId
+    ],
+    [
+        'log_id DESC',
+    ],
+    [
+        'limit' => 100,
+    ]
+);
+
+$dataLogs = [];
+foreach ($logs as $log) {
+    $dataLogs[]= [
+        'id' => $log->getId(),
+        'title' => $log->getTitle(),
+        'from' => $log->getFrom(),
+        'recipients' => $log->getRecipients(),
+        'is_error' => !empty($log->getTextError()),
+        'text_error' => $log->getTextError(),
+        'created_at' => datetime_to_format($log->getCreatedAt()),
+    ];
 }
 
 ?>
@@ -22,7 +49,7 @@ if (!empty($appDomain)) {
             <div id="domain_content"
                  class="content solo-page sb-tour">
                 <h3 class="title-editor border-blue text-center">
-                    <?php echo __('Mobile website information'); ?>
+                    <?php echo __('Mobile website information & E-mail settings'); ?>
                 </h3>
                 <div id="domain"
                      class="subcontent content-color">
@@ -49,9 +76,85 @@ if (!empty($appDomain)) {
     </div>
 </div>
 
+<div class="row"
+     id="mail_logs">
+    <div class="col-md-12">
+        <div class="page-content-wrapper">
+            <div id="domain_content"
+                 class="content solo-page sb-tour">
+                <h3 class="title-editor border-blue text-center">
+                    <?php echo __('Mail logs'); ?>
+                </h3>
+                <div id="domain"
+                     class="subcontent content-color">
+                    <div class="col-md-12">
+                        <table class="table table-striped">
+                            <thead>
+                                <th>ID</th>
+                                <th>Title</th>
+                                <th>Sender</th>
+                                <th>Recipients</th>
+                                <th>Error</th>
+                                <th>Sent at</th>
+                            </thead>
+                            <tbody>
+                                <?php foreach ($dataLogs as $dataLog): ?>
+                                    <tr class="<?php echo $dataLog['is_error'] ? "error-line" : "success-line" ?>">
+                                        <td><?php echo $dataLog['id'] ?></td>
+                                        <td><?php echo $dataLog['title'] ?></td>
+                                        <td><?php echo $dataLog['from'] ?></td>
+                                        <td><?php echo $dataLog['recipients'] ?></td>
+                                        <td><?php echo $dataLog['text_error'] ?></td>
+                                        <td><?php echo $dataLog['created_at'] ?></td>
+                                    </tr>
+                                <?php endforeach; ?>
+                            </tbody>
+                        </table>
+                        <br />
+                        <br />
+                        <br />
+                        <br />
+                        <br />
+                        <br />
+                        <br />
+                        <br />
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
 <script type="text/javascript">
-    bindForms("#settings_domain", "color-blue", function (payload) {
-        $("#app-link").attr("href", payload.href);
-        $("#app-link").text(payload.href);
+    $(document).ready(function() {
+        bindForms("#settings_domain", "color-blue", function (payload) {
+            $("#app-link").attr("href", payload.href);
+            $("#app-link").text(payload.href);
+        });
+
+        let enable_custom_smtp = $("#enable_custom_smtp");
+
+        let toggleSmtp = function () {
+            if (enable_custom_smtp.is(":checked")) {
+                $("#fieldset-smtp").show();
+            } else {
+                $("#fieldset-smtp").hide();
+            }
+        };
+
+        enable_custom_smtp.off("click");
+        enable_custom_smtp.on("click", toggleSmtp);
+
+        // Initial call!
+        toggleSmtp();
     });
 </script>
+
+<style type="text/css">
+    .error-line td {
+        background-color: #f2dede !important;
+    }
+    .success-line td {
+        background-color: #dff0d8 !important;
+    }
+</style>

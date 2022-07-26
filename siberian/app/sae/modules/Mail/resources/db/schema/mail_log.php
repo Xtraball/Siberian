@@ -67,6 +67,22 @@ $schemas['mail_log'] = [
         'charset' => 'utf8',
         'collation' => 'utf8_unicode_ci',
     ],
+    'is_application' => [
+        'type' => 'tinyint(1)',
+        'default' => '0',
+    ],
+    'app_id' => [
+        'type' => 'int(11) unsigned',
+        'is_null' => true,
+    ],
+    'is_whitelabel' => [
+        'type' => 'tinyint(1)',
+        'default' => '0',
+    ],
+    'whitelabel_id' => [
+        'type' => 'int(11) unsigned',
+        'is_null' => true,
+    ],
     'created_at' => [
         'type' => 'datetime',
     ],

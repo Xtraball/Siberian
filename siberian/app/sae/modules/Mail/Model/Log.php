@@ -31,6 +31,10 @@ class Mail_Model_Log extends Core_Model_Default
             ->setRecipients(join(',', $email->getRecipients()))
             ->setBodyHtml($email->getBodyHtml(true))
             ->setBodyText($email->getBodyText(true))
+            ->setIsApplication($email->_is_application)
+            ->setAppId($email->_is_application ? $email->_application->getId() : null)
+            ->setIsWhitelabel($email->_is_whitelabel)
+            ->setWhitelabelId($email->_is_whitelabel ? $email->_whitelabel->getId() : null)
             ->save();
 
         return $logLine;

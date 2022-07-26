@@ -29,8 +29,6 @@ class Mail_Backoffice_LogController extends Backoffice_Controller_Default
                 ]
             );
 
-            echo '<pre>';
-
             $dataLogs = [];
             foreach ($logs as $log) {
                 $dataLogs[]= [
