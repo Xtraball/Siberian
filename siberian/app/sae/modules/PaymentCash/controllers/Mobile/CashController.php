@@ -31,8 +31,8 @@ class PaymentCash_Mobile_CashController extends Application_Controller_Mobile_De
             $currency = $options['payment']['currency'] ?? $application->getCurrency();
 
             if (!$customer->getId()) {
-                throw new Exception(p__("payment_stripe",
-                    "You session expired!"));
+                throw new Exception(p__("payment_cash",
+                    "Your session expired!"));
             }
 
             $cashPayment = new Payment();
