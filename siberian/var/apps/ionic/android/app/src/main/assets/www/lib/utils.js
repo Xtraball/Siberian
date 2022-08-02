@@ -97,3 +97,7 @@ window.fileExists = function (path, callbackSuccess, callbackError) {
         }
     });
 };
+
+window.anget = function (serviceName) {
+    return angular.element(document.body).injector().get(serviceName);
+};
