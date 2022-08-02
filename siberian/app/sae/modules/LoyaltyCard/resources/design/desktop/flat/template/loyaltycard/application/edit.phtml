@@ -240,7 +240,7 @@ $application = $this->getApplication();
                                     </div>
                                     <input type="password" name="password"
                                            class="edit_password_<?php echo $password->getId(); ?> align-center required number input-flat"
-                                           maxlength="4" value="" placeholder="<?php echo __('Password') ?>"
+                                           maxlength="4" value="" placeholder="<?php echo __js('Password', '"') ?>"
                                            style="display:none;"/>
                                 </div>
                                 <div class="col-sm-2 edit_password_<?php echo $password->getId(); ?>"
@@ -262,7 +262,7 @@ $application = $this->getApplication();
                             <div class="col-sm-5">
                                 <input type="password" id="employee_password" name="password"
                                        class="align-center required number input-flat" maxlength="4" value=""
-                                       placeholder="<?php echo __('Password') ?>"/>
+                                       placeholder="<?php echo __js('Password', '"') ?>"/>
                             </div>
                             <div class="col-sm-2">
                                 <button type="button" class="bt-margin btn color-blue"
@@ -389,7 +389,7 @@ $application = $this->getApplication();
                                     <i class="fa fa-times"></i>\n\
                                 </a>\n\
                             </div>\n\
-                            <input type="password" name="password" class="edit_password_#{password_id} align-center required number input-flat"  maxlength="4" value="" placeholder="<?php echo __('Password') ?>" style="display:none;" />\n\
+                            <input type="password" name="password" class="edit_password_#{password_id} align-center required number input-flat"  maxlength="4" value="" placeholder="<?php echo __js('Password', '"') ?>" style="display:none;" />\n\
                         </div>\n\
                         <div class="col-sm-2 edit_password_#{password_id}" style="display:none;">\n\
                             <button type="button" onclick="saveEmployee(\'password_#{password_id}\')" class="bt-margin validate btn color-blue">OK</button>\n\
