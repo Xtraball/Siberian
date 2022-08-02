@@ -59,13 +59,7 @@ class Front_MobileController extends Application_Controller_Mobile_Default
             $homepage_image = Core_Model_Directory::getBasePathTo($this->getApplication()->getHomepageBackgroundImageUrl());
             $homepage_image_b64 = Siberian_Image::open($homepage_image)->cropResize(256)->inline();
 
-            $google_maps_key = $application->getGooglemapsKey();
-            if (!empty($google_maps_key)) {
-                $googlemaps_key = $application->getGooglemapsKey();
-            } else {
-                $api = Api_Model_Key::findKeysFor("googlemaps");
-                $googlemaps_key = $api->getSecretKey();
-            }
+            $googlemaps_key = $application->getGooglemapsKey();
 
             $privacy_policy = trim($application->getPrivacyPolicy());
             if (empty($privacy_policy)) {
@@ -552,13 +546,7 @@ class Front_MobileController extends Application_Controller_Mobile_Default
             $homepage_image = Core_Model_Directory::getBasePathTo($this->getApplication()->getHomepageBackgroundImageUrl());
             $homepage_image_b64 = Siberian_Image::open($homepage_image)->cropResize(256)->inline();
 
-            $google_maps_key = $application->getGooglemapsKey();
-            if (!empty($google_maps_key)) {
-                $googlemaps_key = $application->getGooglemapsKey();
-            } else {
-                $api = Api_Model_Key::findKeysFor("googlemaps");
-                $googlemaps_key = $api->getSecretKey();
-            }
+            $googlemaps_key = $application->getGooglemapsKey();
 
             $privacy_policy = trim($application->getPrivacyPolicy());
             if (empty($privacy_policy)) {
@@ -1009,13 +997,7 @@ class Front_MobileController extends Application_Controller_Mobile_Default
             $homepage_image = Core_Model_Directory::getBasePathTo($this->getApplication()->getHomepageBackgroundImageUrl());
             $homepage_image_b64 = Siberian_Image::open($homepage_image)->cropResize(256)->inline();
 
-            $google_maps_key = $application->getGooglemapsKey();
-            if (!empty($google_maps_key)) {
-                $googlemaps_key = $application->getGooglemapsKey();
-            } else {
-                $api = Api_Model_Key::findKeysFor("googlemaps");
-                $googlemaps_key = $api->getSecretKey();
-            }
+            $googlemaps_key = $application->getGooglemapsKey();
 
             $privacy_policy = trim($application->getPrivacyPolicy());
             if (empty($privacy_policy)) {
