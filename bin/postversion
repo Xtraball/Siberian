@@ -6,8 +6,8 @@ set +e
 VERSION=$(node -e "console.log(require('./package.json').version);");
 LAST_VERSION=$(node -e "console.log(require('./package.json').lastversion);");
 
-HASH_FROM=$(git rev-parse "v"$LAST_VERSION^0)
-HASH_TO=$(git rev-parse HEAD^0)
+HASH_FROM=$(git rev-parse "v"$LAST_VERSION)
+HASH_TO=$(git rev-parse HEAD)
 
 # Updating each module version
 git config diff.renameLimit 200000000

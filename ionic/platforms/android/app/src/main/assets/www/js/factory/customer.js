@@ -308,6 +308,11 @@ angular
         };
 
         factory.initIti = function (selector, country, options) {
+            var localCountry = country.toLowerCase();
+            if (intlTelInput_countries.indexOf(localCountry) === -1) {
+                localCountry = "gb";
+            }
+
             var localOptions = (typeof options === 'undefined') ? {} : options;
             var itiOptions = angular.extend({}, {
                 allowDropdown: true,
@@ -315,7 +320,7 @@ angular
                 formatOnDisplay: true,
                 placeholderNumberType: 'MOBILE',
                 separateDialCode: false,
-                initialCountry: country,
+                initialCountry: localCountry,
                 autoPlaceholder: 'off',
                 dropdownContainer: document.body
             }, localOptions);

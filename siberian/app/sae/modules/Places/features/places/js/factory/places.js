@@ -95,6 +95,65 @@ angular
     };
 
     /**
+     *
+     * @param placeId
+     * @param note
+     * @returns {*}
+     */
+    factory.createNote = function (placeId, note) {
+        if (!this.value_id) {
+            return $pwaRequest.reject('[Factory::Places.createNote] missing value_id');
+        }
+
+        return $pwaRequest.post('places/mobile_view/save-note', angular.extend({
+            urlParams: {
+                value_id: this.value_id
+            },
+            data: {
+                place_id: placeId,
+                note: note
+            }
+        }, factory.extendedOptions));
+    };
+
+    /**
+     *
+     * @param placeId
+     * @param noteId
+     */
+    factory.deleteNote = function (placeId, noteId) {
+        if (!this.value_id) {
+            return $pwaRequest.reject('[Factory::Places.deleteNote] missing value_id');
+        }
+
+        return $pwaRequest.post('places/mobile_view/delete-note', {
+            urlParams: {
+                value_id: this.value_id
+            },
+            data: {
+                place_id: placeId,
+                note_id: noteId
+            }
+        });
+    };
+
+    factory.findNotes = function (placeId) {
+        if (!this.value_id) {
+            return $pwaRequest.reject('[Factory::Places.findNotes] missing value_id');
+        }
+
+        return $pwaRequest.post('places/mobile_list/find-notes', {
+            urlParams: {
+                value_id: this.value_id
+            },
+            data: {
+                place_id: placeId
+            },
+            refresh: true
+        });
+    };
+
+    /**
      * Search for place payload inside cached collection
      *
      * @param placeId

@@ -539,6 +539,8 @@ class Places_ApplicationController extends Application_Controller_Default
 
                 $filteredValues = $form->getValues();
 
+                $filteredValues[] = filter_var($filteredValues["notesAreEnabled"], FILTER_VALIDATE_BOOLEAN);
+
                 $optionValue
                     ->setSettings(\Siberian_Json::encode($filteredValues))
                     ->save();

@@ -933,6 +933,14 @@ input[type=range].mini-player:focus::-ms-fill-upper {
     box-shadow: -1px -1px 2px black, 1px 1px 2px black;
 }
 
+[sb-cms-button] .item {
+    padding-left: 48px;
+}
+
+[sb-cms-button] .item-icon-left .icon:before {
+    width: 32px !important;
+}
+
 .count-images-1 {
     width: calc(100vw - 10px)!important
 }

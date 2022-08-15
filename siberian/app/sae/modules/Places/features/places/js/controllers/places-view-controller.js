@@ -1,17 +1,24 @@
 /**
- * @version 4.19.9
+ * @version 4.20.36
  */
 angular
 .module('starter')
 .controller('PlacesViewController', function ($filter, $scope, $rootScope, $state, $stateParams, $translate,
-                                              $location, Places, SocialSharing, Url) {
+                                              $location, Places, SocialSharing, Url, Dialog, Loader, Customer) {
     angular.extend($scope, {
         is_loading: true,
         value_id: $stateParams.value_id,
         social_sharing_active: false,
         use_pull_to_refresh: true,
         pull_to_refresh: false,
-        card_design: false
+        card_design: false,
+        notes_are_enabled: Places.settings.notesAreEnabled,
+        localData: {
+            notes: []
+        },
+        form: {
+            note: ""
+        }
     });
 
     $scope.blankImage = "./features/places/assets/templates/l1/img/blank-700-440.png";
@@ -32,6 +39,8 @@ angular
             }).then(function () {
                 $scope.is_loading = false;
             });
+
+        $scope.loadNotes($stateParams.page_id);
     };
 
     $scope.share = function () {
@@ -57,6 +66,14 @@ angular
         SocialSharing.share(undefined, message, undefined, link, file);
     };
 
+    $scope.isLoggedIn = function () {
+        return Customer.isLoggedIn();
+    };
+
+    $scope.login = function () {
+        return Customer.loginModal(undefined, $scope.loadContent, $scope.loadContent, $scope.loadContent);
+    };
+
     $scope.onShowMap = function (block) {
         if ($rootScope.isNotAvailableOffline()) {
             return;
@@ -75,6 +92,63 @@ angular
         params.value_id = $scope.value_id;
 
         $location.path(Url.get('map/mobile_view/index', params));
+    };
+
+    $scope.sendNote = function () {
+        if ($scope.form.note.length < 10) {
+            return Dialog.alert("Error", "Note must be at least 10 characters.", "OK", "places");
+        }
+
+        Loader.show($translate.instant("Saving note...", "places"));
+        Places
+            .createNote($stateParams.page_id, $scope.form.note)
+            .then(function (success) {
+                Dialog.alert("", "Note is saved!", "OK", "places");
+                $scope.form.note = "";
+                $scope.loadNotes($stateParams.page_id);
+            }, function (error) {
+                Dialog.alert("Error", error.message, "OK", "places");
+            }).then(function () {
+                Loader.hide();
+            });
+    };
+
+    $scope.deleteNote = function (noteId) {
+        Dialog
+            .confirm(
+                'Confirmation',
+                'You are about to delete this note!',
+                ['YES', 'NO'],
+                -1,
+                'places')
+            .then(function (value) {
+                if (!value) {
+                    return;
+                }
+                Loader.show();
+                Places
+                    .deleteNote($stateParams.page_id, noteId)
+                    .then(function (success) {
+                        Dialog.alert("", "Note is removed!", "OK", "places");
+                        $scope.loadNotes($stateParams.page_id);
+                    }, function (error) {
+                        Dialog.alert("Error", error.message, "OK", "places");
+                    }).then(function () {
+                        Loader.hide();
+                    });
+            });
+
+    };
+
+    $scope.loadNotes = function (placeId) {
+        if (!Places.settings.notesAreEnabled) {
+            return;
+        }
+        Places
+            .findNotes(placeId)
+            .then(function (success) {
+                $scope.localData.notes = success.notes;
+            });
     };
 
     $scope.loadContent();
