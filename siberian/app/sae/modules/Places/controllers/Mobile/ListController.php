@@ -17,7 +17,6 @@ class Places_Mobile_ListController extends Application_Controller_Mobile_Default
     {
         try {
             $request = $this->getRequest();
-
             $placeId = $request->getParam("place_id", null);
             $optionValue = $this->getCurrentOptionValue();
 
@@ -33,10 +32,11 @@ class Places_Mobile_ListController extends Application_Controller_Mobile_Default
             $payload = [
                 "success" => true,
                 "social_sharing_active" => (boolean) $optionValue->getSocialSharingIsActive(),
+                "notes_are_enabled" => (boolean) $optionValue->getSocialSharingIsActive(),
                 "page_title" => $place["embed_payload"]["page"]["title"],
                 "place" => $place["embed_payload"],
                 "page" => $place["embed_payload"]["page"],
-                "blocks" => $place["embed_payload"]["blocks"],
+                "blocks" => $place["embed_payload"]["blocks"]
             ];
         } catch (\Exception $e) {
             $payload = [
@@ -46,6 +46,42 @@ class Places_Mobile_ListController extends Application_Controller_Mobile_Default
         }
 
         $this->_sendJson($payload);
+    }
+
+    public function findNotesAction()
+    {
+        try {
+            $request = $this->getRequest();
+            $params = $request->getBodyParams();
+            $session = $this->getSession();
+            $customerId = $session->getCustomerId();
+
+            $optionValue = $this->getCurrentOptionValue();
+
+            $dbNotes = (new Places_Model_CustomerNote())->findNotes($optionValue->getId(), $params["place_id"], $customerId);
+
+            $notes = [];
+            foreach ($dbNotes as $dbNote) {
+                $notes[] = [
+                    "id" => (int) $dbNote->getId(),
+                    "content" => nl2br($dbNote->getNote()),
+                    "mtDate" => (int) $dbNote->getTime()
+                ];
+            }
+
+            $payload = [
+                "success" => true,
+                "notes" => $notes
+            ];
+        } catch (\Exception $e) {
+            $payload = [
+                'error' => true,
+                'message' => $e->getMessage(),
+            ];
+        }
+
+        $this->_sendJson($payload);
+
     }
 
     /**
@@ -137,6 +173,8 @@ class Places_Mobile_ListController extends Application_Controller_Mobile_Default
     {
         try {
             $request = $this->getRequest();
+            $session = $this->getSession();
+            $customerId = $session->getCustomerId();
 
             $data = $request->getBodyParams();
             $east = (float) ($data['e'] ?? 0);
@@ -211,7 +249,8 @@ class Places_Mobile_ListController extends Application_Controller_Mobile_Default
                 'defaultPin' => 'pin',
                 'defaultMapZoom' => 8,
                 'defaultCenterZoom' => 8,
-                'categories' => []
+                'categories' => [],
+                'notesAreEnabled' => false
             ];
 
             if (!$optionValue->getId()) {
@@ -225,6 +264,7 @@ class Places_Mobile_ListController extends Application_Controller_Mobile_Default
 
                 $settings['defaultMapZoom'] = (int) $settings['defaultMapZoom'];
                 $settings['defaultCenterZoom'] = (int) $settings['defaultCenterZoom'];
+                $settings['notesAreEnabled'] = (boolean) $settings['notesAreEnabled'];
 
                 $categories = (new Places_Model_Category())
                     ->findAll(["value_id" => $optionValue->getId()], "position ASC");

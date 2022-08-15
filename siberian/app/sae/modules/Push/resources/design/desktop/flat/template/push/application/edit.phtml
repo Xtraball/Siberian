@@ -31,8 +31,7 @@ if (Push_Model_Message::hasIndividualPush()) {
     $customers = $customer->findAllWithDeviceUid($option->getAppId());
 }
 
-$api = Api_Model_Key::findKeysFor('googlemaps');
-$googlemaps_key = $api->getSecretKey();
+$appKey = $application->getGooglemapsKey();
 
 $credentials = (new Push_Model_Firebase())
     ->find(0, 'admin_id');
@@ -777,7 +776,7 @@ $formSettings->setValueId($option->getId());
                 var script_tag = document.createElement('script');
                 script_tag.setAttribute("id", "gmaps_libraries");
                 script_tag.setAttribute("type", "text/javascript");
-                script_tag.setAttribute("src", "https://maps.google.com/maps/api/js?sensor=false&libraries=places&callback=initializeGmaps&key=<?php echo $googlemaps_key; ?>");
+                script_tag.setAttribute("src", "https://maps.google.com/maps/api/js?sensor=false&libraries=places&callback=initializeGmaps&key=<?php echo $appKey; ?>");
                 (document.getElementsByTagName("head")[0] || document.documentElement).appendChild(script_tag);
             }
 

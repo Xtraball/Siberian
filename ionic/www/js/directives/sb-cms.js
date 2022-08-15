@@ -309,6 +309,7 @@ angular.module('starter').directive('sbCmsText', function () {
         },
         template:
         '<div ng-click="openLink()" ' +
+        '     ng-class="{\'cms_custom_icon\': !show_icon}" ' +
         '     class="item item-text-wrap item-icon-left item-custom">' +
         '   <i class="icon" ' +
         '      ng-class="icon" ' +

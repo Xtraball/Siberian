@@ -29,7 +29,7 @@ class Settings extends FormAbstract
         $gateway = $this->addSimpleHidden("gateway");
         $gateway->setValue("cash");
 
-        $this->addSimpleCheckbox("is_enabled", p__("payment_stripe", "Enabled?"));
+        $this->addSimpleCheckbox("is_enabled", p__("payment_cash", "Enabled?"));
 
         $save = $this->addSubmit(p__("payment_cash", "Save"), p__("payment_cash", "Save"));
         $save->addClass("pull-right");

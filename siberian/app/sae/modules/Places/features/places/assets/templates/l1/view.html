@@ -148,6 +148,66 @@
 
             </div>
         </div>
+
+        <div ng-if="notes_are_enabled "
+             class="place-notes-block">
+
+            <div class="card"
+                 style="margin-bottom: 0;">
+                <ion-item class="item-divider item-divider-custom">{{ "Private notes" | translate:"places" }}</ion-item>
+            </div>
+
+            <div ng-if="isLoggedIn()">
+                <!-- Form section -->
+                <div class="card"
+                     style="margin-bottom: 0;">
+                    <ion-item class="item-input item-custom note-textare-custom">
+                        <textarea placeholder="{{ ::'Write a note...' | translate:'places' }}"
+                                  rows="7"
+                                  ng-model="form.note"></textarea>
+                    </ion-item>
+                </div>
+
+                <div class="padding">
+                    <button class="button button-assertive button-assertive-custom button-block"
+                            ng-click="sendNote()">
+                        {{ ::'Save note' | translate:'places' }}&nbsp;&nbsp;&nbsp;&nbsp;
+                        <i class="icon ion-ios-paperplane"></i>
+                    </button>
+                </div>
+
+                <!-- Notes section -->
+                <div ng-if="localData.notes"
+                     ng-repeat="note in localData.notes"
+                     class="card">
+
+                    <div class="item item-text-wrap item-custom sb-cms-text">
+                        <div class="assertive assertive-custom"
+                             style="position: absolute; right: 6px;top: 6px; z-index: 1000;"
+                             ng-click="deleteNote(note.id)">
+                            <i class="icon ion-trash-a"
+                               style="font-size: 26px;"></i>
+                        </div>
+                        <div class="content"
+                             style="padding-right: 20px;"
+                             ng-bind-html="note.content | trusted_html"></div>
+                        <div class="subcontent text-right" style="font-size: 12px; font-style: italic; margin-top: 10px">
+                            <i>{{ note.mtDate | moment_calendar }}</i>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div ng-if="!isLoggedIn()">
+                <div class="card"
+                     ng-click="login()">
+                    <ion-item class="item-custom item-icon-left">
+                        <i class="icon ion-person"></i>
+                        <p>{{ "Login or signup to use notes!" | translate:"places" }}</p>
+                    </ion-item>
+                </div>
+            </div>
+        </div>
     </ion-content>
 
 </ion-view>

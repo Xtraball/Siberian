@@ -123,6 +123,8 @@ RAW;
         $lng = $this->addSimpleText('lng', p__('places', 'Longitude'));
         $lng->setAttrib('readonly', 'readonly');
 
+        $this->addSimpleCheckbox("notesAreEnabled", p__("places", "Allow users to write personal notes on places"));
+
         $submit = $this->addSubmit(__('Save'), __('Save'));
         $submit->addClass('pull-right');
     }
