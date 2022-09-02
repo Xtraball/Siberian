@@ -15,7 +15,7 @@ if ($option->getCode() === "catalog") {
 $pendingActions = $option->getPendingActions();
 
 $iconColorList = __get('feature_icons_color');
-$iconColorList = empty($iconColorList) ?? '#0099C7';
+$iconColorList = $iconColorList ?? '#0099C7';
 
 $iconUrl = $this->getIconUrl($option, $iconColorList);
 

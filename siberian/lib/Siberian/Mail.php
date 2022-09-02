@@ -12,6 +12,7 @@ use Zend_Mail_Transport_Smtp;
 /**
  * Class Mail
  * @package Siberian
+ * @version 4.20.37
  */
 class Mail extends Zend_Mail
 {
