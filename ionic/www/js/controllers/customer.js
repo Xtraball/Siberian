@@ -272,12 +272,14 @@ angular
             Customer
                 .saveSettings($scope.settings)
                 .then(function (payload) {
-                    // Saved!
+                    // Saved! and update local cache
+                    PushService.isEnabled = $scope.settings.push;
                 }, function (error) {
                     // Revert!
+                    $scope.settings.push = !$scope.settings.push;
                 }).then(function () {
-                Loader.hide();
-            });
+                    Loader.hide();
+                });
         };
 
         $scope.reloadLocale = function (select) {
@@ -614,10 +616,18 @@ angular
             if ($scope.myAccount.settings.use_mobile ||
                 $scope.myAccount.settings.extra_mobile) {
 
+                let defaultFallbackLanguage = CURRENT_LANGUAGE;
                 Customer
                     .getIpInfo()
                     .then(function (payload) {
-                        Customer.initIti('customer_mobile', payload.country);
+
+                        if (payload &&
+                            payload.hasOwnProperty('country') &&
+                            payload.country.length > 1) {
+                            Customer.initIti('customer_mobile', payload.country);
+                        } else {
+                            Customer.initIti('customer_mobile', defaultFallbackLanguage);
+                        }
                     }, function (error) {
                         Customer.initIti('customer_mobile', CURRENT_LANGUAGE);
                     });
