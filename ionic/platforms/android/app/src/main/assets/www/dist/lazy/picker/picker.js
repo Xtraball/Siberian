@@ -893,7 +893,9 @@
         skipDayOfWeek: function (textContent) {
             if (this.options.skipDays.length > 0) {
 
-                var month = this.date.getMonth() + 1;
+                textContent = (textContent + "").padStart(2, '0');
+
+                var month = (this.date.getMonth() + 1 + "").padStart(2, '0');
                 // In case we have a "day/month" format only, the year is the current one.
                 var year = this.format.year ?
                     this.date.getFullYear() : (new Date()).getFullYear();
