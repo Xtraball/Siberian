@@ -311,7 +311,7 @@ $splitPreviewActions = filter_var(__get('split_preview_actions'), FILTER_VALIDAT
 
                                     <?php
                                         $iconColorList = __get('feature_icons_color');
-                                        $iconColorList = empty($iconColorList) ?? '#0099C7';
+                                        $iconColorList = $iconColorList ?? '#0099C7';
                                         // If PE we use the backoffice color
                                         if (Version::is('PE')) {
                                             $iconColorList = $this->getBlock('feature-icons')->getColor() ??
