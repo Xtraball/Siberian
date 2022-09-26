@@ -308,7 +308,14 @@ angular
         };
 
         factory.initIti = function (selector, country, options) {
-            var localCountry = country.toLowerCase();
+            var localCountry;
+            // Double tap, just in case
+            try {
+                localCountry = country.toLowerCase();
+            } catch (e) {
+                localCountry = CURRENT_LANGUAGE;
+            }
+
             if (intlTelInput_countries.indexOf(localCountry) === -1) {
                 localCountry = "gb";
             }

@@ -26,7 +26,7 @@
                 </select>
             </label>
 
-            <div class="item item-input item-custom">
+            <label class="item item-input item-custom">
                 <div class="input-label">
                     {{ ::'Firstname' | translate:'customer' }} <span>*</span>
                 </div>
@@ -34,7 +34,7 @@
                        type="text"
                        placeholder="{{ ::'Firstname' | translate:'customer' }}"
                        ng-model="customer.firstname"/>
-            </div>
+            </label>
 
             <label class="item item-input item-custom">
                 <div class="input-label">
@@ -99,11 +99,12 @@
                        ng-model="customer.intl_mobile"/>
             </div>
 
-            <label class="item item-custom bold"
+            <label class="item item-custom bold item-icon-right"
                    style="padding-left: 15px;"
                    ng-click="customer.change_password = !customer.change_password; checkPasswordStatus()"
                    ng-if="customer.is_logged_in">
-                {{ ::'Change password' | translate:'customer' }}
+                <span>{{ ::'Change password' | translate:'customer' }}</span>
+                <i class="icon" ng-class="{'ion-ios-arrow-up': customer.change_password, 'ion-ios-arrow-down': !customer.change_password}"></i>
             </label>
 
             <label class="item item-input item-custom"
