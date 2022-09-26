@@ -476,7 +476,7 @@ cordova.define('cordova/plugin_list', function(require, exports, module) {
     "CorePlugin": "1.1.0",
     "Toast": "2.7.2",
     "Geofence": "0.6.0",
-    "InAppPurchase": "10.6.1",
+    "InAppPurchase": "11.0.0",
     "IonicWebview": "4.0.1",
     "SplashScreen": "5.0.2",
     "SunmiPrinter": "1.0.3",
