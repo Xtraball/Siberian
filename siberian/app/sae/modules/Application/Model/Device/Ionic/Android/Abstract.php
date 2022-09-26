@@ -164,10 +164,22 @@ abstract class Application_Model_Device_Ionic_Android_Abstract extends Applicati
             "versionName=\"1.0\"" => "versionName=\"{$versionName}\"",
         ]);
 
+        // Battery optimization
         $disableBatteryOptimization = (boolean) filter_var($application->getDisableBatteryOptimization(), FILTER_VALIDATE_BOOLEAN);
         if (!$disableBatteryOptimization) {
             $replacements = array_merge($replacements, [
                 "<uses-permission android:name=\"android.permission.REQUEST_IGNORE_BATTERY_OPTIMIZATIONS\" />" => ""
+            ]);
+        }
+
+        // Disable *_location
+        $disableLocation = (boolean) filter_var($application->getDisableLocation(), FILTER_VALIDATE_BOOLEAN);
+        //<uses-permission.*ACCESS_.*_LOCATION" \/>
+        if ($disableLocation) {
+            $replacements = array_merge($replacements, [
+                "<uses-permission android:name=\"android.permission.ACCESS_COARSE_LOCATION\" />" => "",
+                "<uses-permission android:name=\"android.permission.ACCESS_FINE_LOCATION\" />" => "",
+                "<uses-feature android:name=\"android.hardware.location.gps\" android:required=\"false\" />" => ""
             ]);
         }
 

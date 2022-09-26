@@ -858,6 +858,53 @@ function purify($string, $config = null)
 }
 
 /**
+ * @param string $password
+ * @param int $min_length
+ * @return bool
+ */
+function strong_password(string $password, int $min_length = 9): bool
+{
+    $uppercase = preg_match('@[A-Z]@', $password);
+    $lowercase = preg_match('@[a-z]@', $password);
+    $number = preg_match('@[0-9]@', $password);
+    $specialChars = preg_match('@[^\w]@', $password);
+
+    if (!$uppercase || !$lowercase || !$number || !$specialChars || strlen($password) < $min_length) {
+        return false;
+    }
+    return true;
+}
+
+/**
+ * @param string $password
+ * @return string
+ */
+function encrypt_password(string $password): string
+{
+    return sha1($password);
+}
+
+/**
+ * @param $object
+ * @param string $password
+ * @param int $min_length
+ * @param string $password_column
+ * @return Core_Model_Default
+ * @throws Zend_Exception
+ */
+function set_password_object($object, string $password, int $min_length = 9, $password_column = "password")
+{
+    if (!strong_password($password, $min_length)) {
+        throw new Exception(p__("backoffice",
+            "Password should be at least %s characters in length and should include at least one upper case letter, one number, and one special character.", $min_length));
+    }
+
+    $object->setData($password_column, encrypt_password($password));
+
+    return $object;
+}
+
+/**
  * @param $path
  * @return string
  */

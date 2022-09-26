@@ -199,7 +199,8 @@ class Application_Customization_Publication_InfosController extends Application_
                 $application = $this->getApplication();
 
                 $application
-                    ->setDisableBatteryOptimization($params['disable_battery_optimization'])
+                    ->setDisableBatteryOptimization(filter_var($params['disable_battery_optimization'], FILTER_VALIDATE_BOOLEAN))
+                    ->setDisableLocation(filter_var($params['disable_location'], FILTER_VALIDATE_BOOLEAN))
                     ->save();
 
                 $payload = [

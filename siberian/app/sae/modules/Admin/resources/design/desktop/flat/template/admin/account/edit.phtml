@@ -476,9 +476,18 @@ if (!($this->getMode()=="management")) {
 
             if ($form.valid()) {
                 formget($form.attr('action'), $form.serializeArray(), function (success) {
-                   setTimeout(function () {
-                       window.location.pathname = '/admin/access_management/list';
-                   }, 1800);
+                    feature_form_success('<?php echo __js("Saved", "'") ?>');
+                    setTimeout(function () {
+                        window.location.pathname = '/admin/access_management/list';
+                    }, 1800);
+                }, function (error) {
+                    var message;
+                    try {
+                        message = JSON.parse(error.responseText).message;
+                    } catch (e) {
+                        message = undefined;
+                    }
+                    feature_form_error(message);
                 });
             }
             return false;

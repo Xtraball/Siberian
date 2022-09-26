@@ -42,6 +42,8 @@ class Backoffice_Account_ViewController extends Backoffice_Controller_Default
         if ($data = Zend_Json::decode($this->getRequest()->getRawBody())) {
 
             try {
+                // We filter out blank values
+                $data = array_filter($data);
 
                 if (__getConfig('is_demo')) {
                     // Demo version
@@ -52,29 +54,33 @@ class Backoffice_Account_ViewController extends Backoffice_Controller_Default
                     throw new Exception(__("Please, enter a correct email address."));
                 }
 
+                $dummy = (new Backoffice_Model_User())->find($data["email"], "email");
                 $user = new Backoffice_Model_User();
-                $dummy = new Backoffice_Model_User();
-                $dummy->find($data["email"], "email");
+
                 $isNew = true;
                 if (!empty($data["id"])) {
                     $user->find($data["id"]);
                     $isNew = !$user->getId();
                 }
 
-                $user->addData($data);
+                if ($isNew) {
+                    $user->addData($data);
+                }
 
-                if ($dummy->getEmail() == $user->getEmail() && $dummy->getId() != $user->getId()) {
+                if ($dummy->getEmail() === $data["email"] && $dummy->getId() != $user->getId()) {
                     throw new Exception(__("We are sorry but this email address already exists."));
                 }
 
-                if ($isNew AND empty($data["password"])) {
+                $user->addData($data);
+                if ($isNew && empty($data["password"])) {
                     throw new Exception(__("Please, enter a password."));
                 }
-                if (!empty($data["password"]) && $data["password"] != $data["confirm_password"]) {
+
+                if (array_key_exists("password", $data) && $data["password"] !== $data["confirm_password"]) {
                     throw new Exception(__("Passwords don't match"));
                 }
 
-                if (!empty($data["password"])) {
+                if (array_key_exists("password", $data)) {
                     $user->setPassword($data["password"]);
                 }
 
@@ -85,7 +91,7 @@ class Backoffice_Account_ViewController extends Backoffice_Controller_Default
                     "message" => __("User successfully saved")
                 ];
 
-            } catch (Exception $e) {
+            } catch (\Exception $e) {
                 $data = [
                     "error" => 1,
                     "message" => $e->getMessage()
