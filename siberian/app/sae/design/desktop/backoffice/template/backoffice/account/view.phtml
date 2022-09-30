@@ -5,17 +5,23 @@
         <div class="col-md-6">
             <div class="form-group">
                 <label for="email"><?php echo __("Email address"); ?></label>
-                <input type="email" id="email" ng-model="user.email" class="form-control" placeholder="<?php echo __("Email address"); ?>">
+                <input type="email"
+                       id="email"
+                       ng-model="user.email"
+                       class="form-control"
+                       placeholder="<?php echo __("Email address"); ?>">
             </div>
         </div>
 
         <div class="clear"></div>
 
-        <div class="form-group" ng-if="user.id">
+        <div class="form-group"
+             ng-if="user.id">
             <div class="col-md-12">
                 <div class="checkbox">
                     <label>
-                        <input type="checkbox" ng-model="user.change_password" />
+                        <input type="checkbox"
+                               ng-model="user.change_password" />
                         <?php echo __("Change password"); ?>
                     </label>
                 </div>
@@ -23,17 +29,26 @@
             <div class="clear"></div>
         </div>
 
-        <div class="slide-left" ng-if="!user.id || user.change_password">
+        <div class="slide-left"
+             ng-if="!user.id || user.change_password">
             <div class="col-md-6">
                 <div class="form-group">
                     <label for="password"><?php echo __("Password"); ?></label>
-                    <input type="password" id="password" ng-model="user.password" class="form-control" placeholder="<?php echo __("Password"); ?>" />
+                    <input type="password"
+                           id="password"
+                           ng-model="user.password"
+                           class="form-control"
+                           placeholder="<?php echo __("Password"); ?>" />
                 </div>
             </div>
             <div class="col-md-6">
                 <div class="form-group">
                     <label for="confirm_password"><?php echo __("Confirm Password"); ?></label>
-                    <input type="password" id="confirm_password" ng-model="user.confirm_password" class="form-control" placeholder="<?php echo __("Confirm Password"); ?>" />
+                    <input type="password"
+                           id="confirm_password"
+                           ng-model="user.confirm_password"
+                           class="form-control"
+                           placeholder="<?php echo __("Confirm Password"); ?>" />
                 </div>
             </div>
             <div class="clear"></div>
@@ -41,8 +56,13 @@
 
         <div class="col-md-12 text-right">
             <div class="form-group">
-                <button type="submit" class="btn btn-primary"><?php echo __("Save"); ?></button>
-                <sb-loader is_visible="form_loader_is_visible" type="'inner_content'" size="'small'" animation="'toggle'" class="form_loader"></sb-loader>
+                <button type="submit"
+                        class="btn btn-primary"><?php echo __("Save"); ?></button>
+                <sb-loader is_visible="form_loader_is_visible"
+                           type="'inner_content'"
+                           size="'small'"
+                           animation="'toggle'"
+                           class="form_loader"></sb-loader>
                 <div class="clear"></div>
             </div>
         </div>

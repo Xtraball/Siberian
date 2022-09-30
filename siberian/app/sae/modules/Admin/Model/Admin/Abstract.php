@@ -305,13 +305,15 @@ abstract class Admin_Model_Admin_Abstract extends Core_Model_Default
 
     }
 
-    public function setPassword($password)
+    /**
+     * @param $password
+     * @param int $min_length
+     * @return $this
+     * @throws Zend_Exception
+     */
+    public function setPassword($password, $min_length = 9)
     {
-        if (strlen($password) < 6) {
-            throw new Siberian_Exception(__('The password must be at least 6 characters'));
-        }
-        $this->setData('password', $this->_encrypt($password));
-        return $this;
+        return set_password_object($this, $password, $min_length);
     }
 
     public function isSamePassword($password)

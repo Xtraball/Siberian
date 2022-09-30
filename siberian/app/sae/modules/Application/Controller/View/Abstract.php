@@ -174,6 +174,7 @@ abstract class Application_Controller_View_Abstract extends Backoffice_Controlle
         ];
 
         $data['application']['disable_battery_optimization'] = (boolean)$data['application']['disable_battery_optimization'];
+        $data['application']['disable_location'] = (boolean)$data['application']['disable_location'];
         $data['application']['use_ads'] = (boolean)$data['application']['use_ads'];
         $data['application']['test_ads'] = (boolean)$data['application']['test_ads'];
         $data['application']['mediation_facebook'] = (boolean)$data['application']['mediation_facebook'];
@@ -273,6 +274,13 @@ abstract class Application_Controller_View_Abstract extends Backoffice_Controlle
                 $application->setDisableBatteryOptimization($val ? 1 : 0);
 
                 unset($data['disable_battery_optimization']);
+            }
+
+            if (array_key_exists('disable_location', $data)) {
+                $val = filter_var($data['disable_location'], FILTER_VALIDATE_BOOLEAN);
+                $application->setDisableLocation($val ? 1 : 0);
+
+                unset($data['disable_location']);
             }
 
             if (array_key_exists('disable_updates', $data)) {

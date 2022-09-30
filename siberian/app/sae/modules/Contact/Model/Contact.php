@@ -3,7 +3,7 @@
 /**
  * Class Contact_Model_Contact
  *
- * @method $this setData(array $data)
+ * @method $this setData($key, $value = null)
  * @method $this setLatitude(float $latitude)
  * @method $this setLongitude(float $longitude)
  * @method $this save()

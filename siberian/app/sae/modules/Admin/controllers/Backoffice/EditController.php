@@ -1,5 +1,8 @@
 <?php
 
+/**
+ * Class Admin_Backoffice_EditController
+ */
 class Admin_Backoffice_EditController extends Backoffice_Controller_Default
 {
 
@@ -15,7 +18,7 @@ class Admin_Backoffice_EditController extends Backoffice_Controller_Default
             "icon" => "fa-user",
         ];
 
-        $this->_sendHtml($html);
+        $this->_sendJson($html);
 
     }
 
@@ -46,7 +49,7 @@ class Admin_Backoffice_EditController extends Backoffice_Controller_Default
         $default_role_id = $role->findDefaultRoleId();
         $data["default_role_id"] = $default_role_id;
 
-        $this->_sendHtml($data);
+        $this->_sendJson($data);
 
     }
 
@@ -56,9 +59,11 @@ class Admin_Backoffice_EditController extends Backoffice_Controller_Default
         if ($data = Zend_Json::decode($this->getRequest()->getRawBody())) {
 
             try {
+                // Cleanup empty columns
+                $data = array_filter($data);
 
                 if (!Zend_Validate::is($data["email"], "emailAddress")) {
-                    throw new Exception(__("Please, enter a correct email address."));
+                    throw new \Siberian\Exception(__("Please, enter a correct email address."));
                 }
 
                 $admin = new Admin_Model_Admin();
@@ -67,8 +72,15 @@ class Admin_Backoffice_EditController extends Backoffice_Controller_Default
                 $isNew = true;
                 $data["confirm_password"] = !empty($data["confirm_password"]) ? $data["confirm_password"] : "";
 
+                // Protection for demo mode!
                 if (__getConfig('is_demo')) {
-                    if (in_array($data["email"], ['client@client.com', 'demo@demo.com'])) {
+                    $protectedEmails = ['client@client.com', 'demo@demo.com'];
+                    if (in_array($data['email'], $protectedEmails)) {
+                        throw new \Siberian\Exception(__('You are not allowed to edit this account in demo!'));
+                    }
+
+                    $editedAdmin = (new Admin_Model_Admin())->find($data['id']);
+                    if ($editedAdmin && $editedAdmin->getId() && in_array($editedAdmin->getEmail(), $protectedEmails)) {
                         throw new \Siberian\Exception(__('You are not allowed to edit this account in demo!'));
                     }
                 }
@@ -79,7 +91,7 @@ class Admin_Backoffice_EditController extends Backoffice_Controller_Default
                 }
 
                 if ($isNew AND empty($data["password"])) {
-                    throw new Exception(__("Please, enter a password."));
+                    throw new \Siberian\Exception(__("Please, enter a password."));
                 }
                 if (empty($data["password"]) AND empty($data["confirm_password"])) {
                     unset($data["password"]);
@@ -89,13 +101,17 @@ class Admin_Backoffice_EditController extends Backoffice_Controller_Default
                     throw new Siberian_Exception(__("Passwords don't match"));
                 }
 
-                $admin->addData($data);
-
-                if ($dummy->getEmail() == $admin->getEmail() AND $dummy->getId() != $admin->getId()) {
-                    throw new Siberian_Exception(__("We are sorry but this email address already exists."));
+                if ($isNew) {
+                    $admin->addData($data);
                 }
 
-                if (!empty($data["password"])) {
+                if ($dummy->getEmail() === $data["email"] && $dummy->getId() != $admin->getId()) {
+                    throw new Exception(__("We are sorry but this email address already exists."));
+                }
+
+                $admin->addData($data);
+
+                if (array_key_exists("password", $data)) {
                     $admin->setPassword($data["password"]);
                 }
 
@@ -127,7 +143,7 @@ class Admin_Backoffice_EditController extends Backoffice_Controller_Default
                 ];
             }
 
-            $this->_sendHtml($data);
+            $this->_sendJson($data);
         }
 
     }
@@ -170,7 +186,7 @@ class Admin_Backoffice_EditController extends Backoffice_Controller_Default
                 ];
             }
 
-            $this->_sendHtml($data);
+            $this->_sendJson($data);
         }
 
     }

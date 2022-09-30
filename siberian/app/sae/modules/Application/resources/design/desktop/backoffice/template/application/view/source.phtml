@@ -198,6 +198,24 @@ use Siberian\Version;
 
                     <div class="col-md-12">
                         <div class="form-group">
+                            <div class="checkbox">
+                                <label for="disable_location">
+                                    <input type="checkbox"
+                                           id="disable_location"
+                                           ng-model="tmp_application.disable_location"
+                                           ng-checked="tmp_application.disable_location"/>
+                                    <?php echo p__("application", "Disable location service & permissions."); ?>
+                                </label>
+                            </div>
+                            <br />
+                            <div>
+                                <?php echo p__("application", "Please note that if you are using a feature that requires location services & disable it here, these features will not work correctly."); ?><br />
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="col-md-12">
+                        <div class="form-group">
                             <button type="submit"
                                     class="btn btn-primary right"><?php echo __("Save"); ?></button>
                             <sb-loader is_visible="application_form_loader_is_visible"

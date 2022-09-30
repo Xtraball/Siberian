@@ -17,16 +17,13 @@ class Backoffice_Model_User extends Core_Model_Default
 
     /**
      * @param $password
+     * @param int $min_length
      * @return $this
-     * @throws Exception
+     * @throws Zend_Exception
      */
-    public function setPassword($password)
+    public function setPassword($password, $min_length = 9)
     {
-        if(strlen($password) < 6) {
-            throw new Exception(__('The password must be at least 6 characters'));
-        }
-        $this->setData('password', $this->_encrypt($password));
-        return $this;
+        return set_password_object($this, $password, $min_length);
     }
 
     /**
