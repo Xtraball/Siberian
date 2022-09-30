@@ -580,6 +580,10 @@ $schemas['application'] = [
         'type' => 'tinyint(1)',
         'default' => '0',
     ],
+    'disable_location' => [
+        'type' => 'tinyint(1)',
+        'default' => '0',
+    ],
     'enable_custom_smtp' => [
         'type' => 'tinyint(1)',
         'default' => '0',

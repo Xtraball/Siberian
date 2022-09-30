@@ -33,7 +33,7 @@ class Backoffice_Account_ListController extends Backoffice_Controller_Default
                 "created_at" => $user->getFormattedCreatedAt($this->_("MM/dd/yyyy"))
             ];
         }
-        $this->_sendHtml($data);
+        $this->_sendJson($data);
     }
 
     public function deleteAction()
@@ -48,26 +48,25 @@ class Backoffice_Account_ListController extends Backoffice_Controller_Default
                     throw new Exception("This is a demo version, this user can't be deleted");
                 }
 
+                if ((new Backoffice_Model_User())->findAll()->count() <= 1) {
+                    throw new Exception(__("How do you want to access the backoffice if you remove the only user remaining?"));
+                }
+
                 if (empty($data["user_id"])) {
-                    throw new Exception($this->_("An error occurred while saving. Please try again later."));
+                    throw new Exception(__("An error occurred while saving. Please try again later."));
                 }
 
                 $user = new Backoffice_Model_User();
                 $user->find($data["user_id"]);
-
                 if (!$user->getId()) {
-                    throw new Exception($this->_("An error occurred while saving. Please try again later."));
-                }
-
-                if ($user->findAll()->count() <= 1) {
-                    throw new Exception($this->_("How do you want to access the backoffice if you remove the only user remaining?"));
+                    throw new Exception(__("An error occurred while saving. Please try again later."));
                 }
 
                 $user->delete();
 
                 $data = [
                     "success" => 1,
-                    "message" => $this->_("User successfully deleted")
+                    "message" => __("User successfully deleted")
                 ];
             } catch (Exception $e) {
                 $data = [
@@ -76,7 +75,7 @@ class Backoffice_Account_ListController extends Backoffice_Controller_Default
                 ];
             }
 
-            $this->_sendHtml($data);
+            $this->_sendJson($data);
 
         }
 

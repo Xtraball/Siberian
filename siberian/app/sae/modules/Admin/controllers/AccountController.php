@@ -32,7 +32,13 @@ class Admin_AccountController extends Admin_Controller_Default
 
                 // Protection for demo mode!
                 if (__getConfig('is_demo')) {
-                    if (in_array($data['email'], ['client@client.com', 'demo@demo.com'])) {
+                    $protectedEmails = ['client@client.com', 'demo@demo.com'];
+                    if (in_array($data['email'], $protectedEmails)) {
+                        throw new \Siberian\Exception(__('You are not allowed to edit this account in demo!'));
+                    }
+
+                    $editedAdmin = (new Admin_Model_Admin())->find($data['admin_id']);
+                    if ($editedAdmin && $editedAdmin->getId() && in_array($editedAdmin->getEmail(), $protectedEmails)) {
                         throw new \Siberian\Exception(__('You are not allowed to edit this account in demo!'));
                     }
                 }
@@ -64,15 +70,8 @@ class Admin_AccountController extends Admin_Controller_Default
                     $admin->setParentId($this->getAdmin()->getId());
                 }
 
-                // Protection for demo mode!
-                if (__getConfig('is_demo')) {
-                    if (in_array($admin->getEmail(), ['client@client.com', 'demo@demo.com'])) {
-                        throw new \Siberian\Exception(__('You are not allowed to edit this account in demo!'));
-                    }
-                }
-
                 $check_email_admin->find($data['email'], 'email');
-                if ($check_email_admin->getId() AND $check_email_admin->getId() != $admin->getId()) {
+                if ($check_email_admin->getId() && $check_email_admin->getId() != $admin->getId()) {
                     throw new \Siberian\Exception(__('This email address is already used'));
                 }
 
@@ -80,7 +79,7 @@ class Admin_AccountController extends Admin_Controller_Default
                     if ($data['password'] != $data['confirm_password']) {
                         throw new \Siberian\Exception(__('Your password does not match the entered password.'));
                     }
-                    if (!empty($data['old_password']) AND !$admin->isSamePassword($data['old_password'])) {
+                    if (!empty($data['old_password']) && !$admin->isSamePassword($data['old_password'])) {
                         throw new \Siberian\Exception(__("The old password does not match the entered password."));
                     }
                     if (!empty($data['password'])) {
