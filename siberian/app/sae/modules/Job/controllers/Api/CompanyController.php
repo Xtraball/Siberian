@@ -223,7 +223,7 @@ class Job_Api_PlaceController extends Api_Controller_Default
                     throw new Exception(__("This email address does not exist"));
                 }
 
-                $password = Core_Model_Lib_String::generate(8);
+                $password = generate_strong_password(10);
 
                 $admin->setPassword($password)->save();
 

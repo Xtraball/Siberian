@@ -158,6 +158,10 @@ try {
             exec($command);
             echo 'Export done.' . PHP_EOL;
             break;
+        case 'password':
+            echo generate_strong_password($argv[2] ?? 24);
+            echo PHP_EOL;
+            break;
         case 'version':
             $newVersion = $argv[2];
             if (empty($newVersion)) {
