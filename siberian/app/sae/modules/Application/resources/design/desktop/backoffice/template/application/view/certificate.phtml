@@ -5,7 +5,7 @@
 
     <div class="col-md-12"
          ng-if="application.has_ios_certificate || application.pem_infos">
-        <span ng-if="application.pem_infos.is_valid">
+        <span ng-if="application.pem_infos">
             <b><?php echo __("PEM test:") ?></b>
                 <span ng-show="application.pem_infos.test_pem.success"
                       class="pem-valid">{{ application.pem_infos.test_pem.message }}</span>
@@ -17,10 +17,11 @@
             <b><?php echo __("for the bundle id:") ?></b> <span
                     class="{{ (application.pem_infos.package_name == tmp_application.bundle_id) ? 'pem-valid' : 'pem-invalid' }}">{{ application.pem_infos.package_name }}</span>
         </span>
-
+        <br/>
         <span ng-if="!application.pem_infos.is_valid"
               class="pem-invalid">
             <b><?php echo __("Your certificate is invalid") ?>
+
         </span>
 
         <br/><br/>
