@@ -20,7 +20,11 @@
         <br/>
         <span ng-if="!application.pem_infos.is_valid"
               class="pem-invalid">
-            <b><?php echo __("Your certificate is invalid") ?>
+            <b><?php echo __("Your certificate is invalid") ?></b>
+            <br />
+            <br />
+            <div class="alert alert-danger"
+                 ng-if="application.pem_infos.expired"><?php echo __("Your certificate has expired, please renew it") ?></div>
 
         </span>
 
