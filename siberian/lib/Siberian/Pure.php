@@ -858,6 +858,46 @@ function purify($string, $config = null)
 }
 
 /**
+ * @param int $length
+ * @param array $options
+ * @return false|string
+ */
+function generate_strong_password ($length = 9, $options = []) {
+    $options = array_merge([
+        'uppercase' => true,
+        'numeric' => true,
+        'special' => true,
+    ], $options);
+
+    $set1 = str_split('abcdefghjkmnpqrstuvwxyz');
+    $set2 = $options['uppercase'] ? str_split('ABCDEFGHJKMNPQRSTUVWXYZ') : $set1;
+    $set3 = $options['numeric'] ? str_split('23456789') : $set1;
+    $set4 = $options['special'] ? str_split('!@#$%&*?') : $set1;
+
+    shuffle($set1);
+    shuffle($set2);
+    shuffle($set3);
+    shuffle($set4);
+
+    $gen = array_merge([], array_slice($set1, 0, 3), array_slice($set2, 0, 3), array_slice($set3, 0, 3), array_slice($set4, 0, 3));
+    shuffle($gen);
+    usleep(rand(1, 500));
+    shuffle($gen);
+
+    $password = join("", $gen);
+    $current_length = strlen($password);
+    $loop_breaker = 10;
+    $counter = 0;
+    while ($current_length < $length && $counter < $loop_breaker) {
+        $password .= generate_strong_password(9, $options);
+        $current_length = strlen($password);
+        $counter++;
+    }
+
+    return substr($password, 0, $length);
+}
+
+/**
  * @param string $password
  * @param int $min_length
  * @return bool

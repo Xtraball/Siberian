@@ -158,6 +158,30 @@ try {
             exec($command);
             echo 'Export done.' . PHP_EOL;
             break;
+        case 'password':
+            $options = [
+                'uppercase' => true,
+                'numeric' => true,
+                'special' => true,
+            ];
+
+            $length = $argv[2] && is_int($argv[2]) ? $argv[2] : 24;
+
+            foreach ($argv as $arg) {
+                if ($arg === '--no-uppercase') {
+                    $options['uppercase'] = false;
+                }
+                if ($arg === '--no-numeric') {
+                    $options['numeric'] = false;
+                }
+                if ($arg === '--no-special') {
+                    $options['special'] = false;
+                }
+            }
+
+            echo generate_strong_password($length, $options);
+            echo PHP_EOL;
+            break;
         case 'version':
             $newVersion = $argv[2];
             if (empty($newVersion)) {
@@ -178,23 +202,23 @@ try {
                 echo 'Sorry this e-mail doesn\'t exists.' . PHP_EOL;
             } else {
                 $newPassword = null;
-                $testPassword = static function () {
-                    $newPassword = readline('Your new password (min 8 characters): ');
-                    if (strlen($newPassword) < 6) {
-                        echo 'Password too short.' . PHP_EOL;
+                $testPassword = static function () use ($backofficeUser) {
+                    $newPassword = readline('Your new password (min 9 characters, 1 uppercase letter, 1 lowercase, 1 number & 1 special character): ');
+                    try {
+                        set_password_object($backofficeUser, $newPassword);
+                        return true;
+                    } catch (\Exception $e) {
+                        echo $e->getMessage() . PHP_EOL;
                         return false;
                     }
-                    return $newPassword;
                 };
 
                 do {
                     $newPassword = $testPassword();
                 } while (!$newPassword);
 
-                // Then update!
-                $backofficeUser
-                    ->setPassword($newPassword)
-                    ->save();
+                // Then save!
+                $backofficeUser->save();
 
                 echo 'Password successfully changed.' . PHP_EOL;
             }
