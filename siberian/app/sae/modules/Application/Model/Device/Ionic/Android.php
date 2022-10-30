@@ -313,13 +313,13 @@ class Application_Model_Device_Ionic_Android extends Application_Model_Device_Io
         ];
 
         if (empty($passwords['store_pass'])) {
-            $store_pass = generate_strong_password(10);
+            $store_pass = generate_strong_password(10, ['special' => false]);
             $device->setStorePass($store_pass);
             $passwords['store_pass'] = $store_pass;
             $save = true;
         }
         if (empty($passwords['key_pass'])) {
-            $key_pass = generate_strong_password(10);
+            $key_pass = generate_strong_password(10, ['special' => false]);
             $device->setKeyPass($key_pass);
             $passwords['key_pass'] = $key_pass;
             $save = true;
