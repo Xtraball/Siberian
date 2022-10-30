@@ -162,7 +162,7 @@ class Customer_Mobile_AccountController extends Application_Controller_Mobile_De
                 }
 
                 $admin_email = null;
-                $password = Core_Model_Lib_String::generate(8);
+                $password = generate_strong_password(10);
                 $contact = new Contact_Model_Contact();
                 $contact_page = $this->getApplication()->getPage('contact');
                 if($contact_page->getId()) {

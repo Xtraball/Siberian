@@ -67,7 +67,7 @@ class Backoffice_Account_LoginController extends Backoffice_Controller_Default
                     throw new Exception("This is a demo version, you can't ask a new password for this user");
                 }
 
-                $password = Core_Model_Lib_String::generate(8);
+                $password = generate_strong_password(10);
 
                 $user->setPassword($password)->save();
 
