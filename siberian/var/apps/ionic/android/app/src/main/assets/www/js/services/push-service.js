@@ -3,36 +3,36 @@
  *
  * @author Xtraball SAS
  *
- * @version 4.20.28
+ * @version 4.20.44
  */
 angular
     .module('starter')
     .service('PushService', function ($cordovaLocalNotification, $location, $log, $q, $rootScope, $translate,
                                       $window, $session, Application, Dialog, LinkService, Pages, Push, SB) {
     var service = {
-        push: null,
-        isReady: null,
-        isReadyPromise: null,
-        isEnabled: true,
-        settings: {
-            android: {
-                senderID: '01234567890',
-                icon: 'ic_icon',
-                iconColor: '#0099C7',
-                sound: true,
-                soundname: 'sb_beep4',
-                vibrate: true
-            },
-            ios: {
-                clearBadge: false,
-                critical: Application.useCriticalPush,
-                alert: true,
-                badge: true,
-                sound: true,
-                soundname: 'sb_beep4',
-            },
-            windows: {}
-        }
+        //push: null,
+        //isReady: null,
+        //isReadyPromise: null,
+        //isEnabled: true,
+        //settings: {
+        //    android: {
+        //        senderID: '01234567890',
+        //        icon: 'ic_icon',
+        //        iconColor: '#0099C7',
+        //        sound: true,
+        //        soundname: 'sb_beep4',
+        //        vibrate: true
+        //    },
+        //    ios: {
+        //        clearBadge: false,
+        //        critical: Application.useCriticalPush,
+        //        alert: true,
+        //        badge: true,
+        //        sound: true,
+        //        soundname: 'sb_beep4',
+        //    },
+        //    windows: {}
+        //}
     };
 
     /**
@@ -43,225 +43,243 @@ angular
      */
     service.configure = function (senderID, iconColor) {
         // senderID error proof for Android!
-        if ((Push.device_type === SB.DEVICE.TYPE_ANDROID) &&
-            (senderID === '01234567890' || senderID ==='')) {
-            $log.debug('Invalid senderId: ' + senderID);
-            service.settings.android.senderID = null;
-        } else {
-            service.settings.android.senderID = senderID;
-        }
-
-        // Validating push color!
-        if (!(/^#[0-9A-F]{6}$/i).test(iconColor)) {
-            $log.debug('Invalid iconColor: ' + iconColor);
-        } else {
-            service.settings.android.iconColor = iconColor;
-        }
+        //if ((Push.device_type === SB.DEVICE.TYPE_ANDROID) &&
+        //    (senderID === '01234567890' || senderID ==='')) {
+        //    $log.debug('Invalid senderId: ' + senderID);
+        //    service.settings.android.senderID = null;
+        //} else {
+        //    service.settings.android.senderID = senderID;
+        //}
+//
+        //// Validating push color!
+        //if (!(/^#[0-9A-F]{6}$/i).test(iconColor)) {
+        //    $log.debug('Invalid iconColor: ' + iconColor);
+        //} else {
+        //    service.settings.android.iconColor = iconColor;
+        //}
     };
 
     /**
      * If available, initialize push
      */
     service.init = function () {
-        if (!$window.PushNotification) {
+        if (!$window.plugins.OneSignal) {
+            $log.error("OneSignal plugin is missing");
             return;
         }
 
-        service.push = $window.PushNotification.init(service.settings);
+        //service.push = $window.PushNotification.init(service.settings);
+
+        // Uncomment to set OneSignal device logging to VERBOSE
+        $window.plugins.OneSignal.setLogLevel(6, 0);
+
+        // NOTE: Update the setAppId value below with your OneSignal AppId.
+        $window.plugins.OneSignal.setAppId("ddedc400-ae8e-422a-9e10-d829f7379794");
+        $window.plugins.OneSignal.setNotificationOpenedHandler(function(jsonData) {
+            console.log('notificationOpenedCallback: ' + JSON.stringify(jsonData));
+        });
+
+        //Prompts the user for notification permissions.
+        //    * Since this shows a generic native prompt, we recommend instead using an In-App Message to prompt for notification permission (See step 6) to better communicate to your users what notifications they will get.
+        $window.plugins.OneSignal.promptForPushNotificationsWithUserResponse(function(accepted) {
+            console.log("User accepted notifications: " + accepted);
+        });
     };
 
     service.isRegistered = function () {
-        var type;
-        if (SB.DEVICE.TYPE_ANDROID === DEVICE_TYPE) {
-            type = 'android';
-        }
-        if (SB.DEVICE.TYPE_IOS === DEVICE_TYPE) {
-            type = 'ios';
-        }
-
-        return Push.isRegistered({
-            type: type
-        })
+        //var type;
+        //if (SB.DEVICE.TYPE_ANDROID === DEVICE_TYPE) {
+        //    type = 'android';
+        //}
+        //if (SB.DEVICE.TYPE_IOS === DEVICE_TYPE) {
+        //    type = 'ios';
+        //}
+//
+        //return Push.isRegistered({
+        //    type: type
+        //})
     };
 
     /**
      * Handle registration, and various push events
      */
     service.register = function (registerOnly) {
-        var localRegisterOnly = (registerOnly === null) ? false : registerOnly;
+        service.init();
 
-        service.isReady = $q.defer();
-        service.isReadyPromise = service.isReady.promise;
+
+        //var localRegisterOnly = (registerOnly === null) ? false : registerOnly//;
+
+        //service.isReady = $q.defer();
+        //service.isReadyPromise = service.isReady.promise;
 
         service.init();
 
-        if (service.push &&
-            $rootScope.isNativeApp) {
-            service.push.on('registration', function (data) {
-                Push.device_token = data.registrationId;
-                service
-                    .registerDevice()
-                    .then(function (payload) {
-                        service.isEnabled = payload.enabled;
-                    });
+        //if ($rootScope.isNativeApp) {
+            ///service.push.on('registration', function (data) {
+            ///    Push.device_token = data.registrationId;
+            ///    service
+            ///        .registerDevice()
+            ///        .then(function (payload) {
+            ///            service.isEnabled = payload.enabled;
+            ///        });
+///
+            ///    // Clear error messages!
+            ///    Push.lastError = null;
+            ///    Push.lastErrorMessage = null;
+///
+            ///    // Resolve promise!
+            ///    service.isReady.resolve();
+            ///});
+///
+            ///service.onNotificationReceived();
+///
+            ///service.push.on('error', function (error) {
+            ///    // Before displaying a registration error, we want to check if the device is known in DB
+            ///    console.error('[Push]', error);
+            ///    Push.lastError = error;
+            ///    Push.lastErrorMessage = error.message;
+///
+            ///    service
+            ///        .isRegistered()
+            ///        .then(function (success) {
+            ///            service.isReady.resolve();
+            ///        }, function (isRegisteredError) {
+            ///            // Reject
+            ///            service.isReady.reject();
+            ///            if (!registerOnly) {
+            ///                Dialog
+            ///                    .alert('Push registration failed', error.message, 'OK', -1);
+            ///            }
+            ///        });
+            ///});
+///
+            ///if (!localRegisterOnly) {
+            ///    service.updateUnreadCount();
+///
+            ///    Application.loaded.then(function () {
+            ///        // When Application is loaded, and push registered, look for missed push!
+            ///        service.fetchMessagesOnStart();
+///
+            ///        // Register for push events!
+            ///        $rootScope.$on(SB.EVENTS.PUSH.notificationReceived, function (event, data) {
+            ///            // Refresh to prevent the need for pullToRefresh!
+            ///            var pushFeature = _.filter(Pages.getActivePages(), function (page) {
+            ///                return (page.code === 'push_notification');
+            ///            });
+            ///            if (pushFeature.length >= 1) {
+            ///                Push.setValueId(pushFeature[0].value_id);
+            ///                Push.findAll(0, true);
+            ///            }
+///
+            ///            service.displayNotification(data);
+            ///        });
+            ///    });
+            ///}
+        //} else {
+        //    $log.debug('Unable to initialize push service.');
+        //    service.isReady.reject();
+        //}
 
-                // Clear error messages!
-                Push.lastError = null;
-                Push.lastErrorMessage = null;
-
-                // Resolve promise!
-                service.isReady.resolve();
-            });
-
-            service.onNotificationReceived();
-
-            service.push.on('error', function (error) {
-                // Before displaying a registration error, we want to check if the device is known in DB
-                console.error('[Push]', error);
-                Push.lastError = error;
-                Push.lastErrorMessage = error.message;
-
-                service
-                    .isRegistered()
-                    .then(function (success) {
-                        service.isReady.resolve();
-                    }, function (isRegisteredError) {
-                        // Reject
-                        service.isReady.reject();
-                        if (!registerOnly) {
-                            Dialog
-                                .alert('Push registration failed', error.message, 'OK', -1);
-                        }
-                    });
-            });
-
-            if (!localRegisterOnly) {
-                service.updateUnreadCount();
-
-                Application.loaded.then(function () {
-                    // When Application is loaded, and push registered, look for missed push!
-                    service.fetchMessagesOnStart();
-
-                    // Register for push events!
-                    $rootScope.$on(SB.EVENTS.PUSH.notificationReceived, function (event, data) {
-                        // Refresh to prevent the need for pullToRefresh!
-                        var pushFeature = _.filter(Pages.getActivePages(), function (page) {
-                            return (page.code === 'push_notification');
-                        });
-                        if (pushFeature.length >= 1) {
-                            Push.setValueId(pushFeature[0].value_id);
-                            Push.findAll(0, true);
-                        }
-
-                        service.displayNotification(data);
-                    });
-                });
-            }
-        } else {
-            $log.debug('Unable to initialize push service.');
-            service.isReady.reject();
-        }
-
-        if (!$rootScope.isNativeApp) {
-            Application.loaded.then(function () {
-                // When Application is loaded, register at least for InApp
-                service.fetchMessagesOnStart();
-            });
-            service.isReady.reject();
-        }
+        //if (!$rootScope.isNativeApp) {
+        //    Application.loaded.then(function () {
+        //        // When Application is loaded, register at least for InApp
+        //        service.fetchMessagesOnStart();
+        //    });
+        //    service.isReady.reject();
+        //}
     };
 
     /**
      * Registration!
      */
     service.registerDevice = function () {
-        try {
-            cordova.plugins.notification.badge.clear();
-        } catch (e) {
-            // Nope!
-        }
-
-        if (Push.device_type === SB.DEVICE.TYPE_ANDROID) {
-            return service.registerAndroid();
-        }
-        if (Push.device_type === SB.DEVICE.TYPE_IOS) {
-            return service.registerIos();
-        }
-        return $q.reject('Unsupported device type for Push');
+        //try {
+        //    cordova.plugins.notification.badge.clear();
+        //} catch (e) {
+        //    // Nope!
+        //}
+//
+        //if (Push.device_type === SB.DEVICE.TYPE_ANDROID) {
+        //    return service.registerAndroid();
+        //}
+        //if (Push.device_type === SB.DEVICE.TYPE_IOS) {
+        //    return service.registerIos();
+        //}
+        //return $q.reject('Unsupported device type for Push');
     };
 
     /**
      * Android!
      */
     service.registerAndroid = function () {
-        var params = {
-            app_id: Application.app_id,
-            app_name: Application.app_name,
-            registration_id: btoa(Push.device_token)
-        };
-        return Push.registerAndroidDevice(params);
+        //var params = {
+        //    app_id: Application.app_id,
+        //    app_name: Application.app_name,
+        //    registration_id: btoa(Push.device_token)
+        //};
+        //return Push.registerAndroidDevice(params);
     };
 
     service.registerIos = function () {
-        var deviceName = null;
-        try {
-            deviceName = device.platform;
-        } catch (e) {
-            $log.debug(e.message);
-        }
-
-        var deviceModel = null;
-        try {
-            deviceModel = device.model;
-        } catch (e) {
-            $log.debug(e.message);
-        }
-
-        var deviceVersion = null;
-        try {
-            deviceVersion = device.version;
-        } catch (e) {
-            $log.debug(e.message);
-        }
-
-        var params = {
-            app_id: Application.app_id,
-            app_name: Application.app_name,
-            device_token: Push.device_token,
-            device_name: deviceName,
-            device_model: deviceModel,
-            device_version: deviceVersion,
-            push_badge: 'enabled',
-            push_alert: 'enabled',
-            push_sound: 'enabled'
-        };
-
-        return Push.registerIosDevice(params);
+        //var deviceName = null;
+        //try {
+        //    deviceName = device.platform;
+        //} catch (e) {
+        //    $log.debug(e.message);
+        //}
+//
+        //var deviceModel = null;
+        //try {
+        //    deviceModel = device.model;
+        //} catch (e) {
+        //    $log.debug(e.message);
+        //}
+//
+        //var deviceVersion = null;
+        //try {
+        //    deviceVersion = device.version;
+        //} catch (e) {
+        //    $log.debug(e.message);
+        //}
+//
+        //var params = {
+        //    app_id: Application.app_id,
+        //    app_name: Application.app_name,
+        //    device_token: Push.device_token,
+        //    device_name: deviceName,
+        //    device_model: deviceModel,
+        //    device_version: deviceVersion,
+        //    push_badge: 'enabled',
+        //    push_alert: 'enabled',
+        //    push_sound: 'enabled'
+        //};
+//
+        //return Push.registerIosDevice(params);
     };
 
     service.onNotificationReceived = function () {
-        service.push.on('notification', function (data) {
-            $rootScope.$broadcast(SB.EVENTS.PUSH.notificationReceived, data);
-
-            service.push.finish(function () {
-                $log.debug('push finish success');
-                // success!
-            }, function () {
-                $log.debug('push finish error');
-                // error!
-            });
-        });
+        //service.push.on('notification', function (data) {
+        //    $rootScope.$broadcast(SB.EVENTS.PUSH.notificationReceived, data);
+//
+        //    service.push.finish(function () {
+        //        $log.debug('push finish success');
+        //        // success!
+        //    }, function () {
+        //        $log.debug('push finish error');
+        //        // error!
+        //    });
+        //});
     };
 
     /**
      * Update push badge.
      */
     service.updateUnreadCount = function () {
-        Push.updateUnreadCount()
-            .then(function (data) {
-                Push.unread_count = data.unread_count;
-                $rootScope.$broadcast(SB.EVENTS.PUSH.unreadPush);
-            });
+        //Push.updateUnreadCount()
+        //    .then(function (data) {
+        //        Push.unread_count = data.unread_count;
+        //        $rootScope.$broadcast(SB.EVENTS.PUSH.unreadPush);
+        //    });
     };
 
     /**
@@ -308,40 +326,40 @@ angular
      * Trying to fetch latest Push & InApp messages on app Start.
      */
     service.fetchMessagesOnStart = function () {
-        Push.getLastMessages(false)
-            .then(function (data) {
-                // Last push!
-                var push = data.push_message;
-                if (push) {
-                    service.displayNotification(push);
-                }
-
-                // Last InApp Message!
-                var inappMessage = data.inapp_message;
-                if (inappMessage) {
-                    inappMessage.type = 'inapp';
-                    inappMessage.message = inappMessage.text;
-                    inappMessage.config = {
-                        buttons: [
-                            {
-                                text: $translate.instant('OK', 'push'),
-                                type: 'button-custom',
-                                onTap: function () {
-                                    Push.markInAppAsRead();
-                                }
-                            }
-                        ]
-                    };
-
-                    if ((inappMessage.cover !== null) && (inappMessage.additionalData === undefined)) {
-                        inappMessage.additionalData = {
-                            cover: inappMessage.cover
-                        };
-                    }
-
-                    service.displayNotification(inappMessage);
-                }
-        });
+        //Push.getLastMessages(false)
+        //    .then(function (data) {
+        //        // Last push!
+        //        var push = data.push_message;
+        //        if (push) {
+        //            service.displayNotification(push);
+        //        }
+//
+        //        // Last InApp Message!
+        //        var inappMessage = data.inapp_message;
+        //        if (inappMessage) {
+        //            inappMessage.type = 'inapp';
+        //            inappMessage.message = inappMessage.text;
+        //            inappMessage.config = {
+        //                buttons: [
+        //                    {
+        //                        text: $translate.instant('OK', 'push'),
+        //                        type: 'button-custom',
+        //                        onTap: function () {
+        //                            Push.markInAppAsRead();
+        //                        }
+        //                    }
+        //                ]
+        //            };
+//
+        //            if ((inappMessage.cover !== null) && (inappMessage.additionalData === undefined)) {
+        //                inappMessage.additionalData = {
+        //                    cover: inappMessage.cover
+        //                };
+        //            }
+//
+        //            service.displayNotification(inappMessage);
+        //        }
+        //});
     };
 
     /**
@@ -352,7 +370,7 @@ angular
      * @returns Promise
      */
     service.displayNotification = function (messagePayload) {
-        $log.debug('PUSH messagePayload', messagePayload);
+        /**$log.debug('PUSH messagePayload', messagePayload);
 
         // Prevent an ID being shown twice.
         $session
@@ -496,6 +514,7 @@ angular
                 $log.debug('We got an error with the localForage when trying to display push message: ', messagePayload);
                 $log.debug(err);
             });
+         */
     };
 
     // Push simulator!
