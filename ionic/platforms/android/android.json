@@ -77,30 +77,6 @@
               "count": 1
             },
             {
-              "xml": "<activity android:exported=\"true\" android:name=\"com.adobe.phonegap.push.PushHandlerActivity\" android:permission=\"${applicationId}.permission.PushHandlerActivity\" />",
-              "count": 1
-            },
-            {
-              "xml": "<activity android:exported=\"true\" android:name=\"com.adobe.phonegap.push.BackgroundHandlerActivity\" android:permission=\"${applicationId}.permission.BackgroundHandlerActivity\"><intent-filter><action android:name=\"com.adobe.phonegap.push.background.MESSAGING_EVENT\" /><category android:name=\"android.intent.category.DEFAULT\" /></intent-filter></activity>",
-              "count": 1
-            },
-            {
-              "xml": "<receiver android:name=\"com.adobe.phonegap.push.BackgroundActionButtonHandler\" />",
-              "count": 1
-            },
-            {
-              "xml": "<receiver android:name=\"com.adobe.phonegap.push.PushDismissedHandler\" />",
-              "count": 1
-            },
-            {
-              "xml": "<service android:exported=\"true\" android:name=\"com.adobe.phonegap.push.FCMService\"><intent-filter><action android:name=\"com.google.firebase.MESSAGING_EVENT\" /></intent-filter></service>",
-              "count": 1
-            },
-            {
-              "xml": "<service android:exported=\"true\" android:name=\"com.adobe.phonegap.push.PushInstanceIDListenerService\"><intent-filter><action android:name=\"com.google.firebase.INSTANCE_ID_EVENT\" /></intent-filter></service>",
-              "count": 1
-            },
-            {
               "xml": "<activity android:configChanges=\"orientation|keyboardHidden|keyboard|screenSize|locale\" android:exported=\"true\" android:label=\"@string/activity_name\" android:launchMode=\"standard\" android:name=\"com.webview.WebViewActivity\" android:theme=\"@style/Theme.AppCompat.NoActionBar\" android:windowSoftInputMode=\"adjustResize\"></activity>",
               "count": 1
             }
@@ -128,7 +104,7 @@
             },
             {
               "xml": "<uses-permission android:name=\"android.permission.WAKE_LOCK\" />",
-              "count": 2
+              "count": 1
             },
             {
               "xml": "<uses-permission android:name=\"android.permission.ACCESS_COARSE_LOCATION\" />",
@@ -140,14 +116,10 @@
             },
             {
               "xml": "<uses-permission android:name=\"android.permission.VIBRATE\" />",
-              "count": 2
+              "count": 1
             },
             {
               "xml": "<uses-permission android:name=\"android.permission.INTERNET\" />",
-              "count": 2
-            },
-            {
-              "xml": "<uses-permission android:name=\"android.permission.ACCESS_NETWORK_STATE\" />",
               "count": 1
             }
           ],
@@ -263,6 +235,10 @@
               "count": 1
             },
             {
+              "xml": "<feature name=\"OneSignalPush\"><param name=\"android-package\" value=\"com.onesignal.cordova.OneSignalPush\" /></feature>",
+              "count": 1
+            },
+            {
               "xml": "<feature name=\"Permissions\"><param name=\"android-package\" value=\"com.android.plugins.Permissions\" /></feature>",
               "count": 1
             },
@@ -353,10 +329,6 @@
               "count": 1
             },
             {
-              "xml": "<feature name=\"PushNotification\"><param name=\"android-package\" value=\"com.adobe.phonegap.push.PushPlugin\" /></feature>",
-              "count": 1
-            },
-            {
               "xml": "<feature name=\"WebViewPlugin\"><param name=\"android-package\" value=\"com.webview.WebViewPlugin\" /></feature>",
               "count": 1
             }
@@ -426,6 +398,9 @@
     "Navigator": {
       "PACKAGE_NAME": "com.appsmobilecompany.base"
     },
+    "Onesignal": {
+      "PACKAGE_NAME": "com.appsmobilecompany.base"
+    },
     "Permissions": {
       "PACKAGE_NAME": "com.appsmobilecompany.base"
     },
@@ -448,9 +423,6 @@
       "PACKAGE_NAME": "com.appsmobilecompany.base"
     },
     "SunmiPrinter": {
-      "PACKAGE_NAME": "com.appsmobilecompany.base"
-    },
-    "Push": {
       "PACKAGE_NAME": "com.appsmobilecompany.base"
     },
     "Mediation": {
@@ -825,6 +797,29 @@
       ]
     },
     {
+      "id": "Onesignal.OneSignalPlugin",
+      "file": "plugins/Onesignal/dist/index.js",
+      "pluginId": "Onesignal",
+      "clobbers": [
+        "OneSignal"
+      ]
+    },
+    {
+      "id": "Onesignal.NotificationReceivedEvent",
+      "file": "plugins/Onesignal/dist/NotificationReceivedEvent.js",
+      "pluginId": "Onesignal"
+    },
+    {
+      "id": "Onesignal.Subscription",
+      "file": "plugins/Onesignal/dist/Subscription.js",
+      "pluginId": "Onesignal"
+    },
+    {
+      "id": "Onesignal.OSNotification",
+      "file": "plugins/Onesignal/dist/OSNotification.js",
+      "pluginId": "Onesignal"
+    },
+    {
       "id": "Permissions.Permissions",
       "file": "plugins/Permissions/www/permissions.js",
       "pluginId": "Permissions",
@@ -897,14 +892,6 @@
       ]
     },
     {
-      "id": "Push.PushNotification",
-      "file": "plugins/Push/www/push.js",
-      "pluginId": "Push",
-      "clobbers": [
-        "PushNotification"
-      ]
-    },
-    {
       "id": "WebView.webview",
       "file": "plugins/WebView/www/webViewPlugin.js",
       "pluginId": "WebView",
@@ -934,6 +921,7 @@
     "MusicControls": "3.0.4",
     "MediaNative": "5.0.3",
     "Navigator": "0.1.0",
+    "Onesignal": "3.2.0",
     "Permissions": "1.0.0",
     "CorePlugin": "1.1.0",
     "Toast": "2.7.2",
@@ -942,7 +930,6 @@
     "IonicWebview": "4.0.1",
     "SplashScreen": "5.0.2",
     "SunmiPrinter": "1.0.3",
-    "Push": "1.10.0",
     "Mediation": "1.0.0",
     "WebView": "1.0.0"
   }

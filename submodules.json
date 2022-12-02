@@ -98,10 +98,6 @@
       "git": "git@github.com:Xtraball/Promises.git",
       "branch": "siberian"
     },
-    "Push": {
-      "git": "git@github.com:Xtraball/Push.git",
-      "branch": "siberian"
-    },
     "Siberian": {
       "git": "git@github.com:Xtraball/PluginSiberian.git",
       "branch": "siberian"
@@ -124,6 +120,10 @@
     },
     "Whitelist": {
       "git": "git@github.com:Xtraball/Whitelist.git",
+      "branch": "siberian"
+    },
+    "Onesignal": {
+      "git": "git@github.com:Xtraball/Onesignal.git",
       "branch": "siberian"
     }
   }

@@ -102,6 +102,9 @@
     <feature name="Navigator">
         <param name="android-package" value="com.xtraball.cordova.plugin.Navigator" />
     </feature>
+    <feature name="OneSignalPush">
+        <param name="android-package" value="com.onesignal.cordova.OneSignalPush" />
+    </feature>
     <feature name="Permissions">
         <param name="android-package" value="com.android.plugins.Permissions" />
     </feature>
@@ -128,9 +131,6 @@
     <feature name="Printer">
         <param name="android-package" value="com.sunmi.trans.Printer" />
         <param name="onload" value="true" />
-    </feature>
-    <feature name="PushNotification">
-        <param name="android-package" value="com.adobe.phonegap.push.PushPlugin" />
     </feature>
     <feature name="WebViewPlugin">
         <param name="android-package" value="com.webview.WebViewPlugin" />
