@@ -447,7 +447,7 @@ class Customer_Model_Customer extends Core_Model_Default
     public function save($sanityCheck = true)
     {
         parent::save();
-        if (!is_null($this->_social_datas)) {
+        if (!empty($this->_social_datas)) {
             $datas = [];
             foreach ($this->_social_datas as $type => $data) {
                 $datas[] = [
