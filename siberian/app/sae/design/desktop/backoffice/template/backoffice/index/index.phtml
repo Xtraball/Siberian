@@ -39,12 +39,6 @@ if ($umfNnumeric < 100) {
     $systemError = true;
 }
 
-$curlHttp2 = Push_Model_Certificate::testHttp2();
-$curlHttp2Message = $curlHttp2['message'];
-if (!$curlHttp2['success']) {
-    $systemError = true;
-}
-
 $exec = function_exists('exec');
 if (!$exec) {
     $systemError = true;
@@ -78,21 +72,6 @@ if (array_key_exists(Version::VERSION, $updates)) {
     $current = $updates[Version::VERSION];
     $isUnstable = ('unstable' === strtolower($current['status']));
     $statusText = $current['statusText'];
-}
-
-// google-services.json verification
-$firebaseCredential = (new Push_Model_Firebase())->find(1);
-$showFirebaseNotice = false;
-if ($firebaseCredential && $firebaseCredential->getId()) {
-    try {
-        $googleServices = Json::decode($firebaseCredential->getGoogleService());
-        $services = $googleServices['client'][0]['services']['appinvite_service'];
-        if (empty($services['other_platform_oauth_client'])) {
-            $showFirebaseNotice = true;
-        }
-    } catch (\Exception $e) {
-        $showFirebaseNotice = false;
-    }
 }
 
 ?>
@@ -134,15 +113,6 @@ if ($firebaseCredential && $firebaseCredential->getId()) {
                 <a style="letter-spacing: 2px;"
                    href="https://updates02.siberiancms.com/release-notes/all/index.php"
                    target="_blank"><?php echo p__('backoffice', 'Release notes'); ?></a>
-            </div>
-        <?php endif; ?>
-
-        <?php if ($showFirebaseNotice): ?>
-            <div class="alert alert-danger">
-                <?php echo p__('backoffice', 'Your android push/firebase configuration file %s is outdated and require an upgrade, please upload it again!', '<code style="border-radius: 3px !important;">google-services.json</code>'); ?>
-                :
-                <a href="/push/backoffice_certificate"
-                   style="letter-spacing: 2px;"><?php echo p__('backoffice', 'Upload a new one') ?></a>
             </div>
         <?php endif; ?>
 

@@ -33,6 +33,19 @@ class Application_Form_Apis extends Siberian_Form_Abstract
 
         self::addClass('create', $this);
 
+        if ($acl->isAllowed('editor_settings_onesignal')) {
+            $this->addSimpleText('onesignal_app_id', __('App ID'));
+            $this->addSimpleText('onesignal_app_key_token', __('App key token'));
+            $this->groupElements(
+                'onesignal',
+                [
+                    'onesignal_app_id',
+                    'onesignal_app_key_token',
+                ],
+                __('OneSignal push API settings'));
+            $something = true;
+        }
+
         if ($acl->isAllowed('editor_settings_twitter')) {
             $this->addSimpleText('twitter_consumer_key', __('Twitter consumer key'));
             $this->addSimpleText('twitter_consumer_secret', __('Twitter consumer secret'));

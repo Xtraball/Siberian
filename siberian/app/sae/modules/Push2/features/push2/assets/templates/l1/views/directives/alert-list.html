@@ -1,0 +1,46 @@
+<div ng-repeat="alert in alerts"
+     class="custom-alerts">
+    <div ng-click="openSearch(alert)"
+         class="list card">
+
+        <div class="item item-custom item-avatar item-icon-right">
+            <h2>
+                {{ alert.title }}
+                <span ng-if="alert.counter == 1"
+                      class="counter-new-ads badge badge-energized badge-energized-custom">{{ alert.counter }} {{ ::'new ad' | translate:'classifieds2' }}</span>
+                <span ng-if="alert.counter > 1"
+                      class="counter-new-ads badge badge-energized badge-energized-custom">{{ alert.counter }} {{ ::'new ads' | translate:'classifieds2' }}</span>
+            </h2>
+            <p>{{ alert.timestamp | moment_calendar }}</p>
+            <i class="icon ion-ios-arrow-right"></i>
+        </div>
+
+        <div class="item item-custom item-body">
+            <p ng-bind-html="filtersToString(alert.search_params) | trusted_html"></p>
+            <p>{{ locationText(alert) }}</p>
+            <p ng-if="alert.search_params.minPrice != '' || alert.search_params.maxPrice != ''">
+                <span ng-if="alert.search_params.minPrice != ''">{{ formatPrice(alert.search_params.minPrice) }}</span>
+                <span ng-if="alert.search_params.minPrice != '' && alert.search_params.maxPrice != ''">&nbsp;-&nbsp;</span>
+                <span ng-if="alert.search_params.maxPrice != ''">{{ formatPrice(alert.search_params.maxPrice) }}</span>
+            </p>
+        </div>
+
+        <div class="item item-custom item-toggle">
+            {{ ::'Receive notifications' | translate:'classifieds2' }}
+            <label class="toggle toggle-balanced">
+                <input type="checkbox"
+                       ng-click="toggleNotification($event, alert)"
+                       ng-checked="alert.notification">
+                <div class="track">
+                    <div class="handle"></div>
+                </div>
+            </label>
+        </div>
+
+        <div ng-click="deleteAlert($event, alert)"
+             class="item item-custom alert-delete-button">
+            <button class="button button-full  button-assertive button-assertive-custom">{{ ::'DISCARD' | translate:'classifieds2' }}</button>
+        </div>
+
+    </div>
+</div>

@@ -244,6 +244,9 @@ class Cron
         }
 
         # Fetch instant message in queue.
+        /**
+         * @var $messages \Push_Model_Message[]
+         */
         $messages = (new \Push_Model_Message())->findAll(
             [
                 'status IN (?)' => ['queued'],
@@ -259,6 +262,7 @@ class Cron
             foreach ($messages as $message) {
                 $message->updateStatus('sending');
             }
+
 
             foreach ($messages as $message) {
                 echo sprintf("[CRON] Message Id: %s, Title: %s \n", $message->getId(), $message->getTitle());

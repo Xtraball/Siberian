@@ -750,14 +750,6 @@ abstract class Application_Controller_View_Abstract extends Backoffice_Controlle
             $design_code = $request->getParam('design_code');
             $adminIdCredentials = $request->getParam('admin_id', 0);
 
-            // Firebase Validation!
-            if ($device === 'android') {
-                $credentials = (new Push_Model_Firebase())
-                    ->find($adminIdCredentials, 'admin_id');
-
-                $credentials->checkFirebase();
-            }
-
             if ($type == 'apk') {
                 $queue = new Application_Model_ApkQueue();
 

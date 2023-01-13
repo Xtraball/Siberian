@@ -1,0 +1,58 @@
+<!-- select -->
+<div>
+    <label ng-if="field.code != 'category' || 'nested' == categoryDesign"
+           class="item item-custom item-input item-select classifieds2-select">
+        <div class="input-label">
+            {{ field.label | translate:'classifieds2' }} <span ng-if="field.is_required">*</span>
+        </div>
+        <select ng-model="field.value"
+                style="direction: ltr;">
+            <option ng-if="!field.is_required"
+                    value="">{{ ::'Pick a value' | translate:'classifieds2' }}</option>
+            <option ng-repeat="option in field.options track by $index"
+                    value="{{ option.value }}"
+                    ng-bind-html="option.label | trusted_html"></option>
+        </select>
+    </label>
+    <div ng-if="categoryDesign == 'cascade' && field.code == 'category'">
+        <label class="item item-custom item-input item-select classifieds2-select no-border-l1">
+            <div class="input-label">
+                {{ ::'Category' | translate:'classifieds2' }}
+            </div>
+            <select ng-model="upsertValues.categoryL1"
+                    ng-change="resetCategories(1)"
+                    style="direction: ltr;">
+                <option ng-repeat="category in categoriesCascade['root'] track by category.value"
+                        value="{{ category.value }}"
+                        ng-selected="upsertValues.categoryL1 == category.value"
+                        ng-bind-html="category.label | trusted_html"></option>
+            </select>
+        </label>
+
+        <label ng-if="categoriesCascade.hasOwnProperty(upsertValues.categoryL1)"
+               class="item item-custom item-input item-select classifieds2-select no-border-l2">
+            <div class="input-label">&nbsp;</div>
+            <select ng-model="upsertValues.categoryL2"
+                    ng-change="resetCategories(2)"
+                    style="direction: ltr;">
+                <option ng-repeat="category in categoriesCascade[upsertValues.categoryL1] track by category.value"
+                        value="{{ category.value }}"
+                        ng-selected="upsertValues.categoryL2 == category.value"
+                        ng-bind-html="category.label | trusted_html"></option>
+            </select>
+        </label>
+
+        <label ng-if="categoriesCascade.hasOwnProperty(upsertValues.categoryL2)"
+               class="item item-custom item-input item-select classifieds2-select no-border-l3">
+            <div class="input-label">&nbsp;</div>
+            <select ng-model="upsertValues.categoryL3"
+                    ng-change="resetCategories(3)"
+                    style="direction: ltr;">
+                <option ng-repeat="category in categoriesCascade[upsertValues.categoryL2] track by category.value"
+                        value="{{ category.value }}"
+                        ng-selected="upsertValues.categoryL3 == category.value"
+                        ng-bind-html="category.label | trusted_html"></option>
+            </select>
+        </label>
+    </div>
+</div>

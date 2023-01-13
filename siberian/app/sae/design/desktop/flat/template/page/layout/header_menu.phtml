@@ -44,15 +44,6 @@ $editorTree = [
         'url' => $this->getUrl('/'),
         'icon' => 'fa fa-tachometer',
     ],
-    'push_global' => [
-        'hasChilds' => false,
-        'isVisible' => $this->_canAccess('push_admin_global'),
-        'label' => __('Push notifications'),
-        'id' => 'sb-tour-global-push',
-        'is_current' => 'push_global' === $current,
-        'url' => $this->getUrl('push/admin/global'),
-        'icon' => 'fa fa-bullhorn',
-    ],
     'whitelabel' => [
         'hasChilds' => true,
         'isVisible' => ($this->isPe() && $this->_canAccessWhiteLabelEditor()),

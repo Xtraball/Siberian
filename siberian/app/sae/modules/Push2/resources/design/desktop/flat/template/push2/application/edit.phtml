@@ -1,0 +1,173 @@
+<?php
+
+use Siberian\Json;
+
+/**
+ * @var $application Application_Model_Application
+ */
+$application = $this->getApplication();
+$option = $this->getOptionValue();
+$features = $application->getOptions();
+//$messageobj = new Push_Model_Message();
+//$messageobj->setMessageTypeByOptionValue($option->getOptionId());
+//$messages = $messageobj->findAllForFeature($application->getId(), $messageobj->getMessageType());
+
+$myAccount = (new Application_Model_Option())->find('tabbar_account', 'code');
+
+// Special shared case with push/inApp
+//$canSendMessages = ($option->getCode() === 'inapp_messages') ? true : $application->isPublished();
+
+//$pntopic = new Topic_Model_Topic();
+//$pntopic->find(
+//    [
+//        'app_id' => $option->getAppId()
+//    ]
+//);
+//$customers = [];
+//
+//if (Push_Model_Message::hasIndividualPush()) {
+//    $customer = new Customer_Model_Customer();
+//    $customers = $customer->findAllWithDeviceUid($option->getAppId());
+//}
+
+$appKey = $application->getGooglemapsKey();
+
+//$credentials = (new Push_Model_Firebase())
+//    ->find(0, 'admin_id');
+//
+//$enable_android = !empty($credentials->getServerKey());
+//$enable_ios = !empty(Push_Model_Certificate::getiOSCertificat($application->getId()));
+
+
+$feats = [];
+foreach ($features as $feature) {
+    $feats[] = $feature;
+}
+
+if (!function_exists('alphasortPushFeatures')) {
+    function alphasortPushFeatures($a, $b)
+    {
+        return strcasecmp($a->getTabbarName(), $b->getTabbarName());
+    }
+}
+usort($feats, 'alphasortPushFeatures');
+
+$features = $feats;
+
+$formSettings = new Push2\Form\Settings();
+
+$settings = [
+    'design' => 'list'
+];
+try {
+    $dbSettings = Json::decode($option->getSettings());
+} catch (\Exception $e) {
+    $dbSettings = [];
+}
+$settings = array_merge($settings, $dbSettings);
+$formSettings->populate($dbSettings);
+$formSettings->setValueId($option->getId());
+
+?>
+
+<div class="edit_page push_notif">
+
+    <!-- Nav tabs -->
+    <ul class="nav nav-tabs"
+        role="tablist">
+
+        <li role="presentation"
+            class="active">
+            <a href="#tab-message"
+               aria-controls="tab-message"
+               role="tab"
+               data-toggle="tab">
+                <i class="fa fa-comments"></i>
+                <?php echo p__('push', 'Messages') ?>
+            </a>
+        </li>
+
+        <li role="presentation">
+            <a href="#tab-settings"
+               aria-controls="tab-settings"
+               role="tab"
+               data-toggle="tab">
+                <i class="fa fa-gears"></i>
+                <?php echo p__('push', 'Settings') ?>
+            </a>
+        </li>
+
+        <li role="presentation">
+            <a href="#tab-design"
+               aria-controls="tab-design"
+               role="tab"
+               data-toggle="tab">
+                <i class="fa fa-image"></i>
+                <?php echo p__('push', 'Design') ?>
+            </a>
+        </li>
+
+    </ul>
+
+    <div class="tab-content">
+
+        <!-- MESSAGES -->
+        <div role="tabpanel"
+             class="tab-pane active"
+             id="tab-message">
+
+            <div id="list">
+                <h3 class="title-editor no-border-radius title-feature-indent">
+                    <?php echo __('Add content'); ?>
+                    <button type="button"
+                            id="add_item"
+                            onclick="feature.edit();"
+                            class="toggle_design color-blue pull-right bt-header-right btn">
+                        <i class="fa fa-plus"></i>
+                    </button>
+                </h3>
+                <?php echo $this->createPartialHtml('no_item', 'core_view_default', 'application/customization/features/edit/no_item.phtml'); ?>
+            </div>
+        </div>
+        <!-- MESSAGES -->
+
+        <!-- SETTINGS -->
+        <div role="tabpanel"
+             class="tab-pane"
+             id="tab-settings">
+            <div class="feature-block-add">
+                <h3 class="title-editor no-border-radius title-feature-indent">
+                    <?php echo p__('push', 'Settings'); ?>
+                </h3>
+
+                <div id="push-form-settings"
+                     class="container-fluid first-row-feature content-feature feature-manage-items">
+                    <?php echo $formSettings; ?>
+                </div>
+            </div>
+        </div>
+        <!-- SETTINGS -->
+
+        <!-- BACKGROUND -->
+        <div role="tabpanel"
+             class="tab-pane"
+             id="tab-design">
+            <?php echo $this->importBackground($option, false, false); ?>
+        </div>
+        <!-- BACKGROUND -->
+
+    </div>
+
+    <script type="text/javascript">
+        $(document).ready(function () {
+            bindForms('#list');
+            bindForms('#push2-form-settings');
+            bindForms('#tab-design');
+        });
+
+    </script>
+    <link href="/app/sae/design/desktop/flat/template/push2/application/edit.css"
+          media="screen"
+          rel="stylesheet"
+          type="text/css">
+</div>

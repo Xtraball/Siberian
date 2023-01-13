@@ -424,6 +424,18 @@ $schemas['application'] = [
         'charset' => 'utf8',
         'collation' => 'utf8_unicode_ci',
     ],
+    'onesignal_app_id' => [
+        'type' => 'varchar(1024)',
+        'is_null' => true,
+        'charset' => 'utf8',
+        'collation' => 'utf8_unicode_ci',
+    ],
+    'onesignal_app_key_token' => [
+        'type' => 'varchar(1024)',
+        'is_null' => true,
+        'charset' => 'utf8',
+        'collation' => 'utf8_unicode_ci',
+    ],
     'twitter_consumer_key' => [
         'type' => 'varchar(255)',
         'is_null' => true,

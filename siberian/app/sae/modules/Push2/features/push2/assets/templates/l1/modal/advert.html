@@ -1,0 +1,96 @@
+<ion-modal-view sb-page-background
+                ng-controller="Classifieds2AdvertController"
+                class="module-classifieds2 advert-view">
+
+    <ion-header-bar id="classifieds2-opacity-header"
+                    class="bar-custom">
+        <div class="buttons">
+            <button class="button button-clear"
+                    ng-click="close()">
+                <i ng-class="backButtonIcon()"></i>
+            </button>
+        </div>
+        <h1 class="title">{{ advert.title.substr(0, 30) }}</h1>
+        <div class="buttons">
+            <button class="button button-clear button-cart"
+                    ng-click="close()">
+            </button>
+        </div>
+    </ion-header-bar>
+
+    <ion-content id="cls-product-content"
+                 has-bouncing="false"
+                 class="has-footer-fixed">
+
+        <!-- Advert: images, description, price, custom fields -->
+        <div class="list"
+             ng-if="modalReady"
+             ng-class="{ 'card': cardDesign }">
+
+            <div class="classifieds2-slider-container-product">
+                <classifieds2-slider images="advert.images"></classifieds2-slider>
+            </div>
+
+            <div class="item item-custom item-divider item-text-wrap">
+                <h2><b>{{ advert.title }}</b></h2>
+                <p class="advert-date">{{ publishDate(advert) }}</p>
+                <div class="assertive assertive-custom advert-price">
+                    {{ currentPrice(advert) }}
+                </div>
+                <!-- Purchase Call-To-Action (CTA) let's see later for this feature! -->
+                <!--p style="padding: 0 20%;">
+                    <button class="button button-small button-block button-assertive button-assertive-custom"
+                            style="font-size: 16px;">{{ ::'Purchase' | translate:'classifieds2' }}</button>
+                </p-->
+                <div class="advert-description">
+                    <b>{{ ::'Description' | translate:'classifieds2' }}</b>
+                    <p ng-bind-html="advert.description"></p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Product: variations, description -->
+        <div class="list"
+             ng-if="modalReady"
+             ng-class="{ 'card': cardDesign }">
+
+            <ion-item ng-if="hasCustomFields(advert)"
+                      class="item-custom">
+                <b class="product-reviews">{{ ::'Details' | translate:'classifieds2' }}</b>
+            </ion-item>
+
+            <ng-include ng-repeat="field in advert.payload track by $index"
+                        src="'./features/classifieds2/assets/templates/l1/form/display/' + field.type + '.html'"></ng-include>
+
+            <div class="cls-spacer"></div>
+        </div>
+
+    </ion-content>
+
+    <ion-footer-bar ng-if="modalReady"
+                    class="bar bar-footer">
+        <div class="row no-padding">
+            <button class="col button button-dark button-dark-custom button-full button-bookmark"
+                    ng-click="toggleBookmark(advert)">
+                <i class="icon"
+                   ng-class="{'ion-ios-heart like-active': iLike(advert), 'ion-ios-heart-outline like-inactive': !iLike(advert)}"></i>
+                <span ng-show="iLike(advert)">{{ ::'UNFOLLOW' | translate:'classifieds2' }}</span>
+                <span ng-show="!iLike(advert)">{{ ::'BOOKMARK' | translate:'classifieds2' }}</span>
+            </button>
+            <button class="col button button-assertive button-assertive-custom button-full button-call"
+                    ng-if="advert.phone"
+                    ng-click="callSeller(advert)">
+                <i class="icon ion-android-call"></i>
+                {{ ::'CALL' | translate:'classifieds2' }}
+            </button>
+            <button class="col button button-full button-message"
+                    ng-class="{'button-dark button-dark-custom': advert.phone, 'button-assertive button-assertive-custom': !advert.phone}"
+                    ng-click="messageSeller(advert)">
+                <i class="icon ion-sb-origami"></i>
+                {{ ::'MESSAGE' | translate:'classifieds2' }}
+            </button>
+        </div>
+    </ion-footer-bar>
+
+</ion-modal-view>
+

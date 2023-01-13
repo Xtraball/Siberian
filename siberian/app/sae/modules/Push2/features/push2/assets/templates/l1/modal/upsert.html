@@ -1,0 +1,37 @@
+<ion-modal-view sb-page-background
+                ng-controller="Classifieds2UpsertController"
+                class="module-classifieds2 advert-upsert">
+
+    <ion-header-bar id="classifieds2-opacity-header"
+                    class="bar-custom">
+        <div class="buttons">
+            <button class="button button-clear"
+                    ng-click="close()">
+                <i ng-class="backButtonIcon()"></i>
+            </button>
+        </div>
+        <h1 class="title">{{ ::'Publish an ad' | translate:'classifieds2' }}</h1>
+        <div class="buttons">
+            <button class="button button-clear button-cart"
+                    ng-click="close()">
+            </button>
+        </div>
+    </ion-header-bar>
+
+    <ion-content id="cls-product-content"
+                 class="has-footer-fixed">
+        <ng-include src="'./features/classifieds2/assets/templates/l1/form/form.html'"></ng-include>
+
+        <div class="cls-spacer"></div>
+    </ion-content>
+
+    <ion-footer-bar class="no-padding">
+        <button class="button-full button button-positive button-positive-custom button-full button-message"
+                style="margin: 0;"
+                ng-click="upsert()">
+            <i class="icon ion-sb-origami"></i>
+            {{ ::'PUBLISH' | translate:'classifieds2' }}
+        </button>
+    </ion-footer-bar>
+
+</ion-modal-view>

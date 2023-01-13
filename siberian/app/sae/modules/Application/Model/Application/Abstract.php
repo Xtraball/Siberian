@@ -436,6 +436,30 @@ abstract class Application_Model_Application_Abstract extends Core_Model_Default
     }
 
     /**
+     * @param string $appId
+     * @return $this
+     * @throws Zend_Exception
+     */
+    public function setOnesignalAppId($appId)
+    {
+        $_filtered = \Siberian\Xss::sanitize($appId);
+
+        return $this->setData('onesignal_app_id', $_filtered);
+    }
+
+    /**
+     * @param string $appKeytoken
+     * @return $this
+     * @throws Zend_Exception
+     */
+    public function setOnesignalAppKeyToken($appKeytoken)
+    {
+        $_filtered = \Siberian\Xss::sanitize($appKeytoken);
+
+        return $this->setData('onesignal_app_key_token', $_filtered);
+    }
+
+    /**
      * @param string $consumerKey
      * @return $this
      * @throws Zend_Exception
