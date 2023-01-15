@@ -26,8 +26,12 @@ class Application_Settings_ApisController extends Application_Controller_Default
 
                 if ($this->_canAccess('editor_settings_onesignal')) {
                     $application
-                        ->setOnesignalAppId($data['onesignal_app_id'])
-                        ->setOnesignalAppKeyToken($data['onesignal_app_key_token']);
+                        ->setOnesignalAndroidAppId($data['onesignal_android_app_id'])
+                        ->setOnesignalAndroidAppKeyToken($data['onesignal_android_app_key_token']);
+
+                    $application
+                        ->setOnesignalIosAppId($data['onesignal_ios_app_id'])
+                        ->setOnesignalIosAppKeyToken($data['onesignal_ios_app_key_token']);
                 }
 
                 if ($this->_canAccess('editor_settings_twitter')) {

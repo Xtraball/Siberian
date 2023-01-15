@@ -424,13 +424,25 @@ $schemas['application'] = [
         'charset' => 'utf8',
         'collation' => 'utf8_unicode_ci',
     ],
-    'onesignal_app_id' => [
+    'onesignal_android_app_id' => [
         'type' => 'varchar(1024)',
         'is_null' => true,
         'charset' => 'utf8',
         'collation' => 'utf8_unicode_ci',
     ],
-    'onesignal_app_key_token' => [
+    'onesignal_android_app_key_token' => [
+        'type' => 'varchar(1024)',
+        'is_null' => true,
+        'charset' => 'utf8',
+        'collation' => 'utf8_unicode_ci',
+    ],
+    'onesignal_ios_app_id' => [
+        'type' => 'varchar(1024)',
+        'is_null' => true,
+        'charset' => 'utf8',
+        'collation' => 'utf8_unicode_ci',
+    ],
+    'onesignal_ios_app_key_token' => [
         'type' => 'varchar(1024)',
         'is_null' => true,
         'charset' => 'utf8',
