@@ -1,0 +1,3 @@
+<?php
+
+$init = function($bootstrap) {};
