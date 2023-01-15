@@ -242,14 +242,14 @@ angular
             });
         };
 
-        factory.sendTestPush = function (deviceToken) {
-            return $pwaRequest.post('customer/mobile_account_edit/send-test-push', {
-                data: {
-                    deviceToken: deviceToken
-                },
-                cache: false
-            });
-        };
+        //factory.sendTestPush = function (deviceToken) {
+        //    return $pwaRequest.post('customer/mobile_account_edit/send-test-push', {
+        //        data: {
+        //            deviceToken: deviceToken
+        //        },
+        //        cache: false
+        //    });
+        //};
 
         factory.forgottenpassword = function (email) {
             Loader.show();
@@ -308,6 +308,18 @@ angular
         };
 
         factory.initIti = function (selector, country, options) {
+            var localCountry;
+            // Double tap, just in case
+            try {
+                localCountry = country.toLowerCase();
+            } catch (e) {
+                localCountry = CURRENT_LANGUAGE;
+            }
+
+            if (intlTelInput_countries.indexOf(localCountry) === -1) {
+                localCountry = "gb";
+            }
+
             var localOptions = (typeof options === 'undefined') ? {} : options;
             var itiOptions = angular.extend({}, {
                 allowDropdown: true,
@@ -315,7 +327,7 @@ angular
                 formatOnDisplay: true,
                 placeholderNumberType: 'MOBILE',
                 separateDialCode: false,
-                initialCountry: country,
+                initialCountry: localCountry,
                 autoPlaceholder: 'off',
                 dropdownContainer: document.body
             }, localOptions);
@@ -481,6 +493,7 @@ angular
          */
         factory.pristineCustomer = function () {
             factory.is_logged_in = false;
+            factory.customer.id = '';
             factory.customer.civility = '';
             factory.customer.firstname = '';
             factory.customer.lastname = '';
@@ -488,6 +501,7 @@ angular
             factory.customer.email = '';
             factory.customer.image = '';
             factory.customer.mobile = '';
+            factory.customer.intl_mobile = '';
             factory.customer.birthdate = '';
             factory.customer.change_password = false;
             factory.customer.password = '';

@@ -6,186 +6,225 @@
 	objectVersion = 52;
 	objects = {
 
+/* Begin PBXAggregateTarget section */
+		F783E7E9F8591E6CF73ED67143335F50 /* OneSignalXCFramework */ = {
+			isa = PBXAggregateTarget;
+			buildConfigurationList = 657B4D7F7B361A2CAED883966F438D9D /* Build configuration list for PBXAggregateTarget "OneSignalXCFramework" */;
+			buildPhases = (
+				97C4B591DA43144ED549676B0FF14C11 /* [CP] Copy XCFrameworks */,
+			);
+			dependencies = (
+			);
+			name = OneSignalXCFramework;
+		};
+/* End PBXAggregateTarget section */
+
 /* Begin PBXBuildFile section */
-		1BA03D30B73DE577550616721684E659 /* nanopb-dummy.m in Sources */ = {isa = PBXBuildFile; fileRef = CC498A5181C14EE8DE4FE0EBA16E20FC /* nanopb-dummy.m */; };
-		97825C24B9C161C9BADCA56A3B9C82DF /* Pods-AppsMobileCompany-dummy.m in Sources */ = {isa = PBXBuildFile; fileRef = 7142508B957321AF51C28D20DF784DE7 /* Pods-AppsMobileCompany-dummy.m */; };
-		BC5D214E16DAED9B7FBEF8D9D5F734DC /* pb.h in Headers */ = {isa = PBXBuildFile; fileRef = 957ED19424EEA8860AA678BA4C571743 /* pb.h */; settings = {ATTRIBUTES = (Project, ); }; };
-		C11B2244B685C959D5BE650766FB0BF9 /* pb_encode.c in Sources */ = {isa = PBXBuildFile; fileRef = C21FEEA2F9501BB000E4663141419F96 /* pb_encode.c */; settings = {COMPILER_FLAGS = "-fno-objc-arc -fno-objc-arc"; }; };
-		CA5465573BD5F6F36E55CC67649E0E37 /* pb_common.h in Headers */ = {isa = PBXBuildFile; fileRef = 82574F54F9C18BE6813A2C97C756DDDD /* pb_common.h */; settings = {ATTRIBUTES = (Project, ); }; };
-		CD2D4E60D72C5DBCD79C4E82FA3038F3 /* pb_common.c in Sources */ = {isa = PBXBuildFile; fileRef = 51911CA741F410FA4143414F7E0DDCB1 /* pb_common.c */; settings = {COMPILER_FLAGS = "-fno-objc-arc -fno-objc-arc -fno-objc-arc"; }; };
-		D21A28CA34142E7FBAFEA75E9A3B38D3 /* pb_encode.h in Headers */ = {isa = PBXBuildFile; fileRef = A5D9D8E1993EDFE17C572247A3499E53 /* pb_encode.h */; settings = {ATTRIBUTES = (Project, ); }; };
-		D44A08FF3897754B94A07D172C92ECCB /* pb_decode.c in Sources */ = {isa = PBXBuildFile; fileRef = C6F8274DCB7FF83FB12B8E2A8EFBF67B /* pb_decode.c */; settings = {COMPILER_FLAGS = "-fno-objc-arc -fno-objc-arc"; }; };
-		F615E1C2200A18EF18971330B20E394F /* pb_decode.h in Headers */ = {isa = PBXBuildFile; fileRef = 5EBC0793BAFFF8C8FBEBDB05B01DFA2F /* pb_decode.h */; settings = {ATTRIBUTES = (Project, ); }; };
+		33D48662338B353F06C6C873ADAF3CD6 /* Pods-AppsMobileCompany-dummy.m in Sources */ = {isa = PBXBuildFile; fileRef = 71F9FCF938342A60B2F4AFEDDCA27AE6 /* Pods-AppsMobileCompany-dummy.m */; };
+		81EDAE48FC739148BFEDD530CA1DD7DD /* Pods-AppsMobileCompany-umbrella.h in Headers */ = {isa = PBXBuildFile; fileRef = 8D665CE77CC1AD179463B7668046502F /* Pods-AppsMobileCompany-umbrella.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		BFE30A8858E60FF409B1FD3926E4CCDF /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 73010CC983E3809BECEE5348DA1BB8C6 /* Foundation.framework */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
-		C0F025E4A171163729233FAF50A08189 /* PBXContainerItemProxy */ = {
+		99055FCF16B6279C8C72B29E40573514 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = BFDFE7DC352907FC980B868725387E98 /* Project object */;
 			proxyType = 1;
-			remoteGlobalIDString = D2B5E7DCCBBFB32341D857D01211A1A3;
-			remoteInfo = nanopb;
+			remoteGlobalIDString = F783E7E9F8591E6CF73ED67143335F50;
+			remoteInfo = OneSignalXCFramework;
 		};
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
-		06FC5C9CF96D60C50FCD47D339C91951 /* libnanopb.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; name = libnanopb.a; path = libnanopb.a; sourceTree = BUILT_PRODUCTS_DIR; };
-		12BA303E1462FE7BD34781BF29A2505C /* Pods-AppsMobileCompany.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; path = "Pods-AppsMobileCompany.debug.xcconfig"; sourceTree = "<group>"; };
-		1EEA90DEBE410DD14243AA5394801FF2 /* nanopb-prefix.pch */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; path = "nanopb-prefix.pch"; sourceTree = "<group>"; };
-		51911CA741F410FA4143414F7E0DDCB1 /* pb_common.c */ = {isa = PBXFileReference; includeInIndex = 1; path = pb_common.c; sourceTree = "<group>"; };
-		56D1B3DE0F3E80758526110EB922B25E /* Pods-AppsMobileCompany-acknowledgements.plist */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.plist.xml; path = "Pods-AppsMobileCompany-acknowledgements.plist"; sourceTree = "<group>"; };
-		5D25CC46211ACE30F35DCA7C093EC67A /* nanopb.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; path = nanopb.debug.xcconfig; sourceTree = "<group>"; };
-		5EBC0793BAFFF8C8FBEBDB05B01DFA2F /* pb_decode.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; path = pb_decode.h; sourceTree = "<group>"; };
-		7142508B957321AF51C28D20DF784DE7 /* Pods-AppsMobileCompany-dummy.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; path = "Pods-AppsMobileCompany-dummy.m"; sourceTree = "<group>"; };
-		82574F54F9C18BE6813A2C97C756DDDD /* pb_common.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; path = pb_common.h; sourceTree = "<group>"; };
-		8D6747C82E566C5A3ACB68317B9BA363 /* Pods-AppsMobileCompany.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; path = "Pods-AppsMobileCompany.release.xcconfig"; sourceTree = "<group>"; };
-		957ED19424EEA8860AA678BA4C571743 /* pb.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; path = pb.h; sourceTree = "<group>"; };
+		0B3FC8FE8B3C236968918104C9A8FB6A /* Pods-AppsMobileCompany.modulemap */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.module; path = "Pods-AppsMobileCompany.modulemap"; sourceTree = "<group>"; };
+		3B2EC7E5580293A36AD3905D94855B52 /* Pods-AppsMobileCompany.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; path = "Pods-AppsMobileCompany.release.xcconfig"; sourceTree = "<group>"; };
+		41EFC0168F7D9E3D18E90E260D0E5008 /* OneSignalCore.xcframework */ = {isa = PBXFileReference; includeInIndex = 1; name = OneSignalCore.xcframework; path = iOS_SDK/OneSignalSDK/OneSignal_Core/OneSignalCore.xcframework; sourceTree = "<group>"; };
+		4367D9C37DCF0C9B502038FFA1BCA009 /* Pods-AppsMobileCompany-acknowledgements.plist */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.plist.xml; path = "Pods-AppsMobileCompany-acknowledgements.plist"; sourceTree = "<group>"; };
+		5DD4BB53C16B68E4F36CCE41032B89F4 /* Pods-AppsMobileCompany.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; path = "Pods-AppsMobileCompany.debug.xcconfig"; sourceTree = "<group>"; };
+		6A04D6502DF7698AD2A08BB8E1202FD3 /* Pods-AppsMobileCompany-Info.plist */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.plist.xml; path = "Pods-AppsMobileCompany-Info.plist"; sourceTree = "<group>"; };
+		7103E0C597403913649B6911BC39898B /* Pods-AppsMobileCompany-acknowledgements.markdown */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text; path = "Pods-AppsMobileCompany-acknowledgements.markdown"; sourceTree = "<group>"; };
+		71F9FCF938342A60B2F4AFEDDCA27AE6 /* Pods-AppsMobileCompany-dummy.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; path = "Pods-AppsMobileCompany-dummy.m"; sourceTree = "<group>"; };
+		73010CC983E3809BECEE5348DA1BB8C6 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS14.0.sdk/System/Library/Frameworks/Foundation.framework; sourceTree = DEVELOPER_DIR; };
+		8D665CE77CC1AD179463B7668046502F /* Pods-AppsMobileCompany-umbrella.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; path = "Pods-AppsMobileCompany-umbrella.h"; sourceTree = "<group>"; };
+		907B2E4A768D10C2EF262A885648D173 /* OneSignalXCFramework-xcframeworks.sh */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.script.sh; path = "OneSignalXCFramework-xcframeworks.sh"; sourceTree = "<group>"; };
+		988AE3A3846A92E7331D47044BD7E417 /* OneSignalOutcomes.xcframework */ = {isa = PBXFileReference; includeInIndex = 1; name = OneSignalOutcomes.xcframework; path = iOS_SDK/OneSignalSDK/OneSignal_Outcomes/OneSignalOutcomes.xcframework; sourceTree = "<group>"; };
 		9D940727FF8FB9C785EB98E56350EF41 /* Podfile */ = {isa = PBXFileReference; explicitFileType = text.script.ruby; includeInIndex = 1; indentWidth = 2; lastKnownFileType = text; name = Podfile; path = ../Podfile; sourceTree = SOURCE_ROOT; tabWidth = 2; xcLanguageSpecificationIdentifier = xcode.lang.ruby; };
-		A5D9D8E1993EDFE17C572247A3499E53 /* pb_encode.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; path = pb_encode.h; sourceTree = "<group>"; };
-		C21FEEA2F9501BB000E4663141419F96 /* pb_encode.c */ = {isa = PBXFileReference; includeInIndex = 1; path = pb_encode.c; sourceTree = "<group>"; };
-		C6F8274DCB7FF83FB12B8E2A8EFBF67B /* pb_decode.c */ = {isa = PBXFileReference; includeInIndex = 1; path = pb_decode.c; sourceTree = "<group>"; };
-		CA91688F90B7544A488B726B2F6BA825 /* Pods-AppsMobileCompany-acknowledgements.markdown */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text; path = "Pods-AppsMobileCompany-acknowledgements.markdown"; sourceTree = "<group>"; };
-		CC498A5181C14EE8DE4FE0EBA16E20FC /* nanopb-dummy.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; path = "nanopb-dummy.m"; sourceTree = "<group>"; };
-		E364EAEE97999AE3BE7CD96CF874E280 /* libPods-AppsMobileCompany.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; name = "libPods-AppsMobileCompany.a"; path = "libPods-AppsMobileCompany.a"; sourceTree = BUILT_PRODUCTS_DIR; };
-		EF73160BAC1CDAE0A1663B6204EEE040 /* nanopb.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; path = nanopb.release.xcconfig; sourceTree = "<group>"; };
+		BAC083DC6D1A62F577F32017FF266DAF /* OneSignalExtension.xcframework */ = {isa = PBXFileReference; includeInIndex = 1; name = OneSignalExtension.xcframework; path = iOS_SDK/OneSignalSDK/OneSignal_Extension/OneSignalExtension.xcframework; sourceTree = "<group>"; };
+		CA4AB949E23077E9BAA62DE4A373E0BE /* OneSignalXCFramework.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; path = OneSignalXCFramework.debug.xcconfig; sourceTree = "<group>"; };
+		CCF8807396E57E57229DE194173E14A1 /* OneSignalXCFramework.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; path = OneSignalXCFramework.release.xcconfig; sourceTree = "<group>"; };
+		E364EAEE97999AE3BE7CD96CF874E280 /* Pods-AppsMobileCompany */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; name = "Pods-AppsMobileCompany"; path = Pods_AppsMobileCompany.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		F8E18BAFF042F61B8590FFDE5D404002 /* OneSignal.xcframework */ = {isa = PBXFileReference; includeInIndex = 1; name = OneSignal.xcframework; path = iOS_SDK/OneSignalSDK/OneSignal_XCFramework/OneSignal.xcframework; sourceTree = "<group>"; };
+		FDA9E5CBE7FB636D6D12A118BF7B7A66 /* Pods-AppsMobileCompany-frameworks.sh */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.script.sh; path = "Pods-AppsMobileCompany-frameworks.sh"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
-		0D8C528F17727CA77B9D53DC4EB795C8 /* Frameworks */ = {
+		A9AD1CF6601B476F581799CCAA68C92E /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
-		D1654AA3FCC71C03526525BBEEC9A09C /* Frameworks */ = {
-			isa = PBXFrameworksBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
+				BFE30A8858E60FF409B1FD3926E4CCDF /* Foundation.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
-		18C87DC13B1BC77F38E3BBD65B3A1B0E /* Support Files */ = {
+		1F1567630B6C5BDA899F23C641A83437 /* Pods-AppsMobileCompany */ = {
 			isa = PBXGroup;
 			children = (
-				CC498A5181C14EE8DE4FE0EBA16E20FC /* nanopb-dummy.m */,
-				1EEA90DEBE410DD14243AA5394801FF2 /* nanopb-prefix.pch */,
-				5D25CC46211ACE30F35DCA7C093EC67A /* nanopb.debug.xcconfig */,
-				EF73160BAC1CDAE0A1663B6204EEE040 /* nanopb.release.xcconfig */,
+				0B3FC8FE8B3C236968918104C9A8FB6A /* Pods-AppsMobileCompany.modulemap */,
+				7103E0C597403913649B6911BC39898B /* Pods-AppsMobileCompany-acknowledgements.markdown */,
+				4367D9C37DCF0C9B502038FFA1BCA009 /* Pods-AppsMobileCompany-acknowledgements.plist */,
+				71F9FCF938342A60B2F4AFEDDCA27AE6 /* Pods-AppsMobileCompany-dummy.m */,
+				FDA9E5CBE7FB636D6D12A118BF7B7A66 /* Pods-AppsMobileCompany-frameworks.sh */,
+				6A04D6502DF7698AD2A08BB8E1202FD3 /* Pods-AppsMobileCompany-Info.plist */,
+				8D665CE77CC1AD179463B7668046502F /* Pods-AppsMobileCompany-umbrella.h */,
+				5DD4BB53C16B68E4F36CCE41032B89F4 /* Pods-AppsMobileCompany.debug.xcconfig */,
+				3B2EC7E5580293A36AD3905D94855B52 /* Pods-AppsMobileCompany.release.xcconfig */,
 			);
-			name = "Support Files";
-			path = "../Target Support Files/nanopb";
+			name = "Pods-AppsMobileCompany";
+			path = "Target Support Files/Pods-AppsMobileCompany";
 			sourceTree = "<group>";
 		};
-		57E3528BC3015ED1DB5228086EC6916D /* Targets Support Files */ = {
+		4276D366F84209A5151297BC13213EDF /* OneSignalXCFramework */ = {
 			isa = PBXGroup;
 			children = (
-				C4A617F228F59E2DB69F1D44D59B7726 /* Pods-AppsMobileCompany */,
+				5A2EE44F228938EE46B1C92839CBE831 /* Frameworks */,
+				F3C03C4CF348B722E54EBD645517BE47 /* OneSignalCore */,
+				B646995C4125348C6AC55D72BC5612F9 /* OneSignalExtension */,
+				445896BF5B7116964EB6794572A6BC5B /* OneSignalOutcomes */,
+				9D5CFE1C9A2FF729DDC76CDBE66D73AB /* Support Files */,
 			);
-			name = "Targets Support Files";
+			name = OneSignalXCFramework;
+			path = OneSignalXCFramework;
 			sourceTree = "<group>";
 		};
-		63C979D6988D03D8BF1821F6B17D7FB8 /* Products */ = {
+		445896BF5B7116964EB6794572A6BC5B /* OneSignalOutcomes */ = {
 			isa = PBXGroup;
 			children = (
-				06FC5C9CF96D60C50FCD47D339C91951 /* libnanopb.a */,
-				E364EAEE97999AE3BE7CD96CF874E280 /* libPods-AppsMobileCompany.a */,
+				731EB7A0FE83CBAF0A2E5D14FE5A43FC /* Frameworks */,
+			);
+			name = OneSignalOutcomes;
+			sourceTree = "<group>";
+		};
+		578452D2E740E91742655AC8F1636D1F /* iOS */ = {
+			isa = PBXGroup;
+			children = (
+				73010CC983E3809BECEE5348DA1BB8C6 /* Foundation.framework */,
+			);
+			name = iOS;
+			sourceTree = "<group>";
+		};
+		5A2EE44F228938EE46B1C92839CBE831 /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				F8E18BAFF042F61B8590FFDE5D404002 /* OneSignal.xcframework */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
+		731EB7A0FE83CBAF0A2E5D14FE5A43FC /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				988AE3A3846A92E7331D47044BD7E417 /* OneSignalOutcomes.xcframework */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
+		87BA26D2B6A429A3D528CB9B2F700F8D /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				BAC083DC6D1A62F577F32017FF266DAF /* OneSignalExtension.xcframework */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
+		895A3304CBFB23A5B785D377BE772B2D /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				E364EAEE97999AE3BE7CD96CF874E280 /* Pods-AppsMobileCompany */,
 			);
 			name = Products;
 			sourceTree = "<group>";
 		};
-		74329E3EC45B7ECDF675B7CFD4A2012E /* decode */ = {
+		9B998A7CD243F9EC07C63C4F75A44B7A /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				41EFC0168F7D9E3D18E90E260D0E5008 /* OneSignalCore.xcframework */,
 			);
-			name = decode;
+			name = Frameworks;
 			sourceTree = "<group>";
 		};
-		A04B2316A1501FB6D507777757A2D3D9 /* nanopb */ = {
+		9D5CFE1C9A2FF729DDC76CDBE66D73AB /* Support Files */ = {
 			isa = PBXGroup;
 			children = (
-				957ED19424EEA8860AA678BA4C571743 /* pb.h */,
-				51911CA741F410FA4143414F7E0DDCB1 /* pb_common.c */,
-				82574F54F9C18BE6813A2C97C756DDDD /* pb_common.h */,
-				C6F8274DCB7FF83FB12B8E2A8EFBF67B /* pb_decode.c */,
-				5EBC0793BAFFF8C8FBEBDB05B01DFA2F /* pb_decode.h */,
-				C21FEEA2F9501BB000E4663141419F96 /* pb_encode.c */,
-				A5D9D8E1993EDFE17C572247A3499E53 /* pb_encode.h */,
-				74329E3EC45B7ECDF675B7CFD4A2012E /* decode */,
-				ED0E898CFF14B8AE4F12CCE0F27515F2 /* encode */,
-				18C87DC13B1BC77F38E3BBD65B3A1B0E /* Support Files */,
+				907B2E4A768D10C2EF262A885648D173 /* OneSignalXCFramework-xcframeworks.sh */,
+				CA4AB949E23077E9BAA62DE4A373E0BE /* OneSignalXCFramework.debug.xcconfig */,
+				CCF8807396E57E57229DE194173E14A1 /* OneSignalXCFramework.release.xcconfig */,
 			);
-			name = nanopb;
-			path = nanopb;
+			name = "Support Files";
+			path = "../Target Support Files/OneSignalXCFramework";
 			sourceTree = "<group>";
 		};
-		A4100E35C30A650312CBC519F703D3BD /* Pods */ = {
+		B646995C4125348C6AC55D72BC5612F9 /* OneSignalExtension */ = {
 			isa = PBXGroup;
 			children = (
-				A04B2316A1501FB6D507777757A2D3D9 /* nanopb */,
+				87BA26D2B6A429A3D528CB9B2F700F8D /* Frameworks */,
 			);
-			name = Pods;
-			sourceTree = "<group>";
-		};
-		C4A617F228F59E2DB69F1D44D59B7726 /* Pods-AppsMobileCompany */ = {
-			isa = PBXGroup;
-			children = (
-				CA91688F90B7544A488B726B2F6BA825 /* Pods-AppsMobileCompany-acknowledgements.markdown */,
-				56D1B3DE0F3E80758526110EB922B25E /* Pods-AppsMobileCompany-acknowledgements.plist */,
-				7142508B957321AF51C28D20DF784DE7 /* Pods-AppsMobileCompany-dummy.m */,
-				12BA303E1462FE7BD34781BF29A2505C /* Pods-AppsMobileCompany.debug.xcconfig */,
-				8D6747C82E566C5A3ACB68317B9BA363 /* Pods-AppsMobileCompany.release.xcconfig */,
-			);
-			name = "Pods-AppsMobileCompany";
-			path = "Target Support Files/Pods-AppsMobileCompany";
+			name = OneSignalExtension;
 			sourceTree = "<group>";
 		};
 		CF1408CF629C7361332E53B88F7BD30C = {
 			isa = PBXGroup;
 			children = (
 				9D940727FF8FB9C785EB98E56350EF41 /* Podfile */,
-				D89477F20FB1DE18A04690586D7808C4 /* Frameworks */,
-				A4100E35C30A650312CBC519F703D3BD /* Pods */,
-				63C979D6988D03D8BF1821F6B17D7FB8 /* Products */,
-				57E3528BC3015ED1DB5228086EC6916D /* Targets Support Files */,
+				D210D550F4EA176C3123ED886F8F87F5 /* Frameworks */,
+				EC3535B9A79EB7B23CC41B5FEFE6762B /* Pods */,
+				895A3304CBFB23A5B785D377BE772B2D /* Products */,
+				DD3DB21CF1FDFD2C4E5C79C384795330 /* Targets Support Files */,
 			);
 			sourceTree = "<group>";
 		};
-		D89477F20FB1DE18A04690586D7808C4 /* Frameworks */ = {
+		D210D550F4EA176C3123ED886F8F87F5 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				578452D2E740E91742655AC8F1636D1F /* iOS */,
 			);
 			name = Frameworks;
 			sourceTree = "<group>";
 		};
-		ED0E898CFF14B8AE4F12CCE0F27515F2 /* encode */ = {
+		DD3DB21CF1FDFD2C4E5C79C384795330 /* Targets Support Files */ = {
 			isa = PBXGroup;
 			children = (
+				1F1567630B6C5BDA899F23C641A83437 /* Pods-AppsMobileCompany */,
 			);
-			name = encode;
+			name = "Targets Support Files";
+			sourceTree = "<group>";
+		};
+		EC3535B9A79EB7B23CC41B5FEFE6762B /* Pods */ = {
+			isa = PBXGroup;
+			children = (
+				4276D366F84209A5151297BC13213EDF /* OneSignalXCFramework */,
+			);
+			name = Pods;
+			sourceTree = "<group>";
+		};
+		F3C03C4CF348B722E54EBD645517BE47 /* OneSignalCore */ = {
+			isa = PBXGroup;
+			children = (
+				9B998A7CD243F9EC07C63C4F75A44B7A /* Frameworks */,
+			);
+			name = OneSignalCore;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
 
 /* Begin PBXHeadersBuildPhase section */
-		3D68A34EF4DA9223E3F5C7A50CD2BAB7 /* Headers */ = {
+		95920465388E5F11CFE8258B5D79628A /* Headers */ = {
 			isa = PBXHeadersBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
-		ED8D225BA313C2619B03592FBDD9CCFE /* Headers */ = {
-			isa = PBXHeadersBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-				BC5D214E16DAED9B7FBEF8D9D5F734DC /* pb.h in Headers */,
-				CA5465573BD5F6F36E55CC67649E0E37 /* pb_common.h in Headers */,
-				F615E1C2200A18EF18971330B20E394F /* pb_decode.h in Headers */,
-				D21A28CA34142E7FBAFEA75E9A3B38D3 /* pb_encode.h in Headers */,
+				81EDAE48FC739148BFEDD530CA1DD7DD /* Pods-AppsMobileCompany-umbrella.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -194,38 +233,22 @@
 /* Begin PBXNativeTarget section */
 		8F2EBB576EEAC97C3DAB4B329D26BCF2 /* Pods-AppsMobileCompany */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = B7EBDEAA4CAD743322D1B59A87AD9310 /* Build configuration list for PBXNativeTarget "Pods-AppsMobileCompany" */;
+			buildConfigurationList = A1186A0905B6081D25AF63BD52AE5C9C /* Build configuration list for PBXNativeTarget "Pods-AppsMobileCompany" */;
 			buildPhases = (
-				3D68A34EF4DA9223E3F5C7A50CD2BAB7 /* Headers */,
-				06F40DDECEA4BBCC159B7883DE7CB908 /* Sources */,
-				D1654AA3FCC71C03526525BBEEC9A09C /* Frameworks */,
+				95920465388E5F11CFE8258B5D79628A /* Headers */,
+				CE70F797E0640D2C2F48BEBD6562FCF4 /* Sources */,
+				A9AD1CF6601B476F581799CCAA68C92E /* Frameworks */,
+				C1FB2AD29D039BE76F25169BB314142A /* Resources */,
 			);
 			buildRules = (
 			);
 			dependencies = (
-				988911F0338DBEF5EB4D1896FC7C89EA /* PBXTargetDependency */,
+				FACC1A80F6C8EC07800E6CEA0A578A9C /* PBXTargetDependency */,
 			);
 			name = "Pods-AppsMobileCompany";
-			productName = "Pods-AppsMobileCompany";
-			productReference = E364EAEE97999AE3BE7CD96CF874E280 /* libPods-AppsMobileCompany.a */;
-			productType = "com.apple.product-type.library.static";
-		};
-		D2B5E7DCCBBFB32341D857D01211A1A3 /* nanopb */ = {
-			isa = PBXNativeTarget;
-			buildConfigurationList = 6592EC4FDA86F3AFB78A616A4D98E1FE /* Build configuration list for PBXNativeTarget "nanopb" */;
-			buildPhases = (
-				ED8D225BA313C2619B03592FBDD9CCFE /* Headers */,
-				262E36BAA765B3110256ACC4A374CA78 /* Sources */,
-				0D8C528F17727CA77B9D53DC4EB795C8 /* Frameworks */,
-			);
-			buildRules = (
-			);
-			dependencies = (
-			);
-			name = nanopb;
-			productName = nanopb;
-			productReference = 06FC5C9CF96D60C50FCD47D339C91951 /* libnanopb.a */;
-			productType = "com.apple.product-type.library.static";
+			productName = Pods_AppsMobileCompany;
+			productReference = E364EAEE97999AE3BE7CD96CF874E280 /* Pods-AppsMobileCompany */;
+			productType = "com.apple.product-type.framework";
 		};
 /* End PBXNativeTarget section */
 
@@ -233,122 +256,107 @@
 		BFDFE7DC352907FC980B868725387E98 /* Project object */ = {
 			isa = PBXProject;
 			attributes = {
-				LastSwiftUpdateCheck = 1100;
-				LastUpgradeCheck = 1100;
+				LastSwiftUpdateCheck = 1300;
+				LastUpgradeCheck = 1300;
 			};
 			buildConfigurationList = 4821239608C13582E20E6DA73FD5F1F9 /* Build configuration list for PBXProject "Pods" */;
 			compatibilityVersion = "Xcode 11.0";
 			developmentRegion = en;
 			hasScannedForEncodings = 0;
 			knownRegions = (
-				en,
 				Base,
+				en,
 			);
 			mainGroup = CF1408CF629C7361332E53B88F7BD30C;
-			productRefGroup = 63C979D6988D03D8BF1821F6B17D7FB8 /* Products */;
+			productRefGroup = 895A3304CBFB23A5B785D377BE772B2D /* Products */;
 			projectDirPath = "";
 			projectRoot = "";
 			targets = (
-				D2B5E7DCCBBFB32341D857D01211A1A3 /* nanopb */,
+				F783E7E9F8591E6CF73ED67143335F50 /* OneSignalXCFramework */,
 				8F2EBB576EEAC97C3DAB4B329D26BCF2 /* Pods-AppsMobileCompany */,
 			);
 		};
 /* End PBXProject section */
 
-/* Begin PBXSourcesBuildPhase section */
-		06F40DDECEA4BBCC159B7883DE7CB908 /* Sources */ = {
-			isa = PBXSourcesBuildPhase;
+/* Begin PBXResourcesBuildPhase section */
+		C1FB2AD29D039BE76F25169BB314142A /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				97825C24B9C161C9BADCA56A3B9C82DF /* Pods-AppsMobileCompany-dummy.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
-		262E36BAA765B3110256ACC4A374CA78 /* Sources */ = {
+/* End PBXResourcesBuildPhase section */
+
+/* Begin PBXShellScriptBuildPhase section */
+		97C4B591DA43144ED549676B0FF14C11 /* [CP] Copy XCFrameworks */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+				"${PODS_ROOT}/Target Support Files/OneSignalXCFramework/OneSignalXCFramework-xcframeworks-input-files.xcfilelist",
+			);
+			name = "[CP] Copy XCFrameworks";
+			outputFileListPaths = (
+				"${PODS_ROOT}/Target Support Files/OneSignalXCFramework/OneSignalXCFramework-xcframeworks-output-files.xcfilelist",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${PODS_ROOT}/Target Support Files/OneSignalXCFramework/OneSignalXCFramework-xcframeworks.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+/* End PBXShellScriptBuildPhase section */
+
+/* Begin PBXSourcesBuildPhase section */
+		CE70F797E0640D2C2F48BEBD6562FCF4 /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				1BA03D30B73DE577550616721684E659 /* nanopb-dummy.m in Sources */,
-				CD2D4E60D72C5DBCD79C4E82FA3038F3 /* pb_common.c in Sources */,
-				D44A08FF3897754B94A07D172C92ECCB /* pb_decode.c in Sources */,
-				C11B2244B685C959D5BE650766FB0BF9 /* pb_encode.c in Sources */,
+				33D48662338B353F06C6C873ADAF3CD6 /* Pods-AppsMobileCompany-dummy.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXSourcesBuildPhase section */
 
 /* Begin PBXTargetDependency section */
-		988911F0338DBEF5EB4D1896FC7C89EA /* PBXTargetDependency */ = {
+		FACC1A80F6C8EC07800E6CEA0A578A9C /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
-			name = nanopb;
-			target = D2B5E7DCCBBFB32341D857D01211A1A3 /* nanopb */;
-			targetProxy = C0F025E4A171163729233FAF50A08189 /* PBXContainerItemProxy */;
+			name = OneSignalXCFramework;
+			target = F783E7E9F8591E6CF73ED67143335F50 /* OneSignalXCFramework */;
+			targetProxy = 99055FCF16B6279C8C72B29E40573514 /* PBXContainerItemProxy */;
 		};
 /* End PBXTargetDependency section */
 
 /* Begin XCBuildConfiguration section */
-		144D28AB593A8C066CC6F6199839C3B7 /* Debug */ = {
+		0D9B3B650A9EE28E7467CEC33F807383 /* Debug */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 12BA303E1462FE7BD34781BF29A2505C /* Pods-AppsMobileCompany.debug.xcconfig */;
+			baseConfigurationReference = CA4AB949E23077E9BAA62DE4A373E0BE /* OneSignalXCFramework.debug.xcconfig */;
 			buildSettings = {
-				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = NO;
-				CLANG_ENABLE_OBJC_WEAK = NO;
-				"CODE_SIGN_IDENTITY[sdk=appletvos*]" = "";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "";
-				"CODE_SIGN_IDENTITY[sdk=watchos*]" = "";
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				IPHONEOS_DEPLOYMENT_TARGET = 11.0;
-				MACH_O_TYPE = staticlib;
-				OTHER_LDFLAGS = "";
-				OTHER_LIBTOOLFLAGS = "";
-				PODS_ROOT = "$(SRCROOT)";
-				PRODUCT_BUNDLE_IDENTIFIER = "org.cocoapods.${PRODUCT_NAME:rfc1034identifier}";
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+				);
 				SDKROOT = iphoneos;
-				SKIP_INSTALL = YES;
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
 			name = Debug;
 		};
-		14CD638D198926441444886DDFA50988 /* Release */ = {
+		8DA06685788740E6B69226D3E769523C /* Release */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 8D6747C82E566C5A3ACB68317B9BA363 /* Pods-AppsMobileCompany.release.xcconfig */;
+			baseConfigurationReference = CCF8807396E57E57229DE194173E14A1 /* OneSignalXCFramework.release.xcconfig */;
 			buildSettings = {
-				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = NO;
-				CLANG_ENABLE_OBJC_WEAK = NO;
-				"CODE_SIGN_IDENTITY[sdk=appletvos*]" = "";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "";
-				"CODE_SIGN_IDENTITY[sdk=watchos*]" = "";
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				IPHONEOS_DEPLOYMENT_TARGET = 11.0;
-				MACH_O_TYPE = staticlib;
-				OTHER_LDFLAGS = "";
-				OTHER_LIBTOOLFLAGS = "";
-				PODS_ROOT = "$(SRCROOT)";
-				PRODUCT_BUNDLE_IDENTIFIER = "org.cocoapods.${PRODUCT_NAME:rfc1034identifier}";
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+				);
 				SDKROOT = iphoneos;
-				SKIP_INSTALL = YES;
-				TARGETED_DEVICE_FAMILY = "1,2";
-				VALIDATE_PRODUCT = YES;
-			};
-			name = Release;
-		};
-		30792436FBBA4DC6BCB42676F0773D77 /* Release */ = {
-			isa = XCBuildConfiguration;
-			baseConfigurationReference = EF73160BAC1CDAE0A1663B6204EEE040 /* nanopb.release.xcconfig */;
-			buildSettings = {
-				"CODE_SIGN_IDENTITY[sdk=appletvos*]" = "";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "";
-				"CODE_SIGN_IDENTITY[sdk=watchos*]" = "";
-				GCC_PREFIX_HEADER = "Target Support Files/nanopb/nanopb-prefix.pch";
-				IPHONEOS_DEPLOYMENT_TARGET = 11.0;
-				OTHER_LDFLAGS = "";
-				OTHER_LIBTOOLFLAGS = "";
-				PRIVATE_HEADERS_FOLDER_PATH = "";
-				PRODUCT_MODULE_NAME = nanopb;
-				PRODUCT_NAME = nanopb;
-				PUBLIC_HEADERS_FOLDER_PATH = "";
-				SDKROOT = iphoneos;
-				SKIP_INSTALL = YES;
-				SWIFT_ACTIVE_COMPILATION_CONDITIONS = "$(inherited) ";
-				SWIFT_VERSION = 5.2;
 				TARGETED_DEVICE_FAMILY = "1,2";
 				VALIDATE_PRODUCT = YES;
 			};
@@ -416,6 +424,43 @@
 			};
 			name = Release;
 		};
+		A6D592EDB0E1C0E508BD1BF53F8A6498 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = 5DD4BB53C16B68E4F36CCE41032B89F4 /* Pods-AppsMobileCompany.debug.xcconfig */;
+			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = NO;
+				CLANG_ENABLE_OBJC_WEAK = NO;
+				"CODE_SIGN_IDENTITY[sdk=appletvos*]" = "";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "";
+				"CODE_SIGN_IDENTITY[sdk=watchos*]" = "";
+				CURRENT_PROJECT_VERSION = 1;
+				DEFINES_MODULE = YES;
+				DYLIB_COMPATIBILITY_VERSION = 1;
+				DYLIB_CURRENT_VERSION = 1;
+				DYLIB_INSTALL_NAME_BASE = "@rpath";
+				INFOPLIST_FILE = "Target Support Files/Pods-AppsMobileCompany/Pods-AppsMobileCompany-Info.plist";
+				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
+				IPHONEOS_DEPLOYMENT_TARGET = 11.0;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@loader_path/Frameworks",
+				);
+				MACH_O_TYPE = staticlib;
+				MODULEMAP_FILE = "Target Support Files/Pods-AppsMobileCompany/Pods-AppsMobileCompany.modulemap";
+				OTHER_LDFLAGS = "";
+				OTHER_LIBTOOLFLAGS = "";
+				PODS_ROOT = "$(SRCROOT)";
+				PRODUCT_BUNDLE_IDENTIFIER = "org.cocoapods.${PRODUCT_NAME:rfc1034identifier}";
+				PRODUCT_NAME = "$(TARGET_NAME:c99extidentifier)";
+				SDKROOT = iphoneos;
+				SKIP_INSTALL = YES;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				VERSIONING_SYSTEM = "apple-generic";
+				VERSION_INFO_PREFIX = "";
+			};
+			name = Debug;
+		};
 		B4EFE046ACF8F37157F6E322C7FCFC28 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
@@ -482,28 +527,43 @@
 			};
 			name = Debug;
 		};
-		B5AD7C9418BF4D94F5A686611760802A /* Debug */ = {
+		CB6CC9446EDEDA66E3895B6080F4F35E /* Release */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 5D25CC46211ACE30F35DCA7C093EC67A /* nanopb.debug.xcconfig */;
+			baseConfigurationReference = 3B2EC7E5580293A36AD3905D94855B52 /* Pods-AppsMobileCompany.release.xcconfig */;
 			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = NO;
+				CLANG_ENABLE_OBJC_WEAK = NO;
 				"CODE_SIGN_IDENTITY[sdk=appletvos*]" = "";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "";
 				"CODE_SIGN_IDENTITY[sdk=watchos*]" = "";
-				GCC_PREFIX_HEADER = "Target Support Files/nanopb/nanopb-prefix.pch";
+				CURRENT_PROJECT_VERSION = 1;
+				DEFINES_MODULE = YES;
+				DYLIB_COMPATIBILITY_VERSION = 1;
+				DYLIB_CURRENT_VERSION = 1;
+				DYLIB_INSTALL_NAME_BASE = "@rpath";
+				INFOPLIST_FILE = "Target Support Files/Pods-AppsMobileCompany/Pods-AppsMobileCompany-Info.plist";
+				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
 				IPHONEOS_DEPLOYMENT_TARGET = 11.0;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@loader_path/Frameworks",
+				);
+				MACH_O_TYPE = staticlib;
+				MODULEMAP_FILE = "Target Support Files/Pods-AppsMobileCompany/Pods-AppsMobileCompany.modulemap";
 				OTHER_LDFLAGS = "";
 				OTHER_LIBTOOLFLAGS = "";
-				PRIVATE_HEADERS_FOLDER_PATH = "";
-				PRODUCT_MODULE_NAME = nanopb;
-				PRODUCT_NAME = nanopb;
-				PUBLIC_HEADERS_FOLDER_PATH = "";
+				PODS_ROOT = "$(SRCROOT)";
+				PRODUCT_BUNDLE_IDENTIFIER = "org.cocoapods.${PRODUCT_NAME:rfc1034identifier}";
+				PRODUCT_NAME = "$(TARGET_NAME:c99extidentifier)";
 				SDKROOT = iphoneos;
 				SKIP_INSTALL = YES;
-				SWIFT_ACTIVE_COMPILATION_CONDITIONS = "$(inherited) ";
-				SWIFT_VERSION = 5.2;
 				TARGETED_DEVICE_FAMILY = "1,2";
+				VALIDATE_PRODUCT = YES;
+				VERSIONING_SYSTEM = "apple-generic";
+				VERSION_INFO_PREFIX = "";
 			};
-			name = Debug;
+			name = Release;
 		};
 /* End XCBuildConfiguration section */
 
@@ -517,20 +577,20 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		6592EC4FDA86F3AFB78A616A4D98E1FE /* Build configuration list for PBXNativeTarget "nanopb" */ = {
+		657B4D7F7B361A2CAED883966F438D9D /* Build configuration list for PBXAggregateTarget "OneSignalXCFramework" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
-				B5AD7C9418BF4D94F5A686611760802A /* Debug */,
-				30792436FBBA4DC6BCB42676F0773D77 /* Release */,
+				0D9B3B650A9EE28E7467CEC33F807383 /* Debug */,
+				8DA06685788740E6B69226D3E769523C /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		B7EBDEAA4CAD743322D1B59A87AD9310 /* Build configuration list for PBXNativeTarget "Pods-AppsMobileCompany" */ = {
+		A1186A0905B6081D25AF63BD52AE5C9C /* Build configuration list for PBXNativeTarget "Pods-AppsMobileCompany" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
-				144D28AB593A8C066CC6F6199839C3B7 /* Debug */,
-				14CD638D198926441444886DDFA50988 /* Release */,
+				A6D592EDB0E1C0E508BD1BF53F8A6498 /* Debug */,
+				CB6CC9446EDEDA66E3895B6080F4F35E /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
