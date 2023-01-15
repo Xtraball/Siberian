@@ -621,6 +621,9 @@ class Assets
     {
         // Validate ES5 module
         $nodePath = path('lib/Siberian/bin/node_64');
+        if (__getConfig('ís_darwin')) {
+            $nodePath .= '.osx';
+        }
         $esCheckPath = path('lib/tools/node_modules/.bin/es-check');
 
         // Binaries must be executable (but es-check is not really a bin, just in case*)
