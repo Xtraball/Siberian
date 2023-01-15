@@ -1849,10 +1849,11 @@ $splitPreviewActions = filter_var(__get('split_preview_actions'), FILTER_VALIDAT
     .carret li a.button_handler:hover:after {
         border-color: rgba(136, 183, 213, 0);
         border-left-color: #1397C8;
-        border-width: 15px;
         top: 50%;
-        margin-top: -15px;
+        border-width: 21px;
         z-index: 10;
+        border-radius: 50px;
+        transform: rotate(180deg) translate(35px, 21px);
     }
 
     .carret li a.button_handler:hover {
