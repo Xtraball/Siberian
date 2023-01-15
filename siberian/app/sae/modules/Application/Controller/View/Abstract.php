@@ -128,8 +128,10 @@ abstract class Application_Controller_View_Abstract extends Backoffice_Controlle
             'google_play_icon' => $application->getGooglePlayIcon(),
             'devices' => $devices,
             'url' => $application->getUrl(),
-            'has_ios_certificate' => Push_Model_Certificate::getiOSCertificat($appId),
-            'pem_infos' => Push_Model_Certificate::getInfos($appId),
+            //'has_ios_certificate' => Push_Model_Certificate::getiOSCertificat($appId),
+            'has_ios_certificate' => false,
+            //'pem_infos' => Push_Model_Certificate::getInfos($appId),
+            'pem_infos' => false
         ];
 
         foreach ($store_categories as $name => $store_category) {

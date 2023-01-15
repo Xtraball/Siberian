@@ -1,7 +1,7 @@
 <?php
 
 $blocks = $this->getApplication()->getBlocks();
-$tabbarBlock = $this->getApplication()->getBlock('tabbar'); 
+$tabbarBlock = $this->getApplication()->getBlock('tabbar');
 
 ?>
 
@@ -39,52 +39,54 @@ $tabbarBlock = $this->getApplication()->getBlock('tabbar');
                 <div id="app_colors">
 
                     <div class="col-md-3 col-xs-4">
-                        <h4 class="title-editor border-yellow text-center">
-                            <?php echo p__("application", "Sections"); ?>
-                        </h4>
-                        <ul class="color-sections content-color">
-                            <li class="open-section"
-                                data-rel="all">
-                                <?php echo p__("application", "All"); ?>
-                            </li>
-                            <?php foreach ($blocks as $block): ?>
-                            <li class="open-section"
-                                data-rel="<?php echo $block->getCode(); ?>">
-                                <?php echo $block->getName(); ?>
-                            </li>
-                            <?php endforeach; ?>
-                        </ul>
+                        <div class="content-colors">
+                            <h4 class="title-editor border-yellow text-center">
+                                <?php echo p__("application", "Sections"); ?>
+                            </h4>
+                            <ul class="color-sections content-color">
+                                <li class="open-section"
+                                    data-rel="all">
+                                    <?php echo p__("application", "All"); ?>
+                                </li>
+                                <?php foreach ($blocks as $block): ?>
+                                    <li class="open-section"
+                                        data-rel="<?php echo $block->getCode(); ?>">
+                                        <?php echo $block->getName(); ?>
+                                    </li>
+                                <?php endforeach; ?>
+                            </ul>
+                        </div>
                     </div>
 
                     <div class="col-md-9 col-xs-8">
                         <?php foreach ($blocks as $block): ?>
-                        <?php $block_id = (strlen(dechex($block->getId())) == 2) ? dechex($block->getId()) : "0" . dechex($block->getId()); ?>
-                        <div id="sb-tour-color-section-<?php echo $block->getData("name"); ?>"
-                             class="color-section change-overview-content content-colors sb-tour"
-                             data-rel="<?php echo $block->getCode(); ?>"
-                             data-name="<?php echo $block->getName(); ?>">
-
-                            <?php
-                            $hasChildrens = false;
-                            if ($block->getChildren()) {
-                                $hasChildrens = true;
-                            }
-                            $children = $block->getChildren() ? $block->getChildren() : [$block];
-                            ?>
-
-                            <h4 class="title-editor border-yellow text-center">
-                                <?php echo $block->getName(); ?>
-                            </h4>
-
-                            <?php foreach ($children as $child) : ?>
-                                <?php $child_id = (strlen(dechex($child->getId())) == 2) ? dechex($child->getId()) : "0" . dechex($child->getId()); ?>
-                                <?php $child_id = $hasChildrens ? $child_id : "00"; ?>
-                                <?php if ($child->getParentId()) : ?>
-
-                                <?php endif; ?>
-
+                            <?php $block_id = (strlen(dechex($block->getId())) == 2) ? dechex($block->getId()) : "0" . dechex($block->getId()); ?>
+                            <div id="sb-tour-color-section-<?php echo $block->getData("name"); ?>"
+                                 class="color-section change-overview-content content-colors sb-tour"
+                                 data-rel="<?php echo $block->getCode(); ?>"
+                                 data-name="<?php echo $block->getName(); ?>">
 
                                 <?php
+                                $hasChildrens = false;
+                                if ($block->getChildren()) {
+                                    $hasChildrens = true;
+                                }
+                                $children = $block->getChildren() ? $block->getChildren() : [$block];
+                                ?>
+
+                                <h4 class="title-editor border-yellow text-center">
+                                    <?php echo $block->getName(); ?>
+                                </h4>
+
+                                <?php foreach ($children as $child) : ?>
+                                    <?php $child_id = (strlen(dechex($child->getId())) == 2) ? dechex($child->getId()) : "0" . dechex($child->getId()); ?>
+                                    <?php $child_id = $hasChildrens ? $child_id : "00"; ?>
+                                    <?php if ($child->getParentId()) : ?>
+
+                                    <?php endif; ?>
+
+
+                                    <?php
                                     $count = 0;
                                     if ($child->getColorVariableName()) {
                                         $count++;
@@ -102,81 +104,81 @@ $tabbarBlock = $this->getApplication()->getBlock('tabbar');
                                     if ($count <= 0) {
                                         continue;
                                     }
-                                ?>
+                                    ?>
 
-                                <div class="subcontent content-color container-fluid custom-padding">
+                                    <div class="subcontent content-color container-fluid custom-padding">
 
-                                    <?php if ($hasChildrens): ?>
-                                    <h6>
-                                        <?php echo $child->getName() ?>
-                                    </h6>
-                                    <?php endif; ?>
-
-                                    <div class="row block-group"
-                                         id="row_<?php echo $child->getId(); ?>">
-                                        <?php if ($child->getColorVariableName()) : ?>
-                                            <?php $hex = "#" . $block_id . $child_id . "01"; ?>
-                                            <div class="mini-color col-md-4 col-xs-6">
-                                                <input type="hidden"
-                                                       rel="color"
-                                                       data-blockid="<?php echo $child->getId(); ?>"
-                                                       data-index="<?php echo $hex; ?>"
-                                                       data-variable="<?php echo $child->getColorVariableName() ?>"
-                                                       id="<?php echo str_replace("$", "", $child->getColorVariableName()) ?>"
-                                                       class="mini-box color-picker"
-                                                       value="<?php echo $child->getColorRGBA(); ?>" />
-                                                <span class="mini-text"><?php echo p__("application", "Text") ?></span>
-                                            </div>
+                                        <?php if ($hasChildrens): ?>
+                                            <h6>
+                                                <?php echo $child->getName() ?>
+                                            </h6>
                                         <?php endif; ?>
 
-                                        <?php if ($child->getBackgroundColorVariableName()) : ?>
-                                            <?php $hex = "#" . $block_id . $child_id . "02"; ?>
-                                            <div class="mini-color col-md-4 col-xs-6">
-                                                <input type="hidden"
-                                                       rel="background_color"
-                                                       data-blockid="<?php echo $child->getId(); ?>"
-                                                       data-index="<?php echo $hex; ?>"
-                                                       data-variable="<?php echo $child->getBackgroundColorVariableName() ?>"
-                                                       id="<?php echo str_replace("$", "", $child->getBackgroundColorVariableName()) ?>"
-                                                       class="mini-box color-picker"
-                                                       value="<?php echo $child->getBackgroundColorRGBA(); ?>" />
-                                                <span class="mini-text"><?php echo p__("application", "Background") ?></span>
-                                            </div>
-                                        <?php endif; ?>
+                                        <div class="row block-group"
+                                             id="row_<?php echo $child->getId(); ?>">
+                                            <?php if ($child->getColorVariableName()) : ?>
+                                                <?php $hex = "#" . $block_id . $child_id . "01"; ?>
+                                                <div class="mini-color col-md-4 col-xs-6">
+                                                    <input type="hidden"
+                                                           rel="color"
+                                                           data-blockid="<?php echo $child->getId(); ?>"
+                                                           data-index="<?php echo $hex; ?>"
+                                                           data-variable="<?php echo $child->getColorVariableName() ?>"
+                                                           id="<?php echo str_replace("$", "", $child->getColorVariableName()) ?>"
+                                                           class="mini-box color-picker"
+                                                           value="<?php echo $child->getColorRGBA(); ?>"/>
+                                                    <span class="mini-text"><?php echo p__("application", "Text") ?></span>
+                                                </div>
+                                            <?php endif; ?>
 
-                                        <?php if ($child->getBorderColorVariableName()) : ?>
-                                            <?php $hex = "#" . $block_id . $child_id . "03"; ?>
-                                            <div class="mini-color col-md-4 col-xs-6">
-                                                <input type="hidden"
-                                                       rel="border_color"
-                                                       data-blockid="<?php echo $child->getId(); ?>"
-                                                       data-index="<?php echo $hex; ?>"
-                                                       data-variable="<?php echo $child->getBorderColorVariableName() ?>"
-                                                       id="<?php echo str_replace("$", "", $child->getBorderColorVariableName()) ?>"
-                                                       class="mini-box color-picker"
-                                                       value="<?php echo $child->getBorderColorRGBA(); ?>" />
-                                                <span class="mini-text"><?php echo p__("application", "Border") ?></span>
-                                            </div>
-                                        <?php endif; ?>
+                                            <?php if ($child->getBackgroundColorVariableName()) : ?>
+                                                <?php $hex = "#" . $block_id . $child_id . "02"; ?>
+                                                <div class="mini-color col-md-4 col-xs-6">
+                                                    <input type="hidden"
+                                                           rel="background_color"
+                                                           data-blockid="<?php echo $child->getId(); ?>"
+                                                           data-index="<?php echo $hex; ?>"
+                                                           data-variable="<?php echo $child->getBackgroundColorVariableName() ?>"
+                                                           id="<?php echo str_replace("$", "", $child->getBackgroundColorVariableName()) ?>"
+                                                           class="mini-box color-picker"
+                                                           value="<?php echo $child->getBackgroundColorRGBA(); ?>"/>
+                                                    <span class="mini-text"><?php echo p__("application", "Background") ?></span>
+                                                </div>
+                                            <?php endif; ?>
 
-                                        <?php if ($child->getImageColorVariableName()) : ?>
-                                            <?php $hex = "#" . $block_id . $child_id . "04"; ?>
-                                            <div class="mini-color col-md-4 col-xs-6">
-                                                <input type="hidden"
-                                                       rel="image_color"
-                                                       data-blockid="<?php echo $child->getId(); ?>"
-                                                       data-index="<?php echo $hex; ?>"
-                                                       data-variable="<?php echo $child->getImageColorVariableName() ?>"
-                                                       id="<?php echo str_replace("$", "", $child->getImageColorVariableName()) ?>"
-                                                       class="mini-box color-picker"
-                                                       value="<?php echo $child->getImageColorRGBA(); ?>" />
-                                                <span class="mini-text"><?php echo p__("application", "Image") ?></span>
-                                            </div>
-                                        <?php endif; ?>
+                                            <?php if ($child->getBorderColorVariableName()) : ?>
+                                                <?php $hex = "#" . $block_id . $child_id . "03"; ?>
+                                                <div class="mini-color col-md-4 col-xs-6">
+                                                    <input type="hidden"
+                                                           rel="border_color"
+                                                           data-blockid="<?php echo $child->getId(); ?>"
+                                                           data-index="<?php echo $hex; ?>"
+                                                           data-variable="<?php echo $child->getBorderColorVariableName() ?>"
+                                                           id="<?php echo str_replace("$", "", $child->getBorderColorVariableName()) ?>"
+                                                           class="mini-box color-picker"
+                                                           value="<?php echo $child->getBorderColorRGBA(); ?>"/>
+                                                    <span class="mini-text"><?php echo p__("application", "Border") ?></span>
+                                                </div>
+                                            <?php endif; ?>
+
+                                            <?php if ($child->getImageColorVariableName()) : ?>
+                                                <?php $hex = "#" . $block_id . $child_id . "04"; ?>
+                                                <div class="mini-color col-md-4 col-xs-6">
+                                                    <input type="hidden"
+                                                           rel="image_color"
+                                                           data-blockid="<?php echo $child->getId(); ?>"
+                                                           data-index="<?php echo $hex; ?>"
+                                                           data-variable="<?php echo $child->getImageColorVariableName() ?>"
+                                                           id="<?php echo str_replace("$", "", $child->getImageColorVariableName()) ?>"
+                                                           class="mini-box color-picker"
+                                                           value="<?php echo $child->getImageColorRGBA(); ?>"/>
+                                                    <span class="mini-text"><?php echo p__("application", "Image") ?></span>
+                                                </div>
+                                            <?php endif; ?>
+                                        </div>
                                     </div>
-                                </div>
-                            <?php endforeach; ?>
-                        </div>
+                                <?php endforeach; ?>
+                            </div>
                         <?php endforeach; ?>
                     </div>
                 </div>
@@ -184,72 +186,74 @@ $tabbarBlock = $this->getApplication()->getBlock('tabbar');
 
 
                 <div id="sb-tour-custom-css-section"
-                     class="change-overview-content content-colors sb-tour col-xs-12">
-                    <h3 class="title-editor border-yellow text-center">
-                        <?php echo __("Advanced Customization CSS / SCSS"); ?>
-                        <div class="css-toggle sb-tour"
-                             id="toggle-scss">
-                            <input class="sb-tgl sb-tgl-flip toggle"
-                                   id="cb_on_off"
-                                   type="checkbox"
-                                   value="0"
-                                   class="color-blue checkbox"/>
-                            <label class="sb-tgl-btn"
-                                   for="cb_on_off"
-                                   data-tg-off="<?php echo __js('Show') ?>"
-                                   data-tg-on="<?php echo __js('Hide') ?>"></label>
-                        </div>
-                    </h3>
+                     class="change-overview-content  sb-tour col-xs-12">
+                    <div class="content-colors">
+                        <h3 class="title-editor border-yellow text-center">
+                            <?php echo __("Advanced Customization CSS / SCSS"); ?>
+                            <div class="css-toggle sb-tour"
+                                 id="toggle-scss">
+                                <input class="sb-tgl sb-tgl-flip toggle"
+                                       id="cb_on_off"
+                                       type="checkbox"
+                                       value="0"
+                                       class="color-blue checkbox"/>
+                                <label class="sb-tgl-btn"
+                                       for="cb_on_off"
+                                       data-tg-off="<?php echo __js('Show') ?>"
+                                       data-tg-on="<?php echo __js('Hide') ?>"></label>
+                            </div>
+                        </h3>
 
-                    <?php $custom_scss = $this->getApplication()->getCustomScss(); ?>
-                    <div id="row_scss"
-                         class="subcontent content-color container-fluid"
-                         style="display: none;">
-                        <h4>
-                            <?php echo __("Available SCSS Variables corresponding to previously set colors"); ?>
-                        </h4>
-                        <div class="row">
-                            <?php $variables = Template_Model_Design::getVariables($this->getApplication()); ?>
-                            <?php foreach ($variables as $name => $value): ?>
-                                <div class="mini-color col-md-4 col-xs-6">
-                                    <div class="mini-box content-options"
-                                         id="<?php echo str_replace("$", "", $name) ?>"
-                                         style="background-color: <?php echo $value; ?>">
+                        <?php $custom_scss = $this->getApplication()->getCustomScss(); ?>
+                        <div id="row_scss"
+                             class="subcontent content-color container-fluid"
+                             style="display: none;">
+                            <h4>
+                                <?php echo __("Available SCSS Variables corresponding to previously set colors"); ?>
+                            </h4>
+                            <div class="row">
+                                <?php $variables = Template_Model_Design::getVariables($this->getApplication()); ?>
+                                <?php foreach ($variables as $name => $value): ?>
+                                    <div class="mini-color col-md-4 col-xs-6">
+                                        <div class="mini-box content-options"
+                                             id="<?php echo str_replace("$", "", $name) ?>"
+                                             style="background-color: <?php echo $value; ?>">
+                                        </div>
+                                        <span><?php echo $name ?></span>
                                     </div>
-                                    <span><?php echo $name ?></span>
-                                </div>
-                            <?php endforeach; ?>
-                        </div>
-                        <div class="sb-cb"></div>
-                        <div class="row">
-                            <div class="col-md-12">
-                                <label style="margin-top: 24px;">
-                                    <?php echo __("Input your SCSS here, save to validate & preview") ?>
-                                    <br/>
-                                    <br/>
-                                    <span class="keyb">Ctrl</span>
-                                    <b>+</b>
-                                    <span class="keyb">Space</span>
-                                    <b>=</b>
-                                    <?php echo __('Autocomplete & Suggestions ...') ?>
-                                    <br/>
-                                    <br/>
-                                </label>
-                                <textarea name="custom_scss"
-                                          id="custom_scss"
-                                          maxlength="16777215"
-                                          cols=""
-                                          rows="20"
-                                          class="input-flat"><?php echo $this->getApplication()->getCustomScss() ?></textarea>
+                                <?php endforeach; ?>
                             </div>
                             <div class="sb-cb"></div>
+                            <div class="row">
+                                <div class="col-md-12">
+                                    <label style="margin-top: 24px;">
+                                        <?php echo __("Input your SCSS here, save to validate & preview") ?>
+                                        <br/>
+                                        <br/>
+                                        <span class="keyb">Ctrl</span>
+                                        <b>+</b>
+                                        <span class="keyb">Space</span>
+                                        <b>=</b>
+                                        <?php echo __('Autocomplete & Suggestions ...') ?>
+                                        <br/>
+                                        <br/>
+                                    </label>
+                                    <textarea name="custom_scss"
+                                              id="custom_scss"
+                                              maxlength="16777215"
+                                              cols=""
+                                              rows="20"
+                                              class="input-flat"><?php echo $this->getApplication()->getCustomScss() ?></textarea>
+                                </div>
+                                <div class="sb-cb"></div>
+                            </div>
+                            <div class="col-sm-2 col-sm-offset-10">
+                                <button class="btn color-yellow pull-right"
+                                        id="save_scss"><?php echo __("Save") ?></button>
+                            </div>
                         </div>
-                        <div class="col-sm-2 col-sm-offset-10">
-                            <button class="btn color-yellow pull-right"
-                                    id="save_scss"><?php echo __("Save") ?></button>
-                        </div>
-                    </div>
 
+                    </div>
                 </div>
 
             </div>
@@ -279,7 +283,7 @@ $tabbarBlock = $this->getApplication()->getBlock('tabbar');
 
         // Save color changes!
         let updateColor = function (input, value, opacity) {
-            let inputs = $("input[data-blockid='"+input.attr("data-blockid")+"']");
+            let inputs = $("input[data-blockid='" + input.attr("data-blockid") + "']");
             let colors = {};
             inputs.each(function (index, item) {
                 let $this = $(item);
@@ -297,7 +301,8 @@ $tabbarBlock = $this->getApplication()->getBlock('tabbar');
                 success: function (data) {
                     //form_su
                 },
-                error: function (response) {}
+                error: function (response) {
+                }
             });
         };
 
@@ -366,7 +371,7 @@ $tabbarBlock = $this->getApplication()->getBlock('tabbar');
                 overviewContents.find("#scss_live").text(template + emptyCustomScss + imgfilter);
 
                 processing = false;
-            } catch(e) {
+            } catch (e) {
                 processing = false;
             }
         };
@@ -413,7 +418,7 @@ $tabbarBlock = $this->getApplication()->getBlock('tabbar');
             $("#colorsForm .color-picker").each(function () {
                 let input = $(this);
                 input.minicolors({
-                    change: function(value, opacity) {
+                    change: function (value, opacity) {
                         triggerChange();
                         updateColor(input, value, opacity);
                     }
@@ -481,7 +486,7 @@ $tabbarBlock = $this->getApplication()->getBlock('tabbar');
             sectionLis.on("click", function () {
                 let current = $(this);
                 let rel = current.attr("data-rel");
-                let section = $(".color-section[data-rel='"+rel+"']");
+                let section = $(".color-section[data-rel='" + rel + "']");
                 $(".color-section").hide();
                 section.show();
                 sectionLis.removeClass("color-yellow");
@@ -571,8 +576,10 @@ $tabbarBlock = $this->getApplication()->getBlock('tabbar');
 
         /* only step COLORS */
         .content-colors {
-            margin-bottom:15px;
+            margin-bottom: 15px;
             padding-left: 0;
+            box-shadow: 1px 1px 5px #a3a3a3;
+            border-radius: 4px;
         }
 
         .content-color {

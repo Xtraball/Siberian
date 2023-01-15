@@ -1,0 +1,11 @@
+{
+  "name": "Push",
+  "description": "This feature is dismissed in favor of Push v2.",
+  "version": "5.0.0",
+  "dependencies": {
+    "system": {
+      "type": "SAE",
+      "version": "4.2.0"
+    }
+  }
+}

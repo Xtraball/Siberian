@@ -229,72 +229,73 @@ class Cron
      */
     public function pushinstant($task)
     {
-        # Init
-        $now = \Zend_Date::now()->toString('y-MM-dd HH:mm:ss');
-
-        # Check for Individual Push module
-        if (\Push_Model_Message::hasIndividualPush()) {
-            $base = \Core_Model_Directory::getBasePathTo("/app/local/modules/IndividualPush/");
-
-            # Models
-            if (is_readable("{$base}/Model/Customer/Message.php") && is_readable("{$base}/Model/Db/Table/Customer/Message.php")) {
-                require_once "{$base}/Model/Customer/Message.php";
-                require_once "{$base}/Model/Db/Table/Customer/Message.php";
-            }
-        }
-
-        # Fetch instant message in queue.
-        /**
-         * @var $messages \Push_Model_Message[]
-         */
-        $messages = (new \Push_Model_Message())->findAll(
-            [
-                'status IN (?)' => ['queued'],
-                'send_at IS NULL OR send_at <= ?' => $now,
-                'send_until IS NULL OR send_until >= ?' => $now,
-                'type_id = ?' => \Push_Model_Message::TYPE_PUSH
-            ],
-            'created_at DESC'
-        );
-
-        if (count($messages) > 0) {
-            # Set all fetched messages to sending
-            foreach ($messages as $message) {
-                $message->updateStatus('sending');
-            }
-
-
-            foreach ($messages as $message) {
-                echo sprintf("[CRON] Message Id: %s, Title: %s \n", $message->getId(), $message->getTitle());
-                # Send push
-                $message->push();
-            }
-        }
-
-        // Clean-up failed push!
-        $now = \Zend_Date::now()->toString('y-MM-dd HH:mm:ss');
-
-        /**
-         * @var $failedPushs \Push_Model_Message[]
-         */
-        $failedPushs = (new \Push_Model_Message())->findAll(
-            [
-                'status = ?' => 'failed',
-                'DATE_ADD(updated_at, INTERVAL 3 DAY) < ?' => $now, // Messages expired three days ago!
-            ]
-        );
-
-        foreach ($failedPushs as $failedPush) {
-            $detail = sprintf("[%s - %s - %s]",
-                $failedPush->getId(),
-                $failedPush->getTitle(),
-                $failedPush->getText());
-            $this->log('[Push Clean]: cleaned-up ' . $detail . ' failed push.');
-
-            $failedPush->delete();
-        }
-
-        $this->log('[Push Clean]: cleaned-up ' . $failedPushs->count() . ' failed push.');
+        return false;
+        ## Init
+        #$now = \Zend_Date::now()->toString('y-MM-dd HH:mm:ss');
+#
+        ## Check for Individual Push module
+        #if (\Push_Model_Message::hasIndividualPush()) {
+        #    $base = \Core_Model_Directory::getBasePathTo("/app/local/modules/IndividualPush/");
+#
+        #    # Models
+        #    if (is_readable("{$base}/Model/Customer/Message.php") && is_readable("{$base}/Model/Db/Table/Customer/Message.php")) {
+        #        require_once "{$base}/Model/Customer/Message.php";
+        #        require_once "{$base}/Model/Db/Table/Customer/Message.php";
+        #    }
+        #}
+#
+        ## Fetch instant message in queue.
+        #/**
+        # * @var $messages \Push_Model_Message[]
+        # */
+        #$messages = (new \Push_Model_Message())->findAll(
+        #    [
+        #        'status IN (?)' => ['queued'],
+        #        'send_at IS NULL OR send_at <= ?' => $now,
+        #        'send_until IS NULL OR send_until >= ?' => $now,
+        #        'type_id = ?' => \Push_Model_Message::TYPE_PUSH
+        #    ],
+        #    'created_at DESC'
+        #);
+#
+        #if (count($messages) > 0) {
+        #    # Set all fetched messages to sending
+        #    foreach ($messages as $message) {
+        #        $message->updateStatus('sending');
+        #    }
+#
+#
+        #    foreach ($messages as $message) {
+        #        echo sprintf("[CRON] Message Id: %s, Title: %s \n", $message->getId(), $message->getTitle());
+        #        # Send push
+        #        $message->push();
+        #    }
+        #}
+#
+        #// Clean-up failed push!
+        #$now = \Zend_Date::now()->toString('y-MM-dd HH:mm:ss');
+#
+        #/**
+        # * @var $failedPushs \Push_Model_Message[]
+        # */
+        #$failedPushs = (new \Push_Model_Message())->findAll(
+        #    [
+        #        'status = ?' => 'failed',
+        #        'DATE_ADD(updated_at, INTERVAL 3 DAY) < ?' => $now, // Messages expired three days ago!
+        #    ]
+        #);
+#
+        #foreach ($failedPushs as $failedPush) {
+        #    $detail = sprintf("[%s - %s - %s]",
+        #        $failedPush->getId(),
+        #        $failedPush->getTitle(),
+        #        $failedPush->getText());
+        #    $this->log('[Push Clean]: cleaned-up ' . $detail . ' failed push.');
+#
+        #    $failedPush->delete();
+        #}
+#
+        #$this->log('[Push Clean]: cleaned-up ' . $failedPushs->count() . ' failed push.');
     }
 
     /**

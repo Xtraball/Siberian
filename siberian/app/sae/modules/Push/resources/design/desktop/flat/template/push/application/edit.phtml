@@ -1,0 +1,38 @@
+<div class="edit_page push_notif">
+
+    <!-- Nav tabs -->
+    <ul class="nav nav-tabs"
+        role="tablist">
+
+        <li role="presentation"
+            class="active">
+            <a href="#tab-message"
+               aria-controls="tab-message"
+               role="tab"
+               data-toggle="tab">
+                <i class="fa fa-comments"></i>
+                <?php echo p__('push', 'Important notice') ?>
+            </a>
+        </li>
+    </ul>
+
+    <div class="tab-content">
+        <!-- MESSAGES -->
+        <div role="tabpanel"
+             class="tab-pane active"
+             id="tab-message">
+            <div id="list">
+                <h3 class="title-editor no-border-radius title-feature-indent">
+                    <?php echo __('Important notice'); ?>
+                </h3>
+                <div id="existing_items" class="container-fluid first-row-feature content-feature">
+                    <div class="alert alert-info">
+                        <?php echo __('This feature is dismissed in favor of Push v2, you can discard it from your application.'); ?>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- MESSAGES -->
+    </div>
+
+</div>
