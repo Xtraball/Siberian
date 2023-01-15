@@ -1,5 +1,5 @@
 /**
- * PushService
+ * Push2Service
  *
  * @author Xtraball SAS
  *
@@ -7,8 +7,8 @@
  */
 angular
     .module('starter')
-    .service('PushService', function ($cordovaLocalNotification, $location, $log, $q, $rootScope, $translate,
-                                      $window, $session, Application, Dialog, LinkService, Pages, Push, SB) {
+    .service('Push2Service', function ($cordovaLocalNotification, $location, $log, $q, $rootScope, $translate,
+                                       $window, $session, Application, Dialog, LinkService, Pages, Push2, SB) {
     var service = {
         appId: null,
         push: null,
@@ -36,7 +36,7 @@ angular
     /**
      * Configure Push Service
      *
-     * @param senderID
+     * @param appId
      * @param iconColor
      */
     service.configure = function (appId, iconColor) {
@@ -125,6 +125,7 @@ angular
     service.register = function (registerOnly) {
         service.init();
 
+/**
         var localRegisterOnly = (registerOnly === null) ? false : registerOnly;
 
         service.init();
@@ -153,6 +154,7 @@ angular
                 });
             }
         }
+ */
     };
 
     /**
@@ -185,7 +187,7 @@ angular
         $log.debug('-- Push-Service, sending a Local Notification --');
 
         var localMessage = angular.copy(message);
-        if (Push.device_type === SB.DEVICE.TYPE_IOS) {
+        if (Push2.device_type === SB.DEVICE.TYPE_IOS) {
             localMessage = '';
         }
 
@@ -196,7 +198,7 @@ angular
             text: localMessage
         };
 
-        if (Push.device_type === SB.DEVICE.TYPE_ANDROID) {
+        if (Push2.device_type === SB.DEVICE.TYPE_ANDROID) {
             params.smallIcon = 'res://ic_icon';
             params.icon = 'res://icon';
         }
@@ -211,7 +213,7 @@ angular
             $cordovaLocalNotification.schedule(params);
         }
 
-        Push.markAsDisplayed(messageId);
+        //Push2.markAsDisplayed(messageId);
     };
 
     // @deprecated

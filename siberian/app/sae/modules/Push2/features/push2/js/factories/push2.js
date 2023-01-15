@@ -6,7 +6,7 @@
  */
 angular
     .module('starter')
-    .factory('Push2', function (Application, $stateParams, $pwaRequest) {
+    .factory('Push2', function (Application, Pages, Push2Service, $timeout, $stateParams, $pwaRequest) {
 
         var factory = {
             storage: [],
@@ -14,16 +14,6 @@ angular
         };
 
         factory.onStart = function () {
-            // Configuring PushService & skip if this is a preview.
-            try {
-                $timeout(function () {
-                    PushService.configure(load.application.osAppId, load.application.pushIconcolor);
-                    PushService.register();
-                }, 500);
-            } catch (e) {
-                console.error('An error occured while registering device for Push.', e.message);
-            }
-
             Application.loaded.then(function () {
                 // App runtime!
                 var push2 = _.find(Pages.getActivePages(), {
@@ -40,9 +30,28 @@ angular
                     .init()
                     .then(function (success) {
                         // Do something!
+                        try {
+                            $timeout(function () {
+                                Push2Service.configure(Application.application.osAppId, Application.application.pushIconcolor);
+                                Push2Service.register();
+                            }, 500);
+                        } catch (e) {
+                            console.error('An error occured while registering device for Push.', e.message);
+                        }
+
                     }).catch(function (error) {
                         console.log('push2 error', error);
                     });
+            });
+        };
+
+        factory.registerPlayer = function (player) {
+            return $pwaRequest.post('push2/mobile/register-player', {
+                data: {
+                    device_uid: $session.getDeviceUid(),
+                    player_id: player
+                },
+                cache: false
             });
         };
 
