@@ -166,7 +166,7 @@ var App = angular.module('starter', ['ionic', 'lodash', 'ngRoute', 'ngCordova', 
                    $ionicScrollDelegate, $ionicSlideBoxDelegate, $location, $log, $ocLazyLoad, $pwaRequest, $q,
                    $rootScope, $session, $state, $templateCache, $timeout, $translate, $window, AdmobService,
                    Analytics, Application, Customer, Codescan, Dialog, Padlock,
-                   Pages, Push, PushService, SB, InAppLinks) {
+                   Pages, SB, InAppLinks) {
 
         // $rootScope object!
         angular.extend($rootScope, {
