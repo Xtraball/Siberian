@@ -11,7 +11,7 @@ angular
     .controller('CustomerController', function ($state, $ionicHistory, $cordovaCamera, $ionicActionSheet, Loader,
                                                 $ionicPopup, Customer, $ionicScrollDelegate, $rootScope, $scope, $timeout,
                                                 $translate, $session, Application, Dialog,
-                                                HomepageLayout, Modal, Picture, CropImage, Pages, Push, PushService) {
+                                                HomepageLayout, Modal, Picture, CropImage, Pages) {
 
         /**
          * Clears out the customer object!
@@ -47,7 +47,8 @@ angular
                 }
             },
             settings: {
-                push: PushService.isEnabled,
+                //push: PushService.isEnabled,
+                push: true,
                 counter: 7,
             },
             version: {
@@ -250,21 +251,21 @@ angular
         };
 
         $scope.forcePushRegistration = function () {
-            PushService.register(true);
-            PushService
-                .isReadyPromise
-                .then(function () {
-                    $scope.messagePushRegistration(true);
-                }, function () {
-                    $scope.messagePushRegistration(false);
-                });
+            //PushService.register(true);
+            //PushService
+            //    .isReadyPromise
+            //    .then(function () {
+            //        $scope.messagePushRegistration(true);
+            //    }, function () {
+            //        $scope.messagePushRegistration(false);
+            //    });
         };
 
         $scope.sendTestLocal = function () {
-            PushService.sendLocalNotification(
-                Date.now(),
-                $translate.instant('Local notification', 'customer'),
-                $translate.instant('This is a local notification test!', 'customer'));
+            //PushService.sendLocalNotification(
+            //    Date.now(),
+            //    $translate.instant('Local notification', 'customer'),
+            //    $translate.instant('This is a local notification test!', 'customer'));
         };
 
         $scope.updateSettings = function () {
@@ -273,7 +274,7 @@ angular
                 .saveSettings($scope.settings)
                 .then(function (payload) {
                     // Saved! and update local cache
-                    PushService.isEnabled = $scope.settings.push;
+                    //PushService.isEnabled = $scope.settings.push;
                 }, function (error) {
                     // Revert!
                     $scope.settings.push = !$scope.settings.push;

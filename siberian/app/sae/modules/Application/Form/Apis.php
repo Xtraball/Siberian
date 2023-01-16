@@ -37,7 +37,7 @@ class Application_Form_Apis extends Siberian_Form_Abstract
             $this->addSimpleText('onesignal_android_app_id', __('App ID'));
             $this->addSimpleText('onesignal_android_app_key_token', __('App key token'));
             $this->groupElements(
-                'onesignal',
+                'onesignal_android',
                 [
                     'onesignal_android_app_id',
                     'onesignal_android_app_key_token',
@@ -48,12 +48,12 @@ class Application_Form_Apis extends Siberian_Form_Abstract
             $this->addSimpleText('onesignal_ios_app_id', __('App ID'));
             $this->addSimpleText('onesignal_ios_app_key_token', __('App key token'));
             $this->groupElements(
-                'onesignal',
+                'onesignal_ios',
                 [
                     'onesignal_ios_app_id',
                     'onesignal_ios_app_key_token',
                 ],
-                __('OneSignal push API settings [Android]'));
+                __('OneSignal push API settings [iOS]'));
             $something = true;
         }
 

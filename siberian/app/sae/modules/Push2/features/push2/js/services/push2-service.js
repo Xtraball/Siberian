@@ -8,7 +8,7 @@
 angular
     .module('starter')
     .service('Push2Service', function ($cordovaLocalNotification, $location, $log, $q, $rootScope, $translate,
-                                       $window, $session, Application, Dialog, LinkService, Pages, Push2, SB) {
+                                       $injector, $window, $session, Application, Dialog, LinkService, Pages, SB) {
     var service = {
         appId: null,
         push: null,
@@ -30,7 +30,8 @@ angular
         //        soundname: 'sb_beep4',
             },
             windows: {}
-        }
+        },
+        //Push2: $injector.get('Push2')
     };
 
     /**
@@ -161,7 +162,7 @@ angular
      * Registration!
      */
     service.registerDevice = function () {
-        return Push.registerPlayer();
+        return service.Push2.registerPlayer();
     };
 
     service.onNotificationReceived = function () {
@@ -187,7 +188,7 @@ angular
         $log.debug('-- Push-Service, sending a Local Notification --');
 
         var localMessage = angular.copy(message);
-        if (Push2.device_type === SB.DEVICE.TYPE_IOS) {
+        if (service.Push2.device_type === SB.DEVICE.TYPE_IOS) {
             localMessage = '';
         }
 
@@ -198,7 +199,7 @@ angular
             text: localMessage
         };
 
-        if (Push2.device_type === SB.DEVICE.TYPE_ANDROID) {
+        if (service.Push2.device_type === SB.DEVICE.TYPE_ANDROID) {
             params.smallIcon = 'res://ic_icon';
             params.icon = 'res://icon';
         }

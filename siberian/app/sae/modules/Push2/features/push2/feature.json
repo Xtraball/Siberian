@@ -12,12 +12,6 @@
             "controller": "Push2ListController",
             "url": "push2/list/:value_id",
             "template": "l1/list.html"
-        },
-        {
-            "state": "push2-view",
-            "controller": "Push2ViewController",
-            "url": "push2/view/:value_id/:message_id",
-            "template": "l1/view.html"
         }
     ],
     "icons": [
@@ -36,7 +30,7 @@
         "js/factories/push2-base.js",
         "js/factories/push2.js",
         "js/controllers/push2-list.js",
-        "js/controllers/push2-view.js",
+        "js/services/push2-service.js",
         "scss/push2.scss"
     ],
     "compile": true,
