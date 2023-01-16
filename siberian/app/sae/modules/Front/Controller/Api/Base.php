@@ -400,7 +400,8 @@ class Front_Controller_Api_Base extends Front_Controller_App_Default
                     'gmapsKey' => $googleMapsKey,
                     'offlineContent' => (boolean)$application->getOfflineContent(),
                     // OneSignal section
-                    'osAppId' => $application->getOneSignalAppId(),
+                    'osAndroidAppId' => $application->getOneSignalAndroidAppId(),
+                    'osIosAppId' => $application->getOneSignalIosAppId(),
                     // OneSignal section
                     'iosStatusBarIsHidden' => (boolean)$application->getIosStatusBarIsHidden(),
                     'androidStatusBarIsHidden' => (boolean)$application->getAndroidStatusBarIsHidden(),

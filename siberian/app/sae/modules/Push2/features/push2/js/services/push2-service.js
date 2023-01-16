@@ -7,8 +7,8 @@
  */
 angular
     .module('starter')
-    .service('Push2Service', function ($cordovaLocalNotification, $location, $log, $q, $rootScope, $translate,
-                                       $injector, $window, $session, Application, Dialog, LinkService, Pages, SB) {
+    .service('Push2Service', function ($cordovaLocalNotification, $timeout, $location, $log, $q, $rootScope, $translate,
+                                       $injector, $window, $session, Application, Dialog, LinkService, Pages, Push2, SB) {
     var service = {
         appId: null,
         push: null,
@@ -31,17 +31,38 @@ angular
             },
             windows: {}
         },
-        //Push2: $injector.get('Push2')
+    };
+
+    service.onStart = function () {
+        Application.loaded.then(function () {
+            // App runtime!
+            var push2 = _.find(Pages.getActivePages(), {
+                code: 'push2'
+            });
+
+            // Module is not in the App!
+            if (!push2) {
+                return;
+            }
+
+            try {
+                $timeout(function () {
+                    service.configure(Application.application.osAppId, Application.application.pushIconcolor);
+                    service.register();
+                }, 500);
+            } catch (e) {
+                console.error('An error occured while registering device for Push.', e.message);
+            }
+        });
     };
 
     /**
-     * Configure Push Service
-     *
-     * @param appId
+     * @param androidAppId
+     * @param iosAppId
      * @param iconColor
      */
-    service.configure = function (appId, iconColor) {
-        service.appId = appId;
+    service.configure = function (androidAppId, iosAppId, iconColor) {
+        service.appId = (DEVICE_TYPE === SB.DEVICE.TYPE_IOS) ? iosAppId : androidAppId;
 
         // Validating push color!
         if (!(/^#[0-9A-F]{6}$/i).test(iconColor)) {
@@ -158,13 +179,6 @@ angular
  */
     };
 
-    /**
-     * Registration!
-     */
-    service.registerDevice = function () {
-        return service.Push2.registerPlayer();
-    };
-
     service.onNotificationReceived = function () {
         $log.info('[PUSH.onNotificationReceived]');
     };
@@ -188,7 +202,7 @@ angular
         $log.debug('-- Push-Service, sending a Local Notification --');
 
         var localMessage = angular.copy(message);
-        if (service.Push2.device_type === SB.DEVICE.TYPE_IOS) {
+        if (DEVICE_TYPE === SB.DEVICE.TYPE_IOS) {
             localMessage = '';
         }
 
@@ -199,7 +213,7 @@ angular
             text: localMessage
         };
 
-        if (service.Push2.device_type === SB.DEVICE.TYPE_ANDROID) {
+        if (DEVICE_TYPE === SB.DEVICE.TYPE_ANDROID) {
             params.smallIcon = 'res://ic_icon';
             params.icon = 'res://icon';
         }
@@ -213,8 +227,6 @@ angular
             delete x.sound;
             $cordovaLocalNotification.schedule(params);
         }
-
-        //Push2.markAsDisplayed(messageId);
     };
 
     // @deprecated

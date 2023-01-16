@@ -39,5 +39,5 @@
     "use_critical_push": true,
     "only_once": true,
     "load_on_start": true,
-    "on_start_factory": "Push2"
+    "on_start_factory": "Push2Service"
 }
