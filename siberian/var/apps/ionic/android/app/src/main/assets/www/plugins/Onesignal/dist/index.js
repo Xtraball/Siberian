@@ -83,7 +83,7 @@ var OneSignalPlugin = /** @class */ (function () {
      * @returns void
      */
     OneSignalPlugin.prototype.setNotificationOpenedHandler = function (handler) {
-        var _this = this;
+        var _this = this;json => =>
         this._notificationOpenedDelegate = handler;
         var notificationOpenedHandler = function (json) {
             _this._notificationOpenedDelegate(json);
@@ -578,7 +578,7 @@ var OneSignalPlugin = /** @class */ (function () {
         }
         window.cordova.exec(callback, function () { }, "OneSignalPush", "setExternalUserId", passToNativeParams);
     };
-    ;
+
     /**
      * Removes whatever was set as the current user's external user ID.
      * @param  {(results:object)=>void} handler
