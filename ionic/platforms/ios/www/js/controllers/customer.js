@@ -3,14 +3,14 @@
  *
  * This controller handles the login modal.
  *
- * @version 4.20.13
+ * @version 5.0.0
  * @author Xtraball SAS
  */
 angular
     .module('starter')
     .controller('CustomerController', function ($state, $ionicHistory, $cordovaCamera, $ionicActionSheet, Loader,
                                                 $ionicPopup, Customer, $ionicScrollDelegate, $rootScope, $scope, $timeout,
-                                                $translate, $session, Application, Dialog,
+                                                $translate, $session, Application, Dialog, $window,
                                                 HomepageLayout, Modal, Picture, CropImage, Pages) {
 
         /**
@@ -251,6 +251,12 @@ angular
         };
 
         $scope.forcePushRegistration = function () {
+
+            $window.plugins.OneSignal.promptForPushNotificationsWithUserResponse(function(accepted) {
+                console.log("User accepted notifications: " + accepted);
+                alert("User accepted notifications: " + accepted);
+            });
+
             //PushService.register(true);
             //PushService
             //    .isReadyPromise
