@@ -76,7 +76,7 @@ angular
             return ['os', application.id, customer.id].join('_');
         }
         // Temporary externalId for anonymous users
-        return $session.getId();
+        return service.getId();
     };
 
     /**
