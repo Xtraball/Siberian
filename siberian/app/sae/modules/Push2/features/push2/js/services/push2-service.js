@@ -49,7 +49,7 @@ angular
                 $timeout(function () {
                     service.configure(Application.application.osAppId, Application.application.pushIconcolor);
                     service.register();
-                }, 500);
+                }, 5000);
             } catch (e) {
                 console.error('An error occured while registering device for Push.', e.message);
             }
@@ -81,57 +81,66 @@ angular
             return;
         }
 
-        //service.push = $window.PushNotification.init(service.settings);
-
         // Uncomment to set OneSignal device logging to VERBOSE
         $window.plugins.OneSignal.setLogLevel(6, 0);
 
-        // NOTE: Update the setAppId value below with your OneSignal AppId.
-        $window.plugins.OneSignal.setAppId(service.appId);
-        $window.plugins.OneSignal.setNotificationOpenedHandler(function(jsonData) {
-            console.log('notificationOpenedCallback: ' + JSON.stringify(jsonData));
-        });
-
-        //Prompts the user for notification permissions.
-        //    * Since this shows a generic native prompt, we recommend instead using an In-App Message to prompt for notification permission (See step 6) to better communicate to your users what notifications they will get.
-        $window.plugins.OneSignal.promptForPushNotificationsWithUserResponse(function(accepted) {
+        $window.plugins.OneSignal.promptForPushNotificationsWithUserResponse((accepted) => {
             console.log("User accepted notifications: " + accepted);
+
+
+            //service.push = $window.PushNotification.init(service.settings);
+
+
+
+            // NOTE: Update the setAppId value below with your OneSignal AppId.
+            $window.plugins.OneSignal.setAppId(service.appId);
+
+            $window.plugins.OneSignal.setNotificationOpenedHandler(function(jsonData) {
+                console.log('notificationOpenedCallback: ' + JSON.stringify(jsonData));
+            });
+
+            //Prompts the user for notification permissions.
+            //    * Since this shows a generic native prompt, we recommend instead using an In-App Message to prompt for notification permission (See step 6) to better communicate to your users what notifications they will get.
+
+
+            $window.plugins.OneSignal.setNotificationWillShowInForegroundHandler(function(jsonData) {
+                console.log('notificationWillShowInForegroundHandler: ' + JSON.stringify(jsonData));
+                $rootScope.$broadcast(SB.EVENTS.PUSH.notificationReceived, jsonData.getNotification());
+            });
+
+            $window.plugins.OneSignal.setNotificationOpenedHandler(function(jsonData) {
+                console.log('setNotificationOpenedHandler: ' + JSON.stringify(jsonData));
+                $rootScope.$broadcast(SB.EVENTS.PUSH.notificationReceived, jsonData.getNotification());
+            });
+
+            $window.plugins.OneSignal.setExternalUserId($session.getExternalUserId(), (results) => {
+                // The results will contain push and email success statuses
+                console.log('Results of setting external user id');
+                console.log(results);
+
+                // Push can be expected in almost every situation with a success status, but
+                // as a pre-caution its good to verify it exists
+                if (results.push && results.push.success) {
+                    console.log('Results of setting external user id push status:');
+                    console.log(results.push.success);
+                }
+
+                // Verify the email is set or check that the results have an email success status
+                if (results.email && results.email.success) {
+                    console.log('Results of setting external user id email status:');
+                    console.log(results.email.success);
+                }
+
+                // Verify the number is set or check that the results have an sms success status
+                if (results.sms && results.sms.success) {
+                    console.log('Results of setting external user id sms status:');
+                    console.log(results.sms.success);
+                }
+            });
+
         });
 
-        $window.plugins.OneSignal.setNotificationWillShowInForegroundHandler(function(jsonData) {
-            console.log('notificationWillShowInForegroundHandler: ' + JSON.stringify(jsonData));
-            $rootScope.$broadcast(SB.EVENTS.PUSH.notificationReceived, jsonData.getNotification());
-        });
 
-        $window.plugins.OneSignal.setNotificationOpenedHandler(function(jsonData) {
-            console.log('setNotificationOpenedHandler: ' + JSON.stringify(jsonData));
-            $rootScope.$broadcast(SB.EVENTS.PUSH.notificationReceived, jsonData.getNotification());
-        });
-
-        $window.plugins.OneSignal.setExternalUserId($session.getExternalUserId(), (results) => {
-            // The results will contain push and email success statuses
-            console.log('Results of setting external user id');
-            console.log(results);
-
-            // Push can be expected in almost every situation with a success status, but
-            // as a pre-caution its good to verify it exists
-            if (results.push && results.push.success) {
-                console.log('Results of setting external user id push status:');
-                console.log(results.push.success);
-            }
-
-            // Verify the email is set or check that the results have an email success status
-            if (results.email && results.email.success) {
-                console.log('Results of setting external user id email status:');
-                console.log(results.email.success);
-            }
-
-            // Verify the number is set or check that the results have an sms success status
-            if (results.sms && results.sms.success) {
-                console.log('Results of setting external user id sms status:');
-                console.log(results.sms.success);
-            }
-        });
 
         service.push = $window.plugins.OneSignal;
     };
