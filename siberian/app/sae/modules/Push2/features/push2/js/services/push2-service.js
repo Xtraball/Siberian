@@ -45,9 +45,12 @@ angular
                 return;
             }
 
+            var osAppId = DEVICE_TYPE === SB.DEVICE.TYPE_IOS ?
+                Application.application.osIosAppId : Application.application.osAndroidAppId;
+
             try {
                 $timeout(function () {
-                    service.configure(Application.application.osAppId, Application.application.pushIconcolor);
+                    service.configure(osAppId, Application.application.pushIconcolor);
                     service.register();
                 }, 5000);
             } catch (e) {
