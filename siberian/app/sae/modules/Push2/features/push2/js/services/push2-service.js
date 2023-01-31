@@ -42,6 +42,7 @@ angular
 
             // Module is not in the App!
             if (!push2) {
+                console.log('Push2 not initialized, you must add the push2 feature to your application!');
                 return;
             }
 
