@@ -487,13 +487,13 @@ var IMAGE_URL = DOMAIN + '/';";
     protected function _prepareGoogleAppId()
     {
 
-        $googlekey = Push_Model_Certificate::getAndroidKey();
-
-        $googleappid = "<string name=\"google_app_id\">{$googlekey}</string>";
-
-        $replacements = ["<string name=\"google_app_id\">01234567890</string>" => $googleappid];
-
-        $this->__replace($replacements, $this->_dest_source_res . "/values/strings.xml");
+        //$googlekey = Push_Model_Certificate::getAndroidKey();
+//
+        //$googleappid = "<string name=\"google_app_id\">{$googlekey}</string>";
+//
+        //$replacements = ["<string name=\"google_app_id\">01234567890</string>" => $googleappid];
+//
+        //$this->__replace($replacements, $this->_dest_source_res . "/values/strings.xml");
     }
 
     /**

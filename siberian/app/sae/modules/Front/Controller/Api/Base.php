@@ -763,10 +763,10 @@ class Front_Controller_Api_Base extends Front_Controller_App_Default
         // Don't cache customer information!
         $pushNumber = 0;
         $deviceUid = $request->getParam('device_uid', null);
-        if (!empty($deviceUid)) {
-            $pushNumber = (new Push_Model_Message())
-                ->countByDeviceId($deviceUid);
-        }
+        //if (!empty($deviceUid)) {
+            //$pushNumber = (new Push_Model_Message())
+            //    ->countByDeviceId($deviceUid);
+        //}
         $dataHomepage['push_badge'] = $pushNumber;
 
         // Time to generate the current block!
@@ -885,30 +885,30 @@ class Front_Controller_Api_Base extends Front_Controller_App_Default
         $isLoggedIn = false;
 
         // Searching for an existing push token
-        try {
-            $deviceUid = $request->getParam('device_uid', null);
-            if (!$customerId && !empty($deviceUid)) {
-                if (strlen($deviceUid) === 36) {
-                    $device = new Push_Model_Iphone_Device();
-                    $device->find($deviceUid, 'device_uid');
-                    $customerId = $device->getCustomerId();
-                } else {
-                    $device = new Push_Model_Android_Device();
-                    $device->find($deviceUid, 'registration_id');
-                    $customerId = $device->getCustomerId();
-                }
-                if ($customerId) {
-                    $customer = new Customer_Model_Customer();
-                    $customer->find($customerId);
-                    $this
-                        ->getSession()
-                        ->resetInstance()
-                        ->setCustomer($customer);
-                }
-            }
-        } catch (\Exception $e) {
-            // Well tried!
-        }
+        ///try {
+        ///    $deviceUid = $request->getParam('device_uid', null);
+        ///    if (!$customerId && !empty($deviceUid)) {
+        ///        if (strlen($deviceUid) === 36) {
+        ///            $device = new Push_Model_Iphone_Device();
+        ///            $device->find($deviceUid, 'device_uid');
+        ///            $customerId = $device->getCustomerId();
+        ///        } else {
+        ///            $device = new Push_Model_Android_Device();
+        ///            $device->find($deviceUid, 'registration_id');
+        ///            $customerId = $device->getCustomerId();
+        ///        }
+        ///        if ($customerId) {
+        ///            $customer = new Customer_Model_Customer();
+        ///            $customer->find($customerId);
+        ///            $this
+        ///                ->getSession()
+        ///                ->resetInstance()
+        ///                ->setCustomer($customer);
+        ///        }
+        ///    }
+        ///} catch (\Exception $e) {
+        ///    // Well tried!
+        ///}
 
         // Facebook token refresh for Facebook Login!
         $this->_refreshFacebookUserToken($customer);

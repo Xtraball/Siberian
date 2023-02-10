@@ -239,7 +239,6 @@ class Application_Model_ApkQueue extends Core_Model_Default
      * Fetch builds started from more than 1 hour
      *
      * @param $current_time
-     * @return Push_Model_Message[]
      */
     public static function getStuck($current_time)
     {
