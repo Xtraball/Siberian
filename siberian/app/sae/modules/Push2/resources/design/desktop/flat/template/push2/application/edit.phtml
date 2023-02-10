@@ -1,5 +1,6 @@
 <?php
 
+use Push2\Model\Onesignal\Scheduler;
 use Siberian\Json;
 
 /**
@@ -8,9 +9,7 @@ use Siberian\Json;
 $application = $this->getApplication();
 $option = $this->getOptionValue();
 $features = $application->getOptions();
-//$messageobj = new Push_Model_Message();
-//$messageobj->setMessageTypeByOptionValue($option->getOptionId());
-//$messages = $messageobj->findAllForFeature($application->getId(), $messageobj->getMessageType());
+$now = time();
 
 $myAccount = (new Application_Model_Option())->find('tabbar_account', 'code');
 
@@ -38,6 +37,29 @@ $appKey = $application->getGooglemapsKey();
 //$enable_android = !empty($credentials->getServerKey());
 //$enable_ios = !empty(Push_Model_Certificate::getiOSCertificat($application->getId()));
 
+$scheduler = new Scheduler($application);
+/**
+ * @var $notificationSlice \onesignal\client\model\NotificationSlice
+ */
+$notificationSlice = $scheduler->fetchNotifications();
+$notifications = $notificationSlice->getNotifications();
+
+function getRates($notification): array {
+    $notification->getFailed();
+    $notification->getErrored();
+    $notification->getSuccessful();
+    $total = $notification->getFailed() + $notification->getErrored() + $notification->getSuccessful();
+    if ($total <= 0) {
+        return [0, 0];
+    }
+
+    $failed = $notification->getFailed() + $notification->getErrored();
+    $success = $notification->getSuccessful();
+    $success_rate = round(100 / $total * $success, 0);
+    $failed_rate = round(100 / $total * $failed, 0);
+
+    return [$success_rate, $failed_rate];
+}
 
 $feats = [];
 foreach ($features as $feature) {
@@ -118,15 +140,86 @@ $formSettings->setValueId($option->getId());
 
             <div id="list">
                 <h3 class="title-editor no-border-radius title-feature-indent">
-                    <?php echo __('Add content'); ?>
-                    <button type="button"
-                            id="add_item"
-                            onclick="feature.edit();"
-                            class="toggle_design color-blue pull-right bt-header-right btn">
-                        <i class="fa fa-plus"></i>
-                    </button>
+                    <?php echo p__('push2', 'Send a new push message'); ?>
                 </h3>
-                <?php echo $this->createPartialHtml('no_item', 'core_view_default', 'application/customization/features/edit/no_item.phtml'); ?>
+                <div id="push2-message"
+                     class="container-fluid first-row-feature content-feature">
+                    <?php
+                    $formPushMessage = new Push2\Form\Message();
+                    $formPushMessage->setValueId($option->getId());
+                    echo $formPushMessage;
+                    ?>
+                    <br />
+                    <br />
+                </div>
+            </div>
+
+            <div class="subcontent content-color">
+                <?php if (sizeof($notifications) > 0): ?>
+                    <div>
+                        <h3 class="title-editor no-border-radius title-feature-indent">
+                            <?php echo p__('push2', 'Message history') ?>
+                        </h3>
+                        <div class="container-fluid first-row-feature content-feature feature-manage-items">
+
+                            <div class="alert alert-info">
+                                <?php echo p__('push2', 'Only the latest 50 messages are shown below, to see more you can check your OneSignal dashboard.') ?>
+                            </div>
+
+                            <table class="table content-white-bkg sb-pager table-fields">
+                                <thead>
+                                <tr class="border-grey">
+                                    <th><?php echo p__('push2', 'Title') ?></th>
+                                    <th><?php echo p__('push2', 'Body') ?></th>
+                                    <th><?php echo p__('push2', 'Scheduled?') ?></th>
+                                    <th><?php echo p__('push2', 'Send after') ?></th>
+                                    <th><?php echo p__('push2', 'Time') ?></th>
+                                    <th><?php echo p__('push2', 'Delivery') ?></th>
+                                </tr>
+                                </thead>
+                                <tbody class="fields-sortable">
+                                <?php foreach ($notifications as $notification) : ?>
+                                    <tr id="notification_element_<?php echo $notification->getId(); ?>"
+                                        rel="<?php echo $notification->getId(); ?>">
+                                        <td>
+                                            <h5 style="font-weight: bold;"><?php echo $notification->getHeadings()->getEn() ?></h5>
+                                        </td>
+                                        <td><?php echo ellipsis($notification->getContents()->getEn(), 50) ?></td>
+                                        <td>
+                                            <?php if ($notification->getSendAfter() > $notification->getQueuedAt()) : ?>
+                                                <span class="label label-success"><?php echo p__('push2', 'Yes') ?></span>
+                                            <?php else : ?>
+                                                <span class="label label-danger"><?php echo p__('push2', 'No') ?></span>
+                                            <?php endif; ?>
+                                        </td>
+                                        <td class="moment_format" data-format="LL">
+                                            <?php echo $notification->getSendAfter(); ?>
+                                        </td>
+                                        <td>
+                                            <?php echo empty($notification->getDeliveryTimeOfDay()) ?
+                                                "-" : $notification->getDeliveryTimeOfDay(); ?>
+                                        </td>
+                                        <td>
+                                            <?php if ($notification->getSendAfter() < $now): ?>
+                                            <?php list($success_rate, $failed_rate) = getRates($notification); ?>
+                                            <div class="os-rates">
+                                                <div class="label label-success <?php if ($success_rate <= 0) { echo "hidden"; } ?>"
+                                                     style="width: <?php echo $success_rate; ?>%"><?php echo $success_rate; ?>%</div>
+                                                <div class="label label-danger <?php if ($failed_rate <= 0) { echo "hidden"; } ?>"
+                                                     style="width: <?php echo $failed_rate; ?>%"><?php echo $failed_rate; ?>%</div>
+                                            </div>
+                                            <?php else: ?>
+                                                <div class="label label-info"
+                                                     style="width: 100%; display: inline-block;"><?php echo p__('push2', 'To be sent!') ?></div>
+                                            <?php endif; ?>
+                                        </td>
+                                    </tr>
+                                <?php endforeach; ?>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                <?php endif; ?>
             </div>
         </div>
         <!-- MESSAGES -->
@@ -160,13 +253,58 @@ $formSettings->setValueId($option->getId());
 
     <script type="text/javascript">
         $(document).ready(function () {
+            bindForms('#push2-form-message');
             bindForms('#list');
             bindForms('#push2-form-settings');
             bindForms('#tab-design');
+
+            let scheduleCheckbox = $("#is_scheduled");
+            let sendAfter = $("#send_after");
+            let pickerSendAfter = $("#picker_send_after");
+            let deliveryTimeOfDay = $("#delivery_time_of_day");
+            let pickerDeliveryTimeOfDay = $("#picker_delivery_time_of_day");
+            let toggleSchedule = function () {
+                if (scheduleCheckbox.is(":checked")) {
+                    pickerSendAfter.parents(".sb-form-line").show();
+                    pickerDeliveryTimeOfDay.parents(".sb-form-line").show();
+                } else {
+                    pickerSendAfter.parents(".sb-form-line").hide();
+                    pickerDeliveryTimeOfDay.parents(".sb-form-line").hide();
+                }
+            };
+
+            scheduleCheckbox.off("click");
+            scheduleCheckbox.on("click", toggleSchedule);
+
+            toggleSchedule();
+
+            let processDates = function () {
+                $('.moment_format').each(function () {
+                    let jThis = $(this);
+                    let format = jThis.data('format');
+                    let tmp = moment(jThis.text() * 1000).format(format);
+                    jThis.text(tmp);
+                    // Removes the class to prevent multiple processing.
+                    jThis.removeClass('moment_format');
+                });
+            };
+
+            processDates();
+
+
+            pickerSendAfter.off("change");
+            pickerSendAfter.on("change", function () {
+                sendAfter.val(moment(pickerSendAfter.val() * 1).locale('en-us').format('MMM D YYYY 00:00:00 Z'));
+            });
+
+            pickerDeliveryTimeOfDay.off("change");
+            pickerDeliveryTimeOfDay.on("change", function () {
+                deliveryTimeOfDay.val(moment(pickerDeliveryTimeOfDay.val() * 1).format("HH:mm"));
+            });
         });
 
     </script>
-    <link href="/app/sae/design/desktop/flat/template/push2/application/edit.css"
+    <link href="/app/sae/modules/Push2/resources/design/desktop/flat/template/push2/application/edit.css"
           media="screen"
           rel="stylesheet"
           type="text/css">

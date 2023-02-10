@@ -36,23 +36,12 @@ angular
     service.onStart = function () {
         Application.loaded.then(function () {
             // App runtime!
-            var push2 = _.find(Pages.getActivePages(), {
-                code: 'push2'
-            });
-
-            // Module is not in the App!
-            if (!push2) {
-                console.log('Push2 not initialized, you must add the push2 feature to your application!');
-                return;
-            }
-
             try {
                 $timeout(function () {
                     service.configure(
-                        Application.application.osAndroidAppId,
-                        Application.application.osIosAppId,
+                        Application.application.osAppId,
                         Application.application.pushIconcolor);
-                    service.register();
+                    service.init();
                 }, 1000);
             } catch (e) {
                 console.error('An error occured while registering device for Push.', e.message);
@@ -61,12 +50,11 @@ angular
     };
 
     /**
-     * @param androidAppId
-     * @param iosAppId
+     * @param appId
      * @param iconColor
      */
-    service.configure = function (androidAppId, iosAppId, iconColor) {
-        service.appId = (DEVICE_TYPE === SB.DEVICE.TYPE_IOS) ? iosAppId : androidAppId;
+    service.configure = function (appId, iconColor) {
+        service.appId = appId;
 
         // Validating push color!
         if (!(/^#[0-9A-F]{6}$/i).test(iconColor)) {
@@ -98,10 +86,6 @@ angular
         $window.plugins.OneSignal.setNotificationOpenedHandler(function(jsonData) {
             console.log('notificationOpenedCallback: ' + JSON.stringify(jsonData));
         });
-
-        //Prompts the user for notification permissions.
-        //    * Since this shows a generic native prompt, we recommend instead using an In-App Message to prompt for notification permission (See step 6) to better communicate to your users what notifications they will get.
-
 
         $window.plugins.OneSignal.setNotificationWillShowInForegroundHandler(function(jsonData) {
             console.log('notificationWillShowInForegroundHandler: ' + JSON.stringify(jsonData));
@@ -136,6 +120,25 @@ angular
                 console.log('Results of setting external user id sms status:');
                 console.log(results.sms.success);
             }
+
+            $window.plugins.OneSignal.getDeviceState(function(stateChanges) {
+                console.log('OneSignal getDeviceState: ' + JSON.stringify(stateChanges));
+                Push2.registerPlayer(stateChanges);
+            });
+
+        });
+
+        // Register for push events!
+        $rootScope.$on(SB.EVENTS.PUSH.notificationReceived, function (event, data) {
+            // Refresh to prevent the need for pullToRefresh!
+            var pushFeature = _.filter(Pages.getActivePages(), function (page) {
+                return (page.code === 'push2');
+            });
+            if (pushFeature.length >= 1) {
+                Push2.setValueId(pushFeature[0].value_id);
+                Push2.findAll(0, true);
+            }
+            service.displayNotification(data);
         });
 
         service.push = $window.plugins.OneSignal;
@@ -144,44 +147,6 @@ angular
     // @deprecated
     service.isRegistered = function () {
         return $q.reject({deprecated: true});
-    };
-
-    /**
-     * Handle registration, and various push events
-     */
-    service.register = function (registerOnly) {
-        service.init();
-
-/**
-        var localRegisterOnly = (registerOnly === null) ? false : registerOnly;
-
-        service.init();
-
-        if ($rootScope.isNativeApp) {
-
-
-            if (!localRegisterOnly) {
-                service.updateUnreadCount();
-                Application.loaded.then(function () {
-                    // When Application is loaded, and push registered, look for missed push!
-                    service.fetchMessagesOnStart();
-
-                    // Register for push events!
-                    $rootScope.$on(SB.EVENTS.PUSH.notificationReceived, function (event, data) {
-                        // Refresh to prevent the need for pullToRefresh!
-                        var pushFeature = _.filter(Pages.getActivePages(), function (page) {
-                            return (page.code === 'push_notification');
-                        });
-                        if (pushFeature.length >= 1) {
-                            Push.setValueId(pushFeature[0].value_id);
-                            Push.findAll(0, true);
-                        }
-                        service.displayNotification(data);
-                    });
-                });
-            }
-        }
- */
     };
 
     service.onNotificationReceived = function () {

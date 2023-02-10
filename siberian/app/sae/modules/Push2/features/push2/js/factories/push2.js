@@ -6,7 +6,7 @@
  */
 angular
     .module('starter')
-    .factory('Push2', function (Application, Pages, $timeout, $stateParams, $pwaRequest) {
+    .factory('Push2', function (Application, Pages, $timeout, $stateParams, $pwaRequest, $session) {
 
         var factory = {
             storage: [],
@@ -23,18 +23,20 @@ angular
             return factory;
         };
 
-        factory.registerPlayer = function (player) {
+        factory.registerPlayer = function (deviceState) {
             if (!this.value_id) {
-                $pwaRequest.reject('[Factory::Push.registerPlayer] missing value_id');
+                $pwaRequest.reject('[Factory::Push2.registerPlayer] missing value_id');
             }
 
-            return $pwaRequest.post('push2/mobile_list/register-player', {
+            return $pwaRequest.post('push2/mobile_player/register', {
                 urlParams: {
                     value_id: this.value_id,
                 },
                 data: {
                     device_uid: $session.getDeviceUid(),
-                    player_id: player
+                    player_id: deviceState.userId,
+                    external_user_id: $session.getExternalUserId(),
+                    push_token: deviceState.pushToken
                 },
                 cache: false
             });
@@ -43,7 +45,7 @@ angular
         // @overview, important!
         factory.getSample = function () {
             if (!this.value_id) {
-                $pwaRequest.reject('[Factory::Push.getSample] missing value_id');
+                $pwaRequest.reject('[Factory::Push2.getSample] missing value_id');
             }
 
             return $pwaRequest.get('push2/mobile_list/get-sample', {
@@ -55,7 +57,7 @@ angular
 
         factory.findAll = function () {
             if (!this.value_id) {
-                $pwaRequest.reject('[Factory::Push.findAll] missing value_id');
+                $pwaRequest.reject('[Factory::Push2.findAll] missing value_id');
             }
 
             return $pwaRequest.get('push2/mobile_list/find-all', {

@@ -46,25 +46,23 @@ $schemas['push2_onesignal_player'] = [
             'is_unique' => false,
         ],
     ],
-    'onesignal_user_id' => [
-        'type' => 'int(11) unsigned',
-        'is_null' => true,
-        'foreign_key' => [
-            'table' => 'push_onesignal_user',
-            'column' => 'onesignal_user_id',
-            'name' => 'FK_PUSH2_ONESIGNAL_PLAYER_PUSH_ONESIGNAL_USER_ID',
-            'on_update' => 'CASCADE',
-            'on_delete' => 'CASCADE',
-        ],
-        'index' => [
-            'key_name' => 'IDX_PUSH2_ONESIGNAL_PLAYER_PUSH_ONESIGNAL_USER_ID',
-            'index_type' => 'BTREE',
-            'is_null' => true,
-            'is_unique' => false,
-        ],
-    ],
     'app_name' => [
         'type' => 'varchar(255)',
+        'charset' => 'utf8',
+        'collation' => 'utf8_unicode_ci',
+    ],
+    'player_id' => [
+        'type' => 'text',
+        'charset' => 'utf8',
+        'collation' => 'utf8_unicode_ci',
+    ],
+    'push_token' => [
+        'type' => 'text',
+        'charset' => 'utf8',
+        'collation' => 'utf8_unicode_ci',
+    ],
+    'external_user_id' => [
+        'type' => 'text',
         'charset' => 'utf8',
         'collation' => 'utf8_unicode_ci',
     ],
