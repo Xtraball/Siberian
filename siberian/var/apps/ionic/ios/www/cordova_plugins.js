@@ -381,6 +381,29 @@ cordova.define('cordova/plugin_list', function(require, exports, module) {
       ]
     },
     {
+      "id": "Onesignal.OneSignalPlugin",
+      "file": "plugins/Onesignal/dist/index.js",
+      "pluginId": "Onesignal",
+      "clobbers": [
+        "OneSignal"
+      ]
+    },
+    {
+      "id": "Onesignal.NotificationReceivedEvent",
+      "file": "plugins/Onesignal/dist/NotificationReceivedEvent.js",
+      "pluginId": "Onesignal"
+    },
+    {
+      "id": "Onesignal.Subscription",
+      "file": "plugins/Onesignal/dist/Subscription.js",
+      "pluginId": "Onesignal"
+    },
+    {
+      "id": "Onesignal.OSNotification",
+      "file": "plugins/Onesignal/dist/OSNotification.js",
+      "pluginId": "Onesignal"
+    },
+    {
       "id": "Permissions.Permissions",
       "file": "plugins/Permissions/www/permissions-dummy.js",
       "pluginId": "Permissions",
@@ -437,14 +460,6 @@ cordova.define('cordova/plugin_list', function(require, exports, module) {
       "runs": true
     },
     {
-      "id": "Push.PushNotification",
-      "file": "plugins/Push/www/push.js",
-      "pluginId": "Push",
-      "clobbers": [
-        "PushNotification"
-      ]
-    },
-    {
       "id": "WebView.webview",
       "file": "plugins/WebView/www/webViewPlugin.js",
       "pluginId": "WebView",
@@ -474,12 +489,12 @@ cordova.define('cordova/plugin_list', function(require, exports, module) {
     "MusicControls": "3.0.4",
     "MediaNative": "5.0.3",
     "Navigator": "0.1.0",
+    "Onesignal": "3.2.0",
     "Permissions": "1.0.0",
     "CorePlugin": "1.1.0",
     "Toast": "2.7.2",
-    "InAppPurchase": "10.6.1",
+    "InAppPurchase": "11.0.0",
     "IosXhr": "1.0.8",
-    "Push": "1.10.0",
     "Mediation": "1.0.0",
     "WebView": "1.0.0"
   };

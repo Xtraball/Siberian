@@ -86,6 +86,9 @@
     <feature name="Navigator">
         <param name="ios-package" value="CDVNavigator" />
     </feature>
+    <feature name="OneSignalPush">
+        <param name="ios-package" value="OneSignalPush" />
+    </feature>
     <feature name="CorePlugin">
         <param name="ios-package" value="CorePlugin" />
     </feature>
@@ -99,9 +102,6 @@
     <feature name="CDVWKWebViewFileXhr">
         <param name="ios-package" value="CDVWKWebViewFileXhr" />
         <param name="onload" value="true" />
-    </feature>
-    <feature name="PushNotification">
-        <param name="ios-package" value="PushPlugin" />
     </feature>
     <feature name="WebViewPlugin">
         <param name="ios-package" value="WebViewPlugin" />
