@@ -4,85 +4,94 @@ namespace Push2\Model\Onesignal;
 
 require_once path('/lib/onesignal/vendor/autoload.php');
 
+use Push2\Model\Onesignal\Targets\AbstractTarget;
+use Push2\Model\Onesignal\Targets\Segment;
+
+use Core_Model_Default as BaseModel;
+
 /**
  * Class Message
  * @package Push2\Model\Onesignal
+ *
+ * @method $this setTitle($title)
+ * @method $this setSubtitle($subtitle)
+ * @method $this setBody($body)
+ * @method $this setBigPicture($big_picture)
+ * @method $this setSendAfter($send_after)
+ * @method $this setDelayedOption($delayed_option)
+ * @method $this setDeliveryTimeOfDay($delivery_time_of_day)
+ * @method $this setActionUrl($action_url)
+ * @method $this setTargets($targets)
+ * @method string getTitle()
+ * @method string getSubtitle()
+ * @method string getBody()
+ * @method string getBigPicture()
+ * @method string getSendAfter()
+ * @method string getDelayedOption()
+ * @method string getDeliveryTimeOfDay()
+ * @method string getActionUrl()
+ * @method AbstractTarget[] getTargets()
  */
-class Message {
+class Message extends BaseModel {
 
     /**
      * @var string
      */
-    public $title;
+    public $_db_table = Db\Table\Message::class;
+
+    public function __construct()
+    {
+        // Default targets are all users
+        $this->addTargets(new Segment('Subscribed Users'));
+    }
 
     /**
-     * @var string
+     * @param $data
+     * @return $this
      */
-    public $message;
+    public function fromArray($data): self {
+        $this->setTitle($data['title']);
+        $this->setSubtitle($data['subtitle']);
+        $this->setBody($data['body']);
+        $this->setBigPicture($data['big_picture'] ?? null);
+        $this->setSendAfter($data['send_after'] ?? null);
+        $this->setDelayedOption($data['delayed_option'] ?? null);
+        $this->setDeliveryTimeOfDay($data['delivery_time_of_day'] ?? null);
+        $this->setActionUrl($data['action_url'] ?? null);
+
+        $this->checkSchedulingOptions();
+
+        return $this;
+    }
 
     /**
-     * @var string
+     * @return void
      */
-    public $big_picture;
+    public function checkSchedulingOptions() {
+        // send_after is the determining factor for scheduling
+        $sendAfter = $this->getSendAfter();
+        if (!empty($sendAfter)) {
+            $this->setDelayedOption('timezone');
+            if (preg_match("/^([0-1]?[0-9]|2[0-3]):[0-5][0-9]$/", $this->getDeliveryTimeOfDay()) === 0) {
+                $this->setDeliveryTimeOfDay('9:00 AM');
+            }
+        }
+    }
 
     /**
-     * @var string
+     * @return $this
      */
+    public function clearTargets(): self {
+        return $this->setTargets([]);
+    }
 
-    public $send_after;
     /**
-     * @var string
+     * @param AbstractTarget $targets
+     * @return $this
      */
-    public $action_url;
-
-    // constructor
-    public function __construct($title, $message, $big_picture, $send_after, $action_url) {
-        $this->title = $title;
-        $this->message = $message;
-        $this->big_picture = $big_picture;
-        $this->send_after = $send_after;
-        $this->action_url = $action_url;
+    public function addTargets(AbstractTarget $targets): self {
+        $newTargets = $this->getTargets();
+        $newTargets[] = $targets;
+        return $this->setTargets($newTargets);
     }
-
-    public function setTitle($title) {
-        $this->title = $title;
-    }
-
-    public function getTitle() {
-        return $this->title;
-    }
-
-    public function setMessage($message) {
-        $this->message = $message;
-    }
-
-    public function getMessage() {
-        return $this->message;
-    }
-
-    public function setBigPicture($big_picture) {
-        $this->big_picture = $big_picture;
-    }
-
-    public function getBigPicture() {
-        return $this->big_picture;
-    }
-
-
-    public function setSendAfter($send_after) {
-        $this->send_after = $send_after;
-    }
-
-    public function getSendAfter() {
-        return $this->send_after;
-    }
-
-    public function setActionUrl($action_url) {
-        $this->action_url = $action_url;
-    }
-
-    public function getActionUrl() {
-        return $this->action_url;
-    }
-
 }

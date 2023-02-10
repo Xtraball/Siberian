@@ -3,14 +3,14 @@
  *
  * This controller handles the login modal.
  *
- * @version 4.20.13
+ * @version 5.0.0
  * @author Xtraball SAS
  */
 angular
     .module('starter')
     .controller('CustomerController', function ($state, $ionicHistory, $cordovaCamera, $ionicActionSheet, Loader,
                                                 $ionicPopup, Customer, $ionicScrollDelegate, $rootScope, $scope, $timeout,
-                                                $translate, $session, Application, Dialog,
+                                                $translate, $session, Application, Dialog, $window,
                                                 HomepageLayout, Modal, Picture, CropImage, Pages) {
 
         /**
@@ -49,7 +49,7 @@ angular
             settings: {
                 //push: PushService.isEnabled,
                 push: true,
-                counter: 7,
+                counter: 3,
             },
             version: {
                 number: $translate.instant('Latest', 'customer'),
@@ -197,11 +197,11 @@ angular
 
         $scope.getPushToken = function () {
             var message = $translate.instant('Your device is not registered for Push notifications!', 'customer');
-            if (Push.lastErrorMessage !== null && Push.device_token === null) {
-                message = Push.lastErrorMessage;
-            } else if (Push.device_token !== null && Push.device_token.length > 0) {
-                message = Push.device_token;
-            }
+            //if (Push.lastErrorMessage !== null && Push.device_token === null) {
+            //    message = Push.lastErrorMessage;
+            //} else if (Push.device_token !== null && Push.device_token.length > 0) {
+            //    message = Push.device_token;
+            //}
 
             return message;
         };
@@ -226,31 +226,39 @@ angular
         };
 
         $scope.sendTestPush = function () {
-            Loader.show($translate.instant('Sending...', 'customer'));
-            Customer
-                .sendTestPush(Push.device_token)
-                .then(function (payload) {
-                    // Saved!
-                }, function (error) {
-                    // Revert!
-                }).then(function () {
-                Loader.hide();
-            });
+            Dialog.alert('N.A.', 'N.A.', 'OK');
+            //Loader.show($translate.instant('Sending...', 'customer'));
+            //Customer
+            //    .sendTestPush(Push.device_token)
+            //    .then(function (payload) {
+            //        // Saved!
+            //    }, function (error) {
+            //        // Revert!
+            //    }).then(function () {
+            //    Loader.hide();
+            //});
         };
 
         $scope.messagePushRegistration = function (success) {
-            if (Push.lastErrorMessage && Push.lastErrorMessage.length) {
-                if (success) {
-                    Push.lastErrorMessage += "<br />" +
-                        $translate.instant('Note: the registration refresh failed now, but you still have a valid push token!', 'customer');
-                }
-                Dialog.alert('Error', Push.lastErrorMessage, 'OK');
-            } else {
-                Dialog.alert('Success', 'Your are correctly registered to push!', 'OK');
-            }
+            Dialog.alert('N.A.', 'N.A.', 'OK');
+            //if (Push.lastErrorMessage && Push.lastErrorMessage.length) {
+            //    if (success) {
+            //        Push.lastErrorMessage += "<br />" +
+            //            $translate.instant('Note: the registration refresh failed now, but you still have a valid push token!', 'customer');
+            //    }
+            //    Dialog.alert('Error', Push.lastErrorMessage, 'OK');
+            //} else {
+            //    Dialog.alert('Success', 'Your are correctly registered to push!', 'OK');
+            //}
         };
 
         $scope.forcePushRegistration = function () {
+
+            $window.plugins.OneSignal.promptForPushNotificationsWithUserResponse(function(accepted) {
+                console.log("User accepted notifications: " + accepted);
+                alert("User accepted notifications: " + accepted);
+            });
+
             //PushService.register(true);
             //PushService
             //    .isReadyPromise
@@ -554,15 +562,16 @@ angular
         };
 
         $scope.copyTokenToClipboard = function () {
+            Dialog.alert('N.A.', 'N.A.', 'OK');
             // Only for native for now!
-            if (window.IS_NATIVE_APP) {
-                try {
-                    cordova.plugins.clipboard.copy(Push.device_token);
-                    window.plugins.toast.showShortCenter($translate.instant('Token copied to clipboard!', 'customer'));
-                } catch (e) {
-                    console.error('Something went wrong while copiyng token to clipboard!');
-                }
-            }
+            //if (window.IS_NATIVE_APP) {
+            //    try {
+            //        cordova.plugins.clipboard.copy(Push.device_token);
+            //        window.plugins.toast.showShortCenter($translate.instant('Token copied to clipboard!', 'customer'));
+            //    } catch (e) {
+            //        console.error('Something went wrong while copiyng token to clipboard!');
+            //    }
+            //}
         };
 
         $scope.appSettings = function () {

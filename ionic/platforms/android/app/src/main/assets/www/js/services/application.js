@@ -34,8 +34,8 @@ angular
             'places': 'Places',
             // "prestashop"                : "null",  weblink_mono, not required
             // "privacy_policy"            : "null", already loaded in loadv2
-            'push_notification': 'Push',
-            'qr_discount': 'Push',
+            //'push_notification': 'Push',
+            //'qr_discount': 'Push',
             // "radio"                     : "Radio",Removed not used anymore.
             'rss_feed': 'Rss',
             'set_meal': 'SetMeal',
@@ -63,7 +63,7 @@ angular
             'rss_feed': ['rss'],
             'set_meal': ['catalog'],
             'video_gallery': ['video'],
-            'push_notification': ['push']
+            //'push_notification': ['push']
         }
     };
 

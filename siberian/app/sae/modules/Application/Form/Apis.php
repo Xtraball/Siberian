@@ -34,26 +34,15 @@ class Application_Form_Apis extends Siberian_Form_Abstract
         self::addClass('create', $this);
 
         if ($acl->isAllowed('editor_settings_onesignal')) {
-            $this->addSimpleText('onesignal_android_app_id', __('App ID'));
-            $this->addSimpleText('onesignal_android_app_key_token', __('App key token'));
+            $this->addSimpleText('onesignal_app_id', __('App ID'));
+            $this->addSimpleText('onesignal_app_key_token', __('App key token'));
             $this->groupElements(
-                'onesignal_android',
+                'onesignal',
                 [
-                    'onesignal_android_app_id',
-                    'onesignal_android_app_key_token',
+                    'onesignal_app_id',
+                    'onesignal_app_key_token',
                 ],
-                __('OneSignal push API settings [Android]'));
-            $something = true;
-
-            $this->addSimpleText('onesignal_ios_app_id', __('App ID'));
-            $this->addSimpleText('onesignal_ios_app_key_token', __('App key token'));
-            $this->groupElements(
-                'onesignal_ios',
-                [
-                    'onesignal_ios_app_id',
-                    'onesignal_ios_app_key_token',
-                ],
-                __('OneSignal push API settings [iOS]'));
+                __('OneSignal push API settings'));
             $something = true;
         }
 

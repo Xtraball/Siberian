@@ -57,6 +57,10 @@
               "count": 1
             },
             {
+              "xml": "<meta-data android:name=\"com.onesignal.NotificationServiceExtension\" android:value=\"com.onesignal.cordova.NotificationServiceExtension\" />",
+              "count": 1
+            },
+            {
               "xml": "<service android:exported=\"false\" android:label=\"@string/app_name\" android:name=\"com.cowbell.cordova.geofence.ReceiveTransitionsIntentService\"></service>",
               "count": 1
             },
@@ -104,7 +108,19 @@
             },
             {
               "xml": "<uses-permission android:name=\"android.permission.WAKE_LOCK\" />",
+              "count": 2
+            },
+            {
+              "xml": "<uses-permission android:name=\"android.permission.INTERNET\" />",
+              "count": 2
+            },
+            {
+              "xml": "<uses-permission android:name=\"android.permission.ACCESS_NETWORK_STATE\" />",
               "count": 1
+            },
+            {
+              "xml": "<uses-permission android:name=\"android.permission.VIBRATE\" />",
+              "count": 2
             },
             {
               "xml": "<uses-permission android:name=\"android.permission.ACCESS_COARSE_LOCATION\" />",
@@ -112,14 +128,6 @@
             },
             {
               "xml": "<uses-permission android:name=\"android.permission.ACCESS_FINE_LOCATION\" />",
-              "count": 1
-            },
-            {
-              "xml": "<uses-permission android:name=\"android.permission.VIBRATE\" />",
-              "count": 1
-            },
-            {
-              "xml": "<uses-permission android:name=\"android.permission.INTERNET\" />",
               "count": 1
             }
           ],

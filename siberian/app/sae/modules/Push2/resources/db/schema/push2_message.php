@@ -60,6 +60,24 @@ $schemas['push2_message'] = [
         'type' => 'tinyint(1)',
         'default' => '0',
     ],
+    'send_after' => [
+        'type' => 'int(11) unsigned',
+        'is_null' => true,
+        // "Thu Sep 24 2015 14:00:00 GMT-0700 (PDT)"
+        // "September 24th 2015, 2:00:00 pm UTC-07:00"
+        // "2015-09-24 14:00:00 GMT-0700"
+        // "Sept 24 2015 14:00:00 GMT-0700"
+    ],
+    'delayed_option' => [
+        'type' => 'varchar(255)',
+        'is_null' => true,
+        // Examples: "timezone" works with delivery_time_of_day
+    ],
+    'delivery_time_of_day' => [
+        'type' => 'varchar(255)',
+        'is_null' => true,
+        /** Examples: "9:00AM" "21:45" "9:45:30" */
+    ],
     'value_id' => [
         'type' => 'int(11) unsigned',
         'is_null' => true,
