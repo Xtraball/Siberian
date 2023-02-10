@@ -26,5 +26,4 @@
 //
 
 #import <Cordova/CDV.h>
-#import "AMBPlugin-Bridging-Header.h"
 #import "CorePlugin-Bridging-Header.h"
