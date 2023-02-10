@@ -73,10 +73,10 @@ angular
         var customer = $injector.get('Customer');
         var application = $injector.get('Application');
         if (customer.isLoggedIn()) {
-            return ['os', application.id, customer.id].join('_');
+            return ['os', 'customer', application.id, customer.id].join('_');
         }
         // Temporary externalId for anonymous users
-        return $session.getId();
+        return ['os', 'anonymous', application.id, service.getId()].join('_');
     };
 
     /**
