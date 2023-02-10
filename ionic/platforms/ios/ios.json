@@ -9,6 +9,14 @@
         "parents": {
           "/*": [
             {
+              "xml": "<feature name=\"AdMob\"><param name=\"ios-package\" value=\"AMBPlugin\" /></feature>",
+              "count": 1
+            },
+            {
+              "xml": "<preference name=\"APP_ID_IOS\" value=\"ca-app-pub-0000000000000000~0000000000\" />",
+              "count": 1
+            },
+            {
               "xml": "<feature name=\"AppVersion\"><param name=\"ios-package\" value=\"AppVersion\" /></feature>",
               "count": 1
             },
@@ -125,6 +133,30 @@
       },
       "*-Info.plist": {
         "parents": {
+          "GADApplicationIdentifier": [
+            {
+              "xml": "<string>ca-app-pub-0000000000000000~0000000000</string>",
+              "count": 1
+            }
+          ],
+          "GADDelayAppMeasurementInit": [
+            {
+              "xml": "<true />",
+              "count": 1
+            }
+          ],
+          "NSAppTransportSecurity": [
+            {
+              "xml": "<dict><key>NSAllowsArbitraryLoads</key><true /><key>NSAllowsArbitraryLoadsForMedia</key><true /><key>NSAllowsArbitraryLoadsInWebContent</key><true /></dict>",
+              "count": 1
+            }
+          ],
+          "SKAdNetworkItems": [
+            {
+              "xml": "<array><dict><key>SKAdNetworkIdentifier</key><string>cstr6suwn9.skadnetwork</string></dict><dict><key>SKAdNetworkIdentifier</key><string>v9wttpbfk9.skadnetwork</string></dict><dict><key>SKAdNetworkIdentifier</key><string>n38lu8286q.skadnetwork</string></dict><dict><key>SKAdNetworkIdentifier</key><string>5l3tpt7t6e.skadnetwork</string></dict></array>",
+              "count": 1
+            }
+          ],
           "NSLocationWhenInUseUsageDescription": [
             {
               "xml": "<string>Use the GPS for live navigation</string>",
@@ -211,6 +243,10 @@
     "Promises": {
       "PACKAGE_NAME": "com.appsmobilecompany.base"
     },
+    "Admob": {
+      "DISABLESDKCRASHREPORTING": "false",
+      "PACKAGE_NAME": "com.appsmobilecompany.base"
+    },
     "AppVersion": {
       "PACKAGE_NAME": "com.appsmobilecompany.base"
     },
@@ -284,6 +320,9 @@
     "IosXhr": {
       "PACKAGE_NAME": "com.appsmobilecompany.base"
     },
+    "Mediation": {
+      "PACKAGE_NAME": "com.appsmobilecompany.base"
+    },
     "WebView": {
       "PACKAGE_NAME": "com.appsmobilecompany.base"
     }
@@ -295,6 +334,14 @@
       "file": "plugins/Promises/www/promise.js",
       "pluginId": "Promises",
       "runs": true
+    },
+    {
+      "id": "Admob.AdMob",
+      "file": "plugins/Admob/www/admob.js",
+      "pluginId": "Admob",
+      "clobbers": [
+        "admob"
+      ]
     },
     {
       "id": "AppVersion.AppVersionPlugin",
@@ -752,6 +799,7 @@
   ],
   "plugin_metadata": {
     "Promises": "4.2.2",
+    "Admob": "0.0.0",
     "AppVersion": "0.1.8",
     "Badge": "0.8.8",
     "BarcodeScanner": "7.1.2",
@@ -776,6 +824,7 @@
     "Toast": "2.7.2",
     "InAppPurchase": "11.0.0",
     "IosXhr": "1.0.8",
+    "Mediation": "1.0.0",
     "WebView": "1.0.0"
   }
 }
