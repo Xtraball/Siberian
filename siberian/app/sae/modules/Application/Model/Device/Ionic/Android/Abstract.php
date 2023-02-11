@@ -62,8 +62,11 @@ abstract class Application_Model_Device_Ionic_Android_Abstract extends Applicati
 
             $this->_dest_source_res . '/drawable/icon.png' => $appIcon96,
             $this->_dest_source_res . '/drawable/ic_icon.png' => $pushIcon,
+            $this->_dest_source_res . '/drawable/ic_stat_onesignal_default.png' => $pushIcon,
             $this->_dest_source_res . '/drawable-hdpi/ic_icon.png' => $pushIcon,
+            $this->_dest_source_res . '/drawable-hdpi/ic_stat_onesignal_default.png' => $pushIcon,
             $this->_dest_source_res . '/drawable-xxxhdpi/ic_icon.png' => $pushIcon,
+            $this->_dest_source_res . '/drawable-xxxhdpi/ic_stat_onesignal_default.png' => $pushIcon,
 
             $this->_dest_source . '/app/src/main/assets/www/img/app_icon.png' => $appIcon192,
         ];

@@ -116,6 +116,10 @@ let debug = true,
         'privacy_policy': [
             './www/js/controllers/privacy-policy.js'
         ],
+        // DUMMY DEPRECATED PUSH
+        'push': [
+            './www/js/controllers/push.js'
+        ],
         'rss': [
             './www/js/controllers/rss.js',
             './www/js/factory/rss.js'
@@ -197,6 +201,8 @@ let debug = true,
                 './www/js/factory/pages.js',
                 './www/js/factory/tc.js',
                 './www/js/factory/cms.js',
+                './www/js/factory/push.js',// DUMMY DEPRECATED PUSH
+                './www/js/controllers/push.js',// DUMMY DEPRECATED PUSH
                 './www/js/factory/search.js',
                 './www/js/controllers/customer.js',
                 './www/js/factory/customer.js',

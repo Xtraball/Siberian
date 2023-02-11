@@ -5,6 +5,7 @@ namespace Push2;
 use onesignal\client\ApiException;
 use Push2\Form\Settings;
 use Push2\Form\Message;
+use Push2\Model\Onesignal\Player;
 use Push2\Model\Onesignal\Scheduler;
 use Siberian\Json;
 use \Application_Controller_Default as ControllerDefault;
@@ -34,11 +35,11 @@ class ApplicationController extends ControllerDefault
             $values = $request->getPost();
 
             if (!$optionValue->getId()) {
-                throw new \Exception(p__('push', "This feature doesn't exists!"));
+                throw new \Exception(p__('push2', "This feature doesn't exists!"));
             }
 
             if (empty($values)) {
-                throw new \Exception(p__('push', 'Values are required!'));
+                throw new \Exception(p__('push2', 'Values are required!'));
             }
 
             $form = new Message();
@@ -49,7 +50,7 @@ class ApplicationController extends ControllerDefault
 
                 $payload = [
                     'success' => true,
-                    'message' => p__('push', 'Push sent'),
+                    'message' => p__('push2', 'Push sent'),
                 ];
             } else {
                 $payload = [
@@ -82,11 +83,11 @@ class ApplicationController extends ControllerDefault
             $values = $request->getPost();
 
             if (!$optionValue->getId()) {
-                throw new \Exception(p__('push', "This feature doesn't exists!"));
+                throw new \Exception(p__('push2', "This feature doesn't exists!"));
             }
 
             if (empty($values)) {
-                throw new \Exception(p__('push', 'Values are required!'));
+                throw new \Exception(p__('push2', 'Values are required!'));
             }
 
             $form = new Settings();
@@ -109,7 +110,7 @@ class ApplicationController extends ControllerDefault
 
                 $payload = [
                     'success' => true,
-                    'message' => p__('push', 'Settings saved'),
+                    'message' => p__('push2', 'Settings saved'),
                 ];
             } else {
                 $payload = [
@@ -118,6 +119,52 @@ class ApplicationController extends ControllerDefault
                     'errors' => $form->getTextErrors(true)
                 ];
             }
+        } catch (\Exception $e) {
+            $payload = [
+                'error' => true,
+                'message' => $e->getMessage(),
+            ];
+        }
+
+        $this->_sendJson($payload);
+    }
+
+    public function importDevicesAction() {
+        try {
+            $request = $this->getRequest();
+            $appId = $request->getParam('app_id', null);
+            $application = (new \Application_Model_Application())->find($appId);
+
+            if (!$application || !$application->getId()) {
+                throw new \Exception(p__('push2', "This application doesn't exists!"));
+            }
+
+            $osAppId = $application->getOnesignalAppId();
+            $osAppKeyToken = $application->getOnesignalAppKeyToken();
+            if (empty($osAppId) || empty($osAppKeyToken)) {
+                throw new \Exception(p__('push2', "This application doesn't have OneSignal configured!"));
+            }
+
+            $db = \Zend_Registry::get("db");
+            $androidDevices = $db->select()
+                ->from('push_gcm_devices', ['app_id', 'app_name', 'customer_id', 'device_uid', 'registration_id'])
+                ->where('app_id = ?', $application->getId())
+                ->query()
+                ->fetchAll();
+
+            $iosDevices = $db->select()
+                ->from('push_apns_devices', ['app_id', 'app_name', 'customer_id', 'device_uid', 'device_token', 'device_name', 'device_model', 'device_version'])
+                ->where('app_id = ?', $application->getId())
+                ->query()
+                ->fetchAll();
+
+            $scheduler = new Scheduler($application);
+            $counter = $scheduler->importDevices($androidDevices, $iosDevices);
+
+            $payload = [
+                'success' => true,
+                'message' => p__('push2', sprintf('%d device%s imported and/or updated', $counter, $counter > 1 ? 's' : '')),
+            ];
         } catch (\Exception $e) {
             $payload = [
                 'error' => true,

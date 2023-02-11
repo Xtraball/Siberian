@@ -43,6 +43,12 @@ class Scheduler {
         return $this->message;
     }
 
+    public function importDevices($androidDevices, $iosDevices) {
+        $notification = new \Push2\Model\Onesignal\Notification(
+            $this->application->getOnesignalAppId(), $this->application->getOnesignalAppKeyToken());
+        return $notification->importDevices($androidDevices, $iosDevices);
+    }
+
     public function fetchNotifications() {
         $notification = new \Push2\Model\Onesignal\Notification(
             $this->application->getOnesignalAppId(), $this->application->getOnesignalAppKeyToken());
@@ -57,6 +63,12 @@ class Scheduler {
 
         $notif = new Notification($appId, $appKeyToken);
         $notif->regularPush($this->message);
-        $notif->sendNotification();
+        $result = $notif->sendNotification();
+
+        // Persist the message in DB
+        $this->message->save();
+
+        // return result
+        return $result;
     }
 }

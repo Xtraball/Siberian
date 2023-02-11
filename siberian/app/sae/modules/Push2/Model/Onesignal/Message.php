@@ -51,7 +51,7 @@ class Message extends BaseModel {
      */
     public function fromArray($data): self {
         $this->setTitle($data['title']);
-        $this->setSubtitle($data['subtitle']);
+        $this->setSubtitle($data['subtitle'] ?? null);
         $this->setBody($data['body']);
         $this->setBigPicture($data['big_picture'] ?? null);
         $this->setSendAfter($data['send_after'] ?? null);

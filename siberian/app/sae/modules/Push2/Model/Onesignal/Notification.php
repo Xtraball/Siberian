@@ -93,8 +93,6 @@ class Notification {
         $this->notification->setDelayedOption($message->getDelayedOption());
         $this->notification->setDeliveryTimeOfDay($message->getDeliveryTimeOfDay());
 
-        dbg($this->notification);
-
         // Cover image, if exists!
         //$coverUrl = $message->getCoverUrl();
         //if (!preg_match("#^https?://#", $coverUrl)) {
@@ -226,6 +224,58 @@ class Notification {
                     break;
             }
         }
+    }
+
+    public function importDevices($androidDevices, $iosDevices) {
+
+        $counter = 0;
+        foreach ($androidDevices as $androidDevice) {
+            try {
+                $player = new \onesignal\client\model\Player();
+                $player->setAppId($this->APP_ID);
+                $player->setDeviceType(1);
+                $player->setIdentifier($androidDevice['registration_id']);
+                $player->setNotificationTypes(1);
+                if (!empty($androidDevice['customer_id'])) {
+                    $external_user_id = implode( '_', ['os', 'customer', $androidDevice['app_id'], $androidDevice['customer_id']]);
+                    $player->setExternalUserId($external_user_id);
+                } else {
+                    $external_user_id = implode( '_', ['os', 'anonymous', $androidDevice['app_id'], $androidDevice['device_uid']]);
+                    $player->setExternalUserId($external_user_id);
+                }
+
+                $this->apiInstance->createPlayer($player);
+                $counter++;
+            } catch (\Exception $e) {
+                // continue
+            }
+        }
+
+        foreach ($iosDevices as $iosDevice) {
+            try {
+                $player = new \onesignal\client\model\Player();
+                $player->setAppId($this->APP_ID);
+                $player->setDeviceType(0);
+                $player->setIdentifier($iosDevice['device_token']);
+                $player->setDeviceModel($iosDevice['device_model']);
+                $player->setDeviceOs($iosDevice['device_version']);
+                $player->setNotificationTypes(1);
+                if (!empty($iosDevice['customer_id'])) {
+                    $external_user_id = implode( '_', ['os', 'customer', $iosDevice['app_id'], $iosDevice['customer_id']]);
+                    $player->setExternalUserId($external_user_id);
+                } else {
+                    $external_user_id = implode( '_', ['os', 'anonymous', $iosDevice['app_id'], $iosDevice['device_uid']]);
+                    $player->setExternalUserId($external_user_id);
+                }
+
+                $this->apiInstance->createPlayer($player);
+                $counter++;
+            } catch (\Exception $e) {
+                // continue
+            }
+        }
+
+        return $counter;
     }
 
     /**

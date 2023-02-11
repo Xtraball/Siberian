@@ -37,12 +37,17 @@ $appKey = $application->getGooglemapsKey();
 //$enable_android = !empty($credentials->getServerKey());
 //$enable_ios = !empty(Push_Model_Certificate::getiOSCertificat($application->getId()));
 
-$scheduler = new Scheduler($application);
-/**
- * @var $notificationSlice \onesignal\client\model\NotificationSlice
- */
-$notificationSlice = $scheduler->fetchNotifications();
-$notifications = $notificationSlice->getNotifications();
+try {
+    $scheduler = new Scheduler($application);
+    /**
+     * @var $notificationSlice \onesignal\client\model\NotificationSlice
+     */
+    $notificationSlice = $scheduler->fetchNotifications();
+    $notifications = $notificationSlice->getNotifications();
+} catch (\Exception $e) {
+    $notifications = [];
+}
+
 
 function getRates($notification): array {
     $notification->getFailed();
@@ -144,6 +149,11 @@ $formSettings->setValueId($option->getId());
                 </h3>
                 <div id="push2-message"
                      class="container-fluid first-row-feature content-feature">
+
+                    <div class="alert alert-info">
+                        <?php echo p__('push2', 'Notice: Individual push notifications are not yet available!') ?>
+                    </div>
+
                     <?php
                     $formPushMessage = new Push2\Form\Message();
                     $formPushMessage->setValueId($option->getId());

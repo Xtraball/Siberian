@@ -9,6 +9,8 @@ use Core_Model_Default as BaseModel;
 /**
  * Class Message
  * @package Push2\Model\Onesignal
+ *
+ * @method Db\Table\Player getTable()
  */
 class Player extends BaseModel
 {
