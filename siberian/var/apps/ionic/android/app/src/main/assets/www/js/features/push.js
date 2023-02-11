@@ -1,0 +1,2 @@
+// DUMMY DEPRECATED
+angular.module('starter').config(function ($stateProvider) {$stateProvider.state('push-list', {url: BASE_PATH + '/push/mobile_list/index/value_id/:value_id', controller: 'NotSupportedController', templateUrl: 'templates/error/feature-removed.html', cache: false});});

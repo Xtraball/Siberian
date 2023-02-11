@@ -58,7 +58,7 @@ angular
     /**
      * @returns string|false
      */
-    service.getId = function () {
+    service.getId = function () {OWNlM2FiYjktMzhmMC00Y2IzLTg1YTktNzFlOTA0ZTExMmM1
         if ((service.session_id === 'undefined') ||
             (service.session_id === undefined) ||
             (service.session_id === 'null') ||

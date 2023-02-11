@@ -1,0 +1,80 @@
+<ion-view sb-page-background
+          class="module-push push-list push-list-l1">
+
+    <ion-nav-title>{{ page_title }}</ion-nav-title>
+
+    <ion-content>
+        <div class="loader"
+             ng-show="is_loading">
+            <ion-spinner class="spinner-custom"></ion-spinner>
+        </div>
+
+        <ion-refresher ng-if="use_pull_refresh"
+                       class="spinner-custom"
+                       pulling-text="{{ ::'Pull to refresh...' | translate }}"
+                       on-refresh="pullToRefresh()">
+        </ion-refresher>
+
+        <ion-list ng-if="collection.length">
+            <div ng-class="{'card': card_design}"
+                 ng-repeat="item in collection">
+                <ion-item class="item-custom"
+                          ng-click="showItem(item)"
+                          ng-class="{ 'item-avatar item-avatar-square': item.icon }">
+                    <img ng-src="{{ item.icon }}"
+                         alt="{{ item.icon }}"
+                         style="border-radius: 3px;"
+                         ng-if="item.icon" />
+                    <h2>
+                        <span>{{ item.title ? item.title : item.author }}</span>
+                        <span ng-click="deletePush(item)"
+                              style="float: right;"
+                              class="super-click assertive">
+                            <i class="icon ion-android-delete"></i>
+                        </span>
+                    </h2>
+                    <p ng-if="item.subtitle">{{ item.subtitle }}</p>
+                    <p ng-if="item.message"
+                       ng-bind-html="item.message"
+                       class="text-no-wrap"></p>
+
+                    <div>
+                        <img ng-src="{{ item.picture }}"
+                             alt="{{ item.picture }}"
+                             style="width: 100%; height: auto;"
+                             ng-if="item.picture" />
+                        <p class="padding text-right"
+                           ng-if="item.details">
+                            <span ng-if="item.details.date">
+                                <i class="ion-ios-calendar-outline"></i>
+                                <span ng-if="!item.details.date.mt_text">{{ item.details.date.text }}</span>
+                                <span ng-if="item.details.date.mt_text">{{ item.details.date.mt_text | moment_calendar }}</span>
+                            </span>
+                            <span ng-if="hasItem(item)">
+                                <i class="ion-link"></i>
+                                <span>{{ ::'More' | translate:'push' }}</span>
+                            </span>
+                        </p>
+                        <div class="clear"></div>
+                    </div>
+                </ion-item>
+
+            </div>
+        </ion-list>
+
+        <ion-list ng-class="{'card' : card_design}"
+                  ng-if="!is_loading && !collection.length">
+            <ion-item class="item-custom text-center">
+                {{ ::'No items found' | translate:'push' }}
+            </ion-item>
+        </ion-list>
+
+        <ion-infinite-scroll ng-if="load_more"
+                             on-infinite="loadMore()"
+                             immediate-check="false"
+                             distance="10%"
+                             class="spinner-custom">
+        </ion-infinite-scroll>
+
+    </ion-content>
+</ion-view>
