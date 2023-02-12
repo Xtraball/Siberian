@@ -540,16 +540,21 @@ var handleDatetimePicker = function (default_parent) {
             if (momentFormat === undefined) {
                 momentFormat = "LLL";
             }
+            let dateFormat = el.data("date-format");
+            if (dateFormat === undefined) {
+                dateFormat = "@";
+            }
             let type = el.data("datetimepicker-v2");
             let options = {
                 showOn: "button",
                 buttonText: "-",
-                dateFormat: "@",
+                dateFormat: dateFormat,
                 timestampOnly: true,
                 hour: tmpDate.getHours(),
                 minute: tmpDate.getMinutes(),
                 onSelect: function () {
                     $(visualField).text(moment(el.val() * 1).format(momentFormat));
+                    el.trigger("change");
                 }
             };
 

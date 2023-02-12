@@ -907,7 +907,7 @@ function strong_password(string $password, int $min_length = 9): bool
     $uppercase = preg_match('@[A-Z]@', $password);
     $lowercase = preg_match('@[a-z]@', $password);
     $number = preg_match('@[0-9]@', $password);
-    $specialChars = preg_match('@[^\w]@', $password);
+    $specialChars = preg_match('@[^\w]|_@', $password);
 
     if (!$uppercase || !$lowercase || !$number || !$specialChars || strlen($password) < $min_length) {
         return false;

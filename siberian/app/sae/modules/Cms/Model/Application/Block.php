@@ -41,7 +41,7 @@ class Cms_Model_Application_Block extends Core_Model_Default
     }
 
     /**
-     * @return bool|Push_Model_Message[]
+     * @return bool
      */
     public function getLibrary()
     {

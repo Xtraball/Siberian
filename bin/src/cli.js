@@ -587,16 +587,18 @@ let rebuild = function (platform, copy, prepare, skipRebuild) {
                     // Edit AndroidManifest.xml
                     // android:screenOrientation="unspecified" > <activity
 
-                    var gradleArgs = 'cdvBuildDebug -x=:app:processDebugGoogleServices';
-                    if (type === '--release') {
-                        gradleArgs = 'cdvBuildRelease -x=:app:processReleaseGoogleServices';
-                    }
+                    var gradleArgs = '';
+                    //var gradleArgs = 'cdvBuildDebug -x=:app:processDebugGoogleServices';
+                    //if (type === '--release') {
+                    //    gradleArgs = 'cdvBuildRelease -x=:app:processReleaseGoogleServices';
+                    //}
 
                     // org.gradle.jvmargs=-Xmx1536M
-                    var cordovaGradleArgs = '--debug --gradleArg=-x=:app:processDebugGoogleServices';
-                    if (type === '--release') {
-                        cordovaGradleArgs = '--debug --gradleArg=-x=:app:processReleaseGoogleServices';
-                    }
+                    var cordovaGradleArgs = '';
+                    //var cordovaGradleArgs = '--debug --gradleArg=-x=:app:processDebugGoogleServices';
+                    //if (type === '--release') {
+                    //    cordovaGradleArgs = '--debug --gradleArg=-x=:app:processReleaseGoogleServices';
+                    //}
 
                     sprint('cordova ' + silent + ' build ' + type + ' ' + platform + ' -- ' + cordovaGradleArgs);
                     sh.exec('cordova ' + silent + ' build ' + type + ' ' + platform + ' -- ' + cordovaGradleArgs);

@@ -1,0 +1,43 @@
+{
+    "name": "Push v2",
+    "code": "push2",
+    "version": "1.0.0",
+    "category": "social",
+    "model": "Push2_Model_Push",
+    "desktop_uri": "push2/application/",
+    "routes": [
+        {
+            "root": true,
+            "state": "push2-list",
+            "controller": "Push2ListController",
+            "url": "push2/list/:value_id",
+            "template": "l1/list.html"
+        }
+    ],
+    "icons": [
+        {
+            "path": "icons/02-onesignal.png",
+            "keywords": "push,message,notification,onesignal",
+            "colorize": true
+        },
+        {
+            "path": "icons/01-onesignal.png",
+            "keywords": "push,message,notification,onesignal",
+            "colorize": false
+        }
+    ],
+    "files": [
+        "js/factories/push2-base.js",
+        "js/factories/push2.js",
+        "js/controllers/push2-list.js",
+        "js/services/push2-service.js",
+        "scss/push2.scss"
+    ],
+    "compile": true,
+    "use_account": true,
+    "use_mobile": true,
+    "use_critical_push": true,
+    "only_once": true,
+    "load_on_start": true,
+    "on_start_factory": "Push2Service"
+}

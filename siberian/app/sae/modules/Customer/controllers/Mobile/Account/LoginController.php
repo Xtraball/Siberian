@@ -163,7 +163,7 @@ class Customer_Mobile_Account_LoginController extends Application_Controller_Mob
         ]);
 
         /** Unlink from individual push */
-        if (Push_Model_Message::hasIndividualPush()) {
+        /**if (Push_Model_Message::hasIndividualPush()) {
 
             $deviceIos = (new Push_Model_Iphone_Device())->findAll([
                 'customer_id = ?' => $customerId,
@@ -186,7 +186,7 @@ class Customer_Mobile_Account_LoginController extends Application_Controller_Mob
                     ->setCustomerId(null)
                     ->save();
             }
-        }
+        }*/
 
         // Remove session_uuid from customer
         $customer = (new Customer_Model_Customer())->find($customerId);

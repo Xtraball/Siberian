@@ -204,28 +204,6 @@ $backofficeTree = [
                 'url' => $this->getUrl("api/backoffice_key_list"),
                 'icon' => 'fa fa-key',
             ],
-            'push' => [
-                'hasChilds' => true,
-                'isVisible' => true,
-                'label' => __('Push'),
-                'icon' => 'fa fa-comment-o',
-                'childs' => [
-                    'configuration' => [
-                        'hasChilds' => false,
-                        'isVisible' => true,
-                        'label' => __('Configuration'),
-                        'url' => $this->getUrl("push/backoffice_certificate"),
-                        'icon' => 'fa fa-sliders',
-                    ],
-                    'global' => [
-                        'hasChilds' => false,
-                        'isVisible' => true,
-                        'label' => __('Global push'),
-                        'url' => $this->getUrl("push/backoffice_global"),
-                        'icon' => 'fa fa-globe',
-                    ],
-                ],
-            ],
             'sales' => [
                 'hasChilds' => true,
                 'isVisible' => $this->isPe(),

@@ -471,13 +471,15 @@
         pointer-events: none;
         z-index: 10;
     }
-    .categories_list li div.button_handler.active:after, .categories_list li div.button_handler:hover:after {
+    .categories_list li div.button_handler.active:after,
+    .categories_list li div.button_handler:hover:after {
         border-color: rgba(136, 183, 213, 0);
         border-left-color: #1397C8;
-        border-width: 18px;
         top: 50%;
-        margin-top: -18px;
+        border-width: 21px;
         z-index: 10;
+        border-radius: 50px;
+        transform: rotate(180deg) translate(35px, 21px);
     }
 
     .categories_list li div.button_handler:hover {

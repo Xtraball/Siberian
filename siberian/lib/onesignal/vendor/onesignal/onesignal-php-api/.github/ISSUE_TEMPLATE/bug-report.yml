@@ -1,0 +1,51 @@
+name: 🪳 Bug report
+description: File a bug report
+title: "[Bug]: "
+labels: ["bug", "triage"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Thanks for taking the time to fill out this bug report!
+  - type: textarea
+    id: what-happened
+    attributes:
+      label: What happened?
+      description: Provide a thorough description of whats going on.
+      placeholder: The latest version of the API library throws an exception when creating a notification targetting all Active Users.
+    validations:
+      required: true
+  - type: textarea
+    id: reproduction-steps
+    attributes:
+      label: Steps to reproduce?
+      description: Provide as much detail as posible to reproduce the issue.
+      placeholder: |
+        1. Install vX.Y.Z of dependency
+        2. Run provided code snippet
+        3. Note that the app crashes
+      render: Markdown
+    validations:
+      required: true
+  - type: textarea
+    id: what-are-expectations
+    attributes:
+      label: What did you expect to happen?
+      description: Also tell us, what did you expect to happen?
+      placeholder: I expected the API library to properly deserialize any response returned by OneSignal.
+    validations:
+      required: true
+  - type: textarea
+    id: logs
+    attributes:
+      label: Relevant log output
+      description: Please copy and paste any relevant log output. This will be automatically formatted into code, so no need for backticks.
+      render: Shell
+  - type: checkboxes
+    id: terms
+    attributes:
+      label: Code of Conduct
+      description: By submitting this issue, you agree to follow our [Code of Conduct](https://github.com/OneSignal/api/blob/main/CONTRIBUTING.md)
+      options:
+        - label: I agree to follow this project's Code of Conduct
+          required: true

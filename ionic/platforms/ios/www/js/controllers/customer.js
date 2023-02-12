@@ -3,15 +3,15 @@
  *
  * This controller handles the login modal.
  *
- * @version 4.20.13
+ * @version 5.0.0
  * @author Xtraball SAS
  */
 angular
     .module('starter')
     .controller('CustomerController', function ($state, $ionicHistory, $cordovaCamera, $ionicActionSheet, Loader,
                                                 $ionicPopup, Customer, $ionicScrollDelegate, $rootScope, $scope, $timeout,
-                                                $translate, $session, Application, Dialog,
-                                                HomepageLayout, Modal, Picture, CropImage, Pages, Push, PushService) {
+                                                $translate, $session, Application, Dialog, $window,
+                                                HomepageLayout, Modal, Picture, CropImage, Pages) {
 
         /**
          * Clears out the customer object!
@@ -47,8 +47,10 @@ angular
                 }
             },
             settings: {
-                push: PushService.isEnabled,
-                counter: 7,
+                //push: PushService.isEnabled,
+                push: true,
+                counter: 3,
+                push_token: $translate.instant('Your device is not registered for Push notifications!', 'customer'),
             },
             version: {
                 number: $translate.instant('Latest', 'customer'),
@@ -78,6 +80,15 @@ angular
             });
 
         if (window.IS_NATIVE_APP) {
+
+            try {
+                $window.plugins.OneSignal.getDeviceState(function(stateChanges) {
+                    $scope.settings.push_token = stateChanges.pushToken;
+                });
+            } catch (e) {
+                // Nope
+            }
+
             try {
                 cordova.getAppVersion.getVersionNumber(function (versionNumber) {
                     $scope.version.number = versionNumber;
@@ -194,17 +205,6 @@ angular
             return window.AVAILABLE_LANGUAGES;
         };
 
-        $scope.getPushToken = function () {
-            var message = $translate.instant('Your device is not registered for Push notifications!', 'customer');
-            if (Push.lastErrorMessage !== null && Push.device_token === null) {
-                message = Push.lastErrorMessage;
-            } else if (Push.device_token !== null && Push.device_token.length > 0) {
-                message = Push.device_token;
-            }
-
-            return message;
-        };
-
         $scope.devCounter = function () {
             if (window.IS_NATIVE_APP) {
                 try {
@@ -226,45 +226,55 @@ angular
 
         $scope.sendTestPush = function () {
             Loader.show($translate.instant('Sending...', 'customer'));
-            Customer
-                .sendTestPush(Push.device_token)
-                .then(function (payload) {
-                    // Saved!
-                }, function (error) {
-                    // Revert!
-                }).then(function () {
-                Loader.hide();
+            $window.plugins.OneSignal.getDeviceState(function(stateChanges) {
+                Customer
+                    .sendTestPush(stateChanges.userId)
+                    .then(function (payload) {
+                        // Saved!
+                    }, function (error) {
+                        // Revert!
+                    }).then(function () {
+                        Loader.hide();
+                    });
             });
+
         };
 
         $scope.messagePushRegistration = function (success) {
-            if (Push.lastErrorMessage && Push.lastErrorMessage.length) {
-                if (success) {
-                    Push.lastErrorMessage += "<br />" +
-                        $translate.instant('Note: the registration refresh failed now, but you still have a valid push token!', 'customer');
-                }
-                Dialog.alert('Error', Push.lastErrorMessage, 'OK');
-            } else {
-                Dialog.alert('Success', 'Your are correctly registered to push!', 'OK');
-            }
+            Dialog.alert('N.A.', 'N.A.', 'OK');
+            //if (Push.lastErrorMessage && Push.lastErrorMessage.length) {
+            //    if (success) {
+            //        Push.lastErrorMessage += "<br />" +
+            //            $translate.instant('Note: the registration refresh failed now, but you still have a valid push token!', 'customer');
+            //    }
+            //    Dialog.alert('Error', Push.lastErrorMessage, 'OK');
+            //} else {
+            //    Dialog.alert('Success', 'Your are correctly registered to push!', 'OK');
+            //}
         };
 
         $scope.forcePushRegistration = function () {
-            PushService.register(true);
-            PushService
-                .isReadyPromise
-                .then(function () {
-                    $scope.messagePushRegistration(true);
-                }, function () {
-                    $scope.messagePushRegistration(false);
-                });
+
+            $window.plugins.OneSignal.promptForPushNotificationsWithUserResponse(function(accepted) {
+                console.log("User accepted notifications: " + accepted);
+                alert("User accepted notifications: " + accepted);
+            });
+
+            //PushService.register(true);
+            //PushService
+            //    .isReadyPromise
+            //    .then(function () {
+            //        $scope.messagePushRegistration(true);
+            //    }, function () {
+            //        $scope.messagePushRegistration(false);
+            //    });
         };
 
         $scope.sendTestLocal = function () {
-            PushService.sendLocalNotification(
-                Date.now(),
-                $translate.instant('Local notification', 'customer'),
-                $translate.instant('This is a local notification test!', 'customer'));
+            //PushService.sendLocalNotification(
+            //    Date.now(),
+            //    $translate.instant('Local notification', 'customer'),
+            //    $translate.instant('This is a local notification test!', 'customer'));
         };
 
         $scope.updateSettings = function () {
@@ -272,12 +282,14 @@ angular
             Customer
                 .saveSettings($scope.settings)
                 .then(function (payload) {
-                    // Saved!
+                    // Saved! and update local cache
+                    //PushService.isEnabled = $scope.settings.push;
                 }, function (error) {
                     // Revert!
+                    $scope.settings.push = !$scope.settings.push;
                 }).then(function () {
-                Loader.hide();
-            });
+                    Loader.hide();
+                });
         };
 
         $scope.reloadLocale = function (select) {
@@ -554,10 +566,10 @@ angular
             // Only for native for now!
             if (window.IS_NATIVE_APP) {
                 try {
-                    cordova.plugins.clipboard.copy(Push.device_token);
+                    cordova.plugins.clipboard.copy($scope.settings.push_token);
                     window.plugins.toast.showShortCenter($translate.instant('Token copied to clipboard!', 'customer'));
                 } catch (e) {
-                    console.error('Something went wrong while copiyng token to clipboard!');
+                    console.error('Something went wrong while copying token to clipboard!');
                 }
             }
         };
@@ -614,10 +626,18 @@ angular
             if ($scope.myAccount.settings.use_mobile ||
                 $scope.myAccount.settings.extra_mobile) {
 
+                let defaultFallbackLanguage = CURRENT_LANGUAGE;
                 Customer
                     .getIpInfo()
                     .then(function (payload) {
-                        Customer.initIti('customer_mobile', payload.country);
+
+                        if (payload &&
+                            payload.hasOwnProperty('country') &&
+                            payload.country.length > 1) {
+                            Customer.initIti('customer_mobile', payload.country);
+                        } else {
+                            Customer.initIti('customer_mobile', defaultFallbackLanguage);
+                        }
                     }, function (error) {
                         Customer.initIti('customer_mobile', CURRENT_LANGUAGE);
                     });

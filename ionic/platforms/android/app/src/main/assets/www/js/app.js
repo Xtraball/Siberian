@@ -166,7 +166,7 @@ var App = angular.module('starter', ['ionic', 'lodash', 'ngRoute', 'ngCordova', 
                    $ionicScrollDelegate, $ionicSlideBoxDelegate, $location, $log, $ocLazyLoad, $pwaRequest, $q,
                    $rootScope, $session, $state, $templateCache, $timeout, $translate, $window, AdmobService,
                    Analytics, Application, Customer, Codescan, Dialog, Padlock,
-                   Pages, Push, PushService, SB, InAppLinks) {
+                   Pages, SB, InAppLinks) {
 
         // $rootScope object!
         angular.extend($rootScope, {
@@ -688,16 +688,6 @@ var App = angular.module('starter', ['ionic', 'lodash', 'ngRoute', 'ngCordova', 
                                 $window.webview.close();
                             });
                         } else {
-                            // Configuring PushService & skip if this is a preview.
-                            try {
-                                $timeout(function () {
-                                    PushService.configure(load.application.fcmSenderID, load.application.pushIconcolor);
-                                    PushService.register();
-                                }, 500);
-                            } catch (e) {
-                                console.error('An error occured while registering device for Push.', e.message);
-                            }
-
                             // Saving shared device path, path is unique on every device*
                             try {
                                 var sharedCdvModulePath = null;

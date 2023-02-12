@@ -242,10 +242,10 @@ angular
             });
         };
 
-        factory.sendTestPush = function (deviceToken) {
-            return $pwaRequest.post('customer/mobile_account_edit/send-test-push', {
+        factory.sendTestPush = function (playerId) {
+            return $pwaRequest.post('push2/mobile_player/test-push', {
                 data: {
-                    deviceToken: deviceToken
+                    playerId: playerId
                 },
                 cache: false
             });

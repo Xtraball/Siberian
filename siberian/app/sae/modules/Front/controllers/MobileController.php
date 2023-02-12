@@ -127,7 +127,7 @@ class Front_MobileController extends Application_Controller_Mobile_Default
                         "id" => empty($application->getFacebookId()) ? null : $application->getFacebookId(),
                         "scope" => Customer_Model_Customer_Type_Facebook::getScope()
                     ],
-                    "gcm_senderid" => Push_Model_Certificate::getAndroidSenderId(),
+                    //"gcm_senderid" => Push_Model_Certificate::getAndroidSenderId(),
                     "gcm_iconcolor" => $icon_color,
                     "googlemaps_key" => $googlemaps_key,
                     "offline_content" => (boolean)$application->getOfflineContent(),
@@ -377,10 +377,10 @@ class Front_MobileController extends Application_Controller_Mobile_Default
 
         /** Don't cache customer */
         $push_number = 0;
-        if ($device_uid = $this->getRequest()->getParam("device_uid")) {
-            $message = new Push_Model_Message();
-            $push_number = $message->countByDeviceId($device_uid);
-        }
+        //if ($device_uid = $this->getRequest()->getParam("device_uid")) {
+        //    $message = new Push_Model_Message();
+        //    $push_number = $message->countByDeviceId($device_uid);
+        //}
         $data_homepage["push_badge"] = $push_number;
         /** ========== !Homepage, Layout, Features ========== */
 
@@ -586,7 +586,7 @@ class Front_MobileController extends Application_Controller_Mobile_Default
                         "id" => $application->getFacebookId(),
                         "scope" => Customer_Model_Customer_Type_Facebook::getScope()
                     ],
-                    "gcm_senderid" => Push_Model_Certificate::getAndroidSenderId(),
+                    //"gcm_senderid" => Push_Model_Certificate::getAndroidSenderId(),
                     "gcm_iconcolor" => $icon_color,
                     "googlemaps_key" => $googlemaps_key,
                     "offline_content" => !!$application->getOfflineContent(),
@@ -791,10 +791,10 @@ class Front_MobileController extends Application_Controller_Mobile_Default
 
         /** Don't cache customer */
         $push_number = 0;
-        if ($device_uid = $this->getRequest()->getParam("device_uid")) {
-            $message = new Push_Model_Message();
-            $push_number = $message->countByDeviceId($device_uid);
-        }
+        //if ($device_uid = $this->getRequest()->getParam("device_uid")) {
+        //    $message = new Push_Model_Message();
+        //    $push_number = $message->countByDeviceId($device_uid);
+        //}
         $data_homepage["push_badge"] = $push_number;
         /** ========== !Homepage, Layout, Features ========== */
 
@@ -1037,7 +1037,7 @@ class Front_MobileController extends Application_Controller_Mobile_Default
                         "id" => $application->getFacebookId(),
                         "scope" => Customer_Model_Customer_Type_Facebook::getScope()
                     ],
-                    "gcm_senderid" => Push_Model_Certificate::getAndroidSenderId(),
+                    //"gcm_senderid" => Push_Model_Certificate::getAndroidSenderId(),
                     "gcm_iconcolor" => $icon_color,
                     "googlemaps_key" => $googlemaps_key,
                     "offline_content" => ($application->getOfflineContent() == 1),

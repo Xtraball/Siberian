@@ -80,6 +80,10 @@
       "version": "latest",
       "variables": {}
     },
+    "Onesignal": {
+      "version": "latest",
+      "variables": {}
+    },
     "Permissions": {
       "version": "latest",
       "variables": {}
@@ -99,12 +103,6 @@
     },
     "IosXhr": {
       "version": "latest"
-    },
-    "Push": {
-      "version": "latest",
-      "variables": {
-        "SENDER_ID": "01234567890"
-      }
     },
     "Mediation": {
       "version": "latest",
@@ -134,12 +132,6 @@
     "SunmiPrinter": {
       "version": "latest",
       "variables": {}
-    },
-    "Push": {
-      "version": "latest",
-      "variables": {
-        "SENDER_ID": "01234567890"
-      }
     },
     "Mediation": {
       "version": "latest",

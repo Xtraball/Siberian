@@ -831,6 +831,7 @@ div.messages ul.message li {
     padding-bottom: 5px;
     padding-top: 15px;
     text-transform: uppercase;
+    border-radius: 4px 4px 0 0;
 }
 
 .border-red {
@@ -838,7 +839,7 @@ div.messages ul.message li {
 }
 
 .border-yellow {
-    border-bottom: 4px solid #FFD64B;
+    border-bottom: 4px solid #D5640A;
 }
 
 .border-blue {

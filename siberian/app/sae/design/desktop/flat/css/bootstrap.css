@@ -4442,7 +4442,7 @@ fieldset[disabled] .navbar-inverse .btn-link:focus {
     text-align: center;
     white-space: nowrap;
     vertical-align: baseline;
-    border-radius: .25em;
+    border-radius: 10px;
 }
 a.label:hover,
 a.label:focus {
@@ -4607,7 +4607,7 @@ a.thumbnail.active {
     margin-bottom: 20px;
     border: 1px solid transparent;
     border-bottom: 3px solid transparent;
-    border-radius: 2px;
+    border-radius: 4px;
     letter-spacing: 1.2px;
 }
 .alert h4 {

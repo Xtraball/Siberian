@@ -1,0 +1,33 @@
+{
+    "name": "onesignal/onesignal-php-api",
+    "version": "1.0.0",
+    "description": "A powerful way to send personalized messages at scale and build effective customer engagement strategies. Learn more at onesignal.com",
+    "keywords": [
+        "onesignal",
+        "php",
+        "sdk",
+        "rest",
+        "api"
+    ],
+    "homepage": "https://onesignal.com",
+    "authors": [
+        {
+            "name": "OneSignal developers",
+            "homepage": "https://onesignal.com"
+        }
+    ],
+    "require": {
+        "php": "^7.3 || ^8.0",
+        "ext-curl": "*",
+        "ext-json": "*",
+        "ext-mbstring": "*",
+        "guzzlehttp/guzzle": "^7.3",
+        "guzzlehttp/psr7": "^1.7 || ^2.0"
+    },
+    "require-dev": {
+        "friendsofphp/php-cs-fixer": "^3.5"
+    },
+    "autoload": {
+        "psr-4": { "onesignal\\client\\" : "lib/" }
+    }
+}

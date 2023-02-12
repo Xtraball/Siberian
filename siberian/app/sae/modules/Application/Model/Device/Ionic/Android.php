@@ -460,16 +460,17 @@ var IMAGE_URL = DOMAIN + '/';";
      */
     protected function _copyGoogleService()
     {
-        $credentials = (new Push_Model_Firebase())
-            ->find(0, 'admin_id');
-
-        $googleService = json_decode($credentials->getGoogleService(), true);
-
-        $googleService['client'][0]['client_info']['android_client_info']['package_name'] = $this->_package_name;
-
-        $jsonConfig = json_encode($googleService, JSON_PRETTY_PRINT | JSON_UNESCAPED_SLASHES);
-
-        File::putContents($this->_dest_source . '/app/google-services.json', $jsonConfig);
+        // @deprecated onesignal
+        //$credentials = (new Push_Model_Firebase())
+        //    ->find(0, 'admin_id');
+//
+        //$googleService = json_decode($credentials->getGoogleService(), true);
+//
+        //$googleService['client'][0]['client_info']['android_client_info']['package_name'] = $this->_package_name;
+//
+        //$jsonConfig = json_encode($googleService, JSON_PRETTY_PRINT | JSON_UNESCAPED_SLASHES);
+//
+        //File::putContents($this->_dest_source . '/app/google-services.json', $jsonConfig);
     }
 
     /**
@@ -486,13 +487,13 @@ var IMAGE_URL = DOMAIN + '/';";
     protected function _prepareGoogleAppId()
     {
 
-        $googlekey = Push_Model_Certificate::getAndroidKey();
-
-        $googleappid = "<string name=\"google_app_id\">{$googlekey}</string>";
-
-        $replacements = ["<string name=\"google_app_id\">01234567890</string>" => $googleappid];
-
-        $this->__replace($replacements, $this->_dest_source_res . "/values/strings.xml");
+        //$googlekey = Push_Model_Certificate::getAndroidKey();
+//
+        //$googleappid = "<string name=\"google_app_id\">{$googlekey}</string>";
+//
+        //$replacements = ["<string name=\"google_app_id\">01234567890</string>" => $googleappid];
+//
+        //$this->__replace($replacements, $this->_dest_source_res . "/values/strings.xml");
     }
 
     /**
