@@ -242,14 +242,14 @@ angular
             });
         };
 
-        //factory.sendTestPush = function (deviceToken) {
-        //    return $pwaRequest.post('customer/mobile_account_edit/send-test-push', {
-        //        data: {
-        //            deviceToken: deviceToken
-        //        },
-        //        cache: false
-        //    });
-        //};
+        factory.sendTestPush = function (playerId) {
+            return $pwaRequest.post('push2/mobile_player/test-push', {
+                data: {
+                    playerId: playerId
+                },
+                cache: false
+            });
+        };
 
         factory.forgottenpassword = function (email) {
             Loader.show();
