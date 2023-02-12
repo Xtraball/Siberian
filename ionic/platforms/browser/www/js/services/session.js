@@ -69,14 +69,13 @@ angular
         return service.session_id;
     };
 
-    service.getExternalUserId = function () {
+    service.getExternalUserId = function (appId) {
         var customer = $injector.get('Customer');
-        var application = $injector.get('Application');
         if (customer.isLoggedIn()) {
-            return ['os', 'customer', application.id, customer.id].join('_');
+            return ['os', 'customer', appId, customer.id].join('_');
         }
         // Temporary externalId for anonymous users
-        return ['os', 'anonymous', application.id, service.getId()].join('_');
+        return ['os', 'anonymous', appId, service.getId()].join('_');
     };
 
     /**

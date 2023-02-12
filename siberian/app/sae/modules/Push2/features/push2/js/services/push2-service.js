@@ -97,7 +97,7 @@ angular
             $rootScope.$broadcast(SB.EVENTS.PUSH.notificationReceived, jsonData.getNotification());
         });
 
-        $window.plugins.OneSignal.setExternalUserId($session.getExternalUserId(), (results) => {
+        $window.plugins.OneSignal.setExternalUserId($session.getExternalUserId(Application.id), (results) => {
             // The results will contain push and email success statuses
             console.log('Results of setting external user id');
             console.log(results);
