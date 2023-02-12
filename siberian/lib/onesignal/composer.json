@@ -1,0 +1,13 @@
+{
+  "name": "xtraball/onesignal",
+  "license": "OSL-3.0",
+  "repositories": [
+    {
+      "type": "vcs",
+      "url": "https://github.com/OneSignal/onesignal-php-api.git"
+    }
+  ],
+  "require": {
+    "onesignal/onesignal-php-api": "*@dev"
+  }
+}

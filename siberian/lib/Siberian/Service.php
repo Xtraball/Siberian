@@ -4,8 +4,6 @@ namespace Siberian;
 
 use Cron_Model_Cron;
 use Application_Model_Queue;
-use Push_Model_Message;
-use Application_Model_Tools;
 use Api_Model_User;
 
 /**
@@ -30,19 +28,12 @@ class Service
                 "cron" => Cron_Model_Cron::isRunning(),
                 "cron_error" => Cron_Model_Cron::getLastError(),
                 "average_build_time" => Application_Model_Queue::getBuildTime(),
-                "push" => Push_Model_Message::getStatistics(),
             ];
         } catch (\Exception $e) {
             $services = [
                 "cron" => false,
                 "cron_error" => false,
                 "average_build_time" => 0,
-                "push" => [
-                    "total" => 0,
-                    "queued" => 0,
-                    "success" => 0,
-                    "failed" => 0,
-                ],
             ];
         }
 

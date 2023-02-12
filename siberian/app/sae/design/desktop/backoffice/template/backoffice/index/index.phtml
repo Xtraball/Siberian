@@ -39,12 +39,6 @@ if ($umfNnumeric < 100) {
     $systemError = true;
 }
 
-$curlHttp2 = Push_Model_Certificate::testHttp2();
-$curlHttp2Message = $curlHttp2['message'];
-if (!$curlHttp2['success']) {
-    $systemError = true;
-}
-
 $exec = function_exists('exec');
 if (!$exec) {
     $systemError = true;
@@ -78,21 +72,6 @@ if (array_key_exists(Version::VERSION, $updates)) {
     $current = $updates[Version::VERSION];
     $isUnstable = ('unstable' === strtolower($current['status']));
     $statusText = $current['statusText'];
-}
-
-// google-services.json verification
-$firebaseCredential = (new Push_Model_Firebase())->find(1);
-$showFirebaseNotice = false;
-if ($firebaseCredential && $firebaseCredential->getId()) {
-    try {
-        $googleServices = Json::decode($firebaseCredential->getGoogleService());
-        $services = $googleServices['client'][0]['services']['appinvite_service'];
-        if (empty($services['other_platform_oauth_client'])) {
-            $showFirebaseNotice = true;
-        }
-    } catch (\Exception $e) {
-        $showFirebaseNotice = false;
-    }
 }
 
 ?>
@@ -134,15 +113,6 @@ if ($firebaseCredential && $firebaseCredential->getId()) {
                 <a style="letter-spacing: 2px;"
                    href="https://updates02.siberiancms.com/release-notes/all/index.php"
                    target="_blank"><?php echo p__('backoffice', 'Release notes'); ?></a>
-            </div>
-        <?php endif; ?>
-
-        <?php if ($showFirebaseNotice): ?>
-            <div class="alert alert-danger">
-                <?php echo p__('backoffice', 'Your android push/firebase configuration file %s is outdated and require an upgrade, please upload it again!', '<code style="border-radius: 3px !important;">google-services.json</code>'); ?>
-                :
-                <a href="/push/backoffice_certificate"
-                   style="letter-spacing: 2px;"><?php echo p__('backoffice', 'Upload a new one') ?></a>
             </div>
         <?php endif; ?>
 
@@ -400,47 +370,9 @@ if ($firebaseCredential && $firebaseCredential->getId()) {
                     <td>
                         <table ng-show="services.cron"
                                class="sub-table">
-                            <col width="50%"/>
-                            <col width="0"/>
-                            <col width="40%"/>
                             <tbody>
                             <tr>
-                                <td><i class="fa fa-paper-plane"></i><?php echo __("Push messages:") ?></td>
-                                <td></td>
-                                <td class="text-right">{{ services.push.total }}</td>
-                            </tr>
-                            <tr>
-                                <td class="indent"><?php echo __("Queued") ?></td>
-                                <td></td>
-                                <td class="text-right">{{ services.push.queued }}</td>
-                            </tr>
-                            <tr>
-                                <td class="indent"><?php echo __("Success") ?></td>
-                                <td></td>
-                                <td class="text-right">{{ services.push.success }}</td>
-                            </tr>
-                            <tr>
-                                <td class="indent"><?php echo __("Failed") ?></td>
-                                <td></td>
-                                <td class="text-right">{{ services.push.failed }}</td>
-                            </tr>
-                            <tr ng-class="{ 'no-border-bottom': !services.cron_error.full }">
-                                <td class="extensions">
-                                            <span class="group">
-                                                <i class="fa fa-gears"></i><?php echo __("Average build time in seconds:") ?>
-                                            </span>
-                                    <span class="group">
-                                                <?php echo __("[Sources]") ?> {{ services.average_build_time.source }}
-                                            </span>
-                                    <span class="group">
-                                                <?php echo __("[APK]") ?> {{ services.average_build_time.apk }}
-                                            </span>
-                                    <span class="group">
-                                                <?php echo __("[Global]") ?> {{ services.average_build_time.global }}
-                                            </span>
-                                </td>
-                                <td></td>
-                                <td class="text-right">
+                                <td colspan="3">
                                     <button class="btn btn-xs btn-primary"
                                             ng-click="clear('locks', '<?php echo addcslashes(__("You are about to clean all the cron lock files !\nAre you sure ?"), "'"); ?>');"><?php echo __("Remove locks") ?></button>
                                 </td>
@@ -448,7 +380,8 @@ if ($firebaseCredential && $firebaseCredential->getId()) {
                             <tr ng-show="services.cron_error.full"
                                 ng-class="{ 'no-border-bottom': !cron_error_show }">
                                 <td><i class="fa fa-exclamation-triangle"></i><?php echo __("Last cron error") ?>
-                                    :[<strong>{{ services.cron_error.date }}</strong>] <span class="service-red"> {{ services.cron_error.short }}</span>
+                                    :[<strong>{{ services.cron_error.date }}</strong>] <span
+                                            class="service-red"> {{ services.cron_error.short }}</span>
                                 </td>
                                 <td></td>
                                 <td class="text-right">
@@ -638,17 +571,11 @@ if ($firebaseCredential && $firebaseCredential->getId()) {
                                 <td>
                                     <?php echo __("Total usage:") ?>
                                 </td>
-                                <td>
+                                <td colspan="2">
                                     {{ server_usage.total }}
                                 </td>
-                                <td class="text-right">
-                                    <button class="btn btn-xs btn-primary" ng-hide="show_more_size"
-                                            ng-click="show_more_size = !show_more_size;"><?php echo __("Show more") ?></button>
-                                    <button class="btn btn-xs btn-primary" ng-hide="!show_more_size"
-                                            ng-click="show_more_size = !show_more_size;"><?php echo __("Hide") ?></button>
-                                </td>
                             </tr>
-                            <tr ng-hide="!show_more_size">
+                            <tr>
                                 <td class="indent"><?php echo __("Log (var/log, log files)") ?></td>
                                 <td>{{ server_usage.log_size }}</td>
                                 <td class="text-right">
@@ -656,7 +583,7 @@ if ($firebaseCredential && $firebaseCredential->getId()) {
                                             ng-click="clear('log', '<?php echo addcslashes(__("You are about to clean all your log files !\nAre you sure ?"), "'"); ?>');"><?php echo __("Clear") ?></button>
                                 </td>
                             </tr>
-                            <tr ng-hide="!show_more_size">
+                            <tr>
                                 <td class="indent"><?php echo __("Cache (var/cache, system cache)") ?></td>
                                 <td>{{ server_usage.cache_size }}</td>
                                 <td class="text-right">
@@ -664,7 +591,7 @@ if ($firebaseCredential && $firebaseCredential->getId()) {
                                             ng-click="clear('cache');"><?php echo __("Clear") ?></button>
                                 </td>
                             </tr>
-                            <tr ng-hide="!show_more_size">
+                            <tr>
                                 <td class="indent"><?php echo __("Cache (var/cache_images, images cache)") ?></td>
                                 <td>{{ server_usage.cache_images_size }}</td>
                                 <td class="text-right">
@@ -672,7 +599,7 @@ if ($firebaseCredential && $firebaseCredential->getId()) {
                                             ng-click="clear('cache_images');"><?php echo __("Clear") ?></button>
                                 </td>
                             </tr>
-                            <tr ng-hide="!show_more_size">
+                            <tr>
                                 <td class="indent"><?php echo __("Temp (var/tmp, application sources)") ?></td>
                                 <td>{{ server_usage.tmp_size }}</td>
                                 <td class="text-right">
@@ -680,7 +607,7 @@ if ($firebaseCredential && $firebaseCredential->getId()) {
                                             ng-click="clear('tmp', '<?php echo addcslashes(__("You are about to wipe all your temporary files, this includes the generated sources builds !\nAre you sure ?"), "'"); ?>');"><?php echo __("Clear") ?></button>
                                 </td>
                             </tr>
-                            <tr ng-hide="!show_more_size">
+                            <tr>
                                 <td class="indent"><?php echo __("Applications/Previewer manifest for automatic updates.") ?></td>
                                 <td>-</td>
                                 <td class="text-right">

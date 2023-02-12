@@ -113,6 +113,10 @@ $resource_data = [
                         "label" => "Access the Twitter tab",
                         "url" => "application/settings_twitter/*"
                     ], [
+                        "code" => "editor_settings_onesignal",
+                        "label" => "Access the Onesignal tab",
+                        "url" => "application/settings_onesignal/*"
+                    ], [
                         "code" => "editor_settings_advanced",
                         "label" => "Access the Advanced tab",
                         "url" => "application/settings_advanced/*"

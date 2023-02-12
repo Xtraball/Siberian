@@ -9,6 +9,14 @@
         "parents": {
           "/*": [
             {
+              "xml": "<feature name=\"AdMob\"><param name=\"ios-package\" value=\"AMBPlugin\" /></feature>",
+              "count": 1
+            },
+            {
+              "xml": "<preference name=\"APP_ID_IOS\" value=\"ca-app-pub-0000000000000000~0000000000\" />",
+              "count": 1
+            },
+            {
               "xml": "<feature name=\"AppVersion\"><param name=\"ios-package\" value=\"AppVersion\" /></feature>",
               "count": 1
             },
@@ -97,6 +105,10 @@
               "count": 1
             },
             {
+              "xml": "<feature name=\"OneSignalPush\"><param name=\"ios-package\" value=\"OneSignalPush\" /></feature>",
+              "count": 1
+            },
+            {
               "xml": "<feature name=\"CorePlugin\"><param name=\"ios-package\" value=\"CorePlugin\" /></feature>",
               "count": 1
             },
@@ -113,10 +125,6 @@
               "count": 1
             },
             {
-              "xml": "<feature name=\"PushNotification\"><param name=\"ios-package\" value=\"PushPlugin\" /></feature>",
-              "count": 1
-            },
-            {
               "xml": "<feature name=\"WebViewPlugin\"><param name=\"ios-package\" value=\"WebViewPlugin\" /></feature>",
               "count": 1
             }
@@ -125,6 +133,30 @@
       },
       "*-Info.plist": {
         "parents": {
+          "GADApplicationIdentifier": [
+            {
+              "xml": "<string>ca-app-pub-0000000000000000~0000000000</string>",
+              "count": 1
+            }
+          ],
+          "GADDelayAppMeasurementInit": [
+            {
+              "xml": "<true />",
+              "count": 1
+            }
+          ],
+          "NSAppTransportSecurity": [
+            {
+              "xml": "<dict><key>NSAllowsArbitraryLoads</key><true /><key>NSAllowsArbitraryLoadsForMedia</key><true /><key>NSAllowsArbitraryLoadsInWebContent</key><true /></dict>",
+              "count": 1
+            }
+          ],
+          "SKAdNetworkItems": [
+            {
+              "xml": "<array><dict><key>SKAdNetworkIdentifier</key><string>cstr6suwn9.skadnetwork</string></dict><dict><key>SKAdNetworkIdentifier</key><string>v9wttpbfk9.skadnetwork</string></dict><dict><key>SKAdNetworkIdentifier</key><string>n38lu8286q.skadnetwork</string></dict><dict><key>SKAdNetworkIdentifier</key><string>5l3tpt7t6e.skadnetwork</string></dict></array>",
+              "count": 1
+            }
+          ],
           "NSLocationWhenInUseUsageDescription": [
             {
               "xml": "<string>Use the GPS for live navigation</string>",
@@ -139,11 +171,11 @@
           ],
           "UIBackgroundModes": [
             {
-              "xml": "<array><string>audio</string></array>",
+              "xml": "<array><string>remote-notification</string></array>",
               "count": 1
             },
             {
-              "xml": "<array><string>remote-notification</string></array>",
+              "xml": "<array><string>audio</string></array>",
               "count": 1
             }
           ],
@@ -211,6 +243,10 @@
     "Promises": {
       "PACKAGE_NAME": "com.appsmobilecompany.base"
     },
+    "Admob": {
+      "DISABLESDKCRASHREPORTING": "false",
+      "PACKAGE_NAME": "com.appsmobilecompany.base"
+    },
     "AppVersion": {
       "PACKAGE_NAME": "com.appsmobilecompany.base"
     },
@@ -266,6 +302,9 @@
     "Navigator": {
       "PACKAGE_NAME": "com.appsmobilecompany.base"
     },
+    "Onesignal": {
+      "PACKAGE_NAME": "com.appsmobilecompany.base"
+    },
     "Permissions": {
       "PACKAGE_NAME": "com.appsmobilecompany.base"
     },
@@ -281,7 +320,7 @@
     "IosXhr": {
       "PACKAGE_NAME": "com.appsmobilecompany.base"
     },
-    "Push": {
+    "Mediation": {
       "PACKAGE_NAME": "com.appsmobilecompany.base"
     },
     "WebView": {
@@ -295,6 +334,14 @@
       "file": "plugins/Promises/www/promise.js",
       "pluginId": "Promises",
       "runs": true
+    },
+    {
+      "id": "Admob.AdMob",
+      "file": "plugins/Admob/www/admob.js",
+      "pluginId": "Admob",
+      "clobbers": [
+        "admob"
+      ]
     },
     {
       "id": "AppVersion.AppVersionPlugin",
@@ -663,6 +710,29 @@
       ]
     },
     {
+      "id": "Onesignal.OneSignalPlugin",
+      "file": "plugins/Onesignal/dist/index.js",
+      "pluginId": "Onesignal",
+      "clobbers": [
+        "OneSignal"
+      ]
+    },
+    {
+      "id": "Onesignal.NotificationReceivedEvent",
+      "file": "plugins/Onesignal/dist/NotificationReceivedEvent.js",
+      "pluginId": "Onesignal"
+    },
+    {
+      "id": "Onesignal.Subscription",
+      "file": "plugins/Onesignal/dist/Subscription.js",
+      "pluginId": "Onesignal"
+    },
+    {
+      "id": "Onesignal.OSNotification",
+      "file": "plugins/Onesignal/dist/OSNotification.js",
+      "pluginId": "Onesignal"
+    },
+    {
       "id": "Permissions.Permissions",
       "file": "plugins/Permissions/www/permissions-dummy.js",
       "pluginId": "Permissions",
@@ -719,14 +789,6 @@
       "runs": true
     },
     {
-      "id": "Push.PushNotification",
-      "file": "plugins/Push/www/push.js",
-      "pluginId": "Push",
-      "clobbers": [
-        "PushNotification"
-      ]
-    },
-    {
       "id": "WebView.webview",
       "file": "plugins/WebView/www/webViewPlugin.js",
       "pluginId": "WebView",
@@ -737,6 +799,7 @@
   ],
   "plugin_metadata": {
     "Promises": "4.2.2",
+    "Admob": "0.0.0",
     "AppVersion": "0.1.8",
     "Badge": "0.8.8",
     "BarcodeScanner": "7.1.2",
@@ -755,12 +818,13 @@
     "MusicControls": "3.0.4",
     "MediaNative": "5.0.3",
     "Navigator": "0.1.0",
+    "Onesignal": "3.2.0",
     "Permissions": "1.0.0",
     "CorePlugin": "1.1.0",
     "Toast": "2.7.2",
-    "InAppPurchase": "10.6.1",
+    "InAppPurchase": "11.0.0",
     "IosXhr": "1.0.8",
-    "Push": "1.10.0",
+    "Mediation": "1.0.0",
     "WebView": "1.0.0"
   }
 }

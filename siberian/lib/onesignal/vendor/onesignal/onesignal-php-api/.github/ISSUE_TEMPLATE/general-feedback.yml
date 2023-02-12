@@ -1,0 +1,25 @@
+name: 📣 General feedback
+description: Tell us what's on your mind
+title: "[Bug]: "
+labels: ["triage"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Thanks for sharing your valuable feedback!
+  - type: textarea
+    id: feedback
+    attributes:
+      label: What's on your mind?
+      description: Feedback regarding this API library.
+      placeholder: Share your feedback...
+    validations:
+      required: true
+  - type: checkboxes
+    id: terms
+    attributes:
+      label: Code of Conduct
+      description: By submitting this issue, you agree to follow our [Code of Conduct](https://github.com/OneSignal/api/blob/main/CONTRIBUTING.md)
+      options:
+        - label: I agree to follow this project's Code of Conduct
+          required: true

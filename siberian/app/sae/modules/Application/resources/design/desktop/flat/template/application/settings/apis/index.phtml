@@ -18,7 +18,7 @@
     $appData = $application->getData();
     $appData["openweathermap_key"] = $appData["owm_key"];
 
-    $form->localInit();
+    $form->localInit($application);
     $form->populate($appData);
 ?>
 <div class="row">
@@ -41,6 +41,46 @@
 
     $(document).ready(function(){
         bindForms('#apis_content');
+
+
+        let importOlderDevices = $("#import-older-devices");
+
+        importOlderDevices.off("click");
+        importOlderDevices.on("click", function () {
+            swal({
+                html: true,
+                title: '<?php echo __js("Import devices", "'") ?>',
+                text: '<?php echo __js("<b>Import older devices to OneSignal</b><br />You can redo the import anytime, devices tokens will not be duplicated if they are already present<br />Are you sure?", "'") ?>',
+                showCancelButton: true,
+                closeOnConfirm: false,
+                closeOnCancel: true,
+                confirmButtonColor: '#349400',
+                confirmButtonText: '<?php echo __js("Yes, import", "'") ?>',
+                cancelButtonText: '<?php echo __js("No, go back!", "'") ?>',
+            }, function (value) {
+                if (value === false) {
+                    return;
+                }
+
+                formget(
+                    "/push2/application/import-devices",
+                    {
+                        'app_id': <?php echo $application->getId(); ?>
+                    },
+                    function (data) {
+                        // Success!
+                        feature_form_success(data.message);
+                    },
+                    function (data) {
+                        let dataJson = JSON.parse(data.responseText);
+                        feature_form_error(dataJson.message);
+                    });
+
+                swal.close();
+                return true;
+            });
+
+        });
     });
 
 </script>

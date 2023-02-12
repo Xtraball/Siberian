@@ -1,4 +1,4 @@
-#!/usr/bin/php7.3
+#!/usr/bin/php
 <?php
 
 /**
@@ -95,7 +95,7 @@ $config = new Zend_Config($application->getOptions(), true);
 Zend_Registry::set('config', $config);
 Zend_Registry::set('_config', $_config);
 
-session_cache_limiter(false);
+//session_cache_limiter(false);
 
 $application->bootstrap();
 

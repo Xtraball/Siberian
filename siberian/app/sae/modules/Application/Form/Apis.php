@@ -21,7 +21,7 @@ class Application_Form_Apis extends Siberian_Form_Abstract
     /**
      * @throws Zend_Form_Exception
      */
-    public function localInit()
+    public function localInit($application)
     {
         $something = false;
 
@@ -32,6 +32,59 @@ class Application_Form_Apis extends Siberian_Form_Abstract
         $acl = Core_View_Default::_sGetAcl();
 
         self::addClass('create', $this);
+
+        if ($acl->isAllowed('editor_settings_onesignal')) {
+
+            // FALLBACK IMPORT OLDER TOKENS
+            $db = \Zend_Registry::get("db");
+            $androidDevices = $db->select()
+                ->from('push_gcm_devices', ['app_id', 'app_name', 'customer_id', 'device_uid', 'registration_id'])
+                ->where('app_id = ?', $application->getId())
+                ->query()
+                ->fetchAll();
+
+            $iosDevices = $db->select()
+                ->from('push_apns_devices', ['app_id', 'app_name', 'customer_id', 'device_uid', 'device_token', 'device_name', 'device_model', 'device_version'])
+                ->where('app_id = ?', $application->getId())
+                ->query()
+                ->fetchAll();
+
+            $countAndroid = count($androidDevices);
+            $countIos = count($iosDevices);
+
+            $this->addSimpleText('onesignal_app_id', __('App ID'));
+            $this->addSimpleText('onesignal_app_key_token', __('App key token'));
+
+            $importText = __('Import older devices');
+            $importTextcount = sprintf(__('You have %s Android devices and %s iOS devices to import.'), $countAndroid, $countIos);
+            $importDevicesHtml = <<<HTML
+                <div class="col-md-12">
+                    <div class="alert alert-info">
+                        <p>
+                            <strong>$importText</strong>
+                        </p>
+                        <p>$importTextcount</p>
+                    </div>
+                    <p>
+                        <a href="javascript:void(0)" 
+                           id="import-older-devices" 
+                           class="btn default_button color-blue">$importText</a>
+                    </p>
+                </div>
+HTML;
+
+
+            $this->addSimpleHtml('onesignal_import_button', $importDevicesHtml);
+            $this->groupElements(
+                'onesignal',
+                [
+                    'onesignal_app_id',
+                    'onesignal_app_key_token',
+                    'onesignal_import_button',
+                ],
+                __('OneSignal push API settings'));
+            $something = true;
+        }
 
         if ($acl->isAllowed('editor_settings_twitter')) {
             $this->addSimpleText('twitter_consumer_key', __('Twitter consumer key'));

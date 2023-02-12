@@ -77,6 +77,10 @@
     <preference name="KeyboardResizeMode" value="native" />
     <preference name="deployment-target" value="11.0" />
     <preference name="WKWebViewOnly" value="true" />
+    <feature name="AdMob">
+        <param name="ios-package" value="AMBPlugin" />
+    </feature>
+    <preference name="APP_ID_IOS" value="ca-app-pub-0000000000000000~0000000000" />
     <feature name="AppVersion">
         <param name="ios-package" value="AppVersion" />
     </feature>
@@ -139,6 +143,9 @@
     <feature name="Navigator">
         <param name="ios-package" value="CDVNavigator" />
     </feature>
+    <feature name="OneSignalPush">
+        <param name="ios-package" value="OneSignalPush" />
+    </feature>
     <feature name="CorePlugin">
         <param name="ios-package" value="CorePlugin" />
     </feature>
@@ -152,9 +159,6 @@
     <feature name="CDVWKWebViewFileXhr">
         <param name="ios-package" value="CDVWKWebViewFileXhr" />
         <param name="onload" value="true" />
-    </feature>
-    <feature name="PushNotification">
-        <param name="ios-package" value="PushPlugin" />
     </feature>
     <feature name="WebViewPlugin">
         <param name="ios-package" value="WebViewPlugin" />

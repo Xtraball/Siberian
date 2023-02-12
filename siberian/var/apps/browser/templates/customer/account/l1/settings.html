@@ -9,7 +9,7 @@
             {{ ::'Push' | translate:'customer' }}
         </ion-item>
 
-        <ion-item class="item-toggle item-custom">
+        <!--ion-item class="item-toggle item-custom">
             {{ ::'Receive push notifications' | translate:'customer' }}
             <label class="toggle toggle-balanced">
                 <input type="checkbox"
@@ -19,7 +19,7 @@
                     <div class="handle"></div>
                 </div>
             </label>
-        </ion-item>
+        </ion-item-->
 
         <ion-item ng-if="settings.push && settings.counter  <= 0"
                   ng-click="copyTokenToClipboard()"
@@ -27,16 +27,16 @@
             <h3>
                 {{ ::'Push token' | translate:'customer' }} <i>({{ ::'Tap to copy!' | translate:'customer' }})</i>
             </h3>
-            <p>{{ getPushToken() }}</p>
+            <p>{{ settings.push_token }}</p>
         </ion-item>
 
-        <ion-item ng-if="settings.push && settings.counter <= 0"
+        <!--ion-item ng-if="settings.push && settings.counter <= 0"
                   ng-click="forcePushRegistration()"
                   class="item-custom">
             <h3>
                 {{ ::'Force push registration' | translate:'customer' }}
             </h3>
-        </ion-item>
+        </ion-item-->
 
         <ion-item ng-if="settings.push && settings.counter <= 0"
                   ng-click="sendTestPush()"
@@ -46,13 +46,13 @@
             </h3>
         </ion-item>
 
-        <ion-item ng-if="settings.push && settings.counter <= 0"
+        <!--ion-item ng-if="settings.push && settings.counter <= 0"
                   ng-click="sendTestLocal()"
                   class="item-custom">
             <h3>
                 {{ ::'Send me a test local notification' | translate:'customer' }}
             </h3>
-        </ion-item>
+        </ion-item-->
     </div>
 
     <div ng-if="willShowSettings() && card_design"

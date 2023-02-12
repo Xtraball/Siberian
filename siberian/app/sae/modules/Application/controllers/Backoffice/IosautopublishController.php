@@ -502,66 +502,6 @@ class Application_Backoffice_IosautopublishController extends Backoffice_Control
         $this->_sendHtml($data);
     }
 
-    public function uploadcertificateAction() {
-        $token = $this->getRequest()->getParam("token",null);
 
-        if(is_null($token)) {
-            throw new Exception("Wrong params.");
-        }
-
-        if (empty($_FILES) || empty($_FILES['file']['name'])) {
-            throw new Exception("Wrong params.");
-        }
-
-        $appIosAutopublish = new Application_Model_IosAutopublish();
-        $appIosAutopublish->find($token,"token");
-
-        $appId = $appIosAutopublish->getData("app_id");
-
-        $application = new Application_Model_Application();
-        $application->find($appId);
-
-        if(!$application->getId()) {
-            throw new Exception("Wrong params.");
-        }
-
-        $base_path = Core_Model_Directory::getBasePathTo("var/apps/iphone/");
-        if(!is_dir($base_path)) mkdir($base_path, 0775, true);
-        $path = Core_Model_Directory::getPathTo("var/apps/iphone/");
-        $adapter = new Zend_File_Transfer_Adapter_Http();
-        $adapter->setDestination(Core_Model_Directory::getTmpDirectory(true));
-
-        if ($adapter->receive()) {
-
-            $file = $adapter->getFileInfo();
-
-            $certificat = new Push_Model_Certificate();
-            $certificat->find(array('type' => 'ios', 'app_id' => $appId));
-
-            if(!$certificat->getId()) {
-                $certificat->setType("ios")
-                ->setAppId($appId);
-            }
-
-            $new_name = uniqid("cert_").".pem";
-            if(!rename($file["file"]["tmp_name"], $base_path.$new_name)) {
-                throw new Exception("Wrong params.");
-            }
-
-            $certificat->setPath($path.$new_name)->save();
-
-            $data = array(
-                "success" => 1,
-                "pem_infos" => Push_Model_Certificate::getInfos($appId),
-                "message" => __("The file has been successfully uploaded")
-            );
-
-        } else {
-            throw new Exception("Wrong params.");
-        }
-
-        $this->_sendJson($data);
-
-    }
 
 }

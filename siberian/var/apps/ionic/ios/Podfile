@@ -5,7 +5,7 @@ use_frameworks!
 target 'AppsMobileCompany' do
 	project 'AppsMobileCompany.xcodeproj'
 	pod 'Google-Mobile-Ads-SDK', '8.7.0'
-	pod 'nanopb', '~> 2.30906.0'
+	pod 'OneSignalXCFramework', '3.12.3'
 	pod 'GoogleMobileAdsMediationFacebook', '6.9.0'
 	pod 'StartAppSDK', '4.7.0'
 end

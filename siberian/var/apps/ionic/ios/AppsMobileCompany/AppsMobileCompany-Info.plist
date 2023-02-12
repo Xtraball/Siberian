@@ -232,8 +232,8 @@
 	</array>
 	<key>UIBackgroundModes</key>
 	<array>
-		<string>audio</string>
 		<string>remote-notification</string>
+		<string>audio</string>
 	</array>
 	<key>NSLocationAlwaysAndWhenInUseUsageDescription</key>
 	<string>Background location is used to send you geolocated push notifications.</string>

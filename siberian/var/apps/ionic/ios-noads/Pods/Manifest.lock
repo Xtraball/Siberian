@@ -1,20 +1,25 @@
 PODS:
-  - nanopb (2.30906.0):
-    - nanopb/decode (= 2.30906.0)
-    - nanopb/encode (= 2.30906.0)
-  - nanopb/decode (2.30906.0)
-  - nanopb/encode (2.30906.0)
+  - OneSignalXCFramework (3.12.3):
+    - OneSignalXCFramework/OneSignalCore (= 3.12.3)
+    - OneSignalXCFramework/OneSignalExtension (= 3.12.3)
+    - OneSignalXCFramework/OneSignalOutcomes (= 3.12.3)
+  - OneSignalXCFramework/OneSignalCore (3.12.3)
+  - OneSignalXCFramework/OneSignalExtension (3.12.3):
+    - OneSignalXCFramework/OneSignalCore
+    - OneSignalXCFramework/OneSignalOutcomes
+  - OneSignalXCFramework/OneSignalOutcomes (3.12.3):
+    - OneSignalXCFramework/OneSignalCore
 
 DEPENDENCIES:
-  - nanopb (~> 2.30906.0)
+  - OneSignalXCFramework (= 3.12.3)
 
 SPEC REPOS:
   trunk:
-    - nanopb
+    - OneSignalXCFramework
 
 SPEC CHECKSUMS:
-  nanopb: 1bf24dd71191072e120b83dd02d08f3da0d65e53
+  OneSignalXCFramework: 75844c29607ca95e6176f6f21257b4382c7fdbfb
 
-PODFILE CHECKSUM: faac7ca6f2abb046540690d06df6f50f9ffce83a
+PODFILE CHECKSUM: 7b67f11e045a2b67142e4f237a3752ccffc483c2
 
-COCOAPODS: 1.10.1
+COCOAPODS: 1.11.3
