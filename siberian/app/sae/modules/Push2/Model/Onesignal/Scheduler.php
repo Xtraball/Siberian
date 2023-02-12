@@ -74,4 +74,16 @@ class Scheduler {
         // return result
         return $result;
     }
+
+    public function sendTest() {
+        $appId = $this->application->getOnesignalAppId();
+        $appKeyToken = $this->application->getOnesignalAppKeyToken();
+
+        $notif = new Notification($appId, $appKeyToken);
+        $notif->regularPush($this->message);
+        $result = $notif->sendNotification();
+
+        // return result
+        return $result;
+    }
 }
