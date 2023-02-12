@@ -50,6 +50,7 @@ angular
                 //push: PushService.isEnabled,
                 push: true,
                 counter: 3,
+                push_token: $translate.instant('Your device is not registered for Push notifications!', 'customer'),
             },
             version: {
                 number: $translate.instant('Latest', 'customer'),
@@ -79,6 +80,15 @@ angular
             });
 
         if (window.IS_NATIVE_APP) {
+
+            try {
+                $window.plugins.OneSignal.getDeviceState(function(stateChanges) {
+                    $scope.settings.push_token = stateChanges.pushToken;
+                });
+            } catch (e) {
+                // Nope
+            }
+
             try {
                 cordova.getAppVersion.getVersionNumber(function (versionNumber) {
                     $scope.version.number = versionNumber;
@@ -195,17 +205,6 @@ angular
             return window.AVAILABLE_LANGUAGES;
         };
 
-        $scope.getPushToken = function () {
-            var message = $translate.instant('Your device is not registered for Push notifications!', 'customer');
-            //if (Push.lastErrorMessage !== null && Push.device_token === null) {
-            //    message = Push.lastErrorMessage;
-            //} else if (Push.device_token !== null && Push.device_token.length > 0) {
-            //    message = Push.device_token;
-            //}
-
-            return message;
-        };
-
         $scope.devCounter = function () {
             if (window.IS_NATIVE_APP) {
                 try {
@@ -226,17 +225,19 @@ angular
         };
 
         $scope.sendTestPush = function () {
-            Dialog.alert('N.A.', 'N.A.', 'OK');
-            //Loader.show($translate.instant('Sending...', 'customer'));
-            //Customer
-            //    .sendTestPush(Push.device_token)
-            //    .then(function (payload) {
-            //        // Saved!
-            //    }, function (error) {
-            //        // Revert!
-            //    }).then(function () {
-            //    Loader.hide();
-            //});
+            Loader.show($translate.instant('Sending...', 'customer'));
+            $window.plugins.OneSignal.getDeviceState(function(stateChanges) {
+                Customer
+                    .sendTestPush(stateChanges.userId)
+                    .then(function (payload) {
+                        // Saved!
+                    }, function (error) {
+                        // Revert!
+                    }).then(function () {
+                        Loader.hide();
+                    });
+            });
+
         };
 
         $scope.messagePushRegistration = function (success) {
@@ -562,16 +563,15 @@ angular
         };
 
         $scope.copyTokenToClipboard = function () {
-            Dialog.alert('N.A.', 'N.A.', 'OK');
             // Only for native for now!
-            //if (window.IS_NATIVE_APP) {
-            //    try {
-            //        cordova.plugins.clipboard.copy(Push.device_token);
-            //        window.plugins.toast.showShortCenter($translate.instant('Token copied to clipboard!', 'customer'));
-            //    } catch (e) {
-            //        console.error('Something went wrong while copiyng token to clipboard!');
-            //    }
-            //}
+            if (window.IS_NATIVE_APP) {
+                try {
+                    cordova.plugins.clipboard.copy($scope.settings.push_token);
+                    window.plugins.toast.showShortCenter($translate.instant('Token copied to clipboard!', 'customer'));
+                } catch (e) {
+                    console.error('Something went wrong while copying token to clipboard!');
+                }
+            }
         };
 
         $scope.appSettings = function () {

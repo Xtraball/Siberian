@@ -58,7 +58,7 @@ angular
     /**
      * @returns string|false
      */
-    service.getId = function () {OWNlM2FiYjktMzhmMC00Y2IzLTg1YTktNzFlOTA0ZTExMmM1
+    service.getId = function () {
         if ((service.session_id === 'undefined') ||
             (service.session_id === undefined) ||
             (service.session_id === 'null') ||
@@ -73,10 +73,10 @@ angular
         var customer = $injector.get('Customer');
         var application = $injector.get('Application');
         if (customer.isLoggedIn()) {
-            return ['os', 'customer', application.id, customer.id].join('_');
+            return ['os', 'customer', application.app_id, customer.id].join('_');
         }
         // Temporary externalId for anonymous users
-        return ['os', 'anonymous', application.id, service.getId()].join('_');
+        return ['os', 'anonymous', application.app_id, service.getId()].join('_');
     };
 
     /**
