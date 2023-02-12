@@ -13,6 +13,7 @@ use Core_Model_Default as BaseModel;
  * Class Message
  * @package Push2\Model\Onesignal
  *
+ * @method $this setAppId($appId)
  * @method $this setTitle($title)
  * @method $this setSubtitle($subtitle)
  * @method $this setBody($body)
@@ -22,6 +23,9 @@ use Core_Model_Default as BaseModel;
  * @method $this setDeliveryTimeOfDay($delivery_time_of_day)
  * @method $this setActionUrl($action_url)
  * @method $this setTargets($targets)
+ * @method $this setOnesignalId($onesignal_id)
+ * @method $this setExternalId($external_id)
+ * @method $this setRecipients($recipients)
  * @method string getTitle()
  * @method string getSubtitle()
  * @method string getBody()
@@ -30,6 +34,9 @@ use Core_Model_Default as BaseModel;
  * @method string getDelayedOption()
  * @method string getDeliveryTimeOfDay()
  * @method string getActionUrl()
+ * @method string getOnesignalId()
+ * @method string getExternalId()
+ * @method string getRecipients()
  * @method AbstractTarget[] getTargets()
  */
 class Message extends BaseModel {
@@ -50,6 +57,7 @@ class Message extends BaseModel {
      * @return $this
      */
     public function fromArray($data): self {
+        $this->setAppId($data['app_id']);
         $this->setTitle($data['title']);
         $this->setSubtitle($data['subtitle'] ?? null);
         $this->setBody($data['body']);

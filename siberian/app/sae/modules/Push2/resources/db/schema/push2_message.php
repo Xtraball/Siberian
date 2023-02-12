@@ -33,16 +33,19 @@ $schemas['push2_message'] = [
         'type' => 'text',
         'charset' => 'utf8',
         'collation' => 'utf8_unicode_ci',
+        'is_null' => true,
     ],
     'subtitle' => [
         'type' => 'text',
         'charset' => 'utf8',
         'collation' => 'utf8_unicode_ci',
+        'is_null' => true,
     ],
     'body' => [
         'type' => 'text',
         'charset' => 'utf8',
         'collation' => 'utf8_unicode_ci',
+        'is_null' => true,
     ],
     'latitude' => [
         'type' => 'decimal(11,8)',
@@ -61,7 +64,7 @@ $schemas['push2_message'] = [
         'default' => '0',
     ],
     'send_after' => [
-        'type' => 'int(11) unsigned',
+        'type' => 'varchar(255)',
         'is_null' => true,
         // "Thu Sep 24 2015 14:00:00 GMT-0700 (PDT)"
         // "September 24th 2015, 2:00:00 pm UTC-07:00"
@@ -100,6 +103,21 @@ $schemas['push2_message'] = [
         'charset' => 'utf8',
         'collation' => 'utf8_unicode_ci',
         'default' => 'queued',
+    ],
+    'onesignal_id' => [
+        'type' => 'varchar(1024)',
+        'charset' => 'utf8',
+        'collation' => 'utf8_unicode_ci',
+        'is_null' => true,
+    ],
+    'external_id' => [
+        'type' => 'varchar(1024)',
+        'charset' => 'utf8',
+        'collation' => 'utf8_unicode_ci',
+        'is_null' => true,
+    ],
+    'recipients' => [
+        'type' => 'int(11) unsigned',
     ],
     'created_at' => [
         'type' => 'datetime',

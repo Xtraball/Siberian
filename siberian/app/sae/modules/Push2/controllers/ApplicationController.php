@@ -42,6 +42,9 @@ class ApplicationController extends ControllerDefault
                 throw new \Exception(p__('push2', 'Values are required!'));
             }
 
+            // Required for the Message
+            $values['app_id'] = $application->getId();
+
             $form = new Message();
             if ($form->isValid($values)) {
                 $scheduler = new Scheduler($application);

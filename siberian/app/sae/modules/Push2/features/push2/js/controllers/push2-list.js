@@ -7,7 +7,7 @@
 angular
     .module('starter')
     .controller('Push2ListController', function ($scope, $rootScope, $stateParams, $filter, Customer, Push2,
-                                                 Push2Base, LinkService, $timeout, Dialog) {
+                                                 Push2Base, LinkService, $timeout, $location, Dialog) {
 
         angular.extend(
             $scope,
@@ -34,6 +34,7 @@ angular
                         $timeout(function () {
                             $scope.card_design = (payload.settings.design === 'card');
                         });
+                        $scope.page_title = payload.page_title;
                         $scope.is_loading = false;
                     });
                 return;

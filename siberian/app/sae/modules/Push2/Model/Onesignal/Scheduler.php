@@ -65,7 +65,10 @@ class Scheduler {
         $notif->regularPush($this->message);
         $result = $notif->sendNotification();
 
-        // Persist the message in DB
+        // Persist the message in DB, with feedback from OS
+        $this->message->setOnesignalId($result->getId());
+        $this->message->setExternalId($result->getExternalId());
+        $this->message->setRecipients($result->getRecipients());
         $this->message->save();
 
         // return result
