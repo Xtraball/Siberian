@@ -164,7 +164,7 @@ class Notification {
         $this->setTargets($message->getTargets());
 
         //
-        $result = Hook::trigger('push.message.android.parsed',
+        $result = Hook::trigger('push2.message.parsed',
             [
                 'notification' => $this->notification,
                 'application' => $this->application
