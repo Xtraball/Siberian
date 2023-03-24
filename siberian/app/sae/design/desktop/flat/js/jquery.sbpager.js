@@ -40,6 +40,10 @@
                 gotoPage(1);
 
                 table.data('sbpager', this);
+
+                if (typeof settings.callback_init === 'function') {
+                    settings.callback_init();
+                }
             }
 
             function initSearch() {
@@ -214,6 +218,10 @@
                 if (visibleItemsLength() <= settings.items_per_page) {
                     hidePager();
                 }
+
+                if (typeof settings.callback_goto_page_after === 'function') {
+                    settings.callback_goto_page_after();
+                }
             }
 
             function visibleItemsLength() {
@@ -332,7 +340,9 @@
     $.fn.sbpager.defaults = {
         items_per_page: 15,
         row_selector: 'tr.sb-pager',
+        callback_init: null,
         callback_goto_page: null,
+        callback_goto_page_after: null,
         pagerTemplate:
             '<div class="sb-pagination">' +
             '   <div class="sb-pager-first btn default_button color-blue"><i class="fa fa-angle-double-left icon icon-double-angle-left"></i></div>' +

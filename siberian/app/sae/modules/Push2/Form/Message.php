@@ -2,6 +2,8 @@
 
 namespace Push2\Form;
 
+use Push2\Model\Onesignal\Player;
+use Push2\Model\Push;
 use \Siberian_Form_Abstract as FormAbstract;
 
 /**
@@ -15,6 +17,14 @@ class Message extends FormAbstract
     public function init()
     {
         parent::init();
+
+        $individualPush = false;
+        if (Push::individualEnabled()) {
+            $application = $this->getApplication();
+            if ($application && $application->getId()) {
+                $individualPush = true;
+            }
+        }
 
         $this
             ->setAction(__path('/push2/application/send-message'))
@@ -41,11 +51,16 @@ class Message extends FormAbstract
         $body = $this->addSimpleTextarea('body', p__('push2', 'Message'));
         $body->setRequired();
 
-        $this->groupElements('the_message', [
-            'title',
-            //'subtitle',
-            'body',
-        ], p__('push2', 'Message'));
+        if ($individualPush) {
+            $players = (new Player())->findAll(["app_id = ?" => $application->getId()]);
+
+            $is_individual = $this->addSimpleCheckbox('is_individual', p__('push2', 'Individual?'));
+
+            $this->addSimpleHtml('individual_table', $this->individualTable($players));
+
+            $strSearch = p__('push2', 'Search, filter ...');
+        }
+
 
         $is_scheduled = $this->addSimpleCheckbox('is_scheduled', p__('push2', 'Schedule?'));
 
@@ -58,11 +73,8 @@ class Message extends FormAbstract
             false,
             \Siberian_Form_Abstract::TIMEPICKER);
         $delivery_time_of_day->setAttrib('data-moment-format', 'LT');
-        $this->groupElements('the_time', [
-            'is_scheduled',
-            'picker_send_after',
-            'picker_delivery_time_of_day',
-        ], p__('push2', 'Scheduling options'));
+
+
 
         // Hidden for now, will be used later
         // $this->addSimpleText('latitude', p__('push2', 'Latitude'));
@@ -78,7 +90,131 @@ class Message extends FormAbstract
         $valueId
             ->setRequired(true);
 
-        $submit = $this->addSubmit(p__('push2', 'Send message'));
+        $submit = $this->addSubmit(p__('push2', 'Send message'), "submit");
         $submit->addClass('pull-right');
+
+        $this->groupElements('the_message', [
+            'title',
+            //'subtitle',
+            'body',
+        ], p__('push2', 'Message'));
+
+        if ($individualPush) {
+            $this->groupElements('players', [
+                'is_individual',
+                'individual_table',
+            ], p__('push2', 'Individual push'));
+        }
+
+        $this->groupElements('the_time', [
+            'is_scheduled',
+            'picker_send_after',
+            'picker_delivery_time_of_day',
+            'submit',
+        ], p__('push2', 'Scheduling options'));
+
+
+        $dynamicJs = <<<JS
+<script type="text/javascript">
+let individualCheckbox = $("#is_individual");
+let individualTable = $("#individual_table");
+let individualSchedule = function () {
+    if (individualCheckbox.is(":checked")) {
+        individualTable.parents(".sb-form-line").show();
+    } else {
+        individualTable.parents(".sb-form-line").hide();
+    }
+};
+
+individualCheckbox.off("click");
+individualCheckbox.on("click", individualSchedule);
+
+individualSchedule();
+
+let toggleAllVisibleCheckbox = $("#toggle_all_visible");
+let toggleAllVisible = function () {
+    let isChecked = toggleAllVisibleCheckbox.is(":checked");
+    let checkboxes = individualTable.find("tbody tr:visible input[type=checkbox]");
+    checkboxes.prop("checked", isChecked);
+};
+
+let checkAllVisible = function () {
+    let checkboxes = individualTable.find("tbody tr:visible input[type=checkbox]");
+    let checkboxesChecked = individualTable.find("tbody tr:visible input[type=checkbox]:checked");
+    toggleAllVisibleCheckbox.prop("checked", checkboxes.length === checkboxesChecked.length);
+};
+
+toggleAllVisibleCheckbox.off("click");
+toggleAllVisibleCheckbox.on("click", toggleAllVisible);
+
+let playerIdCheckbox = $("input[name='player_ids[]']");
+
+playerIdCheckbox.off("click");
+playerIdCheckbox.on("click", checkAllVisible);
+
+
+$("table.sb-pager").sbpager({
+    with_search: true,
+    items_per_page: 20,
+    search_placeholder: "{$strSearch}",
+    callback_init: function () {
+        checkAllVisible();
+    },
+    callback_goto_page_after: function () {
+        checkAllVisible();
+    }
+});
+
+</script>
+JS;
+
+        $this->addMarkup($dynamicJs);
+    }
+
+    public function individualTable($players)
+    {
+        $strId = p__("push2", "ID");
+        $strUser = p__("push2", "User");
+
+        $tableHtml = <<<HTML
+<div class="col-md-12">
+    <table class="table content-white-bkg sb-pager margin-top">
+        <thead>
+            <tr class="border-grey">
+                <th>
+                    <label>
+                        <input type="checkbox"
+                               id="toggle_all_visible" />
+                               Toggle all visible
+                    </label>
+                </th>
+                <th class="sortable numeric">{$strId}</th>
+                <th class="sortable">{$strUser}</th>
+            </tr>
+        </thead>
+        <tbody>
+HTML;
+        foreach ($players as $player) {
+            $tableHtml .= <<<HTML
+            <tr class="sb-pager">
+                <td>
+                    <input type="checkbox" 
+                           name="player_ids[]" 
+                           value="{$player->getPlayerId()}" />
+                <td>
+                    <b>#{$player->getId()}</b>
+                </td>
+                <td>
+                    <b>{$player->getPlayerId()}</b>
+                </td>
+            </tr>
+HTML;
+        }
+        $tableHtml .= <<<HTML
+        </tbody>
+    </table>
+</div>
+HTML;
+        return $tableHtml;
     }
 }

@@ -158,29 +158,6 @@ abstract class Admin_Model_Admin_Abstract extends Core_Model_Default
         return $this->setData('phone', $_filtered);
     }
 
-
-    /**
-     * Get only pusblished applications
-     *
-     * @return mixed
-     */
-    public function getPublishedApplicationsForAdmin()
-    {
-        $application_table = new Application_Model_Db_Table_Application();
-        $applications = $application_table->findAllForGlobalPush();
-
-        if (count($applications) <= 0) {
-            return [];
-        }
-
-        $application_model = new Application_Model_Application();
-        $admin_applications = $application_model->findAllByAdmin($this->getId(), [
-            "a.app_id IN (?)" => $applications
-        ]);
-
-        return $admin_applications;
-    }
-
     public function findAllForBackoffice($filters, $order = null, $params = [])
     {
         return $this->getTable()->findAllForBackoffice($filters, $order, $params);

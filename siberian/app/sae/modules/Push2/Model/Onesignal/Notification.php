@@ -71,6 +71,9 @@ class Notification {
      */
     public function regularPush(\Push2\Model\Onesignal\Message $message)
     {
+        $hasContent = false;
+        $content = [];
+
         $title = new \onesignal\client\model\StringMap();
         $title->setEn($message->getTitle());
 
@@ -122,6 +125,12 @@ class Notification {
         // Push icon color
         //$pushColor = strtoupper($this->application->getAndroidPushColor() ?? '#0099C7');
 
+        $actionUrl = null;
+        if ($message->getActionUrl()) {
+            $content['action_url'] = $message->getActionUrl();
+            $hasContent = true;
+        }
+
         //if (is_numeric($message->getActionValue())) {
         //    $option_value = new Application_Model_Option_Value();
         //    $option_value->find($message->getActionValue());
@@ -157,6 +166,12 @@ class Notification {
         //    'color' => $pushColor,
         //    'action_value' => $action_url,
         //]);
+
+        // If there is any content we merge it!
+        if ($hasContent) {
+            $this->notification->setContentAvailable(true);
+            $this->notification->setData($this->notification->getData() + $content);
+        }
 
         $this->notification->setAndroidSound('sb_beep4');
         $this->notification->setPriority(10);

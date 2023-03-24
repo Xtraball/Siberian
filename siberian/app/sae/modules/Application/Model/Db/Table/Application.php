@@ -173,38 +173,4 @@ class Application_Model_Db_Table_Application extends Core_Model_Db_Table
         return false;
     }
 
-    /**
-     * @return array
-     */
-    public function findAllForGlobalPush()
-    {
-
-        if (Version::is("SAE")) {
-            $request = "
-SELECT DISTINCT({$this->_name}.{$this->_primary})
-FROM {$this->_name}
-INNER JOIN application_device ON {$this->_name}.app_id = application_device.app_id
-WHERE application_device.status_id = 3
-;";
-        } else {
-            $request = "
-SELECT DISTINCT({$this->_name}.{$this->_primary})
-FROM {$this->_name}
-INNER JOIN application_device ON {$this->_name}.app_id = application_device.app_id
-INNER JOIN application_option_value aov ON 
-    (
-        aov.app_id = application.app_id 
-        AND aov.option_id = (
-            SELECT option_id FROM application_option WHERE code = 'push_notification'
-        )
-    )
-WHERE application_device.status_id = 3
-AND is_locked = 0
-;";
-        }
-
-        return $this->_db->fetchCol($request);
-
-    }
-
 }

@@ -31,12 +31,6 @@ $myAccount = (new Application_Model_Option())->find('tabbar_account', 'code');
 
 $appKey = $application->getGooglemapsKey();
 
-//$credentials = (new Push_Model_Firebase())
-//    ->find(0, 'admin_id');
-//
-//$enable_android = !empty($credentials->getServerKey());
-//$enable_ios = !empty(Push_Model_Certificate::getiOSCertificat($application->getId()));
-
 try {
     $scheduler = new Scheduler($application);
     /**
@@ -150,12 +144,8 @@ $formSettings->setValueId($option->getId());
                 <div id="push2-message"
                      class="container-fluid first-row-feature content-feature">
 
-                    <div class="alert alert-info">
-                        <?php echo p__('push2', 'Notice: Individual push notifications are not yet available!') ?>
-                    </div>
-
                     <?php
-                    $formPushMessage = new Push2\Form\Message();
+                    $formPushMessage = new Push2\Form\Message(["_settings" => ["value_id" => $option->getId()]]);
                     $formPushMessage->setValueId($option->getId());
                     echo $formPushMessage;
                     ?>

@@ -6,6 +6,7 @@ require_once path('/lib/onesignal/vendor/autoload.php');
 
 use Push2\Model\Onesignal\Targets\AbstractTarget;
 use Push2\Model\Onesignal\Targets\Segment;
+use Push2\Model\Onesignal\Targets\Player as TargetPlayer;
 
 use Core_Model_Default as BaseModel;
 
@@ -14,6 +15,7 @@ use Core_Model_Default as BaseModel;
  * @package Push2\Model\Onesignal
  *
  * @method $this setAppId($appId)
+ * @method $this setValueId($valueId)
  * @method $this setTitle($title)
  * @method $this setSubtitle($subtitle)
  * @method $this setBody($body)
@@ -22,6 +24,8 @@ use Core_Model_Default as BaseModel;
  * @method $this setDelayedOption($delayed_option)
  * @method $this setDeliveryTimeOfDay($delivery_time_of_day)
  * @method $this setActionUrl($action_url)
+ * @method $this setIsIndividual(boolean $is_individual)
+ * @method $this setPlayerIds(array $player_ids)
  * @method $this setTargets($targets)
  * @method $this setOnesignalId($onesignal_id)
  * @method $this setExternalId($external_id)
@@ -33,6 +37,8 @@ use Core_Model_Default as BaseModel;
  * @method string getSendAfter()
  * @method string getDelayedOption()
  * @method string getDeliveryTimeOfDay()
+ * @method boolean getIsIndividual()
+ * @method array getPlayerIds()
  * @method string getActionUrl()
  * @method string getOnesignalId()
  * @method string getExternalId()
@@ -66,8 +72,11 @@ class Message extends BaseModel {
         $this->setDelayedOption($data['delayed_option'] ?? null);
         $this->setDeliveryTimeOfDay($data['delivery_time_of_day'] ?? null);
         $this->setActionUrl($data['action_url'] ?? null);
+        $this->setIsIndividual($data['is_individual'] ?? false);
+        $this->setPlayerIds($data['player_ids'] ?? []);
 
         $this->checkSchedulingOptions();
+        $this->checkTargets();
 
         return $this;
     }
@@ -83,6 +92,20 @@ class Message extends BaseModel {
             if (preg_match("/^([0-1]?[0-9]|2[0-3]):[0-5][0-9]$/", $this->getDeliveryTimeOfDay()) === 0) {
                 $this->setDeliveryTimeOfDay('9:00 AM');
             }
+        }
+    }
+
+    /**
+     * @return void
+     */
+    public function checkTargets() {
+        if ($this->getIsIndividual()) {
+            $this->clearTargets();
+            $playerIds = [];
+            foreach ($this->getPlayerIds() as $playerId) {
+                $playerIds[] = $playerId;
+            }
+            $this->addTargets(new TargetPlayer($playerIds));
         }
     }
 

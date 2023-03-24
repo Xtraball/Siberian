@@ -492,7 +492,7 @@ abstract class Application_Controller_View_Abstract extends Backoffice_Controlle
                 // Only if it's enabled!
                 if ($application->getUseAds()) {
                     foreach ($data["devices"] as $deviceData) {
-                        if (in_array($deviceData["admob_app_id"], ['', 'ca-app-pub-0000000000000000~0000000000'], true)) {
+                        if (in_array($deviceData["admob_app_id"], ['ca-app-pub-0000000000000000~0000000000'], true)) {
                             throw new Exception(p__('backoffice_application', 'AdMob app id is required!'));
                         }
 

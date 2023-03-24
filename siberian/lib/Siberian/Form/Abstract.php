@@ -20,6 +20,11 @@ abstract class Siberian_Form_Abstract extends Zend_Form
     public $bind_js = false;
 
     /**
+     * @var int
+     */
+    public $_value_id;
+
+    /**
      * @var Siberian_Form_Element_Button
      */
     public $mini_submit;
@@ -43,6 +48,22 @@ abstract class Siberian_Form_Abstract extends Zend_Form
      * @var string
      */
     public $confirm_text = "";
+
+    /**
+     * @param $options
+     * @throws Zend_Form_Exception
+     */
+    public function __construct($options = null)
+    {
+        parent::__construct($options);
+
+        if (array_key_exists("_settings", $options)) {
+            $settings = $options["_settings"];
+            $this->_value_id = $settings["value_id"] ?? null;
+        }
+
+        $this->init();
+    }
 
     /**
      * @param $float
@@ -111,12 +132,26 @@ abstract class Siberian_Form_Abstract extends Zend_Form
      */
     public function setValueId($value_id)
     {
+        $this->_value_id = $value_id;
         if (!is_null($this->getElement("value_id"))) {
             $el_value_id = $this->getElement("value_id");
             $el_value_id->setValue($value_id);
         }
 
         return $this;
+    }
+
+    /**
+     * @return Application_Model_Application|null
+     * @throws Zend_Exception
+     */
+    public function getApplication()
+    {
+        $optionValue = (new Application_Model_Option_Value())->find($this->_value_id);
+        if ($optionValue && $optionValue->getId()) {
+            return (new Application_Model_Application())->find($optionValue->getAppId());
+        }
+        return null;
     }
 
     /**

@@ -169,7 +169,7 @@ angular
      */
     service.sendLocalNotification = function (messageId, title, message) {
         // Should be OKayish
-        $log.debug('-- Push-Service, sending a Local Notification --');
+        $log.debug('-- Push2-Service, sending a Local Notification --');
 
         var localMessage = angular.copy(message);
         if (DEVICE_TYPE === SB.DEVICE.TYPE_IOS) {
@@ -207,6 +207,156 @@ angular
     // @deprecated
     service.displayNotification = function (messagePayload) {
         $log.info('[PUSH.displayNotification] messagePayload', messagePayload);
+
+        // Prevent an ID being shown twice.
+        try {
+            $session
+                .getItem('pushMessageIds')
+                .then(function (pushMessageIds) {
+                    var localPushMessageIds = pushMessageIds;
+                    if (pushMessageIds === null || !Array.isArray(pushMessageIds)) {
+                        localPushMessageIds = [];
+                    }
+
+                    var messageId = parseInt(messagePayload.additionalData.message_id, 10);
+                    if (localPushMessageIds.indexOf(messageId) === -1) {
+                        // Store acknowledged messages in localstorage.
+                        localPushMessageIds.push(messageId);
+                        $session.setItem('pushMessageIds', localPushMessageIds);
+
+                        var extendedPayload = messagePayload.additionalData;
+
+                        if ((extendedPayload !== undefined) &&
+                            (extendedPayload.cover || extendedPayload.action_url)) {
+                            // Prevent missing or not base url!
+                            var coverUri = extendedPayload.cover;
+                            try {
+                                if (coverUri.indexOf('http') !== 0) {
+                                    coverUri = DOMAIN + extendedPayload.cover;
+                                }
+                            } catch (e) {
+                                // No cover!
+                            }
+
+                            var isInAppMessage = ((messagePayload.type !== undefined) &&
+                                (messagePayload.type === 'inapp'));
+
+                            var pushPopupTemplate =
+                                '<img src="#COVER_URI#" class="#KLASS#">' +
+                                '<span>#MESSAGE#</span>';
+
+                            var config = {
+                                buttons: [
+                                    {
+                                        text: $translate.instant('Cancel', 'push'),
+                                        type: 'button-custom',
+                                        onTap: function () {
+                                            // @deprecated
+                                            //if (isInAppMessage) {
+                                            //    Push.markInAppAsRead();
+                                            //}
+                                            // Simply closes!
+                                        }
+                                    },
+                                    {
+                                        text: $translate.instant('View', 'push'),
+                                        type: 'button-custom',
+                                        onTap: function () {
+                                            // @deprecated
+                                            //if (isInAppMessage) {
+                                            //    Push.markInAppAsRead();
+                                            //}
+
+                                            if ((extendedPayload.open_webview !== true) &&
+                                                (extendedPayload.open_webview !== 'true')) {
+                                                $location.path(extendedPayload.action_url);
+                                            } else {
+                                                LinkService.openLink(extendedPayload.action_url, {}, false);
+                                            }
+                                        }
+                                    }
+                                ],
+                                cssClass: 'push-popup',
+                                title: messagePayload.title,
+                                template: pushPopupTemplate
+                                    .replace('#COVER_URI#', coverUri)
+                                    .replace('#KLASS#', (extendedPayload.cover ? '' : ' ng-hide'))
+                                    .replace('#MESSAGE#', messagePayload.message)
+                            };
+
+                            var trimmedTitle = messagePayload.title.trim();
+                            var trimmedMessage = messagePayload.message.trim();
+
+                            if (trimmedTitle.length === 0 && trimmedMessage.length === 0) {
+                                // This is a "silent push" it's up to whom sent it to handle it!
+                                $log.debug("Silent push (empty title, message)", messagePayload);
+                            } else if (extendedPayload.isSilent === true) {
+                                // This is a "silent push" it's up to whom sent it to handle it!
+                                $log.debug("Silent push (forced silent)", messagePayload);
+                            } else {
+                                // This is a regular push!
+                                if (messagePayload.config !== undefined) {
+                                    config = angular.extend(config, messagePayload.config);
+                                }
+
+                                // Handles case with only a cover image!
+                                if ((extendedPayload.action_url === undefined) ||
+                                    (extendedPayload.action_url === '') ||
+                                    (extendedPayload.action_url === null)) {
+                                    config.buttons = [
+                                        {
+                                            text: $translate.instant('OK', 'push'),
+                                            type: 'button-custom',
+                                            onTap: function () {
+                                                // Simply closes!
+                                            }
+                                        }
+                                    ];
+                                }
+
+                                $log.debug('Message payload (ionicPopup):', messagePayload, config);
+                                // Also copy to "local notification" this way we ensure message is explicitely notified!
+                                if (extendedPayload.foreground) {
+                                    service.sendLocalNotification(messageId, trimmedTitle, trimmedMessage);
+                                }
+                                Dialog.ionicPopup(config);
+                            }
+                        } else {
+                            var otherTrimmedTitle = messagePayload.title.trim();
+                            var otherTrimmedMessage = messagePayload.message.trim();
+
+                            if (otherTrimmedTitle.length === 0 && otherTrimmedMessage.length === 0) {
+                                // This is a "silent push" it's up to whom sent it to handle it!
+                                $log.debug("Silent push (empty title, message)", messagePayload);
+                            } else {
+                                var localTitle = (messagePayload.title !== undefined) ?
+                                    messagePayload.title : 'Notification';
+                                $log.debug('Message payload (alert):', messagePayload);
+
+                                // Also copy to "local notification" this way we ensure message is explicitely notified!
+                                if (extendedPayload && extendedPayload.foreground) {
+                                    service.sendLocalNotification(messageId, otherTrimmedTitle, otherTrimmedMessage);
+                                }
+
+                                Dialog.alert(localTitle, messagePayload.message, 'OK');
+                            }
+                        }
+
+                        // Search for less resource consuming maybe use Push factory directly!
+                        $rootScope.$broadcast(SB.EVENTS.PUSH.unreadPushs, messagePayload.count);
+                    }
+
+                    // Nope!
+                    $log.debug('Will not display duplicated message: ', messagePayload);
+                }).catch(function (err) {
+                    // We got an error!
+                    $log.debug('We got an error with the localForage when trying to display push message: ', messagePayload);
+                    $log.debug(err);
+                });
+        } catch (e) {
+            $log.debug('We got an exception when trying to display push message: ', messagePayload);
+            $log.debug(e);
+        }
     };
 
     // Push simulator!
