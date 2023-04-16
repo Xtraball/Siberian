@@ -42,8 +42,7 @@ try {
     /**
      * @var $notificationSlice \onesignal\client\model\NotificationSlice
      */
-    $notificationSlice = $scheduler->fetchNotifications();
-    $notifications = $notificationSlice->getNotifications();
+    $notifications = $scheduler->fetchNotifications();
 } catch (\Exception $e) {
     $notifications = [];
 }
@@ -150,12 +149,8 @@ $formSettings->setValueId($option->getId());
                 <div id="push2-message"
                      class="container-fluid first-row-feature content-feature">
 
-                    <div class="alert alert-info">
-                        <?php echo p__('push2', 'Notice: Individual push notifications are not yet available!') ?>
-                    </div>
-
                     <?php
-                    $formPushMessage = new Push2\Form\Message();
+                    $formPushMessage = new Push2\Form\Message(['application' => $application, 'features' => $features]);
                     $formPushMessage->setValueId($option->getId());
                     echo $formPushMessage;
                     ?>
@@ -187,31 +182,43 @@ $formSettings->setValueId($option->getId());
                                     <th><?php echo p__('push2', 'Delivery') ?></th>
                                 </tr>
                                 </thead>
-                                <tbody class="fields-sortable">
+                                <tr class="fields-sortable">
                                 <?php foreach ($notifications as $notification) : ?>
+                                    <?php if ($notification->getNotification() === null): ?>
+                                    <tr style="background-color: #ffebeb;"
+                                        id="notification_element_<?php echo $notification->getId(); ?>">
+                                        <td>
+                                            <h5 style="font-weight: bold;"><?php echo $notification->getTitle() ?></h5>
+                                        </td>
+                                        <td><?php echo ellipsis($notification->getBody(), 50) ?></td>
+                                        <td colspan="4">
+                                            <?php echo p__('push2', 'This message is not in the OneSignal history anymore!') ?>
+                                        </td>
+                                    </tr>
+                                    <?php else: ?>
                                     <tr id="notification_element_<?php echo $notification->getId(); ?>"
                                         rel="<?php echo $notification->getId(); ?>">
                                         <td>
-                                            <h5 style="font-weight: bold;"><?php echo $notification->getHeadings()->getEn() ?></h5>
+                                            <h5 style="font-weight: bold;"><?php echo $notification->getNotification()->getHeadings()->getEn() ?></h5>
                                         </td>
-                                        <td><?php echo ellipsis($notification->getContents()->getEn(), 50) ?></td>
+                                        <td><?php echo ellipsis($notification->getNotification()->getContents()->getEn(), 50) ?></td>
                                         <td>
-                                            <?php if ($notification->getSendAfter() > $notification->getQueuedAt()) : ?>
+                                            <?php if ($notification->getNotification()->getSendAfter() > $notification->getNotification()->getQueuedAt()) : ?>
                                                 <span class="label label-success"><?php echo p__('push2', 'Yes') ?></span>
                                             <?php else : ?>
                                                 <span class="label label-danger"><?php echo p__('push2', 'No') ?></span>
                                             <?php endif; ?>
                                         </td>
                                         <td class="moment_format" data-format="LL">
-                                            <?php echo $notification->getSendAfter(); ?>
+                                            <?php echo $notification->getNotification()->getSendAfter(); ?>
                                         </td>
                                         <td>
-                                            <?php echo empty($notification->getDeliveryTimeOfDay()) ?
-                                                "-" : $notification->getDeliveryTimeOfDay(); ?>
+                                            <?php echo empty($notification->getNotification()->getDeliveryTimeOfDay()) ?
+                                                "-" : $notification->getNotification()->getDeliveryTimeOfDay(); ?>
                                         </td>
                                         <td>
-                                            <?php if ($notification->getSendAfter() < $now): ?>
-                                            <?php list($success_rate, $failed_rate) = getRates($notification); ?>
+                                            <?php if ($notification->getNotification()->getSendAfter() < $now): ?>
+                                            <?php list($success_rate, $failed_rate) = getRates($notification->getNotification()); ?>
                                             <div class="os-rates">
                                                 <div class="label label-success <?php if ($success_rate <= 0) { echo "hidden"; } ?>"
                                                      style="width: <?php echo $success_rate; ?>%"><?php echo $success_rate; ?>%</div>
@@ -224,6 +231,7 @@ $formSettings->setValueId($option->getId());
                                             <?php endif; ?>
                                         </td>
                                     </tr>
+                                    <?php endif; ?>
                                 <?php endforeach; ?>
                                 </tbody>
                             </table>

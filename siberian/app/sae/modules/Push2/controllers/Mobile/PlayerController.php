@@ -59,9 +59,10 @@ class PlayerController extends MobileController
                 'app_id' => $application->getId(),
                 'title' => 'Test Push',
                 'body' => 'This is a test push',
+                'is_test' => 1,
+                'is_individual' => 1,
+                'player_ids' => [$playerId],
             ]);
-            $scheduler->message->clearTargets();
-            $scheduler->message->addTargets(new \Push2\Model\Onesignal\Targets\Player($playerId));
             $scheduler->sendTest();
 
             $payload = [

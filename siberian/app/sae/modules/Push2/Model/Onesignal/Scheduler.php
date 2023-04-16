@@ -2,13 +2,16 @@
 
 namespace Push2\Model\Onesignal;
 
+use Siberian\Json;
+
 require_once path('/lib/onesignal/vendor/autoload.php');
 
 /**
  * Class Notification
  * @package Push\Model\Onesignal
  */
-class Scheduler {
+class Scheduler
+{
 
     /**
      * @var \Application_Model_Application
@@ -36,28 +39,57 @@ class Scheduler {
         $this->application = $application;
     }
 
-    public function buildMessageFromValues($values) {
+    public function buildMessageFromValues($values)
+    {
         $this->values = $values;
         $this->message = (new Message())->fromArray($values);
 
         return $this->message;
     }
 
-    public function importDevices($androidDevices, $iosDevices) {
+    public function importDevices($androidDevices, $iosDevices)
+    {
         $notification = new \Push2\Model\Onesignal\Notification(
             $this->application->getOnesignalAppId(), $this->application->getOnesignalAppKeyToken());
         return $notification->importDevices($androidDevices, $iosDevices);
     }
 
-    public function fetchNotifications() {
+    public function fetchNotifications()
+    {
         $notification = new \Push2\Model\Onesignal\Notification(
             $this->application->getOnesignalAppId(), $this->application->getOnesignalAppKeyToken());
         $notification->setApplication($this->application);
-        $notifications = $notification->fetchLatestNotifications();
-        return $notifications;
+        $notificationSlice = $notification->fetchLatestNotifications(null, 200);
+        $notifications = $notificationSlice->getNotifications();
+
+        $mappedNotifs = [];
+        foreach ($notifications as $notification) {
+            $mappedNotifs[$notification->getId()] = $notification;
+        }
+
+        $messages = (new Message())->findAll([
+            'app_id' => $this->application->getId(),
+            'is_test' => 0,
+            'is_for_module' => 0
+        ], 'created_at DESC', [
+            'limit' => 50
+        ]);
+
+        foreach ($messages as $message) {
+            if (array_key_exists($message->getOnesignalId(), $mappedNotifs)) {
+                $notification = $mappedNotifs[$message->getOnesignalId()];
+
+                $message->setNotification($notification);
+            } else {
+                $message->setNotification(null);
+            }
+        }
+
+        return $messages;
     }
 
-    public function send() {
+    public function send()
+    {
         $appId = $this->application->getOnesignalAppId();
         $appKeyToken = $this->application->getOnesignalAppKeyToken();
 
@@ -68,14 +100,51 @@ class Scheduler {
         // Persist the message in DB, with feedback from OS
         $this->message->setOnesignalId($result->getId());
         $this->message->setExternalId($result->getExternalId());
-        $this->message->setRecipients($result->getRecipients());
+        $this->message->setRecipients($result->getRecipients() ?? 0);
         $this->message->save();
+
+        // Saving individual history!
+        if ($this->message->getIsIndividual()) {
+            $uniquePlayers = array_unique($this->message->getPlayerIds());
+            foreach ($uniquePlayers as $player) {
+                $playerMessage = (new PlayerMessage())->find([
+                    'player_id' => $player,
+                    'message_id' => $this->message->getId()
+                ]);
+                $playerMessage->setPlayerId($player);
+                $playerMessage->setMessageId($this->message->getId());
+                $playerMessage->save();
+            }
+        }
 
         // return result
         return $result;
     }
 
-    public function sendTest() {
+    /**
+     * @param $customerId
+     * @return \onesignal\client\model\CreateNotificationBadRequestResponse|\onesignal\client\model\CreateNotificationSuccessResponse
+     */
+    public function sendToCustomer($customerId)
+    {
+        // Find playerIds for the customer
+        $playerIds = [];
+        $players = (new Player())->getTable()->findAll([
+            'customer_id' => $customerId
+        ]);
+        foreach ($players as $player) {
+            $playerIds[] = $player->getPlayerId();
+        }
+
+        $this->message->setIsIndividual(1);
+        $this->message->setPlayerIds($playerIds);
+        $this->message->checkTargets();
+
+        return $this->send();
+    }
+
+    public function sendTest()
+    {
         $appId = $this->application->getOnesignalAppId();
         $appKeyToken = $this->application->getOnesignalAppKeyToken();
 

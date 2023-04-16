@@ -3,6 +3,7 @@
 namespace Push2\Mobile;
 
 use Push2\Model\Onesignal\Message;
+use Push2\Model\Onesignal\Player;
 use Siberian\Image;
 use Siberian\Json;
 use \Application_Controller_Mobile_Default as MobileController;
@@ -19,15 +20,21 @@ class ListController extends MobileController
         $option = $this->getCurrentOptionValue();
         $request = $this->getRequest();
         $color = $this->getApplication()->getBlock('background')->getColor();
+        $session = $this->getSession();
+        $customer = $session->getCustomer();
+        $player_id = null;
+
+        if ($customer && $customer->getId()) {
+            $player_id = (new Player())->find($customer->getId(), 'customer_id')->getPlayerId();
+        }
+
         //$offset = $this->getRequest()->getParam('offset', 0);
 
         //if ($device_uid = $this->getRequest()->getParam('device_uid')) {
             //$option_value = $this->getCurrentOptionValue();
 
             $message = new Message();
-            $messages = $message->findAll([
-                'app_id' => $application->getId(),
-            ], 'created_at DESC');
+            $messages = $message->findAllForPlayer($application->getId(), $player_id);
 
             //$icon_new = $request->getBaseUrl() . ($option->getImage()->getCanBeColorized() ?
             //        $this->_getColorizedImage($option->getIconId(), $color) : $option->getIconUrl());
@@ -112,6 +119,7 @@ class ListController extends MobileController
                     'deliver_id' => (integer)$message->getExternalId(),
                     'author' => $message->getTitle(),
                     'message' => $message->getBody(),
+                    'is_individual' => $message->getIsIndividual(),
                     //'topic' => $message->getLabel(),
                     'topic' => null,
                     'details' => $meta,
@@ -148,8 +156,6 @@ class ListController extends MobileController
 
     public function getSampleAction ()
     {
-        $this->findAllAction();
-        //die();
         $application = $this->getApplication();
         $image = "/app/sae/modules/Job/features/job/assets/templates/l1/img/job-header.png";
 

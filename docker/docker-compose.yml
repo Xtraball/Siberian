@@ -1,5 +1,14 @@
 version: '3.9'
 
+networks:
+  siberian-network-ip:
+    driver: bridge
+    ipam:
+      driver: default
+      config:
+        - subnet: 172.16.42.0/24
+          gateway: 172.16.42.1
+
 services:
   db:
     restart: always
@@ -8,12 +17,13 @@ services:
       - db
     ports:
       - 3306:3306
-    networks:
-      - siberian-bridge
     volumes:
       - ./mysql:/var/lib/mysql
     env_file:
       - .env
+    networks:
+      siberian-network-ip:
+        ipv4_address: "${DB_IPV4}"
 
   php:
     restart: always
@@ -30,12 +40,11 @@ services:
       - "../modules:${PROJECT_PATH}/modules"
     ports:
       - "${SOCKETIO_RANGE}:${SOCKETIO_RANGE}"
-    links:
-      - db
-    networks:
-      - siberian-bridge
     env_file:
       - .env
+    networks:
+      siberian-network-ip:
+        ipv4_address: "${PHP_IPV4}"
 
   nginx:
     restart: always
@@ -50,12 +59,11 @@ services:
       - ./nginx/default.conf:/etc/nginx/conf.d/default.conf
       - "${SSL_CERT_PATH}:/etc/nginx/ssl-certificates"
       - "../modules:${PROJECT_PATH}/modules"
-    links:
-      - php
-    networks:
-      - siberian-bridge
     env_file:
       - .env
+    networks:
+      siberian-network-ip:
+        ipv4_address: "${NGINX_IPV4}"
 
   pma:
     image: phpmyadmin
@@ -63,12 +71,9 @@ services:
     profiles:
       - pma
     ports:
-      - 8080:80
+      - 8181:80
     env_file:
       - .env
     networks:
-      - siberian-bridge
-
-networks:
-  siberian-bridge:
-    driver: bridge
+      siberian-network-ip:
+        ipv4_address: "${PHPMYADMIN_IPV4}"

@@ -116,6 +116,18 @@ $schemas['push2_message'] = [
         'collation' => 'utf8_unicode_ci',
         'is_null' => true,
     ],
+    'is_individual' => [
+        'type' => 'tinyint(1) unsigned',
+        'default' => '0',
+    ],
+    'is_test' => [
+        'type' => 'tinyint(1) unsigned',
+        'default' => '0',
+    ],
+    'is_for_module' => [
+        'type' => 'tinyint(1) unsigned',
+        'default' => '0',
+    ],
     'recipients' => [
         'type' => 'int(11) unsigned',
     ],
