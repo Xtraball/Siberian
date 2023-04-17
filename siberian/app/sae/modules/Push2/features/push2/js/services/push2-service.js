@@ -44,7 +44,7 @@ angular
                     service.init();
                 }, 1000);
             } catch (e) {
-                console.error('An error occured while registering device for Push.', e.message);
+                console.error('[Push2Service] An error occured while registering device for Push.', e.message);
             }
         });
     };
@@ -58,7 +58,7 @@ angular
 
         // Validating push color!
         if (!(/^#[0-9A-F]{6}$/i).test(iconColor)) {
-            $log.debug('Invalid iconColor: ' + iconColor);
+            $log.debug('[Push2Service] Invalid iconColor: ' + iconColor);
         } else {
             service.settings.android.iconColor = iconColor;
         }
@@ -69,7 +69,7 @@ angular
      */
     service.init = function () {
         if (!$window.plugins.OneSignal) {
-            $log.error("OneSignal plugin is missing");
+            $log.error("[Push2Service] OneSignal plugin is missing");
             return;
         }
 
@@ -80,49 +80,55 @@ angular
         $window.plugins.OneSignal.setAppId(service.appId);
 
         $window.plugins.OneSignal.promptForPushNotificationsWithUserResponse((accepted) => {
-            console.log("User accepted notifications: " + accepted);
+            console.log("[Push2Service] User accepted notifications: " + accepted);
         });
 
         $window.plugins.OneSignal.setNotificationOpenedHandler(function(jsonData) {
-            console.log('notificationOpenedCallback: ' + JSON.stringify(jsonData));
+            console.log('[Push2Service] notificationOpenedCallback: ' + JSON.stringify(jsonData));
         });
 
-        $window.plugins.OneSignal.setNotificationWillShowInForegroundHandler(function(jsonData) {
-            console.log('notificationWillShowInForegroundHandler: ' + JSON.stringify(jsonData));
-            $rootScope.$broadcast(SB.EVENTS.PUSH.notificationReceived, jsonData.getNotification());
+        $window.plugins.OneSignal.setNotificationWillShowInForegroundHandler(function(notificationReceivedEvent) {
+            $rootScope.$broadcast(SB.EVENTS.PUSH.notificationReceived, {
+                event: notificationReceivedEvent,
+                notification: notificationReceivedEvent.getNotification(),
+                origin: 'foreground'
+            });
         });
 
-        $window.plugins.OneSignal.setNotificationOpenedHandler(function(jsonData) {
-            console.log('setNotificationOpenedHandler: ' + JSON.stringify(jsonData));
-            $rootScope.$broadcast(SB.EVENTS.PUSH.notificationReceived, jsonData.getNotification());
+        $window.plugins.OneSignal.setNotificationOpenedHandler(function(notificationReceivedEvent) {
+            $rootScope.$broadcast(SB.EVENTS.PUSH.notificationReceived, {
+                event: notificationReceivedEvent,
+                notification: notificationReceivedEvent.getNotification(),
+                origin: 'opened_handler'
+            });
         });
 
         $window.plugins.OneSignal.setExternalUserId($session.getExternalUserId(Application.id), (results) => {
             // The results will contain push and email success statuses
-            console.log('Results of setting external user id');
+            console.log('[Push2Service] Results of setting external user id');
             console.log(results);
 
             // Push can be expected in almost every situation with a success status, but
             // as a pre-caution its good to verify it exists
             if (results.push && results.push.success) {
-                console.log('Results of setting external user id push status:');
+                console.log('[Push2Service] Results of setting external user id push status:');
                 console.log(results.push.success);
             }
 
             // Verify the email is set or check that the results have an email success status
             if (results.email && results.email.success) {
-                console.log('Results of setting external user id email status:');
+                console.log('[Push2Service] Results of setting external user id email status:');
                 console.log(results.email.success);
             }
 
             // Verify the number is set or check that the results have an sms success status
             if (results.sms && results.sms.success) {
-                console.log('Results of setting external user id sms status:');
+                console.log('[Push2Service] Results of setting external user id sms status:');
                 console.log(results.sms.success);
             }
 
             $window.plugins.OneSignal.getDeviceState(function(stateChanges) {
-                console.log('OneSignal getDeviceState: ' + JSON.stringify(stateChanges));
+                console.log('[Push2Service] OneSignal getDeviceState: ' + JSON.stringify(stateChanges));
                 Push2.registerPlayer(stateChanges);
             });
 
@@ -138,7 +144,9 @@ angular
                 Push2.setValueId(pushFeature[0].value_id);
                 Push2.findAll(0, true);
             }
-            service.displayNotification(data);
+
+            // We continue to display even if Push2 is not active, we do not require it.
+            service.onNotificationReceived(data);
         });
 
         service.push = $window.plugins.OneSignal;
@@ -149,15 +157,11 @@ angular
         return $q.reject({deprecated: true});
     };
 
-    service.onNotificationReceived = function () {
-        $log.info('[PUSH.onNotificationReceived]');
-    };
-
     /**
      * Update push badge.
      */
     service.updateUnreadCount = function () {
-        $log.info('[PUSH.updateUnreadCount]');
+        $log.info('@deprecated [Push2Service.updateUnreadCount]');
     };
 
     /**
@@ -167,9 +171,9 @@ angular
      * @param title
      * @param message
      */
-    service.sendLocalNotification = function (messageId, title, message) {
+    service.sendLocalNotification = function (messageId, title, message, origin) {
         // Should be OKayish
-        $log.debug('-- Push2-Service, sending a Local Notification --');
+        $log.debug('[Push2Service.sendLocalNotification] Sending a local notification from ' + origin + '');
 
         var localMessage = angular.copy(message);
         if (DEVICE_TYPE === SB.DEVICE.TYPE_IOS) {
@@ -191,7 +195,7 @@ angular
         try {
             $cordovaLocalNotification.schedule(params);
         } catch (e) {
-            console.error('[PushService::Error]');
+            console.error('[Push2Service::Error]');
             console.error(e);
             // Seems sound can create issues
             delete x.sound;
@@ -201,163 +205,134 @@ angular
 
     // @deprecated
     service.fetchMessagesOnStart = function () {
-        $log.info('[PUSH.fetchMessagesOnStart]');
+        $log.info('@deprecated [Push2Service.fetchMessagesOnStart]');
     };
 
-    // @deprecated
-    service.displayNotification = function (messagePayload) {
-        $log.info('[PUSH.displayNotification] messagePayload', messagePayload);
+    service.onNotificationReceived = function (data) {
+        $log.info('[Push2Service.onNotificationReceived] messagePayload', data);
 
-        // Prevent an ID being shown twice.
-        try {
-            $session
-                .getItem('pushMessageIds')
-                .then(function (pushMessageIds) {
-                    var localPushMessageIds = pushMessageIds;
-                    if (pushMessageIds === null || !Array.isArray(pushMessageIds)) {
-                        localPushMessageIds = [];
-                    }
+        // Special case with empty title/message === FORCE SILENT
+        var trimmedTitle = data.notification.title.trim();
+        var trimmedBody = data.notification.body.trim();
+        if (trimmedTitle.length === 0 &&
+            trimmedBody.length === 0) {
+            data.origin = 'silent';
+        }
 
-                    var messageId = parseInt(messagePayload.additionalData.message_id, 10);
-                    if (localPushMessageIds.indexOf(messageId) === -1) {
-                        // Store acknowledged messages in localstorage.
-                        localPushMessageIds.push(messageId);
-                        $session.setItem('pushMessageIds', localPushMessageIds);
+        if (data.extractXPath('notification.additionalData.isSilent', false)) {
+            data.origin = 'force_silent';
+        }
 
-                        var extendedPayload = messagePayload.additionalData;
+        switch (data.origin) {
+            case 'opened_handler':
+                data.event.complete(data.notification);
+                break;
+            case 'foreground':
+                data.event.complete(null);
+                service.displayForegroundNotification(data);
+                break;
+            case 'silent':
+                $log.info('Silent notification!', data);
+                data.event.complete(null);
+                break;
+            case 'force_silent':
+                $log.info('Force silent notification!', data);
+                data.event.complete(null);
+                break;
+        }
 
-                        if ((extendedPayload !== undefined) &&
-                            (extendedPayload.cover || extendedPayload.action_url)) {
-                            // Prevent missing or not base url!
-                            var coverUri = extendedPayload.cover;
-                            try {
-                                if (coverUri.indexOf('http') !== 0) {
-                                    coverUri = DOMAIN + extendedPayload.cover;
-                                }
-                            } catch (e) {
-                                // No cover!
-                            }
+    };
 
-                            var isInAppMessage = ((messagePayload.type !== undefined) &&
-                                (messagePayload.type === 'inapp'));
+    service.displayForegroundNotification = function (OSNotification) {
+        var additionalData = OSNotification.notification.additionalData;
 
-                            var pushPopupTemplate =
-                                '<img src="#COVER_URI#" class="#KLASS#">' +
-                                '<span>#MESSAGE#</span>';
+        let title = OSNotification.notification.title.trim();
+        let body = OSNotification.notification.body.trim();
+        let messageId = OSNotification.notification.notificationId;
 
-                            var config = {
-                                buttons: [
-                                    {
-                                        text: $translate.instant('Cancel', 'push'),
-                                        type: 'button-custom',
-                                        onTap: function () {
-                                            // @deprecated
-                                            //if (isInAppMessage) {
-                                            //    Push.markInAppAsRead();
-                                            //}
-                                            // Simply closes!
-                                        }
-                                    },
-                                    {
-                                        text: $translate.instant('View', 'push'),
-                                        type: 'button-custom',
-                                        onTap: function () {
-                                            // @deprecated
-                                            //if (isInAppMessage) {
-                                            //    Push.markInAppAsRead();
-                                            //}
+        // End fast in the simple condition!
+        if (additionalData === undefined) {
+            Dialog.alert(title, body, 'OK');
+            return;
+        }
 
-                                            if ((extendedPayload.open_webview !== true) &&
-                                                (extendedPayload.open_webview !== 'true')) {
-                                                $location.path(extendedPayload.action_url);
-                                            } else {
-                                                LinkService.openLink(extendedPayload.action_url, {}, false);
-                                            }
-                                        }
-                                    }
-                                ],
-                                cssClass: 'push-popup',
-                                title: messagePayload.title,
-                                template: pushPopupTemplate
-                                    .replace('#COVER_URI#', coverUri)
-                                    .replace('#KLASS#', (extendedPayload.cover ? '' : ' ng-hide'))
-                                    .replace('#MESSAGE#', messagePayload.message)
-                            };
+        // Otherwise we have additional data!
+        if (additionalData.cover || additionalData.action_value) {
+            // Prevent missing or not base url!
+            var coverUri = additionalData.cover;
+            try {
+                if (coverUri.indexOf('http') !== 0) {
+                    coverUri = DOMAIN + additionalData.cover;
+                }
+            } catch (e) {}
 
-                            var trimmedTitle = messagePayload.title.trim();
-                            var trimmedMessage = messagePayload.message.trim();
+            var pushPopupTemplate =
+                '<img src="#COVER_URI#" class="#KLASS#" />' +
+                '<span>#MESSAGE#</span>';
 
-                            if (trimmedTitle.length === 0 && trimmedMessage.length === 0) {
-                                // This is a "silent push" it's up to whom sent it to handle it!
-                                $log.debug("Silent push (empty title, message)", messagePayload);
-                            } else if (extendedPayload.isSilent === true) {
-                                // This is a "silent push" it's up to whom sent it to handle it!
-                                $log.debug("Silent push (forced silent)", messagePayload);
+            var config = {
+                buttons: [
+                    {
+                        text: $translate.instant('Cancel', 'push'),
+                        type: 'button-custom',
+                        onTap: function () {
+                            // Simply closes!
+                        }
+                    },
+                    {
+                        text: $translate.instant('View', 'push'),
+                        type: 'button-custom',
+                        onTap: function () {
+                            if ((additionalData.open_webview !== true) &&
+                                (additionalData.open_webview !== 'true')) {
+                                $location.path(additionalData.action_value);
                             } else {
-                                // This is a regular push!
-                                if (messagePayload.config !== undefined) {
-                                    config = angular.extend(config, messagePayload.config);
-                                }
-
-                                // Handles case with only a cover image!
-                                if ((extendedPayload.action_url === undefined) ||
-                                    (extendedPayload.action_url === '') ||
-                                    (extendedPayload.action_url === null)) {
-                                    config.buttons = [
-                                        {
-                                            text: $translate.instant('OK', 'push'),
-                                            type: 'button-custom',
-                                            onTap: function () {
-                                                // Simply closes!
-                                            }
-                                        }
-                                    ];
-                                }
-
-                                $log.debug('Message payload (ionicPopup):', messagePayload, config);
-                                // Also copy to "local notification" this way we ensure message is explicitely notified!
-                                if (extendedPayload.foreground) {
-                                    service.sendLocalNotification(messageId, trimmedTitle, trimmedMessage);
-                                }
-                                Dialog.ionicPopup(config);
-                            }
-                        } else {
-                            var otherTrimmedTitle = messagePayload.title.trim();
-                            var otherTrimmedMessage = messagePayload.message.trim();
-
-                            if (otherTrimmedTitle.length === 0 && otherTrimmedMessage.length === 0) {
-                                // This is a "silent push" it's up to whom sent it to handle it!
-                                $log.debug("Silent push (empty title, message)", messagePayload);
-                            } else {
-                                var localTitle = (messagePayload.title !== undefined) ?
-                                    messagePayload.title : 'Notification';
-                                $log.debug('Message payload (alert):', messagePayload);
-
-                                // Also copy to "local notification" this way we ensure message is explicitely notified!
-                                if (extendedPayload && extendedPayload.foreground) {
-                                    service.sendLocalNotification(messageId, otherTrimmedTitle, otherTrimmedMessage);
-                                }
-
-                                Dialog.alert(localTitle, messagePayload.message, 'OK');
+                                LinkService.openLink(additionalData.action_value, {}, false);
                             }
                         }
-
-                        // Search for less resource consuming maybe use Push factory directly!
-                        $rootScope.$broadcast(SB.EVENTS.PUSH.unreadPushs, messagePayload.count);
                     }
+                ],
+                cssClass: 'push-popup',
+                title: title,
+                template: pushPopupTemplate
+                    .replace('#COVER_URI#', coverUri)
+                    .replace('#KLASS#', (additionalData.cover ? '' : ' ng-hide'))
+                    .replace('#MESSAGE#', body)
+            };
 
-                    // Nope!
-                    $log.debug('Will not display duplicated message: ', messagePayload);
-                }).catch(function (err) {
-                    // We got an error!
-                    $log.debug('We got an error with the localForage when trying to display push message: ', messagePayload);
-                    $log.debug(err);
-                });
-        } catch (e) {
-            $log.debug('We got an exception when trying to display push message: ', messagePayload);
-            $log.debug(e);
+            // Handles case with only a cover image!
+            if ((additionalData.action_value === undefined) ||
+                (additionalData.action_value === '') ||
+                (additionalData.action_value === null)) {
+                config.buttons = [
+                    {
+                        text: $translate.instant('OK', 'push'),
+                        type: 'button-custom',
+                        onTap: function () {
+                            // Simply closes!
+                        }
+                    }
+                ];
+            }
+
+            $log.debug('[Push2Service.ionicPopup] Message payload:', OSNotification, config);
+            // Also copy to "local notification" this way we ensure message is explicitely notified!
+            if (additionalData.extractXPath('duplicateForeground', false)) {
+                service.sendLocalNotification(messageId, title, body, 'duplicate_foreground');
+            }
+            Dialog.ionicPopup(config);
+
+        } else {
+            $log.debug('[Push2Service.alert] Message payload:', OSNotification);
+
+            // Also copy to "local notification" this way we ensure message is explicitely notified!
+            if (additionalData.extractXPath('duplicateForeground', false)) {
+                service.sendLocalNotification(messageId, title, body, 'duplicate_foreground');
+            }
+
+            Dialog.alert(title, body, 'OK');
         }
-    };
+    }
 
     // Push simulator!
     window.pushService = service;

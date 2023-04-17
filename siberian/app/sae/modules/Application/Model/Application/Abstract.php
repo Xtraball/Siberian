@@ -393,7 +393,7 @@ abstract class Application_Model_Application_Abstract extends Core_Model_Default
         if (preg_match($regexAndroid, $packageName)) {
             $this->setData('package_name', $this->validatePackageName($packageName))->save();
         } else {
-            throw new \Siberian\Exception(__("Your package name is invalid, format should looks like com.mydomain.androidid"));
+            throw new \Siberian\Exception(__("Your package name is invalid, format should looks like com.mydomain.uuid"));
         }
 
         return $this;
@@ -1080,7 +1080,7 @@ abstract class Application_Model_Application_Abstract extends Core_Model_Default
             $host = $whitelabel->getHost();
 
             if (empty($id_android)) {
-                $whitelabel->setData("app_default_identifier_android", $buildId($host, "android"));
+                $whitelabel->setData("app_default_identifier_android", $buildId($host, "and"));
             }
 
             if (empty($id_ios)) {
@@ -1100,7 +1100,7 @@ abstract class Application_Model_Application_Abstract extends Core_Model_Default
             $host = mb_strtolower($request->getServer("HTTP_HOST"));
 
             if (empty($id_android)) {
-                __set("app_default_identifier_android", $buildId($host, "android"));
+                __set("app_default_identifier_android", $buildId($host, "and"));
             }
 
             if (empty($id_ios)) {

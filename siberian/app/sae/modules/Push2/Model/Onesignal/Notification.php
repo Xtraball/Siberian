@@ -60,8 +60,9 @@ class Notification {
         $this->application = $application;
     }
 
-    public function fetchLatestNotifications() {
-        return $this->apiInstance->getNotifications($this->APP_ID, 50, 0, 1);
+    public function fetchLatestNotifications($appId = null, $limit = 50, $offset = 0, $includePlayerIds = 1) {
+        return $this->apiInstance->getNotifications(
+            $appId ?? $this->APP_ID, $limit, $offset, $includePlayerIds);
     }
 
     /**
@@ -71,14 +72,13 @@ class Notification {
      */
     public function regularPush(\Push2\Model\Onesignal\Message $message)
     {
-        $hasContent = false;
-        $content = [];
+        $additionalData = false;
 
         $title = new \onesignal\client\model\StringMap();
         $title->setEn($message->getTitle());
 
         $body = new \onesignal\client\model\StringMap();
-        $body->setEn($message->getbody());
+        $body->setEn($message->getBody());
 
         $newUuid = \Siberian\UUID::v4();
 
@@ -126,51 +126,44 @@ class Notification {
         //$pushColor = strtoupper($this->application->getAndroidPushColor() ?? '#0099C7');
 
         $actionUrl = null;
-        if ($message->getActionUrl()) {
-            $content['action_url'] = $message->getActionUrl();
-            $hasContent = true;
+        if (is_numeric($message->getActionValue())) {
+            $optionValue = (new \Application_Model_Option_Value())->find($message->getActionValue());
+            // In case we use only value_id
+            if (!$this->application || !$this->application->getId()) {
+                $application = (new \Application_Model_Application())->find($optionValue->getAppId());
+            }
+//
+            $mobileUri = $optionValue->getMobileUri();
+            if (preg_match('/^goto\/feature/', $mobileUri)) {
+                $actionUrl = sprintf("/%s/%s/value_id/%s",
+                    $application->getKey(),
+                    $mobileUri,
+                    $optionValue->getId());
+            } else {
+                $actionUrl = sprintf("/%s/%sindex/value_id/%s",
+                    $application->getKey(),
+                    $optionValue->getMobileUri(),
+                    $optionValue->getId());
+            }
+            $additionalData = true;
+        } else {
+            $actionUrl = $message->getActionValue();
+            $additionalData = true;
         }
 
-        //if (is_numeric($message->getActionValue())) {
-        //    $option_value = new Application_Model_Option_Value();
-        //    $option_value->find($message->getActionValue());
-//
-        //    // In case we use only value_id
-        //    if (!$this->application || !$this->application->getId()) {
-        //        $application = (new Application_Model_Application())->find($option_value->getAppId());
-        //    }
-//
-        //    $mobileUri = $option_value->getMobileUri();
-        //    if (preg_match('/^goto\/feature/', $mobileUri)) {
-        //        $action_url = sprintf("/%s/%s/value_id/%s",
-        //            $application->getKey(),
-        //            $mobileUri,
-        //            $option_value->getId());
-        //    } else {
-        //        $action_url = sprintf("/%s/%sindex/value_id/%s",
-        //            $application->getKey(),
-        //            $option_value->getMobileUri(),
-        //            $option_value->getId());
-        //    }
-        //} else {
-        //    $action_url = $message->getActionValue();
-        //}
+        if ($additionalData) {
 
-        //$this->notification->setContentAvailable(true);
-        //$this->notification->setData([
-        //    'soundname' => 'sb_beep4',
-        //    'title' => $message->getTitle(),
-        //    'body' => $message->getText(),
-        //    'sound' => 'sb_beep4',
-        //    'icon' => 'ic_icon',
-        //    'color' => $pushColor,
-        //    'action_value' => $action_url,
-        //]);
+            // cheat to get the right action value
+            $actionUrl = str_replace('627559b45a9db', 'xtraball', $actionUrl);
+            $actionUrl = str_replace('7', '406', $actionUrl);
 
-        // If there is any content we merge it!
-        if ($hasContent) {
             $this->notification->setContentAvailable(true);
-            $this->notification->setData($this->notification->getData() + $content);
+            $this->notification->setData([
+                'title' => $message->getTitle(),
+                'body' => $message->getBody(),
+                'soundname' => 'sb_beep4',
+                'action_value' => $actionUrl,
+            ]);
         }
 
         $this->notification->setAndroidSound('sb_beep4');
@@ -179,7 +172,7 @@ class Notification {
         $this->setTargets($message->getTargets());
 
         //
-        $result = Hook::trigger('push2.message.parsed',
+        $result = Hook::trigger('push.message.android.parsed',
             [
                 'notification' => $this->notification,
                 'application' => $this->application

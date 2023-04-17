@@ -6,7 +6,7 @@ require_once path('/lib/onesignal/vendor/autoload.php');
 
 use Push2\Model\Onesignal\Targets\AbstractTarget;
 use Push2\Model\Onesignal\Targets\Segment;
-use Push2\Model\Onesignal\Targets\Player as TargetPlayer;
+use Push2\Model\Onesignal\Targets\Player;
 
 use Core_Model_Default as BaseModel;
 
@@ -14,6 +14,7 @@ use Core_Model_Default as BaseModel;
  * Class Message
  * @package Push2\Model\Onesignal
  *
+
  * @method $this setAppId($appId)
  * @method $this setValueId($valueId)
  * @method $this setTitle($title)
@@ -23,13 +24,20 @@ use Core_Model_Default as BaseModel;
  * @method $this setSendAfter($send_after)
  * @method $this setDelayedOption($delayed_option)
  * @method $this setDeliveryTimeOfDay($delivery_time_of_day)
- * @method $this setActionUrl($action_url)
- * @method $this setIsIndividual(boolean $is_individual)
- * @method $this setPlayerIds(array $player_ids)
  * @method $this setTargets($targets)
  * @method $this setOnesignalId($onesignal_id)
  * @method $this setExternalId($external_id)
  * @method $this setRecipients($recipients)
+ * @method $this setOpenFeature(bool $open_feature)
+ * @method $this setIsTest(bool $is_test)
+ * @method $this setIsForModule(bool $is_for_module)
+ * @method $this setIsIndividual(bool $is_individual)
+ * @method $this setFeatureId(bool $feature_id)
+ * @method $this setPlayerIds(array $player_ids)
+ * @method $this setActionValue($action_value)
+ * @method Db\Table\Message getTable()
+ * @method integer getAppId()
+ * @method integer getValueId()
  * @method string getTitle()
  * @method string getSubtitle()
  * @method string getBody()
@@ -37,12 +45,17 @@ use Core_Model_Default as BaseModel;
  * @method string getSendAfter()
  * @method string getDelayedOption()
  * @method string getDeliveryTimeOfDay()
- * @method boolean getIsIndividual()
- * @method array getPlayerIds()
  * @method string getActionUrl()
  * @method string getOnesignalId()
  * @method string getExternalId()
  * @method string getRecipients()
+ * @method bool getOpenFeature()
+ * @method bool getIsTest()
+ * @method bool getIsForModule()
+ * @method bool getIsIndividual()
+ * @method integer getFeatureId()
+ * @method array getPlayerIds()
+ * @method string getActionValue()
  * @method AbstractTarget[] getTargets()
  */
 class Message extends BaseModel {
@@ -59,11 +72,23 @@ class Message extends BaseModel {
     }
 
     /**
+     * @param $app_id
+     * @param $player_id
+     * @return mixed
+     * @throws \Zend_Exception
+     */
+    public function findAllForPlayer($app_id, $player_id = null) {
+        return $this->getTable()->findAllForPlayer($app_id, $player_id);
+    }
+
+    /**
      * @param $data
      * @return $this
      */
     public function fromArray($data): self {
+
         $this->setAppId($data['app_id']);
+        $this->setValueId($data['value_id']);
         $this->setTitle($data['title']);
         $this->setSubtitle($data['subtitle'] ?? null);
         $this->setBody($data['body']);
@@ -71,12 +96,16 @@ class Message extends BaseModel {
         $this->setSendAfter($data['send_after'] ?? null);
         $this->setDelayedOption($data['delayed_option'] ?? null);
         $this->setDeliveryTimeOfDay($data['delivery_time_of_day'] ?? null);
-        $this->setActionUrl($data['action_url'] ?? null);
-        $this->setIsIndividual($data['is_individual'] ?? false);
-        $this->setPlayerIds($data['player_ids'] ?? []);
+        $this->setIsForModule(filter_var($data['is_for_module'] ?? null, FILTER_VALIDATE_BOOLEAN));
+        $this->setIsTest(filter_var($data['is_test'] ?? null, FILTER_VALIDATE_BOOLEAN));
+        $this->setIsIndividual(filter_var($data['is_individual'] ?? null, FILTER_VALIDATE_BOOLEAN));
+        $this->setOpenFeature(filter_var($data['open_feature'] ?? null, FILTER_VALIDATE_BOOLEAN));
+        $this->setFeatureId($data['feature_id'] ?? null);
+        $this->setPlayerIds($data['player_ids'] ?? null);
 
         $this->checkSchedulingOptions();
         $this->checkTargets();
+        $this->checkOpenFeature();
 
         return $this;
     }
@@ -101,11 +130,16 @@ class Message extends BaseModel {
     public function checkTargets() {
         if ($this->getIsIndividual()) {
             $this->clearTargets();
-            $playerIds = [];
-            foreach ($this->getPlayerIds() as $playerId) {
-                $playerIds[] = $playerId;
-            }
-            $this->addTargets(new TargetPlayer($playerIds));
+            $this->addTargets(new Player($this->getPlayerIds()));
+        }
+    }
+
+    /**
+     * @return void
+     */
+    public function checkOpenFeature() {
+        if ($this->getOpenFeature()) {
+            $this->setActionValue($this->getFeatureId());
         }
     }
 

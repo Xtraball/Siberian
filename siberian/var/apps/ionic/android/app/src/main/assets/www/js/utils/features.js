@@ -2,6 +2,21 @@
 // We must check ES5 support, so we can skip few modules*
 var SupportsES6 = function() {try {new Function("(a = 0) => a");return true;} catch (err) {return false;}}();
 
+// We extend the Object with a XPath extractor/fallback
+Object.defineProperty(Object.prototype, 'extractXPath', {
+    value: function (path, fallback) {
+        var parts = path.split('.');
+        var current = this;
+        for (var i = 0; i < parts.length; i++) {
+            if (!current.hasOwnProperty(parts[i])) {
+                return fallback;
+            }
+            current = current[parts[i]];
+        }
+        return current;
+    }
+});
+
 // Features Lazy Loader
 window.Features = (new (function Features() {
     var _app = angular.module('starter'); // WARNING: Must be the same as in app.js

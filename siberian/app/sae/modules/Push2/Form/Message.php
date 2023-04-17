@@ -12,6 +12,28 @@ use \Siberian_Form_Abstract as FormAbstract;
 class Message extends FormAbstract
 {
     /**
+     * @var mixed|null
+     */
+    public $application;
+
+    /**
+     * @var mixed|null
+     */
+    public $_features;
+
+    /**
+     * @param $options
+     * @throws \Zend_Form_Exception
+     */
+    public function __construct($options = null)
+    {
+        $this->application = $options['application'] ?? null;
+        $this->_features = $options['features'] ?? null;
+
+        parent::__construct($options);
+    }
+
+    /**
      * @throws \Zend_Form_Exception
      */
     public function init()
@@ -20,8 +42,7 @@ class Message extends FormAbstract
 
         $individualPush = false;
         if (Push::individualEnabled()) {
-            $application = $this->getApplication();
-            if ($application && $application->getId()) {
+            if ($this->application && $this->application->getId()) {
                 $individualPush = true;
             }
         }
@@ -52,13 +73,11 @@ class Message extends FormAbstract
         $body->setRequired();
 
         if ($individualPush) {
-            $players = (new Player())->findAll(["app_id = ?" => $application->getId()]);
+            $players = (new Player())->findWithCustomers(["player.app_id = ?" => $this->application->getId()]);
 
             $is_individual = $this->addSimpleCheckbox('is_individual', p__('push2', 'Individual?'));
 
             $this->addSimpleHtml('individual_table', $this->individualTable($players));
-
-            $strSearch = p__('push2', 'Search, filter ...');
         }
 
 
@@ -106,6 +125,16 @@ class Message extends FormAbstract
             ], p__('push2', 'Individual push'));
         }
 
+        // Features
+        if (!empty($this->_features)) {
+            $open_feature = $this->addSimpleCheckbox('open_feature', p__('push2', 'Link to a page?'));
+            $this->addSimpleHtml('features_table', $this->featureTable());
+            $this->groupElements('features', [
+                'open_feature',
+                'features_table',
+            ], p__('push2', 'Link to a page'));
+        }
+
         $this->groupElements('the_time', [
             'is_scheduled',
             'picker_send_after',
@@ -114,6 +143,7 @@ class Message extends FormAbstract
         ], p__('push2', 'Scheduling options'));
 
 
+        $strSearch = p__('push2', 'Search, filter ...');
         $dynamicJs = <<<JS
 <script type="text/javascript">
 let individualCheckbox = $("#is_individual");
@@ -152,10 +182,9 @@ let playerIdCheckbox = $("input[name='player_ids[]']");
 playerIdCheckbox.off("click");
 playerIdCheckbox.on("click", checkAllVisible);
 
-
-$("table.sb-pager").sbpager({
+$("table.sb-pager.os-players").sbpager({
     with_search: true,
-    items_per_page: 20,
+    items_per_page: 10,
     search_placeholder: "{$strSearch}",
     callback_init: function () {
         checkAllVisible();
@@ -163,6 +192,12 @@ $("table.sb-pager").sbpager({
     callback_goto_page_after: function () {
         checkAllVisible();
     }
+});
+
+$("table.sb-pager.sb-features").sbpager({
+    with_search: true,
+    items_per_page: 10,
+    search_placeholder: "{$strSearch}",
 });
 
 </script>
@@ -175,21 +210,22 @@ JS;
     {
         $strId = p__("push2", "ID");
         $strUser = p__("push2", "User");
+        $strEmail = p__("push2", "Email");
 
         $tableHtml = <<<HTML
 <div class="col-md-12">
-    <table class="table content-white-bkg sb-pager margin-top">
+    <table class="table content-white-bkg sb-pager os-players margin-top">
         <thead>
             <tr class="border-grey">
-                <th>
+                <th style="width: 40px">
                     <label>
                         <input type="checkbox"
                                id="toggle_all_visible" />
-                               Toggle all visible
                     </label>
                 </th>
                 <th class="sortable numeric">{$strId}</th>
                 <th class="sortable">{$strUser}</th>
+                <th class="sortable">{$strEmail}</th>
             </tr>
         </thead>
         <tbody>
@@ -197,15 +233,19 @@ HTML;
         foreach ($players as $player) {
             $tableHtml .= <<<HTML
             <tr class="sb-pager">
-                <td>
+                <td style="width: 40px">
                     <input type="checkbox" 
                            name="player_ids[]" 
                            value="{$player->getPlayerId()}" />
-                <td>
-                    <b>#{$player->getId()}</b>
+                </td>
+                <td style="width: 80px">
+                    <b>#{$player->getCustomerId()}</b>
                 </td>
                 <td>
-                    <b>{$player->getPlayerId()}</b>
+                    <b>{$player->getFirstname()} {$player->getLastname()}</b>
+                </td>
+                <td>
+                    <b>{$player->getEmail()}</b>
                 </td>
             </tr>
 HTML;
@@ -216,5 +256,57 @@ HTML;
 </div>
 HTML;
         return $tableHtml;
+    }
+
+    public function featureTable()
+    {
+        $strFeature = p__("push2", "Feature");
+
+        $tableHtml = <<<HTML
+<div class="col-md-12">
+    <table class="table content-white-bkg sb-pager sb-features margin-top">
+        <thead>
+            <tr class="border-grey">
+                <th style="width: 40px"></th>
+                <th class="sortable">{$strFeature}</th>
+            </tr>
+        </thead>
+        <tbody>
+HTML;
+        foreach ($this->_features as $feature) {
+            $tableHtml .= <<<HTML
+            <tr class="sb-pager" 
+                onclick="$('[name=feature_id]').prop('checked', false);$('#feature_id_{$feature->getId()}').prop('checked', true);">
+                <td>
+                    <input type="checkbox" 
+                           name="feature_id" 
+                           id="feature_id_{$feature->getId()}"
+                           value="{$feature->getId()}" />
+                <td>
+                    <b>{$this->getFeatureStr($feature)}</b>
+                </td>
+            </tr>
+HTML;
+        }
+        $tableHtml .= <<<HTML
+        </tbody>
+    </table>
+</div>
+HTML;
+        return $tableHtml;
+    }
+
+    public function getFeatureStr($feature) {
+        $strFeatureParts = [
+            "#{$feature->getId()}",
+            $feature->getTabbarName()
+        ];
+        if (!$feature->getIsVisible()) {
+            $strFeatureParts[] = '<span class="text-warning">' . p__('push2', '(hidden from menu)'). '</span>';
+        }
+        if (!$feature->getIsActive()) {
+            $strFeatureParts[] = '<span class="text-danger">' . p__('push2', '(not published)'). '</span>';
+        }
+        return implode(' - ', $strFeatureParts);
     }
 }
