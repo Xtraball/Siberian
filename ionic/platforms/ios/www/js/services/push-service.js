@@ -1,6 +1,6 @@
 // DUMMY DEPRECATED
 angular.module('starter').service('PushService', function ($q) {
-    var service = {push: null, isReady: null, isReadyPromise: null, isEnabled: true, settings: {android: {senderID: '01234567890', icon: 'ic_icon', iconColor: '#0099C7', sound: true, soundname: 'sb_beep4', vibrate: true}, ios: {clearBadge: false, critical: Application.useCriticalPush, alert: true, badge: true, sound: true, soundname: 'sb_beep4',}, windows: {}}};
+    var service = {push: null, isReady: null, isReadyPromise: null, isEnabled: true, settings: {android: {senderID: '01234567890', icon: 'ic_icon', iconColor: '#0099C7', sound: true, soundname: 'sb_beep4', vibrate: true}, ios: {clearBadge: false, critical: false, alert: true, badge: true, sound: true, soundname: 'sb_beep4',}, windows: {}}};
     service.configure = function (senderID, iconColor) {};
     service.init = function () {};
     service.isRegistered = function () {};
