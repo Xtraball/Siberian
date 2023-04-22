@@ -112,7 +112,7 @@ class Notification {
        //if ($message->getLongitude() &&
        //    $message->getLatitude()) {
 
-       //    $filterLocation = new \onesignal\client\model\FilterNotificationTarget([
+       //    $faliste de groupe, un badge apparaîtra à côté de son nom dans les discilterLocation = new \onesignal\client\model\FilterNotificationTarget([
        //        'location' => [
        //            'radius' => (int) $message->getRadius(),
        //            'lat' => (float) $message->getLatitude(),

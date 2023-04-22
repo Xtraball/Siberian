@@ -825,11 +825,11 @@ abstract class Core_Model_Default_Abstract
     }
 
     /**
-     * @return array|mixed|null|string
+     * @return string
      */
     public function __toString()
     {
-        return $this->getData();
+        return $this->getData("id") ?? "-";
     }
 
     /**

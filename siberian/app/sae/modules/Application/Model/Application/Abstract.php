@@ -114,6 +114,14 @@ abstract class Application_Model_Application_Abstract extends Core_Model_Default
     }
 
     /**
+     * @return string
+     */
+    public function __toString(): string
+    {
+        return $this->getData("name") ?? "";
+    }
+
+    /**
      * Testing if a value_id belongs to the current app
      *
      * @todo Allowing cross-app access
