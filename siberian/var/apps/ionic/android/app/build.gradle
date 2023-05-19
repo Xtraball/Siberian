@@ -313,8 +313,8 @@ dependencies {
     implementation "com.android.billingclient:billing:5.0.0"
     implementation "com.facebook.android:audience-network-sdk:+"
     implementation "com.google.ads.mediation:facebook:+"
-    implementation "com.startapp:inapp-sdk:4.10.2"
-    implementation "com.startapp:admob-mediation:2.5.0"
+    implementation "com.startapp:inapp-sdk:4.10.8"
+    implementation "com.startapp:admob-mediation:2+"
     // SUB-PROJECT DEPENDENCIES END
 }
 
