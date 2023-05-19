@@ -13,19 +13,20 @@ class Push extends ModelDefault {
     /**
      * @var bool
      */
-    static $individualEnabled = false;
+    public static $individualEnabled = false;
 
     /**
      * @return bool
      */
     public static function individualEnabled() {
-        return self::$individualEnabled;
+        return self::$individualEnabled || static::$individualEnabled;
     }
 
     /**
      * @return void
      */
     public static function enableIndividual() {
+        static::$individualEnabled = true;
         self::$individualEnabled = true;
     }
 }
