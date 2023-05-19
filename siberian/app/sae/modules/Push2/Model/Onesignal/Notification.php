@@ -17,7 +17,8 @@ require_once path('/lib/onesignal/vendor/autoload.php');
  * Class Notification
  * @package Push\Model\Onesignal
  */
-class Notification {
+class Notification
+{
 
     public $application;
 
@@ -56,11 +57,13 @@ class Notification {
      * @param $application
      * @return void
      */
-    public function setApplication($application) {
+    public function setApplication($application)
+    {
         $this->application = $application;
     }
 
-    public function fetchLatestNotifications($appId = null, $limit = 50, $offset = 0, $includePlayerIds = 1) {
+    public function fetchLatestNotifications($appId = null, $limit = 50, $offset = 0, $includePlayerIds = 1)
+    {
         return $this->apiInstance->getNotifications(
             $appId ?? $this->APP_ID, $limit, $offset, $includePlayerIds);
     }
@@ -109,23 +112,24 @@ class Notification {
 
 
         // Geolocated push
-       //if ($message->getLongitude() &&
-       //    $message->getLatitude()) {
+        //if ($message->getLongitude() &&
+        //    $message->getLatitude()) {
 
-       //    $faliste de groupe, un badge apparaîtra à côté de son nom dans les discilterLocation = new \onesignal\client\model\FilterNotificationTarget([
-       //        'location' => [
-       //            'radius' => (int) $message->getRadius(),
-       //            'lat' => (float) $message->getLatitude(),
-       //            'long' => (float) $message->getLongitude(),
-       //        ]
-       //    ]);
-       //    $this->notification->setFilters([$filterLocation]);
-       //}
+        //    $faliste de groupe, un badge apparaîtra à côté de son nom dans les discilterLocation = new \onesignal\client\model\FilterNotificationTarget([
+        //        'location' => [
+        //            'radius' => (int) $message->getRadius(),
+        //            'lat' => (float) $message->getLatitude(),
+        //            'long' => (float) $message->getLongitude(),
+        //        ]
+        //    ]);
+        //    $this->notification->setFilters([$filterLocation]);
+        //}
 
         // Push icon color
         //$pushColor = strtoupper($this->application->getAndroidPushColor() ?? '#0099C7');
 
         $actionUrl = null;
+        $actionValue = trim($message->getActionValue());
         if (is_numeric($message->getActionValue())) {
             $optionValue = (new \Application_Model_Option_Value())->find($message->getActionValue());
             // In case we use only value_id
@@ -146,17 +150,12 @@ class Notification {
                     $optionValue->getId());
             }
             $additionalData = true;
-        } else {
+        } else if (!empty($actionValue)) {
             $actionUrl = $message->getActionValue();
             $additionalData = true;
         }
 
         if ($additionalData) {
-
-            // cheat to get the right action value
-            $actionUrl = str_replace('627559b45a9db', 'xtraball', $actionUrl);
-            $actionUrl = str_replace('7', '406', $actionUrl);
-
             $this->notification->setContentAvailable(true);
             $this->notification->setData([
                 'title' => $message->getTitle(),
@@ -234,7 +233,8 @@ class Notification {
         }
     }
 
-    public function importDevices($androidDevices, $iosDevices) {
+    public function importDevices($androidDevices, $iosDevices)
+    {
 
         $counter = 0;
         foreach ($androidDevices as $androidDevice) {
@@ -245,10 +245,10 @@ class Notification {
                 $player->setIdentifier($androidDevice['registration_id']);
                 $player->setNotificationTypes(1);
                 if (!empty($androidDevice['customer_id'])) {
-                    $external_user_id = implode( '_', ['os', 'customer', $androidDevice['app_id'], $androidDevice['customer_id']]);
+                    $external_user_id = implode('_', ['os', 'customer', $androidDevice['app_id'], $androidDevice['customer_id']]);
                     $player->setExternalUserId($external_user_id);
                 } else {
-                    $external_user_id = implode( '_', ['os', 'anonymous', $androidDevice['app_id'], $androidDevice['device_uid']]);
+                    $external_user_id = implode('_', ['os', 'anonymous', $androidDevice['app_id'], $androidDevice['device_uid']]);
                     $player->setExternalUserId($external_user_id);
                 }
 
@@ -269,10 +269,10 @@ class Notification {
                 $player->setDeviceOs($iosDevice['device_version']);
                 $player->setNotificationTypes(1);
                 if (!empty($iosDevice['customer_id'])) {
-                    $external_user_id = implode( '_', ['os', 'customer', $iosDevice['app_id'], $iosDevice['customer_id']]);
+                    $external_user_id = implode('_', ['os', 'customer', $iosDevice['app_id'], $iosDevice['customer_id']]);
                     $player->setExternalUserId($external_user_id);
                 } else {
-                    $external_user_id = implode( '_', ['os', 'anonymous', $iosDevice['app_id'], $iosDevice['device_uid']]);
+                    $external_user_id = implode('_', ['os', 'anonymous', $iosDevice['app_id'], $iosDevice['device_uid']]);
                     $player->setExternalUserId($external_user_id);
                 }
 
@@ -289,7 +289,8 @@ class Notification {
     /**
      * @throws \onesignal\client\ApiException
      */
-    public function sendNotification() {
+    public function sendNotification()
+    {
         $result = $this->apiInstance->createNotification($this->notification);
         file_put_contents(path("/var/log/onesignal.log"), print_r($result, true), FILE_APPEND);
         return $result;
