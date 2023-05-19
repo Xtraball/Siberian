@@ -31,6 +31,8 @@ class Player extends DbTable
             $select->where($key, $value);
         }
 
+        $select->where("player.customer_id IS NOT NULL");
+
         return $this->toModelClass($this->_db->fetchAll($select));
     }
 }

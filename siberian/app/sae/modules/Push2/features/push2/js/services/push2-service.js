@@ -73,6 +73,11 @@ angular
             return;
         }
 
+        if (service.appId === undefined || service.appId === null || service.appId === '') {
+            $log.error("[Push2Service] Push appId is missing");
+            return;
+        }
+
         // Uncomment to set OneSignal device logging to VERBOSE
         $window.plugins.OneSignal.setLogLevel(6, 0);
 

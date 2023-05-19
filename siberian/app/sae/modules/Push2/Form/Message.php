@@ -3,7 +3,7 @@
 namespace Push2\Form;
 
 use Push2\Model\Onesignal\Player;
-use Push2\Model\Push;
+use Push2\Model\Push as Push2;
 use \Siberian_Form_Abstract as FormAbstract;
 
 /**
@@ -41,10 +41,10 @@ class Message extends FormAbstract
         parent::init();
 
         $individualPush = false;
-        if (Push::individualEnabled()) {
-            if ($this->application && $this->application->getId()) {
-                $individualPush = true;
-            }
+        if (Push2::individualEnabled() &&
+            $this->application &&
+            $this->application->getId()) {
+            $individualPush = true;
         }
 
         $this
