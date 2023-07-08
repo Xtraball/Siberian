@@ -678,7 +678,7 @@ class Thumbnailer_GdThumb extends Thumbnailer_ThumbBase
 				break;
 		}
 
-                @chmod($fileName, 0777);
+                chmod($fileName, 0777);
 
                 return $this;
 	}

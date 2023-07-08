@@ -31,7 +31,7 @@ class Dom_SmartDOMDocument extends DOMDocument {
      */
     public function loadHTML($html, $encoding = "UTF-8") {
         $html = mb_convert_encoding($html, 'HTML-ENTITIES', $encoding);
-        @parent::loadHTML($html); // suppress warnings
+        parent::loadHTML($html); // suppress warnings
     }
 
     /**

@@ -240,10 +240,10 @@ abstract class Zend_Cache
      */
     private static function _isReadable($filename)
     {
-        if (!$fh = @fopen($filename, 'r', true)) {
+        if (!$fh = fopen($filename, 'r', true)) {
             return false;
         }
-        @fclose($fh);
+        fclose($fh);
         return true;
     }
 

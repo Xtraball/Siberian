@@ -28,27 +28,27 @@ class Iterator implements \Iterator
         $this->values[] = $fileinfo;
     }
 
-    public function rewind()
+    public function rewind(): void
     {
         reset($this->values);
     }
 
-    public function valid()
+    public function valid(): bool
     {
         return false !== $this->current();
     }
 
-    public function next()
+    public function next(): void
     {
         next($this->values);
     }
 
-    public function current()
+    public function current(): mixed
     {
         return current($this->values);
     }
 
-    public function key()
+    public function key(): mixed
     {
         return key($this->values);
     }

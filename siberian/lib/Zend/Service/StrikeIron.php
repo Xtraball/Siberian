@@ -70,7 +70,7 @@ class Zend_Service_StrikeIron
         try {
             if (!class_exists($class)) {
                 require_once 'Zend/Loader.php';
-                @Zend_Loader::loadClass($class);
+                Zend_Loader::loadClass($class);
             }
             if (!class_exists($class, false)) {
                 throw new Exception('Class file not found');

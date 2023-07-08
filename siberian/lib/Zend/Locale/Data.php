@@ -319,7 +319,9 @@ class Zend_Locale_Data
             $val = implode('_' , $value);
         }
 
-        $val = urlencode($val);
+        if (!empty($val)) {
+            $val = urlencode($val);
+        }
         $id = strtr('Zend_LocaleL_' . $locale . '_' . $path . '_' . $val, array('-' => '_', '%' => '_', '+' => '_'));
         if (!self::$_cacheDisabled && ($result = self::$_cache->load($id))) {
             return unserialize($result);

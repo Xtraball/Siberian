@@ -362,7 +362,7 @@ class Zend_Pdf_Parser
     public function __construct($source, Zend_Pdf_ElementFactory_Interface $factory, $load)
     {
         if ($load) {
-            if (($pdfFile = @fopen($source, 'rb')) === false ) {
+            if (($pdfFile = fopen($source, 'rb')) === false ) {
                 require_once 'Zend/Pdf/Exception.php';
                 throw new Zend_Pdf_Exception( "Can not open '$source' file for reading." );
             }

@@ -191,6 +191,7 @@ class Design extends Cache implements CacheInterface
     public static function loadCache ($type, $path)
     {
         $editionCache = path('app/' . $type . '/design/design-cache.json');
+        $cachedContent = null;
         try {
             if (is_file($editionCache)) {
                 $cache = file_get_contents($editionCache);
@@ -203,6 +204,8 @@ class Design extends Cache implements CacheInterface
             // Error!
             $cachedContent = self::saveCache($type, $path);
         }
+
+        $cachedContent = is_array($cachedContent) ? $cachedContent : [];
 
         $localCache = static::getCache() ? static::getCache() : [];
         $cache = array_replace_recursive($localCache, $cachedContent);

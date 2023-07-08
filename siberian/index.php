@@ -19,6 +19,12 @@ if ($_SERVER['REQUEST_METHOD'] === 'OPTIONS') {
     die;
 }
 
+// PHP Polyfill
+abstract class __polyfill_mixed {}
+if (version_compare(PHP_VERSION, '8.0', '<')) {
+    class_alias(\__polyfill_mixed::class, 'mixed');
+}
+
 global $_config;
 
 $here = __DIR__;

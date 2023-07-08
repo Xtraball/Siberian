@@ -12,10 +12,10 @@
 namespace Leafo\ScssPhp\Exception;
 
 /**
- * Parser Exception
+ * Range exception
  *
- * @author Oleksandr Savchenko <traveltino@gmail.com>
+ * @author Anthon Pang <anthon.pang@gmail.com>
  */
-class ParserException extends \Exception
+class RangeException extends \Exception
 {
 }

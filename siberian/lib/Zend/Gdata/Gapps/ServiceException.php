@@ -158,10 +158,10 @@ class Zend_Gdata_Gapps_ServiceException extends Zend_Exception
             // track_errors is temporarily enabled so that if an error
             // occurs while parsing the XML we can append it to an
             // exception by referencing $php_errormsg
-            @ini_set('track_errors', 1);
+            ini_set('track_errors', 1);
             $doc = new DOMDocument();
             $success = @$doc->loadXML($string);
-            @ini_restore('track_errors');
+            ini_restore('track_errors');
 
             if (!$success) {
                 require_once 'Zend/Gdata/App/Exception.php';

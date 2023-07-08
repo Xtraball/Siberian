@@ -53,7 +53,7 @@ class Service
             $bin_sqlite3 = false;
             if (!$php_sqlite3) {
                 try {
-                    $sqlite = Wrapper\Sqlite::getInstance();
+                    $sqlite = Wrapper\Sqlite::sGetInstance();
                     $sqlite->setDbPath(path("var/tmp/test.db"));
                     $result = $sqlite->query("SELECT 1;");
                     if (!empty($result)) {

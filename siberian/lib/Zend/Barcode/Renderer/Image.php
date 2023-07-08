@@ -343,7 +343,7 @@ class Zend_Barcode_Renderer_Image extends Zend_Barcode_Renderer_RendererAbstract
         header("Content-Type: image/" . $this->_imageType);
         $functionName = 'image' . $this->_imageType;
         call_user_func($functionName, $this->_resource);
-        @imagedestroy($this->_resource);
+        imagedestroy($this->_resource);
     }
 
     /**

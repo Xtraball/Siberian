@@ -834,7 +834,7 @@ class Zend_Mail_Storage_Writable_Maildir extends    Zend_Mail_Storage_Folder_Mai
      */
     public function getQuota($fromStorage = false) {
         if ($fromStorage) {
-            $fh = @fopen($this->_rootdir . 'maildirsize', 'r');
+            $fh = fopen($this->_rootdir . 'maildirsize', 'r');
             if (!$fh) {
                 /**
                  * @see Zend_Mail_Storage_Exception

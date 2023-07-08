@@ -487,7 +487,7 @@ class Zend_Service_Amazon_S3 extends Zend_Service_Amazon_Abstract
      */
     public function putFile($path, $object, $meta=null)
     {
-        $data = @file_get_contents($path);
+        $data = file_get_contents($path);
         if ($data === false) {
             /**
              * @see Zend_Service_Amazon_S3_Exception
@@ -517,7 +517,7 @@ class Zend_Service_Amazon_S3 extends Zend_Service_Amazon_Abstract
      */
     public function putFileStream($path, $object, $meta=null)
     {
-        $data = @fopen($path, "rb");
+        $data = fopen($path, "rb");
         if ($data === false) {
             /**
              * @see Zend_Service_Amazon_S3_Exception

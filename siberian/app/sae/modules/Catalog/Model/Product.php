@@ -483,7 +483,7 @@ class Catalog_Model_Product extends Core_Model_Default {
 
     }
 
-    public function finalizeImport($got_heading, $data = null, $line, $full_data = null) {
+    public function finalizeImport($got_heading, $data = null, $line = null, $full_data = null) {
         //When importing a product :
         //- create the product's library
         //- create all foreign key/records if heading are specified

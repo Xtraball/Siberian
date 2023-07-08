@@ -201,7 +201,7 @@ class Zend_Ldap
             $errorMessages[] = $estr1;
         }
 
-        @ldap_get_option($this->_resource, LDAP_OPT_ERROR_STRING, $estr2);
+        ldap_get_option($this->_resource, LDAP_OPT_ERROR_STRING, $estr2);
         if (!empty($estr2) && !in_array($estr2, $errorMessages)) {
             $errorMessages[] = $estr2;
         }
@@ -698,7 +698,7 @@ class Zend_Ldap
     public function disconnect()
     {
         if (is_resource($this->_resource)) {
-            @ldap_unbind($this->_resource);
+            ldap_unbind($this->_resource);
         }
         $this->_resource = null;
         $this->_boundUser = false;
@@ -782,8 +782,8 @@ class Zend_Ldap
             $this->_boundUser = false;
 
             $optReferrals = ($this->_getOptReferrals()) ? 1 : 0;
-            if (@ldap_set_option($resource, LDAP_OPT_PROTOCOL_VERSION, 3) &&
-                        @ldap_set_option($resource, LDAP_OPT_REFERRALS, $optReferrals)) {
+            if (ldap_set_option($resource, LDAP_OPT_PROTOCOL_VERSION, 3) &&
+                        ldap_set_option($resource, LDAP_OPT_REFERRALS, $optReferrals)) {
                 if ($useSsl || !$useStartTls || @ldap_start_tls($resource)) {
                     return $this;
                 }
@@ -1371,7 +1371,7 @@ class Zend_Ldap
             }
             $children[] = $childDn;
         }
-        @ldap_free_result($search);
+        ldap_free_result($search);
         return $children;
     }
 

@@ -17,7 +17,7 @@ class Json extends Zend_Json
      * @param bool $withControl
      * @return string
      */
-    public static function encode($data, $options = null, $withControl = false)
+    public static function encode($data, $options = 0, $withControl = false)
     {
         if (APPLICATION_ENV === "development") {
             $options |= JSON_PRETTY_PRINT;

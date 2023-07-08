@@ -474,7 +474,7 @@ class Zend_Loader_Autoloader
         $callback = $this->getDefaultAutoloader();
         try {
             if ($this->suppressNotFoundWarnings()) {
-                @call_user_func($callback, $class);
+                call_user_func($callback, $class);
             } else {
                 call_user_func($callback, $class);
             }

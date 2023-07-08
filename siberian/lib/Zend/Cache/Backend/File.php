@@ -749,7 +749,7 @@ class Zend_Cache_Backend_File extends Zend_Cache_Backend implements Zend_Cache_B
                 $result = $this->_clean($file . DIRECTORY_SEPARATOR, $mode, $tags) && $result;
                 if ($mode == Zend_Cache::CLEANING_MODE_ALL) {
                     // we try to drop the structure too
-                    @rmdir($file);
+                    rmdir($file);
                 }
             }
         }
@@ -943,8 +943,8 @@ class Zend_Cache_Backend_File extends Zend_Cache_Backend implements Zend_Cache_B
         $partsArray = $this->_path($id, true);
         foreach ($partsArray as $part) {
             if (!is_dir($part)) {
-                @mkdir($part, $this->_options['hashed_directory_perm']);
-                @chmod($part, $this->_options['hashed_directory_perm']); // see #ZF-320 (this line is required in some configurations)
+                mkdir($part, $this->_options['hashed_directory_perm']);
+                chmod($part, $this->_options['hashed_directory_perm']); // see #ZF-320 (this line is required in some configurations)
             }
         }
         return true;
@@ -981,12 +981,12 @@ class Zend_Cache_Backend_File extends Zend_Cache_Backend implements Zend_Cache_B
         if (!is_file($file)) {
             return false;
         }
-        $f = @fopen($file, 'rb');
+        $f = fopen($file, 'rb');
         if ($f) {
-            if ($this->_options['file_locking']) @flock($f, LOCK_SH);
+            if ($this->_options['file_locking']) flock($f, LOCK_SH);
             $result = stream_get_contents($f);
-            if ($this->_options['file_locking']) @flock($f, LOCK_UN);
-            @fclose($f);
+            if ($this->_options['file_locking']) flock($f, LOCK_UN);
+            fclose($f);
         }
         return $result;
     }
@@ -1001,18 +1001,18 @@ class Zend_Cache_Backend_File extends Zend_Cache_Backend implements Zend_Cache_B
     protected function _filePutContents($file, $string)
     {
         $result = false;
-        $f = @fopen($file, 'ab+');
+        $f = fopen($file, 'ab+');
         if ($f) {
-            if ($this->_options['file_locking']) @flock($f, LOCK_EX);
+            if ($this->_options['file_locking']) flock($f, LOCK_EX);
             fseek($f, 0);
             ftruncate($f, 0);
-            $tmp = @fwrite($f, $string);
+            $tmp = fwrite($f, $string);
             if (!($tmp === FALSE)) {
                 $result = true;
             }
-            @fclose($f);
+            fclose($f);
         }
-        @chmod($file, $this->_options['cache_file_perm']);
+        chmod($file, $this->_options['cache_file_perm']);
         return $result;
     }
 

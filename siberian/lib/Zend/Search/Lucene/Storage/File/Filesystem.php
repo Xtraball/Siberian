@@ -59,7 +59,7 @@ class Zend_Search_Lucene_Storage_File_Filesystem extends Zend_Search_Lucene_Stor
         $trackErrors = ini_get('track_errors');
         ini_set('track_errors', '1');
 
-        $this->_fileHandle = @fopen($filename, $mode);
+        $this->_fileHandle = fopen($filename, $mode);
 
         if ($this->_fileHandle === false) {
             ini_set('track_errors', $trackErrors);

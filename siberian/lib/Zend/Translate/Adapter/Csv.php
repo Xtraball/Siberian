@@ -83,7 +83,7 @@ class Zend_Translate_Adapter_Csv extends Zend_Translate_Adapter
     {
         $this->_data = array();
         $options     = $options + $this->_options;
-        $this->_file = @fopen($filename, 'rb');
+        $this->_file = fopen($filename, 'rb');
         if (!$this->_file) {
             require_once 'Zend/Translate/Exception.php';
             throw new Zend_Translate_Exception('Error opening translation file \'' . $filename . '\'.');

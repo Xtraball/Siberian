@@ -608,7 +608,7 @@ class Cron
 
                                 $handler = function ($opts) {
                                     $fn = $opts['config']['docroot'] . $opts['key'];
-                                    @mkdir(dirname($fn),0777,true);
+                                    mkdir(dirname($fn),0777,true);
                                     file_put_contents($fn, $opts['value']);
                                     return function ($opts) {
                                         unlink($opts['config']['docroot'] . $opts['key']);

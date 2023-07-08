@@ -145,7 +145,7 @@ class Zend_Service_WindowsAzure_Storage_Blob_Stream
         $this->_temporaryFileName = tempnam(sys_get_temp_dir(), 'azure');
         
         // Check the file can be opened
-        $fh = @fopen($this->_temporaryFileName, $mode);
+        $fh = fopen($this->_temporaryFileName, $mode);
         if ($fh === false) {
             return false;
         }

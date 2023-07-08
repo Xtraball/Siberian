@@ -2,7 +2,7 @@
 /**
  * SCSSPHP
  *
- * @copyright 2012-2015 Leaf Corcoran
+ * @copyright 2012-2018 Leaf Corcoran
  *
  * @license http://opensource.org/licenses/MIT MIT
  *
@@ -51,10 +51,29 @@ class Crunched extends Formatter
             }
         }
 
-        echo $inner . implode($glue, $block->lines);
+        $this->write($inner . implode($glue, $block->lines));
 
         if (! empty($block->children)) {
-            echo $this->break;
+            $this->write($this->break);
         }
+    }
+
+    /**
+     * Output block selectors
+     *
+     * @param \Leafo\ScssPhp\Formatter\OutputBlock $block
+     */
+    protected function blockSelectors(OutputBlock $block)
+    {
+        $inner = $this->indentStr();
+
+        $this->write(
+            $inner
+            . implode(
+                $this->tagSeparator,
+                str_replace([' > ', ' + ', ' ~ '], ['>', '+', '~'], $block->selectors)
+            )
+            . $this->open . $this->break
+        );
     }
 }

@@ -389,7 +389,7 @@ class Zend_Feed_Reader
     public static function importFile($filename)
     {
         @ini_set('track_errors', 1);
-        $feed = @file_get_contents($filename);
+        $feed = file_get_contents($filename);
         @ini_restore('track_errors');
         if ($feed === false) {
             /**

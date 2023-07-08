@@ -250,7 +250,7 @@ class Zend_Mail_Storage_Mbox extends Zend_Mail_Storage_Abstract
     protected function _isMboxFile($file, $fileIsString = true)
     {
         if ($fileIsString) {
-            $file = @fopen($file, 'r');
+            $file = fopen($file, 'r');
             if (!$file) {
                 return false;
             }
@@ -266,7 +266,7 @@ class Zend_Mail_Storage_Mbox extends Zend_Mail_Storage_Abstract
         }
 
         if ($fileIsString) {
-            @fclose($file);
+            fclose($file);
         }
 
         return $result;
@@ -285,7 +285,7 @@ class Zend_Mail_Storage_Mbox extends Zend_Mail_Storage_Abstract
             $this->close();
         }
 
-        $this->_fh = @fopen($filename, 'r');
+        $this->_fh = fopen($filename, 'r');
         if (!$this->_fh) {
             /**
              * @see Zend_Mail_Storage_Exception
@@ -297,7 +297,7 @@ class Zend_Mail_Storage_Mbox extends Zend_Mail_Storage_Abstract
         $this->_filemtime = filemtime($this->_filename);
 
         if (!$this->_isMboxFile($this->_fh, false)) {
-            @fclose($this->_fh);
+            fclose($this->_fh);
             /**
              * @see Zend_Mail_Storage_Exception
              */
@@ -335,7 +335,7 @@ class Zend_Mail_Storage_Mbox extends Zend_Mail_Storage_Abstract
      */
     public function close()
     {
-        @fclose($this->_fh);
+        fclose($this->_fh);
         $this->_positions = array();
     }
 
@@ -433,7 +433,7 @@ class Zend_Mail_Storage_Mbox extends Zend_Mail_Storage_Abstract
             $this->close();
             $this->_openMboxFile($this->_filename);
         } else {
-            $this->_fh = @fopen($this->_filename, 'r');
+            $this->_fh = fopen($this->_filename, 'r');
             if (!$this->_fh) {
                 /**
                  * @see Zend_Mail_Storage_Exception
