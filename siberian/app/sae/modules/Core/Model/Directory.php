@@ -231,6 +231,9 @@ class Core_Model_Directory
      */
     public static function unzip($archive, $destination = null)
     {
+        // Clear stat cache to ensure we correctly detect the file exists
+        clearstatcache();
+
         if ($destination === null) {
             $destination = Core_Model_Directory::getTmpDirectory(true) . "/template/" . uniqid();
         }
@@ -239,13 +242,19 @@ class Core_Model_Directory
             throw new Exception("#946-01: Unable to write to the given destination '{$destination}'.");
         }
 
-        if (!file_exists($archive)) {
+        if (!file_exists($archive) && is_file($archive)) {
             throw new Exception("#946-02: The given path '{$archive}' is not readable.");
         }
 
-        /**
-         * @todo try multiple with local zip libraries, then exec ... etc
-         */
+        // Adding a manual sanitizer to remove pipes and dashes and semi-colons
+        $chars = ['|', '-', ';', '>', '<', '='];
+        $archive = str_replace($chars, '', $archive);
+        $destination = str_replace($chars, '', $destination);
+
+        // Escaping single quotes
+        $archive = str_replace("'", "\'", $archive);
+        $destination = str_replace("'", "\'", $destination);
+
         exec("unzip '$archive' -d '$destination'");
 
         return is_readable($destination) ? $destination : null;

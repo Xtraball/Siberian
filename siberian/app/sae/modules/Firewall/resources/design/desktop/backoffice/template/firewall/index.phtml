@@ -3,27 +3,24 @@
         <form ng-submit="saveWafEnabled()">
             <div class="col-md-6">
                 <label for="waf_enabled"><?php echo p__("firewall", "Firewall") ?></label>
-                <select id="waf_enabled"
-                        class="form-control"
-                        ng-model="waf.enabled">
-                    <option value="1"><?php echo p__("firewall", "Enabled"); ?></option>
-                    <option value="0"><?php echo p__("firewall", "Disabled"); ?></option>
-                </select>
             </div>
 
             <div class="clear col-md-12">
-                <br />
-                <p ng-if="waf.enabled == 0"
-                   class="alert alert-warning">
-                    <b><?php echo p__("firewall", "WAF Disabled") ?></b>:
-                    <?php echo p__("firewall", "Disabling the Web Application Firewall can open your Siberian to potential XSS, Injection & various security issues, the WAF is not a guarantee your Siberian is attack proof, but highly helps filtering the most common web attacks.") ?>
-                </p>
-            </div>
-
-            <div class="col-md-2 pull-right">
-                <button style="margin-top: 24px;"
-                        class="btn btn-primary"
-                        type="submit"><?php echo __("Save") ?></button>
+                <br/>
+                <div ng-if="waf.enabled == 1">
+                    <b><?php echo p__("firewall", "WAF Enabled") ?></b>
+                    <br />
+                    <?php echo p__("firewall", "The Web Application Firewall is enabled and can only be disabled through the system cli commands to meet enforced security policies, <code>./cli waf:disable</code>.") ?>
+                </div>
+                <div ng-if="waf.enabled == 0">
+                    <b><?php echo p__("firewall", "WAF Disabled") ?></b>
+                    <p class="alert alert-danger">
+                        <?php echo p__("firewall", "Disabling the Web Application Firewall can open your Siberian to potential XSS, Injection & various security issues, the WAF is not a guarantee your Siberian is attack proof, but highly helps filtering the most common web attacks.") ?>
+                    </p>
+                    <p>
+                        <?php echo p__("firewall", "To enable the firewall you must use the system cli commands, <code>./cli waf:enable</code>") ?>
+                    </p>
+                </div>
             </div>
         </form>
         <div style="clear:both;"></div>
@@ -36,10 +33,10 @@
         <div class="col-md-12">
             <div class="alert alert-info">
                 <b><?php echo __("ClamAV is an optional anti-virus, you can enable it up below.") ?></b>
-                <br />
+                <br/>
                 <?php echo __("Siberian uses it to scan all uploaded files that have passed the soft Firewall."); ?>
-                <br />
-                <br />
+                <br/>
+                <br/>
                 <b><?php echo __("To be able to use ClamAV you must have it installed on your server and configured accordingly to our documentation.") ?></b>
             </div>
         </div>
@@ -66,7 +63,7 @@
                        id="fw_clamd.sock"
                        class="form-control"
                        placeholder="<?php echo __js("Socket, example: /var/run/clamav/clamd.ctl") ?>"
-                       ng-model="fw_clamd.sock" />
+                       ng-model="fw_clamd.sock"/>
             </div>
 
             <div ng-show="fw_clamd.type == 'ip'"
@@ -76,7 +73,7 @@
                        id="fw_clamd.ip"
                        class="form-control"
                        placeholder="<?php echo __js("IP, example: 127.0.0.1") ?>"
-                       ng-model="fw_clamd.ip" />
+                       ng-model="fw_clamd.ip"/>
             </div>
 
             <div ng-show="fw_clamd.type == 'ip'"
@@ -86,7 +83,7 @@
                        id="fw_clamd.port"
                        class="form-control"
                        placeholder="<?php echo __js("Port, example: 3310") ?>"
-                       ng-model="fw_clamd.port" />
+                       ng-model="fw_clamd.port"/>
             </div>
 
             <div class="col-md-2 pull-right">
@@ -105,24 +102,13 @@
     <div class="form-group">
         <div class="col-md-12">
             <div class="alert alert-info">
-                <b><?php echo __("You can add allowed extensions, please note that .php, .js & .ico are strictly forbidden and can't be added") ?></b>
+                <b><?php echo p__("firewall", "Please note that .php, .js & .ico are strictly forbidden and can't be added") ?></b>
             </div>
+
+            <p>
+                <?php echo p__("firewall", "To meet enforced security policies, you can only add new allowed extensions through the cli commands, <code>./cli waf:extension:allow abc</code>, <code>./cli waf:extension:disallow xyz</code>") ?>
+            </p>
         </div>
-
-        <form ng-submit="addFwUploadRule()">
-            <div class="col-md-8">
-                <input type="text"
-                       id="newExtension"
-                       class="form-control"
-                       placeholder="<?php echo __js("Extension: txt, png, jpeg, avi, etc...") ?>"
-                       ng-model="form.newExtension" />
-            </div>
-
-            <div class="col-md-4">
-                <button class="btn btn-primary"
-                        type="submit"><?php echo __('Add extension') ?></button>
-            </div>
-        </form>
 
         <div style="clear:both;"></div>
     </div>
@@ -131,23 +117,23 @@
 <sb-section title="'<?php echo addcslashes(__("Allowed upload extensions."), "'"); ?>'">
     <table class="table">
         <thead>
-            <tr>
-                <th style="width:50%;"><?php echo __("Extension") ?></th>
-                <th style="width:20%;text-align:right;"><?php echo __("Actions") ?></th>
-            </tr>
+        <tr>
+            <th style="width:50%;"><?php echo __("Extension") ?></th>
+            <th style="width:20%;text-align:right;"><?php echo __("Actions") ?></th>
+        </tr>
         </thead>
         <tbody>
-            <tr ng-repeat="fw_upload_rule in fw_upload_rules"
-                ng-show="fw_upload_rules.length">
-                <td>{{ fw_upload_rule.value }}</td>
-                <td style="text-align:right;">
-                    <button class="btn btn-xs btn-danger"
-                            ng-click="deleteFwUploadRule(fw_upload_rule.value)"><?php echo __('Delete') ?></button>
-                </td>
-            </tr>
-            <tr ng-show="!fw_upload_rules.length">
-                <td colspan="2"><?php echo __("No rules") ?></td>
-            </tr>
+        <tr ng-repeat="fw_upload_rule in fw_upload_rules"
+            ng-show="fw_upload_rules.length">
+            <td>{{ fw_upload_rule.value }}</td>
+            <td style="text-align:right;">
+                <button class="btn btn-xs btn-danger"
+                        ng-click="deleteFwUploadRule(fw_upload_rule.value)"><?php echo __('Delete') ?></button>
+            </td>
+        </tr>
+        <tr ng-show="!fw_upload_rules.length">
+            <td colspan="2"><?php echo __("No rules") ?></td>
+        </tr>
         </tbody>
     </table>
 </sb-section>
@@ -163,16 +149,16 @@
         </tr>
         </thead>
         <tbody>
-            <tr ng-repeat="fw_log in fw_logs"
-                ng-show="fw_logs.length">
-                <td>{{ fw_log.type }}</td>
-                <td>{{ fw_log.message }}</td>
-                <td>{{ fw_log.user.id }} - {{ fw_log.user.email }}</td>
-                <td>{{ fw_log.date }}</td>
-            </tr>
-            <tr ng-show="!fw_logs.length">
-                <td colspan="2"><?php echo __("No logs") ?></td>
-            </tr>
+        <tr ng-repeat="fw_log in fw_logs"
+            ng-show="fw_logs.length">
+            <td>{{ fw_log.type }}</td>
+            <td>{{ fw_log.message }}</td>
+            <td>{{ fw_log.user.id }} - {{ fw_log.user.email }}</td>
+            <td>{{ fw_log.date }}</td>
+        </tr>
+        <tr ng-show="!fw_logs.length">
+            <td colspan="2"><?php echo __("No logs") ?></td>
+        </tr>
         </tbody>
     </table>
 </sb-section>
@@ -187,7 +173,7 @@
                 <input type="checkbox"
                        id="fw_slack.is_enabled"
                        class="form-control"
-                       ng-model="fw_slack.is_enabled" />
+                       ng-model="fw_slack.is_enabled"/>
             </div>
 
             <div class="col-md-3">
@@ -196,7 +182,7 @@
                        id="fw_slack.webhook"
                        class="form-control"
                        placeholder="<?php echo __js("Example: https://hooks.slack.com/services/XDEFFE/DE45GFV/RxwdF4bnhtRDsqsqzd234, ") ?>"
-                       ng-model="fw_slack.webhook" />
+                       ng-model="fw_slack.webhook"/>
             </div>
 
             <div class="col-md-3">
@@ -205,7 +191,7 @@
                        id="fw_slack.channel"
                        class="form-control"
                        placeholder="<?php echo __js("Channel: #security, #notifications, etc...") ?>"
-                       ng-model="fw_slack.channel" />
+                       ng-model="fw_slack.channel"/>
             </div>
 
             <div class="col-md-3">
@@ -214,7 +200,7 @@
                        id="fw_slack.username"
                        class="form-control"
                        placeholder="<?php echo __js("Username: siberian-notifier, etc...") ?>"
-                       ng-model="fw_slack.username" />
+                       ng-model="fw_slack.username"/>
             </div>
 
             <div class="col-md-2 pull-right">

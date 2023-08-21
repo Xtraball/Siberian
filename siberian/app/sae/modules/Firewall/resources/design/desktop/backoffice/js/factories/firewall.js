@@ -23,18 +23,6 @@ App.factory('Firewall', function($http, Url) {
         });
     };
 
-    factory.addFwUploadRule = function (value) {
-        return $http({
-            method: 'POST',
-            url: Url.get("firewall/index/addfwuploadrule"),
-            data: {
-                value: value
-            },
-            cache: false,
-            responseType:'json'
-        });
-    };
-
     factory.saveFwClamdSettings = function (settings) {
         return $http({
             method: 'POST',
@@ -44,18 +32,6 @@ App.factory('Firewall', function($http, Url) {
                 fw_clamd_sock: settings.sock,
                 fw_clamd_ip: settings.ip,
                 fw_clamd_port: settings.port
-            },
-            cache: false,
-            responseType:'json'
-        });
-    };
-
-    factory.saveWafEnabled = function (enabled) {
-        return $http({
-            method: 'POST',
-            url: Url.get("firewall/index/savewafenabled"),
-            data: {
-                waf_enabled: enabled
             },
             cache: false,
             responseType:'json'
