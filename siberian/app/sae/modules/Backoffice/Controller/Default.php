@@ -19,19 +19,29 @@ class Backoffice_Controller_Default extends Core_Controller_Default
         // Guest routes (doesn't require active auth)
         $allowed = Security::$routesGuest;
 
-        if (!$this->getSession(Core_Model_Session::TYPE_BACKOFFICE)->isLoggedIn()
-            // Allowed for a few URLs
-            && !in_array($this->getFullActionName("_"), $allowed)
-            // Forbidden when Siberian is not installed
-            && !$this->getRequest()->isInstalling()
-            // Forbidden fot the non XHR requests
-            && !$this->getRequest()->isXmlHttpRequest()
-            // Allowed for the templates
-            && !preg_match("/(_template)/", $this->getFullActionName("_"))
-        ) {
-            $this->forward('login', 'account', 'backoffice');
+        // Accepts all templates
+        if (preg_match("/(_template)/", $this->getFullActionName("_"))) {
             return $this;
         }
+
+        // Accepts all if installing
+        if ($this->getRequest()->isInstalling()) {
+            return $this;
+        }
+
+        // Accepts all if logged in
+        if ($this->getSession(Core_Model_Session::TYPE_BACKOFFICE)->isLoggedIn()) {
+            return $this;
+        }
+
+        // Accepts all whitelist routes no matter what
+        if (in_array($this->getFullActionName("_"), $allowed)) {
+            return $this;
+        }
+
+        // Otherwise redirect to login
+        $this->forward('login', 'account', 'backoffice');
+        return $this;
     }
 
     /**

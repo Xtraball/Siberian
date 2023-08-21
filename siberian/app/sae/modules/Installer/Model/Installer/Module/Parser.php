@@ -89,6 +89,10 @@ class Installer_Model_Installer_Module_Parser extends Core_Model_Default
 
             mkdir($this->_tmp_directory, 0777);
 
+            if (!is_file($this->_tmp_file)) {
+                throw new Exception(__("#19-102 Unable to efind the file tmp."));
+            }
+
             # Extract to TMP Directory
             exec("unzip '{$this->_tmp_file}' -d '{$this->_tmp_directory}' 2>&1", $output);
 

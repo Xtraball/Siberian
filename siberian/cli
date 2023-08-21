@@ -35,7 +35,7 @@ require_once __DIR__ . '/lib/Siberian/Cli/Colors.php';
  * @param null $bg
  * @return string
  */
-function color ($string, $fg = null, $bg = null): string
+function color($string, $fg = null, $bg = null): string
 {
     return Colors::initColoredString($string, $fg, $bg);
 }
@@ -47,14 +47,14 @@ umask(0);
 setlocale(LC_MONETARY, 'en_US');
 
 defined('DS')
-    || define('DS', DIRECTORY_SEPARATOR);
+|| define('DS', DIRECTORY_SEPARATOR);
 
 defined('APPLICATION_PATH')
-    || define('APPLICATION_PATH', realpath(__DIR__ . '/app'));
+|| define('APPLICATION_PATH', realpath(__DIR__ . '/app'));
 
 // Defining ENV globally!
 defined('APPLICATION_ENV')
-    || define('APPLICATION_ENV', $_config['environment']);
+|| define('APPLICATION_ENV', $_config['environment']);
 
 // Sourcing default libs!
 set_include_path(implode(PATH_SEPARATOR, array(
@@ -258,7 +258,7 @@ try {
             file_put_contents('./config.php', $configContent);
 
             echo 'Soft HTTP>HTTPS redirection set to ' . $state . PHP_EOL;
-        break;
+            break;
 
         case 'test:http2':
             try {
@@ -293,7 +293,7 @@ try {
             } catch (\Exception $e) {
                 echo 'HTTP/2 support: ' . $e->getMessage() . PHP_EOL;
             }
-        break;
+            break;
 
         case 'user:create':
             $userEmail = readline('Input new backoffice user e-mail: ');
@@ -353,7 +353,7 @@ try {
             break;
         case 'license:set':
             if (isset($argv[2])) {
-                $license = (string) $argv[2];
+                $license = (string)$argv[2];
             } else {
                 $license = readline('New license: ');
             }
@@ -368,10 +368,10 @@ try {
             $module = null;
             $context = false;
             if (isset($argv[2])) {
-                $module = (string) $argv[2];
+                $module = (string)$argv[2];
             }
             if (isset($argv[3])) {
-                $context = (string) $argv[3];
+                $context = (string)$argv[3];
             }
             Translation::extractAll($module, $context);
             break;
@@ -386,7 +386,7 @@ try {
         case 'app:keystore:restore':
             $deviceId = 2;
             if (isset($argv[2])) {
-                $appId = (integer) $argv[2];
+                $appId = (integer)$argv[2];
             } else {
                 $appId = readline('Input app id: ');
             }
@@ -424,7 +424,7 @@ try {
             $clamav = new ClamAV();
             if ($clamav->ping()) {
                 if (isset($argv[2])) {
-                    $filename = (string) $argv[2];
+                    $filename = (string)$argv[2];
                 } else {
                     $filename = readline('File to scan: ');
                 }
@@ -448,7 +448,7 @@ try {
             break;
         case 'google:test-api-key':
             if (isset($argv[2])) {
-                $apiKey = (string) $argv[2];
+                $apiKey = (string)$argv[2];
             } else {
                 $apiKey = readline('API Key to test: ');
             }
@@ -463,6 +463,58 @@ try {
             }
 
             break;
+
+        // Firewall rules
+        case 'waf:status':
+            $status = __get('waf_enabled');
+            if ($status === '1') {
+                echo 'WAF is enabled.' . PHP_EOL;
+            } else {
+                echo 'WAF is disabled.' . PHP_EOL;
+            }
+            break;
+        case 'waf:enable':
+            __set('waf_enabled', '1');
+            break;
+        case 'waf:disable':
+            __set('waf_enabled', '0');
+            break;
+
+        case 'waf:extension:list':
+            echo 'List of extensions allowed.' . PHP_EOL;
+            echo implode(PHP_EOL, \Firewall_Model_Rule::listExtensions());
+            echo PHP_EOL;
+
+            break;
+        case 'waf:extension:allow':
+            try {
+                if (isset($argv[2])) {
+                    \Firewall_Model_Rule::allowExtension($argv[2]);
+                } else {
+                    $extension = readline('Input extension to allow: ');
+                    \Firewall_Model_Rule::allowExtension($extension);
+                }
+                echo 'Extension allowed.' . PHP_EOL;
+            } catch (\Exception $e) {
+                echo $e->getMessage() . PHP_EOL;
+            }
+
+            break;
+        case 'waf:extension:disallow':
+            try {
+                if (isset($argv[2])) {
+                    \Firewall_Model_Rule::disallowExtension($argv[2]);
+                } else {
+                    $extension = readline('Input extension to disallow: ');
+                    \Firewall_Model_Rule::disallowExtension($extension);
+                }
+                echo 'Extension disallowed.' . PHP_EOL;
+            } catch (\Exception $e) {
+                echo $e->getMessage() . PHP_EOL;
+            }
+            break;
+        // Firewall rules
+
         case 'help':
         default:
             echo color('== Siberian CLI Help ==', 'blue') . "
@@ -526,6 +578,24 @@ try {
     
 " . color('test:http2', 'brown') . "
     Test if HTTP/2 support is available in php-curl for the cli & cron.
+    
+" . color('waf:status', 'brown') . "
+    Get the Web Application Firewall status.    
+    
+" . color('waf:enable', 'brown') . "
+    Enables the Web Application Firewall.    
+    
+" . color('waf:disable', 'brown') . "
+    Disables the Web Application Firewall.    
+    
+" . color('waf:extension:list', 'brown') . "
+    Display the extensions currently allowed in the Web Application Firewall.    
+    
+" . color('waf:extension:allow [extension]', 'brown') . "
+    Allows a new extension in the Web Application Firewall.    
+    
+" . color('waf:extension:disallow [extension]', 'brown') . "
+    Disallows an extension in the Web Application Firewall.    
     
 " . color('help', 'brown') . "
     Prints the current help message.    
