@@ -529,6 +529,6 @@ EOTXT
             return $var;
         };
 
-        return [$var(), $GLOBALS, &$GLOBALS];
+        return [$var(), $GLOBALS, $GLOBALS];
     }
 }

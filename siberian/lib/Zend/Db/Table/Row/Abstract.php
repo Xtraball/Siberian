@@ -275,7 +275,7 @@ abstract class Zend_Db_Table_Row_Abstract implements ArrayAccess, IteratorAggreg
      * @param string $offset
      * @return mixed
      */
-     public function offsetGet($offset): mixed
+     public function offsetGet($offset)
      {
          return $this->__get($offset);
      }

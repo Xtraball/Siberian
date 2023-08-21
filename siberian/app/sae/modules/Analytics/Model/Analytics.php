@@ -17,7 +17,7 @@ class Analytics_Model_Analytics {
     private $_time_range_labels = array();
 
     private function __construct() {
-        $this->_sqliteAdapter = Siberian_Wrapper_Sqlite::getInstance();
+        $this->_sqliteAdapter = Siberian_Wrapper_Sqlite::sGetInstance();
         $this->_sqliteAdapter->setDbPath(Core_Model_Directory::getBasePathTo("metrics/siberiancms.db"));
         $dateFrom = date("Y-m-d",time());
         $this->_default_period = strtotime($dateFrom);

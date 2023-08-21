@@ -199,7 +199,7 @@ CREATE TABLE loyalty_card_validation_per_user_daily (
 );
 ";
 
-$wrapperDB = Siberian_Wrapper_Sqlite::getInstance()
+$wrapperDB = Siberian_Wrapper_Sqlite::sGetInstance()
             ->setSchema($dbSchema)
             ->setDbPath($dbPath);
 
