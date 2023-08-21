@@ -27,6 +27,9 @@ class Bootstrap extends Zend_Application_Bootstrap_Bootstrap
      */
     protected function _initPaths()
     {
+        // Clear stat cache to ensure we correctly detect the files
+        clearstatcache();
+
         $loader = \Zend_Loader_Autoloader::getInstance();
 
         $loader->registerNamespace('Core');
