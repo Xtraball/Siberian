@@ -66,7 +66,14 @@ class Installer_Model_Installer_Module_Parser extends Core_Model_Default
         $this->_tmp_file = $file;
         $infos = pathinfo($this->_tmp_file);
         $this->_module_name = $infos['filename'];
-        $this->_tmp_directory = Core_Model_Directory::getTmpDirectory(true) . '/' . $this->_module_name;
+        $baseTmp = tmp(true);
+        $this->_tmp_directory = filter_path($baseTmp . '/' . $this->_module_name);
+
+        // Ensure the path is really inside the tmp directory $baseTmp
+        if (0 !== strpos($this->_tmp_directory, $baseTmp)) {
+            throw new \Siberian\Exception(__("#19-101 The file %s is not inside the tmp directory %s.", $this->_tmp_file, $baseTmp));
+        }
+
         $this->_files = [];
         return $this;
     }
@@ -77,7 +84,7 @@ class Installer_Model_Installer_Module_Parser extends Core_Model_Default
      */
     public function extract()
     {
-        $tmp_dir = Core_Model_Directory::getTmpDirectory(true) . '/';
+        $tmp_dir = tmp(true) . '/';
 
         if (!is_writable($tmp_dir)) {
             throw new \Siberian\Exception(__("#19-001 The folder %s is not writable. Please fix this issue and try again.", $tmp_dir));
@@ -90,11 +97,14 @@ class Installer_Model_Installer_Module_Parser extends Core_Model_Default
             mkdir($this->_tmp_directory, 0777);
 
             if (!is_file($this->_tmp_file)) {
-                throw new Exception(__("#19-102 Unable to efind the file tmp."));
+                throw new Exception(__("#19-102 Unable to find the file tmp."));
             }
 
+            // Another pass of sanitization
+            $sanitizedTmpFile = str_replace(['|', "'", '`'], '', $this->_tmp_file);
+
             # Extract to TMP Directory
-            exec("unzip '{$this->_tmp_file}' -d '{$this->_tmp_directory}' 2>&1", $output);
+            exec("unzip '{$sanitizedTmpFile}' -d '{$this->_tmp_directory}' 2>&1", $output);
 
 
             if (count(glob($this->_tmp_directory . "/*")) <= 0) {
