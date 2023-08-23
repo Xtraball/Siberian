@@ -607,6 +607,17 @@ function tmp($base = false)
 }
 
 /**
+ * Removes all ./ and ../ from the path, because realpath is not OS safe!
+ *
+ * @param $path
+ * @return array|string|string[]|null
+ */
+function filter_path($path)
+{
+    return preg_replace('/\.\//', '', $path);
+}
+
+/**
  * @param $replacements
  * @param $file
  * @param bool $regex

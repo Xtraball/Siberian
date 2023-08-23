@@ -153,16 +153,14 @@ class Installer_Model_Installer extends Core_Model_Default
      * @return $this
      * @throws Zend_Exception
      */
-    public function parse($file, $skipSave = false)
+    public function parse($file, bool $skipSave = false)
     {
         $this->_parser = new Installer_Model_Installer_Module_Parser();
-        $this->_parser->setFile($file)
-            ->extract();
-
+        $sanitizedFile = str_replace(['|', "'", '`'], '', $file);
+        $this->_parser->setFile($sanitizedFile)->extract();
         $this->_parser->checkDependencies($skipSave);
 
         return $this;
-
     }
 
     /**
