@@ -279,7 +279,7 @@ class Zend_Pdf
      */
     public function save($filename, $updateOnly = false)
     {
-        if (($file = @fopen($filename, $updateOnly ? 'ab':'wb')) === false ) {
+        if (($file = fopen($filename, $updateOnly ? 'ab':'wb')) === false ) {
             require_once 'Zend/Pdf/Exception.php';
             throw new Zend_Pdf_Exception( "Can not open '$filename' file for writing." );
         }

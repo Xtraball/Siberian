@@ -672,7 +672,7 @@ class Places_Model_Place extends Base
      * @return array|bool
      * @throws Zend_Exception
      */
-    public function toJson($optionValue, $baseUrl = "")
+    public function toJson($optionValue = null, $baseUrl = "")
     {
         $defaultSettings = [
             "distance_unit" => "km",

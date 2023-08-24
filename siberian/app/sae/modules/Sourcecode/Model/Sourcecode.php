@@ -123,7 +123,7 @@ var inAppLinks = document.querySelectorAll("a[data-state]");
     }
 
     public function getHtmlFileCode() {
-        $file = @file_get_contents($this->getHtmlFilePath(true));
+        $file = file_get_contents($this->getHtmlFilePath(true));
 
         return is_string($file) ? $file : "";
     }

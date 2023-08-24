@@ -1992,7 +1992,7 @@ class SFTP extends SSH2
                     user_error("$data is not a valid file");
                     return false;
                 }
-                $fp = @fopen($data, 'rb');
+                $fp = fopen($data, 'rb');
                 if (!$fp) {
                     return false;
                 }

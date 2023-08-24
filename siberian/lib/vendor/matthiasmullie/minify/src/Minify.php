@@ -464,7 +464,7 @@ abstract class Minify
      */
     protected function openFileForWriting($path)
     {
-        if (($handler = @fopen($path, 'w')) === false) {
+        if (($handler = fopen($path, 'w')) === false) {
             throw new IOException('The file "'.$path.'" could not be opened for writing. Check if PHP has enough permissions.');
         }
 

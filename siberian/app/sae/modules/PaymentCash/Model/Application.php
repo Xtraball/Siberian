@@ -29,7 +29,7 @@ class Application extends Base
     {
         // Checking $appId, and/or fallback on context application!
         if ($appId === null) {
-            $application = self::getApplication();
+            $application = self::sGetApplication();
             if (!$application &&
                 !$application->getId()) {
                 throw new Exception(p__("payment_cash", "An app id is required."));

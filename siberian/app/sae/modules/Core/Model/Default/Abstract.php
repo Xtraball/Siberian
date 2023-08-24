@@ -5,7 +5,7 @@ use Siberian\File;
 /**
  * Class Core_Model_Default_Abstract
  */
-abstract class Core_Model_Default_Abstract
+abstract class Core_Model_Default_Abstract extends \__polyfill_mixed
 {
     /**
      * @var Zend_Cache
@@ -792,7 +792,7 @@ abstract class Core_Model_Default_Abstract
     /**
      * @return string
      */
-    public function toJSON()
+    public function toJson($optionValue = null, $baseUrl = "")
     {
 
         $datas = $this->getData();
@@ -960,11 +960,11 @@ abstract class Core_Model_Default_Abstract
     /**
      * @param $got_heading
      * @param null $data
-     * @param $line
+     * @param null $line
      * @param null $full_data
      * @return bool
      */
-    public function finalizeImport($got_heading, $data = null, $line, $full_data = null)
+    public function finalizeImport($got_heading, $data = null, $line = null, $full_data = null)
     {
         return true;
     }

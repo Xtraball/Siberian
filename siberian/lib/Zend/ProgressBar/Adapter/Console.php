@@ -187,7 +187,7 @@ class Zend_ProgressBar_Adapter_Console extends Zend_ProgressBar_Adapter
      */
     public function setOutputStream($resource)
     {
-       $stream = @fopen($resource, 'w');
+       $stream = fopen($resource, 'w');
 
        if ($stream === false) {
             require_once 'Zend/ProgressBar/Adapter/Exception.php';

@@ -238,7 +238,7 @@ abstract class Zend_Navigation_Page extends Zend_Navigation_Container
 
                 if (!class_exists($type)) {
                     require_once 'Zend/Loader.php';
-                    @Zend_Loader::loadClass($type);
+                    Zend_Loader::loadClass($type);
                 }
 
                 $page = new $type($options);

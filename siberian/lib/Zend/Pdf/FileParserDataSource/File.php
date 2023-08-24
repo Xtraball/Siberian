@@ -89,7 +89,7 @@ class Zend_Pdf_FileParserDataSource_File extends Zend_Pdf_FileParserDataSource
             throw new Zend_Pdf_Exception("Error while obtaining file size: $filePath",
                                          Zend_Pdf_Exception::CANT_GET_FILE_SIZE);
         }
-        if (($this->_fileResource = @fopen($filePath, 'rb')) === false) {
+        if (($this->_fileResource = fopen($filePath, 'rb')) === false) {
             require_once 'Zend/Pdf/Exception.php';
             throw new Zend_Pdf_Exception("Cannot open file for reading: $filePath",
                                          Zend_Pdf_Exception::CANT_OPEN_FILE);
@@ -105,7 +105,7 @@ class Zend_Pdf_FileParserDataSource_File extends Zend_Pdf_FileParserDataSource
     public function __destruct()
     {
         if (is_resource($this->_fileResource)) {
-            @fclose($this->_fileResource);
+            fclose($this->_fileResource);
         }
     }
 

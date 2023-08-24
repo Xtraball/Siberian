@@ -232,7 +232,7 @@ class Zend_Loader
     {
         trigger_error(__CLASS__ . '::' . __METHOD__ . ' is deprecated as of 1.8.0 and will be removed with 2.0.0; use Zend_Loader_Autoloader instead', E_USER_NOTICE);
         try {
-            @self::loadClass($class);
+            self::loadClass($class);
             return $class;
         } catch (Exception $e) {
             return false;

@@ -116,7 +116,7 @@ class Zend_Server_Cache
         }
 
 
-        if (false === ($dispatch = @file_get_contents($filename))) {
+        if (false === ($dispatch = file_get_contents($filename))) {
             return false;
         }
 

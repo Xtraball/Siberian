@@ -78,7 +78,7 @@ class Zend_Pdf_Resource_Image_Png extends Zend_Pdf_Resource_Image
      */
     public function __construct($imageFileName)
     {
-        if (($imageFile = @fopen($imageFileName, 'rb')) === false ) {
+        if (($imageFile = fopen($imageFileName, 'rb')) === false ) {
             require_once 'Zend/Pdf/Exception.php';
             throw new Zend_Pdf_Exception( "Can not open '$imageFileName' file for reading." );
         }

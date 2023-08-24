@@ -35,6 +35,9 @@ abstract class Zend_Application_Bootstrap_BootstrapAbstract
     implements Zend_Application_Bootstrap_Bootstrapper,
                Zend_Application_Bootstrap_ResourceBootstrapper
 {
+
+    public $frontController;
+
     /**
      * @var Zend_Application|Zend_Application_Bootstrap_Bootstrapper
      */

@@ -137,7 +137,7 @@ class Zend_Mime_Decode
             list($headers, $body) = explode("\n\n", $message, 2);
         // at last resort find anything that looks like a new line
         } else {
-            @list($headers, $body) = @preg_split("%([\r\n]+)\\1%U", $message, 2);
+            list($headers, $body) = preg_split("%([\r\n]+)\\1%U", $message, 2);
         }
 
         $headers = iconv_mime_decode_headers($headers, ICONV_MIME_DECODE_CONTINUE_ON_ERROR);

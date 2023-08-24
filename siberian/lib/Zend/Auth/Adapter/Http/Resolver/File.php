@@ -142,7 +142,7 @@ class Zend_Auth_Adapter_Http_Resolver_File implements Zend_Auth_Adapter_Http_Res
         }
 
         // Open file, read through looking for matching credentials
-        $fp = @fopen($this->_file, 'r');
+        $fp = fopen($this->_file, 'r');
         if (!$fp) {
             /**
              * @see Zend_Auth_Adapter_Http_Resolver_Exception

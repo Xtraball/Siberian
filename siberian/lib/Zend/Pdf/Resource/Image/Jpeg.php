@@ -96,7 +96,7 @@ class Zend_Pdf_Resource_Image_Jpeg extends Zend_Pdf_Resource_Image
             $imageDictionary->Filter       = new Zend_Pdf_Element_Name('JPXDecode');
         }
 
-        if (($imageFile = @fopen($imageFileName, 'rb')) === false ) {
+        if (($imageFile = fopen($imageFileName, 'rb')) === false ) {
             require_once 'Zend/Pdf/Exception.php';
             throw new Zend_Pdf_Exception( "Can not open '$imageFileName' file for reading." );
         }

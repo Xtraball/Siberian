@@ -2,7 +2,7 @@
 /**
  * SCSSPHP
  *
- * @copyright 2012-2015 Leaf Corcoran
+ * @copyright 2012-2018 Leaf Corcoran
  *
  * @license http://opensource.org/licenses/MIT MIT
  *
@@ -32,6 +32,11 @@ class Environment
      * @var array
      */
     public $store;
+
+    /**
+     * @var array
+     */
+    public $storeUnreduced;
 
     /**
      * @var integer

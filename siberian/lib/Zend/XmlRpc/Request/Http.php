@@ -61,7 +61,7 @@ class Zend_XmlRpc_Request_Http extends Zend_XmlRpc_Request
      */
     public function __construct()
     {
-        $xml = @file_get_contents('php://input');
+        $xml = file_get_contents('php://input');
         if (!$xml) {
             require_once 'Zend/XmlRpc/Fault.php';
             $this->_fault = new Zend_XmlRpc_Fault(630);

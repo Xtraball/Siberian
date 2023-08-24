@@ -61,7 +61,7 @@ class Zend_Session extends Zend_Session_Abstract
      *
      * @var bool|bitset This could also be a combiniation of error codes to catch
      */
-    protected static $_throwStartupExceptions = true;
+    protected static $_throwStartupExceptions = false;
 
     /**
      * Check whether or not the session was started

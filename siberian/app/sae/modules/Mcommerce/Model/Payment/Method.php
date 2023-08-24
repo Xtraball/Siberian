@@ -78,7 +78,7 @@ class Mcommerce_Model_Payment_Method extends Core_Model_Default {
      * @param integer|null $value_id
      * @return mixed
      */
-    public function getUrl($value_id = null) {
+    public function getUrl($value_id = '', array $params = [], $locale = null) {
         return $this->getInstance()->getUrl($value_id);
     }
 

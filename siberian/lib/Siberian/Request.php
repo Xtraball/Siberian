@@ -40,6 +40,12 @@ class Request
 
         $request = curl_init();
 
+        if (self::$debug) {
+            curl_setopt($request, CURLOPT_VERBOSE, true);
+            $fp = fopen(path('/var/tmp/curl.log'), 'w');
+            curl_setopt($request, CURLOPT_STDERR, $fp);
+        }
+
         $timeout = (array_key_exists('timeout', $options)) ? (int) $options['timeout'] : 3;
 
         # Setting options

@@ -1041,7 +1041,7 @@ class Front_Controller_Api_Base extends Front_Controller_App_Default
             if ($feature['use_mobile']) {
                 $useMobile = true;
             }
-            if ($feature['use_critical_push']) {
+            if (array_key_exists('use_critical_push', $feature) && $feature['use_critical_push']) {
                 $useCriticalPush = true;
             }
 

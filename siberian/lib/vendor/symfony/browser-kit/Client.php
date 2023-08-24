@@ -364,7 +364,7 @@ abstract class Client
                     // unsilenced on purpose
                     trigger_error($deprecation[1], E_USER_DEPRECATED);
                 } else {
-                    @trigger_error($deprecation[1], E_USER_DEPRECATED);
+                    trigger_error($deprecation[1], E_USER_DEPRECATED);
                 }
             }
         }

@@ -621,7 +621,8 @@ class Zend_Locale
             "zh" => "zh_Hans",
             "zu" => "zu_ZA",
         ];
-        if (strlen($locale) < 4 &&
+        if (!empty($locale) &&
+            strlen($locale) < 4 &&
             array_key_exists($locale, $replacements)) {
 
             $locale = $replacements[$locale];

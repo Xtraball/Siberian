@@ -349,7 +349,7 @@ class Translation_Backoffice_EditController extends Backoffice_Controller_Defaul
             $request = $this->getRequest();
             $data = $request->getBodyParams();
 
-            $component = strtolower(str_replace(".mo", "", str_replace(".csv", "", $data['file'])));
+            $component = strtolower(str_replace([".mo", ".csv", ".po"], "", $data['file']));
             $language = base64_decode($data['langId']);
             $original = $data['original'];
             $user = $data['user'];
@@ -362,6 +362,7 @@ class Translation_Backoffice_EditController extends Backoffice_Controller_Defaul
             File::putContents($tmpFile, json_encode($fileContent));
 
             // Public API
+            Siberian_Request::$debug = true;
             Siberian_Request::post(
                 "https://translate.siberiancms.com/api/translations/siberian/{$component}/{$language}/file/",
                 [
@@ -371,7 +372,7 @@ class Translation_Backoffice_EditController extends Backoffice_Controller_Defaul
                 null,
                 null,
                 [
-                    "Authorization: Token 4qG1U0sToBEKZOhkvIkseWs4tOTQLkRhoE6V37zU",
+                    "Authorization: Token lPoOy7AGUpFGbYyIVXQly1cd2mdHDVw6o6tkZTA9",
                 ],
                 [
                     "json_body" => true,

@@ -110,7 +110,7 @@ class Installer_Model_Installer_Module extends Core_Model_Default
      * @return $this
      * @throws Zend_Exception
      */
-    public function toggleIsEnabled ($isEnabled): self
+    public function toggleIsEnabled($isEnabled): self
     {
         // Finding module path
         $moduleLockPath = path('/app/local/modules/' . $this->getData('name') . '/module.disabled');
@@ -127,7 +127,7 @@ class Installer_Model_Installer_Module extends Core_Model_Default
      * @param $module
      * @return bool
      */
-    public static function sGetIsEnabled ($module): bool
+    public static function sGetIsEnabled($module): bool
     {
         $moduleLockPath = path('/app/local/modules/' . $module . '/module.disabled');
 
@@ -335,9 +335,18 @@ class Installer_Model_Installer_Module extends Core_Model_Default
         $highest_package_version = "0.0.0";
         foreach ($package_files as $package_file) {
             $current_package_info = $this->readPackage($package_file);
-            if (version_compare($current_package_info["version"], $highest_package_version, '>')) {
+            if ($current_package_info === false) {
+                continue;
+            }
+
+            $current_package_info_version = "0.0.0";
+            if (array_key_exists("version", $current_package_info) && !empty($current_package_info["version"])) {
+                $current_package_info_version = $current_package_info["version"];
+            }
+
+            if (version_compare($current_package_info_version, $highest_package_version, '>')) {
                 $package_info = $current_package_info;
-                $highest_package_version = $current_package_info["version"];
+                $highest_package_version = $current_package_info_version;
                 $this->_basePath = dirname($package_file);
                 $this->_code = $current_package_info["code"] ?? null;
                 $this->_useLicense = !is_null($this->_code);

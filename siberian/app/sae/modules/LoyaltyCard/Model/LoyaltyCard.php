@@ -50,7 +50,7 @@ class LoyaltyCard_Model_LoyaltyCard extends Core_Model_Default
      * @param $value_id
      * @return mixed
      */
-    public function findLast($value_id)
+    public function findLast($value_id = [])
     {
         return $this->getTable()->findLast($value_id);
     }

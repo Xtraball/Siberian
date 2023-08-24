@@ -53,8 +53,11 @@ abstract class Siberian_Form_Abstract extends Zend_Form
      * @param $options
      * @throws Zend_Form_Exception
      */
-    public function __construct($options = null)
+    public function __construct($options = [])
     {
+        if (!is_array($options) || empty($options)) {
+            $options = [];
+        }
         parent::__construct($options);
 
         if (array_key_exists("_settings", $options)) {
@@ -539,7 +542,7 @@ abstract class Siberian_Form_Abstract extends Zend_Form
      * @return Siberian_Form_Element_Multiselect
      * @throws Zend_Form_Exception
      */
-    public function addSimpleMultiSelect($name, $label = "", $options)
+    public function addSimpleMultiSelect($name, $label = "", $options = [])
     {
         $el = new Siberian_Form_Element_Multiselect($name);
         $this->addElement($el);

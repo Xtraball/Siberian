@@ -46,7 +46,7 @@ class Siberian_Google_Geocoding
         }
 
         $url = "https://maps.googleapis.com/maps/api/geocode/json?sensor=false&address=$address&key=$apiKey";
-        $raw_response = @file_get_contents($url);
+        $raw_response = file_get_contents($url);
         if ($raw_response && $coordinates_datas = @json_decode($raw_response)) {
             if (!empty($coordinates_datas->results[0]->geometry->location)) {
                 $latlng = $coordinates_datas->results[0]->geometry->location;
@@ -103,7 +103,7 @@ class Siberian_Google_Geocoding
         }
 
         $url = "https://maps.googleapis.com/maps/api/geocode/json?sensor=false&address=$address&key=$apiKey";
-        $rawResponse = @file_get_contents($url);
+        $rawResponse = file_get_contents($url);
         if ($rawResponse && $coordinatesData = @json_decode($rawResponse)) {
             if (!empty($coordinatesData->results[0]->geometry->location)) {
                 $latlng = $coordinatesData->results[0]->geometry->location;

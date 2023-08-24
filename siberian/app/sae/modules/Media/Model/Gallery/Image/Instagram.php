@@ -44,7 +44,7 @@ class Media_Model_Gallery_Image_Instagram extends Media_Model_Gallery_Image_Abst
                 $url .= '&max_id=' . $offset;
             }
 
-            $requestMedia = @file_get_contents($url);
+            $requestMedia = file_get_contents($url);
             if(!$requestMedia) return array();
             $userMedias = json_decode($requestMedia);
 

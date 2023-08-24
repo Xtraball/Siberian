@@ -228,7 +228,7 @@ class Zend_Http_Response_Stream extends Zend_Http_Response
             $this->stream = null;
         }
         if($this->_cleanup) {
-            @unlink($this->stream_name);
+            unlink($this->stream_name);
         }
     }
 
