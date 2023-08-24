@@ -581,21 +581,25 @@ class Zend_Db_Select
     public function order($spec)
     {
         if (!is_array($spec)) {
-            $spec = array($spec);
+            $spec = [$spec];
         }
 
         // force 'ASC' or 'DESC' on each order spec, default is ASC.
         foreach ($spec as $val) {
             if ($val instanceof Zend_Db_Expr) {
                 $expr = $val->__toString();
+                $val = $this->_filterOrder($val);
                 if (empty($expr)) {
                     continue;
                 }
+
                 $this->_parts[self::ORDER][] = $val;
             } else {
+                $val = $this->_filterOrder($val);
                 if (empty($val)) {
                     continue;
                 }
+
                 $direction = self::SQL_ASC;
                 if (preg_match('/(.*\W)(' . self::SQL_ASC . '|' . self::SQL_DESC . ')\b/si', $val, $matches)) {
                     $val = trim($matches[1]);
@@ -604,11 +608,38 @@ class Zend_Db_Select
                 if (preg_match('/\(.*\)/', $val)) {
                     $val = new Zend_Db_Expr($val);
                 }
-                $this->_parts[self::ORDER][] = array($val, $direction);
+                $this->_parts[self::ORDER][] = [$val, $direction];
             }
         }
 
         return $this;
+    }
+
+    /**
+     * Filtering potential SQL injection in the order clause
+     * This will not throw an error, just prevents order to be executed, so in case of failure, only the order is broken!
+     *
+     * @param $val
+     * @return array|string|string[]|null
+     */
+    public function _filterOrder($val) {
+        // look for any -- comments in the column spec
+        if (strpos($val, '--') !== false) {
+            $val = preg_replace('/(--+)/', '', $val);
+        }
+
+        // filter out any logical operators
+        if (preg_match('/[\'"()\/\\~<>]|(=){2,}|(!=){1,}|(<=){1,}|(>=){1,}|(<>){1,}|(<=>){1,}|(AND){1,}|(OR){1,}|(XOR){1,}/', $val)) {
+            // logs an error
+            $val = null;
+        }
+
+        // protect val from SQLi
+        if (!empty($val)) {
+            $val = $this->_adapter->quoteIdentifier($val, true);
+        }
+
+        return $val;
     }
 
     /**
