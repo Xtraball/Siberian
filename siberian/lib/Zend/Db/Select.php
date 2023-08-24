@@ -634,11 +634,6 @@ class Zend_Db_Select
             $val = null;
         }
 
-        // protect val from SQLi
-        if (!empty($val)) {
-            $val = $this->_adapter->quoteIdentifier($val, true);
-        }
-
         return $val;
     }
 
