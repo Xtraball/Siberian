@@ -1,6 +1,9 @@
 #!/usr/bin/php
 <?php
 
+error_reporting(E_ALL);
+ini_set('display_errors', 1);
+
 /**
  * Siberian
  *
@@ -17,6 +20,12 @@ use Siberian_Cron as Cron;
 use Siberian_Cache as Cache;
 use Siberian_Google_Geocoding as Geocoding;
 use Siberian_Cache_Design as CacheDesign;
+
+// PHP Polyfill
+abstract class __polyfill_mixed {}
+if (version_compare(PHP_VERSION, '8.0', '<')) {
+    class_alias(\__polyfill_mixed::class, 'mixed');
+}
 
 global $_config;
 
