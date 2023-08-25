@@ -162,7 +162,7 @@ class Number extends Node implements \ArrayAccess
     /**
      * {@inheritdoc}
      */
-    public function offsetGet($offset): \__polyfill_mixed
+    public function offsetGet($offset)
     {
         switch ($offset) {
             case -3:
