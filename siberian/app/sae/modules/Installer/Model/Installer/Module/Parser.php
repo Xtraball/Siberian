@@ -67,6 +67,14 @@ class Installer_Model_Installer_Module_Parser extends Core_Model_Default
         $infos = pathinfo($this->_tmp_file);
         $this->_module_name = $infos['filename'];
         $baseTmp = tmp(true);
+
+        if (!function_exists('filter_path')) {
+            function filter_path($path)
+            {
+                return preg_replace('/\.\//', '', $path);
+            }
+        }
+
         $this->_tmp_directory = filter_path($baseTmp . '/' . $this->_module_name);
 
         // Ensure the path is really inside the tmp directory $baseTmp
