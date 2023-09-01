@@ -82,7 +82,7 @@ if (version_compare(PHP_VERSION, '8.0', '<')) {
             $this->units     = is_array($initialUnit)
                 ? $initialUnit
                 : ($initialUnit ? [$initialUnit => 1]
-                                : []);
+                    : []);
         }
 
         /**
@@ -152,7 +152,7 @@ if (version_compare(PHP_VERSION, '8.0', '<')) {
         /**
          * {@inheritdoc}
          */
-        public function offsetGet($offset): mixed
+        public function offsetGet($offset)
         {
             switch ($offset) {
                 case -3:
@@ -455,7 +455,7 @@ if (version_compare(PHP_VERSION, '8.0', '<')) {
         /**
          * {@inheritdoc}
          */
-        public function offsetGet($offset)
+        public function offsetGet($offset): mixed
         {
             switch ($offset) {
                 case -3:
