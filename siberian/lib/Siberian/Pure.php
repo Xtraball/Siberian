@@ -13,7 +13,8 @@ use Siberian\File;
  *
  */
 if (!function_exists('is_countable')) {
-    function is_countable($var) {
+    function is_countable($var)
+    {
         return (is_array($var) || $var instanceof Countable);
     }
 }
@@ -78,7 +79,7 @@ function extract___($original)
  * @return false|string
  * @throws \Siberian\Exception
  */
-function __dcRun ($file, $module)
+function __dcRun($file, $module)
 {
     return \Siberian\Cypher::dcRun($file, $module);
 }
@@ -89,7 +90,7 @@ function __dcRun ($file, $module)
  * @throws Zend_Exception
  * @throws \Siberian\Exception
  */
-function __dcExec ($file, $module)
+function __dcExec($file, $module)
 {
     return \Siberian\Cypher::dcExec($file, $module);
 }
@@ -118,7 +119,7 @@ function extract_p__($context, $original, $flag = null, $force = false)
         // Special binding for modules
         if (array_key_exists($context, $extractModules)) {
             if (array_key_exists("path", $extractModules[$context]) &&
-            is_file($extractModules[$context]["path"])) {
+                is_file($extractModules[$context]["path"])) {
                 $file = $extractModules[$context]["path"];
             } else {
                 $moduleFolder = $extractModules[$context]["module"];
@@ -155,7 +156,7 @@ function extract_p__($context, $original, $flag = null, $force = false)
  *
  * @throws Zend_Exception
  */
-function shutdown_extract_p ()
+function shutdown_extract_p()
 {
     global $extractTranslations;
     global $forcedExtractTranslations;
@@ -314,7 +315,7 @@ function is_image($path, $external = false)
  * @param $files
  * @return array
  */
-function normalizeFiles ($files)
+function normalizeFiles($files)
 {
     $newFiles = [];
 
@@ -607,6 +608,20 @@ function tmp($base = false)
 }
 
 /**
+ * Removes all ./ and ../ from the path, because realpath is not OS safe!
+ *
+ * @param $path
+ * @return array|string|string[]|null
+ */
+if (!function_exists('filter_path')) {
+    function filter_path($path)
+    {
+        return preg_replace('/\.\//', '', $path);
+    }
+}
+
+
+/**
  * @param $replacements
  * @param $file
  * @param bool $regex
@@ -724,14 +739,15 @@ function datetime_to_format($datetime, $format = \Zend_Date::DATETIME_SHORT, $lo
  * @param $steps
  * @return string
  */
-function adjustBrightness($hex, $steps) {
+function adjustBrightness($hex, $steps)
+{
     // Steps should be between -255 and 255. Negative = darker, positive = lighter
     $steps = max(-255, min(255, $steps));
 
     // Normalize into a six character long hex string
     $hex = str_replace('#', '', $hex);
     if (strlen($hex) == 3) {
-        $hex = str_repeat(substr($hex,0,1), 2).str_repeat(substr($hex,1,1), 2).str_repeat(substr($hex,2,1), 2);
+        $hex = str_repeat(substr($hex, 0, 1), 2) . str_repeat(substr($hex, 1, 1), 2) . str_repeat(substr($hex, 2, 1), 2);
     }
 
     // Split into three parts: R, G and B
@@ -739,8 +755,8 @@ function adjustBrightness($hex, $steps) {
     $return = '#';
 
     foreach ($color_parts as $color) {
-        $color   = hexdec($color); // Convert to decimal
-        $color   = max(0,min(255,$color + $steps)); // Adjust color
+        $color = hexdec($color); // Convert to decimal
+        $color = max(0, min(255, $color + $steps)); // Adjust color
         $return .= str_pad(dechex($color), 2, '0', STR_PAD_LEFT); // Make two char hex code
     }
 
@@ -862,7 +878,8 @@ function purify($string, $config = null)
  * @param array $options
  * @return false|string
  */
-function generate_strong_password ($length = 9, $options = []) {
+function generate_strong_password($length = 9, $options = [])
+{
     $options = array_merge([
         'uppercase' => true,
         'numeric' => true,
@@ -968,7 +985,7 @@ function img_to_base64($path)
  * @return mixed
  * @throws Exception
  */
-function base64imageToFile ($base64, $path)
+function base64imageToFile($base64, $path)
 {
     try {
         $parts = explode(',', $base64);

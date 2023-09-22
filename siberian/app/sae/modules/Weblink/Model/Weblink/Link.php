@@ -23,7 +23,7 @@ class Weblink_Model_Weblink_Link extends Core_Model_Default
     /**
      * @return mixed
      */
-    public function getUrl()
+    public function getUrl($url = '', array $params = [], $locale = null)
     {
         return $this->getData('url');
     }

@@ -3,9 +3,15 @@
 /**
  * Siberian
  *
- * @version 4.20.10
+ * @version 5.0.4
  * @author Xtraball SAS <dev@xtraball.com>
  */
+
+// PHP Polyfill
+abstract class __polyfill_mixed {}
+if (version_compare(PHP_VERSION, '8.0', '<')) {
+    class_alias(\__polyfill_mixed::class, 'mixed');
+}
 
 global $_config;
 

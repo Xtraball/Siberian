@@ -52,7 +52,11 @@ class Core_Model_Lib_Image
                 imagealphablending($img2, false);
                 imagecopyresampled($img2, $img, 0, 0, 0, 0, $width, $height, $width, $height);
                 /** Testing if this is a resource. */
-                if (is_resource($img2) && ($img2 !== false) && is_resource($img)) {
+                if (
+                    ( is_resource($img2) && ($img2 !== false) && is_resource($img) ) ||
+                    ( is_a($img2, 'GdImage') && is_a($img, 'GdImage') )
+                ) {
+
                     if ($this->_color) {
                         $rgb = $this->_toRgb($this->_color);
 
@@ -111,7 +115,10 @@ class Core_Model_Lib_Image
                 imagecopyresampled($img2, $img, 0, 0, 0, 0, $width, $height, $width, $height);
 
                 /** Testing if this is a resource. */
-                if (is_resource($img2) && ($img2 !== false) && is_resource($img)) {
+                if (
+                    ( is_resource($img2) && ($img2 !== false) && is_resource($img) ) ||
+                    ( is_a($img2, 'GdImage') && is_a($img, 'GdImage') )
+                ) {
                     $rgb = self::sToRgb($color);
 
                     for ($y = 0; $y < $height; $y++) {

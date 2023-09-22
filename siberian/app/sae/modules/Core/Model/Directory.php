@@ -247,7 +247,7 @@ class Core_Model_Directory
         }
 
         // Adding a manual sanitizer to remove pipes and dashes and semi-colons
-        $chars = ['|', '-', ';', '>', '<', '='];
+        $chars = ['|', '-', ';', '>', '<', '=', "'", '`'];
         $archive = str_replace($chars, '', $archive);
         $destination = str_replace($chars, '', $destination);
 
