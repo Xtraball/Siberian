@@ -15,5 +15,14 @@ class Base extends \Core_Model_Default_Abstract
     {
         return \Application_Model_Application::getInstance();
     }
+
+    /**
+     * @return \Application_Model_Application|mixed
+     * @throws \Zend_Exception
+     */
+    public static function sGetApplication()
+    {
+        return \Application_Model_Application::getInstance();
+    }
 }
 

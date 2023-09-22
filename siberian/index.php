@@ -4,7 +4,7 @@
 /**
  * Siberian
  *
- * @version 4.20.10
+ * @version 5.0.4
  * @author Xtraball SAS <dev@xtraball.com>
  */
 
@@ -17,6 +17,12 @@ if ($_SERVER['REQUEST_METHOD'] === 'OPTIONS') {
     http_response_code(200);
     echo '{"success": true}';
     die;
+}
+
+// PHP Polyfill
+abstract class __polyfill_mixed {}
+if (version_compare(PHP_VERSION, '8.0', '<')) {
+    class_alias(\__polyfill_mixed::class, 'mixed');
 }
 
 global $_config;

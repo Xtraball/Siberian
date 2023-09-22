@@ -12,7 +12,7 @@ class Analytics_Model_Aggregate_Loyaltycard {
     static private $_instance = null;
 
     private function __construct() {
-        $this->_sqliteAdapter = Siberian_Wrapper_Sqlite::getInstance();
+        $this->_sqliteAdapter = Siberian_Wrapper_Sqlite::sGetInstance();
         $this->_sqliteAdapter->setDbPath(Core_Model_Directory::getBasePathTo("metrics/siberiancms.db"));
     }
 

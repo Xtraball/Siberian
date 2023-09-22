@@ -125,7 +125,7 @@ class Zend_OpenId_Consumer_Storage_File extends Zend_OpenId_Consumer_Storage
     {
         $name1 = $this->_dir . '/assoc_url_' . md5($url);
         $name2 = $this->_dir . '/assoc_handle_' . md5($handle);
-        $lock = @fopen($this->_dir . '/assoc.lock', 'w+');
+        $lock = fopen($this->_dir . '/assoc.lock', 'w+');
         if ($lock === false) {
             return false;
         }
@@ -134,7 +134,7 @@ class Zend_OpenId_Consumer_Storage_File extends Zend_OpenId_Consumer_Storage
             return false;
         }
         try {
-            $f = @fopen($name1, 'w+');
+            $f = fopen($name1, 'w+');
             if ($f === false) {
                 fclose($lock);
                 return false;
@@ -149,7 +149,7 @@ class Zend_OpenId_Consumer_Storage_File extends Zend_OpenId_Consumer_Storage
                     return true;
                 }
             }
-            $f2 = @fopen($name2, 'w+');
+            $f2 = fopen($name2, 'w+');
             if ($f2) {
                 fwrite($f2, $data);
                 fclose($f2);
@@ -182,7 +182,7 @@ class Zend_OpenId_Consumer_Storage_File extends Zend_OpenId_Consumer_Storage
     public function getAssociation($url, &$handle, &$macFunc, &$secret, &$expires)
     {
         $name1 = $this->_dir . '/assoc_url_' . md5($url);
-        $lock = @fopen($this->_dir . '/assoc.lock', 'w+');
+        $lock = fopen($this->_dir . '/assoc.lock', 'w+');
         if ($lock === false) {
             return false;
         }
@@ -191,7 +191,7 @@ class Zend_OpenId_Consumer_Storage_File extends Zend_OpenId_Consumer_Storage
             return false;
         }
         try {
-            $f = @fopen($name1, 'r');
+            $f = fopen($name1, 'r');
             if ($f === false) {
                 fclose($lock);
                 return false;
@@ -235,7 +235,7 @@ class Zend_OpenId_Consumer_Storage_File extends Zend_OpenId_Consumer_Storage
     public function getAssociationByHandle($handle, &$url, &$macFunc, &$secret, &$expires)
     {
         $name2 = $this->_dir . '/assoc_handle_' . md5($handle);
-        $lock = @fopen($this->_dir . '/assoc.lock', 'w+');
+        $lock = fopen($this->_dir . '/assoc.lock', 'w+');
         if ($lock === false) {
             return false;
         }
@@ -244,7 +244,7 @@ class Zend_OpenId_Consumer_Storage_File extends Zend_OpenId_Consumer_Storage
             return false;
         }
         try {
-            $f = @fopen($name2, 'r');
+            $f = fopen($name2, 'r');
             if ($f === false) {
                 fclose($lock);
                 return false;
@@ -282,7 +282,7 @@ class Zend_OpenId_Consumer_Storage_File extends Zend_OpenId_Consumer_Storage
     public function delAssociation($url)
     {
         $name1 = $this->_dir . '/assoc_url_' . md5($url);
-        $lock = @fopen($this->_dir . '/assoc.lock', 'w+');
+        $lock = fopen($this->_dir . '/assoc.lock', 'w+');
         if ($lock === false) {
             return false;
         }
@@ -291,7 +291,7 @@ class Zend_OpenId_Consumer_Storage_File extends Zend_OpenId_Consumer_Storage
             return false;
         }
         try {
-            $f = @fopen($name1, 'r');
+            $f = fopen($name1, 'r');
             if ($f === false) {
                 fclose($lock);
                 return false;
@@ -330,7 +330,7 @@ class Zend_OpenId_Consumer_Storage_File extends Zend_OpenId_Consumer_Storage
     public function addDiscoveryInfo($id, $realId, $server, $version, $expires)
     {
         $name = $this->_dir . '/discovery_' . md5($id);
-        $lock = @fopen($this->_dir . '/discovery.lock', 'w+');
+        $lock = fopen($this->_dir . '/discovery.lock', 'w+');
         if ($lock === false) {
             return false;
         }
@@ -339,7 +339,7 @@ class Zend_OpenId_Consumer_Storage_File extends Zend_OpenId_Consumer_Storage
             return false;
         }
         try {
-            $f = @fopen($name, 'w+');
+            $f = fopen($name, 'w+');
             if ($f === false) {
                 fclose($lock);
                 return false;
@@ -369,7 +369,7 @@ class Zend_OpenId_Consumer_Storage_File extends Zend_OpenId_Consumer_Storage
     public function getDiscoveryInfo($id, &$realId, &$server, &$version, &$expires)
     {
         $name = $this->_dir . '/discovery_' . md5($id);
-        $lock = @fopen($this->_dir . '/discovery.lock', 'w+');
+        $lock = fopen($this->_dir . '/discovery.lock', 'w+');
         if ($lock === false) {
             return false;
         }
@@ -378,7 +378,7 @@ class Zend_OpenId_Consumer_Storage_File extends Zend_OpenId_Consumer_Storage
             return false;
         }
         try {
-            $f = @fopen($name, 'r');
+            $f = fopen($name, 'r');
             if ($f === false) {
                 fclose($lock);
                 return false;
@@ -414,7 +414,7 @@ class Zend_OpenId_Consumer_Storage_File extends Zend_OpenId_Consumer_Storage
     public function delDiscoveryInfo($id)
     {
         $name = $this->_dir . '/discovery_' . md5($id);
-        $lock = @fopen($this->_dir . '/discovery.lock', 'w+');
+        $lock = fopen($this->_dir . '/discovery.lock', 'w+');
         if ($lock === false) {
             return false;
         }
@@ -442,7 +442,7 @@ class Zend_OpenId_Consumer_Storage_File extends Zend_OpenId_Consumer_Storage
     public function isUniqueNonce($provider, $nonce)
     {
         $name = $this->_dir . '/nonce_' . md5($provider.';'.$nonce);
-        $lock = @fopen($this->_dir . '/nonce.lock', 'w+');
+        $lock = fopen($this->_dir . '/nonce.lock', 'w+');
         if ($lock === false) {
             return false;
         }
@@ -451,7 +451,7 @@ class Zend_OpenId_Consumer_Storage_File extends Zend_OpenId_Consumer_Storage
             return false;
         }
         try {
-            $f = @fopen($name, 'x');
+            $f = fopen($name, 'x');
             if ($f === false) {
                 fclose($lock);
                 return false;
@@ -473,7 +473,7 @@ class Zend_OpenId_Consumer_Storage_File extends Zend_OpenId_Consumer_Storage
      */
     public function purgeNonces($date=null)
     {
-        $lock = @fopen($this->_dir . '/nonce.lock', 'w+');
+        $lock = fopen($this->_dir . '/nonce.lock', 'w+');
         if ($lock !== false) {
             flock($lock, LOCK_EX);
         }

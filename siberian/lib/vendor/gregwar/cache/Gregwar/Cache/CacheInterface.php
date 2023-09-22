@@ -114,7 +114,7 @@ interface CacheInterface {
      * @return string
      * @throws \InvalidArgumentException
      */
-    public function getOrCreate($filename, array $conditions = array(), $function, $file = false, $actual = false);
+    public function getOrCreate($filename, array $conditions = array(), $function = null, $file = false, $actual = false);
 
     /**
      * Alias to getOrCreate with $file = true
@@ -126,6 +126,6 @@ interface CacheInterface {
      * @return string
      * @throws \InvalidArgumentException
      */
-    public function getOrCreateFile($filename, array $conditions = array(), $function, $actual = false);
+    public function getOrCreateFile($filename, array $conditions = array(), $function = null, $actual = false);
 
 }

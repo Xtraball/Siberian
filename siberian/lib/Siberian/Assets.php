@@ -1080,10 +1080,10 @@ class Assets
 
         switch ($type) {
             case "js":
-                $regex = "/\n?\t*<script[^<]+data-feature=\"${feature}\"><\\/script>\n?\t*/";
+                $regex = "/\n?\t*<script[^<]+data-feature=\"{$feature}\"><\\/script>\n?\t*/";
                 break;
             case "css":
-                $regex = "/\n?\t*<link[^<]+data-feature=\"${feature}\">\n?\t*/";
+                $regex = "/\n?\t*<link[^<]+data-feature=\"{$feature}\">\n?\t*/";
                 break;
         }
 

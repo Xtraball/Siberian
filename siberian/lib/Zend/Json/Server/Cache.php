@@ -77,7 +77,7 @@ class Zend_Json_Server_Cache extends Zend_Server_Cache
         }
 
 
-        if (false === ($smd = @file_get_contents($filename))) {
+        if (false === ($smd = file_get_contents($filename))) {
             return false;
         }
 

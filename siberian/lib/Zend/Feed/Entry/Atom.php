@@ -73,12 +73,16 @@ class Zend_Feed_Entry_Atom extends Zend_Feed_Entry_Abstract
      */
     public function delete()
     {
+        // Who cares of ATOM feed
+        require_once 'Zend/Feed/Exception.php';
+        throw new Zend_Feed_Exception('Cannot delete entry; no link rel="edit" is present.');
+        /**
         // Look for link rel="edit" in the entry object.
         $deleteUri = $this->link('edit');
         if (!$deleteUri) {
             /**
              * @see Zend_Feed_Exception
-             */
+             *
             require_once 'Zend/Feed/Exception.php';
             throw new Zend_Feed_Exception('Cannot delete entry; no link rel="edit" is present.');
         }
@@ -106,11 +110,12 @@ class Zend_Feed_Entry_Atom extends Zend_Feed_Entry_Abstract
                 default:
                     /**
                      * @see Zend_Feed_Exception
-                     */
+                     *
                     require_once 'Zend/Feed/Exception.php';
                     throw new Zend_Feed_Exception("Expected response code 2xx, got $httpStatus");
             }
         } while (true);
+        */
     }
 
 

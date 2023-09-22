@@ -37,6 +37,15 @@ class Stripe
     }
 
     /**
+     * @param null $appId
+     * @return bool
+     */
+    public static function sIsSetup($appId = null): bool
+    {
+        return Application::isEnabled($appId);
+    }
+
+    /**
      * @param Customer $stripeCustomer
      * @param array $params
      */

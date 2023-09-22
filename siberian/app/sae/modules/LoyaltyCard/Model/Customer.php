@@ -87,32 +87,32 @@ class LoyaltyCard_Model_Customer extends Core_Model_Default
      * @return $this
      * @throws Zend_Date_Exception
      */
-    public function findLast($value_id, $customer_id)
-    {
-        $row = $this->getTable()->findLast($value_id, $customer_id);
-
-        if ($row) {
-            $this->setData($row->getData())
-                ->setId($row->getCustomerCardId());
-
-            $is_locked = false;
-            if (!is_null($this->getLastError())) {
-                $now = $this->formatDate(null, 'y-MM-dd HH:mm:ss');
-                $date = new Zend_Date($this->getLastError());
-                $last_error = $date->addDay(1)->toString('y-MM-dd HH:mm:ss');
-                $is_locked = ($last_error > $now && $this->getNumberOfError() >= 3);
-                if (!($last_error > $now)) {
-                    $this->setNumberOfError(0);
-                }
-            }
-
-            $this->setIsLocked($is_locked);
-
-        }
-
-        return $this;
-
-    }
+    //public function findLast($value_id, $customer_id)
+    //{
+    //    $row = $this->getTable()->findLast($value_id, $customer_id);
+//
+    //    if ($row) {
+    //        $this->setData($row->getData())
+    //            ->setId($row->getCustomerCardId());
+//
+    //        $is_locked = false;
+    //        if (!is_null($this->getLastError())) {
+    //            $now = $this->formatDate(null, 'y-MM-dd HH:mm:ss');
+    //            $date = new Zend_Date($this->getLastError());
+    //            $last_error = $date->addDay(1)->toString('y-MM-dd HH:mm:ss');
+    //            $is_locked = ($last_error > $now && $this->getNumberOfError() >= 3);
+    //            if (!($last_error > $now)) {
+    //                $this->setNumberOfError(0);
+    //            }
+    //        }
+//
+    //        $this->setIsLocked($is_locked);
+//
+    //    }
+//
+    //    return $this;
+//
+    //}
 
     /**
      * @param $value_id
@@ -142,7 +142,7 @@ class LoyaltyCard_Model_Customer extends Core_Model_Default
      * @param array $params
      * @return Zend_Db_Table_Rowset_Abstract
      */
-    public function findAll($value_id, $customer_id = null, $params = [])
+    public function findAll($value_id = [], $customer_id = null, $params = [])
     {
         return $this->getTable()->findAll($value_id, $customer_id, $params);
     }

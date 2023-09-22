@@ -101,7 +101,7 @@ class Zend_OpenId_Provider_Storage_File extends Zend_OpenId_Provider_Storage
     public function addAssociation($handle, $macFunc, $secret, $expires)
     {
         $name = $this->_dir . '/assoc_' . md5($handle);
-        $lock = @fopen($this->_dir . '/assoc.lock', 'w+');
+        $lock = fopen($this->_dir . '/assoc.lock', 'w+');
         if ($lock === false) {
             return false;
         }
@@ -110,7 +110,7 @@ class Zend_OpenId_Provider_Storage_File extends Zend_OpenId_Provider_Storage
             return false;
         }
         try {
-            $f = @fopen($name, 'w+');
+            $f = fopen($name, 'w+');
             if ($f === false) {
                 fclose($lock);
                 return false;
@@ -140,7 +140,7 @@ class Zend_OpenId_Provider_Storage_File extends Zend_OpenId_Provider_Storage
     public function getAssociation($handle, &$macFunc, &$secret, &$expires)
     {
         $name = $this->_dir . '/assoc_' . md5($handle);
-        $lock = @fopen($this->_dir . '/assoc.lock', 'w+');
+        $lock = fopen($this->_dir . '/assoc.lock', 'w+');
         if ($lock === false) {
             return false;
         }
@@ -149,7 +149,7 @@ class Zend_OpenId_Provider_Storage_File extends Zend_OpenId_Provider_Storage
             return false;
         }
         try {
-            $f = @fopen($name, 'r');
+            $f = fopen($name, 'r');
             if ($f === false) {
                 fclose($lock);
                 return false;
@@ -185,7 +185,7 @@ class Zend_OpenId_Provider_Storage_File extends Zend_OpenId_Provider_Storage
     public function delAssociation($handle)
     {
         $name = $this->_dir . '/assoc_' . md5($handle);
-        $lock = @fopen($this->_dir . '/assoc.lock', 'w+');
+        $lock = fopen($this->_dir . '/assoc.lock', 'w+');
         if ($lock === false) {
             return false;
         }
@@ -215,7 +215,7 @@ class Zend_OpenId_Provider_Storage_File extends Zend_OpenId_Provider_Storage
     public function addUser($id, $password)
     {
         $name = $this->_dir . '/user_' . md5($id);
-        $lock = @fopen($this->_dir . '/user.lock', 'w+');
+        $lock = fopen($this->_dir . '/user.lock', 'w+');
         if ($lock === false) {
             return false;
         }
@@ -224,7 +224,7 @@ class Zend_OpenId_Provider_Storage_File extends Zend_OpenId_Provider_Storage
             return false;
         }
         try {
-            $f = @fopen($name, 'x');
+            $f = fopen($name, 'x');
             if ($f === false) {
                 fclose($lock);
                 return false;
@@ -249,7 +249,7 @@ class Zend_OpenId_Provider_Storage_File extends Zend_OpenId_Provider_Storage
     public function hasUser($id)
     {
         $name = $this->_dir . '/user_' . md5($id);
-        $lock = @fopen($this->_dir . '/user.lock', 'w+');
+        $lock = fopen($this->_dir . '/user.lock', 'w+');
         if ($lock === false) {
             return false;
         }
@@ -258,7 +258,7 @@ class Zend_OpenId_Provider_Storage_File extends Zend_OpenId_Provider_Storage
             return false;
         }
         try {
-            $f = @fopen($name, 'r');
+            $f = fopen($name, 'r');
             if ($f === false) {
                 fclose($lock);
                 return false;
@@ -290,7 +290,7 @@ class Zend_OpenId_Provider_Storage_File extends Zend_OpenId_Provider_Storage
     public function checkUser($id, $password)
     {
         $name = $this->_dir . '/user_' . md5($id);
-        $lock = @fopen($this->_dir . '/user.lock', 'w+');
+        $lock = fopen($this->_dir . '/user.lock', 'w+');
         if ($lock === false) {
             return false;
         }
@@ -299,7 +299,7 @@ class Zend_OpenId_Provider_Storage_File extends Zend_OpenId_Provider_Storage
             return false;
         }
         try {
-            $f = @fopen($name, 'r');
+            $f = fopen($name, 'r');
             if ($f === false) {
                 fclose($lock);
                 return false;
@@ -330,7 +330,7 @@ class Zend_OpenId_Provider_Storage_File extends Zend_OpenId_Provider_Storage
     public function delUser($id)
     {
         $name = $this->_dir . '/user_' . md5($id);
-        $lock = @fopen($this->_dir . '/user.lock', 'w+');
+        $lock = fopen($this->_dir . '/user.lock', 'w+');
         if ($lock === false) {
             return false;
         }
@@ -358,7 +358,7 @@ class Zend_OpenId_Provider_Storage_File extends Zend_OpenId_Provider_Storage
     public function getTrustedSites($id)
     {
         $name = $this->_dir . '/user_' . md5($id);
-        $lock = @fopen($this->_dir . '/user.lock', 'w+');
+        $lock = fopen($this->_dir . '/user.lock', 'w+');
         if ($lock === false) {
             return false;
         }
@@ -367,7 +367,7 @@ class Zend_OpenId_Provider_Storage_File extends Zend_OpenId_Provider_Storage
             return false;
         }
         try {
-            $f = @fopen($name, 'r');
+            $f = fopen($name, 'r');
             if ($f === false) {
                 fclose($lock);
                 return false;
@@ -400,7 +400,7 @@ class Zend_OpenId_Provider_Storage_File extends Zend_OpenId_Provider_Storage
     public function addSite($id, $site, $trusted)
     {
         $name = $this->_dir . '/user_' . md5($id);
-        $lock = @fopen($this->_dir . '/user.lock', 'w+');
+        $lock = fopen($this->_dir . '/user.lock', 'w+');
         if ($lock === false) {
             return false;
         }
@@ -409,7 +409,7 @@ class Zend_OpenId_Provider_Storage_File extends Zend_OpenId_Provider_Storage
             return false;
         }
         try {
-            $f = @fopen($name, 'r+');
+            $f = fopen($name, 'r+');
             if ($f === false) {
                 fclose($lock);
                 return false;

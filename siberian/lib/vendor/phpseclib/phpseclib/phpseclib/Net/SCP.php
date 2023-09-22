@@ -172,7 +172,7 @@ class SCP
                 return false;
             }
 
-            $fp = @fopen($data, 'rb');
+            $fp = fopen($data, 'rb');
             if (!$fp) {
                 return false;
             }
@@ -238,7 +238,7 @@ class SCP
         $size = 0;
 
         if ($local_file !== false) {
-            $fp = @fopen($local_file, 'wb');
+            $fp = fopen($local_file, 'wb');
             if (!$fp) {
                 return false;
             }

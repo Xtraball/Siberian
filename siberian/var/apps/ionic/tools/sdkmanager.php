@@ -39,7 +39,7 @@ if ($run) {
     $toolsPath = dirname(__FILE__);
     chmod($toolsPath, 0777);
     $androidSdkPath = $toolsPath . '/android-sdk';
-    if (!@file_exists($androidSdkPath)) {
+    if (!file_exists($androidSdkPath)) {
         mkdir($androidSdkPath, 0777, true);
     }
 
@@ -47,7 +47,7 @@ if ($run) {
     if (!is_dir($androidSdkPath . '/tools') ||
         !is_file($androidSdkPath . '/tools/bin/sdkmanager')) {
         lexec("rm -Rf '" . $androidSdkPath . "'");
-        if (!@file_exists($androidSdkPath)) {
+        if (!file_exists($androidSdkPath)) {
             mkdir($androidSdkPath, 0777, true);
         }
         lexec("wget '" . $file . "' -O " .

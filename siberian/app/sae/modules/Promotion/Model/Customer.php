@@ -31,7 +31,7 @@ class Promotion_Model_Customer extends Promotion_Model_Promotion
         }
     }
 
-    public function findLast($promotion_id, $customer_id) {
+    public function findLast($promotion_id = [], $customer_id = null) {
         $row = $this->getTable()->findLast($promotion_id, $customer_id);
         $this->unsetData();
 

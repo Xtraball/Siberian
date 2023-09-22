@@ -435,7 +435,7 @@ class Mcommerce_Model_Cart extends Core_Model_Default {
 
             $address = str_replace(' ', '+', $address);
             $url = "https://maps.googleapis.com/maps/api/geocode/json?sensor=false&address=$address&key=$apiKey";
-            if ($results = @file_get_contents($url) AND $results = @json_decode($results)) {
+            if ($results = file_get_contents($url) AND $results = @json_decode($results)) {
                 if (!empty($results->results[0]->geometry->location)) {
                     $cordinates = $results->results[0]->geometry->location;
                     if (!empty($cordinates->lat) && !empty($cordinates->lng)) {

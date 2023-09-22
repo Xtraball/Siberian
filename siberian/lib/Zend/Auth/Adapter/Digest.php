@@ -191,7 +191,7 @@ class Zend_Auth_Adapter_Digest implements Zend_Auth_Adapter_Interface
             }
         }
 
-        if (false === ($fileHandle = @fopen($this->_filename, 'r'))) {
+        if (false === ($fileHandle = fopen($this->_filename, 'r'))) {
             /**
              * @see Zend_Auth_Adapter_Exception
              */

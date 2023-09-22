@@ -112,7 +112,7 @@ abstract class Zend_TimeSync_Protocol
      */
     protected function _disconnect()
     {
-        @fclose($this->_socket);
+        fclose($this->_socket);
         $this->_socket = null;
     }
 

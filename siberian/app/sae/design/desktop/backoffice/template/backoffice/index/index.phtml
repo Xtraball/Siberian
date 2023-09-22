@@ -126,14 +126,6 @@ if (array_key_exists(Version::VERSION, $updates)) {
         </div>
     <?php endif; ?>
 
-    <?php if (version_compare(explode("-", PHP_VERSION)[0], "7.4.0", ">=")): ?>
-        <div class="col-md-8 col-md-offset-2 col-sm-12">
-            <div class="alert alert-danger">
-                <?php echo __("You are using PHP version " . explode("-", PHP_VERSION)[0] . ", the required version is 7.3.X!") ?>
-            </div>
-        </div>
-    <?php endif; ?>
-
     <?php if (isDev() || $systemError || $pathError): ?>
         <div class="col-xs-12 col-md-12">
             <sb-section title="'<?php echo __title("System diagnostic"); ?>'"
@@ -434,14 +426,8 @@ if (array_key_exists(Version::VERSION, $updates)) {
                             <span class="group"
                                   style="margin-left: 0;">
                             <?php $phpVersion = phpversion(); ?>
-                                <?php echo __("PHP version %s:", $phpVersion) ?>
-                                <?php if (version_compare($phpVersion, '7.0', '<') ||
-                                    version_compare($phpVersion, '7.4', '>=')) { ?>
-                                    <span class="service-red"><?php echo __("Doesn't meet the requirements") ?></span>,
-                                <?php } else { ?>
-                                    <span class="service-green"><i class="fa fa-check"></i></span>
-                                <?php } ?>
-
+                                <?php echo __("PHP version") ?>:&nbsp;
+                                <span class="service-green"><b><?php echo explode("-", $phpVersion)[0] ?></b></span>&nbsp;&nbsp;
                             </span>
 
                         <span class="group" ng-show="extensions.php_sqlite3">

@@ -852,9 +852,9 @@ class Zend_Gdata_App
     public static function importFile($filename,
             $className='Zend_Gdata_App_Feed', $useIncludePath = false)
     {
-        @ini_set('track_errors', 1);
-        $feed = @file_get_contents($filename, $useIncludePath);
-        @ini_restore('track_errors');
+        ini_set('track_errors', 1);
+        $feed = file_get_contents($filename, $useIncludePath);
+        ini_restore('track_errors');
         if ($feed === false) {
             require_once 'Zend/Gdata/App/Exception.php';
             throw new Zend_Gdata_App_Exception(
@@ -974,7 +974,7 @@ class Zend_Gdata_App
     {
         if (!class_exists($className, false)) {
           require_once 'Zend/Loader.php';
-          @Zend_Loader::loadClass($className);
+          Zend_Loader::loadClass($className);
         }
 
         $response = $this->post($data, $uri, null, null, $extraHeaders);
@@ -1015,7 +1015,7 @@ class Zend_Gdata_App
 
         if (!class_exists($className, false)) {
           require_once 'Zend/Loader.php';
-          @Zend_Loader::loadClass($className);
+          Zend_Loader::loadClass($className);
         }
 
         $response = $this->put($data, $uri, null, null, $extraHeaders);
@@ -1054,7 +1054,7 @@ class Zend_Gdata_App
                      // with magic factories. See ZF-6660.
                      if (!class_exists($name . '_' . $class, false)) {
                         require_once 'Zend/Loader.php';
-                        @Zend_Loader::loadClass($name . '_' . $class);
+                        Zend_Loader::loadClass($name . '_' . $class);
                      }
                      $foundClassName = $name . '_' . $class;
                      break;

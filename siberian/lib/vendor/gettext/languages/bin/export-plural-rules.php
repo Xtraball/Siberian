@@ -182,7 +182,7 @@ class Enviro
      */
     public static function echoErr($str)
     {
-        $hStdErr = @fopen('php://stderr', 'a');
+        $hStdErr = fopen('php://stderr', 'a');
         if ($hStdErr === false) {
             echo $str;
         } else {

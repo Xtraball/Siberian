@@ -954,7 +954,7 @@ let test = function () {
 
     sh.exec('find ' + ROOT + '/siberian/app -name \'*.php\' -exec ' +
         PHP_VERSION + ' -l {} \\; | grep -v \'No syntax errors detected\'');
-    sh.exec('find ' + ROOT + '/siberian/lib/Siberian -name \'*.php\' -exec ' +
+    sh.exec('find ' + ROOT + '/siberian/lib -name \'*.php\' -exec ' +
         PHP_VERSION + ' -l {} \\; | grep -v \'No syntax errors detected\'');
 
     sprint(clc.green('Test done.'));

@@ -739,7 +739,7 @@ class Zend_Http_Client
     public function setFileUpload($filename, $formname, $data = null, $ctype = null)
     {
         if ($data === null) {
-            if (($data = @file_get_contents($filename)) === false) {
+            if (($data = file_get_contents($filename)) === false) {
                 /** @see Zend_Http_Client_Exception */
                 require_once 'Zend/Http/Client/Exception.php';
                 throw new Zend_Http_Client_Exception("Unable to read file '{$filename}' for upload");
@@ -981,7 +981,7 @@ class Zend_Http_Client
                  'Zend_Http_Client');
         }
 
-        if (false === ($fp = @fopen($this->_stream_name, "w+b"))) {
+        if (false === ($fp = fopen($this->_stream_name, "w+b"))) {
                 if ($this->adapter instanceof Zend_Http_Client_Adapter_Interface) {
                     $this->adapter->close();
                 }

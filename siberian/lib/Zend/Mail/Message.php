@@ -58,7 +58,7 @@ class Zend_Mail_Message extends Zend_Mail_Part implements Zend_Mail_Message_Inte
     {
         if (isset($params['file'])) {
             if (!is_resource($params['file'])) {
-                $params['raw'] = @file_get_contents($params['file']);
+                $params['raw'] = file_get_contents($params['file']);
                 if ($params['raw'] === false) {
                     /**
                      * @see Zend_Mail_Exception

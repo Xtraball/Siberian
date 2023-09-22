@@ -75,7 +75,7 @@ class Zend_Log_Writer_Stream extends Zend_Log_Writer_Abstract
                 $streamOrUrl = $streamOrUrl['stream'];
             }
 
-            if (! $this->_stream = @fopen($streamOrUrl, $mode, false)) {
+            if (! $this->_stream = fopen($streamOrUrl, $mode, false)) {
                 require_once 'Zend/Log/Exception.php';
                 $msg = "\"$streamOrUrl\" cannot be opened with mode \"$mode\"";
                 throw new Zend_Log_Exception($msg);

@@ -100,7 +100,7 @@ class Zend_Cache_Backend_Sqlite extends Zend_Cache_Backend implements Zend_Cache
      */
     public function __destruct()
     {
-        @sqlite_close($this->_getConnection());
+        sqlite_close($this->_getConnection());
     }
 
     /**

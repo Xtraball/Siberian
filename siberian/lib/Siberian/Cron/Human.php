@@ -91,7 +91,7 @@ class Human
      * @return Human
      * @throws \Exception
      */
-    final public static function fromCronString($cronSpec = '* * * * * *', $language = 'en')
+    public static function fromCronString($cronSpec = '* * * * * *', $language = 'en')
     {
         // Split input liberal. Single or multiple Spaces, Tabs and Newlines are all allowed as separators.
         if (count($elements = preg_split('/\s+/', $cronSpec)) < 5) {
@@ -136,7 +136,7 @@ class Human
      * @return array
      * @throws \Exception
      */
-    final private function cronInterpret($specification, $rangeMin, $rangeMax, $namedItems, $errorName)
+    private function cronInterpret($specification, $rangeMin, $rangeMax, $namedItems, $errorName)
     {
 
         if ((!is_string($specification)) && (!(is_int($specification)))) {
@@ -238,7 +238,7 @@ class Human
      * @param $cronInterpreted
      * @return array
      */
-    final private function cronCreateItems($cronInterpreted)
+    private function cronCreateItems($cronInterpreted)
     {
         $items = [];
 
@@ -259,7 +259,7 @@ class Human
      * @param bool $time
      * @return array|bool
      */
-    final private function dtFromParameters($time = false)
+    private function dtFromParameters($time = false)
     {
         if ($time === false) {
             $arrTime = getDate();
@@ -279,7 +279,7 @@ class Human
      * @param $arrDt
      * @return bool|string
      */
-    final private function dtAsString($arrDt)
+    private function dtAsString($arrDt)
     {
         if ($arrDt === false) {
             return false;
@@ -293,7 +293,7 @@ class Human
      * @param bool $time
      * @return bool
      */
-    final public function match($time = false)
+    public function match($time = false)
     {
 
         // Convert parameters to array datetime
@@ -333,7 +333,7 @@ class Human
      * @param bool $time
      * @return array|bool
      */
-    final public function next($time = false)
+    public function next($time = false)
     {
         // Convert parameters to array datetime
         $arrDT = $this->dtFromParameters($time);
@@ -399,7 +399,7 @@ class Human
      * @param bool $time
      * @return bool|string
      */
-    final public function nextAsString($time = false)
+    public function nextAsString($time = false)
     {
         return $this->dtAsString($this->next($time));
     }
@@ -408,7 +408,7 @@ class Human
      * @param bool $time
      * @return false|int
      */
-    final public function nextAsTime($time = false)
+    public function nextAsTime($time = false)
     {
         return strtotime($this->dtAsString($this->next($time)));
     }
@@ -420,7 +420,7 @@ class Human
      * @param $current
      * @return bool
      */
-    final private function advanceItem($arrItems, $rangeMin, $rangeMax, & $current)
+    private function advanceItem($arrItems, $rangeMin, $rangeMax, & $current)
     {
         // Advance pointer
         $current++;
@@ -449,7 +449,7 @@ class Human
      * @param bool $allowOverflow
      * @return bool|int|null|string
      */
-    final private function getEarliestItem($arrItems, $afterItem = false, $allowOverflow = true)
+    private function getEarliestItem($arrItems, $afterItem = false, $allowOverflow = true)
     {
         // If no filter is specified, return the earliest listed item.
         if ($afterItem === false) {
@@ -478,7 +478,7 @@ class Human
      * @param bool $time
      * @return array|bool
      */
-    final public function previous($time = false)
+    public function previous($time = false)
     {
         // Convert parameters to array datetime
         $arrDT = $this->dtFromParameters($time);
@@ -544,7 +544,7 @@ class Human
      * @param bool $time
      * @return bool|string
      */
-    final public function previousAsString($time = false)
+    public function previousAsString($time = false)
     {
         return $this->dtAsString($this->previous($time));
     }
@@ -553,7 +553,7 @@ class Human
      * @param bool $time
      * @return false|int
      */
-    final public function previousAsTime($time = false)
+    public function previousAsTime($time = false)
     {
         return strtotime($this->dtAsString($this->previous($time)));
     }
@@ -565,7 +565,7 @@ class Human
      * @param $current
      * @return bool
      */
-    final private function recedeItem($arrItems, $rangeMin, $rangeMax, & $current)
+    private function recedeItem($arrItems, $rangeMin, $rangeMax, & $current)
     {
         // Recede pointer
         $current--;
@@ -593,7 +593,7 @@ class Human
      * @param bool $allowOverflow
      * @return bool|int|null|string
      */
-    final private function getLatestItem($arrItems, $beforeItem = false, $allowOverflow = true)
+    private function getLatestItem($arrItems, $beforeItem = false, $allowOverflow = true)
     {
         // If no filter is specified, return the latestlisted item.
         if ($beforeItem === false) {
@@ -622,7 +622,7 @@ class Human
      * @param $spec
      * @return string
      */
-    final private function getClass($spec)
+    private function getClass($spec)
     {
         if (!$this->classIsSpecified($spec)) {
             return '0';
@@ -637,7 +637,7 @@ class Human
      * @param $spec
      * @return bool
      */
-    final private function classIsSpecified($spec)
+    private function classIsSpecified($spec)
     {
         if ($spec['elements'][0]['hasInterval'] == false) {
             return true;
@@ -658,7 +658,7 @@ class Human
      * @param $spec
      * @return bool
      */
-    final private function classIsSingleFixed($spec)
+    private function classIsSingleFixed($spec)
     {
         return (count($spec['elements']) == 1) && (!$spec['elements'][0]['hasInterval']);
     }
@@ -666,7 +666,7 @@ class Human
     /**
      * @param string $language
      */
-    final private function initLang($language = 'en')
+    private function initLang($language = 'en')
     {
         switch ($language) {
             case 'en':
@@ -913,7 +913,7 @@ class Human
      * @param $number
      * @return string
      */
-    final private function natlangPad2($number)
+    private function natlangPad2($number)
     {
         return (strlen($number) == 1 ? '0' : '') . $number;
     }
@@ -928,7 +928,7 @@ class Human
      * @param bool $p6
      * @return mixed
      */
-    final private function natlangApply($id, $p1 = false, $p2 = false, $p3 = false, $p4 = false, $p5 = false, $p6 = false)
+    private function natlangApply($id, $p1 = false, $p2 = false, $p3 = false, $p4 = false, $p5 = false, $p6 = false)
     {
         $txt = $this->_lang[$id];
 
@@ -960,7 +960,7 @@ class Human
      * @param bool $p1
      * @return string
      */
-    final private function natlangRange($spec, $entryFunction, $p1 = false)
+    private function natlangRange($spec, $entryFunction, $p1 = false)
     {
         $arrIntervals = [];
         foreach ($spec['elements'] as $elem) {
@@ -978,7 +978,7 @@ class Human
      * @param $elem
      * @return mixed|string
      */
-    final private function natlangElementMinute($elem)
+    private function natlangElementMinute($elem)
     {
         if (!$elem['hasInterval']) {
             if ($elem['number1'] == 0) {
@@ -1000,7 +1000,7 @@ class Human
      * @param $asBetween
      * @return mixed|string
      */
-    final private function natlangElementHour($elem, $asBetween)
+    private function natlangElementHour($elem, $asBetween)
     {
         if (!$elem['hasInterval']) {
             if ($asBetween) {
@@ -1026,7 +1026,7 @@ class Human
      * @param $elem
      * @return mixed|string
      */
-    final private function natlangElementDayOfMonth($elem)
+    private function natlangElementDayOfMonth($elem)
     {
         if (!$elem['hasInterval']) {
             return $this->natlangApply('elemDOM: the_X', $this->natlangApply('ordinal: ' . $elem['number1']));
@@ -1043,7 +1043,7 @@ class Human
      * @param $elem
      * @return mixed|string
      */
-    final private function natlangElementMonth($elem)
+    private function natlangElementMonth($elem)
     {
         if (!$elem['hasInterval']) {
             return $this->natlangApply('elemMonth: every_X', $this->natlangApply('month: ' . $elem['number1']));
@@ -1061,7 +1061,7 @@ class Human
      * @param $elem
      * @return mixed|string
      */
-    final private function natlangElementYear($elem)
+    private function natlangElementYear($elem)
     {
         if (!$elem['hasInterval']) {
             return $elem['number1'];
@@ -1077,7 +1077,7 @@ class Human
     /**
      * @return string
      */
-    final public function asNaturalLanguage()
+    public function asNaturalLanguage()
     {
         $switchForceDateExplaination = false;
         $switchDaysOfWeekAreExcluding = true;

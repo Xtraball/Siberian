@@ -83,7 +83,7 @@ class Application extends Base
     {
         // Checking $appId, and/or fallback on context application!
         if ($appId === null) {
-            $application = self::getApplication();
+            $application = self::sGetApplication();
             if (!$application &&
                 !$application->getId()) {
                 throw new Exception(p__('payment_stripe', 'An app id is required.'));
@@ -134,7 +134,7 @@ class Application extends Base
      * @param bool $withSecretKey
      * @return array|mixed|string|null
      */
-    public function toJson($withSecretKey = false)
+    public function _toJson($withSecretKey = false)
     {
         $payload = $this->getData();
 
