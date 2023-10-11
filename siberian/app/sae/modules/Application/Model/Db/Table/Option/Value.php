@@ -73,8 +73,7 @@ class Application_Model_Db_Table_Option_Value extends Core_Model_Db_Table
         else $select->order('aov.folder_category_position ASC')->order('aov.position ASC')->order('ao.position ASC');
 
         if (!empty($params)) {
-            if (!empty($params['limit'])) $select->limit($params['limit']);
-            if (!empty($params['offset'])) $select->offset($params['offset']);
+            if (!empty($params['limit'])) $select->limit($params['limit'], $params['offset']);
         }
 
         $select->setIntegrityCheck(false);
