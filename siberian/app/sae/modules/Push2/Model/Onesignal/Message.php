@@ -129,6 +129,7 @@ class Message extends BaseModel {
         if ($this->getIsIndividual()) {
             $this->clearTargets();
             $this->addTargets(new Player($this->getPlayerIds()));
+            $this->setSegment('Individual');
         }
     }
 

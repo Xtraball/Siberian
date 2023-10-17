@@ -91,10 +91,10 @@ class Message extends FormAbstract
             $players = (new Player())->findWithCustomers(["player.app_id = ?" => $this->application->getId()]);
 
             $is_individual = $this->addSimpleCheckbox('is_individual', p__('push2', 'Individual?'));
+            $is_individual->setDescription(p__('push2', 'Segment is ignored when individual push is enabled'));
 
             $this->addSimpleHtml('individual_table', $this->individualTable($players));
         }
-
 
         $is_scheduled = $this->addSimpleCheckbox('is_scheduled', p__('push2', 'Schedule?'));
 
@@ -107,7 +107,6 @@ class Message extends FormAbstract
             false,
             \Siberian_Form_Abstract::TIMEPICKER);
         $delivery_time_of_day->setAttrib('data-moment-format', 'LT');
-
 
 
         // Hidden for now, will be used later
