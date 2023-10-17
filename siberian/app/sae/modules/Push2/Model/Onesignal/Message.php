@@ -35,6 +35,7 @@ use Core_Model_Default as BaseModel;
  * @method $this setFeatureId(bool $feature_id)
  * @method $this setPlayerIds(array $player_ids)
  * @method $this setActionValue($action_value)
+ * @method $this setSegment($segment)
  * @method Db\Table\Message getTable()
  * @method integer getAppId()
  * @method integer getValueId()
@@ -56,6 +57,7 @@ use Core_Model_Default as BaseModel;
  * @method integer getFeatureId()
  * @method array getPlayerIds()
  * @method string getActionValue()
+ * @method string getSegment()
  * @method AbstractTarget[] getTargets()
  */
 class Message extends BaseModel {
@@ -64,12 +66,6 @@ class Message extends BaseModel {
      * @var string
      */
     public $_db_table = Db\Table\Message::class;
-
-    public function __construct()
-    {
-        // Default targets are all users
-        $this->addTargets(new Segment('Subscribed Users'));
-    }
 
     /**
      * @param $app_id
@@ -102,6 +98,8 @@ class Message extends BaseModel {
         $this->setOpenFeature(filter_var($data['open_feature'] ?? null, FILTER_VALIDATE_BOOLEAN));
         $this->setFeatureId($data['feature_id'] ?? null);
         $this->setPlayerIds($data['player_ids'] ?? null);
+        $this->setSegment($data['segment'] ?? 'Subscribed Users');
+        $this->addTargets(new Segment($data['segment'] ?? 'Subscribed Users'));
 
         $this->checkSchedulingOptions();
         $this->checkTargets();

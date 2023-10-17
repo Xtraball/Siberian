@@ -69,6 +69,16 @@ class Notification
     }
 
     /**
+     * @param $appId
+     * @return \onesignal\client\model\SegmentSlice
+     * @throws \onesignal\client\ApiException
+     */
+    public function fetchSegments($appId = null)
+    {
+        return $this->apiInstance->getSegments($appId ?? $this->APP_ID);
+    }
+
+    /**
      * @param Message $message
      * @return void
      * @throws \Zend_Exception

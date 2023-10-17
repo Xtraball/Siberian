@@ -3,6 +3,7 @@
 namespace Push2\Form;
 
 use Push2\Model\Onesignal\Player;
+use Push2\Model\Onesignal\Scheduler;
 use Push2\Model\Push as Push2;
 use \Siberian_Form_Abstract as FormAbstract;
 
@@ -64,6 +65,20 @@ class Message extends FormAbstract
         //    ]
         //);
 
+        // Loading segments from OneSignal API
+        $segmentSlice = (new Scheduler($this->application))->fetchSegments();
+        $segmentsOptions = [];
+        foreach ($segmentSlice->getSegments() as $segment) {
+            $segmentsOptions[$segment->getName()] = $segment->getName();
+        }
+
+        $segment = $this->addSimpleSelect(
+            'segment',
+            p__('push2', 'Segment'),
+            $segmentsOptions
+        );
+        $segment->setRequired();
+
         $title = $this->addSimpleText('title', p__('push2', 'Title'));
         $title->setRequired();
 
@@ -113,6 +128,7 @@ class Message extends FormAbstract
         $submit->addClass('pull-right');
 
         $this->groupElements('the_message', [
+            'segment',
             'title',
             //'subtitle',
             'body',
