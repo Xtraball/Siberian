@@ -193,11 +193,11 @@ abstract class Zend_Mail_Transport_Abstract
         foreach ($headers as $header => $content) {
             if (isset($content['append'])) {
                 unset($content['append']);
-                $value = implode(',' . $this->EOL . ' ', $content);
+                $value = implode_polyfill(',' . $this->EOL . ' ', $content);
                 $this->header .= $header . ': ' . $value . $this->EOL;
             } else {
                 array_walk($content, array(get_class($this), '_formatHeader'), $header);
-                $this->header .= implode($this->EOL, $content) . $this->EOL;
+                $this->header .= implode_polyfill($this->EOL, $content) . $this->EOL;
             }
         }
 
@@ -333,7 +333,7 @@ abstract class Zend_Mail_Transport_Abstract
         }
 
         // Determine recipients, and prepare headers
-        $this->recipients = implode(',', $mail->getRecipients());
+        $this->recipients = implode_polyfill(',', $mail->getRecipients());
         $this->_prepareHeaders($this->_getHeaders($boundary));
 
         // Create message body

@@ -297,7 +297,7 @@ abstract class Application_Model_Device_Ionic_Android_Abstract extends Applicati
                 if (count($lang) == 2) {
                     $lang[1] = "r" . $lang[1];
                 }
-                $lang = implode("-", $lang);
+                $lang = implode_polyfill("-", $lang);
             }
 
             /** Specific case */

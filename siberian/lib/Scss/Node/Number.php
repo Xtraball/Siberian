@@ -243,7 +243,7 @@ if (version_compare(PHP_VERSION, '8.0', '<')) {
                 }
             }
 
-            return implode('*', $numerators) . (count($denominators) ? '/' . implode('*', $denominators) : '');
+            return implode_polyfill('*', $numerators) . (count($denominators) ? '/' . implode_polyfill('*', $denominators) : '');
         }
 
         /**
@@ -546,7 +546,7 @@ if (version_compare(PHP_VERSION, '8.0', '<')) {
                 }
             }
 
-            return implode('*', $numerators) . (count($denominators) ? '/' . implode('*', $denominators) : '');
+            return implode_polyfill('*', $numerators) . (count($denominators) ? '/' . implode_polyfill('*', $denominators) : '');
         }
 
         /**

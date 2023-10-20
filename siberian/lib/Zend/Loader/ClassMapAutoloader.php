@@ -213,7 +213,7 @@ class Zend_Loader_ClassMapAutoloader implements Zend_Loader_SplAutoloader
 
         array_walk($parts, array(__CLASS__, 'resolvePharParentPath'), $parts);
 
-        if (file_exists($realPath = 'phar:///' . implode('/', $parts))) {
+        if (file_exists($realPath = 'phar:///' . implode_polyfill('/', $parts))) {
             return $realPath;
         }
     }

@@ -291,7 +291,7 @@ class Zend_InfoCard
         $temp = file($certificatePair['public']);
         unset($temp[count($temp)-1]);
         unset($temp[0]);
-        $certificateData = base64_decode(implode("\n", $temp));
+        $certificateData = base64_decode(implode_polyfill("\n", $temp));
 
         switch($digestMethod) {
             case self::DIGEST_SHA1:

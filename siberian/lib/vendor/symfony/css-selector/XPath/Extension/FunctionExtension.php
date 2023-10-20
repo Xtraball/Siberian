@@ -53,7 +53,7 @@ class FunctionExtension extends AbstractExtension
         try {
             list($a, $b) = Parser::parseSeries($function->getArguments());
         } catch (SyntaxErrorException $e) {
-            throw new ExpressionErrorException(sprintf('Invalid series: %s', implode(', ', $function->getArguments())), 0, $e);
+            throw new ExpressionErrorException(sprintf('Invalid series: %s', implode_polyfill(', ', $function->getArguments())), 0, $e);
         }
 
         $xpath->addStarPrefix();
@@ -92,7 +92,7 @@ class FunctionExtension extends AbstractExtension
             $conditions[] = sprintf('(%s) mod %d = 0', $expr, $a);
         }
 
-        return $xpath->addCondition(implode(' and ', $conditions));
+        return $xpath->addCondition(implode_polyfill(' and ', $conditions));
 
         // todo: handle an+b, odd, even
         // an+b means every-a, plus b, e.g., 2n+1 means odd
@@ -133,7 +133,7 @@ class FunctionExtension extends AbstractExtension
         $arguments = $function->getArguments();
         foreach ($arguments as $token) {
             if (!($token->isString() || $token->isIdentifier())) {
-                throw new ExpressionErrorException('Expected a single string or identifier for :contains(), got '.implode(', ', $arguments));
+                throw new ExpressionErrorException('Expected a single string or identifier for :contains(), got '.implode_polyfill(', ', $arguments));
             }
         }
 
@@ -151,7 +151,7 @@ class FunctionExtension extends AbstractExtension
         $arguments = $function->getArguments();
         foreach ($arguments as $token) {
             if (!($token->isString() || $token->isIdentifier())) {
-                throw new ExpressionErrorException('Expected a single string or identifier for :lang(), got '.implode(', ', $arguments));
+                throw new ExpressionErrorException('Expected a single string or identifier for :lang(), got '.implode_polyfill(', ', $arguments));
             }
         }
 

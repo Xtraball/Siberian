@@ -108,7 +108,7 @@ class Wordpress2_Mobile_ListController extends Application_Controller_Mobile_Def
                     $posts = [];
                     if (!empty($groupPostIds)) {
                         $posts = $wordpressApi->getPosts(
-                            implode(',', array_values($groupPostIds)),
+                            implode_polyfill(',', array_values($groupPostIds)),
                             $page,
                             [
                                 'orderby' => $wordpressData['sortType'],
@@ -126,7 +126,7 @@ class Wordpress2_Mobile_ListController extends Application_Controller_Mobile_Def
                     $pages = [];
                     if (!empty($groupPageIds)) {
                         $pages = $wordpressApi->getPages(
-                            implode(',', array_values($groupPageIds)),
+                            implode_polyfill(',', array_values($groupPageIds)),
                             $page,
                             [
                                 'orderby' => $wordpressData['sortType'],
@@ -261,7 +261,7 @@ class Wordpress2_Mobile_ListController extends Application_Controller_Mobile_Def
                 $posts = [];
                 if (!empty($categoryIds)) {
                     $posts = $wordpressApi->getPosts(
-                        implode(',', array_values($categoryIds)),
+                        implode_polyfill(',', array_values($categoryIds)),
                         $page,
                         [
                             'orderby' => $queryData['sortType'],
@@ -276,7 +276,7 @@ class Wordpress2_Mobile_ListController extends Application_Controller_Mobile_Def
                 $pages = [];
                 if (!empty($pageIds)) {
                     $pages = $wordpressApi->getPages(
-                        implode(',', array_values($pageIds)),
+                        implode_polyfill(',', array_values($pageIds)),
                         $page,
                         [
                             'orderby' => $queryData['sortType'],

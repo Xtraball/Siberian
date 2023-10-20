@@ -9,7 +9,7 @@ use React\ChildProcess\Process;
 
 require __DIR__ . '/../vendor/autoload.php';
 
-$cmd = isset($argv[1]) ? implode(' ', array_slice($argv, 1)) : 'dd if=/dev/zero bs=1M count=1000';
+$cmd = isset($argv[1]) ? implode_polyfill(' ', array_slice($argv, 1)) : 'dd if=/dev/zero bs=1M count=1000';
 
 $loop = Factory::create();
 

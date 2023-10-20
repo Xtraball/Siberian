@@ -241,7 +241,7 @@ class Zend_Controller_Router_Route extends Zend_Controller_Router_Route_Abstract
                         }
                     }
 
-                    $matchedPath = implode($this->_urlDelimiter, $path);
+                    $matchedPath = implode_polyfill($this->_urlDelimiter, $path);
                     break;
                 }
 

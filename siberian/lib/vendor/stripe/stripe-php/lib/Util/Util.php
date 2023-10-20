@@ -172,7 +172,7 @@ abstract class Util
             $pieces[] = self::urlEncode($k) . '=' . self::urlEncode($v);
         }
 
-        return \implode('&', $pieces);
+        return \implode_polyfill('&', $pieces);
     }
 
     /**

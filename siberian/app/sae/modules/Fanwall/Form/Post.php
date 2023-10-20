@@ -159,7 +159,7 @@ class Post extends FormAbstract
         }
 
         $imagesContainer = '
-<div class="fanwall-images-container">'.implode('', $imagesHtml).'</div>';
+<div class="fanwall-images-container">'.implode_polyfill('', $imagesHtml).'</div>';
 
         $this->addSimpleHtml('fanwall-images-container', $imagesContainer);
 

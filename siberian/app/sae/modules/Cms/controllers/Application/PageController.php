@@ -56,7 +56,7 @@ class Cms_Application_PageController extends Application_Controller_Default {
                 if (!empty($page->getData('__invalid_blocks'))) {
                     $partial = true;
                     $message = __('Partially saved.') . '<br />' .
-                        implode('<br />', $page->getData('__invalid_blocks'));
+                        implode_polyfill('<br />', $page->getData('__invalid_blocks'));
                 }
 
                 //

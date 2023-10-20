@@ -410,7 +410,7 @@ class Inflector
      */
     public static function id2camel($id, $separator = '-')
     {
-        return str_replace(' ', '', ucwords(implode(' ', explode($separator, $id))));
+        return str_replace(' ', '', ucwords(implode_polyfill(' ', explode($separator, $id))));
     }
 
     /**
@@ -583,9 +583,9 @@ class Inflector
             case 1:
                 return reset($words);
             case 2:
-                return implode($twoWordsConnector, $words);
+                return implode_polyfill($twoWordsConnector, $words);
             default:
-                return implode($connector, array_slice($words, 0, -1)) . $lastWordConnector . end($words);
+                return implode_polyfill($connector, array_slice($words, 0, -1)) . $lastWordConnector . end($words);
         }
     }
 }

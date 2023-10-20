@@ -393,7 +393,7 @@ class HTMLPurifier_Config
         foreach ($lookup as $name => $b) {
             $list[] = $name;
         }
-        return implode(', ', $list);
+        return implode_polyfill(', ', $list);
     }
 
     /**

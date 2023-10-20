@@ -58,7 +58,7 @@ class Fanwall_ApplicationController extends Application_Controller_Default
                         $allImages[] = Siberian_Feature::saveImageForOption($optionValue, $image);
                     }
                 }
-                $values['image'] = implode(',', $allImages);
+                $values['image'] = implode_polyfill(',', $allImages);
                 $text = trim($values['text']);
                 if (empty($text) && empty($values['image'])) {
                     throw new Exception(p__('fanwall', 'You must send at least a message or a picture.'));

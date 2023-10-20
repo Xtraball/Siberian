@@ -211,7 +211,7 @@ class Operator implements ModelInterface, ArrayAccess, \JsonSerializable
             $invalidProperties[] = sprintf(
                 "invalid value '%s' for 'operator', must be one of '%s'",
                 $this->container['operator'],
-                implode("', '", $allowedValues)
+                implode_polyfill("', '", $allowedValues)
             );
         }
 
@@ -255,7 +255,7 @@ class Operator implements ModelInterface, ArrayAccess, \JsonSerializable
                 sprintf(
                     "Invalid value '%s' for 'operator', must be one of '%s'",
                     $operator,
-                    implode("', '", $allowedValues)
+                    implode_polyfill("', '", $allowedValues)
                 )
             );
         }

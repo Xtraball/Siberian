@@ -158,7 +158,7 @@ if ( !class_exists('phpFlickr') ) {
                     if ($this->php_version[0] > 4 || ($this->php_version[0] == 4 && $this->php_version[1] >= 3)) {
                         return file_get_contents($file);
                     } else {
-                        return implode('', file($file));
+                        return implode_polyfill('', file($file));
                     }
                 }
             } elseif ( $this->cache == 'custom' ) {
@@ -232,7 +232,7 @@ if ( !class_exists('phpFlickr') ) {
                 foreach ( $data as $key => $value ) {
                     $data[$key] = $key . '=' . urlencode($value);
                 }
-                $data = implode('&', $data);
+                $data = implode_polyfill('&', $data);
 
                 $fp = @pfsockopen('ssl://'.$matches[1], 443);
                 if (!$fp) {
@@ -854,7 +854,7 @@ if ( !class_exists('phpFlickr') ) {
         function groups_pools_getPhotos ($group_id, $tags = NULL, $user_id = NULL, $jump_to = NULL, $extras = NULL, $per_page = NULL, $page = NULL) {
             /* https://www.flickr.com/services/api/flickr.groups.pools.getPhotos.html */
             if (is_array($extras)) {
-                $extras = implode(",", $extras);
+                $extras = implode_polyfill(",", $extras);
             }
             return $this->call('flickr.groups.pools.getPhotos', array('group_id' => $group_id, 'tags' => $tags, 'user_id' => $user_id, 'jump_to' => $jump_to, 'extras' => $extras, 'per_page' => $per_page, 'page' => $page));
         }
@@ -869,7 +869,7 @@ if ( !class_exists('phpFlickr') ) {
         function interestingness_getList ($date = NULL, $use_panda = NULL, $extras = NULL, $per_page = NULL, $page = NULL) {
             /* https://www.flickr.com/services/api/flickr.interestingness.getList.html */
             if (is_array($extras)) {
-                $extras = implode(",", $extras);
+                $extras = implode_polyfill(",", $extras);
             }
 
             return $this->call('flickr.interestingness.getList', array('date' => $date, 'use_panda' => $use_panda, 'extras' => $extras, 'per_page' => $per_page, 'page' => $page));
@@ -1044,7 +1044,7 @@ if ( !class_exists('phpFlickr') ) {
         function photos_getRecent ($jump_to = NULL, $extras = NULL, $per_page = NULL, $page = NULL) {
             /* https://www.flickr.com/services/api/flickr.photos.getRecent.html */
             if (is_array($extras)) {
-                $extras = implode(",", $extras);
+                $extras = implode_polyfill(",", $extras);
             }
             return $this->call('flickr.photos.getRecent', array('jump_to' => $jump_to, 'extras' => $extras, 'per_page' => $per_page, 'page' => $page));
         }
@@ -1292,7 +1292,7 @@ if ( !class_exists('phpFlickr') ) {
         function photos_upload_checkTickets ($tickets) {
             /* https://www.flickr.com/services/api/flickr.photos.upload.checkTickets.html */
             if (is_array($tickets)) {
-                $tickets = implode(",", $tickets);
+                $tickets = implode_polyfill(",", $tickets);
             }
             $this->request("flickr.photos.upload.checkTickets", array("tickets" => $tickets), TRUE);
             return $this->parsed_response ? $this->parsed_response['uploader']['ticket'] : false;
@@ -1354,7 +1354,7 @@ if ( !class_exists('phpFlickr') ) {
         function photosets_orderSets ($photoset_ids) {
             /* https://www.flickr.com/services/api/flickr.photosets.orderSets.html */
             if (is_array($photoset_ids)) {
-                $photoset_ids = implode(",", $photoset_ids);
+                $photoset_ids = implode_polyfill(",", $photoset_ids);
             }
             $this->request("flickr.photosets.orderSets", array("photoset_ids" => $photoset_ids), TRUE);
             return $this->parsed_response ? true : false;

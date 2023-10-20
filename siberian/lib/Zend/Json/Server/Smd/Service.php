@@ -196,7 +196,7 @@ class Zend_Json_Server_Smd_Service
     {
         if (!in_array($transport, $this->_transportTypes)) {
             require_once 'Zend/Json/Server/Exception.php';
-            throw new Zend_Json_Server_Exception(sprintf('Invalid transport "%s"; please select one of (%s)', $transport, implode(', ', $this->_transportTypes)));
+            throw new Zend_Json_Server_Exception(sprintf('Invalid transport "%s"; please select one of (%s)', $transport, implode_polyfill(', ', $this->_transportTypes)));
         }
 
         $this->_transport = $transport;
@@ -245,7 +245,7 @@ class Zend_Json_Server_Smd_Service
     {
         if (!in_array($envelopeType, $this->_envelopeTypes)) {
             require_once 'Zend/Json/Server/Exception.php';
-            throw new Zend_Json_Server_Exception(sprintf('Invalid envelope type "%s"; please specify one of (%s)', $envelopeType, implode(', ', $this->_envelopeTypes)));
+            throw new Zend_Json_Server_Exception(sprintf('Invalid envelope type "%s"; please specify one of (%s)', $envelopeType, implode_polyfill(', ', $this->_envelopeTypes)));
         }
 
         $this->_envelope = $envelopeType;

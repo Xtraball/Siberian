@@ -739,7 +739,7 @@ class BasicNotificationAllOf implements ModelInterface, ArrayAccess, \JsonSerial
             $invalidProperties[] = sprintf(
                 "invalid value '%s' for 'aggregation', must be one of '%s'",
                 $this->container['aggregation'],
-                implode("', '", $allowedValues)
+                implode_polyfill("', '", $allowedValues)
             );
         }
 
@@ -855,7 +855,7 @@ class BasicNotificationAllOf implements ModelInterface, ArrayAccess, \JsonSerial
                 sprintf(
                     "Invalid value '%s' for 'aggregation', must be one of '%s'",
                     $aggregation,
-                    implode("', '", $allowedValues)
+                    implode_polyfill("', '", $allowedValues)
                 )
             );
         }

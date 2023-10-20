@@ -196,7 +196,7 @@ class Zend_Auth_Adapter_Http implements Zend_Auth_Adapter_Interface
              */
             require_once 'Zend/Auth/Adapter/Exception.php';
             throw new Zend_Auth_Adapter_Exception('No supported schemes given in \'accept_schemes\'. Valid values: '
-                                                . implode(', ', $this->_supportedSchemes));
+                                                . implode_polyfill(', ', $this->_supportedSchemes));
         }
 
         // Double-quotes are used to delimit the realm string in the HTTP header,
@@ -484,7 +484,7 @@ class Zend_Auth_Adapter_Http implements Zend_Auth_Adapter_Interface
                  . 'nonce="' . $this->_calcNonce() . '", '
                  . ($this->_useOpaque ? 'opaque="' . $this->_calcOpaque() . '", ' : '')
                  . 'algorithm="' . $this->_algo . '", '
-                 . 'qop="' . implode(',', $this->_supportedQops) . '"';
+                 . 'qop="' . implode_polyfill(',', $this->_supportedQops) . '"';
 
         return $wwwauth;
     }
@@ -817,7 +817,7 @@ class Zend_Auth_Adapter_Http implements Zend_Auth_Adapter_Interface
 
         // Not optional in this implementation, but must be one of the supported
         // qop types
-        $ret = preg_match('/qop="?(' . implode('|', $this->_supportedQops) . ')"?/', $header, $temp);
+        $ret = preg_match('/qop="?(' . implode_polyfill('|', $this->_supportedQops) . ')"?/', $header, $temp);
         if (!$ret || empty($temp[1])) {
             return false;
         }

@@ -156,11 +156,11 @@ class Zend_Service_WindowsAzure_Credentials_SharedKey
     	$stringToSign[] = $this->_issetOr($headers, 'Range', '');					// Range
     	
     	if (!$forTableStorage && count($canonicalizedHeaders) > 0) {
-    		$stringToSign[] = implode("\n", $canonicalizedHeaders); // Canonicalized headers
+    		$stringToSign[] = implode_polyfill("\n", $canonicalizedHeaders); // Canonicalized headers
     	}
     		
     	$stringToSign[] = $canonicalizedResource;		 			// Canonicalized resource
-    	$stringToSign   = implode("\n", $stringToSign);
+    	$stringToSign   = implode_polyfill("\n", $stringToSign);
     	$signString     = base64_encode(hash_hmac('sha256', $stringToSign, $this->_accountKey, true));
 
     	// Sign request

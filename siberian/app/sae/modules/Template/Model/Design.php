@@ -235,7 +235,7 @@ class Template_Model_Design extends Core_Model_Default
             return $variables;
         }
 
-        $scss = implode("\n", $content);
+        $scss = implode_polyfill("\n", $content);
 
         /** With custom from app */
         $custom_app = $scss;
@@ -250,6 +250,9 @@ class Template_Model_Design extends Core_Model_Default
         // Import custom modules SCSS files!
         foreach (Siberian_Assets::$assets_scss as $scssFile) {
             $path = path($scssFile);
+            if (!is_file($path)) {
+                continue;
+            }
             $custom_app .= file_get_contents($path);
         }
 

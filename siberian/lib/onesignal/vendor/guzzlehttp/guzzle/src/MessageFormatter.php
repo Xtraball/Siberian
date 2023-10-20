@@ -190,7 +190,7 @@ class MessageFormatter implements MessageFormatterInterface
     {
         $result = '';
         foreach ($message->getHeaders() as $name => $values) {
-            $result .= $name . ': ' . \implode(', ', $values) . "\r\n";
+            $result .= $name . ': ' . \implode_polyfill(', ', $values) . "\r\n";
         }
 
         return \trim($result);

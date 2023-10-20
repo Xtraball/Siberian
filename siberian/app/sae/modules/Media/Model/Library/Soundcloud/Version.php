@@ -25,7 +25,7 @@ class Services_Soundcloud_Version
      */
     function __toString()
     {
-        return implode('.', array(self::MAJOR, self::MINOR, self::PATCH));
+        return implode_polyfill('.', array(self::MAJOR, self::MINOR, self::PATCH));
     }
 
 }

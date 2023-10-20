@@ -912,7 +912,7 @@ class Zend_Db_Select
             $cond2 = $join . '.' . $fieldName;
             $joinCond[]  = $cond1 . ' = ' . $cond2;
         }
-        $cond = implode(' '.self::SQL_AND.' ', $joinCond);
+        $cond = implode_polyfill(' '.self::SQL_AND.' ', $joinCond);
 
         return $this->_join($type, $name, $cond, $cols, $schema);
     }
@@ -1122,7 +1122,7 @@ class Zend_Db_Select
             }
         }
 
-        return $sql .= ' ' . implode(', ', $columns);
+        return $sql .= ' ' . implode_polyfill(', ', $columns);
     }
 
     /**
@@ -1167,7 +1167,7 @@ class Zend_Db_Select
 
         // Add the list of all joins
         if (!empty($from)) {
-            $sql .= ' ' . self::SQL_FROM . ' ' . implode("\n", $from);
+            $sql .= ' ' . self::SQL_FROM . ' ' . implode_polyfill("\n", $from);
         }
 
         return $sql;
@@ -1207,7 +1207,7 @@ class Zend_Db_Select
     protected function _renderWhere($sql)
     {
         if ($this->_parts[self::FROM] && $this->_parts[self::WHERE]) {
-            $sql .= ' ' . self::SQL_WHERE . ' ' .  implode(' ', $this->_parts[self::WHERE]);
+            $sql .= ' ' . self::SQL_WHERE . ' ' .  implode_polyfill(' ', $this->_parts[self::WHERE]);
         }
 
         return $sql;
@@ -1226,7 +1226,7 @@ class Zend_Db_Select
             foreach ($this->_parts[self::GROUP] as $term) {
                 $group[] = $this->_adapter->quoteIdentifier($term, true);
             }
-            $sql .= ' ' . self::SQL_GROUP_BY . ' ' . implode(",\n\t", $group);
+            $sql .= ' ' . self::SQL_GROUP_BY . ' ' . implode_polyfill(",\n\t", $group);
         }
 
         return $sql;
@@ -1241,7 +1241,7 @@ class Zend_Db_Select
     protected function _renderHaving($sql)
     {
         if ($this->_parts[self::FROM] && $this->_parts[self::HAVING]) {
-            $sql .= ' ' . self::SQL_HAVING . ' ' . implode(' ', $this->_parts[self::HAVING]);
+            $sql .= ' ' . self::SQL_HAVING . ' ' . implode_polyfill(' ', $this->_parts[self::HAVING]);
         }
 
         return $sql;
@@ -1270,7 +1270,7 @@ class Zend_Db_Select
                     $order[] = $this->_adapter->quoteIdentifier($term, true);
                 }
             }
-            $sql .= ' ' . self::SQL_ORDER_BY . ' ' . implode(', ', $order);
+            $sql .= ' ' . self::SQL_ORDER_BY . ' ' . implode_polyfill(', ', $order);
         }
 
         return $sql;

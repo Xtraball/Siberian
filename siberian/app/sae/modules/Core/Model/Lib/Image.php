@@ -317,7 +317,7 @@ class Core_Model_Lib_Image
     {
 
         $color = str_replace('#', '', $color);
-        $id = md5(implode('+', array($image_id, $color)));
+        $id = md5(implode_polyfill('+', array($image_id, $color)));
         $url = '';
 
         $image = new Media_Model_Library_Image();
@@ -394,7 +394,7 @@ class Core_Model_Lib_Image
             return false;
         }
 
-        return $returnAsString ? implode($seperator, $rgbArray) : $rgbArray;
+        return $returnAsString ? implode_polyfill($seperator, $rgbArray) : $rgbArray;
     }
 
 }

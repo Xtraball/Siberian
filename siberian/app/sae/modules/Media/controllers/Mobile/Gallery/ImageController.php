@@ -75,7 +75,7 @@ class Media_Mobile_Gallery_ImageController extends Application_Controller_Mobile
                     $image_datas[] = $link->getData();
                 }
 
-                $html = array('html' => implode('', $html), 'images' => $image_datas, 'id' => $image->getId());
+                $html = array('html' => implode_polyfill('', $html), 'images' => $image_datas, 'id' => $image->getId());
             } catch (Exception $e) {
                 $html = array('error' => 1, 'message' => $e->getMessage());
             }

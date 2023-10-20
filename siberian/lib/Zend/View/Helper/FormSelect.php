@@ -149,7 +149,7 @@ class Zend_View_Helper_FormSelect extends Zend_View_Helper_FormElement
         }
 
         // add the options to the xhtml and close the select
-        $xhtml .= implode("\n    ", $list) . "\n</select>";
+        $xhtml .= implode_polyfill("\n    ", $list) . "\n</select>";
 
         return $xhtml;
     }

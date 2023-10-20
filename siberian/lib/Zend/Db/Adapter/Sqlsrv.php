@@ -372,8 +372,8 @@ class Zend_Db_Adapter_Sqlsrv extends Zend_Db_Adapter_Abstract
         // build the statement
         $sql = "INSERT INTO "
              . $this->quoteIdentifier($table, true)
-             . ' (' . implode(', ', $cols) . ') '
-             . 'VALUES (' . implode(', ', $vals) . ')'
+             . ' (' . implode_polyfill(', ', $cols) . ') '
+             . 'VALUES (' . implode_polyfill(', ', $vals) . ')'
              . ' ' . $this->_lastInsertSQL;
 
         // execute the statement and return the number of affected rows

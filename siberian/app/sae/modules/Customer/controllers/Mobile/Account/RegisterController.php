@@ -55,7 +55,7 @@ class Customer_Mobile_Account_RegisterController extends Application_Controller_
             // Throwing all errors at once!
             if (count($requiredFields) > 0) {
                 $message = p__('customer', 'The following fields are required') . ':<br />- ' .
-                    implode('<br />- ', $requiredFields);
+                    implode_polyfill('<br />- ', $requiredFields);
 
                 throw new Exception($message);
             }
@@ -161,11 +161,11 @@ class Customer_Mobile_Account_RegisterController extends Application_Controller_
             $application->checkCustomerAccount();
             $myAccountTab = $application->getOption('tabbar_account');
             $accountSettings = Json::decode($myAccountTab->getSettings());
-            $emailValidation = $accountSettings['email_validation'];
-            $requireMobile = $accountSettings['extra_mobile_required'];
-            $requireCivility = $accountSettings['extra_civility_required'];
-            $requireBirthdate = $accountSettings['extra_birthdate_required'];
-            $requireNickname = $accountSettings['extra_nickname_required'];
+            $emailValidation = $accountSettings['email_validation'] ?? false;
+            $requireMobile = $accountSettings['extra_mobile_required'] ?? false;
+            $requireCivility = $accountSettings['extra_civility_required'] ?? false;
+            $requireBirthdate = $accountSettings['extra_birthdate_required'] ?? false;
+            $requireNickname = $accountSettings['extra_nickname_required'] ?? false;
 
             // Adds check for modules extras*
             $useNickname = $accountSettings['extra_nickname'] ?? false;
@@ -241,7 +241,7 @@ class Customer_Mobile_Account_RegisterController extends Application_Controller_
             // Throwing all errors at once!
             if (count($requiredFields) > 0) {
                 $message = p__('customer', 'The following fields are required') . ':<br />- ' .
-                    implode('<br />- ', $requiredFields);
+                    implode_polyfill('<br />- ', $requiredFields);
 
                 throw new Exception($message);
             }
@@ -302,7 +302,7 @@ class Customer_Mobile_Account_RegisterController extends Application_Controller_
                 ->save();
 
             // In case there is an image!
-            $customer->saveImage($data['image']);
+            $customer->saveImage($data['image'] ?? null);
             $customer->updateSessionUuid(Zend_Session::getId());
 
             // PUSH INDIVIDUAL TO USER ONLY

@@ -331,7 +331,7 @@ if(isset($customer) && !empty($customer)) {
                     ?>
                     <tr class="option">
                         <td>
-                            <?php echo implode(", ", $group->choices); ?>
+                            <?php echo implode_polyfill(", ", $group->choices); ?>
                         </td>
                         <td align="right"></td>
                         <td align="center"></td>

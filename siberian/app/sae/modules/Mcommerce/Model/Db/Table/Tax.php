@@ -7,7 +7,7 @@ class Mcommerce_Model_Db_Table_Tax extends Core_Model_Db_Table
 
     public function findByStore($store_id) {
 
-        $join = implode(' AND ', [
+        $join = implode_polyfill(' AND ', [
             'mst.tax_id = mt.tax_id',
             $this->_db->quoteInto('mst.store_id = ?', $store_id)
         ]);

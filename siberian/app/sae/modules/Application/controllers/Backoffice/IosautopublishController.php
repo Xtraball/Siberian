@@ -279,7 +279,7 @@ class Application_Backoffice_IosautopublishController extends Backoffice_Control
             } else {
                 $messages = $adapter->getMessages();
                 if (!empty($messages)) {
-                    $message = implode("\n", $messages);
+                    $message = implode_polyfill("\n", $messages);
                 } else {
                     $message = '#565-03: ' . __("An error occurred while upload the APK. Please try again later.");
                 }

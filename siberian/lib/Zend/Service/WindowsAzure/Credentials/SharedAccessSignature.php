@@ -134,7 +134,7 @@ class Zend_Service_WindowsAzure_Credentials_SharedAccessSignature
     	$stringToSign[] = $canonicalizedResource;
     	$stringToSign[] = $identifier;
 
-    	$stringToSign = implode("\n", $stringToSign);
+    	$stringToSign = implode_polyfill("\n", $stringToSign);
     	$signature    = base64_encode(hash_hmac('sha256', $stringToSign, $this->_accountKey, true));
 	
     	return $signature;
@@ -178,7 +178,7 @@ class Zend_Service_WindowsAzure_Credentials_SharedAccessSignature
         if ($queryString != '') {
             $queryString .= '&';
 	    }
-        $queryString .= implode('&', $parts);
+        $queryString .= implode_polyfill('&', $parts);
 
         return $queryString;
     }

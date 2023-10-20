@@ -88,7 +88,7 @@ class Analytics_Model_Store {
 		$where_query = "";
 		$where_array = array();
 
-//		$result = $this->_sqliteAdapter->query("SELECT ".implode(",",$fields)." from app_installation LIMIT 0,$limit");
+//		$result = $this->_sqliteAdapter->query("SELECT ".implode_polyfill(",",$fields)." from app_installation LIMIT 0,$limit");
 //		//fill result with keys
 //		return array_map(function($row) use ($fields) {
 //			return array_combine(
@@ -101,7 +101,7 @@ class Analytics_Model_Store {
 			foreach ($where as $field => $value) {
 				$where_array[] = str_ireplace("?", $value, $field);
 			}
-			$where_query = "WHERE " . implode(" AND ", $where_array);
+			$where_query = "WHERE " . implode_polyfill(" AND ", $where_array);
 		}
 
 		// Get installed app by devices
@@ -134,7 +134,7 @@ class Analytics_Model_Store {
 
 	public function getAppLoaded($limit = 100) {
 		$fields = $this->_appLoadedField;
-		$result = $this->_sqliteAdapter->query("SELECT ".implode(",",$fields)." from app_loaded LIMIT 0,$limit");
+		$result = $this->_sqliteAdapter->query("SELECT ".implode_polyfill(",",$fields)." from app_loaded LIMIT 0,$limit");
 
 		//fill result with keys
 		return array_map(function($row) use ($fields) {
@@ -147,7 +147,7 @@ class Analytics_Model_Store {
 
 	public function getAppPageNavigation($limit = 100) {
 		$fields = $this->_appPageNavigation;
-		$result = $this->_sqliteAdapter->query("SELECT ".implode(",",$fields)." from page_navigation LIMIT 0,$limit");
+		$result = $this->_sqliteAdapter->query("SELECT ".implode_polyfill(",",$fields)." from page_navigation LIMIT 0,$limit");
 
 		//fill result with keys
 		return array_map(function($row) use ($fields) {
@@ -160,7 +160,7 @@ class Analytics_Model_Store {
 
 	public function getAppMcommerceProductNavigation($limit = 100) {
 		$fields = $this->_addAppMcommerceProductNavigation;
-		$result = $this->_sqliteAdapter->query("SELECT ".implode(",",$fields)." from mcommerce_product_navigation LIMIT 0,$limit");
+		$result = $this->_sqliteAdapter->query("SELECT ".implode_polyfill(",",$fields)." from mcommerce_product_navigation LIMIT 0,$limit");
 
 		//fill result with keys
 		return array_map(function($row) use ($fields) {
@@ -173,7 +173,7 @@ class Analytics_Model_Store {
 
 	public function getAppMcommerceProductSold($limit = 100) {
 		$fields = $this->_addAppMcommerceProductSold;
-		$result = $this->_sqliteAdapter->query("SELECT ".implode(",",$fields)." from mcommerce_product_sold LIMIT 0,$limit");
+		$result = $this->_sqliteAdapter->query("SELECT ".implode_polyfill(",",$fields)." from mcommerce_product_sold LIMIT 0,$limit");
 
 		//fill result with keys
 		return array_map(function($row) use ($fields) {
@@ -187,7 +187,7 @@ class Analytics_Model_Store {
 	public function addAppInstallationMetric($metric) {
 
 		$fields = $this->_appInstallationField;
-		$metric_values = implode(",",
+		$metric_values = implode_polyfill(",",
 			array_map(
 				function($field) use ($metric) {
 					return "'".addslashes($metric[$field])."'";
@@ -196,7 +196,7 @@ class Analytics_Model_Store {
 		);
 
 		$result = $this->_sqliteAdapter->query(
-			"INSERT INTO app_installation (".implode(",",$fields).") VALUES ($metric_values)"
+			"INSERT INTO app_installation (".implode_polyfill(",",$fields).") VALUES ($metric_values)"
 		);
 
 		if($result) return true;
@@ -208,7 +208,7 @@ class Analytics_Model_Store {
 		if ($id) {
 			$metric_values = $metric;
 		} else {
-			$metric_values = implode(",",
+			$metric_values = implode_polyfill(",",
 				array_map(
 					function ($field) use ($metric) {
 						return "'" . addslashes($metric[$field]) . "'";
@@ -217,9 +217,9 @@ class Analytics_Model_Store {
 			);
 		}
 
-		$query = "INSERT INTO app_loaded (".implode(",",$fields).") VALUES ($metric_values); SELECT last_insert_rowid();";
+		$query = "INSERT INTO app_loaded (".implode_polyfill(",",$fields).") VALUES ($metric_values); SELECT last_insert_rowid();";
 		if ($id) {
-			$query = "UPDATE app_loaded SET ".implode(",",$metric_values)." WHERE id = $id;";
+			$query = "UPDATE app_loaded SET ".implode_polyfill(",",$metric_values)." WHERE id = $id;";
 		}
 
 		$result = $this->_sqliteAdapter->query($query);
@@ -236,7 +236,7 @@ class Analytics_Model_Store {
 
 	public function addAppPageNavigationMetric($metric) {
 		$fields = $this->_appPageNavigation;
-		$metric_values = implode(",",
+		$metric_values = implode_polyfill(",",
 			array_map(
 				function($field) use ($metric) {
 					return "'".addslashes($metric[$field])."'";
@@ -245,7 +245,7 @@ class Analytics_Model_Store {
 		);
 
 		$result = $this->_sqliteAdapter->query(
-			"INSERT INTO page_navigation (".implode(",",$fields).") VALUES ($metric_values)"
+			"INSERT INTO page_navigation (".implode_polyfill(",",$fields).") VALUES ($metric_values)"
 		);
 
 		if($result) return true;
@@ -254,7 +254,7 @@ class Analytics_Model_Store {
 
 	public function addAppMcommerceProductNavigationMetric($metric) {
 		$fields = $this->_addAppMcommerceProductNavigation;
-		$metric_values = implode(",",
+		$metric_values = implode_polyfill(",",
 			array_map(
 				function($field) use ($metric) {
 					return "'".addslashes($metric[$field])."'";
@@ -263,7 +263,7 @@ class Analytics_Model_Store {
 		);
 
 		$result = $this->_sqliteAdapter->query(
-			"INSERT INTO mcommerce_product_navigation (".implode(",",$fields).") VALUES ($metric_values)"
+			"INSERT INTO mcommerce_product_navigation (".implode_polyfill(",",$fields).") VALUES ($metric_values)"
 		);
 
 		if($result) return true;
@@ -272,7 +272,7 @@ class Analytics_Model_Store {
 
 	public function addAppMcommerceProductSoldMetric($metric) {
 		$fields = $this->_addAppMcommerceProductSold;
-		$metric_values = implode(",",
+		$metric_values = implode_polyfill(",",
 			array_map(
 				function($field) use ($metric) {
 					return "'".addslashes($metric[$field])."'";
@@ -281,7 +281,7 @@ class Analytics_Model_Store {
 		);
 
 		$result = $this->_sqliteAdapter->query(
-			"INSERT INTO mcommerce_product_sold (".implode(",",$fields).") VALUES ($metric_values)"
+			"INSERT INTO mcommerce_product_sold (".implode_polyfill(",",$fields).") VALUES ($metric_values)"
 		);
 
 		if($result) return true;

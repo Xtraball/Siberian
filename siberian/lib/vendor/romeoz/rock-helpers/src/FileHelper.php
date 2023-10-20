@@ -52,7 +52,7 @@ class FileHelper
                 $parts[] = $part;
             }
         }
-        $path = implode($ds, $parts);
+        $path = implode_polyfill($ds, $parts);
         return $path === '' ? '.' : $path;
     }
 

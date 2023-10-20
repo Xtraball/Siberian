@@ -1209,7 +1209,7 @@ class Zend_Locale
             }
         }
 
-        $locale = implode('_', $parts);
+        $locale = implode_polyfill('_', $parts);
         return (string) $locale;
     }
 

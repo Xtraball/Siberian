@@ -76,7 +76,7 @@ class ArrayHelper
             return $key($array, $default);
         }
         if (is_object($array) && is_array($key)) {
-            $key = implode('.', $key);
+            $key = implode_polyfill('.', $key);
         }
         if (is_array($array) && is_array($key)) {
             return static::keyAsArray($array, $key, $default);

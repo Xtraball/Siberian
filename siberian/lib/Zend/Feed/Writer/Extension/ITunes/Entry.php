@@ -169,7 +169,7 @@ class Zend_Feed_Writer_Extension_ITunes_Entry
             throw new Zend_Feed_Exception('invalid parameter: "keywords" may only'
             . ' contain a maximum of 12 terms');
         }
-        $concat = implode(',', $value);
+        $concat = implode_polyfill(',', $value);
         if (iconv_strlen($concat, $this->getEncoding()) > 255) {
             require_once 'Zend/Feed/Exception.php';
             throw new Zend_Feed_Exception('invalid parameter: "keywords" may only'

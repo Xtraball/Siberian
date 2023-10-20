@@ -497,7 +497,7 @@ class Blowfish extends Base
                     }
                     $init_crypt = '
                         list($sb_0, $sb_1, $sb_2, $sb_3) = $self->bctx["sb"];
-                        list(' . implode(',', $p) . ') = $self->bctx["p"];
+                        list(' . implode_polyfill(',', $p) . ') = $self->bctx["p"];
 
                     ';
             }

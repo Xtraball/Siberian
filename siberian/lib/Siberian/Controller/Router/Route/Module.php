@@ -64,7 +64,7 @@ class Siberian_Controller_Router_Route_Module extends Zend_Controller_Router_Rou
             array_unshift($url, $this->_request->getLanguageCode());
         }
 
-        return implode('/', $url);
+        return implode_polyfill('/', $url);
     }
 
 }

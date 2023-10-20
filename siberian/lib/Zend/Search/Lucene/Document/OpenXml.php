@@ -124,6 +124,6 @@ abstract class Zend_Search_Lucene_Document_OpenXml extends Zend_Search_Lucene_Do
                 $absolutes[] = $part;
             }
         }
-        return implode('/', $absolutes);
+        return implode_polyfill('/', $absolutes);
     }
 }

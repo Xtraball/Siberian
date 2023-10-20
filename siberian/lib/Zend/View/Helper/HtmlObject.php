@@ -66,12 +66,12 @@ class Zend_View_Helper_HtmlObject extends Zend_View_Helper_HtmlElement
 
         // Content
         if (is_array($content)) {
-            $content = implode(self::EOL, $content);
+            $content = implode_polyfill(self::EOL, $content);
         }
 
         // Object header
         $xhtml = '<object' . $this->_htmlAttribs($attribs) . '>' . self::EOL
-                 . implode(self::EOL, $paramHtml) . self::EOL
+                 . implode_polyfill(self::EOL, $paramHtml) . self::EOL
                  . ($content ? $content . self::EOL : '')
                  . '</object>';
 

@@ -121,7 +121,7 @@ abstract class Zend_Oauth_Signature_SignatureAbstract
         foreach ($parts as $key => $secret) {
             $parts[$key] = Zend_Oauth_Http_Utility::urlEncode($secret);
         }
-        return implode('&', $parts);
+        return implode_polyfill('&', $parts);
     }
 
     /**
@@ -155,7 +155,7 @@ abstract class Zend_Oauth_Signature_SignatureAbstract
         $baseStrings[] = Zend_Oauth_Http_Utility::urlEncode(
             $this->_toByteValueOrderedQueryString($encodedParams)
         );
-        return implode('&', $baseStrings);
+        return implode_polyfill('&', $baseStrings);
     }
 
     /**
@@ -178,6 +178,6 @@ abstract class Zend_Oauth_Signature_SignatureAbstract
                 $return[] = $key . '=' . $value;
             }
         }
-        return implode('&', $return);
+        return implode_polyfill('&', $return);
     }
 }

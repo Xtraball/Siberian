@@ -78,7 +78,7 @@ class Email extends Layout
             foreach ($this->_xml->classes->children() as $class) {
                 $classes[] = $class->attributes()->name;
             }
-            $baseView->default_class_name = implode(' ', $classes);
+            $baseView->default_class_name = implode_polyfill(' ', $classes);
         }
 
 

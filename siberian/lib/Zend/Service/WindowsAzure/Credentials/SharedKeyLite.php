@@ -108,7 +108,7 @@ class Zend_Service_WindowsAzure_Credentials_SharedKeyLite
 		$stringToSign   = array();
     	$stringToSign[] = $requestDate; // Date
     	$stringToSign[] = $canonicalizedResource;		 			// Canonicalized resource
-    	$stringToSign   = implode("\n", $stringToSign);
+    	$stringToSign   = implode_polyfill("\n", $stringToSign);
     	$signString     = base64_encode(hash_hmac('sha256', $stringToSign, $this->_accountKey, true));
 
     	// Sign request

@@ -305,7 +305,7 @@ class Uri implements UriInterface, \JsonSerializable
     {
         $result = self::getFilteredQueryString($uri, [$key]);
 
-        return $uri->withQuery(implode('&', $result));
+        return $uri->withQuery(implode_polyfill('&', $result));
     }
 
     /**
@@ -327,7 +327,7 @@ class Uri implements UriInterface, \JsonSerializable
 
         $result[] = self::generateQueryString($key, $value);
 
-        return $uri->withQuery(implode('&', $result));
+        return $uri->withQuery(implode_polyfill('&', $result));
     }
 
     /**
@@ -346,7 +346,7 @@ class Uri implements UriInterface, \JsonSerializable
             $result[] = self::generateQueryString((string) $key, $value !== null ? (string) $value : null);
         }
 
-        return $uri->withQuery(implode('&', $result));
+        return $uri->withQuery(implode_polyfill('&', $result));
     }
 
     /**

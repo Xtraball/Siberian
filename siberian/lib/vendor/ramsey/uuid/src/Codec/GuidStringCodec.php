@@ -53,7 +53,7 @@ class GuidStringCodec extends StringCodec
     {
         $components = array_values($uuid->getFieldsHex());
 
-        return hex2bin(implode('', $components));
+        return hex2bin(implode_polyfill('', $components));
     }
 
     /**

@@ -89,7 +89,7 @@ class Field extends Base
      */
     public function setDateDays(array $days): Field
     {
-        return $this->setData('date_days', implode(',', $days));
+        return $this->setData('date_days', implode_polyfill(',', $days));
     }
 
     /**
@@ -119,7 +119,7 @@ class Field extends Base
      */
     public function setDatetimeDays(array $days): Field
     {
-        return $this->setData('datetime_days', implode(',', $days));
+        return $this->setData('datetime_days', implode_polyfill(',', $days));
     }
 
     /**

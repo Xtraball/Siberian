@@ -60,7 +60,7 @@ class Parser implements ParserInterface
             }
         }
 
-        $joined = trim(implode('', array_map(function (Token $token) {
+        $joined = trim(implode_polyfill('', array_map(function (Token $token) {
             return $token->getValue();
         }, $tokens)));
 

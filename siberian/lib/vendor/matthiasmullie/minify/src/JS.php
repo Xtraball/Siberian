@@ -275,7 +275,7 @@ class JS extends Minify
         // of the RegExp methods (a `\` followed by a variable or value is
         // likely part of a division, not a regex)
         $keywords = array('do', 'in', 'new', 'else', 'throw', 'yield', 'delete', 'return',  'typeof');
-        $before = '([=:,;\+\-\*\/\}\(\{\[&\|!]|^|'.implode('|', $keywords).')\s*';
+        $before = '([=:,;\+\-\*\/\}\(\{\[&\|!]|^|'.implode_polyfill('|', $keywords).')\s*';
         $propertiesAndMethods = array(
             // https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/RegExp#Properties_2
             'constructor',
@@ -295,7 +295,7 @@ class JS extends Minify
         );
         $delimiters = array_fill(0, count($propertiesAndMethods), '/');
         $propertiesAndMethods = array_map('preg_quote', $propertiesAndMethods, $delimiters);
-        $after = '(?=\s*([\.,;\)\}&\|+]|\/\/|$|\.('.implode('|', $propertiesAndMethods).')))';
+        $after = '(?=\s*([\.,;\)\}&\|+]|\/\/|$|\.('.implode_polyfill('|', $propertiesAndMethods).')))';
         $this->registerPattern('/'.$before.'\K'.$pattern.$after.'/', $callback);
 
         // regular expressions following a `)` are rather annoying to detect...
@@ -310,7 +310,7 @@ class JS extends Minify
         // if a regex following `)` is not followed by `.<property or method>`,
         // it's quite likely not a regex
         $before = '\)\s*';
-        $after = '(?=\s*\.('.implode('|', $propertiesAndMethods).'))';
+        $after = '(?=\s*\.('.implode_polyfill('|', $propertiesAndMethods).'))';
         $this->registerPattern('/'.$before.'\K'.$pattern.$after.'/', $callback);
 
         // 1 more edge case: a regex can be followed by a lot more operators or
@@ -319,7 +319,7 @@ class JS extends Minify
         // (https://github.com/matthiasmullie/minify/issues/56)
         $operators = $this->getOperatorsForRegex($this->operatorsBefore, '/');
         $operators += $this->getOperatorsForRegex($this->keywordsReserved, '/');
-        $after = '(?=\s*\n\s*('.implode('|', $operators).'))';
+        $after = '(?=\s*\n\s*('.implode_polyfill('|', $operators).'))';
         $this->registerPattern('/'.$pattern.$after.'/', $callback);
     }
 
@@ -364,8 +364,8 @@ class JS extends Minify
         unset($operatorsBefore['+'], $operatorsBefore['-'], $operatorsAfter['+'], $operatorsAfter['-']);
         $content = preg_replace(
             array(
-                '/('.implode('|', $operatorsBefore).')\s+/',
-                '/\s+('.implode('|', $operatorsAfter).')/',
+                '/('.implode_polyfill('|', $operatorsBefore).')\s+/',
+                '/\s+('.implode_polyfill('|', $operatorsAfter).')/',
             ),
             '\\1',
             $content
@@ -382,8 +382,8 @@ class JS extends Minify
         );
 
         // collapse whitespace around reserved words into single space
-        $content = preg_replace('/(^|[;\}\s])\K('.implode('|', $keywordsBefore).')\s+/', '\\2 ', $content);
-        $content = preg_replace('/\s+('.implode('|', $keywordsAfter).')(?=([;\{\s]|$))/', ' \\1', $content);
+        $content = preg_replace('/(^|[;\}\s])\K('.implode_polyfill('|', $keywordsBefore).')\s+/', '\\2 ', $content);
+        $content = preg_replace('/\s+('.implode_polyfill('|', $keywordsAfter).')(?=([;\{\s]|$))/', ' \\1', $content);
 
         /*
          * We didn't strip whitespace after a couple of operators because they
@@ -393,8 +393,8 @@ class JS extends Minify
          */
         $operatorsDiffBefore = array_diff($operators, $operatorsBefore);
         $operatorsDiffAfter = array_diff($operators, $operatorsAfter);
-        $content = preg_replace('/('.implode('|', $operatorsDiffBefore).')[^\S\n]+/', '\\1', $content);
-        $content = preg_replace('/[^\S\n]+('.implode('|', $operatorsDiffAfter).')/', '\\1', $content);
+        $content = preg_replace('/('.implode_polyfill('|', $operatorsDiffBefore).')[^\S\n]+/', '\\1', $content);
+        $content = preg_replace('/[^\S\n]+('.implode_polyfill('|', $operatorsDiffAfter).')/', '\\1', $content);
 
         /*
          * Whitespace after `return` can be omitted in a few occasions
@@ -570,7 +570,7 @@ class JS extends Minify
          * separate look-behind assertions, one for each keyword.
          */
         $keywords = $this->getKeywordsForRegex($keywords);
-        $keywords = '(?<!'.implode(')(?<!', $keywords).')';
+        $keywords = '(?<!'.implode_polyfill(')(?<!', $keywords).')';
 
         return preg_replace_callback('/(?<='.$previousChar.'|\])'.$keywords.'\[\s*(([\'"])[0-9]+\\2)\s*\]/u', $callback, $content);
     }

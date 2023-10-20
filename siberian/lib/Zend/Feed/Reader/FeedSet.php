@@ -121,7 +121,7 @@ class Zend_Feed_Reader_FeedSet extends ArrayObject
                 $absolutes[] = $part;
             }
         }
-        return implode('/', $absolutes);
+        return implode_polyfill('/', $absolutes);
     }
 
     /**

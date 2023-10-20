@@ -87,7 +87,7 @@ class PdoStorage implements StorageInterface
             $params[] = $value;
         }
         if (count($where)) {
-            $where = " WHERE " . implode(' AND ', $where);
+            $where = " WHERE " . implode_polyfill(' AND ', $where);
         } else {
             $where = '';
         }

@@ -130,7 +130,7 @@ class TwigProfileCollector extends DataCollector implements Renderable, AssetPro
             'accumulated_render_time_str' => $this->getDataFormatter()->formatDuration($this->profile->getDuration()),
             'memory_usage_str'            => $this->getDataFormatter()->formatBytes($this->profile->getMemoryUsage()),
             'callgraph'                   => $this->getHtmlCallGraph(),
-            'badge'                       => implode(
+            'badge'                       => implode_polyfill(
                 '/',
                 array(
                     $this->templateCount,

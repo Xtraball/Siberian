@@ -168,7 +168,7 @@ class Sqlite
             }
 
         } else {
-            $cmd = implode(" ", [
+            $cmd = implode_polyfill(" ", [
                 $this->_binPath,
                 $this->_dbPath,
                 '"' . $query . '"',

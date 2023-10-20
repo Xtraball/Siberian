@@ -171,7 +171,7 @@ class Customer_ApplicationController extends Application_Controller_Default
                 foreach ($errors as $error) {
                     $errorMessages[] = $error;
                 }
-                $message = implode('<br />- ', $errorMessages);
+                $message = implode_polyfill('<br />- ', $errorMessages);
                 throw new Exception($message);
             }
 

@@ -114,7 +114,7 @@ class Media_Model_Gallery_Music_Album extends Core_Model_Default {
         }
         $return[] = str_pad($seconds, 2, 0, STR_PAD_LEFT);
 
-        return implode(":", $return);
+        return implode_polyfill(":", $return);
     }
 
     /**

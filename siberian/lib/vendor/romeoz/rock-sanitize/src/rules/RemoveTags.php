@@ -10,6 +10,6 @@ class RemoveTags extends Rule
      */
     public function sanitize($input)
     {
-        return is_string($input) ? filter_var($input, FILTER_SANITIZE_STRING, FILTER_FLAG_NO_ENCODE_QUOTES) : $input;
+        return is_string($input) ? filter_sanitize_string_polyfill($input) : $input;
     }
 } 

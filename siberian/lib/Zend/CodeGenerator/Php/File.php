@@ -164,7 +164,7 @@ class Zend_CodeGenerator_Php_File extends Zend_CodeGenerator_Php_Abstract
                     $bodyReturn[] = $bodyLines[$lineNum - 1]; // adjust for index -> line conversion
                 }
             }
-            $body = implode("\n", $bodyReturn);
+            $body = implode_polyfill("\n", $bodyReturn);
             unset($bodyLines, $bodyReturn, $classStartLine, $classEndLine);
         }
 
@@ -182,7 +182,7 @@ class Zend_CodeGenerator_Php_File extends Zend_CodeGenerator_Php_Abstract
                     $bodyReturn[] = $bodyLines[$lineNum - 1]; // adjust for index -> line conversion
                 }
             }
-            $body = implode("\n", $bodyReturn);
+            $body = implode_polyfill("\n", $bodyReturn);
             unset($bodyLines, $bodyReturn, $classStartLine, $classEndLine);
         }
 

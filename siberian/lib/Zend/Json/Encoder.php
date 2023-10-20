@@ -203,7 +203,7 @@ class Zend_Json_Encoder
                             . ':'
                             . $this->_encodeValue($value);
             }
-            $result .= implode(',', $tmpArray);
+            $result .= implode_polyfill(',', $tmpArray);
             $result .= '}';
         } else {
             // Indexed array
@@ -212,7 +212,7 @@ class Zend_Json_Encoder
             for ($i = 0; $i < $length; $i++) {
                 $tmpArray[] = $this->_encodeValue($array[$i]);
             }
-            $result .= implode(',', $tmpArray);
+            $result .= implode_polyfill(',', $tmpArray);
             $result .= ']';
         }
 
@@ -288,7 +288,7 @@ class Zend_Json_Encoder
                 $tmpArray[] = "$key: " . self::encode($value);
             }
 
-            $result .= implode(', ', $tmpArray);
+            $result .= implode_polyfill(', ', $tmpArray);
         }
 
         return $result . "}";
@@ -384,7 +384,7 @@ class Zend_Json_Encoder
                         . ':'
                         . self::encode($propValues[$prop->getName()]);
         }
-        $result .= implode(',', $tmpArray);
+        $result .= implode_polyfill(',', $tmpArray);
 
         return $result . "}";
     }

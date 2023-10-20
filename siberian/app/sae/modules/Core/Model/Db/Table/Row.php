@@ -147,7 +147,7 @@ class Core_Model_Db_Table_Row extends Zend_Db_Table_Row_Abstract
 
         if (!is_array($this->_primary)) return null;
         if ($pks = $this->_getPrimaryKey()) {
-            if (is_array($pks)) return implode('-', $pks);
+            if (is_array($pks)) return implode_polyfill('-', $pks);
             else return $pks;
         }
 

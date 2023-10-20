@@ -93,7 +93,7 @@ class CSS extends Minify
             }
 
             // add to top
-            $content = implode(';', $matches[2]).';'.trim($content, ';');
+            $content = implode_polyfill(';', $matches[2]).';'.trim($content, ';');
         }
 
         return $content;
@@ -525,7 +525,7 @@ class CSS extends Minify
         );
 
         return preg_replace_callback(
-            '/(?<=[: ])('.implode(array_keys($colors), '|').')(?=[; }])/i',
+            '/(?<=[: ])('.implode_polyfill(array_keys($colors), '|').')(?=[; }])/i',
             function ($match) use ($colors) {
                 return $colors[strtoupper($match[0])];
             },
@@ -551,7 +551,7 @@ class CSS extends Minify
             return $match[1].$weights[$match[2]];
         };
 
-        return preg_replace_callback('/(font-weight\s*:\s*)('.implode('|', array_keys($weights)).')(?=[;}])/', $callback, $content);
+        return preg_replace_callback('/(font-weight\s*:\s*)('.implode_polyfill('|', array_keys($weights)).')(?=[;}])/', $callback, $content);
     }
 
     /**
@@ -669,7 +669,7 @@ class CSS extends Minify
         // not in things like `calc(3px + 2px)`, shorthands like `3px -2px`, or
         // selectors like `div.weird- p`
         $pseudos = array('nth-child', 'nth-last-child', 'nth-last-of-type', 'nth-of-type');
-        $content = preg_replace('/:('.implode('|', $pseudos).')\(\s*([+-]?)\s*(.+?)\s*([+-]?)\s*(.*?)\s*\)/', ':$1($2$3$4$5)', $content);
+        $content = preg_replace('/:('.implode_polyfill('|', $pseudos).')\(\s*([+-]?)\s*(.+?)\s*([+-]?)\s*(.*?)\s*\)/', ':$1($2$3$4$5)', $content);
 
         // remove semicolon/whitespace followed by closing bracket
         $content = str_replace(';}', '}', $content);

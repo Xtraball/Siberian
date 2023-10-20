@@ -315,7 +315,7 @@ class Zend_Service_SqlAzure_Management_Client
      */
     public static function createQueryStringFromArray($queryString)
     {
-    	return count($queryString) > 0 ? '?' . implode('&', $queryString) : '';
+    	return count($queryString) > 0 ? '?' . implode_polyfill('&', $queryString) : '';
     }
     
 	/**

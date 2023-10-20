@@ -109,7 +109,7 @@ class Zend_Reflection_Class extends ReflectionClass
         $startnum  = $this->getStartLine($includeDocblock);
         $endnum    = $this->getEndLine() - $this->getStartLine();
 
-        return implode('', array_splice($filelines, $startnum, $endnum, true));
+        return implode_polyfill('', array_splice($filelines, $startnum, $endnum, true));
     }
 
     /**

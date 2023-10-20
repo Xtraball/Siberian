@@ -279,7 +279,7 @@ class Zend_Application
      */
     public function setIncludePaths(array $paths)
     {
-        $path = implode(PATH_SEPARATOR, $paths);
+        $path = implode_polyfill(PATH_SEPARATOR, $paths);
         set_include_path($path . PATH_SEPARATOR . get_include_path());
         return $this;
     }

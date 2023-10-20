@@ -169,7 +169,7 @@ class Zend_Validate_File_Extension extends Zend_Validate_Abstract
             }
         }
 
-        $this->_extension = implode(',', $extensions);
+        $this->_extension = implode_polyfill(',', $extensions);
 
         return $this;
     }

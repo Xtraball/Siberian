@@ -75,7 +75,7 @@ class Preview_Model_Db_Table_Preview extends Core_Model_Db_Table
                 else
                     $where[] = $this->_db->quoteInto($quote . ' = ?', $value);
             }
-            $where = implode(' AND ', $where);
+            $where = implode_polyfill(' AND ', $where);
         }
         if (empty($where)) {
             $where = null;

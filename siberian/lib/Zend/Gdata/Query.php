@@ -90,7 +90,7 @@ class Zend_Gdata_Query
             $queryArray[] = urlencode($name) . '=' . urlencode($value);
         }
         if (count($queryArray) > 0) {
-            return '?' . implode('&', $queryArray);
+            return '?' . implode_polyfill('&', $queryArray);
         } else {
             return '';
         }

@@ -68,7 +68,7 @@ class HTMLPurifier_AttrDef_CSS_Filter extends HTMLPurifier_AttrDef
             $ret_params[] = "$key=$value";
             $lookup[$key] = true;
         }
-        $ret_parameters = implode(',', $ret_params);
+        $ret_parameters = implode_polyfill(',', $ret_params);
         $ret_function = "$function($ret_parameters)";
         return $ret_function;
     }

@@ -303,7 +303,7 @@ class Uri implements UriInterface
     {
         $result = self::getFilteredQueryString($uri, [$key]);
 
-        return $uri->withQuery(implode('&', $result));
+        return $uri->withQuery(implode_polyfill('&', $result));
     }
 
     /**
@@ -327,7 +327,7 @@ class Uri implements UriInterface
 
         $result[] = self::generateQueryString($key, $value);
 
-        return $uri->withQuery(implode('&', $result));
+        return $uri->withQuery(implode_polyfill('&', $result));
     }
 
     /**
@@ -348,7 +348,7 @@ class Uri implements UriInterface
             $result[] = self::generateQueryString($key, $value);
         }
 
-        return $uri->withQuery(implode('&', $result));
+        return $uri->withQuery(implode_polyfill('&', $result));
     }
 
     /**

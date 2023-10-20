@@ -225,7 +225,7 @@ class RedirectMiddleware
                 sprintf(
                     'Redirect URI, %s, does not use one of the allowed redirect protocols: %s',
                     $location,
-                    implode(', ', $protocols)
+                    implode_polyfill(', ', $protocols)
                 ),
                 $request,
                 $response

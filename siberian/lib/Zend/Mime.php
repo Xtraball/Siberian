@@ -227,7 +227,7 @@ class Zend_Mime
         for($i = 0; $i < count($lines); $i++) {
             $lines[$i] = " ".$prefix.$lines[$i]."?=";
         }
-        $str = trim(implode($lineEnd, $lines));
+        $str = trim(implode_polyfill($lineEnd, $lines));
         return $str;
     }
 

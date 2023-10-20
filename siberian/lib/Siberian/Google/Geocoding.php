@@ -22,7 +22,7 @@ class Siberian_Google_Geocoding
         if (!empty($address["address"])) {
             $address = str_replace(PHP_EOL, " ", $address["address"]);
         } else {
-            $address = implode(', ', [
+            $address = implode_polyfill(', ', [
                 $address['street'],
                 $address['postcode'],
                 $address['city'],

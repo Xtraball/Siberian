@@ -220,7 +220,7 @@ abstract class Zend_Mail_Protocol_Abstract
      */
     public function getLog()
     {
-        return implode('', $this->_log);
+        return implode_polyfill('', $this->_log);
     }
 
 

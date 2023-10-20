@@ -133,7 +133,7 @@ class Request
 
         $parts = Util::urlencodeRfc3986($parts);
 
-        return implode('&', $parts);
+        return implode_polyfill('&', $parts);
     }
 
     /**

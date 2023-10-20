@@ -713,7 +713,7 @@ class Twofish extends Base
                         $S1 = $self->S1;
                         $S2 = $self->S2;
                         $S3 = $self->S3;
-                        list(' . implode(',', $K) . ') = $self->K;
+                        list(' . implode_polyfill(',', $K) . ') = $self->K;
                     ';
             }
 

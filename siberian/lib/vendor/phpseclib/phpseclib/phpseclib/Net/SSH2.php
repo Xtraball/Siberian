@@ -1307,7 +1307,7 @@ class SSH2
         }
 
         if (!empty($ext)) {
-            $identifier .= ' (' . implode(', ', $ext) . ')';
+            $identifier .= ' (' . implode_polyfill(', ', $ext) . ')';
         }
 
         return $identifier;
@@ -1366,14 +1366,14 @@ class SSH2
                 }
         }
 
-        $str_kex_algorithms = implode(',', $kex_algorithms);
-        $str_server_host_key_algorithms = implode(',', $server_host_key_algorithms);
-        $encryption_algorithms_server_to_client = implode(',', $s2c_encryption_algorithms);
-        $encryption_algorithms_client_to_server = implode(',', $c2s_encryption_algorithms);
-        $mac_algorithms_server_to_client = implode(',', $s2c_mac_algorithms);
-        $mac_algorithms_client_to_server = implode(',', $c2s_mac_algorithms);
-        $compression_algorithms_server_to_client = implode(',', $s2c_compression_algorithms);
-        $compression_algorithms_client_to_server = implode(',', $c2s_compression_algorithms);
+        $str_kex_algorithms = implode_polyfill(',', $kex_algorithms);
+        $str_server_host_key_algorithms = implode_polyfill(',', $server_host_key_algorithms);
+        $encryption_algorithms_server_to_client = implode_polyfill(',', $s2c_encryption_algorithms);
+        $encryption_algorithms_client_to_server = implode_polyfill(',', $c2s_encryption_algorithms);
+        $mac_algorithms_server_to_client = implode_polyfill(',', $s2c_mac_algorithms);
+        $mac_algorithms_client_to_server = implode_polyfill(',', $c2s_mac_algorithms);
+        $compression_algorithms_server_to_client = implode_polyfill(',', $s2c_compression_algorithms);
+        $compression_algorithms_client_to_server = implode_polyfill(',', $c2s_compression_algorithms);
 
         $client_cookie = Random::string(16);
 
@@ -4739,7 +4739,7 @@ class SSH2
                 $msg = count($diff) == 1 ?
                     ' is not a supported algorithm' :
                     ' are not supported algorithms';
-                user_error(implode(', ', $diff) . $msg);
+                user_error(implode_polyfill(', ', $diff) . $msg);
                 return false;
             }
         }

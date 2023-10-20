@@ -118,7 +118,7 @@ class Converter implements ConverterInterface
             }
         }
 
-        return implode('/', $shared);
+        return implode_polyfill('/', $shared);
     }
 
     /**

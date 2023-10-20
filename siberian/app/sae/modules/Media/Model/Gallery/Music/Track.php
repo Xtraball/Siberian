@@ -93,7 +93,7 @@ class Media_Model_Gallery_Music_Track extends Core_Model_Default
             $parts[] = str_pad($numSeconds, 2, '0', STR_PAD_LEFT);
         }
 
-        return implode(':', $parts);
+        return implode_polyfill(':', $parts);
     }
 
     /**

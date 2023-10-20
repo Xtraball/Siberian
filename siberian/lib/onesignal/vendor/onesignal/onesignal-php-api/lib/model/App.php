@@ -385,7 +385,7 @@ class App implements ModelInterface, ArrayAccess, \JsonSerializable
             $invalidProperties[] = sprintf(
                 "invalid value '%s' for 'apns_env', must be one of '%s'",
                 $this->container['apns_env'],
-                implode("', '", $allowedValues)
+                implode_polyfill("', '", $allowedValues)
             );
         }
 
@@ -717,7 +717,7 @@ class App implements ModelInterface, ArrayAccess, \JsonSerializable
                 sprintf(
                     "Invalid value '%s' for 'apns_env', must be one of '%s'",
                     $apns_env,
-                    implode("', '", $allowedValues)
+                    implode_polyfill("', '", $allowedValues)
                 )
             );
         }

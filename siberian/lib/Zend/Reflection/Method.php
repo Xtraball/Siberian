@@ -133,7 +133,7 @@ class Zend_Reflection_Method extends ReflectionMethod
         $startNum = $this->getStartLine($includeDocblock);
         $endNum = ($this->getEndLine() - $this->getStartLine());
 
-        return implode("\n", array_splice($fileContents, $startNum, $endNum, true));
+        return implode_polyfill("\n", array_splice($fileContents, $startNum, $endNum, true));
     }
 
     /**
@@ -182,6 +182,6 @@ class Zend_Reflection_Method extends ReflectionMethod
         }
 
         // just in case we had code on the bracket lines
-        return implode("\n", $lines);
+        return implode_polyfill("\n", $lines);
     }
 }

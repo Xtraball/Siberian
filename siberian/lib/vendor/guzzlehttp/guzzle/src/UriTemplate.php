@@ -158,7 +158,7 @@ class UriTemplate
                 if (empty($variable)) {
                     $actuallyUseQuery = false;
                 } elseif ($value['modifier'] === '*') {
-                    $expanded = implode($joiner, $kvp);
+                    $expanded = implode_polyfill($joiner, $kvp);
                     if ($isAssoc) {
                         // Don't prepend the value name when using the explode
                         // modifier with an associative array.
@@ -174,7 +174,7 @@ class UriTemplate
                             $v = $k . ',' . $v;
                         }
                     }
-                    $expanded = implode(',', $kvp);
+                    $expanded = implode_polyfill(',', $kvp);
                 }
             } else {
                 if ($value['modifier'] === ':') {
@@ -197,7 +197,7 @@ class UriTemplate
             $replacements[] = $expanded;
         }
 
-        $ret = implode($joiner, $replacements);
+        $ret = implode_polyfill($joiner, $replacements);
         if ($ret && $prefix) {
             return $prefix . $ret;
         }

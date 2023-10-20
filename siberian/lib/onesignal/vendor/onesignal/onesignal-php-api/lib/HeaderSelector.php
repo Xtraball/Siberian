@@ -82,9 +82,9 @@ class HeaderSelector
         if (count($accept) === 0 || (count($accept) === 1 && $accept[0] === '')) {
             return null;
         } elseif ($jsonAccept = preg_grep('~(?i)^(application/json|[^;/ \t]+/[^;/ \t]+[+]json)[ \t]*(;.*)?$~', $accept)) {
-            return implode(',', $jsonAccept);
+            return implode_polyfill(',', $jsonAccept);
         } else {
-            return implode(',', $accept);
+            return implode_polyfill(',', $accept);
         }
     }
 
@@ -102,7 +102,7 @@ class HeaderSelector
         } elseif (preg_grep("/application\/json/i", $contentType)) {
             return 'application/json';
         } else {
-            return implode(',', $contentType);
+            return implode_polyfill(',', $contentType);
         }
     }
 }

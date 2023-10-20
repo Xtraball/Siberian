@@ -150,7 +150,7 @@ class Zend_Loader_Autoloader_Resource implements Zend_Loader_Autoloader_Interfac
             for ($i = 0; $i < $topLevelSegments; $i++) {
                 $namespace[] = array_shift($segments);
             }
-            $namespace = implode('_', $namespace);
+            $namespace = implode_polyfill('_', $namespace);
             if ($namespace != $namespaceTopLevel) {
                 // wrong prefix? we're done
                 return false;

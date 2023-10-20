@@ -131,7 +131,7 @@ class Form2_ApplicationController extends Application_Controller_Default
                     $fieldId = $field['field_id'];
                     if (is_array($field['value'])) {
                         $flatArray = array_flat($field['value']);
-                        $v = implode(', ', $flatArray);
+                        $v = implode_polyfill(', ', $flatArray);
                     } else {
                         $v = $field['value'];
                     }
@@ -148,12 +148,12 @@ class Form2_ApplicationController extends Application_Controller_Default
 
             // E-mail CSV to admins!
             $csvTextLines = [];
-            $csvTextLines[] = implode(';', array_values($headers));
+            $csvTextLines[] = implode_polyfill(';', array_values($headers));
 
             foreach ($rows as $row) {
-                $csvTextLines[] = implode(';', $row);
+                $csvTextLines[] = implode_polyfill(';', $row);
             }
-            $csvText = implode("\n", $csvTextLines);
+            $csvText = implode_polyfill("\n", $csvTextLines);
 
             // uniqid
             $csvPath = path(uniqid('/var/tmp/', true) . '.csv');

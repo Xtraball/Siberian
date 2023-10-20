@@ -202,12 +202,12 @@ class Zend_Service_WindowsAzure_Storage_TableEntityQuery
 	{
 		$query = array();
 		if (count($this->_where) != 0) {
-		    $filter = implode('', $this->_where);
+		    $filter = implode_polyfill('', $this->_where);
 			$query[] = '$filter=' . ($urlEncode ? self::encodeQuery($filter) : $filter);
 		}
 		
 		if (count($this->_orderBy) != 0) {
-		    $orderBy = implode(',', $this->_orderBy);
+		    $orderBy = implode_polyfill(',', $this->_orderBy);
 			$query[] = '$orderby=' . ($urlEncode ? self::encodeQuery($orderBy) : $orderBy);
 		}
 		
@@ -216,7 +216,7 @@ class Zend_Service_WindowsAzure_Storage_TableEntityQuery
 		}
 		
 		if (count($query) != 0) {
-			return '?' . implode('&', $query);
+			return '?' . implode_polyfill('&', $query);
 		}
 		
 		return '';

@@ -61,7 +61,7 @@ class Application_Model_ApkQueue extends Core_Model_Default
         $result = $device->getResources();
 
         /** Saving log */
-        $this->setLog(implode("\n", $result["log"]));
+        $this->setLog(implode_polyfill("\n", $result["log"]));
 
         $recipients = [];
         switch ($this->getUserType()) {

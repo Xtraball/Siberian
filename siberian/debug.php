@@ -38,7 +38,7 @@ defined('APPLICATION_ENV')
     || define('APPLICATION_ENV', $_config['environment']);
 
 // Sourcing default libs!
-set_include_path(implode(PATH_SEPARATOR, array(
+set_include_path(implode_polyfill(PATH_SEPARATOR, array(
     realpath(APPLICATION_PATH . '/../lib'),
 )));
 

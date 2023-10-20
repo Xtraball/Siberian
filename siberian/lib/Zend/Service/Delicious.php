@@ -216,7 +216,7 @@ class Zend_Service_Delicious
      */
     public function addBundle($bundle, array $tags)
     {
-        $tags = implode(' ', (array) $tags);
+        $tags = implode_polyfill(' ', (array) $tags);
         $response = $this->makeRequest(self::PATH_BUNDLE_ADD, array('bundle' => $bundle, 'tags' => $tags));
 
         self::_evalXmlResult($response);

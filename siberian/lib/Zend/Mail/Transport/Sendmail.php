@@ -79,7 +79,7 @@ class Zend_Mail_Transport_Sendmail extends Zend_Mail_Transport_Abstract
         }
 
         if (is_array($parameters)) {
-            $parameters = implode(' ', $parameters);
+            $parameters = implode_polyfill(' ', $parameters);
         }
 
         $this->parameters = $parameters;
@@ -183,7 +183,7 @@ class Zend_Mail_Transport_Sendmail extends Zend_Mail_Transport_Abstract
             }
 
             unset($headers['To']['append']);
-            $this->recipients = implode(',', $headers['To']);
+            $this->recipients = implode_polyfill(',', $headers['To']);
         }
 
         // Remove recipient header

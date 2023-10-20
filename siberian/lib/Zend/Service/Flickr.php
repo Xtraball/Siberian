@@ -93,7 +93,7 @@ class Zend_Service_Flickr
                                        'tag_mode' => 'or',
                                        'extras'   => 'license, date_upload, date_taken, owner_name, icon_server');
 
-        $options['tags'] = is_array($query) ? implode(',', $query) : $query;
+        $options['tags'] = is_array($query) ? implode_polyfill(',', $query) : $query;
 
         $options = $this->_prepareOptions($method, $options, $defaultOptions);
 
@@ -618,7 +618,7 @@ class Zend_Service_Flickr
              * @see Zend_Service_Exception
              */
             require_once 'Zend/Service/Exception.php';
-            throw new Zend_Service_Exception('The following parameters are invalid: ' . implode(',', $difference));
+            throw new Zend_Service_Exception('The following parameters are invalid: ' . implode_polyfill(',', $difference));
         }
     }
 }

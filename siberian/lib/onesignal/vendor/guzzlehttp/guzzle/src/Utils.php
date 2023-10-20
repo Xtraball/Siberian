@@ -341,7 +341,7 @@ EOT
 
                 $errorMessage = 'IDN conversion failed';
                 if ($errors) {
-                    $errorMessage .= ' (errors: ' . implode(', ', $errors) . ')';
+                    $errorMessage .= ' (errors: ' . implode_polyfill(', ', $errors) . ')';
                 }
 
                 throw new InvalidArgumentException($errorMessage);

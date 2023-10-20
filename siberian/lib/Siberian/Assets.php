@@ -635,7 +635,7 @@ class Assets
         }
 
         exec('uname', $uname);
-        if (strpos(strtolower(implode('', $uname)), 'arwin') !== false) {
+        if (strpos(strtolower(implode_polyfill('', $uname)), 'arwin') !== false) {
             $nodePath .= '.osx';
         }
 
@@ -679,7 +679,7 @@ class Assets
 
             // Validate ES5 module
             try {
-                $commandEs5 = implode(' ', [
+                $commandEs5 = implode_polyfill(' ', [
                     $nodePath,
                     $esCheckPath,
                     'es5',
@@ -755,7 +755,7 @@ class Assets
                 $content[] = $line;
             }
         }
-        $scss = implode("\n", $content);
+        $scss = implode_polyfill("\n", $content);
 
 
         // Import custom modules SCSS files!
@@ -867,7 +867,7 @@ class Assets
                         return "'{$_item}'";
                     }, array_keys(\Core_Model_Language::getLanguages()));
 
-                    $urlContent = str_replace("['en']", "[" . implode(', ', $languages) . "]", $urlContent);
+                    $urlContent = str_replace("['en']", "[" . implode_polyfill(', ', $languages) . "]", $urlContent);
                     file_put_contents($urlPath, $urlContent);
                 }
 

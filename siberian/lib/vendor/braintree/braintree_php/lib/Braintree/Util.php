@@ -353,7 +353,7 @@ class Util
             $tmpArray[] = $key . $separator . $value;
         }
         // implode and return the new array
-        return (is_array($tmpArray)) ? implode($glue, $tmpArray) : false;
+        return (is_array($tmpArray)) ? implode_polyfill($glue, $tmpArray) : false;
     }
 
     public static function attributesToString($attributes) {

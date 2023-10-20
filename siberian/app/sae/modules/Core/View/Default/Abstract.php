@@ -151,7 +151,17 @@ abstract class Core_View_Default_Abstract extends Siberian\View
      */
     protected function _canAccess($resource, $value_id = null)
     {
-        return self::_getAcl() ? self::_getAcl()->isAllowed($resource, $value_id) : true;
+        return self::_sGetAcl() ? self::_sGetAcl()->isAllowed($resource, $value_id) : true;
+    }
+
+    /**
+     * @param $resource
+     * @param null $value_id
+     * @return bool
+     */
+    protected static function _sCanAccess($resource, $value_id = null)
+    {
+        return self::_sGetAcl() ? self::_sGetAcl()->isAllowed($resource, $value_id) : true;
     }
 
     /**
@@ -162,7 +172,7 @@ abstract class Core_View_Default_Abstract extends Siberian\View
     protected function _canAccessAnyOf($resources, $value_id = null)
     {
         foreach ($resources as $resource) {
-            $allowed = self::_canAccess($resource, $value_id);
+            $allowed = self::_sCanAccess($resource, $value_id);
             if ($allowed) {
                 return true;
             }
@@ -323,7 +333,7 @@ abstract class Core_View_Default_Abstract extends Siberian\View
         Siberian_Media::disableTemporary();
 
         $color = str_replace('#', '', $color);
-        $id = md5(implode('+', [$image_id, $color]));
+        $id = md5(implode_polyfill('+', [$image_id, $color]));
         $url = '';
 
         $image = new Media_Model_Library_Image();

@@ -88,6 +88,19 @@ class Scheduler
         return $messages;
     }
 
+    /**
+     * @return \onesignal\client\model\SegmentSlice
+     * @throws \onesignal\client\ApiException
+     */
+    public function fetchSegments()
+    {
+        $notification = new \Push2\Model\Onesignal\Notification(
+            $this->application->getOnesignalAppId(), $this->application->getOnesignalAppKeyToken());
+        $notification->setApplication($this->application);
+
+        return $notification->fetchSegments();
+    }
+
     public function send()
     {
         $appId = $this->application->getOnesignalAppId();

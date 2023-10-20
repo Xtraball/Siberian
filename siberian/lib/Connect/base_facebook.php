@@ -582,7 +582,7 @@ abstract class BaseFacebook {
         // if 'scope' is passed as an array, convert to comma separated list
         $scopeParams = isset($params['scope']) ? $params['scope'] : null;
         if ($scopeParams && is_array($scopeParams)) {
-            $params['scope'] = implode(',', $scopeParams);
+            $params['scope'] = implode_polyfill(',', $scopeParams);
         }
 
         return $this->getUrl(
@@ -1193,7 +1193,7 @@ abstract class BaseFacebook {
             }
 
             if (!empty($retained_params)) {
-                $query = '?' . implode($retained_params, '&');
+                $query = '?' . implode_polyfill($retained_params, '&');
             }
         }
 

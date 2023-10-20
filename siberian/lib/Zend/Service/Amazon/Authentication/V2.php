@@ -127,7 +127,7 @@ class Zend_Service_Amazon_Authentication_V2 extends Zend_Service_Amazon_Authenti
             $arrData[] = $key . '=' . str_replace('%7E', '~', rawurlencode($value));
         }
 
-        $data .= implode('&', $arrData);
+        $data .= implode_polyfill('&', $arrData);
 
         $hmac = Zend_Crypt_Hmac::compute($this->_secretKey, 'SHA256', $data, Zend_Crypt_Hmac::BINARY);
 

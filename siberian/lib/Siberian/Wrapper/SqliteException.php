@@ -14,6 +14,6 @@ class SqliteException extends \Exception
      */
     public function __construct($query, $outputMessage)
     {
-        $this->message = "Error with query '$query'\n" . implode("\n", $outputMessage);
+        $this->message = "Error with query '$query'\n" . implode_polyfill("\n", $outputMessage);
     }
 }

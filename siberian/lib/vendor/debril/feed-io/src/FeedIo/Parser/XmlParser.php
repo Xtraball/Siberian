@@ -74,7 +74,7 @@ class XmlParser extends ParserAbstract
         }
 
         if (!empty($errors)) {
-            $message = "missing mandatory field(s) : ".implode(',', $errors);
+            $message = "missing mandatory field(s) : ".implode_polyfill(',', $errors);
             $this->logger->warning($message);
             throw new MissingFieldsException($message);
         }

@@ -121,48 +121,48 @@ HELP;
 
         if (!empty($useNickname)) {
             $extraNickname = $this->getElement('extra_nickname');
-            $extraNickname->setDescription(implode(', ', $useNickname));
+            $extraNickname->setDescription(implode_polyfill(', ', $useNickname));
             $extraNickname->setValue(true);
             $extraNickname->setAttrib('disabled', 'disabled');
 
             $extraNicknameRequired = $this->getElement('extra_nickname_required');
-            $extraNicknameRequired->setDescription(implode(', ', $useNickname));
+            $extraNicknameRequired->setDescription(implode_polyfill(', ', $useNickname));
             $extraNicknameRequired->setValue(true);
             $extraNicknameRequired->setAttrib('disabled', 'disabled');
         }
         //if (!empty($useRanking)) {
-        //    $this->getElement('extra_ranking')->setDescription(implode(', ', $useRanking));
+        //    $this->getElement('extra_ranking')->setDescription(implode_polyfill(', ', $useRanking));
         //}
         if (!empty($useBirthdate)) {
             $extraBirthdate = $this->getElement('extra_birthdate');
-            $extraBirthdate->setDescription(implode(', ', $useBirthdate));
+            $extraBirthdate->setDescription(implode_polyfill(', ', $useBirthdate));
             $extraBirthdate->setValue(true);
             $extraBirthdate->setAttrib('disabled', 'disabled');
 
             $extraBirthdateRequired = $this->getElement('extra_birthdate_required');
-            $extraBirthdateRequired->setDescription(implode(', ', $useBirthdate));
+            $extraBirthdateRequired->setDescription(implode_polyfill(', ', $useBirthdate));
             $extraBirthdateRequired->setValue(true);
             $extraBirthdateRequired->setAttrib('disabled', 'disabled');
         }
         if (!empty($useCivility)) {
             $extraCivility = $this->getElement('extra_civility');
-            $extraCivility->setDescription(implode(', ', $useCivility));
+            $extraCivility->setDescription(implode_polyfill(', ', $useCivility));
             $extraCivility->setValue(true);
             $extraCivility->setAttrib('disabled', 'disabled');
 
             $extraCivilityRequired = $this->getElement('extra_civility_required');
-            $extraCivilityRequired->setDescription(implode(', ', $useCivility));
+            $extraCivilityRequired->setDescription(implode_polyfill(', ', $useCivility));
             $extraCivilityRequired->setValue(true);
             $extraCivilityRequired->setAttrib('disabled', 'disabled');
         }
         if (!empty($useMobile)) {
             $extraMobile = $this->getElement('extra_mobile');
-            $extraMobile->setDescription(implode(', ', $useMobile));
+            $extraMobile->setDescription(implode_polyfill(', ', $useMobile));
             $extraMobile->setValue(true);
             $extraMobile->setAttrib('disabled', 'disabled');
 
             $extraMobileRequired = $this->getElement('extra_mobile_required');
-            $extraMobileRequired->setDescription(implode(', ', $useMobile));
+            $extraMobileRequired->setDescription(implode_polyfill(', ', $useMobile));
             $extraMobileRequired->setValue(true);
             $extraMobileRequired->setAttrib('disabled', 'disabled');
         }

@@ -367,7 +367,7 @@ abstract class Zend_View_Helper_Placeholder_Container_Abstract extends ArrayObje
         $items  = $this->getArrayCopy();
         $return = $indent
                 . $this->getPrefix()
-                . implode($this->getSeparator(), $items)
+                . implode_polyfill($this->getSeparator(), $items)
                 . $this->getPostfix();
         $return = preg_replace("/(\r\n?|\n)/", '$1' . $indent, $return);
         return $return;

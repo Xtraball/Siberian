@@ -149,7 +149,7 @@ class ReflectionCaster
         $prefix = Caster::PREFIX_VIRTUAL;
 
         if ($n = \Reflection::getModifierNames($c->getModifiers())) {
-            $a[$prefix.'modifiers'] = implode(' ', $n);
+            $a[$prefix.'modifiers'] = implode_polyfill(' ', $n);
         }
 
         self::addMap($a, $c, [
@@ -231,7 +231,7 @@ class ReflectionCaster
 
     public static function castMethod(\ReflectionMethod $c, array $a, Stub $stub, $isNested)
     {
-        $a[Caster::PREFIX_VIRTUAL.'modifiers'] = implode(' ', \Reflection::getModifierNames($c->getModifiers()));
+        $a[Caster::PREFIX_VIRTUAL.'modifiers'] = implode_polyfill(' ', \Reflection::getModifierNames($c->getModifiers()));
 
         return $a;
     }
@@ -274,7 +274,7 @@ class ReflectionCaster
 
     public static function castProperty(\ReflectionProperty $c, array $a, Stub $stub, $isNested)
     {
-        $a[Caster::PREFIX_VIRTUAL.'modifiers'] = implode(' ', \Reflection::getModifierNames($c->getModifiers()));
+        $a[Caster::PREFIX_VIRTUAL.'modifiers'] = implode_polyfill(' ', \Reflection::getModifierNames($c->getModifiers()));
         self::addExtra($a, $c);
 
         return $a;

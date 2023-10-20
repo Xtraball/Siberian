@@ -406,7 +406,7 @@ class Zend_Loader_PluginLoader implements Zend_Loader_PluginLoader_Interface
 
             $message = "Plugin by name '$name' was not found in the registry; used paths:";
             foreach ($registry as $prefix => $paths) {
-                $message .= "\n$prefix: " . implode(PATH_SEPARATOR, $paths);
+                $message .= "\n$prefix: " . implode_polyfill(PATH_SEPARATOR, $paths);
             }
             require_once 'Zend/Loader/PluginLoader/Exception.php';
             throw new Zend_Loader_PluginLoader_Exception($message);

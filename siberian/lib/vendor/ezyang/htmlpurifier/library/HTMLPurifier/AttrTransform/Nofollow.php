@@ -40,7 +40,7 @@ class HTMLPurifier_AttrTransform_Nofollow extends HTMLPurifier_AttrTransform
                 if (!in_array('nofollow', $rels)) {
                     $rels[] = 'nofollow';
                 }
-                $attr['rel'] = implode(' ', $rels);
+                $attr['rel'] = implode_polyfill(' ', $rels);
             } else {
                 $attr['rel'] = 'nofollow';
             }

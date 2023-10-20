@@ -316,7 +316,7 @@ class Zend_Locale_Data
 
         $val = $value;
         if (is_array($value)) {
-            $val = implode('_' , $value);
+            $val = implode_polyfill('_' , $value);
         }
 
         if (!empty($val)) {
@@ -944,9 +944,9 @@ class Zend_Locale_Data
 
         $val = $value;
         if (is_array($value)) {
-            $val = implode('_' , $value);
+            $val = implode_polyfill('_' , $value);
         }
-        $val = urlencode($val);
+        $val = urlencode($val ?? "");
         $id = strtr('Zend_LocaleC_' . $locale . '_' . $path . '_' . $val, array('-' => '_', '%' => '_', '+' => '_'));
         if (!self::$_cacheDisabled && ($result = self::$_cache->load($id))) {
             return unserialize($result);

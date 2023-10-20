@@ -549,7 +549,7 @@ class Cert extends v2
                     '[v3_req]' . "\n" .
                     '[SAN]' . "\n" .
                     'subjectAltName=' .
-                    implode(',', array_map(function ($domain) {
+                    implode_polyfill(',', array_map(function ($domain) {
                         return 'DNS:' . $domain;
                     }, $domains)) . "\n"
                     :
@@ -567,7 +567,7 @@ class Cert extends v2
      */
     private function pem2der($pem)
     {
-        return base64_decode(implode('', array_slice(
+        return base64_decode(implode_polyfill('', array_slice(
             array_map('trim', explode("\n", trim($pem))), 1, -1
         )));
     }

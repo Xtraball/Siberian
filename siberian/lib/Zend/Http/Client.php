@@ -1232,7 +1232,7 @@ class Zend_Http_Client
         foreach ($this->headers as $header) {
             list($name, $value) = $header;
             if (is_array($value)) {
-                $value = implode(', ', $value);
+                $value = implode_polyfill(', ', $value);
             }
 
             $headers[] = "$name: $value";

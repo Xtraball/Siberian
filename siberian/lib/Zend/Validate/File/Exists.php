@@ -142,7 +142,7 @@ class Zend_Validate_File_Exists extends Zend_Validate_Abstract
             }
         }
 
-        $this->_directory = implode(',', $directories);
+        $this->_directory = implode_polyfill(',', $directories);
 
         return $this;
     }
