@@ -51,7 +51,7 @@ class Crunched extends Formatter
             }
         }
 
-        $this->write($inner . implode($glue, $block->lines));
+        $this->write($inner . implode_polyfill($glue, $block->lines));
 
         if (! empty($block->children)) {
             $this->write($this->break);
@@ -69,7 +69,7 @@ class Crunched extends Formatter
 
         $this->write(
             $inner
-            . implode(
+            . implode_polyfill(
                 $this->tagSeparator,
                 str_replace([' > ', ' + ', ' ~ '], ['>', '+', '~'], $block->selectors)
             )

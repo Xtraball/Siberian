@@ -938,7 +938,7 @@ class Crawler implements \Countable, \IteratorAggregate
             }
         }
 
-        return sprintf('concat(%s)', implode(', ', $parts));
+        return sprintf('concat(%s)', implode_polyfill(', ', $parts));
     }
 
     /**
@@ -1044,7 +1044,7 @@ class Crawler implements \Countable, \IteratorAggregate
             $expressions[] = $parenthesis.$expression;
 
             if ($i === $xpathLen) {
-                return implode(' | ', $expressions);
+                return implode_polyfill(' | ', $expressions);
             }
 
             $i += strspn($xpath, " \t\n\r\0\x0B", $i + 1);

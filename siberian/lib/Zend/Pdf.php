@@ -1376,7 +1376,7 @@ class Zend_Pdf
         if ($outputStream === null) {
             $pdfSegmentBlocks[] = $pdfBlock;
 
-            return implode('', $pdfSegmentBlocks);
+            return implode_polyfill('', $pdfSegmentBlocks);
         } else {
             while ( strlen($pdfBlock) > 0 && ($byteCount = fwrite($outputStream, $pdfBlock)) != false ) {
                 $pdfBlock = substr($pdfBlock, $byteCount);

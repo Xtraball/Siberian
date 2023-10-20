@@ -356,7 +356,7 @@ class Zend_Service_SlideShare
             foreach ($tags as $tag) {
                 $tmp[] = "\"$tag\"";
             }
-            $params['slideshow_tags'] = implode(' ', $tmp);
+            $params['slideshow_tags'] = implode_polyfill(' ', $tmp);
         } else {
             $params['slideshow_tags'] = "";
         }
@@ -496,7 +496,7 @@ class Zend_Service_SlideShare
                 $tmp[] = "\"$t\"";
             }
 
-            $tag = implode(" ", $tmp);
+            $tag = implode_polyfill(" ", $tmp);
         }
 
         return $this->_getSlideShowsByType('tag', $tag, $offset, $limit);

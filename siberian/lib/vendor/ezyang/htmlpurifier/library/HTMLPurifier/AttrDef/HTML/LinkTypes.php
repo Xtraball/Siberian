@@ -64,7 +64,7 @@ class HTMLPurifier_AttrDef_HTML_LinkTypes extends HTMLPurifier_AttrDef
         if (empty($ret_lookup)) {
             return false;
         }
-        $string = implode(' ', array_keys($ret_lookup));
+        $string = implode_polyfill(' ', array_keys($ret_lookup));
         return $string;
     }
 }

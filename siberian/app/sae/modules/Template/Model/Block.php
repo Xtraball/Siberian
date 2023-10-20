@@ -363,7 +363,7 @@ class Template_Model_Block extends Core_Model_Default
             return false;
         }
 
-        return $returnAsString ? implode($seperator, $rgbArray) : $rgbArray;
+        return $returnAsString ? implode_polyfill($seperator, $rgbArray) : $rgbArray;
     }
 
     /**

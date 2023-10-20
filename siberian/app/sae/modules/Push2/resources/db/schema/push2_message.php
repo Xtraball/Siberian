@@ -29,6 +29,12 @@ $schemas['push2_message'] = [
             'is_unique' => false,
         ],
     ],
+    'segment' => [
+        'type' => 'text',
+        'charset' => 'utf8',
+        'collation' => 'utf8_unicode_ci',
+        'is_null' => true,
+    ],
     'title' => [
         'type' => 'text',
         'charset' => 'utf8',

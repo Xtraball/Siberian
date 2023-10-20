@@ -96,14 +96,14 @@ class Installer_ModuleController extends Backoffice_Controller_Default
                     $this->_redirect('installer/module/install', array('module_name' => $filename));
                 } else {
                     $messages = $parser->getErrors();
-                    $message = implode("\n", $messages);
+                    $message = implode_polyfill("\n", $messages);
                     throw new Exception($this->_($message));
                 }
 
             } else {
                 $messages = $adapter->getMessages();
                 if (!empty($messages)) {
-                    $message = implode("\n", $messages);
+                    $message = implode_polyfill("\n", $messages);
                 } else {
                     $message = $this->_("An error occurred during the process. Please try again later.");
                 }

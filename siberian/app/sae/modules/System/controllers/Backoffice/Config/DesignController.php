@@ -78,7 +78,7 @@ class System_Backoffice_Config_DesignController extends System_Controller_Backof
             } else {
                 $messages = $adapter->getMessages();
                 if (!empty($messages)) {
-                    $message = implode("\n", $messages);
+                    $message = implode_polyfill("\n", $messages);
                 } else {
                     $message = __("An error occurred during the process. Please try again later.");
                 }

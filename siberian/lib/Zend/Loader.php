@@ -121,7 +121,7 @@ class Zend_Loader
         $incPath = false;
         if (!empty($dirs) && (is_array($dirs) || is_string($dirs))) {
             if (is_array($dirs)) {
-                $dirs = implode(PATH_SEPARATOR, $dirs);
+                $dirs = implode_polyfill(PATH_SEPARATOR, $dirs);
             }
             $incPath = get_include_path();
             set_include_path($dirs . PATH_SEPARATOR . $incPath);

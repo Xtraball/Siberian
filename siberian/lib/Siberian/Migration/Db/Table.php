@@ -207,7 +207,7 @@ class Siberian_Migration_Db_Table extends Zend_Db_Table_Abstract
                 $previousMessage[] = $e->getMessage();
                 throw new \Siberian\Exception(
                     __("Unable to create table '{$this->tableName}', with previous Exception %s.",
-                        implode("\n", $previousMessage))
+                        implode_polyfill("\n", $previousMessage))
                 );
             }
         }
@@ -232,7 +232,7 @@ class Siberian_Migration_Db_Table extends Zend_Db_Table_Abstract
             $this->schemaFields = $schemas[$this->tableName];
         } else {
             throw new \Siberian\Exception("Unable to read latest schema for '{$this->tableName}', errors: "
-                . implode("\n", $this->queries) . ".");
+                . implode_polyfill("\n", $this->queries) . ".");
         }
     }
 
@@ -477,8 +477,8 @@ class Siberian_Migration_Db_Table extends Zend_Db_Table_Abstract
                 $cols[] = 'updated_at';
             }
             if (count($cols) > 0) {
-                $requestDates = 'SELECT ' . implode($cols, ', ') . " FROM `{$this->tableName}` WHERE "
-                    . implode(array_map(function ($col) {
+                $requestDates = 'SELECT ' . implode_polyfill($cols, ', ') . " FROM `{$this->tableName}` WHERE "
+                    . implode_polyfill(array_map(function ($col) {
                         return $col . '_utc=0';
                     }, $cols), ' OR ');
                 $resultDates = $this->query($requestDates)->fetchAll();
@@ -654,7 +654,7 @@ class Siberian_Migration_Db_Table extends Zend_Db_Table_Abstract
         foreach ($this->primaryKeys as $primary_key) {
             $keys[] = "`{$primary_key}`";
         }
-        $keys = implode(",", $keys);
+        $keys = implode_polyfill(",", $keys);
 
         $primary = "\tPRIMARY KEY ({$keys})";
 
@@ -694,7 +694,7 @@ class Siberian_Migration_Db_Table extends Zend_Db_Table_Abstract
 
             $key = ($index_unique) ? "UNIQUE KEY" : "KEY";
 
-            $cols = implode(',', $indexes);
+            $cols = implode_polyfill(',', $indexes);
             $idxs[] = "\t{$key} `{$index_name}` ({$cols}) {$index_type}";
         }
 
@@ -724,7 +724,7 @@ class Siberian_Migration_Db_Table extends Zend_Db_Table_Abstract
         /** Parse INDEXES */
         $lines = array_merge($lines, $this->parseIndexes());
 
-        $create .= implode(",\n", array_filter($lines));
+        $create .= implode_polyfill(",\n", array_filter($lines));
 
         $create .= "\n) ENGINE={$this->tableEngine} DEFAULT CHARSET={$this->tableCharset} COLLATE={$this->tableCollate};";
 

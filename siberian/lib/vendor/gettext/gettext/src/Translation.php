@@ -286,7 +286,7 @@ class Translation
     public function hasPluralTranslations($checkContent = false)
     {
         if ($checkContent) {
-            return implode('', $this->pluralTranslation) !== '';
+            return implode_polyfill('', $this->pluralTranslation) !== '';
         }
 
         return !empty($this->pluralTranslation);

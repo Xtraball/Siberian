@@ -223,7 +223,7 @@ class StringHelper
      */
     public static function ltrimWords($string, array $words)
     {
-        return static::trimPattern($string, '/^(' . implode('|', $words) . ')\\s?/u');
+        return static::trimPattern($string, '/^(' . implode_polyfill('|', $words) . ')\\s?/u');
     }
 
     /**
@@ -234,7 +234,7 @@ class StringHelper
      */
     public static function rtrimWords($string, array $words)
     {
-        return static::trimPattern($string, '/\\s?(' . implode('|', $words) . ')$/u');
+        return static::trimPattern($string, '/\\s?(' . implode_polyfill('|', $words) . ')$/u');
     }
 
     /**
@@ -371,7 +371,7 @@ class StringHelper
             --$len;
         }
 
-        return implode("", $chars);
+        return implode_polyfill("", $chars);
     }
 
     /**

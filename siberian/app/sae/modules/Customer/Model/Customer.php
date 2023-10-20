@@ -24,6 +24,11 @@ class Customer_Model_Customer extends Core_Model_Default
     /**
      * @var array
      */
+    protected $_metadatas = [];
+
+    /**
+     * @var array
+     */
     protected $_types = ['facebook'];
 
     /**
@@ -652,7 +657,8 @@ class Customer_Model_Customer extends Core_Model_Default
             }
 
             //hide stripe customer id for secure purpose
-            if ($metadatas->stripe &&
+            if (isset($metadatas->stripe) &&
+                $metadatas->stripe &&
                 array_key_exists('customerId', $metadatas->stripe) &&
                 $metadatas->stripe['customerId']) {
                 unset($metadatas->stripe['customerId']);

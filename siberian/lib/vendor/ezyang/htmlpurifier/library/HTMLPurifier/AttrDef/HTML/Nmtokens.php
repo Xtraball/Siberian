@@ -26,7 +26,7 @@ class HTMLPurifier_AttrDef_HTML_Nmtokens extends HTMLPurifier_AttrDef
         if (empty($tokens)) {
             return false;
         }
-        return implode(' ', $tokens);
+        return implode_polyfill(' ', $tokens);
     }
 
     /**

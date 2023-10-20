@@ -850,7 +850,7 @@ class ASN1
                     if ($mapping['type'] == self::TYPE_SET) {
                         sort($value);
                     }
-                    $value = implode('', $value);
+                    $value = implode_polyfill('', $value);
                     break;
                 }
 
@@ -988,7 +988,7 @@ class ASN1
                         unset($bits[$i]);
                     }
 
-                    $bits = implode('', array_pad($bits, $size + $offset + 1, 0));
+                    $bits = implode_polyfill('', array_pad($bits, $size + $offset + 1, 0));
                     $bytes = explode(' ', rtrim(chunk_split($bits, 8, ' ')));
                     foreach ($bytes as $byte) {
                         $value.= chr(bindec($byte));
@@ -1023,7 +1023,7 @@ class ASN1
                     case is_bool($source):
                         return $this->_encode_der($source, array('type' => self::TYPE_BOOLEAN) + $mapping, null, $special);
                     case is_array($source) && count($source) == 1:
-                        $typename = implode('', array_keys($source));
+                        $typename = implode_polyfill('', array_keys($source));
                         $outtype = array_search($typename, $this->ANYmap, true);
                         if ($outtype !== false) {
                             return $this->_encode_der($source[$typename], array('type' => $outtype) + $mapping, null, $special);
@@ -1039,7 +1039,7 @@ class ASN1
                     $filters = $filters[$part];
                 }
                 if ($filters === false) {
-                    user_error('No filters defined for ' . implode('/', $loc));
+                    user_error('No filters defined for ' . implode_polyfill('/', $loc));
                     return false;
                 }
                 return $this->_encode_der($source, $filters + $mapping, null, $special);
@@ -1063,7 +1063,7 @@ class ASN1
                 $value = $source ? "\xFF" : "\x00";
                 break;
             default:
-                user_error('Mapping provides no type definition for ' . implode('/', $this->location));
+                user_error('Mapping provides no type definition for ' . implode_polyfill('/', $this->location));
                 return false;
         }
 
@@ -1148,7 +1148,7 @@ class ASN1
             array_unshift($oid, 2);
         }
 
-        return implode('.', $oid);
+        return implode_polyfill('.', $oid);
     }
 
     /**

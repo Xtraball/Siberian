@@ -43,7 +43,7 @@ class AngularTemplateCache implements PipeInterface
         $content = sprintf(
             '%s%s%s',
             preg_replace(['/<%= module %>/', '/<%= standalone %>/'], [$this->options['module'], null], $templateHeader),
-            implode(PHP_EOL, $puts),
+            implode_polyfill(PHP_EOL, $puts),
             $templateFooter
         );
 

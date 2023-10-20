@@ -130,7 +130,7 @@ class Zend_Form_Decorator_File
             $markup[] = $view->$helper($name, $attribs);
         }
 
-        $markup = implode($separator, $markup);
+        $markup = implode_polyfill($separator, $markup);
 
         switch ($placement) {
             case self::PREPEND:

@@ -223,7 +223,7 @@ class GetNotificationRequestBody implements ModelInterface, ArrayAccess, \JsonSe
             $invalidProperties[] = sprintf(
                 "invalid value '%s' for 'events', must be one of '%s'",
                 $this->container['events'],
-                implode("', '", $allowedValues)
+                implode_polyfill("', '", $allowedValues)
             );
         }
 
@@ -267,7 +267,7 @@ class GetNotificationRequestBody implements ModelInterface, ArrayAccess, \JsonSe
                 sprintf(
                     "Invalid value '%s' for 'events', must be one of '%s'",
                     $events,
-                    implode("', '", $allowedValues)
+                    implode_polyfill("', '", $allowedValues)
                 )
             );
         }

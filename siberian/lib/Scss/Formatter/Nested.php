@@ -66,7 +66,7 @@ class Nested extends Formatter
             }
         }
 
-        $this->write($inner . implode($glue, $block->lines));
+        $this->write($inner . implode_polyfill($glue, $block->lines));
 
         if (! empty($block->children)) {
             $this->write($this->break);
@@ -81,7 +81,7 @@ class Nested extends Formatter
         $inner = $this->indentStr();
 
         $this->write($inner
-            . implode($this->tagSeparator, $block->selectors)
+            . implode_polyfill($this->tagSeparator, $block->selectors)
             . $this->open . $this->break);
     }
 

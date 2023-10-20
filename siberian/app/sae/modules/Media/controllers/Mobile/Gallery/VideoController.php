@@ -55,7 +55,7 @@ class Media_Mobile_Gallery_VideoController extends Application_Controller_Mobile
                     ;
                 }
 
-                $html = array('html' => implode('', $html));
+                $html = array('html' => implode_polyfill('', $html));
 
             }
             catch(Exception $e) {

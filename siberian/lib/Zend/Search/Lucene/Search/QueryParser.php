@@ -339,7 +339,7 @@ class Zend_Search_Lucene_Search_QueryParser extends Zend_Search_Lucene_FSM
      */
     public static function escape($keyword)
     {
-        return '\\' . implode('\\', str_split($keyword));
+        return '\\' . implode_polyfill('\\', str_split($keyword));
     }
 
     /**

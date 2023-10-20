@@ -59,7 +59,7 @@ class Expanded extends Formatter
             }
         }
 
-        $this->write($inner . implode($glue, $block->lines));
+        $this->write($inner . implode_polyfill($glue, $block->lines));
 
         if (empty($block->selectors) || ! empty($block->children)) {
             $this->write($this->break);

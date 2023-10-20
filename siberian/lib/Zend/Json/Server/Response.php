@@ -145,7 +145,7 @@ class Zend_Json_Server_Response
     public function setVersion($version)
     {
         $version = is_array($version)
-            ? implode(' ', $version)
+            ? implode_polyfill(' ', $version)
             : $version;
         if ((string)$version == '2.0') {
             $this->_version = '2.0';

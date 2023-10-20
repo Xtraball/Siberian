@@ -57,7 +57,7 @@ class SwiftMailCollector extends DataCollector implements Renderable, AssetProvi
         foreach ($to as $k => $v) {
             $f[] = (empty($v) ? '' : "$v ") . "<$k>";
         }
-        return implode(', ', $f);
+        return implode_polyfill(', ', $f);
     }
 
     public function getName()

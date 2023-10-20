@@ -38,7 +38,7 @@ class FormulaConverter
                     // All the atoms joined by 'and' always evaluate to true => the whole 'and' group is always true
                     $gettextFormulaChunk = true;
                 } else {
-                    $gettextFormulaChunk = implode(' && ', $andSeparatedChunks);
+                    $gettextFormulaChunk = implode_polyfill(' && ', $andSeparatedChunks);
                     // Special cases simplification
                     switch ($gettextFormulaChunk) {
                         case 'n >= 0 && n <= 2 && n != 2':
@@ -58,7 +58,7 @@ class FormulaConverter
             // All the parts joined by 'or' always evaluate to false => the whole formula always evaluates to false
             return false;
         } else {
-            return implode(' || ', $orSeparatedChunks);
+            return implode_polyfill(' || ', $orSeparatedChunks);
         }
     }
     /**
@@ -148,9 +148,9 @@ class FormulaConverter
             }
             switch ($op) {
                 case '==':
-                    return '('.implode(' || ', $chunks).')';break;
+                    return '('.implode_polyfill(' || ', $chunks).')';break;
                 case '!=':
-                    return implode(' && ', $chunks);
+                    return implode_polyfill(' && ', $chunks);
             }
         }
         throw new Exception("Unable to expand '$atom'");

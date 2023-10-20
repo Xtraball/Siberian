@@ -275,6 +275,7 @@ abstract class Zend_Db_Table_Row_Abstract implements ArrayAccess, IteratorAggreg
      * @param string $offset
      * @return mixed
      */
+     #[\ReturnTypeWillChange]
      public function offsetGet($offset)
      {
          return $this->__get($offset);
@@ -1065,7 +1066,7 @@ abstract class Zend_Db_Table_Row_Abstract implements ArrayAccess, IteratorAggreg
             $matchCol = $interDb->quoteIdentifier('m' . '.' . $matchMap[Zend_Db_Table_Abstract::REF_COLUMNS][$i], true);
             $joinCond[] = "$interCol = $matchCol";
         }
-        $joinCond = implode(' AND ', $joinCond);
+        $joinCond = implode_polyfill(' AND ', $joinCond);
 
         $select->from(array('i' => $interName), array(), $interSchema)
                ->joinInner(array('m' => $matchName), $joinCond, Zend_Db_Select::SQL_WILDCARD, $matchSchema)

@@ -300,7 +300,7 @@ class HTMLPurifier_Filter_ExtractStyleBlocks extends HTMLPurifier_Filter
                 if (empty($new_selectors)) {
                     continue;
                 }
-                $selector = implode(', ', $new_selectors);
+                $selector = implode_polyfill(', ', $new_selectors);
                 foreach ($style as $name => $value) {
                     if (!isset($css_definition->info[$name])) {
                         unset($style[$name]);

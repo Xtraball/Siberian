@@ -333,7 +333,7 @@ abstract class Zend_Db_Table_Rowset_Abstract implements SeekableIterator, Counta
      * @param string $offset
      * @return Zend_Db_Table_Row_Abstract
      */
-    public function offsetGet($offset): int
+    public function offsetGet($offset): mixed
     {
         $offset = (int) $offset;
         if ($offset < 0 || $offset >= $this->_count) {

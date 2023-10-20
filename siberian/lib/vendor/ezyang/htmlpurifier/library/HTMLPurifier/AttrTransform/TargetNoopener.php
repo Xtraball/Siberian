@@ -28,7 +28,7 @@ class HTMLPurifier_AttrTransform_TargetNoopener extends HTMLPurifier_AttrTransfo
             $rels[] = 'noopener';
         }
         if (!empty($rels) || isset($attr['rel'])) {
-            $attr['rel'] = implode(' ', $rels);
+            $attr['rel'] = implode_polyfill(' ', $rels);
         }
 
         return $attr;

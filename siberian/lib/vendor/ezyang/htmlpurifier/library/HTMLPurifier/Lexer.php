@@ -48,6 +48,12 @@ class HTMLPurifier_Lexer
      */
     public $tracksLineNumbers = false;
 
+    /**
+     * @var HTMLPurifier_EntityParser
+     */
+    public $_entity_parser;
+
+
     // -- STATIC ----------------------------------------------------------
 
     /**
@@ -306,8 +312,8 @@ class HTMLPurifier_Lexer
     {
         // normalize newlines to \n
         if ($config->get('Core.NormalizeNewlines')) {
-            $html = str_replace("\r\n", "\n", $html);
-            $html = str_replace("\r", "\n", $html);
+            $html = str_replace("\r\n", "\n", $html ?? "");
+            $html = str_replace("\r", "\n", $html ?? "");
         }
 
         if ($config->get('HTML.Trusted')) {

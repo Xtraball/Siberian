@@ -858,7 +858,7 @@ class Zend_View_Helper_Navigation_Menu
             }
 
             $html .= $myIndent . $innerIndent . '<li'
-                   . $this->_htmlAttribs(array('class' => implode(' ', $liClasses)))
+                   . $this->_htmlAttribs(array('class' => implode_polyfill(' ', $liClasses)))
                    . '>' . $this->getEOL()
                    . $myIndent . str_repeat($innerIndent, 2)
                    . $this->htmlify($page)

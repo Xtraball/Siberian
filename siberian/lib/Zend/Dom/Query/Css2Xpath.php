@@ -49,7 +49,7 @@ class Zend_Dom_Query_Css2Xpath
                     $expressions = array_merge($expressions, $xpath);
                 }
             }
-            return implode('|', $expressions);
+            return implode_polyfill('|', $expressions);
         }
 
         $paths    = array('//');
@@ -80,7 +80,7 @@ class Zend_Dom_Query_Css2Xpath
         if (1 == count($paths)) {
             return $paths[0];
         }
-        return implode('|', $paths);
+        return implode_polyfill('|', $paths);
     }
 
     /**

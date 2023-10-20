@@ -234,7 +234,7 @@ class Catalog_Model_Product extends Core_Model_Default {
         if(is_null($this->_instanceSingleton)) {
             if(!is_null($this->getData('type'))) {
             $class = 'Catalog_Model_Product_';
-            $class .= implode('_', array_map('ucwords', explode('_', $this->getData('type'))));
+            $class .= implode_polyfill('_', array_map('ucwords', explode('_', $this->getData('type'))));
                 $this->_instanceSingleton = new $class();
                 $this->_instanceSingleton->setProduct($this);
             }

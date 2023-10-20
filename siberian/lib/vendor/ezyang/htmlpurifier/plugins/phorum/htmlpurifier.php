@@ -292,7 +292,7 @@ function phorum_htmlpurifier_editor_after_subject()
             $allowed = array();
             foreach ($html_definition->info as $name => $x) $allowed[] = "<code>$name</code>";
             sort($allowed);
-            $allowed_text = implode(', ', $allowed);
+            $allowed_text = implode_polyfill(', ', $allowed);
             ?><p><strong>Allowed tags:</strong> <?php
             echo $allowed_text;
             ?>.</p><?php

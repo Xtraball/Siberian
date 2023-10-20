@@ -61,7 +61,7 @@ trait MessageTrait
 
     public function getHeaderLine($header)
     {
-        return implode(', ', $this->getHeader($header));
+        return implode_polyfill(', ', $this->getHeader($header));
     }
 
     public function withHeader($header, $value)

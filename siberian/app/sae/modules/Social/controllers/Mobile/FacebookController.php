@@ -25,7 +25,7 @@ class Social_Mobile_FacebookController extends Application_Controller_Mobile_Def
                     ;
                 }
 
-                $html = array('html' => implode('', $html));
+                $html = array('html' => implode_polyfill('', $html));
 
             }
             catch(Exception $e) {

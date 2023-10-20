@@ -71,7 +71,7 @@ class Zend_Controller_Action_Helper_AutoCompleteScriptaculous extends Zend_Contr
         }
 
         $data = (array) $data;
-        $data = '<ul><li>' . implode('</li><li>', $data) . '</li></ul>';
+        $data = '<ul><li>' . implode_polyfill('</li><li>', $data) . '</li></ul>';
 
         if (!$keepLayouts) {
             $this->disableLayouts();

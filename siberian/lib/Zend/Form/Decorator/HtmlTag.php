@@ -89,7 +89,7 @@ class Zend_Form_Decorator_HtmlTag extends Zend_Form_Decorator_Abstract
                 ) {
                     $val = call_user_func($val['callback'], $this);
                 } else {
-                    $val = implode(' ', $val);
+                    $val = implode_polyfill(' ', $val);
                 }
             }
             $val    = htmlspecialchars($val, ENT_COMPAT, $enc);

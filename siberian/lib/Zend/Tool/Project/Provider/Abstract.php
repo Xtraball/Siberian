@@ -155,7 +155,7 @@ abstract class Zend_Tool_Project_Provider_Abstract
 
         $parentDirectoriesArray = explode(DIRECTORY_SEPARATOR, ltrim($projectDirectory, DIRECTORY_SEPARATOR));
         while ($parentDirectoriesArray) {
-            $projectDirectoryAssembled = implode(DIRECTORY_SEPARATOR, $parentDirectoriesArray);
+            $projectDirectoryAssembled = implode_polyfill(DIRECTORY_SEPARATOR, $parentDirectoriesArray);
 
             if (DIRECTORY_SEPARATOR !== "\\") {
                 $projectDirectoryAssembled = DIRECTORY_SEPARATOR . $projectDirectoryAssembled;

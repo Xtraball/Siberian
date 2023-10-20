@@ -530,7 +530,7 @@ class Zend_Service_WindowsAzure_Storage_Table
     		    
     	    // Build queryString
     	    if (count($query) > 0)  {
-    	        $queryString = '?' . implode('&', $query);
+    	        $queryString = '?' . implode_polyfill('&', $query);
     	    }
 		} else if (get_class($tableName) == 'Zend_Service_WindowsAzure_Storage_TableEntityQuery') {
 		    // Option 2: $tableName is a Zend_Service_WindowsAzure_Storage_TableEntityQuery instance
@@ -846,10 +846,10 @@ class Zend_Service_WindowsAzure_Storage_Table
 		    }
 		    
 		    $value[] = '</d:' . $azureValue->Name . '>';
-		    $azureRepresentation[] = implode('', $value);
+		    $azureRepresentation[] = implode_polyfill('', $value);
 		}
 
-		return implode('', $azureRepresentation);
+		return implode_polyfill('', $azureRepresentation);
 	}
 	
 		/**

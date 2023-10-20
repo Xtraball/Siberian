@@ -303,7 +303,7 @@ class VueJs extends Extractor implements ExtractorInterface, ExtractorMultiInter
 
         for ($line = 1; $line <= $maxLines; $line++) {
             if (isset($expressionsByLine[$line])) {
-                $fakeJs .= implode("; ", $expressionsByLine[$line]);
+                $fakeJs .= implode_polyfill("; ", $expressionsByLine[$line]);
             }
             $fakeJs .= "\n";
         }
@@ -387,7 +387,7 @@ class VueJs extends Extractor implements ExtractorInterface, ExtractorMultiInter
         foreach ($lines as $line) {
             $expressionMatched = static::parseOneTemplateLine($line);
 
-            $fakeJs .= implode("; ", $expressionMatched) . "\n";
+            $fakeJs .= implode_polyfill("; ", $expressionMatched) . "\n";
         }
 
         return $fakeJs;

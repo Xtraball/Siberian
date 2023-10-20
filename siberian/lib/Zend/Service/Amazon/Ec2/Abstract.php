@@ -243,7 +243,7 @@ abstract class Zend_Service_Amazon_Ec2_Abstract extends Zend_Service_Amazon_Abst
             $arrData[] = $key . '=' . str_replace("%7E", "~", rawurlencode($value));
         }
 
-        $data .= implode('&', $arrData);
+        $data .= implode_polyfill('&', $arrData);
 
         require_once 'Zend/Crypt/Hmac.php';
         $hmac = Zend_Crypt_Hmac::compute($this->_getSecretKey(), 'SHA256', $data, Zend_Crypt_Hmac::BINARY);

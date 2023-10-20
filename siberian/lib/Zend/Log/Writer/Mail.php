@@ -371,7 +371,7 @@ class Zend_Log_Writer_Mail extends Zend_Log_Writer_Abstract
 
 
         // Always provide events to mail as plaintext.
-        $this->_mail->setBodyText(implode('', $this->_eventsToMail));
+        $this->_mail->setBodyText(implode_polyfill('', $this->_eventsToMail));
 
         // If a Zend_Layout instance is being used, set its "events"
         // value to the lines formatted for use with the layout.
@@ -379,7 +379,7 @@ class Zend_Log_Writer_Mail extends Zend_Log_Writer_Abstract
             // Set the required "messages" value for the layout.  Here we
             // are assuming that the layout is for use with HTML.
             $this->_layout->events =
-                implode('', $this->_layoutEventsToMail);
+                implode_polyfill('', $this->_layoutEventsToMail);
 
             // If an exception occurs during rendering, convert it to a notice
             // so we can avoid an exception thrown without a stack frame.
@@ -425,6 +425,6 @@ class Zend_Log_Writer_Mail extends Zend_Log_Writer_Abstract
             $strings[] = "{$priority}={$numEntries}";
         }
 
-        return implode(', ', $strings);
+        return implode_polyfill(', ', $strings);
     }
 }

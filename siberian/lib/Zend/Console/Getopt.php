@@ -459,7 +459,7 @@ class Zend_Console_Getopt
         foreach ($this->_options as $flag => $value) {
             $s[] = $flag . '=' . ($value === true ? 'true' : $value);
         }
-        return implode(' ', $s);
+        return implode_polyfill(' ', $s);
     }
 
     /**
@@ -602,7 +602,7 @@ class Zend_Console_Getopt
                     $flags[] = (strlen($flag) == 1 ? '-' : '--') . $flag;
                 }
             }
-            $linepart['name'] = implode('|', $flags);
+            $linepart['name'] = implode_polyfill('|', $flags);
             if (isset($rule['param']) && $rule['param'] != 'none') {
                 $linepart['name'] .= ' ';
                 switch ($rule['param']) {

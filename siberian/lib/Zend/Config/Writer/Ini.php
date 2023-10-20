@@ -131,7 +131,7 @@ class Zend_Config_Writer_Ini extends Zend_Config_Writer_FileAbstract
             if ($value instanceof Zend_Config) {
                 $iniString .= $this->_addBranch($value, $group);
             } else {
-                $iniString .= implode($this->_nestSeparator, $group)
+                $iniString .= implode_polyfill($this->_nestSeparator, $group)
                            .  ' = '
                            .  $this->_prepareValue($value)
                            .  "\n";

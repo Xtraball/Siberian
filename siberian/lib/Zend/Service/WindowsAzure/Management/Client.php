@@ -354,7 +354,7 @@ class Zend_Service_WindowsAzure_Management_Client
      */
     public static function createQueryStringFromArray($queryString)
     {
-    	return count($queryString) > 0 ? '?' . implode('&', $queryString) : '';
+    	return count($queryString) > 0 ? '?' . implode_polyfill('&', $queryString) : '';
     }
     
 	/**
@@ -455,7 +455,7 @@ class Zend_Service_WindowsAzure_Management_Client
     		$parameters[] = 'ContinuationToken=' . $continuationToken;
     	}
     	
-    	$response = $this->_performRequest(self::OP_OPERATIONS, '?' . implode('&', $parameters));
+    	$response = $this->_performRequest(self::OP_OPERATIONS, '?' . implode_polyfill('&', $parameters));
 
     	if ($response->isSuccessful()) {
 			$result = $this->_parseResponse($response);

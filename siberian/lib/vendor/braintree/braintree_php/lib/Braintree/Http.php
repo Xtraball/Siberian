@@ -212,7 +212,7 @@ class Http
         // build normal parameters
         foreach ($requestBody as $k => $v) {
             $k = str_replace($disallow, "_", $k);
-            $body[] = implode("\r\n", [
+            $body[] = implode_polyfill("\r\n", [
                 "Content-Disposition: form-data; name=\"{$k}\"",
                 "",
                 filter_var($v),
@@ -223,7 +223,7 @@ class Http
         $splitFilePath = explode(DIRECTORY_SEPARATOR, $filePath);
         $filePath = end($splitFilePath);
         $filePath = str_replace($disallow, "_", $filePath);
-        $body[] = implode("\r\n", [
+        $body[] = implode_polyfill("\r\n", [
             "Content-Disposition: form-data; name=\"file\"; filename=\"{$filePath}\"",
             "Content-Type: {$mimeType}",
             "",
@@ -242,7 +242,7 @@ class Http
         // set options
         return curl_setopt_array($ch, [
             CURLOPT_POST       => true,
-            CURLOPT_POSTFIELDS => implode("\r\n", $body)
+            CURLOPT_POSTFIELDS => implode_polyfill("\r\n", $body)
         ]);
     }
 

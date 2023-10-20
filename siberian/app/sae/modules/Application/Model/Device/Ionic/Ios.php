@@ -287,7 +287,7 @@ var IS_NATIVE_APP = true;
 var DEVICE_TYPE = 2;
 var XS_VERSION = '{$version}';
 window.location.hash = window.location.hash.replace(/\?__goto__=(.*)/, \"\");
-var AVAILABLE_LANGUAGES = ['" . implode("','", $languages) . "'];
+var AVAILABLE_LANGUAGES = ['" . implode_polyfill("','", $languages) . "'];
 var DISABLE_BATTERY_OPTIMIZATION = false;
 
 // WebView

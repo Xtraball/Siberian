@@ -71,7 +71,7 @@ class Job_CompanyController extends Application_Controller_Default {
                 $company->setData("header", $path_header);
             }
 
-            $company->setData("administrators", implode(",", $company->getData("administrators")));
+            $company->setData("administrators", implode_polyfill(",", $company->getData("administrators")));
 
             /** Password */
             if(!empty($values["password"]) && ($values["password"] != "_remove_")) {

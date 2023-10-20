@@ -322,14 +322,14 @@ class HTMLPurifier_Printer_ConfigForm_default extends HTMLPurifier_Printer
                     }
                     //TODO does this need a break?
                 case HTMLPurifier_VarParser::ALIST:
-                    $value = implode(PHP_EOL, $value);
+                    $value = implode_polyfill(PHP_EOL, $value);
                     break;
                 case HTMLPurifier_VarParser::HASH:
                     $nvalue = '';
                     foreach ($value as $i => $v) {
                         if (is_array($v)) {
                             // HACK
-                            $v = implode(";", $v);
+                            $v = implode_polyfill(";", $v);
                         }
                         $nvalue .= "$i:$v" . PHP_EOL;
                     }

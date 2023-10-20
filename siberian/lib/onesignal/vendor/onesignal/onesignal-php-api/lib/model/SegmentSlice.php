@@ -1,6 +1,6 @@
 <?php
-/**
- * FilterExpressions
+    /**
+ * SegmentSlice
  *
  * PHP version 7.3
  *
@@ -32,8 +32,8 @@ namespace onesignal\client\model;
 use \ArrayAccess;
 use \onesignal\client\ObjectSerializer;
 
-/**
- * FilterExpressions Class Doc Comment
+    /**
+ * SegmentSlice Class Doc Comment
  *
  * @category Class
  * @package  onesignal\client
@@ -43,16 +43,16 @@ use \onesignal\client\ObjectSerializer;
  * @template TKey int|null
  * @template TValue mixed|null
  */
-class FilterExpressions implements ModelInterface, ArrayAccess, \JsonSerializable
+class SegmentSlice implements ModelInterface, ArrayAccess, \JsonSerializable
 {
     public const DISCRIMINATOR = null;
 
-    /**
+        /**
       * The original name of the model.
       *
       * @var string
       */
-    protected static $openAPIModelName = 'FilterExpressions';
+    protected static $openAPIModelName = 'SegmentSlice';
 
     /**
       * Array of property to type mappings. Used for (de)serialization
@@ -60,11 +60,10 @@ class FilterExpressions implements ModelInterface, ArrayAccess, \JsonSerializabl
       * @var string[]
       */
     protected static $openAPITypes = [
-        'field' => 'string',
-        'key' => 'string',
-        'value' => 'string',
-        'relation' => 'string',
-        'operator' => 'string'
+        'total_count' => 'int',
+        'offset' => 'int',
+        'limit' => 'int',
+        'segments' => '\onesignal\client\model\Segment[]'
     ];
 
     /**
@@ -75,11 +74,10 @@ class FilterExpressions implements ModelInterface, ArrayAccess, \JsonSerializabl
       * @psalm-var array<string, string|null>
       */
     protected static $openAPIFormats = [
-        'field' => null,
-        'key' => null,
-        'value' => null,
-        'relation' => null,
-        'operator' => null
+        'total_count' => null,
+        'offset' => null,
+        'limit' => null,
+        'segments' => null
     ];
 
     /**
@@ -109,11 +107,10 @@ class FilterExpressions implements ModelInterface, ArrayAccess, \JsonSerializabl
      * @var string[]
      */
     protected static $attributeMap = [
-        'field' => 'field',
-        'key' => 'key',
-        'value' => 'value',
-        'relation' => 'relation',
-        'operator' => 'operator'
+        'total_count' => 'total_count',
+        'offset' => 'offset',
+        'limit' => 'limit',
+        'segments' => 'segments'
     ];
 
     /**
@@ -122,11 +119,10 @@ class FilterExpressions implements ModelInterface, ArrayAccess, \JsonSerializabl
      * @var string[]
      */
     protected static $setters = [
-        'field' => 'setField',
-        'key' => 'setKey',
-        'value' => 'setValue',
-        'relation' => 'setRelation',
-        'operator' => 'setOperator'
+        'total_count' => 'setTotalCount',
+        'offset' => 'setOffset',
+        'limit' => 'setLimit',
+        'segments' => 'setSegments'
     ];
 
     /**
@@ -135,11 +131,10 @@ class FilterExpressions implements ModelInterface, ArrayAccess, \JsonSerializabl
      * @var string[]
      */
     protected static $getters = [
-        'field' => 'getField',
-        'key' => 'getKey',
-        'value' => 'getValue',
-        'relation' => 'getRelation',
-        'operator' => 'getOperator'
+        'total_count' => 'getTotalCount',
+        'offset' => 'getOffset',
+        'limit' => 'getLimit',
+        'segments' => 'getSegments'
     ];
 
     /**
@@ -183,48 +178,6 @@ class FilterExpressions implements ModelInterface, ArrayAccess, \JsonSerializabl
         return self::$openAPIModelName;
     }
 
-    public const RELATION_GREATER_THAN = '>';
-    public const RELATION_LESS_THAN = '<';
-    public const RELATION_EQUAL = '=';
-    public const RELATION_NOT_EQUAL = '!=';
-    public const RELATION_EXISTS = 'exists';
-    public const RELATION_NOT_EXISTS = 'not_exists';
-    public const RELATION_TIME_ELAPSED_GT = 'time_elapsed_gt';
-    public const RELATION_TIME_ELAPSED_LT = 'time_elapsed_lt';
-    public const OPERATOR__OR = 'OR';
-    public const OPERATOR__AND = 'AND';
-
-    /**
-     * Gets allowable values of the enum
-     *
-     * @return string[]
-     */
-    public function getRelationAllowableValues()
-    {
-        return [
-            self::RELATION_GREATER_THAN,
-            self::RELATION_LESS_THAN,
-            self::RELATION_EQUAL,
-            self::RELATION_NOT_EQUAL,
-            self::RELATION_EXISTS,
-            self::RELATION_NOT_EXISTS,
-            self::RELATION_TIME_ELAPSED_GT,
-            self::RELATION_TIME_ELAPSED_LT,
-        ];
-    }
-
-    /**
-     * Gets allowable values of the enum
-     *
-     * @return string[]
-     */
-    public function getOperatorAllowableValues()
-    {
-        return [
-            self::OPERATOR__OR,
-            self::OPERATOR__AND,
-        ];
-    }
 
     /**
      * Associative array for storing property values
@@ -241,11 +194,10 @@ class FilterExpressions implements ModelInterface, ArrayAccess, \JsonSerializabl
      */
     public function __construct(array $data = null)
     {
-        $this->container['field'] = $data['field'] ?? null;
-        $this->container['key'] = $data['key'] ?? null;
-        $this->container['value'] = $data['value'] ?? null;
-        $this->container['relation'] = $data['relation'] ?? null;
-        $this->container['operator'] = $data['operator'] ?? null;
+        $this->container['total_count'] = $data['total_count'] ?? null;
+        $this->container['offset'] = $data['offset'] ?? null;
+        $this->container['limit'] = $data['limit'] ?? null;
+        $this->container['segments'] = $data['segments'] ?? null;
     }
 
     /**
@@ -256,30 +208,6 @@ class FilterExpressions implements ModelInterface, ArrayAccess, \JsonSerializabl
     public function listInvalidProperties()
     {
         $invalidProperties = [];
-
-        if ($this->container['field'] === null) {
-            $invalidProperties[] = "'field' can't be null";
-        }
-        if ($this->container['relation'] === null) {
-            $invalidProperties[] = "'relation' can't be null";
-        }
-        $allowedValues = $this->getRelationAllowableValues();
-        if (!is_null($this->container['relation']) && !in_array($this->container['relation'], $allowedValues, true)) {
-            $invalidProperties[] = sprintf(
-                "invalid value '%s' for 'relation', must be one of '%s'",
-                $this->container['relation'],
-                implode_polyfill("', '", $allowedValues)
-            );
-        }
-
-        $allowedValues = $this->getOperatorAllowableValues();
-        if (!is_null($this->container['operator']) && !in_array($this->container['operator'], $allowedValues, true)) {
-            $invalidProperties[] = sprintf(
-                "invalid value '%s' for 'operator', must be one of '%s'",
-                $this->container['operator'],
-                implode_polyfill("', '", $allowedValues)
-            );
-        }
 
         return $invalidProperties;
     }
@@ -297,141 +225,97 @@ class FilterExpressions implements ModelInterface, ArrayAccess, \JsonSerializabl
 
 
     /**
-     * Gets field
+     * Gets total_count
      *
-     * @return string
+     * @return int|null
      */
-    public function getField()
+    public function getTotalCount()
     {
-        return $this->container['field'];
+        return $this->container['total_count'];
     }
 
     /**
-     * Sets field
+     * Sets total_count
      *
-     * @param string $field Name of the field to use as the first operand in the filter expression.
+     * @param int|null $total_count total_count
      *
      * @return self
      */
-    public function setField($field)
+    public function setTotalCount($total_count)
     {
-        $this->container['field'] = $field;
+        $this->container['total_count'] = $total_count;
 
         return $this;
     }
 
     /**
-     * Gets key
+     * Gets offset
      *
-     * @return string|null
+     * @return int|null
      */
-    public function getKey()
+    public function getOffset()
     {
-        return $this->container['key'];
+        return $this->container['offset'];
     }
 
     /**
-     * Sets key
+     * Sets offset
      *
-     * @param string|null $key If `field` is `tag`, this field is *required* to specify `key` inside the tags.
+     * @param int|null $offset offset
      *
      * @return self
      */
-    public function setKey($key)
+    public function setOffset($offset)
     {
-        $this->container['key'] = $key;
+        $this->container['offset'] = $offset;
 
         return $this;
     }
 
     /**
-     * Gets value
+     * Gets limit
      *
-     * @return string|null
+     * @return int|null
      */
-    public function getValue()
+    public function getLimit()
     {
-        return $this->container['value'];
+        return $this->container['limit'];
     }
 
     /**
-     * Sets value
+     * Sets limit
      *
-     * @param string|null $value Constant value to use as the second operand in the filter expression. This value is *required* when the relation operator is a binary operator.
+     * @param int|null $limit limit
      *
      * @return self
      */
-    public function setValue($value)
+    public function setLimit($limit)
     {
-        $this->container['value'] = $value;
+        $this->container['limit'] = $limit;
 
         return $this;
     }
 
     /**
-     * Gets relation
+     * Gets segments
      *
-     * @return string
+     * @return \onesignal\client\model\Segment[]|null
      */
-    public function getRelation()
+    public function getSegments()
     {
-        return $this->container['relation'];
+        return $this->container['segments'];
     }
 
-    /**
-     * Sets relation
+        /**
+     * Sets segments
      *
-     * @param string $relation Operator of a filter expression.
+     * @param \onesignal\client\model\Segment[]|null $segments segments
      *
      * @return self
      */
-    public function setRelation($relation)
+    public function setSegments($segments)
     {
-        $allowedValues = $this->getRelationAllowableValues();
-        if (!in_array($relation, $allowedValues, true)) {
-            throw new \InvalidArgumentException(
-                sprintf(
-                    "Invalid value '%s' for 'relation', must be one of '%s'",
-                    $relation,
-                    implode_polyfill("', '", $allowedValues)
-                )
-            );
-        }
-        $this->container['relation'] = $relation;
-
-        return $this;
-    }
-
-    /**
-     * Gets operator
-     *
-     * @return string|null
-     */
-    public function getOperator()
-    {
-        return $this->container['operator'];
-    }
-
-    /**
-     * Sets operator
-     *
-     * @param string|null $operator Strictly, this must be either `\"OR\"`, or `\"AND\"`.  It can be used to compose Filters as part of a Filters object.
-     *
-     * @return self
-     */
-    public function setOperator($operator)
-    {
-        $allowedValues = $this->getOperatorAllowableValues();
-        if (!is_null($operator) && !in_array($operator, $allowedValues, true)) {
-            throw new \InvalidArgumentException(
-                sprintf(
-                    "Invalid value '%s' for 'operator', must be one of '%s'",
-                    $operator,
-                    implode_polyfill("', '", $allowedValues)
-                )
-            );
-        }
-        $this->container['operator'] = $operator;
+        $this->container['segments'] = $segments;
 
         return $this;
     }

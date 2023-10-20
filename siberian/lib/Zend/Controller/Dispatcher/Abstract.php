@@ -242,7 +242,7 @@ abstract class Zend_Controller_Dispatcher_Abstract implements Zend_Controller_Di
             $segments[$key] = str_replace(' ', '', ucwords($segment));
         }
 
-        return implode('_', $segments);
+        return implode_polyfill('_', $segments);
     }
 
     /**

@@ -154,13 +154,13 @@ class Zend_Service_WindowsAzure_CommandLine_Package
 		$command = $cspack;
 		$args = array(
 			$path . '\ServiceDefinition.csdef',
-			implode(' ', $roleArgs),
+			implode_polyfill(' ', $roleArgs),
 			'/out:' . $packageOut
 		);
 		if ($runDevFabric) {
 			$args[] = '/copyOnly';
 		}
-		passthru($command . ' ' . implode(' ', $args));
+		passthru($command . ' ' . implode_polyfill(' ', $args));
 		
 		// Can we copy a configuration file?
 		$serviceConfigurationFile = $path . '/ServiceConfiguration.cscfg';

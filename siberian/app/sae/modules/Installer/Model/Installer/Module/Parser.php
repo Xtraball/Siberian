@@ -196,7 +196,7 @@ class Installer_Model_Installer_Module_Parser extends Core_Model_Default
                         foreach ($missing_deps as $name => $version) {
                             $modules[] = "{$name}@{$version}";
                         }
-                        $modules = implode(", ", $modules);
+                        $modules = implode_polyfill(", ", $modules);
                         throw new Exception(__($message, $modules));
                     }
                     break;
@@ -425,7 +425,7 @@ class Installer_Model_Installer_Module_Parser extends Core_Model_Default
 
         if (!empty($errors)) {
             $errors = array_unique($errors);
-            $message = '- ' . implode('<br /> - ', $errors);
+            $message = '- ' . implode_polyfill('<br /> - ', $errors);
 
             $this->_addError($message);
 
@@ -531,7 +531,7 @@ class Installer_Model_Installer_Module_Parser extends Core_Model_Default
         if (!empty($files_list)) {
             $version = Siberian_Version::VERSION;
             chdir($base_path);
-            File::putContents("./backup.txt", implode("\n", $files_list));
+            File::putContents("./backup.txt", implode_polyfill("\n", $files_list));
             exec("zip backup-{$version}.zip -@ < backup.txt");
             unlink("./backup.txt");
         } else {
@@ -574,7 +574,7 @@ class Installer_Model_Installer_Module_Parser extends Core_Model_Default
         if (!empty($errors)) {
             $errors = array_unique($errors);
             if (count($errors) > 1) {
-                $errors = implode('<br /> - ', $errors);
+                $errors = implode_polyfill('<br /> - ', $errors);
                 $message = $this->_("The following folders are not writable: <br /> - %s", $errors);
             } else {
                 $error = current($errors);

@@ -107,7 +107,7 @@ class HTMLPurifier_Bootstrap
                         // Suprisingly, spl_autoload_register supports the
                         // Class::staticMethod callback format, although call_user_func doesn't
                         if ($compat) {
-                            $func = implode('::', $func);
+                            $func = implode_polyfill('::', $func);
                         }
                     }
                     spl_autoload_unregister($func);

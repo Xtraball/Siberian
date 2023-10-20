@@ -409,7 +409,7 @@ class Zend_View_Helper_HeadMeta extends Zend_View_Helper_Placeholder_Container_S
             trigger_error($e->getMessage(), E_USER_WARNING);
             return '';
         }
-        return $indent . implode($this->_escape($this->getSeparator()) . $indent, $items);
+        return $indent . implode_polyfill($this->_escape($this->getSeparator()) . $indent, $items);
     }
 
     /**

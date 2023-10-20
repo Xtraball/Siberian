@@ -122,7 +122,7 @@ class Zend_Db_Adapter_Pdo_Mssql extends Zend_Db_Adapter_Pdo_Abstract
             $dsn[$key] = "$key=$val";
         }
 
-        $dsn = $this->_pdoType . ':' . implode(';', $dsn);
+        $dsn = $this->_pdoType . ':' . implode_polyfill(';', $dsn);
         return $dsn;
     }
 
@@ -359,7 +359,7 @@ class Zend_Db_Adapter_Pdo_Mssql extends Zend_Db_Adapter_Pdo_Abstract
                     }
                 }
 
-                $orderbyInverse = 'ORDER BY ' . implode(', ', $orderbyInverseParts);
+                $orderbyInverse = 'ORDER BY ' . implode_polyfill(', ', $orderbyInverseParts);
             }
 
 

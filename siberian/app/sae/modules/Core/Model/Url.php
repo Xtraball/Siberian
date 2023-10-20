@@ -26,7 +26,7 @@ class Core_Model_Url extends Core_Model_Default
             $request->addLanguageCode($locale);
         }
 
-        $url = str_replace($request->getBaseUrl(), '', $url);
+        $url = str_replace($request->getBaseUrl(), '', $url ?? "");
         $url = trim($url, '/');
         $url = explode('/', $url);
         $url = array_diff($url, $exclude);
@@ -81,7 +81,7 @@ class Core_Model_Url extends Core_Model_Default
         $front = Zend_Controller_Front::getInstance();
         $request = $front->getRequest();
 
-        $url = implode('/', array(
+        $url = implode_polyfill('/', array(
             $request->getModuleName(),
             $request->getControllerName(),
             $request->getActionName()
@@ -102,7 +102,7 @@ class Core_Model_Url extends Core_Model_Default
 
         # Sanitize data, prevents XSS injection, Siberian 5.0
         foreach($params as &$param) {
-            $param = filter_var($param, FILTER_SANITIZE_STRING);
+            $param = filter_sanitize_string_polyfill($param);
         }
 
         return self::create($url, $params, $locale);
@@ -125,5 +125,4 @@ class Core_Model_Url extends Core_Model_Default
         $foreign_ip = gethostbyname($url);
         return $ip == $foreign_ip;
     }
-
 }

@@ -2247,7 +2247,7 @@ class Zend_Form_Element implements Zend_Validate_Interface
                     $aggregateMessages[] = str_replace('%value%', $val, $message);
                 }
                 if (count($aggregateMessages)) {
-                    $messages[$key] = implode($this->getErrorMessageSeparator(), $aggregateMessages);
+                    $messages[$key] = implode_polyfill($this->getErrorMessageSeparator(), $aggregateMessages);
                 }
             } else {
                 $messages[$key] = str_replace('%value%', $value, $message);

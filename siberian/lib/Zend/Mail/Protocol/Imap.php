@@ -430,7 +430,7 @@ class Zend_Mail_Protocol_Imap
             }
             $result[] = $this->escapeList($v);
         }
-        return '(' . implode(' ', $result) . ')';
+        return '(' . implode_polyfill(' ', $result) . ')';
     }
 
     /**
@@ -569,7 +569,7 @@ class Zend_Mail_Protocol_Imap
     public function fetch($items, $from, $to = null)
     {
         if (is_array($from)) {
-            $set = implode(',', $from);
+            $set = implode_polyfill(',', $from);
         } else if ($to === null) {
             $set = (int)$from;
         } else if ($to === INF) {

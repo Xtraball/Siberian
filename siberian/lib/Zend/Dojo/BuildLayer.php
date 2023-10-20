@@ -469,7 +469,7 @@ class Zend_Dojo_BuildLayer
             }
         }
         if ($this->consumeJavascript()) {
-            $javascript = implode("\n", $helper->getJavascript());
+            $javascript = implode_polyfill("\n", $helper->getJavascript());
             if (!empty($javascript)) {
                 $content .= "\n" . $javascript . "\n";
             }

@@ -738,7 +738,7 @@ class SFTP extends SSH2
             }
         }
 
-        return '/' . implode('/', $new);
+        return '/' . implode_polyfill('/', $new);
     }
 
     /**
@@ -1787,7 +1787,7 @@ class SFTP extends SSH2
             }
             for ($i = 0; $i < count($dirs); $i++) {
                 $temp = array_slice($dirs, 0, $i + 1);
-                $temp = implode('/', $temp);
+                $temp = implode_polyfill('/', $temp);
                 $result = $this->_mkdir_helper($temp, $attr);
             }
             return $result;

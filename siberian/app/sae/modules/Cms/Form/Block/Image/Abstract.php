@@ -37,7 +37,7 @@ class Cms_Form_Block_Image_Abstract extends Cms_Form_Block_Abstract {
         }
 
         $cms_images_container = '
-<div class="cms-images-container">'.implode("", $images_html).'</div>';
+<div class="cms-images-container">'.implode_polyfill("", $images_html).'</div>';
 
         $this->addSimpleHtml("cms-images-container", $cms_images_container);
 

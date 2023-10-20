@@ -45,7 +45,7 @@ class ApplicationController extends ControllerDefault
             // Required for the Message
             $values['app_id'] = $application->getId();
 
-            $form = new Message();
+            $form = new Message(['application' => $application]);
             if ($form->isValid($values)) {
                 $scheduler = new Scheduler($application);
                 $scheduler->buildMessageFromValues($values);

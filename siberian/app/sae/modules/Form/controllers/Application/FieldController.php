@@ -79,7 +79,7 @@ class Form_Application_FieldController extends Application_Controller_Default {
                             }
                         }
                     }
-                    $datas['option'] = implode(';', $datas['option']);
+                    $datas['option'] = implode_polyfill(';', $datas['option']);
                 }
 
                 if(!isset($datas['required'])) {

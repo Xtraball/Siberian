@@ -35,7 +35,7 @@ class Customer_Model_Customer_Type_Facebook extends Customer_Model_Customer_Type
     public function loadData() {
 
         $fields = array('pic_big', 'profile_url');
-        $fields = implode(',', $fields);
+        $fields = implode_polyfill(',', $fields);
         $fql = "SELECT $fields from user where uid = {$this->_id}";
         try {
             $ret_obj = $this->_facebook->api(array(

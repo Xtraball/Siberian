@@ -180,7 +180,7 @@ class Zend_View_Helper_FormRadio extends Zend_View_Helper_FormElement
         }
 
         // done!
-        $xhtml .= implode($listsep, $list);
+        $xhtml .= implode_polyfill($listsep, $list);
 
         return $xhtml;
     }

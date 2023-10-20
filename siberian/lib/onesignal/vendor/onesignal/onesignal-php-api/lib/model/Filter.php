@@ -247,7 +247,7 @@ class Filter implements ModelInterface, ArrayAccess, \JsonSerializable
             $invalidProperties[] = sprintf(
                 "invalid value '%s' for 'relation', must be one of '%s'",
                 $this->container['relation'],
-                implode("', '", $allowedValues)
+                implode_polyfill("', '", $allowedValues)
             );
         }
 
@@ -363,7 +363,7 @@ class Filter implements ModelInterface, ArrayAccess, \JsonSerializable
                 sprintf(
                     "Invalid value '%s' for 'relation', must be one of '%s'",
                     $relation,
-                    implode("', '", $allowedValues)
+                    implode_polyfill("', '", $allowedValues)
                 )
             );
         }

@@ -1010,7 +1010,7 @@ class Zend_Service_Technorati
             require_once 'Zend/Service/Technorati/Exception.php';
             throw new Zend_Service_Technorati_Exception(
                         "The following parameters are invalid: '" .
-                        implode("', '", $difference) . "'");
+                        implode_polyfill("', '", $difference) . "'");
         }
     }
 

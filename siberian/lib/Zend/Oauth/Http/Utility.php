@@ -100,7 +100,7 @@ class Zend_Oauth_Http_Utility
                              . '='
                              . self::urlEncode($value);
         }
-        return implode('&', $encodedParams);
+        return implode_polyfill('&', $encodedParams);
     }
 
     /**
@@ -127,7 +127,7 @@ class Zend_Oauth_Http_Utility
                            . '="'
                            . self::urlEncode($value) . '"';
         }
-        return implode(",", $headerValue);
+        return implode_polyfill(",", $headerValue);
     }
 
     /**

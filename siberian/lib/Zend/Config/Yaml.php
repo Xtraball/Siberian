@@ -203,7 +203,7 @@ class Zend_Config_Yaml extends Zend_Config
                     require_once 'Zend/Config/Exception.php';
                     throw new Zend_Config_Exception(sprintf(
                         'Section "%s" cannot be found', 
-                        implode(' ', (array)$section)
+                        implode_polyfill(' ', (array)$section)
                     ));
                 }
 
@@ -215,7 +215,7 @@ class Zend_Config_Yaml extends Zend_Config
                 require_once 'Zend/Config/Exception.php';
                 throw new Zend_Config_Exception(sprintf(
                     'Section "%s" cannot be found', 
-                    implode(' ', (array)$section)
+                    implode_polyfill(' ', (array)$section)
                 ));
             }
 

@@ -533,7 +533,7 @@ class Zend_Service_Amazon_Sqs extends Zend_Service_Amazon_Abstract
             $arrData[] = $key . '=' . str_replace('%7E', '~', urlencode($value));
         }
 
-        $data .= implode('&', $arrData);
+        $data .= implode_polyfill('&', $arrData);
 
         $hmac = Zend_Crypt_Hmac::compute($this->_getSecretKey(), 'SHA256', $data, Zend_Crypt_Hmac::BINARY);
 

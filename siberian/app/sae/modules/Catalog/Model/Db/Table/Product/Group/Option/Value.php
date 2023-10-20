@@ -37,7 +37,7 @@ class Catalog_Model_Db_Table_Product_Group_Option_Value extends Core_Model_Db_Ta
 
     public function findAllOptions($group_id, $product_id) {
 
-        $join = implode(' AND ', array(
+        $join = implode_polyfill(' AND ', array(
             'cpgv.group_id = cpgo.group_id',
             $this->_db->quoteInto('cpgv.product_id = ?', $product_id)
         ));

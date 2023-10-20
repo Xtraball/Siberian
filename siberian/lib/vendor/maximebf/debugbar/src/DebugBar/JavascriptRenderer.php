@@ -1123,7 +1123,7 @@ class JavascriptRenderer
         foreach ($dataMap as $name => $values) {
             $mapJson[] = sprintf('"%s": ["%s", %s]', $name, $values[0], $values[1]);
         }
-        $js .= sprintf("%s.setDataMap({\n%s\n});\n", $varname, implode(",\n", $mapJson));
+        $js .= sprintf("%s.setDataMap({\n%s\n});\n", $varname, implode_polyfill(",\n", $mapJson));
 
         // activate state restoration
         $js .= sprintf("%s.restoreState();\n", $varname);

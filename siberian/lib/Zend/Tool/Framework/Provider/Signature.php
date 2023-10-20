@@ -286,7 +286,7 @@ class Zend_Tool_Framework_Provider_Signature implements Zend_Tool_Framework_Regi
     protected function _processActionableMethods()
     {
 
-        $specialtyRegex = '#(.*)(' . implode('|', $this->_specialties) . ')$#i';
+        $specialtyRegex = '#(.*)(' . implode_polyfill('|', $this->_specialties) . ')$#i';
 
 
         $methods = $this->_providerReflection->getMethods();

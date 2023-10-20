@@ -149,7 +149,7 @@ class Zend_Tool_Project_Context_Zf_ApplicationConfigFile extends Zend_Tool_Proje
             }
         }
 
-        $this->_content = implode("\n", $newLines);
+        $this->_content = implode_polyfill("\n", $newLines);
         return $this;
     }
 
@@ -180,7 +180,7 @@ class Zend_Tool_Project_Context_Zf_ApplicationConfigFile extends Zend_Tool_Proje
             if (is_array($value)) {
                 array_push($configKeyNames, $name);
             } else {
-                $stringItems[] = implode('.', $configKeyNames) . '.' . $name;
+                $stringItems[] = implode_polyfill('.', $configKeyNames) . '.' . $name;
                 $stringValues[] = $value;
             }
         }
@@ -217,7 +217,7 @@ class Zend_Tool_Project_Context_Zf_ApplicationConfigFile extends Zend_Tool_Proje
             }
         }
 
-        $this->_content = implode('', $newLines);
+        $this->_content = implode_polyfill('', $newLines);
     }
 
     public function removeItem($item, $section = 'production')
@@ -240,7 +240,7 @@ class Zend_Tool_Project_Context_Zf_ApplicationConfigFile extends Zend_Tool_Proje
             if (is_array($value)) {
                 array_push($configKeyNames, $name);
             } else {
-                $stringItems[] = implode('.', $configKeyNames) . '.' . $name;
+                $stringItems[] = implode_polyfill('.', $configKeyNames) . '.' . $name;
                 $stringValues[] = $value;
             }
         }

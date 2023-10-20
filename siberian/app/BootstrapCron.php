@@ -51,7 +51,7 @@ class BootstrapCron extends Zend_Application_Bootstrap_Bootstrap
         }
 
         // Updating the include_paths!
-        set_include_path(implode(PATH_SEPARATOR, $includePaths));
+        set_include_path(implode_polyfill(PATH_SEPARATOR, $includePaths));
 
         $this->bootstrap('CacheManager');
         $dbCache = $this->getResource('CacheManager')->getCache('database');

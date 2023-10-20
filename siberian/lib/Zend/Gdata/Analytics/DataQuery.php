@@ -369,12 +369,12 @@ class Zend_Gdata_Analytics_DataQuery extends Zend_Gdata_Query
         
         $dimensions = $this->getDimensions();
         if (!empty($dimensions)) {
-            $this->setParam('dimensions', implode(",", array_keys($dimensions)));
+            $this->setParam('dimensions', implode_polyfill(",", array_keys($dimensions)));
         }
         
         $metrics = $this->getMetrics();
         if (!empty($metrics)) {
-            $this->setParam('metrics', implode(",", array_keys($metrics)));
+            $this->setParam('metrics', implode_polyfill(",", array_keys($metrics)));
         }
         
         // profile id (ga:tableId)
@@ -384,7 +384,7 @@ class Zend_Gdata_Analytics_DataQuery extends Zend_Gdata_Query
                 
         // sorting
         if ($this->_sort) {
-            $this->setParam('sort', implode(",", $this->_sort));
+            $this->setParam('sort', implode_polyfill(",", $this->_sort));
         }
         
         // filtering

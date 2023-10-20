@@ -85,7 +85,7 @@ class Zend_Tool_Project_Context_Zf_ProjectProviderFile extends Zend_Tool_Project
     {
         return array(
             'projectProviderName' => $this->getProjectProviderName(),
-            'actionNames' => implode(',', $this->_actionNames)
+            'actionNames' => implode_polyfill(',', $this->_actionNames)
             );
     }
 

@@ -64,6 +64,6 @@ class Zend_Tool_Framework_Client_Console_ResponseDecorator_Blockize
             }
             $content[] = $line;
         }
-        return implode(PHP_EOL, $content);
+        return implode_polyfill(PHP_EOL, $content);
     }
 }

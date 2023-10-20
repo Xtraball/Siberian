@@ -92,7 +92,7 @@ class Zend_View_Helper_FormErrors extends Zend_View_Helper_FormElement
         }
 
         $html  = $start
-               . implode($this->getElementSeparator(), (array) $errors)
+               . implode_polyfill($this->getElementSeparator(), (array) $errors)
                . $this->getElementEnd();
 
         return $html;

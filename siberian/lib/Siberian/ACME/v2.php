@@ -133,7 +133,7 @@ class v2
             $out[] = $arr['message'];
         }
         $out[] = openssl_error_string();
-        return implode(' | ', $out);
+        return implode_polyfill(' | ', $out);
     }
 
     /**

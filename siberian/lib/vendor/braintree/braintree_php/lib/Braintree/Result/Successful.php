@@ -76,7 +76,7 @@ class Successful extends Instance
        foreach ($this->_returnObjectNames as $returnObjectName) {
            array_push($objects, $returnObjectName);
        }
-       return __CLASS__ . '[' . implode(', ', $objects) . ']';
+       return __CLASS__ . '[' . implode_polyfill(', ', $objects) . ']';
    }
 
    private function _mapPropertyNamesToObjsToReturn($propertyNames, $objsToReturn) {

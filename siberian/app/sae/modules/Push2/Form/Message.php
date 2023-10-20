@@ -3,6 +3,7 @@
 namespace Push2\Form;
 
 use Push2\Model\Onesignal\Player;
+use Push2\Model\Onesignal\Scheduler;
 use Push2\Model\Push as Push2;
 use \Siberian_Form_Abstract as FormAbstract;
 
@@ -64,6 +65,20 @@ class Message extends FormAbstract
         //    ]
         //);
 
+        // Loading segments from OneSignal API
+        $segmentSlice = (new Scheduler($this->application))->fetchSegments();
+        $segmentsOptions = [];
+        foreach ($segmentSlice->getSegments() as $segment) {
+            $segmentsOptions[$segment->getName()] = $segment->getName();
+        }
+
+        $segment = $this->addSimpleSelect(
+            'segment',
+            p__('push2', 'Segment'),
+            $segmentsOptions
+        );
+        $segment->setRequired();
+
         $title = $this->addSimpleText('title', p__('push2', 'Title'));
         $title->setRequired();
 
@@ -76,10 +91,10 @@ class Message extends FormAbstract
             $players = (new Player())->findWithCustomers(["player.app_id = ?" => $this->application->getId()]);
 
             $is_individual = $this->addSimpleCheckbox('is_individual', p__('push2', 'Individual?'));
+            $is_individual->setDescription(p__('push2', 'Segment is ignored when individual push is enabled'));
 
             $this->addSimpleHtml('individual_table', $this->individualTable($players));
         }
-
 
         $is_scheduled = $this->addSimpleCheckbox('is_scheduled', p__('push2', 'Schedule?'));
 
@@ -92,7 +107,6 @@ class Message extends FormAbstract
             false,
             \Siberian_Form_Abstract::TIMEPICKER);
         $delivery_time_of_day->setAttrib('data-moment-format', 'LT');
-
 
 
         // Hidden for now, will be used later
@@ -113,6 +127,7 @@ class Message extends FormAbstract
         $submit->addClass('pull-right');
 
         $this->groupElements('the_message', [
+            'segment',
             'title',
             //'subtitle',
             'body',
@@ -307,6 +322,6 @@ HTML;
         if (!$feature->getIsActive()) {
             $strFeatureParts[] = '<span class="text-danger">' . p__('push2', '(not published)'). '</span>';
         }
-        return implode(' - ', $strFeatureParts);
+        return implode_polyfill(' - ', $strFeatureParts);
     }
 }

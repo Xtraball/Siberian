@@ -131,7 +131,7 @@ class Zend_Tag_Cloud_Decorator_HtmlCloud extends Zend_Tag_Cloud_Decorator_Cloud
      */
     public function render(array $tags)
     {
-        $cloudHtml = implode($this->getSeparator(), $tags);
+        $cloudHtml = implode_polyfill($this->getSeparator(), $tags);
 
         $enc = $this->getEncoding();
         foreach ($this->getHtmlTags() as $key => $data) {

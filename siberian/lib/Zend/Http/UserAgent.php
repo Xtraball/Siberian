@@ -783,7 +783,7 @@ class Zend_Http_UserAgent implements Serializable
     {
         $type = strtolower($type);
         if (!in_array($type, $this->_loaderTypes)) {
-            $types = implode(', ', $this->_loaderTypes);
+            $types = implode_polyfill(', ', $this->_loaderTypes);
 
             require_once 'Zend/Http/UserAgent/Exception.php';
             throw new Zend_Http_UserAgent_Exception(sprintf(

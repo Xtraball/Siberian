@@ -1110,7 +1110,7 @@ EOJ;
             );
         }
 
-        return implode("\n", $html);
+        return implode_polyfill("\n", $html);
     }
 
     /**
@@ -1147,15 +1147,15 @@ EOJ;
             $onLoadActions[] = 'dojo.addOnLoad(' . $callback . ');';
         }
 
-        $javascript = implode("\n    ", $this->getJavascript());
+        $javascript = implode_polyfill("\n    ", $this->getJavascript());
 
         $content = '';
         if (!empty($js)) {
-            $content .= implode("\n    ", $js) . "\n";
+            $content .= implode_polyfill("\n    ", $js) . "\n";
         }
 
         if (!empty($onLoadActions)) {
-            $content .= implode("\n    ", $onLoadActions) . "\n";
+            $content .= implode_polyfill("\n    ", $onLoadActions) . "\n";
         }
 
         if (!empty($javascript)) {

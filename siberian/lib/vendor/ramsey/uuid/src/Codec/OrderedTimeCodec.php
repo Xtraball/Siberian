@@ -42,7 +42,7 @@ class OrderedTimeCodec extends StringCodec
             $fields['node'],
         ];
 
-        return hex2bin(implode('', $optimized));
+        return hex2bin(implode_polyfill('', $optimized));
     }
 
     /**

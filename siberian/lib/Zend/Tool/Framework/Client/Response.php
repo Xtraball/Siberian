@@ -127,7 +127,7 @@ class Zend_Tool_Framework_Client_Response
      */
     public function getContent()
     {
-        return implode('', $this->_content);
+        return implode_polyfill('', $this->_content);
     }
 
     /**
@@ -192,7 +192,7 @@ class Zend_Tool_Framework_Client_Response
      */
     public function __toString()
     {
-        return (string) implode('', $this->_content);
+        return (string) implode_polyfill('', $this->_content);
     }
 
     /**

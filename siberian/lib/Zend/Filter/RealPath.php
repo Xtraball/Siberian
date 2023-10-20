@@ -129,6 +129,6 @@ class Zend_Filter_RealPath implements Zend_Filter_Interface
             }
         }
 
-        return $drive . DIRECTORY_SEPARATOR . implode(DIRECTORY_SEPARATOR, $stack);
+        return $drive . DIRECTORY_SEPARATOR . implode_polyfill(DIRECTORY_SEPARATOR, $stack);
     }
 }

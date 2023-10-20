@@ -212,6 +212,6 @@ class Zend_Service_WindowsAzure_Diagnostics_ConfigurationInstance
 		$returnValue[] = '</ConfigRequest>';
 		
 		// Return
-		return implode("\r\n", $returnValue);
+		return implode_polyfill("\r\n", $returnValue);
 	}
 }

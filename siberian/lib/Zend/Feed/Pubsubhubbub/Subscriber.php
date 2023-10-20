@@ -845,7 +845,7 @@ class Zend_Feed_Pubsubhubbub_Subscriber
                 $return[] = $key . '=' . $value;
             }
         }
-        return implode('&', $return);
+        return implode_polyfill('&', $return);
     }
 
     /**

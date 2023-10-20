@@ -47,7 +47,7 @@ class Rss_Mobile_Feed_ListController extends Application_Controller_Mobile_Defau
                         }
 
                         if (!empty($authors)) {
-                            $author = implode(", ", $authors);
+                            $author = implode_polyfill(", ", $authors);
                         }
                     }
 

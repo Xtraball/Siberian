@@ -343,7 +343,7 @@ class Application_Customization_Publication_AppController extends Application_Co
             return false;
         }
 
-        return $returnAsString ? implode($seperator, $rgbArray) : $rgbArray;
+        return $returnAsString ? implode_polyfill($seperator, $rgbArray) : $rgbArray;
     }
 
 }

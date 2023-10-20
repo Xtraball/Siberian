@@ -1072,7 +1072,7 @@ class Zend_Text_Figlet
                 return;
             }
 
-            if (trim(implode('', $char)) !== '') {
+            if (trim(implode_polyfill('', $char)) !== '') {
                 $this->_charList[$uniCode] = $char;
             }
         }

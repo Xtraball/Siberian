@@ -900,9 +900,9 @@ abstract class Zend_Db_Table_Abstract
         if (! array_intersect((array) $this->_primary, $cols) == (array) $this->_primary) {
             require_once 'Zend/Db/Table/Exception.php';
             throw new Zend_Db_Table_Exception("Primary key column(s) ("
-                . implode(',', (array) $this->_primary)
+                . implode_polyfill(',', (array) $this->_primary)
                 . ") are not columns in this table ("
-                . implode(',', $cols)
+                . implode_polyfill(',', $cols)
                 . ")");
         }
 
@@ -1338,9 +1338,9 @@ abstract class Zend_Db_Table_Abstract
                         $tableName . '.' . $columnName . ' = ?',
                         $keyValue, $type);
                 }
-                $whereOrTerms[] = '(' . implode(' AND ', $whereAndTerms) . ')';
+                $whereOrTerms[] = '(' . implode_polyfill(' AND ', $whereAndTerms) . ')';
             }
-            $whereClause = '(' . implode(' OR ', $whereOrTerms) . ')';
+            $whereClause = '(' . implode_polyfill(' OR ', $whereOrTerms) . ')';
         }
 
         // issue ZF-5775 (empty where clause should return empty rowset)

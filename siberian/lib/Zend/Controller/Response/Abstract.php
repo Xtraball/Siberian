@@ -584,7 +584,7 @@ abstract class Zend_Controller_Response_Abstract
      */
     public function outputBody()
     {
-        $body = implode('', $this->_body);
+        $body = implode_polyfill('', $this->_body);
         echo $body;
     }
 

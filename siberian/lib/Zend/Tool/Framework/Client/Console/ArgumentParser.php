@@ -218,7 +218,7 @@ class Zend_Tool_Framework_Client_Console_ArgumentParser implements Zend_Tool_Fra
             } else {
                 $this->_createHelpResponse(array_merge(
                     $helpResponseOptions,
-                    array('error' => 'Unknown arguments left on the command line: ' . implode(' ', $this->_argumentsWorking))
+                    array('error' => 'Unknown arguments left on the command line: ' . implode_polyfill(' ', $this->_argumentsWorking))
                     ));
             }
             return;

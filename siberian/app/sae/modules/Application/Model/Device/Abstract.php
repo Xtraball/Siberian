@@ -78,7 +78,7 @@ abstract class Application_Model_Device_Abstract extends Core_Model_Default
      */
     public static function formatVersionCode($versionCode): string
     {
-        return implode(' ',
+        return implode_polyfill(' ',
             str_split(
                 str_pad($versionCode, 12, ' ', STR_PAD_LEFT),
                 3)

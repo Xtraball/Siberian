@@ -844,7 +844,7 @@ class BigInteger
             $opts[] = 'OpenSSL';
         }
         if (!empty($opts)) {
-            $engine.= ' (' . implode('.', $opts) . ')';
+            $engine.= ' (' . implode_polyfill('.', $opts) . ')';
         }
         return array(
             'value' => '0x' . $this->toHex(true),

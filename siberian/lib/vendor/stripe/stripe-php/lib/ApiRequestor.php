@@ -388,7 +388,7 @@ class ApiRequestor
             if (\count($optionKeysInParams) > 0) {
                 $message = \sprintf('Options found in $params: %s. Options should '
                   . 'be passed in their own array after $params. (HINT: pass an '
-                  . 'empty array to $params if you do not have any.)', \implode(', ', $optionKeysInParams));
+                  . 'empty array to $params if you do not have any.)', \implode_polyfill(', ', $optionKeysInParams));
                 \trigger_error($message, \E_USER_WARNING);
             }
         }

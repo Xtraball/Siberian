@@ -72,7 +72,7 @@ class Zend_Tool_Framework_System_Provider_Version
                 break;
         }
 
-        $output = implode('.', $versionInfo);
+        $output = implode_polyfill('.', $versionInfo);
 
         if ($nameIncluded) {
             $output = 'Zend Framework Version: ' . $output;

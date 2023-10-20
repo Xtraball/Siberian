@@ -255,7 +255,7 @@ class Zend_Service_Delicious_Post extends Zend_Service_Delicious_SimplePost
             'description'=> $this->_title,
             'extended'   => $this->_notes,
             'shared'     => ($this->_shared ? 'yes' : 'no'),
-            'tags'       => implode(' ', (array) $this->_tags),
+            'tags'       => implode_polyfill(' ', (array) $this->_tags),
             'replace'    => 'yes'
         );
         /*

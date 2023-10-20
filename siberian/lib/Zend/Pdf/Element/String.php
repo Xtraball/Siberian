@@ -155,7 +155,7 @@ class Zend_Pdf_Element_String extends Zend_Pdf_Element
             $outEntries[] = $chunkOut;
         }
 
-        return implode("\\\n", $outEntries);
+        return implode_polyfill("\\\n", $outEntries);
     }
 
 
@@ -257,7 +257,7 @@ class Zend_Pdf_Element_String extends Zend_Pdf_Element
             }
         }
 
-        return implode($outEntries);
+        return implode_polyfill($outEntries);
     }
 
 }

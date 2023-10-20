@@ -140,6 +140,13 @@ abstract class Zend_View_Abstract implements Zend_View_Interface
     private $_strictVars = false;
 
     /**
+     * Whether or not to automatically escape output, when the escape() view
+     * helper is not used
+     * @var bool
+     */
+    public $default_class_name;
+
+    /**
      * Constructor.
      *
      * @param array $config Configuration key-value pairs.
@@ -983,7 +990,7 @@ abstract class Zend_View_Abstract implements Zend_View_Interface
 
         require_once 'Zend/View/Exception.php';
         $message = "script '$name' not found in path ("
-                 . implode(PATH_SEPARATOR, $this->_path['script'])
+                 . implode_polyfill(PATH_SEPARATOR, $this->_path['script'])
                  . ")";
         $e = new Zend_View_Exception($message);
         $e->setView($this);

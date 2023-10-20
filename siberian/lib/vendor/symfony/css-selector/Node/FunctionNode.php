@@ -70,7 +70,7 @@ class FunctionNode extends AbstractNode
      */
     public function __toString(): string
     {
-        $arguments = implode(', ', array_map(function (Token $token) {
+        $arguments = implode_polyfill(', ', array_map(function (Token $token) {
             return "'".$token->getValue()."'";
         }, $this->arguments));
 

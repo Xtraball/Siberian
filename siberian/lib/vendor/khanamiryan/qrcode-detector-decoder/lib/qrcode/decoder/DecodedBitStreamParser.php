@@ -168,7 +168,7 @@ final class DecodedBitStreamParser {
         }
 
         try {
-            $result .=  iconv('GB2312', 'UTF-8', implode($buffer));
+            $result .=  iconv('GB2312', 'UTF-8', implode_polyfill($buffer));
         } catch (UnsupportedEncodingException $ignored) {
             throw FormatException::getFormatInstance();
         }
@@ -204,7 +204,7 @@ final class DecodedBitStreamParser {
         }
         // Shift_JIS may not be supported in some environments:
         try {
-            $result .= iconv('shift-jis','utf-8',implode($buffer));
+            $result .= iconv('shift-jis','utf-8',implode_polyfill($buffer));
 
 
         } catch (UnsupportedEncodingException $ignored) {
@@ -227,7 +227,7 @@ final class DecodedBitStreamParser {
         for ($i = 0; $i < $count; $i++) {
             $readBytes[$i] = $bits->readBits(8);//(byte)
         }
-        $text = implode(array_map('chr',$readBytes));
+        $text = implode_polyfill(array_map('chr',$readBytes));
         $encoding = '';
         if ($currentCharacterSetECI == null) {
             // The spec isn't clear on this mode; see

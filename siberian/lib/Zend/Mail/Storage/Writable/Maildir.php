@@ -516,7 +516,7 @@ class Zend_Mail_Storage_Writable_Maildir extends    Zend_Mail_Storage_Folder_Mai
         }
 
         if (!empty($wanted_flags)) {
-            $wanted_flags = implode(', ', array_keys($wanted_flags));
+            $wanted_flags = implode_polyfill(', ', array_keys($wanted_flags));
             /**
              * @see Zend_Mail_Storage_Exception
              */
@@ -940,7 +940,7 @@ class Zend_Mail_Storage_Writable_Maildir extends    Zend_Mail_Storage_Folder_Mai
             }
             $definition[] = $value . $type;
         }
-        $definition = implode(',', $definition);
+        $definition = implode_polyfill(',', $definition);
         fputs($fh, "$definition\n");
         fputs($fh, "$total_size $messages\n");
         fclose($fh);

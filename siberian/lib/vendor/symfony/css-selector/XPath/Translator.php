@@ -84,7 +84,7 @@ class Translator implements TranslatorInterface
             }
         }
 
-        return sprintf('concat(%s)', implode(', ', $parts));
+        return sprintf('concat(%s)', implode_polyfill(', ', $parts));
     }
 
     /**
@@ -103,7 +103,7 @@ class Translator implements TranslatorInterface
             $selectors[$index] = $this->selectorToXPath($selector, $prefix);
         }
 
-        return implode(' | ', $selectors);
+        return implode_polyfill(' | ', $selectors);
     }
 
     /**

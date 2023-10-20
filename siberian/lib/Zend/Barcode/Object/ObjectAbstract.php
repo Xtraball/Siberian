@@ -1263,7 +1263,7 @@ abstract class Zend_Barcode_Object_ObjectAbstract
         $value = $this->_addLeadingZeros($value, $withChecksum) . $checksumCharacter;
 
         if (!$validator->isValid($value)) {
-            $message = implode("\n", $validator->getMessages());
+            $message = implode_polyfill("\n", $validator->getMessages());
 
             /**
              * @see Zend_Barcode_Object_Exception

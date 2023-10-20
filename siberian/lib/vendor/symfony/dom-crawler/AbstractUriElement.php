@@ -156,7 +156,7 @@ abstract class AbstractUriElement
             }
         }
 
-        return implode('/', $output);
+        return implode_polyfill('/', $output);
     }
 
     /**

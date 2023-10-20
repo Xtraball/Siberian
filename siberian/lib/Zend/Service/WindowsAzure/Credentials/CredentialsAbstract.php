@@ -181,7 +181,7 @@ abstract class Zend_Service_WindowsAzure_Credentials_CredentialsAbstract
 	    
 	    // Return
 	    if (count($returnValue) > 0) {
-	    	return '?' . implode('&', $returnValue);
+	    	return '?' . implode_polyfill('&', $returnValue);
 	    } else {
 	    	return '';
 	    }
