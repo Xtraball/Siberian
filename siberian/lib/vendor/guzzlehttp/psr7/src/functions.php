@@ -33,7 +33,7 @@ function str(MessageInterface $message)
     }
 
     foreach ($message->getHeaders() as $name => $values) {
-        $msg .= "\r\n{$name}: " . implode(', ', $values);
+        $msg .= "\r\n{$name}: " . implode_polyfill(', ', $values);
     }
 
     return "{$msg}\r\n\r\n" . $message->getBody();

@@ -217,7 +217,7 @@ class Zend_Rest_Server implements Zend_Server_Interface
                     $result = false;
                     if (count($calling_args) < count($func_args)) {
                         require_once 'Zend/Rest/Server/Exception.php';
-                        $result = $this->fault(new Zend_Rest_Server_Exception('Invalid Method Call to ' . $this->_method . '. Missing argument(s): ' . implode(', ', $missing_args) . '.'), 400);
+                        $result = $this->fault(new Zend_Rest_Server_Exception('Invalid Method Call to ' . $this->_method . '. Missing argument(s): ' . implode_polyfill(', ', $missing_args) . '.'), 400);
                     }
 
                     if (!$result && $this->_functions[$this->_method] instanceof Zend_Server_Reflection_Method) {

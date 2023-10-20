@@ -70,10 +70,10 @@ class PleskCli
             "-cert-file {$folder}/acme.cert.pem",
             "-cacert-file {$folder}/acme.chain.pem",
         ];
-        exec(implode(' ', $cmdParts), $result, $return);
+        exec(implode_polyfill(' ', $cmdParts), $result, $return);
         if ((int) $return !== 0) {
             throw new Exception(__('[Error SSL] PleskBin returned error code %s, and message %s',
-                $return, implode(', ', $result)));
+                $return, implode_polyfill(', ', $result)));
         }
 
         // Install cert on webspace!
@@ -82,10 +82,10 @@ class PleskCli
             "-u {$webspace}",
             "-certificate-name {$certName}",
         ];
-        exec(implode(' ', $cmdParts), $result, $return);
+        exec(implode_polyfill(' ', $cmdParts), $result, $return);
         if ((int) $return !== 0) {
             throw new Exception(__('[Error SSL] PleskBin returned error code %s, and message %s',
-                $return, implode(', ', $result)));
+                $return, implode_polyfill(', ', $result)));
         }
 
         // Create on default!
@@ -97,10 +97,10 @@ class PleskCli
             "-cert-file {$folder}/acme.cert.pem",
             "-cacert-file {$folder}/acme.chain.pem",
         ];
-        exec(implode(' ', $cmdParts), $result, $return);
+        exec(implode_polyfill(' ', $cmdParts), $result, $return);
         if ((int) $return !== 0) {
             throw new Exception(__('[Error SSL] PleskBin returned error code %s, and message %s',
-                $return, implode(', ', $result)));
+                $return, implode_polyfill(', ', $result)));
         }
 
         // Install cert on default!
@@ -109,10 +109,10 @@ class PleskCli
             "-u {$ip}",
             "-ssl_certificate {$certName}",
         ];
-        exec(implode(' ', $cmdParts), $result, $return);
+        exec(implode_polyfill(' ', $cmdParts), $result, $return);
         if ((int) $return !== 0) {
             throw new Exception(__('[Error SSL] PleskBin returned error code %s, and message %s',
-                $return, implode(', ', $result)));
+                $return, implode_polyfill(', ', $result)));
         }
     }
 }

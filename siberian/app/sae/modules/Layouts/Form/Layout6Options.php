@@ -9,7 +9,7 @@ class Layouts_Form_Layout6Options extends Siberian_Form_Options_Abstract {
         /** Bind as a create form */
         self::addClass("create", $this);
         self::addClass("form-layout-options", $this);
--
+
         $label = $this->addSimpleSelect("label", __("Title position"), [
             "label-left" => __("Left position"),
             "label-right" => __("Right position"),

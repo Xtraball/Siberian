@@ -319,7 +319,7 @@ class Zend_Cache_Frontend_Page extends Zend_Cache_Core
                 $tmp = explode(':', $headerSent);
                 $headerSentName = trim(array_shift($tmp));
                 if (strtolower($headerName) == strtolower($headerSentName)) {
-                    $headerSentValue = trim(implode(':', $tmp));
+                    $headerSentValue = trim(implode_polyfill(':', $tmp));
                     $storedHeaders[] = array($headerSentName, $headerSentValue);
                 }
             }

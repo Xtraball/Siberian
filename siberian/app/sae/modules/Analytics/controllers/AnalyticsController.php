@@ -694,7 +694,7 @@ class Analytics_AnalyticsController extends Admin_Controller_Default {
         $where = array();
         if($ids = $data["app_ids"]) {
             if(is_array(Zend_Json::decode($ids))) {
-                $where["appId IN (?)"] = implode(",", Zend_Json::decode($ids));
+                $where["appId IN (?)"] = implode_polyfill(",", Zend_Json::decode($ids));
             } else {
                 $where["appId = ?"] = $ids;
             }

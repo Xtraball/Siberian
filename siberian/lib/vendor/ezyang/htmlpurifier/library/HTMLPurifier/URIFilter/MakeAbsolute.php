@@ -90,10 +90,10 @@ class HTMLPurifier_URIFilter_MakeAbsolute extends HTMLPurifier_URIFilter
                 array_unshift($new_stack, '');
             }
             $new_stack = $this->_collapseStack($new_stack);
-            $uri->path = implode('/', $new_stack);
+            $uri->path = implode_polyfill('/', $new_stack);
         } else {
             // absolute path, but still we should collapse
-            $uri->path = implode('/', $this->_collapseStack(explode('/', $uri->path)));
+            $uri->path = implode_polyfill('/', $this->_collapseStack(explode('/', $uri->path)));
         }
         // re-combine
         $uri->scheme = $this->base->scheme;

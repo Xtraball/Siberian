@@ -38,7 +38,7 @@ final class Message
                     $msg .= "\r\n{$name}: " . $value;
                 }
             } else {
-                $msg .= "\r\n{$name}: " . implode(', ', $values);
+                $msg .= "\r\n{$name}: " . implode_polyfill(', ', $values);
             }
         }
 

@@ -488,7 +488,7 @@ class Zend_Dojo_Form_Element_Editor extends Zend_Dojo_Form_Element_Dijit
         if (!in_array($styleSheet, $stylesheets)) {
             $stylesheets[] = (string) $styleSheet;
         }
-        return $this->setDijitParam('styleSheets', implode(';', $stylesheets));
+        return $this->setDijitParam('styleSheets', implode_polyfill(';', $stylesheets));
     }
 
     /**
@@ -555,7 +555,7 @@ class Zend_Dojo_Form_Element_Editor extends Zend_Dojo_Form_Element_Dijit
         $styleSheets = explode(';', $styleSheets);
         if (false !== ($index = array_search($styleSheet, $styleSheets))) {
             unset($styleSheets[$index]);
-            $this->setDijitParam('styleSheets', implode(';', $styleSheets));
+            $this->setDijitParam('styleSheets', implode_polyfill(';', $styleSheets));
         }
         return $this;
     }

@@ -297,7 +297,7 @@ class Mcommerce_Mobile_CartController extends Mcommerce_Controller_Mobile_Defaul
                     $html = ['success' => 1];
                 } else {
                     if (count($errors) == 1) $message = $this->_("The option %s is required", current($errors));
-                    else $message = $this->_('The following options are required:<br />%s', implode('<br />- ', $errors));
+                    else $message = $this->_('The following options are required:<br />%s', implode_polyfill('<br />- ', $errors));
                     throw new Exception($message);
                 }
 

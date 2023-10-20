@@ -14,7 +14,7 @@
     <div class="col-sm-12">
         <label for="cms_application_page_tags"><?php echo $this->_('Type') ?></label>
         <input type="text" name="tags" id="cms_application_page_tags"
-               value="<?php echo implode(", ", $page->tag_names) ?>"
+               value="<?php echo implode_polyfill(", ", $page->tag_names) ?>"
                placeholder="<?php echo $this->_('Tags separated by commas') ?>"
                class="weblink_field form-control" data-role="tagsinput"/>
     </div>

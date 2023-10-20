@@ -215,7 +215,7 @@ class Zend_CodeGenerator_Php_Method extends Zend_CodeGenerator_Php_Member_Abstra
                 $parameterOuput[] = $parameter->generate();
             }
 
-            $output .= implode(', ', $parameterOuput);
+            $output .= implode_polyfill(', ', $parameterOuput);
         }
 
         $output .= ')' . self::LINE_FEED . $indent . '{' . self::LINE_FEED;

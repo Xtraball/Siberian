@@ -149,8 +149,8 @@ class Admin_Controller_Default extends Core_Controller_Default
     protected function _canAccess($resource, $option_value_id = null)
     {
 
-        if (self::_getAcl()) {
-            return self::_getAcl()->isAllowed($resource, $option_value_id);
+        if (self::_sGetAcl()) {
+            return self::_sGetAcl()->isAllowed($resource, $option_value_id);
         }
 
         return true;

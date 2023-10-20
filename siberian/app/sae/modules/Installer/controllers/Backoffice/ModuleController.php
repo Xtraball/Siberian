@@ -150,7 +150,7 @@ class Installer_Backoffice_ModuleController extends Backoffice_Controller_Defaul
             }
 
             if ($fatalErrors) {
-                throw new Siberian_Exception(implode(', ', $_errors));
+                throw new Siberian_Exception(implode_polyfill(', ', $_errors));
             }
 
             set_time_limit(6000);
@@ -251,7 +251,7 @@ class Installer_Backoffice_ModuleController extends Backoffice_Controller_Defaul
             } else {
                 $messages = $adapter->getMessages();
                 if (!empty($messages)) {
-                    $message = implode("\n", $messages);
+                    $message = implode_polyfill("\n", $messages);
                 } else {
                     $message = __("An error occurred during the process. Please try again later.");
                 }
@@ -306,7 +306,7 @@ class Installer_Backoffice_ModuleController extends Backoffice_Controller_Defaul
                 } else {
 
                     $messages = $parser->getErrors();
-                    $message = implode("\n", $messages);
+                    $message = implode_polyfill("\n", $messages);
                     throw new \Siberian\Exception(__($message));
                 }
 
@@ -365,7 +365,7 @@ class Installer_Backoffice_ModuleController extends Backoffice_Controller_Defaul
 
                     if (!$config->getId()) {
                         $config->setCode($key)
-                            ->setLabel(ucfirst(implode(" ", explode("_", $key))));
+                            ->setLabel(ucfirst(implode_polyfill(" ", explode("_", $key))));
                     }
 
                     $config->setCode($key)
@@ -411,7 +411,7 @@ class Installer_Backoffice_ModuleController extends Backoffice_Controller_Defaul
                 } else {
 
                     $messages = $parser->getErrors();
-                    $message = implode("\n", $messages);
+                    $message = implode_polyfill("\n", $messages);
 
                     throw new Siberian_Exception(__($message));
 

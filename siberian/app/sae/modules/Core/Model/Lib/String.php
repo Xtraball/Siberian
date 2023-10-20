@@ -81,7 +81,7 @@ class Core_Model_Lib_String extends Core_Model_Default {
             $parts_bundle_id[$k] = $part;
         }
 
-        return implode(".", $parts_bundle_id);
+        return implode_polyfill(".", $parts_bundle_id);
     }
 
     public static function formatLanguageCodeForAndroid($language_code) {
@@ -91,7 +91,7 @@ class Core_Model_Lib_String extends Core_Model_Default {
             if(count($language_code) == 2) {
                 $language_code[1] = "r".$language_code[1];
             }
-            $language_code = implode("-", $language_code);
+            $language_code = implode_polyfill("-", $language_code);
         }
 
         return $language_code;

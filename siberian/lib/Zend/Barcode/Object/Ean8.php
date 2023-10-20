@@ -163,7 +163,7 @@ class Zend_Barcode_Object_Ean8 extends Zend_Barcode_Object_Ean13
         $value = $this->_addLeadingZeros($value, true);
 
         if (!$validator->isValid($value)) {
-            $message = implode("\n", $validator->getMessages());
+            $message = implode_polyfill("\n", $validator->getMessages());
 
             /**
              * @see Zend_Barcode_Object_Exception

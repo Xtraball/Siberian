@@ -224,7 +224,7 @@ class Zend_Feed_Writer_Extension_ITunes_Renderer_Feed
             return;
         }
         $el = $dom->createElement('itunes:keywords');
-        $text = $dom->createTextNode(implode(',', $keywords));
+        $text = $dom->createTextNode(implode_polyfill(',', $keywords));
         $el->appendChild($text);
         $root->appendChild($el);
         $this->_called = true;

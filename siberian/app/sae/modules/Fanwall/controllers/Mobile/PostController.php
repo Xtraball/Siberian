@@ -845,7 +845,7 @@ class Fanwall_Mobile_PostController extends Application_Controller_Mobile_Defaul
                     }
                 }
                 // Remove image!
-                $post->setImage(implode(',', $imagesContainer));
+                $post->setImage(implode_polyfill(',', $imagesContainer));
             } else {
                 // Remove image!
                 $post->setImage('');

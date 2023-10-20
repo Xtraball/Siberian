@@ -423,7 +423,7 @@ class Application_Model_Option extends Core_Model_Default
         $appUseKey = Version::is(['SAE']) ?
             $request->useApplicationKey() : $request->getApplicationKey();
         $path = null;
-        $force_uri = stripos($action, "/") !== false;
+        $force_uri = stripos($action ?? "", "/") !== false;
 
         $uri = $force_uri ? $action : $this->getUri();
 

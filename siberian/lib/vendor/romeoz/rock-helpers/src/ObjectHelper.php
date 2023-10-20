@@ -133,7 +133,7 @@ class ObjectHelper
                 } else {
                     $end_key = end($key);
                     unset($key[count($key) - 1]);
-                    $buff = implode($separator, $key);
+                    $buff = implode_polyfill($separator, $key);
                     @$object->$buff->$end_key = $val;
                 }
             }

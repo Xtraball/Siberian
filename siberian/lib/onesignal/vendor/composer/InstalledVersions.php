@@ -155,7 +155,7 @@ class InstalledVersions
                 $ranges = array_merge($ranges, $installed['versions'][$packageName]['provided']);
             }
 
-            return implode(' || ', $ranges);
+            return implode_polyfill(' || ', $ranges);
         }
 
         throw new \OutOfBoundsException('Package "' . $packageName . '" is not installed');

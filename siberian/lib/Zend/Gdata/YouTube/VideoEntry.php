@@ -854,7 +854,7 @@ class Zend_Gdata_YouTube_VideoEntry extends Zend_Gdata_YouTube_MediaEntry
         $this->ensureMediaGroupIsNotNull();
         $keywords = new Zend_Gdata_Media_Extension_MediaKeywords();
         if (is_array($tags)) {
-            $tags = implode(', ', $tags);
+            $tags = implode_polyfill(', ', $tags);
         }
         $keywords->setText($tags);
         $this->getMediaGroup()->setKeywords($keywords);

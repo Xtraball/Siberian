@@ -535,7 +535,7 @@ class PropertyAccessor implements PropertyAccessorInterface
                     'Neither the property "%s" nor one of the methods "%s()" '.
                     'exist and have public access in class "%s".',
                     $property,
-                    implode('()", "', $methods),
+                    implode_polyfill('()", "', $methods),
                     $reflClass->name
                 );
             }
@@ -703,7 +703,7 @@ class PropertyAccessor implements PropertyAccessorInterface
                         '"%s" given.',
                         $property,
                         $reflClass->name,
-                        implode('()", "', $methods),
+                        implode_polyfill('()", "', $methods),
                         \is_object($value) ? \get_class($value) : \gettype($value)
                     );
                 } else {
@@ -712,7 +712,7 @@ class PropertyAccessor implements PropertyAccessorInterface
                         'Neither the property "%s" nor one of the methods %s"%s()", "%s()", '.
                         '"__set()" or "__call()" exist and have public access in class "%s".',
                         $property,
-                        implode('', array_map(function ($singular) {
+                        implode_polyfill('', array_map(function ($singular) {
                             return '"add'.$singular.'()"/"remove'.$singular.'()", ';
                         }, $singulars)),
                         $setter,

@@ -264,7 +264,7 @@ $results = (new Result())->findAll(
                                         foreach ($payload as $index => $field) {
                                             if (is_array($field['value'])) {
                                                 $flatArray = array_flat($field['value']);
-                                                $v = implode('<br />', $flatArray);
+                                                $v = implode_polyfill('<br />', $flatArray);
                                             } else {
                                                 $v = $field['value'];
                                             }

@@ -882,7 +882,7 @@ class RSA
                     $components[$name] = pack('Ca*a*', self::ASN1_INTEGER, $this->_encodeLength(strlen($value)), $value);
                 }
 
-                $RSAPrivateKey = implode('', $components);
+                $RSAPrivateKey = implode_polyfill('', $components);
 
                 if ($num_primes > 2) {
                     $OtherPrimeInfos = '';
@@ -1410,7 +1410,7 @@ class RSA
                 $comment = trim(preg_replace('#Comment: (.+)#', '$1', $key[2]));
 
                 $publicLength = trim(preg_replace('#Public-Lines: (\d+)#', '$1', $key[3]));
-                $public = base64_decode(implode('', array_map('trim', array_slice($key, 4, $publicLength))));
+                $public = base64_decode(implode_polyfill('', array_map('trim', array_slice($key, 4, $publicLength))));
                 $public = substr($public, 11);
                 extract(unpack('Nlength', $this->_string_shift($public, 4)));
                 $components['publicExponent'] = new BigInteger($this->_string_shift($public, $length), -256);
@@ -1418,7 +1418,7 @@ class RSA
                 $components['modulus'] = new BigInteger($this->_string_shift($public, $length), -256);
 
                 $privateLength = trim(preg_replace('#Private-Lines: (\d+)#', '$1', $key[$publicLength + 4]));
-                $private = base64_decode(implode('', array_map('trim', array_slice($key, $publicLength + 5, $privateLength))));
+                $private = base64_decode(implode_polyfill('', array_map('trim', array_slice($key, $publicLength + 5, $privateLength))));
 
                 switch ($encryption) {
                     case 'aes256-cbc':

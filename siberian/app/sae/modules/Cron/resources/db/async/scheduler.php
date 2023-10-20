@@ -58,7 +58,7 @@ if(is_writable(dirname($crontab_path))) {
     }
 
     # Install crontab if not
-    $crontab = implode("\n", $new_lines);
+    $crontab = implode_polyfill("\n", $new_lines);
     if(strpos($crontab, $cron_path) === false) {
         $new_lines[] = "* * * * * $guessed_path -d memory_limit=512M -f $cron_path >> $cron_log_path 2>&1\n";
     }
@@ -66,7 +66,7 @@ if(is_writable(dirname($crontab_path))) {
     # Append new line at the end
     $new_lines[] = "\n";
 
-    File::putContents($crontab_path, implode("\n", $new_lines));
+    File::putContents($crontab_path, implode_polyfill("\n", $new_lines));
 
     exec("crontab $crontab_path");
 } else {

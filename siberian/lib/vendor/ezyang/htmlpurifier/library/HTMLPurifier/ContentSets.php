@@ -69,7 +69,7 @@ class HTMLPurifier_ContentSets
         }
 
         foreach ($this->lookup as $key => $lookup) {
-            $this->info[$key] = implode(' | ', array_keys($lookup));
+            $this->info[$key] = implode_polyfill(' | ', array_keys($lookup));
         }
         $this->keys   = array_keys($this->info);
         $this->values = array_values($this->info);
@@ -89,7 +89,7 @@ class HTMLPurifier_ContentSets
         if (is_string($content_model)) {
             // Assume that $this->keys is alphanumeric
             $def->content_model = preg_replace_callback(
-                '/\b(' . implode('|', $this->keys) . ')\b/',
+                '/\b(' . implode_polyfill('|', $this->keys) . ')\b/',
                 array($this, 'generateChildDefCallback'),
                 $content_model
             );

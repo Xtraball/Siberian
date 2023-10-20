@@ -78,7 +78,7 @@ final class SourceContextProvider implements ContextProviderInterface
                                     $fileExcerpt[] = '<li'.($i === $line ? ' class="selected"' : '').'><code>'.$this->htmlEncode($src[$i - 1]).'</code></li>';
                                 }
 
-                                $fileExcerpt = '<ol start="'.max($line - 3, 1).'">'.implode("\n", $fileExcerpt).'</ol>';
+                                $fileExcerpt = '<ol start="'.max($line - 3, 1).'">'.implode_polyfill("\n", $fileExcerpt).'</ol>';
                             }
                         }
                         break;

@@ -200,7 +200,7 @@ class Siberian_Controller_Cache extends Zend_Controller_Action
                 $result = $this->getRequest()->getParam($key, '_undefined_');
                 $_params[] = $key . '_' . $result;
             }
-            $cacheId .= implode('_', $_params);
+            $cacheId .= implode_polyfill('_', $_params);
 
             $this->cacheId = valid_cache($cacheId);
         }

@@ -855,7 +855,7 @@ abstract class Core_Model_Default_Abstract extends \__polyfill_mixed
     {
         $price = preg_replace(['/(,)/', '/[^0-9.-]/'], ['.', ''], $price);
         $language = Core_Model_Language::getCurrentLanguage();
-        $isLocale = strlen($currencyOrLocale) > 4;
+        $isLocale = strlen($currencyOrLocale ?? "") > 4;
 
         try {
             // Hijacking locale to currency, to local user format!

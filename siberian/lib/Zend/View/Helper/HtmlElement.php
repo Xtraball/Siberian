@@ -116,7 +116,7 @@ abstract class Zend_View_Helper_HtmlElement extends Zend_View_Helper_Abstract
                 $val = str_replace('\'', '&#39;', $val);
             } else {
                 if (is_array($val)) {
-                    $val = implode(' ', $val);
+                    $val = implode_polyfill(' ', $val);
                 }
                 $val = $this->view->escape($val);
             }

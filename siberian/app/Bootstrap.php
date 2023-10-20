@@ -55,7 +55,7 @@ class Bootstrap extends Zend_Application_Bootstrap_Bootstrap
         }
 
         // Updating the include_paths!
-        set_include_path(implode(PATH_SEPARATOR, $includePaths));
+        set_include_path(implode_polyfill(PATH_SEPARATOR, $includePaths));
 
         $base_path = '';
         if (isset($_SERVER['SCRIPT_FILENAME'])) {

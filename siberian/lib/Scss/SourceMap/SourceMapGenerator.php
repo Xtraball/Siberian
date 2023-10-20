@@ -281,10 +281,10 @@ class SourceMapGenerator
                 $lineMapEncoded[] = $mapEncoded;
             }
 
-            $groupedMapEncoded[] = implode(',', $lineMapEncoded) . ';';
+            $groupedMapEncoded[] = implode_polyfill(',', $lineMapEncoded) . ';';
         }
 
-        return rtrim(implode($groupedMapEncoded), ';');
+        return rtrim(implode_polyfill($groupedMapEncoded), ';');
     }
 
     /**

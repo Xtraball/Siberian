@@ -322,6 +322,6 @@ HTML;
         if (!$feature->getIsActive()) {
             $strFeatureParts[] = '<span class="text-danger">' . p__('push2', '(not published)'). '</span>';
         }
-        return implode(' - ', $strFeatureParts);
+        return implode_polyfill(' - ', $strFeatureParts);
     }
 }

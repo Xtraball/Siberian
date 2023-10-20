@@ -190,7 +190,7 @@ class Language
             return;
         }
         $removeCategoriesWithoutExamples = false;
-        switch (implode(',', $badCategoriesIds).'@'.implode(',', $allCategoriesIds)) {
+        switch (implode_polyfill(',', $badCategoriesIds).'@'.implode_polyfill(',', $allCategoriesIds)) {
             case CldrData::OTHER_CATEGORY.'@one,few,many,'.CldrData::OTHER_CATEGORY:
                 switch ($this->buildFormula()) {
                     case '(n % 10 == 1 && n % 100 != 11) ? 0 : ((n % 10 >= 2 && n % 10 <= 4 && (n % 100 < 12 || n % 100 > 14)) ? 1 : ((n % 10 == 0 || n % 10 >= 5 && n % 10 <= 9 || n % 100 >= 11 && n % 100 <= 14) ? 2 : 3))':
@@ -232,7 +232,7 @@ class Language
                 }
         }
         if (!$removeCategoriesWithoutExamples) {
-            throw new Exception("Unhandled case of plural categories without examples '".implode(', ', $badCategoriesIds)."' out of '".implode(', ', $allCategoriesIds)."'");
+            throw new Exception("Unhandled case of plural categories without examples '".implode_polyfill(', ', $badCategoriesIds)."' out of '".implode_polyfill(', ', $allCategoriesIds)."'");
         }
         if ($badCategories[count($badCategories) - 1]->id === CldrData::OTHER_CATEGORY) {
             // We're removing the 'other' cagory: let's change the last good category to 'other'

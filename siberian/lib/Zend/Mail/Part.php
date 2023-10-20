@@ -403,7 +403,7 @@ class Zend_Mail_Part implements RecursiveIterator, Zend_Mail_Part_Interface
         switch ($format) {
             case 'string':
                 if (is_array($header)) {
-                    $header = implode(Zend_Mime::LINEEND, $header);
+                    $header = implode_polyfill(Zend_Mime::LINEEND, $header);
                 }
                 break;
             case 'array':

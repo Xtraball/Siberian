@@ -78,7 +78,7 @@ class ResourceCaster
         $pin = openssl_pkey_get_public($h);
         $pin = openssl_pkey_get_details($pin)['key'];
         $pin = \array_slice(explode("\n", $pin), 1, -2);
-        $pin = base64_decode(implode('', $pin));
+        $pin = base64_decode(implode_polyfill('', $pin));
         $pin = base64_encode(hash('sha256', $pin, true));
 
         $a += [

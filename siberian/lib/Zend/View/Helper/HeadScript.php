@@ -485,7 +485,7 @@ class Zend_View_Helper_HeadScript extends Zend_View_Helper_Placeholder_Container
             $items[] = $this->itemToString($item, $indent, $escapeStart, $escapeEnd);
         }
 
-        $return = implode($this->getSeparator(), $items);
+        $return = implode_polyfill($this->getSeparator(), $items);
         return $return;
     }
 

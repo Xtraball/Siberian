@@ -877,7 +877,7 @@ class NotificationWithMeta implements ModelInterface, ArrayAccess, \JsonSerializ
             $invalidProperties[] = sprintf(
                 "invalid value '%s' for 'aggregation', must be one of '%s'",
                 $this->container['aggregation'],
-                implode("', '", $allowedValues)
+                implode_polyfill("', '", $allowedValues)
             );
         }
 
@@ -1284,7 +1284,7 @@ class NotificationWithMeta implements ModelInterface, ArrayAccess, \JsonSerializ
                 sprintf(
                     "Invalid value '%s' for 'aggregation', must be one of '%s'",
                     $aggregation,
-                    implode("', '", $allowedValues)
+                    implode_polyfill("', '", $allowedValues)
                 )
             );
         }

@@ -148,7 +148,7 @@ class SplCaster
                     $flagsArray[] = $name;
                 }
             }
-            $a[$prefix.'flags'] = new ConstStub(implode('|', $flagsArray), $a[$prefix.'flags']);
+            $a[$prefix.'flags'] = new ConstStub(implode_polyfill('|', $flagsArray), $a[$prefix.'flags']);
         }
 
         if (isset($a[$prefix.'fstat'])) {

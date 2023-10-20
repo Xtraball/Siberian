@@ -255,10 +255,10 @@ class Notification
                 $player->setIdentifier($androidDevice['registration_id']);
                 $player->setNotificationTypes(1);
                 if (!empty($androidDevice['customer_id'])) {
-                    $external_user_id = implode('_', ['os', 'customer', $androidDevice['app_id'], $androidDevice['customer_id']]);
+                    $external_user_id = implode_polyfill('_', ['os', 'customer', $androidDevice['app_id'], $androidDevice['customer_id']]);
                     $player->setExternalUserId($external_user_id);
                 } else {
-                    $external_user_id = implode('_', ['os', 'anonymous', $androidDevice['app_id'], $androidDevice['device_uid']]);
+                    $external_user_id = implode_polyfill('_', ['os', 'anonymous', $androidDevice['app_id'], $androidDevice['device_uid']]);
                     $player->setExternalUserId($external_user_id);
                 }
 
@@ -279,10 +279,10 @@ class Notification
                 $player->setDeviceOs($iosDevice['device_version']);
                 $player->setNotificationTypes(1);
                 if (!empty($iosDevice['customer_id'])) {
-                    $external_user_id = implode('_', ['os', 'customer', $iosDevice['app_id'], $iosDevice['customer_id']]);
+                    $external_user_id = implode_polyfill('_', ['os', 'customer', $iosDevice['app_id'], $iosDevice['customer_id']]);
                     $player->setExternalUserId($external_user_id);
                 } else {
-                    $external_user_id = implode('_', ['os', 'anonymous', $iosDevice['app_id'], $iosDevice['device_uid']]);
+                    $external_user_id = implode_polyfill('_', ['os', 'anonymous', $iosDevice['app_id'], $iosDevice['device_uid']]);
                     $player->setExternalUserId($external_user_id);
                 }
 

@@ -397,7 +397,7 @@ class Zend_View_Helper_HeadStyle extends Zend_View_Helper_Placeholder_Container_
             $items[] = $this->itemToString($item, $indent);
         }
 
-        $return = $indent . implode($this->getSeparator() . $indent, $items);
+        $return = $indent . implode_polyfill($this->getSeparator() . $indent, $items);
         $return = preg_replace("/(\r\n?|\n)/", '$1' . $indent, $return);
         return $return;
     }
@@ -414,7 +414,7 @@ class Zend_View_Helper_HeadStyle extends Zend_View_Helper_Placeholder_Container_
         if (!isset($attributes['media'])) {
             $attributes['media'] = 'screen';
         } else if(is_array($attributes['media'])) {
-            $attributes['media'] = implode(',', $attributes['media']);
+            $attributes['media'] = implode_polyfill(',', $attributes['media']);
         }
 
         $data = new stdClass();

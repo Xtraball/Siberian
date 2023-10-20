@@ -113,7 +113,7 @@ class Zend_Controller_Response_HttpTestCase extends Zend_Controller_Response_Htt
     public function sendResponse()
     {
         $headers = $this->sendHeaders();
-        $content = implode("\n", $headers) . "\n\n";
+        $content = implode_polyfill("\n", $headers) . "\n\n";
 
         if ($this->isException() && $this->renderExceptions()) {
             $exceptions = '';

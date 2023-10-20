@@ -8,7 +8,7 @@ class Application_MobileController extends Application_Controller_Mobile_Default
     }
 
     public function languagesAction() {
-        $this->getLayout()->setHtml(implode(",", Core_Model_Language::getLanguageCodes()));
+        $this->getLayout()->setHtml(implode_polyfill(",", Core_Model_Language::getLanguageCodes()));
     }
 
     /**

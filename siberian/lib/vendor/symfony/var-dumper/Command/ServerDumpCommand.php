@@ -54,7 +54,7 @@ class ServerDumpCommand extends Command
 
     protected function configure()
     {
-        $availableFormats = implode(', ', array_keys($this->descriptors));
+        $availableFormats = implode_polyfill(', ', array_keys($this->descriptors));
 
         $this
             ->addOption('format', null, InputOption::VALUE_REQUIRED, sprintf('The output format (%s)', $availableFormats), 'cli')

@@ -105,7 +105,7 @@ class DateCaster
             ($end = $p->getEndDate()) ? 'to '.self::formatDateTime($end) : 'recurring '.$p->recurrences.' time/s'
         );
 
-        $p = [Caster::PREFIX_VIRTUAL.'period' => new ConstStub($period, implode("\n", $dates))];
+        $p = [Caster::PREFIX_VIRTUAL.'period' => new ConstStub($period, implode_polyfill("\n", $dates))];
 
         return $filter & Caster::EXCLUDE_VERBOSE ? $p : $p + $a;
     }

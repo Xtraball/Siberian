@@ -223,7 +223,7 @@ class Customer_Mobile_Account_EditController extends Application_Controller_Mobi
             // Throwing all errors at once!
             if (count($requiredFields) > 0) {
                 $message = p__('customer', 'The following fields are required') . ':<br />- ' .
-                    implode('<br />- ', $requiredFields);
+                    implode_polyfill('<br />- ', $requiredFields);
 
                 throw new Exception($message);
             }

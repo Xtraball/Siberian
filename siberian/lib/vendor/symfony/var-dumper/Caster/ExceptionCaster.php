@@ -195,7 +195,7 @@ class ExceptionCaster
             $cacheKey = $f;
             unset($cacheKey['object'], $cacheKey['args']);
             $cacheKey[] = self::$srcContext;
-            $cacheKey = implode('-', $cacheKey);
+            $cacheKey = implode_polyfill('-', $cacheKey);
 
             if (isset(self::$framesCache[$cacheKey])) {
                 $a[$prefix.'src'] = self::$framesCache[$cacheKey];

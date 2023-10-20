@@ -43,13 +43,13 @@ class Html extends Exporter
             foreach ($lc->categories as $c) {
                 $cases[] = '<li><span>'.$c->id.'</span><code>'.self::h($c->examples).'</code></li>';
             }
-            $lines[] = $prefix.'            <td><ol'.($forDocs ? ' class="cases"' : '').' start="0">'.implode('', $cases).'</ol></td>';
+            $lines[] = $prefix.'            <td><ol'.($forDocs ? ' class="cases"' : '').' start="0">'.implode_polyfill('', $cases).'</ol></td>';
             $lines[] = $prefix.'        </tr>';
         }
         $lines[] = $prefix.'    </tbody>';
         $lines[] = $prefix.'</table>';
 
-        return implode("\n", $lines);
+        return implode_polyfill("\n", $lines);
     }
     /**
      * @see Exporter::getDescription

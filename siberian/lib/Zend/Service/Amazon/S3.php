@@ -763,7 +763,7 @@ class Zend_Service_Amazon_S3 extends Zend_Service_Amazon_Abstract
         if (!empty($amz_headers)) {
             ksort($amz_headers);
             foreach ($amz_headers as $key=>$val) {
-                $sig_str .= $key.':'.implode(',', $val)."\n";
+                $sig_str .= $key.':'.implode_polyfill(',', $val)."\n";
             }
         }
 

@@ -105,7 +105,7 @@ class HTMLPurifier_AttrDef_CSS_ListStyle extends HTMLPurifier_AttrDef
         if (empty($ret)) {
             return false;
         }
-        return implode(' ', $ret);
+        return implode_polyfill(' ', $ret);
     }
 }
 

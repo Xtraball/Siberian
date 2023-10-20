@@ -21,11 +21,7 @@ use Siberian_Cache as Cache;
 use Siberian_Google_Geocoding as Geocoding;
 use Siberian_Cache_Design as CacheDesign;
 
-// PHP Polyfill
-abstract class __polyfill_mixed {}
-if (version_compare(PHP_VERSION, '8.0', '<')) {
-    class_alias(\__polyfill_mixed::class, 'mixed');
-}
+require_once __DIR__ . '/polyfills.php';
 
 global $_config;
 
@@ -66,7 +62,7 @@ defined('APPLICATION_ENV')
 || define('APPLICATION_ENV', $_config['environment']);
 
 // Sourcing default libs!
-set_include_path(implode(PATH_SEPARATOR, array(
+set_include_path(implode_polyfill(PATH_SEPARATOR, array(
     dirname(APPLICATION_PATH) . '/lib',
 )));
 
@@ -491,7 +487,7 @@ try {
 
         case 'waf:extension:list':
             echo 'List of extensions allowed.' . PHP_EOL;
-            echo implode(PHP_EOL, \Firewall_Model_Rule::listExtensions());
+            echo implode_polyfill(PHP_EOL, \Firewall_Model_Rule::listExtensions());
             echo PHP_EOL;
 
             break;

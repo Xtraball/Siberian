@@ -895,8 +895,8 @@ abstract class Siberian_Form_Abstract extends Zend_Form
             foreach ($error as $err) {
                 $errs[] = __($err);
             }
-            $text_error[] = sprintf("%s: %s", ucfirst(__($name)), implode(", ", $errs));
-            $javascript_error[$name] = implode("<br />", $errs);
+            $text_error[] = sprintf("%s: %s", ucfirst(__($name)), implode_polyfill(", ", $errs));
+            $javascript_error[$name] = implode_polyfill("<br />", $errs);
         }
 
         if ($for_javascript) {
@@ -904,7 +904,7 @@ abstract class Siberian_Form_Abstract extends Zend_Form
         }
 
         if (!empty($text_error)) {
-            $text_error = "<div>" . __("Form has the following errors") . "<br />" . implode("<br />", $text_error) . "</div>";
+            $text_error = "<div>" . __("Form has the following errors") . "<br />" . implode_polyfill("<br />", $text_error) . "</div>";
         } else {
             $text_error = "<div>" . __("Form has the following errors") . "</div>";
         }
@@ -943,7 +943,7 @@ abstract class Siberian_Form_Abstract extends Zend_Form
             $classes[] = $new;
         }
 
-        $classes = implode(' ', $classes);
+        $classes = implode_polyfill(' ', $classes);
 
         if ($isOption) {
             $element->setOption('class', $classes);
@@ -986,7 +986,7 @@ abstract class Siberian_Form_Abstract extends Zend_Form
             }
         }
 
-        $classes = implode(' ', $classes);
+        $classes = implode_polyfill(' ', $classes);
 
         if ($isOption) {
             $element->setOption('class', $classes);

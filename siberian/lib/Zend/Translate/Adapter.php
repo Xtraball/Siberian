@@ -285,7 +285,7 @@ abstract class Zend_Translate_Adapter {
                     if ($options['scan'] === self::LOCALE_FILENAME) {
                         $filename = explode('.', $file);
                         array_pop($filename);
-                        $filename = implode('.', $filename);
+                        $filename = implode_polyfill('.', $filename);
                         if (Zend_Locale::isLocale((string) $filename, true, false)) {
                             $options['locale'] = (string) $filename;
                         } else {

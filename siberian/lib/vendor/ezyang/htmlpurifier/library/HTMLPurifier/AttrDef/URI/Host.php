@@ -126,7 +126,7 @@ class HTMLPurifier_AttrDef_URI_Host extends HTMLPurifier_AttrDef
                         $new_parts[] = $idna->encode($part);
                     }
                 }
-                $string = implode('.', $new_parts);
+                $string = implode_polyfill('.', $new_parts);
             } catch (Exception $e) {
                 // XXX error reporting
             }

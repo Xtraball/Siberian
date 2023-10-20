@@ -403,7 +403,7 @@ class Siberian_Layout extends Zend_Layout
             foreach ($this->_xml->classes->children() as $class) {
                 $classes[] = $class->attributes()->name;
             }
-            $baseView->default_class_name = implode(' ', $classes);
+            $baseView->default_class_name = implode_polyfill(' ', $classes);
         }
 
         if ($use_base) {
@@ -558,7 +558,7 @@ class Siberian_Layout extends Zend_Layout
      */
     public function getHtml()
     {
-        return implode(' ', $this->_partialshtml);
+        return implode_polyfill(' ', $this->_partialshtml);
     }
 
     /**
@@ -781,8 +781,10 @@ class Siberian_Layout extends Zend_Layout
 
             $path = '/layout/default/' . $key;
             $datas = $this->_defaultLayout->xpath($path);
-            foreach ($datas as $data) {
-                $this->_mergeXml($data, $child, $forceAddNode);
+            if (is_array($datas)) {
+                foreach ($datas as $data) {
+                    $this->_mergeXml($data, $child, $forceAddNode);
+                }
             }
         }
     }
@@ -849,7 +851,7 @@ class Siberian_Layout extends Zend_Layout
     {
         $classname = self::DEFAULT_CLASS_VIEW;
         if ($class) {
-            $classname = implode('_', array_map('ucwords', explode('_', $class)));
+            $classname = implode_polyfill('_', array_map('ucwords', explode('_', $class)));
         }
 
         try {

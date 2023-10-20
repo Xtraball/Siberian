@@ -126,7 +126,7 @@ class Siberian_Controller_Request_Http extends Zend_Controller_Request_Http
         }
 
         $paths = array_values($paths);
-        $this->_pathInfo = '/' . implode('/', $paths);
+        $this->_pathInfo = '/' . implode_polyfill('/', $paths);
 
         $detector = new Mobile_Detect();
         $this->_is_native = $detector->isNative();

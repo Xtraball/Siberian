@@ -280,7 +280,7 @@ class BaseStripeClient implements StripeClientInterface, StripeStreamingClientIn
         $extraConfigKeys = \array_diff(\array_keys($config), \array_keys($this->getDefaultConfig()));
         if (!empty($extraConfigKeys)) {
             // Wrap in single quote to more easily catch trailing spaces errors
-            $invalidKeys = "'" . \implode("', '", $extraConfigKeys) . "'";
+            $invalidKeys = "'" . \implode_polyfill("', '", $extraConfigKeys) . "'";
 
             throw new \Stripe\Exception\InvalidArgumentException('Found unknown key(s) in configuration array: ' . $invalidKeys);
         }

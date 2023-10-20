@@ -31,7 +31,7 @@ class Json extends Zend_Json
 
         if ($json === false && (json_last_error() == JSON_ERROR_UTF8)) {
             // Trying to convert data to utf8 if array is buggy!
-            log_warn(implode(
+            log_warn(implode_polyfill(
                 "\n",
                 ["Siberian_Json::encode(), trying to force UTF-8", json_last_error_msg()]),
                 "json_error_",
@@ -47,7 +47,7 @@ class Json extends Zend_Json
                     "message" => "Siberian_Json::encode() UTF-8 failed",
                 ]);
 
-                log_warn(implode(
+                log_warn(implode_polyfill(
                     "\n",
                     ["Siberian_Json::encode() UTF-8 failed", $e->getMessage()]),
                     "json_error_",
@@ -60,7 +60,7 @@ class Json extends Zend_Json
                 "message" => "Siberian_Json::encode() UTF-8 failed",
             ]);
 
-            log_warn(implode(
+            log_warn(implode_polyfill(
                 "\n",
                 ["Siberian_Json::encode(), unhandeld error", json_last_error_msg()]),
                 "json_error_",
@@ -80,7 +80,7 @@ class Json extends Zend_Json
         $result = json_decode($json, true);
 
         if (is_null($result)) {
-            log_warn(implode(
+            log_warn(implode_polyfill(
                 "\n",
                 ['Siberian_Json::decode(), unable to decode json.', json_last_error_msg()]));
 

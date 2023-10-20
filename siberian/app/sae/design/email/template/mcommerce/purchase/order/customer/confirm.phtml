@@ -116,7 +116,7 @@ $customer = $order->getCustomer();
                         <tr>
                             <td style="font-size:13px;">
                                 <?php echo __('From'); ?> <b><?php echo $group->getTitle(); ?></b>, <?php echo __('your choice'); ?>:
-                                <?php echo implode(" & ", $group->choices); ?>
+                                <?php echo implode_polyfill(" & ", $group->choices); ?>
                             </td>
                             <td style="font-size:13px;" align="right"></td>
                             <td style="font-size:13px;"

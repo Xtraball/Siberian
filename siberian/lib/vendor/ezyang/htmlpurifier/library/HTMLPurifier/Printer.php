@@ -186,14 +186,14 @@ class HTMLPurifier_Printer
                 foreach ($obj->valid_values as $value => $bool) {
                     $values[] = $value;
                 }
-                $class .= implode(', ', $values);
+                $class .= implode_polyfill(', ', $values);
                 break;
             case 'css_composite':
                 $values = array();
                 foreach ($obj->defs as $def) {
                     $values[] = $this->getClass($def, $sec_prefix);
                 }
-                $class .= implode(', ', $values);
+                $class .= implode_polyfill(', ', $values);
                 break;
             case 'css_multiple':
                 $class .= $this->getClass($obj->single, $sec_prefix) . ', ';

@@ -65,7 +65,7 @@ class Mcommerce_Application_Settings_DiscountController extends Application_Cont
                 }
 
                 if (sizeof($errors) > 0) {
-                    $message = $this->_('Please correct the following errors <br>') . implode('<br>', $errors);
+                    $message = $this->_('Please correct the following errors <br>') . implode_polyfill('<br>', $errors);
                     throw new Exception($message);
                 }
 

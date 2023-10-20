@@ -200,6 +200,6 @@ class Media_Model_Library_Image extends Base
         // Again, remove dupes*
         $withTranslation = array_keys(array_flip($withTranslation));
 
-        return implode(',', $withTranslation);
+        return implode_polyfill(',', $withTranslation);
     }
 }

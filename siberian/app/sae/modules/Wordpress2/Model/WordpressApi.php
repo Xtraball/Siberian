@@ -330,7 +330,7 @@ class Wordpress2_Model_WordpressApi extends Core_Model_Default
         $mediaIds = array_unique(array_values($postMediaIds));
 
         $medias = $this->client->media()->get(null, [
-            "include" => implode(",", $mediaIds)
+            "include" => implode_polyfill(",", $mediaIds)
         ]);
 
         $cachedMedias = [];

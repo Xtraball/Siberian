@@ -28,7 +28,7 @@ class DebugWriter extends AbstractWriter
             if (0 === strpos($methodName, 'get') && 0 == $method->getNumberOfParameters()) {
                 $value = $qrCode->{$methodName}();
                 if (is_array($value) && !is_object(current($value))) {
-                    $value = '['.implode(', ', $value).']';
+                    $value = '['.implode_polyfill(', ', $value).']';
                 } elseif (is_bool($value)) {
                     $value = $value ? 'true' : 'false';
                 } elseif (is_string($value)) {
@@ -43,7 +43,7 @@ class DebugWriter extends AbstractWriter
             }
         }
 
-        $string = implode(" \n", $data);
+        $string = implode_polyfill(" \n", $data);
 
         return $string;
     }

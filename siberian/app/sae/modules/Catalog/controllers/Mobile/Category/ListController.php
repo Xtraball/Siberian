@@ -114,8 +114,16 @@ class Catalog_Mobile_Category_ListController extends Application_Controller_Mobi
         ];
     }
 
-    protected function _sortProducts($a, $b) {
-        return $a["position"] > $b["position"];
+    /**
+     * @param $a
+     * @param $b
+     * @return int
+     */
+    protected function _sortProducts($a, $b): int {
+        if ($a["position"] === $b["position"]) {
+            return 0;
+        }
+        return ($a["position"] < $b["position"]) ? -1 : 1;
     }
 
 }

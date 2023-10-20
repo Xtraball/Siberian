@@ -270,8 +270,8 @@ class Folder2_Model_Folder extends Core_Model_Default {
 
                 $searchIndex[] = [
                     'feature' => $item,
-                    'searchElements' => implode(' ', $searchElements),
-                    'ariaTitle' => implode(' > ', $ariaTitle),
+                    'searchElements' => implode_polyfill(' ', $searchElements),
+                    'ariaTitle' => implode_polyfill(' > ', $ariaTitle),
                     'ariaTitleShort' => $ariaTitleShort,
                     'directParent' => $directParent
                 ];

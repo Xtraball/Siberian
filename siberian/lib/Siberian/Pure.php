@@ -965,9 +965,12 @@ function set_password_object($object, string $password, int $min_length = 9, $pa
  * @param $path
  * @return string
  */
+#[\Pure(true)]
 function img_to_base64($path)
 {
-    if (is_readable($path) && in_array(pathinfo($path, PATHINFO_EXTENSION), ['png', 'jpeg', 'jpg', 'bmp', 'gif'])) {
+    if (!is_null($path) &&
+        is_readable($path) &&
+        in_array(pathinfo($path, PATHINFO_EXTENSION), ['png', 'jpeg', 'jpg', 'bmp', 'gif'])) {
         $type = pathinfo($path, PATHINFO_EXTENSION);
         $data = file_get_contents($path);
         $base64 = 'data:image/' . $type . ';base64,' . base64_encode($data);
@@ -1013,4 +1016,14 @@ function base64imageToFile($base64, $path)
     }
 
     return $imagePath;
+}
+
+/**
+ * @param string $string
+ * @return string
+ */
+function filter_sanitize_string_polyfill(string $string): string
+{
+    $str = preg_replace('/\x00|<[^>]*>?/', '', $string);
+    return str_replace(["'", '"'], ['&#39;', '&#34;'], $str);
 }

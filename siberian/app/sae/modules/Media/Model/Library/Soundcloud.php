@@ -730,7 +730,7 @@ class Media_Model_Library_Soundcloud
             }
         }
 
-        $postData = implode('&', $postData);
+        $postData = implode_polyfill('&', $postData);
         $curlOptions = array(
             CURLOPT_CUSTOMREQUEST => 'PUT',
             CURLOPT_HTTPHEADER => array('Content-Length' => strlen($postData)),

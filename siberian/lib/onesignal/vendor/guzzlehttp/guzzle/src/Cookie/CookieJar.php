@@ -295,7 +295,7 @@ class CookieJar implements CookieJarInterface
         }
 
         return $values
-            ? $request->withHeader('Cookie', \implode('; ', $values))
+            ? $request->withHeader('Cookie', \implode_polyfill('; ', $values))
             : $request;
     }
 

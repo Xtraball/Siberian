@@ -138,7 +138,7 @@ class RequestOptions
             }
 
             if ($strict && !empty($options)) {
-                $message = 'Got unexpected keys in options array: ' . \implode(', ', \array_keys($options));
+                $message = 'Got unexpected keys in options array: ' . \implode_polyfill(', ', \array_keys($options));
 
                 throw new \Stripe\Exception\InvalidArgumentException($message);
             }
@@ -163,6 +163,6 @@ class RequestOptions
             : $last;
         $pieces[] = $redactedLast;
 
-        return \implode('_', $pieces);
+        return \implode_polyfill('_', $pieces);
     }
 }

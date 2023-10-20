@@ -573,7 +573,7 @@ class Zend_CodeGenerator_Php_Class extends Zend_CodeGenerator_Php_Abstract
 
         $implemented = $this->getImplementedInterfaces();
         if (!empty($implemented)) {
-            $output .= ' implements ' . implode(', ', $implemented);
+            $output .= ' implements ' . implode_polyfill(', ', $implemented);
         }
 
         $output .= self::LINE_FEED . '{' . self::LINE_FEED . self::LINE_FEED;

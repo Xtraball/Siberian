@@ -131,7 +131,7 @@ class Core_Model_Db_Table extends Zend_Db_Table_Abstract
             }
             $where[] = $this->_db->quoteInto("$pk = ?", $data);
         }
-        $where = implode(' AND ', $where);
+        $where = implode_polyfill(' AND ', $where);
 
         return $this->fetchRow($this->select()->where($where));
     }

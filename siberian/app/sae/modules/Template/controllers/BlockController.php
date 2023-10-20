@@ -36,7 +36,7 @@ class Template_BlockController extends Core_Controller_Default
             $params = ['id', 'url', 'path', 'color'];
             $path = '';
             foreach ($params as $param) $id[] = $this->getRequest()->getParam($param);
-            $id = md5(implode('+', $id));
+            $id = md5(implode_polyfill('+', $id));
 
             if ($image_id = $this->getRequest()->getParam('id')) {
                 $image = new Media_Model_Library_Image();

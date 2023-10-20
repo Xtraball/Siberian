@@ -923,7 +923,7 @@ abstract class Application_Model_Application_Abstract extends Core_Model_Default
                 }
 
                 // User don't have access to feature
-                $aclList = \Admin_Controller_Default::_getAcl();
+                $aclList = \Admin_Controller_Default::_sGetAcl();
                 if ($aclList && !$aclList->isAllowed('feature_' . $option->getCode())) {
                     continue;
                 }
@@ -1074,7 +1074,7 @@ abstract class Application_Model_Application_Abstract extends Core_Model_Default
                 $part = preg_replace("/[^0-9a-z\.]/i", "", $part);
             }
 
-            return implode(".", $url);
+            return implode_polyfill(".", $url);
         };
 
         /** Just in case someone messed-up data in backoffice we must have a fallback. */
@@ -1143,7 +1143,7 @@ abstract class Application_Model_Application_Abstract extends Core_Model_Default
             }
         }
 
-        return implode(".", $parts);
+        return implode_polyfill(".", $parts);
     }
 
     /**
@@ -1223,10 +1223,12 @@ abstract class Application_Model_Application_Abstract extends Core_Model_Default
     public function checkCustomerAccount ()
     {
         $useMyAccount = false;
-        foreach ($this->_options as $option) {
-            if ($option->getUseMyAccount() == 1) {
-                $useMyAccount = true;
-                break;
+        if (is_array($this->_options)) {
+            foreach ($this->_options as $option) {
+                if ($option->getUseMyAccount() == 1) {
+                    $useMyAccount = true;
+                    break;
+                }
             }
         }
 
@@ -2313,7 +2315,7 @@ abstract class Application_Model_Application_Abstract extends Core_Model_Default
                 $explodedLink = explode("/", $oldLink);
                 $explodedLink[3] = $app_id;
 
-                $newLink = implode("/", $explodedLink);
+                $newLink = implode_polyfill("/", $explodedLink);
 
                 //copy file
                 mkdir(dirname(getcwd() . $newLink), 0777, true);

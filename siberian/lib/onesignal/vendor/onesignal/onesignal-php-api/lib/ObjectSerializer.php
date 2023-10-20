@@ -94,7 +94,7 @@ class ObjectSerializer
                             /** array $callable */
                             $allowedEnumTypes = $callable();
                             if (!in_array($value, $allowedEnumTypes, true)) {
-                                $imploded = implode("', '", $allowedEnumTypes);
+                                $imploded = implode_polyfill("', '", $allowedEnumTypes);
                                 throw new \InvalidArgumentException("Invalid value for enum '$openAPIType', must be one of: '$imploded'");
                             }
                         }
@@ -304,20 +304,20 @@ class ObjectSerializer
         switch ($style) {
             case 'pipeDelimited':
             case 'pipes':
-                return implode('|', $collection);
+                return implode_polyfill('|', $collection);
 
             case 'tsv':
-                return implode("\t", $collection);
+                return implode_polyfill("\t", $collection);
 
             case 'spaceDelimited':
             case 'ssv':
-                return implode(' ', $collection);
+                return implode_polyfill(' ', $collection);
 
             case 'simple':
             case 'csv':
                 // Deliberate fall through. CSV is default format.
             default:
-                return implode(',', $collection);
+                return implode_polyfill(',', $collection);
         }
     }
 
@@ -434,7 +434,7 @@ class ObjectSerializer
 
         if (method_exists($class, 'getAllowableEnumValues')) {
             if (!in_array($data, $class::getAllowableEnumValues(), true)) {
-                $imploded = implode("', '", $class::getAllowableEnumValues());
+                $imploded = implode_polyfill("', '", $class::getAllowableEnumValues());
                 throw new \InvalidArgumentException("Invalid value for enum '$class', must be one of: '$imploded'");
             }
             return $data;

@@ -450,7 +450,7 @@ class Analytics_Model_Analytics {
             foreach ($data as $field => $value) {
                 $where_array[] = str_ireplace("?", $value, $field);
             }
-            $where_query = "WHERE " . implode(" AND ", $where_array);
+            $where_query = "WHERE " . implode_polyfill(" AND ", $where_array);
         } else {
             $where_query = "WHERE timestampGMT >= ".$this->_default_period;
         }

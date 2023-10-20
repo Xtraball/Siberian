@@ -60,7 +60,7 @@ function sdvig3($num,$count=1){//>>> 32 bit
         array_pop($sarray);
         array_unshift($sarray, '0');
     }
-    return bindec(implode($sarray));
+    return bindec(implode_polyfill($sarray));
 }
 */
 

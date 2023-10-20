@@ -78,7 +78,7 @@ if ($interchange->directives[$old]->aliases) {
     } else {
         array_splice($lines, $insert, 0, "ALIASES: $old");
     }
-    file_put_contents($file, implode($nl, $lines));
+    file_put_contents($file, implode_polyfill($nl, $lines));
 }
 
 rename("$old.txt", "$new.txt") || exit(1);

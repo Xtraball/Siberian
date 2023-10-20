@@ -460,7 +460,7 @@ class Zend_ProgressBar_Adapter_Console extends Zend_ProgressBar_Adapter
             }
         }
 
-        $data .= implode(' ', $renderedElements);
+        $data .= implode_polyfill(' ', $renderedElements);
 
         // Output line data
         $this->_outputData($data);

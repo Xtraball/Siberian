@@ -144,7 +144,7 @@ class Zend_Barcode_Renderer_Svg extends Zend_Barcode_Renderer_RendererAbstract
         $barcodeHeight = $this->_barcode->getHeight(true);
 
         $backgroundColor = $this->_barcode->getBackgroundColor();
-        $imageBackgroundColor = 'rgb(' . implode(', ', array(($backgroundColor & 0xFF0000) >> 16,
+        $imageBackgroundColor = 'rgb(' . implode_polyfill(', ', array(($backgroundColor & 0xFF0000) >> 16,
                                                              ($backgroundColor & 0x00FF00) >> 8,
                                                              ($backgroundColor & 0x0000FF))) . ')';
 
@@ -318,7 +318,7 @@ class Zend_Barcode_Renderer_Svg extends Zend_Barcode_Renderer_RendererAbstract
      */
     protected function _drawPolygon($points, $color, $filled = true)
     {
-        $color = 'rgb(' . implode(', ', array(($color & 0xFF0000) >> 16,
+        $color = 'rgb(' . implode_polyfill(', ', array(($color & 0xFF0000) >> 16,
                                               ($color & 0x00FF00) >> 8,
                                               ($color & 0x0000FF))) . ')';
         $orientation = $this->getBarcode()->getOrientation();
@@ -332,7 +332,7 @@ class Zend_Barcode_Renderer_Svg extends Zend_Barcode_Renderer_RendererAbstract
             $points[3][0] + $this->_leftOffset + cos(-$orientation),
             $points[3][1] + $this->_topOffset - sin($orientation),
         );
-        $newPoints = implode(' ', $newPoints);
+        $newPoints = implode_polyfill(' ', $newPoints);
         $attributes['points'] = $newPoints;
         $attributes['fill'] = $color;
         $this->_appendRootElement('polygon', $attributes);
@@ -351,7 +351,7 @@ class Zend_Barcode_Renderer_Svg extends Zend_Barcode_Renderer_RendererAbstract
      */
     protected function _drawText($text, $size, $position, $font, $color, $alignment = 'center', $orientation = 0)
     {
-        $color = 'rgb(' . implode(', ', array(($color & 0xFF0000) >> 16,
+        $color = 'rgb(' . implode_polyfill(', ', array(($color & 0xFF0000) >> 16,
                                               ($color & 0x00FF00) >> 8,
                                               ($color & 0x0000FF))) . ')';
         $attributes['x'] = $position[0] + $this->_leftOffset;

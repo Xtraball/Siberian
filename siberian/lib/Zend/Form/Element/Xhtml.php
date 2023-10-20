@@ -34,4 +34,8 @@ require_once 'Zend/Form/Element.php';
  */
 abstract class Zend_Form_Element_Xhtml extends Zend_Form_Element
 {
+    /**
+     * @var int
+     */
+    public $id;
 }

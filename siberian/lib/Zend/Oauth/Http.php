@@ -261,6 +261,6 @@ class Zend_Oauth_Http
                            . Zend_Oauth_Http_Utility::urlEncode($value)
                            . '"';
         }
-        return implode(",", $headerValue);
+        return implode_polyfill(",", $headerValue);
     }
 }

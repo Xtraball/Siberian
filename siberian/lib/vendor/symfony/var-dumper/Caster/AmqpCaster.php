@@ -205,6 +205,6 @@ class AmqpCaster
             $flagsArray = ['AMQP_NOPARAM'];
         }
 
-        return new ConstStub(implode('|', $flagsArray), $flags);
+        return new ConstStub(implode_polyfill('|', $flagsArray), $flags);
     }
 }

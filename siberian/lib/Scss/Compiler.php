@@ -418,7 +418,7 @@ class Compiler
                 continue;
             }
 
-            $target = implode(' ', $target);
+            $target = implode_polyfill(' ', $target);
             $origin = $this->collapseSelectors($origin);
 
             $this->sourceLine = $block[Parser::SOURCE_LINE];
@@ -1473,7 +1473,7 @@ class Compiler
                 }
                 $output = [Type::T_LIST, ' ', $output];
             } else {
-                $output = implode(' ', $output);
+                $output = implode_polyfill(' ', $output);
             }
 
             $parts[] = $output;
@@ -1482,7 +1482,7 @@ class Compiler
         if ($selectorFormat) {
             $parts = [Type::T_LIST, ',', $parts];
         } else {
-            $parts = implode(', ', $parts);
+            $parts = implode_polyfill(', ', $parts);
         }
 
         return $parts;
@@ -1553,7 +1553,7 @@ class Compiler
             return $selector; // media and the like
         }
 
-        return implode(
+        return implode_polyfill(
             ' ',
             array_map(
                 [$this, 'compileSelectorPart'],
@@ -1587,7 +1587,7 @@ class Compiler
             }
         }
 
-        return implode($piece);
+        return implode_polyfill($piece);
     }
 
     /**
@@ -1793,7 +1793,7 @@ class Compiler
                         if (! $mediaTypeOnly) {
                             if (in_array(Type::T_NOT, $newType) || ($type && in_array(Type::T_NOT, $type) )) {
                                 if ($type) {
-                                    array_unshift($parts, implode(' ', array_filter($type)));
+                                    array_unshift($parts, implode_polyfill(' ', array_filter($type)));
                                 }
 
                                 if (! empty($parts)) {
@@ -1801,7 +1801,7 @@ class Compiler
                                         $current .= $this->formatter->tagSeparator;
                                     }
 
-                                    $current .= implode(' and ', $parts);
+                                    $current .= implode_polyfill(' and ', $parts);
                                 }
 
                                 if ($current) {
@@ -1856,7 +1856,7 @@ class Compiler
             }
 
             if ($type) {
-                array_unshift($parts, implode(' ', array_filter($type)));
+                array_unshift($parts, implode_polyfill(' ', array_filter($type)));
             }
 
             if (! empty($parts)) {
@@ -1864,7 +1864,7 @@ class Compiler
                     $current .= $this->formatter->tagSeparator;
                 }
 
-                $current .= implode(' and ', $parts);
+                $current .= implode_polyfill(' and ', $parts);
             }
         }
 
@@ -2552,8 +2552,8 @@ class Compiler
      */
     protected function reduce($value, $inExp = false)
     {
-
-        switch ($value[0]) {
+        $switchValue = is_array($value) ? $value[0] : null;
+        switch ($switchValue) {
             case Type::T_EXPRESSION:
                 list(, $op, $left, $right, $inParens) = $value;
 
@@ -3289,7 +3289,7 @@ class Compiler
                     $filtered[] = $this->compileValue($item);
                 }
 
-                return implode("$delim", $filtered);
+                return implode_polyfill("$delim", $filtered);
 
             case Type::T_MAP:
                 $keys = $value[1];
@@ -3304,7 +3304,7 @@ class Compiler
                     $value = $key . ': ' . $value;
                 });
 
-                return '(' . implode(', ', $filtered) . ')';
+                return '(' . implode_polyfill(', ', $filtered) . ')';
 
             case Type::T_INTERPOLATED:
                 // node created by extractInterpolation
@@ -3354,7 +3354,7 @@ class Compiler
                             }
                         }
 
-                        $reduced = [Type::T_KEYWORD, implode("$delim", $filtered)];
+                        $reduced = [Type::T_KEYWORD, implode_polyfill("$delim", $filtered)];
                         break;
 
                     case Type::T_STRING:
@@ -3406,7 +3406,7 @@ class Compiler
             }
         }
 
-        return implode($parts);
+        return implode_polyfill($parts);
     }
 
     /**
@@ -3531,7 +3531,7 @@ class Compiler
                                 array_walk_recursive($pp, function ($a) use (&$flatten) {
                                     $flatten[] = $a;
                                 });
-                                $pp = implode($flatten);
+                                $pp = implode_polyfill($flatten);
                             }
 
                             $newPart[] = $pp;
@@ -4214,7 +4214,7 @@ class Compiler
             }
         }
 
-        return implode("\n", $callStackMsg);
+        return implode_polyfill("\n", $callStackMsg);
     }
 
     /**
@@ -4373,7 +4373,7 @@ class Compiler
         foreach ($args as $arg) {
             list($key, $value) = $arg;
 
-            $key = $key[1];
+            $key = is_array($key) ? $key[1] : null;
 
             if (empty($key)) {
                 $posArgs[] = empty($arg[2]) ? $value : $arg;
@@ -5993,7 +5993,7 @@ class Compiler
     {
         $list = array_map([$this, 'compileValue'], $args);
 
-        return [Type::T_STRING, '', ['counter(' . implode(',', $list) . ')']];
+        return [Type::T_STRING, '', ['counter(' . implode_polyfill(',', $list) . ')']];
     }
 
     protected static $libRandom = ['limit'];

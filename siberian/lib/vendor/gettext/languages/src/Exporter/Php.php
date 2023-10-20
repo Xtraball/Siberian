@@ -32,7 +32,7 @@ class Php extends Exporter
             foreach ($lc->categories as $c) {
                 $catNames[] = "'{$c->id}'";
             }
-            $lines[] = '        \'cases\' => array('.implode(', ', $catNames).'),';
+            $lines[] = '        \'cases\' => array('.implode_polyfill(', ', $catNames).'),';
             $lines[] = '        \'examples\' => array(';
             foreach ($lc->categories as $c) {
                 $lines[] = '            \''.$c->id.'\' => \''.$c->examples.'\',';
@@ -43,7 +43,7 @@ class Php extends Exporter
         $lines[] = ');';
         $lines[] = '';
 
-        return implode("\n", $lines);
+        return implode_polyfill("\n", $lines);
     }
     /**
      * @see Exporter::getDescription

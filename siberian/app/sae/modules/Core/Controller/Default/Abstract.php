@@ -240,7 +240,7 @@ abstract class Core_Controller_Default_Abstract extends Zend_Controller_Action i
                         $finalTags
                     );
 
-                    $response->setHeader('x-cache-clean', implode(', ', $finalTags));
+                    $response->setHeader('x-cache-clean', implode_polyfill(', ', $finalTags));
                 }
 
                 if (isset($values['outputTags']) &&
@@ -271,7 +271,7 @@ abstract class Core_Controller_Default_Abstract extends Zend_Controller_Action i
                         $finalTags
                     );
 
-                    $response->setHeader('x-cache-output-clean', implode(', ', $finalTags));
+                    $response->setHeader('x-cache-output-clean', implode_polyfill(', ', $finalTags));
                 }
             }
         }
@@ -596,7 +596,7 @@ abstract class Core_Controller_Default_Abstract extends Zend_Controller_Action i
         Siberian_Media::disableTemporary();
 
         $color = str_replace('#', '', $color);
-        $id = md5(implode('+', [
+        $id = md5(implode_polyfill('+', [
             $image_id,
             $color
         ]));
@@ -639,8 +639,8 @@ abstract class Core_Controller_Default_Abstract extends Zend_Controller_Action i
     {
         Media::disableTemporary();
 
-        $color = str_replace('#', '', $color);
-        $id = md5(implode('+', [$image_id, $color]));
+        $color = str_replace('#', '', $color ?? "");
+        $id = md5(implode_polyfill('+', [$image_id, $color]));
         $url = '';
 
         $image = new Media_Model_Library_Image();

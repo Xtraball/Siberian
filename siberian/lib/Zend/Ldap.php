@@ -213,7 +213,7 @@ class Zend_Ldap
             $message = '';
         }
         if (count($errorMessages) > 0) {
-            $message .= '(' . implode('; ', $errorMessages) . ')';
+            $message .= '(' . implode_polyfill('; ', $errorMessages) . ')';
         } else {
             $message .= '(no error message from LDAP)';
         }

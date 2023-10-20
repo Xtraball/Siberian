@@ -19,11 +19,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'OPTIONS') {
     die;
 }
 
-// PHP Polyfill
-abstract class __polyfill_mixed {}
-if (version_compare(PHP_VERSION, '8.0', '<')) {
-    class_alias(\__polyfill_mixed::class, 'mixed');
-}
+require_once __DIR__ . '/polyfills.php';
 
 global $_config;
 
@@ -69,7 +65,7 @@ defined('APPLICATION_ENV')
 || define('APPLICATION_ENV', $_config['environment']);
 
 // Sourcing default libs!
-set_include_path(implode(PATH_SEPARATOR, [
+set_include_path(implode_polyfill(PATH_SEPARATOR, [
     dirname(APPLICATION_PATH) . '/lib',
 ]));
 

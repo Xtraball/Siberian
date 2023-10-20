@@ -19,7 +19,7 @@ class Po extends Exporter
         $lines[] = '"Plural-Forms: nplurals='.count($language->categories).'; plural='.$language->formula.'\n"';
         $lines[] = '';
 
-        return implode("\n", $lines);
+        return implode_polyfill("\n", $lines);
     }
     /**
      * @see Exporter::getDescription

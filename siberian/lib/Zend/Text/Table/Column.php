@@ -236,7 +236,7 @@ class Zend_Text_Table_Column
                            . str_repeat(' ', $padding);
         }
 
-        $result = implode("\n", $paddedLines);
+        $result = implode_polyfill("\n", $paddedLines);
 
         return $result;
     }

@@ -724,10 +724,10 @@ class Zend_Ldap_Dn implements ArrayAccess
         foreach ($part as $key => $value) {
             $value = self::escapeValue($value);
             $keyId = strtolower($key);
-            $rdnParts[$keyId] =  implode('=', array($key, $value));
+            $rdnParts[$keyId] =  implode_polyfill('=', array($key, $value));
         }
         ksort($rdnParts, SORT_STRING);
-        return implode('+', $rdnParts);
+        return implode_polyfill('+', $rdnParts);
     }
 
     /**
@@ -754,7 +754,7 @@ class Zend_Ldap_Dn implements ArrayAccess
         foreach ($dnArray as $p) {
             $parts[] = self::implodeRdn($p, $caseFold);
         }
-        return implode($separator, $parts);
+        return implode_polyfill($separator, $parts);
     }
 
     /**

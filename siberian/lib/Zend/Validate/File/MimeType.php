@@ -338,7 +338,7 @@ class Zend_Validate_File_MimeType extends Zend_Validate_Abstract
             }
         }
 
-        $this->_mimetype = implode(',', $mimetypes);
+        $this->_mimetype = implode_polyfill(',', $mimetypes);
 
         return $this;
     }

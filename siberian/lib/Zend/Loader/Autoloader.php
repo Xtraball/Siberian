@@ -265,7 +265,7 @@ class Zend_Loader_Autoloader
         }
 
         $this->_zfPath = $this->_getVersionPath($path, $version);
-        set_include_path(implode(PATH_SEPARATOR, array(
+        set_include_path(implode_polyfill(PATH_SEPARATOR, array(
             $this->_zfPath,
             get_include_path(),
         )));

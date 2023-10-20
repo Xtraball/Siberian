@@ -86,7 +86,7 @@ class Facebook extends BaseFacebook {
     }
 
     protected function constructSessionVariableName($key) {
-        return implode('_', array('fb',
+        return implode_polyfill('_', array('fb',
             $this->getAppId(),
             $key));
     }

@@ -210,7 +210,7 @@ class Zend_View_Helper_HeadTitle extends Zend_View_Helper_Placeholder_Container_
         if(($prefix = $this->getPrefix())) {
             $output  .= $prefix;
         }
-        $output .= implode($separator, $items);
+        $output .= implode_polyfill($separator, $items);
         if(($postfix = $this->getPostfix())) {
             $output .= $postfix;
         }

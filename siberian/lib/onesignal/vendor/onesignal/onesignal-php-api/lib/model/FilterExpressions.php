@@ -268,7 +268,7 @@ class FilterExpressions implements ModelInterface, ArrayAccess, \JsonSerializabl
             $invalidProperties[] = sprintf(
                 "invalid value '%s' for 'relation', must be one of '%s'",
                 $this->container['relation'],
-                implode("', '", $allowedValues)
+                implode_polyfill("', '", $allowedValues)
             );
         }
 
@@ -277,7 +277,7 @@ class FilterExpressions implements ModelInterface, ArrayAccess, \JsonSerializabl
             $invalidProperties[] = sprintf(
                 "invalid value '%s' for 'operator', must be one of '%s'",
                 $this->container['operator'],
-                implode("', '", $allowedValues)
+                implode_polyfill("', '", $allowedValues)
             );
         }
 
@@ -393,7 +393,7 @@ class FilterExpressions implements ModelInterface, ArrayAccess, \JsonSerializabl
                 sprintf(
                     "Invalid value '%s' for 'relation', must be one of '%s'",
                     $relation,
-                    implode("', '", $allowedValues)
+                    implode_polyfill("', '", $allowedValues)
                 )
             );
         }
@@ -427,7 +427,7 @@ class FilterExpressions implements ModelInterface, ArrayAccess, \JsonSerializabl
                 sprintf(
                     "Invalid value '%s' for 'operator', must be one of '%s'",
                     $operator,
-                    implode("', '", $allowedValues)
+                    implode_polyfill("', '", $allowedValues)
                 )
             );
         }

@@ -7,11 +7,7 @@
  * @author Xtraball SAS <dev@xtraball.com>
  */
 
-// PHP Polyfill
-abstract class __polyfill_mixed {}
-if (version_compare(PHP_VERSION, '8.0', '<')) {
-    class_alias(\__polyfill_mixed::class, 'mixed');
-}
+require_once __DIR__ . '/polyfills.php';
 
 global $_config;
 
@@ -59,7 +55,7 @@ define('CRON', true);
 define('APPLICATION_PATH', realpath(__DIR__ . '/app'));
 define('APPLICATION_ENV', $_config['environment']);
 
-set_include_path(implode(PATH_SEPARATOR, [
+set_include_path(implode_polyfill(PATH_SEPARATOR, [
     dirname(APPLICATION_PATH) . '/lib',
 ]));
 

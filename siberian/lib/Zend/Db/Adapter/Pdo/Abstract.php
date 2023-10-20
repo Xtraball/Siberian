@@ -75,7 +75,7 @@ abstract class Zend_Db_Adapter_Pdo_Abstract extends Zend_Db_Adapter_Abstract
             $dsn[$key] = "$key=$val";
         }
 
-        return $this->_pdoType . ':' . implode(';', $dsn);
+        return $this->_pdoType . ':' . implode_polyfill(';', $dsn);
     }
 
     /**
@@ -293,7 +293,7 @@ abstract class Zend_Db_Adapter_Pdo_Abstract extends Zend_Db_Adapter_Abstract
             return $value;
         }
         $this->_connect();
-        return $this->_connection->quote($value);
+        return $this->_connection->quote($value ?? "");
     }
 
     /**

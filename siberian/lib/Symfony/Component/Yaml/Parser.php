@@ -496,7 +496,7 @@ class Parser
             }
         }
 
-        return implode("\n", $data);
+        return implode_polyfill("\n", $data);
     }
 
     /**
@@ -708,7 +708,7 @@ class Parser
                 }
             }
         } else {
-            $text = implode("\n", $blockLines);
+            $text = implode_polyfill("\n", $blockLines);
         }
 
         // deal with trailing newlines

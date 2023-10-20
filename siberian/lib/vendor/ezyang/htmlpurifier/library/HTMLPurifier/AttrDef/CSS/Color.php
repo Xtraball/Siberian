@@ -134,7 +134,7 @@ class HTMLPurifier_AttrDef_CSS_Color extends HTMLPurifier_AttrDef
                 }
             }
 
-            $new_values = implode(',', $new_parts);
+            $new_values = implode_polyfill(',', $new_parts);
 
             $color = $function . '(' . $new_values . ')';
         } else {

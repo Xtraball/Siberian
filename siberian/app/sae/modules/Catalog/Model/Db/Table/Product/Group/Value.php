@@ -37,7 +37,7 @@ class Catalog_Model_Db_Table_Product_Group_Value extends Core_Model_Db_Table
 
     public function findAllGroups($product_id = null, $app_id = null, $as_checkbox = false) {
 
-        $join = implode(' AND ', array(
+        $join = implode_polyfill(' AND ', array(
             'cpgv.group_id = cpg.group_id',
             $this->_db->quoteInto('cpgv.product_id = ?', $product_id)
         ));

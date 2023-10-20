@@ -335,7 +335,7 @@ class Zend_View_Helper_HeadLink extends Zend_View_Helper_Placeholder_Container_S
             $items[] = $this->itemToString($item);
         }
 
-        return $indent . implode($this->_escape($this->getSeparator()) . $indent, $items);
+        return $indent . implode_polyfill($this->_escape($this->getSeparator()) . $indent, $items);
     }
 
     /**
@@ -372,7 +372,7 @@ class Zend_View_Helper_HeadLink extends Zend_View_Helper_Placeholder_Container_S
         if (0 < count($args)) {
             $media = array_shift($args);
             if(is_array($media)) {
-                $media = implode(',', $media);
+                $media = implode_polyfill(',', $media);
             } else {
                 $media = (string) $media;
             }
@@ -436,7 +436,7 @@ class Zend_View_Helper_HeadLink extends Zend_View_Helper_Placeholder_Container_S
             $extras = (array) $extras;
 
             if(isset($extras['media']) && is_array($extras['media'])) {
-                $extras['media'] = implode(',', $extras['media']);
+                $extras['media'] = implode_polyfill(',', $extras['media']);
             }
         }
 

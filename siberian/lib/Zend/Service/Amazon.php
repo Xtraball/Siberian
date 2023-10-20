@@ -237,7 +237,7 @@ class Zend_Service_Amazon
 
             if (!in_array('Request', $responseGroup)) {
                 $responseGroup[] = 'Request';
-                $options['ResponseGroup'] = implode(',', $responseGroup);
+                $options['ResponseGroup'] = implode_polyfill(',', $responseGroup);
             }
         }
 
@@ -287,7 +287,7 @@ class Zend_Service_Amazon
 
         return sprintf("GET\n%s\n/onca/xml\n%s",
             str_replace('http://', '', $baseUri),
-            implode("&", $params)
+            implode_polyfill("&", $params)
         );
     }
 

@@ -156,7 +156,7 @@ class Cache implements CacheInterface
             $path[] = $filename[$i];
 
         }
-        $path = implode('/', $path);
+        $path = implode_polyfill('/', $path);
 
         if ($mkdir) {
             $actualDir = $this->getActualCacheDirectory() . '/' . $path;

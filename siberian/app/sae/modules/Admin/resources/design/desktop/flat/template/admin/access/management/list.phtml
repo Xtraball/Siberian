@@ -50,7 +50,7 @@ $admins = $admin->findAll(array('parent_id' => $this->getAdmin()->getId()));
                                     <td>
                                         <?php
                                         $address2 = $admin->getAddress2() ? $admin->getAddress2() . '<br />' : '';
-                                        echo implode('', [$admin->getAddress(), '<br />', $address2, $admin->getZipCode(), ' ', $admin->getCity()]);
+                                        echo implode_polyfill('', [$admin->getAddress(), '<br />', $address2, $admin->getZipCode(), ' ', $admin->getCity()]);
                                         ?>
                                     </td>
                                     <td><?php echo $admin->getPhone() ?? '-'; ?></td>

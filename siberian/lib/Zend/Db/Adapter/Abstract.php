@@ -566,8 +566,8 @@ abstract class Zend_Db_Adapter_Abstract
         // build the statement
         $sql = "INSERT INTO "
              . $this->quoteIdentifier($table, true)
-             . ' (' . implode(', ', $cols) . ') '
-             . 'VALUES (' . implode(', ', $vals) . ')';
+             . ' (' . implode_polyfill(', ', $cols) . ') '
+             . 'VALUES (' . implode_polyfill(', ', $vals) . ')';
 
         // execute the statement and return the number of affected rows
         if ($this->supportsParameters('positional')) {
@@ -625,7 +625,7 @@ abstract class Zend_Db_Adapter_Abstract
          */
         $sql = "UPDATE "
              . $this->quoteIdentifier($table, true)
-             . ' SET ' . implode(', ', $set)
+             . ' SET ' . implode_polyfill(', ', $set)
              . (($where) ? " WHERE $where" : '');
 
         /**
@@ -696,7 +696,7 @@ abstract class Zend_Db_Adapter_Abstract
             $term = '(' . $term . ')';
         }
 
-        $where = implode(' AND ', $where);
+        $where = implode_polyfill(' AND ', $where);
         return $where;
     }
 
@@ -872,7 +872,7 @@ abstract class Zend_Db_Adapter_Abstract
             foreach ($value as &$val) {
                 $val = $this->quote($val, $type);
             }
-            return implode(', ', $value);
+            return implode_polyfill(', ', $value);
         }
 
         if ($type !== null && array_key_exists($type = strtoupper($type), $this->_numericDataTypes)) {
@@ -1024,7 +1024,7 @@ abstract class Zend_Db_Adapter_Abstract
                 if ($alias !== null && end($ident) == $alias) {
                     $alias = null;
                 }
-                $quoted = implode('.', $segments);
+                $quoted = implode_polyfill('.', $segments);
             } else {
                 $quoted = $this->_quoteIdentifier($ident, $auto);
             }

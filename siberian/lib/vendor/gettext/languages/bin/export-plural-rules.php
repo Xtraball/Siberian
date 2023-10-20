@@ -156,7 +156,7 @@ class Enviro
     public static function showSyntax()
     {
         $exporters = array_keys(Exporter::getExporters(true));
-        self::echoErr("Syntax: php ".basename(__FILE__)." [--us-ascii] [--languages=<LanguageId>[,<LanguageId>,...]] [--reduce=yes|no] [--output=<file name>] <".implode('|', $exporters).">\n");
+        self::echoErr("Syntax: php ".basename(__FILE__)." [--us-ascii] [--languages=<LanguageId>[,<LanguageId>,...]] [--reduce=yes|no] [--output=<file name>] <".implode_polyfill('|', $exporters).">\n");
         self::echoErr("Where:\n");
         self::echoErr("--us-ascii : if specified, the output will contain only US-ASCII characters.\n");
         self::echoErr("--languages: (or --language) export only the specified language codes.\n");
