@@ -10,7 +10,9 @@ $layout = $layout_model->find($application->getLayoutId());
 $layout_options = Siberian_Feature::getLayoutOptionsCallbacks($layout->getCode());
 $layout_form = false;
 if (isset($layout_options["form"]) && class_exists($layout_options["form"])) {
-    $layout_form = new $layout_options["form"]($layout);
+    $newKlass = $layout_options["form"];
+    $ref = new \ReflectionClass($newKlass);
+    $layout_form = $ref->newInstanceArgs([$layout]);
 
     $layout_options = $application->getLayoutOptions();
     if (!empty($layout_options) && $values = Siberian_Json::decode($layout_options)) {
