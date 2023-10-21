@@ -104,7 +104,10 @@ if (isset($_config['handle_fatal_errors']) &&
                 'message' => 'ERROR: ' . str_replace("\n", ' - ', $error['message']),
             ];
 
-            exit(json_encode($payload, JSON_UNESCAPED_SLASHES | JSON_PRETTY_PRINT));
+            file_put_contents(
+                __DIR__ . '/var/tmp/fatal.log',
+                date('d/m/Y H:i:s') . ': ' . json_encode($payload, JSON_UNESCAPED_SLASHES | JSON_PRETTY_PRINT) . PHP_EOL,
+                FILE_APPEND);
         }
     }
 
@@ -125,7 +128,10 @@ if (isset($_config['handle_fatal_errors']) &&
                     'message' => 'ERROR: ' . str_replace("\n", ' - ', $error['message']),
                 ];
 
-                exit(json_encode($payload, JSON_UNESCAPED_SLASHES | JSON_PRETTY_PRINT));
+                file_put_contents(
+                    __DIR__ . '/var/tmp/fatal.log',
+                    date('d/m/Y H:i:s') . ': ' . json_encode($payload, JSON_UNESCAPED_SLASHES | JSON_PRETTY_PRINT) . PHP_EOL,
+                    FILE_APPEND);
             }
         }
     });
