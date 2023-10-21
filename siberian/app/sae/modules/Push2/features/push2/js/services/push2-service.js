@@ -88,10 +88,6 @@ angular
             console.log("[Push2Service] User accepted notifications: " + accepted);
         });
 
-        $window.plugins.OneSignal.setNotificationOpenedHandler(function(jsonData) {
-            console.log('[Push2Service] notificationOpenedCallback: ' + JSON.stringify(jsonData));
-        });
-
         $window.plugins.OneSignal.setNotificationWillShowInForegroundHandler(function(notificationReceivedEvent) {
             $rootScope.$broadcast(SB.EVENTS.PUSH.notificationReceived, {
                 event: notificationReceivedEvent,
@@ -100,10 +96,10 @@ angular
             });
         });
 
-        $window.plugins.OneSignal.setNotificationOpenedHandler(function(notificationReceivedEvent) {
+        $window.plugins.OneSignal.setNotificationOpenedHandler(function(openedEvent) {
             $rootScope.$broadcast(SB.EVENTS.PUSH.notificationReceived, {
-                event: notificationReceivedEvent,
-                notification: notificationReceivedEvent.getNotification(),
+                event: null,
+                notification: openedEvent.notification,
                 origin: 'opened_handler'
             });
         });
@@ -230,10 +226,11 @@ angular
 
         switch (data.origin) {
             case 'opened_handler':
-                data.event.complete(data.notification);
+                $log.info('opened_handler', data);
+                service.displayForegroundNotification(data);
                 break;
             case 'foreground':
-                data.event.complete(null);
+                data.event.complete(data.notification);
                 service.displayForegroundNotification(data);
                 break;
             case 'silent':

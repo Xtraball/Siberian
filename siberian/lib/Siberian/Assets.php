@@ -484,10 +484,11 @@ class Assets
             $desktop_uri = $feature['desktop_uri'];
             $open_callback_class = $feature['open_callback_class'] ?? null;
             $lazy_load = $feature['lazy_load'] ?? null;
-            $my_account = (bool) $feature['use_account'];
-            $only_once = (bool) $feature['only_once'];
+            $my_account = (bool) ($feature['use_account'] ?? false);
+            $only_once = (bool) ($feature['only_once'] ?? false);
             $mobile_uri = $feature['mobile_uri'] ?? ''; // Bypassing old _service modules with missing fake mobile_uri!
             $layouts = $feature['layouts'] ?? [];
+
 
             $icons = $feature['icons'];
             if (is_array($icons)) {

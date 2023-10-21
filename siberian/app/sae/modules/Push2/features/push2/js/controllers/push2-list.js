@@ -7,7 +7,7 @@
 angular
     .module('starter')
     .controller('Push2ListController', function ($scope, $rootScope, $stateParams, $filter, Customer, Push2,
-                                                 Push2Base, LinkService, $timeout, $location, Dialog) {
+                                                 Push2Base, LinkService, $timeout, $location, Dialog, SB) {
 
         angular.extend(
             $scope,
