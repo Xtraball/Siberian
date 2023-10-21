@@ -57,16 +57,17 @@ class Installer_Model_Db_Table_Installer_Module extends Core_Model_Db_Table
     {
 
         try {
-            $this->start();
             $this->query("SET foreign_key_checks = 0;");
+            $this->start();
             require_once $file;
-            $this->query("SET foreign_key_checks = 1;");
             $this->end();
-        } catch (Exception $e) {
-            $this->_db->rollback();
             $this->query("SET foreign_key_checks = 1;");
+        } catch (Exception $e1) {
+            try {
+                $this->_db->rollback();
+            } catch (\Exception $e2) {}
             if (APPLICATION_ENV !== 'production') {
-                Zend_Debug::dump($e);
+                Zend_Debug::dump($e1);
                 die;
             }
             throw new \Exception("An error occurred while upgrading the system. Please, contact your administrator.");
@@ -78,7 +79,11 @@ class Installer_Model_Db_Table_Installer_Module extends Core_Model_Db_Table
      */
     public function start()
     {
-        $this->_db->beginTransaction();
+        try {
+            $this->_db->beginTransaction();
+        } catch (\Exception $e) {
+            //Zend_Debug::dump($e);
+        }
     }
 
     /**
@@ -86,7 +91,11 @@ class Installer_Model_Db_Table_Installer_Module extends Core_Model_Db_Table
      */
     public function end()
     {
-        $this->_db->commit();
+        try {
+            $this->_db->commit();
+        } catch (\Exception $e) {
+            //Zend_Debug::dump($e);
+        }
     }
 
     /**
