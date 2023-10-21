@@ -1,6 +1,6 @@
 #!/bin/bash
 
-sudo chwon -R anders:www-data ./siberian
+sudo chown -R anders:www-data ./siberian
 sudo chmod -R 777 ./siberian
 
 # Adding last version to package.json
