@@ -61,7 +61,7 @@ class Feature
                     $iconPath = $iconPath['path'];
                 }
                 // Siberian 4.20.17+ support for keywords
-                if (array_key_exists('keywords', $iconPath)) {
+                if (is_array($iconPath) && array_key_exists('keywords', $iconPath)) {
                     $keywords = $iconPath['keywords'];
                 }
             }

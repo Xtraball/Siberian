@@ -255,7 +255,8 @@ class Zend_Config implements Countable, Iterator
      *
      * @return mixed
      */
-    public function current(): Iterator
+    #[\ReturnTypeWillChange]
+    public function current()
     {
         $this->_skipNextIteration = false;
         return current($this->_data);
@@ -266,7 +267,8 @@ class Zend_Config implements Countable, Iterator
      *
      * @return mixed
      */
-    public function key(): Iterator
+    #[\ReturnTypeWillChange]
+    public function key()
     {
         return key($this->_data);
     }
