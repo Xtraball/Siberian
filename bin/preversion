@@ -1,5 +1,8 @@
 #!/bin/bash
 
+sudo chown -R anders:www-data ./siberian
+sudo chmod -R 777 ./siberian
+
 # Adding last version to package.json
 LASTVERSION=$(node -e "console.log(require('./package.json').version);");
 sed -i -e 's/"lastversion": ".*",/"lastversion": "'$LASTVERSION'",/g' package.json
