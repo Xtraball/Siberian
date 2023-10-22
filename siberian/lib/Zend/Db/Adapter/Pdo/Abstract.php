@@ -319,7 +319,11 @@ abstract class Zend_Db_Adapter_Pdo_Abstract extends Zend_Db_Adapter_Abstract
      */
     protected function _rollBack() {
         $this->_connect();
-        $this->_connection->rollBack();
+        try {
+            $this->_connection->rollBack();
+        } catch (\Exception $e) {
+            // if we get an error here, ignore it.
+        }
     }
 
     /**

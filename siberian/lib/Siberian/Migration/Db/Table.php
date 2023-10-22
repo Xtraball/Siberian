@@ -348,7 +348,7 @@ class Siberian_Migration_Db_Table extends Zend_Db_Table_Abstract
             list($name, $default, $nullable, $character_set, $collation, $col_type, $col_key, $extra) =
                 array_values($column);
 
-            if ($default[0] === "'" && $default[strlen($default) - 1] === "'") {
+            if (strlen($default ?? "") > 0 && $default[0] === "'" && $default[strlen($default) - 1] === "'") {
                 $default = substr($default, 1, strlen($default) - 2);
             }
 
@@ -751,7 +751,11 @@ class Siberian_Migration_Db_Table extends Zend_Db_Table_Abstract
      */
     public function commit()
     {
-        $this->getAdapter()->commit();
+        try {
+            $this->getAdapter()->commit();
+        } catch (Exception $e) {
+            $this->logger->info("[Table::execSafe] Nothing to commit transaction.");
+        }
     }
 
     /**
@@ -759,7 +763,11 @@ class Siberian_Migration_Db_Table extends Zend_Db_Table_Abstract
      */
     public function revert()
     {
-        $this->getAdapter()->rollBack();
+        try {
+            $this->getAdapter()->rollBack();
+        } catch (Exception $e) {
+            $this->logger->info("[Table::revert] Unable to rollback transaction.");
+        }
     }
 
     /**
@@ -784,6 +792,7 @@ class Siberian_Migration_Db_Table extends Zend_Db_Table_Abstract
             $this->start();
             $this->query("SET FOREIGN_KEY_CHECKS = 0;");
             $this->query($query);
+            $this->logger->info($query);
             $this->query("SET FOREIGN_KEY_CHECKS = 1;");
             $this->commit();
         } catch (Exception $e) {
