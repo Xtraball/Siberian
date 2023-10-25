@@ -19,7 +19,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'OPTIONS') {
     die;
 }
 
-require_once __DIR__ . '/polyfills.php';
+require_once './lib/System/polyfills.php';
 
 global $_config;
 
@@ -54,15 +54,7 @@ umask(0);
 
 setlocale(LC_MONETARY, 'en_US');
 
-defined('DS')
-|| define('DS', DIRECTORY_SEPARATOR);
-
-defined('APPLICATION_PATH')
-|| define('APPLICATION_PATH', realpath(__DIR__ . '/app'));
-
-// Defining ENV globally!
-defined('APPLICATION_ENV')
-|| define('APPLICATION_ENV', $_config['environment']);
+require_once  './lib/System/defines.php';
 
 // Sourcing default libs!
 set_include_path(implode_polyfill(PATH_SEPARATOR, [

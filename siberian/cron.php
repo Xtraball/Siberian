@@ -7,9 +7,11 @@
  * @author Xtraball SAS <dev@xtraball.com>
  */
 
-require_once __DIR__ . '/polyfills.php';
+require_once './lib/System/polyfills.php';
 
 global $_config;
+
+$_config["cron"] = true;
 
 $oldUmask = umask(0);
 chdir(__DIR__);
@@ -51,9 +53,7 @@ if (
     }
 }
 
-define('CRON', true);
-define('APPLICATION_PATH', realpath(__DIR__ . '/app'));
-define('APPLICATION_ENV', $_config['environment']);
+require_once __DIR__ . '/lib/System/defines.php';
 
 set_include_path(implode_polyfill(PATH_SEPARATOR, [
     dirname(APPLICATION_PATH) . '/lib',

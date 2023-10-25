@@ -21,7 +21,7 @@ use Siberian_Cache as Cache;
 use Siberian_Google_Geocoding as Geocoding;
 use Siberian_Cache_Design as CacheDesign;
 
-require_once __DIR__ . '/polyfills.php';
+require_once './lib/System/polyfills.php';
 
 global $_config;
 
@@ -50,6 +50,8 @@ ini_set('max_execution_time', 300);
 umask(0);
 
 setlocale(LC_MONETARY, 'en_US');
+
+require_once __DIR__ . '/lib/System/defines.php';
 
 defined('DS')
 || define('DS', DIRECTORY_SEPARATOR);

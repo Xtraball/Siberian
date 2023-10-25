@@ -1,18 +1,19 @@
 <?php
 
-class Template_Model_Db_Table_Block extends Core_Model_Db_Table {
+class Template_Model_Db_Table_Block extends Core_Model_Db_Table
+{
 
     protected $_name = "template_block";
     protected $_primary = "block_id";
 
-    public function findAll($values, $order, $params) {
+    public function findAll($values, $order = null, $params = null)
+    {
 
         $fields = $this->getFields();
         $select = $this->select()
-            ->from(['tb' => $this->_name], [])
-        ;
+            ->from(['tb' => $this->_name], []);
 
-        if(!empty($values['app_id'])) {
+        if (!empty($values['app_id'])) {
 
             $fields['color'] = new Zend_Db_Expr('IFNULL(tba.color, tb.color)');
             $fields['background_color'] =
@@ -36,15 +37,14 @@ class Template_Model_Db_Table_Block extends Core_Model_Db_Table {
             ]);
 
             $select->joinLeft(['tba' => 'template_block_app'], $join)
-                ->setIntegrityCheck(false)
-            ;
+                ->setIntegrityCheck(false);
             unset($values['app_id']);
         }
 
         $select->columns($fields);
 
-        if(!empty($values)) {
-            foreach($values as $quote => $value) {
+        if (!empty($values)) {
+            foreach ($values as $quote => $value) {
                 if ($value instanceof Zend_Db_Expr) {
                     $select->where($value);
                 } else if (stripos($quote, '?') !== false) {
@@ -55,16 +55,16 @@ class Template_Model_Db_Table_Block extends Core_Model_Db_Table {
             }
         }
 
-        if(!empty($params)) {
-            if(!empty($params['limit'])) {
+        if (!empty($params)) {
+            if (!empty($params['limit'])) {
                 $select->limit($params['limit']);
             }
-            if(!empty($params['offset'])) {
+            if (!empty($params['offset'])) {
                 $select->offset($params['offset']);
             }
         }
 
-        if(!empty($order)) {
+        if (!empty($order)) {
             $select->order($order);
         }
 
@@ -72,14 +72,14 @@ class Template_Model_Db_Table_Block extends Core_Model_Db_Table {
 
         $sorted_collection = [];
 
-        foreach($blocks as $block) {
-            if(!$block->getParentId()) {
+        foreach ($blocks as $block) {
+            if (!$block->getParentId()) {
                 $sorted_collection[] = $block;
             }
         }
 
-        foreach($blocks as $block) {
-            if($block->getParentId()) {
+        foreach ($blocks as $block) {
+            if ($block->getParentId()) {
                 $this->__buildTree($block, $sorted_collection);
             }
         }
@@ -87,17 +87,18 @@ class Template_Model_Db_Table_Block extends Core_Model_Db_Table {
         return $sorted_collection;
     }
 
-    public function saveAppBlock($block) {
+    public function saveAppBlock($block)
+    {
         $fields = $this->getFields('template_block_app');
         $data = $block->getData();
-        foreach($data as $key => $value) {
-            if(!in_array($key, $fields)) unset($data[$key]);
+        foreach ($data as $key => $value) {
+            if (!in_array($key, $fields)) unset($data[$key]);
         }
 
         try {
             $this->_db->insert('template_block_app', $data);
         } catch (Exception $e) {
-            if($e->getCode() == 23000) {
+            if ($e->getCode() == 23000) {
                 $data["updated_at"] = new Zend_Db_Expr("NOW()");
                 $this->_db->update('template_block_app', $data, ['block_id = ?' => $data['block_id'], 'app_id = ?' => $data['app_id']]);
             }
@@ -106,23 +107,24 @@ class Template_Model_Db_Table_Block extends Core_Model_Db_Table {
 
     }
 
-    public function findByDesign($design_id) {
+    public function findByDesign($design_id)
+    {
 
         $select = $this->select()
             ->from(['td' => 'template_design'], [])
             ->join(['tdb' => 'template_design_block'], 'tdb.design_id = td.design_id', ['block_id', 'color', 'background_color', 'border_color', 'image_color', 'text_opacity', 'background_opacity', 'border_opacity', 'image_opacity'])
             ->join(['tb' => $this->_name], 'tb.block_id = tdb.block_id', ['name', 'code', 'position', 'created_at', 'updated_at'])
             ->where('td.design_id = ?', $design_id)
-            ->setIntegrityCheck(false)
-        ;
+            ->setIntegrityCheck(false);
 
         return $this->fetchAll($select);
     }
 
-    private function __buildTree($block, $parents = []) {
+    private function __buildTree($block, $parents = [])
+    {
 
-        foreach($parents as $parent) {
-            if($parent->getId() == $block->getParentId()) {
+        foreach ($parents as $parent) {
+            if ($parent->getId() == $block->getParentId()) {
                 $parent->addChild($block);
             }
         }
