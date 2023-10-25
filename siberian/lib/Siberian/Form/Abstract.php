@@ -677,6 +677,7 @@ abstract class Siberian_Form_Abstract extends Zend_Form
         /** Fake uploader */
         $image_input = new Siberian_Form_Element_File("{$name}_fake_files", __("uploader"));
         $this->addElement($image_input);
+        $image_input->setAttrib("id", "{$name}_fake_files");
         $image_input->setAttrib("data-url", "/template/crop/upload");
         $image_input->setAttrib("style", "display: none;");
         $image_input->setAttrib("name", "files[]");
@@ -743,6 +744,7 @@ abstract class Siberian_Form_Abstract extends Zend_Form
         if (isset($options["multiple"])) {
             $input_file->setAttrib("multiple", "multiple");
         }
+        $input_file->setAttrib("id", "{$name}_hidden");
         $input_file->setAttrib("style", "display: none;");
         $input_file->setAttrib("name", "files[]");
         $input_file->addClass("feature-upload-file");
