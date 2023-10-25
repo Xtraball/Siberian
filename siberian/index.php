@@ -1,10 +1,9 @@
 <?php
 
-
 /**
  * Siberian
  *
- * @version 5.0.4
+ * @version 5.0.7
  * @author Xtraball SAS <dev@xtraball.com>
  */
 
@@ -31,6 +30,8 @@ $oldUmask = umask(003);
 if (!file_exists('./config.php')) {
     copy('./config.sample.php', './config.php');
 }
+
+require_once './lib/System/shutdown.php';
 
 if (!file_exists('./lib/Siberian/Version.php')) {
     copy('./lib/Siberian/Version.sample.php', './lib/Siberian/Version.php');
@@ -77,56 +78,6 @@ function dbg()
             date('d/m/Y H:i:s') . ': ' . $content . PHP_EOL,
             FILE_APPEND);
     }
-}
-
-// When you need to catch fatal errors create the corresponding config line `$_config["handle_fatal_errors"] = true;`!
-if (isset($_config['handle_fatal_errors']) &&
-    $_config['handle_fatal_errors'] === true) {
-    // Handle fatal errors!
-    function shutdownFatalHandler()
-    {
-        $error = error_get_last();
-        if ($error !== null) {
-            ob_clean();
-            http_response_code(400);
-
-            $payload = [
-                'error' => true,
-                'fullError' => $error,
-                'message' => 'ERROR: ' . str_replace("\n", ' - ', $error['message']),
-            ];
-
-            file_put_contents(
-                __DIR__ . '/var/tmp/fatal.log',
-                date('d/m/Y H:i:s') . ': ' . json_encode($payload, JSON_UNESCAPED_SLASHES | JSON_PRETTY_PRINT) . PHP_EOL,
-                FILE_APPEND);
-        }
-    }
-
-    // Handle fatal errors!
-    register_shutdown_function('shutdownFatalHandler');
-} else {
-    // Handling max memory size issues only!
-    register_shutdown_function(function () {
-        $error = error_get_last();
-        if ($error !== null) {
-            if (preg_match('/Allowed memory size/im', $error['message'])) {
-                ob_clean();
-                http_response_code(400);
-
-                $payload = [
-                    'error' => true,
-                    'fullError' => $error,
-                    'message' => 'ERROR: ' . str_replace("\n", ' - ', $error['message']),
-                ];
-
-                file_put_contents(
-                    __DIR__ . '/var/tmp/fatal.log',
-                    date('d/m/Y H:i:s') . ': ' . json_encode($payload, JSON_UNESCAPED_SLASHES | JSON_PRETTY_PRINT) . PHP_EOL,
-                    FILE_APPEND);
-            }
-        }
-    });
 }
 
 // Running!

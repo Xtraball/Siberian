@@ -144,14 +144,14 @@ if (array_key_exists(Version::VERSION, $updates)) {
                     <col width="55%"/>
                     <tbody>
                     <tr>
-                        <td rowspan="7">
+                        <td rowspan="6">
                             <?php if ($systemError): ?>
                                 <img src="/app/sae/design/desktop/backoffice/images/service/offline-16.png"/>
                             <?php else: ?>
                                 <img src="/app/sae/design/desktop/backoffice/images/service/running-16.png"/>
                             <?php endif; ?>
                         </td>
-                        <td rowspan="7">
+                        <td rowspan="6">
                             <?php echo __('PHP Settings') ?>
                         </td>
                         <td>allow_url_fopen</td>
@@ -229,19 +229,6 @@ if (array_key_exists(Version::VERSION, $updates)) {
                         </td>
                         <td class="text-right">
                             <?php echo p__('backoffice', 'Must be enabled') ?>
-                        </td>
-                    </tr>
-                    <tr>
-                        <td>HTTP/2 support (Apple push)</td>
-                        <td>
-                            <?php if ($curlHttp2['success']): ?>
-                                <span class="service-green"> <?php echo p__('backoffice', $curlHttp2['message']) ?></span>
-                            <?php else: ?>
-                                <span class="service-red"> <?php echo p__('backoffice', $curlHttp2['message']) ?></span>
-                            <?php endif; ?>
-                        </td>
-                        <td class="text-right">
-                            <?php echo p__('backoffice', 'Must be available') ?>
                         </td>
                     </tr>
                     <tr>
