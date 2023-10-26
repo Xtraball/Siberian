@@ -476,14 +476,15 @@ class Mcommerce_Model_Mcommerce extends Core_Model_Default
      */
     public function getDefaultStore()
     {
-
         if (!$this->_default_store) {
-            $this->_default_store = $this->getStores()->rewind()->current();
-            if (!$this->_default_store) $this->_default_store = new Mcommerce_Model_Store();
+            $stores = $this->getStores();
+            $this->_default_store = $stores[0] ?? null;
+            if (!$this->_default_store) {
+                $this->_default_store = new Mcommerce_Model_Store();
+            }
         }
 
         return $this->_default_store;
-
     }
 
     /**
