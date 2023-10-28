@@ -18,3 +18,4 @@ for f in $files; do
     exit 1 # must abort on error
   fi
 done
+exit 0
