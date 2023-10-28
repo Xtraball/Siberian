@@ -4,6 +4,10 @@ sudo chown -R anders:www-data ./siberian
 sudo chmod -R 777 ./siberian
 
 ./bin/scripts/validate_json.sh
+if [[ "$?" -ne 0 ]]; then
+  echo "ERROR: JSON validation failed"
+  exit 1 # must abort on error
+fi
 
 # Adding last version to package.json
 LASTVERSION=$(node -e "console.log(require('./package.json').version);");
