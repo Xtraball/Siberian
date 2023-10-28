@@ -3,18 +3,18 @@
 /**
  * Siberian
  *
- * @version 5.0.4
+ * @version 5.0.7
  * @author Xtraball SAS <dev@xtraball.com>
  */
 
-require_once './lib/System/polyfills.php';
+chdir(__DIR__);
+
+require_once __DIR__ . '/lib/System/polyfills.php';
 
 global $_config;
 
 $_config["cron"] = true;
-
 $oldUmask = umask(0);
-chdir(__DIR__);
 
 if (!file_exists('./config.php')) {
     copy('./config.sample.php', './config.php');

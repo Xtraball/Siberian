@@ -21,7 +21,7 @@ use Siberian_Cache as Cache;
 use Siberian_Google_Geocoding as Geocoding;
 use Siberian_Cache_Design as CacheDesign;
 
-require_once './lib/System/polyfills.php';
+require_once __DIR__ . '/lib/System/polyfills.php';
 
 global $_config;
 
