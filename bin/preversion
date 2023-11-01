@@ -6,6 +6,7 @@ sudo chmod -R 777 ./siberian
 result=$(./bin/scripts/validate_json.sh)
 if [[ "$?" -ne 0 ]]; then
   echo "ERROR: JSON validation failed"
+  echo "ERROR: "$result
 fi
 
 sleep 10
