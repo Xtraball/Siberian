@@ -3,8 +3,9 @@
 namespace Siberian;
 
 /**
- * Class Version
- * @package Siberian
+ * Class \Siberian\Version
+ *
+ * @ignore
  */
 class Version
 {
@@ -23,11 +24,12 @@ class Version
     {
         if (is_array($type)) {
             foreach ($type as $t) {
-                if (self::TYPE == strtoupper($t)) {
+                if (self::TYPE == strtoupper((string) $t)) {
                     return true;
                 }
             }
+            return false;
         }
-        return self::TYPE == strtoupper($type);
+        return self::TYPE == strtoupper((string) $type);
     }
 }
