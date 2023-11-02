@@ -35,29 +35,50 @@ class Application_Form_Apis extends Siberian_Form_Abstract
 
         if ($acl->isAllowed('editor_settings_onesignal')) {
 
-            // FALLBACK IMPORT OLDER TOKENS
-            $db = \Zend_Registry::get("db");
-            $androidDevices = $db->select()
-                ->from('push_gcm_devices', ['app_id', 'app_name', 'customer_id', 'device_uid', 'registration_id'])
-                ->where('app_id = ?', $application->getId())
-                ->query()
-                ->fetchAll();
-
-            $iosDevices = $db->select()
-                ->from('push_apns_devices', ['app_id', 'app_name', 'customer_id', 'device_uid', 'device_token', 'device_name', 'device_model', 'device_version'])
-                ->where('app_id = ?', $application->getId())
-                ->query()
-                ->fetchAll();
-
-            $countAndroid = count($androidDevices);
-            $countIos = count($iosDevices);
-
             $this->addSimpleText('onesignal_app_id', __('App ID'));
             $this->addSimpleText('onesignal_app_key_token', __('App key token'));
 
-            $importText = __('Import older devices');
-            $importTextcount = sprintf(__('You have %s Android devices and %s iOS devices to import.'), $countAndroid, $countIos);
-            $importDevicesHtml = <<<HTML
+            $groupElements = [
+                'onesignal_app_id',
+                'onesignal_app_key_token',
+            ];
+
+            // Only if both tables exists (older apps)
+            try {
+                $pushGcmDevicesTable = new \Siberian_Migration_Db_Table('push_gcm_devices');
+                $responseGcm = $pushGcmDevicesTable->tableExists(false, false);
+
+                $pushApnsDevicesTable = new \Siberian_Migration_Db_Table('push_apns_devices');
+                $responseApns = $pushApnsDevicesTable->tableExists(false, false);
+            } catch (\Exception $e) {
+                $responseGcm = false;
+                $responseApns = false;
+            }
+
+            if ($responseGcm && $responseApns) {
+                // FALLBACK IMPORT OLDER TOKENS
+                $db = \Zend_Registry::get("db");
+
+                $result = $db->query('DESCRIBE push_gcm_devices');
+
+                $androidDevices = $db->select()
+                    ->from('push_gcm_devices', ['app_id', 'app_name', 'customer_id', 'device_uid', 'registration_id'])
+                    ->where('app_id = ?', $application->getId())
+                    ->query()
+                    ->fetchAll();
+
+                $iosDevices = $db->select()
+                    ->from('push_apns_devices', ['app_id', 'app_name', 'customer_id', 'device_uid', 'device_token', 'device_name', 'device_model', 'device_version'])
+                    ->where('app_id = ?', $application->getId())
+                    ->query()
+                    ->fetchAll();
+
+                $countAndroid = count($androidDevices);
+                $countIos = count($iosDevices);
+
+                $importText = __('Import older devices');
+                $importTextcount = sprintf(__('You have %s Android devices and %s iOS devices to import.'), $countAndroid, $countIos);
+                $importDevicesHtml = <<<HTML
                 <div class="col-md-12">
                     <div class="alert alert-info">
                         <p>
@@ -73,15 +94,14 @@ class Application_Form_Apis extends Siberian_Form_Abstract
                 </div>
 HTML;
 
+                $this->addSimpleHtml('onesignal_import_button', $importDevicesHtml);
 
-            $this->addSimpleHtml('onesignal_import_button', $importDevicesHtml);
+                $groupElements[] = 'onesignal_import_button';
+            }
+
             $this->groupElements(
                 'onesignal',
-                [
-                    'onesignal_app_id',
-                    'onesignal_app_key_token',
-                    'onesignal_import_button',
-                ],
+                $groupElements,
                 __('OneSignal push API settings'));
             $something = true;
         }
