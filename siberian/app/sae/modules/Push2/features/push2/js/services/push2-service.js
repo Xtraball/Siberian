@@ -3,7 +3,7 @@
  *
  * @author Xtraball SAS
  *
- * @version 5.0.0
+ * @version 5.0.7
  */
 angular
     .module('starter')
@@ -150,7 +150,34 @@ angular
             service.onNotificationReceived(data);
         });
 
+        $rootScope.$on(SB.EVENTS.AUTH.loginSuccess, function () {
+            $log.info('[Received SB.EVENTS.AUTH.loginSuccess]');
+            service.afterLoginOrRegister();
+        });
+
+        $rootScope.$on(SB.EVENTS.AUTH.registerSuccess, function () {
+            $log.info('[Received SB.EVENTS.AUTH.registerSuccess]');
+            service.afterLoginOrRegister();
+        });
+
         service.push = $window.plugins.OneSignal;
+    };
+
+    service.afterLoginOrRegister = function () {
+        $log.info('[Push2Service.afterLoginOrRegister]');
+
+        if (service.push === null) {
+            $log.error('[Push2Service.afterLoginOrRegister] Push is not initialized');
+            return;
+        }
+
+        // We are updating the external user id after a login (if changed)
+        service.push.setExternalUserId($session.getExternalUserId(Application.id), (results) => {
+            service.push.getDeviceState(function(stateChanges) {
+                console.log('[Push2Service.afterLoginOrRegister] OneSignal getDeviceState: ' + JSON.stringify(stateChanges));
+                Push2.registerPlayer(stateChanges);
+            });
+        });
     };
 
     // @deprecated

@@ -1017,13 +1017,3 @@ function base64imageToFile($base64, $path)
 
     return $imagePath;
 }
-
-/**
- * @param string $string
- * @return string
- */
-function filter_sanitize_string_polyfill(string $string): string
-{
-    $str = preg_replace('/\x00|<[^>]*>?/', '', $string);
-    return str_replace(["'", '"'], ['&#39;', '&#34;'], $str);
-}

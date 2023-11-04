@@ -30,3 +30,13 @@ function implode_polyfill($firstArg, $secondArg = null): string
         return implode($separator, $array);
     }
 }
+
+/**
+ * @param $string
+ * @return string
+ */
+function filter_sanitize_string_polyfill($string): string
+{
+    $str = preg_replace('/\x00|<[^>]*>?/', '', $string);
+    return str_replace(["'", '"'], ['&#39;', '&#34;'], $str);
+}

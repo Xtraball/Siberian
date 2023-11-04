@@ -322,19 +322,20 @@ class Version
     const API_VERSION = \'' . $this->apiVersion . '\';
 
     /**
-     * @param $type
+     * @param string|array $type
      * @return bool
      */
     static function is($type)
     {
         if (is_array($type)) {
             foreach ($type as $t) {
-                if (self::TYPE == strtoupper($t)) {
+                if (self::TYPE == strtoupper((string) $t)) {
                     return true;
                 }
             }
+            return false;
         }
-        return self::TYPE == strtoupper($type);
+        return self::TYPE == strtoupper((string) $type);
     }
 }
 ';

@@ -27,11 +27,11 @@ class Application_Controller_Mobile_Default extends Core_Controller_Default
         }
         if (!$id) {
             try {
-                $data = Zend_Json::decode($this->getRequest()->getRawBody());
+                $data = \Zend_Json::decode($this->getRequest()->getRawBody());
                 if ($data && !empty($data['value_id'])) $id = $data['value_id'];
-            } catch (Zend_Json_Exception $e) {
+            } catch (\Zend_Json_Exception $e) {
                 $id = null;
-            } catch (Exception $e) {
+            } catch (\Exception $e) {
                 $id = null;
             }
         }
