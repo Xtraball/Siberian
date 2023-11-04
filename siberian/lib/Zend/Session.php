@@ -279,7 +279,7 @@ class Zend_Session extends Zend_Session_Abstract
             array(&$saveHandler, 'gc')
         );
 
-        if (!$result) {
+        if (!$result && (session_status() !== PHP_SESSION_ACTIVE)) {
             throw new Zend_Session_Exception('Unable to set session handler');
         }
     }

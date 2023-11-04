@@ -261,6 +261,9 @@ class Customer_Model_Db_Table_Customer extends Core_Model_Db_Table
         return $this->_db->fetchAll($this->_db->select()->from('customer_social_post'));
     }
 
+    /**
+     * @deprecated
+     */
     public function findAllWithDeviceUid($app_id)
     {
         $select = $this->_db->select()

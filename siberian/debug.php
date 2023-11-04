@@ -27,15 +27,7 @@ umask(0);
 
 setlocale(LC_MONETARY, 'en_US');
 
-defined('DS')
-    || define('DS', DIRECTORY_SEPARATOR);
 
-defined('APPLICATION_PATH')
-    || define('APPLICATION_PATH', realpath(dirname(__FILE__) . '/app'));
-
-// Defining ENV globally!
-defined('APPLICATION_ENV')
-    || define('APPLICATION_ENV', $_config['environment']);
 
 // Sourcing default libs!
 set_include_path(implode_polyfill(PATH_SEPARATOR, array(

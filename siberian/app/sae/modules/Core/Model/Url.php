@@ -102,7 +102,7 @@ class Core_Model_Url extends Core_Model_Default
 
         # Sanitize data, prevents XSS injection, Siberian 5.0
         foreach($params as &$param) {
-            $param = filter_sanitize_string_polyfill($param);
+            $param = filter_sanitize_string_polyfill((string) $param);
         }
 
         return self::create($url, $params, $locale);
