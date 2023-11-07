@@ -34,13 +34,14 @@ class Application_Form_Apis extends Siberian_Form_Abstract
         self::addClass('create', $this);
 
         if ($acl->isAllowed('editor_settings_onesignal')) {
-
             $this->addSimpleText('onesignal_app_id', __('App ID'));
             $this->addSimpleText('onesignal_app_key_token', __('App key token'));
+            $this->addSimpleText('onesignal_default_segment', __('Default segment'),  "Subscribed Users", true);
 
             $groupElements = [
                 'onesignal_app_id',
                 'onesignal_app_key_token',
+                'onesignal_default_segment',
             ];
 
             // Only if both tables exists (older apps)

@@ -2,6 +2,7 @@
 
 namespace Push2\Model\Onesignal;
 
+use Push2\Model\Onesignal\Targets\AbstractTarget;
 use Siberian\Json;
 
 require_once path('/lib/onesignal/vendor/autoload.php');
@@ -152,6 +153,19 @@ class Scheduler
         $this->message->setIsIndividual(1);
         $this->message->setPlayerIds($playerIds);
         $this->message->checkTargets();
+
+        return $this->send();
+    }
+
+    /**
+     * @param AbstractTarget $targets
+     * @return \onesignal\client\model\CreateNotificationBadRequestResponse|\onesignal\client\model\CreateNotificationSuccessResponse
+     */
+    public function sendToTargets(AbstractTarget $targets)
+    {
+        $this->message->setIsIndividual(false);
+        $this->message->clearTargets();
+        $this->message->addTargets($targets);
 
         return $this->send();
     }

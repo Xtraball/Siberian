@@ -7,6 +7,7 @@ use Push2\Form\Settings;
 use Push2\Form\Message;
 use Push2\Model\Onesignal\Player;
 use Push2\Model\Onesignal\Scheduler;
+use Siberian\Feature;
 use Siberian\Json;
 use \Application_Controller_Default as ControllerDefault;
 
@@ -47,8 +48,18 @@ class ApplicationController extends ControllerDefault
 
             $form = new Message(['application' => $application]);
             if ($form->isValid($values)) {
+
                 $scheduler = new Scheduler($application);
-                $scheduler->buildMessageFromValues($values);
+
+                $message = $scheduler->buildMessageFromValues($values);
+                Feature::formImageForOption(
+                    $this->getCurrentOptionValue(),
+                    $message,
+                    $values,
+                    'big_picture',
+                    true
+                );
+
                 $scheduler->send();
 
                 $payload = [
