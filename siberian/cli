@@ -53,9 +53,6 @@ setlocale(LC_MONETARY, 'en_US');
 
 require_once __DIR__ . '/lib/System/defines.php';
 
-defined('DS')
-|| define('DS', DIRECTORY_SEPARATOR);
-
 defined('APPLICATION_PATH')
 || define('APPLICATION_PATH', realpath(__DIR__ . '/app'));
 
