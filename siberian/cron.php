@@ -3,7 +3,7 @@
 /**
  * Siberian
  *
- * @version 5.0.7
+ * @version 5.0.8
  * @author Xtraball SAS <dev@xtraball.com>
  */
 
@@ -13,7 +13,6 @@ require_once __DIR__ . '/lib/System/polyfills.php';
 
 global $_config;
 
-$_config["cron"] = true;
 $oldUmask = umask(0);
 
 if (!file_exists('./config.php')) {
@@ -32,6 +31,7 @@ function dbg()
 }
 
 require_once './config.php';
+$_config["cron"] = true;
 
 if (isset($argv) && isset($argv[1]) && ($argv[1] === 'test')) {
     die('OK');
