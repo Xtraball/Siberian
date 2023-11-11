@@ -31,109 +31,110 @@ class ListController extends MobileController
         //$offset = $this->getRequest()->getParam('offset', 0);
 
         //if ($device_uid = $this->getRequest()->getParam('device_uid')) {
-            //$option_value = $this->getCurrentOptionValue();
+        //$option_value = $this->getCurrentOptionValue();
 
-            $message = new Message();
-            $messages = $message->findAllForPlayer($application->getId(), $player_id);
+        $message = new Message();
+        /** @var Message[] $messages */
+        $messages = $message->findAllForPlayer($application->getId(), $player_id);
 
-            //$icon_new = $request->getBaseUrl() . ($option->getImage()->getCanBeColorized() ?
-            //        $this->_getColorizedImage($option->getIconId(), $color) : $option->getIconUrl());
-            $icon_pencil = $request->getBaseUrl() .
-                $this->_getColorizedImage($this->_getImage('pictos/pencil.png'), $color);
+        //$icon_new = $request->getBaseUrl() . ($option->getImage()->getCanBeColorized() ?
+        //        $this->_getColorizedImage($option->getIconId(), $color) : $option->getIconUrl());
+        $icon_pencil = $request->getBaseUrl() .
+            $this->_getColorizedImage($this->_getImage('pictos/pencil.png'), $color);
 
-            $now = time();
-            foreach ($messages as $message) {
+        $now = time();
+        foreach ($messages as $message) {
 
-                // Checking send_after
-                // Feb 13 2023 00:00:00 +01:00
-                $sendAfter = $message->getSendAfter();
-                if (!empty($sendAfter)) {
-                    $sendAfterDate = date_create_from_format('M d Y H:i:s O', $message->getSendAfter());
-                    list($hour, $minute) = explode(':', $message->getDeliveryTimeOfDay());
-                    $sendAfterDate->setTime($hour, $minute);
+            // Checking send_after
+            // Feb 13 2023 00:00:00 +01:00
+            $sendAfter = $message->getSendAfter();
+            if (!empty($sendAfter)) {
+                $sendAfterDate = date_create_from_format('M d Y H:i:s O', $message->getSendAfter());
+                list($hour, $minute) = explode(':', $message->getDeliveryTimeOfDay());
+                $sendAfterDate->setTime($hour, $minute);
 
-                    // Skip scheduled push messages!
-                    if ($sendAfterDate->getTimestamp() > $now) {
-                        continue;
-                    }
+                // Skip scheduled push messages!
+                if ($sendAfterDate->getTimestamp() > $now) {
+                    continue;
                 }
-
-                $meta = [
-                    'date' => [
-                        'picto' => $icon_pencil,
-                        'text' => datetime_to_format($message->getCreatedAt()),
-                        'mt_text' => $message->getCreatedAt()
-                    ]
-                ];
-
-                //if (!$message->getIsRead()) {
-                //    $meta['likes'] = [
-                //        'picto' => $icon_new,
-                //        'text' => __('New')
-                //    ];
-                //}
-
-                //if (preg_match('#^/images/assets#', $message->getCover())) {
-                //    $picture = $message->getCover() ?
-                //        $this->getRequest()->getBaseUrl() .
-                //        $message->getCover() : null;
-                //} else {
-                //    $picture = $message->getCover() ?
-                //        $this->getRequest()->getBaseUrl() .
-                //        Application_Model_Application::getImagePath() .
-                //        $message->getCover() : null;
-                //}
-
-                //$action_value = null;
-                //$url = null;
-//
-//
-                //if (is_numeric($message->getActionValue())) {
-                //    $option_value = new Application_Model_Option_Value();
-                //    $option_value->find($message->getActionValue());
-//
-                //    $mobileUri = $option_value->getMobileUri();
-                //    if (preg_match("/^goto\/feature/", $mobileUri)) {
-                //        $action_value = sprintf("/%s/%s/value_id/%s",
-                //            $application->getKey(),
-                //            $mobileUri,
-                //            $option_value->getId());
-                //    } else {
-                //        $action_value = sprintf("/%s/%sindex/value_id/%s",
-                //            $application->getKey(),
-                //            $option_value->getMobileUri(),
-                //            $option_value->getId());
-                //    }
-                //} else {
-                //    $url = $message->getActionValue();
-                //}
-
-                if ($this->getApplication()->getIcon(74)) {
-                    $icon = $this->getRequest()->getBaseUrl() . $this->getApplication()->getIcon(74);
-                } else {
-                    $icon = null;
-                }
-
-                $payload['collection'][] = [
-                    'id' => (integer)$message->getId(),
-                    'deliver_id' => (integer)$message->getExternalId(),
-                    'author' => $message->getTitle(),
-                    'message' => $message->getBody(),
-                    'is_individual' => $message->getIsIndividual(),
-                    //'topic' => $message->getLabel(),
-                    'topic' => null,
-                    'details' => $meta,
-                    //'picture' => $picture,
-                    'picture' => null,
-                    'icon' => $icon,
-                    //'action_value' => $action_value,
-                    'action_value' => null,
-                    //'url' => $url
-                    'url' => null
-                ];
             }
 
-            //$message->markAsRead($device_uid);
+            $meta = [
+                'date' => [
+                    'picto' => $icon_pencil,
+                    'text' => datetime_to_format($message->getCreatedAt()),
+                    'mt_text' => $message->getCreatedAt()
+                ]
+            ];
+
+            //if (!$message->getIsRead()) {
+            //    $meta['likes'] = [
+            //        'picto' => $icon_new,
+            //        'text' => __('New')
+            //    ];
+            //}
+
+            //if (preg_match('#^/images/assets#', $message->getCover())) {
+            //    $picture = $message->getCover() ?
+            //        $this->getRequest()->getBaseUrl() .
+            //        $message->getCover() : null;
+            //} else {
+            //    $picture = $message->getCover() ?
+            //        $this->getRequest()->getBaseUrl() .
+            //        Application_Model_Application::getImagePath() .
+            //        $message->getCover() : null;
+            //}
+
+            //$action_value = null;
+            //$url = null;
+//
+//
+            //if (is_numeric($message->getActionValue())) {
+            //    $option_value = new Application_Model_Option_Value();
+            //    $option_value->find($message->getActionValue());
+//
+            //    $mobileUri = $option_value->getMobileUri();
+            //    if (preg_match("/^goto\/feature/", $mobileUri)) {
+            //        $action_value = sprintf("/%s/%s/value_id/%s",
+            //            $application->getKey(),
+            //            $mobileUri,
+            //            $option_value->getId());
+            //    } else {
+            //        $action_value = sprintf("/%s/%sindex/value_id/%s",
+            //            $application->getKey(),
+            //            $option_value->getMobileUri(),
+            //            $option_value->getId());
+            //    }
+            //} else {
+            //    $url = $message->getActionValue();
+            //}
+
+            if ($this->getApplication()->getIcon(74)) {
+                $icon = $this->getRequest()->getBaseUrl() . $this->getApplication()->getIcon(74);
+            } else {
+                $icon = null;
+            }
+
+            $payload['collection'][] = [
+                'id' => (integer)$message->getId(),
+                'deliver_id' => (integer)$message->getExternalId(),
+                'author' => $message->getTitle(),
+                'message' => $message->getBody(),
+                'is_individual' => $message->getIsIndividual(),
+                //'topic' => $message->getLabel(),
+                'topic' => null,
+                'details' => $meta,
+                //'picture' => $picture,
+                'picture' => $message->getBigPicture(),
+                'icon' => $icon,
+                //'action_value' => $action_value,
+                'action_value' => null,
+                //'url' => $url
+                'url' => null
+            ];
+        }
+
+        //$message->markAsRead($device_uid);
 
         //}
 
@@ -154,7 +155,7 @@ class ListController extends MobileController
         $this->_sendJson($payload, true);
     }
 
-    public function getSampleAction ()
+    public function getSampleAction()
     {
         $application = $this->getApplication();
         $image = "/app/sae/modules/Job/features/job/assets/templates/l1/img/job-header.png";
@@ -172,9 +173,9 @@ class ListController extends MobileController
             if ($month < 1) {
                 $month = 12 - $i;
             }
-            $date = date( $year . '-' . $month . '-d H:i:s');
+            $date = date($year . '-' . $month . '-d H:i:s');
             $collection[] = [
-                'id' => (integer) $i,
+                'id' => (integer)$i,
                 'deliver_id' => 'sample',
                 'author' => ($i % 2 === 0) ? p__('push', 'John DOE') : p__('push', 'Jane DOE'),
                 'message' => p__('push2', 'This a sample push message, this sample is only available from the application overview. Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.'),

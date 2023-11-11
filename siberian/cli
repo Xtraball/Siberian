@@ -7,7 +7,7 @@ ini_set('display_errors', 1);
 /**
  * Siberian
  *
- * @version 5.0.4
+ * @version 5.0.8
  * @author Xtraball SAS <dev@xtraball.com>
  */
 
@@ -53,15 +53,8 @@ setlocale(LC_MONETARY, 'en_US');
 
 require_once __DIR__ . '/lib/System/defines.php';
 
-defined('DS')
-|| define('DS', DIRECTORY_SEPARATOR);
-
 defined('APPLICATION_PATH')
 || define('APPLICATION_PATH', realpath(__DIR__ . '/app'));
-
-// Defining ENV globally!
-defined('APPLICATION_ENV')
-|| define('APPLICATION_ENV', $_config['environment']);
 
 // Sourcing default libs!
 set_include_path(implode_polyfill(PATH_SEPARATOR, array(

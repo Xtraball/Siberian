@@ -65,12 +65,32 @@ class Message extends FormAbstract
         //    ]
         //);
 
-        // Loading segments from OneSignal API
-        $segmentSlice = (new Scheduler($this->application))->fetchSegments();
-        $segmentsOptions = [];
-        foreach ($segmentSlice->getSegments() as $segment) {
-            $segmentsOptions[$segment->getName()] = $segment->getName();
+        // Loading segments from OneSignal API, or catching if misconfigured
+        $configured = true;
+        try {
+            $segmentSlice = (new Scheduler($this->application))->fetchSegments();
+            $segmentsOptions = [];
+            foreach ($segmentSlice->getSegments() as $segment) {
+                $segmentsOptions[$segment->getName()] = $segment->getName();
+            }
+        } catch (\Exception $e) {
+            $segmentsOptions = [];
+            $configured = false;
         }
+
+        if (!$configured) {
+            $notConfigured = p__("push2", "You must configure OneSignal API Key and OneSignal App ID before sending a push message.");
+            $this->addSimpleHtml('segments_not_configured', <<<HTML
+<div class="col-md-12">
+    <div class="alert alert-danger">
+        <strong>{$notConfigured}</strong>
+    </div>
+</div>
+HTML
+            );
+            return $this;
+        }
+
 
         $segment = $this->addSimpleSelect(
             'segment',
@@ -132,6 +152,23 @@ class Message extends FormAbstract
             //'subtitle',
             'body',
         ], p__('push2', 'Message'));
+
+        $big_picture = $this->addSimpleImage('big_picture', p__('push2', "Upload a cover image"), p__('push2', "Add a cover image"), [
+            'width' => 1440,
+            'height' => 720,
+        ]);
+
+        $big_picture_url = $this->addSimpleText('big_picture_url', p__('push2', "Add a cover image URL"));
+
+        $bigPictureHint = p__("push2", "If both big pictures are set, the URL will take over the uploaded one.");
+        $this->addSimpleHtml("big_picture_hint", <<<HTML
+<div class="col-md-12">
+    <div class="alert alert-info">
+        {$bigPictureHint}
+    </div>
+</div>
+HTML
+        );
 
         if ($individualPush) {
             $this->groupElements('players', [

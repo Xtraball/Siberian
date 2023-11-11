@@ -2,7 +2,7 @@
 /**
  * Siberian
  *
- * @version 4.18.17
+ * @version 5.0.8
  * @author Xtraball SAS <dev@xtraball.com>
  *
  * @configuration
