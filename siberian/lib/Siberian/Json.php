@@ -77,6 +77,10 @@ class Json extends Zend_Json
      */
     public static function decode($json, $objectDecodeType = Zend_Json::TYPE_ARRAY)
     {
+        if (empty($json)) {
+            return [];
+        }
+
         $result = json_decode($json, true);
 
         if (is_null($result)) {

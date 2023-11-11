@@ -110,15 +110,15 @@ class Notification
         $this->notification->setDeliveryTimeOfDay($message->getDeliveryTimeOfDay());
 
         // Cover image, if exists!
-        //$coverUrl = $message->getCoverUrl();
-        //if (!preg_match("#^https?://#", $coverUrl)) {
-        //    $coverUrl = $message->getData("base_url") . $coverUrl;
-        //}
+        $bigPicture = $message->getBigPicture();
+        if (!empty($bigPicture)) {
+            $this->notification->setBigPicture($bigPicture);
 
-        //if ($coverUrl === $message->getData("base_url")) {
-        //    $coverUrl = null;
-        //}
-        //$this->notification->setBigPicture($coverUrl);
+            $iosAttachments = new \stdClass();
+            $iosAttachments->big_picture = $bigPicture;
+            $this->notification->setIosAttachments($iosAttachments);
+        }
+
 
 
         // Geolocated push

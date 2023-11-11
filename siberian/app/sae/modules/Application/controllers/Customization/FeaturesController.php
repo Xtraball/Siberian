@@ -275,7 +275,7 @@ class Application_Customization_FeaturesController extends Application_Controlle
                 ->find($params['value_id']);
 
             if (!$optionValue->getId() ||
-                $optionValue->getAppId() !== $appId) {
+                (int) $optionValue->getAppId() !== (int) $appId) {
                 throw new Exception(p__("application",
                     "The feature you are trying to remove doesn't belong to this Application."));
             }

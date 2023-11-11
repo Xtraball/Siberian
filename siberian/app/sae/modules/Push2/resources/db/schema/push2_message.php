@@ -53,6 +53,18 @@ $schemas['push2_message'] = [
         'collation' => 'utf8_unicode_ci',
         'is_null' => true,
     ],
+    'big_picture' => [
+        'type' => 'text',
+        'charset' => 'utf8',
+        'collation' => 'utf8_unicode_ci',
+        'is_null' => true,
+    ],
+    'big_picture_url' => [
+        'type' => 'text',
+        'charset' => 'utf8',
+        'collation' => 'utf8_unicode_ci',
+        'is_null' => true,
+    ],
     'latitude' => [
         'type' => 'decimal(11,8)',
         'is_null' => true,
@@ -63,6 +75,20 @@ $schemas['push2_message'] = [
     ],
     'radius' => [
         'type' => 'decimal(7,2)',
+        'is_null' => true,
+    ],
+    'open_feature' => [
+        'type' => 'tinyint(1)',
+        'default' => '0',
+    ],
+    'feature_id' => [
+        'type' => 'int(11) unsigned',
+        'is_null' => true,
+    ],
+    'feature_url' => [
+        'type' => 'text',
+        'charset' => 'utf8',
+        'collation' => 'utf8_unicode_ci',
         'is_null' => true,
     ],
     'is_silent' => [

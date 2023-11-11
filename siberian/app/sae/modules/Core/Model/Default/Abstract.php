@@ -790,6 +790,14 @@ abstract class Core_Model_Default_Abstract extends \__polyfill_mixed
     }
 
     /**
+     * @return mixed
+     */
+    public static function sGetBaseUrl()
+    {
+        return self::$_base_url;
+    }
+
+    /**
      * @return string
      */
     public function toJson($optionValue = null, $baseUrl = "")

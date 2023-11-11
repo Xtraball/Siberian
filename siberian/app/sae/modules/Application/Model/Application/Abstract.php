@@ -492,6 +492,18 @@ abstract class Application_Model_Application_Abstract extends Core_Model_Default
     }
 
     /**
+     * @param $segment
+     * @return mixed
+     * @throws Zend_Exception
+     */
+    public function setOnesignalDefaultSegment($segment)
+    {
+        $_filtered = \Siberian\Xss::sanitize($segment);
+
+        return $this->setData('onesignal_default_segment', $_filtered);
+    }
+
+    /**
      * @param string $appId
      * @return $this
      * @throws Zend_Exception

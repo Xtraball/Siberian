@@ -7,7 +7,8 @@
  * @author Xtraball SAS <dev@xtraball.com>
  */
 
-if ($_SERVER['REQUEST_METHOD'] === 'OPTIONS') {
+if (array_key_exists('REQUEST_METHOD', $_SERVER) &&
+    ($_SERVER['REQUEST_METHOD'] === 'OPTIONS')) {
     header('Access-Control-Allow-Origin: ' . $_SERVER['HTTP_ORIGIN']);
     header('Access-Control-Allow-Credentials: true', true);
     header('Access-Control-Allow-Methods: GET,PUT,POST,DELETE,OPTIONS', true);
