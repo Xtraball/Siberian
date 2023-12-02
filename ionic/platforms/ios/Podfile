@@ -4,7 +4,10 @@ platform :ios, '12.0'
 use_frameworks!
 target 'AppsMobileCompany' do
 	project 'AppsMobileCompany.xcodeproj'
+	pod 'Google-Mobile-Ads-SDK', '10.14'
 	pod 'OneSignalXCFramework', '3.12.3'
+	pod 'GoogleMobileAdsMediationFacebook', '6.14'
+	pod 'StartAppSDK', '4.10.1'
 end
 post_install do |installer|
   installer.pods_project.targets.each do |target|

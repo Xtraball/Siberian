@@ -63,6 +63,7 @@ PODS:
   - StartAppSDK (4.10.1)
 
 DEPENDENCIES:
+  - Google-Mobile-Ads-SDK (= 10.14)
   - GoogleMobileAdsMediationFacebook (= 6.14)
   - OneSignalXCFramework (= 3.12.3)
   - StartAppSDK (= 4.10.1)
@@ -92,6 +93,6 @@ SPEC CHECKSUMS:
   PromisesObjC: c50d2056b5253dadbd6c2bea79b0674bd5a52fa4
   StartAppSDK: d04dd50b80c48036553af528321c52b91506f7b1
 
-PODFILE CHECKSUM: dbe394556c85b5f19ec3c2f2b2e655150d011966
+PODFILE CHECKSUM: c9f2784195bda2feaafafb86e91047e768edbc34
 
 COCOAPODS: 1.14.3
