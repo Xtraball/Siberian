@@ -21,6 +21,18 @@
               "count": 1
             },
             {
+              "xml": "<meta-data android:name=\"com.google.android.gms.ads.flag.OPTIMIZE_INITIALIZATION\" android:value=\"true\" />",
+              "count": 1
+            },
+            {
+              "xml": "<meta-data android:name=\"com.google.android.gms.ads.flag.OPTIMIZE_AD_LOADING\" android:value=\"true\" />",
+              "count": 1
+            },
+            {
+              "xml": "<meta-data android:name=\"com.google.android.gms.ads.flag.INTEGRATION_MANAGER\" android:value=\"webview\" />",
+              "count": 1
+            },
+            {
               "xml": "<activity android:clearTaskOnLaunch=\"true\" android:configChanges=\"orientation|keyboardHidden|screenSize\" android:exported=\"false\" android:name=\"com.google.zxing.client.android.CaptureActivity\" android:theme=\"@android:style/Theme.NoTitleBar.Fullscreen\" android:windowSoftInputMode=\"stateAlwaysHidden\" />",
               "count": 1
             },
@@ -340,6 +352,8 @@
       "PACKAGE_NAME": "com.appsmobilecompany.base"
     },
     "Admob": {
+      "APP_ID_ANDROID": "ca-app-pub-xxx~yyy",
+      "PLAY_SERVICES_VERSION": "22.1.0",
       "PACKAGE_NAME": "com.appsmobilecompany.base"
     },
     "AppVersion": {
@@ -865,7 +879,7 @@
   ],
   "plugin_metadata": {
     "Promises": "4.2.2",
-    "Admob": "0.0.0",
+    "Admob": "2.0.0-alpha.13",
     "AppVersion": "0.1.8",
     "Badge": "0.8.8",
     "BarcodeScanner": "7.1.2",

@@ -305,7 +305,7 @@ dependencies {
 
     // SUB-PROJECT DEPENDENCIES START
     implementation(project(path: ":CordovaLib"))
-    implementation "com.google.android.gms:play-services-ads:22.0.0"
+    implementation "com.google.android.gms:play-services-ads:22.1.0"
     implementation "androidx.legacy:legacy-support-v4:1.0.0"
     implementation "com.android.support:customtabs:28.0.0"
     implementation "com.onesignal:OneSignal:4.8.3"
