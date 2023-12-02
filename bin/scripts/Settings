@@ -53,10 +53,10 @@ module Settings
     project_path = "#{platform_path}AppsMobileCompany.xcodeproj"
 
     Loggy.info("OPENING PROJECT", project_path, true)
-    file = File.read(pod_path + "/project.pbxproj")
+    file = File.read(project_path + "/project.pbxproj")
     new_contents = file.gsub("IPHONEOS_DEPLOYMENT_TARGET = 11.0;", "IPHONEOS_DEPLOYMENT_TARGET = 12.0;")
-    File.open(pod_path + "/project.pbxproj", "w") {|file| file.puts new_contents }
-    
+    File.open(project_path + "/project.pbxproj", "w") {|file| file.puts new_contents }
+
     # Log
     Loggy.info("CHANGED DEPLOYMENT TARGET", "11.0 to 12.0", true)
 
