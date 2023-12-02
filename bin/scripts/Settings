@@ -3,7 +3,7 @@
 require 'xcodeproj'
 
 module Settings
-  def Settings.alterProject(platform_path)
+  def Settings.alter_project(platform_path)
     project_path = "#{platform_path}AppsMobileCompany.xcodeproj"
 
     Loggy.info("OPENING PROJECT", project_path, true)
@@ -35,7 +35,9 @@ module Settings
     end
 
     proj.save
+  end
 
+  def Settings.alter_pods(platform_path)
     # Pods
     pod_path = "#{platform_path}Pods/Pods.xcodeproj"
     Loggy.info("OPENING PODS", pod_path, true)

@@ -156,6 +156,7 @@ let cli = function (inputArgs) {
             'prod': Boolean,
             'prepare': Boolean,
             'patchios': Boolean,
+            'patchpods': Boolean,
             'rebuild': Boolean,
             'rebuildall': Boolean,
             'prepall': Boolean,
@@ -255,6 +256,12 @@ let cli = function (inputArgs) {
             }
         } else if (args.deploy) {
             deploy();
+        } else if (args.patchpods) {
+            if (remain.length >= 1) {
+                patchPods(remain[0], COPY);
+            } else {
+                sprint(clc.red('Missing required argument <platform>'));
+            }
         } else if (args.patchios) {
             if (remain.length >= 1) {
                 patchIos(remain[0], COPY);
@@ -581,6 +588,11 @@ let rebuild = function (platform, copy, prepare, skipRebuild) {
                     sh.exec('pod install --verbose');
                     sh.exec('pod update --verbose');
                     sh.cd(ROOT + '/ionic/');
+
+                    // Ios specific, run push.rb to patch push notifications!
+                    if (!prepare) {
+                        patchPods(platform);
+                    }
                 }
 
                 if (platform === 'android') {
@@ -638,6 +650,15 @@ let rebuild = function (platform, copy, prepare, skipRebuild) {
             originalIndexContent = null;
         }
     }
+};
+
+let patchPods = function (platform) {
+    sh.cd(ROOT + '/bin/scripts/');
+    if (platform === 'ios') {
+        sprint(clc.green('Patching platform project for Pods ...'));
+        sh.exec('./PatchPod ' + ROOT + '/ionic/platforms/' + platform + '/');
+    }
+    sh.cd(ROOT + '/ionic/');
 };
 
 let patchIos = function (platform) {
