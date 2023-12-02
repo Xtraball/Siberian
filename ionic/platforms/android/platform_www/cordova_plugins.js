@@ -47,38 +47,6 @@ cordova.define('cordova/plugin_list', function(require, exports, module) {
       ]
     },
     {
-      "id": "Camera.Camera",
-      "file": "plugins/Camera/www/CameraConstants.js",
-      "pluginId": "Camera",
-      "clobbers": [
-        "Camera"
-      ]
-    },
-    {
-      "id": "Camera.CameraPopoverOptions",
-      "file": "plugins/Camera/www/CameraPopoverOptions.js",
-      "pluginId": "Camera",
-      "clobbers": [
-        "CameraPopoverOptions"
-      ]
-    },
-    {
-      "id": "Camera.camera",
-      "file": "plugins/Camera/www/Camera.js",
-      "pluginId": "Camera",
-      "clobbers": [
-        "navigator.camera"
-      ]
-    },
-    {
-      "id": "Camera.CameraPopoverHandle",
-      "file": "plugins/Camera/www/CameraPopoverHandle.js",
-      "pluginId": "Camera",
-      "clobbers": [
-        "CameraPopoverHandle"
-      ]
-    },
-    {
       "id": "Clipboard.Clipboard",
       "file": "plugins/Clipboard/www/clipboard.js",
       "pluginId": "Clipboard",
@@ -473,7 +441,6 @@ cordova.define('cordova/plugin_list', function(require, exports, module) {
     "Badge": "0.8.8",
     "BarcodeScanner": "7.1.2",
     "BrowserTab": "0.2.1",
-    "Camera": "4.0.3",
     "Clipboard": "0.1.0",
     "Device": "2.0.2",
     "File": "6.0.2",

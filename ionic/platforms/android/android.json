@@ -134,7 +134,7 @@
           "/*": [
             {
               "xml": "<uses-permission android:name=\"android.permission.WRITE_EXTERNAL_STORAGE\" />",
-              "count": 4
+              "count": 3
             },
             {
               "xml": "<uses-permission android:name=\"android.permission.ACCESS_COARSE_LOCATION\" />",
@@ -181,12 +181,6 @@
               "count": 1
             }
           ],
-          "application": [
-            {
-              "xml": "<provider android:authorities=\"${applicationId}.provider\" android:exported=\"false\" android:grantUriPermissions=\"true\" android:name=\"org.apache.cordova.camera.FileProvider\"><meta-data android:name=\"android.support.FILE_PROVIDER_PATHS\" android:resource=\"@xml/camera_provider_paths\" /></provider>",
-              "count": 1
-            }
-          ],
           "/*/application": [
             {
               "xml": "<receiver android:enabled=\"true\" android:exported=\"true\" android:name=\"nl.xservices.plugins.ShareChooserPendingIntent\"><intent-filter><action android:name=\"android.intent.action.SEND\" /></intent-filter></receiver>",
@@ -212,10 +206,6 @@
             },
             {
               "xml": "<feature name=\"BrowserTab\"><param name=\"android-package\" value=\"com.google.cordova.plugin.browsertab.BrowserTab\" /></feature>",
-              "count": 1
-            },
-            {
-              "xml": "<feature name=\"Camera\"><param name=\"android-package\" value=\"org.apache.cordova.camera.CameraLauncher\" /></feature>",
               "count": 1
             },
             {
@@ -364,9 +354,6 @@
     "BrowserTab": {
       "PACKAGE_NAME": "com.appsmobilecompany.base"
     },
-    "Camera": {
-      "PACKAGE_NAME": "com.appsmobilecompany.base"
-    },
     "Clipboard": {
       "PACKAGE_NAME": "com.appsmobilecompany.base"
     },
@@ -486,38 +473,6 @@
       "pluginId": "BrowserTab",
       "clobbers": [
         "cordova.plugins.browsertab"
-      ]
-    },
-    {
-      "id": "Camera.Camera",
-      "file": "plugins/Camera/www/CameraConstants.js",
-      "pluginId": "Camera",
-      "clobbers": [
-        "Camera"
-      ]
-    },
-    {
-      "id": "Camera.CameraPopoverOptions",
-      "file": "plugins/Camera/www/CameraPopoverOptions.js",
-      "pluginId": "Camera",
-      "clobbers": [
-        "CameraPopoverOptions"
-      ]
-    },
-    {
-      "id": "Camera.camera",
-      "file": "plugins/Camera/www/Camera.js",
-      "pluginId": "Camera",
-      "clobbers": [
-        "navigator.camera"
-      ]
-    },
-    {
-      "id": "Camera.CameraPopoverHandle",
-      "file": "plugins/Camera/www/CameraPopoverHandle.js",
-      "pluginId": "Camera",
-      "clobbers": [
-        "CameraPopoverHandle"
       ]
     },
     {
@@ -915,7 +870,6 @@
     "Badge": "0.8.8",
     "BarcodeScanner": "7.1.2",
     "BrowserTab": "0.2.1",
-    "Camera": "4.0.3",
     "Clipboard": "0.1.0",
     "Device": "2.0.2",
     "File": "6.0.2",
