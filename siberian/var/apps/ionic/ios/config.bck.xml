@@ -75,12 +75,8 @@
     <preference name="HideKeyboardFormAccessoryBar" value="false" />
     <preference name="KeyboardResize" value="true" />
     <preference name="KeyboardResizeMode" value="native" />
-    <preference name="deployment-target" value="11.0" />
+    <preference name="deployment-target" value="12.0" />
     <preference name="WKWebViewOnly" value="true" />
-    <feature name="AdMob">
-        <param name="ios-package" value="AMBPlugin" />
-    </feature>
-    <preference name="APP_ID_IOS" value="ca-app-pub-0000000000000000~0000000000" />
     <feature name="AppVersion">
         <param name="ios-package" value="AppVersion" />
     </feature>

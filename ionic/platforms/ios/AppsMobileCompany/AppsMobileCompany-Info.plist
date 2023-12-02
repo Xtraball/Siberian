@@ -199,29 +199,6 @@
 		<key>NSAllowsArbitraryLoads</key>
 		<true/>
 	</dict>
-	<key>GADApplicationIdentifier</key>
-	<string>ca-app-pub-0000000000000000~0000000000</string>
-	<key>GADDelayAppMeasurementInit</key>
-	<true/>
-	<key>SKAdNetworkItems</key>
-	<array>
-		<dict>
-			<key>SKAdNetworkIdentifier</key>
-			<string>cstr6suwn9.skadnetwork</string>
-		</dict>
-		<dict>
-			<key>SKAdNetworkIdentifier</key>
-			<string>v9wttpbfk9.skadnetwork</string>
-		</dict>
-		<dict>
-			<key>SKAdNetworkIdentifier</key>
-			<string>n38lu8286q.skadnetwork</string>
-		</dict>
-		<dict>
-			<key>SKAdNetworkIdentifier</key>
-			<string>5l3tpt7t6e.skadnetwork</string>
-		</dict>
-	</array>
 	<key>NSLocationWhenInUseUsageDescription</key>
 	<string>Use the GPS for live navigation</string>
 	<key>LSApplicationQueriesSchemes</key>

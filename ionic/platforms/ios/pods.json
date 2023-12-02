@@ -2,21 +2,16 @@
     "declarations": {
         "use_frameworks!": {
             "declaration": "use_frameworks!",
-            "count": 2
+            "count": 1
         }
     },
     "sources": {
         "https://cdn.cocoapods.org/": {
             "source": "https://cdn.cocoapods.org/",
-            "count": 2
+            "count": 1
         }
     },
     "libraries": {
-        "Google-Mobile-Ads-SDK": {
-            "name": "Google-Mobile-Ads-SDK",
-            "spec": "8.7.0",
-            "count": 1
-        },
         "OneSignalXCFramework": {
             "name": "OneSignalXCFramework",
             "spec": "3.12.3",
@@ -25,13 +20,13 @@
         "GoogleMobileAdsMediationFacebook": {
             "name": "GoogleMobileAdsMediationFacebook",
             "type": "podspec",
-            "spec": "6.9.0",
+            "spec": "6.14",
             "count": 1
         },
         "StartAppSDK": {
             "name": "StartAppSDK",
             "type": "podspec",
-            "spec": "4.7.0",
+            "spec": "4.10.1",
             "count": 1
         }
     }

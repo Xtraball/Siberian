@@ -15,7 +15,9 @@ typedef NS_ENUM(NSInteger, UMPRequestErrorCode) {
 /// Error codes used when loading and showing forms.
 typedef NS_ENUM(NSInteger, UMPFormErrorCode) {
   UMPFormErrorCodeInternal = 5,     ///< Internal error.
-  UMPFormErrorCodeAlreadyUsed = 6,  ///<  Form was already used.
-  UMPFormErrorCodeUnavailable = 7,  ///<  Form is unavailable.
+  UMPFormErrorCodeAlreadyUsed = 6,  ///< Form was already used.
+  UMPFormErrorCodeUnavailable = 7,  ///< Form is unavailable.
   UMPFormErrorCodeTimeout = 8,      ///< Loading a form timed out.
+  UMPFormErrorCodeInvalidViewController =
+      9,  ///< Form cannot be presented from the provided view controller.
 };
