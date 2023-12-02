@@ -486,6 +486,7 @@ cordova.define('cordova/plugin_list', function(require, exports, module) {
     "Toast": "2.7.2",
     "InAppPurchase": "11.0.0",
     "IosXhr": "1.0.8",
+    "Mediation": "1.0.0",
     "WebView": "1.0.0"
   };
 });

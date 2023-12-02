@@ -1,0 +1,37 @@
+framework module StartApp {
+  umbrella header "StartApp.h"
+
+  export *
+  module * { export * }
+  
+  link framework "AdSupport"
+  link framework "AppTrackingTransparency"
+  link framework "AVFoundation"
+  link framework "CoreAudio"
+  link framework "CoreFoundation"
+  link framework "CoreGraphics"
+  link framework "CoreMedia"
+  link framework "CoreTelephony"
+  link framework "Foundation"
+  link framework "JavaScriptCore"
+  link framework "NetworkExtension"
+  link framework "QuartzCore"
+  link framework "StoreKit"
+  link framework "SystemConfiguration"
+  link framework "UIKit"
+  link framework "WebKit"
+  link "z"
+  
+  header "STAStartAppSDK.h"
+  header "STAAbstractAd.h"
+  header "STAStartAppAd.h"
+  header "STAAdPreferences.h"
+  header "STAStartAppNativeAd.h"
+  header "STANativeAdDetails.h"
+  header "STABannerSize.h"
+  header "STABannerView.h"
+  header "STAInlineView.h"
+  header "STABannerLoader.h"
+  header "STASplashPreferences.h"
+  header "STAErrorCodes.h"
+}
