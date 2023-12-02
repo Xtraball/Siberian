@@ -7,14 +7,6 @@ cordova.define('cordova/plugin_list', function(require, exports, module) {
       "runs": true
     },
     {
-      "id": "Admob.AdMob",
-      "file": "plugins/Admob/www/admob.js",
-      "pluginId": "Admob",
-      "clobbers": [
-        "admob"
-      ]
-    },
-    {
       "id": "AppVersion.AppVersionPlugin",
       "file": "plugins/AppVersion/www/AppVersionPlugin.js",
       "pluginId": "AppVersion",
@@ -470,12 +462,11 @@ cordova.define('cordova/plugin_list', function(require, exports, module) {
   ];
   module.exports.metadata = {
     "Promises": "4.2.2",
-    "Admob": "0.0.0",
     "AppVersion": "0.1.8",
     "Badge": "0.8.8",
     "BarcodeScanner": "7.1.2",
     "BrowserTab": "0.2.1",
-    "Camera": "4.0.3",
+    "Camera": "7.0.0",
     "Clipboard": "0.1.0",
     "Device": "2.0.2",
     "File": "6.0.2",
@@ -495,7 +486,6 @@ cordova.define('cordova/plugin_list', function(require, exports, module) {
     "Toast": "2.7.2",
     "InAppPurchase": "11.0.0",
     "IosXhr": "1.0.8",
-    "Mediation": "1.0.0",
     "WebView": "1.0.0"
   };
 });
