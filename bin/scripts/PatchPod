@@ -1,0 +1,14 @@
+#!/usr/bin/env ruby
+
+require 'bundler'
+Bundler.require(:default)
+
+load './Loggy'
+load './Settings'
+
+begin
+  Settings.alter_pods(ARGV[0])
+rescue => error
+  Loggy.error("CAUGHT ERROR", error.message)
+end
+

@@ -23,8 +23,8 @@ use Siberian\Version;
                             <td>
                                 <label class="control-label"><?php echo __("iOS"); ?></label>
                                 <br/>
-                                <span class="source-hint"><?php echo __('Xcode 14.2 - macOS Ventura') ?>
-                                    , <?php echo __("iOS 11+") ?></span>
+                                <span class="source-hint"><?php echo __('Xcode 15.0.1 - macOS Sonoma') ?>
+                                    , <?php echo __("iOS 12+") ?></span>
                             </td>
                             <td ng-if="['', 'ca-app-pub-0000000000000000~0000000000'].indexOf(application.devices[0].admob_app_id.trim()) === -1">
                                 <a ng-if="application.zip.ios"
@@ -70,8 +70,8 @@ use Siberian\Version;
                             <td>
                                 <label class="control-label"><?php echo __("iOS (without AdMob)"); ?>
                                 <br/>
-                                <span  class="source-hint"><?php echo __("Xcode 14.2 - macOS Ventura") ?>
-                                    , <?php echo __("iOS 11+") ?></span>
+                                <span  class="source-hint"><?php echo __("Xcode 15.0.1 - macOS Sonoma") ?>
+                                    , <?php echo __("iOS 12+") ?></span>
                             </td>
                             <td>
                                 <a ng-if="application.zip.iosnoads"

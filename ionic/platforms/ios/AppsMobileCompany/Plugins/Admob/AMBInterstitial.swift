@@ -7,57 +7,53 @@ class AMBInterstitial: AMBAdBase, GADFullScreenContentDelegate {
         clear()
     }
 
-    func isLoaded() -> Bool {
+    override func isLoaded() -> Bool {
         return self.mAd != nil
     }
 
-    func load(_ ctx: AMBContext) {
+    override func load(_ ctx: AMBContext) {
         clear()
 
         GADInterstitialAd.load(
             withAdUnitID: adUnitId,
-            request: ctx.optGADRequest(),
+            request: adRequest,
             completionHandler: { ad, error in
                 if error != nil {
-                    self.emit(AMBEvents.interstitialLoadFail, error!)
-                    ctx.error(error)
+                    self.emit(AMBEvents.adLoadFail, error!)
+                    ctx.reject(error!)
                     return
                 }
 
                 self.mAd = ad
                 ad?.fullScreenContentDelegate = self
 
-                self.emit(AMBEvents.interstitialLoad)
+                self.emit(AMBEvents.adLoad)
 
-                ctx.success()
+                ctx.resolve()
          })
     }
 
-    func show(_ ctx: AMBContext) {
-        if isLoaded() {
-            mAd?.present(fromRootViewController: plugin.viewController)
-            ctx.success()
-        } else {
-            ctx.error("Ad is not loaded")
-        }
+    override func show(_ ctx: AMBContext) {
+        mAd?.present(fromRootViewController: plugin.viewController)
+        ctx.resolve()
     }
 
     func adDidRecordImpression(_ ad: GADFullScreenPresentingAd) {
-        self.emit(AMBEvents.interstitialImpression)
+        self.emit(AMBEvents.adImpression)
     }
 
     func ad(_ ad: GADFullScreenPresentingAd, didFailToPresentFullScreenContentWithError error: Error) {
         clear()
-        self.emit(AMBEvents.interstitialShowFail, error)
+        self.emit(AMBEvents.adShowFail, error)
     }
 
-    func adDidPresentFullScreenContent(_ ad: GADFullScreenPresentingAd) {
-        self.emit(AMBEvents.interstitialShow)
+    func adWillPresentFullScreenContent(_ ad: GADFullScreenPresentingAd) {
+        self.emit(AMBEvents.adShow)
     }
 
     func adDidDismissFullScreenContent(_ ad: GADFullScreenPresentingAd) {
         clear()
-        self.emit(AMBEvents.interstitialDismiss)
+        self.emit(AMBEvents.adDismiss)
     }
 
     private func clear() {

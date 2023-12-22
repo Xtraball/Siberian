@@ -1,9 +1,44 @@
 import GoogleMobileAds
 import UIKit
 
+class AMBBannerStackView: UIStackView {
+    static let shared = AMBBannerStackView(frame: AMBHelper.window.frame)
+
+    static let topConstraint = shared.topAnchor.constraint(equalTo: AMBHelper.topAnchor, constant: 0)
+    static let bottomConstraint = shared.bottomAnchor.constraint(equalTo: AMBHelper.bottomAnchor, constant: 0)
+
+    lazy var contentView: UIView = {
+        let v = UIView(frame: self.frame)
+        v.autoresizingMask = [.flexibleWidth, .flexibleHeight]
+        v.isUserInteractionEnabled = false
+        return v
+    }()
+
+    var hasTopBanner: Bool {
+        return self.arrangedSubviews.first is AMBBannerPlaceholder
+    }
+
+    var hasBottomBanner: Bool {
+        return self.arrangedSubviews.last is AMBBannerPlaceholder
+    }
+
+    func prepare() {
+        if !self.arrangedSubviews.isEmpty {
+            return
+        }
+
+        self.isUserInteractionEnabled = false
+        self.axis = .vertical
+        self.distribution = .fill
+        self.alignment = .fill
+        self.translatesAutoresizingMaskIntoConstraints = false
+
+        self.addArrangedSubview(contentView)
+    }
+}
+
 class AMBBanner: AMBAdBase, GADBannerViewDelegate, GADAdSizeDelegate {
-    static let stackView = UIStackView(frame: rootView.frame)
-    static let placeholderView = UIView(frame: stackView.frame)
+    static let stackView = AMBBannerStackView.shared
 
     static let priortyLeast = UILayoutPriority(10)
 
@@ -23,58 +58,33 @@ class AMBBanner: AMBAdBase, GADBannerViewDelegate, GADAdSizeDelegate {
         return rootView.subviews.first(where: { $0.frame.equalTo(statusBarFrame) })
     }
 
-    static var topAnchor: NSLayoutYAxisAnchor {
-        if #available(iOS 11.0, *) {
-            return rootView.safeAreaLayoutGuide.topAnchor
-        } else {
-            return rootView.topAnchor
-        }
-    }
-
-    static var bottomAnchor: NSLayoutYAxisAnchor {
-        if #available(iOS 11.0, *) {
-            return rootView.safeAreaLayoutGuide.bottomAnchor
-        } else {
-            return rootView.bottomAnchor
-        }
-    }
-
-    static let topConstraint = stackView.topAnchor.constraint(equalTo: topAnchor, constant: 0)
-
-    static let bottomConstraint = stackView.bottomAnchor.constraint(equalTo: bottomAnchor, constant: 0)
-
     static func config(_ ctx: AMBContext) {
         if let bgColor = ctx.optBackgroundColor() {
             Self.rootView.backgroundColor = bgColor
         }
         Self.marginTop = ctx.optMarginTop()
         if Self.marginTop != nil {
-            Self.topConstraint.constant = Self.marginTop!
+            AMBBannerStackView.topConstraint.constant = Self.marginTop!
         }
         if let marginBottom = ctx.optMarginBottom() {
-            Self.bottomConstraint.constant = marginBottom * -1
+            AMBBannerStackView.bottomConstraint.constant = marginBottom * -1
         }
-        ctx.success()
+        ctx.resolve()
     }
 
     private static func prepareStackView() {
         if stackView.arrangedSubviews.isEmpty {
             var constraints: [NSLayoutConstraint] = []
 
-            stackView.axis = .vertical
-            stackView.distribution = .fill
-            stackView.alignment = .fill
-            rootView.addSubview(stackView)
-            rootView.bringSubviewToFront(mainView)
-            stackView.translatesAutoresizingMaskIntoConstraints = false
+            stackView.prepare()
+            rootView.insertSubview(stackView, belowSubview: mainView)
             constraints += [
                 stackView.leadingAnchor.constraint(equalTo: rootView.leadingAnchor),
                 stackView.trailingAnchor.constraint(equalTo: rootView.trailingAnchor)
             ]
 
-            placeholderView.autoresizingMask = [.flexibleWidth, .flexibleHeight]
-            stackView.addArrangedSubview(placeholderView)
             mainView.translatesAutoresizingMaskIntoConstraints = false
+            let placeholderView = stackView.contentView
             constraints += [
                 mainView.leadingAnchor.constraint(equalTo: placeholderView.leadingAnchor),
                 mainView.trailingAnchor.constraint(equalTo: placeholderView.trailingAnchor),
@@ -104,47 +114,38 @@ class AMBBanner: AMBAdBase, GADBannerViewDelegate, GADAdSizeDelegate {
             NSLayoutConstraint.activate([
                 stackView.topAnchor.constraint(equalTo: barView.bottomAnchor, constant: Self.marginTop ?? 0)
             ])
-        } else if stackView.arrangedSubviews.first is GADBannerView {
-            NSLayoutConstraint.activate([
-                topConstraint
-            ])
         } else {
-            topConstraint.isActive = false
+            AMBBannerStackView.topConstraint.isActive = stackView.hasTopBanner
         }
 
-        if stackView.arrangedSubviews.last is GADBannerView {
-            NSLayoutConstraint.activate([
-                bottomConstraint
-            ])
-        } else {
-            bottomConstraint.isActive = false
-        }
+        AMBBannerStackView.bottomConstraint.isActive = stackView.hasBottomBanner
     }
 
     let adSize: GADAdSize!
     let position: String!
     let offset: CGFloat?
     var bannerView: GADBannerView!
+    let placeholder = AMBBannerPlaceholder()
 
-    init(id: Int, adUnitId: String, adSize: GADAdSize, position: String, offset: CGFloat?) {
+    init(id: String, adUnitId: String, adSize: GADAdSize, adRequest: GADRequest, position: String, offset: CGFloat?) {
         self.adSize = adSize
         self.position = position
         self.offset = offset
 
-        super.init(id: id, adUnitId: adUnitId)
+        super.init(id: id, adUnitId: adUnitId, adRequest: adRequest)
     }
 
     convenience init?(_ ctx: AMBContext) {
         guard let id = ctx.optId(),
-              let adUnitId = ctx.optAdUnitID(),
-              let position = ctx.optPosition()
+              let adUnitId = ctx.optAdUnitID()
         else {
             return nil
         }
         self.init(id: id,
                   adUnitId: adUnitId,
                   adSize: ctx.optAdSize(),
-                  position: position,
+                  adRequest: ctx.optGADRequest(),
+                  position: ctx.optPosition(),
                   offset: ctx.optOffset())
     }
 
@@ -152,14 +153,17 @@ class AMBBanner: AMBAdBase, GADBannerViewDelegate, GADAdSizeDelegate {
         if bannerView != nil {
             bannerView.delegate = nil
             bannerView.adSizeDelegate = nil
-            Self.stackView.removeArrangedSubview(bannerView)
+            Self.stackView.removeArrangedSubview(placeholder)
             bannerView.removeFromSuperview()
             bannerView = nil
         }
     }
 
-    func load(_ ctx: AMBContext) {
-        let request = ctx.optGADRequest()
+    override func isLoaded() -> Bool {
+        return bannerView != nil
+    }
+
+    override func load(_ ctx: AMBContext) {
         if bannerView == nil {
             bannerView = GADBannerView(adSize: self.adSize)
             bannerView.delegate = self
@@ -168,12 +172,12 @@ class AMBBanner: AMBAdBase, GADBannerViewDelegate, GADAdSizeDelegate {
         }
 
         bannerView.adUnitID = adUnitId
-        bannerView.load(request)
+        bannerView.load(adRequest)
 
-        ctx.success()
+        ctx.resolve()
     }
 
-    func show(_ ctx: AMBContext) {
+    override func show(_ ctx: AMBContext) {
         if let offset = self.offset {
             addBannerView(offset)
         } else {
@@ -181,10 +185,19 @@ class AMBBanner: AMBAdBase, GADBannerViewDelegate, GADAdSizeDelegate {
 
             switch position {
             case AMBBannerPosition.top:
-                Self.stackView.insertArrangedSubview(bannerView, at: 0)
+                Self.stackView.insertArrangedSubview(placeholder, at: 0)
             default:
-                Self.stackView.addArrangedSubview(bannerView)
+                Self.stackView.addArrangedSubview(placeholder)
             }
+            Self.rootView.addSubview(bannerView)
+
+            bannerView.translatesAutoresizingMaskIntoConstraints = false
+            NSLayoutConstraint.activate([
+                placeholder.heightAnchor.constraint(equalTo: bannerView.heightAnchor),
+                bannerView.centerXAnchor.constraint(equalTo: placeholder.centerXAnchor),
+                bannerView.topAnchor.constraint(equalTo: placeholder.topAnchor),
+                bannerView.widthAnchor.constraint(equalTo: placeholder.widthAnchor)
+            ])
         }
 
         if bannerView.isHidden {
@@ -192,19 +205,27 @@ class AMBBanner: AMBAdBase, GADBannerViewDelegate, GADAdSizeDelegate {
         }
 
         Self.updateLayout()
-        ctx.success()
+        ctx.resolve()
     }
 
-    func hide(_ ctx: AMBContext) {
+    override func hide(_ ctx: AMBContext) {
         if bannerView != nil {
             bannerView.isHidden = true
-            Self.stackView.removeArrangedSubview(bannerView)
+            Self.stackView.removeArrangedSubview(placeholder)
             Self.updateLayout()
         }
-        ctx.success()
+        ctx.resolve()
     }
 
     func bannerViewDidReceiveAd(_ bannerView: GADBannerView) {
+        self.emit(AMBEvents.adLoad, [
+            "size": [
+                "width": bannerView.frame.size.width,
+                "height": bannerView.frame.size.height,
+                "widthInPixels": round(bannerView.frame.size.width * UIScreen.main.scale),
+                "heightInPixels": round(bannerView.frame.size.height * UIScreen.main.scale)
+            ]
+        ])
         self.emit(AMBEvents.bannerLoad)
         self.emit(AMBEvents.bannerSize, [
             "size": [
@@ -218,22 +239,26 @@ class AMBBanner: AMBAdBase, GADBannerViewDelegate, GADAdSizeDelegate {
 
     func bannerView(_ bannerView: GADBannerView,
                     didFailToReceiveAdWithError error: Error) {
-        self.emit(AMBEvents.bannerLoadFail, error)
+        self.emit(AMBEvents.adLoadFail, error)
     }
 
     func bannerViewDidRecordImpression(_ bannerView: GADBannerView) {
-        self.emit(AMBEvents.bannerImpression)
+        self.emit(AMBEvents.adImpression)
+    }
+
+    func bannerViewDidRecordClick(_ bannerView: GADBannerView) {
+        self.emit(AMBEvents.adClick)
     }
 
     func bannerViewWillPresentScreen(_ bannerView: GADBannerView) {
-        self.emit(AMBEvents.bannerOpen)
+        self.emit(AMBEvents.adShow)
     }
 
     func bannerViewWillDismissScreen(_ bannerView: GADBannerView) {
     }
 
     func bannerViewDidDismissScreen(_ bannerView: GADBannerView) {
-        self.emit(AMBEvents.bannerClose)
+        self.emit(AMBEvents.adDismiss)
     }
 
     func adView(_ bannerView: GADBannerView, willChangeAdSizeTo size: GADAdSize) {
