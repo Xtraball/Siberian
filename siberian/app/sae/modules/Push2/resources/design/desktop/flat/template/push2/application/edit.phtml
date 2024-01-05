@@ -114,6 +114,16 @@ $formSettings->setValueId($option->getId());
         </li>
 
         <li role="presentation">
+            <a href="#tab-history"
+               aria-controls="tab-history"
+               role="tab"
+               data-toggle="tab">
+                <i class="fa fa-gears"></i>
+                <?php echo p__('push', 'History') ?>
+            </a>
+        </li>
+
+        <li role="presentation">
             <a href="#tab-settings"
                aria-controls="tab-settings"
                role="tab"
@@ -158,8 +168,14 @@ $formSettings->setValueId($option->getId());
                     <br />
                 </div>
             </div>
+        </div>
+        <!-- MESSAGES -->
 
-            <div class="subcontent content-color">
+        <!-- MESSAGES HISTORY -->
+        <div role="tabpanel"
+             class="tab-pane"
+             id="tab-history">
+            <div class="feature-block-add">
                 <?php if (sizeof($notifications) > 0): ?>
                     <div>
                         <h3 class="title-editor no-border-radius title-feature-indent">
@@ -184,20 +200,20 @@ $formSettings->setValueId($option->getId());
                                 </tr>
                                 </thead>
                                 <tr class="fields-sortable">
-                                <?php foreach ($notifications as $notification) : ?>
+                                    <?php foreach ($notifications as $notification) : ?>
                                     <?php if ($notification->getNotification() === null): ?>
-                                    <tr style="background-color: #ffebeb;"
-                                        id="notification_element_<?php echo $notification->getId(); ?>">
-                                        <td><?php echo $notification->getSegment() ?? "Subscribed Users" ?></td>
-                                        <td>
-                                            <h5 style="font-weight: bold;"><?php echo $notification->getTitle() ?></h5>
-                                        </td>
-                                        <td><?php echo ellipsis($notification->getBody(), 50) ?></td>
-                                        <td colspan="4">
-                                            <?php echo p__('push2', 'This message is not in the OneSignal history anymore!') ?>
-                                        </td>
-                                    </tr>
-                                    <?php else: ?>
+                                <tr style="background-color: #ffebeb;"
+                                    id="notification_element_<?php echo $notification->getId(); ?>">
+                                    <td><?php echo $notification->getSegment() ?? "Subscribed Users" ?></td>
+                                    <td>
+                                        <h5 style="font-weight: bold;"><?php echo $notification->getTitle() ?></h5>
+                                    </td>
+                                    <td><?php echo ellipsis($notification->getBody(), 50) ?></td>
+                                    <td colspan="4">
+                                        <?php echo p__('push2', 'This message is not in the OneSignal history anymore!') ?>
+                                    </td>
+                                </tr>
+                                <?php else: ?>
                                     <tr id="notification_element_<?php echo $notification->getId(); ?>"
                                         rel="<?php echo $notification->getId(); ?>">
                                         <td><?php echo $notification->getSegment() ?? "Subscribed Users" ?></td>
@@ -221,20 +237,20 @@ $formSettings->setValueId($option->getId());
                                         </td>
                                         <td>
                                             <?php if ($notification->getNotification()->getSendAfter() < $now): ?>
-                                            <?php list($success_rate, $failed_rate) = getRates($notification->getNotification()); ?>
-                                            <div class="os-rates">
-                                                <div class="label label-success <?php if ($success_rate <= 0) { echo "hidden"; } ?>"
-                                                     style="width: <?php echo $success_rate; ?>%"><?php echo $success_rate; ?>%</div>
-                                                <div class="label label-danger <?php if ($failed_rate <= 0) { echo "hidden"; } ?>"
-                                                     style="width: <?php echo $failed_rate; ?>%"><?php echo $failed_rate; ?>%</div>
-                                            </div>
+                                                <?php list($success_rate, $failed_rate) = getRates($notification->getNotification()); ?>
+                                                <div class="os-rates">
+                                                    <div class="label label-success <?php if ($success_rate <= 0) { echo "hidden"; } ?>"
+                                                         style="width: <?php echo $success_rate; ?>%"><?php echo $success_rate; ?>%</div>
+                                                    <div class="label label-danger <?php if ($failed_rate <= 0) { echo "hidden"; } ?>"
+                                                         style="width: <?php echo $failed_rate; ?>%"><?php echo $failed_rate; ?>%</div>
+                                                </div>
                                             <?php else: ?>
                                                 <div class="label label-info"
                                                      style="width: 100%; display: inline-block;"><?php echo p__('push2', 'To be sent!') ?></div>
                                             <?php endif; ?>
                                         </td>
                                     </tr>
-                                    <?php endif; ?>
+                                <?php endif; ?>
                                 <?php endforeach; ?>
                                 </tbody>
                             </table>
@@ -243,7 +259,7 @@ $formSettings->setValueId($option->getId());
                 <?php endif; ?>
             </div>
         </div>
-        <!-- MESSAGES -->
+        <!-- MESSAGES HISTORY -->
 
         <!-- SETTINGS -->
         <div role="tabpanel"
@@ -278,6 +294,7 @@ $formSettings->setValueId($option->getId());
             bindForms('#list');
             bindForms('#push2-form-settings');
             bindForms('#tab-design');
+            bindForms('#tab-settings');
 
             let scheduleCheckbox = $("#is_scheduled");
             let sendAfter = $("#send_after");

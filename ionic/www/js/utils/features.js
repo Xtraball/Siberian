@@ -8,7 +8,7 @@ Object.defineProperty(Object.prototype, 'extractXPath', {
         var parts = path.split('.');
         var current = this;
         for (var i = 0; i < parts.length; i++) {
-            if (!current.hasOwnProperty(parts[i])) {
+            if (!current && !current.hasOwnProperty(parts[i])) {
                 return fallback;
             }
             current = current[parts[i]];
