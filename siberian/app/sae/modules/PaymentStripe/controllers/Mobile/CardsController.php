@@ -234,7 +234,7 @@ class PaymentStripe_Mobile_CardsController extends Application_Controller_Mobile
 
             $payload = [
                 'success' => true,
-                'settings' => $settings->toJson(),
+                'settings' => $settings->_toJson(),
             ];
         } catch (\Exception $e) {
             $payload = [
