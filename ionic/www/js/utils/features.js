@@ -48,7 +48,7 @@ window.Features = (new (function Features() {
             // Module/Feature is not ES5 compliant & browser does not supports ES6+
             console.error('[Feature] ' + json.code + ' is not ES5 compliant, and your browser/device does not support ES6+ JavaScript.');
 
-            // We will build an special route.
+            // We will build a special route.
             _app.config(
                 [
                     '$stateProvider',
