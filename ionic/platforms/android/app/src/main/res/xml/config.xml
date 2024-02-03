@@ -134,5 +134,8 @@
     <preference name="SplashMaintainAspectRatio" value="true" />
     <preference name="android-minSdkVersion" value="21" />
     <preference name="android-targetSdkVersion" value="33" />
+    <preference name="GradlePluginKotlinEnabled" value="true" />
+    <preference name="GradlePluginKotlinCodeStyle" value="official" />
+    <preference name="GradlePluginKotlinVersion" value="1.5.21" />
     <preference name="applicationId" value="${applicationId}" />
 </widget>

@@ -42,6 +42,10 @@
     <preference name="android-minSdkVersion" value="21" />
     <preference name="android-targetSdkVersion" value="33" />
 
+    <preference name="GradlePluginKotlinEnabled" value="true" />
+    <preference name="GradlePluginKotlinCodeStyle" value="official" />
+    <preference name="GradlePluginKotlinVersion" value="1.5.21" />
+
     <feature name="StatusBar">
         <param name="ios-package"
                onload="true"
