@@ -1,18 +1,9 @@
 import Foundation
 import GoogleMobileAds
 
-class AMBAppOpenAd: AMBAdBase, AMBGenericAd, GADFullScreenContentDelegate {
-
-    let request: GADRequest
-    let orientation: UIInterfaceOrientation = .portrait
+class AMBAppOpenAd: AMBAdBase, GADFullScreenContentDelegate {
 
     var mAd: GADAppOpenAd?
-
-    init(id: Int, adUnitId: String, request: GADRequest) {
-        self.request = request
-
-        super.init(id: id, adUnitId: adUnitId)
-    }
 
     convenience init?(_ ctx: AMBContext) {
         guard let id = ctx.optId(),
@@ -22,39 +13,38 @@ class AMBAppOpenAd: AMBAdBase, AMBGenericAd, GADFullScreenContentDelegate {
         }
         self.init(id: id,
                   adUnitId: adUnitId,
-                  request: ctx.optGADRequest())
+                  adRequest: ctx.optGADRequest())
     }
 
     deinit {
         clear()
     }
 
-    func isLoaded() -> Bool {
+    override func isLoaded() -> Bool {
         return mAd != nil
     }
 
-    func load(_ ctx: AMBContext) {
+    override func load(_ ctx: AMBContext) {
         clear()
 
         GADAppOpenAd.load(
             withAdUnitID: self.adUnitId,
-            request: self.request,
-            orientation: self.orientation,
+            request: adRequest,
             completionHandler: { (ad, error) in
                 if error != nil {
                     self.emit(AMBEvents.adLoadFail, error!)
-                    ctx.error(error)
+                    ctx.reject(error!)
                     return
                 }
                 ad?.fullScreenContentDelegate = self
                 self.mAd = ad
 
                 self.emit(AMBEvents.adLoad)
-                ctx.success()
+                ctx.resolve()
             })
     }
 
-    func show() {
+    override func show(_ ctx: AMBContext) {
         mAd?.present(fromRootViewController: AMBContext.plugin.viewController)
     }
 
@@ -67,7 +57,7 @@ class AMBAppOpenAd: AMBAdBase, AMBGenericAd, GADFullScreenContentDelegate {
         self.emit(AMBEvents.adShowFail, error)
     }
 
-    func adDidPresentFullScreenContent(_ ad: GADFullScreenPresentingAd) {
+    func adWillPresentFullScreenContent(_ ad: GADFullScreenPresentingAd) {
         self.emit(AMBEvents.adShow)
     }
 

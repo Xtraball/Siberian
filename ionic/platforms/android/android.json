@@ -21,6 +21,18 @@
               "count": 1
             },
             {
+              "xml": "<meta-data android:name=\"com.google.android.gms.ads.flag.OPTIMIZE_INITIALIZATION\" android:value=\"true\" />",
+              "count": 1
+            },
+            {
+              "xml": "<meta-data android:name=\"com.google.android.gms.ads.flag.OPTIMIZE_AD_LOADING\" android:value=\"true\" />",
+              "count": 1
+            },
+            {
+              "xml": "<meta-data android:name=\"com.google.android.gms.ads.flag.INTEGRATION_MANAGER\" android:value=\"webview\" />",
+              "count": 1
+            },
+            {
               "xml": "<activity android:clearTaskOnLaunch=\"true\" android:configChanges=\"orientation|keyboardHidden|screenSize\" android:exported=\"false\" android:name=\"com.google.zxing.client.android.CaptureActivity\" android:theme=\"@android:style/Theme.NoTitleBar.Fullscreen\" android:windowSoftInputMode=\"stateAlwaysHidden\" />",
               "count": 1
             },
@@ -133,8 +145,16 @@
           ],
           "/*": [
             {
+              "xml": "<uses-permission android:name=\"android.permission.READ_MEDIA_IMAGES\" />",
+              "count": 1
+            },
+            {
+              "xml": "<uses-permission android:name=\"android.permission.READ_MEDIA_VIDEO\" />",
+              "count": 1
+            },
+            {
               "xml": "<uses-permission android:name=\"android.permission.WRITE_EXTERNAL_STORAGE\" />",
-              "count": 4
+              "count": 3
             },
             {
               "xml": "<uses-permission android:name=\"android.permission.ACCESS_COARSE_LOCATION\" />",
@@ -183,7 +203,25 @@
           ],
           "application": [
             {
-              "xml": "<provider android:authorities=\"${applicationId}.provider\" android:exported=\"false\" android:grantUriPermissions=\"true\" android:name=\"org.apache.cordova.camera.FileProvider\"><meta-data android:name=\"android.support.FILE_PROVIDER_PATHS\" android:resource=\"@xml/camera_provider_paths\" /></provider>",
+              "xml": "<provider android:authorities=\"${applicationId}.cordova.plugin.camera.provider\" android:exported=\"false\" android:grantUriPermissions=\"true\" android:name=\"org.apache.cordova.camera.FileProvider\"><meta-data android:name=\"android.support.FILE_PROVIDER_PATHS\" android:resource=\"@xml/camera_provider_paths\" /></provider>",
+              "count": 1
+            }
+          ],
+          "queries": [
+            {
+              "xml": "<intent><action android:name=\"android.media.action.IMAGE_CAPTURE\" /></intent>",
+              "count": 1
+            },
+            {
+              "xml": "<intent><action android:name=\"android.intent.action.GET_CONTENT\" /></intent>",
+              "count": 1
+            },
+            {
+              "xml": "<intent><action android:name=\"android.intent.action.PICK\" /></intent>",
+              "count": 1
+            },
+            {
+              "xml": "<intent><action android:name=\"com.android.camera.action.CROP\" /><data android:mimeType=\"image/*\" android:scheme=\"content\" /></intent>",
               "count": 1
             }
           ],
@@ -350,6 +388,8 @@
       "PACKAGE_NAME": "com.appsmobilecompany.base"
     },
     "Admob": {
+      "APP_ID_ANDROID": "ca-app-pub-xxx~yyy",
+      "PLAY_SERVICES_VERSION": "22.1.0",
       "PACKAGE_NAME": "com.appsmobilecompany.base"
     },
     "AppVersion": {
@@ -365,6 +405,7 @@
       "PACKAGE_NAME": "com.appsmobilecompany.base"
     },
     "Camera": {
+      "ANDROIDX_CORE_VERSION": "1.6.+",
       "PACKAGE_NAME": "com.appsmobilecompany.base"
     },
     "Clipboard": {
@@ -910,12 +951,12 @@
   ],
   "plugin_metadata": {
     "Promises": "4.2.2",
-    "Admob": "0.0.0",
+    "Admob": "2.0.0-alpha.13",
     "AppVersion": "0.1.8",
     "Badge": "0.8.8",
     "BarcodeScanner": "7.1.2",
     "BrowserTab": "0.2.1",
-    "Camera": "4.0.3",
+    "Camera": "7.0.0",
     "Clipboard": "0.1.0",
     "Device": "2.0.2",
     "File": "6.0.2",

@@ -7,18 +7,18 @@ class AMBRewardedInterstitial: AMBAdBase, GADFullScreenContentDelegate {
         clear()
     }
 
-    func isLoaded() -> Bool {
+    override func isLoaded() -> Bool {
         return self.mAd != nil
     }
 
-    func load(_ ctx: AMBContext) {
+    override func load(_ ctx: AMBContext) {
         clear()
 
-        GADRewardedInterstitialAd.load(withAdUnitID: adUnitId, request: ctx.optGADRequest(), completionHandler: { ad, error in
+        GADRewardedInterstitialAd.load(withAdUnitID: adUnitId, request: adRequest, completionHandler: { ad, error in
             if error != nil {
-                self.emit(AMBEvents.rewardedInterstitialLoadFail, error!)
+                self.emit(AMBEvents.adLoadFail, error!)
 
-                ctx.error(error)
+                ctx.reject(error!)
                 return
             }
 
@@ -26,40 +26,36 @@ class AMBRewardedInterstitial: AMBAdBase, GADFullScreenContentDelegate {
             ad?.fullScreenContentDelegate = self
             ad?.serverSideVerificationOptions = ctx.optGADServerSideVerificationOptions()
 
-            self.emit(AMBEvents.rewardedInterstitialLoad)
+            self.emit(AMBEvents.adLoad)
 
-            ctx.success()
+            ctx.resolve()
         })
     }
 
-    func show(_ ctx: AMBContext) {
-        if isLoaded() {
-            mAd?.present(fromRootViewController: plugin.viewController, userDidEarnRewardHandler: {
-                let reward = self.mAd!.adReward
-                self.emit(AMBEvents.rewardedInterstitialReward, reward)
-            })
-            ctx.success()
-        } else {
-            ctx.error("Ad is not loaded")
-        }
+    override func show(_ ctx: AMBContext) {
+        mAd?.present(fromRootViewController: plugin.viewController, userDidEarnRewardHandler: {
+            let reward = self.mAd!.adReward
+            self.emit(AMBEvents.adReward, reward)
+        })
+        ctx.resolve()
     }
 
     func adDidRecordImpression(_ ad: GADFullScreenPresentingAd) {
-        self.emit(AMBEvents.rewardedInterstitialImpression)
+        self.emit(AMBEvents.adImpression)
     }
 
     func ad(_ ad: GADFullScreenPresentingAd, didFailToPresentFullScreenContentWithError error: Error) {
         clear()
-        self.emit(AMBEvents.rewardedInterstitialShowFail, error)
+        self.emit(AMBEvents.adShowFail, error)
     }
 
-    func adDidPresentFullScreenContent(_ ad: GADFullScreenPresentingAd) {
-        self.emit(AMBEvents.rewardedInterstitialShow)
+    func adWillPresentFullScreenContent(_ ad: GADFullScreenPresentingAd) {
+        self.emit(AMBEvents.adShow)
     }
 
     func adDidDismissFullScreenContent(_ ad: GADFullScreenPresentingAd) {
         clear()
-        self.emit(AMBEvents.rewardedInterstitialDismiss)
+        self.emit(AMBEvents.adDismiss)
     }
 
     private func clear() {

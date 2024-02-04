@@ -60,12 +60,24 @@ class ApplicationController extends ControllerDefault
                     true
                 );
 
-                $scheduler->send();
+                $result = $scheduler->send();
 
-                $payload = [
-                    'success' => true,
-                    'message' => p__('push2', 'Push sent'),
-                ];
+                if ($result->getErrors()) {
+                    $errMessages = [];
+                    foreach ($result->getErrors() as $error) {
+                        $errMessages[] = $error->getMessage();
+                    }
+
+                    $payload = [
+                        'warning' => true,
+                        'message' => p__('push2', implode_polyfill('<br/>', $errMessages)),
+                    ];
+                } else {
+                    $payload = [
+                        'success' => true,
+                        'message' => p__('push2', 'Push sent'),
+                    ];
+                }
             } else {
                 $payload = [
                     'error' => true,

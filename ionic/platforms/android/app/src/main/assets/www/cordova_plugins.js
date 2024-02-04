@@ -468,12 +468,12 @@ cordova.define('cordova/plugin_list', function(require, exports, module) {
   ];
   module.exports.metadata = {
     "Promises": "4.2.2",
-    "Admob": "0.0.0",
+    "Admob": "2.0.0-alpha.13",
     "AppVersion": "0.1.8",
     "Badge": "0.8.8",
     "BarcodeScanner": "7.1.2",
     "BrowserTab": "0.2.1",
-    "Camera": "4.0.3",
+    "Camera": "7.0.0",
     "Clipboard": "0.1.0",
     "Device": "2.0.2",
     "File": "6.0.2",

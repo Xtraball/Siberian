@@ -1,6 +1,53 @@
 import GoogleMobileAds
 
-class AMBContext {
+class AMBContext: AMBCoreContext {
+    func has(_ name: String) -> Bool {
+        return opts?.value(forKey: name) != nil
+    }
+
+    func optBool(_ name: String) -> Bool? {
+        return opt(name) as? Bool
+    }
+
+    func optFloat(_ name: String) -> Float? {
+        return opt(name) as? Float
+    }
+
+    func optInt(_ name: String) -> Int? {
+        return opt(name) as? Int
+    }
+
+    func optString(_ name: String, _ defaultValue: String) -> String {
+        if let v = opt(name) as? String {
+            return v
+        }
+        return defaultValue
+    }
+
+    func optStringArray(_ name: String) -> [String]? {
+        return opt(name) as? [String]
+    }
+
+    func resolve() {
+        self.sendResult(CDVPluginResult(status: CDVCommandStatus_OK))
+    }
+
+    func resolve(_ msg: Bool) {
+        self.sendResult(CDVPluginResult(status: CDVCommandStatus_OK, messageAs: msg))
+    }
+
+    func resolve(_ msg: UInt) {
+        self.sendResult(CDVPluginResult(status: CDVCommandStatus_OK, messageAs: msg))
+    }
+
+    func resolve(_ data: [String: Any]) {
+        self.sendResult(CDVPluginResult(status: CDVCommandStatus_OK, messageAs: data))
+    }
+
+    func reject(_ msg: String) {
+        self.sendResult(CDVPluginResult(status: CDVCommandStatus_ERROR, messageAs: msg))
+    }
+
     static weak var plugin: AMBPlugin!
 
     let command: CDVInvokedUrlCommand
@@ -29,22 +76,6 @@ class AMBContext {
         return opts?.value(forKey: key)
     }
 
-    func optString(_ key: String) -> String? {
-        return opt(key) as? String
-    }
-
-    func optId() -> Int? {
-        return opt("id") as? Int
-    }
-
-    func optAdUnitID() -> String? {
-        return optString("adUnitId")
-    }
-
-    func optPosition() -> String? {
-        return optString("position")
-    }
-
     func optOffset() -> CGFloat? {
         return opt("offset") as? CGFloat
     }
@@ -54,8 +85,7 @@ class AMBContext {
            let r = bgColor["r"] as? CGFloat,
            let g = bgColor["g"] as? CGFloat,
            let b = bgColor["b"] as? CGFloat,
-           let a = bgColor["a"] as? CGFloat
-        {
+           let a = bgColor["a"] as? CGFloat {
             return UIColor(red: r / 255, green: g / 255, blue: b / 255, alpha: a / 255)
         }
         return nil
@@ -69,91 +99,50 @@ class AMBContext {
         return opt("marginBottom") as? CGFloat
     }
 
-    func optAd() -> AMBAdBase? {
-        guard let id = optId(),
-              let ad = AMBAdBase.ads[id]
-        else {
-            return nil
-        }
-        return ad
-    }
-
-    func optAdOrError() -> AMBAdBase? {
-        if let ad = optAd() {
-            return ad
-        } else {
-            error("Ad not found")
-            return nil
-        }
-    }
-
-    func optMaxAdContentRating() -> GADMaxAdContentRating? {
-        switch optString("maxAdContentRating") {
-        case "G":
-            return GADMaxAdContentRating.general
-        case "MA":
-            return GADMaxAdContentRating.matureAudience
-        case "PG":
-            return GADMaxAdContentRating.parentalGuidance
-        case "T":
-            return GADMaxAdContentRating.teen
-        default:
-            return nil
-        }
-    }
-
-    func optChildDirectedTreatmentTag() -> Bool? {
-        return opt("tagForChildDirectedTreatment") as? Bool
-    }
-
-    func optUnderAgeOfConsentTag() -> Bool? {
-        return opt("tagForUnderAgeOfConsent") as? Bool
-    }
-
-    func optTestDeviceIds() -> [String]? {
-        if let testDeviceIds = opt("testDeviceIds") as? [String] {
-            return testDeviceIds
-        }
-        return nil
-    }
-
-    func optGADRequest() -> GADRequest {
-        let request = GADRequest()
-        if let contentURL = optString("contentUrl") {
-            request.contentURL = contentURL
-        }
-        let extras = GADExtras()
-        if let npa = optString("npa") {
-            extras.additionalParameters = ["npa": npa]
-        }
-        request.register(extras)
-        return request
-    }
-
+    // swiftlint:disable cyclomatic_complexity
     func optAdSize() -> GADAdSize {
         if let adSizeType = opt("size") as? Int {
             switch adSizeType {
             case 0:
-                return kGADAdSizeBanner
+                return GADAdSizeBanner
             case 1:
-                return kGADAdSizeLargeBanner
+                return GADAdSizeLargeBanner
             case 2:
-                return kGADAdSizeMediumRectangle
+                return GADAdSizeMediumRectangle
             case 3:
-                return kGADAdSizeFullBanner
+                return GADAdSizeFullBanner
             case 4:
-                return kGADAdSizeLeaderboard
+                return GADAdSizeLeaderboard
             default: break
             }
         }
-        guard let adSizeDict = opt("size") as? NSDictionary,
-              let width = adSizeDict.value(forKey: "width") as? Int,
-              let height = adSizeDict.value(forKey: "height") as? Int
-        else {
-            return kGADAdSizeBanner
+        if let adSizeDict = opt("size") as? NSDictionary {
+            if let adaptive = adSizeDict["adaptive"] as? String {
+                var width = AMBHelper.frame.size.width
+                if let w = adSizeDict["width"] as? CGFloat {
+                    width = w
+                }
+                if adaptive == "inline",
+                    let maxHeight = adSizeDict["maxHeight"] as? CGFloat {
+                    return GADInlineAdaptiveBannerAdSizeWithWidthAndMaxHeight(width, maxHeight)
+                } else {
+                    switch adSizeDict["orientation"] as? String {
+                    case "portrait":
+                        return GADPortraitAnchoredAdaptiveBannerAdSizeWithWidth(width)
+                    case "landscape":
+                        return GADLandscapeAnchoredAdaptiveBannerAdSizeWithWidth(width)
+                    default:
+                        return GADCurrentOrientationAnchoredAdaptiveBannerAdSizeWithWidth(width)
+                    }
+                }
+            } else if let width = adSizeDict["width"] as? Int,
+                 let height = adSizeDict["height"] as? Int {
+                return GADAdSizeFromCGSize(CGSize(width: width, height: height))
+            }
         }
-        return GADAdSizeFromCGSize(CGSize(width: width, height: height))
+        return GADAdSizeBanner
     }
+    // swiftlint:enable cyclomatic_complexity
 
     func optGADServerSideVerificationOptions() -> GADServerSideVerificationOptions? {
         guard let ssv = opt("serverSideVerification") as? NSDictionary
@@ -171,35 +160,11 @@ class AMBContext {
         return options
     }
 
+    func optWebviewGoto() -> String {
+        return command.argument(at: 0) as! String
+    }
+
     func sendResult(_ message: CDVPluginResult?) {
         self.commandDelegate.send(message, callbackId: command.callbackId)
-    }
-
-    func success() {
-        self.sendResult(CDVPluginResult(status: CDVCommandStatus_OK))
-    }
-
-    func success(_ message: Bool) {
-        self.sendResult(CDVPluginResult(status: CDVCommandStatus_OK, messageAs: message))
-    }
-
-    func success(_ message: UInt) {
-        self.sendResult(CDVPluginResult(status: CDVCommandStatus_OK, messageAs: message))
-    }
-
-    func success(_ message: [String: Any]) {
-        self.sendResult(CDVPluginResult(status: CDVCommandStatus_OK, messageAs: message))
-    }
-
-    func error() {
-        self.sendResult(CDVPluginResult(status: CDVCommandStatus_ERROR))
-    }
-
-    func error(_ message: String?) {
-        self.sendResult(CDVPluginResult(status: CDVCommandStatus_ERROR, messageAs: message))
-    }
-
-    func error(_ message: Error?) {
-        self.error(message?.localizedDescription)
     }
 }

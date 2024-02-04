@@ -137,7 +137,7 @@ class Customer extends Base
                     $userEmail = $siberianAdmin->getEmail();
                     $metadata = [
                         'admin_id' => $siberianAdmin->getId(),
-                        'app_id' => SiberianApplication::getApplication()->getId(),
+                        'app_id' => SiberianApplication::sGetApplication()->getId(),
                     ];
                     break;
                 case self::TYPE_CUSTOMER:
@@ -145,7 +145,7 @@ class Customer extends Base
                     $userEmail = $siberianCustomer->getEmail();
                     $metadata = [
                         'customer_id' => $siberianCustomer->getId(),
-                        'app_id' => SiberianApplication::getApplication()->getId(),
+                        'app_id' => SiberianApplication::sGetApplication()->getId(),
                     ];
                     break;
                 default:

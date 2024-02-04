@@ -71,11 +71,11 @@
     <preference name="FadeSplashScreenDuration" value="200" />
     <preference name="SplashMaintainAspectRatio" value="true" />
     <preference name="android-minSdkVersion" value="21" />
-    <preference name="android-targetSdkVersion" value="31" />
+    <preference name="android-targetSdkVersion" value="33" />
     <preference name="HideKeyboardFormAccessoryBar" value="false" />
     <preference name="KeyboardResize" value="true" />
     <preference name="KeyboardResizeMode" value="native" />
-    <preference name="deployment-target" value="11.0" />
+    <preference name="deployment-target" value="12.0" />
     <preference name="WKWebViewOnly" value="true" />
     <feature name="AdMob">
         <param name="ios-package" value="AMBPlugin" />

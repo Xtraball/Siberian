@@ -117,51 +117,15 @@ class Notification
             $iosAttachments = new \stdClass();
             $iosAttachments->big_picture = $bigPicture;
             $this->notification->setIosAttachments($iosAttachments);
+
+            $additionalData = true;
         }
-
-
-
-        // Geolocated push
-        //if ($message->getLongitude() &&
-        //    $message->getLatitude()) {
-
-        //    $faliste de groupe, un badge apparaîtra à côté de son nom dans les discilterLocation = new \onesignal\client\model\FilterNotificationTarget([
-        //        'location' => [
-        //            'radius' => (int) $message->getRadius(),
-        //            'lat' => (float) $message->getLatitude(),
-        //            'long' => (float) $message->getLongitude(),
-        //        ]
-        //    ]);
-        //    $this->notification->setFilters([$filterLocation]);
-        //}
 
         // Push icon color
         //$pushColor = strtoupper($this->application->getAndroidPushColor() ?? '#0099C7');
 
-        $actionUrl = null;
-        $actionValue = trim($message->getActionValue());
-        if (is_numeric($message->getActionValue())) {
-            $optionValue = (new \Application_Model_Option_Value())->find($message->getActionValue());
-            // In case we use only value_id
-            if (!$this->application || !$this->application->getId()) {
-                $application = (new \Application_Model_Application())->find($optionValue->getAppId());
-            }
-//
-            $mobileUri = $optionValue->getMobileUri();
-            if (preg_match('/^goto\/feature/', $mobileUri)) {
-                $actionUrl = sprintf("/%s/%s/value_id/%s",
-                    $application->getKey(),
-                    $mobileUri,
-                    $optionValue->getId());
-            } else {
-                $actionUrl = sprintf("/%s/%sindex/value_id/%s",
-                    $application->getKey(),
-                    $optionValue->getMobileUri(),
-                    $optionValue->getId());
-            }
-            $additionalData = true;
-        } else if (!empty($actionValue)) {
-            $actionUrl = $message->getActionValue();
+        $actionUrl = $message->getActionLink();
+        if (!empty($actionUrl)) {
             $additionalData = true;
         }
 
@@ -172,13 +136,26 @@ class Notification
                 'body' => $message->getBody(),
                 'soundname' => 'sb_beep4',
                 'action_value' => $actionUrl,
+                'cover' => $bigPicture,
+                'open_webview' => stripos($actionUrl, 'http') !== false,
             ]);
         }
 
         $this->notification->setAndroidSound('sb_beep4');
         $this->notification->setPriority(10);
 
-        $this->setTargets($message->getTargets());
+        // Geolocated push
+        if ($message->getUseLocation()) {
+            $filterLocation = new \stdClass();
+            $filterLocation->field = 'location';
+            $filterLocation->radius = $message->getRadius();
+            $filterLocation->lat = $message->getLatitude();
+            $filterLocation->long = $message->getLongitude();
+
+            $this->notification->setFilters([$filterLocation]);
+        } else {
+            $this->setTargets($message->getTargets());
+        }
 
         //
         $result = Hook::trigger('push.message.android.parsed',
