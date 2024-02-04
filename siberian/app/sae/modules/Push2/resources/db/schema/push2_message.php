@@ -65,6 +65,10 @@ $schemas['push2_message'] = [
         'collation' => 'utf8_unicode_ci',
         'is_null' => true,
     ],
+    'use_location' => [
+        'type' => 'tinyint(1)',
+        'default' => '0',
+    ],
     'latitude' => [
         'type' => 'decimal(11,8)',
         'is_null' => true,
@@ -84,6 +88,10 @@ $schemas['push2_message'] = [
     'feature_id' => [
         'type' => 'int(11) unsigned',
         'is_null' => true,
+    ],
+    'open_url' => [
+        'type' => 'tinyint(1)',
+        'default' => '0',
     ],
     'feature_url' => [
         'type' => 'text',

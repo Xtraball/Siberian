@@ -33,9 +33,7 @@ class ListController extends MobileController
         //if ($device_uid = $this->getRequest()->getParam('device_uid')) {
         //$option_value = $this->getCurrentOptionValue();
 
-        $message = new Message();
-        /** @var Message[] $messages */
-        $messages = $message->findAllForPlayer($application->getId(), $player_id);
+        $messages = (new Message())->findAllForPlayer($application->getId(), $player_id);
 
         //$icon_new = $request->getBaseUrl() . ($option->getImage()->getCanBeColorized() ?
         //        $this->_getColorizedImage($option->getIconId(), $color) : $option->getIconUrl());
@@ -124,19 +122,12 @@ class ListController extends MobileController
                 //'topic' => $message->getLabel(),
                 'topic' => null,
                 'details' => $meta,
-                //'picture' => $picture,
                 'picture' => $message->getBigPicture(),
                 'icon' => $icon,
-                //'action_value' => $action_value,
                 'action_value' => null,
-                //'url' => $url
                 'url' => null
             ];
         }
-
-        //$message->markAsRead($device_uid);
-
-        //}
 
         // Settings
         try {

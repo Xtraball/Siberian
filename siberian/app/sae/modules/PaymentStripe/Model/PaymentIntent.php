@@ -66,7 +66,7 @@ class PaymentIntent extends Base
      * @throws Exception
      * @throws \Zend_Exception
      */
-    public function toJson()
+    public function toJson($optionValue = null, $baseUrl = "")
     {
         $payload = [
             'id' => (integer) $this->getId(),

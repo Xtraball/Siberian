@@ -111,7 +111,7 @@ HTML
             $players = (new Player())->findWithCustomers(["player.app_id = ?" => $this->application->getId()]);
 
             $is_individual = $this->addSimpleCheckbox('is_individual', p__('push2', 'Individual?'));
-            $is_individual->setDescription(p__('push2', 'Segment is ignored when individual push is enabled'));
+            $is_individual->setDescription(p__('push2', 'Segment & Geolocation are ignored when individual push is used'));
 
             $this->addSimpleHtml('individual_table', $this->individualTable($players));
         }
@@ -176,6 +176,17 @@ HTML
                 'individual_table',
             ], p__('push2', 'Individual push'));
         }
+
+        // Geolocation
+        $this->geolocation();
+
+        // URL
+        $open_url = $this->addSimpleCheckbox('open_url', p__('push2', 'Link to an URL?'));
+        $this->addSimpleText('feature_url', p__('push2', 'URL: https://...'));
+        $this->groupElements('open_url_group', [
+            'open_url',
+            'feature_url',
+        ], p__('push2', 'Link to an URL'));
 
         // Features
         if (!empty($this->_features)) {
@@ -250,6 +261,39 @@ $("table.sb-pager.sb-features").sbpager({
     with_search: true,
     items_per_page: 10,
     search_placeholder: "{$strSearch}",
+});
+
+// Toggle url/feature
+let urlCheckbox = $("#open_url");
+let featureCheckbox = $("#open_feature");
+
+let toggleElement = function (element, state) {
+    element.prop("checked", state);
+};
+
+urlCheckbox.off("click");
+urlCheckbox.on("click", () => {
+    toggleElement(featureCheckbox, false);
+});
+
+featureCheckbox.off("click");
+featureCheckbox.on("click", () => {
+    toggleElement(urlCheckbox, false);
+});
+
+// Location & individual
+let useLocation = $("#use_location");
+useLocation.on("click", () => {
+    if (useLocation.is(":checked")) {
+        toggleElement(individualCheckbox, false);
+        individualSchedule();
+    }
+});
+
+individualCheckbox.on("click", () => {
+    if (individualCheckbox.is(":checked")) {
+        toggleElement(useLocation, false);
+    }
 });
 
 </script>
@@ -346,6 +390,125 @@ HTML;
 </div>
 HTML;
         return $tableHtml;
+    }
+
+    public function geolocation() {
+        $googlemaps_key = $this->application->getGooglemapsKey();
+
+        $use_location = $this->addSimplecheckbox('use_location', p__('push2', 'Send to location?'));
+        $use_location->setDescription(p__('push2', 'Segment & Individual push are ignored when location is used'));
+        $this->addSimpleText('location', p__('push2', 'Location'));
+        $radius = $this->addSimpleNumber('radius', p__('push2', 'Radius (in meters)'), 10, 1000000, true, 10);
+        $radius->setValue(100);
+        $this->addSimpleHidden('latitude');
+        $this->addSimpleHidden('longitude');
+
+        $raw = <<<HTML
+  <div style="margin: 15px;">
+  <div id="push2_map" style="width:100%; height: 500px;"></div>
+
+  <script>
+    let map;
+    let circle;
+    let marker;
+    let autocomplete;
+
+    function initMap() {
+      map = new google.maps.Map(document.getElementById('push2_map'), {
+        center: { lat: 48.856614, lng: 2.3522219 },
+        zoom: 12
+      });
+      const input = document.getElementById('location');
+      autocomplete = new google.maps.places.Autocomplete(input);
+      autocomplete.addListener('place_changed', function() {
+        const place = autocomplete.getPlace();
+        if (!place.geometry) {
+          return; // No place selected
+        }
+
+        // Set hidden input fields with latitude and longitude
+        document.getElementById('latitude').value = place.geometry.location.lat();
+        document.getElementById('longitude').value = place.geometry.location.lng();
+
+        locateOnMap();
+      });
+    }
+
+    function locateOnMap() {
+      const location = document.getElementById('location').value;
+      const radius = parseFloat(document.getElementById('radius').value);
+
+      if (isNaN(radius) || radius <= 0 || !location.trim()) {
+        alert('Please enter a valid location and radius.');
+        return;
+      }
+
+      const geocoder = new google.maps.Geocoder();
+      geocoder.geocode({ address: location }, function (results, status) {
+        if (status === 'OK') {
+          const center = results[0].geometry.location;
+
+          if (circle) {
+            circle.setMap(null); // Remove the existing circle if any
+          }
+
+          map.setCenter(center);
+
+          circle = new google.maps.Circle({
+            strokeColor: '#0099C7',
+            strokeOpacity: 0.8,
+            strokeWeight: 2,
+            fillColor: '#0099C7',
+            fillOpacity: 0.35,
+            map: map,
+            center: center,
+            radius: radius
+          });
+          
+          // Remove existing marker if any
+          if (marker) {
+            marker.setMap(null);
+          }
+    
+          // Place a marker at the selected location
+          marker = new google.maps.Marker({
+            position: center,
+            map: map,
+            title: 'Selected Location'
+          });
+
+          const bounds = circle.getBounds();
+          map.fitBounds(bounds); // Fit the map to the circle's bounds
+        } else {
+          alert('Geocode was not successful for the following reason: ' + status);
+        }
+      });
+    }
+    
+    if(!$('#gmaps_libraries').length) {
+        let script_tag = document.createElement('script');
+        script_tag.setAttribute("id", "gmaps_libraries");
+        script_tag.setAttribute("type", "text/javascript");
+        script_tag.setAttribute("src", "https://maps.google.com/maps/api/js?sensor=false&libraries=places&callback=initMap&key={$googlemaps_key}");
+        (document.getElementsByTagName("head")[0] || document.documentElement).appendChild(script_tag);
+    } else {
+        initMap();
+    }
+  </script>
+  </div>
+HTML;
+
+        $this->addSimpleHtml('raw_map', $raw);
+
+        $this->groupElements('group_geolocation', [
+            'use_location',
+            'location',
+            'radius',
+            'latitude',
+            'longitude',
+            'raw_map',
+        ], p__('push2', 'Geolocation'));
+
     }
 
     public function getFeatureStr($feature) {

@@ -29,6 +29,7 @@ use Core\Model\Base as BaseModel;
  * @method $this setExternalId($external_id)
  * @method $this setRecipients($recipients)
  * @method $this setOpenFeature(bool $open_feature)
+ * @method $this setOpenUrl(bool $open_url)
  * @method $this setIsTest(bool $is_test)
  * @method $this setIsForModule(bool $is_for_module)
  * @method $this setIsIndividual(bool $is_individual)
@@ -71,7 +72,7 @@ class Message extends BaseModel
     /**
      * @param $app_id
      * @param $player_id
-     * @return mixed
+     * @return Message[]
      * @throws \Zend_Exception
      */
     public function findAllForPlayer($app_id, $player_id = null)
@@ -109,9 +110,20 @@ class Message extends BaseModel
         $this->setIsIndividual(filter_var($data['is_individual'] ?? null, FILTER_VALIDATE_BOOLEAN));
         $this->setOpenFeature(filter_var($data['open_feature'] ?? null, FILTER_VALIDATE_BOOLEAN));
         $this->setFeatureId($data['feature_id'] ?? null);
+        $this->setOpenUrl(filter_var($data['open_url'] ?? null, FILTER_VALIDATE_BOOLEAN));
         $this->setFeatureUrl($data['feature_url'] ?? null);
         $this->setPlayerIds($data['player_ids'] ?? null);
         $this->setSegment($data['segment'] ?? $defaultSegment);
+
+        // Location
+        $use_location = filter_var($data['use_location'] ?? null, FILTER_VALIDATE_BOOLEAN);
+        if ($use_location) {
+            $this->setUseLocation(true);
+            $this->setLatitude($data['latitude'] ?? null);
+            $this->setLongitude($data['longitude'] ?? null);
+            $this->setRadius($data['radius'] ?? null);
+        }
+
         $this->addTargets(new Segment($data['segment'] ?? $defaultSegment));
 
         $this->checkSchedulingOptions();
@@ -122,13 +134,17 @@ class Message extends BaseModel
     }
 
     /**
-     * @return array|mixed|string|null
+     * @return string|null
      */
     public function getBigPicture()
     {
         $baseUrl = self::sGetBaseUrl();
-        $bigPictureUrl = $this->getData('big_picture_url');
-        $bigPicture = $this->getData('big_picture');
+        $bigPictureUrl = trim($this->getData('big_picture_url'));
+        $bigPicture = trim($this->getData('big_picture'));
+
+        if (empty($bigPictureUrl) && empty($bigPicture)) {
+            return null;
+        }
 
         $cover_image = !empty($bigPictureUrl) ? $bigPictureUrl : $bigPicture;
         if (!preg_match("#^https?://#", $cover_image)) {
@@ -140,6 +156,51 @@ class Message extends BaseModel
         }
 
         return $cover_image;
+    }
+
+    /**
+     * @return string|null
+     */
+    public function getActionLink()
+    {
+        $open_feature = filter_var($this->getData('open_feature'), FILTER_VALIDATE_BOOLEAN);
+        $feature_id = trim($this->getData('feature_id'));
+
+        if ($open_feature && !empty($feature_id)) {
+            return $this->featureIdUrl($feature_id);
+        }
+
+        $open_url = filter_var($this->getData('open_url'), FILTER_VALIDATE_BOOLEAN);
+        $feature_url = trim($this->getData('feature_url'));
+
+        if ($open_url && !empty($feature_url)) {
+            return $feature_url;
+        }
+
+        return null;
+    }
+
+    public function featureIdUrl($feature_id)
+    {
+        $application = self::sGetApplication();
+        $optionValue = (new \Application_Model_Option_Value())->find($feature_id);
+        if (!$application || !$optionValue) {
+            return null;
+        }
+
+        $mobileUri = $optionValue->getMobileUri();
+        if (preg_match('/^goto\/feature/', $mobileUri)) {
+            $actionUrl = sprintf("/%s/%s/value_id/%s",
+                $application->getKey(),
+                $mobileUri,
+                $optionValue->getId());
+        } else {
+            $actionUrl = sprintf("/%s/%sindex/value_id/%s",
+                $application->getKey(),
+                $optionValue->getMobileUri(),
+                $optionValue->getId());
+        }
+        return $actionUrl;
     }
 
     /**

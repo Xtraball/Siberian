@@ -3,7 +3,7 @@
  *
  * @author Xtraball SAS
  *
- * @version 5.0.7
+ * @version 5.0.10
  */
 angular
     .module('starter')
@@ -358,7 +358,6 @@ angular
             if (additionalData.extractXPath('duplicateForeground', false)) {
                 service.sendLocalNotification(messageId, title, body, 'duplicate_foreground');
             }
-
             Dialog.alert(title, body, 'OK');
         }
     }
