@@ -42,8 +42,11 @@ class Front_Controller_Api_Base extends Front_Controller_App_Default
 
         $request = $this->getRequest();
         $params = $request->getBodyParams();
-        $currentLanguage = $params['user_language'] ?? Core_Model_Language::getCurrentLanguage();
+        //$currentLanguage = $params['user_language'] ?? Core_Model_Language::getCurrentLanguage(); //commented by Migastone
+		$currentLanguage = preg_match('/(msie|firefox|safari|chrome|edge|opera|mobile)/i', $_SERVER['HTTP_USER_AGENT']) ? explode('_', $application->getLocale())[0] : ($params['user_language'] ?? Core_Model_Language::getCurrentLanguage()); //added by Migastone
+		
         Core_Model_Language::setCurrentLanguage($currentLanguage);
+
 
         try {
             $cssBlock = self::_cssBlock($application);
@@ -271,6 +274,9 @@ class Front_Controller_Api_Base extends Front_Controller_App_Default
         $blockStart = microtime(true);
         if (!$result = $cache->load($cacheId)) {
 
+            // Fetching whitelabel for app!
+            $whitelabel = Siberian::getWhitelabel();
+
             // Homepage image url!
             if ($application->getSplashVersion() == '2') {
                 $homepageImage = path($application->getHomepageBackgroundUnified());
@@ -317,8 +323,6 @@ class Front_Controller_Api_Base extends Front_Controller_App_Default
             $bgColor = Siberian_Color::newColor($bgColorHex, 'hex');
             $bgColor->alpha = $bgBlock->getBackgroundOpacity() / 100;
 
-            $credentials = (new Push_Model_Firebase())->find(0, 'admin_id');
-
             $colorStatusBar = Siberian_Color::newColor($application->getBlock('header')->getBackgroundColor(), 'hex');
             $colorStatusBarLighten = $colorStatusBar->getNew('lightness', $colorStatusBar->lightness - 10);
 
@@ -333,15 +337,20 @@ class Front_Controller_Api_Base extends Front_Controller_App_Default
                 'title' => $myAccountFeature->getTabbarName(),
                 'settings' => [
                     'design' => 'list',
-                    'enable_facebook_login' => true,
+                    'email_validation' => false,
+                    'enable_facebook_login' => false,
                     'enable_registration' => true,
                     'enable_commercial_agreement' => false,
                     'enable_commercial_agreement_label' => '',
                     'enable_password_verification' => false,
                     'extra_mobile' => false,
                     'extra_mobile_required' => false,
+                    'extra_birthdate' => false,
+                    'extra_birthdate_required' => false,
                     'extra_civility' => false,
                     'extra_civility_required' => false,
+                    'extra_nickname' => false,
+                    'extra_nickname_required' => false,
                 ],
             ];
             $myAccount = $defaultSettings;
@@ -359,6 +368,9 @@ class Front_Controller_Api_Base extends Front_Controller_App_Default
                 'application' => [
                     'id' => $appId,
                     'name' => $application->getName(),
+                    'share_domain' => ($whitelabel && $whitelabel->getHost()) ?
+                        $whitelabel->getHost() : __get('main_domain'),
+                    'requestTrackingAuthorization' => (boolean)$application->getRequestTrackingAuthorization(),
                     'is_locked' => (boolean)$application->requireToBeLoggedIn(),
                     'is_bo_locked' => (boolean)$application->getIsLocked(),
                     'disableUpdates' => (boolean)$application->getDisableUpdates(),
@@ -390,7 +402,9 @@ class Front_Controller_Api_Base extends Front_Controller_App_Default
                     'pushIconcolor' => $iconColor,
                     'gmapsKey' => $googleMapsKey,
                     'offlineContent' => (boolean)$application->getOfflineContent(),
-                    'fcmSenderID' => $credentials->getSenderId(),
+                    // OneSignal section
+                    'osAppId' => $application->getOnesignalAppId(),
+                    // OneSignal section
                     'iosStatusBarIsHidden' => (boolean)$application->getIosStatusBarIsHidden(),
                     'androidStatusBarIsHidden' => (boolean)$application->getAndroidStatusBarIsHidden(),
                     'privacyPolicy' => [
@@ -401,6 +415,7 @@ class Front_Controller_Api_Base extends Front_Controller_App_Default
                     'gdpr' => [
                         'isEnabled' => isGdpr(),
                     ],
+                    'ipinfo_key' => (string)$application->getIpinfoKey(),
                     'useHomepageBackground' => (boolean)$application->getUseHomepageBackgroundImageInSubpages(),
                     'backButton' => (string)$application->getBackButton(),
                     'backButtonClass' => $application->getBackButtonClass(),
@@ -533,7 +548,10 @@ class Front_Controller_Api_Base extends Front_Controller_App_Default
                         'is_link' => !(boolean)$optionValue->getIsAjax(),
                         'use_my_account' => (boolean)$optionValue->getUseMyAccount(),
                         'use_nickname' => (boolean)$optionValue->getUseNickname(),
+                        'use_birthdate' => (boolean)$optionValue->getUseBirthdate(),
                         'use_ranking' => (boolean)$optionValue->getUseRanking(),
+                        "use_civility" => (boolean)$optionValue->getUseCivility(),
+                        "use_mobile" => (boolean)$optionValue->getUseMobile(),
                         'offline_mode' => (boolean)$optionValue->getObject()->isCacheable(),
                         'custom_fields' => $optionValue->getCustomFields(),
                         'embed_payload' => $embedPayload,
@@ -593,6 +611,7 @@ class Front_Controller_Api_Base extends Front_Controller_App_Default
             $dataMoreItems = [
                 'code' => $option->getCode(),
                 'name' => $option->getTabbarName(),
+                'value_id' => 'more_items',
                 'subtitle' => $application->getMoreSubtitle(),
                 'is_active' => (boolean)$option->isActive(),
                 'lazy_load' => null,
@@ -747,10 +766,10 @@ class Front_Controller_Api_Base extends Front_Controller_App_Default
         // Don't cache customer information!
         $pushNumber = 0;
         $deviceUid = $request->getParam('device_uid', null);
-        if (!empty($deviceUid)) {
-            $pushNumber = (new Push_Model_Message())
-                ->countByDeviceId($deviceUid);
-        }
+        //if (!empty($deviceUid)) {
+            //$pushNumber = (new Push_Model_Message())
+            //    ->countByDeviceId($deviceUid);
+        //}
         $dataHomepage['push_badge'] = $pushNumber;
 
         // Time to generate the current block!
@@ -868,30 +887,33 @@ class Front_Controller_Api_Base extends Front_Controller_App_Default
         $customerId = $customer->getCustomerId();
         $isLoggedIn = false;
 
-		// added by Migastone (start)
-		$deviceUid = $request->getParam('device_uid', null);
-		if (!$customerId && !empty($deviceUid)) {
-			if (strlen($deviceUid) == 36) {
-				$device = new Push_Model_Iphone_Device();
-				$device->find($deviceUid, 'device_uid');
-				$customerId = $device->getCustomerId();
-			} else {
-				$device = new Push_Model_Android_Device();
-				$device->find($deviceUid, 'registration_id');
-				$customerId = $device->getCustomerId();
-			}
-			if ($customerId) {
-				$customer = new Customer_Model_Customer();
-                $customer->find($customerId);
-				$this->getSession()
-                    ->resetInstance()
-                    ->setCustomer($customer)
-                ;
-			}
-		}
-		// added by Migastone (end)
-        
-		// Facebook token refresh for Facebook Login!
+        // Searching for an existing push token
+        ///try {
+        ///    $deviceUid = $request->getParam('device_uid', null);
+        ///    if (!$customerId && !empty($deviceUid)) {
+        ///        if (strlen($deviceUid) === 36) {
+        ///            $device = new Push_Model_Iphone_Device();
+        ///            $device->find($deviceUid, 'device_uid');
+        ///            $customerId = $device->getCustomerId();
+        ///        } else {
+        ///            $device = new Push_Model_Android_Device();
+        ///            $device->find($deviceUid, 'registration_id');
+        ///            $customerId = $device->getCustomerId();
+        ///        }
+        ///        if ($customerId) {
+        ///            $customer = new Customer_Model_Customer();
+        ///            $customer->find($customerId);
+        ///            $this
+        ///                ->getSession()
+        ///                ->resetInstance()
+        ///                ->setCustomer($customer);
+        ///        }
+        ///    }
+        ///} catch (\Exception $e) {
+        ///    // Well tried!
+        ///}
+
+        // Facebook token refresh for Facebook Login!
         $this->_refreshFacebookUserToken($customer);
 
         $loadBlock['customer'] = [
@@ -901,7 +923,6 @@ class Front_Controller_Api_Base extends Front_Controller_App_Default
             'token' => Zend_Session::getId()
         ];
 
-		
         if ($customerId) {
             $metadata = $customer->getMetadatas();
             if (empty($metadata)) {
@@ -909,11 +930,15 @@ class Front_Controller_Api_Base extends Front_Controller_App_Default
             }
 
             // Hide stripe customer id for secure purpose!
-            if ($metadata &&
-                $metadata->stripe &&
-                array_key_exists('customerId', $metadata->stripe) &&
-                $metadata->stripe['customerId']) {
-                unset($metadata->stripe['customerId']);
+            try {
+                if ($metadata &&
+                    $metadata->stripe &&
+                    array_key_exists('customerId', $metadata->stripe) &&
+                    $metadata->stripe['customerId']) {
+                    unset($metadata->stripe['customerId']);
+                }
+            } catch (\Exception $e) {
+                // Silently fail!
             }
 
             $isLoggedIn = true;
@@ -928,12 +953,26 @@ class Front_Controller_Api_Base extends Front_Controller_App_Default
                 ->setLanguage($currentLanguage)
                 ->save();
 
+            try {
+                $bdInt = (int) $customer->getBirthdate();
+                if ($bdInt === 0) {
+                    throw new \Siberian\Exception('Jump to empty');
+                }
+                $birthdate = new DateTime();
+                $birthdate->setTimestamp($bdInt);
+                $birthdateString = $birthdate->format('d/m/Y');
+            } catch (\Exception $e) {
+                $birthdateString = '';
+            }
+
             $loadBlock['customer'] = array_merge($loadBlock['customer'], [
                 'civility' => $customer->getCivility(),
                 'firstname' => $customer->getFirstname(),
                 'lastname' => $customer->getLastname(),
                 'nickname' => $customer->getNickname(),
+                'birthdate' => $birthdateString,
                 'mobile' => $customer->getMobile(),
+                'intl_mobile' => $customer->getMobile(),
                 'image' => $customer->getImage(),
                 'email' => $customer->getEmail(),
                 'show_in_social_gaming' => (boolean)$customer->getShowInSocialGaming(),
@@ -954,7 +993,10 @@ class Front_Controller_Api_Base extends Front_Controller_App_Default
                     $data['stripe'] = $info ?: [];
                 }
             }
+
         }
+
+
 
         $loadBlock['customer'] = array_merge($loadBlock['customer'], [
             'isLoggedIn' => $isLoggedIn,
@@ -969,7 +1011,7 @@ class Front_Controller_Api_Base extends Front_Controller_App_Default
                 'application' => $application,
                 'request' => $request,
                 'session' => (new Base()),
-            ]),
+            ])
         ]);
 
         return $loadBlock;
@@ -984,6 +1026,10 @@ class Front_Controller_Api_Base extends Front_Controller_App_Default
     {
         $useNickname = false;
         $useRanking = false;
+        $useBirthdate = false;
+        $useCivility = false;
+        $useMobile = false;
+        $useCriticalPush = false;
 
         $features = $featureBlock['pages'];
         foreach ($features as $feature) {
@@ -993,15 +1039,36 @@ class Front_Controller_Api_Base extends Front_Controller_App_Default
             if ($feature['use_ranking']) {
                 $useRanking = true;
             }
+            if ($feature['use_birthdate']) {
+                $useBirthdate = true;
+            }
+            if ($feature['use_civility']) {
+                $useCivility = true;
+            }
+            if ($feature['use_mobile']) {
+                $useMobile = true;
+            }
+            if (array_key_exists('use_critical_push', $feature) && $feature['use_critical_push']) {
+                $useCriticalPush = true;
+            }
 
-            // Both are true, we can abort here!
-            if ($useNickname && $useRanking) {
+            // All are true, we can abort here!
+            if ($useNickname &&
+                $useRanking &&
+                $useBirthdate &&
+                $useCivility &&
+                $useCriticalPush &&
+                $useMobile) {
                 break;
             }
         }
 
+        $loadBlock['application']['myAccount']['settings']['use_birthdate'] = $useBirthdate;
         $loadBlock['application']['myAccount']['settings']['use_nickname'] = $useNickname;
         $loadBlock['application']['myAccount']['settings']['use_ranking'] = $useRanking;
+        $loadBlock['application']['myAccount']['settings']['use_civility'] = $useCivility;
+        $loadBlock['application']['myAccount']['settings']['use_mobile'] = $useMobile;
+        $loadBlock['application']['useCriticalPush'] = $useCriticalPush;
 
         return $loadBlock;
     }
@@ -1110,6 +1177,7 @@ class Front_Controller_Api_Base extends Front_Controller_App_Default
     public static function _admobSettings($application)
     {
         $payload = [
+            'isTesting' => (boolean) $application->getTestAds(),
             'ios_weight' => [
                 'app' => 1,
                 'platform' => 0,
@@ -1152,92 +1220,8 @@ class Front_Controller_Api_Base extends Front_Controller_App_Default
             ]
         ];
 
-        $subscription = null;
-        $planUseAds = false;
-        if (Siberian\Version::is('PE')) {
-            $subscription = $application->getSubscription()->getSubscription();
-            $planUseAds = $subscription->getUseAds();
-        }
-
         $ios_device = $application->getDevice(1);
         $android_device = $application->getDevice(2);
-
-        # Platform/Subscription settings
-        if ($application->getOwnerUseAds()) {
-
-            $ios_types = explode('-', $ios_device->getOwnerAdmobType());
-            $ios_weight = (integer)$ios_device->getOwnerAdmobWeight();
-            $android_types = explode('-', $android_device->getOwnerAdmobType());
-            $android_weight = (integer)$android_device->getOwnerAdmobWeight();
-
-            $payload['platform'] = [
-                'ios' => [
-                    'banner_id' => $ios_device->getOwnerAdmobId(),
-                    'interstitial_id' => $ios_device->getOwnerAdmobInterstitialId(),
-                    'banner' => (boolean)in_array('banner', $ios_types),
-                    'interstitial' => (boolean)in_array('interstitial', $ios_types),
-                    'videos' => (boolean)in_array('videos', $ios_types), # Prepping the future.
-                ],
-                'android' => [
-                    'banner_id' => $android_device->getOwnerAdmobId(),
-                    'interstitial_id' => $android_device->getOwnerAdmobInterstitialId(),
-                    'banner' => (boolean)in_array('banner', $android_types),
-                    'interstitial' => (boolean)in_array('interstitial', $android_types),
-                    'videos' => (boolean)in_array('videos', $android_types), # Prepping the future.
-                ],
-            ];
-
-            if (($ios_weight >= 0) && ($ios_weight <= 100)) {
-                $weight = ($ios_weight / 100);
-                $payload['ios_weight']['platform'] = $weight;
-                $payload['ios_weight']['app'] = (1 - $weight);
-            }
-
-            if (($android_weight >= 0) && ($android_weight <= 100)) {
-                $weight = ($android_weight / 100);
-                $payload['android_weight']['platform'] = $weight;
-                $payload['android_weight']['app'] = (1 - $weight);
-            }
-
-        } else if (($planUseAds || __get('application_owner_use_ads'))) {
-
-            $ios_key = 'application_' . $ios_device->getType()->getOsName() . '_owner_admob_%s';
-            $android_key = 'application_' . $android_device->getType()->getOsName() . '_owner_admob_%s';
-
-            $ios_types = explode('-', __get(sprintf($ios_key, 'type')));
-            $ios_weight = (integer)__get(sprintf($ios_key, 'weight'));
-            $android_types = explode('-', __get(sprintf($android_key, 'type')));
-            $android_weight = (integer)__get(sprintf($android_key, 'weight'));
-
-            $payload['platform'] = [
-                'ios' => [
-                    'banner_id' => __get(sprintf($ios_key, 'id')),
-                    'interstitial_id' => __get(sprintf($ios_key, 'interstitial_id')),
-                    'banner' => (boolean)in_array('banner', $ios_types),
-                    'interstitial' => (boolean)in_array('interstitial', $ios_types),
-                    'videos' => (boolean)in_array('videos', $ios_types), # Prepping the future.
-                ],
-                'android' => [
-                    'banner_id' => __get(sprintf($android_key, 'id')),
-                    'interstitial_id' => __get(sprintf($android_key, 'interstitial_id')),
-                    'banner' => (boolean)in_array('banner', $android_types),
-                    'interstitial' => (boolean)in_array('interstitial', $android_types),
-                    'videos' => (boolean)in_array('videos', $android_types), # Prepping the future.
-                ],
-            ];
-
-            if (($ios_weight >= 0) && ($ios_weight <= 100)) {
-                $weight = ($ios_weight / 100);
-                $payload['ios_weight']['platform'] = $weight;
-                $payload['ios_weight']['app'] = (1 - $weight);
-            }
-
-            if (($android_weight >= 0) && ($android_weight <= 100)) {
-                $weight = ($android_weight / 100);
-                $payload['android_weight']['platform'] = $weight;
-                $payload['android_weight']['app'] = (1 - $weight);
-            }
-        }
 
         if ($application->getUseAds()) {
 
@@ -1260,12 +1244,6 @@ class Front_Controller_Api_Base extends Front_Controller_App_Default
                     'videos' => (boolean)in_array('videos', $android_types), # Prepping the future.
                 ],
             ];
-        } else {
-            // If user don't use admob, split revenue is 100% for platform!
-            $payload['ios_weight']['platform'] = 1;
-            $payload['ios_weight']['app'] = 0;
-            $payload['android_weight']['platform'] = 1;
-            $payload['android_weight']['app'] = 0;
         }
 
         return $payload;
