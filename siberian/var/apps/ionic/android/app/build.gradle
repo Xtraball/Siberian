@@ -311,7 +311,7 @@ dependencies {
     implementation "androidx.core:core:1.6.+"
     implementation "com.onesignal:OneSignal:4.8.3"
     implementation "com.google.android.gms:play-services-location:17.1.0"
-    implementation "com.android.billingclient:billing:5.0.0"
+    implementation "com.android.billingclient:billing:7.0.0"
     implementation "com.facebook.android:audience-network-sdk:+"
     implementation "com.google.ads.mediation:facebook:+"
     implementation "com.startapp:inapp-sdk:4.10.8"
