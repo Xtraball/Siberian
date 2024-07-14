@@ -169,6 +169,7 @@ public class SystemWebViewEngine implements CordovaWebViewEngine {
             LOG.d(TAG, "Enabled insecure file access");
             settings.setAllowFileAccess(true);
             settings.setAllowUniversalAccessFromFileURLs(true);
+            cookieManager.setAcceptFileSchemeCookies();
         }
 
         settings.setMediaPlaybackRequiresUserGesture(false);
@@ -180,9 +181,20 @@ public class SystemWebViewEngine implements CordovaWebViewEngine {
         settings.setDatabasePath(databasePath);
 
 
-        //Determine whether we're in debug or release mode, and turn on Debugging!
-        ApplicationInfo appInfo = webView.getContext().getApplicationContext().getApplicationInfo();
-        if ((appInfo.flags & ApplicationInfo.FLAG_DEBUGGABLE) != 0) {
+        // The default is to use the module's debuggable state to decide if the webview inspecter
+        // should be enabled. However, users can configure InspectableWebview preference to forcefully enable
+        // or disable the webview inspecter.
+        String inspectableWebview = preferences.getString("InspectableWebview", null);
+        boolean shouldEnableInspector = false;
+        if (inspectableWebview == null) {
+            ApplicationInfo appInfo = webView.getContext().getApplicationContext().getApplicationInfo();
+            shouldEnableInspector = (appInfo.flags & ApplicationInfo.FLAG_DEBUGGABLE) != 0;
+        }
+        else if ("true".equals(inspectableWebview)) {
+            shouldEnableInspector = true;
+        }
+
+        if (shouldEnableInspector) {
             enableRemoteDebugging();
         }
 

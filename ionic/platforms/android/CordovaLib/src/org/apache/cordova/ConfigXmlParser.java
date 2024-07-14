@@ -34,6 +34,7 @@ public class ConfigXmlParser {
     private static String SCHEME_HTTP = "http";
     private static String SCHEME_HTTPS = "https";
     private static String DEFAULT_HOSTNAME = "localhost";
+    private static final String DEFAULT_CONTENT_SRC = "index.html";
 
     private String launchUrl;
     private String contentSrc;
@@ -76,6 +77,14 @@ public class ConfigXmlParser {
             )
         );
 
+        pluginEntries.add(
+            new PluginEntry(
+                SplashScreenPlugin.PLUGIN_NAME,
+                "org.apache.cordova.SplashScreenPlugin",
+                true
+            )
+        );
+
         parse(action.getResources().getXml(id));
     }
 
@@ -101,6 +110,18 @@ public class ConfigXmlParser {
             } catch (IOException e) {
                 e.printStackTrace();
             }
+        }
+
+        onPostParse();
+    }
+
+    private void onPostParse() {
+        // After parsing, if contentSrc is still null, it signals
+        // that <content> tag was completely missing. In this case,
+        // default it.
+        // https://github.com/apache/cordova-android/issues/1432
+        if (contentSrc == null) {
+            contentSrc = DEFAULT_CONTENT_SRC;
         }
     }
 
@@ -132,7 +153,7 @@ public class ConfigXmlParser {
                 contentSrc = src;
             } else {
                 // Default
-                contentSrc = "index.html";
+                contentSrc = DEFAULT_CONTENT_SRC;
             }
         }
     }
@@ -154,7 +175,7 @@ public class ConfigXmlParser {
             return "file:///android_asset/www/";
         } else {
             String scheme = prefs.getString("scheme", SCHEME_HTTPS).toLowerCase();
-            String hostname = prefs.getString("hostname", DEFAULT_HOSTNAME);
+            String hostname = prefs.getString("hostname", DEFAULT_HOSTNAME).toLowerCase();
 
             if (!scheme.contentEquals(SCHEME_HTTP) && !scheme.contentEquals(SCHEME_HTTPS)) {
                 LOG.d(TAG, "The provided scheme \"" + scheme + "\" is not valid. " +

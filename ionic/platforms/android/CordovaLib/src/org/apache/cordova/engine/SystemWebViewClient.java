@@ -28,6 +28,9 @@ import android.net.http.SslError;
 import android.webkit.ClientCertRequest;
 import android.webkit.HttpAuthHandler;
 import android.webkit.MimeTypeMap;
+import android.webkit.RenderProcessGoneDetail;
+import android.webkit.ServiceWorkerClient;
+import android.webkit.ServiceWorkerController;
 import android.webkit.SslErrorHandler;
 import android.webkit.WebResourceRequest;
 import android.webkit.WebResourceResponse;
@@ -71,7 +74,7 @@ public class SystemWebViewClient extends WebViewClient {
         this.parentEngine = parentEngine;
 
         WebViewAssetLoader.Builder assetLoaderBuilder = new WebViewAssetLoader.Builder()
-                .setDomain(parentEngine.preferences.getString("hostname", "localhost"))
+                .setDomain(parentEngine.preferences.getString("hostname", "localhost").toLowerCase())
                 .setHttpAllowed(true);
 
         assetLoaderBuilder.addPathHandler("/", path -> {
@@ -115,6 +118,18 @@ public class SystemWebViewClient extends WebViewClient {
         });
 
         this.assetLoader = assetLoaderBuilder.build();
+        boolean setAsServiceWorkerClient = parentEngine.preferences.getBoolean("ResolveServiceWorkerRequests", true);
+        ServiceWorkerController controller = null;
+
+        if (setAsServiceWorkerClient) {
+            controller = ServiceWorkerController.getInstance();
+            controller.setServiceWorkerClient(new ServiceWorkerClient(){
+                @Override
+                public WebResourceResponse shouldInterceptRequest(WebResourceRequest request) {
+                    return assetLoader.shouldInterceptRequest(request.getUrl());
+                }
+            });
+        }
     }
 
     /**
@@ -421,5 +436,16 @@ public class SystemWebViewClient extends WebViewClient {
     @Override
     public WebResourceResponse shouldInterceptRequest(WebView view, WebResourceRequest request) {
         return this.assetLoader.shouldInterceptRequest(request.getUrl());
+    }
+
+    @Override
+    public boolean onRenderProcessGone(final WebView view, RenderProcessGoneDetail detail) {
+        // Check if there is some plugin which can handle this event
+        PluginManager pluginManager = this.parentEngine.pluginManager;
+        if (pluginManager != null && pluginManager.onRenderProcessGone(view, detail)) {
+            return true;
+        }
+
+        return super.onRenderProcessGone(view, detail);
     }
 }

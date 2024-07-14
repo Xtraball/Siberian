@@ -38,11 +38,11 @@
     <preference name="FadeSplashScreen" value="true" />
     <preference name="FadeSplashScreenDuration" value="200" />
     <preference name="SplashMaintainAspectRatio" value="true" />
-    <preference name="android-minSdkVersion" value="21" />
+    <preference name="android-minSdkVersion" value="24" />
     <preference name="android-targetSdkVersion" value="34" />
     <preference name="GradlePluginKotlinEnabled" value="true" />
     <preference name="GradlePluginKotlinCodeStyle" value="official" />
-    <preference name="GradlePluginKotlinVersion" value="1.5.21" />
+    <preference name="GradlePluginKotlinVersion" value="1.8.0" />
     <preference name="applicationId" value="${applicationId}" />
     <feature name="AdMob">
         <param name="android-package" value="admob.plus.cordova.AdMob" />
@@ -126,14 +126,6 @@
     <preference name="webView" value="com.ionicframework.cordova.webview.IonicWebViewEngine" />
     <feature name="IonicWebView">
         <param name="android-package" value="com.ionicframework.cordova.webview.IonicWebView" />
-    </feature>
-    <feature name="SplashScreen">
-        <param name="android-package" value="org.apache.cordova.splashscreen.SplashScreen" />
-        <param name="onload" value="true" />
-    </feature>
-    <feature name="Printer">
-        <param name="android-package" value="com.sunmi.trans.Printer" />
-        <param name="onload" value="true" />
     </feature>
     <feature name="WebViewPlugin">
         <param name="android-package" value="com.webview.WebViewPlugin" />
