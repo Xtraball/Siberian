@@ -35,8 +35,10 @@ public class Toast extends CordovaPlugin {
   private android.widget.Toast mostRecentToast;
   private ViewGroup viewGroup;
 
+  private static final boolean IS_AT_LEAST_JELLY_BEAN = Build.VERSION.SDK_INT >= 16;
   private static final boolean IS_AT_LEAST_LOLLIPOP = Build.VERSION.SDK_INT >= 21;
   private static final boolean IS_AT_LEAST_PIE = Build.VERSION.SDK_INT >= 28;
+  private static final boolean IS_AT_LEAST_R = Build.VERSION.SDK_INT >= 30;
 
   // note that webView.isPaused() is not Xwalk compatible, so tracking it poor-man style
   private boolean isPaused;
@@ -62,10 +64,10 @@ public class Toast extends CordovaPlugin {
       final String msg = options.getString("message");
       final Spannable message = new SpannableString(msg);
       message.setSpan(
-          new AlignmentSpan.Standard(Layout.Alignment.ALIGN_CENTER),
-          0,
-          msg.length() - 1,
-          Spannable.SPAN_INCLUSIVE_INCLUSIVE);
+              new AlignmentSpan.Standard(Layout.Alignment.ALIGN_CENTER),
+              0,
+              msg.length() - 1,
+              Spannable.SPAN_INCLUSIVE_INCLUSIVE);
 
       final String duration = options.getString("duration");
       final String position = options.getString("position");
@@ -88,9 +90,9 @@ public class Toast extends CordovaPlugin {
             hideAfterMs = Integer.parseInt(duration);
           }
           final android.widget.Toast toast = android.widget.Toast.makeText(
-              IS_AT_LEAST_LOLLIPOP ? cordova.getActivity().getWindow().getContext() : cordova.getActivity().getApplicationContext(),
-              message,
-              "short".equalsIgnoreCase(duration) ? android.widget.Toast.LENGTH_SHORT : android.widget.Toast.LENGTH_LONG
+                  IS_AT_LEAST_LOLLIPOP ? cordova.getActivity().getWindow().getContext() : cordova.getActivity().getApplicationContext(),
+                  message,
+                  "short".equalsIgnoreCase(duration) ? android.widget.Toast.LENGTH_SHORT : android.widget.Toast.LENGTH_LONG
           );
 
           if ("top".equals(position)) {
@@ -104,8 +106,8 @@ public class Toast extends CordovaPlugin {
             return;
           }
 
-          // if one of the custom layout options have been passed in, draw our own shape
-          if (styling != null && Build.VERSION.SDK_INT >= 16) {
+          // (but disabled on Android >= 11 since custom toast views are deprecated)
+          if (styling != null && IS_AT_LEAST_JELLY_BEAN && !IS_AT_LEAST_R) {
 
             // the defaults mimic the default toast as close as possible
             final String backgroundColor = styling.optString("backgroundColor", "#333333");
@@ -132,14 +134,18 @@ public class Toast extends CordovaPlugin {
             toast.getView().setPadding(horizontalPadding, verticalPadding, horizontalPadding, verticalPadding);
 
             // this gives the toast a very subtle shadow on newer devices
-            if (Build.VERSION.SDK_INT >= 21) {
+            if (IS_AT_LEAST_LOLLIPOP) {
               toast.getView().setElevation(6);
             }
           }
 
-          // On Android >= 5 you can no longer rely on the 'toast.getView().setOnTouchListener',
-          // so created something funky that compares the Toast position to the tap coordinates.
-          if (IS_AT_LEAST_LOLLIPOP) {
+          if (IS_AT_LEAST_R) {
+            // On Android >= 11 the 'toast.getView()' will always return null
+            // so no touchListener can be used or mocked
+            // DO NOTHING
+          } else if (IS_AT_LEAST_LOLLIPOP) {
+            // On Android >= 5 you can no longer rely on the 'toast.getView().setOnTouchListener',
+            // so created something funky that compares the Toast position to the tap coordinates.
             getViewGroup().setOnTouchListener(new View.OnTouchListener() {
               @Override
               public boolean onTouch(View view, MotionEvent motionEvent) {
@@ -178,7 +184,7 @@ public class Toast extends CordovaPlugin {
                 float tapY = motionEvent.getY();
 
                 final boolean tapped = tapX >= startX && tapX <= endX &&
-                    tapY >= startY && tapY <= endY;
+                        tapY >= startY && tapY <= endY;
 
                 return tapped && returnTapEvent("touch", msg, data, callbackContext);
               }

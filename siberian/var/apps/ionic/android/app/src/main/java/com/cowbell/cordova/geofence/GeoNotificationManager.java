@@ -22,6 +22,7 @@ public class GeoNotificationManager {
     private List<Geofence> geoFences;
     private PendingIntent pendingIntent;
     private GoogleServiceCommandExecutor googleServiceCommandExecutor;
+    private int PendingIntentFlag = 0;
 
     public GeoNotificationManager(Context context) {
         this.context = context;
@@ -108,9 +109,13 @@ public class GeoNotificationManager {
      * geofence transition occurs.
      */
     private PendingIntent getTransitionPendingIntent() {
+        if (Build.VERSION.SDK_INT >= 31) {
+            PendingIntentFlag = PendingIntent.FLAG_MUTABLE;
+        }
+
         Intent intent = new Intent(context, ReceiveTransitionsIntentService.class);
         logger.log(Log.DEBUG, "Geofence Intent created!");
-        return PendingIntent.getService(context, 0, intent, PendingIntent.FLAG_UPDATE_CURRENT);
+        return PendingIntent.getService(context, 0, intent, PendingIntentFlag | PendingIntent.FLAG_UPDATE_CURRENT);
     }
 
 }
