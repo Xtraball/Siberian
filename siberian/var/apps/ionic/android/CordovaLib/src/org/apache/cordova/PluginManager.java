@@ -32,6 +32,8 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.os.Debug;
 import android.os.Build;
+import android.webkit.RenderProcessGoneDetail;
+import android.webkit.WebView;
 
 /**
  * PluginManager is exposed to JavaScript in the Cordova WebView.
@@ -41,6 +43,12 @@ import android.os.Build;
  */
 public class PluginManager {
     private static String TAG = "PluginManager";
+
+    // @todo same as ConfigXmlParser. Research centralizing ideas, maybe create CordovaConstants
+    private static String SCHEME_HTTPS = "https";
+    // @todo same as ConfigXmlParser. Research centralizing ideas, maybe create CordovaConstants
+    private static String DEFAULT_HOSTNAME = "localhost";
+
     private static final int SLOW_EXEC_WARNING_THRESHOLD = Debug.isDebuggerConnected() ? 60 : 16;
 
     // List of service entries
@@ -191,7 +199,18 @@ public class PluginManager {
      * @param className         The plugin class name
      */
     public void addService(String service, String className) {
-        PluginEntry entry = new PluginEntry(service, className, false);
+        addService(service, className, false);
+    }
+
+    /**
+     * Add a plugin class that implements a service to the service entry table.
+     * 
+     * @param service           The service name
+     * @param className         The plugin class name
+     * @param onload            If true, the plugin will be instantiated immediately
+     */
+    public void addService(String service, String className, boolean onload) {
+        PluginEntry entry = new PluginEntry(service, className, onload);
         this.addService(entry);
     }
 
@@ -333,22 +352,11 @@ public class PluginManager {
     public Object postMessage(String id, Object data) {
         LOG.d(TAG, "postMessage: " + id);
         synchronized (this.pluginMap) {
-            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
-                this.pluginMap.forEach((s, plugin) -> {
-                    if (plugin != null) {
-                        plugin.onMessage(id, data);
-                    }
-                });
-            } else {
-                for (CordovaPlugin plugin : this.pluginMap.values()) {
-                    if (plugin != null) {
-                        Object obj = plugin.onMessage(id, data);
-                        if (obj != null) {
-                            return obj;
-                        }
-                    }
+            this.pluginMap.forEach((s, plugin) -> {
+                if (plugin != null) {
+                    plugin.onMessage(id, data);
                 }
-            }
+            });
         }
         return ctx.onMessage(id, data);
     }
@@ -364,6 +372,24 @@ public class PluginManager {
                 }
             }
         }
+    }
+
+    /**
+     * @todo should we move this somewhere public and accessible by all plugins?
+     * For now, it is placed where it is used and kept private so we can decide later and move without causing a breaking change.
+     * An ideal location might be in the "ConfigXmlParser" at the time it generates the "launchUrl".
+     *
+     * @todo should we be restrictive on the "file://" return? e.g. "file:///android_asset/www/"
+     * Would be considered as a breaking change if we apply a more granular check.
+     */
+    private String getLaunchUrlPrefix() {
+        if (!app.getPreferences().getBoolean("AndroidInsecureFileModeEnabled", false)) {
+            String scheme = app.getPreferences().getString("scheme", SCHEME_HTTPS).toLowerCase();
+            String hostname = app.getPreferences().getString("hostname", DEFAULT_HOSTNAME).toLowerCase();
+            return scheme + "://" + hostname + '/';
+        }
+
+        return "file://";
     }
 
     /**
@@ -431,7 +457,7 @@ public class PluginManager {
         }
 
         // Default policy:
-        return url.startsWith("file://") || url.startsWith("about:blank");
+        return url.startsWith(getLaunchUrlPrefix()) || url.startsWith("about:blank");
     }
 
 
@@ -452,7 +478,7 @@ public class PluginManager {
         }
 
         // Default policy:
-        return url.startsWith("file://");
+        return url.startsWith(getLaunchUrlPrefix());
     }
 
     /**
@@ -592,5 +618,30 @@ public class PluginManager {
             }
         }
         return handlers;
+    }
+
+    /**
+     * Called when the WebView's render process has exited.
+     *
+     * See https://developer.android.com/reference/android/webkit/WebViewClient#onRenderProcessGone(android.webkit.WebView,%20android.webkit.RenderProcessGoneDetail)
+     *
+     * @return  true if the host application handled the situation that process has exited,
+     *          otherwise, application will crash if render process crashed, or be killed 
+     *          if render process was killed by the system.
+     */
+    public boolean onRenderProcessGone(final WebView view, RenderProcessGoneDetail detail) {
+        boolean result = false;
+        synchronized (this.entryMap) {
+            for (PluginEntry entry : this.entryMap.values()) {
+                CordovaPlugin plugin = pluginMap.get(entry.service);
+                if (plugin != null) {
+                    if (plugin.onRenderProcessGone(view, detail)) {
+                        result = true;
+                    }
+                }
+            }
+        }
+
+        return result;
     }
 }

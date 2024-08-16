@@ -1,5 +1,3 @@
-version: '3.9'
-
 networks:
   siberian-network-ip:
     driver: bridge
@@ -21,6 +19,8 @@ services:
       - ./mysql:/var/lib/mysql
     env_file:
       - .env
+    environment:
+      MARIADB_ROOT_PASSWORD: "${PMA_PASSWORD}"
     networks:
       siberian-network-ip:
         ipv4_address: "${DB_IPV4}"

@@ -124,10 +124,10 @@ abstract class Application_Model_Application_Abstract extends Core_Model_Default
     /**
      * Testing if a value_id belongs to the current app
      *
-     * @todo Allowing cross-app access
-     *
      * @param $value_id
      * @return bool
+     * @todo Allowing cross-app access
+     *
      */
     public function valueIdBelongsTo($value_id)
     {
@@ -323,7 +323,7 @@ abstract class Application_Model_Application_Abstract extends Core_Model_Default
     public function setDescription($description)
     {
         if (strlen($description) < 200) {
-            throw new \Siberian\Exception(p__("application","The description must be at least 200 characters"));
+            throw new \Siberian\Exception(p__("application", "The description must be at least 200 characters"));
         }
 
         $description = \rock\sanitize\Sanitize::removeTags()->sanitize($description);
@@ -763,7 +763,7 @@ abstract class Application_Model_Application_Abstract extends Core_Model_Default
      * Enforce "ionic" as design code to prevent db "angular"
      * @return string
      */
-    public function getDesignCode ()
+    public function getDesignCode()
     {
         return self::DESIGN_CODE_IONIC;
     }
@@ -839,7 +839,7 @@ abstract class Application_Model_Application_Abstract extends Core_Model_Default
                 ->setHomepageBackgroundImageRetinaLink($relative_path . $image_name)
                 ->setHomepageBackgroundImageLink($lowres_relative_path . $image_name);
 
-            if (!$this->getOptionIds() AND $category->getId()) {
+            if (!$this->getOptionIds() and $category->getId()) {
                 $this->createDummyContents($category, null, $category);
             }
         }
@@ -1232,7 +1232,7 @@ abstract class Application_Model_Application_Abstract extends Core_Model_Default
      * @throws Zend_Exception
      * @throws \Siberian\Exception
      */
-    public function checkCustomerAccount ()
+    public function checkCustomerAccount()
     {
         $useMyAccount = false;
         if (is_array($this->_options)) {
@@ -1354,7 +1354,7 @@ abstract class Application_Model_Application_Abstract extends Core_Model_Default
             $this->_pages = $option->findAll($options);
         }
 
-        if ($this->_pages->count() == 0 AND $samples > 0) {
+        if ($this->_pages->count() == 0 and $samples > 0) {
             $dummy = Application_Model_Option_Value::getDummy();
             for ($i = 0; $i < $samples; $i++) {
                 $this->_pages->addRow($this->_pages->count(), $dummy);
@@ -1388,7 +1388,7 @@ abstract class Application_Model_Application_Abstract extends Core_Model_Default
     {
         foreach ($this->getPages() as $page) {
             if ($page->isActive()) {
-                if ($page->getCode() != "padlock" AND (!$page->isLocked() OR $this->getSession()->getCustomer()->canAccessLockedFeatures())) {
+                if ($page->getCode() != "padlock" and (!$page->isLocked() or $this->getSession()->getCustomer()->canAccessLockedFeatures())) {
                     return $page;
                 }
             }
@@ -1458,7 +1458,7 @@ abstract class Application_Model_Application_Abstract extends Core_Model_Default
      * @return $this|bool|null
      * @throws \Siberian\Exception
      */
-    public function getMyAccount ()
+    public function getMyAccount()
     {
         return $this->checkCustomerAccount();
     }
@@ -1497,15 +1497,18 @@ abstract class Application_Model_Application_Abstract extends Core_Model_Default
     public function getQrcode($uri = null, $params = [])
     {
         $qrcode = new Core_Model_Lib_Qrcode();
-        $url = "";
+
+        return $qrcode->getImage($this->getName(), $this->getQrcodeUriValue($uri), $params);
+    }
+
+    public function getQrcodeUriValue($uri = null): string
+    {
         if (filter_var($uri, FILTER_VALIDATE_URL, FILTER_FLAG_PATH_REQUIRED)) {
             $url = $uri;
         } else {
-            //$url = $this->getUrl($uri);
             $url = $this->getBaseUrl() . $this->getPath("application/device/check", ["app_id" => $this->getAppId()]);
         }
-
-        return $qrcode->getImage($this->getName(), $url, $params);
+        return $url;
     }
 
     /**

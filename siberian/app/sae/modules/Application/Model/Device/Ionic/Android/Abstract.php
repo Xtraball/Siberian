@@ -323,6 +323,8 @@ abstract class Application_Model_Device_Ionic_Android_Abstract extends Applicati
 
         $this->__replace($replacements_config, $this->_dest_source_res . '/xml/config.xml', true);
         $this->__replace([$this->_default_bundle_name => $this->_package_name], $this->_dest_source_res . '/xml/config.xml');
+        $this->__replace([$this->_default_bundle_name => $this->_package_name], $this->_dest_source . '/cdv-gradle-config.json');
+        $this->__replace([$this->_default_bundle_name => $this->_package_name], $this->_dest_source . '/android.json');
     }
 
 }

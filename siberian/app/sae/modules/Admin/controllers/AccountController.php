@@ -223,6 +223,15 @@ class Admin_AccountController extends Admin_Controller_Default
                 if (empty($datas['email']) OR empty($datas['password'])) {
                     throw new Exception(__('Authentication failed. Please check your email and/or your password'));
                 }
+
+                // enforces email to be a string, reject otherwise
+                if(!is_string($datas['email'])) {
+                    throw new Exception(__('Authentication failed. Please check your email and/or your password'));
+                }
+                if(!is_string($datas['password'])) {
+                    throw new Exception(__('Authentication failed. Please check your email and/or your password'));
+                }
+
                 $admin = new Admin_Model_Admin();
                 $admin->findByEmail($datas['email']);
 
@@ -269,6 +278,14 @@ class Admin_AccountController extends Admin_Controller_Default
             }
             if (empty($data['confirm_password']) OR $data['password'] != $data['confirm_password']) {
                 throw new Exception(__('The password and the confirmation does not match.'));
+            }
+
+            // enforces email to be a string, reject otherwise
+            if(!is_string($data['email'])) {
+                throw new Exception(__('Authentication failed. Please check your email and/or your password'));
+            }
+            if(!is_string($data['password'])) {
+                throw new Exception(__('Authentication failed. Please check your email and/or your password'));
             }
 
             $admin = new Admin_Model_Admin();

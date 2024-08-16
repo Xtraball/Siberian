@@ -427,10 +427,11 @@ cordova.define('cordova/plugin_list', function(require, exports, module) {
     },
     {
       "id": "InAppPurchase.InAppBillingPlugin",
-      "file": "plugins/InAppPurchase/www/store-android.js",
+      "file": "plugins/InAppPurchase/www/store.js",
       "pluginId": "InAppPurchase",
       "clobbers": [
-        "store"
+        "store",
+        "InAppPurchase"
       ]
     },
     {
@@ -439,22 +440,6 @@ cordova.define('cordova/plugin_list', function(require, exports, module) {
       "pluginId": "IonicWebview",
       "clobbers": [
         "Ionic.WebView"
-      ]
-    },
-    {
-      "id": "SplashScreen.SplashScreen",
-      "file": "plugins/SplashScreen/www/splashscreen.js",
-      "pluginId": "SplashScreen",
-      "clobbers": [
-        "navigator.splashscreen"
-      ]
-    },
-    {
-      "id": "SunmiPrinter.InnerPrinter",
-      "file": "plugins/SunmiPrinter/www/innerprinter.js",
-      "pluginId": "SunmiPrinter",
-      "clobbers": [
-        "sunmiInnerPrinter"
       ]
     },
     {
@@ -492,10 +477,8 @@ cordova.define('cordova/plugin_list', function(require, exports, module) {
     "CorePlugin": "1.1.0",
     "Toast": "2.7.2",
     "Geofence": "0.6.0",
-    "InAppPurchase": "11.0.0",
+    "InAppPurchase": "13.11.1",
     "IonicWebview": "4.0.1",
-    "SplashScreen": "5.0.2",
-    "SunmiPrinter": "1.0.3",
     "Mediation": "1.0.0",
     "WebView": "1.0.0"
   };

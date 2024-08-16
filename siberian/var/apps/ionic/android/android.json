@@ -85,14 +85,6 @@
               "count": 1
             },
             {
-              "xml": "<receiver android:enabled=\"true\" android:exported=\"true\" android:name=\"com.sunmi.trans.PrinterStatusReceiver\"><intent-filter android:priority=\"1000\"><action android:name=\"woyou.aidlservice.jiuv5.OUT_OF_PAPER_ACTION\" /><action android:name=\"woyou.aidlservice.jiuv5.ERROR_ACTION\" /><action android:name=\"woyou.aidlservice.jiuv5.NORMAL_ACTION\" /><action android:name=\"woyou.aidlservice.jiuv5.COVER_OPEN_ACTION\" /><action android:name=\"woyou.aidlservice.jiuv5.COVER_ERROR_ACTION\" /><action android:name=\"woyou.aidlservice.jiuv5.KNIFE_ERROR_ACTION_1\" /><action android:name=\"woyou.aidlservice.jiuv5.KNIFE_ERROR_ACTION_2\" /><action android:name=\"woyou.aidlservice.jiuv5.OVER_HEATING_ACITON\" /><action android:name=\"woyou.aidlservice.jiuv5.FIRMWARE_UPDATING_ACITON\" /></intent-filter></receiver>",
-              "count": 1
-            },
-            {
-              "xml": "<service android:exported=\"true\" android:name=\"woyou.aidlservice.jiuiv5.IWoyouService\"><intent-filter><action android:name=\"woyou.aidlservice.jiuiv5.IWoyouService\" /></intent-filter></service>",
-              "count": 1
-            },
-            {
               "xml": "<activity android:configChanges=\"orientation|keyboardHidden|keyboard|screenSize|locale\" android:exported=\"true\" android:label=\"@string/activity_name\" android:launchMode=\"standard\" android:name=\"com.webview.WebViewActivity\" android:theme=\"@style/Theme.AppCompat.NoActionBar\" android:windowSoftInputMode=\"adjustResize\"></activity>",
               "count": 1
             }
@@ -145,16 +137,16 @@
           ],
           "/*": [
             {
+              "xml": "<uses-permission android:maxSdkVersion=\"32\" android:name=\"android.permission.WRITE_EXTERNAL_STORAGE\" />",
+              "count": 1
+            },
+            {
               "xml": "<uses-permission android:name=\"android.permission.READ_MEDIA_IMAGES\" />",
               "count": 1
             },
             {
               "xml": "<uses-permission android:name=\"android.permission.READ_MEDIA_VIDEO\" />",
               "count": 1
-            },
-            {
-              "xml": "<uses-permission android:name=\"android.permission.WRITE_EXTERNAL_STORAGE\" />",
-              "count": 3
             },
             {
               "xml": "<uses-permission android:name=\"android.permission.ACCESS_COARSE_LOCATION\" />",
@@ -295,10 +287,6 @@
             {
               "xml": "<feature name=\"InAppBillingPlugin\"><param name=\"android-package\" value=\"cc.fovea.PurchasePlugin\" /></feature>",
               "count": 1
-            },
-            {
-              "xml": "<feature name=\"Printer\"><param name=\"android-package\" value=\"com.sunmi.trans.Printer\" /><param name=\"onload\" value=\"true\" /></feature>",
-              "count": 1
             }
           ]
         }
@@ -371,10 +359,6 @@
               "count": 1
             },
             {
-              "xml": "<feature name=\"SplashScreen\"><param name=\"android-package\" value=\"org.apache.cordova.splashscreen.SplashScreen\" /><param name=\"onload\" value=\"true\" /></feature>",
-              "count": 1
-            },
-            {
               "xml": "<feature name=\"WebViewPlugin\"><param name=\"android-package\" value=\"com.webview.WebViewPlugin\" /></feature>",
               "count": 1
             }
@@ -389,7 +373,7 @@
     },
     "Admob": {
       "APP_ID_ANDROID": "ca-app-pub-xxx~yyy",
-      "PLAY_SERVICES_VERSION": "22.1.0",
+      "PLAY_SERVICES_VERSION": "23.2.0",
       "PACKAGE_NAME": "com.appsmobilecompany.base"
     },
     "AppVersion": {
@@ -466,12 +450,6 @@
       "PACKAGE_NAME": "com.appsmobilecompany.base"
     },
     "IonicWebview": {
-      "PACKAGE_NAME": "com.appsmobilecompany.base"
-    },
-    "SplashScreen": {
-      "PACKAGE_NAME": "com.appsmobilecompany.base"
-    },
-    "SunmiPrinter": {
       "PACKAGE_NAME": "com.appsmobilecompany.base"
     },
     "Mediation": {
@@ -910,10 +888,11 @@
     },
     {
       "id": "InAppPurchase.InAppBillingPlugin",
-      "file": "plugins/InAppPurchase/www/store-android.js",
+      "file": "plugins/InAppPurchase/www/store.js",
       "pluginId": "InAppPurchase",
       "clobbers": [
-        "store"
+        "store",
+        "InAppPurchase"
       ]
     },
     {
@@ -922,22 +901,6 @@
       "pluginId": "IonicWebview",
       "clobbers": [
         "Ionic.WebView"
-      ]
-    },
-    {
-      "id": "SplashScreen.SplashScreen",
-      "file": "plugins/SplashScreen/www/splashscreen.js",
-      "pluginId": "SplashScreen",
-      "clobbers": [
-        "navigator.splashscreen"
-      ]
-    },
-    {
-      "id": "SunmiPrinter.InnerPrinter",
-      "file": "plugins/SunmiPrinter/www/innerprinter.js",
-      "pluginId": "SunmiPrinter",
-      "clobbers": [
-        "sunmiInnerPrinter"
       ]
     },
     {
@@ -975,10 +938,8 @@
     "CorePlugin": "1.1.0",
     "Toast": "2.7.2",
     "Geofence": "0.6.0",
-    "InAppPurchase": "11.0.0",
+    "InAppPurchase": "13.11.1",
     "IonicWebview": "4.0.1",
-    "SplashScreen": "5.0.2",
-    "SunmiPrinter": "1.0.3",
     "Mediation": "1.0.0",
     "WebView": "1.0.0"
   }

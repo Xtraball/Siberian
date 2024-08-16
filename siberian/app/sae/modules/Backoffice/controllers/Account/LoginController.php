@@ -10,9 +10,18 @@ class Backoffice_Account_LoginController extends Backoffice_Controller_Default
 
             try {
 
-                if(empty($data['email']) OR empty($data['password'])) {
+                if(empty($data['email']) || empty($data['password'])) {
                     throw new Exception(__('Authentication failed. Please check your email and/or your password'));
                 }
+
+                // enforces email to be a string, reject otherwise
+                if(!is_string($data['email'])) {
+                    throw new Exception(__('Authentication failed. Please check your email and/or your password'));
+                }
+                if(!is_string($data['password'])) {
+                    throw new Exception(__('Authentication failed. Please check your email and/or your password'));
+                }
+
                 $user = new Backoffice_Model_User();
                 $user->find($data['email'], 'email');
 

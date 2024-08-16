@@ -1,4 +1,7 @@
-<?php $application = $this->getApplication(); ?>
+<?php
+$application = $this->getApplication();
+$qrCodeUri = '/promotion/application/generateqrcode?size=200&margin=12&base64=1&code=' . base64_encode($application->getQrcodeUriValue());
+?>
 <div class="row">
     <div class="col-md-12">
         <div class="page-content-wrapper">
@@ -36,11 +39,12 @@
                 <div id="qrcode" class="subcontent content-color">
                     <div class="col-md-12">
                         <p>
-                            <button class="btn color-blue" onclick="javascript:window.open('<?php echo $this->getUrl('application/promote/qrcode'); ?>')">
+                            <button class="btn color-blue" onclick="javascript:window.open('<?php echo $qrCodeUri ?>')">
                                 <?php echo __("Download your QRCode") ?>
                             </button>
                         </p>
-                        <?php echo $application->getQrcode(); ?>
+
+                        <img src="<?php echo $qrCodeUri ?>" title="App promote QRCode" />
                     </div>
                 </div>
             </div>

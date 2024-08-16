@@ -6,8 +6,16 @@
     font-family: 'Lato', sans-serif;
 }
 
+:root {
+    --base-light-grey: #f2fbff;
+    --base-grey: #f0fbfd;
+    --base-bluey: #0099c7;
+    --base-dark-grey: #9bbabe;
+    --base-shadow: #004a60;
+}
+
 body {
-    background-color: #efefef;
+    background-color: var(--base-grey);
 }
 
 *,
@@ -16,7 +24,7 @@ a,
 input,
 select,
 textarea {
-    border-radius: 0 !important;
+    border-radius: 5px !important;
 }
 
 .top img#logo {
@@ -28,31 +36,31 @@ div.title[data-uri="/backoffice/index/template"] h1 {
 }
 
 .alert {
-    border-width: 0 0 3px 0 !important;
+    border-radius: 5px !important;
 }
 
 .alert-info {
-    background-color: #8dcee6;
-    color: #404040;
-    border-bottom: 2px solid #71b2ca !important;
+    background-color: #cff6fd;
+    color: #146a80;
+    border: 2px solid #5fc0da !important;
 }
 
 .alert-success {
-    background-color: #60bd32;
-    color: #ffffff;
-    border-bottom: 2px solid #1f8700 !important;
+    background-color: #ceefbc;
+    color: #114f01;
+    border: 2px solid #4bb72c !important;
 }
 
 .alert-warning {
-    background-color: #dcaf2b;
-    color: #ffffff;
-    border-bottom: 2px solid #a17b00 !important;
+    background-color: #faecb9;
+    color: #6e5100;
+    border: 2px solid #d0a713 !important;
 }
 
 .alert-danger {
-    background-color: #e65454;
-    color: #ffffff;
-    border-bottom: 2px solid #aa1228 !important;
+    background-color: #f6c1c1;
+    color: #750413;
+    border: 2px solid #d32439 !important;
 }
 
 .loader.content_loader {
@@ -60,9 +68,9 @@ div.title[data-uri="/backoffice/index/template"] h1 {
 }
 
 .sweet-alert h2 {
-    background-color: #ffffff;
-    border-bottom: 2px solid #3dcc6d;
-    color: #404040;
+    background-color: #ceefbc;
+    color: #114f01;
+    border: 2px solid #4bb72c !important;
     text-align: center;
 }
 
@@ -85,7 +93,8 @@ div.title[data-uri="/backoffice/index/template"] h1 {
 .backoffice_menu ul.l1 li ul.l2 li ul.l3 li a:hover {
     background-color: #ffffff !important;
     color: #404040;
-    border-bottom: 2px solid #3dcc6d !important;
+    border-bottom: 2px solid var(--base-bluey) !important;
+    border-radius: 0 !important;
 }
 
 .backoffice_menu ul.l1 li ul.l2 li a,
@@ -140,41 +149,43 @@ div.title[data-uri="/backoffice/index/template"] h1 {
 }
 
 input, select, textarea {
-    border-width: 0 0 2px 0 !important;
-    background-color: #f2f4f5 !important;
-    -webkit-box-shadow: none !important;
-    -moz-box-shadow: none !important;
+    border: 1px solid var(--base-bluey) !important;
+    background-color: var(--base-light-grey) !important;
     box-shadow: none !important;
-    -webkit-border-radius: 0 !important;
 }
 
 .btn-primary {
-    background-color: #3dcc6d;
-    border: 0;
+    font-size: 13px;
+    padding: 2px 5px;
+    background-color: #def6e8;
+    color: #05441e;
+    border: 1px solid #3dcc6d;
 }
 
 .btn-primary:focus,
 .btn-primary:active,
 .btn-primary:hover {
-    background-color: #3dd677;
-    border: 0;
-    color: white;
+    background-color: #def6e8;
+    color: #05441e;
+    border: 1px solid #3dcc6d;
 }
 
 .wrapper.container-fluid {
     width: initial !important;
-    background-color: #efefef;
+    background-color: var(--base-grey);
 }
 
 .wrapper .content {
-    background-color: #efefef;
+    background-color: var(--base-grey);
 }
 
 .wrapper .content div.area .title {
-    background-color: #ffffff;
-    border-bottom: 2px solid #3dcc6d;
+    background-color: var(--base-light-grey);
+    border-bottom: 2px solid var(--base-bluey);
     color: #404040;
     margin-bottom: 0;
+    border-bottom-left-radius: 0 !important;
+    border-bottom-right-radius: 0 !important;
 }
 
 .wrapper .content div.area .title.critical {
@@ -184,8 +195,10 @@ input, select, textarea {
 }
 
 .wrapper .content div.area {
-    margin: 0;
+    margin: 0 0 15px 0;
     padding: 0;
+    border-radius: 5px !important;
+    border: 1px solid var(--base-dark-grey);
 }
 
 .wrapper .content div.area .title h2 {
@@ -198,6 +211,7 @@ input, select, textarea {
     background-color: #ffffff;
     padding: 15px;
     margin-bottom: 15px;
+    border: 0;
 }
 
 #wrapper .wrapper > .title {
@@ -223,12 +237,12 @@ input, select, textarea {
 }
 
 .wrapper .title {
-    background-color: #efefef;
+    background-color: var(--base-grey);
     min-height: initial;
 }
 
 .wrapper .title div.title_content {
-    background-color: #efefef;
+    background-color: var(--base-grey);
     padding: 15px 0;
 }
 

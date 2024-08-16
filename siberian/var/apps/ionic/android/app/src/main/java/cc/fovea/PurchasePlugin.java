@@ -1,41 +1,50 @@
 /**
- * Purchase Plugin.
+ * The Cordova Purchase Plugin for Google Play.
+ *
+ * The plugin has methods for:
+ *
+ * - initializing the Google Play BillingClient,
+ * - querying product details
+ * - making purchases
+ * - consuming purchases.
+ * - handling purchase updates and errors.
+ *
  * @author Jean-Christophe Hoelt - Fovea.cc
  */
 
 package cc.fovea;
 
+// import com.android.billingclient.api.PriceChangeConfirmationListener;
+// import com.android.billingclient.api.PriceChangeFlowParams;
+// import com.android.billingclient.api.ProductDetails.PricingPhases;
+// import java.io.IOException;
+// import java.lang.reflect.Array;
 import android.content.Intent;
 import android.net.Uri;
 import android.util.Log;
 import com.android.billingclient.api.AcknowledgePurchaseParams;
 import com.android.billingclient.api.AcknowledgePurchaseResponseListener;
+import com.android.billingclient.api.BillingClient;
 import com.android.billingclient.api.BillingClient.BillingResponseCode;
 import com.android.billingclient.api.BillingClient.FeatureType;
 import com.android.billingclient.api.BillingClient.ProductType;
-import com.android.billingclient.api.BillingClient;
 import com.android.billingclient.api.BillingClientStateListener;
 import com.android.billingclient.api.BillingFlowParams;
 import com.android.billingclient.api.BillingFlowParams.ProductDetailsParams;
 import com.android.billingclient.api.BillingResult;
 import com.android.billingclient.api.ConsumeParams;
 import com.android.billingclient.api.ConsumeResponseListener;
-import com.android.billingclient.api.PriceChangeConfirmationListener;
-import com.android.billingclient.api.PriceChangeFlowParams;
+import com.android.billingclient.api.ProductDetails;
+import com.android.billingclient.api.ProductDetails.OneTimePurchaseOfferDetails;
+import com.android.billingclient.api.ProductDetails.PricingPhase;
+import com.android.billingclient.api.ProductDetails.SubscriptionOfferDetails;
+import com.android.billingclient.api.ProductDetailsResponseListener;
 import com.android.billingclient.api.Purchase;
 import com.android.billingclient.api.PurchasesResponseListener;
 import com.android.billingclient.api.PurchasesUpdatedListener;
-import com.android.billingclient.api.ProductDetails;
-import com.android.billingclient.api.ProductDetails.PricingPhases;
-import com.android.billingclient.api.ProductDetails.PricingPhase;
-import com.android.billingclient.api.ProductDetails.SubscriptionOfferDetails;
-import com.android.billingclient.api.ProductDetails.OneTimePurchaseOfferDetails;
-import com.android.billingclient.api.ProductDetailsResponseListener;
-import com.android.billingclient.api.QueryPurchasesParams;
 import com.android.billingclient.api.QueryProductDetailsParams;
 import com.android.billingclient.api.QueryProductDetailsParams.Product;
-import java.io.IOException;
-import java.lang.reflect.Array;
+import com.android.billingclient.api.QueryPurchasesParams;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.HashMap;
@@ -51,27 +60,63 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-public class PurchasePlugin
-  extends CordovaPlugin
-  implements PurchasesUpdatedListener,
-             ConsumeResponseListener,
-             AcknowledgePurchaseResponseListener {
+/**
+ * Plugin implementation for Google Play.
+ */
+public final class PurchasePlugin
+        extends CordovaPlugin
+        implements PurchasesUpdatedListener,
+        ConsumeResponseListener,
+        AcknowledgePurchaseResponseListener {
 
   /** Tag used for log messages. */
-  private final String mTag = "CordovaPurchase";
+  private final String mTag = "CdvPurchase";
 
   /**
    * Context for the last plugin call.
    *
-   * See execute(), callSuccess() and callError().
+   * <p>See execute(), callSuccess() and callError().</p>
    */
   private CallbackContext mCallbackContext;
 
   /** A reference to BillingClient. */
   private BillingClient mBillingClient;
 
-  private List<String> mInAppProductIds;
-  private List<String> mSubsProductIds;
+  /** List of registered IN_APP product identifiers. */
+  private List<String> mInAppProductIds = new ArrayList<String>();
+
+  /**
+   * Register additional IN_APP product identifiers.
+   *
+   * @param list - List of product identifiers to register.
+   */
+  private void addInAppProductIds(final List<String> list) {
+    for (int i = 0; i < list.size(); ++i) {
+      if (!mInAppProductIds.contains(list.get(i))) {
+        mInAppProductIds.add(list.get(i));
+      }
+    }
+  }
+
+  /**
+   * List of registered SUBS product identifiers.
+   */
+  private List<String> mSubsProductIds = new ArrayList<String>();
+
+  /**
+   * Register additional SUBS product identifiers.
+   *
+   * @param list - List of product identifiers to register.
+   */
+  private void addSubsProductIds(final List<String> list) {
+    for (int i = 0; i < list.size(); ++i) {
+        if (!mSubsProductIds.contains(list.get(i))) {
+            mSubsProductIds.add(list.get(i));
+        }
+    }
+  }
+
+  /** List of purchases reported by the Billing library. */
   private final List<Purchase> mPurchases = new ArrayList<>();
 
   /** True if billing service is connected now. */
@@ -88,11 +133,21 @@ public class PurchasePlugin
   private BillingResult getLastResult() {
     return mBillingClientResult;
   }
-  /** Last response code from the billing client. */
+
+  /**
+   * Last response code from the billing client.
+   *
+   * @return The last response code from the billing client.
+   */
   private int getLastResponseCode() {
     return mBillingClientResult.getResponseCode();
   }
-  /** Reset last result to the given code. */
+
+  /**
+   * Set last result to the given code.
+   *
+   * @param responseCode The response code to set.
+   */
   private void resetLastResult(final int responseCode) {
     mBillingClientResult = BillingResult
       .newBuilder()
@@ -101,6 +156,7 @@ public class PurchasePlugin
       .build();
   }
 
+  /** Product details loaded from GooglePlay, indexed by product identifier. */
   private final HashMap<String, ProductDetails> mProductDetails =
     new HashMap<String, ProductDetails>();
 
@@ -108,13 +164,27 @@ public class PurchasePlugin
   private Set<String> mTokensToBeConsumed = new HashSet<>();
 
   @Override
-  public void initialize(CordovaInterface cordova, CordovaWebView webView) {
-    super.initialize(cordova, webView);
-    // your init code here
+  public void initialize(
+          final CordovaInterface cordova,
+          final CordovaWebView webView) {
+      super.initialize(cordova, webView);
+      // your init code here
   }
 
+  /**
+   * Context used to send messages to the javascript side.
+   *
+   * @see GooglePlay.Bridge
+   */
   private CallbackContext mListenerContext = null;
-  private void sendToListener(String type, JSONObject data) {
+
+  /**
+   * Send a message to the javascript bridge (GooglePlay.Bridge).
+   *
+   * @param type Message type / identifer.
+   * @param data Message arguments.
+   */
+  private void sendToListener(final String type, final JSONObject data) {
     try {
       Log.d(mTag, "sendToListener() -> " + type);
       Log.d(mTag, "            data -> " + data.toString());
@@ -123,8 +193,9 @@ public class PurchasePlugin
       }
       final JSONObject message = new JSONObject()
         .put("type", type);
-      if (data != null)
+      if (data != null) {
         message.put("data", data);
+      }
       final PluginResult result =
         new PluginResult(PluginResult.Status.OK, message);
       result.setKeepCallback(true);
@@ -152,19 +223,21 @@ public class PurchasePlugin
     try {
       // Action selector
       if ("init".equals(action)) {
-        final List<String> inAppSkus = parseStringArrayAtIndex(data, 1);
-        final List<String> subsSkus = parseStringArrayAtIndex(data, 2);
-        init(inAppSkus, subsSkus);
+        init();
       } else if ("getAvailableProducts".equals(action)) {
-        getAvailableProducts();
+        final List<String> inAppSkus = parseStringArrayAtIndex(data, 0);
+        final List<String> subsSkus = parseStringArrayAtIndex(data, 1);
+        this.addInAppProductIds(inAppSkus);
+        this.addSubsProductIds(subsSkus);
+        getAvailableProducts(mInAppProductIds, mSubsProductIds);
       } else if ("getPurchases".equals(action)) {
         getPurchases();
       } else if ("consumePurchase".equals(action)) {
-        final String sku = data.getString(0);
-        consumePurchase(sku);
+        final String purchaseToken = data.getString(0);
+        consumePurchase(purchaseToken);
       } else if ("acknowledgePurchase".equals(action)) {
-        final String sku = data.getString(0);
-        acknowledgePurchase(sku);
+        final String purchaseToken = data.getString(0);
+        acknowledgePurchase(purchaseToken);
       } else if ("buy".equals(action)) {
         buy(data);
       } else if ("subscribe".equals(action)) {
@@ -219,13 +292,10 @@ public class PurchasePlugin
   }
 
   // Initialize the plugin
-  private void init(
-      final List<String> inAppProductIds,
-      final List<String> subsProductIds) {
+  private void init() {
 
     Log.d(mTag, "init()");
-    mInAppProductIds = inAppProductIds;
-    mSubsProductIds = subsProductIds;
+
 
     mBillingClient = BillingClient
       .newBuilder(cordova.getActivity())
@@ -243,6 +313,9 @@ public class PurchasePlugin
         callError(Constants.ERR_SETUP,
             "Setup failed. " + format(getLastResult()));
       }
+    }, () -> {
+        Log.d(mTag, "init() -> Failure: " + format(getLastResult()));
+        callError(Constants.ERR_SETUP, "Setup failure. " + format(getLastResult()));
     });
   }
 
@@ -251,7 +324,9 @@ public class PurchasePlugin
     queryPurchases();
   }
 
-  private void onQueryPurchasesFinished(BillingResult result, List<Purchase> purchases) {
+  private void onQueryPurchasesFinished(
+          final BillingResult result,
+          final List<Purchase> purchases) {
     try {
       if (result.getResponseCode() == BillingResponseCode.OK) {
         for (Purchase p : purchases) {
@@ -260,8 +335,7 @@ public class PurchasePlugin
         sendToListener("setPurchases", new JSONObject()
             .put("purchases", toJSON(purchases)));
         callSuccess(toJSON(purchases));
-      }
-      else {
+      } else {
         callError(Constants.ERR_LOAD, "Failed to query purchases: "
             + result.getResponseCode());
       }
@@ -284,10 +358,14 @@ public class PurchasePlugin
 
   private JSONObject toJSON(final Purchase p) throws JSONException {
     return new JSONObject(p.getOriginalJson())
+      .put("productIds", new JSONArray(p.getProducts()))
       .put("orderId", p.getOrderId())
       .put("getPurchaseState", p.getPurchaseState())
+      .put("developerPayload", p.getDeveloperPayload())
       .put("acknowledged", p.isAcknowledged())
       .put("autoRenewing", p.isAutoRenewing())
+      .put("accountId", p.getAccountIdentifiers().getObfuscatedAccountId())
+      .put("profileId", p.getAccountIdentifiers().getObfuscatedProfileId())
       .put("signature", p.getSignature())
       .put("receipt", p.getOriginalJson().toString());
   }
@@ -420,6 +498,8 @@ public class PurchasePlugin
       List<SubscriptionOfferDetails> subscriptionOfferDetailsList = product.getSubscriptionOfferDetails();
       for (SubscriptionOfferDetails details: subscriptionOfferDetailsList) {
         JSONObject offer = new JSONObject()
+          .put("base_plan_id", details.getBasePlanId())
+          .put("offer_id", details.getOfferId())
           .put("token", details.getOfferToken())
           .put("tags", new JSONArray(details.getOfferTags()));
         JSONArray pricingPhases = new JSONArray();
@@ -475,9 +555,9 @@ public class PurchasePlugin
     return ret;
   }
 
-  private void getAvailableProducts() {
+  private void getAvailableProducts(List<String> inAppProductIds, List<String> subsProductIds) {
     Log.d(mTag, "getAvailableProducts()");
-    queryAllProductDetails(new ProductDetailsResponseListener() {
+    queryAllProductDetails(inAppProductIds, subsProductIds, new ProductDetailsResponseListener() {
       @Override
         public void onProductDetailsResponse(
             final BillingResult result,
@@ -531,7 +611,7 @@ public class PurchasePlugin
       final List<Purchase> purchases) {
     try {
       final int code = result.getResponseCode();
-      if (code == BillingResponseCode.OK) {
+      if (code == BillingResponseCode.OK && purchases != null && purchases.size() > 0) {
         Log.d(mTag, "onPurchasesUpdated() -> Success");
         for (Purchase p : purchases) {
           mPurchases.add(0, p);
@@ -709,6 +789,7 @@ public class PurchasePlugin
         .setProductDetails(productDetails)
         .setOfferToken(offerToken)
         .build());
+        Log.d(mTag, "Product details id@token: " + productIdAndOfferIndexArray + " === " + productId + "@" + offerToken + " ... " + productDetails.toString());
     }
     else {
       productDetailsParamsList.add(ProductDetailsParams.newBuilder()
@@ -731,7 +812,7 @@ public class PurchasePlugin
 
     if (oldPurchaseToken != null) {
       Log.d(mTag, "buy() -> setOldSkuPurchaseToken");
-      subscriptionUpdateParams.setOldSkuPurchaseToken(oldPurchaseToken);
+      subscriptionUpdateParams.setOldPurchaseToken(oldPurchaseToken);
       hasSubscriptionUpdateParams = true;
     }
 
@@ -760,20 +841,24 @@ public class PurchasePlugin
     // }
 
     // See https://developer.android.com/google/play/billing/subs#change
-    final String prorationMode = additionalData.has("prorationMode")
+    // Note that since Billing Library this is now a ReplacementMode
+    // https://developer.android.com/reference/com/android/billingclient/api/BillingFlowParams.SubscriptionUpdateParams.ReplacementMode
+    final String replacementMode = additionalData.has("prorationMode")
       ? additionalData.getString("prorationMode")
+      : additionalData.has("replacementMode")
+      ? additionalData.getString("replacementMode")
       : null;
-    if (prorationMode != null) {
-      if ("IMMEDIATE_WITH_TIME_PRORATION".equals(prorationMode))
-        subscriptionUpdateParams.setReplaceSkusProrationMode(BillingFlowParams.ProrationMode.IMMEDIATE_WITH_TIME_PRORATION);
-      else if ("IMMEDIATE_AND_CHARGE_PRORATED_PRICE".equals(prorationMode))
-        subscriptionUpdateParams.setReplaceSkusProrationMode(BillingFlowParams.ProrationMode.IMMEDIATE_AND_CHARGE_PRORATED_PRICE);
-      else if ("IMMEDIATE_WITHOUT_PRORATION".equals(prorationMode))
-        subscriptionUpdateParams.setReplaceSkusProrationMode(BillingFlowParams.ProrationMode.IMMEDIATE_WITHOUT_PRORATION);
-      else if ("DEFERRED".equals(prorationMode))
-        subscriptionUpdateParams.setReplaceSkusProrationMode(BillingFlowParams.ProrationMode.DEFERRED);
-      else if ("IMMEDIATE_AND_CHARGE_FULL_PRICE".equals(prorationMode))
-        subscriptionUpdateParams.setReplaceSkusProrationMode(BillingFlowParams.ProrationMode.IMMEDIATE_AND_CHARGE_FULL_PRICE);
+    if (replacementMode != null) {
+      if ("IMMEDIATE_WITH_TIME_PRORATION".equals(replacementMode))
+        subscriptionUpdateParams.setSubscriptionReplacementMode(BillingFlowParams.SubscriptionUpdateParams.ReplacementMode.WITH_TIME_PRORATION);
+      else if ("IMMEDIATE_AND_CHARGE_PRORATED_PRICE".equals(replacementMode))
+        subscriptionUpdateParams.setSubscriptionReplacementMode(BillingFlowParams.SubscriptionUpdateParams.ReplacementMode.CHARGE_PRORATED_PRICE);
+      else if ("IMMEDIATE_WITHOUT_PRORATION".equals(replacementMode))
+        subscriptionUpdateParams.setSubscriptionReplacementMode(BillingFlowParams.SubscriptionUpdateParams.ReplacementMode.WITHOUT_PRORATION);
+      else if ("DEFERRED".equals(replacementMode))
+        subscriptionUpdateParams.setSubscriptionReplacementMode(BillingFlowParams.SubscriptionUpdateParams.ReplacementMode.DEFERRED);
+      else if ("IMMEDIATE_AND_CHARGE_FULL_PRICE".equals(replacementMode))
+        subscriptionUpdateParams.setSubscriptionReplacementMode(BillingFlowParams.SubscriptionUpdateParams.ReplacementMode.CHARGE_FULL_PRICE);
     }
 
     if (hasSubscriptionUpdateParams) {
@@ -846,16 +931,16 @@ public class PurchasePlugin
   }
 
   // Consume a purchase
-  private void consumePurchase(final String productId) throws JSONException {
-    Log.d(mTag, "consumePurchase(" + productId + ")");
+  private void consumePurchase(final String purchaseToken) throws JSONException {
+    Log.d(mTag, "consumePurchase(" + purchaseToken + ")");
     // Find the purchaseToken from sku
-    final Purchase purchase = findPurchaseByProductId(productId);
-    if (purchase == null) {
-      Log.w(mTag, "consumePurchase() -> No such purchase");
-      callError(Constants.ERR_PURCHASE, "ITEM_NOT_OWNED");
-      return;
-    }
-    final String purchaseToken = purchase.getPurchaseToken();
+    // final Purchase purchase = findPurchaseByProductId(productId);
+    // if (purchase == null) {
+    //   Log.w(mTag, "consumePurchase() -> No such purchase");
+    //   callError(Constants.ERR_PURCHASE, "ITEM_NOT_OWNED");
+    //   return;
+    // }
+    // final String purchaseToken = purchase.getPurchaseToken();
 
     if (mTokensToBeConsumed.contains(purchaseToken)) {
       Log.i(mTag, "consumePurchase() -> Consume already in progress.");
@@ -866,23 +951,22 @@ public class PurchasePlugin
     executeServiceRequest(() -> {
       final ConsumeParams params = ConsumeParams.newBuilder()
         .setPurchaseToken(purchaseToken)
-        // .setDeveloperPayload(developerPayload) (removed in v3)
         .build();
       mBillingClient.consumeAsync(params, this);
     });
   }
 
   // Acknowledge a purchase
-  private void acknowledgePurchase(final String sku) throws JSONException {
-    Log.d(mTag, "acknowledgePurchase(" + sku + ")");
+  private void acknowledgePurchase(final String purchaseToken) throws JSONException {
+    Log.d(mTag, "acknowledgePurchase(" + purchaseToken + ")");
     // Find the purchaseToken from sku
-    final Purchase purchase = findPurchaseByProductId(sku);
-    if (purchase == null) {
-      Log.w(mTag, "acknowledgePurchase() -> No such purchase");
-      callError(Constants.ERR_PURCHASE, "ITEM_NOT_OWNED");
-      return;
-    }
-    final String purchaseToken = purchase.getPurchaseToken();
+    // final Purchase purchase = findPurchaseByProductId(sku);
+    // if (purchase == null) {
+    //   Log.w(mTag, "acknowledgePurchase() -> No such purchase");
+    //   callError(Constants.ERR_PURCHASE, "ITEM_NOT_OWNED");
+    //   return;
+    // }
+    // final String purchaseToken = purchase.getPurchaseToken();
     executeServiceRequest(() -> {
       final AcknowledgePurchaseParams params = AcknowledgePurchaseParams.newBuilder()
         .setPurchaseToken(purchaseToken)
@@ -981,9 +1065,14 @@ public class PurchasePlugin
         Log.d(mTag, "onConsumeResponse() -> Success");
         sendToListener("purchaseConsumed", new JSONObject()
             .put("purchase", toJSON(purchase)));
+        callSuccess();
+      } else {
+        Log.d(mTag, result.getDebugMessage());
+        callError(Constants.ERR_FINISH, result.getDebugMessage());
       }
     } catch (JSONException e) {
       Log.d(mTag, "onConsumeResponse() -> Failed: " + e.getMessage());
+      callError(Constants.ERR_UNKNOWN, e.getMessage());
     }
   }
 
@@ -1002,13 +1091,13 @@ public class PurchasePlugin
    *
    * @param listener Code to run once data has been loaded
    */
-  private void queryAllProductDetails(final ProductDetailsResponseListener listener) {
+  private void queryAllProductDetails(List<String> inAppProductIds, List<String> subsProductIds, final ProductDetailsResponseListener listener) {
     Log.d(mTag, "queryAllProductDetails()");
     ArrayList<ProductDetails> allProducts = new ArrayList<ProductDetails>();
 
     final int nRequests =
-      (mSubsProductIds.size() > 0 ? 1 : 0)
-      + (mInAppProductIds.size() > 0 ? 1 : 0);
+      (subsProductIds.size() > 0 ? 1 : 0)
+      + (inAppProductIds.size() > 0 ? 1 : 0);
     nProductDetailsQuerySuccessful = 0;
 
     final ProductDetailsResponseListener queryListener =
@@ -1044,17 +1133,17 @@ public class PurchasePlugin
       };
 
     List<Product> subsList = new ArrayList<Product>();
-    for (int i = 0; i < mSubsProductIds.size(); ++i) {
+    for (int i = 0; i < subsProductIds.size(); ++i) {
       subsList.add(Product.newBuilder()
-        .setProductId(mSubsProductIds.get(i))
+        .setProductId(subsProductIds.get(i))
         .setProductType(ProductType.SUBS)
         .build());
     }
 
     List<Product> inAppList = new ArrayList<Product>();
-    for (int i = 0; i < mInAppProductIds.size(); ++i) {
+    for (int i = 0; i < inAppProductIds.size(); ++i) {
       inAppList.add(Product.newBuilder()
-        .setProductId(mInAppProductIds.get(i))
+        .setProductId(inAppProductIds.get(i))
         .setProductType(ProductType.INAPP)
         .build());
     }
@@ -1124,26 +1213,40 @@ public class PurchasePlugin
     callbackContext.error(code + "|" + msg);
   }
 
-  /** Connect to the Billing server.
+  /**
+   * Connects to the Billing server.
+   *
+   * Once connected, {@code executeOnSuccess} will be executed.
    *
    * @param executeOnSuccess Some code to run once connected. */
-  public void startServiceConnection(final Runnable executeOnSuccess) {
+  public void startServiceConnection(final Runnable executeOnSuccess, final Runnable executeOnFailure) {
     Log.d(mTag, "startServiceConnection()");
     mBillingClient.startConnection(new BillingClientStateListener() {
       @Override
       public void onBillingSetupFinished(final BillingResult result) {
         mBillingClientResult = result;
         if (result.getResponseCode() == BillingResponseCode.OK) {
-          Log.d(mTag, "startServiceConnection() -> Success");
-          mIsServiceConnected = true;
+          onBillingConnectionSuccess();
+          if (executeOnSuccess != null) {
+            executeOnSuccess.run();
+          }
         }
         else {
-          Log.d(mTag, "startServiceConnection() -> Failed: "
-              + format(getLastResult()));
+          onBillingConnectionFailed();
+          if (executeOnFailure != null) {
+            executeOnFailure.run();
+          }
         }
-        if (executeOnSuccess != null) {
-          executeOnSuccess.run();
-        }
+      }
+
+      private void onBillingConnectionSuccess() {
+        Log.d(mTag, "startServiceConnection() -> Success");
+        mIsServiceConnected = true;
+      }
+
+      private void onBillingConnectionFailed() {
+        Log.d(mTag, "startServiceConnection() -> Failed: " + format(getLastResult()));
+        mIsServiceConnected = false;
       }
 
       @Override
@@ -1163,7 +1266,9 @@ public class PurchasePlugin
       // If billing service was disconnected, we try to reconnect 1 time.
       // (feel free to introduce your retry policy here).
       Log.d(mTag, "executeServiceRequest() -> Failed (try again).");
-      startServiceConnection(runnable);
+      startServiceConnection(runnable, () -> {
+        Log.d(mTag, "executeServiceRequest() -> Failed to reconnect to billing server...");
+      });
     }
   }
 
