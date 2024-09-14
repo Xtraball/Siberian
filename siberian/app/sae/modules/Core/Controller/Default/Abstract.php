@@ -1034,6 +1034,8 @@ abstract class Core_Controller_Default_Abstract extends Zend_Controller_Action i
             } catch (Exception $e) {
                 // Code is valid!
             }
+        } else {
+            $this->getResponse()->setHttpResponseCode(200);
         }
 
         $json = Siberian_Json::encode($payload, $options);

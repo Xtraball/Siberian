@@ -86,15 +86,17 @@ angular
                 service.options = options.app.ios;
 
                 // App Tracking Transparency!
-                admob
-                    .requestTrackingAuthorization()
-                    .then(function (result) {
-                        service.trackingAuthorizationStatus = parseInt(result);
-                        service.npa = '0';
-                        if (service.trackingAuthorizationStatus !== 3) {
-                            service.npa = '1';
-                        }
-                        service.initWithOptions(options);
+                cordova.plugins.CorePlugin
+                    .requestTrackingAuthorization(function (result) {
+                        // Now check the value
+                        cordova.plugins.CorePlugin.getTrackingAuthorizationStatus(function (result) {
+                            service.trackingAuthorizationStatus = parseInt(result);
+                            service.npa = '0';
+                            if (service.trackingAuthorizationStatus !== 3) {
+                                service.npa = '1';
+                            }
+                            service.initWithOptions(options);
+                        });
                     });
             }
 
