@@ -26,6 +26,7 @@ angular
         //        critical: Application.useCriticalPush,
         //        alert: true,
         //        badge: true,
+        //        badge: true,
         //        sound: true,
         //        soundname: 'sb_beep4',
             },
@@ -79,24 +80,20 @@ angular
         }
 
         // Uncomment to set OneSignal device logging to VERBOSE
-        $window.plugins.OneSignal.setLogLevel(6, 0);
+        $window.plugins.OneSignal.Debug.setLogLevel(6, 0);
+        $window.plugins.OneSignal.initialize(service.appId);
+        $window.plugins.OneSignal.login($session.getExternalUserId(Application.id));
+        $window.plugins.OneSignal.User.pushSubscription.optIn();
 
-        // NOTE: Update the setAppId value below with your OneSignal AppId.
-        $window.plugins.OneSignal.setAppId(service.appId);
-
-        $window.plugins.OneSignal.promptForPushNotificationsWithUserResponse((accepted) => {
-            console.log("[Push2Service] User accepted notifications: " + accepted);
-        });
-
-        $window.plugins.OneSignal.setNotificationWillShowInForegroundHandler(function(notificationReceivedEvent) {
+        $window.plugins.OneSignal.Notifications.addEventListener("foregroundWillDisplay", function(event) {
             $rootScope.$broadcast(SB.EVENTS.PUSH.notificationReceived, {
-                event: notificationReceivedEvent,
-                notification: notificationReceivedEvent.getNotification(),
+                event: event,
+                notification: event.getNotification(),
                 origin: 'foreground'
             });
         });
 
-        $window.plugins.OneSignal.setNotificationOpenedHandler(function(openedEvent) {
+        $window.plugins.OneSignal.Notifications.addEventListener("click", function(openedEvent) {
             $rootScope.$broadcast(SB.EVENTS.PUSH.notificationReceived, {
                 event: null,
                 notification: openedEvent.notification,
@@ -104,7 +101,7 @@ angular
             });
         });
 
-        $window.plugins.OneSignal.setExternalUserId($session.getExternalUserId(Application.id), (results) => {
+        $window.plugins.OneSignal.login($session.getExternalUserId(Application.id), (results) => {
             // The results will contain push and email success statuses
             console.log('[Push2Service] Results of setting external user id');
             console.log(results);
@@ -172,6 +169,9 @@ angular
         }
 
         // We are updating the external user id after a login (if changed)
+        $window.plugins.OneSignal.login($session.getExternalUserId(Application.id));
+
+
         service.push.setExternalUserId($session.getExternalUserId(Application.id), (results) => {
             service.push.getDeviceState(function(stateChanges) {
                 console.log('[Push2Service.afterLoginOrRegister] OneSignal getDeviceState: ' + JSON.stringify(stateChanges));
