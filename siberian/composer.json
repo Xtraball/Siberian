@@ -3,7 +3,7 @@
     "license": "OSL-3.0",
     "minimum-stability": "stable",
     "require": {
-        "php" : "8.2",
+        "php" : "^7.3",
         "ext-json": "*",
         "ext-gd": "*",
         "ext-pdo": "*",
@@ -46,13 +46,8 @@
     "config": {
         "vendor-dir": "lib/vendor"
     },
-    "repositories": [
-        {
-            "type": "path",
-            "url": "../../crashlytics/",
-            "options": {
-                "symlink": false
-            }
-        }
-    ]
+    "require-dev": {
+        "codeception/codeception": "4.2.2",
+        "sebastian/version": "3.0.2"
+    }
 }

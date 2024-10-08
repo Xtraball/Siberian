@@ -327,6 +327,33 @@ try {
             echo 'Your new user is now created.' . PHP_EOL;
 
             break;
+
+        case 'user:create:args':
+            $userEmail = $argv[2];
+            $backofficeUser = (new Backoffice_Model_User())
+                ->find($userEmail, 'email');
+
+            if ($backofficeUser->getId()) {
+                echo 'Sorry this e-mail is used.' . PHP_EOL;
+                die();
+            }
+
+            $newPassword = $argv[3];
+            if (strlen($newPassword) < 6) {
+                echo 'Password too short.' . PHP_EOL;
+                return false;
+            }
+
+            $backofficeUser
+                ->setEmail($userEmail)
+                ->setPassword($newPassword)
+                ->save();
+
+            echo 'Your new user is now created.' . PHP_EOL;
+
+            break;
+
+
         case 'dev':
         case 'development':
             $configContent = file_get_contents('./config.php');

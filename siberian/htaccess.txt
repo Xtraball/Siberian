@@ -15,6 +15,10 @@ AddDefaultCharset Off
     RewriteRule .* - [E=HTTP_AUTHORIZATION:%{HTTP:Authorization}]
 </IfModule>
 
+<IfModule mime_module>
+  AddHandler application/x-httpd-ea-php73 .php .php7 .phtml
+</IfModule>
+
 ###########################################################################
 # PHP_AUTH_BASIC
 SetEnvIf Authorization "(.*)" HTTP_AUTHORIZATION=$1
