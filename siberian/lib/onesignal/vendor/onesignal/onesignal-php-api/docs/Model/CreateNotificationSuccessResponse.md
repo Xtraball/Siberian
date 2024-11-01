@@ -4,8 +4,8 @@
 
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
-**id** | **string** |  |
-**recipients** | **int** | Estimated number of subscribers targetted by notification. |
+**id** | **string** |  | [optional]
+**recipients** | **int** | Estimated number of subscribers targetted by notification. | [optional]
 **external_id** | **string** |  | [optional]
 **errors** | [**\onesignal\client\model\Notification200Errors**](Notification200Errors.md) |  | [optional]
 

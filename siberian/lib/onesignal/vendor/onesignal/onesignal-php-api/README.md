@@ -30,15 +30,6 @@ To install the bindings via [Composer](https://getcomposer.org/), add the follow
 
 Then run `composer install`
 
-### Manual Installation
-
-Download the files and include `autoload.php`:
-
-```php
-<?php
-require_once('/path/to/OneSignal/vendor/autoload.php');
-```
-
 
 ## Usage examples
 ### Imports
@@ -263,31 +254,205 @@ $outcomesResponse = $apiInstance->getOutcomes(APP_ID, $outcomeNames, null, $outc
 print_r($outcomesResponse->getOutcomes());
 ```
 
+## Live Activities
+### Begin Live Activity
+```php
+$activityId = "activity_id_example";
+$beginLiveActivityRequest = new BeginLiveActivityRequest(array(
+    'push_token' => "push_token_example",
+    'subscription_id' => "player_id_example"
+));
+
+self::$apiInstance->beginLiveActivity(APP_ID, $activityId, $beginLiveActivityRequest);
+```
+
+### Update Live Activity
+```php
+$activityId = "activity_id_example";
+$updateLiveActivityRequest = new UpdateLiveActivityRequest(array(
+    'event' => 'update',
+    'name' => 'contents',
+    'event_updates' => array('data' => 'test')
+));
+
+self::$apiInstance->updateLiveActivity(APP_ID, $activityId, $updateLiveActivityRequest);
+```
+
+### End Live Activity
+```php
+$activityId = "activity_id_example";
+$subscriptionId = "player_id_example";
+self::$apiInstance->endLiveActivity(APP_ID, $activityId, $subscriptionId);
+```
+
+## Users
+### Creating a user
+```php
+// Create user model
+$user = new User();
+$aliasLabel = '<ALIAS_LABEL>';
+$aliasId = '<ALIAS_ID>';
+$pushToken = '<DEVICE_PUSH_TOKEN>';
+
+$subscriptionObject = new SubscriptionObject();
+$subscriptionObject->setType('iOSPush');
+$subscriptionObject->setToken($pushToken);
+
+$user->setIdentity(array($aliasLabel => $aliasId));
+$user->setSubscriptions([$subscriptionObject]);
+
+// Send model to API
+$createUserResponse = self::$apiInstance->createUser(APP_ID, $user);
+```
+
+### Fetch user by an alias
+```php
+$fetchUserResponse = self::$apiInstance->fetchUser(APP_ID, $aliasLabel, $aliasId);
+```
+
+### Update user
+```php
+$updateUserRequest = new UpdateUserRequest(array(
+    'properties' => array(
+        'language' => 'fr'
+    ))
+);
+
+$updateUserResponse = self::$apiInstance->updateUser(APP_ID, $aliasLabel, $aliasId, $updateUserRequest);
+```
+
+### Delete user
+```php
+self::$apiInstance->deleteUser(APP_ID, $aliasLabel, $aliasId);
+```
+
+### Create subscription
+```php
+$createSubscriptionRequestBody = new CreateSubscriptionRequestBody();
+$subscriptionObject = new SubscriptionObject();
+$subscriptionObject->setType('AndroidPush');
+$subscriptionObject->setToken('DEVICE_PUSH_TOKEN');
+$createSubscriptionRequestBody->setSubscription($subscriptionObject);
+
+$createSubscriptionResponse =
+    self::$apiInstance->createSubscription(APP_ID, $aliasLabel, $aliasId, $createSubscriptionRequestBody);
+```
+
+### Update subscription
+```php
+$updateSubscriptionRequestBody = new UpdateSubscriptionRequestBody();
+$subscriptionObject = new SubscriptionObject();
+$subscriptionObject->setType('AndroidPush');
+$subscriptionObject->setToken('DEVICE_PUSH_TOKEN'
+$updateSubscriptionRequestBody->setSubscription($subscriptionObject);
+
+self::$apiInstance->updateSubscription(APP_ID, $subscriptionId, $updateSubscriptionRequestBody);
+```
+
+### Delete subscription
+```php
+self::$apiInstance->deleteSubscription(APP_ID, '<SUBSCRIPTION_ID>');
+```
+### Delete Alias
+```php
+self::$apiInstance->deleteAlias(APP_ID, '<ALIAS_LABEL>', '<ALIAS_ID>', '<ALIAS_LABEL_TO_DELETE>');
+```
+
+### Fetch aliases by subscription id
+```php
+$fetchAliasesResponse = self::$apiInstance->fetchAliases(APP_ID, '<SUBSCRIPTION_ID>');
+```
+
+### Fetch aliases by another alias
+```php
+$fetchAliasesResponse = self::$apiInstance->fetchUserIdentity(APP_ID, '<ALIAS_LABEL>', '<ALIAS_ID>');
+```
+
+### Identify user by subscription id
+```php
+$userIdentityRequestBody = new UserIdentityRequestBody();
+
+$userIdentityRequestBody->setIdentity(array(
+    '<NEW_ALIAS_LABEL>' => '<NEW_ALIAS_ID>'
+));
+
+// Act
+$fetchAliasesResponse = self::$apiInstance->identifyUserBySubscriptionId(
+    APP_ID, '<SUBSCRIPTION_ID>', $userIdentityRequestBody);
+```
+
+### Identify user by another alias
+```php
+$userIdentityRequestBody = new UserIdentityRequestBody();
+
+$userIdentityRequestBody->setIdentity(array(
+    '<NEW_ALIAS_LABEL>' => '<NEW_ALIAS_ID>'
+));
+
+// Act
+$fetchAliasesResponse = self::$apiInstance->identifyUserByAlias(
+    APP_ID, '<ALIAS_LABEL>', '<ALIAS_ID>', $userIdentityRequestBody);
+```
+
+
+### Transfer subscription to another user
+```php
+$transferSubscriptionRequestBody = new TransferSubscriptionRequestBody();
+$transferSubscriptionRequestBody->setIdentity(array('<USER_FROM_ALIAS_LABEL>' => '<USER_FROM_ALIAS_ID>'));
+
+// Act
+$transferSubscriptionResponse = self::$apiInstance->transferSubscription(
+    APP_ID, '<USER_TO_SUBSCRIPTION_ID>', $transferSubscriptionRequestBody);
+```
+
+### Fetch in app messages
+```php
+$getEligibleIamsResponse = self::$apiInstance->getEligibleIams(APP_ID, '<SUBSCRIPTION_ID>');
+```
+
 ## API Endpoints
 
 All URIs are relative to *https://onesignal.com/api/v1*
 
 Class | Method | HTTP request | Description
 ------------ | ------------- | ------------- | -------------
+*DefaultApi* | [**beginLiveActivity**](docs/Api/DefaultApi.md#beginliveactivity) | **POST** /apps/{app_id}/live_activities/{activity_id}/token | Start Live Activity
 *DefaultApi* | [**cancelNotification**](docs/Api/DefaultApi.md#cancelnotification) | **DELETE** /notifications/{notification_id} | Stop a scheduled or currently outgoing notification
 *DefaultApi* | [**createApp**](docs/Api/DefaultApi.md#createapp) | **POST** /apps | Create an app
 *DefaultApi* | [**createNotification**](docs/Api/DefaultApi.md#createnotification) | **POST** /notifications | Create notification
 *DefaultApi* | [**createPlayer**](docs/Api/DefaultApi.md#createplayer) | **POST** /players | Add a device
 *DefaultApi* | [**createSegments**](docs/Api/DefaultApi.md#createsegments) | **POST** /apps/{app_id}/segments | Create Segments
+*DefaultApi* | [**createSubscription**](docs/Api/DefaultApi.md#createsubscription) | **POST** /apps/{app_id}/users/by/{alias_label}/{alias_id}/subscriptions | 
+*DefaultApi* | [**createUser**](docs/Api/DefaultApi.md#createuser) | **POST** /apps/{app_id}/users | 
+*DefaultApi* | [**deleteAlias**](docs/Api/DefaultApi.md#deletealias) | **DELETE** /apps/{app_id}/users/by/{alias_label}/{alias_id}/identity/{alias_label_to_delete} | 
 *DefaultApi* | [**deletePlayer**](docs/Api/DefaultApi.md#deleteplayer) | **DELETE** /players/{player_id} | Delete a user record
 *DefaultApi* | [**deleteSegments**](docs/Api/DefaultApi.md#deletesegments) | **DELETE** /apps/{app_id}/segments/{segment_id} | Delete Segments
-*DefaultApi* | [**exportPlayers**](docs/Api/DefaultApi.md#exportplayers) | **POST** /players/csv_export?app_id&#x3D;{app_id} | CSV export
+*DefaultApi* | [**deleteSubscription**](docs/Api/DefaultApi.md#deletesubscription) | **DELETE** /apps/{app_id}/subscriptions/{subscription_id} | 
+*DefaultApi* | [**deleteUser**](docs/Api/DefaultApi.md#deleteuser) | **DELETE** /apps/{app_id}/users/by/{alias_label}/{alias_id} | 
+*DefaultApi* | [**endLiveActivity**](docs/Api/DefaultApi.md#endliveactivity) | **DELETE** /apps/{app_id}/live_activities/{activity_id}/token/{subscription_id} | Stop Live Activity
+*DefaultApi* | [**exportEvents**](docs/Api/DefaultApi.md#exportevents) | **POST** /notifications/{notification_id}/export_events?app_id&#x3D;{app_id} | Export CSV of Events
+*DefaultApi* | [**exportPlayers**](docs/Api/DefaultApi.md#exportplayers) | **POST** /players/csv_export?app_id&#x3D;{app_id} | Export CSV of Players
+*DefaultApi* | [**fetchAliases**](docs/Api/DefaultApi.md#fetchaliases) | **GET** /apps/{app_id}/subscriptions/{subscription_id}/user/identity | 
+*DefaultApi* | [**fetchUser**](docs/Api/DefaultApi.md#fetchuser) | **GET** /apps/{app_id}/users/by/{alias_label}/{alias_id} | 
+*DefaultApi* | [**fetchUserIdentity**](docs/Api/DefaultApi.md#fetchuseridentity) | **GET** /apps/{app_id}/users/by/{alias_label}/{alias_id}/identity | 
 *DefaultApi* | [**getApp**](docs/Api/DefaultApi.md#getapp) | **GET** /apps/{app_id} | View an app
 *DefaultApi* | [**getApps**](docs/Api/DefaultApi.md#getapps) | **GET** /apps | View apps
+*DefaultApi* | [**getEligibleIams**](docs/Api/DefaultApi.md#geteligibleiams) | **GET** /apps/{app_id}/subscriptions/{subscription_id}/iams | 
 *DefaultApi* | [**getNotification**](docs/Api/DefaultApi.md#getnotification) | **GET** /notifications/{notification_id} | View notification
 *DefaultApi* | [**getNotificationHistory**](docs/Api/DefaultApi.md#getnotificationhistory) | **POST** /notifications/{notification_id}/history | Notification History
 *DefaultApi* | [**getNotifications**](docs/Api/DefaultApi.md#getnotifications) | **GET** /notifications | View notifications
 *DefaultApi* | [**getOutcomes**](docs/Api/DefaultApi.md#getoutcomes) | **GET** /apps/{app_id}/outcomes | View Outcomes
 *DefaultApi* | [**getPlayer**](docs/Api/DefaultApi.md#getplayer) | **GET** /players/{player_id} | View device
 *DefaultApi* | [**getPlayers**](docs/Api/DefaultApi.md#getplayers) | **GET** /players | View devices
+*DefaultApi* | [**identifyUserByAlias**](docs/Api/DefaultApi.md#identifyuserbyalias) | **PATCH** /apps/{app_id}/users/by/{alias_label}/{alias_id}/identity | 
+*DefaultApi* | [**identifyUserBySubscriptionId**](docs/Api/DefaultApi.md#identifyuserbysubscriptionid) | **PATCH** /apps/{app_id}/subscriptions/{subscription_id}/user/identity | 
+*DefaultApi* | [**transferSubscription**](docs/Api/DefaultApi.md#transfersubscription) | **PATCH** /apps/{app_id}/subscriptions/{subscription_id}/owner | 
 *DefaultApi* | [**updateApp**](docs/Api/DefaultApi.md#updateapp) | **PUT** /apps/{app_id} | Update an app
+*DefaultApi* | [**updateLiveActivity**](docs/Api/DefaultApi.md#updateliveactivity) | **POST** /apps/{app_id}/live_activities/{activity_id}/notifications | Update a Live Activity via Push
 *DefaultApi* | [**updatePlayer**](docs/Api/DefaultApi.md#updateplayer) | **PUT** /players/{player_id} | Edit device
 *DefaultApi* | [**updatePlayerTags**](docs/Api/DefaultApi.md#updateplayertags) | **PUT** /apps/{app_id}/users/{external_user_id} | Edit tags with external user id
+*DefaultApi* | [**updateSubscription**](docs/Api/DefaultApi.md#updatesubscription) | **PATCH** /apps/{app_id}/subscriptions/{subscription_id} | 
+*DefaultApi* | [**updateUser**](docs/Api/DefaultApi.md#updateuser) | **PATCH** /apps/{app_id}/users/by/{alias_label}/{alias_id} | 
 
 ## Models
 
@@ -295,31 +460,38 @@ Class | Method | HTTP request | Description
 - [BasicNotification](docs/Model/BasicNotification.md)
 - [BasicNotificationAllOf](docs/Model/BasicNotificationAllOf.md)
 - [BasicNotificationAllOfAndroidBackgroundLayout](docs/Model/BasicNotificationAllOfAndroidBackgroundLayout.md)
+- [BeginLiveActivityRequest](docs/Model/BeginLiveActivityRequest.md)
 - [Button](docs/Model/Button.md)
 - [CancelNotificationSuccessResponse](docs/Model/CancelNotificationSuccessResponse.md)
-- [CreateNotificationBadRequestResponse](docs/Model/CreateNotificationBadRequestResponse.md)
 - [CreateNotificationSuccessResponse](docs/Model/CreateNotificationSuccessResponse.md)
 - [CreatePlayerSuccessResponse](docs/Model/CreatePlayerSuccessResponse.md)
-- [CreateSegmentBadRequestResponse](docs/Model/CreateSegmentBadRequestResponse.md)
 - [CreateSegmentConflictResponse](docs/Model/CreateSegmentConflictResponse.md)
 - [CreateSegmentSuccessResponse](docs/Model/CreateSegmentSuccessResponse.md)
-- [DeletePlayerBadRequestResponse](docs/Model/DeletePlayerBadRequestResponse.md)
+- [CreateSubscriptionRequestBody](docs/Model/CreateSubscriptionRequestBody.md)
+- [CreateUserConflictResponse](docs/Model/CreateUserConflictResponse.md)
+- [CreateUserConflictResponseErrorsInner](docs/Model/CreateUserConflictResponseErrorsInner.md)
+- [CreateUserConflictResponseErrorsItemsMeta](docs/Model/CreateUserConflictResponseErrorsItemsMeta.md)
 - [DeletePlayerNotFoundResponse](docs/Model/DeletePlayerNotFoundResponse.md)
 - [DeletePlayerSuccessResponse](docs/Model/DeletePlayerSuccessResponse.md)
-- [DeleteSegmentBadRequestResponse](docs/Model/DeleteSegmentBadRequestResponse.md)
 - [DeleteSegmentNotFoundResponse](docs/Model/DeleteSegmentNotFoundResponse.md)
 - [DeleteSegmentSuccessResponse](docs/Model/DeleteSegmentSuccessResponse.md)
 - [DeliveryData](docs/Model/DeliveryData.md)
+- [ExportEventsSuccessResponse](docs/Model/ExportEventsSuccessResponse.md)
 - [ExportPlayersRequestBody](docs/Model/ExportPlayersRequestBody.md)
 - [ExportPlayersSuccessResponse](docs/Model/ExportPlayersSuccessResponse.md)
 - [Filter](docs/Model/Filter.md)
 - [FilterExpressions](docs/Model/FilterExpressions.md)
+- [GenericError](docs/Model/GenericError.md)
+- [GenericErrorErrorsInner](docs/Model/GenericErrorErrorsInner.md)
 - [GetNotificationRequestBody](docs/Model/GetNotificationRequestBody.md)
+- [InlineResponse200](docs/Model/InlineResponse200.md)
+- [InlineResponse2003](docs/Model/InlineResponse2003.md)
+- [InlineResponse201](docs/Model/InlineResponse201.md)
+- [InlineResponse202](docs/Model/InlineResponse202.md)
 - [InvalidIdentifierError](docs/Model/InvalidIdentifierError.md)
 - [Notification](docs/Model/Notification.md)
 - [Notification200Errors](docs/Model/Notification200Errors.md)
 - [NotificationAllOf](docs/Model/NotificationAllOf.md)
-- [NotificationHistoryBadRequestResponse](docs/Model/NotificationHistoryBadRequestResponse.md)
 - [NotificationHistorySuccessResponse](docs/Model/NotificationHistorySuccessResponse.md)
 - [NotificationSlice](docs/Model/NotificationSlice.md)
 - [NotificationTarget](docs/Model/NotificationTarget.md)
@@ -333,14 +505,28 @@ Class | Method | HTTP request | Description
 - [PlatformDeliveryDataSmsAllOf](docs/Model/PlatformDeliveryDataSmsAllOf.md)
 - [Player](docs/Model/Player.md)
 - [PlayerNotificationTarget](docs/Model/PlayerNotificationTarget.md)
+- [PlayerNotificationTargetIncludeAliases](docs/Model/PlayerNotificationTargetIncludeAliases.md)
 - [PlayerSlice](docs/Model/PlayerSlice.md)
+- [PropertiesDeltas](docs/Model/PropertiesDeltas.md)
+- [PropertiesObject](docs/Model/PropertiesObject.md)
 - [Purchase](docs/Model/Purchase.md)
+- [RateLimiterError](docs/Model/RateLimiterError.md)
 - [Segment](docs/Model/Segment.md)
 - [SegmentNotificationTarget](docs/Model/SegmentNotificationTarget.md)
 - [StringMap](docs/Model/StringMap.md)
+- [SubscriptionObject](docs/Model/SubscriptionObject.md)
+- [TransferSubscriptionRequestBody](docs/Model/TransferSubscriptionRequestBody.md)
+- [UpdateLiveActivityRequest](docs/Model/UpdateLiveActivityRequest.md)
+- [UpdateLiveActivitySuccessResponse](docs/Model/UpdateLiveActivitySuccessResponse.md)
 - [UpdatePlayerSuccessResponse](docs/Model/UpdatePlayerSuccessResponse.md)
 - [UpdatePlayerTagsRequestBody](docs/Model/UpdatePlayerTagsRequestBody.md)
 - [UpdatePlayerTagsSuccessResponse](docs/Model/UpdatePlayerTagsSuccessResponse.md)
+- [UpdateSubscriptionRequestBody](docs/Model/UpdateSubscriptionRequestBody.md)
+- [UpdateUserRequest](docs/Model/UpdateUserRequest.md)
+- [User](docs/Model/User.md)
+- [UserIdentityRequestBody](docs/Model/UserIdentityRequestBody.md)
+- [UserIdentityResponse](docs/Model/UserIdentityResponse.md)
+- [UserSubscriptionOptions](docs/Model/UserSubscriptionOptions.md)
 
 ## Authorization
 All the OneSignal endpoints require either an *app_key* or *user_key* tokens for authorization. It is recommended to
@@ -365,5 +551,5 @@ requires app_key and which user_key. You can get the value of these keys from yo
 devrel@onesignal.com
 
 
-- API version: `1.0.1`
-    - Package version: `1.0.0`
+- API version: `1.2.2`
+    - Package version: `2.0.2`

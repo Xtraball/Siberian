@@ -3,8 +3,9 @@
  *
  * @author Xtraball SAS
  *
- * @version 5.0.10
+ * @version 5.0.13
  */
+
 angular
     .module('starter')
     .service('Push2Service', function ($cordovaLocalNotification, $timeout, $location, $log, $q, $rootScope, $translate,
@@ -80,8 +81,18 @@ angular
         }
 
         // Uncomment to set OneSignal device logging to VERBOSE
-        $window.plugins.OneSignal.Debug.setLogLevel(6, 0);
+        $window.plugins.OneSignal.Debug.setLogLevel(6);
         $window.plugins.OneSignal.initialize(service.appId);
+
+        // Listen for user change before login
+        $window.plugins.OneSignal.User.pushSubscription.addEventListener("change", (changedState) => {
+            // The results will contain push and email success statuses
+            console.log('[Push2Service] User changed or logged-in');
+            console.log(changedState);
+
+            Push2.registerPlayer(changedState);
+        });
+
         $window.plugins.OneSignal.login($session.getExternalUserId(Application.id));
         $window.plugins.OneSignal.User.pushSubscription.optIn();
 
@@ -99,37 +110,6 @@ angular
                 notification: openedEvent.notification,
                 origin: 'opened_handler'
             });
-        });
-
-        $window.plugins.OneSignal.login($session.getExternalUserId(Application.id), (results) => {
-            // The results will contain push and email success statuses
-            console.log('[Push2Service] Results of setting external user id');
-            console.log(results);
-
-            // Push can be expected in almost every situation with a success status, but
-            // as a pre-caution its good to verify it exists
-            if (results.push && results.push.success) {
-                console.log('[Push2Service] Results of setting external user id push status:');
-                console.log(results.push.success);
-            }
-
-            // Verify the email is set or check that the results have an email success status
-            if (results.email && results.email.success) {
-                console.log('[Push2Service] Results of setting external user id email status:');
-                console.log(results.email.success);
-            }
-
-            // Verify the number is set or check that the results have an sms success status
-            if (results.sms && results.sms.success) {
-                console.log('[Push2Service] Results of setting external user id sms status:');
-                console.log(results.sms.success);
-            }
-
-            $window.plugins.OneSignal.getDeviceState(function(stateChanges) {
-                console.log('[Push2Service] OneSignal getDeviceState: ' + JSON.stringify(stateChanges));
-                Push2.registerPlayer(stateChanges);
-            });
-
         });
 
         // Register for push events!
@@ -170,14 +150,6 @@ angular
 
         // We are updating the external user id after a login (if changed)
         $window.plugins.OneSignal.login($session.getExternalUserId(Application.id));
-
-
-        service.push.setExternalUserId($session.getExternalUserId(Application.id), (results) => {
-            service.push.getDeviceState(function(stateChanges) {
-                console.log('[Push2Service.afterLoginOrRegister] OneSignal getDeviceState: ' + JSON.stringify(stateChanges));
-                Push2.registerPlayer(stateChanges);
-            });
-        });
     };
 
     // @deprecated

@@ -4,26 +4,110 @@ All URIs are relative to https://onesignal.com/api/v1.
 
 Method | HTTP request | Description
 ------------- | ------------- | -------------
+[**beginLiveActivity()**](DefaultApi.md#beginLiveActivity) | **POST** /apps/{app_id}/live_activities/{activity_id}/token | Start Live Activity
 [**cancelNotification()**](DefaultApi.md#cancelNotification) | **DELETE** /notifications/{notification_id} | Stop a scheduled or currently outgoing notification
 [**createApp()**](DefaultApi.md#createApp) | **POST** /apps | Create an app
 [**createNotification()**](DefaultApi.md#createNotification) | **POST** /notifications | Create notification
 [**createPlayer()**](DefaultApi.md#createPlayer) | **POST** /players | Add a device
 [**createSegments()**](DefaultApi.md#createSegments) | **POST** /apps/{app_id}/segments | Create Segments
+[**createSubscription()**](DefaultApi.md#createSubscription) | **POST** /apps/{app_id}/users/by/{alias_label}/{alias_id}/subscriptions | 
+[**createUser()**](DefaultApi.md#createUser) | **POST** /apps/{app_id}/users | 
+[**deleteAlias()**](DefaultApi.md#deleteAlias) | **DELETE** /apps/{app_id}/users/by/{alias_label}/{alias_id}/identity/{alias_label_to_delete} | 
 [**deletePlayer()**](DefaultApi.md#deletePlayer) | **DELETE** /players/{player_id} | Delete a user record
 [**deleteSegments()**](DefaultApi.md#deleteSegments) | **DELETE** /apps/{app_id}/segments/{segment_id} | Delete Segments
-[**exportPlayers()**](DefaultApi.md#exportPlayers) | **POST** /players/csv_export?app_id&#x3D;{app_id} | CSV export
+[**deleteSubscription()**](DefaultApi.md#deleteSubscription) | **DELETE** /apps/{app_id}/subscriptions/{subscription_id} | 
+[**deleteUser()**](DefaultApi.md#deleteUser) | **DELETE** /apps/{app_id}/users/by/{alias_label}/{alias_id} | 
+[**endLiveActivity()**](DefaultApi.md#endLiveActivity) | **DELETE** /apps/{app_id}/live_activities/{activity_id}/token/{subscription_id} | Stop Live Activity
+[**exportEvents()**](DefaultApi.md#exportEvents) | **POST** /notifications/{notification_id}/export_events?app_id&#x3D;{app_id} | Export CSV of Events
+[**exportPlayers()**](DefaultApi.md#exportPlayers) | **POST** /players/csv_export?app_id&#x3D;{app_id} | Export CSV of Players
+[**fetchAliases()**](DefaultApi.md#fetchAliases) | **GET** /apps/{app_id}/subscriptions/{subscription_id}/user/identity | 
+[**fetchUser()**](DefaultApi.md#fetchUser) | **GET** /apps/{app_id}/users/by/{alias_label}/{alias_id} | 
+[**fetchUserIdentity()**](DefaultApi.md#fetchUserIdentity) | **GET** /apps/{app_id}/users/by/{alias_label}/{alias_id}/identity | 
 [**getApp()**](DefaultApi.md#getApp) | **GET** /apps/{app_id} | View an app
 [**getApps()**](DefaultApi.md#getApps) | **GET** /apps | View apps
+[**getEligibleIams()**](DefaultApi.md#getEligibleIams) | **GET** /apps/{app_id}/subscriptions/{subscription_id}/iams | 
 [**getNotification()**](DefaultApi.md#getNotification) | **GET** /notifications/{notification_id} | View notification
 [**getNotificationHistory()**](DefaultApi.md#getNotificationHistory) | **POST** /notifications/{notification_id}/history | Notification History
 [**getNotifications()**](DefaultApi.md#getNotifications) | **GET** /notifications | View notifications
 [**getOutcomes()**](DefaultApi.md#getOutcomes) | **GET** /apps/{app_id}/outcomes | View Outcomes
 [**getPlayer()**](DefaultApi.md#getPlayer) | **GET** /players/{player_id} | View device
 [**getPlayers()**](DefaultApi.md#getPlayers) | **GET** /players | View devices
+[**identifyUserByAlias()**](DefaultApi.md#identifyUserByAlias) | **PATCH** /apps/{app_id}/users/by/{alias_label}/{alias_id}/identity | 
+[**identifyUserBySubscriptionId()**](DefaultApi.md#identifyUserBySubscriptionId) | **PATCH** /apps/{app_id}/subscriptions/{subscription_id}/user/identity | 
+[**transferSubscription()**](DefaultApi.md#transferSubscription) | **PATCH** /apps/{app_id}/subscriptions/{subscription_id}/owner | 
 [**updateApp()**](DefaultApi.md#updateApp) | **PUT** /apps/{app_id} | Update an app
+[**updateLiveActivity()**](DefaultApi.md#updateLiveActivity) | **POST** /apps/{app_id}/live_activities/{activity_id}/notifications | Update a Live Activity via Push
 [**updatePlayer()**](DefaultApi.md#updatePlayer) | **PUT** /players/{player_id} | Edit device
 [**updatePlayerTags()**](DefaultApi.md#updatePlayerTags) | **PUT** /apps/{app_id}/users/{external_user_id} | Edit tags with external user id
+[**updateSubscription()**](DefaultApi.md#updateSubscription) | **PATCH** /apps/{app_id}/subscriptions/{subscription_id} | 
+[**updateUser()**](DefaultApi.md#updateUser) | **PATCH** /apps/{app_id}/users/by/{alias_label}/{alias_id} | 
 
+
+## `beginLiveActivity()`
+
+```php
+beginLiveActivity($app_id, $activity_id, $begin_live_activity_request)
+```
+
+Start Live Activity
+
+Starts a Live Activity
+
+### Example
+
+```php
+<?php
+require_once(__DIR__ . '/vendor/autoload.php');
+
+
+// Configure Bearer authorization: app_key
+$config = onesignal\client\Configuration::getDefaultConfiguration()
+                                                ->setAppKeyToken('YOUR_APP_KEY_TOKEN')
+                                                ->setUserKeyToken('YOUR_USER_KEY_TOKEN');
+
+
+
+$apiInstance = new onesignal\client\Api\DefaultApi(
+    // If you want use custom http client, pass your client which implements `GuzzleHttp\ClientInterface`.
+    // This is optional, `GuzzleHttp\Client` will be used as default.
+    new GuzzleHttp\Client(),
+    $config
+);
+$app_id = 'app_id_example'; // string | The OneSignal App ID for your app.  Available in Keys & IDs.
+$activity_id = 'activity_id_example'; // string | Live Activity record ID
+$begin_live_activity_request = new \onesignal\client\model\BeginLiveActivityRequest(); // \onesignal\client\model\BeginLiveActivityRequest
+
+try {
+    $apiInstance->beginLiveActivity($app_id, $activity_id, $begin_live_activity_request);
+} catch (Exception $e) {
+    echo 'Exception when calling DefaultApi->beginLiveActivity: ', $e->getMessage(), PHP_EOL;
+}
+```
+
+### Parameters
+
+Name | Type | Description  | Notes
+------------- | ------------- | ------------- | -------------
+ **app_id** | **string**| The OneSignal App ID for your app.  Available in Keys &amp; IDs. |
+ **activity_id** | **string**| Live Activity record ID |
+ **begin_live_activity_request** | [**\onesignal\client\model\BeginLiveActivityRequest**](../Model/BeginLiveActivityRequest.md)|  |
+
+### Return type
+
+void (empty response body)
+
+### Authorization
+
+[app_key](../../README.md#app_key)
+
+### HTTP request headers
+
+- **Content-Type**: `application/json`
+- **Accept**: `application/json`
+
+[[Back to top]](#) [[Back to API list]](../../README.md#endpoints)
+[[Back to Model list]](../../README.md#models)
+[[Back to README]](../../README.md)
 
 ## `cancelNotification()`
 
@@ -344,6 +428,209 @@ Name | Type | Description  | Notes
 [[Back to Model list]](../../README.md#models)
 [[Back to README]](../../README.md)
 
+## `createSubscription()`
+
+```php
+createSubscription($app_id, $alias_label, $alias_id, $create_subscription_request_body): \onesignal\client\model\InlineResponse201
+```
+
+
+
+Creates a new Subscription under the User provided. Useful to add email addresses and SMS numbers to the User.
+
+### Example
+
+```php
+<?php
+require_once(__DIR__ . '/vendor/autoload.php');
+
+
+// Configure Bearer authorization: app_key
+$config = onesignal\client\Configuration::getDefaultConfiguration()
+                                                ->setAppKeyToken('YOUR_APP_KEY_TOKEN')
+                                                ->setUserKeyToken('YOUR_USER_KEY_TOKEN');
+
+
+
+$apiInstance = new onesignal\client\Api\DefaultApi(
+    // If you want use custom http client, pass your client which implements `GuzzleHttp\ClientInterface`.
+    // This is optional, `GuzzleHttp\Client` will be used as default.
+    new GuzzleHttp\Client(),
+    $config
+);
+$app_id = 'app_id_example'; // string
+$alias_label = 'alias_label_example'; // string
+$alias_id = 'alias_id_example'; // string
+$create_subscription_request_body = new \onesignal\client\model\CreateSubscriptionRequestBody(); // \onesignal\client\model\CreateSubscriptionRequestBody
+
+try {
+    $result = $apiInstance->createSubscription($app_id, $alias_label, $alias_id, $create_subscription_request_body);
+    print_r($result);
+} catch (Exception $e) {
+    echo 'Exception when calling DefaultApi->createSubscription: ', $e->getMessage(), PHP_EOL;
+}
+```
+
+### Parameters
+
+Name | Type | Description  | Notes
+------------- | ------------- | ------------- | -------------
+ **app_id** | **string**|  |
+ **alias_label** | **string**|  |
+ **alias_id** | **string**|  |
+ **create_subscription_request_body** | [**\onesignal\client\model\CreateSubscriptionRequestBody**](../Model/CreateSubscriptionRequestBody.md)|  |
+
+### Return type
+
+[**\onesignal\client\model\InlineResponse201**](../Model/InlineResponse201.md)
+
+### Authorization
+
+[app_key](../../README.md#app_key)
+
+### HTTP request headers
+
+- **Content-Type**: `application/json`
+- **Accept**: `application/json`
+
+[[Back to top]](#) [[Back to API list]](../../README.md#endpoints)
+[[Back to Model list]](../../README.md#models)
+[[Back to README]](../../README.md)
+
+## `createUser()`
+
+```php
+createUser($app_id, $user): \onesignal\client\model\User
+```
+
+
+
+Creates a User, optionally Subscriptions owned by the User as well as Aliases. Aliases provided in the payload will be used to look up an existing User.
+
+### Example
+
+```php
+<?php
+require_once(__DIR__ . '/vendor/autoload.php');
+
+
+// Configure Bearer authorization: app_key
+$config = onesignal\client\Configuration::getDefaultConfiguration()
+                                                ->setAppKeyToken('YOUR_APP_KEY_TOKEN')
+                                                ->setUserKeyToken('YOUR_USER_KEY_TOKEN');
+
+
+
+$apiInstance = new onesignal\client\Api\DefaultApi(
+    // If you want use custom http client, pass your client which implements `GuzzleHttp\ClientInterface`.
+    // This is optional, `GuzzleHttp\Client` will be used as default.
+    new GuzzleHttp\Client(),
+    $config
+);
+$app_id = 'app_id_example'; // string
+$user = new \onesignal\client\model\User(); // \onesignal\client\model\User
+
+try {
+    $result = $apiInstance->createUser($app_id, $user);
+    print_r($result);
+} catch (Exception $e) {
+    echo 'Exception when calling DefaultApi->createUser: ', $e->getMessage(), PHP_EOL;
+}
+```
+
+### Parameters
+
+Name | Type | Description  | Notes
+------------- | ------------- | ------------- | -------------
+ **app_id** | **string**|  |
+ **user** | [**\onesignal\client\model\User**](../Model/User.md)|  |
+
+### Return type
+
+[**\onesignal\client\model\User**](../Model/User.md)
+
+### Authorization
+
+[app_key](../../README.md#app_key)
+
+### HTTP request headers
+
+- **Content-Type**: `application/json`
+- **Accept**: `application/json`
+
+[[Back to top]](#) [[Back to API list]](../../README.md#endpoints)
+[[Back to Model list]](../../README.md#models)
+[[Back to README]](../../README.md)
+
+## `deleteAlias()`
+
+```php
+deleteAlias($app_id, $alias_label, $alias_id, $alias_label_to_delete): \onesignal\client\model\InlineResponse200
+```
+
+
+
+Deletes an alias by alias label
+
+### Example
+
+```php
+<?php
+require_once(__DIR__ . '/vendor/autoload.php');
+
+
+// Configure Bearer authorization: app_key
+$config = onesignal\client\Configuration::getDefaultConfiguration()
+                                                ->setAppKeyToken('YOUR_APP_KEY_TOKEN')
+                                                ->setUserKeyToken('YOUR_USER_KEY_TOKEN');
+
+
+
+$apiInstance = new onesignal\client\Api\DefaultApi(
+    // If you want use custom http client, pass your client which implements `GuzzleHttp\ClientInterface`.
+    // This is optional, `GuzzleHttp\Client` will be used as default.
+    new GuzzleHttp\Client(),
+    $config
+);
+$app_id = 'app_id_example'; // string
+$alias_label = 'alias_label_example'; // string
+$alias_id = 'alias_id_example'; // string
+$alias_label_to_delete = 'alias_label_to_delete_example'; // string
+
+try {
+    $result = $apiInstance->deleteAlias($app_id, $alias_label, $alias_id, $alias_label_to_delete);
+    print_r($result);
+} catch (Exception $e) {
+    echo 'Exception when calling DefaultApi->deleteAlias: ', $e->getMessage(), PHP_EOL;
+}
+```
+
+### Parameters
+
+Name | Type | Description  | Notes
+------------- | ------------- | ------------- | -------------
+ **app_id** | **string**|  |
+ **alias_label** | **string**|  |
+ **alias_id** | **string**|  |
+ **alias_label_to_delete** | **string**|  |
+
+### Return type
+
+[**\onesignal\client\model\InlineResponse200**](../Model/InlineResponse200.md)
+
+### Authorization
+
+[app_key](../../README.md#app_key)
+
+### HTTP request headers
+
+- **Content-Type**: Not defined
+- **Accept**: `application/json`
+
+[[Back to top]](#) [[Back to API list]](../../README.md#endpoints)
+[[Back to Model list]](../../README.md#models)
+[[Back to README]](../../README.md)
+
 ## `deletePlayer()`
 
 ```php
@@ -474,13 +761,267 @@ Name | Type | Description  | Notes
 [[Back to Model list]](../../README.md#models)
 [[Back to README]](../../README.md)
 
+## `deleteSubscription()`
+
+```php
+deleteSubscription($app_id, $subscription_id)
+```
+
+
+
+Deletes the Subscription.
+
+### Example
+
+```php
+<?php
+require_once(__DIR__ . '/vendor/autoload.php');
+
+
+// Configure Bearer authorization: app_key
+$config = onesignal\client\Configuration::getDefaultConfiguration()
+                                                ->setAppKeyToken('YOUR_APP_KEY_TOKEN')
+                                                ->setUserKeyToken('YOUR_USER_KEY_TOKEN');
+
+
+
+$apiInstance = new onesignal\client\Api\DefaultApi(
+    // If you want use custom http client, pass your client which implements `GuzzleHttp\ClientInterface`.
+    // This is optional, `GuzzleHttp\Client` will be used as default.
+    new GuzzleHttp\Client(),
+    $config
+);
+$app_id = 'app_id_example'; // string
+$subscription_id = 'subscription_id_example'; // string
+
+try {
+    $apiInstance->deleteSubscription($app_id, $subscription_id);
+} catch (Exception $e) {
+    echo 'Exception when calling DefaultApi->deleteSubscription: ', $e->getMessage(), PHP_EOL;
+}
+```
+
+### Parameters
+
+Name | Type | Description  | Notes
+------------- | ------------- | ------------- | -------------
+ **app_id** | **string**|  |
+ **subscription_id** | **string**|  |
+
+### Return type
+
+void (empty response body)
+
+### Authorization
+
+[app_key](../../README.md#app_key)
+
+### HTTP request headers
+
+- **Content-Type**: Not defined
+- **Accept**: `application/json`
+
+[[Back to top]](#) [[Back to API list]](../../README.md#endpoints)
+[[Back to Model list]](../../README.md#models)
+[[Back to README]](../../README.md)
+
+## `deleteUser()`
+
+```php
+deleteUser($app_id, $alias_label, $alias_id)
+```
+
+
+
+Removes the User identified by (:alias_label, :alias_id), and all Subscriptions and Aliases
+
+### Example
+
+```php
+<?php
+require_once(__DIR__ . '/vendor/autoload.php');
+
+
+
+$apiInstance = new onesignal\client\Api\DefaultApi(
+    // If you want use custom http client, pass your client which implements `GuzzleHttp\ClientInterface`.
+    // This is optional, `GuzzleHttp\Client` will be used as default.
+    new GuzzleHttp\Client()
+);
+$app_id = 'app_id_example'; // string
+$alias_label = 'alias_label_example'; // string
+$alias_id = 'alias_id_example'; // string
+
+try {
+    $apiInstance->deleteUser($app_id, $alias_label, $alias_id);
+} catch (Exception $e) {
+    echo 'Exception when calling DefaultApi->deleteUser: ', $e->getMessage(), PHP_EOL;
+}
+```
+
+### Parameters
+
+Name | Type | Description  | Notes
+------------- | ------------- | ------------- | -------------
+ **app_id** | **string**|  |
+ **alias_label** | **string**|  |
+ **alias_id** | **string**|  |
+
+### Return type
+
+void (empty response body)
+
+### Authorization
+
+No authorization required
+
+### HTTP request headers
+
+- **Content-Type**: Not defined
+- **Accept**: `application/json`
+
+[[Back to top]](#) [[Back to API list]](../../README.md#endpoints)
+[[Back to Model list]](../../README.md#models)
+[[Back to README]](../../README.md)
+
+## `endLiveActivity()`
+
+```php
+endLiveActivity($app_id, $activity_id, $subscription_id)
+```
+
+Stop Live Activity
+
+Stops a Live Activity
+
+### Example
+
+```php
+<?php
+require_once(__DIR__ . '/vendor/autoload.php');
+
+
+// Configure Bearer authorization: app_key
+$config = onesignal\client\Configuration::getDefaultConfiguration()
+                                                ->setAppKeyToken('YOUR_APP_KEY_TOKEN')
+                                                ->setUserKeyToken('YOUR_USER_KEY_TOKEN');
+
+
+
+$apiInstance = new onesignal\client\Api\DefaultApi(
+    // If you want use custom http client, pass your client which implements `GuzzleHttp\ClientInterface`.
+    // This is optional, `GuzzleHttp\Client` will be used as default.
+    new GuzzleHttp\Client(),
+    $config
+);
+$app_id = 'app_id_example'; // string | The OneSignal App ID for your app.  Available in Keys & IDs.
+$activity_id = 'activity_id_example'; // string | Live Activity record ID
+$subscription_id = 'subscription_id_example'; // string | Subscription ID
+
+try {
+    $apiInstance->endLiveActivity($app_id, $activity_id, $subscription_id);
+} catch (Exception $e) {
+    echo 'Exception when calling DefaultApi->endLiveActivity: ', $e->getMessage(), PHP_EOL;
+}
+```
+
+### Parameters
+
+Name | Type | Description  | Notes
+------------- | ------------- | ------------- | -------------
+ **app_id** | **string**| The OneSignal App ID for your app.  Available in Keys &amp; IDs. |
+ **activity_id** | **string**| Live Activity record ID |
+ **subscription_id** | **string**| Subscription ID |
+
+### Return type
+
+void (empty response body)
+
+### Authorization
+
+[app_key](../../README.md#app_key)
+
+### HTTP request headers
+
+- **Content-Type**: Not defined
+- **Accept**: `application/json`
+
+[[Back to top]](#) [[Back to API list]](../../README.md#endpoints)
+[[Back to Model list]](../../README.md#models)
+[[Back to README]](../../README.md)
+
+## `exportEvents()`
+
+```php
+exportEvents($notification_id, $app_id): \onesignal\client\model\ExportEventsSuccessResponse
+```
+
+Export CSV of Events
+
+Generate a compressed CSV report of all of the events data for a notification. This will return a URL immediately upon success but it may take several minutes for the CSV to become available at that URL depending on the volume of data. Only one export can be in-progress per OneSignal account at any given time.
+
+### Example
+
+```php
+<?php
+require_once(__DIR__ . '/vendor/autoload.php');
+
+
+// Configure Bearer authorization: app_key
+$config = onesignal\client\Configuration::getDefaultConfiguration()
+                                                ->setAppKeyToken('YOUR_APP_KEY_TOKEN')
+                                                ->setUserKeyToken('YOUR_USER_KEY_TOKEN');
+
+
+
+$apiInstance = new onesignal\client\Api\DefaultApi(
+    // If you want use custom http client, pass your client which implements `GuzzleHttp\ClientInterface`.
+    // This is optional, `GuzzleHttp\Client` will be used as default.
+    new GuzzleHttp\Client(),
+    $config
+);
+$notification_id = 'notification_id_example'; // string | The ID of the notification to export events from.
+$app_id = 'app_id_example'; // string | The ID of the app that the notification belongs to.
+
+try {
+    $result = $apiInstance->exportEvents($notification_id, $app_id);
+    print_r($result);
+} catch (Exception $e) {
+    echo 'Exception when calling DefaultApi->exportEvents: ', $e->getMessage(), PHP_EOL;
+}
+```
+
+### Parameters
+
+Name | Type | Description  | Notes
+------------- | ------------- | ------------- | -------------
+ **notification_id** | **string**| The ID of the notification to export events from. |
+ **app_id** | **string**| The ID of the app that the notification belongs to. |
+
+### Return type
+
+[**\onesignal\client\model\ExportEventsSuccessResponse**](../Model/ExportEventsSuccessResponse.md)
+
+### Authorization
+
+[app_key](../../README.md#app_key)
+
+### HTTP request headers
+
+- **Content-Type**: Not defined
+- **Accept**: `application/json`
+
+[[Back to top]](#) [[Back to API list]](../../README.md#endpoints)
+[[Back to Model list]](../../README.md#models)
+[[Back to README]](../../README.md)
+
 ## `exportPlayers()`
 
 ```php
 exportPlayers($app_id, $export_players_request_body): \onesignal\client\model\ExportPlayersSuccessResponse
 ```
 
-CSV export
+Export CSV of Players
 
 Generate a compressed CSV export of all of your current user data This method can be used to generate a compressed CSV export of all of your current user data. It is a much faster alternative than retrieving this data using the /players API endpoint. The file will be compressed using GZip. The file may take several minutes to generate depending on the number of users in your app. The URL generated will be available for 3 days and includes random v4 uuid as part of the resource name to be unguessable. &#x1F6A7; 403 Error Responses          You can test if it is complete by making a GET request to the csv_file_url value. This file may take time to generate depending on how many device records are being pulled. If the file is not ready, a 403 error will be returned. Otherwise the file itself will be returned. &#x1F6A7; Requires Authentication Key Requires your OneSignal App's REST API Key, available in Keys & IDs. &#x1F6A7; Concurrent Exports Only one concurrent export is allowed per OneSignal account. Please ensure you have successfully downloaded the .csv.gz file before exporting another app. CSV File Format: - Default Columns:   | Field | Details |   | --- | --- |   | id | OneSignal Player Id |   | identifier | Push Token |   | session_count | Number of times they visited the app or site   | language | Device language code |   | timezone | Number of seconds away from UTC. Example: -28800 |   | game_version | Version of your mobile app gathered from Android Studio versionCode in your App/build.gradle and iOS uses kCFBundleVersionKey in Xcode. |   | device_os | Device Operating System Version. Example: 80 = Chrome 80, 9 = Android 9 |   | device_type | Device Operating System Type |   | device_model | Device Hardware String Code. Example: Mobile Web Subscribers will have `Linux armv` |   | ad_id | Based on the Google Advertising Id for Android, identifierForVendor for iOS. OptedOut means user turned off Advertising tracking on the device. |   | tags | Current OneSignal Data Tags on the device. |   | last_active | Date and time the user last opened the mobile app or visited the site. |   | playtime | Total amount of time in seconds the user had the mobile app open. |   | amount_spent |  Mobile only - amount spent in USD on In-App Purchases. |    | created_at | Date and time the device record was created in OneSignal. Mobile - first time they opened the app with OneSignal SDK. Web - first time the user subscribed to the site. |   | invalid_identifier | t = unsubscribed, f = subscibed |   | badge_count | Current number of badges on the device | - Extra Columns:   | Field | Details |   | --- | --- |   | external_user_id | Your User Id set on the device |   | notification_types | Notification types |   | location | Location points (Latitude and Longitude) set on the device. |   | country | Country code |   | rooted | Android device rooted or not |   | ip | IP Address of the device if being tracked. See Handling Personal Data. |   | web_auth | Web Only authorization key. |   | web_p256 | Web Only p256 key. |
 
@@ -533,6 +1074,205 @@ Name | Type | Description  | Notes
 ### HTTP request headers
 
 - **Content-Type**: `application/json`
+- **Accept**: `application/json`
+
+[[Back to top]](#) [[Back to API list]](../../README.md#endpoints)
+[[Back to Model list]](../../README.md#models)
+[[Back to README]](../../README.md)
+
+## `fetchAliases()`
+
+```php
+fetchAliases($app_id, $subscription_id): \onesignal\client\model\UserIdentityResponse
+```
+
+
+
+Lists all Aliases for the User identified by :subscription_id.
+
+### Example
+
+```php
+<?php
+require_once(__DIR__ . '/vendor/autoload.php');
+
+
+// Configure Bearer authorization: app_key
+$config = onesignal\client\Configuration::getDefaultConfiguration()
+                                                ->setAppKeyToken('YOUR_APP_KEY_TOKEN')
+                                                ->setUserKeyToken('YOUR_USER_KEY_TOKEN');
+
+
+
+$apiInstance = new onesignal\client\Api\DefaultApi(
+    // If you want use custom http client, pass your client which implements `GuzzleHttp\ClientInterface`.
+    // This is optional, `GuzzleHttp\Client` will be used as default.
+    new GuzzleHttp\Client(),
+    $config
+);
+$app_id = 'app_id_example'; // string
+$subscription_id = 'subscription_id_example'; // string
+
+try {
+    $result = $apiInstance->fetchAliases($app_id, $subscription_id);
+    print_r($result);
+} catch (Exception $e) {
+    echo 'Exception when calling DefaultApi->fetchAliases: ', $e->getMessage(), PHP_EOL;
+}
+```
+
+### Parameters
+
+Name | Type | Description  | Notes
+------------- | ------------- | ------------- | -------------
+ **app_id** | **string**|  |
+ **subscription_id** | **string**|  |
+
+### Return type
+
+[**\onesignal\client\model\UserIdentityResponse**](../Model/UserIdentityResponse.md)
+
+### Authorization
+
+[app_key](../../README.md#app_key)
+
+### HTTP request headers
+
+- **Content-Type**: Not defined
+- **Accept**: `application/json`
+
+[[Back to top]](#) [[Back to API list]](../../README.md#endpoints)
+[[Back to Model list]](../../README.md#models)
+[[Back to README]](../../README.md)
+
+## `fetchUser()`
+
+```php
+fetchUser($app_id, $alias_label, $alias_id): \onesignal\client\model\User
+```
+
+
+
+Returns the User’s properties, Aliases, and Subscriptions.
+
+### Example
+
+```php
+<?php
+require_once(__DIR__ . '/vendor/autoload.php');
+
+
+// Configure Bearer authorization: app_key
+$config = onesignal\client\Configuration::getDefaultConfiguration()
+                                                ->setAppKeyToken('YOUR_APP_KEY_TOKEN')
+                                                ->setUserKeyToken('YOUR_USER_KEY_TOKEN');
+
+
+
+$apiInstance = new onesignal\client\Api\DefaultApi(
+    // If you want use custom http client, pass your client which implements `GuzzleHttp\ClientInterface`.
+    // This is optional, `GuzzleHttp\Client` will be used as default.
+    new GuzzleHttp\Client(),
+    $config
+);
+$app_id = 'app_id_example'; // string
+$alias_label = 'alias_label_example'; // string
+$alias_id = 'alias_id_example'; // string
+
+try {
+    $result = $apiInstance->fetchUser($app_id, $alias_label, $alias_id);
+    print_r($result);
+} catch (Exception $e) {
+    echo 'Exception when calling DefaultApi->fetchUser: ', $e->getMessage(), PHP_EOL;
+}
+```
+
+### Parameters
+
+Name | Type | Description  | Notes
+------------- | ------------- | ------------- | -------------
+ **app_id** | **string**|  |
+ **alias_label** | **string**|  |
+ **alias_id** | **string**|  |
+
+### Return type
+
+[**\onesignal\client\model\User**](../Model/User.md)
+
+### Authorization
+
+[app_key](../../README.md#app_key)
+
+### HTTP request headers
+
+- **Content-Type**: Not defined
+- **Accept**: `application/json`
+
+[[Back to top]](#) [[Back to API list]](../../README.md#endpoints)
+[[Back to Model list]](../../README.md#models)
+[[Back to README]](../../README.md)
+
+## `fetchUserIdentity()`
+
+```php
+fetchUserIdentity($app_id, $alias_label, $alias_id): \onesignal\client\model\InlineResponse200
+```
+
+
+
+Lists all Aliases for the User identified by (:alias_label, :alias_id).
+
+### Example
+
+```php
+<?php
+require_once(__DIR__ . '/vendor/autoload.php');
+
+
+// Configure Bearer authorization: app_key
+$config = onesignal\client\Configuration::getDefaultConfiguration()
+                                                ->setAppKeyToken('YOUR_APP_KEY_TOKEN')
+                                                ->setUserKeyToken('YOUR_USER_KEY_TOKEN');
+
+
+
+$apiInstance = new onesignal\client\Api\DefaultApi(
+    // If you want use custom http client, pass your client which implements `GuzzleHttp\ClientInterface`.
+    // This is optional, `GuzzleHttp\Client` will be used as default.
+    new GuzzleHttp\Client(),
+    $config
+);
+$app_id = 'app_id_example'; // string
+$alias_label = 'alias_label_example'; // string
+$alias_id = 'alias_id_example'; // string
+
+try {
+    $result = $apiInstance->fetchUserIdentity($app_id, $alias_label, $alias_id);
+    print_r($result);
+} catch (Exception $e) {
+    echo 'Exception when calling DefaultApi->fetchUserIdentity: ', $e->getMessage(), PHP_EOL;
+}
+```
+
+### Parameters
+
+Name | Type | Description  | Notes
+------------- | ------------- | ------------- | -------------
+ **app_id** | **string**|  |
+ **alias_label** | **string**|  |
+ **alias_id** | **string**|  |
+
+### Return type
+
+[**\onesignal\client\model\InlineResponse200**](../Model/InlineResponse200.md)
+
+### Authorization
+
+[app_key](../../README.md#app_key)
+
+### HTTP request headers
+
+- **Content-Type**: Not defined
 - **Accept**: `application/json`
 
 [[Back to top]](#) [[Back to API list]](../../README.md#endpoints)
@@ -652,6 +1392,71 @@ This endpoint does not need any parameter.
 ### Authorization
 
 [user_key](../../README.md#user_key)
+
+### HTTP request headers
+
+- **Content-Type**: Not defined
+- **Accept**: `application/json`
+
+[[Back to top]](#) [[Back to API list]](../../README.md#endpoints)
+[[Back to Model list]](../../README.md#models)
+[[Back to README]](../../README.md)
+
+## `getEligibleIams()`
+
+```php
+getEligibleIams($app_id, $subscription_id): \onesignal\client\model\InlineResponse2003
+```
+
+
+
+Manifest of In-App Messages the Subscription is eligible to display by the SDK.
+
+### Example
+
+```php
+<?php
+require_once(__DIR__ . '/vendor/autoload.php');
+
+
+// Configure Bearer authorization: app_key
+$config = onesignal\client\Configuration::getDefaultConfiguration()
+                                                ->setAppKeyToken('YOUR_APP_KEY_TOKEN')
+                                                ->setUserKeyToken('YOUR_USER_KEY_TOKEN');
+
+
+
+$apiInstance = new onesignal\client\Api\DefaultApi(
+    // If you want use custom http client, pass your client which implements `GuzzleHttp\ClientInterface`.
+    // This is optional, `GuzzleHttp\Client` will be used as default.
+    new GuzzleHttp\Client(),
+    $config
+);
+$app_id = 'app_id_example'; // string
+$subscription_id = 'subscription_id_example'; // string
+
+try {
+    $result = $apiInstance->getEligibleIams($app_id, $subscription_id);
+    print_r($result);
+} catch (Exception $e) {
+    echo 'Exception when calling DefaultApi->getEligibleIams: ', $e->getMessage(), PHP_EOL;
+}
+```
+
+### Parameters
+
+Name | Type | Description  | Notes
+------------- | ------------- | ------------- | -------------
+ **app_id** | **string**|  |
+ **subscription_id** | **string**|  |
+
+### Return type
+
+[**\onesignal\client\model\InlineResponse2003**](../Model/InlineResponse2003.md)
+
+### Authorization
+
+[app_key](../../README.md#app_key)
 
 ### HTTP request headers
 
@@ -1068,6 +1873,209 @@ Name | Type | Description  | Notes
 [[Back to Model list]](../../README.md#models)
 [[Back to README]](../../README.md)
 
+## `identifyUserByAlias()`
+
+```php
+identifyUserByAlias($app_id, $alias_label, $alias_id, $user_identity_request_body): \onesignal\client\model\InlineResponse200
+```
+
+
+
+Upserts one or more Aliases to an existing User identified by (:alias_label, :alias_id).
+
+### Example
+
+```php
+<?php
+require_once(__DIR__ . '/vendor/autoload.php');
+
+
+// Configure Bearer authorization: app_key
+$config = onesignal\client\Configuration::getDefaultConfiguration()
+                                                ->setAppKeyToken('YOUR_APP_KEY_TOKEN')
+                                                ->setUserKeyToken('YOUR_USER_KEY_TOKEN');
+
+
+
+$apiInstance = new onesignal\client\Api\DefaultApi(
+    // If you want use custom http client, pass your client which implements `GuzzleHttp\ClientInterface`.
+    // This is optional, `GuzzleHttp\Client` will be used as default.
+    new GuzzleHttp\Client(),
+    $config
+);
+$app_id = 'app_id_example'; // string
+$alias_label = 'alias_label_example'; // string
+$alias_id = 'alias_id_example'; // string
+$user_identity_request_body = new \onesignal\client\model\UserIdentityRequestBody(); // \onesignal\client\model\UserIdentityRequestBody
+
+try {
+    $result = $apiInstance->identifyUserByAlias($app_id, $alias_label, $alias_id, $user_identity_request_body);
+    print_r($result);
+} catch (Exception $e) {
+    echo 'Exception when calling DefaultApi->identifyUserByAlias: ', $e->getMessage(), PHP_EOL;
+}
+```
+
+### Parameters
+
+Name | Type | Description  | Notes
+------------- | ------------- | ------------- | -------------
+ **app_id** | **string**|  |
+ **alias_label** | **string**|  |
+ **alias_id** | **string**|  |
+ **user_identity_request_body** | [**\onesignal\client\model\UserIdentityRequestBody**](../Model/UserIdentityRequestBody.md)|  |
+
+### Return type
+
+[**\onesignal\client\model\InlineResponse200**](../Model/InlineResponse200.md)
+
+### Authorization
+
+[app_key](../../README.md#app_key)
+
+### HTTP request headers
+
+- **Content-Type**: `application/json`
+- **Accept**: `application/json`
+
+[[Back to top]](#) [[Back to API list]](../../README.md#endpoints)
+[[Back to Model list]](../../README.md#models)
+[[Back to README]](../../README.md)
+
+## `identifyUserBySubscriptionId()`
+
+```php
+identifyUserBySubscriptionId($app_id, $subscription_id, $user_identity_request_body): \onesignal\client\model\UserIdentityResponse
+```
+
+
+
+Upserts one or more Aliases for the User identified by :subscription_id.
+
+### Example
+
+```php
+<?php
+require_once(__DIR__ . '/vendor/autoload.php');
+
+
+// Configure Bearer authorization: app_key
+$config = onesignal\client\Configuration::getDefaultConfiguration()
+                                                ->setAppKeyToken('YOUR_APP_KEY_TOKEN')
+                                                ->setUserKeyToken('YOUR_USER_KEY_TOKEN');
+
+
+
+$apiInstance = new onesignal\client\Api\DefaultApi(
+    // If you want use custom http client, pass your client which implements `GuzzleHttp\ClientInterface`.
+    // This is optional, `GuzzleHttp\Client` will be used as default.
+    new GuzzleHttp\Client(),
+    $config
+);
+$app_id = 'app_id_example'; // string
+$subscription_id = 'subscription_id_example'; // string
+$user_identity_request_body = new \onesignal\client\model\UserIdentityRequestBody(); // \onesignal\client\model\UserIdentityRequestBody
+
+try {
+    $result = $apiInstance->identifyUserBySubscriptionId($app_id, $subscription_id, $user_identity_request_body);
+    print_r($result);
+} catch (Exception $e) {
+    echo 'Exception when calling DefaultApi->identifyUserBySubscriptionId: ', $e->getMessage(), PHP_EOL;
+}
+```
+
+### Parameters
+
+Name | Type | Description  | Notes
+------------- | ------------- | ------------- | -------------
+ **app_id** | **string**|  |
+ **subscription_id** | **string**|  |
+ **user_identity_request_body** | [**\onesignal\client\model\UserIdentityRequestBody**](../Model/UserIdentityRequestBody.md)|  |
+
+### Return type
+
+[**\onesignal\client\model\UserIdentityResponse**](../Model/UserIdentityResponse.md)
+
+### Authorization
+
+[app_key](../../README.md#app_key)
+
+### HTTP request headers
+
+- **Content-Type**: `application/json`
+- **Accept**: `application/json`
+
+[[Back to top]](#) [[Back to API list]](../../README.md#endpoints)
+[[Back to Model list]](../../README.md#models)
+[[Back to README]](../../README.md)
+
+## `transferSubscription()`
+
+```php
+transferSubscription($app_id, $subscription_id, $transfer_subscription_request_body): \onesignal\client\model\UserIdentityResponse
+```
+
+
+
+Transfers this Subscription to the User identified by the identity in the payload.
+
+### Example
+
+```php
+<?php
+require_once(__DIR__ . '/vendor/autoload.php');
+
+
+// Configure Bearer authorization: app_key
+$config = onesignal\client\Configuration::getDefaultConfiguration()
+                                                ->setAppKeyToken('YOUR_APP_KEY_TOKEN')
+                                                ->setUserKeyToken('YOUR_USER_KEY_TOKEN');
+
+
+
+$apiInstance = new onesignal\client\Api\DefaultApi(
+    // If you want use custom http client, pass your client which implements `GuzzleHttp\ClientInterface`.
+    // This is optional, `GuzzleHttp\Client` will be used as default.
+    new GuzzleHttp\Client(),
+    $config
+);
+$app_id = 'app_id_example'; // string
+$subscription_id = 'subscription_id_example'; // string
+$transfer_subscription_request_body = new \onesignal\client\model\TransferSubscriptionRequestBody(); // \onesignal\client\model\TransferSubscriptionRequestBody
+
+try {
+    $result = $apiInstance->transferSubscription($app_id, $subscription_id, $transfer_subscription_request_body);
+    print_r($result);
+} catch (Exception $e) {
+    echo 'Exception when calling DefaultApi->transferSubscription: ', $e->getMessage(), PHP_EOL;
+}
+```
+
+### Parameters
+
+Name | Type | Description  | Notes
+------------- | ------------- | ------------- | -------------
+ **app_id** | **string**|  |
+ **subscription_id** | **string**|  |
+ **transfer_subscription_request_body** | [**\onesignal\client\model\TransferSubscriptionRequestBody**](../Model/TransferSubscriptionRequestBody.md)|  |
+
+### Return type
+
+[**\onesignal\client\model\UserIdentityResponse**](../Model/UserIdentityResponse.md)
+
+### Authorization
+
+[app_key](../../README.md#app_key)
+
+### HTTP request headers
+
+- **Content-Type**: `application/json`
+- **Accept**: `application/json`
+
+[[Back to top]](#) [[Back to API list]](../../README.md#endpoints)
+[[Back to Model list]](../../README.md#models)
+[[Back to README]](../../README.md)
+
 ## `updateApp()`
 
 ```php
@@ -1123,6 +2131,73 @@ Name | Type | Description  | Notes
 ### Authorization
 
 [user_key](../../README.md#user_key)
+
+### HTTP request headers
+
+- **Content-Type**: `application/json`
+- **Accept**: `application/json`
+
+[[Back to top]](#) [[Back to API list]](../../README.md#endpoints)
+[[Back to Model list]](../../README.md#models)
+[[Back to README]](../../README.md)
+
+## `updateLiveActivity()`
+
+```php
+updateLiveActivity($app_id, $activity_id, $update_live_activity_request): \onesignal\client\model\UpdateLiveActivitySuccessResponse
+```
+
+Update a Live Activity via Push
+
+Updates a specified live activity.
+
+### Example
+
+```php
+<?php
+require_once(__DIR__ . '/vendor/autoload.php');
+
+
+// Configure Bearer authorization: app_key
+$config = onesignal\client\Configuration::getDefaultConfiguration()
+                                                ->setAppKeyToken('YOUR_APP_KEY_TOKEN')
+                                                ->setUserKeyToken('YOUR_USER_KEY_TOKEN');
+
+
+
+$apiInstance = new onesignal\client\Api\DefaultApi(
+    // If you want use custom http client, pass your client which implements `GuzzleHttp\ClientInterface`.
+    // This is optional, `GuzzleHttp\Client` will be used as default.
+    new GuzzleHttp\Client(),
+    $config
+);
+$app_id = 'app_id_example'; // string | The OneSignal App ID for your app.  Available in Keys & IDs.
+$activity_id = 'activity_id_example'; // string | Live Activity record ID
+$update_live_activity_request = new \onesignal\client\model\UpdateLiveActivityRequest(); // \onesignal\client\model\UpdateLiveActivityRequest
+
+try {
+    $result = $apiInstance->updateLiveActivity($app_id, $activity_id, $update_live_activity_request);
+    print_r($result);
+} catch (Exception $e) {
+    echo 'Exception when calling DefaultApi->updateLiveActivity: ', $e->getMessage(), PHP_EOL;
+}
+```
+
+### Parameters
+
+Name | Type | Description  | Notes
+------------- | ------------- | ------------- | -------------
+ **app_id** | **string**| The OneSignal App ID for your app.  Available in Keys &amp; IDs. |
+ **activity_id** | **string**| Live Activity record ID |
+ **update_live_activity_request** | [**\onesignal\client\model\UpdateLiveActivityRequest**](../Model/UpdateLiveActivityRequest.md)|  |
+
+### Return type
+
+[**\onesignal\client\model\UpdateLiveActivitySuccessResponse**](../Model/UpdateLiveActivitySuccessResponse.md)
+
+### Authorization
+
+[app_key](../../README.md#app_key)
 
 ### HTTP request headers
 
@@ -1251,6 +2326,141 @@ Name | Type | Description  | Notes
 ### Return type
 
 [**\onesignal\client\model\UpdatePlayerTagsSuccessResponse**](../Model/UpdatePlayerTagsSuccessResponse.md)
+
+### Authorization
+
+[app_key](../../README.md#app_key)
+
+### HTTP request headers
+
+- **Content-Type**: `application/json`
+- **Accept**: `application/json`
+
+[[Back to top]](#) [[Back to API list]](../../README.md#endpoints)
+[[Back to Model list]](../../README.md#models)
+[[Back to README]](../../README.md)
+
+## `updateSubscription()`
+
+```php
+updateSubscription($app_id, $subscription_id, $update_subscription_request_body)
+```
+
+
+
+Updates an existing Subscription’s properties.
+
+### Example
+
+```php
+<?php
+require_once(__DIR__ . '/vendor/autoload.php');
+
+
+// Configure Bearer authorization: app_key
+$config = onesignal\client\Configuration::getDefaultConfiguration()
+                                                ->setAppKeyToken('YOUR_APP_KEY_TOKEN')
+                                                ->setUserKeyToken('YOUR_USER_KEY_TOKEN');
+
+
+
+$apiInstance = new onesignal\client\Api\DefaultApi(
+    // If you want use custom http client, pass your client which implements `GuzzleHttp\ClientInterface`.
+    // This is optional, `GuzzleHttp\Client` will be used as default.
+    new GuzzleHttp\Client(),
+    $config
+);
+$app_id = 'app_id_example'; // string
+$subscription_id = 'subscription_id_example'; // string
+$update_subscription_request_body = new \onesignal\client\model\UpdateSubscriptionRequestBody(); // \onesignal\client\model\UpdateSubscriptionRequestBody
+
+try {
+    $apiInstance->updateSubscription($app_id, $subscription_id, $update_subscription_request_body);
+} catch (Exception $e) {
+    echo 'Exception when calling DefaultApi->updateSubscription: ', $e->getMessage(), PHP_EOL;
+}
+```
+
+### Parameters
+
+Name | Type | Description  | Notes
+------------- | ------------- | ------------- | -------------
+ **app_id** | **string**|  |
+ **subscription_id** | **string**|  |
+ **update_subscription_request_body** | [**\onesignal\client\model\UpdateSubscriptionRequestBody**](../Model/UpdateSubscriptionRequestBody.md)|  |
+
+### Return type
+
+void (empty response body)
+
+### Authorization
+
+[app_key](../../README.md#app_key)
+
+### HTTP request headers
+
+- **Content-Type**: `application/json`
+- **Accept**: `application/json`
+
+[[Back to top]](#) [[Back to API list]](../../README.md#endpoints)
+[[Back to Model list]](../../README.md#models)
+[[Back to README]](../../README.md)
+
+## `updateUser()`
+
+```php
+updateUser($app_id, $alias_label, $alias_id, $update_user_request): \onesignal\client\model\InlineResponse202
+```
+
+
+
+Updates an existing User’s properties.
+
+### Example
+
+```php
+<?php
+require_once(__DIR__ . '/vendor/autoload.php');
+
+
+// Configure Bearer authorization: app_key
+$config = onesignal\client\Configuration::getDefaultConfiguration()
+                                                ->setAppKeyToken('YOUR_APP_KEY_TOKEN')
+                                                ->setUserKeyToken('YOUR_USER_KEY_TOKEN');
+
+
+
+$apiInstance = new onesignal\client\Api\DefaultApi(
+    // If you want use custom http client, pass your client which implements `GuzzleHttp\ClientInterface`.
+    // This is optional, `GuzzleHttp\Client` will be used as default.
+    new GuzzleHttp\Client(),
+    $config
+);
+$app_id = 'app_id_example'; // string
+$alias_label = 'alias_label_example'; // string
+$alias_id = 'alias_id_example'; // string
+$update_user_request = new \onesignal\client\model\UpdateUserRequest(); // \onesignal\client\model\UpdateUserRequest
+
+try {
+    $result = $apiInstance->updateUser($app_id, $alias_label, $alias_id, $update_user_request);
+    print_r($result);
+} catch (Exception $e) {
+    echo 'Exception when calling DefaultApi->updateUser: ', $e->getMessage(), PHP_EOL;
+}
+```
+
+### Parameters
+
+Name | Type | Description  | Notes
+------------- | ------------- | ------------- | -------------
+ **app_id** | **string**|  |
+ **alias_label** | **string**|  |
+ **alias_id** | **string**|  |
+ **update_user_request** | [**\onesignal\client\model\UpdateUserRequest**](../Model/UpdateUserRequest.md)|  |
+
+### Return type
+
+[**\onesignal\client\model\InlineResponse202**](../Model/InlineResponse202.md)
 
 ### Authorization
 
