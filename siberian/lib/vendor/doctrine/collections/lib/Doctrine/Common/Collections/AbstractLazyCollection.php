@@ -3,6 +3,9 @@
 namespace Doctrine\Common\Collections;
 
 use Closure;
+use LogicException;
+use ReturnTypeWillChange;
+use Traversable;
 
 /**
  * Lazy collection that is backed by a concrete collection
@@ -16,8 +19,8 @@ abstract class AbstractLazyCollection implements Collection
     /**
      * The backed collection to use
      *
-     * @psalm-var Collection<TKey,T>
-     * @var Collection
+     * @psalm-var Collection<TKey,T>|null
+     * @var Collection<mixed>|null
      */
     protected $collection;
 
@@ -26,7 +29,10 @@ abstract class AbstractLazyCollection implements Collection
 
     /**
      * {@inheritDoc}
+     *
+     * @return int
      */
+    #[ReturnTypeWillChange]
     public function count()
     {
         $this->initialize();
@@ -55,6 +61,8 @@ abstract class AbstractLazyCollection implements Collection
 
     /**
      * {@inheritDoc}
+     *
+     * @template TMaybeContained
      */
     public function contains($element)
     {
@@ -254,6 +262,8 @@ abstract class AbstractLazyCollection implements Collection
 
     /**
      * {@inheritDoc}
+     *
+     * @template TMaybeContained
      */
     public function indexOf($element)
     {
@@ -274,7 +284,11 @@ abstract class AbstractLazyCollection implements Collection
 
     /**
      * {@inheritDoc}
+     *
+     * @return Traversable<int|string, mixed>
+     * @psalm-return Traversable<TKey,T>
      */
+    #[ReturnTypeWillChange]
     public function getIterator()
     {
         $this->initialize();
@@ -283,8 +297,11 @@ abstract class AbstractLazyCollection implements Collection
     }
 
     /**
-     * {@inheritDoc}
+     * @param TKey $offset
+     *
+     * @return bool
      */
+    #[ReturnTypeWillChange]
     public function offsetExists($offset)
     {
         $this->initialize();
@@ -293,8 +310,11 @@ abstract class AbstractLazyCollection implements Collection
     }
 
     /**
-     * {@inheritDoc}
+     * @param TKey $offset
+     *
+     * @return mixed
      */
+    #[ReturnTypeWillChange]
     public function offsetGet($offset)
     {
         $this->initialize();
@@ -303,8 +323,12 @@ abstract class AbstractLazyCollection implements Collection
     }
 
     /**
-     * {@inheritDoc}
+     * @param TKey|null $offset
+     * @param T         $value
+     *
+     * @return void
      */
+    #[ReturnTypeWillChange]
     public function offsetSet($offset, $value)
     {
         $this->initialize();
@@ -312,8 +336,11 @@ abstract class AbstractLazyCollection implements Collection
     }
 
     /**
-     * {@inheritDoc}
+     * @param TKey $offset
+     *
+     * @return void
      */
+    #[ReturnTypeWillChange]
     public function offsetUnset($offset)
     {
         $this->initialize();
@@ -324,6 +351,8 @@ abstract class AbstractLazyCollection implements Collection
      * Is the lazy collection already initialized?
      *
      * @return bool
+     *
+     * @psalm-assert-if-true Collection<TKey,T> $this->collection
      */
     public function isInitialized()
     {
@@ -334,6 +363,8 @@ abstract class AbstractLazyCollection implements Collection
      * Initialize the collection
      *
      * @return void
+     *
+     * @psalm-assert Collection<TKey,T> $this->collection
      */
     protected function initialize()
     {
@@ -343,6 +374,10 @@ abstract class AbstractLazyCollection implements Collection
 
         $this->doInitialize();
         $this->initialized = true;
+
+        if ($this->collection === null) {
+            throw new LogicException('You must initialize the collection property in the doInitialize() method.');
+        }
     }
 
     /**

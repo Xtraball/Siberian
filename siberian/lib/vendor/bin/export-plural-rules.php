@@ -1,1 +1,0 @@
-../gettext/languages/bin/export-plural-rules.php

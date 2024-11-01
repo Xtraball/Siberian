@@ -172,7 +172,7 @@ class SCP
                 return false;
             }
 
-            $fp = fopen($data, 'rb');
+            $fp = @fopen($data, 'rb');
             if (!$fp) {
                 return false;
             }
@@ -238,7 +238,7 @@ class SCP
         $size = 0;
 
         if ($local_file !== false) {
-            $fp = fopen($local_file, 'wb');
+            $fp = @fopen($local_file, 'wb');
             if (!$fp) {
                 return false;
             }
@@ -247,6 +247,13 @@ class SCP
         $content = '';
         while ($size < $info['size']) {
             $data = $this->_receive();
+
+            // Terminate the loop in case the server repeatedly sends an empty response
+            if ($data === false) {
+                user_error('No data received from server', E_USER_NOTICE);
+                return false;
+            }
+
             // SCP usually seems to split stuff out into 16k chunks
             $size+= strlen($data);
 

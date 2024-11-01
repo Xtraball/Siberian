@@ -1,0 +1,79 @@
+body {
+    font-family: Geneva, 'Lucida Sans', 'Lucida Grande', 'Lucida Sans Unicode', Verdana, sans-serif;
+    font-size: 14px;
+    text-align: center;
+}
+
+h3 {
+    display: block;
+    border-bottom: 1px solid #dedede;
+    padding-bottom: 15px;
+    padding-left: 15px;
+    margin-bottom: 0;
+    font-weight: bold;
+}
+
+.text-center {
+    text-align: center;
+}
+
+.text-right {
+    text-align: right;
+}
+
+a {
+    color: #0000BB;
+}
+
+code {
+    font-size: 14px;
+}
+
+table {
+    border: 1px solid #666;
+    margin: 0 auto 50px;
+    text-align: left;
+}
+
+table th,
+table td {
+    vertical-align: middle;
+}
+
+table thead th {
+    padding: 25px;
+    font-weight: normal;
+    border-bottom: 1px solid #dedede;
+    position: relative;
+}
+
+table thead th b {
+    display: inline-block;
+    border: 1px solid #000;
+    padding: 0 4px;
+    background: #F0F0F0;
+}
+
+table td {
+    padding: 25px;
+    position: relative;
+    border-bottom: 1px solid #dedede;
+}
+
+.image-container {
+    background: #ABCDEF;
+    padding: 10px;
+    width: 200px;
+    height: 200px;
+    text-align: center;
+}
+
+small {
+    position: absolute;
+    bottom: 15px;
+    right: 25px;
+}
+
+tr:last-child td {
+    border-bottom: none;
+}

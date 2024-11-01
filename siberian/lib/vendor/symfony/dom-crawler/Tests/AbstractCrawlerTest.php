@@ -13,6 +13,9 @@ namespace Symfony\Component\DomCrawler\Tests;
 
 use PHPUnit\Framework\TestCase;
 use Symfony\Component\DomCrawler\Crawler;
+use Symfony\Component\DomCrawler\Form;
+use Symfony\Component\DomCrawler\Image;
+use Symfony\Component\DomCrawler\Link;
 
 abstract class AbstractCrawlerTest extends TestCase
 {
@@ -78,14 +81,14 @@ abstract class AbstractCrawlerTest extends TestCase
 
     public function testAddInvalidType()
     {
-        $this->expectException('InvalidArgumentException');
+        $this->expectException(\InvalidArgumentException::class);
         $crawler = $this->createCrawler();
         $crawler->add(1);
     }
 
     public function testAddMultipleDocumentNode()
     {
-        $this->expectException('InvalidArgumentException');
+        $this->expectException(\InvalidArgumentException::class);
         $this->expectExceptionMessage('Attaching DOM nodes from multiple documents in the same crawler is forbidden.');
         $crawler = $this->createTestCrawler();
         $crawler->addHtmlContent($this->getDoctype().'<html><div class="foo"></html>', 'UTF-8');
@@ -133,7 +136,7 @@ abstract class AbstractCrawlerTest extends TestCase
     public function testAddHtmlContentCharsetGbk()
     {
         $crawler = $this->createCrawler();
-        //gbk encode of <html><p>中文</p></html>
+        // gbk encode of <html><p>中文</p></html>
         $crawler->addHtmlContent($this->getDoctype().base64_decode('PGh0bWw+PHA+1tDOxDwvcD48L2h0bWw+'), 'gbk');
 
         $this->assertEquals('中文', $crawler->filterXPath('//p')->text());
@@ -184,6 +187,10 @@ abstract class AbstractCrawlerTest extends TestCase
         $crawler = $this->createCrawler();
         $crawler->addContent($this->getDoctype().'<html><meta http-equiv="Content-Type" content="text/html; charset=utf-8" /><span>中文</span></html>');
         $this->assertEquals('中文', $crawler->filterXPath('//span')->text(), '->addContent() guess wrong charset');
+
+        $crawler = $this->createCrawler();
+        $crawler->addContent($this->getDoctype().'<html><meta http-equiv="Content-Type" content="text/html; charset=unicode" /><div class="foo"></html></html>');
+        $this->assertEquals('foo', $crawler->filterXPath('//div')->attr('class'), '->addContent() ignores bad charset');
     }
 
     /**
@@ -247,10 +254,26 @@ abstract class AbstractCrawlerTest extends TestCase
     {
         $crawler = $this->createTestCrawler()->filterXPath('//li');
         $this->assertNotSame($crawler, $crawler->eq(0), '->eq() returns a new instance of a crawler');
-        $this->assertInstanceOf('Symfony\\Component\\DomCrawler\\Crawler', $crawler, '->eq() returns a new instance of a crawler');
+        $this->assertInstanceOf(Crawler::class, $crawler->eq(0), '->eq() returns a new instance of a crawler');
 
         $this->assertEquals('Two', $crawler->eq(1)->text(), '->eq() returns the nth node of the list');
         $this->assertCount(0, $crawler->eq(100), '->eq() returns an empty crawler if the nth node does not exist');
+    }
+
+    public function testNormalizeWhiteSpace()
+    {
+        $crawler = $this->createTestCrawler()->filterXPath('//p');
+        $this->assertSame('Elsa <3', $crawler->text(null, true), '->text(null, true) returns the text with normalized whitespace');
+        $this->assertNotSame('Elsa <3', $crawler->text(null, false));
+    }
+
+    /**
+     * @group legacy
+     */
+    public function testLegacyNormalizeWhiteSpace()
+    {
+        $crawler = $this->createTestCrawler()->filterXPath('//p');
+        $this->assertNotSame('Elsa <3', $crawler->text());
     }
 
     public function testEach()
@@ -266,7 +289,7 @@ abstract class AbstractCrawlerTest extends TestCase
     {
         $crawler = $this->createTestCrawler()->filterXPath('//li');
 
-        $this->assertInstanceOf('Traversable', $crawler);
+        $this->assertInstanceOf(\Traversable::class, $crawler);
         $this->assertContainsOnlyInstancesOf('DOMElement', iterator_to_array($crawler), 'Iterating a Crawler gives DOMElement instances');
     }
 
@@ -274,7 +297,7 @@ abstract class AbstractCrawlerTest extends TestCase
     {
         $crawler = $this->createTestCrawler()->filterXPath('//ul[1]/li');
         $this->assertNotSame($crawler->slice(), $crawler, '->slice() returns a new instance of a crawler');
-        $this->assertInstanceOf('Symfony\\Component\\DomCrawler\\Crawler', $crawler->slice(), '->slice() returns a new instance of a crawler');
+        $this->assertInstanceOf(Crawler::class, $crawler->slice(), '->slice() returns a new instance of a crawler');
 
         $this->assertCount(3, $crawler->slice(), '->slice() does not slice the nodes in the list if any param is entered');
         $this->assertCount(1, $crawler->slice(1, 1), '->slice() slices the nodes in the list');
@@ -287,7 +310,7 @@ abstract class AbstractCrawlerTest extends TestCase
             return 1 !== $i;
         });
         $this->assertNotSame($nodes, $crawler, '->reduce() returns a new instance of a crawler');
-        $this->assertInstanceOf('Symfony\\Component\\DomCrawler\\Crawler', $nodes, '->reduce() returns a new instance of a crawler');
+        $this->assertInstanceOf(Crawler::class, $nodes, '->reduce() returns a new instance of a crawler');
 
         $this->assertCount(2, $nodes, '->reduce() filters the nodes in the list');
     }
@@ -356,6 +379,13 @@ abstract class AbstractCrawlerTest extends TestCase
         $this->assertSame('my value', $this->createTestCrawler(null)->filterXPath('//ol')->html('my value'));
     }
 
+    public function testEmojis()
+    {
+        $crawler = $this->createCrawler('<body><p>Hey 👋</p></body>');
+
+        $this->assertSame('<body><p>Hey 👋</p></body>', $crawler->html());
+    }
+
     public function testExtract()
     {
         $crawler = $this->createTestCrawler()->filterXPath('//ul[1]/li');
@@ -396,7 +426,7 @@ abstract class AbstractCrawlerTest extends TestCase
     {
         $crawler = $this->createTestCrawler();
         $this->assertNotSame($crawler, $crawler->filterXPath('//li'), '->filterXPath() returns a new instance of a crawler');
-        $this->assertInstanceOf('Symfony\\Component\\DomCrawler\\Crawler', $crawler, '->filterXPath() returns a new instance of a crawler');
+        $this->assertInstanceOf(Crawler::class, $crawler->filterXPath('//li'), '->filterXPath() returns a new instance of a crawler');
 
         $crawler = $this->createTestCrawler()->filterXPath('//ul');
         $this->assertCount(6, $crawler->filterXPath('//li'), '->filterXPath() filters the node list with the XPath expression');
@@ -563,7 +593,7 @@ abstract class AbstractCrawlerTest extends TestCase
     {
         $crawler = $this->createTestCrawler();
         $this->assertNotSame($crawler, $crawler->filter('li'), '->filter() returns a new instance of a crawler');
-        $this->assertInstanceOf('Symfony\\Component\\DomCrawler\\Crawler', $crawler, '->filter() returns a new instance of a crawler');
+        $this->assertInstanceOf(Crawler::class, $crawler->filter('li'), '->filter() returns a new instance of a crawler');
 
         $crawler = $this->createTestCrawler()->filter('ul');
 
@@ -616,7 +646,7 @@ abstract class AbstractCrawlerTest extends TestCase
     {
         $crawler = $this->createTestCrawler();
         $this->assertNotSame($crawler, $crawler->selectLink('Foo'), '->selectLink() returns a new instance of a crawler');
-        $this->assertInstanceOf('Symfony\\Component\\DomCrawler\\Crawler', $crawler, '->selectLink() returns a new instance of a crawler');
+        $this->assertInstanceOf(Crawler::class, $crawler->selectLink('Foo'), '->selectLink() returns a new instance of a crawler');
 
         $this->assertCount(1, $crawler->selectLink('Fabien\'s Foo'), '->selectLink() selects links by the node values');
         $this->assertCount(1, $crawler->selectLink('Fabien\'s Bar'), '->selectLink() selects links by the alt attribute of a clickable image');
@@ -635,7 +665,7 @@ abstract class AbstractCrawlerTest extends TestCase
     {
         $crawler = $this->createTestCrawler();
         $this->assertNotSame($crawler, $crawler->selectImage('Bar'), '->selectImage() returns a new instance of a crawler');
-        $this->assertInstanceOf('Symfony\\Component\\DomCrawler\\Crawler', $crawler, '->selectImage() returns a new instance of a crawler');
+        $this->assertInstanceOf(Crawler::class, $crawler->selectImage('Bar'), '->selectImage() returns a new instance of a crawler');
 
         $this->assertCount(1, $crawler->selectImage('Fabien\'s Bar'), '->selectImage() selects images by alt attribute');
         $this->assertCount(2, $crawler->selectImage('Fabien"s Bar'), '->selectImage() selects images by alt attribute');
@@ -646,7 +676,7 @@ abstract class AbstractCrawlerTest extends TestCase
     {
         $crawler = $this->createTestCrawler();
         $this->assertNotSame($crawler, $crawler->selectButton('FooValue'), '->selectButton() returns a new instance of a crawler');
-        $this->assertInstanceOf('Symfony\\Component\\DomCrawler\\Crawler', $crawler, '->selectButton() returns a new instance of a crawler');
+        $this->assertInstanceOf(Crawler::class, $crawler->selectButton('FooValue'), '->selectButton() returns a new instance of a crawler');
 
         $this->assertEquals(1, $crawler->selectButton('FooValue')->count(), '->selectButton() selects buttons');
         $this->assertEquals(1, $crawler->selectButton('FooName')->count(), '->selectButton() selects buttons');
@@ -703,7 +733,7 @@ HTML;
     public function testLink()
     {
         $crawler = $this->createTestCrawler('http://example.com/bar/')->selectLink('Foo');
-        $this->assertInstanceOf('Symfony\\Component\\DomCrawler\\Link', $crawler->link(), '->link() returns a Link instance');
+        $this->assertInstanceOf(Link::class, $crawler->link(), '->link() returns a Link instance');
 
         $this->assertEquals('POST', $crawler->link('post')->getMethod(), '->link() takes a method as its argument');
 
@@ -720,7 +750,7 @@ HTML;
 
     public function testInvalidLink()
     {
-        $this->expectException('InvalidArgumentException');
+        $this->expectException(\InvalidArgumentException::class);
         $this->expectExceptionMessage('The selected node should be instance of DOMElement');
         $crawler = $this->createTestCrawler('http://example.com/bar/');
         $crawler->filterXPath('//li/text()')->link();
@@ -728,7 +758,7 @@ HTML;
 
     public function testInvalidLinks()
     {
-        $this->expectException('InvalidArgumentException');
+        $this->expectException(\InvalidArgumentException::class);
         $this->expectExceptionMessage('The selected node should be instance of DOMElement');
         $crawler = $this->createTestCrawler('http://example.com/bar/');
         $crawler->filterXPath('//li/text()')->link();
@@ -737,7 +767,7 @@ HTML;
     public function testImage()
     {
         $crawler = $this->createTestCrawler('http://example.com/bar/')->selectImage('Bar');
-        $this->assertInstanceOf('Symfony\\Component\\DomCrawler\\Image', $crawler->image(), '->image() returns an Image instance');
+        $this->assertInstanceOf(Image::class, $crawler->image(), '->image() returns an Image instance');
 
         try {
             $this->createTestCrawler()->filterXPath('//ol')->image();
@@ -791,7 +821,7 @@ HTML;
 
         $this->assertCount(4, $crawler->links(), '->links() returns an array');
         $links = $crawler->links();
-        $this->assertInstanceOf('Symfony\\Component\\DomCrawler\\Link', $links[0], '->links() returns an array of Link instances');
+        $this->assertContainsOnlyInstancesOf('Symfony\\Component\\DomCrawler\\Link', $links, '->links() returns an array of Link instances');
 
         $this->assertEquals([], $this->createTestCrawler()->filterXPath('//ol')->links(), '->links() returns an empty array if the node selection is empty');
     }
@@ -803,7 +833,7 @@ HTML;
 
         $this->assertCount(4, $crawler->images(), '->images() returns an array');
         $images = $crawler->images();
-        $this->assertInstanceOf('Symfony\\Component\\DomCrawler\\Image', $images[0], '->images() returns an array of Image instances');
+        $this->assertContainsOnlyInstancesOf('Symfony\\Component\\DomCrawler\\Image', $images, '->images() returns an array of Image instances');
 
         $this->assertEquals([], $this->createTestCrawler()->filterXPath('//ol')->links(), '->links() returns an empty array if the node selection is empty');
     }
@@ -813,8 +843,8 @@ HTML;
         $testCrawler = $this->createTestCrawler('http://example.com/bar/');
         $crawler = $testCrawler->selectButton('FooValue');
         $crawler2 = $testCrawler->selectButton('FooBarValue');
-        $this->assertInstanceOf('Symfony\\Component\\DomCrawler\\Form', $crawler->form(), '->form() returns a Form instance');
-        $this->assertInstanceOf('Symfony\\Component\\DomCrawler\\Form', $crawler2->form(), '->form() returns a Form instance');
+        $this->assertInstanceOf(Form::class, $crawler->form(), '->form() returns a Form instance');
+        $this->assertInstanceOf(Form::class, $crawler2->form(), '->form() returns a Form instance');
 
         $this->assertEquals($crawler->form()->getFormNode()->getAttribute('id'), $crawler2->form()->getFormNode()->getAttribute('id'), '->form() works on elements with form attribute');
 
@@ -832,7 +862,7 @@ HTML;
 
     public function testInvalidForm()
     {
-        $this->expectException('InvalidArgumentException');
+        $this->expectException(\InvalidArgumentException::class);
         $this->expectExceptionMessage('The selected node should be instance of DOMElement');
         $crawler = $this->createTestCrawler('http://example.com/bar/');
         $crawler->filterXPath('//li/text()')->form();
@@ -842,7 +872,7 @@ HTML;
     {
         $crawler = $this->createTestCrawler()->filterXPath('//ul[1]/li');
         $this->assertNotSame($crawler, $crawler->last(), '->last() returns a new instance of a crawler');
-        $this->assertInstanceOf('Symfony\\Component\\DomCrawler\\Crawler', $crawler, '->last() returns a new instance of a crawler');
+        $this->assertInstanceOf(Crawler::class, $crawler->last(), '->last() returns a new instance of a crawler');
 
         $this->assertEquals('Three', $crawler->last()->text());
     }
@@ -851,7 +881,7 @@ HTML;
     {
         $crawler = $this->createTestCrawler()->filterXPath('//li');
         $this->assertNotSame($crawler, $crawler->first(), '->first() returns a new instance of a crawler');
-        $this->assertInstanceOf('Symfony\\Component\\DomCrawler\\Crawler', $crawler, '->first() returns a new instance of a crawler');
+        $this->assertInstanceOf(Crawler::class, $crawler->first(), '->first() returns a new instance of a crawler');
 
         $this->assertEquals('One', $crawler->first()->text());
     }
@@ -860,7 +890,7 @@ HTML;
     {
         $crawler = $this->createTestCrawler()->filterXPath('//li')->eq(1);
         $this->assertNotSame($crawler, $crawler->siblings(), '->siblings() returns a new instance of a crawler');
-        $this->assertInstanceOf('Symfony\\Component\\DomCrawler\\Crawler', $crawler, '->siblings() returns a new instance of a crawler');
+        $this->assertInstanceOf(Crawler::class, $crawler->siblings(), '->siblings() returns a new instance of a crawler');
 
         $nodes = $crawler->siblings();
         $this->assertEquals(2, $nodes->count());
@@ -880,11 +910,110 @@ HTML;
         }
     }
 
+    public function provideMatchTests()
+    {
+        yield ['#foo', true, '#foo'];
+        yield ['#foo', true, '.foo'];
+        yield ['#foo', true, '.other'];
+        yield ['#foo', false, '.bar'];
+
+        yield ['#bar', true, '#bar'];
+        yield ['#bar', true, '.bar'];
+        yield ['#bar', true, '.other'];
+        yield ['#bar', false, '.foo'];
+    }
+
+    /** @dataProvider provideMatchTests */
+    public function testMatch(string $mainNodeSelector, bool $expected, string $selector)
+    {
+        $html = <<<'HTML'
+<html lang="en">
+<body>
+    <div id="foo" class="foo other">
+        <div>
+            <div id="bar" class="bar other"></div>
+        </div>
+    </div>
+</body>
+</html>
+HTML;
+
+        $crawler = $this->createCrawler($this->getDoctype().$html);
+        $node = $crawler->filter($mainNodeSelector);
+        $this->assertSame($expected, $node->matches($selector));
+    }
+
+    public function testClosest()
+    {
+        $html = <<<'HTML'
+<html lang="en">
+<body>
+    <div class="lorem2 ok">
+        <div>
+            <div class="lorem3 ko"></div>
+        </div>
+        <div class="lorem1 ok">
+            <div id="foo" class="newFoo ok">
+                <div class="lorem1 ko"></div>
+            </div>
+        </div>
+    </div>
+    <div class="lorem2 ko">
+    </div>
+</body>
+</html>
+HTML;
+
+        $crawler = $this->createCrawler($this->getDoctype().$html);
+        $foo = $crawler->filter('#foo');
+
+        $newFoo = $foo->closest('#foo');
+        $this->assertInstanceOf(Crawler::class, $newFoo);
+        $this->assertSame('newFoo ok', $newFoo->attr('class'));
+
+        $lorem1 = $foo->closest('.lorem1');
+        $this->assertInstanceOf(Crawler::class, $lorem1);
+        $this->assertSame('lorem1 ok', $lorem1->attr('class'));
+
+        $lorem2 = $foo->closest('.lorem2');
+        $this->assertInstanceOf(Crawler::class, $lorem2);
+        $this->assertSame('lorem2 ok', $lorem2->attr('class'));
+
+        $lorem3 = $foo->closest('.lorem3');
+        $this->assertNull($lorem3);
+
+        $notFound = $foo->closest('.not-found');
+        $this->assertNull($notFound);
+    }
+
+    public function testOuterHtml()
+    {
+        $html = <<<'HTML'
+<html lang="en">
+<body>
+    <div class="foo">
+    <ul>
+        <li>1</li>
+        <li>2</li>
+        <li>3</li>
+    </ul>
+</body>
+</html>
+HTML;
+
+        $crawler = $this->createCrawler($this->getDoctype().$html);
+        $bar = $crawler->filter('ul');
+        $output = $bar->outerHtml();
+        $output = str_replace([' ', "\n"], '', $output);
+        $expected = '<ul><li>1</li><li>2</li><li>3</li></ul>';
+        $this->assertSame($expected, $output);
+    }
+
     public function testNextAll()
     {
         $crawler = $this->createTestCrawler()->filterXPath('//li')->eq(1);
         $this->assertNotSame($crawler, $crawler->nextAll(), '->nextAll() returns a new instance of a crawler');
-        $this->assertInstanceOf('Symfony\\Component\\DomCrawler\\Crawler', $crawler, '->nextAll() returns a new instance of a crawler');
+        $this->assertInstanceOf(Crawler::class, $crawler->nextAll(), '->nextAll() returns a new instance of a crawler');
 
         $nodes = $crawler->nextAll();
         $this->assertEquals(1, $nodes->count());
@@ -902,7 +1031,7 @@ HTML;
     {
         $crawler = $this->createTestCrawler()->filterXPath('//li')->eq(2);
         $this->assertNotSame($crawler, $crawler->previousAll(), '->previousAll() returns a new instance of a crawler');
-        $this->assertInstanceOf('Symfony\\Component\\DomCrawler\\Crawler', $crawler, '->previousAll() returns a new instance of a crawler');
+        $this->assertInstanceOf(Crawler::class, $crawler->previousAll(), '->previousAll() returns a new instance of a crawler');
 
         $nodes = $crawler->previousAll();
         $this->assertEquals(2, $nodes->count());
@@ -920,7 +1049,7 @@ HTML;
     {
         $crawler = $this->createTestCrawler()->filterXPath('//ul');
         $this->assertNotSame($crawler, $crawler->children(), '->children() returns a new instance of a crawler');
-        $this->assertInstanceOf('Symfony\\Component\\DomCrawler\\Crawler', $crawler, '->children() returns a new instance of a crawler');
+        $this->assertInstanceOf(Crawler::class, $crawler->children(), '->children() returns a new instance of a crawler');
 
         $nodes = $crawler->children();
         $this->assertEquals(3, $nodes->count());
@@ -980,7 +1109,7 @@ HTML;
     {
         $crawler = $this->createTestCrawler()->filterXPath('//li[1]');
         $this->assertNotSame($crawler, $crawler->parents(), '->parents() returns a new instance of a crawler');
-        $this->assertInstanceOf('Symfony\\Component\\DomCrawler\\Crawler', $crawler, '->parents() returns a new instance of a crawler');
+        $this->assertInstanceOf(Crawler::class, $crawler->parents(), '->parents() returns a new instance of a crawler');
 
         $nodes = $crawler->parents();
         $this->assertEquals(3, $nodes->count());
@@ -1084,7 +1213,7 @@ HTML;
 
     public function testEvaluateThrowsAnExceptionIfDocumentIsEmpty()
     {
-        $this->expectException('LogicException');
+        $this->expectException(\LogicException::class);
         $this->createCrawler()->evaluate('//form/input[1]');
     }
 
@@ -1192,6 +1321,10 @@ HTML;
                         <li>Two Bis</li>
                         <li>Three Bis</li>
                     </ul>
+                    <p class="whitespace">
+                        Elsa
+                        &lt;3
+                    </p>
                     <div id="parent">
                         <div id="child"></div>
                         <div id="child2" xmlns:foo="http://example.com"></div>

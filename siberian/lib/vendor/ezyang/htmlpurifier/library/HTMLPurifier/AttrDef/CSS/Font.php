@@ -155,7 +155,7 @@ class HTMLPurifier_AttrDef_CSS_Font extends HTMLPurifier_AttrDef
                     return false;
                 case 2: // attempting to catch font-family
                     $font_family =
-                        implode_polyfill(' ', array_slice($bits, $i, $size - $i));
+                        implode(' ', array_slice($bits, $i, $size - $i));
                     $r = $this->info['font-family']->validate(
                         $font_family,
                         $config,

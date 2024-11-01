@@ -1,11 +1,11 @@
 language: php
 
 php:
-  - 7.0
   - 7.1
   - 7.2
-  - nightly
-  - hhvm
+  - 7.3
+  - 7.4
+  - 8.0
 
 env:
   global:
@@ -13,12 +13,6 @@ env:
 
 matrix:
   fast_finish: true
-  include:
-    - php: 5.3
-      env: COMPOSER_FLAGS="--prefer-lowest"
-  allow_failures:
-    - php: nightly
-    - php: hhvm
 
 sudo: false
 
@@ -28,7 +22,6 @@ cache:
 
 before_script:
   - composer selfupdate
-  - composer config -g github-oauth.github.com $GITHUB_OAUTH_TOKEN
   - composer global require phpunit/phpunit --no-update
   - composer global update --prefer-dist --no-interaction
   - composer update --prefer-dist --no-interaction $COMPOSER_FLAGS

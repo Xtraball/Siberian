@@ -168,11 +168,16 @@ class MessageFormatter
         );
     }
 
+    /**
+     * Get headers from message as string
+     *
+     * @return string
+     */
     private function headers(MessageInterface $message)
     {
         $result = '';
         foreach ($message->getHeaders() as $name => $values) {
-            $result .= $name . ': ' . implode_polyfill(', ', $values) . "\r\n";
+            $result .= $name . ': ' . implode(', ', $values) . "\r\n";
         }
 
         return trim($result);

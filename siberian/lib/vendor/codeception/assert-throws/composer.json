@@ -1,0 +1,24 @@
+{
+    "name": "codeception/assert-throws",
+    "description": "Assert exception was thrown without stopping a test",
+    "type": "library",
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "davert",
+            "email": "davert@codeception.com"
+        },
+        {
+            "name": "Gustavo Nieves",
+            "homepage": "https://medium.com/@ganieves"
+        }
+    ],
+    "require": {
+        "phpunit/phpunit": "^8.0|^9.0|^10.0|^11.0"
+    },
+    "autoload": {
+       "psr-4": {
+           "Codeception\\": "./"
+       }
+    }
+}

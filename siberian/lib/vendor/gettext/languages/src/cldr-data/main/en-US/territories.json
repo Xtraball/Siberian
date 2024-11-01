@@ -3,15 +3,14 @@
     "en-US": {
       "identity": {
         "version": {
-          "_number": "$Revision: 13869 $",
-          "_cldrVersion": "34"
+          "_cldrVersion": "42"
         },
         "language": "en",
         "territory": "US"
       },
       "localeDisplayNames": {
         "territories": {
-          "001": "World",
+          "001": "world",
           "002": "Africa",
           "003": "North America",
           "005": "South America",
@@ -100,6 +99,7 @@
           "CR": "Costa Rica",
           "CU": "Cuba",
           "CV": "Cape Verde",
+          "CV-alt-variant": "Cabo Verde",
           "CW": "Curaçao",
           "CX": "Christmas Island",
           "CY": "Cyprus",
@@ -200,14 +200,13 @@
           "MF": "St. Martin",
           "MG": "Madagascar",
           "MH": "Marshall Islands",
-          "MK": "Macedonia",
-          "MK-alt-variant": "Macedonia (FYROM)",
+          "MK": "North Macedonia",
           "ML": "Mali",
           "MM": "Myanmar (Burma)",
           "MM-alt-short": "Myanmar",
           "MN": "Mongolia",
-          "MO": "Macau SAR China",
-          "MO-alt-short": "Macau",
+          "MO": "Macao SAR China",
+          "MO-alt-short": "Macao",
           "MP": "Northern Mariana Islands",
           "MQ": "Martinique",
           "MR": "Mauritania",
@@ -231,6 +230,7 @@
           "NR": "Nauru",
           "NU": "Niue",
           "NZ": "New Zealand",
+          "NZ-alt-variant": "Aotearoa New Zealand",
           "OM": "Oman",
           "PA": "Panama",
           "PE": "Peru",
@@ -274,7 +274,8 @@
           "SV": "El Salvador",
           "SX": "Sint Maarten",
           "SY": "Syria",
-          "SZ": "Swaziland",
+          "SZ": "Eswatini",
+          "SZ-alt-variant": "Swaziland",
           "TA": "Tristan da Cunha",
           "TC": "Turks & Caicos Islands",
           "TD": "Chad",
@@ -289,6 +290,7 @@
           "TN": "Tunisia",
           "TO": "Tonga",
           "TR": "Turkey",
+          "TR-alt-variant": "Türkiye",
           "TT": "Trinidad & Tobago",
           "TV": "Tuvalu",
           "TW": "Taiwan",

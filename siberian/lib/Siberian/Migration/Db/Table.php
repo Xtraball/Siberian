@@ -731,8 +731,17 @@ class Siberian_Migration_Db_Table extends Zend_Db_Table_Abstract
         try {
             $this->execSafe($create);
         } catch (Exception $e) {
-            self::$lastExceptions[] = $e;
-            return false;
+            // if ($e->getMessage()) includes SQLSTATE[42S01]
+            var_dump($e->getMessage());
+
+//            if (strpos($e->getMessage(), "SQLSTATE[42S01]") !== false) {
+//                $this->logger->info("[Table::createTable] Table '{$this->tableName}' already exists.");
+//                return true;
+//            } else {
+//                self::$lastExceptions[] = $e;
+//                self::$lastExceptions[] = $e->getMessage();
+//                return false;
+//            }
         }
 
         return true;

@@ -1,4 +1,5 @@
 <?php
+
 namespace Gettext\Languages;
 
 use Exception;
@@ -10,48 +11,66 @@ class Language
 {
     /**
      * The language ID.
+     *
      * @var string
      */
     public $id;
+
     /**
      * The language name.
+     *
      * @var string
      */
     public $name;
+
     /**
      * If this language is deprecated: the gettext code of the new language.
-     * @var null|string
+     *
+     * @var string|null
      */
     public $supersededBy;
+
     /**
      * The script name.
+     *
      * @var string|null
      */
     public $script;
+
     /**
      * The territory name.
+     *
      * @var string|null
      */
     public $territory;
+
     /**
-     * The name of the base language
+     * The name of the base language.
+     *
      * @var string|null
      */
     public $baseLanguage;
+
     /**
      * The list of categories.
-     * @var Category[]
+     *
+     * @var \Gettext\Languages\Category[]
      */
     public $categories;
+
     /**
      * The gettext formula to decide which category should be applied.
+     *
      * @var string
      */
     public $formula;
+
     /**
      * Initialize the instance and parse the language code.
+     *
      * @param array $info The result of CldrData::getLanguageInfo()
-     * @throws Exception Throws an Exception if $fullId is not valid.
+     *
+     * @throws \Exception throws an Exception if $fullId is not valid
      */
     private function __construct($info)
     {
@@ -81,47 +100,108 @@ class Language
         });
         // The 'other' category should always be there
         if ($this->categories[count($this->categories) - 1]->id !== CldrData::OTHER_CATEGORY) {
-            throw new Exception("The language '{$info['id']}' does not have the '".CldrData::OTHER_CATEGORY."' plural category");
+            throw new Exception("The language '{$info['id']}' does not have the '" . CldrData::OTHER_CATEGORY . "' plural category");
         }
         $this->checkAlwaysTrueCategories();
         $this->checkAlwaysFalseCategories();
         $this->checkAllCategoriesWithExamples();
         $this->formula = $this->buildFormula();
     }
+
     /**
      * Return a list of all languages available.
-     * @throws Exception
-     * @return Language[]
+     *
+     * @throws \Exception
+     *
+     * @return \Gettext\Languages\Language[]
      */
     public static function getAll()
     {
         $result = array();
         foreach (array_keys(CldrData::getLanguageNames()) as $cldrLanguageId) {
-            $result[] = new Language(CldrData::getLanguageInfo($cldrLanguageId));
+            $result[] = new self(CldrData::getLanguageInfo($cldrLanguageId));
         }
 
         return $result;
     }
+
     /**
-     * Return a Language instance given the language id
+     * Return a Language instance given the language id.
+     *
      * @param string $id
-     * @return Language|null
+     *
+     * @return \Gettext\Languages\Language|null
      */
     public static function getById($id)
     {
         $result = null;
         $info = CldrData::getLanguageInfo($id);
         if (isset($info)) {
-            $result = new Language($info);
+            $result = new self($info);
         }
 
         return $result;
     }
 
     /**
+     * Returns a clone of this instance with all the strings to US-ASCII.
+     *
+     * @return \Gettext\Languages\Language
+     */
+    public function getUSAsciiClone()
+    {
+        $clone = clone $this;
+        self::asciifier($clone->name);
+        self::asciifier($clone->formula);
+        $clone->categories = array();
+        foreach ($this->categories as $category) {
+            $categoryClone = clone $category;
+            self::asciifier($categoryClone->examples);
+            $clone->categories[] = $categoryClone;
+        }
+
+        return $clone;
+    }
+
+    /**
+     * Build the formula starting from the currently defined categories.
+     *
+     * @param bool $withoutParenthesis TRUE to build a formula in standard gettext format, FALSE (default) to build a PHP-compatible formula
+     *
+     * @return string
+     */
+    public function buildFormula($withoutParenthesis = false)
+    {
+        $numCategories = count($this->categories);
+        switch ($numCategories) {
+            case 1:
+                // Just one category
+                return '0';
+            case 2:
+                return self::reduceFormula(self::reverseFormula($this->categories[0]->formula));
+            default:
+                $formula = (string) ($numCategories - 1);
+                for ($i = $numCategories - 2; $i >= 0; $i--) {
+                    $f = self::reduceFormula($this->categories[$i]->formula);
+                    if (!$withoutParenthesis && !preg_match('/^\([^()]+\)$/', $f)) {
+                        $f = "({$f})";
+                    }
+                    $formula = "{$f} ? {$i} : {$formula}";
+                    if (!$withoutParenthesis && $i > 0) {
+                        $formula = "({$formula})";
+                    }
+                }
+
+                return $formula;
+        }
+    }
+
+    /**
      * Let's look for categories that will always occur.
      * This because with decimals (CLDR) we may have more cases, with integers (gettext) we have just one case.
      * If we found that (single) category we reduce the categories to that one only.
+     *
+     * @throws \Exception
      */
     private function checkAlwaysTrueCategories()
     {
@@ -146,10 +226,13 @@ class Language
             $this->categories = array($alwaysTrueCategory);
         }
     }
+
     /**
      * Let's look for categories that will never occur.
      * This because with decimals (CLDR) we may have more cases, with integers (gettext) we have some less cases.
      * If we found those categories we strip them out.
+     *
+     * @throws \Exception
      */
     private function checkAlwaysFalseCategories()
     {
@@ -165,11 +248,13 @@ class Language
         }
         $this->categories = $filtered;
     }
+
     /**
      * Let's look for categories that don't have examples.
      * This because with decimals (CLDR) we may have more cases, with integers (gettext) we have some less cases.
      * If we found those categories, we check that they never occur and we strip them out.
-     * @throws Exception
+     *
+     * @throws \Exception
      */
     private function checkAllCategoriesWithExamples()
     {
@@ -190,8 +275,8 @@ class Language
             return;
         }
         $removeCategoriesWithoutExamples = false;
-        switch (implode_polyfill(',', $badCategoriesIds).'@'.implode_polyfill(',', $allCategoriesIds)) {
-            case CldrData::OTHER_CATEGORY.'@one,few,many,'.CldrData::OTHER_CATEGORY:
+        switch (implode(',', $badCategoriesIds) . '@' . implode(',', $allCategoriesIds)) {
+            case CldrData::OTHER_CATEGORY . '@one,few,many,' . CldrData::OTHER_CATEGORY:
                 switch ($this->buildFormula()) {
                     case '(n % 10 == 1 && n % 100 != 11) ? 0 : ((n % 10 >= 2 && n % 10 <= 4 && (n % 100 < 12 || n % 100 > 14)) ? 1 : ((n % 10 == 0 || n % 10 >= 5 && n % 10 <= 9 || n % 100 >= 11 && n % 100 <= 14) ? 2 : 3))':
                         // Numbers ending with 0                 => case 2 ('many')
@@ -232,7 +317,7 @@ class Language
                 }
         }
         if (!$removeCategoriesWithoutExamples) {
-            throw new Exception("Unhandled case of plural categories without examples '".implode_polyfill(', ', $badCategoriesIds)."' out of '".implode_polyfill(', ', $allCategoriesIds)."'");
+            throw new Exception("Unhandled case of plural categories without examples '" . implode(', ', $badCategoriesIds) . "' out of '" . implode(', ', $allCategoriesIds) . "'");
         }
         if ($badCategories[count($badCategories) - 1]->id === CldrData::OTHER_CATEGORY) {
             // We're removing the 'other' cagory: let's change the last good category to 'other'
@@ -242,39 +327,14 @@ class Language
         }
         $this->categories = $goodCategories;
     }
-    /**
-     * Build the formula starting from the currently defined categories.
-     * @return string
-     */
-    private function buildFormula()
-    {
-        $numCategories = count($this->categories);
-        switch ($numCategories) {
-            case 1:
-                // Just one category
-                return '0';
-            case 2:
-                return self::reduceFormula(self::reverseFormula($this->categories[0]->formula));
-            default:
-                $formula = strval($numCategories - 1);
-                for ($i = $numCategories - 2; $i >= 0; $i--) {
-                    $f = self::reduceFormula($this->categories[$i]->formula);
-                    if (!preg_match('/^\([^()]+\)$/', $f)) {
-                        $f = "($f)";
-                    }
-                    $formula = "$f ? $i : $formula";
-                    if ($i > 0) {
-                        $formula = "($formula)";
-                    }
-                }
 
-                return $formula;
-        }
-    }
     /**
      * Reverse a formula.
+     *
      * @param string $formula
-     * @throws Exception
+     *
+     * @throws \Exception
+     *
      * @return string
      */
     private static function reverseFormula($formula)
@@ -298,69 +358,54 @@ class Language
             case '(n == 0 || n == 1) || n >= 11 && n <= 99':
                 return 'n >= 2 && (n < 11 || n > 99)';
         }
-        throw new Exception("Unable to reverse the formula '$formula'");
+        throw new Exception("Unable to reverse the formula '{$formula}'");
     }
+
     /**
      * Reduce some excessively complex formulas.
+     *
      * @param string $formula
+     *
      * @return string
      */
     private static function reduceFormula($formula)
     {
         $map = array(
-            'n != 0 && n != 1'              =>  'n > 1' ,
-            '(n == 0 || n == 1) && n != 0'  =>  'n == 1',
+            'n != 0 && n != 1' => 'n > 1',
+            '(n == 0 || n == 1) && n != 0' => 'n == 1',
         );
 
         return isset($map[$formula]) ? $map[$formula] : $formula;
     }
+
     /**
      * Take one variable and, if it's a string, we transliterate it to US-ASCII.
-     * @param mixed $value The variable to work on.
-     * @throws Exception
+     *
+     * @param mixed $value the variable to work on
+     *
+     * @throws \Exception
      */
     private static function asciifier(&$value)
     {
-        if (is_string($value) && ($value !== '')) {
+        if (is_string($value) && $value !== '') {
             // Avoid converting from 'Ÿ' to '"Y', let's prefer 'Y'
-            $transliterated = strtr($value, array(
-                'À' => 'A', 'Á' => 'A', 'Â' => 'A', 'Ã' => 'A', 'Ä' => 'A',
+            $value = strtr($value, array(
+                'À' => 'A', 'Á' => 'A', 'Â' => 'A', 'Ã' => 'A', 'Ä' => 'A', 'Å' => 'A',
                 'È' => 'E', 'É' => 'E', 'Ê' => 'E', 'Ë' => 'E',
                 'Ì' => 'I', 'Í' => 'I', 'Î' => 'I', 'Ï' => 'I',
                 'Ñ' => 'N',
                 'Ò' => 'O', 'Ó' => 'O', 'Ô' => 'O', 'Õ' => 'O', 'Ö' => 'O',
                 'Ù' => 'U', 'Ú' => 'U', 'Û' => 'U', 'Ü' => 'U',
                 'Ÿ' => 'Y', 'Ý' => 'Y',
-                'à' => 'a', 'á' => 'a', 'â' => 'a', 'ã' => 'a', 'ä' => 'a',
+                'à' => 'a', 'á' => 'a', 'â' => 'a', 'ã' => 'a', 'ä' => 'a', 'å' => 'a',
                 'è' => 'e', 'é' => 'e', 'ê' => 'e', 'ë' => 'e',
                 'ì' => 'i', 'í' => 'i', 'î' => 'i', 'ï' => 'i',
                 'ñ' => 'n', 'ò' => 'o', 'ó' => 'o', 'ô' => 'o', 'õ' => 'o', 'ö' => 'o',
                 'ù' => 'u', 'ú' => 'u', 'û' => 'u', 'ü' => 'u',
                 'ý' => 'y', 'ÿ' => 'y',
+                '…' => '...',
+                'ʼ' => "'", '’' => "'",
             ));
-            $transliterated = @iconv('UTF-8', 'US-ASCII//IGNORE//TRANSLIT', $transliterated);
-            if (($transliterated === false) || ($transliterated === '')) {
-                throw new Exception("Unable to transliterate '$value'");
-            }
-            $value = $transliterated;
         }
-    }
-    /**
-     * Returns a clone of this instance with all the strings to US-ASCII.
-     * @return Language
-     */
-    public function getUSAsciiClone()
-    {
-        $clone = clone $this;
-        self::asciifier($clone->name);
-        self::asciifier($clone->formula);
-        $clone->categories = array();
-        foreach ($this->categories as $category) {
-            $categoryClone = clone $category;
-            self::asciifier($categoryClone->examples);
-            $clone->categories[] = $categoryClone;
-        }
-
-        return $clone;
     }
 }

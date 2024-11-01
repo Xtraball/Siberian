@@ -1,0 +1,5 @@
+actor: UnitTester
+modules:
+    enabled:
+        - \Helper\ZF1Helper
+        - \Helper\Unit

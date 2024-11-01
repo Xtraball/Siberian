@@ -1,3 +1,40 @@
+## version 2.8.2 (January 25, 2023)
+
+- added support for BMP; see [#27](https://github.com/stefangabos/Zebra_Image/issues/27); thanks [icret](https://github.com/icret) for suggesting
+- fixed some issues with WEBP images
+
+## version 2.8.1 (December 29, 2022)
+
+- fixed an issue where in PHP 8 the script would break with certain GIF images; see [#26](https://github.com/stefangabos/Zebra_Image/issues/26) - thank you [Marcus Nyberg](https://github.com/mce1978) for reporting!
+- fixed issue where animated WEBP images would break the script; animated WEBP images are not (yet) supported by GD; thanks to [Yani](https://github.com/yani) for reporting this one - see [#25](https://github.com/stefangabos/Zebra_Image/issues/25)
+
+## version 2.8.0 (August 17, 2022)
+
+- fixed potential warning when dealing with bad EXIF information; see [#24](https://github.com/stefangabos/Zebra_Image/pull/24); thank you [userlond](https://github.com/userlond) for the fix!
+- fixed a bug with `WEBP` images in PHP version lower than 7.0.1
+- fixed a potential bug when using `ZEBRA_IMAGE_BOXED` or `ZEBRA_IMAGE_NOT_BOXED` methods when resizing
+- lots of minor bug fixes and source code formatting because we are now using [PHPStan](https://github.com/phpstan/phpstan) for static code analysis and [PHP CodeSniffer](https://github.com/squizlabs/PHP_CodeSniffer) for detecting coding standards violations, which are now [PSR12](https://www.php-fig.org/psr/psr-12/)-ish with a few of the rules excluded
+
+## version 2.7.0 (May 29, 2022)
+
+- fixed an issue where starting with PHP 8.0 GdImage class objects replace GD image resources; see [here](https://php.watch/versions/8.0/gdimage)
+- fixed an issue where starting with PHP 8.1 sending a float value as width/height arguments instead of an interger would trigger a warning; see [here](https://php.watch/versions/8.1/deprecate-implicit-conversion-incompatible-float-string)
+
+## version 2.6.0 (May 29, 2020)
+
+- added sport for the WEBP format
+- handle GD bug where transparency is lost when rotating at angles of 90, 180 and 270 degrees
+- fixed [#22](https://github.com/stefangabos/Zebra_Image/issues/22); thanks to [Almir Neto](https://github.com/AlmirNeeto99) for reporting!
+
+## version 2.5.0 (February 16, 2020)
+
+- fixed bug introduced in previous release because of the new argument added to the crop method
+- progressive JPEGs can now be saved by setting the newly added [jpeg_interlace](https://stefangabos.github.io/Zebra_Image/Zebra_Image/Zebra_Image.html#var$jpeg_interlace) property; thanks [tohizma](https://github.com/tohizma) for suggesting!
+
+## version 2.4.0 (January 24, 2020)
+
+- added the `background_color` argument to the [crop](https://stefangabos.github.io/Zebra_Image/Zebra_Image/Zebra_Image.html#methodcrop) method; used when the cropping coordinates are off-scale (negative values and/or values greater than the image's size) to fill the remaining space; see #18; thank you [Thomas Skerbis](https://github.com/skerbis)!
+
 ## version 2.3.0 (June 06, 2019)
 
 - the default value of the "background_color" argument of the "resize" method is now -1 (for preserving transparency)

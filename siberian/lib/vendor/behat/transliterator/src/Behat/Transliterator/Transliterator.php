@@ -396,7 +396,7 @@ abstract class Transliterator
             }
         }
 
-        return implode_polyfill('', $chars);
+        return implode('', $chars);
     }
 
     /**

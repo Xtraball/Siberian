@@ -15,7 +15,7 @@ abstract class AbstractWpEndpoint
     /**
      * @var WpClient
      */
-    private $client;
+    protected $client;
 
     /**
      * Users constructor.

@@ -28,7 +28,7 @@ class HTMLPurifier_AttrTransform_TargetNoreferrer extends HTMLPurifier_AttrTrans
             $rels[] = 'noreferrer';
         }
         if (!empty($rels) || isset($attr['rel'])) {
-            $attr['rel'] = implode_polyfill(' ', $rels);
+            $attr['rel'] = implode(' ', $rels);
         }
 
         return $attr;

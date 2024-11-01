@@ -1,5 +1,7 @@
 <?php
 
+use Gregwar\Cache\Cache;
+use Gregwar\Cache\CacheInterface;
 use Gregwar\Image\Image;
 use Gregwar\Image\ImageColor;
 
@@ -121,9 +123,9 @@ class ImageTests extends \PHPUnit\Framework\TestCase
     public function testCustomCacheSystem()
     {
         $image = $this->open('monalisa.jpg');
-        $cache = $this->createMock('Gregwar\Cache\CacheInterface');
+        $cache = new Cache();
         $image->setCacheSystem($cache);
-        $this->assertTrue($image->getCacheSystem() instanceof Gregwar\Cache\CacheInterface);
+        $this->assertEquals($image->getCacheSystem(), $cache);
     }
 
     /**
@@ -273,11 +275,10 @@ class ImageTests extends \PHPUnit\Framework\TestCase
         $this->assertTrue(file_exists($error));
     }
 
-    /**
-     * * @expectedException              \UnexpectedValueException
-     */
     public function testNonExistingFileNoFallback()
     {
+        $this->expectException(\UnexpectedValueException::class);
+
         Image::open('non_existing_file.jpg')
             ->useFallback(false)
             ->save($this->output('a.jpg'));
@@ -475,7 +476,7 @@ class ImageTests extends \PHPUnit\Framework\TestCase
     /**
      * Reinitialize the output dir.
      */
-    public function setUp()
+    public function setUp(): void
     {
         $dir = $this->output('');
         `rm -rf $dir`;

@@ -132,7 +132,7 @@ class StripeObject implements \ArrayAccess, \Countable, \JsonSerializable
         if (static::getPermanentAttributes()->includes($k)) {
             throw new Exception\InvalidArgumentException(
                 "Cannot set {$k} on this object. HINT: you can't set: " .
-                \implode_polyfill(', ', static::getPermanentAttributes()->toArray())
+                \implode(', ', static::getPermanentAttributes()->toArray())
             );
         }
 
@@ -170,7 +170,7 @@ class StripeObject implements \ArrayAccess, \Countable, \JsonSerializable
         }
         if (!empty($this->_transientValues) && $this->_transientValues->includes($k)) {
             $class = static::class;
-            $attrs = \implode_polyfill(', ', \array_keys($this->_values));
+            $attrs = \implode(', ', \array_keys($this->_values));
             $message = "Stripe Notice: Undefined property of {$class} instance: {$k}. "
                     . "HINT: The {$k} attribute was set in the past, however. "
                     . 'It was then wiped when refreshing the object '
@@ -194,27 +194,34 @@ class StripeObject implements \ArrayAccess, \Countable, \JsonSerializable
     }
 
     // ArrayAccess methods
+    #[\ReturnTypeWillChange]
     public function offsetSet($k, $v)
     {
         $this->{$k} = $v;
     }
 
+    #[\ReturnTypeWillChange]
     public function offsetExists($k)
     {
         return \array_key_exists($k, $this->_values);
     }
 
+    #[\ReturnTypeWillChange]
     public function offsetUnset($k)
     {
         unset($this->{$k});
     }
 
+    #[\ReturnTypeWillChange]
     public function offsetGet($k)
     {
         return \array_key_exists($k, $this->_values) ? $this->_values[$k] : null;
     }
 
-    // Countable method
+    /**
+     * @return int
+     */
+    #[\ReturnTypeWillChange]
     public function count()
     {
         return \count($this->_values);
@@ -419,6 +426,10 @@ class StripeObject implements \ArrayAccess, \Countable, \JsonSerializable
         }
     }
 
+    /**
+     * @return mixed
+     */
+    #[\ReturnTypeWillChange]
     public function jsonSerialize()
     {
         return $this->toArray();

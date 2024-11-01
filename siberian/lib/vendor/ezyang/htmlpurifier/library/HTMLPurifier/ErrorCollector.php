@@ -198,7 +198,7 @@ class HTMLPurifier_ErrorCollector
         if (empty($errors)) {
             return '<p>' . $this->locale->getMessage('ErrorCollector: No errors') . '</p>';
         } else {
-            return '<ul><li>' . implode_polyfill('</li><li>', $ret) . '</li></ul>';
+            return '<ul><li>' . implode('</li><li>', $ret) . '</li></ul>';
         }
 
     }

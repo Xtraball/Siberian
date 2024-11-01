@@ -50,7 +50,7 @@ class Translator implements TranslatorInterface
 
     public function __construct(ParserInterface $parser = null)
     {
-        $this->mainParser = $parser ?: new Parser();
+        $this->mainParser = $parser ?? new Parser();
 
         $this
             ->registerExtension(new Extension\NodeExtension())
@@ -63,11 +63,11 @@ class Translator implements TranslatorInterface
 
     public static function getXpathLiteral(string $element): string
     {
-        if (false === strpos($element, "'")) {
+        if (!str_contains($element, "'")) {
             return "'".$element."'";
         }
 
-        if (false === strpos($element, '"')) {
+        if (!str_contains($element, '"')) {
             return '"'.$element.'"';
         }
 
@@ -84,7 +84,7 @@ class Translator implements TranslatorInterface
             }
         }
 
-        return sprintf('concat(%s)', implode_polyfill(', ', $parts));
+        return sprintf('concat(%s)', implode(', ', $parts));
     }
 
     /**
@@ -103,7 +103,7 @@ class Translator implements TranslatorInterface
             $selectors[$index] = $this->selectorToXPath($selector, $prefix);
         }
 
-        return implode_polyfill(' | ', $selectors);
+        return implode(' | ', $selectors);
     }
 
     /**
@@ -215,7 +215,7 @@ class Translator implements TranslatorInterface
     /**
      * @return SelectorNode[]
      */
-    private function parseSelectors(string $css)
+    private function parseSelectors(string $css): array
     {
         foreach ($this->shortcutParsers as $shortcut) {
             $tokens = $shortcut->parse($css);

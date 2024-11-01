@@ -1,11 +1,58 @@
 # Change Log
-
 All notable changes to this project will be documented in this file.
 
-The format is based on [Keep a Changelog](http://keepachangelog.com/) 
+The format is based on [Keep a Changelog](http://keepachangelog.com/)
 and this project adheres to [Semantic Versioning](http://semver.org/).
 
 Previous releases are documented in [github releases](https://github.com/oscarotero/Gettext/releases)
+
+## [4.8.12] - 2024-05-18
+### Fixed
+- Parsing of PO files with empty comments instead of empty lines [#296]
+
+## [4.8.11] - 2023-08-14
+### Fixed
+- PHP 5.4 support [#289]
+
+## [4.8.10] - 2023-08-10
+### Fixed
+- Previous version was tagged with the incorrect branch.
+
+## [4.8.9] - 2023-08-10
+### Fixed
+- PHP 8.1 deprecation warning [#289]
+
+## [4.8.8] - 2022-12-08
+### Fixed
+- PHP functions prefixed with a slash are being ignored [#284], [#288]
+
+## [4.8.7] - 2022-08-02
+### Fixed
+- Suppress deprecation error on PHP 8.1 [#280]
+
+## [4.8.6] - 2021-10-19
+### Fixed
+- Parse PO files with multiline disabled entries [#274]
+
+## [4.8.5] - 2021-07-13
+### Fixed
+- Prevent adding the same translator comment to multiple functions [#271]
+
+## [4.8.4] - 2021-03-10
+### Fixed
+- PHP 8 compatibilty [#266]
+
+## [4.8.3] - 2020-11-18
+### Fixed
+- Blade extractor for Laravel8/Jetstream [#261]
+
+## [4.8.2] - 2019-12-02
+### Fixed
+- UTF-8 handling for VueJs extractor [#242]
+
+## [4.8.1] - 2019-11-15
+### Fixed
+- Php error when scanning for a single domain but other string found [#238]
 
 ## [4.8.0] - 2019-11-04
 ### Changed
@@ -97,7 +144,7 @@ Previous releases are documented in [github releases](https://github.com/oscarot
 ### Fixed
 - Improved the code style including php_codesniffer in development
 
-## 4.3.0 - 2017-03-04
+## [4.3.0] - 2017-03-04
 ### Added
 - Added support for named placeholders (using `strtr`). For example:
   ```php
@@ -145,7 +192,30 @@ Previous releases are documented in [github releases](https://github.com/oscarot
 [#226]: https://github.com/oscarotero/Gettext/issues/226
 [#230]: https://github.com/oscarotero/Gettext/issues/230
 [#231]: https://github.com/oscarotero/Gettext/issues/231
+[#238]: https://github.com/oscarotero/Gettext/issues/238
+[#242]: https://github.com/oscarotero/Gettext/issues/242
+[#261]: https://github.com/oscarotero/Gettext/issues/261
+[#266]: https://github.com/oscarotero/Gettext/issues/266
+[#271]: https://github.com/oscarotero/Gettext/issues/271
+[#274]: https://github.com/oscarotero/Gettext/issues/274
+[#280]: https://github.com/oscarotero/Gettext/issues/280
+[#284]: https://github.com/oscarotero/Gettext/issues/284
+[#288]: https://github.com/oscarotero/Gettext/issues/288
+[#289]: https://github.com/oscarotero/Gettext/issues/289
+[#296]: https://github.com/oscarotero/Gettext/issues/296
 
+[4.8.12]: https://github.com/oscarotero/Gettext/compare/v4.8.11...v4.8.12
+[4.8.11]: https://github.com/oscarotero/Gettext/compare/v4.8.10...v4.8.11
+[4.8.10]: https://github.com/oscarotero/Gettext/compare/v4.8.9...v4.8.10
+[4.8.9]: https://github.com/oscarotero/Gettext/compare/v4.8.8...v4.8.9
+[4.8.8]: https://github.com/oscarotero/Gettext/compare/v4.8.7...v4.8.8
+[4.8.7]: https://github.com/oscarotero/Gettext/compare/v4.8.6...v4.8.7
+[4.8.6]: https://github.com/oscarotero/Gettext/compare/v4.8.5...v4.8.6
+[4.8.5]: https://github.com/oscarotero/Gettext/compare/v4.8.4...v4.8.5
+[4.8.4]: https://github.com/oscarotero/Gettext/compare/v4.8.3...v4.8.4
+[4.8.3]: https://github.com/oscarotero/Gettext/compare/v4.8.2...v4.8.3
+[4.8.2]: https://github.com/oscarotero/Gettext/compare/v4.8.1...v4.8.2
+[4.8.1]: https://github.com/oscarotero/Gettext/compare/v4.8.0...v4.8.1
 [4.8.0]: https://github.com/oscarotero/Gettext/compare/v4.7.0...v4.8.0
 [4.7.0]: https://github.com/oscarotero/Gettext/compare/v4.6.3...v4.7.0
 [4.6.3]: https://github.com/oscarotero/Gettext/compare/v4.6.2...v4.6.3
@@ -158,3 +228,4 @@ Previous releases are documented in [github releases](https://github.com/oscarot
 [4.4.2]: https://github.com/oscarotero/Gettext/compare/v4.4.1...v4.4.2
 [4.4.1]: https://github.com/oscarotero/Gettext/compare/v4.4.0...v4.4.1
 [4.4.0]: https://github.com/oscarotero/Gettext/compare/v4.3.0...v4.4.0
+[4.3.0]: https://github.com/oscarotero/Gettext/releases/tag/v4.3.0

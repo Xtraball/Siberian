@@ -1,4 +1,5 @@
 <?php
+
 namespace GuzzleHttp\Psr7;
 
 use Psr\Http\Message\UriInterface;
@@ -18,6 +19,7 @@ final class UriResolver
      * @param string $path
      *
      * @return string
+     *
      * @link http://tools.ietf.org/html/rfc3986#section-5.2.4
      */
     public static function removeDotSegments($path)
@@ -36,7 +38,7 @@ final class UriResolver
             }
         }
 
-        $newPath = implode_polyfill('/', $results);
+        $newPath = implode('/', $results);
 
         if ($path[0] === '/' && (!isset($newPath[0]) || $newPath[0] !== '/')) {
             // Re-add the leading slash if necessary for cases like "/.."
@@ -57,6 +59,7 @@ final class UriResolver
      * @param UriInterface $rel  Relative URI
      *
      * @return UriInterface
+     *
      * @link http://tools.ietf.org/html/rfc3986#section-5.2
      */
     public static function resolve(UriInterface $base, UriInterface $rel)
@@ -193,7 +196,7 @@ final class UriResolver
             }
         }
         $targetSegments[] = $targetLastSegment;
-        $relativePath = str_repeat('../', count($sourceSegments)) . implode_polyfill('/', $targetSegments);
+        $relativePath = str_repeat('../', count($sourceSegments)) . implode('/', $targetSegments);
 
         // A reference to am empty last segment or an empty first sub-segment must be prefixed with "./".
         // This also applies to a segment with a colon character (e.g., "file:colon") that cannot be used

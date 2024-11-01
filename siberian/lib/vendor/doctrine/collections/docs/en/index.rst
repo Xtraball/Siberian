@@ -12,8 +12,8 @@ arrays of data. Here is an example using the simple
 
     $collection = new ArrayCollection([1, 2, 3]);
 
-    $filteredCollection = $collection->filter(function($count) {
-        return $count > 1;
+    $filteredCollection = $collection->filter(function($element) {
+        return $element > 1;
     }); // [2, 3]
 
 Collection Methods
@@ -31,6 +31,11 @@ iterate over the collection, which calls ``getIterator()`` internally, or
 explicitly retrieve an iterator though ``getIterator()`` which can then be
 used to iterate over the collection. You can not rely on the internal iterator
 of the collection being at a certain position unless you explicitly positioned it before.
+
+Methods that do not alter the collection or have template types
+appearing in invariant or contravariant positions are not directly
+defined in ``Doctrine\Common\Collections\Collection``, but are inherited
+from the ``Doctrine\Common\Collections\ReadableCollection`` interface.
 
 The methods available on the interface are:
 
@@ -151,13 +156,14 @@ Tests for the existence of an element that satisfies the given predicate.
 filter
 ------
 
-Returns all the elements of this collection that satisfy the predicate. The order of the elements is preserved.
+Returns all the elements of this collection for which your callback function returns `true`.
+The order and keys of the elements are preserved.
 
 .. code-block:: php
     $collection = new ArrayCollection([1, 2, 3]);
 
-    $filteredCollection = $collection->filter(function($count) {
-        return $count > 1;
+    $filteredCollection = $collection->filter(function($element) {
+        return $element > 1;
     }); // [2, 3]
 
 forAll

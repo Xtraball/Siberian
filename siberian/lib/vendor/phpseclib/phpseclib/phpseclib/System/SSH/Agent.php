@@ -133,9 +133,20 @@ class Agent
             }
         }
 
-        $this->fsock = fsockopen('unix://' . $address, 0, $errno, $errstr);
-        if (!$this->fsock) {
-            user_error("Unable to connect to ssh-agent (Error $errno: $errstr)");
+        if (in_array('unix', stream_get_transports())) {
+            $this->fsock = fsockopen('unix://' . $address, 0, $errno, $errstr);
+            if (!$this->fsock) {
+                user_error("Unable to connect to ssh-agent (Error $errno: $errstr)");
+            }
+        } else {
+            if (substr($address, 0, 9) != '\\\\.\\pipe\\' || strpos(substr($address, 9), '\\') !== false) {
+                user_error('Address is not formatted as a named pipe should be');
+            } else {
+                $this->fsock = fopen($address, 'r+b');
+                if (!$this->fsock) {
+                    user_error('Unable to open address');
+                }
+            }
         }
     }
 
@@ -160,7 +171,12 @@ class Agent
             return array();
         }
 
-        $length = current(unpack('N', fread($this->fsock, 4)));
+        $temp = fread($this->fsock, 4);
+        if (strlen($temp) != 4) {
+            user_error('Connection closed while requesting identities');
+            return array();
+        }
+        $length = current(unpack('N', $temp));
         $type = ord(fread($this->fsock, 1));
         if ($type != self::SSH_AGENT_IDENTITIES_ANSWER) {
             user_error('Unable to request identities');
@@ -168,14 +184,38 @@ class Agent
         }
 
         $identities = array();
-        $keyCount = current(unpack('N', fread($this->fsock, 4)));
+        $temp = fread($this->fsock, 4);
+        if (strlen($temp) != 4) {
+            user_error('Connection closed while requesting identities');
+            return array();
+        }
+        $keyCount = current(unpack('N', $temp));
         for ($i = 0; $i < $keyCount; $i++) {
-            $length = current(unpack('N', fread($this->fsock, 4)));
+            $temp = fread($this->fsock, 4);
+            if (strlen($temp) != 4) {
+                user_error('Connection closed while requesting identities');
+                return array();
+            }
+            $length = current(unpack('N', $temp));
             $key_blob = fread($this->fsock, $length);
+            if (strlen($key_blob) != $length) {
+                user_error('Connection closed while requesting identities');
+                return array();
+            }
             $key_str = 'ssh-rsa ' . base64_encode($key_blob);
-            $length = current(unpack('N', fread($this->fsock, 4)));
+            $temp = fread($this->fsock, 4);
+            if (strlen($temp) != 4) {
+                user_error('Connection closed while requesting identities');
+                return array();
+            }
+            $length = current(unpack('N', $temp));
             if ($length) {
-                $key_str.= ' ' . fread($this->fsock, $length);
+                $temp = fread($this->fsock, $length);
+                if (strlen($temp) != $length) {
+                    user_error('Connection closed while requesting identities');
+                    return array();
+                }
+                $key_str.= ' ' . $temp;
             }
             $length = current(unpack('N', substr($key_blob, 0, 4)));
             $key_type = substr($key_blob, 4, $length);
@@ -205,11 +245,10 @@ class Agent
      * Signal that agent forwarding should
      * be requested when a channel is opened
      *
-     * @param Net_SSH2 $ssh
      * @return bool
      * @access public
      */
-    function startSSHForwarding($ssh)
+    function startSSHForwarding()
     {
         if ($this->forward_status == self::FORWARD_NONE) {
             $this->forward_status = self::FORWARD_REQUEST;
@@ -297,14 +336,24 @@ class Agent
 
         if (strlen($this->socket_buffer) != fwrite($this->fsock, $this->socket_buffer)) {
             user_error('Connection closed attempting to forward data to SSH agent');
+            return false;
         }
 
         $this->socket_buffer = '';
         $this->expected_bytes = 0;
 
-        $agent_reply_bytes = current(unpack('N', fread($this->fsock, 4)));
+        $temp = fread($this->fsock, 4);
+        if (strlen($temp) != 4) {
+            user_error('Connection closed while reading data response');
+            return false;
+        }
+        $agent_reply_bytes = current(unpack('N', $temp));
 
         $agent_reply_data = fread($this->fsock, $agent_reply_bytes);
+        if (strlen($agent_reply_data) != $agent_reply_bytes) {
+            user_error('Connection closed while reading data response');
+            return false;
+        }
         $agent_reply_data = current(unpack('a*', $agent_reply_data));
 
         return pack('Na*', $agent_reply_bytes, $agent_reply_data);

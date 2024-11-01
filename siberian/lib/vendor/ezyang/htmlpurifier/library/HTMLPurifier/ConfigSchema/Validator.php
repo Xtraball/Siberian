@@ -241,7 +241,7 @@ class HTMLPurifier_ConfigSchema_Validator
      */
     protected function getFormattedContext()
     {
-        return implode_polyfill(' in ', array_reverse($this->context));
+        return implode(' in ', array_reverse($this->context));
     }
 }
 

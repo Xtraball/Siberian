@@ -176,6 +176,7 @@ class View extends \Zend_View
     }
 
     /**
+     * @depecrated
      * @param string $path
      * @param string $classPrefix
      * @return $this|\Zend_View_Abstract

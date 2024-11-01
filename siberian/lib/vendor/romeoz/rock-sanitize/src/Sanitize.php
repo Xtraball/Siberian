@@ -266,9 +266,9 @@ class Sanitize implements ObjectInterface
      */
     protected static function getInstance()
     {
-        if (class_exists('\rock\di\Container')) {
-            return \rock\di\Container::load(static::className());
-        }
+//        if (class_exists('\rock\di\Container')) {
+//            return \rock\di\Container::load(static::className());
+//        }
         return new static();
     }
 

@@ -57,7 +57,7 @@ class Mo extends Generator implements GeneratorInterface
                 if ($translation->hasPlural() && $translation->hasPluralTranslations(true)) {
                     $originalString .= "\x00".$translation->getPlural();
                     $translationString = $translation->getTranslation();
-                    $translationString .= "\x00".implode_polyfill("\x00", $translation->getPluralTranslations($pluralSize));
+                    $translationString .= "\x00".implode("\x00", $translation->getPluralTranslations($pluralSize));
                 } else {
                     $translationString = $translation->getTranslation();
                 }

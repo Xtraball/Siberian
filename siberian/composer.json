@@ -3,7 +3,7 @@
     "license": "OSL-3.0",
     "minimum-stability": "stable",
     "require": {
-        "php" : "^7.3",
+        "php": "^7.3",
         "ext-json": "*",
         "ext-gd": "*",
         "ext-pdo": "*",
@@ -48,6 +48,12 @@
     },
     "require-dev": {
         "codeception/codeception": "4.2.2",
-        "sebastian/version": "3.0.2"
+        "sebastian/version": "3.0.2",
+        "codeception/module-phpbrowser": "^1.0.0",
+        "codeception/module-asserts": "^1.0.0",
+        "symfony/phpunit-bridge": "^7.1",
+        "symfony/error-handler": "^5.4",
+        "doctrine/annotations": "^2.0",
+        "codeception/assert-throws": "^1.4"
     }
 }

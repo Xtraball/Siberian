@@ -61,6 +61,17 @@ describe(AbstractWpEndpoint::class, function () {
             $data = $endpoint->save(['foo' => 'bar']);
             expect($data)->to->equal(['foo' => 'bar']);
         });
+
+        it('should handle unicode data', function() {
+            $client = $this->getProphet()->prophesize(WpClient::class);
+            $response = new \GuzzleHttp\Psr7\Response(200, ['Content-Type' => 'application/json'], '{"first": "Iván", "last": "Peña"}');
+            $client->send(\Prophecy\Argument::type(Request::class))->willReturn($response)->shouldBeCalled();
+
+            $endpoint = new FakeEndpoint($client->reveal());
+
+            $data = $endpoint->save(['first' => 'Iván', 'last' => 'Peña']);
+            expect($data)->to->equal(['first' => 'Iván', 'last' => 'Peña']);
+        });
     });
 
     afterEach(function () {

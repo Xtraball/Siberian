@@ -67,7 +67,7 @@ class ParsedComment
 
         // Remove empty lines.
         $lines = array_filter($lines);
-        $value = implode_polyfill(' ', $lines);
+        $value = implode(' ', $lines);
 
         return new static($value, $line, $lastLine);
     }

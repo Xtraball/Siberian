@@ -4,7 +4,6 @@
 [![Latest Stable Version](https://poser.pugx.org/stripe/stripe-php/v/stable.svg)](https://packagist.org/packages/stripe/stripe-php)
 [![Total Downloads](https://poser.pugx.org/stripe/stripe-php/downloads.svg)](https://packagist.org/packages/stripe/stripe-php)
 [![License](https://poser.pugx.org/stripe/stripe-php/license.svg)](https://packagist.org/packages/stripe/stripe-php)
-[![Code Coverage](https://coveralls.io/repos/stripe/stripe-php/badge.svg?branch=master)](https://coveralls.io/r/stripe/stripe-php?branch=master)
 
 The Stripe PHP library provides convenient access to the Stripe API from
 applications written in the PHP language. It includes a pre-defined set of
@@ -68,7 +67,7 @@ You can continue to use the legacy integration patterns used prior to version [7
 
 ## Documentation
 
-See the [PHP API docs](https://stripe.com/docs/api/php#intro).
+See the [PHP API docs](https://stripe.com/docs/api/?lang=php#intro).
 
 See [video demonstrations][youtube-playlist] covering how to use the library.
 
@@ -86,7 +85,7 @@ Otherwise, you can download v5.9.2 ([zip](https://github.com/stripe/stripe-php/a
 
 ## Custom Request Timeouts
 
-_NOTE:_ We do not recommend decreasing the timeout for non-read-only calls (e.g. charge creation), since even if you locally timeout, the request on Stripe's side can still complete. If you are decreasing timeouts on these calls, make sure to use [idempotency tokens](https://stripe.com/docs/api/php#idempotent_requests) to avoid executing the same transaction twice as a result of timeout retry logic.
+_NOTE:_ We do not recommend decreasing the timeout for non-read-only calls (e.g. charge creation), since even if you locally timeout, the request on Stripe's side can still complete. If you are decreasing timeouts on these calls, make sure to use [idempotency tokens](https://stripe.com/docs/api/?lang=php#idempotent_requests) to avoid executing the same transaction twice as a result of timeout retry logic.
 
 To modify request timeouts (connect or total, in seconds) you'll need to tell the API client to use a CurlClient other than its default. You'll set the timeouts in that CurlClient.
 
@@ -264,7 +263,7 @@ See the "SSL / TLS compatibility issues" paragraph above for full context. If yo
 [composer]: https://getcomposer.org/
 [connect]: https://stripe.com/connect
 [curl]: http://curl.haxx.se/docs/caextract.html
-[idempotency-keys]: https://stripe.com/docs/api/php#idempotent_requests
+[idempotency-keys]: https://stripe.com/docs/api/?lang=php#idempotent_requests
 [php-cs-fixer]: https://github.com/FriendsOfPHP/PHP-CS-Fixer
 [psr3]: http://www.php-fig.org/psr/psr-3/
 [stripe-mock]: https://github.com/stripe/stripe-mock

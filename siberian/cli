@@ -132,6 +132,8 @@ try {
             // Fetching information
             Info::printLn();
 
+            print_r(get_include_path());
+
             break;
         case 'export:schemas':
         case 'export-schemas':

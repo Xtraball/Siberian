@@ -30,13 +30,22 @@ abstract class FunctionsScanner
         $translations = is_array($translations) ? $translations : [$translations];
 
         /** @var Translations[] $translationByDomain [domain => translations, ..] */
-        $translationByDomain = array_reduce($translations, function (&$carry, Translations $translations) {
+        $translationByDomain = array_reduce($translations, function ($carry, Translations $translations) {
             $carry[$translations->getDomain()] = $translations;
             return $carry;
         }, []);
 
         $functions = $options['functions'];
         $file = $options['file'];
+
+        /**
+         * List of source code comments already associated with a function.
+         *
+         * Prevents associating the same comment to multiple functions.
+         *
+         * @var ParsedComment[] $commentsCache
+         */
+        $commentsCache = [];
 
         foreach ($this->getFunctions($options['constants']) as $function) {
             list($name, $line, $args) = $function;
@@ -70,7 +79,7 @@ abstract class FunctionsScanner
                 continue;
             }
 
-            if (!$isDefaultDomain && !$domainTranslations) {
+            if (!$domainTranslations) {
                 continue;
             }
 
@@ -78,8 +87,13 @@ abstract class FunctionsScanner
             $translation->addReference($file, $line);
 
             if (isset($function[3])) {
+                /* @var ParsedComment $extractedComment */
                 foreach ($function[3] as $extractedComment) {
-                    $translation->addExtractedComment($extractedComment);
+                    if (in_array($extractedComment, $commentsCache, true)) {
+                        continue;
+                    }
+                    $translation->addExtractedComment($extractedComment->getComment());
+                    $commentsCache[] = $extractedComment;
                 }
             }
         }

@@ -90,6 +90,11 @@ class PhpFunctionsScanner extends FunctionsScanner
                 continue;
             }
 
+            if (defined('T_NAME_FULLY_QUALIFIED') && T_NAME_FULLY_QUALIFIED === $value[0]) {
+                $value[0] = T_STRING;
+                $value[1] = ltrim($value[1], '\\');
+            }
+
             switch ($value[0]) {
                 case T_CONSTANT_ENCAPSED_STRING:
                     //add an argument to the current function
@@ -129,7 +134,7 @@ class PhpFunctionsScanner extends FunctionsScanner
                                 $comment = $bufferComments[0];
 
                                 if ($comment->isRelatedWith($newFunction)) {
-                                    $newFunction->addComment($comment->getComment());
+                                    $newFunction->addComment($comment);
                                 }
                             }
 
@@ -148,7 +153,7 @@ class PhpFunctionsScanner extends FunctionsScanner
 
                         // The comment is inside the function call.
                         if (isset($bufferFunctions[0])) {
-                            $bufferFunctions[0]->addComment($comment->getComment());
+                            $bufferFunctions[0]->addComment($comment);
                         }
                     }
                     break;

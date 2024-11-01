@@ -849,7 +849,6 @@ class Hash
      * _sha256() adds multiple unsigned 32-bit integers.  Since PHP doesn't support unsigned integers and since the
      * possibility of overflow exists, care has to be taken.  BigInteger could be used but this should be faster.
      *
-     * @param int $...
      * @return int
      * @see self::_sha256()
      * @access private
@@ -867,7 +866,7 @@ class Hash
             $result+= $argument < 0 ? ($argument & 0x7FFFFFFF) + 0x80000000 : $argument;
         }
 
-        if ((php_uname('m') & "\xDF\xDF\xDF") != 'ARM') {
+        if (function_exists('php_uname') && is_string(php_uname('m')) && (php_uname('m') & "\xDF\xDF\xDF") != 'ARM') {
             return fmod($result, $mod);
         }
 

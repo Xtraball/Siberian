@@ -41,7 +41,7 @@ class ExcludeDirectoryFilterIterator extends FilterIterator implements \Recursiv
             }
         }
         if ($patterns) {
-            $this->excludedPattern = '#(?:^|/)(?:'.implode_polyfill('|', $patterns).')(?:/|$)#';
+            $this->excludedPattern = '#(?:^|/)(?:'.implode('|', $patterns).')(?:/|$)#';
         }
 
         parent::__construct($iterator);

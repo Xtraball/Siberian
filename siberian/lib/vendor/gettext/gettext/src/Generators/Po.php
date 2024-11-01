@@ -48,7 +48,7 @@ class Po extends Generator implements GeneratorInterface
             }
 
             if ($translation->hasFlags()) {
-                $lines[] = '#, '.implode_polyfill(',', $translation->getFlags());
+                $lines[] = '#, '.implode(',', $translation->getFlags());
             }
 
             $prefix = $translation->isDisabled() ? '#~ ' : '';
@@ -73,7 +73,7 @@ class Po extends Generator implements GeneratorInterface
             $lines[] = '';
         }
 
-        return implode_polyfill("\n", $lines);
+        return implode("\n", $lines);
     }
 
     /**

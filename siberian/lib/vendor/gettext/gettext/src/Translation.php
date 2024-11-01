@@ -286,7 +286,7 @@ class Translation
     public function hasPluralTranslations($checkContent = false)
     {
         if ($checkContent) {
-            return implode_polyfill('', $this->pluralTranslation) !== '';
+            return implode('', $this->pluralTranslation) !== '';
         }
 
         return !empty($this->pluralTranslation);
@@ -312,18 +312,6 @@ class Translation
     public function getContext()
     {
         return $this->context;
-    }
-
-    /**
-     * Sets the context of this translation.
-     *
-     * @return string
-     */
-    public function setContext($context)
-    {
-        $this->context = $context;
-
-        return $this;
     }
 
     /**

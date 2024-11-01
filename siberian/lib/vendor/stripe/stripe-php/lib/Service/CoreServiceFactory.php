@@ -26,6 +26,7 @@ namespace Stripe\Service;
  * @property ExchangeRateService $exchangeRates
  * @property FileLinkService $fileLinks
  * @property FileService $files
+ * @property FinancialConnections\FinancialConnectionsServiceFactory $financialConnections
  * @property Identity\IdentityServiceFactory $identity
  * @property InvoiceItemService $invoiceItems
  * @property InvoiceService $invoices
@@ -35,6 +36,7 @@ namespace Stripe\Service;
  * @property OrderReturnService $orderReturns
  * @property OrderService $orders
  * @property PaymentIntentService $paymentIntents
+ * @property PaymentLinkService $paymentLinks
  * @property PaymentMethodService $paymentMethods
  * @property PayoutService $payouts
  * @property PlanService $plans
@@ -48,6 +50,7 @@ namespace Stripe\Service;
  * @property ReviewService $reviews
  * @property SetupAttemptService $setupAttempts
  * @property SetupIntentService $setupIntents
+ * @property ShippingRateService $shippingRates
  * @property Sigma\SigmaServiceFactory $sigma
  * @property SkuService $skus
  * @property SourceService $sources
@@ -57,6 +60,7 @@ namespace Stripe\Service;
  * @property TaxCodeService $taxCodes
  * @property TaxRateService $taxRates
  * @property Terminal\TerminalServiceFactory $terminal
+ * @property TestHelpers\TestHelpersServiceFactory $testHelpers
  * @property TokenService $tokens
  * @property TopupService $topups
  * @property TransferService $transfers
@@ -87,6 +91,7 @@ class CoreServiceFactory extends \Stripe\Service\AbstractServiceFactory
         'exchangeRates' => ExchangeRateService::class,
         'fileLinks' => FileLinkService::class,
         'files' => FileService::class,
+        'financialConnections' => FinancialConnections\FinancialConnectionsServiceFactory::class,
         'identity' => Identity\IdentityServiceFactory::class,
         'invoiceItems' => InvoiceItemService::class,
         'invoices' => InvoiceService::class,
@@ -96,6 +101,7 @@ class CoreServiceFactory extends \Stripe\Service\AbstractServiceFactory
         'orderReturns' => OrderReturnService::class,
         'orders' => OrderService::class,
         'paymentIntents' => PaymentIntentService::class,
+        'paymentLinks' => PaymentLinkService::class,
         'paymentMethods' => PaymentMethodService::class,
         'payouts' => PayoutService::class,
         'plans' => PlanService::class,
@@ -109,6 +115,7 @@ class CoreServiceFactory extends \Stripe\Service\AbstractServiceFactory
         'reviews' => ReviewService::class,
         'setupAttempts' => SetupAttemptService::class,
         'setupIntents' => SetupIntentService::class,
+        'shippingRates' => ShippingRateService::class,
         'sigma' => Sigma\SigmaServiceFactory::class,
         'skus' => SkuService::class,
         'sources' => SourceService::class,
@@ -118,6 +125,7 @@ class CoreServiceFactory extends \Stripe\Service\AbstractServiceFactory
         'taxCodes' => TaxCodeService::class,
         'taxRates' => TaxRateService::class,
         'terminal' => Terminal\TerminalServiceFactory::class,
+        'testHelpers' => TestHelpers\TestHelpersServiceFactory::class,
         'tokens' => TokenService::class,
         'topups' => TopupService::class,
         'transfers' => TransferService::class,

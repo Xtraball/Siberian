@@ -4,8 +4,8 @@
 
 $issues = array();
 
-if (!(PHP_VERSION_ID >= 70103)) {
-    //$issues[] = 'Your Composer dependencies require a PHP version ">= 7.1.3". You are running ' . PHP_VERSION . '.';
+if (!(PHP_VERSION_ID >= 70300)) {
+    $issues[] = 'Your Composer dependencies require a PHP version ">= 7.3.0". You are running ' . PHP_VERSION . '.';
 }
 
 if ($issues) {
@@ -14,13 +14,13 @@ if ($issues) {
     }
     if (!ini_get('display_errors')) {
         if (PHP_SAPI === 'cli' || PHP_SAPI === 'phpdbg') {
-            fwrite(STDERR, 'Composer detected issues in your platform:' . PHP_EOL.PHP_EOL . implode_polyfill(PHP_EOL, $issues) . PHP_EOL.PHP_EOL);
+            fwrite(STDERR, 'Composer detected issues in your platform:' . PHP_EOL.PHP_EOL . implode(PHP_EOL, $issues) . PHP_EOL.PHP_EOL);
         } elseif (!headers_sent()) {
-            echo 'Composer detected issues in your platform:' . PHP_EOL.PHP_EOL . str_replace('You are running '.PHP_VERSION.'.', '', implode_polyfill(PHP_EOL, $issues)) . PHP_EOL.PHP_EOL;
+            echo 'Composer detected issues in your platform:' . PHP_EOL.PHP_EOL . str_replace('You are running '.PHP_VERSION.'.', '', implode(PHP_EOL, $issues)) . PHP_EOL.PHP_EOL;
         }
     }
     trigger_error(
-        'Composer detected issues in your platform: ' . implode_polyfill(' ', $issues),
+        'Composer detected issues in your platform: ' . implode(' ', $issues),
         E_USER_ERROR
     );
 }

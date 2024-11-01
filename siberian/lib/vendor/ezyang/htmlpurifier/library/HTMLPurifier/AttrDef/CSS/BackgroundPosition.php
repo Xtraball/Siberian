@@ -150,7 +150,7 @@ class HTMLPurifier_AttrDef_CSS_BackgroundPosition extends HTMLPurifier_AttrDef
         if (empty($ret)) {
             return false;
         }
-        return implode_polyfill(' ', $ret);
+        return implode(' ', $ret);
     }
 }
 

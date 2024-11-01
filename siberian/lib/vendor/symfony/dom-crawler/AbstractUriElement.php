@@ -24,7 +24,7 @@ abstract class AbstractUriElement
     protected $node;
 
     /**
-     * @var string The method to use for the element
+     * @var string|null The method to use for the element
      */
     protected $method;
 
@@ -35,8 +35,8 @@ abstract class AbstractUriElement
 
     /**
      * @param \DOMElement $node       A \DOMElement instance
-     * @param string      $currentUri The URI of the page where the link is embedded (or the base href)
-     * @param string      $method     The method to use for the link (GET by default)
+     * @param string|null $currentUri The URI of the page where the link is embedded (or the base href)
+     * @param string|null $method     The method to use for the link (GET by default)
      *
      * @throws \InvalidArgumentException if the node is not a link
      */
@@ -46,10 +46,10 @@ abstract class AbstractUriElement
         $this->method = $method ? strtoupper($method) : null;
         $this->currentUri = $currentUri;
 
-        $elementUriIsRelative = null === parse_url(trim($this->getRawUri()), PHP_URL_SCHEME);
-        $baseUriIsAbsolute = \in_array(strtolower(substr($this->currentUri, 0, 4)), ['http', 'file']);
+        $elementUriIsRelative = null === parse_url(trim($this->getRawUri()), \PHP_URL_SCHEME);
+        $baseUriIsAbsolute = null !== $this->currentUri && \in_array(strtolower(substr($this->currentUri, 0, 4)), ['http', 'file']);
         if ($elementUriIsRelative && !$baseUriIsAbsolute) {
-            throw new \InvalidArgumentException(sprintf('The URL of the element is relative, so you must define its base URI passing an absolute URL to the constructor of the %s class ("%s" was passed).', __CLASS__, $this->currentUri));
+            throw new \InvalidArgumentException(sprintf('The URL of the element is relative, so you must define its base URI passing an absolute URL to the constructor of the "%s" class ("%s" was passed).', __CLASS__, $this->currentUri));
         }
     }
 
@@ -70,7 +70,7 @@ abstract class AbstractUriElement
      */
     public function getMethod()
     {
-        return $this->method;
+        return $this->method ?? 'GET';
     }
 
     /**
@@ -83,7 +83,7 @@ abstract class AbstractUriElement
         $uri = trim($this->getRawUri());
 
         // absolute URL?
-        if (null !== parse_url($uri, PHP_URL_SCHEME)) {
+        if (null !== parse_url($uri, \PHP_URL_SCHEME)) {
             return $uri;
         }
 
@@ -104,7 +104,7 @@ abstract class AbstractUriElement
         }
 
         // absolute URL with relative schema
-        if (0 === strpos($uri, '//')) {
+        if (str_starts_with($uri, '//')) {
             return preg_replace('#^([^/]*)//.*$#', '$1', $baseUri).$uri;
         }
 
@@ -116,7 +116,7 @@ abstract class AbstractUriElement
         }
 
         // relative path
-        $path = parse_url(substr($this->currentUri, \strlen($baseUri)), PHP_URL_PATH);
+        $path = parse_url(substr($this->currentUri, \strlen($baseUri)), \PHP_URL_PATH);
         $path = $this->canonicalizePath(substr($path, 0, strrpos($path, '/')).'/'.$uri);
 
         return $baseUri.('' === $path || '/' !== $path[0] ? '/' : '').$path;
@@ -142,7 +142,7 @@ abstract class AbstractUriElement
             return $path;
         }
 
-        if ('.' === substr($path, -1)) {
+        if (str_ends_with($path, '.')) {
             $path .= '/';
         }
 
@@ -156,7 +156,7 @@ abstract class AbstractUriElement
             }
         }
 
-        return implode_polyfill('/', $output);
+        return implode('/', $output);
     }
 
     /**

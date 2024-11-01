@@ -215,7 +215,8 @@ class Translations extends ArrayObject
      *
      * @return Translation
      */
-    public function offsetSet($index, $value): void
+    #[\ReturnTypeWillChange]
+    public function offsetSet($index, $value)
     {
         if (!($value instanceof Translation)) {
             throw new InvalidArgumentException(
@@ -228,12 +229,12 @@ class Translations extends ArrayObject
         if ($this->offsetExists($id)) {
             $this[$id]->mergeWith($value);
 
-            //return $this[$id];
+            return $this[$id];
         }
 
         parent::offsetSet($id, $value);
 
-        //return $value;
+        return $value;
     }
 
     /**
@@ -281,7 +282,7 @@ class Translations extends ArrayObject
     public function setHeader($name, $value)
     {
         $name = trim($name);
-        $this->headers[$name] = trim($value);
+        $this->headers[$name] = trim(isset($value) ? $value : '');
 
         return $this;
     }
@@ -463,8 +464,7 @@ class Translations extends ArrayObject
      */
     public function insert($context, $original, $plural = '')
     {
-        $this->offsetSet(null, $this->createNewTranslation($context, $original, $plural));
-        return $this->find($context, $original);
+        return $this->offsetSet(null, $this->createNewTranslation($context, $original, $plural));
     }
 
     /**

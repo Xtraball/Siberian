@@ -7,14 +7,16 @@ namespace Stripe\Service;
 class PaymentMethodService extends \Stripe\Service\AbstractService
 {
     /**
-     * Returns a list of PaymentMethods for a given Customer.
+     * Returns a list of PaymentMethods. For listing a customer’s payment methods, you
+     * should use <a href="/docs/api/payment_methods/customer_list">List a Customer’s
+     * PaymentMethods</a>.
      *
      * @param null|array $params
      * @param null|array|\Stripe\Util\RequestOptions $opts
      *
      * @throws \Stripe\Exception\ApiErrorException if the request fails
      *
-     * @return \Stripe\Collection
+     * @return \Stripe\Collection<\Stripe\PaymentMethod>
      */
     public function all($params = null, $opts = null)
     {
@@ -77,7 +79,8 @@ class PaymentMethodService extends \Stripe\Service\AbstractService
     }
 
     /**
-     * Detaches a PaymentMethod object from a Customer.
+     * Detaches a PaymentMethod object from a Customer. After a PaymentMethod is
+     * detached, it can no longer be used for a payment or re-attached to a Customer.
      *
      * @param string $id
      * @param null|array $params

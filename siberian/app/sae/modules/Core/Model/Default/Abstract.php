@@ -208,6 +208,11 @@ abstract class Core_Model_Default_Abstract extends \__polyfill_mixed
         self::$_session[$type] = $session;
     }
 
+    public function getDbTable(): string
+    {
+        return $this->_db_table;
+    }
+
     /**
      * @return null
      */

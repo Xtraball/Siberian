@@ -5,7 +5,7 @@ use Gregwar\Cache\Cache;
 /**
  * Unit testing for Cache
  */
-class CacheTests extends \PHPUnit_Framework_TestCase
+class CacheTests extends \PHPUnit\Framework\TestCase
 {
 
     public function testContract()
@@ -200,7 +200,7 @@ class CacheTests extends \PHPUnit_Framework_TestCase
         return 'cache';
     }
 
-    public function tearDown()
+    public function tearDown(): void
     {
         $cacheDirectory = $this->getActualCacheDirectory();
         `rm -rf $cacheDirectory`;

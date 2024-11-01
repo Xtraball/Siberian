@@ -33,6 +33,11 @@ class HTMLPurifier_Printer_ConfigForm extends HTMLPurifier_Printer
     protected $compress = false;
 
     /**
+     * @var HTMLPurifier_Config
+     */
+    protected $genConfig;
+
+    /**
      * @param string $name Form element name for directives to be stuffed into
      * @param string $doc_url String documentation URL, will have fragment tagged on
      * @param bool $compress Integer max length before compressing a directive name, set to false to turn off
@@ -322,14 +327,14 @@ class HTMLPurifier_Printer_ConfigForm_default extends HTMLPurifier_Printer
                     }
                     //TODO does this need a break?
                 case HTMLPurifier_VarParser::ALIST:
-                    $value = implode_polyfill(PHP_EOL, $value);
+                    $value = implode(PHP_EOL, $value);
                     break;
                 case HTMLPurifier_VarParser::HASH:
                     $nvalue = '';
                     foreach ($value as $i => $v) {
                         if (is_array($v)) {
                             // HACK
-                            $v = implode_polyfill(";", $v);
+                            $v = implode(";", $v);
                         }
                         $nvalue .= "$i:$v" . PHP_EOL;
                     }

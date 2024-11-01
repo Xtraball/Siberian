@@ -145,6 +145,7 @@ class X509
     var $AuthorityKeyIdentifier;
     var $CertificatePolicies;
     var $AuthorityInfoAccessSyntax;
+    var $SubjectInfoAccessSyntax;
     var $SubjectAltName;
     var $SubjectDirectoryAttributes;
     var $PrivateKeyUsagePeriod;
@@ -1320,6 +1321,10 @@ class X509
             '2.5.4.45' => 'id-at-uniqueIdentifier',
             '2.5.4.72' => 'id-at-role',
             '2.5.4.16' => 'id-at-postalAddress',
+            '1.3.6.1.4.1.311.60.2.1.3' => 'jurisdictionOfIncorporationCountryName',
+            '1.3.6.1.4.1.311.60.2.1.2' => 'jurisdictionOfIncorporationStateOrProvinceName',
+            '1.3.6.1.4.1.311.60.2.1.1' => 'jurisdictionLocalityName',
+            '2.5.4.15' => 'id-at-businessCategory',
 
             '0.9.2342.19200300.100.1.25' => 'id-domainComponent',
             '1.2.840.113549.1.9' => 'pkcs-9',
@@ -1608,7 +1613,7 @@ class X509
      * Map extension values from octet string to extension-specific internal
      *   format.
      *
-     * @param array ref $root
+     * @param array $root (by reference)
      * @param string $path
      * @param object $asn1
      * @access private
@@ -1622,7 +1627,6 @@ class X509
                 $id = $extensions[$i]['extnId'];
                 $value = &$extensions[$i]['extnValue'];
                 $value = base64_decode($value);
-                $decoded = $asn1->decodeBER($value);
                 /* [extnValue] contains the DER encoding of an ASN.1 value
                    corresponding to the extension type identified by extnID */
                 $map = $this->_getMapping($id);
@@ -1630,6 +1634,7 @@ class X509
                     $decoder = $id == 'id-ce-nameConstraints' ?
                         array($this, '_decodeNameConstraintIP') :
                         array($this, '_decodeIP');
+                    $decoded = $asn1->decodeBER($value);
                     $mapped = $asn1->asn1map($decoded[0], $map, array('iPAddress' => $decoder));
                     $value = $mapped === false ? $decoded[0] : $mapped;
 
@@ -1661,7 +1666,7 @@ class X509
      * Map extension values from extension-specific internal format to
      *   octet string.
      *
-     * @param array ref $root
+     * @param array $root (by reference)
      * @param string $path
      * @param object $asn1
      * @access private
@@ -1727,7 +1732,7 @@ class X509
      * Map attribute values from ANY type to attribute-specific internal
      *   format.
      *
-     * @param array ref $root
+     * @param array $root (by reference)
      * @param string $path
      * @param object $asn1
      * @access private
@@ -1768,7 +1773,7 @@ class X509
      * Map attribute values from attribute-specific internal format to
      *   ANY type.
      *
-     * @param array ref $root
+     * @param array $root (by reference)
      * @param string $path
      * @param object $asn1
      * @access private
@@ -1811,7 +1816,7 @@ class X509
      * Map DN values from ANY type to DN-specific internal
      *   format.
      *
-     * @param array ref $root
+     * @param array $root (by reference)
      * @param string $path
      * @param object $asn1
      * @access private
@@ -1841,7 +1846,7 @@ class X509
      * Map DN values from DN-specific internal format to
      *   ANY type.
      *
-     * @param array ref $root
+     * @param array $root (by reference)
      * @param string $path
      * @param object $asn1
      * @access private
@@ -2065,7 +2070,8 @@ class X509
         if ($names = $this->getExtension('id-ce-subjectAltName')) {
             foreach ($names as $name) {
                 foreach ($name as $key => $value) {
-                    $value = str_replace(array('.', '*'), array('\.', '[^.]*'), $value);
+                    $value = preg_quote($value);
+                    $value = str_replace('\*', '[^.]*', $value);
                     switch ($key) {
                         case 'dNSName':
                             /* From RFC2818 "HTTP over TLS":
@@ -2163,7 +2169,11 @@ class X509
                 if (!$fsock) {
                     return false;
                 }
-                fputs($fsock, "GET $parts[path] HTTP/1.0\r\n");
+                $path = $parts['path'];
+                if (isset($parts['query'])) {
+                    $path.= '?' . $parts['query'];
+                }
+                fputs($fsock, "GET $path HTTP/1.0\r\n");
                 fputs($fsock, "Host: $parts[host]\r\n\r\n");
                 $line = fgets($fsock, 1024);
                 if (strlen($line) < 3) {
@@ -2179,7 +2189,11 @@ class X509
                 }
 
                 while (!feof($fsock)) {
-                    $data.= fread($fsock, 1024);
+                    $temp = fread($fsock, 1024);
+                    if ($temp === false) {
+                        return false;
+                    }
+                    $data.= $temp;
                 }
 
                 break;
@@ -2567,6 +2581,20 @@ class X509
     function _translateDNProp($propName)
     {
         switch (strtolower($propName)) {
+            case 'jurisdictionofincorporationcountryname':
+            case 'jurisdictioncountryname':
+            case 'jurisdictionc':
+                return 'jurisdictionOfIncorporationCountryName';
+            case 'jurisdictionofincorporationstateorprovincename':
+            case 'jurisdictionstateorprovincename':
+            case 'jurisdictionst':
+                return 'jurisdictionOfIncorporationStateOrProvinceName';
+            case 'jurisdictionlocalityname':
+            case 'jurisdictionl':
+                return 'jurisdictionLocalityName';
+            case 'id-at-businesscategory':
+            case 'businesscategory':
+                return 'id-at-businessCategory';
             case 'id-at-countryname':
             case 'countryname':
             case 'c':
@@ -3191,7 +3219,8 @@ class X509
     /**
      * Load a Certificate Signing Request
      *
-     * @param string $csr
+     * @param string|array $csr
+     * @param int $mode
      * @access public
      * @return mixed
      */
@@ -3328,7 +3357,7 @@ class X509
      *
      * https://developer.mozilla.org/en-US/docs/HTML/Element/keygen
      *
-     * @param string $csr
+     * @param string|array $spkac
      * @access public
      * @return mixed
      */
@@ -3399,7 +3428,7 @@ class X509
     /**
      * Save a SPKAC CSR request
      *
-     * @param array $csr
+     * @param string|array $spkac
      * @param int $format optional
      * @access public
      * @return string
@@ -3443,6 +3472,7 @@ class X509
      * Load a Certificate Revocation List
      *
      * @param string $crl
+     * @param int $mode
      * @access public
      * @return mixed
      */
@@ -4039,8 +4069,7 @@ class X509
     /**
      * X.509 certificate signing helper function.
      *
-     * @param object $key
-     * @param \phpseclib\File\X509 $subject
+     * @param \phpseclib\File\X509 $key
      * @param string $signatureAlgorithm
      * @access public
      * @return mixed
@@ -4115,7 +4144,7 @@ class X509
      * Set Serial Number
      *
      * @param string $serial
-     * @param $base optional
+     * @param int $base optional
      * @access public
      */
     function setSerialNumber($serial, $base = -256)
@@ -4778,7 +4807,6 @@ class X509
      * Set the IP Addresses's which the cert is to be valid for
      *
      * @access public
-     * @param string $ipAddress optional
      */
     function setIPAddress()
     {
@@ -5050,11 +5078,16 @@ class X509
          * subject=/O=organization/OU=org unit/CN=common name
          * issuer=/O=organization/CN=common name
          */
-        $temp = preg_replace('#.*?^-+[^-]+-+[\r\n ]*$#ms', '', $str, 1);
-        // remove the -----BEGIN CERTIFICATE----- and -----END CERTIFICATE----- stuff
-        $temp = preg_replace('#-+[^-]+-+#', '', $temp);
+        if (strlen($str) > ini_get('pcre.backtrack_limit')) {
+            $temp = $str;
+        } else {
+            $temp = preg_replace('#.*?^-+[^-]+-+[\r\n ]*$#ms', '', $str, 1);
+            $temp = preg_replace('#-+END.*[\r\n ]*.*#ms', '', $temp, 1);
+        }
         // remove new lines
         $temp = str_replace(array("\r", "\n", ' '), '', $temp);
+        // remove the -----BEGIN CERTIFICATE----- and -----END CERTIFICATE----- stuff
+        $temp = preg_replace('#^-+[^-]+-+|-+[^-]+-+$#', '', $temp);
         $temp = preg_match('#^[a-zA-Z\d/+]*={0,2}$#', $temp) ? base64_decode($temp) : false;
         return $temp != false ? $temp : $str;
     }

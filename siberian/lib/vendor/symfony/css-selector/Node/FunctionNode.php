@@ -52,7 +52,7 @@ class FunctionNode extends AbstractNode
     /**
      * @return Token[]
      */
-    public function getArguments()
+    public function getArguments(): array
     {
         return $this->arguments;
     }
@@ -65,12 +65,9 @@ class FunctionNode extends AbstractNode
         return $this->selector->getSpecificity()->plus(new Specificity(0, 1, 0));
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function __toString(): string
     {
-        $arguments = implode_polyfill(', ', array_map(function (Token $token) {
+        $arguments = implode(', ', array_map(function (Token $token) {
             return "'".$token->getValue()."'";
         }, $this->arguments));
 

@@ -165,7 +165,10 @@ class VueJs extends Extractor implements ExtractorInterface, ExtractorMultiInter
         $dom = new DOMDocument;
 
         libxml_use_internal_errors(true);
-        $dom->loadHTML($html);
+
+        // Prepend xml encoding so DOMDocument document handles UTF8 correctly.
+        // Assuming that vue template files will not have any xml encoding tags, because duplicate tags may be ignored.
+        $dom->loadHTML('<?xml encoding="utf-8"?>' . $html);
 
         libxml_clear_errors();
 
@@ -303,7 +306,7 @@ class VueJs extends Extractor implements ExtractorInterface, ExtractorMultiInter
 
         for ($line = 1; $line <= $maxLines; $line++) {
             if (isset($expressionsByLine[$line])) {
-                $fakeJs .= implode_polyfill("; ", $expressionsByLine[$line]);
+                $fakeJs .= implode("; ", $expressionsByLine[$line]);
             }
             $fakeJs .= "\n";
         }
@@ -387,7 +390,7 @@ class VueJs extends Extractor implements ExtractorInterface, ExtractorMultiInter
         foreach ($lines as $line) {
             $expressionMatched = static::parseOneTemplateLine($line);
 
-            $fakeJs .= implode_polyfill("; ", $expressionMatched) . "\n";
+            $fakeJs .= implode("; ", $expressionMatched) . "\n";
         }
 
         return $fakeJs;

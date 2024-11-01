@@ -183,6 +183,30 @@ class BaseStripeClient implements StripeClientInterface, StripeStreamingClientIn
     }
 
     /**
+     * Sends a request to Stripe's API.
+     *
+     * @param string $method the HTTP method
+     * @param string $path the path of the request
+     * @param array $params the parameters of the request
+     * @param array|\Stripe\Util\RequestOptions $opts the special modifiers of the request
+     *
+     * @return \Stripe\SearchResult of ApiResources
+     */
+    public function requestSearchResult($method, $path, $params, $opts)
+    {
+        $obj = $this->request($method, $path, $params, $opts);
+        if (!($obj instanceof \Stripe\SearchResult)) {
+            $received_class = \get_class($obj);
+            $msg = "Expected to receive `Stripe\\SearchResult` object from Stripe API. Instead received `{$received_class}`.";
+
+            throw new \Stripe\Exception\UnexpectedValueException($msg);
+        }
+        $obj->setFilters($params);
+
+        return $obj;
+    }
+
+    /**
      * @param \Stripe\Util\RequestOptions $opts
      *
      * @throws \Stripe\Exception\AuthenticationException
@@ -280,7 +304,7 @@ class BaseStripeClient implements StripeClientInterface, StripeStreamingClientIn
         $extraConfigKeys = \array_diff(\array_keys($config), \array_keys($this->getDefaultConfig()));
         if (!empty($extraConfigKeys)) {
             // Wrap in single quote to more easily catch trailing spaces errors
-            $invalidKeys = "'" . \implode_polyfill("', '", $extraConfigKeys) . "'";
+            $invalidKeys = "'" . \implode("', '", $extraConfigKeys) . "'";
 
             throw new \Stripe\Exception\InvalidArgumentException('Found unknown key(s) in configuration array: ' . $invalidKeys);
         }
