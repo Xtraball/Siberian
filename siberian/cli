@@ -7,9 +7,12 @@ ini_set('display_errors', 1);
 /**
  * Siberian
  *
- * @version 5.0.8
+ * @version 5.0.13
  * @author Xtraball SAS <dev@xtraball.com>
  */
+
+# Loading env
+require_once './lib/System/env.php';
 
 use Siberian\Info;
 use Siberian\Translation;

@@ -38,10 +38,16 @@ services:
       - ./php/docker.conf:/etc/php/7.3/fpm/pool.d/
       - ./php/php.ini:/usr/local/etc/php/php.ini
       - "../modules:${PROJECT_PATH}/modules"
-    ports:
-      - "${SOCKETIO_RANGE}:${SOCKETIO_RANGE}"
+#    ports:
+#      - "${SOCKETIO_RANGE}:${SOCKETIO_RANGE}"
     env_file:
       - .env
+    environment:
+      - IS_INSTALLED=1
+      - MYSQL_HOST=db
+      - MYSQL_DATABASE=siberian_sae
+      - MYSQL_USER=user
+      - MYSQL_PASS=pass
     networks:
       siberian-network-ip:
         ipv4_address: "${PHP_IPV4}"
@@ -57,7 +63,6 @@ services:
     volumes:
       - ../siberian:/var/www/html
       - ./nginx/default.conf:/etc/nginx/conf.d/default.conf
-      - "${SSL_CERT_PATH}:/etc/nginx/ssl-certificates"
       - "../modules:${PROJECT_PATH}/modules"
     env_file:
       - .env
