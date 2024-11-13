@@ -3,12 +3,14 @@
 /**
  * Siberian
  *
- * @version 5.0.8
+ * @version 5.0.13
  * @author Xtraball SAS <dev@xtraball.com>
  */
 
 chdir(__DIR__);
 
+# Loading env
+require_once __DIR__ . '/lib/System/env.php';
 require_once __DIR__ . '/lib/System/polyfills.php';
 
 global $_config;

@@ -3,9 +3,12 @@
 /**
  * Siberian
  *
- * @version 5.0.7
+ * @version 5.0.13
  * @author Xtraball SAS <dev@xtraball.com>
  */
+
+# Loading env
+require_once './lib/System/env.php';
 
 if (array_key_exists('REQUEST_METHOD', $_SERVER) &&
     ($_SERVER['REQUEST_METHOD'] === 'OPTIONS')) {
