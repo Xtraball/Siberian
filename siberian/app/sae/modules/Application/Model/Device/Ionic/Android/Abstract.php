@@ -48,15 +48,16 @@ abstract class Application_Model_Device_Ionic_Android_Abstract extends Applicati
         $pushIcon = path('/images/application' . $application->getAndroidPushIcon());
 
         /** icon/push_icon */
+        $icNew = $application->getIcon(288, null, true);
         $appIcon192 = $application->getIcon(192, null, true);
         $appIcon96 = $application->getIcon(96, null, true);
         $icons = [
             $this->_dest_source_res . '/drawable-xxxhdpi/icon.png' => $appIcon192,
             $this->_dest_source_res . '/drawable-xxxhdpi/push_icon.png' => $appIcon192,
-            $this->_dest_source_res . '/drawable-xxxhdpi/ic_launcher.png' => $appIcon192,
+            $this->_dest_source_res . '/drawable-xxxhdpi/ic_launcher.png' => $icNew,
             $this->_dest_source_res . '/drawable-xxxhdpi/launcher_icon.png' => $appIcon192,
 
-            $this->_dest_source_res . '/mipmap-xxxhdpi/ic_launcher.png' => $appIcon192,
+            $this->_dest_source_res . '/mipmap-xxxhdpi/ic_launcher.png' => $icNew,
             $this->_dest_source_res . '/mipmap-xxxhdpi/icon.png' => $appIcon192,
             $this->_dest_source_res . '/mipmap-xxxhdpi/launcher_icon.png' => $appIcon192,
 
@@ -240,6 +241,12 @@ abstract class Application_Model_Device_Ionic_Android_Abstract extends Applicati
                 '#cordova\.system.library\.([0-9]+)\=com\.startapp\:admob\-mediation\:([0-9\.\+]+)#' => ''
             ], "{$this->_dest_source}/project.properties", true);
         }
+
+        // New splash background color
+        $splash_color = $application->getAndroidSplashColor();
+        $this->__replace([
+            '<color name="cdv_splashscreen_background">#FFFFFF</color>' => '<color name="cdv_splashscreen_background"></color>',
+        ], "{$this->_dest_source_res}/values/colors.xml", true);
     }
 
     /**

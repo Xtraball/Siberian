@@ -29,7 +29,25 @@ class Application_Form_Customization_Publication_App extends Siberian_Form_Abstr
             "height" => 256,
             "required" => true,
         ));
+
+        $color_html = '
+<div>
+    <div class="col-md-12">
+        <div class="android-colorlabel"><b>'.__("Splashscreen background color").': </b></div>
+        <div class="android-colorpicker-block">
+            <input type="text" class="android-splash-colorpicker-input input-flat" name="android_splash_color" id="android_splash_color" value="" />
+            <div class="android-splash-colorpicker"></div>
+        </div>
+       
+    </div>
+</div>
+<br />';
+
+        $this->addSimpleHtml("colorpicker", $color_html);
+
         $application_icon->setRequired(true);
+
+        $this->addNav("save", __("Save"), false);
     }
 
     /**
