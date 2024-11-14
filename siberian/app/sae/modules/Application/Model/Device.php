@@ -154,6 +154,42 @@ class Application_Model_Device extends Core_Model_Default {
         return $this->setData('ns_motion_ud', $_filtered);
     }
 
+    /**
+     * @param string $description
+     * @return $this
+     * @throws Zend_Exception
+     */
+    public function setNsUserTrackingUd($description)
+    {
+        $_filtered = \Siberian\Xss::sanitize($description);
+
+        return $this->setData('ns_user_tracking_ud', $_filtered);
+    }
+
+    /**
+     * @param $description
+     * @return mixed
+     * @throws Zend_Exception
+     */
+    public function setNsMicrophoneUd($description)
+    {
+        $_filtered = \Siberian\Xss::sanitize($description);
+
+        return $this->setData('ns_microphone_ud', $_filtered);
+    }
+
+    /**
+     * @param $description
+     * @return mixed
+     * @throws Zend_Exception
+     */
+    public function setNsContactsUd($description)
+    {
+        $_filtered = \Siberian\Xss::sanitize($description);
+
+        return $this->setData('ns_contacts_ud', $_filtered);
+    }
+
 
     /**
      * @return array

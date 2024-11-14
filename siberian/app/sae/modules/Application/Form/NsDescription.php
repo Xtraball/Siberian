@@ -55,6 +55,16 @@ class Application_Form_NsDescription extends Siberian_Form_Abstract {
             ->setDescription(__('Specifies the reason for your app to access the device\'s accelerometer.'))
             ->setAttrib('maxlength', 256);
 
+        $this->addSimpleText('ns_microphone_ud',
+            __('NSMicrophoneUsageDescription'))
+            ->setDescription(__('Specifies the reason for your app to access the device\'s microphone.'))
+            ->setAttrib('maxlength', 256);
+
+        $this->addSimpleText('ns_contacts_ud',
+            __('NSContactsUsageDescription'))
+            ->setDescription(__('Specifies the reason for your app to access the user contacts.'))
+            ->setAttrib('maxlength', 256);
+
         $this->addSimpleText('ns_user_tracking_ud',
             p__('application', 'NSUserTrackingUsageDescription (for AdMob & ATT)'))
             ->setDescription(p__('application', 'Specifies the reason for your app to serve personalized ads and/or track personal data.'))

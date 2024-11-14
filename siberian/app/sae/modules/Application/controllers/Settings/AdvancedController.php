@@ -87,6 +87,8 @@ class Application_Settings_AdvancedController extends Application_Controller_Def
                     ->setNsLocationAlwaysAndWhenInUseUd($values['ns_location_always_and_when_in_use_ud'])
                     ->setNsMotionUd($values['ns_motion_ud'])
                     ->setNsUserTrackingUd($values['ns_user_tracking_ud'])
+                    ->setNsMicrophoneUd($values['ns_microphone_ud'])
+                    ->setNsContactsUd($values['ns_contacts_ud'])
                     ->save();
 
                 $application

@@ -224,6 +224,20 @@ $schemas['application_device'] = [
         'collation' => 'utf8_unicode_ci',
         'default' => 'Smart navigation with TaxiRide and other nice features',
     ],
+    'ns_microphone_ud' => [
+        'type' => 'varchar(256)',
+        'is_null' => true,
+        'charset' => 'utf8',
+        'collation' => 'utf8_unicode_ci',
+        'default' => 'Allows the app to access and use the microphone for audio recording or voice input features',
+    ],
+    'ns_contacts_ud' => [
+        'type' => 'varchar(256)',
+        'is_null' => true,
+        'charset' => 'utf8',
+        'collation' => 'utf8_unicode_ci',
+        'default' => 'Allows the app to access your contacts for enhanced functionality and personalized experience',
+    ],
     'orientations' => [
         'type' => 'varchar(1024)',
         'is_null' => true,
