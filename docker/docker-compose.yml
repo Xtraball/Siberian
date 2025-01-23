@@ -27,7 +27,7 @@ services:
 
   php:
     restart: always
-    image: siberian:php-fpm.7.3
+    image: siberian:php-fpm.8.2
     profiles:
       - php
     build:
@@ -35,9 +35,9 @@ services:
       dockerfile: ./php/Dockerfile
     volumes:
       - ../siberian:/var/www/html
-      - ./php/docker.conf:/etc/php/7.3/fpm/pool.d/
+      - ./php/docker.conf:/etc/php/8.2/fpm/pool.d/
       - ./php/php.ini:/usr/local/etc/php/php.ini
-      - "../modules:${PROJECT_PATH}/modules"
+#      - "../modules:${PROJECT_PATH}/modules"
     ports:
       - "${SOCKETIO_RANGE}:${SOCKETIO_RANGE}"
     env_file:
@@ -57,8 +57,8 @@ services:
     volumes:
       - ../siberian:/var/www/html
       - ./nginx/default.conf:/etc/nginx/conf.d/default.conf
-      - "${SSL_CERT_PATH}:/etc/nginx/ssl-certificates"
-      - "../modules:${PROJECT_PATH}/modules"
+#      - "${SSL_CERT_PATH}:/etc/nginx/ssl-certificates"
+#      - "../modules:/modules"
     env_file:
       - .env
     networks:

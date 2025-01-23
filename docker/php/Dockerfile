@@ -1,37 +1,63 @@
-FROM php:7.3-fpm
+FROM php:8.2-fpm
 
-RUN apt-get update
-RUN apt-get install --yes --force-yes cron g++ gettext libicu-dev openssl libc-client-dev libkrb5-dev  libxml2-dev libfreetype6-dev libgd-dev libmcrypt-dev bzip2 libbz2-dev libtidy-dev libcurl4-openssl-dev libz-dev libmemcached-dev libxslt-dev
+# Update and install required dependencies
+RUN apt-get update && apt-get install -y \
+    cron \
+    g++ \
+    gettext \
+    libicu-dev \
+    openssl \
+    libc-client-dev \
+    libkrb5-dev \
+    libxml2-dev \
+    libfreetype6-dev \
+    libjpeg62-turbo-dev \
+    libpng-dev \
+    libtidy-dev \
+    libcurl4-openssl-dev \
+    libz-dev \
+    libxslt-dev \
+    libmemcached-dev \
+    bzip2 \
+    libbz2-dev \
+    libonig-dev \
+    libzip-dev \
+    && rm -rf /var/lib/apt/lists/*
 
-# PHP Configuration
-RUN docker-php-ext-install bcmath
-RUN docker-php-ext-install bz2
-RUN docker-php-ext-install calendar
-RUN docker-php-ext-install dba
-RUN docker-php-ext-install exif
-RUN docker-php-ext-install fileinfo
-RUN docker-php-ext-configure gd --with-freetype-dir=/usr --with-jpeg-dir=/usr
-RUN docker-php-ext-install gd
-RUN docker-php-ext-install gettext
-RUN docker-php-ext-configure imap --with-kerberos --with-imap-ssl
-RUN docker-php-ext-install imap
-RUN docker-php-ext-install intl
-RUN docker-php-ext-install pdo pdo_mysql
-RUN docker-php-ext-install soap
-RUN docker-php-ext-install tidy
-RUN docker-php-ext-install xmlrpc
-RUN docker-php-ext-install mbstring
-RUN docker-php-ext-install xsl
-RUN docker-php-ext-configure zip --enable-zip --without-libzip
-RUN docker-php-ext-install zip
-RUN docker-php-ext-configure hash --with-mhash
-RUN docker-php-ext-install sockets
+# Install PHP extensions
+RUN docker-php-ext-install \
+    bcmath \
+    bz2 \
+    calendar \
+    dba \
+    exif \
+    fileinfo \
+    gettext \
+    intl \
+    pdo_mysql \
+    soap \
+    tidy \
+    mbstring \
+    xsl \
+    sockets \
+    zip
 
-# Well!
+# Configure GD extension
+RUN docker-php-ext-configure gd --with-freetype --with-jpeg && \
+    docker-php-ext-install gd
+
+# Configure IMAP extension
+RUN docker-php-ext-configure imap --with-kerberos --with-imap-ssl && \
+    docker-php-ext-install imap
+
+# Create a symbolic link for PHP
 RUN ln -s /usr/local/bin/php /usr/bin/php
 
+# Set the working directory
 WORKDIR /var/www/html
 
+# Expose PHP-FPM port
 EXPOSE 9000
 
+# Set the default command
 CMD ["php-fpm"]

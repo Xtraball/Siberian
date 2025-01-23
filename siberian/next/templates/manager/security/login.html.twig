@@ -1,0 +1,27 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Login{% endblock %}
+
+{% block body %}
+    <h1>Login</h1>
+    {% if error %}
+        <div class="alert alert-danger">{{ error.messageKey|trans(error.messageData, 'security') }}</div>
+    {% endif %}
+
+    <form action="{{ path('manager_login') }}" method="post">
+        <input type="hidden" name="_csrf_token" value="{{ csrf_token('authenticate') }}">
+        <div>
+            <label for="email">Email:</label>
+            <input type="text" id="email" name="_username" value="{{ last_username }}" required autofocus>
+        </div>
+        <div>
+            <label for="password">Password:</label>
+            <input type="password" id="password" name="_password" required>
+        </div>
+        <div>
+            <input type="checkbox" id="remember_me" name="_remember_me" />
+            <label for="remember_me">Remember Me</label>
+        </div>
+        <button type="submit">Login</button>
+    </form>
+{% endblock %}

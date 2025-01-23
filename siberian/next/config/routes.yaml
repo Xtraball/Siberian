@@ -1,0 +1,20 @@
+cms:
+  resource:
+    path: ../src/Controller/Cms
+    namespace: App\Controller\Cms
+    prefix: /next/cms/
+  type: attribute
+
+manager:
+  resource:
+    path: ../src/Controller/Manager
+    namespace: App\Controller\Manager
+    prefix: /next/manager/
+  type: attribute
+
+next:
+  resource:
+    path: ../src/Controller/Next
+    namespace: App\Controller\Next
+    prefix: /next/
+  type: attribute

@@ -1,0 +1,96 @@
+security:
+    # https://symfony.com/doc/current/security.html#registering-the-user-hashing-passwords
+    password_hashers:
+        Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface: 'auto'
+    # https://symfony.com/doc/current/security.html#loading-the-user-the-user-provider
+    providers:
+        manager_user_provider:
+            memory:
+                users:
+                    dev_user:
+                        password: dev_password
+                        roles: ROLE_MANAGER
+        cms_user_provider:
+            memory:
+                users:
+                    dev_user:
+                        password: dev_password
+                        roles: ROLE_USER
+        # used to reload user from session & other features (e.g. switch_user)
+        app_user_provider:
+            entity:
+                class: App\Entity\Cms\User
+                property: email
+#        cms_user_provider:
+#            entity:
+#                class: App\Entity\Cms\User
+#                property: email
+#        manager_user_provider:
+#            entity:
+#                class: App\Entity\Manager\User
+#                property: email
+        # used to reload user from session & other features (e.g. switch_user)
+#        app_user_provider:
+#            id: App\Security\UserProvider
+    firewalls:
+        dev:
+            pattern: ^/next/(_(profiler|wdt)|css|images|js)/
+            security: false
+        # Firewall for Manager area
+        manager:
+            pattern: ^/next/manager
+            provider: manager_user_provider
+            form_login:
+                login_path: /next/manager/login
+                check_path: /next/manager/login
+                default_target_path: /next/manager
+                always_use_default_target_path: true
+            logout:
+                path: /next/manager/logout
+                target: /next/manager/login
+            # Enable Remember Me (optional)
+            remember_me:
+                secret: '%kernel.secret%'
+                lifetime: 604800 # 1 week
+                path: /next/manager
+            stateless: false
+
+        # Firewall for CMS area
+        cms:
+            pattern: ^/next/cms
+            provider: cms_user_provider
+            form_login:
+                login_path: cms_login
+                check_path: cms_login
+                default_target_path: /next/cms
+                always_use_default_target_path: true
+                enable_csrf: true
+            logout:
+                path: cms_logout
+                target: cms_login
+            remember_me:
+                secret: '%kernel.secret%'
+                lifetime: 604800 # 1 week
+                path: /next/cms
+            stateless: false
+
+    # Easy way to control access for large sections of your site
+    # Note: Only the *first* access control that matches will be used
+    access_control:
+      - { path: ^/manager, roles: ROLE_MANAGER }
+      - { path: ^/manager/login, roles: IS_AUTHENTICATED_ANONYMOUSLY }
+      - { path: ^/cms, roles: ROLE_USER }
+      - { path: ^/cms/login, roles: IS_AUTHENTICATED_ANONYMOUSLY }
+
+when@test:
+    security:
+        password_hashers:
+            # By default, password hashers are resource intensive and take time. This is
+            # important to generate secure password hashes. In tests however, secure hashes
+            # are not important, waste resources and increase test times. The following
+            # reduces the work factor to the lowest possible values.
+            Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface:
+                algorithm: auto
+                cost: 4 # Lowest possible value for bcrypt
+                time_cost: 3 # Lowest possible value for argon
+                memory_cost: 10 # Lowest possible value for argon

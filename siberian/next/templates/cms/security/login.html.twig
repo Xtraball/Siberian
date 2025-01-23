@@ -1,0 +1,42 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Login{% endblock %}
+
+{% block body %}
+    <h1>Login</h1>
+    {% if error %}
+        <div class="alert alert-danger">{{ error.messageKey|trans(error.messageData, 'security') }}</div>
+    {% endif %}
+
+    <div class="max-w-sm mx-auto py-12">
+        <form action="{{ path('cms_login') }}" method="post" class="space-y-6">
+            <input type="hidden" name="_csrf_token" value="{{ csrf_token('authenticate') }}">
+
+            {# Email field #}
+            <div>
+                <label for="email" class="block text-sm font-medium text-gray-700">Email</label>
+                <input type="text" id="email" name="_username" required class="mt-2 p-2 w-full border border-gray-300 rounded-md" />
+            </div>
+
+            {# Password field #}
+            <div>
+                <label for="password" class="block text-sm font-medium text-gray-700">Password</label>
+                <input type="text" id="password" name="_password" required class="mt-2 p-2 w-full border border-gray-300 rounded-md" />
+            </div>
+
+            {# Remember Me checkbox #}
+            <div>
+                <label for="remember_me" class="flex items-center">
+                    <input type="checkbox" id="remember_me" name="_remember_me" class="mr-2" />
+                    Remember Me
+                </label>
+            </div>
+
+            {# Submit button #}
+            <div>
+                <button type="submit" class="w-full py-2 px-4 bg-blue-600 text-white rounded-md hover:bg-blue-700">Login</button>
+            </div>
+        </form>
+    </div>
+
+{% endblock %}
