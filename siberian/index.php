@@ -10,15 +10,17 @@
 # Loading env
 require_once './lib/System/env.php';
 
+$at_least_php82 = version_compare(PHP_VERSION, '8.2', '>=');
+
 # match request uri ^/next/
-if (preg_match('/^\/(next|_wdt)/', $_SERVER['REQUEST_URI'])) {
+if ($at_least_php82 &&
+    preg_match('/^\/(next)/', $_SERVER['REQUEST_URI'])) {
     error_reporting(E_ALL);
     ini_set('display_errors', 1);
     require_once __DIR__ . '/next/vendor/autoload_runtime.php';
     return function (array $context) {
         return new \App\Kernel($context['APP_ENV'], (bool)$context['APP_DEBUG']);
     };
-    die;
 } else {
 
     if (array_key_exists('REQUEST_METHOD', $_SERVER) &&

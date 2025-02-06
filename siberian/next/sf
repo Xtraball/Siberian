@@ -1,0 +1,3 @@
+#!/bin/bash
+
+DATABASE_URL=mysql://root:toor@127.0.0.1/siberian_sae ../symfony "$@"

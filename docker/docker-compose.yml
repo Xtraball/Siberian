@@ -25,7 +25,28 @@ services:
       siberian-network-ip:
         ipv4_address: "${DB_IPV4}"
 
-  php:
+  php73:
+    restart: always
+    image: siberian:php-fpm.7.3
+    profiles:
+      - php
+    build:
+      context: .
+      dockerfile: ./php/Dockerfile
+    volumes:
+      - ../siberian:/var/www/html
+      - ./php/docker.conf:/etc/php/7.3/fpm/pool.d/
+      - ./php/php.ini:/usr/local/etc/php/php.ini
+#      - "../modules:${PROJECT_PATH}/modules"
+#    ports:
+#      - "${SOCKETIO_RANGE}:${SOCKETIO_RANGE}"
+    env_file:
+      - .env
+    networks:
+      siberian-network-ip:
+        ipv4_address: "${PHP_IPV4}"
+
+  php82:
     restart: always
     image: siberian:php-fpm.8.2
     profiles:
@@ -37,14 +58,14 @@ services:
       - ../siberian:/var/www/html
       - ./php/docker.conf:/etc/php/8.2/fpm/pool.d/
       - ./php/php.ini:/usr/local/etc/php/php.ini
-#      - "../modules:${PROJECT_PATH}/modules"
-    ports:
-      - "${SOCKETIO_RANGE}:${SOCKETIO_RANGE}"
+    #      - "../modules:${PROJECT_PATH}/modules"
+#    ports:
+#      - "${SOCKETIO_RANGE}:${SOCKETIO_RANGE}"
     env_file:
       - .env
     networks:
       siberian-network-ip:
-        ipv4_address: "${PHP_IPV4}"
+        ipv4_address: "${PHP8_IPV4}"
 
   nginx:
     restart: always

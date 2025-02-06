@@ -11,11 +11,9 @@ security:
                         password: dev_password
                         roles: ROLE_MANAGER
         cms_user_provider:
-            memory:
-                users:
-                    dev_user:
-                        password: dev_password
-                        roles: ROLE_USER
+            entity:
+                class: App\Entity\Cms\User
+                property: email
         # used to reload user from session & other features (e.g. switch_user)
         app_user_provider:
             entity:
@@ -59,6 +57,8 @@ security:
         cms:
             pattern: ^/next/cms
             provider: cms_user_provider
+            custom_authenticators:
+                - App\Security\LegacyAuthenticator
             form_login:
                 login_path: cms_login
                 check_path: cms_login
