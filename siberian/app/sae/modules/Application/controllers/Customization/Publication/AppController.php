@@ -35,8 +35,6 @@ class Application_Customization_Publication_AppController extends Application_Co
     {
         $values = $this->getRequest()->getPost();
 
-        dbg($values);
-
         $form = new Application_Form_Customization_Publication_App();
         if ($form->isValid($values)) {
 

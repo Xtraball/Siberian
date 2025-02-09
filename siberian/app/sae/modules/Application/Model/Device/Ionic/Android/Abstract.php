@@ -219,7 +219,9 @@ abstract class Application_Model_Device_Ionic_Android_Abstract extends Applicati
         ], "{$this->_dest_source}/app/src/main/res/xml/config.xml");
 
         // FB Mediation
-        if ($application->getMediationFacebook() !== '1') {
+        // Mediation is temporary disabled
+        //if ($application->getMediationFacebook() !== '1') {
+        if (true) {
             $this->__replace([
                 '#implementation \"com\.facebook\.android\:audience\-network\-sdk\:\+\"#' => '',
                 '#implementation \"com\.google\.ads\.mediation\:facebook\:\+\"#' => ''
@@ -231,7 +233,9 @@ abstract class Application_Model_Device_Ionic_Android_Abstract extends Applicati
         }
 
         // StartApp Mediation
-        if ($application->getMediationStartapp() !== '1') {
+        // Mediation is temporary disabled
+        //if ($application->getMediationStartapp() !== '1') {
+        if (true) {
             $this->__replace([
                 '#implementation \"com\.startapp\:inapp\-sdk\:([0-9\.\+]+)\"#' => '',
                 '#implementation \"com\.startapp\:admob\-mediation\:([0-9\.\+]+)\"#' => ''
@@ -245,7 +249,7 @@ abstract class Application_Model_Device_Ionic_Android_Abstract extends Applicati
         // New splash background color
         $splash_color = $application->getAndroidSplashColor();
         $this->__replace([
-            '<color name="cdv_splashscreen_background">#FFFFFF</color>' => '<color name="cdv_splashscreen_background"></color>',
+            '<color name="cdv_splashscreen_background">#FFFFFF</color>' => '<color name="cdv_splashscreen_background">' . $splash_color . '</color>',
         ], "{$this->_dest_source_res}/values/colors.xml", true);
     }
 

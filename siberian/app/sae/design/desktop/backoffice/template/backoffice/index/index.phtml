@@ -1,6 +1,5 @@
 <?php
 
-use Siberian\Json;
 use Siberian\Provider;
 use Siberian\Version;
 
@@ -74,9 +73,21 @@ if (array_key_exists(Version::VERSION, $updates)) {
     $statusText = $current['statusText'];
 }
 
+// Check that PHP version is at least 8.2.0
+$mustUpgradePhp = false;
+if (version_compare(PHP_VERSION, '8.2.0', '<')) {
+    $mustUpgradePhp = true;
+}
+
 ?>
 <div class="row">
     <div class="col-md-8 col-md-offset-2 col-sm-12">
+        <?php if ($mustUpgradePhp): ?>
+        <p class="alert alert-danger">
+            <?php echo __('Your current PHP version will not be supported by <b>Siberian Next</b>, it requires PHP 8.2 (higher versions of PHP are not supported yet), please upgrade as soon as possible.'); ?>
+        </p>
+        <?php endif; ?>
+
         <span ng-if="!sslLoading">
             <p class="alert"
                ng-class="{
