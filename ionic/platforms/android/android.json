@@ -5,33 +5,133 @@
   },
   "config_munge": {
     "files": {
+      "config.xml": {
+        "parents": {
+          "/*": [
+            {
+              "xml": "<feature name=\"AppVersion\"><param name=\"android-package\" value=\"uk.co.whiteoctober.cordova.AppVersion\" /></feature>",
+              "count": 1
+            },
+            {
+              "xml": "<feature name=\"Badge\"><param name=\"android-package\" value=\"de.appplant.cordova.plugin.badge.Badge\" /></feature>",
+              "count": 1
+            },
+            {
+              "xml": "<feature name=\"Clipboard\"><param name=\"android-package\" value=\"com.verso.cordova.clipboard.Clipboard\" /></feature>",
+              "count": 1
+            },
+            {
+              "xml": "<feature name=\"Device\"><param name=\"android-package\" value=\"org.apache.cordova.device.Device\" /></feature>",
+              "count": 1
+            },
+            {
+              "xml": "<feature name=\"Geolocation\"><param name=\"android-package\" value=\"org.apache.cordova.geolocation.Geolocation\" /></feature>",
+              "count": 1
+            },
+            {
+              "xml": "<feature name=\"CDVIonicKeyboard\"><param name=\"android-package\" onload=\"true\" value=\"io.ionic.keyboard.CDVIonicKeyboard\" /></feature>",
+              "count": 1
+            },
+            {
+              "xml": "<feature name=\"SocialSharing\"><param name=\"android-package\" value=\"nl.xservices.plugins.SocialSharing\" /></feature>",
+              "count": 1
+            },
+            {
+              "xml": "<feature name=\"StatusBar\"><param name=\"android-package\" value=\"org.apache.cordova.statusbar.StatusBar\" /><param name=\"onload\" value=\"true\" /></feature>",
+              "count": 1
+            },
+            {
+              "xml": "<feature name=\"Insomnia\"><param name=\"android-package\" value=\"nl.xservices.plugins.Insomnia\" /></feature>",
+              "count": 1
+            },
+            {
+              "xml": "<feature name=\"MusicControls\"><param name=\"android-package\" value=\"com.xtraball.musiccontrols.MusicControls\" /></feature>",
+              "count": 1
+            },
+            {
+              "xml": "<allow-navigation href=\"http://localhost/*\" />",
+              "count": 1
+            },
+            {
+              "xml": "<allow-navigation href=\"https://localhost/*\" />",
+              "count": 1
+            },
+            {
+              "xml": "<allow-navigation href=\"ionic://*\" />",
+              "count": 1
+            },
+            {
+              "xml": "<preference name=\"webView\" value=\"com.ionicframework.cordova.webview.IonicWebViewEngine\" />",
+              "count": 1
+            },
+            {
+              "xml": "<feature name=\"IonicWebView\"><param name=\"android-package\" value=\"com.ionicframework.cordova.webview.IonicWebView\" /></feature>",
+              "count": 1
+            },
+            {
+              "xml": "<feature name=\"WebViewPlugin\"><param name=\"android-package\" value=\"com.webview.WebViewPlugin\" /></feature>",
+              "count": 1
+            }
+          ]
+        }
+      },
+      "res/xml/config.xml": {
+        "parents": {
+          "/*": [
+            {
+              "xml": "<feature name=\"BarcodeScanner\"><param name=\"android-package\" value=\"com.phonegap.plugins.barcodescanner.BarcodeScanner\" /></feature>",
+              "count": 1
+            },
+            {
+              "xml": "<feature name=\"BrowserTab\"><param name=\"android-package\" value=\"com.google.cordova.plugin.browsertab.BrowserTab\" /></feature>",
+              "count": 1
+            },
+            {
+              "xml": "<feature name=\"Camera\"><param name=\"android-package\" value=\"org.apache.cordova.camera.CameraLauncher\" /></feature>",
+              "count": 1
+            },
+            {
+              "xml": "<feature name=\"File\"><param name=\"android-package\" value=\"org.apache.cordova.file.FileUtils\" /><param name=\"onload\" value=\"true\" /></feature>",
+              "count": 1
+            },
+            {
+              "xml": "<allow-navigation href=\"cdvfile:*\" />",
+              "count": 1
+            },
+            {
+              "xml": "<feature name=\"InAppBrowser\"><param name=\"android-package\" value=\"org.apache.cordova.inappbrowser.InAppBrowser\" /></feature>",
+              "count": 1
+            },
+            {
+              "xml": "<feature name=\"LocalNotification\"><param name=\"android-package\" value=\"de.appplant.cordova.plugin.localnotification.LocalNotification\" /></feature>",
+              "count": 1
+            },
+            {
+              "xml": "<feature name=\"MediaNative\"><param name=\"android-package\" value=\"org.apache.cordova.media.AudioHandler\" /></feature>",
+              "count": 1
+            },
+            {
+              "xml": "<feature name=\"Navigator\"><param name=\"android-package\" value=\"com.xtraball.cordova.plugin.Navigator\" /></feature>",
+              "count": 1
+            },
+            {
+              "xml": "<feature name=\"OneSignalPush\"><param name=\"android-package\" value=\"com.onesignal.cordova.OneSignalPush\" /></feature>",
+              "count": 1
+            },
+            {
+              "xml": "<feature name=\"Permissions\"><param name=\"android-package\" value=\"com.android.plugins.Permissions\" /></feature>",
+              "count": 1
+            },
+            {
+              "xml": "<feature name=\"Toast\"><param name=\"android-package\" value=\"nl.xservices.plugins.Toast\" /></feature>",
+              "count": 1
+            }
+          ]
+        }
+      },
       "AndroidManifest.xml": {
         "parents": {
           "/manifest/application": [
-            {
-              "xml": "<activity android:configChanges=\"keyboard|keyboardHidden|orientation|screenLayout|uiMode|screenSize|smallestScreenSize\" android:excludeFromRecents=\"true\" android:name=\"com.google.android.gms.ads.AdActivity\" android:noHistory=\"true\" />",
-              "count": 1
-            },
-            {
-              "xml": "<meta-data android:name=\"com.google.android.gms.ads.APPLICATION_ID\" android:value=\"ca-app-pub-0000000000000000~0000000000\" />",
-              "count": 1
-            },
-            {
-              "xml": "<meta-data android:name=\"com.google.android.gms.ads.DELAY_APP_MEASUREMENT_INIT\" android:value=\"true\" />",
-              "count": 1
-            },
-            {
-              "xml": "<meta-data android:name=\"com.google.android.gms.ads.flag.OPTIMIZE_INITIALIZATION\" android:value=\"true\" />",
-              "count": 1
-            },
-            {
-              "xml": "<meta-data android:name=\"com.google.android.gms.ads.flag.OPTIMIZE_AD_LOADING\" android:value=\"true\" />",
-              "count": 1
-            },
-            {
-              "xml": "<meta-data android:name=\"com.google.android.gms.ads.flag.INTEGRATION_MANAGER\" android:value=\"webview\" />",
-              "count": 1
-            },
             {
               "xml": "<activity android:clearTaskOnLaunch=\"true\" android:configChanges=\"orientation|keyboardHidden|screenSize\" android:exported=\"false\" android:name=\"com.google.zxing.client.android.CaptureActivity\" android:theme=\"@style/AppTheme\" android:windowSoftInputMode=\"stateAlwaysHidden\" />",
               "count": 1
@@ -73,18 +173,6 @@
               "count": 1
             },
             {
-              "xml": "<service android:exported=\"false\" android:label=\"@string/app_name\" android:name=\"com.cowbell.cordova.geofence.ReceiveTransitionsIntentService\"></service>",
-              "count": 1
-            },
-            {
-              "xml": "<receiver android:exported=\"true\" android:name=\"com.cowbell.cordova.geofence.BootReceiver\"><intent-filter><action android:name=\"android.intent.action.BOOT_COMPLETED\" /></intent-filter></receiver>",
-              "count": 1
-            },
-            {
-              "xml": "<receiver android:exported=\"true\" android:name=\"com.cowbell.cordova.geofence.TransitionReceiver\"><intent-filter><action android:name=\"com.cowbell.cordova.geofence.TRANSITION\" /></intent-filter></receiver>",
-              "count": 1
-            },
-            {
               "xml": "<activity android:configChanges=\"orientation|keyboardHidden|keyboard|screenSize|locale\" android:exported=\"true\" android:label=\"@string/activity_name\" android:launchMode=\"standard\" android:name=\"com.webview.WebViewActivity\" android:theme=\"@style/AppTheme\" android:windowSoftInputMode=\"adjustResize\"></activity>",
               "count": 1
             }
@@ -108,7 +196,7 @@
             },
             {
               "xml": "<uses-permission android:name=\"android.permission.RECEIVE_BOOT_COMPLETED\" />",
-              "count": 2
+              "count": 1
             },
             {
               "xml": "<uses-permission android:name=\"android.permission.WAKE_LOCK\" />",
@@ -116,7 +204,7 @@
             },
             {
               "xml": "<uses-permission android:name=\"android.permission.INTERNET\" />",
-              "count": 2
+              "count": 1
             },
             {
               "xml": "<uses-permission android:name=\"android.permission.ACCESS_NETWORK_STATE\" />",
@@ -124,14 +212,6 @@
             },
             {
               "xml": "<uses-permission android:name=\"android.permission.VIBRATE\" />",
-              "count": 2
-            },
-            {
-              "xml": "<uses-permission android:name=\"android.permission.ACCESS_COARSE_LOCATION\" />",
-              "count": 1
-            },
-            {
-              "xml": "<uses-permission android:name=\"android.permission.ACCESS_FINE_LOCATION\" />",
               "count": 1
             }
           ],
@@ -187,10 +267,6 @@
             {
               "xml": "<uses-permission android:name=\"android.permission.READ_PHONE_STATE\" />",
               "count": 1
-            },
-            {
-              "xml": "<uses-permission android:name=\"com.android.vending.BILLING\" />",
-              "count": 1
             }
           ],
           "application": [
@@ -224,156 +300,11 @@
             }
           ]
         }
-      },
-      "res/xml/config.xml": {
-        "parents": {
-          "/*": [
-            {
-              "xml": "<feature name=\"AdMob\"><param name=\"android-package\" value=\"admob.plus.cordova.AdMob\" /></feature>",
-              "count": 1
-            },
-            {
-              "xml": "<preference name=\"APP_ID_ANDROID\" value=\"ca-app-pub-0000000000000000~0000000000\" />",
-              "count": 1
-            },
-            {
-              "xml": "<feature name=\"BarcodeScanner\"><param name=\"android-package\" value=\"com.phonegap.plugins.barcodescanner.BarcodeScanner\" /></feature>",
-              "count": 1
-            },
-            {
-              "xml": "<feature name=\"BrowserTab\"><param name=\"android-package\" value=\"com.google.cordova.plugin.browsertab.BrowserTab\" /></feature>",
-              "count": 1
-            },
-            {
-              "xml": "<feature name=\"Camera\"><param name=\"android-package\" value=\"org.apache.cordova.camera.CameraLauncher\" /></feature>",
-              "count": 1
-            },
-            {
-              "xml": "<feature name=\"File\"><param name=\"android-package\" value=\"org.apache.cordova.file.FileUtils\" /><param name=\"onload\" value=\"true\" /></feature>",
-              "count": 1
-            },
-            {
-              "xml": "<allow-navigation href=\"cdvfile:*\" />",
-              "count": 1
-            },
-            {
-              "xml": "<feature name=\"InAppBrowser\"><param name=\"android-package\" value=\"org.apache.cordova.inappbrowser.InAppBrowser\" /></feature>",
-              "count": 1
-            },
-            {
-              "xml": "<feature name=\"LocalNotification\"><param name=\"android-package\" value=\"de.appplant.cordova.plugin.localnotification.LocalNotification\" /></feature>",
-              "count": 1
-            },
-            {
-              "xml": "<feature name=\"MediaNative\"><param name=\"android-package\" value=\"org.apache.cordova.media.AudioHandler\" /></feature>",
-              "count": 1
-            },
-            {
-              "xml": "<feature name=\"Navigator\"><param name=\"android-package\" value=\"com.xtraball.cordova.plugin.Navigator\" /></feature>",
-              "count": 1
-            },
-            {
-              "xml": "<feature name=\"OneSignalPush\"><param name=\"android-package\" value=\"com.onesignal.cordova.OneSignalPush\" /></feature>",
-              "count": 1
-            },
-            {
-              "xml": "<feature name=\"Permissions\"><param name=\"android-package\" value=\"com.android.plugins.Permissions\" /></feature>",
-              "count": 1
-            },
-            {
-              "xml": "<feature name=\"Toast\"><param name=\"android-package\" value=\"nl.xservices.plugins.Toast\" /></feature>",
-              "count": 1
-            },
-            {
-              "xml": "<feature name=\"InAppBillingPlugin\"><param name=\"android-package\" value=\"cc.fovea.PurchasePlugin\" /></feature>",
-              "count": 1
-            }
-          ]
-        }
-      },
-      "config.xml": {
-        "parents": {
-          "/*": [
-            {
-              "xml": "<feature name=\"AppVersion\"><param name=\"android-package\" value=\"uk.co.whiteoctober.cordova.AppVersion\" /></feature>",
-              "count": 1
-            },
-            {
-              "xml": "<feature name=\"Badge\"><param name=\"android-package\" value=\"de.appplant.cordova.plugin.badge.Badge\" /></feature>",
-              "count": 1
-            },
-            {
-              "xml": "<feature name=\"Clipboard\"><param name=\"android-package\" value=\"com.verso.cordova.clipboard.Clipboard\" /></feature>",
-              "count": 1
-            },
-            {
-              "xml": "<feature name=\"Device\"><param name=\"android-package\" value=\"org.apache.cordova.device.Device\" /></feature>",
-              "count": 1
-            },
-            {
-              "xml": "<feature name=\"Geolocation\"><param name=\"android-package\" value=\"org.apache.cordova.geolocation.Geolocation\" /></feature>",
-              "count": 1
-            },
-            {
-              "xml": "<feature name=\"CDVIonicKeyboard\"><param name=\"android-package\" onload=\"true\" value=\"io.ionic.keyboard.CDVIonicKeyboard\" /></feature>",
-              "count": 1
-            },
-            {
-              "xml": "<feature name=\"SocialSharing\"><param name=\"android-package\" value=\"nl.xservices.plugins.SocialSharing\" /></feature>",
-              "count": 1
-            },
-            {
-              "xml": "<feature name=\"StatusBar\"><param name=\"android-package\" value=\"org.apache.cordova.statusbar.StatusBar\" /><param name=\"onload\" value=\"true\" /></feature>",
-              "count": 1
-            },
-            {
-              "xml": "<feature name=\"Insomnia\"><param name=\"android-package\" value=\"nl.xservices.plugins.Insomnia\" /></feature>",
-              "count": 1
-            },
-            {
-              "xml": "<feature name=\"MusicControls\"><param name=\"android-package\" value=\"com.xtraball.musiccontrols.MusicControls\" /></feature>",
-              "count": 1
-            },
-            {
-              "xml": "<feature name=\"GeofencePlugin\"><param name=\"android-package\" value=\"com.cowbell.cordova.geofence.GeofencePlugin\" /></feature>",
-              "count": 1
-            },
-            {
-              "xml": "<allow-navigation href=\"http://localhost/*\" />",
-              "count": 1
-            },
-            {
-              "xml": "<allow-navigation href=\"https://localhost/*\" />",
-              "count": 1
-            },
-            {
-              "xml": "<allow-navigation href=\"ionic://*\" />",
-              "count": 1
-            },
-            {
-              "xml": "<preference name=\"webView\" value=\"com.ionicframework.cordova.webview.IonicWebViewEngine\" />",
-              "count": 1
-            },
-            {
-              "xml": "<feature name=\"IonicWebView\"><param name=\"android-package\" value=\"com.ionicframework.cordova.webview.IonicWebView\" /></feature>",
-              "count": 1
-            },
-            {
-              "xml": "<feature name=\"WebViewPlugin\"><param name=\"android-package\" value=\"com.webview.WebViewPlugin\" /></feature>",
-              "count": 1
-            }
-          ]
-        }
       }
     }
   },
   "installed_plugins": {
     "Promises": {
-      "PACKAGE_NAME": "com.appsmobilecompany.base"
-    },
-    "Admob": {
-      "APP_ID_ANDROID": "ca-app-pub-xxx~yyy",
-      "PLAY_SERVICES_VERSION": "23.2.0",
       "PACKAGE_NAME": "com.appsmobilecompany.base"
     },
     "AppVersion": {
@@ -389,7 +320,7 @@
       "PACKAGE_NAME": "com.appsmobilecompany.base"
     },
     "Camera": {
-      "ANDROIDX_CORE_VERSION": "1.6.+",
+      "ANDROIDX_CORE_VERSION": "1.6.1",
       "PACKAGE_NAME": "com.appsmobilecompany.base"
     },
     "Clipboard": {
@@ -443,16 +374,7 @@
     "Toast": {
       "PACKAGE_NAME": "com.appsmobilecompany.base"
     },
-    "Geofence": {
-      "PACKAGE_NAME": "com.appsmobilecompany.base"
-    },
-    "InAppPurchase": {
-      "PACKAGE_NAME": "com.appsmobilecompany.base"
-    },
     "IonicWebview": {
-      "PACKAGE_NAME": "com.appsmobilecompany.base"
-    },
-    "Mediation": {
       "PACKAGE_NAME": "com.appsmobilecompany.base"
     },
     "WebView": {
@@ -466,14 +388,6 @@
       "file": "plugins/Promises/www/promise.js",
       "pluginId": "Promises",
       "runs": true
-    },
-    {
-      "id": "Admob.AdMob",
-      "file": "plugins/Admob/www/admob.js",
-      "pluginId": "Admob",
-      "clobbers": [
-        "admob"
-      ]
     },
     {
       "id": "AppVersion.AppVersionPlugin",
@@ -837,13 +751,48 @@
       "pluginId": "Onesignal"
     },
     {
-      "id": "Onesignal.Subscription",
-      "file": "plugins/Onesignal/dist/Subscription.js",
+      "id": "Onesignal.OSNotification",
+      "file": "plugins/Onesignal/dist/OSNotification.js",
       "pluginId": "Onesignal"
     },
     {
-      "id": "Onesignal.OSNotification",
-      "file": "plugins/Onesignal/dist/OSNotification.js",
+      "id": "Onesignal.UserNamespace",
+      "file": "plugins/Onesignal/dist/UserNamespace.js",
+      "pluginId": "Onesignal"
+    },
+    {
+      "id": "Onesignal.PushSubscriptionNamespace",
+      "file": "plugins/Onesignal/dist/PushSubscriptionNamespace.js",
+      "pluginId": "Onesignal"
+    },
+    {
+      "id": "Onesignal.DebugNamespace",
+      "file": "plugins/Onesignal/dist/DebugNamespace.js",
+      "pluginId": "Onesignal"
+    },
+    {
+      "id": "Onesignal.InAppMessagesNamespace",
+      "file": "plugins/Onesignal/dist/InAppMessagesNamespace.js",
+      "pluginId": "Onesignal"
+    },
+    {
+      "id": "Onesignal.SessionNamespace",
+      "file": "plugins/Onesignal/dist/SessionNamespace.js",
+      "pluginId": "Onesignal"
+    },
+    {
+      "id": "Onesignal.LocationNamespace",
+      "file": "plugins/Onesignal/dist/LocationNamespace.js",
+      "pluginId": "Onesignal"
+    },
+    {
+      "id": "Onesignal.NotificationsNamespace",
+      "file": "plugins/Onesignal/dist/NotificationsNamespace.js",
+      "pluginId": "Onesignal"
+    },
+    {
+      "id": "Onesignal.LiveActivitiesNamespace",
+      "file": "plugins/Onesignal/dist/LiveActivitiesNamespace.js",
       "pluginId": "Onesignal"
     },
     {
@@ -871,31 +820,6 @@
       ]
     },
     {
-      "id": "Geofence.TransitionType",
-      "file": "plugins/Geofence/www/TransitionType.js",
-      "pluginId": "Geofence",
-      "clobbers": [
-        "TransitionType"
-      ]
-    },
-    {
-      "id": "Geofence.geofence",
-      "file": "plugins/Geofence/www/geofence.js",
-      "pluginId": "Geofence",
-      "clobbers": [
-        "geofence"
-      ]
-    },
-    {
-      "id": "InAppPurchase.InAppBillingPlugin",
-      "file": "plugins/InAppPurchase/www/store.js",
-      "pluginId": "InAppPurchase",
-      "clobbers": [
-        "store",
-        "InAppPurchase"
-      ]
-    },
-    {
       "id": "IonicWebview.IonicWebView",
       "file": "plugins/IonicWebview/src/www/util.js",
       "pluginId": "IonicWebview",
@@ -914,7 +838,6 @@
   ],
   "plugin_metadata": {
     "Promises": "4.2.2",
-    "Admob": "2.0.0-alpha.13",
     "AppVersion": "0.1.8",
     "Badge": "0.8.8",
     "BarcodeScanner": "7.1.2",
@@ -933,14 +856,11 @@
     "MusicControls": "3.0.4",
     "MediaNative": "5.0.3",
     "Navigator": "0.1.0",
-    "Onesignal": "3.2.0",
+    "Onesignal": "5.2.9",
     "Permissions": "1.0.0",
     "CorePlugin": "1.1.0",
     "Toast": "2.7.2",
-    "Geofence": "0.6.0",
-    "InAppPurchase": "13.11.1",
     "IonicWebview": "4.0.1",
-    "Mediation": "1.0.0",
     "WebView": "1.0.0"
   }
 }
