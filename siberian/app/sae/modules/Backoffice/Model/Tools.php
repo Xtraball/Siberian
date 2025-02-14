@@ -153,11 +153,11 @@ class Tools
             self::verboseExec($wgetBin . ' --no-check-certificate -v ' . $browser);
             chdir($varApps . '/ionic');
             self::verboseExec($wgetBin . ' --no-check-certificate -v ' . $android);
-            self::verboseExec($wgetBin . ' --no-check-certificate -v ' . $ios);
+//            self::verboseExec($wgetBin . ' --no-check-certificate -v ' . $ios);
             self::verboseExec($wgetBin . ' --no-check-certificate -v ' . $iosNoads);
 
+            //                !is_readable('./ios.tgz') ||
             if (!is_readable('./android.tgz') ||
-                !is_readable('./ios.tgz') ||
                 !is_readable('./ios-noads.tgz') ||
                 !is_readable('../browser.tgz')) {
                 throw new Exception(__('Something went wrong while restoring files, process aborted!'));
@@ -173,15 +173,15 @@ class Tools
             chdir($varApps . '/ionic');
             self::verboseExec('rm -Rfv ./android');
             self::verboseExec('tar pvxzf android.tgz');
-            self::verboseExec('rm -Rfv ./ios');
-            self::verboseExec('tar pvxzf ios.tgz');
+//            self::verboseExec('rm -Rfv ./ios');
+//            self::verboseExec('tar pvxzf ios.tgz');
             self::verboseExec('rm -Rfv ./ios-noads');
             self::verboseExec('tar pxzf ios-noads.tgz');
 
             // Clean-up after work!
             chdir($varApps . '/ionic');
             self::verboseExec('rm -fv ./android.tgz');
-            self::verboseExec('rm -fv ./ios.tgz');
+//            self::verboseExec('rm -fv ./ios.tgz');
             self::verboseExec('rm -fv ./ios-noads.tgz');
             self::verboseExec('rm -fv ../browser.tgz');
 

@@ -1626,13 +1626,13 @@ let archiveSources = function () {
     sh.exec('tar ' + excludes + ' -pcvf - ./android | pigz -9 - > ./android.tgz');
 
     // iOS (with AdMob)
-    sh.rm('-rf', './ios/www/features/*');
-    sh.rm('-rf', './ios/www/modules/*');
-    sh.rm('-rf', './ios/www/chcp.json');
-    sh.rm('-rf', './ios/www/chcp.manifest');
-    sh.rm('-rf', './ios/www/index-prod.html');
-    sh.chmod('-R', '777', './ios');
-    sh.exec('tar ' + excludes + ' -pcvf - ./ios | pigz -9 - > ./ios.tgz');
+    // sh.rm('-rf', './ios/www/features/*');
+    // sh.rm('-rf', './ios/www/modules/*');
+    // sh.rm('-rf', './ios/www/chcp.json');
+    // sh.rm('-rf', './ios/www/chcp.manifest');
+    // sh.rm('-rf', './ios/www/index-prod.html');
+    // sh.chmod('-R', '777', './ios');
+    // sh.exec('tar ' + excludes + ' -pcvf - ./ios | pigz -9 - > ./ios.tgz');
 
     // iOS (without AdMob)
     sh.rm('-rf', './ios-noads/www/features/*');

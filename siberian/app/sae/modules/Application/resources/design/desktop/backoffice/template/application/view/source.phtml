@@ -19,50 +19,15 @@ use Siberian\Version;
                     </colgroup>
 
                     <tbody>
-                        <tr>
+                        <tr class="bg-danger">
                             <td>
                                 <label class="control-label"><?php echo __("iOS"); ?></label>
                                 <br/>
-                                <span class="source-hint"><?php echo __('Xcode 15.0.1 - macOS Sonoma') ?>
+                                <span class="source-hint"><?php echo __('Xcode 16.1 - macOS Sonoma') ?>
                                     , <?php echo __("iOS 12+") ?></span>
                             </td>
-                            <td ng-if="['', 'ca-app-pub-0000000000000000~0000000000'].indexOf(application.devices[0].admob_app_id.trim()) === -1">
-                                <a ng-if="application.zip.ios"
-                                   href="<?php echo $this->getUrl("") ?>{{ application.zip.ios.path }}"
-                                   class="help-block"
-                                   target="_self">
-                                    <i class="fa fa-cloud-download"></i> <?php echo __("Download latest sources"); ?> {{
-                                    application.zip.ios.date }}
-                                </a>
-
-                                <span ng-if="!application.zip.ios"><?php echo __("Not yet generated.") ?></span>
-                            </td>
-                            <td ng-if="['', 'ca-app-pub-0000000000000000~0000000000'].indexOf(application.devices[0].admob_app_id.trim()) === -1"
-                                class="text-right">
-                                <a ng-if="application.queued.positions.ios == 0"
-                                   ng-click="generateSource(1, 0)"
-                                   href="javascript:void(0)"
-                                   class="block"
-                                   target="_self"><i
-                                            class="fa fa-gears"></i> <?php echo __("Generate sources"); ?></a>
-                                <span ng-show="application.queued.positions.ios == 1">
-                                        <img class="gear-loader"
-                                             src="/app/sae/design/desktop/backoffice/images/loader/gears.gif"/><?php echo __("Generating") ?>
-                                    </span>
-                                <span ng-show="application.queued.positions.ios > 1">
-                                        <i class="fa fa-random"></i> <?php echo __("Queued") ?>: {{ application.queued.positions.ios }}/{{ application.queued.total }}
-                                    </span>
-                                <a ng-show="application.queued.positions.ios > 1"
-                                   ng-click="cancelQueue(1, 0)"
-                                   href="javascript:void(0)">
-                                    <i class="fa fa-times"></i> <?php echo __("Cancel") ?>
-                                </a>
-                            </td>
-                            <td colspan="2"
-                                ng-if="['', 'ca-app-pub-0000000000000000~0000000000'].indexOf(application.devices[0].admob_app_id.trim()) !== -1">
-                                <div class="alert alert-warning">
-                                    <?php echo p__('backoffice_application', 'AdMob app id is required to generate iOS sources.') ?>
-                                </div>
+                            <td colspan="2">
+                              <span><?php echo __("Due to major breaking changes with Cordova, Ads are not available for iOS yet.") ?></span>
                             </td>
                         </tr>
 
@@ -70,7 +35,7 @@ use Siberian\Version;
                             <td>
                                 <label class="control-label"><?php echo __("iOS (without AdMob)"); ?>
                                 <br/>
-                                <span  class="source-hint"><?php echo __("Xcode 15.0.1 - macOS Sonoma") ?>
+                                <span  class="source-hint"><?php echo __("Xcode 16.1 - macOS Sonoma") ?>
                                     , <?php echo __("iOS 12+") ?></span>
                             </td>
                             <td>
