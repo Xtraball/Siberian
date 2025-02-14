@@ -4,10 +4,6 @@
       "version": "latest",
       "variables": {}
     },
-    "Admob": {
-      "version": "latest",
-      "variables": {}
-    },
     "AppVersion": {
       "version": "latest",
       "variables": {}
@@ -98,15 +94,8 @@
     }
   },
   "ios": {
-    "InAppPurchase": {
-      "version": "latest"
-    },
     "IosXhr": {
       "version": "latest"
-    },
-    "Mediation": {
-      "version": "latest",
-      "variables": {}
     },
     "WebView": {
       "version": "latest",
@@ -114,18 +103,7 @@
     }
   },
   "android": {
-    "Geofence": {
-      "version": "latest",
-      "variables": {}
-    },
-    "InAppPurchase": {
-      "version": "latest"
-    },
     "IonicWebview": {
-      "version": "latest",
-      "variables": {}
-    },
-    "Mediation": {
       "version": "latest",
       "variables": {}
     },
