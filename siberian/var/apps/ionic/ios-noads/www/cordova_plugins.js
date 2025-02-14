@@ -386,13 +386,48 @@ cordova.define('cordova/plugin_list', function(require, exports, module) {
       "pluginId": "Onesignal"
     },
     {
-      "id": "Onesignal.Subscription",
-      "file": "plugins/Onesignal/dist/Subscription.js",
+      "id": "Onesignal.OSNotification",
+      "file": "plugins/Onesignal/dist/OSNotification.js",
       "pluginId": "Onesignal"
     },
     {
-      "id": "Onesignal.OSNotification",
-      "file": "plugins/Onesignal/dist/OSNotification.js",
+      "id": "Onesignal.UserNamespace",
+      "file": "plugins/Onesignal/dist/UserNamespace.js",
+      "pluginId": "Onesignal"
+    },
+    {
+      "id": "Onesignal.PushSubscriptionNamespace",
+      "file": "plugins/Onesignal/dist/PushSubscriptionNamespace.js",
+      "pluginId": "Onesignal"
+    },
+    {
+      "id": "Onesignal.DebugNamespace",
+      "file": "plugins/Onesignal/dist/DebugNamespace.js",
+      "pluginId": "Onesignal"
+    },
+    {
+      "id": "Onesignal.InAppMessagesNamespace",
+      "file": "plugins/Onesignal/dist/InAppMessagesNamespace.js",
+      "pluginId": "Onesignal"
+    },
+    {
+      "id": "Onesignal.SessionNamespace",
+      "file": "plugins/Onesignal/dist/SessionNamespace.js",
+      "pluginId": "Onesignal"
+    },
+    {
+      "id": "Onesignal.LocationNamespace",
+      "file": "plugins/Onesignal/dist/LocationNamespace.js",
+      "pluginId": "Onesignal"
+    },
+    {
+      "id": "Onesignal.NotificationsNamespace",
+      "file": "plugins/Onesignal/dist/NotificationsNamespace.js",
+      "pluginId": "Onesignal"
+    },
+    {
+      "id": "Onesignal.LiveActivitiesNamespace",
+      "file": "plugins/Onesignal/dist/LiveActivitiesNamespace.js",
       "pluginId": "Onesignal"
     },
     {
@@ -417,14 +452,6 @@ cordova.define('cordova/plugin_list', function(require, exports, module) {
       "pluginId": "Toast",
       "clobbers": [
         "window.plugins.toast"
-      ]
-    },
-    {
-      "id": "InAppPurchase.InAppPurchase",
-      "file": "plugins/InAppPurchase/www/store-ios.js",
-      "pluginId": "InAppPurchase",
-      "clobbers": [
-        "store"
       ]
     },
     {
@@ -480,11 +507,10 @@ cordova.define('cordova/plugin_list', function(require, exports, module) {
     "MusicControls": "3.0.4",
     "MediaNative": "5.0.3",
     "Navigator": "0.1.0",
-    "Onesignal": "3.2.0",
+    "Onesignal": "5.2.9",
     "Permissions": "1.0.0",
     "CorePlugin": "1.1.0",
     "Toast": "2.7.2",
-    "InAppPurchase": "11.0.0",
     "IosXhr": "1.0.8",
     "WebView": "1.0.0"
   };

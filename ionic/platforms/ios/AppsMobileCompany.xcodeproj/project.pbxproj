@@ -8,89 +8,72 @@
 
 /* Begin PBXBuildFile section */
 		0207DA581B56EA530066E2B4 /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 0207DA571B56EA530066E2B4 /* Images.xcassets */; };
-		03E29A99E5914B1D8E67C1C8 /* CDVBarcodeScanner.bundle in Resources */ = {isa = PBXBuildFile; fileRef = F4F141BDE572419BB13F8F86 /* CDVBarcodeScanner.bundle */; };
-		066F71A12D9644659E0D97F4 /* CDVLocalFilesystem.m in Sources */ = {isa = PBXBuildFile; fileRef = CFFE26BF98824F73AD5EF63D /* CDVLocalFilesystem.m */; };
-		085CF894E91247A2B681509D /* AMBContext.swift in Sources */ = {isa = PBXBuildFile; fileRef = 859F826E120045C0A4F581A0 /* AMBContext.swift */; };
-		0B67774804514C0498BC936D /* APPNotificationCategory.m in Sources */ = {isa = PBXBuildFile; fileRef = 6674E71D57D34339B8AD2450 /* APPNotificationCategory.m */; };
-		0F37B293B40F4A9295DC9B8C /* SKProductDiscount+LocalizedPrice.m in Sources */ = {isa = PBXBuildFile; fileRef = AA494E4B6EC84FA7AFED5986 /* SKProductDiscount+LocalizedPrice.m */; };
-		108512867ACD4C53BD6F9835 /* Toast+UIView.m in Sources */ = {isa = PBXBuildFile; fileRef = D1E072D71AF84191A665298B /* Toast+UIView.m */; };
-		11F5581189F349138C226F08 /* CDVLocation.m in Sources */ = {isa = PBXBuildFile; fileRef = 64E4405B79A5491FAD0E404B /* CDVLocation.m */; };
-		1381B9CC0968429CB446179A /* sb_beep3.caf in Resources */ = {isa = PBXBuildFile; fileRef = 68B32DAF089F44B09F1A9360 /* sb_beep3.caf */; };
-		157192870DCC478AA34F99AD /* APPLocalNotification.m in Sources */ = {isa = PBXBuildFile; fileRef = DEDA2777FBCD4A9699280FF1 /* APPLocalNotification.m */; };
-		17E5C54739174957A7C26607 /* CDVDevice.m in Sources */ = {isa = PBXBuildFile; fileRef = 708C986E6B2E4354AAD2D28E /* CDVDevice.m */; };
+		06E81869A2D64564B1DC5A6C /* CDVIonicKeyboard.m in Sources */ = {isa = PBXBuildFile; fileRef = 8BFC7B1753024DB9BF2DC507 /* CDVIonicKeyboard.m */; };
+		0EE10AE6016842B4ACFC12CD /* CDVCamera.m in Sources */ = {isa = PBXBuildFile; fileRef = BFE04DBA7A7A465B8B6C3214 /* CDVCamera.m */; };
+		10339A5AB6054074985C8AD8 /* CDVAssetLibraryFilesystem.m in Sources */ = {isa = PBXBuildFile; fileRef = B558F74AE3BF4BA49C3D2F6B /* CDVAssetLibraryFilesystem.m */; };
+		10DCD996520C443083408217 /* ImageIO.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 54EEC946E74C4E8289C14163 /* ImageIO.framework */; settings = {ATTRIBUTES = (Weak, ); }; };
+		171683CC7F7C40CD78874718 /* Pods_AppsMobileCompany.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5AB8A1F8982FB63F13FAB8BA /* Pods_AppsMobileCompany.framework */; };
+		1ACC28FE52E94CA8B6616ACC /* AppVersion.m in Sources */ = {isa = PBXBuildFile; fileRef = 95492E411DA64684A9DCC4D6 /* AppVersion.m */; };
+		1B3D482DF35E4F5B94378ED6 /* sb_beep3.caf in Resources */ = {isa = PBXBuildFile; fileRef = 93FF0EA78D86455082E87A7A /* sb_beep3.caf */; };
+		1C29DA201D774833B7217130 /* sb_beep4.caf in Resources */ = {isa = PBXBuildFile; fileRef = 5B75617CC53C4BFB8A3CB5E4 /* sb_beep4.caf */; };
+		1C5E927D22CF420080A8CF5A /* MusicControlsInfo.m in Sources */ = {isa = PBXBuildFile; fileRef = 656775B311FC407FB2FDD6DD /* MusicControlsInfo.m */; };
 		1D3623260D0F684500981E51 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 1D3623250D0F684500981E51 /* AppDelegate.m */; };
 		1D60589B0D05DD56006BFB54 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 29B97316FDCFA39411CA2CEA /* main.m */; };
-		1F267146961A48F2BBA79563 /* AMBGenerated.swift in Sources */ = {isa = PBXBuildFile; fileRef = B1DFCEDE1CB34488964ACD68 /* AMBGenerated.swift */; };
-		208DAD8CA4784FF4A8828076 /* CDVWKWebViewFileXhr.m in Sources */ = {isa = PBXBuildFile; fileRef = DC30C3FBD2284CFF8C4A28C1 /* CDVWKWebViewFileXhr.m */; };
-		2B9F65F0AC9D42D3A95B1659 /* MusicControlsInfo.m in Sources */ = {isa = PBXBuildFile; fileRef = C2BE83F442DD4E748EF2B0B2 /* MusicControlsInfo.m */; };
-		2D67EBE1435E4576AC553D88 /* sb_beep4.caf in Resources */ = {isa = PBXBuildFile; fileRef = D222619FCE764739B1EC4316 /* sb_beep4.caf */; };
+		1D7F4CEED6CB47E0A6A891B9 /* scannerOverlay.xib in Resources */ = {isa = PBXBuildFile; fileRef = 0D15EC56174F4353914BB715 /* scannerOverlay.xib */; };
+		1E0A34F6481E4090BDC3FB70 /* UserNotifications.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 765F4511B564494181EDB3D8 /* UserNotifications.framework */; };
+		201F49C42B6243A39C7A8B0B /* MediaPlayer.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1BEABD8A80114F1297471460 /* MediaPlayer.framework */; };
+		20C8921DD4F54C8297446C4B /* Social.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 57CC59DD646544B38D827233 /* Social.framework */; settings = {ATTRIBUTES = (Weak, ); }; };
+		20DD1A8723FB4E419A2A54E9 /* APPBadge.m in Sources */ = {isa = PBXBuildFile; fileRef = 950A05FF33CC46BB88399366 /* APPBadge.m */; };
+		22A6898DAB3040BC8B6F6E06 /* CDVBarcodeScanner.mm in Sources */ = {isa = PBXBuildFile; fileRef = C3582D2E58304BA08FA1D878 /* CDVBarcodeScanner.mm */; };
+		259D1F9AB3E941AD913E56E2 /* SocialSharing.m in Sources */ = {isa = PBXBuildFile; fileRef = 5FC8A537B4F94800B9B1F61A /* SocialSharing.m */; };
 		301BF552109A68D80062928A /* libCordova.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 301BF535109A57CC0062928A /* libCordova.a */; settings = {ATTRIBUTES = (Required, ); }; };
 		302D95F114D2391D003F00A1 /* MainViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 302D95EF14D2391D003F00A1 /* MainViewController.m */; };
 		302D95F214D2391D003F00A1 /* MainViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 302D95F014D2391D003F00A1 /* MainViewController.xib */; };
-		308E1A0D61A9410785EB6D85 /* AVFoundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 42E81280624C4B828F841157 /* AVFoundation.framework */; };
-		33785334F55749D4A6D4C6C3 /* UserNotifications.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 206B40410BB541F3B45770B2 /* UserNotifications.framework */; };
-		37743E6F6CFC40A98C20CBB2 /* APPNotificationOptions.m in Sources */ = {isa = PBXBuildFile; fileRef = E9EF9D1F827244F0B4E65461 /* APPNotificationOptions.m */; };
-		37C205CF73A24CF7943D4533 /* ImageIO.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = EDCA7CAFF00D4B17856A86DA /* ImageIO.framework */; settings = {ATTRIBUTES = (Weak, ); }; };
-		38005EC492CC46BC8D6E8DC6 /* AMBNativeAd.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84FA0785EC2A4E3B8546D92D /* AMBNativeAd.swift */; };
-		39C6BC5181A7430E8B5A8453 /* UNNotificationRequest+APPLocalNotification.m in Sources */ = {isa = PBXBuildFile; fileRef = 13308A36DD85467089219274 /* UNNotificationRequest+APPLocalNotification.m */; };
-		3EC759D5830D474E9823392C /* AppTrackingTransparency.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6878C989BFC347AAACF07008 /* AppTrackingTransparency.framework */; settings = {ATTRIBUTES = (Weak, ); }; };
-		3F4788049A6C47418048054C /* StoreKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C80B7228E8904981A3C74CD7 /* StoreKit.framework */; };
-		4544358E353249398A38265F /* sb_beep1.caf in Resources */ = {isa = PBXBuildFile; fileRef = 80FEF9EF506B426CA1DD08AF /* sb_beep1.caf */; };
-		46F77681F8544DB3B9F0AAE5 /* CDVSound.m in Sources */ = {isa = PBXBuildFile; fileRef = 54D69F9A2E0F44A881250330 /* CDVSound.m */; };
-		4ABC1FB538584F6CA9803A74 /* SKProduct+LocalizedPrice.m in Sources */ = {isa = PBXBuildFile; fileRef = B34B02A0C425434CB343EAAB /* SKProduct+LocalizedPrice.m */; };
-		4F40A5F46D0C4FC89A727EFF /* WebViewPlugin.m in Sources */ = {isa = PBXBuildFile; fileRef = 56EE58AE8E184E5F98E58784 /* WebViewPlugin.m */; };
-		52E40A0119CC4DCFA4FA8467 /* AMBPlugin.swift in Sources */ = {isa = PBXBuildFile; fileRef = FF17DC42CF8F4361B6E57387 /* AMBPlugin.swift */; };
-		5BC2990ED9FB484ABCB3AAA7 /* CDVIonicKeyboard.m in Sources */ = {isa = PBXBuildFile; fileRef = 1C811FC33D474DA9A0C7FAAA /* CDVIonicKeyboard.m */; };
-		63FEA17F64404687A59B281F /* UIImage+CropScaleOrientation.m in Sources */ = {isa = PBXBuildFile; fileRef = B1DAA685389D49B280BD96C8 /* UIImage+CropScaleOrientation.m */; };
-		6528BCD78E8C4581AA35AA3B /* CorePlugin.swift in Sources */ = {isa = PBXBuildFile; fileRef = E37B5E99010A4423A893750A /* CorePlugin.swift */; };
-		6792351E278B4BF6AEE436AF /* Toast.m in Sources */ = {isa = PBXBuildFile; fileRef = ADC60E8F1CAC4201B9FFBF45 /* Toast.m */; };
+		3A96521EFA4D459D99400075 /* UIImage+CropScaleOrientation.m in Sources */ = {isa = PBXBuildFile; fileRef = 323984BC96FB4075967F8824 /* UIImage+CropScaleOrientation.m */; };
+		3CFFA3E2BC6644529B005B06 /* NSString+SSURLEncoding.m in Sources */ = {isa = PBXBuildFile; fileRef = BE4F7CBBA1514381B64998F3 /* NSString+SSURLEncoding.m */; };
+		450FE633C696458EAF3C53B7 /* CDVJpegHeaderWriter.m in Sources */ = {isa = PBXBuildFile; fileRef = 39BC50E9A92B400D899C19C0 /* CDVJpegHeaderWriter.m */; };
+		5F3CFD99904440E9BC8F4E2D /* sb_beep1.caf in Resources */ = {isa = PBXBuildFile; fileRef = C13E6B44632F416295D2268C /* sb_beep1.caf */; };
+		654B2EF09B1F4B13B44CFBF4 /* APPLocalNotification.m in Sources */ = {isa = PBXBuildFile; fileRef = A5E26166E7FE47D4BB6D3DF3 /* APPLocalNotification.m */; };
 		6AFF5BF91D6E424B00AB3073 /* CDVLaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 6AFF5BF81D6E424B00AB3073 /* CDVLaunchScreen.storyboard */; };
-		6FA312D3BA0C4948A07ABA6F /* WebKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 39538CF7C7FA4E69AD4ED373 /* WebKit.framework */; settings = {ATTRIBUTES = (Weak, ); }; };
-		6FE780EBFE4B4FCDAE567191 /* AMBInterstitial.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7A69A3EBE4F243569E54208E /* AMBInterstitial.swift */; };
-		71F45C879F654A97AB5F0100 /* UNUserNotificationCenter+APPLocalNotification.m in Sources */ = {isa = PBXBuildFile; fileRef = F2A38D8D311B4F1E9944ED2E /* UNUserNotificationCenter+APPLocalNotification.m */; };
-		7829AD68D957474AAB09F9B5 /* Social.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 297C542257264B6DA2303C25 /* Social.framework */; settings = {ATTRIBUTES = (Weak, ); }; };
-		79BBFFF80F1846CC8A039B54 /* AppVersion.m in Sources */ = {isa = PBXBuildFile; fileRef = 756CCE77658645A3937DF99C /* AppVersion.m */; };
-		7AECF9D24C444A73964497D6 /* AMBBanner.swift in Sources */ = {isa = PBXBuildFile; fileRef = 03E75C6F766A4FCEB571AFE7 /* AMBBanner.swift */; };
-		803FB3B75DBC480ABB0533C2 /* AMBCore.swift in Sources */ = {isa = PBXBuildFile; fileRef = 75AA7A0AE89F45A8A8D15D52 /* AMBCore.swift */; };
-		8159455A82A54294890D5A17 /* APPNotificationContent.m in Sources */ = {isa = PBXBuildFile; fileRef = 7D9031B56AE5405CAED29554 /* APPNotificationContent.m */; };
-		8204016263544EFE95440820 /* CBTBrowserTab.m in Sources */ = {isa = PBXBuildFile; fileRef = E87C62BC5C3F44E9AE74379E /* CBTBrowserTab.m */; };
-		847EF3C9443248E9A6C58A08 /* CDVNavigator.m in Sources */ = {isa = PBXBuildFile; fileRef = B1B3930D46A246F093BEAF06 /* CDVNavigator.m */; };
-		86294BF9EFDD4E1BB47F9CF4 /* AMBAppOpenAd.swift in Sources */ = {isa = PBXBuildFile; fileRef = CA9CBABBA3294E46B3E990EE /* AMBAppOpenAd.swift */; };
-		86305A0AC9EC4758B65FFFE7 /* APPBadge.m in Sources */ = {isa = PBXBuildFile; fileRef = 5A67F8D3E01D4FA29F5063EB /* APPBadge.m */; };
-		86D5E07FEBEF4C52B279C59A /* SocialSharing.m in Sources */ = {isa = PBXBuildFile; fileRef = A00D3AF441E7404EAC8D7D1A /* SocialSharing.m */; };
-		87C352F6E0714E09BECBB670 /* MainViewController+MusicControls.m in Sources */ = {isa = PBXBuildFile; fileRef = CAB6552D0AA54ED4B452850F /* MainViewController+MusicControls.m */; };
-		8C7B577F08E54AA9A2F7D5DA /* scannerOverlay.xib in Resources */ = {isa = PBXBuildFile; fileRef = F48BF4481E214EB8A0B70C69 /* scannerOverlay.xib */; };
-		94B7E79557F642D8B516CB5E /* MediaPlayer.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 34B9C49D1EE546F697716CD3 /* MediaPlayer.framework */; };
-		97D18BA00FA04BAC984E62D0 /* AMBAdBase.swift in Sources */ = {isa = PBXBuildFile; fileRef = 868A20271FAB4A60B801E2F2 /* AMBAdBase.swift */; };
-		9AB42182018E408C9B832E6B /* SafariServices.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5774C416E73D41A8AA2BCF5C /* SafariServices.framework */; settings = {ATTRIBUTES = (Weak, ); }; };
+		6D0EDFE57926498CA4EF8B96 /* CDVInAppBrowserOptions.m in Sources */ = {isa = PBXBuildFile; fileRef = 93CC10E4056B422196188F57 /* CDVInAppBrowserOptions.m */; };
+		6FADB3649AEE4831AFE2E2BF /* SafariServices.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B0EE3C3AE53546D7854486D6 /* SafariServices.framework */; settings = {ATTRIBUTES = (Weak, ); }; };
+		733177612C6F4820A76B2F4C /* WebKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4F6BC5FC323745CAA9A2CCA8 /* WebKit.framework */; settings = {ATTRIBUTES = (Weak, ); }; };
+		76E2D265B7C648FBBB68B2B5 /* CDVLocation.m in Sources */ = {isa = PBXBuildFile; fileRef = 195B15B581F94C709FCD871F /* CDVLocation.m */; };
+		83D9F262F7D04BAA85080A78 /* CDVDevice.m in Sources */ = {isa = PBXBuildFile; fileRef = 3F2B775F1E6147ADA077BEA6 /* CDVDevice.m */; };
+		84294ACAD34645B18E39C95F /* APPNotificationContent.m in Sources */ = {isa = PBXBuildFile; fileRef = 8DBFBFB007324F8A88F918BC /* APPNotificationContent.m */; };
+		92CAB12B237544FDB8EE18D5 /* CDVStatusBar.m in Sources */ = {isa = PBXBuildFile; fileRef = C82A75D28C6D4DA0B400ED33 /* CDVStatusBar.m */; };
+		94229FBDEB6B4A8EBC5A8C2A /* CDVClipboard.m in Sources */ = {isa = PBXBuildFile; fileRef = 260B76E1E1FA42C08D7F78D6 /* CDVClipboard.m */; };
+		9743B77FAE614DDCBE954804 /* Toast.m in Sources */ = {isa = PBXBuildFile; fileRef = 2699952EF5BD4C6CB7112116 /* Toast.m */; };
+		97CF16762FE4480A8E16D380 /* APPNotificationCategory.m in Sources */ = {isa = PBXBuildFile; fileRef = B9850EE1A81C412EBC266213 /* APPNotificationCategory.m */; };
 		9AB72E4420ADD50700A1703D /* Constants.m in Sources */ = {isa = PBXBuildFile; fileRef = 9AB72E4320ADD50700A1703D /* Constants.m */; };
-		A09808932D474DE78EADF5CC /* CDVAssetLibraryFilesystem.m in Sources */ = {isa = PBXBuildFile; fileRef = 0FFC17651AEF400E99C7D14B /* CDVAssetLibraryFilesystem.m */; };
-		A20C894963AB4B09BD22E2AB /* AMBRewardedInterstitial.swift in Sources */ = {isa = PBXBuildFile; fileRef = 213A1F4A53254307900FC6A9 /* AMBRewardedInterstitial.swift */; };
-		A2417C1A12B44BB382692A05 /* CDVJpegHeaderWriter.m in Sources */ = {isa = PBXBuildFile; fileRef = E449B33AF98B4AEA8A81D995 /* CDVJpegHeaderWriter.m */; };
-		A981DC7F8EF746C9AAD2CD89 /* AudioToolbox.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8FCB3547DC4049EBB9833BFE /* AudioToolbox.framework */; };
-		ABBAEF7852DE41C5BFC11CB8 /* Insomnia.m in Sources */ = {isa = PBXBuildFile; fileRef = 777FD55BC4B34FC8B47D4DCC /* Insomnia.m */; };
-		B0F3A0ECC6094852A3831209 /* MessageUI.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F84DE050748842209B8BD67D /* MessageUI.framework */; settings = {ATTRIBUTES = (Weak, ); }; };
-		B3DDDC03704B430C9340A6E9 /* OneSignalPush.m in Sources */ = {isa = PBXBuildFile; fileRef = 19027543C8AC4BFABC0E3145 /* OneSignalPush.m */; };
-		B6342DF46631467C901A3EA6 /* CDVWKInAppBrowser.m in Sources */ = {isa = PBXBuildFile; fileRef = 398DA41CF66A422699909F11 /* CDVWKInAppBrowser.m */; };
-		B8CBCDADB9AA4534BF3AA522 /* QuartzCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 89A2D9BC99254B71894BEC25 /* QuartzCore.framework */; };
-		BC07FD3DD4D54A608BBC1108 /* CDVCamera.m in Sources */ = {isa = PBXBuildFile; fileRef = 598CE9E3C4BA457D8C4B6742 /* CDVCamera.m */; };
-		BDA7ED84D4854811B1E8F53E /* CDVStatusBar.m in Sources */ = {isa = PBXBuildFile; fileRef = 568988C672D841F9BCBF6CEB /* CDVStatusBar.m */; };
-		C112EB1E59F5CD66FCF664E7 /* Entitlements-Release.plist in Sources */ = {isa = PBXBuildFile; fileRef = 434042FB73756D13324C4E3F /* Entitlements-Release.plist */; };
-		C4627F6BB9C942D2B0193D5F /* FileUtility.m in Sources */ = {isa = PBXBuildFile; fileRef = 336A96FA6A7D459F95F60FE0 /* FileUtility.m */; };
-		C9DC1DC4F6F04B918345AB3D /* CDVInAppBrowserOptions.m in Sources */ = {isa = PBXBuildFile; fileRef = F16949D24DA64CD791112224 /* CDVInAppBrowserOptions.m */; };
-		D0CBE22EDBFC46F9AEBA2B7B /* AMBRewarded.swift in Sources */ = {isa = PBXBuildFile; fileRef = E439E17515B44E5682A1B3AC /* AMBRewarded.swift */; };
-		D8F95F27D8E84CC382EC2FEF /* CoreLocation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 82CCFA45857E472DBD7A41AF /* CoreLocation.framework */; };
-		DCEBDAE69A82406C8674DC86 /* NSString+SSURLEncoding.m in Sources */ = {isa = PBXBuildFile; fileRef = 239135962491414A878AC1C3 /* NSString+SSURLEncoding.m */; };
-		E0A60C287FA045678F632785 /* InAppPurchase.m in Sources */ = {isa = PBXBuildFile; fileRef = 691D59D7A27444E4BE8FA206 /* InAppPurchase.m */; };
-		E558CA02B90C4E6BBEC628C1 /* CDVInAppBrowserNavigationController.m in Sources */ = {isa = PBXBuildFile; fileRef = 6B5FE939B7E9452783D35199 /* CDVInAppBrowserNavigationController.m */; };
-		E73FE54D3FC943DDA11B0304 /* CDVFile.m in Sources */ = {isa = PBXBuildFile; fileRef = E532071F589B4CE79A47A7A1 /* CDVFile.m */; };
-		E75B1D9634C8AB5FAB54C449 /* Pods_AppsMobileCompany.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = AB0C54C9B1D5D52DA09CDBFA /* Pods_AppsMobileCompany.framework */; };
-		ED8DD0491AFA4C3F8134BE91 /* sb_beep2.caf in Resources */ = {isa = PBXBuildFile; fileRef = BC807491B0C14C45973D894E /* sb_beep2.caf */; };
-		F37671C267D94A47B1BF1780 /* CDVWKInAppBrowserUIDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = F1A4722EEE584A1D8F2730AE /* CDVWKInAppBrowserUIDelegate.m */; };
-		F4DC83C6755141F88BDFEDCB /* CDVClipboard.m in Sources */ = {isa = PBXBuildFile; fileRef = B78476458EE04B37947A31B5 /* CDVClipboard.m */; };
-		F6FEDE67255A4F5BB9BAEB4B /* CDVBarcodeScanner.mm in Sources */ = {isa = PBXBuildFile; fileRef = 74EC0A49D2994842B49B4BDE /* CDVBarcodeScanner.mm */; };
-		F74E6A732B1C4D6FA5889A50 /* MusicControls.m in Sources */ = {isa = PBXBuildFile; fileRef = 7D1DB53EB0D4460EAC1F9F1B /* MusicControls.m */; };
-		FE74412B657C0BEE0B04F1D3 /* Entitlements-Debug.plist in Sources */ = {isa = PBXBuildFile; fileRef = FB861286D47AE5ABE7789B54 /* Entitlements-Debug.plist */; };
+		A1B724F5D7964DCEBECF7E5A /* WebViewPlugin.m in Sources */ = {isa = PBXBuildFile; fileRef = 3F616BA16F444F1B9E8745EC /* WebViewPlugin.m */; };
+		A6FA8C7850534AD5A5FDE58B /* CorePlugin.swift in Sources */ = {isa = PBXBuildFile; fileRef = E00CC1664AD0411788AB24D2 /* CorePlugin.swift */; };
+		A807CD353E0540B889E2CB1F /* QuartzCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8EDA6AA4FF5644858E030AE2 /* QuartzCore.framework */; };
+		A97B5FDE7A854E97A8031411 /* CoreLocation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A740C962691847EAA7ADC028 /* CoreLocation.framework */; };
+		A9AF58CEF9A64FD385F88ED1 /* MessageUI.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2B2D3E5255114AA9A3D99997 /* MessageUI.framework */; settings = {ATTRIBUTES = (Weak, ); }; };
+		AAF917DE65D54CB683955B3E /* CDVWKInAppBrowser.m in Sources */ = {isa = PBXBuildFile; fileRef = 37014F80A0654A1ABB8A1D20 /* CDVWKInAppBrowser.m */; };
+		ABABCF0A8F7049268D14C59D /* CDVNavigator.m in Sources */ = {isa = PBXBuildFile; fileRef = 12FFA7E165D445D2A1F4D68B /* CDVNavigator.m */; };
+		B38581364E6A4A8D8CF98DF2 /* sb_beep2.caf in Resources */ = {isa = PBXBuildFile; fileRef = 8827EA2D0AD243FC8C041B3F /* sb_beep2.caf */; };
+		B40A469974BA45E6BB92C28E /* Insomnia.m in Sources */ = {isa = PBXBuildFile; fileRef = 0AFF0C6A2B9047A1B33762A4 /* Insomnia.m */; };
+		BA71A32FD5744AD29EB2FA4F /* OneSignalPush.m in Sources */ = {isa = PBXBuildFile; fileRef = B3F7192C52834B0A97511686 /* OneSignalPush.m */; };
+		BAEAAFA974CB437A9B66F2A4 /* CDVWKWebViewFileXhr.m in Sources */ = {isa = PBXBuildFile; fileRef = 8C4F78EB699E4C9FAA24DB41 /* CDVWKWebViewFileXhr.m */; };
+		C2038BBCE71140EEBB45B365 /* AudioToolbox.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4FB6A9354A454DF2AA62300F /* AudioToolbox.framework */; };
+		C576E73A7C9B415E9CDFE6A2 /* APPNotificationOptions.m in Sources */ = {isa = PBXBuildFile; fileRef = D374A23530DC464483CB2319 /* APPNotificationOptions.m */; };
+		C7AE61E7047C4C26A69EFE17 /* CBTBrowserTab.m in Sources */ = {isa = PBXBuildFile; fileRef = 554899ECFD404337A1D37DAD /* CBTBrowserTab.m */; };
+		C89FFAFE0A9D4CB59DD22D3C /* UNNotificationRequest+APPLocalNotification.m in Sources */ = {isa = PBXBuildFile; fileRef = B4F6F7B1E28E44618DEE5C63 /* UNNotificationRequest+APPLocalNotification.m */; };
+		CD378E719B7247D585C8779F /* CDVFile.m in Sources */ = {isa = PBXBuildFile; fileRef = EEE639F950B444688A72151D /* CDVFile.m */; };
+		CE083D5BC77443E8B43910FF /* CDVSound.m in Sources */ = {isa = PBXBuildFile; fileRef = F03CCE058B7E4DEA8696A53B /* CDVSound.m */; };
+		D59D72159C6AEDE5209D3578 /* Entitlements-Debug.plist in Sources */ = {isa = PBXBuildFile; fileRef = EF0FB917BFC5DBEB48BE31A7 /* Entitlements-Debug.plist */; };
+		D654EA11CEF7488BB1919AF2 /* CDVBarcodeScanner.bundle in Resources */ = {isa = PBXBuildFile; fileRef = 4CC28B094564480BBF457BB2 /* CDVBarcodeScanner.bundle */; };
+		D6920A9C75F64E98B2278056 /* AVFoundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F5E96832687E448EB13908EE /* AVFoundation.framework */; };
+		DF78A640B1C743808921B97F /* CDVInAppBrowserNavigationController.m in Sources */ = {isa = PBXBuildFile; fileRef = 7F01B000E7C54D939C7F010C /* CDVInAppBrowserNavigationController.m */; };
+		E0E3731A06D9411194FCC313 /* Toast+UIView.m in Sources */ = {isa = PBXBuildFile; fileRef = 032A7BEF734B4F9C901A2430 /* Toast+UIView.m */; };
+		E4F21A9C53664261AF3382FA /* CDVWKInAppBrowserUIDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 7221358CCBA54C8084839542 /* CDVWKInAppBrowserUIDelegate.m */; };
+		E7B1115F2D4849899982FFB7 /* MainViewController+MusicControls.m in Sources */ = {isa = PBXBuildFile; fileRef = 9E6A644ECDA94DC49D4FFB17 /* MainViewController+MusicControls.m */; };
+		F2B7FF7F4B554C1AA2FB73F6 /* MusicControls.m in Sources */ = {isa = PBXBuildFile; fileRef = 6C68029E137543EDBFB90B20 /* MusicControls.m */; };
+		F4686E080ECA4771849D1FCB /* CDVLocalFilesystem.m in Sources */ = {isa = PBXBuildFile; fileRef = 3E63C6A4E47C4DBC96A8FB81 /* CDVLocalFilesystem.m */; };
+		FAA2F766ED9C435E8CCE6BCC /* UNUserNotificationCenter+APPLocalNotification.m in Sources */ = {isa = PBXBuildFile; fileRef = 971747370AF44307A0E11C89 /* UNUserNotificationCenter+APPLocalNotification.m */; };
+		FF2D445DBD4AECFF8E9BFE4A /* Entitlements-Release.plist in Sources */ = {isa = PBXBuildFile; fileRef = 850BD555387EC94A03730C51 /* Entitlements-Release.plist */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -118,23 +101,27 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		003C4697DF6B477299578B02 /* CDVJpegHeaderWriter.h */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 4; includeInIndex = 0; lastKnownFileType = sourcecode.c.h; name = CDVJpegHeaderWriter.h; path = Camera/CDVJpegHeaderWriter.h; sourceTree = "<group>"; };
+		0134BD92423D4C91BAAAF95A /* CDVSound.h */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 4; includeInIndex = 0; lastKnownFileType = sourcecode.c.h; name = CDVSound.h; path = MediaNative/CDVSound.h; sourceTree = "<group>"; };
 		0207DA571B56EA530066E2B4 /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; name = Images.xcassets; path = AppsMobileCompany/Images.xcassets; sourceTree = SOURCE_ROOT; };
-		03E75C6F766A4FCEB571AFE7 /* AMBBanner.swift */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 4; includeInIndex = 0; lastKnownFileType = sourcecode.swift; name = AMBBanner.swift; path = Admob/AMBBanner.swift; sourceTree = "<group>"; };
-		03F1EF6BF54F4EBDB108A7A3 /* APPBadge.h */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 4; includeInIndex = 0; lastKnownFileType = sourcecode.c.h; name = APPBadge.h; path = Badge/APPBadge.h; sourceTree = "<group>"; };
-		095FF65B5C94492CB9CA071B /* CDVWKWebViewFileXhr.h */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 4; includeInIndex = 0; lastKnownFileType = sourcecode.c.h; name = CDVWKWebViewFileXhr.h; path = IosXhr/CDVWKWebViewFileXhr.h; sourceTree = "<group>"; };
-		0FFC17651AEF400E99C7D14B /* CDVAssetLibraryFilesystem.m */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 4; includeInIndex = 0; lastKnownFileType = sourcecode.c.objc; name = CDVAssetLibraryFilesystem.m; path = File/CDVAssetLibraryFilesystem.m; sourceTree = "<group>"; };
-		13308A36DD85467089219274 /* UNNotificationRequest+APPLocalNotification.m */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 4; includeInIndex = 0; lastKnownFileType = sourcecode.c.objc; name = "UNNotificationRequest+APPLocalNotification.m"; path = "LocalNotification/UNNotificationRequest+APPLocalNotification.m"; sourceTree = "<group>"; };
-		19027543C8AC4BFABC0E3145 /* OneSignalPush.m */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 4; includeInIndex = 0; lastKnownFileType = sourcecode.c.objc; name = OneSignalPush.m; path = Onesignal/OneSignalPush.m; sourceTree = "<group>"; };
-		1C811FC33D474DA9A0C7FAAA /* CDVIonicKeyboard.m */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 4; includeInIndex = 0; lastKnownFileType = sourcecode.c.objc; name = CDVIonicKeyboard.m; path = Keyboard/CDVIonicKeyboard.m; sourceTree = "<group>"; };
+		032A7BEF734B4F9C901A2430 /* Toast+UIView.m */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 4; includeInIndex = 0; lastKnownFileType = sourcecode.c.objc; name = "Toast+UIView.m"; path = "Toast/Toast+UIView.m"; sourceTree = "<group>"; };
+		09ECD078E10E469F8902E4BF /* CDVInAppBrowserNavigationController.h */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 4; includeInIndex = 0; lastKnownFileType = sourcecode.c.h; name = CDVInAppBrowserNavigationController.h; path = InAppBrowser/CDVInAppBrowserNavigationController.h; sourceTree = "<group>"; };
+		0AFF0C6A2B9047A1B33762A4 /* Insomnia.m */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 4; includeInIndex = 0; lastKnownFileType = sourcecode.c.objc; name = Insomnia.m; path = Insomnia/Insomnia.m; sourceTree = "<group>"; };
+		0D133F9590944BECA7E26306 /* APPLocalNotification.h */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 4; includeInIndex = 0; lastKnownFileType = sourcecode.c.h; name = APPLocalNotification.h; path = LocalNotification/APPLocalNotification.h; sourceTree = "<group>"; };
+		0D15EC56174F4353914BB715 /* scannerOverlay.xib */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = undefined; includeInIndex = 0; lastKnownFileType = file.xib; name = scannerOverlay.xib; path = scannerOverlay.xib; sourceTree = "<group>"; };
+		123C4A82D08A4A8993EA51BC /* CorePlugin-Bridging-Header.h */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 4; includeInIndex = 0; lastKnownFileType = sourcecode.c.h; name = "CorePlugin-Bridging-Header.h"; path = "CorePlugin/CorePlugin-Bridging-Header.h"; sourceTree = "<group>"; };
+		12FFA7E165D445D2A1F4D68B /* CDVNavigator.m */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 4; includeInIndex = 0; lastKnownFileType = sourcecode.c.objc; name = CDVNavigator.m; path = Navigator/CDVNavigator.m; sourceTree = "<group>"; };
+		15C923B6288B4C918E64E611 /* OneSignalPush.h */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 4; includeInIndex = 0; lastKnownFileType = sourcecode.c.h; name = OneSignalPush.h; path = Onesignal/OneSignalPush.h; sourceTree = "<group>"; };
+		195B15B581F94C709FCD871F /* CDVLocation.m */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 4; includeInIndex = 0; lastKnownFileType = sourcecode.c.objc; name = CDVLocation.m; path = Geolocation/CDVLocation.m; sourceTree = "<group>"; };
+		1BEABD8A80114F1297471460 /* MediaPlayer.framework */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = undefined; includeInIndex = 0; lastKnownFileType = wrapper.framework; name = MediaPlayer.framework; path = System/Library/Frameworks/MediaPlayer.framework; sourceTree = SDKROOT; };
 		1D3623240D0F684500981E51 /* AppDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
 		1D3623250D0F684500981E51 /* AppDelegate.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AppDelegate.m; sourceTree = "<group>"; };
 		1D6058910D05DD3D006BFB54 /* AppsMobileCompany.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = AppsMobileCompany.app; sourceTree = BUILT_PRODUCTS_DIR; };
-		1F91A31A3AE2497CB4CEA8A0 /* CDVSound.h */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 4; includeInIndex = 0; lastKnownFileType = sourcecode.c.h; name = CDVSound.h; path = MediaNative/CDVSound.h; sourceTree = "<group>"; };
-		206B40410BB541F3B45770B2 /* UserNotifications.framework */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = undefined; includeInIndex = 0; lastKnownFileType = wrapper.framework; name = UserNotifications.framework; path = System/Library/Frameworks/UserNotifications.framework; sourceTree = SDKROOT; };
-		213A1F4A53254307900FC6A9 /* AMBRewardedInterstitial.swift */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 4; includeInIndex = 0; lastKnownFileType = sourcecode.swift; name = AMBRewardedInterstitial.swift; path = Admob/AMBRewardedInterstitial.swift; sourceTree = "<group>"; };
-		239135962491414A878AC1C3 /* NSString+SSURLEncoding.m */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 4; includeInIndex = 0; lastKnownFileType = sourcecode.c.objc; name = "NSString+SSURLEncoding.m"; path = "SocialSharing/NSString+SSURLEncoding.m"; sourceTree = "<group>"; };
-		297C542257264B6DA2303C25 /* Social.framework */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = undefined; includeInIndex = 0; lastKnownFileType = wrapper.framework; name = Social.framework; path = System/Library/Frameworks/Social.framework; sourceTree = SDKROOT; };
+		260B76E1E1FA42C08D7F78D6 /* CDVClipboard.m */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 4; includeInIndex = 0; lastKnownFileType = sourcecode.c.objc; name = CDVClipboard.m; path = Clipboard/CDVClipboard.m; sourceTree = "<group>"; };
+		2699952EF5BD4C6CB7112116 /* Toast.m */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 4; includeInIndex = 0; lastKnownFileType = sourcecode.c.objc; name = Toast.m; path = Toast/Toast.m; sourceTree = "<group>"; };
+		26F89D2CF5604CFD806E1763 /* WebViewPlugin.h */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 4; includeInIndex = 0; lastKnownFileType = sourcecode.c.h; name = WebViewPlugin.h; path = WebView/WebViewPlugin.h; sourceTree = "<group>"; };
 		29B97316FDCFA39411CA2CEA /* main.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
+		2B2D3E5255114AA9A3D99997 /* MessageUI.framework */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = undefined; includeInIndex = 0; lastKnownFileType = wrapper.framework; name = MessageUI.framework; path = System/Library/Frameworks/MessageUI.framework; sourceTree = SDKROOT; };
 		301BF52D109A57CC0062928A /* CordovaLib.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = CordovaLib.xcodeproj; path = CordovaLib/CordovaLib.xcodeproj; sourceTree = "<group>"; };
 		301BF56E109A69640062928A /* www */ = {isa = PBXFileReference; lastKnownFileType = folder; path = www; sourceTree = SOURCE_ROOT; };
 		302D95EE14D2391D003F00A1 /* MainViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MainViewController.h; sourceTree = "<group>"; };
@@ -143,124 +130,99 @@
 		3047A50F1AB8059700498E2A /* build-debug.xcconfig */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xcconfig; name = "build-debug.xcconfig"; path = "cordova/build-debug.xcconfig"; sourceTree = SOURCE_ROOT; };
 		3047A5101AB8059700498E2A /* build-release.xcconfig */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xcconfig; name = "build-release.xcconfig"; path = "cordova/build-release.xcconfig"; sourceTree = SOURCE_ROOT; };
 		3047A5111AB8059700498E2A /* build.xcconfig */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xcconfig; name = build.xcconfig; path = cordova/build.xcconfig; sourceTree = SOURCE_ROOT; };
+		323984BC96FB4075967F8824 /* UIImage+CropScaleOrientation.m */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 4; includeInIndex = 0; lastKnownFileType = sourcecode.c.objc; name = "UIImage+CropScaleOrientation.m"; path = "Camera/UIImage+CropScaleOrientation.m"; sourceTree = "<group>"; };
 		32CA4F630368D1EE00C91783 /* AppsMobileCompany-Prefix.pch */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "AppsMobileCompany-Prefix.pch"; sourceTree = "<group>"; };
-		336A96FA6A7D459F95F60FE0 /* FileUtility.m */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 4; includeInIndex = 0; lastKnownFileType = sourcecode.c.objc; name = FileUtility.m; path = InAppPurchase/FileUtility.m; sourceTree = "<group>"; };
-		34B9C49D1EE546F697716CD3 /* MediaPlayer.framework */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = undefined; includeInIndex = 0; lastKnownFileType = wrapper.framework; name = MediaPlayer.framework; path = System/Library/Frameworks/MediaPlayer.framework; sourceTree = SDKROOT; };
-		370AACB4204A4F20BC7CDD16 /* FileUtility.h */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 4; includeInIndex = 0; lastKnownFileType = sourcecode.c.h; name = FileUtility.h; path = InAppPurchase/FileUtility.h; sourceTree = "<group>"; };
-		387DD4C192ED40A4B3599F56 /* CDVFile.h */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 4; includeInIndex = 0; lastKnownFileType = sourcecode.c.h; name = CDVFile.h; path = File/CDVFile.h; sourceTree = "<group>"; };
-		39538CF7C7FA4E69AD4ED373 /* WebKit.framework */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = undefined; includeInIndex = 0; lastKnownFileType = wrapper.framework; name = WebKit.framework; path = System/Library/Frameworks/WebKit.framework; sourceTree = SDKROOT; };
-		398DA41CF66A422699909F11 /* CDVWKInAppBrowser.m */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 4; includeInIndex = 0; lastKnownFileType = sourcecode.c.objc; name = CDVWKInAppBrowser.m; path = InAppBrowser/CDVWKInAppBrowser.m; sourceTree = "<group>"; };
-		3A3DE5FB353B4DC486C6F33B /* CorePlugin-Bridging-Header.h */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 4; includeInIndex = 0; lastKnownFileType = sourcecode.c.h; name = "CorePlugin-Bridging-Header.h"; path = "CorePlugin/CorePlugin-Bridging-Header.h"; sourceTree = "<group>"; };
-		3CF577DD071F4F8A931E0359 /* CDVInAppBrowserOptions.h */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 4; includeInIndex = 0; lastKnownFileType = sourcecode.c.h; name = CDVInAppBrowserOptions.h; path = InAppBrowser/CDVInAppBrowserOptions.h; sourceTree = "<group>"; };
-		413C96D9E11C4E31ABE91594 /* CDVInAppBrowserNavigationController.h */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 4; includeInIndex = 0; lastKnownFileType = sourcecode.c.h; name = CDVInAppBrowserNavigationController.h; path = InAppBrowser/CDVInAppBrowserNavigationController.h; sourceTree = "<group>"; };
-		42E81280624C4B828F841157 /* AVFoundation.framework */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = undefined; includeInIndex = 0; lastKnownFileType = wrapper.framework; name = AVFoundation.framework; path = System/Library/Frameworks/AVFoundation.framework; sourceTree = SDKROOT; };
-		434042FB73756D13324C4E3F /* Entitlements-Release.plist */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.plist.xml; name = "Entitlements-Release.plist"; path = "AppsMobileCompany/Entitlements-Release.plist"; sourceTree = "<group>"; };
-		4920EE8E73EAE412BACE7B4B /* Pods-AppsMobileCompany.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-AppsMobileCompany.release.xcconfig"; path = "Target Support Files/Pods-AppsMobileCompany/Pods-AppsMobileCompany.release.xcconfig"; sourceTree = "<group>"; };
-		526373794D764C8F8470606F /* SKProductDiscount+LocalizedPrice.h */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 4; includeInIndex = 0; lastKnownFileType = sourcecode.c.h; name = "SKProductDiscount+LocalizedPrice.h"; path = "InAppPurchase/SKProductDiscount+LocalizedPrice.h"; sourceTree = "<group>"; };
-		54D69F9A2E0F44A881250330 /* CDVSound.m */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 4; includeInIndex = 0; lastKnownFileType = sourcecode.c.objc; name = CDVSound.m; path = MediaNative/CDVSound.m; sourceTree = "<group>"; };
-		568988C672D841F9BCBF6CEB /* CDVStatusBar.m */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 4; includeInIndex = 0; lastKnownFileType = sourcecode.c.objc; name = CDVStatusBar.m; path = StatusBar/CDVStatusBar.m; sourceTree = "<group>"; };
-		56EE58AE8E184E5F98E58784 /* WebViewPlugin.m */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 4; includeInIndex = 0; lastKnownFileType = sourcecode.c.objc; name = WebViewPlugin.m; path = WebView/WebViewPlugin.m; sourceTree = "<group>"; };
-		5763A8F2C1F44F9C90847548 /* MusicControlsInfo.h */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 4; includeInIndex = 0; lastKnownFileType = sourcecode.c.h; name = MusicControlsInfo.h; path = MusicControls/MusicControlsInfo.h; sourceTree = "<group>"; };
-		5774C416E73D41A8AA2BCF5C /* SafariServices.framework */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = undefined; includeInIndex = 0; lastKnownFileType = wrapper.framework; name = SafariServices.framework; path = System/Library/Frameworks/SafariServices.framework; sourceTree = SDKROOT; };
-		5817C5BB7C064AEDAE34D6C8 /* UNUserNotificationCenter+APPLocalNotification.h */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 4; includeInIndex = 0; lastKnownFileType = sourcecode.c.h; name = "UNUserNotificationCenter+APPLocalNotification.h"; path = "LocalNotification/UNUserNotificationCenter+APPLocalNotification.h"; sourceTree = "<group>"; };
-		5894F75B68F8419B8D738509 /* CDVCamera.h */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 4; includeInIndex = 0; lastKnownFileType = sourcecode.c.h; name = CDVCamera.h; path = Camera/CDVCamera.h; sourceTree = "<group>"; };
-		598CE9E3C4BA457D8C4B6742 /* CDVCamera.m */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 4; includeInIndex = 0; lastKnownFileType = sourcecode.c.objc; name = CDVCamera.m; path = Camera/CDVCamera.m; sourceTree = "<group>"; };
-		5A67F8D3E01D4FA29F5063EB /* APPBadge.m */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 4; includeInIndex = 0; lastKnownFileType = sourcecode.c.objc; name = APPBadge.m; path = Badge/APPBadge.m; sourceTree = "<group>"; };
-		61B52E16021F4E769E24D3B2 /* APPNotificationOptions.h */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 4; includeInIndex = 0; lastKnownFileType = sourcecode.c.h; name = APPNotificationOptions.h; path = LocalNotification/APPNotificationOptions.h; sourceTree = "<group>"; };
-		61BCF73410A042B580A4BFE1 /* APPNotificationCategory.h */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 4; includeInIndex = 0; lastKnownFileType = sourcecode.c.h; name = APPNotificationCategory.h; path = LocalNotification/APPNotificationCategory.h; sourceTree = "<group>"; };
-		64E4405B79A5491FAD0E404B /* CDVLocation.m */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 4; includeInIndex = 0; lastKnownFileType = sourcecode.c.objc; name = CDVLocation.m; path = Geolocation/CDVLocation.m; sourceTree = "<group>"; };
-		66022923A37A4376B2C99DF4 /* SKProduct+LocalizedPrice.h */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 4; includeInIndex = 0; lastKnownFileType = sourcecode.c.h; name = "SKProduct+LocalizedPrice.h"; path = "InAppPurchase/SKProduct+LocalizedPrice.h"; sourceTree = "<group>"; };
-		6674E71D57D34339B8AD2450 /* APPNotificationCategory.m */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 4; includeInIndex = 0; lastKnownFileType = sourcecode.c.objc; name = APPNotificationCategory.m; path = LocalNotification/APPNotificationCategory.m; sourceTree = "<group>"; };
-		6709647004BD4925AB272334 /* CDVDevice.h */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 4; includeInIndex = 0; lastKnownFileType = sourcecode.c.h; name = CDVDevice.h; path = Device/CDVDevice.h; sourceTree = "<group>"; };
-		6878C989BFC347AAACF07008 /* AppTrackingTransparency.framework */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = undefined; includeInIndex = 0; lastKnownFileType = wrapper.framework; name = AppTrackingTransparency.framework; path = System/Library/Frameworks/AppTrackingTransparency.framework; sourceTree = SDKROOT; };
-		68B32DAF089F44B09F1A9360 /* sb_beep3.caf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = undefined; includeInIndex = 0; lastKnownFileType = unknown; name = sb_beep3.caf; path = Sounds/sb_beep3.caf; sourceTree = "<group>"; };
-		68C638DD441B4F8F95D7D0A8 /* CDVLocation.h */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 4; includeInIndex = 0; lastKnownFileType = sourcecode.c.h; name = CDVLocation.h; path = Geolocation/CDVLocation.h; sourceTree = "<group>"; };
-		691D59D7A27444E4BE8FA206 /* InAppPurchase.m */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 4; includeInIndex = 0; lastKnownFileType = sourcecode.c.objc; name = InAppPurchase.m; path = InAppPurchase/InAppPurchase.m; sourceTree = "<group>"; };
+		34081CDD825847D7986E9905 /* APPNotificationCategory.h */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 4; includeInIndex = 0; lastKnownFileType = sourcecode.c.h; name = APPNotificationCategory.h; path = LocalNotification/APPNotificationCategory.h; sourceTree = "<group>"; };
+		37014F80A0654A1ABB8A1D20 /* CDVWKInAppBrowser.m */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 4; includeInIndex = 0; lastKnownFileType = sourcecode.c.objc; name = CDVWKInAppBrowser.m; path = InAppBrowser/CDVWKInAppBrowser.m; sourceTree = "<group>"; };
+		38AA3F3933A04F72BE6E3C64 /* NSString+SSURLEncoding.h */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 4; includeInIndex = 0; lastKnownFileType = sourcecode.c.h; name = "NSString+SSURLEncoding.h"; path = "SocialSharing/NSString+SSURLEncoding.h"; sourceTree = "<group>"; };
+		38E5681A0E4F42D2A5A0E0A5 /* CDVWKInAppBrowserUIDelegate.h */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 4; includeInIndex = 0; lastKnownFileType = sourcecode.c.h; name = CDVWKInAppBrowserUIDelegate.h; path = InAppBrowser/CDVWKInAppBrowserUIDelegate.h; sourceTree = "<group>"; };
+		395BA67A96DB4D969A092777 /* Insomnia.h */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 4; includeInIndex = 0; lastKnownFileType = sourcecode.c.h; name = Insomnia.h; path = Insomnia/Insomnia.h; sourceTree = "<group>"; };
+		39BC50E9A92B400D899C19C0 /* CDVJpegHeaderWriter.m */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 4; includeInIndex = 0; lastKnownFileType = sourcecode.c.objc; name = CDVJpegHeaderWriter.m; path = Camera/CDVJpegHeaderWriter.m; sourceTree = "<group>"; };
+		3E63C6A4E47C4DBC96A8FB81 /* CDVLocalFilesystem.m */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 4; includeInIndex = 0; lastKnownFileType = sourcecode.c.objc; name = CDVLocalFilesystem.m; path = File/CDVLocalFilesystem.m; sourceTree = "<group>"; };
+		3F2B775F1E6147ADA077BEA6 /* CDVDevice.m */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 4; includeInIndex = 0; lastKnownFileType = sourcecode.c.objc; name = CDVDevice.m; path = Device/CDVDevice.m; sourceTree = "<group>"; };
+		3F616BA16F444F1B9E8745EC /* WebViewPlugin.m */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 4; includeInIndex = 0; lastKnownFileType = sourcecode.c.objc; name = WebViewPlugin.m; path = WebView/WebViewPlugin.m; sourceTree = "<group>"; };
+		42A72EBB47AF4C6095C5D32E /* CDVInAppBrowserOptions.h */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 4; includeInIndex = 0; lastKnownFileType = sourcecode.c.h; name = CDVInAppBrowserOptions.h; path = InAppBrowser/CDVInAppBrowserOptions.h; sourceTree = "<group>"; };
+		4401616A917C4923B2B9EFD5 /* UNNotificationRequest+APPLocalNotification.h */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 4; includeInIndex = 0; lastKnownFileType = sourcecode.c.h; name = "UNNotificationRequest+APPLocalNotification.h"; path = "LocalNotification/UNNotificationRequest+APPLocalNotification.h"; sourceTree = "<group>"; };
+		4BC8B218C8E24026B663E47B /* CDVNavigator.h */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 4; includeInIndex = 0; lastKnownFileType = sourcecode.c.h; name = CDVNavigator.h; path = Navigator/CDVNavigator.h; sourceTree = "<group>"; };
+		4CC28B094564480BBF457BB2 /* CDVBarcodeScanner.bundle */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = undefined; includeInIndex = 0; lastKnownFileType = "wrapper.plug-in"; name = CDVBarcodeScanner.bundle; path = CDVBarcodeScanner.bundle; sourceTree = "<group>"; };
+		4F6BC5FC323745CAA9A2CCA8 /* WebKit.framework */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = undefined; includeInIndex = 0; lastKnownFileType = wrapper.framework; name = WebKit.framework; path = System/Library/Frameworks/WebKit.framework; sourceTree = SDKROOT; };
+		4FB6A9354A454DF2AA62300F /* AudioToolbox.framework */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = undefined; includeInIndex = 0; lastKnownFileType = wrapper.framework; name = AudioToolbox.framework; path = System/Library/Frameworks/AudioToolbox.framework; sourceTree = SDKROOT; };
+		54EEC946E74C4E8289C14163 /* ImageIO.framework */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = undefined; includeInIndex = 0; lastKnownFileType = wrapper.framework; name = ImageIO.framework; path = System/Library/Frameworks/ImageIO.framework; sourceTree = SDKROOT; };
+		554899ECFD404337A1D37DAD /* CBTBrowserTab.m */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 4; includeInIndex = 0; lastKnownFileType = sourcecode.c.objc; name = CBTBrowserTab.m; path = BrowserTab/CBTBrowserTab.m; sourceTree = "<group>"; };
+		57CC59DD646544B38D827233 /* Social.framework */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = undefined; includeInIndex = 0; lastKnownFileType = wrapper.framework; name = Social.framework; path = System/Library/Frameworks/Social.framework; sourceTree = SDKROOT; };
+		5AB8A1F8982FB63F13FAB8BA /* Pods_AppsMobileCompany.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_AppsMobileCompany.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		5B75617CC53C4BFB8A3CB5E4 /* sb_beep4.caf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = undefined; includeInIndex = 0; lastKnownFileType = unknown; name = sb_beep4.caf; path = Sounds/sb_beep4.caf; sourceTree = "<group>"; };
+		5FC8A537B4F94800B9B1F61A /* SocialSharing.m */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 4; includeInIndex = 0; lastKnownFileType = sourcecode.c.objc; name = SocialSharing.m; path = SocialSharing/SocialSharing.m; sourceTree = "<group>"; };
+		656775B311FC407FB2FDD6DD /* MusicControlsInfo.m */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 4; includeInIndex = 0; lastKnownFileType = sourcecode.c.objc; name = MusicControlsInfo.m; path = MusicControls/MusicControlsInfo.m; sourceTree = "<group>"; };
+		674BAB0EB90542ECB4A53116 /* CDVExif.h */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 4; includeInIndex = 0; lastKnownFileType = sourcecode.c.h; name = CDVExif.h; path = Camera/CDVExif.h; sourceTree = "<group>"; };
+		67F5C13BA110487E94BBFFA9 /* CDVIonicKeyboard.h */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 4; includeInIndex = 0; lastKnownFileType = sourcecode.c.h; name = CDVIonicKeyboard.h; path = Keyboard/CDVIonicKeyboard.h; sourceTree = "<group>"; };
 		6AFF5BF81D6E424B00AB3073 /* CDVLaunchScreen.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; name = CDVLaunchScreen.storyboard; path = AppsMobileCompany/CDVLaunchScreen.storyboard; sourceTree = SOURCE_ROOT; };
-		6B5FE939B7E9452783D35199 /* CDVInAppBrowserNavigationController.m */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 4; includeInIndex = 0; lastKnownFileType = sourcecode.c.objc; name = CDVInAppBrowserNavigationController.m; path = InAppBrowser/CDVInAppBrowserNavigationController.m; sourceTree = "<group>"; };
-		708C986E6B2E4354AAD2D28E /* CDVDevice.m */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 4; includeInIndex = 0; lastKnownFileType = sourcecode.c.objc; name = CDVDevice.m; path = Device/CDVDevice.m; sourceTree = "<group>"; };
-		74EC0A49D2994842B49B4BDE /* CDVBarcodeScanner.mm */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = undefined; includeInIndex = 0; lastKnownFileType = unknown; name = CDVBarcodeScanner.mm; path = BarcodeScanner/CDVBarcodeScanner.mm; sourceTree = "<group>"; };
-		756CCE77658645A3937DF99C /* AppVersion.m */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 4; includeInIndex = 0; lastKnownFileType = sourcecode.c.objc; name = AppVersion.m; path = AppVersion/AppVersion.m; sourceTree = "<group>"; };
-		75AA7A0AE89F45A8A8D15D52 /* AMBCore.swift */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 4; includeInIndex = 0; lastKnownFileType = sourcecode.swift; name = AMBCore.swift; path = Admob/AMBCore.swift; sourceTree = "<group>"; };
-		777FD55BC4B34FC8B47D4DCC /* Insomnia.m */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 4; includeInIndex = 0; lastKnownFileType = sourcecode.c.objc; name = Insomnia.m; path = Insomnia/Insomnia.m; sourceTree = "<group>"; };
-		7A69A3EBE4F243569E54208E /* AMBInterstitial.swift */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 4; includeInIndex = 0; lastKnownFileType = sourcecode.swift; name = AMBInterstitial.swift; path = Admob/AMBInterstitial.swift; sourceTree = "<group>"; };
-		7D1DB53EB0D4460EAC1F9F1B /* MusicControls.m */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 4; includeInIndex = 0; lastKnownFileType = sourcecode.c.objc; name = MusicControls.m; path = MusicControls/MusicControls.m; sourceTree = "<group>"; };
-		7D49E0D14D6C431EA93BB851 /* AppVersion.h */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 4; includeInIndex = 0; lastKnownFileType = sourcecode.c.h; name = AppVersion.h; path = AppVersion/AppVersion.h; sourceTree = "<group>"; };
-		7D4C98F920E64483B0155021 /* CDVLocalFilesystem.h */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 4; includeInIndex = 0; lastKnownFileType = sourcecode.c.h; name = CDVLocalFilesystem.h; path = File/CDVLocalFilesystem.h; sourceTree = "<group>"; };
-		7D9031B56AE5405CAED29554 /* APPNotificationContent.m */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 4; includeInIndex = 0; lastKnownFileType = sourcecode.c.objc; name = APPNotificationContent.m; path = LocalNotification/APPNotificationContent.m; sourceTree = "<group>"; };
-		80FEF9EF506B426CA1DD08AF /* sb_beep1.caf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = undefined; includeInIndex = 0; lastKnownFileType = unknown; name = sb_beep1.caf; path = Sounds/sb_beep1.caf; sourceTree = "<group>"; };
-		82CCFA45857E472DBD7A41AF /* CoreLocation.framework */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = undefined; includeInIndex = 0; lastKnownFileType = wrapper.framework; name = CoreLocation.framework; path = System/Library/Frameworks/CoreLocation.framework; sourceTree = SDKROOT; };
-		84FA0785EC2A4E3B8546D92D /* AMBNativeAd.swift */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 4; includeInIndex = 0; lastKnownFileType = sourcecode.swift; name = AMBNativeAd.swift; path = Admob/AMBNativeAd.swift; sourceTree = "<group>"; };
-		859B9020C17E413896FEE9EE /* CDVStatusBar.h */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 4; includeInIndex = 0; lastKnownFileType = sourcecode.c.h; name = CDVStatusBar.h; path = StatusBar/CDVStatusBar.h; sourceTree = "<group>"; };
-		859F826E120045C0A4F581A0 /* AMBContext.swift */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 4; includeInIndex = 0; lastKnownFileType = sourcecode.swift; name = AMBContext.swift; path = Admob/AMBContext.swift; sourceTree = "<group>"; };
-		8661BAC1FECB4003BE6482ED /* CDVExif.h */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 4; includeInIndex = 0; lastKnownFileType = sourcecode.c.h; name = CDVExif.h; path = Camera/CDVExif.h; sourceTree = "<group>"; };
-		866320A46B214F5BA859C31A /* NSString+SSURLEncoding.h */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 4; includeInIndex = 0; lastKnownFileType = sourcecode.c.h; name = "NSString+SSURLEncoding.h"; path = "SocialSharing/NSString+SSURLEncoding.h"; sourceTree = "<group>"; };
-		868A20271FAB4A60B801E2F2 /* AMBAdBase.swift */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 4; includeInIndex = 0; lastKnownFileType = sourcecode.swift; name = AMBAdBase.swift; path = Admob/AMBAdBase.swift; sourceTree = "<group>"; };
-		89A2D9BC99254B71894BEC25 /* QuartzCore.framework */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = undefined; includeInIndex = 0; lastKnownFileType = wrapper.framework; name = QuartzCore.framework; path = System/Library/Frameworks/QuartzCore.framework; sourceTree = SDKROOT; };
+		6C68029E137543EDBFB90B20 /* MusicControls.m */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 4; includeInIndex = 0; lastKnownFileType = sourcecode.c.objc; name = MusicControls.m; path = MusicControls/MusicControls.m; sourceTree = "<group>"; };
+		7221358CCBA54C8084839542 /* CDVWKInAppBrowserUIDelegate.m */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 4; includeInIndex = 0; lastKnownFileType = sourcecode.c.objc; name = CDVWKInAppBrowserUIDelegate.m; path = InAppBrowser/CDVWKInAppBrowserUIDelegate.m; sourceTree = "<group>"; };
+		765F4511B564494181EDB3D8 /* UserNotifications.framework */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = undefined; includeInIndex = 0; lastKnownFileType = wrapper.framework; name = UserNotifications.framework; path = System/Library/Frameworks/UserNotifications.framework; sourceTree = SDKROOT; };
+		794170E5130C4AEA8837DFAB /* CDVWKWebViewFileXhr.h */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 4; includeInIndex = 0; lastKnownFileType = sourcecode.c.h; name = CDVWKWebViewFileXhr.h; path = IosXhr/CDVWKWebViewFileXhr.h; sourceTree = "<group>"; };
+		7F01B000E7C54D939C7F010C /* CDVInAppBrowserNavigationController.m */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 4; includeInIndex = 0; lastKnownFileType = sourcecode.c.objc; name = CDVInAppBrowserNavigationController.m; path = InAppBrowser/CDVInAppBrowserNavigationController.m; sourceTree = "<group>"; };
+		8080FF02D9D44529903E0814 /* AppVersion.h */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 4; includeInIndex = 0; lastKnownFileType = sourcecode.c.h; name = AppVersion.h; path = AppVersion/AppVersion.h; sourceTree = "<group>"; };
+		850BD555387EC94A03730C51 /* Entitlements-Release.plist */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.plist.xml; name = "Entitlements-Release.plist"; path = "AppsMobileCompany/Entitlements-Release.plist"; sourceTree = "<group>"; };
+		85F15B40493F4E21A0B1301E /* CDVLocation.h */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 4; includeInIndex = 0; lastKnownFileType = sourcecode.c.h; name = CDVLocation.h; path = Geolocation/CDVLocation.h; sourceTree = "<group>"; };
+		8750044004484251AB658746 /* MainViewController+MusicControls.h */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 4; includeInIndex = 0; lastKnownFileType = sourcecode.c.h; name = "MainViewController+MusicControls.h"; path = "MusicControls/MainViewController+MusicControls.h"; sourceTree = "<group>"; };
+		8827EA2D0AD243FC8C041B3F /* sb_beep2.caf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = undefined; includeInIndex = 0; lastKnownFileType = unknown; name = sb_beep2.caf; path = Sounds/sb_beep2.caf; sourceTree = "<group>"; };
+		8BFC7B1753024DB9BF2DC507 /* CDVIonicKeyboard.m */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 4; includeInIndex = 0; lastKnownFileType = sourcecode.c.objc; name = CDVIonicKeyboard.m; path = Keyboard/CDVIonicKeyboard.m; sourceTree = "<group>"; };
+		8C4F78EB699E4C9FAA24DB41 /* CDVWKWebViewFileXhr.m */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 4; includeInIndex = 0; lastKnownFileType = sourcecode.c.objc; name = CDVWKWebViewFileXhr.m; path = IosXhr/CDVWKWebViewFileXhr.m; sourceTree = "<group>"; };
+		8C9E95156EAC49A5BAD8340E /* UIImage+CropScaleOrientation.h */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 4; includeInIndex = 0; lastKnownFileType = sourcecode.c.h; name = "UIImage+CropScaleOrientation.h"; path = "Camera/UIImage+CropScaleOrientation.h"; sourceTree = "<group>"; };
 		8D1107310486CEB800E47090 /* AppsMobileCompany-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = "AppsMobileCompany-Info.plist"; path = "AppsMobileCompany/AppsMobileCompany-Info.plist"; plistStructureDefinitionIdentifier = "com.apple.xcode.plist.structure-definition.iphone.info-plist"; sourceTree = SOURCE_ROOT; };
-		8FCB3547DC4049EBB9833BFE /* AudioToolbox.framework */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = undefined; includeInIndex = 0; lastKnownFileType = wrapper.framework; name = AudioToolbox.framework; path = System/Library/Frameworks/AudioToolbox.framework; sourceTree = SDKROOT; };
-		9AA094A9E2B647B6BEC026A0 /* InAppPurchase.h */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 4; includeInIndex = 0; lastKnownFileType = sourcecode.c.h; name = InAppPurchase.h; path = InAppPurchase/InAppPurchase.h; sourceTree = "<group>"; };
+		8DBFBFB007324F8A88F918BC /* APPNotificationContent.m */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 4; includeInIndex = 0; lastKnownFileType = sourcecode.c.objc; name = APPNotificationContent.m; path = LocalNotification/APPNotificationContent.m; sourceTree = "<group>"; };
+		8EDA6AA4FF5644858E030AE2 /* QuartzCore.framework */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = undefined; includeInIndex = 0; lastKnownFileType = wrapper.framework; name = QuartzCore.framework; path = System/Library/Frameworks/QuartzCore.framework; sourceTree = SDKROOT; };
+		8FF732B51FCA0A9CA497836F /* Pods-AppsMobileCompany.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-AppsMobileCompany.release.xcconfig"; path = "Target Support Files/Pods-AppsMobileCompany/Pods-AppsMobileCompany.release.xcconfig"; sourceTree = "<group>"; };
+		93CC10E4056B422196188F57 /* CDVInAppBrowserOptions.m */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 4; includeInIndex = 0; lastKnownFileType = sourcecode.c.objc; name = CDVInAppBrowserOptions.m; path = InAppBrowser/CDVInAppBrowserOptions.m; sourceTree = "<group>"; };
+		93FF0EA78D86455082E87A7A /* sb_beep3.caf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = undefined; includeInIndex = 0; lastKnownFileType = unknown; name = sb_beep3.caf; path = Sounds/sb_beep3.caf; sourceTree = "<group>"; };
+		950A05FF33CC46BB88399366 /* APPBadge.m */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 4; includeInIndex = 0; lastKnownFileType = sourcecode.c.objc; name = APPBadge.m; path = Badge/APPBadge.m; sourceTree = "<group>"; };
+		95492E411DA64684A9DCC4D6 /* AppVersion.m */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 4; includeInIndex = 0; lastKnownFileType = sourcecode.c.objc; name = AppVersion.m; path = AppVersion/AppVersion.m; sourceTree = "<group>"; };
+		971747370AF44307A0E11C89 /* UNUserNotificationCenter+APPLocalNotification.m */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 4; includeInIndex = 0; lastKnownFileType = sourcecode.c.objc; name = "UNUserNotificationCenter+APPLocalNotification.m"; path = "LocalNotification/UNUserNotificationCenter+APPLocalNotification.m"; sourceTree = "<group>"; };
+		987DC1ED052E495298C3F44D /* SocialSharing.h */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 4; includeInIndex = 0; lastKnownFileType = sourcecode.c.h; name = SocialSharing.h; path = SocialSharing/SocialSharing.h; sourceTree = "<group>"; };
 		9AB72E3F20ADD50600A1703D /* Constants.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Constants.h; sourceTree = "<group>"; };
 		9AB72E4320ADD50700A1703D /* Constants.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Constants.m; sourceTree = "<group>"; };
-		9C579061A1D247E8879A6B90 /* MainViewController+MusicControls.h */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 4; includeInIndex = 0; lastKnownFileType = sourcecode.c.h; name = "MainViewController+MusicControls.h"; path = "MusicControls/MainViewController+MusicControls.h"; sourceTree = "<group>"; };
-		9F58B7AA757045338495AA4F /* APPNotificationContent.h */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 4; includeInIndex = 0; lastKnownFileType = sourcecode.c.h; name = APPNotificationContent.h; path = LocalNotification/APPNotificationContent.h; sourceTree = "<group>"; };
-		A00D3AF441E7404EAC8D7D1A /* SocialSharing.m */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 4; includeInIndex = 0; lastKnownFileType = sourcecode.c.objc; name = SocialSharing.m; path = SocialSharing/SocialSharing.m; sourceTree = "<group>"; };
-		A2363CD7F2E44383926F338F /* UIImage+CropScaleOrientation.h */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 4; includeInIndex = 0; lastKnownFileType = sourcecode.c.h; name = "UIImage+CropScaleOrientation.h"; path = "Camera/UIImage+CropScaleOrientation.h"; sourceTree = "<group>"; };
-		AA494E4B6EC84FA7AFED5986 /* SKProductDiscount+LocalizedPrice.m */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 4; includeInIndex = 0; lastKnownFileType = sourcecode.c.objc; name = "SKProductDiscount+LocalizedPrice.m"; path = "InAppPurchase/SKProductDiscount+LocalizedPrice.m"; sourceTree = "<group>"; };
-		AB0C54C9B1D5D52DA09CDBFA /* Pods_AppsMobileCompany.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_AppsMobileCompany.framework; sourceTree = BUILT_PRODUCTS_DIR; };
-		AB64C8D991D74CC89C01FE65 /* WebViewPlugin.h */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 4; includeInIndex = 0; lastKnownFileType = sourcecode.c.h; name = WebViewPlugin.h; path = WebView/WebViewPlugin.h; sourceTree = "<group>"; };
-		ADC60E8F1CAC4201B9FFBF45 /* Toast.m */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 4; includeInIndex = 0; lastKnownFileType = sourcecode.c.objc; name = Toast.m; path = Toast/Toast.m; sourceTree = "<group>"; };
-		B039083E8A3442F0A2FE1097 /* MusicControls.h */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 4; includeInIndex = 0; lastKnownFileType = sourcecode.c.h; name = MusicControls.h; path = MusicControls/MusicControls.h; sourceTree = "<group>"; };
-		B0CB21493BAC49298C6CD0D3 /* Toast+UIView.h */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 4; includeInIndex = 0; lastKnownFileType = sourcecode.c.h; name = "Toast+UIView.h"; path = "Toast/Toast+UIView.h"; sourceTree = "<group>"; };
-		B1B3930D46A246F093BEAF06 /* CDVNavigator.m */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 4; includeInIndex = 0; lastKnownFileType = sourcecode.c.objc; name = CDVNavigator.m; path = Navigator/CDVNavigator.m; sourceTree = "<group>"; };
-		B1DAA685389D49B280BD96C8 /* UIImage+CropScaleOrientation.m */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 4; includeInIndex = 0; lastKnownFileType = sourcecode.c.objc; name = "UIImage+CropScaleOrientation.m"; path = "Camera/UIImage+CropScaleOrientation.m"; sourceTree = "<group>"; };
-		B1DFCEDE1CB34488964ACD68 /* AMBGenerated.swift */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 4; includeInIndex = 0; lastKnownFileType = sourcecode.swift; name = AMBGenerated.swift; path = Admob/AMBGenerated.swift; sourceTree = "<group>"; };
-		B34B02A0C425434CB343EAAB /* SKProduct+LocalizedPrice.m */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 4; includeInIndex = 0; lastKnownFileType = sourcecode.c.objc; name = "SKProduct+LocalizedPrice.m"; path = "InAppPurchase/SKProduct+LocalizedPrice.m"; sourceTree = "<group>"; };
-		B62A2A09AC07499BB545627F /* OneSignalPush.h */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 4; includeInIndex = 0; lastKnownFileType = sourcecode.c.h; name = OneSignalPush.h; path = Onesignal/OneSignalPush.h; sourceTree = "<group>"; };
-		B78476458EE04B37947A31B5 /* CDVClipboard.m */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 4; includeInIndex = 0; lastKnownFileType = sourcecode.c.objc; name = CDVClipboard.m; path = Clipboard/CDVClipboard.m; sourceTree = "<group>"; };
-		B7B75730DDAA413D9EC729E6 /* UNNotificationRequest+APPLocalNotification.h */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 4; includeInIndex = 0; lastKnownFileType = sourcecode.c.h; name = "UNNotificationRequest+APPLocalNotification.h"; path = "LocalNotification/UNNotificationRequest+APPLocalNotification.h"; sourceTree = "<group>"; };
-		BACFBCEC46F34C45A287934F /* CDVAssetLibraryFilesystem.h */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 4; includeInIndex = 0; lastKnownFileType = sourcecode.c.h; name = CDVAssetLibraryFilesystem.h; path = File/CDVAssetLibraryFilesystem.h; sourceTree = "<group>"; };
-		BB427319978047B2913C2F40 /* CDVNavigator.h */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 4; includeInIndex = 0; lastKnownFileType = sourcecode.c.h; name = CDVNavigator.h; path = Navigator/CDVNavigator.h; sourceTree = "<group>"; };
-		BC807491B0C14C45973D894E /* sb_beep2.caf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = undefined; includeInIndex = 0; lastKnownFileType = unknown; name = sb_beep2.caf; path = Sounds/sb_beep2.caf; sourceTree = "<group>"; };
-		BFC32E36713C4B57816ECAE6 /* CDVJpegHeaderWriter.h */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 4; includeInIndex = 0; lastKnownFileType = sourcecode.c.h; name = CDVJpegHeaderWriter.h; path = Camera/CDVJpegHeaderWriter.h; sourceTree = "<group>"; };
-		C0F9E391B5944440828F9163 /* CDVIonicKeyboard.h */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 4; includeInIndex = 0; lastKnownFileType = sourcecode.c.h; name = CDVIonicKeyboard.h; path = Keyboard/CDVIonicKeyboard.h; sourceTree = "<group>"; };
-		C2BE83F442DD4E748EF2B0B2 /* MusicControlsInfo.m */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 4; includeInIndex = 0; lastKnownFileType = sourcecode.c.objc; name = MusicControlsInfo.m; path = MusicControls/MusicControlsInfo.m; sourceTree = "<group>"; };
-		C80B7228E8904981A3C74CD7 /* StoreKit.framework */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = undefined; includeInIndex = 0; lastKnownFileType = wrapper.framework; name = StoreKit.framework; path = System/Library/Frameworks/StoreKit.framework; sourceTree = SDKROOT; };
-		CA9CBABBA3294E46B3E990EE /* AMBAppOpenAd.swift */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 4; includeInIndex = 0; lastKnownFileType = sourcecode.swift; name = AMBAppOpenAd.swift; path = Admob/AMBAppOpenAd.swift; sourceTree = "<group>"; };
-		CAB6552D0AA54ED4B452850F /* MainViewController+MusicControls.m */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 4; includeInIndex = 0; lastKnownFileType = sourcecode.c.objc; name = "MainViewController+MusicControls.m"; path = "MusicControls/MainViewController+MusicControls.m"; sourceTree = "<group>"; };
-		CFFE26BF98824F73AD5EF63D /* CDVLocalFilesystem.m */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 4; includeInIndex = 0; lastKnownFileType = sourcecode.c.objc; name = CDVLocalFilesystem.m; path = File/CDVLocalFilesystem.m; sourceTree = "<group>"; };
-		D0F7BAFA9CCE4D758DAAF13A /* CBTBrowserTab.h */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 4; includeInIndex = 0; lastKnownFileType = sourcecode.c.h; name = CBTBrowserTab.h; path = BrowserTab/CBTBrowserTab.h; sourceTree = "<group>"; };
-		D1E072D71AF84191A665298B /* Toast+UIView.m */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 4; includeInIndex = 0; lastKnownFileType = sourcecode.c.objc; name = "Toast+UIView.m"; path = "Toast/Toast+UIView.m"; sourceTree = "<group>"; };
-		D222619FCE764739B1EC4316 /* sb_beep4.caf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = undefined; includeInIndex = 0; lastKnownFileType = unknown; name = sb_beep4.caf; path = Sounds/sb_beep4.caf; sourceTree = "<group>"; };
-		DC30C3FBD2284CFF8C4A28C1 /* CDVWKWebViewFileXhr.m */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 4; includeInIndex = 0; lastKnownFileType = sourcecode.c.objc; name = CDVWKWebViewFileXhr.m; path = IosXhr/CDVWKWebViewFileXhr.m; sourceTree = "<group>"; };
-		DEDA2777FBCD4A9699280FF1 /* APPLocalNotification.m */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 4; includeInIndex = 0; lastKnownFileType = sourcecode.c.objc; name = APPLocalNotification.m; path = LocalNotification/APPLocalNotification.m; sourceTree = "<group>"; };
-		E37B5E99010A4423A893750A /* CorePlugin.swift */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 4; includeInIndex = 0; lastKnownFileType = sourcecode.swift; name = CorePlugin.swift; path = CorePlugin/CorePlugin.swift; sourceTree = "<group>"; };
-		E439E17515B44E5682A1B3AC /* AMBRewarded.swift */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 4; includeInIndex = 0; lastKnownFileType = sourcecode.swift; name = AMBRewarded.swift; path = Admob/AMBRewarded.swift; sourceTree = "<group>"; };
-		E449B33AF98B4AEA8A81D995 /* CDVJpegHeaderWriter.m */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 4; includeInIndex = 0; lastKnownFileType = sourcecode.c.objc; name = CDVJpegHeaderWriter.m; path = Camera/CDVJpegHeaderWriter.m; sourceTree = "<group>"; };
-		E532071F589B4CE79A47A7A1 /* CDVFile.m */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 4; includeInIndex = 0; lastKnownFileType = sourcecode.c.objc; name = CDVFile.m; path = File/CDVFile.m; sourceTree = "<group>"; };
-		E87C62BC5C3F44E9AE74379E /* CBTBrowserTab.m */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 4; includeInIndex = 0; lastKnownFileType = sourcecode.c.objc; name = CBTBrowserTab.m; path = BrowserTab/CBTBrowserTab.m; sourceTree = "<group>"; };
-		E9EF9D1F827244F0B4E65461 /* APPNotificationOptions.m */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 4; includeInIndex = 0; lastKnownFileType = sourcecode.c.objc; name = APPNotificationOptions.m; path = LocalNotification/APPNotificationOptions.m; sourceTree = "<group>"; };
-		EA1087FA7F3C4A058DD87FAA /* Toast.h */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 4; includeInIndex = 0; lastKnownFileType = sourcecode.c.h; name = Toast.h; path = Toast/Toast.h; sourceTree = "<group>"; };
-		EB6D95330FE7452EA63BB668 /* APPLocalNotification.h */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 4; includeInIndex = 0; lastKnownFileType = sourcecode.c.h; name = APPLocalNotification.h; path = LocalNotification/APPLocalNotification.h; sourceTree = "<group>"; };
+		9BBCDC811F7C4F2F9B67B802 /* CBTBrowserTab.h */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 4; includeInIndex = 0; lastKnownFileType = sourcecode.c.h; name = CBTBrowserTab.h; path = BrowserTab/CBTBrowserTab.h; sourceTree = "<group>"; };
+		9E6A644ECDA94DC49D4FFB17 /* MainViewController+MusicControls.m */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 4; includeInIndex = 0; lastKnownFileType = sourcecode.c.objc; name = "MainViewController+MusicControls.m"; path = "MusicControls/MainViewController+MusicControls.m"; sourceTree = "<group>"; };
+		9E84923D987348EAB235462F /* Toast.h */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 4; includeInIndex = 0; lastKnownFileType = sourcecode.c.h; name = Toast.h; path = Toast/Toast.h; sourceTree = "<group>"; };
+		A36893061C5D4D549ACAB4B1 /* CDVClipboard.h */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 4; includeInIndex = 0; lastKnownFileType = sourcecode.c.h; name = CDVClipboard.h; path = Clipboard/CDVClipboard.h; sourceTree = "<group>"; };
+		A5E26166E7FE47D4BB6D3DF3 /* APPLocalNotification.m */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 4; includeInIndex = 0; lastKnownFileType = sourcecode.c.objc; name = APPLocalNotification.m; path = LocalNotification/APPLocalNotification.m; sourceTree = "<group>"; };
+		A740C962691847EAA7ADC028 /* CoreLocation.framework */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = undefined; includeInIndex = 0; lastKnownFileType = wrapper.framework; name = CoreLocation.framework; path = System/Library/Frameworks/CoreLocation.framework; sourceTree = SDKROOT; };
+		A8591B6F1A8C448985186545 /* APPNotificationContent.h */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 4; includeInIndex = 0; lastKnownFileType = sourcecode.c.h; name = APPNotificationContent.h; path = LocalNotification/APPNotificationContent.h; sourceTree = "<group>"; };
+		A8C4E59689344BF59ED4F275 /* CDVLocalFilesystem.h */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 4; includeInIndex = 0; lastKnownFileType = sourcecode.c.h; name = CDVLocalFilesystem.h; path = File/CDVLocalFilesystem.h; sourceTree = "<group>"; };
+		A949FE8E72AA4E67B3799414 /* CDVAssetLibraryFilesystem.h */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 4; includeInIndex = 0; lastKnownFileType = sourcecode.c.h; name = CDVAssetLibraryFilesystem.h; path = File/CDVAssetLibraryFilesystem.h; sourceTree = "<group>"; };
+		AAE25F67145F489C85C00148 /* CDVFile.h */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 4; includeInIndex = 0; lastKnownFileType = sourcecode.c.h; name = CDVFile.h; path = File/CDVFile.h; sourceTree = "<group>"; };
+		AB2960B0DB97421491F47C34 /* MusicControlsInfo.h */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 4; includeInIndex = 0; lastKnownFileType = sourcecode.c.h; name = MusicControlsInfo.h; path = MusicControls/MusicControlsInfo.h; sourceTree = "<group>"; };
+		B0EE3C3AE53546D7854486D6 /* SafariServices.framework */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = undefined; includeInIndex = 0; lastKnownFileType = wrapper.framework; name = SafariServices.framework; path = System/Library/Frameworks/SafariServices.framework; sourceTree = SDKROOT; };
+		B3F7192C52834B0A97511686 /* OneSignalPush.m */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 4; includeInIndex = 0; lastKnownFileType = sourcecode.c.objc; name = OneSignalPush.m; path = Onesignal/OneSignalPush.m; sourceTree = "<group>"; };
+		B4F6F7B1E28E44618DEE5C63 /* UNNotificationRequest+APPLocalNotification.m */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 4; includeInIndex = 0; lastKnownFileType = sourcecode.c.objc; name = "UNNotificationRequest+APPLocalNotification.m"; path = "LocalNotification/UNNotificationRequest+APPLocalNotification.m"; sourceTree = "<group>"; };
+		B558F74AE3BF4BA49C3D2F6B /* CDVAssetLibraryFilesystem.m */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 4; includeInIndex = 0; lastKnownFileType = sourcecode.c.objc; name = CDVAssetLibraryFilesystem.m; path = File/CDVAssetLibraryFilesystem.m; sourceTree = "<group>"; };
+		B9850EE1A81C412EBC266213 /* APPNotificationCategory.m */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 4; includeInIndex = 0; lastKnownFileType = sourcecode.c.objc; name = APPNotificationCategory.m; path = LocalNotification/APPNotificationCategory.m; sourceTree = "<group>"; };
+		BE4F7CBBA1514381B64998F3 /* NSString+SSURLEncoding.m */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 4; includeInIndex = 0; lastKnownFileType = sourcecode.c.objc; name = "NSString+SSURLEncoding.m"; path = "SocialSharing/NSString+SSURLEncoding.m"; sourceTree = "<group>"; };
+		BFE04DBA7A7A465B8B6C3214 /* CDVCamera.m */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 4; includeInIndex = 0; lastKnownFileType = sourcecode.c.objc; name = CDVCamera.m; path = Camera/CDVCamera.m; sourceTree = "<group>"; };
+		C13E6B44632F416295D2268C /* sb_beep1.caf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = undefined; includeInIndex = 0; lastKnownFileType = unknown; name = sb_beep1.caf; path = Sounds/sb_beep1.caf; sourceTree = "<group>"; };
+		C3582D2E58304BA08FA1D878 /* CDVBarcodeScanner.mm */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = undefined; includeInIndex = 0; lastKnownFileType = unknown; name = CDVBarcodeScanner.mm; path = BarcodeScanner/CDVBarcodeScanner.mm; sourceTree = "<group>"; };
+		C6A4C5228AB34EA3B20B18FC /* UNUserNotificationCenter+APPLocalNotification.h */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 4; includeInIndex = 0; lastKnownFileType = sourcecode.c.h; name = "UNUserNotificationCenter+APPLocalNotification.h"; path = "LocalNotification/UNUserNotificationCenter+APPLocalNotification.h"; sourceTree = "<group>"; };
+		C82A75D28C6D4DA0B400ED33 /* CDVStatusBar.m */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 4; includeInIndex = 0; lastKnownFileType = sourcecode.c.objc; name = CDVStatusBar.m; path = StatusBar/CDVStatusBar.m; sourceTree = "<group>"; };
+		CB5685CDFD544AFDA3C5CC84 /* CDVWKInAppBrowser.h */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 4; includeInIndex = 0; lastKnownFileType = sourcecode.c.h; name = CDVWKInAppBrowser.h; path = InAppBrowser/CDVWKInAppBrowser.h; sourceTree = "<group>"; };
+		D374A23530DC464483CB2319 /* APPNotificationOptions.m */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 4; includeInIndex = 0; lastKnownFileType = sourcecode.c.objc; name = APPNotificationOptions.m; path = LocalNotification/APPNotificationOptions.m; sourceTree = "<group>"; };
+		DACDCABC0FC46C4020F063CE /* Pods-AppsMobileCompany.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-AppsMobileCompany.debug.xcconfig"; path = "Target Support Files/Pods-AppsMobileCompany/Pods-AppsMobileCompany.debug.xcconfig"; sourceTree = "<group>"; };
+		DC027C4520B6425BB1E47936 /* MusicControls.h */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 4; includeInIndex = 0; lastKnownFileType = sourcecode.c.h; name = MusicControls.h; path = MusicControls/MusicControls.h; sourceTree = "<group>"; };
+		E00CC1664AD0411788AB24D2 /* CorePlugin.swift */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 4; includeInIndex = 0; lastKnownFileType = sourcecode.swift; name = CorePlugin.swift; path = CorePlugin/CorePlugin.swift; sourceTree = "<group>"; };
+		E2C1AE32907C456296B2829E /* CDVCamera.h */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 4; includeInIndex = 0; lastKnownFileType = sourcecode.c.h; name = CDVCamera.h; path = Camera/CDVCamera.h; sourceTree = "<group>"; };
+		E3CF5680BDF841CDA6021175 /* CDVDevice.h */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 4; includeInIndex = 0; lastKnownFileType = sourcecode.c.h; name = CDVDevice.h; path = Device/CDVDevice.h; sourceTree = "<group>"; };
+		E6BB976164AD4F859A111316 /* APPNotificationOptions.h */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 4; includeInIndex = 0; lastKnownFileType = sourcecode.c.h; name = APPNotificationOptions.h; path = LocalNotification/APPNotificationOptions.h; sourceTree = "<group>"; };
 		EB87FDF31871DA8E0020F90C /* www */ = {isa = PBXFileReference; lastKnownFileType = folder; name = www; path = ../../www; sourceTree = "<group>"; };
 		EB87FDF41871DAF40020F90C /* config.xml */ = {isa = PBXFileReference; lastKnownFileType = text.xml; name = config.xml; path = ../../config.xml; sourceTree = "<group>"; };
-		EBDC1A66CBB84FBDA7F2D81A /* SocialSharing.h */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 4; includeInIndex = 0; lastKnownFileType = sourcecode.c.h; name = SocialSharing.h; path = SocialSharing/SocialSharing.h; sourceTree = "<group>"; };
 		ED33DF2A687741AEAF9F8254 /* Bridging-Header.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "Bridging-Header.h"; sourceTree = "<group>"; };
-		ED89268955AA42834287DD42 /* Pods-AppsMobileCompany.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-AppsMobileCompany.debug.xcconfig"; path = "Target Support Files/Pods-AppsMobileCompany/Pods-AppsMobileCompany.debug.xcconfig"; sourceTree = "<group>"; };
-		EDCA7CAFF00D4B17856A86DA /* ImageIO.framework */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = undefined; includeInIndex = 0; lastKnownFileType = wrapper.framework; name = ImageIO.framework; path = System/Library/Frameworks/ImageIO.framework; sourceTree = SDKROOT; };
-		F16949D24DA64CD791112224 /* CDVInAppBrowserOptions.m */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 4; includeInIndex = 0; lastKnownFileType = sourcecode.c.objc; name = CDVInAppBrowserOptions.m; path = InAppBrowser/CDVInAppBrowserOptions.m; sourceTree = "<group>"; };
-		F1A4722EEE584A1D8F2730AE /* CDVWKInAppBrowserUIDelegate.m */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 4; includeInIndex = 0; lastKnownFileType = sourcecode.c.objc; name = CDVWKInAppBrowserUIDelegate.m; path = InAppBrowser/CDVWKInAppBrowserUIDelegate.m; sourceTree = "<group>"; };
-		F2A38D8D311B4F1E9944ED2E /* UNUserNotificationCenter+APPLocalNotification.m */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 4; includeInIndex = 0; lastKnownFileType = sourcecode.c.objc; name = "UNUserNotificationCenter+APPLocalNotification.m"; path = "LocalNotification/UNUserNotificationCenter+APPLocalNotification.m"; sourceTree = "<group>"; };
-		F48BF4481E214EB8A0B70C69 /* scannerOverlay.xib */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = undefined; includeInIndex = 0; lastKnownFileType = file.xib; name = scannerOverlay.xib; path = scannerOverlay.xib; sourceTree = "<group>"; };
-		F4F141BDE572419BB13F8F86 /* CDVBarcodeScanner.bundle */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = undefined; includeInIndex = 0; lastKnownFileType = "wrapper.plug-in"; name = CDVBarcodeScanner.bundle; path = CDVBarcodeScanner.bundle; sourceTree = "<group>"; };
-		F68369AC359C48AFA7D283FB /* CDVWKInAppBrowserUIDelegate.h */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 4; includeInIndex = 0; lastKnownFileType = sourcecode.c.h; name = CDVWKInAppBrowserUIDelegate.h; path = InAppBrowser/CDVWKInAppBrowserUIDelegate.h; sourceTree = "<group>"; };
+		EEE639F950B444688A72151D /* CDVFile.m */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 4; includeInIndex = 0; lastKnownFileType = sourcecode.c.objc; name = CDVFile.m; path = File/CDVFile.m; sourceTree = "<group>"; };
+		EF0FB917BFC5DBEB48BE31A7 /* Entitlements-Debug.plist */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.plist.xml; name = "Entitlements-Debug.plist"; path = "AppsMobileCompany/Entitlements-Debug.plist"; sourceTree = "<group>"; };
+		F03CCE058B7E4DEA8696A53B /* CDVSound.m */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 4; includeInIndex = 0; lastKnownFileType = sourcecode.c.objc; name = CDVSound.m; path = MediaNative/CDVSound.m; sourceTree = "<group>"; };
+		F157C37D64144F0AAF07215D /* CDVStatusBar.h */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 4; includeInIndex = 0; lastKnownFileType = sourcecode.c.h; name = CDVStatusBar.h; path = StatusBar/CDVStatusBar.h; sourceTree = "<group>"; };
+		F5E96832687E448EB13908EE /* AVFoundation.framework */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = undefined; includeInIndex = 0; lastKnownFileType = wrapper.framework; name = AVFoundation.framework; path = System/Library/Frameworks/AVFoundation.framework; sourceTree = SDKROOT; };
+		F7D6A1EF12834A73BE89C7C4 /* APPBadge.h */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 4; includeInIndex = 0; lastKnownFileType = sourcecode.c.h; name = APPBadge.h; path = Badge/APPBadge.h; sourceTree = "<group>"; };
 		F840E1F0165FE0F500CFE078 /* config.xml */ = {isa = PBXFileReference; lastKnownFileType = text.xml; name = config.xml; path = AppsMobileCompany/config.xml; sourceTree = "<group>"; };
-		F84DE050748842209B8BD67D /* MessageUI.framework */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = undefined; includeInIndex = 0; lastKnownFileType = wrapper.framework; name = MessageUI.framework; path = System/Library/Frameworks/MessageUI.framework; sourceTree = SDKROOT; };
-		F88D6F846C7E451C821E17D9 /* Insomnia.h */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 4; includeInIndex = 0; lastKnownFileType = sourcecode.c.h; name = Insomnia.h; path = Insomnia/Insomnia.h; sourceTree = "<group>"; };
-		FB716075BEE94E1A8E680D3F /* CDVClipboard.h */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 4; includeInIndex = 0; lastKnownFileType = sourcecode.c.h; name = CDVClipboard.h; path = Clipboard/CDVClipboard.h; sourceTree = "<group>"; };
-		FB861286D47AE5ABE7789B54 /* Entitlements-Debug.plist */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.plist.xml; name = "Entitlements-Debug.plist"; path = "AppsMobileCompany/Entitlements-Debug.plist"; sourceTree = "<group>"; };
-		FEE02EFCA89E44D0B3DF64FA /* CDVWKInAppBrowser.h */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 4; includeInIndex = 0; lastKnownFileType = sourcecode.c.h; name = CDVWKInAppBrowser.h; path = InAppBrowser/CDVWKInAppBrowser.h; sourceTree = "<group>"; };
-		FF17DC42CF8F4361B6E57387 /* AMBPlugin.swift */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 4; includeInIndex = 0; lastKnownFileType = sourcecode.swift; name = AMBPlugin.swift; path = Admob/AMBPlugin.swift; sourceTree = "<group>"; };
+		F9FA6A63F5D34B20B3A54C28 /* Toast+UIView.h */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 4; includeInIndex = 0; lastKnownFileType = sourcecode.c.h; name = "Toast+UIView.h"; path = "Toast/Toast+UIView.h"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -269,20 +231,18 @@
 			buildActionMask = 2147483647;
 			files = (
 				301BF552109A68D80062928A /* libCordova.a in Frameworks */,
-				3EC759D5830D474E9823392C /* AppTrackingTransparency.framework in Frameworks */,
-				308E1A0D61A9410785EB6D85 /* AVFoundation.framework in Frameworks */,
-				A981DC7F8EF746C9AAD2CD89 /* AudioToolbox.framework in Frameworks */,
-				9AB42182018E408C9B832E6B /* SafariServices.framework in Frameworks */,
-				37C205CF73A24CF7943D4533 /* ImageIO.framework in Frameworks */,
-				D8F95F27D8E84CC382EC2FEF /* CoreLocation.framework in Frameworks */,
-				7829AD68D957474AAB09F9B5 /* Social.framework in Frameworks */,
-				B0F3A0ECC6094852A3831209 /* MessageUI.framework in Frameworks */,
-				33785334F55749D4A6D4C6C3 /* UserNotifications.framework in Frameworks */,
-				94B7E79557F642D8B516CB5E /* MediaPlayer.framework in Frameworks */,
-				B8CBCDADB9AA4534BF3AA522 /* QuartzCore.framework in Frameworks */,
-				3F4788049A6C47418048054C /* StoreKit.framework in Frameworks */,
-				6FA312D3BA0C4948A07ABA6F /* WebKit.framework in Frameworks */,
-				E75B1D9634C8AB5FAB54C449 /* Pods_AppsMobileCompany.framework in Frameworks */,
+				D6920A9C75F64E98B2278056 /* AVFoundation.framework in Frameworks */,
+				C2038BBCE71140EEBB45B365 /* AudioToolbox.framework in Frameworks */,
+				6FADB3649AEE4831AFE2E2BF /* SafariServices.framework in Frameworks */,
+				10DCD996520C443083408217 /* ImageIO.framework in Frameworks */,
+				A97B5FDE7A854E97A8031411 /* CoreLocation.framework in Frameworks */,
+				20C8921DD4F54C8297446C4B /* Social.framework in Frameworks */,
+				A9AF58CEF9A64FD385F88ED1 /* MessageUI.framework in Frameworks */,
+				1E0A34F6481E4090BDC3FB70 /* UserNotifications.framework in Frameworks */,
+				201F49C42B6243A39C7A8B0B /* MediaPlayer.framework in Frameworks */,
+				A807CD353E0540B889E2CB1F /* QuartzCore.framework in Frameworks */,
+				733177612C6F4820A76B2F4C /* WebKit.framework in Frameworks */,
+				171683CC7F7C40CD78874718 /* Pods_AppsMobileCompany.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -325,9 +285,9 @@
 				29B97317FDCFA39411CA2CEA /* Resources */,
 				29B97323FDCFA39411CA2CEA /* Frameworks */,
 				19C28FACFE9D520D11CA2CBB /* Products */,
-				B23119B4CF9FEFC7EA548477 /* Pods */,
-				FB861286D47AE5ABE7789B54 /* Entitlements-Debug.plist */,
-				434042FB73756D13324C4E3F /* Entitlements-Release.plist */,
+				5F7E58C96D8FBA0F6D853DBD /* Pods */,
+				EF0FB917BFC5DBEB48BE31A7 /* Entitlements-Debug.plist */,
+				850BD555387EC94A03730C51 /* Entitlements-Release.plist */,
 			);
 			name = CustomTemplate;
 			sourceTree = "<group>";
@@ -350,12 +310,12 @@
 				3047A50E1AB8057F00498E2A /* config */,
 				8D1107310486CEB800E47090 /* AppsMobileCompany-Info.plist */,
 				6AFF5BF81D6E424B00AB3073 /* CDVLaunchScreen.storyboard */,
-				F48BF4481E214EB8A0B70C69 /* scannerOverlay.xib */,
-				F4F141BDE572419BB13F8F86 /* CDVBarcodeScanner.bundle */,
-				80FEF9EF506B426CA1DD08AF /* sb_beep1.caf */,
-				BC807491B0C14C45973D894E /* sb_beep2.caf */,
-				68B32DAF089F44B09F1A9360 /* sb_beep3.caf */,
-				D222619FCE764739B1EC4316 /* sb_beep4.caf */,
+				0D15EC56174F4353914BB715 /* scannerOverlay.xib */,
+				4CC28B094564480BBF457BB2 /* CDVBarcodeScanner.bundle */,
+				C13E6B44632F416295D2268C /* sb_beep1.caf */,
+				8827EA2D0AD243FC8C041B3F /* sb_beep2.caf */,
+				93FF0EA78D86455082E87A7A /* sb_beep3.caf */,
+				5B75617CC53C4BFB8A3CB5E4 /* sb_beep4.caf */,
 			);
 			name = Resources;
 			path = AppsMobileCompany/Resources;
@@ -364,20 +324,18 @@
 		29B97323FDCFA39411CA2CEA /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
-				6878C989BFC347AAACF07008 /* AppTrackingTransparency.framework */,
-				42E81280624C4B828F841157 /* AVFoundation.framework */,
-				8FCB3547DC4049EBB9833BFE /* AudioToolbox.framework */,
-				5774C416E73D41A8AA2BCF5C /* SafariServices.framework */,
-				EDCA7CAFF00D4B17856A86DA /* ImageIO.framework */,
-				82CCFA45857E472DBD7A41AF /* CoreLocation.framework */,
-				297C542257264B6DA2303C25 /* Social.framework */,
-				F84DE050748842209B8BD67D /* MessageUI.framework */,
-				206B40410BB541F3B45770B2 /* UserNotifications.framework */,
-				34B9C49D1EE546F697716CD3 /* MediaPlayer.framework */,
-				89A2D9BC99254B71894BEC25 /* QuartzCore.framework */,
-				C80B7228E8904981A3C74CD7 /* StoreKit.framework */,
-				39538CF7C7FA4E69AD4ED373 /* WebKit.framework */,
-				AB0C54C9B1D5D52DA09CDBFA /* Pods_AppsMobileCompany.framework */,
+				F5E96832687E448EB13908EE /* AVFoundation.framework */,
+				4FB6A9354A454DF2AA62300F /* AudioToolbox.framework */,
+				B0EE3C3AE53546D7854486D6 /* SafariServices.framework */,
+				54EEC946E74C4E8289C14163 /* ImageIO.framework */,
+				A740C962691847EAA7ADC028 /* CoreLocation.framework */,
+				57CC59DD646544B38D827233 /* Social.framework */,
+				2B2D3E5255114AA9A3D99997 /* MessageUI.framework */,
+				765F4511B564494181EDB3D8 /* UserNotifications.framework */,
+				1BEABD8A80114F1297471460 /* MediaPlayer.framework */,
+				8EDA6AA4FF5644858E030AE2 /* QuartzCore.framework */,
+				4F6BC5FC323745CAA9A2CCA8 /* WebKit.framework */,
+				5AB8A1F8982FB63F13FAB8BA /* Pods_AppsMobileCompany.framework */,
 			);
 			name = Frameworks;
 			sourceTree = "<group>";
@@ -404,113 +362,94 @@
 		307C750510C5A3420062BCA9 /* Plugins */ = {
 			isa = PBXGroup;
 			children = (
-				868A20271FAB4A60B801E2F2 /* AMBAdBase.swift */,
-				CA9CBABBA3294E46B3E990EE /* AMBAppOpenAd.swift */,
-				03E75C6F766A4FCEB571AFE7 /* AMBBanner.swift */,
-				859F826E120045C0A4F581A0 /* AMBContext.swift */,
-				75AA7A0AE89F45A8A8D15D52 /* AMBCore.swift */,
-				B1DFCEDE1CB34488964ACD68 /* AMBGenerated.swift */,
-				7A69A3EBE4F243569E54208E /* AMBInterstitial.swift */,
-				84FA0785EC2A4E3B8546D92D /* AMBNativeAd.swift */,
-				FF17DC42CF8F4361B6E57387 /* AMBPlugin.swift */,
-				E439E17515B44E5682A1B3AC /* AMBRewarded.swift */,
-				213A1F4A53254307900FC6A9 /* AMBRewardedInterstitial.swift */,
-				756CCE77658645A3937DF99C /* AppVersion.m */,
-				7D49E0D14D6C431EA93BB851 /* AppVersion.h */,
-				5A67F8D3E01D4FA29F5063EB /* APPBadge.m */,
-				03F1EF6BF54F4EBDB108A7A3 /* APPBadge.h */,
-				74EC0A49D2994842B49B4BDE /* CDVBarcodeScanner.mm */,
-				E87C62BC5C3F44E9AE74379E /* CBTBrowserTab.m */,
-				D0F7BAFA9CCE4D758DAAF13A /* CBTBrowserTab.h */,
-				B1DAA685389D49B280BD96C8 /* UIImage+CropScaleOrientation.m */,
-				598CE9E3C4BA457D8C4B6742 /* CDVCamera.m */,
-				E449B33AF98B4AEA8A81D995 /* CDVJpegHeaderWriter.m */,
-				A2363CD7F2E44383926F338F /* UIImage+CropScaleOrientation.h */,
-				5894F75B68F8419B8D738509 /* CDVCamera.h */,
-				BFC32E36713C4B57816ECAE6 /* CDVJpegHeaderWriter.h */,
-				8661BAC1FECB4003BE6482ED /* CDVExif.h */,
-				B78476458EE04B37947A31B5 /* CDVClipboard.m */,
-				FB716075BEE94E1A8E680D3F /* CDVClipboard.h */,
-				708C986E6B2E4354AAD2D28E /* CDVDevice.m */,
-				6709647004BD4925AB272334 /* CDVDevice.h */,
-				E532071F589B4CE79A47A7A1 /* CDVFile.m */,
-				CFFE26BF98824F73AD5EF63D /* CDVLocalFilesystem.m */,
-				0FFC17651AEF400E99C7D14B /* CDVAssetLibraryFilesystem.m */,
-				387DD4C192ED40A4B3599F56 /* CDVFile.h */,
-				7D4C98F920E64483B0155021 /* CDVLocalFilesystem.h */,
-				BACFBCEC46F34C45A287934F /* CDVAssetLibraryFilesystem.h */,
-				64E4405B79A5491FAD0E404B /* CDVLocation.m */,
-				68C638DD441B4F8F95D7D0A8 /* CDVLocation.h */,
-				F16949D24DA64CD791112224 /* CDVInAppBrowserOptions.m */,
-				6B5FE939B7E9452783D35199 /* CDVInAppBrowserNavigationController.m */,
-				398DA41CF66A422699909F11 /* CDVWKInAppBrowser.m */,
-				F1A4722EEE584A1D8F2730AE /* CDVWKInAppBrowserUIDelegate.m */,
-				3CF577DD071F4F8A931E0359 /* CDVInAppBrowserOptions.h */,
-				413C96D9E11C4E31ABE91594 /* CDVInAppBrowserNavigationController.h */,
-				FEE02EFCA89E44D0B3DF64FA /* CDVWKInAppBrowser.h */,
-				F68369AC359C48AFA7D283FB /* CDVWKInAppBrowserUIDelegate.h */,
-				1C811FC33D474DA9A0C7FAAA /* CDVIonicKeyboard.m */,
-				C0F9E391B5944440828F9163 /* CDVIonicKeyboard.h */,
-				239135962491414A878AC1C3 /* NSString+SSURLEncoding.m */,
-				A00D3AF441E7404EAC8D7D1A /* SocialSharing.m */,
-				866320A46B214F5BA859C31A /* NSString+SSURLEncoding.h */,
-				EBDC1A66CBB84FBDA7F2D81A /* SocialSharing.h */,
-				568988C672D841F9BCBF6CEB /* CDVStatusBar.m */,
-				859B9020C17E413896FEE9EE /* CDVStatusBar.h */,
-				DEDA2777FBCD4A9699280FF1 /* APPLocalNotification.m */,
-				6674E71D57D34339B8AD2450 /* APPNotificationCategory.m */,
-				7D9031B56AE5405CAED29554 /* APPNotificationContent.m */,
-				E9EF9D1F827244F0B4E65461 /* APPNotificationOptions.m */,
-				F2A38D8D311B4F1E9944ED2E /* UNUserNotificationCenter+APPLocalNotification.m */,
-				13308A36DD85467089219274 /* UNNotificationRequest+APPLocalNotification.m */,
-				EB6D95330FE7452EA63BB668 /* APPLocalNotification.h */,
-				61BCF73410A042B580A4BFE1 /* APPNotificationCategory.h */,
-				9F58B7AA757045338495AA4F /* APPNotificationContent.h */,
-				61B52E16021F4E769E24D3B2 /* APPNotificationOptions.h */,
-				5817C5BB7C064AEDAE34D6C8 /* UNUserNotificationCenter+APPLocalNotification.h */,
-				B7B75730DDAA413D9EC729E6 /* UNNotificationRequest+APPLocalNotification.h */,
-				777FD55BC4B34FC8B47D4DCC /* Insomnia.m */,
-				F88D6F846C7E451C821E17D9 /* Insomnia.h */,
-				CAB6552D0AA54ED4B452850F /* MainViewController+MusicControls.m */,
-				7D1DB53EB0D4460EAC1F9F1B /* MusicControls.m */,
-				C2BE83F442DD4E748EF2B0B2 /* MusicControlsInfo.m */,
-				9C579061A1D247E8879A6B90 /* MainViewController+MusicControls.h */,
-				B039083E8A3442F0A2FE1097 /* MusicControls.h */,
-				5763A8F2C1F44F9C90847548 /* MusicControlsInfo.h */,
-				54D69F9A2E0F44A881250330 /* CDVSound.m */,
-				1F91A31A3AE2497CB4CEA8A0 /* CDVSound.h */,
-				B1B3930D46A246F093BEAF06 /* CDVNavigator.m */,
-				BB427319978047B2913C2F40 /* CDVNavigator.h */,
-				19027543C8AC4BFABC0E3145 /* OneSignalPush.m */,
-				B62A2A09AC07499BB545627F /* OneSignalPush.h */,
-				E37B5E99010A4423A893750A /* CorePlugin.swift */,
-				3A3DE5FB353B4DC486C6F33B /* CorePlugin-Bridging-Header.h */,
-				D1E072D71AF84191A665298B /* Toast+UIView.m */,
-				ADC60E8F1CAC4201B9FFBF45 /* Toast.m */,
-				B0CB21493BAC49298C6CD0D3 /* Toast+UIView.h */,
-				EA1087FA7F3C4A058DD87FAA /* Toast.h */,
-				691D59D7A27444E4BE8FA206 /* InAppPurchase.m */,
-				B34B02A0C425434CB343EAAB /* SKProduct+LocalizedPrice.m */,
-				AA494E4B6EC84FA7AFED5986 /* SKProductDiscount+LocalizedPrice.m */,
-				336A96FA6A7D459F95F60FE0 /* FileUtility.m */,
-				9AA094A9E2B647B6BEC026A0 /* InAppPurchase.h */,
-				66022923A37A4376B2C99DF4 /* SKProduct+LocalizedPrice.h */,
-				526373794D764C8F8470606F /* SKProductDiscount+LocalizedPrice.h */,
-				370AACB4204A4F20BC7CDD16 /* FileUtility.h */,
-				DC30C3FBD2284CFF8C4A28C1 /* CDVWKWebViewFileXhr.m */,
-				095FF65B5C94492CB9CA071B /* CDVWKWebViewFileXhr.h */,
-				56EE58AE8E184E5F98E58784 /* WebViewPlugin.m */,
-				AB64C8D991D74CC89C01FE65 /* WebViewPlugin.h */,
+				95492E411DA64684A9DCC4D6 /* AppVersion.m */,
+				8080FF02D9D44529903E0814 /* AppVersion.h */,
+				950A05FF33CC46BB88399366 /* APPBadge.m */,
+				F7D6A1EF12834A73BE89C7C4 /* APPBadge.h */,
+				C3582D2E58304BA08FA1D878 /* CDVBarcodeScanner.mm */,
+				554899ECFD404337A1D37DAD /* CBTBrowserTab.m */,
+				9BBCDC811F7C4F2F9B67B802 /* CBTBrowserTab.h */,
+				323984BC96FB4075967F8824 /* UIImage+CropScaleOrientation.m */,
+				BFE04DBA7A7A465B8B6C3214 /* CDVCamera.m */,
+				39BC50E9A92B400D899C19C0 /* CDVJpegHeaderWriter.m */,
+				8C9E95156EAC49A5BAD8340E /* UIImage+CropScaleOrientation.h */,
+				E2C1AE32907C456296B2829E /* CDVCamera.h */,
+				003C4697DF6B477299578B02 /* CDVJpegHeaderWriter.h */,
+				674BAB0EB90542ECB4A53116 /* CDVExif.h */,
+				260B76E1E1FA42C08D7F78D6 /* CDVClipboard.m */,
+				A36893061C5D4D549ACAB4B1 /* CDVClipboard.h */,
+				3F2B775F1E6147ADA077BEA6 /* CDVDevice.m */,
+				E3CF5680BDF841CDA6021175 /* CDVDevice.h */,
+				EEE639F950B444688A72151D /* CDVFile.m */,
+				3E63C6A4E47C4DBC96A8FB81 /* CDVLocalFilesystem.m */,
+				B558F74AE3BF4BA49C3D2F6B /* CDVAssetLibraryFilesystem.m */,
+				AAE25F67145F489C85C00148 /* CDVFile.h */,
+				A8C4E59689344BF59ED4F275 /* CDVLocalFilesystem.h */,
+				A949FE8E72AA4E67B3799414 /* CDVAssetLibraryFilesystem.h */,
+				195B15B581F94C709FCD871F /* CDVLocation.m */,
+				85F15B40493F4E21A0B1301E /* CDVLocation.h */,
+				93CC10E4056B422196188F57 /* CDVInAppBrowserOptions.m */,
+				7F01B000E7C54D939C7F010C /* CDVInAppBrowserNavigationController.m */,
+				37014F80A0654A1ABB8A1D20 /* CDVWKInAppBrowser.m */,
+				7221358CCBA54C8084839542 /* CDVWKInAppBrowserUIDelegate.m */,
+				42A72EBB47AF4C6095C5D32E /* CDVInAppBrowserOptions.h */,
+				09ECD078E10E469F8902E4BF /* CDVInAppBrowserNavigationController.h */,
+				CB5685CDFD544AFDA3C5CC84 /* CDVWKInAppBrowser.h */,
+				38E5681A0E4F42D2A5A0E0A5 /* CDVWKInAppBrowserUIDelegate.h */,
+				8BFC7B1753024DB9BF2DC507 /* CDVIonicKeyboard.m */,
+				67F5C13BA110487E94BBFFA9 /* CDVIonicKeyboard.h */,
+				BE4F7CBBA1514381B64998F3 /* NSString+SSURLEncoding.m */,
+				5FC8A537B4F94800B9B1F61A /* SocialSharing.m */,
+				38AA3F3933A04F72BE6E3C64 /* NSString+SSURLEncoding.h */,
+				987DC1ED052E495298C3F44D /* SocialSharing.h */,
+				C82A75D28C6D4DA0B400ED33 /* CDVStatusBar.m */,
+				F157C37D64144F0AAF07215D /* CDVStatusBar.h */,
+				A5E26166E7FE47D4BB6D3DF3 /* APPLocalNotification.m */,
+				B9850EE1A81C412EBC266213 /* APPNotificationCategory.m */,
+				8DBFBFB007324F8A88F918BC /* APPNotificationContent.m */,
+				D374A23530DC464483CB2319 /* APPNotificationOptions.m */,
+				971747370AF44307A0E11C89 /* UNUserNotificationCenter+APPLocalNotification.m */,
+				B4F6F7B1E28E44618DEE5C63 /* UNNotificationRequest+APPLocalNotification.m */,
+				0D133F9590944BECA7E26306 /* APPLocalNotification.h */,
+				34081CDD825847D7986E9905 /* APPNotificationCategory.h */,
+				A8591B6F1A8C448985186545 /* APPNotificationContent.h */,
+				E6BB976164AD4F859A111316 /* APPNotificationOptions.h */,
+				C6A4C5228AB34EA3B20B18FC /* UNUserNotificationCenter+APPLocalNotification.h */,
+				4401616A917C4923B2B9EFD5 /* UNNotificationRequest+APPLocalNotification.h */,
+				0AFF0C6A2B9047A1B33762A4 /* Insomnia.m */,
+				395BA67A96DB4D969A092777 /* Insomnia.h */,
+				9E6A644ECDA94DC49D4FFB17 /* MainViewController+MusicControls.m */,
+				6C68029E137543EDBFB90B20 /* MusicControls.m */,
+				656775B311FC407FB2FDD6DD /* MusicControlsInfo.m */,
+				8750044004484251AB658746 /* MainViewController+MusicControls.h */,
+				DC027C4520B6425BB1E47936 /* MusicControls.h */,
+				AB2960B0DB97421491F47C34 /* MusicControlsInfo.h */,
+				F03CCE058B7E4DEA8696A53B /* CDVSound.m */,
+				0134BD92423D4C91BAAAF95A /* CDVSound.h */,
+				12FFA7E165D445D2A1F4D68B /* CDVNavigator.m */,
+				4BC8B218C8E24026B663E47B /* CDVNavigator.h */,
+				B3F7192C52834B0A97511686 /* OneSignalPush.m */,
+				15C923B6288B4C918E64E611 /* OneSignalPush.h */,
+				E00CC1664AD0411788AB24D2 /* CorePlugin.swift */,
+				123C4A82D08A4A8993EA51BC /* CorePlugin-Bridging-Header.h */,
+				032A7BEF734B4F9C901A2430 /* Toast+UIView.m */,
+				2699952EF5BD4C6CB7112116 /* Toast.m */,
+				F9FA6A63F5D34B20B3A54C28 /* Toast+UIView.h */,
+				9E84923D987348EAB235462F /* Toast.h */,
+				8C4F78EB699E4C9FAA24DB41 /* CDVWKWebViewFileXhr.m */,
+				794170E5130C4AEA8837DFAB /* CDVWKWebViewFileXhr.h */,
+				3F616BA16F444F1B9E8745EC /* WebViewPlugin.m */,
+				26F89D2CF5604CFD806E1763 /* WebViewPlugin.h */,
 			);
 			name = Plugins;
 			path = AppsMobileCompany/Plugins;
 			sourceTree = SOURCE_ROOT;
 		};
-		B23119B4CF9FEFC7EA548477 /* Pods */ = {
+		5F7E58C96D8FBA0F6D853DBD /* Pods */ = {
 			isa = PBXGroup;
 			children = (
-				ED89268955AA42834287DD42 /* Pods-AppsMobileCompany.debug.xcconfig */,
-				4920EE8E73EAE412BACE7B4B /* Pods-AppsMobileCompany.release.xcconfig */,
+				DACDCABC0FC46C4020F063CE /* Pods-AppsMobileCompany.debug.xcconfig */,
+				8FF732B51FCA0A9CA497836F /* Pods-AppsMobileCompany.release.xcconfig */,
 			);
 			name = Pods;
 			path = Pods;
@@ -532,12 +471,12 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = 1D6058960D05DD3E006BFB54 /* Build configuration list for PBXNativeTarget "AppsMobileCompany" */;
 			buildPhases = (
-				2BED03BEA75486D25338CB3C /* [CP] Check Pods Manifest.lock */,
+				C0A6128C9BB9984F3D819F2C /* [CP] Check Pods Manifest.lock */,
 				304B58A110DAC018002A0835 /* Copy www directory */,
 				1D60588D0D05DD3D006BFB54 /* Resources */,
 				1D60588E0D05DD3D006BFB54 /* Sources */,
 				1D60588F0D05DD3D006BFB54 /* Frameworks */,
-				796802FAAA9DFF61D04AA659 /* [CP] Embed Pods Frameworks */,
+				E75BA51D81D743821E72E6A8 /* [CP] Embed Pods Frameworks */,
 			);
 			buildRules = (
 			);
@@ -616,19 +555,34 @@
 				302D95F214D2391D003F00A1 /* MainViewController.xib in Resources */,
 				0207DA581B56EA530066E2B4 /* Images.xcassets in Resources */,
 				6AFF5BF91D6E424B00AB3073 /* CDVLaunchScreen.storyboard in Resources */,
-				8C7B577F08E54AA9A2F7D5DA /* scannerOverlay.xib in Resources */,
-				03E29A99E5914B1D8E67C1C8 /* CDVBarcodeScanner.bundle in Resources */,
-				4544358E353249398A38265F /* sb_beep1.caf in Resources */,
-				ED8DD0491AFA4C3F8134BE91 /* sb_beep2.caf in Resources */,
-				1381B9CC0968429CB446179A /* sb_beep3.caf in Resources */,
-				2D67EBE1435E4576AC553D88 /* sb_beep4.caf in Resources */,
+				1D7F4CEED6CB47E0A6A891B9 /* scannerOverlay.xib in Resources */,
+				D654EA11CEF7488BB1919AF2 /* CDVBarcodeScanner.bundle in Resources */,
+				5F3CFD99904440E9BC8F4E2D /* sb_beep1.caf in Resources */,
+				B38581364E6A4A8D8CF98DF2 /* sb_beep2.caf in Resources */,
+				1B3D482DF35E4F5B94378ED6 /* sb_beep3.caf in Resources */,
+				1C29DA201D774833B7217130 /* sb_beep4.caf in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXShellScriptBuildPhase section */
-		2BED03BEA75486D25338CB3C /* [CP] Check Pods Manifest.lock */ = {
+		304B58A110DAC018002A0835 /* Copy www directory */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "Copy www directory";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"$SRCROOT/AppsMobileCompany/Scripts/copy-www-build-step.sh\"";
+			showEnvVarsInLog = 0;
+		};
+		C0A6128C9BB9984F3D819F2C /* [CP] Check Pods Manifest.lock */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -650,22 +604,7 @@
 			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
 			showEnvVarsInLog = 0;
 		};
-		304B58A110DAC018002A0835 /* Copy www directory */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputPaths = (
-			);
-			name = "Copy www directory";
-			outputPaths = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "\"$SRCROOT/AppsMobileCompany/Scripts/copy-www-build-step.sh\"";
-			showEnvVarsInLog = 0;
-		};
-		796802FAAA9DFF61D04AA659 /* [CP] Embed Pods Frameworks */ = {
+		E75BA51D81D743821E72E6A8 /* [CP] Embed Pods Frameworks */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -693,62 +632,47 @@
 				1D3623260D0F684500981E51 /* AppDelegate.m in Sources */,
 				302D95F114D2391D003F00A1 /* MainViewController.m in Sources */,
 				9AB72E4420ADD50700A1703D /* Constants.m in Sources */,
-				97D18BA00FA04BAC984E62D0 /* AMBAdBase.swift in Sources */,
-				86294BF9EFDD4E1BB47F9CF4 /* AMBAppOpenAd.swift in Sources */,
-				7AECF9D24C444A73964497D6 /* AMBBanner.swift in Sources */,
-				085CF894E91247A2B681509D /* AMBContext.swift in Sources */,
-				803FB3B75DBC480ABB0533C2 /* AMBCore.swift in Sources */,
-				1F267146961A48F2BBA79563 /* AMBGenerated.swift in Sources */,
-				6FE780EBFE4B4FCDAE567191 /* AMBInterstitial.swift in Sources */,
-				38005EC492CC46BC8D6E8DC6 /* AMBNativeAd.swift in Sources */,
-				52E40A0119CC4DCFA4FA8467 /* AMBPlugin.swift in Sources */,
-				D0CBE22EDBFC46F9AEBA2B7B /* AMBRewarded.swift in Sources */,
-				A20C894963AB4B09BD22E2AB /* AMBRewardedInterstitial.swift in Sources */,
-				79BBFFF80F1846CC8A039B54 /* AppVersion.m in Sources */,
-				86305A0AC9EC4758B65FFFE7 /* APPBadge.m in Sources */,
-				F6FEDE67255A4F5BB9BAEB4B /* CDVBarcodeScanner.mm in Sources */,
-				8204016263544EFE95440820 /* CBTBrowserTab.m in Sources */,
-				63FEA17F64404687A59B281F /* UIImage+CropScaleOrientation.m in Sources */,
-				BC07FD3DD4D54A608BBC1108 /* CDVCamera.m in Sources */,
-				A2417C1A12B44BB382692A05 /* CDVJpegHeaderWriter.m in Sources */,
-				F4DC83C6755141F88BDFEDCB /* CDVClipboard.m in Sources */,
-				17E5C54739174957A7C26607 /* CDVDevice.m in Sources */,
-				E73FE54D3FC943DDA11B0304 /* CDVFile.m in Sources */,
-				066F71A12D9644659E0D97F4 /* CDVLocalFilesystem.m in Sources */,
-				A09808932D474DE78EADF5CC /* CDVAssetLibraryFilesystem.m in Sources */,
-				11F5581189F349138C226F08 /* CDVLocation.m in Sources */,
-				C9DC1DC4F6F04B918345AB3D /* CDVInAppBrowserOptions.m in Sources */,
-				E558CA02B90C4E6BBEC628C1 /* CDVInAppBrowserNavigationController.m in Sources */,
-				B6342DF46631467C901A3EA6 /* CDVWKInAppBrowser.m in Sources */,
-				F37671C267D94A47B1BF1780 /* CDVWKInAppBrowserUIDelegate.m in Sources */,
-				5BC2990ED9FB484ABCB3AAA7 /* CDVIonicKeyboard.m in Sources */,
-				DCEBDAE69A82406C8674DC86 /* NSString+SSURLEncoding.m in Sources */,
-				86D5E07FEBEF4C52B279C59A /* SocialSharing.m in Sources */,
-				BDA7ED84D4854811B1E8F53E /* CDVStatusBar.m in Sources */,
-				157192870DCC478AA34F99AD /* APPLocalNotification.m in Sources */,
-				0B67774804514C0498BC936D /* APPNotificationCategory.m in Sources */,
-				8159455A82A54294890D5A17 /* APPNotificationContent.m in Sources */,
-				37743E6F6CFC40A98C20CBB2 /* APPNotificationOptions.m in Sources */,
-				71F45C879F654A97AB5F0100 /* UNUserNotificationCenter+APPLocalNotification.m in Sources */,
-				39C6BC5181A7430E8B5A8453 /* UNNotificationRequest+APPLocalNotification.m in Sources */,
-				ABBAEF7852DE41C5BFC11CB8 /* Insomnia.m in Sources */,
-				87C352F6E0714E09BECBB670 /* MainViewController+MusicControls.m in Sources */,
-				F74E6A732B1C4D6FA5889A50 /* MusicControls.m in Sources */,
-				2B9F65F0AC9D42D3A95B1659 /* MusicControlsInfo.m in Sources */,
-				46F77681F8544DB3B9F0AAE5 /* CDVSound.m in Sources */,
-				847EF3C9443248E9A6C58A08 /* CDVNavigator.m in Sources */,
-				B3DDDC03704B430C9340A6E9 /* OneSignalPush.m in Sources */,
-				6528BCD78E8C4581AA35AA3B /* CorePlugin.swift in Sources */,
-				108512867ACD4C53BD6F9835 /* Toast+UIView.m in Sources */,
-				6792351E278B4BF6AEE436AF /* Toast.m in Sources */,
-				E0A60C287FA045678F632785 /* InAppPurchase.m in Sources */,
-				4ABC1FB538584F6CA9803A74 /* SKProduct+LocalizedPrice.m in Sources */,
-				0F37B293B40F4A9295DC9B8C /* SKProductDiscount+LocalizedPrice.m in Sources */,
-				C4627F6BB9C942D2B0193D5F /* FileUtility.m in Sources */,
-				208DAD8CA4784FF4A8828076 /* CDVWKWebViewFileXhr.m in Sources */,
-				4F40A5F46D0C4FC89A727EFF /* WebViewPlugin.m in Sources */,
-				FE74412B657C0BEE0B04F1D3 /* Entitlements-Debug.plist in Sources */,
-				C112EB1E59F5CD66FCF664E7 /* Entitlements-Release.plist in Sources */,
+				1ACC28FE52E94CA8B6616ACC /* AppVersion.m in Sources */,
+				20DD1A8723FB4E419A2A54E9 /* APPBadge.m in Sources */,
+				22A6898DAB3040BC8B6F6E06 /* CDVBarcodeScanner.mm in Sources */,
+				C7AE61E7047C4C26A69EFE17 /* CBTBrowserTab.m in Sources */,
+				3A96521EFA4D459D99400075 /* UIImage+CropScaleOrientation.m in Sources */,
+				0EE10AE6016842B4ACFC12CD /* CDVCamera.m in Sources */,
+				450FE633C696458EAF3C53B7 /* CDVJpegHeaderWriter.m in Sources */,
+				94229FBDEB6B4A8EBC5A8C2A /* CDVClipboard.m in Sources */,
+				83D9F262F7D04BAA85080A78 /* CDVDevice.m in Sources */,
+				CD378E719B7247D585C8779F /* CDVFile.m in Sources */,
+				F4686E080ECA4771849D1FCB /* CDVLocalFilesystem.m in Sources */,
+				10339A5AB6054074985C8AD8 /* CDVAssetLibraryFilesystem.m in Sources */,
+				76E2D265B7C648FBBB68B2B5 /* CDVLocation.m in Sources */,
+				6D0EDFE57926498CA4EF8B96 /* CDVInAppBrowserOptions.m in Sources */,
+				DF78A640B1C743808921B97F /* CDVInAppBrowserNavigationController.m in Sources */,
+				AAF917DE65D54CB683955B3E /* CDVWKInAppBrowser.m in Sources */,
+				E4F21A9C53664261AF3382FA /* CDVWKInAppBrowserUIDelegate.m in Sources */,
+				06E81869A2D64564B1DC5A6C /* CDVIonicKeyboard.m in Sources */,
+				3CFFA3E2BC6644529B005B06 /* NSString+SSURLEncoding.m in Sources */,
+				259D1F9AB3E941AD913E56E2 /* SocialSharing.m in Sources */,
+				92CAB12B237544FDB8EE18D5 /* CDVStatusBar.m in Sources */,
+				654B2EF09B1F4B13B44CFBF4 /* APPLocalNotification.m in Sources */,
+				97CF16762FE4480A8E16D380 /* APPNotificationCategory.m in Sources */,
+				84294ACAD34645B18E39C95F /* APPNotificationContent.m in Sources */,
+				C576E73A7C9B415E9CDFE6A2 /* APPNotificationOptions.m in Sources */,
+				FAA2F766ED9C435E8CCE6BCC /* UNUserNotificationCenter+APPLocalNotification.m in Sources */,
+				C89FFAFE0A9D4CB59DD22D3C /* UNNotificationRequest+APPLocalNotification.m in Sources */,
+				B40A469974BA45E6BB92C28E /* Insomnia.m in Sources */,
+				E7B1115F2D4849899982FFB7 /* MainViewController+MusicControls.m in Sources */,
+				F2B7FF7F4B554C1AA2FB73F6 /* MusicControls.m in Sources */,
+				1C5E927D22CF420080A8CF5A /* MusicControlsInfo.m in Sources */,
+				CE083D5BC77443E8B43910FF /* CDVSound.m in Sources */,
+				ABABCF0A8F7049268D14C59D /* CDVNavigator.m in Sources */,
+				BA71A32FD5744AD29EB2FA4F /* OneSignalPush.m in Sources */,
+				A6FA8C7850534AD5A5FDE58B /* CorePlugin.swift in Sources */,
+				E0E3731A06D9411194FCC313 /* Toast+UIView.m in Sources */,
+				9743B77FAE614DDCBE954804 /* Toast.m in Sources */,
+				BAEAAFA974CB437A9B66F2A4 /* CDVWKWebViewFileXhr.m in Sources */,
+				A1B724F5D7964DCEBECF7E5A /* WebViewPlugin.m in Sources */,
+				D59D72159C6AEDE5209D3578 /* Entitlements-Debug.plist in Sources */,
+				FF2D445DBD4AECFF8E9BFE4A /* Entitlements-Release.plist in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

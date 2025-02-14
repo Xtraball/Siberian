@@ -17,6 +17,13 @@ exports.createCallbackFn = function (callbackFn, scope) {
     };
 };
 
+exports.getTrackingAuthorizationStatus = function (callback, scope) {
+    if (typeof callback != 'function')
+        return;
+
+    this.exec('getTrackingAuthorizationStatus', null, callback, scope);
+}
+
 exports.exec = function (action, args, callback, scope) {
     var fn = this.createCallbackFn(callback, scope),
         params = [];

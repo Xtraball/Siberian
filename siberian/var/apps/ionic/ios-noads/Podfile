@@ -4,7 +4,7 @@ platform :ios, '12.0'
 use_frameworks!
 target 'AppsMobileCompany' do
 	project 'AppsMobileCompany.xcodeproj'
-	pod 'OneSignalXCFramework', '3.12.3'
+	pod 'OneSignalXCFramework', '5.2.9'
 end
 post_install do |installer|
   installer.pods_project.targets.each do |target|

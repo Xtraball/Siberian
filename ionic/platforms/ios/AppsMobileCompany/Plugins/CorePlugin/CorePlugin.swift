@@ -34,6 +34,16 @@ class CorePlugin: CDVPlugin {
         }
     }
 
+    @objc(getTrackingAuthorizationStatus:)
+    func getTrackingAuthorizationStatus(command: CDVInvokedUrlCommand) {
+        if #available(iOS 14, *) {
+            let status = ATTrackingManager.trackingAuthorizationStatus
+            self.commandDelegate.send(CDVPluginResult(status: CDVCommandStatus_OK, messageAs: status.rawValue), callbackId: command.callbackId)
+        } else {
+            self.commandDelegate.send(CDVPluginResult(status: CDVCommandStatus_ERROR, messageAs: -1), callbackId: command.callbackId)
+        }
+    }
+
     func emit(_ eventName: String, data: Any = NSNull()) {
         let result = CDVPluginResult(status: CDVCommandStatus_OK, messageAs: ["type": eventName, "data": data])
         result?.setKeepCallbackAs(true)
