@@ -250,7 +250,7 @@ abstract class Application_Model_Device_Ionic_Android_Abstract extends Applicati
         $splash_color = $application->getAndroidSplashColor();
         $this->__replace([
             '<color name="cdv_splashscreen_background">#FFFFFF</color>' => '<color name="cdv_splashscreen_background">' . $splash_color . '</color>',
-        ], "{$this->_dest_source_res}/values/colors.xml", true);
+        ], "{$this->_dest_source_res}/values/colors.xml");
     }
 
     /**
