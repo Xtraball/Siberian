@@ -35,8 +35,6 @@ AND `is_test` = 0
 ORDER BY `{$this->_name}`.`created_at` DESC
 SQL;
 
-        dbg($select);
-
         return $this->toModelClass($this->_db->fetchAll($select, [
             'app_id' => $app_id,
             'player_id' => $player_id

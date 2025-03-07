@@ -1,6 +1,7 @@
 cordova.define("Onesignal.OSNotification", function(require, exports, module) {
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
+exports.OSNotification = void 0;
 var OSNotification = /** @class */ (function () {
     function OSNotification(receivedEvent) {
         /// The OneSignal notification ID for this notification
@@ -20,7 +21,7 @@ var OSNotification = /** @class */ (function () {
         else {
             this.rawPayload = receivedEvent.rawPayload;
         }
-        /// If set, he launch URL will be opened when the user
+        /// If set, the launch URL will be opened when the user
         /// taps on your push notification. You can control
         /// whether or not it opens in an in-app webview or
         /// in Safari (with iOS).
@@ -29,7 +30,7 @@ var OSNotification = /** @class */ (function () {
         /// when the notification is received
         this.sound = receivedEvent.sound;
         /// Any buttons you want to add to the notification.
-        /// The notificationOpened handler will provide an
+        /// The notificationClick listener will provide an
         /// OSNotificationAction object, which will contain
         /// the ID of the Action the user tapped.
         if (receivedEvent.actionButtons) {
@@ -197,8 +198,16 @@ var OSNotification = /** @class */ (function () {
             this.interruptionLevel = receivedEvent.interruptionLevel;
         }
     }
+    /**
+     * Display the notification.
+     * @returns void
+     */
+    OSNotification.prototype.display = function () {
+        window.cordova.exec(function () { }, function () { }, "OneSignalPush", "displayNotification", [this.notificationId]);
+        return;
+    };
     return OSNotification;
 }());
-exports.default = OSNotification;
+exports.OSNotification = OSNotification;
 
 });

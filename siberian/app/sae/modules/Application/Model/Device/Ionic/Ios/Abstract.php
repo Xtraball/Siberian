@@ -251,6 +251,8 @@ abstract class Application_Model_Device_Ionic_Ios_Abstract extends Application_M
             'NSLocationAlwaysUsageDescription' => 'ns_location_always_ud',
             'NSLocationAlwaysAndWhenInUseUsageDescription' => 'ns_location_always_and_when_in_use_ud',
             'NSMotionUsageDescription' => 'ns_motion_ud',
+            'NSMicrophoneUsageDescription' => 'ns_microphone_ud',
+            'NSContactsUsageDescription' => 'ns_contacts_ud',
         ];
 
         // If ads are available

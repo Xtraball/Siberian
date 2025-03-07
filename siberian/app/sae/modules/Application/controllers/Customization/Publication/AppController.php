@@ -73,6 +73,13 @@ class Application_Customization_Publication_AppController extends Application_Co
             }
             $application->setData("android_push_color", $icon_color);
 
+            # Android splash color
+            $splash_color = strtolower($values["android_splash_color"]);
+            if (!preg_match("/^#[a-f0-9]{6}$/", $splash_color)) {
+                $splash_color = "#FFFFFF";
+            }
+            $application->setData("android_splash_color", strtoupper($splash_color));
+
             $application->save();
 
             $data = [

@@ -266,6 +266,13 @@ $schemas['application'] = [
         'charset' => 'utf8',
         'collation' => 'utf8_unicode_ci',
     ],
+    'android_splash_color' => [
+        'type' => 'varchar(16)',
+        'is_null' => false,
+        'charset' => 'utf8',
+        'collation' => 'utf8_unicode_ci',
+        'default' => '#FFFFFF'
+    ],
     'splash_version' => [
         'type' => 'tinyint(4)',
         'default' => 1,

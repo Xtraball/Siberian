@@ -11,6 +11,7 @@ $android_form->setAndroidSettings();
 $android_form->populate($application->getData());
 
 $android_color = $application->getAndroidPushColor();
+$android_splash_color = $application->getAndroidSplashColor();
 $android_push_icon = "/images/application".$application->getAndroidPushIcon();
 $android_push_image = "/images/application".$application->getAndroidPushImage();
 
@@ -149,6 +150,21 @@ $buttonsForm->populate($applicationData);
             $(this).ColorPickerSetColor($(this).val());
         });
 
+        var colorSplashPicker = $("#form-application-appicons .android-splash-colorpicker");
+        var colorSplashPickerInput = $("#form-application-appicons .android-splash-colorpicker-input");
+        $(".android-splash-colorpicker, .android-splash-colorpicker-input").ColorPicker({
+          color: '<?php echo (!empty($android_splash_color)) ? $android_splash_color : "#FFFFFF"; ?>',
+          onChange: function (hsb, hex, rgb) {
+            $("#android_splash_color").val("#"+hex);
+            colorSplashPicker.css("backgroundColor", "#"+hex);
+            colorSplashPickerInput.val("#"+hex);
+          }
+        });
+
+        $(".android-splash-colorpicker-input").on("change blur", function() {
+          $(this).ColorPickerSetColor($(this).val());
+        });
+
         var colorizedUrl = '<?php echo $this->getUrl("/template/block/colorize") ?>';
 
         $("#android_push_icon").on("change", function() {
@@ -197,6 +213,7 @@ $buttonsForm->populate($applicationData);
         updatePreview();
 
         $("#android_push_color").val('<?php echo (!empty($android_color)) ? $android_color : "#0099C7"; ?>');
+        $("#android_splash_color").val('<?php echo (!empty($android_splash_color)) ? $android_splash_color : "#FFFFFF"; ?>');
 
         $("#android_conteneur .sb-form-line .col-sm-7").removeClass("col-sm-7").addClass("col-sm-12");
 
@@ -257,6 +274,28 @@ $buttonsForm->populate($applicationData);
         border-radius: 2px;
         margin-right: 10px;
         margin-top: 1px;
+    }
+
+    #form-application-appicons .android-splash-colorpicker {
+        width: 32px;
+        height: 32px;
+        display: block;
+        float: left;
+        background-color: <?php echo (!empty($android_splash_color)) ? $android_splash_color : "#FFFFFF"; ?>;
+        box-shadow: 1px 1px 1px #d2d2d2;
+        border-radius: 2px;
+        margin-right: 10px;
+        margin-top: 1px;
+    }
+
+    #form-application-appicons .android-splash-colorpicker-input {
+        float: right;
+        width: 70%;
+    }
+
+    #form-application-appicons .android-colorlabel {
+        margin-top: 7px;
+        float: left;
     }
 
     #form-application-androidsettings .android-colorlabel {
