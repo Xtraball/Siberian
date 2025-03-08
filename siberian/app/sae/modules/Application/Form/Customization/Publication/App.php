@@ -30,6 +30,12 @@ class Application_Form_Customization_Publication_App extends Siberian_Form_Abstr
             "required" => true,
         ));
 
+        $android_splash_icon = $this->addSimpleImage("android_splash_icon", __("Splash icon (Android)"), __("Splash icon (Android)"), array(
+            "width" => 288,
+            "height" => 288,
+            "required" => true,
+        ));
+
         $color_html = '
 <div>
     <div class="col-md-12">
@@ -46,6 +52,7 @@ class Application_Form_Customization_Publication_App extends Siberian_Form_Abstr
         $this->addSimpleHtml("colorpicker", $color_html);
 
         $application_icon->setRequired(true);
+        $android_splash_icon->setRequired(true);
 
         $this->addNav("save", __("Save"), false);
     }

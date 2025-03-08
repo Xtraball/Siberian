@@ -48,7 +48,8 @@ abstract class Application_Model_Device_Ionic_Android_Abstract extends Applicati
         $pushIcon = path('/images/application' . $application->getAndroidPushIcon());
 
         /** icon/push_icon */
-        $icNew = $application->getIcon(288, null, true);
+        $icNew = $application->getAndroidSplashIcon(null, true) || $application->getIcon(288, null, true);
+
         $appIcon192 = $application->getIcon(192, null, true);
         $appIcon96 = $application->getIcon(96, null, true);
         $icons = [

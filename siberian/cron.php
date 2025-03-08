@@ -3,7 +3,7 @@
 /**
  * Siberian
  *
- * @version 5.0.13
+ * @version 5.0.14
  * @author Xtraball SAS <dev@xtraball.com>
  */
 
@@ -92,32 +92,14 @@ $interval = (($interval >= 10) && ($interval < 51)) ?
 
 defined('DESIGN_CODE') || define('DESIGN_CODE', design_code());
 
-/** Creating an Alert in the Backoffice rather than killing the process */
-if (version_compare(PHP_VERSION, '5.6.0') < 0) {
-    $description = 'PHP version >= 5.6.0 is required for the cron scheduler to run correctly, your php-cli version is ' .
+
+if (version_compare(PHP_VERSION, '7.3') < 0) {
+    $description = 'PHP version >= 7.3 is required for the cron scheduler to run correctly, your php-cli version is ' .
         PHP_VERSION . '.';
 
     $notification = new Backoffice_Model_Notification();
     $notification
-        ->setTitle(__('Alert: PHP version >= 5.6.0 is required for the cron scheduler to run correctly'))
-        ->setDescription(__($description))
-        ->setSource('cron')
-        ->setType('alert')
-        ->setIsHighPriority(1)
-        ->setObjectType('cron_scheduler')
-        ->setObjectId('42')
-        ->save();
-
-    die('PHP >=5.6 is required.\n');
-}
-
-if (version_compare(PHP_VERSION, '7.0') < 0) {
-    $description = 'PHP version >= 7.0 is required for the cron scheduler to run correctly, your php-cli version is ' .
-        PHP_VERSION . '.';
-
-    $notification = new Backoffice_Model_Notification();
-    $notification
-        ->setTitle(__('Alert: PHP version >= 7.0 is required for the cron scheduler to run correctly'))
+        ->setTitle(__('Alert: PHP version >= 7.3 is required for the cron scheduler to run correctly'))
         ->setDescription(__($description))
         ->setSource('cron')
         ->setType('alert')
@@ -125,6 +107,8 @@ if (version_compare(PHP_VERSION, '7.0') < 0) {
         ->setObjectType('cron_scheduler')
         ->setObjectId('4242')
         ->save();
+
+    die('PHP >=5.6 is required.\n');
 }
 
 $cron = new Siberian_Cron();

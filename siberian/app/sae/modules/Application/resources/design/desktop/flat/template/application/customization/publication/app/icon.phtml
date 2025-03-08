@@ -8,7 +8,12 @@ $icon_form->populate($application->getData());
 
 $android_form = new Application_Form_Customization_Publication_App();
 $android_form->setAndroidSettings();
-$android_form->populate($application->getData());
+
+$appData = $application->getData();
+if (empty($appData['android_splash_icon'])) {
+    $appData['android_splash_icon'] = $appData['icon'];
+}
+$android_form->populate($appData);
 
 $android_color = $application->getAndroidPushColor();
 $android_splash_color = $application->getAndroidSplashColor();

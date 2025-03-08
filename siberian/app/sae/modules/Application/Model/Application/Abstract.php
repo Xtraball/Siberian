@@ -1582,6 +1582,42 @@ abstract class Application_Model_Application_Abstract extends Core_Model_Default
     }
 
     /**
+     * @param null $name
+     * @param bool $base
+     * @return string
+     */
+    public function getAndroidSplashIcon($name = null, $base = false)
+    {
+        $androidSplashIcon = $this->getData('android_splash_icon');
+        if (empty($androidSplashIcon)) {
+            return null;
+        }
+        $size = 288;
+
+        $icon = self::getBaseImagePath() . $androidSplashIcon;
+        if (!is_readable($icon) || !is_file($icon)) {
+            $icon = self::getBaseImagePath() . '/placeholder/no-image.png';
+            $image = Siberian_Image::open($icon);
+            $image->fillBackground(0xf3f3f3);
+            return $image->inline('png', 100);
+        }
+
+        if (empty($name)) {
+            $name = sha1($icon . $size);
+        }
+        $name = $name . '_' . filesize($icon);
+
+        $newIcon = new Core_Model_Lib_Image();
+        $newIcon
+            ->setId($name)
+            ->setPath($icon)
+            ->setWidth($size)
+            ->crop();
+
+        return $newIcon->getUrl($base);
+    }
+
+    /**
      * @param null $size
      * @param null $name
      * @param bool $base

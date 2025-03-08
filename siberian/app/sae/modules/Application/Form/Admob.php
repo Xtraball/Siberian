@@ -145,28 +145,30 @@ class Application_Form_Admob extends Siberian_Form_Abstract
      */
     public function fill($application)
     {
-        $this->getElement('use_ads')->setValue((boolean) $application->getUseAds());
-        $this->getElement('test_ads')->setValue((boolean) $application->getTestAds());
-
-        $androidDevice = $application->getAndroidDevice();
-
-        $this->getElement('android_admob_app_id')->setValue($androidDevice->getAdmobAppId());
-        $this->getElement('android_admob_id')->setValue($androidDevice->getAdmobId());
-        $this->getElement('android_admob_interstitial_id')->setValue($androidDevice->getAdmobInterstitialId());
-        $this->getElement('android_admob_type')->setValue($androidDevice->getAdmobType());
-
-        $iosDevice = $application->getIosDevice();
-
-        $this->getElement('ios_admob_app_id')->setValue($iosDevice->getAdmobAppId());
-        $this->getElement('ios_admob_id')->setValue($iosDevice->getAdmobId());
-        $this->getElement('ios_admob_interstitial_id')->setValue($iosDevice->getAdmobInterstitialId());
-        $this->getElement('ios_admob_type')->setValue($iosDevice->getAdmobType());
-
-        if (AdNetwork::$mediationEnabled && canAccess('editor_publication_admob_mediation')) {
-            $this->getElement('mediation_facebook')->setValue((boolean) $application->getMediationFacebook());
-            $this->getElement('mediation_startapp')->setValue((boolean) $application->getMediationStartapp());
-        }
-
         return $this;
+
+//        $this->getElement('use_ads')->setValue((boolean) $application->getUseAds());
+//        $this->getElement('test_ads')->setValue((boolean) $application->getTestAds());
+
+//        $androidDevice = $application->getAndroidDevice();
+
+//        $this->getElement('android_admob_app_id')->setValue($androidDevice->getAdmobAppId());
+//        $this->getElement('android_admob_id')->setValue($androidDevice->getAdmobId());
+//        $this->getElement('android_admob_interstitial_id')->setValue($androidDevice->getAdmobInterstitialId());
+//        $this->getElement('android_admob_type')->setValue($androidDevice->getAdmobType());
+
+//        $iosDevice = $application->getIosDevice();
+
+//        $this->getElement('ios_admob_app_id')->setValue($iosDevice->getAdmobAppId());
+//        $this->getElement('ios_admob_id')->setValue($iosDevice->getAdmobId());
+//        $this->getElement('ios_admob_interstitial_id')->setValue($iosDevice->getAdmobInterstitialId());
+//        $this->getElement('ios_admob_type')->setValue($iosDevice->getAdmobType());
+
+//        if (AdNetwork::$mediationEnabled && canAccess('editor_publication_admob_mediation')) {
+//            $this->getElement('mediation_facebook')->setValue((boolean) $application->getMediationFacebook());
+//            $this->getElement('mediation_startapp')->setValue((boolean) $application->getMediationStartapp());
+//        }
+
+//        return $this;
     }
 }

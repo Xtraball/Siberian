@@ -273,6 +273,12 @@ $schemas['application'] = [
         'collation' => 'utf8_unicode_ci',
         'default' => '#FFFFFF'
     ],
+    'android_splash_icon' => [
+        'type' => 'varchar(255)',
+        'is_null' => true,
+        'charset' => 'utf8',
+        'collation' => 'utf8_unicode_ci',
+    ],
     'splash_version' => [
         'type' => 'tinyint(4)',
         'default' => 1,

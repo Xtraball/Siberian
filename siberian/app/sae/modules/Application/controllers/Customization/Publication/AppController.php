@@ -46,6 +46,12 @@ class Application_Customization_Publication_AppController extends Application_Co
                 $application->setData("icon", $path_icon);
             }
 
+            # Android splash icon
+            if (isset($values["android_splash_icon"]) && !file_exists(Core_Model_Directory::getBasePathTo("images/application" . $values["android_splash_icon"]))) {
+                $path_android_splash_icon = Siberian_Feature::moveUploadedIcon($application->getId(), Core_Model_Directory::getTmpDirectory() . "/" . $values['android_splash_icon']);
+                $application->setData("android_splash_icon", $path_android_splash_icon);
+            }
+
             # Android push icon
             if (isset($values["android_push_icon"]) && !file_exists(Core_Model_Directory::getBasePathTo("images/application" . $values["android_push_icon"]))) {
                 $path_android_push_icon = Siberian_Feature::moveUploadedIcon($application->getId(), Core_Model_Directory::getTmpDirectory() . "/" . $values['android_push_icon']);

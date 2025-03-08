@@ -346,6 +346,37 @@ try {
             file_put_contents('./config.php', $configContent);
             __set('environment', 'production');
             break;
+        case 'module:version:get':
+            $modules = (new Installer_Model_Installer_Module())->findAll();
+            foreach ($modules as $module) {
+                echo $module->getData('name') . ': ' . $module->getVersion() . PHP_EOL;
+            }
+            break;
+        case 'module:version:set':
+            if (isset($argv[2])) {
+                $moduleName = (string)$argv[2];
+            } else {
+                $moduleName = readline('Input module name: ');
+            }
+            if (isset($argv[3])) {
+                $version = (string)$argv[3];
+            } else {
+                $version = readline('Input module version: ');
+            }
+            $module = (new Installer_Model_Installer_Module())->findByName($moduleName);
+            if (!$module->getId()) {
+                echo 'Sorry this module doesn\'t exists.' . PHP_EOL;
+            } else {
+                $module->setVersion($version);
+                $module->save();
+                echo 'Module version updated: ' . $module->getData('name') . ' : ' . $module->getVersion() . PHP_EOL;
+            }
+            break;
+        case 'build:queue:flush':
+            (new Application_Model_SourceQueue())->getTable()->delete("1 = 1");
+            (new Application_Model_ApkQueue())->getTable()->delete("1 = 1");
+            \Siberian\Cache::__clearLocks();
+            break;
         case 'cache:design':
             CacheDesign::rebuild($argv[2]);
             break;
