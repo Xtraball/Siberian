@@ -630,9 +630,13 @@ try {
     
 " . color('waf:extension:disallow [extension]', 'brown') . "
     Disallows an extension in the Web Application Firewall.    
+
+" . color('build:queue:flush  ', 'brown') . "
+    Flush all build queues and remove locks. 
     
 " . color('help', 'brown') . "
-    Prints the current help message.    
+    Prints the current help message. 
+    
 
 ";
     }
