@@ -31,15 +31,32 @@ class Application_Form_Customization_Publication_App extends Siberian_Form_Abstr
         ));
 
         $android_splash_icon = $this->addSimpleImage("android_splash_icon", __("Splash icon (Android)"), __("Splash icon (Android)"), array(
-            "width" => 288,
-            "height" => 288,
+            "width" => 512,
+            "height" => 512,
             "required" => true,
         ));
+
+        // /external/resources/template-splash-icon-android.png
+        $download_as = _("Download template as");
+        $android_hint_html = <<<HTML
+<div class="col-md-6">
+    <div class="alert alert-info"
+         style="margin-top: 20px; margin-bottom: 0; text-align: center;">
+        {$download_as}
+        <a href="/external/resources/template-splash-icon-android.png"
+           class="btn btn-xs color-purple"
+           style="cursor: pointer !important;"
+           target="_blank"><i class="fa fa-picture-o"></i>&nbsp;<b>PNG</b></a>
+    </div>
+</div>
+HTML;
+
+        $this->addSimpleHtml("android_hint", $android_hint_html);
 
         $color_html = '
 <div>
     <div class="col-md-12">
-        <div class="android-colorlabel"><b>'.__("Splashscreen background color").': </b></div>
+        <div class="android-colorlabel"><b>'.__("Splashscreen background color (Android)").': </b></div>
         <div class="android-colorpicker-block">
             <input type="text" class="android-splash-colorpicker-input input-flat" name="android_splash_color" id="android_splash_color" value="" />
             <div class="android-splash-colorpicker"></div>

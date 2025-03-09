@@ -48,7 +48,8 @@ abstract class Application_Model_Device_Ionic_Android_Abstract extends Applicati
         $pushIcon = path('/images/application' . $application->getAndroidPushIcon());
 
         /** icon/push_icon */
-        $icNew = $application->getAndroidSplashIcon(null, true) || $application->getIcon(288, null, true);
+        $icNew = $application->getIcon(288, null, true);
+        $icSplashAndroid = $application->getAndroidSplashIcon(null, true);
 
         $appIcon192 = $application->getIcon(192, null, true);
         $appIcon96 = $application->getIcon(96, null, true);
@@ -56,9 +57,11 @@ abstract class Application_Model_Device_Ionic_Android_Abstract extends Applicati
             $this->_dest_source_res . '/drawable-xxxhdpi/icon.png' => $appIcon192,
             $this->_dest_source_res . '/drawable-xxxhdpi/push_icon.png' => $appIcon192,
             $this->_dest_source_res . '/drawable-xxxhdpi/ic_launcher.png' => $icNew,
+            $this->_dest_source_res . '/drawable-xxxhdpi/ic_splash.png' => $icSplashAndroid,
             $this->_dest_source_res . '/drawable-xxxhdpi/launcher_icon.png' => $appIcon192,
 
             $this->_dest_source_res . '/mipmap-xxxhdpi/ic_launcher.png' => $icNew,
+            $this->_dest_source_res . '/mipmap-xxxhdpi/ic_splash.png' => $icSplashAndroid,
             $this->_dest_source_res . '/mipmap-xxxhdpi/icon.png' => $appIcon192,
             $this->_dest_source_res . '/mipmap-xxxhdpi/launcher_icon.png' => $appIcon192,
 
@@ -250,7 +253,7 @@ abstract class Application_Model_Device_Ionic_Android_Abstract extends Applicati
         // New splash background color
         $splash_color = $application->getAndroidSplashColor();
         $this->__replace([
-            '<color name="cdv_splashscreen_background">#FFFFFF</color>' => '<color name="cdv_splashscreen_background">' . $splash_color . '</color>',
+            '#FFFFFF' => $splash_color,
         ], "{$this->_dest_source_res}/values/colors.xml");
     }
 

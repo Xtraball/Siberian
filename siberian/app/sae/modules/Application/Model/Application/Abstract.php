@@ -1584,15 +1584,16 @@ abstract class Application_Model_Application_Abstract extends Core_Model_Default
     /**
      * @param null $name
      * @param bool $base
-     * @return string
+     * @return string|null
      */
     public function getAndroidSplashIcon($name = null, $base = false)
     {
         $androidSplashIcon = $this->getData('android_splash_icon');
+        $icon = $this->getData('icon');
         if (empty($androidSplashIcon)) {
-            return null;
+            $androidSplashIcon = $icon;
         }
-        $size = 288;
+        $size = 512;
 
         $icon = self::getBaseImagePath() . $androidSplashIcon;
         if (!is_readable($icon) || !is_file($icon)) {
