@@ -1,4 +1,6 @@
 #!/usr/bin/env node
 
+// @author Xtraball SAS <dev@xtraball.com>
+
 var cli = require('./bin/src/cli.js');
 cli(process.argv);
