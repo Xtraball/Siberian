@@ -1,5 +1,7 @@
 ## Contribute To Siberian
 
+Reviewed : 2025-04-01
+
 Anyone can contribute to Siberian. And we need your contributions.
 
 There are multiple ways to contribute: [report bugs](#submit-an-issue), [improve the docs](#help-improve-the-docs), and [contribute code](#share-new-features).
