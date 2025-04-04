@@ -86,7 +86,7 @@ class Form2_MobileController extends Application_Controller_Mobile_Default
 
             // Send e-mail only if filled out!
             if (array_key_exists('email', $settings) &&
-                count($settings['email']) > 0) {
+                count(explode(',', $settings['email'])) > 0) {
 
                 $adminEmails = explode(',', $settings['email']);
 
