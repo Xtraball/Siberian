@@ -1,0 +1,6 @@
+controllers:
+    resource:
+        path: ../src/Core/Controller/
+        namespace: App\Core\Controller
+    type: attribute
+    prefix: /next
