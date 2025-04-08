@@ -15,4 +15,12 @@ final class IndexController extends AbstractController
             'controller_name' => 'IndexController',
         ]);
     }
+
+    #[Route('/turbo', name: 'app_turbo')]
+    public function turbo(): Response
+    {
+        return $this->render('index/turbo.html.twig', [
+            'controller_name' => 'IndexController',
+        ]);
+    }
 }

@@ -9,12 +9,16 @@
 </style>
 
 <div class="example-wrapper">
+    <twig:Alert message="Or use the fun HTML syntax!" />
+    <twig:Button action="Click me!" />
+
     <h1>Hello {{ controller_name }}! ✅</h1>
 
-    This friendly message is coming from:
-    <ul>
-        <li>Your controller at <code>/home/anders/devs/xtraball/Siberian/siberian/next/src/Controller/IndexController.php</code></li>
-        <li>Your template at <code>/home/anders/devs/xtraball/Siberian/siberian/next/templates/index/index.html.twig</code></li>
-    </ul>
+    <a data-turbo-frame="the_frame_id" href="{{ path('app_turbo') }}">Turbo</a>
+
+    <turbo-frame id="the_frame_id" src="{{ path('app_turbo') }}">
+        A placeholder.
+    </turbo-frame>
+
 </div>
 {% endblock %}
