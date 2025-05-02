@@ -1,0 +1,6 @@
+controllers:
+  resource:
+    path: ../src/Controller/
+    namespace: SampleModule\Controller
+  type: attribute
+  prefix: /sample_module

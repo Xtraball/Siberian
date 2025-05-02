@@ -17,7 +17,7 @@ if ($at_least_php82 &&
     preg_match('/^\/(next)/', $_SERVER['REQUEST_URI'])) {
     error_reporting(E_ALL);
     ini_set('display_errors', 1);
-    putenv('APP_ENV=prod');
+    putenv('APP_ENV=dev');
     require_once __DIR__ . '/next/vendor/autoload_runtime.php';
     return function (array $context) {
         return new \App\Kernel($context['APP_ENV'], (bool)$context['APP_DEBUG']);

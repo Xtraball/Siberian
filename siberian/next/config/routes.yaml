@@ -1,6 +1,17 @@
 controllers:
-    resource:
-        path: ../src/Core/Controller/
-        namespace: App\Core\Controller
-    type: attribute
-    prefix: /next
+  resource:
+    path: ../src/Next/Core/Controller/
+    namespace: App\Next\Core\Controller
+  type: attribute
+  prefix: /next
+
+plugins:
+  resource:
+    path: ../src/Next/Plugin/Controller/
+    namespace: App\Next\Plugin\Controller
+  type: attribute
+  prefix: /next
+
+app_next_plugin:
+  resource: .
+  type: plugin

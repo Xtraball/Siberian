@@ -1,0 +1,21 @@
+{
+    "name": "siberian-next/sample-module",
+    "type": "symfony-bundle",
+    "description": "Siberian next sample module",
+    "version": "1.0.0",
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Xtraball",
+            "email": "dev@xtraball.com"
+        }
+    ],
+    "autoload": {
+        "psr-4": {
+            "SampleModule\\": "src/"
+        }
+    },
+    "require": {
+        "php": ">=8.2"
+    }
+}

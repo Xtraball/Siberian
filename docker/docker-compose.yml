@@ -59,6 +59,7 @@ services:
       - ./nginx/default.conf:/etc/nginx/conf.d/default.conf
       - "${SSL_CERT_PATH}:/etc/nginx/ssl-certificates"
       - "../modules:${PROJECT_PATH}/modules"
+      - "../packages:/var/www/packages"
     env_file:
       - .env
     networks:

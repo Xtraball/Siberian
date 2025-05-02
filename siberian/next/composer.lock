@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "786d08922024fceae7e5ccf2a3b7ea8a",
+    "content-hash": "b830dc7d81b8e1e8edfddc108c93160e",
     "packages": [
         {
             "name": "composer/semver",
@@ -1999,6 +1999,39 @@
                 "source": "https://github.com/php-fig/log/tree/3.0.2"
             },
             "time": "2024-09-11T13:17:53+00:00"
+        },
+        {
+            "name": "siberian/twig-design-system-bundle",
+            "version": "1.0.0",
+            "dist": {
+                "type": "path",
+                "url": "./bundles/twig-design-system-bundle",
+                "reference": "6e5ef5a40fd31e8a1922f9b88520391bbef59222"
+            },
+            "require": {
+                "php": ">=8.2",
+                "symfony/framework-bundle": "7.2.*",
+                "symfony/ux-twig-component": "^2.24"
+            },
+            "type": "symfony-bundle",
+            "autoload": {
+                "psr-4": {
+                    "Siberian\\TwigDesignSystemBundle\\": "src/"
+                }
+            },
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Xtraball",
+                    "email": "dev@xtraball.com"
+                }
+            ],
+            "description": "Twig design system by Siberian",
+            "transport-options": {
+                "relative": true
+            }
         },
         {
             "name": "symfony/asset",
