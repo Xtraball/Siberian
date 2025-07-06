@@ -1,0 +1,6 @@
+controllers:
+  resource:
+    path: ../../../../../src/Plugin/Demo/Classes/Controller/
+    namespace: App\Plugin\Demo\Classes\Controller
+  type: attribute
+  prefix: /next

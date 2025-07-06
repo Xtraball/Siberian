@@ -1,0 +1,16 @@
+services:
+  _defaults:
+    autowire: true
+    autoconfigure: true
+
+  App\Plugin\Demo\Classes\Controller\:
+    public: true
+    resource: '%kernel.project_dir%/src/Plugin/Demo/Classes/Controller/'
+    tags: [ 'controller.service_arguments' ]
+    calls:
+      - method: setContainer
+        arguments:
+          - '@service_container'
+    # Explicitly require twig service
+    arguments:
+      $twig: '@twig'

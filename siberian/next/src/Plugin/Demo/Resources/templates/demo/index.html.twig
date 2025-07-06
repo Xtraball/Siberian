@@ -1,0 +1,25 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Hello DemoController!{% endblock %}
+
+{% block body %}
+<div class="example-wrapper">
+    <twig:Alert message="Or use the fun HTML syntax!" />
+{#    <twig:Alert:Danger message="Or use the fun HTML syntax!" />#}
+{#    <twig:Alert:Info message="Or use the fun HTML syntax!" />#}
+{#    <twig:Alert:Success message="Or use the fun HTML syntax!" />#}
+{#    <twig:Alert:Warning message="Or use the fun HTML syntax!" />#}
+
+{#    <twig:Button action="Click me!" />#}
+
+    <h1>Hello {{ demo.name }}! ✅</h1>
+
+{#    <a data-turbo-frame="the_frame_id" href="{{ path('app_turbo') }}">Turbo</a>#}
+{#    <a data-turbo-frame="the_frame_id" href="{{ path('app_turbo', { 'reset_counter' : true }) }}">Turbo reset</a>#}
+
+{#    <turbo-frame id="the_frame_id" src="{{ path('app_turbo') }}">#}
+{#        A placeholder.#}
+{#    </turbo-frame>#}
+
+</div>
+{% endblock %}

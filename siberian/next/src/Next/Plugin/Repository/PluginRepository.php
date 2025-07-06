@@ -1,8 +1,11 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Next\Plugin\Repository;
 
 use App\Next\Plugin\Entity\Plugin;
+use Doctrine\ORM\EntityManagerInterface;
 use Doctrine\Persistence\ManagerRegistry;
 
 // extend doctrine repository
@@ -10,7 +13,7 @@ use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 
 class PluginRepository extends ServiceEntityRepository
 {
-    public function __construct(ManagerRegistry $registry)
+    public function __construct(ManagerRegistry $registry, protected EntityManagerInterface $entityManager)
     {
         parent::__construct($registry, Plugin::class);
     }
@@ -27,12 +30,18 @@ class PluginRepository extends ServiceEntityRepository
 
     public function getEnabledPlugins(): array
     {
-        return [];
+        return $this->createQueryBuilder('p')
+            ->where('p.enabled = true')
+            ->getQuery()
+            ->getResult()
+        ;
+    }
 
-//        return $this->createQueryBuilder('p')
-//            ->where('p.enabled = true')
-//            ->getQuery()
-//            ->getResult()
-//        ;
+    public function save(Plugin $plugin, bool $andFlush = true): void
+    {
+        $this->entityManager->persist($plugin);
+        if ($andFlush) {
+            $this->entityManager->flush();
+        }
     }
 }

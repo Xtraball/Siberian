@@ -12,6 +12,6 @@ plugins:
   type: attribute
   prefix: /next
 
-app_next_plugin:
-  resource: .
+external_plugins:
+  resource: ../src/Plugin/
   type: plugin

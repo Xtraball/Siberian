@@ -5,5 +5,9 @@
 {% block body %}
     <div class="block-center w-60">
         <h1>Siberian Next - Admin plugins!</h1>
+
+        {% for plugin in plugins %}
+            <h2>{{ plugin.handle }} - {{ plugin.version }}</h2>
+        {% endfor %}
     </div>
 {% endblock %}

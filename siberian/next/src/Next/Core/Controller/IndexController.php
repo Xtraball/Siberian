@@ -2,6 +2,8 @@
 
 namespace App\Next\Core\Controller;
 
+use App\Legacy\Auth\Repository\AdminRepository;
+use App\Legacy\Auth\Repository\CustomerRepository;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpFoundation\Session\Session;
@@ -18,11 +20,17 @@ final class IndexController extends AbstractCoreController
     }
 
     #[Route('/requirements', name: 'app_requirements')]
-    public function requirements(): Response
+    public function requirements(AdminRepository $adminRepository, CustomerRepository $customerRepository): Response
     {
+        // Get all admins
+        $admins = $adminRepository->findAll();
+        $customers = $customerRepository->findAll();
+
         return $this->render('requirements.html.twig', [
             'controller_name' => 'IndexController',
             'php_version' => phpversion(),
+            'admins' => $admins,
+            'customers' => $customers,
         ]);
     }
 

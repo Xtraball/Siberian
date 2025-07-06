@@ -1,13 +1,17 @@
 <?php
 
-namespace App\Next\Plugin\Service;
+//declare(strict_types=1);
+
+namespace App\_dis;
 
 use App\Next\Core\Event\SystemEvent;
+use App\Next\Core\Service\SchemaService;
+use App\Next\Core\Utility\Engine\EngineException;
 use App\Next\Plugin\Entity\Plugin;
 use App\Next\Plugin\Event\PluginEvent;
-use App\Next\Plugin\Repository\PluginRepository;
 use App\Next\Plugin\Interface\PluginInterface;
-
+use App\Next\Plugin\Repository\PluginRepository;
+use App\Plugin\Demo\DemoPlugin;
 use Exception;
 use Psr\Container\ContainerExceptionInterface;
 use Psr\Container\NotFoundExceptionInterface;
@@ -15,24 +19,73 @@ use Psr\Log\LoggerInterface;
 use ReflectionClass;
 use ReflectionException;
 use ReflectionMethod;
-use Symfony\Component\DependencyInjection\Attribute\TaggedLocator;
+use Symfony\Component\DependencyInjection\Attribute\AutowireLocator;
+use Symfony\Component\DependencyInjection\ContainerInterface;
 use Symfony\Component\DependencyInjection\ServiceLocator;
 use Symfony\Component\EventDispatcher\Attribute\AsEventListener;
 use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
+use Symfony\Contracts\Cache\CacheInterface;
+use Twig\Environment;
 
 class PluginManager
 {
     private array $enabledPlugins = [];
+    private array $resourcesPaths = [];
 
     public function __construct(
-        private readonly PluginRepository $repository,
-        #[TaggedLocator('app.plugin')]
-        private readonly ServiceLocator $pluginLocator,
-        private readonly LoggerInterface $logger,
+        private readonly PluginRepository         $repository,
+        private readonly SchemaService            $schemaService,
+        #[AutowireLocator('app.plugin')]
+        private readonly ServiceLocator           $pluginLocator,
+        private readonly LoggerInterface          $logger,
         private readonly EventDispatcherInterface $eventDispatcher,
-    ) {
+        private readonly string                   $projectDir,
+        private readonly CacheInterface           $cache, // Inject the cache service
+        private ContainerInterface                $container,
+        private Environment                       $twig,
+    )
+    {
+        $this->resourcesPaths = $this->getResourcesPathsFromCache($projectDir);
+    }
+
+    public function getResourcePathForKey(Plugin $plugin, string $key): string
+    {
+        // check if key exists
+        if (!isset($this->resourcesPaths[$key])) {
+            throw new \RuntimeException("Resource key '{$key}' does not exist.");
+        }
+
+        $pluginRootPath = $this->resourcesPaths['plugin_root'];
+        $resourcePath = $this->resourcesPaths[$key];
+
+        return implode('/', [$pluginRootPath, $plugin->getName(), $resourcePath]);
+    }
+
+    public function getResourcesPaths(): array
+    {
+        return $this->resourcesPaths;
+    }
+
+    private function buildResourcesPaths(string $projectDir): array
+    {
+        return array(
+            'plugin_root' => $projectDir . '/src/Plugin/',
+            'plugin_entrypoint' => $projectDir . '/src/Plugin/**/*Plugin.php',
+            'schemas' => 'Resources/schemas/',
+            'templates' => 'Resources/templates/',
+            'config' => 'Resources/config/',
+        );
+    }
+
+    private function getResourcesPathsFromCache(string $projectDir): array
+    {
+        return $this->buildResourcesPaths($projectDir);
+
+//        return $this->cache->get('resources_paths', function (ItemInterface $item) use ($projectDir) {
+//            return $this->buildResourcesPaths($projectDir);
+//        });
     }
 
     /**
@@ -43,19 +96,31 @@ class PluginManager
         return $this->repository->getEnabledPlugins();
     }
 
-    #[AsEventListener(SystemEvent::BOOT)]
-    public function onBoot(): void
-    {
-        $plugins = $this->getEnabledPlugins();
 
-        // log info in debug bar
-        $this->logger->info('Plugins enabled: ' . count($plugins));
+    #[AsEventListener(SystemEvent::BOOT)]
+    public function onBoot(SystemEvent $systemEvent): void
+    {
+        var_dump('SystemEvent::BOOT : ' . time());
+
+        $plugins = $this->getEnabledPlugins();
+//        $this->getPlugins();
+        $this->loadPluginServices($plugins, $this->container);
 
         foreach ($plugins as $plugin) {
             $this->enabledPlugins[] = $plugin;
-            $event = new PluginEvent('boot', $plugin);
-            $this->eventDispatcher->dispatch($event, PluginEvent::BOOT);
+            $pluginEvent = new PluginEvent('boot', $plugin);
+            $this->eventDispatcher->dispatch($pluginEvent, PluginEvent::BOOT);
         }
+    }
+
+//    #[AsEventListener(SystemEvent::BOOT)]
+    #[AsEventListener(SystemEvent::BUILD)]
+    public function onBuild(SystemEvent $event): void
+    {
+//        var_dump('SystemEvent::BUILD');
+//
+//        $plugins = $this->getEnabledPlugins();
+//        $this->loadPluginServices($plugins, $event->getContainer());
     }
 
     public function enable(string|Plugin $plugin): void
@@ -167,6 +232,21 @@ class PluginManager
         $this->repository->save($plugin, true);
     }
 
+    /**
+     * @param Plugin $plugin
+     * @return void
+     * @throws EngineException
+     */
+    public function migrate(Plugin $plugin): void
+    {
+        $path = __DIR__ . '/../../../Plugin/**/Resources/schemas/';
+        $schemaInstances = $this->schemaService->processSchemas($path);
+
+        foreach ($schemaInstances as $schemaInstance) {
+            $schemaInstance->updateTable();
+        }
+    }
+
     public function getPlugins(): array
     {
         $plugins = [];
@@ -191,7 +271,7 @@ class PluginManager
         $pluginClass = 'App\\Plugin\\' . $pluginHandle;
         try {
             return $this->pluginLocator->get($pluginClass);
-        } catch (ContainerExceptionInterface | NotFoundExceptionInterface) {
+        } catch (ContainerExceptionInterface|NotFoundExceptionInterface) {
             $this->logger->error('Plugin not found: ' . $pluginClass);
             return null;
         }
@@ -199,12 +279,12 @@ class PluginManager
 
     private function getPluginFiles(): array
     {
-        return glob(__DIR__ . '/../Plugin/*.php');
+        return glob(__DIR__ . '/../../../Plugin/**/*Plugin.php');
     }
 
     private function getClassName(string $pluginFile): string
     {
-        return 'App\\Plugin\\' . basename($pluginFile, '.php');
+        return 'App\\Plugin\\' . basename(dirname($pluginFile)) . '\\' . basename($pluginFile, '.php');
     }
 
     private function isValidPluginClass(string $className): bool
@@ -259,19 +339,48 @@ class PluginManager
             $pluginEntity->setDescription($pluginData['description'] ?? '');
             $pluginEntity->setInstalled(false);
             $pluginEntity->setEnabled(false);
-            $this->repository->save($pluginEntity, true);
+            $this->repository->save($pluginEntity);
             $this->eventDispatcher->dispatch(
                 new PluginEvent('register', $pluginEntity),
                 PluginEvent::REGISTER
             );
         }
 
-        $pluginEntity->setUpgradable(
-            version_compare($pluginData['version'], $pluginEntity->getVersion(), '>')
-        );
-        $pluginEntity->setLatestVersion($pluginData['version']);
+        if ($pluginEntity) {
+            $pluginEntity->setUpgradable(
+                version_compare($pluginData['version'], $pluginEntity->getVersion(), '>')
+            );
+            if (version_compare($pluginData['version'], $pluginEntity->getVersion(), '>')) {
+                $pluginEntity->setVersion($pluginData['version']);
+            }
+            $pluginEntity->setLatestVersion($pluginData['version']);
+            $this->repository->save($pluginEntity);
+            $this->eventDispatcher->dispatch(
+                new PluginEvent('upgrade', $pluginEntity),
+                PluginEvent::UPGRADE
+            );
+
+            $this->migrate($pluginEntity);
+        }
 
         return $pluginEntity;
+    }
+
+    public function loadPluginServices(iterable $plugins, ContainerInterface $container): void
+    {
+        foreach ($plugins as $plugin) {
+            if ($plugin instanceof Plugin) {
+                var_dump('Plugin loadingggg');
+
+                $demoPlugin = new DemoPlugin();
+                $demoPlugin->setPluginManager($this);
+                $demoPlugin->setContainer($container);
+                $demoPlugin->setTwig($this->twig);
+                $demoPlugin->boot();
+
+                $projectDir = $container->getParameter('kernel.project_dir');
+            }
+        }
     }
 
     public function manage(Plugin $plugin, Request $request): ?Response

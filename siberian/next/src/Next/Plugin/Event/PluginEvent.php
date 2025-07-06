@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Next\Plugin\Event;
 
 use Symfony\Contracts\EventDispatcher\Event;
@@ -23,6 +25,7 @@ class PluginEvent extends Event
         return $this->plugin;
     }
 
+    # Not sure this is useful, have to check
     public function getEventName(): string
     {
         return $this->eventName;

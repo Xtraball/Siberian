@@ -1,0 +1,30 @@
+schema:
+  demo:
+    metadata:
+      charset: utf8
+      engine: postgresql  # mysql or postgresql
+    columns:
+      uuid:
+        type: uuid
+        default: uuid_generate_v4()
+        is_null: true
+      name:
+        type: varchar(100)
+        is_null: false
+        default: ''
+      description:
+        type: text
+        is_null: false
+        default: ''
+      description_two:
+        type: text
+        is_null: false
+        default: ''
+      created_at:
+        type: timestamp
+        is_null: false
+        default: NOW()
+      updated_at:
+        type: timestamp
+        is_null: false
+        default: NOW()

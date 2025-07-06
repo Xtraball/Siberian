@@ -1,0 +1,26 @@
+schema:
+  demo_factor:
+    metadata:
+      charset: utf8
+      engine: postgresql  # mysql or postgresql
+    columns:
+      uuid:
+        type: uuid
+        default: uuid_generate_v4()
+        is_null: true
+      factor:
+        type: decimal(10,2)
+        is_null: false
+        default: '0.00'
+      power:
+        type: bigint
+        is_null: false
+        default: '0'
+      created_at:
+        type: timestamp
+        is_null: false
+        default: NOW()
+      updated_at:
+        type: timestamp
+        is_null: false
+        default: NOW()

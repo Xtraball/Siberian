@@ -11,6 +11,18 @@
         <p>It requires the following:</p>
         <ul>
             <li>PHP Version required: 8.2, your version is {{ php_version }}</li>
+
+            {% for admin in admins %}
+                <li>Admin: {{ admin.email }}</li>
+            {% endfor %}
+
+            {{ dump(admins) }}
+
+            {% for customer in customers %}
+                <li>Customer: {{ customer.email }}</li>
+            {% endfor %}
+
+            {{ dump(customers) }}
         </ul>
     </div>
 {% endblock %}

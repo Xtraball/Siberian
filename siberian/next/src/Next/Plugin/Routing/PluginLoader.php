@@ -1,55 +1,63 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Next\Plugin\Routing;
 
-use App\Next\Plugin\Service\PluginManager;
-use ReflectionClass;
+//use App\_dis\PluginManager;
+//use App\Next\Plugin\Entity\Plugin;
+use Psr\Log\LoggerInterface;
 use RuntimeException;
-use Symfony\Bundle\FrameworkBundle\Routing\AttributeRouteControllerLoader;
+use Symfony\Component\Config\FileLocator;
 use Symfony\Component\Config\Loader\Loader;
+use Symfony\Component\Finder\Finder;
 use Symfony\Component\Routing\RouteCollection;
 
 class PluginLoader extends Loader
 {
-    private bool $isLoaded = false;
-    private PluginManager $pluginManager;
+    const PLUGINS_DIR = __DIR__ . '/../../../Plugin';
 
-    public function __construct(PluginManager $pluginManager, ?string $env = null)
+    private bool $isLoaded = false;
+
+    public function __construct(
+        private FileLocator     $fileLocator,
+        private LoggerInterface $logger,
+        ?string                 $env = null)
     {
-        $this->pluginManager = $pluginManager;
-        parent::__construct($env);
     }
 
     /**
      * @inheritDoc
      */
-    public function load(mixed $resource, ?string $type = null): mixed
+    public function load(mixed $resource, ?string $type = null): RouteCollection
     {
+        $this->logger->info('Plugin loader');
+
         if ($this->isLoaded) {
             throw new RuntimeException('Do not add the "plugin" loader twice');
         }
 
+        //$plugins = $this->pluginManager->getEnabledPlugins();
         $routes = new RouteCollection();
 
+        $pluginsDir = self::PLUGINS_DIR;
+        $finder = new Finder();
+        $finder->directories()->in($pluginsDir)->depth(0);
 
-        $plugins = $this->pluginManager->getEnabledPlugins();
+        foreach ($finder as $dir) {
+            $pluginName = $dir->getBasename();
+            $file = self::PLUGINS_DIR . '/' . $pluginName . '/Resources/config/routes.yaml';
 
-        /*
-        $loader = new AttributeRouteControllerLoader();
+//            $configDir = $this->pluginManager->getResourcePathForKey($plugin, "config");
 
-        foreach ($plugins as $plugin) {
-            $pluginInstance = $this->pluginManager->getPluginInstance($plugin);
-            $reflectionClass = new ReflectionClass($pluginInstance);
+            $this->logger->info('Plugin loader: ' . $file);
 
-            $classRoutes = $loader->load($reflectionClass->getName());
-
-            foreach ($classRoutes as $routeName => $route) {
-                $routes->add($routeName, $route);
-            }
+            $importedRoutes = $this->import($file);
+            $routes->addCollection($importedRoutes);
         }
-         * */
 
         $this->isLoaded = true;
+
         return $routes;
     }
 

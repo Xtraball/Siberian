@@ -12,7 +12,7 @@ abstract class AbstractCoreController extends AbstractController
     # Override render() to automatically prefix the template with the namespace handle
     protected function render(string $view, array $parameters = [], Response $response = null): Response
     {
-        $view = $this->templateNamespace . '/' . $view;
+        $view = implode('/', array_filter([$this->templateNamespace, $view]));
         return parent::render($view, $parameters, $response);
     }
 }

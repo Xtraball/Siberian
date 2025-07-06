@@ -1,41 +1,50 @@
 doctrine:
     dbal:
-        url: '%env(resolve:DATABASE_URL)%'
+        connections:
+            default:
+                url: '%env(resolve:DATABASE_URL)%'
+                driver_class: 'Doctrine\DBAL\Driver\PDO\PgSQL\Driver'
+                profiling_collect_backtrace: '%kernel.debug%'
+                use_savepoints: true
+                #server_version: '16'
+            legacy:
+                url: '%env(resolve:DATABASE_LEGACY_URL)%'
+                driver_class: 'Doctrine\DBAL\Driver\PDO\MySQL\Driver'
+                profiling_collect_backtrace: '%kernel.debug%'
+                use_savepoints: true
 
-        # IMPORTANT: You MUST configure your server version,
-        # either here or in the DATABASE_URL env var (see .env file)
-        #server_version: '16'
-
-        profiling_collect_backtrace: '%kernel.debug%'
-        use_savepoints: true
+        default_connection: default
     orm:
-        auto_generate_proxy_classes: true
+        auto_generate_proxy_classes: false
         enable_lazy_ghost_objects: true
-        report_fields_where_declared: true
-        validate_xml_mapping: true
-        naming_strategy: doctrine.orm.naming_strategy.underscore_number_aware
-        identity_generation_preferences:
-            Doctrine\DBAL\Platforms\PostgreSQLPlatform: identity
-        auto_mapping: true
-        mappings:
-#            App:
-#                type: attribute
-#                is_bundle: false
-#                dir: '%kernel.project_dir%/src/Entity'
-#                prefix: 'App\Entity'
-#                alias: App
-            Core:
-                type: attribute
-                is_bundle: false
-                dir: '%kernel.project_dir%/src/Next/Core/Entity'
-                prefix: 'App\Next\Core\Entity'
-                alias: Core
-            Plugin:
-                type: attribute
-                is_bundle: false
-                dir: '%kernel.project_dir%/src/Next/Plugin/Entity'
-                prefix: 'App\Next\Plugin\Entity'
-                alias: Plugin
+#        report_fields_where_declared: true
+        default_entity_manager: default
+        entity_managers:
+            default:
+                connection: default
+                auto_mapping: true
+                mappings:
+                    Core:
+                        type: attribute
+                        is_bundle: false
+                        dir: '%kernel.project_dir%/src/Next/Core/Entity'
+                        prefix: 'App\Next\Core\Entity'
+                        alias: Core
+                    Plugin:
+                        type: attribute
+                        is_bundle: false
+                        dir: '%kernel.project_dir%/src/Next/Plugin/Entity'
+                        prefix: 'App\Next\Plugin\Entity'
+                        alias: Plugin
+            legacy:
+                connection: legacy
+                mappings:
+                    Legacy:
+                        type: attribute
+                        is_bundle: false
+                        dir: '%kernel.project_dir%/src/Legacy/Auth/Entity'
+                        prefix: 'App\Legacy\Auth\Entity'
+                        alias: LegacyAuth
         controller_resolver:
             auto_mapping: false
 

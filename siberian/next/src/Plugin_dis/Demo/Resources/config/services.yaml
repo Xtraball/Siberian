@@ -1,0 +1,14 @@
+services:
+  _defaults:
+    autowire: true
+    autoconfigure: true
+
+  App\Plugin\Demo\Classes\:
+    resource: '%kernel.project_dir%/src/Plugin/Demo/Classes/'
+
+  App\Plugin\Demo\Classes\Controller\:
+    resource: '%kernel.project_dir%/src/Plugin/Demo/Classes/Controller'
+    tags: [ 'controller.service_arguments' ]
+    public: true
+    bind:
+      Psr\Container\ContainerInterface: '@service_container'

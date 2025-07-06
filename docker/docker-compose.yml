@@ -25,6 +25,25 @@ services:
       siberian-network-ip:
         ipv4_address: "${DB_IPV4}"
 
+  postgres:
+    image: postgres:16-alpine
+    profiles:
+      - postgres
+    environment:
+      POSTGRES_DB: app
+      POSTGRES_PASSWORD: "!ChangeMe!"
+      POSTGRES_USER: app
+    healthcheck:
+      test: [ "CMD", "pg_isready", "-d", "app", "-U", "app" ]
+      timeout: 5s
+      retries: 5
+      start_period: 60s
+    volumes:
+      - postgres:/var/lib/postgresql/data:rw
+    networks:
+      siberian-network-ip:
+        ipv4_address: "${POSTGRES_IPV4}"
+
   php:
     restart: always
     image: siberian:php-fpm.7.3
@@ -57,7 +76,7 @@ services:
     volumes:
       - ../siberian:/var/www/html
       - ./nginx/default.conf:/etc/nginx/conf.d/default.conf
-      - "${SSL_CERT_PATH}:/etc/nginx/ssl-certificates"
+#      - "${SSL_CERT_PATH}:/etc/nginx/ssl-certificates"
       - "../modules:${PROJECT_PATH}/modules"
       - "../packages:/var/www/packages"
     env_file:

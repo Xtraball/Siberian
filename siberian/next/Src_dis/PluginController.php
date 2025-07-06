@@ -1,7 +1,8 @@
 <?php
 
-namespace App\Next\Plugin\Controller;
+namespace App\_dis;
 
+use App\Next\Plugin\Controller\AbstractPluginController;
 use App\Next\Plugin\Entity\Plugin;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -15,6 +16,7 @@ class PluginController extends AbstractPluginController
     {
         /** @var Plugin[] $plugins */
         $plugins = $this->pluginManager->getPlugins();
+
         return $this->render('index.html.twig', [
             'plugins' => $plugins,
         ]);

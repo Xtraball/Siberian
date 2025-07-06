@@ -1,15 +1,18 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Next\Plugin\Service;
 
+use App\_dis\PluginManager;
 use App\Next\Plugin\Entity\Plugin;
-use App\Next\Plugin\Event\PluginBootEvent;
 use App\Next\Plugin\Event\PluginEvent;
 use App\Next\Plugin\Interface\PluginInterface;
 use Doctrine\ORM\EntityManagerInterface;
 use Psr\Log\LoggerInterface;
 use ReflectionObject;
 use Symfony\Bundle\SecurityBundle\Security;
+use Symfony\Component\DependencyInjection\ContainerInterface;
 use Symfony\Component\EventDispatcher\Attribute\AsEventListener;
 use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 use Symfony\Component\Form\FormFactoryInterface;
@@ -31,6 +34,7 @@ abstract class AbstractPlugin implements PluginInterface
     protected ?Plugin $plugin = null;
     protected Content $contentService;
     protected CacheInterface $cache;
+    protected ContainerInterface $container;
 
     #[Required]
     public function setCache(CacheInterface $cache): void
@@ -54,6 +58,12 @@ abstract class AbstractPlugin implements PluginInterface
     public function setPluginManager(PluginManager $pluginManager): void
     {
         $this->pluginManager = $pluginManager;
+    }
+
+    #[Required]
+    public function setContainer(ContainerInterface $container): void
+    {
+        $this->container = $container;
     }
 
     #[Required]
@@ -134,8 +144,10 @@ abstract class AbstractPlugin implements PluginInterface
 
     // this event will be dispatched by the plugin manager
     #[AsEventListener(PluginEvent::BOOT, priority: -255)]
-    public function onPluginBoot(PluginBootEvent $event): void
+    public function onPluginBoot(PluginEvent $event): void
     {
+        var_dump('PluginEvent::BOOT');
+
         /** @var Plugin $plugin */
         $plugin = $event->getPlugin();
         $object = new ReflectionObject($this);
