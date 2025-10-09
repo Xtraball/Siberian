@@ -4,9 +4,10 @@
 
 ## Community forums & Roadmap
 
-* [Public Roadmap](https://www.siberiancms.com/community/d/745-roadmap-4-16-4-17)
-* [Forums](https://www.siberiancms.com/community/)
-* [Guidelines](https://www.siberiancms.com/community/d/79-siberian-community-guidelines)
+![roadmap_next](docs/roadmap-siberian.png)
+
+* [Forums / Discussions](https://github.com/Xtraball/Siberian/discussions)
+* [Guidelines](https://github.com/Xtraball/Siberian/discussions/869)
 
 ## Documentation
 
@@ -17,44 +18,13 @@
 
 ### Software
 
-* Production server OS: `Linux`
-
-* Local development:
-
-    * `OSX` with [homebrew](http://brew.sh/)
-    * `Windows` with [bash](https://docs.microsoft.com/fr-fr/windows/wsl/install-win10) 
-    
-* NodeJS
-    
-* OpenSSL >=1.0.1
-
-    * with TLS v1.2 support
-
-* [Apache](#apache) or [Nginx](#nginx)
-
-* PHP
-
-    * Version: 7.3
-    
-    * Extensions: `gd`, `pdo_mysql`, `SimpleXML`, `curl`, `dom`, `SQLite3`.
-    
-    * Functions: `exec()`
-    
-    * Parameters: `allow_url_fopen = On`, `memory_limit >= 128M`, `post_max_size = 100M`, `upload_max_filesize = 100m`, `max_execution_time = 300`
-
-* MySQL/MariaDB >=5.5 with InnoDB/XtraDB engine
-
-* Binaries: 
-
-    * required: `zip`, `unzip`
-
-    * optional: `pngquant` or `optipng`, `jpegoptim`, `ClamAV`
+1. Docker with compose
 
 ### Configuration
 
 1. First you will need to either checkout the project `git clone https://github.com/Xtraball/Siberian.git`
 
-    or download the [zip archive](https://github.com/Xtraball/Siberian/archive/master.zip) then extract it on your webserver.
+    or download the [zip archive](https://github.com/Xtraball/Siberian/archive/trunk.zip) then extract it on your webserver.
 
 2. Run `npm install` then follow the instructions to update your local shell.
 
