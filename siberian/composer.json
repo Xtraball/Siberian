@@ -3,7 +3,7 @@
     "license": "OSL-3.0",
     "minimum-stability": "stable",
     "require": {
-        "php" : "8.2",
+        "php" : ">=8.2 <8.6",
         "ext-json": "*",
         "ext-gd": "*",
         "ext-pdo": "*",
