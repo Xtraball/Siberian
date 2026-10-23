@@ -1,0 +1,10 @@
+ARG PHP_VERSION=8.5
+FROM php:${PHP_VERSION}-cli
+
+# Extensions required by siberian/composer.json that the stock image lacks.
+RUN apt-get update \
+ && apt-get install -y --no-install-recommends git libfreetype6-dev libjpeg-dev libpng-dev libicu-dev libzip-dev libxml2-dev \
+ && docker-php-ext-configure gd --with-freetype --with-jpeg \
+ && docker-php-ext-install -j"$(nproc)" gd pdo_mysql mysqli intl bcmath zip \
+ && rm -rf /var/lib/apt/lists/* \
+ && git config --global --add safe.directory /src
