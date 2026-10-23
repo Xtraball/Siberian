@@ -59,5 +59,4 @@ return array(
     'Doctrine\\Common\\Collections\\' => array($vendorDir . '/doctrine/collections/lib/Doctrine/Common/Collections'),
     'DebugBar\\' => array($vendorDir . '/maximebf/debugbar/src/DebugBar'),
     'Dashi\\Apns2\\' => array($vendorDir . '/dashi/apns2/src'),
-    'Braintree\\' => array($vendorDir . '/braintree/braintree_php/lib/Braintree'),
 );

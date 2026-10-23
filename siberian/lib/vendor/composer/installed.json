@@ -149,56 +149,6 @@
       "install-path": "../behat/transliterator"
     },
     {
-      "name": "braintree/braintree_php",
-      "version": "3.40.0",
-      "version_normalized": "3.40.0.0",
-      "source": {
-        "type": "git",
-        "url": "https://github.com/braintree/braintree_php.git",
-        "reference": "840fc6ebf8d96756fed475cce94565fef178187d"
-      },
-      "dist": {
-        "type": "zip",
-        "url": "https://api.github.com/repos/braintree/braintree_php/zipball/840fc6ebf8d96756fed475cce94565fef178187d",
-        "reference": "840fc6ebf8d96756fed475cce94565fef178187d",
-        "shasum": ""
-      },
-      "require": {
-        "ext-curl": "*",
-        "ext-dom": "*",
-        "ext-hash": "*",
-        "ext-openssl": "*",
-        "ext-xmlwriter": "*",
-        "php": ">=5.4.0"
-      },
-      "require-dev": {
-        "phpunit/phpunit": "3.7.*"
-      },
-      "time": "2019-03-28T23:16:53+00:00",
-      "type": "library",
-      "installation-source": "dist",
-      "autoload": {
-        "psr-0": {
-          "Braintree": "lib/"
-        },
-        "psr-4": {
-          "Braintree\\": "lib/Braintree"
-        }
-      },
-      "notification-url": "https://packagist.org/downloads/",
-      "license": [
-        "MIT"
-      ],
-      "authors": [
-        {
-          "name": "Braintree",
-          "homepage": "https://www.braintreepayments.com"
-        }
-      ],
-      "description": "Braintree PHP Client Library",
-      "install-path": "../braintree/braintree_php"
-    },
-    {
       "name": "dashi/apns2",
       "version": "1.3",
       "version_normalized": "1.3.0.0",

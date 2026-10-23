@@ -37,15 +37,6 @@
             'aliases' => array(),
             'dev_requirement' => false,
         ),
-        'braintree/braintree_php' => array(
-            'pretty_version' => '3.40.0',
-            'version' => '3.40.0.0',
-            'reference' => '840fc6ebf8d96756fed475cce94565fef178187d',
-            'type' => 'library',
-            'install_path' => __DIR__ . '/../braintree/braintree_php',
-            'aliases' => array(),
-            'dev_requirement' => false,
-        ),
         'dashi/apns2' => array(
             'pretty_version' => '1.3',
             'version' => '1.3.0.0',

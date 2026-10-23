@@ -12,7 +12,6 @@ return array(
     'Gregwar\\Image' => array($vendorDir . '/gregwar/image'),
     'Gregwar\\Cache' => array($vendorDir . '/gregwar/cache'),
     'Evenement' => array($vendorDir . '/evenement/evenement/src'),
-    'Braintree' => array($vendorDir . '/braintree/braintree_php/lib'),
     'Behat\\Transliterator' => array($vendorDir . '/behat/transliterator/src'),
     'BaconQrCode' => array($vendorDir . '/bacon/bacon-qr-code/src'),
 );
