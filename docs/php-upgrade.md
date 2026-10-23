@@ -52,6 +52,30 @@ One minor version per step, each step merged only when `ci.sh <that version>` is
 5. **Pay down the frozen dependencies** (separate effort, can start any time): symfony 3, stripe-php 7, phpseclib 2, endroid/qrcode 2, goutte (abandoned), `reisraff/phulp`. These are the likeliest runtime failures and the reason the regression suite covers them.
 6. **Longer term:** Zend Framework 1 has no maintainer upstream. Options are to keep the bundled copy and own the patches, or to migrate off it; the latter is a project, not a step.
 
+### Dependency advisories (branch `chore/dep-security-bumps`)
+
+All 75 open Dependabot alerts were addressed on that branch, each bump gated by the happy-path suite first (iso-functional) and run on PHP 8.2 and 8.5. `composer audit --locked` is clean for both composer trees.
+
+| Alert group | Change | Parity evidence |
+|---|---|---|
+| guzzle, psr7 (composer + `lib/onesignal`) | guzzle 6.4 -> 7.16, psr7 1.6 -> 2.13, promises 1 -> 2 (6.x never received the newest fixes) | HTTP happy paths: GET/POST/redirect/errors/async, WordPress client, OneSignal list |
+| `maknz/slack` (abandoned, pinned guzzle 6) | replaced by `Siberian\Notification\SlackWebhook` | full payload asserted identical against both clients before the swap |
+| goutte, browser-kit, dom-crawler (XXE) | goutte 3 -> 4, symfony 3/4 -> 5.4/6.4 | VestaCP client scrapes and submits a form |
+| feed-io | 3.1 -> 4.9 (needed for guzzle 7) | RSS read |
+| phpseclib | 2.0.23 -> 3.0.57 (the X25519 fix exists only in 3.x). `Cypher` and `IosAutopublish` now use `PublicKeyLoader` with explicit PKCS#1 padding (v3 defaults to OAEP) | RSA interop with openssl in both directions, PKCS#8 / PKCS#1 / OpenSSH public keys, plain and passphrase-protected private keys |
+| debugbar | 1.15 -> 1.23 (same major) | collect + render |
+| axios (22 alerts) | 0.26 -> 0.33 (same major) | the CLI manifest call, incl. auth header and error path |
+| rexml / xcodeproj gems | xcodeproj 1.22 -> 1.28, rexml 3.2.5 -> 3.4.4 | Patch script output on the real iOS project identical modulo regenerated object UUIDs |
+| `standard-version` in the Keyboard cordova plugin | ^7 -> ^9.5 | dev-only dependency of a generated platform copy |
+
+Things to know:
+
+- `lib/vendor` is committed and hand-patched (about 30 packages call `implode_polyfill()` instead of `implode()`). Updated packages drop those patches, which is correct for their newer code; packages that were not touched keep theirs. Do not regenerate the whole vendor tree without checking this.
+- `composer update` needs the stale `../../crashlytics` path repository to exist; the commands used a stand-in directory outside the repo.
+- Behaviour difference: with an unreadable public key, `Cypher::cypher` used to return an empty string; phpseclib 3 throws. Nothing in this repo depended on the old behaviour.
+- `IosAutopublish::cypher` is the same two lines as `Cypher::cypher` and is covered through it, not directly (it needs the booted application).
+- Several remaining packages are abandoned (`debril/feed-io`, `fabpot/goutte`, `endroid/qrcode`, `maximebf/debugbar`) but have no open advisories; replacements are named by `composer audit`.
+
 Ratchet rule: after each step, rerun `ci.sh <ver> --update-baseline` and commit it. The count may only fall.
 
 ## Tests

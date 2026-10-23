@@ -35,7 +35,7 @@ class ComposerStaticInitc45135ea47c87544c5381729474d0166
         ),
         'p' =>
         array (
-            'phpseclib\\' => 10,
+            'phpseclib3\\' => 11,
         ),
         'V' =>
         array (
@@ -81,6 +81,7 @@ class ComposerStaticInitc45135ea47c87544c5381729474d0166
             'Psr\\Cache\\' => 10,
             'Phulp\\AngularTemplateCache\\' => 27,
             'Phulp\\' => 6,
+            'ParagonIE\\ConstantTime\\' => 23,
         ),
         'M' =>
         array (
@@ -131,7 +132,7 @@ class ComposerStaticInitc45135ea47c87544c5381729474d0166
         array (
             0 => __DIR__ . '/..' . '/romeoz/rock-base/src',
         ),
-        'phpseclib\\' =>
+        'phpseclib3\\' =>
         array (
             0 => __DIR__ . '/..' . '/phpseclib/phpseclib/phpseclib',
         ),
@@ -267,6 +268,10 @@ class ComposerStaticInitc45135ea47c87544c5381729474d0166
         'Phulp\\' =>
         array (
             0 => __DIR__ . '/..' . '/reisraff/phulp/src',
+        ),
+        'ParagonIE\\ConstantTime\\' =>
+        array (
+            0 => __DIR__ . '/..' . '/paragonie/constant_time_encoding/src',
         ),
         'MyCLabs\\Enum\\' =>
         array (

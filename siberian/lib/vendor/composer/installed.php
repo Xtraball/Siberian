@@ -235,6 +235,15 @@
             'aliases' => array(),
             'dev_requirement' => false,
         ),
+        'paragonie/constant_time_encoding' => array(
+            'pretty_version' => 'v3.1.3',
+            'version' => '3.1.3.0',
+            'reference' => 'd5b01a39b3415c2cd581d3bd3a3575c1ebbd8e77',
+            'type' => 'library',
+            'install_path' => __DIR__ . '/../paragonie/constant_time_encoding',
+            'aliases' => array(),
+            'dev_requirement' => false,
+        ),
         'paragonie/random_compat' => array(
             'pretty_version' => 'v9.99.99',
             'version' => '9.99.99.0',
@@ -257,9 +266,9 @@
             ),
         ),
         'phpseclib/phpseclib' => array(
-            'pretty_version' => '2.0.55',
-            'version' => '2.0.55.0',
-            'reference' => 'd73c9e019a895be83b18a2ccccfa7e2b0a648743',
+            'pretty_version' => '3.0.57',
+            'version' => '3.0.57.0',
+            'reference' => 'd17e0ddaeaf6f22f7e007cbb437d78792fe2a0e4',
             'type' => 'library',
             'install_path' => __DIR__ . '/../phpseclib/phpseclib',
             'aliases' => array(),

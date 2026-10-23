@@ -2,7 +2,8 @@
 
 namespace Siberian;
 
-use \phpseclib\Crypt\RSA as RSA;
+use phpseclib3\Crypt\PublicKeyLoader;
+use phpseclib3\Crypt\RSA;
 
 /**
  * Class Cypher
@@ -24,9 +25,8 @@ class Cypher
     {
         $publicKey = file_get_contents($publicKeyPath);
 
-        $rsa = new RSA();
-        $rsa->loadKey($publicKey);
-        $rsa->setEncryptionMode(RSA::ENCRYPTION_PKCS1);
+        // phpseclib 3 defaults to OAEP; PKCS#1 v1.5 is what the receiving end expects.
+        $rsa = PublicKeyLoader::load($publicKey)->withPadding(RSA::ENCRYPTION_PKCS1);
         $base64cypher = base64_encode($rsa->encrypt($clear));
 
         return $base64cypher;
@@ -40,12 +40,10 @@ class Cypher
      */
     public static function decypher ($privateKeyPath, $cyphered, $passphrase = null)
     {
-        $privateKey = new RSA();
-        if ($passphrase !== null) {
-            $privateKey->setPassword($passphrase);
-        }
-        $privateKey->loadKey(file_get_contents($privateKeyPath));
-        $privateKey->setEncryptionMode(RSA::ENCRYPTION_PKCS1);
+        $privateKey = PublicKeyLoader::load(
+            file_get_contents($privateKeyPath),
+            $passphrase !== null ? $passphrase : false
+        )->withPadding(RSA::ENCRYPTION_PKCS1);
 
         return $privateKey->decrypt(base64_decode($cyphered));
     }

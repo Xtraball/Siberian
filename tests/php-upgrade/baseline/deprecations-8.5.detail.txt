@@ -363,6 +363,7 @@
       1 Deprecated: The predefined locally scoped $http_response_header variable is deprecated, call http_get_last_response_headers() instead
       1 Deprecated: Symfony\Component\Yaml\Exception\ParseException::__construct(): Implicitly marking parameter $previous as nullable is deprecated, the explicit nullable type must be used instead
       1 Deprecated: Siberian_Form_Abstract::render(): Implicitly marking parameter $view as nullable is deprecated, the explicit nullable type must be used instead
+      1 Deprecated: Siberian\Notification\SlackWebhook::__construct(): Implicitly marking parameter $guzzle as nullable is deprecated, the explicit nullable type must be used instead
       1 Deprecated: Siberian\Exception::__construct(): Implicitly marking parameter $previous as nullable is deprecated, the explicit nullable type must be used instead
       1 Deprecated: Return type of Zend_Tool_Project_Profile_Iterator_EnabledResourceFilter::accept() should either be compatible with FilterIterator::accept(): bool, or the #[\ReturnTypeWillChange] attribute should be used to temporarily suppress the notice
       1 Deprecated: Return type of Zend_Tool_Project_Profile_Iterator_ContextFilter::getChildren() should either be compatible with RecursiveFilterIterator::getChildren(): ?RecursiveFilterIterator, or the #[\ReturnTypeWillChange] attribute should be used to temporarily suppress the notice
@@ -391,9 +392,6 @@
       1 Deprecated: Return type of Zend_Reflection_Class::getInterfaces($reflectionClass = 'Zend_Refle...') should either be compatible with ReflectionClass::getInterfaces(): array, or the #[\ReturnTypeWillChange] attribute should be used to temporarily suppress the notice
       1 Deprecated: Return type of Zend_File_ClassFileLocator::accept() should either be compatible with FilterIterator::accept(): bool, or the #[\ReturnTypeWillChange] attribute should be used to temporarily suppress the notice
       1 Deprecated: Return type of Zend_Feed_Reader_FeedSet::offsetGet($offset) should either be compatible with ArrayObject::offsetGet(mixed $key): mixed, or the #[\ReturnTypeWillChange] attribute should be used to temporarily suppress the notice
-      1 Deprecated: Psr\Http\Message\UploadedFileFactoryInterface::createUploadedFile(): Implicitly marking parameter $size as nullable is deprecated, the explicit nullable type must be used instead
-      1 Deprecated: Psr\Http\Message\UploadedFileFactoryInterface::createUploadedFile(): Implicitly marking parameter $clientMediaType as nullable is deprecated, the explicit nullable type must be used instead
-      1 Deprecated: Psr\Http\Message\UploadedFileFactoryInterface::createUploadedFile(): Implicitly marking parameter $clientFilename as nullable is deprecated, the explicit nullable type must be used instead
       1 Deprecated: Plesk\SSL\ListCertificates::__construct(): Implicitly marking parameter $http as nullable is deprecated, the explicit nullable type must be used instead
       1 Deprecated: Plesk\SSL\InstallCertificate::__construct(): Implicitly marking parameter $http as nullable is deprecated, the explicit nullable type must be used instead
       1 Deprecated: Plesk\SSL\DeleteCertificate::__construct(): Implicitly marking parameter $http as nullable is deprecated, the explicit nullable type must be used instead
@@ -408,64 +406,6 @@
       1 Deprecated: Leafo\ScssPhp\Compiler::multiplyMedia(): Implicitly marking parameter $env as nullable is deprecated, the explicit nullable type must be used instead
       1 Deprecated: Leafo\ScssPhp\Compiler::has(): Implicitly marking parameter $env as nullable is deprecated, the explicit nullable type must be used instead
       1 Deprecated: Leafo\ScssPhp\Compiler::get(): Implicitly marking parameter $env as nullable is deprecated, the explicit nullable type must be used instead
-      1 Deprecated: GuzzleHttp\RetryMiddleware::doRetry(): Implicitly marking parameter $response as nullable is deprecated, the explicit nullable type must be used instead
-      1 Deprecated: GuzzleHttp\RetryMiddleware::__construct(): Implicitly marking parameter $delay as nullable is deprecated, the explicit nullable type must be used instead
-      1 Deprecated: GuzzleHttp\Psr7\Uri::isSameDocumentReference(): Implicitly marking parameter $base as nullable is deprecated, the explicit nullable type must be used instead
-      1 Deprecated: GuzzleHttp\Psr7\UploadedFile::__construct(): Implicitly marking parameter $clientMediaType as nullable is deprecated, the explicit nullable type must be used instead
-      1 Deprecated: GuzzleHttp\Psr7\UploadedFile::__construct(): Implicitly marking parameter $clientFilename as nullable is deprecated, the explicit nullable type must be used instead
-      1 Deprecated: GuzzleHttp\Psr7\StreamWrapper::stream_open(): Implicitly marking parameter $opened_path as nullable is deprecated, the explicit nullable type must be used instead
-      1 Deprecated: GuzzleHttp\Psr7\Response::__construct(): Implicitly marking parameter $reason as nullable is deprecated, the explicit nullable type must be used instead
-      1 Deprecated: GuzzleHttp\Psr7\MultipartStream::__construct(): Implicitly marking parameter $boundary as nullable is deprecated, the explicit nullable type must be used instead
-      1 Deprecated: GuzzleHttp\Psr7\HttpFactory::createUploadedFile(): Implicitly marking parameter $size as nullable is deprecated, the explicit nullable type must be used instead
-      1 Deprecated: GuzzleHttp\Psr7\HttpFactory::createUploadedFile(): Implicitly marking parameter $clientMediaType as nullable is deprecated, the explicit nullable type must be used instead
-      1 Deprecated: GuzzleHttp\Psr7\HttpFactory::createUploadedFile(): Implicitly marking parameter $clientFilename as nullable is deprecated, the explicit nullable type must be used instead
-      1 Deprecated: GuzzleHttp\Psr7\CachingStream::__construct(): Implicitly marking parameter $target as nullable is deprecated, the explicit nullable type must be used instead
-      1 Deprecated: GuzzleHttp\Promise\queue(): Implicitly marking parameter $assign as nullable is deprecated, the explicit nullable type must be used instead
-      1 Deprecated: GuzzleHttp\Promise\each_limit_all(): Implicitly marking parameter $onFulfilled as nullable is deprecated, the explicit nullable type must be used instead
-      1 Deprecated: GuzzleHttp\Promise\each_limit(): Implicitly marking parameter $onRejected as nullable is deprecated, the explicit nullable type must be used instead
-      1 Deprecated: GuzzleHttp\Promise\each_limit(): Implicitly marking parameter $onFulfilled as nullable is deprecated, the explicit nullable type must be used instead
-      1 Deprecated: GuzzleHttp\Promise\each(): Implicitly marking parameter $onRejected as nullable is deprecated, the explicit nullable type must be used instead
-      1 Deprecated: GuzzleHttp\Promise\each(): Implicitly marking parameter $onFulfilled as nullable is deprecated, the explicit nullable type must be used instead
-      1 Deprecated: GuzzleHttp\Promise\Utils::queue(): Implicitly marking parameter $assign as nullable is deprecated, the explicit nullable type must be used instead
-      1 Deprecated: GuzzleHttp\Promise\RejectedPromise::then(): Implicitly marking parameter $onRejected as nullable is deprecated, the explicit nullable type must be used instead
-      1 Deprecated: GuzzleHttp\Promise\RejectedPromise::then(): Implicitly marking parameter $onFulfilled as nullable is deprecated, the explicit nullable type must be used instead
-      1 Deprecated: GuzzleHttp\Promise\PromiseInterface::then(): Implicitly marking parameter $onRejected as nullable is deprecated, the explicit nullable type must be used instead
-      1 Deprecated: GuzzleHttp\Promise\PromiseInterface::then(): Implicitly marking parameter $onFulfilled as nullable is deprecated, the explicit nullable type must be used instead
-      1 Deprecated: GuzzleHttp\Promise\Promise::then(): Implicitly marking parameter $onRejected as nullable is deprecated, the explicit nullable type must be used instead
-      1 Deprecated: GuzzleHttp\Promise\Promise::then(): Implicitly marking parameter $onFulfilled as nullable is deprecated, the explicit nullable type must be used instead
-      1 Deprecated: GuzzleHttp\Promise\Promise::__construct(): Implicitly marking parameter $waitFn as nullable is deprecated, the explicit nullable type must be used instead
-      1 Deprecated: GuzzleHttp\Promise\Promise::__construct(): Implicitly marking parameter $cancelFn as nullable is deprecated, the explicit nullable type must be used instead
-      1 Deprecated: GuzzleHttp\Promise\FulfilledPromise::then(): Implicitly marking parameter $onRejected as nullable is deprecated, the explicit nullable type must be used instead
-      1 Deprecated: GuzzleHttp\Promise\FulfilledPromise::then(): Implicitly marking parameter $onFulfilled as nullable is deprecated, the explicit nullable type must be used instead
-      1 Deprecated: GuzzleHttp\Promise\Each::ofLimitAll(): Implicitly marking parameter $onFulfilled as nullable is deprecated, the explicit nullable type must be used instead
-      1 Deprecated: GuzzleHttp\Promise\Each::ofLimit(): Implicitly marking parameter $onRejected as nullable is deprecated, the explicit nullable type must be used instead
-      1 Deprecated: GuzzleHttp\Promise\Each::ofLimit(): Implicitly marking parameter $onFulfilled as nullable is deprecated, the explicit nullable type must be used instead
-      1 Deprecated: GuzzleHttp\Promise\Each::of(): Implicitly marking parameter $onRejected as nullable is deprecated, the explicit nullable type must be used instead
-      1 Deprecated: GuzzleHttp\Promise\Each::of(): Implicitly marking parameter $onFulfilled as nullable is deprecated, the explicit nullable type must be used instead
-      1 Deprecated: GuzzleHttp\Promise\Coroutine::then(): Implicitly marking parameter $onRejected as nullable is deprecated, the explicit nullable type must be used instead
-      1 Deprecated: GuzzleHttp\Promise\Coroutine::then(): Implicitly marking parameter $onFulfilled as nullable is deprecated, the explicit nullable type must be used instead
-      1 Deprecated: GuzzleHttp\Middleware::tap(): Implicitly marking parameter $before as nullable is deprecated, the explicit nullable type must be used instead
-      1 Deprecated: GuzzleHttp\Middleware::tap(): Implicitly marking parameter $after as nullable is deprecated, the explicit nullable type must be used instead
-      1 Deprecated: GuzzleHttp\Middleware::retry(): Implicitly marking parameter $delay as nullable is deprecated, the explicit nullable type must be used instead
-      1 Deprecated: GuzzleHttp\Middleware::httpErrors(): Implicitly marking parameter $bodySummarizer as nullable is deprecated, the explicit nullable type must be used instead
-      1 Deprecated: GuzzleHttp\Handler\StreamHandler::invokeStats(): Implicitly marking parameter $response as nullable is deprecated, the explicit nullable type must be used instead
-      1 Deprecated: GuzzleHttp\Handler\StreamHandler::invokeStats(): Implicitly marking parameter $error as nullable is deprecated, the explicit nullable type must be used instead
-      1 Deprecated: GuzzleHttp\Handler\MockHandler::invokeStats(): Implicitly marking parameter $response as nullable is deprecated, the explicit nullable type must be used instead
-      1 Deprecated: GuzzleHttp\Handler\MockHandler::createWithMiddleware(): Implicitly marking parameter $queue as nullable is deprecated, the explicit nullable type must be used instead
-      1 Deprecated: GuzzleHttp\Handler\MockHandler::createWithMiddleware(): Implicitly marking parameter $onRejected as nullable is deprecated, the explicit nullable type must be used instead
-      1 Deprecated: GuzzleHttp\Handler\MockHandler::createWithMiddleware(): Implicitly marking parameter $onFulfilled as nullable is deprecated, the explicit nullable type must be used instead
-      1 Deprecated: GuzzleHttp\Handler\MockHandler::__construct(): Implicitly marking parameter $queue as nullable is deprecated, the explicit nullable type must be used instead
-      1 Deprecated: GuzzleHttp\Handler\MockHandler::__construct(): Implicitly marking parameter $onRejected as nullable is deprecated, the explicit nullable type must be used instead
-      1 Deprecated: GuzzleHttp\Handler\MockHandler::__construct(): Implicitly marking parameter $onFulfilled as nullable is deprecated, the explicit nullable type must be used instead
-      1 Deprecated: GuzzleHttp\HandlerStack::__construct(): Implicitly marking parameter $handler as nullable is deprecated, the explicit nullable type must be used instead
-      1 Deprecated: GuzzleHttp\Exception\RequestException::create(): Implicitly marking parameter $response as nullable is deprecated, the explicit nullable type must be used instead
-      1 Deprecated: GuzzleHttp\Exception\RequestException::create(): Implicitly marking parameter $previous as nullable is deprecated, the explicit nullable type must be used instead
-      1 Deprecated: GuzzleHttp\Exception\RequestException::create(): Implicitly marking parameter $bodySummarizer as nullable is deprecated, the explicit nullable type must be used instead
-      1 Deprecated: GuzzleHttp\Exception\RequestException::__construct(): Implicitly marking parameter $response as nullable is deprecated, the explicit nullable type must be used instead
-      1 Deprecated: GuzzleHttp\Exception\RequestException::__construct(): Implicitly marking parameter $previous as nullable is deprecated, the explicit nullable type must be used instead
-      1 Deprecated: GuzzleHttp\Exception\ConnectException::__construct(): Implicitly marking parameter $previous as nullable is deprecated, the explicit nullable type must be used instead
-      1 Deprecated: GuzzleHttp\Exception\BadResponseException::__construct(): Implicitly marking parameter $previous as nullable is deprecated, the explicit nullable type must be used instead
-      1 Deprecated: GuzzleHttp\BodySummarizer::__construct(): Implicitly marking parameter $truncateAt as nullable is deprecated, the explicit nullable type must be used instead
       1 Deprecated: Firewall_Model_Rule::disallowExtension(): Implicitly marking parameter $extension as nullable is deprecated, the explicit nullable type must be used instead
       1 Deprecated: Firewall_Model_Rule::checkRules(): Implicitly marking parameter $extension as nullable is deprecated, the explicit nullable type must be used instead
       1 Deprecated: Firewall_Model_Rule::allowExtension(): Implicitly marking parameter $extension as nullable is deprecated, the explicit nullable type must be used instead

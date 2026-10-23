@@ -91,9 +91,9 @@ class Application_Model_IosAutopublish extends Core_Model_Default
         $publicKeyPath = Core_Model_Directory::getBasePathTo('/var/apps/certificates/keys/autopublish-api.pub');
         $publicKey = file_get_contents($publicKeyPath);
 
-        $rsa = new \phpseclib\Crypt\RSA();
-        $rsa->loadKey($publicKey);
-        $rsa->setEncryptionMode(\phpseclib\Crypt\RSA::ENCRYPTION_PKCS1);
+        // phpseclib 3 defaults to OAEP; PKCS#1 v1.5 is what the autopublish API expects.
+        $rsa = \phpseclib3\Crypt\PublicKeyLoader::load($publicKey)
+            ->withPadding(\phpseclib3\Crypt\RSA::ENCRYPTION_PKCS1);
         $base64cypher = base64_encode($rsa->encrypt($clear));
 
         return $base64cypher;
