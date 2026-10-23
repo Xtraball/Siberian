@@ -14,7 +14,9 @@ docker run --rm -u "$(id -u):$(id -g)" -e HOME=/tmp -v "$PWD:/src:ro" node:22-sl
     cp /src/tests/php-upgrade/tooling/axios_happy_path.js . && node axios_happy_path.js"
 
 # xcodeproj: bundle the repo's own Gemfile.lock, run the patch on the real project.
-OUT=$(docker run --rm -u "$(id -u):$(id -g)" -e HOME=/tmp -v "$PWD:/src:ro" ruby:3.3-slim sh -c "
+# (root + a compiler: newer xcodeproj pulls nkf, a native extension; the repo is mounted read-only)
+OUT=$(docker run --rm -e HOME=/tmp -v "$PWD:/src:ro" ruby:3.3-slim sh -c "
+    apt-get update -qq >/dev/null && apt-get install -y -qq make gcc >/dev/null 2>&1 &&
     mkdir /tmp/w && cp -r /src/bin/scripts/. /tmp/w/ && cd /tmp/w &&
     bundle config set --local path /tmp/bundle >/dev/null &&
     bundle install --quiet >/dev/null &&

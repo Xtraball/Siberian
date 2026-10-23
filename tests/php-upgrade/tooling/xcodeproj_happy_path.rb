@@ -21,5 +21,8 @@ Dir.mktmpdir do |dir|
   pbx = File.join(dir, 'AppsMobileCompany.xcodeproj/project.pbxproj')
   text = File.read(pbx)
   abort('entitlements not added') unless text.include?('CODE_SIGN_ENTITLEMENTS')
-  puts "SHA256 #{Digest::SHA256.hexdigest(text)}"
+  # xcodeproj derives object UUIDs differently across releases (and sorts
+  # sections by them), so compare content with UUIDs masked and lines sorted.
+  masked = text.gsub(/\b[0-9A-F]{24}\b/, 'UUID').lines.sort.join
+  puts "SHA256 #{Digest::SHA256.hexdigest(masked)}"
 end
