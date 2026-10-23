@@ -23,22 +23,6 @@ return [
         t_true(class_exists('Stripe\\Customer'), 'Customer');
     },
 
-    'phpseclib crypt round trip' => function () {
-        $aes = new phpseclib\Crypt\AES();
-        $aes->setKey(str_repeat('k', 16));
-        $aes->setIV(str_repeat('i', 16));
-        $cipher = $aes->encrypt('secret payload');
-        t_true($cipher !== 'secret payload', 'encrypted');
-        $aes->setKey(str_repeat('k', 16));
-        $aes->setIV(str_repeat('i', 16));
-        t_equal('secret payload', $aes->decrypt($cipher), 'decrypted');
-    },
-
-    'phpseclib BigInteger arithmetic' => function () {
-        $n = new phpseclib\Math\BigInteger('123456789012345678901234567890');
-        t_equal('123456789012345678901234567891', $n->add(new phpseclib\Math\BigInteger(1))->toString(), 'add');
-    },
-
     'gettext Translations' => function () {
         $t = new Gettext\Translations();
         $t->insert('', 'Hello')->setTranslation('Bonjour');

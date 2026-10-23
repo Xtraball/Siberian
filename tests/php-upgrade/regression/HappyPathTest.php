@@ -139,36 +139,64 @@ return [
     },
 
     // phpseclib (Siberian\Cypher, IosAutopublish) -----------------------------
-    'Cypher RSA round trip' => function () use ($siberian) {
+    // First-party code only uses RSA PKCS#1 v1.5 encrypt (public key) and decrypt
+    // (private key, optional passphrase). The counterpart is openssl itself, which
+    // is what the autopublish API on the other end effectively is, so a library
+    // swap must stay interoperable in both directions and for every key format.
+    'Cypher interoperates with openssl for each key format' => function () use ($siberian) {
         require_once $siberian . '/lib/Siberian/Cypher.php';
-        $key = openssl_pkey_new(['private_key_bits' => 2048]);
-        openssl_pkey_export($key, $private);
-        $public = openssl_pkey_get_details($key)['key'];
         $dir = sys_get_temp_dir();
-        file_put_contents("$dir/upgrade-pub.pem", $public);
-        file_put_contents("$dir/upgrade-priv.pem", $private);
-        $cipher = Siberian\Cypher::cypher("$dir/upgrade-pub.pem", 'license-payload');
-        t_true($cipher !== 'license-payload', 'encrypted');
-        t_equal('license-payload', Siberian\Cypher::decypher("$dir/upgrade-priv.pem", $cipher), 'decrypted');
-    },
+        $key = openssl_pkey_new(['private_key_bits' => 2048, 'private_key_type' => OPENSSL_KEYTYPE_RSA]);
+        $details = openssl_pkey_get_details($key);
+        openssl_pkey_export($key, $privatePkcs8);
+        openssl_pkey_export($key, $privateEncrypted, 's3cret');
 
-    'phpseclib RSA sign and verify' => function () {
-        $rsa = new phpseclib\Crypt\RSA();
-        $keys = $rsa->createKey(1024);
-        $signer = new phpseclib\Crypt\RSA();
-        $signer->loadKey($keys['privatekey']);
-        $signer->setSignatureMode(phpseclib\Crypt\RSA::SIGNATURE_PKCS1);
-        $sig = $signer->sign('message');
-        $verifier = new phpseclib\Crypt\RSA();
-        $verifier->loadKey($keys['publickey']);
-        $verifier->setSignatureMode(phpseclib\Crypt\RSA::SIGNATURE_PKCS1);
-        t_true($verifier->verify('message', $sig), 'verifies');
-        t_true(!$verifier->verify('tampered', $sig), 'rejects tampering');
-    },
+        $der = function ($tag, $body) {
+            $len = strlen($body);
+            $l = $len < 128 ? chr($len) : (($len < 256) ? "\x81" . chr($len) : "\x82" . pack('n', $len));
+            return chr($tag) . $l . $body;
+        };
+        $int = function ($bin) use ($der) {
+            return $der(0x02, (ord($bin[0]) & 0x80 ? "\x00" : '') . $bin);
+        };
+        $n = $details['rsa']['n'];
+        $e = $details['rsa']['e'];
+        $pkcs1Public = "-----BEGIN RSA PUBLIC KEY-----\n"
+            . chunk_split(base64_encode($der(0x30, $int($n) . $int($e))), 64, "\n")
+            . "-----END RSA PUBLIC KEY-----\n";
+        $mpint = function ($bin) {
+            return pack('N', strlen($bin) + (ord($bin[0]) & 0x80 ? 1 : 0)) . (ord($bin[0]) & 0x80 ? "\x00" : '') . $bin;
+        };
+        $openssh = 'ssh-rsa ' . base64_encode(pack('N', 7) . 'ssh-rsa' . $mpint($e) . $mpint($n)) . " upgrade-test\n";
 
-    'phpseclib SSH2 and SFTP classes load (IosAutopublish)' => function () {
-        t_true(class_exists('phpseclib\\Net\\SSH2'), 'SSH2');
-        t_true(class_exists('phpseclib\\Net\\SFTP'), 'SFTP');
+        $publics = ['pkcs8' => $details['key'], 'pkcs1' => $pkcs1Public, 'openssh' => $openssh];
+        foreach ($publics as $format => $public) {
+            file_put_contents("$dir/upgrade-pub-$format.pem", $public);
+            // Cypher -> openssl
+            $cipher = Siberian\Cypher::cypher("$dir/upgrade-pub-$format.pem", 'license-payload');
+            t_true(openssl_private_decrypt(base64_decode($cipher), $plain, $key, OPENSSL_PKCS1_PADDING), "$format: openssl decrypts Cypher output");
+            t_equal('license-payload', $plain, "$format: plaintext");
+        }
+
+        // openssl -> Cypher, with and without a passphrase
+        openssl_public_encrypt('from-the-server', $enc, $details['key'], OPENSSL_PKCS1_PADDING);
+        file_put_contents("$dir/upgrade-priv.pem", $privatePkcs8);
+        t_equal('from-the-server', Siberian\Cypher::decypher("$dir/upgrade-priv.pem", base64_encode($enc)), 'decypher plain key');
+        // Passphrase-protected key in the traditional PEM format (Proc-Type/DEK-Info),
+        // built by hand because openssl_pkey_export only writes encrypted PKCS#8.
+        $rsa = $details['rsa'];
+        $privateDer = $der(0x30, $int("\x00") . $int($rsa['n']) . $int($rsa['e']) . $int($rsa['d']) . $int($rsa['p'])
+            . $int($rsa['q']) . $int($rsa['dmp1']) . $int($rsa['dmq1']) . $int($rsa['iqmp']));
+        $iv = str_repeat("\x07", 16);
+        $k1 = md5('s3cret' . substr($iv, 0, 8), true);
+        $encrypted = openssl_encrypt($privateDer, 'aes-128-cbc', $k1, OPENSSL_RAW_DATA, $iv);
+        file_put_contents("$dir/upgrade-priv-enc.pem", "-----BEGIN RSA PRIVATE KEY-----\nProc-Type: 4,ENCRYPTED\nDEK-Info: AES-128-CBC,"
+            . strtoupper(bin2hex($iv)) . "\n\n" . chunk_split(base64_encode($encrypted), 64, "\n") . "-----END RSA PRIVATE KEY-----\n");
+        t_equal('from-the-server', Siberian\Cypher::decypher("$dir/upgrade-priv-enc.pem", base64_encode($enc), 's3cret'), 'decypher encrypted key');
+
+        // Cypher -> Cypher
+        $round = Siberian\Cypher::cypher("$dir/upgrade-pub-pkcs8.pem", 'unicode héllo ✓');
+        t_equal('unicode héllo ✓', Siberian\Cypher::decypher("$dir/upgrade-priv.pem", $round), 'round trip');
     },
 
     // maximebf/debugbar (Siberian\Debug) --------------------------------------
