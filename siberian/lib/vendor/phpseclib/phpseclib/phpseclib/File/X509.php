@@ -145,6 +145,7 @@ class X509
     var $AuthorityKeyIdentifier;
     var $CertificatePolicies;
     var $AuthorityInfoAccessSyntax;
+    var $SubjectInfoAccessSyntax;
     var $SubjectAltName;
     var $SubjectDirectoryAttributes;
     var $PrivateKeyUsagePeriod;
@@ -320,6 +321,14 @@ class X509
      * @access private
      */
     static $disable_url_fetch = false;
+
+    /**
+     * URL fetch callback
+     *
+     * @var string|array|null
+     * @access private
+     */
+    static $urlFetchCallback = null;
 
     /**
      * Default Constructor.
@@ -1320,6 +1329,11 @@ class X509
             '2.5.4.45' => 'id-at-uniqueIdentifier',
             '2.5.4.72' => 'id-at-role',
             '2.5.4.16' => 'id-at-postalAddress',
+            '2.5.4.97' => 'id-at-organizationIdentifier',
+            '1.3.6.1.4.1.311.60.2.1.3' => 'jurisdictionOfIncorporationCountryName',
+            '1.3.6.1.4.1.311.60.2.1.2' => 'jurisdictionOfIncorporationStateOrProvinceName',
+            '1.3.6.1.4.1.311.60.2.1.1' => 'jurisdictionLocalityName',
+            '2.5.4.15' => 'id-at-businessCategory',
 
             '0.9.2342.19200300.100.1.25' => 'id-domainComponent',
             '1.2.840.113549.1.9' => 'pkcs-9',
@@ -1608,7 +1622,7 @@ class X509
      * Map extension values from octet string to extension-specific internal
      *   format.
      *
-     * @param array ref $root
+     * @param array $root (by reference)
      * @param string $path
      * @param object $asn1
      * @access private
@@ -1622,7 +1636,6 @@ class X509
                 $id = $extensions[$i]['extnId'];
                 $value = &$extensions[$i]['extnValue'];
                 $value = base64_decode($value);
-                $decoded = $asn1->decodeBER($value);
                 /* [extnValue] contains the DER encoding of an ASN.1 value
                    corresponding to the extension type identified by extnID */
                 $map = $this->_getMapping($id);
@@ -1630,6 +1643,7 @@ class X509
                     $decoder = $id == 'id-ce-nameConstraints' ?
                         array($this, '_decodeNameConstraintIP') :
                         array($this, '_decodeIP');
+                    $decoded = $asn1->decodeBER($value);
                     $mapped = $asn1->asn1map($decoded[0], $map, array('iPAddress' => $decoder));
                     $value = $mapped === false ? $decoded[0] : $mapped;
 
@@ -1661,7 +1675,7 @@ class X509
      * Map extension values from extension-specific internal format to
      *   octet string.
      *
-     * @param array ref $root
+     * @param array $root (by reference)
      * @param string $path
      * @param object $asn1
      * @access private
@@ -1727,7 +1741,7 @@ class X509
      * Map attribute values from ANY type to attribute-specific internal
      *   format.
      *
-     * @param array ref $root
+     * @param array $root (by reference)
      * @param string $path
      * @param object $asn1
      * @access private
@@ -1768,7 +1782,7 @@ class X509
      * Map attribute values from attribute-specific internal format to
      *   ANY type.
      *
-     * @param array ref $root
+     * @param array $root (by reference)
      * @param string $path
      * @param object $asn1
      * @access private
@@ -1811,7 +1825,7 @@ class X509
      * Map DN values from ANY type to DN-specific internal
      *   format.
      *
-     * @param array ref $root
+     * @param array $root (by reference)
      * @param string $path
      * @param object $asn1
      * @access private
@@ -1841,7 +1855,7 @@ class X509
      * Map DN values from DN-specific internal format to
      *   ANY type.
      *
-     * @param array ref $root
+     * @param array $root (by reference)
      * @param string $path
      * @param object $asn1
      * @access private
@@ -2065,7 +2079,8 @@ class X509
         if ($names = $this->getExtension('id-ce-subjectAltName')) {
             foreach ($names as $name) {
                 foreach ($name as $key => $value) {
-                    $value = str_replace(array('.', '*'), array('\.', '[^.]*'), $value);
+                    $value = preg_quote($value);
+                    $value = str_replace('\*', '[^.]*', $value);
                     switch ($key) {
                         case 'dNSName':
                             /* From RFC2818 "HTTP over TLS":
@@ -2145,6 +2160,10 @@ class X509
     /**
      * Fetches a URL
      *
+     * If a fetch callback is set via setURLFetchCallback(), the host is resolved
+     * once and the connection is pinned to that IP (the callback judges the
+     * resolved IP, preventing DNS-rebinding bypass).
+     *
      * @param string $url
      * @access private
      * @return bool|string
@@ -2156,21 +2175,58 @@ class X509
         }
 
         $parts = parse_url($url);
+        if ($parts === false || !isset($parts['scheme']) || !isset($parts['host'])) {
+            return false;
+        }
+        $host = $parts['host'];
+        $port = isset($parts['port']) ? $parts['port'] : 80;
+
+        if (isset(self::$urlFetchCallback)) {
+            if (filter_var($host, FILTER_VALIDATE_IP)) {
+                $ip = $host;
+                // unwrap IPv4-mapped IPv6 so the callback judges the real v4 address
+                if (preg_match('/^::ffff:(\d{1,3}\.\d{1,3}\.\d{1,3}\.\d{1,3})$/i', $ip, $m)) {
+                    $ip = $m[1];
+                }
+            } else {
+                $records = dns_get_record($host, DNS_A | DNS_AAAA);
+                if (!$records) {
+                    return false;
+                }
+                if (isset($records[0]['ip'])) {
+                    $ip = $records[0]['ip'];
+                } elseif (isset($records[0]['ipv6'])) {
+                    $ip = $records[0]['ipv6'];
+                } else {
+                    return false;
+                }
+            }
+            if (!call_user_func(self::$urlFetchCallback, $host, $ip, $port, $parts['scheme'])) {
+                return false;
+            }
+            $target = strpos($ip, ':') !== false ? "[$ip]" : $ip;
+        } else {
+            $target = $host;
+        }
+
         $data = '';
         switch ($parts['scheme']) {
             case 'http':
-                $fsock = @fsockopen($parts['host'], isset($parts['port']) ? $parts['port'] : 80);
+                $fsock = @fsockopen($target, $port);
                 if (!$fsock) {
                     return false;
                 }
-                fputs($fsock, "GET $parts[path] HTTP/1.0\r\n");
-                fputs($fsock, "Host: $parts[host]\r\n\r\n");
+                $path = isset($parts['path']) ? $parts['path'] : '/';
+                if (isset($parts['query'])) {
+                    $path.= '?' . $parts['query'];
+                }
+                fputs($fsock, "GET $path HTTP/1.0\r\n");
+                fputs($fsock, "Host: $host\r\n\r\n");
                 $line = fgets($fsock, 1024);
-                if (strlen($line) < 3) {
+                if ($line === false || strlen($line) < 3) {
                     return false;
                 }
-                preg_match('#HTTP/1.\d (\d{3})#', $line, $temp);
-                if ($temp[1] != '200') {
+                if (!preg_match('#HTTP/1.\d (\d{3})#', $line, $temp) || $temp[1] != '200') {
                     return false;
                 }
 
@@ -2179,13 +2235,18 @@ class X509
                 }
 
                 while (!feof($fsock)) {
-                    $data.= fread($fsock, 1024);
+                    $temp = fread($fsock, 1024);
+                    if ($temp === false) {
+                        return false;
+                    }
+                    $data.= $temp;
                 }
 
                 break;
             //case 'ftp':
             //case 'ldap':
-            //default:
+            default:
+                return false;
         }
 
         return $data;
@@ -2567,6 +2628,20 @@ class X509
     function _translateDNProp($propName)
     {
         switch (strtolower($propName)) {
+            case 'jurisdictionofincorporationcountryname':
+            case 'jurisdictioncountryname':
+            case 'jurisdictionc':
+                return 'jurisdictionOfIncorporationCountryName';
+            case 'jurisdictionofincorporationstateorprovincename':
+            case 'jurisdictionstateorprovincename':
+            case 'jurisdictionst':
+                return 'jurisdictionOfIncorporationStateOrProvinceName';
+            case 'jurisdictionlocalityname':
+            case 'jurisdictionl':
+                return 'jurisdictionLocalityName';
+            case 'id-at-businesscategory':
+            case 'businesscategory':
+                return 'id-at-businessCategory';
             case 'id-at-countryname':
             case 'countryname':
             case 'c':
@@ -2625,6 +2700,9 @@ class X509
             case 'organizationalunitname':
             case 'ou':
                 return 'id-at-organizationalUnitName';
+            case 'id-at-organizationidentifier':
+            case 'organizationIdentifier':
+                return 'id-at-organizationIdentifier';
             case 'id-at-pseudonym':
             case 'pseudonym':
                 return 'id-at-pseudonym';
@@ -3191,7 +3269,8 @@ class X509
     /**
      * Load a Certificate Signing Request
      *
-     * @param string $csr
+     * @param string|array $csr
+     * @param int $mode
      * @access public
      * @return mixed
      */
@@ -3328,7 +3407,7 @@ class X509
      *
      * https://developer.mozilla.org/en-US/docs/HTML/Element/keygen
      *
-     * @param string $csr
+     * @param string|array $spkac
      * @access public
      * @return mixed
      */
@@ -3399,7 +3478,7 @@ class X509
     /**
      * Save a SPKAC CSR request
      *
-     * @param array $csr
+     * @param string|array $spkac
      * @param int $format optional
      * @access public
      * @return string
@@ -3443,6 +3522,7 @@ class X509
      * Load a Certificate Revocation List
      *
      * @param string $crl
+     * @param int $mode
      * @access public
      * @return mixed
      */
@@ -3817,7 +3897,8 @@ class X509
                     array(
                         'version' => 'v1',
                         'subject' => $this->dn,
-                        'subjectPKInfo' => $publicKey
+                        'subjectPKInfo' => $publicKey,
+                        'attributes' => array()
                     ),
                     'signatureAlgorithm' => array('algorithm' => $signatureAlgorithm),
                     'signature'          => false // this is going to be overwritten later
@@ -3973,11 +4054,11 @@ class X509
         $version = isset($tbsCertList['version']) ? $tbsCertList['version'] : 0;
         if (!$version) {
             if (!empty($tbsCertList['crlExtensions'])) {
-                $version = 1; // v2.
+                $version = 'v2'; // v2.
             } elseif (!empty($tbsCertList['revokedCertificates'])) {
                 foreach ($tbsCertList['revokedCertificates'] as $cert) {
                     if (!empty($cert['crlEntryExtensions'])) {
-                        $version = 1; // v2.
+                        $version = 'v2'; // v2.
                     }
                 }
             }
@@ -4039,8 +4120,7 @@ class X509
     /**
      * X.509 certificate signing helper function.
      *
-     * @param object $key
-     * @param \phpseclib\File\X509 $subject
+     * @param \phpseclib\File\X509 $key
      * @param string $signatureAlgorithm
      * @access public
      * @return mixed
@@ -4115,7 +4195,7 @@ class X509
      * Set Serial Number
      *
      * @param string $serial
-     * @param $base optional
+     * @param int $base optional
      * @access public
      */
     function setSerialNumber($serial, $base = -256)
@@ -4778,7 +4858,6 @@ class X509
      * Set the IP Addresses's which the cert is to be valid for
      *
      * @access public
-     * @param string $ipAddress optional
      */
     function setIPAddress()
     {
@@ -5050,11 +5129,16 @@ class X509
          * subject=/O=organization/OU=org unit/CN=common name
          * issuer=/O=organization/CN=common name
          */
-        $temp = preg_replace('#.*?^-+[^-]+-+[\r\n ]*$#ms', '', $str, 1);
-        // remove the -----BEGIN CERTIFICATE----- and -----END CERTIFICATE----- stuff
-        $temp = preg_replace('#-+[^-]+-+#', '', $temp);
+        if (strlen($str) > ini_get('pcre.backtrack_limit')) {
+            $temp = $str;
+        } else {
+            $temp = preg_replace('#.*?^-+[^-]+-+[\r\n ]*$#ms', '', $str, 1);
+            $temp = preg_replace('#-+END.*[\r\n ]*.*#ms', '', $temp, 1);
+        }
         // remove new lines
         $temp = str_replace(array("\r", "\n", ' '), '', $temp);
+        // remove the -----BEGIN CERTIFICATE----- and -----END CERTIFICATE----- stuff
+        $temp = preg_replace('#^-+[^-]+-+|-+[^-]+-+$#', '', $temp);
         $temp = preg_match('#^[a-zA-Z\d/+]*={0,2}$#', $temp) ? base64_decode($temp) : false;
         return $temp != false ? $temp : $str;
     }
@@ -5084,5 +5168,16 @@ class X509
             $reverseMap = array_flip($this->oids);
         }
         return isset($reverseMap[$name]) ? $reverseMap[$name] : $name;
+    }
+
+    /**
+     * Returns the OID corresponding to a name
+     *
+     * @access public
+     * @param array|string|null $callback
+     */
+    static function setURLFetchCallback($callback)
+    {
+        self::$urlFetchCallback = $callback;
     }
 }

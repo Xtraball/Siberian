@@ -23,21 +23,21 @@ class ComposerStaticInitc45135ea47c87544c5381729474d0166
     );
 
     public static $prefixLengthsPsr4 = array (
-        'r' => 
+        'r' =>
         array (
             'rock\\sanitize\\' => 14,
             'rock\\helpers\\' => 13,
             'rock\\base\\' => 10,
         ),
-        'p' => 
+        'p' =>
         array (
             'phpseclib\\' => 10,
         ),
-        'V' => 
+        'V' =>
         array (
             'Vnn\\WpApiClient\\' => 16,
         ),
-        'S' => 
+        'S' =>
         array (
             'Symfony\\Polyfill\\Php72\\' => 23,
             'Symfony\\Polyfill\\Mbstring\\' => 26,
@@ -51,14 +51,14 @@ class ComposerStaticInitc45135ea47c87544c5381729474d0166
             'Symfony\\Component\\BrowserKit\\' => 29,
             'Stripe\\' => 7,
         ),
-        'R' => 
+        'R' =>
         array (
             'React\\Stream\\' => 13,
             'React\\EventLoop\\' => 16,
             'React\\ChildProcess\\' => 19,
             'Ramsey\\Uuid\\' => 12,
         ),
-        'P' => 
+        'P' =>
         array (
             'Psr\\Log\\' => 8,
             'Psr\\Http\\Message\\' => 17,
@@ -66,14 +66,14 @@ class ComposerStaticInitc45135ea47c87544c5381729474d0166
             'Phulp\\AngularTemplateCache\\' => 27,
             'Phulp\\' => 6,
         ),
-        'M' => 
+        'M' =>
         array (
             'MyCLabs\\Enum\\' => 13,
             'MatthiasMullie\\PathConverter\\' => 29,
             'MatthiasMullie\\Minify\\' => 22,
             'Maknz\\Slack\\' => 12,
         ),
-        'G' => 
+        'G' =>
         array (
             'GuzzleHttp\\Psr7\\' => 16,
             'GuzzleHttp\\Promise\\' => 19,
@@ -82,244 +82,244 @@ class ComposerStaticInitc45135ea47c87544c5381729474d0166
             'Gettext\\Languages\\' => 18,
             'Gettext\\' => 8,
         ),
-        'F' => 
+        'F' =>
         array (
             'FeedIo\\' => 7,
         ),
-        'E' => 
+        'E' =>
         array (
             'Endroid\\QrCode\\' => 15,
         ),
-        'D' => 
+        'D' =>
         array (
             'Doctrine\\Common\\Collections\\' => 28,
             'DebugBar\\' => 9,
             'Dashi\\Apns2\\' => 12,
         ),
-        'B' => 
+        'B' =>
         array (
             'Braintree\\' => 10,
         ),
     );
 
     public static $prefixDirsPsr4 = array (
-        'rock\\sanitize\\' => 
+        'rock\\sanitize\\' =>
         array (
             0 => __DIR__ . '/..' . '/romeoz/rock-sanitize/src',
         ),
-        'rock\\helpers\\' => 
+        'rock\\helpers\\' =>
         array (
             0 => __DIR__ . '/..' . '/romeoz/rock-helpers/src',
         ),
-        'rock\\base\\' => 
+        'rock\\base\\' =>
         array (
             0 => __DIR__ . '/..' . '/romeoz/rock-base/src',
         ),
-        'phpseclib\\' => 
+        'phpseclib\\' =>
         array (
             0 => __DIR__ . '/..' . '/phpseclib/phpseclib/phpseclib',
         ),
-        'Vnn\\WpApiClient\\' => 
+        'Vnn\\WpApiClient\\' =>
         array (
             0 => __DIR__ . '/..' . '/vnn/wordpress-rest-api-client/src',
         ),
-        'Symfony\\Polyfill\\Php72\\' => 
+        'Symfony\\Polyfill\\Php72\\' =>
         array (
             0 => __DIR__ . '/..' . '/symfony/polyfill-php72',
         ),
-        'Symfony\\Polyfill\\Mbstring\\' => 
+        'Symfony\\Polyfill\\Mbstring\\' =>
         array (
             0 => __DIR__ . '/..' . '/symfony/polyfill-mbstring',
         ),
-        'Symfony\\Polyfill\\Ctype\\' => 
+        'Symfony\\Polyfill\\Ctype\\' =>
         array (
             0 => __DIR__ . '/..' . '/symfony/polyfill-ctype',
         ),
-        'Symfony\\Component\\VarDumper\\' => 
+        'Symfony\\Component\\VarDumper\\' =>
         array (
             0 => __DIR__ . '/..' . '/symfony/var-dumper',
         ),
-        'Symfony\\Component\\PropertyAccess\\' => 
+        'Symfony\\Component\\PropertyAccess\\' =>
         array (
             0 => __DIR__ . '/..' . '/symfony/property-access',
         ),
-        'Symfony\\Component\\OptionsResolver\\' => 
+        'Symfony\\Component\\OptionsResolver\\' =>
         array (
             0 => __DIR__ . '/..' . '/symfony/options-resolver',
         ),
-        'Symfony\\Component\\Finder\\' => 
+        'Symfony\\Component\\Finder\\' =>
         array (
             0 => __DIR__ . '/..' . '/symfony/finder',
         ),
-        'Symfony\\Component\\DomCrawler\\' => 
+        'Symfony\\Component\\DomCrawler\\' =>
         array (
             0 => __DIR__ . '/..' . '/symfony/dom-crawler',
         ),
-        'Symfony\\Component\\CssSelector\\' => 
+        'Symfony\\Component\\CssSelector\\' =>
         array (
             0 => __DIR__ . '/..' . '/symfony/css-selector',
         ),
-        'Symfony\\Component\\BrowserKit\\' => 
+        'Symfony\\Component\\BrowserKit\\' =>
         array (
             0 => __DIR__ . '/..' . '/symfony/browser-kit',
         ),
-        'Stripe\\' => 
+        'Stripe\\' =>
         array (
             0 => __DIR__ . '/..' . '/stripe/stripe-php/lib',
         ),
-        'React\\Stream\\' => 
+        'React\\Stream\\' =>
         array (
             0 => __DIR__ . '/..' . '/react/stream/src',
         ),
-        'React\\EventLoop\\' => 
+        'React\\EventLoop\\' =>
         array (
             0 => __DIR__ . '/..' . '/react/event-loop/src',
         ),
-        'React\\ChildProcess\\' => 
+        'React\\ChildProcess\\' =>
         array (
             0 => __DIR__ . '/..' . '/react/child-process/src',
         ),
-        'Ramsey\\Uuid\\' => 
+        'Ramsey\\Uuid\\' =>
         array (
             0 => __DIR__ . '/..' . '/ramsey/uuid/src',
         ),
-        'Psr\\Log\\' => 
+        'Psr\\Log\\' =>
         array (
             0 => __DIR__ . '/..' . '/psr/log/Psr/Log',
         ),
-        'Psr\\Http\\Message\\' => 
+        'Psr\\Http\\Message\\' =>
         array (
             0 => __DIR__ . '/..' . '/psr/http-message/src',
         ),
-        'Psr\\Cache\\' => 
+        'Psr\\Cache\\' =>
         array (
             0 => __DIR__ . '/..' . '/psr/cache/src',
         ),
-        'Phulp\\AngularTemplateCache\\' => 
+        'Phulp\\AngularTemplateCache\\' =>
         array (
             0 => __DIR__ . '/..' . '/reisraff/phulp-angular-template-cache/src',
         ),
-        'Phulp\\' => 
+        'Phulp\\' =>
         array (
             0 => __DIR__ . '/..' . '/reisraff/phulp/src',
         ),
-        'MyCLabs\\Enum\\' => 
+        'MyCLabs\\Enum\\' =>
         array (
             0 => __DIR__ . '/..' . '/myclabs/php-enum/src',
         ),
-        'MatthiasMullie\\PathConverter\\' => 
+        'MatthiasMullie\\PathConverter\\' =>
         array (
             0 => __DIR__ . '/..' . '/matthiasmullie/path-converter/src',
         ),
-        'MatthiasMullie\\Minify\\' => 
+        'MatthiasMullie\\Minify\\' =>
         array (
             0 => __DIR__ . '/..' . '/matthiasmullie/minify/src',
         ),
-        'Maknz\\Slack\\' => 
+        'Maknz\\Slack\\' =>
         array (
             0 => __DIR__ . '/..' . '/maknz/slack/src',
         ),
-        'GuzzleHttp\\Psr7\\' => 
+        'GuzzleHttp\\Psr7\\' =>
         array (
             0 => __DIR__ . '/..' . '/guzzlehttp/psr7/src',
         ),
-        'GuzzleHttp\\Promise\\' => 
+        'GuzzleHttp\\Promise\\' =>
         array (
             0 => __DIR__ . '/..' . '/guzzlehttp/promises/src',
         ),
-        'GuzzleHttp\\' => 
+        'GuzzleHttp\\' =>
         array (
             0 => __DIR__ . '/..' . '/guzzlehttp/guzzle/src',
         ),
-        'Goutte\\' => 
+        'Goutte\\' =>
         array (
             0 => __DIR__ . '/..' . '/fabpot/goutte/Goutte',
         ),
-        'Gettext\\Languages\\' => 
+        'Gettext\\Languages\\' =>
         array (
             0 => __DIR__ . '/..' . '/gettext/languages/src',
         ),
-        'Gettext\\' => 
+        'Gettext\\' =>
         array (
             0 => __DIR__ . '/..' . '/gettext/gettext/src',
         ),
-        'FeedIo\\' => 
+        'FeedIo\\' =>
         array (
             0 => __DIR__ . '/..' . '/debril/feed-io/src/FeedIo',
         ),
-        'Endroid\\QrCode\\' => 
+        'Endroid\\QrCode\\' =>
         array (
             0 => __DIR__ . '/..' . '/endroid/qrcode/src',
         ),
-        'Doctrine\\Common\\Collections\\' => 
+        'Doctrine\\Common\\Collections\\' =>
         array (
             0 => __DIR__ . '/..' . '/doctrine/collections/lib/Doctrine/Common/Collections',
         ),
-        'DebugBar\\' => 
+        'DebugBar\\' =>
         array (
             0 => __DIR__ . '/..' . '/maximebf/debugbar/src/DebugBar',
         ),
-        'Dashi\\Apns2\\' => 
+        'Dashi\\Apns2\\' =>
         array (
             0 => __DIR__ . '/..' . '/dashi/apns2/src',
         ),
-        'Braintree\\' => 
+        'Braintree\\' =>
         array (
             0 => __DIR__ . '/..' . '/braintree/braintree_php/lib/Braintree',
         ),
     );
 
     public static $prefixesPsr0 = array (
-        'T' => 
+        'T' =>
         array (
-            'Twocheckout' => 
+            'Twocheckout' =>
             array (
                 0 => __DIR__ . '/..' . '/2checkout/2checkout-php/lib',
             ),
         ),
-        'M' => 
+        'M' =>
         array (
-            'MomentPHP' => 
+            'MomentPHP' =>
             array (
                 0 => __DIR__ . '/..' . '/lawondyss/moment-php/src',
             ),
         ),
-        'H' => 
+        'H' =>
         array (
-            'HTMLPurifier' => 
+            'HTMLPurifier' =>
             array (
                 0 => __DIR__ . '/..' . '/ezyang/htmlpurifier/library',
             ),
         ),
-        'G' => 
+        'G' =>
         array (
-            'Gregwar\\Image' => 
+            'Gregwar\\Image' =>
             array (
                 0 => __DIR__ . '/..' . '/gregwar/image',
             ),
-            'Gregwar\\Cache' => 
+            'Gregwar\\Cache' =>
             array (
                 0 => __DIR__ . '/..' . '/gregwar/cache',
             ),
         ),
-        'E' => 
+        'E' =>
         array (
-            'Evenement' => 
+            'Evenement' =>
             array (
                 0 => __DIR__ . '/..' . '/evenement/evenement/src',
             ),
         ),
-        'B' => 
+        'B' =>
         array (
-            'Braintree' => 
+            'Braintree' =>
             array (
                 0 => __DIR__ . '/..' . '/braintree/braintree_php/lib',
             ),
-            'Behat\\Transliterator' => 
+            'Behat\\Transliterator' =>
             array (
                 0 => __DIR__ . '/..' . '/behat/transliterator/src',
             ),
-            'BaconQrCode' => 
+            'BaconQrCode' =>
             array (
                 0 => __DIR__ . '/..' . '/bacon/bacon-qr-code/src',
             ),

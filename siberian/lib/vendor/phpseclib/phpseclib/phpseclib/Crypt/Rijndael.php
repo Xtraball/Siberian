@@ -340,7 +340,7 @@ class Rijndael extends Base
         $k = $c[2];
         $l = $c[3];
         while ($i < $Nb) {
-            $temp[$i] = ($state[$i] & 0xFF000000) ^
+            $temp[$i] = ($state[$i] & (PHP_INT_SIZE === 8 ? 0xFF000000 : -16777216)) ^
                         ($state[$j] & 0x00FF0000) ^
                         ($state[$k] & 0x0000FF00) ^
                         ($state[$l] & 0x000000FF) ^
@@ -426,7 +426,7 @@ class Rijndael extends Base
         $l = $Nb - $c[3];
 
         while ($i < $Nb) {
-            $word = ($state[$i] & 0xFF000000) |
+            $word = ($state[$i] & (PHP_INT_SIZE === 8 ? 0xFF000000 : -16777216)) |
                     ($state[$j] & 0x00FF0000) |
                     ($state[$k] & 0x0000FF00) |
                     ($state[$l] & 0x000000FF);
@@ -465,14 +465,19 @@ class Rijndael extends Base
     {
         // Each number in $rcon is equal to the previous number multiplied by two in Rijndael's finite field.
         // See http://en.wikipedia.org/wiki/Finite_field_arithmetic#Multiplicative_inverse
-        static $rcon = array(0,
-            0x01000000, 0x02000000, 0x04000000, 0x08000000, 0x10000000,
-            0x20000000, 0x40000000, 0x80000000, 0x1B000000, 0x36000000,
-            0x6C000000, 0xD8000000, 0xAB000000, 0x4D000000, 0x9A000000,
-            0x2F000000, 0x5E000000, 0xBC000000, 0x63000000, 0xC6000000,
-            0x97000000, 0x35000000, 0x6A000000, 0xD4000000, 0xB3000000,
-            0x7D000000, 0xFA000000, 0xEF000000, 0xC5000000, 0x91000000
-        );
+        static $rcon;
+
+        if (!isset($rcon)) {
+            $rcon = array(0,
+                0x01000000, 0x02000000, 0x04000000, 0x08000000, 0x10000000,
+                0x20000000, 0x40000000, 0x80000000, 0x1B000000, 0x36000000,
+                0x6C000000, 0xD8000000, 0xAB000000, 0x4D000000, 0x9A000000,
+                0x2F000000, 0x5E000000, 0xBC000000, 0x63000000, 0xC6000000,
+                0x97000000, 0x35000000, 0x6A000000, 0xD4000000, 0xB3000000,
+                0x7D000000, 0xFA000000, 0xEF000000, 0xC5000000, 0x91000000
+            );
+            $rcon = array_map(array($this, 'safe_intval'), $rcon);
+        }
 
         if (isset($this->kl['key']) && $this->key === $this->kl['key'] && $this->key_length === $this->kl['key_length'] && $this->block_size === $this->kl['block_size']) {
             // already expanded
@@ -511,7 +516,9 @@ class Rijndael extends Base
                 // on a 32-bit machine, it's 32-bits, and on a 64-bit machine, it's 64-bits. on a 32-bit machine,
                 // 0xFFFFFFFF << 8 == 0xFFFFFF00, but on a 64-bit machine, it equals 0xFFFFFFFF00. as such, doing 'and'
                 // with 0xFFFFFFFF (or 0xFFFFFF00) on a 32-bit machine is unnecessary, but on a 64-bit machine, it is.
-                $temp = (($temp << 8) & 0xFFFFFF00) | (($temp >> 24) & 0x000000FF); // rotWord
+                $temp = PHP_INT_SIZE == 8 ? // rotWord
+                    (($temp << 8) & 0xFFFFFF00) | (($temp >> 24) & 0x000000FF) :
+                    ($temp << 8) | (($temp >> 24) & 0x000000FF);
                 $temp = $this->_subWord($temp) ^ $rcon[$i / $this->Nk];
             } elseif ($this->Nk > 6 && $i % $this->Nk == 4) {
                 $temp = $this->_subWord($temp);
@@ -603,7 +610,7 @@ class Rijndael extends Base
             // according to <http://csrc.nist.gov/archive/aes/rijndael/Rijndael-ammended.pdf#page=19> (section 5.2.1),
             // precomputed tables can be used in the mixColumns phase. in that example, they're assigned t0...t3, so
             // those are the names we'll use.
-            $t3 = array_map('intval', array(
+            $t3 = array_map(array($this, 'safe_intval'), array(
                 // with array_map('intval', ...) we ensure we have only int's and not
                 // some slower floats converted by php automatically on high values
                 0x6363A5C6, 0x7C7C84F8, 0x777799EE, 0x7B7B8DF6, 0xF2F20DFF, 0x6B6BBDD6, 0x6F6FB1DE, 0xC5C55491,
@@ -641,9 +648,9 @@ class Rijndael extends Base
             ));
 
             foreach ($t3 as $t3i) {
-                $t0[] = (($t3i << 24) & 0xFF000000) | (($t3i >>  8) & 0x00FFFFFF);
-                $t1[] = (($t3i << 16) & 0xFFFF0000) | (($t3i >> 16) & 0x0000FFFF);
-                $t2[] = (($t3i <<  8) & 0xFFFFFF00) | (($t3i >> 24) & 0x000000FF);
+                $t0[] = (($t3i << 24) & $this->safe_intval(0xFF000000)) | (($t3i >>  8) & 0x00FFFFFF);
+                $t1[] = (($t3i << 16) & $this->safe_intval(0xFFFF0000)) | (($t3i >> 16) & 0x0000FFFF);
+                $t2[] = (($t3i <<  8) & $this->safe_intval(0xFFFFFF00)) | (($t3i >> 24) & 0x000000FF);
             }
 
             $tables = array(
@@ -689,7 +696,7 @@ class Rijndael extends Base
     {
         static $tables;
         if (empty($tables)) {
-            $dt3 = array_map('intval', array(
+            $dt3 = array_map(array($this, 'safe_intval'), array(
                 0xF4A75051, 0x4165537E, 0x17A4C31A, 0x275E963A, 0xAB6BCB3B, 0x9D45F11F, 0xFA58ABAC, 0xE303934B,
                 0x30FA5520, 0x766DF6AD, 0xCC769188, 0x024C25F5, 0xE5D7FC4F, 0x2ACBD7C5, 0x35448026, 0x62A38FB5,
                 0xB15A49DE, 0xBA1B6725, 0xEA0E9845, 0xFEC0E15D, 0x2F7502C3, 0x4CF01281, 0x4697A38D, 0xD3F9C66B,
@@ -724,11 +731,19 @@ class Rijndael extends Base
                 0xA8017139, 0x0CB3DE08, 0xB4E49CD8, 0x56C19064, 0xCB84617B, 0x32B670D5, 0x6C5C7448, 0xB85742D0
             ));
 
-            foreach ($dt3 as $dt3i) {
-                $dt0[] = (($dt3i << 24) & 0xFF000000) | (($dt3i >>  8) & 0x00FFFFFF);
-                $dt1[] = (($dt3i << 16) & 0xFFFF0000) | (($dt3i >> 16) & 0x0000FFFF);
-                $dt2[] = (($dt3i <<  8) & 0xFFFFFF00) | (($dt3i >> 24) & 0x000000FF);
-            };
+            if (PHP_INT_SIZE === 8) {
+                foreach ($dt3 as $dt3i) {
+                    $dt0[] = (($dt3i << 24) & 0xFF000000) | (($dt3i >>  8) & 0x00FFFFFF);
+                    $dt1[] = (($dt3i << 16) & 0xFFFF0000) | (($dt3i >> 16) & 0x0000FFFF);
+                    $dt2[] = (($dt3i <<  8) & 0xFFFFFF00) | (($dt3i >> 24) & 0x000000FF);
+                };
+            } else {
+                foreach ($dt3 as $dt3i) {
+                    $dt0[] = ($dt3i << 24) | (($dt3i >>  8) & 0x00FFFFFF);
+                    $dt1[] = ($dt3i << 16) | (($dt3i >> 16) & 0x0000FFFF);
+                    $dt2[] = ($dt3i <<  8) | (($dt3i >> 24) & 0x000000FF);
+                };
+            }
 
             $tables = array(
                 // The Precomputed inverse mixColumns tables dt0 - dt3
@@ -809,7 +824,6 @@ class Rijndael extends Base
 
             // Generating encrypt code:
             $init_encrypt.= '
-                static $tables;
                 if (empty($tables)) {
                     $tables = &$self->_getTables();
                 }
@@ -856,7 +870,7 @@ class Rijndael extends Base
             $encrypt_block .= '$in = pack("N*"'."\n";
             for ($i = 0; $i < $Nb; ++$i) {
                 $encrypt_block.= ',
-                    ($'.$e.$i                  .' & '.((int)0xFF000000).') ^
+                    ($'.$e.$i                  .' & '.(PHP_INT_SIZE === 8 ? 0xFF000000 : -16777216).') ^
                     ($'.$e.(($i + $c[1]) % $Nb).' &         0x00FF0000   ) ^
                     ($'.$e.(($i + $c[2]) % $Nb).' &         0x0000FF00   ) ^
                     ($'.$e.(($i + $c[3]) % $Nb).' &         0x000000FF   ) ^
@@ -866,7 +880,6 @@ class Rijndael extends Base
 
             // Generating decrypt code:
             $init_decrypt.= '
-                static $invtables;
                 if (empty($invtables)) {
                     $invtables = &$self->_getInvTables();
                 }
@@ -913,7 +926,7 @@ class Rijndael extends Base
             $decrypt_block .= '$in = pack("N*"'."\n";
             for ($i = 0; $i < $Nb; ++$i) {
                 $decrypt_block.= ',
-                    ($'.$e.$i.                        ' & '.((int)0xFF000000).') ^
+                    ($'.$e.$i.                        ' & '.(PHP_INT_SIZE === 8 ? 0xFF000000 : -16777216).') ^
                     ($'.$e.(($Nb + $i - $c[1]) % $Nb).' &         0x00FF0000   ) ^
                     ($'.$e.(($Nb + $i - $c[2]) % $Nb).' &         0x0000FF00   ) ^
                     ($'.$e.(($Nb + $i - $c[3]) % $Nb).' &         0x000000FF   ) ^
@@ -923,7 +936,7 @@ class Rijndael extends Base
 
             $lambda_functions[$code_hash] = $this->_createInlineCryptFunction(
                 array(
-                   'init_crypt'    => '',
+                   'init_crypt'    => 'static $tables; static $invtables;',
                    'init_encrypt'  => $init_encrypt,
                    'init_decrypt'  => $init_decrypt,
                    'encrypt_block' => $encrypt_block,

@@ -37,7 +37,7 @@ class MonologCollector extends AbstractProcessingHandler implements DataCollecto
      * @param boolean $bubble
      * @param string $name
      */
-    public function __construct(Logger $logger = null, $level = Logger::DEBUG, $bubble = true, $name = 'monolog')
+    public function __construct(?Logger $logger = null, $level = Logger::DEBUG, $bubble = true, $name = 'monolog')
     {
         parent::__construct($level, $bubble);
         $this->name = $name;
@@ -57,9 +57,9 @@ class MonologCollector extends AbstractProcessingHandler implements DataCollecto
     }
 
     /**
-     * @param array $record
+     * @param array|\Monolog\LogRecord $record
      */
-    protected function write(array $record)
+    protected function write($record): void
     {
         $this->records[] = array(
             'message' => $record['formatted'],

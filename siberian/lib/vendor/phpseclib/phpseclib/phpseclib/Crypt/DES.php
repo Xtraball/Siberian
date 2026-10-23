@@ -148,6 +148,14 @@ class DES extends Base
     var $keys;
 
     /**
+     * Key Cache "key"
+     *
+     * @see self::setupKey()
+     * @var array
+     */
+    var $kl;
+
+    /**
      * Shuffle table.
      *
      * For each byte value index, the entry holds an 8-byte string
@@ -592,6 +600,12 @@ class DES extends Base
     {
         if ($this->key_length_max == 8) {
             if ($engine == self::ENGINE_OPENSSL) {
+                // quoting https://www.openssl.org/news/openssl-3.0-notes.html, OpenSSL 3.0.1
+                // "Moved all variations of the EVP ciphers CAST5, BF, IDEA, SEED, RC2, RC4, RC5, and DES to the legacy provider"
+                // in theory openssl_get_cipher_methods() should catch this but, on GitHub Actions, at least, it does not
+                if (defined('OPENSSL_VERSION_TEXT') && version_compare(preg_replace('#OpenSSL (\d+\.\d+\.\d+) .*#', '$1', OPENSSL_VERSION_TEXT), '3.0.1', '>=')) {
+                    return false;
+                }
                 $this->cipher_name_openssl_ecb = 'des-ecb';
                 $this->cipher_name_openssl = 'des-' . $this->_openssl_translate_mode();
             }
@@ -675,14 +689,14 @@ class DES extends Base
     {
         static $sbox1, $sbox2, $sbox3, $sbox4, $sbox5, $sbox6, $sbox7, $sbox8, $shuffleip, $shuffleinvip;
         if (!$sbox1) {
-            $sbox1 = array_map("intval", $this->sbox1);
-            $sbox2 = array_map("intval", $this->sbox2);
-            $sbox3 = array_map("intval", $this->sbox3);
-            $sbox4 = array_map("intval", $this->sbox4);
-            $sbox5 = array_map("intval", $this->sbox5);
-            $sbox6 = array_map("intval", $this->sbox6);
-            $sbox7 = array_map("intval", $this->sbox7);
-            $sbox8 = array_map("intval", $this->sbox8);
+            $sbox1 = array_map(array($this, 'safe_intval'), $this->sbox1);
+            $sbox2 = array_map(array($this, 'safe_intval'), $this->sbox2);
+            $sbox3 = array_map(array($this, 'safe_intval'), $this->sbox3);
+            $sbox4 = array_map(array($this, 'safe_intval'), $this->sbox4);
+            $sbox5 = array_map(array($this, 'safe_intval'), $this->sbox5);
+            $sbox6 = array_map(array($this, 'safe_intval'), $this->sbox6);
+            $sbox7 = array_map(array($this, 'safe_intval'), $this->sbox7);
+            $sbox8 = array_map(array($this, 'safe_intval'), $this->sbox8);
             /* Merge $shuffle with $[inv]ipmap */
             for ($i = 0; $i < 256; ++$i) {
                 $shuffleip[]    =  $this->shuffle[$this->ipmap[$i]];
@@ -1246,9 +1260,9 @@ class DES extends Base
                       $pc2mapd3[($d >>  8) & 0xFF] | $pc2mapd4[ $d        & 0xFF];
 
                 // Reorder: odd bytes/even bytes. Push the result in key schedule.
-                $val1 = ( $cp        & 0xFF000000) | (($cp <<  8) & 0x00FF0000) |
+                $val1 = ( $cp        & $this->safe_intval(0xFF000000)) | (($cp <<  8) & 0x00FF0000) |
                         (($dp >> 16) & 0x0000FF00) | (($dp >>  8) & 0x000000FF);
-                $val2 = (($cp <<  8) & 0xFF000000) | (($cp << 16) & 0x00FF0000) |
+                $val2 = (($cp <<  8) & $this->safe_intval(0xFF000000)) | (($cp << 16) & 0x00FF0000) |
                         (($dp >>  8) & 0x0000FF00) | ( $dp        & 0x000000FF);
                 $keys[$des_round][self::ENCRYPT][       ] = $val1;
                 $keys[$des_round][self::DECRYPT][$ki - 1] = $val1;
@@ -1318,14 +1332,14 @@ class DES extends Base
             // Init code for both, encrypt and decrypt.
             $init_crypt = 'static $sbox1, $sbox2, $sbox3, $sbox4, $sbox5, $sbox6, $sbox7, $sbox8, $shuffleip, $shuffleinvip;
                 if (!$sbox1) {
-                    $sbox1 = array_map("intval", $self->sbox1);
-                    $sbox2 = array_map("intval", $self->sbox2);
-                    $sbox3 = array_map("intval", $self->sbox3);
-                    $sbox4 = array_map("intval", $self->sbox4);
-                    $sbox5 = array_map("intval", $self->sbox5);
-                    $sbox6 = array_map("intval", $self->sbox6);
-                    $sbox7 = array_map("intval", $self->sbox7);
-                    $sbox8 = array_map("intval", $self->sbox8);'
+                    $sbox1 = array_map(array($self, "safe_intval"), $self->sbox1);
+                    $sbox2 = array_map(array($self, "safe_intval"), $self->sbox2);
+                    $sbox3 = array_map(array($self, "safe_intval"), $self->sbox3);
+                    $sbox4 = array_map(array($self, "safe_intval"), $self->sbox4);
+                    $sbox5 = array_map(array($self, "safe_intval"), $self->sbox5);
+                    $sbox6 = array_map(array($self, "safe_intval"), $self->sbox6);
+                    $sbox7 = array_map(array($self, "safe_intval"), $self->sbox7);
+                    $sbox8 = array_map(array($self, "safe_intval"), $self->sbox8);'
                     /* Merge $shuffle with $[inv]ipmap */ . '
                     for ($i = 0; $i < 256; ++$i) {
                         $shuffleip[]    =  $self->shuffle[$self->ipmap[$i]];

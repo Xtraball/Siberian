@@ -34,6 +34,8 @@ use DebugBar\DataCollector\Renderable;
  * $debugbar->addCollector(new TwigProfileCollector($profile, $env));
  * // or: $debugbar->addCollector(new TwigProfileCollector($profile, $loader));
  * </code>
+ *
+ * @deprecated Use `\Debugbar\Bridge\NamespacedTwigProfileCollector` instead for Twig 2.x and 3.x
  */
 class TwigProfileCollector extends DataCollector implements Renderable, AssetProvider
 {
@@ -130,7 +132,7 @@ class TwigProfileCollector extends DataCollector implements Renderable, AssetPro
             'accumulated_render_time_str' => $this->getDataFormatter()->formatDuration($this->profile->getDuration()),
             'memory_usage_str'            => $this->getDataFormatter()->formatBytes($this->profile->getMemoryUsage()),
             'callgraph'                   => $this->getHtmlCallGraph(),
-            'badge'                       => implode_polyfill(
+            'badge'                       => implode(
                 '/',
                 array(
                     $this->templateCount,
