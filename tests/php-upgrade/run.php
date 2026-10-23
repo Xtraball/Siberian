@@ -18,6 +18,9 @@ foreach (array_slice($argv, 1) as $arg) {
 
 $deprecations = 0;
 set_error_handler(function ($no, $msg, $file, $line) use (&$deprecations) {
+    if (!(error_reporting() & $no)) {
+        return false; // @-suppressed
+    }
     if ($no & (E_DEPRECATED | E_USER_DEPRECATED)) {
         $deprecations++;
         return true;
