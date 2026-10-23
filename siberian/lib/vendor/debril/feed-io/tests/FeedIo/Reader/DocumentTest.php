@@ -12,7 +12,9 @@ namespace FeedIo\Reader;
 
 use FeedIo\Feed;
 
-class DocumentTest extends \PHPUnit_Framework_TestCase
+use \PHPUnit\Framework\TestCase;
+
+class DocumentTest extends TestCase
 {
     public function testIsJson()
     {
@@ -31,24 +33,20 @@ class DocumentTest extends \PHPUnit_Framework_TestCase
     public function testGetJsonAsArray()
     {
         $document = new Document('{"foo": "bar"}');
-        $this->assertInternalType('array', $document->getJsonAsArray());
+        $this->assertIsArray($document->getJsonAsArray());
     }
 
-    /**
-     * @expectedException \LogicException
-     */
     public function testLoadWrongDoucment()
     {
         $document = new Document('something wrong');
+        $this->expectException('\LogicException');
         $document->getDOMDocument();
     }
 
-    /**
-     * @expectedException \LogicException
-     */
     public function testLoadWrongJsonDoucment()
     {
         $document = new Document('something wrong');
+        $this->expectException('\LogicException');
         $document->getJsonAsArray();
     }
 }

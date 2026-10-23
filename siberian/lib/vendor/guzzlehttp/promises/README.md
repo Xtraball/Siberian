@@ -17,7 +17,7 @@ for a general introduction to promises.
 - [Implementation notes](#implementation-notes)
 
 
-# Features
+## Features
 
 - [Promises/A+](https://promisesaplus.com/) implementation.
 - Promise resolution and chaining is handled iteratively, allowing for
@@ -26,20 +26,34 @@ for a general introduction to promises.
 - Promises can be cancelled.
 - Works with any object that has a `then` function.
 - C# style async/await coroutine promises using
-  `GuzzleHttp\Promise\coroutine()`.
+  `GuzzleHttp\Promise\Coroutine::of()`.
 
 
-# Quick start
+## Installation
+
+```shell
+composer require guzzlehttp/promises
+```
+
+
+## Version Guidance
+
+| Version | Status              | PHP Version  |
+|---------|---------------------|--------------|
+| 1.x     | Security fixes only | >=5.5,<8.3   |
+| 2.x     | Latest              | >=7.2.5,<8.7 |
+
+
+## Quick Start
 
 A *promise* represents the eventual result of an asynchronous operation. The
 primary way of interacting with a promise is through its `then` method, which
 registers callbacks to receive either a promise's eventual value or the reason
 why the promise cannot be fulfilled.
 
+### Callbacks
 
-## Callbacks
-
-Callbacks are registered with the `then` method by providing an optional 
+Callbacks are registered with the `then` method by providing an optional
 `$onFulfilled` followed by an optional `$onRejected` function.
 
 
@@ -60,12 +74,11 @@ $promise->then(
 ```
 
 *Resolving* a promise means that you either fulfill a promise with a *value* or
-reject a promise with a *reason*. Resolving a promises triggers callbacks
-registered with the promises's `then` method. These callbacks are triggered
+reject a promise with a *reason*. Resolving a promise triggers callbacks
+registered with the promise's `then` method. These callbacks are triggered
 only once and in the order in which they were added.
 
-
-## Resolving a promise
+### Resolving a Promise
 
 Promises are fulfilled using the `resolve($value)` method. Resolving a promise
 with any value other than a `GuzzleHttp\Promise\RejectedPromise` will trigger
@@ -88,12 +101,11 @@ $promise
     });
 
 // Resolving the promise triggers the $onFulfilled callbacks and outputs
-// "Hello, reader".
+// "Hello, reader."
 $promise->resolve('reader.');
 ```
 
-
-## Promise forwarding
+### Promise Forwarding
 
 Promises can be chained one after the other. Each then in the chain is a new
 promise. The return value of a promise is what's forwarded to the next
@@ -123,7 +135,7 @@ $promise->resolve('A');
 $nextPromise->resolve('B');
 ```
 
-## Promise rejection
+### Promise Rejection
 
 When a promise is rejected, the `$onRejected` callbacks are invoked with the
 rejection reason.
@@ -140,7 +152,7 @@ $promise->reject('Error!');
 // Outputs "Error!"
 ```
 
-## Rejection forwarding
+### Rejection Forwarding
 
 If an exception is thrown in an `$onRejected` callback, subsequent
 `$onRejected` callbacks are invoked with the thrown exception as the reason.
@@ -150,7 +162,7 @@ use GuzzleHttp\Promise\Promise;
 
 $promise = new Promise();
 $promise->then(null, function ($reason) {
-    throw new \Exception($reason);
+    throw new Exception($reason);
 })->then(null, function ($reason) {
     assert($reason->getMessage() === 'Error!');
 });
@@ -182,7 +194,6 @@ invoked using the value returned from the `$onRejected` callback.
 
 ```php
 use GuzzleHttp\Promise\Promise;
-use GuzzleHttp\Promise\RejectedPromise;
 
 $promise = new Promise();
 $promise
@@ -196,7 +207,8 @@ $promise
 $promise->reject('Error!');
 ```
 
-# Synchronous wait
+
+## Synchronous Wait
 
 You can synchronously force promises to complete using a promise's `wait`
 method. When creating a promise, you can provide a wait function that is used
@@ -215,12 +227,12 @@ $promise = new Promise(function () use (&$promise) {
 echo $promise->wait(); // outputs "foo"
 ```
 
-If an exception is encountered while invoking the wait function of a promise,
-the promise is rejected with the exception and the exception is thrown.
+If a throwable is encountered while invoking the wait function of a promise,
+the promise is rejected with the throwable and the throwable is thrown.
 
 ```php
 $promise = new Promise(function () use (&$promise) {
-    throw new \Exception('foo');
+    throw new Exception('foo');
 });
 
 $promise->wait(); // throws the exception.
@@ -235,8 +247,8 @@ $promise->resolve('foo');
 echo $promise->wait(); // outputs "foo"
 ```
 
-Calling `wait` on a promise that has been rejected will throw an exception. If
-the rejection reason is an instance of `\Exception` the reason is thrown.
+Calling `wait` on a promise that has been rejected will throw. If the rejection
+reason is an instance of `\Throwable` the reason is thrown.
 Otherwise, a `GuzzleHttp\Promise\RejectionException` is thrown and the reason
 can be obtained by calling the `getReason` method of the exception.
 
@@ -248,8 +260,7 @@ $promise->wait();
 
 > PHP Fatal error:  Uncaught exception 'GuzzleHttp\Promise\RejectionException' with message 'The promise was rejected with value: foo'
 
-
-## Unwrapping a promise
+### Unwrapping a Promise
 
 When synchronously waiting on a promise, you are joining the state of the
 promise into the current state of execution (i.e., return the value of the
@@ -276,7 +287,7 @@ wait function will be the value delivered to promise B.
 **Note**: when you do not unwrap the promise, no value is returned.
 
 
-# Cancellation
+## Cancellation
 
 You can cancel a promise that has not yet been fulfilled using the `cancel()`
 method of a promise. When creating a promise you can provide an optional
@@ -284,10 +295,9 @@ cancel function that when invoked cancels the action of computing a resolution
 of the promise.
 
 
-# API
+## API
 
-
-## Promise
+### Promise
 
 When creating a promise object, you can provide an optional `$waitFn` and
 `$cancelFn`. `$waitFn` is a function that is invoked with no arguments and is
@@ -313,9 +323,11 @@ assert('waited' === $promise->wait());
 
 A promise has the following methods:
 
-- `then(callable $onFulfilled, callable $onRejected) : PromiseInterface`
-  
-  Appends fulfillment and rejection handlers to the promise, and returns a new promise resolving to the return value of the called handler.
+- `then(?callable $onFulfilled = null, ?callable $onRejected = null) : PromiseInterface`
+
+  Appends fulfillment and rejection handlers to the promise, and returns a new
+  promise resolving to the return value of the called handler. If a handler is
+  omitted, the original fulfillment value or rejection reason is forwarded.
 
 - `otherwise(callable $onRejected) : PromiseInterface`
   
@@ -350,7 +362,7 @@ A promise has the following methods:
   Rejects the promise with the given `$reason`.
 
 
-## FulfilledPromise
+### FulfilledPromise
 
 A fulfilled promise can be created to represent a promise that has been
 fulfilled.
@@ -367,7 +379,7 @@ $promise->then(function ($value) {
 ```
 
 
-## RejectedPromise
+### RejectedPromise
 
 A rejected promise can be created to represent a promise that has been
 rejected.
@@ -384,7 +396,7 @@ $promise->then(null, function ($reason) {
 ```
 
 
-# Promise interop
+## Promise Interoperability
 
 This library works with foreign promises that have a `then` method. This means
 you can use Guzzle promises with [React promises](https://github.com/reactphp/promise)
@@ -397,7 +409,7 @@ $deferred = new React\Promise\Deferred();
 $reactPromise = $deferred->promise();
 
 // Create a Guzzle promise that is fulfilled with a React promise.
-$guzzlePromise = new \GuzzleHttp\Promise\Promise();
+$guzzlePromise = new GuzzleHttp\Promise\Promise();
 $guzzlePromise->then(function ($value) use ($reactPromise) {
     // Do something something with the value...
     // Return the React promise
@@ -410,7 +422,7 @@ a foreign promise. You will need to wrap a third-party promise with a Guzzle
 promise in order to utilize wait and cancel functions with foreign promises.
 
 
-## Event Loop Integration
+### Event Loop Integration
 
 In order to keep the stack size constant, Guzzle promises are resolved
 asynchronously using a task queue. When waiting on promises synchronously, the
@@ -424,24 +436,23 @@ instance.
 
 ```php
 // Get the global task queue
-$queue = \GuzzleHttp\Promise\queue();
+$queue = GuzzleHttp\Promise\Utils::queue();
 $queue->run();
 ```
 
-For example, you could use Guzzle promises with React using a periodic timer:
+For example, you could use Guzzle promises with React using a short periodic
+timer. Avoid zero-interval timers because they may keep the loop busy even when
+there is no promise work to run.
 
 ```php
 $loop = React\EventLoop\Factory::create();
-$loop->addPeriodicTimer(0, [$queue, 'run']);
+$loop->addPeriodicTimer(0.01, [$queue, 'run']);
 ```
 
-*TODO*: Perhaps adding a `futureTick()` on each tick would be faster?
 
+## Implementation Notes
 
-# Implementation notes
-
-
-## Promise resolution and chaining is handled iteratively
+### Promise Resolution and Chaining is Handled Iteratively
 
 By shuffling pending handlers from one owner to another, promises are
 resolved iteratively, allowing for "infinite" then chaining.
@@ -477,8 +488,7 @@ all of its pending handlers to the new promise. When the new promise is
 eventually resolved, all of the pending handlers are delivered the forwarded
 value.
 
-
-## A promise is the deferred.
+### A Promise is the Deferred
 
 Some promise libraries implement promises using a deferred object to represent
 a computation and a promise object to represent the delivery of the result of
@@ -502,3 +512,25 @@ $promise->then(function ($value) { echo $value; });
 $promise->resolve('foo');
 // prints "foo"
 ```
+
+
+## Upgrading
+
+See [UPGRADING.md](UPGRADING.md) for package upgrade notes.
+
+
+## Security
+
+If you discover a security vulnerability within this package, please send an email to security@tidelift.com. All security vulnerabilities will be promptly addressed. Please do not disclose security-related issues publicly until a fix has been announced. Please see [Security Policy](https://github.com/guzzle/promises/security/policy) for more information.
+
+
+## License
+
+Guzzle is made available under the MIT License (MIT). Please see [License File](LICENSE) for more information.
+
+
+## For Enterprise
+
+Available as part of the Tidelift Subscription
+
+The maintainers of Guzzle and thousands of other packages are working with Tidelift to deliver commercial support and maintenance for the open source dependencies you use to build your applications. Save time, reduce risk, and improve code health, while paying the maintainers of the exact dependencies you use. [Learn more.](https://tidelift.com/subscription/pkg/packagist-guzzlehttp-promises?utm_source=packagist-guzzlehttp-promises&utm_medium=referral&utm_campaign=enterprise&utm_term=repo)

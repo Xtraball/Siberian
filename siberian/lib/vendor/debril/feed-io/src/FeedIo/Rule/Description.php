@@ -1,56 +1,46 @@
-<?php
-/**
- * Created by PhpStorm.
- * User: alex
- * Date: 26/10/14
- * Time: 00:26
- */
+<?php declare(strict_types=1);
+
 namespace FeedIo\Rule;
 
+use DomDocument;
+use DOMElement;
+use FeedIo\Feed\ItemInterface;
 use FeedIo\Feed\NodeInterface;
-use FeedIo\RuleAbstract;
 
-class Description extends RuleAbstract
+class Description extends TextAbstract
 {
     const NODE_NAME = 'description';
 
     /**
      * @param  NodeInterface $node
-     * @param  \DOMElement   $element
-     * @return $this
+     * @param  DOMElement   $element
      */
-    public function setProperty(NodeInterface $node, \DOMElement $element)
+    public function setProperty(NodeInterface $node, DOMElement $element) : void
     {
-        $string = '';
-        if ($element->firstChild && $element->firstChild->nodeType == XML_CDATA_SECTION_NODE) {
-            $string = $element->firstChild->textContent;
-        } else {
-            foreach ($element->childNodes as $childNode) {
-                $string .= $element->ownerDocument->saveXML($childNode);
-            }
-        }
-
-        $node->setDescription(htmlspecialchars_decode($string));
-
-        return $this;
+        $node->setDescription($this->getProcessedContent($element, $node));
     }
 
     /**
-     * creates the accurate DomElement content according to the $item's property
-     *
-     * @param  \DOMDocument  $document
-     * @param  NodeInterface $node
-     * @return \DOMElement
+     * @inheritDoc
      */
-    public function createElement(\DOMDocument $document, NodeInterface $node)
+    protected function hasValue(NodeInterface $node) : bool
     {
-        $description = htmlspecialchars($node->getDescription());
-        $element = $document->createElement($this->getNodeName(), $description);
-
-        if ($description !== $node->getDescription() && $this->getNodeName() != 'description') {
-            $element->setAttribute('type', 'html');
+        if ($node instanceof ItemInterface) {
+            return !! $node->getContent();
         }
+        return !! $node->getDescription();
+    }
 
-        return $element;
+    protected function addElement(DomDocument $document, DOMElement $rootElement, NodeInterface $node) : void
+    {
+        $description = '';
+        if ($node instanceof ItemInterface) {
+            $description = $node->getContent();
+        } else {
+            $description = $node->getDescription();
+        }
+        $element = $this->generateElement($document, $description);
+
+        $rootElement->appendChild($element);
     }
 }

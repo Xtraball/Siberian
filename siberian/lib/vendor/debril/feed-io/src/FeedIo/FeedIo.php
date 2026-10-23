@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 /*
  * This file is part of the feed-io package.
  *
@@ -11,13 +11,19 @@
 namespace FeedIo;
 
 use FeedIo\Filter\ModifiedSince;
-use FeedIo\Reader;
+use FeedIo\Reader\Result;
 use FeedIo\Reader\FixerSet;
 use FeedIo\Reader\FixerAbstract;
 use FeedIo\Rule\DateTimeBuilder;
+use FeedIo\Rule\DateTimeBuilderInterface;
 use FeedIo\Adapter\ClientInterface;
 use FeedIo\Standard\Loader;
+use FeedIo\Async\Reader as AsyncReader;
+use FeedIo\Async\CallbackInterface;
+use FeedIo\FeedInterface;
 use Psr\Log\LoggerInterface;
+use FeedIo\Http\ResponseBuilder;
+use Psr\Http\Message\ResponseInterface;
 
 /**
  * This class acts as a facade. It provides methods to access feed-io main features
@@ -36,7 +42,7 @@ use Psr\Log\LoggerInterface;
  *   // and its items
  *   foreach ( $feed as $item ) {
  *       echo $item->getTitle();
- *       echo $item->getDescription();
+ *       echo $item->getContent();
  *   }
  *
  * </code>
@@ -81,6 +87,11 @@ class FeedIo
     protected $dateTimeBuilder;
 
     /**
+     * @var \FeedIo\Adapter\ClientInterface;
+     */
+    protected $client;
+
+    /**
      * @var \Psr\Log\LoggerInterface
      */
     protected $logger;
@@ -99,10 +110,11 @@ class FeedIo
      * @param \FeedIo\Adapter\ClientInterface $client
      * @param \Psr\Log\LoggerInterface        $logger
      */
-    public function __construct(ClientInterface $client, LoggerInterface $logger)
+    public function __construct(ClientInterface $client, LoggerInterface $logger, DateTimeBuilderInterface $dateTimeBuilder = null)
     {
+        $this->client = $client;
         $this->logger = $logger;
-        $this->dateTimeBuilder = new DateTimeBuilder($logger);
+        $this->dateTimeBuilder = $dateTimeBuilder ?? new DateTimeBuilder($logger);
         $this->setReader(new Reader($client, $logger));
         $this->loadCommonStandards();
         $this->loadFixerSet();
@@ -111,9 +123,9 @@ class FeedIo
     /**
      * Loads main standards (RSS, RDF, Atom) in current object's attributes
      *
-     * @return $this
+     * @return FeedIo
      */
-    protected function loadCommonStandards()
+    protected function loadCommonStandards() : FeedIo
     {
         $standards = $this->getCommonStandards();
         foreach ($standards as $name => $standard) {
@@ -127,9 +139,9 @@ class FeedIo
      * adds a filter to the reader
      *
      * @param \FeedIo\FilterInterface $filter
-     * @return $this
+     * @return FeedIo
      */
-    public function addFilter(FilterInterface $filter)
+    public function addFilter(FilterInterface $filter) : FeedIo
     {
         $this->getReader()->addFilter($filter);
 
@@ -141,7 +153,7 @@ class FeedIo
      *
      * @return array
      */
-    public function getCommonStandards()
+    public function getCommonStandards() : array
     {
         $loader = new Loader();
 
@@ -151,9 +163,9 @@ class FeedIo
     /**
      * @param  string                   $name
      * @param  \FeedIo\StandardAbstract $standard
-     * @return $this
+     * @return FeedIo
      */
-    public function addStandard($name, StandardAbstract $standard)
+    public function addStandard(string $name, StandardAbstract $standard) : FeedIo
     {
         $name = strtolower($name);
         $this->standards[$name] = $standard;
@@ -166,9 +178,9 @@ class FeedIo
     /**
      * @param string $format
      * @param StandardAbstract $standard
-     * @return object
+     * @return ParserAbstract
      */
-    public function newParser($format, StandardAbstract $standard)
+    public function newParser(string $format, StandardAbstract $standard) : ParserAbstract
     {
         $reflection = new \ReflectionClass("FeedIo\\Parser\\{$format}Parser");
 
@@ -182,15 +194,15 @@ class FeedIo
     /**
      * @return \FeedIo\Reader\FixerSet
      */
-    public function getFixerSet()
+    public function getFixerSet() : FixerSet
     {
         return $this->fixerSet;
     }
 
     /**
-     * @return $this
+     * @return FeedIo
      */
-    protected function loadFixerSet()
+    protected function loadFixerSet() : FeedIo
     {
         $this->fixerSet = new FixerSet();
         $fixers = $this->getBaseFixers();
@@ -204,9 +216,9 @@ class FeedIo
 
     /**
      * @param  FixerAbstract $fixer
-     * @return $this
+     * @return FeedIo
      */
-    public function addFixer(FixerAbstract $fixer)
+    public function addFixer(FixerAbstract $fixer) : FeedIo
     {
         $fixer->setLogger($this->logger);
         $this->fixerSet->add($fixer);
@@ -217,20 +229,19 @@ class FeedIo
     /**
      * @return array
      */
-    public function getBaseFixers()
+    public function getBaseFixers() : array
     {
         return array(
-            new Reader\Fixer\LastModified(),
+            new Reader\Fixer\HttpLastModified(),
             new Reader\Fixer\PublicId(),
-
         );
     }
 
     /**
      * @param array $formats
-     * @return $this
+     * @return FeedIo
      */
-    public function addDateFormats(array $formats)
+    public function addDateFormats(array $formats) : FeedIo
     {
         foreach ($formats as $format) {
             $this->getDateTimeBuilder()->addDateFormat($format);
@@ -242,7 +253,7 @@ class FeedIo
     /**
      * @return \FeedIo\Rule\DateTimeBuilder
      */
-    public function getDateTimeBuilder()
+    public function getDateTimeBuilder() : DateTimeBuilder
     {
         return $this->dateTimeBuilder;
     }
@@ -250,16 +261,16 @@ class FeedIo
     /**
      * @return \FeedIo\Reader
      */
-    public function getReader()
+    public function getReader() : Reader
     {
         return $this->reader;
     }
 
     /**
-     * @param \FeedIo\Reader
-     * @return $this
+     * @param \FeedIo\Reader $reader
+     * @return FeedIo
      */
-    public function setReader(Reader $reader)
+    public function setReader(Reader $reader) : FeedIo
     {
         $this->reader = $reader;
 
@@ -267,12 +278,31 @@ class FeedIo
     }
 
     /**
-     * @param $url
-     * @param  FeedInterface         $feed
-     * @param  \DateTime             $modifiedSince
-     * @return \FeedIo\Reader\Result
+     * Discover feeds from the webpage's headers
+     * @param  string $url
+     * @return array
      */
-    public function read($url, FeedInterface $feed = null, \DateTime $modifiedSince = null)
+    public function discover(string $url) : array
+    {
+        $explorer = new Explorer($this->client, $this->logger);
+
+        return $explorer->discover($url);
+    }
+
+    /**
+     * @param iterable $requests
+     * @param CallbackInterface $callback
+     * @param string $feedClass
+     */
+    public function readAsync(iterable $requests, CallbackInterface $callback, string $feedClass = '\FeedIo\Feed') : void
+    {
+        error_log("FeedIo::readAsync is deprecated and will be removed in v5.0.", E_USER_DEPRECATED);
+        $reader = new AsyncReader($this->reader, $this->reader->getClient(), $callback, $feedClass);
+
+        $reader->process($requests);
+    }
+
+    public function read(string $url, FeedInterface $feed = null, \DateTime $modifiedSince = null) : Result
     {
         if (is_null($feed)) {
             $feed = new Feed();
@@ -285,25 +315,27 @@ class FeedIo
         $this->logAction($feed, "read access : $url into a feed instance");
         $result = $this->reader->read($url, $feed, $modifiedSince);
 
-        $this->fixerSet->correct($result->getFeed());
+        $this->fixerSet->correct($result);
+        $this->resetFilters();
 
         return $result;
     }
 
     /**
-     * @param $url
+     * @param  string                $url
      * @param  \DateTime             $modifiedSince
      * @return \FeedIo\Reader\Result
      */
-    public function readSince($url, \DateTime $modifiedSince)
+    public function readSince(string $url, \DateTime $modifiedSince) : Result
     {
+        error_log("readSince() is deprecated and will be removed in v5.0.", E_USER_DEPRECATED);
         return $this->read($url, new Feed(), $modifiedSince);
     }
 
     /**
-     * @return $this
+     * @return FeedIo
      */
-    public function resetFilters()
+    public function resetFilters() : FeedIo
     {
         $this->getReader()->resetFilters();
 
@@ -311,11 +343,30 @@ class FeedIo
     }
 
     /**
+     * Get a PSR-7 compliant response for the given feed
+     *
+     * @param \FeedIo\FeedInterface $feed
+     * @param string $standard
+     * @param int $maxAge
+     * @param bool $public
+     * @return ResponseInterface
+     */
+    public function getPsrResponse(FeedInterface $feed, string $standard, int $maxAge = 600, bool $public = true) : ResponseInterface
+    {
+        $this->logAction($feed, "creating a PSR 7 Response in $standard format");
+
+        $formatter = $this->getStandard($standard)->getFormatter();
+        $responseBuilder = new ResponseBuilder($maxAge, $public);
+
+        return $responseBuilder->createResponse($standard, $formatter, $feed);
+    }
+
+    /**
      * @param  FeedInterface $feed
      * @param  string        $standard Standard's name
      * @return string
      */
-    public function format(FeedInterface $feed, $standard)
+    public function format(FeedInterface $feed, string $standard) : string
     {
         $this->logAction($feed, "formatting a feed in $standard format");
 
@@ -328,7 +379,7 @@ class FeedIo
      * @param  \FeedIo\FeedInterface $feed
      * @return string
      */
-    public function toRss(FeedInterface $feed)
+    public function toRss(FeedInterface $feed) : string
     {
         return $this->format($feed, 'rss');
     }
@@ -337,7 +388,7 @@ class FeedIo
      * @param  \FeedIo\FeedInterface $feed
      * @return string
      */
-    public function toAtom(FeedInterface $feed)
+    public function toAtom(FeedInterface $feed) : string
     {
         return $this->format($feed, 'atom');
     }
@@ -346,7 +397,7 @@ class FeedIo
      * @param  \FeedIo\FeedInterface $feed
      * @return string
      */
-    public function toJson(FeedInterface $feed)
+    public function toJson(FeedInterface $feed) : string
     {
         return $this->format($feed, 'json');
     }
@@ -357,7 +408,7 @@ class FeedIo
      * @return \FeedIo\StandardAbstract
      * @throws \OutOfBoundsException
      */
-    public function getStandard($name)
+    public function getStandard(string $name) : StandardAbstract
     {
         $name = strtolower($name);
         if (array_key_exists($name, $this->standards)) {
@@ -370,9 +421,9 @@ class FeedIo
     /**
      * @param  \FeedIo\FeedInterface $feed
      * @param  string                $message
-     * @return $this
+     * @return FeedIo
      */
-    protected function logAction(FeedInterface $feed, $message)
+    protected function logAction(FeedInterface $feed, string $message) : FeedIo
     {
         $class = get_class($feed);
         $this->logger->debug("$message (feed class : $class)");

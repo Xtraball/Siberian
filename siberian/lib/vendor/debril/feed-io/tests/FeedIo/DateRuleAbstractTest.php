@@ -9,7 +9,9 @@ namespace FeedIo;
 
 use FeedIo\Rule\DateTimeBuilder;
 
-class DateRuleAbstractTest extends \PHPUnit_Framework_TestCase
+use \PHPUnit\Framework\TestCase;
+
+class DateRuleAbstractTest extends TestCase
 {
 
     /**
@@ -17,7 +19,7 @@ class DateRuleAbstractTest extends \PHPUnit_Framework_TestCase
      */
     protected $object;
 
-    public function setUp()
+    public function setUp(): void
     {
         $this->object = $this->getDateRule();
     }
@@ -37,11 +39,9 @@ class DateRuleAbstractTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals($dateTimeBuilder, $this->object->getDateTimeBuilder());
     }
 
-    /**
-     * @expectedException \UnexpectedValueException
-     */
     public function testGetDateTimeBuilderFailure()
     {
+        $this->expectException('\UnexpectedValueException');
         $this->object->getDateTimeBuilder();
     }
 

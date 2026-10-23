@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 /*
  * This file is part of the feed-io package.
  *
@@ -28,37 +28,85 @@ namespace FeedIo\Feed\Item;
  */
 interface MediaInterface
 {
+    /**
+     * @return string
+     */
+    public function getNodeName() : ? string;
+
+    /**
+     * @param  string $nodeName
+     * @return MediaInterface
+     */
+    public function setNodeName(string $nodeName) : MediaInterface;
+
+    /**
+     * @return bool
+     */
+    public function isThumbnail() : bool;
 
     /**
      * @return string
      */
-    public function getType();
+    public function getType() : ? string;
 
     /**
      * @param  string $type
-     * @return $this
+     * @return MediaInterface
      */
-    public function setType($type);
+    public function setType(?string $type) : MediaInterface;
 
     /**
      * @return string
      */
-    public function getUrl();
+    public function getUrl() : ? string;
 
     /**
      * @param  string $url
-     * @return $this
+     * @return MediaInterface
      */
-    public function setUrl($url);
+    public function setUrl(?string $url) : MediaInterface;
 
     /**
      * @return string
      */
-    public function getLength();
+    public function getLength() : ? string;
 
     /**
-     * @param  string $length
-     * @return $this
+     * @param  mixed $length
+     * @return MediaInterface
      */
-    public function setLength($length);
+    public function setLength($length) : MediaInterface;
+
+    /**
+     * @return string
+     */
+    public function getTitle() : ? string;
+
+    /**
+     * @param  string $title
+     * @return MediaInterface
+     */
+    public function setTitle(?string $title) : MediaInterface;
+
+    /**
+     * @return string
+     */
+    public function getDescription() : ? string;
+
+    /**
+     * @param  string $description
+     * @return MediaInterface
+     */
+    public function setDescription(?string $description) : MediaInterface;
+
+    /**
+     * @return string
+     */
+    public function getThumbnail() : ? string;
+
+    /**
+     * @param  string $thumbnail
+     * @return MediaInterface
+     */
+    public function setThumbnail(?string $thumbnail) : MediaInterface;
 }

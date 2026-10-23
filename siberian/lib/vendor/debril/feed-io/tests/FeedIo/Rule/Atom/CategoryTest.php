@@ -12,18 +12,20 @@ namespace FeedIo\Rule\Atom;
 
 use FeedIo\Feed\Item;
 
-class CategoryTest extends \PHPUnit_Framework_TestCase
+use \PHPUnit\Framework\TestCase;
+
+class CategoryTest extends TestCase
 {
     /**
      * @var \FeedIo\Rule\Atom\Category
      */
     protected $object;
 
-    protected function setUp()
+    protected function setUp(): void
     {
         $this->object = new Category();
     }
-    
+
     public function testSetProperty()
     {
         $item = new Item();
@@ -34,7 +36,7 @@ class CategoryTest extends \PHPUnit_Framework_TestCase
         $element->setAttribute('label', 'FooBar');
         $element->setAttribute('term', 'foobar');
         $this->object->setProperty($item, $element);
-                
+
         $count = 0;
         foreach ($item->getCategories() as $category) {
             $count++;
@@ -42,19 +44,19 @@ class CategoryTest extends \PHPUnit_Framework_TestCase
             $this->assertEquals('FooBar', $category->getLabel());
             $this->assertEquals('http', $category->getScheme());
         }
-        
+
         $this->assertEquals(1, $count);
     }
-    
+
     public function testCreateCategoryElement()
     {
         $category = new \FeedIo\Feed\Node\Category();
         $category->setLabel('Foo');
         $category->setTerm('foo');
         $category->setScheme('bar');
-        
+
         $element = $this->object->createCategoryElement(new \DomDocument(), $category);
-        
+
         $this->assertEquals('Foo', $element->getAttribute('label'));
         $this->assertEquals('foo', $element->getAttribute('term'));
         $this->assertEquals('bar', $element->getAttribute('scheme'));
@@ -62,14 +64,31 @@ class CategoryTest extends \PHPUnit_Framework_TestCase
 
     public function testCreateElement()
     {
+        $item = new Item;
         $category = new \FeedIo\Feed\Node\Category();
         $category->setLabel('foo');
-        
-        $item = new Item;
         $item->addCategory($category);
-        
-        $element = iterator_to_array($this->object->createElement(new \DomDocument, $item))[0];
-        
-        $this->assertEquals('foo', $element->getAttribute('label'));
+
+        $category = new \FeedIo\Feed\Node\Category();
+        $category->setLabel('bar');
+        $item->addCategory($category);
+
+        $document = new \DOMDocument();
+        $rootElement = $document->createElement('feed');
+
+        $this->object->apply($document, $rootElement, $item);
+
+        $firstElement = $rootElement->firstChild;
+
+        $this->assertEquals('foo', $firstElement->getAttribute('label'));
+        $this->assertEquals('category', $firstElement->nodeName);
+
+        $nextElement = $rootElement->lastChild;
+
+        $this->assertEquals('bar', $nextElement->getAttribute('label'));
+        $this->assertEquals('category', $nextElement->nodeName);
+
+        $document->appendChild($rootElement);
+        $this->assertXmlStringEqualsXmlString('<feed><category label="foo"/><category label="bar"/></feed>', $document->saveXML());
     }
 }

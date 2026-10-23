@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 /*
  * This file is part of the feed-io package.
  *
@@ -13,18 +13,20 @@ namespace FeedIo\Reader\Fixer;
 use FeedIo\FeedInterface;
 use FeedIo\Feed\NodeInterface;
 use FeedIo\Reader\FixerAbstract;
+use FeedIo\Reader\Result;
 
 class PublicId extends FixerAbstract
 {
 
     /**
-     * @param  FeedInterface $feed
+     * @param  Result $result
      * @return $this
      */
-    public function correct(FeedInterface $feed)
+    public function correct(Result $result) : FixerAbstract
     {
-        $this->fixNode($feed);
+        $feed = $result->getFeed();
 
+        $this->fixNode($feed);
         $this->fixItems($feed);
 
         return $this;
@@ -32,9 +34,8 @@ class PublicId extends FixerAbstract
 
     /**
      * @param  NodeInterface $node
-     * @return $this
      */
-    protected function fixNode(NodeInterface $node)
+    protected function fixNode(NodeInterface $node) : void
     {
         if (is_null($node->getPublicId())) {
             $this->logger->notice("correct public id for node {$node->getTitle()}");
@@ -44,14 +45,11 @@ class PublicId extends FixerAbstract
 
     /**
      * @param  FeedInterface $feed
-     * @return $this
      */
-    protected function fixItems(FeedInterface $feed)
+    protected function fixItems(FeedInterface $feed) : void
     {
         foreach ($feed as $item) {
             $this->fixNode($item);
         }
-
-        return $this;
     }
 }

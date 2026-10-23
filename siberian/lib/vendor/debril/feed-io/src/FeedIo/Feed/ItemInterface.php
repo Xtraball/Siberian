@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 /*
  * This file is part of the feed-io package.
  *
@@ -11,7 +11,6 @@
 namespace FeedIo\Feed;
 
 use FeedIo\Feed\Item\MediaInterface;
-use FeedIo\Feed\Item\AuthorInterface;
 
 /**
  * Describes an Item instance
@@ -34,50 +33,54 @@ interface ItemInterface extends NodeInterface
      * adds $media to the object's attributes
      *
      * @param  MediaInterface $media
-     * @return $this
+     * @return ItemInterface
      */
-    public function addMedia(MediaInterface $media);
+    public function addMedia(MediaInterface $media) : ItemInterface;
 
     /**
      * returns the current object's medias
      *
-     * @return \ArrayIterator
+     * @return iterable
      */
-    public function getMedias();
+    public function getMedias() : iterable;
 
     /**
      * returns true if at least one MediaInterface exists in the object's attributes
      *
      * @return boolean
      */
-    public function hasMedia();
+    public function hasMedia() : bool;
 
     /**
      * returns a new MediaInterface
      *
      * @return MediaInterface
      */
-    public function newMedia();
+    public function newMedia() : MediaInterface;
 
     /**
-     * returns the author attribute
+     * Returns the item's summary. Valid for JSONFeed and Atom formats only
      *
-     * @return AuthorInterface
+     * @return string|null
      */
-    public function getAuthor();
+    public function getSummary(): ?string;
 
     /**
-     * sets $author to the object's attributes
-     *
-     * @param  AuthorInterface $author
-     * @return $this
+     * @param string|null $summary
+     * @return ItemInterface
      */
-    public function setAuthor(AuthorInterface $author);
+    public function setSummary(string $summary = null): ItemInterface;
 
     /**
-     * returns a new AuthorInterface
+     * Returns the item's content. Valid for JSONFeed and Atom formats only
      *
-     * @return AuthorInterface
+     * @return string|null
      */
-    public function newAuthor();
+    public function getContent(): ?string;
+
+    /**
+     * @param string|null $content
+     * @return ItemInterface
+     */
+    public function setContent(string $content = null): ItemInterface;
 }

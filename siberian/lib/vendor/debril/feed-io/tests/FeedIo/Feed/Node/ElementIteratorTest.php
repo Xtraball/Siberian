@@ -10,14 +10,16 @@
 
 namespace FeedIo\Feed\Node;
 
-class ElementIteratorTest extends \PHPUnit_Framework_TestCase
+use \PHPUnit\Framework\TestCase;
+
+class ElementIteratorTest extends TestCase
 {
     /**
      * @var \FeedIo\Feed\Item\ElementIterator
      */
     protected $object;
 
-    protected function setUp()
+    protected function setUp(): void
     {
         $array = new \ArrayIterator();
 

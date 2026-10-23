@@ -10,7 +10,9 @@
 
 namespace FeedIo;
 
-class FeedTest extends \PHPUnit_Framework_TestCase
+use \PHPUnit\Framework\TestCase;
+
+class FeedTest extends TestCase
 {
 
     /**
@@ -18,17 +20,9 @@ class FeedTest extends \PHPUnit_Framework_TestCase
      */
     protected $object;
 
-    protected function setUp()
+    protected function setUp(): void
     {
         $this->object = new Feed();
-    }
-
-    /**
-     * @covers FeedIo\Feed::__construct
-     */
-    public function testConstruct()
-    {
-        $this->assertAttributeEquals(new \ArrayIterator(), 'items', $this->object);
     }
 
     public function testNext()
@@ -81,17 +75,16 @@ class FeedTest extends \PHPUnit_Framework_TestCase
         $item = new Feed\Item();
         $this->object->add($item);
 
-        $this->assertAttributeEquals(new \ArrayIterator(array($item)), 'items', $this->object);
         $this->assertEquals($this->object->current(), $item);
     }
-    
+
     public function testUrl()
     {
         $url = 'http://localhost';
-        
+
         $feed = new Feed;
         $feed->setUrl($url);
-        
+
         $this->assertEquals($url, $feed->getUrl());
     }
 
@@ -116,7 +109,7 @@ class FeedTest extends \PHPUnit_Framework_TestCase
 
         $json = json_encode($this->object);
 
-        $this->assertInternalType('string', $json);
+        $this->assertIsString($json);
         $this->assertInstanceOf('stdClass', json_decode($json));
     }
 

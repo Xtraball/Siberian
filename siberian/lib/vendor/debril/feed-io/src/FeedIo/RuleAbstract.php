@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 /*
  * This file is part of the feed-io package.
  *
@@ -24,7 +24,7 @@ abstract class RuleAbstract
     /**
      * @param string $nodeName
      */
-    public function __construct($nodeName = null)
+    public function __construct(string $nodeName = null)
     {
         $this->nodeName = is_null($nodeName) ? static::NODE_NAME : $nodeName;
     }
@@ -32,7 +32,7 @@ abstract class RuleAbstract
     /**
      * @return string
      */
-    public function getNodeName()
+    public function getNodeName() : string
     {
         return $this->nodeName;
     }
@@ -42,28 +42,96 @@ abstract class RuleAbstract
      * @param  string      $name
      * @return string|null
      */
-    public function getAttributeValue(\DOMElement $element, $name)
+    public function getAttributeValue(\DOMElement $element, $name) : ? string
     {
         if ($element->hasAttribute($name)) {
             return $element->getAttribute($name);
         }
 
-        return;
+        return null;
     }
 
     /**
      * @param  \DOMElement $element
      * @param  string      $name
+     * @param  string|null $ns
      * @return string|null
      */
-    public function getChildValue(\DOMElement $element, $name)
+    public function getChildValue(\DOMElement $element, string $name, ?string $ns = null) : ? string
     {
-        $list = $element->getElementsByTagName($name);
+        if ($ns === null) {
+            $list = $element->getElementsByTagName($name);
+        } else {
+            $list = $element->getElementsByTagNameNS($ns, $name);
+        }
         if ($list->length > 0) {
             return $list->item(0)->nodeValue;
         }
 
-        return;
+        return null;
+    }
+
+    /**
+     * @param  \DOMElement $element
+     * @param  string      $child_name
+     * @param  string      $attribute_name
+     * @param  string|null $ns
+     * @return string|null
+     */
+    public function getChildAttributeValue(\DOMElement $element, string $child_name, string $attribute_name, ?string $ns = null) : ? string
+    {
+        if ($ns === null) {
+            $list = $element->getElementsByTagName($child_name);
+        } else {
+            $list = $element->getElementsByTagNameNS($ns, $child_name);
+        }
+        if ($list->length > 0) {
+            return $list->item(0)->getAttribute($attribute_name);
+        }
+
+        return null;
+    }
+
+
+    /**
+     * adds the accurate DomElement content according to the node's property
+     *
+     * @param \DomDocument $document
+     * @param \DOMElement $rootElement
+     * @param NodeInterface $node
+     */
+    public function apply(\DomDocument $document, \DOMElement $rootElement, NodeInterface $node) : void
+    {
+        if ($this->hasValue($node)) {
+            $this->addElement($document, $rootElement, $node);
+        }
+    }
+
+    /**
+     * Sets the attribute only if the value is not empty
+     * @param DomElement $element
+     * @param string     $name
+     * @param string     $value
+     */
+    protected function setNonEmptyAttribute(\DomElement $element, string $name, string $value = null) : void
+    {
+        if (! is_null($value)) {
+            $element->setAttribute($name, $value);
+        }
+    }
+
+    /**
+     * Appends a child node only if the value is not null
+     * @param DomDocument $document
+     * @param DOMElement  $element
+     * @param string      $name
+     * @param string      $value
+     */
+    protected function appendNonEmptyChild(\DomDocument $document, \DOMElement $element, string $name, string $value = null) : void
+    {
+        if (! is_null($value)) {
+            $element->appendChild($document->createElement($name, $value));
+        }
     }
 
     /**
@@ -71,16 +139,23 @@ abstract class RuleAbstract
      *
      * @param  NodeInterface $node
      * @param  \DOMElement   $element
-     * @return mixed
      */
-    abstract public function setProperty(NodeInterface $node, \DOMElement $element);
+    abstract public function setProperty(NodeInterface $node, \DOMElement $element) : void;
 
     /**
-     * creates the accurate DomElement content according to the $item's property
+     * Tells if the node contains the expected value
      *
-     * @param  \DomDocument  $document
-     * @param  NodeInterface $node
-     * @return \DomElement
+     * @param NodeInterface $node
+     * @return bool
      */
-    abstract public function createElement(\DomDocument $document, NodeInterface $node);
+    abstract protected function hasValue(NodeInterface $node) : bool;
+
+    /**
+     * Creates and adds the element(s) to the document's rootElement
+     *
+     * @param \DomDocument $document
+     * @param \DOMElement $rootElement
+     * @param NodeInterface $node
+     */
+    abstract protected function addElement(\DomDocument $document, \DOMElement $rootElement, NodeInterface $node) : void;
 }

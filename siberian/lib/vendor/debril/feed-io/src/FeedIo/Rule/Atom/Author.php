@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 /*
  * This file is part of the feed-io package.
  *
@@ -10,7 +10,6 @@
 
 namespace FeedIo\Rule\Atom;
 
-use FeedIo\Feed\ItemInterface;
 use FeedIo\Feed\NodeInterface;
 use FeedIo\RuleAbstract;
 
@@ -23,37 +22,36 @@ class Author extends RuleAbstract
      * @param  \DOMElement   $element
      * @return mixed
      */
-    public function setProperty(NodeInterface $node, \DOMElement $element)
+    public function setProperty(NodeInterface $node, \DOMElement $element) : void
     {
-        if ($node instanceof ItemInterface) {
-            $author = $node->newAuthor();
-            $author->setName($this->getChildValue($element, 'name'));
-            $author->setUri($this->getChildValue($element, 'uri'));
-            $author->setEmail($this->getChildValue($element, 'email'));
-            $node->setAuthor($author);
-        }
-
-        return $this;
+        $author = $node->newAuthor();
+        $author->setName($this->getChildValue($element, 'name'));
+        $author->setUri($this->getChildValue($element, 'uri'));
+        $author->setEmail($this->getChildValue($element, 'email'));
+        $node->setAuthor($author);
     }
 
     /**
-     * creates the accurate DomElement content according to the $item's property
+     * Tells if the node contains the expected value
      *
-     * @param  \DomDocument  $document
-     * @param  NodeInterface $node
-     * @return \DomElement
+     * @param NodeInterface $node
+     * @return bool
      */
-    public function createElement(\DomDocument $document, NodeInterface $node)
+    protected function hasValue(NodeInterface $node) : bool
     {
-        if ($node instanceof ItemInterface  && !is_null($node->getAuthor())) {
-            $element = $document->createElement(static::NODE_NAME);
-            $element->appendChild($document->createElement('name', $node->getAuthor()->getName()));
-            $element->appendChild($document->createElement('uri', $node->getAuthor()->getUri()));
-            $element->appendChild($document->createElement('email', $node->getAuthor()->getEmail()));
+        return !! $node->getAuthor();
+    }
 
-            return $element;
-        }
+    /**
+     * @inheritDoc
+     */
+    protected function addElement(\DomDocument $document, \DOMElement $rootElement, NodeInterface $node) : void
+    {
+        $element = $document->createElement(static::NODE_NAME);
+        $this->appendNonEmptyChild($document, $element, 'name', $node->getAuthor()->getName());
+        $this->appendNonEmptyChild($document, $element, 'uri', $node->getAuthor()->getUri());
+        $this->appendNonEmptyChild($document, $element, 'email', $node->getAuthor()->getEmail());
 
-        return;
+        $rootElement->appendChild($element);
     }
 }

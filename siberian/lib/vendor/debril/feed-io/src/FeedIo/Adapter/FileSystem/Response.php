@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 /*
  * This file is part of the feed-io package.
  *
@@ -32,16 +32,32 @@ class Response implements ResponseInterface
      * @param string    $fileContent
      * @param \DateTime $lastModified
      */
-    public function __construct($fileContent, \DateTime $lastModified)
+    public function __construct(string $fileContent, \DateTime $lastModified)
     {
         $this->fileContent  = $fileContent;
         $this->lastModified = $lastModified;
     }
 
     /**
+     * @return int
+     */
+    public function getDuration(): int
+    {
+        return 0;
+    }
+
+    /**
+     * @return int
+     */
+    public function getStatusCode(): int
+    {
+        return 0;
+    }
+
+    /**
     * @return boolean
     */
-    public function isModified()
+    public function isModified() : bool
     {
         return true;
     }
@@ -49,32 +65,32 @@ class Response implements ResponseInterface
     /**
      * @return string
      */
-    public function getBody()
+    public function getBody() : ? string
     {
         return $this->fileContent;
     }
 
     /**
-     * @return array
+     * @return iterable
      */
-    public function getHeaders()
+    public function getHeaders() : iterable
     {
-        return array();
+        return [];
     }
 
     /**
      * @param  string $name
-     * @return string
+     * @return iterable
      */
-    public function getHeader($name)
+    public function getHeader(string $name) : iterable
     {
-        return '';
+        return [];
     }
 
     /**
      * @return \DateTime
      */
-    public function getLastModified()
+    public function getLastModified() : ?\DateTime
     {
         return $this->lastModified;
     }

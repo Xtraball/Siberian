@@ -7,7 +7,9 @@ namespace FeedIo\Rule\Atom;
 
 use FeedIo\Feed\Item;
 
-class AuthorTest extends \PHPUnit_Framework_TestCase
+use \PHPUnit\Framework\TestCase;
+
+class AuthorTest extends TestCase
 {
 
     /**
@@ -15,7 +17,7 @@ class AuthorTest extends \PHPUnit_Framework_TestCase
      */
     protected $object;
 
-    protected function setUp()
+    protected function setUp(): void
     {
         $this->object = new Author();
     }
@@ -43,6 +45,26 @@ class AuthorTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals('john@localhost', $item->getAuthor()->getEmail());
     }
 
+    public function testNamespacedSet()
+    {
+        $item = new Item();
+
+        $ns = 'http://www.w3.org/2005/Atom';
+        $impl = new \DOMImplementation();
+        $document = $impl->createDocument($ns, 'feed');
+
+        $author = $document->createElementNS($ns, 'author');
+
+        $author->appendChild($document->createElementNS($ns, 'name', 'John Doe'));
+        $author->appendChild($document->createElementNS($ns, 'uri', 'http://localhost'));
+        $author->appendChild($document->createElementNS($ns, 'email', 'john@localhost'));
+
+        $this->object->setProperty($item, $author);
+        $this->assertEquals('John Doe', $item->getAuthor()->getName());
+        $this->assertEquals('http://localhost', $item->getAuthor()->getUri());
+        $this->assertEquals('john@localhost', $item->getAuthor()->getEmail());
+    }
+
     public function testGetChildValue()
     {
         $document = new \DOMDocument();
@@ -63,13 +85,17 @@ class AuthorTest extends \PHPUnit_Framework_TestCase
         $item->setAuthor($author);
 
         $document = new \DOMDocument();
-        $element = $this->object->createElement($document, $item);
-        $document->appendChild($element);
-        $this->assertInstanceOf('\DomElement', $element);
-        $this->assertEquals('author', $element->nodeName);
+        $rootElement = $document->createElement('feed');
+        $this->object->apply($document, $rootElement, $item);
+
+        $addedElement = $rootElement->firstChild;
+
+        $this->assertInstanceOf('\DomElement', $addedElement);
+        $this->assertEquals('author', $addedElement->nodeName);
+        $document->appendChild($rootElement);
 
         $this->assertXmlStringEqualsXmlString(
-            '<?xml version="1.0"?><author><name>John Doe</name><uri>http://localhost</uri><email>john@localhost</email></author>',
+            '<?xml version="1.0"?><feed><author><name>John Doe</name><uri>http://localhost</uri><email>john@localhost</email></author></feed>',
             $document->saveXML()
         );
     }

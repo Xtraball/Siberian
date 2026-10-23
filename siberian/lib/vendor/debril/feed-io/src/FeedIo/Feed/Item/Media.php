@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 /*
  * This file is part of the feed-io package.
  *
@@ -10,8 +10,14 @@
 
 namespace FeedIo\Feed\Item;
 
-class Media implements MediaInterface
+use FeedIo\Feed\ArrayableInterface;
+
+class Media implements MediaInterface, ArrayableInterface
 {
+    /**
+     * @var string
+     */
+    protected $nodeName;
 
     /**
      * @var string
@@ -24,23 +30,68 @@ class Media implements MediaInterface
     protected $url;
 
     /**
-     * @var int
+     * @var string
      */
     protected $length;
 
     /**
+     * @var string
+     */
+    protected $title;
+
+    /**
+     * @var string
+     */
+    protected $description;
+
+    /**
+     * @var string
+     */
+    protected $thumbnail;
+
+
+    /**
      * @return string
      */
-    public function getType()
+    public function getNodeName() : ? string
+    {
+        return $this->nodeName;
+    }
+
+    /**
+     * @param string $nodeName
+     * @return MediaInterface
+     */
+    public function setNodeName(string $nodeName) : MediaInterface
+    {
+        $this->nodeName = $nodeName;
+
+        return $this;
+    }
+
+    /**
+     * @deprecated
+     * @return bool
+     */
+    public function isThumbnail() : bool
+    {
+        error_log('Method isThumbnail is deprecated and will be removed in feed-io 5.0', E_USER_DEPRECATED);
+        return $this->nodeName === 'media:thumbnail';
+    }
+
+    /**
+     * @return string
+     */
+    public function getType() : ? string
     {
         return $this->type;
     }
 
     /**
      * @param  string $type
-     * @return $this
+     * @return MediaInterface
      */
-    public function setType($type)
+    public function setType(?string $type) : MediaInterface
     {
         $this->type = $type;
 
@@ -50,16 +101,16 @@ class Media implements MediaInterface
     /**
      * @return string
      */
-    public function getUrl()
+    public function getUrl() : ? string
     {
         return $this->url;
     }
 
     /**
      * @param  string $url
-     * @return $this
+     * @return MediaInterface
      */
-    public function setUrl($url)
+    public function setUrl(?string $url) : MediaInterface
     {
         $this->url = $url;
 
@@ -67,21 +118,87 @@ class Media implements MediaInterface
     }
 
     /**
-     * @return string
+     * @return integer
      */
-    public function getLength()
+    public function getLength() : ? string
     {
         return $this->length;
     }
 
     /**
-     * @param  string $length
-     * @return $this
+     * @param  mixed $length
+     * @return MediaInterface
      */
-    public function setLength($length)
+    public function setLength($length) : MediaInterface
     {
-        $this->length = intval($length);
+        $this->length = (string) intval($length);
 
         return $this;
+    }
+
+
+    /**
+     * @return string
+     */
+    public function getTitle() : ? string
+    {
+        return $this->title;
+    }
+
+    /**
+     * @param  string $title
+     * @return MediaInterface
+     */
+    public function setTitle(?string $title) : MediaInterface
+    {
+        $this->title = $title;
+
+        return $this;
+    }
+
+    /**
+     * @return string
+     */
+    public function getDescription() : ? string
+    {
+        return $this->description;
+    }
+
+    /**
+     * @param  string $description
+     * @return MediaInterface
+     */
+    public function setDescription(?string $description) : MediaInterface
+    {
+        $this->description = $description;
+
+        return $this;
+    }
+
+    /**
+     * @return string
+     */
+    public function getThumbnail() : ? string
+    {
+        return $this->thumbnail;
+    }
+
+    /**
+     * @param  string $thumbnail
+     * @return MediaInterface
+     */
+    public function setThumbnail(?string $thumbnail) : MediaInterface
+    {
+        $this->thumbnail = $thumbnail;
+
+        return $this;
+    }
+
+    /**
+     * @return array
+     */
+    public function toArray() : array
+    {
+        return get_object_vars($this);
     }
 }

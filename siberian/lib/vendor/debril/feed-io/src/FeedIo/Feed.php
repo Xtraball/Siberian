@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 /*
  * This file is part of the feed-io package.
  *
@@ -13,8 +13,10 @@ namespace FeedIo;
 use FeedIo\Feed\Node;
 use FeedIo\Feed\Item;
 use FeedIo\Feed\ItemInterface;
+use FeedIo\Feed\ArrayableInterface;
+use FeedIo\Feed\StyleSheet;
 
-class Feed extends Node implements FeedInterface, \JsonSerializable
+class Feed extends Node implements FeedInterface, ArrayableInterface, \JsonSerializable
 {
     /**
      * @var \ArrayIterator
@@ -31,9 +33,22 @@ class Feed extends Node implements FeedInterface, \JsonSerializable
      */
     protected $language;
 
+    /**
+     * @var string $logo
+     */
+    protected $logo;
+
+    protected $ns;
+
+    /**
+     * @var StyleSheet
+     */
+    protected $styleSheet;
+
     public function __construct()
     {
         $this->items = new \ArrayIterator();
+        $this->ns = new \ArrayIterator();
 
         parent::__construct();
     }
@@ -41,7 +56,7 @@ class Feed extends Node implements FeedInterface, \JsonSerializable
     /**
      * @return string $url
      */
-    public function getUrl()
+    public function getUrl() : ? string
     {
         return $this->url;
     }
@@ -50,17 +65,17 @@ class Feed extends Node implements FeedInterface, \JsonSerializable
      * @param string $url
      * @return FeedInterface
      */
-    public function setUrl($url)
+    public function setUrl(string $url = null) : FeedInterface
     {
         $this->url = $url;
-        
+
         return $this;
     }
 
     /**
      * @return string $language
      */
-    public function getLanguage()
+    public function getLanguage(): ? string
     {
         return $this->language;
     }
@@ -69,15 +84,43 @@ class Feed extends Node implements FeedInterface, \JsonSerializable
      * @param string $language
      * @return FeedInterface
      */
-    public function setLanguage($language)
+    public function setLanguage(string $language = null): FeedInterface
     {
         $this->language = $language;
 
         return $this;
     }
 
+    /**
+     * @return string
+     */
+    public function getLogo() : ? string
+    {
+        return $this->logo;
+    }
 
+    /**
+     * @param  string $logo
+     * @return NodeInterface
+     */
+    public function setLogo(string $logo = null) : FeedInterface
+    {
+        $this->logo = $logo;
 
+        return $this;
+    }
+
+    public function setStyleSheet(StyleSheet $styleSheet): FeedInterface
+    {
+        $this->styleSheet = $styleSheet;
+
+        return $this;
+    }
+
+    public function getStyleSheet(): ?StyleSheet
+    {
+        return $this->styleSheet;
+    }
 
     /**
      * (PHP 5 &gt;= 5.0.0)<br/>
@@ -139,17 +182,32 @@ class Feed extends Node implements FeedInterface, \JsonSerializable
      * @param  ItemInterface $item
      * @return $this
      */
-    public function add(ItemInterface $item)
+    public function add(ItemInterface $item) : FeedInterface
     {
+        if ($item->getLastModified() > $this->getLastModified()) {
+            $this->setLastModified($item->getLastModified());
+        }
         $this->items->append($item);
 
         return $this;
     }
 
+    public function addNS(string $ns, string $dtd) : FeedInterface
+    {
+        $this->ns->offsetSet($ns, $dtd);
+
+        return $this;
+    }
+
+    public function getNS() : \ArrayIterator
+    {
+        return $this->ns;
+    }
+
     /**
      * @return ItemInterface
      */
-    public function newItem()
+    public function newItem() : ItemInterface
     {
         return new Item();
     }
@@ -157,7 +215,7 @@ class Feed extends Node implements FeedInterface, \JsonSerializable
     /**
      * @return array
      */
-    public function jsonSerialize()
+    public function jsonSerialize() : array
     {
         return $this->toArray();
     }
@@ -165,7 +223,7 @@ class Feed extends Node implements FeedInterface, \JsonSerializable
     /**
      * @return array
      */
-    public function toArray()
+    public function toArray() : array
     {
         $items = [];
 
@@ -182,7 +240,7 @@ class Feed extends Node implements FeedInterface, \JsonSerializable
     /**
      * @return int
      */
-    public function count()
+    public function count() : int
     {
         return count($this->items);
     }

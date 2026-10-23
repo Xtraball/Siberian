@@ -1,30 +1,31 @@
 language: php
 
 php:
-  - 5.6
-  - 7.0
-  - 7.1
-  - nightly
+  - 7.3
+  - 7.4
+  - 8.0
 
 env:
   global:
     - PHPUNIT_BIN='vendor/bin/phpunit'
     - PHPUNIT_CONFIG='phpunit.xml.dist'
     - PHPUNIT_FLAGS='--stop-on-failure --verbose'
+    - COMPOSER_FLAGS=''
 
 matrix:
   include:
-    - php: '5.6'
+    - php: '7.4'
       env:
           - PHPUNIT_FLAGS="--stop-on-failure --verbose --coverage-text --coverage-clover=coverage.xml"
-  allow_failures:
-    - php: nightly
 
 before_script:
   - composer config --global repo.packagist composer https://packagist.org
-  - composer install
+  - composer install $COMPOSER_FLAGS
 
-script : $PHPUNIT_BIN -c $PHPUNIT_CONFIG $PHPUNIT_FLAGS
+script :
+  - $PHPUNIT_BIN -c $PHPUNIT_CONFIG $PHPUNIT_FLAGS
+  - if [ -f "coverage.xml" ]; then ./vendor/bin/php-cs-fixer fix --dry-run src/; fi
+  - ./bin/feedio check tests/feeds.txt
 
 after_script:
   - |

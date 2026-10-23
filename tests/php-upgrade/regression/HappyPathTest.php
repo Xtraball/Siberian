@@ -47,7 +47,8 @@ return [
     'Guzzle async requests resolve' => function () {
         $client = new GuzzleHttp\Client(['base_uri' => t_server()]);
         $promises = ['a' => $client->getAsync('/echo?n=1'), 'b' => $client->getAsync('/echo?n=2')];
-        $results = GuzzleHttp\Promise\unwrap($promises);
+        // Promise::wait() works across promises 1.x and 2.x; the unwrap() helper was removed in 2.0.
+        $results = ['a' => $promises['a']->wait(), 'b' => $promises['b']->wait()];
         t_equal(['1', '2'], [
             json_decode((string) $results['a']->getBody(), true)['query']['n'],
             json_decode((string) $results['b']->getBody(), true)['query']['n'],
@@ -104,14 +105,37 @@ return [
     },
 
     // maknz/slack (Notification\Slack) ----------------------------------------
-    'Slack webhook payload' => function () {
-        @unlink($f = sys_get_temp_dir() . '/upgrade-slack-payload.txt');
-        $slack = new Maknz\Slack\Client(t_server() . '/slack', ['username' => 'bot', 'channel' => '#ops', 'link_names' => true]);
-        $slack->send('deploy done');
-        $payload = json_decode(file_get_contents($f), true);
-        t_equal('deploy done', $payload['text'], 'text');
-        t_equal('#ops', $payload['channel'], 'channel');
-        t_equal('bot', $payload['username'], 'username');
+    // The full payload is pinned so that swapping maknz/slack for SlackWebhook
+    // is provably byte-identical on the wire. While maknz is still installed
+    // both clients are checked against the same expectation.
+    'Slack webhook payload' => function () use ($siberian) {
+        require_once $siberian . '/lib/Siberian/Notification/SlackWebhook.php';
+        $clients = ['Siberian\\Notification\\SlackWebhook'];
+        if (class_exists('Maknz\\Slack\\Client')) {
+            $clients[] = 'Maknz\\Slack\\Client';
+        }
+        foreach ($clients as $class) {
+            @unlink($f = sys_get_temp_dir() . '/upgrade-slack-payload.txt');
+            $slack = new $class(t_server() . '/slack', ['username' => 'bot', 'channel' => '#ops', 'link_names' => true]);
+            $slack->send('deploy done');
+            t_equal([
+                'text' => 'deploy done',
+                'channel' => '#ops',
+                'username' => 'bot',
+                'link_names' => 1,
+                'unfurl_links' => false,
+                'unfurl_media' => true,
+                'mrkdwn' => true,
+                'attachments' => [],
+            ], json_decode(file_get_contents($f), true), "$class payload");
+
+            @unlink($f);
+            $slack->to('#other')->send('héllo');
+            $payload = json_decode(file_get_contents($f), true);
+            t_equal('#other', $payload['channel'], "$class to()");
+            t_equal('héllo', $payload['text'], "$class unicode text");
+            t_true(strpos(file_get_contents($f), 'héllo') !== false, "$class unescaped unicode on the wire");
+        }
     },
 
     // phpseclib (Siberian\Cypher, IosAutopublish) -----------------------------

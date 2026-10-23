@@ -10,14 +10,16 @@
 
 namespace FeedIo\Feed\Item;
 
-class AuthorTest extends \PHPUnit_Framework_TestCase
+use \PHPUnit\Framework\TestCase;
+
+class AuthorTest extends TestCase
 {
     /**
      * @var \FeedIo\Feed\Item\Author
      */
     protected $object;
 
-    protected function setUp()
+    protected function setUp(): void
     {
         $this->object = new Author();
     }

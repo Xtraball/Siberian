@@ -16,7 +16,9 @@ use Psr\Log\NullLogger;
 use FeedIo\Rule\DateTimeBuilder;
 use FeedIo\Reader\Document;
 
-class ReaderTest extends \PHPUnit_Framework_TestCase
+use \PHPUnit\Framework\TestCase;
+
+class ReaderTest extends TestCase
 {
 
     /**
@@ -24,7 +26,7 @@ class ReaderTest extends \PHPUnit_Framework_TestCase
      */
     protected $object;
 
-    public function setUp()
+    public function setUp(): void
     {
         $this->object = new Reader(
             $this->getClientMock(),
@@ -74,22 +76,12 @@ class ReaderTest extends \PHPUnit_Framework_TestCase
         $domDocument = new \DOMDocument();
         $domDocument->load($file, LIBXML_NOBLANKS | LIBXML_COMPACT);
         $standard->expects($this->any())->method('getMainElement')->will($this->returnValue(
-                $domDocument->documentElement->getElementsByTagName('channel')->item(0)
-            ));
+            $domDocument->documentElement->getElementsByTagName('channel')->item(0)
+        ));
 
         $parser = new XmlParser($standard, new NullLogger());
 
         return $parser;
-    }
-
-    /**
-     * @covers \FeedIo\Reader::addParser
-     */
-    public function testAddParser()
-    {
-        $parser = $this->getParser();
-        $this->object->addParser($parser);
-        $this->assertAttributeEquals(array($parser), 'parsers', $this->object);
     }
 
     public function testGetAccurateParser()
@@ -100,11 +92,9 @@ class ReaderTest extends \PHPUnit_Framework_TestCase
         $this->assertInstanceOf('\FeedIo\ParserAbstract', $parser);
     }
 
-    /**
-     * @expectedException \FeedIo\Reader\NoAccurateParserException
-     */
     public function testGetAccurateParserFailure()
     {
+        $this->expectException('\FeedIo\Reader\NoAccurateParserException');
         $this->object->getAccurateParser(new Document(''));
     }
 
@@ -141,16 +131,13 @@ class ReaderTest extends \PHPUnit_Framework_TestCase
         $feed = new Feed();
         $this->object->addParser($this->getParser());
         $result = $this->object->read('fakeurl', $feed);
-        $this->assertEquals(new \DateTime('@0'), $result->getModifiedSince());
+        $this->assertEquals(new \DateTime('1800-01-01'), $result->getModifiedSince());
     }
 
-    /**
-     * @covers \FeedIo\Reader::read
-     * @expectedException \FeedIo\Reader\ReadErrorException
-     */
     public function testReadException()
     {
         $reader = new Reader($this->getFaultyClientMock(), new NullLogger());
+        $this->expectException('\FeedIo\Reader\ReadErrorException');
         $reader->read('fault', new Feed());
     }
 
@@ -176,6 +163,7 @@ class ReaderTest extends \PHPUnit_Framework_TestCase
 
         $response = $this->getMockForAbstractClass('\FeedIo\Adapter\ResponseInterface');
         $response->expects($this->once())->method('isModified')->will($this->returnValue(true));
+        $response->expects($this->any())->method('getBody')->will($this->returnValue(''));
 
         $this->object->handleResponse($response, $feed);
     }
@@ -186,6 +174,7 @@ class ReaderTest extends \PHPUnit_Framework_TestCase
 
         $response = $this->getMockForAbstractClass('\FeedIo\Adapter\ResponseInterface');
         $response->expects($this->once())->method('isModified')->will($this->returnValue(false));
+        $response->expects($this->any())->method('getBody')->will($this->returnValue(''));
 
         $this->object->handleResponse($response, $feed);
     }

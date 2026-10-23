@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 /*
  * This file is part of the feed-io package.
  *
@@ -38,8 +38,11 @@ class Rdf extends Rss
      * @param  Document $document
      * @return boolean
      */
-    public function canHandle(Document $document)
+    public function canHandle(Document $document) : bool
     {
+        if (!isset($document->getDOMDocument()->documentElement->tagName)) {
+            return false;
+        }
         return false !== strpos($document->getDOMDocument()->documentElement->tagName, static::ROOT_NODE_TAGNAME);
     }
 
@@ -47,7 +50,7 @@ class Rdf extends Rss
      * @param  DOMDocument $document
      * @return \DomElement
      */
-    public function getMainElement(\DOMDocument $document)
+    public function getMainElement(\DOMDocument $document) : \DOMElement
     {
         return $document->documentElement;
     }
@@ -55,7 +58,7 @@ class Rdf extends Rss
     /**
      * @return RuleSet
      */
-    public function buildFeedRuleSet()
+    public function buildFeedRuleSet() : RuleSet
     {
         $ruleSet = new RuleSet();
         $ruleSet->add(new Structure(static::CHANNEL_NODE_TAGNAME, $this->buildItemRuleSet()));

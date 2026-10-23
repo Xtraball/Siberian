@@ -14,6 +14,8 @@ use FeedIo\Feed;
 use FeedIo\Rule\DateTimeBuilder;
 use FeedIo\Standard\Rss;
 
+use \PHPUnit\Framework\TestCase;
+
 class RssTest extends ParserTestAbstract
 {
     const SAMPLE_FILE = 'rss/sample-rss.xml';
@@ -43,7 +45,7 @@ class RssTest extends ParserTestAbstract
 
             $this->assertInstanceOf('\FeedIo\Feed\Item\MediaInterface', $media);
             $this->assertEquals('audio/mpeg', $media->getType());
-            $this->assertInternalType('string', $media->getUrl());
+            $this->assertIsString($media->getUrl());
         }
 
         $this->assertEquals(1, $count);

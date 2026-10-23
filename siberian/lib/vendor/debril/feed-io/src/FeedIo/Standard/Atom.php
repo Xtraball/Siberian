@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 /*
  * This file is part of the feed-io package.
  *
@@ -13,11 +13,16 @@ namespace FeedIo\Standard;
 use DOMDocument;
 use FeedIo\Reader\Document;
 use FeedIo\Rule\Atom\Author;
+use FeedIo\Rule\Atom\Content;
 use FeedIo\Rule\Atom\LinkNode;
+use FeedIo\Rule\Atom\Logo;
+use FeedIo\Rule\Atom\Summary;
 use FeedIo\Rule\Description;
 use FeedIo\Rule\Language;
+use FeedIo\Rule\Media;
 use FeedIo\Rule\PublicId;
 use FeedIo\Rule\Atom\Category;
+use FeedIo\RuleSet;
 
 class Atom extends XmlAbstract
 {
@@ -35,7 +40,7 @@ class Atom extends XmlAbstract
      * @param  \DOMDocument $document
      * @return \DOMDocument
      */
-    public function format(\DOMDocument $document)
+    public function format(\DOMDocument $document) : \DOMDocument
     {
         $element = $document->createElement('feed');
         $element->setAttribute('xmlns', 'http://www.w3.org/2005/Atom');
@@ -49,8 +54,11 @@ class Atom extends XmlAbstract
      * @param  Document $document
      * @return mixed
      */
-    public function canHandle(Document $document)
+    public function canHandle(Document $document) : bool
     {
+        if (!isset($document->getDOMDocument()->documentElement->tagName)) {
+            return false;
+        }
         return self::ROOT_NODE_TAGNAME === $document->getDOMDocument()->documentElement->tagName;
     }
 
@@ -58,7 +66,7 @@ class Atom extends XmlAbstract
      * @param  DOMDocument $document
      * @return \DomElement
      */
-    public function getMainElement(\DOMDocument $document)
+    public function getMainElement(\DOMDocument $document) : \DOMElement
     {
         return $document->documentElement;
     }
@@ -67,14 +75,12 @@ class Atom extends XmlAbstract
      * Builds and returns a rule set to parse the root node
      * @return \FeedIo\RuleSet
      */
-    public function buildFeedRuleSet()
+    public function buildFeedRuleSet() : RuleSet
     {
         $ruleSet = $this->buildBaseRuleSet();
         $ruleSet
-            ->add(new LinkNode())
-            ->add(new PublicId('id'))
-            ->add(new Language('lang'))
-            ->add($this->getModifiedSinceRule('updated'))
+            ->add(new Logo())
+            ->add(new Description())
         ;
 
         return $ruleSet;
@@ -84,12 +90,15 @@ class Atom extends XmlAbstract
      * Builds and returns a rule set to parse an item
      * @return \FeedIo\RuleSet
      */
-    public function buildItemRuleSet()
+    public function buildItemRuleSet() : RuleSet
     {
-        $ruleSet = $this->buildFeedRuleSet();
+        $ruleSet = $this->buildBaseRuleSet();
         $ruleSet
-            ->add(new Author())
-            ->add(new Description('content'), ['summary']);
+            ->add(new Content())
+            ->add(new Summary())
+            ->add(new Media(), ['media:group'])
+            ->add(new Media(), ['media:content'])
+        ;
 
         return $ruleSet;
     }
@@ -97,10 +106,16 @@ class Atom extends XmlAbstract
     /**
      * @return \FeedIo\RuleSet
      */
-    protected function buildBaseRuleSet()
+    protected function buildBaseRuleSet() : RuleSet
     {
         $ruleSet = parent::buildBaseRuleSet();
-        $ruleSet->add(new Category());
+        $ruleSet
+            ->add(new Category())
+            ->add(new Author())
+            ->add(new LinkNode())
+            ->add(new PublicId('id'))
+            ->add(new Language('lang'))
+            ->add($this->getModifiedSinceRule('updated'), ['published']);
 
         return $ruleSet;
     }

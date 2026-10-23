@@ -14,6 +14,8 @@ use FeedIo\Feed;
 use FeedIo\Rule\DateTimeBuilder;
 use FeedIo\Standard\Atom;
 
+use \PHPUnit\Framework\TestCase;
+
 class AtomTest extends ParserTestAbstract
 {
     const SAMPLE_FILE = 'sample-atom.xml';
@@ -45,7 +47,7 @@ class AtomTest extends ParserTestAbstract
 
             $this->assertInstanceOf('\FeedIo\Feed\Item\MediaInterface', $media);
             $this->assertEquals('video/mpeg', $media->getType());
-            $this->assertInternalType('string', $media->getUrl());
+            $this->assertIsString($media->getUrl());
         }
 
         $this->assertEquals(1, $count);

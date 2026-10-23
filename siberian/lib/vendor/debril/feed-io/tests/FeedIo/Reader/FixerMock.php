@@ -10,6 +10,8 @@ namespace FeedIo\Reader;
 use FeedIo\FeedInterface;
 use Psr\Log\LoggerInterface;
 
+use \PHPUnit\Framework\TestCase;
+
 class FixerMock extends FixerAbstract
 {
 
@@ -22,7 +24,7 @@ class FixerMock extends FixerAbstract
      * @param  LoggerInterface $logger
      * @return $this
      */
-    public function setLogger(LoggerInterface $logger)
+    public function setLogger(LoggerInterface $logger) : FixerAbstract
     {
         $this->logger = $logger;
 
@@ -30,11 +32,12 @@ class FixerMock extends FixerAbstract
     }
 
     /**
-     * @param  FeedInterface $feed
+     * @param  Result $result
      * @return $this
      */
-    public function correct(FeedInterface $feed)
+    public function correct(Result $result) : FixerAbstract
     {
+        $feed = $result->getFeed();
         $feed->setTitle('corrected');
 
         return $this;

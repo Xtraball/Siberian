@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 /*
  * This file is part of the feed-io package.
  *
@@ -32,24 +32,26 @@ class Document
      * Document constructor.
      * @param string $content
      */
-    public function __construct($content)
+    public function __construct(string $content)
     {
-        $this->content = trim($content);
+        $invalid_characters = '/[^\x9\xa\x20-\xD7FF\xE000-\xFFFD]/';
+        $content = preg_replace($invalid_characters, '', $content);
+        $this->content = trim(str_replace("\xEF\xBB\xBF", '', $content));
     }
 
     /**
      * @param $character
      * @return bool
      */
-    public function startWith($character)
+    public function startWith(string $character) : bool
     {
-        return substr($this->content, 0, 1) === $character;
+        return mb_substr($this->content, 0, 1) === $character;
     }
 
     /**
      * @return bool
      */
-    public function isJson()
+    public function isJson() : bool
     {
         return $this->startWith('{');
     }
@@ -57,7 +59,7 @@ class Document
     /**
      * @return bool
      */
-    public function isXml()
+    public function isXml() : bool
     {
         return $this->startWith('<');
     }
@@ -65,7 +67,7 @@ class Document
     /**
      * @return \DOMDocument
      */
-    public function getDOMDocument()
+    public function getDOMDocument() : \DOMDocument
     {
         if (is_null($this->domDocument)) {
             $this->domDocument = $this->loadDomDocument();
@@ -77,7 +79,7 @@ class Document
     /**
      * @return array
      */
-    public function getJsonAsArray()
+    public function getJsonAsArray() : array
     {
         if (is_null($this->jsonArray)) {
             $this->jsonArray = $this->loadJsonAsArray();
@@ -89,7 +91,7 @@ class Document
     /**
      * @return \DOMDocument
      */
-    protected function loadDomDocument()
+    protected function loadDomDocument() : \DOMDocument
     {
         if (! $this->isXml()) {
             throw new \LogicException('this document is not a XML stream');
@@ -105,9 +107,12 @@ class Document
             }
         );
 
-        $domDocument = new \DOMDocument();
-        $domDocument->loadXML($this->content);
-        restore_error_handler();
+        try {
+            $domDocument = new \DOMDocument();
+            $domDocument->loadXML($this->content);
+        } finally {
+            restore_error_handler();
+        }
 
         return $domDocument;
     }
@@ -115,7 +120,7 @@ class Document
     /**
      * @return array
      */
-    protected function loadJsonAsArray()
+    protected function loadJsonAsArray() : array
     {
         if (! $this->isJson()) {
             throw new \LogicException('this document is not a JSON stream');

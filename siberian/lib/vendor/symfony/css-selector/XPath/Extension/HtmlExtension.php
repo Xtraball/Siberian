@@ -28,6 +28,13 @@ use Symfony\Component\CssSelector\XPath\XPathExpr;
  */
 class HtmlExtension extends AbstractExtension
 {
+    // Each disabled fieldset ancestor disables the element, except the one whose first legend
+    // child the element sits in. Those excepted fieldsets are exactly the parents of the
+    // ancestors-or-self that are a first legend child of a disabled fieldset, one for one, so
+    // the element is disabled as soon as the first count exceeds the second one. Counting keeps
+    // this to two cheap ancestor walks instead of a predicate run on every ancestor.
+    private const DISABLING_FIELDSET = 'count(ancestor::fieldset[@disabled]) > count(ancestor-or-self::legend[not(preceding-sibling::legend)][parent::fieldset[@disabled]])';
+
     public function __construct(Translator $translator)
     {
         $translator
@@ -36,37 +43,28 @@ class HtmlExtension extends AbstractExtension
             ->setFlag(NodeExtension::ATTRIBUTE_NAME_IN_LOWER_CASE, true);
     }
 
-    /**
-     * {@inheritdoc}
-     */
-    public function getPseudoClassTranslators()
+    public function getPseudoClassTranslators(): array
     {
         return [
-            'checked' => [$this, 'translateChecked'],
-            'link' => [$this, 'translateLink'],
-            'disabled' => [$this, 'translateDisabled'],
-            'enabled' => [$this, 'translateEnabled'],
-            'selected' => [$this, 'translateSelected'],
-            'invalid' => [$this, 'translateInvalid'],
-            'hover' => [$this, 'translateHover'],
-            'visited' => [$this, 'translateVisited'],
+            'checked' => $this->translateChecked(...),
+            'link' => $this->translateLink(...),
+            'disabled' => $this->translateDisabled(...),
+            'enabled' => $this->translateEnabled(...),
+            'selected' => $this->translateSelected(...),
+            'invalid' => $this->translateInvalid(...),
+            'hover' => $this->translateHover(...),
+            'visited' => $this->translateVisited(...),
         ];
     }
 
-    /**
-     * {@inheritdoc}
-     */
-    public function getFunctionTranslators()
+    public function getFunctionTranslators(): array
     {
         return [
-            'lang' => [$this, 'translateLang'],
+            'lang' => $this->translateLang(...),
         ];
     }
 
-    /**
-     * @return XPathExpr
-     */
-    public function translateChecked(XPathExpr $xpath)
+    public function translateChecked(XPathExpr $xpath): XPathExpr
     {
         return $xpath->addCondition(
             '(@checked '
@@ -75,18 +73,12 @@ class HtmlExtension extends AbstractExtension
         );
     }
 
-    /**
-     * @return XPathExpr
-     */
-    public function translateLink(XPathExpr $xpath)
+    public function translateLink(XPathExpr $xpath): XPathExpr
     {
         return $xpath->addCondition("@href and (name(.) = 'a' or name(.) = 'link' or name(.) = 'area')");
     }
 
-    /**
-     * @return XPathExpr
-     */
-    public function translateDisabled(XPathExpr $xpath)
+    public function translateDisabled(XPathExpr $xpath): XPathExpr
     {
         return $xpath->addCondition(
             '('
@@ -106,16 +98,13 @@ class HtmlExtension extends AbstractExtension
                 ." or name(.) = 'button'"
                 ." or name(.) = 'select'"
                 ." or name(.) = 'textarea'"
+                ." or name(.) = 'fieldset'"
             .')'
-            .' and ancestor::fieldset[@disabled]'
+            .' and '.self::DISABLING_FIELDSET
         );
-        // todo: in the second half, add "and is not a descendant of that fieldset element's first legend element child, if any."
     }
 
-    /**
-     * @return XPathExpr
-     */
-    public function translateEnabled(XPathExpr $xpath)
+    public function translateEnabled(XPathExpr $xpath): XPathExpr
     {
         return $xpath->addCondition(
             '('
@@ -127,7 +116,6 @@ class HtmlExtension extends AbstractExtension
             .') or ('
                 .'('
                     ."name(.) = 'command'"
-                    ." or name(.) = 'fieldset'"
                     ." or name(.) = 'optgroup'"
                 .')'
                 .' and not(@disabled)'
@@ -138,8 +126,9 @@ class HtmlExtension extends AbstractExtension
                     ." or name(.) = 'select'"
                     ." or name(.) = 'textarea'"
                     ." or name(.) = 'keygen'"
+                    ." or name(.) = 'fieldset'"
                 .')'
-                .' and not (@disabled or ancestor::fieldset[@disabled])'
+                .' and not(@disabled or '.self::DISABLING_FIELDSET.')'
             .') or ('
                 ."name(.) = 'option' and not("
                     .'@disabled or ancestor::optgroup[@disabled]'
@@ -149,20 +138,18 @@ class HtmlExtension extends AbstractExtension
     }
 
     /**
-     * @return XPathExpr
-     *
      * @throws ExpressionErrorException
      */
-    public function translateLang(XPathExpr $xpath, FunctionNode $function)
+    public function translateLang(XPathExpr $xpath, FunctionNode $function): XPathExpr
     {
         $arguments = $function->getArguments();
         foreach ($arguments as $token) {
             if (!($token->isString() || $token->isIdentifier())) {
-                throw new ExpressionErrorException('Expected a single string or identifier for :lang(), got '.implode_polyfill(', ', $arguments));
+                throw new ExpressionErrorException('Expected a single string or identifier for :lang(), got '.implode(', ', $arguments));
             }
         }
 
-        return $xpath->addCondition(sprintf(
+        return $xpath->addCondition(\sprintf(
             'ancestor-or-self::*[@lang][1][starts-with(concat('
             ."translate(@%s, 'ABCDEFGHIJKLMNOPQRSTUVWXYZ', 'abcdefghijklmnopqrstuvwxyz'), '-')"
             .', %s)]',
@@ -171,42 +158,27 @@ class HtmlExtension extends AbstractExtension
         ));
     }
 
-    /**
-     * @return XPathExpr
-     */
-    public function translateSelected(XPathExpr $xpath)
+    public function translateSelected(XPathExpr $xpath): XPathExpr
     {
         return $xpath->addCondition("(@selected and name(.) = 'option')");
     }
 
-    /**
-     * @return XPathExpr
-     */
-    public function translateInvalid(XPathExpr $xpath)
+    public function translateInvalid(XPathExpr $xpath): XPathExpr
     {
         return $xpath->addCondition('0');
     }
 
-    /**
-     * @return XPathExpr
-     */
-    public function translateHover(XPathExpr $xpath)
+    public function translateHover(XPathExpr $xpath): XPathExpr
     {
         return $xpath->addCondition('0');
     }
 
-    /**
-     * @return XPathExpr
-     */
-    public function translateVisited(XPathExpr $xpath)
+    public function translateVisited(XPathExpr $xpath): XPathExpr
     {
         return $xpath->addCondition('0');
     }
 
-    /**
-     * {@inheritdoc}
-     */
-    public function getName()
+    public function getName(): string
     {
         return 'html';
     }

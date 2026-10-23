@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 /*
  * This file is part of the feed-io package.
  *
@@ -11,38 +11,41 @@
 namespace FeedIo\Rule\Atom;
 
 use FeedIo\Feed\NodeInterface;
-use FeedIo\RuleAbstract;
+use FeedIo\Rule\Link as BaseLink;
 
-class Link extends RuleAbstract
+class Link extends BaseLink
 {
     const NODE_NAME = 'link';
 
     /**
      * @param  NodeInterface $node
      * @param  \DOMElement   $element
-     * @return mixed
      */
-    public function setProperty(NodeInterface $node, \DOMElement $element)
+    public function setProperty(NodeInterface $node, \DOMElement $element) : void
     {
         if ($element->hasAttribute('href')) {
+            $this->selectAlternateLink($node, $element);
+        }
+    }
+
+    protected function selectAlternateLink(NodeInterface $node, \DOMElement $element): void
+    {
+        if (
+        ($element->hasAttribute('rel') && $element->getAttribute('rel') == 'alternate')
+        || is_null($node->getLink())
+        ) {
             $node->setLink($element->getAttribute('href'));
         }
-
-        return $this;
     }
 
     /**
-     * creates the accurate DomElement content according to the $item's property
-     *
-     * @param  \DomDocument  $document
-     * @param  NodeInterface $node
-     * @return \DomElement
+     * @inheritDoc
      */
-    public function createElement(\DomDocument $document, NodeInterface $node)
+    protected function addElement(\DomDocument $document, \DOMElement $rootElement, NodeInterface $node) : void
     {
         $element = $document->createElement(static::NODE_NAME);
         $element->setAttribute('href', $node->getLink());
 
-        return $element;
+        $rootElement->appendChild($element);
     }
 }

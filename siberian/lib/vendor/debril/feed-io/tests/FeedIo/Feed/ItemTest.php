@@ -14,14 +14,16 @@ use FeedIo\Feed\Node\Element;
 use FeedIo\Feed\Item\Media;
 use FeedIo\Feed\Item\Author;
 
-class ItemTest extends \PHPUnit_Framework_TestCase
+use \PHPUnit\Framework\TestCase;
+
+class ItemTest extends TestCase
 {
     /**
      * @var \FeedIo\Feed\Item
      */
     protected $object;
 
-    protected function setUp()
+    protected function setUp(): void
     {
         $this->object = new Item();
     }
@@ -68,17 +70,6 @@ class ItemTest extends \PHPUnit_Framework_TestCase
         $this->object->set('name', 'value');
 
         $this->assertEquals('value', $this->object->getValue('name'));
-    }
-
-    public function testSetValue()
-    {
-        $this->object->set('foo', 'bar');
-
-        $element = new Element();
-        $element->setName('foo');
-        $element->setValue('bar');
-
-        $this->assertAttributeContainsOnly($element, 'elements', $this->object);
     }
 
     public function testHasElement()
@@ -138,8 +129,6 @@ class ItemTest extends \PHPUnit_Framework_TestCase
         $media->setType('audio/mp3');
 
         $this->assertInstanceOf('FeedIo\Feed\Item', $this->object->addMedia($media));
-
-        $this->assertAttributeContains($media, 'medias', $this->object);
     }
 
     public function testHasMedia()
@@ -178,5 +167,34 @@ class ItemTest extends \PHPUnit_Framework_TestCase
     public function testNewAuthor()
     {
         $this->assertInstanceOf('\FeedIo\Feed\Item\AuthorInterface', $this->object->newAuthor());
+    }
+
+    public function testToArray()
+    {
+        $author = new Author();
+        $author->setName('test');
+        $author->setEmail('test@example.org');
+        $author->setUri('http://example.org/');
+        $this->object->setAuthor($author);
+
+        $media = new Media();
+        $media->setType('audio/mp3');
+        $media->setTitle('Media');
+        $media->setUrl('http://example.org/media.mp3');
+        $this->object->addMedia($media);
+
+        $out = $this->object->toArray();
+
+        $this->assertEquals(['name'  => 'test',
+                             'email' => 'test@example.org',
+                             'uri'   => 'http://example.org/'], $out['author']);
+
+        $this->assertEquals([['type'  => 'audio/mp3',
+                              'url'   => 'http://example.org/media.mp3',
+                              'title'       => 'Media',
+                              'description' => null,
+                              'thumbnail'   => null,
+                              'length'      => null,
+                              'nodeName'    => null]], $out['medias']);
     }
 }

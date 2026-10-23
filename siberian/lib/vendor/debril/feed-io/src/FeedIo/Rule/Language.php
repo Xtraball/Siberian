@@ -21,15 +21,20 @@ class Language extends RuleAbstract
     /**
      * @param  NodeInterface $node
      * @param  \DOMElement   $element
-     * @return $this
      */
-    public function setProperty(NodeInterface $node, \DOMElement $element)
+    public function setProperty(NodeInterface $node, \DOMElement $element): void
     {
         if ($node instanceof FeedInterface) {
-            $node->set(static::NODE_NAME, $element->nodeValue);
+            $node->setLanguage($element->nodeValue);
         }
+    }
 
-        return $this;
+    /**
+     * @inheritDoc
+     */
+    protected function hasValue(NodeInterface $node) : bool
+    {
+        return $node instanceof FeedInterface && !! $node->getLanguage();
     }
 
     /**
@@ -37,14 +42,12 @@ class Language extends RuleAbstract
      *
      * @param  \DomDocument  $document
      * @param  NodeInterface $node
-     * @return \DomElement
      */
-    public function createElement(\DomDocument $document, NodeInterface $node)
+    public function addElement(\DomDocument $document, \DOMElement $rootElement, NodeInterface $node): void
     {
         if (!($node instanceof FeedInterface) || is_null($node->getLanguage())) {
             return;
         }
-
-        return $document->createElement($this->getNodeName(), $node->getLanguage());
+        $rootElement->appendChild($document->createElement($this->getNodeName(), $node->getLanguage()));
     }
 }
