@@ -124,10 +124,12 @@ public class NativeToJsMessageQueue {
     }
 
     /**
+     * Combines and returns queued messages combined into a single string.
+     *
      * Combines as many messages as possible, without exceeding
      * COMBINED_RESPONSE_CUTOFF in case of multiple response messages.
      *
-     * @return a string of queued messages combined or null if the queue is empty.
+     * Returns null if the queue is empty.
      */
     public String popAndEncode(boolean fromOnlineEvent) {
         synchronized (this) {

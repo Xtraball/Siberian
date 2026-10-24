@@ -193,13 +193,6 @@ android {
         buildConfig = true
     }
 
-    // This excludes the need for custom build.gradle in plugins we will use only <lib-file />
-    packagingOptions {
-        exclude 'META-INF/ASL2.0'
-        exclude 'META-INF/LICENSE'
-        exclude 'META-INF/NOTICE'
-    }
-
     defaultConfig {
         versionCode cdvVersionCode ?: new BigInteger("" + privateHelpers.extractIntFromManifest("versionCode"))
         applicationId cordovaConfig.PACKAGE_NAMESPACE
@@ -273,7 +266,7 @@ android {
 
     if (cordovaConfig.IS_GRADLE_PLUGIN_KOTLIN_ENABLED) {
         // If KOTLIN_JVM_TARGET is null, fallback to JAVA_TARGET_COMPATIBILITY,
-        // as they generally should be equal
+            // as they generally should be equal
         cordovaConfig.KOTLIN_JVM_TARGET = cordovaConfig.KOTLIN_JVM_TARGET ?:
                 cordovaConfig.JAVA_TARGET_COMPATIBILITY
 

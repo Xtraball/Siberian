@@ -129,8 +129,8 @@ public class SystemWebChromeClient extends WebChromeClient {
      * If the client returns true, WebView will assume that the client will
      * handle the prompt dialog and call the appropriate JsPromptResult method.
      *
-     * <p>Since we are hacking prompts for our own purposes, we should not be using them for
-     * this purpose, perhaps we should hack console.log to do this instead!</p>
+     * Since we are hacking prompts for our own purposes, we should not be using them for
+     * this purpose, perhaps we should hack console.log to do this instead!
      */
     @Override
     public boolean onJsPrompt(WebView view, String origin, String message, String defaultValue, final JsPromptResult result) {
@@ -166,7 +166,7 @@ public class SystemWebChromeClient extends WebChromeClient {
     /**
      * Instructs the client to show a prompt to ask the user to set the Geolocation permission state for the specified origin.
      *
-     * <p>This also checks for the Geolocation Plugin and requests permission from the application  to use Geolocation.</p>
+     * This also checks for the Geolocation Plugin and requests permission from the application  to use Geolocation.
      *
      * @param origin The origin of the web content attempting to use the Geolocation API.
      * @param callback The callback to use to set the permission state for the origin.
@@ -199,7 +199,6 @@ public class SystemWebChromeClient extends WebChromeClient {
     /**
      * Ask the host application for a custom progress view to show while
      * a <video> is loading.
-     *
      * @return View The progress view.
      */
     @Override

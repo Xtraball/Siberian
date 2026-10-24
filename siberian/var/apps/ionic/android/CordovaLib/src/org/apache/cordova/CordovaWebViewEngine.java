@@ -21,7 +21,7 @@ package org.apache.cordova;
 import android.view.KeyEvent;
 import android.view.View;
 import android.webkit.ValueCallback;
-import android.webkit.WebSettings;
+import android.webkit.WebSettings; // Siberian specific
 
 /**
  * Interface for all Cordova engines.
@@ -36,7 +36,7 @@ public interface CordovaWebViewEngine {
     CordovaWebView getCordovaWebView();
     ICordovaCookieManager getCookieManager();
     View getView();
-    WebSettings getSettings();
+    WebSettings getSettings(); // Siberian specific
 
     void loadUrl(String url, boolean clearNavigationStack);
 
@@ -61,7 +61,7 @@ public interface CordovaWebViewEngine {
     /** Clean up all resources associated with the WebView. */
     void destroy();
 
-    /** Add the evaluate Javascript method **/
+    /** Add the evaulate Javascript method **/
     void evaluateJavascript(String js, ValueCallback<String> callback);
 
     /**

@@ -73,6 +73,7 @@ public class PermissionHelper {
      *
      * @param plugin        The plugin the permission is being checked against
      * @param permission    The permission to be checked
+     *
      * @return              True if the permission has already been granted and false otherwise
      * @deprecated As of cordova-android 5.0.0, use {@link CordovaInterface#hasPermission(String)} instead.
      */

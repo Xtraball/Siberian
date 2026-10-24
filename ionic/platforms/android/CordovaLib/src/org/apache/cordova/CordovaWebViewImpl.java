@@ -28,7 +28,7 @@ import android.view.KeyEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.webkit.WebChromeClient;
-import android.webkit.WebSettings;
+import android.webkit.WebSettings; // Siberian specific
 import android.widget.FrameLayout;
 
 import org.apache.cordova.engine.SystemWebViewEngine;
@@ -44,7 +44,7 @@ import java.util.Map;
 import java.util.Set;
 
 /**
- * Main class for interacting with a Cordova WebView. Manages plugins, events, and a CordovaWebViewEngine.
+ * Main class for interacting with a Cordova webview. Manages plugins, events, and a CordovaWebViewEngine.
  * Class uses two-phase initialization. You must call init() before calling any other methods.
  */
 public class CordovaWebViewImpl implements CordovaWebView {
@@ -155,7 +155,7 @@ public class CordovaWebViewImpl implements CordovaWebView {
                 stopLoading();
                 LOG.e(TAG, "CordovaWebView: TIMEOUT ERROR!");
 
-                // Handle other errors by passing them to the WebView in JS
+                // Handle other errors by passing them to the webview in JS
                 JSONObject data = new JSONObject();
                 try {
                     data.put("errorCode", -6);
@@ -220,7 +220,7 @@ public class CordovaWebViewImpl implements CordovaWebView {
             engine.clearHistory();
         }
 
-        // If loading into our WebView
+        // If loading into our webview
         if (!openExternal) {
             // Make sure url is in allow list
             if (pluginManager.shouldAllowNavigation(url)) {
@@ -383,9 +383,17 @@ public class CordovaWebViewImpl implements CordovaWebView {
         return engine;
     }
     @Override
-    public View getView() { return engine.getView(); }
+    public View getView() {
+        return engine.getView();
+    }
+
+    // Siberian specific
     @Override
-    public WebSettings getSettings() { return engine.getSettings(); }
+    public WebSettings getSettings() {
+        return engine.getSettings();
+    }
+    // Siberian specific
+
     @Override
     public Context getContext() {
         return engine.getView().getContext();
@@ -488,7 +496,7 @@ public class CordovaWebViewImpl implements CordovaWebView {
 
         // If app doesn't want to run in background
         if (!keepRunning) {
-            // Pause JavaScript timers. This affects all WebViews within the app!
+            // Pause JavaScript timers. This affects all webviews within the app!
             engine.setPaused(true);
         }
     }
@@ -498,7 +506,7 @@ public class CordovaWebViewImpl implements CordovaWebView {
             return;
         }
 
-        // Resume JavaScript timers. This affects all WebViews within the app!
+        // Resume JavaScript timers. This affects all webviews within the app!
         engine.setPaused(false);
         this.pluginManager.onResume(keepRunning);
 
@@ -538,7 +546,7 @@ public class CordovaWebViewImpl implements CordovaWebView {
         // We should use a blank data: url instead so it's more obvious
         this.loadUrl("about:blank");
 
-        // TODO: Should not destroy WebView until after about:blank is done loading.
+        // TODO: Should not destroy webview until after about:blank is done loading.
         engine.destroy();
         hideCustomView();
     }

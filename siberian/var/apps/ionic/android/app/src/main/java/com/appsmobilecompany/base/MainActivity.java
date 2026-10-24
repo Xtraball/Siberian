@@ -20,11 +20,9 @@
 package com.appsmobilecompany.base;
 
 import android.os.Bundle;
-import android.util.Log;
+import android.util.Log; // Siberian specific
 import org.apache.cordova.*;
-
-// Clear temp files on startup! @siberian
-import java.io.File;
+import java.io.File; // Siberian specific || Clear temp files on startup! @siberian
 
 public class MainActivity extends CordovaActivity
 {

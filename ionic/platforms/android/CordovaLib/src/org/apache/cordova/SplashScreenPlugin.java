@@ -45,25 +45,25 @@ public class SplashScreenPlugin extends CordovaPlugin {
 
     // Config preference values
     /**
-     * Boolean flag to auto hide splash screen (default=true)
+     * @param boolean autoHide to auto splash screen (default=true)
      */
     private boolean autoHide;
     /**
-     * Integer value of how long to delay in milliseconds (default=-1)
+     * @param int delayTime in milliseconds (default=-1)
      */
     private int delayTime;
     /**
-     * Boolean flag if to fade to fade out splash screen (default=true)
+     * @param int fade to fade out splash screen (default=true)
      */
     private boolean isFadeEnabled;
     /**
-     * Integer value of the fade duration in milliseconds (default=500)
+     * @param int fadeDuration fade out duration in milliseconds (default=500)
      */
     private int fadeDuration;
 
     // Internal variables
     /**
-     * Boolean flag to determine if the splash screen remains visible.
+     * @param boolean keepOnScreen flag to determine if the splash screen remains visible.
      */
     private boolean keepOnScreen = true;
 

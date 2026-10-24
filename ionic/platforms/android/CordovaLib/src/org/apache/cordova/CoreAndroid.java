@@ -77,9 +77,8 @@ public class CoreAndroid extends CordovaPlugin {
      * Executes the request and returns PluginResult.
      *
      * @param action            The action to execute.
-     * @param args              JSONArray of arguments for the plugin.
+     * @param args              JSONArry of arguments for the plugin.
      * @param callbackContext   The callback context from which we were invoked.
-     *
      * @return                  A PluginResult object with a status and message.
      */
     @Override
@@ -92,9 +91,9 @@ public class CoreAndroid extends CordovaPlugin {
                 this.clearCache();
             }
             else if (action.equals("show")) {
-                // This gets called from JavaScript onCordovaReady to show the WebView.
+                // This gets called from JavaScript onCordovaReady to show the webview.
                 // I recommend we change the name of the Message as spinner/stop is not
-                // indicative of what this actually does (shows the WebView).
+                // indicative of what this actually does (shows the webview).
                 cordova.getActivity().runOnUiThread(new Runnable() {
                     @Override
                     public void run() {
@@ -163,7 +162,7 @@ public class CoreAndroid extends CordovaPlugin {
     }
 
     /**
-     * Load the url into the WebView.
+     * Load the url into the webview.
      *
      * @param url
      * @param props			Properties that can be passed in to the Cordova activity (i.e. loadingDialog, wait, ...)
@@ -420,8 +419,9 @@ public class CoreAndroid extends CordovaPlugin {
         }
     }
 
-    /**
+    /*
      * Unregister the receiver
+     *
      */
     @Override
     public void onDestroy()

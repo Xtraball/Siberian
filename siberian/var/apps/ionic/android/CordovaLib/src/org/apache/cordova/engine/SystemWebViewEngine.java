@@ -112,7 +112,7 @@ public class SystemWebViewEngine implements CordovaWebViewEngine {
         nativeToJsMessageQueue.addBridgeMode(new NativeToJsMessageQueue.OnlineEventsBridgeMode(new NativeToJsMessageQueue.OnlineEventsBridgeMode.OnlineEventsBridgeModeDelegate() {
             @Override
             public void setNetworkAvailable(boolean value) {
-                //sometimes this can be called after calling webView.destroy() on destroy()
+                //sometimes this can be called after calling webview.destroy() on destroy()
                 //thus resulting in a NullPointerException
                 if(webView!=null) {
                    webView.setNetworkAvailable(value);
@@ -139,10 +139,16 @@ public class SystemWebViewEngine implements CordovaWebViewEngine {
     }
 
     @Override
-    public View getView() { return webView; }
+    public View getView() {
+        return webView;
+    }
 
+    // Siberian specific
     @Override
-    public WebSettings getSettings() { return webView.getSettings(); }
+    public WebSettings getSettings() {
+        return webView.getSettings();
+    }
+    // Siberian specific
 
     @SuppressLint({"NewApi", "SetJavaScriptEnabled"})
     @SuppressWarnings("deprecation")
@@ -161,7 +167,7 @@ public class SystemWebViewEngine implements CordovaWebViewEngine {
         // We don't save any form data in the application
         // @todo remove when Cordova drop API level 26 support
         settings.setSaveFormData(false);
-        settings.setSavePassword(false);
+        settings.setSavePassword(false); // Siberian specific
 
         if (preferences.getBoolean("AndroidInsecureFileModeEnabled", false)) {
             //These settings are deprecated and loading content via file:// URLs is generally discouraged,
@@ -178,12 +184,12 @@ public class SystemWebViewEngine implements CordovaWebViewEngine {
         // We keep this disabled because we use or shim to get around DOM_EXCEPTION_ERROR_16
         String databasePath = webView.getContext().getApplicationContext().getDir("database", Context.MODE_PRIVATE).getPath();
         settings.setDatabaseEnabled(true);
-        settings.setDatabasePath(databasePath);
+        settings.setDatabasePath(databasePath); // Siberian specific
 
 
-        // The default is to use the module's debuggable state to decide if the WebView inspector
-        // should be enabled. However, users can configure InspectableWebView preference to forcefully enable
-        // or disable the WebView inspector.
+        // The default is to use the module's debuggable state to decide if the webview inspecter
+        // should be enabled. However, users can configure InspectableWebview preference to forcefully enable
+        // or disable the webview inspecter.
         String inspectableWebview = preferences.getString("InspectableWebview", null);
         boolean shouldEnableInspector = false;
         if (inspectableWebview == null) {
@@ -255,7 +261,7 @@ public class SystemWebViewEngine implements CordovaWebViewEngine {
 
 
     /**
-     * Load the url into the WebView.
+     * Load the url into the webview.
      */
     @Override
     public void loadUrl(final String url, boolean clearNavigationStack) {
@@ -294,7 +300,7 @@ public class SystemWebViewEngine implements CordovaWebViewEngine {
      */
     @Override
     public boolean goBack() {
-        // Check WebView first to see if there is a history
+        // Check webview first to see if there is a history
         // This is needed to support curPage#diffLink, since they are added to parentEngine's history, but not our history url array (JQMobile behavior)
         if (webView.canGoBack()) {
             webView.goBack();
