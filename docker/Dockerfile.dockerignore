@@ -1,0 +1,6 @@
+# context = repository root; only siberian/ and docker/ are used by the Dockerfile
+*
+!siberian
+!docker
+**/.git
+**/.DS_Store

@@ -1,0 +1,155 @@
+# Builds the images that are not stock ones (siberian-app per PHP version, siberian-web, siberian allinone),
+# gates each PHP version with tests/php-upgrade, boots the stack and runs the installer smoke test.
+# Images are pushed to ghcr.io/<owner>/ only from trunk (push, weekly schedule, manual run); pull requests build and test only.
+# The weekly run rebuilds from freshly pulled bases (php, nginx, Debian) to pick up security patches.
+name: docker-images
+
+on:
+  push:
+    branches: [trunk]
+    paths: ["docker/**", "siberian/**", "tests/php-upgrade/**", ".github/workflows/docker-images.yml"]
+  pull_request:
+    paths: ["docker/**", "siberian/**", "tests/php-upgrade/**", ".github/workflows/docker-images.yml"]
+  schedule:
+    - cron: "17 3 * * 1"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+env:
+  REGISTRY: ghcr.io
+  # PHP minor that gets the unsuffixed tags (:latest, :<sha>)
+  DEFAULT_PHP: "8.5"
+
+jobs:
+  gate:
+    name: php-upgrade gate (PHP ${{ matrix.php }})
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        php: ["8.2", "8.5"]
+    steps:
+      - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262 # v4
+      - run: sh tests/php-upgrade/ci.sh ${{ matrix.php }}
+
+  app:
+    name: siberian-app + smoke (PHP ${{ matrix.php }})
+    needs: gate
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      packages: write
+    strategy:
+      fail-fast: false
+      matrix:
+        php: ["8.2", "8.5"]
+    steps:
+      - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262 # v4
+      - uses: docker/setup-buildx-action@8d2750c68a42422c14e847fe6c8ac0403b4cbd6f # v3
+
+      - name: Image names
+        id: names
+        run: |
+          owner=$(echo "${{ github.repository_owner }}" | tr 'A-Z' 'a-z')
+          echo "app=${REGISTRY}/${owner}/siberian-app" >> "$GITHUB_OUTPUT"
+          echo "web=${REGISTRY}/${owner}/siberian-web" >> "$GITHUB_OUTPUT"
+          echo "all=${REGISTRY}/${owner}/siberian" >> "$GITHUB_OUTPUT"
+
+      - name: Build app and web for the smoke test
+        run: |
+          docker build --pull -f docker/Dockerfile --target app --build-arg PHP_VERSION=${{ matrix.php }} \
+            --build-arg IMAGE_REVISION=${{ github.sha }} -t siberian-app:local .
+          docker build --pull -f docker/Dockerfile --target web -t siberian-web:local .
+
+      - name: Boot the stack and run the installer
+        working-directory: docker
+        run: |
+          cp .env.example .env
+          sed -i "s/^MARIADB_ROOT_PASSWORD=.*/MARIADB_ROOT_PASSWORD=$(openssl rand -hex 12)/;s/^MARIADB_PASSWORD=.*/MARIADB_PASSWORD=$(openssl rand -hex 12)/" .env
+          docker compose up -d --wait --no-build
+          tests/smoke.sh
+
+      - name: Logs on failure
+        if: failure()
+        working-directory: docker
+        run: docker compose logs --no-color --tail=200
+
+      - name: Log in to ghcr.io
+        if: github.event_name != 'pull_request'
+        uses: docker/login-action@c94ce9fb468520275223c153574b00df6fe4bcc9 # v3
+        with:
+          registry: ${{ env.REGISTRY }}
+          username: ${{ github.actor }}
+          password: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Tags
+        id: tags
+        run: |
+          t="php${{ matrix.php }}"
+          app="${{ steps.names.outputs.app }}:${t},${{ steps.names.outputs.app }}:${t}-${GITHUB_SHA::8}"
+          all="${{ steps.names.outputs.all }}:${t},${{ steps.names.outputs.all }}:${t}-${GITHUB_SHA::8}"
+          if [ "${{ matrix.php }}" = "$DEFAULT_PHP" ]; then
+            app="$app,${{ steps.names.outputs.app }}:latest"
+            all="$all,${{ steps.names.outputs.all }}:latest"
+          fi
+          echo "app=$app" >> "$GITHUB_OUTPUT"
+          echo "all=$all" >> "$GITHUB_OUTPUT"
+
+      - name: Push siberian-app
+        if: github.event_name != 'pull_request'
+        uses: docker/build-push-action@10e90e3645eae34f1e60eeb005ba3a3d33f178e8 # v6
+        with:
+          context: .
+          file: docker/Dockerfile
+          target: app
+          build-args: |
+            PHP_VERSION=${{ matrix.php }}
+            IMAGE_REVISION=${{ github.sha }}
+          pull: true
+          push: true
+          tags: ${{ steps.tags.outputs.app }}
+
+      - name: Push siberian (allinone)
+        if: github.event_name != 'pull_request'
+        uses: docker/build-push-action@10e90e3645eae34f1e60eeb005ba3a3d33f178e8 # v6
+        with:
+          context: .
+          file: docker/Dockerfile
+          target: allinone
+          build-args: |
+            PHP_VERSION=${{ matrix.php }}
+            IMAGE_REVISION=${{ github.sha }}
+          push: true
+          tags: ${{ steps.tags.outputs.all }}
+
+  web:
+    name: siberian-web
+    needs: gate
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      packages: write
+    steps:
+      - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262 # v4
+      - uses: docker/setup-buildx-action@8d2750c68a42422c14e847fe6c8ac0403b4cbd6f # v3
+      - name: Image name
+        id: names
+        run: echo "web=${REGISTRY}/$(echo "${{ github.repository_owner }}" | tr 'A-Z' 'a-z')/siberian-web" >> "$GITHUB_OUTPUT"
+      - name: Log in to ghcr.io
+        if: github.event_name != 'pull_request'
+        uses: docker/login-action@c94ce9fb468520275223c153574b00df6fe4bcc9 # v3
+        with:
+          registry: ${{ env.REGISTRY }}
+          username: ${{ github.actor }}
+          password: ${{ secrets.GITHUB_TOKEN }}
+      - uses: docker/build-push-action@10e90e3645eae34f1e60eeb005ba3a3d33f178e8 # v6
+        with:
+          context: .
+          file: docker/Dockerfile
+          target: web
+          build-args: IMAGE_REVISION=${{ github.sha }}
+          pull: true
+          push: ${{ github.event_name != 'pull_request' }}
+          tags: ${{ steps.names.outputs.web }}:latest,${{ steps.names.outputs.web }}:${{ github.sha }}

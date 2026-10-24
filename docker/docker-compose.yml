@@ -1,79 +1,77 @@
-networks:
-  siberian-network-ip:
-    driver: bridge
-    ipam:
-      driver: default
-      config:
-        - subnet: 172.16.42.0/24
-          gateway: 172.16.42.1
+# Siberian CMS: nginx (web) -> php-fpm (app) -> MariaDB, plus the cron loop.
+#
+#   cp .env.example .env      # set the passwords
+#   docker compose up -d --build
+#   open http://localhost:8080  and follow the installer
+#
+# The database is the stock mariadb image. The docroot lives in the `siberian` volume, seeded from the app image on
+# first start: the installer, the in-app updater and the uploads write there (docker/README.md explains the lifecycle).
+name: siberian
 
 services:
   db:
-    restart: always
-    image: mariadb:latest
-    profiles:
-      - db
-    ports:
-      - 3306:3306
-    volumes:
-      - ./mysql:/var/lib/mysql
-    env_file:
-      - .env
+    image: mariadb:11.8
+    restart: unless-stopped
     environment:
-      MARIADB_ROOT_PASSWORD: "${PMA_PASSWORD}"
-    networks:
-      siberian-network-ip:
-        ipv4_address: "${DB_IPV4}"
+      MARIADB_ROOT_PASSWORD: ${MARIADB_ROOT_PASSWORD:?set it in .env}
+      MARIADB_DATABASE: ${MARIADB_DATABASE:-siberian}
+      MARIADB_USER: ${MARIADB_USER:-siberian}
+      MARIADB_PASSWORD: ${MARIADB_PASSWORD:?set it in .env}
+    # Siberian is Zend 1 code: relaxed sql_mode like its historical MySQL 5.x setups, utf8mb4, big packets for the app builds
+    command: >
+      --sql-mode=NO_ENGINE_SUBSTITUTION
+      --character-set-server=utf8mb4 --collation-server=utf8mb4_unicode_ci
+      --max_allowed_packet=256M
+    volumes:
+      - db:/var/lib/mysql
+    healthcheck:
+      test: ["CMD", "healthcheck.sh", "--connect", "--innodb_initialized"]
+      interval: 10s
+      timeout: 5s
+      retries: 12
 
-  php:
-    restart: always
-    image: siberian:php-fpm.7.3
-    profiles:
-      - php
+  app:
+    image: ${SIBERIAN_APP_IMAGE:-siberian-app:local}
     build:
-      context: .
-      dockerfile: ./php/Dockerfile
+      context: ..
+      dockerfile: docker/Dockerfile
+      target: app
+      args:
+        PHP_VERSION: ${PHP_VERSION:-8.5}
+    restart: unless-stopped
+    depends_on:
+      db:
+        condition: service_healthy
     volumes:
-      - ../siberian:/var/www/html
-      - ./php/docker.conf:/etc/php/7.3/fpm/pool.d/
-      - ./php/php.ini:/usr/local/etc/php/php.ini
-      - "../modules:${PROJECT_PATH}/modules"
-    ports:
-      - "${SOCKETIO_RANGE}:${SOCKETIO_RANGE}"
-    env_file:
-      - .env
-    networks:
-      siberian-network-ip:
-        ipv4_address: "${PHP_IPV4}"
+      - siberian:/var/www/html
 
-  nginx:
-    restart: always
-    image: nginx:latest
-    profiles:
-      - nginx
-    ports:
-      - "${HTTP_PORT}:80"
-      - "${HTTPS_PORT}:443"
+  cron:
+    image: ${SIBERIAN_APP_IMAGE:-siberian-app:local}
+    restart: unless-stopped
+    depends_on:
+      app:
+        condition: service_healthy
+    command: ["cron"]
+    healthcheck:
+      disable: true
     volumes:
-      - ../siberian:/var/www/html
-      - ./nginx/default.conf:/etc/nginx/conf.d/default.conf
-      - "${SSL_CERT_PATH}:/etc/nginx/ssl-certificates"
-      - "../modules:${PROJECT_PATH}/modules"
-    env_file:
-      - .env
-    networks:
-      siberian-network-ip:
-        ipv4_address: "${NGINX_IPV4}"
+      - siberian:/var/www/html
 
-  pma:
-    image: phpmyadmin
-    restart: always
-    profiles:
-      - pma
+  web:
+    image: ${SIBERIAN_WEB_IMAGE:-siberian-web:local}
+    build:
+      context: ..
+      dockerfile: docker/Dockerfile
+      target: web
+    restart: unless-stopped
+    depends_on:
+      app:
+        condition: service_healthy
     ports:
-      - 8181:80
-    env_file:
-      - .env
-    networks:
-      siberian-network-ip:
-        ipv4_address: "${PHPMYADMIN_IPV4}"
+      - "${SIBERIAN_PORT:-8080}:80"
+    volumes:
+      - siberian:/var/www/html:ro
+
+volumes:
+  db:
+  siberian:

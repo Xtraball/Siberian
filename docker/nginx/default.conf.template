@@ -1,0 +1,74 @@
+# Siberian vhost for the web image (envsubst renders it at start: SIBERIAN_FPM = host:port of php-fpm).
+# Based on Siberian's own bin/templates/nginx.default. Only index/check_connection/cron/debug.php may run, every other .php is a 404.
+map $http_x_forwarded_proto $siberian_https {
+    default off;
+    https   on;
+}
+
+server {
+    listen 80 default_server;
+    root /var/www/html;
+    index index.php;
+
+    error_log  /var/log/nginx/error.log warn;
+    access_log /var/log/nginx/access.log;
+
+    location ~ ^/app/configs { deny all; }
+    location ~ ^/var/apps/certificates { deny all; }
+    # the docroot also holds the dependency manifests: nothing to serve there
+    location ~ ^/composer\.(json|lock)$ { deny all; }
+
+    location = /.well-known/check {
+        default_type "text/plain";
+        try_files $uri =404;
+    }
+    location ^~ /.well-known/acme-challenge/ {
+        default_type "text/plain";
+        try_files $uri =404;
+    }
+
+    location / {
+        try_files $uri /index.php?$query_string;
+    }
+
+    location ~ ^/(index|check_connection|cron|debug)\.php$ {
+        fastcgi_pass ${SIBERIAN_FPM};
+        fastcgi_index index.php;
+        include fastcgi_params;
+        fastcgi_param SCRIPT_FILENAME $document_root$fastcgi_script_name;
+        fastcgi_param SCRIPT_NAME $fastcgi_script_name;
+        fastcgi_param HTTPS $siberian_https;
+        # the Host header as sent, port included: some nginx builds ship a fastcgi_params that uses $host
+        fastcgi_param HTTP_HOST $http_host;
+        fastcgi_buffers 256 128k;
+        fastcgi_connect_timeout 300s;
+        fastcgi_send_timeout 300s;
+        fastcgi_read_timeout 300s;
+    }
+
+    location ~ \.php$ {
+        return 404;
+    }
+
+    location ~* ^.+.(js|css|png|jpg|jpeg|gif|ico|html|woff|ttf|eot|svg)$ {
+        access_log        off;
+        log_not_found     off;
+        expires           0;
+
+        add_header Access-Control-Allow-Origin $http_origin always;
+        add_header Access-Control-Allow-Headers "Cache-Control, X-App-Version, X-App-DeviceType, X-App-ApiVersion, Origin, X-Requested-With, X-HTTP-Method-Override, Content-Type, Accept, Pragma, Set-Cookie" always;
+    }
+
+    location ~ /\. {
+        access_log off;
+        log_not_found off;
+        deny all;
+    }
+
+    gzip on;
+    gzip_min_length 1000;
+    gzip_proxied any;
+    gzip_types text/plain application/xml text/css text/js application/x-javascript application/json;
+
+    client_max_body_size 200M;
+}
