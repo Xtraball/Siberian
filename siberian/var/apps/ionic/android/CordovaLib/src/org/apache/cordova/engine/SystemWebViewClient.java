@@ -1,20 +1,20 @@
 /*
-       Licensed to the Apache Software Foundation (ASF) under one
-       or more contributor license agreements.  See the NOTICE file
-       distributed with this work for additional information
-       regarding copyright ownership.  The ASF licenses this file
-       to you under the Apache License, Version 2.0 (the
-       "License"); you may not use this file except in compliance
-       with the License.  You may obtain a copy of the License at
+    Licensed to the Apache Software Foundation (ASF) under one
+    or more contributor license agreements.  See the NOTICE file
+    distributed with this work for additional information
+    regarding copyright ownership.  The ASF licenses this file
+    to you under the Apache License, Version 2.0 (the
+    "License"); you may not use this file except in compliance
+    with the License.  You may obtain a copy of the License at
 
-         http://www.apache.org/licenses/LICENSE-2.0
+        http://www.apache.org/licenses/LICENSE-2.0
 
-       Unless required by applicable law or agreed to in writing,
-       software distributed under the License is distributed on an
-       "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
-       KIND, either express or implied.  See the License for the
-       specific language governing permissions and limitations
-       under the License.
+    Unless required by applicable law or agreed to in writing,
+    software distributed under the License is distributed on an
+    "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
+    KIND, either express or implied.  See the License for the
+    specific language governing permissions and limitations
+    under the License.
 */
 package org.apache.cordova.engine;
 
@@ -112,7 +112,7 @@ public class SystemWebViewClient extends WebViewClient {
                 return new WebResourceResponse(mimeType, null, is);
             } catch (Exception e) {
                 e.printStackTrace();
-                LOG.e(TAG, e.getMessage());
+                LOG.e(TAG, "Exception handling Web resource at \"" + path + "\"", e);
             }
             return null;
         });
@@ -199,7 +199,7 @@ public class SystemWebViewClient extends WebViewClient {
      * one time for the main frame. This also means that onPageStarted will not be called when the contents of an
      * embedded frame changes, i.e. clicking a link whose target is an iframe.
      *
-     * @param view          The webview initiating the callback.
+     * @param view          The WebView initiating the callback.
      * @param url           The url of the page.
      */
     @Override
@@ -216,7 +216,7 @@ public class SystemWebViewClient extends WebViewClient {
      * This method is called only for main frame. When onPageFinished() is called, the rendering picture may not be updated yet.
      *
      *
-     * @param view          The webview initiating the callback.
+     * @param view          The WebView initiating the callback.
      * @param url           The url of the page.
      */
     @Override
@@ -228,7 +228,7 @@ public class SystemWebViewClient extends WebViewClient {
         }
         isCurrentlyLoading = false;
 
-        /**
+        /*
          * Because of a timing issue we need to clear this history in onPageFinished as well as
          * onPageStarted. However we only want to do this if the doClearHistory boolean is set to
          * true. You see when you load a url with a # in it which is common in jQuery applications
@@ -332,7 +332,6 @@ public class SystemWebViewClient extends WebViewClient {
      *
      * @param host
      * @param realm
-     *
      * @return the authentication token or null if did not exist
      */
     public AuthenticationToken removeAuthenticationToken(String host, String realm) {
@@ -342,15 +341,16 @@ public class SystemWebViewClient extends WebViewClient {
     /**
      * Gets the authentication token.
      *
-     * In order it tries:
-     * 1- host + realm
-     * 2- host
-     * 3- realm
-     * 4- no host, no realm
+     * <p>In order it tries:</p>
+     * <ol>
+     *  <li>host + realm</li>
+     *  <li>host</li>
+     *  <li>realm</li>
+     *  <li>no host, no realm</li>
+     * </ol>
      *
      * @param host
      * @param realm
-     *
      * @return the authentication token
      */
     public AuthenticationToken getAuthenticationToken(String host, String realm) {

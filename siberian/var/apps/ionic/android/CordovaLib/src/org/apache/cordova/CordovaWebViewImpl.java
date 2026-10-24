@@ -1,20 +1,20 @@
 /*
-       Licensed to the Apache Software Foundation (ASF) under one
-       or more contributor license agreements.  See the NOTICE file
-       distributed with this work for additional information
-       regarding copyright ownership.  The ASF licenses this file
-       to you under the Apache License, Version 2.0 (the
-       "License"); you may not use this file except in compliance
-       with the License.  You may obtain a copy of the License at
+    Licensed to the Apache Software Foundation (ASF) under one
+    or more contributor license agreements.  See the NOTICE file
+    distributed with this work for additional information
+    regarding copyright ownership.  The ASF licenses this file
+    to you under the Apache License, Version 2.0 (the
+    "License"); you may not use this file except in compliance
+    with the License.  You may obtain a copy of the License at
 
-         http://www.apache.org/licenses/LICENSE-2.0
+        http://www.apache.org/licenses/LICENSE-2.0
 
-       Unless required by applicable law or agreed to in writing,
-       software distributed under the License is distributed on an
-       "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
-       KIND, either express or implied.  See the License for the
-       specific language governing permissions and limitations
-       under the License.
+    Unless required by applicable law or agreed to in writing,
+    software distributed under the License is distributed on an
+    "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
+    KIND, either express or implied.  See the License for the
+    specific language governing permissions and limitations
+    under the License.
 */
 package org.apache.cordova;
 
@@ -44,7 +44,7 @@ import java.util.Map;
 import java.util.Set;
 
 /**
- * Main class for interacting with a Cordova webview. Manages plugins, events, and a CordovaWebViewEngine.
+ * Main class for interacting with a Cordova WebView. Manages plugins, events, and a CordovaWebViewEngine.
  * Class uses two-phase initialization. You must call init() before calling any other methods.
  */
 public class CordovaWebViewImpl implements CordovaWebView {
@@ -155,7 +155,7 @@ public class CordovaWebViewImpl implements CordovaWebView {
                 stopLoading();
                 LOG.e(TAG, "CordovaWebView: TIMEOUT ERROR!");
 
-                // Handle other errors by passing them to the webview in JS
+                // Handle other errors by passing them to the WebView in JS
                 JSONObject data = new JSONObject();
                 try {
                     data.put("errorCode", -6);
@@ -220,7 +220,7 @@ public class CordovaWebViewImpl implements CordovaWebView {
             engine.clearHistory();
         }
 
-        // If loading into our webview
+        // If loading into our WebView
         if (!openExternal) {
             // Make sure url is in allow list
             if (pluginManager.shouldAllowNavigation(url)) {
@@ -488,7 +488,7 @@ public class CordovaWebViewImpl implements CordovaWebView {
 
         // If app doesn't want to run in background
         if (!keepRunning) {
-            // Pause JavaScript timers. This affects all webviews within the app!
+            // Pause JavaScript timers. This affects all WebViews within the app!
             engine.setPaused(true);
         }
     }
@@ -498,7 +498,7 @@ public class CordovaWebViewImpl implements CordovaWebView {
             return;
         }
 
-        // Resume JavaScript timers. This affects all webviews within the app!
+        // Resume JavaScript timers. This affects all WebViews within the app!
         engine.setPaused(false);
         this.pluginManager.onResume(keepRunning);
 
@@ -538,7 +538,7 @@ public class CordovaWebViewImpl implements CordovaWebView {
         // We should use a blank data: url instead so it's more obvious
         this.loadUrl("about:blank");
 
-        // TODO: Should not destroy webview until after about:blank is done loading.
+        // TODO: Should not destroy WebView until after about:blank is done loading.
         engine.destroy();
         hideCustomView();
     }

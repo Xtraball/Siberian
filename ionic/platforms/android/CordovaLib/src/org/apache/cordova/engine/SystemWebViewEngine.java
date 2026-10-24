@@ -1,20 +1,20 @@
 /*
-       Licensed to the Apache Software Foundation (ASF) under one
-       or more contributor license agreements.  See the NOTICE file
-       distributed with this work for additional information
-       regarding copyright ownership.  The ASF licenses this file
-       to you under the Apache License, Version 2.0 (the
-       "License"); you may not use this file except in compliance
-       with the License.  You may obtain a copy of the License at
+    Licensed to the Apache Software Foundation (ASF) under one
+    or more contributor license agreements.  See the NOTICE file
+    distributed with this work for additional information
+    regarding copyright ownership.  The ASF licenses this file
+    to you under the Apache License, Version 2.0 (the
+    "License"); you may not use this file except in compliance
+    with the License.  You may obtain a copy of the License at
 
-         http://www.apache.org/licenses/LICENSE-2.0
+        http://www.apache.org/licenses/LICENSE-2.0
 
-       Unless required by applicable law or agreed to in writing,
-       software distributed under the License is distributed on an
-       "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
-       KIND, either express or implied.  See the License for the
-       specific language governing permissions and limitations
-       under the License.
+    Unless required by applicable law or agreed to in writing,
+    software distributed under the License is distributed on an
+    "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
+    KIND, either express or implied.  See the License for the
+    specific language governing permissions and limitations
+    under the License.
 */
 
 package org.apache.cordova.engine;
@@ -112,7 +112,7 @@ public class SystemWebViewEngine implements CordovaWebViewEngine {
         nativeToJsMessageQueue.addBridgeMode(new NativeToJsMessageQueue.OnlineEventsBridgeMode(new NativeToJsMessageQueue.OnlineEventsBridgeMode.OnlineEventsBridgeModeDelegate() {
             @Override
             public void setNetworkAvailable(boolean value) {
-                //sometimes this can be called after calling webview.destroy() on destroy()
+                //sometimes this can be called after calling webView.destroy() on destroy()
                 //thus resulting in a NullPointerException
                 if(webView!=null) {
                    webView.setNetworkAvailable(value);
@@ -181,9 +181,9 @@ public class SystemWebViewEngine implements CordovaWebViewEngine {
         settings.setDatabasePath(databasePath);
 
 
-        // The default is to use the module's debuggable state to decide if the webview inspecter
-        // should be enabled. However, users can configure InspectableWebview preference to forcefully enable
-        // or disable the webview inspecter.
+        // The default is to use the module's debuggable state to decide if the WebView inspector
+        // should be enabled. However, users can configure InspectableWebView preference to forcefully enable
+        // or disable the WebView inspector.
         String inspectableWebview = preferences.getString("InspectableWebview", null);
         boolean shouldEnableInspector = false;
         if (inspectableWebview == null) {
@@ -255,7 +255,7 @@ public class SystemWebViewEngine implements CordovaWebViewEngine {
 
 
     /**
-     * Load the url into the webview.
+     * Load the url into the WebView.
      */
     @Override
     public void loadUrl(final String url, boolean clearNavigationStack) {
@@ -294,7 +294,7 @@ public class SystemWebViewEngine implements CordovaWebViewEngine {
      */
     @Override
     public boolean goBack() {
-        // Check webview first to see if there is a history
+        // Check WebView first to see if there is a history
         // This is needed to support curPage#diffLink, since they are added to parentEngine's history, but not our history url array (JQMobile behavior)
         if (webView.canGoBack()) {
             webView.goBack();
@@ -323,7 +323,7 @@ public class SystemWebViewEngine implements CordovaWebViewEngine {
             try {
                 webView.getContext().unregisterReceiver(receiver);
             } catch (Exception e) {
-                LOG.e(TAG, "Error unregistering configuration receiver: " + e.getMessage(), e);
+                LOG.e(TAG, "Error unregistering configuration receiver", e);
             }
         }
     }

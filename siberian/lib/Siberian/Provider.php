@@ -77,7 +77,7 @@ class Provider
     public static function getApkAabBuilder ()
     {
 //        return self::getServices()['apk_aab_builder']['url'];
-        return self::getServices()['apk_aab_builder_34']['url'];
+        return self::getServices()['apk_aab_builder_36']['url'];
     }
 
     /**

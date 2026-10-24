@@ -1,20 +1,20 @@
 /*
-       Licensed to the Apache Software Foundation (ASF) under one
-       or more contributor license agreements.  See the NOTICE file
-       distributed with this work for additional information
-       regarding copyright ownership.  The ASF licenses this file
-       to you under the Apache License, Version 2.0 (the
-       "License"); you may not use this file except in compliance
-       with the License.  You may obtain a copy of the License at
+    Licensed to the Apache Software Foundation (ASF) under one
+    or more contributor license agreements.  See the NOTICE file
+    distributed with this work for additional information
+    regarding copyright ownership.  The ASF licenses this file
+    to you under the Apache License, Version 2.0 (the
+    "License"); you may not use this file except in compliance
+    with the License.  You may obtain a copy of the License at
 
-         http://www.apache.org/licenses/LICENSE-2.0
+        http://www.apache.org/licenses/LICENSE-2.0
 
-       Unless required by applicable law or agreed to in writing,
-       software distributed under the License is distributed on an
-       "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
-       KIND, either express or implied.  See the License for the
-       specific language governing permissions and limitations
-       under the License.
+    Unless required by applicable law or agreed to in writing,
+    software distributed under the License is distributed on an
+    "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
+    KIND, either express or implied.  See the License for the
+    specific language governing permissions and limitations
+    under the License.
 */
 
 package org.apache.cordova;
@@ -45,25 +45,25 @@ public class SplashScreenPlugin extends CordovaPlugin {
 
     // Config preference values
     /**
-     * @param boolean autoHide to auto splash screen (default=true)
+     * Boolean flag to auto hide splash screen (default=true)
      */
     private boolean autoHide;
     /**
-     * @param int delayTime in milliseconds (default=-1)
+     * Integer value of how long to delay in milliseconds (default=-1)
      */
     private int delayTime;
     /**
-     * @param int fade to fade out splash screen (default=true)
+     * Boolean flag if to fade to fade out splash screen (default=true)
      */
     private boolean isFadeEnabled;
     /**
-     * @param int fadeDuration fade out duration in milliseconds (default=500)
+     * Integer value of the fade duration in milliseconds (default=500)
      */
     private int fadeDuration;
 
     // Internal variables
     /**
-     * @param boolean keepOnScreen flag to determine if the splash screen remains visible.
+     * Boolean flag to determine if the splash screen remains visible.
      */
     private boolean keepOnScreen = true;
 
@@ -155,10 +155,13 @@ public class SplashScreenPlugin extends CordovaPlugin {
                                 public void onAnimationEnd(Animator animation) {
                                     super.onAnimationEnd(animation);
                                     splashScreenViewProvider.remove();
+                                    webView.getPluginManager().postMessage("updateSystemBars", null);
                                 }
                             }).start();
                 }
             });
+        } else {
+            webView.getPluginManager().postMessage("updateSystemBars", null);
         }
     }
 

@@ -1,20 +1,20 @@
 /*
-       Licensed to the Apache Software Foundation (ASF) under one
-       or more contributor license agreements.  See the NOTICE file
-       distributed with this work for additional information
-       regarding copyright ownership.  The ASF licenses this file
-       to you under the Apache License, Version 2.0 (the
-       "License"); you may not use this file except in compliance
-       with the License.  You may obtain a copy of the License at
+    Licensed to the Apache Software Foundation (ASF) under one
+    or more contributor license agreements.  See the NOTICE file
+    distributed with this work for additional information
+    regarding copyright ownership.  The ASF licenses this file
+    to you under the Apache License, Version 2.0 (the
+    "License"); you may not use this file except in compliance
+    with the License.  You may obtain a copy of the License at
 
-         http://www.apache.org/licenses/LICENSE-2.0
+        http://www.apache.org/licenses/LICENSE-2.0
 
-       Unless required by applicable law or agreed to in writing,
-       software distributed under the License is distributed on an
-       "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
-       KIND, either express or implied.  See the License for the
-       specific language governing permissions and limitations
-       under the License.
+    Unless required by applicable law or agreed to in writing,
+    software distributed under the License is distributed on an
+    "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
+    KIND, either express or implied.  See the License for the
+    specific language governing permissions and limitations
+    under the License.
 */
 package org.apache.cordova;
 
@@ -124,12 +124,10 @@ public class NativeToJsMessageQueue {
     }
 
     /**
-     * Combines and returns queued messages combined into a single string.
-     *
      * Combines as many messages as possible, without exceeding
      * COMBINED_RESPONSE_CUTOFF in case of multiple response messages.
      *
-     * Returns null if the queue is empty.
+     * @return a string of queued messages combined or null if the queue is empty.
      */
     public String popAndEncode(boolean fromOnlineEvent) {
         synchronized (this) {
@@ -206,7 +204,7 @@ public class NativeToJsMessageQueue {
                 }
             }
             if (!willSendAllMessages) {
-                sb.append("window.setTimeout(function(){cordova.require('cordova/plugin/android/polling').pollOnce();},0);");
+                sb.append("window.setTimeout(function(){cordova.require('cordova/exec').pollOnce();},0);");
             }
             for (int i = willSendAllMessages ? 1 : 0; i < numMessagesToSend; ++i) {
                 sb.append('}');
