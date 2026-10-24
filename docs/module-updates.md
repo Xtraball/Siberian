@@ -29,6 +29,12 @@ Status: built on branch `feat-module-updates`, tested, not released. Counterpart
 - The terms HTML comes from the downloader (already escaped there) and is shown in the backoffice with `swal html:true`. Trusting that depends on TLS and on the downloader.
 - The backoffice has no CSRF token mechanism; the state-changing actions require login and POST, nothing more.
 
+## Verification
+
+- Unit tests: `tests/php-upgrade/regression/ModuleUpdatesTest.php` (24 checks).
+- End to end: `tests/e2e-module-updates/` (40 checks, 2026-10-25): real Siberian 5.0.18 on PHP 8.2 installed through its web installer, DemoUpd 1.0.0 installed the regular way, updated to 1.1.0 through the new actions against the downloader branch over strict TLS. Also covered: refusals, the 409 terms-changed path, downloader down, kill switch, audit log. Not run against production or the real licence services.
+- Not verified: the backoffice screens (no browser can load the LAN scripts here, only the JavaScript syntax was checked) and the cron entry point `Installer_Model_ModuleUpdates::cron`.
+
 ## Not done yet
 
 - Module folder backup before the install (the regular install overwrites in place, so a backup belongs to the copy step; rollback is a reinstall of the previous package).

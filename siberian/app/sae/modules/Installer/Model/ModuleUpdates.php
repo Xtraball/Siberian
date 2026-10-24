@@ -27,7 +27,10 @@ class Installer_Model_ModuleUpdates
             new ConfigStore(),
             Core_Model_Directory::getBasePathTo('var/cache/module-updates.json'),
             \Siberian\Version::VERSION,
-            self::pinnedKeys()
+            self::pinnedKeys(),
+            null,
+            // Only the configuration file can point somewhere else (staging, tests), never the database.
+            __getConfig('module_updates_base_url') ?: ModuleUpdates::BASE_URL
         );
     }
 
@@ -87,6 +90,11 @@ class Installer_Model_ModuleUpdates
     {
         $service = self::service();
         $list = $service->refresh();
+
+        if (!$service->termsAccepted($list)) {
+            // The cached list may predate a terms change that was just accepted: look again once.
+            $list = $service->refresh(true);
+        }
 
         if (!$service->termsAccepted($list)) {
             throw new ModuleUpdates\Exception('terms_required', p__('backoffice', 'Please accept the terms of download first.'), [

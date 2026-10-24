@@ -792,7 +792,7 @@ class Installer_Backoffice_ModuleController extends Backoffice_Controller_Defaul
             $session = $this->getSession(Core_Model_Session::TYPE_BACKOFFICE);
             Installer_Model_ModuleUpdates::service()->acceptTerms(
                 (string) $this->getRequest()->getParam('hash', ''),
-                $session->getAdminId() ?: 'backoffice'
+                $session->getBackofficeUserId() ?: 'backoffice'
             );
             $payload = ['success' => true];
         } catch (\Siberian\ModuleUpdates\Exception $e) {

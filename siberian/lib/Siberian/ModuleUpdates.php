@@ -65,14 +65,20 @@ class ModuleUpdates
     private $clock;
 
     /**
+     * @var string
+     */
+    private $baseUrl;
+
+    /**
      * @param Transport $transport
      * @param Store $store
      * @param string $cacheFile Where the module list is cached (var/cache/...)
      * @param string $siberianVersion Running Siberian version
      * @param array $keys Pinned public keys, key id => base64
      * @param callable|null $clock Returns the unix time
+     * @param string $baseUrl Downloader base URL, only changed for tests (see Installer_Model_ModuleUpdates)
      */
-    public function __construct(Transport $transport, Store $store, $cacheFile, $siberianVersion, array $keys = self::PINNED_KEYS, $clock = null)
+    public function __construct(Transport $transport, Store $store, $cacheFile, $siberianVersion, array $keys = self::PINNED_KEYS, $clock = null, $baseUrl = self::BASE_URL)
     {
         $this->transport = $transport;
         $this->store = $store;
@@ -80,6 +86,7 @@ class ModuleUpdates
         $this->siberianVersion = $siberianVersion;
         $this->keys = $keys;
         $this->clock = $clock ?: 'time';
+        $this->baseUrl = rtrim($baseUrl, '/');
     }
 
     /**
@@ -116,7 +123,7 @@ class ModuleUpdates
         if ($cache !== null && !empty($cache['etag'])) {
             $headers[] = 'If-None-Match: ' . $cache['etag'];
         }
-        $response = $this->transport->request('GET', self::BASE_URL . '/api/v1/modules.json', $headers, null, 5);
+        $response = $this->transport->request('GET', $this->baseUrl . '/api/v1/modules.json', $headers, null, 5);
 
         if ($response['status'] === 304 && $cache !== null) {
             $cache['fetched_at'] = $now;
@@ -196,7 +203,7 @@ class ModuleUpdates
     public function fetchTerms()
     {
         $this->assertEnabled();
-        $response = $this->transport->request('GET', self::BASE_URL . '/api/v1/terms', ['Accept: application/json'], null, 5);
+        $response = $this->transport->request('GET', $this->baseUrl . '/api/v1/terms', ['Accept: application/json'], null, 5);
         $terms = $response['status'] === 200 ? json_decode($response['body'], true) : null;
         if (!is_array($terms) || empty($terms['hash']) || !isset($terms['html'])) {
             throw new Exception('unavailable', 'The terms of download are not reachable, please try again later.');
@@ -274,7 +281,7 @@ class ModuleUpdates
         ]);
         $response = $this->transport->request(
             'POST',
-            self::BASE_URL . '/api/v1/modules/' . $code . '/download',
+            $this->baseUrl . '/api/v1/modules/' . $code . '/download',
             ['Content-Type: application/json', 'Accept: application/octet-stream', 'X-Siberian-Version: ' . $this->siberianVersion],
             $payload,
             120,
