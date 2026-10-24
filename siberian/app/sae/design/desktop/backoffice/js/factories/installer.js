@@ -94,5 +94,42 @@ App.factory('Installer', function($http, Url) {
         });
     };
 
+    /** Module updates (served by the downloader, see Siberian\ModuleUpdates). */
+    factory.checkModuleUpdates = function (force) {
+        return $http({
+            method: 'GET',
+            url: Url.get("installer/backoffice_module/checkupdates", {force: force ? 1 : 0}),
+            cache: false,
+            responseType:'json'
+        });
+    };
+
+    factory.moduleUpdatesTerms = function () {
+        return $http({
+            method: 'GET',
+            url: Url.get("installer/backoffice_module/terms"),
+            cache: false,
+            responseType:'json'
+        });
+    };
+
+    factory.acceptModuleUpdatesTerms = function (hash) {
+        return $http({
+            method: 'POST',
+            url: Url.get("installer/backoffice_module/acceptterms", {hash: hash}),
+            cache: false,
+            responseType:'json'
+        });
+    };
+
+    factory.updateModule = function (code) {
+        return $http({
+            method: 'POST',
+            url: Url.get("installer/backoffice_module/updatemodule", {code: code}),
+            cache: false,
+            responseType:'json'
+        });
+    };
+
     return factory;
 });

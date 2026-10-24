@@ -743,6 +743,93 @@ class Installer_Backoffice_ModuleController extends Backoffice_Controller_Defaul
         $this->_sendJson($payload);
     }
 
+    /**
+     * Module updates, list. `force=1` asks the downloader again (the cache is served if it is down).
+     */
+    public function checkupdatesAction()
+    {
+        try {
+            $updates = Installer_Model_ModuleUpdates::service();
+            $list = $updates->refresh((bool) $this->getRequest()->getParam('force', false));
+            $payload = [
+                'success' => true,
+                'updates' => $updates->pending(Installer_Model_ModuleUpdates::installed(), $list),
+                'stale' => $list['stale'],
+                'fetched_at' => $list['fetched_at'],
+                'terms_accepted' => $updates->termsAccepted($list),
+                'terms_hash' => $list['manifest']['terms']['hash'],
+            ];
+        } catch (\Siberian\ModuleUpdates\Exception $e) {
+            $payload = Installer_Model_ModuleUpdates::errorPayload($e);
+        }
+
+        $this->_sendJson($payload);
+    }
+
+    /**
+     * The live terms of download, served by the downloader.
+     */
+    public function termsAction()
+    {
+        try {
+            $payload = ['success' => true, 'terms' => Installer_Model_ModuleUpdates::service()->fetchTerms()];
+        } catch (\Siberian\ModuleUpdates\Exception $e) {
+            $payload = Installer_Model_ModuleUpdates::errorPayload($e);
+        }
+
+        $this->_sendJson($payload);
+    }
+
+    /**
+     * Records that this administrator accepted the terms identified by `hash`.
+     */
+    public function accepttermsAction()
+    {
+        try {
+            if (!$this->getRequest()->isPost()) {
+                throw new \Siberian\ModuleUpdates\Exception('bad_request', p__('backoffice', 'This action requires a POST request.'));
+            }
+            $session = $this->getSession(Core_Model_Session::TYPE_BACKOFFICE);
+            Installer_Model_ModuleUpdates::service()->acceptTerms(
+                (string) $this->getRequest()->getParam('hash', ''),
+                $session->getAdminId() ?: 'backoffice'
+            );
+            $payload = ['success' => true];
+        } catch (\Siberian\ModuleUpdates\Exception $e) {
+            $payload = Installer_Model_ModuleUpdates::errorPayload($e);
+        }
+
+        $this->_sendJson($payload);
+    }
+
+    /**
+     * Downloads the update of one module, then answers exactly like downloadupdateAction: the
+     * backoffice continues with the usual permissions, copy and install steps.
+     */
+    public function updatemoduleAction()
+    {
+        try {
+            if (!$this->getRequest()->isPost()) {
+                throw new \Siberian\ModuleUpdates\Exception('bad_request', p__('backoffice', 'This action requires a POST request.'));
+            }
+            if (__getConfig('is_demo')) {
+                throw new \Siberian\ModuleUpdates\Exception('demo', p__('backoffice', 'This is a demo version, no modules can be updated.'));
+            }
+
+            set_time_limit(600);
+            $code = (string) $this->getRequest()->getParam('code', '');
+            $path = Installer_Model_ModuleUpdates::download($code);
+
+            $payload = $this->_getPackageDetails($path);
+        } catch (\Siberian\ModuleUpdates\Exception $e) {
+            $payload = Installer_Model_ModuleUpdates::errorPayload($e);
+        } catch (\Exception $e) {
+            $payload = ['error' => true, 'code' => 'install', 'message' => $e->getMessage()];
+        }
+
+        $this->_sendJson($payload);
+    }
+
     public static function _sIsAllowed($moduleName)
     {
         // Skip for SAE!

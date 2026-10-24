@@ -153,6 +153,114 @@ App.config(function ($routeProvider) {
         });
     };
 
+    /*/******** MODULE UPDATES **********/
+    $scope.module_updates = {
+        loading: false,
+        busy_code: null,
+        updates: [],
+        stale: false,
+        fetched_at: null,
+        terms_accepted: false,
+        terms_hash: null,
+        error: null
+    };
+
+    $scope.checkModuleUpdates = function (force) {
+        $scope.module_updates.loading = true;
+        $scope.module_updates.error = null;
+
+        Installer.checkModuleUpdates(force).success(function (data) {
+            if (data.error) {
+                $scope.module_updates.error = data.message;
+                return;
+            }
+            $scope.module_updates.updates = data.updates;
+            $scope.module_updates.stale = data.stale;
+            $scope.module_updates.fetched_at = data.fetched_at;
+            $scope.module_updates.terms_accepted = data.terms_accepted;
+            $scope.module_updates.terms_hash = data.terms_hash;
+        }).error(function () {
+            $scope.module_updates.error = Label.uploader.error.general;
+        }).finally(function () {
+            $scope.module_updates.loading = false;
+        });
+    };
+
+    // Shows the live terms, and records the acceptance only when the administrator confirms.
+    $scope.showModuleUpdatesTerms = function (terms, nextAction) {
+        swal({
+            html: true,
+            title: terms.version ? 'Terms of download (v' + terms.version + ')' : 'Terms of download',
+            text: terms.html,
+            showCancelButton: true,
+            closeOnConfirm: false,
+            confirmButtonText: 'I agree',
+            cancelButtonText: 'Cancel'
+        }, function (confirmed) {
+            if (!confirmed) {
+                return;
+            }
+            Installer.acceptModuleUpdatesTerms(terms.hash).success(function (data) {
+                if (data.error && data.terms) {
+                    // Changed while the page was open: show the new ones.
+                    swal.close();
+                    $scope.showModuleUpdatesTerms(data.terms, nextAction);
+                } else if (data.error) {
+                    swal.showInputError(data.message);
+                } else {
+                    swal.close();
+                    $scope.module_updates.terms_accepted = true;
+                    if (nextAction) {
+                        nextAction();
+                    }
+                }
+            });
+        });
+    };
+
+    $scope.updateModule = function (update) {
+        if (!$scope.module_updates.terms_accepted) {
+            Installer.moduleUpdatesTerms().success(function (data) {
+                if (data.error) {
+                    $scope.message.setText(data.message).isError(true).show();
+                    return;
+                }
+                $scope.showModuleUpdatesTerms(data.terms, function () {
+                    $scope.updateModule(update);
+                });
+            });
+            return;
+        }
+
+        $scope.module_updates.busy_code = update.code;
+        $scope.check_for_updates.loader_is_visible = true;
+        Installer.updateModule(update.code).success(function (data) {
+            if (data.error && data.terms) {
+                // The terms changed since they were accepted.
+                $scope.module_updates.terms_accepted = false;
+                $scope.showModuleUpdatesTerms(data.terms, function () {
+                    $scope.updateModule(update);
+                });
+            } else if (data.error) {
+                $scope.message.setText(data.message).isError(true).show();
+            } else if (data.filename) {
+                // From here it is the regular installer: package details, permissions, copy, install.
+                $scope.package_full = data;
+                $scope.package_details = data.package_details;
+                Installer.filename = data.filename;
+                $scope.showPackageDetails();
+                $scope.check_for_updates.check = false;
+            }
+        }).error(function (data) {
+            $scope.message.setText((data && data.message) || Label.uploader.error.general).isError(true).show();
+        }).finally(function () {
+            $scope.module_updates.busy_code = null;
+            $scope.check_for_updates.loader_is_visible = false;
+        });
+    };
+
+    $scope.checkModuleUpdates(false);
+
     /**
      * Checking for module license
      */

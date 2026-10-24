@@ -59,6 +59,61 @@
     </div>
 </sb-section>
 
+<sb-section title="'<?php echo __title("Module updates"); ?>'">
+    <div class="col-md-12">
+        <p>
+            <button class="btn btn-primary"
+                    ng-click="checkModuleUpdates(true)"
+                    ng-disabled="module_updates.loading">
+                <i class="fa fa-refresh"></i> <?php echo __("Check now"); ?>
+            </button>
+            <span ng-show="module_updates.fetched_at">
+                &nbsp;<?php echo __("Last check"); ?>: {{ module_updates.fetched_at * 1000 | date:'medium' }}
+            </span>
+        </p>
+        <p class="alert alert-warning" ng-show="module_updates.stale">
+            <?php echo __("The update service is not reachable, this list may be out of date."); ?>
+        </p>
+        <p class="alert alert-danger" ng-show="module_updates.error">{{ module_updates.error }}</p>
+        <table class="table">
+            <thead>
+            <tr>
+                <th width="30%"><?php echo __("Module") ?></th>
+                <th width="15%"><?php echo __("Installed") ?></th>
+                <th width="15%"><?php echo __("Available") ?></th>
+                <th><?php echo __("Notes") ?></th>
+                <th><?php echo __("Actions") ?></th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr ng-repeat="update in module_updates.updates">
+                <td><strong>{{ update.name }}</strong></td>
+                <td>{{ update.installed }}</td>
+                <td>{{ update.available }}</td>
+                <td>
+                    <a ng-show="update.release_notes_url" ng-href="{{ update.release_notes_url }}" target="_blank" rel="noopener"><?php echo __("Release notes"); ?></a>
+                    <span ng-show="!update.compatible" class="text-danger">
+                        <?php echo __("Requires Siberian"); ?> {{ update.min_siberian }}
+                    </span>
+                </td>
+                <td nowrap>
+                    <button type="button"
+                            class="btn btn-primary btn-xs"
+                            ng-click="updateModule(update)"
+                            ng-disabled="!update.compatible || module_updates.busy_code">
+                        <i class="fa fa-download"></i> <?php echo __("Update"); ?>
+                    </button>
+                </td>
+            </tr>
+            <tr ng-show="!module_updates.updates.length && !module_updates.loading && !module_updates.error">
+                <td colspan="5"><?php echo __("All your licensed modules are up to date."); ?></td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+    <div class="clear"></div>
+</sb-section>
+
 <sb-section title="'<?php echo __title("Module to upload"); ?>'">
     <table class="table">
         <thead>
