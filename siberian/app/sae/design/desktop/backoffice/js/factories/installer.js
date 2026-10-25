@@ -122,17 +122,13 @@ App.factory('Installer', function($http, Url) {
         });
     };
 
-    /**
-     * @param code
-     * @param license Module licence key, only for a module that has none saved (sent in the POST body, never the URL)
-     */
     factory.updateModule = function (code, license) {
+        // The licence key travels in the POST body, so it never ends up in an access log.
         return $http({
             method: 'POST',
-            url: Url.get("installer/backoffice_module/updatemodule", {code: code}),
-            data: 'license=' + encodeURIComponent(license || ''),
+            url: Url.get("installer/backoffice_module/updatemodule"),
+            data: $.param({code: code, license: license || ''}),
             headers: {'Content-Type': 'application/x-www-form-urlencoded'},
-            transformRequest: function (data) { return data; },
             cache: false,
             responseType:'json'
         });

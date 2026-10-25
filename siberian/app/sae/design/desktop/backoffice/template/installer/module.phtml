@@ -87,7 +87,10 @@
             </thead>
             <tbody>
             <tr ng-repeat="update in module_updates.updates">
-                <td><strong>{{ update.name }}</strong></td>
+                <td><strong>{{ update.name }}</strong>
+                    <br ng-show="update.license_missing" />
+                    <small class="text-warning" ng-show="update.license_missing"><?php echo __("Licence key needed, you will be asked for it."); ?></small>
+                </td>
                 <td>{{ update.installed }}</td>
                 <td>{{ update.available }}</td>
                 <td>
@@ -106,7 +109,7 @@
                 </td>
             </tr>
             <tr ng-show="!module_updates.updates.length && !module_updates.loading && !module_updates.error">
-                <td colspan="5"><?php echo __("All your licensed modules are up to date."); ?></td>
+                <td colspan="5"><?php echo __("All your modules are up to date."); ?></td>
             </tr>
             </tbody>
         </table>
