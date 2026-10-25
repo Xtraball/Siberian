@@ -49,3 +49,11 @@ English is the default language. A text missing from every catalog is shown in E
 - Link the issue (`Fixes #n` only when the PR really resolves it; use `Refs #n` otherwise).
 - Describe what changes for users who do nothing (it should be nothing), how the option is turned on, and how it was tested, including what was **not** tested.
 - Do not publish releases, change the update channels or touch credentials from an automated session.
+
+## Check your branch before opening the pull request
+
+```sh
+tests/php-upgrade/check-pr.sh [--strict] [base-ref]
+```
+
+It reads git only and checks the added lines against this file: it fails on CRLF line endings and on new `__()` / `p__()` texts that are missing from the translation catalogs, and warns when source changed without a test, or when fragile smells (`|| true`, `sleep`, `@` suppression) were added. `--strict` turns the warnings into failures.
