@@ -69,7 +69,7 @@ class Installer_Model_ModuleUpdates
             $code = $module->getCode();
             $installed[] = [
                 'code' => empty($code) ? null : $code,
-                'name' => $module->getName(),
+                'name' => $module->getData('name'), // getName() is overridden to return a property, not the column
                 'version' => $module->getVersion(),
                 'has_license' => !empty($code) && trim((string) __get($code . '_key')) !== '',
             ];
