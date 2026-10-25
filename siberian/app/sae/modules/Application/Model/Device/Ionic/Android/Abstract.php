@@ -221,9 +221,11 @@ abstract class Application_Model_Device_Ionic_Android_Abstract extends Applicati
             }
         }
 
-        if ($hasPush) {
+        // Appended before the closing tag, so it does not depend on any other permission being there
+        $manifestFile = "{$this->_dest_source}/app/src/main/AndroidManifest.xml";
+        if ($hasPush && stripos(file_get_contents($manifestFile), 'POST_NOTIFICATIONS') === false) {
             $replacements = array_merge($replacements, [
-                "<uses-permission android:name=\"android.permission.CAMERA\" />" => "<uses-permission android:name=\"android.permission.CAMERA\" />\n    <uses-permission android:name=\"android.permission.POST_NOTIFICATIONS\" />",
+                "</manifest>" => "    <uses-permission android:name=\"android.permission.POST_NOTIFICATIONS\" />\n</manifest>",
             ]);
         }
 

@@ -10,7 +10,7 @@ $abstractFile = $siberian . '/app/sae/modules/Application/Model/Device/Ionic/And
 /** The replacement map of the option, read from the generator so the test follows the code. */
 $pushReplacements = function () use ($abstractFile) {
     $code = file_get_contents($abstractFile);
-    $ok = preg_match('/if \(\$hasPush\) \{\s*\$replacements = array_merge\(\$replacements, (\[.*?\])\);/s', $code, $m);
+    $ok = preg_match('/if \(\$hasPush[^{]*\) \{\s*\$replacements = array_merge\(\$replacements, (\[.*?\])\);/s', $code, $m);
     t_true($ok, 'the push block exists in androidManifest()');
     return eval('return ' . $m[1] . ';');
 };
@@ -38,6 +38,12 @@ return [
         t_true(!in_array('android.permission.POST_NOTIFICATIONS', $permissions($manifest), true), 'not in the template');
     },
 
+    '901 removing another permission does not matter' => function () use ($manifestFile, $permissions, $pushReplacements) {
+        $manifest = str_replace('<uses-permission android:name="android.permission.CAMERA" />', '', file_get_contents($manifestFile));
+        $after = $permissions(strtr($manifest, $pushReplacements()));
+        t_true(in_array('android.permission.POST_NOTIFICATIONS', $after, true), 'still added without CAMERA');
+    },
+
     '901 apps with push get exactly one more permission' => function () use ($manifestFile, $permissions, $pushReplacements) {
         $manifest = file_get_contents($manifestFile);
         $before = $permissions($manifest);
@@ -47,7 +53,11 @@ return [
         t_equal(count($before) + 1, count($after), 'once');
     },
 
-    '901 the anchor line exists once in the template' => function () use ($manifestFile, $pushReplacements) {
+    '901 the anchor is the closing tag, not another permission' => function () use ($pushReplacements) {
+        t_equal(['</manifest>'], array_keys($pushReplacements()), 'anchor');
+    },
+
+    '901 the anchor exists once in the template' => function () use ($manifestFile, $pushReplacements) {
         $manifest = file_get_contents($manifestFile);
         foreach (array_keys($pushReplacements()) as $anchor) {
             t_equal(1, substr_count($manifest, $anchor), $anchor);
@@ -57,6 +67,7 @@ return [
     '901 the permission is only added inside the push block' => function () use ($abstractFile) {
         $code = file_get_contents($abstractFile);
         t_equal(1, substr_count($code, 'android.permission.POST_NOTIFICATIONS'), 'mentioned once');
-        t_true(strpos($code, 'if ($hasPush) {') < strpos($code, 'android.permission.POST_NOTIFICATIONS'), 'after the guard');
+        t_true(strpos($code, 'if ($hasPush') < strpos($code, 'android.permission.POST_NOTIFICATIONS'), 'after the guard');
+        t_true(strpos($code, "stripos(file_get_contents(\$manifestFile), 'POST_NOTIFICATIONS') === false") !== false, 'skipped when the template has it');
     },
 ];
