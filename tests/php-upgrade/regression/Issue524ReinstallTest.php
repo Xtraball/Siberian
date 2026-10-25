@@ -50,6 +50,17 @@ return [
         t_true((bool) preg_match('/try \{\s*\$installed = .*?catch \(\\\\Exception \$e\)/s', $code), 'best effort, wrapped');
     },
 
+    '524 the new texts are in the translation catalog (English is the default)' => function () use ($controllerFile, $siberian) {
+        $code = file_get_contents($controllerFile);
+        t_true((bool) preg_match_all("/'reinstall(?:Title|Text|Confirm|Cancel)' => p__\\('backoffice', '((?:[^'\\\\\\\\]|\\\\\\\\.)*)'\\)/", $code, $m), 'texts found');
+        t_equal(4, count($m[1]), 'four texts');
+        $po = file_get_contents($siberian . '/languages/base/c_backoffice.po');
+        foreach ($m[1] as $text) {
+            $entry = 'msgctxt "backoffice"' . "\n" . 'msgid "' . $text . '"' . "\n" . 'msgstr "' . $text . '"';
+            t_true(strpos($po, $entry) !== false, 'catalog has: ' . $text);
+        }
+    },
+
     '524 the UI sends the parameter only after a confirmation' => function () use ($factoryFile, $uiFile) {
         $factory = file_get_contents($factoryFile);
         t_true(strpos($factory, 'factory.reinstall = null;') !== false, 'null by default');
