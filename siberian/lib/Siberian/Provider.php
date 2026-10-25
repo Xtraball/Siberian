@@ -84,7 +84,8 @@ class Provider
      */
     public static function getBackofficeNotification ()
     {
-        return self::getServices()['backoffice_notification']['url'];
+        // null when the services registry is unreachable or has no such entry
+        return self::getServices()['backoffice_notification']['url'] ?? null;
     }
 
     /**

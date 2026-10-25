@@ -177,6 +177,9 @@ class Backoffice_Model_Notification extends Core_Model_Default
 
         $lastId = $this->findLastId();
         $urlNotifs = Provider::getBackofficeNotification();
+        if (empty($urlNotifs)) {
+            return;
+        }
         $url = sprintf("%s/type/%s/last_id/%s", $urlNotifs, $type, $lastId);
         try {
             if ($datas = Request::get($url, [], null, null, null, ['timeout' => 10])) {
