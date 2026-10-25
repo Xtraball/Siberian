@@ -639,6 +639,10 @@ $schemas['application'] = [
         'type' => 'tinyint(1)',
         'default' => '0',
     ],
+    'disable_media_permissions' => [
+        'type' => 'tinyint(1)',
+        'default' => '0',
+    ],
     'enable_custom_smtp' => [
         'type' => 'tinyint(1)',
         'default' => '0',

@@ -50,6 +50,17 @@ RAW;
 </div>
 RAW;
         $this->addSimpleHtml("html_helper_location", $locationHelper);
+
+        $checkbox = $this->addSimpleCheckbox("disable_media_permissions", p__("application", "Remove the photos & videos permissions (READ_MEDIA_IMAGES, READ_MEDIA_VIDEO)."));
+        $checkbox->addClass("floating-checkbox");
+
+        $text4 = p__("application", "Google Play only accepts these permissions for apps whose core purpose is photo or video access, and rejects the others. Picking a photo with the system photo picker keeps working without them.");
+        $mediaHelper = <<<RAW
+<div class="col-md-12">
+    {$text4}
+</div>
+RAW;
+        $this->addSimpleHtml("html_helper_media", $mediaHelper);
     }
 
     /**
@@ -65,6 +76,10 @@ RAW;
         $this
             ->getElement("disable_location")
             ->setValue((boolean) $application->getDisableLocation());
+
+        $this
+            ->getElement("disable_media_permissions")
+            ->setValue((boolean) $application->getDisableMediaPermissions());
 
         return $this;
     }
