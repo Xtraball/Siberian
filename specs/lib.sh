@@ -23,10 +23,10 @@ spec_name() { echo "== $1"; }
 request() {
   _m=$1; _p=$2; _b=${3-}
   if [ -n "$_b" ]; then
-    BODY=$(curl -s -o - -w '\n%{http_code}' -X "$_m" -H 'X-Requested-With: XMLHttpRequest' -H 'Content-Type: application/json' \
+    BODY=$(curl -s -m ${SPEC_TIMEOUT:-15} -o - -w '\n%{http_code}' -X "$_m" -H 'X-Requested-With: XMLHttpRequest' -H 'Content-Type: application/json' \
       -b "$SPEC_JAR" -c "$SPEC_JAR" -d "$_b" "$SPEC_BASE$_p")
   else
-    BODY=$(curl -s -o - -w '\n%{http_code}' -X "$_m" -H 'X-Requested-With: XMLHttpRequest' -H 'Content-Type: application/json' \
+    BODY=$(curl -s -m ${SPEC_TIMEOUT:-15} -o - -w '\n%{http_code}' -X "$_m" -H 'X-Requested-With: XMLHttpRequest' -H 'Content-Type: application/json' \
       -b "$SPEC_JAR" -c "$SPEC_JAR" "$SPEC_BASE$_p")
   fi
   CODE=$(printf '%s' "$BODY" | tail -n 1)
@@ -54,4 +54,14 @@ spec_done() {
   echo "  -> $SPEC_PASS passed, $SPEC_FAIL failed"
   rm -f "$SPEC_JAR"
   [ "$SPEC_FAIL" -eq 0 ]
+}
+
+# editor_login: the editor (/admin) uses form posts and its own session; the account comes from fixtures.sh
+editor_login() {
+  : > "$SPEC_JAR"
+  curl -s -m 20 -o /dev/null -c "$SPEC_JAR" -b "$SPEC_JAR" -H 'X-Requested-With: XMLHttpRequest' \
+    --data-urlencode "email=${SPEC_EDITOR_EMAIL:?run specs/fixtures.sh up}" --data-urlencode "password=${SPEC_EDITOR_PASSWORD:?}" \
+    "$SPEC_BASE/admin/account/loginpost"
+  _p=$(curl -s -m 20 -b "$SPEC_JAR" "$SPEC_BASE/admin/account/mydata")
+  printf '%s' "$_p" | grep -q '<title>Personal data' || { echo "cannot log in to the editor as $SPEC_EDITOR_EMAIL on $SPEC_BASE"; exit 2; }
 }

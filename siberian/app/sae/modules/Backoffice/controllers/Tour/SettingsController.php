@@ -64,7 +64,7 @@ class Backoffice_Tour_SettingsController extends Backoffice_Controller_Default
 
     public function setstatusAction()
     {
-        if ($data = Zend_Json::decode($this->getRequest()->getRawBody())) {
+        if (($data = $this->_jsonBody()) !== null) {
             $new_status = $data["status"] ? "1" : "0";
             System_Model_Config::setValueFor("bootstraptour_active", $new_status);
 

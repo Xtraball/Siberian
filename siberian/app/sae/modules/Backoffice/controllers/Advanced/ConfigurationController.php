@@ -189,7 +189,7 @@ class Backoffice_Advanced_ConfigurationController extends System_Controller_Back
      */
     public function saveAction()
     {
-        if ($data = Zend_Json::decode($this->getRequest()->getRawBody())) {
+        if (($data = $this->_jsonBody()) !== null) {
 
             try {
                 if (__getConfig('is_demo')) {
@@ -353,7 +353,7 @@ class Backoffice_Advanced_ConfigurationController extends System_Controller_Back
     public function createcertificateAction()
     {
 
-        if ($data = Zend_Json::decode($this->getRequest()->getRawBody())) {
+        if (($data = $this->_jsonBody()) !== null) {
 
             try {
                 if (empty($data['hostname']) ||
@@ -631,6 +631,9 @@ class Backoffice_Advanced_ConfigurationController extends System_Controller_Back
 
         // Sync cPanel - Plesk - VestaCP (beta) - DirectAdmin (beta)
         try {
+            if (!isset($uiPanels[(string) $panelType])) {
+                throw new \Siberian\Exception(__('No control panel is configured, there is nothing to send the certificate to.'));
+            }
             $message = __('Successfully saved Certificate to %s', $uiPanels[(string) $panelType]);
             switch ($panelType) {
                 case 'plesk':

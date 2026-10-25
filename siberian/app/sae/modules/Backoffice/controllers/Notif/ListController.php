@@ -32,7 +32,7 @@ class Backoffice_Notif_ListController extends Backoffice_Controller_Default {
 
     public function markasAction() {
 
-        if($data = Zend_Json::decode($this->getRequest()->getRawBody())) {
+        if (($data = $this->_jsonBody()) !== null) {
 
             try {
 

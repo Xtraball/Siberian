@@ -1,0 +1,11 @@
+/backoffice/account_login/logout	ends the session the specs run in
+/backoffice/account/logout	ends the session
+/admin/backoffice_list/loginas	switches the session to another account
+/backoffice/tour_settings/loginas	switches the session
+/backoffice/advanced_tools/migratetoredis	changes the cache backend of the instance
+/backoffice/advanced_tools/restoreapps	rewrites application sources
+/backoffice/advanced_cron/restart-apk	restarts the apk service
+/application/backoffice_list/findbyadmin	redirects away and ends the session in this edition (multi-admin listing, not SAE)
+/application/backoffice_view_acl/findaccess	ends the session when called with empty ids, to investigate
+/backoffice/notif_list/markas	ends the session when called with empty ids, to investigate
+/installer/backoffice_module/install	runs the installer of every module, minutes long and not repeatable; covered by tests/e2e-module-updates

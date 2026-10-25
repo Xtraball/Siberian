@@ -82,6 +82,61 @@ class Application_Controller_Default extends Admin_Controller_Default
     }
 
     /**
+     * An action that needs an option value (value_id) but is called without one ends on a PHP Error (null object)
+     * or on an exception nobody caught: an ajax request gets a clean JSON error instead of an empty HTTP 500.
+     *
+     * @param string $action
+     */
+    public function dispatch($action)
+    {
+        try {
+            parent::dispatch($action);
+        } catch (\Throwable $e) {
+            $isRouting = $e instanceof Zend_Controller_Action_Exception ||
+                $e instanceof Zend_Controller_Dispatcher_Exception;
+            if ($isRouting || (!$e instanceof \Error && !$this->getRequest()->isXmlHttpRequest())) {
+                throw $e;
+            }
+
+            error_log(sprintf('%s: %s in %s:%d', $this->getFullActionName('/'), $e->getMessage(), $e->getFile(), $e->getLine()));
+            $message = $e instanceof \Error ?
+                __('The request could not be processed.') : $e->getMessage();
+            if ($this->_current_option_value === null && $e instanceof \Error) {
+                $message = __('This request needs a valid feature (value_id).');
+            }
+
+            $this->getResponse()
+                ->setHttpResponseCode(400)
+                ->setHeader('Content-Type', 'application/json', true)
+                ->setBody(Siberian_Json::encode([
+                    'error' => true,
+                    'message' => $message,
+                ], JSON_PRETTY_PRINT));
+        }
+    }
+
+    /**
+     * An ajax action that ends without any response (a save without the data it reads) used to fall through to the
+     * "noroute" page, which renders a whole page for nothing: answer an error instead.
+     */
+    public function postDispatch()
+    {
+        $request = $this->getRequest();
+        if ($request->isXmlHttpRequest() &&
+            !$this->getLayout()->isLoaded() &&
+            $request->isDispatched() &&
+            !$this->getResponse()->isRedirect() &&
+            $request->getActionName() !== 'noroute') {
+            $this->_sendJson([
+                'error' => true,
+                'message' => __('The request contains no data, or data this action does not accept.'),
+            ]);
+        }
+
+        parent::postDispatch();
+    }
+
+    /**
      * Generic edit Action, loading form for features
      */
     public function editAction()

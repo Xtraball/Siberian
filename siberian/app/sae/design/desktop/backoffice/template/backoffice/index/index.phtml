@@ -363,7 +363,14 @@ if (version_compare(PHP_VERSION, '8.2.0', '<')) {
                             <tbody>
                             <tr>
                                 <td colspan="3">
-                                    <button class="btn btn-xs btn-primary"
+                                    <span ng-if="!services.cron_locks && !services.cron_error.full">
+                                        <i class="fa fa-check"></i>
+                                        <?php echo __("Last run") ?> :
+                                        <strong>{{ services.cron_last_run || "<?php echo __("never") ?>" }}</strong>
+                                        <span ng-if="services.cron_last_run"> : <?php echo __("all good") ?></span>
+                                    </span>
+                                    <button ng-if="services.cron_locks > 0"
+                                            class="btn btn-xs btn-primary"
                                             ng-click="clear('locks', '<?php echo addcslashes(__("You are about to clean all the cron lock files !\nAre you sure ?"), "'"); ?>');"><?php echo __("Remove locks") ?></button>
                                 </td>
                             </tr>
