@@ -1,0 +1,22 @@
+/admin/backoffice/list	legacy server-rendered page
+/admin/backoffice/savepost	legacy server-rendered form post (redirects)
+/admin/backoffice/delete	legacy server-rendered action (redirects)
+/application/backoffice/list	legacy server-rendered page
+/application/backoffice/edit	legacy server-rendered page
+/application/backoffice/savepost	legacy server-rendered form post (redirects)
+/application/backoffice/delete	legacy server-rendered action
+/backoffice/account/list	legacy server-rendered page
+/backoffice/account/login	legacy server-rendered page
+/backoffice/account/loginpost	legacy server-rendered form post (redirects)
+/backoffice/account/forgotpasswordpost	legacy server-rendered form post (redirects)
+/backoffice/account/savepost	legacy server-rendered form post (redirects)
+/backoffice/account/delete	legacy server-rendered action (redirects)
+/backoffice/paginate/index	renders an HTML fragment
+/backoffice/advanced_configuration/downloadcert	file download
+/installer/module/index	legacy server-rendered page
+/installer/module/getfeature	serves JavaScript
+/installer/module/upload	legacy upload form post
+/admin/backoffice_export/findall	CSV export
+/customer/backoffice_export/findall	CSV export
+/api/settings_key/list	legacy server-rendered page
+/backoffice/advanced_tools/test-email	renders an HTML e-mail preview

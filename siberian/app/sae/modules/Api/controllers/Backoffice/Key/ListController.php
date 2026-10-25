@@ -77,7 +77,7 @@ class Api_Backoffice_Key_ListController extends Backoffice_Controller_Default
     public function saveAction()
     {
 
-        if ($data = Zend_Json::decode($this->getRequest()->getRawBody())) {
+        if (($data = $this->_jsonBody()) !== null) {
 
             try {
 

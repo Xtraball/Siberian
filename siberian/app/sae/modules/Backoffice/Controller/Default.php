@@ -45,6 +45,27 @@ class Backoffice_Controller_Default extends Core_Controller_Default
     }
 
     /**
+     * An action that ended without any response (no JSON, no page, no redirect, no forward) used to fall through to the
+     * "noroute" page: a 404 for a route that exists. In the backoffice that is always a request the action did not
+     * understand, so it is answered as an error instead.
+     */
+    public function postDispatch()
+    {
+        $request = $this->getRequest();
+        if (!$this->getLayout()->isLoaded() &&
+            $request->isDispatched() &&
+            !$this->getResponse()->isRedirect() &&
+            $request->getActionName() !== 'noroute') {
+            $this->_sendJson([
+                'error' => 1,
+                'message' => __('The request contains no data, or data this action does not accept.'),
+            ]);
+        }
+
+        parent::postDispatch();
+    }
+
+    /**
      *
      */
     public function indexAction()

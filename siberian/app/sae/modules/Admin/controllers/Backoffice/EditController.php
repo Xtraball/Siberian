@@ -56,7 +56,7 @@ class Admin_Backoffice_EditController extends Backoffice_Controller_Default
     public function saveAction()
     {
 
-        if ($data = Zend_Json::decode($this->getRequest()->getRawBody())) {
+        if (($data = $this->_jsonBody()) !== null) {
 
             try {
                 // Cleanup empty columns
@@ -151,7 +151,7 @@ class Admin_Backoffice_EditController extends Backoffice_Controller_Default
     public function setapplicationtoadminAction()
     {
 
-        if ($data = Zend_Json::decode($this->getRequest()->getRawBody())) {
+        if (($data = $this->_jsonBody()) !== null) {
 
             try {
 

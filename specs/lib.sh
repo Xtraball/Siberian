@@ -23,10 +23,10 @@ spec_name() { echo "== $1"; }
 request() {
   _m=$1; _p=$2; _b=${3-}
   if [ -n "$_b" ]; then
-    BODY=$(curl -s -o - -w '\n%{http_code}' -X "$_m" -H 'X-Requested-With: XMLHttpRequest' -H 'Content-Type: application/json' \
+    BODY=$(curl -s -m ${SPEC_TIMEOUT:-15} -o - -w '\n%{http_code}' -X "$_m" -H 'X-Requested-With: XMLHttpRequest' -H 'Content-Type: application/json' \
       -b "$SPEC_JAR" -c "$SPEC_JAR" -d "$_b" "$SPEC_BASE$_p")
   else
-    BODY=$(curl -s -o - -w '\n%{http_code}' -X "$_m" -H 'X-Requested-With: XMLHttpRequest' -H 'Content-Type: application/json' \
+    BODY=$(curl -s -m ${SPEC_TIMEOUT:-15} -o - -w '\n%{http_code}' -X "$_m" -H 'X-Requested-With: XMLHttpRequest' -H 'Content-Type: application/json' \
       -b "$SPEC_JAR" -c "$SPEC_JAR" "$SPEC_BASE$_p")
   fi
   CODE=$(printf '%s' "$BODY" | tail -n 1)

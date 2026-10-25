@@ -324,7 +324,7 @@ class Installer_Backoffice_ModuleController extends Backoffice_Controller_Defaul
     public function saveftpAction()
     {
 
-        if ($data = Zend_Json::decode($this->getRequest()->getRawBody())) {
+        if (($data = $this->_jsonBody()) !== null) {
 
             try {
 

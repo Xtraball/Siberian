@@ -1,0 +1,12 @@
+/admin/backoffice/new	invalid	legacy server-rendered page: its layout partials no longer exist (the backoffice is Angular), the page cannot render
+/admin/backoffice/edit	invalid	same legacy page as /admin/backoffice/new
+/admin/backoffice_export/findall	valid	empty action body, the endpoint does nothing (dead stub, the real data comes from other actions)
+/customer/backoffice_export/findall	valid	empty action body, the endpoint does nothing (dead stub, the real data comes from other actions)
+/customer/backoffice_list/findall	valid	empty action body, the endpoint does nothing (dead stub, the real data comes from other actions)
+/customer/backoffice_view/find	valid	empty action body, the endpoint does nothing (dead stub, the real data comes from other actions)
+/backoffice/account/new	invalid	legacy server-rendered page: its layout partials no longer exist (the backoffice is Angular)
+/backoffice/account/edit	invalid	same legacy page as /backoffice/account/new
+/installer/module/install	invalid	legacy server-rendered page of the old web updater
+/installer/backoffice_module/checkupdates	invalid	read-only check sent as POST: success is its normal answer
+/installer/backoffice_module/downloadupdate	invalid	read-only check sent as POST: 'Your system is up to date.' is its normal answer
+/installer/backoffice_module/checkpermissions	unauth	scans the whole file tree, takes longer than the request timeout on the rig

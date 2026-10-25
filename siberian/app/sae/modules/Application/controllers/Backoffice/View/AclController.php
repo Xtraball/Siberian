@@ -21,7 +21,7 @@ class Application_Backoffice_View_AclController extends Backoffice_Controller_De
 
     public function findaccessAction()
     {
-        if ($data = Zend_Json::decode($this->getRequest()->getRawBody())) {
+        if (($data = $this->_jsonBody()) !== null) {
             try {
 
                 if (empty($data["admin_id"]) OR empty($data["app_id"])) {
@@ -83,7 +83,7 @@ class Application_Backoffice_View_AclController extends Backoffice_Controller_De
 
     public function setaddpageAction()
     {
-        if ($data = Zend_Json::decode($this->getRequest()->getRawBody())) {
+        if (($data = $this->_jsonBody()) !== null) {
             try {
 
                 if (empty($data["admin_id"]) OR empty($data["app_id"])) {
@@ -121,7 +121,7 @@ class Application_Backoffice_View_AclController extends Backoffice_Controller_De
 
     public function saveaccessAction()
     {
-        if ($data = Zend_Json::decode($this->getRequest()->getRawBody())) {
+        if (($data = $this->_jsonBody()) !== null) {
             try {
 
                 if (empty($data["admin_id"]) OR empty($data["app_id"])) {

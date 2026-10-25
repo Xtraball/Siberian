@@ -109,7 +109,7 @@ class Backoffice_Advanced_ToolsController extends System_Controller_Backoffice_D
     public function saveAction()
     {
 
-        if ($data = Zend_Json::decode($this->getRequest()->getRawBody())) {
+        if (($data = $this->_jsonBody()) !== null) {
 
             try {
                 $this->_save($data);
