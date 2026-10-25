@@ -211,6 +211,22 @@ abstract class Application_Model_Device_Ionic_Android_Abstract extends Applicati
             }
         }
 
+        // Android 13+ needs POST_NOTIFICATIONS to show notifications, only added for apps with the Push feature
+        $push = (new Application_Model_Option())->find('push2', 'code');
+        $hasPush = false;
+        foreach ($features as $feature) {
+            if ($feature->getOptionId() === $push->getId()) {
+                $hasPush = true;
+                break;
+            }
+        }
+
+        if ($hasPush) {
+            $replacements = array_merge($replacements, [
+                "<uses-permission android:name=\"android.permission.CAMERA\" />" => "<uses-permission android:name=\"android.permission.CAMERA\" />\n    <uses-permission android:name=\"android.permission.POST_NOTIFICATIONS\" />",
+            ]);
+        }
+
         // Ensure the clearText is not already applied by someone else before!
         $androidManifestContent = file_get_contents("{$this->_dest_source}/app/src/main/AndroidManifest.xml");
 
