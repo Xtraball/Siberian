@@ -88,10 +88,10 @@ class Notification
         $additionalData = false;
 
         $title = new \onesignal\client\model\StringMap();
-        $title->setEn($message->getTitle());
+        $title->setEn(Text::plain($message->getTitle()));
 
         $body = new \onesignal\client\model\StringMap();
-        $body->setEn($message->getBody());
+        $body->setEn(Text::plain($message->getBody()));
 
         $newUuid = \Siberian\UUID::v4();
 
