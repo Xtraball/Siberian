@@ -17,7 +17,7 @@ class Backoffice_Advanced_StoreController extends Backoffice_Controller_Default
                 __('Settings'),
                 __('Advanced'),
                 __('Store account')),
-            'icon' => 'fa-shopping-bag',
+            'icon' => 'fa-shopping-cart',
         ]);
     }
 
