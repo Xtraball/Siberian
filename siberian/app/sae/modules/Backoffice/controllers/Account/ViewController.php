@@ -39,7 +39,7 @@ class Backoffice_Account_ViewController extends Backoffice_Controller_Default
     public function saveAction()
     {
 
-        if ($data = Zend_Json::decode($this->getRequest()->getRawBody())) {
+        if (($data = $this->_jsonBody()) !== null) {
 
             try {
                 // We filter out blank values
@@ -50,7 +50,7 @@ class Backoffice_Account_ViewController extends Backoffice_Controller_Default
                     throw new Exception("This is a demo version, these changes can't be saved");
                 }
 
-                if (!Zend_Validate::is($data["email"], "emailAddress")) {
+                if (empty($data["email"]) || !is_string($data["email"]) || !Zend_Validate::is($data["email"], "emailAddress")) {
                     throw new Exception(__("Please, enter a correct email address."));
                 }
 
@@ -76,7 +76,7 @@ class Backoffice_Account_ViewController extends Backoffice_Controller_Default
                     throw new Exception(__("Please, enter a password."));
                 }
 
-                if (array_key_exists("password", $data) && $data["password"] !== $data["confirm_password"]) {
+                if (array_key_exists("password", $data) && $data["password"] !== ($data["confirm_password"] ?? null)) {
                     throw new Exception(__("Passwords don't match"));
                 }
 

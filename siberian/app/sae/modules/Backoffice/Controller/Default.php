@@ -73,6 +73,33 @@ class Backoffice_Controller_Default extends Core_Controller_Default
     }
 
     /**
+     * The JSON body of the request as a non-empty array. When there is none (empty body, `{}`, invalid JSON) the
+     * request is answered here with an error and null is returned, so an action never ends without a response
+     * (it used to fall through to a missing view script and answer 404).
+     *
+     * @return array|null
+     */
+    protected function _jsonBody()
+    {
+        try {
+            $data = Zend_Json::decode($this->getRequest()->getRawBody());
+        } catch (\Exception $e) {
+            $data = null;
+        }
+
+        if (!is_array($data) || empty($data)) {
+            $this->_sendJson([
+                'error' => 1,
+                'message' => __('The request contains no data.'),
+            ]);
+
+            return null;
+        }
+
+        return $data;
+    }
+
+    /**
      * Payload wrapper for backoffice to send more informations on each request!
      *
      * @param $payload
