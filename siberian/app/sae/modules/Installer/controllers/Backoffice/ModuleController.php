@@ -60,6 +60,8 @@ class Installer_Backoffice_ModuleController extends Backoffice_Controller_Defaul
                 'setLicense' => p__('backoffice', 'Please enter your module license before installing!'),
                 'confirmLicense' => p__('backoffice', 'Validate'),
                 'cancelLicense' => p__('backoffice', 'Go back!'),
+                'replaceLicense' => p__('backoffice', 'The license saved for this module is expired or no longer valid. If you received a new key, enter it here, or keep the current one.'),
+                'keepLicense' => p__('backoffice', 'Keep the current key'),
                 //
                 'titleMajor' => __('Major update disclaimer, confirmation required!'),
                 'confirmDelete' => __('Yes, Proceed to update!'),
@@ -723,6 +725,9 @@ class Installer_Backoffice_ModuleController extends Backoffice_Controller_Defaul
 
             try {
                 \Siberian\License::checkModuleLicense($code, $itemId);
+            } catch (\Siberian\License\ReplaceableException $e) {
+                $code = 'license_replaceable';
+                throw $e;
             } catch (\Exception $e) {
                 $code = 'license_error';
                 throw $e;

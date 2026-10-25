@@ -275,8 +275,8 @@ App.config(function ($routeProvider) {
                 });
             } else if (data.error && data.code === 'license_required') {
                 $scope.askModuleLicense(update, data.message);
-            } else if (data.error && data.code === 'module_license' && license) {
-                // The key just typed was refused: say so and ask again.
+            } else if (data.error && data.code === 'module_license') {
+                // The key just typed, or the saved one, was refused: say so and ask for a new one.
                 $scope.askModuleLicense(update, data.message);
             } else if (data.error) {
                 $scope.message.setText(data.message).isError(true).show();
@@ -467,30 +467,40 @@ App.config(function ($routeProvider) {
                     // Prompt to change license
                     $scope.setLicense(code, itemId);
                 }
+                if (error === 'license_replaceable') {
+                    // Expired or refused key: a new key can replace it, cancelling keeps the install going
+                    $scope.setLicense(code, itemId, true);
+                }
             });
         } else {
             $scope.package_details.is_visible = true;
         }
     };
 
-    $scope.setLicense = function (code, itemId) {
+    $scope.setLicense = function (code, itemId, isReplaceable) {
         swal({
             html: true,
             title: code,
             type: 'prompt',
-            text: $scope.words.setLicense,
+            text: isReplaceable ? $scope.words.replaceLicense : $scope.words.setLicense,
             showCancelButton: true,
             closeOnConfirm: false,
             closeOnCancel: true,
             confirmButtonColor: '#ff3a2e',
             confirmButtonText: $scope.words.confirmLicense,
-            cancelButtonText: $scope.words.cancelLicense,
+            cancelButtonText: isReplaceable ? $scope.words.keepLicense : $scope.words.cancelLicense,
             buttons: {
                 confirm: {
                     value: ''
                 }
             }
         }, function (value) {
+            if (isReplaceable && value === false) {
+                // Keep the current key, the installation goes on as it always did
+                $scope.package_details.is_visible = true;
+                return;
+            }
+
             if (value.length > 0) {
                 // Trying to validate the license
                 $scope.content_loader_is_visible = true;
