@@ -39,7 +39,7 @@ class Zend_Service_ShortUrl_TinyUrlCom extends Zend_Service_ShortUrl_AbstractSho
      *
      * @var string
      */
-    protected $_baseUri = 'http://tinyurl.com';
+    protected $_baseUri = 'https://tinyurl.com';
 
     /**
      * This function shortens long url
@@ -52,14 +52,22 @@ class Zend_Service_ShortUrl_TinyUrlCom extends Zend_Service_ShortUrl_AbstractSho
     {
         $this->_validateUri($url);
 
-        $serviceUri = 'http://tinyurl.com/api-create.php';
+        // https first, browsers and Android refuse cleartext links, plain http is kept as a fallback
+        $lastException = null;
+        foreach (['https', 'http'] as $scheme) {
+            try {
+                $this->getHttpClient()->setUri($scheme . '://tinyurl.com/api-create.php');
+                $this->getHttpClient()->setParameterGet('url', $url);
 
-        $this->getHttpClient()->setUri($serviceUri);
-        $this->getHttpClient()->setParameterGet('url', $url);
+                $response = $this->getHttpClient()->request();
 
-        $response = $this->getHttpClient()->request();
+                return $response->getBody();
+            } catch (Zend_Http_Client_Exception $e) {
+                $lastException = $e;
+            }
+        }
 
-        return $response->getBody();
+        throw $lastException;
     }
 
     /**
@@ -73,7 +81,7 @@ class Zend_Service_ShortUrl_TinyUrlCom extends Zend_Service_ShortUrl_AbstractSho
     {
         $this->_validateUri($shortenedUrl);
 
-        $this->_verifyBaseUri($shortenedUrl);
+        $this->_verifyBaseUri(preg_replace('#^http://#', 'https://', $shortenedUrl));
 
         //TinyUrl.com does not have an API for that, but we can use preview feature
         //we need new Zend_Http_Client
