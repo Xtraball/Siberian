@@ -281,6 +281,13 @@ $backofficeTree = [
                         'url' => $this->getUrl("mail/backoffice_log"),
                         'icon' => 'fa fa-envelope',
                     ],
+                    'store' => [
+                        'hasChilds' => false,
+                        'isVisible' => true,
+                        'label' => __('Store account'),
+                        'url' => $this->getUrl("backoffice/advanced_store"),
+                        'icon' => 'fa fa-shopping-bag',
+                    ],
                     'modules' => [
                         'hasChilds' => false,
                         'isVisible' => true,

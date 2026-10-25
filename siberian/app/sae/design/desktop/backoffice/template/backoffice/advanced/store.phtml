@@ -1,0 +1,145 @@
+<sb-section title="'<?php echo addcslashes(__("Store account"), "'"); ?>'">
+
+    <div class="form-group">
+        <div class="col-md-12">
+            <div class="alert alert-info">
+                <i class="fa fa-info-circle"></i>
+                <?php echo __("Connect your account on extensions.siberiancms.com to see your purchases and license keys here. This is read only: nothing is bought, changed or installed from this page, and your store password is never shared with this install.") ?>
+            </div>
+            <div class="alert alert-danger" ng-show="error">
+                <i class="fa fa-exclamation-triangle"></i> {{ error }}
+            </div>
+        </div>
+    </div>
+
+    <div class="form-group" ng-show="!status.connected && !status.pending">
+        <div class="col-md-12">
+            <p ng-show="status.needs_reconnect || last_state == 'denied' || last_state == 'expired'">
+                <strong ng-show="status.needs_reconnect"><?php echo __("The store closed the previous connection."); ?></strong>
+                <strong ng-show="last_state == 'denied'"><?php echo __("The request was denied on the store."); ?></strong>
+                <strong ng-show="last_state == 'expired'"><?php echo __("The code expired."); ?></strong>
+            </p>
+            <button type="button"
+                    class="btn btn-primary"
+                    ng-click="connect()"
+                    ng-disabled="busy">
+                <i class="fa fa-plug"></i> <?php echo __("Connect my store account"); ?></button>
+        </div>
+    </div>
+
+    <div class="form-group" ng-show="status.pending">
+        <div class="col-md-12">
+            <p><?php echo __("1. Open this page and sign in to your store account:"); ?></p>
+            <p><a ng-href="{{ status.pending.verification_uri_complete }}"
+                  target="_blank"
+                  rel="noopener noreferrer">{{ status.pending.verification_uri }}</a></p>
+            <p><?php echo __("2. Check that the code shown there matches this one, then approve:"); ?></p>
+            <p style="font-size:28px;font-family:monospace;letter-spacing:3px;"><strong>{{ status.pending.user_code }}</strong></p>
+            <p class="text-muted"><i class="fa fa-spinner fa-spin"></i> <?php echo __("Waiting for your approval..."); ?></p>
+            <button type="button"
+                    class="btn btn-default"
+                    ng-click="cancel()"><?php echo __("Cancel"); ?></button>
+        </div>
+    </div>
+
+    <div class="form-group" ng-show="status.connected">
+        <div class="col-md-12">
+            <p>
+                <?php echo __("Connected as"); ?> <strong>{{ status.email || data.email }}</strong>
+                <span class="text-muted" ng-show="data.synced_at">
+                    - <?php echo __("last synced"); ?> {{ data.synced_at * 1000 | date:'yyyy-MM-dd HH:mm' }}
+                </span>
+            </p>
+            <p class="text-warning" ng-show="data.stale">
+                <i class="fa fa-exclamation-triangle"></i>
+                <?php echo __("The store could not be reached, this is the last copy we have."); ?>
+            </p>
+            <button type="button"
+                    class="btn btn-info"
+                    ng-click="refresh()"
+                    ng-disabled="busy">
+                <i class="fa fa-refresh" ng-class="{'fa-spin': busy}"></i> <?php echo __("Refresh"); ?></button>
+            <button type="button"
+                    class="btn btn-danger"
+                    ng-click="disconnect()"
+                    ng-disabled="busy">
+                <i class="fa fa-chain-broken"></i> <?php echo __("Disconnect"); ?></button>
+        </div>
+    </div>
+
+</sb-section>
+
+<sb-section title="'<?php echo addcslashes(__("My purchases"), "'"); ?>'"
+            ng-show="status.connected">
+
+    <div class="form-group">
+        <div class="col-md-12">
+            <p class="text-muted" ng-show="data && !data.purchases.length"><?php echo __("No purchase found on this account."); ?></p>
+
+            <div ng-repeat="purchase in data.purchases"
+                 style="border-top:1px solid #e5e5e5;padding:12px 0;">
+                <div>
+                    <strong><?php echo __("Order"); ?> #{{ purchase.number }}</strong>
+                    <span class="text-muted"> - {{ purchase.date }} - {{ purchase.total | number:2 }} {{ purchase.currency }}</span>
+                    <span class="label"
+                          ng-class="purchase.status == 'complete' ? 'label-success' : 'label-default'">{{ purchase.status }}</span>
+                    <span class="text-muted" ng-show="purchase.gateway"> - {{ purchase.gateway }}</span>
+                </div>
+
+                <table class="table" style="margin-top:8px;">
+                    <thead>
+                        <tr>
+                            <th style="width:22%;"><?php echo __("Module"); ?></th>
+                            <th style="width:30%;"><?php echo __("License key"); ?></th>
+                            <th style="width:10%;"><?php echo __("Status"); ?></th>
+                            <th style="width:12%;"><?php echo __("Expires"); ?></th>
+                            <th style="width:26%;"><?php echo __("Linked site"); ?></th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr ng-repeat-start="download in purchase.downloads">
+                            <td>{{ download.name }}</td>
+                            <td>
+                                <span ng-if="!download.license" class="text-muted">-</span>
+                                <span ng-if="download.license">
+                                    <code>{{ download.revealed ? download.license.key : mask(download.license.key) }}</code>
+                                    <a href="" ng-click="download.revealed = !download.revealed"
+                                       title="<?php echo addcslashes(__("Show / hide"), '"'); ?>"><i class="fa" ng-class="download.revealed ? 'fa-eye-slash' : 'fa-eye'"></i></a>
+                                    <a href="" ng-click="copy(download.license.key)"
+                                       title="<?php echo addcslashes(__("Copy"), '"'); ?>"><i class="fa fa-clipboard"></i></a>
+                                </span>
+                            </td>
+                            <td>
+                                <span ng-if="download.license"
+                                      class="label"
+                                      ng-class="{'label-success': download.license.status == 'active', 'label-warning': download.license.status == 'inactive', 'label-danger': download.license.status == 'expired' || download.license.status == 'disabled'}">{{ download.license.status }}</span>
+                            </td>
+                            <td>
+                                <span ng-if="download.license">{{ download.license.lifetime ? 'lifetime' : (download.license.expires || '-') }}</span>
+                            </td>
+                            <td>
+                                <span ng-if="download.license && !download.license.sites.length" class="text-muted"><?php echo __("Not used yet"); ?></span>
+                                <div ng-repeat="site in (download.license.sites || [])">
+                                    <code>{{ site }}</code>
+                                    <span class="label label-info" ng-show="isThisInstall(site)"><?php echo __("this install"); ?></span>
+                                </div>
+                                <span class="text-muted" ng-if="download.license">
+                                    {{ download.license.activation_count }} / {{ download.license.activation_limit || '&infin;' }}
+                                </span>
+                            </td>
+                        </tr>
+                        <tr ng-repeat="child in (download.children || [])">
+                            <td style="padding-left:28px;">- {{ child.name }}</td>
+                            <td><code>{{ download.revealed ? child.license.key : mask(child.license.key) }}</code></td>
+                            <td><span class="label label-default">{{ child.license.status }}</span></td>
+                            <td>{{ child.license.lifetime ? 'lifetime' : (child.license.expires || '-') }}</td>
+                            <td><code ng-repeat="site in (child.license.sites || [])">{{ site }} </code></td>
+                        </tr>
+                        <tr ng-repeat-end ng-hide="true"></tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+
+</sb-section>

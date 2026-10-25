@@ -15,6 +15,9 @@ App.config(function($routeProvider) {
     }).when(BASE_URL+"/backoffice/advanced_cron", {
         controller: 'BackofficeAdvancedCronController',
         templateUrl: BASE_URL+"/backoffice/advanced_cron/template"
+    }).when(BASE_URL+"/backoffice/advanced_store", {
+        controller: 'BackofficeAdvancedStoreController',
+        templateUrl: BASE_URL+"/backoffice/advanced_store/template"
     });
 
 }).controller("BackofficeAdvancedController", function($log, $scope, $interval, Header, Advanced) {
@@ -703,4 +706,185 @@ App.config(function($routeProvider) {
             });
     };
 
+});
+
+/**
+ * Settings > Advanced > Store account: connect to extensions.siberiancms.com, consult purchases and license keys.
+ */
+App.controller("BackofficeAdvancedStoreController", function ($log, $scope, $timeout, Header, AdvancedStore) {
+
+    $scope.header = new Header();
+    $scope.header.button.left.is_visible = false;
+    $scope.header.loader_is_visible = false;
+    $scope.content_loader_is_visible = true;
+
+    $scope.status = {connected: false, pending: null};
+    $scope.data = null;
+    $scope.busy = false;
+    $scope.error = null;
+    $scope.last_state = null;
+
+    var pollTimer = null;
+
+    var fail = function (data) {
+        $scope.error = (data && data.message) ? data.message : 'Unexpected error';
+    };
+
+    var stopPolling = function () {
+        if (pollTimer) {
+            $timeout.cancel(pollTimer);
+            pollTimer = null;
+        }
+    };
+
+    var loadPurchases = function (refresh) {
+        $scope.busy = true;
+        AdvancedStore.purchases(refresh).success(function (data) {
+            if (data.error) {
+                fail(data);
+                return;
+            }
+            $scope.data = data;
+            $scope.error = null;
+            if (data.needs_reconnect) {
+                $scope.status.connected = false;
+                $scope.status.needs_reconnect = true;
+            }
+        }).error(function () {
+            fail({message: 'The request failed.'});
+        }).finally(function () {
+            $scope.busy = false;
+        });
+    };
+
+    var schedulePoll = function () {
+        stopPolling();
+        var seconds = ($scope.status.pending && $scope.status.pending.interval) ? $scope.status.pending.interval : 5;
+        pollTimer = $timeout(function () {
+            AdvancedStore.poll().success(function (data) {
+                if (data.error) {
+                    fail(data);
+                    return;
+                }
+                if (data.state === 'pending') {
+                    if ($scope.status.pending && data.interval) {
+                        $scope.status.pending.interval = data.interval;
+                    }
+                    schedulePoll();
+                } else if (data.state === 'connected') {
+                    $scope.last_state = null;
+                    load();
+                } else {
+                    $scope.last_state = data.state;
+                    $scope.status.pending = null;
+                }
+            }).error(function () {
+                schedulePoll();
+            });
+        }, seconds * 1000);
+    };
+
+    var load = function () {
+        AdvancedStore.status().success(function (data) {
+            if (data.error) {
+                fail(data);
+                return;
+            }
+            $scope.status = data;
+            if (data.connected) {
+                loadPurchases(false);
+            } else if (data.pending) {
+                schedulePoll();
+            }
+        }).error(function () {
+            fail({message: 'The request failed.'});
+        }).finally(function () {
+            $scope.content_loader_is_visible = false;
+        });
+    };
+
+    AdvancedStore.loadData().success(function (data) {
+        $scope.header.title = data.title;
+        $scope.header.icon = data.icon;
+    });
+
+    $scope.connect = function () {
+        $scope.busy = true;
+        $scope.error = null;
+        $scope.last_state = null;
+        AdvancedStore.connect().success(function (data) {
+            if (data.error) {
+                fail(data);
+                return;
+            }
+            $scope.status.pending = data.pending;
+            $scope.status.needs_reconnect = false;
+            schedulePoll();
+        }).error(function () {
+            fail({message: 'The request failed.'});
+        }).finally(function () {
+            $scope.busy = false;
+        });
+    };
+
+    $scope.cancel = function () {
+        stopPolling();
+        $scope.status.pending = null;
+    };
+
+    $scope.refresh = function () {
+        loadPurchases(true);
+    };
+
+    $scope.disconnect = function () {
+        if (!window.confirm('Disconnect this install from your store account?')) {
+            return;
+        }
+        $scope.busy = true;
+        AdvancedStore.disconnect().success(function (data) {
+            if (data.error) {
+                fail(data);
+                return;
+            }
+            $scope.status = {connected: false, pending: null, this_install_key: $scope.status.this_install_key};
+            $scope.data = null;
+            $scope.error = null;
+        }).error(function () {
+            fail({message: 'The request failed.'});
+        }).finally(function () {
+            $scope.busy = false;
+        });
+    };
+
+    $scope.mask = function (key) {
+        key = key || '';
+        return key.length > 8 ? key.substr(0, 4) + '••••••••' + key.substr(-4) : '••••';
+    };
+
+    $scope.copy = function (text) {
+        if (navigator.clipboard && navigator.clipboard.writeText) {
+            navigator.clipboard.writeText(text);
+            return;
+        }
+        var area = document.createElement('textarea');
+        area.value = text;
+        document.body.appendChild(area);
+        area.select();
+        try {
+            document.execCommand('copy');
+        } catch (e) {
+            $log.warn(e);
+        }
+        document.body.removeChild(area);
+    };
+
+    // The linked site of a module license is generally the Siberian license key of the install; the store keeps it lowercased.
+    $scope.isThisInstall = function (site) {
+        var mine = ($scope.status && $scope.status.this_install_key) ? $scope.status.this_install_key : '';
+        return mine !== '' && String(site).toLowerCase() === mine;
+    };
+
+    $scope.$on('$destroy', stopPolling);
+
+    load();
 });
