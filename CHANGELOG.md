@@ -2,7 +2,24 @@
 
 Notable changes to Siberian, newest first. Dates are `YYYY-MM-DD`. Longer notes live in `docs/`.
 
-## [5.1.1] 2026-10-25
+## [5.1.2] 2026-10-25
+
+Version bump to 5.1.2 (`package.json` `version`; `lastversion` stays 5.0.18), module `Installer` 4.9.2. No update package is published by this tag.
+
+### Fixed
+
+- 2026-10-25 Updater: the Installer backoffice controller imported `Siberian\Exception`, so its `catch (Exception)` blocks missed every other exception. A bad answer from the update server (HTTP 500, not JSON) ended in a redirect to the dashboard instead of an error message; it is now a clean error, and the answer is decoded after its HTTP status is looked at.
+- 2026-10-25 Dashboard, Cron scheduler: "Remove locks" is only offered when there are lock files; otherwise the last run is shown with "all good". The action also checks before it removes anything.
+- 2026-10-25 Editor: an ajax action called without a `value_id`, or throwing, answers a JSON error (400) instead of an empty HTTP 500, and an action that sends nothing answers an error instead of a slow "page not found". Same for the API controllers.
+- 2026-10-25 Backoffice: actions that read a JSON body answer an error for an empty or broken body instead of a 404 (`account_view/save` and 12 others); an action that ends without a response answers a JSON error.
+- 2026-10-25 Job: `Job/controllers/Api/CompanyController.php` declared `Job_Api_PlaceController`, so every `/job/api_company/*` endpoint failed with a 500.
+- 2026-10-25 `api/service_image/thumbnail` read an undefined variable and failed with a 500.
+
+### Added
+
+- 2026-10-25 `specs/`: controller contract specs for the 903 endpoints (no session, invalid input, valid input) run in parallel against an isolated rig, and `specs/updater/updater.spec.sh`, the critical-path spec of the backoffice updater (drag and drop and remote). See `specs/README.md`.
+
+$1 2026-10-25
 
 Version bump to 5.1.1 (`package.json` `version`; `lastversion` stays 5.0.18 because 5.1.0 was never tagged, so the update package is built against v5.0.18), module `Installer` 4.9.1. Includes 5.1.0 and everything under the `feat-module-updates` heading below. No update package is published by this tag.
 
