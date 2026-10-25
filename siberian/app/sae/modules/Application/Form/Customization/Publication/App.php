@@ -37,7 +37,7 @@ class Application_Form_Customization_Publication_App extends Siberian_Form_Abstr
         ));
 
         // /external/resources/template-splash-icon-android.png
-        $download_as = _("Download template as");
+        $download_as = __("Download template as");
         $android_hint_html = <<<HTML
 <div class="col-md-6">
     <div class="alert alert-info"
