@@ -191,6 +191,15 @@ abstract class Application_Model_Device_Ionic_Android_Abstract extends Applicati
             ]);
         }
 
+        // Disable READ_MEDIA_* (option, Google Play photo & video permissions policy)
+        $disableMedia = (boolean) filter_var($application->getDisableMediaPermissions(), FILTER_VALIDATE_BOOLEAN);
+        if ($disableMedia) {
+            $replacements = array_merge($replacements, [
+                "<uses-permission android:name=\"android.permission.READ_MEDIA_IMAGES\" />" => "",
+                "<uses-permission android:name=\"android.permission.READ_MEDIA_VIDEO\" />" => "",
+            ]);
+        }
+
         $radio = (new Application_Model_Option())->find('radio', 'code');
 
         $features = $application->getOptions();

@@ -201,6 +201,7 @@ class Application_Customization_Publication_InfosController extends Application_
                 $application
                     ->setDisableBatteryOptimization(filter_var($params['disable_battery_optimization'], FILTER_VALIDATE_BOOLEAN))
                     ->setDisableLocation(filter_var($params['disable_location'], FILTER_VALIDATE_BOOLEAN))
+                    ->setDisableMediaPermissions(filter_var($params['disable_media_permissions'] ?? false, FILTER_VALIDATE_BOOLEAN))
                     ->save();
 
                 $payload = [
