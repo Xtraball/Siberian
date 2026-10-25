@@ -2,6 +2,15 @@
 
 Notable changes to Siberian, newest first. Dates are `YYYY-MM-DD`. Longer notes live in `docs/`.
 
+## [5.1.3] 2026-10-25
+
+First release since 5.0.17 (2025-10-04): the update package is built against v5.0.17 and customers on 5.0.17 jump straight to 5.1.3. 5.0.18 and 5.1.0 to 5.1.2 were never published, their changes are all in this release. `lastversion` is 5.0.17 from here on.
+
+### Changed
+
+- 2026-10-25 PHP 8.2 to 8.5 for the three editions. MAE and PE (`siberian-mae`, `siberian-pe`, tags `v5.0.17` and `v5.1.3`) lint clean on 8.2 and 8.5 and carry the SAE changes made since 5.0.17 in the files they override. PE and MAE installs were smoke tested on PHP 8.5 with the contract specs (370 passed, 0 failed on both).
+- 2026-10-25 The three editions are built and published from the private `siberian-release` repository (GitHub Actions), no longer by Jenkins.
+
 ## [5.1.2] 2026-10-25
 
 Version bump to 5.1.2 (`package.json` `version`; `lastversion` stays 5.0.18), module `Installer` 4.9.2. No update package is published by this tag.
