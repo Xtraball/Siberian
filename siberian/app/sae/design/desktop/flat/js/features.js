@@ -1060,3 +1060,29 @@ window.textStyleFromHex = function (rgb) {
 
     return statusBarStyle;
 };
+
+/**
+ * Password inputs with an eye button (Siberian_Form_Element_RevealPassword): show / hide the value.
+ * Delegated, so it also works on forms loaded later by ajax.
+ */
+$(document).on('click', '[data-reveal-toggle]', function (event) {
+    event.preventDefault();
+    var button = $(this);
+    var input = button.closest('.sb-reveal-password').find('input[data-reveal-input]');
+    var show = input.attr('type') === 'password';
+
+    input.attr('type', show ? 'text' : 'password');
+    button.attr('aria-pressed', show ? 'true' : 'false');
+    button.find('[data-eye]').css('display', show ? 'none' : '');
+    button.find('[data-eye-off]').css('display', show ? '' : 'none');
+});
+
+// Hidden again as soon as the form is sent.
+$(document).on('submit', 'form', function () {
+    $(this).find('input[data-reveal-input]').each(function () {
+        var input = $(this);
+        if (input.attr('type') === 'text') {
+            input.closest('.sb-reveal-password').find('[data-reveal-toggle]').trigger('click');
+        }
+    });
+});
