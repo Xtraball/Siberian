@@ -179,6 +179,7 @@ class Installer_Model_Installer extends Core_Model_Default
     {
         (new Installer_Model_Installer_Module())
             ->prepare($this->getModuleName())
+            ->forceReinstall((bool) $this->getReinstall())
             ->install();
 
         return $this;

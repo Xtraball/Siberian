@@ -343,6 +343,7 @@ App.config(function ($routeProvider) {
             $scope.package_full = response;
             $scope.showPackageDetails();
             Installer.filename = response.filename;
+            Installer.reinstall = null;
         } else {
             $scope.message.setText(Label.uploader.error.general)
                 .isError(true)
@@ -360,7 +361,44 @@ App.config(function ($routeProvider) {
             .show();
     };
 
+    /**
+     * Same version already installed: ask before running it again, "No" cancels the whole install.
+     */
+    $scope.confirmReinstall = function (nextAction) {
+        Installer.reinstall = null;
+        if (!$scope.package_details.can_reinstall) {
+            nextAction();
+            return;
+        }
+
+        swal({
+            html: true,
+            title: $scope.words.reinstallTitle,
+            type: 'warning',
+            text: $scope.words.reinstallText,
+            showCancelButton: true,
+            closeOnConfirm: true,
+            closeOnCancel: true,
+            confirmButtonColor: '#ff3a2e',
+            confirmButtonText: $scope.words.reinstallConfirm,
+            cancelButtonText: $scope.words.reinstallCancel
+        }, function (isConfirm) {
+            if (isConfirm) {
+                Installer.reinstall = $scope.package_details._name;
+                nextAction();
+            }
+        });
+    };
+
     $scope.showReleasenote = function (show_only) {
+        if (typeof show_only === 'undefined') {
+            $scope.confirmReinstall($scope.showReleasenoteConfirmed);
+            return;
+        }
+        $scope.showReleasenoteConfirmed(show_only);
+    };
+
+    $scope.showReleasenoteConfirmed = function (show_only) {
         if (typeof show_only !== 'undefined') {
             $scope.show_release_note = true;
             $scope.show_only = true;

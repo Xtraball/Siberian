@@ -65,6 +65,13 @@ class Installer_Model_Installer_Module extends Core_Model_Default
     protected $_features = null;
 
     /**
+     * Opt-in: run the install of a module whose version is already installed.
+     *
+     * @var bool
+     */
+    protected $_forceReinstall = false;
+
+    /**
      * @param $name
      * @param bool $fetch
      * @return $this
@@ -171,7 +178,28 @@ class Installer_Model_Installer_Module extends Core_Model_Default
      */
     public function canUpdate()
     {
-        return version_compare($this->_lastVersion, $this->getVersion(), '>');
+        return $this->_forceReinstall ||
+            version_compare($this->_lastVersion, $this->getVersion(), '>');
+    }
+
+    /**
+     * @return string|null
+     */
+    public function getLastVersion()
+    {
+        return $this->_lastVersion;
+    }
+
+    /**
+     * Schema sync and data files are upserts, running them again on the same version is safe.
+     *
+     * @param bool $force
+     * @return $this
+     */
+    public function forceReinstall(bool $force = true): self
+    {
+        $this->_forceReinstall = $force;
+        return $this;
     }
 
     /**
