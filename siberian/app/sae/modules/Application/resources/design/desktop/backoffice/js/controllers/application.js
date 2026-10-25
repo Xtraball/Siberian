@@ -75,7 +75,14 @@ App.config(function($routeProvider) {
                 response.result.isAllowed
             ) {
                 $scope.showApkService = true;
-                $scope.showApkServiceMessage = response.result.message;
+                // The service may answer a plain string, a single note or a list of notes: always repeat over a list of notes.
+                var notes = response.result.message;
+                if (typeof notes === 'string') {
+                    notes = notes.length ? [{title: '', message: notes}] : [];
+                } else if (notes && !angular.isArray(notes)) {
+                    notes = [notes];
+                }
+                $scope.showApkServiceMessage = notes || [];
                 $scope.licenseType = response.result.type;
             }
         });
