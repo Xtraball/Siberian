@@ -77,6 +77,13 @@
 
     <div class="form-group">
         <div class="col-md-12">
+            <p ng-show="data && data.purchases.length" style="margin-bottom:8px;">
+                <button type="button" class="btn btn-default btn-sm" ng-click="toggleAll()">
+                    <i class="fa" ng-class="allRevealed() ? 'fa-eye-slash' : 'fa-eye'"></i>
+                    <span ng-show="!allRevealed()"><?php echo __("Show all keys and sites"); ?></span>
+                    <span ng-show="allRevealed()"><?php echo __("Hide all keys and sites"); ?></span>
+                </button>
+            </p>
             <p class="text-muted" ng-show="data && !data.purchases.length"><?php echo __("No purchase found on this account."); ?></p>
 
             <div ng-repeat="purchase in data.purchases"
@@ -123,7 +130,7 @@
                             <td>
                                 <span ng-if="download.license && !download.license.sites.length" class="text-muted"><?php echo __("Not used yet"); ?></span>
                                 <div ng-repeat="site in (download.license.sites || [])">
-                                    <code>{{ site }}</code>
+                                    <code>{{ download.revealed ? site : mask(site) }}</code>
                                     <span class="label label-info" ng-show="isThisInstall(site)"><?php echo __("this install"); ?></span>
                                 </div>
                                 <span class="text-muted" ng-if="download.license">
@@ -136,7 +143,7 @@
                             <td><code>{{ download.revealed ? child.license.key : mask(child.license.key) }}</code></td>
                             <td><span class="label label-default">{{ child.license.status }}</span></td>
                             <td>{{ child.license.lifetime ? 'lifetime' : (child.license.expires || '-') }}</td>
-                            <td><code ng-repeat="site in (child.license.sites || [])">{{ site }} </code></td>
+                            <td><code ng-repeat="site in (child.license.sites || [])">{{ download.revealed ? site : mask(site) }} </code></td>
                         </tr>
                         <tr ng-repeat-end ng-hide="true"></tr>
                     </tbody>
