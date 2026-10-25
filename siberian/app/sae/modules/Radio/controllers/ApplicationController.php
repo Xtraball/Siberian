@@ -43,14 +43,13 @@ class Radio_ApplicationController extends Application_Controller_Default
                 $radio->find($values['radio_id']);
                 $radio->setData($values);
 
+                // Option: keep the link as typed, default keeps the shoutcast fix below
+                $keepUrl = filter_var($values['keep_url'] ?? false, FILTER_VALIDATE_BOOLEAN);
+                $radio->setKeepUrl($keepUrl ? 1 : 0);
+
                 // Fix for shoutcast, force stream!
-                $contentType = Request::testStream($radio->getLink());
-                if (explode('/', $contentType)[0] !== 'audio' &&
-                    $contentType !== 'application/ogg') {
-                    if (strrpos($radio->getLink(), ';') === false) {
-                        $radio->setLink($radio->getLink() . '/;');
-                    }
-                }
+                $contentType = $keepUrl ? null : Request::testStream($radio->getLink());
+                $radio->setLink(Radio_Model_Stream::link($radio->getLink(), $contentType, $keepUrl));
 
                 // Set version 2 on create/save, means it's been updated
                 $radio->setVersion(2);
