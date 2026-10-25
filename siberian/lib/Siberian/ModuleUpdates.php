@@ -159,15 +159,26 @@ class ModuleUpdates
      *
      * @param array $installed Each: ['code' => string, 'name' => string, 'version' => string, 'has_license' => bool]
      * @param array $list Result of refresh()
-     * @return array Each: code, name, installed, available, release_notes_url, compatible, min_siberian
+     * @return array Each: code, name, installed, available, release_notes_url, compatible, min_siberian, license_missing
      */
     public function pending(array $installed, array $list)
     {
         $modules = $list['manifest']['modules'];
         $updates = [];
+        // Modules installed from packages that predate the `code` field have none: match them to
+        // the list by name, only when exactly one entry in the list carries that name.
+        $byName = [];
+        foreach ($modules as $listed => $entry) {
+            $key = strtolower(trim((string) ($entry['name'] ?? '')));
+            $byName[$key] = isset($byName[$key]) ? false : $listed;
+        }
         foreach ($installed as $module) {
             $code = $module['code'] ?? null;
-            if (empty($code) || empty($module['has_license']) || !isset($modules[$code])) {
+            if (empty($code)) {
+                $match = $byName[strtolower(trim((string) ($module['name'] ?? '')))] ?? false;
+                $code = $match !== false ? (string) $match : null;
+            }
+            if (empty($code) || !isset($modules[$code])) {
                 continue;
             }
             $remote = $modules[$code];
@@ -183,6 +194,8 @@ class ModuleUpdates
                 'release_notes_url' => $remote['release_notes_url'] ?? null,
                 'min_siberian' => $min,
                 'compatible' => $min === null || version_compare($this->siberianVersion, $min, '>='),
+                // No key saved for this module yet (installed before keys were kept): the administrator is asked for it.
+                'license_missing' => empty($module['has_license']),
             ];
         }
         usort($updates, function ($a, $b) {

@@ -818,7 +818,9 @@ class Installer_Backoffice_ModuleController extends Backoffice_Controller_Defaul
 
             set_time_limit(600);
             $code = (string) $this->getRequest()->getParam('code', '');
-            $path = Installer_Model_ModuleUpdates::download($code);
+            // Only for a module without a saved key (or to replace a refused one); POST body, never the URL.
+            $license = (string) $this->getRequest()->getPost('license', '');
+            $path = Installer_Model_ModuleUpdates::download($code, $license);
 
             $payload = $this->_getPackageDetails($path);
         } catch (\Siberian\ModuleUpdates\Exception $e) {

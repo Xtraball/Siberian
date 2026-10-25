@@ -122,10 +122,17 @@ App.factory('Installer', function($http, Url) {
         });
     };
 
-    factory.updateModule = function (code) {
+    /**
+     * @param code
+     * @param license Module licence key, only for a module that has none saved (sent in the POST body, never the URL)
+     */
+    factory.updateModule = function (code, license) {
         return $http({
             method: 'POST',
             url: Url.get("installer/backoffice_module/updatemodule", {code: code}),
+            data: 'license=' + encodeURIComponent(license || ''),
+            headers: {'Content-Type': 'application/x-www-form-urlencoded'},
+            transformRequest: function (data) { return data; },
             cache: false,
             responseType:'json'
         });

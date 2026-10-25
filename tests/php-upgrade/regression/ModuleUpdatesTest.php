@@ -214,10 +214,13 @@ return [
             ['code' => null, 'name' => 'Core', 'version' => '1.0.0', 'has_license' => true],
         ];
         $pending = $svc->pending($installed, $list);
-        t_equal(1, count($pending), 'only cabride');
+        t_equal(2, count($pending), 'cabride and surveys (chat is current, unknown is not listed, core has no match)');
         t_equal('cabride', $pending[0]['code'], 'code');
         t_equal('6.0.0', $pending[0]['available'], 'available');
         t_equal(false, $pending[0]['compatible'], 'needs 5.1.0, running 5.0.18');
+        t_equal(false, $pending[0]['license_missing'], 'cabride has its key');
+        t_equal('surveys', $pending[1]['code'], 'surveys is listed even without a saved key');
+        t_equal(true, $pending[1]['license_missing'], 'and the administrator is asked for it');
     },
 
     'pending marks a module compatible once Siberian is new enough' => function () use ($json) {
@@ -225,6 +228,28 @@ return [
         $http->script['GET /api/v1/modules.json'] = [$json(200, mu_manifest())];
         $pending = $svc->pending([['code' => 'cabride', 'name' => 'Cabride', 'version' => '5.2.0', 'has_license' => true]], $svc->refresh());
         t_equal(true, $pending[0]['compatible'], 'compatible');
+    },
+
+    'a module installed without a code is matched to the list by name' => function () use ($json) {
+        [$svc, $http] = mu_env('5.1.0');
+        $m = mu_manifest('h', ['inapplink' => ['name' => 'InAppLink', 'version' => '4.1.13', 'item_id' => 3, 'min_siberian' => null]]);
+        $http->script['GET /api/v1/modules.json'] = [$json(200, $m)];
+        $list = $svc->refresh();
+        $pending = $svc->pending([
+            ['code' => null, 'name' => 'InAppLink', 'version' => '2.0.0', 'has_license' => false],
+            ['code' => '', 'name' => 'Core', 'version' => '1.0.0', 'has_license' => false],
+        ], $list);
+        t_equal(1, count($pending), 'the old inapplink is found, core is not');
+        t_equal('inapplink', $pending[0]['code'], 'the list code is used');
+        t_equal(true, $pending[0]['license_missing'], 'the administrator is asked for the key');
+        $m = mu_manifest('h', [
+            'a' => ['name' => 'Twin', 'version' => '2.0.0', 'item_id' => 4, 'min_siberian' => null],
+            'b' => ['name' => 'twin', 'version' => '2.0.0', 'item_id' => 5, 'min_siberian' => null],
+        ]);
+        $http->script['GET /api/v1/modules.json'] = [$json(200, $m)];
+        $svc2 = mu_env('5.1.0');
+        $svc2[1]->script['GET /api/v1/modules.json'] = [$json(200, $m)];
+        t_equal(0, count($svc2[0]->pending([['code' => null, 'name' => 'Twin', 'version' => '1.0.0', 'has_license' => false]], $svc2[0]->refresh())), 'two entries with one name are never guessed');
     },
 
     'version comparison is numeric, not alphabetical' => function () use ($json) {

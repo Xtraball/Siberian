@@ -218,7 +218,40 @@ App.config(function ($routeProvider) {
         });
     };
 
-    $scope.updateModule = function (update) {
+    /**
+     * Asks for the module licence key (modules installed before keys were kept have none saved),
+     * then continues the update with it.
+     */
+    $scope.askModuleUpdateLicense = function (update, errorMessage) {
+        swal({
+            html: true,
+            title: update.name,
+            type: 'prompt',
+            text: errorMessage || $scope.words.setLicense,
+            showCancelButton: true,
+            closeOnConfirm: true,
+            closeOnCancel: true,
+            confirmButtonColor: '#ff3a2e',
+            confirmButtonText: $scope.words.confirmLicense,
+            cancelButtonText: $scope.words.cancelLicense
+        }, function (value) {
+            if (value === false) {
+                return;
+            }
+            value = (value || '').trim();
+            if (value.length === 0) {
+                swal.showInputError('<code>' + $scope.words.emptyLicense + '</code>');
+                return false;
+            }
+            $scope.updateModule(update, value);
+        });
+    };
+
+    $scope.updateModule = function (update, license) {
+        if (update.license_missing && !license) {
+            $scope.askModuleUpdateLicense(update);
+            return;
+        }
         if (!$scope.module_updates.terms_accepted) {
             Installer.moduleUpdatesTerms().success(function (data) {
                 if (data.error) {
@@ -226,7 +259,7 @@ App.config(function ($routeProvider) {
                     return;
                 }
                 $scope.showModuleUpdatesTerms(data.terms, function () {
-                    $scope.updateModule(update);
+                    $scope.updateModule(update, license);
                 });
             });
             return;
@@ -234,13 +267,16 @@ App.config(function ($routeProvider) {
 
         $scope.module_updates.busy_code = update.code;
         $scope.check_for_updates.loader_is_visible = true;
-        Installer.updateModule(update.code).success(function (data) {
+        Installer.updateModule(update.code, license).success(function (data) {
             if (data.error && data.terms) {
                 // The terms changed since they were accepted.
                 $scope.module_updates.terms_accepted = false;
                 $scope.showModuleUpdatesTerms(data.terms, function () {
-                    $scope.updateModule(update);
+                    $scope.updateModule(update, license);
                 });
+            } else if (data.error && (data.code === 'license_required' || data.code === 'module_license')) {
+                // No key, or the downloader refused the one given: ask again.
+                $scope.askModuleUpdateLicense(update, data.message);
             } else if (data.error) {
                 $scope.message.setText(data.message).isError(true).show();
             } else if (data.filename) {
