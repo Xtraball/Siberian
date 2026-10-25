@@ -6,6 +6,10 @@ Notable changes to Siberian, newest first. Dates are `YYYY-MM-DD`. Longer notes 
 
 Version bump to 5.1.1 (`package.json` `version`; `lastversion` stays 5.0.18 because 5.1.0 was never tagged, so the update package is built against v5.0.18), module `Installer` 4.9.1. Includes 5.1.0 and everything under the `feat-module-updates` heading below. No update package is published by this tag.
 
+### Changed
+
+- 2026-10-25 Backoffice: new light-only default theme (`css/theme-default/styles.css`, CSS variables at the top). Pure CSS, no markup change; the old grey look is gone, Elegance and Modern are still selectable under Appearance > General. Hard-refresh the browser after updating (stylesheet is cached per release).
+
 ### Fixed
 
 - 2026-10-25 Module updates: a module installed from an old package has no `code` in the `module` table (InAppLink 2.0.0 was one) and never showed up. It is now matched to the downloader list by name, only when exactly one entry carries that name. The installed module name is read from the column: `Installer_Model_Installer_Module::getName()` returns an unset property.
