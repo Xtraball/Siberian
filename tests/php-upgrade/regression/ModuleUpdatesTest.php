@@ -214,10 +214,13 @@ return [
             ['code' => null, 'name' => 'Core', 'version' => '1.0.0', 'has_license' => true],
         ];
         $pending = $svc->pending($installed, $list);
-        t_equal(1, count($pending), 'only cabride');
+        t_equal(2, count($pending), 'cabride, and surveys whose key is not saved yet');
         t_equal('cabride', $pending[0]['code'], 'code');
         t_equal('6.0.0', $pending[0]['available'], 'available');
         t_equal(false, $pending[0]['compatible'], 'needs 5.1.0, running 5.0.18');
+        t_equal(false, $pending[0]['license_missing'], 'cabride has its key');
+        t_equal('surveys', $pending[1]['code'], 'a module without a saved key is listed');
+        t_equal(true, $pending[1]['license_missing'], 'and flagged, so the administrator is asked for the key');
     },
 
     'pending marks a module compatible once Siberian is new enough' => function () use ($json) {

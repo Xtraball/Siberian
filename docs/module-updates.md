@@ -5,9 +5,10 @@ Status: built on branch `feat-module-updates`, tested, not released. Counterpart
 ## What it does
 
 1. A daily cron (and the Check now button) fetches `https://downloader.siberiancms.com/api/v1/modules.json`, one cached JSON with every module version and the live terms hash.
-2. Siberian compares it with the `module` table (only modules with a `code` and a saved `<code>_key`) and shows the available updates.
+2. Siberian compares it with the `module` table (modules with a `code`) and shows the available updates. A module installed without a saved `<code>_key` is listed too, flagged `license_missing`.
 3. Before the first update, the administrator reads and accepts the terms of download (served live by the downloader). A changed hash means asking again.
 4. Update: `POST /api/v1/modules/{code}/download` with both licence keys, the accepted terms hash, a timestamp and a nonce. The package comes back with `X-Package-Sha256` and an Ed25519 signature.
+   When no module key is saved, `updatemodule` answers `license_required` and the backoffice asks for it. The key is sent in the POST body (`license`), checked for shape, used for that download, and saved as `<code>_key` only after the downloader accepted it and the package verified. A refused key (`module_license`) is never saved and is asked again. The Siberian key is never asked here (`license_missing`).
 5. Siberian verifies both, stores the `.sib` in `var/tmp`, then the existing installer takes over (package details, permissions, copy, install).
 
 ## Where the code is

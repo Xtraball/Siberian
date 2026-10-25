@@ -218,7 +218,39 @@ App.config(function ($routeProvider) {
         });
     };
 
-    $scope.updateModule = function (update) {
+    /**
+     * Asks for the licence key of a module installed without one, then retries the update with it.
+     */
+    $scope.askModuleLicense = function (update, text) {
+        swal({
+            html: true,
+            title: update.name,
+            type: 'prompt',
+            text: text,
+            showCancelButton: true,
+            closeOnConfirm: true,
+            closeOnCancel: true,
+            confirmButtonColor: '#ff3a2e',
+            confirmButtonText: $scope.words.confirmLicense,
+            cancelButtonText: $scope.words.cancelLicense
+        }, function (value) {
+            if (value === false || value === undefined) {
+                return;
+            }
+            value = String(value).trim();
+            if (value.length === 0) {
+                $timeout(function () {
+                    $scope.askModuleLicense(update, $scope.words.emptyLicense);
+                });
+                return;
+            }
+            $timeout(function () {
+                $scope.updateModule(update, value);
+            });
+        });
+    };
+
+    $scope.updateModule = function (update, license) {
         if (!$scope.module_updates.terms_accepted) {
             Installer.moduleUpdatesTerms().success(function (data) {
                 if (data.error) {
@@ -226,7 +258,7 @@ App.config(function ($routeProvider) {
                     return;
                 }
                 $scope.showModuleUpdatesTerms(data.terms, function () {
-                    $scope.updateModule(update);
+                    $scope.updateModule(update, license);
                 });
             });
             return;
@@ -234,13 +266,18 @@ App.config(function ($routeProvider) {
 
         $scope.module_updates.busy_code = update.code;
         $scope.check_for_updates.loader_is_visible = true;
-        Installer.updateModule(update.code).success(function (data) {
+        Installer.updateModule(update.code, license).success(function (data) {
             if (data.error && data.terms) {
                 // The terms changed since they were accepted.
                 $scope.module_updates.terms_accepted = false;
                 $scope.showModuleUpdatesTerms(data.terms, function () {
-                    $scope.updateModule(update);
+                    $scope.updateModule(update, license);
                 });
+            } else if (data.error && data.code === 'license_required') {
+                $scope.askModuleLicense(update, data.message);
+            } else if (data.error && data.code === 'module_license' && license) {
+                // The key just typed was refused: say so and ask again.
+                $scope.askModuleLicense(update, data.message);
             } else if (data.error) {
                 $scope.message.setText(data.message).isError(true).show();
             } else if (data.filename) {

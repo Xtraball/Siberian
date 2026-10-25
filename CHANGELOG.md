@@ -2,7 +2,19 @@
 
 Notable changes to Siberian, newest first. Dates are `YYYY-MM-DD`. Longer notes live in `docs/`.
 
-## [Unreleased] on branch `feat-module-updates` (not released)
+## [5.1.0] on branch `feature/module-license-key` (not released)
+
+Version bump to 5.1.0 (`package.json`, `lastversion` 5.0.18, sample SAE version 5.0.18), module `Installer` 4.9.0. Includes everything under the next heading.
+
+### Added
+
+- 2026-10-25 Module updates: ask for the licence key of a module that has none saved. A module installed before keys were kept used to be left out of the update list; it is now listed (flagged `license_missing`, "Licence key needed" hint) and, when the update is started, the backoffice prompts for the key. The key travels in the POST body, is checked for shape, and is saved as `<code>_key` only after the downloader accepted it and the package verified; a refused key is never saved and is asked again. New error code `license_required`. Tests: unit and end to end (`tests/e2e-module-updates/flow.sh`).
+
+### Changed
+
+- 2026-10-25 The empty-list message reads "All your modules are up to date." (it no longer implies a licence filter).
+
+## [Unreleased, folded into 5.1.0] on branch `feat-module-updates` (not released)
 
 ### Added
 

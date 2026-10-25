@@ -122,10 +122,13 @@ App.factory('Installer', function($http, Url) {
         });
     };
 
-    factory.updateModule = function (code) {
+    factory.updateModule = function (code, license) {
+        // The licence key travels in the POST body, so it never ends up in an access log.
         return $http({
             method: 'POST',
-            url: Url.get("installer/backoffice_module/updatemodule", {code: code}),
+            url: Url.get("installer/backoffice_module/updatemodule"),
+            data: $.param({code: code, license: license || ''}),
+            headers: {'Content-Type': 'application/x-www-form-urlencoded'},
             cache: false,
             responseType:'json'
         });

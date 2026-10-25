@@ -76,6 +76,16 @@ echo "     message: $(echo "$r" | jq -r .message)"
 upsert demoupd_key lk-used-0001
 r=$(c -X POST "$B/updatemodule?code=demoupd")
 eq "licence used elsewhere refused" module_license "$(echo "$r" | jq -r .code)"
+sql "DELETE FROM system_config WHERE code='demoupd_key'"
+r=$(c "$B/checkupdates?force=1")
+eq "module without a saved key is listed and flagged" true "$(echo "$r" | jq -r '[.updates[] | select(.code=="demoupd")][0].license_missing')"
+r=$(c -X POST "$B/updatemodule?code=demoupd")
+eq "no saved key and none typed: the key is asked for" license_required "$(echo "$r" | jq -r .code)"
+r=$(c -X POST --data-urlencode "license=lk-bad-0001" "$B/updatemodule?code=demoupd")
+eq "typed key refused by the downloader" module_license "$(echo "$r" | jq -r .code)"
+r=$(c -X POST --data-urlencode "license=x" "$B/updatemodule?code=demoupd")
+eq "typed key with a bad shape refused before any request" module_license "$(echo "$r" | jq -r .code)"
+eq "refused keys are not saved" 0 "$(sql "SELECT COUNT(*) FROM system_config WHERE code='demoupd_key'")"
 upsert demoupd_key lk-valid-0001
 
 echo "== 5. terms change while the admin is on the page"
@@ -88,8 +98,10 @@ eq "old acceptance forgotten" "" "$(sql "SELECT IFNULL(value,'') FROM system_con
 r=$(c -X POST "$B/acceptterms?hash=$H2")
 eq "new terms accepted" true "$(echo "$r" | jq -r .success)"
 
-echo "== 6. the update"
-r=$(c -X POST "$B/updatemodule?code=demoupd")
+echo "== 6. the update (the key is typed now, it was never saved)"
+sql "DELETE FROM system_config WHERE code='demoupd_key'"
+r=$(c -X POST --data-urlencode "license=lk-valid-0001" "$B/updatemodule?code=demoupd")
+eq "typed key saved after the verified download" lk-valid-0001 "$(sql "SELECT value FROM system_config WHERE code='demoupd_key'")"
 eq "package accepted" true "$(echo "$r" | jq -r .success)"
 eq "package is DemoUpd 1.1.0" "DemoUpd 1.1.0" "$(echo "$r" | jq -r '.package_details._name + " " + .package_details.version')"
 eq "package carries the code" demoupd "$(echo "$r" | jq -r .package_details.code)"

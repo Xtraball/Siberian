@@ -56,7 +56,7 @@ class Installer_Model_ModuleUpdates
     }
 
     /**
-     * Installed modules that carry a licence key, in the shape ModuleUpdates::pending() expects.
+     * Installed modules, with whether a licence key is saved for each, in the shape ModuleUpdates::pending() expects.
      *
      * @return array
      */
@@ -83,10 +83,12 @@ class Installer_Model_ModuleUpdates
      * Downloads and verifies the update of one module into the tmp directory.
      *
      * @param string $code
+     * @param string|null $license Module licence key typed by the administrator, for a module that has none saved.
+     *                             It is saved only once the downloader accepted it and the package was verified.
      * @return string Path of the verified package
      * @throws ModuleUpdates\Exception
      */
-    public static function download($code)
+    public static function download($code, $license = null)
     {
         $service = self::service();
         $list = $service->refresh();
@@ -121,9 +123,22 @@ class Installer_Model_ModuleUpdates
         }
 
         $siberianKey = trim((string) __get('siberiancms_key'));
-        $moduleKey = trim((string) __get($code . '_key'));
-        if ($siberianKey === '' || $moduleKey === '') {
-            throw new ModuleUpdates\Exception('license_missing', p__('backoffice', 'Both the Siberian and the module licence keys are required.'));
+        if ($siberianKey === '') {
+            throw new ModuleUpdates\Exception('license_missing', p__('backoffice', 'The Siberian licence key is required.'));
+        }
+
+        $savedKey = trim((string) __get($code . '_key'));
+        $typedKey = trim((string) $license);
+        if ($typedKey !== '' && !preg_match('/^[A-Za-z0-9._-]{8,128}$/', $typedKey)) {
+            throw new ModuleUpdates\Exception('module_license', p__('backoffice', 'This licence key is not valid.'));
+        }
+        // A key typed now wins over a saved one: it is how a wrong or expired key gets replaced.
+        $moduleKey = $typedKey !== '' ? $typedKey : $savedKey;
+        if ($moduleKey === '') {
+            throw new ModuleUpdates\Exception('license_required', sprintf(
+                p__('backoffice', 'Please enter the licence key of %s.'),
+                $pending['name']
+            ));
         }
 
         $tmp = Core_Model_Directory::getTmpDirectory(true);
@@ -141,6 +156,10 @@ class Installer_Model_ModuleUpdates
             $tmp,
             (string) $list['manifest']['terms']['hash']
         );
+
+        if ($typedKey !== '' && $typedKey !== $savedKey) {
+            __set($code . '_key', $typedKey);
+        }
 
         return $package['path'];
     }
