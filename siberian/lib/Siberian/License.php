@@ -5,6 +5,20 @@ namespace Siberian;
 class License
 {
     /**
+     * EDD statuses of a key that exists but cannot be used as is: the owner may hold a new key to replace it.
+     */
+    const REPLACEABLE_STATUSES = ['expired', 'disabled', 'revoked', 'missing'];
+
+    /**
+     * @param mixed $status
+     * @return bool
+     */
+    public static function isReplaceableStatus ($status): bool
+    {
+        return is_string($status) && in_array($status, self::REPLACEABLE_STATUSES, true);
+    }
+
+    /**
      * @param $code
      * @param $itemId
      * @param null $license
@@ -53,6 +67,10 @@ class License
             }
             if ($licenseResult['license'] === 'inactive') {
                 throw new Exception($code. ': Your license was not correctly activated, please request a new download package.');
+            }
+            // Only for the saved key: a key typed by the user is checked exactly as before.
+            if ($license === null && self::isReplaceableStatus($licenseResult['license'])) {
+                throw new License\ReplaceableException($code. ': Your license is ' . $licenseResult['license'] . ', if you received a new key you can enter it now.');
             }
         }
     }
