@@ -64,6 +64,10 @@ class Installer_Backoffice_ModuleController extends Backoffice_Controller_Defaul
                 'titleMajor' => __('Major update disclaimer, confirmation required!'),
                 'confirmDelete' => __('Yes, Proceed to update!'),
                 'cancelDelete' => __('No, go back!'),
+                'reinstallTitle' => p__('backoffice', 'This version is already installed'),
+                'reinstallText' => p__('backoffice', 'Would you like to reinstall it? Files are copied again and the module schema and data are synchronized again.'),
+                'reinstallConfirm' => p__('backoffice', 'Yes, reinstall'),
+                'reinstallCancel' => p__('backoffice', 'No, cancel'),
                 'mismatch' => __('The entered text mismatch'),
                 'confirmKey' => 'yes-proceed-to-update-#VERSION#',
                 'maxSize' => p__('backoffice', 'The file you are trying to send is larger than `post_max_size` or `upload_max_filesize`, please check your PHP settings.'),
@@ -450,12 +454,22 @@ class Installer_Backoffice_ModuleController extends Backoffice_Controller_Defaul
                 }
             }
 
+            // Opt-in only: without the parameter nothing changes.
+            $reinstall = (string) $this->getRequest()->getParam('reinstall', '');
+
             $module_names = Zend_Controller_Front::getInstance()->getDispatcher()->getSortedModuleDirectories();
             self::$MODULES = [];
             foreach ($module_names as $module_name) {
                 $module = new Installer_Model_Installer_Module();
                 $module->prepare($module_name);
                 if ($module->canUpdate()) {
+                    self::$MODULES[] = $module->getName();
+                } else if ($reinstall !== '' &&
+                    $module_name === $reinstall &&
+                    Installer_Model_Installer_Reinstall::isAllowed(
+                        $module->isInstalled(),
+                        $module->getVersion(),
+                        $module->getLastVersion())) {
                     self::$MODULES[] = $module->getName();
                 }
             }
@@ -467,6 +481,7 @@ class Installer_Backoffice_ModuleController extends Backoffice_Controller_Defaul
                 $installer = new Installer_Model_Installer();
                 $installer
                     ->setModuleName($module)
+                    ->setReinstall($reinstall !== '' && $module === $reinstall)
                     ->install();
 
                 $installers[] = $installer;
@@ -666,6 +681,20 @@ class Installer_Backoffice_ModuleController extends Backoffice_Controller_Defaul
                 'url' => false,
                 'show' => false,
             ];
+        $data['package_details']['installed_version'] = false;
+        $data['package_details']['can_reinstall'] = false;
+        try {
+            $installed = (new Installer_Model_Installer_Module())->prepare($package->getName(), false);
+            if ($installed->isInstalled()) {
+                $data['package_details']['installed_version'] = $installed->getVersion();
+                $data['package_details']['can_reinstall'] = Installer_Model_Installer_Reinstall::isAllowed(
+                    true,
+                    $installed->getVersion(),
+                    $package->getVersion());
+            }
+        } catch (\Exception $e) {
+            // Best effort, the regular install flow does not depend on it.
+        }
         $data['package_details']['restore_apps'] = $package->getRestoreApps() ?? false;
         $data['package_details']['cleanup_files'] = $package->getCleanupFiles() ?? false;
 

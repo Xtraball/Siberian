@@ -5,6 +5,9 @@ App.factory('Installer', function($http, Url) {
 
     factory.filename = null;
 
+    // Name of the module the user agreed to reinstall (same version), null otherwise.
+    factory.reinstall = null;
+
     factory.loadData = function() {
         return $http({
             method: 'GET',
@@ -86,9 +89,14 @@ App.factory('Installer', function($http, Url) {
 
     factory.install = function() {
 
+        var params = {};
+        if (factory.reinstall) {
+            params.reinstall = factory.reinstall;
+        }
+
         return $http({
             method: 'GET',
-            url: Url.get("installer/backoffice_module/install"),
+            url: Url.get("installer/backoffice_module/install", params),
             cache: false,
             responseType:'json'
         });
