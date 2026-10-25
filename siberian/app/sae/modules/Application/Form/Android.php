@@ -61,6 +61,17 @@ RAW;
 </div>
 RAW;
         $this->addSimpleHtml("html_helper_media", $mediaHelper);
+
+        $checkbox = $this->addSimpleCheckbox("use_android_splash_icon", p__("application", "Use the Android splash icon on the startup screen."));
+        $checkbox->addClass("floating-checkbox");
+
+        $text5 = p__("application", "By default the Android startup screen shows the application icon. When ticked, it shows the Splash icon (Android) of your application instead, which is larger and keeps its sharpness.");
+        $splashHelper = <<<RAW
+<div class="col-md-12">
+    {$text5}
+</div>
+RAW;
+        $this->addSimpleHtml("html_helper_splash", $splashHelper);
     }
 
     /**
@@ -80,6 +91,10 @@ RAW;
         $this
             ->getElement("disable_media_permissions")
             ->setValue((boolean) $application->getDisableMediaPermissions());
+
+        $this
+            ->getElement("use_android_splash_icon")
+            ->setValue((boolean) $application->getUseAndroidSplashIcon());
 
         return $this;
     }
