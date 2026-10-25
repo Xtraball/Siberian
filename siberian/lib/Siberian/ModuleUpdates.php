@@ -26,9 +26,9 @@ class ModuleUpdates
     /**
      * Ed25519 public keys (key id => base64) the downloader signs packages with. Pinned on
      * purpose: the keys are never taken from the network. Filled in once the downloader signing
-     * key exists (see LOGBOOK/features/feat-module-updates.md); until then downloads are refused.
+     * key exists (see LOGBOOK/features/feat-module-updates.md); with none pinned downloads are refused. k1 is the production key (generated 2026-10-25).
      */
-    const PINNED_KEYS = [];
+    const PINNED_KEYS = ['k1' => 'j7X289brUkWZG9HVk9qeQEQh69SVdPNi7rpKNbTflEs='];
 
     const STALE_MAX_AGE = 604800; // 7 days
     const FRESH_MAX_AGE = 86400;  // the daily cron refreshes it
