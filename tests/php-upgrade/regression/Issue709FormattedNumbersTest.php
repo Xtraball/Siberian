@@ -27,6 +27,27 @@ return [
         }
     },
 
+    // getFormatted*() and formatPrice() return display strings (currency symbol, locale separators). Payment code must
+    // keep working on the raw amounts, so the formatted path can never change what is charged.
+    '709 payment modules never read formatted values' => function () use ($siberian) {
+        $found = [];
+        foreach (['Payment', 'PaymentCash', 'PaymentMethod', 'PaymentStripe'] as $module) {
+            $it = new RecursiveIteratorIterator(new RecursiveDirectoryIterator($siberian . '/app/sae/modules/' . $module, FilesystemIterator::SKIP_DOTS));
+            foreach ($it as $file) {
+                if (in_array($file->getExtension(), ['php', 'phtml'], true) &&
+                    preg_match('/getFormatted[A-Z]\w*\(|formatPrice\(/', file_get_contents($file->getPathname()))) {
+                    $found[] = substr($file->getPathname(), strlen($siberian));
+                }
+            }
+        }
+        t_equal([], $found, 'payment files using formatted values');
+    },
+
+    '709 PayPal charges the raw order total' => function () use ($siberian) {
+        $code = file_get_contents($siberian . '/app/sae/modules/Payment/Model/Paypal.php');
+        t_true(strpos($code, '$totalPrice = round($order->getTotal(), 2);') !== false, 'raw total, rounded');
+    },
+
     '709 non numbers and dates are left to the other branches' => function () use ($numberPattern) {
         $p = $numberPattern();
         foreach (['', 'abc', '1.', '--3', '3-', '-', '1,5', '2020-01-02', '12px'] as $value) {
