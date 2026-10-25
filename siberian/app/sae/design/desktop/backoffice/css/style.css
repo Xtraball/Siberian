@@ -1112,6 +1112,11 @@ table.dashboard tr:first-of-type td {
     border-top: 0;
 }
 
+/* the no-wrap rule gives cells overflow:auto, which draws a tiny scrollbar under each icon of the dashboard lists */
+table.table.no-wrap.dashboard td {
+    overflow: visible;
+}
+
 table.sub-table {
     width: 100%;
 }
