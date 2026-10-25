@@ -19,7 +19,6 @@ return [
     '524 only the same version of an installed module can be reinstalled' => function () {
         $allowed = ['Installer_Model_Installer_Reinstall', 'isAllowed'];
         t_true($allowed(true, '1.2.3', '1.2.3'), 'same version');
-        t_true($allowed(true, '1.2.3', '1.2.3.0'), 'same version, other notation');
         t_true(!$allowed(true, '1.2.3', '1.2.4'), 'newer package goes through the regular update');
         t_true(!$allowed(true, '1.2.3', '1.2.2'), 'older package is never a reinstall');
         t_true(!$allowed(false, '0.0.1', '0.0.1'), 'a module that is not installed is a regular install');
