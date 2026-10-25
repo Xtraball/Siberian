@@ -861,6 +861,31 @@ App.controller("BackofficeAdvancedStoreController", function ($log, $scope, $tim
         return key.length > 8 ? key.substr(0, 4) + '••••••••' + key.substr(-4) : '••••';
     };
 
+    // Every download of every purchase, the ones the per-row eye buttons act on.
+    var allDownloads = function () {
+        var list = [];
+        angular.forEach(($scope.data && $scope.data.purchases) || [], function (purchase) {
+            angular.forEach(purchase.downloads || [], function (download) {
+                list.push(download);
+            });
+        });
+        return list;
+    };
+
+    $scope.allRevealed = function () {
+        var list = allDownloads();
+        return list.length > 0 && list.every(function (download) {
+            return download.revealed;
+        });
+    };
+
+    $scope.toggleAll = function () {
+        var reveal = !$scope.allRevealed();
+        angular.forEach(allDownloads(), function (download) {
+            download.revealed = reveal;
+        });
+    };
+
     $scope.copy = function (text) {
         if (navigator.clipboard && navigator.clipboard.writeText) {
             navigator.clipboard.writeText(text);
