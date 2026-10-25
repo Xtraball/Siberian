@@ -152,6 +152,17 @@ class Cron_Model_Cron extends Core_Model_Default
     }
 
     /**
+     * @return string|null date of the last successful run of any task
+     */
+    public static function getLastRun()
+    {
+        $db = Zend_Db_Table::getDefaultAdapter();
+        $time = $db->fetchOne($db->select()->from("cron", ["MAX(last_success)"]));
+
+        return (empty($time) || strpos($time, "0000") === 0) ? null : datetime_to_format($time);
+    }
+
+    /**
      * @return array|bool
      * @throws Zend_Date_Exception
      * @throws Zend_Locale_Exception

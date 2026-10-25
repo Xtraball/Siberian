@@ -152,6 +152,11 @@ class Backoffice_Controller_Index_Abstract extends Backoffice_Controller_Default
 
                         break;
                     case 'locks':
+                        if (Siberian_Cache::__countLocks() === 0) {
+                            $message = __("There are no CRON Scheduler lock files to remove.");
+                            break;
+                        }
+
                         $message = __("Removing CRON Scheduler lock files.");
 
                         Siberian_Cache::__clearLocks();

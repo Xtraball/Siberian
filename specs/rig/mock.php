@@ -55,6 +55,39 @@ if (strpos($host, 'store.test') === 0 || strpos($host, 'extensions.siberiancms.c
     }
 }
 
+// The Siberian update server (system updater, "remote" path). specs/updater drives it with two files in /tmp/specs-updater:
+//   scenario  none (default) | available | empty-download | download-500 | check-500 | check-garbage
+//   package   the archive served by get.php when the scenario is "available"
+if (strpos($host, 'updates02.siberiancms.com') === 0) {
+    $scenario = trim((string) @file_get_contents('/tmp/specs-updater/scenario')) ?: 'none';
+    if ($path === '/check.php') {
+        if ($scenario === 'check-500') {
+            http_response_code(500);
+            echo 'boom';
+        } elseif ($scenario === 'check-garbage') {
+            header('Content-Type: text/html');
+            echo '<html>not json</html>';
+        } elseif ($scenario === 'none') {
+            echo json_encode(['success' => true, 'message' => 'Your system is up to date.']);
+        } else {
+            echo json_encode(['success' => true, 'version' => '9.9.9', 'filename' => 'SpecUpd-1.0.0.sib',
+                'url' => 'https://updates02.siberiancms.com/get.php']);
+        }
+
+        return;
+    }
+    if ($path === '/get.php') {
+        if ($scenario === 'download-500') {
+            http_response_code(500);
+        } elseif ($scenario === 'available') {
+            header('Content-Type: application/octet-stream');
+            readfile('/tmp/specs-updater/package');
+        }
+
+        return;
+    }
+}
+
 // Geocoding and similar: the shape Siberian reads first, empty otherwise.
 if (strpos($host, 'maps.googleapis.com') === 0) {
     echo json_encode(['status' => 'OK', 'results' => [['geometry' => ['location' => ['lat' => 48.85, 'lng' => 2.35]], 'formatted_address' => 'Mock, France']]]);

@@ -40,3 +40,16 @@ spec_done
 | Backoffice | `account_view` (load, find, save), `account_list` (load, findall, delete), `account_login` (post, forgottenpassword, logout) |
 
 905 actions exist across 57 modules (`siberian/app/sae/modules/*/controllers`); the rest are added module by module.
+
+## Critical path: the backoffice updater
+
+`sh specs/run.sh updater` (about 60 s, 58 checks) guards Settings > Updates & Modules, the screen every instance is updated from. It covers the two ways something gets installed:
+
+- drag and drop: `upload` -> `copy` -> `install`, then a second archive with a higher version over the first (the update itself);
+- remote: `downloadupdate` -> `copy` -> `install`, with the Siberian update server played by `specs/rig/mock.php` (scenarios `none`, `available`, `check-500`, `check-garbage`, `download-500`, `empty-download`, chosen through `/tmp/specs-updater/scenario` in the mock container).
+
+Each step is also fed what a real instance meets: no file, a text file, an archive without `package.json`, an archive carrying Nwicode code, path traversal inside the archive and in the `file` parameter of `copy`, no session, an update server that answers 500, garbage or nothing. The first lines check that every URL the updater's JavaScript calls has an action behind it and that the drop zone is still in the template.
+
+It installs a throw-away module `SpecUpd` on the rig and removes its files and its `module` row on exit, so it can run again at once. Never point it at a real instance. The module-update flow with the downloader (signed manifests, terms, licences) stays in `tests/e2e-module-updates`.
+
+Bugs it found when first run: the controller imported `Siberian\Exception`, so its `catch (Exception)` blocks missed every other exception and a bad answer from the update server ended in a redirect to the dashboard instead of an error message; the same bad answer was also decoded before its HTTP status was looked at.

@@ -27,12 +27,16 @@ class Service
             $services = [
                 "cron" => Cron_Model_Cron::isRunning(),
                 "cron_error" => Cron_Model_Cron::getLastError(),
+                "cron_last_run" => Cron_Model_Cron::getLastRun(),
+                "cron_locks" => \Siberian_Cache::__countLocks(),
                 "average_build_time" => Application_Model_Queue::getBuildTime(),
             ];
         } catch (\Exception $e) {
             $services = [
                 "cron" => false,
                 "cron_error" => false,
+                "cron_last_run" => null,
+                "cron_locks" => 0,
                 "average_build_time" => 0,
             ];
         }

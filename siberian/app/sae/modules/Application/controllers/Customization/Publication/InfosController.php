@@ -449,7 +449,7 @@ class Application_Customization_Publication_InfosController extends Application_
 
     public function cancelqueueAction()
     {
-        if ($data = $this->getRequest()->getParams()) {
+        if ($this->getRequest()->getParam("type")) {
 
             $application = $this->getApplication();
             $type = $this->getRequest()->getParam("type");

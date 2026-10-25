@@ -252,6 +252,22 @@ class Cache
      *
      * @param null $name
      */
+    public static function __countLocks($name = null)
+    {
+        $count = 0;
+        foreach (new DirectoryIterator(path("var/tmp/")) as $lock) {
+            if (!$lock->isDir() && !$lock->isDot() && preg_match("/\.lock/", $lock->getFilename()) &&
+                (empty($name) || preg_match("/$name/", $lock->getFilename()))) {
+                $count++;
+            }
+        }
+
+        return $count;
+    }
+
+    /**
+     * @param null $name
+     */
     public static function __clearLocks($name = null)
     {
         $folder = path("var/tmp/");

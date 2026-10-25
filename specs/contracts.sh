@@ -26,12 +26,25 @@ WORK=$(mktemp -d /tmp/contracts.XXXXXX)
 MASTER=$WORK/master.jar
 START=$(date +%s)
 
+[ -f "$HERE/.fixtures.env" ] && . "$HERE/.fixtures.env"   # editor account and application, see fixtures.sh
+case "$CTX" in editor) LOGIN_FN=editor_login ;; *) LOGIN_FN=login ;; esac
+
 build_session() {
   case "$CTX" in
-    backoffice) SPEC_JAR=$MASTER; login ;;
-    editor) SPEC_JAR=$MASTER; editor_login ;;
+    backoffice|editor) SPEC_JAR=$MASTER; $LOGIN_FN ;;
     *) : > "$MASTER" ;;
   esac
+}
+
+# session_alive JAR: is the session still logged in (a page that only a logged-in user gets)
+session_alive() {
+  if [ "$CTX" = editor ]; then
+    call "$1" GET /admin/account/mydata
+    printf '%s' "$BODY" | grep -q '<title>Personal data'
+  else
+    call "$1" GET /backoffice/account_list/load
+    printf '%s' "$BODY" | jq -e .title >/dev/null 2>&1
+  fi
 }
 
 # call JAR METHOD URL [BODY] -> CODE, BODY. The JAR is only read: a call never changes the shared session's cookies.
@@ -40,10 +53,10 @@ call() {
   [ "$_b" = - ] && _b=
   if [ "$_m" = POST ]; then
     [ -n "$_b" ] || _b='{}'
-    BODY=$(curl -s -m "$TMO" -o - -w '\n%{http_code}' -X POST -H 'X-Requested-With: XMLHttpRequest' -H 'Content-Type: application/json' \
+    BODY=$(curl -s -m "$TMO" $AUTH -o - -w '\n%{http_code}' -X POST -H 'X-Requested-With: XMLHttpRequest' -H 'Content-Type: application/json' \
       -b "$_j" -d "$_b" "$SPEC_BASE$_u")
   else
-    BODY=$(curl -s -m "$TMO" -o - -w '\n%{http_code}' -X GET -H 'X-Requested-With: XMLHttpRequest' -b "$_j" "$SPEC_BASE$_u${_b:+?$_b}")
+    BODY=$(curl -s -m "$TMO" $AUTH -o - -w '\n%{http_code}' -X GET -H 'X-Requested-With: XMLHttpRequest' -b "$_j" "$SPEC_BASE$_u${_b:+?$_b}")
   fi
   CODE=$(printf '%s' "$BODY" | tail -n 1)
   BODY=$(printf '%s' "$BODY" | sed '$d')
@@ -64,15 +77,15 @@ worker() {
   : > "$noauth"; n=0
   while IFS="	" read -r kind url verb body want check; do
     n=$((n + 1))
-    if [ $((n % 20)) -eq 0 ] && [ "$CTX" = backoffice ]; then
+    if [ $((n % 20)) -eq 0 ] && { [ "$CTX" = backoffice ] || [ "$CTX" = editor ]; }; then
       cp "$MASTER" "$mine"
-      call "$mine" GET /backoffice/account_list/load
-      if ! printf '%s' "$BODY" | jq -e .title >/dev/null 2>&1; then
+      if ! session_alive "$mine"; then
         echo "session lost before $url, rebuilt" >> "$WORK/session.log"
-        flock "$WORK/login.lock" sh -c ". '$HERE/lib.sh'; SPEC_JAR='$MASTER'; SPEC_BASE='$SPEC_BASE'; SPEC_EMAIL='$SPEC_EMAIL'; SPEC_PASSWORD='$SPEC_PASSWORD'; login" >/dev/null
+        flock "$WORK/login.lock" sh -c ". '$HERE/lib.sh'; . '$HERE/.fixtures.env' 2>/dev/null; SPEC_JAR='$MASTER'; SPEC_BASE='$SPEC_BASE'; SPEC_EMAIL='$SPEC_EMAIL'; SPEC_PASSWORD='$SPEC_PASSWORD'; $LOGIN_FN" >/dev/null
       fi
     fi
     cp "$MASTER" "$mine"
+    AUTH=; [ "$CTX" = api ] && [ "$kind" != unauth ] && AUTH="-u ${SPEC_API_USER:-spec_api}:${SPEC_API_PASS:-spec-api-pass}"
     case "$kind" in
       unauth)
         call "$noauth" "$verb" "$url"
@@ -106,12 +119,16 @@ grep -P "\t$CTX\t" "$HERE/manifest.tsv" | grep -F "$PATTERN" | while IFS="	" rea
   printf 'invalid\t%s\t%s\t-\t-\t-\n' "$url" "$verb"
   case "$verb:$url" in
     GET:*/load|GET:*/find|GET:*/findall|GET:*/list|GET:*/index|GET:*/template|GET:*/findbyadmin|GET:*/loadlogs)
-      printf 'valid\t%s\tGET\t-\t200\t-\n' "$url" ;;
+      printf 'valid\t%s\tGET\t%s\t200\t-\n' "$url" "$([ -n "${SPEC_APP_ID:-}" ] && echo "app_id=$SPEC_APP_ID" || echo -)" ;;
   esac
 done >> "$WORK/rows"
 [ -f "$HERE/valid/$CTX.tsv" ] && grep -v '^#' "$HERE/valid/$CTX.tsv" | grep -F "$PATTERN" | while IFS="	" read -r url verb body want check; do
   skipped "$url" || printf 'valid\t%s\t%s\t%s\t%s\t%s\n' "$url" "$verb" "$body" "$want" "$check"
 done >> "$WORK/rows"
+
+# endpoints that delete, reset or end something run last, so they cannot spoil the others
+{ grep -Ev '(delete|remove|reset|clear|logout|purge|destroy|disable|uninstall)' "$WORK/rows"; grep -E '(delete|remove|reset|clear|logout|purge|destroy|disable|uninstall)' "$WORK/rows"; } > "$WORK/rows.sorted"
+mv "$WORK/rows.sorted" "$WORK/rows"
 
 # split round-robin so slow endpoints spread over the workers, then run them side by side
 i=0; while [ "$i" -lt "$WORKERS" ]; do : > "$WORK/part.$i"; : > "$WORK/out.$i"; i=$((i + 1)); done

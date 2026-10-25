@@ -132,7 +132,7 @@ class Installer_Backoffice_ModuleController extends Backoffice_Controller_Defaul
                             //$fatalErrors = true;
                         }
                     }
-                } catch (Exception $e) {
+                } catch (\Exception $e) {
                     $_errors[] = 'Please enable/add binary: zip';
                     $fatalErrors = true;
                 } finally {
@@ -210,7 +210,7 @@ class Installer_Backoffice_ModuleController extends Backoffice_Controller_Defaul
                     'message' => __($data['message'])
                 ];
             }
-        } catch (Exception $e) {
+        } catch (\Exception $e) {
             $payload = [
                 'error' => true,
                 'message' => $e->getMessage()
@@ -310,7 +310,7 @@ class Installer_Backoffice_ModuleController extends Backoffice_Controller_Defaul
                     throw new \Siberian\Exception(__($message));
                 }
 
-            } catch (Exception $e) {
+            } catch (\Exception $e) {
                 $payload = [
                     'error' => true,
                     'message' => $e->getMessage()
@@ -378,7 +378,7 @@ class Installer_Backoffice_ModuleController extends Backoffice_Controller_Defaul
                     "message" => __("Info successfully saved")
                 ];
 
-            } catch (Exception $e) {
+            } catch (\Exception $e) {
                 $data = [
                     "error" => 1,
                     "code" => $error_code,
@@ -417,7 +417,7 @@ class Installer_Backoffice_ModuleController extends Backoffice_Controller_Defaul
 
                 }
 
-            } catch (Exception $e) {
+            } catch (\Exception $e) {
                 $data = [
                     "error" => 1,
                     "message" => $e->getMessage()
@@ -529,7 +529,7 @@ class Installer_Backoffice_ModuleController extends Backoffice_Controller_Defaul
                 "reached_timeout" => true,
                 "message" => $e->getMessage()
             ];
-        } catch (Exception $e) {
+        } catch (\Exception $e) {
             $data = [
                 "error" => 1,
                 "message" => $e->getMessage()
@@ -607,11 +607,17 @@ class Installer_Backoffice_ModuleController extends Backoffice_Controller_Defaul
             throw new Siberian_Exception(__("An error occurred while loading. Please, try again later."));
         }
 
-        $content = Zend_Json::decode($content);
-        if ($response->getStatus() != 200) {
+        try {
+            $content = Zend_Json::decode($content);
+        } catch (\Exception $e) {
+            // The update server did not answer JSON: reported below, with the same message as any other failure
+            $content = null;
+        }
+
+        if ($response->getStatus() != 200 || !is_array($content)) {
 
             $message = __("Unable to check for updates now. Please, try again later.");
-            if (!empty($content["error"]) && !empty($content["message"])) {
+            if (is_array($content) && !empty($content["error"]) && !empty($content["message"])) {
                 $message = __($content["message"]);
             }
 
