@@ -189,6 +189,8 @@ return [
         t_true(is_file($dir . '/store-account.key') && (fileperms($dir . '/store-account.key') & 0077) === 0, 'key file is private');
         t_true(in_array('Authorization: Bearer sibat_one', $http->calls[2]['headers'], true), 'bearer sent');
         t_true(in_array('X-Authorization: Bearer sibat_one', $http->calls[2]['headers'], true), 'fallback header sent');
+        t_true(in_array('User-Agent: SiberianCMS-StoreAccount/1.0', $http->calls[2]['headers'], true), 'own user agent on reads');
+        t_true(in_array('User-Agent: SiberianCMS-StoreAccount/1.0', $http->calls[0]['headers'], true), 'own user agent on posts');
         $purchases = $svc->purchases();
         t_equal(2, count($purchases['purchases'][0]['downloads']), 'one purchase, two downloads');
         t_equal('KEY-CABRIDE-0001', $purchases['purchases'][0]['downloads'][0]['license']['key'], 'license key');
@@ -327,6 +329,8 @@ return [
         $result = $svc->purchases();
         t_equal([], $result['purchases'], 'second attempt served');
         t_equal(null, $result['error'], 'no error');
+        $last = end($http->calls);
+        t_true(in_array('Authorization: Bearer sibat_b', $last['headers'], true) && in_array('X-Authorization: Bearer sibat_b', $last['headers'], true), 'retry uses the renewed token on both headers');
     },
 
     'disconnect revokes at the store and forgets everything' => function () {

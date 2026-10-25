@@ -29,6 +29,8 @@ class StoreAccount
 
     const SCOPE = 'purchases:read offline_access';
 
+    const USER_AGENT = 'User-Agent: SiberianCMS-StoreAccount/1.0';
+
     /**
      * The cached purchases are refreshed when older than this and the page is opened (seconds).
      */
@@ -269,7 +271,8 @@ class StoreAccount
     {
         $token = $this->accessToken();
         // X-Authorization carries the same token: some Apache + PHP-FPM setups drop the Authorization header.
-        $headers = ['Accept: application/json', 'Authorization: Bearer ' . $token, 'X-Authorization: Bearer ' . $token];
+        // The store sits behind NinjaFirewall, which refuses the default curl User-Agent as a scanner: always send our own.
+        $headers = ['Accept: application/json', self::USER_AGENT, 'Authorization: Bearer ' . $token, 'X-Authorization: Bearer ' . $token];
         if ($cache !== null && !empty($cache['etag'])) {
             $headers[] = 'If-None-Match: ' . $cache['etag'];
         }
@@ -278,8 +281,8 @@ class StoreAccount
         if ($response['status'] === 401) {
             // The access token was refused before its time (revoked and reissued elsewhere): one forced refresh.
             $fresh = $this->accessToken(true);
-            $headers[1] = 'Authorization: Bearer ' . $fresh;
-            $headers[2] = 'X-Authorization: Bearer ' . $fresh;
+            $headers[2] = 'Authorization: Bearer ' . $fresh;
+            $headers[3] = 'X-Authorization: Bearer ' . $fresh;
             $response = $this->transport->request('GET', $this->baseUrl . '/wp-json/siberian/v1/purchases', $headers, null, 15, 8388608);
         }
 
@@ -536,6 +539,7 @@ class StoreAccount
         return $this->transport->request('POST', $this->baseUrl . $path, [
             'Content-Type: application/x-www-form-urlencoded',
             'Accept: application/json',
+            self::USER_AGENT,
         ], http_build_query($fields), 15);
     }
 
