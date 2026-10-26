@@ -209,6 +209,11 @@ class Event_Model_Event extends Core_Model_Default
         $ical = new Ical_Reader($content);
         $timezone = $ical->timezone();
         foreach ($ical->events() as $key => $event) {
+            if (empty($event['DTSTART'])) {
+                continue;
+            }
+            // An event without end (all day, reminder like) ends when it starts
+            $event['DTEND'] = $event['DTEND'] ?? $event['DTSTART'];
             if (strtotime($event['DTSTART']) > strtotime(date("Y-m-d H:i:s", time()))) {
                 $created_at = null;
                 if (!empty($event['CREATED'])) {
@@ -229,12 +234,13 @@ class Event_Model_Event extends Core_Model_Default
                 $end_at = $end_at->toString('y-MM-dd HH:mm:ss');
                 $this->_tmp_list[] = [
                     "id" => $key,
-                    "name" => $event['SUMMARY'],
+                    "name" => $event['SUMMARY'] ?? '',
                     "start_at" => $start_at,
                     "start_time_at" => $start_time_at,
                     "end_at" => $end_at,
-                    "description" => preg_replace('/\v+|\\\[rn]/', '<br/>', $event['DESCRIPTION']),
+                    "description" => preg_replace('/\v+|\\\[rn]/', '<br/>', $event['DESCRIPTION'] ?? ''),
                     "location" => isset($event['LOCATION']) ? $event['LOCATION'] : '',
+                    "location_label" => isset($event['LOCATION']) ? $event['LOCATION'] : '',
                     "rsvp" => '',
                     "picture" => $this->_getNoImage(),
                     "created_at" => $created_at,

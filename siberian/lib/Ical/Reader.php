@@ -41,7 +41,10 @@ class Ical_Reader
     public /** @type {Array} */ $cal;
 
     /* Which keyword has been added to cal at last? */
-    private /** @type {string} */ $_lastKeyWord;
+    private /** @type {string} */ $last_keyword;
+
+    /* Properties holding TEXT values (RFC 5545 3.3.11), escaped by the producer */
+    const TEXT_KEYWORDS = ['SUMMARY', 'DESCRIPTION', 'LOCATION', 'COMMENT'];
 
     /**
      * Creates the iCal-Object
@@ -56,13 +59,19 @@ class Ical_Reader
             return false;
         }
 
-        $lines = explode(PHP_EOL, $filename);
+        $lines = $this->unfold($filename);
         if (stristr($lines[0], 'BEGIN:VCALENDAR') === false) {
             return false;
         } else {
+            $type = 'VCALENDAR';
+            $parentType = 'VCALENDAR';
             // TODO: Fix multiline-description problem (see http://tools.ietf.org/html/rfc2445#section-4.8.1.5)
             foreach ($lines as $line) {
                 $line = trim($line);
+                if ($line === '') {
+                    // A blank line (the file usually ends with one) is not a continuation of the last property
+                    continue;
+                }
                 $add  = $this->keyValueFromString($line);
                 if ($add === false) {
                     $this->addCalendarComponentWithKeyAndValue($type, false, $line);
@@ -83,6 +92,15 @@ class Ical_Reader
                     //echo "vevent gematcht";
                     $this->event_count++;
                     $type = "VEVENT";
+                    break;
+
+                // A reminder lives inside its event, its DESCRIPTION / SUMMARY are not the event's
+                case "BEGIN:VALARM":
+                    $parentType = $type;
+                    $type = "VALARM";
+                    break;
+                case "END:VALARM":
+                    $type = $parentType;
                     break;
 
                 //all other special strings
@@ -127,23 +145,29 @@ class Ical_Reader
                                                         $keyword,
                                                         $value)
     {
-        if ($keyword == false) {
+        $isContinuation = ($keyword == false);
+        if ($isContinuation) {
             $keyword = $this->last_keyword;
+            if ($keyword === null) {
+                return;
+            }
             switch ($component) {
             case 'VEVENT':
-                $value = $this->cal[$component][$this->event_count - 1]
-                                               [$keyword].$value;
+                $value = ($this->cal[$component][$this->event_count - 1][$keyword] ?? '') . $value;
                 break;
             case 'VTODO' :
-                $value = $this->cal[$component][$this->todo_count - 1]
-                                               [$keyword].$value;
+                $value = ($this->cal[$component][$this->todo_count - 1][$keyword] ?? '') . $value;
                 break;
             }
         }
 
-        if (stristr($keyword, "DTSTART") or stristr($keyword, "DTEND")) {
-            $keyword = explode(";", $keyword);
-            $keyword = $keyword[0];
+        // Parameters are not part of the name: DTSTART;TZID=Europe/Paris, SUMMARY;LANGUAGE=en-US
+        $keyword = explode(";", $keyword, 2)[0];
+
+        if (!$isContinuation &&
+            in_array($component, array("VEVENT", "VTODO"), true) &&
+            in_array($keyword, self::TEXT_KEYWORDS, true)) {
+            $value = $this->unescapeText($value);
         }
 
         switch ($component) {
@@ -159,6 +183,51 @@ class Ical_Reader
             break;
         }
         $this->last_keyword = $keyword;
+    }
+
+    /**
+     * Splits the content in lines and joins the folded ones (RFC 5545 3.1): a line starting with a space or a
+     * tab continues the previous one, the folding character is not part of the value.
+     *
+     * @param {string} $content The raw content of the .ics file
+     *
+     * @return {array}
+     */
+    private function unfold($content)
+    {
+        $content = preg_replace('/^\xEF\xBB\xBF/', '', (string) $content);
+        $lines = array();
+        foreach (preg_split('/\r\n|\n|\r/', $content) as $line) {
+            if ($line !== '' && ($line[0] === ' ' || $line[0] === "\t") && !empty($lines)) {
+                $lines[count($lines) - 1] .= substr($line, 1);
+            } else {
+                $lines[] = $line;
+            }
+        }
+        return $lines;
+    }
+
+    /**
+     * Removes the TEXT escaping (RFC 5545 3.3.11): \, \; \\ and \n (a new line).
+     *
+     * @param {string} $value The escaped value
+     *
+     * @return {string}
+     */
+    public function unescapeText($value)
+    {
+        return preg_replace_callback('/\\\\(.)/s', function ($match) {
+            switch ($match[1]) {
+                case 'n':
+                case 'N':
+                    return "\n";
+                case ',':
+                case ';':
+                case '\\':
+                    return $match[1];
+            }
+            return $match[0];
+        }, $value);
     }
 
     /**
@@ -197,7 +266,9 @@ class Ical_Reader
         $pattern .= '([0-9]{0,2})';  // 4: HH
         $pattern .= '([0-9]{0,2})';  // 5: MM
         $pattern .= '([0-9]{0,2})/'; // 6: SS
-        preg_match($pattern, $icalDate, $date);
+        if (!preg_match($pattern, $icalDate, $date)) {
+            return false;
+        }
 
         // Unix timestamp can't represent dates before 1970
         if ($date[1] <= 1970) {
@@ -222,8 +293,8 @@ class Ical_Reader
      */
     public function process_recurrences() {
         $array = $this->cal;
-        $events = $array['VEVENT'];
-        foreach ($array['VEVENT'] as $anEvent) {
+        $events = isset($array['VEVENT']) ? $array['VEVENT'] : array();
+        foreach ($events as $anEvent) {
             if (isset($anEvent['RRULE']) && $anEvent['RRULE'] != '') {
                 // Recurring event, parse RRULE and add appropriate duplicate events
                 $rrules = array();
@@ -234,7 +305,8 @@ class Ical_Reader
                 }
                 // Get Start timestamp
                 $start_timestamp = $this->iCalDateToUnixTimestamp($anEvent['DTSTART']);
-                $end_timestamp = $this->iCalDateToUnixTimestamp($anEvent['DTEND']);
+                $end_timestamp = isset($anEvent['DTEND']) ?
+                    $this->iCalDateToUnixTimestamp($anEvent['DTEND']) : $start_timestamp;
                 $event_timestmap_offset = $end_timestamp - $start_timestamp;
                 // Get Interval
                 $interval = (isset($rrules['INTERVAL']) && $rrules['INTERVAL'] != '') ? $rrules['INTERVAL'] : 1;
@@ -243,7 +315,7 @@ class Ical_Reader
                 $until = $this->iCalDateToUnixTimestamp($rrules['UNTIL']);
 //                Zend_Debug::dump($until);
                 // Decide how often to add events and do so
-                switch ($rrules['FREQ']) {
+                switch (isset($rrules['FREQ']) ? $rrules['FREQ'] : '') {
                     case 'DAILY':
                         // Simply add a new event each interval of days until UNTIL is reached
                         $offset = "+$interval day";
