@@ -3,7 +3,8 @@
 #
 #   tests/php-upgrade/check-pr.sh [--strict] [base-ref]     (default base: origin/trunk)
 #
-# Fails (exit 1) on: CRLF in added lines, new __() / p__() texts missing from the translation catalogs.
+# Fails (exit 1) on: CRLF in added lines, new __() / p__() texts that are not in a .po catalog (new texts never go
+# in the legacy csv files; a text that already lives in a csv of the base ref can be reused).
 # Warns on: source changes without a test change, and fragile smells (see AGENTS.md) in added lines.
 # --strict turns the warnings into failures. Only reads git, changes nothing.
 set -eu
@@ -34,8 +35,9 @@ fi
 # 2. New texts must be in the catalogs (English is the default, msgstr = msgid)
 catalog_has() {
   text=$1
-  grep -rqF -- "msgid \"$text\"" siberian/languages 2>/dev/null && return 0
-  grep -rqF -- "\"$text\"" siberian/languages --include=*.csv 2>/dev/null && return 0
+  grep -rqF -e "msgid \"$text\"" siberian/languages --include=*.po 2>/dev/null && return 0
+  # Legacy csv: only a text that was already there on the base ref counts, a csv line added now does not.
+  git grep -qF -e "\"$text\"" "$BASE" -- 'siberian/languages/*.csv' 2>/dev/null && return 0
   return 1
 }
 TEXTS=$(mktemp)
@@ -45,7 +47,7 @@ sed -n -E "s/.*[^[:alnum:]_]p?__\((['\"])[A-Za-z_]+\1, *'(([^'\\\\]|\\\\.)*)'.*/
 sed -n -E 's/.*[^[:alnum:]_]p?__\(("[A-Za-z_]+", *)?"(([^"\\]|\\.)*)".*/\2/p' "$SRC" | sed 's/\\"/\\"/g' | sort -u >> "$TEXTS"
 while IFS= read -r text; do
   [ -n "$text" ] || continue
-  catalog_has "$text" || fail "text not in the translation catalogs: $text"
+  catalog_has "$text" || fail "text not in a .po catalog (add it to siberian/languages/base/c_<context>.po): $text"
 done < "$TEXTS"
 
 # 3. A change to the product needs a test change
