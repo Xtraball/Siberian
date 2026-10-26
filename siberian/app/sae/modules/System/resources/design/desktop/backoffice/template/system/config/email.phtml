@@ -1,8 +1,8 @@
 
-<form ng-submit="save()"
-      class="form-horizontal">
-    <sb-section-nav>
+<sb-section-nav>
     <sb-section-pane icon="fa-life-ring" title="'<?php echo __("Support"); ?>'">
+    <form class="form-horizontal"
+          ng-submit="save(['support_name', 'support_email', 'support_link', 'support_chat_code'])">
 
         <div class="form-group">
             <div class="col-md-6">
@@ -59,9 +59,12 @@
             </div>
         </div>
 
+    </form>
     </sb-section-pane>
 
     <sb-section-pane icon="fa-envelope" title="'<?php echo __("Custom SMTP Configuration"); ?>'">
+    <form class="form-horizontal"
+          ng-submit="save(['enable_custom_smtp', 'smtp_credentials'])">
 
         <div class="form-group">
             <div class="col-md-6">
@@ -171,6 +174,7 @@
             </div>
         </div>
 
+    </form>
     </sb-section-pane>
 
     <sb-section-pane icon="fa-eye" title="'<?php echo addcslashes(__("E-Mail render preview"), "'"); ?>'">
@@ -192,7 +196,6 @@
 
 
     </sb-section-nav>
-</form>
 
 <style type="text/css">
     iframe.preview-email {

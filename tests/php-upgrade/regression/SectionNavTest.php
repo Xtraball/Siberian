@@ -12,6 +12,8 @@ $email = $root . '/modules/System/resources/design/desktop/backoffice/template/s
 $base = $backoffice . '/css/style.css';
 $theme = $backoffice . '/css/theme-default/styles.css';
 $layout = $backoffice . '/layout/front.xml';
+$settingsJs = $root . '/modules/System/resources/design/desktop/backoffice/js/controllers/settings.js';
+$general = $root . '/modules/System/resources/design/desktop/backoffice/template/system/config/general.phtml';
 $icons = $backoffice . '/css/font-awesome.min.css';
 
 return [
@@ -39,18 +41,44 @@ return [
         }
     },
 
-    'the email page has three panes in a nav inside its form and no plain section left' => function () use ($email) {
+    'the email page has three panes in a nav and no plain section left' => function () use ($email) {
         $html = file_get_contents($email);
         t_equal(3, substr_count($html, '<sb-section-pane '), 'three panes');
         t_equal(3, substr_count($html, '</sb-section-pane>'), 'three closings');
         t_equal(0, substr_count($html, '<sb-section '), 'no plain section');
         t_equal(1, substr_count($html, '<sb-section-nav>'));
         t_equal(1, substr_count($html, '</sb-section-nav>'));
-        $form = strpos($html, '<form ng-submit="save()"');
-        $open = strpos($html, '<sb-section-nav>');
-        $close = strpos($html, '</sb-section-nav>');
-        $end = strpos($html, '</form>');
-        t_true($form < $open && $open < $close && $close < $end, 'the nav is inside the form, so every pane is saved');
+        t_equal(0, substr_count($html, 'ng-submit="save()"'), 'no page-wide save: it would post every section');
+    },
+
+    'each section saves only its own settings, the preview has nothing to save' => function () use ($email) {
+        $panes = array_slice(explode('<sb-section-pane ', file_get_contents($email)), 1);
+        t_equal(3, count($panes));
+        $saved = [];
+        foreach ([0, 1] as $i) {
+            t_equal(1, substr_count($panes[$i], '<form '), "pane $i has its own form");
+            t_equal(1, substr_count($panes[$i], 'type="submit"'), "pane $i has a Save button");
+            t_true(preg_match('/ng-submit="save\(\[([^\]]+)\]\)"/', $panes[$i], $m) === 1, "pane $i scopes its save");
+            preg_match_all("/'([a-z_]+)'/", $m[1], $codes);
+            preg_match_all('/ng-model="configs\.([a-z_]+)\./', $panes[$i], $models);
+            $shown = array_unique($models[1]);
+            $given = $codes[1];
+            sort($shown);
+            sort($given);
+            t_equal(implode(',', $shown), implode(',', $given), "pane $i saves exactly the settings it shows");
+            $saved = array_merge($saved, $given);
+        }
+        t_equal(count($saved), count(array_unique($saved)), 'no setting is saved by two sections');
+        t_equal(0, preg_match('/<(input|select|textarea|button|form)\b/', $panes[2]), 'the preview has nothing to save');
+    },
+
+    'the settings controller can post a subset and keeps the page-wide save' => function () use ($settingsJs, $general) {
+        $js = file_get_contents($settingsJs);
+        t_true(strpos($js, '$scope.save = function (codes)') !== false, 'save takes the codes of a section');
+        t_true(strpos($js, 'angular.isArray(codes)') !== false, 'no codes means everything');
+        t_true(preg_match('/\.save\(values\)/', $js) === 1, 'the filtered values are posted');
+        t_true(preg_match('/if \(angular\.isArray\(codes\)\) \{\s*return;\s*\}\s*\/\/ Lazy reload!/', $js) === 1, 'a section save does not reload the page');
+        t_true(strpos(file_get_contents($general), 'save()') !== false, 'the general page still saves everything');
     },
 
     'the panes keep their order: Support first' => function () use ($email) {

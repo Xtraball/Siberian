@@ -8,24 +8,33 @@ ships with a regression test, so a page is converted the same way every time.
 Use it when a page stacks unrelated cards (Settings > Email: Support, Custom SMTP, E-Mail render preview).
 
 ```html
-<form ng-submit="save()" class="form-horizontal">
-    <sb-section-nav>
-        <sb-section-pane icon="fa-life-ring" title="'Support'"> ... </sb-section-pane>
-        <sb-section-pane icon="fa-envelope" title="'Custom SMTP Configuration'"> ... </sb-section-pane>
-    </sb-section-nav>
-</form>
+<sb-section-nav>
+    <sb-section-pane icon="fa-life-ring" title="'Support'">
+        <form class="form-horizontal" ng-submit="save(['support_name', 'support_email'])">
+            ... fields (ng-model="configs.support_name.value") ...
+            <button type="submit" class="btn btn-primary right">Save</button>
+        </form>
+    </sb-section-pane>
+    <sb-section-pane icon="fa-eye" title="'Preview'"> ... nothing to save, no form ... </sb-section-pane>
+</sb-section-nav>
 ```
 
 - A pane is an `sb-section` (same card, title, optional `button`) that is shown when selected. The first pane is shown by
   default and its menu item is highlighted.
-- Panes are hidden, never removed: their fields stay in the form and are saved with it. Keep the nav inside the `<form>`.
+- Panes are hidden, never removed (`ng-show`), so their models stay bound.
+- **A section saves only what it shows.** No page-wide form around the nav: each pane that has fields gets its own
+  `<form ng-submit="save([codes])">` and its own Save button; a pane with nothing to edit (a preview) has neither.
+  `SettingsController.save(codes)` posts only those settings (`save()` with no argument still posts everything, for
+  the pages that are not sectioned) and does not reload the page, which would send the user back to the first pane.
+  The server `_save` only touches the codes it receives, so no PHP change is needed. A test checks that the codes of
+  each Save are exactly the `configs.<code>` models of its pane.
 - `icon` is optional (Font Awesome 4 class). `title` is an expression, like `sb-section`. The backoffice ships its own
   `css/font-awesome.min.css`, which is not complete (no `fa-server`, for one): an icon that is not in it renders as
   nothing and shifts the label. The test checks every pane icon against that file.
 - Menu items are one line each (ellipsis if too long), so keep titles short. The list is as wide as its longest label.
 - The page wrapper is widened (`.wrapper:has(.sb-section-nav)`) because the menu takes a share of the default 1440px.
 - Conversion of a page: `<sb-section title=` becomes `<sb-section-pane icon="..." title=`, `</sb-section>` becomes
-  `</sb-section-pane>`, wrap them in `<sb-section-nav>`. Nothing else moves.
+  `</sb-section-pane>`, wrap them in `<sb-section-nav>`, move the page-wide `<form>` inside each pane and scope its save.
 - Structure (flex layout, small screens) is in `css/style.css`, shared by every theme; the look is in
   `css/theme-default/styles.css`.
 
