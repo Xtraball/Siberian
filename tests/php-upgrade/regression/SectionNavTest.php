@@ -67,6 +67,7 @@ return [
         t_true(strpos($shared, '@media (max-width: 767px)') !== false && strpos($shared, '.sb-section-nav-list') !== false, 'small screens');
         $default = file_get_contents($theme);
         t_true(preg_match('/\.sb-section-nav-list\s*>\s*li\.active\s*>\s*a\s*\{[^}]*var\(--sb-accent/s', $default) === 1, 'active item highlighted');
+        t_true(preg_match('/\.sb-section-nav-list\s*>\s*li\s*>\s*a\s*\{[^}]*font-size:\s*12px/s', $default) === 1, 'compact menu text (12px)');
     },
 
     'menu items stay on one line and the page gets more width' => function () use ($base) {

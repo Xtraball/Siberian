@@ -958,7 +958,7 @@ pre {
 .sb-section-nav-list > li > a {
     border-radius: var(--sb-radius-sm);
     color: var(--sb-text-muted);
-    font-size: 14px;
+    font-size: 12px;
     transition: background-color .15s ease, color .15s ease;
 }
 
