@@ -3,6 +3,8 @@ App.service("Message", function($timeout) {
     var Message = function() {
 
         this.is_error = false;
+        // success, error, warning or info: drives the color and the icon of the message at the top
+        this.type = "success";
         this.text = "";
         this.is_visible = false;
         this.timer = null;
@@ -14,7 +16,29 @@ App.service("Message", function($timeout) {
 
         this.isError = function(is_error) {
             this.is_error = is_error;
+            this.type = is_error ? "error" : "success";
             return this;
+        };
+
+        this.isWarning = function() {
+            this.is_error = false;
+            this.type = "warning";
+            return this;
+        };
+
+        this.isInfo = function() {
+            this.is_error = false;
+            this.type = "info";
+            return this;
+        };
+
+        this.getIcon = function() {
+            return {
+                success: "fa-check-circle",
+                error: "fa-times-circle",
+                warning: "fa-exclamation-triangle",
+                info: "fa-info-circle"
+            }[this.type] || "fa-info-circle";
         };
 
         this.show = function() {
@@ -68,7 +92,11 @@ App.service("Message", function($timeout) {
         };
 
         this.information = function(message) {
-            this.setText(message).isError(false).show();
+            this.setText(message).isInfo().show();
+        };
+
+        this.warning = function(message) {
+            this.setText(message).isWarning().show();
         };
 
     };
