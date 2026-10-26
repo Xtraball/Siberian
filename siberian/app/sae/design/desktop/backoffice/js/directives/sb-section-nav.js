@@ -7,7 +7,7 @@
  *
  * <sb-section-nav>
  *     <sb-section-pane title="'Support'" icon="fa-life-ring"> ... </sb-section-pane>
- *     <sb-section-pane title="'SMTP'" icon="fa-server"> ... </sb-section-pane>
+ *     <sb-section-pane title="'SMTP'" icon="fa-envelope"> ... </sb-section-pane>
  * </sb-section-nav>
  *
  * A pane renders like an sb-section (same card, same title and optional button). Panes are only hidden, never

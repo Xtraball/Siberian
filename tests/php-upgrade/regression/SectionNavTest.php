@@ -12,6 +12,7 @@ $email = $root . '/modules/System/resources/design/desktop/backoffice/template/s
 $base = $backoffice . '/css/style.css';
 $theme = $backoffice . '/css/theme-default/styles.css';
 $layout = $backoffice . '/layout/front.xml';
+$icons = $backoffice . '/css/font-awesome.min.css';
 
 return [
     'the directives are in the folder the backoffice loads' => function () use ($directive, $layout) {
@@ -66,5 +67,21 @@ return [
         t_true(strpos($shared, '@media (max-width: 767px)') !== false && strpos($shared, '.sb-section-nav-list') !== false, 'small screens');
         $default = file_get_contents($theme);
         t_true(preg_match('/\.sb-section-nav-list\s*>\s*li\.active\s*>\s*a\s*\{[^}]*var\(--sb-accent/s', $default) === 1, 'active item highlighted');
+    },
+
+    'menu items stay on one line and the page gets more width' => function () use ($base) {
+        $shared = file_get_contents($base);
+        t_true(preg_match('/\.sb-section-nav-list\s*>\s*li\s*>\s*a\s*\{[^}]*white-space:\s*nowrap[^}]*text-overflow:\s*ellipsis/s', $shared) === 1, 'one line per item');
+        t_true(preg_match('/\.sb-section-nav-list\s*\{[^}]*flex:\s*0 0 auto/s', $shared) === 1, 'the menu is as wide as its labels');
+        t_true(preg_match('/\.wrapper:has\(\.sb-section-nav\)\s*\{[^}]*width:\s*1[5-9]\d\dpx/s', $shared) === 1, 'wider wrapper for a page with a side nav');
+    },
+
+    'every icon used by a pane exists in the font the backoffice ships' => function () use ($email, $icons) {
+        $font = file_get_contents($icons);
+        preg_match_all('/<sb-section-pane icon="(fa-[a-z0-9-]+)"/', file_get_contents($email), $m);
+        t_equal(3, count($m[1]), 'three icons');
+        foreach ($m[1] as $icon) {
+            t_true(strpos($font, '.' . $icon . ':before') !== false, "$icon is defined in the backoffice font-awesome.min.css");
+        }
     },
 ];
