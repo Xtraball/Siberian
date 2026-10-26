@@ -78,10 +78,13 @@ trap 'rm -rf "$STAGE"' EXIT
 for entry in $SOURCES; do
     name=${entry%%:*}
     path=${entry#*:}
-    git -C "$ROOT" archive --format=tar --prefix="$name/" "$REF:$path" | tar -x -C "$STAGE"
+    git -C "$ROOT" archive --format=tar --prefix="$name/" "$REF:$path" -o "$STAGE/export.tar"
+    tar -x -f "$STAGE/export.tar" -C "$STAGE"
+    rm -f "$STAGE/export.tar"
     find "$STAGE/$name" \( -name .git -o -name .gitignore -o -name .gitattributes -o -name .DS_Store \) -prune -exec rm -rf {} +
-    tar --sort=name --owner=0 --group=0 --numeric-owner --mtime="@$STAMP" -C "$STAGE" -cf - "$name" | gzip -9n > "$OUT/$name.tgz"
-    rm -rf "$STAGE/$name"
+    tar --sort=name --owner=0 --group=0 --numeric-owner --mtime="@$STAMP" -C "$STAGE" -cf "$STAGE/$name.tar" "$name"
+    gzip -9n < "$STAGE/$name.tar" > "$OUT/$name.tgz"
+    rm -rf "$STAGE/$name" "$STAGE/$name.tar"
     echo "built $name.tgz ($(wc -c < "$OUT/$name.tgz") bytes)"
 done
 
