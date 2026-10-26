@@ -2,6 +2,33 @@
 
 Notable changes to Siberian, newest first. Dates are `YYYY-MM-DD`. Longer notes live in `docs/`.
 
+## [5.1.4] 2026-10-26
+
+Bug fixes and small options on top of 5.1.3. The update package is built against 5.1.3 (`lastversion`), the last published version. Modules: Application 5.0.15, Push2 5.0.11, Radio 4.14.11.
+
+### Added
+
+- 2026-10-26 Android: option to remove the photos and videos permissions from the app.
+- 2026-10-26 Android: apps with the Push feature declare the POST_NOTIFICATIONS permission (only when the manifest does not declare it already), and Waze and Google Maps are declared in the manifest `<queries>` so the navigation buttons find them.
+- 2026-10-26 Android: the splash icon is sharp by default.
+- 2026-10-26 Radio: option to keep the stream link as typed.
+- 2026-10-26 Settings, custom SMTP: the password is hidden by default, with an eye button to show it (#864).
+- 2026-10-26 Modules: a module can be reinstalled at the same version (#524), and an expired or refused licence key can be replaced from the update screen (#859).
+- 2026-10-26 `bin/build-app-sources.sh <version>` builds the archives that "Restore Apps sources" downloads (browser, android, ios, ios-noads). The release workflow attaches them to the GitHub release.
+- 2026-10-26 `AGENTS.md` and `check-pr.sh`: rules and a checker for contributors and AI agents (new translations go in the `.po` catalogs).
+
+### Fixed
+
+- 2026-10-26 Calendar: the iCal reader keeps folded descriptions, parameters and locations (#296).
+- 2026-10-26 Source Code: saving no longer reads or resets the offline flag.
+- 2026-10-26 Promote: the smart banner values are escaped in the generated snippet.
+- 2026-10-26 Short URLs: TinyURL is called over https, with http as a fallback.
+- 2026-10-26 Formatted numbers: negative values are formatted too.
+- 2026-10-26 Layout 3 options: removed a stray minus sign.
+- 2026-10-26 Publication form: translated with the right function, no more warnings.
+- 2026-10-26 Push: scheduled pushes show their send date, and titles are sent without HTML entities.
+- 2026-10-26 Android: navigation fix in the shell (`Navigator.java`).
+
 ## [5.1.3] 2026-10-25
 
 First release since 5.0.17 (2025-10-04): the update package is built against v5.0.17 and customers on 5.0.17 jump straight to 5.1.3. 5.0.18 and 5.1.0 to 5.1.2 were never published, their changes are all in this release. `lastversion` is 5.0.17 from here on.
