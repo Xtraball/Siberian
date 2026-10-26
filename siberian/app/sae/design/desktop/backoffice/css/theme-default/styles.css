@@ -1087,8 +1087,16 @@ table.ui-datepicker-calendar td a.ui-state-active {
 }
 
 .login-form .wrapper .content .login-actions .btn-primary {
+    display: flex;
     flex: 1 1 auto;
+    align-items: center;
+    justify-content: center;
     width: auto;
+}
+
+/* the loader is a spinner inside the button, before its label */
+.login-form .wrapper .content .login-actions .btn-primary .fa-spin {
+    margin-right: 8px;
 }
 
 /* back button of the forgotten password form: a quiet square next to the main action, not a red alarm */
