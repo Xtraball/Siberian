@@ -928,6 +928,12 @@ li.is_current,
     background-color: var(--sb-accent);
 }
 
+/* Bootstrap gives .progress a 20px bottom margin; cells are vertically centered, so a bar inside a table cell
+   (module installer, certificate uploads) sat 10px above its label. */
+.table > tbody > tr > td > .progress {
+    margin-bottom: 0;
+}
+
 pre,
 code {
     border-radius: var(--sb-radius-sm);
