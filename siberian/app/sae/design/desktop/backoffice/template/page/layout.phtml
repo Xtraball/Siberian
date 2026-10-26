@@ -67,10 +67,12 @@
             }
         ?>
 
+        <?php if (is_file(Core_Model_Directory::getBasePathTo('/app/local/design/desktop/backoffice/css/user-style.css'))): ?>
         <link href="/app/local/design/desktop/backoffice/css/user-style.css?t=<?php echo $currentRelease ?>"
               media="all"
               rel="stylesheet"
               type="text/css" />
+        <?php endif; ?>
 
         <?php echo Siberian_Debug::renderHead(); ?>
     </head>
