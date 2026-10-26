@@ -52,4 +52,10 @@ needs its own rule (a test enforces it).
    DOM) instead of relying on source assertions only.
 4. Look at it in a real browser once (QA on siberian01): layout problems (a wrapped menu item, a missing icon, too narrow
    a page) never show in source tests, they were found by the user at the first QA of Settings > Email.
-5. New texts go in `siberian/languages/base/c_<context>.po` via `p__('<context>', ...)`, never the legacy csv.
+5. Check the console for JS errors on every action of the page (click, save, navigate): in a real browser when it can
+   reach the page, otherwise the real AngularJS in jsdom. Source tests do not catch a runtime error: a controller that
+   used `$window` without declaring it ended every save in a ReferenceError. `BackofficeControllerInjectionTest` now
+   checks that a controller declares the services it uses.
+6. The MAE and PE repositories override some backoffice files (System `general.phtml`, `settings.js`, the controllers):
+   check `siberian/app/mae` and `siberian/app/pe` for a file with the same path and port the change there.
+7. New texts go in `siberian/languages/base/c_<context>.po` via `p__('<context>', ...)`, never the legacy csv.

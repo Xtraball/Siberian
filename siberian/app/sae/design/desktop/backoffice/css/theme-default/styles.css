@@ -1017,26 +1017,94 @@ table.ui-datepicker-calendar td a.ui-state-active {
 /* ---------- Login ---------- */
 
 .login-form .wrapper {
-    width: 460px;
+    width: 440px;
     max-width: calc(100% - 32px);
-    margin-top: calc(var(--sb-header-height) + 12vh);
+    margin-top: calc(var(--sb-header-height) + 10vh);
 }
 
+/* the base stylesheet gives the title box 1100px, which pushed the title out of the card */
 .login-form .wrapper .title div.title_content {
-    padding-bottom: 12px;
+    width: auto;
+    padding: 0 0 20px 0;
     text-align: center;
 }
 
 .login-form .wrapper .content {
-    padding: 28px 8px 12px 8px;
+    padding: 36px 0 32px 0;
     border: 1px solid var(--sb-border);
     border-radius: var(--sb-radius-lg);
     background-color: var(--sb-surface);
     box-shadow: var(--sb-shadow-lg);
 }
 
-.login-form .wrapper .content .btn-primary {
-    width: 100%;
+/* the form fields sit in Bootstrap columns (a third of the card): they take the whole card, with a margin */
+.login-form .wrapper .content [class*="col-md-"] {
+    float: none;
+    width: auto;
+    margin-left: 0;
+    padding: 0 40px;
+}
+
+.login-form .wrapper .content .form-group {
+    margin-bottom: 18px;
+}
+
+.login-form .wrapper .content label {
+    margin-bottom: 6px;
+    color: var(--sb-text);
+    font-size: 13px;
+    font-weight: 600;
+}
+
+.login-form .wrapper .content .form-control {
+    height: 42px;
+}
+
+.login-form .wrapper .content p {
+    margin: 0 0 4px 0;
+    color: var(--sb-text-muted);
+    line-height: 1.6;
+}
+
+.login-form .wrapper .content .login-forgot {
+    margin-top: -6px;
+    text-align: right;
+}
+
+.login-form .wrapper .content .login-forgot a {
+    font-size: 13px;
+}
+
+.login-form .wrapper .content .login-actions {
+    display: flex;
+    align-items: center;
+    margin-bottom: 0;
+}
+
+.login-form .wrapper .content .login-actions .btn {
+    height: 42px;
+    margin: 0;
+}
+
+.login-form .wrapper .content .login-actions .btn-primary {
+    flex: 1 1 auto;
+    width: auto;
+}
+
+/* back button of the forgotten password form: a quiet square next to the main action, not a red alarm */
+.login-form .wrapper .content .login-actions .btn-danger {
+    flex: 0 0 42px;
+    width: 42px;
+    margin-right: 10px;
+    padding: 0;
+    border: 1px solid var(--sb-border);
+    background-color: var(--sb-surface);
+    color: var(--sb-text-muted);
+}
+
+.login-form .wrapper .content .login-actions .btn-danger:hover {
+    background-color: var(--sb-surface-alt);
+    color: var(--sb-text);
 }
 
 /* ---------- Installer (reuses the backoffice stylesheets) ---------- */
