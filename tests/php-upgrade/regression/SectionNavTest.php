@@ -81,6 +81,11 @@ return [
         t_true(strpos(file_get_contents($general), 'save()') !== false, 'the general page still saves everything');
     },
 
+    'the settings are read again when the page is opened after a section save' => function () use ($root) {
+        $js = file_get_contents($root . '/modules/System/resources/design/desktop/backoffice/js/factories/settings.js');
+        t_true(preg_match('/factory\.findAll = function \(\) \{.*?cache:\s*false/s', $js) === 1, 'findAll is not cached');
+    },
+
     'the panes keep their order: Support first' => function () use ($email) {
         $html = file_get_contents($email);
         $support = strpos($html, '"Support"');

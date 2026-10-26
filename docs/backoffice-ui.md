@@ -26,7 +26,8 @@ Use it when a page stacks unrelated cards (Settings > Email: Support, Custom SMT
   `<form ng-submit="save([codes])">` and its own Save button; a pane with nothing to edit (a preview) has neither.
   `SettingsController.save(codes)` posts only those settings (`save()` with no argument still posts everything, for
   the pages that are not sectioned) and does not reload the page, which would send the user back to the first pane.
-  The server `_save` only touches the codes it receives, so no PHP change is needed. A test checks that the codes of
+  Because there is no reload, `Settings.findAll` is not cached (a cached read would show the old values when the user
+  comes back to the page). The server `_save` only touches the codes it receives, so no PHP change is needed. A test checks that the codes of
   each Save are exactly the `configs.<code>` models of its pane.
 - `icon` is optional (Font Awesome 4 class). `title` is an expression, like `sb-section`. The backoffice ships its own
   `css/font-awesome.min.css`, which is not complete (no `fa-server`, for one): an icon that is not in it renders as
