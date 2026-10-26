@@ -11,6 +11,7 @@ $abstractForm = $lib . '/Siberian/Form/Abstract.php';
 $elementFile = $lib . '/Siberian/Form/Element/RevealPassword.php';
 $featuresJs = $siberian . '/app/sae/design/desktop/flat/js/features.js';
 $catalog = $siberian . '/languages/default/default.csv';
+$poFile = $siberian . '/languages/base/c_application.po';
 
 set_include_path($lib . PATH_SEPARATOR . get_include_path());
 spl_autoload_register(static function ($class) use ($lib) {
@@ -19,8 +20,8 @@ spl_autoload_register(static function ($class) use ($lib) {
         require_once $file;
     }
 });
-if (!function_exists('__')) {
-    function __($text)
+if (!function_exists('p__')) {
+    function p__($context, $text)
     {
         return $text;
     }
@@ -92,7 +93,11 @@ return [
         t_equal(1, substr_count($js, 'window.sbSetPasswordRevealed = function'), 'one definition');
     },
 
-    '864 the button text is in the translation catalog (English is the default)' => function () use ($catalog) {
-        t_true(strpos(file_get_contents($catalog), "\n\"Show / hide the password\"\n") !== false, 'catalog entry');
+    '864 the button text is in a .po catalog (English is the default), not in the legacy csv' => function () use ($catalog, $poFile, $lib) {
+        $text = 'Show / hide the password';
+        t_true(strpos(file_get_contents($lib . '/Siberian/View/Helper/FormRevealPassword.php'), "p__('application', '$text')") !== false, 'p__ with a context');
+        $entry = 'msgctxt "application"' . "\n" . 'msgid "' . $text . '"' . "\n" . 'msgstr "' . $text . '"';
+        t_true(strpos(file_get_contents($poFile), $entry) !== false, 'po entry');
+        t_true(strpos(file_get_contents($catalog), "\"$text\"") === false, 'not added to the legacy csv');
     },
 ];

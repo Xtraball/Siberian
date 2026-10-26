@@ -29,7 +29,7 @@ class Siberian_View_Helper_FormRevealPassword extends Zend_View_Helper_FormPassw
         $style = isset($attribs['style']) ? rtrim($attribs['style'], '; ') . ';' : '';
         $attribs['style'] = $style . 'padding-right:36px;';
 
-        $label = __('Show / hide the password');
+        $label = p__('application', 'Show / hide the password');
         $title = $this->view->escape($label);
 
         $eye = '<svg data-eye width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" '
