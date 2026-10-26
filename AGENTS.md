@@ -31,12 +31,12 @@ Schema sync and data files are upserts by nature, so running them again on the s
 
 ## Translations
 
-English is the default language. A text missing from every catalog is shown in English, but translators never see it, so add every new user-visible text in the same pull request:
+English is the default language. A text missing from every catalog is shown in English, but translators never see it, so add every new user-visible text in the same pull request, **always in a `.po` catalog**:
 
-- `p__('<context>', '...')`: `siberian/languages/base/c_<context>.po`, with `msgctxt "<context>"`, English `msgstr` equal to `msgid`.
-- `__('...')`: `siberian/languages/default/<module>.csv` (quoted English key per line) and `siberian/languages/base/<module>.po`.
+- Ask for it with `p__('<context>', '...')` and add it to `siberian/languages/base/c_<context>.po`: `msgctxt "<context>"`, `msgid` and an English `msgstr` equal to it, a `# GMT <epoch>.<n>` comment above (copy the entries already there).
+- Do not add new entries to `siberian/languages/default/*.csv` (nor to the module `.csv` files): they are the legacy format, kept for the texts that already live there. Reusing a text that is already in one of them is fine.
 - `Siberian\Translation::extractAll($module, $context)` prints the texts that are missing from the catalogs (it writes nothing).
-- Assert the texts in the pull request test, so a missing entry fails.
+- Assert the texts in the pull request test, so a missing entry fails; `tests/php-upgrade/check-pr.sh` also fails on a new text that is not in a `.po`.
 
 ## Files and style
 
@@ -56,4 +56,4 @@ English is the default language. A text missing from every catalog is shown in E
 tests/php-upgrade/check-pr.sh [--strict] [base-ref]
 ```
 
-It reads git only and checks the added lines against this file: it fails on CRLF line endings and on new `__()` / `p__()` texts that are missing from the translation catalogs, and warns when source changed without a test, or when fragile smells (`|| true`, `sleep`, `@` suppression) were added. `--strict` turns the warnings into failures.
+It reads git only and checks the added lines against this file: it fails on CRLF line endings and on new `__()` / `p__()` texts that are not in a `.po` translation catalog, and warns when source changed without a test, or when fragile smells (`|| true`, `sleep`, `@` suppression) were added. `--strict` turns the warnings into failures.
