@@ -488,6 +488,33 @@ abstract class Siberian_Form_Abstract extends Zend_Form
     }
 
     /**
+     * Password input with an eye button to show / hide the value, see Siberian_Form_Element_RevealPassword.
+     *
+     * @param $name
+     * @param string $label
+     * @param bool $placeholder
+     * @return Siberian_Form_Element_RevealPassword
+     * @throws Zend_Form_Exception
+     */
+    public function addSimpleRevealPassword($name, $label = "", $placeholder = false)
+    {
+        $el = new Siberian_Form_Element_RevealPassword($name);
+        $this->addElement($el);
+        if ($placeholder) {
+            $el->setAttrib('placeholder', $label);
+            $el->setDecorators(['ViewHelper']);
+        } else {
+            $el->setLabel($label);
+            $el->setDecorators(['ViewHelper', 'Label']);
+        }
+
+        $el->setIsFormHorizontal($this->is_form_horizontal);
+        $el->setColor($this->color);
+        $el->setNewDesign();
+        return $el;
+    }
+
+    /**
      * @param $name
      * @param string $label
      * @return Siberian_Form_Element_Textarea
