@@ -13,7 +13,7 @@ $base = $backoffice . '/css/style.css';
 $theme = $backoffice . '/css/theme-default/styles.css';
 $layout = $backoffice . '/layout/front.xml';
 $settingsJs = $root . '/modules/System/resources/design/desktop/backoffice/js/controllers/settings.js';
-$general = $root . '/modules/System/resources/design/desktop/backoffice/template/system/config/general.phtml';
+$design = $root . '/modules/System/resources/design/desktop/backoffice/template/system/config/design.phtml';
 $icons = $backoffice . '/css/font-awesome.min.css';
 
 return [
@@ -72,13 +72,13 @@ return [
         t_equal(0, preg_match('/<(input|select|textarea|button|form)\b/', $panes[2]), 'the preview has nothing to save');
     },
 
-    'the settings controller can post a subset and keeps the page-wide save' => function () use ($settingsJs, $general) {
+    'the settings controller can post a subset and keeps the page-wide save' => function () use ($settingsJs, $design) {
         $js = file_get_contents($settingsJs);
         t_true(strpos($js, '$scope.save = function (codes)') !== false, 'save takes the codes of a section');
         t_true(strpos($js, 'angular.isArray(codes)') !== false, 'no codes means everything');
         t_true(preg_match('/\.save\(values\)/', $js) === 1, 'the filtered values are posted');
         t_true(preg_match('/if \(angular\.isArray\(codes\)\) \{\s*return;\s*\}\s*\/\/ Lazy reload!/', $js) === 1, 'a section save does not reload the page');
-        t_true(strpos(file_get_contents($general), 'save()') !== false, 'the general page still saves everything');
+        t_true(strpos(file_get_contents($design), 'save()') !== false, 'the design page (not sectioned) still saves everything');
     },
 
     'the settings are read again when the page is opened after a section save' => function () use ($root) {
