@@ -325,7 +325,32 @@ hr {
     font-size: 14px;
 }
 
-.top div.message.error p {
+.top div.message p i.fa {
+    margin-right: 10px;
+    font-size: 18px;
+    vertical-align: -2px;
+}
+
+.top div.message.message-success p {
+    background-color: var(--sb-success-soft);
+    border-color: var(--sb-success);
+    color: var(--sb-success);
+}
+
+.top div.message.message-info p {
+    background-color: var(--sb-accent-soft);
+    border-color: var(--sb-accent);
+    color: var(--sb-accent);
+}
+
+.top div.message.message-warning p {
+    background-color: var(--sb-warning-soft);
+    border-color: var(--sb-warning);
+    color: var(--sb-warning);
+}
+
+.top div.message.error p,
+.top div.message.message-error p {
     background-color: var(--sb-danger-soft);
     border-color: var(--sb-danger);
     color: var(--sb-danger);

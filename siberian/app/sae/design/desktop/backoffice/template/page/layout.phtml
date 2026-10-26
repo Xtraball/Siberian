@@ -93,10 +93,13 @@
 
             <div class="top">
                 <?php echo $this->getPartialHtml('header') ?>
-                <div class="message slide-down"
+                <div class="message slide-down message-{{ message.type }}"
                      ng-show="message.is_visible"
                      ng-class="{error: message.is_error}">
-                    <p ng-bind-html="message.text"></p>
+                    <p>
+                        <i class="fa" ng-class="message.getIcon()"></i>
+                        <span ng-bind-html="message.text"></span>
+                    </p>
                 </div>
             </div>
             <?php echo $this->getPartialHtml('messages') ?>

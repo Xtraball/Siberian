@@ -677,6 +677,17 @@ a.link, button.as-link {
     color: white;
 }
 
+.top div.message p i.fa {
+    margin-right: 10px;
+    font-size: 18px;
+    vertical-align: -2px;
+}
+
+.top div.message.message-warning p {
+    background: #d98200;
+    color: white;
+}
+
 /** /TOP / HEADER **/
 
 /** LOADER **/

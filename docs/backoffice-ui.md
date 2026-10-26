@@ -73,3 +73,13 @@ initials come from its words (`jane.doe` is `JD`). No third party avatar service
 The labels are `$rootScope.currentUser()`, `userName()` and `userInitials()` in `js/app.js`, backed by the `Auth`
 factory; `layout.phtml` seeds `Auth.user.id` and `Auth.user.email` from the session at load, the login response
 fills them afterwards. The dropdown opens on hover and on keyboard focus (`:focus-within`), no JavaScript.
+
+## Logo and messages
+
+The stock logo (`images/header/logo.png`) is white, for the dark bars. The default theme has a light bar and uses
+`logo-color.png` (accent color, same alpha) instead, chosen in `header.phtml` only when the logo is the stock one.
+A custom or white label logo is shown as is.
+
+The messages at the top come from the `Message` service: `isError(bool)`, `information()` (info), `warning()`,
+and a `type` (success, error, warning, info) that selects the color and the icon (`getIcon()`, icons of the
+backoffice FA 4.2 font). The `error` class is kept for the other themes.

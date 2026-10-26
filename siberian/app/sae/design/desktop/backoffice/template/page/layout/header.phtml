@@ -396,6 +396,14 @@ if (empty($backofficeLogo)) {
     $backofficeLogo = $this->getLogo();
 }
 
+// the stock logo is white (dark themes), the default theme has a light bar: use the colored version of it there.
+// A custom or white label logo is never replaced.
+$backofficeTheme = __get('backoffice_theme');
+if (in_array($backofficeTheme, [null, '', 'default'], true) &&
+    strpos($backofficeLogo, '/images/header/logo.png') !== false) {
+    $backofficeLogo = str_replace('/images/header/logo.png', '/images/header/logo-color.png', $backofficeLogo);
+}
+
 ?>
 <div class="content">
     <div class="logo left">
