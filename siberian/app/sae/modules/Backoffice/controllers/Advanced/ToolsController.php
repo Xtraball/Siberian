@@ -31,9 +31,24 @@ class Backoffice_Advanced_ToolsController extends System_Controller_Backoffice_D
      */
     public function runtestAction()
     {
-        $data = Siberian_Tools_Integrity::checkIntegrity();
+        $request = $this->getRequest();
 
-        $data['messageEmpty'] = __('Everything seems ok.');
+        try {
+            $scope = $request->getParam('scope') === Siberian_Tools_Integrity::SCOPE_CORE ?
+                Siberian_Tools_Integrity::SCOPE_CORE : Siberian_Tools_Integrity::SCOPE_ALL;
+
+            $data = Siberian_Tools_Integrity::check(
+                (int) $request->getParam('offset', 0),
+                (int) $request->getParam('limit', Siberian_Tools_Integrity::SLICE),
+                $scope);
+
+            $data['messageEmpty'] = __('Everything seems ok.');
+        } catch (\Exception $e) {
+            $data = [
+                'error' => true,
+                'message' => $e->getMessage(),
+            ];
+        }
 
         $this->_sendJson($data);
     }
