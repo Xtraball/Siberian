@@ -60,8 +60,12 @@ return [
 
     'the email of the session user is handed to the Auth factory at load, escaped for a script' => function () use ($layout) {
         $html = file_get_contents($layout);
-        t_true(strpos($html, 'Auth.user.email = <?php echo json_encode(') !== false, 'email set');
+        t_true(strpos($html, 'Auth.user.email = <?php') !== false, 'email set');
         t_true(strpos($html, 'JSON_HEX_TAG') !== false, 'tags escaped');
+        // getBackofficeUser() instantiates Backoffice_Model_Backoffice, which does not exist: fatal when logged out
+        t_true(strpos($html, 'getBackofficeUser()') === false, 'no session getBackofficeUser() in the layout');
+        t_true(strpos($html, '(new Backoffice_Model_User())->find($backofficeUserId)') !== false, 'user read by id');
+        t_true(strpos($html, '$backofficeUserId ?') !== false, 'only when somebody is logged in');
     },
 
     'the icons exist in the font shipped with the backoffice' => function () use ($icons, $header) {
