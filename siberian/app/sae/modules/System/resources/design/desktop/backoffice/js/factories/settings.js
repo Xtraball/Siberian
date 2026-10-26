@@ -18,7 +18,8 @@ App.factory('Settings', function ($http, Url) {
         return $http({
             method: 'GET',
             url: Url.get(url + '/findall'),
-            cache: true,
+            // never cached: a section save does not reload the page, going back to it must show what was saved
+            cache: false,
             responseType: 'json'
         });
     };

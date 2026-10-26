@@ -2,9 +2,11 @@
 $host = $this->getRequest()->getHttpHost();
 ?>
 
-<form ng-submit="save()"
-      class="form-horizontal">
-    <sb-section title="'<?php echo __js("Your Platform","'"); ?>'">
+<sb-section-nav>
+
+    <sb-section-pane icon="fa-globe" title="'<?php echo __js("Your Platform","'"); ?>'">
+    <form class="form-horizontal"
+          ng-submit="save(['platform_name', 'main_domain'])">
         <div class="form-group">
             <div class="col-md-6">
                 <label for="{{ configs.platform_name.code }}">{{ configs.platform_name.label }}</label>
@@ -33,12 +35,24 @@ $host = $this->getRequest()->getHttpHost();
             </div>
         </div>
 
-        <div class="subtitle"
-             style="margin-top: 15px;">
-            <h4><?php echo __("Location settings") ?></h4>
-            <div class="clear"></div>
+        <div class="form-group">
+            <div class="col-md-12">
+                <button type="submit"
+                        class="btn btn-primary right"><?php echo __("Save"); ?></button>
+                <sb-loader is_visible="form_loader_is_visible"
+                           type="'inner_content'"
+                           size="'small'"
+                           animation="'no'"
+                           class="form_loader"></sb-loader>
+                <div class="clear"></div>
+            </div>
         </div>
+    </form>
+    </sb-section-pane>
 
+    <sb-section-pane icon="fa-map-marker" title="'<?php echo __js("Location settings","'"); ?>'">
+    <form class="form-horizontal"
+          ng-submit="save(['system_timezone', 'system_currency', 'system_default_language'])">
         <div class="form-group">
             <div class="col-md-6">
                 <label for="{{ configs.system_timezone.code }}">{{ configs.system_timezone.label }}</label>
@@ -71,13 +85,22 @@ $host = $this->getRequest()->getHttpHost();
             </div>
         </div>
 
-        <div class="clear"></div>
-
-        <div class="subtitle">
-            <h4><?php echo __('Privacy settings') ?></h4>
-            <div class="clear"></div>
+        <div class="form-group">
+            <div class="col-md-12">
+                <button type="submit"
+                        class="btn btn-primary right"><?php echo __("Save"); ?></button>
+                <sb-loader is_visible="form_loader_is_visible"
+                           type="'inner_content'"
+                           size="'small'"
+                           animation="'no'"
+                           class="form_loader"></sb-loader>
+                <div class="clear"></div>
+            </div>
         </div>
+    </form>
+    </sb-section-pane>
 
+    <sb-section-pane icon="fa-shield" title="'<?php echo __js("Privacy settings","'"); ?>'">
         <div class="form-group">
             <div class="col-md-12">
                 <div class="alert alert-info">
@@ -92,39 +115,23 @@ $host = $this->getRequest()->getHttpHost();
         </div>
 
         <div class="clear"></div>
+    </sb-section-pane>
 
-        <div class="subtitle">
-            <h4><?php echo __('Licenses') ?></h4>
-            <div class="clear"></div>
-        </div>
-
+    <sb-section-pane icon="fa-key" title="'<?php echo __js("Licenses","'"); ?>'">
         <div class="form-group">
             <div class="col-md-6">
                 <label for="{{ configs.siberiancms_key.code }}">{{ configs.siberiancms_key.label }}</label>
                 <p>{{ configs.siberiancms_key.value }}</p>
             </div>
-
         </div>
 
         <div class="clear"></div>
+    </sb-section-pane>
 
-        <div class="form-group">
-            <div class="col-md-12">
-                <button type="submit"
-                        class="btn btn-primary right"><?php echo __("Save"); ?></button>
-                <sb-loader is_visible="form_loader_is_visible"
-                           type="'inner_content'"
-                           size="'small'"
-                           animation="'no'"
-                           class="form_loader"></sb-loader>
-                <div class="clear"></div>
-            </div>
-        </div>
-
-    </sb-section>
-
-    <sb-section class="clear"
-                title="'<?php echo __title("Your company"); ?>'">
+    <sb-section-pane icon="fa-building"
+                     title="'<?php echo __title("Your company"); ?>'">
+    <form class="form-horizontal"
+          ng-submit="save(['company_name', 'company_address', 'company_country', 'company_phone', 'company_vat_number'])">
 
         <div class="form-group">
             <div class="col-md-6">
@@ -198,13 +205,12 @@ $host = $this->getRequest()->getHttpHost();
                 <div class="clear"></div>
             </div>
         </div>
+    </form>
+    </sb-section-pane>
 
-    </sb-section>
-
-    <div class="clear"></div>
-
-    <sb-section title="'<?php echo __js("Your Applications","'"); ?>'">
-
+    <sb-section-pane icon="fa-mobile" title="'<?php echo __js("Your Applications","'"); ?>'">
+    <form class="form-horizontal"
+          ng-submit="save(['system_publication_access_type', 'import_enabled', 'export_enabled'])">
 
         <div class="form-group" ng-if="configs.system_publication_access_type">
             <div class="col-md-6" >
@@ -256,10 +262,10 @@ $host = $this->getRequest()->getHttpHost();
                 <div class="clear"></div>
             </div>
         </div>
+    </form>
+    </sb-section-pane>
 
-    </sb-section>
-
-    <sb-section title="'<?php echo __js("Analytics","'"); ?>'" ng-show="is_flat_design">
+    <sb-section-pane icon="fa-bar-chart" title="'<?php echo __js("Analytics","'"); ?>'">
         <div class="form-group">
             <div class="col-md-6">
                 <button type="button" class="btn btn-primary" ng-click="Compute_Analytics()"><?php echo __("Generate analytics for the current day"); ?></button>
@@ -290,22 +296,6 @@ $host = $this->getRequest()->getHttpHost();
                 </div>
             </div>
         </div>
+    </sb-section-pane>
 
-        <div class="form-group">
-            <div class="col-md-12">
-                <button type="submit"
-                        class="btn btn-primary right"><?php echo __("Save"); ?></button>
-                <sb-loader is_visible="form_loader_is_visible"
-                           type="'inner_content'"
-                           size="'small'"
-                           animation="'no'"
-                           class="form_loader"></sb-loader>
-                <div class="clear"></div>
-            </div>
-        </div>
-    </sb-section>
-
-    <div class="clear"></div>
-
-
-</form>
+</sb-section-nav>
