@@ -643,10 +643,6 @@ $schemas['application'] = [
         'type' => 'tinyint(1)',
         'default' => '0',
     ],
-    'use_android_splash_icon' => [
-        'type' => 'tinyint(1)',
-        'default' => '0',
-    ],
     'enable_custom_smtp' => [
         'type' => 'tinyint(1)',
         'default' => '0',

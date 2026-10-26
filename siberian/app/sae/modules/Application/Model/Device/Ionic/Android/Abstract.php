@@ -283,11 +283,9 @@ abstract class Application_Model_Device_Ionic_Android_Abstract extends Applicati
             '#FFFFFF' => $splash_color,
         ], "{$this->_dest_source_res}/values/colors.xml");
 
-        // Option: the startup screen shows the Splash icon (Android) instead of the 288px app icon
-        $splashThemeReplacements = Application_Model_Device_Ionic_Android_Splash::themeReplacements($application->getUseAndroidSplashIcon());
-        if (!empty($splashThemeReplacements)) {
-            $this->__replace($splashThemeReplacements, "{$this->_dest_source_res}/values/themes.xml");
-        }
+        // The startup screen shows the Splash icon (Android) of the app, sharper than the 288px app icon.
+        // Without a Splash icon it is the app icon, see Application_Model_Application_Abstract::getAndroidSplashIcon()
+        $this->__replace(Application_Model_Device_Ionic_Android_Splash::themeReplacements(), "{$this->_dest_source_res}/values/themes.xml");
     }
 
     /**
