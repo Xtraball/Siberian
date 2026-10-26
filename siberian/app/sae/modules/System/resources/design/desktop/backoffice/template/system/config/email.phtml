@@ -1,7 +1,8 @@
 
 <form ng-submit="save()"
       class="form-horizontal">
-    <sb-section title="'<?php echo __("Support"); ?>'">
+    <sb-section-nav>
+    <sb-section-pane icon="fa-life-ring" title="'<?php echo __("Support"); ?>'">
 
         <div class="form-group">
             <div class="col-md-6">
@@ -58,9 +59,9 @@
             </div>
         </div>
 
-    </sb-section>
+    </sb-section-pane>
 
-    <sb-section title="'<?php echo __("Custom SMTP Configuration"); ?>'">
+    <sb-section-pane icon="fa-server" title="'<?php echo __("Custom SMTP Configuration"); ?>'">
 
         <div class="form-group">
             <div class="col-md-6">
@@ -170,9 +171,9 @@
             </div>
         </div>
 
-    </sb-section>
+    </sb-section-pane>
 
-    <sb-section title="'<?php echo addcslashes(__("E-Mail render preview"), "'"); ?>'">
+    <sb-section-pane icon="fa-eye" title="'<?php echo addcslashes(__("E-Mail render preview"), "'"); ?>'">
         <div class="form-group">
             <div class="col-md-12">
                 <div class="alert alert-info">
@@ -187,9 +188,10 @@
         </div>
 
         <div class="clear"></div>
-    </sb-section>
+    </sb-section-pane>
 
 
+    </sb-section-nav>
 </form>
 
 <style type="text/css">

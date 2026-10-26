@@ -1493,3 +1493,52 @@ a.ui-datepicker-prev:after {
 .alert {
     padding: 6px 10px !important;
 }
+
+/* ---------- Sections with a side navigation (sb-section-nav) ---------- */
+
+.sb-section-nav {
+    display: flex;
+    align-items: flex-start;
+}
+
+.sb-section-nav-list {
+    flex: 0 0 220px;
+    margin: 0 24px 0 0;
+    padding: 8px;
+    list-style: none;
+    position: sticky;
+    top: 16px;
+}
+
+.sb-section-nav-list > li > a {
+    display: block;
+    padding: 10px 14px;
+    cursor: pointer;
+    text-decoration: none;
+}
+
+.sb-section-nav-list > li.active > a {
+    font-weight: 600;
+}
+
+.sb-section-nav-panes {
+    flex: 1 1 auto;
+    min-width: 0;
+}
+
+@media (max-width: 767px) {
+    .sb-section-nav {
+        display: block;
+    }
+
+    .sb-section-nav-list {
+        display: flex;
+        margin: 0 0 16px 0;
+        overflow-x: auto;
+        position: static;
+    }
+
+    .sb-section-nav-list > li > a {
+        white-space: nowrap;
+    }
+}

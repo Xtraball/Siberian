@@ -1,0 +1,70 @@
+<?php
+/**
+ * Backoffice: Settings > Email shows its three unrelated sections (Support, Custom SMTP, E-Mail render preview) as
+ * panes of a side navigation instead of one long page: the first one is shown, the left menu switches. The pattern is
+ * the reusable sb-section-nav / sb-section-pane pair, loaded from the directives folder, structured in the shared
+ * style.css (every theme) and styled by the default theme.
+ */
+$root = dirname(__DIR__, 3) . '/siberian/app/sae';
+$backoffice = $root . '/design/desktop/backoffice';
+$directive = $backoffice . '/js/directives/sb-section-nav.js';
+$email = $root . '/modules/System/resources/design/desktop/backoffice/template/system/config/email.phtml';
+$base = $backoffice . '/css/style.css';
+$theme = $backoffice . '/css/theme-default/styles.css';
+$layout = $backoffice . '/layout/front.xml';
+
+return [
+    'the directives are in the folder the backoffice loads' => function () use ($directive, $layout) {
+        t_true(is_file($directive));
+        t_true(strpos(file_get_contents($layout), '<directives folder="js/directives" />') !== false);
+    },
+
+    'the pair is registered and the nav selects the first pane by default' => function () use ($directive) {
+        $js = file_get_contents($directive);
+        t_true(strpos($js, "directive('sbSectionNav'") !== false, 'sbSectionNav');
+        t_true(strpos($js, "directive('sbSectionPane'") !== false, 'sbSectionPane');
+        t_true(strpos($js, "require: '^sbSectionNav'") !== false, 'pane needs its nav');
+        t_true(strpos($js, 'panes.length === 1') !== false, 'first pane is the default');
+        t_true(strpos($js, 'ng-show="active"') !== false, 'panes are hidden, not removed (their fields stay in the form)');
+        t_true(strpos($js, 'ng-if="active"') === false);
+    },
+
+    'the pane keeps the card markup of sb-section' => function () use ($backoffice, $directive) {
+        $section = file_get_contents($backoffice . '/js/directives/sb-section.js');
+        $js = file_get_contents($directive);
+        foreach (['<div class="area">', '<div class="title {{ klass }}">', '<h2 ng-bind-html="title"></h2>', '<div class="content" ng-transclude></div>'] as $markup) {
+            t_true(strpos($section, $markup) !== false, "sb-section has $markup");
+            t_true(strpos($js, $markup) !== false, "pane has $markup");
+        }
+    },
+
+    'the email page has three panes in a nav inside its form and no plain section left' => function () use ($email) {
+        $html = file_get_contents($email);
+        t_equal(3, substr_count($html, '<sb-section-pane '), 'three panes');
+        t_equal(3, substr_count($html, '</sb-section-pane>'), 'three closings');
+        t_equal(0, substr_count($html, '<sb-section '), 'no plain section');
+        t_equal(1, substr_count($html, '<sb-section-nav>'));
+        t_equal(1, substr_count($html, '</sb-section-nav>'));
+        $form = strpos($html, '<form ng-submit="save()"');
+        $open = strpos($html, '<sb-section-nav>');
+        $close = strpos($html, '</sb-section-nav>');
+        $end = strpos($html, '</form>');
+        t_true($form < $open && $open < $close && $close < $end, 'the nav is inside the form, so every pane is saved');
+    },
+
+    'the panes keep their order: Support first' => function () use ($email) {
+        $html = file_get_contents($email);
+        $support = strpos($html, '"Support"');
+        $smtp = strpos($html, '"Custom SMTP Configuration"');
+        $preview = strpos($html, 'E-Mail render preview');
+        t_true($support < $smtp && $smtp < $preview);
+    },
+
+    'structure is in the shared stylesheet, the look in the default theme' => function () use ($base, $theme) {
+        $shared = file_get_contents($base);
+        t_true(preg_match('/\.sb-section-nav\s*\{[^}]*display:\s*flex/s', $shared) === 1, 'flex layout for every theme');
+        t_true(strpos($shared, '@media (max-width: 767px)') !== false && strpos($shared, '.sb-section-nav-list') !== false, 'small screens');
+        $default = file_get_contents($theme);
+        t_true(preg_match('/\.sb-section-nav-list\s*>\s*li\.active\s*>\s*a\s*\{[^}]*var\(--sb-accent/s', $default) === 1, 'active item highlighted');
+    },
+];

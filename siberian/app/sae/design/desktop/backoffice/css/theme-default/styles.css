@@ -946,6 +946,36 @@ pre {
     color: var(--sb-text);
 }
 
+/* ---------- Sections with a side navigation ---------- */
+
+.sb-section-nav-list {
+    border: 1px solid var(--sb-border);
+    border-radius: var(--sb-radius-lg);
+    background-color: var(--sb-surface);
+    box-shadow: var(--sb-shadow);
+}
+
+.sb-section-nav-list > li > a {
+    border-radius: var(--sb-radius-sm);
+    color: var(--sb-text-muted);
+    font-size: 14px;
+    transition: background-color .15s ease, color .15s ease;
+}
+
+.sb-section-nav-list > li > a:hover {
+    background-color: var(--sb-surface-alt);
+    color: var(--sb-text);
+}
+
+.sb-section-nav-list > li.active > a {
+    background-color: var(--sb-accent-soft);
+    color: var(--sb-accent);
+}
+
+.sb-section-nav-list > li > a > i {
+    margin-right: 8px;
+}
+
 /* ---------- Sweet alert and date pickers ---------- */
 
 .sweet-alert {
