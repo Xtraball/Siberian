@@ -77,9 +77,19 @@ return [
 
     '864 the toggle is delegated and the field is hidden again on submit' => function () use ($featuresJs) {
         $js = file_get_contents($featuresJs);
-        t_true(strpos($js, "\$(document).on('click', '[data-reveal-toggle]'") !== false, 'delegated click');
-        t_true(strpos($js, "input.attr('type', show ? 'text' : 'password');") !== false, 'toggles the type');
-        t_true(strpos($js, "\$(document).on('submit', 'form'") !== false, 'hidden again on submit');
+        t_true(strpos($js, ".on('click.sbRevealPassword', '[data-reveal-toggle]'") !== false, 'delegated click');
+        t_true(strpos($js, ".on('submit.sbRevealPassword', 'form'") !== false, 'hidden again on submit');
+        t_true(strpos($js, "box.find('input[data-reveal-input]').attr('type', show ? 'text' : 'password');") !== false, 'toggles the type');
+    },
+
+    '864 the handlers cannot be bound twice and do not rely on a synthetic click' => function () use ($featuresJs) {
+        $js = file_get_contents($featuresJs);
+        t_equal(1, substr_count($js, ".off('click.sbRevealPassword').on('click.sbRevealPassword'"), 'click unbound before it is bound');
+        t_equal(1, substr_count($js, ".off('submit.sbRevealPassword').on('submit.sbRevealPassword'"), 'submit unbound before it is bound');
+        t_true(strpos($js, "\$(document).on('click', '[data-reveal-toggle]'") === false, 'no plain handler left');
+        $block = substr($js, strpos($js, 'window.sbSetPasswordRevealed = function'));
+        t_true(strpos($block, "trigger('click')") === false, 'submit resets the field directly');
+        t_equal(1, substr_count($js, 'window.sbSetPasswordRevealed = function'), 'one definition');
     },
 
     '864 the button text is in the translation catalog (English is the default)' => function () use ($catalog) {
