@@ -33,7 +33,7 @@ class Sourcecode_ApplicationController extends Application_Controller_Default
                     $sourcecode->setValueId($option_value->getId());
                 }
 
-                $datas["allow_offline"] = !!$datas["allow_offline"];
+                $datas = Sourcecode_Model_Sourcecode_Post::normalize($datas);
                 $sourcecode->addData($datas)->save();
 
                 /** Update touch date, then never expires (until next touch) */
