@@ -170,6 +170,7 @@
 
             App.run(function($rootScope, AUTH_EVENTS, Auth) {
                 Auth.user.id = "<?php echo $this->getSession()->getBackofficeUserId(); ?>";
+                Auth.user.email = <?php echo json_encode((string) $this->getSession()->getBackofficeUser()->getEmail(), JSON_HEX_TAG | JSON_HEX_AMP | JSON_HEX_APOS | JSON_HEX_QUOT); ?>;
                 // only a session that exists is logged in (else the menu and an empty view flash before the login form)
                 if (Auth.user.id) {
                     $rootScope.$broadcast(AUTH_EVENTS.loginSuccess);

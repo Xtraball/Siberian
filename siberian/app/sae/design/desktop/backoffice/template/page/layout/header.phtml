@@ -327,16 +327,6 @@ $backofficeTree = [
             ],
         ],
     ],
-    'logout' => [
-        'hasChilds' => false,
-        'isVisible' => true,
-        'label' => __('Log-out'),
-        'url' => false,
-        'ngOptions' => [
-            'ng-click' => 'logout()',
-        ],
-        'icon' => 'fa fa-power-off',
-    ],
 ];
 
 if (!empty($childs)) {
@@ -398,6 +388,9 @@ function renderRecursive($markup, $menus, $level = 2) {
 
 $outputHtml = renderRecursive("", $backofficeTree, 2);
 
+// the logged user: the account page of the user is the edit form, the user id is known by the Auth factory
+$accountUrl = $this->getUrl('backoffice/account_view');
+
 $backofficeLogo = __get("logo_backoffice");
 if (empty($backofficeLogo)) {
     $backofficeLogo = $this->getLogo();
@@ -421,6 +414,29 @@ if (empty($backofficeLogo)) {
          ng-class="{none: !isLoggedIn}">
         <ul class="l1">
             <?php echo $outputHtml; ?>
+        </ul>
+    </div>
+    <div id="backoffice_user"
+         class="backoffice_user"
+         ng-if="isLoggedIn">
+        <a href="javascript:void(0);"
+           class="backoffice_user_toggle"
+           aria-haspopup="true">
+            <span class="backoffice_user_avatar" ng-bind="userInitials()"></span>
+            <span class="backoffice_user_name" ng-bind="userName()"></span>
+            <i class="fa fa-caret-down"></i>
+        </a>
+        <ul class="backoffice_user_dropdown">
+            <li>
+                <a ng-href="<?php echo $accountUrl; ?>/user_id/{{ currentUser().id }}">
+                    <i class="fa fa-user"></i><?php echo p__('backoffice', 'Edit my account'); ?>
+                </a>
+            </li>
+            <li>
+                <a href="javascript:void(0);" ng-click="logout()">
+                    <i class="fa fa-power-off"></i><?php echo __('Log-out'); ?>
+                </a>
+            </li>
         </ul>
     </div>
     <div class="clear"></div>

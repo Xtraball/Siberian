@@ -1553,3 +1553,70 @@ a.ui-datepicker-prev:after {
         max-width: none;
     }
 }
+
+/** TOP / USER MENU **/
+.backoffice_user {
+    position: relative;
+    float: right;
+    height: 32px;
+}
+
+.backoffice_user a.backoffice_user_toggle {
+    display: block;
+    padding: 6px 10px;
+    color: white;
+    font-size: 14px;
+    line-height: 20px;
+}
+
+.backoffice_user_avatar {
+    display: inline-block;
+    width: 20px;
+    height: 20px;
+    margin-right: 6px;
+    border-radius: 50%;
+    background-color: #1a1a1a;
+    color: white;
+    font-size: 10px;
+    line-height: 20px;
+    text-align: center;
+    vertical-align: middle;
+}
+
+.backoffice_user_name {
+    display: inline-block;
+    max-width: 180px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    vertical-align: middle;
+}
+
+.backoffice_user ul.backoffice_user_dropdown {
+    display: none;
+    position: absolute;
+    top: 32px;
+    right: 0;
+    z-index: 40;
+    min-width: 200px;
+    margin: 0;
+    padding: 0;
+    list-style: none;
+    background-color: #404040;
+}
+
+.backoffice_user:hover ul.backoffice_user_dropdown,
+.backoffice_user:focus-within ul.backoffice_user_dropdown {
+    display: block;
+}
+
+.backoffice_user ul.backoffice_user_dropdown li a {
+    display: block;
+    padding: 6px 12px;
+    color: white;
+    font-size: 14px;
+    white-space: nowrap;
+}
+
+.backoffice_user ul.backoffice_user_dropdown li a i {
+    margin-right: 8px;
+}

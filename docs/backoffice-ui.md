@@ -59,3 +59,17 @@ needs its own rule (a test enforces it).
 6. The MAE and PE repositories override some backoffice files (System `general.phtml`, `settings.js`, the controllers):
    check `siberian/app/mae` and `siberian/app/pe` for a file with the same path and port the change there.
 7. New texts go in `siberian/languages/base/c_<context>.po` via `p__('<context>', ...)`, never the legacy csv.
+
+## Top bar
+
+The bar content (`.top .content`) has the width of the page body (1440px, `calc(100% - 32px)` on small screens) and is a
+flex row: logo, menus on the left (`.backoffice_menu`, takes the free space), user menu on the right (`.backoffice_user`).
+
+The menu tree built in `header.phtml` (and extended by the `backoffice.menu.ready` hook) holds the navigation only.
+The session actions live in the user dropdown: an avatar made of the initials of the user, the name, a link to the
+account edit form and Log-out. A backoffice user has an email only, so the name is the part before the `@` and the
+initials come from its words (`jane.doe` is `JD`). No third party avatar service is called (privacy).
+
+The labels are `$rootScope.currentUser()`, `userName()` and `userInitials()` in `js/app.js`, backed by the `Auth`
+factory; `layout.phtml` seeds `Auth.user.id` and `Auth.user.email` from the session at load, the login response
+fills them afterwards. The dropdown opens on hover and on keyboard focus (`:focus-within`), no JavaScript.

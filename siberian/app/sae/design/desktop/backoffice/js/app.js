@@ -14,6 +14,20 @@ App.run(function($rootScope, $window, $route, $location, Message, AUTH_EVENTS, A
         });
     };
 
+    // the backoffice user has an email only: the name is its local part, the avatar its initials
+    $rootScope.currentUser = function () {
+        return Auth.user;
+    };
+    $rootScope.userName = function () {
+        var email = (Auth.user && Auth.user.email) || '';
+        return email.split('@')[0] || email;
+    };
+    $rootScope.userInitials = function () {
+        var parts = $rootScope.userName().split(/[._\-\s]+/).filter(Boolean);
+        var initials = parts.length > 1 ? parts[0].charAt(0) + parts[1].charAt(0) : (parts[0] || '?').substr(0, 2);
+        return initials.toUpperCase();
+    };
+
     $rootScope.$on(AUTH_EVENTS.notAuthenticated, function() { $rootScope.isLoggedIn = false; });
     $rootScope.$on(AUTH_EVENTS.logoutSuccess, function() { $rootScope.isLoggedIn = false; });
     $rootScope.$on(AUTH_EVENTS.loginSuccess, function() { $rootScope.isLoggedIn = true; });
