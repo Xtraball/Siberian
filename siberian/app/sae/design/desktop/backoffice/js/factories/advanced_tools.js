@@ -11,10 +11,11 @@ App.factory('AdvancedTools', function ($http, Url) {
         });
     };
 
-    factory.runtest = function () {
+    factory.runtest = function (params) {
         return $http({
             method: 'GET',
             url: Url.get('backoffice/advanced_tools/runtest'),
+            params: params || {},
             cache: false,
             responseType: 'json'
         });

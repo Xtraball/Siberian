@@ -558,22 +558,81 @@ App.config(function($routeProvider) {
 
     $scope.content_loader_is_visible = true;
 
+    $scope.integrity = {
+        scope: 'all',
+        running: false,
+        done: false,
+        checked: 0,
+        total: 0,
+        rows: []
+    };
+
+    $scope.integrityCount = function (area, status) {
+        return $scope.integrity.rows.filter(function (row) {
+            return row.area === area && row.status === status;
+        }).length;
+    };
+
+    // The check runs by slices, so that no request has to hash the whole installation
     $scope.test_integrity = function() {
-        $scope.content_loader_is_visible = true;
-        AdvancedTools.runtest()
-            .success(function(data) {
-                $scope.integrity_result = data;
+        var integrity = $scope.integrity;
+        var statuses = {hash: 'modified', missing: 'missing', unreadable: 'unreadable'};
+        var messageEmpty = '';
+        var messageIssues = '';
 
-                if (data.hash.length === 0) {
-                    $scope.message.setText(data.messageEmpty)
-                        .isError(false)
-                        .show()
-                    ;
-                }
-            }).finally(function() {
+        integrity.running = true;
+        integrity.done = false;
+        integrity.checked = 0;
+        integrity.total = 0;
+        integrity.rows = [];
 
-            $scope.content_loader_is_visible = false;
-        });
+        var fail = function (data) {
+            integrity.running = false;
+            $scope.message.setText((data && data.message) ? data.message : 'Integrity check failed.')
+                .isError(true)
+                .show()
+            ;
+        };
+
+        var step = function (offset) {
+            AdvancedTools.runtest({offset: offset, scope: integrity.scope})
+                .success(function (data) {
+                    if (data.error) {
+                        return fail(data);
+                    }
+
+                    messageEmpty = data.messageEmpty;
+                    angular.forEach(statuses, function (status, key) {
+                        angular.forEach(data[key], function (file) {
+                            integrity.rows.push({
+                                file: file,
+                                status: status,
+                                area: file.indexOf('var/apps/') === 0 ? 'apps' : 'core'
+                            });
+                        });
+                    });
+
+                    integrity.total = data.total;
+                    integrity.checked = data.checked;
+
+                    if (!data.done) {
+                        return step(data.next);
+                    }
+
+                    integrity.running = false;
+                    integrity.done = true;
+
+                    if (integrity.rows.length === 0) {
+                        $scope.message.setText(messageEmpty)
+                            .isError(false)
+                            .show()
+                        ;
+                    }
+                })
+                .error(fail);
+        };
+
+        step(0);
     };
 
     $scope.restore_apps = function () {
