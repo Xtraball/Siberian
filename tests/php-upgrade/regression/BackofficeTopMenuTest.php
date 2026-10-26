@@ -29,6 +29,13 @@ return [
         t_true(preg_match('/display:\s*flex/', $declarations) === 1, 'logo, menus and user menu are one row');
     },
 
+    'the logo is centered by the bar, without the old top margin' => function () use ($theme, $rule, $header) {
+        $declarations = $rule(file_get_contents($theme), '.top img#logo');
+        t_true(preg_match('/margin-top:\s*0/', $declarations) === 1, 'no top margin');
+        t_true(preg_match('/height:\s*34px/', $declarations) === 1, '34px high');
+        t_true(strpos(file_get_contents($header), 'max-height: 34px;') !== false, 'inline limit follows the height');
+    },
+
     'the menus are pushed to the left, the user menu to the right' => function () use ($theme, $rule) {
         $css = file_get_contents($theme);
         t_true(preg_match('/flex:\s*1 1 auto/', $rule($css, '.backoffice_menu')) === 1, 'the menu takes the free space');
