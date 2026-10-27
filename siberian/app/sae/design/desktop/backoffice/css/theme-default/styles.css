@@ -134,6 +134,16 @@ hr {
     margin-left: 24px;
 }
 
+.sb-password .sb-password-toggle {
+    color: var(--sb-text-muted);
+    border-radius: 0 var(--sb-radius-sm) var(--sb-radius-sm) 0;
+}
+
+.sb-password .sb-password-toggle:hover,
+.sb-password .sb-password-toggle:focus {
+    color: var(--sb-accent);
+}
+
 .backoffice_user {
     position: relative;
     flex: 0 0 auto;

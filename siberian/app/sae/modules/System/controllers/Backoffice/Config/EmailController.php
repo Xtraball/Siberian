@@ -18,6 +18,25 @@ class System_Backoffice_Config_EmailController extends System_Controller_Backoff
     ];
 
     /**
+     * The custom SMTP switch is read as '1' or '0': a missing row or an empty value is "No", never a blank select
+     *
+     * @return array
+     * @throws Zend_Exception
+     */
+    protected function _findconfig()
+    {
+        $data = parent::_findconfig();
+
+        $switch = $data['enable_custom_smtp'] ?? [];
+        $switch['code'] = $switch['code'] ?? 'enable_custom_smtp';
+        $switch['label'] = $switch['label'] ?? __('Enable custom SMTP configuration');
+        $switch['value'] = \Siberian\Flag::toSwitch($switch['value'] ?? null);
+        $data['enable_custom_smtp'] = $switch;
+
+        return $data;
+    }
+
+    /**
      *
      */
     public function loadAction()
