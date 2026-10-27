@@ -1109,6 +1109,11 @@ tr.color-stuck {
     font-weight: bold;
 }
 
+.cron-compat {
+    margin: 4px 0;
+    white-space: normal;
+}
+
 .service-red {
     color: #ef3831;
     font-weight: bold;

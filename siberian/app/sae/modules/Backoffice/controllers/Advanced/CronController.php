@@ -59,11 +59,24 @@ class Backoffice_Advanced_CronController extends Backoffice_Controller_Default
             'tasks' => [],
             'apk_queue' => [],
             'source_queue' => [],
+            'compat' => [],
         ];
+
+        // Can the scheduler call each job with this version of PHP
+        $jobs = [];
+        foreach ($cron_tasks as $cron_task) {
+            $jobs[] = [
+                'command' => $cron_task->getCommand(),
+                'name' => $cron_task->getName(),
+                'is_active' => $cron_task->getIsActive(),
+            ];
+        }
+        $compat = \Siberian\Cron\Callback::report($jobs);
 
         foreach ($cron_tasks as $cron_task) {
             $name = $cron_task->getCommand();
             $_data = $cron_task->getData();
+            $_data["compat"] = $compat["results"][$name] ?? null;
 
 
             // Humanize cron schedule
@@ -91,6 +104,9 @@ class Backoffice_Advanced_CronController extends Backoffice_Controller_Default
                 $data["tasks"][] = $_data;
             }
         }
+
+        unset($compat["results"]);
+        $data["compat"] = $compat;
 
         $base = Core_Model_Directory::getBasePathTo("");
 
