@@ -169,35 +169,6 @@ App.config(function($routeProvider) {
         });
     };
 
-    $scope.suggest = function (item) {
-        $scope.form_loader_is_visible = true;
-
-        item.langId = $routeParams.lang_id;
-        item.file = $scope.translation.file;
-
-        Translations
-        .suggest(item)
-        .success(function(data) {
-            var message = Label.save.error;
-            if(angular.isObject(data) && angular.isDefined(data.message)) {
-                message = data.message;
-                $scope.message.isError(false);
-            } else {
-                $scope.message.isError(true);
-            }
-            $scope.message.setText(message).show();
-        }).error(function(data) {
-            var message = Label.save.error;
-            if(angular.isObject(data) && angular.isDefined(data.message)) {
-                message = data.message;
-            }
-
-            $scope.message.setText(message).isError(true).show();
-        }).finally(function() {
-            $scope.form_loader_is_visible = false;
-        });
-    };
-
     $scope.available_target = [
         "be", "ca", "cs", "da", "de", "el", "es", "et",
         "fi", "fr", "hu", "it", "lt", "lv", "mk", "nl",
@@ -223,8 +194,13 @@ App.config(function($routeProvider) {
             if(!breakOnError) {
                 $scope.translate(key, $scope.translation.country_code.split("_")[0])
                     .then(function(response) {
+                        if (response.data && response.data.error) {
+                            $scope.message.setText(response.data.message).isError(true).show();
+                            breakOnError = true;
+                            return;
+                        }
                         if(response.data && response.data.result && response.data.result.text) {
-                            $scope.translation.collection[key] = response.data.result.text[0];
+                            $scope.translation.collection[key].user = response.data.result.text[0];
                         }
                         $scope.updateClass(key);
                         $scope.yandexTranslation.progress = Math.round((size - remain) / size * 100);
@@ -257,9 +233,10 @@ App.config(function($routeProvider) {
             translateQueue.add(key);
         });
 
+        size = translateQueue.size();
+        remain = size;
+
         if (size > 0) {
-            size = translateQueue.size();
-            remain = size;
             translateQueue.start();
             $scope.yandexTranslation.showProgress = true;
         }
@@ -274,6 +251,11 @@ App.config(function($routeProvider) {
                 $scope
                     .translate(key, $scope.translation.country_code.split("_")[0])
                     .then(function(response) {
+                        if (response.data && response.data.error) {
+                            $scope.message.setText(response.data.message).isError(true).show();
+                            breakOnError = true;
+                            return;
+                        }
                         if(response.data && response.data.result && response.data.result.text) {
                             $scope.translation.collection[key].user = response.data.result.text[0];
                         }
