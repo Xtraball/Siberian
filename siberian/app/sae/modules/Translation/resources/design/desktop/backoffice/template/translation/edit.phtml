@@ -125,13 +125,6 @@
         <div ng-show="translation.file">
             <div class="form-group">
 
-                <div class="col-md-12">
-                    <div class="alert alert-warning">
-                        <?php echo __('The %s action let you share individual translations with the community to improve the overall quality.',
-                            '<a class="btn btn-sm btn-primary">' . __('SUGGEST') . '</a>') ?>
-                    </div>
-                </div>
-
                 <div class="col-md-6">
                     <table class="table">
                         <tr class="translation warning">
@@ -191,18 +184,13 @@
 
                 <div class="col-md-12">
 
-                    <div class="alert alert-info">
-                        <?php echo __("The `suggest` action let you share individual translations with the community to improve the overall quality.") ?>
-                    </div>
-
                     <table class="table"
                            id="file_datas">
                         <col width="25%" />
                         <col width="5%" />
                         <col width="5%" />
                         <col width="25%" />
-                        <col width="30%" />
-                        <col width="10%" />
+                        <col width="40%" />
                         <thead>
                             <tr>
                                 <th class="text-left"
@@ -218,7 +206,6 @@
                                     <?php echo __('Your translation'); ?>
                                     <i>(<?php echo __('leave blank to use default translation') ?>)</i>
                                 </th>
-                                <th></th>
                             </tr>
                         </thead>
                         <tbody>
@@ -240,12 +227,6 @@
                                            class="form-control"
                                            value="{{ translation.collection[key].user !== null ? translation.collection[key].user : '' }}"
                                            ng-change="updateClass(key)" />
-                                </td>
-                                <td class="valign-middle text-right"
-                                    style="width: 10%; white-space: normal;">
-                                    <a class="btn btn-sm btn-primary"
-                                       ng-if="translation.collection[key].user.length > 0"
-                                       ng-click="suggest(translation.collection[key])"><?php echo __('SUGGEST') ?></a>
                                 </td>
                             </tr>
                         </tbody>

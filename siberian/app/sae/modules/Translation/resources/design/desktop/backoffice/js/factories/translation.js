@@ -57,15 +57,5 @@ App.factory('Translations', function($http, Url) {
 
     };
 
-    factory.suggest = function(values) {
-        return $http({
-            method: 'POST',
-            data: values,
-            url: Url.get("translation/backoffice_edit/suggest"),
-            cache: false,
-            responseType:'json'
-        });
-    };
-
     return factory;
 });

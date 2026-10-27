@@ -2,7 +2,6 @@
 
 use Gettext\Translation;
 use Gettext\Translations;
-use Siberian\File;
 
 /**
  * Class Translation_Backoffice_EditController
@@ -266,10 +265,9 @@ class Translation_Backoffice_EditController extends Backoffice_Controller_Defaul
     public function translateAction()
     {
         $api = Api_Model_Key::findKeysFor("yandex");
-        $yandex_key = $api->getApiKey();
+        $yandexKey = $api->getApiKey();
 
         $data = Siberian_Json::decode($this->getRequest()->getRawBody());
-
 
         /** Caching */
         $translation = new Cache_Model_Translation();
@@ -279,121 +277,48 @@ class Translation_Backoffice_EditController extends Backoffice_Controller_Defaul
         ]);
 
         if ($translation->getId()) {
-            $html = [
+            $this->_sendHtml([
                 "success" => 1,
                 "from_cache" => 1,
                 "result" => ["text" => [$translation->getTranslation()]],
-            ];
-        } else {
-            if (empty($yandex_key)) {
-                $html = [
-                    "error" => 1,
-                    "message" => __("#734-01: Missing yandex API key"),
-                ];
-            } else {
-                $url = "https://translate.yandex.net/api/v1.5/tr.json/translate?key=" . $yandex_key . "&text=%TEXT%&lang=en-%TARGET%";
-                $url = str_replace("%TEXT%", urlencode($data["text"]), $url);
-                $url = str_replace("%TARGET%", urlencode($data["target"]), $url);
-
-                $response = Siberian_Json::decode(file_get_contents($url));
-
-                if (isset($response["code"]) && $response["code"] == "200") {
-                    $translation
-                        ->setTarget($data["target"])
-                        ->setText($data["text"])
-                        ->setTranslation($response["text"][0])
-                        ->save();
-
-                    $html = [
-                        "succes" => 1,
-                        "result" => $response,
-                    ];
-                } else {
-                    /** Try with google */
-                    $url = "https://translate.googleapis.com/translate_a/single?client=gtx&sl=en&tl=%TARGET%&dt=t&q=%TEXT%";
-                    $url = str_replace("%TEXT%", urlencode($data["text"]), $url);
-                    $url = str_replace("%TARGET%", urlencode($data["target"]), $url);
-
-                    $response = Siberian_Json::decode(file_get_contents($url));
-                    $result = $response[0][0][0];
-
-                    if (!empty($result)) {
-                        $translation
-                            ->setTarget($data["target"])
-                            ->setText($data["text"])
-                            ->setTranslation($result)
-                            ->save();
-
-                        $html = [
-                            "succes" => 1,
-                            "result" => ["text" => [$result]],
-                        ];
-                    } else {
-                        $html = [
-                            "error" => 1,
-                            "message" => (isset($response["message"])) ? "#734-02: " . __($response["message"]) : __("#734-03: Invalid yandex API key OR Free limit request exceeded."),
-                        ];
-                    }
-
-                }
-
-            }
+            ]);
+            return;
         }
 
-        $this->_sendHtml($html);
-    }
-
-    public function suggestAction ()
-    {
-        try {
-            $request = $this->getRequest();
-            $data = $request->getBodyParams();
-
-            $component = strtolower(str_replace([".mo", ".csv", ".po"], "", $data['file']));
-            $language = base64_decode($data['langId']);
-            $original = $data['original'];
-            $user = $data['user'];
-
-            $fileContent = [
-                $original => $user,
-            ];
-
-            $tmpFile = path("/var/tmp/" . uniqid() . ".json");
-            File::putContents($tmpFile, json_encode($fileContent));
-
-            // Public API
-            Siberian_Request::$debug = true;
-            Siberian_Request::post(
-                "https://translate.siberiancms.com/api/translations/siberian/{$component}/{$language}/file/",
-                [
-                    "method" => "suggest",
-                    "file" => curl_file_create($tmpFile),
-                ],
-                null,
-                null,
-                [
-                    "Authorization: Token lPoOy7AGUpFGbYyIVXQly1cd2mdHDVw6o6tkZTA9",
-                ],
-                [
-                    "json_body" => true,
-                ]
-            );
-
-            // Clean-up
-            unlink($tmpFile);
-
-            $payload = [
-                "success" => true,
-                "message" => __("Your suggestion has been sent for review, thank you."),
-            ];
-        } catch (\Exception $e) {
-            $payload = [
-                "error" => true,
-                "message" => $e->getMessage(),
-            ];
+        // Yandex first when a key is set (its v1.5 API is deprecated), then the Google endpoint, which needs no key
+        $result = null;
+        if (!empty($yandexKey)) {
+            $url = "https://translate.yandex.net/api/v1.5/tr.json/translate?key=" . $yandexKey .
+                "&text=" . urlencode($data["text"]) . "&lang=en-" . urlencode($data["target"]);
+            $result = \Siberian\TranslateResponse::fromYandex(\Siberian\TranslateResponse::request($url));
         }
 
-        $this->_sendJson($payload);
+        if ($result === null) {
+            $url = "https://translate.googleapis.com/translate_a/single?client=gtx&sl=en&tl=" .
+                urlencode($data["target"]) . "&dt=t&q=" . urlencode($data["text"]);
+            $result = \Siberian\TranslateResponse::fromGoogle(\Siberian\TranslateResponse::request($url));
+        }
+
+        if ($result === null) {
+            $this->_sendHtml([
+                "error" => 1,
+                "message" => empty($yandexKey) ?
+                    __("#734-01: Missing yandex API key") :
+                    __("#734-03: Invalid yandex API key OR Free limit request exceeded."),
+            ]);
+            return;
+        }
+
+        $translation
+            ->setTarget($data["target"])
+            ->setText($data["text"])
+            ->setTranslation($result)
+            ->save();
+
+        $this->_sendHtml([
+            "succes" => 1,
+            "result" => ["text" => [$result]],
+        ]);
     }
 
 }
