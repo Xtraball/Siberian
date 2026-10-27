@@ -29,6 +29,11 @@ return [
         t_true(strpos($php, '\\Siberian\\Flag::toSwitch($switch[\'value\'] ?? null)') !== false, 'value normalized');
     },
 
+    'the SMTP username declares its autocomplete, next to the password field' => function () use ($template) {
+        $html = file_get_contents($template);
+        t_true(preg_match('/<input type="text"\s+class="form-control"\s+autocomplete="username"\s+ng-model="configs\.smtp_credentials\.username"/', $html) === 1, 'autocomplete=username');
+    },
+
     'the SMTP password uses the eye toggle' => function () use ($template) {
         $html = file_get_contents($template);
         t_equal(0, substr_count($html, 'type="password"'), 'no plain password input left');
