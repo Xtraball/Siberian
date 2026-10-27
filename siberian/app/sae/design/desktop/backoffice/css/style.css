@@ -1565,6 +1565,34 @@ a.ui-datepicker-prev:after {
     }
 }
 
+/** PASSWORD FIELD WITH AN EYE **/
+.sb-password {
+    position: relative;
+}
+
+.sb-password input.form-control {
+    padding-right: 40px;
+}
+
+.sb-password .sb-password-toggle {
+    position: absolute;
+    top: 0;
+    right: 0;
+    width: 40px;
+    height: 100%;
+    padding: 0;
+    border: 0;
+    background: transparent;
+    color: #808080;
+    cursor: pointer;
+}
+
+.sb-password .sb-password-toggle:hover,
+.sb-password .sb-password-toggle:focus {
+    color: #404040;
+    outline: 0;
+}
+
 /** TOP / USER MENU **/
 .backoffice_user {
     position: relative;

@@ -87,14 +87,14 @@
                     <label><?php echo __("Username"); ?></label>
                     <input type="text"
                            class="form-control"
+                           autocomplete="username"
                            ng-model="configs.smtp_credentials.username" />
                 </div>
 
                 <div class="col-md-6">
                     <label for=""><?php echo __("Password"); ?></label>
-                    <input type="password"
-                           class="form-control"
-                           ng-model="configs.smtp_credentials.password" />
+                    <sb-password ng-model="configs.smtp_credentials.password"
+                                 toggle-title="<?php echo addcslashes(p__('backoffice', 'Show / hide'), '"'); ?>"></sb-password>
                 </div>
             </div>
 
@@ -145,17 +145,16 @@
 
             <div class="form-group">
                 <div class="col-md-6">
-                    <br />
-                    <br />
-                    <br />
-                    <label for=""><?php echo __("E-mail test"); ?></label>
-                    <br />
-                    <input type="text"
-                           class="form-control left"
-                           ng-model="test.email"
-                           style="width: 50%;" />
-                    <a ng-click="testemail();"
-                       class="btn btn-primary left"><?php echo __("Test SMTP"); ?></a>
+                    <label for="smtp_test_email"><?php echo __("E-mail test"); ?></label>
+                    <div class="smtp-test">
+                        <input type="text"
+                               id="smtp_test_email"
+                               class="form-control"
+                               ng-model="test.email" />
+                        <button type="button"
+                                class="btn btn-primary"
+                                ng-click="testemail();"><?php echo __("Test SMTP"); ?></button>
+                    </div>
                 </div>
             </div>
 
@@ -198,6 +197,22 @@
     </sb-section-nav>
 
 <style type="text/css">
+    .smtp-test {
+        display: flex;
+        align-items: center;
+        gap: 12px;
+        margin-top: 4px;
+    }
+
+    .smtp-test input.form-control {
+        flex: 1 1 auto;
+        min-width: 0;
+    }
+
+    .smtp-test .btn {
+        flex: 0 0 auto;
+    }
+
     iframe.preview-email {
         border: 1px solid lightgrey;
         border-radius: 4px;
