@@ -33,7 +33,7 @@ return [
         $html = file_get_contents($template);
         t_equal(0, substr_count($html, 'type="password"'), 'no plain password input left');
         t_true(strpos($html, '<sb-password ng-model="configs.smtp_credentials.password"') !== false, 'sb-password');
-        t_true(strpos($html, 'toggle-title="<?php echo addcslashes(__("Show / hide"), \'"\'); ?>"') !== false, 'translated title');
+        t_true(strpos($html, 'toggle-title="<?php echo addcslashes(p__(\'backoffice\', \'Show / hide\'), \'"\'); ?>"') !== false, 'translated title');
     },
 
     'the test field and its button are one row with a gap' => function () use ($template) {
