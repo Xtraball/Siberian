@@ -290,13 +290,13 @@ class Translation_Backoffice_EditController extends Backoffice_Controller_Defaul
         if (!empty($yandexKey)) {
             $url = "https://translate.yandex.net/api/v1.5/tr.json/translate?key=" . $yandexKey .
                 "&text=" . urlencode($data["text"]) . "&lang=en-" . urlencode($data["target"]);
-            $result = \Siberian\TranslateResponse::fromYandex($this->_fetch($url));
+            $result = \Siberian\TranslateResponse::fromYandex(\Siberian\TranslateResponse::request($url));
         }
 
         if ($result === null) {
             $url = "https://translate.googleapis.com/translate_a/single?client=gtx&sl=en&tl=" .
                 urlencode($data["target"]) . "&dt=t&q=" . urlencode($data["text"]);
-            $result = \Siberian\TranslateResponse::fromGoogle($this->_fetch($url));
+            $result = \Siberian\TranslateResponse::fromGoogle(\Siberian\TranslateResponse::request($url));
         }
 
         if ($result === null) {
@@ -319,19 +319,6 @@ class Translation_Backoffice_EditController extends Backoffice_Controller_Defaul
             "succes" => 1,
             "result" => ["text" => [$result]],
         ]);
-    }
-
-    /**
-     * @param string $url
-     * @return string|null the body, null when the service does not answer
-     */
-    protected function _fetch($url)
-    {
-        $body = @file_get_contents($url, false, stream_context_create([
-            "http" => ["timeout" => 15, "ignore_errors" => true],
-        ]));
-
-        return $body === false ? null : $body;
     }
 
 }

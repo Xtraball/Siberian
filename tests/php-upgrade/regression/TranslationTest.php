@@ -48,6 +48,10 @@ return [
         t_true(strpos($php, 'public function translateAction()') !== false, 'translate action');
         t_true(strpos($php, 'translate.googleapis.com/translate_a/single') !== false, 'google endpoint');
         t_true(strpos($php, '!empty($yandexKey)') !== false, 'yandex only when a key is set: no key is no longer a dead end');
+        t_true(strpos($php, 'file_get_contents') === false, 'no stream wrapper: Google answers it 429');
+        t_equal(2, substr_count($php, '\\Siberian\\TranslateResponse::request($url)'), 'both services are asked through curl');
+        $helper = file_get_contents(dirname(__DIR__, 3) . '/siberian/lib/Siberian/TranslateResponse.php');
+        t_true(strpos($helper, 'CURLOPT_TIMEOUT => 15') !== false, 'with a timeout');
         $js = file_get_contents($design . '/js/controllers/translation.js');
         t_equal(2, substr_count($js, 'response.data.error'), 'both buttons show the error of the service');
         t_true(strpos($js, 'if (size > 0) {' . "\n" . '            size = translateQueue.size();') === false, 'translate all reads its size before testing it');

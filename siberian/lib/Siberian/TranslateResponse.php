@@ -11,6 +11,28 @@ namespace Siberian;
 class TranslateResponse
 {
     /**
+     * Asks a translation service. curl, not file_get_contents: Google answers 429 "Too Many Requests" to the PHP
+     * stream wrapper and 200 to curl from the same address.
+     *
+     * @param string $url
+     * @return string|null the body, null when the service does not answer
+     */
+    public static function request(string $url): ?string
+    {
+        $curl = curl_init($url);
+        curl_setopt_array($curl, [
+            CURLOPT_RETURNTRANSFER => true,
+            CURLOPT_FOLLOWLOCATION => true,
+            CURLOPT_CONNECTTIMEOUT => 10,
+            CURLOPT_TIMEOUT => 15,
+        ]);
+        $body = curl_exec($curl);
+        curl_close($curl);
+
+        return is_string($body) ? $body : null;
+    }
+
+    /**
      * Yandex v1.5: {"code":200,"lang":"en-fr","text":["Bonjour"]}
      *
      * @param string|null $body
