@@ -550,11 +550,72 @@ class Quarantine
 
         ob_start();
         foreach (self::probeFiles($module) as $file) {
+            // Two files of a module can declare the same class (a leftover copy), the dispatcher only loads one of
+            // them per URL, so a class that is already there is not a reason to quarantine the module.
+            if (self::declaresLoadedType($file)) {
+                continue;
+            }
             include_once $file;
         }
         ob_end_clean();
 
         return 0;
+    }
+
+    /**
+     * True when the file declares a class, interface or trait that exists already.
+     */
+    public static function declaresLoadedType(string $file): bool
+    {
+        $tokens = @token_get_all((string) file_get_contents($file));
+        $namespace = '';
+        $count = count($tokens);
+        for ($i = 0; $i < $count; $i++) {
+            $token = $tokens[$i];
+            if (!is_array($token)) {
+                continue;
+            }
+
+            if ($token[0] === T_NAMESPACE) {
+                $namespace = '';
+                for ($j = $i + 1; $j < $count; $j++) {
+                    $next = $tokens[$j];
+                    if (is_array($next) && in_array($next[0], [T_STRING, T_NAME_QUALIFIED], true)) {
+                        $namespace = $next[1];
+                        break;
+                    }
+                    if ($next === ';' || $next === '{') {
+                        break;
+                    }
+                }
+                continue;
+            }
+
+            if (!in_array($token[0], [T_CLASS, T_INTERFACE, T_TRAIT], true)) {
+                continue;
+            }
+
+            // "Foo::class" and "new class" are not declarations
+            $previous = $tokens[$i - 1] ?? null;
+            if (is_array($previous) && in_array($previous[0], [T_DOUBLE_COLON, T_NEW], true)) {
+                continue;
+            }
+            for ($j = $i + 1; $j < $count; $j++) {
+                $next = $tokens[$j];
+                if (is_array($next) && $next[0] === T_WHITESPACE) {
+                    continue;
+                }
+                if (is_array($next) && $next[0] === T_STRING) {
+                    $name = ($namespace !== '' ? $namespace . '\\' : '') . $next[1];
+                    if (class_exists($name, false) || interface_exists($name, false) || trait_exists($name, false)) {
+                        return true;
+                    }
+                }
+                break;
+            }
+        }
+
+        return false;
     }
 
     /**
