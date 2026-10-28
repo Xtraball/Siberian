@@ -456,6 +456,16 @@ if (version_compare(PHP_VERSION, '8.2.0', '<')) {
                             </tbody>
                         </table>
                         <?php if (Cron_Model_Cron::is_active()): ?>
+                            <div ng-if="services.cron_compat.problems > 0"
+                                 class="cron-compat">
+                                <i class="fa fa-exclamation-triangle"></i>
+                                <?php echo p__('backoffice', 'Some cron jobs can not run with this PHP version:') ?>
+                                <span ng-repeat="item in services.cron_compat.items | limitTo:3">
+                                    <strong>{{ item.name }}</strong><span ng-if="!$last">, </span>
+                                </span>
+                                <span ng-if="services.cron_compat.items.length > 3">&hellip;</span>
+                                <a href="<?php echo $this->getUrl("backoffice/advanced_cron") ?>"><?php echo p__('backoffice', 'see the details') ?></a>
+                            </div>
                             <span ng-show="!services.cron">
                                 <?php echo __("Not running") ?> <a class="btn btn-xs btn-primary"
                                                                    ng-click="showCronModal();"><?php echo __("How to install the cron scheduler ?") ?></a>

@@ -227,6 +227,121 @@ msgctxt "backoffice"
 msgid "Show / hide"
 msgstr "Show / hide"
 
+# GMT 1793100001.0030
+msgctxt "backoffice"
+msgid "This job has no command."
+msgstr "This job has no command."
+
+# GMT 1793100001.0031
+msgctxt "backoffice"
+msgid "The class %s does not exist, the module providing this job is probably disabled or removed."
+msgstr "The class %s does not exist, the module providing this job is probably disabled or removed."
+
+# GMT 1793100001.0032
+msgctxt "backoffice"
+msgid "The class %s can not be loaded: %s"
+msgstr "The class %s can not be loaded: %s"
+
+# GMT 1793100001.0033
+msgctxt "backoffice"
+msgid "The method %s does not exist."
+msgstr "The method %s does not exist."
+
+# GMT 1793100001.0034
+msgctxt "backoffice"
+msgid "The method %s is not public."
+msgstr "The method %s is not public."
+
+# GMT 1793100001.0035
+msgctxt "backoffice"
+msgid "The method %s is abstract."
+msgstr "The method %s is abstract."
+
+# GMT 1793100001.0036
+msgctxt "backoffice"
+msgid "The method %s requires %d arguments, a job is given %d."
+msgstr "The method %s requires %d arguments, a job is given %d."
+
+# GMT 1793100001.0037
+msgctxt "backoffice"
+msgid "The class %s can not be instantiated, declare the method %s static."
+msgstr "The class %s can not be instantiated, declare the method %s static."
+
+# GMT 1793100001.0038
+msgctxt "backoffice"
+msgid "The method %s is not static and the constructor of %s requires arguments, declare the method static."
+msgstr "The method %s is not static and the constructor of %s requires arguments, declare the method static."
+
+# GMT 1793100001.0039
+msgctxt "backoffice"
+msgid "The method %s is not static. PHP 8 can not call it statically, the scheduler runs it on a new instance instead; declare it static."
+msgstr "The method %s is not static. PHP 8 can not call it statically, the scheduler runs it on a new instance instead; declare it static."
+
+# GMT 1793100001.0040
+msgctxt "backoffice"
+msgid "This job can run."
+msgstr "This job can run."
+
+# GMT 1793100001.0041
+msgctxt "backoffice"
+msgid "Compatibility with PHP"
+msgstr "Compatibility with PHP"
+
+# GMT 1793100001.0042
+msgctxt "backoffice"
+msgid "Every job is checked against the PHP version that runs the scheduler, without running it."
+msgstr "Every job is checked against the PHP version that runs the scheduler, without running it."
+
+# GMT 1793100001.0043
+msgctxt "backoffice"
+msgid "PHP version"
+msgstr "PHP version"
+
+# GMT 1793100001.0044
+msgctxt "backoffice"
+msgid "Active jobs checked"
+msgstr "Active jobs checked"
+
+# GMT 1793100001.0045
+msgctxt "backoffice"
+msgid "All the active jobs can be run by the scheduler."
+msgstr "All the active jobs can be run by the scheduler."
+
+# GMT 1793100001.0046
+msgctxt "backoffice"
+msgid "A job that can not run is skipped and reported, it never stops the other jobs."
+msgstr "A job that can not run is skipped and reported, it never stops the other jobs."
+
+# GMT 1793100001.0047
+msgctxt "backoffice"
+msgid "Job"
+msgstr "Job"
+
+# GMT 1793100001.0048
+msgctxt "backoffice"
+msgid "Problem"
+msgstr "Problem"
+
+# GMT 1793100001.0049
+msgctxt "backoffice"
+msgid "Last error"
+msgstr "Last error"
+
+# GMT 1793100001.0050
+msgctxt "backoffice"
+msgid "Compatibility"
+msgstr "Compatibility"
+
+# GMT 1793100001.0051
+msgctxt "backoffice"
+msgid "Some cron jobs can not run with this PHP version:"
+msgstr "Some cron jobs can not run with this PHP version:"
+
+# GMT 1793100001.0052
+msgctxt "backoffice"
+msgid "see the details"
+msgstr "see the details"
+
 # GMT 1793100001.0060
 msgctxt "backoffice"
 msgid "Modules in quarantine"

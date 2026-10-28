@@ -140,6 +140,50 @@
 
 <div ng-if="configs.disable_cron.value == '0'">
 
+    <sb-section title="'<?php echo addcslashes(p__('backoffice', 'Compatibility with PHP'), "'"); ?>'">
+        <div class="cron-compat">
+            <p>
+                <?php echo p__('backoffice', 'Every job is checked against the PHP version that runs the scheduler, without running it.') ?>
+            </p>
+            <p>
+                <?php echo p__('backoffice', 'PHP version') ?>: <b>{{ compat.php_version }}</b>
+                &nbsp;/&nbsp;
+                <?php echo p__('backoffice', 'Active jobs checked') ?>: <b>{{ compat.checked }}</b>
+            </p>
+            <div class="alert alert-success"
+                 ng-if="compat && compat.problems == 0">
+                <i class="fa fa-check-circle"></i>
+                <?php echo p__('backoffice', 'All the active jobs can be run by the scheduler.') ?>
+            </div>
+            <div ng-if="compat.problems > 0">
+                <div class="alert alert-warning">
+                    <i class="fa fa-exclamation-triangle"></i>
+                    <?php echo p__('backoffice', 'A job that can not run is skipped and reported, it never stops the other jobs.') ?>
+                </div>
+                <table class="table">
+                    <thead>
+                        <tr>
+                            <th style="width:20%;"><?php echo p__('backoffice', 'Job') ?></th>
+                            <th style="width:25%;"><?php echo __("UID") ?></th>
+                            <th><?php echo p__('backoffice', 'Problem') ?></th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr ng-repeat="item in compat.items">
+                            <td>
+                                <i class="fa"
+                                   ng-class="item.status == 'error' ? 'fa-times-circle service-red' : 'fa-exclamation-triangle'"></i>
+                                {{ item.name }}
+                            </td>
+                            <td>{{ item.command }}</td>
+                            <td style="white-space: normal;">{{ item.message }}</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </sb-section>
+
     <sb-section title="'<?php echo addcslashes(__("System tasks"), "'"); ?>'">
         <table class="table">
             <thead>
@@ -156,7 +200,13 @@
                    ng-show="system_tasks.length">
                 <tr>
                     <td>{{ system_task.command }}</td>
-                    <td>{{ system_task.name }}</td>
+                    <td>
+                        <i class="fa"
+                           ng-if="system_task.compat && system_task.compat.status != 'ok'"
+                           ng-class="system_task.compat.status == 'error' ? 'fa-times-circle service-red' : 'fa-exclamation-triangle'"
+                           title="{{ system_task.compat.message }}"></i>
+                        {{ system_task.name }}
+                    </td>
                     <td>{{ system_task.human }}</td>
                     <td>{{ system_task.cron_expr }}</td>
                     <td ng-show="system_task.is_active == '1'"><?php echo __("Yes"); ?></td>
@@ -188,6 +238,14 @@
                                 <td><?php echo __("Last failure") ?></td>
                                 <td>{{ system_task.last_fail }}</td>
                             </tr>
+                            <tr ng-show="system_task.last_error.length">
+                                <td><?php echo p__('backoffice', 'Last error') ?></td>
+                                <td>{{ system_task.last_error }}</td>
+                            </tr>
+                            <tr ng-if="system_task.compat && system_task.compat.status != 'ok'">
+                                <td><?php echo p__('backoffice', 'Compatibility') ?></td>
+                                <td>{{ system_task.compat.message }}</td>
+                            </tr>
                         </table>
                     </td>
                 </tr>
@@ -217,7 +275,13 @@
             <tr ng-repeat="task in tasks"
                 ng-show="tasks.length">
                 <td>{{ task.command }}</td>
-                <td>{{ task.name }}</td>
+                <td>
+                    <i class="fa"
+                       ng-if="task.compat && task.compat.status != 'ok'"
+                       ng-class="task.compat.status == 'error' ? 'fa-times-circle service-red' : 'fa-exclamation-triangle'"
+                       title="{{ task.compat.message }}"></i>
+                    {{ task.name }}
+                </td>
                 <td>{{ task.human }}</td>
                 <td>{{ task.cron_expr }}</td>
                 <td ng-show="task.is_active == '1'"><?php echo __("Yes"); ?></td><td ng-show="task.is_active != '1'"><?php echo __("No"); ?></td>

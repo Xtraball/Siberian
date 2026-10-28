@@ -709,6 +709,7 @@ App.config(function($routeProvider) {
             $scope.tasks = data.tasks;
             $scope.apk_queue = data.apk_queue;
             $scope.source_queue = data.source_queue;
+            $scope.compat = data.compat;
         }).finally(function() {
             $scope.content_loader_is_visible = false;
         });

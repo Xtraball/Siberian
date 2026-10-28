@@ -96,11 +96,17 @@ class Cron
                     "id" => $task->getCommand(),
                     "command" => $task->getCommand(),
                 ];
-                $this->execute($task);
+
+                // One broken job must not stop the following ones
+                try {
+                    $this->execute($task);
+                } catch (\Throwable $e) {
+                    $this->log(sprintf('[%s::ERROR]: %s', $task->getCommand(), $e->getMessage()));
+                }
             }
 
             return $actions;
-        } catch (\Exception $e) {
+        } catch (\Throwable $e) {
             if (APPLICATION_ENV === 'development') {
                 \Zend_Debug::dump($e);
             }
@@ -122,7 +128,7 @@ class Cron
                 }
                 $this->execute($task);
             }
-        } catch (Exception $e) {
+        } catch (\Throwable $e) {
             $this->log('[runTaskByCommand::ERROR]: ' . $e->getMessage());
         }
     }
@@ -139,31 +145,23 @@ class Cron
         if (!$this->isLocked($task->getId())) {
             $this->log("Executing task: " . $task->getName());
 
-            /** Non blocking tasks */
+            /**
+             * Non blocking tasks: whatever a job throws (an Error as well as an Exception, a module written for
+             * another version of PHP), it is recorded on the job and the following ones still run.
+             */
             try {
                 $command = $task->getCommand();
-                if (strpos($command, "::") !== false) {
-                    $this->log("Class method to run {$command}");
-
-                    # Split Class::method
-                    $parts = explode("::", $command);
-                    $class = $parts[0];
-                    $method = $parts[1];
-
-                    # Tests.
-                    if (method_exists($class, $method)) {
-                        $this->log("Method exists {$command}");
-                        call_user_func($command, $this, $task);
-                    }
-
-                } else {
-                    # Local method
-                    if (method_exists($this, $command)) {
-                        $this->$command($task);
-                    }
+                $callback = Cron\Callback::prepare($command, $this, $task);
+                if ($callback['call'] === null) {
+                    throw new \RuntimeException(sprintf('%s: %s', $command, $callback['message']));
                 }
 
-            } catch (Exception $e) {
+                if (strpos($command, "::") !== false) {
+                    $this->log("Class method to run {$command}");
+                }
+
+                $callback['call']();
+            } catch (\Throwable $e) {
                 $this->log($e->getMessage());
 
                 // Unlock task in case of Exception!
@@ -390,7 +388,7 @@ class Cron
                     $baseApps = \Core_Model_Directory::getBasePathTo("/var/tmp/applications/ionic/android");
                     exec("chmod -R 777 '{$baseApps}/*-{$apk->getAppId()}'");
 
-                } catch (Exception $e) {
+                } catch (\Exception $e) {
                     $this->log($e->getMessage());
                     # Trying to fetch APK
                     $refetch_apk = new \Application_Model_ApkQueue();
@@ -434,7 +432,7 @@ class Cron
                     $this->log(sprintf("Generating App sources: ID[%s], Name[%s], Target[%s]", $source->getAppId(), $source->getName(), $source->getType()));
                     $source->changeStatus("building");
                     $source->generate($this);
-                } catch (Exception $e) {
+                } catch (\Exception $e) {
                     $this->log($e->getMessage());
 
                     # Trying to fetch Source
@@ -730,7 +728,7 @@ class Cron
                     }
                 }
 
-            } catch (Exception $e) {
+            } catch (\Exception $e) {
                 $this->log($e->getMessage());
                 $task->saveLastError($e->getMessage());
             }
@@ -797,7 +795,7 @@ class Cron
             $this->log('[Fetching current disk usage]');
             \Siberian_Cache::getDiskUsage(true);
 
-        } catch (Exception $e) {
+        } catch (\Exception $e) {
             $this->log($e->getMessage());
             $task->saveLastError($e->getMessage());
         }
@@ -870,7 +868,7 @@ class Cron
 
             # More alerts to come.
 
-        } catch (Exception $e) {
+        } catch (\Exception $e) {
             $this->log($e->getMessage());
             $task->saveLastError($e->getMessage());
         }
