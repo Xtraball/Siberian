@@ -276,6 +276,29 @@ return [
         mq_rm($dir);
     },
 
+    'a probe ignores a second file that declares a class which is already there, a leftover copy is not a reason' => function () {
+        $dir = mq_tmp();
+        mq_module($dir, 'Dup');
+        file_put_contents($dir . '/app/local/modules/Dup/Model/A.php', "<?php\nclass Dup_Model_Thing\n{\n    public function name()\n    {\n        return Foo::class;\n    }\n}\n");
+        file_put_contents($dir . '/app/local/modules/Dup/Model/B.php', "<?php\nclass Dup_Model_Thing\n{\n}\n");
+        file_put_contents($dir . '/app/local/modules/Dup/Model/C.php', "<?php\nnamespace Dup\\Model;\n\nclass Other\n{\n}\n");
+
+        $body = "Siberian\\Module\\Quarantine::setRoot(\$argv[1]);\nexit(Siberian\\Module\\Quarantine::probe(\$argv[2]));\n";
+        t_equal(0, mq_run($dir, $body, [$dir, 'Dup']), 'the duplicate does not kill the probe');
+        Quarantine::setRoot($dir);
+        t_true(!Quarantine::isQuarantined('Dup'), 'not quarantined');
+
+        // The helper itself: a class that does not exist yet is not "loaded", Foo::class is not a declaration
+        t_true(!Quarantine::declaresLoadedType($dir . '/app/local/modules/Dup/Model/A.php'), 'nothing declared yet');
+        t_true(Quarantine::declaresLoadedType(__FILE__) === false, 'this file declares no loaded type');
+        eval('class Dup_Model_Thing {}');
+        t_true(Quarantine::declaresLoadedType($dir . '/app/local/modules/Dup/Model/B.php'), 'class already declared');
+        t_true(!Quarantine::declaresLoadedType($dir . '/app/local/modules/Dup/Model/C.php'), 'namespaced class is another one');
+
+        Quarantine::setRoot(null);
+        mq_rm($dir);
+    },
+
     'the quarantine is wired in the shutdown handler, the autoloader, the module switch, the cli and the dashboard' => function () {
         $root = dirname(__DIR__, 3) . '/siberian';
         $get = function ($path) use ($root) {
