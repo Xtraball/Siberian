@@ -14,7 +14,11 @@
             <tr ng-repeat="module in modules"
                 ng-show="modules.length"
                 ng-class="{'text-danger red-border': !module.is_enabled}">
-                <td>{{ module.name }}</td>
+                <td>{{ module.name }}
+                    <span class="label label-danger"
+                          ng-if="module.quarantine"
+                          title="{{ module.quarantine.message }}"><?php echo p__('backoffice', 'Quarantine'); ?></span>
+                </td>
                 <td>{{ module.version }}</td>
                 <td>
                     <p>{{ module.license_key }}</p>
