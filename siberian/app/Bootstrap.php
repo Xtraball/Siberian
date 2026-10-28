@@ -37,6 +37,16 @@ class Bootstrap extends Zend_Application_Bootstrap_Bootstrap
         $loader->registerNamespace('Plesk');
         $loader->registerNamespace('PListEditor');
 
+        // The classes of a quarantined module are never autoloaded, see Siberian\Module\Quarantine!
+        require_once __DIR__ . '/../lib/Siberian/Module/Quarantine.php';
+        $loader->setDefaultAutoloader(static function ($class) {
+            if (\Siberian\Module\Quarantine::blocksClass($class)) {
+                return false;
+            }
+
+            return \Zend_Loader::loadClass($class);
+        });
+
         $includePaths = [get_include_path()];
         $includePaths[] = realpath(APPLICATION_PATH . '/local/modules');
         switch (\Siberian\Version::TYPE) {

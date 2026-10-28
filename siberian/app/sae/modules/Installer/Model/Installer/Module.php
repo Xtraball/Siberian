@@ -121,8 +121,13 @@ class Installer_Model_Installer_Module extends Core_Model_Default
     {
         // Finding module path
         $moduleLockPath = path('/app/local/modules/' . $this->getData('name') . '/module.disabled');
-        if ($isEnabled && is_file($moduleLockPath)) {
-            unlink($moduleLockPath);
+        if ($isEnabled) {
+            // Enabling a quarantined module releases it, it goes back to quarantine if it breaks again!
+            require_once path('/lib/Siberian/Module/Quarantine.php');
+            \Siberian\Module\Quarantine::release((string) $this->getData('name'));
+            if (is_file($moduleLockPath)) {
+                unlink($moduleLockPath);
+            }
         } else {
             File::putContents($moduleLockPath, 1);
         }
@@ -138,7 +143,11 @@ class Installer_Model_Installer_Module extends Core_Model_Default
     {
         $moduleLockPath = path('/app/local/modules/' . $module . '/module.disabled');
 
-        return (!is_readable($moduleLockPath));
+        // A quarantined module is disabled until it is rechecked or enabled again!
+        require_once path('/lib/Siberian/Module/Quarantine.php');
+
+        return !is_readable($moduleLockPath) &&
+            !\Siberian\Module\Quarantine::isQuarantined($module);
     }
 
     /**

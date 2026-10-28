@@ -385,6 +385,10 @@ try {
             Cache::__clearLog();
             Cache::__clearTmp();
             break;
+        case 'module:quarantine':
+            require_once __DIR__ . '/lib/Siberian/Module/Quarantine.php';
+            exit(\Siberian\Module\Quarantine::cli($argv));
+            break;
         case 'license:set':
             if (isset($argv[2])) {
                 $license = (string)$argv[2];
@@ -583,6 +587,9 @@ try {
 " . color('cache:clear', 'brown') . "
     Clear var/cache, var/log & var/tmp.
     
+" . color('module:quarantine [list|recheck [<Module>]|release <Module>|scan]', 'brown') . "
+    Lists the modules of app/local/modules put in quarantine, rechecks or releases them, or scans all of them.
+
 " . color('license:set <license>', 'brown') . "
     Update your license to <license>.
     

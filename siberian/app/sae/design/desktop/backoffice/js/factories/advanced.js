@@ -72,6 +72,45 @@ App.factory('Advanced', function ($http, Url) {
         });
     };
 
+    factory.quarantine = function () {
+        return $http({
+            method: 'GET',
+            url: Url.get('backoffice/advanced_module/quarantine'),
+            cache: false,
+            responseType: 'json'
+        });
+    };
+
+    factory.quarantineRecheck = function (module) {
+        return $http({
+            method: 'POST',
+            url: Url.get('backoffice/advanced_module/quarantinerecheck'),
+            data: {module: module},
+            cache: false,
+            responseType: 'json'
+        });
+    };
+
+    factory.quarantineRelease = function (module) {
+        return $http({
+            method: 'POST',
+            url: Url.get('backoffice/advanced_module/quarantinerelease'),
+            data: {module: module},
+            cache: false,
+            responseType: 'json'
+        });
+    };
+
+    factory.quarantineScan = function () {
+        return $http({
+            method: 'POST',
+            url: Url.get('backoffice/advanced_module/quarantinescan'),
+            data: {},
+            cache: false,
+            responseType: 'json'
+        });
+    };
+
     return factory;
 });
 
