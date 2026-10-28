@@ -112,6 +112,7 @@ class Backoffice_Advanced_ModuleController extends Backoffice_Controller_Default
                 'use_license' => $useLicense,
                 'license_key' => $licenseKey,
                 'is_enabled' => Installer_Model_Installer_Module::sGetIsEnabled($name),
+                'quarantine' => \Siberian\Module\Quarantine::get($name),
             ];
         }
 
@@ -137,6 +138,128 @@ class Backoffice_Advanced_ModuleController extends Backoffice_Controller_Default
 
         $this->_sendJson($data);
 
+    }
+
+    /**
+     * The modules in quarantine, for the dashboard.
+     */
+    public function quarantineAction()
+    {
+        $this->_sendJson(\Siberian\Module\Quarantine::summary());
+    }
+
+    /**
+     * Checks a quarantined module again (or all of them), in a separate process, and releases it when it loads.
+     */
+    public function quarantinerecheckAction()
+    {
+        try {
+            $params = $this->_quarantineParams();
+            $results = [];
+            foreach ($this->_quarantineModules($params) as $module) {
+                [$status, $message] = \Siberian\Module\Quarantine::recheck($module);
+                $results[$module] = ['status' => $status, 'message' => $message];
+            }
+            $this->_quarantineClearCache();
+
+            $released = count(array_filter($results, function ($result) {
+                return $result['status'] === 'released';
+            }));
+            $payload = [
+                'success' => true,
+                'message' => p__('backoffice', 'Recheck done, %s released.', $released),
+                'results' => $results,
+                'summary' => \Siberian\Module\Quarantine::summary(),
+            ];
+        } catch (\Exception $e) {
+            $payload = [
+                'error' => true,
+                'message' => $e->getMessage(),
+            ];
+        }
+
+        $this->_sendJson($payload);
+    }
+
+    /**
+     * Enables a quarantined module again, it goes back to quarantine if it breaks the application again.
+     */
+    public function quarantinereleaseAction()
+    {
+        try {
+            $params = $this->_quarantineParams();
+            foreach ($this->_quarantineModules($params) as $module) {
+                \Siberian\Module\Quarantine::release($module);
+            }
+            $this->_quarantineClearCache();
+
+            $payload = [
+                'success' => true,
+                'message' => p__('backoffice', 'The module is enabled again.'),
+                'summary' => \Siberian\Module\Quarantine::summary(),
+            ];
+        } catch (\Exception $e) {
+            $payload = [
+                'error' => true,
+                'message' => $e->getMessage(),
+            ];
+        }
+
+        $this->_sendJson($payload);
+    }
+
+    /**
+     * Starts a compatibility scan of all the modules of app/local/modules in the background.
+     */
+    public function quarantinescanAction()
+    {
+        $started = \Siberian\Module\Quarantine::startScan();
+        $payload = [
+            ($started ? 'success' : 'error') => true,
+            'message' => $started ?
+                p__('backoffice', 'The scan started, it can take a few minutes, reload this page to see the result.') :
+                p__('backoffice', 'The scan could not be started, run "php cli module:quarantine scan" instead.'),
+            'summary' => \Siberian\Module\Quarantine::summary(),
+        ];
+
+        $this->_sendJson($payload);
+    }
+
+    /**
+     * @return array
+     */
+    private function _quarantineParams(): array
+    {
+        $raw = trim((string) $this->getRequest()->getRawBody());
+
+        return $raw === '' ? [] : (array) Siberian_Json::decode($raw);
+    }
+
+    /**
+     * The module of the request, or all the quarantined ones when there is none.
+     *
+     * @param array $params
+     * @return array
+     * @throws Siberian_Exception
+     */
+    private function _quarantineModules(array $params): array
+    {
+        $module = $params['module'] ?? null;
+        if (empty($module)) {
+            return array_keys(\Siberian\Module\Quarantine::all());
+        }
+
+        if (!in_array($module, \Siberian\Module\Quarantine::localModules(), true)) {
+            throw new Siberian_Exception(__("The module you are trying to edit doesn't exists!"));
+        }
+
+        return [$module];
+    }
+
+    private function _quarantineClearCache()
+    {
+        Siberian_Cache::__clearCache();
+        Siberian_Cache_Design::clearCache();
     }
 
     public function togglefeatureAction()

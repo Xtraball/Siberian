@@ -127,6 +127,57 @@ if (version_compare(PHP_VERSION, '8.2.0', '<')) {
             </div>
         <?php endif; ?>
 
+        <div class="alert alert-danger"
+             ng-if="quarantine.quarantined > 0">
+            <p style="font-size: 15px;">
+                <i class="fa fa-medkit"></i>
+                <strong><?php echo p__('backoffice', 'Modules in quarantine'); ?>:
+                    {{ quarantine.quarantined }}/{{ quarantine.total }}</strong>
+            </p>
+            <p><?php echo p__('backoffice', 'A module stopped the application with a fatal error, or is not compatible with this version of Siberian or PHP. It is disabled until it is rechecked, the rest of the application keeps working.'); ?></p>
+            <table class="table" style="background: transparent;">
+                <tr ng-repeat="item in quarantine.items">
+                    <td style="width: 20%;">
+                        <strong>{{ item.name }}</strong>
+                        <small>{{ item.version }}</small>
+                    </td>
+                    <td>
+                        <span ng-switch="item.reason">
+                            <span ng-switch-when="version"><?php echo p__('backoffice', 'Needs a newer Siberian'); ?></span>
+                            <span ng-switch-when="probe"><?php echo p__('backoffice', 'Failed the compatibility check'); ?></span>
+                            <span ng-switch-default><?php echo p__('backoffice', 'Fatal error'); ?></span>
+                        </span>
+                        <br />
+                        <small>{{ item.message }}</small>
+                        <br />
+                        <strong ng-if="item.stale"><?php echo p__('backoffice', 'Updated since, recheck it to enable it again.'); ?></strong>
+                    </td>
+                    <td style="text-align: right; white-space: nowrap;">
+                        <button class="btn btn-xs btn-info"
+                                ng-disabled="quarantineBusy"
+                                ng-click="quarantineRecheck(item.name)"><?php echo p__('backoffice', 'Recheck'); ?></button>
+                        <button class="btn btn-xs btn-warning"
+                                ng-disabled="quarantineBusy"
+                                ng-click="quarantineRelease(item.name, '<?php echo addcslashes(p__('backoffice', 'Enable this module anyway? If it breaks the application again it goes back to quarantine.'), "'"); ?>')"><?php echo p__('backoffice', 'Re-enable'); ?></button>
+                    </td>
+                </tr>
+            </table>
+            <button class="btn btn-sm btn-info"
+                    ng-disabled="quarantineBusy"
+                    ng-click="quarantineRecheck()"><?php echo p__('backoffice', 'Recheck all'); ?></button>
+            <button class="btn btn-sm btn-default"
+                    ng-disabled="quarantineBusy"
+                    ng-click="quarantineScan()"><?php echo p__('backoffice', 'Scan all modules'); ?></button>
+        </div>
+
+        <div class="alert alert-info"
+             ng-if="quarantine.quarantined == 0 && quarantine.scan_outdated">
+            <?php echo p__('backoffice', 'PHP or Siberian changed since the last compatibility scan of your modules.'); ?>
+            <button class="btn btn-xs btn-info"
+                    ng-disabled="quarantineBusy"
+                    ng-click="quarantineScan()"><?php echo p__('backoffice', 'Scan all modules'); ?></button>
+        </div>
+
     </div>
 
     <?php if ($displayTheme): ?>

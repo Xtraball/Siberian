@@ -14,7 +14,7 @@ App.config(function($routeProvider) {
         templateUrl: BASE_URL+"/backoffice/index/template"
     });
 
-}).controller("HomepageController", function($scope, $timeout, Header, Backoffice) {
+}).controller("HomepageController", function($scope, $timeout, Header, Backoffice, Advanced) {
 
     $scope.header = new Header();
     $scope.header.button.left.is_visible = false;
@@ -30,6 +30,8 @@ App.config(function($routeProvider) {
     $scope.graphIsLoading = true;
     $scope.servicesIsLoading = true;
     $scope.messagesIsLoading = true;
+    $scope.quarantine = {};
+    $scope.quarantineBusy = false;
 
     $scope.clear = function(type, message) {
         if(typeof message != "undefined") {
@@ -211,7 +213,66 @@ App.config(function($routeProvider) {
         });
     };
 
+    $scope.loadQuarantine = function () {
+        Advanced
+            .quarantine()
+            .success(function (data) {
+                $scope.quarantine = data;
+            });
+    };
+
+    /**
+     * Recheck, re-enable and scan answer with the new summary.
+     */
+    $scope.quarantineAction = function (request, confirmMessage) {
+        if (angular.isDefined(confirmMessage) && !window.confirm(confirmMessage)) {
+            return;
+        }
+
+        $scope.quarantineBusy = true;
+        request()
+            .success(function (data) {
+                if (angular.isObject(data)) {
+                    if (angular.isObject(data.summary)) {
+                        $scope.quarantine = data.summary;
+                    }
+                    if (angular.isDefined(data.message)) {
+                        $scope.message.setText(data.message)
+                            .isError(!!data.error)
+                            .show();
+                    }
+                }
+            })
+            .error(function (data) {
+                $scope.message.setText(angular.isObject(data) && data.message ? data.message : '')
+                    .isError(true)
+                    .show();
+            })
+            .finally(function () {
+                $scope.quarantineBusy = false;
+            });
+    };
+
+    $scope.quarantineRecheck = function (name) {
+        $scope.quarantineAction(function () {
+            return Advanced.quarantineRecheck(name);
+        });
+    };
+
+    $scope.quarantineRelease = function (name, confirmMessage) {
+        $scope.quarantineAction(function () {
+            return Advanced.quarantineRelease(name);
+        }, confirmMessage);
+    };
+
+    $scope.quarantineScan = function () {
+        $scope.quarantineAction(function () {
+            return Advanced.quarantineScan();
+        });
+    };
+
     $scope.loadContent();
+    $scope.loadQuarantine();
     $scope.loadMessages();
     $scope.loadGraph();
 

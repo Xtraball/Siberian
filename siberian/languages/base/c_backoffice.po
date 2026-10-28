@@ -341,3 +341,88 @@ msgstr "Some cron jobs can not run with this PHP version:"
 msgctxt "backoffice"
 msgid "see the details"
 msgstr "see the details"
+
+# GMT 1793100001.0060
+msgctxt "backoffice"
+msgid "Modules in quarantine"
+msgstr "Modules in quarantine"
+
+# GMT 1793100001.0061
+msgctxt "backoffice"
+msgid "A module stopped the application with a fatal error, or is not compatible with this version of Siberian or PHP. It is disabled until it is rechecked, the rest of the application keeps working."
+msgstr "A module stopped the application with a fatal error, or is not compatible with this version of Siberian or PHP. It is disabled until it is rechecked, the rest of the application keeps working."
+
+# GMT 1793100001.0062
+msgctxt "backoffice"
+msgid "Needs a newer Siberian"
+msgstr "Needs a newer Siberian"
+
+# GMT 1793100001.0063
+msgctxt "backoffice"
+msgid "Failed the compatibility check"
+msgstr "Failed the compatibility check"
+
+# GMT 1793100001.0064
+msgctxt "backoffice"
+msgid "Fatal error"
+msgstr "Fatal error"
+
+# GMT 1793100001.0065
+msgctxt "backoffice"
+msgid "Updated since, recheck it to enable it again."
+msgstr "Updated since, recheck it to enable it again."
+
+# GMT 1793100001.0066
+msgctxt "backoffice"
+msgid "Recheck"
+msgstr "Recheck"
+
+# GMT 1793100001.0067
+msgctxt "backoffice"
+msgid "Re-enable"
+msgstr "Re-enable"
+
+# GMT 1793100001.0068
+msgctxt "backoffice"
+msgid "Enable this module anyway? If it breaks the application again it goes back to quarantine."
+msgstr "Enable this module anyway? If it breaks the application again it goes back to quarantine."
+
+# GMT 1793100001.0069
+msgctxt "backoffice"
+msgid "Recheck all"
+msgstr "Recheck all"
+
+# GMT 1793100001.0070
+msgctxt "backoffice"
+msgid "Scan all modules"
+msgstr "Scan all modules"
+
+# GMT 1793100001.0071
+msgctxt "backoffice"
+msgid "PHP or Siberian changed since the last compatibility scan of your modules."
+msgstr "PHP or Siberian changed since the last compatibility scan of your modules."
+
+# GMT 1793100001.0072
+msgctxt "backoffice"
+msgid "Quarantine"
+msgstr "Quarantine"
+
+# GMT 1793100001.0073
+msgctxt "backoffice"
+msgid "Recheck done, %s released."
+msgstr "Recheck done, %s released."
+
+# GMT 1793100001.0074
+msgctxt "backoffice"
+msgid "The module is enabled again."
+msgstr "The module is enabled again."
+
+# GMT 1793100001.0075
+msgctxt "backoffice"
+msgid "The scan started, it can take a few minutes, reload this page to see the result."
+msgstr "The scan started, it can take a few minutes, reload this page to see the result."
+
+# GMT 1793100001.0076
+msgctxt "backoffice"
+msgid "The scan could not be started, run \"php cli module:quarantine scan\" instead."
+msgstr "The scan could not be started, run \"php cli module:quarantine scan\" instead."
