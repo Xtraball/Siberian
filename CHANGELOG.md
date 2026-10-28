@@ -2,6 +2,29 @@
 
 Notable changes to Siberian, newest first. Dates are `YYYY-MM-DD`. Longer notes live in `docs/`.
 
+## [5.1.5] 2026-10-28
+
+Backoffice refresh, a safety net for modules that break on PHP 8, and fixes, on top of 5.1.4. The update package is built against 5.1.4 (`lastversion`), the last published version. MAE and PE carry the same changes (tags `v5.1.5`, released from `master`).
+
+### Added
+
+- 2026-10-28 Modules: a module that stops the application with a fatal error (for example an old `copyTo()` signature on PHP 8) is quarantined instead of taking the editor down. The dashboard shows the quarantined modules with Recheck, Re-enable and Scan, `php cli module:quarantine` does the same from the command line, and `$_config['module_quarantine'] = false` turns it off. The probe skips files that declare a class which already exists.
+- 2026-10-28 Cron: the jobs are checked against the PHP version, a "Compatibility with PHP" section on the cron page and a Services line on the dashboard show the result, and one failing job no longer blocks the others (a job whose class or method is missing used to count as a success, it is now a failure).
+- 2026-10-28 Settings > General and Settings > Email: sections in a side navigation, each section saves only its own settings.
+- 2026-10-28 Settings > Communications: password eye toggle, test field row, and the custom SMTP switch loads as No when nothing is stored.
+- 2026-10-28 Backoffice: new top bar contained like the page, coloured logo on the light bar, typed messages with an icon, cleaner login page (no menu flash when logged out, spinner inside the button).
+
+### Changed
+
+- 2026-10-28 Tools page: sections reordered, and the integrity check runs by slices so it finishes on large installations and its result is readable (MAE and PE got the same controller).
+- 2026-10-28 Translations: the suggestions (dead Weblate service) are removed, the machine translation is kept and repaired (the services are asked with curl, Google answered 429 to the PHP stream wrapper).
+
+### Fixed
+
+- 2026-10-28 Layouts: `user-style.css` is only linked when the file exists (no more 404 on every page).
+- 2026-10-28 Backoffice default theme: progress bars are aligned in table cells.
+- 2026-10-28 Settings: the read of all settings is not cached, so a section save shows what was stored.
+
 ## [5.1.4] 2026-10-26
 
 Bug fixes and small options on top of 5.1.3. The update package is built against 5.1.3 (`lastversion`), the last published version. Modules: Application 5.0.15, Push2 5.0.11, Radio 4.14.11.
