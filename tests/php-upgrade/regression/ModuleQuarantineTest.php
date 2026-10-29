@@ -299,7 +299,7 @@ return [
         mq_rm($dir);
     },
 
-    'a probe finds the base classes of the module and of other local modules like a web request does' => function () {
+    'a probe finds the base classes of its module and of other local modules even though a quarantined module is disabled' => function () {
         $dir = mq_tmp();
         mq_module($dir, 'Own');
         mq_module($dir, 'Base');
@@ -310,9 +310,7 @@ return [
         $w($modules . '/Own/Model/Thing.php', "<?php\nclass Own_Model_Thing extends Base_Model_Root {}\n");
         $w($modules . '/Base/Model/Root.php', "<?php\nclass Base_Model_Root {}\n");
 
-        // Zend_Loader resolves Module_Controller_Default through the include path: same rule here
-        $loader = "spl_autoload_register(function (\$class) { @include str_replace('_', '/', \$class) . '.php'; });\n";
-        $body = $loader . "Siberian\\Module\\Quarantine::setRoot(\$argv[1]);\nexit(Siberian\\Module\\Quarantine::probe(\$argv[2]));\n";
+        $body = "Siberian\\Module\\Quarantine::setRoot(\$argv[1]);\nexit(Siberian\\Module\\Quarantine::probe(\$argv[2]));\n";
         t_equal(0, mq_run($dir, $body, [$dir, 'Own']), 'a parent class in Controller/ or in another local module is found');
         Quarantine::setRoot($dir);
         t_true(!Quarantine::isQuarantined('Own'), 'not quarantined');

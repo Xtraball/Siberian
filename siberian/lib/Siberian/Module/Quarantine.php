@@ -547,7 +547,7 @@ class Quarantine
         self::$probing = $module;
         self::$reason = self::REASON_PROBE;
         self::register();
-        self::addModulePaths();
+        self::registerProbeLoader();
 
         ob_start();
         foreach (self::probeFiles($module) as $file) {
@@ -564,20 +564,29 @@ class Quarantine
     }
 
     /**
-     * The module folders a web request has on its include path (Bootstrap::_initPaths). The cli does not run that
-     * code, so a controller that extends the Controller/Default.php of its own module, or a model that extends a
-     * model of another local module, could not be loaded and the probe quarantined a healthy module.
+     * A quarantined module counts as disabled, so its namespace is not registered and its own classes cannot be
+     * autoloaded: a controller extending the Controller/Default.php of its module, or a model extending a model of
+     * another local module, died with "Class not found" and the module could never be released. The probe resolves
+     * Module_Folder_Name to app/local/modules/Module/Folder/Name.php itself, except for what is still quarantined.
      */
-    public static function addModulePaths(): void
+    public static function registerProbeLoader(): void
     {
-        $paths = [get_include_path()];
-        foreach (['local', 'pe', 'mae', 'sae'] as $edition) {
-            $dir = realpath(self::root() . '/app/' . $edition . '/modules');
-            if ($dir !== false) {
-                $paths[] = $dir;
+        spl_autoload_register(static function ($class) {
+            $parts = explode('_', (string) $class, 3);
+            if (count($parts) !== 3 || !in_array($parts[1], ['Model', 'Form', 'Controller', 'Plugin'], true)) {
+                return;
             }
-        }
-        set_include_path(implode(PATH_SEPARATOR, $paths));
+
+            if (self::blocksClass($class)) {
+                return;
+            }
+
+            $file = self::root() . '/app/local/modules/' . $parts[0] . '/' . $parts[1] . '/' .
+                str_replace('_', '/', $parts[2]) . '.php';
+            if (is_file($file)) {
+                include_once $file;
+            }
+        });
     }
 
     /**
