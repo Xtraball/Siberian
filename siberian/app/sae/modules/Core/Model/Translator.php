@@ -585,8 +585,9 @@ class Core_Model_Translator
                             'user' => null,
                         ];
                     } else {
-                        $tmpTranslationData[$filename][$key]['comments'] = array_merge($tmpTranslationData[$filename][$key]['comments'], $userTranslation->getComments());
-                        $tmpTranslationData[$filename][$key]['flags'] = array_merge($tmpTranslationData[$filename][$key]['flags'], $userTranslation->getFlags());
+                        // The csv branch creates the entry with null comments and flags
+                        $tmpTranslationData[$filename][$key]['comments'] = array_merge((array) ($tmpTranslationData[$filename][$key]['comments'] ?? []), (array) $userTranslation->getComments());
+                        $tmpTranslationData[$filename][$key]['flags'] = array_merge((array) ($tmpTranslationData[$filename][$key]['flags'] ?? []), (array) $userTranslation->getFlags());
                     }
 
                     $value = str_replace('\"', '"', $userTranslation->getTranslation());

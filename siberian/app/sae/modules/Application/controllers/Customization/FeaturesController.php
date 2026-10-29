@@ -823,7 +823,7 @@ class Application_Customization_FeaturesController extends Application_Controlle
                             "success" => true,
                             'file' => '/' . $formated_library_name . '/' . $file,
                             'icon_id' => $icon_lib->getImageId(),
-                            'colorizable' => a,
+                            'colorizable' => $CanBeColorized,
                             'icon_url' => $icon_url,
                             'colored_icon_url' => $this->getUrl('template/block/colorize', ['id' => $icon_lib->getImageId(), 'color' => str_replace('#', '', $icon_color)]),
                             'colored_header_icon_url' => $icon_saved['colored_header_icon_url'],
