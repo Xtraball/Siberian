@@ -2,6 +2,36 @@
 
 use Gettext\BaseTranslator;
 
+if (!function_exists('gettext_vsprintf')) {
+    /**
+     * vsprintf() for a translated text. Since PHP 8 a broken placeholder in a translation (machine translations do
+     * produce "Súbor % neexistuje" for "The file '%s' does not exist") throws a ValueError instead of a warning, which
+     * stopped every page that shows the message. The original text is formatted instead, and the raw text as last resort.
+     *
+     * @param string $text the translation
+     * @param array $args
+     * @param string|null $original the untranslated text
+     *
+     * @return string
+     */
+    function gettext_vsprintf($text, array $args, $original = null)
+    {
+        try {
+            return vsprintf($text, $args);
+        } catch (\ValueError $e) {
+            if ($original !== null && (string) $original !== $text) {
+                try {
+                    return vsprintf((string) $original, $args);
+                } catch (\ValueError $e2) {
+                    return (string) $original;
+                }
+            }
+
+            return $text;
+        }
+    }
+}
+
 /**
  * Returns the translation of a string.
  *
@@ -20,7 +50,7 @@ function __($original)
 
     $args = array_slice(func_get_args(), 1);
 
-    return is_array($args[0]) ? strtr($text, $args[0]) : vsprintf($text, $args);
+    return is_array($args[0]) ? strtr($text, $args[0]) : gettext_vsprintf($text, $args, $original);
 }
 
 /**
@@ -54,7 +84,7 @@ function n__($original, $plural, $value)
 
     $args = array_slice(func_get_args(), 3);
 
-    return is_array($args[0]) ? strtr($text, $args[0]) : vsprintf($text, $args);
+    return is_array($args[0]) ? strtr($text, $args[0]) : gettext_vsprintf($text, $args, $original);
 }
 
 /**
@@ -83,7 +113,7 @@ function p__($context, $original, $flag = null)
 
     $args = array_slice(func_get_args(), 2);
 
-    $result = is_array($args[0]) ? strtr($text, $args[0]) : vsprintf($text, $args);
+    $result = is_array($args[0]) ? strtr($text, $args[0]) : gettext_vsprintf($text, $args, $original);
 
     return $result;
 }
@@ -106,7 +136,7 @@ function d__($domain, $original)
 
     $args = array_slice(func_get_args(), 2);
 
-    return is_array($args[0]) ? strtr($text, $args[0]) : vsprintf($text, $args);
+    return is_array($args[0]) ? strtr($text, $args[0]) : gettext_vsprintf($text, $args, $original);
 }
 
 /**
@@ -128,7 +158,7 @@ function dp__($domain, $context, $original)
 
     $args = array_slice(func_get_args(), 3);
 
-    return is_array($args[0]) ? strtr($text, $args[0]) : vsprintf($text, $args);
+    return is_array($args[0]) ? strtr($text, $args[0]) : gettext_vsprintf($text, $args, $original);
 }
 
 /**
@@ -151,7 +181,7 @@ function dn__($domain, $original, $plural, $value)
 
     $args = array_slice(func_get_args(), 4);
 
-    return is_array($args[0]) ? strtr($text, $args[0]) : vsprintf($text, $args);
+    return is_array($args[0]) ? strtr($text, $args[0]) : gettext_vsprintf($text, $args, $original);
 }
 
 /**
@@ -174,7 +204,7 @@ function np__($context, $original, $plural, $value)
 
     $args = array_slice(func_get_args(), 4);
 
-    return is_array($args[0]) ? strtr($text, $args[0]) : vsprintf($text, $args);
+    return is_array($args[0]) ? strtr($text, $args[0]) : gettext_vsprintf($text, $args, $original);
 }
 
 /**
@@ -198,5 +228,5 @@ function dnp__($domain, $context, $original, $plural, $value)
 
     $args = array_slice(func_get_args(), 5);
 
-    return is_array($args[0]) ? strtr($text, $args[0]) : vsprintf($text, $args);
+    return is_array($args[0]) ? strtr($text, $args[0]) : gettext_vsprintf($text, $args, $original);
 }
