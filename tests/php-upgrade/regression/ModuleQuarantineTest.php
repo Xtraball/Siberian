@@ -299,6 +299,26 @@ return [
         mq_rm($dir);
     },
 
+    'a probe finds the base classes of its module and of other local modules even though a quarantined module is disabled' => function () {
+        $dir = mq_tmp();
+        mq_module($dir, 'Own');
+        mq_module($dir, 'Base');
+        $modules = $dir . '/app/local/modules';
+        $w = function ($file, $code) { if (!is_dir(dirname($file))) { mkdir(dirname($file), 0777, true); } file_put_contents($file, $code); };
+        $w($modules . '/Own/Controller/Default.php', "<?php\nclass Own_Controller_Default {}\n");
+        $w($modules . '/Own/controllers/Public/OrderController.php', "<?php\nclass Own_Public_OrderController extends Own_Controller_Default {}\n");
+        $w($modules . '/Own/Model/Thing.php', "<?php\nclass Own_Model_Thing extends Base_Model_Root {}\n");
+        $w($modules . '/Base/Model/Root.php', "<?php\nclass Base_Model_Root {}\n");
+
+        $body = "Siberian\\Module\\Quarantine::setRoot(\$argv[1]);\nexit(Siberian\\Module\\Quarantine::probe(\$argv[2]));\n";
+        t_equal(0, mq_run($dir, $body, [$dir, 'Own']), 'a parent class in Controller/ or in another local module is found');
+        Quarantine::setRoot($dir);
+        t_true(!Quarantine::isQuarantined('Own'), 'not quarantined');
+
+        Quarantine::setRoot(null);
+        mq_rm($dir);
+    },
+
     'the quarantine is wired in the shutdown handler, the autoloader, the module switch, the cli and the dashboard' => function () {
         $root = dirname(__DIR__, 3) . '/siberian';
         $get = function ($path) use ($root) {

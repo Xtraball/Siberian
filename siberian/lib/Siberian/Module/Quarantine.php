@@ -547,6 +547,7 @@ class Quarantine
         self::$probing = $module;
         self::$reason = self::REASON_PROBE;
         self::register();
+        self::registerProbeLoader();
 
         ob_start();
         foreach (self::probeFiles($module) as $file) {
@@ -560,6 +561,32 @@ class Quarantine
         ob_end_clean();
 
         return 0;
+    }
+
+    /**
+     * A quarantined module counts as disabled, so its namespace is not registered and its own classes cannot be
+     * autoloaded: a controller extending the Controller/Default.php of its module, or a model extending a model of
+     * another local module, died with "Class not found" and the module could never be released. The probe resolves
+     * Module_Folder_Name to app/local/modules/Module/Folder/Name.php itself, except for what is still quarantined.
+     */
+    public static function registerProbeLoader(): void
+    {
+        spl_autoload_register(static function ($class) {
+            $parts = explode('_', (string) $class, 3);
+            if (count($parts) !== 3 || !in_array($parts[1], ['Model', 'Form', 'Controller', 'Plugin'], true)) {
+                return;
+            }
+
+            if (self::blocksClass($class)) {
+                return;
+            }
+
+            $file = self::root() . '/app/local/modules/' . $parts[0] . '/' . $parts[1] . '/' .
+                str_replace('_', '/', $parts[2]) . '.php';
+            if (is_file($file)) {
+                include_once $file;
+            }
+        });
     }
 
     /**
