@@ -547,6 +547,7 @@ class Quarantine
         self::$probing = $module;
         self::$reason = self::REASON_PROBE;
         self::register();
+        self::addModulePaths();
 
         ob_start();
         foreach (self::probeFiles($module) as $file) {
@@ -560,6 +561,23 @@ class Quarantine
         ob_end_clean();
 
         return 0;
+    }
+
+    /**
+     * The module folders a web request has on its include path (Bootstrap::_initPaths). The cli does not run that
+     * code, so a controller that extends the Controller/Default.php of its own module, or a model that extends a
+     * model of another local module, could not be loaded and the probe quarantined a healthy module.
+     */
+    public static function addModulePaths(): void
+    {
+        $paths = [get_include_path()];
+        foreach (['local', 'pe', 'mae', 'sae'] as $edition) {
+            $dir = realpath(self::root() . '/app/' . $edition . '/modules');
+            if ($dir !== false) {
+                $paths[] = $dir;
+            }
+        }
+        set_include_path(implode(PATH_SEPARATOR, $paths));
     }
 
     /**
