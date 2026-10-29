@@ -5006,9 +5006,40 @@ class Compiler
         return false === $key ? static::$null : $key + 1;
     }
 
+    /**
+     * rgb(0 0 0 / 30%) and hsl(120 100% 50%) (CSS Color 4) reach the color functions as a single space separated list.
+     * They are not supported by this scssphp and used to end in a PHP 8 TypeError in round(); a compile error with the
+     * way out is raised instead.
+     *
+     * @param array $args
+     * @param string $function
+     * @param int $count the number of arguments the comma syntax needs
+     *
+     * @return bool false when the arguments are not usable (the error is raised unless errors are ignored)
+     */
+    protected function hasCommaColorArguments($args, $function, $count)
+    {
+        for ($i = 0; $i < $count; $i++) {
+            if (!isset($args[$i]) || !($args[$i] instanceof Node\Number)) {
+                $this->throwError(
+                    $function . '() with space separated arguments (e.g. ' . $function . '(0 0 0 / 30%)) is not supported, ' .
+                    'use the comma syntax: ' . $function . '(0, 0, 0) or ' . $function . 'a(0, 0, 0, 0.3)'
+                );
+
+                return false;
+            }
+        }
+
+        return true;
+    }
+
     protected static $libRgb = ['red', 'green', 'blue'];
     protected function libRgb($args)
     {
+        if (!$this->hasCommaColorArguments($args, 'rgb', 3)) {
+            return static::$null;
+        }
+
         list($r, $g, $b) = $args;
 
         return [Type::T_COLOR, $r[1], $g[1], $b[1]];
@@ -5025,6 +5056,10 @@ class Compiler
             $color[4] = $alpha;
 
             return $color;
+        }
+
+        if (!$this->hasCommaColorArguments($args, 'rgba', 4)) {
+            return static::$null;
         }
 
         list($r, $g, $b, $a) = $args;
@@ -5224,6 +5259,10 @@ class Compiler
     protected static $libHsl = ['hue', 'saturation', 'lightness'];
     protected function libHsl($args)
     {
+        if (!$this->hasCommaColorArguments($args, 'hsl', 3)) {
+            return static::$null;
+        }
+
         list($h, $s, $l) = $args;
 
         return $this->toRGB($h[1], $s[1], $l[1]);
@@ -5232,6 +5271,10 @@ class Compiler
     protected static $libHsla = ['hue', 'saturation', 'lightness', 'alpha'];
     protected function libHsla($args)
     {
+        if (!$this->hasCommaColorArguments($args, 'hsla', 4)) {
+            return static::$null;
+        }
+
         list($h, $s, $l, $a) = $args;
 
         $color = $this->toRGB($h[1], $s[1], $l[1]);
