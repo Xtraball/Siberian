@@ -227,6 +227,13 @@ $application = $this->getApplication();
                                             <i class="fa fa-qrcode"
                                                title="<?php echo __("Download QRCode for employee"); ?>"></i>
                                         </a>
+                                        <a href="<?php echo $this->getUrl("/loyaltycard/application/onetimeqrcode/", ["password_id" => $password->getId()]); ?>"
+                                           target="_blank"
+                                           class="download_onetime_qrcode"
+                                           id="download_onetime_qrcode_<?php echo $password->getId(); ?>">
+                                            <i class="fa fa-ticket"
+                                               title="<?php echo p__('loyaltycard', 'Download a one-time QRCode (valid %d minutes, works once)', 15); ?>"></i>
+                                        </a>
                                         <a href="javascript:void(0);"
                                            id="edit_password_<?php echo $password->getId(); ?>"
                                            onclick="$('#edit_password_<?php echo $password->getId(); ?>').hide(); $('.edit_password_<?php echo $password->getId(); ?>').fadeIn();">
@@ -381,6 +388,9 @@ $application = $this->getApplication();
                             <div id="edit_password_#{password_id}" class="icons">\n\
                                 <a href="<?php echo $this->getUrl("/loyaltycard/application/dlqrcode/"); ?>/password_id/#{password_id}" target="_blank" class="download_qrcode" id="download_qrcode_<?php echo $password->getId(); ?>">\n\
                                     <i class="fa fa-qrcode" title="<?php echo __("Download QRCode for employee"); ?>"></i>\n\
+                                </a>\n\
+                                <a href="<?php echo $this->getUrl("/loyaltycard/application/onetimeqrcode/"); ?>/password_id/#{password_id}" target="_blank" class="download_onetime_qrcode">\n\
+                                    <i class="fa fa-ticket" title="<?php echo p__('loyaltycard', 'Download a one-time QRCode (valid %d minutes, works once)', 15); ?>"></i>\n\
                                 </a>\n\
                                 <a href="javascript:void(0);" onclick="$(\'#edit_password_#{password_id}\').hide(); $(\'.edit_password_#{password_id}\').fadeIn();">\n\
                                     <i class="fa fa-edit"></i>\n\

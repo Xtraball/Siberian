@@ -167,4 +167,46 @@ class LoyaltyCard_ApplicationController extends Application_Controller_Default
         }
     }
 
+    /**
+     * One-time QRCode of an employee (#851): a new random token on every download, valid for 15 minutes and accepted
+     * once by the unlock by QRCode, so a photo of it is worthless. The fixed QRCode of dlqrcodeAction keeps working
+     * unless the config option loyalty_card_one_time_qr_only is true.
+     */
+    public function onetimeqrcodeAction()
+    {
+        try {
+            $password = new LoyaltyCard_Model_Password();
+            $password->find($this->getRequest()->getParam('password_id'));
+            if (!$password->getId() || (int) $password->getAppId() !== (int) $this->getApplication()->getId()) {
+                throw new Exception(__("An error occurred while retrieving QRCode. Please try again later"));
+            }
+
+            $token = \Siberian\LoyaltyCard\QrToken::issue(
+                Zend_Db_Table_Abstract::getDefaultAdapter(),
+                (int) $password->getId(),
+                (int) $password->getValueId()
+            );
+
+            $qrCode = new Endroid\QrCode\QrCode('sendback:' . $token);
+            $qrCode
+                ->setSize(200)
+                ->setWriterByName('png')
+                ->setMargin(10)
+                ->setEncoding('UTF-8')
+                ->setErrorCorrectionLevel(Endroid\QrCode\ErrorCorrectionLevel::MEDIUM)
+                ->setForegroundColor(['r' => 0, 'g' => 0, 'b' => 0])
+                ->setBackgroundColor(['r' => 255, 'g' => 255, 'b' => 255])
+                ->setValidateResult(false);
+
+            $readableName = preg_replace('/[^\w\- ]+/u', '', (string) $password->getName());
+            header('Content-Type: ' . $qrCode->getContentType());
+            header('Content-Disposition: attachment; filename="' . $readableName . '-one-time.png"');
+            header('Cache-Control: no-store');
+            echo $qrCode->writeString();
+        } catch (Exception $e) {
+            echo $e->getMessage();
+        }
+        die();
+    }
+
 }

@@ -263,7 +263,18 @@ class Loyaltycard_Mobile_ViewController extends Application_Controller_Mobile_De
                 // Récupération du mot de passe
                 $password = new LoyaltyCard_Model_Password();
 
-                $password->findByUnlockCode($password_entered, $option_value->getId());
+                // A one-time QRCode (#851) is consumed by its first scan; the fixed code of the employee is
+                // refused when the install asks for one-time QRCodes only (config loyalty_card_one_time_qr_only)
+                $oneTimePasswordId = \Siberian\LoyaltyCard\QrToken::consume(
+                    Zend_Db_Table_Abstract::getDefaultAdapter(),
+                    $password_entered,
+                    (int) $option_value->getId()
+                );
+                if ($oneTimePasswordId !== null) {
+                    $password->find($oneTimePasswordId);
+                } else if (__getConfig('loyalty_card_one_time_qr_only') !== true) {
+                    $password->findByUnlockCode($password_entered, $option_value->getId());
+                }
 
                 // Test si le mot de passe a été trouvé
                 if (!$password->getId()) {
