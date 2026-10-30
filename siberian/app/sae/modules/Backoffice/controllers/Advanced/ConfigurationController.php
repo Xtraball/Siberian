@@ -548,7 +548,7 @@ class Backoffice_Advanced_ConfigurationController extends System_Controller_Back
             $rawData = $result['rawData'];
             $remain = $rawData['validTo_time_t'] - time();
             $remainInDays = floor($remain / 86400);
-            $showWarning = (boolean)($remainInDays <= 15);
+            $showWarning = (bool)($remainInDays <= 15);
             $validUntil = datetime_to_format(date("Y-m-d H:i:s", $rawData['validTo_time_t']));
             $message = __("Your HTTPS/SSL Certificate is about to expire in <b>%s day%s</b>, don't forget to renew it on the following page <a href=\"%s\">configuration</a>.",
                 $remainInDays,

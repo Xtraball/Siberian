@@ -259,8 +259,8 @@ function parse($property, &$to){
             else array_push($to, (int)$property->value());
             break;
         case PListProperty::PL_REAL:
-            if($isDict) $to[$property->key()] = (double)$property->value();
-            else array_push($to, (double)$property->value());
+            if($isDict) $to[$property->key()] = (float)$property->value();
+            else array_push($to, (float)$property->value());
             break;
         default:
             if($isDict) $to[$property->key()] = $property->value();

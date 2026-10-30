@@ -66,18 +66,18 @@ class Promotion_Mobile_ListController extends Application_Controller_Mobile_Defa
 
                 $tc_id = null;
                 if ($payload['tc_id']) {
-                    $tc_id = (integer)$data['tc_id'];
+                    $tc_id = (int)$data['tc_id'];
                 }
 
                 $embed_payload = [
-                    'id' => (integer)$promotion_customer->getPromotionId(),
+                    'id' => (int)$promotion_customer->getPromotionId(),
                     'picture' => $pictureUrl,
                     'thumbnail' => $thumbnailUrl,
                     'title' => $promotion_customer->getTitle(),
                     'description' => html_entity_decode(strip_tags($promotion_customer->getDescription())),
                     'description_html' => $promotion_customer->getDescription(),
                     'conditions' => $promotion_customer->getConditions(),
-                    'is_unique' => (boolean)$promotion_customer->getIsUnique(),
+                    'is_unique' => (bool)$promotion_customer->getIsUnique(),
                     'end_at' => datetime_to_format($promotion_customer->getEndAt(), Zend_Date::DATE_SHORT),
                     'confirm_message' => __('Do you want to use this coupon?'),
                     'page_title' => $promotion_customer->getTitle(),
@@ -85,14 +85,14 @@ class Promotion_Mobile_ListController extends Application_Controller_Mobile_Defa
                 ];
 
                 $payload['promotions'][] = [
-                    'id' => (integer)$promotion_customer->getPromotionId(),
+                    'id' => (int)$promotion_customer->getPromotionId(),
                     'picture' => $pictureUrl,
                     'thumbnail' => $thumbnailUrl,
                     'title' => $title,
                     'subtitle' => html_entity_decode(strip_tags($subtitle)),
                     'subtitle_html' => $subtitle,
                     'url' => $url,
-                    'is_locked' => (boolean)$is_locked,
+                    'is_locked' => (bool)$is_locked,
                     'embed_payload' => $embed_payload
                 ];
 

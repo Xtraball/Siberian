@@ -106,7 +106,7 @@ class Application_Backoffice_ListController extends Backoffice_Controller_Defaul
                 'bundle_id' => $application->getBundleId(),
                 'package_name' => $application->getPackageName(),
                 'icon' => $application->getIcon(128),
-                'is_active' => (boolean) $application->getIsActive(),
+                'is_active' => (bool) $application->getIsActive(),
                 'size_on_disk' => formatBytes($application->getData('size_on_disk'))
             ];
         }

@@ -244,7 +244,7 @@ class Zend_Validate_EmailAddress extends Zend_Validate_Abstract
      * @param int                    $allow             OPTIONAL
      * @return void
      */
-    public function setHostnameValidator(Zend_Validate_Hostname $hostnameValidator = null, $allow = Zend_Validate_Hostname::ALLOW_DNS)
+    public function setHostnameValidator(?Zend_Validate_Hostname $hostnameValidator = null, $allow = Zend_Validate_Hostname::ALLOW_DNS)
     {
         if (!$hostnameValidator) {
             $hostnameValidator = new Zend_Validate_Hostname($allow);
@@ -337,7 +337,7 @@ class Zend_Validate_EmailAddress extends Zend_Validate_Abstract
      */
     public function setDomainCheck($domain = true)
     {
-        $this->_options['domain'] = (boolean) $domain;
+        $this->_options['domain'] = (bool) $domain;
         return $this;
     }
 

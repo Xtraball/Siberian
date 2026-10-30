@@ -49,19 +49,19 @@ class Fanwall extends Base
             }
         }
 
-        $settings['enable_moderation'] = (boolean) $this->getEnableModeration();
-        $settings['max_images'] = (integer) $this->getMaxImages();
+        $settings['enable_moderation'] = (bool) $this->getEnableModeration();
+        $settings['max_images'] = (int) $this->getMaxImages();
         $settings['cardDesign'] = ($this->getDesign() === 'card');
         $settings['photoMode'] = $this->getPhotoMode();
         $settings['photoPosition'] = $this->getPhotoPosition();
-        $settings['maxBodySize'] = (integer)$this->getMaxBodySize();
+        $settings['maxBodySize'] = (int)$this->getMaxBodySize();
         $settings['features'] = [
-            'enableNearby' => (boolean) $this->getEnableNearby(),
-            'enableMap' => (boolean) $this->getEnableMap(),
-            'enableGallery' => (boolean) $this->getEnableGallery(),
-            'enableUserLike' => (boolean) $this->getEnableUserLike(),
-            'enableUserPost' => (boolean) $this->getEnableUserPost(),
-            'enableUserComment' => (boolean) $this->getEnableUserComment(),
+            'enableNearby' => (bool) $this->getEnableNearby(),
+            'enableMap' => (bool) $this->getEnableMap(),
+            'enableGallery' => (bool) $this->getEnableGallery(),
+            'enableUserLike' => (bool) $this->getEnableUserLike(),
+            'enableUserPost' => (bool) $this->getEnableUserPost(),
+            'enableUserComment' => (bool) $this->getEnableUserComment(),
             'enableUserShare' => (string) $this->getEnableUserShare(),
         ];
 

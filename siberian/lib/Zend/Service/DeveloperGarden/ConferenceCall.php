@@ -408,7 +408,7 @@ class Zend_Service_DeveloperGarden_ConferenceCall
      */
     public function createConference($ownerId,
         Zend_Service_DeveloperGarden_ConferenceCall_ConferenceDetail $conferenceDetails,
-        Zend_Service_DeveloperGarden_ConferenceCall_ConferenceSchedule $conferenceSchedule = null,
+        ?Zend_Service_DeveloperGarden_ConferenceCall_ConferenceSchedule $conferenceSchedule = null,
         $account = null
     ) {
         $request = new Zend_Service_DeveloperGarden_Request_ConferenceCall_CreateConferenceRequest(
@@ -459,8 +459,8 @@ class Zend_Service_DeveloperGarden_ConferenceCall
     public function updateConference(
         $conferenceId,
         $ownerId = null,
-        Zend_Service_DeveloperGarden_ConferenceCall_ConferenceDetail $conferenceDetails = null,
-        Zend_Service_DeveloperGarden_ConferenceCall_ConferenceSchedule $conferenceSchedule = null,
+        ?Zend_Service_DeveloperGarden_ConferenceCall_ConferenceDetail $conferenceDetails = null,
+        ?Zend_Service_DeveloperGarden_ConferenceCall_ConferenceSchedule $conferenceSchedule = null,
         $account = null
     ) {
         $request = new Zend_Service_DeveloperGarden_Request_ConferenceCall_UpdateConferenceRequest(
@@ -644,7 +644,7 @@ class Zend_Service_DeveloperGarden_ConferenceCall
         $conferenceId,
         $participantId,
         $action = null,
-        Zend_Service_DeveloperGarden_ConferenceCall_ParticipantDetail $participant = null
+        ?Zend_Service_DeveloperGarden_ConferenceCall_ParticipantDetail $participant = null
     ) {
         $request = new Zend_Service_DeveloperGarden_Request_ConferenceCall_UpdateParticipantRequest(
             $this->getEnvironment(),
@@ -672,7 +672,7 @@ class Zend_Service_DeveloperGarden_ConferenceCall
     public function createConferenceTemplate(
         $ownerId,
         Zend_Service_DeveloperGarden_ConferenceCall_ConferenceDetail $conferenceDetails,
-        array $participants = null
+        ?array $participants = null
     ) {
         $request = new Zend_Service_DeveloperGarden_Request_ConferenceCall_CreateConferenceTemplateRequest(
             $this->getEnvironment(),
@@ -719,7 +719,7 @@ class Zend_Service_DeveloperGarden_ConferenceCall
     public function updateConferenceTemplate(
         $templateId,
         $initiatorId = null,
-        Zend_Service_DeveloperGarden_ConferenceCall_ConferenceDetail $conferenceDetails = null
+        ?Zend_Service_DeveloperGarden_ConferenceCall_ConferenceDetail $conferenceDetails = null
     ) {
         $request = new Zend_Service_DeveloperGarden_Request_ConferenceCall_UpdateConferenceTemplateRequest(
             $this->getEnvironment(),

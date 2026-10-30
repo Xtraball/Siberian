@@ -71,15 +71,15 @@ RAW;
     {
         $this
             ->getElement("disable_battery_optimization")
-            ->setValue((boolean) $application->getDisableBatteryOptimization());
+            ->setValue((bool) $application->getDisableBatteryOptimization());
 
         $this
             ->getElement("disable_location")
-            ->setValue((boolean) $application->getDisableLocation());
+            ->setValue((bool) $application->getDisableLocation());
 
         $this
             ->getElement("disable_media_permissions")
-            ->setValue((boolean) $application->getDisableMediaPermissions());
+            ->setValue((bool) $application->getDisableMediaPermissions());
 
         return $this;
     }

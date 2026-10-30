@@ -42,15 +42,15 @@ class Loyaltycard_Mobile_ViewController extends Application_Controller_Mobile_De
             if ($current_card->getCardId()) {
 
                 $payload['card'] = [
-                    'id' => (integer)$current_card->getCustomerCardId(),
-                    'is_visible' => (boolean)$current_card->getCardId(),
+                    'id' => (int)$current_card->getCustomerCardId(),
+                    'is_visible' => (bool)$current_card->getCardId(),
                     'name' => $current_card->getName(),
                     'advantage' => $current_card->getAdvantage(),
                     'conditions' => $current_card->getConditions(),
-                    'number_of_points' => (integer)$current_card->getNumberOfPoints(),
-                    'number_of_points_to_validate' => (integer) (($current_card->getNumberOfPointsToValidate() > 0) ?
+                    'number_of_points' => (int)$current_card->getNumberOfPoints(),
+                    'number_of_points_to_validate' => (int) (($current_card->getNumberOfPointsToValidate() > 0) ?
                         $current_card->getNumberOfPointsToValidate() : $current_card->getMaxNumberOfPoints()),
-                    'max_number_of_points' => (integer)$current_card->getMaxNumberOfPoints()
+                    'max_number_of_points' => (int)$current_card->getMaxNumberOfPoints()
                 ];
 
                 $payload['points'] = $this->_getPoints($current_card);

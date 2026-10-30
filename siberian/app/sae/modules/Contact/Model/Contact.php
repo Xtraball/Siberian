@@ -80,9 +80,9 @@ class Contact_Model_Contact extends Core_Model_Default
                     "website_url" => $this->getWebsite(),
                     "facebook_url" => $this->getFacebook(),
                     "twitter_url" => $this->getTwitter(),
-                    "display_locate_action" => (boolean) $this->getDisplayLocateAction()
+                    "display_locate_action" => (bool) $this->getDisplayLocateAction()
                 ],
-                "card_design" => (boolean) ($this->getDesign() === "card"),
+                "card_design" => (bool) ($this->getDesign() === "card"),
                 "page_title" => $option_value->getTabbarName()
             ];
 

@@ -107,7 +107,7 @@ class Event_Mobile_ListController extends Application_Controller_Mobile_Default 
                                 "rsvp" => $event->getRsvp(),
                                 "websites" => $event->getWebsites(),
                                 "in_app_page_path" => $in_app_page_path,
-                                "social_sharing_active" => (boolean) $option->getSocialSharingIsActive()
+                                "social_sharing_active" => (bool) $option->getSocialSharingIsActive()
                             ],
                             "cover" => [
                                 "title" => $event->getName(),

@@ -155,7 +155,7 @@ class Zend_Controller_Router_Route extends Zend_Controller_Router_Route_Abstract
      * @param array $reqs Regular expression requirements for variables (keys as variable names)
      * @param Zend_Translate $translator Translator to use for this instance
      */
-    public function __construct($route, $defaults = array(), $reqs = array(), Zend_Translate $translator = null, $locale = null)
+    public function __construct($route, $defaults = array(), $reqs = array(), ?Zend_Translate $translator = null, $locale = null)
     {
         $route               = trim($route, $this->_urlDelimiter);
         $this->_defaults     = (array) $defaults;
@@ -448,7 +448,7 @@ class Zend_Controller_Router_Route extends Zend_Controller_Router_Route_Abstract
      * @param  Zend_Translate $translator
      * @return void
      */
-    public static function setDefaultTranslator(Zend_Translate $translator = null)
+    public static function setDefaultTranslator(?Zend_Translate $translator = null)
     {
         self::$_defaultTranslator = $translator;
     }

@@ -57,9 +57,9 @@ class Comment_Mobile_ViewController extends Application_Controller_Mobile_Defaul
                 $all_answers = [];
                 foreach($answers as $answer) {
                     $all_answers[] = [
-                        "id"                => (integer) $answer->getId(),
+                        "id"                => (int) $answer->getId(),
                         "name"              => $answer->getCustomerName(),
-                        "customer_id"       => (integer) $answer->getCustomerId(),
+                        "customer_id"       => (int) $answer->getCustomerId(),
                         "message"           => \Siberian\Xss::sanitize($answer->getText()),
                         "created_at"        => $this->_durationSince($answer->getCreatedAt())
                     ];
@@ -69,7 +69,7 @@ class Comment_Mobile_ViewController extends Application_Controller_Mobile_Defaul
                 switch($this->getCurrentOptionValue()->getLayoutId()) {
                     case 2:
                         $data = [
-                            "id"                        => (integer) $comment->getId(),
+                            "id"                        => (int) $comment->getId(),
                             "author"                    => $customer->getFirstname() ? $customer->getFirstname() : $application->getName(),
                             "title"                     => \Siberian\Xss::sanitize($comment->getTitle()),
                             "subtitle"                  => \Siberian\Xss::sanitize($comment->getSubtitle()),
@@ -79,14 +79,14 @@ class Comment_Mobile_ViewController extends Application_Controller_Mobile_Defaul
                             "icon"                      => $this->getRequest()->getBaseUrl().$application->getIcon(74),
                             "created_at"                => $comment->getFormattedDate(__("MM.dd.y")),
                             "code"                      => $this->getCurrentOptionValue()->getCode(),
-                            "social_sharing_active"     => (boolean) $option->getSocialSharingIsActive(),
+                            "social_sharing_active"     => (bool) $option->getSocialSharingIsActive(),
                             "answers"                   => $all_answers
                         ];
                     break;
                     case 1:
                     default:
                         $data = [
-                            "id"                            => (integer) $comment->getId(),
+                            "id"                            => (int) $comment->getId(),
                             "author"                        => $customer->getFirstname() ? $customer->getFirstname() : $application->getName(),
                             "message"                       => \Siberian\Xss::sanitize($comment->getText()),
                             "cleaned_message"               => mb_strlen($cleaned_message) > 67 ? mb_substr($cleaned_message, 0, 64) . "..." : $cleaned_message,
@@ -97,7 +97,7 @@ class Comment_Mobile_ViewController extends Application_Controller_Mobile_Defaul
                             "number_of_likes"               => count($comment->getLikes()),
                             "flag_icon"                     => $this->_getColorizedImage($this->_getImage("pictos/flag.png"), $color),
                             "code"                          => $this->getCurrentOptionValue()->getCode(),
-                            "social_sharing_active"         => (boolean) $option->getSocialSharingIsActive(),
+                            "social_sharing_active"         => (bool) $option->getSocialSharingIsActive(),
                             "answers"                       => $all_answers
                         ];
                     break;

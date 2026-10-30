@@ -38,8 +38,8 @@ class Rss_Mobile_RssController extends Application_Controller_Mobile_Default
 
             try {
                 $settings = Json::decode($optionValue->getSettings());
-                $settings["displayThumbnail"] = (boolean) filter_var($settings["displayThumbnail"], FILTER_VALIDATE_BOOLEAN);
-                $settings["displayCover"] = (boolean) filter_var($settings["displayCover"], FILTER_VALIDATE_BOOLEAN);
+                $settings["displayThumbnail"] = (bool) filter_var($settings["displayThumbnail"], FILTER_VALIDATE_BOOLEAN);
+                $settings["displayCover"] = (bool) filter_var($settings["displayCover"], FILTER_VALIDATE_BOOLEAN);
             } catch (\Exception $e) {
                 // Do nothing!
                 $settings = [];
@@ -96,7 +96,7 @@ class Rss_Mobile_RssController extends Application_Controller_Mobile_Default
                         }
 
                         $collection[]= [
-                            "id" => (integer) $feed->getId(),
+                            "id" => (int) $feed->getId(),
                             "title" => (string) $title,
                             "subtitle" => (string) $subtitle,
                             "thumbnail" => (string) $thumbnail,
@@ -155,8 +155,8 @@ class Rss_Mobile_RssController extends Application_Controller_Mobile_Default
 
             try {
                 $settings = Json::decode($optionValue->getSettings());
-                $settings["displayThumbnail"] = (boolean) filter_var($settings["displayThumbnail"], FILTER_VALIDATE_BOOLEAN);
-                $settings["displayCover"] = (boolean) filter_var($settings["displayCover"], FILTER_VALIDATE_BOOLEAN);
+                $settings["displayThumbnail"] = (bool) filter_var($settings["displayThumbnail"], FILTER_VALIDATE_BOOLEAN);
+                $settings["displayCover"] = (bool) filter_var($settings["displayCover"], FILTER_VALIDATE_BOOLEAN);
             } catch (\Exception $e) {
                 // Do nothing!
                 $settings = [];
@@ -278,8 +278,8 @@ class Rss_Mobile_RssController extends Application_Controller_Mobile_Default
 
             try {
                 $settings = Json::decode($optionValue->getSettings());
-                $settings["displayThumbnail"] = (boolean) filter_var($settings["displayThumbnail"], FILTER_VALIDATE_BOOLEAN);
-                $settings["displayCover"] = (boolean) filter_var($settings["displayCover"], FILTER_VALIDATE_BOOLEAN);
+                $settings["displayThumbnail"] = (bool) filter_var($settings["displayThumbnail"], FILTER_VALIDATE_BOOLEAN);
+                $settings["displayCover"] = (bool) filter_var($settings["displayCover"], FILTER_VALIDATE_BOOLEAN);
             } catch (\Exception $e) {
                 // Do nothing!
                 $settings = [];

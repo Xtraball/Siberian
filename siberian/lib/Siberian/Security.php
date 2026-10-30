@@ -357,7 +357,7 @@ class Security
             ->save();
 
         // Slack notifications!
-        $slackIsEnabled = (boolean) __get('fw_slack_is_enabled');
+        $slackIsEnabled = (bool) __get('fw_slack_is_enabled');
         if ($slackIsEnabled) {
             $slack = new \Siberian\Notification\Slack();
 

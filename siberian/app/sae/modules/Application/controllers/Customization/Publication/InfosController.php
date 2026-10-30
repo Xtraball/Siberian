@@ -58,8 +58,8 @@ class Application_Customization_Publication_InfosController extends Application_
                     ->setName($params['name'])
                     ->setDescription($params['description'])
                     ->setKeywords($params['keywords'])
-                    ->setMainCategoryId((integer) $params['main_category_id'])
-                    ->setSecondaryCategoryId((integer) $params['secondary_category_id'])
+                    ->setMainCategoryId((int) $params['main_category_id'])
+                    ->setSecondaryCategoryId((int) $params['secondary_category_id'])
                     ->save();
 
                 $payload = [

@@ -37,8 +37,8 @@ class Media_Mobile_Gallery_Image_ViewController extends Application_Controller_M
 
                 $loopPicture = [
                     'id' => uniqid('img_', true),
-                    'offset' => (integer) $key,
-                    'gallery_id' => (integer) $gallery_id,
+                    'offset' => (int) $key,
+                    'gallery_id' => (int) $gallery_id,
                     'is_visible' => false,
                     'src' => stripos($link->getImage(), 'http') === false ?
                         $request->getBaseUrl() . $link->getImage() : $link->getImage(),
@@ -63,7 +63,7 @@ class Media_Mobile_Gallery_Image_ViewController extends Application_Controller_M
 
             switch ($image->getTypeId()) {
                 case 'flickr':
-                    $payload['show_load_more'] = (boolean) $image->getTypeInstance()->showLoadMore();
+                    $payload['show_load_more'] = (bool) $image->getTypeInstance()->showLoadMore();
                     break;
                 default:
                     $payload['show_load_more'] = ((($key - $offset) + 1) >

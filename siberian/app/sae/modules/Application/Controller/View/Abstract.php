@@ -105,7 +105,7 @@ abstract class Application_Controller_View_Abstract extends Backoffice_Controlle
                 $keystore_path = \Core_Model_Directory::getBasePathTo("var/apps/android/keystore/$appId.pks");
                 $data['Keystore'] = is_file($keystore_path);
             }
-            $data['owner_admob_weight'] = (integer)$data['owner_admob_weight'];
+            $data['owner_admob_weight'] = (int)$data['owner_admob_weight'];
 
             if ((int)$device->getTypeId() === 2) {
                 try {
@@ -145,11 +145,11 @@ abstract class Application_Controller_View_Abstract extends Backoffice_Controlle
         $data['package_name'] = $application->getPackageName();
         $data['is_active'] = $application->isActive();
         $data['is_locked'] = $application->isLocked();
-        $data['pre_init'] = (boolean)$application->getPreInit();
-        $data['disable_updates'] = (boolean)$application->getDisableUpdates();
+        $data['pre_init'] = (bool)$application->getPreInit();
+        $data['disable_updates'] = (bool)$application->getDisableUpdates();
         $data['can_be_published'] = $application->canBePublished();
-        $data['owner_use_ads'] = (boolean)$application->getOwnerUseAds();
-        $data['request_tracking_authorization'] = (boolean)$application->getRequestTrackingAuthorization();
+        $data['owner_use_ads'] = (bool)$application->getOwnerUseAds();
+        $data['request_tracking_authorization'] = (bool)$application->getRequestTrackingAuthorization();
 
         if ($application->getFreeUntil()) {
             $data['free_until'] = datetime_to_format($application->getFreeUntil(), Zend_Date::DATE_SHORT);
@@ -174,12 +174,12 @@ abstract class Application_Controller_View_Abstract extends Backoffice_Controlle
             'design_codes' => Application_Model_Application::getDesignCodes()
         ];
 
-        $data['application']['disable_battery_optimization'] = (boolean)$data['application']['disable_battery_optimization'];
-        $data['application']['disable_location'] = (boolean)$data['application']['disable_location'];
-        $data['application']['use_ads'] = (boolean)$data['application']['use_ads'];
-        $data['application']['test_ads'] = (boolean)$data['application']['test_ads'];
-        $data['application']['mediation_facebook'] = (boolean)$data['application']['mediation_facebook'];
-        $data['application']['mediation_startapp'] = (boolean)$data['application']['mediation_startapp'];
+        $data['application']['disable_battery_optimization'] = (bool)$data['application']['disable_battery_optimization'];
+        $data['application']['disable_location'] = (bool)$data['application']['disable_location'];
+        $data['application']['use_ads'] = (bool)$data['application']['use_ads'];
+        $data['application']['test_ads'] = (bool)$data['application']['test_ads'];
+        $data['application']['mediation_facebook'] = (bool)$data['application']['mediation_facebook'];
+        $data['application']['mediation_startapp'] = (bool)$data['application']['mediation_startapp'];
 
         $data["application"]["list_of_admins"] = [];
 

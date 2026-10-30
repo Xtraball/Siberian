@@ -284,7 +284,7 @@ abstract class Zend_Service_DeveloperGarden_Client_ClientAbstract
      */
     public function setUseLocalWsdl($use = true)
     {
-        $this->_useLocalWsdl = (boolean) $use;
+        $this->_useLocalWsdl = (bool) $use;
         return $this;
     }
 

@@ -47,7 +47,7 @@ class Job_Mobile_ListController extends Application_Controller_Mobile_Default
 
             $distanceRanges = [1, 5, 10, 20, 50, 75, 100, 150, 200, 500, 1000];
             if ($radius >= 0) {
-                $radiusIndex = (integer) floor($radius);
+                $radiusIndex = (int) floor($radius);
                 $radius = $distanceRanges[$radiusIndex];
             }
 
@@ -82,7 +82,7 @@ class Job_Mobile_ListController extends Application_Controller_Mobile_Default
             $collection = [];
             foreach ($places as $place) {
                 $collection[] = [
-                    "id" => (integer) $place->getId(),
+                    "id" => (int) $place->getId(),
                     "title" => (string) $place->getName(),
                     "subtitle" => (string) strip_tags($place->getDescription()),
                     "location" => $place->getLocation(),
@@ -99,7 +99,7 @@ class Job_Mobile_ListController extends Application_Controller_Mobile_Default
                 "sortingType" => $sortingType,
                 "page_title" => $optionValue->getTabbarName(),
                 "displayed_per_page" => sizeof($collection),
-                "socialSharing" => (boolean) $optionValue->getSocialSharingIsActive(),
+                "socialSharing" => (bool) $optionValue->getSocialSharingIsActive(),
                 "total" => $total->count(),
                 "places" => $collection
             ];
@@ -156,7 +156,7 @@ class Job_Mobile_ListController extends Application_Controller_Mobile_Default
                         $contacts = (new Job_Model_PlaceContact())->findAll(["place_id = ?" => $place->getId()]);
 
                         $place = [
-                            "id" => (integer) $place->getId(),
+                            "id" => (int) $place->getId(),
                             "title" => (string) $place->getName(),
                             "subtitle" => (string) $place->getDescription(),
                             "email" => (string) $place->getEmail(),
@@ -164,12 +164,12 @@ class Job_Mobile_ListController extends Application_Controller_Mobile_Default
                             "location" => (string) $place->getLocation(),
                             "income_from" => (string) Base::_formatPrice($place->getIncomeFrom(), $currency, ["precision" => 0]),
                             "income_to" => (string) Base::_formatPrice($place->getIncomeTo(), $currency, ["precision" => 0]),
-                            "company_id" => (integer) $place->getCompanyId(),
+                            "company_id" => (int) $place->getCompanyId(),
                             "keywords" => (string) $place->getKeywords(),
                             "display_contact" => (string) $display_contact,
-                            "views" => (integer) $place->getViews(),
-                            "contacts" => (integer) $contacts->count(),
-                            "is_active" => (boolean) filter_var($place->getIsActive(), FILTER_VALIDATE_BOOLEAN),
+                            "views" => (int) $place->getViews(),
+                            "contacts" => (int) $contacts->count(),
+                            "is_active" => (bool) filter_var($place->getIsActive(), FILTER_VALIDATE_BOOLEAN),
                             "company" => [
                                 "title" => (string) $company->getName(),
                                 "subtitle" => (string) strip_tags($company->getDescription()),
@@ -184,7 +184,7 @@ class Job_Mobile_ListController extends Application_Controller_Mobile_Default
                             "place" => $place,
                             "page_title" => $this->getCurrentOptionValue()->getTabbarName(),
                             "is_admin" => $is_admin,
-                            "socialSharing" => (boolean) $this->getCurrentOptionValue()->getSocialSharingIsActive(),
+                            "socialSharing" => (bool) $this->getCurrentOptionValue()->getSocialSharingIsActive(),
                         ];
 
                     }
@@ -278,16 +278,16 @@ class Job_Mobile_ListController extends Application_Controller_Mobile_Default
                         }
 
                         $company = [
-                            "id" => (integer) $company->getId(),
+                            "id" => (int) $company->getId(),
                             "title" => (string) $company->getName(),
                             "subtitle" => (string) htmlspecialchars_decode($company->getDescription()),
                             "logo" => (string) ($company->getLogo()) ? $this->getRequest()->getBaseUrl() . "/images/application" . $company->getLogo() : null,
                             "header" => (string) ($company->getHeader()) ? $this->getRequest()->getBaseUrl() . "/images/application" . $company->getHeader() : null,
                             "location" => (string) $company->getLocation(),
-                            "employee_count" => (integer) $company->getEmployeeCount(),
+                            "employee_count" => (int) $company->getEmployeeCount(),
                             "website" => (string) $company->getWebsite(),
                             "email" => (string) $company->getEmail(),
-                            "views" => (integer) $company->getViews(),
+                            "views" => (int) $company->getViews(),
                             "places" => $_places,
                             "is_active" => filter_var($company->getIsActive(), FILTER_VALIDATE_BOOLEAN),
                         ];
@@ -660,7 +660,7 @@ class Job_Mobile_ListController extends Application_Controller_Mobile_Default
             $all_categories = [];
             foreach ($categories as $_category) {
                 $all_categories[] = [
-                    "id" => (integer) $_category->getId(),
+                    "id" => (int) $_category->getId(),
                     "title" => (string) $_category->getName(),
                     "subtitle" => (string) $_category->getDescription(),
                     "icon" => (string) $_category->getIcon(),
@@ -694,7 +694,7 @@ class Job_Mobile_ListController extends Application_Controller_Mobile_Default
                 "display_place_icon" => (string) filter_var($job->getDisplayPlaceIcon(), FILTER_VALIDATE_BOOLEAN),
                 "display_income" => (string) filter_var($job->getDisplayIncome(), FILTER_VALIDATE_BOOLEAN),
                 "distance_unit" => (string) $job->getDistanceUnit(),
-                "cardDesign" => (boolean) ($job->getCardDesign() === "card"),
+                "cardDesign" => (bool) ($job->getCardDesign() === "card"),
                 "default_radius" => (string) $job->getDefaultRadius(),
                 "title_company" => (string) __($job->getTitleCompany()),
                 "title_place" => (string) __($job->getTitlePlace()),

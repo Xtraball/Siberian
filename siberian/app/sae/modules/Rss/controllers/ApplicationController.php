@@ -223,8 +223,8 @@ class Rss_ApplicationController extends Application_Controller_Default
             $form = new Rss_Form_Settings();
             if ($form->isValid($values)) {
 
-                $values["displayThumbnail"] = (boolean) filter_var($values["displayThumbnail"], FILTER_VALIDATE_BOOLEAN);
-                $values["displayCover"] = (boolean) filter_var($values["displayCover"], FILTER_VALIDATE_BOOLEAN);
+                $values["displayThumbnail"] = (bool) filter_var($values["displayThumbnail"], FILTER_VALIDATE_BOOLEAN);
+                $values["displayCover"] = (bool) filter_var($values["displayCover"], FILTER_VALIDATE_BOOLEAN);
 
                 $optionValue
                     ->setSettings(Json::encode($values))

@@ -322,7 +322,7 @@ class Template
                 (string) $optionData['background_image'] : null;
 
             $colorized = array_key_exists('colorized', $optionData) ?
-                (boolean) $optionData['colorized'] : true;
+                (bool) $optionData['colorized'] : true;
 
             if (isset($iconLink) &&
                 is_null($iconId)) {

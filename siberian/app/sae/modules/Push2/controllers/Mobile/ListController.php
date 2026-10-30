@@ -113,8 +113,8 @@ class ListController extends MobileController
             }
 
             $payload['collection'][] = [
-                'id' => (integer)$message->getId(),
-                'deliver_id' => (integer)$message->getExternalId(),
+                'id' => (int)$message->getId(),
+                'deliver_id' => (int)$message->getExternalId(),
                 'author' => $message->getTitle(),
                 'message' => $message->getBody(),
                 'is_individual' => $message->getIsIndividual(),
@@ -165,7 +165,7 @@ class ListController extends MobileController
             }
             $date = date($year . '-' . $month . '-d H:i:s');
             $collection[] = [
-                'id' => (integer)$i,
+                'id' => (int)$i,
                 'deliver_id' => 'sample',
                 'author' => ($i % 2 === 0) ? p__('push', 'John DOE') : p__('push', 'Jane DOE'),
                 'message' => p__('push2', 'This a sample push message, this sample is only available from the application overview. Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.'),

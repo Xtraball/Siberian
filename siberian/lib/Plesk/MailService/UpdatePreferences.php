@@ -42,7 +42,7 @@ EOT;
      * @param array $params
      * @param HttpRequestContract|null $http
      */
-    public function __construct(array $config, array $params = array(), HttpRequestContract $http = null)
+    public function __construct(array $config, array $params = array(), ?HttpRequestContract $http = null)
     {
         $helper = new MailPreferences();
         $params['prefs'] = $helper->generate($params);

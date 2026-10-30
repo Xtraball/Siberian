@@ -176,8 +176,8 @@ class Folder_Model_Folder extends Core_Model_Default
                 }
 
                 $url = $this->getPath("folder/mobile_list", [
-                    "value_id" => (integer)$current_option->getId(),
-                    "category_id" => (integer)$folder->getId()]
+                    "value_id" => (int)$current_option->getId(),
+                    "category_id" => (int)$folder->getId()]
                 );
 
                 $search_list[] = [
@@ -186,13 +186,13 @@ class Folder_Model_Folder extends Core_Model_Default
                     "url" => $url,
                     "path" => $url,
                     "picture" => $picture_b64,
-                    "offline_mode" => (boolean)$folder->isCacheable(),
+                    "offline_mode" => (bool)$folder->isCacheable(),
                     "type" => "folder"
                 ];
                 $category_option = new Application_Model_Option_Value();
                 $category_options = $category_option->findAll([
-                    "app_id" => (integer)$this->getApplication()->getId(),
-                    "folder_category_id" => (integer)$folder->getCategoryId(),
+                    "app_id" => (int)$this->getApplication()->getId(),
+                    "folder_category_id" => (int)$folder->getCategoryId(),
                     "is_visible" => true,
                     "is_active" => true
                 ], ["folder_category_position ASC"]);
@@ -225,15 +225,15 @@ class Folder_Model_Folder extends Core_Model_Default
                         "father_name" => $folder->getTitle(),
                         "url" => $url,
                         "path" => $url,
-                        "is_link" => (boolean)!$feature->getIsAjax(),
-                        "hide_navbar" => (boolean)$hide_navbar,
-                        "use_external_app" => (boolean)$use_external_app,
+                        "is_link" => (bool)!$feature->getIsAjax(),
+                        "hide_navbar" => (bool)$hide_navbar,
+                        "use_external_app" => (bool)$use_external_app,
                         "picture" => $picture_b64,
-                        "offline_mode" => (boolean)$feature->getObject()->isCacheable(),
+                        "offline_mode" => (bool)$feature->getObject()->isCacheable(),
                         "code" => $feature->getCode(),
                         "type" => "feature",
-                        "is_visible" => (boolean) $feature->getIsVisible(),
-                        "is_locked" => (boolean) $feature->isLocked()
+                        "is_visible" => (bool) $feature->getIsVisible(),
+                        "is_locked" => (bool) $feature->isLocked()
                     ];
                 }
             }
@@ -244,8 +244,8 @@ class Folder_Model_Folder extends Core_Model_Default
 
             $payload = [
                 "folders" => [],
-                "show_search" => (boolean)$show_search,
-                "category_id" => (integer)$category_id
+                "show_search" => (bool)$show_search,
+                "category_id" => (int)$category_id
             ];
 
             $subcategories = $current_category->getChildren();
@@ -268,8 +268,8 @@ class Folder_Model_Folder extends Core_Model_Default
                     "picture" => $subcategory->getPictureUrl() ? $picture_b64 : $option_pictureb64,
                     "url" => $url,
                     "path" => $url,
-                    "offline_mode" => (boolean)$current_option->getObject()->isCacheable(),
-                    "category_id" => (integer)$subcategory->getId(),
+                    "offline_mode" => (bool)$current_option->getObject()->isCacheable(),
+                    "category_id" => (int)$subcategory->getId(),
                     "is_visible" => true,
                     "is_locked" => false,
                     "is_subfolder" => true
@@ -306,19 +306,19 @@ class Folder_Model_Folder extends Core_Model_Default
                     "title" => $page->getTabbarName(),
                     "subtitle" => "",
                     "picture" => $picture_b64,
-                    'icon_is_colorable' => (boolean) $page->getImage()->getCanBeColorized(),
-                    "hide_navbar" => (boolean)$hide_navbar,
-                    "use_external_app" => (boolean)$use_external_app,
-                    "is_link" => (boolean)!$page->getIsAjax(),
+                    'icon_is_colorable' => (bool) $page->getImage()->getCanBeColorized(),
+                    "hide_navbar" => (bool)$hide_navbar,
+                    "use_external_app" => (bool)$use_external_app,
+                    "is_link" => (bool)!$page->getIsAjax(),
                     "url" => $url,
                     "path" => $url,
                     "code" => $page->getCode(),
-                    "offline_mode" => (boolean)$page->getObject()->isCacheable(),
+                    "offline_mode" => (bool)$page->getObject()->isCacheable(),
                     "embed_payload" => $page->getEmbedPayload($request),
-                    "is_visible" => (boolean)$page->getIsVisible(),
-                    "is_locked" => (boolean)$page->isLocked(),
-                    "touched_at" => (integer)$page->getTouchedAt(),
-                    "expires_at" => (integer)$page->getExpiresAt()
+                    "is_visible" => (bool)$page->getIsVisible(),
+                    "is_locked" => (bool)$page->isLocked(),
+                    "touched_at" => (int)$page->getTouchedAt(),
+                    "expires_at" => (int)$page->getExpiresAt()
                 ];
             }
 

@@ -876,7 +876,7 @@ abstract class Siberian_Form_Abstract extends Zend_Form
      * @param Zend_View_Interface|null $view
      * @return string
      */
-    public function render(Zend_View_Interface $view = null)
+    public function render(?Zend_View_Interface $view = null)
     {
         if (!empty($this->confirm_text)) {
             $this->setAttrib("data-confirm", __js($this->confirm_text, "'"));

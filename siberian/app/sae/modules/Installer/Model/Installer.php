@@ -72,7 +72,7 @@ class Installer_Model_Installer extends Core_Model_Default
                 throw new Exception('');
             }
             $ini = new Zend_Config_Ini(APPLICATION_PATH . '/configs/app.ini', APPLICATION_ENV);
-            $isInstalled = (boolean)$ini->isInstalled;
+            $isInstalled = (bool)$ini->isInstalled;
         } catch (Exception $e) {
             $isInstalled = false;
         }

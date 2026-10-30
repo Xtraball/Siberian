@@ -58,7 +58,7 @@ class Zend_Service_DeveloperGarden_Request_ConferenceCall_AddConferenceTemplateP
      * @param Zend_Service_DeveloperGarden_ConferenceCall_ParticipantDetail $participant
      */
     public function __construct($environment, $templateId,
-        Zend_Service_DeveloperGarden_ConferenceCall_ParticipantDetail $participant = null
+        ?Zend_Service_DeveloperGarden_ConferenceCall_ParticipantDetail $participant = null
     ) {
         parent::__construct($environment);
         $this->setTemplateId($templateId)

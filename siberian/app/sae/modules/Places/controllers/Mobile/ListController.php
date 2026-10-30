@@ -31,8 +31,8 @@ class Places_Mobile_ListController extends Application_Controller_Mobile_Default
 
             $payload = [
                 "success" => true,
-                "social_sharing_active" => (boolean) $optionValue->getSocialSharingIsActive(),
-                "notes_are_enabled" => (boolean) $optionValue->getSocialSharingIsActive(),
+                "social_sharing_active" => (bool) $optionValue->getSocialSharingIsActive(),
+                "notes_are_enabled" => (bool) $optionValue->getSocialSharingIsActive(),
                 "page_title" => $place["embed_payload"]["page"]["title"],
                 "place" => $place["embed_payload"],
                 "page" => $place["embed_payload"]["page"],
@@ -152,7 +152,7 @@ class Places_Mobile_ListController extends Application_Controller_Mobile_Default
                 "sortingType" => $sortingType,
                 "page_title" => $optionValue->getTabbarName(),
                 "displayed_per_page" => sizeof($collection),
-                "social_sharing_active" => (boolean) $optionValue->getSocialSharingIsActive(),
+                "social_sharing_active" => (bool) $optionValue->getSocialSharingIsActive(),
                 "total" => $count->count(),
                 "places" => $collection
             ];
@@ -264,7 +264,7 @@ class Places_Mobile_ListController extends Application_Controller_Mobile_Default
 
                 $settings['defaultMapZoom'] = (int) $settings['defaultMapZoom'];
                 $settings['defaultCenterZoom'] = (int) $settings['defaultCenterZoom'];
-                $settings['notesAreEnabled'] = (boolean) $settings['notesAreEnabled'];
+                $settings['notesAreEnabled'] = (bool) $settings['notesAreEnabled'];
 
                 $categories = (new Places_Model_Category())
                     ->findAll(["value_id" => $optionValue->getId()], "position ASC");
@@ -272,7 +272,7 @@ class Places_Mobile_ListController extends Application_Controller_Mobile_Default
                 $settings["categories"] = [];
                 foreach ($categories as $category) {
                     $settings["categories"][] = [
-                        'id' => (integer) $category->getId(),
+                        'id' => (int) $category->getId(),
                         'title' => (string) $category->getTitle(),
                         'subtitle' => (string) $category->getSubtitle(),
                         'picture' => (string) $category->getPicture(),

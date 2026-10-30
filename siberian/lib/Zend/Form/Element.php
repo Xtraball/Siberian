@@ -40,6 +40,7 @@ require_once 'Zend/Validate/Abstract.php';
  * @license    http://framework.zend.com/license/new-bsd     New BSD License
  * @version    $Id: Element.php 25173 2012-12-22 20:05:32Z rob $
  */
+#[\AllowDynamicProperties]
 class Zend_Form_Element implements Zend_Validate_Interface
 {
     /**
@@ -1791,7 +1792,7 @@ class Zend_Form_Element implements Zend_Validate_Interface
      * @param  Zend_View_Interface $view
      * @return Zend_Form_Element
      */
-    public function setView(Zend_View_Interface $view = null)
+    public function setView(?Zend_View_Interface $view = null)
     {
         $this->_view = $view;
         return $this;
@@ -2025,7 +2026,7 @@ class Zend_Form_Element implements Zend_Validate_Interface
      * @param  Zend_View_Interface $view
      * @return string
      */
-    public function render(Zend_View_Interface $view = null)
+    public function render(?Zend_View_Interface $view = null)
     {
         if ($this->_isPartialRendering) {
             return '';
