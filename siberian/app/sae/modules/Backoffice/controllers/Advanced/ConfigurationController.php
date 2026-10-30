@@ -23,6 +23,7 @@ class Backoffice_Advanced_ConfigurationController extends System_Controller_Back
         'cpanel_type',
         'letsencrypt_env',
         'send_statistics',
+        'error_reports_enabled',
         'apk_build_type',
         'java_home',
         'java_options',

@@ -199,6 +199,11 @@ $configs = [
         'value' => 'staging'
     ],
     [
+        'code' => 'error_reports_enabled',
+        'label' => 'Send grouped error reports to improve Siberian.',
+        'value' => '1'
+    ],
+    [
         'code' => 'send_statistics',
         'label' => 'Send anonymous statistics to improve the apps builder.',
         'value' => '1'
