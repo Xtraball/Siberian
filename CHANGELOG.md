@@ -2,6 +2,27 @@
 
 Notable changes to Siberian, newest first. Dates are `YYYY-MM-DD`. Longer notes live in `docs/`.
 
+## [5.1.6] 2026-10-30
+
+Error reporting, Google Play App Signing, one-time loyalty QR codes and a series of PHP 8.5 fixes, on top of 5.1.5. The update package is built against 5.1.5 (`lastversion`), the last published version. MAE and PE carry the same changes (tags `v5.1.6`, released from `master`).
+
+### Added
+
+- 2026-10-30 Error reporting: errors, warnings, deprecations and fatal errors are grouped on the server (same error at the same place is one group with a counter) and sent once an hour to the Siberian team, to find the bugs that matter. On by default; Settings > Advanced > Configuration turns it off, and nothing is kept on the server while it is off. Only an anonymous random id, the edition, the Siberian and PHP versions, and per error its type, a message without values, the file path inside the installation and the line are sent. See `docs/error-reports.md`.
+- 2026-10-30 Android: Google Play App Signing option, with the keystore upload and a backup of the keystore (#855).
+- 2026-10-30 Loyalty card: one-time QR codes for employees (#851).
+
+### Fixed
+
+- 2026-10-30 PHP 8.5: four fatal errors of the core (#933), a fatal method signature mismatch on PHP 8, an undefined `HTTP_ORIGIN` on `OPTIONS` requests without an Origin header, and a broken placeholder in a translation no longer throws a `ValueError`.
+- 2026-10-30 SCSS: space separated `rgb()` / `hsl()` colors raise a compile error instead of a `TypeError` (#933).
+- 2026-10-30 Editor: re-initialising a DataTables table destroys it instead of showing an alert.
+- 2026-10-30 Modules: the quarantine probe finds the base classes of the probed module like a web request does.
+
+### Developer
+
+- 2026-10-30 A class link check in the PHP regression suite catches fatal method signature mismatches before a release; `docs/editions.md` describes how SAE, MAE and PE layer.
+
 ## [5.1.5] 2026-10-28
 
 Backoffice refresh, a safety net for modules that break on PHP 8, and fixes, on top of 5.1.4. The update package is built against 5.1.4 (`lastversion`), the last published version. MAE and PE carry the same changes (tags `v5.1.5`, released from `master`).
