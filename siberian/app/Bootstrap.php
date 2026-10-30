@@ -322,6 +322,9 @@ class Bootstrap extends Zend_Application_Bootstrap_Bootstrap
             if (is_readable($pathInit)) {
                 try {
                     global $init;
+                    // $init is a global: a module whose init.php does not define it (or was already loaded) would
+                    // otherwise run the closure of the previous module a second time.
+                    $init = null;
                     ob_start();
                     require_once $pathInit;
                     if (is_callable($init)) {
@@ -330,7 +333,7 @@ class Bootstrap extends Zend_Application_Bootstrap_Bootstrap
                     ob_end_clean();
                 } catch (Exception $e) {
                     // Silently catch & log malformed init module!
-                    trigger_error($e->getMessage());
+                    trigger_error(sprintf('Module %s init: %s', $module, $e->getMessage()));
                 }
             } else if (is_readable($path)) {
                 try {
