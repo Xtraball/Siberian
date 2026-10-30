@@ -184,13 +184,21 @@ class Analytics_Model_Store {
 		},$result);
 	}
 
+	/**
+	 * One metric value as an SQL string literal. A missing or null value is the empty string, as it always was,
+	 * without handing null to addslashes() (deprecated since PHP 8.1).
+	 */
+	private static function quoted($metric, $field) {
+		return "'" . addslashes((string) ($metric[$field] ?? '')) . "'";
+	}
+
 	public function addAppInstallationMetric($metric) {
 
 		$fields = $this->_appInstallationField;
 		$metric_values = implode_polyfill(",",
 			array_map(
 				function($field) use ($metric) {
-					return "'".addslashes($metric[$field])."'";
+					return self::quoted($metric, $field);
 				}
 				,$fields)
 		);
@@ -211,7 +219,7 @@ class Analytics_Model_Store {
 			$metric_values = implode_polyfill(",",
 				array_map(
 					function ($field) use ($metric) {
-						return "'" . addslashes($metric[$field]) . "'";
+						return self::quoted($metric, $field);
 					}
 					, $fields)
 			);
@@ -239,7 +247,7 @@ class Analytics_Model_Store {
 		$metric_values = implode_polyfill(",",
 			array_map(
 				function($field) use ($metric) {
-					return "'".addslashes($metric[$field])."'";
+					return self::quoted($metric, $field);
 				}
 				,$fields)
 		);
@@ -257,7 +265,7 @@ class Analytics_Model_Store {
 		$metric_values = implode_polyfill(",",
 			array_map(
 				function($field) use ($metric) {
-					return "'".addslashes($metric[$field])."'";
+					return self::quoted($metric, $field);
 				}
 				,$fields)
 		);
@@ -275,7 +283,7 @@ class Analytics_Model_Store {
 		$metric_values = implode_polyfill(",",
 			array_map(
 				function($field) use ($metric) {
-					return "'".addslashes($metric[$field])."'";
+					return self::quoted($metric, $field);
 				}
 				,$fields)
 		);
