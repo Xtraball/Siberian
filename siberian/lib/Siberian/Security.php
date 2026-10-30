@@ -237,6 +237,8 @@ class Security
     public static function checkKeyValue($origin, $key, $value, $session)
     {
         $tmpDir = tmp(true);
+        $key = self::text($key);
+        $value = self::text($value);
         if (strpos($value, 'base64') !== false) {
             try {
                 $content = base64_decode(explode(',', $value)[1]);
@@ -248,13 +250,8 @@ class Security
             $content = $value;
         }
 
-        foreach (self::TRIGGERS as $trigger) {
-            if (preg_match('~' . $trigger . '~im', $key) === 1) {
-                self::logAlert("#$origin-001-1: Suspicious data detected.", $session, $trigger, $key);
-            }
-            if (preg_match('~' . $trigger . '~im', $value) === 1) {
-                self::logAlert("#$origin-001-2: Suspicious data detected.", $session, $trigger, $value);
-            }
+        foreach (self::triggeredBy($key, $value) as [$part, $trigger]) {
+            self::logAlert("#$origin-001-$part: Suspicious data detected.", $session, $trigger, $part === 1 ? $key : $value);
         }
 
         $tmpFilename = $tmpDir . '/' . uniqid('security-', true);
@@ -274,6 +271,43 @@ class Security
             }
             unlink($tmpFilename);
         }
+    }
+
+    /**
+     * A request value as the string the checks read: null (an empty JSON value, an unset field) is the empty string,
+     * which is what it always meant, but PHP 8.1+ deprecates null for the string functions.
+     *
+     * @param mixed $value
+     * @return string
+     */
+    private static function text($value)
+    {
+        return is_scalar($value) ? (string) $value : '';
+    }
+
+    /**
+     * Which triggers a request key and value hit, in the order they are reported: for each trigger the key (part 1)
+     * and then the value (part 2).
+     *
+     * @param mixed $key
+     * @param mixed $value
+     * @return array[] list of [part, trigger]
+     */
+    public static function triggeredBy($key, $value)
+    {
+        $key = self::text($key);
+        $value = self::text($value);
+        $hits = [];
+        foreach (self::TRIGGERS as $trigger) {
+            if (preg_match('~' . $trigger . '~im', $key) === 1) {
+                $hits[] = [1, $trigger];
+            }
+            if (preg_match('~' . $trigger . '~im', $value) === 1) {
+                $hits[] = [2, $trigger];
+            }
+        }
+
+        return $hits;
     }
 
     /**
