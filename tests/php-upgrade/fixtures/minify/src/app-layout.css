@@ -1,0 +1,76 @@
+/* LAYOUTS */
+.layout_modal_generic .list {
+    padding-top: var(--safe-area-inset-top);
+    padding-bottom: calc(55px + var(--safe-area-inset-bottom));
+}
+
+.layout .tabs {
+    display: inline-block;
+}
+
+.layout_modal_generic .close-action {
+    position: absolute;
+    left: 0;
+    bottom: 0;
+    width: 100vw;
+    border: 0;
+    margin: 0;
+    height: calc(55px + var(--safe-area-inset-bottom));
+    box-shadow: 0 -1px 3px black;
+}
+
+.layout .tab-item {
+    position: relative;
+    float: left;
+    opacity: 1;
+}
+
+.layout .tab-item img {
+    margin-left: 4px;
+}
+
+.layout .background-transparent {
+    background: transparent;
+    box-shadow: none !important;
+}
+
+.layout.modal {
+    background-color: rgba(0, 0, 0, .3) !important;
+}
+
+.layout a {
+    color: inherit;
+    text-decoration: none;
+}
+
+/* Horizontal Layouts */
+.layout .slider {
+    position: absolute;
+    width: 100%;
+    bottom: 0;
+    z-index: 5;
+}
+
+.layout .slider .slider-slide {
+    width: 100vw;
+}
+
+.layout .slider-pager {
+    height: calc(20px + var(--safe-area-inset-bottom)) !important;
+    bottom: 0;
+    background-color: lightgrey;
+    padding-bottom: var(--safe-area-inset-bottom);
+}
+
+.layout .slider p {
+    font-size: 12px;
+}
+
+.layout.modal .badge-custom {
+    top: 20px;
+    right: 16px;
+    padding: 6px 8px;
+    font-size: 16px;
+}
+
+
