@@ -5,7 +5,7 @@ class Catalog_Model_Db_Table_Product_Group_Option_Value extends Core_Model_Db_Ta
     protected $_name = "catalog_product_group_option_value";
     protected $_primary = "value_id";
 
-    public function findAll($values, $order, $params) {
+    public function findAll($values = [], $order = null, $params = []) {
 
         $where = array();
         $cols = array_keys($this->_db->describeTable('catalog_product_group_option'));

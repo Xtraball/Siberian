@@ -229,7 +229,7 @@ class Payment_Model_Paypal extends Payment_Model_Abstract
      * @return array|bool|mixed|string
      * @throws Zend_Exception
      */
-    public function getUrl()
+    public function getUrl($url = '', $params = [], $locale = null)
     {
         $logger = \Zend_Registry::get('logger');
         if (!$this->_isValid()) {
@@ -646,7 +646,7 @@ class Payment_Model_Paypal extends Payment_Model_Abstract
      * @return array
      * @throws Exception
      */
-    public function getPaymentData($order)
+    public function getPaymentData($order = null)
     {
         $returnUrl = parent::getUrl('subscription/application/success', [
             'order_id' => $order->getId(),

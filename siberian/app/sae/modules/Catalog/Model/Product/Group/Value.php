@@ -69,7 +69,7 @@ class Catalog_Model_Product_Group_Value extends Catalog_Model_Product_Group {
 
     }
 
-    public function toJson() {
+    public function toJson($optionValue = null, $baseUrl = '') {
 
         $options = array();
         $datas = array(

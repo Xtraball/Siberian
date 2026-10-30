@@ -806,8 +806,8 @@ class Fanwall_Mobile_PostController extends Application_Controller_Mobile_Defaul
                 ->setIsVisible(true);
 
             if (array_key_exists('location', $form) &&
-                $form['location']['latitude'] != 0 &&
-                $form['location']['longitude'] != 0) {
+                (float) $form['location']['latitude'] != 0 &&
+                (float) $form['location']['longitude'] != 0) {
                 $post
                     ->setLatitude($form['location']['latitude'])
                     ->setLongitude($form['location']['longitude'])
