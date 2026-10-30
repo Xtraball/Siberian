@@ -1,8 +1,8 @@
 <?php
 /**
  * Backoffice user dropdown (top bar): it is opened by CSS only (:hover, :focus-within) and the backoffice changes page
- * without a reload, so after a click on "Edit my account" or "Log-out" the entry kept the focus and the pointer stayed
- * over it: the menu never closed. A click now closes it until the pointer leaves the user menu.
+ * without a reload, so after a click on "Edit my account" the entry kept the focus and the pointer stayed over it:
+ * the menu never closed. A click now closes it until the pointer leaves the user menu.
  */
 $backoffice = dirname(__DIR__, 3) . '/siberian/app/sae/design/desktop/backoffice';
 $header = file_get_contents($backoffice . '/template/page/layout/header.phtml');
@@ -13,8 +13,8 @@ return [
     'the user menu is closed by the click on its entries' => function () use ($header) {
         t_true(preg_match('/id="backoffice_user"[^>]*ng-class="\{closed: userMenu\.closed\}"/s', $header) === 1, 'class closed follows userMenu.closed');
         t_true(preg_match('/id="backoffice_user"[^>]*ng-mouseleave="userMenu\.closed = false"/s', $header) === 1, 'it reopens when the pointer leaves');
-        t_equal(2, substr_count($header, 'closeUserMenu($event)'), 'edit my account and log-out both close it');
-        t_true(strpos($header, 'ng-click="closeUserMenu($event); logout()"') !== false, 'log-out still logs out');
+        t_equal(1, substr_count($header, 'closeUserMenu($event)'), 'the account link closes it');
+        t_true(strpos($header, 'ng-click="logout()"') !== false, 'log-out is untouched: the menu goes away with the session');
     },
 
     'the controller helper blurs the clicked entry and marks the menu closed' => function () use ($app) {
