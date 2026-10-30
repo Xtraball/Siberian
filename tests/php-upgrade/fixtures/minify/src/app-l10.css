@@ -1,0 +1,114 @@
+
+/* LAYOUT 10 */
+.layout.l10 .more-circle {
+    height: 120%;
+    margin-top: -14px;
+    padding-top: 20px;
+    border-top-right-radius: 100px;
+    border-top-left-radius: 100px;
+    box-shadow: 0 -2px 0 rgba(0, 0, 0, 0.5);
+    opacity: 1;
+}
+
+.layout.l10 .tabs {
+    height: 55px;
+    padding: 4px;
+    padding-top: 0;
+    box-shadow: 0 -7px 8px rgba(0, 0, 0, 0.3);
+}
+
+.layout.l10 p {
+    line-height: 11px;
+    font-size: 11px;
+    height: 16px;
+    margin-top: 2px;
+    overflow: hidden;
+}
+
+.layout.l10 .tab-item img {
+    width: 30px;
+    height: 30px;
+    max-height: 80%;
+}
+
+
+/* LAYOUT 10 MORE */
+.layout.l10.modal {
+    opacity: 1;
+}
+
+.layout.l10.modal ul {
+    width: 100%;
+    display: inline-block;
+}
+
+.layout.l10.modal li {
+    position: relative;
+    float: left;
+}
+
+.layout.l10.modal .items {
+    margin: 0 auto;
+    padding: 25px 15px 10px;
+    border-bottom-width: 1px;
+    border-bottom-style: solid;
+}
+
+.layout.l10.modal .icon {
+    font-size: 4em;
+}
+
+.layout.l10.modal img {
+    width: 30px;
+    height: 30px;
+}
+
+.layout.l10.modal p {
+    line-height: 20px;
+    height: 20px;
+    overflow: hidden;
+}
+
+.layout.l10 .no-border {
+    border-top: none;
+    box-shadow: none;
+}
+
+.layout.l10 .tabs.shadow {
+    -webkit-box-shadow: 0 -7px 8px rgba(0, 0, 0, 0.3);
+    -moz-box-shadow: 0 -7px 8px rgba(0, 0, 0, 0.3);
+    box-shadow: 0 -7px 8px rgba(0, 0, 0, 0.3);
+}
+
+.layout.l10 .tabs.no-shadow {
+    -webkit-box-shadow: none;
+    -moz-box-shadow: none;
+    box-shadow: none;
+}
+
+.layout.l10 .more-circle.display {
+    box-shadow: none;
+}
+
+.layout.l10 .more-circle.visible {
+    box-shadow: 0 -2px 0 rgba(0, 0, 0, 0.5);
+}
+
+.layout_10_modal .close-button {
+    width: 100vw;
+    margin-top: 40px;
+}
+
+.layout_10_modal ion-content {
+    margin-top: calc(100px + var(--safe-area-inset-top));
+    margin-bottom: calc(90px + var(--safe-area-inset-bottom));
+}
+
+.layout.modal.l10 .badge-custom {
+    top: 24px;
+    right: 50%;
+    margin-right: -30px;
+    padding: 2px 5px;
+    font-size: 12px;
+    z-index: 10;
+}
