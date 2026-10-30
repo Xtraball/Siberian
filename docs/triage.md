@@ -40,6 +40,15 @@ Use the labels that exist (`gh label list --repo Xtraball/Siberian`); do not inv
    off by default, and which test will fail without the change.
 9. **Park the draft for review.** Drafts live in the triage notes (not posted). A maintainer posts or edits them.
    Nothing public is posted by a tool on its own.
+10. **Label in the same pass as the comment. A triage without labels is not finished.** Every triaged issue gets,
+    in one `gh issue edit N --repo Xtraball/Siberian --add-label "a,b,c"`:
+    - a type: `bug` or `enhancement` (`question` / `support` for usage questions),
+    - one `priority: high|medium|low`,
+    - one `area: ...` when one fits (there is no `area: ios`: leave it out rather than invent one),
+    - the state from the verdict table (`needs-repro`, `has patch`, `fixed in trunk`, `wontfix`...),
+    - `security`, `edition: MAE|PE` when they apply.
+    Do it as a dry run first (print the `gh` lines), apply after the maintainer agrees, and check with
+    `gh issue view N --json labels`. Post the comment and the labels together, never one without the other.
 
 ## Rules that come from experience
 
