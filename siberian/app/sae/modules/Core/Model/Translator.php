@@ -87,7 +87,7 @@ class Core_Model_Translator
                 }
                 $extension = pathinfo($file, PATHINFO_EXTENSION);
                 switch ($extension) {
-                    case "csv";
+                    case "csv":
                         $translations->addFromCsvDictionaryFile($file, ["delimiter" => ";"]);
                         break;
                     case "po":
@@ -113,7 +113,7 @@ class Core_Model_Translator
                     $userTranslations->setLanguage($currentLanguage);
 
                     switch ($file->getExtension()) {
-                        case "csv";
+                        case "csv":
                             $poVariant = str_replace(".csv", ".po", $file->getPathname());
                             if (is_file($poVariant))  {
                                 $userTranslations->addFromPoFile($poVariant);
@@ -199,11 +199,8 @@ class Core_Model_Translator
 
         $keys = [];
         foreach ($mobileFiles as $mobileFile) {
-            $resource = fopen($mobileFile, "r");
-            while ($data = fgetcsv($resource, 1024, ";", "\"")) {
-                if (!empty($data[0]) && stripos($data[0], "%s") === false) {
-                    $keys[] = $data[0];
-                }
+            foreach (self::readCsvKeys($mobileFile) as $key) {
+                $keys[] = $key;
             }
         }
         // @todo deprecate
@@ -311,11 +308,11 @@ class Core_Model_Translator
             }
 
             // Default translation (if exists) mixed csv/mo, mo being more recent!
-            $defaultTranslationCSV = $cachedFiles[$langId]["{$fileBase}.csv"];
+            $defaultTranslationCSV = self::cachedFile($cachedFiles, $langId, "{$fileBase}.csv");
             if (is_file($defaultTranslationCSV)) {
                 $tmpTranslationData = self::parseType($tmpTranslationData, $filename, $defaultTranslationCSV, "csv");
             }
-            $defaultTranslationPO = $cachedFiles[$langId]["{$fileBase}.po"];
+            $defaultTranslationPO = self::cachedFile($cachedFiles, $langId, "{$fileBase}.po");
             if (is_file($defaultTranslationPO)) {
                 $tmpTranslationData = self::parseType($tmpTranslationData, $filename, $defaultTranslationPO, "po");
             }
@@ -600,5 +597,44 @@ class Core_Model_Translator
         }
 
         return $tmpTranslationData;
+    }
+
+    /**
+     * The first column of a legacy mobile `.list` CSV, without the entries that hold a "%s" placeholder.
+     * The escape character is given explicitly: PHP 8.4 deprecates relying on its default, which is "\\".
+     *
+     * @param string $file
+     * @return string[]
+     */
+    public static function readCsvKeys($file)
+    {
+        $keys = [];
+        $resource = @fopen($file, "r");
+        if ($resource === false) {
+            return $keys;
+        }
+        while ($data = fgetcsv($resource, 1024, ";", "\"", "\\")) {
+            if (!empty($data[0]) && stripos($data[0], "%s") === false) {
+                $keys[] = $data[0];
+            }
+        }
+        fclose($resource);
+
+        return $keys;
+    }
+
+    /**
+     * The cached translation file of a language, or an empty string when there is none (is_file("") is false).
+     *
+     * @param array $cachedFiles
+     * @param string $langId
+     * @param string $name for example `c_front.csv`
+     * @return string
+     */
+    public static function cachedFile($cachedFiles, $langId, $name)
+    {
+        $path = $cachedFiles[$langId][$name] ?? "";
+
+        return is_string($path) ? $path : "";
     }
 }

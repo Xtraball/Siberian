@@ -186,6 +186,11 @@ class Translator extends BaseTranslator implements TranslatorInterface
      */
     protected function getTranslation($domain, $context, $original)
     {
+        // null is the empty key; PHP 8.5 deprecates null as an array offset
+        $domain = (string) $domain;
+        $context = (string) $context;
+        $original = (string) $original;
+
         return isset($this->dictionary[$domain][$context][$original])
              ? $this->dictionary[$domain][$context][$original]
              : false;
@@ -203,6 +208,8 @@ class Translator extends BaseTranslator implements TranslatorInterface
      */
     protected function getPluralIndex($domain, $n, $fallback)
     {
+        $domain = (string) $domain;
+
         //Not loaded domain or translation, use a fallback
         if (!isset($this->plurals[$domain]) || $fallback === true) {
             return $n == 1 ? 0 : 1;
