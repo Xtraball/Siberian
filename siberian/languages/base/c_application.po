@@ -539,3 +539,58 @@ msgstr "Please note that if you are using a feature that requires location servi
 msgctxt "application"
 msgid "Show / hide the password"
 msgstr "Show / hide the password"
+
+# GMT 1793400000.0001
+msgctxt "application"
+msgid "Google Play App Signing"
+msgstr "Google Play App Signing"
+
+# GMT 1793400000.0002
+msgctxt "application"
+msgid "Enable it if your app uses Play App Signing: Google keeps the app signing key, and the keystore of this app is only the upload key you sign your bundles with."
+msgstr "Enable it if your app uses Play App Signing: Google keeps the app signing key, and the keystore of this app is only the upload key you sign your bundles with."
+
+# GMT 1793400000.0003
+msgctxt "application"
+msgid "How Play App Signing works"
+msgstr "How Play App Signing works"
+
+# GMT 1793400000.0004
+msgctxt "application"
+msgid "Google Play App Signing: the current keystore will be kept as a backup and a new upload key will be generated at the next build. Its certificate must be registered in the Play Console (upload key reset). Are you sure?"
+msgstr "Google Play App Signing: the current keystore will be kept as a backup and a new upload key will be generated at the next build. Its certificate must be registered in the Play Console (upload key reset). Are you sure?"
+
+# GMT 1793400000.0005
+msgctxt "application"
+msgid "Please confirm to save."
+msgstr "Please confirm to save."
+
+# GMT 1793400000.0006
+msgctxt "application"
+msgid "The previous keystore was kept as %s"
+msgstr "The previous keystore was kept as %s"
+
+# GMT 1793400000.00065
+msgctxt "application"
+msgid "Its alias is %s, its store password %s and its key password %s."
+msgstr "Its alias is %s, its store password %s and its key password %s."
+
+# GMT 1793400000.0007
+msgctxt "application"
+msgid "Unknown application."
+msgstr "Unknown application."
+
+# GMT 1793400000.0008
+msgctxt "application"
+msgid "The keystore cannot be saved."
+msgstr "The keystore cannot be saved."
+
+# GMT 1793400000.0009
+msgctxt "application"
+msgid "The keystore has been replaced."
+msgstr "The keystore has been replaced."
+
+# GMT 1793400000.0010
+msgctxt "application"
+msgid "You are about to downgrade the version, after that you may not be able to update your Android application, please confirm if you are sure!"
+msgstr "You are about to downgrade the version, after that you may not be able to update your Android application, please confirm if you are sure!"
