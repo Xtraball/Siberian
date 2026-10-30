@@ -74,7 +74,7 @@ class Core_Model_Session extends Zend_Session_Namespace
      */
     public function getInstance()
     {
-        if (!array_key_exists($this->current_type, $this->getTypes())) {
+        if ($this->current_type === null || !array_key_exists($this->current_type, $this->getTypes())) {
             return false;
         }
 
