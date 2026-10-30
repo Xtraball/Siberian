@@ -31,6 +31,11 @@ App.run(function($rootScope, $window, $route, $location, Message, AUTH_EVENTS, A
         }
         $rootScope.userMenu.closed = true;
     };
+    // Below 1280px the main menu is folded under a toggle button (MENU section of style.css)
+    $rootScope.mainMenu = {open: false};
+    $rootScope.toggleMainMenu = function () {
+        $rootScope.mainMenu.open = !$rootScope.mainMenu.open;
+    };
     $rootScope.userInitials = function () {
         var parts = $rootScope.userName().split(/[._\-\s]+/).filter(Boolean);
         var initials = parts.length > 1 ? parts[0].charAt(0) + parts[1].charAt(0) : (parts[0] || '?').substr(0, 2);
@@ -64,6 +69,7 @@ App.run(function($rootScope, $window, $route, $location, Message, AUTH_EVENTS, A
 
     $rootScope.$on('$routeChangeSuccess', function(event, current) {
         $rootScope.code = current.code;
+        $rootScope.mainMenu.open = false;
     });
 
 }).config(function($locationProvider, $compileProvider, $httpProvider) {

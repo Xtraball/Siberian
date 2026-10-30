@@ -420,6 +420,116 @@ label.error {
     padding-bottom: 4px;
 }
 
+.backoffice_menu_toggle {
+    display: none;
+    flex: 0 0 auto;
+    width: 40px;
+    height: 32px;
+    margin: 0 8px 0 0;
+    padding: 0;
+    border: 0;
+    background: transparent;
+    color: white;
+    font-size: 18px;
+    line-height: 32px;
+    cursor: pointer;
+}
+
+/* Below 1280px the menus do not fit next to the logo and the user menu: they fold under the toggle button.
+   The #backoffice_menu id wins over the theme stylesheets, which load after this one. */
+@media (max-width: 1279px) {
+    .top .content {
+        display: flex;
+        align-items: center;
+    }
+
+    .top .content .clear {
+        display: none;
+    }
+
+    .top .content .logo {
+        float: none;
+        flex: 0 0 auto;
+    }
+
+    .top .content .backoffice_menu_toggle {
+        display: block;
+        height: var(--sb-header-height, 32px);
+        line-height: var(--sb-header-height, 32px);
+    }
+
+    .top .content .backoffice_user {
+        float: none;
+        margin-left: auto;
+    }
+
+    .top #backoffice_menu {
+        display: none;
+        position: absolute;
+        top: 100%;
+        left: 0;
+        right: 0;
+        float: none;
+        flex: none;
+        margin: 0;
+        max-height: calc(100vh - var(--sb-header-height, 32px));
+        overflow-y: auto;
+        background-color: inherit;
+        box-shadow: 0 6px 12px rgba(0, 0, 0, .15);
+        z-index: 3;
+    }
+
+    .top #backoffice_menu.open {
+        display: block;
+    }
+
+    .top #backoffice_menu ul.l1 {
+        height: auto;
+    }
+
+    .top #backoffice_menu ul.l1 li {
+        float: none;
+        text-align: left;
+    }
+
+    .top #backoffice_menu ul.l1 li a {
+        height: auto;
+        margin: 0;
+        padding: 10px 16px;
+        line-height: 20px;
+        border-radius: 0;
+    }
+
+    .top #backoffice_menu ul.l1 li ul.l2,
+    .top #backoffice_menu ul.l1 li ul.l2 li ul.l3 {
+        position: static;
+        width: auto;
+        left: auto;
+        top: auto;
+        opacity: 1;
+        visibility: visible;
+        background: transparent;
+        border: 0;
+        border-radius: 0;
+        box-shadow: none;
+        transition: none;
+    }
+
+    .top #backoffice_menu ul.l1 li ul.l2 li a {
+        padding-left: 40px;
+    }
+
+    .top #backoffice_menu ul.l1 li ul.l2 li ul.l3 li a {
+        padding-left: 64px;
+    }
+}
+
+@media (max-width: 575px) {
+    .top .content .backoffice_user_name {
+        display: none;
+    }
+}
+
 /** /MENU **/
 
 /** LIST **/
@@ -638,9 +748,11 @@ a.link, button.as-link {
 
 .top .content {
     position: relative;
-    width: 99%;
-    min-width: 1250px;
+    width: 100%;
+    min-width: 0;
     height: 32px;
+    padding: 0 16px;
+    box-sizing: border-box;
     margin: 0 auto auto;
     background-color: #404040;
     z-index: 2;
