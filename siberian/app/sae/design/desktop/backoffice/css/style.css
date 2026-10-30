@@ -1653,6 +1653,10 @@ a.ui-datepicker-prev:after {
     display: block;
 }
 
+.backoffice_user.closed ul.backoffice_user_dropdown {
+    display: none;
+}
+
 .backoffice_user ul.backoffice_user_dropdown li a {
     display: block;
     padding: 6px 12px;

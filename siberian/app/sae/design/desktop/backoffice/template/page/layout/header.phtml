@@ -426,6 +426,8 @@ if (in_array($backofficeTheme, [null, '', 'default'], true) &&
     </div>
     <div id="backoffice_user"
          class="backoffice_user"
+         ng-class="{closed: userMenu.closed}"
+         ng-mouseleave="userMenu.closed = false"
          ng-if="isLoggedIn">
         <a href="javascript:void(0);"
            class="backoffice_user_toggle"
@@ -436,12 +438,13 @@ if (in_array($backofficeTheme, [null, '', 'default'], true) &&
         </a>
         <ul class="backoffice_user_dropdown">
             <li>
-                <a ng-href="<?php echo $accountUrl; ?>/user_id/{{ currentUser().id }}">
+                <a ng-href="<?php echo $accountUrl; ?>/user_id/{{ currentUser().id }}"
+                   ng-click="closeUserMenu($event)">
                     <i class="fa fa-user"></i><?php echo p__('backoffice', 'Edit my account'); ?>
                 </a>
             </li>
             <li>
-                <a href="javascript:void(0);" ng-click="logout()">
+                <a href="javascript:void(0);" ng-click="closeUserMenu($event); logout()">
                     <i class="fa fa-power-off"></i><?php echo __('Log-out'); ?>
                 </a>
             </li>

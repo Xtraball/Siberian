@@ -22,6 +22,15 @@ App.run(function($rootScope, $window, $route, $location, Message, AUTH_EVENTS, A
         var email = (Auth.user && Auth.user.email) || '';
         return email.split('@')[0] || email;
     };
+    // The dropdown is CSS only (hover, focus-within) and the pages change without a reload: after a click on one of its
+    // entries it would stay open, the link keeps the focus and the pointer is still over it. It is closed until the pointer leaves.
+    $rootScope.userMenu = {closed: false};
+    $rootScope.closeUserMenu = function ($event) {
+        if ($event && $event.currentTarget && $event.currentTarget.blur) {
+            $event.currentTarget.blur();
+        }
+        $rootScope.userMenu.closed = true;
+    };
     $rootScope.userInitials = function () {
         var parts = $rootScope.userName().split(/[._\-\s]+/).filter(Boolean);
         var initials = parts.length > 1 ? parts[0].charAt(0) + parts[1].charAt(0) : (parts[0] || '?').substr(0, 2);
