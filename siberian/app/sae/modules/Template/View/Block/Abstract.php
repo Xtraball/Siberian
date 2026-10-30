@@ -10,7 +10,7 @@ abstract class Template_View_Block_Abstract extends Core_View_Default {
         return $this;
     }
 
-    public function getBlock() {
+    public function getBlock($code = null) {
         return $this->_block;
     }
 

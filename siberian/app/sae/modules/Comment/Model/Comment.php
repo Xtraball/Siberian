@@ -135,7 +135,7 @@ class Comment_Model_Comment extends Core_Model_Default {
         return $paths;
     }
 
-    public function findLast($value_id, $pos_id) {
+    public function findLast($value_id = null, $pos_id = null) {
         $row = $this->getTable()->findLast($value_id, $pos_id);
         if($row) {
             $this->setData($row->getData())

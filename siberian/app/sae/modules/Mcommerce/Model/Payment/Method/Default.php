@@ -2,7 +2,7 @@
 
 class Mcommerce_Model_Payment_Method_Default extends Mcommerce_Model_Payment_Method_Abstract {
 
-    public function getUrl() {
+    public function getUrl($url = '', $params = [], $locale = null) {
         return parent::getUrl('mcommerce/mobile_purchase/confirmpost', ['option_value_id' => $this->getMethod()->getCart()->getValueId()]);
     }
     
