@@ -595,7 +595,7 @@ abstract class Core_Controller_Default_Abstract extends Zend_Controller_Action i
 
         Siberian_Media::disableTemporary();
 
-        $color = str_replace('#', '', $color);
+        $color = str_replace('#', '', $color ?? '');
         $id = md5(implode_polyfill('+', [
             $image_id,
             $color
@@ -609,7 +609,7 @@ abstract class Core_Controller_Default_Abstract extends Zend_Controller_Action i
             if (!$image->getCanBeColorized()) $color = null;
             $path = $image->getLink();
             $path = Media_Model_Library_Image::getBaseImagePathTo($path, $image->getAppId());
-        } else if (!Zend_Uri::check($image_id) AND stripos($image_id, Core_Model_Directory::getBasePathTo()) === false) {
+        } else if (!Zend_Uri::check($image_id) AND stripos((string) $image_id, Core_Model_Directory::getBasePathTo()) === false) {
             $path = Core_Model_Directory::getBasePathTo($image_id);
         } else {
             $path = $image_id;
@@ -654,7 +654,7 @@ abstract class Core_Controller_Default_Abstract extends Zend_Controller_Action i
             }
             $path = $image->getLink();
             $path = Media_Model_Library_Image::getBaseImagePathTo($path, $image->getAppId());
-        } else if (!Zend_Uri::check($image_id) && stripos($image_id, path()) === false) {
+        } else if (!Zend_Uri::check($image_id) && stripos((string) $image_id, path()) === false) {
             $path = path($image_id);
         } else {
             $path = $image_id;

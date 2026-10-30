@@ -217,7 +217,7 @@ class Backoffice_Model_Notification extends Core_Model_Default
             $unread_messages = [];
             foreach ($messages as $message) {
                 $link = $message->getLink();
-                if (strpos($link, "updates.siberiancms.com") !== false) {
+                if (strpos((string) $link, "updates.siberiancms.com") !== false) {
                     $link = str_replace("http://", "https://", $link);
                 }
 

@@ -1,7 +1,7 @@
 <?php
 $notif_model = new Backoffice_Model_Notification();
 $unreadCount = $notif_model->findAll(["is_read = ?" => 0])->count();
-$customLinks = Siberian_Module::getMenus();
+$customLinks = Siberian_Module::getMenus() ?: [];
 $unreadDisplay = $unreadCount <= 0 ? "display: none;" : "";
 
 // format $customLinks
