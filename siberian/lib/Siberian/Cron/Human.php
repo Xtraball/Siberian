@@ -65,7 +65,7 @@ class Human
     /**
      * @var bool
      */
-    private $_lang = FALSE;
+    private $_lang = [];
 
     /**
      * @var int

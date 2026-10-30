@@ -265,7 +265,7 @@ class Zend_Cloud_DocumentService_Adapter_WindowsAzure
      * @param  null|array $options
      * @return Zend_Cloud_DocumentService_DocumentSet
      */
-    public function listDocuments($collectionName, array $options = null)
+    public function listDocuments($collectionName, ?array $options = null)
     {
         $select = $this->select()->from($collectionName);
         return $this->query($collectionName, $select);

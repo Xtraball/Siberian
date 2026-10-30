@@ -82,8 +82,8 @@ class Zend_Service_DeveloperGarden_Request_ConferenceCall_UpdateConferenceReques
      * @param integer $account
      */
     public function __construct($environment, $conferenceId, $ownerId = null,
-        Zend_Service_DeveloperGarden_ConferenceCall_ConferenceDetail $conferenceDetails = null,
-        Zend_Service_DeveloperGarden_ConferenceCall_ConferenceSchedule $conferenceSchedule = null,
+        ?Zend_Service_DeveloperGarden_ConferenceCall_ConferenceDetail $conferenceDetails = null,
+        ?Zend_Service_DeveloperGarden_ConferenceCall_ConferenceSchedule $conferenceSchedule = null,
         $account = null
     ) {
         parent::__construct($environment);
@@ -113,7 +113,7 @@ class Zend_Service_DeveloperGarden_Request_ConferenceCall_UpdateConferenceReques
      * @return Zend_Service_DeveloperGarden_Request_ConferenceCall_CreateConferenceRequest
      */
     public function setSchedule(
-        Zend_Service_DeveloperGarden_ConferenceCall_ConferenceSchedule $schedule = null
+        ?Zend_Service_DeveloperGarden_ConferenceCall_ConferenceSchedule $schedule = null
     ) {
         $this->schedule = $schedule;
         return $this;
@@ -126,7 +126,7 @@ class Zend_Service_DeveloperGarden_Request_ConferenceCall_UpdateConferenceReques
      * @return Zend_Service_DeveloperGarden_Request_ConferenceCall_CreateConferenceRequest
      */
     public function setDetail(
-        Zend_Service_DeveloperGarden_ConferenceCall_ConferenceDetail $detail = null
+        ?Zend_Service_DeveloperGarden_ConferenceCall_ConferenceDetail $detail = null
     ) {
         $this->detail = $detail;
         return $this;

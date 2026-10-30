@@ -101,7 +101,7 @@ class Request
         self::$statusCode = $status_code;
 
         # Closing connection
-        curl_close($request);
+        unset($request); // the handle is freed here (the explicit close has had no effect since PHP 8.0)
 
         if (self::$debug) {
             log_debug("[CODE POST] " . $status_code);
@@ -184,7 +184,7 @@ class Request
         self::$statusCode = $status_code;
 
         # Closing connection
-        curl_close($request);
+        unset($request); // the handle is freed here (the explicit close has had no effect since PHP 8.0)
 
         if (self::$debug) {
             log_debug("[CODE GET] " . $status_code);
@@ -225,7 +225,7 @@ class Request
 
         $contentType = curl_getinfo($request, CURLINFO_CONTENT_TYPE);
 
-        curl_close($request);
+        unset($request); // the handle is freed here (the explicit close has had no effect since PHP 8.0)
 
         return $contentType;
     }

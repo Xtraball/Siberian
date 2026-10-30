@@ -367,10 +367,10 @@ class Front_Controller_Api_Base extends Front_Controller_App_Default
                     'name' => $application->getName(),
                     'share_domain' => ($whitelabel && $whitelabel->getHost()) ?
                         $whitelabel->getHost() : __get('main_domain'),
-                    'requestTrackingAuthorization' => (boolean)$application->getRequestTrackingAuthorization(),
-                    'is_locked' => (boolean)$application->requireToBeLoggedIn(),
-                    'is_bo_locked' => (boolean)$application->getIsLocked(),
-                    'disableUpdates' => (boolean)$application->getDisableUpdates(),
+                    'requestTrackingAuthorization' => (bool)$application->getRequestTrackingAuthorization(),
+                    'is_locked' => (bool)$application->requireToBeLoggedIn(),
+                    'is_bo_locked' => (bool)$application->getIsLocked(),
+                    'disableUpdates' => (bool)$application->getDisableUpdates(),
                     'colors' => [
                         'header' => [
                             'statusBarColor' => $colorStatusBarLighten->toCSS('hex'),
@@ -398,12 +398,12 @@ class Front_Controller_Api_Base extends Front_Controller_App_Default
                     ],
                     'pushIconcolor' => $iconColor,
                     'gmapsKey' => $googleMapsKey,
-                    'offlineContent' => (boolean)$application->getOfflineContent(),
+                    'offlineContent' => (bool)$application->getOfflineContent(),
                     // OneSignal section
                     'osAppId' => $application->getOnesignalAppId(),
                     // OneSignal section
-                    'iosStatusBarIsHidden' => (boolean)$application->getIosStatusBarIsHidden(),
-                    'androidStatusBarIsHidden' => (boolean)$application->getAndroidStatusBarIsHidden(),
+                    'iosStatusBarIsHidden' => (bool)$application->getIosStatusBarIsHidden(),
+                    'androidStatusBarIsHidden' => (bool)$application->getAndroidStatusBarIsHidden(),
                     'privacyPolicy' => [
                         'title' => $privacyPolicyTitle,
                         'text' => str_replace('#APP_NAME', $application->getName(), $privacyPolicy),
@@ -413,7 +413,7 @@ class Front_Controller_Api_Base extends Front_Controller_App_Default
                         'isEnabled' => isGdpr(),
                     ],
                     'ipinfo_key' => (string)$application->getIpinfoKey(),
-                    'useHomepageBackground' => (boolean)$application->getUseHomepageBackgroundImageInSubpages(),
+                    'useHomepageBackground' => (bool)$application->getUseHomepageBackgroundImageInSubpages(),
                     'backButton' => (string)$application->getBackButton(),
                     'backButtonClass' => $application->getBackButtonClass(),
                     'leftToggleClass' => $application->getLeftToggleClass(),
@@ -495,8 +495,8 @@ class Front_Controller_Api_Base extends Front_Controller_App_Default
                 }
 
                 $touchedValues[$optionValue->getId()] = [
-                    'touched_at' => (integer)$optionValue->getTouchedAt(),
-                    'expires_at' => (integer)$optionValue->getExpiresAt()
+                    'touched_at' => (int)$optionValue->getTouchedAt(),
+                    'expires_at' => (int)$optionValue->getExpiresAt()
                 ];
 
                 try {
@@ -527,38 +527,38 @@ class Front_Controller_Api_Base extends Front_Controller_App_Default
 
                     // End link special code!
                     $blockData = [
-                        'value_id' => (integer)$optionValue->getId(),
-                        'id' => (integer)$optionValue->getId(),
-                        'layout_id' => (integer)$optionValue->getLayoutId(),
+                        'value_id' => (int)$optionValue->getId(),
+                        'id' => (int)$optionValue->getId(),
+                        'layout_id' => (int)$optionValue->getLayoutId(),
                         'code' => $optionValue->getCode(),
                         'name' => $optionValue->getTabbarName(),
                         'subtitle' => $optionValue->getTabbarSubtitle(),
-                        'is_active' => (boolean)$optionValue->isActive(),
-                        'is_visible' => (boolean)$optionValue->getIsVisible(),
+                        'is_active' => (bool)$optionValue->isActive(),
+                        'is_visible' => (bool)$optionValue->getIsVisible(),
                         'url' => $uris['featureUrl'],
-                        'hide_navbar' => (boolean)$hideNavbar,
-                        'use_external_app' => (boolean)$useExternalApp,
+                        'hide_navbar' => (bool)$hideNavbar,
+                        'use_external_app' => (bool)$useExternalApp,
                         'path' => $uris['featurePath'],
                         'icon_url' => $request->getBaseUrl() . $this->_getColorizedImage($optionValue->getIconId(), $color),
-                        'icon_is_colorable' => (boolean)$optionValue->getImage()->getCanBeColorized(),
-                        'is_locked' => (boolean)$optionValue->isLocked(),
-                        'is_link' => !(boolean)$optionValue->getIsAjax(),
-                        'use_my_account' => (boolean)$optionValue->getUseMyAccount(),
-                        'use_nickname' => (boolean)$optionValue->getUseNickname(),
-                        'use_birthdate' => (boolean)$optionValue->getUseBirthdate(),
-                        'use_ranking' => (boolean)$optionValue->getUseRanking(),
-                        "use_civility" => (boolean)$optionValue->getUseCivility(),
-                        "use_mobile" => (boolean)$optionValue->getUseMobile(),
-                        'offline_mode' => (boolean)$optionValue->getObject()->isCacheable(),
+                        'icon_is_colorable' => (bool)$optionValue->getImage()->getCanBeColorized(),
+                        'is_locked' => (bool)$optionValue->isLocked(),
+                        'is_link' => !(bool)$optionValue->getIsAjax(),
+                        'use_my_account' => (bool)$optionValue->getUseMyAccount(),
+                        'use_nickname' => (bool)$optionValue->getUseNickname(),
+                        'use_birthdate' => (bool)$optionValue->getUseBirthdate(),
+                        'use_ranking' => (bool)$optionValue->getUseRanking(),
+                        "use_civility" => (bool)$optionValue->getUseCivility(),
+                        "use_mobile" => (bool)$optionValue->getUseMobile(),
+                        'offline_mode' => (bool)$optionValue->getObject()->isCacheable(),
                         'custom_fields' => $optionValue->getCustomFields(),
                         'embed_payload' => $embedPayload,
-                        'position' => (integer)$optionValue->getPosition(),
+                        'position' => (int)$optionValue->getPosition(),
                         'homepage' => ($optionValue->getFolderCategoryId() === null),
                         'settings' => $settings,
                         'lazy_load' => $optionValue->getLazyLoad(),
                         'open_callback_class' => $optionValue->getOpenCallbackClass(),
-                        'touched_at' => (integer)$optionValue->getTouchedAt(),
-                        'expires_at' => (integer)$optionValue->getExpiresAt()
+                        'touched_at' => (int)$optionValue->getTouchedAt(),
+                        'expires_at' => (int)$optionValue->getExpiresAt()
                     ];
 
                     // 4.18.3 link special options!
@@ -573,7 +573,7 @@ class Front_Controller_Api_Base extends Front_Controller_App_Default
 
                         // post 4.18.3 options
                         $blockData['link_url'] = (string)$objectLink->getData('url');
-                        $blockData['external_browser'] = (boolean)$objectLink->getExternalBrowser();
+                        $blockData['external_browser'] = (bool)$objectLink->getExternalBrowser();
                         $blockData['options'] = $objectLink->getOptions();
                     }
 
@@ -610,13 +610,13 @@ class Front_Controller_Api_Base extends Front_Controller_App_Default
                 'name' => $option->getTabbarName(),
                 'value_id' => 'more_items',
                 'subtitle' => $application->getMoreSubtitle(),
-                'is_active' => (boolean)$option->isActive(),
+                'is_active' => (bool)$option->isActive(),
                 'lazy_load' => null,
                 'open_callback_class' => null,
                 'url' => '',
                 'icon_url' => $request->getBaseUrl() .
                     $this->_getColorizedImage($option->getIconUrl(), $moreColor),
-                'icon_is_colorable' => (boolean)$moreColorizable,
+                'icon_is_colorable' => (bool)$moreColorizable,
             ];
 
             $option = (new Application_Model_Option())
@@ -641,8 +641,8 @@ class Front_Controller_Api_Base extends Front_Controller_App_Default
                 'code' => $option->getCode(),
                 'name' => $option->getTabbarName(),
                 'subtitle' => $application->getAccountSubtitle(),
-                'is_active' => (boolean)$option->isActive(),
-                'is_visible' => (boolean)$application->usesUserAccount(),
+                'is_active' => (bool)$option->isActive(),
+                'is_visible' => (bool)$application->usesUserAccount(),
                 'url' => $this->getUrl('customer/mobile_account_login'),
                 'path' => $this->getPath('customer/mobile_account_login'),
                 'login_url' => $this->getUrl('customer/mobile_account_login'),
@@ -650,7 +650,7 @@ class Front_Controller_Api_Base extends Front_Controller_App_Default
                 'edit_url' => $this->getUrl('customer/mobile_account_edit'),
                 'edit_path' => $this->getPath('customer/mobile_account_edit'),
                 'icon_url' => $this->getRequest()->getBaseUrl() . $this->_getColorizedImage($option->getIconUrl(), $accountColor),
-                'icon_is_colorable' => (boolean)$accountColorizable
+                'icon_is_colorable' => (bool)$accountColorizable
             ];
 
             $layout = new Application_Model_Layout_Homepage();
@@ -680,20 +680,20 @@ class Front_Controller_Api_Base extends Front_Controller_App_Default
                     'layout_code' => $application->getLayout()->getCode(),
                     'layout_options' => $layoutOptions,
                     'visibility' => $application->getLayoutVisibility(),
-                    'use_horizontal_scroll' => (boolean)$layout->getUseHorizontalScroll(),
+                    'use_horizontal_scroll' => (bool)$layout->getUseHorizontalScroll(),
                     'position' => $layout->getPosition()
                 ],
-                'limit_to' => (integer)$application->getLayout()->getNumberOfDisplayedIcons(),
+                'limit_to' => (int)$application->getLayout()->getNumberOfDisplayedIcons(),
                 'layout_id' => 'l' . $application->getLayoutId(),
                 'layout_code' => $application->getLayout()->getCode(),
-                'tabbar_is_transparent' => (boolean)($backgroundColor === 'transparent'),
-                'homepage_slider_is_visible' => (boolean)$application->getHomepageSliderIsVisible(),
+                'tabbar_is_transparent' => (bool)($backgroundColor === 'transparent'),
+                'homepage_slider_is_visible' => (bool)$application->getHomepageSliderIsVisible(),
                 'homepage_slider_duration' => $application->getHomepageSliderDuration(),
-                'homepage_slider_loop_at_beginning' => (boolean)$application->getHomepageSliderLoopAtBeginning(),
+                'homepage_slider_loop_at_beginning' => (bool)$application->getHomepageSliderLoopAtBeginning(),
                 'homepage_slider_size' => $application->getHomepageSliderSize(),
-                'homepage_slider_opacity' => (integer)$application->getHomepageSliderOpacity(),
-                'homepage_slider_offset' => (integer)$application->getHomepageSliderOffset(),
-                'homepage_slider_is_new' => (boolean)($application->getHomepageSliderSize() != null),
+                'homepage_slider_opacity' => (int)$application->getHomepageSliderOpacity(),
+                'homepage_slider_offset' => (int)$application->getHomepageSliderOffset(),
+                'homepage_slider_is_new' => (bool)($application->getHomepageSliderSize() != null),
                 'homepage_slider_images' => $homepageSliderImages,
             ];
 
@@ -914,9 +914,9 @@ class Front_Controller_Api_Base extends Front_Controller_App_Default
         $this->_refreshFacebookUserToken($customer);
 
         $loadBlock['customer'] = [
-            'id' => (integer)$customerId,
-            'can_connect_with_facebook' => (boolean)$application->getFacebookId(),
-            'can_access_locked_features' => (boolean)($customerId && $customer->canAccessLockedFeatures()),
+            'id' => (int)$customerId,
+            'can_connect_with_facebook' => (bool)$application->getFacebookId(),
+            'can_access_locked_features' => (bool)($customerId && $customer->canAccessLockedFeatures()),
             'token' => Zend_Session::getId()
         ];
 
@@ -972,13 +972,13 @@ class Front_Controller_Api_Base extends Front_Controller_App_Default
                 'intl_mobile' => $customer->getMobile(),
                 'image' => $customer->getImage(),
                 'email' => $customer->getEmail(),
-                'show_in_social_gaming' => (boolean)$customer->getShowInSocialGaming(),
-                'is_custom_image' => (boolean)$customer->getIsCustomImage(),
+                'show_in_social_gaming' => (bool)$customer->getShowInSocialGaming(),
+                'is_custom_image' => (bool)$customer->getIsCustomImage(),
                 'metadatas' => $metadata,
                 'communication_agreement' => (bool)$customer->getCommunicationAgreement(),
-                'can_connect_with_facebook' => (boolean)$application->getFacebookId(),
+                'can_connect_with_facebook' => (bool)$application->getFacebookId(),
                 'can_access_locked_features' =>
-                    (boolean)($customerId && $customer->canAccessLockedFeatures()),
+                    (bool)($customerId && $customer->canAccessLockedFeatures()),
             ]);
 
             if (Siberian_CustomerInformation::isRegistered('stripe')) {
@@ -1174,7 +1174,7 @@ class Front_Controller_Api_Base extends Front_Controller_App_Default
     public static function _admobSettings($application)
     {
         $payload = [
-            'isTesting' => (boolean) $application->getTestAds(),
+            'isTesting' => (bool) $application->getTestAds(),
             'ios_weight' => [
                 'app' => 1,
                 'platform' => 0,
@@ -1229,16 +1229,16 @@ class Front_Controller_Api_Base extends Front_Controller_App_Default
                 'ios' => [
                     'banner_id' => $ios_device->getAdmobId(),
                     'interstitial_id' => $ios_device->getAdmobInterstitialId(),
-                    'banner' => (boolean)in_array('banner', $ios_types),
-                    'interstitial' => (boolean)in_array('interstitial', $ios_types),
-                    'videos' => (boolean)in_array('videos', $ios_types), # Prepping the future.
+                    'banner' => (bool)in_array('banner', $ios_types),
+                    'interstitial' => (bool)in_array('interstitial', $ios_types),
+                    'videos' => (bool)in_array('videos', $ios_types), # Prepping the future.
                 ],
                 'android' => [
                     'banner_id' => $android_device->getAdmobId(),
                     'interstitial_id' => $android_device->getAdmobInterstitialId(),
-                    'banner' => (boolean)in_array('banner', $android_types),
-                    'interstitial' => (boolean)in_array('interstitial', $android_types),
-                    'videos' => (boolean)in_array('videos', $android_types), # Prepping the future.
+                    'banner' => (bool)in_array('banner', $android_types),
+                    'interstitial' => (bool)in_array('interstitial', $android_types),
+                    'videos' => (bool)in_array('videos', $android_types), # Prepping the future.
                 ],
             ];
         }

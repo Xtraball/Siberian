@@ -87,7 +87,7 @@ class Media_Model_Gallery_Image extends Core_Model_Default
 
             foreach ($galleries as $gallery) {
                 $currentGallery = [
-                    'id' => (integer)$gallery->getGalleryId(),
+                    'id' => (int)$gallery->getGalleryId(),
                     'name' => $gallery->getLabel() ? $gallery->getLabel() : $gallery->getName(),
                     'type' => $gallery->getTypeId(),
                 ];

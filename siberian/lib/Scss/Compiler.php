@@ -3556,7 +3556,7 @@ class Compiler
      *
      * @return array
      */
-    protected function multiplyMedia(Environment $env = null, $childQueries = null)
+    protected function multiplyMedia(?Environment $env = null, $childQueries = null)
     {
         if (! isset($env) ||
             ! empty($env->block->type) && $env->block->type !== Type::T_MEDIA
@@ -3639,7 +3639,7 @@ class Compiler
      *
      * @return \Leafo\ScssPhp\Compiler\Environment
      */
-    protected function pushEnv(Block $block = null)
+    protected function pushEnv(?Block $block = null)
     {
         $env = new Environment;
         $env->parent = $this->env;
@@ -3679,7 +3679,7 @@ class Compiler
      * @param \Leafo\ScssPhp\Compiler\Environment $env
      * @param mixed                               $valueUnreduced
      */
-    protected function set($name, $value, $shadow = false, Environment $env = null, $valueUnreduced = null)
+    protected function set($name, $value, $shadow = false, ?Environment $env = null, $valueUnreduced = null)
     {
         $name = $this->normalizeName($name);
 
@@ -3762,7 +3762,7 @@ class Compiler
      *
      * @return mixed|null
      */
-    public function get($name, $shouldThrow = true, Environment $env = null, $unreduced = false)
+    public function get($name, $shouldThrow = true, ?Environment $env = null, $unreduced = false)
     {
         $normalizedName = $this->normalizeName($name);
         $specialContentKey = static::$namespaces['special'] . 'content';
@@ -3822,7 +3822,7 @@ class Compiler
      *
      * @return boolean
      */
-    protected function has($name, Environment $env = null)
+    protected function has($name, ?Environment $env = null)
     {
         return $this->get($name, false, $env) !== null;
     }

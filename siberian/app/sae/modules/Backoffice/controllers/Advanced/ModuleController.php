@@ -95,7 +95,7 @@ class Backoffice_Advanced_ModuleController extends Backoffice_Controller_Default
             $name = $installed_module->getData('name');
             $code = $installed_module->getCode();
 
-            $useLicense = (boolean) $installed_module->getUseLicense();
+            $useLicense = (bool) $installed_module->getUseLicense();
             $licenseKey = p__('backoffice', 'n.a.');
             if ($useLicense) {
                 $licenseKey = substr(__get($code . '_key'), 0, 8) . '**********';
@@ -132,7 +132,7 @@ class Backoffice_Advanced_ModuleController extends Backoffice_Controller_Default
                 'name' => $feature->getName(),
                 'code' => $feature->getCode(),
                 'description' => $feature->getBackofficeDescription(),
-                'is_enabled' => (boolean) $feature->getIsEnabled(),
+                'is_enabled' => (bool) $feature->getIsEnabled(),
             ];
         }
 

@@ -59,7 +59,7 @@ class Fanwall_Mobile_GalleryController extends Application_Controller_Mobile_Def
                 $i = 0;
                 foreach ($_images as $_image) {
                     $collection[] = [
-                        'id' => (integer) $post->getId() . '.' . $i++,
+                        'id' => (int) $post->getId() . '.' . $i++,
                         'image' => (string) $_image
                     ];
                 }

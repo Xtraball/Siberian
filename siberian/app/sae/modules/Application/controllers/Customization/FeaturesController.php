@@ -519,7 +519,7 @@ class Application_Customization_FeaturesController extends Application_Controlle
 
             return [
                 'value_id' => $valueId,
-                'icon_id' => (integer) $iconId,
+                'icon_id' => (int) $iconId,
                 'icon_url' => $iconUrl,
                 'icon_url_colorized' => $iconUrlColorized,
                 'icon_url_colorized_app' => $iconUrlColorizedApp,

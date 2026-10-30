@@ -37,7 +37,7 @@ EOT;
      * @param array $params
      * @param HttpRequestContract|null $http
      */
-    public function __construct(array $config, array $params = array(), HttpRequestContract $http = null)
+    public function __construct(array $config, array $params = array(), ?HttpRequestContract $http = null)
     {
         $optionsNodes = array();
         $optionsNodes[] = $this->getIdentifierNode($params);

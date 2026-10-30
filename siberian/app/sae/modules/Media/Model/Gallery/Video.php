@@ -56,7 +56,7 @@ class Media_Model_Gallery_Video extends Core_Model_Default
 
         foreach ($videos as $video) {
             $payload["collection"][] = array(
-                "id" => (integer)$video->getId(),
+                "id" => (int)$video->getId(),
                 "name" => $video->getName(),
                 "type" => $video->getTypeId(),
                 "search_by" => $video->getType(),

@@ -72,7 +72,7 @@ class Template_Backoffice_Category_ListController extends Backoffice_Controller_
             $payload['templates'][] = [
                 'template_id' => $template->getId(),
                 'name' => $template->getName(),
-                'is_active' => (boolean) $template->getIsActive(),
+                'is_active' => (bool) $template->getIsActive(),
                 'is_protected' => in_array($template->getcode(), $coreTemplates),
                 'overview' => $template->getOverviewNew(),
                 'can_toggle' => !in_array($template->getcode(), $toggleTemplates),

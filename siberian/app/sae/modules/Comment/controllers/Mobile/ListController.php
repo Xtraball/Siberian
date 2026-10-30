@@ -55,9 +55,9 @@ class Comment_Mobile_ListController extends Application_Controller_Mobile_Defaul
                     $all_answers = [];
                     foreach ($answers as $answer) {
                         $all_answers[] = [
-                            "id" => (integer)$answer->getId(),
+                            "id" => (int)$answer->getId(),
                             "name" => $answer->getCustomerName(),
-                            "customer_id" => (integer)$answer->getCustomerId(),
+                            "customer_id" => (int)$answer->getCustomerId(),
                             "message" => \Siberian\Xss::sanitize($answer->getText()),
                             /** deprecated for mt_created_at */
                             "created_at" => $this->_durationSince($answer->getCreatedAt()),
@@ -73,7 +73,7 @@ class Comment_Mobile_ListController extends Application_Controller_Mobile_Defaul
 
 
                     $data["collection"][] = [
-                        "id" => (integer)$comment->getId(),
+                        "id" => (int)$comment->getId(),
                         "title" => $comment->getTitle(),
                         "subtitle" => $comment->getSubtitle(),
                         "url" => $this->getPath("comment/mobile_view", [
@@ -97,7 +97,7 @@ class Comment_Mobile_ListController extends Application_Controller_Mobile_Defaul
                             ]
                         ],
                         "embed_payload" => [
-                            "id" => (integer)$comment->getId(),
+                            "id" => (int)$comment->getId(),
                             "author" => $customer->getFirstname() ? $customer->getFirstname() : $application->getName(),
                             "title" => \Siberian\Xss::sanitize($comment->getTitle()),
                             "subtitle" => \Siberian\Xss::sanitize($comment->getSubtitle()),
@@ -108,7 +108,7 @@ class Comment_Mobile_ListController extends Application_Controller_Mobile_Defaul
                             "created_at" => $comment->getFormattedDate(__("MM.dd.y")),
                             "mt_created_at" => $comment->getDate(),
                             "code" => $this->getCurrentOptionValue()->getCode(),
-                            "social_sharing_active" => (boolean)$this->getCurrentOptionValue()->getSocialSharingIsActive(),
+                            "social_sharing_active" => (bool)$this->getCurrentOptionValue()->getSocialSharingIsActive(),
                             "answers" => $all_answers
                         ]
                     ];
@@ -120,9 +120,9 @@ class Comment_Mobile_ListController extends Application_Controller_Mobile_Defaul
                     $all_answers = [];
                     foreach ($answers as $answer) {
                         $all_answers[] = [
-                            "id" => (integer)$answer->getId(),
+                            "id" => (int)$answer->getId(),
                             "name" => $answer->getCustomerName(),
-                            "customer_id" => (integer)$answer->getCustomerId(),
+                            "customer_id" => (int)$answer->getCustomerId(),
                             "message" => \Siberian\Xss::sanitize($answer->getText()),
                             "created_at" => $this->_durationSince($answer->getCreatedAt()),
                             "mt_created_at" => $answer->getCreatedAt(),
@@ -133,7 +133,7 @@ class Comment_Mobile_ListController extends Application_Controller_Mobile_Defaul
                     $cleaned_message = str_replace(["\n", "\r"], "", html_entity_decode(strip_tags($comment->getText()), ENT_QUOTES, 'UTF-8'));
 
                     $data["collection"][] = [
-                        "id" => (integer)$comment->getId(),
+                        "id" => (int)$comment->getId(),
                         "title" => $comment->getTitle(),
                         "subtitle" => \Siberian\Xss::sanitize($comment->getSubtitle()),
                         "message" => strip_tags(html_entity_decode(strip_tags($comment->getText()), ENT_NOQUOTES, "UTF-8")),
@@ -157,7 +157,7 @@ class Comment_Mobile_ListController extends Application_Controller_Mobile_Defaul
                             ]
                         ],
                         "embed_payload" => [
-                            "id" => (integer)$comment->getId(),
+                            "id" => (int)$comment->getId(),
                             "author" => $customer->getFirstname() ? $customer->getFirstname() : $application->getName(),
                             "message" => \Siberian\Xss::sanitize($comment->getText()),
                             "cleaned_message" => mb_strlen($cleaned_message) > 67 ? mb_substr($cleaned_message, 0, 64) . "..." : $cleaned_message,
@@ -169,7 +169,7 @@ class Comment_Mobile_ListController extends Application_Controller_Mobile_Defaul
                             "number_of_likes" => count($comment->getLikes()),
                             "flag_icon" => $this->_getColorizedImage($this->_getImage("pictos/flag.png"), $color),
                             "code" => $this->getCurrentOptionValue()->getCode(),
-                            "social_sharing_active" => (boolean)$this->getCurrentOptionValue()->getSocialSharingIsActive(),
+                            "social_sharing_active" => (bool)$this->getCurrentOptionValue()->getSocialSharingIsActive(),
                             "answers" => $all_answers
                         ]
                     ];

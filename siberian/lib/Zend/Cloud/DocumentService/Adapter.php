@@ -72,7 +72,7 @@ interface Zend_Cloud_DocumentService_Adapter
      * @param  null|array $options
      * @return Zend_Cloud_DocumentService_DocumentSet
      */
-    public function listDocuments($collectionName, array $options = null);
+    public function listDocuments($collectionName, ?array $options = null);
 
     /**
      * Insert document

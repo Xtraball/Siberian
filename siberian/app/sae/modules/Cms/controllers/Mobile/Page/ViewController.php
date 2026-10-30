@@ -33,7 +33,7 @@ class Cms_Mobile_Page_ViewController extends Application_Controller_Mobile_Defau
                     "blocks" => $json,
                     "page_title" => $page->getTitle() ? $page->getTitle() : $option_value->getTabbarName(),
                     "picture" => $page->getPictureUrl(),
-                    "social_sharing_active" => (boolean) $option_value->getSocialSharingIsActive()
+                    "social_sharing_active" => (bool) $option_value->getSocialSharingIsActive()
                 ];
 
             } catch (Exception $e) {
@@ -88,7 +88,7 @@ class Cms_Mobile_Page_ViewController extends Application_Controller_Mobile_Defau
                 }
 
                 $data["page_title"] = $page->getTitle() ? $page->getTitle() : $option->getTabbarName();
-                $data["social_sharing_active"] = (boolean) $option->getSocialSharingIsActive();
+                $data["social_sharing_active"] = (bool) $option->getSocialSharingIsActive();
 
             } catch (Exception $e) {
                 $data = [

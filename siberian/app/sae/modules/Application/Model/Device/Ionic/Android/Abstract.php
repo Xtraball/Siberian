@@ -173,7 +173,7 @@ abstract class Application_Model_Device_Ionic_Android_Abstract extends Applicati
         ]);
 
         // Battery optimization
-        $disableBatteryOptimization = (boolean) filter_var($application->getDisableBatteryOptimization(), FILTER_VALIDATE_BOOLEAN);
+        $disableBatteryOptimization = (bool) filter_var($application->getDisableBatteryOptimization(), FILTER_VALIDATE_BOOLEAN);
         if (!$disableBatteryOptimization) {
             $replacements = array_merge($replacements, [
                 "<uses-permission android:name=\"android.permission.REQUEST_IGNORE_BATTERY_OPTIMIZATIONS\" />" => ""
@@ -181,7 +181,7 @@ abstract class Application_Model_Device_Ionic_Android_Abstract extends Applicati
         }
 
         // Disable *_location
-        $disableLocation = (boolean) filter_var($application->getDisableLocation(), FILTER_VALIDATE_BOOLEAN);
+        $disableLocation = (bool) filter_var($application->getDisableLocation(), FILTER_VALIDATE_BOOLEAN);
         //<uses-permission.*ACCESS_.*_LOCATION" \/>
         if ($disableLocation) {
             $replacements = array_merge($replacements, [
@@ -192,7 +192,7 @@ abstract class Application_Model_Device_Ionic_Android_Abstract extends Applicati
         }
 
         // Disable READ_MEDIA_* (option, Google Play photo & video permissions policy)
-        $disableMedia = (boolean) filter_var($application->getDisableMediaPermissions(), FILTER_VALIDATE_BOOLEAN);
+        $disableMedia = (bool) filter_var($application->getDisableMediaPermissions(), FILTER_VALIDATE_BOOLEAN);
         if ($disableMedia) {
             $replacements = array_merge($replacements, [
                 "<uses-permission android:name=\"android.permission.READ_MEDIA_IMAGES\" />" => "",

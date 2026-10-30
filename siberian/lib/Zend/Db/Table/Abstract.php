@@ -1578,7 +1578,7 @@ abstract class Zend_Db_Table_Abstract
         return $data;
     }
 
-    public static function getTableFromString($tableName, Zend_Db_Table_Abstract $referenceTable = null)
+    public static function getTableFromString($tableName, ?Zend_Db_Table_Abstract $referenceTable = null)
     {
         if ($referenceTable instanceof Zend_Db_Table_Abstract) {
             $tableDefinition = $referenceTable->getDefinition();

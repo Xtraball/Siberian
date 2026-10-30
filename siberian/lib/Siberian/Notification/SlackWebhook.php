@@ -40,7 +40,7 @@ class SlackWebhook
      * @param array $attributes channel, username, link_names, unfurl_links, unfurl_media, allow_markdown
      * @param Guzzle|null $guzzle
      */
-    public function __construct($endpoint, array $attributes = [], Guzzle $guzzle = null)
+    public function __construct($endpoint, array $attributes = [], ?Guzzle $guzzle = null)
     {
         $this->endpoint = $endpoint;
         $this->defaults = $attributes + [

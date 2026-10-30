@@ -43,11 +43,11 @@ class Form_Mobile_ViewController extends Application_Controller_Mobile_Default
 
                 foreach ($fields as $field) {
                     $fieldData = [
-                        "id" => (integer)$field->getId(),
+                        "id" => (int)$field->getId(),
                         "type" => (string)$field->getType(),
                         "name" => (string)$field->getName(),
                         "isFilled" => false,
-                        "isRequired" => (boolean)$field->isRequired(),
+                        "isRequired" => (bool)$field->isRequired(),
                         "options" => $field->hasOptions() ? $field->getOptions() : []
                     ];
 

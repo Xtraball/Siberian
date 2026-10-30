@@ -31,6 +31,7 @@ require_once 'Zend/Form/Decorator/Interface.php';
  * @license    http://framework.zend.com/license/new-bsd     New BSD License
  * @version    $Id: Abstract.php 24593 2012-01-05 20:35:02Z matthew $
  */
+#[\AllowDynamicProperties]
 abstract class Zend_Form_Decorator_Abstract implements Zend_Form_Decorator_Interface
 {
     /**

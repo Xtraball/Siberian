@@ -70,15 +70,15 @@ class Weblink_Model_Weblink extends Core_Model_Default
                     }
 
                     $payload['weblink']['links'][] = [
-                        'id' => (integer)$link->getId(),
+                        'id' => (int)$link->getId(),
                         'title' => (string)$link->getTitle(),
                         'picto_url' => (string)$picto_b64,
                         'url' => (string)$link->getUrl(),
                         // pre 4.18.3 options
-                        'hide_navbar' => (boolean)$link->getHideNavbar(),
-                        'use_external_app' => (boolean)$link->getUseExternalApp(),
+                        'hide_navbar' => (bool)$link->getHideNavbar(),
+                        'use_external_app' => (bool)$link->getUseExternalApp(),
                         // post 4.18.3 options
-                        'external_browser' => (boolean)$link->getExternalBrowser(),
+                        'external_browser' => (bool)$link->getExternalBrowser(),
                         'options' => $link->getOptions()
                     ];
                 }
@@ -86,7 +86,7 @@ class Weblink_Model_Weblink extends Core_Model_Default
                 $link = $this->getLink();
                 if ($link && $link->getId()) {
                     $payload['link_url'] = (string)$link->getUrl();
-                    $payload['external_browser'] = (boolean)$link->getExternalBrowser();
+                    $payload['external_browser'] = (bool)$link->getExternalBrowser();
                     $payload['options'] = $link->getOptions();
                 }
 

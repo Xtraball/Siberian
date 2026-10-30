@@ -77,8 +77,8 @@ class Comment_Mobile_CommentController extends Application_Controller_Mobile_Def
                     $customer = $this->getSession()->getCustomer();
 
                     $html["answer"] = [
-                        "id"            => (integer) $answer->getId(),
-                        "customer_id"   => (integer) $customer->getId(),
+                        "id"            => (int) $answer->getId(),
+                        "customer_id"   => (int) $customer->getId(),
                         "author"        => $customer->getFirstname() . ' ' . mb_substr($customer->getLastname(), 0, 1) . '.',
                         "name"          => $customer->getFirstname() . ' ' . mb_substr($customer->getLastname(), 0, 1) . '.',
                         "picture"       => $customer->getImageLink(),

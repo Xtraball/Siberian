@@ -80,8 +80,8 @@ class Fanwall_Mobile_PostController extends Application_Controller_Mobile_Defaul
                 $likeCollection = [];
                 foreach ($likes as $like) {
                     $likeCollection[] = [
-                        'id' => (integer) $like->getId(),
-                        'customerId' => (integer) $like->getCustomerId(),
+                        'id' => (int) $like->getId(),
+                        'customerId' => (int) $like->getCustomerId(),
                     ];
 
                     if ($like->getCustomerId() == $customerId) {
@@ -94,23 +94,23 @@ class Fanwall_Mobile_PostController extends Application_Controller_Mobile_Defaul
                 $images = array_filter(explode(',', $post->getImage()));
 
                 $collection[] = [
-                    'id' => (integer) $post->getId(),
-                    'customerId' => (integer) $post->getCustomerId(),
+                    'id' => (int) $post->getId(),
+                    'customerId' => (int) $post->getCustomerId(),
                     'title' => (string) $post->getTitle(),
                     'subtitle' => (string) $post->getSubtitle(),
                     'text' => (string) self::removeHref(Xss::sanitize(base64_decode($post->getText()))),
                     'image' => (string) ($images[0] ?? ''),
                     'images' => $images,
-                    'date' => (integer) $post->getDate(),
-                    'likeCount' => (integer) $likes->count(),
-                    'commentCount' => (integer) $comments->count(),
+                    'date' => (int) $post->getDate(),
+                    'likeCount' => (int) $likes->count(),
+                    'commentCount' => (int) $comments->count(),
                     'latitude' => (float) $post->getLatitude(),
                     'longitude' => (float) $post->getLongitude(),
-                    'isFlagged' => (boolean) $post->getFlag(),
-                    'isScheduled' => (boolean) $post->getIsScheduled(),
-                    'sticky' => (boolean) $post->getSticky(),
+                    'isFlagged' => (bool) $post->getFlag(),
+                    'isScheduled' => (bool) $post->getIsScheduled(),
+                    'sticky' => (bool) $post->getSticky(),
                     'iLiked' => $iLiked,
-                    'isVisible' => (boolean) $post->getIsVisible(),
+                    'isVisible' => (bool) $post->getIsVisible(),
                     'status' => $post->getStatus(),
                     'likeLocked' => false,
                     'author' => $author,
@@ -171,8 +171,8 @@ class Fanwall_Mobile_PostController extends Application_Controller_Mobile_Defaul
                 $likeCollection = [];
                 foreach ($likes as $like) {
                     $likeCollection[] = [
-                        'id' => (integer) $like->getId(),
-                        'customerId' => (integer) $like->getCustomerId(),
+                        'id' => (int) $like->getId(),
+                        'customerId' => (int) $like->getCustomerId(),
                     ];
                 }
 
@@ -181,23 +181,23 @@ class Fanwall_Mobile_PostController extends Application_Controller_Mobile_Defaul
                 $images = array_filter(explode(',', $post->getImage()));
 
                 $collection[] = [
-                    'id' => (integer) $post->getId(),
-                    'customerId' => (integer) $post->getCustomerId(),
+                    'id' => (int) $post->getId(),
+                    'customerId' => (int) $post->getCustomerId(),
                     'title' => (string) $post->getTitle(),
                     'subtitle' => (string) $post->getSubtitle(),
                     'text' => (string) Xss::sanitize(base64_decode($post->getText())),
                     'image' => (string) ($images[0] ?? ''),
                     'images' => $images,
-                    'date' => (integer) $post->getDate(),
-                    'likeCount' => (integer) $likes->count(),
-                    'commentCount' => (integer) $comments->count(),
+                    'date' => (int) $post->getDate(),
+                    'likeCount' => (int) $likes->count(),
+                    'commentCount' => (int) $comments->count(),
                     'latitude' => (float) $post->getLatitude(),
                     'longitude' => (float) $post->getLongitude(),
-                    'isFlagged' => (boolean) $post->getFlag(),
-                    'isScheduled' => (boolean) $post->getIsScheduled(),
-                    'sticky' => (boolean) $post->getSticky(),
+                    'isFlagged' => (bool) $post->getFlag(),
+                    'isScheduled' => (bool) $post->getIsScheduled(),
+                    'sticky' => (bool) $post->getSticky(),
                     'iLiked' => false,
-                    'isVisible' => (boolean) $post->getIsVisible(),
+                    'isVisible' => (bool) $post->getIsVisible(),
                     'status' => $post->getStatus(),
                     'likeLocked' => false,
                     'author' => $author,
@@ -270,8 +270,8 @@ class Fanwall_Mobile_PostController extends Application_Controller_Mobile_Defaul
                 $likeCollection = [];
                 foreach ($likes as $like) {
                     $likeCollection[] = [
-                        'id' => (integer) $like->getId(),
-                        'customerId' => (integer) $like->getCustomerId(),
+                        'id' => (int) $like->getId(),
+                        'customerId' => (int) $like->getCustomerId(),
                     ];
 
                     if ($like->getCustomerId() == $customerId) {
@@ -284,30 +284,30 @@ class Fanwall_Mobile_PostController extends Application_Controller_Mobile_Defaul
                 $images = array_filter(explode(',', $post->getImage()));
 
                 $collection[] = [
-                    'id' => (integer) $post->getId(),
-                    'customerId' => (integer) $post->getCustomerId(),
+                    'id' => (int) $post->getId(),
+                    'customerId' => (int) $post->getCustomerId(),
                     'title' => (string) $post->getTitle(),
                     'subtitle' => (string) $post->getSubtitle(),
                     'text' => (string) Xss::sanitize(base64_decode($post->getText())),
                     'image' => (string) ($images[0] ?? ''),
                     'images' => $images,
-                    'date' => (integer) $post->getDate(),
-                    'likeCount' => (integer) $likes->count(),
-                    'commentCount' => (integer) $comments->count(),
+                    'date' => (int) $post->getDate(),
+                    'likeCount' => (int) $likes->count(),
+                    'commentCount' => (int) $comments->count(),
                     'latitude' => (float) $post->getLatitude(),
                     'longitude' => (float) $post->getLongitude(),
-                    'isFlagged' => (boolean) $post->getFlag(),
-                    'isScheduled' => (boolean) $post->getIsScheduled(),
-                    'sticky' => (boolean) $post->getSticky(),
-                    'iLiked' => (boolean) $iLiked,
-                    'isVisible' => (boolean) $post->getIsVisible(),
+                    'isFlagged' => (bool) $post->getFlag(),
+                    'isScheduled' => (bool) $post->getIsScheduled(),
+                    'sticky' => (bool) $post->getSticky(),
+                    'iLiked' => (bool) $iLiked,
+                    'isVisible' => (bool) $post->getIsVisible(),
                     'status' => $post->getStatus(),
-                    'likeLocked' => (boolean) false,
+                    'likeLocked' => (bool) false,
                     'author' => $author,
                     'comments' => $commentCollection,
                     'likes' => $likeCollection,
                     'history' => $post->getHistoryJson(),
-                    'showDistance' => (boolean) false,
+                    'showDistance' => (bool) false,
                 ];
             }
 
@@ -390,8 +390,8 @@ class Fanwall_Mobile_PostController extends Application_Controller_Mobile_Defaul
                 $likeCollection = [];
                 foreach ($likes as $like) {
                     $likeCollection[] = [
-                        'id' => (integer) $like->getId(),
-                        'customer_id' => (integer) $like->getCustomerId(),
+                        'id' => (int) $like->getId(),
+                        'customer_id' => (int) $like->getCustomerId(),
                     ];
 
                     if ($like->getCustomerId() == $customerId) {
@@ -413,30 +413,30 @@ class Fanwall_Mobile_PostController extends Application_Controller_Mobile_Defaul
                 $images = array_filter(explode(',', $post->getImage()));
 
                 $collection[] = [
-                    'id' => (integer) $post->getId(),
-                    'customerId' => (integer) $post->getCustomerId(),
+                    'id' => (int) $post->getId(),
+                    'customerId' => (int) $post->getCustomerId(),
                     'title' => (string) $post->getTitle(),
                     'subtitle' => (string) $post->getSubtitle(),
                     'text' => (string) Xss::sanitize(base64_decode($post->getText())),
                     'image' => (string) ($images[0] ?? ''),
                     'images' => $images,
-                    'date' => (integer) $post->getDate(),
-                    'likeCount' => (integer) $likes->count(),
-                    'commentCount' => (integer) $comments->count(),
+                    'date' => (int) $post->getDate(),
+                    'likeCount' => (int) $likes->count(),
+                    'commentCount' => (int) $comments->count(),
                     'latitude' => (float) $post->getLatitude(),
                     'longitude' => (float) $post->getLongitude(),
-                    'isFlagged' => (boolean) $post->getFlag(),
-                    'isScheduled' => (boolean) $post->getIsScheduled(),
-                    'sticky' => (boolean) $post->getSticky(),
-                    'iLiked' => (boolean) $iLiked,
-                    'isVisible' => (boolean) $post->getIsVisible(),
+                    'isFlagged' => (bool) $post->getFlag(),
+                    'isScheduled' => (bool) $post->getIsScheduled(),
+                    'sticky' => (bool) $post->getSticky(),
+                    'iLiked' => (bool) $iLiked,
+                    'isVisible' => (bool) $post->getIsVisible(),
                     'status' => $post->getStatus(),
-                    'likeLocked' => (boolean) false,
+                    'likeLocked' => (bool) false,
                     'author' => $author,
                     'comments' => $commentCollection,
                     'likes' => $likeCollection,
                     'history' => $post->getHistoryJson(),
-                    'showDistance' => (boolean) true,
+                    'showDistance' => (bool) true,
                     'distance' => (float) $distance,
                     'distanceUnit' => $distanceUnit,
                     'locationShort' => (string) $post->getLocationShort(),
@@ -515,8 +515,8 @@ class Fanwall_Mobile_PostController extends Application_Controller_Mobile_Defaul
                 $likeCollection = [];
                 foreach ($likes as $like) {
                     $likeCollection[] = [
-                        'id' => (integer) $like->getId(),
-                        'customer_id' => (integer) $like->getCustomerId(),
+                        'id' => (int) $like->getId(),
+                        'customer_id' => (int) $like->getCustomerId(),
                     ];
 
                     if ($like->getCustomerId() == $customerId) {
@@ -538,30 +538,30 @@ class Fanwall_Mobile_PostController extends Application_Controller_Mobile_Defaul
                 $images = array_filter(explode(',', $post->getImage()));
 
                 $collection[] = [
-                    'id' => (integer) $post->getId(),
-                    'customerId' => (integer) $post->getCustomerId(),
+                    'id' => (int) $post->getId(),
+                    'customerId' => (int) $post->getCustomerId(),
                     'title' => (string) $post->getTitle(),
                     'subtitle' => (string) $post->getSubtitle(),
                     'text' => (string) Xss::sanitize(base64_decode($post->getText())),
                     'image' => (string) ($images[0] ?? ''),
                     'images' => $images,
-                    'date' => (integer) $post->getDate(),
-                    'likeCount' => (integer) $likes->count(),
-                    'commentCount' => (integer) $comments->count(),
+                    'date' => (int) $post->getDate(),
+                    'likeCount' => (int) $likes->count(),
+                    'commentCount' => (int) $comments->count(),
                     'latitude' => (float) $post->getLatitude(),
                     'longitude' => (float) $post->getLongitude(),
-                    'isFlagged' => (boolean) $post->getFlag(),
-                    'isScheduled' => (boolean) $post->getIsScheduled(),
-                    'sticky' => (boolean) $post->getSticky(),
-                    'iLiked' => (boolean) $iLiked,
-                    'isVisible' => (boolean) $post->getIsVisible(),
+                    'isFlagged' => (bool) $post->getFlag(),
+                    'isScheduled' => (bool) $post->getIsScheduled(),
+                    'sticky' => (bool) $post->getSticky(),
+                    'iLiked' => (bool) $iLiked,
+                    'isVisible' => (bool) $post->getIsVisible(),
                     'status' => $post->getStatus(),
-                    'likeLocked' => (boolean) false,
+                    'likeLocked' => (bool) false,
                     'author' => $author,
                     'comments' => $commentCollection,
                     'likes' => $likeCollection,
                     'history' => $post->getHistoryJson(),
-                    'showDistance' => (boolean) true,
+                    'showDistance' => (bool) true,
                     'distance' => (float) $distance,
                     'distanceUnit' => $distanceUnit,
                     'locationShort' => (string) $post->getLocationShort(),
@@ -774,13 +774,13 @@ class Fanwall_Mobile_PostController extends Application_Controller_Mobile_Defaul
             if ($post->getId()) {
                 $saveToHistory = true;
                 $archivedPost = [
-                    'id' => (integer) $post->getId(),
-                    'customerId' => (integer) $post->getCustomerId(),
+                    'id' => (int) $post->getId(),
+                    'customerId' => (int) $post->getCustomerId(),
                     'title' => (string) $post->getTitle(),
                     'subtitle' => (string) $post->getSubtitle(),
                     'text' => (string) $post->getText(),
                     'image' => (string) $post->getImage(),
-                    'date' => (integer) $post->getDate(),
+                    'date' => (int) $post->getDate(),
                     'latitude' => (float) $post->getLatitude(),
                     'longitude' => (float) $post->getLongitude(),
                     'locationShort' => (string) $post->getLocationShort(),
@@ -942,11 +942,11 @@ class Fanwall_Mobile_PostController extends Application_Controller_Mobile_Defaul
             if ($comment->getId()) {
                 $saveToHistory = true;
                 $archivedComment = [
-                    'id' => (integer) $comment->getId(),
-                    'customerId' => (integer) $comment->getCustomerId(),
+                    'id' => (int) $comment->getId(),
+                    'customerId' => (int) $comment->getCustomerId(),
                     'text' => (string) $comment->getText(),
                     'image' => (string) $comment->getPicture(),
-                    'date' => (integer) $comment->getDate(),
+                    'date' => (int) $comment->getDate(),
                 ];
             }
 
@@ -1013,7 +1013,7 @@ class Fanwall_Mobile_PostController extends Application_Controller_Mobile_Defaul
 
             $payload = [
                 'success' => true,
-                'postId' => (integer) $postId,
+                'postId' => (int) $postId,
                 'comments' => $commentCollection,
                 'message' => 'Your comment is saved!',
             ];
@@ -1160,7 +1160,7 @@ class Fanwall_Mobile_PostController extends Application_Controller_Mobile_Defaul
 
             $payload = [
                 'success' => true,
-                'postId' => (integer) $postId,
+                'postId' => (int) $postId,
                 'refresh' => $refresh,
                 'comments' => $commentCollection,
                 'message' => 'This user posts & messages are now blocked.',
@@ -1262,7 +1262,7 @@ class Fanwall_Mobile_PostController extends Application_Controller_Mobile_Defaul
 
             $payload = [
                 'success' => true,
-                'postId' => (integer) $postId,
+                'postId' => (int) $postId,
                 'refresh' => $refresh,
                 'comments' => $commentCollection,
                 'message' => 'This user posts & messages are now unblocked.',

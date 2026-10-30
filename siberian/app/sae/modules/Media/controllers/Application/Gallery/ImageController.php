@@ -86,7 +86,7 @@ class Media_Application_Gallery_ImageController extends Application_Controller_D
 
                 $payload = [
                     'success' => true,
-                    'is_new' => !(boolean) $imageGallery->getId()
+                    'is_new' => !(bool) $imageGallery->getId()
                 ];
 
                 // Don't really understand this section! (About PICASA...)
@@ -180,7 +180,7 @@ class Media_Application_Gallery_ImageController extends Application_Controller_D
 
                     $payload = array_merge($payload, [
                         'id' => (int) $imageGallery->getGalleryId(),
-                        'is_new' => !(boolean) $imageGallery->getId(),
+                        'is_new' => !(bool) $imageGallery->getId(),
                         'message' => __('Images gallery has been saved successfully'),
                         'success_message' => __('Images gallery has been saved successfully'),
                         'message_timeout' => 2,

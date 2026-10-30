@@ -85,7 +85,7 @@ class Template_CropController extends Admin_Controller_Default
             ->setQuality($this->getRequest()->getParam('quality'))
             ->setUploader($this->getRequest()->getParam('uploader'))
             ->setOptionId($option_value_id)
-            ->setIsColorizable((boolean) filter_var($is_colorizable, FILTER_VALIDATE_BOOLEAN))
+            ->setIsColorizable((bool) filter_var($is_colorizable, FILTER_VALIDATE_BOOLEAN))
             ->setForceColor($this->getRequest()->getParam('force_color'))
             ->setImageColor($this->getRequest()->getParam('image_color'))
             ->toHtml();
@@ -115,7 +115,7 @@ class Template_CropController extends Admin_Controller_Default
             ->setQuality($this->getRequest()->getParam('quality'))
             ->setUploader($this->getRequest()->getParam('uploader'))
             ->setOptionId($option_value_id)
-            ->setIsColorizable((boolean) filter_var($is_colorizable, FILTER_VALIDATE_BOOLEAN))
+            ->setIsColorizable((bool) filter_var($is_colorizable, FILTER_VALIDATE_BOOLEAN))
             ->setForceColor($this->getRequest()->getParam('force_color'))
             ->setImageColor($this->getRequest()->getParam('image_color'))
             ->toHtml();

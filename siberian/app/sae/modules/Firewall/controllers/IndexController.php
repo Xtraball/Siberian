@@ -30,7 +30,7 @@ class Firewall_IndexController extends Backoffice_Controller_Default
                 'port' => (string) __get('fw_clamd_port'),
             ],
             'fw_slack' => [
-                'is_enabled' => (boolean) __get('fw_slack_is_enabled'),
+                'is_enabled' => (bool) __get('fw_slack_is_enabled'),
                 'webhook' => $slackWebHook,
                 'channel' => __get('fw_slack_channel'),
                 'username' => __get('fw_slack_username'),

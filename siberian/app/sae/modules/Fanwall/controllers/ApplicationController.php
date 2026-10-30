@@ -69,13 +69,13 @@ class Fanwall_ApplicationController extends Application_Controller_Default
                 if ($post->getId()) {
                     $saveToHistory = true;
                     $archivedPost = [
-                        'id' => (integer)$post->getId(),
-                        'customerId' => (integer)$post->getCustomerId(),
+                        'id' => (int)$post->getId(),
+                        'customerId' => (int)$post->getCustomerId(),
                         'title' => (string)$post->getTitle(),
                         'subtitle' => (string)$post->getSubtitle(),
                         'text' => (string)$post->getText(),
                         'image' => (string)$post->getImage(),
-                        'date' => (integer)$post->getDate(),
+                        'date' => (int)$post->getDate(),
                         'latitude' => (float)$post->getLatitude(),
                         'longitude' => (float)$post->getLongitude(),
                         'locationShort' => (string)$post->getLocationShort(),

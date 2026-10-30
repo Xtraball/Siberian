@@ -17,10 +17,10 @@ class Mcommerce_Mobile_Sales_DeliveryController extends Mcommerce_Controller_Mob
             $app = $this->getApplication();
 
             $storeJson = [
-                'id' => (integer) $store->getId(),
+                'id' => (int) $store->getId(),
                 'name' => (string) $store->getName(),
                 'deliveryMethods' => [],
-                'clients_calculate_change' => (boolean) $store->getClientsCalculateChange()
+                'clients_calculate_change' => (bool) $store->getClientsCalculateChange()
             ];
 
             /**
@@ -34,10 +34,10 @@ class Mcommerce_Mobile_Sales_DeliveryController extends Mcommerce_Controller_Mob
 
                 if ($isAvailable) {
                     $storeJson['deliveryMethods'][] = [
-                        'id' => (integer) $deliveryMethod->getId(),
+                        'id' => (int) $deliveryMethod->getId(),
                         'code' => (string) $deliveryMethod->getCode(),
                         'name' => (string) $deliveryMethod->getName(),
-                        'price' => (double) $deliveryMethod->getPrice(),
+                        'price' => (float) $deliveryMethod->getPrice(),
                         'formattedPrice' => $deliveryMethod->getPrice() > 0 ?
                             $deliveryMethod->getFormattedPrice() : null
                     ];
@@ -45,10 +45,10 @@ class Mcommerce_Mobile_Sales_DeliveryController extends Mcommerce_Controller_Mob
                     // If delivery!
                     if ($deliveryMethod->getCode() === 'home_delivery') {
                         $storeJson['deliveryKo'][] = [
-                            'id' => (integer) $deliveryMethod->getId(),
+                            'id' => (int) $deliveryMethod->getId(),
                             'code' => (string) $deliveryMethod->getCode(),
                             'name' => (string) $deliveryMethod->getName(),
-                            'price' => (double) $deliveryMethod->getPrice(),
+                            'price' => (float) $deliveryMethod->getPrice(),
                             'formattedPrice' => $deliveryMethod->getPrice() > 0 ?
                                 $deliveryMethod->getFormattedPrice() : null
                         ];
@@ -57,7 +57,7 @@ class Mcommerce_Mobile_Sales_DeliveryController extends Mcommerce_Controller_Mob
             }
 
             $payload['store'] = $storeJson;
-            $payload['clients_calculate_change'] = (boolean) ($cart->getDeliveryMethod()->getCode() === 'home_delivery' &&
+            $payload['clients_calculate_change'] = (bool) ($cart->getDeliveryMethod()->getCode() === 'home_delivery' &&
                 $cart->getStore()->getClientsCalculateChange());
             
         } catch (\Exception $e) {

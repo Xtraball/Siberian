@@ -22,7 +22,7 @@ class Catalog_Mobile_Category_ListController extends Application_Controller_Mobi
                     usort($products, array($this, "_sortProducts"));
 
                     $category_data = array(
-                        "id"        => (integer) $category->getId(),
+                        "id"        => (int) $category->getId(),
                         "name"      => $category->getName(),
                     );
 
@@ -38,14 +38,14 @@ class Catalog_Mobile_Category_ListController extends Application_Controller_Mobi
                             usort($child_products, array($this, "_sortProducts"));
 
                             $category_data["children"][] = array(
-                                "id"            => (integer) $child->getId(),
+                                "id"            => (int) $child->getId(),
                                 "name"          => $child->getName(),
                                 "collection"    => $child_products
                             );
                         }
 
                          array_unshift($category_data["children"], array(
-                            "id"            => (integer) $child->getId(),
+                            "id"            => (int) $child->getId(),
                             "name"          => __("%s - All", $category->getName()),
                             "collection"    => $products
                         ));
@@ -80,7 +80,7 @@ class Catalog_Mobile_Category_ListController extends Application_Controller_Mobi
         if($product->getData('type') === 'format') {
             foreach($product->getType()->getOptions() as $option) {
                 $format[] = [
-                    'id' => (integer) $option->getId(),
+                    'id' => (int) $option->getId(),
                     'title' => $option->getTitle(),
                     'price' => $option->getFormattedPrice()
                 ];
@@ -100,11 +100,11 @@ class Catalog_Mobile_Category_ListController extends Application_Controller_Mobi
             'price' => $product->getPrice() > 0 ? $product->getFormattedPrice() : null,
             'picture' => $picture_b64,
             'formats' => $format,
-            'social_sharing_active' => (boolean) $this->getCurrentOptionValue()->getSocialSharingIsActive()
+            'social_sharing_active' => (bool) $this->getCurrentOptionValue()->getSocialSharingIsActive()
         ];
 
         return [
-            'id' => (integer) $product->getId(),
+            'id' => (int) $product->getId(),
             'title' => $product->getName(),
             'subtitle' => strip_tags($product->getDescription()).($product->getPrice() > 0 ? "<br>".$product->getFormattedPrice() : ""),
             'picture' => $picture_b64,

@@ -53,7 +53,7 @@ class Contact_Mobile_ViewController extends Application_Controller_Mobile_Defaul
             "website_url" => $contact->getWebsite(),
             "facebook_url" => $contact->getFacebook(),
             "twitter_url" => $contact->getTwitter(),
-            "display_locate_action" => (boolean) $contact->getDisplayLocateAction()
+            "display_locate_action" => (bool) $contact->getDisplayLocateAction()
         ];
 
         if ($contact->getLatitude() && $contact->getLongitude()) {
@@ -65,7 +65,7 @@ class Contact_Mobile_ViewController extends Application_Controller_Mobile_Defaul
 
 
         $data["page_title"] = $option->getTabbarName();
-        $data["card_design"] = (boolean) ($contact->getDesign() === "card");
+        $data["card_design"] = (bool) ($contact->getDesign() === "card");
 
         $this->_sendJson($data);
 

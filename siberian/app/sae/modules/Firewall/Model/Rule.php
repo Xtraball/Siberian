@@ -30,7 +30,7 @@ class Firewall_Model_Rule extends Core_Model_Default
      * @return void
      * @throws \Siberian\Exception
      */
-    public static function allowExtension(string $extension = null)
+    public static function allowExtension(?string $extension = null)
     {
         $extension = self::checkRules($extension);
 
@@ -53,7 +53,7 @@ class Firewall_Model_Rule extends Core_Model_Default
      * @throws Zend_Exception
      * @throws \Siberian\Exception
      */
-    public static function disallowExtension(string $extension = null)
+    public static function disallowExtension(?string $extension = null)
     {
         $extension = self::checkRules($extension);
 
@@ -90,7 +90,7 @@ class Firewall_Model_Rule extends Core_Model_Default
      * @throws Zend_Exception
      * @throws \Siberian\Exception
      */
-    public static function checkRules(string $extension = null)
+    public static function checkRules(?string $extension = null)
     {
         if (__getConfig('is_demo')) {
             // Demo version

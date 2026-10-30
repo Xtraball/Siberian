@@ -296,7 +296,7 @@ abstract class Core_Model_Default_Abstract extends \__polyfill_mixed
      */
     public function elementExists($key_values = [])
     {
-        return (boolean)$this->fetchElement($key_values);
+        return (bool)$this->fetchElement($key_values);
     }
 
     /**
