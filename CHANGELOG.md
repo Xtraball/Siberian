@@ -2,6 +2,28 @@
 
 Notable changes to Siberian, newest first. Dates are `YYYY-MM-DD`. Longer notes live in `docs/`.
 
+## [5.1.7] 2026-10-30
+
+More PHP 8.5 fixes, a backoffice top menu that fits small windows, and the camera permissions of Android apps, on top of 5.1.6. The update package is built against 5.1.6 (`lastversion`), the last published version. MAE and PE carry the same changes (tags `v5.1.7`, released from `master`).
+
+### Changed
+
+- 2026-10-30 Backoffice: the top menu uses the full width of the window and folds under a toggle button on small windows.
+- 2026-10-30 Android: the camera only asks for the storage permissions that the app manifest declares.
+
+### Fixed
+
+- 2026-10-30 PHP 8.5: deprecations and warnings in the translator and the bundled gettext (#945), `null` passed to string functions in the security helpers and the mobile detection (#946), the session save handler is registered as an object and a missing session type is handled (#947), `null` and `false` values no longer reach `foreach` and string functions (#952).
+- 2026-10-30 PHP 8.5: the analytics store no longer hands `null` to `addslashes()` (#949), and a first-party sweep of casts, nullable parameters, case terminators and dynamic properties (#950).
+- 2026-10-30 Modules: a module init no longer runs the closure of the previous module, and registering a payment gateway twice is harmless (#948).
+- 2026-10-30 Encryption: `Cypher::dcRun()` checks that the encrypted counterpart of a file exists before reading it (#951).
+- 2026-10-30 Backoffice: the profile drop-down closes after a click on one of its entries; the log-out entry is unchanged.
+- 2026-10-30 Backoffice: the design cache of the three editions is rebuilt, so the files added since the last rebuild are sent to the browser.
+
+### Developer
+
+- 2026-10-30 `docs/` describes the issue triage flow, and the triage labels are part of a triage.
+
 ## [5.1.6] 2026-10-30
 
 Error reporting, Google Play App Signing, one-time loyalty QR codes and a series of PHP 8.5 fixes, on top of 5.1.5. The update package is built against 5.1.5 (`lastversion`), the last published version. MAE and PE carry the same changes (tags `v5.1.6`, released from `master`).
