@@ -406,6 +406,15 @@ if (in_array($backofficeTheme, [null, '', 'default'], true) &&
 
 ?>
 <div class="content">
+    <button type="button"
+            class="backoffice_menu_toggle"
+            ng-if="isLoggedIn"
+            ng-click="toggleMainMenu()"
+            ng-attr-aria-expanded="{{ mainMenu.open }}"
+            aria-controls="backoffice_menu"
+            aria-label="<?php echo __('Menu'); ?>">
+        <i class="fa fa-bars"></i>
+    </button>
     <div class="logo left">
         <a href="<?php echo $this->getUrl(''); ?>"
            ng-click="$event.stopPropagation()">
@@ -419,7 +428,8 @@ if (in_array($backofficeTheme, [null, '', 'default'], true) &&
     <div id="backoffice_menu"
          class="menu backoffice_menu slide-down"
          ng-if="isLoggedIn"
-         ng-class="{none: !isLoggedIn}">
+         ng-click="mainMenu.open = false"
+         ng-class="{none: !isLoggedIn, open: mainMenu.open}">
         <ul class="l1">
             <?php echo $outputHtml; ?>
         </ul>

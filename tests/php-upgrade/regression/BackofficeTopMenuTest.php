@@ -1,6 +1,6 @@
 <?php
 /**
- * Backoffice top bar: the bar content is contained like the page body (1440px), the menus sit on the left and the
+ * Backoffice top bar: the bar content is the full width of the window, the menus sit on the left and the
  * "Log-out" menu entry is replaced by a user dropdown (avatar, name, link to the account, log-out).
  */
 $backoffice = dirname(__DIR__, 3) . '/siberian/app/sae/design/desktop/backoffice';
@@ -22,9 +22,10 @@ $rule = function ($css, $selector) {
 };
 
 return [
-    'the top bar content is contained like the page body' => function () use ($theme, $rule) {
+    'the top bar content is the full width of the window' => function () use ($theme, $rule) {
         $declarations = $rule(file_get_contents($theme), '.top .content');
-        t_true(preg_match('/max-width:\s*1440px/', $declarations) === 1, 'same 1440px as .wrapper');
+        t_true(preg_match('/(?<![-\w])width:\s*100%/', $declarations) === 1, 'full width');
+        t_true(preg_match('/max-width:\s*none/', $declarations) === 1, 'no 1440px container any more');
         t_true(preg_match('/min-width:\s*0/', $declarations) === 1, 'the 1250px minimum of the base stylesheet is gone');
         t_true(preg_match('/display:\s*flex/', $declarations) === 1, 'logo, menus and user menu are one row');
     },

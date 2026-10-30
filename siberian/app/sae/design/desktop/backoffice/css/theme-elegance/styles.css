@@ -108,6 +108,10 @@ div.title[data-uri="/backoffice/index/template"] h1 {
     height: 32px;
 }
 
+.top .backoffice_menu_toggle {
+    color: #404040;
+}
+
 .top .content {
     height: 32px;
 }

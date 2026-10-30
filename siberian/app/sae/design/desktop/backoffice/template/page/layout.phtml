@@ -6,6 +6,7 @@
         <meta <?php echo $meta->getTag() ?>="<?php echo $meta->getKey(); ?>"
               content="<?php echo $meta->getContent(); ?>" />
         <?php endforeach ?>
+        <meta name="viewport" content="width=device-width, initial-scale=1" />
 
         <?php foreach (Core_Model_Language::getLanguages() as $language) : ?>
         <?php if(Core_Model_Language::getCurrentLanguage() == $language->getCode()) continue;?>

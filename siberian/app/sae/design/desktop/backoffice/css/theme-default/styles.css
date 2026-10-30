@@ -114,13 +114,19 @@ hr {
 .top .content {
     display: flex;
     align-items: center;
-    width: calc(100% - 32px);
-    max-width: 1440px;
+    width: 100%;
+    max-width: none;
     min-width: 0;
+    padding: 0 16px;
+    box-sizing: border-box;
 }
 
 .top .content .clear {
     display: none;
+}
+
+.top .backoffice_menu_toggle {
+    color: var(--sb-text);
 }
 
 .top img#logo {
