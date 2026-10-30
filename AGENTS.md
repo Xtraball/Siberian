@@ -58,3 +58,7 @@ tests/php-upgrade/check-pr.sh [--strict] [base-ref]
 ```
 
 It reads git only and checks the added lines against this file: it fails on CRLF line endings and on new `__()` / `p__()` texts that are not in a `.po` translation catalog, and warns when source changed without a test, or when fragile smells (`|| true`, `sleep`, `@` suppression) were added. `--strict` turns the warnings into failures.
+
+## Issue triage
+
+New issues are checked and answered with the flow in [docs/triage.md](docs/triage.md): verify on `origin/trunk`, pick one verdict, write a draft for a maintainer to review. Update that file when a triage teaches us something.
