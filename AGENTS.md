@@ -24,6 +24,7 @@ Rules for AI coding agents (and humans) working on this repository. Read [CONTRI
 - A regression file is `tests/php-upgrade/regression/<Name>Test.php` returning `['test name' => callable]`, with the helpers from `bootstrap.php` (`t_equal`, `t_true`).
 - When a controller cannot be loaded without the full application, put the rule in a small pure helper class and test that, plus source-level checks that the wiring is in place and that nothing runs without the option.
 - Name the test after the issue (for example `Issue524ReinstallTest.php`).
+- Design caches: `siberian/app/<sae|mae|pe>/design/design-cache.json` list every design file of an edition (js, css, layout, template, image). A file that is not in the list is never sent to the browser, so a directive or stylesheet added after the last rebuild has no effect and the page renders flat or half styled. When you add, rename or delete a design file, rebuild (`php cli cache:design <sae|mae|pe>` on an assembled tree) and commit the caches; `php tests/php-upgrade/design-cache-check.php` fails when one is stale. When testing or debugging an install (missing css/js, a new file with no effect, after every update), rebuild the cache first and move `var/cache/zend_cache---default_js_desktop` / `..._css_desktop` and `app/local/design/design-cache.json` aside, before debugging the code.
 
 ## Module installs
 
