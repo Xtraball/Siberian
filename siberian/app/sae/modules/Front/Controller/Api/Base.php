@@ -286,17 +286,17 @@ class Front_Controller_Api_Base extends Front_Controller_App_Default
 
             $googleMapsKey = $application->getGooglemapsKey();
 
-            $privacyPolicy = trim($application->getPrivacyPolicy());
+            $privacyPolicy = trim((string) $application->getPrivacyPolicy());
             if (empty($privacyPolicy)) {
                 $privacyPolicy = false;
             }
 
-            $privacyPolicyTitle = trim($application->getPrivacyPolicyTitle());
+            $privacyPolicyTitle = trim((string) $application->getPrivacyPolicyTitle());
             if (empty($privacyPolicyTitle)) {
                 $privacyPolicyTitle = __('Privacy policy');
             }
 
-            $iconColor = strtolower($application->getAndroidPushColor());
+            $iconColor = strtolower((string) $application->getAndroidPushColor());
             if (!preg_match('/^#[a-f0-9]{6}$/', $iconColor)) {
                 // Fallback with a number only color!
                 $iconColor = '#808080';

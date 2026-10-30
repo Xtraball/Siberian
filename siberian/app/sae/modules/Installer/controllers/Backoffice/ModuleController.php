@@ -31,8 +31,15 @@ class Installer_Backoffice_ModuleController extends Backoffice_Controller_Defaul
 
         function _return_bytes($val)
         {
-            $val = trim($val);
+            $val = trim((string) $val);
+            if ($val === '') {
+                return 0;
+            }
             $last = strtolower($val[strlen($val) - 1]);
+            // "128M" is multiplied below: take the number first, a suffixed string is not numeric
+            if (in_array($last, ['g', 'm', 'k'], true)) {
+                $val = (int) $val;
+            }
             switch ($last) {
                 // Le modifieur 'G' est disponible depuis PHP 5.1.0
                 case 'g':

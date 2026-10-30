@@ -2524,7 +2524,7 @@ abstract class Application_Model_Application_Abstract extends Core_Model_Default
                 '<b>' . $platformName . '</b>',
                 '<b>' . nl2br($contactFull) . '</b>'
             ],
-            $this->getData('privacy_policy_gdpr')
+            (string) $this->getData('privacy_policy_gdpr')
         );
 
         return $privacyPolicyGdpr;
