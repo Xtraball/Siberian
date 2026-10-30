@@ -9,7 +9,7 @@ Rules for AI coding agents (and humans) working on this repository. Read [CONTRI
 3. **Every fix carries a test** that passes with the change and fails on `trunk` without it (see [Tests](#tests)).
 4. **Verify before you state.** Check facts on the default branch (`git show origin/trunk:<path>`) before writing them in an issue, a PR comment or a release note, never from memory or a bot diff. If you were wrong, correct it publicly at once.
 5. **Fragile code is a defect.** If something works only because an unguaranteed thing happens to be true (a line of a file you do not own is still there, a fixed sleep is long enough, output wording stays the same, a failure is swallowed), say so and use a sturdier way: anchor on a structure that must exist, parse instead of matching text, poll instead of sleeping, fail loudly. If it cannot be avoided, mark it `FRAGILE-OK: why` and add a test that fails when the assumption breaks. Example: add a permission before the closing `</manifest>` tag, never by replacing a neighbouring permission line.
-6. **Other editions override some files.** Keep changes additive and local so downstream layers keep working.
+6. **Other editions override some files, so a fix is not done until they are checked.** MAE and PE are private overlays that replace SAE files of the same path (a design file by its design key), they never merge. Read [docs/editions.md](docs/editions.md). Keep changes additive and local, and for a change to a backoffice, Admin, System, Core, Application or Template file, say in the pull request that the overlays need the same change and ask a maintainer with access to check it against their override map. Never name an overlay-only file in a public issue, pull request or release note.
 
 ## Repository map
 
