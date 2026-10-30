@@ -50,3 +50,15 @@ so a tag that exists here must exist in `siberian-mae` and `siberian-pe` too. Th
 The overlay map is regenerated with a read-only script from the private release repository. It compares every file of each
 overlay with the lower layers and records the baseline commit, the drift and the own changes. Rerun it when an SAE change touches
 a file the map lists, and commit the new map with the overlay change.
+
+## Design caches
+
+`app/sae/design/design-cache.json`, `app/mae/design/design-cache.json` and `app/pe/design/design-cache.json` are pre-built lists of every design file of an edition, `app/local/design/design-cache.json` is the one of the local modules, and `var/cache/zend_cache---default_js_desktop` / `..._css_desktop` hold the script and stylesheet lists derived from them. The layout reads these lists, never the folders: a design file that is not in them is not sent to the browser.
+
+Symptoms of a stale cache: a page renders flat or half styled, a new directive or stylesheet has no effect, an update seems not to change the backoffice (siberian01: the Settings > Communications page lost its section navigation because `sb-section-nav.js` was added after the committed SAE cache was built).
+
+Fix and rule:
+
+1. After an update or deploy, and first thing when debugging a missing css/js/template, rebuild: `php cli cache:design <sae|mae|pe>` as the web user in the install root, then move `var/cache/zend_cache---default_js_desktop` and `..._css_desktop` aside (they are rebuilt on the next request).
+2. A pull request that adds, renames or deletes a design file commits the rebuilt caches of the edition it touches.
+3. `php tests/php-upgrade/design-cache-check.php [root]` lists the design files missing from their cache and fails when there is one.
