@@ -193,7 +193,9 @@ public class CameraLauncher extends CordovaPlugin implements MediaScannerConnect
                 }
                 else if ((this.srcType == PHOTOLIBRARY) || (this.srcType == SAVEDPHOTOALBUM)) {
                     // FIXME: Stop always requesting the permission
-                    String[] permissions = getPermissions(true, mediaType);
+                    // Only ask for what the manifest declares (#965): with the "remove photos & videos
+                    // permissions" option the system picker is used as is, it needs no storage permission.
+                    String[] permissions = declaredOnly(getPermissions(true, mediaType));
                     if(!hasPermissions(permissions)) {
                         PermissionHelper.requestPermissions(this, SAVE_TO_ALBUM_SEC, permissions);
                     } else {
@@ -275,7 +277,7 @@ public class CameraLauncher extends CordovaPlugin implements MediaScannerConnect
      * @param encodingType           Compression quality hint (0-100: 0=low quality & high compression, 100=compress of max quality)
      */
     public void callTakePicture(int returnType, int encodingType) {
-        String[] storagePermissions = getPermissions(true, mediaType);
+        String[] storagePermissions = declaredOnly(getPermissions(true, mediaType));
         boolean saveAlbumPermission;
         if (android.os.Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
             saveAlbumPermission = this.saveToPhotoAlbum ? hasPermissions(storagePermissions) : true;
@@ -314,7 +316,7 @@ public class CameraLauncher extends CordovaPlugin implements MediaScannerConnect
         } else if (takePicturePermission) {
             PermissionHelper.requestPermissions(this, TAKE_PIC_SEC, storagePermissions);
         } else {
-            PermissionHelper.requestPermissions(this, TAKE_PIC_SEC, getPermissions(false, mediaType));
+            PermissionHelper.requestPermissions(this, TAKE_PIC_SEC, declaredOnly(getPermissions(false, mediaType)));
         }
     }
 
@@ -1427,6 +1429,35 @@ public class CameraLauncher extends CordovaPlugin implements MediaScannerConnect
         }
 
         this.callbackContext = callbackContext;
+    }
+
+    /**
+     * Keeps the permissions declared in AndroidManifest.xml. A permission that is not declared can never be
+     * granted, requesting it fails at once with PERMISSION_DENIED_ERROR (#965, the "disable_media_permissions"
+     * option strips READ_MEDIA_IMAGES / READ_MEDIA_VIDEO). When the manifest cannot be read, nothing is filtered,
+     * which is the behaviour before this method existed.
+     */
+    private String[] declaredOnly(String[] permissions) {
+        String[] declared = null;
+        try {
+            PackageManager packageManager = this.cordova.getActivity().getPackageManager();
+            declared = packageManager.getPackageInfo(this.cordova.getActivity().getPackageName(), PackageManager.GET_PERMISSIONS).requestedPermissions;
+        } catch (NameNotFoundException e) {
+            // We are requesting the info for our package, so this should never be caught
+        }
+        if (declared == null) {
+            return permissions;
+        }
+        ArrayList<String> kept = new ArrayList<>();
+        for (String permission : permissions) {
+            for (String d : declared) {
+                if (permission.equals(d)) {
+                    kept.add(permission);
+                    break;
+                }
+            }
+        }
+        return kept.toArray(new String[0]);
     }
 
     private boolean hasPermissions(String[] permissions) {
