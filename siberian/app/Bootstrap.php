@@ -111,6 +111,11 @@ class Bootstrap extends Zend_Application_Bootstrap_Bootstrap
             error_reporting(E_ALL);
             Siberian_Error::init();
         }
+
+        // Proactive error reporting, on unless turned off in the backoffice. Chains the handlers above, and in
+        // production keeps what is shown and logged unchanged (see Siberian\ErrorReporter).
+        require_once __DIR__ . '/../lib/Siberian/ErrorReporter.php';
+        Core_Model_ErrorReports::boot();
     }
 
     /**

@@ -54,6 +54,20 @@
             </div>
 
             <div class="col-md-6">
+                <label for="{{ configs.error_reports_enabled.code }}">{{ configs.error_reports_enabled.label }}</label>
+                <select id="configs.error_reports_enabled.code"
+                        class="form-control"
+                        ng-model="configs.error_reports_enabled.value">
+                    <option value="1"><?php echo __('Yes'); ?></option>
+                    <option value="0"><?php echo __('No'); ?></option>
+                </select>
+                <br />
+                <div class="alert alert-info">
+                    <?php echo __('Once an hour, errors, warnings and deprecations are grouped and sent to the Siberian team: an anonymous random id, the edition, the Siberian and PHP versions, and for each error its type, a message without values, the file path inside the installation and the line. No user, request, address or database content. Nothing is kept on this server while it is off.') ?>
+                </div>
+            </div>
+
+            <div class="col-md-6">
                 <label for="{{ configs.session_lifetime.code }}">{{ configs.session_lifetime.label }}</label>
                 <input type="text"
                        id="configs.session_lifetime.code"
