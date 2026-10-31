@@ -231,5 +231,7 @@ class Translation_Backoffice_PackController extends Backoffice_Controller_Defaul
     {
         Siberian_Cache::__clearCache();
         Siberian_Cache_Design::clearCache();
+        // the catalog list of every language is rebuilt on the next request
+        Siberian_Cache_Translation::clearCache();
     }
 }

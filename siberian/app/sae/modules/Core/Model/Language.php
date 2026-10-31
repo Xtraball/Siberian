@@ -118,6 +118,12 @@ class Core_Model_Language
             self::ENABLED_LOCALES_KEY,
             json_encode(array_values(array_unique($next))),
             'Enabled locales');
+
+        // var/cache/translation.cache lists the catalog files of every language and is loaded as is while the file exists:
+        // without this a locale switched on after the cache was built has no default translation until something clears it
+        if (class_exists('Siberian_Cache_Translation')) {
+            Siberian_Cache_Translation::clearCache();
+        }
     }
 
     /**
