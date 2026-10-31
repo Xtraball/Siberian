@@ -1,0 +1,129 @@
+msgid ""
+msgstr ""
+"Project-Id-Version: Czech (Siberian)\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2019-01-22 10:30+0000\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: Czech <http://yvain.xtraball.com/projects/siberian/form/cs/>\n"
+"Language: cs\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=3; plural=(n==1) ? 0 : (n>=2 && n<=4) ? 1 : 2;\n"
+"X-Generator: Weblate 3.3\n"
+
+msgid "Add a field"
+msgstr "Přidat pole formuláře"
+
+msgid "Add a section"
+msgstr "Přidat sekci"
+
+msgid "Add an option"
+msgstr "Přidat možnost"
+
+msgid "An error occurred while saving. A field can't be identified."
+msgstr "Při ukládání došlo k chybě. Pole nelze identifikovat."
+
+msgid "Are you sure you want to remove this field?"
+msgstr "Určitě chcete odstranit toto pole?"
+
+msgid "Are you sure you want to remove this section?"
+msgstr "Určitě chcete odstranit tuto sekci?"
+
+msgid "Checkbox"
+msgstr "Checkbox - výběr více možností"
+
+msgid "Choose a field type:"
+msgstr "Vyberte typ pole:"
+
+msgid "Create a new field"
+msgstr "Vytvořit nové pole formuláře"
+
+msgid "Date/Hour"
+msgstr "Datum a čas"
+
+msgid "Drop down"
+msgstr "Drop down menu - výběr z rolovacího seznamu"
+
+msgid "Edit field %s"
+msgstr "Upravit pole %s"
+
+msgid "Field name"
+msgstr "Název pole"
+
+msgid ""
+"Form data will be sent to this email. Until you fill out this field, your "
+"form won't be displayed on client side."
+msgstr ""
+"Po vytvoření formuláře se zde objeví pole pro zadání emailu, kam budou "
+"vyplněné formuláře odeslány."
+
+msgid "Geolocation"
+msgstr "Lokalizace aktualní polohy"
+
+msgid "Hello,"
+msgstr "Dobrý den,"
+
+msgid "Import a picture"
+msgstr "Vložit obrázek"
+
+msgid "Import from Library"
+msgstr "Vložit z fotogalerie"
+
+msgid "Manage fields"
+msgstr "Struktura formuláře"
+
+msgid "Manage options:"
+msgstr "Možnosti:"
+
+msgid "Multiline text"
+msgstr "Textové pole - rozšířené"
+
+msgid "Option"
+msgstr "Volba"
+
+msgid "Radio"
+msgstr "Radio button - výběr jedné z možností"
+
+msgid "Recipient email"
+msgstr "Email příjemce"
+
+msgid "Take a picture"
+msgstr "Vyfotit obrázek"
+
+msgid "The form has been sent successfully"
+msgstr "Formulář byl úspěšně odeslán"
+
+msgid "You have to choose a field type."
+msgstr "Můžete si vybrat typ pole"
+
+msgid "Your app's form"
+msgstr "Formulář vaší aplikace"
+
+msgid "Your form has been filled out, here are the answers:"
+msgstr "Vyplněný formulář z Vaší mobilní aplikace.  Zde jsou odpovědi:"
+
+msgid "<strong>%s</strong> is not a numerical value<br />"
+msgstr "%s, musí být číselná hodnota..."
+
+msgid "<strong>%s</strong> is not valid email address<br />"
+msgstr "%s, musí být platná e-mailová adresa..."
+
+msgid "<strong>%s</strong> is required<br />"
+msgstr "%s je nutné vyplnit..."
+
+msgid "<strong>%s</strong> must be a numerical value<br />"
+msgstr "<strong>%s</strong>, musí být číselná hodnota<br/>"
+
+msgid "<strong>%s</strong> must be a valid date (e.g. dd/mm/yyyy)<br />"
+msgstr "<strong>%s</strong>, musí být platné datum (např. dd/mm/rrrr)<br/>"
+
+msgid "<strong>%s</strong> must be a valid date<br />"
+msgstr "<strong>%s</strong>, musí být platné datum<br/>"
+
+msgid "<strong>%s</strong> must be a valid email address<br />"
+msgstr "<strong>%s</strong>, musí být platná e-mailová adresa<br/>"
+
+msgid "<strong>%s</strong> must be filled<br />"
+msgstr "<strong>%s</strong> je nutné vyplnit<br/>"

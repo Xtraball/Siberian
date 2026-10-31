@@ -27,6 +27,17 @@ App.factory('Translations', function($http, Url) {
         });
     };
 
+    factory.toggle = function(code, enabled) {
+
+        return $http({
+            method: 'POST',
+            data: {code: code, enabled: enabled},
+            url: Url.get("translation/backoffice_list/toggle"),
+            cache: false,
+            responseType:'json'
+        });
+    };
+
     factory.find = function(lang_id) {
 
         var param = {};

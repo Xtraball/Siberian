@@ -1,0 +1,71 @@
+msgid ""
+msgstr ""
+"Project-Id-Version: Russian (Siberian)\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2019-01-22 10:34+0000\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: Russian <http://yvain.xtraball.com/projects/siberian/"
+"translation/ru/>\n"
+"Language: ru\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=3; plural=n%10==1 && n%100!=11 ? 0 : n%10>=2 && n%10<="
+"4 && (n%100<10 || n%100>=20) ? 1 : 2;\n"
+"X-Generator: Weblate 3.3\n"
+
+msgid "Create a new language"
+msgstr "Создать новый языковой перевод"
+
+msgid "Default text"
+msgstr "Текст по умолчанию"
+
+msgid "Edit the language: %s"
+msgstr "Изменить язык: %s"
+
+msgid "Language"
+msgstr "Язык"
+
+msgid "Language successfully saved"
+msgstr "Перевод успешно сохранен"
+
+msgid "List of your languages"
+msgstr "Список ваших переводов"
+
+msgid "Please, choose a file."
+msgstr "Пожалуйста, выберите файл."
+
+msgid "Please, choose a language."
+msgstr "Пожалуйста, выберите язык."
+
+msgid "Select a file"
+msgstr "Выберите файл"
+
+msgid "Select a language"
+msgstr "Выберите язык"
+
+msgid "Text translation"
+msgstr "Перевод текста"
+
+msgid "Translate all"
+msgstr "Перевести все"
+
+msgid "Translate missing entries"
+msgstr "Перевести недостающие записи"
+
+msgid "Translate the 'e.g.' between parentheses only."
+msgstr "Перевести\", например, \" только между скобками."
+
+msgid "Translation API is not available for the current language."
+msgstr "API перевода не доступен для текущего языка."
+
+msgid ""
+"Warning: translation API is experimental for the current language and may "
+"fail."
+msgstr ""
+"Предупреждение: API перевода является экспериментальным для текущего языка и "
+"может произойти сбой."
+
+msgid "Your translation"
+msgstr "Ваш перевод"

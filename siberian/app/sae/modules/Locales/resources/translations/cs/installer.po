@@ -1,0 +1,221 @@
+msgid ""
+msgstr ""
+"Project-Id-Version: Czech (Siberian)\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2019-01-22 10:30+0000\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: Czech <http://yvain.xtraball.com/projects/siberian/installer/"
+"cs/>\n"
+"Language: cs\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=3; plural=(n==1) ? 0 : (n>=2 && n<=4) ? 1 : 2;\n"
+"X-Generator: Weblate 3.3\n"
+
+msgid "Action"
+msgstr "Akce"
+
+msgid "Actions"
+msgstr "Akce"
+
+msgid "All of your modules are up to date"
+msgstr "Všechny vaše moduly jsou aktuální"
+
+msgid "An update is available. Click here to download it."
+msgstr "Update je dostupný."
+
+msgid "Check for updates"
+msgstr ""
+
+msgid "Click here to see the release notes"
+msgstr ""
+
+msgid "Click here to send your module"
+msgstr "Klikněte zde pro upload modulu"
+
+msgid "Details"
+msgstr "Podrobnosti"
+
+msgid "Drop your module here"
+msgstr "Vložit modul"
+
+msgid "Host"
+msgstr "Host"
+
+msgid "Install"
+msgstr ""
+
+msgid "Installing"
+msgstr "Instalace"
+
+msgid "Installing your module"
+msgstr "Instalace modulu"
+
+msgid "Module successfully installed"
+msgstr "Modul úspěšně nainstalován"
+
+msgid "Module to upload"
+msgstr "Moduly k nahrání"
+
+msgid "Modules Installation"
+msgstr "Instalace modulů"
+
+msgid "Modules successfully installed!"
+msgstr "Moduly úspěšně nainstalován!"
+
+msgid "Name"
+msgstr "Název"
+
+msgid "No directory provided"
+msgstr "No directory provided"
+
+msgid "No module to install"
+msgstr "Žádný modul k instalaci"
+
+msgid "No modules uploaded yet"
+msgstr "Žádné modyly zatím nebyly nahrány"
+
+msgid ""
+"Or set the correct permissions to the following files and folders and try "
+"again:"
+msgstr "Nebo změňte práva u následujících souboru a složek  a zkuste znovu"
+
+msgid "Package"
+msgstr ""
+
+msgid "Package Details"
+msgstr "Package - detail"
+
+msgid "Path to your system"
+msgstr "Cesta k systemu"
+
+msgid "Please, enter a name"
+msgstr "Prosím, zadejte název"
+
+msgid "Please, fill out all fields"
+msgstr "Prosíme, vyplňte všechna pole"
+
+msgid ""
+"Please update the module to the %s version before installing this update."
+msgstr "Před instalací tohoto updatu prosím updatujte modul na verzi %s"
+
+msgid ""
+"Please update your system to the %s version before installing this update."
+msgstr "Před instalací tohoto updatu prosím updatujte Váš systém na verzi %s"
+
+msgid "Please wait, we're installing your module"
+msgstr "Čekejte prosím, modul se instaluje"
+
+msgid "Port"
+msgstr "Port"
+
+msgid "Processing the installation"
+msgstr "Zpracování instalace"
+
+msgid "Progress"
+msgstr ""
+
+msgid "Retry"
+msgstr "Opakovat"
+
+msgid "Select a module to upload"
+msgstr "Vyberte modul"
+
+msgid "Size"
+msgstr "Velikost"
+
+msgid ""
+"Some files and folder are not writable. You can either provide your FTP "
+"access to install this update:"
+msgstr "Do některých složek a souboru nelze zapisovat"
+
+msgid "Some files don't have the right permissions and can't be updated"
+msgstr "Některé soubory nemají správná práva a nelze je updatovat"
+
+msgid "Status"
+msgstr "Status"
+
+msgid "The database connection failed. Please, check the entered information."
+msgstr "Připojení k databázi se nezdařilo. Prosím, zkontrolujte zadané údaje."
+
+msgid "The entered password confirmation does not match the entered password."
+msgstr "Heslo k potvrzení se neshoduje s původním"
+
+msgid "The file %s does not exist"
+msgstr "Soubor %s neexistuje"
+
+msgid "The file %s is not writable."
+msgstr "Do souboru %s nelze zapisovat"
+
+msgid "The folder %s is not writable. Please fix this issue and try again."
+msgstr "Do složky %s nelze zapisovat. Opravte tento problém a zkuste znovu"
+
+msgid "The following files and folders are not writable:"
+msgstr "Do těchto souborů a adresářů nelze zapisovat"
+
+msgid "The following files and folders are not writable: <br /> - %s"
+msgstr "Do následujících souborů a složek nelze zapisovat: <br /> - %s"
+
+msgid "The package you have uploaded is invalid."
+msgstr "Nahraný package je poškozený"
+
+msgid "There is no CMS license key set."
+msgstr ""
+
+msgid "This process may take few minutes, please do not refresh the page"
+msgstr "Tento proces může chvíli trvat, prosím NEAKTUALIZUJTE stránku"
+
+msgid "This update is designed for the %s, you can't install it in your %s."
+msgstr "Tento update je navrhnut pro %s, nelze nainstalovat na Váš %s"
+
+msgid "Unable to check for updates now. Please, try again later."
+msgstr "Není možné zkontrolovat updaty. Zkuste to prosím později"
+
+msgid "Unable to connect to your FTP. Please check the connection information."
+msgstr "Nelze se připojit k FTP. Zkontrolujte spojení"
+
+msgid ""
+"Unable to detect your site. Please make sure the entered path is correct."
+msgstr "Stránku nelze smazat. Zkontrolujte, zda je cesta v pořádku"
+
+msgid "Unable to extract the archive."
+msgstr "Archiv nelze rozbalit"
+
+msgid "Unable to fetch the update. Please, try again later."
+msgstr "Není možné zkontrolovat updaty. Zkuste to prosím později"
+
+msgid "Unable to open the archive."
+msgstr "Archiv nelze otevřít"
+
+msgid ""
+"Unable to open the file. Please, make sure that you sent a valid archive."
+msgstr "Soubor nelze otevřít. Ujistěte se,že byl platný"
+
+msgid "Upload a module"
+msgstr "Nahrát modul"
+
+msgid "Upload your modules"
+msgstr "Nahrát modul"
+
+msgid "Username"
+msgstr "Uživatelské jméno"
+
+msgid "Version"
+msgstr "Verze"
+
+msgid "We are checking for updates. Please, do not refresh the page."
+msgstr "Kontroluji updaty. Neaktualizujte stránku!!!"
+
+msgid "You already have installed this template."
+msgstr "Tento update je již nainstalován"
+
+msgid "You already have installed this update."
+msgstr "Tento update je již nainstalován"
+
+msgid "Your system is up to date."
+msgstr "Váš systém je aktuální"
+
+msgid "%s Update"
+msgstr "%s Update"

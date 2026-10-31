@@ -1,0 +1,1261 @@
+msgid ""
+msgstr ""
+"Project-Id-Version: Dutch (Siberian)\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2019-01-22 10:33+0000\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: Dutch <http://yvain.xtraball.com/projects/siberian/backoffice/"
+"nl/>\n"
+"Language: nl\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=n != 1;\n"
+"X-Generator: Weblate 3.3\n"
+
+msgid "60000 maximum allowed."
+msgstr "60000 maximaal toegestaan."
+
+msgid ""
+"A certificate already exists for the domain %s, if you want to re-generate "
+"it, use 'Force re-generate' to proceed."
+msgstr ""
+"Een certificaat bestaat al voor het domein %s, als je wilt om te re-"
+"genereren van het gebruik van 'Force re-generate' om verder te gaan."
+
+msgid "[APK]"
+msgstr "[APK]"
+
+msgid "APK Queue empty"
+msgstr "APK Wachtrij is leeg"
+
+msgid "APK Queue status"
+msgstr "APK Wachtrij status"
+
+msgid "APNS Feedback:"
+msgstr "APNS Terugkoppeling (feedback):"
+
+msgid "APNS Feedback port 2196 is:"
+msgstr "APNS feedback-poort 2196 is:"
+
+msgid "APNS Port 2195 is:"
+msgstr "APNS Poort 2195 is:"
+
+msgid "Account"
+msgstr "Account"
+
+msgid "Account Role"
+msgstr "Account Rol"
+
+msgid "Actions"
+msgstr "Acties"
+
+msgid "Activate VAT number check with VIES"
+msgstr "Activeren BTW-nummer, controleren met VIES"
+
+msgid "Activate user"
+msgstr "Activeer gebruiker"
+
+msgid "Active ?"
+msgstr "Actief?"
+
+msgid "Add a custom text to the footer of your invoices"
+msgstr "Voeg een eigen tekst aan de voettekst van uw facturen toe"
+
+msgid "Admin panel type"
+msgstr "Beheerderspaneeltype"
+
+msgid "Advanced"
+msgstr "Geavanceerd"
+
+msgid ""
+"Alert: The APK build for the Application: %s (%s) is stuck for more than one "
+"hour."
+msgstr ""
+"Waarschuwing: Bouwen van de APK voor de Applicatie: %s (%s) duurt meer dan "
+"een uur en is vast gelopen."
+
+msgid ""
+"Alert: The Source build for the Application: %s (%s) is stuck for more than "
+"one hour."
+msgstr ""
+"Waarschuwing: Bouwen van de APK voor de Applicatie: %s (%s) duurt meer dan "
+"een uur en is vast gelopen."
+
+msgid "All the files are required."
+msgstr "Alle bestanden zijn vereist."
+
+msgid ""
+"An entry already exists for this hostname, remove it first if you need to "
+"change your certificates."
+msgstr ""
+"Er bestaat al een vermelding voor deze hostnaam. Verwijder deze eerst als u "
+"uw certificaten moet wijzigen."
+
+msgid "An error occured"
+msgstr "Er is een fout opgetreden"
+
+msgid "An error occured while saving certificate to %s."
+msgstr ""
+"Er is een fout opgetreden tijdens het opslaan van het certificaat van %s."
+
+msgid "An error occurred during the process. Please try again later."
+msgstr ""
+"Er is een fout opgetreden tijdens het proces. Probeer het later opnieuw."
+
+msgid "An unknown error occured while issueing your certificate."
+msgstr ""
+"Er is een onbekende fout opgetreden tijdens het verzenden van uw certificaat."
+
+msgid "Android SDK:"
+msgstr "Android SDK:"
+
+msgid "App name"
+msgstr "App naam"
+
+msgid "Application settings"
+msgstr "Applicatie instellingen"
+
+msgid "Application successfully queued for generation."
+msgstr "Applicatie met succes in de wachtrij geplaatst."
+
+msgid "Applications/Previewer manifest for automatic updates."
+msgstr "Applications / Previewer manifest voor automatische updates."
+
+msgid "Are you sure ?"
+msgstr "Weet je het zeker?"
+
+msgid "Auth type"
+msgstr "Machtiging type"
+
+msgid "Authenticate"
+msgstr "Autoriseren"
+
+msgid "Average build time in seconds:"
+msgstr "Gemiddelde bouwtijd in seconden:"
+
+msgid "Average sources/apk build time:"
+msgstr "Gemiddelde bronnen / apk-buildtijd:"
+
+msgid "Backoffice options"
+msgstr "Backoffice opties"
+
+msgid "Bearer Token Auth (API)"
+msgstr "Bearer Token Auth (API)"
+
+msgid "Bearer Token Auth is valid."
+msgstr "Bearer Auth Token is geldig."
+
+msgid "Beta"
+msgstr "Beta"
+
+msgid "Build status"
+msgstr "Bouw status"
+
+msgid "Build time (in seconds)"
+msgstr "Bouw tijd (in seconden)"
+
+msgid ""
+"By clicking on link below, you will open your editor in tour editing mode. "
+"Please note that your user account must be created on editor side."
+msgstr ""
+"Door te klikken op onderstaande link opent u de editor in tour-modus voor "
+"het bewerken. Let op dat uw account moet worden gemaakt op de editor kant."
+
+msgid "CA"
+msgstr "CA"
+
+msgid "CA certificate"
+msgstr "CA-certificaat"
+
+msgid "CA path:"
+msgstr "CA pad:"
+
+msgid "CRON Scheduler interval"
+msgstr "CRON Planner interval"
+
+msgid "Cache cleared"
+msgstr "Cache gewist"
+
+msgid "Cache (var/cache, system cache)"
+msgstr "Cache (var / cache, systeemcache)"
+
+msgid "Can generate APK"
+msgstr "Kan APK genereren"
+
+msgid "Cert"
+msgstr "Cert"
+
+msgid "Certificate"
+msgstr "Certificaat"
+
+msgid ""
+"Certificate is valid and SSL is reachable, valid until: %s.<br />Issuer: %s%s"
+msgstr ""
+"Certificaat geldig en SSL bereikbaar is geldig tot en met: %s.<br />Uitgever:"
+" %s%s"
+
+msgid "Certificate path:"
+msgstr "Certificaat pad:"
+
+msgid "Certificate successfully generated."
+msgstr "Certificaat met succes aangemaakt."
+
+msgid ""
+"Certificate successfully generated. Please wait while %s is reloading "
+"configuration ..."
+msgstr ""
+"Certificaat met succes aangemaakt. Gelieve even te wachten terwijl %s is aan "
+"het herladen van de configuratie ..."
+
+msgid "Certificate successfully re-generated."
+msgstr "Certificaat met succes opnieuw gegenereerd."
+
+msgid "Change the password"
+msgstr "Wijzig het wachtwoord"
+
+msgid ""
+"Check if this cron command is installed under the web user & if you have set "
+"a timezone in Settings > General"
+msgstr ""
+"Controleer of deze cron-opdracht is geïnstalleerd onder de webgebruiker en "
+"of u een tijdzone hebt ingesteld in Instellingen >Algemeen"
+
+msgid "Clear"
+msgstr "Wis"
+
+msgid "Clear cache"
+msgstr "Cache wissen"
+
+msgid "Clear logs"
+msgstr "Log wissen"
+
+msgid "Cleared cron errors."
+msgstr "Cron-fouten gewist."
+
+msgid "Click here to send your CA certificate"
+msgstr "Klik hier om uw CA certificaat te verzenden"
+
+msgid "Click here to send your Private certificate"
+msgstr "Klik hier om uw privé certificaat te verzenden"
+
+msgid "Click here to send your certificate"
+msgstr "Klik hier om uw certificaat te versturen"
+
+msgid "Click to mark as not read"
+msgstr "Klik om te markeren als niet gelezen"
+
+msgid "Click to mark as read"
+msgstr "Klik om te markeren als gelezen"
+
+msgid "Closed"
+msgstr "Gesloten"
+
+msgid "Complete build log"
+msgstr "Volledig buildlogboek"
+
+msgid "Configuration"
+msgstr "Configuratie"
+
+msgid "Configuration successfully saved"
+msgstr "Configuratie succesvol opgeslagen"
+
+msgid "Core modules"
+msgstr "Kernmodules"
+
+msgid "Create a user"
+msgstr "Maak een gebruiker aan"
+
+msgid "Created At"
+msgstr "Gemaakt op"
+
+msgid "Creation date"
+msgstr "Aanmaakdatum"
+
+msgid "Cron"
+msgstr "Cron"
+
+msgid "Cron alerts"
+msgstr "Cron waarschuwingen"
+
+msgid "Cron interval"
+msgstr "Cron-interval"
+
+msgid "Cron scheduler"
+msgstr "Cron planner"
+
+msgid "Cron scheduler help"
+msgstr "Cron Scheduler-help"
+
+msgid "Custom SMTP Configuration"
+msgstr "Aangepaste SMTP-Configuratie"
+
+msgid "Day of month"
+msgstr "Dag van de maand"
+
+msgid "Day of week"
+msgstr "Dag van de week"
+
+msgid "Deactivate user"
+msgstr "Deactiveren gebruiker"
+
+msgid "Default (no)"
+msgstr "Standaard (nee)"
+
+msgid "Development"
+msgstr "Ontwikkeling"
+
+msgid "DirectAdmin"
+msgstr "DirectAdmin"
+
+msgid "DirectAdmin (beta)"
+msgstr "DirectAdmin (beta)"
+
+msgid "Disable cron jobs"
+msgstr "Schakel cron-taken uit"
+
+msgid "Disabled"
+msgstr "Uitgeschakeld"
+
+msgid "Disk usage & Cache:"
+msgstr "Schijfgebruik & Cache:"
+
+msgid "Dismiss & install later"
+msgstr "Afwijzen en later installeren"
+
+msgid "Display"
+msgstr "Weergeven"
+
+msgid "Doesn't meet the requirements"
+msgstr "Voldoet niet aan de vereisten"
+
+msgid "Download latest source"
+msgstr "Download hier de laatste bestanden"
+
+msgid "Drop your certificate here"
+msgstr "Laat je certificaat hier vallen"
+
+msgid "Edit the user"
+msgstr "Bewerk de gebruiker"
+
+msgid "Editor's Design"
+msgstr "Ontwerp van de redactie"
+
+msgid "Enable custom SMTP configuration"
+msgstr "Inschakelen van aangepaste SMTP-configuratie"
+
+msgid "Enter your credentials:"
+msgstr "Vul uw gegevens in:"
+
+msgid "Environment"
+msgstr "Omgeving"
+
+msgid "Error, order already paid."
+msgstr "Fout, de bestelling is reeds betaald is."
+
+msgid ""
+"Errors are displayed on page, outputs are more verbose, this is an option "
+"for debug purpose, use with care as it may output some critical informations "
+"about your server."
+msgstr ""
+"Fouten worden op de pagina weergegeven, uitgangen zijn meer uitgebreid, dit "
+"is een optie voor het opsporen van fouten, gebruik voorzichtig, omdat het "
+"mogelijk een aantal belangrijke informatie over uw server kan weergeven."
+
+msgid "Exists"
+msgstr "Bestaat"
+
+msgid "External extensions"
+msgstr "Externe extensies"
+
+msgid "Failed"
+msgstr "Mislukt"
+
+msgid "File hash is different from manifest."
+msgstr "Bestandshash verschilt van manifest."
+
+msgid "File is missing."
+msgstr "Bestand ontbreekt."
+
+msgid "Force re-generation"
+msgstr "Forceer re-generatie"
+
+msgid "Forgot password"
+msgstr "Wachtwoord vergeten"
+
+msgid "Full"
+msgstr "Volledig"
+
+msgid "Full path to use within your webserver."
+msgstr "Volledig pad om te gebruiken binnen uw webserver."
+
+msgid "General settings"
+msgstr "Algemene instellingen"
+
+msgid "Generate"
+msgstr "Genereren"
+
+msgid "Generate a certificate via Let's Encrypt."
+msgstr "Genereer een certificaat via Let's Encrypt."
+
+msgid "Generate source"
+msgstr "Source aanmaken"
+
+msgid "Generating"
+msgstr "Genereren"
+
+msgid "[Global]"
+msgstr "[Globaal]"
+
+msgid "Grant user"
+msgstr "Subsidie gebruiker"
+
+msgid "HTTP Basic Auth (API)"
+msgstr "HTTP Basic Auth (API)"
+
+msgid "HTTP Basic Auth is valid."
+msgstr "HTTP Basic Auth is geldig."
+
+msgid "HTTPS & SSL Certificates"
+msgstr "HTTPS EN SSL Certificaten"
+
+msgid "HTTPS host is unreachable."
+msgstr "HTTPS-host is onbereikbaar."
+
+msgid "HTTPS is not available on your server."
+msgstr "HTTPS is niet beschikbaar op uw server."
+
+msgid "HTTPS not reachable"
+msgstr "HTTPS niet bereikbaar"
+
+msgid ""
+"HTTPS support is in <b>Beta</b>, you should test it on your <b>development "
+"server</b> first & prepare for further migration."
+msgstr ""
+"HTTPS-ondersteuning bevindt zich in <b>Beta</b> , u moet deze eerst testen "
+"op uw <b>ontwikkelserver</b> en voorbereiden op verdere migratie."
+
+msgid ""
+"HTTPS support is in test, you should only try it on your development server "
+"prior to prepare for further migration."
+msgstr ""
+"HTTPS-ondersteuning is in test, je zou het alleen op je ontwikkelserver "
+"moeten proberen voordat je je voorbereid op verdere migratie."
+
+msgid "Hide"
+msgstr "Verberg"
+
+msgid "Host"
+msgstr "Host"
+
+msgid "Hostname"
+msgstr "Hostnaam"
+
+msgid "Hostnames associated with this Certificate"
+msgstr "Hostnamen die aan dit certificaat zijn gekoppeld"
+
+msgid "Hour"
+msgstr "Uur"
+
+msgid "ID"
+msgstr "ID"
+
+msgid "If inactive, your customer won't see the tour."
+msgstr "Als deze niet actief is, ziet uw klant de rondleiding niet."
+
+msgid ""
+"If you are unable to install or run the cronjob on your hosting/server you "
+"can disable it."
+msgstr ""
+"Als u de cronjob niet op uw hosting / server kunt installeren of uitvoeren, "
+"kunt u deze uitschakelen."
+
+msgid "Info"
+msgstr "Info"
+
+msgid "Installed"
+msgstr "Geïnstalleerd"
+
+msgid "Installed icon packs"
+msgstr "Geïnstalleerde, icoon pakketten"
+
+msgid "Installed layouts"
+msgstr "Geïnstalleerde layouts"
+
+msgid "Installed modules"
+msgstr "Geïnstalleerde modules"
+
+msgid "Installed, version"
+msgstr "Geïnstalleerde versie"
+
+msgid "Integrity check"
+msgstr "Integriteitscontrole"
+
+msgid "Invoice options"
+msgstr "Factuur opties"
+
+msgid "Issued certificates"
+msgstr "Uitgegeven certificaten"
+
+msgid "JAVA:"
+msgstr "JAVA:"
+
+msgid "Last cron error"
+msgstr "Laatste cron fout"
+
+msgid "Last failure"
+msgstr "Laatste fout"
+
+msgid "Last success"
+msgstr "Laatste succes"
+
+msgid "Last trigger"
+msgstr "Laatste trigger"
+
+msgid "Let's Encrypt certificates renewal"
+msgstr "Let's Encrypt certificering vernieuwen"
+
+msgid "Let's Encrypt environment"
+msgstr "Let's Encrypt omgeving"
+
+msgid "[Let's Encrypt] renewing certificate."
+msgstr "[Let's Encrypt] vernieuwen van het certificaat."
+
+msgid "[Let's Encrypt] will add %s to SAN."
+msgstr "[Let's Encrypt] voegt% s toe aan SAN."
+
+msgid "Link preview"
+msgstr "Link voorvertoning"
+
+msgid "List of backoffice accounts"
+msgstr "Lijst van backoffice-accounts"
+
+msgid "List of the messages"
+msgstr "Lijst van de berichten"
+
+msgid "Loaded"
+msgstr "Geladen"
+
+msgid "Log"
+msgstr "Log"
+
+msgid "Log (var/log, log files)"
+msgstr "Logboek (var / log, logbestanden)"
+
+msgid "Login to your backoffice interface"
+msgstr "Inloggen op uw backoffice-interface"
+
+msgid "Logs cleared."
+msgstr "Logs gewist."
+
+msgid "Mark all as read"
+msgstr "Markeren als gelezen"
+
+msgid "Mark as new"
+msgstr "Markeren als nieuw"
+
+msgid "Mark as read"
+msgstr "Markeren als gelezen"
+
+msgid "Messages"
+msgstr "Berichten"
+
+msgid "Minute"
+msgstr "Minuut"
+
+msgid "Missing parameters for generation."
+msgstr "Ontbrekende parameters voor genereren."
+
+msgid "Mobile Source Codes & Builds"
+msgstr "Mobiele broncodes en builds"
+
+msgid "Module/User tasks"
+msgstr "Module - /gebruikerstaken"
+
+msgid "Month"
+msgstr "Maand"
+
+msgid "My Invoices"
+msgstr "Mijn facturen"
+
+msgid "My tour is active"
+msgstr "Mijn tour is actief"
+
+msgid "Name"
+msgstr "Naam"
+
+msgid "New messages"
+msgstr "Nieuwe berichten"
+
+msgid "New users"
+msgstr "Nieuwe gebruikers"
+
+msgid "No"
+msgstr "Nee"
+
+msgid "No file has been sent"
+msgstr "Er is geen bestand verzonden"
+
+msgid "No icon packs"
+msgstr "Geen icoon pakketten"
+
+msgid "No informations."
+msgstr "Geen informatie."
+
+msgid "No layouts"
+msgstr "Geen lay-outs"
+
+msgid "No module/user tasks"
+msgstr "Geen module - /gebruikerstaken"
+
+msgid "No system tasks"
+msgstr "Geen systeemtaken"
+
+msgid "None"
+msgstr "Geen"
+
+msgid "Not found"
+msgstr "Niet gevonden"
+
+msgid "Not running"
+msgstr "Niet actief"
+
+msgid "Not yet generated."
+msgstr "Nog niet gegenereerd."
+
+msgid "Note:"
+msgstr "Opmerking:"
+
+msgid "Note: Let's encrypt X1 is a staging certificate."
+msgstr "Opmerking: Let's encrypt X1 is een staging-certificaat."
+
+msgid "Number of typed characters:"
+msgstr "Aantal getypte tekens:"
+
+msgid "OR"
+msgstr "OF"
+
+msgid "Ok"
+msgstr "Oké"
+
+msgid "Ok, you may consider upgrade to >=5.4"
+msgstr "Oké, Overweeg een upgrade naar> = 5,4"
+
+msgid "Ok, you may upgrade to php 5.6"
+msgstr "Oké, je kan upgraden naar php 5.6"
+
+msgid ""
+"One of the three given Certificates path is not readable, please make sure "
+"they have the good rights."
+msgstr ""
+"Een van de drie gegeven certificaten is niet leesbaar, zorg er alstublieft "
+"voor dat ze over de juiste rechten beschikken."
+
+msgid "Open"
+msgstr "Open"
+
+msgid "Open the tour editing mode"
+msgstr "Open de tour bewerkingsmodus"
+
+msgid "Optional binaries"
+msgstr "Optioneel binaire bestanden"
+
+msgid "Optional libraries"
+msgstr "Optionele bibliotheken"
+
+msgid ""
+"Otherwise install it manually, from your panel, or directly from your ssh "
+"access."
+msgstr ""
+"Installeer het anders handmatig, via uw paneel of rechtstreeks vanuit uw SSH-"
+"toegang."
+
+msgid "Overview - WebApp (var/apps/browser, overview & webapp cache)"
+msgstr "Overzicht - WebApp (var / apps / browser, overzicht & webapp-cache)"
+
+msgid "Overview cache cleared."
+msgstr "Overzicht gewist cache."
+
+msgid "PEM test:"
+msgstr "PEM-test:"
+
+msgid "PHP version %s:"
+msgstr "PHP versie %s:"
+
+msgid "Password"
+msgstr "Wachtwoord"
+
+msgid "Path to your CA certificate"
+msgstr "Pad naar het CA-certificaat"
+
+msgid "Path to your Certificate"
+msgstr "Pad naar uw Certificaat"
+
+msgid "Path to your Private certificate"
+msgstr "Pad naar uw privécertificaat"
+
+msgid "Path to your Private key"
+msgstr "Pad naar uw persoonlijke sleutel"
+
+msgid "Payment received"
+msgstr "Betaling ontvangen"
+
+msgid "People who are allowed to access the backoffice"
+msgstr "Mensen die toegang hebben tot de backoffice"
+
+msgid "Permission, denied from Plesk, please use the admin account."
+msgstr ""
+"Toestemming, geweigerd door Plesk, gebruik alstublieft de beheerdersaccount."
+
+msgid "Plesk"
+msgstr "Plesk"
+
+msgid "Plesk 12+"
+msgstr "Plesk 12+"
+
+msgid "[Plesk] Unknown error."
+msgstr "[Plesk] Onbekende fout."
+
+msgid "Port"
+msgstr "Poort"
+
+msgid "Preview 5.0"
+msgstr "Voorbeeld 5.0"
+
+msgid "Privacy policy URL"
+msgstr "Privacy Beleid URL"
+
+msgid "Private"
+msgstr "Privé"
+
+msgid "Private certificate"
+msgstr "Privé certificaat"
+
+msgid "Private path:"
+msgstr "Eigen pad:"
+
+msgid "Production"
+msgstr "Productie"
+
+msgid "Progress"
+msgstr "Vooruitgang"
+
+msgid "Publication access type"
+msgstr "Publicatietoegangstype"
+
+msgid "Push messages:"
+msgstr "Push bericht:"
+
+msgid "Queued"
+msgstr "Wachtrij"
+
+msgid "Queued %s/%s"
+msgstr "Wachtrij %s/%s"
+
+msgid "Read"
+msgstr "Lezen"
+
+msgid "Rebuild"
+msgstr "Herbouwen"
+
+msgid "Rebuild manifest"
+msgstr "Het manifest opnieuw opbouwen"
+
+msgid "Rebuilding application manifest files."
+msgstr "Het opnieuw opbouwen van applicatie-manifestbestanden."
+
+msgid "Regular updates system"
+msgstr "Regelmatig updatesysteem"
+
+msgid "Remove locks"
+msgstr "Verwijder sloten"
+
+msgid "Remove locks now"
+msgstr "Verwijder sloten nu"
+
+msgid "Removing CRON Scheduler lock files."
+msgstr "Verwijderen van CRON Scheduler lock-bestanden."
+
+msgid "Removing domains: %s"
+msgstr "Verwijderen domeinen: %s"
+
+msgid "Request"
+msgstr "Aanvraag"
+
+msgid "Request the certificate via Let's Encrypt."
+msgstr "Het certificaat aanvragen via Let's Encrypt."
+
+msgid "Required extensions"
+msgstr "Vereiste extensies"
+
+msgid "Revoke user"
+msgstr "Gebruiker intrekken"
+
+msgid "Run test"
+msgstr "Test uitvoeren"
+
+msgid "SSL"
+msgstr "SSL"
+
+msgid "Sales"
+msgstr "Verkoop"
+
+msgid "Sales configuration"
+msgstr "Verkoop-configuratie"
+
+msgid "Save"
+msgstr "Bewaar"
+
+msgid "Select API access"
+msgstr "Selecteer API-toegang"
+
+msgid "Select a panel type or self-managed"
+msgstr "Selecteer een paneeltype of zelfbeheer"
+
+msgid "Self-managed"
+msgstr "Zelf beheerd"
+
+msgid "Self-managed sync is not available for now."
+msgstr "Zelfbeheerde synchronisatie is voorlopig niet beschikbaar."
+
+msgid "Send anonymous statistics to improve the apps builder."
+msgstr "Stuur anonieme statistieken om de apps builder te verbeteren."
+
+msgid "Server"
+msgstr "Server"
+
+msgid "Services"
+msgstr "Diensten"
+
+msgid "Show All Applications"
+msgstr "Toon Alle applicaties"
+
+msgid "Show more"
+msgstr "Toon meer"
+
+msgid "Siberian - Backoffice"
+msgstr "Siberië - Backoffice"
+
+msgid "Siberian CMS"
+msgstr "Siberian CMS"
+
+msgid "[Siberian_Cpanel] Unable to update cPanel SSL Certificate for %s"
+msgstr "[Siberian_Cpanel] Kan cPanel SSL-certificaat niet bijwerken voor% s"
+
+msgid "[Siberian_VestaCP] requires php 5.6+"
+msgstr "[Siberian_VestaCP] vereist php 5.6+"
+
+msgid ""
+"Something went wrong with the API Sync to %s, retry or check in your panel "
+"if your SSL certificate is correctly setup."
+msgstr ""
+"Er is iets misgegaan met de API-synchronisatie naar% s, probeer het opnieuw "
+"of controleer uw paneel als uw SSL-certificaat correct is ingesteld."
+
+msgid "Source"
+msgstr "Bron"
+
+msgid "Source Queue empty"
+msgstr "Bron Wachtrij is leeg"
+
+msgid "Source Queue status"
+msgstr "Status van bronwachtrij"
+
+msgid "[Sources]"
+msgstr "[Bronnen]"
+
+msgid "Sources code"
+msgstr "Bestand code"
+
+msgid "Stable"
+msgstr "Stabiel"
+
+msgid "Staging"
+msgstr "Regie"
+
+msgid "Start editing your platform tour"
+msgstr "Beginnen met het bewerken van uw platform tour"
+
+msgid "Statistics"
+msgstr "Statistieken"
+
+msgid ""
+"Statistics are used to improve the platform and help understanding usage of "
+"the apps builder."
+msgstr ""
+"Statistieken worden gebruikt om het platform te verbeteren en inzicht te "
+"krijgen in het gebruik van de apps builder."
+
+msgid "Status"
+msgstr "Status"
+
+msgid "Submit a bug report or improvement request for beta/preview"
+msgstr "Dien een bugrapport of verbeteringsverzoek in voor bèta / preview"
+
+msgid "Success"
+msgstr "Succes"
+
+msgid "Successfully cleaned-up old certificate."
+msgstr "Oud certificaat goed opgeschoond."
+
+msgid "Successfully installed new certificate."
+msgstr "Met succes geïnstalleerd een nieuw certificaat."
+
+msgid "Successfully removed the certificate."
+msgstr "Certificaat met succes verwijderd."
+
+msgid "Successfully saved Certificate to %s"
+msgstr "Certificaat succesvol opgeslagen in %s"
+
+msgid "Sync files"
+msgstr "Bestanden synchroniseren"
+
+msgid "System Diagnostic"
+msgstr "Systeemdiagnostiek"
+
+msgid "System tasks"
+msgstr "Systeemtaken"
+
+msgid "System was unable to validate any Bearer Token Auth call."
+msgstr "Het systeem kon geen Bearer Token Auth-oproep valideren."
+
+msgid "System was unable to validate any HTTP Basic Auth call."
+msgstr "Het systeem kon geen HTTP Basic Auth-oproep valideren."
+
+msgid "Temp (var/tmp, application sources & apk)"
+msgstr "Temp (var / tmp, toepassingsbronnen en apk)"
+
+msgid "Templates"
+msgstr "Sjablonen"
+
+msgid "Test SSL/HTTPS"
+msgstr "Test SSL / HTTPS"
+
+msgid "Testing: %s"
+msgstr "Testen: %s"
+
+msgid ""
+"The PHP executable guessed path <b>'%s'</b> may be incorrect, please double "
+"check for it."
+msgstr ""
+"Het PHP-uitvoerbare geraden pad <b>'%s'</b> is mogelijk onjuist, controleer "
+"dit alstublieft."
+
+msgid "The default setting to run your production server."
+msgstr "De standaardinstelling voor het uitvoeren van uw productieserver."
+
+msgid ""
+"The domain %s doesn't belong to you, or is not configured on your server."
+msgstr "Het domein % s hoort niet bij u of is niet geconfigureerd op uw server."
+
+msgid "The given CA certificate doesn't match the hostname."
+msgstr "Het gegeven CA-certificaat komt niet overeen met de hostnaam."
+
+msgid "The given certificate doesn't match the hostname."
+msgstr "Het opgegeven certificaat komt niet overeen met de hostnaam."
+
+msgid "The given certificate doesn't match the hostname or wiSibldcard."
+msgstr ""
+"Het opgegeven certificaat komt niet overeen met de hostnaam of wiSibldcard."
+
+msgid "This account can't be deleted, it's the only one"
+msgstr "Dit account kan niet worden verwijderd, het is de enige"
+
+msgid ""
+"This action mainly serves as a development & support purpose<br />This will "
+"restore App sources 'iOS', 'Android', 'HTML5' & 'Overview' from the latest "
+"Siberian version, then rebuild the manifest to restore installed modules."
+msgstr ""
+"Deze actie dient voornamelijk als een ontwikkeling & ondersteuning doel<br>"
+"Dit zal herstellen App bronnen 'iOS', 'Android', 'HTML5' & 'Overzicht' uit "
+"de meest recente versie van de iberian, dan is het herstel van het manifest "
+"te herstellen geïnstalleerd modules."
+
+msgid ""
+"This e-mail address must be reachable, as you will receive important e-mails "
+"from the system & user actions."
+msgstr ""
+"Dit e-mailadres moet bereikbaar zijn, als je belangrijke e-mails van het "
+"systeem & gebruiker acties ontvangt."
+
+msgid ""
+"This message will be displayed as a waiting message when your users chose an "
+"offline payment method"
+msgstr ""
+"Dit bericht wordt weergegeven als een wachtend bericht wanneer uw gebruikers "
+"een offline betaalmethode hebben gekozen"
+
+msgid ""
+"This message will be displayed as an information message to describe which "
+"offline payment method you offer"
+msgstr ""
+"Dit bericht wordt weergegeven als een informatiebericht om te beschrijven "
+"welke offline betalingsmethode u aanbiedt"
+
+msgid ""
+"This test is for development & support usage, this only highlights potential "
+"missing and/or modified files, results need to be interpreted."
+msgstr ""
+"Deze test is bedoeld voor ontwikkelings- en ondersteuningsgebruik, dit "
+"markeert alleen mogelijke ontbrekende en / of gewijzigde bestanden, "
+"resultaten moeten worden geïnterpreteerd."
+
+msgid "Tools"
+msgstr "Hulpmiddelen"
+
+msgid "Total sales"
+msgstr "Totale verkopen"
+
+msgid "Total usage:"
+msgstr "Totaal verbruik:"
+
+msgid "Tour settings"
+msgstr "Tour instellingen"
+
+msgid "Tour status"
+msgstr "Tour-status"
+
+msgid "Tour status successfully saved."
+msgstr "Tour-status opgeslagen."
+
+msgid "UID"
+msgstr "UID"
+
+msgid ""
+"Unable to connect in HTTPS or to validate the SSL Certificate.<br />Check if "
+"your are not in `Staging`"
+msgstr ""
+"Kan geen verbinding maken via HTTPS of het SSL-certificaat valideren. <br /> "
+"Controleer of je niet in `Staging` bent"
+
+msgid "Unknown"
+msgstr "Onbekend"
+
+msgid "Unknown - Self-managed"
+msgstr "Onbekend - Zelfbeheerd"
+
+msgid "Update"
+msgstr "Update"
+
+msgid "Update channel"
+msgstr "Update kanaal"
+
+msgid "Updated At"
+msgstr "Bijgewerkt Op"
+
+msgid "Upload"
+msgstr "Upload"
+
+msgid "Upload files or use existing certificates on my server"
+msgstr "Upload bestanden of gebruik bestaande certificaten op mijn server"
+
+msgid "Upload my certificates"
+msgstr "Het uploaden van mijn certificaten"
+
+msgid "Upload your own certificates"
+msgstr "Upload uw eigen certificaten"
+
+msgid "Use HTTPS"
+msgstr "Gebruik HTTPS"
+
+msgid "Use existing certificates on my server"
+msgstr "Gebruik bestaande certificaten op mijn server"
+
+msgid "User successfully deleted"
+msgstr "Gebruiker succesvol verwijderd"
+
+msgid "Username"
+msgstr "Gebruikersnaam"
+
+msgid "User's status successfully edited"
+msgstr "Status van de gebruiker met succes bewerkt"
+
+msgid "VAT check options"
+msgstr "Opties voor btw-controle"
+
+msgid "Validation"
+msgstr "Bevestiging"
+
+msgid "VestaCP"
+msgstr "VestaCP"
+
+msgid "VestaCP (php 5.6+ only)"
+msgstr "VestaCP (alleen php 5.6+)"
+
+msgid "View Details"
+msgstr "Bekijk details"
+
+msgid "WHM cPanel"
+msgstr "WHM cPanel"
+
+msgid "Waiting for %s to reload, this can take a while..."
+msgstr "Wacht tot %s opnieuw is geladen, dit kan even duren ..."
+
+msgid ""
+"We recommned using <b>preview</b> on a testing or development server, we "
+"won't provide regular ticket support for these update channels, only bug "
+"reports via the form below."
+msgstr ""
+"We hebben aanbevolen om een <b>voorbeeld</b> van een test- of "
+"ontwikkelserver te gebruiken, we bieden geen reguliere ticketondersteuning "
+"voor deze updatekanalen, alleen foutenrapporten via het onderstaande "
+"formulier."
+
+msgid "Web space"
+msgstr "Webruimte"
+
+msgid "White Label"
+msgstr "White Label"
+
+msgid "Whitelabel"
+msgstr "Wit label"
+
+msgid "Whitelabel hostnames associated with this Certificate"
+msgstr "Whitelabel hostnamen in verband met dit Certificaat"
+
+msgid "Whitelabel request"
+msgstr "Whitelabel aanvraag"
+
+msgid "Whitelabels"
+msgstr "Whitelabels"
+
+msgid "Yes"
+msgstr "Ja"
+
+msgid "Yes, install the update."
+msgstr "Ja, update te installeren."
+
+msgid ""
+"You are about to clean all the cron lock files !\n"
+"Are you sure ?"
+msgstr ""
+"U staat op het punt om alle cron lock bestand op te schonen!\n"
+"Weet je het zeker?"
+
+msgid ""
+"You are about to clean all your log files !\n"
+"Are you sure ?"
+msgstr ""
+"U staat op het punt om al uw logbestanden te verwijderen! \n"
+"Weet je het zeker?"
+
+msgid "You are about to delete this certificate, Are you sure ?"
+msgstr "U staat op het punt dit certificaat te verwijderen. Weet u het zeker?"
+
+msgid ""
+"You are about to wipe all your temporary files, this includes the generated "
+"sources & apk builds !\n"
+"Are you sure ?"
+msgstr ""
+"U staat op het punt al uw tijdelijke bestanden te wissen, dit omvat de "
+"gegenereerde bronnen en apk-builds!\n"
+"Weet je het zeker ?"
+
+msgid "You can use <b>%s</b> as a dynamic variable for your application name."
+msgstr ""
+"U kunt <b>%s gebruiken</b> als een dynamische variabele voor uw "
+"toepassingsnaam."
+
+msgid ""
+"You have a Source generation stuck for more than 1 hour, please check in <b>"
+"Settings > Advanced > Cron</b> for the stuck build.<br />To unlock further "
+"builds you can remove locks from the button below."
+msgstr ""
+"Een APK-generatie is vast gelopen na 1 uur, kijk in de <b>Instellingen > "
+"Geavanceerd > Cron</b> voor een vast gelopen APK.<br />om verder te bouwen "
+"kunt u sloten verwijderen met de knop hieronder."
+
+msgid ""
+"You have an APK generation stuck for more than 1 hour, please check in <b>"
+"Settings > Advanced > Cron</b> for the stuck build.<br />To unlock further "
+"builds you can remove locks from the button below."
+msgstr ""
+"Een APK-generatie is vast gelopen na 1 uur, kijk in de <b>Instellingen > "
+"Geavanceerd > Cron</b> voor een vast gelopen APK.<br />om verder te bouwen "
+"kunt u sloten verwijderen met de knop hieronder."
+
+msgid "You have no certificate yet."
+msgstr "Je hebt nog geen certificaat."
+
+msgid "You have no new messages."
+msgstr "Je hebt geen nieuwe berichten."
+
+msgid "You must select an Admin panel type before requesting a Certificate."
+msgstr ""
+"U moet een beheerdersdashboard selecteren voordat u een certificaat "
+"aanvraagt."
+
+msgid ""
+"Your HTTPS/SSL Certificate is about to expire in <b>%s day%s</b>, don't "
+"forget to renew it on the following page <a href=\"%s\">configuration</a>."
+msgstr ""
+"Uw HTTPS / SSL-certificaat verloopt binnenkort in <b>%s dagen %s</b> "
+",vergeet niet om het te verlengen op de volgende pagina- <a href=\"%s\""
+">instellingen</a> ."
+
+msgid "Your certificate is invalid"
+msgstr "Uw certificaat is ongeldig"
+
+msgid "Your certificate is valid until:"
+msgstr "Uw certificaat is geldig tot:"
+
+msgid "Your certificates are saved."
+msgstr "Uw certificaten worden opgeslagen."
+
+msgid "Your new password"
+msgstr "Uw nieuwe wachtwoord"
+
+msgid "Your password"
+msgstr "Uw wachtwoord"
+
+msgid "<b>Actual preview version is Siberian 5.0</b>."
+msgstr "<b>de Actuele preview-versie is Siberian 5.0</b>."
+
+msgid ""
+"<b>Disclaimer:</b> You are using the <b>preview</b> update channel, this "
+"channel is intended for <b>tests & previews</b> of new features, if you are "
+"not sure stay with <b>stable channel</b>."
+msgstr ""
+"<b>Disclaimer:</b> u gebruikt het <b>preview-</b> updatekanaal, dit kanaal "
+"is bedoeld voor  <b> tests en voorbeelden </ b> van nieuwe functies, als u "
+"niet zeker weet of u op een <b> stabiel kanaal blijft  </ b>."
+
+msgid ""
+"<b>Note for Bug report:</b> give us a maximum of description of how you "
+"reached the bug, and possibly screenshots."
+msgstr ""
+"<b>Opmerking voor</b> bugrapport: geef ons een maximum aan beschrijving van "
+"hoe u de bug hebt bereikt en mogelijk schermafbeeldingen."
+
+msgid ""
+"<b>Note</b>: sources & push will be sent immediately after their creation, "
+"scheduled push will not work & media optimization is disabled."
+msgstr ""
+"<b> Opmerking </ b>: bronnen & push zullen onmiddellijk worden verstuurd, "
+"geplande push zal niet werken & media optimalisatie is uitgeschakeld."
+
+msgid "customer"
+msgstr "klant"
+
+msgid "%d Unread Message"
+msgstr "%d ongelezen berichten"
+
+msgid "%d Unread Messages"
+msgstr "%d ongelezen berichten"
+
+msgid "for the bundle id:"
+msgstr "voor de bundel id:"
+
+msgid "letsencrypt"
+msgstr "letsencrypt"
+
+msgid "per page"
+msgstr "per pagina"
+
+msgid "see Settings > Advanced > Configuration > Cron to edit options."
+msgstr ""
+"zie Instellingen> Geavanceerd> Configuratie> Om cron opties te bewerken."
+
+msgid "values are refreshed once a day only!"
+msgstr "waarden worden vernieuwd eens per dag!"

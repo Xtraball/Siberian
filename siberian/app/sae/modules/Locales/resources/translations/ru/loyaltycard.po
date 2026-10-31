@@ -1,0 +1,178 @@
+msgid ""
+msgstr ""
+"Project-Id-Version: Russian (Siberian)\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2019-01-22 10:34+0000\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: Russian <http://yvain.xtraball.com/projects/siberian/"
+"loyaltycard/ru/>\n"
+"Language: ru\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=3; plural=n%10==1 && n%100!=11 ? 0 : n%10>=2 && n%10<="
+"4 && (n%100<10 || n%100>=20) ? 1 : 2;\n"
+"X-Generator: Weblate 3.3\n"
+
+msgid "1 loyalty point ="
+msgstr "1 метка лояльности ="
+
+msgid "1 point"
+msgstr "1 метка ="
+
+msgid "1 validated point ="
+msgstr "1 подтверждённая метка ="
+
+msgid "An error occurred while retrieving QRCode. Please try again later"
+msgstr "Произошла ошибка при сохранении. Пожалуйста, повторите попытку позже"
+
+msgid "An error occurred while saving the password. Please try again later"
+msgstr ""
+"Произошла ошибка при сохранении пароля. Пожалуйста, повторите попытку позже"
+
+msgid "An error occurred while saving your loyalty card."
+msgstr "Произошла ошибка при сохранении вашей карты лояльности."
+
+msgid ""
+"An error occurred while saving your loyalty card. Please fill all fields in."
+msgstr ""
+"Произошла ошибка при сохранении вашей карты лояльности. Пожалуйста, "
+"заполните все поля."
+
+msgid "An error occurred while validating point. Please try again later."
+msgstr ""
+"Произошла ошибка при проверке точку. Пожалуйста, повторите попытку позже."
+
+msgid "An error occurred with your QRCode."
+msgstr "Произошла ошибка с вашим QR-кода."
+
+msgid "Card name"
+msgstr "Имя карточки"
+
+msgid "Congratulations"
+msgstr "Поздравляю"
+
+msgid "Current card"
+msgstr "Текущая метка"
+
+msgid "Delete this password?"
+msgstr "Удалить этот пароль?"
+
+msgid "Employee's name:"
+msgstr "Имя работника:"
+
+msgid "Employee's password:"
+msgstr "Пароль работника:"
+
+msgid "Enter password"
+msgstr "Ввести пароль"
+
+msgid "Enter the password"
+msgstr "Ввести пароль"
+
+msgid "My new loyalty card"
+msgstr "Моя новая карта лояльности"
+
+msgid "My passwords"
+msgstr "Мои пароли"
+
+msgid "No cards available"
+msgstr "Нет доступных карт"
+
+msgid "Number of points"
+msgstr "Количество меток"
+
+msgid "Please enter a name"
+msgstr "Пожалуйста, введите имя"
+
+msgid "Please enter the password"
+msgstr "Пожалуйста, введите пароль"
+
+msgid ""
+"Please show your phone to the store person so that he enters his password"
+msgstr "Пожалуйста, покажите ваш телефон в магазине  продавцу, для ввода пароля"
+
+msgid "Point active"
+msgstr "Балл активен"
+
+msgid "Point inactive"
+msgstr "Балл не активен"
+
+msgid "Point%s successfully validated"
+msgstr "Метка %s успешно проверена"
+
+msgid "Previous cards"
+msgstr "Предыдущие карты"
+
+msgid "Reward"
+msgstr "Вознаграждение"
+
+msgid "Rewards"
+msgstr "Вознаграждение"
+
+msgid "Scan QRCode"
+msgstr "Сканировать Qrcode"
+
+msgid "This card is uniq:"
+msgstr "Эта карта уникальна:"
+
+msgid "Unlock by QRCode"
+msgstr "Разблокировка с помощью QR-кода"
+
+msgid "Unreadable QRCode, sorry."
+msgstr "Нечитаемый QR-код, извините."
+
+msgid "Use only once?"
+msgstr "использовать только один раз"
+
+msgid "We are sorry but this card is temporarily blocked"
+msgstr "Мы сожалеем, но эта карта временно заблокирована"
+
+msgid ""
+"Wrong password. Be carefull! %d remaining attempt%s before locking your "
+"card. Ask the store person for validating your point"
+msgstr ""
+"Неверный пароль. Будьте осторожны! %d остальные попытки%s могут блокировать "
+"карту. Попросите в магазине продавца проверить ваши пункты"
+
+msgid ""
+"Wrong password.<br />Be careful !<br />%d remaining attempt%s before locking "
+"your card.<br />Ask the store person for validating your point"
+msgstr ""
+"Неверный пароль. <br /> Будьте осторожны! %d остальные попытки%s могут "
+"блокировать карту. <br />Попросите в магазине продавца проверить ваши точки"
+
+msgid ""
+"You have exceeded the number of attempts to validate points. Your card is "
+"locked for 24h"
+msgstr ""
+"Вы превысили количество попыток для проверки точек. Ваша карта будет "
+"заблокирована на 24 часа"
+
+msgid "You just finished your card"
+msgstr "Вы только что закончили свою карту"
+
+msgid "You must be logged in to validate points"
+msgstr "Вы должны войти в систему для проверки меток"
+
+msgid "Your loyalty card has been saved successfully"
+msgstr "Ваша карта лояльности была успешно сохранена"
+
+msgid "Your password must be 4 digits"
+msgstr "Ваш пароль должен состоять из 4 цифр"
+
+msgid "is now yours!"
+msgstr "Теперь за вами!"
+
+msgid "point"
+msgstr "метка"
+
+msgid "point to validate"
+msgstr "указывают для проверки"
+
+msgid "points to validate"
+msgstr "Метки для проверки"
+
+msgid "validated points ="
+msgstr "погашенные метки ="

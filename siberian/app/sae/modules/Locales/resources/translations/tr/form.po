@@ -1,0 +1,130 @@
+msgid ""
+msgstr ""
+"Project-Id-Version: Turkish (Siberian)\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2019-01-22 10:34+0000\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: Turkish <http://yvain.xtraball.com/projects/siberian/form/tr/>"
+"\n"
+"Language: tr\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=n != 1;\n"
+"X-Generator: Weblate 3.3\n"
+
+msgid "Add a field"
+msgstr "Bir alan ekle"
+
+msgid "Add a section"
+msgstr "Bir bölüm ekle"
+
+msgid "Add an option"
+msgstr "Bir seçenek ekle"
+
+msgid "An error occurred while saving. A field can't be identified."
+msgstr "Kaydedilirken bir hata oluştu. Bir alan tespit edilemedi."
+
+msgid "Are you sure you want to remove this field?"
+msgstr "Bu alanı kaldırmak istediğinizden eminmisiniz?"
+
+msgid "Are you sure you want to remove this section?"
+msgstr "Bu bölümü kaldırmak istediğinizden eminmisiniz?"
+
+msgid "Checkbox"
+msgstr "Onay kutusu"
+
+msgid "Choose a field type:"
+msgstr "Bir alan cinsi seçin:"
+
+msgid "Create a new field"
+msgstr "Yeni bir alan oluşturun"
+
+msgid "Date/Hour"
+msgstr "Tarih/Saat"
+
+msgid "Drop down"
+msgstr "Drop down"
+
+msgid "Edit field %s"
+msgstr "%s Alanını düzenle"
+
+msgid "Field name"
+msgstr "Alan adı"
+
+msgid ""
+"Form data will be sent to this email. Until you fill out this field, your "
+"form won't be displayed on client side."
+msgstr ""
+"Form verisi bu e-postaya gönderilecektir. Bu alanı doldurana kadar, form "
+"istemci tarafında görüntülenmez."
+
+msgid "Geolocation"
+msgstr "Coğrafi Konum"
+
+msgid "Hello,"
+msgstr "Merhaba,"
+
+msgid "Import a picture"
+msgstr "Bir resim ekleyin"
+
+msgid "Import from Library"
+msgstr "Klasörden Aktar"
+
+msgid "Manage fields"
+msgstr "Alanları yönet"
+
+msgid "Manage options:"
+msgstr "Seçenekleri yönet:"
+
+msgid "Multiline text"
+msgstr "Çok satırlı metin"
+
+msgid "Option"
+msgstr "Seçenek"
+
+msgid "Radio"
+msgstr "Radio"
+
+msgid "Recipient email"
+msgstr "Alıcı e-posta"
+
+msgid "Take a picture"
+msgstr "Bir resim çek"
+
+msgid "The form has been sent successfully"
+msgstr "Form başarıyla gönderildi"
+
+msgid "You have to choose a field type."
+msgstr "Bir alan türü seçmek zorundasınız."
+
+msgid "Your app's form"
+msgstr "Uygulamanızın formu"
+
+msgid "Your form has been filled out, here are the answers:"
+msgstr "Formunuz dolduruldu,cevaplar burda:"
+
+msgid "<strong>%s</strong> is not a numerical value<br />"
+msgstr "<strong>%s</strong> sayısal değer<br />"
+
+msgid "<strong>%s</strong> is not valid email address<br />"
+msgstr "<strong>%s</strong> geçerli bir e-posta adresi<br />"
+
+msgid "<strong>%s</strong> is required<br />"
+msgstr "<strong>%s</strong>gereklidir<br />"
+
+msgid "<strong>%s</strong> must be a numerical value<br />"
+msgstr "<strong>%s</strong> numerik değer olmalı<br />"
+
+msgid "<strong>%s</strong> must be a valid date (e.g. dd/mm/yyyy)<br />"
+msgstr "<strong>%s</strong> Geçerli bir tarih olmalıdır (örk. gg/aa/yyyy)<br />"
+
+msgid "<strong>%s</strong> must be a valid date<br />"
+msgstr "<strong>%s</strong> geçerli bir tarih olmalı<br />"
+
+msgid "<strong>%s</strong> must be a valid email address<br />"
+msgstr "<strong>%s</strong> geçerli email olmalı<br />"
+
+msgid "<strong>%s</strong> must be filled<br />"
+msgstr "<strong>%s</strong> doldurulmalı<br />"

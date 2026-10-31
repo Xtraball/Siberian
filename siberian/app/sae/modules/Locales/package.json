@@ -1,0 +1,11 @@
+{
+  "name": "Locales",
+  "description": "Translations shipped with the core, switched on one by one in Settings > Translations",
+  "version": "1.0.0",
+  "dependencies": {
+    "system": {
+      "type": "SAE",
+      "version": "5.1.7"
+    }
+  }
+}

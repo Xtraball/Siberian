@@ -1,0 +1,318 @@
+msgid ""
+msgstr ""
+"Project-Id-Version: Russian (Siberian)\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2019-01-22 10:34+0000\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: Russian <http://yvain.xtraball.com/projects/siberian/media/ru/"
+">\n"
+"Language: ru\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=3; plural=n%10==1 && n%100!=11 ? 0 : n%10>=2 && n%10<="
+"4 && (n%100<10 || n%100>=20) ? 1 : 2;\n"
+"X-Generator: Weblate 3.3\n"
+
+msgid "+ Add a track"
+msgstr "+ Добавить трек"
+
+msgid "Add albums and tracks to the playlist:"
+msgstr "Добавить альбомы и треки в плейлист:"
+
+msgid "Album"
+msgstr "Альбом"
+
+msgid "Albums"
+msgstr "Альбомы"
+
+msgid ""
+"An error occurred while deleting you images gallery. Please try again later."
+msgstr ""
+"Произошла ошибка во время удаления вашей галереи. Пожалуйста, повторите "
+"попытку позже."
+
+msgid "An error occurred while deleting your album. Thanks for trying later."
+msgstr ""
+"Произошла ошибка во время удаления вашего альбома. Удалите пожалуйста позже."
+
+msgid ""
+"An error occurred while deleting your playlist. Thanks for trying later."
+msgstr ""
+"Произошла ошибка во время удаления вашего плейлиста. Удалите пожалуйста "
+"позже."
+
+msgid "An error occurred while deleting your track. Thanks for trying later."
+msgstr ""
+"Произошла ошибка во время удаления вашей дорожки. Удалите пожалуйста позже."
+
+msgid "An error occurred while loading pictures. Please try later."
+msgstr "Произошла ошибка при загрузке фотографии. Пожалуйста, попробуйте позже."
+
+msgid "An error occurred while loading the media."
+msgstr "Произошла ошибка при загрузке события"
+
+msgid "An error occurred while loading the radio."
+msgstr "Произошла ошибка при добавлении опции"
+
+msgid "An error occurred while loading videos. Please try later."
+msgstr "Произошла ошибка при загрузке видео. Пожалуйста, попробуйте позже."
+
+msgid ""
+"An error occurred while retrieving your page. Please check your page id."
+msgstr ""
+"Произошла ошибка при получении страницы. Пожалуйста, проверьте ваш ID "
+"страницы."
+
+msgid ""
+"An error occurred while saving your images gallery. Please try again later."
+msgstr ""
+"Произошла ошибка в процессе сохранения данных изображений. Пожалуйста, "
+"повторите попытку позже."
+
+msgid "An error occurred while saving your playlist. Thanks for trying later."
+msgstr "Произошла ошибка при сохранении плейлиста. Сохраните пожалуйста позже."
+
+msgid ""
+"An error occurred while saving your videos gallery. Please try again later."
+msgstr ""
+"Произошла ошибка при сохранении вашей видео галереи. Пожалуйста, повторите "
+"попытку позже."
+
+msgid "Are you sure you don't want to create an album for these tracks?"
+msgstr "Вы уверены, что не хотите создать альбом для этих треков?"
+
+msgid "Are you sure you don't want to create an album for this track?"
+msgstr "Вы уверены, что не хотите создать альбом для этого трека?"
+
+msgid "Are you sure you want to delete this album?"
+msgstr "Вы уверены, что хотите удалить этот альбом?"
+
+msgid "Are you sure you want to delete this album (this won't delete tracks)?"
+msgstr ""
+"Вы уверены, что хотите удалить этот альбом (это не приведет к удалению "
+"дорожки)?"
+
+msgid "Are you sure you want to delete this playlist?"
+msgstr "Вы уверены, что хотите удалить этот плейлист?"
+
+msgid "Are you sure you want to delete this track?"
+msgstr "Вы уверены, что хотите удалить этот трек?"
+
+msgid "Artist:"
+msgstr "Исполнитель:"
+
+msgid "Audio"
+msgstr "Аудио"
+
+msgid "Channel"
+msgstr "Канал"
+
+msgid "Choose an album"
+msgstr "Выберите альбом"
+
+msgid "Custom"
+msgstr "Лучшие"
+
+msgid "Delete this gallery?"
+msgstr "Удалить эту галерею?"
+
+msgid "Facebook page ID"
+msgstr "Ваш ID на странице Facebook "
+
+msgid "Feed URL"
+msgstr "URL ленты"
+
+msgid "Flickr"
+msgstr "Фликр"
+
+msgid "Flickr API settings can't be found."
+msgstr "Параметры API Flickr  не может быть найден."
+
+msgid "Flickr user"
+msgstr "Пользователь Flickr"
+
+msgid "Gallery Name"
+msgstr "Имя галереи"
+
+msgid "Group"
+msgstr "Группа"
+
+msgid "If set, will appear instead of the Facebook page Id in app."
+msgstr ""
+"Если установлено, отображаются вместо страницы Facebook ID в приложении."
+
+msgid "I'm listening to"
+msgstr "Я слушаю"
+
+msgid "I'm listening to $1 from $2 on $3 app."
+msgstr "Я слушаю до $1 из $2 на $3 приложения."
+
+msgid "I'm listening to $1 on $2 app."
+msgstr "Я слушаю 1 $на Приложение $2."
+
+msgid "Images gallery has been saved successfully"
+msgstr "Изображения галереи успешно сохранены"
+
+msgid "Instagram"
+msgstr "Instagram"
+
+msgid "Instagram API settings can't be found."
+msgstr "Параметры API Instagram не могут быть найдены."
+
+msgid "Last update:"
+msgstr "Последнее обновление:"
+
+msgid "Login"
+msgstr "Логин"
+
+msgid "Maximum size : 2000*2000 px - Allowed filetypes : jpg and png"
+msgstr "Максимальный размер: 2000 * 2000 pi.  Допустимые типы файлов: JPG и PNG"
+
+msgid "My images"
+msgstr "Мои изображения"
+
+msgid "No album found"
+msgstr "Альбом не найден"
+
+msgid "No artist found"
+msgstr "Исполнитель не найден"
+
+msgid "No current stream to play so far."
+msgstr "Нет текущего потока, чтобы играть до сих пор."
+
+msgid "No track found"
+msgstr "Трек не найден"
+
+msgid "No valid Facebook API key and secret."
+msgstr "Недействительный  API Facebook ключ и секрет."
+
+msgid "PLAYER"
+msgstr "Плеер"
+
+msgid "Page ID"
+msgstr "ID страницы"
+
+msgid "Page not found"
+msgstr "Страница не найдена"
+
+msgid "Parameter"
+msgstr "Параметр"
+
+msgid "Parameter/Feed Url"
+msgstr "Параметр / URL ленты"
+
+msgid "Picasa"
+msgstr "Picasa"
+
+msgid "Playlist"
+msgstr "Плейлист"
+
+msgid "Playlist successfully saved."
+msgstr "Плейлист успешно сохранён."
+
+msgid "Playlist title:"
+msgstr "Название плейлиста"
+
+msgid "Playlists"
+msgstr "Плейлист"
+
+msgid "Please specify the page ID"
+msgstr "Пожалуйста, укажите код страницы"
+
+msgid "Podcast"
+msgstr "Подкаст"
+
+msgid "Podcast URL (iTunes format)"
+msgstr "Подкаст URL (формат Itunes)"
+
+msgid "Read all"
+msgstr "Прослушать все треки"
+
+msgid "Reload album list?"
+msgstr "Обновить список альбомов?"
+
+msgid "Required field"
+msgstr "Обязательное поле"
+
+msgid "Search/Url"
+msgstr "Поиск / URL"
+
+msgid "The entered name is not a valid Instagram user."
+msgstr "Введенное имя не действительно, как пользователя Instagram."
+
+msgid "This element is not an album."
+msgstr "Этот элемент не является альбомом"
+
+msgid "Track"
+msgstr "трек"
+
+msgid "Tracks"
+msgstr "треки"
+
+msgid "Type"
+msgstr "Тип"
+
+msgid "URL (.mp3):"
+msgstr "URL (.mp3):"
+
+msgid "Videos gallery has been saved successfully"
+msgstr "Видео галерея была успешно сохранена"
+
+msgid "Vimeo"
+msgstr "Vimeo"
+
+msgid "buy"
+msgstr "купить"
+
+msgid "by"
+msgstr "от"
+
+msgid "close"
+msgstr "закрыть"
+
+msgid "empty"
+msgstr "пустой"
+
+msgid "from"
+msgstr "От"
+
+msgid "hide"
+msgstr "скрыть"
+
+msgid "loop"
+msgstr "по кругу"
+
+msgid "music"
+msgstr "музыка"
+
+msgid "next"
+msgstr "далее"
+
+msgid "on"
+msgstr "вкл"
+
+msgid "pause"
+msgstr "пауза"
+
+msgid "play"
+msgstr "проиграть"
+
+msgid "previous"
+msgstr "Превью"
+
+msgid "%s by %s"
+msgstr "%s по %s"
+
+msgid "share"
+msgstr "участвовать"
+
+msgid "shuffle"
+msgstr "перемешать"
+
+msgid "track"
+msgstr "трек"
+
+msgid "tracks"
+msgstr "треки"

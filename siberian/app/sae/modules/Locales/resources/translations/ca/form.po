@@ -1,0 +1,129 @@
+msgid ""
+msgstr ""
+"Project-Id-Version: Catalan (Siberian)\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2019-01-22 10:29+0000\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: Catalan <http://yvain.xtraball.com/projects/siberian/form/ca/>"
+"\n"
+"Language: ca\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=n != 1;\n"
+"X-Generator: Weblate 3.3\n"
+
+msgid "Add a field"
+msgstr "Afegeix un camp"
+
+msgid "Add a section"
+msgstr "Afegeix una secció"
+
+msgid "Add an option"
+msgstr "Afegir l'opció"
+
+msgid "An error occurred while saving. A field can't be identified."
+msgstr "S'ha produït un error mentre es desava. Un camp no es pot identificar."
+
+msgid "Are you sure you want to remove this field?"
+msgstr "Esteu segur que voleu suprimir aquest camp?"
+
+msgid "Are you sure you want to remove this section?"
+msgstr "Esteu segur que voleu suprimir aquesta secció?"
+
+msgid "Checkbox"
+msgstr "Casella de selecció"
+
+msgid "Choose a field type:"
+msgstr "Trieu un tipus de camp:"
+
+msgid "Create a new field"
+msgstr "Crear un nou camp"
+
+msgid "Date/Hour"
+msgstr "Data/hora"
+
+msgid "Drop down"
+msgstr "Desplegable"
+
+msgid "Edit field %s"
+msgstr "Editar camp %s"
+
+msgid "Field name"
+msgstr "Nom del camp"
+
+msgid ""
+"Form data will be sent to this email. Until you fill out this field, your "
+"form won't be displayed on client side."
+msgstr ""
+
+msgid "Geolocation"
+msgstr "Geolocalització"
+
+msgid "Hello,"
+msgstr "Hola,"
+
+msgid "Import a picture"
+msgstr ""
+
+msgid "Import from Library"
+msgstr ""
+
+msgid "Manage fields"
+msgstr "Administra els camps"
+
+msgid "Manage options:"
+msgstr "Administrar opcions:"
+
+msgid "Multiline text"
+msgstr "Text múltiples línies"
+
+msgid "Option"
+msgstr "Opció"
+
+msgid "Radio"
+msgstr "Ràdio"
+
+msgid "Recipient email"
+msgstr ""
+
+msgid "Take a picture"
+msgstr ""
+
+msgid "The form has been sent successfully"
+msgstr "El formulari ha estat enviat correctament"
+
+msgid "You have to choose a field type."
+msgstr "Vostè ha de triar un tipus de camp."
+
+msgid "Your app's form"
+msgstr "Forma del seu app"
+
+msgid "Your form has been filled out, here are the answers:"
+msgstr "El formulari emplenat, aquí hi ha les respostes:"
+
+msgid "<strong>%s</strong> is not a numerical value<br />"
+msgstr "<strong>%s</strong> ha de ser un valor numèric < br / >"
+
+msgid "<strong>%s</strong> is not valid email address<br />"
+msgstr "<strong>%s</strong> ha de ser una adreça electrònica vàlida < br / >"
+
+msgid "<strong>%s</strong> is required<br />"
+msgstr "<strong>%s</strong> són obligatoris < br / >"
+
+msgid "<strong>%s</strong> must be a numerical value<br />"
+msgstr "<strong>%s</strong> ha de ser un valor numèric < br / >"
+
+msgid "<strong>%s</strong> must be a valid date (e.g. dd/mm/yyyy)<br />"
+msgstr ""
+"<strong>%s</strong> ha de ser una data vàlida (p. ex. dd/mm/aaaa) < br / >"
+
+msgid "<strong>%s</strong> must be a valid date<br />"
+msgstr "<strong>%s</strong> ha de ser una data vàlida < br / >"
+
+msgid "<strong>%s</strong> must be a valid email address<br />"
+msgstr "<strong>%s</strong> ha de ser una adreça electrònica vàlida < br / >"
+
+msgid "<strong>%s</strong> must be filled<br />"
+msgstr "<strong>%s</strong> són obligatoris < br / >"

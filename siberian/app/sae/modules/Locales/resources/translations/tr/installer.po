@@ -1,0 +1,226 @@
+msgid ""
+msgstr ""
+"Project-Id-Version: Turkish (Siberian)\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2019-01-22 10:34+0000\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: Turkish <http://yvain.xtraball.com/projects/siberian/"
+"installer/tr/>\n"
+"Language: tr\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=n != 1;\n"
+"X-Generator: Weblate 3.3\n"
+
+msgid "Action"
+msgstr "Eylem"
+
+msgid "Actions"
+msgstr "Eylemler"
+
+msgid "All of your modules are up to date"
+msgstr "Tüm modülleriniz güncel"
+
+msgid "An update is available. Click here to download it."
+msgstr "Bir güncelleştirme kullanılabilir. İndirmek için buraya tıklayınız."
+
+msgid "Check for updates"
+msgstr "Güncellemeleri kontrol et"
+
+msgid "Click here to see the release notes"
+msgstr "Burada sürümü görmek için tıklayın notlar"
+
+msgid "Click here to send your module"
+msgstr "Burayı tıklayarak modülü gönderin"
+
+msgid "Details"
+msgstr "Detaylar"
+
+msgid "Drop your module here"
+msgstr "Modülünüzü buraya sürükleyin"
+
+msgid "Host"
+msgstr "Host"
+
+msgid "Install"
+msgstr "Yükleme"
+
+msgid "Installing"
+msgstr "Yükleniyor"
+
+msgid "Installing your module"
+msgstr "Modülünüz yükleniyor"
+
+msgid "Module successfully installed"
+msgstr "Modül başarıyla yüklendi"
+
+msgid "Module to upload"
+msgstr "Yüklenecek modül"
+
+msgid "Modules Installation"
+msgstr "Modüller yüklemesi"
+
+msgid "Modules successfully installed!"
+msgstr "Modüller başarıyla yüklendi"
+
+msgid "Name"
+msgstr "İsim"
+
+msgid "No directory provided"
+msgstr "Dizin sağlanmamış"
+
+msgid "No module to install"
+msgstr "Yüklemek için modül yok"
+
+msgid "No modules uploaded yet"
+msgstr "Henüz hiç bir modül yüklenmemiş "
+
+msgid ""
+"Or set the correct permissions to the following files and folders and try "
+"again:"
+msgstr ""
+"Ya da aşağıdaki dosyalar ve klasörler için doğru izinlerini ayarlayarak "
+"yeniden deneyin:"
+
+msgid "Package"
+msgstr "Paket"
+
+msgid "Package Details"
+msgstr "Paket detayları"
+
+msgid "Path to your system"
+msgstr "Sisteminizin yolu"
+
+msgid "Please, enter a name"
+msgstr "Lütfen bir isim girin"
+
+msgid "Please, fill out all fields"
+msgstr "Lütfen tüm alanları doldurunuz"
+
+msgid ""
+"Please update the module to the %s version before installing this update."
+msgstr "Bu güncelleştirmeyi yüklemeden önce%s sürümüne modülü güncelleyin."
+
+msgid ""
+"Please update your system to the %s version before installing this update."
+msgstr "Bu güncelleştirmeyi yüklemeden önce%s sürümüne sisteminizi güncelleyin."
+
+msgid "Please wait, we're installing your module"
+msgstr "Lütfen bekleyin modülünüzü yüklüyoruz"
+
+msgid "Port"
+msgstr "Port"
+
+msgid "Processing the installation"
+msgstr "Kurulum işliyor"
+
+msgid "Progress"
+msgstr "İlerleme"
+
+msgid "Retry"
+msgstr "Yenileyin"
+
+msgid "Select a module to upload"
+msgstr "Yüklemek için bir modül seçin"
+
+msgid "Size"
+msgstr "Boyut"
+
+msgid ""
+"Some files and folder are not writable. You can either provide your FTP "
+"access to install this update:"
+msgstr ""
+"Bazı dosya ve klasör yazılabilir değil. Bu güncelleştirmeyi yüklemek için "
+"FTP erişimide sağlayabilirsiniz:"
+
+msgid "Some files don't have the right permissions and can't be updated"
+msgstr "Bazı dosyalar doğru izinlere sahip değil ve güncellenemedi"
+
+msgid "Status"
+msgstr "Statü"
+
+msgid "The database connection failed. Please, check the entered information."
+msgstr "Veritabanı bağlantısı başarısız oldu.Girdiğiniz bilgileri kontrol edin."
+
+msgid "The entered password confirmation does not match the entered password."
+msgstr "Şifreler eşleşmiyor."
+
+msgid "The file %s does not exist"
+msgstr "Alan %s mevcut değil"
+
+msgid "The file %s is not writable."
+msgstr "%s dosyası yazılabilir değil."
+
+msgid "The folder %s is not writable. Please fix this issue and try again."
+msgstr "Klasör%s yazılabilir değil. Bu sorunu giderin ve yeniden deneyin."
+
+msgid "The following files and folders are not writable:"
+msgstr "Aşağıdaki dosyalar ve klasörler yazılabilir değildir:"
+
+msgid "The following files and folders are not writable: <br /> - %s"
+msgstr "Aşağıdaki dosyalar yazılabilir değil: <br /> - %s"
+
+msgid "The package you have uploaded is invalid."
+msgstr "Yüklediğiniz paket geçersiz."
+
+msgid "There is no CMS license key set."
+msgstr ""
+
+msgid "This process may take few minutes, please do not refresh the page"
+msgstr "Bu süreç birkaç dakika sürebilir bu süreçte sayfayı yenilemeyin."
+
+msgid "This update is designed for the %s, you can't install it in your %s."
+msgstr "Bu güncelleme%s için tasarlanmış,%s nizin üstüne kuramazsınız."
+
+msgid "Unable to check for updates now. Please, try again later."
+msgstr ""
+"Şuan güncellemeler kontrol edilemiyor . Lütfen daha sonra tekrar deneyin."
+
+msgid "Unable to connect to your FTP. Please check the connection information."
+msgstr "FTP bağlantı kurulamıyor. Bağlantı bilgilerini kontrol edin."
+
+msgid ""
+"Unable to detect your site. Please make sure the entered path is correct."
+msgstr "Sitenizi algılayamadı. Girilen yolun doğru olduğundan emin olun."
+
+msgid "Unable to extract the archive."
+msgstr "Arşiv dişa aktarılamıyor."
+
+msgid "Unable to fetch the update. Please, try again later."
+msgstr "Güncelleştirme alınamıyor. Lütfen daha sonra tekrar deneyin"
+
+msgid "Unable to open the archive."
+msgstr "Arşiv açılamıyor."
+
+msgid ""
+"Unable to open the file. Please, make sure that you sent a valid archive."
+msgstr "Dosya açılamıyor.Geçerli bir arşiv gönderildiğinden emin olun."
+
+msgid "Upload a module"
+msgstr "Bir modül yükleyin"
+
+msgid "Upload your modules"
+msgstr "Modüllerinizi yükleyin "
+
+msgid "Username"
+msgstr "Kullanıcıadı"
+
+msgid "Version"
+msgstr "Versiyon"
+
+msgid "We are checking for updates. Please, do not refresh the page."
+msgstr "Güncellemeler kontrol ediliyor. Lütfen, sayfayı yenilemeyin."
+
+msgid "You already have installed this template."
+msgstr "Zaten bu şablon yüklediniz ."
+
+msgid "You already have installed this update."
+msgstr "Zaten bu güncelleştirmeyi yüklediniz. "
+
+msgid "Your system is up to date."
+msgstr "Sisteminiz güncel."
+
+msgid "%s Update"
+msgstr "%s Güncelleme"

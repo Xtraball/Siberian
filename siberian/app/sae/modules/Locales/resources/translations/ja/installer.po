@@ -1,0 +1,205 @@
+msgid ""
+msgstr ""
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"X-Generator: ezgif.com\n"
+
+msgid "Action"
+msgstr "アクション"
+
+msgid "Actions"
+msgstr "アクション"
+
+msgid "All of your modules are up to date"
+msgstr "すべてのモジュールが最新です"
+
+msgid "An update is available. Click here to download it."
+msgstr "アップデートが利用可能です。 ダウンロードするには、ここをクリックしてください。"
+
+msgid "Check for updates"
+msgstr "アップデートの確認"
+
+msgid "Click here to see the release notes"
+msgstr "リリースノートを見るにはここをクリック"
+
+msgid "Click here to send your module"
+msgstr "モジュールを送信するには、ここをクリックしてください"
+
+msgid "Details"
+msgstr "詳細"
+
+msgid "Drop your module here"
+msgstr "ここにモジュールをドロップします"
+
+msgid "Host"
+msgstr "ホスト"
+
+msgid "Install"
+msgstr "をインストールします"
+
+msgid "Installing"
+msgstr "をインストールしています"
+
+msgid "Installing your module"
+msgstr "モジュールのインストール"
+
+msgid "Module successfully installed"
+msgstr "モジュールが正常にインストールされました"
+
+msgid "Module to upload"
+msgstr "アップロードするモジュール"
+
+msgid "Modules Installation"
+msgstr "モジュールのインストール"
+
+msgid "Modules successfully installed!"
+msgstr "モジュールが正常にインストールされました。"
+
+msgid "Name"
+msgstr "名前"
+
+msgid "No directory provided"
+msgstr "ディレクトリが指定されていません"
+
+msgid "No module to install"
+msgstr "インストールするモジュールがありません"
+
+msgid "No modules uploaded yet"
+msgstr "モジュールはまだアップロードされていません"
+
+msgid "Or set the correct permissions to the following files and folders and try again:"
+msgstr "または、次のファイルとフォルダーに正しいアクセス許可を設定し、もう一度試してください。"
+
+msgid "Package"
+msgstr "パッケージ"
+
+msgid "Package Details"
+msgstr "パッケージ詳細"
+
+msgid "Path to your system"
+msgstr "システムへのパス"
+
+msgid "Please, enter a name"
+msgstr "名前を入力してください"
+
+msgid "Please, fill out all fields"
+msgstr "すべてのフィールドに記入してください"
+
+msgid "Please update the module to the %s version before installing this update."
+msgstr "この更新プログラムをインストールする前に、モジュールを%s バージョンに更新してください。"
+
+msgid "Please update your system to the %s version before installing this update."
+msgstr "この更新プログラムをインストールする前に、システムを%s バージョンに更新してください。"
+
+msgid "Please wait, we're installing your module"
+msgstr "お待ちください。モジュールをインストールしています"
+
+msgid "Port"
+msgstr "港"
+
+msgid "Processing the installation"
+msgstr "インストールの処理"
+
+msgid "Progress"
+msgstr "進捗"
+
+msgid "Retry"
+msgstr "リトライ"
+
+msgid "Select a module to upload"
+msgstr "アップロードするモジュールを選択"
+
+msgid "Size"
+msgstr "サイズ"
+
+msgid "Some files and folder are not writable. You can either provide your FTP access to install this update:"
+msgstr "一部のファイルとフォルダは書き込みできません。 この更新プログラムをインストールするには、FTP アクセスを提供することができます。"
+
+msgid "Some files don't have the right permissions and can't be updated"
+msgstr "一部のファイルには適切な権限がないため、更新できません。"
+
+msgid "Status"
+msgstr "ステータス"
+
+msgid "The database connection failed. Please, check the entered information."
+msgstr "データベース接続に失敗しました。 入力した情報を確認してください。"
+
+msgid "The entered password confirmation does not match the entered password."
+msgstr "入力したパスワードの確認が、入力したパスワードと一致しません。"
+
+msgid "The file %s does not exist"
+msgstr "ファイル%s は存在しません"
+
+msgid "The file %s is not writable."
+msgstr "ファイル%s は書き込みできません。"
+
+msgid "The folder %s is not writable. Please fix this issue and try again."
+msgstr "フォルダ%s は書き込みできません。 この問題を解決して、もう一度お試しください。"
+
+msgid "The following files and folders are not writable:"
+msgstr "次のファイルとフォルダは書き込みできません。"
+
+msgid "The following files and folders are not writable: <br /> - %s"
+msgstr "次のファイルとフォルダは書き込みできません: <br /> -%s"
+
+msgid "The package you have uploaded is invalid."
+msgstr "アップロードされたパッケージは無効です。"
+
+msgid "There is no CMS license key set."
+msgstr "CMS ライセンスキーセットはありません。"
+
+msgid "This process may take few minutes, please do not refresh the page"
+msgstr "この処理には数分かかる場合があります。ページを更新しないでください。"
+
+msgid "This update is designed for the %s, you can't install it in your %s."
+msgstr "この更新プログラムは%s 用に設計されています。%s にインストールすることはできません。"
+
+msgid "Unable to check for updates now. Please, try again later."
+msgstr "更新を確認することができません。 しばらくしてからもう一度お試しください。"
+
+msgid "Unable to connect to your FTP. Please check the connection information."
+msgstr "FTP に接続できません。 接続情報を確認してください。"
+
+msgid "Unable to detect your site. Please make sure the entered path is correct."
+msgstr "サイトを検出できません。 入力したパスが正しいことを確認してください。"
+
+msgid "Unable to extract the archive."
+msgstr "アーカイブを抽出できません。"
+
+msgid "Unable to fetch the update. Please, try again later."
+msgstr "更新をフェッチできません。 しばらくしてからもう一度お試しください。"
+
+msgid "Unable to open the archive."
+msgstr "アーカイブを開けません。"
+
+msgid "Unable to open the file. Please, make sure that you sent a valid archive."
+msgstr "ファイルを開けません。 有効なアーカイブを送信したことを確認してください。"
+
+msgid "Upload a module"
+msgstr "モジュールのアップロード"
+
+msgid "Upload your modules"
+msgstr "モジュールのアップロード"
+
+msgid "Username"
+msgstr "ユーザー名"
+
+msgid "Version"
+msgstr "バージョン"
+
+msgid "We are checking for updates. Please, do not refresh the page."
+msgstr "更新を確認しています。 ページを更新しないでください。"
+
+msgid "You already have installed this template."
+msgstr "このテンプレートは既にインストールされています。"
+
+msgid "You already have installed this update."
+msgstr "この更新プログラムは既にインストールされています。"
+
+msgid "Your system is up to date."
+msgstr "システムは最新です。"
+
+msgid "%s Update"
+msgstr "%s 更新"
+

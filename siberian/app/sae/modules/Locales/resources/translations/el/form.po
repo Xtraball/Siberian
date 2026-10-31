@@ -1,0 +1,130 @@
+msgid ""
+msgstr ""
+"Project-Id-Version: Greek (Siberian)\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2019-01-22 10:31+0000\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: Greek <http://yvain.xtraball.com/projects/siberian/form/el/>\n"
+"Language: el\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=n != 1;\n"
+"X-Generator: Weblate 3.3\n"
+
+msgid "Add a field"
+msgstr "Προσθήκη πεδίου"
+
+msgid "Add a section"
+msgstr "Προσθήκη ενότητας"
+
+msgid "Add an option"
+msgstr "Προσθήκη επιλογής"
+
+msgid "An error occurred while saving. A field can't be identified."
+msgstr ""
+"Υπήρξε σφάλμα κατά την αποθήκευση. Κάθε πεδίο πρέπει να είναι προσδιορισμένο."
+
+msgid "Are you sure you want to remove this field?"
+msgstr "Είστε σίγουροι ότι θέλετε να διαγράψετε αυτό το πεδίο?"
+
+msgid "Are you sure you want to remove this section?"
+msgstr "Είστε σίγουροι ότι θέλετε να διαγράψετε αυτή την ενότητα?"
+
+msgid "Checkbox"
+msgstr "Κουτάκι επιλογής"
+
+msgid "Choose a field type:"
+msgstr "Επιλογή τύπου πεδίου:"
+
+msgid "Create a new field"
+msgstr "Δημιουργία νέου πεδίου"
+
+msgid "Date/Hour"
+msgstr "Ημ/νία / ώρα"
+
+msgid "Drop down"
+msgstr "Λίστα επιλογής"
+
+msgid "Edit field %s"
+msgstr "Επεξεργασία πεδίου %s"
+
+msgid "Field name"
+msgstr "Όνομα πεδίου"
+
+msgid ""
+"Form data will be sent to this email. Until you fill out this field, your "
+"form won't be displayed on client side."
+msgstr ""
+
+msgid "Geolocation"
+msgstr "Geolocation"
+
+msgid "Hello,"
+msgstr "Γειά σας,"
+
+msgid "Import a picture"
+msgstr ""
+
+msgid "Import from Library"
+msgstr ""
+
+msgid "Manage fields"
+msgstr "Διαχείριση πεδίων"
+
+msgid "Manage options:"
+msgstr "Διαχείριση επιλογών:"
+
+msgid "Multiline text"
+msgstr "Πεδίο κειμένου πολλαπλών γραμμών"
+
+msgid "Option"
+msgstr "Επιλογή"
+
+msgid "Radio"
+msgstr "Radio"
+
+msgid "Recipient email"
+msgstr ""
+
+msgid "Take a picture"
+msgstr ""
+
+msgid "The form has been sent successfully"
+msgstr "Το μήνυμά σας εστάλει επιτυχώς"
+
+msgid "You have to choose a field type."
+msgstr "Πρέπει να επιλέξετε έναν τύπο πεδίου."
+
+msgid "Your app's form"
+msgstr "Φόρμα Επικοινωνίας από App"
+
+msgid "Your form has been filled out, here are the answers:"
+msgstr "Η φόρμα σας συμπληρώθηκε επιτυχώς, δείτε τις απαντήσεις:"
+
+msgid "<strong>%s</strong> is not a numerical value<br />"
+msgstr "Το πεδίο <strong>%s</strong> πρέπει να έχει αριθμούς<br />"
+
+msgid "<strong>%s</strong> is not valid email address<br />"
+msgstr "Το πεδίο <strong>%s</strong> πρέπει να είναι ένα έγκυρο E-mail<br />"
+
+msgid "<strong>%s</strong> is required<br />"
+msgstr "Το πεδίο <strong>%s</strong> πρέπει να συμπληρωθεί<br />"
+
+msgid "<strong>%s</strong> must be a numerical value<br />"
+msgstr "Το πεδίο <strong>%s</strong> πρέπει να έχει αριθμούς<br />"
+
+msgid "<strong>%s</strong> must be a valid date (e.g. dd/mm/yyyy)<br />"
+msgstr ""
+"Το πεδίο <strong>%s</strong> πρέπει να είναι μία έγκυρη ημ/νία (π.χ. "
+"ηη/ΜΜ/ΕΕΕΕ)<br />"
+
+msgid "<strong>%s</strong> must be a valid date<br />"
+msgstr "Το πεδίο <strong>%s</strong> πρέπει να είναι μία έγκυρη ημ/νία<br />"
+
+msgid "<strong>%s</strong> must be a valid email address<br />"
+msgstr "Το πεδίο <strong>%s</strong> πρέπει να είναι ένα έγκυρο E-mail<br />"
+
+msgid "<strong>%s</strong> must be filled<br />"
+msgstr "Το πεδίο <strong>%s</strong> πρέπει να συμπληρωθεί<br />"

@@ -42,6 +42,132 @@ class Core_Model_Language
     protected static $_language_codes = [];
 
     /**
+     * System config code holding the JSON list of enabled shipped locales (off by default).
+     */
+    const ENABLED_LOCALES_KEY = 'enabled_locales';
+
+    /**
+     * Locales shipped with the core: one folder per language code in the Locales module.
+     *
+     * @return string[]
+     */
+    public static function getShippedLocales()
+    {
+        $directory = Core_Model_Directory::getBasePathTo('app/sae/modules/Locales/resources/translations');
+        if (!is_dir($directory)) {
+            return [];
+        }
+
+        $codes = [];
+        foreach (new DirectoryIterator($directory) as $entry) {
+            if ($entry->isDir() && !$entry->isDot()) {
+                $codes[] = $entry->getFilename();
+            }
+        }
+        sort($codes);
+
+        return $codes;
+    }
+
+    /**
+     * Pure rule: the stored value (JSON list) narrowed to the shipped locales, anything else is ignored.
+     *
+     * @param mixed $stored
+     * @param string[] $shipped
+     * @return string[]
+     */
+    public static function parseEnabledLocales($stored, array $shipped)
+    {
+        $list = is_string($stored) ? json_decode($stored, true) : null;
+        if (!is_array($list)) {
+            return [];
+        }
+
+        return array_values(array_unique(array_intersect(array_filter($list, 'is_string'), $shipped)));
+    }
+
+    /**
+     * @return string[]
+     */
+    public static function getEnabledLocales()
+    {
+        try {
+            $stored = System_Model_Config::getValueFor(self::ENABLED_LOCALES_KEY);
+        } catch (\Throwable $e) {
+            $stored = null; // not installed yet, nothing is enabled
+        }
+
+        return self::parseEnabledLocales($stored, self::getShippedLocales());
+    }
+
+    /**
+     * @param string $code
+     * @param bool $enabled
+     * @throws \Siberian\Exception
+     */
+    public static function toggleLocale($code, $enabled)
+    {
+        $shipped = self::getShippedLocales();
+        if (!in_array($code, $shipped, true) || self::hasLanguageDirectory($code)) {
+            throw new \Siberian\Exception(p__('translation', 'This language cannot be switched.'));
+        }
+
+        $current = self::getEnabledLocales();
+        $next = $enabled ? array_merge($current, [$code]) : array_diff($current, [$code]);
+        System_Model_Config::setValueFor(
+            self::ENABLED_LOCALES_KEY,
+            json_encode(array_values(array_unique($next))),
+            'Enabled locales');
+    }
+
+    /**
+     * @param string $code
+     * @return bool
+     */
+    public static function hasLanguageDirectory($code)
+    {
+        return is_dir(Core_Model_Directory::getBasePathTo('languages/' . $code));
+    }
+
+    /**
+     * Every language an admin can see: the active ones, and the shipped ones that are switched off.
+     *
+     * @return array
+     * @throws Zend_Exception
+     */
+    public static function getManageable()
+    {
+        $territories = Zend_Locale::getTranslationList('language');
+        $rows = [];
+        foreach (self::$_languages as $code => $language) {
+            $rows[$code] = [
+                'code' => $code,
+                'name' => $language->getName(),
+                'enabled' => true,
+                'toggle' => false,
+            ];
+        }
+
+        foreach (self::getShippedLocales() as $code) {
+            if (!isset($territories[$code]) || self::hasLanguageDirectory($code)) {
+                continue;
+            }
+            $rows[$code] = [
+                'code' => $code,
+                'name' => ucfirst($territories[$code]),
+                'enabled' => isset(self::$_languages[$code]),
+                'toggle' => true,
+            ];
+        }
+
+        uasort($rows, function ($a, $b) {
+            return strcmp($a['name'], $b['name']);
+        });
+
+        return $rows;
+    }
+
+    /**
      * @throws Zend_Exception
      */
     public static function prepare()
@@ -51,15 +177,17 @@ class Core_Model_Language
         foreach ($directories as $directory) {
             $dir_name = $directory->getFileName();
             if (!$directory->isDot() && isset($territories[$dir_name])) {
-                $locale = Zend_Locale::getLocaleToTerritory($dir_name);
-                self::$_languages[$directory->getFileName()] = new Core_Model_Default([
-                    'code' => $directory->getFileName(),
-                    'name' => ucfirst($territories[$dir_name]),
-                    'locale' => $locale,
-                ]);
-                self::$_language_codes[] = $directory->getFileName();
+                self::registerLanguage($dir_name, $territories);
             }
         }
+
+        // Shipped locales only when an admin switched them on, folders in languages/ keep working as before
+        foreach (self::getEnabledLocales() as $code) {
+            if (isset($territories[$code]) && !isset(self::$_languages[$code])) {
+                self::registerLanguage($code, $territories);
+            }
+        }
+
         self::$_languages[self::DEFAULT_LANGUAGE] = new Core_Model_Default([
             'code' => self::DEFAULT_LANGUAGE,
             'name' => ucfirst($territories[self::DEFAULT_LANGUAGE]),
@@ -69,6 +197,21 @@ class Core_Model_Language
         self::$_language_codes[] = self::DEFAULT_LANGUAGE;
 
         asort(self::$_languages);
+    }
+
+    /**
+     * @param string $code
+     * @param array $territories
+     * @throws Zend_Exception
+     */
+    protected static function registerLanguage($code, array $territories)
+    {
+        self::$_languages[$code] = new Core_Model_Default([
+            'code' => $code,
+            'name' => ucfirst($territories[$code]),
+            'locale' => Zend_Locale::getLocaleToTerritory($code),
+        ]);
+        self::$_language_codes[] = $code;
     }
 
     /**

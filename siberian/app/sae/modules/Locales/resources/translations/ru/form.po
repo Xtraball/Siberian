@@ -1,0 +1,135 @@
+msgid ""
+msgstr ""
+"Project-Id-Version: Russian (Siberian)\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2019-01-22 10:34+0000\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: Russian <http://yvain.xtraball.com/projects/siberian/form/ru/>"
+"\n"
+"Language: ru\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=3; plural=n%10==1 && n%100!=11 ? 0 : n%10>=2 && n%10<="
+"4 && (n%100<10 || n%100>=20) ? 1 : 2;\n"
+"X-Generator: Weblate 3.3\n"
+
+msgid "Add a field"
+msgstr "Добавить поле"
+
+msgid "Add a section"
+msgstr "Добавить раздел"
+
+msgid "Add an option"
+msgstr "Добавить опцию"
+
+msgid "An error occurred while saving. A field can't be identified."
+msgstr "Произошла ошибка при сохранении. Поле не может быть идентифицировано."
+
+msgid "Are you sure you want to remove this field?"
+msgstr "Вы уверены, что хотите удалить это поле?"
+
+msgid "Are you sure you want to remove this section?"
+msgstr "Вы уверены, что хотите удалить этот раздел?"
+
+msgid "Checkbox"
+msgstr "Флажок"
+
+msgid "Choose a field type:"
+msgstr "Выберите тип поля:"
+
+msgid "Create a new field"
+msgstr "Создать новое поле"
+
+msgid "Date/Hour"
+msgstr "Дата / час"
+
+msgid "Drop down"
+msgstr "Вниз"
+
+msgid "Edit field %s"
+msgstr "Редактировать поле %s"
+
+msgid "Field name"
+msgstr "Наименование поля"
+
+msgid ""
+"Form data will be sent to this email. Until you fill out this field, your "
+"form won't be displayed on client side."
+msgstr ""
+"Данные формы будут посланы на данный емайл. До заполнения этого поля форма "
+"будет скрыта от клиентов"
+
+msgid "Geolocation"
+msgstr "Геолокация"
+
+msgid "Hello,"
+msgstr "Привет,"
+
+msgid "Import a picture"
+msgstr "Импорт изображения"
+
+msgid "Import from Library"
+msgstr "Импорт из Библиотеки"
+
+msgid "Manage fields"
+msgstr "Управление полем"
+
+msgid "Manage options:"
+msgstr "Управление параметрами:"
+
+msgid "Multiline text"
+msgstr "Текст многострочный"
+
+msgid "Option"
+msgstr "Опция"
+
+msgid "Radio"
+msgstr "Радио"
+
+msgid "Recipient email"
+msgstr "Адрес электронной почты получателя:"
+
+msgid "Take a picture"
+msgstr "Добавить фотографию"
+
+msgid "The form has been sent successfully"
+msgstr "Форма успешно отправлена"
+
+msgid "You have to choose a field type."
+msgstr "Вы должны выбрать тип поля."
+
+msgid "Your app's form"
+msgstr "Форма вашего приложения"
+
+msgid "Your form has been filled out, here are the answers:"
+msgstr "Ваша форма была заполнена, вот ответы:"
+
+msgid "<strong>%s</strong> is not a numerical value<br />"
+msgstr "<strong>%s</strong> должно быть числовое значение<br />"
+
+msgid "<strong>%s</strong> is not valid email address<br />"
+msgstr ""
+"<strong>%s</strong> должен быть действительный адрес электронной почты<br />"
+
+msgid "<strong>%s</strong> is required<br />"
+msgstr "<strong>%s</strong> нужно заполнить<br />"
+
+msgid "<strong>%s</strong> must be a numerical value<br />"
+msgstr "<strong>%s</strong> должно быть числовое значение<br />"
+
+msgid "<strong>%s</strong> must be a valid date (e.g. dd/mm/yyyy)<br />"
+msgstr ""
+"<strong>%s</strong> должна быть действительная дата (например дд/мм/год)<br "
+"/>"
+
+msgid "<strong>%s</strong> must be a valid date<br />"
+msgstr "<strong>%s</должна быть действительная дата<br />"
+
+msgid "<strong>%s</strong> must be a valid email address<br />"
+msgstr ""
+"<strong>%s</strong> должен быть действительный адрес электронной почты<br />"
+
+msgid "<strong>%s</strong> must be filled<br />"
+msgstr "<strong>%s</strong> нужно заполнить<br />"

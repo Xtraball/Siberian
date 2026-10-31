@@ -22,14 +22,44 @@ class Translation_Backoffice_ListController extends Backoffice_Controller_Defaul
      *
      */
     public function findallAction() {
-        $languages = Core_Model_Language::getLanguages();
         $payload = [];
 
-        foreach($languages as $lang) {
+        foreach (Core_Model_Language::getManageable() as $row) {
             $payload[] = [
-                "id" => base64_encode($lang->getCode()),
-                "code" => $lang->getCode(),
-                "name" => $lang->getName()
+                "id" => base64_encode($row["code"]),
+                "code" => $row["code"],
+                "name" => $row["name"],
+                "enabled" => $row["enabled"],
+                "toggle" => $row["toggle"],
+            ];
+        }
+
+        $this->_sendJson($payload);
+    }
+
+    /**
+     * Switch a shipped locale on or off
+     */
+    public function toggleAction() {
+        try {
+            if (__getConfig("is_demo")) {
+                throw new \Siberian\Exception(__("You cannot change translation, this is a demo version."));
+            }
+
+            $data = $this->getRequest()->getBodyParams();
+            $code = (string) ($data["code"] ?? "");
+            $enabled = filter_var($data["enabled"] ?? false, FILTER_VALIDATE_BOOLEAN);
+
+            Core_Model_Language::toggleLocale($code, $enabled);
+
+            $payload = [
+                "success" => true,
+                "message" => p__("translation", "Language saved."),
+            ];
+        } catch (\Exception $e) {
+            $payload = [
+                "error" => true,
+                "message" => $e->getMessage(),
             ];
         }
 

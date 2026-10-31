@@ -37,6 +37,24 @@ App.config(function($routeProvider) {
         $scope.content_loader_is_visible = false;
     });
 
+    $scope.toggleLanguage = function(language) {
+        language.saving = true;
+        Translations.toggle(language.code, !language.enabled).success(function(data) {
+            if (angular.isObject(data) && data.success) {
+                language.enabled = !language.enabled;
+                $scope.message.setText(data.message).isError(false).show();
+            } else {
+                $scope.message.setText(angular.isObject(data) && data.message ? data.message : Label.save.error)
+                    .isError(true).show();
+            }
+        }).error(function(data) {
+            $scope.message.setText(angular.isObject(data) && data.message ? data.message : Label.save.error)
+                .isError(true).show();
+        }).finally(function() {
+            language.saving = false;
+        });
+    };
+
 }).controller("TranslationEditController", function($http, $rootScope, $scope, $location, $routeParams, $queue, Header, Label,
                                                     SectionButton, $timeout, Translations, Url) {
 
