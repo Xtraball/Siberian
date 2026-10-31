@@ -1297,6 +1297,291 @@ table.sub-table tr.no-border-bottom td {
     font-weight: bold;
 }
 
+/** SERVICES **/
+.svc-strip {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 8px;
+    padding: 12px 16px;
+    border-bottom: 1px solid #ececec;
+}
+
+.svc-chip {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    padding: 5px 12px;
+    border: 1px solid #dcdcdc;
+    border-radius: 16px;
+    background: #fff;
+    color: #404040;
+    font-size: 13px;
+    cursor: pointer;
+}
+
+.svc-chip:hover,
+.svc-chip:focus {
+    border-color: #b4b2a9;
+    outline: 0;
+}
+
+.svc-chip .svc-note {
+    color: #854f0b;
+    font-size: 12px;
+}
+
+.svc-details {
+    margin-left: auto;
+}
+
+i.dot.svc-ok {
+    background: #1d9e75;
+}
+
+i.dot.svc-warn {
+    background: #ba7517;
+}
+
+i.dot.svc-down {
+    background: #d46a6a;
+}
+
+i.dot.svc-off,
+i.dot.svc-info {
+    background: #b4b2a9;
+}
+
+#services-details {
+    position: fixed;
+    top: 80px;
+    width: 600px;
+    max-width: calc(100% - 32px);
+    left: 50%;
+    margin-left: -300px;
+    z-index: 25000;
+}
+
+#services-details .modal-title {
+    font-size: 18px;
+    font-weight: bold;
+}
+
+@media (max-width: 640px) {
+    #services-details {
+        left: 16px;
+        margin-left: 0;
+    }
+}
+
+.svc-bin {
+    display: inline-block;
+    margin-right: 14px;
+}
+
+.svc-bin em {
+    color: #378add;
+    font-style: normal;
+}
+
+.svc-error-full {
+    white-space: normal;
+    word-break: break-word;
+    max-height: 160px;
+    overflow: auto;
+}
+
+/** WEB SPACE **/
+.webspace {
+    max-width: 760px;
+}
+
+.webspace-head {
+    display: flex;
+    align-items: baseline;
+    flex-wrap: wrap;
+    gap: 4px 12px;
+}
+
+.webspace-total {
+    font-size: 20px;
+    font-weight: 600;
+}
+
+.webspace-of,
+.webspace-date {
+    color: #808080;
+    font-size: 12px;
+}
+
+.webspace-head .webspace-manage {
+    margin-left: auto;
+}
+
+.webspace-level-warn.webspace-total {
+    color: #854f0b;
+}
+
+.webspace-level-danger.webspace-total {
+    color: #a32d2d;
+}
+
+.webspace-bar {
+    display: flex;
+    height: 10px;
+    margin: 10px 0 8px;
+    border-radius: 5px;
+    overflow: hidden;
+    background: #ececec;
+}
+
+.webspace-bar .seg {
+    flex: 0 0 0;
+    min-width: 0;
+}
+
+.webspace-bar .seg-log,
+.webspace-bar .seg-cache,
+.webspace-bar .seg-images,
+.webspace-bar .seg-tmp {
+    min-width: 3px;
+}
+
+.webspace-bar .seg-free {
+    flex-grow: 1;
+    background: transparent;
+}
+
+.webspace-bar.webspace-level-warn .seg-other {
+    background: #d9a24a;
+}
+
+.webspace-bar.webspace-level-danger .seg-other {
+    background: #d46a6a;
+}
+
+.seg-log {
+    background: #d85a30;
+}
+
+.seg-cache {
+    background: #7f77dd;
+}
+
+.seg-images {
+    background: #1d9e75;
+}
+
+.seg-tmp {
+    background: #ba7517;
+}
+
+.seg-other {
+    background: #b4b2a9;
+}
+
+.seg-none {
+    background: transparent;
+    border: 1px solid #b4b2a9;
+}
+
+.webspace-legend {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 4px 16px;
+    color: #606060;
+    font-size: 12px;
+}
+
+i.dot {
+    display: inline-block;
+    flex: 0 0 8px;
+    width: 8px;
+    height: 8px;
+    margin-right: 5px;
+    border-radius: 50%;
+}
+
+.webspace-backdrop {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 24999;
+    background: rgba(0, 0, 0, 0.35);
+}
+
+#webspace-manage {
+    position: fixed;
+    top: 80px;
+    width: 560px;
+    max-width: calc(100% - 32px);
+    left: 50%;
+    margin-left: -280px;
+    z-index: 25000;
+}
+
+@media (max-width: 600px) {
+    #webspace-manage {
+        left: 16px;
+        margin-left: 0;
+    }
+}
+
+#webspace-manage .modal-title {
+    font-size: 18px;
+    font-weight: bold;
+}
+
+.webspace-hint {
+    margin: 0 0 8px;
+    color: #606060;
+    font-size: 12px;
+}
+
+.webspace-row {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 10px 0;
+    border-top: 1px solid #ececec;
+}
+
+.webspace-row .webspace-row-text {
+    flex: 1;
+    min-width: 0;
+}
+
+.webspace-row .webspace-row-text span {
+    color: #808080;
+    font-size: 12px;
+    margin-left: 6px;
+}
+
+.webspace-row .webspace-row-text small {
+    display: block;
+    color: #606060;
+}
+
+.webspace-quota {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 8px;
+    padding: 12px 0 0;
+    border-top: 1px solid #ececec;
+}
+
+.webspace-quota .form-control {
+    width: 110px;
+}
+
+.webspace-quota small {
+    flex: 1 0 100%;
+    color: #606060;
+}
+
 .development-responsive {
     z-index: 999;
     position: fixed;

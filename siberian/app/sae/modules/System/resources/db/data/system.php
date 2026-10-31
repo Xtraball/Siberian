@@ -259,6 +259,11 @@ $configs = [
         'value' => 'release',
     ],
     [
+        'code' => 'web_space_quota_gb',
+        'label' => 'Web space quota (GB), informative',
+        'value' => '',
+    ],
+    [
         'code' => 'is_gdpr_enabled',
         'label' => 'Enable GDPR features & rules',
         'value' => '0',

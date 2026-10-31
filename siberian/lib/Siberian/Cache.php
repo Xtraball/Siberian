@@ -2,6 +2,7 @@
 
 namespace Siberian;
 
+use Siberian\Cache\DiskUsage;
 use \RecursiveIteratorIterator;
 use \RecursiveDirectoryIterator;
 use \DirectoryIterator;
@@ -310,16 +311,16 @@ class Cache
     {
         if (!$cache) {
             $cachedValue = __get('disk_usage_cache');
-            if (!empty($cachedValue)) {
-                return Json::decode($cachedValue);
-            }
-            return [
+            $usage = !empty($cachedValue) ? Json::decode($cachedValue) : [
                 'total' => '-',
                 'log_size' => '-',
                 'cache_size' => '-',
                 'cache_images_size' => '-',
                 'tmp_size' => '-',
             ];
+
+            // the quota is read each time: changing it shows at once, without a new measure
+            return DiskUsage::withQuota(DiskUsage::normalize($usage), __get(DiskUsage::QUOTA_KEY));
         }
 
         /**
@@ -333,48 +334,27 @@ class Cache
             }
         }
 
-        $total_size = "-";
-        $var_log_size = "-";
-        $var_cache_size = "-";
-        $var_cache_images_size = "-";
-        $var_tmp_size = "-";
+        $bytes = array_fill_keys(array_keys(DiskUsage::FOLDERS), null);
 
         try {
             $start = time();
 
-            $var_log = path('var/log');
-            exec("du -cksh {$var_log}", $output);
-            $parts = explode("\t", end($output));
-            $var_log_size = $parts[0];
+            foreach ([
+                'log_size' => 'var/log',
+                'cache_size' => 'var/cache',
+                'cache_images_size' => 'var/cache_images',
+                'tmp_size' => 'var/tmp',
+                'total' => '',
+            ] as $key => $folder) {
+                $output = [];
+                exec('du -sk ' . escapeshellarg(path($folder)), $output);
+                $kilobytes = explode("\t", end($output))[0] ?? '';
+                if (is_numeric($kilobytes)) {
+                    $bytes[$key] = (int) $kilobytes * 1024;
+                }
 
-            timeout($start);
-
-            $var_cache = path('var/cache');
-            exec("du -cksh {$var_cache}", $output);
-            $parts = explode("\t", end($output));
-            $var_cache_size = $parts[0];
-
-            timeout($start);
-
-            $var_cache_images = path('var/cache_images');
-            exec("du -cksh {$var_cache_images}", $output);
-            $parts = explode("\t", end($output));
-            $var_cache_images_size = $parts[0];
-
-            timeout($start);
-
-            $var_tmp = path('var/tmp');
-            exec("du -cksh {$var_tmp}", $output);
-            $parts = explode("\t", end($output));
-            $var_tmp_size = $parts[0];
-
-            timeout($start);
-
-            $total = path('');
-            exec("du -cksh {$total}", $output);
-            $parts = explode("\t", end($output));
-            $total_size = $parts[0];
-
+                timeout($start);
+            }
         } catch (Exception $e) {
             $logger = Zend_Registry::get('logger');
             $logger->info(
@@ -383,17 +363,15 @@ class Cache
             );
         }
 
-        $result = [
-            'total' => $total_size,
-            'log_size' => $var_log_size,
-            'cache_size' => $var_cache_size,
-            'cache_images_size' => $var_cache_images_size,
-            'tmp_size' => $var_tmp_size,
-        ];
-        $encodedResult = Json::encode($result);
-        __set('disk_usage_cache', $encodedResult);
+        // the text keys are what the dashboard of the earlier versions reads
+        $result = ['measured_at' => time()];
+        foreach (DiskUsage::FOLDERS as $textKey => $bytesKey) {
+            $result[$textKey] = $bytes[$textKey] === null ? '-' : DiskUsage::human($bytes[$textKey]);
+            $result[$bytesKey] = $bytes[$textKey];
+        }
+        __set('disk_usage_cache', Json::encode($result));
 
-        return $result;
+        return DiskUsage::withQuota(DiskUsage::normalize($result), __get(DiskUsage::QUOTA_KEY));
     }
 
     /**

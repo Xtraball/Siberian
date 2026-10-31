@@ -122,6 +122,36 @@ class Backoffice_Controller_Index_Abstract extends Backoffice_Controller_Default
     }
 
     /**
+     * The informative quota of the web space, in GB. Empty removes it.
+     */
+    public function setquotaAction()
+    {
+        try {
+            $data = $this->getRequest()->getBodyParams();
+            $quota = \Siberian\Cache\DiskUsage::validQuota($data['quota'] ?? '');
+            if ($quota === false) {
+                throw new \Siberian\Exception(p__('backoffice', 'Enter a size in GB, or leave it empty for no quota.'));
+            }
+
+            __set(\Siberian\Cache\DiskUsage::QUOTA_KEY, $quota === null ? '' : (string) $quota, 'Web space quota (GB)');
+
+            $payload = [
+                'success' => true,
+                'message' => $quota === null ?
+                    p__('backoffice', 'Quota removed.') : p__('backoffice', 'Quota saved.'),
+                'server_usage' => Siberian_Cache::getDiskUsage(),
+            ];
+        } catch (\Exception $e) {
+            $payload = [
+                'error' => true,
+                'message' => $e->getMessage(),
+            ];
+        }
+
+        $this->_sendJson($payload);
+    }
+
+    /**
      * Clearing caches
      */
     public function clearcacheAction()

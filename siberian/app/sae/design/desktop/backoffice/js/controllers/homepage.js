@@ -52,6 +52,86 @@ App.config(function($routeProvider) {
         });
     };
 
+    // Services: the state of the cron is whether it runs. Errors in its history are information, not a state.
+    $scope.svc = {open: false};
+    $scope.svc.cronActive = true;
+
+    $scope.cronState = function () {
+        var s = $scope.services || {};
+        if (!$scope.svc.cronActive) {
+            return 'off';
+        }
+        if (!s.cron) {
+            return 'down';
+        }
+        if (s.cron_locks > 0 || (s.cron_compat && s.cron_compat.problems > 0)) {
+            return 'warn';
+        }
+        return 'ok';
+    };
+
+    $scope.binaryCount = function () {
+        var l = $scope.libraries || {};
+        return ['optipng', 'jpegoptim', 'pngquant', 'clamav'].filter(function (k) { return !!l[k]; }).length;
+    };
+
+    $scope.openServices = function () {
+        $scope.svc.open = true;
+    };
+
+    // Web space: the bar is drawn on the quota when there is one and it is not exceeded, else on the total
+    $scope.webSpace = {open: false, quota: '', busy: false};
+    $scope.slices = null;
+
+    $scope.bytes = function (value) {
+        if (value === null || value === undefined) {
+            return '-';
+        }
+        var units = ['B', 'KB', 'MB', 'GB', 'TB'], i = 0;
+        while (value >= 1024 && i < units.length - 1) {
+            value /= 1024;
+            i++;
+        }
+        return (value < 10 && i > 0 ? Math.round(value * 10) / 10 : Math.round(value)) + ' ' + units[i];
+    };
+
+    $scope.$watch('server_usage', function (u) {
+        if (!u || !u.total_bytes) {
+            $scope.slices = null;
+            return;
+        }
+        var scale = (u.quota_bytes && u.quota_bytes > u.total_bytes) ? u.quota_bytes : u.total_bytes;
+        var pct = function (b) { return Math.max(0, (b || 0) / scale * 100); };
+        $scope.slices = {
+            log: pct(u.log_bytes),
+            cache: pct(u.cache_bytes),
+            images: pct(u.cache_images_bytes),
+            tmp: pct(u.tmp_bytes),
+            other: pct(u.other_bytes),
+            free: Math.max(0, 100 - pct(u.total_bytes))
+        };
+    }, true);
+
+    $scope.openWebSpace = function () {
+        var u = $scope.server_usage || {};
+        $scope.webSpace.quota = u.quota_gb ? String(u.quota_gb) : '';
+        $scope.webSpace.open = true;
+    };
+
+    $scope.saveQuota = function () {
+        $scope.webSpace.busy = true;
+        Backoffice.setWebSpaceQuota($scope.webSpace.quota).success(function (data) {
+            $scope.message.setText(data.message).isError(!!data.error).show();
+            if (data.server_usage) {
+                $scope.server_usage = data.server_usage;
+            }
+        }).error(function (data) {
+            $scope.message.setText((data && data.message) || '').isError(true).show();
+        }).finally(function () {
+            $scope.webSpace.busy = false;
+        });
+    };
+
     $scope.showCronModal = function () {
         $scope.show_cron_modal = true;
     };
