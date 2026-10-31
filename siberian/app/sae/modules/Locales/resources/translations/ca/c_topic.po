@@ -1,0 +1,111 @@
+msgid ""
+msgstr ""
+"Project-Id-Version: Catalan (Siberian)\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2019-01-22 10:29+0000\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: Catalan <http://yvain.xtraball.com/projects/siberian/acl/ca/>"
+"\n"
+"Language: ca\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=n != 1;\n"
+"X-Generator: Weblate 3.3\n"
+
+# GMT 1568884436.6232
+#. machine-translated (2026-10), to be reviewed
+msgctxt "topic"
+msgid "Description"
+msgstr "Descripció"
+
+# GMT 1568884436.6233
+#. machine-translated (2026-10), to be reviewed
+msgctxt "topic"
+msgid "Topics"
+msgstr "Temes"
+
+# GMT 1568884436.6237
+#. machine-translated (2026-10), to be reviewed
+msgctxt "topic"
+msgid "Design"
+msgstr "Disseny"
+
+# GMT 1568884436.6238
+#. machine-translated (2026-10), to be reviewed
+msgctxt "topic"
+msgid "Manage topics"
+msgstr "Gestiona els temes"
+
+# GMT 1568884436.624
+#. machine-translated (2026-10), to be reviewed
+msgctxt "topic"
+msgid "Import topics"
+msgstr "Importa temes"
+
+# GMT 1568885308.6752
+#. machine-translated (2026-10), to be reviewed
+msgctxt "topic"
+msgid "Import success."
+msgstr "Importació correcta."
+
+# GMT 1568885433.0521
+#. machine-translated (2026-10), to be reviewed
+msgctxt "topic"
+msgid "The imported JSON file is invalid."
+msgstr "El fitxer JSON importat no és vàlid."
+
+# GMT 1568887519.5898
+#. machine-translated (2026-10), to be reviewed
+msgctxt "topic"
+msgid "Download file examples: "
+msgstr "Descarrega exemples de fitxers: "
+
+# GMT 1568887519.5899
+#. machine-translated (2026-10), to be reviewed
+msgctxt "topic"
+msgid "Please note that only JSON & YAML supports nested topics."
+msgstr "Tingueu en compte que només JSON i YAML admeten temes imbricats."
+
+# GMT 1568887724.1144
+#. machine-translated (2026-10), to be reviewed
+msgctxt "topic"
+msgid "Import"
+msgstr "Importa"
+
+# GMT 1568887864.8146
+#. machine-translated (2026-10), to be reviewed
+msgctxt "topic"
+msgid "Please note that only JSON & YAML supports nested topics, CSV works only with single level imports."
+msgstr "Tingueu en compte que només JSON i YAML admeten temes imbricats; el CSV només funciona amb importacions d'un sol nivell."
+
+# GMT 1569246412.4798
+#. machine-translated (2026-10), to be reviewed
+msgctxt "topic"
+msgid "Download file examples"
+msgstr "Descarrega exemples de fitxers"
+
+# GMT 1569246468.7113
+#. machine-translated (2026-10), to be reviewed
+msgctxt "topic"
+msgid "Import CSV, JSON, YAML"
+msgstr "Importa CSV, JSON, YAML"
+
+# GMT 1576070941.4663
+#. machine-translated (2026-10), to be reviewed
+msgctxt "topic"
+msgid "The imported CSV file is invalid '%s'."
+msgstr "El fitxer CSV importat no és vàlid '%s'."
+
+# GMT 1576070941.4664
+#. machine-translated (2026-10), to be reviewed
+msgctxt "topic"
+msgid "'Parent topic `%s` doesn\\'t exists.'"
+msgstr "'El tema pare `%s` no existeix.'"
+
+# GMT 1576070941.4665
+#. machine-translated (2026-10), to be reviewed
+msgctxt "topic"
+msgid "Parent topic `%s` has a parent, you can nest topics only at one level."
+msgstr "El tema pare `%s` ja té un pare; només podeu imbricar temes en un nivell."

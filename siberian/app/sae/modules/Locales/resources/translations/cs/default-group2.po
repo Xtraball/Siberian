@@ -14,26 +14,30 @@ msgstr ""
 "Plural-Forms: nplurals=3; plural=(n==1) ? 0 : (n>=2 && n<=4) ? 1 : 2;\n"
 "X-Generator: Weblate 3.3\n"
 
+#. machine-translated (2026-10), to be reviewed
 msgid "-"
-msgstr ""
+msgstr "-"
 
 msgid " \"Remove this page from this folder?\""
 msgstr "Odstranit tuto stránku z této složky?"
 
+#. machine-translated (2026-10), to be reviewed
 msgid "#100: Unable to fetch the update. Please, try again later."
-msgstr ""
+msgstr "#100: Aktualizaci se nepodařilo načíst. Zkuste to prosím později."
 
 msgid "#101: An error occurred while saving"
 msgstr "Při ukládání došlo k chybě"
 
+#. machine-translated (2026-10), to be reviewed
 msgid "#101: Unable to fetch the update. Please, try again later."
-msgstr ""
+msgstr "#101: Aktualizaci se nepodařilo načíst. Zkuste to prosím později."
 
 msgid "#102: An error occurred while saving"
 msgstr "Při ukládání došlo k chybě"
 
+#. machine-translated (2026-10), to be reviewed
 msgid "#102: Unable to fetch the update. Please, try again later."
-msgstr ""
+msgstr "#102: Aktualizaci se nepodařilo načíst. Zkuste to prosím později."
 
 msgid "#103: An error occurred while saving. Please try again later."
 msgstr "Při ukládání došlo k chybě. Zkuste to prosím později."
@@ -95,17 +99,19 @@ msgstr "Při ukládání došlo k chybě"
 msgid "#123: An error occurred while saving"
 msgstr "Při ukládání došlo k chybě"
 
+#. machine-translated (2026-10), to be reviewed
 msgid "#156: Missing params!"
-msgstr ""
+msgstr "#156: Chybí parametry!"
 
 msgid ""
 "#19-001 The folder %s is not writable. Please fix this issue and try again."
 msgstr "Do složky %s nelze zapisovat. Opravte tento problém a zkuste znovu"
 
+#. machine-translated (2026-10), to be reviewed
 msgid ""
 "#19-002 Unable to extract the archive. Please make sure that the 'zip' "
 "extension is installed."
-msgstr ""
+msgstr "#19-002 Archiv se nepodařilo rozbalit. Ujistěte se, že je nainstalováno rozšíření 'zip'."
 
 msgid ""
 "#19-003: This update is designed for the %s, you can't install it in your %s."
@@ -138,16 +144,19 @@ msgstr "Nahraný package je poškozený"
 msgid "#19-011: The package you have uploaded is invalid."
 msgstr "Nahraný package je poškozený"
 
+#. machine-translated (2026-10), to be reviewed
 msgid "#19-013: The folder %s is not writable."
-msgstr ""
+msgstr "#19-013: Do složky %s nelze zapisovat."
 
+#. machine-translated (2026-10), to be reviewed
 msgid ""
 "#19-014: Your system doesn't meet the requirements for this module, version "
 ">=%s is required."
-msgstr ""
+msgstr "#19-014: Váš systém nesplňuje požadavky tohoto modulu, je vyžadována verze >=%s."
 
+#. machine-translated (2026-10), to be reviewed
 msgid "#19-016: You already have installed this %s or a newer version."
-msgstr ""
+msgstr "#19-016: Tento %s nebo novější verzi již máte nainstalovanou."
 
 msgid "#354-01: An error occurred while saving your colors."
 msgstr "Při ukládání barev došlo k chybě"
@@ -155,8 +164,9 @@ msgstr "Při ukládání barev došlo k chybě"
 msgid "#354-02: An error occurred while saving your colors."
 msgstr "Při ukládání barev došlo k chybě"
 
+#. machine-translated (2026-10), to be reviewed
 msgid "#354-03: SCSS Compilation error, you must input valid SCSS."
-msgstr ""
+msgstr "#354-03: Chyba kompilace SCSS, musíte zadat platný SCSS."
 
 msgid "#498-01: An error occured while exporting your application."
 msgstr "Při vytváření kopie aplikace došlo k chybě"
@@ -167,46 +177,59 @@ msgstr "Tato aplikace neexistuje"
 msgid "#500-02: This application does not exist"
 msgstr "Tato aplikace neexistuje"
 
+#. machine-translated (2026-10), to be reviewed
 msgid "#567-03: Missing value_id or place_id."
-msgstr ""
+msgstr "#567-03: Chybí value_id nebo place_id."
 
+#. machine-translated (2026-10), to be reviewed
 msgid "#567-04: An error occured."
-msgstr ""
+msgstr "#567-04: Došlo k chybě."
 
+#. machine-translated (2026-10), to be reviewed
 msgid "#567-07: Missing value_id or place_id."
-msgstr ""
+msgstr "#567-07: Chybí value_id nebo place_id."
 
+#. machine-translated (2026-10), to be reviewed
 msgid "#567-09: Missing value_id or company_id."
-msgstr ""
+msgstr "#567-09: Chybí value_id nebo company_id."
 
+#. machine-translated (2026-10), to be reviewed
 msgid "#734-01: Missing yandex API key"
-msgstr ""
+msgstr "#734-01: Chybí klíč API Yandex"
 
+#. machine-translated (2026-10), to be reviewed
 msgid "#734-03: Invalid yandex API key OR Free limit request exceeded."
-msgstr ""
+msgstr "#734-03: Neplatný klíč API Yandex NEBO byl překročen bezplatný limit požadavků."
 
+#. machine-translated (2026-10), to be reviewed
 msgid "A e-mail has been sent to %s, please check your inbox."
-msgstr ""
+msgstr "E-mail byl odeslán na adresu %s, zkontrolujte prosím svou schránku."
 
+#. machine-translated (2026-10), to be reviewed
 msgid "A place can belong to multiple categories."
-msgstr ""
+msgstr "Místo může patřit do více kategorií."
 
+#. machine-translated (2026-10), to be reviewed
 msgid "ACTIVATE"
-msgstr ""
+msgstr "AKTIVOVAT"
 
+#. machine-translated (2026-10), to be reviewed
 msgid ""
 "Above 50 active whitelabels, Siberian's automated Let's Encrypt SSL "
 "certificate generation is not supported."
-msgstr ""
+msgstr "Nad 50 aktivních whitelabelů není automatické generování certifikátů SSL Let's Encrypt v Siberian podporováno."
 
+#. machine-translated (2026-10), to be reviewed
 msgid "Accepted Terms of Service"
-msgstr ""
+msgstr "Přijaté Podmínky služby"
 
+#. machine-translated (2026-10), to be reviewed
 msgid "Account Settings"
-msgstr ""
+msgstr "Nastavení účtu"
 
+#. machine-translated (2026-10), to be reviewed
 msgid "Action '{$action}' executed for module '{$module}'."
-msgstr ""
+msgstr "Akce '{$action}' byla provedena pro modul '{$module}'."
 
 msgid "Add an <br /><span class=\"bold\">image</span>"
 msgstr "Přidat<br /><span class=\"bold\">obrázky</span>"
@@ -217,64 +240,80 @@ msgstr "Přidat<br /><span class=\"bold\">přílohu</span>"
 msgid "Add<br /><span class=\"bold\">Pictures</span>"
 msgstr "Přidat<br /><span class=\"bold\">obrázky</span>"
 
+#. machine-translated (2026-10), to be reviewed
 msgid "Addresses blocks can now have a website & a phone number."
-msgstr ""
+msgstr "Bloky adres nyní mohou mít web a telefonní číslo."
 
+#. machine-translated (2026-10), to be reviewed
 msgid "Ads type"
-msgstr ""
+msgstr "Typ reklam"
 
+#. machine-translated (2026-10), to be reviewed
 msgid ""
 "After the upgrade you will be required to upload new homepage & "
 "splashscreen, actual homepages & splashscreens can still be downloaded."
-msgstr ""
+msgstr "Po upgradu budete muset nahrát novou úvodní stránku a úvodní obrazovku, stávající úvodní stránky a úvodní obrazovky lze stále stáhnout."
 
+#. machine-translated (2026-10), to be reviewed
 msgid "All places"
-msgstr ""
+msgstr "Všechna místa"
 
+#. machine-translated (2026-10), to be reviewed
 msgid "Allow line return?"
-msgstr ""
+msgstr "Povolit zalomení řádku?"
 
+#. machine-translated (2026-10), to be reviewed
 msgid "Alphabetically"
-msgstr ""
+msgstr "Abecedně"
 
 msgid "An error occurred while processing the payment."
 msgstr "Při zpracování Vaší platby došlo k chybě"
 
+#. machine-translated (2026-10), to be reviewed
 msgid "Android 4.4+"
-msgstr ""
+msgstr "Android 4.4+"
 
+#. machine-translated (2026-10), to be reviewed
 msgid "Android Studio 3+"
-msgstr ""
+msgstr "Android Studio 3+"
 
+#. machine-translated (2026-10), to be reviewed
 msgid ""
 "Android being more restrictive with screen orientation some combination are "
 "not possible."
-msgstr ""
+msgstr "Android je u orientace obrazovky restriktivnější, některé kombinace proto nejsou možné."
 
+#. machine-translated (2026-10), to be reviewed
 msgid "Android only (You must set a Firebase Key)"
-msgstr ""
+msgstr "Pouze Android (musíte nastavit klíč Firebase)"
 
+#. machine-translated (2026-10), to be reviewed
 msgid "Android orientation is invalid!"
-msgstr ""
+msgstr "Orientace Androidu je neplatná!"
 
+#. machine-translated (2026-10), to be reviewed
 msgid "Android orientation settings"
-msgstr ""
+msgstr "Nastavení orientace Androidu"
 
+#. machine-translated (2026-10), to be reviewed
 msgid "Api User"
-msgstr ""
+msgstr "Uživatel API"
 
+#. machine-translated (2026-10), to be reviewed
 msgid "Apple"
-msgstr ""
+msgstr "Apple"
 
 msgid "Application %s"
 msgstr "Aplikace"
 
+#. machine-translated (2026-10), to be reviewed
 msgid ""
 "Application_Mobile_DataController::findall, class: {$model} doesn't exists."
-msgstr ""
+msgstr "Application_Mobile_DataController::findall, třída: {$model} neexistuje."
 
+#. machine-translated (2026-10), to be reviewed
 msgid "Apps efficaces + Prix minime = Des clients heureux"
-msgstr ""
+msgstr "Účinné aplikace + nízká cena = spokojení zákazníci"
 
 msgid "Are you sure you want to delete this discount?"
 msgstr "Opravdu chcete smazat tento obrázek?"
@@ -285,33 +324,41 @@ msgstr "Barva pozadí - aktivní"
 msgid "Background Color - Hover"
 msgstr "Barva pozadí - při přejetí myši"
 
+#. machine-translated (2026-10), to be reviewed
 msgid "Backoffice access"
-msgstr ""
+msgstr "Přístup do administrace"
 
+#. machine-translated (2026-10), to be reviewed
 msgid "Backoffice page Title"
-msgstr ""
+msgstr "Název stránky administrace"
 
+#. machine-translated (2026-10), to be reviewed
 msgid "Backoffice theme (BETA)"
-msgstr ""
+msgstr "Motiv administrace (BETA)"
 
+#. machine-translated (2026-10), to be reviewed
 msgid "Banner ID"
-msgstr ""
+msgstr "ID banneru"
 
+#. machine-translated (2026-10), to be reviewed
 msgid ""
 "Before you can generate your application, you must upload new homepage & "
 "splashscreen."
-msgstr ""
+msgstr "Než budete moci vygenerovat svou aplikaci, musíte nahrát novou úvodní stránku a úvodní obrazovku."
 
+#. machine-translated (2026-10), to be reviewed
 msgid ""
 "Before you can re-publish your application, you must upgrade it to the new "
 "<b>unified</b> homepage & splashscreen."
-msgstr ""
+msgstr "Než budete moci svou aplikaci znovu publikovat, musíte ji upgradovat na novou <b>sjednocenou</b> úvodní stránku a úvodní obrazovku."
 
+#. machine-translated (2026-10), to be reviewed
 msgid "Build failed!"
-msgstr ""
+msgstr "Sestavení selhalo!"
 
+#. machine-translated (2026-10), to be reviewed
 msgid "Build succeed!"
-msgstr ""
+msgstr "Sestavení bylo úspěšné!"
 
 msgid ""
 "By checking this box, you agree <a href=\"%s\" target=\"_blank\" class=\""
@@ -321,47 +368,60 @@ msgstr ""
 "javascript:void(0);\" target =\"_blank\" class=\"underline\">Obchodními "
 "podmínkami </a>"
 
+#. machine-translated (2026-10), to be reviewed
 msgid "CANCEL"
-msgstr ""
+msgstr "ZRUŠIT"
 
+#. machine-translated (2026-10), to be reviewed
 msgid "CSS Editor is saved!"
-msgstr ""
+msgstr "Editor CSS byl uložen!"
 
+#. machine-translated (2026-10), to be reviewed
 msgid "Cancel Subscription"
-msgstr ""
+msgstr "Zrušit předplatné"
 
+#. machine-translated (2026-10), to be reviewed
 msgid "Cancel current Offline subscription"
-msgstr ""
+msgstr "Zrušit aktuální offline předplatné"
 
+#. machine-translated (2026-10), to be reviewed
 msgid "Cancel subscription!"
-msgstr ""
+msgstr "Zrušit předplatné!"
 
+#. machine-translated (2026-10), to be reviewed
 msgid "Cancelled and expired"
-msgstr ""
+msgstr "Zrušeno a vypršelo"
 
+#. machine-translated (2026-10), to be reviewed
 msgid "Cancelled to be expired"
-msgstr ""
+msgstr "Zrušeno, čeká na vypršení"
 
+#. machine-translated (2026-10), to be reviewed
 msgid "Catalog is up-to-date."
-msgstr ""
+msgstr "Katalog je aktuální."
 
+#. machine-translated (2026-10), to be reviewed
 msgid "Category is up-to-date."
-msgstr ""
+msgstr "Kategorie je aktuální."
 
+#. machine-translated (2026-10), to be reviewed
 msgid "Channel: #security, #notifications, etc..."
-msgstr ""
+msgstr "Kanál: #security, #notifications atd..."
 
+#. machine-translated (2026-10), to be reviewed
 msgid "Check payments"
-msgstr ""
+msgstr "Zkontrolovat platby"
 
 msgid "Choose your font family"
 msgstr "Vyberte si rodinu písma"
 
+#. machine-translated (2026-10), to be reviewed
 msgid "Clean-up sensible data"
-msgstr ""
+msgstr "Vyčistit citlivá data"
 
+#. machine-translated (2026-10), to be reviewed
 msgid "Click here for more information about AdMob"
-msgstr ""
+msgstr "Klikněte zde pro více informací o AdMob"
 
 msgid "Click here to send your fullchain"
 msgstr "Klikněte zde pro vložení faviconu"
@@ -373,109 +433,139 @@ msgstr ""
 "Vyberte stránku/modul, kterou chcete přidat do složky <span id = \""
 "folder_name\" class = \"folder_name\"> \"%s\" </ span>"
 
+#. machine-translated (2026-10), to be reviewed
 msgid "Cram-MD5"
-msgstr ""
+msgstr "Cram-MD5"
 
 msgid "Create a new category"
 msgstr "Vytvořit nového uživatele"
 
+#. machine-translated (2026-10), to be reviewed
 msgid "Custom font"
-msgstr ""
+msgstr "Vlastní písmo"
 
+#. machine-translated (2026-10), to be reviewed
 msgid "DEACTIVATE"
-msgstr ""
+msgstr "DEAKTIVOVAT"
 
+#. machine-translated (2026-10), to be reviewed
 msgid "Default layout"
-msgstr ""
+msgstr "Výchozí rozvržení"
 
+#. machine-translated (2026-10), to be reviewed
 msgid "Default page"
-msgstr ""
+msgstr "Výchozí stránka"
 
+#. machine-translated (2026-10), to be reviewed
 msgid "Delete category!"
-msgstr ""
+msgstr "Odstranit kategorii!"
 
+#. machine-translated (2026-10), to be reviewed
 msgid "Delete product!"
-msgstr ""
+msgstr "Odstranit produkt!"
 
+#. machine-translated (2026-10), to be reviewed
 msgid "Display"
-msgstr ""
+msgstr "Zobrazení"
 
+#. machine-translated (2026-10), to be reviewed
 msgid "Display phone"
-msgstr ""
+msgstr "Zobrazit telefon"
 
+#. machine-translated (2026-10), to be reviewed
 msgid "Display website"
-msgstr ""
+msgstr "Zobrazit web"
 
 msgid "Download CA"
 msgstr "Stáhnout"
 
+#. machine-translated (2026-10), to be reviewed
 msgid "Download Certificate"
-msgstr ""
+msgstr "Stáhnout certifikát"
 
+#. machine-translated (2026-10), to be reviewed
 msgid "Download Private"
-msgstr ""
+msgstr "Stáhnout soukromý klíč"
 
+#. machine-translated (2026-10), to be reviewed
 msgid "Download icon pack example"
-msgstr ""
+msgstr "Stáhnout ukázkovou sadu ikon"
 
+#. machine-translated (2026-10), to be reviewed
 msgid "Download non-unified previous images!"
-msgstr ""
+msgstr "Stáhnout nesjednocené předchozí obrázky!"
 
+#. machine-translated (2026-10), to be reviewed
 msgid "During the <b>beta</b> stage, themes are likely to evolve slightly."
-msgstr ""
+msgstr "Během fáze <b>beta</b> se motivy mohou mírně měnit."
 
+#. machine-translated (2026-10), to be reviewed
 msgid "E-Mail render preview"
-msgstr ""
+msgstr "Náhled vykreslení e-mailu"
 
 msgid "Editing subscription:"
 msgstr "Upravit plán %s"
 
+#. machine-translated (2026-10), to be reviewed
 msgid "Editor access"
-msgstr ""
+msgstr "Přístup do editoru"
 
+#. machine-translated (2026-10), to be reviewed
 msgid "Elegance"
-msgstr ""
+msgstr "Elegance"
 
 msgid "E-mail is required!"
 msgstr "Emailová ardesa je vyžadována"
 
+#. machine-translated (2026-10), to be reviewed
 msgid "E-mail is required in order to test SMTP"
-msgstr ""
+msgstr "K otestování SMTP je vyžadován e-mail"
 
+#. machine-translated (2026-10), to be reviewed
 msgid "E-mail test"
-msgstr ""
+msgstr "Test e-mailu"
 
+#. machine-translated (2026-10), to be reviewed
 msgid "Enable search"
-msgstr ""
+msgstr "Povolit hledání"
 
+#. machine-translated (2026-10), to be reviewed
 msgid "Enabled?"
-msgstr ""
+msgstr "Povoleno?"
 
+#. machine-translated (2026-10), to be reviewed
 msgid "Enter the token you received by e-mail to access your personal data."
-msgstr ""
+msgstr "Zadejte token, který jste obdrželi e-mailem, pro přístup k vašim osobním údajům."
 
+#. machine-translated (2026-10), to be reviewed
 msgid "Environment is"
-msgstr ""
+msgstr "Prostředí je"
 
+#. machine-translated (2026-10), to be reviewed
 msgid "Everything seems ok."
-msgstr ""
+msgstr "Zdá se, že je vše v pořádku."
 
+#. machine-translated (2026-10), to be reviewed
 msgid ""
 "Example: https://hooks.slack.com/services/XDEFFE/DE45GFV/"
 "RxwdF4bnhtRDsqsqzd234, "
-msgstr ""
+msgstr "Příklad: https://hooks.slack.com/services/XDEFFE/DE45GFV/RxwdF4bnhtRDsqsqzd234, "
 
+#. machine-translated (2026-10), to be reviewed
 msgid "FIX"
-msgstr ""
+msgstr "OPRAVIT"
 
+#. machine-translated (2026-10), to be reviewed
 msgid "Feature this place?"
-msgstr ""
+msgstr "Zvýraznit toto místo?"
 
+#. machine-translated (2026-10), to be reviewed
 msgid "Featured label"
-msgstr ""
+msgstr "Popisek zvýrazněných"
 
+#. machine-translated (2026-10), to be reviewed
 msgid "Features to export & Options"
-msgstr ""
+msgstr "Funkce k exportu a možnosti"
 
 msgid "Feed URL <span class=\"required-entry\">*</span> :"
 msgstr "URL zdroje <span class=\"required-entry\">*</span> :"
@@ -483,86 +573,107 @@ msgstr "URL zdroje <span class=\"required-entry\">*</span> :"
 msgid "Field name:"
 msgstr "Název pole:"
 
+#. machine-translated (2026-10), to be reviewed
 msgid "Firebase Cloud Messaging"
-msgstr ""
+msgstr "Firebase Cloud Messaging"
 
+#. machine-translated (2026-10), to be reviewed
 msgid "Folder is up-to-date."
-msgstr ""
+msgstr "Složka je aktuální."
 
+#. machine-translated (2026-10), to be reviewed
 msgid "Font saved!"
-msgstr ""
+msgstr "Písmo bylo uloženo!"
 
+#. machine-translated (2026-10), to be reviewed
 msgid ""
 "For instance <b>Account A</b> creates an app, all other accounts tied to "
 "this app, will have the <b>publication type settings of the Account A</b>."
-msgstr ""
+msgstr "Například <b>Účet A</b> vytvoří aplikaci, všechny ostatní účty vázané na tuto aplikaci budou mít <b>nastavení typu publikování účtu A</b>."
 
+#. machine-translated (2026-10), to be reviewed
 msgid "For more information, please feel free to contact us."
-msgstr ""
+msgstr "Pro více informací nás neváhejte kontaktovat."
 
 msgid "Forgot your password ?"
 msgstr "Zapomněli jste heslo?"
 
+#. machine-translated (2026-10), to be reviewed
 msgid "Full chain"
-msgstr ""
+msgstr "Úplný řetězec"
 
+#. machine-translated (2026-10), to be reviewed
 msgid "Fulltext"
-msgstr ""
+msgstr "Fulltext"
 
 msgid "Gallery Name <span class=\"required-entry\">*</span> :"
 msgstr "Název galerie <span class=\"required-entry\">*</span> :"
 
+#. machine-translated (2026-10), to be reviewed
 msgid "Global notifications"
-msgstr ""
+msgstr "Globální oznámení"
 
+#. machine-translated (2026-10), to be reviewed
 msgid "Go back to homepage"
-msgstr ""
+msgstr "Zpět na úvodní stránku"
 
+#. machine-translated (2026-10), to be reviewed
 msgid "Google"
-msgstr ""
+msgstr "Google"
 
+#. machine-translated (2026-10), to be reviewed
 msgid "Google Cloud Messaging (GCM, Deprecated)"
-msgstr ""
+msgstr "Google Cloud Messaging (GCM, zastaralé)"
 
+#. machine-translated (2026-10), to be reviewed
 msgid "Grid view"
-msgstr ""
+msgstr "Zobrazení mřížky"
 
+#. machine-translated (2026-10), to be reviewed
 msgid "Handwriting"
-msgstr ""
+msgstr "Rukopis"
 
+#. machine-translated (2026-10), to be reviewed
 msgid "How to install the cron scheduler ?"
-msgstr ""
+msgstr "Jak nainstalovat plánovač cron?"
 
+#. machine-translated (2026-10), to be reviewed
 msgid ""
 "I agree to receive information & commercial offers about the WhiteLabel "
 "program."
-msgstr ""
+msgstr "Souhlasím se zasíláním informací a obchodních nabídek o programu WhiteLabel."
 
 msgid "I have a Google developer account"
 msgstr "Mám vývojářský účet Google. Vypublikujte mi aplikaci pod tímto účtem"
 
+#. machine-translated (2026-10), to be reviewed
 msgid "I have read & agree the Terms of Service"
-msgstr ""
+msgstr "Přečetl(a) jsem Podmínky služby a souhlasím s nimi"
 
+#. machine-translated (2026-10), to be reviewed
 msgid "IMPERSONATE"
-msgstr ""
+msgstr "PŘEVZÍT IDENTITU"
 
+#. machine-translated (2026-10), to be reviewed
 msgid ""
 "If you need it to work you will need to manually generate your corresponding "
 "SSL certificate."
-msgstr ""
+msgstr "Aby to fungovalo, budete muset ručně vygenerovat odpovídající certifikát SSL."
 
+#. machine-translated (2026-10), to be reviewed
 msgid ""
 "In case your Stripe subscription is not linked (ie: missing or wrong "
 "sub_xxxx id), you can search the right reference here and apply it to the "
 "subscription."
-msgstr ""
+msgstr "Pokud vaše předplatné Stripe není propojeno (např. chybí nebo je chybné ID sub_xxxx), můžete zde vyhledat správný odkaz a použít jej u předplatného."
 
+#. machine-translated (2026-10), to be reviewed
 msgid "In-App links"
-msgstr ""
+msgstr "Odkazy v aplikaci"
 
+#. machine-translated (2026-10), to be reviewed
 msgid "Inactive, Cancelled or Expired"
-msgstr ""
+msgstr "Neaktivní, zrušené nebo vypršelé"
 
 msgid "Insert a <br /><span class=\"bold\">cover image</span>"
 msgstr "Vložit <br /><span class=\"bold\">obrázek</span>"
@@ -573,323 +684,414 @@ msgstr "Vložit <br /><span class=\"bold\">obrázek</span>"
 msgid "Installing module <em><span id=\"label_module\"></span></em>"
 msgstr "Instalace modulu <em> <span id =\"label_module\"> </span> </em>"
 
+#. machine-translated (2026-10), to be reviewed
 msgid "Interstitial ID"
-msgstr ""
+msgstr "ID celostránkové reklamy"
 
 msgid "Invoice N°"
 msgstr "Faktura č."
 
+#. machine-translated (2026-10), to be reviewed
 msgid ""
 "Is self assignable (a user with a self-assignable role can create users with "
 "the same role)"
-msgstr ""
+msgstr "Lze přiřadit sám sobě (uživatel s rolí, kterou lze přiřadit sám sobě, může vytvářet uživatele se stejnou rolí)"
 
+#. machine-translated (2026-10), to be reviewed
 msgid "Kilometers"
-msgstr ""
+msgstr "Kilometry"
 
+#. machine-translated (2026-10), to be reviewed
 msgid ""
 "[Let's Encrypt] cron renewal is disabled until %s due to rate limit hit, "
 "skipping."
-msgstr ""
+msgstr "[Let's Encrypt] obnova cronem je zakázána do %s kvůli dosažení limitu četnosti, přeskakuji."
 
+#. machine-translated (2026-10), to be reviewed
 msgid "[Let's Encrypt] will expire in %s days."
-msgstr ""
+msgstr "[Let's Encrypt] vyprší za %s dní."
 
+#. machine-translated (2026-10), to be reviewed
 msgid "Licenses"
-msgstr ""
+msgstr "Licence"
 
+#. machine-translated (2026-10), to be reviewed
 msgid "List view"
-msgstr ""
+msgstr "Zobrazení seznamu"
 
+#. machine-translated (2026-10), to be reviewed
 msgid "Loading ..."
-msgstr ""
+msgstr "Načítání ..."
 
+#. machine-translated (2026-10), to be reviewed
 msgid "Location settings"
-msgstr ""
+msgstr "Nastavení polohy"
 
 msgid "M-Commerce"
 msgstr "e-shop"
 
+#. machine-translated (2026-10), to be reviewed
 msgid "Mail logger"
-msgstr ""
+msgstr "Protokol e-mailů"
 
+#. machine-translated (2026-10), to be reviewed
 msgid "Mail logs"
-msgstr ""
+msgstr "Protokoly e-mailů"
 
+#. machine-translated (2026-10), to be reviewed
 msgid "Main siberian domain"
-msgstr ""
+msgstr "Hlavní doména Siberian"
 
+#. machine-translated (2026-10), to be reviewed
 msgid "Mais encore ?"
-msgstr ""
+msgstr "A co dál?"
 
+#. machine-translated (2026-10), to be reviewed
 msgid "Manage tour"
-msgstr ""
+msgstr "Spravovat průvodce"
 
+#. machine-translated (2026-10), to be reviewed
 msgid "Miles"
-msgstr ""
+msgstr "Míle"
 
+#. machine-translated (2026-10), to be reviewed
 msgid "Missing font family!"
-msgstr ""
+msgstr "Chybí rodina písma!"
 
+#. machine-translated (2026-10), to be reviewed
 msgid "Missing name parameter."
-msgstr ""
+msgstr "Chybí parametr name."
 
+#. machine-translated (2026-10), to be reviewed
 msgid "Missing params."
-msgstr ""
+msgstr "Chybí parametry."
 
+#. machine-translated (2026-10), to be reviewed
 msgid "Missing value_id."
-msgstr ""
+msgstr "Chybí value_id."
 
+#. machine-translated (2026-10), to be reviewed
 msgid "Modern"
-msgstr ""
+msgstr "Moderní"
 
+#. machine-translated (2026-10), to be reviewed
 msgid "Module installed/updated"
-msgstr ""
+msgstr "Modul nainstalován/aktualizován"
 
 msgid "Monetize my app using AdMob"
 msgstr "Používat AdMob v mé aplikaci (reklamní systém)"
 
+#. machine-translated (2026-10), to be reviewed
 msgid "Monospace"
-msgstr ""
+msgstr "Neproporcionální"
 
+#. machine-translated (2026-10), to be reviewed
 msgid "My users"
-msgstr ""
+msgstr "Moji uživatelé"
 
+#. machine-translated (2026-10), to be reviewed
 msgid "MySQL (Default)"
-msgstr ""
+msgstr "MySQL (výchozí)"
 
+#. machine-translated (2026-10), to be reviewed
 msgid "NO"
-msgstr ""
+msgstr "NE"
 
+#. machine-translated (2026-10), to be reviewed
 msgid "Nearest"
-msgstr ""
+msgstr "Nejbližší"
 
+#. machine-translated (2026-10), to be reviewed
 msgid ""
 "New backoffice themes are available, check them out <a href=\"/system/"
 "backoffice_config_design\">here</a>."
-msgstr ""
+msgstr "K dispozici jsou nové motivy administrace, prohlédněte si je <a href=\"/system/backoffice_config_design\">zde</a>."
 
+#. machine-translated (2026-10), to be reviewed
 msgid "New publication request on your platform %s, for the Application %s."
-msgstr ""
+msgstr "Nová žádost o publikování na vaší platformě %s pro aplikaci %s."
 
+#. machine-translated (2026-10), to be reviewed
 msgid "No result found."
-msgstr ""
+msgstr "Nebyl nalezen žádný výsledek."
 
 msgid "No results."
 msgstr "Žádné výsledky"
 
+#. machine-translated (2026-10), to be reviewed
 msgid "Non-featured label"
-msgstr ""
+msgstr "Popisek nezvýrazněných"
 
+#. machine-translated (2026-10), to be reviewed
 msgid "Note: the migration will only work if redis is configured & running!"
-msgstr ""
+msgstr "Poznámka: migrace bude fungovat pouze v případě, že je redis nakonfigurován a běží!"
 
+#. machine-translated (2026-10), to be reviewed
 msgid ""
 "Note: we recommand to install under the web user to maintain file & folders "
 "permissions, but if this is not possible at all you can install it under the "
 "root user."
-msgstr ""
+msgstr "Poznámka: doporučujeme instalovat pod webovým uživatelem, aby se zachovala oprávnění souborů a složek, ale pokud to vůbec nelze, můžete instalovat pod uživatelem root."
 
+#. machine-translated (2026-10), to be reviewed
 msgid "Nothing to do!"
-msgstr ""
+msgstr "Není co dělat!"
 
+#. machine-translated (2026-10), to be reviewed
 msgid "(Offline)"
-msgstr ""
+msgstr "(Offline)"
 
+#. machine-translated (2026-10), to be reviewed
 msgid "Offline awaiting validation"
-msgstr ""
+msgstr "Offline, čeká na schválení"
 
+#. machine-translated (2026-10), to be reviewed
 msgid "Ok, proceed to minimal upgrade!"
-msgstr ""
+msgstr "OK, provést minimální upgrade!"
 
+#. machine-translated (2026-10), to be reviewed
 msgid "Ok, skip automated upgrade!"
-msgstr ""
+msgstr "OK, přeskočit automatický upgrade!"
 
+#. machine-translated (2026-10), to be reviewed
 msgid "Only active subscriptions not linked are shown below!"
-msgstr ""
+msgstr "Níže jsou zobrazena pouze aktivní nepropojená předplatná!"
 
+#. machine-translated (2026-10), to be reviewed
 msgid "Only showing latest 100 e-mail logs."
-msgstr ""
+msgstr "Zobrazuje se pouze posledních 100 záznamů e-mailů."
 
+#. machine-translated (2026-10), to be reviewed
 msgid "Opt-in e-mails"
-msgstr ""
+msgstr "E-maily s přihlášením k odběru"
 
+#. machine-translated (2026-10), to be reviewed
 msgid "Order places by"
-msgstr ""
+msgstr "Seřadit místa podle"
 
+#. machine-translated (2026-10), to be reviewed
 msgid "Outstanding balance of %s %s."
-msgstr ""
+msgstr "Nedoplatek %s %s."
 
+#. machine-translated (2026-10), to be reviewed
 msgid "Owner / Application"
-msgstr ""
+msgstr "Vlastník / Aplikace"
 
+#. machine-translated (2026-10), to be reviewed
 msgid "PNG icons are recommended for a better display result."
-msgstr ""
+msgstr "Pro lepší zobrazení se doporučují ikony PNG."
 
+#. machine-translated (2026-10), to be reviewed
 msgid "Page design"
-msgstr ""
+msgstr "Vzhled stránky"
 
+#. machine-translated (2026-10), to be reviewed
 msgid "Path to your Fullchain"
-msgstr ""
+msgstr "Cesta k vašemu úplnému řetězci"
 
 msgid "PayPal subscription is Active"
 msgstr "Toto předplatné je aktivní"
 
+#. machine-translated (2026-10), to be reviewed
 msgid ""
 "PayPal subscription is now correctly synced and will correctly expire by %s!"
-msgstr ""
+msgstr "Předplatné PayPal je nyní správně synchronizováno a správně vyprší %s!"
 
+#. machine-translated (2026-10), to be reviewed
 msgid ""
 "Places upgrade! New version with a better search engine, categories & "
 "display options."
-msgstr ""
+msgstr "Upgrade míst! Nová verze s lepším vyhledávačem, kategoriemi a možnostmi zobrazení."
 
 msgid "Plan"
 msgstr "Tarify"
 
+#. machine-translated (2026-10), to be reviewed
 msgid "Platform contact informations"
-msgstr ""
+msgstr "Kontaktní údaje platformy"
 
+#. machine-translated (2026-10), to be reviewed
 msgid "[Plesk] %s"
-msgstr ""
+msgstr "[Plesk] %s"
 
+#. machine-translated (2026-10), to be reviewed
 msgid "Position"
-msgstr ""
+msgstr "Pozice"
 
+#. machine-translated (2026-10), to be reviewed
 msgid "Proceed to full ugrade!"
-msgstr ""
+msgstr "Provést úplný upgrade!"
 
+#. machine-translated (2026-10), to be reviewed
 msgid "Proceed to ugrade!"
-msgstr ""
+msgstr "Provést upgrade!"
 
+#. machine-translated (2026-10), to be reviewed
 msgid "Product is up-to-date."
-msgstr ""
+msgstr "Produkt je aktuální."
 
+#. machine-translated (2026-10), to be reviewed
 msgid "Publication request"
-msgstr ""
+msgstr "Žádost o publikování"
 
 msgid "Publication type"
 msgstr "Datum vydání"
 
+#. machine-translated (2026-10), to be reviewed
 msgid "REDUCE"
-msgstr ""
+msgstr "ZMENŠIT"
 
+#. machine-translated (2026-10), to be reviewed
 msgid "RESTORE"
-msgstr ""
+msgstr "OBNOVIT"
 
+#. machine-translated (2026-10), to be reviewed
 msgid "Re-check payments"
-msgstr ""
+msgstr "Znovu zkontrolovat platby"
 
+#. machine-translated (2026-10), to be reviewed
 msgid "Recipients"
-msgstr ""
+msgstr "Příjemci"
 
+#. machine-translated (2026-10), to be reviewed
 msgid "Redis AUTH KEY, only required if configured on your Redis server."
-msgstr ""
+msgstr "Autorizační klíč Redis, vyžadován pouze pokud je nakonfigurován na vašem serveru Redis."
 
+#. machine-translated (2026-10), to be reviewed
 msgid "Redis enpoint (example: tcp://127.0.0.1:6379)"
-msgstr ""
+msgstr "Koncový bod Redis (příklad: tcp://127.0.0.1:6379)"
 
+#. machine-translated (2026-10), to be reviewed
 msgid "Redis (requires to install php-redis & Redis server)"
-msgstr ""
+msgstr "Redis (vyžaduje instalaci php-redis a serveru Redis)"
 
+#. machine-translated (2026-10), to be reviewed
 msgid "Refresh available Teams & Providers"
-msgstr ""
+msgstr "Obnovit dostupné týmy a poskytovatele"
 
+#. machine-translated (2026-10), to be reviewed
 msgid "SELECT"
-msgstr ""
+msgstr "VYBRAT"
 
+#. machine-translated (2026-10), to be reviewed
 msgid "SYNC"
-msgstr ""
+msgstr "SYNCHRONIZOVAT"
 
+#. machine-translated (2026-10), to be reviewed
 msgid "Safe in portrait & landscape"
-msgstr ""
+msgstr "Bezpečné na výšku i na šířku"
 
+#. machine-translated (2026-10), to be reviewed
 msgid "Safe in portrait (locked)"
-msgstr ""
+msgstr "Bezpečné na výšku (uzamčeno)"
 
+#. machine-translated (2026-10), to be reviewed
 msgid "Sans Serif"
-msgstr ""
+msgstr "Bezpatkové"
 
+#. machine-translated (2026-10), to be reviewed
 msgid "Save settings & Publish"
-msgstr ""
+msgstr "Uložit nastavení a publikovat"
 
+#. machine-translated (2026-10), to be reviewed
 msgid "Search, filter ..."
-msgstr ""
+msgstr "Hledat, filtrovat ..."
 
 msgid "Secondary category (optional)"
 msgstr "Sekundární kategorie<br/>(volitelné)"
 
+#. machine-translated (2026-10), to be reviewed
 msgid "Security logs (last 50 triggers)"
-msgstr ""
+msgstr "Bezpečnostní protokoly (posledních 50 spuštění)"
 
+#. machine-translated (2026-10), to be reviewed
 msgid "Sender"
-msgstr ""
+msgstr "Odesílatel"
 
+#. machine-translated (2026-10), to be reviewed
 msgid "Serif"
-msgstr ""
+msgstr "Patkové"
 
+#. machine-translated (2026-10), to be reviewed
 msgid "Settings & Options"
-msgstr ""
+msgstr "Nastavení a možnosti"
 
+#. machine-translated (2026-10), to be reviewed
 msgid "Show featured labels"
-msgstr ""
+msgstr "Zobrazit popisky zvýrazněných"
 
+#. machine-translated (2026-10), to be reviewed
 msgid "Show non-featured labels"
-msgstr ""
+msgstr "Zobrazit popisky nezvýrazněných"
 
+#. machine-translated (2026-10), to be reviewed
 msgid "Showing"
-msgstr ""
+msgstr "Zobrazeno"
 
+#. machine-translated (2026-10), to be reviewed
 msgid ""
 "Siberian main domain (without https?://) is required for services, and tools."
-msgstr ""
+msgstr "Hlavní doména Siberian (bez https?://) je vyžadována pro služby a nástroje."
 
+#. machine-translated (2026-10), to be reviewed
 msgid "Slots"
-msgstr ""
+msgstr "Sloty"
 
+#. machine-translated (2026-10), to be reviewed
 msgid "Socket, example: /var/run/clamav/clamd.ctl"
-msgstr ""
+msgstr "Socket, příklad: /var/run/clamav/clamd.ctl"
 
+#. machine-translated (2026-10), to be reviewed
 msgid "Something went wrong, the category do not exists!"
-msgstr ""
+msgstr "Něco se pokazilo, kategorie neexistuje!"
 
+#. machine-translated (2026-10), to be reviewed
 msgid "Start search"
-msgstr ""
+msgstr "Spustit hledání"
 
+#. machine-translated (2026-10), to be reviewed
 msgid "Status color chart"
-msgstr ""
+msgstr "Barevná legenda stavů"
 
 msgid "Stores Informations"
 msgstr "Informace o obchodu/skladu"
 
+#. machine-translated (2026-10), to be reviewed
 msgid "Stripe subscription ID"
-msgstr ""
+msgstr "ID předplatného Stripe"
 
+#. machine-translated (2026-10), to be reviewed
 msgid "Stripe subscription saved!"
-msgstr ""
+msgstr "Předplatné Stripe bylo uloženo!"
 
+#. machine-translated (2026-10), to be reviewed
 msgid "Stripe utility tools!"
-msgstr ""
+msgstr "Nástroje Stripe!"
 
+#. machine-translated (2026-10), to be reviewed
 msgid "Subject"
-msgstr ""
+msgstr "Předmět"
 
 msgid "Subscription date & time"
 msgstr "Předplatné"
 
+#. machine-translated (2026-10), to be reviewed
 msgid "Sur quelles plateformes ?"
-msgstr ""
+msgstr "Na kterých platformách?"
 
+#. machine-translated (2026-10), to be reviewed
 msgid "T&C's"
-msgstr ""
+msgstr "Podmínky"
 
+#. machine-translated (2026-10), to be reviewed
 msgid "Tags are used to improve full-text search."
-msgstr ""
+msgstr "Štítky se používají ke zlepšení fulltextového vyhledávání."
 
+#. machine-translated (2026-10), to be reviewed
 msgid ""
 "Tags will be de-duplicated, migrated to categories & associated to existing "
 "places."
-msgstr ""
+msgstr "Štítky budou deduplikovány, převedeny na kategorie a přiřazeny ke stávajícím místům."
 
 msgid "Text Color - Active"
 msgstr "Barva textu - aktivní"
@@ -900,11 +1102,13 @@ msgstr "Barva textu - při přejetí myši"
 msgid "The Platform name"
 msgstr "Název platformy"
 
+#. machine-translated (2026-10), to be reviewed
 msgid "The category you are trying to edit doesn't exists.."
-msgstr ""
+msgstr "Kategorie, kterou se pokoušíte upravit, neexistuje.."
 
+#. machine-translated (2026-10), to be reviewed
 msgid "The folder & it's sub-folders have been removed!"
-msgstr ""
+msgstr "Složka a její podsložky byly odstraněny!"
 
 msgid "The following folders are not writable: <br /> - %s"
 msgstr "Do následujících souborů a složek nelze zapisovat: <br /> - %s"
@@ -916,203 +1120,256 @@ msgstr ""
 "Instalace modulu <span id=\"installation_failed_module_name\"></span> se "
 "nezdařila: <span id=\"installation_failed_because\"></span>"
 
+#. machine-translated (2026-10), to be reviewed
 msgid ""
 "The publication access type of an Application is determined by the "
 "publication type settings that are set for its Creator."
-msgstr ""
+msgstr "Typ přístupu k publikování aplikace je určen nastavením typu publikování, které je nastaveno pro jejího tvůrce."
 
 msgid "The setup fee is not a valid price (e.g. 12.34"
 msgstr "Zřizovací poplatek není platná cena (např. 12.34)"
 
+#. machine-translated (2026-10), to be reviewed
 msgid "The splashscreen image"
-msgstr ""
+msgstr "Obrázek úvodní obrazovky"
 
+#. machine-translated (2026-10), to be reviewed
 msgid "The store & mcommerce instances mismatch!"
-msgstr ""
+msgstr "Obchod a instance mcommerce se neshodují!"
 
+#. machine-translated (2026-10), to be reviewed
 msgid "The strip customer '%s' is missing!"
-msgstr ""
+msgstr "Zákazník Stripe '%s' chybí!"
 
+#. machine-translated (2026-10), to be reviewed
 msgid "The stripe subscription '%s' is missing!"
-msgstr ""
+msgstr "Předplatné Stripe '%s' chybí!"
 
 msgid "The subscription '%s' doesn't exists!"
 msgstr "Tato aplikace neexistuje"
 
+#. machine-translated (2026-10), to be reviewed
 msgid "The subscription was already inactive or cancelled"
-msgstr ""
+msgstr "Předplatné již bylo neaktivní nebo zrušené"
 
+#. machine-translated (2026-10), to be reviewed
 msgid ""
 "The version number format is invalid, please use x.y.z where x, y & z are "
 "only digits."
-msgstr ""
+msgstr "Formát čísla verze je neplatný, použijte x.y.z, kde x, y a z jsou pouze číslice."
 
+#. machine-translated (2026-10), to be reviewed
 msgid "Theme"
-msgstr ""
+msgstr "Motiv"
 
+#. machine-translated (2026-10), to be reviewed
 msgid "There is no user with this ID."
-msgstr ""
+msgstr "Neexistuje uživatel s tímto ID."
 
+#. machine-translated (2026-10), to be reviewed
 msgid ""
 "This Application has some M-Commerce invoices associated, you can not delete "
 "it!"
-msgstr ""
+msgstr "K této aplikaci jsou přiřazeny faktury M-Commerce, nelze ji odstranit!"
 
+#. machine-translated (2026-10), to be reviewed
 msgid "This Google Font do not exists!"
-msgstr ""
+msgstr "Toto písmo Google neexistuje!"
 
+#. machine-translated (2026-10), to be reviewed
 msgid "This action is not allowed in demo."
-msgstr ""
+msgstr "Tato akce není v ukázkové verzi povolena."
 
 msgid "This application does not exists."
 msgstr "Tato aplikace neexistuje"
 
+#. machine-translated (2026-10), to be reviewed
 msgid ""
 "This application was not upgraded to the unified splashscreens & can't be "
 "published right now."
-msgstr ""
+msgstr "Tato aplikace nebyla upgradována na sjednocené úvodní obrazovky a nelze ji nyní publikovat."
 
+#. machine-translated (2026-10), to be reviewed
 msgid "This build do not exists."
-msgstr ""
+msgstr "Toto sestavení neexistuje."
 
+#. machine-translated (2026-10), to be reviewed
 msgid ""
 "This combination is not valid, if you want both portrait & landscape please "
 "check all orientations."
-msgstr ""
+msgstr "Tato kombinace není platná, pokud chcete na výšku i na šířku, zaškrtněte všechny orientace."
 
+#. machine-translated (2026-10), to be reviewed
 msgid "This is not a valid e-mail address."
-msgstr ""
+msgstr "Toto není platná e-mailová adresa."
 
+#. machine-translated (2026-10), to be reviewed
 msgid ""
 "This is only a generic preview, header & footer are adjusted depending on "
 "the context!"
-msgstr ""
+msgstr "Jde pouze o obecný náhled, záhlaví a zápatí se upravují podle kontextu!"
 
+#. machine-translated (2026-10), to be reviewed
 msgid "This place do not exists!"
-msgstr ""
+msgstr "Toto místo neexistuje!"
 
+#. machine-translated (2026-10), to be reviewed
 msgid "Three columns"
-msgstr ""
+msgstr "Tři sloupce"
 
+#. machine-translated (2026-10), to be reviewed
 msgid "Title for featured places"
-msgstr ""
+msgstr "Nadpis pro zvýrazněná místa"
 
+#. machine-translated (2026-10), to be reviewed
 msgid "Title for non-featured places"
-msgstr ""
+msgstr "Nadpis pro nezvýrazněná místa"
 
+#. machine-translated (2026-10), to be reviewed
 msgid "Two columns"
-msgstr ""
+msgstr "Dva sloupce"
 
 msgid "URL (.mp3)"
 msgstr "URL (.mp3) - odkaz na skladbu:"
 
+#. machine-translated (2026-10), to be reviewed
 msgid "Upgrade done!"
-msgstr ""
+msgstr "Upgrade dokončen!"
 
+#. machine-translated (2026-10), to be reviewed
 msgid "Upgrade required for Sources APK / IPA"
-msgstr ""
+msgstr "Vyžadován upgrade pro zdrojové kódy APK / IPA"
 
+#. machine-translated (2026-10), to be reviewed
 msgid "User %s just signed-up on the platform."
-msgstr ""
+msgstr "Uživatel %s se právě zaregistroval na platformě."
 
+#. machine-translated (2026-10), to be reviewed
 msgid "User-Styler Module"
-msgstr ""
+msgstr "Modul User-Styler"
 
+#. machine-translated (2026-10), to be reviewed
 msgid "Username: siberian-notifier, etc..."
-msgstr ""
+msgstr "Uživatelské jméno: siberian-notifier atd..."
 
+#. machine-translated (2026-10), to be reviewed
 msgid "VIEW"
-msgstr ""
+msgstr "ZOBRAZIT"
 
+#. machine-translated (2026-10), to be reviewed
 msgid ""
 "We were unable to automatically cancel the subscription, please check "
 "manually on your %s dashboard."
-msgstr ""
+msgstr "Předplatné se nepodařilo automaticky zrušit, zkontrolujte jej prosím ručně na svém panelu %s."
 
+#. machine-translated (2026-10), to be reviewed
 msgid "We were unable to verify you payment, please try again later!"
-msgstr ""
+msgstr "Vaši platbu se nepodařilo ověřit, zkuste to prosím později!"
 
+#. machine-translated (2026-10), to be reviewed
 msgid ""
 "Website must start with http:// or https://, invalid value have been removed!"
-msgstr ""
+msgstr "Web musí začínat http:// nebo https://, neplatné hodnoty byly odstraněny!"
 
+#. machine-translated (2026-10), to be reviewed
 msgid "What if I choose the minimal upgrade?"
-msgstr ""
+msgstr "Co když zvolím minimální upgrade?"
 
+#. machine-translated (2026-10), to be reviewed
 msgid "What if I skip the upgrade?"
-msgstr ""
+msgstr "Co když upgrade přeskočím?"
 
+#. machine-translated (2026-10), to be reviewed
 msgid "What will the full upgrade do?"
-msgstr ""
+msgstr "Co udělá úplný upgrade?"
 
+#. machine-translated (2026-10), to be reviewed
 msgid "What will the upgrade do?"
-msgstr ""
+msgstr "Co udělá upgrade?"
 
+#. machine-translated (2026-10), to be reviewed
 msgid "What's new?"
-msgstr ""
+msgstr "Co je nového?"
 
+#. machine-translated (2026-10), to be reviewed
 msgid "Whitelabel Settings"
-msgstr ""
+msgstr "Nastavení whitelabelu"
 
+#. machine-translated (2026-10), to be reviewed
 msgid "YES"
-msgstr ""
+msgstr "ANO"
 
+#. machine-translated (2026-10), to be reviewed
 msgid "Yes, Cancel my subscription"
-msgstr ""
+msgstr "Ano, zrušit moje předplatné"
 
+#. machine-translated (2026-10), to be reviewed
 msgid "Yes, activate"
-msgstr ""
+msgstr "Ano, aktivovat"
 
+#. machine-translated (2026-10), to be reviewed
 msgid "Yes, cancel!"
-msgstr ""
+msgstr "Ano, zrušit!"
 
+#. machine-translated (2026-10), to be reviewed
 msgid "Yes, deactivate"
-msgstr ""
+msgstr "Ano, deaktivovat"
 
+#. machine-translated (2026-10), to be reviewed
 msgid "Yes, delete!"
-msgstr ""
+msgstr "Ano, odstranit!"
 
+#. machine-translated (2026-10), to be reviewed
 msgid "You already have a google-services.json file"
-msgstr ""
+msgstr "Soubor google-services.json již máte"
 
+#. machine-translated (2026-10), to be reviewed
 msgid ""
 "You are about to cancel your Subscription, if this is a paid plan the "
 "subscription will be cancelled at the end of the recurring period, otherwise "
 "the subscription will be immediately cancelled and the application locked.<"
 "br /><br />Below you can leave a message for the Administrator.<br />"
-msgstr ""
+msgstr "Chystáte se zrušit své předplatné. Pokud jde o placený tarif, předplatné bude zrušeno na konci opakovaného období, jinak bude předplatné okamžitě zrušeno a aplikace uzamčena.<br /><br />Níže můžete zanechat zprávu pro správce.<br />"
 
+#. machine-translated (2026-10), to be reviewed
 msgid ""
 "You are about to delete the category #CATEGORY_NAME# with all it's "
 "subcategories<br />Please note that any products inside the category and "
 "it's subcategories will be deleted!"
-msgstr ""
+msgstr "Chystáte se odstranit kategorii #CATEGORY_NAME# se všemi jejími podkategoriemi<br />Upozorňujeme, že všechny produkty v kategorii a jejích podkategoriích budou odstraněny!"
 
+#. machine-translated (2026-10), to be reviewed
 msgid ""
 "You are about to delete the folder #FOLDER_NAME# with all it's subfolders, "
 "please note that any features inside the folder and it's subfolders will be "
 "re-assigned to the Homepage!"
-msgstr ""
+msgstr "Chystáte se odstranit složku #FOLDER_NAME# se všemi jejími podsložkami, upozorňujeme, že všechny funkce ve složce a jejích podsložkách budou přiřazeny zpět na úvodní stránku!"
 
+#. machine-translated (2026-10), to be reviewed
 msgid "You are about to delete the product #PRODUCT_NAME#"
-msgstr ""
+msgstr "Chystáte se odstranit produkt #PRODUCT_NAME#"
 
+#. machine-translated (2026-10), to be reviewed
 msgid "You are not allowed to delete this account in demo!"
-msgstr ""
+msgstr "V ukázkové verzi nemáte oprávnění odstranit tento účet!"
 
+#. machine-translated (2026-10), to be reviewed
 msgid "You are not allowed to edit this account in demo!"
-msgstr ""
+msgstr "V ukázkové verzi nemáte oprávnění upravit tento účet!"
 
+#. machine-translated (2026-10), to be reviewed
 msgid "You can also use another Google Font not listed up there"
-msgstr ""
+msgstr "Můžete také použít jiné písmo Google, které zde není uvedeno"
 
+#. machine-translated (2026-10), to be reviewed
 msgid ""
 "You can change the browser tab title with the translations: Edit the "
 "backoffice.csv and translate Siberian - Backoffice."
-msgstr ""
+msgstr "Název karty prohlížeče můžete změnit pomocí překladů: upravte backoffice.csv a přeložte Siberian - Backoffice."
 
+#. machine-translated (2026-10), to be reviewed
 msgid "You have no mail logs."
-msgstr ""
+msgstr "Nemáte žádné protokoly e-mailů."
 
 msgid ""
 "You have to create a Google account before publishing your application. <a "
@@ -1150,43 +1407,54 @@ msgstr ""
 "href=\"https://developer.apple.com/register/index.action\" target=\"_blank\">"
 "Pro vytvoření klikněte zde</a>"
 
+#. machine-translated (2026-10), to be reviewed
 msgid "You just received a publication request:"
-msgstr ""
+msgstr "Právě jste obdrželi žádost o publikování:"
 
+#. machine-translated (2026-10), to be reviewed
 msgid "You must agree our Terms of Service"
-msgstr ""
+msgstr "Musíte souhlasit s našimi Podmínkami služby"
 
+#. machine-translated (2026-10), to be reviewed
 msgid "You must agree to Terms of Service."
-msgstr ""
+msgstr "Musíte souhlasit s Podmínkami služby."
 
+#. machine-translated (2026-10), to be reviewed
 msgid "You must agree to our Terms of Service."
-msgstr ""
+msgstr "Musíte souhlasit s našimi Podmínkami služby."
 
+#. machine-translated (2026-10), to be reviewed
 msgid "You must be logged-in to request a new token."
-msgstr ""
+msgstr "Pro vyžádání nového tokenu musíte být přihlášeni."
 
+#. machine-translated (2026-10), to be reviewed
 msgid "You must select at least one orientation for Android!"
-msgstr ""
+msgstr "Pro Android musíte vybrat alespoň jednu orientaci!"
 
+#. machine-translated (2026-10), to be reviewed
 msgid "You must select both a Development Team & an iTunes Connect provider!"
-msgstr ""
+msgstr "Musíte vybrat vývojářský tým i poskytovatele iTunes Connect!"
 
+#. machine-translated (2026-10), to be reviewed
 msgid "You offline subscription is awaiting approval from an Administrator!"
-msgstr ""
+msgstr "Vaše offline předplatné čeká na schválení správcem!"
 
+#. machine-translated (2026-10), to be reviewed
 msgid ""
 "Your application is set to use the homepage background for all the features!<"
 "br />You can't upload individual backgrounds for the features."
-msgstr ""
+msgstr "Vaše aplikace je nastavena tak, aby používala pozadí úvodní stránky pro všechny funkce!<br />Pro jednotlivé funkce nemůžete nahrávat samostatná pozadí."
 
+#. machine-translated (2026-10), to be reviewed
 msgid ""
 "Your are about to replace the current application template, colors & "
 "features.\n"
 "Are you sure ?"
-msgstr ""
+msgstr "Chystáte se nahradit aktuální šablonu aplikace, barvy a funkce.\nJste si jisti?"
 
+#. machine-translated (2026-10), to be reviewed
 msgid "Your licenses"
-msgstr ""
+msgstr "Vaše licence"
 
 msgid ""
 "<a href=\"%s\" target=\"_blank\">Click here for more information about "
@@ -1200,83 +1468,108 @@ msgstr "<a href=\"%s\"> Klikněte zde </a> k návratu do seznamu aplikací"
 msgid "<b>File type:</b> %s<br /><b>Recommended size:</b> %s"
 msgstr "<b>Typy souborů:</b>%s<br /><b>Doporučená velikost:</b>%s"
 
+#. machine-translated (2026-10), to be reviewed
 msgid ""
 "<b>Geolocation</b> option for the Overview & HTML5 will be displayed & work "
 "only when using HTTPS, however it works in Android & iOS apps without HTTPS."
-msgstr ""
+msgstr "Možnost <b>Geolokace</b> pro náhled a HTML5 se zobrazí a bude fungovat pouze při použití HTTPS, v aplikacích pro Android a iOS však funguje i bez HTTPS."
 
+#. machine-translated (2026-10), to be reviewed
 msgid ""
 "<button class=\"add btn color-blue\" type=\"button\"><i class=\"fa fa-plus-"
 "circle\"></i><span> Click to add an item</span></button>"
-msgstr ""
+msgstr "<button class=\"add btn color-blue\" type=\"button\"><i class=\"fa fa-plus-circle\"></i><span> Kliknutím přidáte položku</span></button>"
 
+#. machine-translated (2026-10), to be reviewed
 msgid "category_id"
-msgstr ""
+msgstr "category_id"
 
+#. machine-translated (2026-10), to be reviewed
 msgid "fa-toggle-on"
-msgstr ""
+msgstr "fa-toggle-on"
 
+#. machine-translated (2026-10), to be reviewed
 msgid "filtered from #TOTAL# total records"
-msgstr ""
+msgstr "vyfiltrováno z celkem #TOTAL# záznamů"
 
+#. machine-translated (2026-10), to be reviewed
 msgid ""
 "iOS & Android (You must set both a Firebase Key & upload a Push Certificate "
 "for the Application)"
-msgstr ""
+msgstr "iOS a Android (musíte nastavit klíč Firebase a nahrát certifikát push pro aplikaci)"
 
+#. machine-translated (2026-10), to be reviewed
 msgid "iOS 9+"
-msgstr ""
+msgstr "iOS 9+"
 
+#. machine-translated (2026-10), to be reviewed
 msgid "iOS NS*Descriptions"
-msgstr ""
+msgstr "Popisy iOS NS*"
 
+#. machine-translated (2026-10), to be reviewed
 msgid "iOS only (You must upload a Push Certificate for the Application)"
-msgstr ""
+msgstr "Pouze iOS (musíte nahrát certifikát push pro aplikaci)"
 
+#. machine-translated (2026-10), to be reviewed
 msgid "iOS-Autopublish service is unreachable."
-msgstr ""
+msgstr "Služba iOS-Autopublish je nedostupná."
 
+#. machine-translated (2026-10), to be reviewed
 msgid "iPhone & iPad & Android orientation"
-msgstr ""
+msgstr "Orientace iPhonu, iPadu a Androidu"
 
+#. machine-translated (2026-10), to be reviewed
 msgid "iPhone (No Ads)"
-msgstr ""
+msgstr "iPhone (bez reklam)"
 
+#. machine-translated (2026-10), to be reviewed
 msgid "<img src=\"%s\" width=\"160\" title=\"%s\" />"
-msgstr ""
+msgstr "<img src=\"%s\" width=\"160\" title=\"%s\" />"
 
+#. machine-translated (2026-10), to be reviewed
 msgid "of"
-msgstr ""
+msgstr "z"
 
+#. machine-translated (2026-10), to be reviewed
 msgid "or"
-msgstr ""
+msgstr "nebo"
 
+#. machine-translated (2026-10), to be reviewed
 msgid "or unlimited?"
-msgstr ""
+msgstr "nebo neomezeně?"
 
+#. machine-translated (2026-10), to be reviewed
 msgid "php-redis module is required!"
-msgstr ""
+msgstr "Modul php-redis je vyžadován!"
 
+#. machine-translated (2026-10), to be reviewed
 msgid "please respect the font name case!"
-msgstr ""
+msgstr "dodržujte prosím velikost písmen v názvu písma!"
 
+#. machine-translated (2026-10), to be reviewed
 msgid "record"
-msgstr ""
+msgstr "záznam"
 
+#. machine-translated (2026-10), to be reviewed
 msgid "records"
-msgstr ""
+msgstr "záznamů"
 
+#. machine-translated (2026-10), to be reviewed
 msgid "%s - Access to your personal data."
-msgstr ""
+msgstr "%s - Přístup k vašim osobním údajům."
 
 msgid "%s - v%s"
 msgstr ""
 
+#. machine-translated (2026-10), to be reviewed
 msgid "to"
-msgstr ""
+msgstr "do"
 
+#. machine-translated (2026-10), to be reviewed
 msgid "value_id"
-msgstr ""
+msgstr "value_id"
 
+#. machine-translated (2026-10), to be reviewed
 msgid "Firebase is not yet configured, please contact your Administrator."
-msgstr ""
+msgstr "Firebase zatím není nakonfigurován, kontaktujte prosím svého správce."
+

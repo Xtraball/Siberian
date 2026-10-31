@@ -52,9 +52,10 @@ msgstr "出现错误添加选项"
 msgid "An error occurred while loading videos. Please try later."
 msgstr "有一个错误加载视频。请稍后再试。"
 
+#. machine-translated (2026-10), to be reviewed
 msgid ""
 "An error occurred while retrieving your page. Please check your page id."
-msgstr ""
+msgstr "获取您的页面时出错，请检查您的页面 ID。"
 
 msgid ""
 "An error occurred while saving your images gallery. Please try again later."
@@ -91,14 +92,16 @@ msgstr "艺术家："
 msgid "Audio"
 msgstr "音频"
 
+#. machine-translated (2026-10), to be reviewed
 msgid "Channel"
-msgstr ""
+msgstr "频道"
 
 msgid "Choose an album"
 msgstr "选择一个专辑"
 
+#. machine-translated (2026-10), to be reviewed
 msgid "Custom"
-msgstr ""
+msgstr "自定义"
 
 msgid "Delete this gallery?"
 msgstr "删除这个画廊？"
@@ -109,32 +112,39 @@ msgstr "你的Facebook页面的ID"
 msgid "Feed URL"
 msgstr "供稿网址"
 
+#. machine-translated (2026-10), to be reviewed
 msgid "Flickr"
-msgstr ""
+msgstr "Flickr"
 
+#. machine-translated (2026-10), to be reviewed
 msgid "Flickr API settings can't be found."
-msgstr ""
+msgstr "找不到 Flickr API 设置。"
 
+#. machine-translated (2026-10), to be reviewed
 msgid "Flickr user"
-msgstr ""
+msgstr "Flickr 用户"
 
 msgid "Gallery Name"
 msgstr "画廊名称"
 
+#. machine-translated (2026-10), to be reviewed
 msgid "Group"
-msgstr ""
+msgstr "分组"
 
+#. machine-translated (2026-10), to be reviewed
 msgid "If set, will appear instead of the Facebook page Id in app."
-msgstr ""
+msgstr "如已设置，将在应用中替代 Facebook 主页 ID 显示。"
 
 msgid "I'm listening to"
 msgstr "我在听"
 
+#. machine-translated (2026-10), to be reviewed
 msgid "I'm listening to $1 from $2 on $3 app."
-msgstr ""
+msgstr "我正在 $3 应用中收听 $2 的 $1。"
 
+#. machine-translated (2026-10), to be reviewed
 msgid "I'm listening to $1 on $2 app."
-msgstr ""
+msgstr "我正在 $2 应用中收听 $1。"
 
 msgid "Images gallery has been saved successfully"
 msgstr "画廊已成功保存"
@@ -142,8 +152,9 @@ msgstr "画廊已成功保存"
 msgid "Instagram"
 msgstr "Instagram的"
 
+#. machine-translated (2026-10), to be reviewed
 msgid "Instagram API settings can't be found."
-msgstr ""
+msgstr "找不到 Instagram API 设置。"
 
 msgid "Last update:"
 msgstr "最后更新："
@@ -154,8 +165,9 @@ msgstr "登录："
 msgid "Maximum size : 2000*2000 px - Allowed filetypes : jpg and png"
 msgstr "最大尺寸： 2000 * 2000像素 - 允许的文件类型： JPG和PNG"
 
+#. machine-translated (2026-10), to be reviewed
 msgid "My images"
-msgstr ""
+msgstr "我的图片"
 
 msgid "No album found"
 msgstr "没有唱片被发现"
@@ -163,23 +175,27 @@ msgstr "没有唱片被发现"
 msgid "No artist found"
 msgstr "艺术家没有发现"
 
+#. machine-translated (2026-10), to be reviewed
 msgid "No current stream to play so far."
-msgstr ""
+msgstr "目前没有可播放的流。"
 
 msgid "No track found"
 msgstr "没有歌曲发现"
 
+#. machine-translated (2026-10), to be reviewed
 msgid "No valid Facebook API key and secret."
-msgstr ""
+msgstr "没有有效的 Facebook API 密钥和密文。"
 
 msgid "PLAYER"
 msgstr "PLAYER"
 
+#. machine-translated (2026-10), to be reviewed
 msgid "Page ID"
-msgstr ""
+msgstr "主页 ID"
 
+#. machine-translated (2026-10), to be reviewed
 msgid "Page not found"
-msgstr ""
+msgstr "未找到页面"
 
 msgid "Parameter"
 msgstr "参数"
@@ -196,14 +212,16 @@ msgstr "播放列表"
 msgid "Playlist successfully saved."
 msgstr "播放列表保存成功。"
 
+#. machine-translated (2026-10), to be reviewed
 msgid "Playlist title:"
-msgstr ""
+msgstr "播放列表标题："
 
 msgid "Playlists"
 msgstr "播放列表"
 
+#. machine-translated (2026-10), to be reviewed
 msgid "Please specify the page ID"
-msgstr ""
+msgstr "请指定主页 ID"
 
 msgid "Podcast"
 msgstr "播客"
@@ -214,8 +232,9 @@ msgstr "URL播客（ iTunes的格式）"
 msgid "Read all"
 msgstr "阅读"
 
+#. machine-translated (2026-10), to be reviewed
 msgid "Reload album list?"
-msgstr ""
+msgstr "重新加载相册列表？"
 
 msgid "Required field"
 msgstr "必填项"
@@ -226,8 +245,9 @@ msgstr "搜索/ URL"
 msgid "The entered name is not a valid Instagram user."
 msgstr "输入的名称不是一个有效的用户的Instagram 。"
 
+#. machine-translated (2026-10), to be reviewed
 msgid "This element is not an album."
-msgstr ""
+msgstr "此元素不是相册。"
 
 msgid "Track"
 msgstr "歌"
@@ -250,8 +270,9 @@ msgstr "Vimeo的"
 msgid "buy"
 msgstr "购买"
 
+#. machine-translated (2026-10), to be reviewed
 msgid "by"
-msgstr ""
+msgstr "作者："
 
 msgid "close"
 msgstr "关闭"
@@ -286,8 +307,9 @@ msgstr "复制"
 msgid "previous"
 msgstr "前"
 
+#. machine-translated (2026-10), to be reviewed
 msgid "%s by %s"
-msgstr ""
+msgstr "%s，作者 %s"
 
 msgid "share"
 msgstr "分享"
@@ -300,3 +322,43 @@ msgstr "歌"
 
 msgid "tracks"
 msgstr "歌曲"
+
+# GMT 1559644713.3743
+#. machine-translated (2026-10), to be reviewed
+msgid "day"
+msgstr "天"
+
+# GMT 1559644713.3744
+#. machine-translated (2026-10), to be reviewed
+msgid "days"
+msgstr "天"
+
+# GMT 1559644713.3745
+#. machine-translated (2026-10), to be reviewed
+msgid "hour"
+msgstr "小时"
+
+# GMT 1559644713.3746
+#. machine-translated (2026-10), to be reviewed
+msgid "hours"
+msgstr "小时"
+
+# GMT 1559644713.3747
+#. machine-translated (2026-10), to be reviewed
+msgid "minute"
+msgstr "分钟"
+
+# GMT 1559644713.3748
+#. machine-translated (2026-10), to be reviewed
+msgid "minutes"
+msgstr "分钟"
+
+# GMT 1559644713.3749
+#. machine-translated (2026-10), to be reviewed
+msgid "second"
+msgstr "秒"
+
+# GMT 1559644713.3750
+#. machine-translated (2026-10), to be reviewed
+msgid "seconds"
+msgstr "秒"

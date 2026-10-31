@@ -17,28 +17,35 @@ msgstr ""
 msgid "60000 maximum allowed."
 msgstr "Maximal 60000 zulässig."
 
+#. machine-translated (2026-10), to be reviewed
 msgid ""
 "A certificate already exists for the domain %s, if you want to re-generate "
 "it, use 'Force re-generate' to proceed."
-msgstr ""
+msgstr "Für die Domain %s existiert bereits ein Zertifikat. Wenn Sie es neu generieren möchten, verwenden Sie „Neu generieren erzwingen“."
 
+#. machine-translated (2026-10), to be reviewed
 msgid "[APK]"
-msgstr ""
+msgstr "[APK]"
 
+#. machine-translated (2026-10), to be reviewed
 msgid "APK Queue empty"
-msgstr ""
+msgstr "APK-Warteschlange leer"
 
+#. machine-translated (2026-10), to be reviewed
 msgid "APK Queue status"
-msgstr ""
+msgstr "Status der APK-Warteschlange"
 
+#. machine-translated (2026-10), to be reviewed
 msgid "APNS Feedback:"
-msgstr ""
+msgstr "APNS-Feedback:"
 
+#. machine-translated (2026-10), to be reviewed
 msgid "APNS Feedback port 2196 is:"
-msgstr ""
+msgstr "APNS-Feedback-Port 2196 ist:"
 
+#. machine-translated (2026-10), to be reviewed
 msgid "APNS Port 2195 is:"
-msgstr ""
+msgstr "APNS-Port 2195 ist:"
 
 msgid "Account"
 msgstr "Konto"
@@ -49,8 +56,9 @@ msgstr "Konto Rolle"
 msgid "Actions"
 msgstr "Aktionen"
 
+#. machine-translated (2026-10), to be reviewed
 msgid "Activate VAT number check with VIES"
-msgstr ""
+msgstr "USt-IdNr.-Prüfung mit VIES aktivieren"
 
 msgid "Activate user"
 msgstr "Aktivieren Sie die Benutzer"
@@ -58,49 +66,58 @@ msgstr "Aktivieren Sie die Benutzer"
 msgid "Active ?"
 msgstr "Aktiv"
 
+#. machine-translated (2026-10), to be reviewed
 msgid "Add a custom text to the footer of your invoices"
-msgstr ""
+msgstr "Einen eigenen Text in die Fußzeile Ihrer Rechnungen einfügen"
 
+#. machine-translated (2026-10), to be reviewed
 msgid "Admin panel type"
-msgstr ""
+msgstr "Typ des Admin-Panels"
 
 msgid "Advanced"
 msgstr "Fortgeschritten"
 
+#. machine-translated (2026-10), to be reviewed
 msgid ""
 "Alert: The APK build for the Application: %s (%s) is stuck for more than one "
 "hour."
-msgstr ""
+msgstr "Warnung: Der APK-Build für die Anwendung %s (%s) hängt seit mehr als einer Stunde."
 
+#. machine-translated (2026-10), to be reviewed
 msgid ""
 "Alert: The Source build for the Application: %s (%s) is stuck for more than "
 "one hour."
-msgstr ""
+msgstr "Warnung: Der Quellcode-Build für die Anwendung %s (%s) hängt seit mehr als einer Stunde."
 
+#. machine-translated (2026-10), to be reviewed
 msgid "All the files are required."
-msgstr ""
+msgstr "Alle Dateien sind erforderlich."
 
+#. machine-translated (2026-10), to be reviewed
 msgid ""
 "An entry already exists for this hostname, remove it first if you need to "
 "change your certificates."
-msgstr ""
+msgstr "Für diesen Hostnamen existiert bereits ein Eintrag. Entfernen Sie ihn zuerst, wenn Sie Ihre Zertifikate ändern müssen."
 
 msgid "An error occured"
 msgstr "Es ist ein Fehler aufgetreten."
 
+#. machine-translated (2026-10), to be reviewed
 msgid "An error occured while saving certificate to %s."
-msgstr ""
+msgstr "Beim Speichern des Zertifikats in %s ist ein Fehler aufgetreten."
 
 msgid "An error occurred during the process. Please try again later."
 msgstr ""
 "Ein Fehler ist wegen des Prozesses aufgetreten. Bitte versuchen Sie es "
 "später noch einmal"
 
+#. machine-translated (2026-10), to be reviewed
 msgid "An unknown error occured while issueing your certificate."
-msgstr ""
+msgstr "Beim Ausstellen Ihres Zertifikats ist ein unbekannter Fehler aufgetreten."
 
+#. machine-translated (2026-10), to be reviewed
 msgid "Android SDK:"
-msgstr ""
+msgstr "Android SDK:"
 
 msgid "App name"
 msgstr "App-name:"
@@ -108,67 +125,83 @@ msgstr "App-name:"
 msgid "Application settings"
 msgstr "Standort-Einstellungen"
 
+#. machine-translated (2026-10), to be reviewed
 msgid "Application successfully queued for generation."
-msgstr ""
+msgstr "Anwendung erfolgreich zur Generierung eingereiht."
 
+#. machine-translated (2026-10), to be reviewed
 msgid "Applications/Previewer manifest for automatic updates."
-msgstr ""
+msgstr "Manifest der Anwendungen/Vorschau für automatische Updates."
 
+#. machine-translated (2026-10), to be reviewed
 msgid "Are you sure ?"
-msgstr ""
+msgstr "Sind Sie sicher?"
 
+#. machine-translated (2026-10), to be reviewed
 msgid "Auth type"
-msgstr ""
+msgstr "Authentifizierungstyp"
 
 msgid "Authenticate"
 msgstr "Authentifizieren"
 
+#. machine-translated (2026-10), to be reviewed
 msgid "Average build time in seconds:"
-msgstr ""
+msgstr "Durchschnittliche Build-Dauer in Sekunden:"
 
+#. machine-translated (2026-10), to be reviewed
 msgid "Average sources/apk build time:"
-msgstr ""
+msgstr "Durchschnittliche Dauer für Quellcode/APK-Build:"
 
 msgid "Backoffice options"
 msgstr "Backoffice-Optionen"
 
+#. machine-translated (2026-10), to be reviewed
 msgid "Bearer Token Auth (API)"
-msgstr ""
+msgstr "Bearer-Token-Authentifizierung (API)"
 
+#. machine-translated (2026-10), to be reviewed
 msgid "Bearer Token Auth is valid."
-msgstr ""
+msgstr "Die Bearer-Token-Authentifizierung ist gültig."
 
+#. machine-translated (2026-10), to be reviewed
 msgid "Beta"
-msgstr ""
+msgstr "Beta"
 
+#. machine-translated (2026-10), to be reviewed
 msgid "Build status"
-msgstr ""
+msgstr "Build-Status"
 
+#. machine-translated (2026-10), to be reviewed
 msgid "Build time (in seconds)"
-msgstr ""
+msgstr "Build-Dauer (in Sekunden)"
 
+#. machine-translated (2026-10), to be reviewed
 msgid ""
 "By clicking on link below, you will open your editor in tour editing mode. "
 "Please note that your user account must be created on editor side."
-msgstr ""
+msgstr "Mit einem Klick auf den Link unten öffnen Sie Ihren Editor im Bearbeitungsmodus. Bitte beachten Sie, dass Ihr Benutzerkonto auf Editor-Seite angelegt sein muss."
 
+#. machine-translated (2026-10), to be reviewed
 msgid "CA"
-msgstr ""
+msgstr "CA"
 
 msgid "CA certificate"
 msgstr "Zertifikat"
 
+#. machine-translated (2026-10), to be reviewed
 msgid "CA path:"
-msgstr ""
+msgstr "CA-Pfad:"
 
+#. machine-translated (2026-10), to be reviewed
 msgid "CRON Scheduler interval"
-msgstr ""
+msgstr "CRON-Scheduler-Intervall"
 
 msgid "Cache cleared"
 msgstr "- Cache gelöscht."
 
+#. machine-translated (2026-10), to be reviewed
 msgid "Cache (var/cache, system cache)"
-msgstr ""
+msgstr "Cache (var/cache, Systemcache)"
 
 msgid "Can generate APK"
 msgstr "Können generieren APK"
@@ -185,30 +218,36 @@ msgstr ""
 "Zertifikat gültig ist und SSL erreichbar ist, gültig bis: %s.<br "
 "/>Aussteller: %s%s"
 
+#. machine-translated (2026-10), to be reviewed
 msgid "Certificate path:"
-msgstr ""
+msgstr "Zertifikatspfad:"
 
+#. machine-translated (2026-10), to be reviewed
 msgid "Certificate successfully generated."
-msgstr ""
+msgstr "Zertifikat erfolgreich generiert."
 
+#. machine-translated (2026-10), to be reviewed
 msgid ""
 "Certificate successfully generated. Please wait while %s is reloading "
 "configuration ..."
-msgstr ""
+msgstr "Zertifikat erfolgreich generiert. Bitte warten Sie, während %s die Konfiguration neu lädt ..."
 
+#. machine-translated (2026-10), to be reviewed
 msgid "Certificate successfully re-generated."
-msgstr ""
+msgstr "Zertifikat erfolgreich neu generiert."
 
 msgid "Change the password"
 msgstr "Ändern des Kennworts"
 
+#. machine-translated (2026-10), to be reviewed
 msgid ""
 "Check if this cron command is installed under the web user & if you have set "
 "a timezone in Settings > General"
-msgstr ""
+msgstr "Prüfen Sie, ob dieser Cron-Befehl unter dem Webbenutzer installiert ist und ob Sie unter Einstellungen > Allgemein eine Zeitzone festgelegt haben"
 
+#. machine-translated (2026-10), to be reviewed
 msgid "Clear"
-msgstr ""
+msgstr "Leeren"
 
 msgid "Clear cache"
 msgstr "Cache leeren"
@@ -216,8 +255,9 @@ msgstr "Cache leeren"
 msgid "Clear logs"
 msgstr "Protokolle löschen"
 
+#. machine-translated (2026-10), to be reviewed
 msgid "Cleared cron errors."
-msgstr ""
+msgstr "Cron-Fehler gelöscht."
 
 msgid "Click here to send your CA certificate"
 msgstr "Klicken Sie Hier um Ihr Zertifikat zu senden"
@@ -237,8 +277,9 @@ msgstr "Klicken Sie auf als gelesen markieren"
 msgid "Closed"
 msgstr "Schließt"
 
+#. machine-translated (2026-10), to be reviewed
 msgid "Complete build log"
-msgstr ""
+msgstr "Vollständiges Build-Protokoll"
 
 msgid "Configuration"
 msgstr "Einstellungen"
@@ -246,8 +287,9 @@ msgstr "Einstellungen"
 msgid "Configuration successfully saved"
 msgstr "Information erfolgreich gespeichert"
 
+#. machine-translated (2026-10), to be reviewed
 msgid "Core modules"
-msgstr ""
+msgstr "Kernmodule"
 
 msgid "Create a user"
 msgstr "Erstellen Sie einen Benutzer"
@@ -258,32 +300,40 @@ msgstr "Erstellt am"
 msgid "Creation date"
 msgstr "Erstellungsdatum:"
 
+#. machine-translated (2026-10), to be reviewed
 msgid "Cron"
-msgstr ""
+msgstr "Cron"
 
+#. machine-translated (2026-10), to be reviewed
 msgid "Cron alerts"
-msgstr ""
+msgstr "Cron-Warnungen"
 
+#. machine-translated (2026-10), to be reviewed
 msgid "Cron interval"
-msgstr ""
+msgstr "Cron-Intervall"
 
+#. machine-translated (2026-10), to be reviewed
 msgid "Cron scheduler"
-msgstr ""
+msgstr "Cron-Scheduler"
 
+#. machine-translated (2026-10), to be reviewed
 msgid "Cron scheduler help"
-msgstr ""
+msgstr "Hilfe zum Cron-Scheduler"
 
 msgid "Custom SMTP Configuration"
 msgstr "SMTP Konfiguration"
 
+#. machine-translated (2026-10), to be reviewed
 msgid "Day of month"
-msgstr ""
+msgstr "Tag des Monats"
 
+#. machine-translated (2026-10), to be reviewed
 msgid "Day of week"
-msgstr ""
+msgstr "Wochentag"
 
+#. machine-translated (2026-10), to be reviewed
 msgid "Deactivate user"
-msgstr ""
+msgstr "Benutzer deaktivieren"
 
 msgid "Default (no)"
 msgstr "Standard (keine)"
@@ -291,32 +341,41 @@ msgstr "Standard (keine)"
 msgid "Development"
 msgstr "Entwicklung"
 
+#. machine-translated (2026-10), to be reviewed
 msgid "DirectAdmin"
-msgstr ""
+msgstr "DirectAdmin"
 
+#. machine-translated (2026-10), to be reviewed
 msgid "DirectAdmin (beta)"
-msgstr ""
+msgstr "DirectAdmin (Beta)"
 
+#. machine-translated (2026-10), to be reviewed
 msgid "Disable cron jobs"
-msgstr ""
+msgstr "Cron-Jobs deaktivieren"
 
+#. machine-translated (2026-10), to be reviewed
 msgid "Disabled"
-msgstr ""
+msgstr "Deaktiviert"
 
+#. machine-translated (2026-10), to be reviewed
 msgid "Disk usage & Cache:"
-msgstr ""
+msgstr "Speichernutzung & Cache:"
 
+#. machine-translated (2026-10), to be reviewed
 msgid "Dismiss & install later"
-msgstr ""
+msgstr "Verwerfen & später installieren"
 
+#. machine-translated (2026-10), to be reviewed
 msgid "Display"
-msgstr ""
+msgstr "Anzeige"
 
+#. machine-translated (2026-10), to be reviewed
 msgid "Doesn't meet the requirements"
-msgstr ""
+msgstr "Erfüllt die Anforderungen nicht"
 
+#. machine-translated (2026-10), to be reviewed
 msgid "Download latest source"
-msgstr ""
+msgstr "Neuesten Quellcode herunterladen"
 
 msgid "Drop your certificate here"
 msgstr "Ziehen Sie Ihr Zertifikat hier her"
@@ -324,11 +383,13 @@ msgstr "Ziehen Sie Ihr Zertifikat hier her"
 msgid "Edit the user"
 msgstr "Den Benutzer bearbeiten"
 
+#. machine-translated (2026-10), to be reviewed
 msgid "Editor's Design"
-msgstr ""
+msgstr "Design des Editors"
 
+#. machine-translated (2026-10), to be reviewed
 msgid "Enable custom SMTP configuration"
-msgstr ""
+msgstr "Eigene SMTP-Konfiguration aktivieren"
 
 msgid "Enter your credentials:"
 msgstr "Geben Sie Ihre Anmeldeinformationen:"
@@ -336,41 +397,49 @@ msgstr "Geben Sie Ihre Anmeldeinformationen:"
 msgid "Environment"
 msgstr "Umwelt ist"
 
+#. machine-translated (2026-10), to be reviewed
 msgid "Error, order already paid."
-msgstr ""
+msgstr "Fehler, Bestellung bereits bezahlt."
 
+#. machine-translated (2026-10), to be reviewed
 msgid ""
 "Errors are displayed on page, outputs are more verbose, this is an option "
 "for debug purpose, use with care as it may output some critical informations "
 "about your server."
-msgstr ""
+msgstr "Fehler werden auf der Seite angezeigt, die Ausgaben sind ausführlicher. Dies ist eine Option zu Debug-Zwecken, verwenden Sie sie mit Vorsicht, da sie kritische Informationen über Ihren Server ausgeben kann."
 
 msgid "Exists"
 msgstr "Existiert"
 
+#. machine-translated (2026-10), to be reviewed
 msgid "External extensions"
-msgstr ""
+msgstr "Externe Erweiterungen"
 
 msgid "Failed"
 msgstr "erfolglos"
 
+#. machine-translated (2026-10), to be reviewed
 msgid "File hash is different from manifest."
-msgstr ""
+msgstr "Der Datei-Hash weicht vom Manifest ab."
 
+#. machine-translated (2026-10), to be reviewed
 msgid "File is missing."
-msgstr ""
+msgstr "Datei fehlt."
 
+#. machine-translated (2026-10), to be reviewed
 msgid "Force re-generation"
-msgstr ""
+msgstr "Neu generieren erzwingen"
 
 msgid "Forgot password"
 msgstr "Passwort vergessen"
 
+#. machine-translated (2026-10), to be reviewed
 msgid "Full"
-msgstr ""
+msgstr "Vollständig"
 
+#. machine-translated (2026-10), to be reviewed
 msgid "Full path to use within your webserver."
-msgstr ""
+msgstr "Vollständiger Pfad zur Verwendung in Ihrem Webserver."
 
 msgid "General settings"
 msgstr "Allgemeine Einstellungen"
@@ -384,42 +453,52 @@ msgstr "Anfordern oder erneuern Sie das Zertifikat über Let ' s Encrypt."
 msgid "Generate source"
 msgstr "Quelle generieren"
 
+#. machine-translated (2026-10), to be reviewed
 msgid "Generating"
-msgstr ""
+msgstr "Wird generiert"
 
+#. machine-translated (2026-10), to be reviewed
 msgid "[Global]"
-msgstr ""
+msgstr "[Global]"
 
 msgid "Grant user"
 msgstr "Benutzer freigeben"
 
+#. machine-translated (2026-10), to be reviewed
 msgid "HTTP Basic Auth (API)"
-msgstr ""
+msgstr "HTTP-Basic-Authentifizierung (API)"
 
+#. machine-translated (2026-10), to be reviewed
 msgid "HTTP Basic Auth is valid."
-msgstr ""
+msgstr "Die HTTP-Basic-Authentifizierung ist gültig."
 
+#. machine-translated (2026-10), to be reviewed
 msgid "HTTPS & SSL Certificates"
-msgstr ""
+msgstr "HTTPS & SSL-Zertifikate"
 
+#. machine-translated (2026-10), to be reviewed
 msgid "HTTPS host is unreachable."
-msgstr ""
+msgstr "HTTPS-Host ist nicht erreichbar."
 
+#. machine-translated (2026-10), to be reviewed
 msgid "HTTPS is not available on your server."
-msgstr ""
+msgstr "HTTPS ist auf Ihrem Server nicht verfügbar."
 
+#. machine-translated (2026-10), to be reviewed
 msgid "HTTPS not reachable"
-msgstr ""
+msgstr "HTTPS nicht erreichbar"
 
+#. machine-translated (2026-10), to be reviewed
 msgid ""
 "HTTPS support is in <b>Beta</b>, you should test it on your <b>development "
 "server</b> first & prepare for further migration."
-msgstr ""
+msgstr "Die HTTPS-Unterstützung befindet sich in der <b>Beta</b>-Phase. Testen Sie sie zuerst auf Ihrem <b>Entwicklungsserver</b> und bereiten Sie sich auf die spätere Migration vor."
 
+#. machine-translated (2026-10), to be reviewed
 msgid ""
 "HTTPS support is in test, you should only try it on your development server "
 "prior to prepare for further migration."
-msgstr ""
+msgstr "Die HTTPS-Unterstützung befindet sich in der Testphase. Probieren Sie sie nur auf Ihrem Entwicklungsserver aus, bevor Sie die spätere Migration vorbereiten."
 
 msgid "Hide"
 msgstr "Swipe"
@@ -427,8 +506,9 @@ msgstr "Swipe"
 msgid "Host"
 msgstr "Host"
 
+#. machine-translated (2026-10), to be reviewed
 msgid "Hostname"
-msgstr ""
+msgstr "Hostname"
 
 msgid "Hostnames associated with this Certificate"
 msgstr "Hostnamen, die diesem Zertifikat zugeordnet"
@@ -439,13 +519,15 @@ msgstr "Stunde"
 msgid "ID"
 msgstr "ID"
 
+#. machine-translated (2026-10), to be reviewed
 msgid "If inactive, your customer won't see the tour."
-msgstr ""
+msgstr "Wenn inaktiv, sehen Ihre Kunden die Tour nicht."
 
+#. machine-translated (2026-10), to be reviewed
 msgid ""
 "If you are unable to install or run the cronjob on your hosting/server you "
 "can disable it."
-msgstr ""
+msgstr "Wenn Sie den Cronjob auf Ihrem Hosting/Server nicht installieren oder ausführen können, können Sie ihn deaktivieren."
 
 msgid "Info"
 msgstr "Info"
@@ -453,56 +535,72 @@ msgstr "Info"
 msgid "Installed"
 msgstr "Ersteller"
 
+#. machine-translated (2026-10), to be reviewed
 msgid "Installed icon packs"
-msgstr ""
+msgstr "Installierte Symbolpakete"
 
+#. machine-translated (2026-10), to be reviewed
 msgid "Installed layouts"
-msgstr ""
+msgstr "Installierte Layouts"
 
+#. machine-translated (2026-10), to be reviewed
 msgid "Installed modules"
-msgstr ""
+msgstr "Installierte Module"
 
 msgid "Installed, version"
 msgstr "Ungültige Version"
 
+#. machine-translated (2026-10), to be reviewed
 msgid "Integrity check"
-msgstr ""
+msgstr "Integritätsprüfung"
 
+#. machine-translated (2026-10), to be reviewed
 msgid "Invoice options"
-msgstr ""
+msgstr "Rechnungsoptionen"
 
+#. machine-translated (2026-10), to be reviewed
 msgid "Issued certificates"
-msgstr ""
+msgstr "Ausgestellte Zertifikate"
 
+#. machine-translated (2026-10), to be reviewed
 msgid "JAVA:"
-msgstr ""
+msgstr "JAVA:"
 
+#. machine-translated (2026-10), to be reviewed
 msgid "Last cron error"
-msgstr ""
+msgstr "Letzter Cron-Fehler"
 
+#. machine-translated (2026-10), to be reviewed
 msgid "Last failure"
-msgstr ""
+msgstr "Letzter Fehlschlag"
 
+#. machine-translated (2026-10), to be reviewed
 msgid "Last success"
-msgstr ""
+msgstr "Letzter Erfolg"
 
+#. machine-translated (2026-10), to be reviewed
 msgid "Last trigger"
-msgstr ""
+msgstr "Letzter Auslöser"
 
+#. machine-translated (2026-10), to be reviewed
 msgid "Let's Encrypt certificates renewal"
-msgstr ""
+msgstr "Erneuerung der Let's-Encrypt-Zertifikate"
 
+#. machine-translated (2026-10), to be reviewed
 msgid "Let's Encrypt environment"
-msgstr ""
+msgstr "Let's-Encrypt-Umgebung"
 
+#. machine-translated (2026-10), to be reviewed
 msgid "[Let's Encrypt] renewing certificate."
-msgstr ""
+msgstr "[Let's Encrypt] Zertifikat wird erneuert."
 
+#. machine-translated (2026-10), to be reviewed
 msgid "[Let's Encrypt] will add %s to SAN."
-msgstr ""
+msgstr "[Let's Encrypt] fügt %s zum SAN hinzu."
 
+#. machine-translated (2026-10), to be reviewed
 msgid "Link preview"
-msgstr ""
+msgstr "Linkvorschau"
 
 msgid "List of backoffice accounts"
 msgstr "Liste der Backoffice-Konten"
@@ -510,20 +608,23 @@ msgstr "Liste der Backoffice-Konten"
 msgid "List of the messages"
 msgstr "Liste der Nachrichten"
 
+#. machine-translated (2026-10), to be reviewed
 msgid "Loaded"
-msgstr ""
+msgstr "Geladen"
 
 msgid "Log"
 msgstr "Logo"
 
+#. machine-translated (2026-10), to be reviewed
 msgid "Log (var/log, log files)"
-msgstr ""
+msgstr "Protokoll (var/log, Logdateien)"
 
 msgid "Login to your backoffice interface"
 msgstr "Anmelden, um Ihre Backoffice-Schnittstelle"
 
+#. machine-translated (2026-10), to be reviewed
 msgid "Logs cleared."
-msgstr ""
+msgstr "Protokolle gelöscht."
 
 msgid "Mark all as read"
 msgstr "Als gelesen markieren"
@@ -540,14 +641,17 @@ msgstr "Postfach"
 msgid "Minute"
 msgstr "Minute"
 
+#. machine-translated (2026-10), to be reviewed
 msgid "Missing parameters for generation."
-msgstr ""
+msgstr "Fehlende Parameter für die Generierung."
 
+#. machine-translated (2026-10), to be reviewed
 msgid "Mobile Source Codes & Builds"
-msgstr ""
+msgstr "Mobile Quellcodes & Builds"
 
+#. machine-translated (2026-10), to be reviewed
 msgid "Module/User tasks"
-msgstr ""
+msgstr "Modul-/Benutzeraufgaben"
 
 msgid "Month"
 msgstr "Monat"
@@ -555,162 +659,204 @@ msgstr "Monat"
 msgid "My Invoices"
 msgstr "Meine Rechnungen "
 
+#. machine-translated (2026-10), to be reviewed
 msgid "My tour is active"
-msgstr ""
+msgstr "Meine Tour ist aktiv"
 
 msgid "Name"
 msgstr "Name"
 
+#. machine-translated (2026-10), to be reviewed
 msgid "New messages"
-msgstr ""
+msgstr "Neue Nachrichten"
 
+#. machine-translated (2026-10), to be reviewed
 msgid "New users"
-msgstr ""
+msgstr "Neue Benutzer"
 
 msgid "No"
 msgstr "Nein"
 
+#. machine-translated (2026-10), to be reviewed
 msgid "No file has been sent"
-msgstr ""
+msgstr "Es wurde keine Datei gesendet"
 
+#. machine-translated (2026-10), to be reviewed
 msgid "No icon packs"
-msgstr ""
+msgstr "Keine Symbolpakete"
 
 msgid "No informations."
 msgstr "Meine Informationen"
 
+#. machine-translated (2026-10), to be reviewed
 msgid "No layouts"
-msgstr ""
+msgstr "Keine Layouts"
 
+#. machine-translated (2026-10), to be reviewed
 msgid "No module/user tasks"
-msgstr ""
+msgstr "Keine Modul-/Benutzeraufgaben"
 
+#. machine-translated (2026-10), to be reviewed
 msgid "No system tasks"
-msgstr ""
+msgstr "Keine Systemaufgaben"
 
 msgid "None"
 msgstr "Nichts"
 
+#. machine-translated (2026-10), to be reviewed
 msgid "Not found"
-msgstr ""
+msgstr "Nicht gefunden"
 
+#. machine-translated (2026-10), to be reviewed
 msgid "Not running"
-msgstr ""
+msgstr "Läuft nicht"
 
+#. machine-translated (2026-10), to be reviewed
 msgid "Not yet generated."
-msgstr ""
+msgstr "Noch nicht generiert."
 
 msgid "Note:"
 msgstr "Notizen"
 
+#. machine-translated (2026-10), to be reviewed
 msgid "Note: Let's encrypt X1 is a staging certificate."
-msgstr ""
+msgstr "Hinweis: Let's Encrypt X1 ist ein Staging-Zertifikat."
 
+#. machine-translated (2026-10), to be reviewed
 msgid "Number of typed characters:"
-msgstr ""
+msgstr "Anzahl eingegebener Zeichen:"
 
+#. machine-translated (2026-10), to be reviewed
 msgid "OR"
-msgstr ""
+msgstr "ODER"
 
+#. machine-translated (2026-10), to be reviewed
 msgid "Ok"
-msgstr ""
+msgstr "OK"
 
+#. machine-translated (2026-10), to be reviewed
 msgid "Ok, you may consider upgrade to >=5.4"
-msgstr ""
+msgstr "OK, Sie könnten ein Upgrade auf >=5.4 in Betracht ziehen"
 
+#. machine-translated (2026-10), to be reviewed
 msgid "Ok, you may upgrade to php 5.6"
-msgstr ""
+msgstr "OK, Sie können auf PHP 5.6 aktualisieren"
 
+#. machine-translated (2026-10), to be reviewed
 msgid ""
 "One of the three given Certificates path is not readable, please make sure "
 "they have the good rights."
-msgstr ""
+msgstr "Einer der drei angegebenen Zertifikatspfade ist nicht lesbar. Bitte stellen Sie sicher, dass die Zugriffsrechte korrekt sind."
 
+#. machine-translated (2026-10), to be reviewed
 msgid "Open"
-msgstr ""
+msgstr "Öffnen"
 
+#. machine-translated (2026-10), to be reviewed
 msgid "Open the tour editing mode"
-msgstr ""
+msgstr "Bearbeitungsmodus der Tour öffnen"
 
+#. machine-translated (2026-10), to be reviewed
 msgid "Optional binaries"
-msgstr ""
+msgstr "Optionale Binärdateien"
 
+#. machine-translated (2026-10), to be reviewed
 msgid "Optional libraries"
-msgstr ""
+msgstr "Optionale Bibliotheken"
 
+#. machine-translated (2026-10), to be reviewed
 msgid ""
 "Otherwise install it manually, from your panel, or directly from your ssh "
 "access."
-msgstr ""
+msgstr "Andernfalls installieren Sie es manuell über Ihr Panel oder direkt über Ihren SSH-Zugang."
 
+#. machine-translated (2026-10), to be reviewed
 msgid "Overview - WebApp (var/apps/browser, overview & webapp cache)"
-msgstr ""
+msgstr "Overview - WebApp (var/apps/browser, Overview- & WebApp-Cache)"
 
+#. machine-translated (2026-10), to be reviewed
 msgid "Overview cache cleared."
-msgstr ""
+msgstr "Overview-Cache geleert."
 
+#. machine-translated (2026-10), to be reviewed
 msgid "PEM test:"
-msgstr ""
+msgstr "PEM-Test:"
 
+#. machine-translated (2026-10), to be reviewed
 msgid "PHP version %s:"
-msgstr ""
+msgstr "PHP-Version %s:"
 
 msgid "Password"
 msgstr "Passwort"
 
+#. machine-translated (2026-10), to be reviewed
 msgid "Path to your CA certificate"
-msgstr ""
+msgstr "Pfad zu Ihrem CA-Zertifikat"
 
+#. machine-translated (2026-10), to be reviewed
 msgid "Path to your Certificate"
-msgstr ""
+msgstr "Pfad zu Ihrem Zertifikat"
 
+#. machine-translated (2026-10), to be reviewed
 msgid "Path to your Private certificate"
-msgstr ""
+msgstr "Pfad zu Ihrem privaten Zertifikat"
 
+#. machine-translated (2026-10), to be reviewed
 msgid "Path to your Private key"
-msgstr ""
+msgstr "Pfad zu Ihrem privaten Schlüssel"
 
+#. machine-translated (2026-10), to be reviewed
 msgid "Payment received"
-msgstr ""
+msgstr "Zahlung erhalten"
 
 msgid "People who are allowed to access the backoffice"
 msgstr "Menschen, die das Backoffice zugreifen dürfen"
 
+#. machine-translated (2026-10), to be reviewed
 msgid "Permission, denied from Plesk, please use the admin account."
-msgstr ""
+msgstr "Berechtigung von Plesk verweigert, bitte verwenden Sie das Administratorkonto."
 
+#. machine-translated (2026-10), to be reviewed
 msgid "Plesk"
-msgstr ""
+msgstr "Plesk"
 
+#. machine-translated (2026-10), to be reviewed
 msgid "Plesk 12+"
-msgstr ""
+msgstr "Plesk 12+"
 
+#. machine-translated (2026-10), to be reviewed
 msgid "[Plesk] Unknown error."
-msgstr ""
+msgstr "[Plesk] Unbekannter Fehler."
 
 msgid "Port"
 msgstr "Port"
 
+#. machine-translated (2026-10), to be reviewed
 msgid "Preview 5.0"
-msgstr ""
+msgstr "Vorschau 5.0"
 
 msgid "Privacy policy URL"
 msgstr "Datenschutz URL"
 
+#. machine-translated (2026-10), to be reviewed
 msgid "Private"
-msgstr ""
+msgstr "Privat"
 
+#. machine-translated (2026-10), to be reviewed
 msgid "Private certificate"
-msgstr ""
+msgstr "Privates Zertifikat"
 
+#. machine-translated (2026-10), to be reviewed
 msgid "Private path:"
-msgstr ""
+msgstr "Privater Pfad:"
 
+#. machine-translated (2026-10), to be reviewed
 msgid "Production"
-msgstr ""
+msgstr "Produktion"
 
+#. machine-translated (2026-10), to be reviewed
 msgid "Progress"
-msgstr ""
+msgstr "Fortschritt"
 
 msgid "Publication access type"
 msgstr "Publikation zugreifen, geben Sie"
@@ -718,56 +864,69 @@ msgstr "Publikation zugreifen, geben Sie"
 msgid "Push messages:"
 msgstr "Push-Nachricht"
 
+#. machine-translated (2026-10), to be reviewed
 msgid "Queued"
-msgstr ""
+msgstr "In der Warteschlange"
 
+#. machine-translated (2026-10), to be reviewed
 msgid "Queued %s/%s"
-msgstr ""
+msgstr "In der Warteschlange %s/%s"
 
+#. machine-translated (2026-10), to be reviewed
 msgid "Read"
-msgstr ""
+msgstr "Lesen"
 
+#. machine-translated (2026-10), to be reviewed
 msgid "Rebuild"
-msgstr ""
+msgstr "Neu erstellen"
 
 msgid "Rebuild manifest"
 msgstr "Manifest neu erstellen"
 
+#. machine-translated (2026-10), to be reviewed
 msgid "Rebuilding application manifest files."
-msgstr ""
+msgstr "Manifestdateien der Anwendung werden neu erstellt."
 
+#. machine-translated (2026-10), to be reviewed
 msgid "Regular updates system"
-msgstr ""
+msgstr "Reguläres Update-System"
 
+#. machine-translated (2026-10), to be reviewed
 msgid "Remove locks"
-msgstr ""
+msgstr "Sperren entfernen"
 
+#. machine-translated (2026-10), to be reviewed
 msgid "Remove locks now"
-msgstr ""
+msgstr "Sperren jetzt entfernen"
 
 msgid "Removing CRON Scheduler lock files."
 msgstr "Entfernen CRON Scheduler source lock-Dateien."
 
+#. machine-translated (2026-10), to be reviewed
 msgid "Removing domains: %s"
-msgstr ""
+msgstr "Domains werden entfernt: %s"
 
+#. machine-translated (2026-10), to be reviewed
 msgid "Request"
-msgstr ""
+msgstr "Anfrage"
 
 msgid "Request the certificate via Let's Encrypt."
 msgstr "Anfordern oder erneuern Sie das Zertifikat über Let ' s Encrypt."
 
+#. machine-translated (2026-10), to be reviewed
 msgid "Required extensions"
-msgstr ""
+msgstr "Erforderliche Erweiterungen"
 
 msgid "Revoke user"
 msgstr "Benutzer widerrufen"
 
+#. machine-translated (2026-10), to be reviewed
 msgid "Run test"
-msgstr ""
+msgstr "Test ausführen"
 
+#. machine-translated (2026-10), to be reviewed
 msgid "SSL"
-msgstr ""
+msgstr "SSL"
 
 msgid "Sales"
 msgstr "Verkäufe"
@@ -784,111 +943,139 @@ msgstr "Wählen Sie den API-Zugriff aus"
 msgid "Select a panel type or self-managed"
 msgstr "Wählen Sie ein panel-Typ oder self-managed"
 
+#. machine-translated (2026-10), to be reviewed
 msgid "Self-managed"
-msgstr ""
+msgstr "Selbstverwaltet"
 
+#. machine-translated (2026-10), to be reviewed
 msgid "Self-managed sync is not available for now."
-msgstr ""
+msgstr "Die selbstverwaltete Synchronisierung ist derzeit nicht verfügbar."
 
+#. machine-translated (2026-10), to be reviewed
 msgid "Send anonymous statistics to improve the apps builder."
-msgstr ""
+msgstr "Anonyme Statistiken senden, um den Apps-Builder zu verbessern."
 
 msgid "Server"
 msgstr "Server"
 
+#. machine-translated (2026-10), to be reviewed
 msgid "Services"
-msgstr ""
+msgstr "Dienste"
 
 msgid "Show All Applications"
 msgstr "Zeigen Sie Alle Anwendungen"
 
+#. machine-translated (2026-10), to be reviewed
 msgid "Show more"
-msgstr ""
+msgstr "Mehr anzeigen"
 
+#. machine-translated (2026-10), to be reviewed
 msgid "Siberian - Backoffice"
-msgstr ""
+msgstr "Siberian - Backoffice"
 
 msgid "Siberian CMS"
 msgstr "Siberian CMS"
 
+#. machine-translated (2026-10), to be reviewed
 msgid "[Siberian_Cpanel] Unable to update cPanel SSL Certificate for %s"
-msgstr ""
+msgstr "[Siberian_Cpanel] Das cPanel-SSL-Zertifikat für %s konnte nicht aktualisiert werden"
 
+#. machine-translated (2026-10), to be reviewed
 msgid "[Siberian_VestaCP] requires php 5.6+"
-msgstr ""
+msgstr "[Siberian_VestaCP] erfordert PHP 5.6+"
 
+#. machine-translated (2026-10), to be reviewed
 msgid ""
 "Something went wrong with the API Sync to %s, retry or check in your panel "
 "if your SSL certificate is correctly setup."
-msgstr ""
+msgstr "Bei der API-Synchronisierung mit %s ist etwas schiefgelaufen. Versuchen Sie es erneut oder prüfen Sie in Ihrem Panel, ob Ihr SSL-Zertifikat korrekt eingerichtet ist."
 
+#. machine-translated (2026-10), to be reviewed
 msgid "Source"
-msgstr ""
+msgstr "Quellcode"
 
+#. machine-translated (2026-10), to be reviewed
 msgid "Source Queue empty"
-msgstr ""
+msgstr "Quellcode-Warteschlange leer"
 
+#. machine-translated (2026-10), to be reviewed
 msgid "Source Queue status"
-msgstr ""
+msgstr "Status der Quellcode-Warteschlange"
 
+#. machine-translated (2026-10), to be reviewed
 msgid "[Sources]"
-msgstr ""
+msgstr "[Quellcodes]"
 
 msgid "Sources code"
 msgstr "Quellcode"
 
+#. machine-translated (2026-10), to be reviewed
 msgid "Stable"
-msgstr ""
+msgstr "Stabil"
 
+#. machine-translated (2026-10), to be reviewed
 msgid "Staging"
-msgstr ""
+msgstr "Staging"
 
+#. machine-translated (2026-10), to be reviewed
 msgid "Start editing your platform tour"
-msgstr ""
+msgstr "Bearbeitung der Plattform-Tour starten"
 
+#. machine-translated (2026-10), to be reviewed
 msgid "Statistics"
-msgstr ""
+msgstr "Statistiken"
 
+#. machine-translated (2026-10), to be reviewed
 msgid ""
 "Statistics are used to improve the platform and help understanding usage of "
 "the apps builder."
-msgstr ""
+msgstr "Statistiken werden verwendet, um die Plattform zu verbessern und die Nutzung des Apps-Builders besser zu verstehen."
 
 msgid "Status"
 msgstr "Status"
 
+#. machine-translated (2026-10), to be reviewed
 msgid "Submit a bug report or improvement request for beta/preview"
-msgstr ""
+msgstr "Fehlerbericht oder Verbesserungsvorschlag für Beta/Vorschau senden"
 
 msgid "Success"
 msgstr "Erfolg."
 
+#. machine-translated (2026-10), to be reviewed
 msgid "Successfully cleaned-up old certificate."
-msgstr ""
+msgstr "Altes Zertifikat erfolgreich bereinigt."
 
+#. machine-translated (2026-10), to be reviewed
 msgid "Successfully installed new certificate."
-msgstr ""
+msgstr "Neues Zertifikat erfolgreich installiert."
 
+#. machine-translated (2026-10), to be reviewed
 msgid "Successfully removed the certificate."
-msgstr ""
+msgstr "Zertifikat erfolgreich entfernt."
 
+#. machine-translated (2026-10), to be reviewed
 msgid "Successfully saved Certificate to %s"
-msgstr ""
+msgstr "Zertifikat erfolgreich in %s gespeichert"
 
+#. machine-translated (2026-10), to be reviewed
 msgid "Sync files"
-msgstr ""
+msgstr "Dateien synchronisieren"
 
+#. machine-translated (2026-10), to be reviewed
 msgid "System Diagnostic"
-msgstr ""
+msgstr "Systemdiagnose"
 
+#. machine-translated (2026-10), to be reviewed
 msgid "System tasks"
-msgstr ""
+msgstr "Systemaufgaben"
 
+#. machine-translated (2026-10), to be reviewed
 msgid "System was unable to validate any Bearer Token Auth call."
-msgstr ""
+msgstr "Das System konnte keinen Aufruf mit Bearer-Token-Authentifizierung validieren."
 
+#. machine-translated (2026-10), to be reviewed
 msgid "System was unable to validate any HTTP Basic Auth call."
-msgstr ""
+msgstr "Das System konnte keinen Aufruf mit HTTP-Basic-Authentifizierung validieren."
 
 msgid "Temp (var/tmp, application sources & apk)"
 msgstr ""
@@ -896,64 +1083,78 @@ msgstr ""
 msgid "Templates"
 msgstr "Vorlage"
 
+#. machine-translated (2026-10), to be reviewed
 msgid "Test SSL/HTTPS"
-msgstr ""
+msgstr "SSL/HTTPS testen"
 
+#. machine-translated (2026-10), to be reviewed
 msgid "Testing: %s"
-msgstr ""
+msgstr "Test: %s"
 
+#. machine-translated (2026-10), to be reviewed
 msgid ""
 "The PHP executable guessed path <b>'%s'</b> may be incorrect, please double "
 "check for it."
-msgstr ""
+msgstr "Der vermutete Pfad der PHP-Programmdatei <b>'%s'</b> ist möglicherweise falsch, bitte prüfen Sie ihn noch einmal."
 
+#. machine-translated (2026-10), to be reviewed
 msgid "The default setting to run your production server."
-msgstr ""
+msgstr "Die Standardeinstellung für den Betrieb Ihres Produktionsservers."
 
+#. machine-translated (2026-10), to be reviewed
 msgid ""
 "The domain %s doesn't belong to you, or is not configured on your server."
-msgstr ""
+msgstr "Die Domain %s gehört nicht Ihnen oder ist auf Ihrem Server nicht konfiguriert."
 
+#. machine-translated (2026-10), to be reviewed
 msgid "The given CA certificate doesn't match the hostname."
-msgstr ""
+msgstr "Das angegebene CA-Zertifikat passt nicht zum Hostnamen."
 
+#. machine-translated (2026-10), to be reviewed
 msgid "The given certificate doesn't match the hostname."
-msgstr ""
+msgstr "Das angegebene Zertifikat passt nicht zum Hostnamen."
 
+#. machine-translated (2026-10), to be reviewed
 msgid "The given certificate doesn't match the hostname or wiSibldcard."
-msgstr ""
+msgstr "Das angegebene Zertifikat passt nicht zum Hostnamen oder wiSibldcard."
 
 msgid "This account can't be deleted, it's the only one"
 msgstr "Dieses Konto kann nicht gelöscht werden, es ist die einzige"
 
+#. machine-translated (2026-10), to be reviewed
 msgid ""
 "This action mainly serves as a development & support purpose<br />This will "
 "restore App sources 'iOS', 'Android', 'HTML5' & 'Overview' from the latest "
 "Siberian version, then rebuild the manifest to restore installed modules."
-msgstr ""
+msgstr "Diese Aktion dient hauptsächlich Entwicklungs- und Supportzwecken<br />Sie stellt die App-Quellcodes 'iOS', 'Android', 'HTML5' & 'Overview' aus der neuesten Siberian-Version wieder her und erstellt anschließend das Manifest neu, um die installierten Module wiederherzustellen."
 
+#. machine-translated (2026-10), to be reviewed
 msgid ""
 "This e-mail address must be reachable, as you will receive important e-mails "
 "from the system & user actions."
-msgstr ""
+msgstr "Diese E-Mail-Adresse muss erreichbar sein, da Sie wichtige E-Mails des Systems und zu Benutzeraktionen erhalten."
 
+#. machine-translated (2026-10), to be reviewed
 msgid ""
 "This message will be displayed as a waiting message when your users chose an "
 "offline payment method"
-msgstr ""
+msgstr "Diese Nachricht wird als Wartehinweis angezeigt, wenn Ihre Benutzer eine Offline-Zahlungsmethode gewählt haben"
 
+#. machine-translated (2026-10), to be reviewed
 msgid ""
 "This message will be displayed as an information message to describe which "
 "offline payment method you offer"
-msgstr ""
+msgstr "Diese Nachricht wird als Information angezeigt und beschreibt, welche Offline-Zahlungsmethode Sie anbieten"
 
+#. machine-translated (2026-10), to be reviewed
 msgid ""
 "This test is for development & support usage, this only highlights potential "
 "missing and/or modified files, results need to be interpreted."
-msgstr ""
+msgstr "Dieser Test dient Entwicklungs- und Supportzwecken. Er hebt nur mögliche fehlende und/oder geänderte Dateien hervor, die Ergebnisse müssen interpretiert werden."
 
+#. machine-translated (2026-10), to be reviewed
 msgid "Tools"
-msgstr ""
+msgstr "Werkzeuge"
 
 msgid "Total sales"
 msgstr "Gesamtumsatz"
@@ -961,17 +1162,20 @@ msgstr "Gesamtumsatz"
 msgid "Total usage:"
 msgstr "Gesamtumsatz"
 
+#. machine-translated (2026-10), to be reviewed
 msgid "Tour settings"
-msgstr ""
+msgstr "Tour-Einstellungen"
 
+#. machine-translated (2026-10), to be reviewed
 msgid "Tour status"
-msgstr ""
+msgstr "Tour-Status"
 
 msgid "Tour status successfully saved."
 msgstr "Menü wurde erfolgreich gespeichert."
 
+#. machine-translated (2026-10), to be reviewed
 msgid "UID"
-msgstr ""
+msgstr "UID"
 
 msgid ""
 "Unable to connect in HTTPS or to validate the SSL Certificate.<br />Check if "
@@ -980,38 +1184,47 @@ msgstr ""
 "Keine Verbindung in HTTPS oder überprüfen Sie die SSL-Zertifikat.<br />"
 "Prüfen Sie, ob Ihr nicht in `Inszenierung`"
 
+#. machine-translated (2026-10), to be reviewed
 msgid "Unknown"
-msgstr ""
+msgstr "Unbekannt"
 
+#. machine-translated (2026-10), to be reviewed
 msgid "Unknown - Self-managed"
-msgstr ""
+msgstr "Unbekannt - selbstverwaltet"
 
 msgid "Update"
 msgstr "Aktualisieren"
 
+#. machine-translated (2026-10), to be reviewed
 msgid "Update channel"
-msgstr ""
+msgstr "Update-Kanal"
 
 msgid "Updated At"
 msgstr "erneuert am"
 
+#. machine-translated (2026-10), to be reviewed
 msgid "Upload"
-msgstr ""
+msgstr "Hochladen"
 
+#. machine-translated (2026-10), to be reviewed
 msgid "Upload files or use existing certificates on my server"
-msgstr ""
+msgstr "Dateien hochladen oder vorhandene Zertifikate auf meinem Server verwenden"
 
+#. machine-translated (2026-10), to be reviewed
 msgid "Upload my certificates"
-msgstr ""
+msgstr "Meine Zertifikate hochladen"
 
+#. machine-translated (2026-10), to be reviewed
 msgid "Upload your own certificates"
-msgstr ""
+msgstr "Eigene Zertifikate hochladen"
 
+#. machine-translated (2026-10), to be reviewed
 msgid "Use HTTPS"
-msgstr ""
+msgstr "HTTPS verwenden"
 
+#. machine-translated (2026-10), to be reviewed
 msgid "Use existing certificates on my server"
-msgstr ""
+msgstr "Vorhandene Zertifikate auf meinem Server verwenden"
 
 msgid "User successfully deleted"
 msgstr "Benutzer erfolgreich gelöscht"
@@ -1019,72 +1232,89 @@ msgstr "Benutzer erfolgreich gelöscht"
 msgid "Username"
 msgstr "Benutzername"
 
+#. machine-translated (2026-10), to be reviewed
 msgid "User's status successfully edited"
-msgstr ""
+msgstr "Status des Benutzers erfolgreich geändert"
 
+#. machine-translated (2026-10), to be reviewed
 msgid "VAT check options"
-msgstr ""
+msgstr "Optionen der USt-Prüfung"
 
+#. machine-translated (2026-10), to be reviewed
 msgid "Validation"
-msgstr ""
+msgstr "Validierung"
 
+#. machine-translated (2026-10), to be reviewed
 msgid "VestaCP"
-msgstr ""
+msgstr "VestaCP"
 
+#. machine-translated (2026-10), to be reviewed
 msgid "VestaCP (php 5.6+ only)"
-msgstr ""
+msgstr "VestaCP (nur PHP 5.6+)"
 
 msgid "View Details"
 msgstr "Details anzeigen"
 
+#. machine-translated (2026-10), to be reviewed
 msgid "WHM cPanel"
-msgstr ""
+msgstr "WHM cPanel"
 
+#. machine-translated (2026-10), to be reviewed
 msgid "Waiting for %s to reload, this can take a while..."
-msgstr ""
+msgstr "Warten, bis %s neu geladen hat, das kann eine Weile dauern ..."
 
+#. machine-translated (2026-10), to be reviewed
 msgid ""
 "We recommned using <b>preview</b> on a testing or development server, we "
 "won't provide regular ticket support for these update channels, only bug "
 "reports via the form below."
-msgstr ""
+msgstr "Wir empfehlen, die <b>Vorschau</b> auf einem Test- oder Entwicklungsserver zu verwenden. Für diese Update-Kanäle bieten wir keinen regulären Ticket-Support, nur Fehlerberichte über das Formular unten."
 
+#. machine-translated (2026-10), to be reviewed
 msgid "Web space"
-msgstr ""
+msgstr "Webspace"
 
+#. machine-translated (2026-10), to be reviewed
 msgid "White Label"
-msgstr ""
+msgstr "White Label"
 
+#. machine-translated (2026-10), to be reviewed
 msgid "Whitelabel"
-msgstr ""
+msgstr "Whitelabel"
 
 msgid "Whitelabel hostnames associated with this Certificate"
 msgstr "Hostnamen, die diesem Zertifikat zugeordnet"
 
+#. machine-translated (2026-10), to be reviewed
 msgid "Whitelabel request"
-msgstr ""
+msgstr "Whitelabel-Anfrage"
 
+#. machine-translated (2026-10), to be reviewed
 msgid "Whitelabels"
-msgstr ""
+msgstr "Whitelabels"
 
 msgid "Yes"
 msgstr "Ja"
 
+#. machine-translated (2026-10), to be reviewed
 msgid "Yes, install the update."
-msgstr ""
+msgstr "Ja, Update installieren."
 
+#. machine-translated (2026-10), to be reviewed
 msgid ""
 "You are about to clean all the cron lock files !\n"
 "Are you sure ?"
-msgstr ""
+msgstr "Sie sind dabei, alle Cron-Sperrdateien zu löschen!\nSind Sie sicher?"
 
+#. machine-translated (2026-10), to be reviewed
 msgid ""
 "You are about to clean all your log files !\n"
 "Are you sure ?"
-msgstr ""
+msgstr "Sie sind dabei, alle Ihre Logdateien zu löschen!\nSind Sie sicher?"
 
+#. machine-translated (2026-10), to be reviewed
 msgid "You are about to delete this certificate, Are you sure ?"
-msgstr ""
+msgstr "Sie sind dabei, dieses Zertifikat zu löschen. Sind Sie sicher?"
 
 msgid ""
 "You are about to wipe all your temporary files, this includes the generated "
@@ -1095,40 +1325,48 @@ msgstr ""
 msgid "You can use <b>%s</b> as a dynamic variable for your application name."
 msgstr "Sie können <b>%s</b> als Variable für Ihren Anwendungsnamen verwenden."
 
+#. machine-translated (2026-10), to be reviewed
 msgid ""
 "You have a Source generation stuck for more than 1 hour, please check in <b>"
 "Settings > Advanced > Cron</b> for the stuck build.<br />To unlock further "
 "builds you can remove locks from the button below."
-msgstr ""
+msgstr "Eine Quellcode-Generierung hängt seit mehr als 1 Stunde. Bitte prüfen Sie den hängenden Build unter <b>Einstellungen > Erweitert > Cron</b>.<br />Um weitere Builds freizugeben, können Sie die Sperren über die Schaltfläche unten entfernen."
 
+#. machine-translated (2026-10), to be reviewed
 msgid ""
 "You have an APK generation stuck for more than 1 hour, please check in <b>"
 "Settings > Advanced > Cron</b> for the stuck build.<br />To unlock further "
 "builds you can remove locks from the button below."
-msgstr ""
+msgstr "Eine APK-Generierung hängt seit mehr als 1 Stunde. Bitte prüfen Sie den hängenden Build unter <b>Einstellungen > Erweitert > Cron</b>.<br />Um weitere Builds freizugeben, können Sie die Sperren über die Schaltfläche unten entfernen."
 
+#. machine-translated (2026-10), to be reviewed
 msgid "You have no certificate yet."
-msgstr ""
+msgstr "Sie haben noch kein Zertifikat."
 
+#. machine-translated (2026-10), to be reviewed
 msgid "You have no new messages."
-msgstr ""
+msgstr "Sie haben keine neuen Nachrichten."
 
+#. machine-translated (2026-10), to be reviewed
 msgid "You must select an Admin panel type before requesting a Certificate."
-msgstr ""
+msgstr "Sie müssen einen Typ des Admin-Panels auswählen, bevor Sie ein Zertifikat anfordern."
 
 msgid ""
 "Your HTTPS/SSL Certificate is about to expire in <b>%s day%s</b>, don't "
 "forget to renew it on the following page <a href=\"%s\">configuration</a>."
 msgstr ""
 
+#. machine-translated (2026-10), to be reviewed
 msgid "Your certificate is invalid"
-msgstr ""
+msgstr "Ihr Zertifikat ist ungültig"
 
+#. machine-translated (2026-10), to be reviewed
 msgid "Your certificate is valid until:"
-msgstr ""
+msgstr "Ihr Zertifikat ist gültig bis:"
 
+#. machine-translated (2026-10), to be reviewed
 msgid "Your certificates are saved."
-msgstr ""
+msgstr "Ihre Zertifikate wurden gespeichert."
 
 msgid "Your new password"
 msgstr "Ihr neues Passwort"
@@ -1136,24 +1374,28 @@ msgstr "Ihr neues Passwort"
 msgid "Your password"
 msgstr "Ihr Passwort"
 
+#. machine-translated (2026-10), to be reviewed
 msgid "<b>Actual preview version is Siberian 5.0</b>."
-msgstr ""
+msgstr "<b>Die aktuelle Vorschauversion ist Siberian 5.0</b>."
 
+#. machine-translated (2026-10), to be reviewed
 msgid ""
 "<b>Disclaimer:</b> You are using the <b>preview</b> update channel, this "
 "channel is intended for <b>tests & previews</b> of new features, if you are "
 "not sure stay with <b>stable channel</b>."
-msgstr ""
+msgstr "<b>Haftungsausschluss:</b> Sie verwenden den Update-Kanal <b>Vorschau</b>. Dieser Kanal ist für <b>Tests & Vorschauen</b> neuer Funktionen gedacht. Wenn Sie unsicher sind, bleiben Sie beim <b>stabilen Kanal</b>."
 
+#. machine-translated (2026-10), to be reviewed
 msgid ""
 "<b>Note for Bug report:</b> give us a maximum of description of how you "
 "reached the bug, and possibly screenshots."
-msgstr ""
+msgstr "<b>Hinweis zum Fehlerbericht:</b> Beschreiben Sie uns so genau wie möglich, wie Sie den Fehler erreicht haben, und fügen Sie möglichst Screenshots bei."
 
+#. machine-translated (2026-10), to be reviewed
 msgid ""
 "<b>Note</b>: sources & push will be sent immediately after their creation, "
 "scheduled push will not work & media optimization is disabled."
-msgstr ""
+msgstr "<b>Hinweis</b>: Quellcodes & Push-Nachrichten werden unmittelbar nach ihrer Erstellung gesendet, geplante Push-Nachrichten funktionieren nicht & die Medienoptimierung ist deaktiviert."
 
 msgid "customer"
 msgstr "Kunde"
@@ -1164,17 +1406,99 @@ msgstr "%d ungelesene Nachricht"
 msgid "%d Unread Messages"
 msgstr "%d ungelesene Nachrichten"
 
+#. machine-translated (2026-10), to be reviewed
 msgid "for the bundle id:"
-msgstr ""
+msgstr "für die Bundle-ID:"
 
+#. machine-translated (2026-10), to be reviewed
 msgid "letsencrypt"
-msgstr ""
+msgstr "letsencrypt"
 
+#. machine-translated (2026-10), to be reviewed
 msgid "per page"
-msgstr ""
+msgstr "pro Seite"
 
+#. machine-translated (2026-10), to be reviewed
 msgid "see Settings > Advanced > Configuration > Cron to edit options."
-msgstr ""
+msgstr "siehe Einstellungen > Erweitert > Konfiguration > Cron, um die Optionen zu bearbeiten."
 
+#. machine-translated (2026-10), to be reviewed
 msgid "values are refreshed once a day only!"
-msgstr ""
+msgstr "Werte werden nur einmal täglich aktualisiert!"
+
+# GMT 1559644696.6294
+#. machine-translated (2026-10), to be reviewed
+msgid "Temp (var/tmp, application sources)"
+msgstr "Temp (var/tmp, Anwendungsquellcodes)"
+
+# GMT 1559644696.8734
+#. machine-translated (2026-10), to be reviewed
+msgid ""
+"You are about to wipe all your temporary files, this includes the generated sources builds !\n"
+"Are you sure ?"
+msgstr "Sie sind dabei, alle Ihre temporären Dateien zu löschen, dazu gehören auch die generierten Quellcode-Builds!\nSind Sie sicher?"
+
+# GMT 1559644696.9767
+#. machine-translated (2026-10), to be reviewed
+msgid "Free trial"
+msgstr "Kostenlose Testphase"
+
+# GMT 1559644696.9768
+#. machine-translated (2026-10), to be reviewed
+msgid "Trial duration in days"
+msgstr "Dauer der Testphase in Tagen"
+
+# GMT 1559644696.9769
+#. machine-translated (2026-10), to be reviewed
+msgid "Allow access to editor regardless the free trial or subscription"
+msgstr "Zugriff auf den Editor unabhängig von Testphase oder Abonnement erlauben"
+
+# GMT 1559644696.9770
+#. machine-translated (2026-10), to be reviewed
+msgid "Enable free trial"
+msgstr "Kostenlose Testphase aktivieren"
+
+# GMT 1559644696.9771
+#. machine-translated (2026-10), to be reviewed
+msgid "Session lifetime can't be below 300 seconds / 5 minutes."
+msgstr "Die Sitzungsdauer darf nicht unter 300 Sekunden / 5 Minuten liegen."
+
+# GMT 1559644696.9772
+#. machine-translated (2026-10), to be reviewed
+msgid "Sessions without activity for that time will be automatically cleaned-up."
+msgstr "Sitzungen ohne Aktivität werden nach dieser Zeit automatisch bereinigt."
+
+# GMT 1559644696.9773
+#. machine-translated (2026-10), to be reviewed
+msgid "Default is 604800 which is 7 days."
+msgstr "Standard ist 604800, das entspricht 7 Tagen."
+
+# GMT 1559644696.9774
+#. machine-translated (2026-10), to be reviewed
+msgid "Session lifetime in seconds"
+msgstr "Sitzungsdauer in Sekunden"
+
+# GMT 1559644696.9775
+#. machine-translated (2026-10), to be reviewed
+msgid "Mobile sessions are however unlimited, they are removed only when the user manually logs out of the application."
+msgstr "Mobile Sitzungen sind jedoch unbegrenzt, sie werden nur entfernt, wenn sich der Benutzer manuell aus der Anwendung abmeldet."
+
+# GMT 1567897564.5000
+#. machine-translated (2026-10), to be reviewed
+msgid "Website"
+msgstr "Website"
+
+# GMT 1567897564.5001
+#. machine-translated (2026-10), to be reviewed
+msgid "Phone number"
+msgstr "Telefonnummer"
+
+# GMT 1567897564.5002
+#. machine-translated (2026-10), to be reviewed
+msgid "Company / Brand"
+msgstr "Firma / Marke"
+
+# GMT 1567897564.5003
+#. machine-translated (2026-10), to be reviewed
+msgid "Firstname / Lastname"
+msgstr "Vorname / Nachname"

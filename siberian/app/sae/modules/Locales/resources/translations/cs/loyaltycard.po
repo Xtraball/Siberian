@@ -39,8 +39,9 @@ msgstr "Při ukládání věrnostní karty došlo k chybě. Vyplňte prosím vš
 msgid "An error occurred while validating point. Please try again later."
 msgstr "Při ověřování bodu došlo k chybě. Zkuste to prosím později"
 
+#. machine-translated (2026-10), to be reviewed
 msgid "An error occurred with your QRCode."
-msgstr ""
+msgstr "Při práci s vaším QRCode došlo k chybě."
 
 msgid "Card name"
 msgstr "Název karty (pro vás)"
@@ -88,11 +89,13 @@ msgid ""
 "Please show your phone to the store person so that he enters his password"
 msgstr "Požádejte prosím personál o vložení hesla k zapsání věrnostního bodu"
 
+#. machine-translated (2026-10), to be reviewed
 msgid "Point active"
-msgstr ""
+msgstr "Bod aktivní"
 
+#. machine-translated (2026-10), to be reviewed
 msgid "Point inactive"
-msgstr ""
+msgstr "Bod neaktivní"
 
 msgid "Point%s successfully validated"
 msgstr "Bod%s úspěšně ověřen"
@@ -106,17 +109,20 @@ msgstr "Odměna"
 msgid "Rewards"
 msgstr "Odměna"
 
+#. machine-translated (2026-10), to be reviewed
 msgid "Scan QRCode"
-msgstr ""
+msgstr "Skenovat QRCode"
 
 msgid "This card is uniq:"
 msgstr "Tato karta je unikátní:"
 
+#. machine-translated (2026-10), to be reviewed
 msgid "Unlock by QRCode"
-msgstr ""
+msgstr "Odemknout pomocí QRCode"
 
+#. machine-translated (2026-10), to be reviewed
 msgid "Unreadable QRCode, sorry."
-msgstr ""
+msgstr "Omlouváme se, QRCode je nečitelný."
 
 msgid "Use only once?"
 msgstr "Použít jen jednou?"
@@ -171,3 +177,19 @@ msgstr "body k ověření"
 
 msgid "validated points ="
 msgstr "x ověřený bod ="
+
+# GMT 1559644711.5246
+#. machine-translated (2026-10), to be reviewed
+msgid "Employee's name"
+msgstr "Jméno zaměstnance"
+
+# GMT 1559644711.5288
+#. machine-translated (2026-10), to be reviewed
+msgid "Employee's password"
+msgstr "Heslo zaměstnance"
+
+# GMT 1559644711.6722
+#. machine-translated (2026-10), to be reviewed
+msgctxt "loyalty_card"
+msgid "Something went wrong while reading the QRCode."
+msgstr "Při čtení QRCode se něco pokazilo."

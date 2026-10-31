@@ -116,3 +116,650 @@ msgstr "<strong>%s</strong> は有効なEメールアドレス<br />でなけれ
 msgid "<strong>%s</strong> must be filled<br />"
 msgstr "<strong>%s</strong> は入力<br />する必要があります"
 
+# GMT 1559644710.7263
+#. machine-translated (2026-10), to be reviewed
+msgctxt "zend_validate"
+msgid "Invalid type given. String, integer or float expected"
+msgstr "無効な型が指定されました。文字列、整数、または浮動小数点数が必要です"
+
+# GMT 1559644710.7306
+#. machine-translated (2026-10), to be reviewed
+msgctxt "zend_validate"
+msgid "'%value%' contains characters which are non alphabetic and no digits"
+msgstr "'%value%' に英字と数字以外の文字が含まれています"
+
+# GMT 1559644710.735
+#. machine-translated (2026-10), to be reviewed
+msgctxt "zend_validate"
+msgid "'%value%' is an empty string"
+msgstr "'%value%' は空の文字列です"
+
+# GMT 1559644710.7393
+#. machine-translated (2026-10), to be reviewed
+msgctxt "zend_validate"
+msgid "Invalid type given. String expected"
+msgstr "無効な型が指定されました。文字列が必要です"
+
+# GMT 1559644710.7437
+#. machine-translated (2026-10), to be reviewed
+msgctxt "zend_validate"
+msgid "'%value%' contains non alphabetic characters"
+msgstr "'%value%' に英字以外の文字が含まれています"
+
+# GMT 1559644710.7481
+#. machine-translated (2026-10), to be reviewed
+msgctxt "zend_validate"
+msgid "'%value%' failed checksum validation"
+msgstr "'%value%' のチェックサム検証に失敗しました"
+
+# GMT 1559644710.7524
+#. machine-translated (2026-10), to be reviewed
+msgctxt "zend_validate"
+msgid "'%value%' contains invalid characters"
+msgstr "'%value%' に無効な文字が含まれています"
+
+# GMT 1559644710.7568
+#. machine-translated (2026-10), to be reviewed
+msgctxt "zend_validate"
+msgid "'%value%' should have a length of %length% characters"
+msgstr "'%value%' の長さは %length% 文字である必要があります"
+
+# GMT 1559644710.7611
+#. machine-translated (2026-10), to be reviewed
+msgctxt "zend_validate"
+msgid "'%value%' is not between '%min%' and '%max%', inclusively"
+msgstr "'%value%' は '%min%' から '%max%' の範囲内(両端を含む)ではありません"
+
+# GMT 1559644710.7655
+#. machine-translated (2026-10), to be reviewed
+msgctxt "zend_validate"
+msgid "'%value%' is not strictly between '%min%' and '%max%'"
+msgstr "'%value%' は '%min%' と '%max%' の間(両端を含まない)ではありません"
+
+# GMT 1559644710.7698
+#. machine-translated (2026-10), to be reviewed
+msgctxt "zend_validate"
+msgid "'%value%' is not valid"
+msgstr "'%value%' は有効ではありません"
+
+# GMT 1559644710.7742
+#. machine-translated (2026-10), to be reviewed
+msgctxt "zend_validate"
+msgid "An exception has been raised within the callback"
+msgstr "コールバック内で例外が発生しました"
+
+# GMT 1559644710.7785
+#. machine-translated (2026-10), to be reviewed
+msgctxt "zend_validate"
+msgid "'%value%' must contain between 13 and 19 digits"
+msgstr "'%value%' は13桁から19桁の数字を含む必要があります"
+
+# GMT 1559644710.7829
+#. machine-translated (2026-10), to be reviewed
+msgctxt "zend_validate"
+msgid "Luhn algorithm (mod-10 checksum) failed on '%value%'"
+msgstr "'%value%' でLuhnアルゴリズム(mod-10チェックサム)が失敗しました"
+
+# GMT 1559644710.7864
+#. machine-translated (2026-10), to be reviewed
+msgctxt "zend_validate"
+msgid "'%value%' seems to contain an invalid checksum"
+msgstr "'%value%' のチェックサムが無効のようです"
+
+# GMT 1559644710.7907
+#. machine-translated (2026-10), to be reviewed
+msgctxt "zend_validate"
+msgid "'%value%' must contain only digits"
+msgstr "'%value%' は数字のみを含む必要があります"
+
+# GMT 1559644710.7951
+#. machine-translated (2026-10), to be reviewed
+msgctxt "zend_validate"
+msgid "'%value%' contains an invalid amount of digits"
+msgstr "'%value%' の桁数が無効です"
+
+# GMT 1559644710.7994
+#. machine-translated (2026-10), to be reviewed
+msgctxt "zend_validate"
+msgid "'%value%' is not from an allowed institute"
+msgstr "'%value%' は許可された発行機関のものではありません"
+
+# GMT 1559644710.8038
+#. machine-translated (2026-10), to be reviewed
+msgctxt "zend_validate"
+msgid "'%value%' seems to be an invalid creditcard number"
+msgstr "'%value%' は無効なクレジットカード番号のようです"
+
+# GMT 1559644710.8081
+#. machine-translated (2026-10), to be reviewed
+msgctxt "zend_validate"
+msgid "An exception has been raised while validating '%value%'"
+msgstr "'%value%' の検証中に例外が発生しました"
+
+# GMT 1559644710.8125
+#. machine-translated (2026-10), to be reviewed
+msgctxt "zend_validate"
+msgid "Invalid type given. String, integer, array or Zend_Date expected"
+msgstr "無効な型が指定されました。文字列、整数、配列、または Zend_Date が必要です"
+
+# GMT 1559644710.8168
+#. machine-translated (2026-10), to be reviewed
+msgctxt "zend_validate"
+msgid "'%value%' does not appear to be a valid date"
+msgstr "'%value%' は有効な日付ではないようです"
+
+# GMT 1559644710.8212
+#. machine-translated (2026-10), to be reviewed
+msgctxt "zend_validate"
+msgid "'%value%' does not fit the date format '%format%'"
+msgstr "'%value%' は日付形式 '%format%' に一致しません"
+
+# GMT 1559644710.8255
+#. machine-translated (2026-10), to be reviewed
+msgctxt "zend_validate"
+msgid "No record matching '%value%' was found"
+msgstr "'%value%' に一致するレコードが見つかりませんでした"
+
+# GMT 1559644710.8299
+#. machine-translated (2026-10), to be reviewed
+msgctxt "zend_validate"
+msgid "A record matching '%value%' was found"
+msgstr "'%value%' に一致するレコードが見つかりました"
+
+# GMT 1559644710.8342
+#. machine-translated (2026-10), to be reviewed
+msgctxt "zend_validate"
+msgid "'%value%' is not a valid email address in the basic format local-part@hostname"
+msgstr "'%value%' は基本形式 local-part@hostname の有効なメールアドレスではありません"
+
+# GMT 1559644710.8385
+#. machine-translated (2026-10), to be reviewed
+msgctxt "zend_validate"
+msgid "'%hostname%' is not a valid hostname for email address '%value%'"
+msgstr "'%hostname%' はメールアドレス '%value%' の有効なホスト名ではありません"
+
+# GMT 1559644710.842
+#. machine-translated (2026-10), to be reviewed
+msgctxt "zend_validate"
+msgid "'%hostname%' does not appear to have a valid MX record for the email address '%value%'"
+msgstr "'%hostname%' にはメールアドレス '%value%' の有効なMXレコードがないようです"
+
+# GMT 1559644710.8463
+#. machine-translated (2026-10), to be reviewed
+msgctxt "zend_validate"
+msgid "'%hostname%' is not in a routable network segment. The email address '%value%' should not be resolved from public network"
+msgstr "'%hostname%' はルーティング可能なネットワークセグメントにありません。メールアドレス '%value%' はパブリックネットワークから解決されるべきではありません"
+
+# GMT 1559644710.8506
+#. machine-translated (2026-10), to be reviewed
+msgctxt "zend_validate"
+msgid "'%localPart%' can not be matched against dot-atom format"
+msgstr "'%localPart%' はドットアトム形式に一致しません"
+
+# GMT 1559644710.855
+#. machine-translated (2026-10), to be reviewed
+msgctxt "zend_validate"
+msgid "'%localPart%' can not be matched against quoted-string format"
+msgstr "'%localPart%' は引用文字列形式に一致しません"
+
+# GMT 1559644710.8593
+#. machine-translated (2026-10), to be reviewed
+msgctxt "zend_validate"
+msgid "'%localPart%' is not a valid local part for email address '%value%'"
+msgstr "'%localPart%' はメールアドレス '%value%' の有効なローカル部ではありません"
+
+# GMT 1559644710.8636
+#. machine-translated (2026-10), to be reviewed
+msgctxt "zend_validate"
+msgid "'%value%' exceeds the allowed length"
+msgstr "'%value%' は許可された長さを超えています"
+
+# GMT 1559644710.8679
+#. machine-translated (2026-10), to be reviewed
+msgctxt "zend_validate"
+msgid "Too many files, maximum '%max%' are allowed but '%count%' are given"
+msgstr "ファイルが多すぎます。最大 '%max%' 個まで許可されていますが、'%count%' 個が指定されました"
+
+# GMT 1559644710.8723
+#. machine-translated (2026-10), to be reviewed
+msgctxt "zend_validate"
+msgid "Too few files, minimum '%min%' are expected but '%count%' are given"
+msgstr "ファイルが少なすぎます。最低 '%min%' 個が必要ですが、'%count%' 個が指定されました"
+
+# GMT 1559644710.8766
+#. machine-translated (2026-10), to be reviewed
+msgctxt "zend_validate"
+msgid "File '%value%' does not match the given crc32 hashes"
+msgstr "ファイル '%value%' は指定されたcrc32ハッシュと一致しません"
+
+# GMT 1559644710.8811
+#. machine-translated (2026-10), to be reviewed
+msgctxt "zend_validate"
+msgid "A crc32 hash could not be evaluated for the given file"
+msgstr "指定されたファイルのcrc32ハッシュを評価できませんでした"
+
+# GMT 1559644710.8854
+#. machine-translated (2026-10), to be reviewed
+msgctxt "zend_validate"
+msgid "File '%value%' is not readable or does not exist"
+msgstr "ファイル '%value%' は読み取れないか、存在しません"
+
+# GMT 1559644710.8898
+#. machine-translated (2026-10), to be reviewed
+msgctxt "zend_validate"
+msgid "File '%value%' has a false extension"
+msgstr "ファイル '%value%' の拡張子が正しくありません"
+
+# GMT 1559644710.8941
+#. machine-translated (2026-10), to be reviewed
+msgctxt "zend_validate"
+msgid "File '%value%' has a false mimetype of '%type%'"
+msgstr "ファイル '%value%' のMIMEタイプ '%type%' が正しくありません"
+
+# GMT 1559644710.8976
+#. machine-translated (2026-10), to be reviewed
+msgctxt "zend_validate"
+msgid "The mimetype of file '%value%' could not be detected"
+msgstr "ファイル '%value%' のMIMEタイプを検出できませんでした"
+
+# GMT 1559644710.902
+#. machine-translated (2026-10), to be reviewed
+msgctxt "zend_validate"
+msgid "File '%value%' does not exist"
+msgstr "ファイル '%value%' は存在しません"
+
+# GMT 1559644710.9064
+#. machine-translated (2026-10), to be reviewed
+msgctxt "zend_validate"
+msgid "All files in sum should have a maximum size of '%max%' but '%size%' were detected"
+msgstr "すべてのファイルの合計サイズは最大 '%max%' である必要がありますが、'%size%' が検出されました"
+
+# GMT 1559644710.9107
+#. machine-translated (2026-10), to be reviewed
+msgctxt "zend_validate"
+msgid "All files in sum should have a minimum size of '%min%' but '%size%' were detected"
+msgstr "すべてのファイルの合計サイズは最小 '%min%' である必要がありますが、'%size%' が検出されました"
+
+# GMT 1559644710.915
+#. machine-translated (2026-10), to be reviewed
+msgctxt "zend_validate"
+msgid "One or more files can not be read"
+msgstr "1つ以上のファイルを読み取れません"
+
+# GMT 1559644710.9193
+#. machine-translated (2026-10), to be reviewed
+msgctxt "zend_validate"
+msgid "File '%value%' does not match the given hashes"
+msgstr "ファイル '%value%' は指定されたハッシュと一致しません"
+
+# GMT 1559644710.9231
+#. machine-translated (2026-10), to be reviewed
+msgctxt "zend_validate"
+msgid "A hash could not be evaluated for the given file"
+msgstr "指定されたファイルのハッシュを評価できませんでした"
+
+# GMT 1559644710.9275
+#. machine-translated (2026-10), to be reviewed
+msgctxt "zend_validate"
+msgid "Maximum allowed width for image '%value%' should be '%maxwidth%' but '%width%' detected"
+msgstr "画像 '%value%' の許可される最大幅は '%maxwidth%' ですが、'%width%' が検出されました"
+
+# GMT 1559644710.9318
+#. machine-translated (2026-10), to be reviewed
+msgctxt "zend_validate"
+msgid "Minimum expected width for image '%value%' should be '%minwidth%' but '%width%' detected"
+msgstr "画像 '%value%' に必要な最小幅は '%minwidth%' ですが、'%width%' が検出されました"
+
+# GMT 1559644710.9362
+#. machine-translated (2026-10), to be reviewed
+msgctxt "zend_validate"
+msgid "Maximum allowed height for image '%value%' should be '%maxheight%' but '%height%' detected"
+msgstr "画像 '%value%' の許可される最大高さは '%maxheight%' ですが、'%height%' が検出されました"
+
+# GMT 1559644710.9405
+#. machine-translated (2026-10), to be reviewed
+msgctxt "zend_validate"
+msgid "Minimum expected height for image '%value%' should be '%minheight%' but '%height%' detected"
+msgstr "画像 '%value%' に必要な最小高さは '%minheight%' ですが、'%height%' が検出されました"
+
+# GMT 1559644710.9449
+#. machine-translated (2026-10), to be reviewed
+msgctxt "zend_validate"
+msgid "The size of image '%value%' could not be detected"
+msgstr "画像 '%value%' のサイズを検出できませんでした"
+
+# GMT 1559644710.9491
+#. machine-translated (2026-10), to be reviewed
+msgctxt "zend_validate"
+msgid "File '%value%' is not compressed, '%type%' detected"
+msgstr "ファイル '%value%' は圧縮されていません。'%type%' が検出されました"
+
+# GMT 1559644710.9535
+#. machine-translated (2026-10), to be reviewed
+msgctxt "zend_validate"
+msgid "File '%value%' is no image, '%type%' detected"
+msgstr "ファイル '%value%' は画像ではありません。'%type%' が検出されました"
+
+# GMT 1559644710.9578
+#. machine-translated (2026-10), to be reviewed
+msgctxt "zend_validate"
+msgid "File '%value%' does not match the given md5 hashes"
+msgstr "ファイル '%value%' は指定されたmd5ハッシュと一致しません"
+
+# GMT 1559644710.9621
+#. machine-translated (2026-10), to be reviewed
+msgctxt "zend_validate"
+msgid "A md5 hash could not be evaluated for the given file"
+msgstr "指定されたファイルのmd5ハッシュを評価できませんでした"
+
+# GMT 1559644710.9664
+#. machine-translated (2026-10), to be reviewed
+msgctxt "zend_validate"
+msgid "File '%value%' exists"
+msgstr "ファイル '%value%' は存在します"
+
+# GMT 1559644710.9708
+#. machine-translated (2026-10), to be reviewed
+msgctxt "zend_validate"
+msgid "File '%value%' does not match the given sha1 hashes"
+msgstr "ファイル '%value%' は指定されたsha1ハッシュと一致しません"
+
+# GMT 1559644710.9746
+#. machine-translated (2026-10), to be reviewed
+msgctxt "zend_validate"
+msgid "A sha1 hash could not be evaluated for the given file"
+msgstr "指定されたファイルのsha1ハッシュを評価できませんでした"
+
+# GMT 1559644710.979
+#. machine-translated (2026-10), to be reviewed
+msgctxt "zend_validate"
+msgid "Maximum allowed size for file '%value%' is '%max%' but '%size%' detected"
+msgstr "ファイル '%value%' の許可される最大サイズは '%max%' ですが、'%size%' が検出されました"
+
+# GMT 1559644710.9833
+#. machine-translated (2026-10), to be reviewed
+msgctxt "zend_validate"
+msgid "Minimum expected size for file '%value%' is '%min%' but '%size%' detected"
+msgstr "ファイル '%value%' に必要な最小サイズは '%min%' ですが、'%size%' が検出されました"
+
+# GMT 1559644710.9877
+#. machine-translated (2026-10), to be reviewed
+msgctxt "zend_validate"
+msgid "File '%value%' exceeds the defined ini size"
+msgstr "ファイル '%value%' は定義されたiniサイズを超えています"
+
+# GMT 1559644710.992
+#. machine-translated (2026-10), to be reviewed
+msgctxt "zend_validate"
+msgid "File '%value%' exceeds the defined form size"
+msgstr "ファイル '%value%' は定義されたフォームサイズを超えています"
+
+# GMT 1559644710.9964
+#. machine-translated (2026-10), to be reviewed
+msgctxt "zend_validate"
+msgid "File '%value%' was only partially uploaded"
+msgstr "ファイル '%value%' は一部しかアップロードされませんでした"
+
+# GMT 1559644711.0008
+#. machine-translated (2026-10), to be reviewed
+msgctxt "zend_validate"
+msgid "File '%value%' was not uploaded"
+msgstr "ファイル '%value%' はアップロードされませんでした"
+
+# GMT 1559644711.0051
+#. machine-translated (2026-10), to be reviewed
+msgctxt "zend_validate"
+msgid "No temporary directory was found for file '%value%'"
+msgstr "ファイル '%value%' 用の一時ディレクトリが見つかりませんでした"
+
+# GMT 1559644711.0094
+#. machine-translated (2026-10), to be reviewed
+msgctxt "zend_validate"
+msgid "File '%value%' can't be written"
+msgstr "ファイル '%value%' を書き込めません"
+
+# GMT 1559644711.0138
+#. machine-translated (2026-10), to be reviewed
+msgctxt "zend_validate"
+msgid "A PHP extension returned an error while uploading the file '%value%'"
+msgstr "ファイル '%value%' のアップロード中にPHP拡張機能がエラーを返しました"
+
+# GMT 1559644711.0181
+#. machine-translated (2026-10), to be reviewed
+msgctxt "zend_validate"
+msgid "File '%value%' was illegally uploaded. This could be a possible attack"
+msgstr "ファイル '%value%' は不正にアップロードされました。攻撃の可能性があります"
+
+# GMT 1559644711.0225
+#. machine-translated (2026-10), to be reviewed
+msgctxt "zend_validate"
+msgid "File '%value%' was not found"
+msgstr "ファイル '%value%' が見つかりませんでした"
+
+# GMT 1559644711.026
+#. machine-translated (2026-10), to be reviewed
+msgctxt "zend_validate"
+msgid "Unknown error while uploading file '%value%'"
+msgstr "ファイル '%value%' のアップロード中に不明なエラーが発生しました"
+
+# GMT 1559644711.0304
+#. machine-translated (2026-10), to be reviewed
+msgctxt "zend_validate"
+msgid "Too much words, maximum '%max%' are allowed but '%count%' were counted"
+msgstr "単語数が多すぎます。最大 '%max%' 語まで許可されていますが、'%count%' 語がカウントされました"
+
+# GMT 1559644711.0347
+#. machine-translated (2026-10), to be reviewed
+msgctxt "zend_validate"
+msgid "Too less words, minimum '%min%' are expected but '%count%' were counted"
+msgstr "単語数が少なすぎます。最低 '%min%' 語が必要ですが、'%count%' 語がカウントされました"
+
+# GMT 1559644711.0391
+#. machine-translated (2026-10), to be reviewed
+msgctxt "zend_validate"
+msgid "'%value%' does not appear to be a float"
+msgstr "'%value%' は浮動小数点数ではないようです"
+
+# GMT 1559644711.0434
+#. machine-translated (2026-10), to be reviewed
+msgctxt "zend_validate"
+msgid "'%value%' is not greater than '%min%'"
+msgstr "'%value%' は '%min%' より大きくありません"
+
+# GMT 1559644711.0478
+#. machine-translated (2026-10), to be reviewed
+msgctxt "zend_validate"
+msgid "'%value%' has not only hexadecimal digit characters"
+msgstr "'%value%' には16進数以外の文字が含まれています"
+
+# GMT 1559644711.0522
+#. machine-translated (2026-10), to be reviewed
+msgctxt "zend_validate"
+msgid "'%value%' appears to be an IP address, but IP addresses are not allowed"
+msgstr "'%value%' はIPアドレスのようですが、IPアドレスは許可されていません"
+
+# GMT 1559644711.0566
+#. machine-translated (2026-10), to be reviewed
+msgctxt "zend_validate"
+msgid "'%value%' appears to be a DNS hostname but cannot match TLD against known list"
+msgstr "'%value%' はDNSホスト名のようですが、TLDを既知のリストと照合できません"
+
+# GMT 1559644711.0609
+#. machine-translated (2026-10), to be reviewed
+msgctxt "zend_validate"
+msgid "'%value%' appears to be a DNS hostname but contains a dash in an invalid position"
+msgstr "'%value%' はDNSホスト名のようですが、ハイフンの位置が無効です"
+
+# GMT 1559644711.0651
+#. machine-translated (2026-10), to be reviewed
+msgctxt "zend_validate"
+msgid "'%value%' appears to be a DNS hostname but cannot match against hostname schema for TLD '%tld%'"
+msgstr "'%value%' はDNSホスト名のようですが、TLD '%tld%' のホスト名スキーマと照合できません"
+
+# GMT 1559644711.0686
+#. machine-translated (2026-10), to be reviewed
+msgctxt "zend_validate"
+msgid "'%value%' appears to be a DNS hostname but cannot extract TLD part"
+msgstr "'%value%' はDNSホスト名のようですが、TLD部分を抽出できません"
+
+# GMT 1559644711.0729
+#. machine-translated (2026-10), to be reviewed
+msgctxt "zend_validate"
+msgid "'%value%' does not match the expected structure for a DNS hostname"
+msgstr "'%value%' はDNSホスト名として想定される構造に一致しません"
+
+# GMT 1559644711.0772
+#. machine-translated (2026-10), to be reviewed
+msgctxt "zend_validate"
+msgid "'%value%' does not appear to be a valid local network name"
+msgstr "'%value%' は有効なローカルネットワーク名ではないようです"
+
+# GMT 1559644711.0812
+#. machine-translated (2026-10), to be reviewed
+msgctxt "zend_validate"
+msgid "'%value%' appears to be a local network name but local network names are not allowed"
+msgstr "'%value%' はローカルネットワーク名のようですが、ローカルネットワーク名は許可されていません"
+
+# GMT 1559644711.0854
+#. machine-translated (2026-10), to be reviewed
+msgctxt "zend_validate"
+msgid "'%value%' appears to be a DNS hostname but the given punycode notation cannot be decoded"
+msgstr "'%value%' はDNSホスト名のようですが、指定されたpunycode表記をデコードできません"
+
+# GMT 1559644711.0898
+#. machine-translated (2026-10), to be reviewed
+msgctxt "zend_validate"
+msgid "Unknown country within the IBAN '%value%'"
+msgstr "IBAN '%value%' 内の国が不明です"
+
+# GMT 1559644711.0932
+#. machine-translated (2026-10), to be reviewed
+msgctxt "zend_validate"
+msgid "'%value%' has a false IBAN format"
+msgstr "'%value%' のIBAN形式が正しくありません"
+
+# GMT 1559644711.0975
+#. machine-translated (2026-10), to be reviewed
+msgctxt "zend_validate"
+msgid "'%value%' has failed the IBAN check"
+msgstr "'%value%' はIBANチェックに失敗しました"
+
+# GMT 1559644711.101
+#. machine-translated (2026-10), to be reviewed
+msgctxt "zend_validate"
+msgid "The two given tokens do not match"
+msgstr "指定された2つのトークンが一致しません"
+
+# GMT 1559644711.1045
+#. machine-translated (2026-10), to be reviewed
+msgctxt "zend_validate"
+msgid "No token was provided to match against"
+msgstr "照合するトークンが指定されていません"
+
+# GMT 1559644711.1088
+#. machine-translated (2026-10), to be reviewed
+msgctxt "zend_validate"
+msgid "'%value%' was not found in the haystack"
+msgstr "'%value%' は候補の中に見つかりませんでした"
+
+# GMT 1559644711.1131
+#. machine-translated (2026-10), to be reviewed
+msgctxt "zend_validate"
+msgid "Invalid type given. String or integer expected"
+msgstr "無効な型が指定されました。文字列または整数が必要です"
+
+# GMT 1559644711.1175
+#. machine-translated (2026-10), to be reviewed
+msgctxt "zend_validate"
+msgid "'%value%' does not appear to be an integer"
+msgstr "'%value%' は整数ではないようです"
+
+# GMT 1559644711.1218
+#. machine-translated (2026-10), to be reviewed
+msgctxt "zend_validate"
+msgid "'%value%' does not appear to be a valid IP address"
+msgstr "'%value%' は有効なIPアドレスではないようです"
+
+# GMT 1559644711.1261
+#. machine-translated (2026-10), to be reviewed
+msgctxt "zend_validate"
+msgid "'%value%' is not a valid ISBN number"
+msgstr "'%value%' は有効なISBN番号ではありません"
+
+# GMT 1559644711.1304
+#. machine-translated (2026-10), to be reviewed
+msgctxt "zend_validate"
+msgid "'%value%' is not less than '%max%'"
+msgstr "'%value%' は '%max%' より小さくありません"
+
+# GMT 1559644711.1347
+#. machine-translated (2026-10), to be reviewed
+msgctxt "zend_validate"
+msgid "Invalid type given. String, integer, float, boolean or array expected"
+msgstr "無効な型が指定されました。文字列、整数、浮動小数点数、真偽値、または配列が必要です"
+
+# GMT 1559644711.1391
+#. machine-translated (2026-10), to be reviewed
+msgctxt "zend_validate"
+msgid "Value is required and can't be empty"
+msgstr "値は必須で、空にできません"
+
+# GMT 1559644711.1435
+#. machine-translated (2026-10), to be reviewed
+msgctxt "zend_validate"
+msgid "'%value%' does not appear to be a postal code"
+msgstr "'%value%' は郵便番号ではないようです"
+
+# GMT 1559644711.1479
+#. machine-translated (2026-10), to be reviewed
+msgctxt "zend_validate"
+msgid "'%value%' does not match against pattern '%pattern%'"
+msgstr "'%value%' はパターン '%pattern%' に一致しません"
+
+# GMT 1559644711.1522
+#. machine-translated (2026-10), to be reviewed
+msgctxt "zend_validate"
+msgid "There was an internal error while using the pattern '%pattern%'"
+msgstr "パターン '%pattern%' の使用中に内部エラーが発生しました"
+
+# GMT 1559644711.1565
+#. machine-translated (2026-10), to be reviewed
+msgctxt "zend_validate"
+msgid "'%value%' is not a valid sitemap changefreq"
+msgstr "'%value%' は有効なサイトマップのchangefreqではありません"
+
+# GMT 1559644711.1609
+#. machine-translated (2026-10), to be reviewed
+msgctxt "zend_validate"
+msgid "'%value%' is not a valid sitemap lastmod"
+msgstr "'%value%' は有効なサイトマップのlastmodではありません"
+
+# GMT 1559644711.1652
+#. machine-translated (2026-10), to be reviewed
+msgctxt "zend_validate"
+msgid "'%value%' is not a valid sitemap location"
+msgstr "'%value%' は有効なサイトマップのlocationではありません"
+
+# GMT 1559644711.1695
+#. machine-translated (2026-10), to be reviewed
+msgctxt "zend_validate"
+msgid "'%value%' is not a valid sitemap priority"
+msgstr "'%value%' は有効なサイトマップのpriorityではありません"
+
+# GMT 1559644711.1735
+#. machine-translated (2026-10), to be reviewed
+msgctxt "zend_validate"
+msgid "Invalid type given. Numeric string, integer or float expected"
+msgstr "無効な型が指定されました。数値文字列、整数、または浮動小数点数が必要です"
+
+# GMT 1559644711.1778
+#. machine-translated (2026-10), to be reviewed
+msgctxt "zend_validate"
+msgid "'%value%' is less than %min% characters long"
+msgstr "'%value%' は %min% 文字未満です"
+
+# GMT 1559644711.1821
+#. machine-translated (2026-10), to be reviewed
+msgctxt "zend_validate"
+msgid "'%value%' is more than %max% characters long"
+msgstr "'%value%' は %max% 文字を超えています"

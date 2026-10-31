@@ -127,3 +127,651 @@ msgstr "<strong>%s</strong>, musí být platná e-mailová adresa<br/>"
 
 msgid "<strong>%s</strong> must be filled<br />"
 msgstr "<strong>%s</strong> je nutné vyplnit<br/>"
+
+# GMT 1559644710.7263
+#. machine-translated (2026-10), to be reviewed
+msgctxt "zend_validate"
+msgid "Invalid type given. String, integer or float expected"
+msgstr "Zadán neplatný typ. Očekává se řetězec, celé číslo nebo desetinné číslo"
+
+# GMT 1559644710.7306
+#. machine-translated (2026-10), to be reviewed
+msgctxt "zend_validate"
+msgid "'%value%' contains characters which are non alphabetic and no digits"
+msgstr "'%value%' obsahuje znaky, které nejsou písmena ani číslice"
+
+# GMT 1559644710.735
+#. machine-translated (2026-10), to be reviewed
+msgctxt "zend_validate"
+msgid "'%value%' is an empty string"
+msgstr "'%value%' je prázdný řetězec"
+
+# GMT 1559644710.7393
+#. machine-translated (2026-10), to be reviewed
+msgctxt "zend_validate"
+msgid "Invalid type given. String expected"
+msgstr "Zadán neplatný typ. Očekává se řetězec"
+
+# GMT 1559644710.7437
+#. machine-translated (2026-10), to be reviewed
+msgctxt "zend_validate"
+msgid "'%value%' contains non alphabetic characters"
+msgstr "'%value%' obsahuje znaky, které nejsou písmena"
+
+# GMT 1559644710.7481
+#. machine-translated (2026-10), to be reviewed
+msgctxt "zend_validate"
+msgid "'%value%' failed checksum validation"
+msgstr "'%value%' nevyhovělo kontrole kontrolního součtu"
+
+# GMT 1559644710.7524
+#. machine-translated (2026-10), to be reviewed
+msgctxt "zend_validate"
+msgid "'%value%' contains invalid characters"
+msgstr "'%value%' obsahuje neplatné znaky"
+
+# GMT 1559644710.7568
+#. machine-translated (2026-10), to be reviewed
+msgctxt "zend_validate"
+msgid "'%value%' should have a length of %length% characters"
+msgstr "'%value%' by mělo mít délku %length% znaků"
+
+# GMT 1559644710.7611
+#. machine-translated (2026-10), to be reviewed
+msgctxt "zend_validate"
+msgid "'%value%' is not between '%min%' and '%max%', inclusively"
+msgstr "'%value%' není mezi '%min%' a '%max%' včetně"
+
+# GMT 1559644710.7655
+#. machine-translated (2026-10), to be reviewed
+msgctxt "zend_validate"
+msgid "'%value%' is not strictly between '%min%' and '%max%'"
+msgstr "'%value%' není striktně mezi '%min%' a '%max%'"
+
+# GMT 1559644710.7698
+#. machine-translated (2026-10), to be reviewed
+msgctxt "zend_validate"
+msgid "'%value%' is not valid"
+msgstr "'%value%' není platné"
+
+# GMT 1559644710.7742
+#. machine-translated (2026-10), to be reviewed
+msgctxt "zend_validate"
+msgid "An exception has been raised within the callback"
+msgstr "V rámci callbacku byla vyvolána výjimka"
+
+# GMT 1559644710.7785
+#. machine-translated (2026-10), to be reviewed
+msgctxt "zend_validate"
+msgid "'%value%' must contain between 13 and 19 digits"
+msgstr "'%value%' musí obsahovat 13 až 19 číslic"
+
+# GMT 1559644710.7829
+#. machine-translated (2026-10), to be reviewed
+msgctxt "zend_validate"
+msgid "Luhn algorithm (mod-10 checksum) failed on '%value%'"
+msgstr "Luhnův algoritmus (kontrolní součet mod-10) selhal u '%value%'"
+
+# GMT 1559644710.7864
+#. machine-translated (2026-10), to be reviewed
+msgctxt "zend_validate"
+msgid "'%value%' seems to contain an invalid checksum"
+msgstr "'%value%' zřejmě obsahuje neplatný kontrolní součet"
+
+# GMT 1559644710.7907
+#. machine-translated (2026-10), to be reviewed
+msgctxt "zend_validate"
+msgid "'%value%' must contain only digits"
+msgstr "'%value%' musí obsahovat pouze číslice"
+
+# GMT 1559644710.7951
+#. machine-translated (2026-10), to be reviewed
+msgctxt "zend_validate"
+msgid "'%value%' contains an invalid amount of digits"
+msgstr "'%value%' obsahuje neplatný počet číslic"
+
+# GMT 1559644710.7994
+#. machine-translated (2026-10), to be reviewed
+msgctxt "zend_validate"
+msgid "'%value%' is not from an allowed institute"
+msgstr "'%value%' nepochází z povolené instituce"
+
+# GMT 1559644710.8038
+#. machine-translated (2026-10), to be reviewed
+msgctxt "zend_validate"
+msgid "'%value%' seems to be an invalid creditcard number"
+msgstr "'%value%' zřejmě není platné číslo platební karty"
+
+# GMT 1559644710.8081
+#. machine-translated (2026-10), to be reviewed
+msgctxt "zend_validate"
+msgid "An exception has been raised while validating '%value%'"
+msgstr "Při ověřování '%value%' byla vyvolána výjimka"
+
+# GMT 1559644710.8125
+#. machine-translated (2026-10), to be reviewed
+msgctxt "zend_validate"
+msgid "Invalid type given. String, integer, array or Zend_Date expected"
+msgstr "Zadán neplatný typ. Očekává se řetězec, celé číslo, pole nebo Zend_Date"
+
+# GMT 1559644710.8168
+#. machine-translated (2026-10), to be reviewed
+msgctxt "zend_validate"
+msgid "'%value%' does not appear to be a valid date"
+msgstr "'%value%' zřejmě není platné datum"
+
+# GMT 1559644710.8212
+#. machine-translated (2026-10), to be reviewed
+msgctxt "zend_validate"
+msgid "'%value%' does not fit the date format '%format%'"
+msgstr "'%value%' neodpovídá formátu data '%format%'"
+
+# GMT 1559644710.8255
+#. machine-translated (2026-10), to be reviewed
+msgctxt "zend_validate"
+msgid "No record matching '%value%' was found"
+msgstr "Nebyl nalezen žádný záznam odpovídající '%value%'"
+
+# GMT 1559644710.8299
+#. machine-translated (2026-10), to be reviewed
+msgctxt "zend_validate"
+msgid "A record matching '%value%' was found"
+msgstr "Byl nalezen záznam odpovídající '%value%'"
+
+# GMT 1559644710.8342
+#. machine-translated (2026-10), to be reviewed
+msgctxt "zend_validate"
+msgid "'%value%' is not a valid email address in the basic format local-part@hostname"
+msgstr "'%value%' není platná e-mailová adresa v základním formátu local-part@hostname"
+
+# GMT 1559644710.8385
+#. machine-translated (2026-10), to be reviewed
+msgctxt "zend_validate"
+msgid "'%hostname%' is not a valid hostname for email address '%value%'"
+msgstr "'%hostname%' není platný název hostitele pro e-mailovou adresu '%value%'"
+
+# GMT 1559644710.842
+#. machine-translated (2026-10), to be reviewed
+msgctxt "zend_validate"
+msgid "'%hostname%' does not appear to have a valid MX record for the email address '%value%'"
+msgstr "'%hostname%' zřejmě nemá platný záznam MX pro e-mailovou adresu '%value%'"
+
+# GMT 1559644710.8463
+#. machine-translated (2026-10), to be reviewed
+msgctxt "zend_validate"
+msgid "'%hostname%' is not in a routable network segment. The email address '%value%' should not be resolved from public network"
+msgstr "'%hostname%' není ve směrovatelném segmentu sítě. E-mailová adresa '%value%' by neměla být překládána z veřejné sítě"
+
+# GMT 1559644710.8506
+#. machine-translated (2026-10), to be reviewed
+msgctxt "zend_validate"
+msgid "'%localPart%' can not be matched against dot-atom format"
+msgstr "'%localPart%' nelze přiřadit formátu dot-atom"
+
+# GMT 1559644710.855
+#. machine-translated (2026-10), to be reviewed
+msgctxt "zend_validate"
+msgid "'%localPart%' can not be matched against quoted-string format"
+msgstr "'%localPart%' nelze přiřadit formátu quoted-string"
+
+# GMT 1559644710.8593
+#. machine-translated (2026-10), to be reviewed
+msgctxt "zend_validate"
+msgid "'%localPart%' is not a valid local part for email address '%value%'"
+msgstr "'%localPart%' není platná místní část e-mailové adresy '%value%'"
+
+# GMT 1559644710.8636
+#. machine-translated (2026-10), to be reviewed
+msgctxt "zend_validate"
+msgid "'%value%' exceeds the allowed length"
+msgstr "'%value%' překračuje povolenou délku"
+
+# GMT 1559644710.8679
+#. machine-translated (2026-10), to be reviewed
+msgctxt "zend_validate"
+msgid "Too many files, maximum '%max%' are allowed but '%count%' are given"
+msgstr "Příliš mnoho souborů, maximálně je povoleno '%max%', ale zadáno je '%count%'"
+
+# GMT 1559644710.8723
+#. machine-translated (2026-10), to be reviewed
+msgctxt "zend_validate"
+msgid "Too few files, minimum '%min%' are expected but '%count%' are given"
+msgstr "Příliš málo souborů, minimálně se očekává '%min%', ale zadáno je '%count%'"
+
+# GMT 1559644710.8766
+#. machine-translated (2026-10), to be reviewed
+msgctxt "zend_validate"
+msgid "File '%value%' does not match the given crc32 hashes"
+msgstr "Soubor '%value%' neodpovídá zadaným hashům crc32"
+
+# GMT 1559644710.8811
+#. machine-translated (2026-10), to be reviewed
+msgctxt "zend_validate"
+msgid "A crc32 hash could not be evaluated for the given file"
+msgstr "Hash crc32 pro zadaný soubor nebylo možné vyhodnotit"
+
+# GMT 1559644710.8854
+#. machine-translated (2026-10), to be reviewed
+msgctxt "zend_validate"
+msgid "File '%value%' is not readable or does not exist"
+msgstr "Soubor '%value%' není čitelný nebo neexistuje"
+
+# GMT 1559644710.8898
+#. machine-translated (2026-10), to be reviewed
+msgctxt "zend_validate"
+msgid "File '%value%' has a false extension"
+msgstr "Soubor '%value%' má nesprávnou příponu"
+
+# GMT 1559644710.8941
+#. machine-translated (2026-10), to be reviewed
+msgctxt "zend_validate"
+msgid "File '%value%' has a false mimetype of '%type%'"
+msgstr "Soubor '%value%' má nesprávný typ MIME '%type%'"
+
+# GMT 1559644710.8976
+#. machine-translated (2026-10), to be reviewed
+msgctxt "zend_validate"
+msgid "The mimetype of file '%value%' could not be detected"
+msgstr "Typ MIME souboru '%value%' se nepodařilo zjistit"
+
+# GMT 1559644710.902
+#. machine-translated (2026-10), to be reviewed
+msgctxt "zend_validate"
+msgid "File '%value%' does not exist"
+msgstr "Soubor '%value%' neexistuje"
+
+# GMT 1559644710.9064
+#. machine-translated (2026-10), to be reviewed
+msgctxt "zend_validate"
+msgid "All files in sum should have a maximum size of '%max%' but '%size%' were detected"
+msgstr "Všechny soubory dohromady by měly mít maximální velikost '%max%', ale zjištěno bylo '%size%'"
+
+# GMT 1559644710.9107
+#. machine-translated (2026-10), to be reviewed
+msgctxt "zend_validate"
+msgid "All files in sum should have a minimum size of '%min%' but '%size%' were detected"
+msgstr "Všechny soubory dohromady by měly mít minimální velikost '%min%', ale zjištěno bylo '%size%'"
+
+# GMT 1559644710.915
+#. machine-translated (2026-10), to be reviewed
+msgctxt "zend_validate"
+msgid "One or more files can not be read"
+msgstr "Jeden nebo více souborů nelze přečíst"
+
+# GMT 1559644710.9193
+#. machine-translated (2026-10), to be reviewed
+msgctxt "zend_validate"
+msgid "File '%value%' does not match the given hashes"
+msgstr "Soubor '%value%' neodpovídá zadaným hashům"
+
+# GMT 1559644710.9231
+#. machine-translated (2026-10), to be reviewed
+msgctxt "zend_validate"
+msgid "A hash could not be evaluated for the given file"
+msgstr "Hash pro zadaný soubor nebylo možné vyhodnotit"
+
+# GMT 1559644710.9275
+#. machine-translated (2026-10), to be reviewed
+msgctxt "zend_validate"
+msgid "Maximum allowed width for image '%value%' should be '%maxwidth%' but '%width%' detected"
+msgstr "Maximální povolená šířka obrázku '%value%' by měla být '%maxwidth%', ale zjištěno bylo '%width%'"
+
+# GMT 1559644710.9318
+#. machine-translated (2026-10), to be reviewed
+msgctxt "zend_validate"
+msgid "Minimum expected width for image '%value%' should be '%minwidth%' but '%width%' detected"
+msgstr "Minimální očekávaná šířka obrázku '%value%' by měla být '%minwidth%', ale zjištěno bylo '%width%'"
+
+# GMT 1559644710.9362
+#. machine-translated (2026-10), to be reviewed
+msgctxt "zend_validate"
+msgid "Maximum allowed height for image '%value%' should be '%maxheight%' but '%height%' detected"
+msgstr "Maximální povolená výška obrázku '%value%' by měla být '%maxheight%', ale zjištěno bylo '%height%'"
+
+# GMT 1559644710.9405
+#. machine-translated (2026-10), to be reviewed
+msgctxt "zend_validate"
+msgid "Minimum expected height for image '%value%' should be '%minheight%' but '%height%' detected"
+msgstr "Minimální očekávaná výška obrázku '%value%' by měla být '%minheight%', ale zjištěno bylo '%height%'"
+
+# GMT 1559644710.9449
+#. machine-translated (2026-10), to be reviewed
+msgctxt "zend_validate"
+msgid "The size of image '%value%' could not be detected"
+msgstr "Velikost obrázku '%value%' se nepodařilo zjistit"
+
+# GMT 1559644710.9491
+#. machine-translated (2026-10), to be reviewed
+msgctxt "zend_validate"
+msgid "File '%value%' is not compressed, '%type%' detected"
+msgstr "Soubor '%value%' není komprimovaný, zjištěno '%type%'"
+
+# GMT 1559644710.9535
+#. machine-translated (2026-10), to be reviewed
+msgctxt "zend_validate"
+msgid "File '%value%' is no image, '%type%' detected"
+msgstr "Soubor '%value%' není obrázek, zjištěno '%type%'"
+
+# GMT 1559644710.9578
+#. machine-translated (2026-10), to be reviewed
+msgctxt "zend_validate"
+msgid "File '%value%' does not match the given md5 hashes"
+msgstr "Soubor '%value%' neodpovídá zadaným hashům md5"
+
+# GMT 1559644710.9621
+#. machine-translated (2026-10), to be reviewed
+msgctxt "zend_validate"
+msgid "A md5 hash could not be evaluated for the given file"
+msgstr "Hash md5 pro zadaný soubor nebylo možné vyhodnotit"
+
+# GMT 1559644710.9664
+#. machine-translated (2026-10), to be reviewed
+msgctxt "zend_validate"
+msgid "File '%value%' exists"
+msgstr "Soubor '%value%' existuje"
+
+# GMT 1559644710.9708
+#. machine-translated (2026-10), to be reviewed
+msgctxt "zend_validate"
+msgid "File '%value%' does not match the given sha1 hashes"
+msgstr "Soubor '%value%' neodpovídá zadaným hashům sha1"
+
+# GMT 1559644710.9746
+#. machine-translated (2026-10), to be reviewed
+msgctxt "zend_validate"
+msgid "A sha1 hash could not be evaluated for the given file"
+msgstr "Hash sha1 pro zadaný soubor nebylo možné vyhodnotit"
+
+# GMT 1559644710.979
+#. machine-translated (2026-10), to be reviewed
+msgctxt "zend_validate"
+msgid "Maximum allowed size for file '%value%' is '%max%' but '%size%' detected"
+msgstr "Maximální povolená velikost souboru '%value%' je '%max%', ale zjištěno bylo '%size%'"
+
+# GMT 1559644710.9833
+#. machine-translated (2026-10), to be reviewed
+msgctxt "zend_validate"
+msgid "Minimum expected size for file '%value%' is '%min%' but '%size%' detected"
+msgstr "Minimální očekávaná velikost souboru '%value%' je '%min%', ale zjištěno bylo '%size%'"
+
+# GMT 1559644710.9877
+#. machine-translated (2026-10), to be reviewed
+msgctxt "zend_validate"
+msgid "File '%value%' exceeds the defined ini size"
+msgstr "Soubor '%value%' překračuje definovanou velikost v ini"
+
+# GMT 1559644710.992
+#. machine-translated (2026-10), to be reviewed
+msgctxt "zend_validate"
+msgid "File '%value%' exceeds the defined form size"
+msgstr "Soubor '%value%' překračuje definovanou velikost formuláře"
+
+# GMT 1559644710.9964
+#. machine-translated (2026-10), to be reviewed
+msgctxt "zend_validate"
+msgid "File '%value%' was only partially uploaded"
+msgstr "Soubor '%value%' byl nahrán pouze částečně"
+
+# GMT 1559644711.0008
+#. machine-translated (2026-10), to be reviewed
+msgctxt "zend_validate"
+msgid "File '%value%' was not uploaded"
+msgstr "Soubor '%value%' nebyl nahrán"
+
+# GMT 1559644711.0051
+#. machine-translated (2026-10), to be reviewed
+msgctxt "zend_validate"
+msgid "No temporary directory was found for file '%value%'"
+msgstr "Pro soubor '%value%' nebyl nalezen žádný dočasný adresář"
+
+# GMT 1559644711.0094
+#. machine-translated (2026-10), to be reviewed
+msgctxt "zend_validate"
+msgid "File '%value%' can't be written"
+msgstr "Soubor '%value%' nelze zapsat"
+
+# GMT 1559644711.0138
+#. machine-translated (2026-10), to be reviewed
+msgctxt "zend_validate"
+msgid "A PHP extension returned an error while uploading the file '%value%'"
+msgstr "Rozšíření PHP vrátilo chybu při nahrávání souboru '%value%'"
+
+# GMT 1559644711.0181
+#. machine-translated (2026-10), to be reviewed
+msgctxt "zend_validate"
+msgid "File '%value%' was illegally uploaded. This could be a possible attack"
+msgstr "Soubor '%value%' byl nahrán nepovoleným způsobem. Může jít o možný útok"
+
+# GMT 1559644711.0225
+#. machine-translated (2026-10), to be reviewed
+msgctxt "zend_validate"
+msgid "File '%value%' was not found"
+msgstr "Soubor '%value%' nebyl nalezen"
+
+# GMT 1559644711.026
+#. machine-translated (2026-10), to be reviewed
+msgctxt "zend_validate"
+msgid "Unknown error while uploading file '%value%'"
+msgstr "Neznámá chyba při nahrávání souboru '%value%'"
+
+# GMT 1559644711.0304
+#. machine-translated (2026-10), to be reviewed
+msgctxt "zend_validate"
+msgid "Too much words, maximum '%max%' are allowed but '%count%' were counted"
+msgstr "Příliš mnoho slov, maximálně je povoleno '%max%', ale napočítáno bylo '%count%'"
+
+# GMT 1559644711.0347
+#. machine-translated (2026-10), to be reviewed
+msgctxt "zend_validate"
+msgid "Too less words, minimum '%min%' are expected but '%count%' were counted"
+msgstr "Příliš málo slov, minimálně se očekává '%min%', ale napočítáno bylo '%count%'"
+
+# GMT 1559644711.0391
+#. machine-translated (2026-10), to be reviewed
+msgctxt "zend_validate"
+msgid "'%value%' does not appear to be a float"
+msgstr "'%value%' zřejmě není desetinné číslo"
+
+# GMT 1559644711.0434
+#. machine-translated (2026-10), to be reviewed
+msgctxt "zend_validate"
+msgid "'%value%' is not greater than '%min%'"
+msgstr "'%value%' není větší než '%min%'"
+
+# GMT 1559644711.0478
+#. machine-translated (2026-10), to be reviewed
+msgctxt "zend_validate"
+msgid "'%value%' has not only hexadecimal digit characters"
+msgstr "'%value%' neobsahuje pouze hexadecimální číslice"
+
+# GMT 1559644711.0522
+#. machine-translated (2026-10), to be reviewed
+msgctxt "zend_validate"
+msgid "'%value%' appears to be an IP address, but IP addresses are not allowed"
+msgstr "'%value%' zřejmě je adresa IP, ale adresy IP nejsou povoleny"
+
+# GMT 1559644711.0566
+#. machine-translated (2026-10), to be reviewed
+msgctxt "zend_validate"
+msgid "'%value%' appears to be a DNS hostname but cannot match TLD against known list"
+msgstr "'%value%' zřejmě je název hostitele DNS, ale TLD nelze porovnat se známým seznamem"
+
+# GMT 1559644711.0609
+#. machine-translated (2026-10), to be reviewed
+msgctxt "zend_validate"
+msgid "'%value%' appears to be a DNS hostname but contains a dash in an invalid position"
+msgstr "'%value%' zřejmě je název hostitele DNS, ale obsahuje pomlčku na neplatné pozici"
+
+# GMT 1559644711.0651
+#. machine-translated (2026-10), to be reviewed
+msgctxt "zend_validate"
+msgid "'%value%' appears to be a DNS hostname but cannot match against hostname schema for TLD '%tld%'"
+msgstr "'%value%' zřejmě je název hostitele DNS, ale nelze jej porovnat se schématem názvu hostitele pro TLD '%tld%'"
+
+# GMT 1559644711.0686
+#. machine-translated (2026-10), to be reviewed
+msgctxt "zend_validate"
+msgid "'%value%' appears to be a DNS hostname but cannot extract TLD part"
+msgstr "'%value%' zřejmě je název hostitele DNS, ale nelze z něj získat část TLD"
+
+# GMT 1559644711.0729
+#. machine-translated (2026-10), to be reviewed
+msgctxt "zend_validate"
+msgid "'%value%' does not match the expected structure for a DNS hostname"
+msgstr "'%value%' neodpovídá očekávané struktuře názvu hostitele DNS"
+
+# GMT 1559644711.0772
+#. machine-translated (2026-10), to be reviewed
+msgctxt "zend_validate"
+msgid "'%value%' does not appear to be a valid local network name"
+msgstr "'%value%' zřejmě není platný název místní sítě"
+
+# GMT 1559644711.0812
+#. machine-translated (2026-10), to be reviewed
+msgctxt "zend_validate"
+msgid "'%value%' appears to be a local network name but local network names are not allowed"
+msgstr "'%value%' zřejmě je název místní sítě, ale názvy místních sítí nejsou povoleny"
+
+# GMT 1559644711.0854
+#. machine-translated (2026-10), to be reviewed
+msgctxt "zend_validate"
+msgid "'%value%' appears to be a DNS hostname but the given punycode notation cannot be decoded"
+msgstr "'%value%' zřejmě je název hostitele DNS, ale zadanou notaci punycode nelze dekódovat"
+
+# GMT 1559644711.0898
+#. machine-translated (2026-10), to be reviewed
+msgctxt "zend_validate"
+msgid "Unknown country within the IBAN '%value%'"
+msgstr "Neznámá země v IBAN '%value%'"
+
+# GMT 1559644711.0932
+#. machine-translated (2026-10), to be reviewed
+msgctxt "zend_validate"
+msgid "'%value%' has a false IBAN format"
+msgstr "'%value%' má nesprávný formát IBAN"
+
+# GMT 1559644711.0975
+#. machine-translated (2026-10), to be reviewed
+msgctxt "zend_validate"
+msgid "'%value%' has failed the IBAN check"
+msgstr "'%value%' nevyhovělo kontrole IBAN"
+
+# GMT 1559644711.101
+#. machine-translated (2026-10), to be reviewed
+msgctxt "zend_validate"
+msgid "The two given tokens do not match"
+msgstr "Dva zadané tokeny se neshodují"
+
+# GMT 1559644711.1045
+#. machine-translated (2026-10), to be reviewed
+msgctxt "zend_validate"
+msgid "No token was provided to match against"
+msgstr "Nebyl zadán žádný token pro porovnání"
+
+# GMT 1559644711.1088
+#. machine-translated (2026-10), to be reviewed
+msgctxt "zend_validate"
+msgid "'%value%' was not found in the haystack"
+msgstr "'%value%' nebylo nalezeno v seznamu"
+
+# GMT 1559644711.1131
+#. machine-translated (2026-10), to be reviewed
+msgctxt "zend_validate"
+msgid "Invalid type given. String or integer expected"
+msgstr "Zadán neplatný typ. Očekává se řetězec nebo celé číslo"
+
+# GMT 1559644711.1175
+#. machine-translated (2026-10), to be reviewed
+msgctxt "zend_validate"
+msgid "'%value%' does not appear to be an integer"
+msgstr "'%value%' zřejmě není celé číslo"
+
+# GMT 1559644711.1218
+#. machine-translated (2026-10), to be reviewed
+msgctxt "zend_validate"
+msgid "'%value%' does not appear to be a valid IP address"
+msgstr "'%value%' zřejmě není platná adresa IP"
+
+# GMT 1559644711.1261
+#. machine-translated (2026-10), to be reviewed
+msgctxt "zend_validate"
+msgid "'%value%' is not a valid ISBN number"
+msgstr "'%value%' není platné číslo ISBN"
+
+# GMT 1559644711.1304
+#. machine-translated (2026-10), to be reviewed
+msgctxt "zend_validate"
+msgid "'%value%' is not less than '%max%'"
+msgstr "'%value%' není menší než '%max%'"
+
+# GMT 1559644711.1347
+#. machine-translated (2026-10), to be reviewed
+msgctxt "zend_validate"
+msgid "Invalid type given. String, integer, float, boolean or array expected"
+msgstr "Zadán neplatný typ. Očekává se řetězec, celé číslo, desetinné číslo, logická hodnota nebo pole"
+
+# GMT 1559644711.1391
+#. machine-translated (2026-10), to be reviewed
+msgctxt "zend_validate"
+msgid "Value is required and can't be empty"
+msgstr "Hodnota je povinná a nemůže být prázdná"
+
+# GMT 1559644711.1435
+#. machine-translated (2026-10), to be reviewed
+msgctxt "zend_validate"
+msgid "'%value%' does not appear to be a postal code"
+msgstr "'%value%' zřejmě není poštovní směrovací číslo"
+
+# GMT 1559644711.1479
+#. machine-translated (2026-10), to be reviewed
+msgctxt "zend_validate"
+msgid "'%value%' does not match against pattern '%pattern%'"
+msgstr "'%value%' neodpovídá vzoru '%pattern%'"
+
+# GMT 1559644711.1522
+#. machine-translated (2026-10), to be reviewed
+msgctxt "zend_validate"
+msgid "There was an internal error while using the pattern '%pattern%'"
+msgstr "Při použití vzoru '%pattern%' došlo k vnitřní chybě"
+
+# GMT 1559644711.1565
+#. machine-translated (2026-10), to be reviewed
+msgctxt "zend_validate"
+msgid "'%value%' is not a valid sitemap changefreq"
+msgstr "'%value%' není platná hodnota changefreq mapy webu"
+
+# GMT 1559644711.1609
+#. machine-translated (2026-10), to be reviewed
+msgctxt "zend_validate"
+msgid "'%value%' is not a valid sitemap lastmod"
+msgstr "'%value%' není platná hodnota lastmod mapy webu"
+
+# GMT 1559644711.1652
+#. machine-translated (2026-10), to be reviewed
+msgctxt "zend_validate"
+msgid "'%value%' is not a valid sitemap location"
+msgstr "'%value%' není platné umístění mapy webu"
+
+# GMT 1559644711.1695
+#. machine-translated (2026-10), to be reviewed
+msgctxt "zend_validate"
+msgid "'%value%' is not a valid sitemap priority"
+msgstr "'%value%' není platná priorita mapy webu"
+
+# GMT 1559644711.1735
+#. machine-translated (2026-10), to be reviewed
+msgctxt "zend_validate"
+msgid "Invalid type given. Numeric string, integer or float expected"
+msgstr "Zadán neplatný typ. Očekává se číselný řetězec, celé číslo nebo desetinné číslo"
+
+# GMT 1559644711.1778
+#. machine-translated (2026-10), to be reviewed
+msgctxt "zend_validate"
+msgid "'%value%' is less than %min% characters long"
+msgstr "'%value%' je kratší než %min% znaků"
+
+# GMT 1559644711.1821
+#. machine-translated (2026-10), to be reviewed
+msgctxt "zend_validate"
+msgid "'%value%' is more than %max% characters long"
+msgstr "'%value%' je delší než %max% znaků"

@@ -1,0 +1,504 @@
+msgid ""
+msgstr ""
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"X-Generator: ezgif.com\n"
+
+# GMT 1569404790.5248
+#. machine-translated (2026-10), to be reviewed
+msgctxt "backoffice"
+msgid "Free trial"
+msgstr "無料トライアル"
+
+# GMT 1580206845.3922
+#. machine-translated (2026-10), to be reviewed
+msgctxt "backoffice"
+msgid "Value must be at least %s"
+msgstr "値は %s 以上である必要があります"
+
+# GMT 1580206905.4941
+#. machine-translated (2026-10), to be reviewed
+msgctxt "backoffice"
+msgid "Must be %s / %s"
+msgstr "%s / %s である必要があります"
+
+# GMT 1580206905.4943
+#. machine-translated (2026-10), to be reviewed
+msgctxt "backoffice"
+msgid "Must be at least %s"
+msgstr "%s 以上である必要があります"
+
+# GMT 1580209278.3441
+#. machine-translated (2026-10), to be reviewed
+msgctxt "backoffice"
+msgid "exec is enabled"
+msgstr "exec は有効です"
+
+# GMT 1580209278.3443
+#. machine-translated (2026-10), to be reviewed
+msgctxt "backoffice"
+msgid "Must be enabled"
+msgstr "有効にする必要があります"
+
+# GMT 1580209313.1679
+#. machine-translated (2026-10), to be reviewed
+msgctxt "backoffice"
+msgid "Enabled"
+msgstr "有効"
+
+# GMT 1580297094.4952
+#. machine-translated (2026-10), to be reviewed
+msgctxt "backoffice"
+msgid "We have detected incorrect settings on your server, below are all the recommended settings, the ones in red are incorrect and can lead to issue while running the editor & applications."
+msgstr "サーバー上に正しくない設定が検出されました。以下は推奨設定の一覧で、赤色の項目は正しくなく、エディターやアプリの実行時に問題を引き起こす可能性があります。"
+
+# GMT 1580306120.9375
+#. machine-translated (2026-10), to be reviewed
+msgctxt "backoffice"
+msgid "Unable to write"
+msgstr "書き込めません"
+
+# GMT 1580306120.9379
+#. machine-translated (2026-10), to be reviewed
+msgctxt "backoffice"
+msgid "Must be writeable"
+msgstr "書き込み可能である必要があります"
+
+# GMT 1580306387.4344
+#. machine-translated (2026-10), to be reviewed
+msgctxt "backoffice"
+msgid "Writeable"
+msgstr "書き込み可能"
+
+# GMT 1580382615.6827
+#. machine-translated (2026-10), to be reviewed
+msgctxt "backoffice"
+msgid "Incorrect settings have been detected on your server, below are all the recommended settings, the ones in red are incorrect and can lead to issue while running the editor & applications."
+msgstr "サーバー上に正しくない設定が検出されました。以下は推奨設定の一覧で、赤色の項目は正しくなく、エディターやアプリの実行時に問題を引き起こす可能性があります。"
+
+# GMT 1580382615.6828
+#. machine-translated (2026-10), to be reviewed
+msgctxt "backoffice"
+msgid "iOS with AdMob can't be used for newly created applications because of the presence of the UIWebView inside the AdMob SDK<br />Please use iOS (without AdMob)"
+msgstr "AdMob SDK内にUIWebViewが含まれるため、AdMob付きのiOSは新規作成のアプリでは使用できません<br />iOS(AdMobなし)を使用してください"
+
+# GMT 1580382615.6829
+#. machine-translated (2026-10), to be reviewed
+msgctxt "backoffice"
+msgid "Extra fields"
+msgstr "追加フィールド"
+
+# GMT 1580382615.6830
+#. machine-translated (2026-10), to be reviewed
+msgctxt "backoffice"
+msgid "Service APK/AAB Generator (enforced)"
+msgstr "APK/AAB生成サービス(強制)"
+
+# GMT 1580382615.6831
+#. machine-translated (2026-10), to be reviewed
+msgctxt "backoffice"
+msgid "Users can not generate APK/AAB."
+msgstr "ユーザーはAPK/AABを生成できません。"
+
+# GMT 1580382615.6832
+#. machine-translated (2026-10), to be reviewed
+msgctxt "backoffice"
+msgid "APK/AAB Settings"
+msgstr "APK/AAB設定"
+
+# GMT 1580382615.6833
+#. machine-translated (2026-10), to be reviewed
+msgctxt "backoffice"
+msgid "Users can generate APK/AAB"
+msgstr "ユーザーはAPK/AABを生成できます"
+
+# GMT 1580382615.6834
+#. machine-translated (2026-10), to be reviewed
+msgctxt "backoffice"
+msgid "Restore app sources have been scheduled to be processed imminently!"
+msgstr "アプリソースの復元は、まもなく処理されるようスケジュールされました!"
+
+# GMT 1580382615.6835
+#. machine-translated (2026-10), to be reviewed
+msgctxt "backoffice"
+msgid "App manifest rebuild have been scheduled to be processed imminently!"
+msgstr "アプリマニフェストの再構築は、まもなく処理されるようスケジュールされました!"
+
+# GMT 1580382615.6836
+#. machine-translated (2026-10), to be reviewed
+msgctxt "backoffice"
+msgid "The password must be at least 9 characters"
+msgstr "パスワードは9文字以上である必要があります"
+
+# GMT 1580382615.6837
+#. machine-translated (2026-10), to be reviewed
+msgctxt "backoffice"
+msgid "Password should be at least %s characters in length and should include at least one upper case letter, one number, and one special character."
+msgstr "パスワードは %s 文字以上で、大文字、数字、特殊文字をそれぞれ1文字以上含める必要があります。"
+
+# GMT 1793000000.0001
+#. machine-translated (2026-10), to be reviewed
+msgctxt "backoffice"
+msgid "This version is already installed"
+msgstr "このバージョンはすでにインストールされています"
+
+# GMT 1793000000.0002
+#. machine-translated (2026-10), to be reviewed
+msgctxt "backoffice"
+msgid "Would you like to reinstall it? Files are copied again and the module schema and data are synchronized again."
+msgstr "再インストールしますか?ファイルが再度コピーされ、モジュールのスキーマとデータが再び同期されます。"
+
+# GMT 1793000000.0003
+#. machine-translated (2026-10), to be reviewed
+msgctxt "backoffice"
+msgid "Yes, reinstall"
+msgstr "はい、再インストールする"
+
+# GMT 1793000000.0004
+#. machine-translated (2026-10), to be reviewed
+msgctxt "backoffice"
+msgid "No, cancel"
+msgstr "いいえ、キャンセル"
+
+# GMT 1793100000.0001
+#. machine-translated (2026-10), to be reviewed
+msgctxt "backoffice"
+msgid "The license saved for this module is expired or no longer valid. If you received a new key, enter it here, or keep the current one."
+msgstr "このモジュールに保存されているライセンスは期限切れ、または無効になっています。新しいキーを受け取った場合はここに入力するか、現在のキーを維持してください。"
+
+# GMT 1793100000.0002
+#. machine-translated (2026-10), to be reviewed
+msgctxt "backoffice"
+msgid "Keep the current key"
+msgstr "現在のキーを維持"
+
+# GMT 1793100001.0001
+#. machine-translated (2026-10), to be reviewed
+msgctxt "backoffice"
+msgid "Core"
+msgstr "コア"
+
+# GMT 1793100001.0002
+#. machine-translated (2026-10), to be reviewed
+msgctxt "backoffice"
+msgid "App sources"
+msgstr "アプリソース"
+
+# GMT 1793100001.0003
+#. machine-translated (2026-10), to be reviewed
+msgctxt "backoffice"
+msgid "Modified"
+msgstr "変更あり"
+
+# GMT 1793100001.0004
+#. machine-translated (2026-10), to be reviewed
+msgctxt "backoffice"
+msgid "Missing"
+msgstr "不足"
+
+# GMT 1793100001.0005
+#. machine-translated (2026-10), to be reviewed
+msgctxt "backoffice"
+msgid "Unreadable"
+msgstr "読み取り不可"
+
+# GMT 1793100001.0006
+#. machine-translated (2026-10), to be reviewed
+msgctxt "backoffice"
+msgid "File"
+msgstr "ファイル"
+
+# GMT 1793100001.0007
+#. machine-translated (2026-10), to be reviewed
+msgctxt "backoffice"
+msgid "Status"
+msgstr "ステータス"
+
+# GMT 1793100001.0008
+#. machine-translated (2026-10), to be reviewed
+msgctxt "backoffice"
+msgid "Area"
+msgstr "領域"
+
+# GMT 1793100001.0009
+#. machine-translated (2026-10), to be reviewed
+msgctxt "backoffice"
+msgid "Files checked"
+msgstr "確認したファイル"
+
+# GMT 1793100001.0010
+#. machine-translated (2026-10), to be reviewed
+msgctxt "backoffice"
+msgid "Core files only, skip the app sources (faster)"
+msgstr "コアファイルのみ(アプリソースをスキップ、高速)"
+
+# GMT 1793100001.0011
+#. machine-translated (2026-10), to be reviewed
+msgctxt "backoffice"
+msgid "Module installations and generated apps also write in the app sources, differences there are not necessarily a problem."
+msgstr "モジュールのインストールや生成されたアプリもアプリソースに書き込みを行うため、そこでの差異は必ずしも問題ではありません。"
+
+# GMT 1793100001.0012
+#. machine-translated (2026-10), to be reviewed
+msgctxt "backoffice"
+msgid "The file manifest.json is missing, the integrity cannot be checked."
+msgstr "manifest.json ファイルがないため、整合性を確認できません。"
+
+# GMT 1793100001.0013
+#. machine-translated (2026-10), to be reviewed
+msgctxt "backoffice"
+msgid "The file manifest.json is not valid, the integrity cannot be checked."
+msgstr "manifest.json ファイルが無効なため、整合性を確認できません。"
+
+# GMT 1793100001.0014
+#. machine-translated (2026-10), to be reviewed
+msgctxt "backoffice"
+msgid "Edit my account"
+msgstr "アカウントを編集"
+
+# GMT 1793100001.0015
+#. machine-translated (2026-10), to be reviewed
+msgctxt "backoffice"
+msgid "Show / hide"
+msgstr "表示/非表示"
+
+# GMT 1793100001.0030
+#. machine-translated (2026-10), to be reviewed
+msgctxt "backoffice"
+msgid "This job has no command."
+msgstr "このジョブにはコマンドがありません。"
+
+# GMT 1793100001.0031
+#. machine-translated (2026-10), to be reviewed
+msgctxt "backoffice"
+msgid "The class %s does not exist, the module providing this job is probably disabled or removed."
+msgstr "クラス %s は存在しません。このジョブを提供するモジュールが無効化または削除されている可能性があります。"
+
+# GMT 1793100001.0032
+#. machine-translated (2026-10), to be reviewed
+msgctxt "backoffice"
+msgid "The class %s can not be loaded: %s"
+msgstr "クラス %s を読み込めません: %s"
+
+# GMT 1793100001.0033
+#. machine-translated (2026-10), to be reviewed
+msgctxt "backoffice"
+msgid "The method %s does not exist."
+msgstr "メソッド %s は存在しません。"
+
+# GMT 1793100001.0034
+#. machine-translated (2026-10), to be reviewed
+msgctxt "backoffice"
+msgid "The method %s is not public."
+msgstr "メソッド %s は public ではありません。"
+
+# GMT 1793100001.0035
+#. machine-translated (2026-10), to be reviewed
+msgctxt "backoffice"
+msgid "The method %s is abstract."
+msgstr "メソッド %s は abstract です。"
+
+# GMT 1793100001.0036
+#. machine-translated (2026-10), to be reviewed
+msgctxt "backoffice"
+msgid "The method %s requires %d arguments, a job is given %d."
+msgstr "メソッド %s には %d 個の引数が必要ですが、ジョブには %d 個が渡されています。"
+
+# GMT 1793100001.0037
+#. machine-translated (2026-10), to be reviewed
+msgctxt "backoffice"
+msgid "The class %s can not be instantiated, declare the method %s static."
+msgstr "クラス %s をインスタンス化できません。メソッド %s を static として宣言してください。"
+
+# GMT 1793100001.0038
+#. machine-translated (2026-10), to be reviewed
+msgctxt "backoffice"
+msgid "The method %s is not static and the constructor of %s requires arguments, declare the method static."
+msgstr "メソッド %s は static ではなく、%s のコンストラクタには引数が必要です。メソッドを static として宣言してください。"
+
+# GMT 1793100001.0039
+#. machine-translated (2026-10), to be reviewed
+msgctxt "backoffice"
+msgid "The method %s is not static. PHP 8 can not call it statically, the scheduler runs it on a new instance instead; declare it static."
+msgstr "メソッド %s は static ではありません。PHP 8 では静的に呼び出せないため、スケジューラは新しいインスタンスで実行します。static として宣言してください。"
+
+# GMT 1793100001.0040
+#. machine-translated (2026-10), to be reviewed
+msgctxt "backoffice"
+msgid "This job can run."
+msgstr "このジョブは実行できます。"
+
+# GMT 1793100001.0041
+#. machine-translated (2026-10), to be reviewed
+msgctxt "backoffice"
+msgid "Compatibility with PHP"
+msgstr "PHPとの互換性"
+
+# GMT 1793100001.0042
+#. machine-translated (2026-10), to be reviewed
+msgctxt "backoffice"
+msgid "Every job is checked against the PHP version that runs the scheduler, without running it."
+msgstr "すべてのジョブは、実行せずに、スケジューラを実行しているPHPバージョンに対して確認されます。"
+
+# GMT 1793100001.0043
+#. machine-translated (2026-10), to be reviewed
+msgctxt "backoffice"
+msgid "PHP version"
+msgstr "PHPバージョン"
+
+# GMT 1793100001.0044
+#. machine-translated (2026-10), to be reviewed
+msgctxt "backoffice"
+msgid "Active jobs checked"
+msgstr "確認した有効なジョブ"
+
+# GMT 1793100001.0045
+#. machine-translated (2026-10), to be reviewed
+msgctxt "backoffice"
+msgid "All the active jobs can be run by the scheduler."
+msgstr "有効なジョブはすべてスケジューラで実行できます。"
+
+# GMT 1793100001.0046
+#. machine-translated (2026-10), to be reviewed
+msgctxt "backoffice"
+msgid "A job that can not run is skipped and reported, it never stops the other jobs."
+msgstr "実行できないジョブはスキップされて報告され、他のジョブが停止することはありません。"
+
+# GMT 1793100001.0047
+#. machine-translated (2026-10), to be reviewed
+msgctxt "backoffice"
+msgid "Job"
+msgstr "ジョブ"
+
+# GMT 1793100001.0048
+#. machine-translated (2026-10), to be reviewed
+msgctxt "backoffice"
+msgid "Problem"
+msgstr "問題"
+
+# GMT 1793100001.0049
+#. machine-translated (2026-10), to be reviewed
+msgctxt "backoffice"
+msgid "Last error"
+msgstr "最後のエラー"
+
+# GMT 1793100001.0050
+#. machine-translated (2026-10), to be reviewed
+msgctxt "backoffice"
+msgid "Compatibility"
+msgstr "互換性"
+
+# GMT 1793100001.0051
+#. machine-translated (2026-10), to be reviewed
+msgctxt "backoffice"
+msgid "Some cron jobs can not run with this PHP version:"
+msgstr "このPHPバージョンでは実行できないcronジョブがあります:"
+
+# GMT 1793100001.0052
+#. machine-translated (2026-10), to be reviewed
+msgctxt "backoffice"
+msgid "see the details"
+msgstr "詳細を見る"
+
+# GMT 1793100001.0060
+#. machine-translated (2026-10), to be reviewed
+msgctxt "backoffice"
+msgid "Modules in quarantine"
+msgstr "隔離中のモジュール"
+
+# GMT 1793100001.0061
+#. machine-translated (2026-10), to be reviewed
+msgctxt "backoffice"
+msgid "A module stopped the application with a fatal error, or is not compatible with this version of Siberian or PHP. It is disabled until it is rechecked, the rest of the application keeps working."
+msgstr "モジュールが致命的なエラーでアプリケーションを停止させたか、このバージョンのSiberianまたはPHPと互換性がありません。再確認されるまで無効化されますが、その他の部分は引き続き動作します。"
+
+# GMT 1793100001.0062
+#. machine-translated (2026-10), to be reviewed
+msgctxt "backoffice"
+msgid "Needs a newer Siberian"
+msgstr "より新しいSiberianが必要"
+
+# GMT 1793100001.0063
+#. machine-translated (2026-10), to be reviewed
+msgctxt "backoffice"
+msgid "Failed the compatibility check"
+msgstr "互換性チェックに失敗"
+
+# GMT 1793100001.0064
+#. machine-translated (2026-10), to be reviewed
+msgctxt "backoffice"
+msgid "Fatal error"
+msgstr "致命的なエラー"
+
+# GMT 1793100001.0065
+#. machine-translated (2026-10), to be reviewed
+msgctxt "backoffice"
+msgid "Updated since, recheck it to enable it again."
+msgstr "その後更新されています。再度有効にするには再確認してください。"
+
+# GMT 1793100001.0066
+#. machine-translated (2026-10), to be reviewed
+msgctxt "backoffice"
+msgid "Recheck"
+msgstr "再確認"
+
+# GMT 1793100001.0067
+#. machine-translated (2026-10), to be reviewed
+msgctxt "backoffice"
+msgid "Re-enable"
+msgstr "再度有効にする"
+
+# GMT 1793100001.0068
+#. machine-translated (2026-10), to be reviewed
+msgctxt "backoffice"
+msgid "Enable this module anyway? If it breaks the application again it goes back to quarantine."
+msgstr "このモジュールをそれでも有効にしますか?再びアプリケーションに問題が発生した場合は、隔離に戻されます。"
+
+# GMT 1793100001.0069
+#. machine-translated (2026-10), to be reviewed
+msgctxt "backoffice"
+msgid "Recheck all"
+msgstr "すべて再確認"
+
+# GMT 1793100001.0070
+#. machine-translated (2026-10), to be reviewed
+msgctxt "backoffice"
+msgid "Scan all modules"
+msgstr "すべてのモジュールをスキャン"
+
+# GMT 1793100001.0071
+#. machine-translated (2026-10), to be reviewed
+msgctxt "backoffice"
+msgid "PHP or Siberian changed since the last compatibility scan of your modules."
+msgstr "前回のモジュール互換性スキャン以降に、PHPまたはSiberianが変更されました。"
+
+# GMT 1793100001.0072
+#. machine-translated (2026-10), to be reviewed
+msgctxt "backoffice"
+msgid "Quarantine"
+msgstr "隔離"
+
+# GMT 1793100001.0073
+#. machine-translated (2026-10), to be reviewed
+msgctxt "backoffice"
+msgid "Recheck done, %s released."
+msgstr "再確認が完了しました。%s 件を解除しました。"
+
+# GMT 1793100001.0074
+#. machine-translated (2026-10), to be reviewed
+msgctxt "backoffice"
+msgid "The module is enabled again."
+msgstr "モジュールを再度有効にしました。"
+
+# GMT 1793100001.0075
+#. machine-translated (2026-10), to be reviewed
+msgctxt "backoffice"
+msgid "The scan started, it can take a few minutes, reload this page to see the result."
+msgstr "スキャンを開始しました。数分かかる場合があります。結果を確認するにはこのページを再読み込みしてください。"
+
+# GMT 1793100001.0076
+#. machine-translated (2026-10), to be reviewed
+msgctxt "backoffice"
+msgid "The scan could not be started, run \"php cli module:quarantine scan\" instead."
+msgstr "スキャンを開始できませんでした。代わりに \"php cli module:quarantine scan\" を実行してください。"

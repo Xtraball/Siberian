@@ -30,10 +30,11 @@ msgstr ""
 "Fehler bei der Verarbeitung der Zahlung. Für weitere Informationen wenden "
 "Sie sich bitte an uns wenden."
 
+#. machine-translated (2026-10), to be reviewed
 msgid ""
 "An error occurred while processing your order. Please, check your 2Checkout "
 "credentials or try again later."
-msgstr ""
+msgstr "Bei der Bearbeitung Ihrer Bestellung ist ein Fehler aufgetreten. Bitte prüfen Sie Ihre 2Checkout-Zugangsdaten oder versuchen Sie es später erneut."
 
 msgid "An error occurred while processing your order. Please, try again later."
 msgstr ""
@@ -46,35 +47,40 @@ msgstr "Fehler beim Speichern. Bitte versuchen Sie es später noch einmal"
 msgid "An error occurred while saving. The selected subscription is not valid."
 msgstr "Fehler beim Speichern. Das ausgewählte Abonnement ist nicht gültig."
 
+#. machine-translated (2026-10), to be reviewed
 msgid ""
 "An offline payment method will <strong>not</strong> be associated with any "
 "online payment method. Users will have to pay you by checks, bank "
 "transfer...You'll have to edit your invoices manually."
-msgstr ""
+msgstr "Eine Offline-Zahlungsmethode wird <strong>nicht</strong> mit einer Online-Zahlungsmethode verknüpft. Benutzer müssen Sie per Scheck, Banküberweisung usw. bezahlen. Sie müssen Ihre Rechnungen manuell bearbeiten."
 
 msgid "Are you sure you want to delete this plan?"
 msgstr "Bist du sicher, dass Sie diesen Plan löschen möchten?"
 
+#. machine-translated (2026-10), to be reviewed
 msgid ""
 "Be careful: a 2Checkout stopped recurrence can only be reactivated by a "
 "2Checkout representative."
-msgstr ""
+msgstr "Vorsicht: Eine bei 2Checkout gestoppte Wiederholung kann nur von einem 2Checkout-Mitarbeiter wieder aktiviert werden."
 
+#. machine-translated (2026-10), to be reviewed
 msgid ""
 "Be careful: a Stripe stopped recurrence can only be reactivated manually in "
 "your Stripe Admin panel."
-msgstr ""
+msgstr "Vorsicht: Eine bei Stripe gestoppte Wiederholung kann nur manuell in Ihrem Stripe-Admin-Panel wieder aktiviert werden."
 
+#. machine-translated (2026-10), to be reviewed
 msgid ""
 "Be sure to fill in Admob settings in Settings > General section of your back "
 "office."
-msgstr ""
+msgstr "Tragen Sie unbedingt die AdMob-Einstellungen unter Einstellungen > Allgemein in Ihrem Backoffice ein."
 
 msgid "Billing Address"
 msgstr "Rechnungsadresse"
 
+#. machine-translated (2026-10), to be reviewed
 msgid "CVC"
-msgstr ""
+msgstr "CVC"
 
 msgid "Card number"
 msgstr "Kartenname:"
@@ -100,8 +106,9 @@ msgstr "Bitte wählen Sie eine Zahlmethode"
 msgid "City"
 msgstr "City"
 
+#. machine-translated (2026-10), to be reviewed
 msgid "Click here"
-msgstr ""
+msgstr "Hier klicken"
 
 msgid "Confirmation"
 msgstr "Bestätigung"
@@ -115,10 +122,11 @@ msgstr "Erstellung"
 msgid "Describe here this plan. Will be displayed on the front end"
 msgstr "Beschreiben Sie dieser Plan hier. Auf dem front-End erscheint"
 
+#. machine-translated (2026-10), to be reviewed
 msgid ""
 "Don't forget to configure your message for offline plans in Settings > Sales "
 "> Configuration"
-msgstr ""
+msgstr "Vergessen Sie nicht, Ihre Nachricht für Offline-Tarife unter Einstellungen > Vertrieb > Konfiguration zu konfigurieren"
 
 msgid "Each price must be entered excluding tax"
 msgstr "Jeder Preis muss eingegeben werden, zzgl. MwSt."
@@ -135,13 +143,15 @@ msgstr "Ablaufdatum"
 msgid "Give a name to this plan. Will be displayed on the front end"
 msgstr "Geben Sie einen Namen für diesen Plan. Auf dem front-End erscheint"
 
+#. machine-translated (2026-10), to be reviewed
 msgid ""
 "If you chose an offline payment, your subscription will be activated by an "
 "admin when your payment is received."
-msgstr ""
+msgstr "Wenn Sie eine Offline-Zahlung gewählt haben, wird Ihr Abonnement von einem Administrator aktiviert, sobald Ihre Zahlung eingegangen ist."
 
+#. machine-translated (2026-10), to be reviewed
 msgid "I'll pay with an offline payment mode"
-msgstr ""
+msgstr "Ich zahle per Offline-Zahlungsmethode"
 
 msgid "List of your plans"
 msgstr "Liste Ihrer Pläne"
@@ -155,11 +165,13 @@ msgstr ""
 msgid "Monthly"
 msgstr "Monatlich"
 
+#. machine-translated (2026-10), to be reviewed
 msgid "New sale on your platform"
-msgstr ""
+msgstr "Neuer Verkauf auf Ihrer Plattform"
 
+#. machine-translated (2026-10), to be reviewed
 msgid "No recurring line items to stop."
-msgstr ""
+msgstr "Keine wiederkehrenden Positionen zum Stoppen."
 
 msgid "None"
 msgstr "Keine"
@@ -179,8 +191,9 @@ msgstr "Zahlungsmethode"
 msgid "Payment Option"
 msgstr "Zahlungsoption"
 
+#. machine-translated (2026-10), to be reviewed
 msgid "Please choose a payment method for this plan."
-msgstr ""
+msgstr "Bitte wählen Sie eine Zahlungsmethode für diesen Tarif."
 
 msgid "Please, enter a company"
 msgstr "Bitte geben Sie eine Firma"
@@ -197,8 +210,9 @@ msgstr "Bitte geben Sie einen Namen."
 msgid "Please, enter an address"
 msgstr "Bitte geben Sie eine Adresse"
 
+#. machine-translated (2026-10), to be reviewed
 msgid "Please fill in your card information in order to pay with Stripe:"
-msgstr ""
+msgstr "Bitte geben Sie Ihre Karteninformationen ein, um mit Stripe zu bezahlen:"
 
 msgid "Pricing"
 msgstr "Preise"
@@ -215,8 +229,9 @@ msgstr "Setup-Gebühr"
 msgid "Setup fee"
 msgstr "Setup-Gebühr"
 
+#. machine-translated (2026-10), to be reviewed
 msgid "Sorry, but no payment method was found."
-msgstr ""
+msgstr "Leider wurde keine Zahlungsmethode gefunden."
 
 msgid "State/Province"
 msgstr "Staat/Provinz"
@@ -242,14 +257,16 @@ msgstr "Der monatliche Preis ist keine gültige Preis (z.B. 12,34)"
 msgid "The setup fee is not a valid price (e.g. 12.34)"
 msgstr "Die Einrichtungsgebühr kostet nicht gültig (z.B. 12,34)"
 
+#. machine-translated (2026-10), to be reviewed
 msgid "The user %s requests you to publish the app %s."
-msgstr ""
+msgstr "Der Benutzer %s bittet Sie, die App %s zu veröffentlichen."
 
 msgid "The yearly price is not a valid price (e.g. 12.34)"
 msgstr "Der jährliche Preis ist keine gültige Preis (z.B. 12,34)"
 
+#. machine-translated (2026-10), to be reviewed
 msgid "This plan allows offline payments method (manual management)"
-msgstr ""
+msgstr "Dieser Tarif erlaubt Offline-Zahlungsmethoden (manuelle Verwaltung)"
 
 msgid "This subscription is active"
 msgstr "Dieses Abonnement ist aktiv"
@@ -260,13 +277,15 @@ msgstr "Benutzer Inhaber AdMob"
 msgid "VAT Number"
 msgstr "Umsatzsteuer-Identifikationsnummer"
 
+#. machine-translated (2026-10), to be reviewed
 msgid "Verification number:"
-msgstr ""
+msgstr "Prüfnummer:"
 
+#. machine-translated (2026-10), to be reviewed
 msgid ""
 "We were unable to deactivate their subscription on %s. Please, do it "
 "manually."
-msgstr ""
+msgstr "Wir konnten das Abonnement bei %s nicht deaktivieren. Bitte tun Sie dies manuell."
 
 msgid "YYYY"
 msgstr ""
@@ -284,18 +303,20 @@ msgstr ""
 "Sie haben es geschafft. Nach Abschluss der Bestellung und erfolgreichem "
 "Zahlungseingang, werden wir Ihre App in den Stores veröffentlichen"
 
+#. machine-translated (2026-10), to be reviewed
 msgid ""
 "You can choose which feature will be accessible with your plan. By default, "
 "all features are allowed."
-msgstr ""
+msgstr "Sie können wählen, welche Funktionen mit Ihrem Tarif zugänglich sind. Standardmäßig sind alle Funktionen erlaubt."
 
 msgid "You don't have any subscriptions yet"
 msgstr "Sie noch alle Abonnements nicht"
 
+#. machine-translated (2026-10), to be reviewed
 msgid ""
 "You have chosen an offline plan. Once submitted, your subscription will be "
 "activated by an admin when your payment is received."
-msgstr ""
+msgstr "Sie haben einen Offline-Tarif gewählt. Nach dem Absenden wird Ihr Abonnement von einem Administrator aktiviert, sobald Ihre Zahlung eingegangen ist."
 
 msgid "Your VAT Number is not valid"
 msgstr "Ihre MwSt.-Nummer ist nicht gültig"
@@ -317,8 +338,9 @@ msgstr ""
 msgid "Your subscription must have at least one price"
 msgstr "Ihr Abonnement muss mindestens einen Preis haben."
 
+#. machine-translated (2026-10), to be reviewed
 msgid "You've made a sale!"
-msgstr ""
+msgstr "Sie haben einen Verkauf erzielt!"
 
 msgid "Zip Code"
 msgstr "Postleitzahl"
@@ -326,5 +348,7 @@ msgstr "Postleitzahl"
 msgid "price"
 msgstr "Preis"
 
+#. machine-translated (2026-10), to be reviewed
 msgid "to view this app if you are connected to your backoffice."
-msgstr ""
+msgstr ", um diese App anzusehen, wenn Sie mit Ihrem Backoffice verbunden sind."
+

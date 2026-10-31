@@ -56,9 +56,10 @@ msgstr "Ocorreu um erro ao adicionar a opção"
 msgid "An error occurred while loading videos. Please try later."
 msgstr "Ocorreu um erro ao carregar vídeos. Por favor, tente mais tarde."
 
+#. machine-translated (2026-10), to be reviewed
 msgid ""
 "An error occurred while retrieving your page. Please check your page id."
-msgstr ""
+msgstr "Ocorreu um erro ao obter sua página. Verifique o ID da sua página."
 
 msgid ""
 "An error occurred while saving your images gallery. Please try again later."
@@ -119,14 +120,17 @@ msgstr "ID da sua página do Facebook"
 msgid "Feed URL"
 msgstr "Feed URL"
 
+#. machine-translated (2026-10), to be reviewed
 msgid "Flickr"
-msgstr ""
+msgstr "Flickr"
 
+#. machine-translated (2026-10), to be reviewed
 msgid "Flickr API settings can't be found."
-msgstr ""
+msgstr "As configurações da API do Flickr não foram encontradas."
 
+#. machine-translated (2026-10), to be reviewed
 msgid "Flickr user"
-msgstr ""
+msgstr "Usuário do Flickr"
 
 msgid "Gallery Name"
 msgstr "Nome da Galeria"
@@ -134,17 +138,20 @@ msgstr "Nome da Galeria"
 msgid "Group"
 msgstr "Grupo"
 
+#. machine-translated (2026-10), to be reviewed
 msgid "If set, will appear instead of the Facebook page Id in app."
-msgstr ""
+msgstr "Se definido, aparecerá no app no lugar do ID da página do Facebook."
 
 msgid "I'm listening to"
 msgstr "Estou ouvindo"
 
+#. machine-translated (2026-10), to be reviewed
 msgid "I'm listening to $1 from $2 on $3 app."
-msgstr ""
+msgstr "Estou ouvindo $1 de $2 no app $3."
 
+#. machine-translated (2026-10), to be reviewed
 msgid "I'm listening to $1 on $2 app."
-msgstr ""
+msgstr "Estou ouvindo $1 no app $2."
 
 msgid "Images gallery has been saved successfully"
 msgstr "Galeria de Imagens foi salva com sucesso"
@@ -152,8 +159,9 @@ msgstr "Galeria de Imagens foi salva com sucesso"
 msgid "Instagram"
 msgstr "Instagram"
 
+#. machine-translated (2026-10), to be reviewed
 msgid "Instagram API settings can't be found."
-msgstr ""
+msgstr "As configurações da API do Instagram não foram encontradas."
 
 msgid "Last update:"
 msgstr "Última atualização:"
@@ -165,8 +173,9 @@ msgid "Maximum size : 2000*2000 px - Allowed filetypes : jpg and png"
 msgstr ""
 "Tamanho máximo : 2000*2000 px - Tipos de arquivo permitidos : jpg and png"
 
+#. machine-translated (2026-10), to be reviewed
 msgid "My images"
-msgstr ""
+msgstr "Minhas imagens"
 
 msgid "No album found"
 msgstr "Nenhum álbum encontrado"
@@ -174,23 +183,27 @@ msgstr "Nenhum álbum encontrado"
 msgid "No artist found"
 msgstr "Nenhum artista encontrado"
 
+#. machine-translated (2026-10), to be reviewed
 msgid "No current stream to play so far."
-msgstr ""
+msgstr "Nenhuma transmissão atual para reproduzir até o momento."
 
 msgid "No track found"
 msgstr "Nenhuma faixa encontrada"
 
+#. machine-translated (2026-10), to be reviewed
 msgid "No valid Facebook API key and secret."
-msgstr ""
+msgstr "Nenhuma chave e segredo válidos da API do Facebook."
 
 msgid "PLAYER"
 msgstr "PLAYER"
 
+#. machine-translated (2026-10), to be reviewed
 msgid "Page ID"
-msgstr ""
+msgstr "ID da página"
 
+#. machine-translated (2026-10), to be reviewed
 msgid "Page not found"
-msgstr ""
+msgstr "Página não encontrada"
 
 msgid "Parameter"
 msgstr "Parâmetro"
@@ -213,8 +226,9 @@ msgstr "Título Playlist:"
 msgid "Playlists"
 msgstr "Playlists"
 
+#. machine-translated (2026-10), to be reviewed
 msgid "Please specify the page ID"
-msgstr ""
+msgstr "Informe o ID da página"
 
 msgid "Podcast"
 msgstr "Podcast"
@@ -225,8 +239,9 @@ msgstr "Podcast URL (iTunes formato)"
 msgid "Read all"
 msgstr "Leia tudo"
 
+#. machine-translated (2026-10), to be reviewed
 msgid "Reload album list?"
-msgstr ""
+msgstr "Recarregar lista de álbuns?"
 
 msgid "Required field"
 msgstr "Campo obrigatório"
@@ -261,8 +276,9 @@ msgstr "Vimeo"
 msgid "buy"
 msgstr "comprar"
 
+#. machine-translated (2026-10), to be reviewed
 msgid "by"
-msgstr ""
+msgstr "por"
 
 msgid "close"
 msgstr "fechar"
@@ -297,8 +313,9 @@ msgstr "play"
 msgid "previous"
 msgstr "anterior"
 
+#. machine-translated (2026-10), to be reviewed
 msgid "%s by %s"
-msgstr ""
+msgstr "%s por %s"
 
 msgid "share"
 msgstr "compartilhe"
@@ -311,3 +328,43 @@ msgstr "faixa"
 
 msgid "tracks"
 msgstr "faixas"
+
+# GMT 1559644713.3743
+#. machine-translated (2026-10), to be reviewed
+msgid "day"
+msgstr "dia"
+
+# GMT 1559644713.3744
+#. machine-translated (2026-10), to be reviewed
+msgid "days"
+msgstr "dias"
+
+# GMT 1559644713.3745
+#. machine-translated (2026-10), to be reviewed
+msgid "hour"
+msgstr "hora"
+
+# GMT 1559644713.3746
+#. machine-translated (2026-10), to be reviewed
+msgid "hours"
+msgstr "horas"
+
+# GMT 1559644713.3747
+#. machine-translated (2026-10), to be reviewed
+msgid "minute"
+msgstr "minuto"
+
+# GMT 1559644713.3748
+#. machine-translated (2026-10), to be reviewed
+msgid "minutes"
+msgstr "minutos"
+
+# GMT 1559644713.3749
+#. machine-translated (2026-10), to be reviewed
+msgid "second"
+msgstr "segundo"
+
+# GMT 1559644713.3750
+#. machine-translated (2026-10), to be reviewed
+msgid "seconds"
+msgstr "segundos"

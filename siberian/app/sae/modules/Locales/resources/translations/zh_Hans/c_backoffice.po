@@ -1,0 +1,513 @@
+msgid ""
+msgstr ""
+"Project-Id-Version: Chinese (Simplified) (Siberian)\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2019-01-22 10:35+0000\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: Chinese (Simplified) <http://yvain.xtraball.com/projects/"
+"siberian/acl/zh_Hans/>\n"
+"Language: zh_Hans\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=1; plural=0;\n"
+"X-Generator: Weblate 3.3\n"
+
+# GMT 1569404790.5248
+#. machine-translated (2026-10), to be reviewed
+msgctxt "backoffice"
+msgid "Free trial"
+msgstr "免费试用"
+
+# GMT 1580206845.3922
+#. machine-translated (2026-10), to be reviewed
+msgctxt "backoffice"
+msgid "Value must be at least %s"
+msgstr "值至少为 %s"
+
+# GMT 1580206905.4941
+#. machine-translated (2026-10), to be reviewed
+msgctxt "backoffice"
+msgid "Must be %s / %s"
+msgstr "必须为 %s / %s"
+
+# GMT 1580206905.4943
+#. machine-translated (2026-10), to be reviewed
+msgctxt "backoffice"
+msgid "Must be at least %s"
+msgstr "至少为 %s"
+
+# GMT 1580209278.3441
+#. machine-translated (2026-10), to be reviewed
+msgctxt "backoffice"
+msgid "exec is enabled"
+msgstr "exec 已启用"
+
+# GMT 1580209278.3443
+#. machine-translated (2026-10), to be reviewed
+msgctxt "backoffice"
+msgid "Must be enabled"
+msgstr "必须启用"
+
+# GMT 1580209313.1679
+#. machine-translated (2026-10), to be reviewed
+msgctxt "backoffice"
+msgid "Enabled"
+msgstr "已启用"
+
+# GMT 1580297094.4952
+#. machine-translated (2026-10), to be reviewed
+msgctxt "backoffice"
+msgid "We have detected incorrect settings on your server, below are all the recommended settings, the ones in red are incorrect and can lead to issue while running the editor & applications."
+msgstr "我们检测到您的服务器设置不正确，以下是所有推荐设置，红色表示不正确，可能导致编辑器和应用运行出现问题。"
+
+# GMT 1580306120.9375
+#. machine-translated (2026-10), to be reviewed
+msgctxt "backoffice"
+msgid "Unable to write"
+msgstr "无法写入"
+
+# GMT 1580306120.9379
+#. machine-translated (2026-10), to be reviewed
+msgctxt "backoffice"
+msgid "Must be writeable"
+msgstr "必须可写"
+
+# GMT 1580306387.4344
+#. machine-translated (2026-10), to be reviewed
+msgctxt "backoffice"
+msgid "Writeable"
+msgstr "可写"
+
+# GMT 1580382615.6827
+#. machine-translated (2026-10), to be reviewed
+msgctxt "backoffice"
+msgid "Incorrect settings have been detected on your server, below are all the recommended settings, the ones in red are incorrect and can lead to issue while running the editor & applications."
+msgstr "检测到您的服务器存在不正确的设置，以下是所有推荐设置，红色表示不正确，可能导致编辑器和应用运行出现问题。"
+
+# GMT 1580382615.6828
+#. machine-translated (2026-10), to be reviewed
+msgctxt "backoffice"
+msgid "iOS with AdMob can't be used for newly created applications because of the presence of the UIWebView inside the AdMob SDK<br />Please use iOS (without AdMob)"
+msgstr "由于 AdMob SDK 内含 UIWebView，带 AdMob 的 iOS 不能用于新创建的应用<br />请使用 iOS（不带 AdMob）"
+
+# GMT 1580382615.6829
+#. machine-translated (2026-10), to be reviewed
+msgctxt "backoffice"
+msgid "Extra fields"
+msgstr "额外字段"
+
+# GMT 1580382615.6830
+#. machine-translated (2026-10), to be reviewed
+msgctxt "backoffice"
+msgid "Service APK/AAB Generator (enforced)"
+msgstr "APK/AAB 生成服务（强制）"
+
+# GMT 1580382615.6831
+#. machine-translated (2026-10), to be reviewed
+msgctxt "backoffice"
+msgid "Users can not generate APK/AAB."
+msgstr "用户无法生成 APK/AAB。"
+
+# GMT 1580382615.6832
+#. machine-translated (2026-10), to be reviewed
+msgctxt "backoffice"
+msgid "APK/AAB Settings"
+msgstr "APK/AAB 设置"
+
+# GMT 1580382615.6833
+#. machine-translated (2026-10), to be reviewed
+msgctxt "backoffice"
+msgid "Users can generate APK/AAB"
+msgstr "用户可以生成 APK/AAB"
+
+# GMT 1580382615.6834
+#. machine-translated (2026-10), to be reviewed
+msgctxt "backoffice"
+msgid "Restore app sources have been scheduled to be processed imminently!"
+msgstr "恢复应用源代码的任务已安排，即将处理！"
+
+# GMT 1580382615.6835
+#. machine-translated (2026-10), to be reviewed
+msgctxt "backoffice"
+msgid "App manifest rebuild have been scheduled to be processed imminently!"
+msgstr "应用清单重建任务已安排，即将处理！"
+
+# GMT 1580382615.6836
+#. machine-translated (2026-10), to be reviewed
+msgctxt "backoffice"
+msgid "The password must be at least 9 characters"
+msgstr "密码至少需要 9 个字符"
+
+# GMT 1580382615.6837
+#. machine-translated (2026-10), to be reviewed
+msgctxt "backoffice"
+msgid "Password should be at least %s characters in length and should include at least one upper case letter, one number, and one special character."
+msgstr "密码长度至少为 %s 个字符，且必须包含至少一个大写字母、一个数字和一个特殊字符。"
+
+# GMT 1793000000.0001
+#. machine-translated (2026-10), to be reviewed
+msgctxt "backoffice"
+msgid "This version is already installed"
+msgstr "此版本已安装"
+
+# GMT 1793000000.0002
+#. machine-translated (2026-10), to be reviewed
+msgctxt "backoffice"
+msgid "Would you like to reinstall it? Files are copied again and the module schema and data are synchronized again."
+msgstr "是否要重新安装？文件将被重新复制，模块架构和数据将重新同步。"
+
+# GMT 1793000000.0003
+#. machine-translated (2026-10), to be reviewed
+msgctxt "backoffice"
+msgid "Yes, reinstall"
+msgstr "是，重新安装"
+
+# GMT 1793000000.0004
+#. machine-translated (2026-10), to be reviewed
+msgctxt "backoffice"
+msgid "No, cancel"
+msgstr "否，取消"
+
+# GMT 1793100000.0001
+#. machine-translated (2026-10), to be reviewed
+msgctxt "backoffice"
+msgid "The license saved for this module is expired or no longer valid. If you received a new key, enter it here, or keep the current one."
+msgstr "为此模块保存的许可证已过期或不再有效。如果您收到了新密钥，请在此输入，或保留当前密钥。"
+
+# GMT 1793100000.0002
+#. machine-translated (2026-10), to be reviewed
+msgctxt "backoffice"
+msgid "Keep the current key"
+msgstr "保留当前密钥"
+
+# GMT 1793100001.0001
+#. machine-translated (2026-10), to be reviewed
+msgctxt "backoffice"
+msgid "Core"
+msgstr "核心"
+
+# GMT 1793100001.0002
+#. machine-translated (2026-10), to be reviewed
+msgctxt "backoffice"
+msgid "App sources"
+msgstr "应用源代码"
+
+# GMT 1793100001.0003
+#. machine-translated (2026-10), to be reviewed
+msgctxt "backoffice"
+msgid "Modified"
+msgstr "已修改"
+
+# GMT 1793100001.0004
+#. machine-translated (2026-10), to be reviewed
+msgctxt "backoffice"
+msgid "Missing"
+msgstr "缺失"
+
+# GMT 1793100001.0005
+#. machine-translated (2026-10), to be reviewed
+msgctxt "backoffice"
+msgid "Unreadable"
+msgstr "不可读"
+
+# GMT 1793100001.0006
+#. machine-translated (2026-10), to be reviewed
+msgctxt "backoffice"
+msgid "File"
+msgstr "文件"
+
+# GMT 1793100001.0007
+#. machine-translated (2026-10), to be reviewed
+msgctxt "backoffice"
+msgid "Status"
+msgstr "状态"
+
+# GMT 1793100001.0008
+#. machine-translated (2026-10), to be reviewed
+msgctxt "backoffice"
+msgid "Area"
+msgstr "区域"
+
+# GMT 1793100001.0009
+#. machine-translated (2026-10), to be reviewed
+msgctxt "backoffice"
+msgid "Files checked"
+msgstr "已检查的文件"
+
+# GMT 1793100001.0010
+#. machine-translated (2026-10), to be reviewed
+msgctxt "backoffice"
+msgid "Core files only, skip the app sources (faster)"
+msgstr "仅核心文件，跳过应用源代码（更快）"
+
+# GMT 1793100001.0011
+#. machine-translated (2026-10), to be reviewed
+msgctxt "backoffice"
+msgid "Module installations and generated apps also write in the app sources, differences there are not necessarily a problem."
+msgstr "模块安装和生成的应用也会写入应用源代码，此处的差异不一定是问题。"
+
+# GMT 1793100001.0012
+#. machine-translated (2026-10), to be reviewed
+msgctxt "backoffice"
+msgid "The file manifest.json is missing, the integrity cannot be checked."
+msgstr "缺少文件 manifest.json，无法检查完整性。"
+
+# GMT 1793100001.0013
+#. machine-translated (2026-10), to be reviewed
+msgctxt "backoffice"
+msgid "The file manifest.json is not valid, the integrity cannot be checked."
+msgstr "文件 manifest.json 无效，无法检查完整性。"
+
+# GMT 1793100001.0014
+#. machine-translated (2026-10), to be reviewed
+msgctxt "backoffice"
+msgid "Edit my account"
+msgstr "编辑我的账户"
+
+# GMT 1793100001.0015
+#. machine-translated (2026-10), to be reviewed
+msgctxt "backoffice"
+msgid "Show / hide"
+msgstr "显示 / 隐藏"
+
+# GMT 1793100001.0030
+#. machine-translated (2026-10), to be reviewed
+msgctxt "backoffice"
+msgid "This job has no command."
+msgstr "此任务没有命令。"
+
+# GMT 1793100001.0031
+#. machine-translated (2026-10), to be reviewed
+msgctxt "backoffice"
+msgid "The class %s does not exist, the module providing this job is probably disabled or removed."
+msgstr "类 %s 不存在，提供此任务的模块可能已被禁用或移除。"
+
+# GMT 1793100001.0032
+#. machine-translated (2026-10), to be reviewed
+msgctxt "backoffice"
+msgid "The class %s can not be loaded: %s"
+msgstr "无法加载类 %s：%s"
+
+# GMT 1793100001.0033
+#. machine-translated (2026-10), to be reviewed
+msgctxt "backoffice"
+msgid "The method %s does not exist."
+msgstr "方法 %s 不存在。"
+
+# GMT 1793100001.0034
+#. machine-translated (2026-10), to be reviewed
+msgctxt "backoffice"
+msgid "The method %s is not public."
+msgstr "方法 %s 不是公共方法。"
+
+# GMT 1793100001.0035
+#. machine-translated (2026-10), to be reviewed
+msgctxt "backoffice"
+msgid "The method %s is abstract."
+msgstr "方法 %s 是抽象方法。"
+
+# GMT 1793100001.0036
+#. machine-translated (2026-10), to be reviewed
+msgctxt "backoffice"
+msgid "The method %s requires %d arguments, a job is given %d."
+msgstr "方法 %s 需要 %d 个参数，而任务提供了 %d 个。"
+
+# GMT 1793100001.0037
+#. machine-translated (2026-10), to be reviewed
+msgctxt "backoffice"
+msgid "The class %s can not be instantiated, declare the method %s static."
+msgstr "无法实例化类 %s，请将方法 %s 声明为静态。"
+
+# GMT 1793100001.0038
+#. machine-translated (2026-10), to be reviewed
+msgctxt "backoffice"
+msgid "The method %s is not static and the constructor of %s requires arguments, declare the method static."
+msgstr "方法 %s 不是静态的，且 %s 的构造函数需要参数，请将该方法声明为静态。"
+
+# GMT 1793100001.0039
+#. machine-translated (2026-10), to be reviewed
+msgctxt "backoffice"
+msgid "The method %s is not static. PHP 8 can not call it statically, the scheduler runs it on a new instance instead; declare it static."
+msgstr "方法 %s 不是静态的。PHP 8 无法以静态方式调用它，调度器会改为在新实例上运行；请将其声明为静态。"
+
+# GMT 1793100001.0040
+#. machine-translated (2026-10), to be reviewed
+msgctxt "backoffice"
+msgid "This job can run."
+msgstr "此任务可以运行。"
+
+# GMT 1793100001.0041
+#. machine-translated (2026-10), to be reviewed
+msgctxt "backoffice"
+msgid "Compatibility with PHP"
+msgstr "PHP 兼容性"
+
+# GMT 1793100001.0042
+#. machine-translated (2026-10), to be reviewed
+msgctxt "backoffice"
+msgid "Every job is checked against the PHP version that runs the scheduler, without running it."
+msgstr "每个任务都会根据运行调度器的 PHP 版本进行检查，但不会实际运行。"
+
+# GMT 1793100001.0043
+#. machine-translated (2026-10), to be reviewed
+msgctxt "backoffice"
+msgid "PHP version"
+msgstr "PHP 版本"
+
+# GMT 1793100001.0044
+#. machine-translated (2026-10), to be reviewed
+msgctxt "backoffice"
+msgid "Active jobs checked"
+msgstr "已检查的活动任务"
+
+# GMT 1793100001.0045
+#. machine-translated (2026-10), to be reviewed
+msgctxt "backoffice"
+msgid "All the active jobs can be run by the scheduler."
+msgstr "调度器可以运行所有活动任务。"
+
+# GMT 1793100001.0046
+#. machine-translated (2026-10), to be reviewed
+msgctxt "backoffice"
+msgid "A job that can not run is skipped and reported, it never stops the other jobs."
+msgstr "无法运行的任务会被跳过并报告，不会阻止其他任务。"
+
+# GMT 1793100001.0047
+#. machine-translated (2026-10), to be reviewed
+msgctxt "backoffice"
+msgid "Job"
+msgstr "职位"
+
+# GMT 1793100001.0048
+#. machine-translated (2026-10), to be reviewed
+msgctxt "backoffice"
+msgid "Problem"
+msgstr "问题"
+
+# GMT 1793100001.0049
+#. machine-translated (2026-10), to be reviewed
+msgctxt "backoffice"
+msgid "Last error"
+msgstr "最近一次错误"
+
+# GMT 1793100001.0050
+#. machine-translated (2026-10), to be reviewed
+msgctxt "backoffice"
+msgid "Compatibility"
+msgstr "兼容性"
+
+# GMT 1793100001.0051
+#. machine-translated (2026-10), to be reviewed
+msgctxt "backoffice"
+msgid "Some cron jobs can not run with this PHP version:"
+msgstr "部分 cron 任务无法在此 PHP 版本下运行："
+
+# GMT 1793100001.0052
+#. machine-translated (2026-10), to be reviewed
+msgctxt "backoffice"
+msgid "see the details"
+msgstr "查看详情"
+
+# GMT 1793100001.0060
+#. machine-translated (2026-10), to be reviewed
+msgctxt "backoffice"
+msgid "Modules in quarantine"
+msgstr "隔离中的模块"
+
+# GMT 1793100001.0061
+#. machine-translated (2026-10), to be reviewed
+msgctxt "backoffice"
+msgid "A module stopped the application with a fatal error, or is not compatible with this version of Siberian or PHP. It is disabled until it is rechecked, the rest of the application keeps working."
+msgstr "有模块因致命错误导致应用停止，或与当前版本的 Siberian 或 PHP 不兼容。在重新检查之前它将被禁用，应用的其余部分仍可正常工作。"
+
+# GMT 1793100001.0062
+#. machine-translated (2026-10), to be reviewed
+msgctxt "backoffice"
+msgid "Needs a newer Siberian"
+msgstr "需要更新的 Siberian"
+
+# GMT 1793100001.0063
+#. machine-translated (2026-10), to be reviewed
+msgctxt "backoffice"
+msgid "Failed the compatibility check"
+msgstr "未通过兼容性检查"
+
+# GMT 1793100001.0064
+#. machine-translated (2026-10), to be reviewed
+msgctxt "backoffice"
+msgid "Fatal error"
+msgstr "致命错误"
+
+# GMT 1793100001.0065
+#. machine-translated (2026-10), to be reviewed
+msgctxt "backoffice"
+msgid "Updated since, recheck it to enable it again."
+msgstr "此后已更新，请重新检查以再次启用。"
+
+# GMT 1793100001.0066
+#. machine-translated (2026-10), to be reviewed
+msgctxt "backoffice"
+msgid "Recheck"
+msgstr "重新检查"
+
+# GMT 1793100001.0067
+#. machine-translated (2026-10), to be reviewed
+msgctxt "backoffice"
+msgid "Re-enable"
+msgstr "重新启用"
+
+# GMT 1793100001.0068
+#. machine-translated (2026-10), to be reviewed
+msgctxt "backoffice"
+msgid "Enable this module anyway? If it breaks the application again it goes back to quarantine."
+msgstr "仍要启用此模块吗？如果它再次导致应用故障，将重新被隔离。"
+
+# GMT 1793100001.0069
+#. machine-translated (2026-10), to be reviewed
+msgctxt "backoffice"
+msgid "Recheck all"
+msgstr "全部重新检查"
+
+# GMT 1793100001.0070
+#. machine-translated (2026-10), to be reviewed
+msgctxt "backoffice"
+msgid "Scan all modules"
+msgstr "扫描所有模块"
+
+# GMT 1793100001.0071
+#. machine-translated (2026-10), to be reviewed
+msgctxt "backoffice"
+msgid "PHP or Siberian changed since the last compatibility scan of your modules."
+msgstr "自上次模块兼容性扫描以来，PHP 或 Siberian 已发生变化。"
+
+# GMT 1793100001.0072
+#. machine-translated (2026-10), to be reviewed
+msgctxt "backoffice"
+msgid "Quarantine"
+msgstr "隔离"
+
+# GMT 1793100001.0073
+#. machine-translated (2026-10), to be reviewed
+msgctxt "backoffice"
+msgid "Recheck done, %s released."
+msgstr "重新检查完成，已释放 %s 个。"
+
+# GMT 1793100001.0074
+#. machine-translated (2026-10), to be reviewed
+msgctxt "backoffice"
+msgid "The module is enabled again."
+msgstr "模块已重新启用。"
+
+# GMT 1793100001.0075
+#. machine-translated (2026-10), to be reviewed
+msgctxt "backoffice"
+msgid "The scan started, it can take a few minutes, reload this page to see the result."
+msgstr "扫描已开始，可能需要几分钟，请重新加载此页面查看结果。"
+
+# GMT 1793100001.0076
+#. machine-translated (2026-10), to be reviewed
+msgctxt "backoffice"
+msgid "The scan could not be started, run \"php cli module:quarantine scan\" instead."
+msgstr "无法启动扫描，请改为运行“php cli module:quarantine scan”。"

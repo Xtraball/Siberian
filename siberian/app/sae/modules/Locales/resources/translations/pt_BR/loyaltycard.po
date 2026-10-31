@@ -20,8 +20,9 @@ msgstr "1 ponto de fidelidade="
 msgid "1 point"
 msgstr "1 ponto"
 
+#. machine-translated (2026-10), to be reviewed
 msgid "1 validated point ="
-msgstr ""
+msgstr "1 ponto validado ="
 
 msgid "An error occurred while retrieving QRCode. Please try again later"
 msgstr "Ocorreu um erro ao salvar. Por favor, tente novamente mais tarde"
@@ -43,8 +44,9 @@ msgid "An error occurred while validating point. Please try again later."
 msgstr ""
 "Ocorreu um erro ao validar o ponto. Por favor, tente novamente mais tarde."
 
+#. machine-translated (2026-10), to be reviewed
 msgid "An error occurred with your QRCode."
-msgstr ""
+msgstr "Ocorreu um erro com seu QRCode."
 
 msgid "Card name"
 msgstr "Nome do cartão"
@@ -76,8 +78,9 @@ msgstr "Meu novo cartão de fidelidade"
 msgid "My passwords"
 msgstr "Minhas senhas"
 
+#. machine-translated (2026-10), to be reviewed
 msgid "No cards available"
-msgstr ""
+msgstr "Nenhum cartão disponível"
 
 msgid "Number of points"
 msgstr "Número de pontos"
@@ -93,11 +96,13 @@ msgid ""
 msgstr ""
 "Por favor, peça ao funcionário da loja valide seu ponto através da senha."
 
+#. machine-translated (2026-10), to be reviewed
 msgid "Point active"
-msgstr ""
+msgstr "Ponto ativo"
 
+#. machine-translated (2026-10), to be reviewed
 msgid "Point inactive"
-msgstr ""
+msgstr "Ponto inativo"
 
 msgid "Point%s successfully validated"
 msgstr "Ponto%s validado com sucesso"
@@ -111,17 +116,21 @@ msgstr "Recompensa"
 msgid "Rewards"
 msgstr "Recompensa"
 
+#. machine-translated (2026-10), to be reviewed
 msgid "Scan QRCode"
-msgstr ""
+msgstr "Escanear QRCode"
 
+#. machine-translated (2026-10), to be reviewed
 msgid "This card is uniq:"
-msgstr ""
+msgstr "Este cartão é único:"
 
+#. machine-translated (2026-10), to be reviewed
 msgid "Unlock by QRCode"
-msgstr ""
+msgstr "Desbloquear por QRCode"
 
+#. machine-translated (2026-10), to be reviewed
 msgid "Unreadable QRCode, sorry."
-msgstr ""
+msgstr "QRCode ilegível, desculpe."
 
 msgid "Use only once?"
 msgstr "usar apenas uma vez"
@@ -162,8 +171,9 @@ msgstr "O seu cartão de fidelidade foi salvo com sucesso"
 msgid "Your password must be 4 digits"
 msgstr "Sua senha deve ser de 4 dígitos"
 
+#. machine-translated (2026-10), to be reviewed
 msgid "is now yours!"
-msgstr ""
+msgstr "agora é seu!"
 
 msgid "point"
 msgstr "ponto"
@@ -174,5 +184,22 @@ msgstr "ponto para validar"
 msgid "points to validate"
 msgstr "pontos para validar"
 
+#. machine-translated (2026-10), to be reviewed
 msgid "validated points ="
-msgstr ""
+msgstr "pontos validados ="
+
+# GMT 1559644711.5246
+#. machine-translated (2026-10), to be reviewed
+msgid "Employee's name"
+msgstr "Nome do funcionário"
+
+# GMT 1559644711.5288
+#. machine-translated (2026-10), to be reviewed
+msgid "Employee's password"
+msgstr "Senha do funcionário"
+
+# GMT 1559644711.6722
+#. machine-translated (2026-10), to be reviewed
+msgctxt "loyalty_card"
+msgid "Something went wrong while reading the QRCode."
+msgstr "Algo deu errado ao ler o QRCode."

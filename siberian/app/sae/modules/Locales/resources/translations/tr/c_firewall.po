@@ -1,0 +1,51 @@
+msgid ""
+msgstr ""
+"Project-Id-Version: Turkish (Siberian)\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2019-01-22 10:34+0000\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: Turkish <http://yvain.xtraball.com/projects/siberian/acl/tr/>"
+"\n"
+"Language: tr\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=n != 1;\n"
+"X-Generator: Weblate 3.3\n"
+
+# GMT 1569242020.7858
+#. machine-translated (2026-10), to be reviewed
+msgctxt "firewall"
+msgid "Firewall"
+msgstr "Güvenlik duvarı"
+
+# GMT 1569242020.786
+#. machine-translated (2026-10), to be reviewed
+msgctxt "firewall"
+msgid "Enabled"
+msgstr "Etkin"
+
+# GMT 1569242020.7869
+#. machine-translated (2026-10), to be reviewed
+msgctxt "firewall"
+msgid "Disabled"
+msgstr "Devre dışı"
+
+# GMT 1569242020.7871
+#. machine-translated (2026-10), to be reviewed
+msgctxt "firewall"
+msgid "WAF Disabled"
+msgstr "WAF devre dışı"
+
+# GMT 1569242020.7874
+#. machine-translated (2026-10), to be reviewed
+msgctxt "firewall"
+msgid "Disabling the Web Application Firewall can open your Siberian to potential XSS, Injection & various security issues, the WAF is not a guarantee your Siberian is attack proof, but highly helps filtering the most common web attacks."
+msgstr "Web Uygulama Güvenlik Duvarını (WAF) devre dışı bırakmak Siberian'ınızı olası XSS, Injection ve çeşitli güvenlik sorunlarına açabilir. WAF, Siberian'ınızın saldırılara karşı korumalı olduğunu garanti etmez ancak en yaygın web saldırılarının filtrelenmesine büyük ölçüde yardımcı olur."
+
+# GMT 1569242020.7875
+#. machine-translated (2026-10), to be reviewed
+msgctxt "firewall"
+msgid "This request was blocked for security reasons, please try again later."
+msgstr "Bu istek güvenlik nedenleriyle engellendi, lütfen daha sonra tekrar deneyin."
