@@ -165,11 +165,26 @@ App.config(function ($routeProvider) {
         error: null
     };
 
+    /**
+     * The module update endpoints answer an error with HTTP 400 and the JSON payload (error, code, message, terms),
+     * so it reaches the error callback of $http and never .success(). Success and error go through one handler,
+     * and an answer that is not that payload (a proxy page, a network error) becomes a general error.
+     */
+    var moduleUpdatesRequest = function (request, handler) {
+        return request.then(function (response) {
+            handler(response.data);
+        }, function (response) {
+            var data = response && response.data;
+            handler(angular.isObject(data) && data.error ?
+                data : {error: true, code: 'general', message: Label.uploader.error.general});
+        });
+    };
+
     $scope.checkModuleUpdates = function (force) {
         $scope.module_updates.loading = true;
         $scope.module_updates.error = null;
 
-        Installer.checkModuleUpdates(force).success(function (data) {
+        moduleUpdatesRequest(Installer.checkModuleUpdates(force), function (data) {
             if (data.error) {
                 $scope.module_updates.error = data.message;
                 return;
@@ -179,8 +194,6 @@ App.config(function ($routeProvider) {
             $scope.module_updates.fetched_at = data.fetched_at;
             $scope.module_updates.terms_accepted = data.terms_accepted;
             $scope.module_updates.terms_hash = data.terms_hash;
-        }).error(function () {
-            $scope.module_updates.error = Label.uploader.error.general;
         }).finally(function () {
             $scope.module_updates.loading = false;
         });
@@ -200,7 +213,7 @@ App.config(function ($routeProvider) {
             if (!confirmed) {
                 return;
             }
-            Installer.acceptModuleUpdatesTerms(terms.hash).success(function (data) {
+            moduleUpdatesRequest(Installer.acceptModuleUpdatesTerms(terms.hash), function (data) {
                 if (data.error && data.terms) {
                     // Changed while the page was open: show the new ones.
                     swal.close();
@@ -252,7 +265,7 @@ App.config(function ($routeProvider) {
 
     $scope.updateModule = function (update, license) {
         if (!$scope.module_updates.terms_accepted) {
-            Installer.moduleUpdatesTerms().success(function (data) {
+            moduleUpdatesRequest(Installer.moduleUpdatesTerms(), function (data) {
                 if (data.error) {
                     $scope.message.setText(data.message).isError(true).show();
                     return;
@@ -266,7 +279,7 @@ App.config(function ($routeProvider) {
 
         $scope.module_updates.busy_code = update.code;
         $scope.check_for_updates.loader_is_visible = true;
-        Installer.updateModule(update.code, license).success(function (data) {
+        moduleUpdatesRequest(Installer.updateModule(update.code, license), function (data) {
             if (data.error && data.terms) {
                 // The terms changed since they were accepted.
                 $scope.module_updates.terms_accepted = false;
@@ -288,8 +301,6 @@ App.config(function ($routeProvider) {
                 $scope.showPackageDetails();
                 $scope.check_for_updates.check = false;
             }
-        }).error(function (data) {
-            $scope.message.setText((data && data.message) || Label.uploader.error.general).isError(true).show();
         }).finally(function () {
             $scope.module_updates.busy_code = null;
             $scope.check_for_updates.loader_is_visible = false;
