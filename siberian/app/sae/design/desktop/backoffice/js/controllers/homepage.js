@@ -79,7 +79,7 @@ App.config(function($routeProvider) {
         $scope.svc.open = true;
     };
 
-    // Web space: the bar is drawn on the quota when there is one and it is not exceeded, else on the total
+    // Web space: the bar is the distribution of the total, the quota is shown apart
     $scope.webSpace = {open: false, quota: '', busy: false};
     $scope.slices = null;
 
@@ -100,15 +100,14 @@ App.config(function($routeProvider) {
             $scope.slices = null;
             return;
         }
-        var scale = (u.quota_bytes && u.quota_bytes > u.total_bytes) ? u.quota_bytes : u.total_bytes;
+        var scale = u.total_bytes;
         var pct = function (b) { return Math.max(0, (b || 0) / scale * 100); };
         $scope.slices = {
             log: pct(u.log_bytes),
             cache: pct(u.cache_bytes),
             images: pct(u.cache_images_bytes),
             tmp: pct(u.tmp_bytes),
-            other: pct(u.other_bytes),
-            free: Math.max(0, 100 - pct(u.total_bytes))
+            other: pct(u.other_bytes)
         };
     }, true);
 

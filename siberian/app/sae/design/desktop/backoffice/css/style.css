@@ -1300,11 +1300,16 @@ table.sub-table tr.no-border-bottom td {
 /** SERVICES **/
 .svc-strip {
     display: flex;
+    flex-direction: column;
+    gap: 10px;
+    padding: 14px 20px 16px;
+}
+
+.svc-line {
+    display: flex;
     flex-wrap: wrap;
     align-items: center;
     gap: 8px;
-    padding: 12px 16px;
-    border-bottom: 1px solid #ececec;
 }
 
 .svc-chip {
@@ -1317,7 +1322,16 @@ table.sub-table tr.no-border-bottom td {
     background: #fff;
     color: #404040;
     font-size: 13px;
+    line-height: 18px;
     cursor: pointer;
+}
+
+.svc-chip b {
+    font-weight: 600;
+}
+
+.svc-chip span {
+    color: #707070;
 }
 
 .svc-chip:hover,
@@ -1326,9 +1340,18 @@ table.sub-table tr.no-border-bottom td {
     outline: 0;
 }
 
-.svc-chip .svc-note {
+.svc-chip i.dot {
+    margin-right: 0;
+}
+
+.svc-chip-warn {
+    border-color: #efc47a;
+    background: #fdf3df;
+}
+
+.svc-chip-warn,
+.svc-chip-warn span {
     color: #854f0b;
-    font-size: 12px;
 }
 
 .svc-details {
@@ -1374,14 +1397,29 @@ i.dot.svc-info {
     }
 }
 
-.svc-bin {
-    display: inline-block;
-    margin-right: 14px;
+.svc-pills {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 6px;
+    margin-top: 6px;
 }
 
-.svc-bin em {
+.svc-pill {
+    padding: 2px 10px;
+    border: 1px solid #dcdcdc;
+    border-radius: 12px;
+    color: #404040;
+    font-size: 12px;
+}
+
+.svc-pill em {
     color: #378add;
     font-style: normal;
+}
+
+.svc-check {
+    color: #1d9e75;
+    margin-top: 4px;
 }
 
 .svc-error-full {
@@ -1393,7 +1431,41 @@ i.dot.svc-info {
 
 /** WEB SPACE **/
 .webspace {
-    max-width: 760px;
+    width: 100%;
+    box-sizing: border-box;
+    padding: 16px 20px 18px;
+    border-top: 1px solid #ececec;
+}
+
+.webspace-title {
+    min-width: 64px;
+    color: #707070;
+    font-size: 13px;
+}
+
+.webspace-gauge {
+    display: inline-block;
+    width: 70px;
+    height: 4px;
+    margin-left: 6px;
+    border-radius: 2px;
+    vertical-align: middle;
+    background: #ececec;
+    overflow: hidden;
+}
+
+.webspace-gauge i {
+    display: block;
+    height: 100%;
+    background: #1d9e75;
+}
+
+.webspace-gauge.webspace-level-warn i {
+    background: #ba7517;
+}
+
+.webspace-gauge.webspace-level-danger i {
+    background: #d46a6a;
 }
 
 .webspace-head {
@@ -1445,11 +1517,6 @@ i.dot.svc-info {
 .webspace-bar .seg-images,
 .webspace-bar .seg-tmp {
     min-width: 3px;
-}
-
-.webspace-bar .seg-free {
-    flex-grow: 1;
-    background: transparent;
 }
 
 .webspace-bar.webspace-level-warn .seg-other {
@@ -1541,27 +1608,48 @@ i.dot {
 }
 
 .webspace-row {
-    display: flex;
-    align-items: center;
-    gap: 10px;
-    padding: 10px 0;
+    display: grid;
+    grid-template-columns: 12px 1fr auto;
+    column-gap: 12px;
+    align-items: start;
+    padding: 12px 0;
     border-top: 1px solid #ececec;
 }
 
+.webspace-row > i.dot {
+    margin: 5px 0 0;
+}
+
 .webspace-row .webspace-row-text {
-    flex: 1;
     min-width: 0;
 }
 
-.webspace-row .webspace-row-text span {
-    color: #808080;
-    font-size: 12px;
-    margin-left: 6px;
+.webspace-row .webspace-row-text b {
+    display: block;
+    font-size: 14px;
+    font-weight: 600;
+    line-height: 1.4;
 }
 
+.webspace-row .webspace-row-text span,
 .webspace-row .webspace-row-text small {
     display: block;
-    color: #606060;
+    margin: 2px 0 0;
+    color: #707070;
+    font-size: 13px;
+    line-height: 1.5;
+}
+
+.webspace-row .webspace-row-text .svc-pills span {
+    display: inline-block;
+    margin: 0;
+    color: #404040;
+    font-size: 12px;
+}
+
+.webspace-row .webspace-row-text small span {
+    display: inline;
+    margin: 0;
 }
 
 .webspace-quota {
