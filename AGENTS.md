@@ -18,6 +18,20 @@ Rules for AI coding agents (and humans) working on this repository. Read [CONTRI
 - `siberian/languages`: translation catalogs.
 - `tests/php-upgrade`: regression tests and the CI image.
 
+## Developer documentation
+
+The public developer documentation is <https://developers.siberiancms.com/>, its source is the Markdown of [Xtraball/SiberianCMS-Doc](https://github.com/Xtraball/SiberianCMS-Doc) (`docs/`, built with MkDocs 1.0.4). Read it before writing or changing a module, a layout or a template, and use the raw Markdown when you work offline:
+
+| To work on | Read |
+|---|---|
+| A module (structure, `package.json`, `resources/db/schema` and `data`, translations, `init.php`, design files, packaging) | `docs/module.md`, `docs/module/basic.md` |
+| How a file of a lower edition is replaced (`local > pe > mae > sae`, design cache) | `docs/module/core-inheritance.md`, and [docs/editions.md](docs/editions.md) here |
+| A homepage layout (`hooks.js`, `view.html`, layout options) | `docs/layout.md` |
+| A template pack | `docs/customization/template.md` |
+| Hooks, forms, push, offline mode, the CLI, the API | `docs/module/hooks.md`, `docs/module/forms.md`, `docs/module/push.md`, `docs/module/offline-mode.md`, `docs/cli/siberian.md`, `docs/api.md` |
+
+The documentation lags the code, and it describes only SAE-visible behaviour. **When the code and the documentation disagree, the code on `trunk` is right**: check it (`git show origin/trunk:<path>`), then fix the documentation in the same piece of work with a pull request to `SiberianCMS-Doc` and link it from your pull request here. Examples of what was wrong and is now corrected: data files whose name ends in a digit (`feature1.php`) are never run, `Siberian_Assets::registerAssets()` needs its second argument, only `<table>.php` files of `resources/db/schema` are tables. Do not put anything about MAE or PE overlay files in the documentation, it is public.
+
 ## Tests
 
 - Runner: `php tests/php-upgrade/run.php [--fail-fast] [filter]` from the repository root; `tests/php-upgrade/ci.sh` and `Dockerfile.ci` show the supported PHP versions. Run the tests of what you changed and the close neighbours, on every supported PHP version.
