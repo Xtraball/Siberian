@@ -1,0 +1,128 @@
+msgid ""
+msgstr ""
+"Project-Id-Version: Portuguese (Brazil) (Siberian)\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2019-01-22 10:33+0000\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: Portuguese (Brazil) <http://yvain.xtraball.com/projects/"
+"siberian/form/pt_BR/>\n"
+"Language: pt_BR\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=n > 1;\n"
+"X-Generator: Weblate 3.3\n"
+
+msgid "Add a field"
+msgstr "Adicionar um campo"
+
+msgid "Add a section"
+msgstr "Adicionar uma seção"
+
+msgid "Add an option"
+msgstr "Adicionar uma opção"
+
+msgid "An error occurred while saving. A field can't be identified."
+msgstr "Ocorreu um erro ao salvar. Um campo não pode ser identificado."
+
+msgid "Are you sure you want to remove this field?"
+msgstr "Tem certeza de que deseja remover este campo?"
+
+msgid "Are you sure you want to remove this section?"
+msgstr "Tem certeza de que deseja remover esta seção?"
+
+msgid "Checkbox"
+msgstr "Checkbox"
+
+msgid "Choose a field type:"
+msgstr "Escolha um tipo de campo:"
+
+msgid "Create a new field"
+msgstr "Criar um novo campo"
+
+msgid "Date/Hour"
+msgstr "Data/Hora"
+
+msgid "Drop down"
+msgstr "Drop down"
+
+msgid "Edit field %s"
+msgstr "Editar campo %s"
+
+msgid "Field name"
+msgstr "Nome do campo"
+
+msgid ""
+"Form data will be sent to this email. Until you fill out this field, your "
+"form won't be displayed on client side."
+msgstr ""
+
+msgid "Geolocation"
+msgstr "Geolocalização"
+
+msgid "Hello,"
+msgstr "Olá,"
+
+msgid "Import a picture"
+msgstr ""
+
+msgid "Import from Library"
+msgstr ""
+
+msgid "Manage fields"
+msgstr "Gerenciar campos"
+
+msgid "Manage options:"
+msgstr "Gerenciar opções:"
+
+msgid "Multiline text"
+msgstr "Texto de múltiplas linhas"
+
+msgid "Option"
+msgstr "Opção"
+
+msgid "Radio"
+msgstr "Radio"
+
+msgid "Recipient email"
+msgstr ""
+
+msgid "Take a picture"
+msgstr ""
+
+msgid "The form has been sent successfully"
+msgstr "O formulário foi enviada com sucesso!"
+
+msgid "You have to choose a field type."
+msgstr "Você tem que escolher um tipo de campo."
+
+msgid "Your app's form"
+msgstr "Formulário de seu aplicativo"
+
+msgid "Your form has been filled out, here are the answers:"
+msgstr "Seu formulário foi preenchido, aqui estão as respostas:"
+
+msgid "<strong>%s</strong> is not a numerical value<br />"
+msgstr "<strong>%s</strong> deve ser um valor numérico<br />"
+
+msgid "<strong>%s</strong> is not valid email address<br />"
+msgstr "<strong>%s</strong> deve ser um endereço de email válido<br />"
+
+msgid "<strong>%s</strong> is required<br />"
+msgstr "<strong>%s</strong>deve ser preenchido<br />"
+
+msgid "<strong>%s</strong> must be a numerical value<br />"
+msgstr "<strong>%s</strong> deve ser um valor numérico<br />"
+
+msgid "<strong>%s</strong> must be a valid date (e.g. dd/mm/yyyy)<br />"
+msgstr "<strong>%s</strong> deve ser uma data válida (e.g. dd/mm/yyyy)<br />"
+
+msgid "<strong>%s</strong> must be a valid date<br />"
+msgstr "<strong>%s</strong> deve ser uma data válida<br />"
+
+msgid "<strong>%s</strong> must be a valid email address<br />"
+msgstr "<strong>%s</strong> deve ser um endereço de email válido<br />"
+
+msgid "<strong>%s</strong> must be filled<br />"
+msgstr "<strong>%s</strong>deve ser preenchido<br />"

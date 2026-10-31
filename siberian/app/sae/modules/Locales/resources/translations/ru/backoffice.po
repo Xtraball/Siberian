@@ -1,0 +1,1260 @@
+msgid ""
+msgstr ""
+"Project-Id-Version: Russian (Siberian)\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2019-01-22 10:34+0000\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: Russian <http://yvain.xtraball.com/projects/siberian/"
+"backoffice/ru/>\n"
+"Language: ru\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=3; plural=n%10==1 && n%100!=11 ? 0 : n%10>=2 && n%10<="
+"4 && (n%100<10 || n%100>=20) ? 1 : 2;\n"
+"X-Generator: Weblate 3.3\n"
+
+msgid "60000 maximum allowed."
+msgstr "60000 максимально допустимое."
+
+msgid ""
+"A certificate already exists for the domain %s, if you want to re-generate "
+"it, use 'Force re-generate' to proceed."
+msgstr ""
+"Сертификат для домена уже существует %s, если вы хотите заново создать его, "
+"используйте силу повторно создать', чтобы продолжить."
+
+msgid "[APK]"
+msgstr "[АПК]"
+
+msgid "APK Queue empty"
+msgstr "Очереди АПК пустые"
+
+msgid "APK Queue status"
+msgstr "Статус очередей АПК"
+
+msgid "APNS Feedback:"
+msgstr "APNS Feedback:"
+
+msgid "APNS Feedback port 2196 is:"
+msgstr "APNS Feedback port 2196 является:"
+
+msgid "APNS Port 2195 is:"
+msgstr "Apns-порт 2195 является:"
+
+msgid "Account"
+msgstr "Аккаунт"
+
+msgid "Account Role"
+msgstr "Роль счета"
+
+msgid "Actions"
+msgstr "Действие"
+
+msgid "Activate VAT number check with VIES"
+msgstr "Активировать  номер НДС и проверить с ВИЭС"
+
+msgid "Activate user"
+msgstr "Активировать пользователя"
+
+msgid "Active ?"
+msgstr "Активный"
+
+msgid "Add a custom text to the footer of your invoices"
+msgstr "Добавить пользовательский текст в Нижний колонтитул вашего счета"
+
+msgid "Admin panel type"
+msgstr "Тип панели администратора"
+
+msgid "Advanced"
+msgstr "Расширенный"
+
+msgid ""
+"Alert: The APK build for the Application: %s (%s) is stuck for more than one "
+"hour."
+msgstr ""
+"Предупреждение: Сборка APK для приложения: на %S (%S) и застрял более чем на "
+"один час."
+
+msgid ""
+"Alert: The Source build for the Application: %s (%s) is stuck for more than "
+"one hour."
+msgstr ""
+"Предупреждение: Источник построения для приложения: на %S (%S) и застрял "
+"более чем на один час."
+
+msgid "All the files are required."
+msgstr "Требуется все файлы."
+
+msgid ""
+"An entry already exists for this hostname, remove it first if you need to "
+"change your certificates."
+msgstr ""
+"Запись уже существует для данного узла, сначала удалите его, если вам нужно "
+"изменить ваши сертификаты."
+
+msgid "An error occured"
+msgstr "Ошибка"
+
+msgid "An error occured while saving certificate to %s."
+msgstr "Произошла ошибка при сохранении сертификата на %s."
+
+msgid "An error occurred during the process. Please try again later."
+msgstr ""
+"Произошла ошибка во время процесса. Пожалуйста, повторите попытку позже."
+
+msgid "An unknown error occured while issueing your certificate."
+msgstr "Неизвестная ошибка при выдаче сертификата."
+
+msgid "Android SDK:"
+msgstr "Андроид SDK:"
+
+msgid "App name"
+msgstr "Имя App"
+
+msgid "Application settings"
+msgstr "Настройки приложения"
+
+msgid "Application successfully queued for generation."
+msgstr "Приложение успешно поставлено в очередь для поколения."
+
+msgid "Applications/Previewer manifest for automatic updates."
+msgstr "Приложения/просмотрщик манифест для автоматического обновления."
+
+msgid "Are you sure ?"
+msgstr "Вы уверены ?"
+
+msgid "Auth type"
+msgstr "Тип аутентификации"
+
+msgid "Authenticate"
+msgstr "Аутентифицировать"
+
+msgid "Average build time in seconds:"
+msgstr "Среднего время сборки в секундах:"
+
+msgid "Average sources/apk build time:"
+msgstr "Средние время сборки исходников/АПК:"
+
+msgid "Backoffice options"
+msgstr "Опции бэкофиса"
+
+msgid "Bearer Token Auth (API)"
+msgstr "Токен Bearer Auth (API)"
+
+msgid "Bearer Token Auth is valid."
+msgstr "Маркер на предъявителя авт действителен."
+
+msgid "Beta"
+msgstr "Бета"
+
+msgid "Build status"
+msgstr "Статус сборки"
+
+msgid "Build time (in seconds)"
+msgstr "Время сборки (в секундах)"
+
+msgid ""
+"By clicking on link below, you will open your editor in tour editing mode. "
+"Please note that your user account must be created on editor side."
+msgstr ""
+"Нажав на ссылку ниже, вы откроете редактор в режиме редактирования тур. "
+"Обратите внимание, что ваша учетная запись Пользователя должна быть создана "
+"на стороне редактора."
+
+msgid "CA"
+msgstr "CA"
+
+msgid "CA certificate"
+msgstr "Сертификат"
+
+msgid "CA path:"
+msgstr "Путь сертификации:"
+
+msgid "CRON Scheduler interval"
+msgstr "Интервал планировщика CRON"
+
+msgid "Cache cleared"
+msgstr "Кэш очищен"
+
+msgid "Cache (var/cache, system cache)"
+msgstr "Кэш (папки var/cache, system cache)"
+
+msgid "Can generate APK"
+msgstr "Может генерировать АПК"
+
+msgid "Cert"
+msgstr "Корзина"
+
+msgid "Certificate"
+msgstr "Сертификат"
+
+msgid ""
+"Certificate is valid and SSL is reachable, valid until: %s.<br />Issuer: %s%s"
+msgstr ""
+"Сертификат является действительным и SSL можно, действует до: %ы.<br />у "
+"эмитента: %ы%ы"
+
+msgid "Certificate path:"
+msgstr "Путь к сертификату:"
+
+msgid "Certificate successfully generated."
+msgstr "Сертификат успешно сгенерирован."
+
+msgid ""
+"Certificate successfully generated. Please wait while %s is reloading "
+"configuration ..."
+msgstr ""
+"Сертификат успешно сгенерирован. Пожалуйста, подождите %S-это перезагрузка "
+"конфигурации ..."
+
+msgid "Certificate successfully re-generated."
+msgstr "Сертификат успешно сгенерирован."
+
+msgid "Change the password"
+msgstr "Изменить пароль"
+
+msgid ""
+"Check if this cron command is installed under the web user & if you have set "
+"a timezone in Settings > General"
+msgstr ""
+"Проверьте, если эта команда cron устанавливается на веб-пользователей и, "
+"если вы установили Часовой пояс в меню Настройки > Общие"
+
+msgid "Clear"
+msgstr "Очистить"
+
+msgid "Clear cache"
+msgstr "Очистить кэш"
+
+msgid "Clear logs"
+msgstr "Очистить журналы"
+
+msgid "Cleared cron errors."
+msgstr "Очистили ошибки cron."
+
+msgid "Click here to send your CA certificate"
+msgstr "Нажмите здесь, чтобы отправить сертификат"
+
+msgid "Click here to send your Private certificate"
+msgstr "Нажмите здесь, чтобы отправить сертификат"
+
+msgid "Click here to send your certificate"
+msgstr "Нажмите здесь, чтобы отправить сертификат"
+
+msgid "Click to mark as not read"
+msgstr "Нажмите, чтобы отметить, как не прочитанное"
+
+msgid "Click to mark as read"
+msgstr "Нажмите, чтобы отметить, как прочитанное"
+
+msgid "Closed"
+msgstr "Закрыть"
+
+msgid "Complete build log"
+msgstr "Полный лог сборки"
+
+msgid "Configuration"
+msgstr "Конфигурация"
+
+msgid "Configuration successfully saved"
+msgstr "Информация успешно сохранена"
+
+msgid "Core modules"
+msgstr "Основные модули"
+
+msgid "Create a user"
+msgstr "Создайте пользователя"
+
+msgid "Created At"
+msgstr "Создан в "
+
+msgid "Creation date"
+msgstr "Дата отправки"
+
+msgid "Cron"
+msgstr "cron"
+
+msgid "Cron alerts"
+msgstr "Оповещения cron"
+
+msgid "Cron interval"
+msgstr "Интервал CRON"
+
+msgid "Cron scheduler"
+msgstr "Cron-планировщик"
+
+msgid "Cron scheduler help"
+msgstr "Помощь Cron-планировщика"
+
+msgid "Custom SMTP Configuration"
+msgstr "Пользовательские настройки SMTP"
+
+msgid "Day of month"
+msgstr "День месяца"
+
+msgid "Day of week"
+msgstr "День недели"
+
+msgid "Deactivate user"
+msgstr "Деактивация пользователя"
+
+msgid "Default (no)"
+msgstr "По умолчанию (нет)"
+
+msgid "Development"
+msgstr "Развитие"
+
+msgid "DirectAdmin"
+msgstr "DirectAdmin"
+
+msgid "DirectAdmin (beta)"
+msgstr "DirectAdmin (бета)"
+
+msgid "Disable cron jobs"
+msgstr "Отключить планировщик заданий"
+
+msgid "Disabled"
+msgstr "Отключен"
+
+msgid "Disk usage & Cache:"
+msgstr "Использование диска и Кэш:"
+
+msgid "Dismiss & install later"
+msgstr "Уволить и установить позже"
+
+msgid "Display"
+msgstr "Показать"
+
+msgid "Doesn't meet the requirements"
+msgstr "Не соответствует требованиям"
+
+msgid "Download latest source"
+msgstr "Скачать последние исходники"
+
+msgid "Drop your certificate here"
+msgstr "Оставьте свой сертификат здесь"
+
+msgid "Edit the user"
+msgstr "Редактирование пользователя"
+
+msgid "Editor's Design"
+msgstr "Дизайн редактора"
+
+msgid "Enable custom SMTP configuration"
+msgstr "Включить пользовательские конфигурации SMTP"
+
+msgid "Enter your credentials:"
+msgstr "Введите учетные данные:"
+
+msgid "Environment"
+msgstr "Окружение"
+
+msgid "Error, order already paid."
+msgstr "Ошибка, заказ уже оплачен."
+
+msgid ""
+"Errors are displayed on page, outputs are more verbose, this is an option "
+"for debug purpose, use with care as it may output some critical informations "
+"about your server."
+msgstr ""
+"Ошибки отображаются на странице, выдает более подробный, это вариант для "
+"целей отладки, использовать с осторожностью, поскольку она может выводить "
+"некоторые данные информацию о вашем сервере."
+
+msgid "Exists"
+msgstr "Существует"
+
+msgid "External extensions"
+msgstr "Внешние расширения"
+
+msgid "Failed"
+msgstr "провалившийся"
+
+msgid "File hash is different from manifest."
+msgstr "Файл-хэш отличается от манифеста."
+
+msgid "File is missing."
+msgstr "Файл отсутствует."
+
+msgid "Force re-generation"
+msgstr "Перегенерировать"
+
+msgid "Forgot password"
+msgstr "Забыли пароль?"
+
+msgid "Full"
+msgstr "Полный"
+
+msgid "Full path to use within your webserver."
+msgstr "Полный путь для использования в вашем веб-сервере."
+
+msgid "General settings"
+msgstr "общие настройки"
+
+msgid "Generate"
+msgstr "Создать"
+
+msgid "Generate a certificate via Let's Encrypt."
+msgstr "Создать сертификат через Let's Encrypt"
+
+msgid "Generate source"
+msgstr "Создать исходники"
+
+msgid "Generating"
+msgstr "Генеруем"
+
+msgid "[Global]"
+msgstr "[Глобальный]"
+
+msgid "Grant user"
+msgstr "Дать право пользователю"
+
+msgid "HTTP Basic Auth (API)"
+msgstr "HTTP Basic Auth (API)"
+
+msgid "HTTP Basic Auth is valid."
+msgstr "Протокол http Basic авторизации действителен."
+
+msgid "HTTPS & SSL Certificates"
+msgstr "Сертификаты https и SSL"
+
+msgid "HTTPS host is unreachable."
+msgstr "https хост недоступен."
+
+msgid "HTTPS is not available on your server."
+msgstr "Https не доступен на сервере."
+
+msgid "HTTPS not reachable"
+msgstr "Https не доступен"
+
+msgid ""
+"HTTPS support is in <b>Beta</b>, you should test it on your <b>development "
+"server</b> first & prepare for further migration."
+msgstr ""
+"Поддержка https в <b>бета:</b>, то вы должны проверить его на вашем "
+"<B>сервер</B> на первый и подготовиться к дальнейшей миграции."
+
+msgid ""
+"HTTPS support is in test, you should only try it on your development server "
+"prior to prepare for further migration."
+msgstr ""
+"Поддержка https в тесте, вы должны только попробовать это на вашем сервере "
+"разработки до подготовки к дальнейшей миграции."
+
+msgid "Hide"
+msgstr "скрыть"
+
+msgid "Host"
+msgstr "Хостинг"
+
+msgid "Hostname"
+msgstr "Имя хоста"
+
+msgid "Hostnames associated with this Certificate"
+msgstr "Имена хостов, связанные с этим сертификатом"
+
+msgid "Hour"
+msgstr "час"
+
+msgid "ID"
+msgstr "ID"
+
+msgid "If inactive, your customer won't see the tour."
+msgstr "Если не активен, ваш клиент не увидит тура."
+
+msgid ""
+"If you are unable to install or run the cronjob on your hosting/server you "
+"can disable it."
+msgstr ""
+"Если Вы не можете установить или запустить задачу cron на вашем хостинге/"
+"сервере, Вы можете отключить его."
+
+msgid "Info"
+msgstr "Информация"
+
+msgid "Installed"
+msgstr "Установлен"
+
+msgid "Installed icon packs"
+msgstr "Установлен пакеты иконок"
+
+msgid "Installed layouts"
+msgstr "Установлены макеты"
+
+msgid "Installed modules"
+msgstr "Установленные модули"
+
+msgid "Installed, version"
+msgstr "Установлено, версия"
+
+msgid "Integrity check"
+msgstr "Проверка целостности"
+
+msgid "Invoice options"
+msgstr "Варианты счета-фактуры"
+
+msgid "Issued certificates"
+msgstr "Выданные сертификаты"
+
+msgid "JAVA:"
+msgstr "JAVA:"
+
+msgid "Last cron error"
+msgstr "Последняя ошибка cron"
+
+msgid "Last failure"
+msgstr "Последняя неудача"
+
+msgid "Last success"
+msgstr "Последний успех"
+
+msgid "Last trigger"
+msgstr "Последний триггер"
+
+msgid "Let's Encrypt certificates renewal"
+msgstr "Обновление сертификатов Let's Encrypt"
+
+msgid "Let's Encrypt environment"
+msgstr "Окружение Let's Encrypt"
+
+msgid "[Let's Encrypt] renewing certificate."
+msgstr "Обновление сертификата [Let's Encrypt]."
+
+msgid "[Let's Encrypt] will add %s to SAN."
+msgstr "[Let's Encrypt]  будет добавлять %s в SAN."
+
+msgid "Link preview"
+msgstr "Предпросмотр ссылки"
+
+msgid "List of backoffice accounts"
+msgstr "Список Бэк-офис счетов "
+
+msgid "List of the messages"
+msgstr "Список сообщений"
+
+msgid "Loaded"
+msgstr "Загруженный"
+
+msgid "Log"
+msgstr "Журнал"
+
+msgid "Log (var/log, log files)"
+msgstr "Журнал (var/log, log-файлы)"
+
+msgid "Login to your backoffice interface"
+msgstr "Войдите в свой интерфейс Бэк-офис"
+
+msgid "Logs cleared."
+msgstr "Логи очищены."
+
+msgid "Mark all as read"
+msgstr "Отметить все как прочтенное"
+
+msgid "Mark as new"
+msgstr "Отметить как новое"
+
+msgid "Mark as read"
+msgstr "Отметить как прочитанное"
+
+msgid "Messages"
+msgstr "Сообщения"
+
+msgid "Minute"
+msgstr "минут"
+
+msgid "Missing parameters for generation."
+msgstr "Отсутствуют параметры для генерации."
+
+msgid "Mobile Source Codes & Builds"
+msgstr "Мобильный Исходные Коды И сборки"
+
+msgid "Module/User tasks"
+msgstr "Модуль задач/пользователей"
+
+msgid "Month"
+msgstr "Месяц"
+
+msgid "My Invoices"
+msgstr "Мои счета"
+
+msgid "My tour is active"
+msgstr "Мой тур активен"
+
+msgid "Name"
+msgstr "Имя"
+
+msgid "New messages"
+msgstr "Новые сообщения"
+
+msgid "New users"
+msgstr "Новые пользователи"
+
+msgid "No"
+msgstr "Нет"
+
+msgid "No file has been sent"
+msgstr "Никакой файл не был отправлен"
+
+msgid "No icon packs"
+msgstr "Нет пакетов иконок"
+
+msgid "No informations."
+msgstr "Моя информация"
+
+msgid "No layouts"
+msgstr "Нет макетов"
+
+msgid "No module/user tasks"
+msgstr "Нет модуля/задач пользователей"
+
+msgid "No system tasks"
+msgstr "Нет системных задач"
+
+msgid "None"
+msgstr "Ни одной"
+
+msgid "Not found"
+msgstr "Не найдено"
+
+msgid "Not running"
+msgstr "Не работает"
+
+msgid "Not yet generated."
+msgstr "Пока не сгенерировано."
+
+msgid "Note:"
+msgstr "Примечание:"
+
+msgid "Note: Let's encrypt X1 is a staging certificate."
+msgstr ""
+"Примечание: Let's encrypt  Х1 представляет собой сертификат, постановка."
+
+msgid "Number of typed characters:"
+msgstr "Количество набранных символов:"
+
+msgid "OR"
+msgstr "ИЛИ"
+
+msgid "Ok"
+msgstr "Ок"
+
+msgid "Ok, you may consider upgrade to >=5.4"
+msgstr "Ок, вы можете рассмотреть возможность обновления до >=5.4"
+
+msgid "Ok, you may upgrade to php 5.6"
+msgstr "Ок, вы можете перейти на PHP 5.6"
+
+msgid ""
+"One of the three given Certificates path is not readable, please make sure "
+"they have the good rights."
+msgstr ""
+"Один из трех заданных путей  сертификатов  не читается, пожалуйста, "
+"убедитесь, что они имеют хорошие права."
+
+msgid "Open"
+msgstr "Открыть"
+
+msgid "Open the tour editing mode"
+msgstr "Откройте режим редактирования тура"
+
+msgid "Optional binaries"
+msgstr "Необязательные бинарники"
+
+msgid "Optional libraries"
+msgstr "Дополнительные библиотеки"
+
+msgid ""
+"Otherwise install it manually, from your panel, or directly from your ssh "
+"access."
+msgstr ""
+"В противном случае установите его вручную, с панели, или непосредственно с "
+"SSH доступ."
+
+msgid "Overview - WebApp (var/apps/browser, overview & webapp cache)"
+msgstr ""
+"Обзор - веб-Приложение (вар/приложения/браузера, обзор и веб-приложений и "
+"кэша)"
+
+msgid "Overview cache cleared."
+msgstr "Кэш обзора очищен."
+
+msgid "PEM test:"
+msgstr "Тест PEM:"
+
+msgid "PHP version %s:"
+msgstr "PHP версии %s:"
+
+msgid "Password"
+msgstr "Пароль"
+
+msgid "Path to your CA certificate"
+msgstr "Путь к вашему сертификату центра сертификации"
+
+msgid "Path to your Certificate"
+msgstr "Путь к вашему сертификату"
+
+msgid "Path to your Private certificate"
+msgstr "Путь к вашим личным сертификатам"
+
+msgid "Path to your Private key"
+msgstr "Путь к закрытому ключу"
+
+msgid "Payment received"
+msgstr "Платеж получен"
+
+msgid "People who are allowed to access the backoffice"
+msgstr "Люди, которым позволили получить доступ к Бэк-офис"
+
+msgid "Permission, denied from Plesk, please use the admin account."
+msgstr ""
+"Разрешение, отказ из plesk, пожалуйста, используйте учетную запись "
+"администратора."
+
+msgid "Plesk"
+msgstr "Плеск"
+
+msgid "Plesk 12+"
+msgstr "plesk 12+"
+
+msgid "[Plesk] Unknown error."
+msgstr "[Плеск] Неизвестная ошибка."
+
+msgid "Port"
+msgstr "Порт"
+
+msgid "Preview 5.0"
+msgstr "Предварительный просмотр 5.0"
+
+msgid "Privacy policy URL"
+msgstr "Политика Конфиденциальности"
+
+msgid "Private"
+msgstr "Частная"
+
+msgid "Private certificate"
+msgstr "Частный сертификат"
+
+msgid "Private path:"
+msgstr "Частный путь:"
+
+msgid "Production"
+msgstr "Производство"
+
+msgid "Progress"
+msgstr "Прогресс"
+
+msgid "Publication access type"
+msgstr "Тип доступа к изданию"
+
+msgid "Push messages:"
+msgstr "Push-сообщения:"
+
+msgid "Queued"
+msgstr "В очереди"
+
+msgid "Queued %s/%s"
+msgstr "Очереди %с/%с"
+
+msgid "Read"
+msgstr "Читать"
+
+msgid "Rebuild"
+msgstr "Пересоздать"
+
+msgid "Rebuild manifest"
+msgstr "Пересобрать манифест"
+
+msgid "Rebuilding application manifest files."
+msgstr "Восстановление файлов манифеста приложения."
+
+msgid "Regular updates system"
+msgstr "Регулярные обновления системы"
+
+msgid "Remove locks"
+msgstr "Снятие блокировок"
+
+msgid "Remove locks now"
+msgstr "Удалить блокировку сейчас"
+
+msgid "Removing CRON Scheduler lock files."
+msgstr "Удаление файлов хрон Блокировка планировщика."
+
+msgid "Removing domains: %s"
+msgstr "Удаление доменов: %ы"
+
+msgid "Request"
+msgstr "Запрос"
+
+msgid "Request the certificate via Let's Encrypt."
+msgstr "Запросить сертификат через Let's Encrypt.."
+
+msgid "Required extensions"
+msgstr "Требуемые расширения"
+
+msgid "Revoke user"
+msgstr "Отозвать пользователя"
+
+msgid "Run test"
+msgstr "Запустить тест"
+
+msgid "SSL"
+msgstr "SSL"
+
+msgid "Sales"
+msgstr "Продажа"
+
+msgid "Sales configuration"
+msgstr "Конфигурации продаж"
+
+msgid "Save"
+msgstr "Сохранить"
+
+msgid "Select API access"
+msgstr "Выберите доступ к API"
+
+msgid "Select a panel type or self-managed"
+msgstr "Выберите Тип панели или самоуправляемые"
+
+msgid "Self-managed"
+msgstr "Самоуправляемые"
+
+msgid "Self-managed sync is not available for now."
+msgstr "Самоуправляемая синхронизация не доступна."
+
+msgid "Send anonymous statistics to improve the apps builder."
+msgstr "Отправлять анонимную статистику для улучшения конструктор приложений."
+
+msgid "Server"
+msgstr "Сервер"
+
+msgid "Services"
+msgstr "Услуги"
+
+msgid "Show All Applications"
+msgstr "Показать все Приложения"
+
+msgid "Show more"
+msgstr "Показать больше"
+
+msgid "Siberian - Backoffice"
+msgstr "Quazarteam PAPS- БэкОфис"
+
+msgid "Siberian CMS"
+msgstr "Siberian CMS"
+
+msgid "[Siberian_Cpanel] Unable to update cPanel SSL Certificate for %s"
+msgstr ""
+"[Siberian_Cpanel] не удалось обновить сертификат SSL для управления cpanel %с"
+
+msgid "[Siberian_VestaCP] requires php 5.6+"
+msgstr "[Siberian_VestaCP] требует PHP 5.6+"
+
+msgid ""
+"Something went wrong with the API Sync to %s, retry or check in your panel "
+"if your SSL certificate is correctly setup."
+msgstr ""
+"Что-то пошло не так с API синхронизации на %s, повторите попытку или "
+"проверьте в панели управления если ваш сертификат SSL настроено правильно."
+
+msgid "Source"
+msgstr "Источник"
+
+msgid "Source Queue empty"
+msgstr "Очередь исходников пуста"
+
+msgid "Source Queue status"
+msgstr "Статус очередей исходников"
+
+msgid "[Sources]"
+msgstr "[Исходники]"
+
+msgid "Sources code"
+msgstr "Исходный код"
+
+msgid "Stable"
+msgstr "Стабильный"
+
+msgid "Staging"
+msgstr "Постановка"
+
+msgid "Start editing your platform tour"
+msgstr "Начать редактирование вашей платформы тура"
+
+msgid "Statistics"
+msgstr "Статистика"
+
+msgid ""
+"Statistics are used to improve the platform and help understanding usage of "
+"the apps builder."
+msgstr ""
+"Статистические данные используются для улучшения платформы и помочь "
+"использование понимании строителя приложений."
+
+msgid "Status"
+msgstr "Статус"
+
+msgid "Submit a bug report or improvement request for beta/preview"
+msgstr "Отправить сообщение об ошибке или запрос улучшений для бета/превью"
+
+msgid "Success"
+msgstr "Успех"
+
+msgid "Successfully cleaned-up old certificate."
+msgstr "Успешно очищен старый сертификат."
+
+msgid "Successfully installed new certificate."
+msgstr "Успешно установлен новый сертификат."
+
+msgid "Successfully removed the certificate."
+msgstr "Успешно удален сертификат."
+
+msgid "Successfully saved Certificate to %s"
+msgstr "Успешного сохранения сертификата на %s"
+
+msgid "Sync files"
+msgstr "Синхронизация файлов"
+
+msgid "System Diagnostic"
+msgstr "Системная диагностика"
+
+msgid "System tasks"
+msgstr "Системные задачи"
+
+msgid "System was unable to validate any Bearer Token Auth call."
+msgstr "Системе не удалось проверить вызов токена Bearer Auth."
+
+msgid "System was unable to validate any HTTP Basic Auth call."
+msgstr "Системе не удалось проверить вызов HTTP Basic Auth."
+
+msgid "Temp (var/tmp, application sources & apk)"
+msgstr "Временное (var/tmp, application sources & apk)"
+
+msgid "Templates"
+msgstr "Шаблоны"
+
+msgid "Test SSL/HTTPS"
+msgstr "Тест SSL/https и"
+
+msgid "Testing: %s"
+msgstr "Тестирование: %ы"
+
+msgid ""
+"The PHP executable guessed path <b>'%s'</b> may be incorrect, please double "
+"check for it."
+msgstr ""
+"Исполняемый файл PHP угаданный путь <б>с \\\"%s \\\" </б> может быть "
+"неправильным, пожалуйста, проверьте его."
+
+msgid "The default setting to run your production server."
+msgstr "Настройка по умолчанию для запуска рабочего сервера"
+
+msgid ""
+"The domain %s doesn't belong to you, or is not configured on your server."
+msgstr "Домен %S не принадлежат вам, или не настроен на сервере."
+
+msgid "The given CA certificate doesn't match the hostname."
+msgstr "Данный сертификат ЦС не соответствует имени узла."
+
+msgid "The given certificate doesn't match the hostname."
+msgstr "Данный сертификат не соответствует имени узла."
+
+msgid "The given certificate doesn't match the hostname or wiSibldcard."
+msgstr "Данный сертификат не соответствует имени узла или wiSibldcard."
+
+msgid "This account can't be deleted, it's the only one"
+msgstr "Эта учетная запись не может быть удалена, она одна."
+
+msgid ""
+"This action mainly serves as a development & support purpose<br />This will "
+"restore App sources 'iOS', 'Android', 'HTML5' & 'Overview' from the latest "
+"Siberian version, then rebuild the manifest to restore installed modules."
+msgstr ""
+"Это действие в основном служит разработка и поддержка цели<br />это позволит "
+"восстановить источников Приложение 'прошивкой', 'андроид', 'HTML5' с & "
+"'Обзор' из последней Сибирской версии, то восстановить манифеста, чтобы "
+"восстановить установленных модулей."
+
+msgid ""
+"This e-mail address must be reachable, as you will receive important e-mails "
+"from the system & user actions."
+msgstr ""
+"Этот E-mail адрес должен быть доступен, так как вы будете получать важные "
+"сообщения от системы и действий пользователей."
+
+msgid ""
+"This message will be displayed as a waiting message when your users chose an "
+"offline payment method"
+msgstr ""
+"Это сообщение будет отображаться как сообщение в ожидании, когда "
+"пользователи выбрали способ оплаты в автономном режиме"
+
+msgid ""
+"This message will be displayed as an information message to describe which "
+"offline payment method you offer"
+msgstr ""
+"Это сообщение будет отображаться как информационное сообщение, чтобы "
+"описать, что автономный способ оплаты Вы предлагаете"
+
+msgid ""
+"This test is for development & support usage, this only highlights potential "
+"missing and/or modified files, results need to be interpreted."
+msgstr ""
+"Этот тест предназначен для разработки и использования поддержки, это только "
+"подчеркивает потенциал отсутствует и/или измененных файлов, результаты "
+"должны быть интерпретированы."
+
+msgid "Tools"
+msgstr "Инструменты"
+
+msgid "Total sales"
+msgstr "Общий объем продаж"
+
+msgid "Total usage:"
+msgstr "Общее использование:"
+
+msgid "Tour settings"
+msgstr "Параметры тура"
+
+msgid "Tour status"
+msgstr "Статус тура"
+
+msgid "Tour status successfully saved."
+msgstr "Набор продуктов успешно сохранён"
+
+msgid "UID"
+msgstr "UID"
+
+msgid ""
+"Unable to connect in HTTPS or to validate the SSL Certificate.<br />Check if "
+"your are not in `Staging`"
+msgstr ""
+"Не удается подключиться по https или для проверки SSL-сертификата.<бр />"
+"проверьте, если вы находитесь не в \\\"промежуточном\\\""
+
+msgid "Unknown"
+msgstr "Неизвестно"
+
+msgid "Unknown - Self-managed"
+msgstr "Неизвестен - самоуправляемые"
+
+msgid "Update"
+msgstr "Обновление"
+
+msgid "Update channel"
+msgstr "Канал обновление"
+
+msgid "Updated At"
+msgstr "Обновлено"
+
+msgid "Upload"
+msgstr "Загрузить"
+
+msgid "Upload files or use existing certificates on my server"
+msgstr ""
+"Загружать файлы или пользоваться действующими сертификатами на моем сервере"
+
+msgid "Upload my certificates"
+msgstr "Загрузить мои сертификаты"
+
+msgid "Upload your own certificates"
+msgstr "Загружать свои собственные сертификаты"
+
+msgid "Use HTTPS"
+msgstr "Использовать https"
+
+msgid "Use existing certificates on my server"
+msgstr "Использовать существующие сертификаты на моем сервере"
+
+msgid "User successfully deleted"
+msgstr "Пользователь успешно удален"
+
+msgid "Username"
+msgstr "Имя пользователя"
+
+msgid "User's status successfully edited"
+msgstr "Статус пользователя успешно отредактирован"
+
+msgid "VAT check options"
+msgstr "Параметры проверки НДС"
+
+msgid "Validation"
+msgstr "Проверка"
+
+msgid "VestaCP"
+msgstr "VestaCP"
+
+msgid "VestaCP (php 5.6+ only)"
+msgstr "VestaCP (на PHP 5.6+ только)"
+
+msgid "View Details"
+msgstr "Просмотреть подробности"
+
+msgid "WHM cPanel"
+msgstr "whm cpanel"
+
+msgid "Waiting for %s to reload, this can take a while..."
+msgstr "Ждем % - ов перезагрузки, это может занять некоторое время..."
+
+msgid ""
+"We recommned using <b>preview</b> on a testing or development server, we "
+"won't provide regular ticket support for these update channels, only bug "
+"reports via the form below."
+msgstr ""
+"Мы порекомендовать использовать теги <b>обзор</b>, и на тестирование или "
+"сервер разработки, мы не будем предоставлять регулярную поддержку билетов на "
+"эти каналы обновления, только сообщения об ошибках через форму ниже."
+
+msgid "Web space"
+msgstr "Веб-пространство"
+
+msgid "White Label"
+msgstr "White Label"
+
+msgid "Whitelabel"
+msgstr "Whitelabel"
+
+msgid "Whitelabel hostnames associated with this Certificate"
+msgstr "Whitelabel узлов, связанный с этим сертификатом"
+
+msgid "Whitelabel request"
+msgstr "Whitelabel запрос"
+
+msgid "Whitelabels"
+msgstr "Whitelabels"
+
+msgid "Yes"
+msgstr "ДА"
+
+msgid "Yes, install the update."
+msgstr "Да, установите обновление."
+
+msgid ""
+"You are about to clean all the cron lock files !\n"
+"Are you sure ?"
+msgstr "Вы собираетесь очистить все  Блокировки  файлов cron !\\пвы уверены ?"
+
+msgid ""
+"You are about to clean all your log files !\n"
+"Are you sure ?"
+msgstr "Вы собираетесь очистить все ваши журналы !\\пвы уверены ?"
+
+msgid "You are about to delete this certificate, Are you sure ?"
+msgstr "Вы собираетесь удалить этот сертификат, вы уверены ?"
+
+msgid ""
+"You are about to wipe all your temporary files, this includes the generated "
+"sources & apk builds !\n"
+"Are you sure ?"
+msgstr ""
+"Вы собираетесь удалить все временные файлы, включая созданные источники и "
+"АПК строит !\\пвы уверены ?"
+
+msgid "You can use <b>%s</b> as a dynamic variable for your application name."
+msgstr ""
+"Вы можете использовать <b>%s</b> в качестве динамической переменной для "
+"имени приложения."
+
+msgid ""
+"You have a Source generation stuck for more than 1 hour, please check in <b>"
+"Settings > Advanced > Cron</b> for the stuck build.<br />To unlock further "
+"builds you can remove locks from the button below."
+msgstr ""
+"У вас есть источник генерации застрял более чем на 1 час, пожалуйста, "
+"проверьте в <B>параметры > дополнительно > крон</B> для жирной строить.<br />"
+"для разблокировки дополнительных построений можно снять блокировку с помощью "
+"кнопки ниже."
+
+msgid ""
+"You have an APK generation stuck for more than 1 hour, please check in <b>"
+"Settings > Advanced > Cron</b> for the stuck build.<br />To unlock further "
+"builds you can remove locks from the button below."
+msgstr ""
+"У вас есть поколение АПК застрял более чем на 1 час, пожалуйста, проверьте в "
+"<B>параметры > дополнительно > крон</B> для жирной строить.<br />для "
+"разблокировки дополнительных построений можно снять блокировку с помощью "
+"кнопки ниже."
+
+msgid "You have no certificate yet."
+msgstr "У вас нет сертификат."
+
+msgid "You have no new messages."
+msgstr "У вас нет новых сообщений."
+
+msgid "You must select an Admin panel type before requesting a Certificate."
+msgstr "Необходимо выбрать тип панели администрирования запрашивает сертификат."
+
+msgid ""
+"Your HTTPS/SSL Certificate is about to expire in <b>%s day%s</b>, don't "
+"forget to renew it on the following page <a href=\"%s\">configuration</a>."
+msgstr ""
+"Ваш сертификат HTTPS и SSL истекает в <b>%s день на%s</b>, не забывайте "
+"обновлять его на следующей странице <а href=\\\"%ы\\\">настройки</а>."
+
+msgid "Your certificate is invalid"
+msgstr "Ваш сертификат недействителен"
+
+msgid "Your certificate is valid until:"
+msgstr "Ваш сертификат действителен до:"
+
+msgid "Your certificates are saved."
+msgstr "Ваши сертификаты будут сохранены."
+
+msgid "Your new password"
+msgstr "Ваш новый пароль"
+
+msgid "Your password"
+msgstr "Ваш пароль"
+
+msgid "<b>Actual preview version is Siberian 5.0</b>."
+msgstr "<b>фактическое предварительной версии является Сибирской 5.0</b>."
+
+msgid ""
+"<b>Disclaimer:</b> You are using the <b>preview</b> update channel, this "
+"channel is intended for <b>tests & previews</b> of new features, if you are "
+"not sure stay with <b>stable channel</b>."
+msgstr ""
+"и <B>Дисклеймер:</B> Вам не с помощью тега <B>обзор</B> на обновление "
+"канала, этот канал предназначен для <б>тесты и анонсы</B>, и новые "
+"возможности, если Вы не уверены, оставайтесь с <b>канал</B>на."
+
+msgid ""
+"<b>Note for Bug report:</b> give us a maximum of description of how you "
+"reached the bug, and possibly screenshots."
+msgstr ""
+"<B>Примечание для сообщения об ошибке:</б> дать нам максимум описание того, "
+"как вы достигли ошибку, и, возможно, скриншоты."
+
+msgid ""
+"<b>Note</b>: sources & push will be sent immediately after their creation, "
+"scheduled push will not work & media optimization is disabled."
+msgstr ""
+"<B>Примечание</B> включите: источники и push будут отправлены сразу после их "
+"создания, запланированные толкать не получится и оптимизация медиа-инвалидов."
+
+msgid "customer"
+msgstr "Клиент"
+
+msgid "%d Unread Message"
+msgstr "%d Непрочитанное сообщение"
+
+msgid "%d Unread Messages"
+msgstr "%d Непрочитанные сообщения"
+
+msgid "for the bundle id:"
+msgstr "для идентификатора пакета:"
+
+msgid "letsencrypt"
+msgstr "letsencrypt"
+
+msgid "per page"
+msgstr "на странице"
+
+msgid "see Settings > Advanced > Configuration > Cron to edit options."
+msgstr ""
+"в разделе настройки > дополнительно > настройки > cron, чтобы изменить "
+"параметры."
+
+msgid "values are refreshed once a day only!"
+msgstr "значения обновляются один раз в день!"

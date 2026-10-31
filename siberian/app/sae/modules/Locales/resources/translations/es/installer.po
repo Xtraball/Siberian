@@ -1,0 +1,246 @@
+msgid ""
+msgstr ""
+"Project-Id-Version: Spanish (Siberian)\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2019-01-22 10:31+0000\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: Spanish <http://yvain.xtraball.com/projects/siberian/"
+"installer/es/>\n"
+"Language: es\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=n != 1;\n"
+"X-Generator: Weblate 3.3\n"
+
+msgid "Action"
+msgstr "Acción"
+
+msgid "Actions"
+msgstr "Acciones"
+
+msgid "All of your modules are up to date"
+msgstr "Todos los módulos están al día"
+
+msgid "An update is available. Click here to download it."
+msgstr "Actualizacion disponible. Click aqui para descargarla."
+
+msgid "Check for updates"
+msgstr "Buscar actualizaciones"
+
+msgid "Click here to see the release notes"
+msgstr "Haga clic aquí para ver las notas de la versión"
+
+msgid "Click here to send your module"
+msgstr "Clic aquí para enviar su módulo"
+
+msgid "Details"
+msgstr "Detalles"
+
+msgid "Drop your module here"
+msgstr "Arrastre su módulo aquí"
+
+msgid "Host"
+msgstr "Host"
+
+msgid "Install"
+msgstr "Instalar"
+
+msgid "Installing"
+msgstr "Instalando"
+
+msgid "Installing your module"
+msgstr "Instalando su módulo"
+
+msgid "Module successfully installed"
+msgstr "Módulo instalado correctamente !"
+
+msgid "Module to upload"
+msgstr "Módulo a cargar"
+
+msgid "Modules Installation"
+msgstr "Instalación de módulos"
+
+msgid "Modules successfully installed!"
+msgstr "Módulos instalados correctamente"
+
+msgid "Name"
+msgstr "Nombre"
+
+msgid "No directory provided"
+msgstr "No se ha proporcionado un directorio"
+
+msgid "No module to install"
+msgstr "Ningún módulo para instalar"
+
+msgid "No modules uploaded yet"
+msgstr "No se han subido módulos todavía"
+
+msgid ""
+"Or set the correct permissions to the following files and folders and try "
+"again:"
+msgstr ""
+"O ponga permisos para los siguientes ficheros y directorios y pruebe de "
+"nuevo:"
+
+msgid "Package"
+msgstr "Paquete"
+
+msgid "Package Details"
+msgstr "Detalles del paquete"
+
+msgid "Path to your system"
+msgstr "Path del sistema"
+
+msgid "Please, enter a name"
+msgstr "Por favor, introduzca su nombre"
+
+msgid "Please, fill out all fields"
+msgstr "Por favor, rellene todos los campos"
+
+msgid ""
+"Please update the module to the %s version before installing this update."
+msgstr ""
+"Por favor actualice el modulo a la version %s despues instale esta "
+"actualizacion."
+
+msgid ""
+"Please update your system to the %s version before installing this update."
+msgstr ""
+"Por favor actualice el sistema a la version %s despues instale esta "
+"actualizacion."
+
+msgid "Please wait, we're installing your module"
+msgstr "Por favor espere, estamos instalando su módulo"
+
+msgid "Port"
+msgstr "Puerto"
+
+msgid "Processing the installation"
+msgstr "Proceso de instalación"
+
+msgid "Progress"
+msgstr "Progreso"
+
+msgid "Retry"
+msgstr "Reintentar"
+
+msgid "Select a module to upload"
+msgstr "Seleccionar un módulo"
+
+msgid "Size"
+msgstr "Tamaño"
+
+msgid ""
+"Some files and folder are not writable. You can either provide your FTP "
+"access to install this update:"
+msgstr ""
+"Algunos ficheros y directorios no son escribibles. Puedes probar accediendo "
+"por FTP para instalar:"
+
+msgid "Some files don't have the right permissions and can't be updated"
+msgstr ""
+"Algunos ficheros no tienes permisos correctos y no pueden ser actualizados"
+
+msgid "Status"
+msgstr "Estado"
+
+msgid "The database connection failed. Please, check the entered information."
+msgstr ""
+"La conexión de la base de datos ha fallado. Por favor, revise la información "
+"introducida."
+
+msgid "The entered password confirmation does not match the entered password."
+msgstr "La confirmación del password no coincide con el password introducido."
+
+msgid "The file %s does not exist"
+msgstr "El fichero %s no existe"
+
+msgid "The file %s is not writable."
+msgstr "El fichero %s no es escribible."
+
+msgid "The folder %s is not writable. Please fix this issue and try again."
+msgstr ""
+"La carpeta %s no se puede escribir. Por favor, corrija este problema y "
+"vuelva a intentarlo."
+
+msgid "The following files and folders are not writable:"
+msgstr "Los siguientes archivos y carpetas no son escribibles:"
+
+msgid "The following files and folders are not writable: <br /> - %s"
+msgstr "Los siguientes ficheros y directorios no son escribibles: <br /> - %s"
+
+msgid "The package you have uploaded is invalid."
+msgstr "El paquete subido no es valido."
+
+msgid "There is no CMS license key set."
+msgstr "No se ha definido la clave de licencia."
+
+msgid "This process may take few minutes, please do not refresh the page"
+msgstr ""
+"Este proceso puede tardar unos minutos, por favor no actualice la página"
+
+msgid "This update is designed for the %s, you can't install it in your %s."
+msgstr ""
+"Esta actualizacion esta diseñada para %s, no puedes instalarla en tu %s."
+
+msgid "Unable to check for updates now. Please, try again later."
+msgstr ""
+"No es posible comprobar actualizaciones ahora. Por favor, pruebe más tarde."
+
+msgid "Unable to connect to your FTP. Please check the connection information."
+msgstr ""
+"No es posible conectar por FTP. Por favor comprueba la informacion de "
+"conexion."
+
+msgid ""
+"Unable to detect your site. Please make sure the entered path is correct."
+msgstr ""
+"No es posible detectar tu sitio. Por favor asegurate de que tienes un path "
+"correcto."
+
+msgid "Unable to extract the archive."
+msgstr "No se puede extraer el archivo."
+
+msgid "Unable to fetch the update. Please, try again later."
+msgstr ""
+"No es posible realizar la actualizacion. Por favor, pruebe de nuevo mas "
+"tarde."
+
+msgid "Unable to open the archive."
+msgstr "No se puede abrir el archivo."
+
+msgid ""
+"Unable to open the file. Please, make sure that you sent a valid archive."
+msgstr ""
+"No se puede abrir el fichero. Por favor, asegurese de que ha enviado un "
+"fichero válido."
+
+msgid "Upload a module"
+msgstr "Cargar un módulo"
+
+msgid "Upload your modules"
+msgstr "Cargar sus módulos"
+
+msgid "Username"
+msgstr "Nombre de usuario"
+
+msgid "Version"
+msgstr "Versión"
+
+msgid "We are checking for updates. Please, do not refresh the page."
+msgstr ""
+"Estamos comprobando actualizaciones. Por favor, no actualices la pagina."
+
+msgid "You already have installed this template."
+msgstr "Ya has instalado esta plantilla."
+
+msgid "You already have installed this update."
+msgstr "Ya tienes instalada esta actualizacion."
+
+msgid "Your system is up to date."
+msgstr "Tu sistema está actualizado."
+
+msgid "%s Update"
+msgstr "%s Actualizacion"

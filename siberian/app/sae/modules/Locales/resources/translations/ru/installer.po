@@ -1,0 +1,242 @@
+msgid ""
+msgstr ""
+"Project-Id-Version: Russian (Siberian)\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2019-01-22 10:34+0000\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: Russian <http://yvain.xtraball.com/projects/siberian/"
+"installer/ru/>\n"
+"Language: ru\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=3; plural=n%10==1 && n%100!=11 ? 0 : n%10>=2 && n%10<="
+"4 && (n%100<10 || n%100>=20) ? 1 : 2;\n"
+"X-Generator: Weblate 3.3\n"
+
+msgid "Action"
+msgstr "Действие"
+
+msgid "Actions"
+msgstr "Действие"
+
+msgid "All of your modules are up to date"
+msgstr "Все ваши модули находятся в актуальном состоянии"
+
+msgid "An update is available. Click here to download it."
+msgstr "Доступно обновление. Нажмите здесь, чтобы загрузить его."
+
+msgid "Check for updates"
+msgstr "Проверить наличие обновлений"
+
+msgid "Click here to see the release notes"
+msgstr "Нажмите здесь, чтобы просмотреть заметки о выпуске"
+
+msgid "Click here to send your module"
+msgstr "Нажмите здесь, чтобы отправить Ваш модуль"
+
+msgid "Details"
+msgstr "Подробности"
+
+msgid "Drop your module here"
+msgstr "Оставьте ваш модуль здесь"
+
+msgid "Host"
+msgstr "Хостинг"
+
+msgid "Install"
+msgstr "Установите"
+
+msgid "Installing"
+msgstr "Установка"
+
+msgid "Installing your module"
+msgstr "Установка вашего модуля"
+
+msgid "Module successfully installed"
+msgstr "Модуль успешно установлен"
+
+msgid "Module to upload"
+msgstr "Модуль для загрузки"
+
+msgid "Modules Installation"
+msgstr "Установка дополнительных модулей"
+
+msgid "Modules successfully installed!"
+msgstr "Модули успешно установлены!"
+
+msgid "Name"
+msgstr "Имя"
+
+msgid "No directory provided"
+msgstr "Нет указанного каталога"
+
+msgid "No module to install"
+msgstr "Модуль не установить"
+
+msgid "No modules uploaded yet"
+msgstr "Ни один из модулей не загружен"
+
+msgid ""
+"Or set the correct permissions to the following files and folders and try "
+"again:"
+msgstr ""
+"Или установите правильные разрешения на следующие файлы и папки и попробуйте "
+"снова:"
+
+msgid "Package"
+msgstr "Пакет"
+
+msgid "Package Details"
+msgstr "Подробности пакета"
+
+msgid "Path to your system"
+msgstr "Путь к вашей системе"
+
+msgid "Please, enter a name"
+msgstr "Пожалуйста, введите имя"
+
+msgid "Please, fill out all fields"
+msgstr "Пожалуйста, заполните все поля"
+
+msgid ""
+"Please update the module to the %s version before installing this update."
+msgstr ""
+"Пожалуйста, обновите модуль до версии %s , перед установкой этого обновления."
+
+msgid ""
+"Please update your system to the %s version before installing this update."
+msgstr ""
+"Пожалуйста, обновите систему до версии %s , перед установкой этого "
+"обновления."
+
+msgid "Please wait, we're installing your module"
+msgstr "Пожалуйста, подождите, мы устанавливаем модуль"
+
+msgid "Port"
+msgstr "Порт"
+
+msgid "Processing the installation"
+msgstr "Обработка установки"
+
+msgid "Progress"
+msgstr "Прогресс"
+
+msgid "Retry"
+msgstr "Повторите"
+
+msgid "Select a module to upload"
+msgstr "Выберите модуль для загрузки"
+
+msgid "Size"
+msgstr "Размер:"
+
+msgid ""
+"Some files and folder are not writable. You can either provide your FTP "
+"access to install this update:"
+msgstr ""
+"Некоторые файлы и папки не могут быть перезаписаны. Вы можете либо "
+"предоставить вам доступ по FTP, чтобы установить это обновление:"
+
+msgid "Some files don't have the right permissions and can't be updated"
+msgstr "Некоторые файлы не имеют права доступа и не могут быть обновлены"
+
+msgid "Status"
+msgstr "Статус"
+
+msgid "The database connection failed. Please, check the entered information."
+msgstr ""
+"Подключение к базе данных не удалось. Пожалуйста, проверьте введенную "
+"информацию."
+
+msgid "The entered password confirmation does not match the entered password."
+msgstr "Ваше подтверждение пароля не соответствует введенному паролю."
+
+msgid "The file %s does not exist"
+msgstr "Файл %s не существует"
+
+msgid "The file %s is not writable."
+msgstr " Файл %s не доступен для записи."
+
+msgid "The folder %s is not writable. Please fix this issue and try again."
+msgstr ""
+"Папка %s не доступна для записи. Пожалуйста, исправьте этот вопрос и "
+"попробуйте еще раз."
+
+msgid "The following files and folders are not writable:"
+msgstr "Следующие файлы и папки не могут быть перезаписаны:"
+
+msgid "The following files and folders are not writable: <br /> - %s"
+msgstr "Следующие файлы и папки не могут быть перезаписаны: <br /> - %s"
+
+msgid "The package you have uploaded is invalid."
+msgstr "Пакет, который вы загрузили является недопустимым."
+
+msgid "There is no CMS license key set."
+msgstr "Отсутствует ключ лицензии на CMS"
+
+msgid "This process may take few minutes, please do not refresh the page"
+msgstr ""
+"Этот процесс может занять несколько минут, пожалуйста, не обновляйте страницу"
+
+msgid "This update is designed for the %s, you can't install it in your %s."
+msgstr ""
+"Это обновление предназначено для %s, вы не можете установить его в вашем %s."
+
+msgid "Unable to check for updates now. Please, try again later."
+msgstr ""
+"Не удалось проверить наличие обновлений. Пожалуйста, повторите попытку позже."
+
+msgid "Unable to connect to your FTP. Please check the connection information."
+msgstr ""
+"Не удается подключиться к вашему FTP. Пожалуйста, проверьте информацию о "
+"соединении."
+
+msgid ""
+"Unable to detect your site. Please make sure the entered path is correct."
+msgstr ""
+"Невозможно определить ваш сайт. Пожалуйста, убедитесь, что ввели правильный "
+"путь."
+
+msgid "Unable to extract the archive."
+msgstr "Невозможно извлечь архив."
+
+msgid "Unable to fetch the update. Please, try again later."
+msgstr "Невозможно получить обновление. Пожалуйста, повторите попытку позже."
+
+msgid "Unable to open the archive."
+msgstr "Не удается открыть архив."
+
+msgid ""
+"Unable to open the file. Please, make sure that you sent a valid archive."
+msgstr ""
+"Не удается открыть файл. Пожалуйста, убедитесь, что вы отправили правильный "
+"архив."
+
+msgid "Upload a module"
+msgstr "Загрузить модуль"
+
+msgid "Upload your modules"
+msgstr "Загрузить модули"
+
+msgid "Username"
+msgstr "Имя пользователя"
+
+msgid "Version"
+msgstr "Версия "
+
+msgid "We are checking for updates. Please, do not refresh the page."
+msgstr "Мы проверяем  обновления. Пожалуйста, не обновляйте страницу."
+
+msgid "You already have installed this template."
+msgstr "Вы уже установили это обновление."
+
+msgid "You already have installed this update."
+msgstr "Вы уже установили это обновление."
+
+msgid "Your system is up to date."
+msgstr "Ваша система находится в актуальном состоянии."
+
+msgid "%s Update"
+msgstr "%s Обновление"

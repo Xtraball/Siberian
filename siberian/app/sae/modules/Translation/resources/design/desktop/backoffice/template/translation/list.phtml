@@ -11,12 +11,14 @@
     </div>
     <br />
     <table class="table">
-        <col width="80%" />
+        <col width="60%" />
+        <col width="20%" />
         <col width="20%" />
         <thead>
             <tr>
                 <th class="pointer"
                     ng-click="order = 'id'; by = !by"><?php echo __("Language"); ?></th>
+                <th><?php echo p__("translation", "Status"); ?></th>
                 <th class="text-right"><?php echo __("Actions"); ?></th>
             </tr>
         </thead>
@@ -24,8 +26,20 @@
             <tr class="slide-left"
                 ng-repeat="language in languages | filter:filter | orderBy:order:by">
                 <td>{{ language.name }}</td>
+                <td>
+                    <span ng-show="language.enabled && language.toggle"><?php echo p__("translation", "Enabled"); ?></span>
+                    <span ng-show="!language.enabled"><?php echo p__("translation", "Disabled"); ?></span>
+                    <span ng-show="language.enabled && !language.toggle"><?php echo p__("translation", "Installed"); ?></span>
+                </td>
                 <td class="text-right">
-                    <a href="<?php echo $this->getUrl("translation/backoffice_edit"); ?>/langId/{{ language.id }}"
+                    <button type="button"
+                            ng-show="language.toggle"
+                            ng-disabled="language.saving"
+                            ng-click="toggleLanguage(language)"
+                            class="btn btn-sm btn-default"
+                            ng-bind="language.enabled ? '<?php echo addslashes(p__("translation", "Disable")); ?>' : '<?php echo addslashes(p__("translation", "Enable")); ?>'"></button>
+                    <a ng-show="language.enabled"
+                       href="<?php echo $this->getUrl("translation/backoffice_edit"); ?>/langId/{{ language.id }}"
                        class="btn btn-sm btn-primary"><?php echo __("EDIT") ?></a>
                 </td>
             </tr>

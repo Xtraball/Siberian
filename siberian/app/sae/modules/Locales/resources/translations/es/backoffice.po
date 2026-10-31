@@ -1,0 +1,1259 @@
+msgid ""
+msgstr ""
+"Project-Id-Version: Spanish (Siberian)\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2019-01-22 10:31+0000\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: Spanish <http://yvain.xtraball.com/projects/siberian/"
+"backoffice/es/>\n"
+"Language: es\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=n != 1;\n"
+"X-Generator: Weblate 3.3\n"
+
+msgid "60000 maximum allowed."
+msgstr "60000 máximo permitido."
+
+msgid ""
+"A certificate already exists for the domain %s, if you want to re-generate "
+"it, use 'Force re-generate' to proceed."
+msgstr ""
+"Un certificado de que ya existe para el dominio %s, si desea volver a "
+"generar, utilizar \"Forzar re-generar\" para continuar."
+
+msgid "[APK]"
+msgstr "[APK]"
+
+msgid "APK Queue empty"
+msgstr "Cola APK vacia"
+
+msgid "APK Queue status"
+msgstr "Estado cola APK"
+
+msgid "APNS Feedback:"
+msgstr "APNS Feedback:"
+
+msgid "APNS Feedback port 2196 is:"
+msgstr "Respuesta APNS en puerto 2196:"
+
+msgid "APNS Port 2195 is:"
+msgstr "APNS Port 2195:"
+
+msgid "Account"
+msgstr "Cuenta"
+
+msgid "Account Role"
+msgstr "Rol de cuenta"
+
+msgid "Actions"
+msgstr "Acciones"
+
+msgid "Activate VAT number check with VIES"
+msgstr "Activar numero de IVA comprobar con VIES"
+
+msgid "Activate user"
+msgstr "Activar usuario"
+
+msgid "Active ?"
+msgstr "Activado?"
+
+msgid "Add a custom text to the footer of your invoices"
+msgstr "Añadir texto personalizado en el pie de facturas"
+
+msgid "Admin panel type"
+msgstr "Tipo de panel de control"
+
+msgid "Advanced"
+msgstr "Avanzado"
+
+msgid ""
+"Alert: The APK build for the Application: %s (%s) is stuck for more than one "
+"hour."
+msgstr ""
+"Alerta: El APK build de la Aplicación: %s (%s) es atrapado por más de una "
+"hora."
+
+msgid ""
+"Alert: The Source build for the Application: %s (%s) is stuck for more than "
+"one hour."
+msgstr ""
+"Alerta: El código fuente para la Aplicación: %s (%s) es atrapado más de una "
+"hora."
+
+msgid "All the files are required."
+msgstr "Todos los campos son necesarios."
+
+msgid ""
+"An entry already exists for this hostname, remove it first if you need to "
+"change your certificates."
+msgstr ""
+"Ya existe una entrada para este nombre de host, retire en primer lugar, si "
+"usted necesita para cambiar de certificados."
+
+msgid "An error occured"
+msgstr "Ha ocurrido un error"
+
+msgid "An error occured while saving certificate to %s."
+msgstr "Se produjo un error al guardar el certificado en %s."
+
+msgid "An error occurred during the process. Please try again later."
+msgstr ""
+"Se produjo un error durante el proceso. Por favor, inténtelo de nuevo más "
+"tarde."
+
+msgid "An unknown error occured while issueing your certificate."
+msgstr "Un error desconocido ocurrido mientras se emitia su certificado."
+
+msgid "Android SDK:"
+msgstr "SDK Android:"
+
+msgid "App name"
+msgstr "Nombre App"
+
+msgid "Application settings"
+msgstr "Configuración aplicación"
+
+msgid "Application successfully queued for generation."
+msgstr "Aplicación añadida correctamente a la lista de generación."
+
+msgid "Applications/Previewer manifest for automatic updates."
+msgstr "Manifiesto Aplicaciones/Previewer para actualizaciones automáticas."
+
+msgid "Are you sure ?"
+msgstr "¿Estás seguro?"
+
+msgid "Auth type"
+msgstr "Tipo de autenticación"
+
+msgid "Authenticate"
+msgstr "Autenticar"
+
+msgid "Average build time in seconds:"
+msgstr "Promedio de construcción en segundos:"
+
+msgid "Average sources/apk build time:"
+msgstr "Promedio de tiempo construccion apk/codigo:"
+
+msgid "Backoffice options"
+msgstr "Backoffice opciones"
+
+msgid "Bearer Token Auth (API)"
+msgstr "Portador de Token de Autenticación (API)"
+
+msgid "Bearer Token Auth is valid."
+msgstr "Portador de Token de Autenticación es válida."
+
+msgid "Beta"
+msgstr "Beta"
+
+msgid "Build status"
+msgstr "Estado compilación"
+
+msgid "Build time (in seconds)"
+msgstr "Tiempo construcción (en segundos)"
+
+msgid ""
+"By clicking on link below, you will open your editor in tour editing mode. "
+"Please note that your user account must be created on editor side."
+msgstr ""
+"Clickando en el link debajo, abrirás el editor en modo editor de tour. Por "
+"favor comprueba que tu cuenta de usuario está creada en el lado editor."
+
+msgid "CA"
+msgstr "CA"
+
+msgid "CA certificate"
+msgstr "Certificado de CA"
+
+msgid "CA path:"
+msgstr "CA ruta:"
+
+msgid "CRON Scheduler interval"
+msgstr "Intervalo programador CRON"
+
+msgid "Cache cleared"
+msgstr "Cache limpiada"
+
+msgid "Cache (var/cache, system cache)"
+msgstr "Cache (var/cache, cache de sistema)"
+
+msgid "Can generate APK"
+msgstr "Puede generar APK"
+
+msgid "Cert"
+msgstr "Cert"
+
+msgid "Certificate"
+msgstr "Certificado"
+
+msgid ""
+"Certificate is valid and SSL is reachable, valid until: %s.<br />Issuer: %s%s"
+msgstr ""
+"El certificado SSL es válido es accesible, válido hasta: %s.<br />Emisor: "
+"%s%s"
+
+msgid "Certificate path:"
+msgstr "La ruta de certificado:"
+
+msgid "Certificate successfully generated."
+msgstr "Certificado generado con éxito."
+
+msgid ""
+"Certificate successfully generated. Please wait while %s is reloading "
+"configuration ..."
+msgstr ""
+"Certificado generado con éxito. Por favor espere mientras que %s recarga de "
+"configuración ..."
+
+msgid "Certificate successfully re-generated."
+msgstr "Certificado regenerado con éxito."
+
+msgid "Change the password"
+msgstr "Cambie el password"
+
+msgid ""
+"Check if this cron command is installed under the web user & if you have set "
+"a timezone in Settings > General"
+msgstr ""
+"Comprueba si el comando cron está instalado bajo el usuario web y si tiene "
+"una zona horaria en Configuracion>General"
+
+msgid "Clear"
+msgstr "Limpio"
+
+msgid "Clear cache"
+msgstr "Borrar caché"
+
+msgid "Clear logs"
+msgstr "Borrar registros"
+
+msgid "Cleared cron errors."
+msgstr "Errores CRON limpiados."
+
+msgid "Click here to send your CA certificate"
+msgstr "Haga clic aquí para enviar su certificado de CA"
+
+msgid "Click here to send your Private certificate"
+msgstr "Haga clic aquí para enviar su certificado Privado"
+
+msgid "Click here to send your certificate"
+msgstr "Click aquí para enviar el certificado"
+
+msgid "Click to mark as not read"
+msgstr "Clic para marcar como no leído"
+
+msgid "Click to mark as read"
+msgstr "Clic para marcar como leído"
+
+msgid "Closed"
+msgstr "Cerrado"
+
+msgid "Complete build log"
+msgstr "Log compilación completo"
+
+msgid "Configuration"
+msgstr "Configuración"
+
+msgid "Configuration successfully saved"
+msgstr "Configuración guardada correctamente"
+
+msgid "Core modules"
+msgstr "Modulos Core"
+
+msgid "Create a user"
+msgstr "Crear un usuario"
+
+msgid "Created At"
+msgstr "Creado el"
+
+msgid "Creation date"
+msgstr "Fecha creación"
+
+msgid "Cron"
+msgstr "Cron"
+
+msgid "Cron alerts"
+msgstr "Cron alertas"
+
+msgid "Cron interval"
+msgstr "Cron intervalo"
+
+msgid "Cron scheduler"
+msgstr "Agenda Cron"
+
+msgid "Cron scheduler help"
+msgstr "Ayuda agenda Cron"
+
+msgid "Custom SMTP Configuration"
+msgstr "Personalizada Configuración de SMTP"
+
+msgid "Day of month"
+msgstr "Dia del mes"
+
+msgid "Day of week"
+msgstr "Dia de la semana"
+
+msgid "Deactivate user"
+msgstr "Desactivar usuario"
+
+msgid "Default (no)"
+msgstr "Por defecto (no)"
+
+msgid "Development"
+msgstr "Desarrollo"
+
+msgid "DirectAdmin"
+msgstr "DirectAdmin"
+
+msgid "DirectAdmin (beta)"
+msgstr "DirectAdmin (beta)"
+
+msgid "Disable cron jobs"
+msgstr "Desactivar trabajos cron"
+
+msgid "Disabled"
+msgstr "Desactivado"
+
+msgid "Disk usage & Cache:"
+msgstr "Espacio de disco & Cache:"
+
+msgid "Dismiss & install later"
+msgstr "Descartar & instalar despues"
+
+msgid "Display"
+msgstr "Mostrar"
+
+msgid "Doesn't meet the requirements"
+msgstr "No cumple con los requisitos"
+
+msgid "Download latest source"
+msgstr "Descargar ultimo codigo fuente"
+
+msgid "Drop your certificate here"
+msgstr "Arrastrar su certificado aquí"
+
+msgid "Edit the user"
+msgstr "Editar el usuario"
+
+msgid "Editor's Design"
+msgstr "Editores de diseño"
+
+msgid "Enable custom SMTP configuration"
+msgstr "Habilitar configuración de SMTP personalizada"
+
+msgid "Enter your credentials:"
+msgstr "Ingrese sus credenciales :"
+
+msgid "Environment"
+msgstr "Entorno"
+
+msgid "Error, order already paid."
+msgstr "Error, pedido ya pagado anteriormente."
+
+msgid ""
+"Errors are displayed on page, outputs are more verbose, this is an option "
+"for debug purpose, use with care as it may output some critical informations "
+"about your server."
+msgstr ""
+"Los errores son mostrados en la página, la salida es más verbosa, esto es "
+"una opción con proposito de depuración, usar con cuidado puede dar salida a "
+"informaciones criticas sobre el servidor"
+
+msgid "Exists"
+msgstr "Existe"
+
+msgid "External extensions"
+msgstr "Extensiones externas"
+
+msgid "Failed"
+msgstr "Fallido"
+
+msgid "File hash is different from manifest."
+msgstr "Hash de fichero diferente al del manifiesto."
+
+msgid "File is missing."
+msgstr "Fichero no encontrado."
+
+msgid "Force re-generation"
+msgstr "Forzar de re-generación"
+
+msgid "Forgot password"
+msgstr "¿Olvidó su contraseña?"
+
+msgid "Full"
+msgstr "Completo"
+
+msgid "Full path to use within your webserver."
+msgstr "Ruta de acceso completa para el uso dentro de su servidor web."
+
+msgid "General settings"
+msgstr "Configuración general"
+
+msgid "Generate"
+msgstr "Generar"
+
+msgid "Generate a certificate via Let's Encrypt."
+msgstr "Generar un certificado a través de encriptación."
+
+msgid "Generate source"
+msgstr "Origenes generados"
+
+msgid "Generating"
+msgstr "Generando"
+
+msgid "[Global]"
+msgstr "[Global]"
+
+msgid "Grant user"
+msgstr "Conceder acceso usuario"
+
+msgid "HTTP Basic Auth (API)"
+msgstr "HTTP Basic Auth (API)"
+
+msgid "HTTP Basic Auth is valid."
+msgstr "HTTP Basic Auth es válido."
+
+msgid "HTTPS & SSL Certificates"
+msgstr "HTTPS Y Certificados SSL"
+
+msgid "HTTPS host is unreachable."
+msgstr "HTTPS host es inalcanzable."
+
+msgid "HTTPS is not available on your server."
+msgstr "HTTPS no está disponible en su servidor."
+
+msgid "HTTPS not reachable"
+msgstr "HTTPS no se puede llegar"
+
+msgid ""
+"HTTPS support is in <b>Beta</b>, you should test it on your <b>development "
+"server</b> first & prepare for further migration."
+msgstr ""
+"Soporte HTTPS en fase <b>Beta</b>, se debe probar en su <b>servidor de "
+"desarrollo</b> en primer lugar y prepararse para la migración."
+
+msgid ""
+"HTTPS support is in test, you should only try it on your development server "
+"prior to prepare for further migration."
+msgstr ""
+"Soporte HTTPS está en pruebas, solo debes probarlo en un servidor en "
+"desarrollo para preparar la migración."
+
+msgid "Hide"
+msgstr "Oculto"
+
+msgid "Host"
+msgstr "Host"
+
+msgid "Hostname"
+msgstr "Nombre de host"
+
+msgid "Hostnames associated with this Certificate"
+msgstr "Nombres de host asociado con este Certificado"
+
+msgid "Hour"
+msgstr "Hora"
+
+msgid "ID"
+msgstr "ID"
+
+msgid "If inactive, your customer won't see the tour."
+msgstr "Si inactivo, los clientes no verán el tour."
+
+msgid ""
+"If you are unable to install or run the cronjob on your hosting/server you "
+"can disable it."
+msgstr ""
+"Si no puedes instalar o ejecutar cron en tu hosting puedes desactivarlo."
+
+msgid "Info"
+msgstr "Info"
+
+msgid "Installed"
+msgstr "Instalado"
+
+msgid "Installed icon packs"
+msgstr "Paquetes de iconos instalados"
+
+msgid "Installed layouts"
+msgstr "Plantillas instaladas"
+
+msgid "Installed modules"
+msgstr "Modulos instalados"
+
+msgid "Installed, version"
+msgstr "Instalado, versión"
+
+msgid "Integrity check"
+msgstr "Comprobar integridad"
+
+msgid "Invoice options"
+msgstr "Opciones de factura"
+
+msgid "Issued certificates"
+msgstr "Los certificados emitidos"
+
+msgid "JAVA:"
+msgstr "JAVA:"
+
+msgid "Last cron error"
+msgstr "Última cron error"
+
+msgid "Last failure"
+msgstr "Último fallo"
+
+msgid "Last success"
+msgstr "Último exito"
+
+msgid "Last trigger"
+msgstr "Último Disparador"
+
+msgid "Let's Encrypt certificates renewal"
+msgstr "Renovacion de certificados Let's Encrypt"
+
+msgid "Let's Encrypt environment"
+msgstr "Entorno Let´s Encrypt"
+
+msgid "[Let's Encrypt] renewing certificate."
+msgstr "[Let's Encrypt] Renovando certificado."
+
+msgid "[Let's Encrypt] will add %s to SAN."
+msgstr "[Let's Encrypt] agregará %s a SAN."
+
+msgid "Link preview"
+msgstr "Enlace de vista previa"
+
+msgid "List of backoffice accounts"
+msgstr "Lista de cuentas backoffice"
+
+msgid "List of the messages"
+msgstr "Lista de mensajes"
+
+msgid "Loaded"
+msgstr "Cargado"
+
+msgid "Log"
+msgstr "Log"
+
+msgid "Log (var/log, log files)"
+msgstr "Log (var/log, archivos log)"
+
+msgid "Login to your backoffice interface"
+msgstr "Login a su cuenta backoffice"
+
+msgid "Logs cleared."
+msgstr "Logs limpiados."
+
+msgid "Mark all as read"
+msgstr "Marcar todo como leido"
+
+msgid "Mark as new"
+msgstr "Marcar como nuevo"
+
+msgid "Mark as read"
+msgstr "Marcar como leído"
+
+msgid "Messages"
+msgstr "Mensajes"
+
+msgid "Minute"
+msgstr "Minuto"
+
+msgid "Missing parameters for generation."
+msgstr "Faltan parametros para la generacion."
+
+msgid "Mobile Source Codes & Builds"
+msgstr "Codigos fuente & construciones"
+
+msgid "Module/User tasks"
+msgstr "Tareas Modulo/Usuario"
+
+msgid "Month"
+msgstr "Mes"
+
+msgid "My Invoices"
+msgstr "Mis Facturas"
+
+msgid "My tour is active"
+msgstr "Mi tour está activo"
+
+msgid "Name"
+msgstr "Nombre"
+
+msgid "New messages"
+msgstr "Nuevos mensajes"
+
+msgid "New users"
+msgstr "Nuevos usuarios"
+
+msgid "No"
+msgstr "No"
+
+msgid "No file has been sent"
+msgstr "Ningún archivo ha sido enviado"
+
+msgid "No icon packs"
+msgstr "No hay paquetes de iconos"
+
+msgid "No informations."
+msgstr "No hay información."
+
+msgid "No layouts"
+msgstr "Sin plantillas"
+
+msgid "No module/user tasks"
+msgstr "Sin tareas Modulo/Usuario"
+
+msgid "No system tasks"
+msgstr "Sin tareas de sistema"
+
+msgid "None"
+msgstr "Ninguno"
+
+msgid "Not found"
+msgstr "No encontrado"
+
+msgid "Not running"
+msgstr "Sin ejecutarse"
+
+msgid "Not yet generated."
+msgstr "Aun no generado."
+
+msgid "Note:"
+msgstr "Nota:"
+
+msgid "Note: Let's encrypt X1 is a staging certificate."
+msgstr "Nota: Let's encrypt X1 es una puesta en escena."
+
+msgid "Number of typed characters:"
+msgstr "Número de caracteres escritos:"
+
+msgid "OR"
+msgstr ""
+
+msgid "Ok"
+msgstr "Ok"
+
+msgid "Ok, you may consider upgrade to >=5.4"
+msgstr "Ok, deberias considerar actualizar a >=5.4"
+
+msgid "Ok, you may upgrade to php 5.6"
+msgstr "Ok, Debes actualizar a php 5.6"
+
+msgid ""
+"One of the three given Certificates path is not readable, please make sure "
+"they have the good rights."
+msgstr ""
+"Uno de los tres Certificados de ruta de acceso no es legible, por favor "
+"asegúrese de que tiene derechos."
+
+msgid "Open"
+msgstr "Abrir"
+
+msgid "Open the tour editing mode"
+msgstr "Abrir el modo edición del Tour"
+
+msgid "Optional binaries"
+msgstr "Librerias opcionales"
+
+msgid "Optional libraries"
+msgstr "Librerias opcionales"
+
+msgid ""
+"Otherwise install it manually, from your panel, or directly from your ssh "
+"access."
+msgstr ""
+"De lo contrario instalarlo manualmente, desde su panel, o directamente desde "
+"su acceso ssh."
+
+msgid "Overview - WebApp (var/apps/browser, overview & webapp cache)"
+msgstr "Vista general - WebApp (var/apps/browser, vista general & cache webapp)"
+
+msgid "Overview cache cleared."
+msgstr "Cache generalizada limpiada."
+
+msgid "PEM test:"
+msgstr "Test PEM:"
+
+msgid "PHP version %s:"
+msgstr "Versión PHP %s:"
+
+msgid "Password"
+msgstr "Clave"
+
+msgid "Path to your CA certificate"
+msgstr "Ruta de acceso a su certificado de CA"
+
+msgid "Path to your Certificate"
+msgstr "Ruta de acceso a su Certificado"
+
+msgid "Path to your Private certificate"
+msgstr "Ruta de acceso a su certificado Privado"
+
+msgid "Path to your Private key"
+msgstr "Ruta de acceso a su clave Privada"
+
+msgid "Payment received"
+msgstr "Pago recibido"
+
+msgid "People who are allowed to access the backoffice"
+msgstr "Personas autorizadas para acceder al backoffice"
+
+msgid "Permission, denied from Plesk, please use the admin account."
+msgstr ""
+"Permiso denegado desde Plesk, por favor, utilice la cuenta de administrador."
+
+msgid "Plesk"
+msgstr "Plesk"
+
+msgid "Plesk 12+"
+msgstr "Plesk 12+"
+
+msgid "[Plesk] Unknown error."
+msgstr "[Plesk] error Desconocido."
+
+msgid "Port"
+msgstr "Puerto"
+
+msgid "Preview 5.0"
+msgstr "Previo 5.0"
+
+msgid "Privacy policy URL"
+msgstr "Política de privacidad URL"
+
+msgid "Private"
+msgstr "Privado"
+
+msgid "Private certificate"
+msgstr "Certificado privado"
+
+msgid "Private path:"
+msgstr "Ruta privado:"
+
+msgid "Production"
+msgstr "Producción"
+
+msgid "Progress"
+msgstr "Progreso"
+
+msgid "Publication access type"
+msgstr "Acceso a la publicación tipo"
+
+msgid "Push messages:"
+msgstr "Mensajes push:"
+
+msgid "Queued"
+msgstr "Lista pendiente"
+
+msgid "Queued %s/%s"
+msgstr "Lista %s/%s"
+
+msgid "Read"
+msgstr "Leer"
+
+msgid "Rebuild"
+msgstr "Reconstruir"
+
+msgid "Rebuild manifest"
+msgstr "Reconstrucción de manifiesto"
+
+msgid "Rebuilding application manifest files."
+msgstr "Reconstruyendo ficheros de manifiesto de app."
+
+msgid "Regular updates system"
+msgstr "Actualizaciones regulares del sistema"
+
+msgid "Remove locks"
+msgstr "Eliminar bloqueados"
+
+msgid "Remove locks now"
+msgstr "Eliminar bloqueos ahora"
+
+msgid "Removing CRON Scheduler lock files."
+msgstr "Eliminando de CRON ficheros bloqueados."
+
+msgid "Removing domains: %s"
+msgstr "Eliminación de dominios: %s"
+
+msgid "Request"
+msgstr "Solicitar"
+
+msgid "Request the certificate via Let's Encrypt."
+msgstr "Solicitar el certificado a través de Let's Encrypt."
+
+msgid "Required extensions"
+msgstr "Extensiones requeridas"
+
+msgid "Revoke user"
+msgstr "Revocar usuario"
+
+msgid "Run test"
+msgstr "Ejecutar test"
+
+msgid "SSL"
+msgstr "SSL"
+
+msgid "Sales"
+msgstr "Ventas"
+
+msgid "Sales configuration"
+msgstr "Configuración Ventas"
+
+msgid "Save"
+msgstr "Guardar"
+
+msgid "Select API access"
+msgstr "Seleccione el acceso a la API"
+
+msgid "Select a panel type or self-managed"
+msgstr "Seleccione un tipo de panel o de auto-administrado"
+
+msgid "Self-managed"
+msgstr "Auto-administrado"
+
+msgid "Self-managed sync is not available for now."
+msgstr "Sincronización de Auto-administrado no está disponible por ahora."
+
+msgid "Send anonymous statistics to improve the apps builder."
+msgstr "Enviar estadísticas anónimas para mejorar Siberian CMS."
+
+msgid "Server"
+msgstr "Servidor"
+
+msgid "Services"
+msgstr "Servicios"
+
+msgid "Show All Applications"
+msgstr "Mostrar Todas Las Aplicaciones"
+
+msgid "Show more"
+msgstr "Mostrar más"
+
+msgid "Siberian - Backoffice"
+msgstr "Siberian - Backoffice"
+
+msgid "Siberian CMS"
+msgstr "Siberian CMS"
+
+msgid "[Siberian_Cpanel] Unable to update cPanel SSL Certificate for %s"
+msgstr "[Siberian_Cpanel] no se puede actualizar cPanel Certificado SSL para %s"
+
+msgid "[Siberian_VestaCP] requires php 5.6+"
+msgstr "[Siberian_VestaCP] requiere php 5.6+"
+
+msgid ""
+"Something went wrong with the API Sync to %s, retry or check in your panel "
+"if your SSL certificate is correctly setup."
+msgstr ""
+"Algo salió mal con la API de Sincronización de %s, reintentar o verifique en "
+"el panel si su certificado SSL correctamente la instalación."
+
+msgid "Source"
+msgstr "Fuente"
+
+msgid "Source Queue empty"
+msgstr "Cola código fuente vacia"
+
+msgid "Source Queue status"
+msgstr "Estado cola código fuente"
+
+msgid "[Sources]"
+msgstr "[Codigo fuente]"
+
+msgid "Sources code"
+msgstr "Codigo fuente"
+
+msgid "Stable"
+msgstr "Estable"
+
+msgid "Staging"
+msgstr "Ensayo"
+
+msgid "Start editing your platform tour"
+msgstr "Empezar a editar el tour de plataforma"
+
+msgid "Statistics"
+msgstr "Estadísticas"
+
+msgid ""
+"Statistics are used to improve the platform and help understanding usage of "
+"the apps builder."
+msgstr ""
+"Las estadísticas se utilizan para mejorar la plataforma y ayudar a "
+"comprender el uso de Siberian."
+
+msgid "Status"
+msgstr "Estado"
+
+msgid "Submit a bug report or improvement request for beta/preview"
+msgstr "Enviar un reporte de error o solicitud de funciones para beta/previo"
+
+msgid "Success"
+msgstr "Exito"
+
+msgid "Successfully cleaned-up old certificate."
+msgstr "Exito en la limpieza de certificado antiguo."
+
+msgid "Successfully installed new certificate."
+msgstr "Instalado con éxito un nuevo certificado."
+
+msgid "Successfully removed the certificate."
+msgstr "Eliminado con éxito el certificado."
+
+msgid "Successfully saved Certificate to %s"
+msgstr "Guardado correctamente Certificado a %s"
+
+msgid "Sync files"
+msgstr "Sincronización de archivos"
+
+msgid "System Diagnostic"
+msgstr "Sistema De Diagnóstico"
+
+msgid "System tasks"
+msgstr "Tareas del sistema"
+
+msgid "System was unable to validate any Bearer Token Auth call."
+msgstr ""
+"El sistema no pudo validar cualquier Portador de Token de Autenticación de "
+"llamada."
+
+msgid "System was unable to validate any HTTP Basic Auth call."
+msgstr "El sistema no pudo validar cualquier HTTP Basic Auth llamada."
+
+msgid "Temp (var/tmp, application sources & apk)"
+msgstr "Temp (var/tmp, codigos fuente & apk)"
+
+msgid "Templates"
+msgstr "Plantillas"
+
+msgid "Test SSL/HTTPS"
+msgstr "Prueba de SSL/HTTPS"
+
+msgid "Testing: %s"
+msgstr "Probando: %s"
+
+msgid ""
+"The PHP executable guessed path <b>'%s'</b> may be incorrect, please double "
+"check for it."
+msgstr ""
+"El ejecutable de PHP en ruta de <b>'%s'</b> pueden ser incorrectos, "
+"compruebe por favor."
+
+msgid "The default setting to run your production server."
+msgstr "Configuración por defecto para correr tu servidor en producción."
+
+msgid ""
+"The domain %s doesn't belong to you, or is not configured on your server."
+msgstr ""
+"El dominio %s no pertenece a usted, o no está configurado en el servidor."
+
+msgid "The given CA certificate doesn't match the hostname."
+msgstr "El CA certificado aportado no coincide con el nombre de host."
+
+msgid "The given certificate doesn't match the hostname."
+msgstr "El certificado enviado no coincide con el nombre de host."
+
+msgid "The given certificate doesn't match the hostname or wiSibldcard."
+msgstr "El certificado enviado no coincide con el nombre de host o wiSibldcard."
+
+msgid "This account can't be deleted, it's the only one"
+msgstr "Esta cuenta no puede ser eliminada, es la única cuenta principal"
+
+msgid ""
+"This action mainly serves as a development & support purpose<br />This will "
+"restore App sources 'iOS', 'Android', 'HTML5' & 'Overview' from the latest "
+"Siberian version, then rebuild the manifest to restore installed modules."
+msgstr ""
+"Esta acción sirve para desarrolladores y soporte<br />Esto restaurará "
+"origenes de app 'iOS', 'Android', 'HTML5' y 'Generales' desde la ultima "
+"versión, se reconstruye el manifiesto para restaurar modulos instalados."
+
+msgid ""
+"This e-mail address must be reachable, as you will receive important e-mails "
+"from the system & user actions."
+msgstr ""
+"Esta dirección de correo electrónico debe ser accesible, ya que recibirá "
+"correos electrónicos importantes de las acciones del sistema y del usuario."
+
+msgid ""
+"This message will be displayed as a waiting message when your users chose an "
+"offline payment method"
+msgstr ""
+"Este mensaje será mostrado como mensaje de espera cuando los usuarios elijan "
+"un método de pago offline"
+
+msgid ""
+"This message will be displayed as an information message to describe which "
+"offline payment method you offer"
+msgstr ""
+"Este mensaje será mostrado como información para describir los métodos de "
+"pago que ofreces offline"
+
+msgid ""
+"This test is for development & support usage, this only highlights potential "
+"missing and/or modified files, results need to be interpreted."
+msgstr ""
+"Este test es para uso de desarrolladores y soporte, solo se destacan los "
+"archivos perdidos o modificados, se necesita interpretar los resultados."
+
+msgid "Tools"
+msgstr "Herramientas"
+
+msgid "Total sales"
+msgstr "Total ventas"
+
+msgid "Total usage:"
+msgstr "Uso Total:"
+
+msgid "Tour settings"
+msgstr "Configuración Tour"
+
+msgid "Tour status"
+msgstr "Estado Tour"
+
+msgid "Tour status successfully saved."
+msgstr "Estado de Tour actualizado correctamente."
+
+msgid "UID"
+msgstr "UID"
+
+msgid ""
+"Unable to connect in HTTPS or to validate the SSL Certificate.<br />Check if "
+"your are not in `Staging`"
+msgstr ""
+"No se puede conectar en HTTPS o validar el Certificado SSL.<br />Comprobar "
+"si no están en `puesta en escena`"
+
+msgid "Unknown"
+msgstr "Desconocido"
+
+msgid "Unknown - Self-managed"
+msgstr "Desconocido - Auto-administrado"
+
+msgid "Update"
+msgstr "Actualización"
+
+msgid "Update channel"
+msgstr "Canal de actualizacion"
+
+msgid "Updated At"
+msgstr "Actualizado En"
+
+msgid "Upload"
+msgstr "Subir"
+
+msgid "Upload files or use existing certificates on my server"
+msgstr "Subir archivos o usar certificados existentes en mi servidor"
+
+msgid "Upload my certificates"
+msgstr "Subir mis certificados"
+
+msgid "Upload your own certificates"
+msgstr "Sube tus propios certificados"
+
+msgid "Use HTTPS"
+msgstr "Usar HTTPS"
+
+msgid "Use existing certificates on my server"
+msgstr "El uso de los certificados existentes en mi servidor"
+
+msgid "User successfully deleted"
+msgstr "Usuario borrado correctamente"
+
+msgid "Username"
+msgstr "Nombre de usuario"
+
+msgid "User's status successfully edited"
+msgstr "Estado de usuarios editado correctamente"
+
+msgid "VAT check options"
+msgstr "Opciones checkeo IVA"
+
+msgid "Validation"
+msgstr "Validación"
+
+msgid "VestaCP"
+msgstr "VestaCP"
+
+msgid "VestaCP (php 5.6+ only)"
+msgstr "VestaCP (php 5.6+ solamente)"
+
+msgid "View Details"
+msgstr "Ver detalle"
+
+msgid "WHM cPanel"
+msgstr "WHM cPanel"
+
+msgid "Waiting for %s to reload, this can take a while..."
+msgstr "A la espera de %s para volver a cargar, esto puede tomar un tiempo..."
+
+msgid ""
+"We recommned using <b>preview</b> on a testing or development server, we "
+"won't provide regular ticket support for these update channels, only bug "
+"reports via the form below."
+msgstr ""
+"Estamos usando <b>previo</b> en un test o servidor de desarrollo, no "
+"proveemos de soporte regular de tickets para estos canales, solo para notas "
+"de reporte con el formulario de abajo."
+
+msgid "Web space"
+msgstr "Espacio web"
+
+msgid "White Label"
+msgstr "Marca Blanca"
+
+msgid "Whitelabel"
+msgstr "Whitelabel"
+
+msgid "Whitelabel hostnames associated with this Certificate"
+msgstr "Whitelabel de host asociado con este Certificado"
+
+msgid "Whitelabel request"
+msgstr "Solicitud marca blanca"
+
+msgid "Whitelabels"
+msgstr "Whitelabels"
+
+msgid "Yes"
+msgstr "Si"
+
+msgid "Yes, install the update."
+msgstr "Si, instalar la actualización."
+
+msgid ""
+"You are about to clean all the cron lock files !\n"
+"Are you sure ?"
+msgstr ""
+"Estás a punto de limpiar los archivos cron bloqueados!\\n"
+" Estás seguro?"
+
+msgid ""
+"You are about to clean all your log files !\n"
+"Are you sure ?"
+msgstr ""
+"Estás a punto de borrar todos los archivos log! \\n"
+" ¿Seguro?"
+
+msgid "You are about to delete this certificate, Are you sure ?"
+msgstr "Usted está a punto de eliminar este certificado, ¿Está seguro ?"
+
+msgid ""
+"You are about to wipe all your temporary files, this includes the generated "
+"sources & apk builds !\n"
+"Are you sure ?"
+msgstr ""
+"Estás a punto de borrar todos los archivos temporales, lo que incluye las "
+"fuentes generadas y apk generados!  \\ n ¿Seguro?"
+
+msgid "You can use <b>%s</b> as a dynamic variable for your application name."
+msgstr ""
+"Usted puede utilizar <b>%s</b> como una dinámica variable para el nombre de "
+"la aplicación."
+
+msgid ""
+"You have a Source generation stuck for more than 1 hour, please check in <b>"
+"Settings > Advanced > Cron</b> for the stuck build.<br />To unlock further "
+"builds you can remove locks from the button below."
+msgstr ""
+"Tiene una generación en espera más de 1 hora, por favor verifique en <b>"
+"Configuración > opciones Avanzadas > Cron</b> para el pegado de construir.<"
+"br />Para desbloquear nuevas compilaciones puede quitar bloqueos desde el "
+"botón de abajo."
+
+msgid ""
+"You have an APK generation stuck for more than 1 hour, please check in <b>"
+"Settings > Advanced > Cron</b> for the stuck build.<br />To unlock further "
+"builds you can remove locks from the button below."
+msgstr ""
+"Tienes una generación APK en espera más de 1 hora, por favor verifique en <b>"
+"Configuración > opciones Avanzadas > Cron</b> las demoras en construccion.<"
+"br />Para desbloquear nuevas compilaciones puede quitar bloqueos desde el "
+"botón de abajo."
+
+msgid "You have no certificate yet."
+msgstr "Usted no tiene certificado todavía."
+
+msgid "You have no new messages."
+msgstr "Usted no tiene mensajes nuevos."
+
+msgid "You must select an Admin panel type before requesting a Certificate."
+msgstr ""
+"Usted debe seleccionar un panel de Administración de tipo antes de solicitar "
+"un Certificado."
+
+msgid ""
+"Your HTTPS/SSL Certificate is about to expire in <b>%s day%s</b>, don't "
+"forget to renew it on the following page <a href=\"%s\">configuration</a>."
+msgstr ""
+"Tu certificado HTTPS/SSL caduca en <b>%s día%s</b>, no olvides renovarlo "
+"desde la página de <a href=\"%s\"\">configuración</a>.\""
+
+msgid "Your certificate is invalid"
+msgstr "Tu certificado es invalido"
+
+msgid "Your certificate is valid until:"
+msgstr "Tu certificado es valido hasta:"
+
+msgid "Your certificates are saved."
+msgstr "Certificados guardados."
+
+msgid "Your new password"
+msgstr "Su nuevo password"
+
+msgid "Your password"
+msgstr "Su password"
+
+msgid "<b>Actual preview version is Siberian 5.0</b>."
+msgstr "<b>Versión previa actual Siberian CMS 5.0</b>"
+
+msgid ""
+"<b>Disclaimer:</b> You are using the <b>preview</b> update channel, this "
+"channel is intended for <b>tests & previews</b> of new features, if you are "
+"not sure stay with <b>stable channel</b>."
+msgstr ""
+"<b>Aviso:</b> Estás usando el canal de actualizaciones <b>previo</b>, este "
+"canal está orientado a <b>tests & previas</b> de nuevas funciones, si no "
+"estás seguro mantente en <b>canal estable</b>."
+
+msgid ""
+"<b>Note for Bug report:</b> give us a maximum of description of how you "
+"reached the bug, and possibly screenshots."
+msgstr ""
+"<b>Nota para reporte de Bug:</b> Intenta explicarnos al máximo el error y "
+"como reproducirlo, si es posible envía capturas de pantalla."
+
+msgid ""
+"<b>Note</b>: sources & push will be sent immediately after their creation, "
+"scheduled push will not work & media optimization is disabled."
+msgstr ""
+"<b>Nota</b>: codigo fuente y push serán enviados inmediatamente después de "
+"su creación, push programados no funcionarán y optimización de imágenes será "
+"desactivado."
+
+msgid "customer"
+msgstr "cliente"
+
+msgid "%d Unread Message"
+msgstr "%d Mensaje no leido"
+
+msgid "%d Unread Messages"
+msgstr "%d Mensajes no leidos"
+
+msgid "for the bundle id:"
+msgstr "para el bundle id:"
+
+msgid "letsencrypt"
+msgstr "letsencrypt"
+
+msgid "per page"
+msgstr "por página"
+
+msgid "see Settings > Advanced > Configuration > Cron to edit options."
+msgstr ""
+"ver Configuraciones > Avanzado > Configuración > Cron para editar opciones"
+
+msgid "values are refreshed once a day only!"
+msgstr "los valores son refrescados una vez al día!"

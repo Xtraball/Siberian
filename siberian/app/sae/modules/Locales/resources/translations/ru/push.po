@@ -1,0 +1,149 @@
+msgid ""
+msgstr ""
+"Project-Id-Version: Russian (Siberian)\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2019-01-22 10:34+0000\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: Russian <http://yvain.xtraball.com/projects/siberian/push/ru/>"
+"\n"
+"Language: ru\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=3; plural=n%10==1 && n%100!=11 ? 0 : n%10>=2 && n%10<="
+"4 && (n%100<10 || n%100>=20) ? 1 : 2;\n"
+"X-Generator: Weblate 3.3\n"
+
+msgid "Additionnal Information"
+msgstr "Добавить информацию"
+
+msgid "An error occurred while deleting the push. Please try again later."
+msgstr ""
+"Произошла ошибка во время удаления этого ответа. Пожалуйста, повторите "
+"попытку позже."
+
+msgid "And a radius (in Km):"
+msgstr "Задать радиус в км"
+
+msgid "Android"
+msgstr "Android"
+
+msgid "Creation date"
+msgstr "Дата отправки"
+
+msgid "Custom URL"
+msgstr "Пользовательский URL"
+
+msgid "Enter a location:"
+msgstr "Введите местоположение:"
+
+msgid "GCM Key"
+msgstr "GCM ключ"
+
+msgid "I want to send it"
+msgstr "Я хочу отправить Push-сообщение"
+
+msgid "Keys successfully saved"
+msgstr "Ключи успешно сохранены"
+
+msgid "Message"
+msgstr "Сообщение"
+
+msgid "No device found for this user"
+msgstr "Не найдено устройство для данного пользователя"
+
+msgid "No items."
+msgstr "Нечего отправлять."
+
+msgid "Open a feature or a custom URL"
+msgstr "Открытые функции или пользовательский URL"
+
+msgid "Pending"
+msgstr "В ожидании"
+
+msgid "Please enter an expiration date for your message:"
+msgstr "Пожалуйста, введите дату истечения срока действия Вашего сообщения:"
+
+msgid "Project Number"
+msgstr "Номер Проекта"
+
+msgid "Push Notifications"
+msgstr "Push-сообщения"
+
+msgid "Push Notifications Settings"
+msgstr "Настройки Push-сообщения"
+
+msgid "Push successfully deleted."
+msgstr "Пользователь успешно удален"
+
+msgid "Radius"
+msgstr "Радиус"
+
+msgid "Send to a specific location"
+msgstr "Отправить в определенное место"
+
+msgid "Send to all applications"
+msgstr "Послать всем приложениям"
+
+msgid "Send to all my users"
+msgstr "Послать всем своим пользователям"
+
+msgid "Send to no specific locations"
+msgstr "Отправить в определенное место"
+
+msgid "Send to specific topics"
+msgstr "Отправить в определенное место"
+
+msgid "Send to specific users"
+msgstr "Отправить определенным пользователям"
+
+msgid "Sending date"
+msgstr "Дата отправки"
+
+msgid "The duration limit must be higher than the sent date"
+msgstr "Время действия должно быть больше, чем указанная дата"
+
+msgid "Topics"
+msgstr "Темы"
+
+msgid "Users"
+msgstr "Пользователи"
+
+msgid "You must choose a topic before sending your message."
+msgstr "Вы должны выбрать тему перед отправкой сообщения."
+
+msgid "You must choose at least one user before sending your message."
+msgstr ""
+"Вы должны выбрать по крайней мере одного пользователь перед отправкой "
+"сообщения."
+
+msgid "Your app must be published to send a push notification."
+msgstr ""
+"Ваше приложение должно быть опубликовано, чтобы отправлять  Push-уведомления."
+
+msgid "Your message has been saved successfully."
+msgstr "Ваша карта лояльности была успешно сохранена"
+
+msgid ""
+"Your message has been saved successfully and will be sent at the entered date"
+msgstr ""
+"Ваше сообщение было успешно сохранено и будет отправлено в указанную дату."
+
+msgid ""
+"Your message has been saved successfully and will be sent in a few minutes"
+msgstr ""
+"Ваше сообщение было успешно сохранено и будет отправлено в течение "
+"нескольких минут."
+
+msgid "and users entering the area"
+msgstr "и пользователям при входе в зону"
+
+msgid "for a limited period"
+msgstr "в течение ограниченного периода"
+
+msgid "now"
+msgstr "сейчас"
+
+msgid "on a specific date"
+msgstr "на определенную дату"

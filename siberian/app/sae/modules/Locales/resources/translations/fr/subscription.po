@@ -1,0 +1,360 @@
+msgid ""
+msgstr ""
+"Project-Id-Version: French (Siberian)\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2019-01-22 10:32+0000\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: French <http://yvain.xtraball.com/projects/siberian/"
+"subscription/fr/>\n"
+"Language: fr\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=n > 1;\n"
+"X-Generator: Weblate 3.3\n"
+
+msgid "Active"
+msgstr "Actif"
+
+msgid "Address 1"
+msgstr "Adresse"
+
+msgid "Address 2"
+msgstr "Complément d'adresse"
+
+msgid ""
+"An error occurred while processing the payment. For more information, please "
+"feel free to contact us."
+msgstr ""
+"Une erreur est survenue lors du traitement de votre paiement. Pour plus "
+"d'information, merci de contacter notre service."
+
+msgid ""
+"An error occurred while processing your order. Please, check your 2Checkout "
+"credentials or try again later."
+msgstr ""
+"Une erreur est survenue lors du traitement de votre commande . S'il vous "
+"plaît , vérifiez vos informations d'identification 2Checkout ou réessayez "
+"plus tard ."
+
+msgid "An error occurred while processing your order. Please, try again later."
+msgstr ""
+"Une erreur est survenue en traitant votre commande. Veuillez essayer "
+"ultérieurement."
+
+msgid "An error occurred while saving. Please try again later"
+msgstr ""
+"Une erreur est survenue en sauvegardant. Veuillez essayer ultérieurement."
+
+msgid "An error occurred while saving. The selected subscription is not valid."
+msgstr ""
+"Une erreur est survenue en sauvegardant. L'abonnement sélectionné n'est pas "
+"valide."
+
+msgid ""
+"An offline payment method will <strong>not</strong> be associated with any "
+"online payment method. Users will have to pay you by checks, bank "
+"transfer...You'll have to edit your invoices manually."
+msgstr ""
+"Un mode de paiement hors ligne ne sera <strong> pas </ strong> associé à un "
+"mode de paiement en ligne. Les utilisateurs devront vous payer par chèque, "
+"virement bancaire ... Vous devrez éditer vos factures manuellement."
+
+msgid "Are you sure you want to delete this plan?"
+msgstr "Etes-vous sur de vouloir supprimer ce plan ?"
+
+msgid ""
+"Be careful: a 2Checkout stopped recurrence can only be reactivated by a "
+"2Checkout representative."
+msgstr ""
+"Attention: un 2Checkout arrêté récidive ne peut être réactivé par un "
+"représentant 2Checkout ."
+
+msgid ""
+"Be careful: a Stripe stopped recurrence can only be reactivated manually in "
+"your Stripe Admin panel."
+msgstr ""
+"Attention: un abonnement Stripe arrêté ne peut être réactivé manuellement "
+"dans votre panneau Stripe Admin."
+
+msgid ""
+"Be sure to fill in Admob settings in Settings > General section of your back "
+"office."
+msgstr ""
+"Soyez sûr de remplir les paramètres Admob dans Paramètres> section Général "
+"de votre back office ."
+
+msgid "Billing Address"
+msgstr "Adresse de facturation"
+
+msgid "CVC"
+msgstr "Code à 3 chiffres au dos"
+
+msgid "Card number"
+msgstr "Numéro de la carte"
+
+msgid "Charged to your client every month"
+msgstr "Facturé à votre client tous les mois"
+
+msgid "Charged to your client every year"
+msgstr "Facturé à votre client tous les ans"
+
+msgid "Charged to your client when placing the order"
+msgstr "Facturé à votre client au passage de la commande"
+
+msgid "Choose features"
+msgstr "Choisissez caractéristiques"
+
+msgid "Choose the subscription that suits you best:"
+msgstr "Choisissez l'abonnement qui vous convient le mieux"
+
+msgid "Choose your Payment method"
+msgstr "CHOISISSEZ VOTRE METHODE DE PAIEMENT:"
+
+msgid "City"
+msgstr "Ville"
+
+msgid "Click here"
+msgstr "Cliquez ici"
+
+msgid "Confirmation"
+msgstr "Confirmation"
+
+msgid "Create a new subscription"
+msgstr "Créer un nouvel abonnement"
+
+msgid "Creation"
+msgstr "Création"
+
+msgid "Describe here this plan. Will be displayed on the front end"
+msgstr "Décrivez le plan. Cela sera affiché au client."
+
+msgid ""
+"Don't forget to configure your message for offline plans in Settings > Sales "
+"> Configuration"
+msgstr ""
+"N'oubliez pas de configurer votre message pour les connexions hors ligne "
+"dans Paramètres > Ventes > Configuration"
+
+msgid "Each price must be entered excluding tax"
+msgstr "Chaque prix doit être entré HT"
+
+msgid "Edit the subscription %s"
+msgstr "Editer l'abonnement"
+
+msgid "Expiration"
+msgstr "Expiration"
+
+msgid "Expiration date"
+msgstr "Date d'expiration"
+
+msgid "Give a name to this plan. Will be displayed on the front end"
+msgstr "Donnez un nom à ce plan. Cela sera affiché au client."
+
+msgid ""
+"If you chose an offline payment, your subscription will be activated by an "
+"admin when your payment is received."
+msgstr ""
+"Si vous avez choisi un paiement hors ligne, votre abonnement sera activé par "
+"un administrateur lors de la réception de votre paiement."
+
+msgid "I'll pay with an offline payment mode"
+msgstr "Je vais payer avec un mode mode de paiement hors ligne"
+
+msgid "List of your plans"
+msgstr "Liste de vos plans"
+
+msgid "List of your subscriptions"
+msgstr "Liste de vos abonnements"
+
+msgid "MM"
+msgstr "Mois"
+
+msgid "Monthly"
+msgstr "Mensuel"
+
+msgid "New sale on your platform"
+msgstr "Nouvelle vente sur votre plate-forme"
+
+msgid "No recurring line items to stop."
+msgstr "Aucun élément de ligne récurrents pour arrêter ."
+
+msgid "None"
+msgstr "Aucun"
+
+msgid "One-off"
+msgstr "Une seule fois"
+
+msgid "Order's details"
+msgstr "Détails de la commande"
+
+msgid "Payment"
+msgstr "Paiement"
+
+msgid "Payment Method:"
+msgstr "Méthode de paiement"
+
+msgid "Payment Option"
+msgstr "Option de paiement"
+
+msgid "Please choose a payment method for this plan."
+msgstr "Veuillez choisir une méthode de paiement pour ce projet."
+
+msgid "Please, enter a company"
+msgstr "Veuillez entrer une société"
+
+msgid "Please, enter a country"
+msgstr "Veuillez entrer un pays"
+
+msgid "Please, enter a description."
+msgstr "Veuillez entrer une description."
+
+msgid "Please, enter a name."
+msgstr "Veuillez entrer un nom."
+
+msgid "Please, enter an address"
+msgstr "Veuillez entrer une adresse"
+
+msgid "Please fill in your card information in order to pay with Stripe:"
+msgstr ""
+"Merci d'indiquer les renseignements de votre Carte afin d'effectuer le "
+"paiement."
+
+msgid "Pricing"
+msgstr "Prix"
+
+msgid "Proceed to payment?"
+msgstr "Procéder au paiement ?"
+
+msgid "Recurring"
+msgstr "Récurrence"
+
+msgid "Setup Fee"
+msgstr "Frais de mise en place"
+
+msgid "Setup fee"
+msgstr "Frais de mise en place"
+
+msgid "Sorry, but no payment method was found."
+msgstr "Désolé , mais aucune méthode de paiement a été trouvé ."
+
+msgid "State/Province"
+msgstr "Région/Département"
+
+msgid "Subscription"
+msgstr "Abonnement"
+
+msgid "Subscription for"
+msgstr "Abonnement pour"
+
+msgid "Subscription successfully saved"
+msgstr "Abonnement enregistré avec succès"
+
+msgid "Subtotal"
+msgstr "Sous-total"
+
+msgid "Thanks!"
+msgstr "Merci !"
+
+msgid "The monthly price is not a valid price (e.g. 12.34)"
+msgstr "Le prix mensuel n'est pas un prix valide (e.g. 12,34)"
+
+msgid "The setup fee is not a valid price (e.g. 12.34)"
+msgstr "Les frais de mise en place ne sont pas un prix valide (e.g. 12,34)"
+
+msgid "The user %s requests you to publish the app %s."
+msgstr ""
+"L'utilisateur %s vous demande de bien vouloir publier l'application de %s."
+
+msgid "The yearly price is not a valid price (e.g. 12.34)"
+msgstr "Le prix annuel n'est pas un prix valide (e.g. 12,34)"
+
+msgid "This plan allows offline payments method (manual management)"
+msgstr "Ce plan permet une méthode de paiement hors ligne (gestion manuelle)"
+
+msgid "This subscription is active"
+msgstr "L'abonnement est actif"
+
+msgid "Use Owner AdMob"
+msgstr "Utiliser AdMob Propriétaire"
+
+msgid "VAT Number"
+msgstr "Numéro de TVA"
+
+msgid "Verification number:"
+msgstr "Cryptogramme"
+
+msgid ""
+"We were unable to deactivate their subscription on %s. Please, do it "
+"manually."
+msgstr ""
+"Nous ne pouvons désactiver l'abonnement sur % s . S'il vous plaît , faites-"
+"le manuellement."
+
+msgid "YYYY"
+msgstr "Année"
+
+msgid "Yearly"
+msgstr "Annuel"
+
+msgid "You already have a subscription for this application"
+msgstr "Vous avez déjà un abonnement pour cette application"
+
+msgid ""
+"You are almost done! After subscribing, your app can be published on both "
+"the AppStore and the Google Play."
+msgstr ""
+"Vous y êtes presque! Remplissez les informations de facturation et "
+"choisissez votre offre. Une fois le règlement enregistré, votre application "
+"pourra être publiée sur les stores Apple & Google."
+
+msgid ""
+"You can choose which feature will be accessible with your plan. By default, "
+"all features are allowed."
+msgstr ""
+"Vous pouvez choisir quelle fonctionnalité sera accessible avec votre plan . "
+"Par défaut , toutes les fonctionnalités sont autorisés ."
+
+msgid "You don't have any subscriptions yet"
+msgstr "Vous n'avez pas encore d'abonnement"
+
+msgid ""
+"You have chosen an offline plan. Once submitted, your subscription will be "
+"activated by an admin when your payment is received."
+msgstr ""
+"Vous avez choisi un plan hors ligne. Une fois soumis, votre abonnement sera "
+"activé par un administrateur lors de la réception de votre paiement."
+
+msgid "Your VAT Number is not valid"
+msgstr "Votre numéro de TVA n'est pas valide"
+
+msgid ""
+"Your order has been canceled. If you need any help to place your order, "
+"please feel free to contact us."
+msgstr ""
+"Votre commande a été annulée. Si vous avez besoin d'aide pour passer votre "
+"commande, n'hésitez pas à nous contacter."
+
+msgid ""
+"Your order has been successfully paid. Your application will be published "
+"very soon."
+msgstr ""
+"Votre commande a été payée avec succès. Votre application va être publiée "
+"très vite."
+
+msgid "Your subscription must have at least one price"
+msgstr "Votre abonnement doit avoir au moins un prix."
+
+msgid "You've made a sale!"
+msgstr "Vous avez fait une vente!"
+
+msgid "Zip Code"
+msgstr "Code postal"
+
+msgid "price"
+msgstr "Prix"
+
+msgid "to view this app if you are connected to your backoffice."
+msgstr ""
+"pour afficher cette application si vous êtes connecté à votre backoffice."

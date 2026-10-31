@@ -1,0 +1,250 @@
+msgid ""
+msgstr ""
+"Project-Id-Version: Italian (Siberian)\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2019-01-22 10:32+0000\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: Italian <http://yvain.xtraball.com/projects/siberian/"
+"installer/it/>\n"
+"Language: it\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=n != 1;\n"
+"X-Generator: Weblate 3.3\n"
+
+msgid "Action"
+msgstr "Azione"
+
+msgid "Actions"
+msgstr "Azioni"
+
+msgid "All of your modules are up to date"
+msgstr "Tutti i moduli sono aggiornati"
+
+msgid "An update is available. Click here to download it."
+msgstr "Un aggiornamento disponibile. Clicca qui per scaricarlo"
+
+msgid "Check for updates"
+msgstr ""
+
+msgid "Click here to see the release notes"
+msgstr ""
+
+msgid "Click here to send your module"
+msgstr "Clicca qui per inviare il tuo modulo"
+
+msgid "Details"
+msgstr "Dettagli"
+
+msgid "Drop your module here"
+msgstr "Trascina il tuo modulo qui"
+
+msgid "Host"
+msgstr "Host"
+
+msgid "Install"
+msgstr ""
+
+msgid "Installing"
+msgstr "Installazione"
+
+msgid "Installing your module"
+msgstr "Installare il modulo"
+
+msgid "Module successfully installed"
+msgstr "Il modulo è installato correttamente"
+
+msgid "Module to upload"
+msgstr "Caricamento modulo"
+
+msgid "Modules Installation"
+msgstr "Installazione moduli"
+
+msgid "Modules successfully installed!"
+msgstr "Moduli installati correttamente"
+
+msgid "Name"
+msgstr "Nome"
+
+msgid "No directory provided"
+msgstr "Nessuna directory fornita"
+
+msgid "No module to install"
+msgstr "Nessun modulo da installare"
+
+msgid "No modules uploaded yet"
+msgstr "Non ci sono ancora moduli caricati"
+
+msgid ""
+"Or set the correct permissions to the following files and folders and try "
+"again:"
+msgstr ""
+"O impostare le autorizzazioni corrette per i seguenti file e cartelle e "
+"riprova:"
+
+msgid "Package"
+msgstr ""
+
+msgid "Package Details"
+msgstr "Dettagli pacchetto"
+
+msgid "Path to your system"
+msgstr "Percorso al sistema"
+
+msgid "Please, enter a name"
+msgstr "Inserisci un nome"
+
+msgid "Please, fill out all fields"
+msgstr "Per favore, compila tutti i campi"
+
+msgid ""
+"Please update the module to the %s version before installing this update."
+msgstr ""
+"Si prega di aggiornare il modulo alla versione %s prima di installare questo "
+"aggiornamento."
+
+msgid ""
+"Please update your system to the %s version before installing this update."
+msgstr ""
+"Si prega di aggiornare il sistema alla versione %s prima di installare "
+"questo aggiornamento."
+
+msgid "Please wait, we're installing your module"
+msgstr "Attendere prego, installazione modulo"
+
+msgid "Port"
+msgstr "Porta"
+
+msgid "Processing the installation"
+msgstr "Processo di installazione"
+
+msgid "Progress"
+msgstr ""
+
+msgid "Retry"
+msgstr "Riprova"
+
+msgid "Select a module to upload"
+msgstr "Selezionare un modulo da caricare"
+
+msgid "Size"
+msgstr "Dimensioni"
+
+msgid ""
+"Some files and folder are not writable. You can either provide your FTP "
+"access to install this update:"
+msgstr ""
+"Alcuni file e cartelle non sono scrivibili. O è possibile fornire l'accesso "
+"FTP per installare questo aggiornamento:"
+
+msgid "Some files don't have the right permissions and can't be updated"
+msgstr ""
+"Alcuni file non hanno le autorizzazioni necessarie e non possono essere "
+"aggiornati"
+
+msgid "Status"
+msgstr "Stato"
+
+msgid "The database connection failed. Please, check the entered information."
+msgstr ""
+"La connessione al database non è riuscita. Prego, verificare le indicazioni "
+"riportate."
+
+msgid "The entered password confirmation does not match the entered password."
+msgstr "La conferma password immessa non corrisponde alla password inserita."
+
+msgid "The file %s does not exist"
+msgstr "Il file %s non esiste"
+
+msgid "The file %s is not writable."
+msgstr "Il file %s non è scrivibile"
+
+msgid "The folder %s is not writable. Please fix this issue and try again."
+msgstr ""
+"La cartella %s non è scrivibile. Si prega di risolvere questo problema e "
+"riprovare."
+
+msgid "The following files and folders are not writable:"
+msgstr "I seguenti file e cartelle non sono scrivibili:"
+
+msgid "The following files and folders are not writable: <br /> - %s"
+msgstr "I seguenti file e cartelle non sono scrivibili: <br /> - %s"
+
+msgid "The package you have uploaded is invalid."
+msgstr "Il pacchetto che hai caricato non è valido."
+
+msgid "There is no CMS license key set."
+msgstr ""
+
+msgid "This process may take few minutes, please do not refresh the page"
+msgstr ""
+"Questo processo potrebbe richiedere alcuni minuti, si prega di non "
+"aggiornare la pagina"
+
+msgid "This update is designed for the %s, you can't install it in your %s."
+msgstr ""
+"Questo aggiornamento è progettato per il %s, non è possibile installarlo nel "
+"tuo %s."
+
+msgid "Unable to check for updates now. Please, try again later."
+msgstr ""
+"Impossibile controllare gli aggiornamenti ora. Per favore, riprovare più "
+"tardi."
+
+msgid "Unable to connect to your FTP. Please check the connection information."
+msgstr ""
+"Impossibile connettersi al vostro FTP. Controllare le informazioni di "
+"connessione."
+
+msgid ""
+"Unable to detect your site. Please make sure the entered path is correct."
+msgstr ""
+"Impossibile rilevare il vostro sito. Si prega di verificare che il percorso "
+"inserito sia corretto."
+
+msgid "Unable to extract the archive."
+msgstr "Impossibile estrarre l'archivio."
+
+msgid "Unable to fetch the update. Please, try again later."
+msgstr ""
+"Impossibile recuperare l'aggiornamento. Per favore, riprovare più tardi."
+
+msgid "Unable to open the archive."
+msgstr "Impossibile aprire l'archivio."
+
+msgid ""
+"Unable to open the file. Please, make sure that you sent a valid archive."
+msgstr ""
+"Impossibile aprire il file. Per favore, assicurati che hai mandato un "
+"archivio valido."
+
+msgid "Upload a module"
+msgstr "Carica un modulo"
+
+msgid "Upload your modules"
+msgstr "Carica i tuoi moduli"
+
+msgid "Username"
+msgstr "Username"
+
+msgid "Version"
+msgstr "Versione"
+
+msgid "We are checking for updates. Please, do not refresh the page."
+msgstr ""
+"Stiamo verificando la disponibilità di aggiornamenti . Per favore, non "
+"aggiornare la pagina ."
+
+msgid "You already have installed this template."
+msgstr "Avete già installato questo template"
+
+msgid "You already have installed this update."
+msgstr "È già stato installato l'aggiornamento."
+
+msgid "Your system is up to date."
+msgstr "Il sistema è aggiornato."
+
+msgid "%s Update"
+msgstr "%s aggiornamento"
