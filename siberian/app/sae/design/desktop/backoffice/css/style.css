@@ -461,6 +461,17 @@ label.error {
     .top .content .backoffice_user {
         float: none;
         margin-left: auto;
+        order: 2;
+    }
+
+    /* the language menu comes after the user menu in the markup (it floats right above 1280px) */
+    .top .content .backoffice_user.has_language {
+        margin-left: 0;
+    }
+
+    .top .content .backoffice_language {
+        order: 1;
+        margin-left: auto;
     }
 
     .top #backoffice_menu {
