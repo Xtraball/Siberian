@@ -404,6 +404,15 @@ if (in_array($backofficeTheme, [null, '', 'default'], true) &&
     $backofficeLogo = str_replace('/images/header/logo.png', '/images/header/logo-color.png', $backofficeLogo);
 }
 
+
+// the languages an admin can switch the backoffice to: the active ones, in the order of their names
+$backofficeLanguages = [];
+foreach (Core_Model_Language::getLanguages() as $language) {
+    $backofficeLanguages[$language->getCode()] = $language->getName();
+}
+asort($backofficeLanguages);
+$backofficeCurrentLanguage = Core_Model_Language::getCurrentLanguage();
+
 ?>
 <div class="content">
     <button type="button"
@@ -435,7 +444,7 @@ if (in_array($backofficeTheme, [null, '', 'default'], true) &&
         </ul>
     </div>
     <div id="backoffice_user"
-         class="backoffice_user"
+         class="backoffice_user<?php if (count($backofficeLanguages) > 1) : ?> has_language<?php endif; ?>"
          ng-class="{closed: userMenu.closed}"
          ng-mouseleave="userMenu.closed = false"
          ng-if="isLoggedIn">
@@ -460,5 +469,30 @@ if (in_array($backofficeTheme, [null, '', 'default'], true) &&
             </li>
         </ul>
     </div>
+    <?php if (count($backofficeLanguages) > 1) : ?>
+    <div id="backoffice_language"
+         class="backoffice_user backoffice_language"
+         ng-class="{closed: langMenu.closed}"
+         ng-mouseleave="langMenu.closed = false"
+         ng-if="isLoggedIn">
+        <a href="javascript:void(0);"
+           class="backoffice_user_toggle"
+           aria-haspopup="true"
+           aria-label="<?php echo p__('backoffice', 'Language'); ?>">
+            <i class="fa fa-globe"></i>
+            <span class="backoffice_user_name"><?php echo strtoupper(explode('_', $backofficeCurrentLanguage)[0]); ?></span>
+            <i class="fa fa-caret-down"></i>
+        </a>
+        <ul class="backoffice_user_dropdown">
+            <?php foreach ($backofficeLanguages as $code => $name) : ?>
+            <li<?php if ($code === $backofficeCurrentLanguage) : ?> class="active"<?php endif; ?>>
+                <a href="javascript:void(0);" ng-click="setLanguage('<?php echo $code; ?>', $event)">
+                    <i class="fa <?php echo $code === $backofficeCurrentLanguage ? 'fa-check' : 'fa-fw'; ?>"></i><?php echo $name; ?>
+                </a>
+            </li>
+            <?php endforeach; ?>
+        </ul>
+    </div>
+    <?php endif; ?>
     <div class="clear"></div>
 </div>

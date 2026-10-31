@@ -2,7 +2,7 @@ var App = angular.module("Siberian-Backoffice", ['ngRoute', 'ngAnimate', 'ngSani
     'angular-sortable-view', 'ng.ckeditor', 'chart.js', 'bgf.paginateAnything', 'ng-phpdebugbar', 'ngQueue', 'textAngular']);
 var meta;
 
-App.run(function($rootScope, $window, $route, $location, Message, AUTH_EVENTS, Auth) {
+App.run(function($rootScope, $window, $route, $location, $http, Message, AUTH_EVENTS, Auth, Url) {
 
     $rootScope.message = new Message();
 
@@ -30,6 +30,28 @@ App.run(function($rootScope, $window, $route, $location, Message, AUTH_EVENTS, A
             $event.currentTarget.blur();
         }
         $rootScope.userMenu.closed = true;
+    };
+    // The language of the backoffice is kept in the session: it is saved, then the page is reloaded to be rendered in it.
+    $rootScope.langMenu = {closed: false};
+    $rootScope.setLanguage = function (code, $event) {
+        if ($event && $event.currentTarget && $event.currentTarget.blur) {
+            $event.currentTarget.blur();
+        }
+        $rootScope.langMenu.closed = true;
+        $http({
+            method: 'POST',
+            url: Url.get('backoffice/language/set'),
+            data: {code: code},
+            responseType: 'json'
+        }).success(function (data) {
+            if (data && data.success) {
+                $window.location.reload();
+            } else {
+                $rootScope.message.setText((data && data.message) || '').isError(true).show();
+            }
+        }).error(function (data) {
+            $rootScope.message.setText((data && data.message) || '').isError(true).show();
+        });
     };
     // Below 1280px the main menu is folded under a toggle button (MENU section of style.css)
     $rootScope.mainMenu = {open: false};
