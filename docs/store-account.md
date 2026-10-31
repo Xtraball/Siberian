@@ -27,7 +27,10 @@ OAuth 2.0 device authorization grant (RFC 8628) against the store plugin `Xtraba
 
 - The connection lasts until the admin disconnects here or revokes it on the store. The access token (15 minutes) is
   renewed silently with a rotating refresh token; renewals are serialized with a lock so the token is never used twice at once.
-- Tokens are encrypted (libsodium secretbox) with a key file in `var/cache/store-account/`, outside the database.
+- Tokens are encrypted (libsodium secretbox) with a key file in `var/private/store-account/`, outside the database. The folder must not be under `var/cache`: "clear cache" and every
+  module update empty `var/cache`, the key would go with it and the saved connection with it (until 5.1.x it was `var/cache/store-account/`;
+  a key that survived there is moved over automatically). If the key is ever lost anyway, the page shows "reconnect needed" and one
+  more approval on the store restores it.
   The purchases copy is a file in the same folder (mode 0600).
 - Cache: the copy is shown instantly; it is refreshed in the background when older than 24 hours and the page is opened,
   or with the Refresh button (conditional request, ETag). When the store is unreachable the last copy stays visible, marked
