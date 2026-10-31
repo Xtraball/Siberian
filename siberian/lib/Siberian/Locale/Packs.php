@@ -191,6 +191,9 @@ class Packs
         }
 
         $target = "{$backupDir}/{$id}";
+        if (file_exists($target)) {
+            throw new \Exception('A backup with this id already exists');
+        }
         self::copyDir($pack['path'], "{$target}/module");
         $language = "{$root}/languages/{$pack['code']}";
         $hasLanguage = is_dir($language);
@@ -252,8 +255,9 @@ class Packs
     {
         $manifest = self::manifest($backupDir, $id);
         $module = "{$root}/app/local/modules/{$manifest['module']}";
-        if (is_dir($module)) {
-            self::removeDir($module);
+        if (file_exists($module)) {
+            // the pack was installed again, or changed, since the backup: never replace what is there
+            throw new \Exception('The module is installed again, remove or rename it before restoring this backup');
         }
         self::copyDir("{$backupDir}/{$id}/module", $module);
         if (!$manifest['was_enabled']) {
