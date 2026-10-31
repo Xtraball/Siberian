@@ -2,6 +2,27 @@
 
 Notable changes to Siberian, newest first. Dates are `YYYY-MM-DD`. Longer notes live in `docs/`.
 
+## [5.1.8] 2026-10-31
+
+Fourteen locales shipped in the application, a safer locale manager, and a store account that survives a cache clear, on top of 5.1.7. The update package is built against 5.1.7 (`lastversion`), the last published version. MAE and PE carry the same changes (tags `v5.1.8`, released from `master`).
+
+### Added
+
+- 2026-10-31 Fourteen locales are shipped with the application, enabled one by one in Settings > Translations; their catalogs were completed and reviewed for errors and typos (#976, #977, #980).
+- 2026-10-31 Locale manager: older Locale packs can be compared with the built-in locale, and switching to the built-in locale makes an automatic backup first (#978).
+- 2026-10-31 Locale manager: an outdated Locale pack that the built-in languages already cover is flagged, with advice to disable it (#984).
+
+### Changed
+
+- 2026-10-31 Module updates: the licence key prompt opens instead of an error banner (#982).
+
+### Fixed
+
+- 2026-10-31 Store account: the encryption key moves out of `var/cache` to `var/private/store-account`, so "Clear cache" and module updates no longer disconnect the store. A key left in the old folder is moved over; if the key was already lost, the page asks to connect again instead of showing a silent "not connected" (#985).
+- 2026-10-31 Translations: the translation cache is cleared when a locale is switched (#979), and a locale or translation the user already has is never overridden (#983).
+- 2026-10-31 Cron: the session garbage collector job received the scheduler as the lifetime (#981).
+- 2026-10-31 PHP 8.5: the bundled minifier no longer triggers the `parent` callable deprecation, its output is unchanged (#975).
+
 ## [5.1.7] 2026-10-30
 
 More PHP 8.5 fixes, a backoffice top menu that fits small windows, and the camera permissions of Android apps, on top of 5.1.6. The update package is built against 5.1.6 (`lastversion`), the last published version. MAE and PE carry the same changes (tags `v5.1.7`, released from `master`).
