@@ -46,6 +46,74 @@
         </tbody>
     </table>
 
+    <div ng-show="packs.length">
+        <h4><?php echo p__("translation", "Older language packs"); ?></h4>
+        <p class="text-muted"><?php echo p__("translation", "These packs were installed before the languages were built in. Compare them, then switch to the built-in language: the pack is disabled or uninstalled after an automatic backup."); ?></p>
+        <table class="table">
+            <thead>
+                <tr>
+                    <th><?php echo p__("translation", "Language"); ?></th>
+                    <th><?php echo p__("translation", "Pack"); ?></th>
+                    <th><?php echo p__("translation", "Version"); ?></th>
+                    <th><?php echo p__("translation", "Status"); ?></th>
+                    <th class="text-right"><?php echo __("Actions"); ?></th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr ng-repeat="pack in packs">
+                    <td>{{ pack.name }}</td>
+                    <td>{{ pack.module }}</td>
+                    <td>{{ pack.version }}</td>
+                    <td>
+                        <span ng-show="pack.enabled"><?php echo p__("translation", "Enabled"); ?></span>
+                        <span ng-show="!pack.enabled"><?php echo p__("translation", "Disabled"); ?></span>
+                        <div class="text-muted" ng-show="pack.report">{{ pack.report }}</div>
+                    </td>
+                    <td class="text-right">
+                        <button type="button" class="btn btn-sm btn-default" ng-disabled="pack.busy"
+                                ng-click="comparePack(pack)"><?php echo p__("translation", "Compare"); ?></button>
+                        <button type="button" class="btn btn-sm btn-primary" ng-disabled="pack.busy"
+                                ng-click="confirmed('<?php echo addslashes(p__("translation", "Switch to the built-in language and disable this pack? A backup is taken first.")); ?>') && switchPack(pack, 'disable')"><?php echo p__("translation", "Switch and disable"); ?></button>
+                        <button type="button" class="btn btn-sm btn-danger" ng-disabled="pack.busy"
+                                ng-click="confirmed('<?php echo addslashes(p__("translation", "Switch to the built-in language and uninstall this pack? A backup is taken first.")); ?>') && switchPack(pack, 'uninstall')"><?php echo p__("translation", "Switch and uninstall"); ?></button>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+
+    <div>
+        <h4><?php echo p__("translation", "Backups"); ?></h4>
+        <p class="text-muted" ng-show="!backups.length"><?php echo p__("translation", "No backups yet."); ?></p>
+        <table class="table" ng-show="backups.length">
+            <thead>
+                <tr>
+                    <th><?php echo p__("translation", "Date"); ?></th>
+                    <th><?php echo p__("translation", "Pack"); ?></th>
+                    <th><?php echo p__("translation", "Version"); ?></th>
+                    <th><?php echo p__("translation", "Action"); ?></th>
+                    <th class="text-right"><?php echo p__("translation", "Size"); ?></th>
+                    <th class="text-right"><?php echo __("Actions"); ?></th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr ng-repeat="backup in backups">
+                    <td>{{ backup.created }}</td>
+                    <td>{{ backup.module }} ({{ backup.code }})</td>
+                    <td>{{ backup.version }}</td>
+                    <td>{{ backup.action }}</td>
+                    <td class="text-right">{{ formatSize(backup.size) }}</td>
+                    <td class="text-right">
+                        <button type="button" class="btn btn-sm btn-primary" ng-disabled="backup.busy"
+                                ng-click="restoreBackup(backup)"><?php echo p__("translation", "Restore"); ?></button>
+                        <button type="button" class="btn btn-sm btn-default" ng-disabled="backup.busy"
+                                ng-click="confirmed('<?php echo addslashes(p__("translation", "Delete this backup for good?")); ?>') && deleteBackup(backup)"><?php echo p__("translation", "Delete"); ?></button>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+
     <style type="text/css">
         .btn-sm {
             padding: 1px 5px !important;

@@ -55,6 +55,78 @@ App.config(function($routeProvider) {
         });
     };
 
+    $scope.packs = [];
+    $scope.backups = [];
+
+    $scope.loadPacks = function() {
+        Translations.packs().success(function(data) {
+            $scope.packs = data.packs || [];
+            $scope.backups = data.backups || [];
+        });
+    };
+    $scope.loadPacks();
+
+    $scope.confirmed = function(text) {
+        return window.confirm(text);
+    };
+
+    $scope.formatSize = function(bytes) {
+        return bytes >= 1048576 ? (bytes / 1048576).toFixed(1) + " MB" : Math.max(1, Math.round(bytes / 1024)) + " KB";
+    };
+
+    $scope.packCall = function(item, request, done) {
+        item.busy = true;
+        request.success(function(data) {
+            var ok = angular.isObject(data) && data.success;
+            $scope.message.setText(angular.isObject(data) && data.message ? data.message : Label.save.error)
+                .isError(!ok).show();
+            done(data, ok);
+        }).error(function(data) {
+            $scope.message.setText(angular.isObject(data) && data.message ? data.message : Label.save.error)
+                .isError(true).show();
+        }).finally(function() {
+            item.busy = false;
+        });
+    };
+
+    $scope.comparePack = function(pack) {
+        $scope.packCall(pack, Translations.comparePack(pack.code), function(data, ok) {
+            if (ok) {
+                pack.report = data.message + " (" + data.only_in_pack + " / " + data.pack + ")";
+            }
+        });
+    };
+
+    $scope.switchPack = function(pack, mode) {
+        $scope.packCall(pack, Translations.switchPack(pack.code, mode), function(data, ok) {
+            if (ok) {
+                $scope.loadPacks();
+                Translations.findAll().success(function(languages) {
+                    $scope.languages = languages;
+                });
+            }
+        });
+    };
+
+    $scope.restoreBackup = function(backup) {
+        $scope.packCall(backup, Translations.restoreBackup(backup.id), function(data, ok) {
+            if (ok) {
+                $scope.loadPacks();
+                Translations.findAll().success(function(languages) {
+                    $scope.languages = languages;
+                });
+            }
+        });
+    };
+
+    $scope.deleteBackup = function(backup) {
+        $scope.packCall(backup, Translations.deleteBackup(backup.id), function(data, ok) {
+            if (ok) {
+                $scope.loadPacks();
+            }
+        });
+    };
+
 }).controller("TranslationEditController", function($http, $rootScope, $scope, $location, $routeParams, $queue, Header, Label,
                                                     SectionButton, $timeout, Translations, Url) {
 

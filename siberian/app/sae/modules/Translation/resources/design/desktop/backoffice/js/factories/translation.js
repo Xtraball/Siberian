@@ -38,6 +38,26 @@ App.factory('Translations', function($http, Url) {
         });
     };
 
+    factory.packs = function() {
+        return $http({method: 'GET', url: Url.get("translation/backoffice_pack/findall"), cache: false, responseType: 'json'});
+    };
+
+    factory.comparePack = function(code) {
+        return $http({method: 'GET', url: Url.get("translation/backoffice_pack/compare", {code: code}), cache: false, responseType: 'json'});
+    };
+
+    factory.switchPack = function(code, mode) {
+        return $http({method: 'POST', data: {code: code, mode: mode}, url: Url.get("translation/backoffice_pack/switch"), cache: false, responseType: 'json'});
+    };
+
+    factory.restoreBackup = function(id) {
+        return $http({method: 'POST', data: {id: id}, url: Url.get("translation/backoffice_pack/restore"), cache: false, responseType: 'json'});
+    };
+
+    factory.deleteBackup = function(id) {
+        return $http({method: 'POST', data: {id: id}, url: Url.get("translation/backoffice_pack/delete"), cache: false, responseType: 'json'});
+    };
+
     factory.find = function(lang_id) {
 
         var param = {};
