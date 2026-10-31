@@ -72,6 +72,18 @@ function sa_env(&$now = 1000000)
     return [$service, $transport, $store, $dir];
 }
 
+/** removes a folder the way a cache clear does */
+function sa_rm($dir)
+{
+    if (!is_dir($dir)) {
+        return;
+    }
+    foreach (new RecursiveIteratorIterator(new RecursiveDirectoryIterator($dir, FilesystemIterator::SKIP_DOTS), RecursiveIteratorIterator::CHILD_FIRST) as $item) {
+        $item->isDir() ? rmdir($item->getPathname()) : unlink($item->getPathname());
+    }
+    rmdir($dir);
+}
+
 function sa_json($status, array $data, array $headers = [])
 {
     return ['status' => $status, 'body' => json_encode($data), 'headers' => $headers];
@@ -361,6 +373,81 @@ return [
         t_equal(false, $result['revoked_remotely'], 'not revoked remotely');
         t_equal(false, $svc->status()['connected'], 'forgotten locally');
         t_equal(null, $store->get(StoreAccount::K_TOKENS), 'tokens gone');
+    },
+
+    // A cache clear / module update empties the folder that holds the key: the saved tokens can never be opened again.
+    'a folder emptied behind our back asks to reconnect instead of silently showing "not connected"' => function () {
+        $now = 1000000;
+        [$svc, $http, $store, $dir] = sa_connected($now);
+        t_equal(true, $svc->status()['connected'], 'connected before the wipe');
+        sa_rm($dir);
+        $after = new StoreAccount($http, $store, $dir, 'my.example.com', function () use (&$now) {
+            return $now;
+        });
+        $status = $after->status();
+        t_equal(false, $status['connected'], 'not connected: the tokens are unreadable');
+        t_equal(true, $status['needs_reconnect'], 'the page is told to ask for a reconnection');
+        t_equal(null, $store->get(StoreAccount::K_TOKENS), 'the unreadable tokens are dropped');
+        sa_expect('not_connected', function () use ($after) {
+            $after->purchases();
+        });
+        // and connecting again works with the new key
+        $http->script['POST ' . SA_DEVICE] = [sa_device()];
+        $http->script['POST ' . SA_TOKEN] = [sa_tokens('sibat_new', 'sibrt_new')];
+        $http->script['GET ' . SA_PURCHASES] = [sa_json(200, sa_data(), ['etag' => '"v1"'])];
+        $after->startConnect();
+        t_equal('connected', $after->poll()['state'], 'reconnected');
+        $final = $after->status();
+        t_equal(true, $final['connected'], 'connected again');
+        t_equal(false, $final['needs_reconnect'], 'no reconnect flag any more');
+    },
+
+    'a first connection on a fresh install does not raise the reconnect flag' => function () {
+        [$svc, $http] = sa_env();
+        $http->script['POST ' . SA_DEVICE] = [sa_device()];
+        $status = $svc->status();
+        t_equal(false, $status['connected'], 'not connected');
+        t_equal(false, $status['needs_reconnect'], 'nothing to reconnect');
+        $svc->startConnect();   // creates the key
+        t_equal(false, $svc->status()['needs_reconnect'], 'still nothing to reconnect after the key is created');
+    },
+
+    'the key and the cache of the old folder (var/cache) are moved to the private folder' => function () {
+        $now = 1000000;
+        $legacy = sys_get_temp_dir() . '/sa-legacy-' . bin2hex(random_bytes(4));
+        $new = sys_get_temp_dir() . '/sa-new-' . bin2hex(random_bytes(4));
+        $http = new SaFakeTransport();
+        $store = new SaArrayStore();
+        $clock = function () use (&$now) {
+            return $now;
+        };
+        // connected the way 5.1.x did it: everything in the old folder
+        $old = new StoreAccount($http, $store, $legacy, 'my.example.com', $clock);
+        $http->script['POST ' . SA_DEVICE] = [sa_device()];
+        $http->script['POST ' . SA_TOKEN] = [sa_tokens()];
+        $http->script['GET ' . SA_PURCHASES] = [sa_json(200, sa_data(), ['etag' => '"v1"'])];
+        $old->startConnect();
+        $old->poll();
+        t_true(is_file($legacy . '/store-account.key') && is_file($legacy . '/purchases.json'), 'key and cache are in the old folder');
+
+        $upgraded = new StoreAccount($http, $store, $new, 'my.example.com', $clock, StoreAccount::BASE_URL, $legacy);
+        $status = $upgraded->status();
+        t_equal(true, $status['connected'], 'the connection survives the move');
+        t_equal(false, $status['needs_reconnect'], 'no reconnect needed');
+        t_equal('alice@example.com', $status['email'], 'the purchases copy came along');
+        t_true(is_file($new . '/store-account.key') && (fileperms($new . '/store-account.key') & 0077) === 0, 'private key now in the new folder');
+        t_true(!is_file($legacy . '/store-account.key'), 'no second copy of the key is left in the old folder');
+        t_true(strpos((string) file_get_contents($new . '/.htaccess'), 'denied') !== false, 'the new folder is closed to the web server'); // FRAGILE-OK: asserts the deny rule we write ourselves in ensureDir(); fails loudly if it changes
+    },
+
+    'the application keeps the store account folder out of var/cache' => function () {
+        // Backoffice_Model_StoreAccount needs the whole framework, so this guards the one line that decides where the key lives.
+        $source = (string) file_get_contents(dirname(__DIR__, 3) . '/siberian/app/sae/modules/Backoffice/Model/StoreAccount.php');
+        t_true(strpos($source, "getBasePathTo('var/private/store-account')") !== false, 'the folder is var/private/store-account'); // FRAGILE-OK: the model needs the whole framework to load, this is the only guard of where the key lives
+        t_true(preg_match("/new StoreAccount\\([^;]*getBasePathTo\\('var\\/cache\\/store-account'\\)\\s*\\);/s", $source) === 1, 'var/cache/store-account is only passed as the old folder to migrate from');
+        // Siberian_Cache empties these, so nothing that has to survive may live in them.
+        $cache = (string) file_get_contents(dirname(__DIR__, 3) . '/siberian/lib/Siberian/Cache.php');
+        t_true(strpos($cache, "'/var/private") === false && strpos($cache, '"/var/private') === false, 'Siberian_Cache does not touch var/private'); // FRAGILE-OK: Siberian_Cache cannot be exercised here, a source check fails loudly if someone adds var/private to it
     },
 
     'only https is used for the store' => function () {

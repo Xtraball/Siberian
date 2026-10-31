@@ -64,15 +64,21 @@ class StoreAccount
     /** @var string */
     private $baseUrl;
 
+    /** @var string|null */
+    private $legacyDir;
+
     /**
      * @param Transport $transport
      * @param Store $store small values (install id, tokens, pending code, last error)
-     * @param string $dir private folder for the encryption key, the purchases cache and the lock
+     * @param string $dir private folder for the encryption key, the purchases cache and the lock. It must be a folder
+     *                    that "clear cache" and module updates do not empty: the saved tokens are unreadable without the key
      * @param string $label shown to the customer when approving (the host of this install)
      * @param callable|null $clock
      * @param string $baseUrl
+     * @param string|null $legacyDir where the folder used to be (var/cache/store-account, emptied by every cache clear);
+     *                               a key and a purchases copy that survived there are moved to $dir, once
      */
-    public function __construct(Transport $transport, Store $store, $dir, $label = '', $clock = null, $baseUrl = self::BASE_URL)
+    public function __construct(Transport $transport, Store $store, $dir, $label = '', $clock = null, $baseUrl = self::BASE_URL, $legacyDir = null)
     {
         $this->transport = $transport;
         $this->store = $store;
@@ -80,6 +86,7 @@ class StoreAccount
         $this->label = (string) $label;
         $this->clock = $clock;
         $this->baseUrl = rtrim($baseUrl, '/');
+        $this->legacyDir = $legacyDir === null ? null : rtrim($legacyDir, '/');
     }
 
     /**
@@ -87,12 +94,14 @@ class StoreAccount
      */
     public function status()
     {
+        // Opening the tokens comes first: if the key was lost, that is the call that notices it and flags the reconnection.
+        $connected = $this->readTokens() !== null;
         $cache = $this->readCache();
         $state = $this->readState();
         $pending = $this->readPending();
 
         return [
-            'connected' => $this->readTokens() !== null,
+            'connected' => $connected,
             'needs_reconnect' => !empty($state['revoked']),
             'email' => isset($cache['data']['customer']['email']) ? $cache['data']['customer']['email'] : null,
             'synced_at' => isset($cache['fetched_at']) ? (int) $cache['fetched_at'] : null,
@@ -428,6 +437,7 @@ class StoreAccount
 
     private function readCache()
     {
+        $this->adoptLegacy();
         $file = $this->dir . '/purchases.json';
         if (!is_file($file)) {
             return null;
@@ -469,21 +479,82 @@ class StoreAccount
         if (!is_dir($this->dir)) {
             mkdir($this->dir, 0700, true);
         }
+        // The key lives here: on Apache, never serve this folder.
+        $deny = $this->dir . '/.htaccess';
+        if (!is_file($deny)) {
+            @file_put_contents($deny, "Require all denied\n<IfModule !mod_authz_core.c>\n    Deny from all\n</IfModule>\n");
+        }
+    }
+
+    /**
+     * The folder used to be var/cache/store-account, which "clear cache" and every module update empty: the key went with it
+     * and the saved tokens, which only that key can open, were lost. Whatever survived there (a cache clear that did not run
+     * yet, an install that has not been cleaned since the update) is moved to the private folder, once.
+     */
+    private function adoptLegacy()
+    {
+        if ($this->legacyDir === null || $this->legacyDir === $this->dir || !is_dir($this->legacyDir)) {
+            return;
+        }
+        $moved = false;
+        foreach (['store-account.key', 'purchases.json'] as $name) {
+            $from = $this->legacyDir . '/' . $name;
+            $to = $this->dir . '/' . $name;
+            if (!is_file($from)) {
+                continue;
+            }
+            if (!is_file($to)) {
+                $this->ensureDir();
+                $tmp = $to . '.' . bin2hex(random_bytes(4)) . '.tmp';
+                if (@copy($from, $tmp)) {
+                    @chmod($tmp, 0600);
+                    // link() fails if another request moved it first, in which case theirs wins.
+                    @link($tmp, $to);
+                    $moved = true;
+                }
+                @unlink($tmp);
+            }
+            if (is_file($to)) {
+                @unlink($from);
+            }
+        }
+        if ($moved) {
+            @rmdir($this->legacyDir);
+        }
+    }
+
+    /**
+     * A key was just created while saved tokens exist: the key that sealed them is gone (the folder was emptied), so they can
+     * never be read again. Say so, instead of showing a silent "not connected".
+     */
+    private function noteNewKey()
+    {
+        $held = $this->store->get(self::K_TOKENS);
+        if ($held !== null && $held !== '') {
+            $this->store->set(self::K_TOKENS, '');
+            $this->writeState(['revoked' => true, 'key_lost' => true]);
+        }
+        $pending = $this->store->get(self::K_PENDING);
+        if ($pending !== null && $pending !== '') {
+            $this->store->set(self::K_PENDING, '');
+        }
     }
 
     private function key()
     {
         $this->ensureDir();
+        $this->adoptLegacy();
         $file = $this->dir . '/store-account.key';
         if (!is_file($file)) {
             $tmp = $file . '.' . bin2hex(random_bytes(4)) . '.tmp';
             file_put_contents($tmp, random_bytes(SODIUM_CRYPTO_SECRETBOX_KEYBYTES));
             @chmod($tmp, 0600);
             // link() fails if another request created the key first, in which case theirs wins.
-            if (!@link($tmp, $file)) {
-                // keep the existing key
-            }
+            $created = @link($tmp, $file);
             @unlink($tmp);
+            if ($created) {
+                $this->noteNewKey();
+            }
         }
         $key = (string) file_get_contents($file);
         if (strlen($key) !== SODIUM_CRYPTO_SECRETBOX_KEYBYTES) {

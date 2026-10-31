@@ -21,11 +21,15 @@ class Backoffice_Model_StoreAccount
         return new StoreAccount(
             new CurlTransport(),
             new ConfigStore(),
-            Core_Model_Directory::getBasePathTo('var/cache/store-account'),
+            // Not under var/cache: "clear cache" and every module update empty it, and with the encryption key in it the
+            // saved connection is lost. Siberian_Cache never touches var/private.
+            Core_Model_Directory::getBasePathTo('var/private/store-account'),
             $label,
             null,
             // Only the configuration file can point somewhere else (staging, tests), never the database.
-            __getConfig('store_account_base_url') ?: StoreAccount::BASE_URL
+            __getConfig('store_account_base_url') ?: StoreAccount::BASE_URL,
+            // Where it lived in 5.1.x before this change: a key and cache that survived there are moved over.
+            Core_Model_Directory::getBasePathTo('var/cache/store-account')
         );
     }
 
