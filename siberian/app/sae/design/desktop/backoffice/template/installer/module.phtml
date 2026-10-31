@@ -95,7 +95,7 @@
             <button class="btn btn-primary"
                     ng-click="checkModuleUpdates(true)"
                     ng-disabled="module_updates.loading">
-                <i class="fa fa-refresh" ng-class="{'fa-spin': module_updates.loading}"></i> <?php echo __("Check now"); ?>
+                <i class="fa fa-refresh" ng-class="{'fa-spin': module_updates.loading}"></i> <?php echo p__('backoffice', 'Check now'); ?>
             </button>
             <span ng-show="module_updates.fetched_at">
                 &nbsp;<?php echo __("Last check"); ?>: {{ module_updates.fetched_at * 1000 | date:'medium' }}

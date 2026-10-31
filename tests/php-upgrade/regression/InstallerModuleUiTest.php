@@ -94,6 +94,7 @@ return [
             'Downloading the update. Please, do not refresh the page.',
             'Checking for module updates...',
             'A licence key is required to install this module, the installation was not started.',
+            'Check now',
         ];
         $asked = array_merge($backofficeTexts($template), $backofficeTexts($controllerPhp));
         foreach ($new as $text) {
