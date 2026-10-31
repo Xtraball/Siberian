@@ -405,7 +405,7 @@ if (version_compare(PHP_VERSION, '8.2.0', '<')) {
                         <span ng-if="cronState() === 'off'"><?php echo __("Disabled") ?></span>
                         <span ng-if="cronState() === 'down'"><?php echo __("Not running") ?></span>
                         <span ng-if="cronState() === 'ok' || cronState() === 'warn'">
-                            <?php echo p__('backoffice', 'Running') ?><span ng-if="services.cron_last_run">, <?php echo __("Last run") ?> {{ services.cron_last_run }}</span>
+                            <?php echo p__('backoffice', 'Running') ?><span ng-if="services.cron_last_run">, <?php echo p__('backoffice', 'Last run') ?> {{ services.cron_last_run }}</span>
                         </span>
                     </button>
                     <button type="button"
@@ -711,7 +711,7 @@ if (version_compare(PHP_VERSION, '8.2.0', '<')) {
                            ng-click="svc.open = false; showCronModal();"><?php echo __("How to install the cron scheduler ?") ?></a>
                     </small>
                     <small ng-if="cronState() === 'ok' || cronState() === 'warn'">
-                        <?php echo p__('backoffice', 'Running') ?>, <?php echo __("Last run") ?> :
+                        <?php echo p__('backoffice', 'Running') ?>, <?php echo p__('backoffice', 'Last run') ?> :
                         <strong>{{ services.cron_last_run || "<?php echo __("never") ?>" }}</strong>
                     </small>
                     <small ng-if="services.cron_locks > 0">
