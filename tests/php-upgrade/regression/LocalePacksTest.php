@@ -136,6 +136,7 @@ return [
         t_true(strpos($switch, 'Packs::backup(') < strpos($switch, 'Packs::remove('), 'backup first (uninstall)');
         t_true(strpos($switch, 'Packs::backup(') < strpos($switch, 'toggleIsEnabled(false)'), 'backup first (disable)');
         t_equal(3, substr_count($src, '$this->denyDemo();'), 'every writing action is guarded');
+        t_true(strpos($src, 'Siberian_Cache_Translation::clearCache()') !== false, 'translation cache cleared after a switch or restore');
         $po = file_get_contents($poFile);
         preg_match_all('/p__\(\s*[\'"]translation[\'"]\s*,\s*[\'"]((?:[^\'"\\\\]|\\\\.)*)[\'"]/', $src, $m);
         t_true(count($m[1]) >= 7, 'texts found');
