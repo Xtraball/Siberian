@@ -6,22 +6,22 @@ msgstr ""
 "X-Generator: ezgif.com\n"
 
 msgid "* If apple doesn't detect any ads configurate, your application will be refused"
-msgstr "* सेब किसी भी विज्ञापन configurate का पता नहीं लगाता है, तो आपके आवेदन से इनकार कर दिया जाएगा"
+msgstr "* यदि Apple को कोई विज्ञापन कॉन्फ़िगर किया हुआ नहीं मिला, तो आपका एप्लिकेशन अस्वीकार कर दिया जाएगा"
 
 msgid "* You have to justify why you need this background audio playing to Apple."
-msgstr "* आप का औचित्य साबित करने के लिए क्यों आप इस पृष्ठभूमि ऑडियो एप्पल के लिए खेल की जरूरत है।"
+msgstr "* आपको Apple को यह उचित ठहराना होगा कि आपको यह बैकग्राउंड ऑडियो प्लेबैक क्यों चाहिए।"
 
 msgid "* You have to justify why you need this background geolocation to Apple."
-msgstr "* आप का औचित्य साबित करने के लिए क्यों आप एप्पल के लिए इस पृष्ठभूमि जियोलोकेशन की जरूरत है।"
+msgstr "* आपको Apple को यह उचित ठहराना होगा कि आपको यह बैकग्राउंड जियोलोकेशन क्यों चाहिए।"
 
 msgid "1. Download the app previewer:"
-msgstr "1. एप्लिकेशन पूर्वानुमान डाउनलोड करें:"
+msgstr "1. ऐप प्रीव्यूअर डाउनलोड करें:"
 
 msgid "1. Insert the following code between the %s tag of your page:"
-msgstr "1. अपने पृष्ठ के%s टैग के बीच निम्न कोड डालें:"
+msgstr "1. अपने पृष्ठ के %s टैग के बीच निम्न कोड डालें:"
 
 msgid "2. Insert the following code at the end of the %s tag of your page:"
-msgstr "2. अपने पृष्ठ के% s टैग के अंत में निम्न कोड डालें:"
+msgstr "2. अपने पृष्ठ के %s टैग के अंत में निम्न कोड डालें:"
 
 msgid "2. Open the app and login"
 msgstr "2. ऐप खोलें और लॉगिन करें"
@@ -90,10 +90,10 @@ msgid "Advertising"
 msgstr "विज्ञापन"
 
 msgid "All"
-msgstr "सब कुछ"
+msgstr "सभी"
 
 msgid "All done!"
-msgstr "सब कुछ किया!"
+msgstr "सब पूरा हुआ!"
 
 msgid "Allow user to request app publication"
 msgstr "उपयोगकर्ता को ऐप प्रकाशन का अनुरोध करने की अनुमति दें"
@@ -108,7 +108,7 @@ msgid "An error occurred. Sorry for the inconvenience."
 msgstr "एक त्रुटि हुई। असुविधा के लिए खेद है।"
 
 msgid "An error occurred during the generation of your QRCode. Please try again later."
-msgstr "आपके QRCode की पीढ़ी के दौरान एक त्रुटि हुई। कृपया बाद में पुन: प्रयास करें।"
+msgstr "आपका QRCode बनाते समय एक त्रुटि हुई। कृपया बाद में पुनः प्रयास करें।"
 
 msgid "An error occurred while adding the option"
 msgstr "विकल्प जोड़ने के दौरान एक त्रुटि हुई"
@@ -129,7 +129,7 @@ msgid "An error occurred while generating. Please try again later."
 msgstr "उत्पन्न करते समय एक त्रुटि हुई। कृपया बाद में पुन: प्रयास करें।"
 
 msgid "An error occurred while hidding the iOS Status Bar"
-msgstr "आईओएस स्टेटस बार को हिडिंग करते समय एक त्रुटि हुई"
+msgstr "iOS स्टेटस बार को छिपाते समय एक त्रुटि हुई"
 
 msgid "An error occurred while loading"
 msgstr "लोड करते समय एक त्रुटि हुई"
@@ -153,7 +153,7 @@ msgid "An error occurred while sorting your pages. Please try again later."
 msgstr "आपके पृष्ठों को सॉर्ट करते समय एक त्रुटि हुई। कृपया बाद में पुन: प्रयास करें।"
 
 msgid "An error occurred while sorting your slider images. Please try again later."
-msgstr "अपने स्लाइडर छवियों को सॉर्ट करते समय एक त्रुटि हुई। कृपया बाद में पुन: प्रयास करें।"
+msgstr "आपकी स्लाइडर छवियों को सॉर्ट करते समय एक त्रुटि हुई। कृपया बाद में पुनः प्रयास करें।"
 
 msgid "Analytics"
 msgstr "एनालिटिक्स"
@@ -165,7 +165,7 @@ msgid "Android"
 msgstr "एंड्रॉइड"
 
 msgid "Android APK Generation"
-msgstr "एंड्रॉइड एपीके पीढ़ी"
+msgstr "Android APK जनरेशन"
 
 msgid "Android APK version"
 msgstr "एंड्रॉइड एपीके संस्करण"
@@ -189,31 +189,31 @@ msgid "App design"
 msgstr "ऐप डिज़ाइन"
 
 msgid "Apple rejects apps that includes Ad Support but doesn't use it.<br />Generate your iOS app out of this source code if you don't include Ads."
-msgstr "ऐप्पल उन ऐप्स को अस्वीकार करता है जिनमें विज्ञापन समर्थन शामिल है लेकिन इसका उपयोग नहीं करता है। यदि आप विज्ञापन शामिल नहीं करते हैं तो इस स्रोत कोड से अपना आईओएस ऐप<br />जेनरेट करें।"
+msgstr "Apple उन ऐप्स को अस्वीकार करता है जिनमें विज्ञापन सपोर्ट शामिल है लेकिन उसका उपयोग नहीं किया गया है।<br />यदि आप विज्ञापन शामिल नहीं करते हैं, तो अपना iOS ऐप इस सोर्स कोड से जनरेट करें।"
 
 msgid "Apple's Information"
 msgstr "एप्पल की जानकारी"
 
 msgid "Application:"
-msgstr "आवेदन:"
+msgstr "एप्लिकेशन:"
 
 msgid "Application icon"
 msgstr "एप्लिकेशन आइकन"
 
 msgid "Application name"
-msgstr "आवेदन का नाम"
+msgstr "एप्लिकेशन का नाम"
 
 msgid "Are you sure you want to remove this application?"
 msgstr "क्या आप वाकई इस एप्लिकेशन को हटाना चाहते हैं?"
 
 msgid "Around you"
-msgstr "आप के आसपास"
+msgstr "आपके आसपास"
 
 msgid "At least 200 characters in the description"
 msgstr "विवरण में कम से कम 200 वर्ण"
 
 msgid "At least, 4 pages in the application"
-msgstr "कम से कम, आवेदन में 4 पेज"
+msgstr "कम से कम, एप्लिकेशन में 4 पृष्ठ"
 
 msgid "Attachment"
 msgstr "अटैचमेंट"
@@ -276,10 +276,10 @@ msgid "Build a mobile app easily"
 msgstr "आसानी से एक मोबाइल ऐप बनाएं"
 
 msgid "Build date"
-msgstr "दिनांक बनाएँ"
+msgstr "बिल्ड दिनांक"
 
 msgid "Build information"
-msgstr "जानकारी बनाएं"
+msgstr "बिल्ड जानकारी"
 
 msgid "Bundle Id"
 msgstr "बंडल आईडी"
@@ -291,7 +291,7 @@ msgid "Button"
 msgstr "बटन"
 
 msgid "Buy one, get one!"
-msgstr "एक खरीदें, एक जाओ!"
+msgstr "एक खरीदें, एक पाएँ!"
 
 msgid "Cache"
 msgstr "कैश"
@@ -357,10 +357,10 @@ msgid "Choose your font style"
 msgstr "अपनी फ़ॉन्ट शैली चुनें"
 
 msgid "Choose your homepage image"
-msgstr "अपने मुखपृष्ठ छवि चुनें"
+msgstr "अपनी होमपेज छवि चुनें"
 
 msgid "Choose your icons color"
-msgstr "अपने माउस का रंग चुनें"
+msgstr "अपने आइकन का रंग चुनें"
 
 msgid "Choose your layout"
 msgstr "अपना लेआउट चुनें"
@@ -399,19 +399,19 @@ msgid "Comments"
 msgstr "टिप्पणियाँ"
 
 msgid "Configuration"
-msgstr "विन्यास"
+msgstr "कॉन्फ़िगरेशन"
 
 msgid "Connect Button"
-msgstr "बटन कनेक्ट करें"
+msgstr "कनेक्ट बटन"
 
 msgid "Contact"
-msgstr "संपर्क करें"
+msgstr "संपर्क"
 
 msgid "Core"
 msgstr "कोर"
 
 msgid "Cover background images"
-msgstr "पृष्ठभूमि छवियों को कवर करें"
+msgstr "कवर पृष्ठभूमि छवियाँ"
 
 msgid "Create a place"
 msgstr "एक जगह बनाएँ"
@@ -465,13 +465,13 @@ msgid "Discount Zone"
 msgstr "डिस्काउंट जोन"
 
 msgid "Discount zone description. Here your clients will be able to see the details of each discount"
-msgstr "डिस्काउंट क्षेत्र विवरण. यहाँ अपने ग्राहकों के लिए प्रत्येक छूट का विवरण देखने में सक्षम हो जाएगा"
+msgstr "डिस्काउंट ज़ोन का विवरण। यहाँ आपके ग्राहक प्रत्येक छूट का विवरण देख सकेंगे"
 
 msgid "Display Border Circle"
 msgstr "सीमा सर्कल प्रदर्शित करें"
 
 msgid "Display Borders"
-msgstr "प्रदर्शन बॉर्डर्स"
+msgstr "बॉर्डर प्रदर्शित करें"
 
 msgid "Display Image"
 msgstr "छवि प्रदर्शित करें"
@@ -480,7 +480,7 @@ msgid "Display Shadow"
 msgstr "छाया प्रदर्शित करें"
 
 msgid "Display address"
-msgstr "प्रदर्शन पता"
+msgstr "पता प्रदर्शित करें"
 
 msgid "Display borders"
 msgstr "सीमाओं को प्रदर्शित करें"
@@ -498,7 +498,7 @@ msgid "Display title and subtitle in page"
 msgstr "पृष्ठ में शीर्षक और उपशीर्षक प्रदर्शित करें"
 
 msgid "Display titles"
-msgstr "प्रदर्शन खिताब"
+msgstr "शीर्षक प्रदर्शित करें"
 
 msgid "Domain"
 msgstr "डोमेन"
@@ -507,25 +507,25 @@ msgid "Domain name"
 msgstr "डोमेन नाम"
 
 msgid "Don't order:"
-msgstr "आदेश न दें:"
+msgstr "ऑर्डर न करें:"
 
 msgid "Download"
 msgstr "डाउनलोड"
 
 msgid "Download last build"
-msgstr "अंतिम निर्माण डाउनलोड करें"
+msgstr "अंतिम बिल्ड डाउनलोड करें"
 
 msgid "Download latest"
 msgstr "नवीनतम डाउनलोड करें"
 
 msgid "Download our app previewer"
-msgstr "हमारे एप्लिकेशन पूर्वावक्षक डाउनलोड करें"
+msgstr "हमारा ऐप प्रीव्यूअर डाउनलोड करें"
 
 msgid "Download your QRCode"
 msgstr "अपना QRCode डाउनलोड करें"
 
 msgid "Drop your certificate here"
-msgstr "अपने प्रमाणपत्र को यहां छोड़ दें"
+msgstr "अपना प्रमाणपत्र यहाँ ड्रॉप करें"
 
 msgid "Dynamic: percentage"
 msgstr "गतिशील: प्रतिशत"
@@ -540,7 +540,7 @@ msgid "Edit place"
 msgstr "जगह संपादित करें"
 
 msgid "Edit the application %s"
-msgstr "अनुप्रयोग%s संपादित करें"
+msgstr "एप्लिकेशन %s संपादित करें"
 
 msgid "Editor"
 msgstr "संपादक"
@@ -561,7 +561,7 @@ msgid "Enable search filters:"
 msgstr "खोज फ़िल्टर सक्षम करें:"
 
 msgid "Enter your AdMob ID for each platform."
-msgstr "प्रत्येक मंच के लिए अपने AdMob आईडी दर्ज करें."
+msgstr "प्रत्येक प्लेटफ़ॉर्म के लिए अपनी AdMob आईडी दर्ज करें।"
 
 msgid "Enter your Facebook page"
 msgstr "अपना फेसबुक पेज दर्ज करें"
@@ -570,25 +570,25 @@ msgid "Entertainment"
 msgstr "मनोरंजन"
 
 msgid "Event"
-msgstr "घटना"
+msgstr "ईवेंट"
 
 msgid "Events"
-msgstr "घटनाक्रम"
+msgstr "ईवेंट"
 
 msgid "Export"
 msgstr "निर्यात"
 
 msgid "Export App & Selected features."
-msgstr "निर्यात अनुप्रयोग और चयनित सुविधाओं."
+msgstr "ऐप और चयनित सुविधाएँ निर्यात करें।"
 
 msgid "Export as global Template"
 msgstr "वैश्विक टेम्पलेट के रूप में निर्यात करें"
 
 msgid "Export your application to a re-usable template & share it across Apps & Platforms."
-msgstr "एक फिर से प्रयोग करने योग्य टेम्पलेट के लिए अपने आवेदन निर्यात और क्षुधा और प्लेटफार्मों भर में साझा करें।"
+msgstr "अपने एप्लिकेशन को दोबारा उपयोग किए जा सकने वाले टेम्पलेट में निर्यात करें और उसे अलग-अलग ऐप्स और प्लेटफ़ॉर्म पर साझा करें।"
 
 msgid "Extension not allowed, '%s' only"
-msgstr "एक्सटेंशन की अनुमति नहीं है, केवल '% s'"
+msgstr "एक्सटेंशन की अनुमति नहीं है, केवल '%s'"
 
 msgid "Facebook"
 msgstr "फ़ेसबुक"
@@ -600,22 +600,22 @@ msgid "Facebook API settings"
 msgstr "फेसबुक एपीआई सेटिंग्स"
 
 msgid "Feature icons"
-msgstr "फ़ीचर आइकन"
+msgstr "सुविधा आइकन"
 
 msgid "Features"
-msgstr "विशेषताएं"
+msgstr "सुविधाएँ"
 
 msgid "Features Access Settings"
-msgstr "सुविधाओं का उपयोग सेटिंग"
+msgstr "सुविधा पहुँच सेटिंग्स"
 
 msgid "Fetching data from Facebook and creating your features. It can take a while, be patient!"
-msgstr "फेसबुक से डेटा लाने और अपनी सुविधाओं को बनाने. इसमें थोड़ी देर लग सकती है, धैर्य रखें!"
+msgstr "Facebook से डेटा लाया जा रहा है और आपकी सुविधाएँ बनाई जा रही हैं। इसमें कुछ समय लग सकता है, धैर्य रखें!"
 
 msgid "Fidelity points"
-msgstr "निष्ठा अंक"
+msgstr "लॉयल्टी बिंदु"
 
 msgid "Fidelity points rate"
-msgstr "निष्ठा अंक दर"
+msgstr "लॉयल्टी बिंदु दर"
 
 msgid "Filter"
 msgstr "फ़िल्टर करें"
@@ -630,7 +630,7 @@ msgid "Flickr API key"
 msgstr "फ़्लिकर एपीआई कुंजी"
 
 msgid "Flickr API secret"
-msgstr "फ़्लिकर एपीआई रहस्य"
+msgstr "Flickr API सीक्रेट"
 
 msgid "Flickr API settings"
 msgstr "फ़्लिकर एपीआई सेटिंग्स"
@@ -648,13 +648,13 @@ msgid "Fred W."
 msgstr "फ्रेड डब्ल्यू"
 
 msgid "Free until %s"
-msgstr "नि: शुल्क until%s"
+msgstr "%s तक निःशुल्क"
 
 msgid "Front"
 msgstr "सामने"
 
 msgid "Games"
-msgstr "खेल"
+msgstr "गेम"
 
 msgid "General Information"
 msgstr "सामान्य जानकारी"
@@ -675,7 +675,7 @@ msgid "Generate Android APK"
 msgstr "एंड्रॉइड एपीके उत्पन्न करें"
 
 msgid "Generate analytics for given period"
-msgstr "दी गई अवधि के लिए विश्लेषिकी उत्पन्न करें"
+msgstr "दी गई अवधि के लिए एनालिटिक्स उत्पन्न करें"
 
 msgid "Generate analytics for the current day"
 msgstr "वर्तमान दिन के लिए एनालिटिक्स उत्पन्न करें"
@@ -684,7 +684,7 @@ msgid "Generate and Publish"
 msgstr "जनरेट करें और प्रकाशित करें"
 
 msgid "Generate and publish iOS Application"
-msgstr "[Ios] आईओएस एप्लिकेशन उत्पन्न और प्रकाशित करें"
+msgstr "iOS एप्लिकेशन जनरेट और प्रकाशित करें"
 
 msgid "Generate builds"
 msgstr "बिल्ड उत्पन्न करें"
@@ -699,13 +699,13 @@ msgid "Generation cancelled."
 msgstr "जनरेशन रद्द कर दिया गया।"
 
 msgid "Generation successfully queued."
-msgstr "पीढ़ी सफलतापूर्वक कतारबद्ध।"
+msgstr "जनरेशन सफलतापूर्वक कतार में जोड़ा गया।"
 
 msgid "Global visits"
 msgstr "वैश्विक विज़िट"
 
 msgid "Go to first images on loop"
-msgstr "लूप पर पहली छवियों पर जाएं"
+msgstr "लूप में पहली छवि पर जाएँ"
 
 msgid "Google Maps JavaScript API Key"
 msgstr "Google मानचित्र जावास्क्रिप्ट एपीआई कुंजी"
@@ -741,10 +741,10 @@ msgid "Homepage slider options"
 msgstr "मुखपृष्ठ स्लाइडर विकल्प"
 
 msgid "I don't have a Google developer account and I want to create one"
-msgstr "मेरे पास Google डेवलपर खाता नहीं है और मैं एक"
+msgstr "मेरे पास Google डेवलपर खाता नहीं है और मैं एक बनाना चाहता हूँ"
 
 msgid "I don't have an Apple developer account and I want to create one"
-msgstr "मेरे पास ऐप्पल डेवलपर खाता नहीं है और मैं एक"
+msgstr "मेरे पास Apple डेवलपर खाता नहीं है और मैं एक बनाना चाहता हूँ"
 
 msgid "I have an Apple developer account"
 msgstr "मेरे पास एक ऐप्पल डेवलपर खाता है"
@@ -753,10 +753,10 @@ msgid "I have an Google developer account"
 msgstr "मेरे पास एक Google डेवलपर खाता है"
 
 msgid "I let you publish my application under your Apple developer account"
-msgstr "मैं आपको अपने ऐप्पल डेवलपर खाते के तहत अपना आवेदन प्रकाशित करने देता हूं"
+msgstr "मैं आपको अपने एप्लिकेशन को आपके Apple डेवलपर खाते के अंतर्गत प्रकाशित करने की अनुमति देता हूँ"
 
 msgid "I let you publish my application under your Google developer account"
-msgstr "मैं आपको अपने Google डेवलपर खाते के तहत अपना आवेदन प्रकाशित करने देता हूं"
+msgstr "मैं आपको अपने एप्लिकेशन को आपके Google डेवलपर खाते के अंतर्गत प्रकाशित करने की अनुमति देता हूँ"
 
 msgid "Icon"
 msgstr "चिह्न"
@@ -774,22 +774,22 @@ msgid "If a feature is not listed, it yet can't be exported."
 msgstr "यदि कोई सुविधा सूचीबद्ध नहीं है, तो इसे अभी तक निर्यात नहीं किया जा सकता है।"
 
 msgid "If you decide to change the slider size, all images will be dropped. Are you sure ?"
-msgstr "यदि आप स्लाइडर आकार बदलने का फैसला करते हैं, तो सभी छवियों को हटा दिया जाएगा। क्या आप वाकई हैं?"
+msgstr "यदि आप स्लाइडर का आकार बदलने का निर्णय लेते हैं, तो सभी छवियाँ हटा दी जाएँगी। क्या आप निश्चित हैं?"
 
 msgid "If you validate, your app's colors and background image will be replaced"
-msgstr "यदि आप मान्य करते हैं, तो आपके ऐप के रंग और पृष्ठभूमि छवि को प्रतिस्थापित किया जाएगा"
+msgstr "यदि आप पुष्टि करते हैं, तो आपके ऐप के रंग और पृष्ठभूमि छवि बदल दिए जाएँगे"
 
 msgid "If you want to change the push icon, you <b>must re-publish</b> the application"
-msgstr "यदि आप पुश आइकन बदलना चाहते हैं, तो आपको एप्लिकेशन <b>को फिर से प्रकाशित करना होगा</b>"
+msgstr "यदि आप पुश आइकन बदलना चाहते हैं, तो आपको एप्लिकेशन <b>दोबारा प्रकाशित करना होगा</b>"
 
 msgid "If your app is already published, changing the URL key or domain will break it. You will have to republish it. Change it anyway?"
-msgstr "यदि आपका ऐप पहले ही प्रकाशित हो चुका है, तो यूआरएल कुंजी या डोमेन को बदलना इसे तोड़ देगा। आपको इसे फिर से प्रकाशित करना होगा। वैसे भी इसे बदलें?"
+msgstr "यदि आपका ऐप पहले ही प्रकाशित हो चुका है, तो URL कुंजी या डोमेन बदलने से वह काम करना बंद कर देगा। आपको उसे दोबारा प्रकाशित करना होगा। फिर भी बदलें?"
 
 msgid "If your app is already published, changing the domain will break it. You will have to republish it. Change it anyway?"
-msgstr "यदि आपका ऐप पहले ही प्रकाशित हो चुका है, तो डोमेन को बदलने से इसे तोड़ दिया जाएगा। आपको इसे फिर से प्रकाशित करना होगा। वैसे भी इसे बदलें?"
+msgstr "यदि आपका ऐप पहले ही प्रकाशित हो चुका है, तो डोमेन बदलने से वह काम करना बंद कर देगा। आपको उसे दोबारा प्रकाशित करना होगा। फिर भी बदलें?"
 
 msgid "If your app is already published on the stores, be sure you have sent an update with the Ionic version, and that this update has already been accepted, otherwise your app may be broken."
-msgstr "यदि आपका ऐप पहले से ही स्टोर पर प्रकाशित हुआ है, तो सुनिश्चित करें कि आपने आयनिक संस्करण के साथ एक अपडेट भेजा है, और यह अपडेट पहले ही स्वीकार कर लिया गया है, अन्यथा आपका ऐप टूटा जा सकता है।"
+msgstr "यदि आपका ऐप पहले से ही स्टोर पर प्रकाशित है, तो सुनिश्चित करें कि आपने Ionic संस्करण के साथ अपडेट भेज दिया है और वह अपडेट स्वीकार किया जा चुका है, अन्यथा आपका ऐप काम करना बंद कर सकता है।"
 
 msgid "If your messages do not comply with App Store Review Guidelines, %s, your app might be possibly refused after Apple's review."
 msgstr "यदि आपके संदेश ऐप स्टोर समीक्षा दिशानिर्देशों, %s का पालन नहीं करते हैं, तो ऐप्पल की समीक्षा के बाद आपके ऐप को संभवतः अस्वीकार कर दिया जा सकता है।"
@@ -807,25 +807,25 @@ msgid "Import / Export"
 msgstr "आयात/निर्यात"
 
 msgid "Import an application template or a single feature."
-msgstr "एक आवेदन टेम्पलेट या एक भी सुविधा आयात करें।"
+msgstr "एप्लिकेशन टेम्पलेट या एकल सुविधा आयात करें।"
 
 msgid "Import features from Facebook"
-msgstr "फेसबुक से आयात सुविधाओं"
+msgstr "Facebook से सुविधाएँ आयात करें"
 
 msgid "Import zip or yml"
 msgstr "ज़िप या yml आयात करें"
 
 msgid "Imported features"
-msgstr "आयातित विशेषताएं"
+msgstr "आयात की गई सुविधाएँ"
 
 msgid "In case you have a main domain containing numbers you can change here the base for your App identifiers."
 msgstr "यदि आपके पास एक मुख्य डोमेन है जिसमें संख्याएं हैं तो आप यहां अपने ऐप पहचानकर्ताओं के लिए आधार बदल सकते हैं।"
 
 msgid "In order to help you start your application, we can retrieve some data from Facebook."
-msgstr "आदेश में आप अपने आवेदन शुरू करने में मदद करने के लिए, हम फेसबुक से कुछ डेटा प्राप्त कर सकते हैं।"
+msgstr "आपका एप्लिकेशन शुरू करने में मदद के लिए, हम Facebook से कुछ डेटा प्राप्त कर सकते हैं।"
 
 msgid "In order to insert a promote banner for your application on your site, please follow those steps:"
-msgstr "अपनी साइट पर अपने आवेदन के लिए एक बैनर को बढ़ावा देने के लिए, कृपया उन चरणों का पालन करें:"
+msgstr "अपनी साइट पर अपने एप्लिकेशन के लिए प्रमोशनल बैनर डालने के लिए, कृपया इन चरणों का पालन करें:"
 
 msgid "In-App Messages"
 msgstr "इन-ऐप संदेश"
@@ -837,7 +837,7 @@ msgid "Info successfully saved"
 msgstr "जानकारी सफलतापूर्वक सहेजी गई"
 
 msgid "Input your SCSS here, save to validate & preview"
-msgstr "यहां अपने एससीएसएस इनपुट करें, सत्यापित और पूर्वावलोकन करने के लिए सहेजें"
+msgstr "यहाँ अपना SCSS दर्ज करें, सत्यापित करने और पूर्वावलोकन के लिए सहेजें"
 
 msgid "Insert"
 msgstr "सम्मिलित करें"
@@ -867,7 +867,7 @@ msgid "Invalid version"
 msgstr "अमान्य संस्करण"
 
 msgid "Job"
-msgstr "नौकरी"
+msgstr "पेशा"
 
 msgid "Key Password"
 msgstr "कुंजी पासवर्ड"
@@ -879,10 +879,10 @@ msgid "Label"
 msgstr "लेबल"
 
 msgid "Landscape Left"
-msgstr "लैंडस्केप वाम"
+msgstr "लैंडस्केप बायाँ"
 
 msgid "Landscape Right"
-msgstr "लैंडस्केप सही"
+msgstr "लैंडस्केप दायाँ"
 
 msgid "Language"
 msgstr "भाषा"
@@ -900,7 +900,7 @@ msgid "Layout options"
 msgstr "लेआउट विकल्प"
 
 msgid "Left"
-msgstr "वाम"
+msgstr "बाएँ"
 
 msgid "Left position"
 msgstr "बाएं स्थान"
@@ -918,10 +918,10 @@ msgid "Line-height"
 msgstr "लाइन-ऊंचाई"
 
 msgid "List of my applications"
-msgstr "मेरे अनुप्रयोगों की सूची"
+msgstr "मेरे एप्लिकेशन की सूची"
 
 msgid "List of your applications"
-msgstr "आपके अनुप्रयोगों की सूची"
+msgstr "आपके एप्लिकेशन की सूची"
 
 msgid "Loading"
 msgstr "लोड हो रहा है"
@@ -933,13 +933,13 @@ msgid "Longitude"
 msgstr "देशांतर"
 
 msgid "Loop features"
-msgstr "लूप विशेषताएं"
+msgstr "लूप सुविधाएँ"
 
 msgid "Loop over images"
 msgstr "छवियों पर लूप"
 
 msgid "Love it <3"
-msgstr "यह प्यार <3"
+msgstr "पसंद आया <3"
 
 msgid "Lower case"
 msgstr "लोअर केस"
@@ -954,13 +954,13 @@ msgid "Manage Access"
 msgstr "पहुँच प्रबंधित करें"
 
 msgid "Manage Admins access feature by feature."
-msgstr "सुविधा के द्वारा व्यवस्थापकों का उपयोग सुविधा प्रबंधित करें."
+msgstr "व्यवस्थापकों की पहुँच सुविधा-दर-सुविधा प्रबंधित करें।"
 
 msgid "Manage Companies"
 msgstr "कंपनियों को प्रबंधित करें"
 
 msgid "Manage icons"
-msgstr "माउस को प्रबंधित करें"
+msgstr "आइकन प्रबंधित करें"
 
 msgid "Manage your app's features"
 msgstr "अपने ऐप की सुविधाओं को प्रबंधित करें"
@@ -981,7 +981,7 @@ msgid "Message"
 msgstr "संदेश"
 
 msgid "Message for both the two previous usages."
-msgstr "दो पिछले उपयोगों दोनों के लिए संदेश।"
+msgstr "पिछले दोनों उपयोगों के लिए संदेश।"
 
 msgid "Misc"
 msgstr "विविध"
@@ -1011,13 +1011,13 @@ msgid "Monetize your app"
 msgstr "अपने ऐप का मुद्रीकरण करें"
 
 msgid "My Invoices"
-msgstr "मेरा चालान"
+msgstr "मेरे चालान"
 
 msgid "My QRCode"
 msgstr "मेरा क्यूआरकोड"
 
 msgid "My application in figures"
-msgstr "आंकड़ों में मेरा आवेदन"
+msgstr "आंकड़ों में मेरा एप्लिकेशन"
 
 msgid "Name"
 msgstr "नाम"
@@ -1038,16 +1038,16 @@ msgid "No Facebook page? You can"
 msgstr "कोई फेसबुक पेज नहीं? आप कर सकते हैं"
 
 msgid "No account for now."
-msgstr "अब के लिए कोई खाता नहीं."
+msgstr "अभी कोई खाता नहीं है।"
 
 msgid "No data found"
 msgstr "कोई डेटा नहीं मिला"
 
 msgid "No features available for this application."
-msgstr "कोई सुविधाओं इस आवेदन के लिए उपलब्ध है।"
+msgstr "इस एप्लिकेशन के लिए कोई सुविधा उपलब्ध नहीं है।"
 
 msgid "No message sent, there is no available applications."
-msgstr "कोई संदेश नहीं भेजा गया है, कोई उपलब्ध अनुप्रयोग नहीं हैं।"
+msgstr "कोई संदेश नहीं भेजा गया, कोई एप्लिकेशन उपलब्ध नहीं है।"
 
 msgid "No options available."
 msgstr "कोई विकल्प उपलब्ध नहीं है।"
@@ -1071,7 +1071,7 @@ msgid "Offset"
 msgstr "ऑफसेट"
 
 msgid "On!"
-msgstr "पर!"
+msgstr "चालू!"
 
 msgid "One free coffee"
 msgstr "एक नि: शुल्क कॉफी"
@@ -1086,19 +1086,19 @@ msgid "Options saved"
 msgstr "विकल्प सहेजे गए"
 
 msgid "Or go on your store<br />and look for 'Apps Company Previewer'"
-msgstr "या अपनी दुकान पर जाने के लिए<br />और 'Apps कंपनी पूर्वावलोकन' के लिए देखो"
+msgstr "या अपने स्टोर पर जाएं<br />और 'Apps Company Previewer' खोजें"
 
 msgid "Order places"
-msgstr "ऑर्डर स्थान"
+msgstr "स्थानों को क्रमबद्ध करें"
 
 msgid "Order places by distance:"
-msgstr "दूरी के आधार पर आदेश स्थानों:"
+msgstr "स्थानों को दूरी के आधार पर क्रमबद्ध करें:"
 
 msgid "Order results alphebetically:"
-msgstr "आदेश परिणाम यद्यपि:"
+msgstr "परिणामों को वर्णानुक्रम में क्रमबद्ध करें:"
 
 msgid "Orientations saved!"
-msgstr "ओरिएंटेशन बचाया!"
+msgstr "ओरिएंटेशन सहेजे गए!"
 
 msgid "Other"
 msgstr "अन्य"
@@ -1116,22 +1116,22 @@ msgid "Percentage of returning customers"
 msgstr "लौटने वाले ग्राहकों का प्रतिशत"
 
 msgid "Period to long, please select less than one month."
-msgstr "लंबी अवधि, कृपया एक महीने से भी कम समय का चयन करें।"
+msgstr "अवधि बहुत लंबी है, कृपया एक महीने से कम की अवधि चुनें।"
 
 msgid "Permissions Modal Alerts messages describe why your apps requires some permissions,"
-msgstr "अनुमतियां मोडल अलर्ट संदेश का वर्णन क्यों अपनी क्षुधा कुछ अनुमति की आवश्यकता है,"
+msgstr "अनुमति मोडल अलर्ट संदेश बताते हैं कि आपके ऐप को कुछ अनुमतियों की आवश्यकता क्यों है,"
 
 msgid "Photo & Video"
 msgstr "फोटो और वीडियो"
 
 msgid "Places"
-msgstr "स्थानों"
+msgstr "स्थान"
 
 msgid "Please check your messages before sending your app to be published, specifically if you are using iOS Auto publish service: if your app is refused after review, one build will be consumed."
 msgstr "कृपया अपना ऐप प्रकाशित करने से पहले अपने संदेशों की जांच करें, विशेष रूप से यदि आप आईओएस ऑटो प्रकाशित सेवा का उपयोग कर रहे हैं: यदि समीक्षा के बाद आपका ऐप अस्वीकार कर दिया गया है, तो एक बिल्ड का उपभोग किया जाएगा।"
 
 msgid "Please enter a correct URL for the %s store"
-msgstr "कृप%s स्टोर के लिए एक सही URL दर्ज करें"
+msgstr "कृपया %s स्टोर के लिए सही URL दर्ज करें"
 
 msgid "Please enter a number for the duration."
 msgstr "कृपया अवधि के लिए एक नंबर दर्ज करें।"
@@ -1152,19 +1152,19 @@ msgid "Please fill iTunes Connect Identifier."
 msgstr "कृपया आईट्यून्स कनेक्ट पहचानकर्ता भरें।"
 
 msgid "Please note that AAC+ streams aren't managed yet on Firefox browser, but it will work well in the app."
-msgstr "AAC+धाराओं Firefox ब्राउज़र पर अभी तक प्रबंधित नहीं कर रहे हैं कि कृपया ध्यान दें, लेकिन यह अनुप्रयोग में अच्छी तरह से काम करेंगे."
+msgstr "कृपया ध्यान दें कि AAC+ स्ट्रीम अभी Firefox ब्राउज़र पर समर्थित नहीं हैं, लेकिन ऐप में ठीक से काम करेंगी।"
 
 msgid "Please select at least one language."
 msgstr "कृपया कम से कम एक भाषा का चयन करें।"
 
 msgid "Please wait while we generate application source."
-msgstr "जब तक हम एप्लिकेशन स्रोत उत्पन्न करते हैं तो कृपया प्रतीक्षा करें।"
+msgstr "कृपया प्रतीक्षा करें, हम एप्लिकेशन स्रोत तैयार कर रहे हैं।"
 
 msgid "Port"
-msgstr "बंदरगाह"
+msgstr "पोर्ट"
 
 msgid "Portrait"
-msgstr "चित्र"
+msgstr "पोर्ट्रेट"
 
 msgid "Preset"
 msgstr "पूर्व निर्धारित"
@@ -1173,7 +1173,7 @@ msgid "Preview"
 msgstr "पूर्वावलोकन"
 
 msgid "Preview and test your native apps directly on your mobile."
-msgstr "पूर्वावलोकन और अपने मोबाइल पर सीधे अपने देशी क्षुधा का परीक्षण।"
+msgstr "अपने नेटिव ऐप्स को सीधे अपने मोबाइल पर पूर्वावलोकन और परीक्षण करें।"
 
 msgid "Preview on your phone"
 msgstr "अपने फोन पर पूर्वावलोकन करें"
@@ -1188,13 +1188,13 @@ msgid "Productivity"
 msgstr "उत्पादकता"
 
 msgid "Promote"
-msgstr "को बढ़ावा देना"
+msgstr "प्रचार करें"
 
 msgid "Promote your app!"
-msgstr "अपने ऐप को बढ़ावा देना!"
+msgstr "अपने ऐप का प्रचार करें!"
 
 msgid "Promotion"
-msgstr "संवर्धन"
+msgstr "प्रमोशन"
 
 msgid "Publication"
 msgstr "प्रकाशन"
@@ -1203,7 +1203,7 @@ msgid "Publish automatically to iTunes Connect"
 msgstr "आईट्यून्स कनेक्ट पर स्वचालित रूप से प्रकाशित करें"
 
 msgid "Publish the application"
-msgstr "आवेदन प्रकाशित करें"
+msgstr "एप्लिकेशन प्रकाशित करें"
 
 msgid "Publish under our account"
 msgstr "हमारे खाते के तहत प्रकाशित करें"
@@ -1221,10 +1221,10 @@ msgid "Reference"
 msgstr "संदर्भ"
 
 msgid "Remaining build"
-msgstr "शेष निर्माण"
+msgstr "शेष बिल्ड"
 
 msgid "Remaining builds"
-msgstr "शेष बनाता है"
+msgstr "शेष बिल्ड"
 
 msgid "Remove this page from this folder?"
 msgstr "इस फ़ोल्डर से इस पृष्ठ को निकालें?"
@@ -1236,10 +1236,10 @@ msgid "Return to current feature"
 msgstr "वर्तमान सुविधा पर लौटें"
 
 msgid "Right"
-msgstr "सही"
+msgstr "दाएँ"
 
 msgid "Right position"
-msgstr "सही स्थिति"
+msgstr "दाईं स्थिति"
 
 msgid "Rss"
 msgstr "आरएसएस"
@@ -1251,7 +1251,7 @@ msgid "SSL"
 msgstr "एसएसएल"
 
 msgid "Save"
-msgstr "बचाना"
+msgstr "सहेजें"
 
 msgid "Save publication settings"
 msgstr "प्रकाशन सेटिंग सहेजें"
@@ -1272,10 +1272,10 @@ msgid "Search settings"
 msgstr "खोज सेटिंग"
 
 msgid "Secondary category"
-msgstr "माध्यमिक श्रेणी"
+msgstr "द्वितीयक श्रेणी"
 
 msgid "Secondary category<br />(Optional)"
-msgstr "माध्यमिक श्रेणी<br />(वैकल्पिक)"
+msgstr "द्वितीयक श्रेणी<br />(वैकल्पिक)"
 
 msgid "Secret Key"
 msgstr "गुप्त कुंजी"
@@ -1287,7 +1287,7 @@ msgid "Send request"
 msgstr "अनुरोध भेजें"
 
 msgid "Send you .pem certificate"
-msgstr "आपको.pem प्रमाणपत्र भेजें"
+msgstr "अपना .pem प्रमाणपत्र भेजें"
 
 msgid "Sender name/e-mail"
 msgstr "प्रेषक का नाम/ई-मेल"
@@ -1299,7 +1299,7 @@ msgid "Server"
 msgstr "सर्वर"
 
 msgid "Show"
-msgstr "दिखाना"
+msgstr "दिखाएं"
 
 msgid "Show the applications waiting for publication only."
 msgstr "केवल प्रकाशन के लिए इंतजार कर रहे एप्लिकेशन दिखाएं।"
@@ -1338,10 +1338,10 @@ msgid "Sorry, it seems that Facebook credentials are invalid. Please contact an 
 msgstr "क्षमा करें, ऐसा लगता है कि फेसबुक प्रमाण-पत्र अमान्य हैं। कृपया किसी व्यवस्थापक से संपर्क करें."
 
 msgid "Sorry, no data was found for this page. Maybe you used the wrong page id?"
-msgstr "क्षमा करें, इस पृष्ठ के लिए कोई डेटा नहीं मिला। शायद आपने गलत पेज आईडी का इस्तेमाल किया?"
+msgstr "क्षमा करें, इस पृष्ठ के लिए कोई डेटा नहीं मिला। शायद आपने गलत पृष्ठ ID का उपयोग किया?"
 
 msgid "Sorry, we need a page id."
-msgstr "क्षमा करें, हमें एक पेज आईडी की आवश्यकता है।"
+msgstr "क्षमा करें, हमें एक पृष्ठ ID की आवश्यकता है।"
 
 msgid "Source type"
 msgstr "स्रोत प्रकार"
@@ -1386,16 +1386,16 @@ msgid "Store Password"
 msgstr "स्टोर पासवर्ड"
 
 msgid "Store URL"
-msgstr "यूआरएल स्टोर करें"
+msgstr "स्टोर URL"
 
 msgid "Stores Info"
-msgstr "दुकानों की जानकारी"
+msgstr "स्टोर की जानकारी"
 
 msgid "Stores URL"
 msgstr "स्टोर यूआरएल"
 
 msgid "Stretch"
-msgstr "खिंचाव"
+msgstr "स्ट्रेच"
 
 msgid "Subheader"
 msgstr "सबहेडर"
@@ -1416,13 +1416,13 @@ msgid "Tags"
 msgstr "टैग"
 
 msgid "Tags separated by commas"
-msgstr "टैग अल्पविराम से अलग"
+msgstr "अल्पविराम से अलग किए गए टैग"
 
 msgid "Template"
-msgstr "खाका"
+msgstr "टेम्पलेट"
 
 msgid "Template description"
-msgstr "खाका विवरण"
+msgstr "टेम्पलेट विवरण"
 
 msgid "Template name"
 msgstr "टेम्पलेट का नाम"
@@ -1443,13 +1443,13 @@ msgid "The QR Code is not available at this moment"
 msgstr "क्यूआर कोड इस समय उपलब्ध नहीं है"
 
 msgid "The White-label you are trying to edit doesn't exists."
-msgstr "जिस सफेद-लेबल को आप संपादित करने का प्रयास कर रहे हैं वह मौजूद नहीं है।"
+msgstr "जिस व्हाइट-लेबल को आप संपादित करने का प्रयास कर रहे हैं वह मौजूद नहीं है।"
 
 msgid "The application has been successfully saved"
-msgstr "आवेदन सफलतापूर्वक सहेजा गया है"
+msgstr "एप्लिकेशन सफलतापूर्वक सहेजा गया है"
 
 msgid "The application name"
-msgstr "आवेदन का नाम"
+msgstr "एप्लिकेशन का नाम"
 
 msgid "The application's name cannot start with a number"
 msgstr "एप्लिकेशन का नाम किसी संख्या से शुरू नहीं हो सकता है"
@@ -1470,7 +1470,7 @@ msgid "The entered bundle id is incorrect, it should be like: com.siberiancms.ap
 msgstr "दर्ज बंडल आईडी गलत है, यह इस तरह होना चाहिए: com.siberiancms.app"
 
 msgid "The field is required"
-msgstr "क्षेत्र की आवश्यकता है"
+msgstr "फ़ील्ड आवश्यक है"
 
 msgid "The file has been successfully uploaded"
 msgstr "फ़ाइल को सफलतापूर्वक अपलोड किया गया है"
@@ -1497,13 +1497,13 @@ msgid "The startup image"
 msgstr "स्टार्टअप छवि"
 
 msgid "This application does not exist"
-msgstr "यह आवेदन मौजूद नहीं है"
+msgstr "यह एप्लिकेशन मौजूद नहीं है"
 
 msgid "This application is no longer available"
-msgstr "यह आवेदन अब उपलब्ध नहीं है"
+msgstr "यह एप्लिकेशन अब उपलब्ध नहीं है"
 
 msgid "This application is visible on the front"
-msgstr "यह एप्लिकेशन मोर्चे पर दिखाई देता है"
+msgstr "यह एप्लिकेशन फ्रंटएंड पर दिखाई देता है"
 
 msgid "This key is already used by system features."
 msgstr "यह कुंजी पहले से ही सिस्टम सुविधाओं द्वारा उपयोग की जाती है।"
@@ -1515,7 +1515,7 @@ msgid "This page will be displayed to mobile users to enable them to login and m
 msgstr "यह पृष्ठ मोबाइल उपयोगकर्ताओं को उनके खाते को लॉगिन और प्रबंधित करने में सक्षम करने के लिए प्रदर्शित किया जाएगा। जब आप उन सुविधाओं का उपयोग करते हैं जिन्हें उपयोगकर्ता लॉगिन की आवश्यकता होती है तो यह स्वचालित रूप से जोड़ा जाता है।"
 
 msgid "This user can add pages to this application."
-msgstr "यह उपयोगकर्ता इस एप्लिकेशन में पेज जोड़ सकता है।"
+msgstr "यह उपयोगकर्ता इस एप्लिकेशन में पृष्ठ जोड़ सकता है।"
 
 msgid "Tip"
 msgstr "युक्ति"
@@ -1527,13 +1527,13 @@ msgid "Title"
 msgstr "शीर्षक"
 
 msgid "Title case"
-msgstr "शीर्षक का मामला"
+msgstr "टाइटल केस"
 
 msgid "Title position"
 msgstr "शीर्षक स्थिति"
 
 msgid "Titles"
-msgstr "टाइटल"
+msgstr "शीर्षक"
 
 msgid "To be able to download source codes, please provide the following information:<br />"
 msgstr "स्रोत कोड डाउनलोड करने में सक्षम होने के लिए, कृपया निम्न जानकारी प्रदान करें:<br />"
@@ -1557,7 +1557,7 @@ msgid "Twitter API Keys"
 msgstr "ट्विटर एपीआई कुंजी"
 
 msgid "Twitter API secret"
-msgstr "ट्विटर एपीआई रहस्य"
+msgstr "ट्विटर API सीक्रेट"
 
 msgid "Twitter API settings"
 msgstr "ट्विटर एपीआई सेटिंग्स"
@@ -1569,10 +1569,10 @@ msgid "Twitter consumer key"
 msgstr "ट्विटर उपभोक्ता कुंजी"
 
 msgid "Twitter consumer secret"
-msgstr "ट्विटर उपभोक्ता रहस्य"
+msgstr "ट्विटर कंज्यूमर सीक्रेट"
 
 msgid "Type"
-msgstr "टाइप करें"
+msgstr "प्रकार"
 
 msgid "UP"
 msgstr "ऊपर"
@@ -1590,10 +1590,10 @@ msgid "Upload image"
 msgstr "छवि अपलोड करें"
 
 msgid "Upper case"
-msgstr "ऊपरी मामला"
+msgstr "अपरकेस"
 
 msgid "Upside Down"
-msgstr "उल्टा नीचे"
+msgstr "उलटा"
 
 msgid "Use Owner AdMob"
 msgstr "स्वामी AdMob का उपयोग करें"
@@ -1626,7 +1626,7 @@ msgid "Video"
 msgstr "वीडियो"
 
 msgid "Visible"
-msgstr "दर्शनीय"
+msgstr "दृश्यमान"
 
 msgid "Visible from all pages"
 msgstr "सभी पृष्ठों से दिखाई दे रहा है"
@@ -1653,10 +1653,10 @@ msgid "With ads functionality"
 msgstr "विज्ञापन कार्यक्षमता के साथ"
 
 msgid "With background audio playing"
-msgstr "पृष्ठभूमि ऑडियो खेलने के साथ"
+msgstr "पृष्ठभूमि ऑडियो प्लेबैक के साथ"
 
 msgid "With background geolocation"
-msgstr "पृष्ठभूमि भौगोलिक स्थान के साथ"
+msgstr "पृष्ठभूमि जियोलोकेशन के साथ"
 
 msgid "With options"
 msgstr "विकल्पों के साथ"
@@ -1671,16 +1671,16 @@ msgid "You already sent a request, please wait 3 days from your previous request
 msgstr "आपने पहले ही एक अनुरोध भेजा है, कृपया पुनः प्रयास करने के लिए अपने पिछले अनुरोध से 3 दिन प्रतीक्षा करें।"
 
 msgid "You can add or change license in (<strong>Settings / General</strong>).<br/><em>note: builds are only consumed if they're successful.</em>"
-msgstr "आप जोड़ सकते हैं या में लाइसेंस बदल सकते हैं (<strong>सेटिंग्स/जनरल</strong>)। <br/><em>नोट: बिल्ड केवल तभी उपभोग किए जाते हैं जब वे सफल होते हैं। </em>"
+msgstr "आप (<strong>सेटिंग्स / जनरल</strong>) में लाइसेंस जोड़ या बदल सकते हैं।<br/><em>नोट: बिल्ड केवल तभी गिने जाते हैं जब वे सफल होते हैं।</em>"
 
 msgid "You can use <b>%s</b> as variable for your application name."
-msgstr "आप%s को अपने एप्लिकेशन नाम के लिए चर के <b>रूप में</b> उपयोग कर सकते हैं।"
+msgstr "आप <b>%s</b> को अपने एप्लिकेशन के नाम के लिए वेरिएबल के रूप में उपयोग कर सकते हैं।"
 
 msgid "You cannot have multiple sessions to manage apps, so the session for this app is closed. This page is about to be reloaded."
 msgstr "आपके पास ऐप्स प्रबंधित करने के लिए कई सत्र नहीं हो सकते हैं, इसलिए इस ऐप का सत्र बंद है। यह पृष्ठ पुनः लोड होने वाला है।"
 
 msgid "You can't go back to Angular design."
-msgstr "आप कोणीय डिजाइन पर वापस नहीं जा सकते हैं।"
+msgstr "आप Angular डिज़ाइन पर वापस नहीं जा सकते।"
 
 msgid "You can't use this domain."
 msgstr "आप इस डोमेन का उपयोग नहीं कर सकते."
@@ -1689,7 +1689,7 @@ msgid "You don't have any applications yet"
 msgstr "आपके पास अभी तक कोई भी एप्लिकेशन नहीं है"
 
 msgid "You have already sent a certificate"
-msgstr "आप पहले से ही एक प्रमाण पत्र भेजा है"
+msgstr "आप पहले ही प्रमाणपत्र भेज चुके हैं"
 
 msgid "You have sent a certificate."
 msgstr "आपने एक प्रमाण पत्र भेजा है।"
@@ -1704,13 +1704,13 @@ msgid "You may not delete a library icon"
 msgstr "आप लाइब्रेरी आइकन नहीं हटा सकते हैं"
 
 msgid "You must choose an ads type"
-msgstr "आप एक विज्ञापन प्रकार का चयन करना होगा"
+msgstr "आपको विज्ञापन प्रकार चुनना होगा"
 
 msgid "You must have published your application to access this feature"
-msgstr "इस सुविधा तक पहुंचने के लिए आपने अपना आवेदन प्रकाशित किया होगा"
+msgstr "इस सुविधा तक पहुँचने के लिए आपको अपना एप्लिकेशन प्रकाशित करना होगा"
 
 msgid "You must select at least one orientation for iPad!"
-msgstr "आप iPad के लिए कम से कम एक उन्मुखीकरण का चयन करना होगा!"
+msgstr "आपको iPad के लिए कम से कम एक अभिविन्यास चुनना होगा!"
 
 msgid "You must select at least one orientation for iPhone!"
 msgstr "आपको आईफोन के लिए कम से कम एक अभिविन्यास का चयन करना होगा!"
@@ -1719,28 +1719,28 @@ msgid "Your CNAME is not properly set"
 msgstr "आपका CNAME ठीक से सेट नहीं है"
 
 msgid "Your CNAME is properly set"
-msgstr "आपका सीएनएएन ठीक से सेट है"
+msgstr "आपका CNAME ठीक से सेट है"
 
 msgid "Your administrator is using a custom smtp provider, if you don't want to use your own SMTP provider, you are invited to send a whitelist request via the button below"
 msgstr "आपका व्यवस्थापक कस्टम एसएमटीपी प्रदाता का उपयोग कर रहा है, यदि आप अपने स्वयं के एसएमटीपी प्रदाता का उपयोग नहीं करना चाहते हैं, तो आपको नीचे दिए गए बटन के माध्यम से श्वेतसूची अनुरोध भेजने के लिए आमंत्रित किया जाता है"
 
 msgid "Your analytics has been computed."
-msgstr "आपकी विश्लेषिकी की गणना की गई है।"
+msgstr "आपके एनालिटिक्स की गणना हो चुकी है।"
 
 msgid "Your app will be published"
 msgstr "आपका ऐप प्रकाशित किया जाएगा"
 
 msgid "Your application in few numbers"
-msgstr "कुछ संख्या में आपका आवेदन"
+msgstr "कुछ संख्याओं में आपका एप्लिकेशन"
 
 msgid "Your application is now switched to Ionic"
-msgstr "आपका आवेदन अब आयनिक पर स्विच किया गया है"
+msgstr "आपका एप्लिकेशन अब Ionic पर स्विच कर दिया गया है"
 
 msgid "Your application is ready to be published."
-msgstr "आपका आवेदन प्रकाशित होने के लिए तैयार है।"
+msgstr "आपका एप्लिकेशन प्रकाशित होने के लिए तैयार है।"
 
 msgid "Your best customers"
-msgstr "आपका सबसे अच्छा ग्राहक"
+msgstr "आपके सबसे अच्छे ग्राहक"
 
 msgid "Your bundle id is invalid, format should looks like com.mydomain.iosid"
 msgstr "आपकी बंडल आईडी अमान्य है, प्रारूप com.mydomain.iosid जैसा दिखना चाहिए"
@@ -1749,16 +1749,16 @@ msgid "Your customers in figures"
 msgstr "आंकड़ों में आपके ग्राहक"
 
 msgid "Your customization has been applied to %s."
-msgstr "आपका अनुकूलन को%s पर लागू किया गया है."
+msgstr "आपका अनुकूलन %s पर लागू कर दिया गया है।"
 
 msgid "Your customization has been applied to your white label panel."
-msgstr "आपका अनुकूलन आपके श्वेत लेबल पैनल पर लागू किया गया है।"
+msgstr "आपका अनुकूलन आपके व्हाइट-लेबल पैनल पर लागू कर दिया गया है।"
 
 msgid "Your design"
 msgstr "आपका डिज़ाइन"
 
 msgid "Your iOS autobuild License Key"
-msgstr "आपका आईओएस ऑटोबिल्ड लाइसेंस कुंजी"
+msgstr "आपकी iOS ऑटोबिल्ड लाइसेंस कुंजी"
 
 msgid "Your mobile address should not contain special characters"
 msgstr "आपके मोबाइल पते में विशेष वर्ण नहीं होना चाहिए"
@@ -1776,19 +1776,19 @@ msgid "alphabetically"
 msgstr "वर्णानुक्रम"
 
 msgid "<b>Around you</b> option for the Overview & HTML5 will be displayed & work only when using HTTPS, however it works in Android & iOS apps without HTTPS."
-msgstr "अवलोकन और एचटीएमएल 5 के लिए<b>आपके विकल्प के आसपास</b> प्रदर्शित किया जाएगा और HTTPS का उपयोग करते समय केवल काम करेगा, हालांकि यह HTTPS के बिना एंड्रॉइड और आईओएस ऐप्स में काम करता है।"
+msgstr "ओवरव्यू और HTML5 के लिए <b>आपके आसपास</b> विकल्प केवल HTTPS का उपयोग करने पर ही दिखाई देगा और काम करेगा, हालाँकि यह HTTPS के बिना Android और iOS ऐप्स में काम करता है।"
 
 msgid "<b>File type:</b> %s"
 msgstr "<b>फ़ाइल प्रकार:</b> %s"
 
 msgid "<b>Note: </b>Icon must be white with transparency, the crop window will colorize it otherwise"
-msgstr "<b>नोट: </b>आइकन पारदर्शिता के साथ सफेद होना चाहिए, फसल विंडो अन्यथा इसे रंगीन करेगी"
+msgstr "<b>नोट: </b>आइकन पारदर्शिता के साथ सफ़ेद होना चाहिए, अन्यथा क्रॉप विंडो उसे रंगीन कर देगी"
 
 msgid "<b>Note</b>: the cron scheduler minimum interval is 10 seconds, reducing the cron interval can increase your server load, be careful."
-msgstr "<b>नोट</b>: क्रॉन अनुसूचक न्यूनतम अंतराल 10 सेकंड है, क्रॉन अंतराल को कम करने से आपके सर्वर लोड को बढ़ा सकते हैं, सावधान रहें।"
+msgstr "<b>नोट</b>: क्रॉन शेड्यूलर का न्यूनतम अंतराल 10 सेकंड है, क्रॉन अंतराल कम करने से आपके सर्वर का लोड बढ़ सकता है, सावधान रहें।"
 
 msgid "<b>Push image & Color</b> are dynamic and doesn't require the app to be re-published."
-msgstr "<b>पुश छवि और रंग</b> गतिशील हैं और ऐप को फिर से प्रकाशित करने की आवश्यकता नहीं है।"
+msgstr "<b>पुश छवि और रंग</b> डायनामिक हैं और इसके लिए ऐप को दोबारा प्रकाशित करने की आवश्यकता नहीं है।"
 
 msgid "building"
 msgstr "इमारत"
@@ -1803,7 +1803,7 @@ msgid "eBanner iOS price"
 msgstr "eBanner आईओएस कीमत"
 
 msgid "e.g: On %s"
-msgstr "उदाहरण: %S पर"
+msgstr "उदाहरण: %s पर"
 
 msgid "failed"
 msgstr "विफल रहा"
@@ -1851,10 +1851,10 @@ msgid "iTunes Connect Password"
 msgstr "iTunes कनेक्ट पासवर्ड"
 
 msgid "icon"
-msgstr "आइकन पर क्लिक करें"
+msgstr "आइकन"
 
 msgid "like using the GPS or the camera. After the first installation of your app, those messages will be shown to the app user."
-msgstr "जीपीएस या कैमरे का उपयोग करना पसंद है। आपके ऐप की पहली स्थापना के बाद, उन संदेशों को ऐप उपयोगकर्ता को दिखाया जाएगा।"
+msgstr "जैसे GPS या कैमरे का उपयोग करना। आपके ऐप की पहली इंस्टॉलेशन के बाद, ये संदेश ऐप उपयोगकर्ता को दिखाए जाएंगे।"
 
 msgid "logo"
 msgstr "लोगो"

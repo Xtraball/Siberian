@@ -15,24 +15,20 @@ msgstr ""
 "X-Generator: Weblate 3.3\n"
 
 msgid "1 loyalty point ="
-msgstr "punt 1 lleialtat ="
+msgstr "1 punt de fidelitat ="
 
 msgid "1 point"
-msgstr "1 punt validat"
+msgstr "1 punt"
 
 #. machine-translated (2026-10), to be reviewed
 msgid "1 validated point ="
 msgstr "1 punt validat ="
 
 msgid "An error occurred while retrieving QRCode. Please try again later"
-msgstr ""
-"S'ha produït un error en pujar el fitxer. Si us plau, torneu a intentar-ho "
-"més tard."
+msgstr "S'ha produït un error en recuperar el codi QR. Intenta-ho de nou més tard"
 
 msgid "An error occurred while saving the password. Please try again later"
-msgstr ""
-"S'ha produït un error mentre es desava la contrasenya. Si us plau provar una "
-"altra vegada més tard"
+msgstr "S'ha produït un error en desar la contrasenya. Intenta-ho de nou més tard"
 
 msgid "An error occurred while saving your loyalty card."
 msgstr "S'ha produït un error mentre es desava la targeta de fidelització."
@@ -44,9 +40,7 @@ msgstr ""
 "tots els camps."
 
 msgid "An error occurred while validating point. Please try again later."
-msgstr ""
-"S'ha produït un error en validar el punt. Si us plau provar una altra vegada "
-"més tard."
+msgstr "S'ha produït un error en validar el punt. Intenta-ho de nou més tard."
 
 #. machine-translated (2026-10), to be reviewed
 msgid "An error occurred with your QRCode."
@@ -80,7 +74,7 @@ msgid "My new loyalty card"
 msgstr "La meva nova targeta de fidelització"
 
 msgid "My passwords"
-msgstr "Meves contrasenyes"
+msgstr "Les meves contrasenyes"
 
 #. machine-translated (2026-10), to be reviewed
 msgid "No cards available"
@@ -97,9 +91,7 @@ msgstr "Si us plau, introdueixi la contrasenya"
 
 msgid ""
 "Please show your phone to the store person so that he enters his password"
-msgstr ""
-"Si us plau mostri el seu telèfon a la botiga de persona que entra a la "
-"contrasenya"
+msgstr "Si us plau, mostri el seu telèfon al personal de la botiga perquè introdueixi la seva contrasenya"
 
 #. machine-translated (2026-10), to be reviewed
 msgid "Point active"
@@ -119,7 +111,7 @@ msgid "Reward"
 msgstr "Recompensa"
 
 msgid "Rewards"
-msgstr "Recompensa"
+msgstr "Recompenses"
 
 #. machine-translated (2026-10), to be reviewed
 msgid "Scan QRCode"
@@ -138,10 +130,10 @@ msgid "Unreadable QRCode, sorry."
 msgstr "QRCode il·legible, ho sentim."
 
 msgid "Use only once?"
-msgstr "utilitzar només una vegada"
+msgstr "Utilitzar només una vegada?"
 
 msgid "We are sorry but this card is temporarily blocked"
-msgstr "Ho sentim però aquesta targeta està temporalment bloquejat"
+msgstr "Ho sentim, però aquesta targeta està temporalment bloquejada"
 
 msgid ""
 "Wrong password. Be carefull! %d remaining attempt%s before locking your "
@@ -162,21 +154,19 @@ msgstr ""
 msgid ""
 "You have exceeded the number of attempts to validate points. Your card is "
 "locked for 24h"
-msgstr ""
-"Heu superat el nombre d'intents per validar punts. La targeta està blocada "
-"per a 24h"
+msgstr "Heu superat el nombre d'intents per validar punts. La targeta està bloquejada durant 24h"
 
 msgid "You just finished your card"
-msgstr "Que acaba de finalitzar la targeta"
+msgstr "Acabeu de completar la targeta"
 
 msgid "You must be logged in to validate points"
-msgstr "Vostè estar enregistat per validar punts"
+msgstr "Heu d'iniciar sessió per validar punts"
 
 msgid "Your loyalty card has been saved successfully"
-msgstr "Targeta fidelitat s'ha desat correctament"
+msgstr "La vostra targeta de fidelització s'ha desat correctament"
 
 msgid "Your password must be 4 digits"
-msgstr "La contrasenya ha de ser 4 dígits"
+msgstr "La contrasenya ha de tenir 4 dígits"
 
 #. machine-translated (2026-10), to be reviewed
 msgid "is now yours!"

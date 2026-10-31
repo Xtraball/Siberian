@@ -55,18 +55,16 @@ msgid "Author"
 msgstr "Autor"
 
 msgid "Cache lifetime (excluding pull to refresh)"
-msgstr "Caché de por vida (excepto cuando tire para actualizar)"
+msgstr "Duración de la caché (excepto al tirar para actualizar)"
 
 msgid "Categories successfully saved"
 msgstr "Categorías guardadas correctamente."
 
 msgid "Click here to download our Wordpress plugin"
-msgstr "Haga clic para descargar nuestro plugin Wordpress."
+msgstr "Haga clic aquí para descargar nuestro plugin de WordPress"
 
 msgid "Cover & Thumbnails are only visible when queries are not grouped."
-msgstr ""
-"La cubierta y las Miniaturas son sólo visibles cuando las consultas no están "
-"agrupadas."
+msgstr "La portada y las miniaturas solo son visibles cuando las consultas no están agrupadas."
 
 msgid "Date"
 msgstr "Fecha"
@@ -75,10 +73,10 @@ msgid "Descending"
 msgstr "Descendente"
 
 msgid "Enter your Wordpress URL:"
-msgstr "Introduzca el URL de su Wordpress."
+msgstr "Introduzca la URL de su WordPress:"
 
 msgid "Group all queries into a single list"
-msgstr "Grupo de todas las consultas en una sola lista"
+msgstr "Agrupar todas las consultas en una sola lista"
 
 msgid "ID"
 msgstr "ID"
@@ -86,13 +84,10 @@ msgstr "ID"
 msgid ""
 "If your WordPress is secured by a login/password, and/or you want to display "
 "private posts you can set here a user to be used to retrieve posts."
-msgstr ""
-"Si tu WordPress está protegido por un nombre de usuario/contraseña, y/o "
-"desea visualizar las publicaciones privadas puede establecer aquí un usuario "
-"que se utiliza para recuperar mensajes."
+msgstr "Si su WordPress está protegido con usuario/contraseña, o desea mostrar entradas privadas, puede establecer aquí un usuario para recuperar las entradas."
 
 msgid "Loading categories"
-msgstr "Cargando tus categorías"
+msgstr "Cargando categorías"
 
 msgid "Manage WordPress"
 msgstr "Administrar WordPress"
@@ -101,15 +96,12 @@ msgid "Manage queries"
 msgstr "Gestionar las consultas"
 
 msgid "No cache"
-msgstr "Sin Cache"
+msgstr "Sin caché"
 
 msgid ""
 "Note: cache is automatically refreshed on any user pull to refresh action "
 "whatever the lifetime set."
-msgstr ""
-"Nota: la memoria caché se actualiza automáticamente a cualquier usuario de "
-"extracción para actualizar acción cualquiera que sea el tiempo de vida "
-"establecido."
+msgstr "Nota: la caché se actualiza automáticamente en cada acción de tirar para actualizar del usuario, sea cual sea la duración establecida."
 
 msgid "Pages"
 msgstr "Páginas"
@@ -121,7 +113,7 @@ msgid "Show title & subtitle"
 msgstr "Mostrar título y subtítulo"
 
 msgid "Sorry, we are unable to fetch any category or post from your WordPress."
-msgstr "Lo sentimos, no podemos recuperar categoría o post de tu WordPress."
+msgstr "Lo sentimos, no podemos recuperar ninguna categoría ni entrada de su WordPress."
 
 msgid "Sort by"
 msgstr "Ordenar por"
@@ -130,10 +122,10 @@ msgid "Sort order"
 msgstr "Criterio de ordenación"
 
 msgid "Strip shortcodes"
-msgstr "Tira de códigos cortos"
+msgstr "Eliminar shortcodes"
 
 msgid "Unable to find your WordPress or /wp-json/ endpoint."
-msgstr "Incapaz de encontrar tu WordPress o ruta /wp-json/."
+msgstr "No se puede encontrar su WordPress ni el endpoint /wp-json/."
 
 msgid "Unlimited (until any pull to refresh)"
 msgstr "Ilimitado (hasta que tire para actualizar)"
@@ -145,18 +137,16 @@ msgstr "Lo sentimos no hemos encontrado categorías en su sitio Wordpress."
 msgid ""
 "We are sorry but our Wordpress plugin hasn't been detected on your website. "
 "Please be sure it is correctly installed and activated."
-msgstr ""
-"Lo sentimos no hemos detectado nuestro plugin en su sitio Wordpress. Por "
-"favor, asegurese de que esta correctamente instalado y activado."
+msgstr "Lo sentimos, no hemos detectado nuestro plugin en su sitio Wordpress. Por favor, asegúrese de que está correctamente instalado y activado."
 
 msgid "WordPress URL"
 msgstr "WordPress URL"
 
 msgid "Wordpress"
-msgstr "Wordpress"
+msgstr "WordPress"
 
 msgid "You can mix posts & pages in the queries if needed."
-msgstr "Puedes mezclar los posts y páginas en las consultas si es necesario."
+msgstr "Puede mezclar los posts y páginas en las consultas si es necesario."
 
 msgid ""
 "You can mix posts & pages in the queries if needed, however it's not "

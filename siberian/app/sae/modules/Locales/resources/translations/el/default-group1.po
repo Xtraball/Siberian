@@ -108,7 +108,7 @@ msgid "Active subscriptions with remaining slots."
 msgstr "Ενεργές συνδρομές με διαθέσιμες θέσεις."
 
 msgid "Add a region"
-msgstr "Προσθήκη ενότητας"
+msgstr "Προσθήκη περιοχής"
 
 #. machine-translated (2026-10), to be reviewed
 msgid "Adding %s to SAN."
@@ -123,7 +123,7 @@ msgid "AdminId is required to save the Application."
 msgstr "Το AdminId είναι υποχρεωτικό για την αποθήκευση της εφαρμογής."
 
 msgid "Album:"
-msgstr "Albums"
+msgstr "Album:"
 
 #. machine-translated (2026-10), to be reviewed
 msgid "All sessions are now migrated to Redis."
@@ -148,10 +148,10 @@ msgid ""
 msgstr "Ένας διαχειριστής της πλατφόρμας <b>%s</b> απενεργοποίησε τη συνδρομή σας για την εφαρμογή <b>%s</b>"
 
 msgid "An error occured while adding the block."
-msgstr "Παρουσιάστηκε σφάλμα κατά την προσθήκη της επιλογής"
+msgstr "Παρουσιάστηκε σφάλμα κατά την προσθήκη του μπλοκ."
 
 msgid "An error occurred. Please try again later."
-msgstr "Υπήρξε σφάλμα κατά την αποθήκευση. Παρακαλούμε δοκιμάστε ξανά αργότερα."
+msgstr "Παρουσιάστηκε σφάλμα. Παρακαλούμε δοκιμάστε ξανά αργότερα."
 
 #. machine-translated (2026-10), to be reviewed
 msgid "An error occurred, backButton is required!"
@@ -162,13 +162,13 @@ msgid "An error occurred, please try again."
 msgstr "Παρουσιάστηκε σφάλμα, δοκιμάστε ξανά."
 
 msgid "An error occurred when generating the apk"
-msgstr "Παρουσιάστηκε σφάλμα κατά τη διαγραφή της επιλογής"
+msgstr "Παρουσιάστηκε σφάλμα κατά τη δημιουργία του apk"
 
 msgid "An error occurred while hidding the Android Status Bar."
-msgstr "Παρουσιάστηκε σφάλμα κατά την προσθήκη της επιλογής"
+msgstr "Παρουσιάστηκε σφάλμα κατά την απόκρυψη της γραμμής κατάστασης του Android."
 
 msgid "An error occurred while hidding the iOS Status Bar."
-msgstr "Παρουσιάστηκε σφάλμα κατά την προσθήκη της επιλογής"
+msgstr "Παρουσιάστηκε σφάλμα κατά την απόκρυψη της γραμμής κατάστασης του iOS."
 
 #. machine-translated (2026-10), to be reviewed
 msgid ""
@@ -185,17 +185,13 @@ msgstr ""
 "αργότερα"
 
 msgid "An error occurred while saving your APK. Please try again later."
-msgstr ""
-"Υπήρξε σφάλμα κατά την αποθήκευση της εικόνας σας. Παρακαλούμε δοκιμάστε "
-"ξανά αργότερα."
+msgstr "Υπήρξε σφάλμα κατά την αποθήκευση του APK σας. Παρακαλούμε δοκιμάστε ξανά αργότερα."
 
 msgid "An error occurred while saving your Keystore. Please try again later."
-msgstr ""
-"Υπήρξε σφάλμα κατά την αποθήκευση της εικόνας σας. Παρακαλούμε δοκιμάστε "
-"ξανά αργότερα."
+msgstr "Υπήρξε σφάλμα κατά την αποθήκευση του Keystore σας. Παρακαλούμε δοκιμάστε ξανά αργότερα."
 
 msgid "An error occurred while saving your page subtitle."
-msgstr "Παρουσιάστηκε σφάλμα κατά την αποθήκευση όνοματος της σελίδας σας."
+msgstr "Παρουσιάστηκε σφάλμα κατά την αποθήκευση του υποτίτλου της σελίδας σας."
 
 msgid "An error occurred while saving your picture. Please try againg later."
 msgstr ""
@@ -203,7 +199,7 @@ msgstr ""
 "ξανά αργότερα."
 
 msgid "An error occurred while upload the APK. Please try again later."
-msgstr "Υπήρξε σφάλμα κατά την φόρτωση. Παρακαλούμε δοκιμάστε ξανά αργότερα."
+msgstr "Υπήρξε σφάλμα κατά το ανέβασμα του APK. Παρακαλούμε δοκιμάστε ξανά αργότερα."
 
 msgid "An error occurred while validating point<br />Please try again later."
 msgstr ""
@@ -320,7 +316,7 @@ msgid "Bin SQLite3:"
 msgstr "Bin SQLite3:"
 
 msgid "Black"
-msgstr "Πίσω"
+msgstr "Μαύρο"
 
 msgid "Booking details:"
 msgstr "Πληροφορίες κράτησης"
@@ -401,14 +397,14 @@ msgid "Category not found!"
 msgstr "Η κατηγορία δεν βρέθηκε!"
 
 msgid "Category successfully deleted."
-msgstr "Η κατηγορία αποθηκεύτηκε επιτυχώς."
+msgstr "Η κατηγορία διαγράφηκε επιτυχώς."
 
 #. machine-translated (2026-10), to be reviewed
 msgid "Certificate renewal is disabled until %s due to rate limit hit."
 msgstr "Η ανανέωση πιστοποιητικού είναι απενεργοποιημένη έως %s λόγω υπέρβασης του ορίου ρυθμού."
 
 msgid "Change your homepage"
-msgstr "Αλλαγή προτύπου"
+msgstr "Αλλαγή αρχικής σελίδας"
 
 #. machine-translated (2026-10), to be reviewed
 msgid "Change your startup image"
@@ -446,16 +442,16 @@ msgid "Coiffeurs"
 msgstr "Κομμωτές"
 
 msgid "Company successfully deleted."
-msgstr "Το γεύμα διεγράφη επιτυχώς."
+msgstr "Η εταιρεία διαγράφηκε επιτυχώς."
 
 msgid "Create a new plan"
-msgstr "Δημιουργία φόρου"
+msgstr "Δημιουργία νέου πακέτου"
 
 msgid "Created at:"
 msgstr "Δημιουργήθηκε:"
 
 msgid "Credentials successfully saved!"
-msgstr "Το event αποθηκεύτηκε επιτυχώς"
+msgstr "Τα διαπιστευτήρια αποθηκεύτηκαν επιτυχώς!"
 
 msgid "Date and time:"
 msgstr "Ημερομηνία και ώρα"
@@ -532,7 +528,7 @@ msgid "Downloading your package."
 msgstr "Λήψη του πακέτου σας."
 
 msgid "Edit the account \"%s\""
-msgstr "Επεξεργασία προϊόντος %s"
+msgstr "Επεξεργασία του λογαριασμού \"%s\""
 
 #. machine-translated (2026-10), to be reviewed
 msgid "Edit the plan"
@@ -561,7 +557,7 @@ msgid "Expired on"
 msgstr "Έληξε στις"
 
 msgid "Extension not allowed, '%s' only"
-msgstr "Δεν επιτρέπεται η επέκταση, μόνο '% s'"
+msgstr "Δεν επιτρέπεται η επέκταση, μόνο '%s'"
 
 #. machine-translated (2026-10), to be reviewed
 msgid "Feature is now %s"
@@ -667,10 +663,10 @@ msgid "Invalid twitter handle/url!"
 msgstr "Μη έγκυρο twitter handle/url!"
 
 msgid "Invoice"
-msgstr "Παραστατικά"
+msgstr "Παραστατικό"
 
 msgid "Invoice %s"
-msgstr "Παραστατικά"
+msgstr "Παραστατικό %s"
 
 #. machine-translated (2026-10), to be reviewed
 msgid "Is Active?"
@@ -695,7 +691,7 @@ msgid "Linked to Subscription"
 msgstr "Συνδεδεμένο με τη συνδρομή"
 
 msgid "List of your taxes"
-msgstr "Λίστα των χρηστών σας"
+msgstr "Λίστα των φόρων σας"
 
 #. machine-translated (2026-10), to be reviewed
 msgid "Listing produits"
@@ -729,7 +725,7 @@ msgid "Manifest rebuilt with succes."
 msgstr "Το manifest ανακατασκευάστηκε με επιτυχία."
 
 msgid "Message:"
-msgstr "Μηνύματα"
+msgstr "Μήνυμα:"
 
 #. machine-translated (2026-10), to be reviewed
 msgid "Message is required."
@@ -743,7 +739,7 @@ msgid "Minimum order:"
 msgstr "Ελάχιστη παραγγελία"
 
 msgid "Missing categories."
-msgstr "Φόρτωση κατηγοριών"
+msgstr "Λείπουν κατηγορίες."
 
 #. machine-translated (2026-10), to be reviewed
 msgid "Missing data."
@@ -786,7 +782,7 @@ msgid "Missing value_id!"
 msgstr "Λείπει το value_id!"
 
 msgid "Mode"
-msgstr "Περισσότερα"
+msgstr "Λειτουργία"
 
 #. machine-translated (2026-10), to be reviewed
 msgid "Mur de news"
@@ -797,10 +793,10 @@ msgid "Mur de news mobile"
 msgstr "Τοίχος ειδήσεων για κινητά"
 
 msgid "My Subscriptions"
-msgstr "Συνδρομές"
+msgstr "Οι συνδρομές μου"
 
 msgid "My subscriptions"
-msgstr "Συνδρομές"
+msgstr "Οι συνδρομές μου"
 
 #. machine-translated (2026-10), to be reviewed
 msgid "N.A."
@@ -906,7 +902,7 @@ msgid "Or purchase a new subscription"
 msgstr "Ή αγοράστε νέα συνδρομή"
 
 msgid "Order: "
-msgstr "Παραγγελίες"
+msgstr "Παραγγελία: "
 
 msgid "Order successfully saved saved."
 msgstr "Η παραγγελία αποθηκεύτηκε επιτυχώς"
@@ -973,7 +969,7 @@ msgid "Please correct the following errors <br>"
 msgstr "Διορθώστε τα ακόλουθα σφάλματα <br>"
 
 msgid "Please enter a correct version for the %s app"
-msgstr "Παρακαλούμε εισάγετε μια σωστή διεύθυνση URL για το % s κατάστημα"
+msgstr "Παρακαλούμε εισάγετε μια σωστή έκδοση για την εφαρμογή %s"
 
 msgid "Please, enter a password."
 msgstr "Παρακαλούμε συμπληρώστε έναν κωδικό"
@@ -1028,10 +1024,10 @@ msgid "Promo not found"
 msgstr "Η προσφορά δεν βρέθηκε"
 
 msgid "Promo successfully deleted"
-msgstr "Η σελίδα διεγράφη επιτυχώς"
+msgstr "Η προσφορά διαγράφηκε επιτυχώς"
 
 msgid "Promotion successfully deleted."
-msgstr "Πληροφορίες διαγράφηκαν με επιτυχία"
+msgstr "Η προσφορά διαγράφηκε επιτυχώς."
 
 #. machine-translated (2026-10), to be reviewed
 msgid "Provider"
@@ -1042,7 +1038,7 @@ msgid "Purchase a new subscription!"
 msgstr "Αγοράστε νέα συνδρομή!"
 
 msgid "Query successfully deleted."
-msgstr "Ο χρήστης διεγράφη επιτυχώς"
+msgstr "Το ερώτημα διαγράφηκε επιτυχώς."
 
 #. machine-translated (2026-10), to be reviewed
 msgid "Question"
@@ -1139,7 +1135,7 @@ msgid "Seems we could delete unwanted files, aborting!"
 msgstr "Φαίνεται ότι δεν μπορούμε να διαγράψουμε ανεπιθύμητα αρχεία, ακύρωση!"
 
 msgid "Select a connection type:"
-msgstr "Επιλέξτε έναν τύπο κουμπιού:"
+msgstr "Επιλέξτε έναν τύπο σύνδεσης:"
 
 #. machine-translated (2026-10), to be reviewed
 msgid "Select one of the available subscriptions with remaining slots"
@@ -1158,7 +1154,7 @@ msgid "Service status / load"
 msgstr "Κατάσταση / φορτίο υπηρεσίας"
 
 msgid "Setting successfully saved."
-msgstr "Το γεύμα αποθηκεύτηκε επιτυχώς."
+msgstr "Η ρύθμιση αποθηκεύτηκε επιτυχώς."
 
 #. machine-translated (2026-10), to be reviewed
 msgid "Show applications removed from the editor."
@@ -1192,7 +1188,7 @@ msgid "Sorry but an error occurred while duplicating your application."
 msgstr "Λυπούμαστε, παρουσιάστηκε σφάλμα κατά την αντιγραφή της εφαρμογής σας."
 
 msgid "Source type:"
-msgstr "Πηγαίος κώδικας"
+msgstr "Τύπος πηγής:"
 
 #. machine-translated (2026-10), to be reviewed
 msgid "Sources Generation"
@@ -1203,10 +1199,10 @@ msgid "Sources are successfully restored."
 msgstr "Οι πηγαίοι κώδικες επαναφέρθηκαν με επιτυχία."
 
 msgid "Subscription: "
-msgstr "Συνδρομές"
+msgstr "Συνδρομή: "
 
 msgid "Subscription date"
-msgstr "Συνδρομές"
+msgstr "Ημερομηνία συνδρομής"
 
 #. machine-translated (2026-10), to be reviewed
 msgid "Subscription updated."
@@ -1304,13 +1300,11 @@ msgid "The categories for line %s couldn't be read."
 msgstr "Οι κατηγορίες για τη γραμμή %s δεν μπόρεσαν να διαβαστούν."
 
 msgid "The data has been saved successfully"
-msgstr "Το μήνυμά σας εστάλει επιτυχώς"
+msgstr "Τα δεδομένα αποθηκεύτηκαν επιτυχώς"
 
 msgid ""
 "The entered package name is incorrect, it should be like: com.siberiancms.app"
-msgstr ""
-"Το καταχωρισμένο Bundle ID είναι λάθος, θα πρέπει να είναι π.χ.: "
-"com.siberiancms.app"
+msgstr "Το καταχωρισμένο όνομα πακέτου είναι λάθος, θα πρέπει να είναι π.χ.: com.siberiancms.app"
 
 #. machine-translated (2026-10), to be reviewed
 msgid "The feature you are trying to edit doesn't exists!"
@@ -1367,7 +1361,7 @@ msgid "The subscription is cancelled!"
 msgstr "Η συνδρομή ακυρώθηκε!"
 
 msgid "The subscription is now active."
-msgstr "La suscripción está activada"
+msgstr "Η συνδρομή είναι πλέον ενεργή."
 
 #. machine-translated (2026-10), to be reviewed
 msgid "The subscription is now inactive."
@@ -1401,7 +1395,7 @@ msgid "This admin can download application sources code."
 msgstr "Αυτός ο διαχειριστής μπορεί να κατεβάσει τον πηγαίο κώδικα της εφαρμογής."
 
 msgid "This application does not belong to you."
-msgstr "Αυτή η εφαρμογή δεν υπάρχει"
+msgstr "Αυτή η εφαρμογή δεν σας ανήκει."
 
 #. machine-translated (2026-10), to be reviewed
 msgid "This block type doesn't exists."
@@ -1453,7 +1447,7 @@ msgid "This method is deprecated, please update!"
 msgstr "Αυτή η μέθοδος είναι παρωχημένη, ενημερώστε!"
 
 msgid "This subscription does not exists!"
-msgstr "Αυτή η εφαρμογή δεν υπάρχει"
+msgstr "Αυτή η συνδρομή δεν υπάρχει!"
 
 #. machine-translated (2026-10), to be reviewed
 msgid "This subscription doesn't exists!"
@@ -1569,7 +1563,7 @@ msgid "Upload your %s file below."
 msgstr "Μεταφορτώστε το αρχείο %s παρακάτω."
 
 msgid "User: "
-msgstr "Χρήστες"
+msgstr "Χρήστης: "
 
 #. machine-translated (2026-10), to be reviewed
 msgid "User ID:"
@@ -1588,7 +1582,7 @@ msgid "User name"
 msgstr "Όνομα χρήστη"
 
 msgid "Username:"
-msgstr "Χρήστης"
+msgstr "Όνομα χρήστη:"
 
 #. machine-translated (2026-10), to be reviewed
 msgid "View the Application"
@@ -1602,7 +1596,7 @@ msgstr ""
 "σιγουρέψτε ότι είναι σωστά εγκατεστημένο και ενεργοποιημένο."
 
 msgid "We are sorry but this nickname is already used."
-msgstr "Συγνώμη, αλλά αυτή η διεύθυνση χρησιμοποιείται ήδη."
+msgstr "Συγνώμη, αλλά αυτό το ψευδώνυμο χρησιμοποιείται ήδη."
 
 #. machine-translated (2026-10), to be reviewed
 msgid "We can't delete the only application from your installation."
@@ -1738,7 +1732,7 @@ msgid "You can't go back with Angular."
 msgstr "Δεν μπορείτε να επιστρέψετε με το Angular."
 
 msgid "You don't have any plans yet"
-msgstr "Δεν έχετε ακόμη χρήστες"
+msgstr "Δεν έχετε ακόμη κάποιο πακέτο"
 
 #. machine-translated (2026-10), to be reviewed
 msgid "You don't have created any taxes yet"
@@ -1779,7 +1773,7 @@ msgid ""
 msgstr "Διαχειρίζεστε χειροκίνητα τις πληρωμές μέσω επιταγής, μετρητών κ.λπ... και τις ενεργοποιήσεις/απενεργοποιήσεις."
 
 msgid "You must be connected to create a post!"
-msgstr "Θα πρέπει να είστε συνδεδεμένοι για να δημιουργήσει μια δημοσίευση"
+msgstr "Θα πρέπει να είστε συνδεδεμένοι για να δημιουργήσετε μια δημοσίευση"
 
 #. machine-translated (2026-10), to be reviewed
 msgid "You must select a subscription!"
@@ -1899,7 +1893,7 @@ msgid "iOS Descriptions saved!"
 msgstr "Οι περιγραφές iOS αποθηκεύτηκαν!"
 
 msgid "iPhone X:"
-msgstr "iPhone 6:"
+msgstr "iPhone X:"
 
 msgid "password"
 msgstr "Κωδικός:"

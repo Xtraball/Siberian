@@ -135,7 +135,7 @@ msgid "AdminId is required to save the Application."
 msgstr "AdminId è obbligatorio per salvare l'applicazione."
 
 msgid "Album:"
-msgstr "Albums:"
+msgstr "Album:"
 
 #. machine-translated (2026-10), to be reviewed
 msgid "All sessions are now migrated to Redis."
@@ -160,7 +160,7 @@ msgid ""
 msgstr "Un amministratore della piattaforma <b>%s</b> ha disattivato il tuo abbonamento per l'applicazione <b>%s</b>"
 
 msgid "An error occured while adding the block."
-msgstr "Si è verificato un errore durante l'aggiunta dell'opzione"
+msgstr "Si è verificato un errore durante l'aggiunta del blocco."
 
 msgid "An error occurred. Please try again later."
 msgstr ""
@@ -176,13 +176,13 @@ msgid "An error occurred, please try again."
 msgstr "Si è verificato un errore, riprova."
 
 msgid "An error occurred when generating the apk"
-msgstr "Si è verificato un errore durante il caricamento della pagina"
+msgstr "Si è verificato un errore durante la generazione dell'APK"
 
 msgid "An error occurred while hidding the Android Status Bar."
-msgstr "Si è verificato un errore con l'iOS status bar"
+msgstr "Si è verificato un errore durante il nascondimento della barra di stato Android."
 
 msgid "An error occurred while hidding the iOS Status Bar."
-msgstr "Si è verificato un errore con l'iOS status bar"
+msgstr "Si è verificato un errore durante il nascondimento della barra di stato iOS."
 
 #. machine-translated (2026-10), to be reviewed
 msgid ""
@@ -201,17 +201,13 @@ msgstr ""
 "riprovare più tardi"
 
 msgid "An error occurred while saving your APK. Please try again later."
-msgstr ""
-"Si è verificato un errore durante il caricamento dell'immagine. Riprova più "
-"tardi."
+msgstr "Si è verificato un errore durante il salvataggio dell'APK. Riprova più tardi."
 
 msgid "An error occurred while saving your Keystore. Please try again later."
-msgstr ""
-"Si è verificato un errore durante il salvataggio dell'immagine. Riprova più "
-"tardi."
+msgstr "Si è verificato un errore durante il salvataggio del Keystore. Riprova più tardi."
 
 msgid "An error occurred while saving your page subtitle."
-msgstr "Si è verificato un errore durante il salvataggio del nome pagina"
+msgstr "Si è verificato un errore durante il salvataggio del sottotitolo della pagina."
 
 msgid "An error occurred while saving your picture. Please try againg later."
 msgstr ""
@@ -219,9 +215,7 @@ msgstr ""
 "riprovare più tardi."
 
 msgid "An error occurred while upload the APK. Please try again later."
-msgstr ""
-"Si è verificato un errore durante il caricamento. Si prega di riprovare più "
-"tardi."
+msgstr "Si è verificato un errore durante il caricamento dell'APK. Si prega di riprovare più tardi."
 
 msgid "An error occurred while validating point<br />Please try again later."
 msgstr ""
@@ -255,14 +249,14 @@ msgid "Anniversary"
 msgstr "Anniversario"
 
 msgid "App ID:"
-msgstr "App ID"
+msgstr "App ID:"
 
 #. machine-translated (2026-10), to be reviewed
 msgid "App Id is required!"
 msgstr "L'ID app è obbligatorio!"
 
 msgid "App name:"
-msgstr "Nome App"
+msgstr "Nome App:"
 
 #. machine-translated (2026-10), to be reviewed
 msgid "Application id %s not found."
@@ -336,7 +330,7 @@ msgid "Bin SQLite3:"
 msgstr "Bin SQLite3:"
 
 msgid "Black"
-msgstr "Indietro"
+msgstr "Nero"
 
 msgid "Booking details:"
 msgstr "Dettagli prenotazione:"
@@ -417,14 +411,14 @@ msgid "Category not found!"
 msgstr "Categoria non trovata!"
 
 msgid "Category successfully deleted."
-msgstr "Categoria salvata correttamente"
+msgstr "Categoria eliminata correttamente."
 
 #. machine-translated (2026-10), to be reviewed
 msgid "Certificate renewal is disabled until %s due to rate limit hit."
 msgstr "Il rinnovo del certificato è disabilitato fino al %s a causa del raggiungimento del limite di richieste."
 
 msgid "Change your homepage"
-msgstr "Cambia il tuo template"
+msgstr "Cambia la tua homepage"
 
 #. machine-translated (2026-10), to be reviewed
 msgid "Change your startup image"
@@ -461,16 +455,16 @@ msgid "Coiffeurs"
 msgstr "Parrucchieri"
 
 msgid "Company successfully deleted."
-msgstr "Il luogo è stato eliminato correttamente."
+msgstr "Azienda eliminata correttamente."
 
 msgid "Create a new plan"
-msgstr "Crea un nuovo luogo"
+msgstr "Crea un nuovo piano"
 
 msgid "Created at:"
-msgstr "Creato a:"
+msgstr "Creato il:"
 
 msgid "Credentials successfully saved!"
-msgstr "Configurazione salvata con successo"
+msgstr "Credenziali salvate correttamente!"
 
 msgid "Date and time:"
 msgstr "Data e ora:"
@@ -547,7 +541,7 @@ msgid "Downloading your package."
 msgstr "Download del pacchetto in corso."
 
 msgid "Edit the account \"%s\""
-msgstr "Modifica il tuo account"
+msgstr "Modifica l'account \"%s\""
 
 #. machine-translated (2026-10), to be reviewed
 msgid "Edit the plan"
@@ -747,7 +741,7 @@ msgid "Message:"
 msgstr "Messaggio:"
 
 msgid "Message is required."
-msgstr "è necessario il nome"
+msgstr "Il messaggio è obbligatorio."
 
 #. machine-translated (2026-10), to be reviewed
 msgid "Migration done!"
@@ -757,7 +751,7 @@ msgid "Minimum order:"
 msgstr "Ordine minimo:"
 
 msgid "Missing categories."
-msgstr "Manca category_id"
+msgstr "Categorie mancanti."
 
 #. machine-translated (2026-10), to be reviewed
 msgid "Missing data."
@@ -800,7 +794,7 @@ msgid "Missing value_id!"
 msgstr "value_id mancante!"
 
 msgid "Mode"
-msgstr "Altro"
+msgstr "Modalità"
 
 #. machine-translated (2026-10), to be reviewed
 msgid "Mur de news"
@@ -811,10 +805,10 @@ msgid "Mur de news mobile"
 msgstr "Muro delle novità mobile"
 
 msgid "My Subscriptions"
-msgstr "Sottoscrizioni"
+msgstr "I miei abbonamenti"
 
 msgid "My subscriptions"
-msgstr "Sottoscrizioni"
+msgstr "I miei abbonamenti"
 
 #. machine-translated (2026-10), to be reviewed
 msgid "N.A."
@@ -885,7 +879,7 @@ msgid "Not a Yahoo weather request, aborting."
 msgstr "Non è una richiesta meteo Yahoo, interruzione."
 
 msgid "Notifications Push"
-msgstr "Notifiche "
+msgstr "Notifiche push"
 
 #. machine-translated (2026-10), to be reviewed
 msgid "Notifications Push en marque blanche"
@@ -915,10 +909,10 @@ msgid "Option name:"
 msgstr "Nome opzione:"
 
 msgid "Or purchase a new subscription"
-msgstr "Crea un nuovo abbonamento"
+msgstr "Oppure acquista un nuovo abbonamento"
 
 msgid "Order: "
-msgstr "Ordini"
+msgstr "Ordine: "
 
 msgid "Order successfully saved saved."
 msgstr "Ordine salvato correttamente"
@@ -985,7 +979,7 @@ msgid "Please correct the following errors <br>"
 msgstr "Correggi i seguenti errori <br>"
 
 msgid "Please enter a correct version for the %s app"
-msgstr "Si prega di inserire un URL corretto per il %s store"
+msgstr "Inserisci una versione corretta per l'app %s"
 
 msgid "Please, enter a password."
 msgstr "Inserisci una password."
@@ -1022,7 +1016,7 @@ msgid "Previous version"
 msgstr "Versione precedente"
 
 msgid "Price:"
-msgstr "Prezzi"
+msgstr "Prezzo:"
 
 #. machine-translated (2026-10), to be reviewed
 msgid "Product has been deleted."
@@ -1036,23 +1030,23 @@ msgid "Product not found!"
 msgstr "Prodotto non trovato!"
 
 msgid "Promo not found"
-msgstr "Pagina non trovata"
+msgstr "Promozione non trovata"
 
 msgid "Promo successfully deleted"
-msgstr "Pagina cancellata correttamente"
+msgstr "Promozione eliminata correttamente"
 
 msgid "Promotion successfully deleted."
-msgstr "Informazione cancellata correttamente"
+msgstr "Promozione eliminata correttamente."
 
 #. machine-translated (2026-10), to be reviewed
 msgid "Provider"
 msgstr "Provider"
 
 msgid "Purchase a new subscription!"
-msgstr "Crea un nuovo abbonamento"
+msgstr "Acquista un nuovo abbonamento!"
 
 msgid "Query successfully deleted."
-msgstr "User cancellato con successo"
+msgstr "Query eliminata correttamente."
 
 #. machine-translated (2026-10), to be reviewed
 msgid "Question"
@@ -1074,7 +1068,7 @@ msgid "Reason:"
 msgstr "Motivo:"
 
 msgid "Recipient email:"
-msgstr "Email destinatario"
+msgstr "Email del destinatario:"
 
 #. machine-translated (2026-10), to be reviewed
 msgid "Recurrent fee"
@@ -1128,14 +1122,14 @@ msgid "Safe zone overlay"
 msgstr "Sovrapposizione zona sicura"
 
 msgid "Scan this QR Code:"
-msgstr "Scansiona questo QR code"
+msgstr "Scansiona questo QR code:"
 
 #. machine-translated (2026-10), to be reviewed
 msgid "Scratchcard"
 msgstr "Gratta e vinci"
 
 msgid "Secret Key:"
-msgstr "Secret Key"
+msgstr "Secret Key:"
 
 #. machine-translated (2026-10), to be reviewed
 msgid "Seems the appId is empty or invalid, aborting!"
@@ -1146,7 +1140,7 @@ msgid "Seems we could delete unwanted files, aborting!"
 msgstr "Sembra che non si possano eliminare i file indesiderati, interruzione!"
 
 msgid "Select a connection type:"
-msgstr "Selezione un tipo di pulsante:"
+msgstr "Seleziona un tipo di connessione:"
 
 #. machine-translated (2026-10), to be reviewed
 msgid "Select one of the available subscriptions with remaining slots"
@@ -1165,7 +1159,7 @@ msgid "Service status / load"
 msgstr "Stato / carico del servizio"
 
 msgid "Setting successfully saved."
-msgstr "Configurazione salvata con successo"
+msgstr "Impostazione salvata correttamente."
 
 #. machine-translated (2026-10), to be reviewed
 msgid "Show applications removed from the editor."
@@ -1187,17 +1181,17 @@ msgid "Snacking<br />Restaurants"
 msgstr "Snack<br />Ristoranti"
 
 msgid "Social Gaming"
-msgstr "Condividi sui Social"
+msgstr "Giochi social"
 
 #. machine-translated (2026-10), to be reviewed
 msgid "Something went wrong while restoring files, process aborted!"
 msgstr "Qualcosa è andato storto durante il ripristino dei file, processo interrotto!"
 
 msgid "Sorry but an error occurred while duplicating your application."
-msgstr "Siamo spiacenti ma si è verificato un errore durante la duplicazione"
+msgstr "Siamo spiacenti, si è verificato un errore durante la duplicazione dell'applicazione."
 
 msgid "Source type:"
-msgstr "Source code"
+msgstr "Tipo di sorgente:"
 
 #. machine-translated (2026-10), to be reviewed
 msgid "Sources Generation"
@@ -1208,10 +1202,10 @@ msgid "Sources are successfully restored."
 msgstr "I sorgenti sono stati ripristinati con successo."
 
 msgid "Subscription: "
-msgstr "Sottoscrizioni"
+msgstr "Abbonamento: "
 
 msgid "Subscription date"
-msgstr "Sottoscrizioni"
+msgstr "Data abbonamento"
 
 #. machine-translated (2026-10), to be reviewed
 msgid "Subscription updated."
@@ -1309,15 +1303,14 @@ msgid "The categories for line %s couldn't be read."
 msgstr "Impossibile leggere le categorie per la riga %s."
 
 msgid "The data has been saved successfully"
-msgstr "Il Form è stato inviato con successo"
+msgstr "I dati sono stati salvati correttamente"
 
 msgid ""
 "The entered package name is incorrect, it should be like: com.siberiancms.app"
-msgstr ""
-"L'ID bundle non è corretto, dovrebbe cominciare cosi: com.siberiancms.app"
+msgstr "Il nome del pacchetto inserito non è corretto, dovrebbe essere simile a: com.siberiancms.app"
 
 msgid "The feature you are trying to edit doesn't exists!"
-msgstr "Il luogo che si sta tentando di modificare non esiste."
+msgstr "La funzione che stai tentando di modificare non esiste!"
 
 #. machine-translated (2026-10), to be reviewed
 msgid "The formats for line %s couldn't be read."
@@ -1366,13 +1359,13 @@ msgid "The source generation is done !"
 msgstr "La generazione del sorgente è completata!"
 
 msgid "The subscription is cancelled!"
-msgstr "Questo abbonamento è attivo"
+msgstr "L'abbonamento è stato annullato!"
 
 msgid "The subscription is now active."
-msgstr "Questo abbonamento è attivo"
+msgstr "L'abbonamento è ora attivo."
 
 msgid "The subscription is now inactive."
-msgstr "Questo abbonamento è attivo"
+msgstr "L'abbonamento è ora inattivo."
 
 #. machine-translated (2026-10), to be reviewed
 msgid "The user doesn't exist."
@@ -1402,7 +1395,7 @@ msgid "This admin can download application sources code."
 msgstr "Questo amministratore può scaricare il codice sorgente dell'applicazione."
 
 msgid "This application does not belong to you."
-msgstr "Questa applicazione non esiste"
+msgstr "Questa applicazione non ti appartiene."
 
 #. machine-translated (2026-10), to be reviewed
 msgid "This block type doesn't exists."
@@ -1453,7 +1446,7 @@ msgid "This method is deprecated, please update!"
 msgstr "Questo metodo è deprecato, aggiorna!"
 
 msgid "This subscription does not exists!"
-msgstr "Questa applicazione non esiste"
+msgstr "Questo abbonamento non esiste!"
 
 #. machine-translated (2026-10), to be reviewed
 msgid "This subscription doesn't exists!"
@@ -1470,7 +1463,7 @@ msgid ""
 msgstr "Questo installer di template non è più supportato, consulta la documentazione per aggiornare il tuo installer."
 
 msgid "This user does not exist."
-msgstr "Questo admin non esiste"
+msgstr "Questo utente non esiste."
 
 #. machine-translated (2026-10), to be reviewed
 msgid "Tip: %s"
@@ -1552,7 +1545,7 @@ msgid "Unknown action for this module."
 msgstr "Azione sconosciuta per questo modulo."
 
 msgid "Unkown error!"
-msgstr "errore sconosciuto"
+msgstr "Errore sconosciuto!"
 
 #. machine-translated (2026-10), to be reviewed
 msgid "Until %s"
@@ -1567,7 +1560,7 @@ msgid "Upload your %s file below."
 msgstr "Carica qui sotto il tuo file %s."
 
 msgid "User: "
-msgstr "Users"
+msgstr "Utente: "
 
 #. machine-translated (2026-10), to be reviewed
 msgid "User ID:"
@@ -1601,7 +1594,7 @@ msgstr ""
 "attivato"
 
 msgid "We are sorry but this nickname is already used."
-msgstr "Siamo spiacenti ma l'indirizzo è già utilizzato."
+msgstr "Siamo spiacenti ma questo nickname è già in uso."
 
 #. machine-translated (2026-10), to be reviewed
 msgid "We can't delete the only application from your installation."
@@ -1618,7 +1611,7 @@ msgid ""
 msgstr "Non siamo riusciti a trovare il tuo ultimo pagamento per l'abbonamento dell'applicazione <b>%s</b>"
 
 msgid "Website:"
-msgstr "Sito web"
+msgstr "Sito web:"
 
 #. machine-translated (2026-10), to be reviewed
 msgid "Welcome on our Platform %s"
@@ -1656,10 +1649,7 @@ msgstr "Stai per aggiornare alla versione %s, questa versione introduce modifich
 msgid ""
 "You are going to love it!<br />Thanks to our effective features, you will be "
 "able to create great mobile apps in your name, within minutes."
-msgstr ""
-"Non potrai più farne a meno! Grazie alle efficaci caratteristiche, sarai in "
-"grado di creare applicazioni in pochissimi minuti, e senza una riga di "
-"codice!"
+msgstr "Non potrai più farne a meno!<br />Grazie alle nostre funzioni efficaci, potrai creare ottime app mobili a tuo nome in pochi minuti."
 
 #. machine-translated (2026-10), to be reviewed
 msgid "You are not allowed to access this page"
@@ -1738,7 +1728,7 @@ msgid "You can't go back with Angular."
 msgstr "Non puoi tornare indietro con Angular."
 
 msgid "You don't have any plans yet"
-msgstr "Non hai ancora nessun user"
+msgstr "Non hai ancora nessun piano"
 
 msgid "You don't have created any taxes yet"
 msgstr "Non hai ancora creato nessuna aliquota fiscale"
@@ -1746,9 +1736,7 @@ msgstr "Non hai ancora creato nessuna aliquota fiscale"
 msgid ""
 "You have exceeded the number of attempts to validate points.<br />Your card "
 "is locked for 24h"
-msgstr ""
-"È stato superato il numero di tentativi per convalidare punti. La sua carta "
-"è bloccata per 24 ore"
+msgstr "Hai superato il numero di tentativi per convalidare i punti.<br />La tua carta è bloccata per 24 ore"
 
 #. machine-translated (2026-10), to be reviewed
 msgid "You have no subscription."
@@ -1874,7 +1862,7 @@ msgid "<b>%s</b> is not supported with the current currency <b>%s</b>!"
 msgstr "<b>%s</b> non è supportato con la valuta corrente <b>%s</b>!"
 
 msgid "dismiss"
-msgstr "Dismettere"
+msgstr "ignora"
 
 #. machine-translated (2026-10), to be reviewed
 msgid "home/features/admin_marque_blanche.png"
@@ -1897,7 +1885,7 @@ msgid "iOS Descriptions saved!"
 msgstr "Descrizioni iOS salvate!"
 
 msgid "iPhone X:"
-msgstr "iPhone 6:"
+msgstr "iPhone X:"
 
 msgid "password"
 msgstr "password"

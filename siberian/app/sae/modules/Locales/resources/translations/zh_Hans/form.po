@@ -24,10 +24,10 @@ msgid "Add an option"
 msgstr "加入一个选项"
 
 msgid "An error occurred while saving. A field can't be identified."
-msgstr "有一个错误的节省。字段不能被识别。"
+msgstr "保存时出错。无法识别某个字段。"
 
 msgid "Are you sure you want to remove this field?"
-msgstr "你确定要删除这个领域？"
+msgstr "确定要删除此字段吗？"
 
 msgid "Are you sure you want to remove this section?"
 msgstr "你确定你要删除这部分？"
@@ -39,7 +39,7 @@ msgid "Choose a field type:"
 msgstr "选择字段类型："
 
 msgid "Create a new field"
-msgstr "创建一个新的角色"
+msgstr "创建新字段"
 
 msgid "Date/Hour"
 msgstr "日期/时间"
@@ -74,7 +74,7 @@ msgid "Import from Library"
 msgstr "从图库导入"
 
 msgid "Manage fields"
-msgstr "管理领域"
+msgstr "管理字段"
 
 msgid "Manage options:"
 msgstr "管理选项："
@@ -86,7 +86,7 @@ msgid "Option"
 msgstr "选项"
 
 msgid "Radio"
-msgstr "无线电"
+msgstr "电台"
 
 #. machine-translated (2026-10), to be reviewed
 msgid "Recipient email"
@@ -97,16 +97,16 @@ msgid "Take a picture"
 msgstr "拍照"
 
 msgid "The form has been sent successfully"
-msgstr "该表格​​已发送"
+msgstr "表单已成功发送"
 
 msgid "You have to choose a field type."
 msgstr "你要选择一个字段类型。"
 
 msgid "Your app's form"
-msgstr "申请表"
+msgstr "您应用的表单"
 
 msgid "Your form has been filled out, here are the answers:"
-msgstr "您的申请已经完成，这里的答案："
+msgstr "您的表单已填写，以下是答案："
 
 msgid "<strong>%s</strong> is not a numerical value<br />"
 msgstr "<strong>%s</strong>必须是一个数值<br />"
@@ -115,13 +115,13 @@ msgid "<strong>%s</strong> is not valid email address<br />"
 msgstr "<strong>%s</strong>必须是一个有效的电子邮件<br />"
 
 msgid "<strong>%s</strong> is required<br />"
-msgstr "<strong>%s</strong>填写<br 7>"
+msgstr "<strong>%s</strong>为必填项<br />"
 
 msgid "<strong>%s</strong> must be a numerical value<br />"
 msgstr "<strong>%s</strong>必须是一个数值<br />"
 
 msgid "<strong>%s</strong> must be a valid date (e.g. dd/mm/yyyy)<br />"
-msgstr "<strong>%s</strong>必须是一个有效的日期（如DD / MM / YYYY )<br />"
+msgstr "<strong>%s</strong>必须是有效日期（例如 dd/mm/yyyy）<br />"
 
 msgid "<strong>%s</strong> must be a valid date<br />"
 msgstr "<strong>%s</strong>必须是一个有效的日期<br />"
@@ -130,7 +130,7 @@ msgid "<strong>%s</strong> must be a valid email address<br />"
 msgstr "<strong>%s</strong>必须是一个有效的电子邮件<br />"
 
 msgid "<strong>%s</strong> must be filled<br />"
-msgstr "<strong>%s</strong>填写<br 7>"
+msgstr "<strong>%s</strong>为必填项<br />"
 
 # GMT 1559644710.7263
 #. machine-translated (2026-10), to be reviewed

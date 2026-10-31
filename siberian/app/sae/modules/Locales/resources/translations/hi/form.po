@@ -15,10 +15,10 @@ msgid "Add an option"
 msgstr "एक विकल्प जोड़ें"
 
 msgid "An error occurred while saving. A field can't be identified."
-msgstr "बचत करते समय एक त्रुटि हुई। एक क्षेत्र की पहचान नहीं की जा सकती है।"
+msgstr "सहेजते समय एक त्रुटि हुई। किसी फ़ील्ड की पहचान नहीं की जा सकी।"
 
 msgid "Are you sure you want to remove this field?"
-msgstr "क्या आप वाकई इस क्षेत्र को हटाना चाहते हैं?"
+msgstr "क्या आप वाकई इस फ़ील्ड को हटाना चाहते हैं?"
 
 msgid "Are you sure you want to remove this section?"
 msgstr "क्या आप वाकई इस अनुभाग को निकालना चाहते हैं?"
@@ -33,19 +33,19 @@ msgid "Create a new field"
 msgstr "एक नया फ़ील्ड बनाएं"
 
 msgid "Date/Hour"
-msgstr "दिनांक/घंटे"
+msgstr "दिनांक/समय"
 
 msgid "Drop down"
 msgstr "ड्रॉप डाउन"
 
 msgid "Edit field %s"
-msgstr "फ़ील्ड%s संपादित करें"
+msgstr "फ़ील्ड %s संपादित करें"
 
 msgid "Field name"
 msgstr "फ़ील्ड का नाम"
 
 msgid "Form data will be sent to this email. Until you fill out this field, your form won't be displayed on client side."
-msgstr "फॉर्म डेटा इस ईमेल पर भेजा जाएगा। जब तक आप इस फ़ील्ड को भरने तक, आपका फॉर्म क्लाइंट साइड पर प्रदर्शित नहीं किया जाएगा।"
+msgstr "फ़ॉर्म डेटा इस ईमेल पर भेजा जाएगा। जब तक आप यह फ़ील्ड नहीं भरते, आपका फ़ॉर्म क्लाइंट साइड पर प्रदर्शित नहीं किया जाएगा।"
 
 msgid "Geolocation"
 msgstr "जियोलोकेशन"
@@ -78,13 +78,13 @@ msgid "Recipient email"
 msgstr "प्राप्तकर्ता ईमेल"
 
 msgid "Take a picture"
-msgstr "एक तस्वीर ले लो"
+msgstr "तस्वीर लें"
 
 msgid "The form has been sent successfully"
-msgstr "प्रपत्र सफलतापूर्वक भेजा गया है"
+msgstr "फ़ॉर्म सफलतापूर्वक भेजा गया है"
 
 msgid "You have to choose a field type."
-msgstr "आप एक क्षेत्र प्रकार का चयन किया है."
+msgstr "आपको फ़ील्ड प्रकार चुनना होगा।"
 
 msgid "Your app's form"
 msgstr "आपके ऐप का फॉर्म"
@@ -93,28 +93,28 @@ msgid "Your form has been filled out, here are the answers:"
 msgstr "आपका फॉर्म भर दिया गया है, यहां उत्तर दिए गए हैं:"
 
 msgid "<strong>%s</strong> is not a numerical value<br />"
-msgstr "<strong>%s</strong> एक संख्यात्मक मान<br />नहीं है"
+msgstr "<strong>%s</strong> एक संख्यात्मक मान नहीं है<br />"
 
 msgid "<strong>%s</strong> is not valid email address<br />"
-msgstr "<strong>%s</strong> मान्य ईमेल पता<br />नहीं है"
+msgstr "<strong>%s</strong> मान्य ईमेल पता नहीं है<br />"
 
 msgid "<strong>%s</strong> is required<br />"
-msgstr "<strong>%s</strong> की आवश्यकता<br />है"
+msgstr "<strong>%s</strong> आवश्यक है<br />"
 
 msgid "<strong>%s</strong> must be a numerical value<br />"
-msgstr "<strong>%s</strong> एक संख्यात्मक मान<br />होना चाहिए"
+msgstr "<strong>%s</strong> एक संख्यात्मक मान होना चाहिए<br />"
 
 msgid "<strong>%s</strong> must be a valid date (e.g. dd/mm/yyyy)<br />"
-msgstr "<strong>% s</strong> एक वैध तिथि होना चाहिए (उदाहरण के लिए डीडी/एमएम/yyyy)<br />"
+msgstr "<strong>%s</strong> एक मान्य तिथि होनी चाहिए (उदाहरण के लिए dd/mm/yyyy)<br />"
 
 msgid "<strong>%s</strong> must be a valid date<br />"
-msgstr "<strong>%s</strong> एक मान्य तिथि<br />होना चाहिए"
+msgstr "<strong>%s</strong> एक मान्य तिथि होनी चाहिए<br />"
 
 msgid "<strong>%s</strong> must be a valid email address<br />"
-msgstr "<strong>%s</strong> एक मान्य ईमेल पता<br />होना चाहिए"
+msgstr "<strong>%s</strong> एक मान्य ईमेल पता होना चाहिए<br />"
 
 msgid "<strong>%s</strong> must be filled<br />"
-msgstr "<strong>%s</strong> भरा<br />होना चाहिए"
+msgstr "<strong>%s</strong> भरा होना चाहिए<br />"
 
 # GMT 1559644710.7263
 #. machine-translated (2026-10), to be reviewed

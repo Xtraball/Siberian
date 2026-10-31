@@ -16,7 +16,7 @@ msgstr ""
 "X-Generator: Weblate 3.3\n"
 
 msgid "Create a new language"
-msgstr "Создать новый языковой перевод"
+msgstr "Создать новый язык"
 
 msgid "Default text"
 msgstr "Текст по умолчанию"
@@ -28,10 +28,10 @@ msgid "Language"
 msgstr "Язык"
 
 msgid "Language successfully saved"
-msgstr "Перевод успешно сохранен"
+msgstr "Язык успешно сохранён"
 
 msgid "List of your languages"
-msgstr "Список ваших переводов"
+msgstr "Список ваших языков"
 
 msgid "Please, choose a file."
 msgstr "Пожалуйста, выберите файл."
@@ -55,7 +55,7 @@ msgid "Translate missing entries"
 msgstr "Перевести недостающие записи"
 
 msgid "Translate the 'e.g.' between parentheses only."
-msgstr "Перевести\", например, \" только между скобками."
+msgstr "Переводить только «e.g.» в скобках."
 
 msgid "Translation API is not available for the current language."
 msgstr "API перевода не доступен для текущего языка."
@@ -63,9 +63,7 @@ msgstr "API перевода не доступен для текущего яз�
 msgid ""
 "Warning: translation API is experimental for the current language and may "
 "fail."
-msgstr ""
-"Предупреждение: API перевода является экспериментальным для текущего языка и "
-"может произойти сбой."
+msgstr "Предупреждение: API перевода является экспериментальным для текущего языка и может работать со сбоями."
 
 msgid "Your translation"
 msgstr "Ваш перевод"

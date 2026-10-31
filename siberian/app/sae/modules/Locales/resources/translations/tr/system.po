@@ -15,19 +15,19 @@ msgstr ""
 "X-Generator: Weblate 3.3\n"
 
 msgid "60000 maximum allowed."
-msgstr "Izin verilen maksimum 60000."
+msgstr "İzin verilen en yüksek değer 60000."
 
 msgid "Admob ID"
 msgstr "Admob Kimliği"
 
 msgid "Admob type"
-msgstr "Admib türü"
+msgstr "Admob türü"
 
 msgid "Android"
 msgstr "Android"
 
 msgid "App limit for displaying real data"
-msgstr "Görüntüleme gerçek veriler için uygulama sınırı"
+msgstr "Gerçek verileri görüntüleme için uygulama sınırı"
 
 msgid "Banner"
 msgstr "Banner"
@@ -37,7 +37,7 @@ msgstr ""
 "Aşağıda, değiştirilmek üzere kullanabileceğiniz değişkenler verilmiştir."
 
 msgid "Click here to force analytics computing"
-msgstr "Analitik hesaplamayı  zorlamak için tıklayın"
+msgstr "Analitik hesaplamasını zorlamak için buraya tıklayın"
 
 msgid "Click here to send your favicon"
 msgstr "Favicon göndermek için buraya tıklayın"
@@ -52,7 +52,7 @@ msgid "Current favicon"
 msgstr "Güncel favicon"
 
 msgid "Current logo"
-msgstr "Güncel logos"
+msgstr "Güncel logo"
 
 msgid "Default privacy policy"
 msgstr "Varsayılan gizlilik politikası"
@@ -61,10 +61,10 @@ msgid "Default privacy policy section for GDPR"
 msgstr "GDPR için varsayılan Gizlilik Politikası bölümü"
 
 msgid "Display a link to your clients to your support platform"
-msgstr "Destek platformu için müşterilerine bir bağlantı görüntüler"
+msgstr "Müşterilerinize destek platformunuza giden bir bağlantı gösterir"
 
 msgid "Drop your favicon here"
-msgstr "Buraya favicon bırakın"
+msgstr "Favicon'unuzu buraya bırakın"
 
 msgid "Drop your logo here"
 msgstr "Buraya logo bırakın"
@@ -72,25 +72,21 @@ msgstr "Buraya logo bırakın"
 msgid ""
 "Duration of the free trial period of your platform (in days, 0 for no free "
 "trial)."
-msgstr ""
-"Platformun ücretsiz deneme dönemi ( gün kadar, ücretsiz deneme olmasını "
-"istemiyorsanız 0)."
+msgstr "Platformunuzun ücretsiz deneme süresi (gün olarak, ücretsiz deneme istemiyorsanız 0)."
 
 msgid "Editor's Design"
-msgstr "Editörün Tasarım"
+msgstr "Editör tasarımı"
 
 msgid "Enter here your terms & conditions"
-msgstr "Buraya size ait şartlar ve koşulları girin"
+msgstr "Şartlar ve koşullarınızı buraya girin"
 
 msgid ""
 "Enter the javascript code provided by your Chat provider in order to display "
 "a Chat from the editor."
-msgstr ""
-"Sohbet görüntülemek için Sohbet sağlayıcınız tarafından sağlanan javascript "
-"kodu girin."
+msgstr "Editörde bir sohbet göstermek için sohbet sağlayıcınızın verdiği JavaScript kodunu girin."
 
 msgid "European <b>General Data Protection Regulation (GDPR)</b>."
-msgstr "Avrupa <b>Genel Veri Koruma Yönetmeliği(GDPR)</b>."
+msgstr "Avrupa <b>Genel Veri Koruma Tüzüğü (GDPR)</b>."
 
 msgid "Favicon"
 msgstr "Favicon"
@@ -99,13 +95,13 @@ msgid "Flat"
 msgstr "Düz"
 
 msgid "Force all app to use Owner AdMob"
-msgstr "Tüm Uygulamaları Ana AdMob hesabını Kullanma zorla"
+msgstr "Tüm uygulamaları sahibin AdMob hesabını kullanmaya zorla"
 
 msgid "Free trial period"
-msgstr "Ücretsiz deneme"
+msgstr "Ücretsiz deneme süresi"
 
 msgid "Full platform owner contact"
-msgstr "Tam platform sahibi iletişim"
+msgstr "Platform sahibinin tam iletişim bilgileri"
 
 msgid "Interstitial"
 msgstr "Interstitial"
@@ -117,7 +113,7 @@ msgid "Ios"
 msgstr "iOS"
 
 msgid "License has no more activation left"
-msgstr "Lisans kalmadı aktivasyon vardır"
+msgstr "Lisansın kalan etkinleştirme hakkı yok"
 
 msgid "License is valid"
 msgstr "Lisans geçerlidir"
@@ -128,15 +124,13 @@ msgstr "Logo"
 msgid ""
 "None = no sign-up form, validation = admin must validate created account, "
 "full = free sign-up"
-msgstr ""
-"None = -form doğrulama = admin oluşturuldu hesabı doğrulamak gerekir, iz "
-"yok, tam = ücretsiz kaydolun"
+msgstr "Yok = kayıt formu yok, doğrulama = yönetici oluşturulan hesabı doğrulamalıdır, tam = ücretsiz kayıt"
 
 msgid "Number of typed characters:"
 msgstr "Girilen karakter sayısı:"
 
 msgid "Online Chat"
-msgstr "Online Sohbet"
+msgstr "Çevrimiçi Sohbet"
 
 msgid "Platform or Whitelabel Company name"
 msgstr "Platform veya White label Şirket adı"
@@ -157,18 +151,16 @@ msgid "Sales Email Address"
 msgstr "Satış E-posta Adresi"
 
 msgid "Sender's email address of the emails sent by the site to your clients"
-msgstr ""
-"Müşterilerinize site tarafından gönderilen e-postaların Gönderenin e-posta "
-"adresi"
+msgstr "Sitenin müşterilerinize gönderdiği e-postaların gönderen e-posta adresi"
 
 msgid "Sender's name of the emails sent by the site to your clients"
-msgstr "Müşterilerinize site tarafından gönderilen e-postaların Gönderenin ismi"
+msgstr "Sitenin müşterilerinize gönderdiği e-postaların gönderen adı"
 
 msgid "Siberian"
-msgstr "Sibirya"
+msgstr "Siberian"
 
 msgid "Sign-up mode"
-msgstr "Üyelik modu"
+msgstr "Kayıt modu"
 
 msgid "Sign-up mode for your platform."
 msgstr "Platformunuz için kayıt modu."
@@ -187,14 +179,12 @@ msgstr ""
 "gizlilik ayarlarını etkinleştirmeniz gerekir."
 
 msgid "The folder /images/default is not writable."
-msgstr "Klasör / resimler / varsayılan yazılabilir değil."
+msgstr "/images/default klasörü yazılabilir değil."
 
 msgid ""
 "This number will be used to switch between demo mode and real time mode for "
 "your analytics on your dashboard"
-msgstr ""
-"Bu numara, demo Modu ve gerçek zamanlı modu arasında analytics için pano "
-"açmak için kullanılır"
+msgstr "Bu numara, panonuzdaki analitiklerin demo modu ile gerçek zamanlı mod arasında geçiş yapması için kullanılır"
 
 msgid ""
 "This privacy policy will be used for every new Application created as a "
@@ -206,7 +196,7 @@ msgstr ""
 msgid ""
 "This section of the privacy policy is added when the GDPR settings are "
 "active."
-msgstr "Gizlilik Politikası Bu bölümde GDPR ayarları aktif olduğunda eklenir."
+msgstr "Gizlilik politikasının bu bölümü, GDPR ayarları etkin olduğunda eklenir."
 
 msgid "This text will appear in the checkout page. 65,000 characters max."
 msgstr "Bu metin ödeme sayfasında görünür. 65.000 karakter max."
@@ -235,10 +225,10 @@ msgid "Your Applications"
 msgstr "Uygulamalarınız"
 
 msgid "Your CMS License Key"
-msgstr "CMS Lisans anahtarınızı"
+msgstr "CMS Lisans Anahtarınız"
 
 msgid "Your Location"
-msgstr "Lokasyonunuz"
+msgstr "Konumunuz"
 
 msgid "Your Platform"
 msgstr "Platformunuz"
@@ -247,4 +237,4 @@ msgid "Your company"
 msgstr "Şirketiniz"
 
 msgid "<b>File types:</b> %s<br /><b>Recommended size:</b> %s"
-msgstr "<b>Dosya çeşidi:</b> %s<br /><b>Grekli alan:</b> %s"
+msgstr "<b>Dosya türleri:</b> %s<br /><b>Önerilen boyut:</b> %s"

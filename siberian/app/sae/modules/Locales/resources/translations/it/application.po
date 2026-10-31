@@ -31,22 +31,22 @@ msgid ""
 msgstr "* Devi giustificare ad Apple perché hai bisogno della geolocalizzazione in background."
 
 msgid "1. Download the app previewer:"
-msgstr "Scarica l'app visualizzatore :"
+msgstr "1. Scarica l'app di anteprima:"
 
 msgid "1. Insert the following code between the %s tag of your page:"
-msgstr "Inserire il seguente codice tra il tag %s della pagina :"
+msgstr "1. Inserire il seguente codice tra il tag %s della pagina:"
 
 msgid "2. Insert the following code at the end of the %s tag of your page:"
-msgstr "Inserire il seguente codice tra il tag %s della pagina :"
+msgstr "2. Inserire il seguente codice alla fine del tag %s della pagina:"
 
 msgid "2. Open the app and login"
-msgstr "Apri l'applicazione e accedi"
+msgstr "2. Apri l'applicazione e accedi"
 
 msgid "API Keys"
 msgstr "API Keys"
 
 msgid "APIs"
-msgstr "APIs"
+msgstr "API"
 
 #. machine-translated (2026-10), to be reviewed
 msgid "Access Token"
@@ -81,13 +81,13 @@ msgid "Add pages"
 msgstr "Aggiungi pagine"
 
 msgid "Add pictures"
-msgstr "Aggiungi immagine"
+msgstr "Aggiungi immagini"
 
 msgid "Add place"
 msgstr "Aggiungi luogo"
 
 msgid "Add sections:"
-msgstr "Aggiungi sezione:"
+msgstr "Aggiungi sezioni:"
 
 msgid "Additional options"
 msgstr "Opzioni aggiuntive"
@@ -132,9 +132,7 @@ msgstr "Ammessi"
 msgid ""
 "An error occured while copying your app icon. Please check the icon, try to "
 "send it again and try again."
-msgstr ""
-"Si è verificato un errore durante il caricamento dell'icona dell'App. "
-"Controlla l'icona, e riprova il caricamento."
+msgstr "Si è verificato un errore durante la copia dell'icona dell'app. Controlla l'icona e riprova a inviarla."
 
 #. machine-translated (2026-10), to be reviewed
 msgid "An error occurred. Sorry for the inconvenience."
@@ -143,7 +141,7 @@ msgstr "Si è verificato un errore. Ci scusiamo per il disagio."
 msgid ""
 "An error occurred during the generation of your QRCode. Please try again "
 "later."
-msgstr "Si è verificato un errore durante il caricamento del QR code. Riprova"
+msgstr "Si è verificato un errore durante la generazione del QR code. Riprova più tardi."
 
 msgid "An error occurred while adding the option"
 msgstr "Si è verificato un errore durante l'aggiunta dell'opzione"
@@ -161,12 +159,10 @@ msgid "An error occurred while editing file (%s)."
 msgstr "Si è verificato un errore durante la modifica del file (%s)."
 
 msgid "An error occurred while generating. Please try again later."
-msgstr ""
-"Si è verificato un errore durante il caricamento. Si prega di riprovare più "
-"tardi."
+msgstr "Si è verificato un errore durante la generazione. Si prega di riprovare più tardi."
 
 msgid "An error occurred while hidding the iOS Status Bar"
-msgstr "Si è verificato un errore con l'iOS status bar"
+msgstr "Si è verificato un errore durante il nascondimento della barra di stato iOS"
 
 msgid "An error occurred while loading"
 msgstr "Si è verificato un errore durante il caricamento"
@@ -197,9 +193,7 @@ msgstr ""
 
 msgid ""
 "An error occurred while sorting your slider images. Please try again later."
-msgstr ""
-"Si è verificato un errore durante l'ordinamento ldelle immagini. Per favore "
-"riprova più tardi."
+msgstr "Si è verificato un errore durante l'ordinamento delle immagini. Per favore riprova più tardi."
 
 msgid "Analytics"
 msgstr "Analytics"
@@ -212,13 +206,13 @@ msgid "Android"
 msgstr "Android"
 
 msgid "Android APK Generation"
-msgstr "Android APK Generation"
+msgstr "Generazione APK Android"
 
 msgid "Android APK version"
-msgstr "Android APK Generation"
+msgstr "Versione APK Android"
 
 msgid "Android Version"
-msgstr "Android Version"
+msgstr "Versione Android"
 
 #. machine-translated (2026-10), to be reviewed
 msgid "Android push"
@@ -241,19 +235,16 @@ msgstr "Design dell'app"
 msgid ""
 "Apple rejects apps that includes Ad Support but doesn't use it.<br />"
 "Generate your iOS app out of this source code if you don't include Ads."
-msgstr ""
-"Apple rifiuta le App che includono la funzione Annunci ma che non le "
-"adoperano. Se non utilizzi annunci nella Tua applicazione, scarica il questo "
-"source code  (NO ADS)"
+msgstr "Apple rifiuta le app che includono il supporto agli annunci ma non lo utilizzano.<br />Genera la tua app iOS da questo codice sorgente se non includi annunci."
 
 msgid "Apple's Information"
-msgstr "Apple's Information"
+msgstr "Informazioni di Apple"
 
 msgid "Application:"
-msgstr "Applicazioni"
+msgstr "Applicazione:"
 
 msgid "Application icon"
-msgstr "Nome dell'applicazione"
+msgstr "Icona dell'applicazione"
 
 msgid "Application name"
 msgstr "Nome dell'applicazione"
@@ -351,7 +342,7 @@ msgid "Build date"
 msgstr "Data di build"
 
 msgid "Build information"
-msgstr "Le mie informazioni"
+msgstr "Informazioni sulla build"
 
 msgid "Bundle Id"
 msgstr "Bundle Id"
@@ -363,7 +354,7 @@ msgid "Button"
 msgstr "Pulsante"
 
 msgid "Buy one, get one!"
-msgstr "Tea comprato un tè offerto"
+msgstr "Compra uno, ricevine uno in omaggio!"
 
 #. machine-translated (2026-10), to be reviewed
 msgid "Cache"
@@ -376,7 +367,7 @@ msgid "Catalogs"
 msgstr "Cataloghi"
 
 msgid "Certificate"
-msgstr "Certificati"
+msgstr "Certificato"
 
 msgid "Change your"
 msgstr "Cambia il tuo"
@@ -386,7 +377,7 @@ msgid "Change your icon"
 msgstr "Cambia la tua icona"
 
 msgid "Change your layout"
-msgstr "Scegli il tuo layout"
+msgstr "Cambia il tuo layout"
 
 msgid "Change your picture"
 msgstr "Cambia immagine"
@@ -395,13 +386,13 @@ msgid "Change your template"
 msgstr "Cambia il tuo template"
 
 msgid "Change your<br /><span class='bold'>picture</span>"
-msgstr "Scegli una <br /><span class=\"bold\">immagine</span>"
+msgstr "Cambia la tua<br /><span class='bold'>immagine</span>"
 
 msgid "Checking CNAME configuration:"
 msgstr "Controllo della configurazione CNAME:"
 
 msgid "Choose a <br /><span class='bold'>picture</span>"
-msgstr "Scegli una <br /><span class=\"bold\">immagine</span>"
+msgstr "Scegli una <br /><span class='bold'>immagine</span>"
 
 msgid "Choose a country"
 msgstr "Scegli un paese"
@@ -455,7 +446,7 @@ msgid "Client ID"
 msgstr "ID client"
 
 msgid "Cms"
-msgstr "Coms"
+msgstr "CMS"
 
 #. machine-translated (2026-10), to be reviewed
 msgid "Code Scan"
@@ -466,7 +457,7 @@ msgid "Codescan"
 msgstr "Scansione codice"
 
 msgid "Color"
-msgstr "Colori"
+msgstr "Colore"
 
 #. machine-translated (2026-10), to be reviewed
 msgid "Colorize pager"
@@ -504,7 +495,7 @@ msgid "Currently only one language can be selected."
 msgstr "Al momento è possibile selezionare una sola lingua."
 
 msgid "Custom"
-msgstr "Personalizza"
+msgstr "Personalizzato"
 
 #. machine-translated (2026-10), to be reviewed
 msgid "Custom SMTP"
@@ -522,7 +513,7 @@ msgid "Customize your app's style"
 msgstr "Personalizzare lo stile della tua app "
 
 msgid "Dashboard icon"
-msgstr "Impostazioni icona"
+msgstr "Icona della dashboard"
 
 msgid "Deactivated"
 msgstr "Disattivato"
@@ -552,7 +543,7 @@ msgid "Device Information"
 msgstr "Device Information"
 
 msgid "Discount Zone"
-msgstr "Codice discount"
+msgstr "Area sconti"
 
 msgid ""
 "Discount zone description. Here your clients will be able to see the details "
@@ -566,26 +557,26 @@ msgid "Display Border Circle"
 msgstr "Mostra cerchio del bordo"
 
 msgid "Display Borders"
-msgstr "Mostra indirizzo"
+msgstr "Mostra bordi"
 
 #. machine-translated (2026-10), to be reviewed
 msgid "Display Image"
 msgstr "Mostra immagine"
 
 msgid "Display Shadow"
-msgstr "Visualizza ricerca"
+msgstr "Mostra ombra"
 
 msgid "Display address"
 msgstr "Mostra indirizzo"
 
 msgid "Display borders"
-msgstr "Mostra indirizzo"
+msgstr "Mostra bordi"
 
 msgid "Display image in page"
-msgstr "Visualizza immagina nella pagina"
+msgstr "Visualizza immagine nella pagina"
 
 msgid "Display location button"
-msgstr "Mostra la posizione con il segnaposto"
+msgstr "Mostra il pulsante di posizione"
 
 msgid "Display the homepage slider"
 msgstr "Mostra l'homepage slider"
@@ -594,7 +585,7 @@ msgid "Display title and subtitle in page"
 msgstr "Visualizza il titolo e il sottotitolo nella pagina"
 
 msgid "Display titles"
-msgstr "Tipo di visualizzazione"
+msgstr "Mostra titoli"
 
 msgid "Domain"
 msgstr "Dominio"
@@ -638,7 +629,7 @@ msgid "Edit my"
 msgstr "Modifica il mio"
 
 msgid "Edit place"
-msgstr "Aggiungi luogo"
+msgstr "Modifica luogo"
 
 msgid "Edit the application %s"
 msgstr "Modifica l'applicazione \"%s\""
@@ -647,7 +638,7 @@ msgid "Editor"
 msgstr "Editor"
 
 msgid "Education"
-msgstr "Educazione"
+msgstr "Istruzione"
 
 #. machine-translated (2026-10), to be reviewed
 msgid "E-mail"
@@ -662,13 +653,13 @@ msgid "Enable custom SMTP"
 msgstr "Abilita SMTP personalizzato"
 
 msgid "Enable search filters:"
-msgstr "Abilita la ricerca nelle cartelle"
+msgstr "Abilita i filtri di ricerca:"
 
 msgid "Enter your AdMob ID for each platform."
 msgstr "Inserisci il tuo ID AdMob per ogni piattaforma."
 
 msgid "Enter your Facebook page"
-msgstr "Inserisci l'ID della tua pagina Facebook"
+msgstr "Inserisci la tua pagina Facebook"
 
 msgid "Entertainment"
 msgstr "Divertimento"
@@ -677,7 +668,7 @@ msgid "Event"
 msgstr "Evento"
 
 msgid "Events"
-msgstr "Evento"
+msgstr "Eventi"
 
 #. machine-translated (2026-10), to be reviewed
 msgid "Export"
@@ -717,7 +708,7 @@ msgid "Features"
 msgstr "Funzioni"
 
 msgid "Features Access Settings"
-msgstr "Caratteristiche Impostazioni di accesso"
+msgstr "Impostazioni di accesso alle funzioni"
 
 #. machine-translated (2026-10), to be reviewed
 msgid ""
@@ -761,13 +752,13 @@ msgid "Font-size"
 msgstr "Dimensione del carattere"
 
 msgid "Food & Drink"
-msgstr "Mangia & Bevi"
+msgstr "Cibo & Bevande"
 
 msgid "Form has the following errors"
-msgstr "Il Form ha i seguenti errori"
+msgstr "Il modulo presenta i seguenti errori"
 
 msgid "Fred W."
-msgstr "STS"
+msgstr "Fred W."
 
 msgid "Free until %s"
 msgstr "Gratuito fino a %s"
@@ -832,7 +823,7 @@ msgid "Generation cancelled."
 msgstr "Generazione annullata."
 
 msgid "Generation successfully queued."
-msgstr "Descrizione salvata correttamente"
+msgstr "Generazione messa in coda correttamente."
 
 msgid "Global visits"
 msgstr "Visite globali"
@@ -867,7 +858,7 @@ msgid "Hide Android status bar"
 msgstr "Nascondi la barra di stato Android"
 
 msgid "Hide iOS status bar"
-msgstr "Nascondi iOS status bar"
+msgstr "Nascondi la barra di stato iOS"
 
 msgid "Homepage preview"
 msgstr "Anteprima homepage"
@@ -1021,7 +1012,7 @@ msgid "Input your SCSS here, save to validate & preview"
 msgstr "Inserisci qui il tuo SCSS, salva per convalidare e visualizzare l'anteprima"
 
 msgid "Insert"
-msgstr "Inserisci un"
+msgstr "Inserisci"
 
 #. machine-translated (2026-10), to be reviewed
 msgid "Insert & close"
@@ -1086,7 +1077,7 @@ msgid "Last name:"
 msgstr "Cognome:"
 
 msgid "Latitude"
-msgstr "Latitudine:"
+msgstr "Latitudine"
 
 #. machine-translated (2026-10), to be reviewed
 msgid "Layout options"
@@ -1097,10 +1088,10 @@ msgid "Left"
 msgstr "Sinistra"
 
 msgid "Left position"
-msgstr "Crea posizione"
+msgstr "Posizione a sinistra"
 
 msgid "Library icons"
-msgstr "Lista delle icone"
+msgstr "Icone della libreria"
 
 #. machine-translated (2026-10), to be reviewed
 msgid "License key"
@@ -1126,7 +1117,7 @@ msgid "Lock the entire application"
 msgstr "Bloccare l'intera applicazione"
 
 msgid "Longitude"
-msgstr "Longitudine:"
+msgstr "Longitudine"
 
 #. machine-translated (2026-10), to be reviewed
 msgid "Loop features"
@@ -1151,14 +1142,14 @@ msgid "Main"
 msgstr "Principale"
 
 msgid "Manage Access"
-msgstr "Accesso amministrazione"
+msgstr "Gestione accessi"
 
 #. machine-translated (2026-10), to be reviewed
 msgid "Manage Admins access feature by feature."
 msgstr "Gestisci l'accesso degli amministratori funzionalità per funzionalità."
 
 msgid "Manage Companies"
-msgstr "Gestisci azienda"
+msgstr "Gestisci aziende"
 
 msgid "Manage icons"
 msgstr "Gestione icone"
@@ -1188,7 +1179,7 @@ msgid "Message for both the two previous usages."
 msgstr "Messaggio per entrambi i due utilizzi precedenti."
 
 msgid "Misc"
-msgstr "Sig.ina"
+msgstr "Varie"
 
 msgid "Missing Information"
 msgstr "Informazioni mancanti"
@@ -1204,14 +1195,14 @@ msgid "Mobile source codes"
 msgstr "Mobile Source Codes"
 
 msgid "Mobile website information"
-msgstr "Mobile website informazioni"
+msgstr "Informazioni sul sito mobile"
 
 #. machine-translated (2026-10), to be reviewed
 msgid "Monetization"
 msgstr "Monetizzazione"
 
 msgid "Monetize my app using AdMob?"
-msgstr "Monetizzo la mia app usando AdMob?"
+msgstr "Monetizzare la mia app con AdMob?"
 
 msgid "Monetize your app"
 msgstr "Monetizza la tua app"
@@ -1229,7 +1220,7 @@ msgid "Name"
 msgstr "Nome"
 
 msgid "Navigation"
-msgstr "Navigatore"
+msgstr "Navigazione"
 
 msgid "News"
 msgstr "News"
@@ -1248,10 +1239,10 @@ msgid "No account for now."
 msgstr "Nessun account per adesso."
 
 msgid "No data found"
-msgstr "Brano non trovato"
+msgstr "Nessun dato trovato"
 
 msgid "No features available for this application."
-msgstr "Non ci sono contenuti disponibili per questa applicazione"
+msgstr "Nessuna funzione disponibile per questa applicazione."
 
 #. machine-translated (2026-10), to be reviewed
 msgid "No message sent, there is no available applications."
@@ -1268,9 +1259,7 @@ msgstr "Non disponibile offline."
 msgid ""
 "Note that if you want to add ads later, you will have to publish the app "
 "again."
-msgstr ""
-"Da considerare se si desidera aggiungere gli annunci più tardi , sarà "
-"necessario pubblicare di nuovo l'applicazione."
+msgstr "Nota: se desideri aggiungere gli annunci in seguito, dovrai pubblicare di nuovo l'applicazione."
 
 #. machine-translated (2026-10), to be reviewed
 msgid "Nothing to show for now."
@@ -1296,7 +1285,7 @@ msgid "One free coffee"
 msgstr "Un caffè gratuito"
 
 msgid "Option successfully saved"
-msgstr "Info salvata correttamente"
+msgstr "Opzione salvata correttamente"
 
 msgid "Options"
 msgstr "Opzioni"
@@ -1306,7 +1295,7 @@ msgid "Options saved"
 msgstr "Opzioni salvate"
 
 msgid "Or go on your store<br />and look for 'Apps Company Previewer'"
-msgstr "O vai sul tuo store<br/>e cerca \"Apps Company Previewer\""
+msgstr "O vai sul tuo store<br />e cerca 'Apps Company Previewer'"
 
 #. machine-translated (2026-10), to be reviewed
 msgid "Order places"
@@ -1333,7 +1322,7 @@ msgid "Package Name"
 msgstr "Nome del pacchetto"
 
 msgid "Page name:"
-msgstr "Nome della pagina"
+msgstr "Nome della pagina:"
 
 #. machine-translated (2026-10), to be reviewed
 msgid "Partially available offline."
@@ -1356,7 +1345,7 @@ msgid "Photo & Video"
 msgstr "Foto & Video"
 
 msgid "Places"
-msgstr "Posti"
+msgstr "Luoghi"
 
 #. machine-translated (2026-10), to be reviewed
 msgid ""
@@ -1394,7 +1383,7 @@ msgid ""
 msgstr "Nota che gli stream AAC+ non sono ancora gestiti dal browser Firefox, ma funzioneranno correttamente nell'app."
 
 msgid "Please select at least one language."
-msgstr "Si prega di selezionare almeno un utente."
+msgstr "Si prega di selezionare almeno una lingua."
 
 #. machine-translated (2026-10), to be reviewed
 msgid "Please wait while we generate application source."
@@ -1432,7 +1421,7 @@ msgid "Productivity"
 msgstr "Produttività"
 
 msgid "Promote"
-msgstr "Promuovere"
+msgstr "Promuovi"
 
 msgid "Promote your app!"
 msgstr "Promuovi la tua app! "
@@ -1468,7 +1457,7 @@ msgid "Reference"
 msgstr "Riferimento"
 
 msgid "Remaining build"
-msgstr "Resto dovuto"
+msgstr "Build rimanenti"
 
 #. machine-translated (2026-10), to be reviewed
 msgid "Remaining builds"
@@ -1498,7 +1487,7 @@ msgid "Rss"
 msgstr "Rss"
 
 msgid "SMTP Configuration"
-msgstr "Configurazione di vendita"
+msgstr "Configurazione SMTP"
 
 #. machine-translated (2026-10), to be reviewed
 msgid "SSL"
@@ -1527,7 +1516,7 @@ msgid "Search radius"
 msgstr "Raggio di ricerca"
 
 msgid "Search settings"
-msgstr "Vicino a me impostazioni"
+msgstr "Impostazioni di ricerca"
 
 msgid "Secondary category"
 msgstr "Seconda categoria"
@@ -1550,7 +1539,7 @@ msgid "Send request"
 msgstr "Invia richiesta"
 
 msgid "Send you .pem certificate"
-msgstr "Invia il tuo .pem certificare"
+msgstr "Invia il tuo certificato .pem"
 
 #. machine-translated (2026-10), to be reviewed
 msgid "Sender name/e-mail"
@@ -1626,7 +1615,7 @@ msgid "Sorry, we need a page id."
 msgstr "Spiacenti, serve un id pagina."
 
 msgid "Source type"
-msgstr "Source code"
+msgstr "Tipo di sorgente"
 
 #. machine-translated (2026-10), to be reviewed
 msgid "Sourcecode"
@@ -1687,7 +1676,7 @@ msgid "Stores Info"
 msgstr "Stores Info"
 
 msgid "Stores URL"
-msgstr "Store URL"
+msgstr "URL degli store"
 
 #. machine-translated (2026-10), to be reviewed
 msgid "Stretch"
@@ -1724,7 +1713,7 @@ msgid "Template"
 msgstr "Template"
 
 msgid "Template description"
-msgstr "Descrizione"
+msgstr "Descrizione del template"
 
 #. machine-translated (2026-10), to be reviewed
 msgid "Template name"
@@ -1748,7 +1737,7 @@ msgid "The QR Code is not available at this moment"
 msgstr "Il QR code non è al momento disponibile"
 
 msgid "The White-label you are trying to edit doesn't exists."
-msgstr "Il luogo che si sta tentando di modificare non esiste."
+msgstr "Il white-label che stai tentando di modificare non esiste."
 
 msgid "The application has been successfully saved"
 msgstr "L'applicazione è stata salvata con successo"
@@ -1763,7 +1752,7 @@ msgid "The bundle id"
 msgstr "Il bundle id"
 
 msgid "The description"
-msgstr "Descrizione"
+msgstr "La descrizione"
 
 msgid "The description must be at least 200 characters"
 msgstr "La descrizione deve essere di almeno 200 caratteri"
@@ -1773,8 +1762,7 @@ msgstr "Icona desktop"
 
 msgid ""
 "The entered bundle id is incorrect, it should be like: com.siberiancms.app"
-msgstr ""
-"L'ID bundle non è corretto, dovrebbe cominciare cosi: com.siberiancms.app"
+msgstr "L'ID bundle inserito non è corretto, dovrebbe essere simile a: com.siberiancms.app"
 
 msgid "The field is required"
 msgstr "Il campo è obbligatorio"
@@ -1868,7 +1856,7 @@ msgid "Top"
 msgstr "In alto"
 
 msgid "Topic"
-msgstr "Gestione Notifiche"
+msgstr "Argomento"
 
 msgid "Translation"
 msgstr "Traduzione"
@@ -1905,7 +1893,7 @@ msgid "Twitter consumer secret"
 msgstr "Consumer secret Twitter"
 
 msgid "Type"
-msgstr "Type"
+msgstr "Tipo"
 
 #. machine-translated (2026-10), to be reviewed
 msgid "UP"
@@ -1942,22 +1930,22 @@ msgid "Use ads for platform owner"
 msgstr "Usa la pubblicità del proprietario della piattaforma"
 
 msgid "Use background into all of your application's pages"
-msgstr "Utilizzare in tutte le pagine della mia applicazione"
+msgstr "Usa lo sfondo in tutte le pagine della tua applicazione"
 
 msgid "Use into all of your application's pages"
-msgstr "Utilizzare in tutte le pagine della mia applicazione"
+msgstr "Usa in tutte le pagine della tua applicazione"
 
 msgid "Used points"
 msgstr "Punti usati"
 
 msgid "User:"
-msgstr "Users"
+msgstr "Utente:"
 
 msgid "User Information"
-msgstr "Informazioni user"
+msgstr "Informazioni utente"
 
 msgid "Utilities"
-msgstr "Utilities"
+msgstr "Utility"
 
 msgid "Version"
 msgstr "Versione"
@@ -1974,7 +1962,7 @@ msgid "Visible from all pages"
 msgstr "Visibile da tutte le pagine"
 
 msgid "Visible from all the application's pages (removes the homepage)"
-msgstr "Visibile in tutte le pagine dell'applicazione (sarà rimossa l'homepage"
+msgstr "Visibile in tutte le pagine dell'applicazione (rimuove la homepage)"
 
 msgid ""
 "We are sorry but this application has been deactivated and may not be re-"
@@ -1984,7 +1972,7 @@ msgstr ""
 "riattivata"
 
 msgid "Weather"
-msgstr "Tempo"
+msgstr "Meteo"
 
 #. machine-translated (2026-10), to be reviewed
 msgid "Weblink"
@@ -2015,7 +2003,7 @@ msgid "With options"
 msgstr "Con opzioni"
 
 msgid "Yes"
-msgstr "Si"
+msgstr "Sì"
 
 msgid "You already have sent a certificate."
 msgstr "Hai già inviato un certificato"
@@ -2165,7 +2153,7 @@ msgid ""
 msgstr "L'opzione <b>Intorno a te</b> per Overview e HTML5 verrà visualizzata e funzionerà solo con HTTPS, tuttavia funziona nelle app Android e iOS senza HTTPS."
 
 msgid "<b>File type:</b> %s"
-msgstr "<b>File:</b> %s"
+msgstr "<b>Tipo di file:</b> %s"
 
 #. machine-translated (2026-10), to be reviewed
 msgid ""
@@ -2240,10 +2228,10 @@ msgid "iPhone 6 Plus:"
 msgstr "iPhone 6 Plus:"
 
 msgid "iPhone Version"
-msgstr "iPhone Version"
+msgstr "Versione iPhone"
 
 msgid "iPhone Version (No Ads)"
-msgstr "Iphone versione senza annunci (no ADS)"
+msgstr "Versione iPhone (senza annunci)"
 
 #. machine-translated (2026-10), to be reviewed
 msgid "iPhone orientation settings"
@@ -2287,7 +2275,7 @@ msgid "success"
 msgstr "Riuscito"
 
 msgid "times"
-msgstr "Tempo"
+msgstr "volte"
 
 #. machine-translated (2026-10), to be reviewed
 msgid "to"

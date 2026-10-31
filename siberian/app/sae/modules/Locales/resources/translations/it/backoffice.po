@@ -92,7 +92,7 @@ msgid ""
 msgstr "Avviso: la build del sorgente per l'applicazione %s (%s) è bloccata da più di un'ora."
 
 msgid "All the files are required."
-msgstr "Tutti i campi sono obbligatori!"
+msgstr "Tutti i file sono obbligatori."
 
 #. machine-translated (2026-10), to be reviewed
 msgid ""
@@ -186,7 +186,7 @@ msgid "CA"
 msgstr "CA"
 
 msgid "CA certificate"
-msgstr "Certificati"
+msgstr "Certificato CA"
 
 #. machine-translated (2026-10), to be reviewed
 msgid "CA path:"
@@ -211,7 +211,7 @@ msgid "Cert"
 msgstr "Carrello"
 
 msgid "Certificate"
-msgstr "Certificati"
+msgstr "Certificato"
 
 msgid ""
 "Certificate is valid and SSL is reachable, valid until: %s.<br />Issuer: %s%s"
@@ -258,10 +258,10 @@ msgid "Cleared cron errors."
 msgstr "Errori cron cancellati."
 
 msgid "Click here to send your CA certificate"
-msgstr "Clicca qui per inviare il tuo certificato"
+msgstr "Clicca qui per inviare il tuo certificato CA"
 
 msgid "Click here to send your Private certificate"
-msgstr "Clicca qui per inviare il tuo certificato"
+msgstr "Clicca qui per inviare il tuo certificato privato"
 
 msgid "Click here to send your certificate"
 msgstr "Clicca qui per inviare il tuo certificato"
@@ -273,24 +273,24 @@ msgid "Click to mark as read"
 msgstr "Clicca per contrassegnare come letto"
 
 msgid "Closed"
-msgstr "Chiudi"
+msgstr "Chiuso"
 
 #. machine-translated (2026-10), to be reviewed
 msgid "Complete build log"
 msgstr "Log completo della build"
 
 msgid "Configuration"
-msgstr "Configurazione di vendita"
+msgstr "Configurazione"
 
 msgid "Configuration successfully saved"
-msgstr "Informazione salvata correttamente"
+msgstr "Configurazione salvata correttamente"
 
 #. machine-translated (2026-10), to be reviewed
 msgid "Core modules"
 msgstr "Moduli core"
 
 msgid "Create a user"
-msgstr "Crau un user"
+msgstr "Crea un utente"
 
 msgid "Created At"
 msgstr "Creato il"
@@ -319,7 +319,7 @@ msgid "Cron scheduler help"
 msgstr "Guida dello scheduler cron"
 
 msgid "Custom SMTP Configuration"
-msgstr "Configurazione di vendita"
+msgstr "Configurazione SMTP personalizzata"
 
 #. machine-translated (2026-10), to be reviewed
 msgid "Day of month"
@@ -381,7 +381,7 @@ msgid "Drop your certificate here"
 msgstr "Trascina qui il tuo certificato"
 
 msgid "Edit the user"
-msgstr "Modifica user"
+msgstr "Modifica l'utente"
 
 #. machine-translated (2026-10), to be reviewed
 msgid "Editor's Design"
@@ -519,7 +519,7 @@ msgid "Hostnames associated with this Certificate"
 msgstr "Hostname associati a questo certificato"
 
 msgid "Hour"
-msgstr "ora"
+msgstr "Ora"
 
 msgid "ID"
 msgstr "ID"
@@ -609,7 +609,7 @@ msgid "Link preview"
 msgstr "Anteprima del link"
 
 msgid "List of backoffice accounts"
-msgstr "Lista dei bacoffices accounts"
+msgstr "Elenco degli account backoffice"
 
 msgid "List of the messages"
 msgstr "Lista dei messaggi"
@@ -634,19 +634,19 @@ msgid "Logs cleared."
 msgstr "Log cancellati."
 
 msgid "Mark all as read"
-msgstr "Segna come già letto"
+msgstr "Segna tutto come letto"
 
 msgid "Mark as new"
-msgstr "Segna come già letto"
+msgstr "Segna come nuovo"
 
 msgid "Mark as read"
-msgstr "Segna come già letto"
+msgstr "Segna come letto"
 
 msgid "Messages"
 msgstr "Messaggi"
 
 msgid "Minute"
-msgstr "minuto"
+msgstr "Minuto"
 
 #. machine-translated (2026-10), to be reviewed
 msgid "Missing parameters for generation."
@@ -693,7 +693,7 @@ msgid "No icon packs"
 msgstr "Nessun pacchetto di icone"
 
 msgid "No informations."
-msgstr "Informazioni personali"
+msgstr "Nessuna informazione."
 
 #. machine-translated (2026-10), to be reviewed
 msgid "No layouts"
@@ -723,7 +723,7 @@ msgid "Not yet generated."
 msgstr "Non ancora generato."
 
 msgid "Note:"
-msgstr "Note"
+msgstr "Nota:"
 
 #. machine-translated (2026-10), to be reviewed
 msgid "Note: Let's encrypt X1 is a staging certificate."
@@ -889,7 +889,7 @@ msgid "Rebuild"
 msgstr "Ricostruisci"
 
 msgid "Rebuild manifest"
-msgstr "Ricostruire manifesto"
+msgstr "Ricostruisci manifest"
 
 #. machine-translated (2026-10), to be reviewed
 msgid "Rebuilding application manifest files."
@@ -949,7 +949,7 @@ msgid "Save"
 msgstr "Salva"
 
 msgid "Select API access"
-msgstr "Seleziona accesso APi"
+msgstr "Seleziona accesso API"
 
 #. machine-translated (2026-10), to be reviewed
 msgid "Select a panel type or self-managed"
@@ -979,14 +979,14 @@ msgid "Show All Applications"
 msgstr "Mostra tutte le applicazioni"
 
 msgid "Show more"
-msgstr "Mostra copertina"
+msgstr "Mostra altro"
 
 #. machine-translated (2026-10), to be reviewed
 msgid "Siberian - Backoffice"
 msgstr "Siberian - Backoffice"
 
 msgid "Siberian CMS"
-msgstr "Tiger App Creator"
+msgstr "Siberian CMS"
 
 #. machine-translated (2026-10), to be reviewed
 msgid "[Siberian_Cpanel] Unable to update cPanel SSL Certificate for %s"
@@ -1186,7 +1186,7 @@ msgid "Tour status"
 msgstr "Stato del tour"
 
 msgid "Tour status successfully saved."
-msgstr "Funzione prodotto salvata correttamente"
+msgstr "Stato del tour salvato correttamente."
 
 #. machine-translated (2026-10), to be reviewed
 msgid "UID"
@@ -1213,7 +1213,7 @@ msgid "Update channel"
 msgstr "Canale di aggiornamento"
 
 msgid "Updated At"
-msgstr "Aggiornato al"
+msgstr "Aggiornato il"
 
 #. machine-translated (2026-10), to be reviewed
 msgid "Upload"
@@ -1240,7 +1240,7 @@ msgid "Use existing certificates on my server"
 msgstr "Usa i certificati esistenti sul mio server"
 
 msgid "User successfully deleted"
-msgstr "User cancellato correttamente"
+msgstr "Utente eliminato correttamente"
 
 msgid "Username"
 msgstr "Username"
@@ -1308,7 +1308,7 @@ msgid "Whitelabels"
 msgstr "Whitelabel"
 
 msgid "Yes"
-msgstr "Si"
+msgstr "Sì"
 
 #. machine-translated (2026-10), to be reviewed
 msgid "Yes, install the update."
@@ -1327,7 +1327,7 @@ msgid ""
 msgstr "Stai per eliminare tutti i tuoi file di log!\nSei sicuro?"
 
 msgid "You are about to delete this certificate, Are you sure ?"
-msgstr "Stai per rimuovere questa categoria! Sei sicuro?"
+msgstr "Stai per eliminare questo certificato. Sei sicuro?"
 
 msgid ""
 "You are about to wipe all your temporary files, this includes the generated "

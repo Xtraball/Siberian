@@ -33,25 +33,25 @@ msgid "404, page not found"
 msgstr "404, sayfa bulunamadı"
 
 msgid "A step requires at least a title and a text."
-msgstr "Bir sonraki adım için en azından bir başlık ve bir metin gerektirir."
+msgstr "Bir adım için en az bir başlık ve bir metin gereklidir."
 
 msgid "API"
 msgstr "API"
 
 msgid "APIs"
-msgstr "API ler"
+msgstr "API'ler"
 
 msgid "APK Generator Service"
 msgstr "APK Oluşturucu Hizmeti"
 
 msgid "APK Generator advanced settings"
-msgstr "APK Oluşturucu gelişmiş ayarlar"
+msgstr "APK Oluşturucu gelişmiş ayarları"
 
 msgid "APK Generator for builds from the Editor (Local or Service)"
-msgstr "Editör'den (Yerel veya Servis) oluşan APK Oluşturucu"
+msgstr "Editör'den (Yerel veya Servis) yapılan derlemeler için APK Oluşturucu"
 
 msgid "Access Management"
-msgstr "Giriş Yönetimi"
+msgstr "Erişim Yönetimi"
 
 msgid "Account"
 msgstr "Hesap"
@@ -66,16 +66,16 @@ msgid "Actions"
 msgstr "Eylemler"
 
 msgid "Activate"
-msgstr "Etkinleştirme"
+msgstr "Etkinleştir"
 
 msgid "Activity"
 msgstr "Etkinlik"
 
 msgid "AdMob Banner ID"
-msgstr "AdMob Banner KİMLİĞİ"
+msgstr "AdMob Banner Kimliği"
 
 msgid "AdMob Interstitial ID"
-msgstr "AdMob Geçiş KİMLİĞİ"
+msgstr "AdMob Interstitial Kimliği"
 
 msgid "Add"
 msgstr "Ekle"
@@ -105,7 +105,7 @@ msgid "Add image"
 msgstr "Resim ekle"
 
 msgid "Add new upload extensions."
-msgstr "Yeni uzantıları ekleyin."
+msgstr "Yeni yükleme uzantıları ekleyin."
 
 msgid "Address"
 msgstr "Adres"
@@ -120,7 +120,7 @@ msgid "Admin"
 msgstr "Yönetici"
 
 msgid "Admin panel type"
-msgstr "Admin panel tipi"
+msgstr "Yönetim paneli türü"
 
 msgid "Admob Banner ID"
 msgstr "Admob Banner ID"
@@ -157,23 +157,22 @@ msgid "Allow users to export features"
 msgstr "Kullanıcıların özellikleri dışa aktarmasına izin ver"
 
 msgid "Allow users to import features"
-msgstr "Kullanıcı özellikleri aktarmak için izin verir"
+msgstr "Kullanıcıların özellikleri içe aktarmasına izin ver"
 
 msgid "Allowed upload extensions."
 msgstr "İzin verilen yükleme uzantıları."
 
 msgid "An error occurred during process. Please try again later."
-msgstr "İşlemi sırasında bir hata oluştu. Daha sonra tekrar deneyiniz."
+msgstr "İşlem sırasında bir hata oluştu. Lütfen daha sonra tekrar deneyin."
 
 msgid "An error occurred during process.<br />Please try again later."
-msgstr ""
-"İşlemi sırasında bir hata oluştu<br />Lütfen daha sonra tekrar deneyiniz."
+msgstr "İşlem sırasında bir hata oluştu.<br />Lütfen daha sonra tekrar deneyin."
 
 msgid "An error occurred during the process. Please try again later."
-msgstr "İşlemi sırasında bir hata oluştu. Daha sonra tekrar deneyiniz."
+msgstr "İşlem sırasında bir hata oluştu. Lütfen daha sonra tekrar deneyin."
 
 msgid "An error occurred while editing your invoice : can't find order"
-msgstr "Fatura düzenlerken bir hata  oluştu. sipariş bulanamadı"
+msgstr "Faturanız düzenlenirken bir hata oluştu: sipariş bulunamadı"
 
 msgid "An error occurred while loading. Please try again later."
 msgstr "Yüklenirken bir hata oluştu. Daha sonra tekrar deneyiniz."
@@ -188,16 +187,16 @@ msgid "An error occurred while saving"
 msgstr "Kaydedilirken bir hata oluştu"
 
 msgid "An error occurred while saving. Please try again later."
-msgstr "Kaydedilirken bir hata oluştu. Daha sonra tekrar deneyiniz."
+msgstr "Kaydedilirken bir hata oluştu. Lütfen daha sonra tekrar deneyin."
 
 msgid "An error occurred while saving your account. Please try again later."
-msgstr "Hesabınızı kaydedilirken bir hata oluştu. Daha sonra tekrar deneyiniz."
+msgstr "Hesabınız kaydedilirken bir hata oluştu. Lütfen daha sonra tekrar deneyin."
 
 msgid "An error occurred while saving your picture. Please try again later."
-msgstr "Resim kaydedilirken bir hata oluştu . Lütfen daha sonra tekrar deneyin."
+msgstr "Resminiz kaydedilirken bir hata oluştu. Lütfen daha sonra tekrar deneyin."
 
 msgid "An error occurred while uploading your file. Please, try again later."
-msgstr "Dosyanızı yüklenirken bir hata oluştu. Daha sonra tekrar deneyin."
+msgstr "Dosyanız yüklenirken bir hata oluştu. Lütfen daha sonra tekrar deneyin."
 
 msgid "An unexpected error occurred while calculating the route."
 msgstr "Rota hesaplanırken beklenmeyen bir hata oluştu."
@@ -206,7 +205,7 @@ msgid "An unknown error occurred while creating the push notification."
 msgstr "Push bildirimi oluşturulurken bilinmeyen bir hata oluştu."
 
 msgid "An unknown error occurred while issue-ing your certificate."
-msgstr "Sertifikanızı  sırasında bilinmeyen bir hata oluştu."
+msgstr "Sertifikanız düzenlenirken bilinmeyen bir hata oluştu."
 
 msgid "An unknown error occurred while loading the page."
 msgstr "Sayfa yüklenirken bilinmeyen bir hata oluştu."
@@ -215,7 +214,7 @@ msgid "Android APK"
 msgstr "Android APK"
 
 msgid "Android SDK is not installed"
-msgstr "Android SDK yüklü değil "
+msgstr "Android SDK yüklü değil"
 
 msgid "Android Source"
 msgstr "Android Kaynak"
@@ -224,23 +223,21 @@ msgid "Android Spinner"
 msgstr "Android Spinner"
 
 msgid "Android base Package Name can't be empty."
-msgstr "Android ana Paketi Adı boş olamaz."
+msgstr "Android temel paket adı boş olamaz."
 
 msgid "Android base Package Name must contain only letters, dots & minus."
-msgstr "Android base Paket İsmi sadece harf, nokta ve eksi içermelidir"
+msgstr "Android temel paket adı yalnızca harf, nokta ve eksi içermelidir."
 
 msgid ""
 "Android base Package Name must contain only letters, dots & minus with at "
 "least two dots.<br />Example: com.mydomain.admin"
-msgstr ""
-"Android  Paketi AdıSadece harf, nokta ve eksi ile en az iki nokta olmalıdır. "
-"<br />Örnek: com.alanim.uygula"
+msgstr "Android temel paket adı yalnızca harf, nokta ve eksi içermeli ve en az iki nokta bulunmalıdır.<br />Örnek: com.mydomain.admin"
 
 msgid "Android only"
-msgstr "Android sadece"
+msgstr "Yalnızca Android"
 
 msgid "Answers"
-msgstr "Cevaplar"
+msgstr "Yanıtlar"
 
 msgid "App"
 msgstr "Uygulama"
@@ -255,7 +252,7 @@ msgid "Appearance"
 msgstr "Görünüm"
 
 msgid "Apple Development teams"
-msgstr "Apple Geliştirme ekipleri"
+msgstr "Apple Geliştirici ekipleri"
 
 msgid "Application"
 msgstr "Uygulama"
@@ -264,10 +261,10 @@ msgid "Application Name"
 msgstr "Uygulama adı"
 
 msgid "Application base Bundle ID (iOS)"
-msgstr "Uygulama temel Paket KİMLİĞİ (iOS)"
+msgstr "Uygulama temel Bundle ID (iOS)"
 
 msgid "Application base Package Name (Android)"
-msgstr "Uygulama temel Paket İsmi (Android)"
+msgstr "Uygulama temel paket adı (Android)"
 
 msgid "Applications"
 msgstr "Uygulamalar"
@@ -285,26 +282,24 @@ msgid "Are you sure you want to delete this subscription?"
 msgstr "Bu aboneliği silmek istediğinizden emin misiniz?"
 
 msgid "Are you sure you want to remove this account?"
-msgstr "Bu hesabı kaldırmak istediğinize emin misiniz?"
+msgstr "Bu hesabı kaldırmak istediğinizden emin misiniz?"
 
 msgid "Artist"
 msgstr "Sanatçı"
 
 msgid "At least, 1 page in the application"
-msgstr "En az 1 Sayfa uygulama için"
+msgstr "Uygulamada en az 1 sayfa"
 
 msgid ""
 "At least one <b>published</b> application is required in order to use global "
 "push notifications."
-msgstr ""
-"Genel anlık bildirimlerini kullanmak için en az bir tane <b> yayınlanmış </ "
-"b> uygulama gerekiyor."
+msgstr "Genel anlık bildirimleri kullanmak için en az bir <b>yayınlanmış</b> uygulama gereklidir."
 
 msgid "Attachment"
 msgstr "Eklenti"
 
 msgid "Audio"
-msgstr "Audio"
+msgstr "Ses"
 
 msgid "Authentication failed"
 msgstr "Kimlik doğrulaması başarısız oldu"
@@ -338,7 +333,7 @@ msgid "Back button icon"
 msgstr "Geri düğmesi simgesi"
 
 msgid "Background"
-msgstr "Background"
+msgstr "Arka plan"
 
 msgid "Background (landscape)"
 msgstr "Arka plan (yatay)"
@@ -347,12 +342,10 @@ msgid "Background (portrait)"
 msgstr "Arka plan (portre)"
 
 msgid "Backoffice"
-msgstr "İdari büro"
+msgstr "Yönetim paneli"
 
 msgid "Bad settings can break your APK Generator, leave empty to use defaults."
-msgstr ""
-"Kötü ayarlar APK Oluşturucunuzu kırabilir, varsayılanları kullanmak için boş "
-"bırakın."
+msgstr "Hatalı ayarlar APK Oluşturucunuzu bozabilir; varsayılanları kullanmak için boş bırakın."
 
 msgid "Banner"
 msgstr "Banner"
@@ -361,7 +354,7 @@ msgid "Banner & Interstitial"
 msgstr "Banner & Interstitial"
 
 msgid "Be careful you are working in"
-msgstr "Eğer çalışıyorsanız dikkatli olun"
+msgstr "Şu ortamda çalıştığınıza dikkat edin"
 
 msgid "Bearer Token"
 msgstr "Bearer Token"
@@ -380,15 +373,13 @@ msgid "Booking details"
 msgstr "Rezervasyon detayları"
 
 msgid "Booking::findAction An unknown error occurred, please try again later."
-msgstr ""
-"Rezervasyon::findAction bilinmeyen Bir hata oluştu, lütfen daha sonra tekrar "
-"deneyin."
+msgstr "Booking::findAction Bilinmeyen bir hata oluştu, lütfen daha sonra tekrar deneyin."
 
 msgid "Bottom"
 msgstr "Alt"
 
 msgid "Browse"
-msgstr "Browse"
+msgstr "Gözat"
 
 msgid "Button"
 msgstr "Buton"
@@ -409,23 +400,21 @@ msgid "Button energized"
 msgstr "Düğme enerjik"
 
 msgid "Button light"
-msgstr "Düğmesi açık"
+msgstr "Düğme açık"
 
 msgid "Button positive"
 msgstr "Düğme olumlu"
 
 msgid "Button royal"
-msgstr "Düğmeye Royal"
+msgstr "Düğme royal"
 
 msgid "By checking this, a search field will appear in your folder feature"
-msgstr "Bu kontrol, bir arama alanı gösterir klasör özelliği içinde"
+msgstr "Bunu işaretlerseniz klasör özelliğinizde bir arama alanı görünür"
 
 msgid ""
 "By default, popups steps try to use a smart placement. You can force this "
 "placement if needed."
-msgstr ""
-"Varsayılan olarak, adım akıllı bir yerleşim kullanmaya pop-up. Gerekirse bu "
-"yerleşim zorlayabilir."
+msgstr "Varsayılan olarak, açılır pencere adımları akıllı bir yerleşim kullanmaya çalışır. Gerekirse bu yerleşimi zorlayabilirsiniz."
 
 msgid "Cache"
 msgstr "Önbellek"
@@ -449,7 +438,7 @@ msgid "Card Item"
 msgstr "Kart Ögesi"
 
 msgid "Careful, someone else is working on this application."
-msgstr "Dikkatli olun, birisi bu uygulama üzerinde çalışıyor ."
+msgstr "Dikkat, bir başkası bu uygulama üzerinde çalışıyor."
 
 msgid "Cart"
 msgstr "Sepet"
@@ -480,13 +469,13 @@ msgid "Checkbox"
 msgstr "Onay Kutusu"
 
 msgid "Checkbox off"
-msgstr "Onay Kutusu Kapat"
+msgstr "Onay kutusu kapalı"
 
 msgid "Checkbox on"
-msgstr "Onay Kutusu Aç"
+msgstr "Onay kutusu açık"
 
 msgid "Checking Permissions"
-msgstr "Kontrol İzinleri"
+msgstr "İzinler denetleniyor"
 
 msgid "Choose a file to import:"
 msgstr "Aktarmak için bir dosya seçin"
@@ -508,22 +497,22 @@ msgid "ClamAV settings have been saved."
 msgstr "ClamAV ayarlar kaydedildi."
 
 msgid "Click here to log-in"
-msgstr "Giriş İçin Tıklayınız"
+msgstr "Giriş yapmak için buraya tıklayın"
 
 msgid "Click here to open the application"
-msgstr "Uygulama açmak için tıklayın"
+msgstr "Uygulamayı açmak için buraya tıklayın"
 
 msgid "Click on"
 msgstr "Tıklayın "
 
 msgid "Click on a feature to add it to the folder"
-msgstr "Klasör bir özellik  eklemek için tıklayınız"
+msgstr "Klasöre eklemek için bir özelliğe tıklayın"
 
 msgid "Click on a feature to add it to the folder %s"
-msgstr "%s klasörüne özellik eklemek içintıklayınız"
+msgstr "%s klasörüne eklemek için bir özelliğe tıklayın"
 
 msgid "Click to import your file"
-msgstr "Dosya aktarmak için tıklayınız"
+msgstr "Dosyanızı içe aktarmak için tıklayın"
 
 msgid "Close"
 msgstr "Kapat"
@@ -553,7 +542,7 @@ msgid "Comments"
 msgstr "Yorumlar"
 
 msgid "Commerce"
-msgstr "Online Mağza"
+msgstr "E-ticaret"
 
 msgid "Communication"
 msgstr "İletişim"
@@ -592,7 +581,7 @@ msgid "Contact"
 msgstr "İletişim"
 
 msgid "Contact successfully added to your address book"
-msgstr "Kontak başarıyla adres defterinize eklendi"
+msgstr "Kişi başarıyla adres defterinize eklendi"
 
 msgid "Contact us"
 msgstr "Bize Ulaşın"
@@ -604,7 +593,7 @@ msgid "Coordinates"
 msgstr "Koordinatlar"
 
 msgid "Copy"
-msgstr "Kopya"
+msgstr "Kopyala"
 
 msgid "Copying"
 msgstr "Kopyalama"
@@ -631,10 +620,10 @@ msgid "Create an account"
 msgstr "Yeni hesap oluştur"
 
 msgid "Created at"
-msgstr "de oluşturuldu"
+msgstr "Oluşturulma zamanı"
 
 msgid "Creator Email"
-msgstr "Oluşturucu E-Posta"
+msgstr "Oluşturanın e-postası"
 
 msgid "Currency"
 msgstr "Para birimi"
@@ -685,7 +674,7 @@ msgid "Date of birth"
 msgstr "Doğum tarihi"
 
 msgid "Deactivate"
-msgstr "Devre dışı"
+msgstr "Devre dışı bırak"
 
 msgid "Debug"
 msgstr "Hata ayıklama"
@@ -694,13 +683,13 @@ msgid "Debug output"
 msgstr "Hata ayıklama çıktısı"
 
 msgid "Default Languages"
-msgstr "Birincil dil"
+msgstr "Varsayılan diller"
 
 msgid "Default role for all new users"
 msgstr "Tüm yeni kullanıcılar için varsayılan rol "
 
 msgid "Default search distance"
-msgstr "Varsayılan arama mesafe"
+msgstr "Varsayılan arama mesafesi"
 
 msgid "Delete"
 msgstr "Sil"
@@ -742,7 +731,7 @@ msgid "Dialog button"
 msgstr "Diyalog düğmesi"
 
 msgid "Dialog text"
-msgstr "Diyalog metini"
+msgstr "Diyalog metni"
 
 msgid "Discount"
 msgstr "İndirim"
@@ -751,7 +740,7 @@ msgid "Discounts"
 msgstr "İndirimler"
 
 msgid "Display pictogram instead of image in map"
-msgstr "Haritada resim yerine pictogram göster"
+msgstr "Haritada resim yerine piktogram göster"
 
 msgid "Distance unit"
 msgstr "Mesafe birimi"
@@ -762,24 +751,22 @@ msgstr "Dışa aktarma"
 msgid ""
 "Do you want to download all the contents now to access it when offline? If "
 "you do, we recommend you to use a WiFi connection."
-msgstr ""
-"Uygulamaya cevrimdışı erişmek için şimdi tüm içeriğini indirmek istiyor "
-"musunuz? Bunu yapmak için bir WiFi bağlantısı kullanmanızı öneririz."
+msgstr "Çevrimdışıyken erişmek için tüm içerikleri şimdi indirmek ister misiniz? İndirirseniz bir WiFi bağlantısı kullanmanızı öneririz."
 
 msgid "Do you want to return to the homepage?"
-msgstr "Ana sayfaya mi dönmek istiyorsunuz?"
+msgstr "Ana sayfaya dönmek istiyor musunuz?"
 
 msgid "Done"
-msgstr "Bitti"
+msgstr "Tamamlandı"
 
 msgid "Don't close the app while downloading. This may take a while."
-msgstr "Uygulama indirilirken kapatmayın. Bu biraz zaman alabilir ."
+msgstr "İndirme sırasında uygulamayı kapatmayın. Bu biraz zaman alabilir."
 
 msgid "Download APK"
 msgstr "APK İndir"
 
 msgid "Download a copy of my data"
-msgstr "Verilerimi bir kopyasını indirin "
+msgstr "Verilerimin bir kopyasını indir"
 
 msgid "Download as zip"
 msgstr "Zip şeklinde indir"
@@ -794,7 +781,7 @@ msgid "Download file is not available in DEMO mode."
 msgstr "Dosya indirme DEMO modunda kullanılamaz."
 
 msgid "Download latest APK"
-msgstr "Son APK Indir"
+msgstr "Son APK'yı indir"
 
 msgid "Download latest sources"
 msgstr "Son kaynakları indir"
@@ -803,25 +790,25 @@ msgid "Download list of user who used this discount"
 msgstr "Bu indirimden yararlanan kullanıcı listesini indir"
 
 msgid "Download list of user who used this loyalty card"
-msgstr "Bu üyelik kartından yararlanan kullanıcı listesini indir"
+msgstr "Bu sadakat kartını kullanan kullanıcıların listesini indir"
 
 msgid "Download list of user who used this scratch card"
-msgstr "Bu çizik kartı kullanılan kullanıcı İndirme listesi"
+msgstr "Bu kazı kazan kartını kullanan kullanıcıların listesini indir"
 
 msgid "Download only winner list for this scratch card"
-msgstr "Bu kazı kazan kartı için tek kazanan listesi indirin"
+msgstr "Bu kazı kazan kartı için yalnızca kazananların listesini indir"
 
 msgid "Download the APK"
-msgstr "APK indir "
+msgstr "APK'yı indirin"
 
 msgid "Download the Source code"
-msgstr "Kaynak kodu indir"
+msgstr "Kaynak kodunu indirin"
 
 msgid "Downloading..."
 msgstr "İndiriliyor..."
 
 msgid "Drop your json here"
-msgstr "Json buraya bırak"
+msgstr "Json dosyanızı buraya bırakın"
 
 msgid "EDIT"
 msgstr "DÜZENLE"
@@ -833,10 +820,10 @@ msgid "Edit an invoice for this plan"
 msgstr "Bu plan için bir fatura düzenle"
 
 msgid "Edit folder"
-msgstr "Klasör düzenle"
+msgstr "Klasörü düzenle"
 
 msgid "Edit step for this element"
-msgstr "Bu öğe için adım duzenle"
+msgstr "Bu öğe için adımı düzenle"
 
 msgid "Editing"
 msgstr "Düzenleme"
@@ -847,39 +834,35 @@ msgstr "Editör"
 msgid ""
 "Editor note: A user with a given role can only assign Self role (if the role "
 "is SELF-ASSIGNABLE) & Child roles."
-msgstr ""
-"Editör notu: Belirli bir role sahip bir kullanıcı yalnızca Kendilik rolü ("
-"rolün SELF-ASSIGNABLE olması durumunda) ve Çocuk rolleri atayabilir."
+msgstr "Editör notu: Belirli bir role sahip bir kullanıcı yalnızca kendi rolünü (rol SELF-ASSIGNABLE ise) ve alt rolleri atayabilir."
 
 msgid ""
 "Editor note: A user with a given role can only assign self & child roles."
-msgstr ""
-"Editör notu: Belirli bir role sahip bir kullanıcı yalnızca kendi kendini ve "
-"alt rolleri atayabilir."
+msgstr "Editör notu: Belirli bir role sahip bir kullanıcı yalnızca kendi rolünü ve alt rolleri atayabilir."
 
 msgid "Element n°"
-msgstr "Öge n°"
+msgstr "Öğe no"
 
 msgid "Email"
-msgstr "Email"
+msgstr "E-posta"
 
 msgid "Email address"
-msgstr "Email adresi"
+msgstr "E-posta adresi"
 
 msgid "Enable search in folders"
 msgstr "Klasörlerde aramayı etkinleştir"
 
 msgid "Enable test API ?"
-msgstr "Test API etkinleştirmek ?"
+msgstr "Test API'sini etkinleştir?"
 
 msgid "End at"
-msgstr "de bitti"
+msgstr "Bitiş zamanı"
 
 msgid "End tour"
-msgstr "Turu Sonlardır"
+msgstr "Turu bitir"
 
 msgid "Enter your twitter handle"
-msgstr "Twitter handle girin"
+msgstr "Twitter kullanıcı adınızı girin"
 
 msgid "Error"
 msgstr "Hata"
@@ -888,22 +871,22 @@ msgid "Error : <br/>"
 msgstr "Hata : <br/>"
 
 msgid "Error on import configuration."
-msgstr "Aktarma ayarlarında sorun"
+msgstr "Yapılandırma içe aktarılırken hata oluştu."
 
 msgid "Errors : <br/>"
 msgstr "Hatalar : <br/>"
 
 msgid "European <b>General Data Protection Regulation (GDPR)</b>"
-msgstr "(GDPR) Avrupa <b>Genel Veri Koruma Yönetmeliği</b>"
+msgstr "Avrupa <b>Genel Veri Koruma Tüzüğü (GDPR)</b>"
 
 msgid "Event"
 msgstr "Etkinlik"
 
 msgid "Events"
-msgstr "Etkinlik"
+msgstr "Etkinlikler"
 
 msgid "Export / Import"
-msgstr "İç / Dış Aktar"
+msgstr "Dışa / İçe Aktar"
 
 msgid ""
 "Export / Import of features is currently in beta and available only with "
@@ -913,7 +896,7 @@ msgstr ""
 "yalnızca bazı özelliklerle kullanılabilir."
 
 msgid "Export your customers"
-msgstr "Müşterilerinizi dışarı aktarın"
+msgstr "Müşterilerinizi dışa aktarın"
 
 msgid "Extension"
 msgstr "Uzantı"
@@ -922,7 +905,7 @@ msgid "Extension can't be empty."
 msgstr "Uzantı boş bırakılamaz."
 
 msgid "Extension not allowed, '%s' only"
-msgstr "Uzatma izin verilmiyor,sadece '%s'"
+msgstr "Uzantıya izin verilmiyor, yalnızca '%s'"
 
 msgid "Extension %s is strictly forbidden."
 msgstr "%s uzantısı kesinlikle yasaktır."
@@ -940,43 +923,43 @@ msgid "Fanwall"
 msgstr "Fan Duvarı"
 
 msgid "Feature Analytics"
-msgstr "Özellik Analistikleri"
+msgstr "Özellik analitiği"
 
 msgid "Feature Top 5 visits"
-msgstr "Özellik Top 5 ziyaret"
+msgstr "En çok ziyaret edilen 5 özellik"
 
 msgid "Features"
 msgstr "Özellikler"
 
 msgid "Filter metrics"
-msgstr "Metrikleri filitrele"
+msgstr "Metrikleri filtrele"
 
 msgid "Firewall"
 msgstr "Güvenlik duvarı"
 
 msgid "First Name"
-msgstr "İsminiz"
+msgstr "Adınız"
 
 msgid "First name"
 msgstr "Adı"
 
 msgid "First name / Last name"
-msgstr "İsim / Soyisim"
+msgstr "Ad / Soyad"
 
 msgid "Firstname"
-msgstr "Adı"
+msgstr "Ad"
 
 msgid "Folder"
 msgstr "Klasör"
 
 msgid "Folder title is required"
-msgstr "Klasör adı gereklidir "
+msgstr "Klasör başlığı gereklidir"
 
 msgid "Folders"
 msgstr "Klasörler"
 
 msgid "Folders (v2)"
-msgstr "Klasör (v2)"
+msgstr "Klasörler (v2)"
 
 msgid "Forbidden image format"
 msgstr "Yasak resim biçimi"
@@ -990,9 +973,7 @@ msgstr "Şifrenizi mi unuttunuz?"
 msgid ""
 "Forgot your password? Don't worry! Simply enter your email address and we'll "
 "send you a new one right now."
-msgstr ""
-"Şifrenizi mi unuttunuz? Üzülmeyin! E-posta adresini girin ,size bir yenisini "
-"göndereceğiz."
+msgstr "Şifrenizi mi unuttunuz? Endişelenmeyin! E-posta adresinizi girin, size hemen yeni bir şifre gönderelim."
 
 msgid "Form"
 msgstr "Form"
@@ -1001,7 +982,7 @@ msgid "Form has the following errors"
 msgstr "Formda aşağıdaki hatalar mevcut"
 
 msgid "Free until"
-msgstr "Kadar ücretsiz "
+msgstr "Şu tarihe kadar ücretsiz"
 
 #. machine-translated (2026-10), to be reviewed
 msgid "From:"
@@ -1011,7 +992,7 @@ msgid "Front"
 msgstr "Ön"
 
 msgid "GCM settings saved."
-msgstr "GCM ayarlar kaydedildi"
+msgstr "GCM ayarları kaydedildi"
 
 msgid "GRADLE extended options"
 msgstr "GRADLE genişletilmiş seçenekler"
@@ -1023,19 +1004,19 @@ msgid "Generate"
 msgstr "Oluştur"
 
 msgid "Generate an invoice for this offline plan by using the form below."
-msgstr "Aşağıdaki formu kullanarak çevrimdışı plan için bir fatura oluştu."
+msgstr "Aşağıdaki formu kullanarak bu çevrimdışı plan için bir fatura oluşturun."
 
 msgid "Generate build"
-msgstr "Yapı oluşturma"
+msgstr "Derleme oluştur"
 
 msgid "Generate sources"
-msgstr "Kaynak kodları oluşturmak"
+msgstr "Kaynak kodlarını oluştur"
 
 msgid "Global push"
-msgstr "Küresel bildirim"
+msgstr "Genel anlık bildirim"
 
 msgid "Global push notifications"
-msgstr "Global anlık bildrim"
+msgstr "Genel anlık bildirimler"
 
 msgid "Go back"
 msgstr "Geri dön"
@@ -1053,7 +1034,7 @@ msgid "Here is your new password:"
 msgstr "Yeni şifreniz:"
 
 msgid "Hi. I just found: $1 in the $2 app."
-msgstr "$2 uygulamasında $1 bunu buldum"
+msgstr "Merhaba. $2 uygulamasında şunu buldum: $1"
 
 msgid "Hide"
 msgstr "Gizle"
@@ -1065,21 +1046,21 @@ msgid "Hint"
 msgstr "İpucu"
 
 msgid "Home"
-msgstr "Anasayfa"
+msgstr "Ana sayfa"
 
 msgid "Homepage"
-msgstr "Anasayfa"
+msgstr "Ana sayfa"
 
 msgid "Host"
-msgstr "Barındırıcı"
+msgstr "Sunucu"
 
 msgid "Hostnames associated with this Certificate"
-msgstr "Barındırma adı Sertifika ile ilişkili"
+msgstr "Bu sertifikayla ilişkili sunucu adları"
 
 msgid ""
 "How do you want to access the backoffice if you remove the only user "
 "remaining?"
-msgstr "Bu hesap silinemez"
+msgstr "Kalan tek kullanıcıyı silerseniz yönetim paneline nasıl erişmek istersiniz?"
 
 msgid "ID"
 msgstr "ID"
@@ -1094,82 +1075,78 @@ msgid "Icons size"
 msgstr "Simge boyutu"
 
 msgid "If user doesn't use AdMob, split revenue will default to 100."
-msgstr ""
-"Kullanıcı AdMob'u kullanmazsa bölme gelirinin varsayılan değeri 100 olur."
+msgstr "Kullanıcı AdMob kullanmazsa gelir payının varsayılan değeri 100 olur."
 
 msgid "I'm listening to $1 from $2 on $3 app."
-msgstr "$3 uygulamasında $2 sanatçıdan $1 dinliyorum"
+msgstr "$3 uygulamasında $2 sanatçısından $1 dinliyorum"
 
 msgid "I'm listening to $1 on $2 app."
-msgstr "$2 ugulamasında $1 dinliyorum"
+msgstr "$2 uygulamasında $1 dinliyorum"
 
 msgid "Image"
 msgstr "Resim"
 
 msgid "Image not high enough, %spx minimum allowed."
-msgstr "Resim yüksekliği yeterli değil,en az %spx olmalı."
+msgstr "Resim yeterince yüksek değil, en az %spx olmalı."
 
 msgid "Image not large enough, '%s' allowed."
-msgstr "Resim yeterince büyük değil,izin verilen '%s'"
+msgstr "Resim yeterince büyük değil, izin verilen '%s'."
 
 msgid "Image not large enough, %spx minimum allowed."
-msgstr "Resim eni yeterli değil,en az %spx olmalı."
+msgstr "Resim yeterince geniş değil, en az %spx olmalı."
 
 msgid "Image successfully saved"
-msgstr "Görüntü başarıyla kaydedildi"
+msgstr "Resim başarıyla kaydedildi"
 
 msgid "Image too high, %spx maximum allowed."
-msgstr "Resim yüksekliği çok fazla,en fazla %spx olmalı."
+msgstr "Resim çok yüksek, en fazla %spx olmalı."
 
 msgid "Image too large, '%s' allowed."
 msgstr "Resim çok büyük,izin verilen büyüklük '%s'."
 
 msgid "Image too large, %spx maximum allowed."
-msgstr "Resim çok büyük, en fazla %spx olmalı."
+msgstr "Resim çok geniş, en fazla %spx olmalı."
 
 msgid "Images"
 msgstr "Resimler"
 
 msgid "Images opacity"
-msgstr "Görüntü donukluğu"
+msgstr "Resim opaklığı"
 
 msgid "Import"
 msgstr "İçe Aktar"
 
 msgid "Import a background image"
-msgstr "Bir arka plan görüntüsü yükle"
+msgstr "Bir arka plan resmi içe aktar"
 
 msgid "Import a cover image"
 msgstr "Kapak resmi içe aktar"
 
 msgid "Import a single feature."
-msgstr "Tek bir özellik aktar"
+msgstr "Tek bir özelliği içe aktar."
 
 msgid "Import a thumbnail"
-msgstr "Bir Küçük resim aktar"
+msgstr "Bir küçük resim içe aktar"
 
 msgid "Import a thumbnail image"
 msgstr "Bir küçük resim aktar"
 
 msgid "Import yml"
-msgstr "yml  içe aktar"
+msgstr "yml içe aktar"
 
 msgid ""
 "In order to fully enjoy our features, we encourage you to use at least:.<br "
 "/>"
-msgstr ""
-"Uygulamanızı etkin kullanmanız için  önerdiğimiz minimum özellik adedi:<br />"
+msgstr "Özelliklerimizden tam olarak yararlanmak için en az şunları kullanmanızı öneririz:<br />"
 
 msgid "In order to publish your application, we need:"
-msgstr "Uygulama yayımlamak için ihtiyacımız var:"
+msgstr "Uygulamanızı yayımlamak için şunlara ihtiyacımız var:"
 
 msgid "In order to use global push notifications your app must be published."
-msgstr ""
-"Evrensel anlık bildirimleri kullanmak için uygulamanızın yayımlanması "
-"gerekir."
+msgstr "Genel anlık bildirimleri kullanmak için uygulamanızın yayımlanmış olması gerekir."
 
 msgid "Incorrect filetype."
-msgstr "Yanlış dosya türü,"
+msgstr "Yanlış dosya türü."
 
 msgid "Info"
 msgstr "Bilgi"
@@ -1181,16 +1158,16 @@ msgid "Information"
 msgstr "Bilgi"
 
 msgid "Infos successfully saved"
-msgstr "Bilgi başarıyla kaydedildi"
+msgstr "Bilgiler başarıyla kaydedildi"
 
 msgid "Inherit global layout"
-msgstr "Mevcut düzen"
+msgstr "Genel düzeni devral"
 
 msgid "Insert a <br /><span class'bold'>cover image</span>"
-msgstr "Bir <br /><span class'bold'>kapak resim</span> ekle"
+msgstr "Bir <br /><span class'bold'>kapak resmi</span> ekle"
 
 msgid "Insert a cover image"
-msgstr "Kapak Resim Ekle"
+msgstr "Kapak resmi ekle"
 
 msgid "Insert a picture"
 msgstr "Resim ekle"
@@ -1220,15 +1197,13 @@ msgid "Invoices"
 msgstr "Faturalar"
 
 msgid "Issuer"
-msgstr "Issuer"
+msgstr "Veren"
 
 msgid ""
 "It seems that the renewal of the following SSL Certificate %s is failing, "
 "please check in <b>Settings > Advanced > Configuration</b> for the specified "
 "certificate."
-msgstr ""
-"Aşağıdaki SSL Sertifikası %s yenilenmesi başarısız oldu, Lütfen belirtilen "
-"sertifika için <b>Ayarlar > Gelişmiş > Yapılandırma</b> kontrol edin"
+msgstr "%s SSL sertifikasının yenilenmesi başarısız oluyor gibi görünüyor, lütfen belirtilen sertifika için <b>Ayarlar > Gelişmiş > Yapılandırma</b> bölümünü kontrol edin."
 
 msgid "JAVA Extended options"
 msgstr "JAVA Genişletilmiş seçenekler"
@@ -1237,7 +1212,7 @@ msgid "Landscape"
 msgstr "Yatay"
 
 msgid "Last Name"
-msgstr "Soy Ad"
+msgstr "Soyadı"
 
 msgid "Last action"
 msgstr "Son eylem"
@@ -1276,13 +1251,13 @@ msgid "Layout #6"
 msgstr "Düzeni #6"
 
 msgid "Leave blank if your web space is the current domain."
-msgstr "Boş bırakınız eğer web alanı geçerli etki alanı ise"
+msgstr "Web alanınız geçerli alan adıysa boş bırakın"
 
 msgid "Left"
 msgstr "Sol"
 
 msgid "Let your users know what is locked"
-msgstr "Kullanıcılarin kilitli  alanlari bilmesine izin verin"
+msgstr "Kullanıcılarınızın nelerin kilitli olduğunu bilmesini sağlayın"
 
 msgid "Like"
 msgstr "Beğen"
@@ -1297,16 +1272,16 @@ msgid "Links"
 msgstr "Linkler"
 
 msgid "Links are now re-ordered!"
-msgstr "Linkler şimdi yeniden talep edildi!"
+msgstr "Bağlantılar yeniden sıralandı!"
 
 msgid "List"
 msgstr "Liste"
 
 msgid "List Item"
-msgstr "Öge Listesi"
+msgstr "Liste öğesi"
 
 msgid "List of your invoices"
-msgstr "Faturaların listesi "
+msgstr "Faturalarınızın listesi"
 
 msgid "Load More"
 msgstr "Daha fazla yükle"
@@ -1324,28 +1299,28 @@ msgid "Local APK build"
 msgstr "Yerel APK Oluşturma"
 
 msgid "Locate"
-msgstr "Yerleştir"
+msgstr "Konumu bul"
 
 msgid "Location"
-msgstr "Lokasyon"
+msgstr "Konum"
 
 msgid "Location: %s"
-msgstr "Lokasyon: %s"
+msgstr "Konum: %s"
 
 msgid "Log in"
-msgstr "Oturum Aç"
+msgstr "Giriş yap"
 
 msgid "Logged in as"
-msgstr "Olarak girildi"
+msgstr "Şu kullanıcı olarak giriş yapıldı"
 
 msgid "Log-in"
-msgstr "Oturum Aç"
+msgstr "Giriş yap"
 
 msgid "Login to access your data"
 msgstr "Verilerinize erişmek için giriş yapın"
 
 msgid "Login to your admin interface"
-msgstr "Yönetim arayüzü oturum açma"
+msgstr "Yönetim arayüzünüze giriş yapın"
 
 msgid "Log-out"
 msgstr "Çıkış"
@@ -1387,13 +1362,13 @@ msgid "Main category"
 msgstr "Ana kategori"
 
 msgid "Main domain"
-msgstr "Ana etki alanı"
+msgstr "Ana alan adı"
 
 msgid "Main domain (without https?://) is required for services, and tools."
 msgstr "Servisler ve araçlar için ana alan adı (https?: // olmadan) gerekir."
 
 msgid "Main hostname"
-msgstr "Ana barındırıcı"
+msgstr "Ana sunucu adı"
 
 msgid "Make this image colorizable"
 msgstr "Bu resmi renklendirilebilir yap"
@@ -1408,7 +1383,7 @@ msgid "Manage Places"
 msgstr "Yerleri Yönet"
 
 msgid "Manage Tour"
-msgstr "Tur Yönet"
+msgstr "Turu yönet"
 
 msgid "Manage content"
 msgstr "İçeriği Yönet"
@@ -1429,7 +1404,7 @@ msgid "Message"
 msgstr "Mesaj"
 
 msgid "Message from your app %s"
-msgstr "%s uygulamanızdan mesaj "
+msgstr "%s uygulamanızdan mesaj"
 
 msgid "Messages"
 msgstr "Mesajlar"
@@ -1444,22 +1419,22 @@ msgid "Middle"
 msgstr "Orta"
 
 msgid "Migrate sessions"
-msgstr "Geçiş oturumları"
+msgstr "Oturumları taşı"
 
 msgid "Migrate sessions to Redis"
-msgstr "Redis'e oturumları geçirin"
+msgstr "Oturumları Redis'e taşı"
 
 msgid "Misc"
 msgstr "Çeşitli"
 
 msgid "Missing appId"
-msgstr "Kayıp uygulama kimliği"
+msgstr "Uygulama kimliği eksik"
 
 msgid "Missing gallery_id"
 msgstr "Eksik galeri kimliği"
 
 msgid "Missing parameters."
-msgstr "Kayıp parametreler."
+msgstr "Parametreler eksik."
 
 msgid "Missing params"
 msgstr "Eksik parametreler"
@@ -1471,7 +1446,7 @@ msgid "Missing value"
 msgstr "Eksik değer"
 
 msgid "Missing values"
-msgstr "Kayıp değerler"
+msgstr "Değerler eksik"
 
 msgid "Mobile display"
 msgstr "Mobil görünüm"
@@ -1483,7 +1458,7 @@ msgid "Modules"
 msgstr "Modüller"
 
 msgid "Monetization"
-msgstr "Monetization"
+msgstr "Para kazanma"
 
 msgid "Month"
 msgstr "Ay"
@@ -1495,7 +1470,7 @@ msgid "More"
 msgstr "Daha"
 
 msgid "My Users List"
-msgstr "Kullanıcılar Listesi"
+msgstr "Kullanıcı listem"
 
 msgid "My account"
 msgstr "Hesabım"
@@ -1513,13 +1488,13 @@ msgid "NSCameraUsageDescription"
 msgstr "NSCameraUsageDescription"
 
 msgid "NSLocationAlwaysAndWhenInUseUsageDescription"
-msgstr "NSLocationAlwaysAndWhenİnUseUsagedescription"
+msgstr "NSLocationAlwaysAndWhenInUseUsageDescription"
 
 msgid "NSLocationAlwaysUsageDescription"
 msgstr "NSLocationAlwaysUsageDescription"
 
 msgid "NSLocationWhenInUseUsageDescription"
-msgstr "NSLocationWhenİnUseUsageDescription"
+msgstr "NSLocationWhenInUseUsageDescription"
 
 msgid "NSMotionUsageDescription"
 msgstr "NSMotionUsageDescription"
@@ -1579,7 +1554,7 @@ msgid "No items found"
 msgstr "Öge Bulunamadı"
 
 msgid "No linkable element found on this page."
-msgstr "Bu sayfada link eklenir öge bulunamadı."
+msgstr "Bu sayfada bağlantı verilebilecek öğe bulunamadı."
 
 msgid "No logs"
 msgstr "Kayıt yok"
@@ -1603,7 +1578,7 @@ msgid "No rules"
 msgstr "Kural yok"
 
 msgid "No uploaded image"
-msgstr "yüklenen resim sayısı"
+msgstr "Yüklenmiş resim yok"
 
 msgid "Not available offline."
 msgstr "Çevrimdışı kullanılabilir değil."
@@ -1614,15 +1589,13 @@ msgstr "Not"
 msgid ""
 "Note: A disabled feature is not removed from published applications & can "
 "still be edited, but users can't add it anymore!"
-msgstr ""
-"Not: engelli bir özellik yayında olan bir uygulama için hala düzenlenebilir, "
-"ancak kullanıcılar artık ekleyemez."
+msgstr "Not: Devre dışı bırakılan bir özellik yayınlanmış uygulamalardan kaldırılmaz ve düzenlenmeye devam edilebilir, ancak kullanıcılar artık ekleyemez!"
 
 msgid "Note: Let's encrypt X1 is a staging certificate."
-msgstr "Not: Let's encryp X1 sertifika  belgesidir."
+msgstr "Not: Let's Encrypt X1 bir hazırlık (staging) sertifikasıdır."
 
 msgid "Nothing to display."
-msgstr "Hiçbirşey Bulunamadı."
+msgstr "Görüntülenecek bir şey yok."
 
 msgid "Number"
 msgstr "Sayı"
@@ -1652,7 +1625,7 @@ msgid "Only active"
 msgstr "Sadece aktif"
 
 msgid "Only inactive"
-msgstr "Yalnızca etkin"
+msgstr "Yalnızca etkin olmayanlar"
 
 msgid "Only offline"
 msgstr "Sadece çevrimdışı"
@@ -1667,10 +1640,10 @@ msgid "Open settings"
 msgstr "Ayarları aç"
 
 msgid "Options"
-msgstr "Ayarlar"
+msgstr "Seçenekler"
 
 msgid "Or do you want to return to editor?"
-msgstr "Editör dönmek mi istiyor musunuz?"
+msgstr "Ya da editöre geri dönmek mi istiyorsunuz?"
 
 msgid "Order"
 msgstr "Sipariş"
@@ -1682,10 +1655,10 @@ msgid "Origin"
 msgstr "Köken"
 
 msgid "Ouch, this page doesn't exist"
-msgstr "Bu sayfa mevcut değil"
+msgstr "Hay aksi, bu sayfa mevcut değil"
 
 msgid "Override layout"
-msgstr "Katman Düzeni"
+msgstr "Düzeni geçersiz kıl"
 
 msgid "PHP Version"
 msgstr "PHP Sürümü"
@@ -1700,13 +1673,13 @@ msgid "Page settings"
 msgstr "Sayfa ayarları"
 
 msgid "Paid At"
-msgstr "Ücretli"
+msgstr "Ödeme tarihi"
 
 msgid "Paid amount"
 msgstr "Ödenen miktar"
 
 msgid "Paid at"
-msgstr "Ödendi"
+msgstr "Ödeme tarihi"
 
 msgid "Parent"
 msgstr "Üst"
@@ -1715,10 +1688,10 @@ msgid "Password"
 msgstr "Şifre"
 
 msgid "Password (clear)"
-msgstr "Parola (basit)"
+msgstr "Şifre (düz metin)"
 
 msgid "Password (hashed)"
-msgstr "Parola(zor)"
+msgstr "Şifre (hash)"
 
 msgid "Passwords don't match"
 msgstr "Şifre eşleşmiyor"
@@ -1778,7 +1751,7 @@ msgid "Platform hostname"
 msgstr "Platform hostname"
 
 msgid "Player"
-msgstr "Oyuncu"
+msgstr "Oynatıcı"
 
 msgid "Please create the API keys to enable this feature."
 msgstr "Bu özelliği etkinleştirmek için API anahtarlarını oluşturun."
@@ -1817,10 +1790,10 @@ msgid "Please enter a value between {0} and {1} characters long."
 msgstr "Lütfen {0} ile {1} karakter uzunluğu arasında bir değer girin."
 
 msgid "Please enter a value greater than or equal to {0}."
-msgstr "Lütfen {0} a eşit ya da büyük bir değer girin."
+msgstr "Lütfen {0} değerine eşit veya daha büyük bir değer girin."
 
 msgid "Please enter a value less than or equal to {0}."
-msgstr "Lütfen {0} a eşit ya da daha küçük bir değer girin."
+msgstr "Lütfen {0} değerine eşit veya daha küçük bir değer girin."
 
 msgid "Please enter at least {0} characters."
 msgstr "Lütfen en az {0} karakter girin."
@@ -1829,7 +1802,7 @@ msgid "Please enter no more than {0} characters."
 msgstr "{0} karakterden daha fazla girmeyiniz."
 
 msgid "Please enter only digits."
-msgstr "Lütfen yalnızca numara girin."
+msgstr "Lütfen yalnızca rakam girin."
 
 msgid "Please enter the same value again."
 msgstr "Lütfen aynı değeri tekrar girin."
@@ -1844,7 +1817,7 @@ msgid "Please fill out the following fields"
 msgstr "Lütfen aşağıdaki alanları doldurun"
 
 msgid "Please fix this field."
-msgstr "Lütfen alanı düzenleyin."
+msgstr "Lütfen bu alanı düzeltin."
 
 msgid "Please log in."
 msgstr "Lütfen giriş yapın"
@@ -1852,19 +1825,15 @@ msgstr "Lütfen giriş yapın"
 msgid ""
 "Please note that this page is currently displaying DEMO data. Real data will "
 "be displayed when the %s applications limit is reached."
-msgstr ""
-"Bu sayfa şu anda DEMO verileri görüntülüyor unutmayın. Gerçek veri %sınırı "
-"uygulamalar ler görüntülenir."
+msgstr "Bu sayfanın şu anda DEMO verileri görüntülediğini unutmayın. Gerçek veriler, %s uygulama sınırına ulaşıldığında görüntülenecektir."
 
 msgid ""
 "Please note that this page is currently displaying DEMO data. Real data will "
 "be displayed when your application is published."
-msgstr ""
-"Bu sayfa şu anda DEMO veri görüntüleme olduğunu unutmayınız . Uygulama "
-"yayınlandığında gerçek veriler görüntülenir."
+msgstr "Bu sayfanın şu anda DEMO verileri görüntülediğini unutmayın. Gerçek veriler, uygulamanız yayınlandığında görüntülenecektir."
 
 msgid "Please provide a certificate."
-msgstr "Lütfen, bir sertifika oluşturun."
+msgstr "Lütfen bir sertifika sağlayın."
 
 msgid "Please select at least one application."
 msgstr "En az bir uygulama seçin lütfen."
@@ -1888,7 +1857,7 @@ msgid "Port"
 msgstr "Port"
 
 msgid "Port, example: 3310"
-msgstr "Port, örnek: 2570"
+msgstr "Port, örnek: 3310"
 
 msgid "Position Menu"
 msgstr "Konum Menüsü"
@@ -1900,7 +1869,7 @@ msgid "Previewer"
 msgstr "Önizleyici"
 
 msgid "Previews"
-msgstr "Önizleme"
+msgstr "Önizlemeler"
 
 msgid "Privacy"
 msgstr "Gizlilik"
@@ -1942,13 +1911,13 @@ msgid "Push"
 msgstr "Bildirim"
 
 msgid "Push Notifications"
-msgstr "Anlık Bildirim"
+msgstr "Anlık Bildirimler"
 
 msgid "Push message"
-msgstr "Anlık mesaj"
+msgstr "Anlık bildirim mesajı"
 
 msgid "Push message is sent."
-msgstr "Anlık bildirim gönderdi."
+msgstr "Anlık bildirim gönderildi."
 
 msgid "Push notification"
 msgstr "Anlık bildirim"
@@ -1959,15 +1928,13 @@ msgstr "Anlık bildirimler"
 msgid ""
 "Push notifications Your account doesn't exists on editor side. Please create "
 "it before using tour edition."
-msgstr ""
-"Anlık Bildirimler Hesabınız editör tarafında mevcut değil. Tur baskısını "
-"kullanmadan önce lütfen oluşturun."
+msgstr "Anlık Bildirimler: Hesabınız editör tarafında mevcut değil. Sürümünüzü kullanmadan önce lütfen oluşturun."
 
 msgid "QR Code"
 msgstr "QR Kod"
 
 msgid "QRCode"
-msgstr "QRKodu"
+msgstr "QR Kod"
 
 msgid "Qty"
 msgstr "Adet"
@@ -1994,10 +1961,10 @@ msgid "Remove"
 msgstr "Kaldır"
 
 msgid "Remove this page from this folder?"
-msgstr "Bu sayfa bu dosyadan kaldırsın mı?"
+msgstr "Bu sayfa bu klasörden kaldırılsın mı?"
 
 msgid "Remove this step"
-msgstr "Bu adım kaldır"
+msgstr "Bu adımı kaldır"
 
 msgid "Request & Upload to panel"
 msgstr "İstek & panele yükleme"
@@ -2006,16 +1973,16 @@ msgid "Request APK generation"
 msgstr "APK oluşturma isteyin"
 
 msgid "Request or renew the certificate via Let's Encrypt."
-msgstr "Let's Encryp ile sertifika isteği veya yenileme"
+msgstr "Let's Encrypt ile sertifika isteyin veya yenileyin."
 
 msgid "Requested by"
-msgstr "Talep tarafından"
+msgstr "Talep eden"
 
 msgid "Required fields"
 msgstr "Gerekli alanlar"
 
 msgid "Reset to default Privacy Policy."
-msgstr "Gizlilik İlkesi varsayılana sıfırla."
+msgstr "Gizlilik Politikasını varsayılana sıfırla."
 
 msgid "Resize your picture"
 msgstr "Resminizi yeniden boyutlandırın"
@@ -2045,16 +2012,16 @@ msgid "Rule have been removed."
 msgstr "Kural kaldırılmıştır."
 
 msgid "Run Android SDK update"
-msgstr "Android SDK güncelleme çalıştır"
+msgstr "Android SDK güncellemesini çalıştır"
 
 msgid "SCSS successfully saved"
 msgstr "SCSS başarıyla kaydedildi"
 
 msgid "SELF-ASSIGNABLE"
-msgstr "KENDİNİ ATANABİLİR"
+msgstr "KENDİNE ATANABİLİR"
 
 msgid "SEND"
-msgstr "YOLLA"
+msgstr "GÖNDER"
 
 msgid "SMTP"
 msgstr "SMTP"
@@ -2062,11 +2029,10 @@ msgstr "SMTP"
 msgid ""
 "SMTP - Whitelist: An administrator sent a request for white-listing his "
 "domain."
-msgstr ""
-"SMTP - Whitelist: Bir yönetici white-listing alan adı için  istek gönderdi."
+msgstr "SMTP - Beyaz liste: Bir yönetici alan adını beyaz listeye almak için istek gönderdi."
 
 msgid "SMTP Credentials (Affiliated to the White-Label %s)"
-msgstr "SMTP Bilgileri (%s White-Label bağlı)"
+msgstr "SMTP Bilgileri (White-Label %s'e bağlı)"
 
 msgid "Sales by Categories (TOP 10)"
 msgstr "Kategorilere göre satışlar (TOP 10)"
@@ -2075,7 +2041,7 @@ msgid "Sales by Payment method"
 msgstr "Ödeme yöntemine göre satışlar"
 
 msgid "Sales by Store"
-msgstr "Mağzaya göre satışlar"
+msgstr "Mağazaya göre satışlar"
 
 msgid "Sales by product (TOP 20)"
 msgstr "Ürüne göre Satış(Top 20)"
@@ -2084,16 +2050,16 @@ msgid "Sample"
 msgstr "Örnek"
 
 msgid "Save"
-msgstr "Sakla"
+msgstr "Kaydet"
 
 msgid "Save GCM settings"
-msgstr "GCM Ayarları kaydet"
+msgstr "GCM ayarlarını kaydet"
 
 msgid "Save iTunes credentials"
 msgstr "iTunes  Kimlik bilgilerini kaydet"
 
 msgid "Save sender id & key"
-msgstr "Gönderenin kimliği & anahtar kaydet"
+msgstr "Gönderen kimliğini ve anahtarı kaydet"
 
 msgid "Scan it."
 msgstr "Tara"
@@ -2117,7 +2083,7 @@ msgid "Search ..."
 msgstr "Arama ..."
 
 msgid "Search / Filter"
-msgstr "Arama / Filitre"
+msgstr "Arama / Filtre"
 
 msgid "Search, filter ..."
 msgstr "Ara, filtrele ..."
@@ -2135,10 +2101,10 @@ msgid "Select a country"
 msgstr "Bir ülke seçin"
 
 msgid "Select a hostname"
-msgstr "Bir barındırıcı adı seçin"
+msgstr "Bir ana makine adı (hostname) seçin"
 
 msgid "Select a panel type or self-managed"
-msgstr "Bir panel tipi seçin  veya kendi  yönetilen"
+msgstr "Bir panel türü seçin veya kendi yönetiminiz"
 
 msgid "Select all"
 msgstr "Tümünü seçin"
@@ -2150,7 +2116,7 @@ msgid "Select an iTunes Connect provider"
 msgstr "Bir iTunes Connect  sağlayıcı seçin"
 
 msgid "Select target applications"
-msgstr "Seçin hedef uygulamalar"
+msgstr "Hedef uygulamaları seçin"
 
 msgid "Select your back button appearance"
 msgstr "Geri düğmesi görünümünüzü seçin "
@@ -2180,7 +2146,7 @@ msgid "Send your pictures"
 msgstr "Resimlerinizi gönderin"
 
 msgid "Sender ID"
-msgstr "Gönderen KİMLİĞİ"
+msgstr "Gönderen ID"
 
 msgid "Sender email"
 msgstr "Gönderici e-posta"
@@ -2204,7 +2170,7 @@ msgid "Session settings"
 msgstr "Oturum ayarları"
 
 msgid "Set Meal"
-msgstr "Hazır Yemek"
+msgstr "Set Yemek"
 
 msgid "Settings"
 msgstr "Ayarlar"
@@ -2216,16 +2182,16 @@ msgid "Show cover"
 msgstr "Kapağı göster"
 
 msgid "Show search field"
-msgstr "Arama alanına göster"
+msgstr "Arama alanını göster"
 
 msgid "Show title"
 msgstr "Başlığı göster"
 
 msgid "Siberian current installation path"
-msgstr "Platform geçerli yükleme yolu"
+msgstr "Siberian'ın geçerli yükleme yolu"
 
 msgid "Siberian domain"
-msgstr "Sibirya etki alanı"
+msgstr "Siberian etki alanı"
 
 msgid "Siberian informations"
 msgstr "Siberian bilgileri"
@@ -2233,9 +2199,7 @@ msgstr "Siberian bilgileri"
 msgid ""
 "Siberian uses it to scan all uploaded files that have passed the soft "
 "Firewall."
-msgstr ""
-"Sibirya yumuşak Güvenlik Duvarı geçen tüm yüklenen dosyaları taramak için "
-"kullanır."
+msgstr "Siberian, yazılım güvenlik duvarını geçen tüm yüklenen dosyaları taramak için bunu kullanır."
 
 msgid "Size:"
 msgstr "Boyut:"
@@ -2244,7 +2208,7 @@ msgid "Size on disk"
 msgstr "Diskteki boyutu "
 
 msgid "Slack notification settings"
-msgstr "Sessiz bildirim ayarları"
+msgstr "Slack bildirim ayarları"
 
 msgid "Slider"
 msgstr "Kaydırıcı"
@@ -2253,7 +2217,7 @@ msgid "Social"
 msgstr "Sosyal"
 
 msgid "Socialgaming"
-msgstr "Social Oyun"
+msgstr "Sosyal Oyun"
 
 msgid "Socket"
 msgstr "Soket"
@@ -2262,14 +2226,12 @@ msgid "Soundcloud"
 msgstr "Soundcloud"
 
 msgid "Source code"
-msgstr "Html sayfa"
+msgstr "Kaynak kodu"
 
 msgid ""
 "Source code generation is not configured, ask your administrator for more "
 "informations."
-msgstr ""
-"Kaynak kodu oluşturma yapılandırılmamışsa, daha fazla bilgi için "
-"yöneticinize danışın."
+msgstr "Kaynak kodu oluşturma yapılandırılmamış, daha fazla bilgi için yöneticinize danışın."
 
 msgid "Sourcecode"
 msgstr "Kaynak Kodu"
@@ -2281,10 +2243,10 @@ msgid "Spinner"
 msgstr "Spinner"
 
 msgid "Split Ad revenue (percent for you)"
-msgstr "Bölünmüş Reklam geliri (sizin için yüzde)"
+msgstr "Reklam geliri paylaşımı (sizin payınız, yüzde)"
 
 msgid "Start date must be lower than end date."
-msgstr "Başlangıç ​​tarihi bitiş tarihinden daha düşük olmalıdır."
+msgstr "Başlangıç tarihi bitiş tarihinden önce olmalıdır."
 
 msgid "State / Province"
 msgstr "Eyalet / İl"
@@ -2296,7 +2258,7 @@ msgid "Step saved successfully."
 msgstr "Adım başarılı bir şekilde kaydedildi."
 
 msgid "Step text"
-msgstr "Adım metini"
+msgstr "Adım metni"
 
 msgid "Step title"
 msgstr "Adım başlığı"
@@ -2305,13 +2267,13 @@ msgid "Street"
 msgstr "Cadde"
 
 msgid "Subscriptions"
-msgstr "Üyelik"
+msgstr "Abonelikler"
 
 msgid "Subtitle"
 msgstr "Altyazı"
 
 msgid "Success"
-msgstr "Başarı"
+msgstr "Başarılı"
 
 msgid "Support"
 msgstr "Destek"
@@ -2323,7 +2285,7 @@ msgid "Support link"
 msgstr "Destek Bağlantısı"
 
 msgid "Switch to Ionic design"
-msgstr "Ionic tasarım geçin"
+msgstr "Ionic tasarımına geç"
 
 msgid "System"
 msgstr "Sistem"
@@ -2338,7 +2300,7 @@ msgid "Target devices"
 msgstr "Hedef cihazlar"
 
 msgid "Target specific devices"
-msgstr "Hedeflenen cihazlar"
+msgstr "Belirli cihazları hedefle"
 
 msgid "Tax"
 msgstr "Vergi"
@@ -2383,16 +2345,13 @@ msgid ""
 "The certificate request failed 3 times, please check the certificate "
 "information, your panel credentials, and everything else.<br />If your "
 "certificate is valid, you can try to upload to panel only."
-msgstr ""
-"Sertifika isteği 3 kez başarısız oldu, lütfen başka sertifika bilgileri, "
-"panel kimlik bilgilerinizi, ve her şeyi kontrol ediniz<br />Eğer sertifika "
-"geçerli deği ise panele sadece yüklemek ile deneyebilirsiniz."
+msgstr "Sertifika isteği 3 kez başarısız oldu, lütfen sertifika bilgilerini, panel kimlik bilgilerinizi ve diğer her şeyi kontrol edin.<br />Sertifikanız geçerliyse yalnızca panele yüklemeyi deneyebilirsiniz."
 
 msgid "The email is required"
 msgstr "Email gerekli"
 
 msgid "The entered text mismatch"
-msgstr "Girilen metin uyumsuzluğu"
+msgstr "Girilen metinler eşleşmiyor"
 
 msgid "The file '%s' does not exist"
 msgstr "Dosya '%s' mevcut değil"
@@ -2407,23 +2366,21 @@ msgid "The name is required"
 msgstr "İsim gereklidir"
 
 msgid "The old password does not match the entered password."
-msgstr "Şifreler eşleşmiyor."
+msgstr "Eski şifre girilen şifre ile eşleşmiyor."
 
 msgid "The password is required"
 msgstr "Şifre gerekli"
 
 msgid "The password must be at least 6 characters"
-msgstr "Şifre en az 6 karekter olmalı"
+msgstr "Şifre en az 6 karakter olmalı"
 
 msgid ""
 "The payment has been cancelled, something wrong happened? Feel free to "
 "contact us."
-msgstr ""
-"Ödeme iptal edildi, bir şeyler yanlış oldu? Bizimle temas kurmaktan "
-"çekinmeyin."
+msgstr "Ödeme iptal edildi, bir sorun mu oluştu? Bizimle iletişime geçmekten çekinmeyin."
 
 msgid "The sent request is empty."
-msgstr "Gönderi isteği boş."
+msgstr "Gönderilen istek boş."
 
 msgid "The user_id is required"
 msgstr "Kullanıcı kimliği gerekli"
@@ -2435,7 +2392,7 @@ msgid "This URL is already used"
 msgstr "Bu URL zaten kullanılıyor "
 
 msgid "This admin can generate APK"
-msgstr "Bu yönetici APK oluşturabilirsiniz"
+msgstr "Bu yönetici APK oluşturabilir"
 
 msgid "This admin does not exist"
 msgstr "Bu yönetici yok"
@@ -2450,7 +2407,7 @@ msgid "This application does not exist"
 msgstr "Bu uygulama mevcut değil"
 
 msgid "This block type doesn't exist"
-msgstr "Bu blok tip yok"
+msgstr "Bu blok tipi mevcut değil"
 
 msgid "This code is unrecognized"
 msgstr "Bu kod tanınmıyor"
@@ -2467,15 +2424,13 @@ msgstr "Bu özellik, sadece uygulamadan kullanılabilir."
 msgid ""
 "This feature is disabled by default since update 4.12.24 and is deprecated "
 "in favor of Folders v2."
-msgstr ""
-"Bu özellik varsayılan olarak 4.12.24 güncelleme beri devre dışı bırakıldı ve "
-"Klasör v2 lehine önerilmiyor."
+msgstr "Bu özellik 4.12.24 güncellemesinden beri varsayılan olarak devre dışıdır ve Klasörler v2 lehine kullanımdan kaldırılmıştır."
 
 msgid "This feature opens the Code Scan camera"
-msgstr "Bu özellik Kod Tarama camerasını açar"
+msgstr "Bu özellik Kod Tarama kamerasını açar"
 
 msgid "This field is required"
-msgstr "Bu dosya gerekli"
+msgstr "Bu alan zorunlu"
 
 msgid "This layout has no option."
 msgstr "Bu ekran düzeni  seçeneği mevcut değildir."
@@ -2509,7 +2464,7 @@ msgid "Timezone"
 msgstr "Zaman Dilimi"
 
 msgid "Tip"
-msgstr "İpucu"
+msgstr "Bahşiş"
 
 msgid "Title"
 msgstr "Başlık:"
@@ -2567,13 +2522,13 @@ msgid "Topic"
 msgstr "Konu"
 
 msgid "Topics"
-msgstr "Başlıklar"
+msgstr "Konular"
 
 msgid "Total"
 msgstr "Toplam"
 
 msgid "Total Excl. Tax"
-msgstr "Toplam Hariç. Vergi"
+msgstr "Vergi hariç toplam"
 
 msgid "Total installs"
 msgstr "Toplam yüklemeler"
@@ -2608,12 +2563,10 @@ msgstr "Rota hesaplanamıyor."
 msgid ""
 "Unable to connect in HTTPS or to validate the SSL Certificate.<br />Check if "
 "your are not in `Staging`"
-msgstr ""
-"HTTPS bağlanma hatası veya SSL Sertifikası doğrulanamadı.<br /> Yayında "
-"olduğundan emin olunuz"
+msgstr "HTTPS ile bağlanılamadı veya SSL sertifikası doğrulanamadı.<br />`Staging` modunda olmadığınızdan emin olun"
 
 msgid "Unable to find TC with id %s."
-msgstr "Kimliğ %s ile TC bulunamadı."
+msgstr "%s kimliğine sahip TC bulunamadı."
 
 msgid "Unable to save image"
 msgstr "Resim kaydedilemiyor"
@@ -2625,13 +2578,13 @@ msgid "Until:"
 msgstr "Bitiş:"
 
 msgid "Updated at"
-msgstr "de güncellendi"
+msgstr "Güncellenme tarihi"
 
 msgid "Upload to panel"
 msgstr "Panele yükle"
 
 msgid "Upload your json here"
-msgstr "Json  buraya yükle"
+msgstr "JSON dosyanızı buraya yükleyin"
 
 msgid "Use card design"
 msgstr "Kart tasarımı kullan"
@@ -2655,31 +2608,31 @@ msgid "Users"
 msgstr "Kullanıcılar"
 
 msgid "Users activity"
-msgstr "Kullanıcılar etkinliği"
+msgstr "Kullanıcı etkinliği"
 
 msgid "Users localization"
 msgstr "Kullanıcıları yerelleştirme"
 
 msgid "VAT Number"
-msgstr "Vergi numarası"
+msgstr "KDV Numarası"
 
 msgid "Valid until"
 msgstr "Kadar geçerli"
 
 msgid "Validate"
-msgstr "Geçerli"
+msgstr "Doğrula"
 
 msgid "Validated points"
-msgstr "Geçerli noktalar"
+msgstr "Doğrulanan puanlar"
 
 msgid "Validated points by Loyalty card Analytics"
-msgstr "Sadakat kart Analistik tarafından doğrulanan noktalar"
+msgstr "Sadakat kartı Analitiği tarafından doğrulanan puanlar"
 
 msgid "Validations by Discount Analytics"
-msgstr "İndirim Analistikleri tarafından doğrulananlar"
+msgstr "İndirim Analitiği tarafından doğrulananlar"
 
 msgid "Version %s"
-msgstr "Versiyon %s"
+msgstr "Sürüm %s"
 
 msgid "Video"
 msgstr "Video"
@@ -2697,7 +2650,7 @@ msgid "View full article"
 msgstr "Yazının Tamamını Görüntüle"
 
 msgid "View my actual data"
-msgstr "Gerçek verimi görüntüle"
+msgstr "Gerçek verilerimi görüntüle"
 
 msgid "Visits"
 msgstr "Ziyaretler"
@@ -2741,24 +2694,22 @@ msgstr "Size erişim kodunuzla bir e-posta gönderdik."
 msgid ""
 "When selecting 'Enable test API' in a payment method, be sure to create test "
 "credentials, check the documentation of your payment method."
-msgstr ""
-"\\'Test API etkinleştirme\\' Seçerken bir ödeme yöntemi, test kimlik "
-"bilgileri , ödeme yöntemi belgelerine bakın emin olun sağlar."
+msgstr "Bir ödeme yönteminde 'Test API'yi etkinleştir' seçeneğini seçerken test kimlik bilgilerini oluşturduğunuzdan emin olun, ödeme yönteminizin belgelerine bakın."
 
 msgid "White Label Editor"
 msgstr "Beyaz Etiket Düzenleyici"
 
 msgid "Who is online"
-msgstr "Online olan "
+msgstr "Çevrimiçi olanlar"
 
 msgid "Winners list"
 msgstr "Kazananlar listesi"
 
 msgid "WordPress"
-msgstr "Wordpress"
+msgstr "WordPress"
 
 msgid "Wordpress"
-msgstr "Wordpress"
+msgstr "WordPress"
 
 msgid "Year"
 msgstr "Yıl"
@@ -2776,21 +2727,17 @@ msgid "You are about to delete this certificate, Are you sure ?"
 msgstr "Bu sertifikayı silmek üzeresiniz, emin misiniz ?"
 
 msgid "You are gone offline"
-msgstr "Çevrim dışısınız"
+msgstr "Çevrimdışı oldunuz"
 
 msgid "You are not allowed to delete a feature!"
-msgstr "Bir özelliği silmek için izniniz yok!"
+msgstr "Bir özelliği silme izniniz yok!"
 
 msgid ""
 "You are using a custom SMTP configuration, and the following white-label "
 "administrator <b>%s</b> is requesting his domain <b>%s</b> to be white-"
 "listed.<br /><br />You can add his domain in your SMTP provider panel and "
 "send him the instructions to configure it for his domain."
-msgstr ""
-"Özel bir SMTP yapılandırması kullanıyorsanız ve aşağıdaki beyaz etiket "
-"yönetici <b>%s</b> alan <b>%s</b> onun beyaz olmak istiyor-<"
-"listelenmiştir.br /><br />SMTP sağlayıcı Panelinizde onun etki eklemek ve "
-"onun etki için yapılandırmak için onun talimatları gönderebilirsiniz."
+msgstr "Özel bir SMTP yapılandırması kullanıyorsunuz ve aşağıdaki white-label yöneticisi <b>%s</b>, <b>%s</b> alan adının beyaz listeye alınmasını istiyor.<br /><br />Alan adını SMTP sağlayıcınızın panelinden ekleyebilir ve ona alan adı için yapılandırma talimatlarını gönderebilirsiniz."
 
 msgid ""
 "You can add allowed extensions, please note that .php, .js & .ico are "
@@ -2809,7 +2756,7 @@ msgid "You can follow the URL below to access your data report"
 msgstr "Veri raporunuza erişmek için aşağıdaki URL'yi takip edebilirsiniz."
 
 msgid "You can globally disable a feature!"
-msgstr "Bir özelliği genel olar devre dışı bırakabilsiniz!"
+msgstr "Bir özelliği genel olarak devre dışı bırakabilirsiniz!"
 
 msgid "You can upload a pem certificate only."
 msgstr "Sadece bir pem sertifikası yükleyebilirsiniz."
@@ -2845,19 +2792,19 @@ msgid "You have gone offline"
 msgstr "Çevrimdışısınız"
 
 msgid "You have to chose a start and an end date."
-msgstr "Bir başlangıç ​​ve bir bitiş tarihi seçmeniz gerekir."
+msgstr "Bir başlangıç ve bir bitiş tarihi seçmeniz gerekir."
 
 msgid "You must be logged in to like something!"
-msgstr "Bir şey gibi İçin Üye Olmanız Gerekiyor."
+msgstr "Beğenmek için giriş yapmalısınız!"
 
 msgid "You must be logged in to post a comment"
 msgstr "Yorum yazmak için giriş yapmalısınız"
 
 msgid "You must fill ip & port."
-msgstr "Ip & port doldurmanız gerekir."
+msgstr "IP ve port alanlarını doldurmanız gerekir."
 
 msgid "You must first complete the current category creation process"
-msgstr "ilk olarak kategori oluşturma işlemini tamamlanız gerekr"
+msgstr "Önce mevcut kategori oluşturma işlemini tamamlamanız gerekir"
 
 msgid ""
 "You must give the permission to the app to add a contact to your address book"
@@ -2867,16 +2814,16 @@ msgid "You must share your location to access this page."
 msgstr "Bu sayfaya ulaşmak için yerinizi paylaşmalısınız."
 
 msgid "You will lose all unsaved changes, continue?"
-msgstr "Kaydedilmemiş tüm değişiklikleri kaybedeceksiniz, devam edecek misin?"
+msgstr "Kaydedilmemiş tüm değişiklikleri kaybedeceksiniz, devam edilsin mi?"
 
 msgid "Your PHP version is too old, please upgrade to PHP 5.4+."
-msgstr "PHP sürümü çok eski, 5.4+ PHP yükseltin lütfen."
+msgstr "PHP sürümünüz çok eski, lütfen PHP 5.4+ sürümüne yükseltin."
 
 msgid "Your access token is"
-msgstr "Erişim token:"
+msgstr "Erişim token'ınız:"
 
 msgid "Your analytics will be computed and available soon"
-msgstr "Analizler yakında hesaplanabilir ve kullanılabilir olacak"
+msgstr "Analitikleriniz hesaplanacak ve yakında kullanılabilir olacak"
 
 msgid "Your are not allowed to assign this role."
 msgstr "Bu rolü atamanıza izin verilmiyor."
@@ -2885,7 +2832,7 @@ msgid "Your browser is too old to view the content of our website.<br />"
 msgstr "Tarayıcınız sitemizin içeriğini görüntülemek için çok eski. <br />"
 
 msgid "Your build should be ready"
-msgstr "Oluşturma hazır olmalı"
+msgstr "Oluşturmanız hazır olmalı"
 
 msgid "Your comment"
 msgstr "Yorumunuz"
@@ -2906,7 +2853,7 @@ msgid "Your new password has been sent to the entered email address"
 msgstr "Yeni şifreniz girilen e-posta adresine gönderildi"
 
 msgid "Your password does not match the entered password."
-msgstr "Şifreler eşleşmiyor."
+msgstr "Şifreniz girilen şifreyle eşleşmiyor."
 
 msgid ""
 "Your request has been successfully sent, please wait for your administrator "
@@ -2917,7 +2864,7 @@ msgid "Your subscription has been deleted successfully."
 msgstr "Aboneliğiniz başarıyla silindi."
 
 msgid "Your subscription status has been changed successfully."
-msgstr "Abonelik durumunuzu başarıyla değiştirildi."
+msgstr "Abonelik durumunuz başarıyla değiştirildi."
 
 msgid "Youtube"
 msgstr "Youtube"
@@ -2929,7 +2876,7 @@ msgid "average"
 msgstr "ortalama"
 
 msgid "be careful or set it back to"
-msgstr "dikkatli olun ya da geriye dönmek için ayarla"
+msgstr "dikkatli olun ya da şuna geri ayarlayın"
 
 msgid "close"
 msgstr "Kapat"
@@ -2980,17 +2927,15 @@ msgid "iOS Spinner"
 msgstr "iOS Spinner"
 
 msgid "iOS base Bundle ID  must contain only letters, dots & minus."
-msgstr "iOS temel Paket KİMLİĞİ sadece harf, nokta ve eksi içermelidir."
+msgstr "iOS temel Bundle ID yalnızca harf, nokta ve eksi içermelidir."
 
 msgid ""
 "iOS base Bundle ID  must contain only letters, dots & minus with at least "
 "two dots.<br />Example: com.mydomain.admin"
-msgstr ""
-"iOS temel Paket KİMLİĞİ sadece harf, nokta ve eksi ile en az iki nokta "
-"olmalıdır.<br />Örnek: com.alanim.uygula"
+msgstr "iOS temel Bundle ID yalnızca harf, nokta ve eksi içermeli ve en az iki nokta bulunmalıdır.<br />Örnek: com.mydomain.admin"
 
 msgid "iOS base Bundle ID can't be empty."
-msgstr "iOS ana Paket ID adi bos birakilamaz"
+msgstr "iOS temel Bundle ID boş bırakılamaz."
 
 msgid "iOS only"
 msgstr "Yalnızca iOS"
@@ -3008,13 +2953,13 @@ msgid "idle"
 msgstr "boşta"
 
 msgid "informative, modal"
-msgstr "bilgilendirici, kalıcı"
+msgstr "bilgilendirici, modal"
 
 msgid "is updated once a day"
 msgstr "sadece günde bir kere güncellenir"
 
 msgid "loading"
-msgstr "yüklüyor"
+msgstr "yükleniyor"
 
 msgid "low"
 msgstr "düşük"
@@ -3044,7 +2989,7 @@ msgid "picture"
 msgstr "resim"
 
 msgid "posts"
-msgstr "mesajlar"
+msgstr "gönderiler"
 
 msgid "remaining characters"
 msgstr "kalan karakterler"
@@ -3056,16 +3001,16 @@ msgid "%s / Year"
 msgstr "%s / Yıl"
 
 msgid "%s An unknown error occurred, please try again later."
-msgstr "/% bilinmeyen Bir hata oluştu, lütfen daha sonra tekrar deneyin."
+msgstr "%s Bilinmeyen bir hata oluştu, lütfen daha sonra tekrar deneyin."
 
 msgid "%s Image"
 msgstr "%s resim"
 
 msgid "%s Images"
-msgstr "%s resimler"
+msgstr "%s Resim"
 
 msgid "%s, No params sent."
-msgstr "%s, Parametrelegönderilmedi"
+msgstr "%s, parametre gönderilmedi."
 
 msgid "%s ago"
 msgstr "%s önce"
@@ -3077,7 +3022,7 @@ msgid "seconds"
 msgstr "saniye"
 
 msgid "this feature is globally disabled!"
-msgstr "bu özellik genel olarak devre dışı bıraktı."
+msgstr "bu özellik genel olarak devre dışı bırakıldı!"
 
 msgid "title"
 msgstr "başlık"
@@ -3086,7 +3031,7 @@ msgid "titles"
 msgstr "başlıklar"
 
 msgid "to add a folder."
-msgstr "bir klasör ekleme."
+msgstr "bir klasör eklemek için."
 
 msgid "to add a subfolder."
 msgstr "Bir alt klasör eklemek için."

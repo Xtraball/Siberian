@@ -15,10 +15,10 @@ msgstr ""
 "X-Generator: Weblate 3.3\n"
 
 msgid "+ Add a track"
-msgstr "+ Hinzufügen eines Titels"
+msgstr "+ Titel hinzufügen"
 
 msgid "Add albums and tracks to the playlist:"
-msgstr "Alben und Tracks zur Wiedergabeliste hinzugefügt:"
+msgstr "Alben und Titel zur Wiedergabeliste hinzufügen:"
 
 msgid "Album"
 msgstr "Album"
@@ -28,19 +28,17 @@ msgstr "Alben"
 
 msgid ""
 "An error occurred while deleting you images gallery. Please try again later."
-msgstr ""
-"Beim Speichern der Bilder-Galerie ist ein Fehler aufgetreten. Bitte "
-"versuchen Sie es später noch einmal"
+msgstr "Beim Löschen Ihrer Bildergalerie ist ein Fehler aufgetreten. Bitte versuchen Sie es später erneut."
 
 msgid "An error occurred while deleting your album. Thanks for trying later."
-msgstr "Fehler beim Löschen von deinem Album. Danke für den Versuch später."
+msgstr "Beim Löschen Ihres Albums ist ein Fehler aufgetreten. Bitte versuchen Sie es später erneut."
 
 msgid ""
 "An error occurred while deleting your playlist. Thanks for trying later."
-msgstr "Fehler beim Löschen der Wiedergabeliste. Danke für den Versuch später."
+msgstr "Beim Löschen Ihrer Wiedergabeliste ist ein Fehler aufgetreten. Bitte versuchen Sie es später erneut."
 
 msgid "An error occurred while deleting your track. Thanks for trying later."
-msgstr "Fehler beim Löschen von deinem Track. Danke für den Versuch später."
+msgstr "Beim Löschen Ihres Titels ist ein Fehler aufgetreten. Bitte versuchen Sie es später erneut."
 
 msgid "An error occurred while loading pictures. Please try later."
 msgstr ""
@@ -54,9 +52,7 @@ msgid "An error occurred while loading the radio."
 msgstr "Beim Laden des Radios ist ein Fehler aufgetreten."
 
 msgid "An error occurred while loading videos. Please try later."
-msgstr ""
-"Beim Laden des Videos ist ein Fehler aufgetreten. Bitte versuchen Sie es "
-"später noch einmal."
+msgstr "Beim Laden der Videos ist ein Fehler aufgetreten. Bitte versuchen Sie es später erneut."
 
 #. machine-translated (2026-10), to be reviewed
 msgid ""
@@ -70,36 +66,29 @@ msgstr ""
 "versuchen Sie es später noch einmal"
 
 msgid "An error occurred while saving your playlist. Thanks for trying later."
-msgstr ""
-"Fehler beim Speichern der Wiedergabeliste. Danke für den Versuch später."
+msgstr "Beim Speichern der Wiedergabeliste ist ein Fehler aufgetreten. Bitte versuchen Sie es später erneut."
 
 msgid ""
 "An error occurred while saving your videos gallery. Please try again later."
-msgstr ""
-"Beim speichern der Video-Galerie ist ein Fehler aufgetreten. Bitte versuchen "
-"Sie es später noch einmal."
+msgstr "Beim Speichern der Videogalerie ist ein Fehler aufgetreten. Bitte versuchen Sie es später erneut."
 
 msgid "Are you sure you don't want to create an album for these tracks?"
-msgstr "Bist du sicher, dass Sie kein Album für diese Tracks erstellen will?"
+msgstr "Sind Sie sicher, dass Sie kein Album für diese Titel erstellen möchten?"
 
 msgid "Are you sure you don't want to create an album for this track?"
-msgstr ""
-"Bist du sicher, dass Sie nicht möchten, erstellen Sie ein Album für diesen "
-"Track?"
+msgstr "Sind Sie sicher, dass Sie kein Album für diesen Titel erstellen möchten?"
 
 msgid "Are you sure you want to delete this album?"
-msgstr "Bist du sicher, dass Sie dieses Album löschen möchten?"
+msgstr "Sind Sie sicher, dass Sie dieses Album löschen möchten?"
 
 msgid "Are you sure you want to delete this album (this won't delete tracks)?"
-msgstr ""
-"Sind Sie sicher, dass Sie dieses Album löschen (Dies wird nicht Spuren "
-"löschen) möchten?"
+msgstr "Sind Sie sicher, dass Sie dieses Album löschen möchten (die Titel werden nicht gelöscht)?"
 
 msgid "Are you sure you want to delete this playlist?"
-msgstr "Bist du sicher, dass Sie diese Wiedergabeliste löschen möchten?"
+msgstr "Sind Sie sicher, dass Sie diese Wiedergabeliste löschen möchten?"
 
 msgid "Are you sure you want to delete this track?"
-msgstr "Bist du sicher, dass Sie diesen Track löschen möchten?"
+msgstr "Sind Sie sicher, dass Sie diesen Titel löschen möchten?"
 
 msgid "Artist:"
 msgstr "Künstler:"
@@ -114,13 +103,13 @@ msgid "Choose an album"
 msgstr "Wählen Sie ein Album"
 
 msgid "Custom"
-msgstr "Custom"
+msgstr "Benutzerdefiniert"
 
 msgid "Delete this gallery?"
 msgstr "Möchten Sie diese Galerie löschen ?"
 
 msgid "Facebook page ID"
-msgstr "Ihre Facebook Fanpage ID:"
+msgstr "Facebook-Seiten-ID"
 
 msgid "Feed URL"
 msgstr "Feed URL"
@@ -151,10 +140,10 @@ msgid "I'm listening to"
 msgstr "Ich höre"
 
 msgid "I'm listening to $1 from $2 on $3 app."
-msgstr "Ich bin hören, um $1 von $2 auf $3 app."
+msgstr "Ich höre $1 von $2 in der App $3."
 
 msgid "I'm listening to $1 on $2 app."
-msgstr "Ich bin hören, um $1 auf $2 app."
+msgstr "Ich höre $1 in der App $2."
 
 msgid "Images gallery has been saved successfully"
 msgstr "Bilder-Galerie wurde erfolgreich gespeichert"
@@ -185,10 +174,10 @@ msgid "No artist found"
 msgstr "Kein Künstler gefunden"
 
 msgid "No current stream to play so far."
-msgstr "Aktuelle kein Stream zum Laden."
+msgstr "Derzeit ist kein Stream zum Abspielen verfügbar."
 
 msgid "No track found"
-msgstr "Keine Spur gefunden"
+msgstr "Kein Titel gefunden"
 
 #. machine-translated (2026-10), to be reviewed
 msgid "No valid Facebook API key and secret."
@@ -202,13 +191,13 @@ msgid "Page ID"
 msgstr "Seiten-ID"
 
 msgid "Page not found"
-msgstr "404, Seite nicht gefunden"
+msgstr "Seite nicht gefunden"
 
 msgid "Parameter"
 msgstr "Parameter"
 
 msgid "Parameter/Feed Url"
-msgstr "Parameter /-Feed URL "
+msgstr "Parameter/Feed-URL"
 
 msgid "Picasa"
 msgstr "Picasa"
@@ -220,7 +209,7 @@ msgid "Playlist successfully saved."
 msgstr "Playlist erfolgreich gespeichert."
 
 msgid "Playlist title:"
-msgstr "Playlist Titel:"
+msgstr "Playlist-Titel:"
 
 msgid "Playlists"
 msgstr "Wiedergabelisten"
@@ -236,7 +225,7 @@ msgid "Podcast URL (iTunes format)"
 msgstr "Podcast-URL (iTunes-Format)"
 
 msgid "Read all"
-msgstr "Lesen Sie alle"
+msgstr "Alle lesen"
 
 #. machine-translated (2026-10), to be reviewed
 msgid "Reload album list?"
@@ -246,10 +235,10 @@ msgid "Required field"
 msgstr "Pflichtfeld"
 
 msgid "Search/Url"
-msgstr "Recherche / URL"
+msgstr "Suche / URL"
 
 msgid "The entered name is not a valid Instagram user."
-msgstr "Der eingegebene Name ist kein gültiger Benutzer Instagram."
+msgstr "Der eingegebene Name ist kein gültiger Instagram-Benutzer."
 
 msgid "This element is not an album."
 msgstr "Dieses Element ist kein Album."
@@ -258,13 +247,13 @@ msgid "Track"
 msgstr "Track"
 
 msgid "Tracks"
-msgstr "Spuren"
+msgstr "Tracks"
 
 msgid "Type"
 msgstr "Typ"
 
 msgid "URL (.mp3):"
-msgstr "URL (. MP3):"
+msgstr "URL (.mp3):"
 
 msgid "Videos gallery has been saved successfully"
 msgstr "Die Video-Galerie wurde erfolgreich gespeichert"
@@ -304,10 +293,10 @@ msgid "on"
 msgstr "auf"
 
 msgid "pause"
-msgstr "Anhalten"
+msgstr "Pause"
 
 msgid "play"
-msgstr "spielen"
+msgstr "Abspielen"
 
 msgid "previous"
 msgstr "vorherige"
@@ -316,16 +305,16 @@ msgid "%s by %s"
 msgstr "%s von %s"
 
 msgid "share"
-msgstr "Freigeben"
+msgstr "Teilen"
 
 msgid "shuffle"
-msgstr "shuffle"
+msgstr "Zufallswiedergabe"
 
 msgid "track"
 msgstr "Track"
 
 msgid "tracks"
-msgstr "Spuren"
+msgstr "Tracks"
 
 # GMT 1559644713.3743
 #. machine-translated (2026-10), to be reviewed

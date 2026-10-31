@@ -19,7 +19,7 @@ msgid "-"
 msgstr "-"
 
 msgid " \"Remove this page from this folder?\""
-msgstr "Αφαιρέστε αυτή τη σελίδα από αυτό τον φάκελο?"
+msgstr " \"Να αφαιρεθεί αυτή η σελίδα από αυτόν τον φάκελο;\""
 
 #. machine-translated (2026-10), to be reviewed
 msgid "#100: Unable to fetch the update. Please, try again later."
@@ -139,7 +139,7 @@ msgstr ""
 "την ενημέρωση."
 
 msgid "#19-008: You already have installed this template."
-msgstr "Έχετε ήδη εγκαταστήσει αυτή την ενημέρωση."
+msgstr "Έχετε ήδη εγκαταστήσει αυτό το πρότυπο."
 
 msgid ""
 "#19-009: Please update your system to the %s version before installing this "
@@ -281,7 +281,7 @@ msgid "Alphabetically"
 msgstr "Αλφαβητικά"
 
 msgid "An error occurred while processing the payment."
-msgstr "Παρουσιάστηκε σφάλμα κατά τη διαγραφή της εκδήλωσης"
+msgstr "Παρουσιάστηκε σφάλμα κατά την επεξεργασία της πληρωμής."
 
 #. machine-translated (2026-10), to be reviewed
 msgid "Android 4.4+"
@@ -318,7 +318,7 @@ msgid "Apple"
 msgstr "Apple"
 
 msgid "Application %s"
-msgstr "Εφαρμογές"
+msgstr "Εφαρμογή %s"
 
 #. machine-translated (2026-10), to be reviewed
 msgid ""
@@ -330,7 +330,7 @@ msgid "Apps efficaces + Prix minime = Des clients heureux"
 msgstr "Αποτελεσματικές εφαρμογές + Ελάχιστη τιμή = Ικανοποιημένοι πελάτες"
 
 msgid "Are you sure you want to delete this discount?"
-msgstr "Είστε σίγουροι ότι θέλετε να διαγράψετε αυτή την εικόνα?"
+msgstr "Είστε σίγουροι ότι θέλετε να διαγράψετε αυτή την έκπτωση;"
 
 #. machine-translated (2026-10), to be reviewed
 msgid "Background Color - Active"
@@ -438,7 +438,7 @@ msgid "Click here for more information about AdMob"
 msgstr "Κάντε κλικ εδώ για περισσότερες πληροφορίες σχετικά με το AdMob"
 
 msgid "Click here to send your fullchain"
-msgstr "Προσθέστε εδώ το favicon σας"
+msgstr "Κάντε κλικ εδώ για να στείλετε το fullchain σας"
 
 #. machine-translated (2026-10), to be reviewed
 msgid ""
@@ -451,7 +451,7 @@ msgid "Cram-MD5"
 msgstr "Cram-MD5"
 
 msgid "Create a new category"
-msgstr "Δημιουργήστε έναν νέο χρήστη"
+msgstr "Δημιουργία νέας κατηγορίας"
 
 #. machine-translated (2026-10), to be reviewed
 msgid "Custom font"
@@ -490,7 +490,7 @@ msgid "Display website"
 msgstr "Εμφάνιση ιστότοπου"
 
 msgid "Download CA"
-msgstr "Λήψη"
+msgstr "Λήψη CA"
 
 #. machine-translated (2026-10), to be reviewed
 msgid "Download Certificate"
@@ -709,7 +709,7 @@ msgid "Interstitial ID"
 msgstr "Interstitial ID"
 
 msgid "Invoice N°"
-msgstr "Παραστατικά"
+msgstr "Αρ. παραστατικού"
 
 #. machine-translated (2026-10), to be reviewed
 msgid ""
@@ -912,7 +912,7 @@ msgid "Path to your Fullchain"
 msgstr "Διαδρομή προς την πλήρη αλυσίδα (Fullchain) σας"
 
 msgid "PayPal subscription is Active"
-msgstr "La suscripción está activada"
+msgstr "Η συνδρομή PayPal είναι ενεργή"
 
 #. machine-translated (2026-10), to be reviewed
 msgid ""
@@ -926,7 +926,7 @@ msgid ""
 msgstr "Αναβάθμιση τοποθεσιών! Νέα έκδοση με καλύτερη μηχανή αναζήτησης, κατηγορίες και επιλογές εμφάνισης."
 
 msgid "Plan"
-msgstr "Πακέτα"
+msgstr "Πακέτο"
 
 #. machine-translated (2026-10), to be reviewed
 msgid "Platform contact informations"
@@ -957,7 +957,7 @@ msgid "Publication request"
 msgstr "Αίτημα δημοσίευσης"
 
 msgid "Publication type"
-msgstr "Ημ/νία δημοσίευσης"
+msgstr "Τύπος δημοσίευσης"
 
 #. machine-translated (2026-10), to be reviewed
 msgid "REDUCE"
@@ -1095,7 +1095,7 @@ msgid "Subject"
 msgstr "Θέμα"
 
 msgid "Subscription date & time"
-msgstr "Συνδρομές"
+msgstr "Ημερομηνία και ώρα συνδρομής"
 
 #. machine-translated (2026-10), to be reviewed
 msgid "Sur quelles plateformes ?"
@@ -1135,7 +1135,7 @@ msgid "The folder & it's sub-folders have been removed!"
 msgstr "Ο φάκελος και οι υποφάκελοί του αφαιρέθηκαν!"
 
 msgid "The following folders are not writable: <br /> - %s"
-msgstr "Τα ακόλουθα αρχεία και φακέλοι δεν είναι εγγράψιμα: <br /> - %s"
+msgstr "Οι ακόλουθοι φάκελοι δεν είναι εγγράψιμοι: <br /> - %s"
 
 #. machine-translated (2026-10), to be reviewed
 msgid ""
@@ -1150,7 +1150,7 @@ msgid ""
 msgstr "Ο τύπος πρόσβασης δημοσίευσης μιας εφαρμογής καθορίζεται από τις ρυθμίσεις τύπου δημοσίευσης που έχουν οριστεί για τον δημιουργό της."
 
 msgid "The setup fee is not a valid price (e.g. 12.34"
-msgstr "La cuota de alta no es un precio válido (e.g. 12,34)"
+msgstr "Το τέλος εγκατάστασης δεν είναι έγκυρη τιμή (π.χ. 12.34)"
 
 #. machine-translated (2026-10), to be reviewed
 msgid "The splashscreen image"
@@ -1169,7 +1169,7 @@ msgid "The stripe subscription '%s' is missing!"
 msgstr "Η συνδρομή stripe '%s' λείπει!"
 
 msgid "The subscription '%s' doesn't exists!"
-msgstr "Αυτή η εφαρμογή δεν υπάρχει"
+msgstr "Η συνδρομή '%s' δεν υπάρχει!"
 
 #. machine-translated (2026-10), to be reviewed
 msgid "The subscription was already inactive or cancelled"
@@ -1253,7 +1253,7 @@ msgid "Two columns"
 msgstr "Δύο στήλες"
 
 msgid "URL (.mp3)"
-msgstr "URL (.mp3):"
+msgstr "URL (.mp3)"
 
 #. machine-translated (2026-10), to be reviewed
 msgid "Upgrade done!"
@@ -1482,7 +1482,7 @@ msgid "<a href=\"%s\">Click here</a> to go back to your applications list"
 msgstr "<a href=\"%s\">Κάντε κλικ εδώ</a> για να επιστρέψετε στη λίστα των εφαρμογών σας"
 
 msgid "<b>File type:</b> %s<br /><b>Recommended size:</b> %s"
-msgstr "<b>Τύποι αρχείων: </b> %s<br /><b>Tamaño recomendado:</b> %s"
+msgstr "<b>Τύπος αρχείου:</b> %s<br /><b>Προτεινόμενο μέγεθος:</b> %s"
 
 #. machine-translated (2026-10), to be reviewed
 msgid ""

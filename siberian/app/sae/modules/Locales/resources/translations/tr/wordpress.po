@@ -44,9 +44,7 @@ msgstr "Bir sorgu ekle"
 msgid ""
 "An error occurred while accessing your Wordpress website. Please, verify the "
 "domain name %s"
-msgstr ""
-"Wordpress web sitesine erişim sırasında bir hata oluştu. Alan adı%s kontrol "
-"edin"
+msgstr "WordPress web sitenize erişilirken bir hata oluştu. Lütfen %s alan adını kontrol edin"
 
 msgid "Ascending"
 msgstr "Artan"
@@ -55,10 +53,10 @@ msgid "Author"
 msgstr "Yazar"
 
 msgid "Cache lifetime (excluding pull to refresh)"
-msgstr "Süresiz Önbellek (sayfa yenileme hariç)"
+msgstr "Önbellek ömrü (çekip yenileme hariç)"
 
 msgid "Categories successfully saved"
-msgstr "Kategori başarıyla kaydedildi"
+msgstr "Kategoriler başarıyla kaydedildi"
 
 msgid "Click here to download our Wordpress plugin"
 msgstr "Wordpress eklentimizi indirmek için tıklayınız"
@@ -74,10 +72,10 @@ msgid "Descending"
 msgstr "Azalan"
 
 msgid "Enter your Wordpress URL:"
-msgstr "Wordpress URL'sini girin:"
+msgstr "WordPress URL'nizi girin:"
 
 msgid "Group all queries into a single list"
-msgstr "Tüm sorguları tek bir listeye ayır"
+msgstr "Tüm sorguları tek bir listede grupla"
 
 msgid "ID"
 msgstr "KİMLİK"
@@ -85,13 +83,10 @@ msgstr "KİMLİK"
 msgid ""
 "If your WordPress is secured by a login/password, and/or you want to display "
 "private posts you can set here a user to be used to retrieve posts."
-msgstr ""
-"WordPress'iniz bir giriş / şifre ile güvence altına alınmışsa ve / veya özel "
-"yayınları görüntülemek istiyorsanız, burada mesajları almak için "
-"kullanılacak bir kullanıcı ayarlayabilirsiniz."
+msgstr "WordPress'iniz bir kullanıcı adı/şifre ile korunuyorsa ve/veya özel yazıları göstermek istiyorsanız, yazıları almak için kullanılacak bir kullanıcıyı buradan ayarlayabilirsiniz."
 
 msgid "Loading categories"
-msgstr "Yükleme kategorileri"
+msgstr "Kategoriler yükleniyor"
 
 msgid "Manage WordPress"
 msgstr "WordPress yönet"
@@ -105,15 +100,13 @@ msgstr "Önbellek yok"
 msgid ""
 "Note: cache is automatically refreshed on any user pull to refresh action "
 "whatever the lifetime set."
-msgstr ""
-"Not: Önbellek, kullanım süresi ne olursa olsun eylemi yenilemek için "
-"herhangi bir kullanıcı sayfa yenileme işleminde otomatik olarak yenilenir."
+msgstr "Not: Ayarlanan geçerlilik süresi ne olursa olsun, kullanıcı her sayfa yenileme (pull to refresh) işleminde önbellek otomatik olarak yenilenir."
 
 msgid "Pages"
 msgstr "Sayfalar"
 
 msgid "Relevance"
-msgstr "Alaka"
+msgstr "Uygunluk"
 
 msgid "Show title & subtitle"
 msgstr "Başlığı & altyazıyı göster"
@@ -123,16 +116,16 @@ msgstr ""
 "Maalesef, WordPress'inizden herhangi bir kategori veya gönderi alamıyoruz."
 
 msgid "Sort by"
-msgstr "Sırala"
+msgstr "Sıralama ölçütü"
 
 msgid "Sort order"
 msgstr "Sıralama düzeni"
 
 msgid "Strip shortcodes"
-msgstr "Strip shortcodes"
+msgstr "Kısa kodları kaldır"
 
 msgid "Unable to find your WordPress or /wp-json/ endpoint."
-msgstr "WordPress yada  /wp-json/  son-nokta bulamadı."
+msgstr "WordPress veya /wp-json/ uç noktası bulunamadı."
 
 msgid "Unlimited (until any pull to refresh)"
 msgstr "Sınırsız (Sayfa yenilenene kadar)"
@@ -144,18 +137,16 @@ msgstr "Üzgünüz ama hiçbir kategori Wordpress web sitesinde tespit edilemedi
 msgid ""
 "We are sorry but our Wordpress plugin hasn't been detected on your website. "
 "Please be sure it is correctly installed and activated."
-msgstr ""
-"Üzgünüz ama bizim Wordpress eklentisi web sitenizde tespit edilmemiştir. "
-"Doğru yüklenmiş ve etkinleştirilmiş olduğundan emin olun."
+msgstr "Üzgünüz, ancak Wordpress eklentimiz web sitenizde tespit edilmedi. Lütfen doğru şekilde kurulduğundan ve etkinleştirildiğinden emin olun."
 
 msgid "WordPress URL"
 msgstr "WordPress URL"
 
 msgid "Wordpress"
-msgstr "Wordpress"
+msgstr "WordPress"
 
 msgid "You can mix posts & pages in the queries if needed."
-msgstr "Gerekirse sorgularda mesajları ve sayfaları karıştırabilirsiniz."
+msgstr "Gerekirse sorgularda gönderileri ve sayfaları karıştırabilirsiniz."
 
 msgid ""
 "You can mix posts & pages in the queries if needed, however it's not "

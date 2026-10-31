@@ -24,13 +24,13 @@ msgid "Add an option"
 msgstr "Bir seçenek ekle"
 
 msgid "An error occurred while saving. A field can't be identified."
-msgstr "Kaydedilirken bir hata oluştu. Bir alan tespit edilemedi."
+msgstr "Kaydedilirken bir hata oluştu. Bir alan tanımlanamadı."
 
 msgid "Are you sure you want to remove this field?"
-msgstr "Bu alanı kaldırmak istediğinizden eminmisiniz?"
+msgstr "Bu alanı kaldırmak istediğinizden emin misiniz?"
 
 msgid "Are you sure you want to remove this section?"
-msgstr "Bu bölümü kaldırmak istediğinizden eminmisiniz?"
+msgstr "Bu bölümü kaldırmak istediğinizden emin misiniz?"
 
 msgid "Checkbox"
 msgstr "Onay kutusu"
@@ -39,16 +39,16 @@ msgid "Choose a field type:"
 msgstr "Bir alan cinsi seçin:"
 
 msgid "Create a new field"
-msgstr "Yeni bir alan oluşturun"
+msgstr "Yeni bir alan oluştur"
 
 msgid "Date/Hour"
 msgstr "Tarih/Saat"
 
 msgid "Drop down"
-msgstr "Drop down"
+msgstr "Açılır liste"
 
 msgid "Edit field %s"
-msgstr "%s Alanını düzenle"
+msgstr "%s alanını düzenle"
 
 msgid "Field name"
 msgstr "Alan adı"
@@ -56,9 +56,7 @@ msgstr "Alan adı"
 msgid ""
 "Form data will be sent to this email. Until you fill out this field, your "
 "form won't be displayed on client side."
-msgstr ""
-"Form verisi bu e-postaya gönderilecektir. Bu alanı doldurana kadar, form "
-"istemci tarafında görüntülenmez."
+msgstr "Form verileri bu e-postaya gönderilecektir. Bu alanı doldurana kadar formunuz istemci tarafında görüntülenmez."
 
 msgid "Geolocation"
 msgstr "Coğrafi Konum"
@@ -67,10 +65,10 @@ msgid "Hello,"
 msgstr "Merhaba,"
 
 msgid "Import a picture"
-msgstr "Bir resim ekleyin"
+msgstr "Bir resim içe aktar"
 
 msgid "Import from Library"
-msgstr "Klasörden Aktar"
+msgstr "Kütüphaneden içe aktar"
 
 msgid "Manage fields"
 msgstr "Alanları yönet"
@@ -85,7 +83,7 @@ msgid "Option"
 msgstr "Seçenek"
 
 msgid "Radio"
-msgstr "Radio"
+msgstr "Radyo"
 
 msgid "Recipient email"
 msgstr "Alıcı e-posta"
@@ -103,28 +101,28 @@ msgid "Your app's form"
 msgstr "Uygulamanızın formu"
 
 msgid "Your form has been filled out, here are the answers:"
-msgstr "Formunuz dolduruldu,cevaplar burda:"
+msgstr "Formunuz dolduruldu, yanıtlar şöyle:"
 
 msgid "<strong>%s</strong> is not a numerical value<br />"
-msgstr "<strong>%s</strong> sayısal değer<br />"
+msgstr "<strong>%s</strong> sayısal bir değer değil<br />"
 
 msgid "<strong>%s</strong> is not valid email address<br />"
-msgstr "<strong>%s</strong> geçerli bir e-posta adresi<br />"
+msgstr "<strong>%s</strong> geçerli bir e-posta adresi değil<br />"
 
 msgid "<strong>%s</strong> is required<br />"
-msgstr "<strong>%s</strong>gereklidir<br />"
+msgstr "<strong>%s</strong> gereklidir<br />"
 
 msgid "<strong>%s</strong> must be a numerical value<br />"
 msgstr "<strong>%s</strong> numerik değer olmalı<br />"
 
 msgid "<strong>%s</strong> must be a valid date (e.g. dd/mm/yyyy)<br />"
-msgstr "<strong>%s</strong> Geçerli bir tarih olmalıdır (örk. gg/aa/yyyy)<br />"
+msgstr "<strong>%s</strong> geçerli bir tarih olmalıdır (örn. gg/aa/yyyy)<br />"
 
 msgid "<strong>%s</strong> must be a valid date<br />"
 msgstr "<strong>%s</strong> geçerli bir tarih olmalı<br />"
 
 msgid "<strong>%s</strong> must be a valid email address<br />"
-msgstr "<strong>%s</strong> geçerli email olmalı<br />"
+msgstr "<strong>%s</strong> geçerli bir e-posta adresi olmalı<br />"
 
 msgid "<strong>%s</strong> must be filled<br />"
 msgstr "<strong>%s</strong> doldurulmalı<br />"

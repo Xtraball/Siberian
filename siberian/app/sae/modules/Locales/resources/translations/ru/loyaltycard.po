@@ -25,7 +25,7 @@ msgid "1 validated point ="
 msgstr "1 подтверждённая метка ="
 
 msgid "An error occurred while retrieving QRCode. Please try again later"
-msgstr "Произошла ошибка при сохранении. Пожалуйста, повторите попытку позже"
+msgstr "Произошла ошибка при получении QR-кода. Пожалуйста, повторите попытку позже"
 
 msgid "An error occurred while saving the password. Please try again later"
 msgstr ""
@@ -41,20 +41,19 @@ msgstr ""
 "заполните все поля."
 
 msgid "An error occurred while validating point. Please try again later."
-msgstr ""
-"Произошла ошибка при проверке точку. Пожалуйста, повторите попытку позже."
+msgstr "Произошла ошибка при подтверждении метки. Пожалуйста, повторите попытку позже."
 
 msgid "An error occurred with your QRCode."
-msgstr "Произошла ошибка с вашим QR-кода."
+msgstr "Произошла ошибка с вашим QR-кодом."
 
 msgid "Card name"
-msgstr "Имя карточки"
+msgstr "Имя на карте"
 
 msgid "Congratulations"
-msgstr "Поздравляю"
+msgstr "Поздравляем"
 
 msgid "Current card"
-msgstr "Текущая метка"
+msgstr "Текущая карта"
 
 msgid "Delete this password?"
 msgstr "Удалить этот пароль?"
@@ -81,7 +80,7 @@ msgid "No cards available"
 msgstr "Нет доступных карт"
 
 msgid "Number of points"
-msgstr "Количество меток"
+msgstr "Количество баллов"
 
 msgid "Please enter a name"
 msgstr "Пожалуйста, введите имя"
@@ -91,7 +90,7 @@ msgstr "Пожалуйста, введите пароль"
 
 msgid ""
 "Please show your phone to the store person so that he enters his password"
-msgstr "Пожалуйста, покажите ваш телефон в магазине  продавцу, для ввода пароля"
+msgstr "Пожалуйста, покажите телефон сотруднику магазина, чтобы он ввёл свой пароль"
 
 msgid "Point active"
 msgstr "Балл активен"
@@ -109,10 +108,10 @@ msgid "Reward"
 msgstr "Вознаграждение"
 
 msgid "Rewards"
-msgstr "Вознаграждение"
+msgstr "Вознаграждения"
 
 msgid "Scan QRCode"
-msgstr "Сканировать Qrcode"
+msgstr "Сканировать QR-код"
 
 msgid "This card is uniq:"
 msgstr "Эта карта уникальна:"
@@ -124,7 +123,7 @@ msgid "Unreadable QRCode, sorry."
 msgstr "Нечитаемый QR-код, извините."
 
 msgid "Use only once?"
-msgstr "использовать только один раз"
+msgstr "Использовать только один раз?"
 
 msgid "We are sorry but this card is temporarily blocked"
 msgstr "Мы сожалеем, но эта карта временно заблокирована"
@@ -146,15 +145,13 @@ msgstr ""
 msgid ""
 "You have exceeded the number of attempts to validate points. Your card is "
 "locked for 24h"
-msgstr ""
-"Вы превысили количество попыток для проверки точек. Ваша карта будет "
-"заблокирована на 24 часа"
+msgstr "Вы превысили количество попыток подтверждения баллов. Ваша карта заблокирована на 24 часа"
 
 msgid "You just finished your card"
-msgstr "Вы только что закончили свою карту"
+msgstr "Вы только что заполнили свою карту"
 
 msgid "You must be logged in to validate points"
-msgstr "Вы должны войти в систему для проверки меток"
+msgstr "Вы должны войти в систему для подтверждения баллов"
 
 msgid "Your loyalty card has been saved successfully"
 msgstr "Ваша карта лояльности была успешно сохранена"
@@ -169,13 +166,13 @@ msgid "point"
 msgstr "метка"
 
 msgid "point to validate"
-msgstr "указывают для проверки"
+msgstr "метка для подтверждения"
 
 msgid "points to validate"
-msgstr "Метки для проверки"
+msgstr "метки для подтверждения"
 
 msgid "validated points ="
-msgstr "погашенные метки ="
+msgstr "подтверждённые баллы ="
 
 # GMT 1559644711.5246
 #. machine-translated (2026-10), to be reviewed

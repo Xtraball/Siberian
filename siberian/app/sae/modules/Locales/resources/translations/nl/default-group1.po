@@ -15,53 +15,48 @@ msgstr ""
 "X-Generator: Weblate 3.3\n"
 
 msgid " of the "
-msgstr " van\tde "
+msgstr " van de "
 
 msgid " setting."
 msgstr " instelling."
 
 msgid "1 An error occurred while saving. Please try again later."
-msgstr ""
-"1 er is Een fout opgetreden tijdens het opslaan. Probeer het later opnieuw."
+msgstr "1 Er is een fout opgetreden tijdens het opslaan. Probeer het later opnieuw."
 
 msgid "1An error occurred while saving. Please try again later."
-msgstr "1An fout opgetreden tijdens het opslaan. Probeer het later opnieuw."
+msgstr "1Er is een fout opgetreden tijdens het opslaan. Probeer het later opnieuw."
 
 msgid "2 An error occurred while saving. Please try again later."
-msgstr ""
-"2 er is Een fout opgetreden tijdens het opslaan. Probeer het later opnieuw."
+msgstr "2 Er is een fout opgetreden tijdens het opslaan. Probeer het later opnieuw."
 
 msgid "20,00 %"
 msgstr "20,00 %"
 
 msgid "2An error occurred while saving. Please try again later."
-msgstr "2een fout opgetreden tijdens het opslaan. Probeer het later opnieuw."
+msgstr "2Er is een fout opgetreden tijdens het opslaan. Probeer het later opnieuw."
 
 msgid "2Checkout subscription is inactive, tray again later."
-msgstr "2Checkout abonnement niet actief is, lade later opnieuw."
+msgstr "2Checkout-abonnement is niet actief, probeer het later opnieuw."
 
 msgid "3 An error occurred while saving. Please try again later."
-msgstr ""
-"3 er is Een fout opgetreden tijdens het opslaan. Probeer het later opnieuw."
+msgstr "3 Er is een fout opgetreden tijdens het opslaan. Probeer het later opnieuw."
 
 msgid "3An error occurred while saving. Please try again later."
-msgstr "3An fout opgetreden tijdens het opslaan. Probeer het later opnieuw."
+msgstr "3Er is een fout opgetreden tijdens het opslaan. Probeer het later opnieuw."
 
 msgid "403 Forbidden"
 msgstr "403 verboden"
 
 msgid "A new user just registered!"
-msgstr "Een nieuwe gebruiker geregistreerd!"
+msgstr "Er is zojuist een nieuwe gebruiker geregistreerd!"
 
 msgid ""
 "A user just made a new subscription on the Platform <b>%s</b>, for the "
 "Application <b>%s</b>."
-msgstr ""
-"Een gebruiker net een nieuw abonnement op het Platform <b>%s</b>, voor de "
-"Toepassing <b>%s</b>."
+msgstr "Een gebruiker heeft zojuist een nieuw abonnement afgesloten op het platform <b>%s</b>, voor de toepassing <b>%s</b>."
 
 msgid "A user registered on your Platform %s"
-msgstr "Een gebruiker geregistreerd op je Platform %s"
+msgstr "Een gebruiker heeft zich geregistreerd op uw platform %s"
 
 msgid "APK Generation"
 msgstr "APK Generatie"
@@ -70,7 +65,7 @@ msgid "APK build failed!"
 msgstr "APK bouwen is mislukt!"
 
 msgid "APK build succeed!"
-msgstr "APK bouwen slagen!"
+msgstr "APK-build geslaagd!"
 
 msgid "APK generation for App: %s"
 msgstr "APK generatie voor de App: %s"
@@ -79,13 +74,11 @@ msgid "Account Created"
 msgstr "Account Aangemaakt"
 
 msgid "Activate the user"
-msgstr "Het activeren van de gebruiker"
+msgstr "Gebruiker activeren"
 
 msgid ""
 "Activating or Deactivating a parent subscription will apply to it's childs."
-msgstr ""
-"Het activeren of Deactiveren van een ouder abonnement zal van toepassing "
-"zijn op het kind."
+msgstr "Het activeren of deactiveren van een bovenliggend abonnement is ook van toepassing op de onderliggende abonnementen."
 
 msgid "Activation"
 msgstr "Activering"
@@ -94,46 +87,40 @@ msgid "Activation of your Subscription!"
 msgstr "Activering van uw Abonnement!"
 
 msgid "Active subscriptions with remaining slots."
-msgstr "Actieve abonnementen met een resterende slots."
+msgstr "Actieve abonnementen met resterende slots."
 
 msgid "Add a region"
-msgstr "Voeg een regio"
+msgstr "Voeg een regio toe"
 
 msgid "Adding %s to SAN."
-msgstr "Het toevoegen van %s naar SAN."
+msgstr "%s toevoegen aan SAN."
 
 msgid "Admin Cancellation"
 msgstr "Admin Annulering"
 
 msgid "AdminId is required to save the Application."
-msgstr "AdminId is vereist voor de Toepassing opslaan."
+msgstr "AdminId is vereist om de toepassing op te slaan."
 
 msgid "Album:"
 msgstr "Album:"
 
 msgid "All sessions are now migrated to Redis."
-msgstr "Alle sessies worden nu gemigreerd naar Redis."
+msgstr "Alle sessies zijn nu gemigreerd naar Redis."
 
 msgid ""
 "An administrator of the Platform <b>%s</b>, activated your subscription for "
 "the Application <b>%s</b>"
-msgstr ""
-"De beheerder van het Platform <b>%s</b>, activeren van uw abonnement voor de "
-"Toepassing <b>%s</b>"
+msgstr "Een beheerder van het platform <b>%s</b> heeft uw abonnement voor de toepassing <b>%s</b> geactiveerd"
 
 msgid ""
 "An administrator of the Platform <b>%s</b>, cancelled your subscription for "
 "the Application <b>%s</b>"
-msgstr ""
-"De beheerder van het Platform <b>%s</b>, annulering van uw inschrijving voor "
-"de Toepassing <b>%s</b>"
+msgstr "Een beheerder van het platform <b>%s</b> heeft uw abonnement voor de toepassing <b>%s</b> geannuleerd"
 
 msgid ""
 "An administrator of the Platform <b>%s</b>, deactivated your subscription "
 "for the Application <b>%s</b>"
-msgstr ""
-"De beheerder van het Platform <b>%s</b>, gedeactiveerd uw abonnement voor de "
-"Toepassing <b>%s</b>"
+msgstr "Een beheerder van het platform <b>%s</b> heeft uw abonnement voor de toepassing <b>%s</b> gedeactiveerd"
 
 msgid "An error occured while adding the block."
 msgstr "Er is een fout opgetreden tijdens het toevoegen van het blok."
@@ -151,7 +138,7 @@ msgid "An error occurred when generating the apk"
 msgstr "Er is een fout opgetreden bij het genereren van de apk"
 
 msgid "An error occurred while hidding the Android Status Bar."
-msgstr "Er is een fout opgetreden tijdens het hidding de Android statusbalk."
+msgstr "Er is een fout opgetreden tijdens het verbergen van de Android-statusbalk."
 
 msgid "An error occurred while hidding the iOS Status Bar."
 msgstr "Er is een fout opgetreden tijdens het verbergen van de iOS Status Bar."
@@ -159,9 +146,7 @@ msgstr "Er is een fout opgetreden tijdens het verbergen van de iOS Status Bar."
 msgid ""
 "An error occurred while importing line %s : impossible to save the object. "
 "Please check your file format."
-msgstr ""
-"Er is een fout opgetreden tijdens het importeren van lijn %s : onmogelijk om "
-"het object op te slaan. Controleer uw bestand formaat."
+msgstr "Er is een fout opgetreden tijdens het importeren van regel %s: het object kan niet worden opgeslagen. Controleer het bestandsformaat."
 
 msgid "An error occurred while loading. Please, try again later."
 msgstr ""
@@ -184,13 +169,10 @@ msgstr ""
 "Probeer het later opnieuw."
 
 msgid "An error occurred while saving your page subtitle."
-msgstr ""
-"Er is een fout opgetreden tijdens het opslaan van uw pagina ondertiteling."
+msgstr "Er is een fout opgetreden tijdens het opslaan van uw paginaondertitel."
 
 msgid "An error occurred while saving your picture. Please try againg later."
-msgstr ""
-"Er is een fout opgetreden tijdens het opslaan van uw foto. Probeer againg "
-"later."
+msgstr "Er is een fout opgetreden tijdens het opslaan van uw foto. Probeer het later opnieuw."
 
 msgid "An error occurred while upload the APK. Please try again later."
 msgstr ""
@@ -198,9 +180,7 @@ msgstr ""
 "opnieuw."
 
 msgid "An error occurred while validating point<br />Please try again later."
-msgstr ""
-"Er is een fout opgetreden tijdens het valideren van punt<br />probeer het "
-"later opnieuw."
+msgstr "Er is een fout opgetreden tijdens het valideren van het punt<br />Probeer het later opnieuw."
 
 msgid "An unknown error occured."
 msgstr "Er is een onbekende fout opgetreden."
@@ -209,14 +189,12 @@ msgid "An unknown error occurred, please try again later."
 msgstr "Er is een onbekende fout opgetreden, probeer het later opnieuw."
 
 msgid "An unknown error occurred while listing applications."
-msgstr "Er is een onbekende fout opgetreden tijdens het notering toepassingen."
+msgstr "Er is een onbekende fout opgetreden tijdens het weergeven van de lijst met toepassingen."
 
 msgid ""
 "An user of the Platform <b>%s</b>, cancelled the subscription of the "
 "Application <b>%s</b>"
-msgstr ""
-"Een gebruiker van het Platform <b>%s</b>, geannuleerd, is de inschrijving "
-"van de Applicatie <b>%s</b>"
+msgstr "Een gebruiker van het platform <b>%s</b> heeft het abonnement op de applicatie <b>%s</b> geannuleerd"
 
 msgid "Android SDK is marked for update."
 msgstr "De Android SDK is gemarkeerd voor een update."
@@ -228,19 +206,19 @@ msgid "App ID:"
 msgstr "App-ID:"
 
 msgid "App Id is required!"
-msgstr "App-Id is verplicht!"
+msgstr "App-ID is verplicht!"
 
 msgid "App name:"
-msgstr "Naam App:"
+msgstr "App-naam:"
 
 msgid "Application id %s not found."
 msgstr "Toepassings-id %s niet gevonden."
 
 msgid "Application identifier:"
-msgstr "Applicatie herkenner:"
+msgstr "Applicatie-identificatie:"
 
 msgid "Application not found!"
-msgstr "Toepassing niet gevonden!!!"
+msgstr "Toepassing niet gevonden!"
 
 msgid "Application template successfully imported."
 msgstr "Toepassing sjabloon met succes ingevoerd."
@@ -258,7 +236,7 @@ msgid "Automatic Cancellation"
 msgstr "Automatische Annulering"
 
 msgid "Back button choice saved!"
-msgstr "Terug knop keuze gered!"
+msgstr "Keuze voor terugknop opgeslagen!"
 
 msgid "Background Color"
 msgstr "Achtergrond Kleur"
@@ -272,19 +250,14 @@ msgstr "Banner %s winkel label"
 msgid ""
 "Be aware that if the code you enter here requires any kind of server "
 "interaction it will not work properly in offline mode."
-msgstr ""
-"Wees ervan bewust dat als de code die u hier invoert, vereist enige vorm van-"
-"server interactie zal niet goed werken in offline modus."
+msgstr "Houd er rekening mee dat code die u hier invoert en enige vorm van serverinteractie vereist, niet goed werkt in offline modus."
 
 msgid ""
 "Before publishing your Application you must upload a homepage background."
-msgstr ""
-"Voor het publiceren van uw Aanvraag moet u het uploaden van een homepage "
-"achtergrond."
+msgstr "Voordat u uw applicatie publiceert, moet u een achtergrond voor de startpagina uploaden."
 
 msgid "Before publishing your Application you must upload a splashscreen."
-msgstr ""
-"Voor het publiceren van uw Aanvraag moet u het uploaden van een splashscreen."
+msgstr "Voordat u uw applicatie publiceert, moet u een splashscreen uploaden."
 
 msgid "Below you'll find important informations required in some services!"
 msgstr ""
@@ -298,76 +271,70 @@ msgid "Black"
 msgstr "Zwart"
 
 msgid "Booking details:"
-msgstr "Reservering details:"
+msgstr "Reserveringsdetails:"
 
 msgid "Border Color"
-msgstr "Kleur Rand"
+msgstr "Randkleur"
 
 msgid "Build Mobile Social Gaming"
-msgstr "Het Bouwen Van Mobile Social Gaming"
+msgstr "Mobile social gaming bouwen"
 
 msgid "Build failed"
 msgstr "Bouwen is mislukt"
 
 msgid "Build succeed"
-msgstr "Het bouwen van slagen"
+msgstr "Build geslaagd"
 
 msgid "CORE TEMPLATE"
 msgstr "CORE TEMPLATE"
 
 msgid "Cache cleared."
-msgstr "De Cache gewist."
+msgstr "Cache gewist."
 
 msgid "Cancel current Subscription"
-msgstr "Annuleren van de huidige Abonnement"
+msgstr "Huidig abonnement annuleren"
 
 msgid "Cancel subscription"
 msgstr "Opzeggen abonnement"
 
 msgid "Cancellation of your Subscription!"
-msgstr "Annulering van je Inschrijving!"
+msgstr "Annulering van uw abonnement!"
 
 msgid ""
 "Cancelling a child subscription will only affect the concerned application."
-msgstr ""
-"Het annuleren van een kind een abonnement heeft alleen gevolgen voor de "
-"betrokken toepassing."
+msgstr "Het annuleren van een onderliggend abonnement heeft alleen gevolgen voor de betreffende toepassing."
 
 msgid ""
 "Cancelling a paid subscription will mark it as cancelled, and the "
 "subscription will automatically expire on it's expiration date."
-msgstr ""
-"Het annuleren van een betaald abonnement zal gemarkeerd worden als "
-"geannuleerd, en het abonnement automatisch te vervallen op de vervaldatum."
+msgstr "Als u een betaald abonnement annuleert, wordt het als geannuleerd gemarkeerd en verloopt het automatisch op de vervaldatum."
 
 msgid "Cancelling a parent subscription will also cancel it's childs."
-msgstr "Het annuleren van een ouder abonnement zal ook annuleren ' s childs."
+msgstr "Het annuleren van een bovenliggend abonnement annuleert ook de onderliggende abonnementen."
 
 msgid "Cannot find application from token."
-msgstr "Niet van toepassing zijn van het token."
+msgstr "Kan de applicatie niet vinden aan de hand van het token."
 
 msgid "Cannot send APK build to service %s."
-msgstr "Verzenden geen APK bouwen service '%s'."
+msgstr "Kan APK-build niet naar service %s verzenden."
 
 msgid "Cannot send build to service %s."
-msgstr "Niet verzenden bouwen service '%s'."
+msgstr "Kan build niet naar service %s verzenden."
 
 msgid "Catalog not found!"
 msgstr "Catalogus niet gevonden!"
 
 msgid "Category has been deleted."
-msgstr "Categorie verwijderd is."
+msgstr "Categorie is verwijderd."
 
 msgid "Category not found!"
 msgstr "Categorie niet gevonden!"
 
 msgid "Category successfully deleted."
-msgstr "Categorie verwijderd."
+msgstr "Categorie succesvol verwijderd."
 
 msgid "Certificate renewal is disabled until %s due to rate limit hit."
-msgstr ""
-"Certificaat vernieuwing is uitgeschakeld tot %s door te beoordelen limiet "
-"geraakt."
+msgstr "Verlenging van het certificaat is uitgeschakeld tot %s omdat de limiet is bereikt."
 
 msgid "Change your homepage"
 msgstr "Wijzig uw startpagina"
@@ -376,7 +343,7 @@ msgid "Change your startup image"
 msgstr "Wijzig uw startbeeld"
 
 msgid "Check out our support pages:"
-msgstr "Bekijk onze ondersteuningspagina ' s:"
+msgstr "Bekijk onze ondersteuningspagina's:"
 
 msgid "Chef de projet"
 msgstr "Project Manager"
@@ -409,7 +376,7 @@ msgid "Created at:"
 msgstr "Gemaakt op:"
 
 msgid "Credentials successfully saved!"
-msgstr "Referenties met succes opgeslagen!"
+msgstr "Inloggegevens met succes opgeslagen!"
 
 msgid "Date and time:"
 msgstr "Datum en tijd:"
@@ -421,8 +388,7 @@ msgid "Deactivation of your Subscription!"
 msgstr "De deactivering van uw Abonnement!"
 
 msgid "Define how many applications can be activated with this Subscription"
-msgstr ""
-"Definiëren hoe veel toepassingen kan worden geactiveerd met dit Abonnement"
+msgstr "Bepaal hoeveel toepassingen met dit abonnement kunnen worden geactiveerd"
 
 msgid "Delete my account."
 msgstr "Mijn account verwijderen."
@@ -431,10 +397,10 @@ msgid "Delivery fees:"
 msgstr "Verzendkosten:"
 
 msgid "Delivery methods:"
-msgstr "Levering methoden:"
+msgstr "Leveringswijzen:"
 
 msgid "Delivery radius:"
-msgstr "Levering straal:"
+msgstr "Leveringsstraal:"
 
 msgid "Delivery time:"
 msgstr "Levertijd:"
@@ -443,52 +409,52 @@ msgid "Description:"
 msgstr "Beschrijving:"
 
 msgid "Disable this Subscription!"
-msgstr "Het uitschakelen van dit Abonnement!"
+msgstr "Dit abonnement uitschakelen!"
 
 msgid "Disabling cache can have significant performance impacts."
-msgstr "Het uitschakelen van de cache kan aanzienlijke prestaties-effecten."
+msgstr "Het uitschakelen van de cache kan aanzienlijke gevolgen hebben voor de prestaties."
 
 msgid "Distributeur logiciel"
-msgstr "Software distributeur"
+msgstr "Softwaredistributeur"
 
 msgid "Do not edit the following settings if your APK Generator is working!"
-msgstr "Bewerk de volgende instellingen als u uw APK-Generator werkt!"
+msgstr "Bewerk de volgende instellingen niet als uw APK-generator werkt!"
 
 msgid "Download QRCode for employee"
-msgstr "Download Fring voor de werknemer"
+msgstr "Download QRCode voor de werknemer"
 
 msgid "Download images archive"
-msgstr "Afbeeldingen downloaden archief"
+msgstr "Archief met afbeeldingen downloaden"
 
 msgid "Download template as"
-msgstr "Download sjabloon"
+msgstr "Sjabloon downloaden als"
 
 msgid "Download the APK !"
-msgstr "Download het APK !"
+msgstr "Download de APK !"
 
 msgid "Download the source archive !"
-msgstr "Download de broncode-archief !"
+msgstr "Download het broncodearchief !"
 
 msgid "Downloading your package."
-msgstr "Het downloaden van uw pakket."
+msgstr "Uw pakket wordt gedownload."
 
 msgid "Edit the account \"%s\""
-msgstr "Wijzig de account '%s'"
+msgstr "Wijzig het account \"%s\""
 
 msgid "Edit the plan"
-msgstr "Het bewerken van het plan"
+msgstr "Het plan bewerken"
 
 msgid "Employee's name"
 msgstr "Werknemer naam"
 
 msgid "Employee's password"
-msgstr "Medewerker wachtwoord"
+msgstr "Wachtwoord werknemer"
 
 msgid "Enable this Subscription!"
-msgstr "Het inschakelen van dit Abonnement!"
+msgstr "Dit abonnement inschakelen!"
 
 msgid "Error: unable to write Environment in config.php"
-msgstr "Fout: kan niet schrijven Omgeving config.php"
+msgstr "Fout: kan Omgeving niet naar config.php schrijven"
 
 msgid "Essayez gratuitement !"
 msgstr "Probeer het gratis!"
@@ -497,7 +463,7 @@ msgid "Expired on"
 msgstr "Vervallen op"
 
 msgid "Extension not allowed, '%s' only"
-msgstr "Extensie niet toegestaan, '%s' alleen"
+msgstr "Extensie niet toegestaan, alleen '%s'"
 
 msgid "Feature is now %s"
 msgstr "De functie is nu %s"
@@ -521,7 +487,7 @@ msgid "Firstname:"
 msgstr "Voornaam:"
 
 msgid "Fixed"
-msgstr "Vaste"
+msgstr "Vast"
 
 msgid "Folder not found!"
 msgstr "Map niet gevonden!"
@@ -539,10 +505,10 @@ msgid "Free plans have no expiration date."
 msgstr "Gratis plannen hebben geen vervaldatum."
 
 msgid "Free trial period duration must be a numeric value."
-msgstr "Gratis proefperiode duur moet een numerieke waarde."
+msgstr "De duur van de gratis proefperiode moet een numerieke waarde zijn."
 
 msgid "Galerie photos"
-msgstr "Galerie foto ' s"
+msgstr "Fotogalerij"
 
 msgid "Gallery has been deleted!"
 msgstr "De galerij is verwijderd!"
@@ -562,10 +528,10 @@ msgstr ""
 "Als uw credit card of abonnement is verlopen, kunt u een nieuw aanschaffen."
 
 msgid "Immobilier"
-msgstr "Onbeweeglijk"
+msgstr "Vastgoed"
 
 msgid "Import success."
-msgstr "Importeren succes."
+msgstr "Importeren geslaagd."
 
 msgid "Installed templates"
 msgstr "Geïnstalleerde sjablonen"
@@ -598,7 +564,7 @@ msgid "Lastname:"
 msgstr "Achternaam:"
 
 msgid "Let your users know what is locked."
-msgstr "Laat uw gebruikers weten wat goed is vergrendeld."
+msgstr "Laat uw gebruikers weten wat is vergrendeld."
 
 msgid "Linked to Subscription"
 msgstr "Gekoppeld aan Abonnement"
@@ -607,30 +573,28 @@ msgid "List of your taxes"
 msgstr "Lijst van uw belastingen"
 
 msgid "Listing produits"
-msgstr "Lijst produits"
+msgstr "Productlijst"
 
 msgid "Listing produits / tarifs"
-msgstr "Lijst produits / tarieven"
+msgstr "Productlijst / tarieven"
 
 msgid "Loading your white label editor."
-msgstr "Het laden van uw white label editor."
+msgstr "Uw white-labeleditor wordt geladen."
 
 msgid "MM/dd/y"
 msgstr "MM/dd/y"
 
 msgid "Main domain is required!"
-msgstr "Belangrijkste domein is vereist!"
+msgstr "Hoofddomein is vereist!"
 
 msgid "Main domain is required, you can set it in <b>Settings > General</b>"
-msgstr ""
-"Belangrijkste domein is vereist, kunt u deze in een <b>Instellingen > "
-"Algemeen</b>"
+msgstr "Het hoofddomein is vereist, u kunt het instellen in <b>Instellingen > Algemeen</b>"
 
 msgid "Major update disclaimer, confirmation required!"
 msgstr "Grote update disclaimer, bevestiging nodig!"
 
 msgid "Manifest rebuilt with succes."
-msgstr "Manifest herbouwd met succes."
+msgstr "Manifest met succes herbouwd."
 
 msgid "Message:"
 msgstr "Bericht:"
@@ -639,7 +603,7 @@ msgid "Message is required."
 msgstr "Bericht is verplicht."
 
 msgid "Migration done!"
-msgstr "Migratie gedaan!"
+msgstr "Migratie voltooid!"
 
 msgid "Minimum order:"
 msgstr "Minimale bestelling:"
@@ -681,10 +645,10 @@ msgid "Mode"
 msgstr "Mode"
 
 msgid "Mur de news"
-msgstr "Mur de nieuws"
+msgstr "Nieuwswand"
 
 msgid "Mur de news mobile"
-msgstr "Mur de mobiele nieuws"
+msgstr "Mobiele nieuwswand"
 
 msgid "My Subscriptions"
 msgstr "Mijn Abonnementen"
@@ -693,10 +657,10 @@ msgid "My subscriptions"
 msgstr "Mijn abonnementen"
 
 msgid "N.A."
-msgstr "N. A."
+msgstr "N.v.t."
 
 msgid "Name is required to save the Application."
-msgstr "Naam nodig om de Toepassing opslaan."
+msgstr "Naam is vereist om de toepassing op te slaan."
 
 msgid "National"
 msgstr "Nationaal"
@@ -705,19 +669,19 @@ msgid "New sale"
 msgstr "Nieuwe verkoop"
 
 msgid "New subscription on your Platform %s!"
-msgstr "Nieuw abonnement op uw Platform is %s!"
+msgstr "Nieuw abonnement op uw platform %s!"
 
 msgid "New user Account"
-msgstr "Nieuwe gebruiker"
+msgstr "Nieuw gebruikersaccount"
 
 msgid "Next payment date"
-msgstr "Volgende datum van betaling"
+msgstr "Volgende betaaldatum"
 
 msgid "No build."
-msgstr "Niet bouwen."
+msgstr "Geen build."
 
 msgid "No credentials found!"
-msgstr "Geen referenties gevonden!"
+msgstr "Geen inloggegevens gevonden!"
 
 msgid "No customers available."
 msgstr "Geen klanten beschikbaar."
@@ -741,43 +705,43 @@ msgid "Nos plateformes"
 msgstr "Onze platforms"
 
 msgid "Not a Yahoo weather request, aborting."
-msgstr "Niet een Yahoo weather verzoek, wordt afgebroken."
+msgstr "Geen Yahoo Weather-verzoek, wordt afgebroken."
 
 msgid "Notifications Push"
 msgstr "Push-Meldingen"
 
 msgid "Notifications Push en marque blanche"
-msgstr "Meldingen Push nl marque blanche"
+msgstr "Pushmeldingen en white label"
 
 msgid "Nous supportons toutes les plateformes"
 msgstr "We ondersteunen alle platforms"
 
 msgid "Number of Applications"
-msgstr "Aantal Aanvragen"
+msgstr "Aantal applicaties"
 
 msgid "Offline"
 msgstr "Offline"
 
 msgid "Only cancelled"
-msgstr "Alleen geannuleerd"
+msgstr "Alleen geannuleerde"
 
 msgid "OptiPNG:"
 msgstr "OptiPNG:"
 
 msgid "Option name:"
-msgstr "Optie naam:"
+msgstr "Optienaam:"
 
 msgid "Or purchase a new subscription"
-msgstr "Of de aankoop van een nieuw abonnement"
+msgstr "Of koop een nieuw abonnement"
 
 msgid "Order: "
-msgstr "van de "
+msgstr "Bestelling: "
 
 msgid "Order successfully saved saved."
-msgstr "Bestelling bewaart."
+msgstr "Bestelling succesvol opgeslagen."
 
 msgid "Overlay color"
-msgstr "Overlay kleur"
+msgstr "Overlaykleur"
 
 msgid "Owner"
 msgstr "Eigenaar"
@@ -786,7 +750,7 @@ msgid "Owner Cancellation"
 msgstr "Eigenaar Annulering"
 
 msgid "PEM Request generally takes 1 minute to complete."
-msgstr "PEM Aanvraag duurt over het algemeen 1 minuut te voltooien."
+msgstr "Een PEM-aanvraag duurt doorgaans 1 minuut."
 
 msgid "PHP SQLite3:"
 msgstr "PHP SQLite3:"
@@ -798,7 +762,7 @@ msgid "PROTECTED"
 msgstr "BESCHERMD"
 
 msgid "Partially saved."
-msgstr "Gedeeltelijk worden opgeslagen."
+msgstr "Gedeeltelijk opgeslagen."
 
 msgid "Password:"
 msgstr "Wachtwoord:"
@@ -806,19 +770,16 @@ msgstr "Wachtwoord:"
 msgid ""
 "PayPal is not configured in your Backoffice, recurrencies will not work "
 "correctly."
-msgstr ""
-"PayPal is niet geconfigureerd in uw Backoffice, recurrencies zal niet "
-"correct werken."
+msgstr "PayPal is niet geconfigureerd in uw Backoffice, terugkerende betalingen werken niet correct."
 
 msgid "PayPal subscription is %s."
 msgstr "PayPal abonnement is %s."
 
 msgid "Payment Information:"
-msgstr "Informatie Over De Betaling:"
+msgstr "Betalingsinformatie:"
 
 msgid "Payments are verified through their respective APIs."
-msgstr ""
-"Betalingen worden gecontroleerd door middel van hun respectieve Api ' s."
+msgstr "Betalingen worden gecontroleerd via de betreffende API's."
 
 msgid "Percentage"
 msgstr "Percentage"
@@ -827,7 +788,7 @@ msgid "Please correct the following errors <br>"
 msgstr "Corrigeer de volgende fouten <br>"
 
 msgid "Please enter a correct version for the %s app"
-msgstr "Gelieve een correct versie voor de %s app"
+msgstr "Vul een juiste versie in voor de %s-app"
 
 msgid "Please, enter a password."
 msgstr "Vul een wachtwoord in."
@@ -836,22 +797,22 @@ msgid "Please enter a valid date."
 msgstr "Vul een geldige datum in."
 
 msgid "Please fill iTunes Connect Credentials."
-msgstr "Vul iTunes Connect Referenties."
+msgstr "Vul de iTunes Connect-inloggegevens in."
 
 msgid "Please verify the "
-msgstr "Controleer of de "
+msgstr "Controleer de "
 
 msgid "Plesk from 12.0 to 17.0"
-msgstr "Plesk van 12,0 tot 17.0"
+msgstr "Plesk van 12.0 tot 17.0"
 
 msgid "Plus d'infos"
-msgstr "Plus d meer informatie"
+msgstr "Meer informatie"
 
 msgid "Postal code or city:"
 msgstr "Postcode of woonplaats:"
 
 msgid "Previous and/or Expired subscriptions"
-msgstr "Vorige en/of Verlopen abonnementen"
+msgstr "Vorige en/of verlopen abonnementen"
 
 msgid "Previous version"
 msgstr "Vorige versie"
@@ -860,7 +821,7 @@ msgid "Price:"
 msgstr "Prijs:"
 
 msgid "Product has been deleted."
-msgstr "Het Product is verwijderd."
+msgstr "Het product is verwijderd."
 
 msgid "Product name:"
 msgstr "Productnaam:"
@@ -881,16 +842,16 @@ msgid "Provider"
 msgstr "Aanbieder"
 
 msgid "Purchase a new subscription!"
-msgstr "De aankoop van een nieuw abonnement!"
+msgstr "Koop een nieuw abonnement!"
 
 msgid "Query successfully deleted."
-msgstr "Query verwijderd."
+msgstr "Query succesvol verwijderd."
 
 msgid "Question"
 msgstr "Vraag"
 
 msgid "RSS application mobile"
-msgstr "RSS-mobile"
+msgstr "RSS-mobiel"
 
 msgid "RSS/Atom"
 msgstr "RSS/Atom"
@@ -902,7 +863,7 @@ msgid "Reason:"
 msgstr "Reden:"
 
 msgid "Recipient email:"
-msgstr "Ontvanger e-mail:"
+msgstr "E-mailadres ontvanger:"
 
 msgid "Recurrent fee"
 msgstr "Terugkerende kosten"
@@ -911,59 +872,58 @@ msgid "Region"
 msgstr "Regio"
 
 msgid "Regular fee"
-msgstr "Regelmatig een vergoeding"
+msgstr "Reguliere kosten"
 
 msgid "Removing CRON Scheduler generator lock files."
-msgstr "Het verwijderen van CRON Planner generator lock-bestanden."
+msgstr "De lock-bestanden van de CRON Scheduler-generator worden verwijderd."
 
 msgid "Removing CRON Scheduler source lock files."
-msgstr "Het verwijderen van CRON Planner bron lock-bestanden."
+msgstr "De lock-bestanden van de bron van de CRON Scheduler worden verwijderd."
 
 msgid "Removing domain %s, domain in dot notation is not supported."
-msgstr ""
-"Het verwijderen van een domein %s, domein dot-notatie wordt niet ondersteund."
+msgstr "Domein %s wordt verwijderd, domeinen in puntnotatie worden niet ondersteund."
 
 msgid "Render Test"
 msgstr "Render Test"
 
 msgid "Request a new PEM certificate."
-msgstr "Het aanvragen van een nieuwe PEM-certificaat."
+msgstr "Een nieuw PEM-certificaat aanvragen."
 
 msgid "Reset to default Privacy Policy GDPR."
-msgstr "Reset naar standaard Privacy-Beleid GDPR."
+msgstr "Terugzetten naar het standaard privacybeleid (AVG)."
 
 msgid "Resize your picture:"
-msgstr "Verklein/vergroot uw afbeelding:"
+msgstr "Pas het formaat van uw afbeelding aan:"
 
 msgid "Safe in landscape"
-msgstr "Veilig in landschap"
+msgstr "Veilig in liggende stand"
 
 msgid "Safe in portrait"
-msgstr "Veilig in portret"
+msgstr "Veilig in staande stand"
 
 msgid "Safe zone overlay"
-msgstr "Veilige zone overlay"
+msgstr "Overlay veilige zone"
 
 msgid "Scan this QR Code:"
-msgstr "Scan deze QR-Code:"
+msgstr "Scan deze QR-code:"
 
 msgid "Scratchcard"
-msgstr "Kras kaart"
+msgstr "Kraskaart"
 
 msgid "Secret Key:"
 msgstr "Geheime sleutel:"
 
 msgid "Seems the appId is empty or invalid, aborting!"
-msgstr "Lijkt het appId is leeg of ongeldig is, af!"
+msgstr "De appId lijkt leeg of ongeldig te zijn, afgebroken!"
 
 msgid "Seems we could delete unwanted files, aborting!"
-msgstr "Lijkt konden we verwijderen van ongewenste bestanden, af!"
+msgstr "Het lijkt erop dat we ongewenste bestanden niet konden verwijderen, afgebroken!"
 
 msgid "Select a connection type:"
 msgstr "Selecteer een verbindingstype:"
 
 msgid "Select one of the available subscriptions with remaining slots"
-msgstr "Selecteer een van de beschikbare abonnementen met een resterende slots"
+msgstr "Selecteer een van de beschikbare abonnementen met resterende slots"
 
 msgid "Send your favicon"
 msgstr "Stuur uw favicon"
@@ -972,16 +932,16 @@ msgid "Send your logo"
 msgstr "Stuur uw logo"
 
 msgid "Service status / load"
-msgstr "De status van de dienst / belasting"
+msgstr "Servicestatus / belasting"
 
 msgid "Setting successfully saved."
-msgstr "Instelling met succes opgeslagen."
+msgstr "Instelling succesvol opgeslagen."
 
 msgid "Show applications removed from the editor."
 msgstr "Toon applicaties verwijderd uit de editor."
 
 msgid "Show child subscriptions"
-msgstr "Toon kind abonnementen"
+msgstr "Onderliggende abonnementen tonen"
 
 msgid "Signature:"
 msgstr "Handtekening:"
@@ -996,73 +956,70 @@ msgid "Social Gaming"
 msgstr "Social Gaming"
 
 msgid "Something went wrong while restoring files, process aborted!"
-msgstr ""
-"Er ging iets mis tijdens het terugzetten van bestanden, het proces "
-"afgebroken!"
+msgstr "Er is iets misgegaan tijdens het terugzetten van bestanden, het proces is afgebroken!"
 
 msgid "Sorry but an error occurred while duplicating your application."
-msgstr ""
-"Sorry, maar er is een fout opgetreden tijdens het dupliceren van uw aanvraag."
+msgstr "Sorry, er is een fout opgetreden tijdens het dupliceren van uw applicatie."
 
 msgid "Source type:"
-msgstr "Bron type:"
+msgstr "Brontype:"
 
 msgid "Sources Generation"
-msgstr "Bronnen Generatie"
+msgstr "Bronnen genereren"
 
 msgid "Sources are successfully restored."
-msgstr "Bronnen worden hersteld."
+msgstr "Bronnen zijn succesvol hersteld."
 
 msgid "Subscription: "
 msgstr "Abonnement: "
 
 msgid "Subscription date"
-msgstr "Inschrijving datum"
+msgstr "Abonnementsdatum"
 
 msgid "Subscription updated."
 msgstr "Abonnement is bijgewerkt."
 
 msgid "Successfully saved default project."
-msgstr "Met succes opgeslagen standaard project."
+msgstr "Standaardproject succesvol opgeslagen."
 
 msgid "Tax:"
-msgstr "Belastingen:"
+msgstr "Belasting:"
 
 msgid "Tax name:"
-msgstr "Belasting naam:"
+msgstr "Belastingnaam:"
 
 msgid "Tax rate:"
 msgstr "Belastingtarief:"
 
 msgid "Teams successfully refreshed!"
-msgstr "Teams met succes vernieuwd!"
+msgstr "Teams succesvol vernieuwd!"
 
 msgid "Telephone"
 msgstr "Telefoon"
 
 msgid "Temp cleared."
-msgstr "Temp gewist."
+msgstr "Temp is gewist."
 
 msgid "Test App"
 msgstr "Test App"
 
 msgid "Text Color"
-msgstr "Tekst Kleur"
+msgstr "Tekstkleur"
 
 msgid "Thanks for working with us!"
-msgstr "Bedankt voor het met ons samen te werken!"
+msgstr "Bedankt voor de samenwerking!"
 
 msgid "Thanks for your report."
-msgstr "Bedankt voor je verslag."
+msgstr "Bedankt voor uw rapport."
 
 msgid "Thanks for your subscription."
 msgstr "Bedankt voor uw inschrijving."
 
 msgid "The APK for the application %s has been generated !"
-msgstr "De APK voor de toepassing %s heeft opgeleverd !"
+msgstr "De APK voor de applicatie %s is gegenereerd !"
 
 msgid "The APK generation failed !"
-msgstr "De APK-generatie mislukt !"
+msgstr "De APK-generatie is mislukt !"
 
 msgid "The APK generation is done !"
 msgstr "De APK-generatie is klaar !"
@@ -1077,65 +1034,57 @@ msgid "The CNAME for the domain \"%s\" is not properly set"
 msgstr "De CNAME-record voor het domein \"%s\" is niet correct ingesteld"
 
 msgid "The Source code for the application %s has been generated !"
-msgstr "De Broncode voor de applicatie - %s is gegenereerd !"
+msgstr "De broncode voor de applicatie %s is gegenereerd !"
 
 msgid "The Source code generation failed !"
-msgstr "De Bron code-generatie mislukt !"
+msgstr "Het genereren van de broncode is mislukt !"
 
 msgid ""
 "The categories for line %s couldn't be created : no parent category found."
-msgstr ""
-"De categorieën voor de lijn %s kon niet worden gemaakt : geen categorie "
-"gevonden."
+msgstr "De categorieën voor regel %s konden niet worden aangemaakt: geen bovenliggende categorie gevonden."
 
 msgid ""
 "The categories for line %s couldn't be created : no root category found."
-msgstr ""
-"De categorieën voor de lijn %s kon niet worden gemaakt : geen root categorie "
-"gevonden."
+msgstr "De categorieën voor regel %s konden niet worden aangemaakt: geen hoofdcategorie gevonden."
 
 msgid "The categories for line %s couldn't be read."
-msgstr "De categorieën voor de lijn %s kon niet worden gelezen."
+msgstr "De categorieën voor regel %s konden niet worden gelezen."
 
 msgid "The data has been saved successfully"
 msgstr "De gegevens zijn succesvol opgeslagen"
 
 msgid ""
 "The entered package name is incorrect, it should be like: com.siberiancms.app"
-msgstr ""
-"De ingevoerde bundel ID onjuist, het zou hier op moeten lijken: "
-"com.siberiancms.app"
+msgstr "De ingevoerde pakketnaam is onjuist, deze zou er zo uit moeten zien: com.siberiancms.app"
 
 msgid "The feature you are trying to edit doesn't exists!"
 msgstr "De functie die u probeert te bewerken, bestaat niet!"
 
 msgid "The formats for line %s couldn't be read."
-msgstr "De indelingen voor de lijn %s kon niet worden gelezen."
+msgstr "De indelingen voor regel %s konden niet worden gelezen."
 
 msgid "The given template does not exists."
-msgstr "De gegeven sjabloon bestaat niet."
+msgstr "Het opgegeven sjabloon bestaat niet."
 
 msgid "The local APK generator requires %s"
-msgstr "De lokale APK generator vereist %s"
+msgstr "De lokale APK-generator vereist %s"
 
 msgid "The options for line %s couldn't be read."
-msgstr "De opties voor regel %s kon niet worden gelezen."
+msgstr "De opties voor regel %s konden niet worden gelezen."
 
 msgid "The options for line %s couldn't be saved."
-msgstr "De opties voor regel %s kon niet worden opgeslagen."
+msgstr "De opties voor regel %s konden niet worden opgeslagen."
 
 msgid ""
 "The overlay helps you check if important content and/or text on your "
 "homepage image is inside the safe boundaries."
-msgstr ""
-"De overlay kunt u controleren als belangrijke inhoud en/of tekst op uw "
-"homepage image is binnen de veilige grenzen."
+msgstr "De overlay helpt u te controleren of belangrijke inhoud en/of tekst op uw homepage-afbeelding binnen de veilige grenzen valt."
 
 msgid "The requested APK generation failed: %s"
-msgstr "De gevraagde APK-generatie mislukt: %s"
+msgstr "De gevraagde APK-generatie is mislukt: %s"
 
 msgid "The requested APK/Source generation failed !"
-msgstr "De gevraagde APK/Bron-generatie mislukt !"
+msgstr "De gevraagde APK-/brongeneratie is mislukt !"
 
 msgid "The search request is empty."
 msgstr "De zoekopdracht is leeg."
@@ -1144,13 +1093,13 @@ msgid "The selected subscription is not valid."
 msgstr "Het gekozen abonnement is niet geldig."
 
 msgid "The source generation is done !"
-msgstr "De bron generatie is klaar !"
+msgstr "De brongeneratie is klaar !"
 
 msgid "The subscription is cancelled!"
 msgstr "Het abonnement is geannuleerd!"
 
 msgid "The subscription is now active."
-msgstr "Dit abonnement is actief."
+msgstr "Het abonnement is nu actief."
 
 msgid "The subscription is now inactive."
 msgstr "Het abonnement is nu inactief."
@@ -1159,38 +1108,34 @@ msgid "The user doesn't exist."
 msgstr "De gebruiker bestaat niet."
 
 msgid "There is not corresponding release to restore from, process aborted!"
-msgstr "Er is geen bijbehorende release te herstellen, proces afgebroken!"
+msgstr "Er is geen bijbehorende release om van te herstellen, proces afgebroken!"
 
 msgid "This Application doesn't exists, aborting!"
-msgstr "Deze Toepassing niet bestaat, af!"
+msgstr "Deze applicatie bestaat niet, afgebroken!"
 
 msgid "This Application has some invoices associated, you can not delete it!"
-msgstr ""
-"Deze Applicatie heeft een aantal facturen verbonden, kunt u niet verwijderen!"
+msgstr "Aan deze applicatie zijn facturen gekoppeld, u kunt deze niet verwijderen!"
 
 msgid ""
 "This action is used to migrate all current active session into a Redis "
 "server instance, use this only with care if you want to migrate from MySQL "
 "session to Redis session storage."
-msgstr ""
-"Deze actie wordt gebruikt voor het migreren van alle huidige actieve sessie "
-"in een Redis server bijvoorbeeld, gebruik deze alleen als u wilt migreren "
-"van MySQL sessie Redis sessie opslag."
+msgstr "Deze actie wordt gebruikt om alle huidige actieve sessies te migreren naar een Redis-serverinstantie. Gebruik dit alleen met zorg als u wilt migreren van MySQL-sessieopslag naar Redis-sessieopslag."
 
 msgid "This admin can download application sources code."
-msgstr "Deze beheerder kan het downloaden van de applicatie bronnen code."
+msgstr "Deze beheerder kan de broncode van applicaties downloaden."
 
 msgid "This application does not belong to you."
-msgstr "Deze toepassing niet van jou is."
+msgstr "Deze applicatie is niet van u."
 
 msgid "This block type doesn't exists."
-msgstr "Dit blok type bestaat niet."
+msgstr "Dit bloktype bestaat niet."
 
 msgid "This feature is not ready yet. Please try again later."
 msgstr "Deze functie is nog niet klaar. Probeer het later opnieuw."
 
 msgid "This field is required."
-msgstr "Dit is een verplicht veld."
+msgstr "Dit veld is verplicht."
 
 msgid "This icon is not allowed!"
 msgstr "Dit pictogram is niet toegestaan!"
@@ -1198,33 +1143,28 @@ msgstr "Dit pictogram is niet toegestaan!"
 msgid ""
 "This is a child subscription, it is tied to a parent with 2 or more "
 "application slots."
-msgstr ""
-"Dit is een kind abonnement, het is niet gebonden aan een ouder met 2 of meer "
-"toepassing slots."
+msgstr "Dit is een onderliggend abonnement, het is gekoppeld aan een bovenliggend abonnement met 2 of meer applicatieslots."
 
 msgid "This is a demo version, these changes can't be saved."
-msgstr ""
-"Dit is een demo-versie van deze veranderingen kan niet worden opgeslagen."
+msgstr "Dit is een demoversie, deze wijzigingen kunnen niet worden opgeslagen."
 
 msgid "This is a demo version, you are not allowed to change the default role."
-msgstr ""
-"Dit is een demo versie, is het u niet toegestaan om de standaardinstelling "
-"te wijzigen rol."
+msgstr "Dit is een demoversie, u mag de standaardrol niet wijzigen."
 
 msgid "This is a demo version, you cannot deactive an user."
-msgstr "Dit is een demo-versie kunt u niet deactive een gebruiker."
+msgstr "Dit is een demoversie, u kunt een gebruiker niet deactiveren."
 
 msgid "This is a demo version, you cannot save these settings."
-msgstr "Dit is een demo-versie, u kan deze instellingen opslaan."
+msgstr "Dit is een demoversie, u kunt deze instellingen niet opslaan."
 
 msgid "This is a demo version, you can't download any source codes / APKs"
-msgstr "Dit is een demo-versie kunt u niet downloaden van de source codes / Apk"
+msgstr "Dit is een demoversie, u kunt geen broncodes/APK's downloaden"
 
 msgid "This is probably %s"
-msgstr "Waarschijnlijk is deze %s"
+msgstr "Dit is waarschijnlijk %s"
 
 msgid "This method is deprecated, please update!"
-msgstr "Deze methode is verouderd, please update!"
+msgstr "Deze methode is verouderd, werk bij!"
 
 msgid "This subscription does not exists!"
 msgstr "Dit abonnement bestaat niet!"
@@ -1233,17 +1173,15 @@ msgid "This subscription doesn't exists!"
 msgstr "Dit abonnement bestaat niet!"
 
 msgid "This subscription is cancelled, and will expire by <b>%s</b>."
-msgstr "Dit abonnement is geannuleerd en vervalt door <b>%s</b>."
+msgstr "Dit abonnement is geannuleerd en verloopt op <b>%s</b>."
 
 msgid ""
 "This template installer is not supported anymore, please refer to the "
 "documentation to update your installer."
-msgstr ""
-"Dit sjabloon installer niet meer ondersteund, raadpleegt u de documentatie "
-"wilt bijwerken met uw installateur."
+msgstr "Dit sjabloon-installatieprogramma wordt niet meer ondersteund, raadpleeg de documentatie om uw installatieprogramma bij te werken."
 
 msgid "This user does not exist."
-msgstr "Deze gebruiker niet bestaat."
+msgstr "Deze gebruiker bestaat niet."
 
 msgid "Tip: %s"
 msgstr "Tip: %s"
@@ -1252,7 +1190,7 @@ msgid "Title:"
 msgstr "Titel:"
 
 msgid "Touch To Call"
-msgstr "Contact Te Bellen"
+msgstr "Tik om te bellen"
 
 msgid "Translation in progress ... "
 msgstr "Vertaling in uitvoering ... "
@@ -1261,40 +1199,40 @@ msgid "UPGRADE NOW!"
 msgstr "UPGRADE NU!"
 
 msgid "Unable to cancel 2Checkout subscription, tray again later."
-msgstr "Niet in staat om te annuleren 2Checkout abonnement, lade later opnieuw."
+msgstr "Kan het 2Checkout-abonnement niet annuleren, probeer het later opnieuw."
 
 msgid "Unable to cancel PayPal subscription, tray again later."
-msgstr "Niet in staat om te annuleren PayPal abonnement, lade later opnieuw."
+msgstr "Kan het PayPal-abonnement niet annuleren, probeer het later opnieuw."
 
 msgid "Unable to fetch your application background images."
-msgstr "Niet in staat tot het ophalen van uw aanvraag achtergrond afbeeldingen."
+msgstr "Kan de achtergrondafbeeldingen van uw applicatie niet ophalen."
 
 msgid "Unable to find either folder or feature!"
-msgstr "Niet te vinden, hetzij map of functie!"
+msgstr "Kan de map of functie niet vinden!"
 
 msgid "Unable to find option."
-msgstr "Kan geen optie vinden."
+msgstr "Kan de optie niet vinden."
 
 msgid "Unable to find the corresponding build."
-msgstr "Niet te vinden in de overeenkomstige bouwen."
+msgstr "Kan de bijbehorende build niet vinden."
 
 msgid "Unable to find the order id!"
-msgstr "Niet in staat om de order-id!"
+msgstr "Kan het bestel-ID niet vinden!"
 
 msgid "Unable to load CMS Blocks without value_id."
-msgstr "Kan niet laden CMS Blokken zonder value_id."
+msgstr "Kan CMS-blokken niet laden zonder value_id."
 
 msgid "Unable to parse certificate."
-msgstr "Niet parseren certificaat."
+msgstr "Kan het certificaat niet parsen."
 
 msgid "Unable to retrieve 2Checkout subscription, tray again later."
-msgstr "Niet ophalen van 2Checkout abonnement, lade later opnieuw."
+msgstr "Kan het 2Checkout-abonnement niet ophalen, probeer het later opnieuw."
 
 msgid "Unable to update a user from here."
-msgstr "Kan een gebruiker van hier."
+msgstr "Een gebruiker kan hier niet worden bijgewerkt."
 
 msgid "Unauthorized access to feature."
-msgstr "Onbevoegde toegang tot hebben."
+msgstr "Onbevoegde toegang tot de functie."
 
 msgid "Unified homepage"
 msgstr "Unified homepage"
@@ -1318,54 +1256,50 @@ msgid "Upload your %s file below."
 msgstr "Upload uw %s-bestand hieronder."
 
 msgid "User: "
-msgstr "Gebruikers: "
+msgstr "Gebruiker: "
 
 msgid "User ID:"
 msgstr "Gebruikers-ID:"
 
 msgid "User cancelled his Subscription!"
-msgstr "Gebruiker geannuleerd zijn Abonnement!"
+msgstr "Gebruiker heeft zijn abonnement geannuleerd!"
 
 msgid "User email:"
-msgstr "Gebruiker e-mail:"
+msgstr "E-mailadres gebruiker:"
 
 msgid "User name"
-msgstr "Gebruiker naam"
+msgstr "Gebruikersnaam"
 
 msgid "Username:"
 msgstr "Gebruikersnaam:"
 
 msgid "View the Application"
-msgstr "De Toepassing bekijken"
+msgstr "De applicatie bekijken"
 
 msgid ""
 "We are sorry but our Wordpress plugin hasn't been detected on your website. "
 "Please be sure it is correctly installed and activated."
-msgstr ""
-"Het spijt ons, maar onze WordPress-plug-in is niet gevonden op uw website. "
-"Zorg ervoor dat het correct is geïnstalleerd en geactiveerd."
+msgstr "Helaas is onze WordPress-plug-in niet gevonden op uw website. Zorg ervoor dat deze correct is geïnstalleerd en geactiveerd."
 
 msgid "We are sorry but this nickname is already used."
-msgstr "Sorry, maar deze bijnaam is al gebruikt."
+msgstr "Helaas is deze bijnaam al in gebruik."
 
 msgid "We can't delete the only application from your installation."
-msgstr "We kunnen niet verwijderen van de enige toepassing van uw installatie."
+msgstr "We kunnen de enige applicatie van uw installatie niet verwijderen."
 
 msgid "We were unable to determine your %s version."
-msgstr "We waren niet in staat om te bepalen uw %s versie."
+msgstr "We konden uw %s-versie niet bepalen."
 
 msgid ""
 "We were unable to find your last payment for the subscription of the "
 "Application <b>%s</b>"
-msgstr ""
-"We waren niet in staat om te vinden van uw laatste betaling voor het "
-"abonnement van de Applicatie <b>%s</b>"
+msgstr "We konden uw laatste betaling voor het abonnement van de applicatie <b>%s</b> niet vinden"
 
 msgid "Website:"
 msgstr "Website:"
 
 msgid "Welcome on our Platform %s"
-msgstr "Welkom op ons Platform %s"
+msgstr "Welkom op ons platform %s"
 
 msgid "White"
 msgstr "Wit"
@@ -1377,184 +1311,156 @@ msgid "Yes, Delete!"
 msgstr "Ja, Verwijderen!"
 
 msgid "Yes, Proceed to update!"
-msgstr "Ja, Ga werken!"
+msgstr "Ja, ga door met de update!"
 
 msgid ""
 "You are about to cancel this subscription, the payments will be stopped, and "
 "the application will be disabled!<br />You can enter a customer message "
 "below to inform the Application owner!<br /><br />"
-msgstr ""
-"U bent over te annuleren dit abonnement, dan wordt de uitkering gestopt "
-"worden, en de toepassing zal uitgeschakeld worden.<br />kunt U een bericht "
-"van een klant hieronder om de Toepassing te informeren eigenaar!<br /><br />"
+msgstr "U staat op het punt dit abonnement te annuleren, de betalingen worden gestopt en de applicatie wordt uitgeschakeld!<br />U kunt hieronder een bericht voor de klant invoeren om de eigenaar van de applicatie te informeren!<br /><br />"
 
 msgid ""
 "You are about to update to version %s, this version introduces breaking "
 "changes in the platform,"
-msgstr ""
-"U gaat bijwerken naar versie %s is deze versie introduceert het breken van "
-"wijzigingen in het platform,"
+msgstr "U staat op het punt bij te werken naar versie %s. Deze versie introduceert ingrijpende wijzigingen in het platform,"
 
 msgid ""
 "You are going to love it!<br />Thanks to our effective features, you will be "
 "able to create great mobile apps in your name, within minutes."
-msgstr ""
-"Je gaat het prachtig vinden!<br/>Dankzij onze efficiënte functies zult u in "
-"staat zijn om geweldige mobiele apps te creëren in uw naam binnen enkele "
-"minuten."
+msgstr "U gaat het geweldig vinden!<br />Dankzij onze effectieve functies kunt u binnen enkele minuten prachtige mobiele apps maken onder uw eigen naam."
 
 msgid "You are not allowed to access this page"
-msgstr "Het is u niet toegestaan om toegang te krijgen tot deze pagina"
+msgstr "U hebt geen toegang tot deze pagina"
 
 msgid "You are not allowed to cancel child subscriptions."
-msgstr "Het is u niet toegestaan te annuleren kind abonnementen."
+msgstr "U mag onderliggende abonnementen niet annuleren."
 
 msgid "You are not allowed to cancel free subscriptions."
-msgstr "Het is u niet toegestaan te annuleren gratis abonnementen."
+msgstr "U mag gratis abonnementen niet annuleren."
 
 msgid "You are not allowed to cancel offline/paid subscriptions."
-msgstr "Het is u niet toegestaan te annuleren offline/betaalde abonnementen."
+msgstr "U mag offline/betaalde abonnementen niet annuleren."
 
 msgid "You are not allowed to cancel online/paid subscriptions."
-msgstr "Het is u niet toegestaan te annuleren online/betaalde abonnementen."
+msgstr "U mag online/betaalde abonnementen niet annuleren."
 
 msgid "You are not allowed to delete applications."
-msgstr "U bent niet toegestaan om te verwijderen toepassingen."
+msgstr "U mag applicaties niet verwijderen."
 
 msgid "You can activate <b>%s</b> more App%s"
 msgstr "U kunt activeren <b>%s</b> meer App - %s"
 
 msgid "You can contact your Administrator to get more informations."
-msgstr "U kunt contact opnemen met uw Beheerder om meer informatie."
+msgstr "U kunt contact opnemen met uw beheerder voor meer informatie."
 
 msgid "You can disable a template globally!"
-msgstr "U kunt uitschakelen van een sjabloon wereldwijd!"
+msgstr "U kunt een sjabloon globaal uitschakelen!"
 
 msgid "You can only edit offline subscriptions!"
-msgstr "U kunt alleen bewerken offline abonnementen!"
+msgstr "U kunt alleen offline abonnementen bewerken!"
 
 msgid "You can publish <b>up to %s Apps</b>"
-msgstr "U kunt publiceren <b>up-to %s Apps</b>"
+msgstr "U kunt <b>maximaal %s apps</b> publiceren"
 
 msgid "You cannot add a Folder feature inside a folder!"
-msgstr "U kunt toevoegen een Map binnen een map!"
+msgstr "U kunt geen mapfunctie toevoegen binnen een map!"
 
 msgid "You cannot change Firewall settings, it's a demo version."
-msgstr ""
-"Kunt u niet wijzigen van de instellingen van de Firewall, het is een demo-"
-"versie."
+msgstr "U kunt de firewallinstellingen niet wijzigen, het is een demoversie."
 
 msgid "You cannot change translation, it's a demo version."
-msgstr "Kunt u niet wijzigen vertaling, het is een demo-versie."
+msgstr "U kunt de vertaling niet wijzigen, het is een demoversie."
 
 msgid "You can't activate an online subscription!"
-msgstr "Je kan het niet activeren van een online abonnement!"
+msgstr "U kunt een online abonnement niet activeren!"
 
 msgid ""
 "You can't assign a role to this child role, this will break the hierarchy!"
-msgstr ""
-"Je kunt niet een rol toewijzen aan deze kind-rol, dit zal doorbreken van de "
-"hiërarchie!"
+msgstr "U kunt aan deze onderliggende rol geen rol toewijzen, dit zou de hiërarchie verbreken!"
 
 msgid "You can't deactivate an online subscription!"
-msgstr "Kunt u niet deactiveren van een online abonnement!"
+msgstr "U kunt een online abonnement niet deactiveren!"
 
 msgid "You can't go back to Angular."
-msgstr "Je kunt niet meer terug te Hoekig."
+msgstr "U kunt niet meer terug naar Angular."
 
 msgid "You can't go back with Angular."
-msgstr "U kunt niet terug gaan met Hoekige."
+msgstr "U kunt niet terug met Angular."
 
 msgid "You don't have any plans yet"
-msgstr "Je hoeft niet alle plannen nog"
+msgstr "U hebt nog geen plannen"
 
 msgid "You don't have created any taxes yet"
-msgstr "Je niet hebt gemaakt, eventuele belastingen nog"
+msgstr "U hebt nog geen belastingen aangemaakt"
 
 msgid ""
 "You have exceeded the number of attempts to validate points.<br />Your card "
 "is locked for 24h"
-msgstr ""
-"Overschrijding van het aantal pogingen om te valideren punten.<br />Uw kaart "
-"is geblokkeerd voor 24 uur"
+msgstr "U hebt het aantal pogingen om punten te valideren overschreden.<br />Uw kaart is 24 uur geblokkeerd"
 
 msgid "You have no subscription."
-msgstr "Je hebt geen abonnement."
+msgstr "U hebt geen abonnement."
 
 msgid ""
 "You have no subscription with free slots, please proceed to a new purchase."
-msgstr ""
-"Heb je geen abonnement met gratis slots, gaat u naar een nieuwe aankoop."
+msgstr "U hebt geen abonnement met vrije slots, ga over tot een nieuwe aankoop."
 
 msgid "You have no users."
-msgstr "Je hebt geen gebruikers."
+msgstr "U hebt geen gebruikers."
 
 msgid "You have no whitelabel yet."
-msgstr "Je hebt geen whitelabel nog."
+msgstr "U hebt nog geen white label."
 
 msgid "You have received a publication request:"
-msgstr "U hebt ontvangen een publicatie aanvraag:"
+msgstr "U hebt een publicatieaanvraag ontvangen:"
 
 msgid ""
 "You manually handle the payments via check, cash, etc... and activations/"
 "deactivations."
-msgstr ""
-"Je handmatig verwerken van de betalingen via cheque, contant geld, etc... en "
-"activaties/deactiveringen."
+msgstr "U verwerkt de betalingen handmatig via cheque, contant geld, enz. en ook de activaties/deactiveringen."
 
 msgid "You must be connected to create a post!"
-msgstr "U moet verbonden zijn om een post te maken!"
+msgstr "U moet verbonden zijn om een bericht te plaatsen!"
 
 msgid "You must select a subscription!"
-msgstr "Moet u een abonnement!"
+msgstr "U moet een abonnement selecteren!"
 
 msgid "You must select an existing subscription!"
-msgstr "Moet u een bestaand abonnement!"
+msgstr "U moet een bestaand abonnement selecteren!"
 
 msgid ""
 "You must set a Google Maps API Key in <b>Settings > Advanced</b> in order to "
 "use this feature."
-msgstr ""
-"U moet een Google Maps API Key in <b>Instellingen > Geavanceerd</b> om deze "
-"functie te gebruiken."
+msgstr "U moet een Google Maps API-sleutel instellen in <b>Instellingen > Geavanceerd</b> om deze functie te gebruiken."
 
 msgid "You must upgrade Java to 1.8"
-msgstr "U moet een upgrade uitvoeren van Java-1,8"
+msgstr "U moet Java upgraden naar 1.8"
 
 msgid ""
 "You will disable the current Application subscription!<br />You can enter a "
 "customer message below to inform the Application owner!<br /><br />"
-msgstr ""
-"U schakelt de huidige Toepassing abonnement!<br />kunt U een bericht van een "
-"klant hieronder om de Toepassing te informeren eigenaar!<br /><br />"
+msgstr "U schakelt het huidige applicatieabonnement uit!<br />U kunt hieronder een bericht voor de klant invoeren om de eigenaar van de applicatie te informeren!<br /><br />"
 
 msgid ""
 "You will enable the current Application subscription!<br />You can enter a "
 "customer message below to inform the Application owner!<br /><br />"
-msgstr ""
-"U in staat zal stellen de huidige Toepassing abonnement!<br />kunt U een "
-"bericht van een klant hieronder om de Toepassing te informeren eigenaar!<br "
-"/><br />"
+msgstr "U schakelt het huidige applicatieabonnement in!<br />U kunt hieronder een bericht voor de klant invoeren om de eigenaar van de applicatie te informeren!<br /><br />"
 
 msgid "Your APK is being generated. Please come back in a few minutes."
-msgstr "Uw APK wordt gegenereerd. Kom terug in een paar minuten."
+msgstr "Uw APK wordt gegenereerd. Kom over enkele minuten terug."
 
 msgid ""
 "Your PHP version %s is not supported, PHP versions from 5.6 to 7.0 are "
 "supported."
-msgstr ""
-"Uw PHP versie %s wordt niet ondersteund, PHP versies van 5.6 7.0 worden "
-"ondersteund."
+msgstr "Uw PHP-versie %s wordt niet ondersteund, PHP-versies van 5.6 tot 7.0 worden ondersteund."
 
 msgid ""
 "Your account doesn't exists on editor side. Please create it before using "
 "tour edition."
-msgstr ""
-"Uw account niet bestaat op editor kant. Maak alvorens het te gebruiken tour "
-"edition."
+msgstr "Uw account bestaat niet aan de editorzijde. Maak het aan voordat u de tourbewerking gebruikt."
 
 msgid "Your application has been successfully added to your subscription!"
-msgstr "Uw aanvraag is met succes toegevoegd aan uw abonnement!"
+msgstr "Uw applicatie is succesvol toegevoegd aan uw abonnement!"
 
 msgid "Your %s version is %s."
 msgstr "Uw %s versie is %s."
@@ -1563,20 +1469,19 @@ msgid "Your subscription expired!"
 msgstr "Uw abonnement is verlopen!"
 
 msgid "Your subscription was automatically cancelled."
-msgstr "Het abonnement automatisch geannuleerd."
+msgstr "Uw abonnement is automatisch geannuleerd."
 
 msgid "Your subscription was manually cancelled."
-msgstr "Uw abonnement handmatig is geannuleerd."
+msgstr "Uw abonnement is handmatig geannuleerd."
 
 msgid "Zip Code:"
-msgstr "Zip Code:"
+msgstr "Postcode:"
 
 msgid "Zone overlay"
-msgstr "Zone overlay"
+msgstr "Zone-overlay"
 
 msgid "<b>Danger zone</b>: below you can definitively delete your account."
-msgstr ""
-"<b>Gevarenzone</b>: hieronder kunt u definitief verwijderen van uw account."
+msgstr "<b>Gevarenzone</b>: hieronder kunt u uw account definitief verwijderen."
 
 msgid ""
 "<b>Warning:</b> translation API is experimental for the current language and "
@@ -1588,15 +1493,13 @@ msgstr ""
 msgid ""
 "before updating we strongly advise you to read the release note and the "
 "following document."
-msgstr ""
-"voordat u gaat updaten wij adviseren u voor het lezen van de release note en "
-"het volgende document."
+msgstr "voordat u gaat updaten, raden wij u sterk aan de release notes en het volgende document te lezen."
 
 msgid "<b>%s</b> is not supported with the current currency <b>%s</b>!"
 msgstr "<b>%s</b> wordt niet ondersteund met de huidige valuta <b>%s</b>!"
 
 msgid "dismiss"
-msgstr "Sluiten"
+msgstr "negeren"
 
 msgid "home/features/admin_marque_blanche.png"
 msgstr "home/features/admin_marque_blanche.png"
@@ -1605,19 +1508,19 @@ msgid "home/features/appel_en_un_clique.png"
 msgstr "home/features/appel_en_un_clique.png"
 
 msgid "home/features/geolocalisation.png"
-msgstr "home/features/geolocalisatie.png"
+msgstr "home/features/geolocalisation.png"
 
 msgid "home/features/listing_produits.png"
 msgstr "home/features/listing_produits.png"
 
 msgid "iOS Descriptions saved!"
-msgstr "iOS Beschrijvingen opgeslagen!"
+msgstr "iOS-beschrijvingen opgeslagen!"
 
 msgid "iPhone X:"
-msgstr "iPhone-X:"
+msgstr "iPhone X:"
 
 msgid "password"
-msgstr "Wachtwoord"
+msgstr "wachtwoord"
 
 msgid "%s Image%s"
 msgstr "%s Afbeelding%s"
@@ -1626,4 +1529,4 @@ msgid "%s %s"
 msgstr "%s %s"
 
 msgid "you know it!"
-msgstr "je weet het!"
+msgstr "u weet het!"

@@ -18,7 +18,7 @@ msgid "Albums"
 msgstr "एल्बम"
 
 msgid "An error occurred while deleting you images gallery. Please try again later."
-msgstr "आप छवियों गैलरी को हटाने के दौरान एक त्रुटि हुई। कृपया बाद में पुन: प्रयास करें।"
+msgstr "आपकी छवि गैलरी को हटाते समय एक त्रुटि हुई। कृपया बाद में पुनः प्रयास करें।"
 
 msgid "An error occurred while deleting your album. Thanks for trying later."
 msgstr "अपने एल्बम को हटाने के दौरान एक त्रुटि हुई। बाद में कोशिश करने के लिए धन्यवाद।"
@@ -45,19 +45,19 @@ msgid "An error occurred while retrieving your page. Please check your page id."
 msgstr "आपके पृष्ठ को पुनर्प्राप्त करते समय एक त्रुटि हुई। कृपया अपने पेज आईडी की जांच करें।"
 
 msgid "An error occurred while saving your images gallery. Please try again later."
-msgstr "अपनी छवियों गैलरी को बचाने के दौरान एक त्रुटि हुई। कृपया बाद में पुन: प्रयास करें।"
+msgstr "आपकी छवि गैलरी को सहेजते समय एक त्रुटि हुई। कृपया बाद में पुनः प्रयास करें।"
 
 msgid "An error occurred while saving your playlist. Thanks for trying later."
 msgstr "अपनी प्लेलिस्ट को सहेजते समय एक त्रुटि हुई। बाद में कोशिश करने के लिए धन्यवाद।"
 
 msgid "An error occurred while saving your videos gallery. Please try again later."
-msgstr "आपके वीडियो गैलरी को सहेजते समय एक त्रुटि हुई। कृपया बाद में पुन: प्रयास करें।"
+msgstr "आपकी वीडियो गैलरी को सहेजते समय एक त्रुटि हुई। कृपया बाद में पुनः प्रयास करें।"
 
 msgid "Are you sure you don't want to create an album for these tracks?"
-msgstr "क्या आप वाकई इन पटरियों के लिए एक एल्बम बनाने के लिए नहीं करना चाहते हैं?"
+msgstr "क्या आप वाकई इन ट्रैक के लिए एल्बम नहीं बनाना चाहते हैं?"
 
 msgid "Are you sure you don't want to create an album for this track?"
-msgstr "क्या आप वाकई इस ट्रैक के लिए एक एल्बम बनाने के लिए नहीं करना चाहते हैं?"
+msgstr "क्या आप वाकई इस ट्रैक के लिए एल्बम नहीं बनाना चाहते हैं?"
 
 msgid "Are you sure you want to delete this album?"
 msgstr "क्या आप वाकई इस एल्बम को हटाना चाहते हैं?"
@@ -123,13 +123,13 @@ msgid "I'm listening to $1 on $2 app."
 msgstr "मैं $2 ऐप पर $1 सुन रहा हूं।"
 
 msgid "Images gallery has been saved successfully"
-msgstr "छवियाँ गैलरी सफलतापूर्वक बचाया गया है"
+msgstr "छवि गैलरी सफलतापूर्वक सहेजी गई है"
 
 msgid "Instagram"
 msgstr "इंस्टाग्राम"
 
 msgid "Instagram API settings can't be found."
-msgstr "Instagram एपीआई सेटिंग्स नहीं मिल सकता है।"
+msgstr "Instagram API सेटिंग्स नहीं मिल सकीं।"
 
 msgid "Last update:"
 msgstr "अंतिम अपडेट:"
@@ -138,7 +138,7 @@ msgid "Login"
 msgstr "लॉग इन करें"
 
 msgid "Maximum size : 2000*2000 px - Allowed filetypes : jpg and png"
-msgstr "अधिकतम आकार: 2000* 2000 पीएक्स - अनुमत फ़ाइल प्रकार: जेपीजी और पीएनजी"
+msgstr "अधिकतम आकार: 2000*2000 px - अनुमत फ़ाइल प्रकार: jpg और png"
 
 msgid "My images"
 msgstr "मेरे चित्र"
@@ -150,16 +150,16 @@ msgid "No artist found"
 msgstr "कोई कलाकार नहीं मिला"
 
 msgid "No current stream to play so far."
-msgstr "अब तक खेलने के लिए कोई वर्तमान धारा नहीं है।"
+msgstr "अब तक चलाने के लिए कोई वर्तमान स्ट्रीम नहीं है।"
 
 msgid "No track found"
 msgstr "कोई ट्रैक नहीं मिला"
 
 msgid "No valid Facebook API key and secret."
-msgstr "कोई वैध फेसबुक एपीआई कुंजी और गुप्त नहीं है।"
+msgstr "Facebook API कुंजी और सीक्रेट मान्य नहीं हैं।"
 
 msgid "PLAYER"
-msgstr "खिलाड़ी"
+msgstr "प्लेयर"
 
 msgid "Page ID"
 msgstr "पृष्ठ ID"
@@ -180,7 +180,7 @@ msgid "Playlist"
 msgstr "प्लेलिस्ट"
 
 msgid "Playlist successfully saved."
-msgstr "प्लेलिस्ट सफलतापूर्वक बचाया।"
+msgstr "प्लेलिस्ट सफलतापूर्वक सहेजी गई।"
 
 msgid "Playlist title:"
 msgstr "प्लेलिस्ट शीर्षक:"
@@ -219,16 +219,16 @@ msgid "Track"
 msgstr "ट्रैक"
 
 msgid "Tracks"
-msgstr "पटरियों"
+msgstr "ट्रैक"
 
 msgid "Type"
-msgstr "टाइप करें"
+msgstr "प्रकार"
 
 msgid "URL (.mp3):"
 msgstr "यूआरएल (.mp3):"
 
 msgid "Videos gallery has been saved successfully"
-msgstr "वीडियो गैलरी सफलतापूर्वक बचाया गया है"
+msgstr "वीडियो गैलरी सफलतापूर्वक सहेजी गई है"
 
 msgid "Vimeo"
 msgstr "Vimeo"
@@ -237,7 +237,7 @@ msgid "buy"
 msgstr "खरीदते हैं"
 
 msgid "by"
-msgstr "पास"
+msgstr "द्वारा"
 
 msgid "close"
 msgstr "करीब है"
@@ -249,7 +249,7 @@ msgid "from"
 msgstr "से"
 
 msgid "hide"
-msgstr "छिपाने के लिए"
+msgstr "छिपाएं"
 
 msgid "loop"
 msgstr "लूप"
@@ -258,34 +258,34 @@ msgid "music"
 msgstr "संगीत"
 
 msgid "next"
-msgstr "अगले"
+msgstr "अगला"
 
 msgid "on"
 msgstr "पर"
 
 msgid "pause"
-msgstr "थामने"
+msgstr "रोकें"
 
 msgid "play"
-msgstr "खेलना"
+msgstr "चलाएं"
 
 msgid "previous"
 msgstr "पिछले"
 
 msgid "%s by %s"
-msgstr "%s द्वारा%s"
+msgstr "%s द्वारा %s"
 
 msgid "share"
 msgstr "शेयर"
 
 msgid "shuffle"
-msgstr "फेरबदल"
+msgstr "शफ़ल"
 
 msgid "track"
 msgstr "ट्रैक"
 
 msgid "tracks"
-msgstr "पटरियों"
+msgstr "ट्रैक"
 
 # GMT 1559644712.9775
 #. machine-translated (2026-10), to be reviewed

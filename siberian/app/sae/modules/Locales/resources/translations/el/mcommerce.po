@@ -23,7 +23,7 @@ msgid ": activate to sort column descending"
 msgstr ": ενεργοποιήστε για φθίνουσα ταξινόμηση στήλης"
 
 msgid "1 points ="
-msgstr "1 πόντος"
+msgstr "1 πόντος ="
 
 msgid "20.00%"
 msgstr "20.00%"
@@ -33,7 +33,7 @@ msgid "Add Discount"
 msgstr "Προσθήκη έκπτωσης"
 
 msgid "Add a format"
-msgstr "Προσθήκη επιλογής"
+msgstr "Προσθήκη μορφής"
 
 #. machine-translated (2026-10), to be reviewed
 msgid "Add card"
@@ -70,7 +70,7 @@ msgid "An error occurred during the payment process."
 msgstr "Παρουσιάστηκε σφάλμα κατά τη διαδικασία πληρωμής."
 
 msgid "An error occurred while cancelling. Please try again later."
-msgstr "Υπήρξε σφάλμα κατά την αποθήκευση. Παρακαλούμε δοκιμάστε ξανά αργότερα."
+msgstr "Υπήρξε σφάλμα κατά την ακύρωση. Παρακαλούμε δοκιμάστε ξανά αργότερα."
 
 msgid ""
 "An error occurred while proceeding the payment. Please, try again later."
@@ -79,7 +79,7 @@ msgstr ""
 "αργότερα."
 
 msgid "An error occurred while proceeding your order:"
-msgstr "Υπηρξε σφάλμα κατά την φόρτωση του προϊόντος σας."
+msgstr "Υπήρξε σφάλμα κατά την επεξεργασία της παραγγελίας σας:"
 
 msgid ""
 "An error occurred while proceeding your order. Please, check the following "
@@ -133,7 +133,7 @@ msgid "Card Number"
 msgstr "Αριθμός κάρτας"
 
 msgid "Carry Out"
-msgstr "Ταμείο"
+msgstr "Παραλαβή"
 
 msgid "Cart"
 msgstr "Καλάθι"
@@ -157,7 +157,7 @@ msgid "Choose a payment method:"
 msgstr "Επιλέξτε τρόπο πληρωμής:"
 
 msgid "Choose a store"
-msgstr "Δημιουργία καταστήματος"
+msgstr "Επιλέξτε κατάστημα"
 
 msgid "City"
 msgstr "Πόλη"
@@ -257,7 +257,7 @@ msgid "Delivery Method"
 msgstr "Τρόπος αποστολής"
 
 msgid "Delivery address"
-msgstr "Περιοχή παράδοσης"
+msgstr "Διεύθυνση παράδοσης"
 
 msgid "Delivery area"
 msgstr "Περιοχή παράδοσης"
@@ -376,10 +376,10 @@ msgid "Edit the choice list group"
 msgstr "Επεξεργασία ομάδας λίστας επιλογών"
 
 msgid "Edit the discount %s"
-msgstr "Επεξεργασία προϊόντος %s"
+msgstr "Επεξεργασία της έκπτωσης %s"
 
 msgid "Edit the options group %s"
-msgstr "Επεξεργασία ομάδας ρυθμίσεων %s"
+msgstr "Επεξεργασία ομάδας επιλογών %s"
 
 msgid "Edit the product %s"
 msgstr "Επεξεργασία προϊόντος %s"
@@ -413,7 +413,7 @@ msgid "Firstname"
 msgstr "Όνομα"
 
 msgid "Format:"
-msgstr "Επιλογή"
+msgstr "Μορφή:"
 
 msgid "Free delivery starting from"
 msgstr "Δωρεάν μεταφορικά από"
@@ -493,7 +493,7 @@ msgid "MM"
 msgstr ""
 
 msgid "Manage discounts"
-msgstr "Διαχειριση εικονιδίων"
+msgstr "Διαχείριση εκπτώσεων"
 
 msgid "Manage user fields"
 msgstr "Διαχείριση πεδίων"
@@ -555,7 +555,7 @@ msgid "My taxes"
 msgstr "Οι φόροι μου"
 
 msgid "Name of the options group:"
-msgstr "Ονομασία ομάδας ρυθμίσεων:"
+msgstr "Ονομασία ομάδας επιλογών:"
 
 msgid "New order from the application"
 msgstr "Νέα παραγγελία από την εφαρμογή σας"
@@ -590,13 +590,13 @@ msgid "Optional"
 msgstr "Προαιρετικό"
 
 msgid "Options"
-msgstr "Επιλογή"
+msgstr "Επιλογές"
 
 msgid "Options group successfully deleted"
-msgstr "Η ομάδα ρυθμίσεων διεγράφη επιτυχώς"
+msgstr "Η ομάδα επιλογών διαγράφηκε επιτυχώς"
 
 msgid "Options group successfully saved"
-msgstr "Η ομάδα ρυθμίσεων αποθηκεύτηκε επιτυχώς"
+msgstr "Η ομάδα επιλογών αποθηκεύτηκε επιτυχώς"
 
 msgid "Order Number"
 msgstr "Αριθμός παραγγελίας"
@@ -624,7 +624,7 @@ msgid "Order %s cancelled"
 msgstr "Η παραγγελία %s ακυρώθηκε"
 
 msgid "Order successfully cancelled"
-msgstr "Η παραγγελία αποθηκεύτηκε επιτυχώς"
+msgstr "Η παραγγελία ακυρώθηκε επιτυχώς"
 
 msgid "Order successfully saved"
 msgstr "Η παραγγελία αποθηκεύτηκε επιτυχώς"
@@ -711,7 +711,7 @@ msgid "Postcode"
 msgstr "Τ.Κ."
 
 msgid "Previous"
-msgstr "προηγούμενο"
+msgstr "Προηγούμενο"
 
 msgid "Price"
 msgstr "Τιμή"
@@ -720,7 +720,7 @@ msgid "Price: %s"
 msgstr "Τιμή: %s"
 
 msgid "Prices"
-msgstr "Τιμή"
+msgstr "Τιμές"
 
 msgid "Printer successfully saved"
 msgstr "Ο εκτυπωτής αποθηκεύτηκε επιτυχώς"
@@ -736,13 +736,13 @@ msgid "Product"
 msgstr "Προϊόν"
 
 msgid "Product formats"
-msgstr "Επιλογές προϊόντος"
+msgstr "Μορφές προϊόντος"
 
 msgid "Product name"
 msgstr "Όνομα προϊόντος"
 
 msgid "Product successfully duplicated"
-msgstr "Το προϊόν αποθηκεύτηκε επιτυχώς"
+msgstr "Το προϊόν αντιγράφηκε επιτυχώς"
 
 msgid "Product successfully saved"
 msgstr "Το προϊόν αποθηκεύτηκε επιτυχώς"
@@ -790,7 +790,7 @@ msgid "Settings"
 msgstr "Ρυθμίσεις"
 
 msgid "Settings successfully saved"
-msgstr "Το γεύμα αποθηκεύτηκε επιτυχώς."
+msgstr "Οι ρυθμίσεις αποθηκεύτηκαν επιτυχώς"
 
 #. machine-translated (2026-10), to be reviewed
 msgid "Show _MENU_ entries"
@@ -843,13 +843,13 @@ msgid "Store successfully saved"
 msgstr "Το κατάστημα αποθηκεύτηκε επιτυχώς"
 
 msgid "Stored card information."
-msgstr "Πληροφορίες καταστήματος"
+msgstr "Πληροφορίες αποθηκευμένης κάρτας."
 
 msgid "Stores"
 msgstr "Καταστήματα"
 
 msgid "Street"
-msgstr "Διεύθυνση"
+msgstr "Οδός"
 
 #. machine-translated (2026-10), to be reviewed
 msgid "Stripe settings"
@@ -944,10 +944,10 @@ msgid "Usable once"
 msgstr "Μίας χρήσης"
 
 msgid "Use:"
-msgstr "Χρήστης"
+msgstr "Χρήση:"
 
 msgid "Use my points?"
-msgstr "Χρησιμοποιημένα σημεία"
+msgstr "Χρήση των πόντων μου;"
 
 msgid "Username"
 msgstr "Όνομα χρήστη"
@@ -999,7 +999,7 @@ msgid "You have to choose a delivery method."
 msgstr "Παρακαλούμε επιλέξτε μια μέθοδο αποστολής"
 
 msgid "You must be logged in to continue"
-msgstr "Πρέπει να είστε συνδεδεμένοι για να κάνετε σχόλιο"
+msgstr "Πρέπει να είστε συνδεδεμένοι για να συνεχίσετε"
 
 #. machine-translated (2026-10), to be reviewed
 msgid "You used the code before"

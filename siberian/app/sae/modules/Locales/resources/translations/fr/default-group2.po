@@ -18,12 +18,10 @@ msgid "-"
 msgstr "-"
 
 msgid " \"Remove this page from this folder?\""
-msgstr " \"Supprimer cette page à partir de ce dossier?\""
+msgstr " \"Supprimer cette page de ce dossier ?\""
 
 msgid "#100: Unable to fetch the update. Please, try again later."
-msgstr ""
-"#100: Impossible de récupérer la mise à jour. S'il vous plaît, essayez de "
-"nouveau plus tard."
+msgstr "#100: Impossible de récupérer la mise à jour. Veuillez réessayer plus tard."
 
 msgid "#101: An error occurred while saving"
 msgstr "#101: Une erreur s'est produite pendant la sauvegarde"
@@ -45,9 +43,7 @@ msgstr ""
 "plus tard."
 
 msgid "#104: An error occurred while saving. Please try again later."
-msgstr ""
-"#104: Une erreur s'est produite pendant la sauvegarde. S'il vous plaît "
-"essayer à nouveau plus tard."
+msgstr "#104: Une erreur s'est produite pendant la sauvegarde. Veuillez réessayer plus tard."
 
 msgid "#105: An error occurred while saving"
 msgstr "#105: Une erreur s'est produite durant la sauvegarde"
@@ -59,71 +55,65 @@ msgid "#107: An error occurred while saving"
 msgstr "#107: Une erreur s'est produite durant la sauvegarde"
 
 msgid "#108: An error occurred while saving"
-msgstr "#108: Une erreur s'est produite pendant la sauvegarde de l'"
+msgstr "#108: Une erreur s'est produite pendant la sauvegarde"
 
 msgid "#109: An error occurred while saving"
-msgstr "#109: Une erreur s'est produite pendant la sauvegarde de l'"
+msgstr "#109: Une erreur s'est produite pendant la sauvegarde"
 
 msgid "#110: An error occurred while saving"
-msgstr "#110: Une erreur s'est produite pendant la sauvegarde de l'"
+msgstr "#110: Une erreur s'est produite pendant la sauvegarde"
 
 msgid "#111: An error occurred while saving"
-msgstr "#111: Une erreur s'est produite pendant la sauvegarde de l'"
+msgstr "#111: Une erreur s'est produite pendant la sauvegarde"
 
 msgid "#112: An error occurred while saving"
-msgstr "#112: Une erreur s'est produite pendant la sauvegarde de l'"
+msgstr "#112: Une erreur s'est produite pendant la sauvegarde"
 
 msgid "#114: An error occurred while saving"
-msgstr "#114: Une erreur s'est produite pendant la sauvegarde de l'"
+msgstr "#114: Une erreur s'est produite pendant la sauvegarde"
 
 msgid "#115: An error occurred while saving"
-msgstr "#115: Une erreur s'est produite pendant la sauvegarde de l'"
+msgstr "#115: Une erreur s'est produite pendant la sauvegarde"
 
 msgid "#116: An error occurred while saving"
-msgstr "#116: Une erreur s'est produite pendant la sauvegarde de l'"
+msgstr "#116: Une erreur s'est produite pendant la sauvegarde"
 
 msgid "#117: An error occurred while saving"
-msgstr "#117: Une erreur s'est produite pendant la sauvegarde de l'"
+msgstr "#117: Une erreur s'est produite pendant la sauvegarde"
 
 msgid "#118: An error occurred while saving"
-msgstr "#118: Une erreur s'est produite pendant la sauvegarde de l'"
+msgstr "#118: Une erreur s'est produite pendant la sauvegarde"
 
 msgid "#119: An error occurred while saving"
-msgstr "#119: Une erreur s'est produite pendant la sauvegarde de l'"
+msgstr "#119: Une erreur s'est produite pendant la sauvegarde"
 
 msgid "#120: An error occurred while saving"
-msgstr "#120: Une erreur s'est produite pendant la sauvegarde de l'"
+msgstr "#120: Une erreur s'est produite pendant la sauvegarde"
 
 msgid "#121: An error occurred while saving"
-msgstr "#121: Une erreur s'est produite pendant la sauvegarde de l'"
+msgstr "#121: Une erreur s'est produite pendant la sauvegarde"
 
 msgid "#122: An error occurred while saving"
-msgstr "#122: Une erreur s'est produite pendant la sauvegarde de l'"
+msgstr "#122: Une erreur s'est produite pendant la sauvegarde"
 
 msgid "#123: An error occurred while saving"
-msgstr "#123: Une erreur s'est produite pendant la sauvegarde de l'"
+msgstr "#123: Une erreur s'est produite pendant la sauvegarde"
 
 msgid "#156: Missing params!"
-msgstr "#156: Manquant params!"
+msgstr "#156: Paramètres manquants !"
 
 msgid ""
 "#19-001 The folder %s is not writable. Please fix this issue and try again."
-msgstr ""
-"#19-001 Le dossier %s n'est pas accessible en écriture. Merci de résoudre ce "
-"problème et essayer de nouveau."
+msgstr "#19-001 Le dossier %s n'est pas accessible en écriture. Veuillez résoudre ce problème et réessayer."
 
 msgid ""
 "#19-002 Unable to extract the archive. Please make sure that the 'zip' "
 "extension is installed."
-msgstr ""
-"#19-002 Impossible d'extraire l'archive. Assurez-vous que le 'zip' extension "
-"est installée."
+msgstr "#19-002 Impossible d'extraire l'archive. Assurez-vous que l'extension 'zip' est installée."
 
 msgid ""
 "#19-003: This update is designed for the %s, you can't install it in your %s."
-msgstr ""
-"#19-003: Cette mise à jour est conçu pour le %s, vous ne pouvez pas "
-"l'installer dans votre %s."
+msgstr "#19-003: Cette mise à jour est conçue pour le %s, vous ne pouvez pas l'installer dans votre %s."
 
 msgid "#19-004: You already have installed this update."
 msgstr "#19-004: Vous avez déjà installé cette mise à jour."
@@ -131,16 +121,12 @@ msgstr "#19-004: Vous avez déjà installé cette mise à jour."
 msgid ""
 "#19-005: Please update your system to the %s version before installing this "
 "update."
-msgstr ""
-"#19-005: Veuillez mettre à jour votre système à l' %s version avant "
-"d'installer cette mise à jour."
+msgstr "#19-005: Veuillez mettre à jour votre système vers la version %s avant d'installer cette mise à jour."
 
 msgid ""
 "#19-007: Please update your system to the %s version before installing this "
 "update."
-msgstr ""
-"#19-007: Veuillez mettre à jour votre système à l' %s version avant "
-"d'installer cette mise à jour."
+msgstr "#19-007: Veuillez mettre à jour votre système vers la version %s avant d'installer cette mise à jour."
 
 msgid "#19-008: You already have installed this template."
 msgstr "#19-008: Vous avez déjà installé ce modèle."
@@ -148,9 +134,7 @@ msgstr "#19-008: Vous avez déjà installé ce modèle."
 msgid ""
 "#19-009: Please update your system to the %s version before installing this "
 "update."
-msgstr ""
-"#19-009: Veuillez mettre à jour votre système à l' %s version avant "
-"d'installer cette mise à jour."
+msgstr "#19-009: Veuillez mettre à jour votre système vers la version %s avant d'installer cette mise à jour."
 
 msgid "#19-010: The package you have uploaded is invalid."
 msgstr "#19-010: Le package que vous avez téléchargé n'est pas valide."
@@ -180,7 +164,7 @@ msgstr ""
 "#354-02: Une erreur s'est produite pendant la sauvegarde de vos couleurs."
 
 msgid "#354-03: SCSS Compilation error, you must input valid SCSS."
-msgstr "#354-03: SCSS erreur de Compilation, vous devez d'entrée valide SCSS."
+msgstr "#354-03: Erreur de compilation SCSS, vous devez saisir du SCSS valide."
 
 msgid "#498-01: An error occured while exporting your application."
 msgstr ""
@@ -194,23 +178,22 @@ msgid "#500-02: This application does not exist"
 msgstr "#500-02: Cette application n'existe pas"
 
 msgid "#567-03: Missing value_id or place_id."
-msgstr "#567-03: Manquant value_id ou place_id."
+msgstr "#567-03: value_id ou place_id manquant."
 
 msgid "#567-04: An error occured."
 msgstr "#567-04: Une erreur s'est produite."
 
 msgid "#567-07: Missing value_id or place_id."
-msgstr "#567-07: Manquant value_id ou place_id."
+msgstr "#567-07: value_id ou place_id manquant."
 
 msgid "#567-09: Missing value_id or company_id."
-msgstr "#567-09: Manquant value_id ou company_id."
+msgstr "#567-09: value_id ou company_id manquant."
 
 msgid "#734-01: Missing yandex API key"
-msgstr "#734-01: Manquant yandex clé API"
+msgstr "#734-01: Clé API Yandex manquante"
 
 msgid "#734-03: Invalid yandex API key OR Free limit request exceeded."
-msgstr ""
-"#734-03: Invalid yandex clé de l'API OU de limiter la Libre demande dépassé."
+msgstr "#734-03: Clé API Yandex invalide OU limite de requêtes gratuites dépassée."
 
 msgid "A e-mail has been sent to %s, please check your inbox."
 msgstr ""
@@ -225,21 +208,19 @@ msgstr "ACTIVER"
 msgid ""
 "Above 50 active whitelabels, Siberian's automated Let's Encrypt SSL "
 "certificate generation is not supported."
-msgstr ""
-"Au-dessus de 50 active whitelabels, de Sibérie automatisé de Let's Encrypt "
-"certificat SSL génération n'est pas pris en charge."
+msgstr "Au-delà de 50 whitelabels actifs, la génération automatique de certificats SSL Let's Encrypt de Siberian n'est pas prise en charge."
 
 msgid "Accepted Terms of Service"
-msgstr "Accepté Conditions de Service"
+msgstr "Conditions d'utilisation acceptées"
 
 msgid "Account Settings"
-msgstr "Les Paramètres De Compte"
+msgstr "Paramètres du compte"
 
 msgid "Action '{$action}' executed for module '{$module}'."
-msgstr "L'Action \" {$action}' exécution pour le module '{$module}'."
+msgstr "Action '{$action}' exécutée pour le module '{$module}'."
 
 msgid "Add an <br /><span class=\"bold\">image</span>"
-msgstr "Ajouter un <br /><span class=\"bold\">image</span>"
+msgstr "Ajouter une <br /><span class=\"bold\">image</span>"
 
 msgid "Add<br /><span class=\"bold\">Attachment</span>"
 msgstr "Ajouter<br /><span class=\"bold\">pièce Jointe</span>"
@@ -253,7 +234,7 @@ msgstr ""
 "téléphone."
 
 msgid "Ads type"
-msgstr "Les publicités de type"
+msgstr "Type de publicités"
 
 msgid ""
 "After the upgrade you will be required to upload new homepage & "
@@ -289,7 +270,7 @@ msgstr ""
 "combinaisons ne sont pas possibles."
 
 msgid "Android only (You must set a Firebase Key)"
-msgstr "Android seulement (Vous devez définir un Firebase Clé)"
+msgstr "Android seulement (Vous devez définir une clé Firebase)"
 
 msgid "Android orientation is invalid!"
 msgstr "L'orientation Android  n'est pas valide !"
@@ -298,13 +279,13 @@ msgid "Android orientation settings"
 msgstr "Paramètres d'orientation Android"
 
 msgid "Api User"
-msgstr "Utilisateur Api"
+msgstr "Utilisateur API"
 
 msgid "Apple"
 msgstr "Apple"
 
 msgid "Application %s"
-msgstr "Demande de %s"
+msgstr "Application %s"
 
 msgid ""
 "Application_Mobile_DataController::findall, class: {$model} doesn't exists."
@@ -321,16 +302,16 @@ msgid "Background Color - Active"
 msgstr "Couleur de fond - Actif"
 
 msgid "Background Color - Hover"
-msgstr "Couleur de fond - Hover"
+msgstr "Couleur de fond - Survol"
 
 msgid "Backoffice access"
-msgstr "Backoffice d'accès"
+msgstr "Accès au backoffice"
 
 msgid "Backoffice page Title"
-msgstr "Backoffice Titre de la page"
+msgstr "Titre de la page du backoffice"
 
 msgid "Backoffice theme (BETA)"
-msgstr "Backoffice thème (BETA)"
+msgstr "Thème du backoffice (BETA)"
 
 msgid "Banner ID"
 msgstr "ID bannière"
@@ -345,34 +326,30 @@ msgstr ""
 msgid ""
 "Before you can re-publish your application, you must upgrade it to the new "
 "<b>unified</b> homepage & splashscreen."
-msgstr ""
-"Avant de pouvoir re-publier votre application, vous devez mettre à niveau "
-"vers la nouvelle image d'accueil & image de démarrage <b>unifiées</b>."
+msgstr "Avant de pouvoir republier votre application, vous devez la mettre à niveau vers la nouvelle image d'accueil & image de démarrage <b>unifiées</b>."
 
 msgid "Build failed!"
-msgstr "Build failed!"
+msgstr "Échec du build !"
 
 msgid "Build succeed!"
-msgstr "Construire réussir!"
+msgstr "Build réussi !"
 
 msgid ""
 "By checking this box, you agree <a href=\"%s\" target=\"_blank\" class=\""
 "underline\">to our terms and conditions</a>"
-msgstr ""
-"En cochant cette case , vous acceptez <a target=\"_blank\" href=\"%s\" class="
-"\"underline\"> à nos termes et conditions </a>"
+msgstr "En cochant cette case, vous acceptez <a href=\"%s\" target=\"_blank\" class=\"underline\">nos conditions générales</a>"
 
 msgid "CANCEL"
 msgstr "ANNULER"
 
 msgid "CSS Editor is saved!"
-msgstr "L'Éditeur CSS est sauvé!"
+msgstr "L'éditeur CSS est enregistré !"
 
 msgid "Cancel Subscription"
-msgstr "Annuler L'Abonnement"
+msgstr "Annuler l'abonnement"
 
 msgid "Cancel current Offline subscription"
-msgstr "Annuler actuelle Hors abonnement"
+msgstr "Annuler l'abonnement hors ligne en cours"
 
 msgid "Cancel subscription!"
 msgstr "Annuler l'abonnement!"
@@ -381,7 +358,7 @@ msgid "Cancelled and expired"
 msgstr "Annulées et expirées"
 
 msgid "Cancelled to be expired"
-msgstr "Annulé pour être expiré"
+msgstr "Annulé, en attente d'expiration"
 
 msgid "Catalog is up-to-date."
 msgstr "Le catalogue est à jour."
@@ -390,7 +367,7 @@ msgid "Category is up-to-date."
 msgstr "La catégorie est à jour."
 
 msgid "Channel: #security, #notifications, etc..."
-msgstr "Canal: #de sécurité, #notifications, etc..."
+msgstr "Canal: #security, #notifications, etc..."
 
 msgid "Check payments"
 msgstr "Les paiements par chèques"
@@ -424,7 +401,7 @@ msgid "Custom font"
 msgstr "Police personnalisée"
 
 msgid "DEACTIVATE"
-msgstr "DESACTIVER"
+msgstr "DÉSACTIVER"
 
 msgid "Default layout"
 msgstr "Mise en page par défaut"
@@ -436,7 +413,7 @@ msgid "Delete category!"
 msgstr "Supprimer la catégorie!"
 
 msgid "Delete product!"
-msgstr "Supprimer produit!"
+msgstr "Supprimer le produit !"
 
 msgid "Display"
 msgstr "Afficher"
@@ -445,45 +422,43 @@ msgid "Display phone"
 msgstr "Afficher le téléphone"
 
 msgid "Display website"
-msgstr "Afficher site web"
+msgstr "Afficher le site web"
 
 msgid "Download CA"
 msgstr "Télécharger CA"
 
 msgid "Download Certificate"
-msgstr "Télécharger Le Certificat"
+msgstr "Télécharger le certificat"
 
 msgid "Download Private"
 msgstr "Télécharger Privé"
 
 msgid "Download icon pack example"
-msgstr "Télécharger exemple de pack d'icône"
+msgstr "Télécharger un exemple de pack d'icônes"
 
 msgid "Download non-unified previous images!"
 msgstr "Télécharger les images précédentes non-unifiées !"
 
 msgid "During the <b>beta</b> stage, themes are likely to evolve slightly."
-msgstr ""
-"Au cours de la <b>beta</b> stade, les thèmes sont susceptibles d'évoluer "
-"légèrement."
+msgstr "Au cours de la phase <b>bêta</b>, les thèmes sont susceptibles d'évoluer légèrement."
 
 msgid "E-Mail render preview"
-msgstr "E-Mail de rendu de l'aperçu"
+msgstr "Aperçu du rendu de l'e-mail"
 
 msgid "Editing subscription:"
-msgstr "L'édition d'abonnement:"
+msgstr "Modification de l'abonnement :"
 
 msgid "Editor access"
-msgstr "L'éditeur d'accès"
+msgstr "Accès à l'éditeur"
 
 msgid "Elegance"
-msgstr "L'élégance"
+msgstr "Élégance"
 
 msgid "E-mail is required!"
-msgstr "E-mail est nécessaire!"
+msgstr "L'e-mail est obligatoire !"
 
 msgid "E-mail is required in order to test SMTP"
-msgstr "E-mail est nécessaire afin de tester SMTP"
+msgstr "L'e-mail est nécessaire pour tester le SMTP"
 
 msgid "E-mail test"
 msgstr "E-mail de test"
@@ -492,7 +467,7 @@ msgid "Enable search"
 msgstr "Activer la recherche"
 
 msgid "Enabled?"
-msgstr "Activé"
+msgstr "Activé ?"
 
 msgid "Enter the token you received by e-mail to access your personal data."
 msgstr ""
@@ -519,16 +494,16 @@ msgid "Feature this place?"
 msgstr "Mettre en avant ce lieu ?"
 
 msgid "Featured label"
-msgstr "Etiquette sélectionnée"
+msgstr "Libellé de mise en avant"
 
 msgid "Features to export & Options"
-msgstr "Caractéristiques de l'exportation et Options"
+msgstr "Fonctionnalités à exporter & options"
 
 msgid "Feed URL <span class=\"required-entry\">*</span> :"
 msgstr "URL du flux RSS <span class=\"required-entry\">*</span> :"
 
 msgid "Field name:"
-msgstr "Nom de domaine:"
+msgstr "Nom du champ :"
 
 msgid "Firebase Cloud Messaging"
 msgstr "Firebase Messagerie En Nuage"
@@ -542,10 +517,7 @@ msgstr "Police enregistrée !"
 msgid ""
 "For instance <b>Account A</b> creates an app, all other accounts tied to "
 "this app, will have the <b>publication type settings of the Account A</b>."
-msgstr ""
-"Par exemple, <b>Compte</b> crée une application, tous les autres comptes "
-"sont liés à cette application, sera le <b>type de publication paramètres du "
-"Compte</b>."
+msgstr "Par exemple, si le <b>compte A</b> crée une application, tous les autres comptes liés à cette application auront les <b>paramètres de type de publication du compte A</b>."
 
 msgid "For more information, please feel free to contact us."
 msgstr "Pour plus d'informations, n'hésitez pas à nous contacter."
@@ -554,7 +526,7 @@ msgid "Forgot your password ?"
 msgstr "Mot de passe oublié ?"
 
 msgid "Full chain"
-msgstr "Toute la chaîne"
+msgstr "Chaîne complète"
 
 msgid "Fulltext"
 msgstr "Texte intégral"
@@ -563,7 +535,7 @@ msgid "Gallery Name <span class=\"required-entry\">*</span> :"
 msgstr "Nom de la galerie <span class=\"required-entry\">*</span> :"
 
 msgid "Global notifications"
-msgstr "Mondial de notifications"
+msgstr "Notifications globales"
 
 msgid "Go back to homepage"
 msgstr "Revenir à la page d'accueil"
@@ -575,26 +547,24 @@ msgid "Google Cloud Messaging (GCM, Deprecated)"
 msgstr "Google Cloud Messaging (GCM, Obsolète)"
 
 msgid "Grid view"
-msgstr "Affichage de la grille"
+msgstr "Affichage en grille"
 
 msgid "Handwriting"
 msgstr "Ecriture manuscrite"
 
 msgid "How to install the cron scheduler ?"
-msgstr "Comment faire pour installer le cron planificateur ?"
+msgstr "Comment installer le planificateur cron ?"
 
 msgid ""
 "I agree to receive information & commercial offers about the WhiteLabel "
 "program."
-msgstr ""
-"J'accepte de recevoir des informations et offres commerciales sur le "
-"WhiteLabel programme."
+msgstr "J'accepte de recevoir des informations et offres commerciales sur le programme WhiteLabel."
 
 msgid "I have a Google developer account"
 msgstr "J'ai un compte développeur Google"
 
 msgid "I have read & agree the Terms of Service"
-msgstr "J'ai lu et acceptez les Conditions de Service"
+msgstr "J'ai lu et j'accepte les conditions d'utilisation"
 
 msgid "IMPERSONATE"
 msgstr "USURPER l'identité d'"
@@ -602,21 +572,16 @@ msgstr "USURPER l'identité d'"
 msgid ""
 "If you need it to work you will need to manually generate your corresponding "
 "SSL certificate."
-msgstr ""
-"Si vous en avez besoin pour travailler, vous aurez besoin pour générer "
-"manuellement votre certificat SSL."
+msgstr "Pour qu'il fonctionne, vous devrez générer manuellement le certificat SSL correspondant."
 
 msgid ""
 "In case your Stripe subscription is not linked (ie: missing or wrong "
 "sub_xxxx id), you can search the right reference here and apply it to the "
 "subscription."
-msgstr ""
-"Dans le cas où votre Bande d'abonnement n'est pas lié (ie: manquant ou "
-"erroné sub_xxxx id), vous pouvez rechercher le droit de référence de l'ici "
-"et de l'appliquer à l'abonnement."
+msgstr "Dans le cas où votre abonnement Stripe n'est pas lié (ie: identifiant sub_xxxx manquant ou erroné), vous pouvez rechercher ici la bonne référence et l'appliquer à l'abonnement."
 
 msgid "In-App links"
-msgstr "In-app liens"
+msgstr "Liens in-app"
 
 msgid "Inactive, Cancelled or Expired"
 msgstr "Inactif, Annulé ou Expiré"
@@ -625,13 +590,13 @@ msgid "Insert a <br /><span class=\"bold\">cover image</span>"
 msgstr "Insérez une <br /><span class=\"bold\">image de couverture</span>"
 
 msgid "Insert a <span class=\"bold\">cover image</span>"
-msgstr "Insérer un <span class=\"bold\">image</span>"
+msgstr "Insérez une <span class=\"bold\">image de couverture</span>"
 
 msgid "Installing module <em><span id=\"label_module\"></span></em>"
 msgstr "Installation du module <em><span id=\"label_module\"></span></em>"
 
 msgid "Interstitial ID"
-msgstr "Interstitielle ID"
+msgstr "ID interstitiel"
 
 msgid "Invoice N°"
 msgstr "Facture N°"
@@ -639,9 +604,7 @@ msgstr "Facture N°"
 msgid ""
 "Is self assignable (a user with a self-assignable role can create users with "
 "the same role)"
-msgstr ""
-"Est auto programmable (un utilisateur avec un auto-programmable rôle peut "
-"créer des utilisateurs avec le même rôle)"
+msgstr "Auto-attribuable (un utilisateur avec un rôle auto-attribuable peut créer des utilisateurs avec le même rôle)"
 
 msgid "Kilometers"
 msgstr "Kilomètres"
@@ -649,9 +612,7 @@ msgstr "Kilomètres"
 msgid ""
 "[Let's Encrypt] cron renewal is disabled until %s due to rate limit hit, "
 "skipping."
-msgstr ""
-"[Let's Encrypt] cron renouvellement est désactivé jusqu'à ce que %s en "
-"raison de la limite du taux de frapper, sauter."
+msgstr "[Let's Encrypt] le renouvellement cron est désactivé jusqu'au %s en raison d'une limite de débit atteinte, ignoré."
 
 msgid "[Let's Encrypt] will expire in %s days."
 msgstr "[Let's Encrypt] expirera dans %s jours."
@@ -666,40 +627,40 @@ msgid "Loading ..."
 msgstr "Chargement ..."
 
 msgid "Location settings"
-msgstr "Les paramètres de localisation"
+msgstr "Paramètres de localisation"
 
 msgid "M-Commerce"
 msgstr "Le M-Commerce"
 
 msgid "Mail logger"
-msgstr "Mail enregistreur"
+msgstr "Enregistreur de courrier"
 
 msgid "Mail logs"
-msgstr "Les journaux de messagerie"
+msgstr "Journaux de messagerie"
 
 msgid "Main siberian domain"
-msgstr "Principal de sibérie domaine"
+msgstr "Domaine siberian principal"
 
 msgid "Mais encore ?"
 msgstr "Mais encore ?"
 
 msgid "Manage tour"
-msgstr "Gérer Tournée"
+msgstr "Gérer la visite"
 
 msgid "Miles"
 msgstr "Miles"
 
 msgid "Missing font family!"
-msgstr "Police manquante de la famille!"
+msgstr "Famille de police manquante !"
 
 msgid "Missing name parameter."
-msgstr "Manquant de nom de paramètre."
+msgstr "Paramètre de nom manquant."
 
 msgid "Missing params."
-msgstr "Manquant params."
+msgstr "Paramètres manquants."
 
 msgid "Missing value_id."
-msgstr "Manquant value_id."
+msgstr "value_id manquant."
 
 msgid "Modern"
 msgstr "Moderne"
@@ -728,14 +689,10 @@ msgstr "Plus proche"
 msgid ""
 "New backoffice themes are available, check them out <a href=\"/system/"
 "backoffice_config_design\">here</a>."
-msgstr ""
-"Nouveau backoffice thèmes sont disponibles, découvrez <a href=\"/system/"
-"backoffice_config_design\">ici</a>."
+msgstr "De nouveaux thèmes de backoffice sont disponibles, découvrez-les <a href=\"/system/backoffice_config_design\">ici</a>."
 
 msgid "New publication request on your platform %s, for the Application %s."
-msgstr ""
-"Nouvelle demande de publication sur votre plate-forme de %s, pour "
-"l'Application de %s."
+msgstr "Nouvelle demande de publication sur votre plate-forme %s, pour l'application %s."
 
 msgid "No result found."
 msgstr "Aucun résultat trouvé."
@@ -744,59 +701,52 @@ msgid "No results."
 msgstr "Pas de résultats."
 
 msgid "Non-featured label"
-msgstr "Non-vedette de l'étiquette"
+msgstr "Libellé non mis en avant"
 
 msgid "Note: the migration will only work if redis is configured & running!"
-msgstr ""
-"Remarque: la migration ne fonctionnera que si le redis est configuré et en "
-"cours d'exécution!"
+msgstr "Remarque : la migration ne fonctionnera que si Redis est configuré et en cours d'exécution !"
 
 msgid ""
 "Note: we recommand to install under the web user to maintain file & folders "
 "permissions, but if this is not possible at all you can install it under the "
 "root user."
-msgstr ""
-"Remarque: nous vous recommandons d'installer sous le web de l'utilisateur "
-"pour maintenir le fichier et dossiers d'autorisations, mais si ce n'est pas "
-"possible, vous pouvez l'installer sous l'utilisateur root."
+msgstr "Remarque : nous vous recommandons d'installer sous l'utilisateur web afin de conserver les permissions des fichiers et dossiers, mais si ce n'est pas possible, vous pouvez l'installer sous l'utilisateur root."
 
 msgid "Nothing to do!"
 msgstr "Rien à faire !"
 
 msgid "(Offline)"
-msgstr "(Offline)"
+msgstr "(Hors ligne)"
 
 msgid "Offline awaiting validation"
-msgstr "En mode hors connexion en attente de validation"
+msgstr "Hors ligne, en attente de validation"
 
 msgid "Ok, proceed to minimal upgrade!"
-msgstr "Ok, passer à la mise à niveau minimal!"
+msgstr "Ok, passer à la mise à niveau minimale !"
 
 msgid "Ok, skip automated upgrade!"
-msgstr "Ok, passer mise à niveau automatique!"
+msgstr "Ok, ignorer la mise à niveau automatique !"
 
 msgid "Only active subscriptions not linked are shown below!"
 msgstr "Seuls les abonnements actifs non liés sont indiqués ci-dessous!"
 
 msgid "Only showing latest 100 e-mail logs."
-msgstr "Affichant uniquement les derniers 100 e-mail les journaux."
+msgstr "Affichage uniquement des 100 derniers journaux d'e-mails."
 
 msgid "Opt-in e-mails"
 msgstr "Opt-in e-mails"
 
 msgid "Order places by"
-msgstr "Organiser les lieux par"
+msgstr "Trier les lieux par"
 
 msgid "Outstanding balance of %s %s."
-msgstr "Solde de %s %s."
+msgstr "Solde impayé de %s %s."
 
 msgid "Owner / Application"
-msgstr "Propriétaire / De L'Application"
+msgstr "Propriétaire / Application"
 
 msgid "PNG icons are recommended for a better display result."
-msgstr ""
-"Des icônes au format PNG sont recommandés pour un meilleur affichage du "
-"résultat."
+msgstr "Les icônes au format PNG sont recommandées pour un meilleur rendu."
 
 msgid "Page design"
 msgstr "Design de la page"
@@ -805,26 +755,22 @@ msgid "Path to your Fullchain"
 msgstr "Chemin d'accès à votre Fullchain"
 
 msgid "PayPal subscription is Active"
-msgstr "PayPal abonnement est Actif"
+msgstr "L'abonnement PayPal est actif"
 
 msgid ""
 "PayPal subscription is now correctly synced and will correctly expire by %s!"
-msgstr ""
-"Abonnement PayPal est maintenant correctement synchronisés et correctement "
-"expirer par %s!"
+msgstr "L'abonnement PayPal est maintenant correctement synchronisé et expirera le %s !"
 
 msgid ""
 "Places upgrade! New version with a better search engine, categories & "
 "display options."
-msgstr ""
-"Les lieux de mise à niveau! Nouvelle version avec un meilleur moteur de "
-"recherche, les catégories et les options d'affichage."
+msgstr "Mise à niveau de Lieux ! Nouvelle version avec un meilleur moteur de recherche, des catégories et des options d'affichage."
 
 msgid "Plan"
 msgstr "Plan"
 
 msgid "Platform contact informations"
-msgstr "Plate-forme les informations de contact"
+msgstr "Informations de contact de la plateforme"
 
 msgid "[Plesk] %s"
 msgstr "[Plesk] %s"
@@ -833,7 +779,7 @@ msgid "Position"
 msgstr "Position"
 
 msgid "Proceed to full ugrade!"
-msgstr "Passez à la full ugrade!"
+msgstr "Passer à la mise à niveau complète !"
 
 msgid "Proceed to ugrade!"
 msgstr "Procéder à la mise à niveau !"
@@ -842,13 +788,13 @@ msgid "Product is up-to-date."
 msgstr "Le produit est à jour."
 
 msgid "Publication request"
-msgstr "Demande de Publication"
+msgstr "Demande de publication"
 
 msgid "Publication type"
-msgstr "Type de Publication"
+msgstr "Type de publication"
 
 msgid "REDUCE"
-msgstr "MASQUER"
+msgstr "RÉDUIRE"
 
 msgid "RESTORE"
 msgstr "RESTAURER"
@@ -860,20 +806,19 @@ msgid "Recipients"
 msgstr "Destinataires"
 
 msgid "Redis AUTH KEY, only required if configured on your Redis server."
-msgstr ""
-"Redis AUTH CLÉ, nécessaire uniquement si configuré sur votre serveur Redis."
+msgstr "Clé AUTH Redis, nécessaire uniquement si configurée sur votre serveur Redis."
 
 msgid "Redis enpoint (example: tcp://127.0.0.1:6379)"
-msgstr "Redis enpoint (exemple: tcp://127.0.0.1:6379)"
+msgstr "Endpoint Redis (exemple : tcp://127.0.0.1:6379)"
 
 msgid "Redis (requires to install php-redis & Redis server)"
 msgstr "Redis (nécessite d'installer php-redis et Redis serveur)"
 
 msgid "Refresh available Teams & Providers"
-msgstr "Actualiser la disposition des Équipes Et des Prestataires de"
+msgstr "Actualiser les Équipes et Prestataires disponibles"
 
 msgid "SELECT"
-msgstr "SET"
+msgstr "SÉLECTIONNER"
 
 msgid "SYNC"
 msgstr "SYNC"
@@ -897,7 +842,7 @@ msgid "Secondary category (optional)"
 msgstr "Catégorie secondaire (facultatif)"
 
 msgid "Security logs (last 50 triggers)"
-msgstr "Les journaux de sécurité (50 dernières déclencheurs)"
+msgstr "Journaux de sécurité (50 derniers déclenchements)"
 
 msgid "Sender"
 msgstr "Expéditeur"
@@ -906,55 +851,53 @@ msgid "Serif"
 msgstr "Serif"
 
 msgid "Settings & Options"
-msgstr "Réglages et Options"
+msgstr "Paramètres et options"
 
 msgid "Show featured labels"
-msgstr "Afficher étiquettes sélectionnées"
+msgstr "Afficher les étiquettes mises en avant"
 
 msgid "Show non-featured labels"
-msgstr "Afficher les étiquettes non décrites"
+msgstr "Afficher les étiquettes non mises en avant"
 
 msgid "Showing"
-msgstr "Montrer"
+msgstr "Affichage"
 
 msgid ""
 "Siberian main domain (without https?://) is required for services, and tools."
-msgstr ""
-"Sibérie domaine principal (sans https?://) est requis pour les services, et "
-"des outils."
+msgstr "Le domaine principal de Siberian (sans https?://) est requis pour les services et les outils."
 
 msgid "Slots"
 msgstr "Slots"
 
 msgid "Socket, example: /var/run/clamav/clamd.ctl"
-msgstr "Prise, par exemple: /var/run/clamav/clamd.ctl"
+msgstr "Socket, exemple : /var/run/clamav/clamd.ctl"
 
 msgid "Something went wrong, the category do not exists!"
-msgstr "Quelque chose s'est mal passé, la catégorie n'existe pas!"
+msgstr "Une erreur s'est produite, la catégorie n'existe pas !"
 
 msgid "Start search"
 msgstr "Démarrer la recherche"
 
 msgid "Status color chart"
-msgstr "Le statut de la charte des couleurs"
+msgstr "Palette de couleurs des statuts"
 
 msgid "Stores Informations"
-msgstr "Stocke Les Informations"
+msgstr "Informations des magasins"
 
 msgid "Stripe subscription ID"
-msgstr "Bande ID d'abonnement"
+msgstr "ID d'abonnement Stripe"
 
 msgid "Stripe subscription saved!"
-msgstr "Bande abonnement sauvé!"
+msgstr "Abonnement Stripe enregistré !"
 
 msgid "Stripe utility tools!"
-msgstr "Bande utilitaire outils!"
+msgstr "Outils utilitaires Stripe !"
 
 msgid "Subject"
 msgstr "Sujet"
 
 msgid "Subscription date & time"
-msgstr "Abonnement date et de l'heure"
+msgstr "Date et heure d'abonnement"
 
 msgid "Sur quelles plateformes ?"
 msgstr "Sur quelles plateformes ?"
@@ -969,62 +912,56 @@ msgstr ""
 msgid ""
 "Tags will be de-duplicated, migrated to categories & associated to existing "
 "places."
-msgstr ""
-"Les tags seront dupliqués,  migrés vers les catégories et associés à des "
-"lieux existants."
+msgstr "Les tags seront dédupliqués, migrés vers les catégories et associés aux lieux existants."
 
 msgid "Text Color - Active"
 msgstr "Couleur de texte - Actif"
 
 msgid "Text Color - Hover"
-msgstr "Couleur de texte - Hover"
+msgstr "Couleur de texte - Survol"
 
 msgid "The Platform name"
 msgstr "Le nom de Plateforme"
 
 msgid "The category you are trying to edit doesn't exists.."
-msgstr "La catégorie que vous essayez de modifier n'existe pas.."
+msgstr "La catégorie que vous essayez de modifier n'existe pas."
 
 msgid "The folder & it's sub-folders have been removed!"
-msgstr "Le dossier et sous-dossiers ont été retirés!"
+msgstr "Le dossier et ses sous-dossiers ont été supprimés !"
 
 msgid "The following folders are not writable: <br /> - %s"
-msgstr "Les dossiers suivants n'ont pas les droits en écriture : <br /> - %s"
+msgstr "Les dossiers suivants ne sont pas accessibles en écriture : <br /> - %s"
 
 msgid ""
 "The installation of the module <span id=\"installation_failed_module_name\""
 "></span> has failed: <span id=\"installation_failed_because\"></span>"
-msgstr ""
-"L'installation du module <span id=\"installation_failed_module_name\"> </ "
-"span> a échoué: <span id=\"installation_failed_because\"></ span>"
+msgstr "L'installation du module <span id=\"installation_failed_module_name\"></span> a échoué : <span id=\"installation_failed_because\"></span>"
 
 msgid ""
 "The publication access type of an Application is determined by the "
 "publication type settings that are set for its Creator."
-msgstr ""
-"Accès à la publication type de Demande est déterminée par le type de "
-"publication paramètres qui sont définis pour son Créateur."
+msgstr "Le type d'accès à la publication d'une application est déterminé par les paramètres de type de publication définis pour son créateur."
 
 msgid "The setup fee is not a valid price (e.g. 12.34"
-msgstr "Les frais d'installation, ce n'est pas un prix valide (ex: 12.34"
+msgstr "Les frais de mise en place ne sont pas un prix valide (ex. 12,34"
 
 msgid "The splashscreen image"
-msgstr "Le splashscreen de l'image"
+msgstr "L'image du splashscreen"
 
 msgid "The store & mcommerce instances mismatch!"
-msgstr "Le magasin & mcommerce cas d'incompatibilité!"
+msgstr "Les instances du magasin et de mcommerce ne correspondent pas !"
 
 msgid "The strip customer '%s' is missing!"
-msgstr "La bande de client '%s' est manquant!"
+msgstr "Le client Stripe '%s' est manquant !"
 
 msgid "The stripe subscription '%s' is missing!"
-msgstr "La bande d'abonnement '%s' est manquant!"
+msgstr "L'abonnement Stripe '%s' est manquant !"
 
 msgid "The subscription '%s' doesn't exists!"
-msgstr "L'abonnement \"%s \" n'existe pas!"
+msgstr "L'abonnement \"%s\" n'existe pas !"
 
 msgid "The subscription was already inactive or cancelled"
-msgstr "L'abonnement a déjà été inactif ou annulé"
+msgstr "L'abonnement était déjà inactif ou annulé"
 
 msgid ""
 "The version number format is invalid, please use x.y.z where x, y & z are "
@@ -1042,12 +979,10 @@ msgstr "Il n'y a pas d'utilisateur avec cet ID."
 msgid ""
 "This Application has some M-Commerce invoices associated, you can not delete "
 "it!"
-msgstr ""
-"Cette Application a quelques M-Commerce, les factures associées, vous ne "
-"pouvez pas le supprimer!"
+msgstr "Cette application a des factures M-Commerce associées, vous ne pouvez pas la supprimer !"
 
 msgid "This Google Font do not exists!"
-msgstr "Cette Polices Google n'existe pas!"
+msgstr "Cette police Google n'existe pas !"
 
 msgid "This action is not allowed in demo."
 msgstr "Cette action n'est pas autorisée dans la démo."
@@ -1058,12 +993,10 @@ msgstr "Cette application n'existe pas."
 msgid ""
 "This application was not upgraded to the unified splashscreens & can't be "
 "published right now."
-msgstr ""
-"Cette demande n'a pas été mis à niveau vers le unifiée splashscreens et ne "
-"peut pas être publié dès maintenant."
+msgstr "Cette application n'a pas été mise à niveau vers les splashscreens unifiés et ne peut pas être publiée pour le moment."
 
 msgid "This build do not exists."
-msgstr "Cette version n'existe pas."
+msgstr "Ce build n'existe pas."
 
 msgid ""
 "This combination is not valid, if you want both portrait & landscape please "
@@ -1078,9 +1011,7 @@ msgstr "Ce n'est pas une adresse e-mail valide."
 msgid ""
 "This is only a generic preview, header & footer are adjusted depending on "
 "the context!"
-msgstr ""
-"Ce n'est qu'un générique aperçu, en-tête et pied de page sont ajustés en "
-"fonction du contexte!"
+msgstr "Ce n'est qu'un aperçu générique, l'en-tête et le pied de page sont ajustés en fonction du contexte !"
 
 msgid "This place do not exists!"
 msgstr "Ce lieu n'existe pas !"
@@ -1101,19 +1032,19 @@ msgid "URL (.mp3)"
 msgstr "URL (.mp3)"
 
 msgid "Upgrade done!"
-msgstr "Mise à niveau fait!"
+msgstr "Mise à niveau terminée !"
 
 msgid "Upgrade required for Sources APK / IPA"
-msgstr "Mise à jour requise pour les Sources APK / IPA"
+msgstr "Mise à niveau requise pour les sources APK / IPA"
 
 msgid "User %s just signed-up on the platform."
-msgstr "L'utilisateur %s vient de signer sur la plate-forme."
+msgstr "L'utilisateur %s vient de s'inscrire sur la plateforme."
 
 msgid "User-Styler Module"
-msgstr "L'Utilisateur Styler Module"
+msgstr "Module User-Styler"
 
 msgid "Username: siberian-notifier, etc..."
-msgstr "Nom d'utilisateur: sibérie-déclarant, etc..."
+msgstr "Nom d'utilisateur : siberian-notifier, etc..."
 
 msgid "VIEW"
 msgstr "VOIR"
@@ -1121,26 +1052,20 @@ msgstr "VOIR"
 msgid ""
 "We were unable to automatically cancel the subscription, please check "
 "manually on your %s dashboard."
-msgstr ""
-"Nous n'avons pas pu automatiquement l'annulation de l'abonnement, veuillez "
-"consulter manuellement sur votre %s tableau de bord."
+msgstr "Nous n'avons pas pu annuler automatiquement l'abonnement, veuillez vérifier manuellement sur votre tableau de bord %s."
 
 msgid "We were unable to verify you payment, please try again later!"
-msgstr ""
-"Nous n'avons pas pu vérifier votre paiement, s'il vous plaît essayer à "
-"nouveau plus tard!"
+msgstr "Nous n'avons pas pu vérifier votre paiement, veuillez réessayer plus tard !"
 
 msgid ""
 "Website must start with http:// or https://, invalid value have been removed!"
-msgstr ""
-"Site web doit commencer par http:// ou https://, valeur non valide ont été "
-"retirés!"
+msgstr "Le site web doit commencer par http:// ou https://, les valeurs non valides ont été supprimées !"
 
 msgid "What if I choose the minimal upgrade?"
 msgstr "Que faire si je choisis la mise à niveau minimale?"
 
 msgid "What if I skip the upgrade?"
-msgstr "Que faire si je me passer de la mise à niveau?"
+msgstr "Que se passe-t-il si je passe la mise à niveau ?"
 
 msgid "What will the full upgrade do?"
 msgstr "Que fera la mise à niveau complète?"
@@ -1152,7 +1077,7 @@ msgid "What's new?"
 msgstr "Quoi de neuf?"
 
 msgid "Whitelabel Settings"
-msgstr "Whitelabel Paramètres"
+msgstr "Paramètres de la marque blanche"
 
 msgid "YES"
 msgstr "OUI"
@@ -1173,39 +1098,29 @@ msgid "Yes, delete!"
 msgstr "Oui, le supprimer!"
 
 msgid "You already have a google-services.json file"
-msgstr "Vous avez déjà un compte google-services.fichier json"
+msgstr "Vous avez déjà un fichier google-services.json"
 
 msgid ""
 "You are about to cancel your Subscription, if this is a paid plan the "
 "subscription will be cancelled at the end of the recurring period, otherwise "
 "the subscription will be immediately cancelled and the application locked.<"
 "br /><br />Below you can leave a message for the Administrator.<br />"
-msgstr ""
-"Vous êtes sur le point d'annuler votre Abonnement, si c'est un abonnement "
-"payant l'abonnement sera résilié à la fin de la période récurrente, sinon "
-"l'abonnement sera immédiatement annulée et l'application se bloque.<br /><br "
-"/>ci-Dessous, vous pouvez laisser un message pour l'Administrateur.<br />"
+msgstr "Vous êtes sur le point d'annuler votre abonnement, s'il s'agit d'un abonnement payant il sera résilié à la fin de la période récurrente, sinon l'abonnement sera immédiatement annulé et l'application verrouillée.<br /><br />Ci-dessous, vous pouvez laisser un message pour l'administrateur.<br />"
 
 msgid ""
 "You are about to delete the category #CATEGORY_NAME# with all it's "
 "subcategories<br />Please note that any products inside the category and "
 "it's subcategories will be deleted!"
-msgstr ""
-"Vous êtes sur le point de supprimer la catégorie #CATEGORY_NAME# avec tous "
-"ses sous-catégories<br />Veuillez noter que tous les produits à l'intérieur "
-"de la catégorie et sous-catégories seront supprimés!"
+msgstr "Vous êtes sur le point de supprimer la catégorie #CATEGORY_NAME# avec toutes ses sous-catégories<br />Veuillez noter que tous les produits de la catégorie et de ses sous-catégories seront supprimés !"
 
 msgid ""
 "You are about to delete the folder #FOLDER_NAME# with all it's subfolders, "
 "please note that any features inside the folder and it's subfolders will be "
 "re-assigned to the Homepage!"
-msgstr ""
-"Vous êtes sur le point de supprimer le dossier #<# avec tous ses sous-"
-"dossiers, veuillez noter que toutes les fonctions à l'intérieur du dossier "
-"et sous-dossiers seront attribués de nouveau à la page d'Accueil!"
+msgstr "Vous êtes sur le point de supprimer le dossier #FOLDER_NAME# avec tous ses sous-dossiers, veuillez noter que toutes les fonctionnalités du dossier et de ses sous-dossiers seront réaffectées à la page d'accueil !"
 
 msgid "You are about to delete the product #PRODUCT_NAME#"
-msgstr "Vous êtes sur le point de supprimer le produit #PRODUIT_NOM#"
+msgstr "Vous êtes sur le point de supprimer le produit #PRODUCT_NAME#"
 
 msgid "You are not allowed to delete this account in demo!"
 msgstr "Vous n'êtes pas autorisé à supprimer ce compte dans la démo!"
@@ -1214,18 +1129,15 @@ msgid "You are not allowed to edit this account in demo!"
 msgstr "Vous n'êtes pas autorisé à modifier ce compte en démo!"
 
 msgid "You can also use another Google Font not listed up there"
-msgstr ""
-"Vous pouvez également utiliser un autre Google font pas répertorié là-haut"
+msgstr "Vous pouvez également utiliser une autre Google Font non listée ci-dessus"
 
 msgid ""
 "You can change the browser tab title with the translations: Edit the "
 "backoffice.csv and translate Siberian - Backoffice."
-msgstr ""
-"Vous pouvez modifier l'onglet navigateur de titre avec les traductions: "
-"Modifier le backoffice.csv et de les traduire de Sibérie - Backoffice."
+msgstr "Vous pouvez modifier le titre de l'onglet du navigateur via les traductions : modifiez le fichier backoffice.csv et traduisez Siberian - Backoffice."
 
 msgid "You have no mail logs."
-msgstr "Vous n'avez pas les journaux de messagerie."
+msgstr "Vous n'avez aucun journal de messagerie."
 
 msgid ""
 "You have to create a Google account before publishing your application. <a "
@@ -1249,19 +1161,13 @@ msgid ""
 "You have to create an Apple account before publishing your application. <a "
 "href=\"https://appleid.apple.com/account#!&page=create\" target=\"_blank\">"
 "Click here to create one.</a>"
-msgstr ""
-"Vous devez créer un compte Apple avant la publication de votre application. <"
-"a href=\"https://appleid.apple.com/account#!&page=créer\" target=\"_blank\">"
-"Cliquez ici pour en créer un.</a>"
+msgstr "Vous devez créer un compte Apple avant la publication de votre application. <a href=\"https://appleid.apple.com/account#!&page=create\" target=\"_blank\">Cliquez ici pour en créer un.</a>"
 
 msgid ""
 "You have to create an Apple account before publishing your application.<br "
 "/><a href=\"https://appleid.apple.com/account#!&page=create\" target=\""
 "_blank\">Click here to create one.</a>"
-msgstr ""
-"Vous devez créer un compte Apple avant la publication de votre application.<"
-"br /><a href=\"https://appleid.apple.com/account#!&page=créer\" target=\""
-"_blank\">Cliquez ici pour en créer un.</a>"
+msgstr "Vous devez créer un compte Apple avant la publication de votre application.<br /><a href=\"https://appleid.apple.com/account#!&page=create\" target=\"_blank\">Cliquez ici pour en créer un.</a>"
 
 msgid "You just received a publication request:"
 msgstr "Vous venez de recevoir une demande de publication:"
@@ -1282,31 +1188,21 @@ msgid "You must select at least one orientation for Android!"
 msgstr "Vous devez sélectionner au moins une orientation pour Android!"
 
 msgid "You must select both a Development Team & an iTunes Connect provider!"
-msgstr ""
-"Vous devez sélectionner à la fois une Équipe de Développement et un iTunes "
-"Connect fournisseur!"
+msgstr "Vous devez sélectionner à la fois une équipe de développement et un fournisseur iTunes Connect !"
 
 msgid "You offline subscription is awaiting approval from an Administrator!"
-msgstr ""
-"Vous abonnement en mode hors connexion est en attente de l'approbation d'un "
-"Administrateur!"
+msgstr "Votre abonnement hors ligne est en attente d'approbation par un administrateur !"
 
 msgid ""
 "Your application is set to use the homepage background for all the features!<"
 "br />You can't upload individual backgrounds for the features."
-msgstr ""
-"Votre application est configuré pour utiliser la page d'accueil d'arrière-"
-"plan pour toutes les fonctionnalités!<br />Vous ne pouvez pas télécharger "
-"les contextes individuels pour les fonctionnalités."
+msgstr "Votre application est configurée pour utiliser l'arrière-plan de la page d'accueil pour toutes les fonctionnalités !<br />Vous ne pouvez pas téléverser d'arrière-plans individuels pour les fonctionnalités."
 
 msgid ""
 "Your are about to replace the current application template, colors & "
 "features.\n"
 "Are you sure ?"
-msgstr ""
-"Vous êtes sur le point de remplacer l'actuel modèle d'application, les "
-"couleurs et caractéristiques.\\n"
-"Are-vous sûr ?"
+msgstr "Vous êtes sur le point de remplacer le modèle d'application, les couleurs et les fonctionnalités actuels.\nÊtes-vous sûr ?"
 
 msgid "Your licenses"
 msgstr "Vos licences"
@@ -1323,38 +1219,31 @@ msgstr ""
 "<a href=\"%s\">Cliquez ici</a> pour retourner à la liste de vos applications"
 
 msgid "<b>File type:</b> %s<br /><b>Recommended size:</b> %s"
-msgstr "<b>type de Fichier:</b> %s<br /><b>taille Recommandée:</b> %s"
+msgstr "<b>Type de fichier:</b> %s<br /><b>Taille recommandée:</b> %s"
 
 msgid ""
 "<b>Geolocation</b> option for the Overview & HTML5 will be displayed & work "
 "only when using HTTPS, however it works in Android & iOS apps without HTTPS."
-msgstr ""
-"<b>la Géolocalisation</b> option pour la Présentation et le HTML5 sera "
-"affiché et travailler uniquement lors de l'utilisation de HTTPS, cependant "
-"il fonctionne sur Android et iOS apps sans HTTPS."
+msgstr "L'option <b>Géolocalisation</b> pour la vue d'ensemble & HTML5 sera affichée et ne fonctionnera que si vous utilisez HTTPS, mais elle fonctionne dans les applications Android et iOS sans HTTPS."
 
 msgid ""
 "<button class=\"add btn color-blue\" type=\"button\"><i class=\"fa fa-plus-"
 "circle\"></i><span> Click to add an item</span></button>"
-msgstr ""
-"<button class=\"ajouter btn couleur-bleu\" type=\"button\"><i class=\"fa fa-"
-"plus-cercle\"></i><span> Cliquez sur pour ajouter un article</span></button>"
+msgstr "<button class=\"add btn color-blue\" type=\"button\"><i class=\"fa fa-plus-circle\"></i><span> Cliquez pour ajouter un élément</span></button>"
 
 msgid "category_id"
 msgstr "category_id"
 
 msgid "fa-toggle-on"
-msgstr "fa-bascule sur"
+msgstr "fa-toggle-on"
 
 msgid "filtered from #TOTAL# total records"
-msgstr "filtré depuis #TOTAL# enregistrements"
+msgstr "filtré à partir de #TOTAL# enregistrements au total"
 
 msgid ""
 "iOS & Android (You must set both a Firebase Key & upload a Push Certificate "
 "for the Application)"
-msgstr ""
-"iOS & Android (Vous devez définir à la fois un Firebase Clé et télécharger "
-"un Certificat Push de l'Application)"
+msgstr "iOS & Android (Vous devez définir à la fois une clé Firebase et téléverser un certificat Push pour l'application)"
 
 msgid "iOS 9+"
 msgstr "iOS 9+"
@@ -1363,17 +1252,16 @@ msgid "iOS NS*Descriptions"
 msgstr "iOS NS*Descriptions"
 
 msgid "iOS only (You must upload a Push Certificate for the Application)"
-msgstr ""
-"iOS uniquement (Vous devez télécharger un Certificat Push de l'Application)"
+msgstr "iOS uniquement (Vous devez téléverser un certificat Push pour l'application)"
 
 msgid "iOS-Autopublish service is unreachable."
-msgstr "iOS-Autopublish service est inaccessible."
+msgstr "Le service iOS-Autopublish est inaccessible."
 
 msgid "iPhone & iPad & Android orientation"
-msgstr "iPhone & iPad & Android orientation"
+msgstr "Orientation iPhone & iPad & Android"
 
 msgid "iPhone (No Ads)"
-msgstr "l'iPhone (Pas de publicité)"
+msgstr "iPhone (Sans publicité)"
 
 msgid "<img src=\"%s\" width=\"160\" title=\"%s\" />"
 msgstr "<img src=\"%s\" width=\"160\" title=\"%s\" />"
@@ -1388,10 +1276,10 @@ msgid "or unlimited?"
 msgstr "ou illimité"
 
 msgid "php-redis module is required!"
-msgstr "php-redis module est requis!"
+msgstr "Le module php-redis est requis !"
 
 msgid "please respect the font name case!"
-msgstr "s'il vous plaît respecter la casse du nom de la police !"
+msgstr "veuillez respecter la casse du nom de la police !"
 
 msgid "record"
 msgstr "enregistrement"

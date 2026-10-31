@@ -6,19 +6,19 @@ msgstr ""
 "X-Generator: ezgif.com\n"
 
 msgid ": activate to sort column ascending"
-msgstr ": कॉलम आरोही को सॉर्ट करने के लिए सक्रिय करें"
+msgstr ": कॉलम को आरोही क्रम में सॉर्ट करने के लिए सक्रिय करें"
 
 msgid ": activate to sort column descending"
-msgstr ": कॉलम अवरोही को सॉर्ट करने के लिए सक्रिय करें"
+msgstr ": कॉलम को अवरोही क्रम में सॉर्ट करने के लिए सक्रिय करें"
 
 msgid "1 points ="
-msgstr "1 अंक ="
+msgstr "1 बिंदु ="
 
 msgid "20.00%"
 msgstr "20.00%"
 
 msgid "Add Discount"
-msgstr "डिस्काउंट जोड़े"
+msgstr "डिस्काउंट जोड़ें"
 
 msgid "Add a format"
 msgstr "एक प्रारूप जोड़ें"
@@ -36,7 +36,7 @@ msgid "Add pictures"
 msgstr "चित्र जोड़ें"
 
 msgid "Add to cart"
-msgstr "गाड़ी में जोड़े"
+msgstr "कार्ट में जोड़ें"
 
 msgid "All fields with a * are required."
 msgstr "* के साथ सभी फ़ील्ड आवश्यक हैं।"
@@ -54,16 +54,16 @@ msgid "An error occurred while cancelling. Please try again later."
 msgstr "रद्द करते समय एक त्रुटि हुई। कृपया बाद में पुन: प्रयास करें।"
 
 msgid "An error occurred while proceeding the payment. Please, try again later."
-msgstr "भुगतान आगे बढ़ने के दौरान एक त्रुटि हुई। कृपया, बाद में पुन: प्रयास करें।"
+msgstr "भुगतान की प्रक्रिया के दौरान एक त्रुटि हुई। कृपया बाद में पुनः प्रयास करें।"
 
 msgid "An error occurred while proceeding your order:"
-msgstr "आपके आदेश को आगे बढ़ाने के दौरान एक त्रुटि हुई:"
+msgstr "आपके ऑर्डर की प्रक्रिया के दौरान एक त्रुटि हुई:"
 
 msgid "An error occurred while proceeding your order. Please, check the following information:"
-msgstr "आपके आदेश को आगे बढ़ाने के दौरान एक त्रुटि हुई। कृपया, निम्न जानकारी की जाँच करें:"
+msgstr "आपके ऑर्डर की प्रक्रिया के दौरान एक त्रुटि हुई। कृपया निम्न जानकारी की जाँच करें:"
 
 msgid "Are you sure you want to close without saving"
-msgstr "क्या आप वाकई बचत के बिना बंद करना चाहते हैं"
+msgstr "क्या आप वाकई सहेजे बिना बंद करना चाहते हैं"
 
 msgid "Are you sure you want to delete this category and all its subcategories?"
 msgstr "क्या आप वाकई इस श्रेणी और उसके सभी उपश्रेणियों को हटाना चाहते हैं?"
@@ -87,10 +87,10 @@ msgid "CVC"
 msgstr "सीवीसी"
 
 msgid "Calculate the change for the client"
-msgstr "ग्राहक के लिए परिवर्तन की गणना करें"
+msgstr "ग्राहक को लौटाई जाने वाली रेज़गारी की गणना करें"
 
 msgid "Cancel order"
-msgstr "आदेश रद्द करें"
+msgstr "ऑर्डर रद्द करें"
 
 msgid "Cancelled"
 msgstr "रद्द कर दिया गया"
@@ -99,10 +99,10 @@ msgid "Card Number"
 msgstr "कार्ड नंबर"
 
 msgid "Carry Out"
-msgstr "बाहर ले जाने के"
+msgstr "टेक अवे"
 
 msgid "Cart"
-msgstr "गाड़ी"
+msgstr "कार्ट"
 
 msgid "Cash"
 msgstr "कैश"
@@ -111,19 +111,19 @@ msgid "Category"
 msgstr "श्रेणी"
 
 msgid "Category successfully saved."
-msgstr "श्रेणी सफलतापूर्वक बचाया।"
+msgstr "श्रेणी सफलतापूर्वक सहेजी गई।"
 
 msgid "Check"
-msgstr "चेक करें"
+msgstr "जाँचें"
 
 msgid "Choose a delivery method:"
-msgstr "एक वितरण विधि चुनें:"
+msgstr "डिलीवरी विधि चुनें:"
 
 msgid "Choose a payment method:"
 msgstr "भुगतान विधि चुनें:"
 
 msgid "Choose a store"
-msgstr "एक दुकान चुनें"
+msgstr "एक स्टोर चुनें"
 
 msgid "City"
 msgstr "शहर"
@@ -132,13 +132,13 @@ msgid "Client"
 msgstr "ग्राहक"
 
 msgid "Client will pay"
-msgstr "ग्राहक का भुगतान करना होगा"
+msgstr "ग्राहक को भुगतान करना होगा"
 
 msgid "Code"
 msgstr "कोड"
 
 msgid "Code used"
-msgstr "कोड का इस्तेमाल किया"
+msgstr "प्रयुक्त कोड"
 
 msgid "Completed"
 msgstr "पूरा हो गया"
@@ -168,7 +168,7 @@ msgid "Create a new tax"
 msgstr "एक नया कर बनाएँ"
 
 msgid "Create a store"
-msgstr "एक दुकान बनाएँ"
+msgstr "एक स्टोर बनाएँ"
 
 msgid "Credit Card by phone"
 msgstr "फोन द्वारा क्रेडिट कार्ड"
@@ -177,7 +177,7 @@ msgid "Credit card (online payment)"
 msgstr "क्रेडिट कार्ड (ऑनलाइन भुगतान)"
 
 msgid "Credit card (pay upon pickup or delivery)"
-msgstr "क्रेडिट कार्ड (पिक या डिलीवरी पर भुगतान करें)"
+msgstr "क्रेडिट कार्ड (पिकअप या डिलीवरी पर भुगतान करें)"
 
 msgid "Credit card payment"
 msgstr "क्रेडिट कार्ड भुगतान"
@@ -189,7 +189,7 @@ msgid "Customer Service"
 msgstr "ग्राहक सेवा"
 
 msgid "Customer can add tip to a command?"
-msgstr "ग्राहक एक आदेश के लिए टिप जोड़ सकते हैं?"
+msgstr "क्या ग्राहक ऑर्डर में टिप जोड़ सकता है?"
 
 msgid "Date of birth"
 msgstr "जन्म तिथि"
@@ -204,28 +204,28 @@ msgid "Delete"
 msgstr "हटाएँ"
 
 msgid "Delivery"
-msgstr "डिलिवरी"
+msgstr "डिलीवरी"
 
 msgid "Delivery Fees"
-msgstr "डिलिवरी शुल्क"
+msgstr "डिलीवरी शुल्क"
 
 msgid "Delivery Method"
-msgstr "वितरण विधि"
+msgstr "डिलीवरी विधि"
 
 msgid "Delivery address"
-msgstr "डिलिवरी पता"
+msgstr "डिलीवरी पता"
 
 msgid "Delivery area"
-msgstr "वितरण क्षेत्र"
+msgstr "डिलीवरी क्षेत्र"
 
 msgid "Delivery fees"
-msgstr "डिलिवरी शुल्क"
+msgstr "डिलीवरी शुल्क"
 
 msgid "Delivery methods"
-msgstr "डिलिवरी विधियां"
+msgstr "डिलीवरी विधियाँ"
 
 msgid "Delivery radius"
-msgstr "डिलिवरी त्रिज्या"
+msgstr "डिलीवरी त्रिज्या"
 
 msgid "Delivery time"
 msgstr "डिलीवरी का समय"
@@ -234,7 +234,7 @@ msgid "Details"
 msgstr "विवरण"
 
 msgid "Discound code"
-msgstr "कोड को त्यागें"
+msgstr "डिस्काउंट कोड"
 
 msgid "Discount"
 msgstr "डिस्काउंट"
@@ -246,7 +246,7 @@ msgid "Discount amount"
 msgstr "छूट राशि"
 
 msgid "Discount amount si very high"
-msgstr "डिस्काउंट राशि si बहुत अधिक है"
+msgstr "डिस्काउंट राशि बहुत अधिक है"
 
 msgid "Discount code"
 msgstr "डिस्काउंट कोड"
@@ -261,19 +261,19 @@ msgid "Discount label is missing"
 msgstr "डिस्काउंट लेबल गुम है"
 
 msgid "Discount minimum amount is missing"
-msgstr "डिस्काउंट न्यूनतम राशि याद आ रही है"
+msgstr "डिस्काउंट की न्यूनतम राशि अनुपलब्ध है"
 
 msgid "Discount no longer available"
 msgstr "डिस्काउंट अब उपलब्ध नहीं है"
 
 msgid "Discount only for carts with total more than:"
-msgstr "केवल कुल के साथ गाड़ियां के लिए छूट:"
+msgstr "केवल उन कार्ट के लिए छूट जिनका कुल इससे अधिक हो:"
 
 msgid "Discount settings"
 msgstr "डिस्काउंट सेटिंग"
 
 msgid "Discount total"
-msgstr "छूट कुल"
+msgstr "कुल छूट"
 
 msgid "Discount type"
 msgstr "डिस्काउंट प्रकार"
@@ -282,19 +282,19 @@ msgid "Discount type is missing"
 msgstr "डिस्काउंट प्रकार गुम है"
 
 msgid "Discount used"
-msgstr "डिस्काउंट का इस्तेमाल किया"
+msgstr "प्रयुक्त डिस्काउंट"
 
 msgid "Discount validation date"
 msgstr "डिस्काउंट सत्यापन तिथि"
 
 msgid "Discounted amount is missing"
-msgstr "रियायती राशि याद आ रही है"
+msgstr "रियायती राशि अनुपलब्ध है"
 
 msgid "Discounted amount should be a positive number"
-msgstr "रियायती राशि एक सकारात्मक संख्या होना चाहिए"
+msgstr "रियायती राशि एक धनात्मक संख्या होनी चाहिए"
 
 msgid "Do you confirm you want to remove your card?"
-msgstr "क्या आप पुष्टि करते हैं कि आप अपना कार्ड निकालना चाहते हैं?"
+msgstr "क्या आप पुष्टि करते हैं कि आप अपना कार्ड हटाना चाहते हैं?"
 
 msgid "Done"
 msgstr "हो गया"
@@ -303,22 +303,22 @@ msgid "Duplicate this product"
 msgstr "इस उत्पाद को डुप्लिकेट करें"
 
 msgid "Edit a store"
-msgstr "एक दुकान संपादित करें"
+msgstr "एक स्टोर संपादित करें"
 
 msgid "Edit the choice list group"
 msgstr "पसंद सूची समूह संपादित करें"
 
 msgid "Edit the discount %s"
-msgstr "छूट%s संपादित करें"
+msgstr "छूट %s संपादित करें"
 
 msgid "Edit the options group %s"
-msgstr "विकल्प संपादित करें%s समूह%s"
+msgstr "विकल्प समूह %s संपादित करें"
 
 msgid "Edit the product %s"
-msgstr "उत्पाद%s संपादित करें"
+msgstr "उत्पाद %s संपादित करें"
 
 msgid "Edit the tax %s"
-msgstr "कर%s संपादित करें"
+msgstr "कर %s संपादित करें"
 
 msgid "Email"
 msgstr "ईमेल"
@@ -345,10 +345,10 @@ msgid "Format:"
 msgstr "प्रारूप:"
 
 msgid "Free delivery starting from"
-msgstr "नि: शुल्क वितरण से शुरू"
+msgstr "निःशुल्क डिलीवरी इससे शुरू"
 
 msgid "Free purchase"
-msgstr "नि: शुल्क खरीद"
+msgstr "निःशुल्क खरीद"
 
 msgid "From"
 msgstr "से"
@@ -357,25 +357,25 @@ msgid "Gratuity"
 msgstr "ग्रेच्युटी"
 
 msgid "Guest Order"
-msgstr "अतिथि आदेश"
+msgstr "अतिथि ऑर्डर"
 
 msgid "Here is the detail of the order"
-msgstr "यहां आदेश का विवरण दिया गया है"
+msgstr "यहाँ ऑर्डर का विवरण दिया गया है"
 
 msgid "Here is the detail of your order"
-msgstr "यहां आपके आदेश का विवरण दिया गया है"
+msgstr "यहाँ आपके ऑर्डर का विवरण दिया गया है"
 
 msgid "Hidden"
 msgstr "छिपा हुआ"
 
 msgid "Hours of operation"
-msgstr "ऑपरेशन के घंटे"
+msgstr "कार्य समय"
 
 msgid "I will pay"
-msgstr "मैं भुगतान करेंगे"
+msgstr "मैं भुगतान करूँगा"
 
 msgid "In store"
-msgstr "दुकान में"
+msgstr "स्टोर में"
 
 msgid "Incl."
 msgstr "सहित."
@@ -384,7 +384,7 @@ msgid "Invalid code"
 msgstr "अमान्य कोड"
 
 msgid "Invoicing address"
-msgstr "चालान पता"
+msgstr "बिलिंग पता"
 
 msgid "Keep card information"
 msgstr "कार्ड की जानकारी रखें"
@@ -429,25 +429,25 @@ msgid "Minimum amount"
 msgstr "न्यूनतम राशि"
 
 msgid "Minimum amount should be a positive number"
-msgstr "न्यूनतम राशि एक सकारात्मक संख्या होना चाहिए"
+msgstr "न्यूनतम राशि एक धनात्मक संख्या होनी चाहिए"
 
 msgid "Minimum order"
-msgstr "न्यूनतम आदेश"
+msgstr "न्यूनतम ऑर्डर"
 
 msgid "My Cart"
 msgstr "मेरा कार्ट"
 
 msgid "My cart is empty"
-msgstr "मेरा गाड़ी खाली है"
+msgstr "मेरा कार्ट खाली है"
 
 msgid "My categories"
-msgstr "मेरे श्रेणियाँ"
+msgstr "मेरी श्रेणियाँ"
 
 msgid "My information"
 msgstr "मेरी जानकारी"
 
 msgid "My orders"
-msgstr "मेरे आदेश"
+msgstr "मेरे ऑर्डर"
 
 msgid "My products"
 msgstr "मेरे उत्पाद"
@@ -465,13 +465,13 @@ msgid "My stores"
 msgstr "मेरे स्टोर"
 
 msgid "My taxes"
-msgstr "मेरे करों"
+msgstr "मेरे कर"
 
 msgid "Name of the options group:"
 msgstr "विकल्प समूह का नाम:"
 
 msgid "New order from the application"
-msgstr "आवेदन से नया आदेश"
+msgstr "एप्लिकेशन से नया ऑर्डर"
 
 msgid "Next"
 msgstr "अगला"
@@ -510,31 +510,31 @@ msgid "Order Number"
 msgstr "ऑर्डर नंबर"
 
 msgid "Order N°"
-msgstr "आदेश N°"
+msgstr "ऑर्डर N°"
 
 msgid "Order Total"
-msgstr "आदेश कुल"
+msgstr "ऑर्डर कुल"
 
 msgid "Order confirmation"
-msgstr "आदेश की पुष्टि"
+msgstr "ऑर्डर की पुष्टि"
 
 msgid "Order details"
-msgstr "आदेश विवरण"
+msgstr "ऑर्डर विवरण"
 
 msgid "Order history"
-msgstr "आदेश इतिहास"
+msgstr "ऑर्डर इतिहास"
 
 msgid "Order %s cancelled"
-msgstr "आदेश%S रद्द कर दिया गया"
+msgstr "ऑर्डर %s रद्द किया गया"
 
 msgid "Order successfully cancelled"
-msgstr "आदेश सफलतापूर्वक रद्द कर दिया"
+msgstr "ऑर्डर सफलतापूर्वक रद्द किया गया"
 
 msgid "Order successfully saved"
-msgstr "आदेश सफलतापूर्वक बचाया"
+msgstr "ऑर्डर सफलतापूर्वक सहेजा गया"
 
 msgid "Orders"
-msgstr "आदेश"
+msgstr "ऑर्डर"
 
 msgid "Paid"
 msgstr "भुगतान किया"
@@ -546,7 +546,7 @@ msgid "Password"
 msgstr "पासवर्ड"
 
 msgid "Pay"
-msgstr "वेतन"
+msgstr "भुगतान करें"
 
 msgid "Payment"
 msgstr "भुगतान"
@@ -567,13 +567,13 @@ msgid "Pending payment"
 msgstr "लंबित भुगतान"
 
 msgid "Percentage is a least 1%, at max 99%"
-msgstr "प्रतिशत एक कम से कम 1% है, अधिकतम 99% पर"
+msgstr "प्रतिशत कम से कम 1% और अधिकतम 99% होना चाहिए"
 
 msgid "Percentage must be at least 1 percent, at most 99 percent"
-msgstr "प्रतिशत कम से कम 1 प्रतिशत होना चाहिए, अधिकतम 99 प्रतिशत पर"
+msgstr "प्रतिशत कम से कम 1 प्रतिशत और अधिकतम 99 प्रतिशत होना चाहिए"
 
 msgid "Permit unregistered user to make order?"
-msgstr "आदेश बनाने के लिए अपंजीकृत उपयोगकर्ता की अनुमति दें?"
+msgstr "क्या अपंजीकृत उपयोगकर्ता को ऑर्डर करने की अनुमति दें?"
 
 msgid "Phone"
 msgstr "फ़ोन"
@@ -591,7 +591,7 @@ msgid "Please choose a payment method"
 msgstr "कृपया एक भुगतान विधि चुनें"
 
 msgid "Please, enter an email address for the store %s"
-msgstr "कृपया, स्टोर%s के लिए एक ईमेल पता दर्ज करें"
+msgstr "कृपया, स्टोर %s के लिए एक ईमेल पता दर्ज करें"
 
 msgid "Please fill in your card information to process Credit card payment:"
 msgstr "क्रेडिट कार्ड भुगतान को संसाधित करने के लिए कृपया अपनी कार्ड जानकारी भरें:"
@@ -624,7 +624,7 @@ msgid "Proceed"
 msgstr "आगे बढ़ें"
 
 msgid "Processing..."
-msgstr "प्रसंस्करण..."
+msgstr "प्रोसेस हो रहा है..."
 
 msgid "Product"
 msgstr "उत्पाद"
@@ -639,16 +639,16 @@ msgid "Product successfully duplicated"
 msgstr "उत्पाद सफलतापूर्वक डुप्लिकेट किया गया"
 
 msgid "Product successfully saved"
-msgstr "उत्पाद सफलतापूर्वक बचाया"
+msgstr "उत्पाद सफलतापूर्वक सहेजा गया"
 
 msgid "Publishable Key:"
 msgstr "प्रकाशित करने योग्य कुंजी:"
 
 msgid "Qty"
-msgstr "क्टी"
+msgstr "मात्रा"
 
 msgid "Qty: %s"
-msgstr "Qty: %s"
+msgstr "मात्रा: %s"
 
 msgid "Radius in Km"
 msgstr "किलोमीटर में त्रिज्या"
@@ -657,7 +657,7 @@ msgid "Remaining amount due"
 msgstr "शेष राशि देय"
 
 msgid "Remaining due"
-msgstr "कारण शेष"
+msgstr "शेष देय"
 
 msgid "Remove card"
 msgstr "कार्ड निकालें"
@@ -702,13 +702,13 @@ msgid "Some mandatory fields are empty."
 msgstr "कुछ अनिवार्य फ़ील्ड खाली हैं।"
 
 msgid "Sorry we can't proceed to deliver your order. It has been canceled."
-msgstr "क्षमा करें, हम आपके आदेश देने के लिए आगे नहीं बढ़ सकते हैं। इसे रद्द कर दिया गया है।"
+msgstr "क्षमा करें, हम आपके ऑर्डर की डिलीवरी आगे नहीं बढ़ा सकते। इसे रद्द कर दिया गया है।"
 
 msgid "Status"
 msgstr "स्थिति"
 
 msgid "Store choice"
-msgstr "स्टोर पसंद"
+msgstr "स्टोर का चयन"
 
 msgid "Store information"
 msgstr "स्टोर जानकारी"
@@ -717,28 +717,28 @@ msgid "Store name"
 msgstr "स्टोर का नाम"
 
 msgid "Store successfully deleted"
-msgstr "स्टोर सफलतापूर्वक नष्ट कर दिया"
+msgstr "स्टोर सफलतापूर्वक हटाया गया"
 
 msgid "Store successfully saved"
-msgstr "स्टोर सफलतापूर्वक बचाया"
+msgstr "स्टोर सफलतापूर्वक सहेजा गया"
 
 msgid "Stored card information."
 msgstr "संग्रहीत कार्ड की जानकारी."
 
 msgid "Stores"
-msgstr "भंडार"
+msgstr "स्टोर"
 
 msgid "Street"
 msgstr "स्ट्रीट"
 
 msgid "Stripe settings"
-msgstr "पट्टी सेटिंग्स"
+msgstr "Stripe सेटिंग"
 
 msgid "Subtotal"
 msgstr "उप-योग"
 
 msgid "Subtotal Excl. Tax"
-msgstr "उप-योग एक्सक्ल। टैक्स"
+msgstr "उप-योग (कर रहित)"
 
 msgid "Subtotal before deduction"
 msgstr "कटौती से पहले उप-योग"
@@ -753,28 +753,28 @@ msgid "Tax rate"
 msgstr "टैक्स दर"
 
 msgid "Tax successfully deleted"
-msgstr "टैक्स सफलतापूर्वक नष्ट कर दिया"
+msgstr "टैक्स सफलतापूर्वक हटाया गया"
 
 msgid "Tax successfully saved"
-msgstr "टैक्स सफलतापूर्वक बचाया"
+msgstr "टैक्स सफलतापूर्वक सहेजा गया"
 
 msgid "Thank you!"
 msgstr "धन्यवाद!"
 
 msgid "The clients calculate the change:"
-msgstr "ग्राहक परिवर्तन की गणना करते हैं:"
+msgstr "ग्राहक चेंज की गणना करते हैं:"
 
 msgid "The delivery method"
-msgstr "वितरण विधि"
+msgstr "डिलीवरी विधि"
 
 msgid "The following options are required:<br />%s"
-msgstr "निम्नलिखित विकल्पों की आवश्यकता है :%s<br />"
+msgstr "निम्नलिखित विकल्प आवश्यक हैं:<br />%s"
 
 msgid "The option %s is required"
 msgstr "विकल्प%s की आवश्यकता है"
 
 msgid "The payment has been cancelled, something wrong happened? Feel free to contact us"
-msgstr "भुगतान रद्द कर दिया गया है, कुछ गलत हुआ? हमसे संपर्क करने के लिए स्वतंत्र महसूस करें"
+msgstr "भुगतान रद्द कर दिया गया है। कुछ गड़बड़ हुई? बेझिझक हमसे संपर्क करें"
 
 msgid "The payment method"
 msgstr "भुगतान विधि"
@@ -789,7 +789,7 @@ msgid "Total"
 msgstr "कुल"
 
 msgid "Total Excl. Tax"
-msgstr "कुल एक्सक्ल. टैक्स"
+msgstr "कुल (कर रहित)"
 
 msgid "Total Tax"
 msgstr "कुल कर"
@@ -798,16 +798,16 @@ msgid "Total: %s"
 msgstr "कुल: %s"
 
 msgid "Unable to proceed to checkout the minimum order amount is %s"
-msgstr "न्यूनतम आदेश राशि चेकआउट करने के लिए आगे बढ़ने में असमर्थ को%s है"
+msgstr "चेकआउट आगे नहीं बढ़ा सकते, न्यूनतम ऑर्डर राशि %s है"
 
 msgid "Unit Price"
 msgstr "यूनिट मूल्य"
 
 msgid "Unit price"
-msgstr "यूनिट की कीमत"
+msgstr "यूनिट मूल्य"
 
 msgid "Updating price"
-msgstr "मूल्य अद्यतन कर रहा है"
+msgstr "मूल्य अपडेट हो रहा है"
 
 msgid "Usable once"
 msgstr "एक बार प्रयोग करने योग्य"
@@ -831,13 +831,13 @@ msgid "Verify Key:"
 msgstr "कुंजी सत्यापित करें:"
 
 msgid "Waiting for payment"
-msgstr "भुगतान के लिए प्रतीक्षा कर रहा है"
+msgstr "भुगतान की प्रतीक्षा है"
 
 msgid "We apologize but the payment method %s is currently not available"
 msgstr "हम क्षमा चाहते हैं लेकिन भुगतान विधि%s वर्तमान में उपलब्ध नहीं है"
 
 msgid "We thank you for your order. A confirmation email has been sent"
-msgstr "हम आपके आदेश के लिए धन्यवाद. एक पुष्टिकरण ईमेल भेजा गया है"
+msgstr "आपके ऑर्डर के लिए धन्यवाद। एक पुष्टिकरण ईमेल भेजा गया है"
 
 msgid "YYYY"
 msgstr "YYYY"
@@ -852,10 +852,10 @@ msgid "You don't have enough points"
 msgstr "आपके पास पर्याप्त अंक नहीं हैं"
 
 msgid "You have a connected printer? Enter the email address"
-msgstr "आप एक जुड़ा प्रिंटर है? ईमेल पता दर्ज करें"
+msgstr "क्या आपके पास कोई प्रिंटर जुड़ा है? ईमेल पता दर्ज करें"
 
 msgid "You have a connected printer? Enter the email address for each store"
-msgstr "आप एक जुड़ा प्रिंटर है? प्रत्येक स्टोर के लिए ईमेल पता दर्ज करें"
+msgstr "क्या आपके पास कोई प्रिंटर जुड़ा है? प्रत्येक स्टोर के लिए ईमेल पता दर्ज करें"
 
 msgid "You have to choose a delivery method."
 msgstr "आपको एक डिलीवरी विधि चुननी होगी।"

@@ -21,18 +21,16 @@ msgstr "60000 максимально допустимое."
 msgid ""
 "A certificate already exists for the domain %s, if you want to re-generate "
 "it, use 'Force re-generate' to proceed."
-msgstr ""
-"Сертификат для домена уже существует %s, если вы хотите заново создать его, "
-"используйте силу повторно создать', чтобы продолжить."
+msgstr "Сертификат для домена %s уже существует. Чтобы создать его заново, используйте «Force re-generate»."
 
 msgid "[APK]"
-msgstr "[АПК]"
+msgstr "[APK]"
 
 msgid "APK Queue empty"
-msgstr "Очереди АПК пустые"
+msgstr "Очередь APK пуста"
 
 msgid "APK Queue status"
-msgstr "Статус очередей АПК"
+msgstr "Статус очереди APK"
 
 msgid "APNS Feedback:"
 msgstr "APNS Feedback:"
@@ -47,13 +45,13 @@ msgid "Account"
 msgstr "Аккаунт"
 
 msgid "Account Role"
-msgstr "Роль счета"
+msgstr "Роль аккаунта"
 
 msgid "Actions"
-msgstr "Действие"
+msgstr "Действия"
 
 msgid "Activate VAT number check with VIES"
-msgstr "Активировать  номер НДС и проверить с ВИЭС"
+msgstr "Активировать проверку номера НДС через VIES"
 
 msgid "Activate user"
 msgstr "Активировать пользователя"
@@ -73,29 +71,23 @@ msgstr "Расширенный"
 msgid ""
 "Alert: The APK build for the Application: %s (%s) is stuck for more than one "
 "hour."
-msgstr ""
-"Предупреждение: Сборка APK для приложения: на %S (%S) и застрял более чем на "
-"один час."
+msgstr "Предупреждение: сборка APK для приложения %s (%s) зависла более чем на час."
 
 msgid ""
 "Alert: The Source build for the Application: %s (%s) is stuck for more than "
 "one hour."
-msgstr ""
-"Предупреждение: Источник построения для приложения: на %S (%S) и застрял "
-"более чем на один час."
+msgstr "Предупреждение: сборка исходного кода для приложения %s (%s) зависла более чем на час."
 
 msgid "All the files are required."
-msgstr "Требуется все файлы."
+msgstr "Все файлы обязательны."
 
 msgid ""
 "An entry already exists for this hostname, remove it first if you need to "
 "change your certificates."
-msgstr ""
-"Запись уже существует для данного узла, сначала удалите его, если вам нужно "
-"изменить ваши сертификаты."
+msgstr "Для этого имени хоста уже существует запись; если вам нужно изменить сертификаты, сначала удалите её."
 
 msgid "An error occured"
-msgstr "Ошибка"
+msgstr "Произошла ошибка"
 
 msgid "An error occured while saving certificate to %s."
 msgstr "Произошла ошибка при сохранении сертификата на %s."
@@ -108,16 +100,16 @@ msgid "An unknown error occured while issueing your certificate."
 msgstr "Неизвестная ошибка при выдаче сертификата."
 
 msgid "Android SDK:"
-msgstr "Андроид SDK:"
+msgstr "Android SDK:"
 
 msgid "App name"
-msgstr "Имя App"
+msgstr "Название приложения"
 
 msgid "Application settings"
 msgstr "Настройки приложения"
 
 msgid "Application successfully queued for generation."
-msgstr "Приложение успешно поставлено в очередь для поколения."
+msgstr "Приложение успешно поставлено в очередь на генерацию."
 
 msgid "Applications/Previewer manifest for automatic updates."
 msgstr "Приложения/просмотрщик манифест для автоматического обновления."
@@ -132,10 +124,10 @@ msgid "Authenticate"
 msgstr "Аутентифицировать"
 
 msgid "Average build time in seconds:"
-msgstr "Среднего время сборки в секундах:"
+msgstr "Среднее время сборки в секундах:"
 
 msgid "Average sources/apk build time:"
-msgstr "Средние время сборки исходников/АПК:"
+msgstr "Среднее время сборки исходников/APK:"
 
 msgid "Backoffice options"
 msgstr "Опции бэкофиса"
@@ -144,7 +136,7 @@ msgid "Bearer Token Auth (API)"
 msgstr "Токен Bearer Auth (API)"
 
 msgid "Bearer Token Auth is valid."
-msgstr "Маркер на предъявителя авт действителен."
+msgstr "Bearer Token Auth действителен."
 
 msgid "Beta"
 msgstr "Бета"
@@ -158,19 +150,16 @@ msgstr "Время сборки (в секундах)"
 msgid ""
 "By clicking on link below, you will open your editor in tour editing mode. "
 "Please note that your user account must be created on editor side."
-msgstr ""
-"Нажав на ссылку ниже, вы откроете редактор в режиме редактирования тур. "
-"Обратите внимание, что ваша учетная запись Пользователя должна быть создана "
-"на стороне редактора."
+msgstr "Нажав на ссылку ниже, вы откроете редактор в режиме редактирования экскурсии. Обратите внимание, что ваша учётная запись пользователя должна быть создана на стороне редактора."
 
 msgid "CA"
 msgstr "CA"
 
 msgid "CA certificate"
-msgstr "Сертификат"
+msgstr "Сертификат центра сертификации (CA)"
 
 msgid "CA path:"
-msgstr "Путь сертификации:"
+msgstr "Путь к сертификату CA:"
 
 msgid "CRON Scheduler interval"
 msgstr "Интервал планировщика CRON"
@@ -182,10 +171,10 @@ msgid "Cache (var/cache, system cache)"
 msgstr "Кэш (папки var/cache, system cache)"
 
 msgid "Can generate APK"
-msgstr "Может генерировать АПК"
+msgstr "Может генерировать APK"
 
 msgid "Cert"
-msgstr "Корзина"
+msgstr "Сертификат"
 
 msgid "Certificate"
 msgstr "Сертификат"
@@ -205,12 +194,10 @@ msgstr "Сертификат успешно сгенерирован."
 msgid ""
 "Certificate successfully generated. Please wait while %s is reloading "
 "configuration ..."
-msgstr ""
-"Сертификат успешно сгенерирован. Пожалуйста, подождите %S-это перезагрузка "
-"конфигурации ..."
+msgstr "Сертификат успешно сгенерирован. Пожалуйста, подождите, пока %s перезагружает конфигурацию ..."
 
 msgid "Certificate successfully re-generated."
-msgstr "Сертификат успешно сгенерирован."
+msgstr "Сертификат успешно сгенерирован заново."
 
 msgid "Change the password"
 msgstr "Изменить пароль"
@@ -218,9 +205,7 @@ msgstr "Изменить пароль"
 msgid ""
 "Check if this cron command is installed under the web user & if you have set "
 "a timezone in Settings > General"
-msgstr ""
-"Проверьте, если эта команда cron устанавливается на веб-пользователей и, "
-"если вы установили Часовой пояс в меню Настройки > Общие"
+msgstr "Проверьте, установлена ли эта команда cron для веб-пользователя и задан ли часовой пояс в разделе Настройки > Общие"
 
 msgid "Clear"
 msgstr "Очистить"
@@ -232,25 +217,25 @@ msgid "Clear logs"
 msgstr "Очистить журналы"
 
 msgid "Cleared cron errors."
-msgstr "Очистили ошибки cron."
+msgstr "Ошибки cron очищены."
 
 msgid "Click here to send your CA certificate"
-msgstr "Нажмите здесь, чтобы отправить сертификат"
+msgstr "Нажмите здесь, чтобы отправить ваш сертификат CA"
 
 msgid "Click here to send your Private certificate"
-msgstr "Нажмите здесь, чтобы отправить сертификат"
+msgstr "Нажмите здесь, чтобы отправить ваш закрытый сертификат"
 
 msgid "Click here to send your certificate"
 msgstr "Нажмите здесь, чтобы отправить сертификат"
 
 msgid "Click to mark as not read"
-msgstr "Нажмите, чтобы отметить, как не прочитанное"
+msgstr "Нажмите, чтобы отметить как непрочитанное"
 
 msgid "Click to mark as read"
-msgstr "Нажмите, чтобы отметить, как прочитанное"
+msgstr "Нажмите, чтобы отметить как прочитанное"
 
 msgid "Closed"
-msgstr "Закрыть"
+msgstr "Закрыто"
 
 msgid "Complete build log"
 msgstr "Полный лог сборки"
@@ -259,7 +244,7 @@ msgid "Configuration"
 msgstr "Конфигурация"
 
 msgid "Configuration successfully saved"
-msgstr "Информация успешно сохранена"
+msgstr "Конфигурация успешно сохранена"
 
 msgid "Core modules"
 msgstr "Основные модули"
@@ -268,10 +253,10 @@ msgid "Create a user"
 msgstr "Создайте пользователя"
 
 msgid "Created At"
-msgstr "Создан в "
+msgstr "Создано"
 
 msgid "Creation date"
-msgstr "Дата отправки"
+msgstr "Дата создания"
 
 msgid "Cron"
 msgstr "cron"
@@ -298,13 +283,13 @@ msgid "Day of week"
 msgstr "День недели"
 
 msgid "Deactivate user"
-msgstr "Деактивация пользователя"
+msgstr "Деактивировать пользователя"
 
 msgid "Default (no)"
 msgstr "По умолчанию (нет)"
 
 msgid "Development"
-msgstr "Развитие"
+msgstr "Разработка"
 
 msgid "DirectAdmin"
 msgstr "DirectAdmin"
@@ -322,7 +307,7 @@ msgid "Disk usage & Cache:"
 msgstr "Использование диска и Кэш:"
 
 msgid "Dismiss & install later"
-msgstr "Уволить и установить позже"
+msgstr "Закрыть и установить позже"
 
 msgid "Display"
 msgstr "Показать"
@@ -334,7 +319,7 @@ msgid "Download latest source"
 msgstr "Скачать последние исходники"
 
 msgid "Drop your certificate here"
-msgstr "Оставьте свой сертификат здесь"
+msgstr "Перетащите сюда ваш сертификат"
 
 msgid "Edit the user"
 msgstr "Редактирование пользователя"
@@ -343,7 +328,7 @@ msgid "Editor's Design"
 msgstr "Дизайн редактора"
 
 msgid "Enable custom SMTP configuration"
-msgstr "Включить пользовательские конфигурации SMTP"
+msgstr "Включить пользовательскую конфигурацию SMTP"
 
 msgid "Enter your credentials:"
 msgstr "Введите учетные данные:"
@@ -358,10 +343,7 @@ msgid ""
 "Errors are displayed on page, outputs are more verbose, this is an option "
 "for debug purpose, use with care as it may output some critical informations "
 "about your server."
-msgstr ""
-"Ошибки отображаются на странице, выдает более подробный, это вариант для "
-"целей отладки, использовать с осторожностью, поскольку она может выводить "
-"некоторые данные информацию о вашем сервере."
+msgstr "Ошибки отображаются на странице, вывод более подробный; это опция для целей отладки, используйте её с осторожностью, так как она может выводить важную информацию о вашем сервере."
 
 msgid "Exists"
 msgstr "Существует"
@@ -370,10 +352,10 @@ msgid "External extensions"
 msgstr "Внешние расширения"
 
 msgid "Failed"
-msgstr "провалившийся"
+msgstr "Не удалось"
 
 msgid "File hash is different from manifest."
-msgstr "Файл-хэш отличается от манифеста."
+msgstr "Хэш файла отличается от указанного в манифесте."
 
 msgid "File is missing."
 msgstr "Файл отсутствует."
@@ -391,7 +373,7 @@ msgid "Full path to use within your webserver."
 msgstr "Полный путь для использования в вашем веб-сервере."
 
 msgid "General settings"
-msgstr "общие настройки"
+msgstr "Общие настройки"
 
 msgid "Generate"
 msgstr "Создать"
@@ -403,7 +385,7 @@ msgid "Generate source"
 msgstr "Создать исходники"
 
 msgid "Generating"
-msgstr "Генеруем"
+msgstr "Генерация"
 
 msgid "[Global]"
 msgstr "[Глобальный]"
@@ -415,39 +397,35 @@ msgid "HTTP Basic Auth (API)"
 msgstr "HTTP Basic Auth (API)"
 
 msgid "HTTP Basic Auth is valid."
-msgstr "Протокол http Basic авторизации действителен."
+msgstr "HTTP Basic Auth действителен."
 
 msgid "HTTPS & SSL Certificates"
-msgstr "Сертификаты https и SSL"
+msgstr "Сертификаты HTTPS и SSL"
 
 msgid "HTTPS host is unreachable."
-msgstr "https хост недоступен."
+msgstr "HTTPS-хост недоступен."
 
 msgid "HTTPS is not available on your server."
-msgstr "Https не доступен на сервере."
+msgstr "HTTPS недоступен на вашем сервере."
 
 msgid "HTTPS not reachable"
-msgstr "Https не доступен"
+msgstr "HTTPS недоступен"
 
 msgid ""
 "HTTPS support is in <b>Beta</b>, you should test it on your <b>development "
 "server</b> first & prepare for further migration."
-msgstr ""
-"Поддержка https в <b>бета:</b>, то вы должны проверить его на вашем "
-"<B>сервер</B> на первый и подготовиться к дальнейшей миграции."
+msgstr "Поддержка HTTPS находится на стадии <b>бета</b>; сначала проверьте её на вашем <b>сервере разработки</b> и подготовьтесь к дальнейшей миграции."
 
 msgid ""
 "HTTPS support is in test, you should only try it on your development server "
 "prior to prepare for further migration."
-msgstr ""
-"Поддержка https в тесте, вы должны только попробовать это на вашем сервере "
-"разработки до подготовки к дальнейшей миграции."
+msgstr "Поддержка HTTPS находится на стадии тестирования; пробуйте её только на сервере разработки, прежде чем готовиться к дальнейшей миграции."
 
 msgid "Hide"
-msgstr "скрыть"
+msgstr "Скрыть"
 
 msgid "Host"
-msgstr "Хостинг"
+msgstr "Хост"
 
 msgid "Hostname"
 msgstr "Имя хоста"
@@ -462,14 +440,12 @@ msgid "ID"
 msgstr "ID"
 
 msgid "If inactive, your customer won't see the tour."
-msgstr "Если не активен, ваш клиент не увидит тура."
+msgstr "Если экскурсия неактивна, ваш клиент её не увидит."
 
 msgid ""
 "If you are unable to install or run the cronjob on your hosting/server you "
 "can disable it."
-msgstr ""
-"Если Вы не можете установить или запустить задачу cron на вашем хостинге/"
-"сервере, Вы можете отключить его."
+msgstr "Если вы не можете установить или запустить задачу cron на вашем хостинге/сервере, вы можете её отключить."
 
 msgid "Info"
 msgstr "Информация"
@@ -478,10 +454,10 @@ msgid "Installed"
 msgstr "Установлен"
 
 msgid "Installed icon packs"
-msgstr "Установлен пакеты иконок"
+msgstr "Установленные пакеты иконок"
 
 msgid "Installed layouts"
-msgstr "Установлены макеты"
+msgstr "Установленные макеты"
 
 msgid "Installed modules"
 msgstr "Установленные модули"
@@ -493,7 +469,7 @@ msgid "Integrity check"
 msgstr "Проверка целостности"
 
 msgid "Invoice options"
-msgstr "Варианты счета-фактуры"
+msgstr "Параметры счёта-фактуры"
 
 msgid "Issued certificates"
 msgstr "Выданные сертификаты"
@@ -520,16 +496,16 @@ msgid "Let's Encrypt environment"
 msgstr "Окружение Let's Encrypt"
 
 msgid "[Let's Encrypt] renewing certificate."
-msgstr "Обновление сертификата [Let's Encrypt]."
+msgstr "[Let's Encrypt] обновление сертификата."
 
 msgid "[Let's Encrypt] will add %s to SAN."
-msgstr "[Let's Encrypt]  будет добавлять %s в SAN."
+msgstr "[Let's Encrypt] добавит %s в SAN."
 
 msgid "Link preview"
 msgstr "Предпросмотр ссылки"
 
 msgid "List of backoffice accounts"
-msgstr "Список Бэк-офис счетов "
+msgstr "Список аккаунтов бэк-офиса"
 
 msgid "List of the messages"
 msgstr "Список сообщений"
@@ -544,13 +520,13 @@ msgid "Log (var/log, log files)"
 msgstr "Журнал (var/log, log-файлы)"
 
 msgid "Login to your backoffice interface"
-msgstr "Войдите в свой интерфейс Бэк-офис"
+msgstr "Войдите в интерфейс бэк-офиса"
 
 msgid "Logs cleared."
 msgstr "Логи очищены."
 
 msgid "Mark all as read"
-msgstr "Отметить все как прочтенное"
+msgstr "Отметить все как прочитанные"
 
 msgid "Mark as new"
 msgstr "Отметить как новое"
@@ -562,16 +538,16 @@ msgid "Messages"
 msgstr "Сообщения"
 
 msgid "Minute"
-msgstr "минут"
+msgstr "Минута"
 
 msgid "Missing parameters for generation."
 msgstr "Отсутствуют параметры для генерации."
 
 msgid "Mobile Source Codes & Builds"
-msgstr "Мобильный Исходные Коды И сборки"
+msgstr "Мобильные исходные коды и сборки"
 
 msgid "Module/User tasks"
-msgstr "Модуль задач/пользователей"
+msgstr "Задачи модуля/пользователей"
 
 msgid "Month"
 msgstr "Месяц"
@@ -595,19 +571,19 @@ msgid "No"
 msgstr "Нет"
 
 msgid "No file has been sent"
-msgstr "Никакой файл не был отправлен"
+msgstr "Файл не был отправлен"
 
 msgid "No icon packs"
 msgstr "Нет пакетов иконок"
 
 msgid "No informations."
-msgstr "Моя информация"
+msgstr "Нет информации."
 
 msgid "No layouts"
 msgstr "Нет макетов"
 
 msgid "No module/user tasks"
-msgstr "Нет модуля/задач пользователей"
+msgstr "Нет задач модуля/пользователей"
 
 msgid "No system tasks"
 msgstr "Нет системных задач"
@@ -628,8 +604,7 @@ msgid "Note:"
 msgstr "Примечание:"
 
 msgid "Note: Let's encrypt X1 is a staging certificate."
-msgstr ""
-"Примечание: Let's encrypt  Х1 представляет собой сертификат, постановка."
+msgstr "Примечание: Let's Encrypt X1 — это тестовый (staging) сертификат."
 
 msgid "Number of typed characters:"
 msgstr "Количество набранных символов:"
@@ -649,9 +624,7 @@ msgstr "Ок, вы можете перейти на PHP 5.6"
 msgid ""
 "One of the three given Certificates path is not readable, please make sure "
 "they have the good rights."
-msgstr ""
-"Один из трех заданных путей  сертификатов  не читается, пожалуйста, "
-"убедитесь, что они имеют хорошие права."
+msgstr "Один из трёх указанных путей к сертификатам недоступен для чтения, убедитесь, что у файлов правильные права доступа."
 
 msgid "Open"
 msgstr "Открыть"
@@ -668,14 +641,10 @@ msgstr "Дополнительные библиотеки"
 msgid ""
 "Otherwise install it manually, from your panel, or directly from your ssh "
 "access."
-msgstr ""
-"В противном случае установите его вручную, с панели, или непосредственно с "
-"SSH доступ."
+msgstr "В противном случае установите его вручную из панели управления или напрямую через SSH-доступ."
 
 msgid "Overview - WebApp (var/apps/browser, overview & webapp cache)"
-msgstr ""
-"Обзор - веб-Приложение (вар/приложения/браузера, обзор и веб-приложений и "
-"кэша)"
+msgstr "Обзор - веб-приложение (var/apps/browser, кэш обзора и веб-приложения)"
 
 msgid "Overview cache cleared."
 msgstr "Кэш обзора очищен."
@@ -696,7 +665,7 @@ msgid "Path to your Certificate"
 msgstr "Путь к вашему сертификату"
 
 msgid "Path to your Private certificate"
-msgstr "Путь к вашим личным сертификатам"
+msgstr "Путь к вашему закрытому сертификату"
 
 msgid "Path to your Private key"
 msgstr "Путь к закрытому ключу"
@@ -705,21 +674,19 @@ msgid "Payment received"
 msgstr "Платеж получен"
 
 msgid "People who are allowed to access the backoffice"
-msgstr "Люди, которым позволили получить доступ к Бэк-офис"
+msgstr "Люди, которым разрешён доступ в бэк-офис"
 
 msgid "Permission, denied from Plesk, please use the admin account."
-msgstr ""
-"Разрешение, отказ из plesk, пожалуйста, используйте учетную запись "
-"администратора."
+msgstr "Доступ запрещён Plesk, используйте учётную запись администратора."
 
 msgid "Plesk"
-msgstr "Плеск"
+msgstr "Plesk"
 
 msgid "Plesk 12+"
-msgstr "plesk 12+"
+msgstr "Plesk 12+"
 
 msgid "[Plesk] Unknown error."
-msgstr "[Плеск] Неизвестная ошибка."
+msgstr "[Plesk] Неизвестная ошибка."
 
 msgid "Port"
 msgstr "Порт"
@@ -728,7 +695,7 @@ msgid "Preview 5.0"
 msgstr "Предварительный просмотр 5.0"
 
 msgid "Privacy policy URL"
-msgstr "Политика Конфиденциальности"
+msgstr "URL политики конфиденциальности"
 
 msgid "Private"
 msgstr "Частная"
@@ -746,7 +713,7 @@ msgid "Progress"
 msgstr "Прогресс"
 
 msgid "Publication access type"
-msgstr "Тип доступа к изданию"
+msgstr "Тип доступа к публикации"
 
 msgid "Push messages:"
 msgstr "Push-сообщения:"
@@ -755,7 +722,7 @@ msgid "Queued"
 msgstr "В очереди"
 
 msgid "Queued %s/%s"
-msgstr "Очереди %с/%с"
+msgstr "В очереди %s/%s"
 
 msgid "Read"
 msgstr "Читать"
@@ -767,28 +734,28 @@ msgid "Rebuild manifest"
 msgstr "Пересобрать манифест"
 
 msgid "Rebuilding application manifest files."
-msgstr "Восстановление файлов манифеста приложения."
+msgstr "Пересборка файлов манифеста приложения."
 
 msgid "Regular updates system"
-msgstr "Регулярные обновления системы"
+msgstr "Система регулярных обновлений"
 
 msgid "Remove locks"
 msgstr "Снятие блокировок"
 
 msgid "Remove locks now"
-msgstr "Удалить блокировку сейчас"
+msgstr "Снять блокировки сейчас"
 
 msgid "Removing CRON Scheduler lock files."
-msgstr "Удаление файлов хрон Блокировка планировщика."
+msgstr "Удаление файлов блокировки планировщика CRON."
 
 msgid "Removing domains: %s"
-msgstr "Удаление доменов: %ы"
+msgstr "Удаление доменов: %s"
 
 msgid "Request"
 msgstr "Запрос"
 
 msgid "Request the certificate via Let's Encrypt."
-msgstr "Запросить сертификат через Let's Encrypt.."
+msgstr "Запросить сертификат через Let's Encrypt."
 
 msgid "Required extensions"
 msgstr "Требуемые расширения"
@@ -803,7 +770,7 @@ msgid "SSL"
 msgstr "SSL"
 
 msgid "Sales"
-msgstr "Продажа"
+msgstr "Продажи"
 
 msgid "Sales configuration"
 msgstr "Конфигурации продаж"
@@ -815,16 +782,16 @@ msgid "Select API access"
 msgstr "Выберите доступ к API"
 
 msgid "Select a panel type or self-managed"
-msgstr "Выберите Тип панели или самоуправляемые"
+msgstr "Выберите тип панели или самоуправляемую"
 
 msgid "Self-managed"
 msgstr "Самоуправляемые"
 
 msgid "Self-managed sync is not available for now."
-msgstr "Самоуправляемая синхронизация не доступна."
+msgstr "Самоуправляемая синхронизация пока недоступна."
 
 msgid "Send anonymous statistics to improve the apps builder."
-msgstr "Отправлять анонимную статистику для улучшения конструктор приложений."
+msgstr "Отправлять анонимную статистику для улучшения конструктора приложений."
 
 msgid "Server"
 msgstr "Сервер"
@@ -839,14 +806,13 @@ msgid "Show more"
 msgstr "Показать больше"
 
 msgid "Siberian - Backoffice"
-msgstr "Quazarteam PAPS- БэкОфис"
+msgstr "Siberian - Бэк-офис"
 
 msgid "Siberian CMS"
 msgstr "Siberian CMS"
 
 msgid "[Siberian_Cpanel] Unable to update cPanel SSL Certificate for %s"
-msgstr ""
-"[Siberian_Cpanel] не удалось обновить сертификат SSL для управления cpanel %с"
+msgstr "[Siberian_Cpanel] Не удалось обновить SSL-сертификат cPanel для %s"
 
 msgid "[Siberian_VestaCP] requires php 5.6+"
 msgstr "[Siberian_VestaCP] требует PHP 5.6+"
@@ -854,9 +820,7 @@ msgstr "[Siberian_VestaCP] требует PHP 5.6+"
 msgid ""
 "Something went wrong with the API Sync to %s, retry or check in your panel "
 "if your SSL certificate is correctly setup."
-msgstr ""
-"Что-то пошло не так с API синхронизации на %s, повторите попытку или "
-"проверьте в панели управления если ваш сертификат SSL настроено правильно."
+msgstr "Что-то пошло не так при синхронизации API с %s, повторите попытку или проверьте в панели управления, правильно ли настроен ваш SSL-сертификат."
 
 msgid "Source"
 msgstr "Источник"
@@ -877,10 +841,10 @@ msgid "Stable"
 msgstr "Стабильный"
 
 msgid "Staging"
-msgstr "Постановка"
+msgstr "Тестовая среда (staging)"
 
 msgid "Start editing your platform tour"
-msgstr "Начать редактирование вашей платформы тура"
+msgstr "Начать редактирование тура по вашей платформе"
 
 msgid "Statistics"
 msgstr "Статистика"
@@ -888,9 +852,7 @@ msgstr "Статистика"
 msgid ""
 "Statistics are used to improve the platform and help understanding usage of "
 "the apps builder."
-msgstr ""
-"Статистические данные используются для улучшения платформы и помочь "
-"использование понимании строителя приложений."
+msgstr "Статистика используется для улучшения платформы и лучшего понимания того, как используется конструктор приложений."
 
 msgid "Status"
 msgstr "Статус"
@@ -899,19 +861,19 @@ msgid "Submit a bug report or improvement request for beta/preview"
 msgstr "Отправить сообщение об ошибке или запрос улучшений для бета/превью"
 
 msgid "Success"
-msgstr "Успех"
+msgstr "Успешно"
 
 msgid "Successfully cleaned-up old certificate."
-msgstr "Успешно очищен старый сертификат."
+msgstr "Старый сертификат успешно удалён."
 
 msgid "Successfully installed new certificate."
-msgstr "Успешно установлен новый сертификат."
+msgstr "Новый сертификат успешно установлен."
 
 msgid "Successfully removed the certificate."
-msgstr "Успешно удален сертификат."
+msgstr "Сертификат успешно удалён."
 
 msgid "Successfully saved Certificate to %s"
-msgstr "Успешного сохранения сертификата на %s"
+msgstr "Сертификат успешно сохранён в %s"
 
 msgid "Sync files"
 msgstr "Синхронизация файлов"
@@ -923,36 +885,34 @@ msgid "System tasks"
 msgstr "Системные задачи"
 
 msgid "System was unable to validate any Bearer Token Auth call."
-msgstr "Системе не удалось проверить вызов токена Bearer Auth."
+msgstr "Системе не удалось проверить ни один вызов Bearer Token Auth."
 
 msgid "System was unable to validate any HTTP Basic Auth call."
-msgstr "Системе не удалось проверить вызов HTTP Basic Auth."
+msgstr "Системе не удалось проверить ни один вызов HTTP Basic Auth."
 
 msgid "Temp (var/tmp, application sources & apk)"
-msgstr "Временное (var/tmp, application sources & apk)"
+msgstr "Временные файлы (var/tmp, исходники приложений и apk)"
 
 msgid "Templates"
 msgstr "Шаблоны"
 
 msgid "Test SSL/HTTPS"
-msgstr "Тест SSL/https и"
+msgstr "Тест SSL/HTTPS"
 
 msgid "Testing: %s"
-msgstr "Тестирование: %ы"
+msgstr "Тестирование: %s"
 
 msgid ""
 "The PHP executable guessed path <b>'%s'</b> may be incorrect, please double "
 "check for it."
-msgstr ""
-"Исполняемый файл PHP угаданный путь <б>с \\\"%s \\\" </б> может быть "
-"неправильным, пожалуйста, проверьте его."
+msgstr "Предполагаемый путь к исполняемому файлу PHP <b>'%s'</b> может быть неверным, пожалуйста, проверьте его."
 
 msgid "The default setting to run your production server."
 msgstr "Настройка по умолчанию для запуска рабочего сервера"
 
 msgid ""
 "The domain %s doesn't belong to you, or is not configured on your server."
-msgstr "Домен %S не принадлежат вам, или не настроен на сервере."
+msgstr "Домен %s вам не принадлежит или не настроен на вашем сервере."
 
 msgid "The given CA certificate doesn't match the hostname."
 msgstr "Данный сертификат ЦС не соответствует имени узла."
@@ -961,7 +921,7 @@ msgid "The given certificate doesn't match the hostname."
 msgstr "Данный сертификат не соответствует имени узла."
 
 msgid "The given certificate doesn't match the hostname or wiSibldcard."
-msgstr "Данный сертификат не соответствует имени узла или wiSibldcard."
+msgstr "Данный сертификат не соответствует имени узла или wildcard."
 
 msgid "This account can't be deleted, it's the only one"
 msgstr "Эта учетная запись не может быть удалена, она одна."
@@ -970,11 +930,7 @@ msgid ""
 "This action mainly serves as a development & support purpose<br />This will "
 "restore App sources 'iOS', 'Android', 'HTML5' & 'Overview' from the latest "
 "Siberian version, then rebuild the manifest to restore installed modules."
-msgstr ""
-"Это действие в основном служит разработка и поддержка цели<br />это позволит "
-"восстановить источников Приложение 'прошивкой', 'андроид', 'HTML5' с & "
-"'Обзор' из последней Сибирской версии, то восстановить манифеста, чтобы "
-"восстановить установленных модулей."
+msgstr "Это действие в основном нужно для разработки и поддержки<br />Оно восстановит исходники приложений 'iOS', 'Android', 'HTML5' и 'Overview' из последней версии Siberian, затем пересоберёт манифест, чтобы восстановить установленные модули."
 
 msgid ""
 "This e-mail address must be reachable, as you will receive important e-mails "
@@ -986,24 +942,17 @@ msgstr ""
 msgid ""
 "This message will be displayed as a waiting message when your users chose an "
 "offline payment method"
-msgstr ""
-"Это сообщение будет отображаться как сообщение в ожидании, когда "
-"пользователи выбрали способ оплаты в автономном режиме"
+msgstr "Это сообщение будет отображаться как сообщение об ожидании, когда пользователи выберут способ оплаты офлайн"
 
 msgid ""
 "This message will be displayed as an information message to describe which "
 "offline payment method you offer"
-msgstr ""
-"Это сообщение будет отображаться как информационное сообщение, чтобы "
-"описать, что автономный способ оплаты Вы предлагаете"
+msgstr "Это сообщение будет отображаться как информационное, чтобы описать, какие способы оплаты офлайн вы предлагаете"
 
 msgid ""
 "This test is for development & support usage, this only highlights potential "
 "missing and/or modified files, results need to be interpreted."
-msgstr ""
-"Этот тест предназначен для разработки и использования поддержки, это только "
-"подчеркивает потенциал отсутствует и/или измененных файлов, результаты "
-"должны быть интерпретированы."
+msgstr "Этот тест предназначен для разработки и поддержки, он лишь выявляет возможные отсутствующие и/или изменённые файлы, результаты требуют интерпретации."
 
 msgid "Tools"
 msgstr "Инструменты"
@@ -1021,7 +970,7 @@ msgid "Tour status"
 msgstr "Статус тура"
 
 msgid "Tour status successfully saved."
-msgstr "Набор продуктов успешно сохранён"
+msgstr "Статус тура успешно сохранён."
 
 msgid "UID"
 msgstr "UID"
@@ -1029,21 +978,19 @@ msgstr "UID"
 msgid ""
 "Unable to connect in HTTPS or to validate the SSL Certificate.<br />Check if "
 "your are not in `Staging`"
-msgstr ""
-"Не удается подключиться по https или для проверки SSL-сертификата.<бр />"
-"проверьте, если вы находитесь не в \\\"промежуточном\\\""
+msgstr "Не удаётся подключиться по HTTPS или проверить SSL-сертификат.<br />Проверьте, не находитесь ли вы в режиме `Staging`"
 
 msgid "Unknown"
 msgstr "Неизвестно"
 
 msgid "Unknown - Self-managed"
-msgstr "Неизвестен - самоуправляемые"
+msgstr "Неизвестно - самоуправляемая"
 
 msgid "Update"
 msgstr "Обновление"
 
 msgid "Update channel"
-msgstr "Канал обновление"
+msgstr "Канал обновлений"
 
 msgid "Updated At"
 msgstr "Обновлено"
@@ -1052,17 +999,16 @@ msgid "Upload"
 msgstr "Загрузить"
 
 msgid "Upload files or use existing certificates on my server"
-msgstr ""
-"Загружать файлы или пользоваться действующими сертификатами на моем сервере"
+msgstr "Загрузить файлы или использовать существующие сертификаты на моём сервере"
 
 msgid "Upload my certificates"
 msgstr "Загрузить мои сертификаты"
 
 msgid "Upload your own certificates"
-msgstr "Загружать свои собственные сертификаты"
+msgstr "Загрузить свои собственные сертификаты"
 
 msgid "Use HTTPS"
-msgstr "Использовать https"
+msgstr "Использовать HTTPS"
 
 msgid "Use existing certificates on my server"
 msgstr "Использовать существующие сертификаты на моем сервере"
@@ -1086,25 +1032,22 @@ msgid "VestaCP"
 msgstr "VestaCP"
 
 msgid "VestaCP (php 5.6+ only)"
-msgstr "VestaCP (на PHP 5.6+ только)"
+msgstr "VestaCP (только для PHP 5.6+)"
 
 msgid "View Details"
 msgstr "Просмотреть подробности"
 
 msgid "WHM cPanel"
-msgstr "whm cpanel"
+msgstr "WHM cPanel"
 
 msgid "Waiting for %s to reload, this can take a while..."
-msgstr "Ждем % - ов перезагрузки, это может занять некоторое время..."
+msgstr "Ожидание перезагрузки %s, это может занять некоторое время..."
 
 msgid ""
 "We recommned using <b>preview</b> on a testing or development server, we "
 "won't provide regular ticket support for these update channels, only bug "
 "reports via the form below."
-msgstr ""
-"Мы порекомендовать использовать теги <b>обзор</b>, и на тестирование или "
-"сервер разработки, мы не будем предоставлять регулярную поддержку билетов на "
-"эти каналы обновления, только сообщения об ошибках через форму ниже."
+msgstr "Мы рекомендуем использовать канал <b>preview</b> на тестовом или девелоперском сервере; для этих каналов обновлений мы не оказываем регулярную поддержку по тикетам, только принимаем сообщения об ошибках через форму ниже."
 
 msgid "Web space"
 msgstr "Веб-пространство"
@@ -1116,7 +1059,7 @@ msgid "Whitelabel"
 msgstr "Whitelabel"
 
 msgid "Whitelabel hostnames associated with this Certificate"
-msgstr "Whitelabel узлов, связанный с этим сертификатом"
+msgstr "Хосты Whitelabel, связанные с этим сертификатом"
 
 msgid "Whitelabel request"
 msgstr "Whitelabel запрос"
@@ -1128,28 +1071,26 @@ msgid "Yes"
 msgstr "ДА"
 
 msgid "Yes, install the update."
-msgstr "Да, установите обновление."
+msgstr "Да, установить обновление."
 
 msgid ""
 "You are about to clean all the cron lock files !\n"
 "Are you sure ?"
-msgstr "Вы собираетесь очистить все  Блокировки  файлов cron !\\пвы уверены ?"
+msgstr "Вы собираетесь удалить все файлы блокировки cron !\nВы уверены ?"
 
 msgid ""
 "You are about to clean all your log files !\n"
 "Are you sure ?"
-msgstr "Вы собираетесь очистить все ваши журналы !\\пвы уверены ?"
+msgstr "Вы собираетесь очистить все ваши файлы журналов !\nВы уверены ?"
 
 msgid "You are about to delete this certificate, Are you sure ?"
-msgstr "Вы собираетесь удалить этот сертификат, вы уверены ?"
+msgstr "Вы собираетесь удалить этот сертификат. Вы уверены ?"
 
 msgid ""
 "You are about to wipe all your temporary files, this includes the generated "
 "sources & apk builds !\n"
 "Are you sure ?"
-msgstr ""
-"Вы собираетесь удалить все временные файлы, включая созданные источники и "
-"АПК строит !\\пвы уверены ?"
+msgstr "Вы собираетесь удалить все временные файлы, включая сгенерированные исходники и сборки APK !\nВы уверены ?"
 
 msgid "You can use <b>%s</b> as a dynamic variable for your application name."
 msgstr ""
@@ -1160,30 +1101,22 @@ msgid ""
 "You have a Source generation stuck for more than 1 hour, please check in <b>"
 "Settings > Advanced > Cron</b> for the stuck build.<br />To unlock further "
 "builds you can remove locks from the button below."
-msgstr ""
-"У вас есть источник генерации застрял более чем на 1 час, пожалуйста, "
-"проверьте в <B>параметры > дополнительно > крон</B> для жирной строить.<br />"
-"для разблокировки дополнительных построений можно снять блокировку с помощью "
-"кнопки ниже."
+msgstr "Генерация исходников зависла более чем на 1 час, проверьте зависшую сборку в разделе <b>Настройки > Дополнительно > Cron</b>.<br />Чтобы разблокировать дальнейшие сборки, можно снять блокировки кнопкой ниже."
 
 msgid ""
 "You have an APK generation stuck for more than 1 hour, please check in <b>"
 "Settings > Advanced > Cron</b> for the stuck build.<br />To unlock further "
 "builds you can remove locks from the button below."
-msgstr ""
-"У вас есть поколение АПК застрял более чем на 1 час, пожалуйста, проверьте в "
-"<B>параметры > дополнительно > крон</B> для жирной строить.<br />для "
-"разблокировки дополнительных построений можно снять блокировку с помощью "
-"кнопки ниже."
+msgstr "Генерация APK зависла более чем на 1 час, проверьте зависшую сборку в разделе <b>Настройки > Дополнительно > Cron</b>.<br />Чтобы разблокировать дальнейшие сборки, можно снять блокировки кнопкой ниже."
 
 msgid "You have no certificate yet."
-msgstr "У вас нет сертификат."
+msgstr "У вас пока нет сертификата."
 
 msgid "You have no new messages."
 msgstr "У вас нет новых сообщений."
 
 msgid "You must select an Admin panel type before requesting a Certificate."
-msgstr "Необходимо выбрать тип панели администрирования запрашивает сертификат."
+msgstr "Необходимо выбрать тип панели администрирования перед запросом сертификата."
 
 msgid ""
 "Your HTTPS/SSL Certificate is about to expire in <b>%s day%s</b>, don't "
@@ -1199,7 +1132,7 @@ msgid "Your certificate is valid until:"
 msgstr "Ваш сертификат действителен до:"
 
 msgid "Your certificates are saved."
-msgstr "Ваши сертификаты будут сохранены."
+msgstr "Ваши сертификаты сохранены."
 
 msgid "Your new password"
 msgstr "Ваш новый пароль"
@@ -1208,30 +1141,23 @@ msgid "Your password"
 msgstr "Ваш пароль"
 
 msgid "<b>Actual preview version is Siberian 5.0</b>."
-msgstr "<b>фактическое предварительной версии является Сибирской 5.0</b>."
+msgstr "<b>Текущая версия предпросмотра — Siberian 5.0</b>."
 
 msgid ""
 "<b>Disclaimer:</b> You are using the <b>preview</b> update channel, this "
 "channel is intended for <b>tests & previews</b> of new features, if you are "
 "not sure stay with <b>stable channel</b>."
-msgstr ""
-"и <B>Дисклеймер:</B> Вам не с помощью тега <B>обзор</B> на обновление "
-"канала, этот канал предназначен для <б>тесты и анонсы</B>, и новые "
-"возможности, если Вы не уверены, оставайтесь с <b>канал</B>на."
+msgstr "<b>Отказ от ответственности:</b> вы используете канал обновлений <b>preview</b>. Этот канал предназначен для <b>тестов и предварительных версий</b> новых функций; если вы не уверены, оставайтесь на <b>стабильном канале</b>."
 
 msgid ""
 "<b>Note for Bug report:</b> give us a maximum of description of how you "
 "reached the bug, and possibly screenshots."
-msgstr ""
-"<B>Примечание для сообщения об ошибке:</б> дать нам максимум описание того, "
-"как вы достигли ошибку, и, возможно, скриншоты."
+msgstr "<b>Примечание для отчёта об ошибке:</b> опишите как можно подробнее, как вы столкнулись с ошибкой, и по возможности приложите скриншоты."
 
 msgid ""
 "<b>Note</b>: sources & push will be sent immediately after their creation, "
 "scheduled push will not work & media optimization is disabled."
-msgstr ""
-"<B>Примечание</B> включите: источники и push будут отправлены сразу после их "
-"создания, запланированные толкать не получится и оптимизация медиа-инвалидов."
+msgstr "<b>Примечание</b>: источники и push-сообщения будут отправлены сразу после создания, запланированные push-сообщения работать не будут, а оптимизация медиа отключена."
 
 msgid "customer"
 msgstr "Клиент"
@@ -1243,7 +1169,7 @@ msgid "%d Unread Messages"
 msgstr "%d Непрочитанные сообщения"
 
 msgid "for the bundle id:"
-msgstr "для идентификатора пакета:"
+msgstr "для bundle id:"
 
 msgid "letsencrypt"
 msgstr "letsencrypt"
@@ -1252,9 +1178,7 @@ msgid "per page"
 msgstr "на странице"
 
 msgid "see Settings > Advanced > Configuration > Cron to edit options."
-msgstr ""
-"в разделе настройки > дополнительно > настройки > cron, чтобы изменить "
-"параметры."
+msgstr "см. Настройки > Дополнительно > Конфигурация > Cron, чтобы изменить параметры."
 
 msgid "values are refreshed once a day only!"
 msgstr "значения обновляются один раз в день!"

@@ -37,7 +37,7 @@ msgid "1. Insert the following code between the %s tag of your page:"
 msgstr "1. Vložte následující kód mezi %s tag ve vaší webové stránce"
 
 msgid "2. Insert the following code at the end of the %s tag of your page:"
-msgstr "1. Vložte následující kód mezi %s tag ve vaší webové stránce"
+msgstr "2. Vložte následující kód na konec %s tagu ve vaší webové stránce"
 
 msgid "2. Open the app and login"
 msgstr "2. Otevřete aplikaci a přihlašte se:"
@@ -78,10 +78,10 @@ msgid "Add an image"
 msgstr "Přidat obrázek"
 
 msgid "Add pages"
-msgstr "Přidat stránku (modul)"
+msgstr "Přidat stránky"
 
 msgid "Add pictures"
-msgstr "Přidat obrázek"
+msgstr "Přidat obrázky"
 
 #. machine-translated (2026-10), to be reviewed
 msgid "Add place"
@@ -124,7 +124,7 @@ msgid "All done!"
 msgstr "Hotovo!"
 
 msgid "Allow user to request app publication"
-msgstr "Povolit uživateli publikování aplikace"
+msgstr "Povolit uživateli požádat o publikaci aplikace"
 
 #. machine-translated (2026-10), to be reviewed
 msgid "Allowed"
@@ -162,7 +162,7 @@ msgid "An error occurred while editing file (%s)."
 msgstr "Při editaci soubor (%s) došlo k chybě"
 
 msgid "An error occurred while generating. Please try again later."
-msgstr "Při načítání došlo k chybě. Zkuste to prosím později."
+msgstr "Při generování došlo k chybě. Zkuste to prosím později."
 
 msgid "An error occurred while hidding the iOS Status Bar"
 msgstr "Při skrytí stavové lišty došlo k chybě"
@@ -183,14 +183,14 @@ msgid "An error occurred while saving your colors."
 msgstr "Při ukládání barev došlo k chybě"
 
 msgid "An error occurred while saving your page name."
-msgstr "Při ukládání názevu stránky došlo k chybě"
+msgstr "Při ukládání názvu stránky došlo k chybě"
 
 msgid "An error occurred while sorting your pages. Please try again later."
 msgstr "Při řazení Vašich stránek došlo k chybě. Zkuste to prosím později"
 
 msgid ""
 "An error occurred while sorting your slider images. Please try again later."
-msgstr "Při zpracování obrázků došlo k chybě, opakujte prosím později."
+msgstr "Při řazení obrázků slideru došlo k chybě. Zkuste to prosím později."
 
 msgid "Analytics"
 msgstr "Statistiky"
@@ -206,7 +206,7 @@ msgid "Android APK Generation"
 msgstr "Android APK generátor"
 
 msgid "Android APK version"
-msgstr "Android APK generátor"
+msgstr "Verze Android APK"
 
 msgid "Android Version"
 msgstr "Verze pro Android"
@@ -239,10 +239,10 @@ msgid "Apple's Information"
 msgstr "Informace o společnosti Apple"
 
 msgid "Application:"
-msgstr "Aplikace"
+msgstr "Aplikace:"
 
 msgid "Application icon"
-msgstr "Název aplikace"
+msgstr "Ikona aplikace"
 
 msgid "Application name"
 msgstr "Název aplikace"
@@ -264,7 +264,7 @@ msgid "Attachment"
 msgstr "Příloha"
 
 msgid "Audio"
-msgstr "Hudba"
+msgstr "Audio"
 
 #. machine-translated (2026-10), to be reviewed
 msgid "Auth"
@@ -275,7 +275,7 @@ msgid "Available SCSS Variables corresponding to previously set colors"
 msgstr "Dostupné proměnné SCSS odpovídající dříve nastaveným barvám"
 
 msgid "Average by customer"
-msgstr "Průměr"
+msgstr "Průměr na zákazníka"
 
 msgid "Background"
 msgstr "Pozadí"
@@ -336,7 +336,7 @@ msgid "Build date"
 msgstr "Datum sestavení"
 
 msgid "Build information"
-msgstr "Můj účet"
+msgstr "Informace o sestavení"
 
 msgid "Bundle Id"
 msgstr "Bundle Id"
@@ -359,13 +359,13 @@ msgid "Calendar"
 msgstr "Kalendář"
 
 msgid "Catalogs"
-msgstr "Katalog"
+msgstr "Katalogy"
 
 msgid "Certificate"
 msgstr "Certifikát"
 
 msgid "Change your"
-msgstr "Změňit"
+msgstr "Změňte"
 
 #. machine-translated (2026-10), to be reviewed
 msgid "Change your icon"
@@ -441,7 +441,7 @@ msgid "Client ID"
 msgstr "ID klienta"
 
 msgid "Cms"
-msgstr "?Coms?"
+msgstr "CMS"
 
 #. machine-translated (2026-10), to be reviewed
 msgid "Code Scan"
@@ -452,7 +452,7 @@ msgid "Codescan"
 msgstr "Skenování kódu"
 
 msgid "Color"
-msgstr "Barvy"
+msgstr "Barva"
 
 #. machine-translated (2026-10), to be reviewed
 msgid "Colorize pager"
@@ -476,14 +476,14 @@ msgid "Contact"
 msgstr "Kontakt"
 
 msgid "Core"
-msgstr "Název"
+msgstr "Jádro"
 
 #. machine-translated (2026-10), to be reviewed
 msgid "Cover background images"
 msgstr "Obrázky pozadí na celou plochu"
 
 msgid "Create a place"
-msgstr "Vytvořit obchod/sklad"
+msgstr "Vytvořit místo"
 
 #. machine-translated (2026-10), to be reviewed
 msgid "Currently only one language can be selected."
@@ -497,10 +497,10 @@ msgid "Custom SMTP"
 msgstr "Vlastní SMTP"
 
 msgid "Custom domain name:"
-msgstr "Název domény:"
+msgstr "Vlastní název domény:"
 
 msgid "Customization"
-msgstr "Vlastní"
+msgstr "Přizpůsobení"
 
 #. machine-translated (2026-10), to be reviewed
 msgid "Customize your app's style"
@@ -531,7 +531,7 @@ msgid "Design"
 msgstr "Design"
 
 msgid "Developer Accounts"
-msgstr "Účet vývojáře"
+msgstr "Účty vývojáře"
 
 msgid "Device Information"
 msgstr "Informace o zařízení"
@@ -550,7 +550,7 @@ msgid "Display Border Circle"
 msgstr "Zobrazit kruhové ohraničení"
 
 msgid "Display Borders"
-msgstr "Zobrazit adresu"
+msgstr "Zobrazit okraje"
 
 #. machine-translated (2026-10), to be reviewed
 msgid "Display Image"
@@ -564,7 +564,7 @@ msgid "Display address"
 msgstr "Zobrazit adresu"
 
 msgid "Display borders"
-msgstr "Zobrazit adresu"
+msgstr "Zobrazit okraje"
 
 msgid "Display image in page"
 msgstr "Zobrazit obrázek na stránce"
@@ -665,7 +665,7 @@ msgid "Event"
 msgstr "Událost"
 
 msgid "Events"
-msgstr "Eventy"
+msgstr "Události"
 
 #. machine-translated (2026-10), to be reviewed
 msgid "Export"
@@ -692,10 +692,10 @@ msgid "Facebook"
 msgstr "Facebook"
 
 msgid "Facebook API Keys"
-msgstr "Facebook API key"
+msgstr "Facebook API klíče"
 
 msgid "Facebook API settings"
-msgstr "Facebook API key"
+msgstr "Nastavení Facebook API"
 
 #. machine-translated (2026-10), to be reviewed
 msgid "Feature icons"
@@ -822,7 +822,7 @@ msgid "Generation cancelled."
 msgstr "Generování bylo zrušeno."
 
 msgid "Generation successfully queued."
-msgstr "Popis uložen"
+msgstr "Generování bylo úspěšně zařazeno do fronty."
 
 msgid "Global visits"
 msgstr "Počet návštěv"
@@ -891,7 +891,7 @@ msgid "I let you publish my application under your Google developer account"
 msgstr "VYPUBLIKUJTE MI PROSÍM MOJI APLIKACI POD VAŠÍM VÝVOJÁŘSKÝM ÚČTEM"
 
 msgid "Icon"
-msgstr "Ikony"
+msgstr "Ikona"
 
 msgid "Icons"
 msgstr "Ikony"
@@ -915,9 +915,7 @@ msgstr "Pokud změníte velikost slideru, všechny obrázky budou zahozeny. Opra
 
 msgid ""
 "If you validate, your app's colors and background image will be replaced"
-msgstr ""
-"POZOR!!! Pokud změnu vzoru schválíte, budou Vaše DŘÍVE VYBRANÉ BARVY A STYL "
-"MENU ZMĚNĚNY!!!"
+msgstr "Pokud potvrdíte, barvy a obrázek pozadí vaší aplikace budou nahrazeny"
 
 #. machine-translated (2026-10), to be reviewed
 msgid ""
@@ -1036,7 +1034,7 @@ msgid "Installer"
 msgstr "Instalátor"
 
 msgid "Integration"
-msgstr "Redirect"
+msgstr "Integrace"
 
 #. machine-translated (2026-10), to be reviewed
 msgid "Invalid period, end date is before start date."
@@ -1051,7 +1049,7 @@ msgid "Job"
 msgstr "Pracovní pozice"
 
 msgid "Key Password"
-msgstr "Key Password"
+msgstr "Heslo klíče"
 
 msgid "Keywords"
 msgstr "Klíčová slova"
@@ -1071,7 +1069,7 @@ msgid "Language"
 msgstr "Jazyk"
 
 msgid "Languages"
-msgstr "Jazyk"
+msgstr "Jazyky"
 
 msgid "Last name:"
 msgstr "Příjmení:"
@@ -1112,7 +1110,7 @@ msgid "List of your applications"
 msgstr "Seznam aplikací"
 
 msgid "Loading"
-msgstr "Nahrávám"
+msgstr "Načítání"
 
 msgid "Lock the entire application"
 msgstr "Zamknout celou aplikaci"
@@ -1146,7 +1144,7 @@ msgid "Manage Access"
 msgstr "Správa přístupu"
 
 msgid "Manage Admins access feature by feature."
-msgstr "Spravovat přístup uživatele modul po modulu"
+msgstr "Spravujte přístup administrátorů modul po modulu."
 
 #. machine-translated (2026-10), to be reviewed
 msgid "Manage Companies"
@@ -1200,7 +1198,7 @@ msgid "Mobile website information"
 msgstr "Informace o mobilním webu"
 
 msgid "Monetization"
-msgstr "Finanční"
+msgstr "Monetizace"
 
 msgid "Monetize my app using AdMob?"
 msgstr "Používat AdMob v mé aplikaci (reklamní systém)"
@@ -1240,7 +1238,7 @@ msgid "No account for now."
 msgstr "Zatím nemáte žádný účet"
 
 msgid "No data found"
-msgstr "Skladba nenalezena"
+msgstr "Žádná data nenalezena"
 
 msgid "No features available for this application."
 msgstr "Pro aplikaci nejsou zatím k dispozici žádné stránky"
@@ -1416,7 +1414,7 @@ msgid "Preview on your phone"
 msgstr "Prohlídnout ve Vašem telefonu"
 
 msgid "Privacy policy URL"
-msgstr "Ochrana osobních údajů"
+msgstr "URL zásad ochrany osobních údajů"
 
 msgid "Proceed to checkout before downloading the source code."
 msgstr "Před stažením zdrojového kódu pokračujte k platbě"
@@ -1436,7 +1434,7 @@ msgid "Promotion"
 msgstr "Propagace"
 
 msgid "Publication"
-msgstr "Vypublikovat"
+msgstr "Publikace"
 
 #. machine-translated (2026-10), to be reviewed
 msgid "Publish automatically to iTunes Connect"
@@ -1493,7 +1491,7 @@ msgid "Rss"
 msgstr "RSS"
 
 msgid "SMTP Configuration"
-msgstr "Nastavení mapy"
+msgstr "Nastavení SMTP"
 
 #. machine-translated (2026-10), to be reviewed
 msgid "SSL"
@@ -1522,7 +1520,7 @@ msgid "Search radius"
 msgstr "Okruh hledání"
 
 msgid "Search settings"
-msgstr "Nastavení \"V okolí\""
+msgstr "Nastavení vyhledávání"
 
 msgid "Secondary category"
 msgstr "Sekundární kategorie"
@@ -1583,7 +1581,7 @@ msgid "Slideshow duration"
 msgstr "Doba trvání prezentace"
 
 msgid "Social"
-msgstr "Komunikace"
+msgstr "Sociální"
 
 msgid "Social Networking"
 msgstr "Sociální sítě"
@@ -1617,7 +1615,7 @@ msgid "Sorry, we need a page id."
 msgstr "Omlouváme se, potřebujeme ID stránky."
 
 msgid "Source type"
-msgstr "Zdrojový kód"
+msgstr "Typ zdroje"
 
 #. machine-translated (2026-10), to be reviewed
 msgid "Sourcecode"
@@ -1658,7 +1656,7 @@ msgid "Startup image"
 msgstr "Úvodní obrázek (Splashscreen)"
 
 msgid "Status"
-msgstr "Status"
+msgstr "Stav"
 
 #. machine-translated (2026-10), to be reviewed
 msgid "Status bar"
@@ -1675,10 +1673,10 @@ msgid "Store URL"
 msgstr "Store URL"
 
 msgid "Stores Info"
-msgstr "Stores Info"
+msgstr "Informace o obchodech"
 
 msgid "Stores URL"
-msgstr "Store URL"
+msgstr "URL obchodů"
 
 #. machine-translated (2026-10), to be reviewed
 msgid "Stretch"
@@ -1689,7 +1687,7 @@ msgid "Subheader"
 msgstr "Podzáhlaví"
 
 msgid "Subtitle:"
-msgstr "Krátký popis:"
+msgstr "Podtitul:"
 
 #. machine-translated (2026-10), to be reviewed
 msgid "Success."
@@ -1716,7 +1714,7 @@ msgid "Template"
 msgstr "Šablona"
 
 msgid "Template description"
-msgstr "Popis aplikace"
+msgstr "Popis šablony"
 
 #. machine-translated (2026-10), to be reviewed
 msgid "Template name"
@@ -1731,7 +1729,7 @@ msgid "Template version"
 msgstr "Verze šablony"
 
 msgid "Terms & Conditions"
-msgstr "Podmínky použití"
+msgstr "Obchodní podmínky"
 
 msgid "The Bundle Id is required"
 msgstr "Je požadován Bundle Id"
@@ -1756,7 +1754,7 @@ msgid "The bundle id"
 msgstr "Bundle ID"
 
 msgid "The description"
-msgstr "Popis aplikace"
+msgstr "Popis"
 
 msgid "The description must be at least 200 characters"
 msgstr "Popis musí být alespoň 200 znaků"
@@ -1805,7 +1803,7 @@ msgid "This application is no longer available"
 msgstr "Aplikace již není dostupná"
 
 msgid "This application is visible on the front"
-msgstr "Tato aplikace je vidět v administraci"
+msgstr "Tato aplikace je viditelná na front-endu"
 
 msgid "This key is already used by system features."
 msgstr "Tento klíč je jíž používán systémovými funkcemi"
@@ -1858,10 +1856,10 @@ msgid "Top"
 msgstr "Nahoře"
 
 msgid "Topic"
-msgstr "Témata"
+msgstr "Téma"
 
 msgid "Translation"
-msgstr "Překlady"
+msgstr "Překlad"
 
 #. machine-translated (2026-10), to be reviewed
 msgid "Transparent"
@@ -1943,7 +1941,7 @@ msgid "Used points"
 msgstr "Použité body"
 
 msgid "User:"
-msgstr "Uživatelé"
+msgstr "Uživatel:"
 
 msgid "User Information"
 msgstr "Informace o uživateli"
@@ -1955,7 +1953,7 @@ msgid "Version"
 msgstr "Verze"
 
 msgid "Video"
-msgstr "Videa"
+msgstr "Video"
 
 #. machine-translated (2026-10), to be reviewed
 msgid "Visible"
@@ -1966,7 +1964,7 @@ msgid "Visible from all pages"
 msgstr "Viditelné ze všech stránek"
 
 msgid "Visible from all the application's pages (removes the homepage)"
-msgstr "?Visible from all the application's pages (removes the homepage)?"
+msgstr "Viditelné ze všech stránek aplikace (odstraní hlavní stránku)"
 
 msgid ""
 "We are sorry but this application has been deactivated and may not be re-"
@@ -1981,7 +1979,7 @@ msgid "Weblink"
 msgstr "Webový odkaz"
 
 msgid "White Label Editor Settings"
-msgstr "Nastavení vlastních barev"
+msgstr "Nastavení White Label editoru"
 
 #. machine-translated (2026-10), to be reviewed
 msgid "Width"
@@ -2036,7 +2034,7 @@ msgid "You can't go back to Angular design."
 msgstr "Nemůžete se vrátit k návrhu Angular."
 
 msgid "You can't use this domain."
-msgstr "Tato doména nelze použít"
+msgstr "Tuto doménu nelze použít"
 
 msgid "You don't have any applications yet"
 msgstr "Zatím nemáte žádné aplikace"
@@ -2062,9 +2060,7 @@ msgid "You must choose an ads type"
 msgstr "Musíte si vybrat typ reklamy"
 
 msgid "You must have published your application to access this feature"
-msgstr ""
-"Pro přístup k této funkci musí být Vaše aplikace zverějněná v obchodu a "
-"aplikacemi (Google Play, iTunes store)"
+msgstr "Pro přístup k této funkci musí být vaše aplikace zveřejněna v obchodech s aplikacemi (Google Play, App Store)"
 
 #. machine-translated (2026-10), to be reviewed
 msgid "You must select at least one orientation for iPad!"
@@ -2104,7 +2100,7 @@ msgid "Your application is now switched to Ionic"
 msgstr "Vaše aplikace byla nyní přepnuta na Ionic"
 
 msgid "Your application is ready to be published."
-msgstr "Vaše aplikace je připravena k publikaci"
+msgstr "Vaše aplikace je připravena k publikování."
 
 msgid "Your best customers"
 msgstr "Vaši nejlepší zákazníci"
@@ -2114,7 +2110,7 @@ msgid "Your bundle id is invalid, format should looks like com.mydomain.iosid"
 msgstr "Vaše bundle ID je neplatné, formát by měl vypadat jako com.mydomain.iosid"
 
 msgid "Your customers in figures"
-msgstr "Vaši uživatelé v číslech"
+msgstr "Vaši zákazníci v číslech"
 
 #. machine-translated (2026-10), to be reviewed
 msgid "Your customization has been applied to %s."
@@ -2236,7 +2232,7 @@ msgid "iPhone Version"
 msgstr "iPhone verze"
 
 msgid "iPhone Version (No Ads)"
-msgstr "?iPhone verze (Bez reklam)?"
+msgstr "iPhone verze (bez reklam)"
 
 #. machine-translated (2026-10), to be reviewed
 msgid "iPhone orientation settings"

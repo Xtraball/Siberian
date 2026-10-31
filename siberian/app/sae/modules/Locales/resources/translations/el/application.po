@@ -169,10 +169,10 @@ msgid "An error occurred while editing file (%s)."
 msgstr "Παρουσιάστηκε σφάλμα κατά την επεξεργασία του αρχείου (%s)."
 
 msgid "An error occurred while generating. Please try again later."
-msgstr "Υπήρξε σφάλμα κατά την φόρτωση. Παρακαλούμε δοκιμάστε ξανά αργότερα."
+msgstr "Υπήρξε σφάλμα κατά τη δημιουργία. Παρακαλούμε δοκιμάστε ξανά αργότερα."
 
 msgid "An error occurred while hidding the iOS Status Bar"
-msgstr "Παρουσιάστηκε σφάλμα κατά την προσθήκη της επιλογής"
+msgstr "Παρουσιάστηκε σφάλμα κατά την απόκρυψη της γραμμής κατάστασης του iOS"
 
 msgid "An error occurred while loading"
 msgstr "Παρουσιάστηκε σφάλμα κατά τη φόρτωση"
@@ -181,9 +181,7 @@ msgid "An error occurred while saving. Please try again later."
 msgstr "Υπήρξε σφάλμα κατά την αποθήκευση. Παρακαλούμε δοκιμάστε ξανά αργότερα."
 
 msgid "An error occurred while saving. The selected icon is not valid."
-msgstr ""
-"Παρουσιάστηκε σφάλμα κατά την αποθήκευση. Η επιλεγμένη εικόνα δεν είναι "
-"έγκυρη."
+msgstr "Παρουσιάστηκε σφάλμα κατά την αποθήκευση. Το επιλεγμένο εικονίδιο δεν είναι έγκυρο."
 
 msgid "An error occurred while saving the application. Please try again later."
 msgstr ""
@@ -194,7 +192,7 @@ msgid "An error occurred while saving your colors."
 msgstr "Παρουσιάστηκε σφάλμα κατά την αποθήκευση των χρωμάτων σας."
 
 msgid "An error occurred while saving your page name."
-msgstr "Παρουσιάστηκε σφάλμα κατά την αποθήκευση όνοματος της σελίδας σας."
+msgstr "Παρουσιάστηκε σφάλμα κατά την αποθήκευση του ονόματος της σελίδας σας."
 
 msgid "An error occurred while sorting your pages. Please try again later."
 msgstr ""
@@ -203,9 +201,7 @@ msgstr ""
 
 msgid ""
 "An error occurred while sorting your slider images. Please try again later."
-msgstr ""
-"Παρουσιάστηκε σφάλμα κατά τη ταξινόμηση των σελίδων σας. Παρακαλώ δοκιμάστε "
-"ξανά αργότερα."
+msgstr "Παρουσιάστηκε σφάλμα κατά την ταξινόμηση των εικόνων του slider σας. Παρακαλώ δοκιμάστε ξανά αργότερα."
 
 msgid "Analytics"
 msgstr "Στατιστικά"
@@ -221,7 +217,7 @@ msgid "Android APK Generation"
 msgstr "Δημιουργία Android APK"
 
 msgid "Android APK version"
-msgstr "Δημιουργία Android APK"
+msgstr "Έκδοση Android APK"
 
 msgid "Android Version"
 msgstr "Έκδοση Android"
@@ -255,10 +251,10 @@ msgid "Apple's Information"
 msgstr "Πληροφορίες Apple"
 
 msgid "Application:"
-msgstr "Εφαρμογές"
+msgstr "Εφαρμογή:"
 
 msgid "Application icon"
-msgstr "Όνομα εφαρμογής"
+msgstr "Εικονίδιο εφαρμογής"
 
 msgid "Application name"
 msgstr "Όνομα εφαρμογής"
@@ -357,7 +353,7 @@ msgid "Build date"
 msgstr "Ημερομηνία δημιουργίας build"
 
 msgid "Build information"
-msgstr "Οι πληροφορίες μου"
+msgstr "Πληροφορίες build"
 
 msgid "Bundle Id"
 msgstr "Bundle ID"
@@ -393,7 +389,7 @@ msgid "Change your icon"
 msgstr "Αλλαγή του εικονιδίου σας"
 
 msgid "Change your layout"
-msgstr "Επιλέξτε την διάταξη σας"
+msgstr "Αλλάξτε τη διάταξή σας"
 
 msgid "Change your picture"
 msgstr "Αλλαγή εικόνας"
@@ -464,7 +460,7 @@ msgid "Client ID"
 msgstr "Client ID"
 
 msgid "Cms"
-msgstr "ΚΟΑ"
+msgstr "CMS"
 
 #. machine-translated (2026-10), to be reviewed
 msgid "Code Scan"
@@ -475,7 +471,7 @@ msgid "Codescan"
 msgstr "Σάρωση κώδικα"
 
 msgid "Color"
-msgstr "Χρώματα"
+msgstr "Χρώμα"
 
 #. machine-translated (2026-10), to be reviewed
 msgid "Colorize pager"
@@ -507,14 +503,14 @@ msgid "Cover background images"
 msgstr "Εικόνες φόντου εξωφύλλου"
 
 msgid "Create a place"
-msgstr "Δημιουργία καταστήματος"
+msgstr "Δημιουργία τοποθεσίας"
 
 #. machine-translated (2026-10), to be reviewed
 msgid "Currently only one language can be selected."
 msgstr "Προς το παρόν μπορεί να επιλεγεί μόνο μία γλώσσα."
 
 msgid "Custom"
-msgstr "Προσωποποιημένο"
+msgstr "Προσαρμοσμένο"
 
 #. machine-translated (2026-10), to be reviewed
 msgid "Custom SMTP"
@@ -578,7 +574,7 @@ msgid "Display Border Circle"
 msgstr "Εμφάνιση κυκλικού περιγράμματος"
 
 msgid "Display Borders"
-msgstr "Προβολή διεύθυνσης"
+msgstr "Προβολή περιγραμμάτων"
 
 #. machine-translated (2026-10), to be reviewed
 msgid "Display Image"
@@ -592,7 +588,7 @@ msgid "Display address"
 msgstr "Προβολή διεύθυνσης"
 
 msgid "Display borders"
-msgstr "Προβολή διεύθυνσης"
+msgstr "Προβολή περιγραμμάτων"
 
 #. machine-translated (2026-10), to be reviewed
 msgid "Display image in page"
@@ -659,7 +655,7 @@ msgid "Edit place"
 msgstr "Επεξεργασία τοποθεσίας"
 
 msgid "Edit the application %s"
-msgstr "Editar la suscripción %s"
+msgstr "Επεξεργασία της εφαρμογής %s"
 
 msgid "Editor"
 msgstr "Συντάκτης"
@@ -688,7 +684,7 @@ msgid "Enter your AdMob ID for each platform."
 msgstr "Εισαγάγετε το AdMob ID σας για κάθε πλατφόρμα."
 
 msgid "Enter your Facebook page"
-msgstr "Συμπληρώστε το Facebook Fan Page ID σας"
+msgstr "Συμπληρώστε τη σελίδα σας στο Facebook"
 
 msgid "Entertainment"
 msgstr "Ψυχαγωγία"
@@ -697,7 +693,7 @@ msgid "Event"
 msgstr "Εκδήλωση"
 
 msgid "Events"
-msgstr "Εκδήλωση"
+msgstr "Εκδηλώσεις"
 
 #. machine-translated (2026-10), to be reviewed
 msgid "Export"
@@ -772,7 +768,7 @@ msgid "Flickr API key"
 msgstr "Κλειδί API Flickr"
 
 msgid "Flickr API secret"
-msgstr "Twitter μυστικό API"
+msgstr "Μυστικό API του Flickr"
 
 #. machine-translated (2026-10), to be reviewed
 msgid "Flickr API settings"
@@ -790,7 +786,7 @@ msgid "Form has the following errors"
 msgstr "Η φόρμα έχει τα ακόλουθα σφάλματα"
 
 msgid "Fred W."
-msgstr ".GSP."
+msgstr "Fred W."
 
 #. machine-translated (2026-10), to be reviewed
 msgid "Free until %s"
@@ -883,7 +879,7 @@ msgid "Header"
 msgstr "Κεφαλίδα"
 
 msgid "Health & Fitness"
-msgstr "Υγεία & Φόρμα"
+msgstr "Υγεία & Γυμναστική"
 
 msgid "Here is our latest creation. What do you think?"
 msgstr "Εδώ είναι η τελευταία δημιουργία μας. Πώς σας φαίνεται?"
@@ -930,7 +926,7 @@ msgstr ""
 "σας στο Google Play"
 
 msgid "Icon"
-msgstr "Εικονίδια"
+msgstr "Εικονίδιο"
 
 msgid "Icons"
 msgstr "Εικονίδια"
@@ -1053,7 +1049,7 @@ msgid "Input your SCSS here, save to validate & preview"
 msgstr "Εισαγάγετε εδώ το SCSS σας, αποθηκεύστε για επικύρωση και προεπισκόπηση"
 
 msgid "Insert"
-msgstr "Τοποθετήστε ένα"
+msgstr "Τοποθετήστε"
 
 #. machine-translated (2026-10), to be reviewed
 msgid "Insert & close"
@@ -1157,7 +1153,7 @@ msgid "Loading"
 msgstr "Φόρτωση"
 
 msgid "Lock the entire application"
-msgstr "Κλειδώστε το ολόκληρη την εφαρμογή"
+msgstr "Κλειδώστε ολόκληρη την εφαρμογή"
 
 #. machine-translated (2026-10), to be reviewed
 msgid "Longitude"
@@ -1225,7 +1221,7 @@ msgid "Message for both the two previous usages."
 msgstr "Μήνυμα και για τις δύο προηγούμενες χρήσεις."
 
 msgid "Misc"
-msgstr "Δεσποινίς"
+msgstr "Διάφορα"
 
 msgid "Missing Information"
 msgstr "Πληροφορίες που λείπουν"
@@ -1288,7 +1284,7 @@ msgid "No account for now."
 msgstr "Δεν υπάρχει λογαριασμός προς το παρόν."
 
 msgid "No data found"
-msgstr "Δεν βρέθηκε τραγούδι"
+msgstr "Δεν βρέθηκαν δεδομένα"
 
 #. machine-translated (2026-10), to be reviewed
 msgid "No features available for this application."
@@ -1336,10 +1332,10 @@ msgid "One free coffee"
 msgstr "Ένας δωρεάν καφές"
 
 msgid "Option successfully saved"
-msgstr "Η παραγγελία αποθηκεύτηκε επιτυχώς"
+msgstr "Η επιλογή αποθηκεύτηκε επιτυχώς"
 
 msgid "Options"
-msgstr "Επιλογή"
+msgstr "Επιλογές"
 
 #. machine-translated (2026-10), to be reviewed
 msgid "Options saved"
@@ -1467,7 +1463,7 @@ msgid "Preview on your phone"
 msgstr "Προεπισκόπηση στο τηλέφωνό σας"
 
 msgid "Privacy policy URL"
-msgstr "Πολιτική Προστασίας Προσωπικών Δεδομένων"
+msgstr "URL πολιτικής απορρήτου"
 
 #. machine-translated (2026-10), to be reviewed
 msgid "Proceed to checkout before downloading the source code."
@@ -1523,7 +1519,7 @@ msgid "Remaining builds"
 msgstr "Εναπομείναντα builds"
 
 msgid "Remove this page from this folder?"
-msgstr "Αφαιρέστε αυτή τη σελίδα από αυτό τον φάκελο?"
+msgstr "Να αφαιρεθεί αυτή η σελίδα από αυτόν τον φάκελο;"
 
 #. machine-translated (2026-10), to be reviewed
 msgid "Reset"
@@ -1576,7 +1572,7 @@ msgid "Search radius"
 msgstr "Ακτίνα αναζήτησης"
 
 msgid "Search settings"
-msgstr "Κοντινές μου ρυθμίσεις"
+msgstr "Ρυθμίσεις αναζήτησης"
 
 msgid "Secondary category"
 msgstr "Δευτεροβάθμια κατηγορία"
@@ -1678,7 +1674,7 @@ msgid "Sorry, we need a page id."
 msgstr "Λυπούμαστε, χρειαζόμαστε ένα id σελίδας."
 
 msgid "Source type"
-msgstr "Πηγαίος κώδικας"
+msgstr "Τύπος πηγής"
 
 #. machine-translated (2026-10), to be reviewed
 msgid "Sourcecode"
@@ -1778,7 +1774,7 @@ msgid "Template"
 msgstr "Πρότυπο"
 
 msgid "Template description"
-msgstr "Η περιγραφή"
+msgstr "Περιγραφή προτύπου"
 
 #. machine-translated (2026-10), to be reviewed
 msgid "Template name"
@@ -1916,14 +1912,12 @@ msgid "Title position"
 msgstr "Θέση τίτλου"
 
 msgid "Titles"
-msgstr "τίτλοι"
+msgstr "Τίτλοι"
 
 msgid ""
 "To be able to download source codes, please provide the following "
 "information:<br />"
-msgstr ""
-"Για να μπορέσετε να κατεβάσετε source κώδικες, παρααούμε να συμπληρώστε τις "
-"ακόλουθες πληροφορίες:<br />"
+msgstr "Για να μπορέσετε να κατεβάσετε source κώδικες, παρακαλούμε συμπληρώστε τις ακόλουθες πληροφορίες:<br />"
 
 #. machine-translated (2026-10), to be reviewed
 msgid "Top"
@@ -1934,7 +1928,7 @@ msgid "Topic"
 msgstr "Θέμα"
 
 msgid "Translation"
-msgstr "Μεταφράσεις"
+msgstr "Μετάφραση"
 
 #. machine-translated (2026-10), to be reviewed
 msgid "Transparent"
@@ -1944,16 +1938,16 @@ msgid "Travel"
 msgstr "Ταξίδια"
 
 msgid "Twitter API Keys"
-msgstr "Twitter μυστικό API"
+msgstr "Κλειδιά API του Twitter"
 
 msgid "Twitter API secret"
-msgstr "Twitter μυστικό API"
+msgstr "Μυστικό API του Twitter"
 
 msgid "Twitter API settings"
-msgstr "Twitter μυστικό API"
+msgstr "Ρυθμίσεις API του Twitter"
 
 msgid "Twitter API token"
-msgstr "Twitter μυστικό API"
+msgstr "Token API του Twitter"
 
 #. machine-translated (2026-10), to be reviewed
 msgid "Twitter consumer key"
@@ -2001,16 +1995,16 @@ msgid "Use ads for platform owner"
 msgstr "Χρήση διαφημίσεων για τον ιδιοκτήτη της πλατφόρμας"
 
 msgid "Use background into all of your application's pages"
-msgstr "Χρήση σε όλες τις σελίδες της εφαρμογής σας"
+msgstr "Χρήση του φόντου σε όλες τις σελίδες της εφαρμογής σας"
 
 msgid "Use into all of your application's pages"
 msgstr "Χρήση σε όλες τις σελίδες της εφαρμογής σας"
 
 msgid "Used points"
-msgstr "Χρησιμοποιημένα σημεία"
+msgstr "Χρησιμοποιημένοι πόντοι"
 
 msgid "User:"
-msgstr "Χρήστες"
+msgstr "Χρήστης:"
 
 msgid "User Information"
 msgstr "Πληροφορίες Χρήστη"
@@ -2022,7 +2016,7 @@ msgid "Version"
 msgstr "Έκδοση"
 
 msgid "Video"
-msgstr "Vídeo"
+msgstr "Video"
 
 #. machine-translated (2026-10), to be reviewed
 msgid "Visible"
@@ -2147,7 +2141,7 @@ msgid "You must select at least one orientation for iPhone!"
 msgstr "Πρέπει να επιλέξετε τουλάχιστον έναν προσανατολισμό για το iPhone!"
 
 msgid "Your CNAME is not properly set"
-msgstr "Το CNAME σας έχει ρυθμιστεί σωστά"
+msgstr "Το CNAME σας δεν έχει ρυθμιστεί σωστά"
 
 msgid "Your CNAME is properly set"
 msgstr "Το CNAME σας έχει ρυθμιστεί σωστά"
@@ -2206,8 +2200,7 @@ msgid "Your iOS autobuild License Key"
 msgstr "Το κλειδί άδειας iOS autobuild σας"
 
 msgid "Your mobile address should not contain special characters"
-msgstr ""
-"H διεύθυνση του κινητού σας δεν θα πρέπει να περιέχει ειδικούς χαρακτήρες"
+msgstr "Η διεύθυνση του κινητού σας δεν θα πρέπει να περιέχει ειδικούς χαρακτήρες"
 
 #. machine-translated (2026-10), to be reviewed
 msgid ""
@@ -2231,7 +2224,7 @@ msgid ""
 msgstr "Η επιλογή <b>Κοντά σας</b> για την Επισκόπηση και το HTML5 θα εμφανίζεται και θα λειτουργεί μόνο με χρήση HTTPS, ωστόσο λειτουργεί στις εφαρμογές Android και iOS χωρίς HTTPS."
 
 msgid "<b>File type:</b> %s"
-msgstr "<b>Τύπος αρχείου:</b>%s"
+msgstr "<b>Τύπος αρχείου:</b> %s"
 
 #. machine-translated (2026-10), to be reviewed
 msgid ""
@@ -2304,10 +2297,10 @@ msgid "iPhone 6:"
 msgstr "iPhone 6:"
 
 msgid "iPhone 6 Plus:"
-msgstr "iPhone 6 Plus :"
+msgstr "iPhone 6 Plus:"
 
 msgid "iPhone Version"
-msgstr "Έκδοση iOS"
+msgstr "Έκδοση iPhone"
 
 #. machine-translated (2026-10), to be reviewed
 msgid "iPhone Version (No Ads)"

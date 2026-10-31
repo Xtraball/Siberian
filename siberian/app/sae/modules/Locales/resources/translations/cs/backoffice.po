@@ -190,7 +190,7 @@ msgid "CA"
 msgstr "CA"
 
 msgid "CA certificate"
-msgstr "Certifikát"
+msgstr "Certifikát CA"
 
 #. machine-translated (2026-10), to be reviewed
 msgid "CA path:"
@@ -213,7 +213,7 @@ msgid "Can generate APK"
 msgstr "Může generovat APK"
 
 msgid "Cert"
-msgstr "Košík"
+msgstr "Certifikát"
 
 msgid "Certificate"
 msgstr "Certifikát"
@@ -266,10 +266,10 @@ msgid "Cleared cron errors."
 msgstr "Chyby cronu byly vymazány."
 
 msgid "Click here to send your CA certificate"
-msgstr "Klikněte zde pro zaslání certifikátu"
+msgstr "Klikněte zde pro zaslání certifikátu CA"
 
 msgid "Click here to send your Private certificate"
-msgstr "Klikněte zde pro zaslání certifikátu"
+msgstr "Klikněte zde pro zaslání soukromého certifikátu"
 
 msgid "Click here to send your certificate"
 msgstr "Klikněte zde pro zaslání certifikátu"
@@ -281,17 +281,17 @@ msgid "Click to mark as read"
 msgstr "Kliknutím označte jako přečtené"
 
 msgid "Closed"
-msgstr "Zavřít"
+msgstr "Zavřeno"
 
 #. machine-translated (2026-10), to be reviewed
 msgid "Complete build log"
 msgstr "Úplný protokol sestavení"
 
 msgid "Configuration"
-msgstr "Nastavení mapy"
+msgstr "Konfigurace"
 
 msgid "Configuration successfully saved"
-msgstr "Informace byla úspěšně uložena"
+msgstr "Konfigurace byla úspěšně uložena"
 
 #. machine-translated (2026-10), to be reviewed
 msgid "Core modules"
@@ -327,7 +327,7 @@ msgid "Cron scheduler help"
 msgstr "Nápověda k plánovači cron"
 
 msgid "Custom SMTP Configuration"
-msgstr "Nastavení mapy"
+msgstr "Vlastní nastavení SMTP"
 
 #. machine-translated (2026-10), to be reviewed
 msgid "Day of month"
@@ -515,7 +515,7 @@ msgid ""
 msgstr "Podpora HTTPS je ve fázi testování, vyzkoušejte ji pouze na svém vývojovém serveru před přípravou na další migraci."
 
 msgid "Hide"
-msgstr "skrýt"
+msgstr "Skrýt"
 
 msgid "Host"
 msgstr "Host"
@@ -630,7 +630,7 @@ msgid "Loaded"
 msgstr "Načteno"
 
 msgid "Log"
-msgstr "Logo"
+msgstr "Protokol"
 
 #. machine-translated (2026-10), to be reviewed
 msgid "Log (var/log, log files)"
@@ -706,7 +706,7 @@ msgid "No icon packs"
 msgstr "Žádné sady ikon"
 
 msgid "No informations."
-msgstr "Můj účet"
+msgstr "Žádné informace."
 
 #. machine-translated (2026-10), to be reviewed
 msgid "No layouts"
@@ -857,7 +857,7 @@ msgid "Preview 5.0"
 msgstr "Preview 5.0"
 
 msgid "Privacy policy URL"
-msgstr "Ochrana osobních údajů"
+msgstr "URL zásad ochrany osobních údajů"
 
 #. machine-translated (2026-10), to be reviewed
 msgid "Private"
@@ -958,7 +958,7 @@ msgid "Sales"
 msgstr "Obchod"
 
 msgid "Sales configuration"
-msgstr "Nastavení mapy"
+msgstr "Nastavení prodeje"
 
 msgid "Save"
 msgstr "Uložit"
@@ -1062,7 +1062,7 @@ msgid ""
 msgstr "Statistiky se používají ke zlepšení platformy a k pochopení využití tvůrce aplikací."
 
 msgid "Status"
-msgstr "Status"
+msgstr "Stav"
 
 #. machine-translated (2026-10), to be reviewed
 msgid "Submit a bug report or improvement request for beta/preview"
@@ -1205,7 +1205,7 @@ msgid "Tour status"
 msgstr "Stav průvodce"
 
 msgid "Tour status successfully saved."
-msgstr "Menu úspěšně uloženo"
+msgstr "Stav prohlídky byl úspěšně uložen."
 
 #. machine-translated (2026-10), to be reviewed
 msgid "UID"

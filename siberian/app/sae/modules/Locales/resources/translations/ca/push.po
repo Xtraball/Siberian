@@ -15,12 +15,10 @@ msgstr ""
 "X-Generator: Weblate 3.3\n"
 
 msgid "Additionnal Information"
-msgstr "Supletori informació"
+msgstr "Informació addicional"
 
 msgid "An error occurred while deleting the push. Please try again later."
-msgstr ""
-"S'ha produït un error en suprimir aquesta resposta. Intenta-ho de nou més "
-"tard."
+msgstr "S'ha produït un error en suprimir la notificació push. Intenta-ho de nou més tard."
 
 msgid "And a radius (in Km):"
 msgstr "I un radi (en Km):"
@@ -39,13 +37,13 @@ msgid "Enter a location:"
 msgstr "Introduïu una ubicació:"
 
 msgid "GCM Key"
-msgstr "GCM clau"
+msgstr "Clau GCM"
 
 msgid "I want to send it"
 msgstr "Vull enviar-lo"
 
 msgid "Keys successfully saved"
-msgstr "Claus salvats correctament"
+msgstr "Claus desades correctament"
 
 msgid "Message"
 msgstr "Missatge"
@@ -74,13 +72,13 @@ msgid "Project Number"
 msgstr "Número de projecte"
 
 msgid "Push Notifications"
-msgstr "Notificacions d'empenta"
+msgstr "Notificacions push"
 
 msgid "Push Notifications Settings"
-msgstr "Configuració de notificacions d'empenta"
+msgstr "Configuració de les notificacions push"
 
 msgid "Push successfully deleted."
-msgstr "Usuari eliminat correctament"
+msgstr "Notificació push eliminada correctament."
 
 msgid "Radius"
 msgstr "Radi"
@@ -96,10 +94,10 @@ msgid "Send to all my users"
 msgstr "Enviar a tots els meus usuaris"
 
 msgid "Send to no specific locations"
-msgstr "Enviar a una ubicació específica"
+msgstr "Enviar a cap ubicació específica"
 
 msgid "Send to specific topics"
-msgstr "Enviar a una ubicació específica"
+msgstr "Enviar a temes específics"
 
 #. machine-translated (2026-10), to be reviewed
 msgid "Send to specific users"
@@ -109,7 +107,7 @@ msgid "Sending date"
 msgstr "Data d'enviament"
 
 msgid "The duration limit must be higher than the sent date"
-msgstr "El límit de durada ha de ser superior a la data d'enviat"
+msgstr "El límit de durada ha de ser posterior a la data d'enviament"
 
 #. machine-translated (2026-10), to be reviewed
 msgid "Topics"
@@ -127,10 +125,10 @@ msgid "You must choose at least one user before sending your message."
 msgstr "Heu de triar almenys un usuari abans d'enviar el missatge."
 
 msgid "Your app must be published to send a push notification."
-msgstr "Cal publicar el seu app per enviar una notificació d'empenta."
+msgstr "L'aplicació s'ha de publicar per enviar una notificació push."
 
 msgid "Your message has been saved successfully."
-msgstr "Targeta fidelitat s'ha desat correctament"
+msgstr "El vostre missatge s'ha desat correctament."
 
 msgid ""
 "Your message has been saved successfully and will be sent at the entered date"
@@ -142,7 +140,7 @@ msgid ""
 msgstr "El seu missatge s'ha desat correctament i s'enviarà en pocs minuts"
 
 msgid "and users entering the area"
-msgstr "i entrar a la zona d'usuaris"
+msgstr "i usuaris que entren a la zona"
 
 msgid "for a limited period"
 msgstr "durant un període limitat"

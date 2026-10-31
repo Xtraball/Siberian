@@ -61,7 +61,7 @@ msgid "Activate VAT number check with VIES"
 msgstr "USt-IdNr.-Prüfung mit VIES aktivieren"
 
 msgid "Activate user"
-msgstr "Aktivieren Sie die Benutzer"
+msgstr "Benutzer aktivieren"
 
 msgid "Active ?"
 msgstr "Aktiv"
@@ -75,7 +75,7 @@ msgid "Admin panel type"
 msgstr "Typ des Admin-Panels"
 
 msgid "Advanced"
-msgstr "Fortgeschritten"
+msgstr "Erweitert"
 
 #. machine-translated (2026-10), to be reviewed
 msgid ""
@@ -107,9 +107,7 @@ msgid "An error occured while saving certificate to %s."
 msgstr "Beim Speichern des Zertifikats in %s ist ein Fehler aufgetreten."
 
 msgid "An error occurred during the process. Please try again later."
-msgstr ""
-"Ein Fehler ist wegen des Prozesses aufgetreten. Bitte versuchen Sie es "
-"später noch einmal"
+msgstr "Während des Vorgangs ist ein Fehler aufgetreten. Bitte versuchen Sie es später erneut."
 
 #. machine-translated (2026-10), to be reviewed
 msgid "An unknown error occured while issueing your certificate."
@@ -120,10 +118,10 @@ msgid "Android SDK:"
 msgstr "Android SDK:"
 
 msgid "App name"
-msgstr "App-name:"
+msgstr "App-Name"
 
 msgid "Application settings"
-msgstr "Standort-Einstellungen"
+msgstr "Anwendungseinstellungen"
 
 #. machine-translated (2026-10), to be reviewed
 msgid "Application successfully queued for generation."
@@ -186,7 +184,7 @@ msgid "CA"
 msgstr "CA"
 
 msgid "CA certificate"
-msgstr "Zertifikat"
+msgstr "CA-Zertifikat"
 
 #. machine-translated (2026-10), to be reviewed
 msgid "CA path:"
@@ -197,17 +195,17 @@ msgid "CRON Scheduler interval"
 msgstr "CRON-Scheduler-Intervall"
 
 msgid "Cache cleared"
-msgstr "- Cache gelöscht."
+msgstr "Cache geleert"
 
 #. machine-translated (2026-10), to be reviewed
 msgid "Cache (var/cache, system cache)"
 msgstr "Cache (var/cache, Systemcache)"
 
 msgid "Can generate APK"
-msgstr "Können generieren APK"
+msgstr "Kann APK generieren"
 
 msgid "Cert"
-msgstr "Warenkorb"
+msgstr "Zertifikat"
 
 msgid "Certificate"
 msgstr "Zertifikat"
@@ -260,22 +258,22 @@ msgid "Cleared cron errors."
 msgstr "Cron-Fehler gelöscht."
 
 msgid "Click here to send your CA certificate"
-msgstr "Klicken Sie Hier um Ihr Zertifikat zu senden"
+msgstr "Klicken Sie hier, um Ihr CA-Zertifikat zu senden"
 
 msgid "Click here to send your Private certificate"
-msgstr "Klicken Sie Hier um Ihr Zertifikat zu senden"
+msgstr "Klicken Sie hier, um Ihr privates Zertifikat zu senden"
 
 msgid "Click here to send your certificate"
-msgstr "Klicken Sie Hier um Ihr Zertifikat zu senden"
+msgstr "Klicken Sie hier, um Ihr Zertifikat zu senden"
 
 msgid "Click to mark as not read"
-msgstr "Hier klicken, um als nicht gelesen markiert"
+msgstr "Klicken, um als ungelesen zu markieren"
 
 msgid "Click to mark as read"
-msgstr "Klicken Sie auf als gelesen markieren"
+msgstr "Klicken, um als gelesen zu markieren"
 
 msgid "Closed"
-msgstr "Schließt"
+msgstr "Geschlossen"
 
 #. machine-translated (2026-10), to be reviewed
 msgid "Complete build log"
@@ -285,7 +283,7 @@ msgid "Configuration"
 msgstr "Einstellungen"
 
 msgid "Configuration successfully saved"
-msgstr "Information erfolgreich gespeichert"
+msgstr "Konfiguration erfolgreich gespeichert"
 
 #. machine-translated (2026-10), to be reviewed
 msgid "Core modules"
@@ -298,7 +296,7 @@ msgid "Created At"
 msgstr "Erstellt am"
 
 msgid "Creation date"
-msgstr "Erstellungsdatum:"
+msgstr "Erstellungsdatum"
 
 #. machine-translated (2026-10), to be reviewed
 msgid "Cron"
@@ -321,7 +319,7 @@ msgid "Cron scheduler help"
 msgstr "Hilfe zum Cron-Scheduler"
 
 msgid "Custom SMTP Configuration"
-msgstr "SMTP Konfiguration"
+msgstr "Benutzerdefinierte SMTP-Konfiguration"
 
 #. machine-translated (2026-10), to be reviewed
 msgid "Day of month"
@@ -336,7 +334,7 @@ msgid "Deactivate user"
 msgstr "Benutzer deaktivieren"
 
 msgid "Default (no)"
-msgstr "Standard (keine)"
+msgstr "Standard (nein)"
 
 msgid "Development"
 msgstr "Entwicklung"
@@ -378,7 +376,7 @@ msgid "Download latest source"
 msgstr "Neuesten Quellcode herunterladen"
 
 msgid "Drop your certificate here"
-msgstr "Ziehen Sie Ihr Zertifikat hier her"
+msgstr "Ziehen Sie Ihr Zertifikat hierher"
 
 msgid "Edit the user"
 msgstr "Den Benutzer bearbeiten"
@@ -392,10 +390,10 @@ msgid "Enable custom SMTP configuration"
 msgstr "Eigene SMTP-Konfiguration aktivieren"
 
 msgid "Enter your credentials:"
-msgstr "Geben Sie Ihre Anmeldeinformationen:"
+msgstr "Geben Sie Ihre Anmeldeinformationen ein:"
 
 msgid "Environment"
-msgstr "Umwelt ist"
+msgstr "Umgebung"
 
 #. machine-translated (2026-10), to be reviewed
 msgid "Error, order already paid."
@@ -416,7 +414,7 @@ msgid "External extensions"
 msgstr "Externe Erweiterungen"
 
 msgid "Failed"
-msgstr "erfolglos"
+msgstr "Fehlgeschlagen"
 
 #. machine-translated (2026-10), to be reviewed
 msgid "File hash is different from manifest."
@@ -448,7 +446,7 @@ msgid "Generate"
 msgstr "Generieren"
 
 msgid "Generate a certificate via Let's Encrypt."
-msgstr "Anfordern oder erneuern Sie das Zertifikat über Let ' s Encrypt."
+msgstr "Erstellen Sie ein Zertifikat über Let's Encrypt."
 
 msgid "Generate source"
 msgstr "Quelle generieren"
@@ -501,7 +499,7 @@ msgid ""
 msgstr "Die HTTPS-Unterstützung befindet sich in der Testphase. Probieren Sie sie nur auf Ihrem Entwicklungsserver aus, bevor Sie die spätere Migration vorbereiten."
 
 msgid "Hide"
-msgstr "Swipe"
+msgstr "Ausblenden"
 
 msgid "Host"
 msgstr "Host"
@@ -511,7 +509,7 @@ msgid "Hostname"
 msgstr "Hostname"
 
 msgid "Hostnames associated with this Certificate"
-msgstr "Hostnamen, die diesem Zertifikat zugeordnet"
+msgstr "Mit diesem Zertifikat verknüpfte Hostnamen"
 
 msgid "Hour"
 msgstr "Stunde"
@@ -533,7 +531,7 @@ msgid "Info"
 msgstr "Info"
 
 msgid "Installed"
-msgstr "Ersteller"
+msgstr "Installiert"
 
 #. machine-translated (2026-10), to be reviewed
 msgid "Installed icon packs"
@@ -548,7 +546,7 @@ msgid "Installed modules"
 msgstr "Installierte Module"
 
 msgid "Installed, version"
-msgstr "Ungültige Version"
+msgstr "Installiert, Version"
 
 #. machine-translated (2026-10), to be reviewed
 msgid "Integrity check"
@@ -613,30 +611,30 @@ msgid "Loaded"
 msgstr "Geladen"
 
 msgid "Log"
-msgstr "Logo"
+msgstr "Protokoll"
 
 #. machine-translated (2026-10), to be reviewed
 msgid "Log (var/log, log files)"
 msgstr "Protokoll (var/log, Logdateien)"
 
 msgid "Login to your backoffice interface"
-msgstr "Anmelden, um Ihre Backoffice-Schnittstelle"
+msgstr "Bei Ihrer Backoffice-Oberfläche anmelden"
 
 #. machine-translated (2026-10), to be reviewed
 msgid "Logs cleared."
 msgstr "Protokolle gelöscht."
 
 msgid "Mark all as read"
-msgstr "Als gelesen markieren"
+msgstr "Alle als gelesen markieren"
 
 msgid "Mark as new"
-msgstr "Als gelesen markieren"
+msgstr "Als neu markieren"
 
 msgid "Mark as read"
 msgstr "Als gelesen markieren"
 
 msgid "Messages"
-msgstr "Postfach"
+msgstr "Nachrichten"
 
 msgid "Minute"
 msgstr "Minute"
@@ -686,7 +684,7 @@ msgid "No icon packs"
 msgstr "Keine Symbolpakete"
 
 msgid "No informations."
-msgstr "Meine Informationen"
+msgstr "Keine Informationen."
 
 #. machine-translated (2026-10), to be reviewed
 msgid "No layouts"
@@ -716,7 +714,7 @@ msgid "Not yet generated."
 msgstr "Noch nicht generiert."
 
 msgid "Note:"
-msgstr "Notizen"
+msgstr "Hinweis:"
 
 #. machine-translated (2026-10), to be reviewed
 msgid "Note: Let's encrypt X1 is a staging certificate."
@@ -810,7 +808,7 @@ msgid "Payment received"
 msgstr "Zahlung erhalten"
 
 msgid "People who are allowed to access the backoffice"
-msgstr "Menschen, die das Backoffice zugreifen dürfen"
+msgstr "Personen, die auf das Backoffice zugreifen dürfen"
 
 #. machine-translated (2026-10), to be reviewed
 msgid "Permission, denied from Plesk, please use the admin account."
@@ -836,7 +834,7 @@ msgid "Preview 5.0"
 msgstr "Vorschau 5.0"
 
 msgid "Privacy policy URL"
-msgstr "Datenschutz URL"
+msgstr "URL der Datenschutzerklärung"
 
 #. machine-translated (2026-10), to be reviewed
 msgid "Private"
@@ -859,10 +857,10 @@ msgid "Progress"
 msgstr "Fortschritt"
 
 msgid "Publication access type"
-msgstr "Publikation zugreifen, geben Sie"
+msgstr "Zugriffstyp der Veröffentlichung"
 
 msgid "Push messages:"
-msgstr "Push-Nachricht"
+msgstr "Push-Nachrichten:"
 
 #. machine-translated (2026-10), to be reviewed
 msgid "Queued"
@@ -900,7 +898,7 @@ msgid "Remove locks now"
 msgstr "Sperren jetzt entfernen"
 
 msgid "Removing CRON Scheduler lock files."
-msgstr "Entfernen CRON Scheduler source lock-Dateien."
+msgstr "Lock-Dateien des CRON-Schedulers werden entfernt."
 
 #. machine-translated (2026-10), to be reviewed
 msgid "Removing domains: %s"
@@ -911,14 +909,14 @@ msgid "Request"
 msgstr "Anfrage"
 
 msgid "Request the certificate via Let's Encrypt."
-msgstr "Anfordern oder erneuern Sie das Zertifikat über Let ' s Encrypt."
+msgstr "Fordern Sie das Zertifikat über Let's Encrypt an."
 
 #. machine-translated (2026-10), to be reviewed
 msgid "Required extensions"
 msgstr "Erforderliche Erweiterungen"
 
 msgid "Revoke user"
-msgstr "Benutzer widerrufen"
+msgstr "Benutzer sperren"
 
 #. machine-translated (2026-10), to be reviewed
 msgid "Run test"
@@ -932,7 +930,7 @@ msgid "Sales"
 msgstr "Verkäufe"
 
 msgid "Sales configuration"
-msgstr "Karten-Konfiguration"
+msgstr "Verkaufskonfiguration"
 
 msgid "Save"
 msgstr "Speichern"
@@ -941,7 +939,7 @@ msgid "Select API access"
 msgstr "Wählen Sie den API-Zugriff aus"
 
 msgid "Select a panel type or self-managed"
-msgstr "Wählen Sie ein panel-Typ oder self-managed"
+msgstr "Wählen Sie einen Panel-Typ oder selbstverwaltet"
 
 #. machine-translated (2026-10), to be reviewed
 msgid "Self-managed"
@@ -963,7 +961,7 @@ msgid "Services"
 msgstr "Dienste"
 
 msgid "Show All Applications"
-msgstr "Zeigen Sie Alle Anwendungen"
+msgstr "Alle Anwendungen anzeigen"
 
 #. machine-translated (2026-10), to be reviewed
 msgid "Show more"
@@ -1039,7 +1037,7 @@ msgid "Submit a bug report or improvement request for beta/preview"
 msgstr "Fehlerbericht oder Verbesserungsvorschlag für Beta/Vorschau senden"
 
 msgid "Success"
-msgstr "Erfolg."
+msgstr "Erfolg"
 
 #. machine-translated (2026-10), to be reviewed
 msgid "Successfully cleaned-up old certificate."
@@ -1081,7 +1079,7 @@ msgid "Temp (var/tmp, application sources & apk)"
 msgstr ""
 
 msgid "Templates"
-msgstr "Vorlage"
+msgstr "Vorlagen"
 
 #. machine-translated (2026-10), to be reviewed
 msgid "Test SSL/HTTPS"
@@ -1119,7 +1117,7 @@ msgid "The given certificate doesn't match the hostname or wiSibldcard."
 msgstr "Das angegebene Zertifikat passt nicht zum Hostnamen oder wiSibldcard."
 
 msgid "This account can't be deleted, it's the only one"
-msgstr "Dieses Konto kann nicht gelöscht werden, es ist die einzige"
+msgstr "Dieses Konto kann nicht gelöscht werden, es ist das einzige"
 
 #. machine-translated (2026-10), to be reviewed
 msgid ""
@@ -1160,7 +1158,7 @@ msgid "Total sales"
 msgstr "Gesamtumsatz"
 
 msgid "Total usage:"
-msgstr "Gesamtumsatz"
+msgstr "Gesamtnutzung:"
 
 #. machine-translated (2026-10), to be reviewed
 msgid "Tour settings"
@@ -1171,7 +1169,7 @@ msgid "Tour status"
 msgstr "Tour-Status"
 
 msgid "Tour status successfully saved."
-msgstr "Menü wurde erfolgreich gespeichert."
+msgstr "Tour-Status erfolgreich gespeichert."
 
 #. machine-translated (2026-10), to be reviewed
 msgid "UID"
@@ -1180,9 +1178,7 @@ msgstr "UID"
 msgid ""
 "Unable to connect in HTTPS or to validate the SSL Certificate.<br />Check if "
 "your are not in `Staging`"
-msgstr ""
-"Keine Verbindung in HTTPS oder überprüfen Sie die SSL-Zertifikat.<br />"
-"Prüfen Sie, ob Ihr nicht in `Inszenierung`"
+msgstr "Es konnte keine HTTPS-Verbindung hergestellt oder das SSL-Zertifikat nicht validiert werden.<br />Prüfen Sie, ob Sie sich nicht im `Staging` befinden"
 
 #. machine-translated (2026-10), to be reviewed
 msgid "Unknown"
@@ -1200,7 +1196,7 @@ msgid "Update channel"
 msgstr "Update-Kanal"
 
 msgid "Updated At"
-msgstr "erneuert am"
+msgstr "Aktualisiert am"
 
 #. machine-translated (2026-10), to be reviewed
 msgid "Upload"
@@ -1283,7 +1279,7 @@ msgid "Whitelabel"
 msgstr "Whitelabel"
 
 msgid "Whitelabel hostnames associated with this Certificate"
-msgstr "Hostnamen, die diesem Zertifikat zugeordnet"
+msgstr "Dem Zertifikat zugeordnete White-Label-Hostnamen"
 
 #. machine-translated (2026-10), to be reviewed
 msgid "Whitelabel request"
@@ -1323,7 +1319,7 @@ msgid ""
 msgstr ""
 
 msgid "You can use <b>%s</b> as a dynamic variable for your application name."
-msgstr "Sie können <b>%s</b> als Variable für Ihren Anwendungsnamen verwenden."
+msgstr "Sie können <b>%s</b> als dynamische Variable für Ihren Anwendungsnamen verwenden."
 
 #. machine-translated (2026-10), to be reviewed
 msgid ""

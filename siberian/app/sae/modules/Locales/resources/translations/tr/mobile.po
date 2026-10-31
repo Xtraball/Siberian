@@ -24,7 +24,7 @@ msgid "Add image"
 msgstr "Resim ekle"
 
 msgid "Add to address book"
-msgstr "Adres Defteri Ekle"
+msgstr "Adres defterine ekle"
 
 msgid "Address"
 msgstr "Adres"
@@ -45,10 +45,10 @@ msgid "An unexpected error occurred while calculating the route."
 msgstr "Rota hesaplanırken beklenmeyen bir hata oluştu."
 
 msgid "Application is Locked"
-msgstr "Uygulama Kitlendi"
+msgstr "Uygulama kilitli"
 
 msgid "Buffering"
-msgstr "Buffering"
+msgstr "Arabelleğe alınıyor"
 
 msgid "Buy Tickets"
 msgstr "Biletleri Satın al"
@@ -69,13 +69,13 @@ msgid "Cancel edit"
 msgstr "Düzenlemeyi iptal et"
 
 msgid "Civility"
-msgstr "Cinsiyet"
+msgstr "Hitap"
 
 msgid "Clear"
-msgstr "Açık"
+msgstr "Temizle"
 
 msgid "Click here to log-in"
-msgstr "Giriş İçin Tıklayınız"
+msgstr "Giriş yapmak için buraya tıklayın"
 
 msgid "Close"
 msgstr "Kapat"
@@ -84,7 +84,7 @@ msgid "Comment"
 msgstr "Yorum"
 
 msgid "Copy"
-msgstr "Kopya"
+msgstr "Kopyala"
 
 msgid "Create an account"
 msgstr "Yeni hesap oluştur"
@@ -96,7 +96,7 @@ msgid "Delete"
 msgstr "Sil"
 
 msgid "Delivery address"
-msgstr "Sipariş Adresi"
+msgstr "Teslimat adresi"
 
 msgid "Description"
 msgstr "Açıklama"
@@ -105,10 +105,10 @@ msgid "Discount code"
 msgstr "İndirim kodu"
 
 msgid "Dismiss"
-msgstr "Reddet"
+msgstr "Kapat"
 
 msgid "Done"
-msgstr "Bitti"
+msgstr "Tamamlandı"
 
 msgid "Downloading..."
 msgstr "İndiriliyor..."
@@ -123,10 +123,10 @@ msgid "Error"
 msgstr "Hata"
 
 msgid "First name / Last name"
-msgstr "İsim / Soyisim"
+msgstr "Ad / Soyad"
 
 msgid "Firstname"
-msgstr "İsim"
+msgstr "Ad"
 
 msgid "Flag"
 msgstr "Bayrak"
@@ -135,22 +135,22 @@ msgid "Forgot your password?"
 msgstr "Şifrenizi mi unuttunuz?"
 
 msgid "Hi. I just found: $1 in the $2 app."
-msgstr "$2 uygulamasında $1 bunu buldum"
+msgstr "Merhaba. $2 uygulamasında şunu buldum: $1"
 
 msgid "I accept the privacy policy"
-msgstr "Gizlilik Politikasını Kabul Ediyorum"
+msgstr "Gizlilik politikasını kabul ediyorum"
 
 msgid "I just found this discount $1 in $2 app."
-msgstr "Bu indirimi 2$ uygulamasında 1$ buldum."
+msgstr "Bu indirimi $2 uygulamasında buldum: $1."
 
 msgid "Identity"
 msgstr "Kimlik"
 
 msgid "I'm listening to $1 from $2 on $3 app."
-msgstr "$3 uygulamasında $2 sanatçıdan $1 dinliyorum"
+msgstr "$3 uygulamasında $2 sanatçısından $1 dinliyorum"
 
 msgid "I'm listening to $1 on $2 app."
-msgstr "$2 ugulamasında $1 dinliyorum"
+msgstr "$2 uygulamasında $1 dinliyorum"
 
 msgid "Info"
 msgstr "Bilgi"
@@ -171,19 +171,19 @@ msgid "Loading"
 msgstr "Yükleniyor"
 
 msgid "Locate"
-msgstr "Konum"
+msgstr "Konumu bul"
 
 msgid "Location"
-msgstr "Lokasyon"
+msgstr "Konum"
 
 msgid "Log-in"
-msgstr "Oturum Aç"
+msgstr "Giriş yap"
 
 msgid "Login error"
 msgstr "Oturum açma hatası"
 
 msgid "Log-in with Facebook"
-msgstr "Facebook ile giriş"
+msgstr "Facebook ile giriş yap"
 
 msgid "Map"
 msgstr "Harita"
@@ -249,7 +249,7 @@ msgid "Order Details"
 msgstr "Sipariş Ayrıntıları"
 
 msgid "Overview"
-msgstr "Önizleme"
+msgstr "Genel Bakış"
 
 msgid "Password"
 msgstr "Şifre"
@@ -258,7 +258,7 @@ msgid "Phone"
 msgstr "Telefon"
 
 msgid "Photos"
-msgstr "Fotograflar"
+msgstr "Fotoğraflar"
 
 msgid "Playlists"
 msgstr "Şarkı listesi"
@@ -310,10 +310,10 @@ msgid "Send contact request"
 msgstr "İletişim isteği gönderin"
 
 msgid "Show me in ranking"
-msgstr "Sıralamada göster"
+msgstr "Beni sıralamada göster"
 
 msgid "Success"
-msgstr "Başarı"
+msgstr "Başarılı"
 
 msgid "Tap to download in background"
 msgstr "Arka planda indirmek için dokunun"
@@ -328,7 +328,7 @@ msgid "The sign in flow was canceled"
 msgstr "Giriş akışı iptal edildi"
 
 msgid "There is no route available with these informations."
-msgstr "Bu bilgilerin  kullanılabilir bir yolu mevcut degil"
+msgstr "Bu bilgilerle kullanılabilir bir güzergah mevcut değil."
 
 msgid "This application is no longer available"
 msgstr "Bu uygulama kullanılabilir degil"
@@ -340,7 +340,7 @@ msgid "This feature is not available in offline mode!"
 msgstr "Bu özellik, çevrimdışı modunda kullanılamaz."
 
 msgid "This field is required"
-msgstr "Bu dosya gerekli"
+msgstr "Bu alan zorunlu"
 
 msgid "This will open the code scan camera on your device."
 msgstr "Bu cihazınızdaki kod tarama kamerasını açacaktır."
@@ -366,13 +366,13 @@ msgstr "Görüntüle"
 msgid ""
 "We are sorry but this application has been deactivated and may not be re-"
 "activated."
-msgstr "Üzgünüz bu uygulama devre dışı bırakıldı, tekrar aktif edilmelidir."
+msgstr "Üzgünüz, bu uygulama devre dışı bırakıldı ve yeniden etkinleştirilemez."
 
 msgid "Website"
 msgstr "Website"
 
 msgid "We'll send you your password right now."
-msgstr "Parolanızı hemen göndereceğiz."
+msgstr "Şifrenizi hemen göndereceğiz."
 
 msgid ""
 "Wrong password.<br />Be careful !<br />%d remaining attempt%s before locking "
@@ -398,7 +398,7 @@ msgid "followers"
 msgstr "takipçi"
 
 msgid "following"
-msgstr "takip ediln"
+msgstr "takip edilen"
 
 msgid "track"
 msgstr "Şarkı"

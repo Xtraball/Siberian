@@ -24,13 +24,13 @@ msgid "All of your modules are up to date"
 msgstr "Tüm modülleriniz güncel"
 
 msgid "An update is available. Click here to download it."
-msgstr "Bir güncelleştirme kullanılabilir. İndirmek için buraya tıklayınız."
+msgstr "Bir güncelleme mevcut. İndirmek için buraya tıklayın."
 
 msgid "Check for updates"
 msgstr "Güncellemeleri kontrol et"
 
 msgid "Click here to see the release notes"
-msgstr "Burada sürümü görmek için tıklayın notlar"
+msgstr "Sürüm notlarını görmek için buraya tıklayın"
 
 msgid "Click here to send your module"
 msgstr "Burayı tıklayarak modülü gönderin"
@@ -39,13 +39,13 @@ msgid "Details"
 msgstr "Detaylar"
 
 msgid "Drop your module here"
-msgstr "Modülünüzü buraya sürükleyin"
+msgstr "Modülünüzü buraya bırakın"
 
 msgid "Host"
-msgstr "Host"
+msgstr "Sunucu"
 
 msgid "Install"
-msgstr "Yükleme"
+msgstr "Yükle"
 
 msgid "Installing"
 msgstr "Yükleniyor"
@@ -80,9 +80,7 @@ msgstr "Henüz hiç bir modül yüklenmemiş "
 msgid ""
 "Or set the correct permissions to the following files and folders and try "
 "again:"
-msgstr ""
-"Ya da aşağıdaki dosyalar ve klasörler için doğru izinlerini ayarlayarak "
-"yeniden deneyin:"
+msgstr "Ya da aşağıdaki dosya ve klasörler için doğru izinleri ayarlayıp yeniden deneyin:"
 
 msgid "Package"
 msgstr "Paket"
@@ -101,11 +99,11 @@ msgstr "Lütfen tüm alanları doldurunuz"
 
 msgid ""
 "Please update the module to the %s version before installing this update."
-msgstr "Bu güncelleştirmeyi yüklemeden önce%s sürümüne modülü güncelleyin."
+msgstr "Bu güncellemeyi yüklemeden önce lütfen modülü %s sürümüne güncelleyin."
 
 msgid ""
 "Please update your system to the %s version before installing this update."
-msgstr "Bu güncelleştirmeyi yüklemeden önce%s sürümüne sisteminizi güncelleyin."
+msgstr "Bu güncellemeyi yüklemeden önce lütfen sisteminizi %s sürümüne güncelleyin."
 
 msgid "Please wait, we're installing your module"
 msgstr "Lütfen bekleyin modülünüzü yüklüyoruz"
@@ -114,13 +112,13 @@ msgid "Port"
 msgstr "Port"
 
 msgid "Processing the installation"
-msgstr "Kurulum işliyor"
+msgstr "Kurulum işleniyor"
 
 msgid "Progress"
 msgstr "İlerleme"
 
 msgid "Retry"
-msgstr "Yenileyin"
+msgstr "Yeniden dene"
 
 msgid "Select a module to upload"
 msgstr "Yüklemek için bir modül seçin"
@@ -131,15 +129,13 @@ msgstr "Boyut"
 msgid ""
 "Some files and folder are not writable. You can either provide your FTP "
 "access to install this update:"
-msgstr ""
-"Bazı dosya ve klasör yazılabilir değil. Bu güncelleştirmeyi yüklemek için "
-"FTP erişimide sağlayabilirsiniz:"
+msgstr "Bazı dosya ve klasörler yazılabilir değil. Bu güncellemeyi yüklemek için FTP erişiminizi sağlayabilirsiniz:"
 
 msgid "Some files don't have the right permissions and can't be updated"
-msgstr "Bazı dosyalar doğru izinlere sahip değil ve güncellenemedi"
+msgstr "Bazı dosyalar doğru izinlere sahip değil ve güncellenemez"
 
 msgid "Status"
-msgstr "Statü"
+msgstr "Durum"
 
 msgid "The database connection failed. Please, check the entered information."
 msgstr "Veritabanı bağlantısı başarısız oldu.Girdiğiniz bilgileri kontrol edin."
@@ -148,7 +144,7 @@ msgid "The entered password confirmation does not match the entered password."
 msgstr "Şifreler eşleşmiyor."
 
 msgid "The file %s does not exist"
-msgstr "Alan %s mevcut değil"
+msgstr "%s dosyası mevcut değil"
 
 msgid "The file %s is not writable."
 msgstr "%s dosyası yazılabilir değil."
@@ -173,7 +169,7 @@ msgid "This process may take few minutes, please do not refresh the page"
 msgstr "Bu süreç birkaç dakika sürebilir bu süreçte sayfayı yenilemeyin."
 
 msgid "This update is designed for the %s, you can't install it in your %s."
-msgstr "Bu güncelleme%s için tasarlanmış,%s nizin üstüne kuramazsınız."
+msgstr "Bu güncelleme %s için tasarlanmıştır, %s üzerine kuramazsınız."
 
 msgid "Unable to check for updates now. Please, try again later."
 msgstr ""
@@ -184,10 +180,10 @@ msgstr "FTP bağlantı kurulamıyor. Bağlantı bilgilerini kontrol edin."
 
 msgid ""
 "Unable to detect your site. Please make sure the entered path is correct."
-msgstr "Sitenizi algılayamadı. Girilen yolun doğru olduğundan emin olun."
+msgstr "Siteniz algılanamadı. Girilen yolun doğru olduğundan emin olun."
 
 msgid "Unable to extract the archive."
-msgstr "Arşiv dişa aktarılamıyor."
+msgstr "Arşiv çıkarılamıyor."
 
 msgid "Unable to fetch the update. Please, try again later."
 msgstr "Güncelleştirme alınamıyor. Lütfen daha sonra tekrar deneyin"
@@ -206,16 +202,16 @@ msgid "Upload your modules"
 msgstr "Modüllerinizi yükleyin "
 
 msgid "Username"
-msgstr "Kullanıcıadı"
+msgstr "Kullanıcı adı"
 
 msgid "Version"
-msgstr "Versiyon"
+msgstr "Sürüm"
 
 msgid "We are checking for updates. Please, do not refresh the page."
 msgstr "Güncellemeler kontrol ediliyor. Lütfen, sayfayı yenilemeyin."
 
 msgid "You already have installed this template."
-msgstr "Zaten bu şablon yüklediniz ."
+msgstr "Bu şablonu zaten yüklediniz."
 
 msgid "You already have installed this update."
 msgstr "Zaten bu güncelleştirmeyi yüklediniz. "

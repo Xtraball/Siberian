@@ -6,7 +6,7 @@ msgstr ""
 "X-Generator: ezgif.com\n"
 
 msgid "1 loyalty point ="
-msgstr "1 वफादारी बिंदु ="
+msgstr "1 लॉयल्टी बिंदु ="
 
 msgid "1 point"
 msgstr "1 बिंदु"
@@ -24,7 +24,7 @@ msgid "An error occurred while saving your loyalty card."
 msgstr "आपके लॉयल्टी कार्ड को सहेजते समय एक त्रुटि हुई।"
 
 msgid "An error occurred while saving your loyalty card. Please fill all fields in."
-msgstr "आपके लॉयल्टी कार्ड को सहेजते समय एक त्रुटि हुई। कृपया सभी क्षेत्रों में भरें।"
+msgstr "आपके लॉयल्टी कार्ड को सहेजते समय एक त्रुटि हुई। कृपया सभी फ़ील्ड भरें।"
 
 msgid "An error occurred while validating point. Please try again later."
 msgstr "बिंदु को मान्य करते समय एक त्रुटि हुई। कृपया बाद में पुन: प्रयास करें।"
@@ -87,19 +87,19 @@ msgid "Point%s successfully validated"
 msgstr "बिंदु%S सफलतापूर्वक मान्य"
 
 msgid "Previous cards"
-msgstr "पिछला कार्ड"
+msgstr "पिछले कार्ड"
 
 msgid "Reward"
 msgstr "इनाम"
 
 msgid "Rewards"
-msgstr "पुरस्कार"
+msgstr "इनाम"
 
 msgid "Scan QRCode"
 msgstr "क्यूआरकोड स्कैन करें"
 
 msgid "This card is uniq:"
-msgstr "यह कार्ड uniq है:"
+msgstr "यह कार्ड अद्वितीय है:"
 
 msgid "Unlock by QRCode"
 msgstr "QRCode द्वारा अनलॉक करें"
@@ -120,10 +120,10 @@ msgid "Wrong password.<br />Be careful !<br />%d remaining attempt%s before lock
 msgstr "गलत पासवर्ड। <br />सावधान रहें! <br />%d शेष आपके कार्ड को लॉक करने से पहले%s का प्रयास करें. अपने बिंदु को मान्य करने के लिए स्टोर व्यक्ति से<br />पूछें"
 
 msgid "You have exceeded the number of attempts to validate points. Your card is locked for 24h"
-msgstr "आप अंकों को मान्य करने के प्रयासों की संख्या को पार कर चुके हैं। आपका कार्ड 24h के लिए बंद कर दिया गया है"
+msgstr "आपने अंकों को मान्य करने के प्रयासों की सीमा पार कर ली है। आपका कार्ड 24 घंटे के लिए लॉक कर दिया गया है"
 
 msgid "You just finished your card"
-msgstr "आपने अभी अपना कार्ड समाप्त कर दिया है"
+msgstr "आपने अभी अपना कार्ड पूरा कर लिया है"
 
 msgid "You must be logged in to validate points"
 msgstr "अंक मान्य करने के लिए आपको लॉग इन होना चाहिए"
@@ -132,16 +132,16 @@ msgid "Your loyalty card has been saved successfully"
 msgstr "आपका लॉयल्टी कार्ड सफलतापूर्वक सहेजा गया है"
 
 msgid "Your password must be 4 digits"
-msgstr "आपका पासवर्ड 4 अंक होना चाहिए"
+msgstr "आपका पासवर्ड 4 अंकों का होना चाहिए"
 
 msgid "is now yours!"
-msgstr "अब तुम्हारा है!"
+msgstr "अब आपका है!"
 
 msgid "point"
-msgstr "बिंदु"
+msgstr "अंक"
 
 msgid "point to validate"
-msgstr "बिंदु को मान्य करने के लिए"
+msgstr "मान्य करने के लिए अंक"
 
 msgid "points to validate"
 msgstr "मान्य करने के लिए अंक"

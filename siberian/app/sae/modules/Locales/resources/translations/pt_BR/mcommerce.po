@@ -23,7 +23,7 @@ msgid ": activate to sort column descending"
 msgstr ": ative para ordenar a coluna em ordem decrescente"
 
 msgid "1 points ="
-msgstr "1 ponto"
+msgstr "1 ponto ="
 
 msgid "20.00%"
 msgstr "20.00%"
@@ -71,7 +71,7 @@ msgid "An error occurred during the payment process."
 msgstr "Ocorreu um erro durante o processo de pagamento."
 
 msgid "An error occurred while cancelling. Please try again later."
-msgstr "Ocorreu um erro ao salvar. Por favor, tente novamente mais tarde."
+msgstr "Ocorreu um erro ao cancelar. Por favor, tente novamente mais tarde."
 
 msgid ""
 "An error occurred while proceeding the payment. Please, try again later."
@@ -80,7 +80,7 @@ msgstr ""
 "tarde."
 
 msgid "An error occurred while proceeding your order:"
-msgstr "Ocorreu um erro ao carregar o seu produto."
+msgstr "Ocorreu um erro ao processar o seu pedido:"
 
 msgid ""
 "An error occurred while proceeding your order. Please, check the following "
@@ -90,7 +90,7 @@ msgstr ""
 "informações:"
 
 msgid "Are you sure you want to close without saving"
-msgstr "Tem certeza de que quer encerrar sem salvar"
+msgstr "Tem certeza de que quer fechar sem salvar"
 
 msgid ""
 "Are you sure you want to delete this category and all its subcategories?"
@@ -152,13 +152,13 @@ msgid "Check"
 msgstr "Verificar"
 
 msgid "Choose a delivery method:"
-msgstr "Alterar o método de entrega:"
+msgstr "Escolha um método de entrega:"
 
 msgid "Choose a payment method:"
-msgstr "Alterar o método de pagamento:"
+msgstr "Escolha um método de pagamento:"
 
 msgid "Choose a store"
-msgstr "Criar uma loja"
+msgstr "Escolha uma loja"
 
 msgid "City"
 msgstr "Cidade"
@@ -180,7 +180,7 @@ msgid "Code used"
 msgstr "Código usado"
 
 msgid "Completed"
-msgstr "Completo"
+msgstr "Concluído"
 
 #. machine-translated (2026-10), to be reviewed
 msgid "Confirmation"
@@ -218,7 +218,7 @@ msgid "Credit card (online payment)"
 msgstr "Cartão de crédito (pagamento online)"
 
 msgid "Credit card (pay upon pickup or delivery)"
-msgstr "Cartão de crédito (pagar na recebimento ou entrega)"
+msgstr "Cartão de crédito (pagar na retirada ou entrega)"
 
 #. machine-translated (2026-10), to be reviewed
 msgid "Credit card payment"
@@ -228,7 +228,7 @@ msgid "Customer"
 msgstr "Cliente"
 
 msgid "Customer Service"
-msgstr "Serviço Cliente"
+msgstr "Atendimento ao cliente"
 
 #. machine-translated (2026-10), to be reviewed
 msgid "Customer can add tip to a command?"
@@ -256,10 +256,10 @@ msgid "Delivery Fees"
 msgstr "Taxa de Entrega"
 
 msgid "Delivery Method"
-msgstr "Formas de Entrega"
+msgstr "Forma de entrega"
 
 msgid "Delivery address"
-msgstr "Área de Entrega"
+msgstr "Endereço de entrega"
 
 msgid "Delivery area"
 msgstr "Área de Entrega"
@@ -379,10 +379,10 @@ msgid "Edit the choice list group"
 msgstr "Editar o grupo da lista de escolhas"
 
 msgid "Edit the discount %s"
-msgstr "Editar o produto %s"
+msgstr "Editar o desconto %s"
 
 msgid "Edit the options group %s"
-msgstr "Editar opções de grupo %s"
+msgstr "Editar o grupo de opções %s"
 
 msgid "Edit the product %s"
 msgstr "Editar o produto %s"
@@ -416,7 +416,7 @@ msgid "Firstname"
 msgstr "Nome"
 
 msgid "Format:"
-msgstr "Formato"
+msgstr "Formato:"
 
 msgid "Free delivery starting from"
 msgstr "Entrega gratuita a partir de"
@@ -438,10 +438,10 @@ msgid "Guest Order"
 msgstr "Pedido de convidado"
 
 msgid "Here is the detail of the order"
-msgstr "Aqui está o detalhe do pedido"
+msgstr "Aqui estão os detalhes do pedido"
 
 msgid "Here is the detail of your order"
-msgstr "Aqui está o detalhe de seu pedido"
+msgstr "Aqui estão os detalhes do seu pedido"
 
 #. machine-translated (2026-10), to be reviewed
 msgid "Hidden"
@@ -487,26 +487,26 @@ msgid "Lastname"
 msgstr "Sobrenome"
 
 msgid "Loading..."
-msgstr "Carregamento"
+msgstr "Carregando..."
 
 msgid "Login"
-msgstr "Login:"
+msgstr "Login"
 
 msgid "MM"
 msgstr ""
 
 msgid "Manage discounts"
-msgstr "Gerenciar Ícones"
+msgstr "Gerenciar descontos"
 
 msgid "Manage user fields"
-msgstr "Gerenciar campos"
+msgstr "Gerenciar campos de usuário"
 
 #. machine-translated (2026-10), to be reviewed
 msgid "Mandatory"
 msgstr "Obrigatório"
 
 msgid "Meal Voucher"
-msgstr "Vale-Presente"
+msgstr "Vale-refeição"
 
 #. machine-translated (2026-10), to be reviewed
 msgid "Merchant ID:"
@@ -558,13 +558,13 @@ msgid "My taxes"
 msgstr "Meus impostos"
 
 msgid "Name of the options group:"
-msgstr "Nome do grupo opções:"
+msgstr "Nome do grupo de opções:"
 
 msgid "New order from the application"
 msgstr "Novo pedido a partir do aplicativo"
 
 msgid "Next"
-msgstr "próximo"
+msgstr "Próximo"
 
 #. machine-translated (2026-10), to be reviewed
 msgid "No data available in table"
@@ -586,14 +586,14 @@ msgid "Option $1 is required."
 msgstr "A opção $1 é obrigatória."
 
 msgid "Option name"
-msgstr "Nome opção"
+msgstr "Nome da opção"
 
 #. machine-translated (2026-10), to be reviewed
 msgid "Optional"
 msgstr "Opcional"
 
 msgid "Options"
-msgstr "Opção"
+msgstr "Opções"
 
 msgid "Options group successfully deleted"
 msgstr "Grupo de Opções excluído com sucesso"
@@ -602,7 +602,7 @@ msgid "Options group successfully saved"
 msgstr "Grupo de Opções salvo com sucesso"
 
 msgid "Order Number"
-msgstr "Número pedido"
+msgstr "Número do pedido"
 
 #. machine-translated (2026-10), to be reviewed
 msgid "Order N°"
@@ -616,7 +616,7 @@ msgid "Order confirmation"
 msgstr "Confirmação de pedido"
 
 msgid "Order details"
-msgstr "Detalhes pedido"
+msgstr "Detalhes do pedido"
 
 #. machine-translated (2026-10), to be reviewed
 msgid "Order history"
@@ -627,7 +627,7 @@ msgid "Order %s cancelled"
 msgstr "Pedido %s cancelado"
 
 msgid "Order successfully cancelled"
-msgstr "Pedido salvo com sucesso"
+msgstr "Pedido cancelado com sucesso"
 
 msgid "Order successfully saved"
 msgstr "Pedido salvo com sucesso"
@@ -656,7 +656,7 @@ msgid "Payment Method"
 msgstr "Forma de Pagamento"
 
 msgid "Payment methods:"
-msgstr "Forma de Pagamento:"
+msgstr "Formas de pagamento:"
 
 msgid "Paypal"
 msgstr "Paypal"
@@ -684,16 +684,16 @@ msgid "Phone"
 msgstr "Telefone"
 
 msgid "Phone number"
-msgstr "Telefone:"
+msgstr "Número de telefone"
 
 msgid "Picture"
 msgstr "Imagem"
 
 msgid "Please choose a delivery method"
-msgstr "Por favor altere a forma de entrega"
+msgstr "Por favor, escolha uma forma de entrega"
 
 msgid "Please choose a payment method"
-msgstr "Por favor altere a forma de pagamento"
+msgstr "Por favor, escolha uma forma de pagamento"
 
 msgid "Please, enter an email address for the store %s"
 msgstr "Por favor, insira um endereço de e-mail para a loja %s"
@@ -714,7 +714,7 @@ msgid "Postcode"
 msgstr "CEP"
 
 msgid "Previous"
-msgstr "anterior"
+msgstr "Anterior"
 
 msgid "Price"
 msgstr "Preço"
@@ -723,7 +723,7 @@ msgid "Price: %s"
 msgstr "Preço: %s"
 
 msgid "Prices"
-msgstr "Preço"
+msgstr "Preços"
 
 msgid "Printer successfully saved"
 msgstr "Impressora salva com sucesso."
@@ -739,13 +739,13 @@ msgid "Product"
 msgstr "Produto"
 
 msgid "Product formats"
-msgstr "Formatos produto"
+msgstr "Formatos do produto"
 
 msgid "Product name"
-msgstr "Nome produto"
+msgstr "Nome do produto"
 
 msgid "Product successfully duplicated"
-msgstr "Produto salvo com sucesso"
+msgstr "Produto duplicado com sucesso"
 
 msgid "Product successfully saved"
 msgstr "Produto salvo com sucesso"
@@ -761,7 +761,7 @@ msgid "Qty: %s"
 msgstr "Qtde: %s"
 
 msgid "Radius in Km"
-msgstr "Raio em Km"
+msgstr "Raio em km"
 
 #. machine-translated (2026-10), to be reviewed
 msgid "Remaining amount due"
@@ -780,10 +780,10 @@ msgid "Return URL:"
 msgstr "URL de retorno:"
 
 msgid "Review"
-msgstr "Revisão"
+msgstr "Avaliação"
 
 msgid "Search:"
-msgstr "Pesquisa"
+msgstr "Pesquisa:"
 
 #. machine-translated (2026-10), to be reviewed
 msgid "Secret Key"
@@ -793,7 +793,7 @@ msgid "Settings"
 msgstr "Configurações"
 
 msgid "Settings successfully saved"
-msgstr "Definição de refeição salva com sucesso."
+msgstr "Configurações salvas com sucesso"
 
 #. machine-translated (2026-10), to be reviewed
 msgid "Show _MENU_ entries"
@@ -834,10 +834,10 @@ msgid "Store choice"
 msgstr "Escolha da loja"
 
 msgid "Store information"
-msgstr "Informações Loja"
+msgstr "Informações da loja"
 
 msgid "Store name"
-msgstr "Nome Loja"
+msgstr "Nome da loja"
 
 msgid "Store successfully deleted"
 msgstr "Loja deletada com sucesso"
@@ -846,7 +846,7 @@ msgid "Store successfully saved"
 msgstr "Loja salva com sucesso"
 
 msgid "Stored card information."
-msgstr "Informações Loja"
+msgstr "Informações do cartão armazenado."
 
 msgid "Stores"
 msgstr "Lojas"
@@ -862,7 +862,7 @@ msgid "Subtotal"
 msgstr "Subtotal"
 
 msgid "Subtotal Excl. Tax"
-msgstr "Total Excl. imposto"
+msgstr "Subtotal sem imposto"
 
 #. machine-translated (2026-10), to be reviewed
 msgid "Subtotal before deduction"
@@ -872,7 +872,7 @@ msgid "Tax"
 msgstr "Imposto"
 
 msgid "Tax name"
-msgstr "Nome imposto"
+msgstr "Nome do imposto"
 
 msgid "Tax rate"
 msgstr "Taxa de imposto"
@@ -891,7 +891,7 @@ msgid "The clients calculate the change:"
 msgstr "Os clientes calculam o troco:"
 
 msgid "The delivery method"
-msgstr "Forma de Entrega"
+msgstr "A forma de entrega"
 
 msgid "The following options are required:<br />%s"
 msgstr "As seguintes opções são necessárias:<br />%s"
@@ -902,12 +902,10 @@ msgstr "A opção %s é obrigatória."
 msgid ""
 "The payment has been cancelled, something wrong happened? Feel free to "
 "contact us"
-msgstr ""
-"O pagamento foi cancelado, algo de errado aconteceu? Não hesite em contatar-"
-"nos"
+msgstr "O pagamento foi cancelado, algo de errado aconteceu? Não hesite em nos contatar"
 
 msgid "The payment method"
-msgstr "Forma de pagamento"
+msgstr "A forma de pagamento"
 
 msgid "Time in minutes"
 msgstr "Tempo em minutos"
@@ -947,10 +945,10 @@ msgid "Usable once"
 msgstr "Uso único"
 
 msgid "Use:"
-msgstr "Usuário"
+msgstr "Usar:"
 
 msgid "Use my points?"
-msgstr "Pontos Utilizados"
+msgstr "Usar meus pontos?"
 
 msgid "Username"
 msgstr "Nome de Usuário"
@@ -1000,10 +998,10 @@ msgstr ""
 "Você tem uma impressora conectada? Digite o endereço de e-mail para cada loja"
 
 msgid "You have to choose a delivery method."
-msgstr "Por favor altere a forma de entrega"
+msgstr "Você precisa escolher uma forma de entrega."
 
 msgid "You must be logged in to continue"
-msgstr "Você deve estar logado para postar um comentário"
+msgstr "Você deve estar logado para continuar"
 
 #. machine-translated (2026-10), to be reviewed
 msgid "You used the code before"
@@ -1032,7 +1030,7 @@ msgid "(filtered from _MAX_ total entries)"
 msgstr "(filtrado de _MAX_ registros no total)"
 
 msgid "%s - Customer Service"
-msgstr "%s - Serviço cliente"
+msgstr "%s - Atendimento ao cliente"
 
 #. machine-translated (2026-10), to be reviewed
 msgid "without taxes"

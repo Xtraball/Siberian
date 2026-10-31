@@ -115,7 +115,7 @@ msgstr "#19-002 Archiv se nepodařilo rozbalit. Ujistěte se, že je nainstalov�
 
 msgid ""
 "#19-003: This update is designed for the %s, you can't install it in your %s."
-msgstr "Tento update je navrhnut pro %s, nelze nainstalovat na Váš %s"
+msgstr "Tento update je určen pro %s, nelze jej nainstalovat do vašeho %s."
 
 msgid "#19-004: You already have installed this update."
 msgstr "Tento update je již nainstalován"
@@ -131,7 +131,7 @@ msgid ""
 msgstr "Před instalací tohoto updatu prosím updatujte Váš systém na verzi %s"
 
 msgid "#19-008: You already have installed this template."
-msgstr "Tento update je již nainstalován"
+msgstr "Tato šablona je již nainstalována."
 
 msgid ""
 "#19-009: Please update your system to the %s version before installing this "
@@ -169,7 +169,7 @@ msgid "#354-03: SCSS Compilation error, you must input valid SCSS."
 msgstr "#354-03: Chyba kompilace SCSS, musíte zadat platný SCSS."
 
 msgid "#498-01: An error occured while exporting your application."
-msgstr "Při vytváření kopie aplikace došlo k chybě"
+msgstr "Při exportu aplikace došlo k chybě"
 
 msgid "#500-01: This application does not exist"
 msgstr "Tato aplikace neexistuje"
@@ -232,7 +232,7 @@ msgid "Action '{$action}' executed for module '{$module}'."
 msgstr "Akce '{$action}' byla provedena pro modul '{$module}'."
 
 msgid "Add an <br /><span class=\"bold\">image</span>"
-msgstr "Přidat<br /><span class=\"bold\">obrázky</span>"
+msgstr "Přidat<br /><span class=\"bold\">obrázek</span>"
 
 msgid "Add<br /><span class=\"bold\">Attachment</span>"
 msgstr "Přidat<br /><span class=\"bold\">přílohu</span>"
@@ -304,7 +304,7 @@ msgid "Apple"
 msgstr "Apple"
 
 msgid "Application %s"
-msgstr "Aplikace"
+msgstr "Aplikace %s"
 
 #. machine-translated (2026-10), to be reviewed
 msgid ""
@@ -316,7 +316,7 @@ msgid "Apps efficaces + Prix minime = Des clients heureux"
 msgstr "Účinné aplikace + nízká cena = spokojení zákazníci"
 
 msgid "Are you sure you want to delete this discount?"
-msgstr "Opravdu chcete smazat tento obrázek?"
+msgstr "Opravdu chcete smazat tuto slevu?"
 
 msgid "Background Color - Active"
 msgstr "Barva pozadí - aktivní"
@@ -363,10 +363,7 @@ msgstr "Sestavení bylo úspěšné!"
 msgid ""
 "By checking this box, you agree <a href=\"%s\" target=\"_blank\" class=\""
 "underline\">to our terms and conditions</a>"
-msgstr ""
-"Zaškrtnutím tohoto políčka souhlasíte s našimi <id=\"show_tos\" href=\""
-"javascript:void(0);\" target =\"_blank\" class=\"underline\">Obchodními "
-"podmínkami </a>"
+msgstr "Zaškrtnutím tohoto políčka souhlasíte s <a href=\"%s\" target=\"_blank\" class=\"underline\">našimi obchodními podmínkami</a>"
 
 #. machine-translated (2026-10), to be reviewed
 msgid "CANCEL"
@@ -424,21 +421,19 @@ msgid "Click here for more information about AdMob"
 msgstr "Klikněte zde pro více informací o AdMob"
 
 msgid "Click here to send your fullchain"
-msgstr "Klikněte zde pro vložení faviconu"
+msgstr "Klikněte zde pro zaslání fullchain certifikátu"
 
 msgid ""
 "Click on a page to add it to the folder <span id=\"folder_name\" class=\""
 "folder_name\">\"%s\"</span>"
-msgstr ""
-"Vyberte stránku/modul, kterou chcete přidat do složky <span id = \""
-"folder_name\" class = \"folder_name\"> \"%s\" </ span>"
+msgstr "Vyberte stránku/modul, kterou chcete přidat do složky <span id=\"folder_name\" class=\"folder_name\">\"%s\"</span>"
 
 #. machine-translated (2026-10), to be reviewed
 msgid "Cram-MD5"
 msgstr "Cram-MD5"
 
 msgid "Create a new category"
-msgstr "Vytvořit nového uživatele"
+msgstr "Vytvořit novou kategorii"
 
 #. machine-translated (2026-10), to be reviewed
 msgid "Custom font"
@@ -477,7 +472,7 @@ msgid "Display website"
 msgstr "Zobrazit web"
 
 msgid "Download CA"
-msgstr "Stáhnout"
+msgstr "Stáhnout CA"
 
 #. machine-translated (2026-10), to be reviewed
 msgid "Download Certificate"
@@ -504,7 +499,7 @@ msgid "E-Mail render preview"
 msgstr "Náhled vykreslení e-mailu"
 
 msgid "Editing subscription:"
-msgstr "Upravit plán %s"
+msgstr "Úprava předplatného:"
 
 #. machine-translated (2026-10), to be reviewed
 msgid "Editor access"
@@ -515,7 +510,7 @@ msgid "Elegance"
 msgstr "Elegance"
 
 msgid "E-mail is required!"
-msgstr "Emailová ardesa je vyžadována"
+msgstr "E-mailová adresa je vyžadována"
 
 #. machine-translated (2026-10), to be reviewed
 msgid "E-mail is required in order to test SMTP"
@@ -679,10 +674,10 @@ msgid "Insert a <br /><span class=\"bold\">cover image</span>"
 msgstr "Vložit <br /><span class=\"bold\">obrázek</span>"
 
 msgid "Insert a <span class=\"bold\">cover image</span>"
-msgstr "Vložit <br /><span class=\"bold\">obrázek</span>"
+msgstr "Vložit <span class=\"bold\">obrázek</span>"
 
 msgid "Installing module <em><span id=\"label_module\"></span></em>"
-msgstr "Instalace modulu <em> <span id =\"label_module\"> </span> </em>"
+msgstr "Instalace modulu <em><span id=\"label_module\"></span></em>"
 
 #. machine-translated (2026-10), to be reviewed
 msgid "Interstitial ID"
@@ -890,7 +885,7 @@ msgid "Path to your Fullchain"
 msgstr "Cesta k vašemu úplnému řetězci"
 
 msgid "PayPal subscription is Active"
-msgstr "Toto předplatné je aktivní"
+msgstr "Předplatné PayPal je aktivní"
 
 #. machine-translated (2026-10), to be reviewed
 msgid ""
@@ -935,7 +930,7 @@ msgid "Publication request"
 msgstr "Žádost o publikování"
 
 msgid "Publication type"
-msgstr "Datum vydání"
+msgstr "Typ publikace"
 
 #. machine-translated (2026-10), to be reviewed
 msgid "REDUCE"
@@ -1054,7 +1049,7 @@ msgid "Status color chart"
 msgstr "Barevná legenda stavů"
 
 msgid "Stores Informations"
-msgstr "Informace o obchodu/skladu"
+msgstr "Informace o obchodech"
 
 #. machine-translated (2026-10), to be reviewed
 msgid "Stripe subscription ID"
@@ -1073,7 +1068,7 @@ msgid "Subject"
 msgstr "Předmět"
 
 msgid "Subscription date & time"
-msgstr "Předplatné"
+msgstr "Datum a čas předplatného"
 
 #. machine-translated (2026-10), to be reviewed
 msgid "Sur quelles plateformes ?"
@@ -1111,7 +1106,7 @@ msgid "The folder & it's sub-folders have been removed!"
 msgstr "Složka a její podsložky byly odstraněny!"
 
 msgid "The following folders are not writable: <br /> - %s"
-msgstr "Do následujících souborů a složek nelze zapisovat: <br /> - %s"
+msgstr "Do následujících složek nelze zapisovat: <br /> - %s"
 
 msgid ""
 "The installation of the module <span id=\"installation_failed_module_name\""
@@ -1146,7 +1141,7 @@ msgid "The stripe subscription '%s' is missing!"
 msgstr "Předplatné Stripe '%s' chybí!"
 
 msgid "The subscription '%s' doesn't exists!"
-msgstr "Tato aplikace neexistuje"
+msgstr "Předplatné '%s' neexistuje!"
 
 #. machine-translated (2026-10), to be reviewed
 msgid "The subscription was already inactive or cancelled"
@@ -1393,19 +1388,13 @@ msgid ""
 "You have to create an Apple account before publishing your application. <a "
 "href=\"https://appleid.apple.com/account#!&page=create\" target=\"_blank\">"
 "Click here to create one.</a>"
-msgstr ""
-"Před publikováním aplikace si musíte vytvořit Apple developerský účet. <a "
-"href=\"https://developer.apple.com/register/index.action\" target=\"_blank\">"
-"Pro vytvoření klikněte zde</a>"
+msgstr "Před publikováním aplikace si musíte vytvořit Apple developerský účet. <a href=\"https://appleid.apple.com/account#!&page=create\" target=\"_blank\">Pro vytvoření klikněte zde</a>"
 
 msgid ""
 "You have to create an Apple account before publishing your application.<br "
 "/><a href=\"https://appleid.apple.com/account#!&page=create\" target=\""
 "_blank\">Click here to create one.</a>"
-msgstr ""
-"Před publikováním aplikace si musíte vytvořit Apple developerský účet. <a "
-"href=\"https://developer.apple.com/register/index.action\" target=\"_blank\">"
-"Pro vytvoření klikněte zde</a>"
+msgstr "Před publikováním aplikace si musíte vytvořit Apple developerský účet.<br /><a href=\"https://appleid.apple.com/account#!&page=create\" target=\"_blank\">Pro vytvoření klikněte zde</a>"
 
 #. machine-translated (2026-10), to be reviewed
 msgid "You just received a publication request:"

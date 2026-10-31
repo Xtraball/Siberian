@@ -20,9 +20,7 @@ msgstr "60000 maximaal toegestaan."
 msgid ""
 "A certificate already exists for the domain %s, if you want to re-generate "
 "it, use 'Force re-generate' to proceed."
-msgstr ""
-"Een certificaat bestaat al voor het domein %s, als je wilt om te re-"
-"genereren van het gebruik van 'Force re-generate' om verder te gaan."
+msgstr "Er bestaat al een certificaat voor het domein %s. Als u het opnieuw wilt genereren, gebruikt u 'Force re-generate' om door te gaan."
 
 msgid "[APK]"
 msgstr "[APK]"
@@ -52,7 +50,7 @@ msgid "Actions"
 msgstr "Acties"
 
 msgid "Activate VAT number check with VIES"
-msgstr "Activeren BTW-nummer, controleren met VIES"
+msgstr "BTW-nummercontrole met VIES activeren"
 
 msgid "Activate user"
 msgstr "Activeer gebruiker"
@@ -72,16 +70,12 @@ msgstr "Geavanceerd"
 msgid ""
 "Alert: The APK build for the Application: %s (%s) is stuck for more than one "
 "hour."
-msgstr ""
-"Waarschuwing: Bouwen van de APK voor de Applicatie: %s (%s) duurt meer dan "
-"een uur en is vast gelopen."
+msgstr "Waarschuwing: de APK-build voor de toepassing: %s (%s) loopt al meer dan een uur vast."
 
 msgid ""
 "Alert: The Source build for the Application: %s (%s) is stuck for more than "
 "one hour."
-msgstr ""
-"Waarschuwing: Bouwen van de APK voor de Applicatie: %s (%s) duurt meer dan "
-"een uur en is vast gelopen."
+msgstr "Waarschuwing: de Source-build voor de toepassing: %s (%s) loopt al meer dan een uur vast."
 
 msgid "All the files are required."
 msgstr "Alle bestanden zijn vereist."
@@ -97,16 +91,14 @@ msgid "An error occured"
 msgstr "Er is een fout opgetreden"
 
 msgid "An error occured while saving certificate to %s."
-msgstr ""
-"Er is een fout opgetreden tijdens het opslaan van het certificaat van %s."
+msgstr "Er is een fout opgetreden tijdens het opslaan van het certificaat naar %s."
 
 msgid "An error occurred during the process. Please try again later."
 msgstr ""
 "Er is een fout opgetreden tijdens het proces. Probeer het later opnieuw."
 
 msgid "An unknown error occured while issueing your certificate."
-msgstr ""
-"Er is een onbekende fout opgetreden tijdens het verzenden van uw certificaat."
+msgstr "Er is een onbekende fout opgetreden tijdens het uitgeven van uw certificaat."
 
 msgid "Android SDK:"
 msgstr "Android SDK:"
@@ -118,16 +110,16 @@ msgid "Application settings"
 msgstr "Applicatie instellingen"
 
 msgid "Application successfully queued for generation."
-msgstr "Applicatie met succes in de wachtrij geplaatst."
+msgstr "Applicatie met succes in de wachtrij geplaatst voor generatie."
 
 msgid "Applications/Previewer manifest for automatic updates."
 msgstr "Applications / Previewer manifest voor automatische updates."
 
 msgid "Are you sure ?"
-msgstr "Weet je het zeker?"
+msgstr "Weet u het zeker?"
 
 msgid "Auth type"
-msgstr "Machtiging type"
+msgstr "Authenticatietype"
 
 msgid "Authenticate"
 msgstr "Autoriseren"
@@ -145,7 +137,7 @@ msgid "Bearer Token Auth (API)"
 msgstr "Bearer Token Auth (API)"
 
 msgid "Bearer Token Auth is valid."
-msgstr "Bearer Auth Token is geldig."
+msgstr "Bearer Token Auth is geldig."
 
 msgid "Beta"
 msgstr "Beta"
@@ -159,9 +151,7 @@ msgstr "Bouw tijd (in seconden)"
 msgid ""
 "By clicking on link below, you will open your editor in tour editing mode. "
 "Please note that your user account must be created on editor side."
-msgstr ""
-"Door te klikken op onderstaande link opent u de editor in tour-modus voor "
-"het bewerken. Let op dat uw account moet worden gemaakt op de editor kant."
+msgstr "Door op onderstaande link te klikken, opent u uw editor in de bewerkmodus voor rondleidingen. Let op: uw gebruikersaccount moet aan de editorkant zijn aangemaakt."
 
 msgid "CA"
 msgstr "CA"
@@ -170,7 +160,7 @@ msgid "CA certificate"
 msgstr "CA-certificaat"
 
 msgid "CA path:"
-msgstr "CA pad:"
+msgstr "CA-pad:"
 
 msgid "CRON Scheduler interval"
 msgstr "CRON Planner interval"
@@ -197,7 +187,7 @@ msgstr ""
 " %s%s"
 
 msgid "Certificate path:"
-msgstr "Certificaat pad:"
+msgstr "Certificaatpad:"
 
 msgid "Certificate successfully generated."
 msgstr "Certificaat met succes aangemaakt."
@@ -205,9 +195,7 @@ msgstr "Certificaat met succes aangemaakt."
 msgid ""
 "Certificate successfully generated. Please wait while %s is reloading "
 "configuration ..."
-msgstr ""
-"Certificaat met succes aangemaakt. Gelieve even te wachten terwijl %s is aan "
-"het herladen van de configuratie ..."
+msgstr "Certificaat met succes aangemaakt. Wacht even terwijl %s de configuratie opnieuw laadt ..."
 
 msgid "Certificate successfully re-generated."
 msgstr "Certificaat met succes opnieuw gegenereerd."
@@ -229,7 +217,7 @@ msgid "Clear cache"
 msgstr "Cache wissen"
 
 msgid "Clear logs"
-msgstr "Log wissen"
+msgstr "Logs wissen"
 
 msgid "Cleared cron errors."
 msgstr "Cron-fouten gewist."
@@ -298,7 +286,7 @@ msgid "Day of week"
 msgstr "Dag van de week"
 
 msgid "Deactivate user"
-msgstr "Deactiveren gebruiker"
+msgstr "Gebruiker deactiveren"
 
 msgid "Default (no)"
 msgstr "Standaard (nee)"
@@ -322,7 +310,7 @@ msgid "Disk usage & Cache:"
 msgstr "Schijfgebruik & Cache:"
 
 msgid "Dismiss & install later"
-msgstr "Afwijzen en later installeren"
+msgstr "Negeren en later installeren"
 
 msgid "Display"
 msgstr "Weergeven"
@@ -331,37 +319,34 @@ msgid "Doesn't meet the requirements"
 msgstr "Voldoet niet aan de vereisten"
 
 msgid "Download latest source"
-msgstr "Download hier de laatste bestanden"
+msgstr "Download laatste broncode"
 
 msgid "Drop your certificate here"
-msgstr "Laat je certificaat hier vallen"
+msgstr "Sleep uw certificaat hierheen"
 
 msgid "Edit the user"
 msgstr "Bewerk de gebruiker"
 
 msgid "Editor's Design"
-msgstr "Ontwerp van de redactie"
+msgstr "Ontwerp van de editor"
 
 msgid "Enable custom SMTP configuration"
 msgstr "Inschakelen van aangepaste SMTP-configuratie"
 
 msgid "Enter your credentials:"
-msgstr "Vul uw gegevens in:"
+msgstr "Vul uw inloggegevens in:"
 
 msgid "Environment"
 msgstr "Omgeving"
 
 msgid "Error, order already paid."
-msgstr "Fout, de bestelling is reeds betaald is."
+msgstr "Fout, de bestelling is al betaald."
 
 msgid ""
 "Errors are displayed on page, outputs are more verbose, this is an option "
 "for debug purpose, use with care as it may output some critical informations "
 "about your server."
-msgstr ""
-"Fouten worden op de pagina weergegeven, uitgangen zijn meer uitgebreid, dit "
-"is een optie voor het opsporen van fouten, gebruik voorzichtig, omdat het "
-"mogelijk een aantal belangrijke informatie over uw server kan weergeven."
+msgstr "Fouten worden op de pagina weergegeven en de uitvoer is uitgebreider. Dit is een optie voor debugdoeleinden, gebruik deze voorzichtig, omdat er mogelijk belangrijke informatie over uw server wordt weergegeven."
 
 msgid "Exists"
 msgstr "Bestaat"
@@ -379,7 +364,7 @@ msgid "File is missing."
 msgstr "Bestand ontbreekt."
 
 msgid "Force re-generation"
-msgstr "Forceer re-generatie"
+msgstr "Opnieuw genereren forceren"
 
 msgid "Forgot password"
 msgstr "Wachtwoord vergeten"
@@ -409,7 +394,7 @@ msgid "[Global]"
 msgstr "[Globaal]"
 
 msgid "Grant user"
-msgstr "Subsidie gebruiker"
+msgstr "Gebruiker machtigen"
 
 msgid "HTTP Basic Auth (API)"
 msgstr "HTTP Basic Auth (API)"
@@ -418,7 +403,7 @@ msgid "HTTP Basic Auth is valid."
 msgstr "HTTP Basic Auth is geldig."
 
 msgid "HTTPS & SSL Certificates"
-msgstr "HTTPS EN SSL Certificaten"
+msgstr "HTTPS en SSL-certificaten"
 
 msgid "HTTPS host is unreachable."
 msgstr "HTTPS-host is onbereikbaar."
@@ -439,9 +424,7 @@ msgstr ""
 msgid ""
 "HTTPS support is in test, you should only try it on your development server "
 "prior to prepare for further migration."
-msgstr ""
-"HTTPS-ondersteuning is in test, je zou het alleen op je ontwikkelserver "
-"moeten proberen voordat je je voorbereid op verdere migratie."
+msgstr "HTTPS-ondersteuning is in test, u zou het alleen op uw ontwikkelserver moeten proberen voordat u zich voorbereidt op verdere migratie."
 
 msgid "Hide"
 msgstr "Verberg"
@@ -478,7 +461,7 @@ msgid "Installed"
 msgstr "Geïnstalleerd"
 
 msgid "Installed icon packs"
-msgstr "Geïnstalleerde, icoon pakketten"
+msgstr "Geïnstalleerde pictogrampakketten"
 
 msgid "Installed layouts"
 msgstr "Geïnstalleerde layouts"
@@ -487,7 +470,7 @@ msgid "Installed modules"
 msgstr "Geïnstalleerde modules"
 
 msgid "Installed, version"
-msgstr "Geïnstalleerde versie"
+msgstr "Geïnstalleerd, versie"
 
 msgid "Integrity check"
 msgstr "Integriteitscontrole"
@@ -514,16 +497,16 @@ msgid "Last trigger"
 msgstr "Laatste trigger"
 
 msgid "Let's Encrypt certificates renewal"
-msgstr "Let's Encrypt certificering vernieuwen"
+msgstr "Verlenging van Let's Encrypt-certificaten"
 
 msgid "Let's Encrypt environment"
 msgstr "Let's Encrypt omgeving"
 
 msgid "[Let's Encrypt] renewing certificate."
-msgstr "[Let's Encrypt] vernieuwen van het certificaat."
+msgstr "[Let's Encrypt] certificaat wordt vernieuwd."
 
 msgid "[Let's Encrypt] will add %s to SAN."
-msgstr "[Let's Encrypt] voegt% s toe aan SAN."
+msgstr "[Let's Encrypt] voegt %s toe aan SAN."
 
 msgid "Link preview"
 msgstr "Link voorvertoning"
@@ -550,7 +533,7 @@ msgid "Logs cleared."
 msgstr "Logs gewist."
 
 msgid "Mark all as read"
-msgstr "Markeren als gelezen"
+msgstr "Alles markeren als gelezen"
 
 msgid "Mark as new"
 msgstr "Markeren als nieuw"
@@ -571,7 +554,7 @@ msgid "Mobile Source Codes & Builds"
 msgstr "Mobiele broncodes en builds"
 
 msgid "Module/User tasks"
-msgstr "Module - /gebruikerstaken"
+msgstr "Module- en gebruikerstaken"
 
 msgid "Month"
 msgstr "Maand"
@@ -580,7 +563,7 @@ msgid "My Invoices"
 msgstr "Mijn facturen"
 
 msgid "My tour is active"
-msgstr "Mijn tour is actief"
+msgstr "Mijn rondleiding is actief"
 
 msgid "Name"
 msgstr "Naam"
@@ -598,7 +581,7 @@ msgid "No file has been sent"
 msgstr "Er is geen bestand verzonden"
 
 msgid "No icon packs"
-msgstr "Geen icoon pakketten"
+msgstr "Geen pictogrampakketten"
 
 msgid "No informations."
 msgstr "Geen informatie."
@@ -607,7 +590,7 @@ msgid "No layouts"
 msgstr "Geen lay-outs"
 
 msgid "No module/user tasks"
-msgstr "Geen module - /gebruikerstaken"
+msgstr "Geen module-/gebruikerstaken"
 
 msgid "No system tasks"
 msgstr "Geen systeemtaken"
@@ -640,26 +623,24 @@ msgid "Ok"
 msgstr "Oké"
 
 msgid "Ok, you may consider upgrade to >=5.4"
-msgstr "Oké, Overweeg een upgrade naar> = 5,4"
+msgstr "Oké, u kunt overwegen te upgraden naar >= 5.4"
 
 msgid "Ok, you may upgrade to php 5.6"
-msgstr "Oké, je kan upgraden naar php 5.6"
+msgstr "Oké, u kunt upgraden naar PHP 5.6"
 
 msgid ""
 "One of the three given Certificates path is not readable, please make sure "
 "they have the good rights."
-msgstr ""
-"Een van de drie gegeven certificaten is niet leesbaar, zorg er alstublieft "
-"voor dat ze over de juiste rechten beschikken."
+msgstr "Een van de drie opgegeven certificaatpaden is niet leesbaar, zorg ervoor dat de juiste rechten zijn ingesteld."
 
 msgid "Open"
 msgstr "Open"
 
 msgid "Open the tour editing mode"
-msgstr "Open de tour bewerkingsmodus"
+msgstr "Open de bewerkmodus van de tour"
 
 msgid "Optional binaries"
-msgstr "Optioneel binaire bestanden"
+msgstr "Optionele binaire bestanden"
 
 msgid "Optional libraries"
 msgstr "Optionele bibliotheken"
@@ -672,16 +653,16 @@ msgstr ""
 "toegang."
 
 msgid "Overview - WebApp (var/apps/browser, overview & webapp cache)"
-msgstr "Overzicht - WebApp (var / apps / browser, overzicht & webapp-cache)"
+msgstr "Overzicht - WebApp (var/apps/browser, overzichts- en webapp-cache)"
 
 msgid "Overview cache cleared."
-msgstr "Overzicht gewist cache."
+msgstr "Overzichtscache gewist."
 
 msgid "PEM test:"
 msgstr "PEM-test:"
 
 msgid "PHP version %s:"
-msgstr "PHP versie %s:"
+msgstr "PHP-versie %s:"
 
 msgid "Password"
 msgstr "Wachtwoord"
@@ -690,7 +671,7 @@ msgid "Path to your CA certificate"
 msgstr "Pad naar het CA-certificaat"
 
 msgid "Path to your Certificate"
-msgstr "Pad naar uw Certificaat"
+msgstr "Pad naar uw certificaat"
 
 msgid "Path to your Private certificate"
 msgstr "Pad naar uw privécertificaat"
@@ -724,61 +705,61 @@ msgid "Preview 5.0"
 msgstr "Voorbeeld 5.0"
 
 msgid "Privacy policy URL"
-msgstr "Privacy Beleid URL"
+msgstr "URL van privacybeleid"
 
 msgid "Private"
 msgstr "Privé"
 
 msgid "Private certificate"
-msgstr "Privé certificaat"
+msgstr "Privécertificaat"
 
 msgid "Private path:"
-msgstr "Eigen pad:"
+msgstr "Privépad:"
 
 msgid "Production"
 msgstr "Productie"
 
 msgid "Progress"
-msgstr "Vooruitgang"
+msgstr "Voortgang"
 
 msgid "Publication access type"
 msgstr "Publicatietoegangstype"
 
 msgid "Push messages:"
-msgstr "Push bericht:"
+msgstr "Pushberichten:"
 
 msgid "Queued"
-msgstr "Wachtrij"
+msgstr "In wachtrij"
 
 msgid "Queued %s/%s"
-msgstr "Wachtrij %s/%s"
+msgstr "In wachtrij %s/%s"
 
 msgid "Read"
 msgstr "Lezen"
 
 msgid "Rebuild"
-msgstr "Herbouwen"
+msgstr "Opnieuw opbouwen"
 
 msgid "Rebuild manifest"
-msgstr "Het manifest opnieuw opbouwen"
+msgstr "Manifest opnieuw opbouwen"
 
 msgid "Rebuilding application manifest files."
-msgstr "Het opnieuw opbouwen van applicatie-manifestbestanden."
+msgstr "De manifestbestanden van de applicatie worden opnieuw opgebouwd."
 
 msgid "Regular updates system"
-msgstr "Regelmatig updatesysteem"
+msgstr "Systeem voor regelmatige updates"
 
 msgid "Remove locks"
-msgstr "Verwijder sloten"
+msgstr "Vergrendelingen verwijderen"
 
 msgid "Remove locks now"
-msgstr "Verwijder sloten nu"
+msgstr "Vergrendelingen nu verwijderen"
 
 msgid "Removing CRON Scheduler lock files."
-msgstr "Verwijderen van CRON Scheduler lock-bestanden."
+msgstr "De lock-bestanden van de CRON Scheduler worden verwijderd."
 
 msgid "Removing domains: %s"
-msgstr "Verwijderen domeinen: %s"
+msgstr "Domeinen verwijderen: %s"
 
 msgid "Request"
 msgstr "Aanvraag"
@@ -802,7 +783,7 @@ msgid "Sales"
 msgstr "Verkoop"
 
 msgid "Sales configuration"
-msgstr "Verkoop-configuratie"
+msgstr "Verkoopconfiguratie"
 
 msgid "Save"
 msgstr "Bewaar"
@@ -820,7 +801,7 @@ msgid "Self-managed sync is not available for now."
 msgstr "Zelfbeheerde synchronisatie is voorlopig niet beschikbaar."
 
 msgid "Send anonymous statistics to improve the apps builder."
-msgstr "Stuur anonieme statistieken om de apps builder te verbeteren."
+msgstr "Stuur anonieme statistieken om de app builder te verbeteren."
 
 msgid "Server"
 msgstr "Server"
@@ -835,29 +816,27 @@ msgid "Show more"
 msgstr "Toon meer"
 
 msgid "Siberian - Backoffice"
-msgstr "Siberië - Backoffice"
+msgstr "Siberian - Backoffice"
 
 msgid "Siberian CMS"
 msgstr "Siberian CMS"
 
 msgid "[Siberian_Cpanel] Unable to update cPanel SSL Certificate for %s"
-msgstr "[Siberian_Cpanel] Kan cPanel SSL-certificaat niet bijwerken voor% s"
+msgstr "[Siberian_Cpanel] Kan het cPanel SSL-certificaat niet bijwerken voor %s"
 
 msgid "[Siberian_VestaCP] requires php 5.6+"
-msgstr "[Siberian_VestaCP] vereist php 5.6+"
+msgstr "[Siberian_VestaCP] vereist PHP 5.6+"
 
 msgid ""
 "Something went wrong with the API Sync to %s, retry or check in your panel "
 "if your SSL certificate is correctly setup."
-msgstr ""
-"Er is iets misgegaan met de API-synchronisatie naar% s, probeer het opnieuw "
-"of controleer uw paneel als uw SSL-certificaat correct is ingesteld."
+msgstr "Er is iets misgegaan met de API-synchronisatie naar %s, probeer het opnieuw of controleer in uw paneel of uw SSL-certificaat correct is ingesteld."
 
 msgid "Source"
 msgstr "Bron"
 
 msgid "Source Queue empty"
-msgstr "Bron Wachtrij is leeg"
+msgstr "Bronwachtrij is leeg"
 
 msgid "Source Queue status"
 msgstr "Status van bronwachtrij"
@@ -866,16 +845,16 @@ msgid "[Sources]"
 msgstr "[Bronnen]"
 
 msgid "Sources code"
-msgstr "Bestand code"
+msgstr "Broncode"
 
 msgid "Stable"
 msgstr "Stabiel"
 
 msgid "Staging"
-msgstr "Regie"
+msgstr "Staging"
 
 msgid "Start editing your platform tour"
-msgstr "Beginnen met het bewerken van uw platform tour"
+msgstr "Begin met het bewerken van uw platformtour"
 
 msgid "Statistics"
 msgstr "Statistieken"
@@ -891,16 +870,16 @@ msgid "Status"
 msgstr "Status"
 
 msgid "Submit a bug report or improvement request for beta/preview"
-msgstr "Dien een bugrapport of verbeteringsverzoek in voor bèta / preview"
+msgstr "Dien een bugrapport of verbeteringsverzoek in voor bèta/preview"
 
 msgid "Success"
 msgstr "Succes"
 
 msgid "Successfully cleaned-up old certificate."
-msgstr "Oud certificaat goed opgeschoond."
+msgstr "Oud certificaat succesvol opgeschoond."
 
 msgid "Successfully installed new certificate."
-msgstr "Met succes geïnstalleerd een nieuw certificaat."
+msgstr "Nieuw certificaat succesvol geïnstalleerd."
 
 msgid "Successfully removed the certificate."
 msgstr "Certificaat met succes verwijderd."
@@ -924,7 +903,7 @@ msgid "System was unable to validate any HTTP Basic Auth call."
 msgstr "Het systeem kon geen HTTP Basic Auth-oproep valideren."
 
 msgid "Temp (var/tmp, application sources & apk)"
-msgstr "Temp (var / tmp, toepassingsbronnen en apk)"
+msgstr "Temp (var/tmp, applicatiebronnen en apk)"
 
 msgid "Templates"
 msgstr "Sjablonen"
@@ -938,16 +917,14 @@ msgstr "Testen: %s"
 msgid ""
 "The PHP executable guessed path <b>'%s'</b> may be incorrect, please double "
 "check for it."
-msgstr ""
-"Het PHP-uitvoerbare geraden pad <b>'%s'</b> is mogelijk onjuist, controleer "
-"dit alstublieft."
+msgstr "Het geraden pad van het PHP-uitvoerbare bestand <b>'%s'</b> is mogelijk onjuist, controleer dit alstublieft."
 
 msgid "The default setting to run your production server."
 msgstr "De standaardinstelling voor het uitvoeren van uw productieserver."
 
 msgid ""
 "The domain %s doesn't belong to you, or is not configured on your server."
-msgstr "Het domein % s hoort niet bij u of is niet geconfigureerd op uw server."
+msgstr "Het domein %s is niet van u of is niet geconfigureerd op uw server."
 
 msgid "The given CA certificate doesn't match the hostname."
 msgstr "Het gegeven CA-certificaat komt niet overeen met de hostnaam."
@@ -956,8 +933,7 @@ msgid "The given certificate doesn't match the hostname."
 msgstr "Het opgegeven certificaat komt niet overeen met de hostnaam."
 
 msgid "The given certificate doesn't match the hostname or wiSibldcard."
-msgstr ""
-"Het opgegeven certificaat komt niet overeen met de hostnaam of wiSibldcard."
+msgstr "Het opgegeven certificaat komt niet overeen met de hostnaam of de wildcard."
 
 msgid "This account can't be deleted, it's the only one"
 msgstr "Dit account kan niet worden verwijderd, het is de enige"
@@ -966,25 +942,17 @@ msgid ""
 "This action mainly serves as a development & support purpose<br />This will "
 "restore App sources 'iOS', 'Android', 'HTML5' & 'Overview' from the latest "
 "Siberian version, then rebuild the manifest to restore installed modules."
-msgstr ""
-"Deze actie dient voornamelijk als een ontwikkeling & ondersteuning doel<br>"
-"Dit zal herstellen App bronnen 'iOS', 'Android', 'HTML5' & 'Overzicht' uit "
-"de meest recente versie van de iberian, dan is het herstel van het manifest "
-"te herstellen geïnstalleerd modules."
+msgstr "Deze actie dient voornamelijk voor ontwikkeling en support<br />Dit herstelt de app-bronnen 'iOS', 'Android', 'HTML5' en 'Overview' vanuit de nieuwste Siberian-versie en bouwt vervolgens het manifest opnieuw op om de geïnstalleerde modules te herstellen."
 
 msgid ""
 "This e-mail address must be reachable, as you will receive important e-mails "
 "from the system & user actions."
-msgstr ""
-"Dit e-mailadres moet bereikbaar zijn, als je belangrijke e-mails van het "
-"systeem & gebruiker acties ontvangt."
+msgstr "Dit e-mailadres moet bereikbaar zijn, aangezien u belangrijke e-mails van het systeem en over gebruikersacties ontvangt."
 
 msgid ""
 "This message will be displayed as a waiting message when your users chose an "
 "offline payment method"
-msgstr ""
-"Dit bericht wordt weergegeven als een wachtend bericht wanneer uw gebruikers "
-"een offline betaalmethode hebben gekozen"
+msgstr "Dit bericht wordt weergegeven als wachtbericht wanneer uw gebruikers een offline betaalmethode kiezen"
 
 msgid ""
 "This message will be displayed as an information message to describe which "
@@ -996,10 +964,7 @@ msgstr ""
 msgid ""
 "This test is for development & support usage, this only highlights potential "
 "missing and/or modified files, results need to be interpreted."
-msgstr ""
-"Deze test is bedoeld voor ontwikkelings- en ondersteuningsgebruik, dit "
-"markeert alleen mogelijke ontbrekende en / of gewijzigde bestanden, "
-"resultaten moeten worden geïnterpreteerd."
+msgstr "Deze test is bedoeld voor ontwikkeling en support, hij markeert alleen mogelijk ontbrekende en/of gewijzigde bestanden, de resultaten moeten worden geïnterpreteerd."
 
 msgid "Tools"
 msgstr "Hulpmiddelen"
@@ -1011,7 +976,7 @@ msgid "Total usage:"
 msgstr "Totaal verbruik:"
 
 msgid "Tour settings"
-msgstr "Tour instellingen"
+msgstr "Tourinstellingen"
 
 msgid "Tour status"
 msgstr "Tour-status"
@@ -1025,9 +990,7 @@ msgstr "UID"
 msgid ""
 "Unable to connect in HTTPS or to validate the SSL Certificate.<br />Check if "
 "your are not in `Staging`"
-msgstr ""
-"Kan geen verbinding maken via HTTPS of het SSL-certificaat valideren. <br /> "
-"Controleer of je niet in `Staging` bent"
+msgstr "Kan geen verbinding maken via HTTPS of het SSL-certificaat valideren.<br />Controleer of u niet in `Staging` zit"
 
 msgid "Unknown"
 msgstr "Onbekend"
@@ -1039,7 +1002,7 @@ msgid "Update"
 msgstr "Update"
 
 msgid "Update channel"
-msgstr "Update kanaal"
+msgstr "Updatekanaal"
 
 msgid "Updated At"
 msgstr "Bijgewerkt Op"
@@ -1051,7 +1014,7 @@ msgid "Upload files or use existing certificates on my server"
 msgstr "Upload bestanden of gebruik bestaande certificaten op mijn server"
 
 msgid "Upload my certificates"
-msgstr "Het uploaden van mijn certificaten"
+msgstr "Mijn certificaten uploaden"
 
 msgid "Upload your own certificates"
 msgstr "Upload uw eigen certificaten"
@@ -1069,13 +1032,13 @@ msgid "Username"
 msgstr "Gebruikersnaam"
 
 msgid "User's status successfully edited"
-msgstr "Status van de gebruiker met succes bewerkt"
+msgstr "Status van de gebruiker succesvol bewerkt"
 
 msgid "VAT check options"
-msgstr "Opties voor btw-controle"
+msgstr "Opties voor BTW-controle"
 
 msgid "Validation"
-msgstr "Bevestiging"
+msgstr "Validatie"
 
 msgid "VestaCP"
 msgstr "VestaCP"
@@ -1096,11 +1059,7 @@ msgid ""
 "We recommned using <b>preview</b> on a testing or development server, we "
 "won't provide regular ticket support for these update channels, only bug "
 "reports via the form below."
-msgstr ""
-"We hebben aanbevolen om een <b>voorbeeld</b> van een test- of "
-"ontwikkelserver te gebruiken, we bieden geen reguliere ticketondersteuning "
-"voor deze updatekanalen, alleen foutenrapporten via het onderstaande "
-"formulier."
+msgstr "We raden aan <b>preview</b> te gebruiken op een test- of ontwikkelserver. Voor deze updatekanalen bieden we geen reguliere ticketondersteuning, alleen bugrapporten via het onderstaande formulier."
 
 msgid "Web space"
 msgstr "Webruimte"
@@ -1109,13 +1068,13 @@ msgid "White Label"
 msgstr "White Label"
 
 msgid "Whitelabel"
-msgstr "Wit label"
+msgstr "White label"
 
 msgid "Whitelabel hostnames associated with this Certificate"
-msgstr "Whitelabel hostnamen in verband met dit Certificaat"
+msgstr "White label-hostnamen gekoppeld aan dit certificaat"
 
 msgid "Whitelabel request"
-msgstr "Whitelabel aanvraag"
+msgstr "White label-aanvraag"
 
 msgid "Whitelabels"
 msgstr "Whitelabels"
@@ -1124,21 +1083,17 @@ msgid "Yes"
 msgstr "Ja"
 
 msgid "Yes, install the update."
-msgstr "Ja, update te installeren."
+msgstr "Ja, installeer de update."
 
 msgid ""
 "You are about to clean all the cron lock files !\n"
 "Are you sure ?"
-msgstr ""
-"U staat op het punt om alle cron lock bestand op te schonen!\n"
-"Weet je het zeker?"
+msgstr "U staat op het punt alle cron-lockbestanden op te schonen !\nWeet u het zeker ?"
 
 msgid ""
 "You are about to clean all your log files !\n"
 "Are you sure ?"
-msgstr ""
-"U staat op het punt om al uw logbestanden te verwijderen! \n"
-"Weet je het zeker?"
+msgstr "U staat op het punt al uw logbestanden op te schonen !\nWeet u het zeker ?"
 
 msgid "You are about to delete this certificate, Are you sure ?"
 msgstr "U staat op het punt dit certificaat te verwijderen. Weet u het zeker?"
@@ -1147,44 +1102,31 @@ msgid ""
 "You are about to wipe all your temporary files, this includes the generated "
 "sources & apk builds !\n"
 "Are you sure ?"
-msgstr ""
-"U staat op het punt al uw tijdelijke bestanden te wissen, dit omvat de "
-"gegenereerde bronnen en apk-builds!\n"
-"Weet je het zeker ?"
+msgstr "U staat op het punt al uw tijdelijke bestanden te wissen, dit omvat de gegenereerde bronnen en apk-builds !\nWeet u het zeker ?"
 
 msgid "You can use <b>%s</b> as a dynamic variable for your application name."
-msgstr ""
-"U kunt <b>%s gebruiken</b> als een dynamische variabele voor uw "
-"toepassingsnaam."
+msgstr "U kunt <b>%s</b> gebruiken als dynamische variabele voor de naam van uw applicatie."
 
 msgid ""
 "You have a Source generation stuck for more than 1 hour, please check in <b>"
 "Settings > Advanced > Cron</b> for the stuck build.<br />To unlock further "
 "builds you can remove locks from the button below."
-msgstr ""
-"Een APK-generatie is vast gelopen na 1 uur, kijk in de <b>Instellingen > "
-"Geavanceerd > Cron</b> voor een vast gelopen APK.<br />om verder te bouwen "
-"kunt u sloten verwijderen met de knop hieronder."
+msgstr "Een brongeneratie is langer dan 1 uur vastgelopen, controleer de vastgelopen build in <b>Instellingen > Geavanceerd > Cron</b>.<br />Om verdere builds te ontgrendelen kunt u de vergrendelingen verwijderen met de knop hieronder."
 
 msgid ""
 "You have an APK generation stuck for more than 1 hour, please check in <b>"
 "Settings > Advanced > Cron</b> for the stuck build.<br />To unlock further "
 "builds you can remove locks from the button below."
-msgstr ""
-"Een APK-generatie is vast gelopen na 1 uur, kijk in de <b>Instellingen > "
-"Geavanceerd > Cron</b> voor een vast gelopen APK.<br />om verder te bouwen "
-"kunt u sloten verwijderen met de knop hieronder."
+msgstr "Een APK-generatie is langer dan 1 uur vastgelopen, controleer de vastgelopen build in <b>Instellingen > Geavanceerd > Cron</b>.<br />Om verdere builds te ontgrendelen kunt u de vergrendelingen verwijderen met de knop hieronder."
 
 msgid "You have no certificate yet."
-msgstr "Je hebt nog geen certificaat."
+msgstr "U hebt nog geen certificaat."
 
 msgid "You have no new messages."
-msgstr "Je hebt geen nieuwe berichten."
+msgstr "U hebt geen nieuwe berichten."
 
 msgid "You must select an Admin panel type before requesting a Certificate."
-msgstr ""
-"U moet een beheerdersdashboard selecteren voordat u een certificaat "
-"aanvraagt."
+msgstr "U moet een type beheerpaneel selecteren voordat u een certificaat aanvraagt."
 
 msgid ""
 "Your HTTPS/SSL Certificate is about to expire in <b>%s day%s</b>, don't "
@@ -1201,7 +1143,7 @@ msgid "Your certificate is valid until:"
 msgstr "Uw certificaat is geldig tot:"
 
 msgid "Your certificates are saved."
-msgstr "Uw certificaten worden opgeslagen."
+msgstr "Uw certificaten zijn opgeslagen."
 
 msgid "Your new password"
 msgstr "Uw nieuwe wachtwoord"
@@ -1210,42 +1152,35 @@ msgid "Your password"
 msgstr "Uw wachtwoord"
 
 msgid "<b>Actual preview version is Siberian 5.0</b>."
-msgstr "<b>de Actuele preview-versie is Siberian 5.0</b>."
+msgstr "<b>De huidige previewversie is Siberian 5.0</b>."
 
 msgid ""
 "<b>Disclaimer:</b> You are using the <b>preview</b> update channel, this "
 "channel is intended for <b>tests & previews</b> of new features, if you are "
 "not sure stay with <b>stable channel</b>."
-msgstr ""
-"<b>Disclaimer:</b> u gebruikt het <b>preview-</b> updatekanaal, dit kanaal "
-"is bedoeld voor  <b> tests en voorbeelden </ b> van nieuwe functies, als u "
-"niet zeker weet of u op een <b> stabiel kanaal blijft  </ b>."
+msgstr "<b>Disclaimer:</b> u gebruikt het updatekanaal <b>preview</b>. Dit kanaal is bedoeld voor <b>tests en previews</b> van nieuwe functies. Als u het niet zeker weet, blijf dan bij het <b>stabiele kanaal</b>."
 
 msgid ""
 "<b>Note for Bug report:</b> give us a maximum of description of how you "
 "reached the bug, and possibly screenshots."
-msgstr ""
-"<b>Opmerking voor</b> bugrapport: geef ons een maximum aan beschrijving van "
-"hoe u de bug hebt bereikt en mogelijk schermafbeeldingen."
+msgstr "<b>Opmerking voor bugrapport:</b> geef ons een zo uitgebreid mogelijke beschrijving van hoe u de bug hebt bereikt, en eventueel schermafbeeldingen."
 
 msgid ""
 "<b>Note</b>: sources & push will be sent immediately after their creation, "
 "scheduled push will not work & media optimization is disabled."
-msgstr ""
-"<b> Opmerking </ b>: bronnen & push zullen onmiddellijk worden verstuurd, "
-"geplande push zal niet werken & media optimalisatie is uitgeschakeld."
+msgstr "<b>Opmerking</b>: bronnen en pushberichten worden direct na het aanmaken verzonden, geplande pushberichten werken niet en mediaoptimalisatie is uitgeschakeld."
 
 msgid "customer"
 msgstr "klant"
 
 msgid "%d Unread Message"
-msgstr "%d ongelezen berichten"
+msgstr "%d ongelezen bericht"
 
 msgid "%d Unread Messages"
 msgstr "%d ongelezen berichten"
 
 msgid "for the bundle id:"
-msgstr "voor de bundel id:"
+msgstr "voor de bundel-ID:"
 
 msgid "letsencrypt"
 msgstr "letsencrypt"
@@ -1254,11 +1189,10 @@ msgid "per page"
 msgstr "per pagina"
 
 msgid "see Settings > Advanced > Configuration > Cron to edit options."
-msgstr ""
-"zie Instellingen> Geavanceerd> Configuratie> Om cron opties te bewerken."
+msgstr "zie Instellingen > Geavanceerd > Configuratie > Cron om de opties te bewerken."
 
 msgid "values are refreshed once a day only!"
-msgstr "waarden worden vernieuwd eens per dag!"
+msgstr "waarden worden slechts één keer per dag vernieuwd!"
 
 # GMT 1559644696.6294
 #. machine-translated (2026-10), to be reviewed

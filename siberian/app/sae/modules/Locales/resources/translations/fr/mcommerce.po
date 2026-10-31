@@ -15,10 +15,10 @@ msgstr ""
 "X-Generator: Weblate 3.3\n"
 
 msgid ": activate to sort column ascending"
-msgstr ": Activer pour trier la colonne ascendante"
+msgstr ": activer pour trier la colonne par ordre croissant"
 
 msgid ": activate to sort column descending"
-msgstr ": Activer pour trier la colonne descendante"
+msgstr ": activer pour trier la colonne par ordre décroissant"
 
 msgid "1 points ="
 msgstr "1 points ="
@@ -27,7 +27,7 @@ msgid "20.00%"
 msgstr "20.00%"
 
 msgid "Add Discount"
-msgstr "Ajouter Remise"
+msgstr "Ajouter une remise"
 
 msgid "Add a format"
 msgstr "Ajouter un format"
@@ -51,7 +51,7 @@ msgid "All fields with a * are required."
 msgstr "Tous les champs marqués d'une * sont obligatoires."
 
 msgid "Amount remaining:"
-msgstr "Quantité restante:"
+msgstr "Montant restant :"
 
 msgid "Amount you will pay"
 msgstr "Le montant que vous devrez payer"
@@ -65,19 +65,15 @@ msgstr ""
 
 msgid ""
 "An error occurred while proceeding the payment. Please, try again later."
-msgstr ""
-"Une erreur s'est produite lors du paiement. S'il vous plaît, réessayez plus "
-"tard."
+msgstr "Une erreur s'est produite lors du paiement. Veuillez réessayer plus tard."
 
 msgid "An error occurred while proceeding your order:"
-msgstr "Une erreur est survenue en procédant de votre commande:"
+msgstr "Une erreur est survenue lors du traitement de votre commande :"
 
 msgid ""
 "An error occurred while proceeding your order. Please, check the following "
 "information:"
-msgstr ""
-"Une erreur se est produite lors de votre commande. S'il vous plaît, vérifiez "
-"les informations suivantes:"
+msgstr "Une erreur s'est produite lors du traitement de votre commande. Veuillez vérifier les informations suivantes :"
 
 msgid "Are you sure you want to close without saving"
 msgstr "Êtes-vous sûr de vouloir fermer sans enregistrer"
@@ -107,34 +103,34 @@ msgid "CVC"
 msgstr "Code à 3 chiffres au dos"
 
 msgid "Calculate the change for the client"
-msgstr "Calculer le change pour le client"
+msgstr "Calculer la monnaie à rendre au client"
 
 msgid "Cancel order"
-msgstr "Supprimer la commande"
+msgstr "Annuler la commande"
 
 msgid "Cancelled"
 msgstr "Annulé"
 
 msgid "Card Number"
-msgstr "Numéro de Carte"
+msgstr "Numéro de carte"
 
 msgid "Carry Out"
-msgstr "effectuer"
+msgstr "À emporter"
 
 msgid "Cart"
 msgstr "panier"
 
 msgid "Cash"
-msgstr "espèces"
+msgstr "Espèces"
 
 msgid "Category"
 msgstr "catégorie"
 
 msgid "Category successfully saved."
-msgstr "Catégorie sauvegardé avec succès."
+msgstr "Catégorie sauvegardée avec succès."
 
 msgid "Check"
-msgstr "chèque"
+msgstr "Chèque"
 
 msgid "Choose a delivery method:"
 msgstr "Choisissez une méthode de livraison:"
@@ -152,7 +148,7 @@ msgid "Client"
 msgstr "Client"
 
 msgid "Client will pay"
-msgstr "Client paiera"
+msgstr "Le client paiera"
 
 msgid "Code"
 msgstr "Code"
@@ -161,13 +157,13 @@ msgid "Code used"
 msgstr "Code utilisé"
 
 msgid "Completed"
-msgstr "terminé"
+msgstr "Terminé"
 
 msgid "Confirmation"
 msgstr "Confirmation"
 
 msgid "Connected Printers"
-msgstr "imprimantes connectées"
+msgstr "Imprimantes connectées"
 
 msgid "Continue shopping"
 msgstr "Poursuivre les achats"
@@ -194,13 +190,13 @@ msgid "Credit Card by phone"
 msgstr "Carte de crédit par téléphone"
 
 msgid "Credit card (online payment)"
-msgstr "Carte de Crédit"
+msgstr "Carte de crédit (paiement en ligne)"
 
 msgid "Credit card (pay upon pickup or delivery)"
 msgstr "Carte de crédit (payer au magasin ou à la livraison)"
 
 msgid "Credit card payment"
-msgstr "Paiement par CB"
+msgstr "Paiement par carte de crédit"
 
 msgid "Customer"
 msgstr "client"
@@ -212,7 +208,7 @@ msgid "Customer can add tip to a command?"
 msgstr "Le client peut ajouter un pourboire sur la commande?"
 
 msgid "Date of birth"
-msgstr "Date d'anniversaire"
+msgstr "Date de naissance"
 
 msgid "Deductable"
 msgstr "Déductible"
@@ -224,7 +220,7 @@ msgid "Delete"
 msgstr "Supprimer"
 
 msgid "Delivery"
-msgstr "livraison"
+msgstr "Livraison"
 
 msgid "Delivery Fees"
 msgstr "Frais de livraison"
@@ -266,7 +262,7 @@ msgid "Discount amount"
 msgstr "Montant de l'escompte"
 
 msgid "Discount amount si very high"
-msgstr "Montant de l'escompte es très élevé"
+msgstr "Le montant de la remise est très élevé"
 
 msgid "Discount code"
 msgstr "Code de réduction"
@@ -284,7 +280,7 @@ msgid "Discount minimum amount is missing"
 msgstr "Le montant minimum de réduction est manquant"
 
 msgid "Discount no longer available"
-msgstr "L'escompte n'est plus disponible"
+msgstr "La remise n'est plus disponible"
 
 msgid "Discount only for carts with total more than: "
 msgstr "Réduction uniquement pour les paniers avec un total de plus de:"
@@ -356,7 +352,7 @@ msgid "First"
 msgstr "Première"
 
 msgid "First Name"
-msgstr "NOM"
+msgstr "Prénom"
 
 msgid "Firstname"
 msgstr "Prénom"
@@ -368,13 +364,13 @@ msgid "Free delivery starting from"
 msgstr "Livraison gratuite à partir de"
 
 msgid "Free purchase"
-msgstr "Achat libre"
+msgstr "Achat gratuit"
 
 msgid "From"
 msgstr "De"
 
 msgid "Gratuity"
-msgstr "Gratuité"
+msgstr "Pourboire"
 
 msgid "Guest Order"
 msgstr "Commande d'invité"
@@ -395,7 +391,7 @@ msgid "I will pay"
 msgstr "Je payerai"
 
 msgid "In store"
-msgstr "en magasin"
+msgstr "En magasin"
 
 msgid "Incl."
 msgstr "Incl."
@@ -425,7 +421,7 @@ msgid "Loading..."
 msgstr "Chargement..."
 
 msgid "Login"
-msgstr "S'identifier"
+msgstr "Connexion"
 
 msgid "MM"
 msgstr "Mois"
@@ -443,16 +439,16 @@ msgid "Meal Voucher"
 msgstr "Titre restaurant"
 
 msgid "Merchant ID:"
-msgstr "Vendeur ID:"
+msgstr "ID marchand :"
 
 msgid "Minimum amount"
-msgstr "Montant Minimum"
+msgstr "Montant minimum"
 
 msgid "Minimum amount should be a positive number"
-msgstr "Montant Minimum doit être un nombre positif"
+msgstr "Le montant minimum doit être un nombre positif"
 
 msgid "Minimum order"
-msgstr "minimum de commande"
+msgstr "Commande minimum"
 
 msgid "My Cart"
 msgstr "Mon panier"
@@ -500,7 +496,7 @@ msgid "No data available in table"
 msgstr "Pas de données disponibles dans le tableau"
 
 msgid "No matching records found"
-msgstr "Aucun enregistrement correspondant n'trouvé"
+msgstr "Aucun enregistrement correspondant n'a été trouvé"
 
 msgid "Notes"
 msgstr "Commentaires"
@@ -509,16 +505,16 @@ msgid "Number"
 msgstr "nombre"
 
 msgid "Option $1 is required."
-msgstr "Option $1 est requis."
+msgstr "L'option $1 est requise."
 
 msgid "Option name"
 msgstr "Nom de l'option"
 
 msgid "Optional"
-msgstr "Optionnelle"
+msgstr "Facultatif"
 
 msgid "Options"
-msgstr "Option"
+msgstr "Options"
 
 msgid "Options group successfully deleted"
 msgstr "Groupe Options supprimé avec succès"
@@ -548,16 +544,16 @@ msgid "Order %s cancelled"
 msgstr "Commande %s annulée"
 
 msgid "Order successfully cancelled"
-msgstr "Commande supprimée avec succès!"
+msgstr "Commande annulée avec succès"
 
 msgid "Order successfully saved"
-msgstr "Commande enregistré avec succès"
+msgstr "Commande enregistrée avec succès"
 
 msgid "Orders"
-msgstr "commandes"
+msgstr "Commandes"
 
 msgid "Paid"
-msgstr "payé"
+msgstr "Payé"
 
 msgid "Paid by the client:"
 msgstr "Payé par le client :"
@@ -566,7 +562,7 @@ msgid "Password"
 msgstr "Mot de passe"
 
 msgid "Pay"
-msgstr "Payer maintenant:"
+msgstr "Payer"
 
 msgid "Payment"
 msgstr "paiement"
@@ -575,22 +571,22 @@ msgid "Payment Method"
 msgstr "Mode de paiement"
 
 msgid "Payment methods:"
-msgstr "Mode de paiement:"
+msgstr "Modes de paiement :"
 
 msgid "Paypal"
 msgstr "Paypal"
 
 msgid "Paypal settings"
-msgstr "Configuration Paypal"
+msgstr "Paramètres Paypal"
 
 msgid "Pending payment"
-msgstr "paiement en attente"
+msgstr "Paiement en attente"
 
 msgid "Percentage is a least 1%, at max 99%"
-msgstr "Pourcentage est de moins de 1%, au maximum 99%"
+msgstr "Le pourcentage est d'au moins 1 %, au maximum 99 %"
 
 msgid "Percentage must be at least 1 percent, at most 99 percent"
-msgstr "Pourcentage doit être d'au moins 1%, à plus de 99%"
+msgstr "Le pourcentage doit être d'au moins 1 %, au plus 99 %"
 
 msgid "Permit unregistered user to make order?"
 msgstr "Permettre à un utilisateur non enregistré de passer une commande?"
@@ -605,16 +601,16 @@ msgid "Picture"
 msgstr "image"
 
 msgid "Please choose a delivery method"
-msgstr "Choisir un mode de livraison"
+msgstr "Veuillez choisir un mode de livraison"
 
 msgid "Please choose a payment method"
-msgstr "choisir un mode de paiement"
+msgstr "Veuillez choisir un mode de paiement"
 
 msgid "Please, enter an email address for the store %s"
-msgstr "entrez une adresse email pour le magasin %s"
+msgstr "Veuillez saisir une adresse email pour le magasin %s"
 
 msgid "Please fill in your card information to process Credit card payment:"
-msgstr "SVP, entrez ici les informations de votre Carte Bancaire"
+msgstr "Veuillez saisir les informations de votre carte bancaire pour traiter le paiement par carte :"
 
 msgid "Points"
 msgstr "Points"
@@ -626,7 +622,7 @@ msgid "Postcode"
 msgstr "Code Postal"
 
 msgid "Previous"
-msgstr "Précédente"
+msgstr "Précédent"
 
 msgid "Price"
 msgstr "prix"
@@ -641,10 +637,10 @@ msgid "Printer successfully saved"
 msgstr "Imprimante enregistrée avec succès"
 
 msgid "Proceed"
-msgstr "Procéder"
+msgstr "Continuer"
 
 msgid "Processing..."
-msgstr "En traitement..."
+msgstr "Traitement en cours..."
 
 msgid "Product"
 msgstr "produit"
@@ -680,7 +676,7 @@ msgid "Remaining due"
 msgstr "Restant dû"
 
 msgid "Remove card"
-msgstr "supprimer la carte"
+msgstr "Supprimer la carte"
 
 msgid "Return URL:"
 msgstr "URL de retour:"
@@ -692,7 +688,7 @@ msgid "Search:"
 msgstr "Recherche:"
 
 msgid "Secret Key"
-msgstr "Mot de Passe"
+msgstr "Clé secrète"
 
 msgid "Settings"
 msgstr "paramètres"
@@ -701,17 +697,17 @@ msgid "Settings successfully saved"
 msgstr "Paramètres sauvegardés avec succès"
 
 msgid "Show _MENU_ entries"
-msgstr "Montrer _MENU_ entrées"
+msgstr "Afficher _MENU_ entrées"
 
 msgid "Show search fields on product list ?"
 msgstr ""
 "Souhaitez vous afficher les champs de recherche sur la liste des produits ?"
 
 msgid "Showing 0 to 0 of 0 entries"
-msgstr "Affichage 0 à 0 de 0 entrées"
+msgstr "Affichage de 0 à 0 sur 0 entrées"
 
 msgid "Showing _START_ to _END_ of _TOTAL_ entries"
-msgstr "Montrant _START_ à _END_ de _TOTAL_ entrées"
+msgstr "Affichage de _START_ à _END_ sur _TOTAL_ entrées"
 
 msgid "Signature"
 msgstr "Signature"
@@ -720,15 +716,13 @@ msgid "Signup"
 msgstr "S'inscrire"
 
 msgid "Some mandatory fields are empty."
-msgstr "Certains champs obligatoires sont vides ."
+msgstr "Certains champs obligatoires sont vides."
 
 msgid "Sorry we can't proceed to deliver your order. It has been canceled."
-msgstr ""
-"Désolé, nous ne pouvons pas procéder à livrer votre commande . Elle a été "
-"annulée."
+msgstr "Désolé, nous ne pouvons pas livrer votre commande. Elle a été annulée."
 
 msgid "Status"
-msgstr "Status"
+msgstr "Statut"
 
 msgid "Store choice"
 msgstr "Choix de magasin"
@@ -740,16 +734,16 @@ msgid "Store name"
 msgstr "Nom du magasin"
 
 msgid "Store successfully deleted"
-msgstr "magasin supprimé avec succès"
+msgstr "Magasin supprimé avec succès"
 
 msgid "Store successfully saved"
-msgstr "magasin correctement enregistré"
+msgstr "Magasin enregistré avec succès"
 
 msgid "Stored card information."
-msgstr "Informations sur la carte stockée"
+msgstr "Informations de la carte enregistrée."
 
 msgid "Stores"
-msgstr "magasins"
+msgstr "Magasins"
 
 msgid "Street"
 msgstr "Rue"
@@ -758,10 +752,10 @@ msgid "Stripe settings"
 msgstr "Configuration Stripe"
 
 msgid "Subtotal"
-msgstr "total"
+msgstr "Sous-total"
 
 msgid "Subtotal Excl. Tax"
-msgstr "Sous-Total Ht."
+msgstr "Sous-total HT"
 
 msgid "Subtotal before deduction"
 msgstr "Sous-total avant déduction"
@@ -785,10 +779,10 @@ msgid "Thank you!"
 msgstr "Merci!"
 
 msgid "The clients calculate the change:"
-msgstr "Les clients calculent le change"
+msgstr "Les clients calculent la monnaie :"
 
 msgid "The delivery method"
-msgstr "méthode de livraison"
+msgstr "Mode de livraison"
 
 msgid "The following options are required:<br />%s"
 msgstr "Les options suivantes sont requises:<br />%s"
@@ -802,7 +796,7 @@ msgid ""
 msgstr "Le paiement a été annulé, n'hésitez pas à nous contacter"
 
 msgid "The payment method"
-msgstr "mode de paiement"
+msgstr "Mode de paiement"
 
 msgid "Time in minutes"
 msgstr "Temps en minutes"
@@ -814,7 +808,7 @@ msgid "Total"
 msgstr "Total"
 
 msgid "Total Excl. Tax"
-msgstr "Total hors Taxe"
+msgstr "Total HT"
 
 msgid "Total Tax"
 msgstr "Total Taxe"
@@ -860,9 +854,7 @@ msgid "Waiting for payment"
 msgstr "En attente de paiement"
 
 msgid "We apologize but the payment method %s is currently not available"
-msgstr ""
-"Nous nous excusons mais la méthode de paiement %s est actuellement pas "
-"disponible"
+msgstr "Nous nous excusons, mais le mode de paiement %s n'est actuellement pas disponible"
 
 msgid "We thank you for your order. A confirmation email has been sent"
 msgstr ""
@@ -872,10 +864,10 @@ msgid "YYYY"
 msgstr "Année"
 
 msgid "You did not login."
-msgstr "Vous ne vous êtes pas connecté."
+msgstr "Vous n'êtes pas connecté."
 
 msgid "You don't have any categories yet"
-msgstr "Vous ne avez pas encore de catégories"
+msgstr "Vous n'avez pas encore de catégories"
 
 msgid "You don't have enough points"
 msgstr "Vous n'avez pas assez de points"
@@ -898,16 +890,16 @@ msgid "You used the code before"
 msgstr "Vous avez déjà utilisé ce code"
 
 msgid "Your address"
-msgstr "votre adresse"
+msgstr "Votre adresse"
 
 msgid "Your email address"
 msgstr "Votre adresse e-mail"
 
 msgid "Your firstname"
-msgstr "votre prénom"
+msgstr "Votre prénom"
 
 msgid "Your lastname"
-msgstr "votre nom"
+msgstr "Votre nom"
 
 msgid "Your phone number"
 msgstr "Votre numéro de téléphone"
@@ -916,13 +908,13 @@ msgid "e.g., Sauces"
 msgstr "par exemple, Sauces"
 
 msgid "(filtered from _MAX_ total entries)"
-msgstr "(filtrés par _MAX_ le total des entrées)"
+msgstr "(filtrés à partir de _MAX_ entrées au total)"
 
 msgid "%s - Customer Service"
 msgstr "%s - Service clients"
 
 msgid "without taxes"
-msgstr "Indiquez le prix Hors taxe"
+msgstr "hors taxes"
 
 msgid "your choice"
 msgstr "Votre choix"

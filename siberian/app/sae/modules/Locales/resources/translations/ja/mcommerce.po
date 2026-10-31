@@ -6,10 +6,10 @@ msgstr ""
 "X-Generator: ezgif.com\n"
 
 msgid ": activate to sort column ascending"
-msgstr ": 列の昇順でソートします。"
+msgstr ": 昇順に並べ替えるにはアクティブにします"
 
 msgid ": activate to sort column descending"
-msgstr ": 列を降順にソートするためにアクティブ化します。"
+msgstr ": 降順に並べ替えるにはアクティブにします"
 
 msgid "1 points ="
 msgstr "1 ポイント ="
@@ -87,7 +87,7 @@ msgid "CVC"
 msgstr "CVC"
 
 msgid "Calculate the change for the client"
-msgstr "クライアントの変更を計算する"
+msgstr "お客様へのおつりを計算する"
 
 msgid "Cancel order"
 msgstr "注文をキャンセル"
@@ -99,7 +99,7 @@ msgid "Card Number"
 msgstr "カード番号"
 
 msgid "Carry Out"
-msgstr "運行"
+msgstr "テイクアウト"
 
 msgid "Cart"
 msgstr "カート"
@@ -108,13 +108,13 @@ msgid "Cash"
 msgstr "現金"
 
 msgid "Category"
-msgstr "[カテゴリ]"
+msgstr "カテゴリ"
 
 msgid "Category successfully saved."
 msgstr "カテゴリが正常に保存されました。"
 
 msgid "Check"
-msgstr "[確認"
+msgstr "確認"
 
 msgid "Choose a delivery method:"
 msgstr "配送方法を選択します。"
@@ -126,7 +126,7 @@ msgid "Choose a store"
 msgstr "店舗を選択"
 
 msgid "City"
-msgstr "シティ"
+msgstr "市区町村"
 
 msgid "Client"
 msgstr "クライアント"
@@ -144,7 +144,7 @@ msgid "Completed"
 msgstr "完了しました"
 
 msgid "Confirmation"
-msgstr "[確認]"
+msgstr "確認"
 
 msgid "Connected Printers"
 msgstr "接続されているプリンタ"
@@ -189,7 +189,7 @@ msgid "Customer Service"
 msgstr "カスタマーサービス"
 
 msgid "Customer can add tip to a command?"
-msgstr "お客様はコマンドにヒントを追加できますか?"
+msgstr "お客様は注文にチップを追加できますか?"
 
 msgid "Date of birth"
 msgstr "生年月日"
@@ -201,7 +201,7 @@ msgid "Deduction"
 msgstr "控除"
 
 msgid "Delete"
-msgstr "[削除]"
+msgstr "削除"
 
 msgid "Delivery"
 msgstr "配送"
@@ -234,7 +234,7 @@ msgid "Details"
 msgstr "詳細"
 
 msgid "Discound code"
-msgstr "解読コード"
+msgstr "割引コード"
 
 msgid "Discount"
 msgstr "ディスカウント"
@@ -246,7 +246,7 @@ msgid "Discount amount"
 msgstr "割引額"
 
 msgid "Discount amount si very high"
-msgstr "割引額 si 非常に高い"
+msgstr "割引額が非常に高くなっています"
 
 msgid "Discount code"
 msgstr "割引コード"
@@ -267,7 +267,7 @@ msgid "Discount no longer available"
 msgstr "割引は利用できなくなりました"
 
 msgid "Discount only for carts with total more than:"
-msgstr "合計以上のカートのみ割引："
+msgstr "合計金額が次の額を超えるカートのみ割引:"
 
 msgid "Discount settings"
 msgstr "割引設定"
@@ -297,7 +297,7 @@ msgid "Do you confirm you want to remove your card?"
 msgstr "カードを削除してもよろしいですか?"
 
 msgid "Done"
-msgstr "「完了"
+msgstr "完了"
 
 msgid "Duplicate this product"
 msgstr "この商品を複製"
@@ -345,7 +345,7 @@ msgid "Format:"
 msgstr "書式:"
 
 msgid "Free delivery starting from"
-msgstr "無料配送開始"
+msgstr "次の金額以上で送料無料"
 
 msgid "Free purchase"
 msgstr "無料購入"
@@ -354,7 +354,7 @@ msgid "From"
 msgstr "から"
 
 msgid "Gratuity"
-msgstr "-どうもだ"
+msgstr "チップ"
 
 msgid "Guest Order"
 msgstr "ゲスト注文"
@@ -366,7 +366,7 @@ msgid "Here is the detail of your order"
 msgstr "ご注文の詳細はこちら"
 
 msgid "Hidden"
-msgstr "[非表示]"
+msgstr "非表示"
 
 msgid "Hours of operation"
 msgstr "営業時間"
@@ -390,13 +390,13 @@ msgid "Keep card information"
 msgstr "カード情報を保持する"
 
 msgid "Label"
-msgstr "[ラベル]"
+msgstr "ラベル"
 
 msgid "Last"
 msgstr "最後"
 
 msgid "Last Name"
-msgstr "お名前（姓）"
+msgstr "姓"
 
 msgid "Lastname"
 msgstr "姓"
@@ -405,7 +405,7 @@ msgid "Loading..."
 msgstr "ロード中..."
 
 msgid "Login"
-msgstr "ログインします"
+msgstr "ログイン"
 
 msgid "MM"
 msgstr "ミリメートルです"
@@ -432,7 +432,7 @@ msgid "Minimum amount should be a positive number"
 msgstr "最小金額は正の数でなければなりません"
 
 msgid "Minimum order"
-msgstr "最小オーダー"
+msgstr "最小注文"
 
 msgid "My Cart"
 msgstr "マイカート"
@@ -474,7 +474,7 @@ msgid "New order from the application"
 msgstr "アプリケーションからの新しい注文"
 
 msgid "Next"
-msgstr "次はね"
+msgstr "次へ"
 
 msgid "No data available in table"
 msgstr "テーブルにはデータがありません"
@@ -495,7 +495,7 @@ msgid "Option name"
 msgstr "オプション名"
 
 msgid "Optional"
-msgstr "オプション"
+msgstr "任意"
 
 msgid "Options"
 msgstr "オプション"
@@ -537,7 +537,7 @@ msgid "Orders"
 msgstr "注文"
 
 msgid "Paid"
-msgstr "支払った"
+msgstr "支払い済み"
 
 msgid "Paid by the client:"
 msgstr "クライアントが支払ったもの："
@@ -558,10 +558,10 @@ msgid "Payment methods:"
 msgstr "お支払い方法:"
 
 msgid "Paypal"
-msgstr "ペイパル"
+msgstr "PayPal"
 
 msgid "Paypal settings"
-msgstr "ペイパルの設定"
+msgstr "PayPal の設定"
 
 msgid "Pending payment"
 msgstr "支払いを保留中"
@@ -597,7 +597,7 @@ msgid "Please fill in your card information to process Credit card payment:"
 msgstr "クレジットカードのお支払い手続きには、カード情報を入力してください。"
 
 msgid "Points"
-msgstr "[ポイント]"
+msgstr "ポイント"
 
 msgid "Points available:"
 msgstr "利用可能なポイント:"
@@ -621,7 +621,7 @@ msgid "Printer successfully saved"
 msgstr "プリンタが正常に保存されました"
 
 msgid "Proceed"
-msgstr "続けて"
+msgstr "続行"
 
 msgid "Processing..."
 msgstr "処理中..."
@@ -636,13 +636,13 @@ msgid "Product name"
 msgstr "製品名"
 
 msgid "Product successfully duplicated"
-msgstr "商品は正常に複製されました"
+msgstr "製品が正常に複製されました"
 
 msgid "Product successfully saved"
 msgstr "製品が正常に保存されました"
 
 msgid "Publishable Key:"
-msgstr "発行可能なキー:"
+msgstr "公開可能キー:"
 
 msgid "Qty"
 msgstr "数量"
@@ -657,16 +657,16 @@ msgid "Remaining amount due"
 msgstr "未払残金額"
 
 msgid "Remaining due"
-msgstr "残りの期限"
+msgstr "未払い残額"
 
 msgid "Remove card"
-msgstr "カードを取り外す"
+msgstr "カードを削除"
 
 msgid "Return URL:"
 msgstr "リターン URL:"
 
 msgid "Review"
-msgstr "[確認]"
+msgstr "確認"
 
 msgid "Search:"
 msgstr "検索:"
@@ -675,22 +675,22 @@ msgid "Secret Key"
 msgstr "秘密キー"
 
 msgid "Settings"
-msgstr "[設定]"
+msgstr "設定"
 
 msgid "Settings successfully saved"
 msgstr "設定は正常に保存されました"
 
 msgid "Show _MENU_ entries"
-msgstr "MENU_ エントリを表示"
+msgstr "_MENU_ 件を表示"
 
 msgid "Show search fields on product list ?"
-msgstr "商品リストに検索フィールドを表示する"
+msgstr "製品リストに検索フィールドを表示しますか？"
 
 msgid "Showing 0 to 0 of 0 entries"
 msgstr "0 件中 0 ～ 0 件を表示しています。"
 
 msgid "Showing _START_ to _END_ of _TOTAL_ entries"
-msgstr "TOTAL_ エントリーの _START_から_END_を表示しています"
+msgstr "_TOTAL_ 件中 _START_ ～ _END_ 件を表示しています"
 
 msgid "Signature"
 msgstr "署名"
@@ -720,7 +720,7 @@ msgid "Store successfully deleted"
 msgstr "ストアが正常に削除されました"
 
 msgid "Store successfully saved"
-msgstr "保存が正常に保存されました"
+msgstr "ストアが正常に保存されました"
 
 msgid "Stored card information."
 msgstr "保存されたカード情報。"
@@ -729,16 +729,16 @@ msgid "Stores"
 msgstr "ストア"
 
 msgid "Street"
-msgstr "通り"
+msgstr "番地"
 
 msgid "Stripe settings"
-msgstr "ストライプ設定"
+msgstr "Stripe の設定"
 
 msgid "Subtotal"
 msgstr "小計"
 
 msgid "Subtotal Excl. Tax"
-msgstr "小計を除く 税金"
+msgstr "税抜小計"
 
 msgid "Subtotal before deduction"
 msgstr "控除前の小計"
@@ -759,10 +759,10 @@ msgid "Tax successfully saved"
 msgstr "税金が正常に保存されました"
 
 msgid "Thank you!"
-msgstr "ありがとう！"
+msgstr "ありがとうございます！"
 
 msgid "The clients calculate the change:"
-msgstr "クライアントは変更を計算します。"
+msgstr "お客様側でお釣りを計算します:"
 
 msgid "The delivery method"
 msgstr "配送方法"
@@ -783,13 +783,13 @@ msgid "Time in minutes"
 msgstr "時間 (分)"
 
 msgid "Tip"
-msgstr "ヒント"
+msgstr "チップ"
 
 msgid "Total"
 msgstr "合計"
 
 msgid "Total Excl. Tax"
-msgstr "合計を除きます。 税金"
+msgstr "税抜合計"
 
 msgid "Total Tax"
 msgstr "税金の合計"
@@ -846,7 +846,7 @@ msgid "You did not login."
 msgstr "ログインしていません。"
 
 msgid "You don't have any categories yet"
-msgstr "あなたはまだカテゴリを持っていません"
+msgstr "カテゴリはまだありません"
 
 msgid "You don't have enough points"
 msgstr "十分なポイントがありません"
@@ -864,7 +864,7 @@ msgid "You must be logged in to continue"
 msgstr "続行するにはログインする必要があります"
 
 msgid "You used the code before"
-msgstr "あなたは前にコードを使用しました"
+msgstr "このコードは以前に使用されています"
 
 msgid "Your address"
 msgstr "あなたの住所"
@@ -873,7 +873,7 @@ msgid "Your email address"
 msgstr "メールアドレス"
 
 msgid "Your firstname"
-msgstr "あなたの姓"
+msgstr "あなたの名"
 
 msgid "Your lastname"
 msgstr "あなたの姓"
@@ -882,7 +882,7 @@ msgid "Your phone number"
 msgstr "電話番号"
 
 msgid "e.g., Sauces"
-msgstr "例：ソース"
+msgstr "例：各種ソース"
 
 msgid "(filtered from _MAX_ total entries)"
 msgstr "(_MAX_合計エントリからフィルタ)"

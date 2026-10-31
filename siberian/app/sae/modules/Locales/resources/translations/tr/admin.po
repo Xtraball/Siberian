@@ -17,7 +17,7 @@ msgstr ""
 msgid ""
 "A request to reset your password has been made to log in to your "
 "administration panel."
-msgstr "Yönetim paneli şifrenizi sifirlamak için bir istek yapılmıştır."
+msgstr "Yönetim paneline giriş yapmak için şifrenizi sıfırlama isteği yapılmıştır."
 
 msgid "Access"
 msgstr "Erişim"
@@ -26,7 +26,7 @@ msgid "Account Role"
 msgstr "Hesap Rolü"
 
 msgid "Account role"
-msgstr "Hesap Biçimi"
+msgstr "Hesap rolü"
 
 msgid "Address:"
 msgstr "Adres:"
@@ -47,22 +47,22 @@ msgid "Application"
 msgstr "Uygulama"
 
 msgid "Application have been duplicated successfully."
-msgstr "Uygulama Başarıyla kopyalandı"
+msgstr "Uygulama başarıyla kopyalandı."
 
 msgid "Are you sure you want to delete this application?"
-msgstr "Bu aplikasyonu silmek istediğinize eminmisiniz?"
+msgstr "Bu uygulamayı silmek istediğinizden emin misiniz?"
 
 msgid "Are you sure you want to duplicate this application?"
-msgstr "Bu uygulamayı kopyalamak istediğinizden eminmisiniz?"
+msgstr "Bu uygulamayı kopyalamak istediğinizden emin misiniz?"
 
 msgid "Can add pages"
-msgstr "Sayfa eklenebilir mi"
+msgstr "Sayfa ekleyebilir"
 
 msgid "Can generate APK"
-msgstr "Olabilir oluşturmak MUAYENE"
+msgstr "APK oluşturabilir"
 
 msgid "Can manage guided tour"
-msgstr "Rehber turu yönetebilir"
+msgstr "Rehberli turu yönetebilir"
 
 msgid "Change my password"
 msgstr "Şifremi değiştir"
@@ -74,47 +74,46 @@ msgid "Confirm your password"
 msgstr "Şifrenizi doğrulayın"
 
 msgid "Connect to your backoffice to validate this account."
-msgstr "Bu hesabı doğrulamak için BackOffice bağlanın ."
+msgstr "Bu hesabı doğrulamak için yönetim panelinize bağlanın."
 
 msgid "Create a new application"
-msgstr "Yeni aplikasyon oluşturun"
+msgstr "Yeni bir uygulama oluştur"
 
 msgid "Create a new user"
-msgstr "Yeni kullanıcı oluşturun"
+msgstr "Yeni bir kullanıcı oluştur"
 
 msgid "Created At"
-msgstr "De Oluşturuldu"
+msgstr "Oluşturulma zamanı"
 
 msgid "Created at %s"
-msgstr "%s te oluşturuldu"
+msgstr "%s tarihinde oluşturuldu"
 
 msgid "Do not hesitate to give us your feedback by sharing your needs:"
-msgstr ""
-"İsteklerinizi paylaşarak bize geribildirim göndermek için tereddüt etmeyin:"
+msgstr "İhtiyaçlarınızı paylaşarak bize geri bildirim vermekten çekinmeyin:"
 
 msgid "Edit the account %s"
 msgstr "\"%s\" hesabı düzenle"
 
 msgid "Edit the user %s"
-msgstr "%s kullanıcını düzenle"
+msgstr "%s kullanıcısını düzenle"
 
 msgid "Enjoy!"
-msgstr "Keyfine bak!"
+msgstr "İyi eğlenceler!"
 
 msgid "Filter your apps..."
-msgstr "Uygulamanız filitreleniyor..."
+msgstr "Uygulamalarınızı filtreleyin..."
 
 msgid "Find some advices here:"
-msgstr "Burada bazı tavsiyeler bulun:"
+msgstr "Burada bazı tavsiyeler bulabilirsiniz:"
 
 msgid "From"
-msgstr "Gönderici"
+msgstr "Başlangıç"
 
 msgid "Hello, a new user has registered on your platform : %s."
-msgstr "Merhaba , yeni bir kullanıcı platforma kayıt oldu: % s ."
+msgstr "Merhaba, platformunuza yeni bir kullanıcı kaydoldu: %s."
 
 msgid "Here are your credentials, keep them preciously:"
-msgstr "İşte kimlik bilgileri, lütfen gizli tunun:"
+msgstr "Kimlik bilgileriniz aşağıdadır, lütfen saklayın:"
 
 msgid "List of admin accounts"
 msgstr "Yönetici hesapları listesi"
@@ -126,7 +125,7 @@ msgid "List of your users"
 msgstr "Kullanıcılarınızın listesi"
 
 msgid "Log-in As"
-msgstr "Olarak giriş yapın"
+msgstr "Şu kullanıcı olarak giriş yap"
 
 msgid "Manage access"
 msgstr "Erişimi yönet"
@@ -150,13 +149,13 @@ msgid "Please enter a valid email address."
 msgstr "Lütfen geçerli bir email adresi girin."
 
 msgid "Please, enter an application name"
-msgstr "Lütfen bir aplikasyon ismi girin"
+msgstr "Lütfen bir uygulama adı girin"
 
 msgid "Publication access type"
 msgstr "Yayın erişim tipi"
 
 msgid "Ready to create your own apps?"
-msgstr "Kendi aplikasyonunuzu oluşturmaya hazır mısınız?"
+msgstr "Kendi uygulamalarınızı oluşturmaya hazır mısınız?"
 
 msgid "Role"
 msgstr "Rol"
@@ -180,19 +179,19 @@ msgid "The Support Team"
 msgstr "Destek ekibi"
 
 msgid "The account role is required"
-msgstr "Hesap biçimi gereklidir"
+msgstr "Hesap rolü gereklidir"
 
 msgid "The password and the confirmation does not match."
-msgstr "Doğrulam şifreniz uyuşmuyor."
+msgstr "Şifre ve doğrulaması eşleşmiyor."
 
 msgid "The password must be at least 6 characters."
-msgstr "Şifre en az 6 karekter olmalıdır."
+msgstr "Şifre en az 6 karakter olmalıdır."
 
 msgid "This account is not activated yet. Please contact an administrator."
-msgstr "Bu hesap henüz aktif değildir. Platform yöneticisine başvurun."
+msgstr "Bu hesap henüz etkinleştirilmedi. Lütfen bir yönetici ile iletişime geçin."
 
 msgid "This admin can manage guided tour from editor"
-msgstr "Bu yönetici editör rehberli tur yönetebilir"
+msgstr "Bu yönetici editörden rehberli turu yönetebilir"
 
 msgid "This user has no applications yet."
 msgstr "Bu kullanıcının henüz hiçbir uygulaması mevcut değil"
@@ -207,15 +206,12 @@ msgid "We are sorry but this email address is already used."
 msgstr "Üzgünüz ancak bu email adresi kullanılıyor."
 
 msgid "Welcome!"
-msgstr "Hoşgeldiniz."
+msgstr "Hoş geldiniz!"
 
 msgid ""
 "You are going to love it! Thanks to our effective features, you will be able "
 "to create great mobile apps in your name, within minutes."
-msgstr ""
-"Bunu seveceksiniz,birçok profosyonel aplikasyon özelliğimiz sayesinde kendi "
-"cep telefonu app nizi  birkaç dakika içinde kendi adınızla "
-"oluşturabileceksiniz. "
+msgstr "Bayılacaksınız! Etkili özelliklerimiz sayesinde birkaç dakika içinde kendi adınıza harika mobil uygulamalar oluşturabileceksiniz."
 
 msgid "You can't delete the main account"
 msgstr "Ana hesabı silemezsiniz"

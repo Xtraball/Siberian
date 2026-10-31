@@ -15,20 +15,20 @@ msgstr ""
 "X-Generator: Weblate 3.3\n"
 
 msgid "10 seconds"
-msgstr "segons"
+msgstr "10 segons"
 
 msgid "15 seconds"
-msgstr "segons"
+msgstr "15 segons"
 
 msgid "20 seconds"
-msgstr "segons"
+msgstr "20 segons"
 
 #. machine-translated (2026-10), to be reviewed
 msgid "2Checkout"
 msgstr "2Checkout"
 
 msgid "30 seconds"
-msgstr "segons"
+msgstr "30 segons"
 
 msgid "404, page not found"
 msgstr "404, Pàgina no trobada"
@@ -60,7 +60,7 @@ msgid "Access Management"
 msgstr "Gestió d'accessos"
 
 msgid "Account"
-msgstr "compte"
+msgstr "Compte"
 
 msgid "Accounts"
 msgstr "Comptes"
@@ -123,7 +123,7 @@ msgid "Add new upload extensions."
 msgstr "Afegeix extensions de pujada noves."
 
 msgid "Address"
-msgstr "Direcció"
+msgstr "Adreça"
 
 #. machine-translated (2026-10), to be reviewed
 msgid "Address (more)"
@@ -167,7 +167,7 @@ msgid "Alert: The SSL Certificate %s automatic renewal failed."
 msgstr "Alerta: la renovació automàtica del certificat SSL %s ha fallat."
 
 msgid "Alignment"
-msgstr "alineació:"
+msgstr "Alineació"
 
 #. machine-translated (2026-10), to be reviewed
 msgid "All data"
@@ -196,7 +196,7 @@ msgid "An error occurred during process. Please try again later."
 msgstr "S'ha produït un error durant el procés. Intenta-ho de nou més tard."
 
 msgid "An error occurred during process.<br />Please try again later."
-msgstr "S'ha produït un error durant el procés. Intenta-ho de nou més tard."
+msgstr "S'ha produït un error durant el procés.<br />Intenta-ho de nou més tard."
 
 msgid "An error occurred during the process. Please try again later."
 msgstr "S'ha produït un error durant el procés. Intenta-ho de nou més tard."
@@ -209,10 +209,10 @@ msgid "An error occurred while loading. Please try again later."
 msgstr "S'ha produït un error en carregar. Intenta-ho de nou més tard."
 
 msgid "An error occurred while loading places."
-msgstr "S'ha produït un error en els llocs d'embarcament."
+msgstr "S'ha produït un error en carregar els llocs."
 
 msgid "An error occurred while processing your payment."
-msgstr "Produït un error en suprimir l'esdeveniment"
+msgstr "S'ha produït un error en processar el pagament."
 
 msgid "An error occurred while saving"
 msgstr "S'ha produït un error en desar"
@@ -221,13 +221,10 @@ msgid "An error occurred while saving. Please try again later."
 msgstr "S'ha produït un error en desar. Intenta-ho de nou més tard."
 
 msgid "An error occurred while saving your account. Please try again later."
-msgstr ""
-"S'ha produït un error en desar la vostra compte. Intenta-ho de nou més tard."
+msgstr "S'ha produït un error en desar el vostre compte. Intenta-ho de nou més tard."
 
 msgid "An error occurred while saving your picture. Please try again later."
-msgstr ""
-"S'ha produït un error mentre es desava el teu picto. Si us plau intenti "
-"againg lluita més tard."
+msgstr "S'ha produït un error en desar la imatge. Intenta-ho de nou més tard."
 
 msgid "An error occurred while uploading your file. Please, try again later."
 msgstr ""
@@ -324,25 +321,25 @@ msgid "Applications"
 msgstr "Aplicacions"
 
 msgid "Are you sure you want to delete this admin?"
-msgstr "Esteu segur que voleu suprimir aquest àlbum?"
+msgstr "Esteu segur que voleu suprimir aquest administrador?"
 
 msgid "Are you sure you want to delete this element?"
 msgstr "Segur que vols eliminar aquest element?"
 
 msgid "Are you sure you want to delete this invoice?"
-msgstr "Esteu segur que voleu suprimir aquesta botiga?"
+msgstr "Esteu segur que voleu suprimir aquesta factura?"
 
 msgid "Are you sure you want to delete this subscription?"
-msgstr "Segur que vols eliminar aquesta aplicació?"
+msgstr "Segur que vols eliminar aquesta subscripció?"
 
 msgid "Are you sure you want to remove this account?"
 msgstr "Segur que vols eliminar aquest compte?"
 
 msgid "Artist"
-msgstr "Artista:"
+msgstr "Artista"
 
 msgid "At least, 1 page in the application"
-msgstr "Si més no, 4 pàgines de l'aplicació"
+msgstr "Com a mínim, 1 pàgina a l'aplicació"
 
 #. machine-translated (2026-10), to be reviewed
 msgid ""
@@ -388,7 +385,7 @@ msgid "Average for all users"
 msgstr "Mitjana de tots els usuaris"
 
 msgid "Back"
-msgstr "Esquena"
+msgstr "Enrere"
 
 #. machine-translated (2026-10), to be reviewed
 msgid "Back button icon"
@@ -518,7 +515,7 @@ msgid "Cancel"
 msgstr "Cancel·la"
 
 msgid "Card"
-msgstr "Cistella"
+msgstr "Targeta"
 
 #. machine-translated (2026-10), to be reviewed
 msgid "Card Item"
@@ -529,10 +526,10 @@ msgid "Careful, someone else is working on this application."
 msgstr "Compte, algú més està treballant en aquesta aplicació."
 
 msgid "Cart"
-msgstr "Carro"
+msgstr "Cistella"
 
 msgid "Catalog"
-msgstr "Catàlegs"
+msgstr "Catàleg"
 
 msgid ""
 "Certificate is valid and SSL is reachable, valid until: %s.<br />Issuer: %s%s"
@@ -561,7 +558,7 @@ msgid "Checkbox off"
 msgstr "Casella desmarcada"
 
 msgid "Checkbox on"
-msgstr "Casella de selecció"
+msgstr "Casella de selecció activada"
 
 #. machine-translated (2026-10), to be reviewed
 msgid "Checking Permissions"
@@ -602,20 +599,20 @@ msgid "Click on"
 msgstr "Feu clic a"
 
 msgid "Click on a feature to add it to the folder"
-msgstr "Feu clic a una pàgina per afegir-lo a la carpeta"
+msgstr "Feu clic en una característica per afegir-la a la carpeta"
 
 msgid "Click on a feature to add it to the folder %s"
-msgstr "Feu clic a una pàgina per afegir-lo a la carpeta"
+msgstr "Feu clic en una característica per afegir-la a la carpeta %s"
 
 #. machine-translated (2026-10), to be reviewed
 msgid "Click to import your file"
 msgstr "Feu clic per importar el fitxer"
 
 msgid "Close"
-msgstr "Prop"
+msgstr "Tanca"
 
 msgid "Close mobile display"
-msgstr "A prop display per a mòbils"
+msgstr "Tanca la visualització mòbil"
 
 #. machine-translated (2026-10), to be reviewed
 msgid "CloudFlare is not supported, please use a CNAME."
@@ -686,7 +683,7 @@ msgid "Contact"
 msgstr "Contacte"
 
 msgid "Contact successfully added to your address book"
-msgstr "Poseu-vos en contacte amb agregat amb èxit a la teva llibreta d'adreces"
+msgstr "El contacte s'ha afegit correctament a la vostra llibreta d'adreces"
 
 #. machine-translated (2026-10), to be reviewed
 msgid "Contact us"
@@ -730,7 +727,7 @@ msgid "Create a new account"
 msgstr "Crea un nou compte"
 
 msgid "Create an account"
-msgstr "Crea un nou compte"
+msgstr "Crea un compte"
 
 msgid "Created at"
 msgstr "Creat el"
@@ -754,7 +751,7 @@ msgid "Current status is"
 msgstr "L'estat actual és"
 
 msgid "Custom Page"
-msgstr "Costum pàgina"
+msgstr "Pàgina personalitzada"
 
 #. machine-translated (2026-10), to be reviewed
 msgid "Customization"
@@ -798,7 +795,7 @@ msgid "Date of birth"
 msgstr "Data de naixement"
 
 msgid "Deactivate"
-msgstr "Desactivat"
+msgstr "Desactiva"
 
 #. machine-translated (2026-10), to be reviewed
 msgid "Debug"
@@ -809,7 +806,7 @@ msgid "Debug output"
 msgstr "Sortida de depuració"
 
 msgid "Default Languages"
-msgstr "defecte Idiomes"
+msgstr "Idiomes per defecte"
 
 #. machine-translated (2026-10), to be reviewed
 msgid "Default role for all new users"
@@ -820,7 +817,7 @@ msgid "Default search distance"
 msgstr "Distància de cerca per defecte"
 
 msgid "Delete"
-msgstr "esborrar"
+msgstr "Esborrar"
 
 #. machine-translated (2026-10), to be reviewed
 msgid "Delete a feature"
@@ -842,7 +839,7 @@ msgid "Delivery Cost"
 msgstr "Cost d'enviament"
 
 msgid "Delivery method"
-msgstr "Mètodes de lliurament"
+msgstr "Mètode de lliurament"
 
 msgid "Description"
 msgstr "Descripció"
@@ -909,7 +906,7 @@ msgid "Don't close the app while downloading. This may take a while."
 msgstr "No tanqueu l'aplicació durant la descàrrega. Pot trigar una estona."
 
 msgid "Download APK"
-msgstr "Descarregar"
+msgstr "Descarregar APK"
 
 #. machine-translated (2026-10), to be reviewed
 msgid "Download a copy of my data"
@@ -968,7 +965,7 @@ msgid "Downloading..."
 msgstr "Descarregant..."
 
 msgid "Drop your json here"
-msgstr "Deixar caure el seu logo aquí"
+msgstr "Arrossegueu aquí el vostre json"
 
 #. machine-translated (2026-10), to be reviewed
 msgid "EDIT"
@@ -1011,7 +1008,7 @@ msgid "Element n°"
 msgstr "Element núm."
 
 msgid "Email"
-msgstr "correu electrònic"
+msgstr "Correu electrònic"
 
 msgid "Email address"
 msgstr "Adreça de correu electrònic"
@@ -1025,7 +1022,7 @@ msgid "Enable test API ?"
 msgstr "Activar l'API de prova?"
 
 msgid "End at"
-msgstr "acta Finalitza el"
+msgstr "Finalitza el"
 
 #. machine-translated (2026-10), to be reviewed
 msgid "End tour"
@@ -1057,7 +1054,7 @@ msgid "Event"
 msgstr "Esdeveniment"
 
 msgid "Events"
-msgstr "Esdeveniment"
+msgstr "Esdeveniments"
 
 #. machine-translated (2026-10), to be reviewed
 msgid "Export / Import"
@@ -1070,7 +1067,7 @@ msgid ""
 msgstr "L'exportació / importació de funcionalitats és actualment en beta i només està disponible amb algunes funcionalitats."
 
 msgid "Export your customers"
-msgstr "Exporta els teus clients"
+msgstr "Exporteu els vostres clients"
 
 #. machine-translated (2026-10), to be reviewed
 msgid "Extension"
@@ -1081,7 +1078,7 @@ msgid "Extension can't be empty."
 msgstr "L'extensió no pot ser buida."
 
 msgid "Extension not allowed, '%s' only"
-msgstr "L'extensió no permesa, '%s' només"
+msgstr "Extensió no permesa, només '%s'"
 
 #. machine-translated (2026-10), to be reviewed
 msgid "Extension %s is strictly forbidden."
@@ -1122,22 +1119,22 @@ msgid "Firewall"
 msgstr "Tallafoc"
 
 msgid "First Name"
-msgstr "Nom de pila"
+msgstr "Nom"
 
 msgid "First name"
-msgstr "Nom de pila"
+msgstr "Nom"
 
 msgid "First name / Last name"
 msgstr "Nom / Cognoms"
 
 msgid "Firstname"
-msgstr "Nom De Pila"
+msgstr "Nom"
 
 msgid "Folder"
-msgstr "Carpetes"
+msgstr "Carpeta"
 
 msgid "Folder title is required"
-msgstr "Títol de la carpeta és necessari"
+msgstr "El títol de la carpeta és obligatori"
 
 msgid "Folders"
 msgstr "Carpetes"
@@ -1161,9 +1158,7 @@ msgstr "Heu oblidat la contrasenya?"
 msgid ""
 "Forgot your password? Don't worry! Simply enter your email address and we'll "
 "send you a new one right now."
-msgstr ""
-"Perdut la contrasenya? No et preocupis! Simplement introdueixi la seva "
-"adreça de correu electrònic i li enviarem un nou un ara mateix."
+msgstr "Heu oblidat la contrasenya? No us preocupeu! Introduïu la vostra adreça de correu electrònic i us n'enviarem una de nova ara mateix."
 
 #. machine-translated (2026-10), to be reviewed
 msgid "Form"
@@ -1235,14 +1230,14 @@ msgid "Hello,"
 msgstr "Hola,"
 
 msgid "Here is your new password:"
-msgstr "Aquí està la teva nova contrasenya:"
+msgstr "Aquí està la seva nova contrasenya:"
 
 #. machine-translated (2026-10), to be reviewed
 msgid "Hi. I just found: $1 in the $2 app."
 msgstr "Hola. Acabo de trobar: $1 a l'aplicació $2."
 
 msgid "Hide"
-msgstr "amagar"
+msgstr "Amagar"
 
 #. machine-translated (2026-10), to be reviewed
 msgid "Hide iOS status bar"
@@ -1274,7 +1269,7 @@ msgid ""
 msgstr "Com vol accedir al backoffice si es treu l'únic usuari que queda?"
 
 msgid "ID"
-msgstr "Identificació"
+msgstr "ID"
 
 #. machine-translated (2026-10), to be reviewed
 msgid "IP"
@@ -1305,25 +1300,25 @@ msgid "Image"
 msgstr "Imatge"
 
 msgid "Image not high enough, %spx minimum allowed."
-msgstr "La imatge no prou alta, mínim% SPX permès."
+msgstr "La imatge no és prou alta, mínim %spx permès."
 
 msgid "Image not large enough, '%s' allowed."
-msgstr "La imatge no prou gran, '%s' permès."
+msgstr "La imatge no és prou gran, '%s' permès."
 
 msgid "Image not large enough, %spx minimum allowed."
-msgstr "La imatge no prou gran, mínim% SPX permès."
+msgstr "La imatge no és prou gran, mínim %spx permès."
 
 msgid "Image successfully saved"
-msgstr "Pàgina guardat correctament"
+msgstr "Imatge desada correctament"
 
 msgid "Image too high, %spx maximum allowed."
-msgstr "Imatge massa alta, màxima% SPX permès."
+msgstr "Imatge massa alta, màxim %spx permès."
 
 msgid "Image too large, '%s' allowed."
 msgstr "Imatge massa gran, '%s' permès."
 
 msgid "Image too large, %spx maximum allowed."
-msgstr "Imatge massa gran, màxim% SPX permès."
+msgstr "Imatge massa gran, màxim %spx permès."
 
 #. machine-translated (2026-10), to be reviewed
 msgid "Images"
@@ -1364,9 +1359,7 @@ msgstr "Importa yml"
 msgid ""
 "In order to fully enjoy our features, we encourage you to use at least:.<br "
 "/>"
-msgstr ""
-"Per tal de gaudir plenament de les nostres característiques, us recomanem "
-"que utilitzeu almenys:. <br />"
+msgstr "Per gaudir plenament de les nostres característiques, us recomanem que utilitzeu almenys:.<br />"
 
 #. machine-translated (2026-10), to be reviewed
 msgid "In order to publish your application, we need:"
@@ -1377,20 +1370,20 @@ msgid "In order to use global push notifications your app must be published."
 msgstr "Per utilitzar les notificacions push globals, l'aplicació ha d'estar publicada."
 
 msgid "Incorrect filetype."
-msgstr "Filetype incorrecta"
+msgstr "Tipus de fitxer incorrecte."
 
 #. machine-translated (2026-10), to be reviewed
 msgid "Info"
 msgstr "Informació"
 
 msgid "Info successfully saved"
-msgstr "Info guardat correctament"
+msgstr "Info desada correctament"
 
 msgid "Information"
 msgstr "Informació"
 
 msgid "Infos successfully saved"
-msgstr "Infos guardat correctament"
+msgstr "Infos desades correctament"
 
 #. machine-translated (2026-10), to be reviewed
 msgid "Inherit global layout"
@@ -1519,16 +1512,16 @@ msgid "Let your users know what is locked"
 msgstr "Feu saber als usuaris què està bloquejat"
 
 msgid "Like"
-msgstr "gusta"
+msgstr "M'agrada"
 
 msgid "Likes"
-msgstr "gustos"
+msgstr "M'agrada"
 
 msgid "Link"
-msgstr "enllaç"
+msgstr "Enllaç"
 
 msgid "Links"
-msgstr "enllaç"
+msgstr "Enllaços"
 
 #. machine-translated (2026-10), to be reviewed
 msgid "Links are now re-ordered!"
@@ -1543,16 +1536,16 @@ msgid "List Item"
 msgstr "Element de llista"
 
 msgid "List of your invoices"
-msgstr "Llista dels vostres papers"
+msgstr "Llista de les vostres factures"
 
 msgid "Load More"
-msgstr "carregar més"
+msgstr "Carregar més"
 
 msgid "Loading"
 msgstr "Carregant"
 
 msgid "Loading picture"
-msgstr "Carregant imatge:"
+msgstr "Carregant imatge"
 
 #. machine-translated (2026-10), to be reviewed
 msgid "Local APK Generator"
@@ -1587,10 +1580,10 @@ msgid "Login to access your data"
 msgstr "Inicieu la sessió per accedir a les vostres dades"
 
 msgid "Login to your admin interface"
-msgstr "Accedeix al teu interfície de backoffice"
+msgstr "Accediu a la vostra interfície d'administració"
 
 msgid "Log-out"
-msgstr "Fi de sessió"
+msgstr "Tanca la sessió"
 
 #. machine-translated (2026-10), to be reviewed
 msgid "Loyalty Card"
@@ -1610,10 +1603,10 @@ msgid "MM.dd.y"
 msgstr ""
 
 msgid "MM.dd.y 'at' HH:mm a"
-msgstr "MM / dd / aa 'a' hh: mm 1"
+msgstr "dd.MM.y 'a les' hh:mm a"
 
 msgid "MM/dd/y 'at' hh:mm a"
-msgstr "MM / dd / aa 'a' hh: mm 1"
+msgstr "dd/MM/y 'a les' hh:mm a"
 
 msgid "MM/dd/y hh:mm a"
 msgstr "Dd / mm / hh: mm I un"
@@ -1644,7 +1637,7 @@ msgid "Main hostname"
 msgstr "Nom d'amfitrió principal"
 
 msgid "Make this image colorizable"
-msgstr "Feu aquesta colorizable"
+msgstr "Permet acolorir aquesta imatge"
 
 msgid "Manage"
 msgstr "Gestionar"
@@ -1676,13 +1669,13 @@ msgid "Mcommerce"
 msgstr "Mcommerce"
 
 msgid "Media"
-msgstr "Mitjans de comunicació"
+msgstr "Multimèdia"
 
 msgid "Message"
 msgstr "Missatge"
 
 msgid "Message from your app %s"
-msgstr "Missatge de la seva aplicació%s"
+msgstr "Missatge de la vostra aplicació %s"
 
 msgid "Messages"
 msgstr "Missatges"
@@ -1708,7 +1701,7 @@ msgid "Migrate sessions to Redis"
 msgstr "Migra les sessions a Redis"
 
 msgid "Misc"
-msgstr "Senyoreta"
+msgstr "Diversos"
 
 #. machine-translated (2026-10), to be reviewed
 msgid "Missing appId"
@@ -1739,7 +1732,7 @@ msgid "Missing values"
 msgstr "Falten valors"
 
 msgid "Mobile display"
-msgstr "Display per a mòbils"
+msgstr "Visualització mòbil"
 
 #. machine-translated (2026-10), to be reviewed
 msgid "Modal"
@@ -1761,7 +1754,7 @@ msgid "Monthly"
 msgstr "Mensual"
 
 msgid "More"
-msgstr "més"
+msgstr "Més"
 
 #. machine-translated (2026-10), to be reviewed
 msgid "My Users List"
@@ -1775,7 +1768,7 @@ msgid "My custom template"
 msgstr "La meva plantilla personalitzada"
 
 msgid "My invoices"
-msgstr "Els meus factures"
+msgstr "Les meves factures"
 
 #. machine-translated (2026-10), to be reviewed
 msgid "MyTemplate"
@@ -1812,7 +1805,7 @@ msgid "Never"
 msgstr "Mai"
 
 msgid "New"
-msgstr "nou"
+msgstr "Nou"
 
 msgid "New folder"
 msgstr "Carpeta nova"
@@ -1822,14 +1815,14 @@ msgid "New format"
 msgstr "Format nou"
 
 msgid "New password"
-msgstr "la contrasenya"
+msgstr "Nova contrasenya"
 
 #. machine-translated (2026-10), to be reviewed
 msgid "New positions are missing."
 msgstr "Falten les posicions noves."
 
 msgid "New subfolder"
-msgstr "Carpeta nova"
+msgstr "Nova subcarpeta"
 
 #. machine-translated (2026-10), to be reviewed
 msgid "Newswall"
@@ -1846,7 +1839,7 @@ msgid "No Results"
 msgstr "Cap resultat"
 
 msgid "No address to display on map."
-msgstr "No hi ha direcció per mostrar al mapa."
+msgstr "Cap adreça per mostrar al mapa."
 
 #. machine-translated (2026-10), to be reviewed
 msgid "No data for this metrics for now."
@@ -1877,7 +1870,7 @@ msgid "No modules"
 msgstr "Cap mòdul"
 
 msgid "No place to display on map."
-msgstr "No hi ha lloc per mostrar al mapa."
+msgstr "Cap lloc per mostrar al mapa."
 
 #. machine-translated (2026-10), to be reviewed
 msgid "No profile found. Please create one in Settings tab."
@@ -1921,10 +1914,10 @@ msgid "Nothing to display."
 msgstr "Res a mostrar."
 
 msgid "Number"
-msgstr "nombre"
+msgstr "Nombre"
 
 msgid "Number of people"
-msgstr "El nombre de persones"
+msgstr "Nombre de persones"
 
 #. machine-translated (2026-10), to be reviewed
 msgid "Number of reward used"
@@ -1934,7 +1927,7 @@ msgid "OK"
 msgstr "OK"
 
 msgid "OR"
-msgstr "QR"
+msgstr "O"
 
 #. machine-translated (2026-10), to be reviewed
 msgid "Offline Payment"
@@ -1945,7 +1938,7 @@ msgid "Offline content"
 msgstr "Contingut fora de línia"
 
 msgid "Old Password"
-msgstr "Contrasenya de clau"
+msgstr "Contrasenya antiga"
 
 #. machine-translated (2026-10), to be reviewed
 msgid "Only active"
@@ -1972,14 +1965,14 @@ msgid "Open settings"
 msgstr "Obre la configuració"
 
 msgid "Options"
-msgstr "Opció"
+msgstr "Opcions"
 
 #. machine-translated (2026-10), to be reviewed
 msgid "Or do you want to return to editor?"
 msgstr "O voleu tornar a l'editor?"
 
 msgid "Order"
-msgstr "Comandes"
+msgstr "Comanda"
 
 #. machine-translated (2026-10), to be reviewed
 msgid "Order date"
@@ -1990,7 +1983,7 @@ msgid "Origin"
 msgstr "Origen"
 
 msgid "Ouch, this page doesn't exist"
-msgstr "Títol"
+msgstr "Ups, aquesta pàgina no existeix"
 
 #. machine-translated (2026-10), to be reviewed
 msgid "Override layout"
@@ -2013,14 +2006,14 @@ msgid "Page settings"
 msgstr "Configuració de la pàgina"
 
 msgid "Paid At"
-msgstr "Pagament a:"
+msgstr "Pagat el"
 
 #. machine-translated (2026-10), to be reviewed
 msgid "Paid amount"
 msgstr "Import pagat"
 
 msgid "Paid at"
-msgstr "Pagament a:"
+msgstr "Pagat el"
 
 #. machine-translated (2026-10), to be reviewed
 msgid "Parent"
@@ -2045,10 +2038,10 @@ msgid "PayPal Express Checkout"
 msgstr "PayPal Express Checkout"
 
 msgid "Payment"
-msgstr "pagament"
+msgstr "Pagament"
 
 msgid "Payment ID"
-msgstr "Pagament"
+msgstr "ID de pagament"
 
 msgid "Payment Method"
 msgstr "Forma de pagament"
@@ -2057,7 +2050,7 @@ msgid "Payment method"
 msgstr "Forma de pagament"
 
 msgid "Payments"
-msgstr "Pagament"
+msgstr "Pagaments"
 
 #. machine-translated (2026-10), to be reviewed
 msgid "Permissions"
@@ -2068,14 +2061,14 @@ msgid "Personal data"
 msgstr "Dades personals"
 
 msgid "Phone"
-msgstr "telèfon"
+msgstr "Telèfon"
 
 #. machine-translated (2026-10), to be reviewed
 msgid "Phone and/or E-mail"
 msgstr "Telèfon i/o correu electrònic"
 
 msgid "Photos"
-msgstr "fotos"
+msgstr "Fotos"
 
 #. machine-translated (2026-10), to be reviewed
 msgid "Place disabled"
@@ -2090,7 +2083,7 @@ msgid "Plain"
 msgstr "Senzill"
 
 msgid "Plans"
-msgstr "plans"
+msgstr "Plans"
 
 #. machine-translated (2026-10), to be reviewed
 msgid "Platform"
@@ -2100,10 +2093,10 @@ msgid "Platform Name"
 msgstr "Nom de la plataforma"
 
 msgid "Platform hostname"
-msgstr "Nom de la plataforma"
+msgstr "Nom d'amfitrió de la plataforma"
 
 msgid "Player"
-msgstr "Jugador Si us plau,"
+msgstr "Jugador"
 
 #. machine-translated (2026-10), to be reviewed
 msgid "Please create the API keys to enable this feature."
@@ -2119,10 +2112,10 @@ msgid "Please enter a valid URL."
 msgstr "Si us plau introdueixi una URL vàlida."
 
 msgid "Please enter a valid credit card number."
-msgstr "Si us plau, introduïu un número de targeta de crèdit vàlida."
+msgstr "Si us plau, introduïu un número de targeta de crèdit vàlid."
 
 msgid "Please, enter a valid date"
-msgstr "defecte Idiomes"
+msgstr "Si us plau, introduïu una data vàlida"
 
 msgid "Please enter a valid date (ISO)."
 msgstr "Si us plau, introduïu una data vàlida (ISO)."
@@ -2131,7 +2124,7 @@ msgid "Please enter a valid email address"
 msgstr "Si us plau, introduïu una adreça electrònica vàlida"
 
 msgid "Please enter a valid number."
-msgstr "Posa un nombre vàlid."
+msgstr "Introduïu un número vàlid."
 
 msgid "Please enter a valid url"
 msgstr "Introduïu un URL vàlid"
@@ -2146,22 +2139,13 @@ msgid "Please enter a value greater than or equal to {0}."
 msgstr "introduïu un valor major o igual a {0}."
 
 msgid "Please enter a value less than or equal to {0}."
-msgstr ""
-"Escribe texto o la dirección de un sitio web, o bien, traduce un documento. "
-"Pot carregar una icona únic (.ico i .png). Introduïu la vostra adreça de "
-"correu electrònic Aquesta secció està desbloquejat per a usuaris mòbils "
-"només Contrasenya La mida de la imatge '%s' no podia ser detectat. títols "
-"Oregon Següent Utilitzeu aquest cupó Text Impost No s'ha pogut calcular la "
-"ruta. Aquest administrador no existeix Si us plau, ompli els següents camps: "
-"Validar Vostè ha de compartir la seva ubicació per accedir a aquesta pàgina. "
-"Introduïu una contrasenya. Si us plau, introduïu un valor menor o igual a "
-"{0}."
+msgstr "Si us plau, introduïu un valor menor o igual a {0}."
 
 msgid "Please enter at least {0} characters."
 msgstr "Introduïu almenys {0} caràcters."
 
 msgid "Please enter no more than {0} characters."
-msgstr "Si us plau ingressi no més de {0} caràcters."
+msgstr "Si us plau, introduïu un màxim de {0} caràcters."
 
 msgid "Please enter only digits."
 msgstr "Introduïu només dígits."
@@ -2182,7 +2166,7 @@ msgid "Please fix this field."
 msgstr "Si us plau, corregeixi aquest camp."
 
 msgid "Please log in."
-msgstr "Si us plau connecti."
+msgstr "Si us plau, inicieu la sessió."
 
 #. machine-translated (2026-10), to be reviewed
 msgid ""
@@ -2212,16 +2196,16 @@ msgid "Podcast"
 msgstr "podcast"
 
 msgid "Podcast URL"
-msgstr "URL Podcast:"
+msgstr "URL del podcast"
 
 msgid "Podcast URL (iTunes format)"
-msgstr "Podcast URL (format de iTunes) imatge"
+msgstr "URL del podcast (format iTunes)"
 
 msgid "Podcast type is invalid or can't be found"
-msgstr "Tipus d'Podcast és vàlid o no es pot trobar"
+msgstr "El tipus de podcast no és vàlid o no es pot trobar"
 
 msgid "Port"
-msgstr "lloc"
+msgstr "Port"
 
 #. machine-translated (2026-10), to be reviewed
 msgid "Port, example: 3310"
@@ -2232,14 +2216,14 @@ msgid "Position Menu"
 msgstr "Posició del menú"
 
 msgid "Postcode"
-msgstr "codi postal"
+msgstr "Codi postal"
 
 #. machine-translated (2026-10), to be reviewed
 msgid "Previewer"
 msgstr "Previewer"
 
 msgid "Previews"
-msgstr "Preestrena"
+msgstr "Previsualitzacions"
 
 #. machine-translated (2026-10), to be reviewed
 msgid "Privacy"
@@ -2266,7 +2250,7 @@ msgid "Privacy settings"
 msgstr "Configuració de privacitat"
 
 msgid "Products"
-msgstr "producte"
+msgstr "Productes"
 
 #. machine-translated (2026-10), to be reviewed
 msgid "Profile"
@@ -2289,10 +2273,10 @@ msgid "Publishable Key"
 msgstr "Clau publicable"
 
 msgid "Push"
-msgstr "Empènyer"
+msgstr "Push"
 
 msgid "Push Notifications"
-msgstr "Notificacions d'empenta"
+msgstr "Notificacions push"
 
 #. machine-translated (2026-10), to be reviewed
 msgid "Push message"
@@ -2307,7 +2291,7 @@ msgid "Push notification"
 msgstr "Notificació push"
 
 msgid "Push notifications"
-msgstr "Notificacions d'empenta"
+msgstr "Notificacions push"
 
 #. machine-translated (2026-10), to be reviewed
 msgid ""
@@ -2354,7 +2338,7 @@ msgid "Remove"
 msgstr "Elimina"
 
 msgid "Remove this page from this folder?"
-msgstr "Eliminar a aquesta pàgina des d'aquesta carpeta?"
+msgstr "Eliminar aquesta pàgina d'aquesta carpeta?"
 
 #. machine-translated (2026-10), to be reviewed
 msgid "Remove this step"
@@ -2403,7 +2387,7 @@ msgid "Right"
 msgstr "Dreta"
 
 msgid "Roles"
-msgstr "regles"
+msgstr "Rols"
 
 #. machine-translated (2026-10), to be reviewed
 msgid "Rss"
@@ -2422,7 +2406,7 @@ msgid "Run Android SDK update"
 msgstr "Executa l'actualització de l'SDK d'Android"
 
 msgid "SCSS successfully saved"
-msgstr "Botiga salvat correctament"
+msgstr "SCSS desat correctament"
 
 #. machine-translated (2026-10), to be reviewed
 msgid "SELF-ASSIGNABLE"
@@ -2585,7 +2569,7 @@ msgid "Send to all applications."
 msgstr "Envia a totes les aplicacions."
 
 msgid "Send your pictures"
-msgstr "Envia les teves imatges"
+msgstr "Envieu les vostres imatges"
 
 #. machine-translated (2026-10), to be reviewed
 msgid "Sender ID"
@@ -2639,7 +2623,7 @@ msgid "Show search field"
 msgstr "Mostra el camp de cerca"
 
 msgid "Show title"
-msgstr "Article Mostra"
+msgstr "Mostrar el títol"
 
 #. machine-translated (2026-10), to be reviewed
 msgid "Siberian current installation path"
@@ -2650,7 +2634,7 @@ msgid "Siberian domain"
 msgstr "Domini de Siberian"
 
 msgid "Siberian informations"
-msgstr "Informació general"
+msgstr "Informació de Siberian"
 
 #. machine-translated (2026-10), to be reviewed
 msgid ""
@@ -2803,26 +2787,26 @@ msgid "Text"
 msgstr "Text"
 
 msgid "Thank you"
-msgstr "Gràcies!"
+msgstr "Gràcies"
 
 msgid "Thank you for your request.<br />We'll answer you as soon as possible."
-msgstr "Gràcies per la seva sol·licitud. Li contestarem el més aviat possible."
+msgstr "Gràcies per la seva sol·licitud.<br />Li contestarem el més aviat possible."
 
 msgid "The account has been successfully saved"
 msgstr "El compte s'ha desat correctament"
 
 msgid "The address you're looking for does not exists."
-msgstr "L'adreça que busques fa no existeix."
+msgstr "L'adreça que busqueu no existeix."
 
 msgid "The admin_id is required"
-msgstr "Es requereix que el camp de"
+msgstr "L'admin_id és obligatori"
 
 #. machine-translated (2026-10), to be reviewed
 msgid "The admin_id parameter is required"
 msgstr "El paràmetre admin_id és obligatori"
 
 msgid "The app_id is required"
-msgstr "Es requereix que el camp de"
+msgstr "L'app_id és obligatori"
 
 #. machine-translated (2026-10), to be reviewed
 msgid "The app_id parameter is required"
@@ -2836,26 +2820,26 @@ msgid ""
 msgstr "La sol·licitud del certificat ha fallat 3 vegades; comproveu la informació del certificat, les credencials del panell i tota la resta.<br />Si el certificat és vàlid, podeu provar de pujar-lo només al panell."
 
 msgid "The email is required"
-msgstr "L'e-mail s'exigeix"
+msgstr "El correu electrònic és obligatori"
 
 #. machine-translated (2026-10), to be reviewed
 msgid "The entered text mismatch"
 msgstr "El text introduït no coincideix"
 
 msgid "The file '%s' does not exist"
-msgstr "El fitxer \"%s\" no existeix"
+msgstr "El fitxer '%s' no existeix"
 
 msgid "The image '%s' does not exist"
-msgstr "La imatge de '%s' no existeix"
+msgstr "La imatge '%s' no existeix"
 
 msgid "The image size '%s' could not be detected."
-msgstr "La mida de la imatge '%s' no podia ser detectat."
+msgstr "No s'ha pogut detectar la mida de la imatge '%s'."
 
 msgid "The name is required"
-msgstr "L'e-mail s'exigeix"
+msgstr "El nom és obligatori"
 
 msgid "The old password does not match the entered password."
-msgstr "La contrasenya vella no coincideix amb la contrasenya introduïda."
+msgstr "La contrasenya antiga no coincideix amb la contrasenya introduïda."
 
 msgid "The password is required"
 msgstr "La contrasenya és necessària"
@@ -2866,19 +2850,17 @@ msgstr "La contrasenya ha de tenir com a mínim 6 caràcters"
 msgid ""
 "The payment has been cancelled, something wrong happened? Feel free to "
 "contact us."
-msgstr ""
-"El pagament ha estat cancel·lada, va passar una cosa malament? No dubti en "
-"contactar amb nosaltres."
+msgstr "El pagament s'ha cancel·lat, ha passat alguna cosa? No dubti en contactar amb nosaltres."
 
 #. machine-translated (2026-10), to be reviewed
 msgid "The sent request is empty."
 msgstr "La sol·licitud enviada és buida."
 
 msgid "The user_id is required"
-msgstr "Es requereix que el camp de"
+msgstr "L'user_id és obligatori"
 
 msgid "The value_id is required."
-msgstr "Es requereix que el camp de"
+msgstr "El value_id és obligatori."
 
 #. machine-translated (2026-10), to be reviewed
 msgid "This URL is already used"
@@ -2910,7 +2892,7 @@ msgid "This code is unrecognized"
 msgstr "Aquest codi no es reconeix"
 
 msgid "This email address does not exist"
-msgstr "No existeix l'adreça electrònica"
+msgstr "Aquesta adreça de correu electrònic no existeix"
 
 msgid "This email address is already used"
 msgstr "Aquesta adreça de correu electrònic ja està en ús"
@@ -2951,7 +2933,7 @@ msgid "This plan is an offline plan."
 msgstr "Aquest pla és un pla fora de línia."
 
 msgid "This section is unlocked for mobile users only"
-msgstr "Aquesta secció està desbloquejat per a usuaris mòbils només"
+msgstr "Aquesta secció només està desbloquejada per als usuaris mòbils"
 
 #. machine-translated (2026-10), to be reviewed
 msgid "This will open the code scan camera on your device."
@@ -3049,7 +3031,7 @@ msgid "Total"
 msgstr "Total"
 
 msgid "Total Excl. Tax"
-msgstr "L'impost total excl."
+msgstr "Total sense impostos"
 
 #. machine-translated (2026-10), to be reviewed
 msgid "Total installs"
@@ -3060,7 +3042,7 @@ msgid "Total sales"
 msgstr "Vendes totals"
 
 msgid "Total visits"
-msgstr "Visites globals"
+msgstr "Visites totals"
 
 #. machine-translated (2026-10), to be reviewed
 msgid "Tour"
@@ -3071,7 +3053,7 @@ msgid "Tour Edition"
 msgstr "Edició de la visita"
 
 msgid "Translation"
-msgstr "Traduccions"
+msgstr "Traducció"
 
 msgid "Translations"
 msgstr "Traduccions"
@@ -3080,7 +3062,7 @@ msgid "URL"
 msgstr "URL"
 
 msgid "Unable to add the contact to your address book"
-msgstr "Incapaç d'afegir el contacte a la llibreta d'adreces"
+msgstr "No s'ha pogut afegir el contacte a la llibreta d'adreces"
 
 msgid "Unable to calculate the route."
 msgstr "No s'ha pogut calcular la ruta."
@@ -3096,7 +3078,7 @@ msgid "Unable to find TC with id %s."
 msgstr "No es pot trobar el TC amb id %s."
 
 msgid "Unable to save image"
-msgstr "Incapaç de salvar imatge"
+msgstr "No s'ha pogut desar la imatge"
 
 msgid "Unrecognized image format"
 msgstr "Format d'imatge no reconegut"
@@ -3106,7 +3088,7 @@ msgid "Until:"
 msgstr "Fins a:"
 
 msgid "Updated at"
-msgstr "imatge actualitzat a"
+msgstr "Actualitzat el"
 
 #. machine-translated (2026-10), to be reviewed
 msgid "Upload to panel"
@@ -3173,10 +3155,10 @@ msgid "Version %s"
 msgstr "Versió %s"
 
 msgid "Video"
-msgstr "Vimeo"
+msgstr "Vídeo"
 
 msgid "Video URL"
-msgstr "URL de vídeo:"
+msgstr "URL del vídeo"
 
 #. machine-translated (2026-10), to be reviewed
 msgid "Videos"
@@ -3216,7 +3198,7 @@ msgid "We are sorry but this email address already exists."
 msgstr "Ho sentim però aquesta adreça electrònica ja existeix."
 
 msgid "We are sorry but this username already exists."
-msgstr "Ho sentim però aquesta adreça electrònica ja existeix."
+msgstr "Ho sentim, però aquest nom d'usuari ja existeix."
 
 #. machine-translated (2026-10), to be reviewed
 msgid "Web folder Owner"
@@ -3277,14 +3259,14 @@ msgid "Yes"
 msgstr "Sí"
 
 msgid "You already have this user in your contact"
-msgstr "Ja teniu aquest usuari en el seu contacte"
+msgstr "Ja teniu aquest usuari als vostres contactes"
 
 #. machine-translated (2026-10), to be reviewed
 msgid "You are about to delete this certificate, Are you sure ?"
 msgstr "Esteu a punt de suprimir aquest certificat. Esteu segur?"
 
 msgid "You are gone offline"
-msgstr "Vostè s'ha anat fora de línia"
+msgstr "Heu quedat fora de línia"
 
 #. machine-translated (2026-10), to be reviewed
 msgid "You are not allowed to delete a feature!"
@@ -3318,7 +3300,7 @@ msgid "You can globally disable a feature!"
 msgstr "Podeu desactivar una funcionalitat globalment!"
 
 msgid "You can upload a pem certificate only."
-msgstr "Pot carregar un certificat pem només."
+msgstr "Només podeu carregar un certificat pem."
 
 #. machine-translated (2026-10), to be reviewed
 msgid "You can upload a png only (.png)."
@@ -3328,16 +3310,16 @@ msgid "You can upload a zip archive only."
 msgstr "Només pot carregar un fitxer zip."
 
 msgid "You can upload an icon only (.ico and .png)."
-msgstr "Pot carregar una icona únic (.ico i .png)."
+msgstr "Només podeu carregar una icona (.ico i .png)."
 
 msgid "You can upload an image only (.jpg, .jpeg, .gif and .png)."
-msgstr "Pots pujar una imatge única (.jpg, .jpeg, .gif i .png)."
+msgstr "Només podeu pujar una imatge (.jpg, .jpeg, .gif i .png)."
 
 msgid "You cannot add this feature"
 msgstr "No podeu afegir aquesta característica"
 
 msgid "You can't upload more than one file at a time."
-msgstr "No pot carregar més d'un arxiu alhora."
+msgstr "No podeu carregar més d'un arxiu alhora."
 
 #. machine-translated (2026-10), to be reviewed
 msgid "You current working environment is"
@@ -3347,20 +3329,20 @@ msgid "You don't have any applications yet"
 msgstr "No té cap aplicació encara"
 
 msgid "You don't have any invoices yet"
-msgstr "No té cap usuari encara"
+msgstr "Encara no teniu cap factura"
 
 msgid "You have gone offline"
-msgstr "Vostè s'ha anat fora de línia"
+msgstr "Heu quedat fora de línia"
 
 #. machine-translated (2026-10), to be reviewed
 msgid "You have to chose a start and an end date."
 msgstr "Heu de triar una data d'inici i una de finalització."
 
 msgid "You must be logged in to like something!"
-msgstr "Vostè estar enregistat per validar punts"
+msgstr "Heu d'iniciar sessió per fer m'agrada!"
 
 msgid "You must be logged in to post a comment"
-msgstr "Has d'iniciar sessió per escriure un comentari"
+msgstr "Heu d'iniciar sessió per publicar un comentari"
 
 #. machine-translated (2026-10), to be reviewed
 msgid "You must fill ip & port."
@@ -3371,15 +3353,13 @@ msgstr "Primer heu de completar el procés de creació de categoria actual"
 
 msgid ""
 "You must give the permission to the app to add a contact to your address book"
-msgstr ""
-"Vostè ha de donar el permís a l'app per afegir un contacte a la llibreta "
-"d'adreces"
+msgstr "Heu de donar permís a l'aplicació per afegir un contacte a la vostra llibreta d'adreces"
 
 msgid "You must share your location to access this page."
-msgstr "Vostè ha de compartir la seva ubicació per accedir a aquesta pàgina."
+msgstr "Heu de compartir la vostra ubicació per accedir a aquesta pàgina."
 
 msgid "You will lose all unsaved changes, continue?"
-msgstr "Vostè es perd tots els canvis no desats, continuar?"
+msgstr "Perdreu tots els canvis no desats, voleu continuar?"
 
 #. machine-translated (2026-10), to be reviewed
 msgid "Your PHP version is too old, please upgrade to PHP 5.4+."
@@ -3398,22 +3378,20 @@ msgid "Your are not allowed to assign this role."
 msgstr "No teniu permís per assignar aquest rol."
 
 msgid "Your browser is too old to view the content of our website.<br />"
-msgstr ""
-"El vostre navegador és massa vell per veure el contingut del nostre lloc "
-"web. < br / >"
+msgstr "El vostre navegador és massa antic per veure el contingut del nostre lloc web.<br />"
 
 #. machine-translated (2026-10), to be reviewed
 msgid "Your build should be ready"
 msgstr "La compilació hauria d'estar a punt"
 
 msgid "Your comment"
-msgstr "El teu comentari"
+msgstr "El vostre comentari"
 
 msgid "Your email address"
-msgstr "L'adreça electrònica"
+msgstr "La vostra adreça de correu electrònic"
 
 msgid "Your email address does not exist"
-msgstr "No existeix l'adreça electrònica"
+msgstr "La vostra adreça de correu electrònic no existeix"
 
 #. machine-translated (2026-10), to be reviewed
 msgid "Your invoice has been edited successfully."
@@ -3423,8 +3401,7 @@ msgid "Your name"
 msgstr "El seu nom"
 
 msgid "Your new password has been sent to the entered email address"
-msgstr ""
-"La seva nova contrasenya ha estat enviada a l'adreça de correu electrònic"
+msgstr "La seva nova contrasenya ha estat enviada a l'adreça de correu electrònic introduïda"
 
 msgid "Your password does not match the entered password."
 msgstr "La contrasenya no coincideix amb la contrasenya introduïda."
@@ -3447,7 +3424,7 @@ msgid "Youtube"
 msgstr "YouTube"
 
 msgid "Zip code"
-msgstr "codi postal"
+msgstr "Codi postal"
 
 #. machine-translated (2026-10), to be reviewed
 msgid "average"
@@ -3458,7 +3435,7 @@ msgid "be careful or set it back to"
 msgstr "aneu amb compte o torneu-lo a"
 
 msgid "close"
-msgstr "Prop"
+msgstr "tancar"
 
 #. machine-translated (2026-10), to be reviewed
 msgid "confirm action, deletion, etc ..."
@@ -3472,7 +3449,7 @@ msgid "day"
 msgstr "dia"
 
 msgid "days"
-msgstr "dia"
+msgstr "dies"
 
 #. machine-translated (2026-10), to be reviewed
 msgid "disabled"
@@ -3557,7 +3534,7 @@ msgid "is updated once a day"
 msgstr "s'actualitza un cop al dia"
 
 msgid "loading"
-msgstr "loading"
+msgstr "carregant"
 
 #. machine-translated (2026-10), to be reviewed
 msgid "low"
@@ -3571,7 +3548,7 @@ msgid "minute"
 msgstr "minut"
 
 msgid "minutes"
-msgstr "minutes"
+msgstr "minuts"
 
 #. machine-translated (2026-10), to be reviewed
 msgid "nd"
@@ -3608,7 +3585,7 @@ msgid "%s / Year"
 msgstr "%s / any"
 
 msgid "%s An unknown error occurred, please try again later."
-msgstr "S'ha produït un error en desar. Intenta-ho de nou més tard."
+msgstr "%s S'ha produït un error desconegut. Intenta-ho de nou més tard."
 
 #. machine-translated (2026-10), to be reviewed
 msgid "%s Image"

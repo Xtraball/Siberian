@@ -54,7 +54,7 @@ msgid "Admin panel type"
 msgstr "管理パネルの種類"
 
 msgid "Advanced"
-msgstr "[詳細]"
+msgstr "詳細"
 
 msgid "Alert: The APK build for the Application: %s (%s) is stuck for more than one hour."
 msgstr "警告:アプリケーション:%s (%s) の APK ビルドが 1 時間以上スタックしています。"
@@ -81,7 +81,7 @@ msgid "An unknown error occured while issueing your certificate."
 msgstr "証明書の発行中に不明なエラーが発生しました。"
 
 msgid "Android SDK:"
-msgstr "アンドロイド SDK:"
+msgstr "Android SDK:"
 
 msgid "App name"
 msgstr "アプリ名"
@@ -90,13 +90,13 @@ msgid "Application settings"
 msgstr "アプリケーション設定"
 
 msgid "Application successfully queued for generation."
-msgstr "アプリケーションは生成のキューに成功しました。"
+msgstr "アプリケーションの生成がキューに追加されました。"
 
 msgid "Applications/Previewer manifest for automatic updates."
 msgstr "自動更新のためのアプリケーション/プレビューアのマニフェスト。"
 
 msgid "Are you sure ?"
-msgstr "本気か？"
+msgstr "よろしいですか？"
 
 msgid "Auth type"
 msgstr "認証タイプ"
@@ -132,7 +132,7 @@ msgid "By clicking on link below, you will open your editor in tour editing mode
 msgstr "下のリンクをクリックすると、ツアー編集モードでエディタが開きます。 ユーザーアカウントはエディタ側で作成する必要があります。"
 
 msgid "CA"
-msgstr "カリフォルニア州"
+msgstr "CA"
 
 msgid "CA certificate"
 msgstr "認証局証明書"
@@ -147,13 +147,13 @@ msgid "Cache cleared"
 msgstr "キャッシュがクリアされました"
 
 msgid "Cache (var/cache, system cache)"
-msgstr "キャッシュ（変数/キャッシュ、システムキャッシュ）"
+msgstr "キャッシュ (var/cache、システムキャッシュ)"
 
 msgid "Can generate APK"
 msgstr "APK を生成できます。"
 
 msgid "Cert"
-msgstr "「証明書"
+msgstr "証明書"
 
 msgid "Certificate"
 msgstr "証明書"
@@ -231,13 +231,13 @@ msgid "Creation date"
 msgstr "作成日"
 
 msgid "Cron"
-msgstr "クロン"
+msgstr "Cron"
 
 msgid "Cron alerts"
 msgstr "Cronアラート"
 
 msgid "Cron interval"
-msgstr "クロン (数学)"
+msgstr "Cron 間隔"
 
 msgid "Cron scheduler"
 msgstr "Cronスケジューラ"
@@ -264,25 +264,25 @@ msgid "Development"
 msgstr "開発"
 
 msgid "DirectAdmin"
-msgstr "直接管理者"
+msgstr "DirectAdmin"
 
 msgid "DirectAdmin (beta)"
-msgstr "直接管理者 (ベータ)"
+msgstr "DirectAdmin (ベータ)"
 
 msgid "Disable cron jobs"
 msgstr "cron ジョブを無効にする"
 
 msgid "Disabled"
-msgstr "ディセーブル"
+msgstr "無効"
 
 msgid "Disk usage & Cache:"
 msgstr "ディスク使用量とキャッシュ:"
 
 msgid "Dismiss & install later"
-msgstr "後で却下してインストール"
+msgstr "閉じて後でインストール"
 
 msgid "Display"
-msgstr "[表示]"
+msgstr "表示"
 
 msgid "Doesn't meet the requirements"
 msgstr "要件を満たしていません"
@@ -345,7 +345,7 @@ msgid "General settings"
 msgstr "一般設定"
 
 msgid "Generate"
-msgstr "生成します"
+msgstr "生成"
 
 msgid "Generate a certificate via Let's Encrypt."
 msgstr "Let's Encrypt経由で証明書を生成します。"
@@ -354,7 +354,7 @@ msgid "Generate source"
 msgstr "ソースを生成"
 
 msgid "Generating"
-msgstr "を生成しています"
+msgstr "生成中"
 
 msgid "[Global]"
 msgstr "[グローバル]"
@@ -399,7 +399,7 @@ msgid "Hostnames associated with this Certificate"
 msgstr "この証明書に関連付けられたホスト名"
 
 msgid "Hour"
-msgstr "時間だ"
+msgstr "時間"
 
 msgid "ID"
 msgstr "ID"
@@ -438,7 +438,7 @@ msgid "Issued certificates"
 msgstr "発行された証明書"
 
 msgid "JAVA:"
-msgstr "ジャワ:"
+msgstr "JAVA:"
 
 msgid "Last cron error"
 msgstr "最後の cron エラー"
@@ -453,16 +453,16 @@ msgid "Last trigger"
 msgstr "最後のトリガー"
 
 msgid "Let's Encrypt certificates renewal"
-msgstr "証明書の更新を暗号化しましょう"
+msgstr "Let's Encrypt 証明書の更新"
 
 msgid "Let's Encrypt environment"
-msgstr "環境を暗号化しましょう"
+msgstr "Let's Encrypt 環境"
 
 msgid "[Let's Encrypt] renewing certificate."
-msgstr "[暗号化しましょう] 証明書の更新です。"
+msgstr "[Let's Encrypt] 証明書を更新しています。"
 
 msgid "[Let's Encrypt] will add %s to SAN."
-msgstr "[暗号化の実行] により、%s がSANに追加される。"
+msgstr "[Let's Encrypt] により、%s が SAN に追加されます。"
 
 msgid "Link preview"
 msgstr "リンクのプレビュー"
@@ -477,7 +477,7 @@ msgid "Loaded"
 msgstr "ロードされました"
 
 msgid "Log"
-msgstr "[ログ]"
+msgstr "ログ"
 
 msgid "Log (var/log, log files)"
 msgstr "ログ (var/log、ログファイル)"
@@ -501,7 +501,7 @@ msgid "Messages"
 msgstr "メッセージ"
 
 msgid "Minute"
-msgstr "分だ"
+msgstr "分"
 
 msgid "Missing parameters for generation."
 msgstr "生成のパラメータがありません。"
@@ -567,7 +567,7 @@ msgid "Note:"
 msgstr "ご注意："
 
 msgid "Note: Let's encrypt X1 is a staging certificate."
-msgstr "注：X1はステージング証明書です暗号化してみましょう。"
+msgstr "注：Let's Encrypt X1 はステージング証明書です。"
 
 msgid "Number of typed characters:"
 msgstr "入力された文字数:"
@@ -588,7 +588,7 @@ msgid "One of the three given Certificates path is not readable, please make sur
 msgstr "指定された 3 つの証明書パスのうちの 1 つが読み取れません。適切な権限があることを確認してください。"
 
 msgid "Open"
-msgstr "開いた"
+msgstr "開く"
 
 msgid "Open the tour editing mode"
 msgstr "ツアー編集モードを開く"
@@ -603,7 +603,7 @@ msgid "Otherwise install it manually, from your panel, or directly from your ssh
 msgstr "それ以外の場合は、手動で、パネルから、またはsshアクセスから直接インストールしてください。"
 
 msgid "Overview - WebApp (var/apps/browser, overview & webapp cache)"
-msgstr "概要-WebApp（変数/アプリケーション/ブラウザ、概要とWebアプリケーションキャッシュ）"
+msgstr "概要 - WebApp (var/apps/browser、概要と WebApp のキャッシュ)"
 
 msgid "Overview cache cleared."
 msgstr "概要のキャッシュがクリアされました。"
@@ -639,16 +639,16 @@ msgid "Permission, denied from Plesk, please use the admin account."
 msgstr "Plesk から権限が拒否されました。管理者アカウントを使用してください。"
 
 msgid "Plesk"
-msgstr "プレスク"
+msgstr "Plesk"
 
 msgid "Plesk 12+"
-msgstr "プラスク・プレスク"
+msgstr "Plesk 12+"
 
 msgid "[Plesk] Unknown error."
 msgstr "[Plesk] 不明なエラーです。"
 
 msgid "Port"
-msgstr "港"
+msgstr "ポート"
 
 msgid "Preview 5.0"
 msgstr "プレビュー 5.0"
@@ -657,7 +657,7 @@ msgid "Privacy policy URL"
 msgstr "プライバシーポリシー URL"
 
 msgid "Private"
-msgstr "非公開だ"
+msgstr "非公開"
 
 msgid "Private certificate"
 msgstr "プライベート証明書"
@@ -666,7 +666,7 @@ msgid "Private path:"
 msgstr "プライベートパス:"
 
 msgid "Production"
-msgstr "プロダクション"
+msgstr "本番"
 
 msgid "Progress"
 msgstr "進捗"
@@ -687,7 +687,7 @@ msgid "Read"
 msgstr "読む"
 
 msgid "Rebuild"
-msgstr "[再構築]"
+msgstr "再構築"
 
 msgid "Rebuild manifest"
 msgstr "マニフェストを再構築"
@@ -720,7 +720,7 @@ msgid "Required extensions"
 msgstr "必要な拡張子"
 
 msgid "Revoke user"
-msgstr "ユーザーの取り消し"
+msgstr "ユーザーの権限を取り消す"
 
 msgid "Run test"
 msgstr "テストを実行"
@@ -765,22 +765,22 @@ msgid "Show more"
 msgstr "もっと見る"
 
 msgid "Siberian - Backoffice"
-msgstr "シベリア語-バックオフィス"
+msgstr "Siberian - バックオフィス"
 
 msgid "Siberian CMS"
-msgstr "シベリア海軍"
+msgstr "Siberian CMS"
 
 msgid "[Siberian_Cpanel] Unable to update cPanel SSL Certificate for %s"
-msgstr "[シベリアン] %s の cPanel SSL 証明書を更新できません"
+msgstr "[Siberian_Cpanel] %s の cPanel SSL 証明書を更新できません"
 
 msgid "[Siberian_VestaCP] requires php 5.6+"
-msgstr "[シベリア語_VestaCP] はPHP5.6以降が必要です"
+msgstr "[Siberian_VestaCP] には php 5.6+ が必要です"
 
 msgid "Something went wrong with the API Sync to %s, retry or check in your panel if your SSL certificate is correctly setup."
-msgstr "%s への API 同期で問題が発生しました。SSL 証明書が正しく設定されている場合は、再試行するか、パネルをチェックインしてください。"
+msgstr "%s への API 同期で問題が発生しました。再試行するか、SSL 証明書が正しく設定されているかパネルで確認してください。"
 
 msgid "Source"
-msgstr "[ソース]"
+msgstr "ソース"
 
 msgid "Source Queue empty"
 msgstr "ソースキューが空です"
@@ -846,10 +846,10 @@ msgid "System was unable to validate any HTTP Basic Auth call."
 msgstr "システムは HTTP 基本認証呼び出しを検証できませんでした。"
 
 msgid "Temp (var/tmp, application sources & apk)"
-msgstr "温度（var/tmp、アプリケーションソース＆apk）"
+msgstr "一時ファイル (var/tmp、アプリケーションソースと apk)"
 
 msgid "Templates"
-msgstr "[テンプレート]"
+msgstr "テンプレート"
 
 msgid "Test SSL/HTTPS"
 msgstr "SSL/HTTPSのテスト"
@@ -873,13 +873,13 @@ msgid "The given certificate doesn't match the hostname."
 msgstr "指定された証明書がホスト名と一致しません。"
 
 msgid "The given certificate doesn't match the hostname or wiSibldcard."
-msgstr "指定された証明書は、ホスト名または WiSibldcard と一致しません。"
+msgstr "指定された証明書は、ホスト名またはワイルドカードと一致しません。"
 
 msgid "This account can't be deleted, it's the only one"
-msgstr "このアカウントは削除できません。"
+msgstr "このアカウントは唯一のアカウントのため、削除できません。"
 
 msgid "This action mainly serves as a development & support purpose<br />This will restore App sources 'iOS', 'Android', 'HTML5' & 'Overview' from the latest Siberian version, then rebuild the manifest to restore installed modules."
-msgstr "このアクションは主に開発とサポートの目的として機能します。<br />これは、最新のシベリアバージョンからアプリケーションソース 'iOS'、'Android'、'HTML5' & 'Overview' を復元し、マニフェストを再構築してインストールされたモジュールを復元します。"
+msgstr "このアクションは主に開発とサポートの目的で使用します。<br />Siberian の最新バージョンからアプリのソース 'iOS'、'Android'、'HTML5'、'Overview' を復元し、マニフェストを再構築してインストール済みのモジュールを復元します。"
 
 msgid "This e-mail address must be reachable, as you will receive important e-mails from the system & user actions."
 msgstr "この電子メールアドレスは、システムとユーザーのアクションから重要な電子メールを受信するため、到達可能でなければなりません。"
@@ -894,7 +894,7 @@ msgid "This test is for development & support usage, this only highlights potent
 msgstr "このテストは、開発とサポートの使用のためのものです。これは、潜在的な欠落および/または変更されたファイルを強調表示し、結果を解釈する必要があります。"
 
 msgid "Tools"
-msgstr "[ツール]"
+msgstr "ツール"
 
 msgid "Total sales"
 msgstr "売上合計"
@@ -915,7 +915,7 @@ msgid "UID"
 msgstr "UID"
 
 msgid "Unable to connect in HTTPS or to validate the SSL Certificate.<br />Check if your are not in `Staging`"
-msgstr "HTTPS で接続できない、または SSL 証明書を検証できない。 あなたが`ステージング`にいない@@<br />かどうかを確認する"
+msgstr "HTTPS で接続できない、または SSL 証明書を検証できません。<br />`Staging` ではないか確認してください"
 
 msgid "Unknown"
 msgstr "不明"
@@ -924,10 +924,10 @@ msgid "Unknown - Self-managed"
 msgstr "不明-自己管理"
 
 msgid "Update"
-msgstr "[更新]"
+msgstr "更新"
 
 msgid "Update channel"
-msgstr "チャンネルを更新"
+msgstr "更新チャンネル"
 
 msgid "Updated At"
 msgstr "更新日時"
@@ -966,22 +966,22 @@ msgid "Validation"
 msgstr "検証"
 
 msgid "VestaCP"
-msgstr "ヴェスタ・ソビエト連邦諸国"
+msgstr "VestaCP"
 
 msgid "VestaCP (php 5.6+ only)"
-msgstr "ヴェスタ (PHP 5.6 以降のみ)"
+msgstr "VestaCP (PHP 5.6 以降のみ)"
 
 msgid "View Details"
 msgstr "詳細を表示"
 
 msgid "WHM cPanel"
-msgstr "ウェストハム・パネル・システム"
+msgstr "WHM cPanel"
 
 msgid "Waiting for %s to reload, this can take a while..."
 msgstr "%s のリロードを待っています。しばらくお待ちください..."
 
 msgid "We recommned using <b>preview</b> on a testing or development server, we won't provide regular ticket support for these update channels, only bug reports via the form below."
-msgstr "テストサーバーまたは開発サーバーで <b>プレビュー</b> を使用することを推奨しました。これらの更新チャネルに対して定期的なチケットサポートは提供せず、以下のフォームからのバグレポートのみを提供します。"
+msgstr "<b>プレビュー</b>はテストサーバーまたは開発サーバーで使用することをお勧めします。これらの更新チャンネルに対する通常のチケットサポートは提供しておらず、以下のフォームからのバグレポートのみ受け付けます。"
 
 msgid "Web space"
 msgstr "ウェブスペース"
@@ -990,7 +990,7 @@ msgid "White Label"
 msgstr "ホワイトラベル"
 
 msgid "Whitelabel"
-msgstr "ホワイトラベルです"
+msgstr "ホワイトラベル"
 
 msgid "Whitelabel hostnames associated with this Certificate"
 msgstr "この証明書に関連付けられたホワイトラベルホスト名"
@@ -999,7 +999,7 @@ msgid "Whitelabel request"
 msgstr "ホワイトラベルのリクエスト"
 
 msgid "Whitelabels"
-msgstr "ホワイトラベルです"
+msgstr "ホワイトラベル"
 
 msgid "Yes"
 msgstr "はい"
@@ -1008,16 +1008,16 @@ msgid "Yes, install the update."
 msgstr "はい、更新プログラムをインストールします。"
 
 msgid "You are about to clean all the cron lock files !"
-msgstr "あなたはすべてのcronロックファイルをきれいにしようとしています！"
+msgstr "すべての cron ロックファイルを削除しようとしています！"
 
 msgid "Are you sure ?"
-msgstr "本気か？"
+msgstr "よろしいですか？"
 
 msgid "You are about to clean all your log files !"
 msgstr "すべてのログファイルを消去しようとしています！"
 
 msgid "Are you sure ?"
-msgstr "本気か？"
+msgstr "よろしいですか？"
 
 msgid "You are about to delete this certificate, Are you sure ?"
 msgstr "この証明書を削除しようとしています。よろしいですか？"
@@ -1026,16 +1026,16 @@ msgid "You are about to wipe all your temporary files, this includes the generat
 msgstr "すべての一時ファイルを消去しようとしています。これには生成されたソースとapkビルドが含まれています！"
 
 msgid "Are you sure ?"
-msgstr "本気か？"
+msgstr "よろしいですか？"
 
 msgid "You can use <b>%s</b> as a dynamic variable for your application name."
-msgstr "アプリケーション名の動的変数 <b>として</b> %s を使用できます。"
+msgstr "アプリケーション名の動的変数として <b>%s</b> を使用できます。"
 
 msgid "You have a Source generation stuck for more than 1 hour, please check in <b>Settings > Advanced > Cron</b> for the stuck build.<br />To unlock further builds you can remove locks from the button below."
-msgstr "ソース生成が1時間以上スタックしています。スタックビルドの [設定] > [ <b>詳細設定] > [Cron</b> ] をチェックしてください。 さらにビルドのロックを解除@@<br />するには、下のボタンからロックを解除できます。"
+msgstr "ソース生成が1時間以上スタックしています。スタックしているビルドについては <b>設定 > 詳細設定 > Cron</b> を確認してください。<br />以降のビルドのロックを解除するには、下のボタンからロックを削除できます。"
 
 msgid "You have an APK generation stuck for more than 1 hour, please check in <b>Settings > Advanced > Cron</b> for the stuck build.<br />To unlock further builds you can remove locks from the button below."
-msgstr "APK生成が1時間以上立ち往生しています。[設定] > [ <b>詳細設定] > [Cron]</b> でスタックビルドを確認してください。 さらにビルドのロックを解除@@<br />するには、下のボタンからロックを解除できます。"
+msgstr "APK 生成が1時間以上スタックしています。スタックしているビルドについては <b>設定 > 詳細設定 > Cron</b> を確認してください。<br />以降のビルドのロックを解除するには、下のボタンからロックを削除できます。"
 
 msgid "You have no certificate yet."
 msgstr "証明書はまだありません。"
@@ -1053,10 +1053,10 @@ msgid "Your certificate is invalid"
 msgstr "証明書が無効です"
 
 msgid "Your certificate is valid until:"
-msgstr "証明書は、次の期間まで有効です。"
+msgstr "証明書の有効期限:"
 
 msgid "Your certificates are saved."
-msgstr "証明書が保存されます。"
+msgstr "証明書が保存されました。"
 
 msgid "Your new password"
 msgstr "新しいパスワード"
@@ -1065,10 +1065,10 @@ msgid "Your password"
 msgstr "あなたのパスワード"
 
 msgid "<b>Actual preview version is Siberian 5.0</b>."
-msgstr "<b>実際のプレビュー版はシベリア5.0</b>です。"
+msgstr "<b>現在のプレビュー版は Siberian 5.0 です</b>。"
 
 msgid "<b>Disclaimer:</b> You are using the <b>preview</b> update channel, this channel is intended for <b>tests & previews</b> of new features, if you are not sure stay with <b>stable channel</b>."
-msgstr "<b>免責事項：</b> <b>プレビュー</b> 更新チャンネルを使用しています。このチャンネルは、新機能の<b>テストとプレビュー</b> 用です。"
+msgstr "<b>免責事項：</b> <b>プレビュー</b>更新チャンネルを使用しています。このチャンネルは新機能の<b>テストとプレビュー</b>用です。よくわからない場合は<b>安定版チャンネル</b>のままにしてください。"
 
 msgid "<b>Note for Bug report:</b> give us a maximum of description of how you reached the bug, and possibly screenshots."
 msgstr "<b>バグレポートに関する注意:</b> バグにどのように到達したかについての説明や、おそらくスクリーンショットをお知らせください。"
@@ -1077,7 +1077,7 @@ msgid "<b>Note</b>: sources & push will be sent immediately after their creation
 msgstr "<b>注</b>：ソースとプッシュは作成直後に送信され、スケジュールされたプッシュは機能せず、メディアの最適化は無効になります。"
 
 msgid "customer"
-msgstr "のお客様"
+msgstr "お客様"
 
 msgid "%d Unread Message"
 msgstr "%d 未読メッセージ"
@@ -1089,7 +1089,7 @@ msgid "for the bundle id:"
 msgstr "バンドル ID:"
 
 msgid "letsencrypt"
-msgstr "lets暗号化します"
+msgstr "Let's Encrypt"
 
 msgid "per page"
 msgstr "1ページあたり"

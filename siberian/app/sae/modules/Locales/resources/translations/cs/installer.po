@@ -24,7 +24,7 @@ msgid "All of your modules are up to date"
 msgstr "Všechny vaše moduly jsou aktuální"
 
 msgid "An update is available. Click here to download it."
-msgstr "Update je dostupný."
+msgstr "Je dostupný update. Klikněte zde pro jeho stažení."
 
 #. machine-translated (2026-10), to be reviewed
 msgid "Check for updates"
@@ -60,46 +60,46 @@ msgid "Module successfully installed"
 msgstr "Modul úspěšně nainstalován"
 
 msgid "Module to upload"
-msgstr "Moduly k nahrání"
+msgstr "Modul k nahrání"
 
 msgid "Modules Installation"
 msgstr "Instalace modulů"
 
 msgid "Modules successfully installed!"
-msgstr "Moduly úspěšně nainstalován!"
+msgstr "Moduly byly úspěšně nainstalovány!"
 
 msgid "Name"
 msgstr "Název"
 
 msgid "No directory provided"
-msgstr "No directory provided"
+msgstr "Nebyl zadán žádný adresář"
 
 msgid "No module to install"
 msgstr "Žádný modul k instalaci"
 
 msgid "No modules uploaded yet"
-msgstr "Žádné modyly zatím nebyly nahrány"
+msgstr "Žádné moduly zatím nebyly nahrány"
 
 msgid ""
 "Or set the correct permissions to the following files and folders and try "
 "again:"
-msgstr "Nebo změňte práva u následujících souboru a složek  a zkuste znovu"
+msgstr "Nebo nastavte správná oprávnění následujícím souborům a složkám a zkuste to znovu"
 
 #. machine-translated (2026-10), to be reviewed
 msgid "Package"
 msgstr "Balíček"
 
 msgid "Package Details"
-msgstr "Package - detail"
+msgstr "Detail balíčku"
 
 msgid "Path to your system"
-msgstr "Cesta k systemu"
+msgstr "Cesta k systému"
 
 msgid "Please, enter a name"
 msgstr "Prosím, zadejte název"
 
 msgid "Please, fill out all fields"
-msgstr "Prosíme, vyplňte všechna pole"
+msgstr "Prosím, vyplňte všechna pole"
 
 msgid ""
 "Please update the module to the %s version before installing this update."
@@ -126,7 +126,7 @@ msgid "Retry"
 msgstr "Opakovat"
 
 msgid "Select a module to upload"
-msgstr "Vyberte modul"
+msgstr "Vyberte modul k nahrání"
 
 msgid "Size"
 msgstr "Velikost"
@@ -134,13 +134,13 @@ msgstr "Velikost"
 msgid ""
 "Some files and folder are not writable. You can either provide your FTP "
 "access to install this update:"
-msgstr "Do některých složek a souboru nelze zapisovat"
+msgstr "Do některých souborů a složek nelze zapisovat. Můžete zadat své přístupy FTP k instalaci této aktualizace:"
 
 msgid "Some files don't have the right permissions and can't be updated"
 msgstr "Některé soubory nemají správná práva a nelze je updatovat"
 
 msgid "Status"
-msgstr "Status"
+msgstr "Stav"
 
 msgid "The database connection failed. Please, check the entered information."
 msgstr "Připojení k databázi se nezdařilo. Prosím, zkontrolujte zadané údaje."
@@ -174,7 +174,7 @@ msgid "This process may take few minutes, please do not refresh the page"
 msgstr "Tento proces může chvíli trvat, prosím NEAKTUALIZUJTE stránku"
 
 msgid "This update is designed for the %s, you can't install it in your %s."
-msgstr "Tento update je navrhnut pro %s, nelze nainstalovat na Váš %s"
+msgstr "Tento update je určen pro %s, nelze jej nainstalovat do vašeho %s."
 
 msgid "Unable to check for updates now. Please, try again later."
 msgstr "Není možné zkontrolovat updaty. Zkuste to prosím později"
@@ -184,20 +184,20 @@ msgstr "Nelze se připojit k FTP. Zkontrolujte spojení"
 
 msgid ""
 "Unable to detect your site. Please make sure the entered path is correct."
-msgstr "Stránku nelze smazat. Zkontrolujte, zda je cesta v pořádku"
+msgstr "Stránku nelze zjistit. Zkontrolujte, zda je zadaná cesta správná"
 
 msgid "Unable to extract the archive."
 msgstr "Archiv nelze rozbalit"
 
 msgid "Unable to fetch the update. Please, try again later."
-msgstr "Není možné zkontrolovat updaty. Zkuste to prosím později"
+msgstr "Nelze stáhnout update. Zkuste to prosím později"
 
 msgid "Unable to open the archive."
 msgstr "Archiv nelze otevřít"
 
 msgid ""
 "Unable to open the file. Please, make sure that you sent a valid archive."
-msgstr "Soubor nelze otevřít. Ujistěte se,že byl platný"
+msgstr "Soubor nelze otevřít. Ujistěte se, že jste odeslali platný archiv."
 
 msgid "Upload a module"
 msgstr "Nahrát modul"
@@ -215,7 +215,7 @@ msgid "We are checking for updates. Please, do not refresh the page."
 msgstr "Kontroluji updaty. Neaktualizujte stránku!!!"
 
 msgid "You already have installed this template."
-msgstr "Tento update je již nainstalován"
+msgstr "Tato šablona je již nainstalována."
 
 msgid "You already have installed this update."
 msgstr "Tento update je již nainstalován"

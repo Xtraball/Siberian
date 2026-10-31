@@ -19,16 +19,16 @@ msgid "60000 maximum allowed."
 msgstr "60000 максимально допустимое."
 
 msgid "Admob ID"
-msgstr "Идентификатор сети admob"
+msgstr "ID AdMob"
 
 msgid "Admob type"
-msgstr "Тип сети admob"
+msgstr "Тип AdMob"
 
 msgid "Android"
 msgstr "Android"
 
 msgid "App limit for displaying real data"
-msgstr "Ограничить приложение для отображение данных в реальном"
+msgstr "Лимит приложения для отображения реальных данных"
 
 msgid "Banner"
 msgstr "баннер"
@@ -38,7 +38,7 @@ msgstr ""
 "Ниже приведены переменные, которые вы можете использовать для подстановки."
 
 msgid "Click here to force analytics computing"
-msgstr "Нажмите здесь, чтобы заставить аналитика вычислительной"
+msgstr "Нажмите здесь, чтобы принудительно запустить расчёт аналитики"
 
 msgid "Click here to send your favicon"
 msgstr "Нажмите здесь, чтобы загрузить favicon сайта"
@@ -47,7 +47,7 @@ msgid "Click here to send your logo"
 msgstr "Нажмите здесь, чтобы загрузить ваш логотип"
 
 msgid "Communications"
-msgstr "Связи"
+msgstr "Коммуникации"
 
 msgid "Current favicon"
 msgstr "Текущий Favicon"
@@ -65,17 +65,15 @@ msgid "Display a link to your clients to your support platform"
 msgstr "Отображать ссылку вашим клиентам на платформу поддержки."
 
 msgid "Drop your favicon here"
-msgstr "Оставьте свой значок сайта здесь"
+msgstr "Перетащите сюда ваш favicon"
 
 msgid "Drop your logo here"
-msgstr "Оставьте ваш логотип здесь"
+msgstr "Перетащите сюда ваш логотип"
 
 msgid ""
 "Duration of the free trial period of your platform (in days, 0 for no free "
 "trial)."
-msgstr ""
-"Длительность бесплатного пробного периода вашей платформы (в днях, 0 Нет "
-"бесплатная пробная версия)."
+msgstr "Длительность бесплатного пробного периода вашей платформы (в днях, 0 — без пробного периода)."
 
 msgid "Editor's Design"
 msgstr "Дизайн редактора"
@@ -91,7 +89,7 @@ msgstr ""
 "чата от редактора."
 
 msgid "European <b>General Data Protection Regulation (GDPR)</b>."
-msgstr "Европейские <b>основные нормативы по защите данных (GDPR)</b>."
+msgstr "Европейский <b>Общий регламент по защите данных (GDPR)</b>."
 
 msgid "Favicon"
 msgstr "Фавикон"
@@ -109,7 +107,7 @@ msgid "Full platform owner contact"
 msgstr "Контакт Полноправного владельца платформы"
 
 msgid "Interstitial"
-msgstr "Интерстициальный"
+msgstr "Межстраничная реклама"
 
 msgid "Invalid license key"
 msgstr "Недопустимый ключ лицензии"
@@ -149,24 +147,22 @@ msgid "Privacy Settings"
 msgstr "Настройки конфиденциальности "
 
 msgid "Publication access type"
-msgstr "Тип доступа к изданию"
+msgstr "Тип доступа к публикации"
 
 msgid "Sales"
-msgstr "Продажа"
+msgstr "Продажи"
 
 msgid "Sales Email Address"
 msgstr "E-mail адрес продаж"
 
 msgid "Sender's email address of the emails sent by the site to your clients"
-msgstr ""
-"Адрес электронной почты отправителя из письма, отправленные на сайт вашим "
-"клиентам"
+msgstr "Адрес электронной почты отправителя писем, которые сайт отправляет вашим клиентам"
 
 msgid "Sender's name of the emails sent by the site to your clients"
-msgstr "Имя отправителя из письма, отправленные на сайт вашим клиентам"
+msgstr "Имя отправителя писем, которые сайт отправляет вашим клиентам"
 
 msgid "Siberian"
-msgstr "Quazarteam"
+msgstr "Siberian"
 
 msgid "Sign-up mode"
 msgstr "Режим регистрации"
@@ -183,19 +179,15 @@ msgstr "Имя приложения"
 msgid ""
 "The european <b>General Data Protection Regulation (GDPR)</b> is applicable "
 "to your country, you must enable it in the privacy settings below."
-msgstr ""
-"Европейские <b>основные нормативы по защите данных (GDPR)</b> если применимы "
-"к вашей стране, должны быть включены ниже, в настройках конфиденциальности."
+msgstr "Европейский <b>Общий регламент по защите данных (GDPR)</b> применим к вашей стране, его необходимо включить в настройках конфиденциальности ниже."
 
 msgid "The folder /images/default is not writable."
-msgstr "Папки / изображения / по умолчанию не доступен для записи."
+msgstr "Папка /images/default не доступна для записи."
 
 msgid ""
 "This number will be used to switch between demo mode and real time mode for "
 "your analytics on your dashboard"
-msgstr ""
-"Этот номер будет использоваться для переключения между демо режиме и режиме "
-"реального времени для анализа данных на приборной панели"
+msgstr "Это число используется для переключения между демо-режимом и режимом реального времени для аналитики на вашей панели"
 
 msgid ""
 "This privacy policy will be used for every new Application created as a "
@@ -212,24 +204,22 @@ msgstr ""
 "настройках GDPR"
 
 msgid "This text will appear in the checkout page. 65,000 characters max."
-msgstr ""
-"Этот текст будет отображаться на странице оформления заказа. 65,000 символов "
-"максимум."
+msgstr "Этот текст будет отображаться на странице оформления заказа. Не более 65 000 символов."
 
 msgid "Users can download application sources code."
 msgstr "Пользователи могут скачать исходные коды приложения."
 
 msgid "Users can generate APK"
-msgstr "Пользователи могут генерировать АПК"
+msgstr "Пользователи могут генерировать APK"
 
 msgid "Users can not generate APK."
-msgstr "Пользователи не могут создавать android APK"
+msgstr "Пользователи не могут генерировать APK."
 
 msgid "Users give you the required information to publish applications."
-msgstr "Пользователь дает вам необходимую информацию для публикации приложений."
+msgstr "Пользователи предоставляют вам необходимую информацию для публикации приложений."
 
 msgid "We cannot get your license information"
-msgstr "Мы не можем получить информацию лицензии"
+msgstr "Мы не можем получить информацию о вашей лицензии"
 
 msgid "You can use <b>%s</b> as a dynamic variable for your application name."
 msgstr ""
@@ -240,7 +230,7 @@ msgid "Your Applications"
 msgstr "Мои приложения"
 
 msgid "Your CMS License Key"
-msgstr "Ключ лицензию CMS"
+msgstr "Ваш лицензионный ключ CMS"
 
 msgid "Your Location"
 msgstr "Ваше местонахождение"

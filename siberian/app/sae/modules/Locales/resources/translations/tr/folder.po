@@ -24,7 +24,7 @@ msgid "Allow line return in Title & Subtitles"
 msgstr "Başlık ve Altyazılarda satır dönüşüne izin ver"
 
 msgid "By checking this, a search field will appear in your folder feature"
-msgstr "Bu kontrol, bir arama alanı gösterir klasör özelliği içinde"
+msgstr "Bunu işaretlerseniz klasör özelliğinizde bir arama alanı görünür"
 
 msgid "Cancel"
 msgstr "İptal"
@@ -33,7 +33,7 @@ msgid "Click on"
 msgstr "Üzerine tıkla"
 
 msgid "Click on a feature to add it to the folder"
-msgstr "Klasör bir özellik  eklemek için tıklayınız"
+msgstr "Klasöre eklemek için bir özelliğe tıklayın"
 
 msgid "Click on a page to add it to the folder"
 msgstr "Klasöre eklemek için bir sayfaya tıklayın"
@@ -41,9 +41,7 @@ msgstr "Klasöre eklemek için bir sayfaya tıklayın"
 msgid ""
 "Click on a page to add it to the folder <span id='folder_name' "
 "class='folder_name'>%s</span>"
-msgstr ""
-"Dosyayı klasöre eklemek için bir sayfayı tıklayı<span id='folder_name' "
-"class='folder_name'>%s</span>"
+msgstr "Klasöre eklemek için bir sayfaya tıklayın <span id='folder_name' class='folder_name'>%s</span>"
 
 msgid "Close mobile display"
 msgstr "Mobil ekranı kapatın"
@@ -52,7 +50,7 @@ msgid "Delete this folder and all its subfolders?"
 msgstr "Bu klasörü ve tüm alt klasörleri sil?"
 
 msgid "Edit folder"
-msgstr "Klasör düzenle"
+msgstr "Klasörü düzenle"
 
 msgid "Enable search in folders"
 msgstr "Klasörlerde aramayı etkinleştir"
@@ -64,7 +62,7 @@ msgid "Folders"
 msgstr "Klasörler"
 
 msgid "Inherit global layout"
-msgstr "Mevcut düzen"
+msgstr "Genel düzeni devral"
 
 msgid "Mobile display"
 msgstr "Mobil ekran"
@@ -76,7 +74,7 @@ msgid "No results for your request."
 msgstr "İsteğiniz için sonuç yok."
 
 msgid "Override layout"
-msgstr "Katman Düzeni"
+msgstr "Düzeni geçersiz kıl"
 
 msgid "Search results"
 msgstr "Arama sonuçları"
@@ -85,7 +83,7 @@ msgid "Show cover"
 msgstr "Kapağı göster"
 
 msgid "Show search field"
-msgstr "Arama alanına göster"
+msgstr "Arama alanını göster"
 
 msgid "Show title"
 msgstr "Başlığı göster"
@@ -97,13 +95,13 @@ msgid "Use card design"
 msgstr "Kart tasarımı kullan"
 
 msgid "You cannot add this feature"
-msgstr "Bu özelliği eklenemez"
+msgstr "Bu özelliği ekleyemezsiniz"
 
 msgid "You must first complete the current category creation process"
 msgstr "Önce mevcut kategori oluşturma işlemini tamamlamanız gerekir"
 
 msgid "You will lose all unsaved changes, continue?"
-msgstr "Devam ederseniz tüm kaydedilmemiş değişiklikleri kaybedersiniz?"
+msgstr "Kaydedilmemiş tüm değişiklikleri kaybedeceksiniz, devam edilsin mi?"
 
 msgid "to add a folder."
 msgstr "bir klasör eklemek için."

@@ -47,32 +47,30 @@ msgid "Date/Hour"
 msgstr "Datum / Uhrzeit"
 
 msgid "Drop down"
-msgstr "Drop down"
+msgstr "Dropdown"
 
 msgid "Edit field %s"
-msgstr "Edit-Feld %s"
+msgstr "Feld %s bearbeiten"
 
 msgid "Field name"
-msgstr "Field name"
+msgstr "Feldname"
 
 msgid ""
 "Form data will be sent to this email. Until you fill out this field, your "
 "form won't be displayed on client side."
-msgstr ""
-"An diese E-Mail werden die Formulardaten gesendet. Das ausgefüllte Formular "
-"wird nach dem versand nicht dem App-Benutzer gezeigt."
+msgstr "Die Formulardaten werden an diese E-Mail-Adresse gesendet. Solange Sie dieses Feld nicht ausfüllen, wird Ihr Formular auf Kundenseite nicht angezeigt."
 
 msgid "Geolocation"
 msgstr "Geolocation"
 
 msgid "Hello,"
-msgstr "Hallo"
+msgstr "Hallo,"
 
 msgid "Import a picture"
 msgstr "Ein Foto Importieren"
 
 msgid "Import from Library"
-msgstr "Ein Foto aus der Galerie auswählen"
+msgstr "Aus der Bibliothek importieren"
 
 msgid "Manage fields"
 msgstr "Felder verwalten"
@@ -81,7 +79,7 @@ msgid "Manage options:"
 msgstr "Optionen verwalten:"
 
 msgid "Multiline text"
-msgstr "mehrzeiliger Text"
+msgstr "Mehrzeiliger Text"
 
 msgid "Option"
 msgstr "Option"
@@ -90,7 +88,7 @@ msgid "Radio"
 msgstr "Radio"
 
 msgid "Recipient email"
-msgstr "Empfänger Email"
+msgstr "E-Mail des Empfängers"
 
 msgid "Take a picture"
 msgstr "Ein Foto machen"
@@ -102,25 +100,25 @@ msgid "You have to choose a field type."
 msgstr "Sie müssen einen Feldtyp wählen."
 
 msgid "Your app's form"
-msgstr "Ihre App Form"
+msgstr "Das Formular Ihrer App"
 
 msgid "Your form has been filled out, here are the answers:"
-msgstr "Ihr Formular ausgefüllt hat, hier sind die Antworten:"
+msgstr "Ihr Formular wurde ausgefüllt, hier sind die Antworten:"
 
 msgid "<strong>%s</strong> is not a numerical value<br />"
-msgstr "<strong>%s</strong> muss Nummern enthalten<br />"
+msgstr "<strong>%s</strong> ist kein numerischer Wert<br />"
 
 msgid "<strong>%s</strong> is not valid email address<br />"
-msgstr "<strong>%s</strong> muss eine gültige Emailadresse sein.<br />"
+msgstr "<strong>%s</strong> ist keine gültige E-Mail-Adresse<br />"
 
 msgid "<strong>%s</strong> is required<br />"
-msgstr "<strong>%s</strong> muss ausgefüllt sein.<br />"
+msgstr "<strong>%s</strong> ist erforderlich<br />"
 
 msgid "<strong>%s</strong> must be a numerical value<br />"
-msgstr "<strong>%s</strong> ist ein Zahlenwert <br />"
+msgstr "<strong>%s</strong> muss ein numerischer Wert sein<br />"
 
 msgid "<strong>%s</strong> must be a valid date (e.g. dd/mm/yyyy)<br />"
-msgstr "<strong>%s</strong> muss ein gültiges Datum (z.B. tt/mm/jjjj) < Br / >"
+msgstr "<strong>%s</strong> muss ein gültiges Datum sein (z. B. tt/mm/jjjj)<br />"
 
 msgid "<strong>%s</strong> must be a valid date<br />"
 msgstr "<strong>%s</strong> muss ein gültiges Datum sein <br />"
@@ -129,7 +127,7 @@ msgid "<strong>%s</strong> must be a valid email address<br />"
 msgstr "<strong>%s</strong> muss eine gültige E-Mail-Adresse sein <br />"
 
 msgid "<strong>%s</strong> must be filled<br />"
-msgstr "<strong>%s</strong> <br /> müssen ausgefüllt werden"
+msgstr "<strong>%s</strong> muss ausgefüllt werden<br />"
 
 # GMT 1559644710.7263
 #. machine-translated (2026-10), to be reviewed

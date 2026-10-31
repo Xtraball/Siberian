@@ -19,7 +19,7 @@ msgid "Action"
 msgstr "Действие"
 
 msgid "Actions"
-msgstr "Действие"
+msgstr "Действия"
 
 msgid "All of your modules are up to date"
 msgstr "Все ваши модули находятся в актуальном состоянии"
@@ -40,13 +40,13 @@ msgid "Details"
 msgstr "Подробности"
 
 msgid "Drop your module here"
-msgstr "Оставьте ваш модуль здесь"
+msgstr "Перетащите сюда ваш модуль"
 
 msgid "Host"
-msgstr "Хостинг"
+msgstr "Хост"
 
 msgid "Install"
-msgstr "Установите"
+msgstr "Установить"
 
 msgid "Installing"
 msgstr "Установка"
@@ -70,13 +70,13 @@ msgid "Name"
 msgstr "Имя"
 
 msgid "No directory provided"
-msgstr "Нет указанного каталога"
+msgstr "Каталог не указан"
 
 msgid "No module to install"
-msgstr "Модуль не установить"
+msgstr "Нет модуля для установки"
 
 msgid "No modules uploaded yet"
-msgstr "Ни один из модулей не загружен"
+msgstr "Модули ещё не загружены"
 
 msgid ""
 "Or set the correct permissions to the following files and folders and try "
@@ -102,14 +102,11 @@ msgstr "Пожалуйста, заполните все поля"
 
 msgid ""
 "Please update the module to the %s version before installing this update."
-msgstr ""
-"Пожалуйста, обновите модуль до версии %s , перед установкой этого обновления."
+msgstr "Пожалуйста, обновите модуль до версии %s перед установкой этого обновления."
 
 msgid ""
 "Please update your system to the %s version before installing this update."
-msgstr ""
-"Пожалуйста, обновите систему до версии %s , перед установкой этого "
-"обновления."
+msgstr "Пожалуйста, обновите систему до версии %s перед установкой этого обновления."
 
 msgid "Please wait, we're installing your module"
 msgstr "Пожалуйста, подождите, мы устанавливаем модуль"
@@ -124,23 +121,21 @@ msgid "Progress"
 msgstr "Прогресс"
 
 msgid "Retry"
-msgstr "Повторите"
+msgstr "Повторить"
 
 msgid "Select a module to upload"
 msgstr "Выберите модуль для загрузки"
 
 msgid "Size"
-msgstr "Размер:"
+msgstr "Размер"
 
 msgid ""
 "Some files and folder are not writable. You can either provide your FTP "
 "access to install this update:"
-msgstr ""
-"Некоторые файлы и папки не могут быть перезаписаны. Вы можете либо "
-"предоставить вам доступ по FTP, чтобы установить это обновление:"
+msgstr "Некоторые файлы и папки недоступны для записи. Вы можете предоставить FTP-доступ для установки этого обновления:"
 
 msgid "Some files don't have the right permissions and can't be updated"
-msgstr "Некоторые файлы не имеют права доступа и не могут быть обновлены"
+msgstr "Некоторые файлы не имеют нужных прав доступа и не могут быть обновлены"
 
 msgid "Status"
 msgstr "Статус"
@@ -151,30 +146,28 @@ msgstr ""
 "информацию."
 
 msgid "The entered password confirmation does not match the entered password."
-msgstr "Ваше подтверждение пароля не соответствует введенному паролю."
+msgstr "Введённое подтверждение пароля не совпадает с введённым паролем."
 
 msgid "The file %s does not exist"
 msgstr "Файл %s не существует"
 
 msgid "The file %s is not writable."
-msgstr " Файл %s не доступен для записи."
+msgstr "Файл %s не доступен для записи."
 
 msgid "The folder %s is not writable. Please fix this issue and try again."
-msgstr ""
-"Папка %s не доступна для записи. Пожалуйста, исправьте этот вопрос и "
-"попробуйте еще раз."
+msgstr "Папка %s не доступна для записи. Пожалуйста, устраните проблему и попробуйте ещё раз."
 
 msgid "The following files and folders are not writable:"
-msgstr "Следующие файлы и папки не могут быть перезаписаны:"
+msgstr "Следующие файлы и папки не доступны для записи:"
 
 msgid "The following files and folders are not writable: <br /> - %s"
-msgstr "Следующие файлы и папки не могут быть перезаписаны: <br /> - %s"
+msgstr "Следующие файлы и папки не доступны для записи: <br /> - %s"
 
 msgid "The package you have uploaded is invalid."
-msgstr "Пакет, который вы загрузили является недопустимым."
+msgstr "Загруженный вами пакет недопустим."
 
 msgid "There is no CMS license key set."
-msgstr "Отсутствует ключ лицензии на CMS"
+msgstr "Не задан лицензионный ключ CMS."
 
 msgid "This process may take few minutes, please do not refresh the page"
 msgstr ""
@@ -218,7 +211,7 @@ msgid "Upload a module"
 msgstr "Загрузить модуль"
 
 msgid "Upload your modules"
-msgstr "Загрузить модули"
+msgstr "Загрузите ваши модули"
 
 msgid "Username"
 msgstr "Имя пользователя"
@@ -230,7 +223,7 @@ msgid "We are checking for updates. Please, do not refresh the page."
 msgstr "Мы проверяем  обновления. Пожалуйста, не обновляйте страницу."
 
 msgid "You already have installed this template."
-msgstr "Вы уже установили это обновление."
+msgstr "Вы уже установили этот шаблон."
 
 msgid "You already have installed this update."
 msgstr "Вы уже установили это обновление."

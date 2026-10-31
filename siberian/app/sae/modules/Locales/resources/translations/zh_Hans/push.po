@@ -18,10 +18,10 @@ msgid "Additionnal Information"
 msgstr "附加信息"
 
 msgid "An error occurred while deleting the push. Please try again later."
-msgstr "没能抑制这种反应。请稍后再试。"
+msgstr "删除推送消息时出错。请稍后再试。"
 
 msgid "And a radius (in Km):"
-msgstr "及周边地区（公里数） ："
+msgstr "以及半径（公里）："
 
 msgid "Android"
 msgstr "安卓"
@@ -37,16 +37,16 @@ msgid "Enter a location:"
 msgstr "输入位置："
 
 msgid "GCM Key"
-msgstr "关键GCM"
+msgstr "GCM 密钥"
 
 msgid "I want to send it"
-msgstr "我想送"
+msgstr "我想发送它"
 
 msgid "Keys successfully saved"
-msgstr "保存成功关键"
+msgstr "密钥保存成功"
 
 msgid "Message"
-msgstr "信息"
+msgstr "消息"
 
 #. machine-translated (2026-10), to be reviewed
 msgid "No device found for this user"
@@ -61,7 +61,7 @@ msgid "Open a feature or a custom URL"
 msgstr "打开功能或自定义 URL"
 
 msgid "Pending"
-msgstr "坡"
+msgstr "待处理"
 
 #. machine-translated (2026-10), to be reviewed
 msgid "Please enter an expiration date for your message:"
@@ -78,10 +78,10 @@ msgid "Push Notifications Settings"
 msgstr "推送通知设置"
 
 msgid "Push successfully deleted."
-msgstr "用户成功删除"
+msgstr "推送消息删除成功。"
 
 msgid "Radius"
-msgstr "无线电"
+msgstr "半径"
 
 msgid "Send to a specific location"
 msgstr "发送到特定的位置"
@@ -94,20 +94,20 @@ msgid "Send to all my users"
 msgstr "发送给我的所有用户"
 
 msgid "Send to no specific locations"
-msgstr "发送到特定的位置"
+msgstr "不限定位置发送"
 
 msgid "Send to specific topics"
-msgstr "发送到特定的位置"
+msgstr "发送到特定主题"
 
 #. machine-translated (2026-10), to be reviewed
 msgid "Send to specific users"
 msgstr "发送给指定用户"
 
 msgid "Sending date"
-msgstr "送货日期"
+msgstr "发送日期"
 
 msgid "The duration limit must be higher than the sent date"
-msgstr "时间限制必须大于出货日期"
+msgstr "时限必须晚于发送日期"
 
 #. machine-translated (2026-10), to be reviewed
 msgid "Topics"
@@ -125,24 +125,24 @@ msgid "You must choose at least one user before sending your message."
 msgstr "发送消息前，您必须至少选择一位用户。"
 
 msgid "Your app must be published to send a push notification."
-msgstr "必须将应用程序发布到发送推送通知。"
+msgstr "您的应用必须先发布才能发送推送通知。"
 
 msgid "Your message has been saved successfully."
-msgstr "你的记分卡已成功保存"
+msgstr "您的留言已成功保存。"
 
 msgid ""
 "Your message has been saved successfully and will be sent at the entered date"
-msgstr "您的留言已成功保存，输入的日期将被发送"
+msgstr "您的留言已成功保存，将在所设日期发送"
 
 msgid ""
 "Your message has been saved successfully and will be sent in a few minutes"
-msgstr "您的留言已成功保存，并在几分钟内将被发送"
+msgstr "您的留言已成功保存，几分钟后将发送"
 
 msgid "and users entering the area"
 msgstr "和在该地区的用户"
 
 msgid "for a limited period"
-msgstr "在有限的时间"
+msgstr "限时"
 
 msgid "now"
 msgstr "现在"

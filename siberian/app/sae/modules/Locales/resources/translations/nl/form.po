@@ -14,13 +14,13 @@ msgstr ""
 "X-Generator: Weblate 3.3\n"
 
 msgid "Add a field"
-msgstr "Bewerk veld"
+msgstr "Voeg een veld toe"
 
 msgid "Add a section"
-msgstr "Bewerk een selectie"
+msgstr "Voeg een sectie toe"
 
 msgid "Add an option"
-msgstr "Bewerk een optie"
+msgstr "Voeg een optie toe"
 
 msgid "An error occurred while saving. A field can't be identified."
 msgstr ""
@@ -37,7 +37,7 @@ msgid "Checkbox"
 msgstr "Checkbox"
 
 msgid "Choose a field type:"
-msgstr "Kies een veld type:"
+msgstr "Kies een veldtype:"
 
 msgid "Create a new field"
 msgstr "Maak een nieuw veld"
@@ -57,15 +57,13 @@ msgstr "Veldnaam"
 msgid ""
 "Form data will be sent to this email. Until you fill out this field, your "
 "form won't be displayed on client side."
-msgstr ""
-"Formulier gegevens worden verzonden naar dit e-mailadres. Totdat je dit veld "
-"invult, uw formulier zal niet aan de client zijde worden weergegeven."
+msgstr "Formuliergegevens worden naar dit e-mailadres verzonden. Zolang u dit veld niet invult, wordt uw formulier niet aan de clientzijde weergegeven."
 
 msgid "Geolocation"
 msgstr "Geolocatie"
 
 msgid "Hello,"
-msgstr "Hallo"
+msgstr "Hallo,"
 
 msgid "Import a picture"
 msgstr "Importeer een afbeelding"
@@ -80,7 +78,7 @@ msgid "Manage options:"
 msgstr "Beheer opties:"
 
 msgid "Multiline text"
-msgstr "MultilijnseTekst"
+msgstr "Tekst met meerdere regels"
 
 msgid "Option"
 msgstr "Optie"
@@ -89,7 +87,7 @@ msgid "Radio"
 msgstr "Radio"
 
 msgid "Recipient email"
-msgstr "E-mail ontvanger"
+msgstr "E-mailadres ontvanger"
 
 msgid "Take a picture"
 msgstr "Maak een foto"
@@ -98,28 +96,28 @@ msgid "The form has been sent successfully"
 msgstr "Het formulier is succesvol verzonden"
 
 msgid "You have to choose a field type."
-msgstr "Je moet een veld type kiezen."
+msgstr "U moet een veldtype kiezen."
 
 msgid "Your app's form"
-msgstr "Uw app formulier"
+msgstr "Het formulier van uw app"
 
 msgid "Your form has been filled out, here are the answers:"
-msgstr "Uw formulier is ingevuld  hier zijn de antwoorden:"
+msgstr "Uw formulier is ingevuld, hier zijn de antwoorden:"
 
 msgid "<strong>%s</strong> is not a numerical value<br />"
 msgstr "<strong>%s</strong> is geen numerieke waarde<br />"
 
 msgid "<strong>%s</strong> is not valid email address<br />"
-msgstr "<strong>%s</strong> is geen geldig e-mail adres<br />"
+msgstr "<strong>%s</strong> is geen geldig e-mailadres<br />"
 
 msgid "<strong>%s</strong> is required<br />"
-msgstr "<strong>%s</strong> verplicht<br />"
+msgstr "<strong>%s</strong> is verplicht<br />"
 
 msgid "<strong>%s</strong> must be a numerical value<br />"
 msgstr "<strong>%s</strong> moet een numerieke waarde zijn<br />"
 
 msgid "<strong>%s</strong> must be a valid date (e.g. dd/mm/yyyy)<br />"
-msgstr "<strong>%s</strong> moet een geldige datum zijn (e.g. dd/mm/yyyy)<br />"
+msgstr "<strong>%s</strong> moet een geldige datum zijn (bijv. dd/mm/yyyy)<br />"
 
 msgid "<strong>%s</strong> must be a valid date<br />"
 msgstr "<strong>%s</strong> moet een geldige datum zijn<br />"
@@ -128,7 +126,7 @@ msgid "<strong>%s</strong> must be a valid email address<br />"
 msgstr "<strong>%s</strong> moet een geldig e-mailadres zijn<br />"
 
 msgid "<strong>%s</strong> must be filled<br />"
-msgstr "<strong>%s</strong> moeten worden ingevuld<br />"
+msgstr "<strong>%s</strong> moet worden ingevuld<br />"
 
 # GMT 1559644710.7263
 #. machine-translated (2026-10), to be reviewed
