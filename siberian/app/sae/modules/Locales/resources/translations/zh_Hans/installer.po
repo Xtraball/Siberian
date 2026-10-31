@@ -23,14 +23,17 @@ msgstr "行动"
 msgid "All of your modules are up to date"
 msgstr "Todos los módulos están al día"
 
+#. machine-translated (2026-10), to be reviewed
 msgid "An update is available. Click here to download it."
-msgstr ""
+msgstr "有可用更新。点击此处下载。"
 
+#. machine-translated (2026-10), to be reviewed
 msgid "Check for updates"
-msgstr ""
+msgstr "检查更新"
 
+#. machine-translated (2026-10), to be reviewed
 msgid "Click here to see the release notes"
-msgstr ""
+msgstr "点击此处查看发布说明"
 
 msgid "Click here to send your module"
 msgstr "Haga clic aquí para enviar su módulo"
@@ -41,11 +44,13 @@ msgstr "详细信息"
 msgid "Drop your module here"
 msgstr "Deje su módulo de aquí"
 
+#. machine-translated (2026-10), to be reviewed
 msgid "Host"
-msgstr ""
+msgstr "主机"
 
+#. machine-translated (2026-10), to be reviewed
 msgid "Install"
-msgstr ""
+msgstr "安装"
 
 msgid "Installing"
 msgstr "Instalando"
@@ -77,19 +82,23 @@ msgstr "No hay módulo para instalar"
 msgid "No modules uploaded yet"
 msgstr "No hay módulos subidos aún"
 
+#. machine-translated (2026-10), to be reviewed
 msgid ""
 "Or set the correct permissions to the following files and folders and try "
 "again:"
-msgstr ""
+msgstr "或为以下文件和文件夹设置正确的权限后重试："
 
+#. machine-translated (2026-10), to be reviewed
 msgid "Package"
-msgstr ""
+msgstr "包"
 
+#. machine-translated (2026-10), to be reviewed
 msgid "Package Details"
-msgstr ""
+msgstr "包详情"
 
+#. machine-translated (2026-10), to be reviewed
 msgid "Path to your system"
-msgstr ""
+msgstr "系统路径"
 
 msgid "Please, enter a name"
 msgstr "Por favor, introduzca un nombre"
@@ -97,25 +106,29 @@ msgstr "Por favor, introduzca un nombre"
 msgid "Please, fill out all fields"
 msgstr "Por favor, rellene todos los campos"
 
+#. machine-translated (2026-10), to be reviewed
 msgid ""
 "Please update the module to the %s version before installing this update."
-msgstr ""
+msgstr "安装此更新之前，请先将模块更新到 %s 版本。"
 
+#. machine-translated (2026-10), to be reviewed
 msgid ""
 "Please update your system to the %s version before installing this update."
-msgstr ""
+msgstr "安装此更新之前，请先将系统更新到 %s 版本。"
 
 msgid "Please wait, we're installing your module"
 msgstr "Por favor espere, estamos instalando su módulo"
 
+#. machine-translated (2026-10), to be reviewed
 msgid "Port"
-msgstr ""
+msgstr "端口"
 
 msgid "Processing the installation"
 msgstr "Procesamiento de la instalación"
 
+#. machine-translated (2026-10), to be reviewed
 msgid "Progress"
-msgstr ""
+msgstr "进度"
 
 msgid "Retry"
 msgstr "Vuelva a intentarlo"
@@ -126,13 +139,15 @@ msgstr "Seleccione un módulo para cargar"
 msgid "Size"
 msgstr "尺寸："
 
+#. machine-translated (2026-10), to be reviewed
 msgid ""
 "Some files and folder are not writable. You can either provide your FTP "
 "access to install this update:"
-msgstr ""
+msgstr "部分文件和文件夹不可写。您可以提供 FTP 访问权限来安装此更新："
 
+#. machine-translated (2026-10), to be reviewed
 msgid "Some files don't have the right permissions and can't be updated"
-msgstr ""
+msgstr "部分文件权限不正确，无法更新"
 
 msgid "Status"
 msgstr "状态"
@@ -150,55 +165,66 @@ msgstr ""
 msgid "The file %s does not exist"
 msgstr "El archivo %s no existe"
 
+#. machine-translated (2026-10), to be reviewed
 msgid "The file %s is not writable."
-msgstr ""
+msgstr "文件 %s 不可写。"
 
 msgid "The folder %s is not writable. Please fix this issue and try again."
 msgstr ""
 "La carpeta %s no se puede escribir. Por favor, corrija este problema y "
 "vuelva a intentarlo."
 
+#. machine-translated (2026-10), to be reviewed
 msgid "The following files and folders are not writable:"
-msgstr ""
+msgstr "以下文件和文件夹不可写："
 
+#. machine-translated (2026-10), to be reviewed
 msgid "The following files and folders are not writable: <br /> - %s"
-msgstr ""
+msgstr "以下文件和文件夹不可写：<br /> - %s"
 
+#. machine-translated (2026-10), to be reviewed
 msgid "The package you have uploaded is invalid."
-msgstr ""
+msgstr "您上传的包无效。"
 
+#. machine-translated (2026-10), to be reviewed
 msgid "There is no CMS license key set."
-msgstr ""
+msgstr "未设置 CMS 许可证密钥。"
 
 msgid "This process may take few minutes, please do not refresh the page"
 msgstr ""
 "Este proceso puede tardar unos minutos, por favor no actualice la página"
 
+#. machine-translated (2026-10), to be reviewed
 msgid "This update is designed for the %s, you can't install it in your %s."
-msgstr ""
+msgstr "此更新专为 %s 设计，您无法将其安装到 %s 中。"
 
+#. machine-translated (2026-10), to be reviewed
 msgid "Unable to check for updates now. Please, try again later."
-msgstr ""
+msgstr "目前无法检查更新，请稍后再试。"
 
+#. machine-translated (2026-10), to be reviewed
 msgid "Unable to connect to your FTP. Please check the connection information."
-msgstr ""
+msgstr "无法连接到您的 FTP，请检查连接信息。"
 
+#. machine-translated (2026-10), to be reviewed
 msgid ""
 "Unable to detect your site. Please make sure the entered path is correct."
-msgstr ""
+msgstr "无法检测到您的站点，请确保输入的路径正确。"
 
 msgid "Unable to extract the archive."
 msgstr "No se puede extraer el archivo."
 
+#. machine-translated (2026-10), to be reviewed
 msgid "Unable to fetch the update. Please, try again later."
-msgstr ""
+msgstr "无法获取更新，请稍后再试。"
 
 msgid "Unable to open the archive."
 msgstr "No se puede abrir el archivo."
 
+#. machine-translated (2026-10), to be reviewed
 msgid ""
 "Unable to open the file. Please, make sure that you sent a valid archive."
-msgstr ""
+msgstr "无法打开文件，请确保您发送的是有效的压缩包。"
 
 msgid "Upload a module"
 msgstr "Sube un módulo"
@@ -212,17 +238,23 @@ msgstr "用户名"
 msgid "Version"
 msgstr "版本"
 
+#. machine-translated (2026-10), to be reviewed
 msgid "We are checking for updates. Please, do not refresh the page."
-msgstr ""
+msgstr "我们正在检查更新，请勿刷新页面。"
 
+#. machine-translated (2026-10), to be reviewed
 msgid "You already have installed this template."
-msgstr ""
+msgstr "您已安装此模板。"
 
+#. machine-translated (2026-10), to be reviewed
 msgid "You already have installed this update."
-msgstr ""
+msgstr "您已安装此更新。"
 
+#. machine-translated (2026-10), to be reviewed
 msgid "Your system is up to date."
-msgstr ""
+msgstr "您的系统已是最新。"
 
+#. machine-translated (2026-10), to be reviewed
 msgid "%s Update"
-msgstr ""
+msgstr "%s 更新"
+

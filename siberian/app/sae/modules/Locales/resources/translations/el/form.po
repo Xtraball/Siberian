@@ -53,10 +53,11 @@ msgstr "Επεξεργασία πεδίου %s"
 msgid "Field name"
 msgstr "Όνομα πεδίου"
 
+#. machine-translated (2026-10), to be reviewed
 msgid ""
 "Form data will be sent to this email. Until you fill out this field, your "
 "form won't be displayed on client side."
-msgstr ""
+msgstr "Τα δεδομένα της φόρμας θα σταλούν σε αυτό το email. Μέχρι να συμπληρώσετε αυτό το πεδίο, η φόρμα σας δεν θα εμφανίζεται στην πλευρά του πελάτη."
 
 msgid "Geolocation"
 msgstr "Geolocation"
@@ -64,11 +65,13 @@ msgstr "Geolocation"
 msgid "Hello,"
 msgstr "Γειά σας,"
 
+#. machine-translated (2026-10), to be reviewed
 msgid "Import a picture"
-msgstr ""
+msgstr "Εισαγωγή εικόνας"
 
+#. machine-translated (2026-10), to be reviewed
 msgid "Import from Library"
-msgstr ""
+msgstr "Εισαγωγή από τη βιβλιοθήκη"
 
 msgid "Manage fields"
 msgstr "Διαχείριση πεδίων"
@@ -85,11 +88,13 @@ msgstr "Επιλογή"
 msgid "Radio"
 msgstr "Radio"
 
+#. machine-translated (2026-10), to be reviewed
 msgid "Recipient email"
-msgstr ""
+msgstr "Email παραλήπτη"
 
+#. machine-translated (2026-10), to be reviewed
 msgid "Take a picture"
-msgstr ""
+msgstr "Λήψη φωτογραφίας"
 
 msgid "The form has been sent successfully"
 msgstr "Το μήνυμά σας εστάλει επιτυχώς"
@@ -128,3 +133,651 @@ msgstr "Το πεδίο <strong>%s</strong> πρέπει να είναι ένα 
 
 msgid "<strong>%s</strong> must be filled<br />"
 msgstr "Το πεδίο <strong>%s</strong> πρέπει να συμπληρωθεί<br />"
+
+# GMT 1559644710.7263
+#. machine-translated (2026-10), to be reviewed
+msgctxt "zend_validate"
+msgid "Invalid type given. String, integer or float expected"
+msgstr "Δόθηκε μη έγκυρος τύπος. Αναμένεται string, integer ή float"
+
+# GMT 1559644710.7306
+#. machine-translated (2026-10), to be reviewed
+msgctxt "zend_validate"
+msgid "'%value%' contains characters which are non alphabetic and no digits"
+msgstr "Το '%value%' περιέχει χαρακτήρες που δεν είναι αλφαβητικοί ούτε ψηφία"
+
+# GMT 1559644710.735
+#. machine-translated (2026-10), to be reviewed
+msgctxt "zend_validate"
+msgid "'%value%' is an empty string"
+msgstr "Το '%value%' είναι κενή συμβολοσειρά"
+
+# GMT 1559644710.7393
+#. machine-translated (2026-10), to be reviewed
+msgctxt "zend_validate"
+msgid "Invalid type given. String expected"
+msgstr "Δόθηκε μη έγκυρος τύπος. Αναμένεται string"
+
+# GMT 1559644710.7437
+#. machine-translated (2026-10), to be reviewed
+msgctxt "zend_validate"
+msgid "'%value%' contains non alphabetic characters"
+msgstr "Το '%value%' περιέχει μη αλφαβητικούς χαρακτήρες"
+
+# GMT 1559644710.7481
+#. machine-translated (2026-10), to be reviewed
+msgctxt "zend_validate"
+msgid "'%value%' failed checksum validation"
+msgstr "Το '%value%' απέτυχε στον έλεγχο checksum"
+
+# GMT 1559644710.7524
+#. machine-translated (2026-10), to be reviewed
+msgctxt "zend_validate"
+msgid "'%value%' contains invalid characters"
+msgstr "Το '%value%' περιέχει μη έγκυρους χαρακτήρες"
+
+# GMT 1559644710.7568
+#. machine-translated (2026-10), to be reviewed
+msgctxt "zend_validate"
+msgid "'%value%' should have a length of %length% characters"
+msgstr "Το '%value%' πρέπει να έχει μήκος %length% χαρακτήρων"
+
+# GMT 1559644710.7611
+#. machine-translated (2026-10), to be reviewed
+msgctxt "zend_validate"
+msgid "'%value%' is not between '%min%' and '%max%', inclusively"
+msgstr "Το '%value%' δεν βρίσκεται μεταξύ '%min%' και '%max%', συμπεριλαμβανομένων"
+
+# GMT 1559644710.7655
+#. machine-translated (2026-10), to be reviewed
+msgctxt "zend_validate"
+msgid "'%value%' is not strictly between '%min%' and '%max%'"
+msgstr "Το '%value%' δεν βρίσκεται αυστηρά μεταξύ '%min%' και '%max%'"
+
+# GMT 1559644710.7698
+#. machine-translated (2026-10), to be reviewed
+msgctxt "zend_validate"
+msgid "'%value%' is not valid"
+msgstr "Το '%value%' δεν είναι έγκυρο"
+
+# GMT 1559644710.7742
+#. machine-translated (2026-10), to be reviewed
+msgctxt "zend_validate"
+msgid "An exception has been raised within the callback"
+msgstr "Παρουσιάστηκε εξαίρεση μέσα στο callback"
+
+# GMT 1559644710.7785
+#. machine-translated (2026-10), to be reviewed
+msgctxt "zend_validate"
+msgid "'%value%' must contain between 13 and 19 digits"
+msgstr "Το '%value%' πρέπει να περιέχει μεταξύ 13 και 19 ψηφίων"
+
+# GMT 1559644710.7829
+#. machine-translated (2026-10), to be reviewed
+msgctxt "zend_validate"
+msgid "Luhn algorithm (mod-10 checksum) failed on '%value%'"
+msgstr "Ο αλγόριθμος Luhn (checksum mod-10) απέτυχε για το '%value%'"
+
+# GMT 1559644710.7864
+#. machine-translated (2026-10), to be reviewed
+msgctxt "zend_validate"
+msgid "'%value%' seems to contain an invalid checksum"
+msgstr "Το '%value%' φαίνεται να περιέχει μη έγκυρο checksum"
+
+# GMT 1559644710.7907
+#. machine-translated (2026-10), to be reviewed
+msgctxt "zend_validate"
+msgid "'%value%' must contain only digits"
+msgstr "Το '%value%' πρέπει να περιέχει μόνο ψηφία"
+
+# GMT 1559644710.7951
+#. machine-translated (2026-10), to be reviewed
+msgctxt "zend_validate"
+msgid "'%value%' contains an invalid amount of digits"
+msgstr "Το '%value%' περιέχει μη έγκυρο αριθμό ψηφίων"
+
+# GMT 1559644710.7994
+#. machine-translated (2026-10), to be reviewed
+msgctxt "zend_validate"
+msgid "'%value%' is not from an allowed institute"
+msgstr "Το '%value%' δεν προέρχεται από επιτρεπόμενο ίδρυμα"
+
+# GMT 1559644710.8038
+#. machine-translated (2026-10), to be reviewed
+msgctxt "zend_validate"
+msgid "'%value%' seems to be an invalid creditcard number"
+msgstr "Το '%value%' φαίνεται να είναι μη έγκυρος αριθμός πιστωτικής κάρτας"
+
+# GMT 1559644710.8081
+#. machine-translated (2026-10), to be reviewed
+msgctxt "zend_validate"
+msgid "An exception has been raised while validating '%value%'"
+msgstr "Παρουσιάστηκε εξαίρεση κατά την επικύρωση του '%value%'"
+
+# GMT 1559644710.8125
+#. machine-translated (2026-10), to be reviewed
+msgctxt "zend_validate"
+msgid "Invalid type given. String, integer, array or Zend_Date expected"
+msgstr "Δόθηκε μη έγκυρος τύπος. Αναμένεται string, integer, array ή Zend_Date"
+
+# GMT 1559644710.8168
+#. machine-translated (2026-10), to be reviewed
+msgctxt "zend_validate"
+msgid "'%value%' does not appear to be a valid date"
+msgstr "Το '%value%' δεν φαίνεται να είναι έγκυρη ημερομηνία"
+
+# GMT 1559644710.8212
+#. machine-translated (2026-10), to be reviewed
+msgctxt "zend_validate"
+msgid "'%value%' does not fit the date format '%format%'"
+msgstr "Το '%value%' δεν ταιριάζει με τη μορφή ημερομηνίας '%format%'"
+
+# GMT 1559644710.8255
+#. machine-translated (2026-10), to be reviewed
+msgctxt "zend_validate"
+msgid "No record matching '%value%' was found"
+msgstr "Δεν βρέθηκε εγγραφή που να ταιριάζει με το '%value%'"
+
+# GMT 1559644710.8299
+#. machine-translated (2026-10), to be reviewed
+msgctxt "zend_validate"
+msgid "A record matching '%value%' was found"
+msgstr "Βρέθηκε εγγραφή που ταιριάζει με το '%value%'"
+
+# GMT 1559644710.8342
+#. machine-translated (2026-10), to be reviewed
+msgctxt "zend_validate"
+msgid "'%value%' is not a valid email address in the basic format local-part@hostname"
+msgstr "Το '%value%' δεν είναι έγκυρη διεύθυνση email στη βασική μορφή local-part@hostname"
+
+# GMT 1559644710.8385
+#. machine-translated (2026-10), to be reviewed
+msgctxt "zend_validate"
+msgid "'%hostname%' is not a valid hostname for email address '%value%'"
+msgstr "Το '%hostname%' δεν είναι έγκυρο όνομα κεντρικού υπολογιστή για τη διεύθυνση email '%value%'"
+
+# GMT 1559644710.842
+#. machine-translated (2026-10), to be reviewed
+msgctxt "zend_validate"
+msgid "'%hostname%' does not appear to have a valid MX record for the email address '%value%'"
+msgstr "Το '%hostname%' δεν φαίνεται να έχει έγκυρη εγγραφή MX για τη διεύθυνση email '%value%'"
+
+# GMT 1559644710.8463
+#. machine-translated (2026-10), to be reviewed
+msgctxt "zend_validate"
+msgid "'%hostname%' is not in a routable network segment. The email address '%value%' should not be resolved from public network"
+msgstr "Το '%hostname%' δεν βρίσκεται σε δρομολογήσιμο τμήμα δικτύου. Η διεύθυνση email '%value%' δεν πρέπει να επιλύεται από το δημόσιο δίκτυο"
+
+# GMT 1559644710.8506
+#. machine-translated (2026-10), to be reviewed
+msgctxt "zend_validate"
+msgid "'%localPart%' can not be matched against dot-atom format"
+msgstr "Το '%localPart%' δεν μπορεί να ταιριάξει με τη μορφή dot-atom"
+
+# GMT 1559644710.855
+#. machine-translated (2026-10), to be reviewed
+msgctxt "zend_validate"
+msgid "'%localPart%' can not be matched against quoted-string format"
+msgstr "Το '%localPart%' δεν μπορεί να ταιριάξει με τη μορφή quoted-string"
+
+# GMT 1559644710.8593
+#. machine-translated (2026-10), to be reviewed
+msgctxt "zend_validate"
+msgid "'%localPart%' is not a valid local part for email address '%value%'"
+msgstr "Το '%localPart%' δεν είναι έγκυρο local part για τη διεύθυνση email '%value%'"
+
+# GMT 1559644710.8636
+#. machine-translated (2026-10), to be reviewed
+msgctxt "zend_validate"
+msgid "'%value%' exceeds the allowed length"
+msgstr "Το '%value%' υπερβαίνει το επιτρεπόμενο μήκος"
+
+# GMT 1559644710.8679
+#. machine-translated (2026-10), to be reviewed
+msgctxt "zend_validate"
+msgid "Too many files, maximum '%max%' are allowed but '%count%' are given"
+msgstr "Πάρα πολλά αρχεία, επιτρέπονται το πολύ '%max%' αλλά δόθηκαν '%count%'"
+
+# GMT 1559644710.8723
+#. machine-translated (2026-10), to be reviewed
+msgctxt "zend_validate"
+msgid "Too few files, minimum '%min%' are expected but '%count%' are given"
+msgstr "Πολύ λίγα αρχεία, αναμένονται τουλάχιστον '%min%' αλλά δόθηκαν '%count%'"
+
+# GMT 1559644710.8766
+#. machine-translated (2026-10), to be reviewed
+msgctxt "zend_validate"
+msgid "File '%value%' does not match the given crc32 hashes"
+msgstr "Το αρχείο '%value%' δεν ταιριάζει με τα δοθέντα hashes crc32"
+
+# GMT 1559644710.8811
+#. machine-translated (2026-10), to be reviewed
+msgctxt "zend_validate"
+msgid "A crc32 hash could not be evaluated for the given file"
+msgstr "Δεν ήταν δυνατή η αξιολόγηση hash crc32 για το δοθέν αρχείο"
+
+# GMT 1559644710.8854
+#. machine-translated (2026-10), to be reviewed
+msgctxt "zend_validate"
+msgid "File '%value%' is not readable or does not exist"
+msgstr "Το αρχείο '%value%' δεν είναι αναγνώσιμο ή δεν υπάρχει"
+
+# GMT 1559644710.8898
+#. machine-translated (2026-10), to be reviewed
+msgctxt "zend_validate"
+msgid "File '%value%' has a false extension"
+msgstr "Το αρχείο '%value%' έχει λανθασμένη επέκταση"
+
+# GMT 1559644710.8941
+#. machine-translated (2026-10), to be reviewed
+msgctxt "zend_validate"
+msgid "File '%value%' has a false mimetype of '%type%'"
+msgstr "Το αρχείο '%value%' έχει λανθασμένο mimetype '%type%'"
+
+# GMT 1559644710.8976
+#. machine-translated (2026-10), to be reviewed
+msgctxt "zend_validate"
+msgid "The mimetype of file '%value%' could not be detected"
+msgstr "Δεν ήταν δυνατός ο εντοπισμός του mimetype του αρχείου '%value%'"
+
+# GMT 1559644710.902
+#. machine-translated (2026-10), to be reviewed
+msgctxt "zend_validate"
+msgid "File '%value%' does not exist"
+msgstr "Το αρχείο '%value%' δεν υπάρχει"
+
+# GMT 1559644710.9064
+#. machine-translated (2026-10), to be reviewed
+msgctxt "zend_validate"
+msgid "All files in sum should have a maximum size of '%max%' but '%size%' were detected"
+msgstr "Όλα τα αρχεία μαζί πρέπει να έχουν μέγιστο μέγεθος '%max%' αλλά εντοπίστηκαν '%size%'"
+
+# GMT 1559644710.9107
+#. machine-translated (2026-10), to be reviewed
+msgctxt "zend_validate"
+msgid "All files in sum should have a minimum size of '%min%' but '%size%' were detected"
+msgstr "Όλα τα αρχεία μαζί πρέπει να έχουν ελάχιστο μέγεθος '%min%' αλλά εντοπίστηκαν '%size%'"
+
+# GMT 1559644710.915
+#. machine-translated (2026-10), to be reviewed
+msgctxt "zend_validate"
+msgid "One or more files can not be read"
+msgstr "Ένα ή περισσότερα αρχεία δεν μπορούν να αναγνωστούν"
+
+# GMT 1559644710.9193
+#. machine-translated (2026-10), to be reviewed
+msgctxt "zend_validate"
+msgid "File '%value%' does not match the given hashes"
+msgstr "Το αρχείο '%value%' δεν ταιριάζει με τα δοθέντα hashes"
+
+# GMT 1559644710.9231
+#. machine-translated (2026-10), to be reviewed
+msgctxt "zend_validate"
+msgid "A hash could not be evaluated for the given file"
+msgstr "Δεν ήταν δυνατή η αξιολόγηση hash για το δοθέν αρχείο"
+
+# GMT 1559644710.9275
+#. machine-translated (2026-10), to be reviewed
+msgctxt "zend_validate"
+msgid "Maximum allowed width for image '%value%' should be '%maxwidth%' but '%width%' detected"
+msgstr "Το μέγιστο επιτρεπόμενο πλάτος για την εικόνα '%value%' πρέπει να είναι '%maxwidth%' αλλά εντοπίστηκε '%width%'"
+
+# GMT 1559644710.9318
+#. machine-translated (2026-10), to be reviewed
+msgctxt "zend_validate"
+msgid "Minimum expected width for image '%value%' should be '%minwidth%' but '%width%' detected"
+msgstr "Το ελάχιστο αναμενόμενο πλάτος για την εικόνα '%value%' πρέπει να είναι '%minwidth%' αλλά εντοπίστηκε '%width%'"
+
+# GMT 1559644710.9362
+#. machine-translated (2026-10), to be reviewed
+msgctxt "zend_validate"
+msgid "Maximum allowed height for image '%value%' should be '%maxheight%' but '%height%' detected"
+msgstr "Το μέγιστο επιτρεπόμενο ύψος για την εικόνα '%value%' πρέπει να είναι '%maxheight%' αλλά εντοπίστηκε '%height%'"
+
+# GMT 1559644710.9405
+#. machine-translated (2026-10), to be reviewed
+msgctxt "zend_validate"
+msgid "Minimum expected height for image '%value%' should be '%minheight%' but '%height%' detected"
+msgstr "Το ελάχιστο αναμενόμενο ύψος για την εικόνα '%value%' πρέπει να είναι '%minheight%' αλλά εντοπίστηκε '%height%'"
+
+# GMT 1559644710.9449
+#. machine-translated (2026-10), to be reviewed
+msgctxt "zend_validate"
+msgid "The size of image '%value%' could not be detected"
+msgstr "Δεν ήταν δυνατός ο εντοπισμός του μεγέθους της εικόνας '%value%'"
+
+# GMT 1559644710.9491
+#. machine-translated (2026-10), to be reviewed
+msgctxt "zend_validate"
+msgid "File '%value%' is not compressed, '%type%' detected"
+msgstr "Το αρχείο '%value%' δεν είναι συμπιεσμένο, εντοπίστηκε '%type%'"
+
+# GMT 1559644710.9535
+#. machine-translated (2026-10), to be reviewed
+msgctxt "zend_validate"
+msgid "File '%value%' is no image, '%type%' detected"
+msgstr "Το αρχείο '%value%' δεν είναι εικόνα, εντοπίστηκε '%type%'"
+
+# GMT 1559644710.9578
+#. machine-translated (2026-10), to be reviewed
+msgctxt "zend_validate"
+msgid "File '%value%' does not match the given md5 hashes"
+msgstr "Το αρχείο '%value%' δεν ταιριάζει με τα δοθέντα hashes md5"
+
+# GMT 1559644710.9621
+#. machine-translated (2026-10), to be reviewed
+msgctxt "zend_validate"
+msgid "A md5 hash could not be evaluated for the given file"
+msgstr "Δεν ήταν δυνατή η αξιολόγηση hash md5 για το δοθέν αρχείο"
+
+# GMT 1559644710.9664
+#. machine-translated (2026-10), to be reviewed
+msgctxt "zend_validate"
+msgid "File '%value%' exists"
+msgstr "Το αρχείο '%value%' υπάρχει"
+
+# GMT 1559644710.9708
+#. machine-translated (2026-10), to be reviewed
+msgctxt "zend_validate"
+msgid "File '%value%' does not match the given sha1 hashes"
+msgstr "Το αρχείο '%value%' δεν ταιριάζει με τα δοθέντα hashes sha1"
+
+# GMT 1559644710.9746
+#. machine-translated (2026-10), to be reviewed
+msgctxt "zend_validate"
+msgid "A sha1 hash could not be evaluated for the given file"
+msgstr "Δεν ήταν δυνατή η αξιολόγηση hash sha1 για το δοθέν αρχείο"
+
+# GMT 1559644710.979
+#. machine-translated (2026-10), to be reviewed
+msgctxt "zend_validate"
+msgid "Maximum allowed size for file '%value%' is '%max%' but '%size%' detected"
+msgstr "Το μέγιστο επιτρεπόμενο μέγεθος για το αρχείο '%value%' είναι '%max%' αλλά εντοπίστηκε '%size%'"
+
+# GMT 1559644710.9833
+#. machine-translated (2026-10), to be reviewed
+msgctxt "zend_validate"
+msgid "Minimum expected size for file '%value%' is '%min%' but '%size%' detected"
+msgstr "Το ελάχιστο αναμενόμενο μέγεθος για το αρχείο '%value%' είναι '%min%' αλλά εντοπίστηκε '%size%'"
+
+# GMT 1559644710.9877
+#. machine-translated (2026-10), to be reviewed
+msgctxt "zend_validate"
+msgid "File '%value%' exceeds the defined ini size"
+msgstr "Το αρχείο '%value%' υπερβαίνει το μέγεθος που ορίζεται στο ini"
+
+# GMT 1559644710.992
+#. machine-translated (2026-10), to be reviewed
+msgctxt "zend_validate"
+msgid "File '%value%' exceeds the defined form size"
+msgstr "Το αρχείο '%value%' υπερβαίνει το μέγεθος που ορίζεται στη φόρμα"
+
+# GMT 1559644710.9964
+#. machine-translated (2026-10), to be reviewed
+msgctxt "zend_validate"
+msgid "File '%value%' was only partially uploaded"
+msgstr "Το αρχείο '%value%' μεταφορτώθηκε μόνο μερικώς"
+
+# GMT 1559644711.0008
+#. machine-translated (2026-10), to be reviewed
+msgctxt "zend_validate"
+msgid "File '%value%' was not uploaded"
+msgstr "Το αρχείο '%value%' δεν μεταφορτώθηκε"
+
+# GMT 1559644711.0051
+#. machine-translated (2026-10), to be reviewed
+msgctxt "zend_validate"
+msgid "No temporary directory was found for file '%value%'"
+msgstr "Δεν βρέθηκε προσωρινός κατάλογος για το αρχείο '%value%'"
+
+# GMT 1559644711.0094
+#. machine-translated (2026-10), to be reviewed
+msgctxt "zend_validate"
+msgid "File '%value%' can't be written"
+msgstr "Το αρχείο '%value%' δεν μπορεί να εγγραφεί"
+
+# GMT 1559644711.0138
+#. machine-translated (2026-10), to be reviewed
+msgctxt "zend_validate"
+msgid "A PHP extension returned an error while uploading the file '%value%'"
+msgstr "Μια επέκταση PHP επέστρεψε σφάλμα κατά τη μεταφόρτωση του αρχείου '%value%'"
+
+# GMT 1559644711.0181
+#. machine-translated (2026-10), to be reviewed
+msgctxt "zend_validate"
+msgid "File '%value%' was illegally uploaded. This could be a possible attack"
+msgstr "Το αρχείο '%value%' μεταφορτώθηκε παράνομα. Αυτό μπορεί να είναι πιθανή επίθεση"
+
+# GMT 1559644711.0225
+#. machine-translated (2026-10), to be reviewed
+msgctxt "zend_validate"
+msgid "File '%value%' was not found"
+msgstr "Το αρχείο '%value%' δεν βρέθηκε"
+
+# GMT 1559644711.026
+#. machine-translated (2026-10), to be reviewed
+msgctxt "zend_validate"
+msgid "Unknown error while uploading file '%value%'"
+msgstr "Άγνωστο σφάλμα κατά τη μεταφόρτωση του αρχείου '%value%'"
+
+# GMT 1559644711.0304
+#. machine-translated (2026-10), to be reviewed
+msgctxt "zend_validate"
+msgid "Too much words, maximum '%max%' are allowed but '%count%' were counted"
+msgstr "Πάρα πολλές λέξεις, επιτρέπονται το πολύ '%max%' αλλά μετρήθηκαν '%count%'"
+
+# GMT 1559644711.0347
+#. machine-translated (2026-10), to be reviewed
+msgctxt "zend_validate"
+msgid "Too less words, minimum '%min%' are expected but '%count%' were counted"
+msgstr "Πολύ λίγες λέξεις, αναμένονται τουλάχιστον '%min%' αλλά μετρήθηκαν '%count%'"
+
+# GMT 1559644711.0391
+#. machine-translated (2026-10), to be reviewed
+msgctxt "zend_validate"
+msgid "'%value%' does not appear to be a float"
+msgstr "Το '%value%' δεν φαίνεται να είναι float"
+
+# GMT 1559644711.0434
+#. machine-translated (2026-10), to be reviewed
+msgctxt "zend_validate"
+msgid "'%value%' is not greater than '%min%'"
+msgstr "Το '%value%' δεν είναι μεγαλύτερο από '%min%'"
+
+# GMT 1559644711.0478
+#. machine-translated (2026-10), to be reviewed
+msgctxt "zend_validate"
+msgid "'%value%' has not only hexadecimal digit characters"
+msgstr "Το '%value%' δεν περιέχει μόνο δεκαεξαδικά ψηφία"
+
+# GMT 1559644711.0522
+#. machine-translated (2026-10), to be reviewed
+msgctxt "zend_validate"
+msgid "'%value%' appears to be an IP address, but IP addresses are not allowed"
+msgstr "Το '%value%' φαίνεται να είναι διεύθυνση IP, αλλά οι διευθύνσεις IP δεν επιτρέπονται"
+
+# GMT 1559644711.0566
+#. machine-translated (2026-10), to be reviewed
+msgctxt "zend_validate"
+msgid "'%value%' appears to be a DNS hostname but cannot match TLD against known list"
+msgstr "Το '%value%' φαίνεται να είναι όνομα κεντρικού υπολογιστή DNS αλλά δεν ταιριάζει το TLD με γνωστή λίστα"
+
+# GMT 1559644711.0609
+#. machine-translated (2026-10), to be reviewed
+msgctxt "zend_validate"
+msgid "'%value%' appears to be a DNS hostname but contains a dash in an invalid position"
+msgstr "Το '%value%' φαίνεται να είναι όνομα κεντρικού υπολογιστή DNS αλλά περιέχει παύλα σε μη έγκυρη θέση"
+
+# GMT 1559644711.0651
+#. machine-translated (2026-10), to be reviewed
+msgctxt "zend_validate"
+msgid "'%value%' appears to be a DNS hostname but cannot match against hostname schema for TLD '%tld%'"
+msgstr "Το '%value%' φαίνεται να είναι όνομα κεντρικού υπολογιστή DNS αλλά δεν ταιριάζει με το σχήμα ονόματος για το TLD '%tld%'"
+
+# GMT 1559644711.0686
+#. machine-translated (2026-10), to be reviewed
+msgctxt "zend_validate"
+msgid "'%value%' appears to be a DNS hostname but cannot extract TLD part"
+msgstr "Το '%value%' φαίνεται να είναι όνομα κεντρικού υπολογιστή DNS αλλά δεν είναι δυνατή η εξαγωγή του τμήματος TLD"
+
+# GMT 1559644711.0729
+#. machine-translated (2026-10), to be reviewed
+msgctxt "zend_validate"
+msgid "'%value%' does not match the expected structure for a DNS hostname"
+msgstr "Το '%value%' δεν ταιριάζει με την αναμενόμενη δομή ονόματος κεντρικού υπολογιστή DNS"
+
+# GMT 1559644711.0772
+#. machine-translated (2026-10), to be reviewed
+msgctxt "zend_validate"
+msgid "'%value%' does not appear to be a valid local network name"
+msgstr "Το '%value%' δεν φαίνεται να είναι έγκυρο όνομα τοπικού δικτύου"
+
+# GMT 1559644711.0812
+#. machine-translated (2026-10), to be reviewed
+msgctxt "zend_validate"
+msgid "'%value%' appears to be a local network name but local network names are not allowed"
+msgstr "Το '%value%' φαίνεται να είναι όνομα τοπικού δικτύου αλλά τα ονόματα τοπικού δικτύου δεν επιτρέπονται"
+
+# GMT 1559644711.0854
+#. machine-translated (2026-10), to be reviewed
+msgctxt "zend_validate"
+msgid "'%value%' appears to be a DNS hostname but the given punycode notation cannot be decoded"
+msgstr "Το '%value%' φαίνεται να είναι όνομα κεντρικού υπολογιστή DNS αλλά η δοθείσα σημειογραφία punycode δεν μπορεί να αποκωδικοποιηθεί"
+
+# GMT 1559644711.0898
+#. machine-translated (2026-10), to be reviewed
+msgctxt "zend_validate"
+msgid "Unknown country within the IBAN '%value%'"
+msgstr "Άγνωστη χώρα στο IBAN '%value%'"
+
+# GMT 1559644711.0932
+#. machine-translated (2026-10), to be reviewed
+msgctxt "zend_validate"
+msgid "'%value%' has a false IBAN format"
+msgstr "Το '%value%' έχει λανθασμένη μορφή IBAN"
+
+# GMT 1559644711.0975
+#. machine-translated (2026-10), to be reviewed
+msgctxt "zend_validate"
+msgid "'%value%' has failed the IBAN check"
+msgstr "Το '%value%' απέτυχε στον έλεγχο IBAN"
+
+# GMT 1559644711.101
+#. machine-translated (2026-10), to be reviewed
+msgctxt "zend_validate"
+msgid "The two given tokens do not match"
+msgstr "Τα δύο δοθέντα διακριτικά δεν ταιριάζουν"
+
+# GMT 1559644711.1045
+#. machine-translated (2026-10), to be reviewed
+msgctxt "zend_validate"
+msgid "No token was provided to match against"
+msgstr "Δεν δόθηκε διακριτικό για σύγκριση"
+
+# GMT 1559644711.1088
+#. machine-translated (2026-10), to be reviewed
+msgctxt "zend_validate"
+msgid "'%value%' was not found in the haystack"
+msgstr "Το '%value%' δεν βρέθηκε στο haystack"
+
+# GMT 1559644711.1131
+#. machine-translated (2026-10), to be reviewed
+msgctxt "zend_validate"
+msgid "Invalid type given. String or integer expected"
+msgstr "Δόθηκε μη έγκυρος τύπος. Αναμένεται string ή integer"
+
+# GMT 1559644711.1175
+#. machine-translated (2026-10), to be reviewed
+msgctxt "zend_validate"
+msgid "'%value%' does not appear to be an integer"
+msgstr "Το '%value%' δεν φαίνεται να είναι integer"
+
+# GMT 1559644711.1218
+#. machine-translated (2026-10), to be reviewed
+msgctxt "zend_validate"
+msgid "'%value%' does not appear to be a valid IP address"
+msgstr "Το '%value%' δεν φαίνεται να είναι έγκυρη διεύθυνση IP"
+
+# GMT 1559644711.1261
+#. machine-translated (2026-10), to be reviewed
+msgctxt "zend_validate"
+msgid "'%value%' is not a valid ISBN number"
+msgstr "Το '%value%' δεν είναι έγκυρος αριθμός ISBN"
+
+# GMT 1559644711.1304
+#. machine-translated (2026-10), to be reviewed
+msgctxt "zend_validate"
+msgid "'%value%' is not less than '%max%'"
+msgstr "Το '%value%' δεν είναι μικρότερο από '%max%'"
+
+# GMT 1559644711.1347
+#. machine-translated (2026-10), to be reviewed
+msgctxt "zend_validate"
+msgid "Invalid type given. String, integer, float, boolean or array expected"
+msgstr "Δόθηκε μη έγκυρος τύπος. Αναμένεται string, integer, float, boolean ή array"
+
+# GMT 1559644711.1391
+#. machine-translated (2026-10), to be reviewed
+msgctxt "zend_validate"
+msgid "Value is required and can't be empty"
+msgstr "Η τιμή είναι υποχρεωτική και δεν μπορεί να είναι κενή"
+
+# GMT 1559644711.1435
+#. machine-translated (2026-10), to be reviewed
+msgctxt "zend_validate"
+msgid "'%value%' does not appear to be a postal code"
+msgstr "Το '%value%' δεν φαίνεται να είναι ταχυδρομικός κώδικας"
+
+# GMT 1559644711.1479
+#. machine-translated (2026-10), to be reviewed
+msgctxt "zend_validate"
+msgid "'%value%' does not match against pattern '%pattern%'"
+msgstr "Το '%value%' δεν ταιριάζει με το μοτίβο '%pattern%'"
+
+# GMT 1559644711.1522
+#. machine-translated (2026-10), to be reviewed
+msgctxt "zend_validate"
+msgid "There was an internal error while using the pattern '%pattern%'"
+msgstr "Παρουσιάστηκε εσωτερικό σφάλμα κατά τη χρήση του μοτίβου '%pattern%'"
+
+# GMT 1559644711.1565
+#. machine-translated (2026-10), to be reviewed
+msgctxt "zend_validate"
+msgid "'%value%' is not a valid sitemap changefreq"
+msgstr "Το '%value%' δεν είναι έγκυρο sitemap changefreq"
+
+# GMT 1559644711.1609
+#. machine-translated (2026-10), to be reviewed
+msgctxt "zend_validate"
+msgid "'%value%' is not a valid sitemap lastmod"
+msgstr "Το '%value%' δεν είναι έγκυρο sitemap lastmod"
+
+# GMT 1559644711.1652
+#. machine-translated (2026-10), to be reviewed
+msgctxt "zend_validate"
+msgid "'%value%' is not a valid sitemap location"
+msgstr "Το '%value%' δεν είναι έγκυρη τοποθεσία sitemap"
+
+# GMT 1559644711.1695
+#. machine-translated (2026-10), to be reviewed
+msgctxt "zend_validate"
+msgid "'%value%' is not a valid sitemap priority"
+msgstr "Το '%value%' δεν είναι έγκυρη προτεραιότητα sitemap"
+
+# GMT 1559644711.1735
+#. machine-translated (2026-10), to be reviewed
+msgctxt "zend_validate"
+msgid "Invalid type given. Numeric string, integer or float expected"
+msgstr "Δόθηκε μη έγκυρος τύπος. Αναμένεται αριθμητικό string, integer ή float"
+
+# GMT 1559644711.1778
+#. machine-translated (2026-10), to be reviewed
+msgctxt "zend_validate"
+msgid "'%value%' is less than %min% characters long"
+msgstr "Το '%value%' έχει μήκος μικρότερο από %min% χαρακτήρες"
+
+# GMT 1559644711.1821
+#. machine-translated (2026-10), to be reviewed
+msgctxt "zend_validate"
+msgid "'%value%' is more than %max% characters long"
+msgstr "Το '%value%' έχει μήκος μεγαλύτερο από %max% χαρακτήρες"

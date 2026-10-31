@@ -20,8 +20,9 @@ msgstr "1忠诚点="
 msgid "1 point"
 msgstr "1点"
 
+#. machine-translated (2026-10), to be reviewed
 msgid "1 validated point ="
-msgstr ""
+msgstr "1 个已验证积分 ="
 
 msgid "An error occurred while retrieving QRCode. Please try again later"
 msgstr "有错误上传文件。请稍后再试。"
@@ -39,8 +40,9 @@ msgstr "有一个错误保存您的记分卡。请填写所有字段。"
 msgid "An error occurred while validating point. Please try again later."
 msgstr "在验证点时发生错误。请稍后再试。"
 
+#. machine-translated (2026-10), to be reviewed
 msgid "An error occurred with your QRCode."
-msgstr ""
+msgstr "您的 QRCode 出现错误。"
 
 msgid "Card name"
 msgstr "卡名称"
@@ -72,8 +74,9 @@ msgstr "我的新计分卡"
 msgid "My passwords"
 msgstr "密码"
 
+#. machine-translated (2026-10), to be reviewed
 msgid "No cards available"
-msgstr ""
+msgstr "没有可用的卡"
 
 msgid "Number of points"
 msgstr "点数"
@@ -88,11 +91,13 @@ msgid ""
 "Please show your phone to the store person so that he enters his password"
 msgstr "请出示您的手机店里的人输入密码"
 
+#. machine-translated (2026-10), to be reviewed
 msgid "Point active"
-msgstr ""
+msgstr "积分有效"
 
+#. machine-translated (2026-10), to be reviewed
 msgid "Point inactive"
-msgstr ""
+msgstr "积分无效"
 
 msgid "Point%s successfully validated"
 msgstr "点％ s成功验证"
@@ -106,17 +111,21 @@ msgstr "奖励"
 msgid "Rewards"
 msgstr "奖励"
 
+#. machine-translated (2026-10), to be reviewed
 msgid "Scan QRCode"
-msgstr ""
+msgstr "扫描 QRCode"
 
+#. machine-translated (2026-10), to be reviewed
 msgid "This card is uniq:"
-msgstr ""
+msgstr "此卡是唯一的："
 
+#. machine-translated (2026-10), to be reviewed
 msgid "Unlock by QRCode"
-msgstr ""
+msgstr "通过 QRCode 解锁"
 
+#. machine-translated (2026-10), to be reviewed
 msgid "Unreadable QRCode, sorry."
-msgstr ""
+msgstr "抱歉，QRCode 无法读取。"
 
 msgid "Use only once?"
 msgstr "仅使用一次"
@@ -151,8 +160,9 @@ msgstr "你的记分卡已成功保存"
 msgid "Your password must be 4 digits"
 msgstr "您的密码必须是4位数"
 
+#. machine-translated (2026-10), to be reviewed
 msgid "is now yours!"
-msgstr ""
+msgstr "现在是你的了！"
 
 msgid "point"
 msgstr "点"
@@ -163,5 +173,22 @@ msgstr "验证点"
 msgid "points to validate"
 msgstr "点验证"
 
+#. machine-translated (2026-10), to be reviewed
 msgid "validated points ="
-msgstr ""
+msgstr "个已验证积分 ="
+
+# GMT 1559644711.5246
+#. machine-translated (2026-10), to be reviewed
+msgid "Employee's name"
+msgstr "员工姓名"
+
+# GMT 1559644711.5288
+#. machine-translated (2026-10), to be reviewed
+msgid "Employee's password"
+msgstr "员工密码"
+
+# GMT 1559644711.6722
+#. machine-translated (2026-10), to be reviewed
+msgctxt "loyalty_card"
+msgid "Something went wrong while reading the QRCode."
+msgstr "读取 QRCode 时出错。"

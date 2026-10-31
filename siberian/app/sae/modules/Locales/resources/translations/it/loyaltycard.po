@@ -47,8 +47,9 @@ msgstr ""
 "Si è verificato un errore durante la convalida punto. Si prega di riprovare "
 "più tardi."
 
+#. machine-translated (2026-10), to be reviewed
 msgid "An error occurred with your QRCode."
-msgstr ""
+msgstr "Si è verificato un errore con il tuo QRCode."
 
 msgid "Card name"
 msgstr "Nome Carta"
@@ -98,11 +99,13 @@ msgstr ""
 "Mostra il numero di telefono a persona nello store in modo che possa "
 "inserire la sua password"
 
+#. machine-translated (2026-10), to be reviewed
 msgid "Point active"
-msgstr ""
+msgstr "Punto attivo"
 
+#. machine-translated (2026-10), to be reviewed
 msgid "Point inactive"
-msgstr ""
+msgstr "Punto inattivo"
 
 msgid "Point%s successfully validated"
 msgstr "Punti%s validati correttamente"
@@ -116,17 +119,20 @@ msgstr "Ricompensa"
 msgid "Rewards"
 msgstr "Ricompensa"
 
+#. machine-translated (2026-10), to be reviewed
 msgid "Scan QRCode"
-msgstr ""
+msgstr "Scansiona QRCode"
 
 msgid "This card is uniq:"
 msgstr "Questa carta è unica:"
 
+#. machine-translated (2026-10), to be reviewed
 msgid "Unlock by QRCode"
-msgstr ""
+msgstr "Sblocca con QRCode"
 
+#. machine-translated (2026-10), to be reviewed
 msgid "Unreadable QRCode, sorry."
-msgstr ""
+msgstr "QRCode illeggibile, spiacenti."
 
 msgid "Use only once?"
 msgstr "Utilizzare solo una volta?"
@@ -182,3 +188,19 @@ msgstr "punti da validare"
 
 msgid "validated points ="
 msgstr "punti convalidati ="
+
+# GMT 1559644711.5246
+#. machine-translated (2026-10), to be reviewed
+msgid "Employee's name"
+msgstr "Nome del dipendente"
+
+# GMT 1559644711.5288
+#. machine-translated (2026-10), to be reviewed
+msgid "Employee's password"
+msgstr "Password del dipendente"
+
+# GMT 1559644711.6722
+#. machine-translated (2026-10), to be reviewed
+msgctxt "loyalty_card"
+msgid "Something went wrong while reading the QRCode."
+msgstr "Qualcosa è andato storto durante la lettura del QRCode."

@@ -14,31 +14,39 @@ msgstr ""
 "Plural-Forms: nplurals=3; plural=(n==1) ? 0 : (n>=2 && n<=4) ? 1 : 2;\n"
 "X-Generator: Weblate 3.3\n"
 
+#. machine-translated (2026-10), to be reviewed
 msgid "60000 maximum allowed."
-msgstr ""
+msgstr "Maximálně 60000."
 
+#. machine-translated (2026-10), to be reviewed
 msgid ""
 "A certificate already exists for the domain %s, if you want to re-generate "
 "it, use 'Force re-generate' to proceed."
-msgstr ""
+msgstr "Pro doménu %s již certifikát existuje. Chcete-li jej vygenerovat znovu, pokračujte pomocí 'Force re-generate'."
 
+#. machine-translated (2026-10), to be reviewed
 msgid "[APK]"
-msgstr ""
+msgstr "[APK]"
 
+#. machine-translated (2026-10), to be reviewed
 msgid "APK Queue empty"
-msgstr ""
+msgstr "Fronta APK je prázdná"
 
+#. machine-translated (2026-10), to be reviewed
 msgid "APK Queue status"
-msgstr ""
+msgstr "Stav fronty APK"
 
+#. machine-translated (2026-10), to be reviewed
 msgid "APNS Feedback:"
-msgstr ""
+msgstr "Zpětná vazba APNS:"
 
+#. machine-translated (2026-10), to be reviewed
 msgid "APNS Feedback port 2196 is:"
-msgstr ""
+msgstr "Port zpětné vazby APNS 2196 je:"
 
+#. machine-translated (2026-10), to be reviewed
 msgid "APNS Port 2195 is:"
-msgstr ""
+msgstr "Port APNS 2195 je:"
 
 msgid "Account"
 msgstr "Účet"
@@ -49,127 +57,160 @@ msgstr "Práva k účtu"
 msgid "Actions"
 msgstr "Akce"
 
+#. machine-translated (2026-10), to be reviewed
 msgid "Activate VAT number check with VIES"
-msgstr ""
+msgstr "Aktivovat kontrolu čísla DPH pomocí VIES"
 
+#. machine-translated (2026-10), to be reviewed
 msgid "Activate user"
-msgstr ""
+msgstr "Aktivovat uživatele"
 
 msgid "Active ?"
 msgstr "Aktivní"
 
+#. machine-translated (2026-10), to be reviewed
 msgid "Add a custom text to the footer of your invoices"
-msgstr ""
+msgstr "Přidejte vlastní text do zápatí svých faktur"
 
+#. machine-translated (2026-10), to be reviewed
 msgid "Admin panel type"
-msgstr ""
+msgstr "Typ panelu správce"
 
 msgid "Advanced"
 msgstr "Pokročilé"
 
+#. machine-translated (2026-10), to be reviewed
 msgid ""
 "Alert: The APK build for the Application: %s (%s) is stuck for more than one "
 "hour."
-msgstr ""
+msgstr "Upozornění: Sestavení APK pro aplikaci: %s (%s) je zablokováno déle než jednu hodinu."
 
+#. machine-translated (2026-10), to be reviewed
 msgid ""
 "Alert: The Source build for the Application: %s (%s) is stuck for more than "
 "one hour."
-msgstr ""
+msgstr "Upozornění: Sestavení zdrojového kódu pro aplikaci: %s (%s) je zablokováno déle než jednu hodinu."
 
+#. machine-translated (2026-10), to be reviewed
 msgid "All the files are required."
-msgstr ""
+msgstr "Všechny soubory jsou povinné."
 
+#. machine-translated (2026-10), to be reviewed
 msgid ""
 "An entry already exists for this hostname, remove it first if you need to "
 "change your certificates."
-msgstr ""
+msgstr "Pro tento název hostitele již záznam existuje, pokud potřebujete změnit své certifikáty, nejprve jej odstraňte."
 
+#. machine-translated (2026-10), to be reviewed
 msgid "An error occured"
-msgstr ""
+msgstr "Došlo k chybě"
 
+#. machine-translated (2026-10), to be reviewed
 msgid "An error occured while saving certificate to %s."
-msgstr ""
+msgstr "Při ukládání certifikátu do %s došlo k chybě."
 
 msgid "An error occurred during the process. Please try again later."
 msgstr "Došlo k chybě. Zkuste to prosím později."
 
+#. machine-translated (2026-10), to be reviewed
 msgid "An unknown error occured while issueing your certificate."
-msgstr ""
+msgstr "Při vystavování certifikátu došlo k neznámé chybě."
 
+#. machine-translated (2026-10), to be reviewed
 msgid "Android SDK:"
-msgstr ""
+msgstr "Android SDK:"
 
 msgid "App name"
 msgstr "Název aplikace"
 
+#. machine-translated (2026-10), to be reviewed
 msgid "Application settings"
-msgstr ""
+msgstr "Nastavení aplikace"
 
+#. machine-translated (2026-10), to be reviewed
 msgid "Application successfully queued for generation."
-msgstr ""
+msgstr "Aplikace byla úspěšně zařazena do fronty ke generování."
 
+#. machine-translated (2026-10), to be reviewed
 msgid "Applications/Previewer manifest for automatic updates."
-msgstr ""
+msgstr "Manifest aplikací/náhledu pro automatické aktualizace."
 
+#. machine-translated (2026-10), to be reviewed
 msgid "Are you sure ?"
-msgstr ""
+msgstr "Jste si jisti?"
 
+#. machine-translated (2026-10), to be reviewed
 msgid "Auth type"
-msgstr ""
+msgstr "Typ ověření"
 
+#. machine-translated (2026-10), to be reviewed
 msgid "Authenticate"
-msgstr ""
+msgstr "Ověřit"
 
+#. machine-translated (2026-10), to be reviewed
 msgid "Average build time in seconds:"
-msgstr ""
+msgstr "Průměrná doba sestavení v sekundách:"
 
+#. machine-translated (2026-10), to be reviewed
 msgid "Average sources/apk build time:"
-msgstr ""
+msgstr "Průměrná doba sestavení zdrojů/APK:"
 
+#. machine-translated (2026-10), to be reviewed
 msgid "Backoffice options"
-msgstr ""
+msgstr "Možnosti administrace"
 
+#. machine-translated (2026-10), to be reviewed
 msgid "Bearer Token Auth (API)"
-msgstr ""
+msgstr "Ověření Bearer Token (API)"
 
+#. machine-translated (2026-10), to be reviewed
 msgid "Bearer Token Auth is valid."
-msgstr ""
+msgstr "Ověření Bearer Token je platné."
 
+#. machine-translated (2026-10), to be reviewed
 msgid "Beta"
-msgstr ""
+msgstr "Beta"
 
+#. machine-translated (2026-10), to be reviewed
 msgid "Build status"
-msgstr ""
+msgstr "Stav sestavení"
 
+#. machine-translated (2026-10), to be reviewed
 msgid "Build time (in seconds)"
-msgstr ""
+msgstr "Doba sestavení (v sekundách)"
 
+#. machine-translated (2026-10), to be reviewed
 msgid ""
 "By clicking on link below, you will open your editor in tour editing mode. "
 "Please note that your user account must be created on editor side."
-msgstr ""
+msgstr "Kliknutím na odkaz níže otevřete editor v režimu úprav průvodce. Upozorňujeme, že váš uživatelský účet musí být vytvořen na straně editoru."
 
+#. machine-translated (2026-10), to be reviewed
 msgid "CA"
-msgstr ""
+msgstr "CA"
 
 msgid "CA certificate"
 msgstr "Certifikát"
 
+#. machine-translated (2026-10), to be reviewed
 msgid "CA path:"
-msgstr ""
+msgstr "Cesta CA:"
 
+#. machine-translated (2026-10), to be reviewed
 msgid "CRON Scheduler interval"
-msgstr ""
+msgstr "Interval plánovače CRON"
 
+#. machine-translated (2026-10), to be reviewed
 msgid "Cache cleared"
-msgstr ""
+msgstr "Mezipaměť byla vymazána"
 
+#. machine-translated (2026-10), to be reviewed
 msgid "Cache (var/cache, system cache)"
-msgstr ""
+msgstr "Mezipaměť (var/cache, systémová mezipaměť)"
 
+#. machine-translated (2026-10), to be reviewed
 msgid "Can generate APK"
-msgstr ""
+msgstr "Může generovat APK"
 
 msgid "Cert"
 msgstr "Košík"
@@ -181,39 +222,48 @@ msgid ""
 "Certificate is valid and SSL is reachable, valid until: %s.<br />Issuer: %s%s"
 msgstr ""
 
+#. machine-translated (2026-10), to be reviewed
 msgid "Certificate path:"
-msgstr ""
+msgstr "Cesta k certifikátu:"
 
+#. machine-translated (2026-10), to be reviewed
 msgid "Certificate successfully generated."
-msgstr ""
+msgstr "Certifikát byl úspěšně vygenerován."
 
+#. machine-translated (2026-10), to be reviewed
 msgid ""
 "Certificate successfully generated. Please wait while %s is reloading "
 "configuration ..."
-msgstr ""
+msgstr "Certifikát byl úspěšně vygenerován. Počkejte prosím, než %s znovu načte konfiguraci ..."
 
+#. machine-translated (2026-10), to be reviewed
 msgid "Certificate successfully re-generated."
-msgstr ""
+msgstr "Certifikát byl úspěšně znovu vygenerován."
 
 msgid "Change the password"
 msgstr "Změnit heslo"
 
+#. machine-translated (2026-10), to be reviewed
 msgid ""
 "Check if this cron command is installed under the web user & if you have set "
 "a timezone in Settings > General"
-msgstr ""
+msgstr "Zkontrolujte, zda je tento příkaz cron nainstalován pod webovým uživatelem a zda máte v Nastavení > Obecné nastavené časové pásmo"
 
+#. machine-translated (2026-10), to be reviewed
 msgid "Clear"
-msgstr ""
+msgstr "Vymazat"
 
+#. machine-translated (2026-10), to be reviewed
 msgid "Clear cache"
-msgstr ""
+msgstr "Vymazat mezipaměť"
 
+#. machine-translated (2026-10), to be reviewed
 msgid "Clear logs"
-msgstr ""
+msgstr "Vymazat protokoly"
 
+#. machine-translated (2026-10), to be reviewed
 msgid "Cleared cron errors."
-msgstr ""
+msgstr "Chyby cronu byly vymazány."
 
 msgid "Click here to send your CA certificate"
 msgstr "Klikněte zde pro zaslání certifikátu"
@@ -233,8 +283,9 @@ msgstr "Kliknutím označte jako přečtené"
 msgid "Closed"
 msgstr "Zavřít"
 
+#. machine-translated (2026-10), to be reviewed
 msgid "Complete build log"
-msgstr ""
+msgstr "Úplný protokol sestavení"
 
 msgid "Configuration"
 msgstr "Nastavení mapy"
@@ -242,8 +293,9 @@ msgstr "Nastavení mapy"
 msgid "Configuration successfully saved"
 msgstr "Informace byla úspěšně uložena"
 
+#. machine-translated (2026-10), to be reviewed
 msgid "Core modules"
-msgstr ""
+msgstr "Základní moduly"
 
 msgid "Create a user"
 msgstr "Vytvořit uživatele"
@@ -254,65 +306,84 @@ msgstr "Vytvořeno"
 msgid "Creation date"
 msgstr "Vytvořeno"
 
+#. machine-translated (2026-10), to be reviewed
 msgid "Cron"
-msgstr ""
+msgstr "Cron"
 
+#. machine-translated (2026-10), to be reviewed
 msgid "Cron alerts"
-msgstr ""
+msgstr "Upozornění cronu"
 
+#. machine-translated (2026-10), to be reviewed
 msgid "Cron interval"
-msgstr ""
+msgstr "Interval cronu"
 
+#. machine-translated (2026-10), to be reviewed
 msgid "Cron scheduler"
-msgstr ""
+msgstr "Plánovač cron"
 
+#. machine-translated (2026-10), to be reviewed
 msgid "Cron scheduler help"
-msgstr ""
+msgstr "Nápověda k plánovači cron"
 
 msgid "Custom SMTP Configuration"
 msgstr "Nastavení mapy"
 
+#. machine-translated (2026-10), to be reviewed
 msgid "Day of month"
-msgstr ""
+msgstr "Den v měsíci"
 
+#. machine-translated (2026-10), to be reviewed
 msgid "Day of week"
-msgstr ""
+msgstr "Den v týdnu"
 
+#. machine-translated (2026-10), to be reviewed
 msgid "Deactivate user"
-msgstr ""
+msgstr "Deaktivovat uživatele"
 
+#. machine-translated (2026-10), to be reviewed
 msgid "Default (no)"
-msgstr ""
+msgstr "Výchozí (ne)"
 
+#. machine-translated (2026-10), to be reviewed
 msgid "Development"
-msgstr ""
+msgstr "Vývoj"
 
+#. machine-translated (2026-10), to be reviewed
 msgid "DirectAdmin"
-msgstr ""
+msgstr "DirectAdmin"
 
+#. machine-translated (2026-10), to be reviewed
 msgid "DirectAdmin (beta)"
-msgstr ""
+msgstr "DirectAdmin (beta)"
 
+#. machine-translated (2026-10), to be reviewed
 msgid "Disable cron jobs"
-msgstr ""
+msgstr "Zakázat úlohy cron"
 
+#. machine-translated (2026-10), to be reviewed
 msgid "Disabled"
-msgstr ""
+msgstr "Zakázáno"
 
+#. machine-translated (2026-10), to be reviewed
 msgid "Disk usage & Cache:"
-msgstr ""
+msgstr "Využití disku a mezipaměť:"
 
+#. machine-translated (2026-10), to be reviewed
 msgid "Dismiss & install later"
-msgstr ""
+msgstr "Zavřít a nainstalovat později"
 
+#. machine-translated (2026-10), to be reviewed
 msgid "Display"
-msgstr ""
+msgstr "Zobrazení"
 
+#. machine-translated (2026-10), to be reviewed
 msgid "Doesn't meet the requirements"
-msgstr ""
+msgstr "Nesplňuje požadavky"
 
+#. machine-translated (2026-10), to be reviewed
 msgid "Download latest source"
-msgstr ""
+msgstr "Stáhnout nejnovější zdrojový kód"
 
 msgid "Drop your certificate here"
 msgstr "Vložte certifikát"
@@ -320,53 +391,66 @@ msgstr "Vložte certifikát"
 msgid "Edit the user"
 msgstr "Upravit uživatele"
 
+#. machine-translated (2026-10), to be reviewed
 msgid "Editor's Design"
-msgstr ""
+msgstr "Vzhled editoru"
 
+#. machine-translated (2026-10), to be reviewed
 msgid "Enable custom SMTP configuration"
-msgstr ""
+msgstr "Povolit vlastní konfiguraci SMTP"
 
 msgid "Enter your credentials:"
 msgstr "Zadejte své přihlašovací údaje:"
 
+#. machine-translated (2026-10), to be reviewed
 msgid "Environment"
-msgstr ""
+msgstr "Prostředí"
 
+#. machine-translated (2026-10), to be reviewed
 msgid "Error, order already paid."
-msgstr ""
+msgstr "Chyba, objednávka již byla zaplacena."
 
+#. machine-translated (2026-10), to be reviewed
 msgid ""
 "Errors are displayed on page, outputs are more verbose, this is an option "
 "for debug purpose, use with care as it may output some critical informations "
 "about your server."
-msgstr ""
+msgstr "Chyby se zobrazují na stránce, výstupy jsou podrobnější. Jde o možnost pro ladění, používejte ji opatrně, protože může vypsat důležité informace o vašem serveru."
 
+#. machine-translated (2026-10), to be reviewed
 msgid "Exists"
-msgstr ""
+msgstr "Existuje"
 
+#. machine-translated (2026-10), to be reviewed
 msgid "External extensions"
-msgstr ""
+msgstr "Externí rozšíření"
 
+#. machine-translated (2026-10), to be reviewed
 msgid "Failed"
-msgstr ""
+msgstr "Selhalo"
 
+#. machine-translated (2026-10), to be reviewed
 msgid "File hash is different from manifest."
-msgstr ""
+msgstr "Hash souboru se liší od manifestu."
 
+#. machine-translated (2026-10), to be reviewed
 msgid "File is missing."
-msgstr ""
+msgstr "Soubor chybí."
 
+#. machine-translated (2026-10), to be reviewed
 msgid "Force re-generation"
-msgstr ""
+msgstr "Vynutit opětovné vygenerování"
 
 msgid "Forgot password"
 msgstr "Zapomněli jste heslo?"
 
+#. machine-translated (2026-10), to be reviewed
 msgid "Full"
-msgstr ""
+msgstr "Úplné"
 
+#. machine-translated (2026-10), to be reviewed
 msgid "Full path to use within your webserver."
-msgstr ""
+msgstr "Úplná cesta k použití ve vašem webovém serveru."
 
 msgid "General settings"
 msgstr "Obecné nastavení"
@@ -374,48 +458,61 @@ msgstr "Obecné nastavení"
 msgid "Generate"
 msgstr "Vygenerovat"
 
+#. machine-translated (2026-10), to be reviewed
 msgid "Generate a certificate via Let's Encrypt."
-msgstr ""
+msgstr "Vygenerovat certifikát přes Let's Encrypt."
 
+#. machine-translated (2026-10), to be reviewed
 msgid "Generate source"
-msgstr ""
+msgstr "Generovat zdrojový kód"
 
+#. machine-translated (2026-10), to be reviewed
 msgid "Generating"
-msgstr ""
+msgstr "Generuje se"
 
+#. machine-translated (2026-10), to be reviewed
 msgid "[Global]"
-msgstr ""
+msgstr "[Globální]"
 
+#. machine-translated (2026-10), to be reviewed
 msgid "Grant user"
-msgstr ""
+msgstr "Udělit uživateli"
 
+#. machine-translated (2026-10), to be reviewed
 msgid "HTTP Basic Auth (API)"
-msgstr ""
+msgstr "HTTP Basic Auth (API)"
 
+#. machine-translated (2026-10), to be reviewed
 msgid "HTTP Basic Auth is valid."
-msgstr ""
+msgstr "HTTP Basic Auth je platné."
 
+#. machine-translated (2026-10), to be reviewed
 msgid "HTTPS & SSL Certificates"
-msgstr ""
+msgstr "HTTPS a certifikáty SSL"
 
+#. machine-translated (2026-10), to be reviewed
 msgid "HTTPS host is unreachable."
-msgstr ""
+msgstr "Hostitel HTTPS je nedostupný."
 
+#. machine-translated (2026-10), to be reviewed
 msgid "HTTPS is not available on your server."
-msgstr ""
+msgstr "HTTPS není na vašem serveru k dispozici."
 
+#. machine-translated (2026-10), to be reviewed
 msgid "HTTPS not reachable"
-msgstr ""
+msgstr "HTTPS není dostupné"
 
+#. machine-translated (2026-10), to be reviewed
 msgid ""
 "HTTPS support is in <b>Beta</b>, you should test it on your <b>development "
 "server</b> first & prepare for further migration."
-msgstr ""
+msgstr "Podpora HTTPS je ve fázi <b>Beta</b>, nejprve ji otestujte na svém <b>vývojovém serveru</b> a připravte se na další migraci."
 
+#. machine-translated (2026-10), to be reviewed
 msgid ""
 "HTTPS support is in test, you should only try it on your development server "
 "prior to prepare for further migration."
-msgstr ""
+msgstr "Podpora HTTPS je ve fázi testování, vyzkoušejte ji pouze na svém vývojovém serveru před přípravou na další migraci."
 
 msgid "Hide"
 msgstr "skrýt"
@@ -423,11 +520,13 @@ msgstr "skrýt"
 msgid "Host"
 msgstr "Host"
 
+#. machine-translated (2026-10), to be reviewed
 msgid "Hostname"
-msgstr ""
+msgstr "Název hostitele"
 
+#. machine-translated (2026-10), to be reviewed
 msgid "Hostnames associated with this Certificate"
-msgstr ""
+msgstr "Názvy hostitelů přiřazené k tomuto certifikátu"
 
 msgid "Hour"
 msgstr "hodina"
@@ -435,70 +534,90 @@ msgstr "hodina"
 msgid "ID"
 msgstr "ID"
 
+#. machine-translated (2026-10), to be reviewed
 msgid "If inactive, your customer won't see the tour."
-msgstr ""
+msgstr "Pokud je neaktivní, váš zákazník průvodce neuvidí."
 
+#. machine-translated (2026-10), to be reviewed
 msgid ""
 "If you are unable to install or run the cronjob on your hosting/server you "
 "can disable it."
-msgstr ""
+msgstr "Pokud na svém hostingu/serveru nemůžete nainstalovat nebo spustit úlohu cron, můžete ji zakázat."
 
 msgid "Info"
 msgstr "Info"
 
+#. machine-translated (2026-10), to be reviewed
 msgid "Installed"
-msgstr ""
+msgstr "Nainstalováno"
 
+#. machine-translated (2026-10), to be reviewed
 msgid "Installed icon packs"
-msgstr ""
+msgstr "Nainstalované sady ikon"
 
+#. machine-translated (2026-10), to be reviewed
 msgid "Installed layouts"
-msgstr ""
+msgstr "Nainstalovaná rozvržení"
 
+#. machine-translated (2026-10), to be reviewed
 msgid "Installed modules"
-msgstr ""
+msgstr "Nainstalované moduly"
 
+#. machine-translated (2026-10), to be reviewed
 msgid "Installed, version"
-msgstr ""
+msgstr "Nainstalováno, verze"
 
+#. machine-translated (2026-10), to be reviewed
 msgid "Integrity check"
-msgstr ""
+msgstr "Kontrola integrity"
 
+#. machine-translated (2026-10), to be reviewed
 msgid "Invoice options"
-msgstr ""
+msgstr "Možnosti faktur"
 
+#. machine-translated (2026-10), to be reviewed
 msgid "Issued certificates"
-msgstr ""
+msgstr "Vydané certifikáty"
 
+#. machine-translated (2026-10), to be reviewed
 msgid "JAVA:"
-msgstr ""
+msgstr "JAVA:"
 
+#. machine-translated (2026-10), to be reviewed
 msgid "Last cron error"
-msgstr ""
+msgstr "Poslední chyba cronu"
 
+#. machine-translated (2026-10), to be reviewed
 msgid "Last failure"
-msgstr ""
+msgstr "Poslední selhání"
 
+#. machine-translated (2026-10), to be reviewed
 msgid "Last success"
-msgstr ""
+msgstr "Poslední úspěch"
 
+#. machine-translated (2026-10), to be reviewed
 msgid "Last trigger"
-msgstr ""
+msgstr "Poslední spuštění"
 
+#. machine-translated (2026-10), to be reviewed
 msgid "Let's Encrypt certificates renewal"
-msgstr ""
+msgstr "Obnova certifikátů Let's Encrypt"
 
+#. machine-translated (2026-10), to be reviewed
 msgid "Let's Encrypt environment"
-msgstr ""
+msgstr "Prostředí Let's Encrypt"
 
+#. machine-translated (2026-10), to be reviewed
 msgid "[Let's Encrypt] renewing certificate."
-msgstr ""
+msgstr "[Let's Encrypt] obnovuje se certifikát."
 
+#. machine-translated (2026-10), to be reviewed
 msgid "[Let's Encrypt] will add %s to SAN."
-msgstr ""
+msgstr "[Let's Encrypt] přidá %s do SAN."
 
+#. machine-translated (2026-10), to be reviewed
 msgid "Link preview"
-msgstr ""
+msgstr "Náhled odkazu"
 
 msgid "List of backoffice accounts"
 msgstr "Seznam účtů pro backoffice"
@@ -506,29 +625,35 @@ msgstr "Seznam účtů pro backoffice"
 msgid "List of the messages"
 msgstr "Seznam zpráv"
 
+#. machine-translated (2026-10), to be reviewed
 msgid "Loaded"
-msgstr ""
+msgstr "Načteno"
 
 msgid "Log"
 msgstr "Logo"
 
+#. machine-translated (2026-10), to be reviewed
 msgid "Log (var/log, log files)"
-msgstr ""
+msgstr "Protokol (var/log, soubory protokolů)"
 
 msgid "Login to your backoffice interface"
 msgstr "Přihlaste se do svého backoffice rozhraní"
 
+#. machine-translated (2026-10), to be reviewed
 msgid "Logs cleared."
-msgstr ""
+msgstr "Protokoly byly vymazány."
 
+#. machine-translated (2026-10), to be reviewed
 msgid "Mark all as read"
-msgstr ""
+msgstr "Označit vše jako přečtené"
 
+#. machine-translated (2026-10), to be reviewed
 msgid "Mark as new"
-msgstr ""
+msgstr "Označit jako nové"
 
+#. machine-translated (2026-10), to be reviewed
 msgid "Mark as read"
-msgstr ""
+msgstr "Označit jako přečtené"
 
 msgid "Messages"
 msgstr "Zprávy"
@@ -536,14 +661,17 @@ msgstr "Zprávy"
 msgid "Minute"
 msgstr "minuta"
 
+#. machine-translated (2026-10), to be reviewed
 msgid "Missing parameters for generation."
-msgstr ""
+msgstr "Chybí parametry pro generování."
 
+#. machine-translated (2026-10), to be reviewed
 msgid "Mobile Source Codes & Builds"
-msgstr ""
+msgstr "Zdrojové kódy a sestavení mobilních aplikací"
 
+#. machine-translated (2026-10), to be reviewed
 msgid "Module/User tasks"
-msgstr ""
+msgstr "Úlohy modulů/uživatelů"
 
 msgid "Month"
 msgstr "Měsíc"
@@ -551,219 +679,280 @@ msgstr "Měsíc"
 msgid "My Invoices"
 msgstr "Moje faktury"
 
+#. machine-translated (2026-10), to be reviewed
 msgid "My tour is active"
-msgstr ""
+msgstr "Můj průvodce je aktivní"
 
 msgid "Name"
 msgstr "Název"
 
+#. machine-translated (2026-10), to be reviewed
 msgid "New messages"
-msgstr ""
+msgstr "Nové zprávy"
 
+#. machine-translated (2026-10), to be reviewed
 msgid "New users"
-msgstr ""
+msgstr "Noví uživatelé"
 
 msgid "No"
 msgstr "Ne"
 
+#. machine-translated (2026-10), to be reviewed
 msgid "No file has been sent"
-msgstr ""
+msgstr "Nebyl odeslán žádný soubor"
 
+#. machine-translated (2026-10), to be reviewed
 msgid "No icon packs"
-msgstr ""
+msgstr "Žádné sady ikon"
 
 msgid "No informations."
 msgstr "Můj účet"
 
+#. machine-translated (2026-10), to be reviewed
 msgid "No layouts"
-msgstr ""
+msgstr "Žádná rozvržení"
 
+#. machine-translated (2026-10), to be reviewed
 msgid "No module/user tasks"
-msgstr ""
+msgstr "Žádné úlohy modulů/uživatelů"
 
+#. machine-translated (2026-10), to be reviewed
 msgid "No system tasks"
-msgstr ""
+msgstr "Žádné systémové úlohy"
 
 msgid "None"
 msgstr "Žádný"
 
+#. machine-translated (2026-10), to be reviewed
 msgid "Not found"
-msgstr ""
+msgstr "Nenalezeno"
 
+#. machine-translated (2026-10), to be reviewed
 msgid "Not running"
-msgstr ""
+msgstr "Neběží"
 
+#. machine-translated (2026-10), to be reviewed
 msgid "Not yet generated."
-msgstr ""
+msgstr "Zatím nevygenerováno."
 
+#. machine-translated (2026-10), to be reviewed
 msgid "Note:"
-msgstr ""
+msgstr "Poznámka:"
 
+#. machine-translated (2026-10), to be reviewed
 msgid "Note: Let's encrypt X1 is a staging certificate."
-msgstr ""
+msgstr "Poznámka: Let's Encrypt X1 je testovací certifikát."
 
+#. machine-translated (2026-10), to be reviewed
 msgid "Number of typed characters:"
-msgstr ""
+msgstr "Počet zadaných znaků:"
 
+#. machine-translated (2026-10), to be reviewed
 msgid "OR"
-msgstr ""
+msgstr "NEBO"
 
+#. machine-translated (2026-10), to be reviewed
 msgid "Ok"
-msgstr ""
+msgstr "OK"
 
+#. machine-translated (2026-10), to be reviewed
 msgid "Ok, you may consider upgrade to >=5.4"
-msgstr ""
+msgstr "OK, zvažte upgrade na >=5.4"
 
+#. machine-translated (2026-10), to be reviewed
 msgid "Ok, you may upgrade to php 5.6"
-msgstr ""
+msgstr "OK, můžete upgradovat na php 5.6"
 
+#. machine-translated (2026-10), to be reviewed
 msgid ""
 "One of the three given Certificates path is not readable, please make sure "
 "they have the good rights."
-msgstr ""
+msgstr "Jedna ze tří zadaných cest k certifikátům není čitelná, ujistěte se, že mají správná oprávnění."
 
+#. machine-translated (2026-10), to be reviewed
 msgid "Open"
-msgstr ""
+msgstr "Otevřít"
 
+#. machine-translated (2026-10), to be reviewed
 msgid "Open the tour editing mode"
-msgstr ""
+msgstr "Otevřít režim úprav průvodce"
 
+#. machine-translated (2026-10), to be reviewed
 msgid "Optional binaries"
-msgstr ""
+msgstr "Volitelné binární soubory"
 
+#. machine-translated (2026-10), to be reviewed
 msgid "Optional libraries"
-msgstr ""
+msgstr "Volitelné knihovny"
 
+#. machine-translated (2026-10), to be reviewed
 msgid ""
 "Otherwise install it manually, from your panel, or directly from your ssh "
 "access."
-msgstr ""
+msgstr "Jinak jej nainstalujte ručně z vašeho panelu nebo přímo přes přístup ssh."
 
+#. machine-translated (2026-10), to be reviewed
 msgid "Overview - WebApp (var/apps/browser, overview & webapp cache)"
-msgstr ""
+msgstr "Náhled - WebApp (var/apps/browser, mezipaměť náhledu a webové aplikace)"
 
+#. machine-translated (2026-10), to be reviewed
 msgid "Overview cache cleared."
-msgstr ""
+msgstr "Mezipaměť náhledu byla vymazána."
 
+#. machine-translated (2026-10), to be reviewed
 msgid "PEM test:"
-msgstr ""
+msgstr "Test PEM:"
 
+#. machine-translated (2026-10), to be reviewed
 msgid "PHP version %s:"
-msgstr ""
+msgstr "Verze PHP %s:"
 
 msgid "Password"
 msgstr "Heslo"
 
+#. machine-translated (2026-10), to be reviewed
 msgid "Path to your CA certificate"
-msgstr ""
+msgstr "Cesta k vašemu certifikátu CA"
 
+#. machine-translated (2026-10), to be reviewed
 msgid "Path to your Certificate"
-msgstr ""
+msgstr "Cesta k vašemu certifikátu"
 
+#. machine-translated (2026-10), to be reviewed
 msgid "Path to your Private certificate"
-msgstr ""
+msgstr "Cesta k vašemu soukromému certifikátu"
 
+#. machine-translated (2026-10), to be reviewed
 msgid "Path to your Private key"
-msgstr ""
+msgstr "Cesta k vašemu soukromému klíči"
 
+#. machine-translated (2026-10), to be reviewed
 msgid "Payment received"
-msgstr ""
+msgstr "Platba přijata"
 
 msgid "People who are allowed to access the backoffice"
 msgstr "Lidé, kteří mají povolen přístup do backoffice"
 
+#. machine-translated (2026-10), to be reviewed
 msgid "Permission, denied from Plesk, please use the admin account."
-msgstr ""
+msgstr "Oprávnění zamítnuto v Plesku, použijte prosím účet správce."
 
+#. machine-translated (2026-10), to be reviewed
 msgid "Plesk"
-msgstr ""
+msgstr "Plesk"
 
+#. machine-translated (2026-10), to be reviewed
 msgid "Plesk 12+"
-msgstr ""
+msgstr "Plesk 12+"
 
+#. machine-translated (2026-10), to be reviewed
 msgid "[Plesk] Unknown error."
-msgstr ""
+msgstr "[Plesk] Neznámá chyba."
 
 msgid "Port"
 msgstr "Port"
 
+#. machine-translated (2026-10), to be reviewed
 msgid "Preview 5.0"
-msgstr ""
+msgstr "Preview 5.0"
 
 msgid "Privacy policy URL"
 msgstr "Ochrana osobních údajů"
 
+#. machine-translated (2026-10), to be reviewed
 msgid "Private"
-msgstr ""
+msgstr "Soukromé"
 
+#. machine-translated (2026-10), to be reviewed
 msgid "Private certificate"
-msgstr ""
+msgstr "Soukromý certifikát"
 
+#. machine-translated (2026-10), to be reviewed
 msgid "Private path:"
-msgstr ""
+msgstr "Soukromá cesta:"
 
+#. machine-translated (2026-10), to be reviewed
 msgid "Production"
-msgstr ""
+msgstr "Produkce"
 
+#. machine-translated (2026-10), to be reviewed
 msgid "Progress"
-msgstr ""
+msgstr "Průběh"
 
 msgid "Publication access type"
 msgstr "Způsob přístupu k publikování aplikace"
 
+#. machine-translated (2026-10), to be reviewed
 msgid "Push messages:"
-msgstr ""
+msgstr "Push zprávy:"
 
+#. machine-translated (2026-10), to be reviewed
 msgid "Queued"
-msgstr ""
+msgstr "Ve frontě"
 
+#. machine-translated (2026-10), to be reviewed
 msgid "Queued %s/%s"
-msgstr ""
+msgstr "Ve frontě %s/%s"
 
+#. machine-translated (2026-10), to be reviewed
 msgid "Read"
-msgstr ""
+msgstr "Přečteno"
 
+#. machine-translated (2026-10), to be reviewed
 msgid "Rebuild"
-msgstr ""
+msgstr "Znovu sestavit"
 
+#. machine-translated (2026-10), to be reviewed
 msgid "Rebuild manifest"
-msgstr ""
+msgstr "Znovu sestavit manifest"
 
+#. machine-translated (2026-10), to be reviewed
 msgid "Rebuilding application manifest files."
-msgstr ""
+msgstr "Znovu se sestavují soubory manifestu aplikace."
 
+#. machine-translated (2026-10), to be reviewed
 msgid "Regular updates system"
-msgstr ""
+msgstr "Systém pravidelných aktualizací"
 
+#. machine-translated (2026-10), to be reviewed
 msgid "Remove locks"
-msgstr ""
+msgstr "Odebrat zámky"
 
+#. machine-translated (2026-10), to be reviewed
 msgid "Remove locks now"
-msgstr ""
+msgstr "Odebrat zámky nyní"
 
+#. machine-translated (2026-10), to be reviewed
 msgid "Removing CRON Scheduler lock files."
-msgstr ""
+msgstr "Odebírají se soubory zámků plánovače CRON."
 
+#. machine-translated (2026-10), to be reviewed
 msgid "Removing domains: %s"
-msgstr ""
+msgstr "Odebírají se domény: %s"
 
+#. machine-translated (2026-10), to be reviewed
 msgid "Request"
-msgstr ""
+msgstr "Požadavek"
 
+#. machine-translated (2026-10), to be reviewed
 msgid "Request the certificate via Let's Encrypt."
-msgstr ""
+msgstr "Požádat o certifikát přes Let's Encrypt."
 
+#. machine-translated (2026-10), to be reviewed
 msgid "Required extensions"
-msgstr ""
+msgstr "Požadovaná rozšíření"
 
+#. machine-translated (2026-10), to be reviewed
 msgid "Revoke user"
-msgstr ""
+msgstr "Odebrat uživateli"
 
+#. machine-translated (2026-10), to be reviewed
 msgid "Run test"
-msgstr ""
+msgstr "Spustit test"
 
+#. machine-translated (2026-10), to be reviewed
 msgid "SSL"
-msgstr ""
+msgstr "SSL"
 
 msgid "Sales"
 msgstr "Obchod"
@@ -774,238 +963,301 @@ msgstr "Nastavení mapy"
 msgid "Save"
 msgstr "Uložit"
 
+#. machine-translated (2026-10), to be reviewed
 msgid "Select API access"
-msgstr ""
+msgstr "Vyberte přístup k API"
 
+#. machine-translated (2026-10), to be reviewed
 msgid "Select a panel type or self-managed"
-msgstr ""
+msgstr "Vyberte typ panelu nebo vlastní správu"
 
+#. machine-translated (2026-10), to be reviewed
 msgid "Self-managed"
-msgstr ""
+msgstr "Vlastní správa"
 
+#. machine-translated (2026-10), to be reviewed
 msgid "Self-managed sync is not available for now."
-msgstr ""
+msgstr "Synchronizace při vlastní správě zatím není k dispozici."
 
+#. machine-translated (2026-10), to be reviewed
 msgid "Send anonymous statistics to improve the apps builder."
-msgstr ""
+msgstr "Odesílat anonymní statistiky pro vylepšení tvůrce aplikací."
 
+#. machine-translated (2026-10), to be reviewed
 msgid "Server"
-msgstr ""
+msgstr "Server"
 
+#. machine-translated (2026-10), to be reviewed
 msgid "Services"
-msgstr ""
+msgstr "Služby"
 
+#. machine-translated (2026-10), to be reviewed
 msgid "Show All Applications"
-msgstr ""
+msgstr "Zobrazit všechny aplikace"
 
+#. machine-translated (2026-10), to be reviewed
 msgid "Show more"
-msgstr ""
+msgstr "Zobrazit více"
 
+#. machine-translated (2026-10), to be reviewed
 msgid "Siberian - Backoffice"
-msgstr ""
+msgstr "Siberian - Administrace"
 
 msgid "Siberian CMS"
 msgstr "Siberian CMS"
 
+#. machine-translated (2026-10), to be reviewed
 msgid "[Siberian_Cpanel] Unable to update cPanel SSL Certificate for %s"
-msgstr ""
+msgstr "[Siberian_Cpanel] Nelze aktualizovat certifikát SSL cPanelu pro %s"
 
+#. machine-translated (2026-10), to be reviewed
 msgid "[Siberian_VestaCP] requires php 5.6+"
-msgstr ""
+msgstr "[Siberian_VestaCP] vyžaduje php 5.6+"
 
+#. machine-translated (2026-10), to be reviewed
 msgid ""
 "Something went wrong with the API Sync to %s, retry or check in your panel "
 "if your SSL certificate is correctly setup."
-msgstr ""
+msgstr "Při synchronizaci API s %s se něco pokazilo, zkuste to znovu nebo zkontrolujte ve svém panelu, zda je váš certifikát SSL správně nastaven."
 
+#. machine-translated (2026-10), to be reviewed
 msgid "Source"
-msgstr ""
+msgstr "Zdroj"
 
+#. machine-translated (2026-10), to be reviewed
 msgid "Source Queue empty"
-msgstr ""
+msgstr "Fronta zdrojů je prázdná"
 
+#. machine-translated (2026-10), to be reviewed
 msgid "Source Queue status"
-msgstr ""
+msgstr "Stav fronty zdrojů"
 
+#. machine-translated (2026-10), to be reviewed
 msgid "[Sources]"
-msgstr ""
+msgstr "[Zdroje]"
 
 msgid "Sources code"
 msgstr "Zdrojový kód"
 
+#. machine-translated (2026-10), to be reviewed
 msgid "Stable"
-msgstr ""
+msgstr "Stabilní"
 
+#. machine-translated (2026-10), to be reviewed
 msgid "Staging"
-msgstr ""
+msgstr "Testovací"
 
+#. machine-translated (2026-10), to be reviewed
 msgid "Start editing your platform tour"
-msgstr ""
+msgstr "Začít upravovat průvodce vaší platformy"
 
+#. machine-translated (2026-10), to be reviewed
 msgid "Statistics"
-msgstr ""
+msgstr "Statistiky"
 
+#. machine-translated (2026-10), to be reviewed
 msgid ""
 "Statistics are used to improve the platform and help understanding usage of "
 "the apps builder."
-msgstr ""
+msgstr "Statistiky se používají ke zlepšení platformy a k pochopení využití tvůrce aplikací."
 
 msgid "Status"
 msgstr "Status"
 
+#. machine-translated (2026-10), to be reviewed
 msgid "Submit a bug report or improvement request for beta/preview"
-msgstr ""
+msgstr "Odeslat hlášení chyby nebo požadavek na vylepšení pro beta/preview"
 
+#. machine-translated (2026-10), to be reviewed
 msgid "Success"
-msgstr ""
+msgstr "Úspěch"
 
+#. machine-translated (2026-10), to be reviewed
 msgid "Successfully cleaned-up old certificate."
-msgstr ""
+msgstr "Starý certifikát byl úspěšně vyčištěn."
 
+#. machine-translated (2026-10), to be reviewed
 msgid "Successfully installed new certificate."
-msgstr ""
+msgstr "Nový certifikát byl úspěšně nainstalován."
 
+#. machine-translated (2026-10), to be reviewed
 msgid "Successfully removed the certificate."
-msgstr ""
+msgstr "Certifikát byl úspěšně odebrán."
 
+#. machine-translated (2026-10), to be reviewed
 msgid "Successfully saved Certificate to %s"
-msgstr ""
+msgstr "Certifikát byl úspěšně uložen do %s"
 
+#. machine-translated (2026-10), to be reviewed
 msgid "Sync files"
-msgstr ""
+msgstr "Synchronizovat soubory"
 
+#. machine-translated (2026-10), to be reviewed
 msgid "System Diagnostic"
-msgstr ""
+msgstr "Diagnostika systému"
 
+#. machine-translated (2026-10), to be reviewed
 msgid "System tasks"
-msgstr ""
+msgstr "Systémové úlohy"
 
+#. machine-translated (2026-10), to be reviewed
 msgid "System was unable to validate any Bearer Token Auth call."
-msgstr ""
+msgstr "Systém nedokázal ověřit žádné volání Bearer Token Auth."
 
+#. machine-translated (2026-10), to be reviewed
 msgid "System was unable to validate any HTTP Basic Auth call."
-msgstr ""
+msgstr "Systém nedokázal ověřit žádné volání HTTP Basic Auth."
 
 msgid "Temp (var/tmp, application sources & apk)"
 msgstr ""
 
+#. machine-translated (2026-10), to be reviewed
 msgid "Templates"
-msgstr ""
+msgstr "Šablony"
 
+#. machine-translated (2026-10), to be reviewed
 msgid "Test SSL/HTTPS"
-msgstr ""
+msgstr "Otestovat SSL/HTTPS"
 
+#. machine-translated (2026-10), to be reviewed
 msgid "Testing: %s"
-msgstr ""
+msgstr "Testování: %s"
 
+#. machine-translated (2026-10), to be reviewed
 msgid ""
 "The PHP executable guessed path <b>'%s'</b> may be incorrect, please double "
 "check for it."
-msgstr ""
+msgstr "Odhadovaná cesta ke spustitelnému souboru PHP <b>'%s'</b> může být nesprávná, zkontrolujte ji prosím."
 
+#. machine-translated (2026-10), to be reviewed
 msgid "The default setting to run your production server."
-msgstr ""
+msgstr "Výchozí nastavení pro provoz produkčního serveru."
 
+#. machine-translated (2026-10), to be reviewed
 msgid ""
 "The domain %s doesn't belong to you, or is not configured on your server."
-msgstr ""
+msgstr "Doména %s vám nepatří nebo není nakonfigurována na vašem serveru."
 
+#. machine-translated (2026-10), to be reviewed
 msgid "The given CA certificate doesn't match the hostname."
-msgstr ""
+msgstr "Zadaný certifikát CA neodpovídá názvu hostitele."
 
+#. machine-translated (2026-10), to be reviewed
 msgid "The given certificate doesn't match the hostname."
-msgstr ""
+msgstr "Zadaný certifikát neodpovídá názvu hostitele."
 
+#. machine-translated (2026-10), to be reviewed
 msgid "The given certificate doesn't match the hostname or wiSibldcard."
-msgstr ""
+msgstr "Zadaný certifikát neodpovídá názvu hostitele ani wiSibldcard."
 
 msgid "This account can't be deleted, it's the only one"
 msgstr "Tento účet nemůže být smazán"
 
+#. machine-translated (2026-10), to be reviewed
 msgid ""
 "This action mainly serves as a development & support purpose<br />This will "
 "restore App sources 'iOS', 'Android', 'HTML5' & 'Overview' from the latest "
 "Siberian version, then rebuild the manifest to restore installed modules."
-msgstr ""
+msgstr "Tato akce slouží především pro vývoj a podporu<br />Obnoví zdrojové kódy aplikací 'iOS', 'Android', 'HTML5' a 'Overview' z nejnovější verze Siberian a poté znovu sestaví manifest, aby se obnovily nainstalované moduly."
 
+#. machine-translated (2026-10), to be reviewed
 msgid ""
 "This e-mail address must be reachable, as you will receive important e-mails "
 "from the system & user actions."
-msgstr ""
+msgstr "Tato e-mailová adresa musí být dostupná, protože na ni budete dostávat důležité e-maily ze systému a o akcích uživatelů."
 
+#. machine-translated (2026-10), to be reviewed
 msgid ""
 "This message will be displayed as a waiting message when your users chose an "
 "offline payment method"
-msgstr ""
+msgstr "Tato zpráva se zobrazí jako zpráva o čekání, když si vaši uživatelé zvolí offline způsob platby"
 
+#. machine-translated (2026-10), to be reviewed
 msgid ""
 "This message will be displayed as an information message to describe which "
 "offline payment method you offer"
-msgstr ""
+msgstr "Tato zpráva se zobrazí jako informační zpráva popisující, jaký offline způsob platby nabízíte"
 
+#. machine-translated (2026-10), to be reviewed
 msgid ""
 "This test is for development & support usage, this only highlights potential "
 "missing and/or modified files, results need to be interpreted."
-msgstr ""
+msgstr "Tento test slouží pro vývoj a podporu, pouze upozorňuje na potenciálně chybějící a/nebo změněné soubory, výsledky je třeba interpretovat."
 
+#. machine-translated (2026-10), to be reviewed
 msgid "Tools"
-msgstr ""
+msgstr "Nástroje"
 
+#. machine-translated (2026-10), to be reviewed
 msgid "Total sales"
-msgstr ""
+msgstr "Celkové tržby"
 
+#. machine-translated (2026-10), to be reviewed
 msgid "Total usage:"
-msgstr ""
+msgstr "Celkové využití:"
 
+#. machine-translated (2026-10), to be reviewed
 msgid "Tour settings"
-msgstr ""
+msgstr "Nastavení průvodce"
 
+#. machine-translated (2026-10), to be reviewed
 msgid "Tour status"
-msgstr ""
+msgstr "Stav průvodce"
 
 msgid "Tour status successfully saved."
 msgstr "Menu úspěšně uloženo"
 
+#. machine-translated (2026-10), to be reviewed
 msgid "UID"
-msgstr ""
+msgstr "UID"
 
+#. machine-translated (2026-10), to be reviewed
 msgid ""
 "Unable to connect in HTTPS or to validate the SSL Certificate.<br />Check if "
 "your are not in `Staging`"
-msgstr ""
+msgstr "Nelze se připojit přes HTTPS nebo ověřit certifikát SSL.<br />Zkontrolujte, zda nejste v režimu `Testovací`"
 
 msgid "Unknown"
 msgstr "Neznámý"
 
+#. machine-translated (2026-10), to be reviewed
 msgid "Unknown - Self-managed"
-msgstr ""
+msgstr "Neznámé - vlastní správa"
 
+#. machine-translated (2026-10), to be reviewed
 msgid "Update"
-msgstr ""
+msgstr "Aktualizovat"
 
+#. machine-translated (2026-10), to be reviewed
 msgid "Update channel"
-msgstr ""
+msgstr "Kanál aktualizací"
 
 msgid "Updated At"
 msgstr "Aktualizováno"
 
+#. machine-translated (2026-10), to be reviewed
 msgid "Upload"
-msgstr ""
+msgstr "Nahrát"
 
+#. machine-translated (2026-10), to be reviewed
 msgid "Upload files or use existing certificates on my server"
-msgstr ""
+msgstr "Nahrát soubory nebo použít existující certifikáty na mém serveru"
 
+#. machine-translated (2026-10), to be reviewed
 msgid "Upload my certificates"
-msgstr ""
+msgstr "Nahrát moje certifikáty"
 
+#. machine-translated (2026-10), to be reviewed
 msgid "Upload your own certificates"
-msgstr ""
+msgstr "Nahrát vlastní certifikáty"
 
+#. machine-translated (2026-10), to be reviewed
 msgid "Use HTTPS"
-msgstr ""
+msgstr "Použít HTTPS"
 
+#. machine-translated (2026-10), to be reviewed
 msgid "Use existing certificates on my server"
-msgstr ""
+msgstr "Použít existující certifikáty na mém serveru"
 
 msgid "User successfully deleted"
 msgstr "Uživatel úspěšně smazán"
@@ -1013,72 +1265,90 @@ msgstr "Uživatel úspěšně smazán"
 msgid "Username"
 msgstr "Uživatelské jméno"
 
+#. machine-translated (2026-10), to be reviewed
 msgid "User's status successfully edited"
-msgstr ""
+msgstr "Stav uživatele byl úspěšně upraven"
 
+#. machine-translated (2026-10), to be reviewed
 msgid "VAT check options"
-msgstr ""
+msgstr "Možnosti kontroly DPH"
 
+#. machine-translated (2026-10), to be reviewed
 msgid "Validation"
-msgstr ""
+msgstr "Ověření"
 
+#. machine-translated (2026-10), to be reviewed
 msgid "VestaCP"
-msgstr ""
+msgstr "VestaCP"
 
+#. machine-translated (2026-10), to be reviewed
 msgid "VestaCP (php 5.6+ only)"
-msgstr ""
+msgstr "VestaCP (pouze php 5.6+)"
 
 msgid "View Details"
 msgstr "Zobrazit podrobnosti"
 
+#. machine-translated (2026-10), to be reviewed
 msgid "WHM cPanel"
-msgstr ""
+msgstr "WHM cPanel"
 
+#. machine-translated (2026-10), to be reviewed
 msgid "Waiting for %s to reload, this can take a while..."
-msgstr ""
+msgstr "Čekání na opětovné načtení %s, může to chvíli trvat..."
 
+#. machine-translated (2026-10), to be reviewed
 msgid ""
 "We recommned using <b>preview</b> on a testing or development server, we "
 "won't provide regular ticket support for these update channels, only bug "
 "reports via the form below."
-msgstr ""
+msgstr "Doporučujeme používat <b>preview</b> na testovacím nebo vývojovém serveru, pro tyto kanály aktualizací neposkytujeme běžnou podporu přes tickety, pouze hlášení chyb prostřednictvím formuláře níže."
 
+#. machine-translated (2026-10), to be reviewed
 msgid "Web space"
-msgstr ""
+msgstr "Webový prostor"
 
+#. machine-translated (2026-10), to be reviewed
 msgid "White Label"
-msgstr ""
+msgstr "White Label"
 
+#. machine-translated (2026-10), to be reviewed
 msgid "Whitelabel"
-msgstr ""
+msgstr "Whitelabel"
 
+#. machine-translated (2026-10), to be reviewed
 msgid "Whitelabel hostnames associated with this Certificate"
-msgstr ""
+msgstr "Názvy hostitelů whitelabelu přiřazené k tomuto certifikátu"
 
+#. machine-translated (2026-10), to be reviewed
 msgid "Whitelabel request"
-msgstr ""
+msgstr "Žádost o whitelabel"
 
+#. machine-translated (2026-10), to be reviewed
 msgid "Whitelabels"
-msgstr ""
+msgstr "Whitelabely"
 
 msgid "Yes"
 msgstr "Ano"
 
+#. machine-translated (2026-10), to be reviewed
 msgid "Yes, install the update."
-msgstr ""
+msgstr "Ano, nainstalovat aktualizaci."
 
+#. machine-translated (2026-10), to be reviewed
 msgid ""
 "You are about to clean all the cron lock files !\n"
 "Are you sure ?"
-msgstr ""
+msgstr "Chystáte se vyčistit všechny soubory zámků cronu!\nJste si jisti?"
 
+#. machine-translated (2026-10), to be reviewed
 msgid ""
 "You are about to clean all your log files !\n"
 "Are you sure ?"
-msgstr ""
+msgstr "Chystáte se vyčistit všechny soubory protokolů!\nJste si jisti?"
 
+#. machine-translated (2026-10), to be reviewed
 msgid "You are about to delete this certificate, Are you sure ?"
-msgstr ""
+msgstr "Chystáte se odstranit tento certifikát. Jste si jisti?"
 
 msgid ""
 "You are about to wipe all your temporary files, this includes the generated "
@@ -1086,43 +1356,52 @@ msgid ""
 "Are you sure ?"
 msgstr ""
 
+#. machine-translated (2026-10), to be reviewed
 msgid "You can use <b>%s</b> as a dynamic variable for your application name."
-msgstr ""
+msgstr "Jako dynamickou proměnnou pro název vaší aplikace můžete použít <b>%s</b>."
 
+#. machine-translated (2026-10), to be reviewed
 msgid ""
 "You have a Source generation stuck for more than 1 hour, please check in <b>"
 "Settings > Advanced > Cron</b> for the stuck build.<br />To unlock further "
 "builds you can remove locks from the button below."
-msgstr ""
+msgstr "Generování zdrojového kódu je zablokováno déle než 1 hodinu, zkontrolujte zablokované sestavení v <b>Nastavení > Pokročilé > Cron</b>.<br />Pro odblokování dalších sestavení můžete odebrat zámky tlačítkem níže."
 
+#. machine-translated (2026-10), to be reviewed
 msgid ""
 "You have an APK generation stuck for more than 1 hour, please check in <b>"
 "Settings > Advanced > Cron</b> for the stuck build.<br />To unlock further "
 "builds you can remove locks from the button below."
-msgstr ""
+msgstr "Generování APK je zablokováno déle než 1 hodinu, zkontrolujte zablokované sestavení v <b>Nastavení > Pokročilé > Cron</b>.<br />Pro odblokování dalších sestavení můžete odebrat zámky tlačítkem níže."
 
+#. machine-translated (2026-10), to be reviewed
 msgid "You have no certificate yet."
-msgstr ""
+msgstr "Zatím nemáte žádný certifikát."
 
+#. machine-translated (2026-10), to be reviewed
 msgid "You have no new messages."
-msgstr ""
+msgstr "Nemáte žádné nové zprávy."
 
+#. machine-translated (2026-10), to be reviewed
 msgid "You must select an Admin panel type before requesting a Certificate."
-msgstr ""
+msgstr "Před vyžádáním certifikátu musíte vybrat typ panelu správce."
 
 msgid ""
 "Your HTTPS/SSL Certificate is about to expire in <b>%s day%s</b>, don't "
 "forget to renew it on the following page <a href=\"%s\">configuration</a>."
 msgstr ""
 
+#. machine-translated (2026-10), to be reviewed
 msgid "Your certificate is invalid"
-msgstr ""
+msgstr "Váš certifikát je neplatný"
 
+#. machine-translated (2026-10), to be reviewed
 msgid "Your certificate is valid until:"
-msgstr ""
+msgstr "Váš certifikát je platný do:"
 
+#. machine-translated (2026-10), to be reviewed
 msgid "Your certificates are saved."
-msgstr ""
+msgstr "Vaše certifikáty byly uloženy."
 
 msgid "Your new password"
 msgstr "Vaše nové heslo"
@@ -1130,24 +1409,28 @@ msgstr "Vaše nové heslo"
 msgid "Your password"
 msgstr "Vaše heslo"
 
+#. machine-translated (2026-10), to be reviewed
 msgid "<b>Actual preview version is Siberian 5.0</b>."
-msgstr ""
+msgstr "<b>Aktuální verze preview je Siberian 5.0</b>."
 
+#. machine-translated (2026-10), to be reviewed
 msgid ""
 "<b>Disclaimer:</b> You are using the <b>preview</b> update channel, this "
 "channel is intended for <b>tests & previews</b> of new features, if you are "
 "not sure stay with <b>stable channel</b>."
-msgstr ""
+msgstr "<b>Upozornění:</b> Používáte kanál aktualizací <b>preview</b>, který je určen pro <b>testy a náhledy</b> nových funkcí. Pokud si nejste jisti, zůstaňte u <b>stabilního kanálu</b>."
 
+#. machine-translated (2026-10), to be reviewed
 msgid ""
 "<b>Note for Bug report:</b> give us a maximum of description of how you "
 "reached the bug, and possibly screenshots."
-msgstr ""
+msgstr "<b>Poznámka k hlášení chyby:</b> popište nám co nejpodrobněji, jak jste k chybě dospěli, a případně přiložte snímky obrazovky."
 
+#. machine-translated (2026-10), to be reviewed
 msgid ""
 "<b>Note</b>: sources & push will be sent immediately after their creation, "
 "scheduled push will not work & media optimization is disabled."
-msgstr ""
+msgstr "<b>Poznámka</b>: zdrojové kódy a push zprávy budou odeslány ihned po vytvoření, plánované push zprávy nebudou fungovat a optimalizace médií je zakázána."
 
 msgid "customer"
 msgstr "Zákazník"
@@ -1158,17 +1441,99 @@ msgstr "%d Nepřečtená zpráva"
 msgid "%d Unread Messages"
 msgstr "%d Nepřečtené zprávy"
 
+#. machine-translated (2026-10), to be reviewed
 msgid "for the bundle id:"
-msgstr ""
+msgstr "pro bundle ID:"
 
+#. machine-translated (2026-10), to be reviewed
 msgid "letsencrypt"
-msgstr ""
+msgstr "letsencrypt"
 
+#. machine-translated (2026-10), to be reviewed
 msgid "per page"
-msgstr ""
+msgstr "na stránku"
 
+#. machine-translated (2026-10), to be reviewed
 msgid "see Settings > Advanced > Configuration > Cron to edit options."
-msgstr ""
+msgstr "možnosti upravíte v Nastavení > Pokročilé > Konfigurace > Cron."
 
+#. machine-translated (2026-10), to be reviewed
 msgid "values are refreshed once a day only!"
-msgstr ""
+msgstr "hodnoty se obnovují pouze jednou denně!"
+
+# GMT 1559644696.6294
+#. machine-translated (2026-10), to be reviewed
+msgid "Temp (var/tmp, application sources)"
+msgstr "Dočasné (var/tmp, zdrojové kódy aplikací)"
+
+# GMT 1559644696.8734
+#. machine-translated (2026-10), to be reviewed
+msgid ""
+"You are about to wipe all your temporary files, this includes the generated sources builds !\n"
+"Are you sure ?"
+msgstr "Chystáte se smazat všechny dočasné soubory, včetně vygenerovaných sestavení zdrojových kódů!\nJste si jisti?"
+
+# GMT 1559644696.9767
+#. machine-translated (2026-10), to be reviewed
+msgid "Free trial"
+msgstr "Zkušební verze zdarma"
+
+# GMT 1559644696.9768
+#. machine-translated (2026-10), to be reviewed
+msgid "Trial duration in days"
+msgstr "Délka zkušební doby ve dnech"
+
+# GMT 1559644696.9769
+#. machine-translated (2026-10), to be reviewed
+msgid "Allow access to editor regardless the free trial or subscription"
+msgstr "Povolit přístup do editoru bez ohledu na zkušební verzi nebo předplatné"
+
+# GMT 1559644696.9770
+#. machine-translated (2026-10), to be reviewed
+msgid "Enable free trial"
+msgstr "Povolit zkušební verzi zdarma"
+
+# GMT 1559644696.9771
+#. machine-translated (2026-10), to be reviewed
+msgid "Session lifetime can't be below 300 seconds / 5 minutes."
+msgstr "Platnost relace nemůže být kratší než 300 sekund / 5 minut."
+
+# GMT 1559644696.9772
+#. machine-translated (2026-10), to be reviewed
+msgid "Sessions without activity for that time will be automatically cleaned-up."
+msgstr "Relace bez aktivity po tuto dobu budou automaticky vyčištěny."
+
+# GMT 1559644696.9773
+#. machine-translated (2026-10), to be reviewed
+msgid "Default is 604800 which is 7 days."
+msgstr "Výchozí hodnota je 604800, což je 7 dní."
+
+# GMT 1559644696.9774
+#. machine-translated (2026-10), to be reviewed
+msgid "Session lifetime in seconds"
+msgstr "Platnost relace v sekundách"
+
+# GMT 1559644696.9775
+#. machine-translated (2026-10), to be reviewed
+msgid "Mobile sessions are however unlimited, they are removed only when the user manually logs out of the application."
+msgstr "Mobilní relace jsou však neomezené, odstraní se pouze tehdy, když se uživatel ručně odhlásí z aplikace."
+
+# GMT 1567897564.5000
+#. machine-translated (2026-10), to be reviewed
+msgid "Website"
+msgstr "Web"
+
+# GMT 1567897564.5001
+#. machine-translated (2026-10), to be reviewed
+msgid "Phone number"
+msgstr "Telefonní číslo"
+
+# GMT 1567897564.5002
+#. machine-translated (2026-10), to be reviewed
+msgid "Company / Brand"
+msgstr "Společnost / Značka"
+
+# GMT 1567897564.5003
+#. machine-translated (2026-10), to be reviewed
+msgid "Firstname / Lastname"
+msgstr "Jméno / Příjmení"

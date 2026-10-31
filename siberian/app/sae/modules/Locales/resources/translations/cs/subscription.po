@@ -30,10 +30,11 @@ msgstr ""
 "Při zpracování platby došlo k chybě. Pro více informací nás neváhejte "
 "kontaktovat."
 
+#. machine-translated (2026-10), to be reviewed
 msgid ""
 "An error occurred while processing your order. Please, check your 2Checkout "
 "credentials or try again later."
-msgstr ""
+msgstr "Při zpracování vaší objednávky došlo k chybě. Zkontrolujte prosím své přihlašovací údaje 2Checkout nebo to zkuste později."
 
 msgid "An error occurred while processing your order. Please, try again later."
 msgstr "Při zpracování objednávky došlo k chybě. Zkuste to prosím později"
@@ -44,35 +45,40 @@ msgstr "Při ukládání došlo k chybě. Zkuste to prosím později"
 msgid "An error occurred while saving. The selected subscription is not valid."
 msgstr "Při ukládání došlo k chybě.Vybrané předplatné není platné."
 
+#. machine-translated (2026-10), to be reviewed
 msgid ""
 "An offline payment method will <strong>not</strong> be associated with any "
 "online payment method. Users will have to pay you by checks, bank "
 "transfer...You'll have to edit your invoices manually."
-msgstr ""
+msgstr "Offline způsob platby <strong>nebude</strong> přiřazen k žádnému online způsobu platby. Uživatelé vám budou platit šekem, bankovním převodem... Faktury budete muset upravovat ručně."
 
 msgid "Are you sure you want to delete this plan?"
 msgstr "Opravdu chcete smazat tento plán?"
 
+#. machine-translated (2026-10), to be reviewed
 msgid ""
 "Be careful: a 2Checkout stopped recurrence can only be reactivated by a "
 "2Checkout representative."
-msgstr ""
+msgstr "Pozor: zastavené opakování 2Checkout může znovu aktivovat pouze zástupce 2Checkout."
 
+#. machine-translated (2026-10), to be reviewed
 msgid ""
 "Be careful: a Stripe stopped recurrence can only be reactivated manually in "
 "your Stripe Admin panel."
-msgstr ""
+msgstr "Pozor: zastavené opakování Stripe lze znovu aktivovat pouze ručně v administračním panelu Stripe."
 
+#. machine-translated (2026-10), to be reviewed
 msgid ""
 "Be sure to fill in Admob settings in Settings > General section of your back "
 "office."
-msgstr ""
+msgstr "Nezapomeňte vyplnit nastavení Admob v sekci Nastavení > Obecné ve vaší administraci."
 
 msgid "Billing Address"
 msgstr "Fakturační adresa"
 
+#. machine-translated (2026-10), to be reviewed
 msgid "CVC"
-msgstr ""
+msgstr "CVC"
 
 msgid "Card number"
 msgstr "Název karty (pro vás)"
@@ -86,8 +92,9 @@ msgstr "?Charged to your client every year?"
 msgid "Charged to your client when placing the order"
 msgstr "?Charged to your client when placing the order?"
 
+#. machine-translated (2026-10), to be reviewed
 msgid "Choose features"
-msgstr ""
+msgstr "Vybrat funkce"
 
 msgid "Choose the subscription that suits you best:"
 msgstr "Vyberte si předplatné, které vám nejlépe vyhovuje:"
@@ -98,11 +105,13 @@ msgstr "Vyberte způsob platby"
 msgid "City"
 msgstr "Město"
 
+#. machine-translated (2026-10), to be reviewed
 msgid "Click here"
-msgstr ""
+msgstr "Klikněte zde"
 
+#. machine-translated (2026-10), to be reviewed
 msgid "Confirmation"
-msgstr ""
+msgstr "Potvrzení"
 
 msgid "Create a new subscription"
 msgstr "Vytvořit nový plán předplatného"
@@ -113,10 +122,11 @@ msgstr "Tvorba"
 msgid "Describe here this plan. Will be displayed on the front end"
 msgstr "Popis plánu předplatného. Bude se zobrazovat při platbě"
 
+#. machine-translated (2026-10), to be reviewed
 msgid ""
 "Don't forget to configure your message for offline plans in Settings > Sales "
 "> Configuration"
-msgstr ""
+msgstr "Nezapomeňte nakonfigurovat svou zprávu pro offline tarify v Nastavení > Prodej > Konfigurace"
 
 msgid "Each price must be entered excluding tax"
 msgstr "Každá cena musí být bez DPH"
@@ -133,13 +143,15 @@ msgstr "Datum vypršení platnosti"
 msgid "Give a name to this plan. Will be displayed on the front end"
 msgstr "Název plánu předplatného. Bude se zobrazovat při platbě"
 
+#. machine-translated (2026-10), to be reviewed
 msgid ""
 "If you chose an offline payment, your subscription will be activated by an "
 "admin when your payment is received."
-msgstr ""
+msgstr "Pokud zvolíte offline platbu, vaše předplatné aktivuje správce po přijetí platby."
 
+#. machine-translated (2026-10), to be reviewed
 msgid "I'll pay with an offline payment mode"
-msgstr ""
+msgstr "Zaplatím offline způsobem platby"
 
 msgid "List of your plans"
 msgstr "Seznam plánů předplatného"
@@ -153,11 +165,13 @@ msgstr ""
 msgid "Monthly"
 msgstr "Měsíčně"
 
+#. machine-translated (2026-10), to be reviewed
 msgid "New sale on your platform"
-msgstr ""
+msgstr "Nový prodej na vaší platformě"
 
+#. machine-translated (2026-10), to be reviewed
 msgid "No recurring line items to stop."
-msgstr ""
+msgstr "Žádné opakované položky k zastavení."
 
 msgid "None"
 msgstr "Žádný"
@@ -177,8 +191,9 @@ msgstr "Způsob platby:"
 msgid "Payment Option"
 msgstr "Možnost platby"
 
+#. machine-translated (2026-10), to be reviewed
 msgid "Please choose a payment method for this plan."
-msgstr ""
+msgstr "Vyberte prosím způsob platby pro tento tarif."
 
 msgid "Please, enter a company"
 msgstr "Prosím, zadejte společnost"
@@ -195,8 +210,9 @@ msgstr "?Prosím, zadejte jméno?"
 msgid "Please, enter an address"
 msgstr "Prosím, zadejte adresu"
 
+#. machine-translated (2026-10), to be reviewed
 msgid "Please fill in your card information in order to pay with Stripe:"
-msgstr ""
+msgstr "Pro platbu přes Stripe vyplňte prosím údaje o své kartě:"
 
 msgid "Pricing"
 msgstr "Ceník"
@@ -240,31 +256,36 @@ msgstr "Měsíční cena není platná cena (např 12.34)"
 msgid "The setup fee is not a valid price (e.g. 12.34)"
 msgstr "Zřizovací poplatek není platná cena (např. 12.34)"
 
+#. machine-translated (2026-10), to be reviewed
 msgid "The user %s requests you to publish the app %s."
-msgstr ""
+msgstr "Uživatel %s vás žádá o publikování aplikace %s."
 
 msgid "The yearly price is not a valid price (e.g. 12.34)"
 msgstr "Roční cena není platná cena (např 12.34)"
 
+#. machine-translated (2026-10), to be reviewed
 msgid "This plan allows offline payments method (manual management)"
-msgstr ""
+msgstr "Tento tarif umožňuje offline způsoby platby (ruční správa)"
 
 msgid "This subscription is active"
 msgstr "Toto předplatné je aktivní"
 
+#. machine-translated (2026-10), to be reviewed
 msgid "Use Owner AdMob"
-msgstr ""
+msgstr "Použít AdMob vlastníka"
 
 msgid "VAT Number"
 msgstr "DIČ"
 
+#. machine-translated (2026-10), to be reviewed
 msgid "Verification number:"
-msgstr ""
+msgstr "Ověřovací číslo:"
 
+#. machine-translated (2026-10), to be reviewed
 msgid ""
 "We were unable to deactivate their subscription on %s. Please, do it "
 "manually."
-msgstr ""
+msgstr "Jejich předplatné se nepodařilo deaktivovat na %s. Proveďte to prosím ručně."
 
 msgid "YYYY"
 msgstr ""
@@ -282,18 +303,20 @@ msgstr ""
 "Jste téměř u konce! Po zaplacení bude Vaše aplikace vypublikována pro Apple "
 "iTunes store a Google Play"
 
+#. machine-translated (2026-10), to be reviewed
 msgid ""
 "You can choose which feature will be accessible with your plan. By default, "
 "all features are allowed."
-msgstr ""
+msgstr "Můžete zvolit, která funkce bude s vaším tarifem přístupná. Ve výchozím nastavení jsou povoleny všechny funkce."
 
 msgid "You don't have any subscriptions yet"
 msgstr "Zatím nemáte žádne předplatné"
 
+#. machine-translated (2026-10), to be reviewed
 msgid ""
 "You have chosen an offline plan. Once submitted, your subscription will be "
 "activated by an admin when your payment is received."
-msgstr ""
+msgstr "Zvolili jste offline tarif. Po odeslání vaše předplatné aktivuje správce po přijetí platby."
 
 msgid "Your VAT Number is not valid"
 msgstr "Vaše DIČ není platné"
@@ -315,8 +338,9 @@ msgstr ""
 msgid "Your subscription must have at least one price"
 msgstr "Vaše předplatné musí mít alespoň jednu cenu"
 
+#. machine-translated (2026-10), to be reviewed
 msgid "You've made a sale!"
-msgstr ""
+msgstr "Uskutečnili jste prodej!"
 
 msgid "Zip Code"
 msgstr "PSČ"
@@ -324,5 +348,7 @@ msgstr "PSČ"
 msgid "price"
 msgstr "cena"
 
+#. machine-translated (2026-10), to be reviewed
 msgid "to view this app if you are connected to your backoffice."
-msgstr ""
+msgstr "pro zobrazení této aplikace, pokud jste přihlášeni do administrace."
+

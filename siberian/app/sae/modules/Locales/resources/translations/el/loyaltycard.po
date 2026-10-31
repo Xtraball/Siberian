@@ -20,8 +20,9 @@ msgstr "1 πόντος πίστεως ="
 msgid "1 point"
 msgstr "1 πόντος"
 
+#. machine-translated (2026-10), to be reviewed
 msgid "1 validated point ="
-msgstr ""
+msgstr "1 επικυρωμένος πόντος ="
 
 msgid "An error occurred while retrieving QRCode. Please try again later"
 msgstr ""
@@ -46,8 +47,9 @@ msgstr ""
 "Υπήρξε σφάλμα κατά την επικύρωση των πόντων. Παρακαλούμε δοκιμάστε ξανά "
 "αργότερα."
 
+#. machine-translated (2026-10), to be reviewed
 msgid "An error occurred with your QRCode."
-msgstr ""
+msgstr "Παρουσιάστηκε σφάλμα με το QRCode σας."
 
 msgid "Card name"
 msgstr "Όνομα κάρτας"
@@ -79,8 +81,9 @@ msgstr "Η νέα Κάρτα Πίστεώς μου"
 msgid "My passwords"
 msgstr "Οι κωδικοί μου"
 
+#. machine-translated (2026-10), to be reviewed
 msgid "No cards available"
-msgstr ""
+msgstr "Δεν υπάρχουν διαθέσιμες κάρτες"
 
 msgid "Number of points"
 msgstr "Αριθμός πόντων"
@@ -97,11 +100,13 @@ msgstr ""
 "Παρακαλούμε δείξτε το τηλέφωνό σας στον συνεργάτη μας, για να συμπληρώσει "
 "τον Κωδικό"
 
+#. machine-translated (2026-10), to be reviewed
 msgid "Point active"
-msgstr ""
+msgstr "Ενεργός πόντος"
 
+#. machine-translated (2026-10), to be reviewed
 msgid "Point inactive"
-msgstr ""
+msgstr "Ανενεργός πόντος"
 
 msgid "Point%s successfully validated"
 msgstr "Οι πόντοι επικυρώθηκαν επιτυχώς"
@@ -115,17 +120,21 @@ msgstr "Αμοιβή"
 msgid "Rewards"
 msgstr "Αμοιβή"
 
+#. machine-translated (2026-10), to be reviewed
 msgid "Scan QRCode"
-msgstr ""
+msgstr "Σάρωση QRCode"
 
+#. machine-translated (2026-10), to be reviewed
 msgid "This card is uniq:"
-msgstr ""
+msgstr "Αυτή η κάρτα είναι μοναδική:"
 
+#. machine-translated (2026-10), to be reviewed
 msgid "Unlock by QRCode"
-msgstr ""
+msgstr "Ξεκλείδωμα με QRCode"
 
+#. machine-translated (2026-10), to be reviewed
 msgid "Unreadable QRCode, sorry."
-msgstr ""
+msgstr "Μη αναγνώσιμο QRCode, λυπούμαστε."
 
 msgid "Use only once?"
 msgstr "χρησιμοποιήστε μόνο μία φορά"
@@ -166,8 +175,9 @@ msgstr "Η Κάρτα Πίστεώς σας αποθηκεύτηκε επιτυ�
 msgid "Your password must be 4 digits"
 msgstr "Ο κωδικός σας πρέπει να αποτελείται από 4 ψηφία"
 
+#. machine-translated (2026-10), to be reviewed
 msgid "is now yours!"
-msgstr ""
+msgstr "είναι πλέον δικό σας!"
 
 msgid "point"
 msgstr "πόντος"
@@ -178,5 +188,22 @@ msgstr "πόντος για επικύρωση"
 msgid "points to validate"
 msgstr "πόντοι για επικύρωση"
 
+#. machine-translated (2026-10), to be reviewed
 msgid "validated points ="
-msgstr ""
+msgstr "επικυρωμένοι πόντοι ="
+
+# GMT 1559644711.5246
+#. machine-translated (2026-10), to be reviewed
+msgid "Employee's name"
+msgstr "Όνομα υπαλλήλου"
+
+# GMT 1559644711.5288
+#. machine-translated (2026-10), to be reviewed
+msgid "Employee's password"
+msgstr "Κωδικός πρόσβασης υπαλλήλου"
+
+# GMT 1559644711.6722
+#. machine-translated (2026-10), to be reviewed
+msgctxt "loyalty_card"
+msgid "Something went wrong while reading the QRCode."
+msgstr "Κάτι πήγε στραβά κατά την ανάγνωση του QRCode."

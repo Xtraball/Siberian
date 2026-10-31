@@ -1,0 +1,52 @@
+msgid ""
+msgstr ""
+"Project-Id-Version: Russian (Siberian)\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2019-01-22 10:34+0000\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: Russian <http://yvain.xtraball.com/projects/siberian/acl/ru/>"
+"\n"
+"Language: ru\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=3; plural=n%10==1 && n%100!=11 ? 0 : n%10>=2 && n%10<="
+"4 && (n%100<10 || n%100>=20) ? 1 : 2;\n"
+"X-Generator: Weblate 3.3\n"
+
+# GMT 1569242020.7858
+#. machine-translated (2026-10), to be reviewed
+msgctxt "firewall"
+msgid "Firewall"
+msgstr "Брандмауэр"
+
+# GMT 1569242020.786
+#. machine-translated (2026-10), to be reviewed
+msgctxt "firewall"
+msgid "Enabled"
+msgstr "Включено"
+
+# GMT 1569242020.7869
+#. machine-translated (2026-10), to be reviewed
+msgctxt "firewall"
+msgid "Disabled"
+msgstr "Отключено"
+
+# GMT 1569242020.7871
+#. machine-translated (2026-10), to be reviewed
+msgctxt "firewall"
+msgid "WAF Disabled"
+msgstr "WAF отключен"
+
+# GMT 1569242020.7874
+#. machine-translated (2026-10), to be reviewed
+msgctxt "firewall"
+msgid "Disabling the Web Application Firewall can open your Siberian to potential XSS, Injection & various security issues, the WAF is not a guarantee your Siberian is attack proof, but highly helps filtering the most common web attacks."
+msgstr "Отключение веб-брандмауэра (WAF) может подвергнуть ваш Siberian риску XSS, инъекций и других проблем безопасности. WAF не гарантирует защиту Siberian от атак, но значительно помогает отфильтровывать самые распространенные веб-атаки."
+
+# GMT 1569242020.7875
+#. machine-translated (2026-10), to be reviewed
+msgctxt "firewall"
+msgid "This request was blocked for security reasons, please try again later."
+msgstr "Этот запрос заблокирован по соображениям безопасности, повторите попытку позже."

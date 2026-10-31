@@ -20,8 +20,9 @@ msgstr "punt 1 lleialtat ="
 msgid "1 point"
 msgstr "1 punt validat"
 
+#. machine-translated (2026-10), to be reviewed
 msgid "1 validated point ="
-msgstr ""
+msgstr "1 punt validat ="
 
 msgid "An error occurred while retrieving QRCode. Please try again later"
 msgstr ""
@@ -47,8 +48,9 @@ msgstr ""
 "S'ha produït un error en validar el punt. Si us plau provar una altra vegada "
 "més tard."
 
+#. machine-translated (2026-10), to be reviewed
 msgid "An error occurred with your QRCode."
-msgstr ""
+msgstr "S'ha produït un error amb el QRCode."
 
 msgid "Card name"
 msgstr "Nom de la targeta"
@@ -80,8 +82,9 @@ msgstr "La meva nova targeta de fidelització"
 msgid "My passwords"
 msgstr "Meves contrasenyes"
 
+#. machine-translated (2026-10), to be reviewed
 msgid "No cards available"
-msgstr ""
+msgstr "Cap targeta disponible"
 
 msgid "Number of points"
 msgstr "Nombre de punts"
@@ -98,11 +101,13 @@ msgstr ""
 "Si us plau mostri el seu telèfon a la botiga de persona que entra a la "
 "contrasenya"
 
+#. machine-translated (2026-10), to be reviewed
 msgid "Point active"
-msgstr ""
+msgstr "Punt actiu"
 
+#. machine-translated (2026-10), to be reviewed
 msgid "Point inactive"
-msgstr ""
+msgstr "Punt inactiu"
 
 msgid "Point%s successfully validated"
 msgstr "Punt validat correctament %s"
@@ -116,17 +121,21 @@ msgstr "Recompensa"
 msgid "Rewards"
 msgstr "Recompensa"
 
+#. machine-translated (2026-10), to be reviewed
 msgid "Scan QRCode"
-msgstr ""
+msgstr "Escaneja el QRCode"
 
+#. machine-translated (2026-10), to be reviewed
 msgid "This card is uniq:"
-msgstr ""
+msgstr "Aquesta targeta és única:"
 
+#. machine-translated (2026-10), to be reviewed
 msgid "Unlock by QRCode"
-msgstr ""
+msgstr "Desbloqueja amb QRCode"
 
+#. machine-translated (2026-10), to be reviewed
 msgid "Unreadable QRCode, sorry."
-msgstr ""
+msgstr "QRCode il·legible, ho sentim."
 
 msgid "Use only once?"
 msgstr "utilitzar només una vegada"
@@ -169,8 +178,9 @@ msgstr "Targeta fidelitat s'ha desat correctament"
 msgid "Your password must be 4 digits"
 msgstr "La contrasenya ha de ser 4 dígits"
 
+#. machine-translated (2026-10), to be reviewed
 msgid "is now yours!"
-msgstr ""
+msgstr "ara és vostre!"
 
 msgid "point"
 msgstr "punt"
@@ -181,5 +191,22 @@ msgstr "punt per validar"
 msgid "points to validate"
 msgstr "punts per validar"
 
+#. machine-translated (2026-10), to be reviewed
 msgid "validated points ="
-msgstr ""
+msgstr "punts validats ="
+
+# GMT 1559644711.5246
+#. machine-translated (2026-10), to be reviewed
+msgid "Employee's name"
+msgstr "Nom de l'empleat"
+
+# GMT 1559644711.5288
+#. machine-translated (2026-10), to be reviewed
+msgid "Employee's password"
+msgstr "Contrasenya de l'empleat"
+
+# GMT 1559644711.6722
+#. machine-translated (2026-10), to be reviewed
+msgctxt "loyalty_card"
+msgid "Something went wrong while reading the QRCode."
+msgstr "Alguna cosa ha anat malament en llegir el QRCode."

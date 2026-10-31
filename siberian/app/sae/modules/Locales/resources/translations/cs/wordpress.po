@@ -14,17 +14,20 @@ msgstr ""
 "Plural-Forms: nplurals=3; plural=(n==1) ? 0 : (n>=2 && n<=4) ? 1 : 2;\n"
 "X-Generator: Weblate 3.3\n"
 
+#. machine-translated (2026-10), to be reviewed
 msgid "1 day"
-msgstr ""
+msgstr "1 den"
 
+#. machine-translated (2026-10), to be reviewed
 msgid "1 hour"
-msgstr ""
+msgstr "1 hodina"
 
 msgid "1 minute"
 msgstr "minuta"
 
+#. machine-translated (2026-10), to be reviewed
 msgid "12 hours"
-msgstr ""
+msgstr "12 hodin"
 
 msgid "15 minutes"
 msgstr "minutami"
@@ -38,8 +41,9 @@ msgstr "minutami"
 msgid "6 hours"
 msgstr "hodinami"
 
+#. machine-translated (2026-10), to be reviewed
 msgid "Add a query"
-msgstr ""
+msgstr "Přidat dotaz"
 
 msgid ""
 "An error occurred while accessing your Wordpress website. Please, verify the "
@@ -48,14 +52,17 @@ msgstr ""
 "Při přístupu vaše webové stránky Wordpress došlo k chybě. Prosím, ověřte "
 "název domény %s"
 
+#. machine-translated (2026-10), to be reviewed
 msgid "Ascending"
-msgstr ""
+msgstr "Vzestupně"
 
+#. machine-translated (2026-10), to be reviewed
 msgid "Author"
-msgstr ""
+msgstr "Autor"
 
+#. machine-translated (2026-10), to be reviewed
 msgid "Cache lifetime (excluding pull to refresh)"
-msgstr ""
+msgstr "Doba platnosti mezipaměti (bez obnovení stažením)"
 
 msgid "Categories successfully saved"
 msgstr "Kategorie byla úspěšně uložena"
@@ -63,72 +70,89 @@ msgstr "Kategorie byla úspěšně uložena"
 msgid "Click here to download our Wordpress plugin"
 msgstr "Klikněte zde ke stažení Wordpress pluginu"
 
+#. machine-translated (2026-10), to be reviewed
 msgid "Cover & Thumbnails are only visible when queries are not grouped."
-msgstr ""
+msgstr "Titulní obrázek a miniatury jsou viditelné pouze tehdy, když dotazy nejsou seskupeny."
 
 msgid "Date"
 msgstr "Datum"
 
+#. machine-translated (2026-10), to be reviewed
 msgid "Descending"
-msgstr ""
+msgstr "Sestupně"
 
 msgid "Enter your Wordpress URL:"
 msgstr "Zadejte URL Vší Wordpress stránky"
 
+#. machine-translated (2026-10), to be reviewed
 msgid "Group all queries into a single list"
-msgstr ""
+msgstr "Seskupit všechny dotazy do jednoho seznamu"
 
 msgid "ID"
 msgstr "ID"
 
+#. machine-translated (2026-10), to be reviewed
 msgid ""
 "If your WordPress is secured by a login/password, and/or you want to display "
 "private posts you can set here a user to be used to retrieve posts."
-msgstr ""
+msgstr "Pokud je váš WordPress zabezpečen přihlašovacím jménem a heslem a/nebo chcete zobrazovat soukromé příspěvky, můžete zde nastavit uživatele, který se použije k načítání příspěvků."
 
 msgid "Loading categories"
 msgstr "Načítání kategorie"
 
+#. machine-translated (2026-10), to be reviewed
 msgid "Manage WordPress"
-msgstr ""
+msgstr "Spravovat WordPress"
 
+#. machine-translated (2026-10), to be reviewed
 msgid "Manage queries"
-msgstr ""
+msgstr "Spravovat dotazy"
 
+#. machine-translated (2026-10), to be reviewed
 msgid "No cache"
-msgstr ""
+msgstr "Bez mezipaměti"
 
+#. machine-translated (2026-10), to be reviewed
 msgid ""
 "Note: cache is automatically refreshed on any user pull to refresh action "
 "whatever the lifetime set."
-msgstr ""
+msgstr "Poznámka: mezipaměť se automaticky obnoví při každém obnovení stažením uživatelem, bez ohledu na nastavenou dobu platnosti."
 
+#. machine-translated (2026-10), to be reviewed
 msgid "Pages"
-msgstr ""
+msgstr "Stránky"
 
+#. machine-translated (2026-10), to be reviewed
 msgid "Relevance"
-msgstr ""
+msgstr "Relevance"
 
+#. machine-translated (2026-10), to be reviewed
 msgid "Show title & subtitle"
-msgstr ""
+msgstr "Zobrazit nadpis a podnadpis"
 
+#. machine-translated (2026-10), to be reviewed
 msgid "Sorry, we are unable to fetch any category or post from your WordPress."
-msgstr ""
+msgstr "Omlouváme se, z vašeho WordPressu se nepodařilo načíst žádnou kategorii ani příspěvek."
 
+#. machine-translated (2026-10), to be reviewed
 msgid "Sort by"
-msgstr ""
+msgstr "Seřadit podle"
 
+#. machine-translated (2026-10), to be reviewed
 msgid "Sort order"
-msgstr ""
+msgstr "Pořadí řazení"
 
+#. machine-translated (2026-10), to be reviewed
 msgid "Strip shortcodes"
-msgstr ""
+msgstr "Odstranit shortcody"
 
+#. machine-translated (2026-10), to be reviewed
 msgid "Unable to find your WordPress or /wp-json/ endpoint."
-msgstr ""
+msgstr "Váš WordPress nebo koncový bod /wp-json/ se nepodařilo najít."
 
+#. machine-translated (2026-10), to be reviewed
 msgid "Unlimited (until any pull to refresh)"
-msgstr ""
+msgstr "Neomezeně (do obnovení stažením)"
 
 msgid ""
 "We are sorry but no category has been detected on your Wordpress website."
@@ -143,16 +167,20 @@ msgstr ""
 "Je nám líto, ale náš Wordpress plugin nebyl nalezen na vašich webových "
 "stránkách. Prosím ujistěte se, že je správně nainstalován a aktivován."
 
+#. machine-translated (2026-10), to be reviewed
 msgid "WordPress URL"
-msgstr ""
+msgstr "URL WordPressu"
 
 msgid "Wordpress"
 msgstr "Wordpress"
 
+#. machine-translated (2026-10), to be reviewed
 msgid "You can mix posts & pages in the queries if needed."
-msgstr ""
+msgstr "V případě potřeby můžete v dotazech kombinovat příspěvky a stránky."
 
+#. machine-translated (2026-10), to be reviewed
 msgid ""
 "You can mix posts & pages in the queries if needed, however it's not "
 "recommended and can lead to random sorting."
-msgstr ""
+msgstr "V případě potřeby můžete v dotazech kombinovat příspěvky a stránky, nedoporučuje se to však a může to vést k náhodnému řazení."
+
