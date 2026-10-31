@@ -410,18 +410,11 @@ class Installer_Model_Installer_Module extends Core_Model_Default
         /** Get the schema for installation/sync */
         foreach ($editions as $edition) {
             $folder = str_replace("/sae/", "/$edition/", $basePath);
-            if (is_readable($folder . "/resources/db/schema")) {
-                $files = new DirectoryIterator($folder . "/resources/db/schema");
-                foreach ($files as $file) {
-                    if (!$file->isDot()) {
-                        $table_name = str_replace(".php", "", basename($file->getFilename()));
-                        # Higher schema should override, and skip *.ec.php
-                        if (!preg_match("/\.ec\.php$/", $file->getFilename())) {
-                            $this->_schemaFiles[$table_name] = $folder . "/resources/db/schema/" . $file->getFilename();
-                        }
-                    }
-                }
-            }
+            # Higher schema should override
+            $this->_schemaFiles = array_merge(
+                $this->_schemaFiles,
+                self::schemaFilesIn($folder . "/resources/db/schema")
+            );
         }
 
         foreach ($editions as $edition) {
@@ -438,6 +431,35 @@ class Installer_Model_Installer_Module extends Core_Model_Default
         }
 
         $this->_lastVersion = $package_info["version"];
+    }
+
+    /**
+     * Table name => file of the schema definitions of a folder.
+     *
+     * Only `<table>.php` files are schemas: a stray install.sql, .DS_Store, .gitkeep, backup or sub folder
+     * would otherwise be created as a table of that name with no column ("Unable to create table 'install.sql'").
+     * `*.ec.php` files are skipped.
+     *
+     * @param string $schemaFolder
+     * @return array
+     */
+    public static function schemaFilesIn($schemaFolder)
+    {
+        $schemas = [];
+        if (!is_readable($schemaFolder)) {
+            return $schemas;
+        }
+
+        foreach (new DirectoryIterator($schemaFolder) as $file) {
+            $filename = $file->getFilename();
+            if ($file->isFile() &&
+                preg_match('/^(.+)\.php$/', $filename, $matches) &&
+                !preg_match('/\.ec\.php$/', $filename)) {
+                $schemas[$matches[1]] = $schemaFolder . "/" . $filename;
+            }
+        }
+
+        return $schemas;
     }
 
     /**
