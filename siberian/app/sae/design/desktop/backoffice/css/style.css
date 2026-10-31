@@ -2169,3 +2169,58 @@ a.ui-datepicker-prev:after {
 .backoffice_user ul.backoffice_user_dropdown li a i {
     margin-right: 8px;
 }
+
+/** MODULE INSTALLER: one click-or-drop area, a prominent update button **/
+.upload_area input[type="file"].module-file-input {
+    display: none;
+}
+
+.upload_area .well.module-zone {
+    width: 100%;
+    min-height: 100px;
+    cursor: pointer;
+    text-align: center;
+    padding: 18px 12px;
+}
+
+.upload_area .well.module-zone:focus {
+    outline: 2px solid #404040;
+    outline-offset: 2px;
+}
+
+.upload_area .well.module-zone.is-sending,
+.upload_area .well.module-zone.is-checking {
+    cursor: progress;
+}
+
+.upload_area .module-zone-icon {
+    display: block;
+    font-size: 26px;
+    margin-bottom: 6px;
+}
+
+.upload_area .module-zone-file {
+    margin-top: 4px;
+    font-weight: bold;
+    word-break: break-all;
+}
+
+.upload_area .module-zone-progress {
+    margin: 8px auto 0;
+    max-width: 320px;
+    height: 8px;
+}
+
+.upload_area .well.module-zone.is-error .module-zone-icon,
+.upload_area .well.module-zone.is-license .module-zone-icon {
+    color: #C41313;
+}
+
+.upload_area .check-updates-button {
+    min-width: 220px;
+}
+
+.upload_area .check-updates-result {
+    margin-top: 10px;
+}
+/** /MODULE INSTALLER **/

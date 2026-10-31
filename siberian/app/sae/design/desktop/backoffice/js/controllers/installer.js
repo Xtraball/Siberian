@@ -72,14 +72,103 @@ App.config(function ($routeProvider) {
         }
     };
 
+    // The single click-or-drop area: what it shows comes from zoneState(), derived from the uploader and the flow.
+    $scope.zone = {
+        file: null,
+        sent: false,
+        error: false,
+        license: false
+    };
+    $scope.license_check = {
+        running: false
+    };
+
+    // The file is sent as soon as it is chosen or dropped.
     $scope.uploader = new FileUploader({
-        url: Url.get('installer/backoffice_module/upload')
+        url: Url.get('installer/backoffice_module/upload'),
+        autoUpload: true
     });
+
+    /**
+     * True while something is being sent, checked, copied or installed: the area ignores new files then.
+     */
+    $scope.zoneBusy = function () {
+        return !!($scope.uploader.isUploading ||
+            $scope.license_check.running ||
+            $scope.permissions.running ||
+            $scope.installation.copy.running ||
+            $scope.installation.install.running);
+    };
+
+    $scope.zoneState = function () {
+        if ($scope.uploader.isUploading) {
+            return 'sending';
+        }
+        if ($scope.license_check.running) {
+            return 'checking';
+        }
+        if ($scope.zone.error) {
+            return 'error';
+        }
+        if ($scope.zone.license) {
+            return 'license';
+        }
+        if ($scope.zone.sent) {
+            return 'done';
+        }
+        return 'idle';
+    };
+
+    $scope.zoneIcon = function () {
+        switch ($scope.zoneState()) {
+            case 'sending':
+            case 'checking':
+                return 'fa-spinner fa-spin';
+            case 'done':
+                return 'fa-check';
+            case 'license':
+            case 'error':
+                return 'fa-exclamation-triangle';
+            default:
+                return 'fa-cloud-upload';
+        }
+    };
+
+    $scope.openFilePicker = function () {
+        var input = document.getElementById('file_uploader');
+        if (input && !$scope.zoneBusy()) {
+            input.click();
+        }
+    };
+
+    $scope.zoneKeydown = function ($event) {
+        if ($event.which === 13 || $event.which === 32 || $event.key === 'Enter' || $event.key === ' ') {
+            $event.preventDefault();
+            $scope.openFilePicker();
+        }
+    };
+
+    var scrollToSection = function (selector) {
+        $timeout(function () {
+            var element = document.querySelector(selector);
+            if (element && element.scrollIntoView) {
+                element.scrollIntoView({behavior: 'smooth', block: 'start'});
+            }
+        }, 150);
+    };
 
     $scope.uploader.filters.push({
         name: 'limit',
         fn: function (item, options) {
-            return this.queue.length < 1;
+            if (this.queue.length < 1) {
+                return true;
+            }
+            // A file already chosen can be replaced, unless it is being sent or its installation has started.
+            if (!$scope.zoneBusy() && !$scope.installation.copy.is_visible) {
+                this.clearQueue();
+                return true;
+            }
+            return false;
         }
     });
 
@@ -121,7 +210,12 @@ App.config(function ($routeProvider) {
     };
 
     $scope.downloadUpdate = function () {
+        if ($scope.check_for_updates.loader_is_visible) {
+            return;
+        }
         $scope.check_for_updates.loader_is_visible = true;
+        $scope.check_for_updates.result = null;
+        $scope.check_for_updates.message = '';
 
         Installer.downloadUpdate().success(function (data) {
             $scope.package_full = data;
@@ -131,23 +225,31 @@ App.config(function ($routeProvider) {
                 $scope.showPackageDetails();
                 Installer.filename = data.filename;
                 $scope.check_for_updates.check = false;
+                $scope.check_for_updates.result = 'downloaded';
             } else if (data.message) {
                 $scope.message.setText(data.message)
                     .isError(false)
                     .show()
                 ;
                 $scope.check_for_updates.no_updates_available = true;
+                $scope.check_for_updates.result = 'up_to_date';
+                $scope.check_for_updates.message = data.message;
             } else {
                 $scope.message.setText(Label.uploader.error.general)
                     .isError(true)
                     .show()
                 ;
+                $scope.check_for_updates.result = 'error';
+                $scope.check_for_updates.message = Label.uploader.error.general;
             }
         }).error(function (data) {
-            $scope.message.setText(data.message)
+            var message = (angular.isObject(data) && data.message) ? data.message : Label.uploader.error.general;
+            $scope.message.setText(message)
                 .isError(true)
                 .show()
             ;
+            $scope.check_for_updates.result = 'error';
+            $scope.check_for_updates.message = message;
         }).finally(function () {
             $scope.check_for_updates.loader_is_visible = false;
         });
@@ -342,20 +444,30 @@ App.config(function ($routeProvider) {
     };
 
     $scope.uploader.onAfterAddingFile = function (item) {
-        if (item.file.size > $scope.ini.max_size) {
+        $scope.zone.file = item.file.name;
+        $scope.zone.sent = false;
+        $scope.zone.error = false;
+        $scope.zone.license = false;
+        $scope.package_details.is_visible = false;
+        $scope.permissions.is_visible = false;
+
+        if ($scope.ini && $scope.ini.max_size > 0 && item.file.size > $scope.ini.max_size) {
             $scope.message.setText($scope.words.maxSize).isError(true).show();
             $scope.uploader.clearQueue();
+            $scope.zone.error = true;
         }
     };
 
     $scope.uploader.onSuccessItem = function (fileItem, response, status, headers) {
         if (angular.isObject(response) && response.success) {
+            $scope.zone.sent = true;
             $scope.package_details = response.package_details;
             $scope.package_full = response;
             $scope.showPackageDetails();
             Installer.filename = response.filename;
             Installer.reinstall = null;
         } else {
+            $scope.zone.error = true;
             $scope.message.setText(Label.uploader.error.general)
                 .isError(true)
                 .show();
@@ -367,7 +479,10 @@ App.config(function ($routeProvider) {
     };
 
     $scope.uploader.onErrorItem = function (fileItem, response, status, headers) {
-        $scope.message.setText(response.message)
+        // A refusal of the server is JSON with a message, anything else (a proxy page, a size limit) is not.
+        var message = (angular.isObject(response) && response.message) ? response.message : Label.uploader.error.general;
+        $scope.zone.error = true;
+        $scope.message.setText(message)
             .isError(true)
             .show();
     };
@@ -466,9 +581,11 @@ App.config(function ($routeProvider) {
         var code = $scope.package_details.code;
         var itemId = $scope.package_details.item_id;
         if (code !== false && itemId !== false) {
+            $scope.license_check.running = true;
             var promise = $scope.checkModuleLicense(code, itemId);
             promise.then(function (success) {
                 $scope.package_details.is_visible = true;
+                scrollToSection('.package-details-section');
             }, function (error) {
                 if (error === 'license_empty') {
                     // Prompt to set license
@@ -482,9 +599,12 @@ App.config(function ($routeProvider) {
                     // Expired or refused key: a new key can replace it, cancelling keeps the install going
                     $scope.setLicense(code, itemId, true);
                 }
+            }).finally(function () {
+                $scope.license_check.running = false;
             });
         } else {
             $scope.package_details.is_visible = true;
+            scrollToSection('.package-details-section');
         }
     };
 
@@ -509,6 +629,14 @@ App.config(function ($routeProvider) {
             if (isReplaceable && value === false) {
                 // Keep the current key, the installation goes on as it always did
                 $scope.package_details.is_visible = true;
+                scrollToSection('.package-details-section');
+                return;
+            }
+
+            if (value === false) {
+                // Cancelled: the package stays hidden, say why instead of leaving the page silent
+                $scope.zone.license = true;
+                $scope.message.setText($scope.words.licenseNeeded).isError(true).show();
                 return;
             }
 
@@ -525,6 +653,8 @@ App.config(function ($routeProvider) {
                             .show();
 
                         $scope.package_details.is_visible = true;
+                        $scope.zone.license = false;
+                        scrollToSection('.package-details-section');
                         swal.close();
 
                     }).error(function (error) {
@@ -666,8 +796,9 @@ App.config(function ($routeProvider) {
                 $scope.installation.copy.error = true;
             }
         }).error(function (data) {
+            var message = (angular.isObject(data) && data.message) ? data.message : Label.uploader.error.general;
             $scope.message
-                .setText()
+                .setText(message)
                 .isError(true)
                 .show();
 
@@ -702,7 +833,7 @@ App.config(function ($routeProvider) {
                     ($scope.package_details.restore_apps !== undefined) &&
                     ($scope.package_details.restore_apps === true)) {
                     AdvancedTools.restoreapps()
-                        .success(function () {
+                        .success(function (manifestData) {
                             $scope.content_loader_is_visible = true;
                             $scope.message.setText(manifestData.message)
                                 .isError(false)
@@ -777,6 +908,7 @@ App.config(function ($routeProvider) {
 
     $scope.showModuleInstallation = function () {
         $scope.installation.copy.is_visible = true;
+        scrollToSection('.installation-section');
     };
 
     $scope.toggleLoader = function () {

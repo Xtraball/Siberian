@@ -2,30 +2,42 @@
             class="upload_area">
     <br/>
     <div class="relative">
-        <div class="col-md-3">
-            <div class="upload_a_file">
-                <label for="file_uploader"><?php echo __("Click here to send your module"); ?></label>
+        <div class="col-md-7">
+            <div class="drop_a_file">
+                <label id="module_zone_label"><?php echo p__('backoffice', 'Send your module'); ?></label>
                 <input id="file_uploader"
+                       class="module-file-input"
                        type="file"
+                       tabindex="-1"
+                       aria-hidden="true"
                        nv-file-select=""
                        uploader="uploader"/>
-            </div>
-        </div>
-
-        <div class="col-md-1">
-            <div class="drop_a_file">
-                <label><?php echo __("OR"); ?></label>
-            </div>
-        </div>
-
-        <div class="col-md-5">
-            <div class="drop_a_file">
-                <label><?php echo __("Drop your module here"); ?></label>
-                <div ng-show="uploader.isHTML5">
-                    <div class="well drop-zone"
-                         nv-file-drop=""
-                         nv-file-over=""
-                         uploader="uploader">
+                <div id="module_zone"
+                     class="well drop-zone module-zone"
+                     role="button"
+                     tabindex="0"
+                     aria-labelledby="module_zone_label module_zone_status"
+                     ng-attr-aria-busy="{{ zoneBusy() }}"
+                     ng-class="'is-' + zoneState()"
+                     ng-click="openFilePicker()"
+                     ng-keydown="zoneKeydown($event)"
+                     nv-file-drop=""
+                     nv-file-over=""
+                     uploader="uploader">
+                    <i class="fa module-zone-icon" ng-class="zoneIcon()"></i>
+                    <div id="module_zone_status" class="module-zone-text" aria-live="polite">
+                        <span ng-show="zoneState() === 'idle'"><?php echo p__('backoffice', 'Click to choose your module, or drop it here'); ?></span>
+                        <span ng-show="zoneState() === 'sending'"><?php echo p__('backoffice', 'Sending your module, please do not close the page.'); ?> {{ uploader.progress }}%</span>
+                        <span ng-show="zoneState() === 'checking'"><?php echo p__('backoffice', 'Checking the module licence...'); ?></span>
+                        <span ng-show="zoneState() === 'done'"><?php echo p__('backoffice', 'Module sent, review the package details below.'); ?></span>
+                        <span ng-show="zoneState() === 'license'"><?php echo p__('backoffice', 'A licence key is needed to install this module. Click to choose another file.'); ?></span>
+                        <span ng-show="zoneState() === 'error'"><?php echo p__('backoffice', 'The module could not be sent. Click to choose another file.'); ?></span>
+                    </div>
+                    <div class="module-zone-file" ng-show="zone.file">{{ zone.file }}</div>
+                    <div class="progress module-zone-progress" ng-show="zoneState() === 'sending'">
+                        <div class="progress-bar progress-bar-striped"
+                             role="progressbar"
+                             ng-style="{ 'width': uploader.progress + '%' }"></div>
                     </div>
                 </div>
             </div>
@@ -37,13 +49,30 @@
             </div>
         </div>
 
-        <div class="col-md-2">
-            <label><?php echo __("Check for updates"); ?></label>
+        <div class="col-md-4">
+            <label><?php echo p__('backoffice', 'Siberian updates'); ?></label>
             <div ng-show="check_for_updates.check">
-                <button class="btn btn-primary"
+                <button type="button"
+                        id="check_for_updates"
+                        class="btn btn-primary btn-lg check-updates-button"
                         ng-click="downloadUpdate()"
-                        ng-show="!check_for_updates.loader_is_visible"><i class="fa fa-download"></i></button>
+                        ng-disabled="check_for_updates.loader_is_visible || zoneBusy()">
+                    <i class="fa fa-refresh"
+                       ng-class="{'fa-spin': check_for_updates.loader_is_visible}"></i>
+                    <span ng-show="!check_for_updates.loader_is_visible"><?php echo __("Check for updates"); ?></span>
+                    <span ng-show="check_for_updates.loader_is_visible"><?php echo p__('backoffice', 'Checking for updates...'); ?></span>
+                </button>
             </div>
+            <p class="check-updates-result"
+               role="status"
+               aria-live="polite"
+               ng-show="check_for_updates.result && !check_for_updates.loader_is_visible"
+               ng-class="{'text-danger': check_for_updates.result === 'error', 'text-success': check_for_updates.result !== 'error'}">
+                <i class="fa"
+                   ng-class="check_for_updates.result === 'error' ? 'fa-exclamation-triangle' : 'fa-check'"></i>
+                <span ng-show="check_for_updates.result === 'downloaded'"><?php echo p__('backoffice', 'Update downloaded, review the package details below.'); ?></span>
+                <span ng-show="check_for_updates.result !== 'downloaded'">{{ check_for_updates.message }}</span>
+            </p>
         </div>
 
         <div class="clear"></div>
@@ -54,7 +83,8 @@
                        type="'inner_content'"
                        size="'big'"
                        animation="'toggle'"></sb-loader>
-            <h3 class="text-center"><?php echo __("We are checking for updates. Please, do not refresh the page."); ?></h3>
+            <h3 class="text-center" ng-show="!module_updates.busy_code"><?php echo __("We are checking for updates. Please, do not refresh the page."); ?></h3>
+            <h3 class="text-center" ng-show="module_updates.busy_code"><?php echo p__('backoffice', 'Downloading the update. Please, do not refresh the page.'); ?></h3>
         </div>
     </div>
 </sb-section>
@@ -65,7 +95,7 @@
             <button class="btn btn-primary"
                     ng-click="checkModuleUpdates(true)"
                     ng-disabled="module_updates.loading">
-                <i class="fa fa-refresh"></i> <?php echo __("Check now"); ?>
+                <i class="fa fa-refresh" ng-class="{'fa-spin': module_updates.loading}"></i> <?php echo __("Check now"); ?>
             </button>
             <span ng-show="module_updates.fetched_at">
                 &nbsp;<?php echo __("Last check"); ?>: {{ module_updates.fetched_at * 1000 | date:'medium' }}
@@ -104,9 +134,12 @@
                             class="btn btn-primary btn-xs"
                             ng-click="updateModule(update)"
                             ng-disabled="!update.compatible || module_updates.busy_code">
-                        <i class="fa fa-download"></i> <?php echo __("Update"); ?>
+                        <i class="fa" ng-class="module_updates.busy_code === update.code ? 'fa-spinner fa-spin' : 'fa-download'"></i> <?php echo __("Update"); ?>
                     </button>
                 </td>
+            </tr>
+            <tr ng-show="module_updates.loading">
+                <td colspan="5"><i class="fa fa-spinner fa-spin"></i> <?php echo p__('backoffice', 'Checking for module updates...'); ?></td>
             </tr>
             <tr ng-show="!module_updates.updates.length && !module_updates.loading && !module_updates.error">
                 <td colspan="5"><?php echo __("All your modules are up to date."); ?></td>
@@ -173,7 +206,7 @@
 </sb-section>
 
 <sb-section title="'<?php echo __title("Package Details"); ?>'"
-            class="slide-top"
+            class="slide-top package-details-section"
             ng-show="package_details.is_visible">
 
     <table class="table">
@@ -211,7 +244,7 @@
 </sb-section>
 
 <sb-section title="'<?php echo __title("Permissions"); ?>'"
-            class="slide-top"
+            class="slide-top permissions-section"
             ng-show="permissions.is_visible">
 
     <table class="table">
@@ -358,7 +391,7 @@
 </sb-section>
 
 <sb-section title="'<?php echo __title("Installing your module"); ?>'"
-            class="slide-top"
+            class="slide-top installation-section"
             ng-show="installation.copy.is_visible">
 
     <table class="table">
