@@ -34,12 +34,17 @@ class Translation_Backoffice_PackController extends Backoffice_Controller_Defaul
 
             $packs = [];
             foreach (Packs::detect($modulesDir, Core_Model_Language::getShippedLocales()) as $pack) {
+                $comparison = Packs::compare(
+                    "{$pack['path']}/resources/translations/{$pack['code']}",
+                    Core_Model_Directory::getBasePathTo("app/sae/modules/Locales/resources/translations/{$pack['code']}"));
                 $packs[] = [
                     'code' => $pack['code'],
                     'name' => ucfirst($territories[$pack['code']] ?? $pack['code']),
                     'module' => $pack['module'],
                     'version' => $pack['version'],
                     'enabled' => $pack['enabled'],
+                    'stale' => Packs::isStale($comparison, $pack['enabled']),
+                    'only_in_pack' => $comparison['only_in_pack'],
                 ];
             }
 

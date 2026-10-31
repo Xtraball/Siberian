@@ -69,6 +69,35 @@ return [
         $rm($root);
     },
 
+    'a switched-on pack that the shipped catalog fully covers is stale, one with texts of its own is not' => function () use ($makeRoot, $rm) {
+        $root = $makeRoot();
+        $packDir = $root . '/app/local/modules/LocaleFrench/resources/translations/fr';
+        $partial = Packs::compare($packDir, $root . '/shipped/fr');
+        t_true(!Packs::isStale($partial, true), 'texts only in the pack: not stale');
+
+        // the shipped catalog now translates everything the pack does
+        file_put_contents($root . '/shipped/fr/default.po', file_get_contents($packDir . '/default.po'));
+        $covered = Packs::compare($packDir, $root . '/shipped/fr');
+        t_equal(0, $covered['only_in_pack']);
+        t_true(Packs::isStale($covered, true), 'covered and enabled: stale');
+        t_true(!Packs::isStale($covered, false), 'already disabled: nothing to advise');
+        t_true(!Packs::isStale(['pack' => 0, 'shipped' => 0, 'only_in_pack' => 0, 'different' => 0], true), 'no shipped catalog: not stale');
+        $rm($root);
+    },
+
+    'the list exposes the verdict and the page offers the disable action with the texts in a catalog' => function () use ($controllerFile, $poFile) {
+        $src = file_get_contents($controllerFile);
+        t_true(strpos($src, "'stale' => Packs::isStale(") !== false, 'findall returns stale');
+        $dir = dirname($controllerFile, 3) . '/resources/design/desktop/backoffice';
+        $tpl = file_get_contents($dir . '/template/translation/list.phtml');
+        t_true(strpos($tpl, 'stalePacks().length') !== false && strpos($tpl, "switchPack(pack, 'disable')") !== false, 'banner with the disable action');
+        t_true(strpos(file_get_contents($dir . '/js/controllers/translation.js'), '$scope.stalePacks') !== false, 'scope function');
+        $po = file_get_contents($poFile);
+        foreach (['Outdated language packs', 'Outdated'] as $text) {
+            t_true(strpos($po, 'msgid "' . $text . '"') !== false, "missing in c_translation.po: {$text}");
+        }
+    },
+
     'pristine means only the empty default.csv' => function () use ($makeRoot, $rm) {
         $root = $makeRoot();
         t_true(Packs::isPristine($root . '/languages/fr'), 'pristine');

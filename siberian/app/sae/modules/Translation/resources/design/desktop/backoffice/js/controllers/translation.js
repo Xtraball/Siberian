@@ -66,6 +66,12 @@ App.config(function($routeProvider) {
     };
     $scope.loadPacks();
 
+    $scope.stalePacks = function() {
+        return $scope.packs.filter(function(pack) {
+            return pack.stale;
+        });
+    };
+
     $scope.confirmed = function(text) {
         return window.confirm(text);
     };
