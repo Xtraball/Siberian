@@ -6,16 +6,16 @@ msgstr ""
 "X-Generator: ezgif.com\n"
 
 msgid "1 day"
-msgstr "1時間以前"
+msgstr "1日"
 
 msgid "1 hour"
-msgstr "1時間以内"
+msgstr "1時間"
 
 msgid "1 minute"
-msgstr "1時間前"
+msgstr "1分"
 
 msgid "12 hours"
-msgstr "12時間以内"
+msgstr "12時間"
 
 msgid "15 minutes"
 msgstr "15分間"
@@ -24,7 +24,7 @@ msgid "3 hours"
 msgstr "3時間"
 
 msgid "30 minutes"
-msgstr "所要時間30分"
+msgstr "30分"
 
 msgid "6 hours"
 msgstr "6時間"
@@ -42,7 +42,7 @@ msgid "Author"
 msgstr "著者"
 
 msgid "Cache lifetime (excluding pull to refresh)"
-msgstr "キャッシュの有効期間（プルからリフレッシュを除く）"
+msgstr "キャッシュの有効期間（プルして更新する場合を除く）"
 
 msgid "Categories successfully saved"
 msgstr "カテゴリが正常に保存されました"
@@ -60,7 +60,7 @@ msgid "Descending"
 msgstr "降順"
 
 msgid "Enter your Wordpress URL:"
-msgstr "ワードプレスのURLを入力してください:"
+msgstr "Wordpress の URL を入力してください:"
 
 msgid "Group all queries into a single list"
 msgstr "すべてのクエリを 1 つのリストにまとめる"
@@ -69,13 +69,13 @@ msgid "ID"
 msgstr "ID"
 
 msgid "If your WordPress is secured by a login/password, and/or you want to display private posts you can set here a user to be used to retrieve posts."
-msgstr "あなたのワードプレスは、ログイン/パスワードによって保護されている、および/またはあなたがここに投稿を取得するために使用されるユーザーを設定することができますプライベート投稿を表示したい場合。"
+msgstr "WordPress がログイン/パスワードで保護されている場合、または非公開の投稿を表示したい場合は、ここで投稿の取得に使用するユーザーを設定できます。"
 
 msgid "Loading categories"
 msgstr "カテゴリをロード中"
 
 msgid "Manage WordPress"
-msgstr "ワードプレスの管理"
+msgstr "WordPress の管理"
 
 msgid "Manage queries"
 msgstr "クエリの管理"
@@ -84,7 +84,7 @@ msgid "No cache"
 msgstr "キャッシュなし"
 
 msgid "Note: cache is automatically refreshed on any user pull to refresh action whatever the lifetime set."
-msgstr "注：キャッシュは、ライフタイムセットが何であれ、アクションをリフレッシュするためにすべてのユーザープルで自動的にリフレッシュされます。"
+msgstr "注：設定された有効期間に関係なく、ユーザーがプルして更新するたびにキャッシュは自動的に更新されます。"
 
 msgid "Pages"
 msgstr "ページ"
@@ -93,7 +93,7 @@ msgid "Relevance"
 msgstr "関連性"
 
 msgid "Show title & subtitle"
-msgstr "タイトルとサブタイトルを表示 (L)"
+msgstr "タイトルとサブタイトルを表示"
 
 msgid "Sorry, we are unable to fetch any category or post from your WordPress."
 msgstr "申し訳ありませんが、WordPressからカテゴリや投稿を取得することができません。"
@@ -105,13 +105,13 @@ msgid "Sort order"
 msgstr "並べ替え順序"
 
 msgid "Strip shortcodes"
-msgstr "ショートコード"
+msgstr "ショートコードを除去"
 
 msgid "Unable to find your WordPress or /wp-json/ endpoint."
-msgstr "あなたのワードプレスまたは/ wp-json/エンドポイントを見つけることができません。"
+msgstr "WordPress または /wp-json/ エンドポイントが見つかりません。"
 
 msgid "Unlimited (until any pull to refresh)"
-msgstr "無制限（リフレッシュするプルまで）"
+msgstr "無制限（プルして更新するまで）"
 
 msgid "We are sorry but no category has been detected on your Wordpress website."
 msgstr "申し訳ありませんが、あなたのWordpressのウェブサイトでカテゴリが検出されませんでした。"
@@ -120,10 +120,10 @@ msgid "We are sorry but our Wordpress plugin hasn't been detected on your websit
 msgstr "申し訳ありませんが、私たちのWordpressのプラグインは、あなたのウェブサイト上で検出されていません。 正しくインストールされ、アクティベートされていることを確認してください。"
 
 msgid "WordPress URL"
-msgstr "ワードプレスのURL"
+msgstr "WordPress URL"
 
 msgid "Wordpress"
-msgstr "ワードプレス"
+msgstr "WordPress"
 
 msgid "You can mix posts & pages in the queries if needed."
 msgstr "必要に応じて、クエリで投稿＆ページを混在させることができます。"

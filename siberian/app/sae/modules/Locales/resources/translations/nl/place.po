@@ -16,11 +16,11 @@ msgstr ""
 #: nl/place.csv:1
 #: nl/place.csv:2
 msgid "Identifier:"
-msgstr "Identifier"
+msgstr "Identificatie:"
 
 #: nl/place.csv:3
 msgid "Rating:"
-msgstr "Waardering:"
+msgstr "Beoordeling:"
 
 #: nl/place.csv:4
 msgid "Label:"
@@ -52,15 +52,15 @@ msgstr "Data indexeren... Dit proces duurt #{d}. Gelieve de pagina niet te verve
 
 #: nl/place.csv:11
 msgid "about %s hour"
-msgstr "Ongeveer %s uur"
+msgstr "ongeveer %s uur"
 
 #: nl/place.csv:12
 msgid "about %s hours"
-msgstr "Ongeveer %s uren"
+msgstr "ongeveer %s uur"
 
 #: nl/place.csv:13
 msgid "less than a minute"
-msgstr "Minder dan een minuut"
+msgstr "minder dan een minuut"
 
 #: nl/place.csv:14
 msgid "This identifier is already used."
@@ -68,7 +68,7 @@ msgstr "Deze identifier is al in gebruik."
 
 #: nl/place.csv:15
 msgid "Unable to automatically retrieve the coordinates of this place. Please, provide them manually."
-msgstr "Het automatisch terughalen van de coordinaten is mislukt. Gelieve deze handmatig in te voeren."
+msgstr "De coördinaten van deze plaats konden niet automatisch worden opgehaald. Voer ze handmatig in."
 
 #: nl/place.csv:16
 msgid "Distance:"

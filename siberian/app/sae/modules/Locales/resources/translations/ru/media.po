@@ -34,27 +34,23 @@ msgstr ""
 "попытку позже."
 
 msgid "An error occurred while deleting your album. Thanks for trying later."
-msgstr ""
-"Произошла ошибка во время удаления вашего альбома. Удалите пожалуйста позже."
+msgstr "Произошла ошибка при удалении вашего альбома. Пожалуйста, повторите попытку позже."
 
 msgid ""
 "An error occurred while deleting your playlist. Thanks for trying later."
-msgstr ""
-"Произошла ошибка во время удаления вашего плейлиста. Удалите пожалуйста "
-"позже."
+msgstr "Произошла ошибка при удалении вашего плейлиста. Пожалуйста, повторите попытку позже."
 
 msgid "An error occurred while deleting your track. Thanks for trying later."
-msgstr ""
-"Произошла ошибка во время удаления вашей дорожки. Удалите пожалуйста позже."
+msgstr "Произошла ошибка при удалении вашего трека. Пожалуйста, повторите попытку позже."
 
 msgid "An error occurred while loading pictures. Please try later."
 msgstr "Произошла ошибка при загрузке фотографии. Пожалуйста, попробуйте позже."
 
 msgid "An error occurred while loading the media."
-msgstr "Произошла ошибка при загрузке события"
+msgstr "Произошла ошибка при загрузке медиа."
 
 msgid "An error occurred while loading the radio."
-msgstr "Произошла ошибка при добавлении опции"
+msgstr "Произошла ошибка при загрузке радио."
 
 msgid "An error occurred while loading videos. Please try later."
 msgstr "Произошла ошибка при загрузке видео. Пожалуйста, попробуйте позже."
@@ -72,7 +68,7 @@ msgstr ""
 "повторите попытку позже."
 
 msgid "An error occurred while saving your playlist. Thanks for trying later."
-msgstr "Произошла ошибка при сохранении плейлиста. Сохраните пожалуйста позже."
+msgstr "Произошла ошибка при сохранении плейлиста. Пожалуйста, повторите попытку позже."
 
 msgid ""
 "An error occurred while saving your videos gallery. Please try again later."
@@ -90,9 +86,7 @@ msgid "Are you sure you want to delete this album?"
 msgstr "Вы уверены, что хотите удалить этот альбом?"
 
 msgid "Are you sure you want to delete this album (this won't delete tracks)?"
-msgstr ""
-"Вы уверены, что хотите удалить этот альбом (это не приведет к удалению "
-"дорожки)?"
+msgstr "Вы уверены, что хотите удалить этот альбом (это не приведёт к удалению треков)?"
 
 msgid "Are you sure you want to delete this playlist?"
 msgstr "Вы уверены, что хотите удалить этот плейлист?"
@@ -113,22 +107,22 @@ msgid "Choose an album"
 msgstr "Выберите альбом"
 
 msgid "Custom"
-msgstr "Лучшие"
+msgstr "Пользовательский"
 
 msgid "Delete this gallery?"
 msgstr "Удалить эту галерею?"
 
 msgid "Facebook page ID"
-msgstr "Ваш ID на странице Facebook "
+msgstr "ID страницы Facebook"
 
 msgid "Feed URL"
 msgstr "URL ленты"
 
 msgid "Flickr"
-msgstr "Фликр"
+msgstr "Flickr"
 
 msgid "Flickr API settings can't be found."
-msgstr "Параметры API Flickr  не может быть найден."
+msgstr "Параметры API Flickr не найдены."
 
 msgid "Flickr user"
 msgstr "Пользователь Flickr"
@@ -140,20 +134,19 @@ msgid "Group"
 msgstr "Группа"
 
 msgid "If set, will appear instead of the Facebook page Id in app."
-msgstr ""
-"Если установлено, отображаются вместо страницы Facebook ID в приложении."
+msgstr "Если задано, отображается в приложении вместо ID страницы Facebook."
 
 msgid "I'm listening to"
 msgstr "Я слушаю"
 
 msgid "I'm listening to $1 from $2 on $3 app."
-msgstr "Я слушаю до $1 из $2 на $3 приложения."
+msgstr "Я слушаю $1 из $2 в приложении $3."
 
 msgid "I'm listening to $1 on $2 app."
-msgstr "Я слушаю 1 $на Приложение $2."
+msgstr "Я слушаю $1 в приложении $2."
 
 msgid "Images gallery has been saved successfully"
-msgstr "Изображения галереи успешно сохранены"
+msgstr "Галерея изображений успешно сохранена"
 
 msgid "Instagram"
 msgstr "Instagram"
@@ -168,7 +161,7 @@ msgid "Login"
 msgstr "Логин"
 
 msgid "Maximum size : 2000*2000 px - Allowed filetypes : jpg and png"
-msgstr "Максимальный размер: 2000 * 2000 pi.  Допустимые типы файлов: JPG и PNG"
+msgstr "Максимальный размер: 2000*2000 px. Допустимые типы файлов: jpg и png"
 
 msgid "My images"
 msgstr "Мои изображения"
@@ -180,13 +173,13 @@ msgid "No artist found"
 msgstr "Исполнитель не найден"
 
 msgid "No current stream to play so far."
-msgstr "Нет текущего потока, чтобы играть до сих пор."
+msgstr "Пока нет текущего потока для воспроизведения."
 
 msgid "No track found"
 msgstr "Трек не найден"
 
 msgid "No valid Facebook API key and secret."
-msgstr "Недействительный  API Facebook ключ и секрет."
+msgstr "Недействительные ключ и секрет Facebook API."
 
 msgid "PLAYER"
 msgstr "Плеер"
@@ -213,19 +206,19 @@ msgid "Playlist successfully saved."
 msgstr "Плейлист успешно сохранён."
 
 msgid "Playlist title:"
-msgstr "Название плейлиста"
+msgstr "Название плейлиста:"
 
 msgid "Playlists"
-msgstr "Плейлист"
+msgstr "Плейлисты"
 
 msgid "Please specify the page ID"
-msgstr "Пожалуйста, укажите код страницы"
+msgstr "Пожалуйста, укажите ID страницы"
 
 msgid "Podcast"
 msgstr "Подкаст"
 
 msgid "Podcast URL (iTunes format)"
-msgstr "Подкаст URL (формат Itunes)"
+msgstr "URL подкаста (формат iTunes)"
 
 msgid "Read all"
 msgstr "Прослушать все треки"
@@ -240,16 +233,16 @@ msgid "Search/Url"
 msgstr "Поиск / URL"
 
 msgid "The entered name is not a valid Instagram user."
-msgstr "Введенное имя не действительно, как пользователя Instagram."
+msgstr "Введённое имя не является действительным пользователем Instagram."
 
 msgid "This element is not an album."
-msgstr "Этот элемент не является альбомом"
+msgstr "Этот элемент не является альбомом."
 
 msgid "Track"
-msgstr "трек"
+msgstr "Трек"
 
 msgid "Tracks"
-msgstr "треки"
+msgstr "Треки"
 
 msgid "Type"
 msgstr "Тип"
@@ -258,7 +251,7 @@ msgid "URL (.mp3):"
 msgstr "URL (.mp3):"
 
 msgid "Videos gallery has been saved successfully"
-msgstr "Видео галерея была успешно сохранена"
+msgstr "Галерея видео успешно сохранена"
 
 msgid "Vimeo"
 msgstr "Vimeo"
@@ -276,7 +269,7 @@ msgid "empty"
 msgstr "пустой"
 
 msgid "from"
-msgstr "От"
+msgstr "от"
 
 msgid "hide"
 msgstr "скрыть"
@@ -300,13 +293,13 @@ msgid "play"
 msgstr "проиграть"
 
 msgid "previous"
-msgstr "Превью"
+msgstr "предыдущий"
 
 msgid "%s by %s"
-msgstr "%s по %s"
+msgstr "%s от %s"
 
 msgid "share"
-msgstr "участвовать"
+msgstr "поделиться"
 
 msgid "shuffle"
 msgstr "перемешать"

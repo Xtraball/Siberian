@@ -15,19 +15,19 @@ msgstr ""
 "X-Generator: Weblate 3.3\n"
 
 msgid "10 seconds"
-msgstr "Zweite"
+msgstr "10 Sekunden"
 
 msgid "15 seconds"
-msgstr "Zweite"
+msgstr "15 Sekunden"
 
 msgid "20 seconds"
-msgstr "Zweite"
+msgstr "20 Sekunden"
 
 msgid "2Checkout"
 msgstr "2Checkout"
 
 msgid "30 seconds"
-msgstr "Zweite"
+msgstr "30 Sekunden"
 
 msgid "404, page not found"
 msgstr "404, Seite nicht gefunden"
@@ -37,7 +37,7 @@ msgid "A step requires at least a title and a text."
 msgstr "Ein Schritt benötigt mindestens einen Titel und einen Text."
 
 msgid "API"
-msgstr "APIs"
+msgstr "API"
 
 msgid "APIs"
 msgstr "APIs"
@@ -55,10 +55,10 @@ msgid "APK Generator for builds from the Editor (Local or Service)"
 msgstr "APK-Generator für Builds aus dem Editor (lokal oder Dienst)"
 
 msgid "Access Management"
-msgstr "Zugriffs Management"
+msgstr "Zugriffsverwaltung"
 
 msgid "Account"
-msgstr "Account"
+msgstr "Konto"
 
 msgid "Accounts"
 msgstr "Konten"
@@ -71,7 +71,7 @@ msgid "Actions"
 msgstr "Aktionen"
 
 msgid "Activate"
-msgstr "Aktiviert"
+msgstr "Aktivieren"
 
 #. machine-translated (2026-10), to be reviewed
 msgid "Activity"
@@ -85,10 +85,10 @@ msgid "AdMob Interstitial ID"
 msgstr "Admob Interstitial-ID"
 
 msgid "Add"
-msgstr "hinzufügen"
+msgstr "Hinzufügen"
 
 msgid "Add Image"
-msgstr "Bild Hinzufügen"
+msgstr "Bild hinzufügen"
 
 msgid "Add a"
 msgstr "Fügen Sie eine"
@@ -146,20 +146,16 @@ msgstr "Erweiterte Optionen"
 
 msgid ""
 "After validating, you will be redirected to the 2Checkout checkout page."
-msgstr ""
-"Nach der überprüfung, Sie werden weitergeleitet zu 2Checkout checkout-Seite."
+msgstr "Nach der Bestätigung werden Sie zur 2Checkout-Kassenseite weitergeleitet."
 
 msgid "After validating, you will be redirected to the PayPal checkout page."
-msgstr ""
-"Nach der überprüfung, Sie werden weitergeleitet auf die PayPal-checkout-"
-"Seite."
+msgstr "Nach der Bestätigung werden Sie zur PayPal-Kassenseite weitergeleitet."
 
 msgid "Alert: The SSL Certificate %s automatic renewal failed."
-msgstr ""
-"Warnung: Das SSL-Zertifikat %s automatische Verlängerung fehlgeschlagen ist."
+msgstr "Warnung: Die automatische Verlängerung des SSL-Zertifikats %s ist fehlgeschlagen."
 
 msgid "Alignment"
-msgstr "Ausrichtung:"
+msgstr "Ausrichtung"
 
 #. machine-translated (2026-10), to be reviewed
 msgid "All data"
@@ -209,10 +205,10 @@ msgstr ""
 "einmal."
 
 msgid "An error occurred while loading places."
-msgstr "Fehler beim Laden von Orten."
+msgstr "Beim Laden der Orte ist ein Fehler aufgetreten."
 
 msgid "An error occurred while processing your payment."
-msgstr "Ein Fehler beim Abschluss Ihrer Zahlung ist aufgetreten"
+msgstr "Bei der Verarbeitung Ihrer Zahlung ist ein Fehler aufgetreten."
 
 msgid "An error occurred while saving"
 msgstr "Beim Speichern ist ein Fehler aufgetreten"
@@ -227,7 +223,7 @@ msgstr ""
 "Fehler beim Speichern von Ihrem Konto. Bitte versuchen Sie es später erneut."
 
 msgid "An error occurred while saving your picture. Please try again later."
-msgstr "Fehler beim speichern Ihres Bildes. Bitte versuchen Sie againg später."
+msgstr "Beim Speichern Ihres Bildes ist ein Fehler aufgetreten. Bitte versuchen Sie es später erneut."
 
 msgid "An error occurred while uploading your file. Please, try again later."
 msgstr ""
@@ -238,16 +234,14 @@ msgid "An unexpected error occurred while calculating the route."
 msgstr "Unerwarteter Fehler beim Berechnen der Route."
 
 msgid "An unknown error occurred while creating the push notification."
-msgstr ""
-"Ein unbekannter Fehler ist aufgetreten während der Erstellung der push-"
-"Benachrichtigung."
+msgstr "Beim Erstellen der Push-Benachrichtigung ist ein unbekannter Fehler aufgetreten."
 
 #. machine-translated (2026-10), to be reviewed
 msgid "An unknown error occurred while issue-ing your certificate."
 msgstr "Beim Ausstellen Ihres Zertifikats ist ein unbekannter Fehler aufgetreten."
 
 msgid "An unknown error occurred while loading the page."
-msgstr "Ein unbekannter Fehler ist aufgetreten beim laden der Seite."
+msgstr "Beim Laden der Seite ist ein unbekannter Fehler aufgetreten."
 
 #. machine-translated (2026-10), to be reviewed
 msgid "Android APK"
@@ -265,17 +259,15 @@ msgid "Android Spinner"
 msgstr "Android Spinner"
 
 msgid "Android base Package Name can't be empty."
-msgstr "Android base Package Name kann nicht leer sein."
+msgstr "Der Android-Basis-Paketname darf nicht leer sein."
 
 msgid "Android base Package Name must contain only letters, dots & minus."
-msgstr "Android base Package Name darf nur Buchstaben, dots & minus."
+msgstr "Der Android-Basis-Paketname darf nur Buchstaben, Punkte und Bindestriche enthalten."
 
 msgid ""
 "Android base Package Name must contain only letters, dots & minus with at "
 "least two dots.<br />Example: com.mydomain.admin"
-msgstr ""
-"Android base Package Name darf nur Buchstaben, dots & minus mit mindestens "
-"zwei Punkten.<br />Beispiel: com.mydomain.admin"
+msgstr "Der Android-Basis-Paketname darf nur Buchstaben, Punkte und Bindestriche mit mindestens zwei Punkten enthalten.<br />Beispiel: com.mydomain.admin"
 
 msgid "Android only"
 msgstr "Nur Android"
@@ -289,7 +281,7 @@ msgid "App"
 msgstr "App"
 
 msgid "App analytics"
-msgstr "App-analytics"
+msgstr "App-Analytics"
 
 #. machine-translated (2026-10), to be reviewed
 msgid "App id"
@@ -323,19 +315,19 @@ msgid "Are you sure you want to delete this admin?"
 msgstr "Sind Sie sicher, dass Sie den Admin löschen möchten?"
 
 msgid "Are you sure you want to delete this element?"
-msgstr "Bist du sicher, dass Sie dieses Element löschen möchten?"
+msgstr "Sind Sie sicher, dass Sie dieses Element löschen möchten?"
 
 msgid "Are you sure you want to delete this invoice?"
-msgstr "Sind Sie sicher, dass Sie wollen, löschen Sie diese Rechnung?"
+msgstr "Sind Sie sicher, dass Sie diese Rechnung löschen möchten?"
 
 msgid "Are you sure you want to delete this subscription?"
-msgstr "Sind Sie sicher, dass Sie löschen möchten dieses Abo?"
+msgstr "Sind Sie sicher, dass Sie dieses Abonnement löschen möchten?"
 
 msgid "Are you sure you want to remove this account?"
-msgstr "Bist du sicher, dass Sie dieses Konto entfernen möchten?"
+msgstr "Sind Sie sicher, dass Sie dieses Konto entfernen möchten?"
 
 msgid "Artist"
-msgstr "Artist:"
+msgstr "Künstler"
 
 msgid "At least, 1 page in the application"
 msgstr "Mindestens 1 Seite in der Anwendung"
@@ -354,32 +346,28 @@ msgid "Audio"
 msgstr "Audio"
 
 msgid "Authentication failed"
-msgstr "Ist die Authentifizierung fehlgeschlagen."
+msgstr "Authentifizierung fehlgeschlagen"
 
 msgid "Authentication failed. Please, check the username and/or the password"
-msgstr ""
-"Ist die Authentifizierung fehlgeschlagen. Bitte überprüfen Sie den "
-"Benutzernamen und/oder Passwort"
+msgstr "Authentifizierung fehlgeschlagen. Bitte überprüfen Sie den Benutzernamen und/oder das Passwort"
 
 msgid "Authentication failed. Please check your email and/or your password"
-msgstr ""
-"Authentifizierung fehlgeschlagen. Bitte überprüfen Sie Ihre E-Mail-und / "
-"oder Ihr Passwort vergessen"
+msgstr "Authentifizierung fehlgeschlagen. Bitte überprüfen Sie Ihre E-Mail-Adresse und/oder Ihr Passwort"
 
 msgid "Autocomplete & Suggestions ..."
 msgstr "Automatische Vervollständigung & Vorschläge ..."
 
 msgid "Average cart"
-msgstr "Der Durchschnittliche Warenkorb"
+msgstr "Durchschnittlicher Warenkorb"
 
 msgid "Average for active users"
 msgstr "Durchschnitt für aktive Nutzer"
 
 msgid "Average for all users"
-msgstr "Der Durchschnitt für alle Benutzer"
+msgstr "Durchschnitt für alle Benutzer"
 
 msgid "Back"
-msgstr "zurück"
+msgstr "Zurück"
 
 #. machine-translated (2026-10), to be reviewed
 msgid "Back button icon"
@@ -389,10 +377,10 @@ msgid "Background"
 msgstr "Hintergrund"
 
 msgid "Background (landscape)"
-msgstr "Hintergrund (Landschaft)"
+msgstr "Hintergrund (Querformat)"
 
 msgid "Background (portrait)"
-msgstr "Hintergrund (portrait)"
+msgstr "Hintergrund (Hochformat)"
 
 msgid "Backoffice"
 msgstr "Backoffice"
@@ -402,7 +390,7 @@ msgid "Bad settings can break your APK Generator, leave empty to use defaults."
 msgstr "Falsche Einstellungen können Ihren APK-Generator beeinträchtigen, leer lassen, um die Standardwerte zu verwenden."
 
 msgid "Banner"
-msgstr "Fahne"
+msgstr "Banner"
 
 #. machine-translated (2026-10), to be reviewed
 msgid "Banner & Interstitial"
@@ -418,9 +406,7 @@ msgstr "Bearer-Token"
 msgid ""
 "Before you can send push notification, you must have at least one of iOS or "
 "Android application in a published state."
-msgstr ""
-"Bevor Sie per push-Benachrichtigung unterstützt wird, muss mindestens ein "
-"iOS-oder Android-Anwendung in einem veröffentlichten Zustand."
+msgstr "Bevor Sie Push-Benachrichtigungen senden können, muss mindestens eine iOS- oder Android-Anwendung veröffentlicht sein."
 
 msgid "Booking"
 msgstr "Reservierung"
@@ -437,22 +423,22 @@ msgid "Bottom"
 msgstr "Unten"
 
 msgid "Browse"
-msgstr "blättern"
+msgstr "Durchsuchen"
 
 msgid "Button"
 msgstr "Button"
 
 msgid "Button assertive"
-msgstr "Taste durchsetzungsfähig"
+msgstr "Button assertive"
 
 msgid "Button balanced"
-msgstr "Taste ausgewogene"
+msgstr "Button balanced"
 
 msgid "Button calm"
-msgstr "Taste dunkel"
+msgstr "Button calm"
 
 msgid "Button dark"
-msgstr "Taste dunkel"
+msgstr "Button dark"
 
 msgid "Button energized"
 msgstr "Button erregt"
@@ -461,21 +447,18 @@ msgid "Button light"
 msgstr "Button light"
 
 msgid "Button positive"
-msgstr "- Taste positive"
+msgstr "Button positive"
 
 msgid "Button royal"
 msgstr "Button royal"
 
 msgid "By checking this, a search field will appear in your folder feature"
-msgstr ""
-"Durch die überprüfung dieses, ein Suchfeld erscheint in der Ordner-Funktion"
+msgstr "Wenn Sie dies aktivieren, erscheint ein Suchfeld in Ihrer Ordner-Funktion"
 
 msgid ""
 "By default, popups steps try to use a smart placement. You can force this "
 "placement if needed."
-msgstr ""
-"Standardmäßig popups Schritte versuchen, verwenden Sie eine smart placement. "
-"Sie können erzwingen, dass Sie diese Platzierung, wenn nötig."
+msgstr "Standardmäßig versuchen Popup-Schritte, eine intelligente Platzierung zu verwenden. Sie können diese Platzierung bei Bedarf erzwingen."
 
 #. machine-translated (2026-10), to be reviewed
 msgid "Cache"
@@ -492,19 +475,19 @@ msgid "Can only be used once"
 msgstr "Kann nur einmal verwendet werden"
 
 msgid "Cancel"
-msgstr "stornieren"
+msgstr "Stornieren"
 
 msgid "Card"
 msgstr "Karte"
 
 msgid "Card Item"
-msgstr "Karte Element"
+msgstr "Kartenelement"
 
 msgid "Careful, someone else is working on this application."
 msgstr "Vorsicht! Es arbeitet gerade noch jemand mit Ihnen an der App"
 
 msgid "Cart"
-msgstr "Einkaufswagen"
+msgstr "Warenkorb"
 
 msgid "Catalog"
 msgstr "Katalog"
@@ -519,16 +502,14 @@ msgid "Change password"
 msgstr "Passwort ändern"
 
 msgid "Change your<br /><span class='bold'>picture</span>"
-msgstr "Ändern Sie Ihre<br /><span class='bold'>Bild</span>"
+msgstr "Ändern Sie Ihr<br /><span class='bold'>Bild</span>"
 
 msgid "Changing the Application icon requires a rebuild / republication."
 msgstr ""
 "Das Ändern des Anwendungssymbols erfordert eine erneute App-Veröffentlichung."
 
 msgid "Changing this option requires you to republish your iOS application."
-msgstr ""
-"Achtung: iOS lehnt diese Option oft ab! Wenn diese Option geändert wird, "
-"muss die iOS-Anwendung erneut veröffentlicht werden."
+msgstr "Das Ändern dieser Option erfordert eine erneute Veröffentlichung Ihrer iOS-Anwendung."
 
 msgid "Checkbox"
 msgstr "Checkbox"
@@ -537,17 +518,17 @@ msgid "Checkbox off"
 msgstr "Checkbox aus"
 
 msgid "Checkbox on"
-msgstr "Checkbox auf"
+msgstr "Checkbox an"
 
 #. machine-translated (2026-10), to be reviewed
 msgid "Checking Permissions"
 msgstr "Berechtigungen werden geprüft"
 
 msgid "Choose a file to import:"
-msgstr "Wählen Sie eine Datei zum importieren:"
+msgstr "Wählen Sie eine Datei zum Importieren:"
 
 msgid "Choose an object to import:"
-msgstr "Wählen Sie ein Objekt zu importieren:"
+msgstr "Wählen Sie ein Objekt zum Importieren:"
 
 msgid "City"
 msgstr "Stadt"
@@ -565,7 +546,7 @@ msgid "ClamAV settings have been saved."
 msgstr "Die ClamAV-Einstellungen wurden gespeichert."
 
 msgid "Click here to log-in"
-msgstr "Klicken Sie hier zum log-in"
+msgstr "Klicken Sie hier, um sich anzumelden"
 
 #. machine-translated (2026-10), to be reviewed
 msgid "Click here to open the application"
@@ -575,19 +556,19 @@ msgid "Click on"
 msgstr "Klicken Sie auf"
 
 msgid "Click on a feature to add it to the folder"
-msgstr "Klicken Sie auf ein feature, um es in den Ordner %s"
+msgstr "Klicken Sie auf eine Funktion, um sie dem Ordner hinzuzufügen"
 
 msgid "Click on a feature to add it to the folder %s"
-msgstr "Klicken Sie auf ein feature, um es in den Ordner %s"
+msgstr "Klicken Sie auf eine Funktion, um sie dem Ordner %s hinzuzufügen"
 
 msgid "Click to import your file"
-msgstr "Klicken Sie zum importieren der Datei"
+msgstr "Klicken Sie, um Ihre Datei zu importieren"
 
 msgid "Close"
-msgstr "schließen"
+msgstr "Schließen"
 
 msgid "Close mobile display"
-msgstr "Schließen Sie mobile anzeigen"
+msgstr "Mobile Ansicht schließen"
 
 msgid "CloudFlare is not supported, please use a CNAME."
 msgstr "CloudFlare wird nicht unterstützt, bitte verwenden Sie einen CNAME."
@@ -655,7 +636,7 @@ msgid "Contact successfully added to your address book"
 msgstr "Kontakt erfolgreich zu Ihrem Adressbuch hinzugefügt"
 
 msgid "Contact us"
-msgstr "Kontaktieren Sie uns."
+msgstr "Kontaktieren Sie uns"
 
 msgid "Contest"
 msgstr "Wettbewerb"
@@ -675,14 +656,14 @@ msgid "Core"
 msgstr "Kern"
 
 msgid "Country"
-msgstr "land"
+msgstr "Land"
 
 #. machine-translated (2026-10), to be reviewed
 msgid "Cover"
 msgstr "Titelbild"
 
 msgid "Create"
-msgstr "Krieren"
+msgstr "Erstellen"
 
 msgid "Create / Edit a User"
 msgstr "Erstellen / Bearbeiten eines Benutzers"
@@ -691,7 +672,7 @@ msgid "Create a new account"
 msgstr "Ein neues Konto erstellen"
 
 msgid "Create an account"
-msgstr "Einen neuen Account erstellen"
+msgstr "Ein Konto erstellen"
 
 msgid "Created at"
 msgstr "Erstellt am"
@@ -708,7 +689,7 @@ msgid "Current load is"
 msgstr "Die aktuelle Auslastung ist"
 
 msgid "Current password"
-msgstr "Aktuelle Kennwort"
+msgstr "Aktuelles Kennwort"
 
 #. machine-translated (2026-10), to be reviewed
 msgid "Current status is"
@@ -724,7 +705,7 @@ msgid "Customization mode activated"
 msgstr "Anpassungs-Modus aktiviert"
 
 msgid "Customize your app's colors"
-msgstr "Passen Sie Farben Ihrer App an"
+msgstr "Passen Sie die Farben Ihrer App an"
 
 #. machine-translated (2026-10), to be reviewed
 msgid "DEFAULT"
@@ -753,7 +734,7 @@ msgid "Date of birth"
 msgstr "Geburtsdatum"
 
 msgid "Deactivate"
-msgstr "Deaktiviert"
+msgstr "Deaktivieren"
 
 #. machine-translated (2026-10), to be reviewed
 msgid "Debug"
@@ -771,17 +752,17 @@ msgid "Default role for all new users"
 msgstr "Standardrolle für alle neuen Benutzer"
 
 msgid "Default search distance"
-msgstr "Standard-such-Entfernung"
+msgstr "Standard-Suchentfernung"
 
 msgid "Delete"
-msgstr "löschen"
+msgstr "Löschen"
 
 #. machine-translated (2026-10), to be reviewed
 msgid "Delete a feature"
 msgstr "Funktion löschen"
 
 msgid "Delete the Application"
-msgstr "Ansicht die Anwendung"
+msgstr "Anwendung löschen"
 
 msgid "Delete this folder and all its subfolders?"
 msgstr "Löschen Sie diesen Ordner und alle seine Unterordner?"
@@ -791,16 +772,16 @@ msgid "Delivered"
 msgstr "Zugestellt"
 
 msgid "Delivery Cost"
-msgstr "Zustellgebühren:"
+msgstr "Lieferkosten"
 
 msgid "Delivery method"
-msgstr "Lieferungsmethoden"
+msgstr "Liefermethode"
 
 msgid "Description"
 msgstr "Beschreibung"
 
 msgid "Details"
-msgstr "Informationen"
+msgstr "Details"
 
 msgid "Development"
 msgstr "Entwicklung"
@@ -809,25 +790,25 @@ msgid "Dialog"
 msgstr "Dialog"
 
 msgid "Dialog background"
-msgstr "Dialog hintergrund"
+msgstr "Dialoghintergrund"
 
 msgid "Dialog button"
-msgstr "Dialog button"
+msgstr "Dialog-Schaltfläche"
 
 msgid "Dialog text"
-msgstr "Dialog text"
+msgstr "Dialogtext"
 
 msgid "Discount"
 msgstr "Rabatt"
 
 msgid "Discounts"
-msgstr "Angebot"
+msgstr "Rabatte"
 
 msgid "Display pictogram instead of image in map"
-msgstr "Display-piktogramm statt des Bildes in der Karte"
+msgstr "Piktogramm statt Bild auf der Karte anzeigen"
 
 msgid "Distance unit"
-msgstr "Entfernung Einheit"
+msgstr "Entfernungseinheit"
 
 #. machine-translated (2026-10), to be reviewed
 msgid "Do not export"
@@ -836,24 +817,19 @@ msgstr "Nicht exportieren"
 msgid ""
 "Do you want to download all the contents now to access it when offline? If "
 "you do, we recommend you to use a WiFi connection."
-msgstr ""
-"Wollen Sie den download aller Inhalte nun auf ihn zugreifen, wenn man "
-"offline ist? Wenn Sie das tun, empfehlen wir Ihnen die Verwendung einer WiFi-"
-"Verbindung."
+msgstr "Möchten Sie jetzt alle Inhalte herunterladen, um offline darauf zugreifen zu können? Wenn ja, empfehlen wir die Verwendung einer WLAN-Verbindung."
 
 msgid "Do you want to return to the homepage?"
-msgstr "Wollen Sie auf die Startseite zurückzukehren?"
+msgstr "Möchten Sie zur Startseite zurückkehren?"
 
 msgid "Done"
 msgstr "Fertig"
 
 msgid "Don't close the app while downloading. This may take a while."
-msgstr ""
-"Die App nicht schließen, während heruntergeladen wird. Dies dauert einen "
-"kurzen Moment"
+msgstr "Schließen Sie die App nicht, während der Download läuft. Das kann einen Moment dauern."
 
 msgid "Download APK"
-msgstr "Download CA"
+msgstr "APK herunterladen"
 
 msgid "Download a copy of my data"
 msgstr "Eine Kopie meiner Daten herunterladen"
@@ -863,45 +839,45 @@ msgid "Download as zip"
 msgstr "Als ZIP herunterladen"
 
 msgid "Download complete list for this metric"
-msgstr "Download-vollständige Liste für diese Metrik"
+msgstr "Vollständige Liste für diese Metrik herunterladen"
 
 #. machine-translated (2026-10), to be reviewed
 msgid "Download current search as CSV"
 msgstr "Aktuelle Suche als CSV herunterladen"
 
 msgid "Download file is not available in DEMO mode."
-msgstr "Download-Datei ist nicht verfügbar im DEMO-Modus."
+msgstr "Die Download-Datei ist im DEMO-Modus nicht verfügbar."
 
 msgid "Download latest APK"
-msgstr "Download aktuell"
+msgstr "Neueste APK herunterladen"
 
 #. machine-translated (2026-10), to be reviewed
 msgid "Download latest sources"
 msgstr "Neueste Quellcodes herunterladen"
 
 msgid "Download list of user who used this discount"
-msgstr "Laden Sie die Liste der Benutzer, die mit dieser Rabatt"
+msgstr "Liste der Benutzer herunterladen, die diesen Rabatt verwendet haben"
 
 msgid "Download list of user who used this loyalty card"
-msgstr "Laden Sie die Liste der Benutzer, die diese Treuekarte verwendet haben"
+msgstr "Liste der Benutzer herunterladen, die diese Treuekarte verwendet haben"
 
 msgid "Download list of user who used this scratch card"
-msgstr "Laden Sie die Liste der Benutzer, die mit dieser scratch card"
+msgstr "Liste der Benutzer herunterladen, die diese Rubbelkarte verwendet haben"
 
 msgid "Download only winner list for this scratch card"
-msgstr "Laden Sie nur die Sieger-Liste für diese scratch-Karte"
+msgstr "Nur die Gewinnerliste für diese Rubbelkarte herunterladen"
 
 msgid "Download the APK"
-msgstr "Download der APK !"
+msgstr "Die APK herunterladen!"
 
 msgid "Download the Source code"
-msgstr "Laden Sie die Quellcode-Archiv !"
+msgstr "Den Quellcode herunterladen"
 
 msgid "Downloading..."
 msgstr "Herunterladen..."
 
 msgid "Drop your json here"
-msgstr "Ziehen Sie Ihr Logo hier herein"
+msgstr "Ziehen Sie Ihr JSON hierher"
 
 #. machine-translated (2026-10), to be reviewed
 msgid "EDIT"
@@ -911,13 +887,13 @@ msgid "Edit"
 msgstr "Bearbeiten"
 
 msgid "Edit an invoice for this plan"
-msgstr "Bearbeiten einer Rechnung für diesen plan"
+msgstr "Eine Rechnung für diesen Plan bearbeiten"
 
 msgid "Edit folder"
-msgstr "Ordner Bearbeiten"
+msgstr "Ordner bearbeiten"
 
 msgid "Edit step for this element"
-msgstr "Bearbeiten Sie Schritt für dieses element"
+msgstr "Schritt für dieses Element bearbeiten"
 
 msgid "Editing"
 msgstr "Bearbeitung"
@@ -940,13 +916,13 @@ msgid "Element n°"
 msgstr "Element n°"
 
 msgid "Email"
-msgstr "Email"
+msgstr "E-Mail"
 
 msgid "Email address"
 msgstr "E-Mail-Adresse"
 
 msgid "Enable search in folders"
-msgstr "Aktivieren der Suche im Ordner"
+msgstr "Suche in Ordnern aktivieren"
 
 #. machine-translated (2026-10), to be reviewed
 msgid "Enable test API ?"
@@ -960,7 +936,7 @@ msgid "End tour"
 msgstr "Tour beenden"
 
 msgid "Enter your twitter handle"
-msgstr "Gib deine Twitter-Handle / URL ein"
+msgstr "Geben Sie Ihr Twitter-Handle ein"
 
 #. machine-translated (2026-10), to be reviewed
 msgid "Error"
@@ -970,7 +946,7 @@ msgid "Error : <br/>"
 msgstr "Fehler: <br/>"
 
 msgid "Error on import configuration."
-msgstr "Fehler beim importieren der Konfiguration."
+msgstr "Fehler beim Importieren der Konfiguration."
 
 msgid "Errors : <br/>"
 msgstr "Fehler: <br/>"
@@ -980,13 +956,13 @@ msgid "European <b>General Data Protection Regulation (GDPR)</b>"
 msgstr "Europäische <b>Datenschutz-Grundverordnung (DSGVO)</b>"
 
 msgid "Event"
-msgstr "Event"
+msgstr "Veranstaltung"
 
 msgid "Events"
 msgstr "Veranstaltungen"
 
 msgid "Export / Import"
-msgstr "Import / Export"
+msgstr "Export / Import"
 
 #. machine-translated (2026-10), to be reviewed
 msgid ""
@@ -1006,7 +982,7 @@ msgid "Extension can't be empty."
 msgstr "Die Erweiterung darf nicht leer sein."
 
 msgid "Extension not allowed, '%s' only"
-msgstr "Erweiterung nicht erlaubt, '%s' nur"
+msgstr "Erweiterung nicht erlaubt, nur '%s'"
 
 #. machine-translated (2026-10), to be reviewed
 msgid "Extension %s is strictly forbidden."
@@ -1020,7 +996,7 @@ msgid "Facebook"
 msgstr "Facebook"
 
 msgid "Fan Wall"
-msgstr "Fan Wand"
+msgstr "Fanwand"
 
 #. machine-translated (2026-10), to be reviewed
 msgid "Fanwall"
@@ -1033,10 +1009,10 @@ msgid "Feature Top 5 visits"
 msgstr "Funktion Top-5 Besuche"
 
 msgid "Features"
-msgstr "Eigenschaften"
+msgstr "Funktionen"
 
 msgid "Filter metrics"
-msgstr "Filter-Maße"
+msgstr "Metriken filtern"
 
 #. machine-translated (2026-10), to be reviewed
 msgid "Firewall"
@@ -1071,33 +1047,31 @@ msgid "Forbidden image format"
 msgstr "Unzulässiges Bildformat"
 
 msgid "Force request & Upload to panel"
-msgstr "Force-Auftrag & Upload zum panel"
+msgstr "Anfrage erzwingen und zum Panel hochladen"
 
 msgid "Forgot your password?"
-msgstr "Passwort vergessen ?"
+msgstr "Passwort vergessen?"
 
 msgid ""
 "Forgot your password? Don't worry! Simply enter your email address and we'll "
 "send you a new one right now."
-msgstr ""
-"Passwort vergessen? Macht nichts! Geben Sie einfach Ihre e-Mail-Adresse und "
-"wir schicken Ihnen sofort eine neue."
+msgstr "Passwort vergessen? Keine Sorge! Geben Sie einfach Ihre E-Mail-Adresse ein, und wir senden Ihnen sofort ein neues."
 
 msgid "Form"
-msgstr "Form"
+msgstr "Formular"
 
 msgid "Form has the following errors"
 msgstr "Das Formular hat folgende Fehler"
 
 msgid "Free until"
-msgstr "Frei bis %s"
+msgstr "Frei bis"
 
 #. machine-translated (2026-10), to be reviewed
 msgid "From:"
 msgstr "Von:"
 
 msgid "Front"
-msgstr "Vorne"
+msgstr "Vorderseite"
 
 #. machine-translated (2026-10), to be reviewed
 msgid "GCM settings saved."
@@ -1108,31 +1082,30 @@ msgid "GRADLE extended options"
 msgstr "Erweiterte GRADLE-Optionen"
 
 msgid "General"
-msgstr "Allgemeine"
+msgstr "Allgemein"
 
 msgid "Generate"
 msgstr "Generieren"
 
 msgid "Generate an invoice for this offline plan by using the form below."
-msgstr ""
-"Erstellung einer Rechnung für diese offline-plan über das Formular unten."
+msgstr "Erstellen Sie über das untenstehende Formular eine Rechnung für diesen Offline-Plan."
 
 #. machine-translated (2026-10), to be reviewed
 msgid "Generate build"
 msgstr "Build generieren"
 
 msgid "Generate sources"
-msgstr "Quelle generieren"
+msgstr "Quellen generieren"
 
 #. machine-translated (2026-10), to be reviewed
 msgid "Global push"
 msgstr "Globaler Push"
 
 msgid "Global push notifications"
-msgstr "Global push-Benachrichtigungen"
+msgstr "Globale Push-Benachrichtigungen"
 
 msgid "Go back"
-msgstr "Gehen Sie zurück"
+msgstr "Zurück"
 
 #. machine-translated (2026-10), to be reviewed
 msgid "Google Maps settings"
@@ -1142,16 +1115,16 @@ msgid "HH:mm a"
 msgstr "HH:mm"
 
 msgid "Hello,"
-msgstr "Hallo"
+msgstr "Hallo,"
 
 msgid "Here is your new password:"
-msgstr "Hier ist Ihr neue Kennwort ein:"
+msgstr "Hier ist Ihr neues Passwort:"
 
 msgid "Hi. I just found: $1 in the $2 app."
-msgstr "Hi. Habe ich gerade gefunden: $1 $2 app."
+msgstr "Hi. Ich habe gerade $1 in der App $2 gefunden."
 
 msgid "Hide"
-msgstr "Swipe"
+msgstr "Ausblenden"
 
 msgid "Hide iOS status bar"
 msgstr "iOS-Statusleiste ausblenden"
@@ -1171,14 +1144,12 @@ msgid "Host"
 msgstr "Host"
 
 msgid "Hostnames associated with this Certificate"
-msgstr "Hostnamen, die diesem Zertifikat zugeordnet"
+msgstr "Mit diesem Zertifikat verknüpfte Hostnamen"
 
 msgid ""
 "How do you want to access the backoffice if you remove the only user "
 "remaining?"
-msgstr ""
-"Wie wollen Sie die Backoffice zugreifen, wenn Sie der einzige Benutzer "
-"verbleibenden entfernen?"
+msgstr "Wie möchten Sie auf das Backoffice zugreifen, wenn Sie den einzigen verbleibenden Benutzer entfernen?"
 
 msgid "ID"
 msgstr "ID"
@@ -1196,45 +1167,43 @@ msgid "Icons size"
 msgstr "Symbolgröße"
 
 msgid "If user doesn't use AdMob, split revenue will default to 100."
-msgstr ""
-"Wenn der Benutzer nicht verwenden AdMob, split Einnahmen wird standardmäßig "
-"auf 100."
+msgstr "Wenn der Benutzer AdMob nicht verwendet, beträgt die Umsatzaufteilung standardmäßig 100."
 
 msgid "I'm listening to $1 from $2 on $3 app."
-msgstr "Ich bin hören, um $1 von $2 auf $3 app."
+msgstr "Ich höre $1 von $2 in der App $3."
 
 msgid "I'm listening to $1 on $2 app."
-msgstr "Ich bin hören, um $1 auf $2 app."
+msgstr "Ich höre $1 in der App $2."
 
 msgid "Image"
 msgstr "Bild"
 
 msgid "Image not high enough, %spx minimum allowed."
-msgstr "Bild nicht hoch genug, erlaubt % Spx minimale."
+msgstr "Bild nicht hoch genug, mindestens %spx erlaubt."
 
 msgid "Image not large enough, '%s' allowed."
-msgstr "Bild nicht groß genug, '%s' darf."
+msgstr "Bild nicht groß genug, '%s' erlaubt."
 
 msgid "Image not large enough, %spx minimum allowed."
-msgstr "Bild nicht groß genug, erlaubt % Spx minimale."
+msgstr "Bild nicht breit genug, mindestens %spx erlaubt."
 
 msgid "Image successfully saved"
-msgstr "Bild gespeichert"
+msgstr "Bild erfolgreich gespeichert"
 
 msgid "Image too high, %spx maximum allowed."
-msgstr "Bild zu hoch, % Spx maximal zulässig."
+msgstr "Bild zu hoch, maximal %spx erlaubt."
 
 msgid "Image too large, '%s' allowed."
-msgstr "Bild zu groß, '%s' darf."
+msgstr "Bild zu groß, '%s' erlaubt."
 
 msgid "Image too large, %spx maximum allowed."
-msgstr "Bild zu groß ist, % Spx maximal zulässig."
+msgstr "Bild zu groß, maximal %spx erlaubt."
 
 msgid "Images"
 msgstr "Bilder"
 
 msgid "Images opacity"
-msgstr "Bilder Deckkraft"
+msgstr "Deckkraft der Bilder"
 
 msgid "Import"
 msgstr "Import"
@@ -1244,7 +1213,7 @@ msgid "Import a background image"
 msgstr "Hintergrundbild importieren"
 
 msgid "Import a cover image"
-msgstr "Bild hinzufügen"
+msgstr "Titelbild importieren"
 
 #. machine-translated (2026-10), to be reviewed
 msgid "Import a single feature."
@@ -1265,12 +1234,10 @@ msgstr "YML importieren"
 msgid ""
 "In order to fully enjoy our features, we encourage you to use at least:.<br "
 "/>"
-msgstr ""
-"Um unsere Funktionen voll zu genießen, wir empfehlen Ihnen mindestens:. < Br "
-"/ >"
+msgstr "Um unsere Funktionen voll nutzen zu können, empfehlen wir Ihnen mindestens:.<br />"
 
 msgid "In order to publish your application, we need:"
-msgstr "Um Ihre Anwendung veröffentlichen, die wir brauchen:"
+msgstr "Um Ihre Anwendung zu veröffentlichen, benötigen wir:"
 
 msgid "In order to use global push notifications your app must be published."
 msgstr ""
@@ -1278,7 +1245,7 @@ msgstr ""
 "veröffentlicht werden."
 
 msgid "Incorrect filetype."
-msgstr "Falsche Filetype."
+msgstr "Falscher Dateityp."
 
 msgid "Info"
 msgstr "Info"
@@ -1293,19 +1260,19 @@ msgid "Infos successfully saved"
 msgstr "Infos erfolgreich gespeichert"
 
 msgid "Inherit global layout"
-msgstr "Erben Globale layout"
+msgstr "Globales Layout erben"
 
 msgid "Insert a <br /><span class'bold'>cover image</span>"
 msgstr "Einfügen eines <br /><span class'bold'>Titelbild</span>"
 
 msgid "Insert a cover image"
-msgstr "Bild hinzufügen"
+msgstr "Titelbild einfügen"
 
 msgid "Insert a picture"
 msgstr "Ein Bild einfügen"
 
 msgid "Installer"
-msgstr "Ersteller"
+msgstr "Installationsprogramm"
 
 msgid "Installs"
 msgstr "Installationen"
@@ -1320,10 +1287,10 @@ msgid "Invalid place"
 msgstr "Ungültiger Ort"
 
 msgid "Invoice creation date"
-msgstr "Rechnung Datum der Erstellung"
+msgstr "Erstellungsdatum der Rechnung"
 
 msgid "Invoice payment date"
-msgstr "Rechnung Zahlung Datum"
+msgstr "Zahlungsdatum der Rechnung"
 
 msgid "Invoices"
 msgstr "Rechnungen"
@@ -1336,10 +1303,7 @@ msgid ""
 "It seems that the renewal of the following SSL Certificate %s is failing, "
 "please check in <b>Settings > Advanced > Configuration</b> for the specified "
 "certificate."
-msgstr ""
-"Es scheint, dass die Erneuerung der folgende SSL-Zertifikat %s ist "
-"fehlerhaft, bitte prüfen Sie in <b>Einstellungen > Erweitert > "
-"Konfiguration</b> für das angegebene Zertifikat."
+msgstr "Es scheint, dass die Erneuerung des folgenden SSL-Zertifikats %s fehlschlägt, bitte prüfen Sie das angegebene Zertifikat unter <b>Einstellungen > Erweitert > Konfiguration</b>."
 
 #. machine-translated (2026-10), to be reviewed
 msgid "JAVA Extended options"
@@ -1393,7 +1357,7 @@ msgid "Layout #6"
 msgstr "Layout #6"
 
 msgid "Leave blank if your web space is the current domain."
-msgstr "Lassen Sie das Feld leer, wenn Ihr web-space ist die aktuelle Domäne."
+msgstr "Lassen Sie das Feld leer, wenn Ihr Webspace die aktuelle Domain ist."
 
 msgid "Left"
 msgstr "Links"
@@ -1402,10 +1366,10 @@ msgid "Let your users know what is locked"
 msgstr "Lassen Sie Ihre Benutzer wissen, was gesperrt ist"
 
 msgid "Like"
-msgstr "Wie"
+msgstr "Gefällt mir"
 
 msgid "Likes"
-msgstr "Mag"
+msgstr "Likes"
 
 msgid "Link"
 msgstr "Link"
@@ -1427,13 +1391,13 @@ msgid "List of your invoices"
 msgstr "Liste Ihrer Rechnungen"
 
 msgid "Load More"
-msgstr "Mehr zu laden"
+msgstr "Mehr laden"
 
 msgid "Loading"
-msgstr "Ladung"
+msgstr "Wird geladen"
 
 msgid "Loading picture"
-msgstr "Bild laden:"
+msgstr "Bild wird geladen"
 
 #. machine-translated (2026-10), to be reviewed
 msgid "Local APK Generator"
@@ -1444,10 +1408,10 @@ msgid "Local APK build"
 msgstr "Lokaler APK-Build"
 
 msgid "Locate"
-msgstr "lokalisieren"
+msgstr "Lokalisieren"
 
 msgid "Location"
-msgstr "Lage"
+msgstr "Standort"
 
 msgid "Location: %s"
 msgstr "Ort: %s"
@@ -1456,23 +1420,23 @@ msgid "Log in"
 msgstr "Anmelden"
 
 msgid "Logged in as"
-msgstr "Eingeloggt als"
+msgstr "Angemeldet als"
 
 msgid "Log-in"
-msgstr "Einloggen"
+msgstr "Anmelden"
 
 #. machine-translated (2026-10), to be reviewed
 msgid "Login to access your data"
 msgstr "Melden Sie sich an, um auf Ihre Daten zuzugreifen"
 
 msgid "Login to your admin interface"
-msgstr "Login zu Ihrem admin-interface"
+msgstr "Bei Ihrer Admin-Oberfläche anmelden"
 
 msgid "Log-out"
-msgstr "Log out"
+msgstr "Abmelden"
 
 msgid "Loyalty Card"
-msgstr "Loyalitäts karte"
+msgstr "Treuekarte"
 
 msgid "LoyaltyCard"
 msgstr "LoyaltyCard"
@@ -1502,7 +1466,7 @@ msgid "MM/dd/yyyy"
 msgstr "TT/MM/JJJJ"
 
 msgid "Main Platform"
-msgstr "Wichtigste Plattform"
+msgstr "Hauptplattform"
 
 msgid "Main category"
 msgstr "Hauptkategorie"
@@ -1512,28 +1476,26 @@ msgid "Main domain"
 msgstr "Hauptdomain"
 
 msgid "Main domain (without https?://) is required for services, and tools."
-msgstr ""
-"Sibirische Haupt-domain (ohne https?://) ist erforderlich für "
-"Dienstleistungen und tools."
+msgstr "Die Hauptdomain (ohne https?://) ist für Dienste und Tools erforderlich."
 
 msgid "Main hostname"
 msgstr "Haupt-hostname"
 
 msgid "Make this image colorizable"
-msgstr "Machen Sie dieses Bild colorizable"
+msgstr "Dieses Bild einfärbbar machen"
 
 msgid "Manage"
-msgstr "verwalten"
+msgstr "Verwalten"
 
 msgid "Manage Folders"
-msgstr "Ordner Verwalten"
+msgstr "Ordner verwalten"
 
 #. machine-translated (2026-10), to be reviewed
 msgid "Manage Places"
 msgstr "Orte verwalten"
 
 msgid "Manage Tour"
-msgstr "Verwalten Tour"
+msgstr "Tour verwalten"
 
 msgid "Manage content"
 msgstr "Inhalte verwalten"
@@ -1580,32 +1542,32 @@ msgid "Migrate sessions to Redis"
 msgstr "Sitzungen zu Redis migrieren"
 
 msgid "Misc"
-msgstr "Misc"
+msgstr "Sonstiges"
 
 #. machine-translated (2026-10), to be reviewed
 msgid "Missing appId"
 msgstr "appId fehlt"
 
 msgid "Missing gallery_id"
-msgstr "Fehlt value_id!"
+msgstr "gallery_id fehlt"
 
 msgid "Missing parameters."
 msgstr "Fehlende Parameter."
 
 msgid "Missing params"
-msgstr "Fehlende params!"
+msgstr "Fehlende Parameter"
 
 msgid "Missing status"
-msgstr "Fehlende Daten."
+msgstr "Status fehlt"
 
 msgid "Missing value"
-msgstr "Fehlt value_id!"
+msgstr "Wert fehlt"
 
 msgid "Missing values"
-msgstr "Fehlt value_id!"
+msgstr "Werte fehlen"
 
 msgid "Mobile display"
-msgstr "Mobile display"
+msgstr "Mobile Anzeige"
 
 #. machine-translated (2026-10), to be reviewed
 msgid "Modal"
@@ -1624,7 +1586,7 @@ msgid "Monthly"
 msgstr "Monatlich"
 
 msgid "More"
-msgstr "mehr"
+msgstr "Mehr"
 
 msgid "My Users List"
 msgstr "Meine Benutzer-Liste"
@@ -1674,10 +1636,10 @@ msgid "Never"
 msgstr "nie"
 
 msgid "New"
-msgstr "neu"
+msgstr "Neu"
 
 msgid "New folder"
-msgstr "Neuen Ordner"
+msgstr "Neuer Ordner"
 
 #. machine-translated (2026-10), to be reviewed
 msgid "New format"
@@ -1691,10 +1653,10 @@ msgid "New positions are missing."
 msgstr "Neue Positionen fehlen."
 
 msgid "New subfolder"
-msgstr "Neuen Ordner"
+msgstr "Neuer Unterordner"
 
 msgid "Newswall"
-msgstr "Neuikeitenwand"
+msgstr "Newswall"
 
 msgid "Next"
 msgstr "Nächste"
@@ -1706,16 +1668,16 @@ msgid "No Results"
 msgstr "Keine Ergebnisse"
 
 msgid "No address to display on map."
-msgstr "Keine Adresse auf Karte anzeigen."
+msgstr "Keine Adresse zum Anzeigen auf der Karte."
 
 msgid "No data for this metrics for now."
-msgstr "Keine Daten für diese Kennzahlen für jetzt."
+msgstr "Bisher keine Daten für diese Kennzahlen."
 
 msgid "No features"
-msgstr "Loop-Funktionen"
+msgstr "Keine Funktionen"
 
 msgid "No invoice for now."
-msgstr "Keine Rechnung für jetzt."
+msgstr "Bisher keine Rechnung."
 
 msgid "No items found"
 msgstr "Keine Artikel gefunden"
@@ -1733,7 +1695,7 @@ msgid "No modules"
 msgstr "Keine Module"
 
 msgid "No place to display on map."
-msgstr "Keinen Ort auf der Karte angezeigt."
+msgstr "Kein Ort zum Anzeigen auf der Karte."
 
 msgid "No profile found. Please create one in Settings tab."
 msgstr "Kein Profil gefunden. Bitte erstellen Sie in \"Einstellungen\"."
@@ -1746,7 +1708,7 @@ msgid "No results for your request."
 msgstr "Keine Ergebnisse für Ihre Anfrage."
 
 msgid "No rules"
-msgstr "keine Ergebnisse"
+msgstr "Keine Regeln"
 
 msgid "No uploaded image"
 msgstr "Kein Bild hochgeladen"
@@ -1755,7 +1717,7 @@ msgid "Not available offline."
 msgstr "Nicht offline verfügbar."
 
 msgid "Note"
-msgstr "Notizen"
+msgstr "Hinweis"
 
 #. machine-translated (2026-10), to be reviewed
 msgid ""
@@ -1768,7 +1730,7 @@ msgid "Note: Let's encrypt X1 is a staging certificate."
 msgstr "Hinweis: Let's Encrypt X1 ist ein Staging-Zertifikat."
 
 msgid "Nothing to display."
-msgstr "Nichts zum Anzeigen"
+msgstr "Nichts anzuzeigen."
 
 msgid "Number"
 msgstr "Anzahl"
@@ -1777,19 +1739,19 @@ msgid "Number of people"
 msgstr "Anzahl der Personen"
 
 msgid "Number of reward used"
-msgstr "Anzahl der Belohnung verwendet"
+msgstr "Anzahl der verwendeten Belohnungen"
 
 msgid "OK"
 msgstr "Okay"
 
 msgid "OR"
-msgstr "OR"
+msgstr "ODER"
 
 msgid "Offline Payment"
 msgstr "Offline-Zahlung"
 
 msgid "Offline content"
-msgstr "Offline Inhalt"
+msgstr "Offline-Inhalt"
 
 msgid "Old Password"
 msgstr "Altes Passwort"
@@ -1804,10 +1766,10 @@ msgid "Only offline"
 msgstr "Nur offline"
 
 msgid "Only published application are available for global push notifications."
-msgstr "Nur eine veröffentlichte Anwendung sind global push-Benachrichtigungen."
+msgstr "Nur veröffentlichte Anwendungen sind für globale Push-Benachrichtigungen verfügbar."
 
 msgid "Open custom URL"
-msgstr "Öffnen Sie benutzerdefinierte URL"
+msgstr "Benutzerdefinierte URL öffnen"
 
 #. machine-translated (2026-10), to be reviewed
 msgid "Open settings"
@@ -1832,7 +1794,7 @@ msgid "Origin"
 msgstr "Herkunft"
 
 msgid "Ouch, this page doesn't exist"
-msgstr "Autsch, existiert diese Seite nicht"
+msgstr "Hoppla, diese Seite existiert nicht"
 
 #. machine-translated (2026-10), to be reviewed
 msgid "Override layout"
@@ -1843,7 +1805,7 @@ msgid "PHP Version"
 msgstr "PHP-Version"
 
 msgid "Package name"
-msgstr "Paketnamen"
+msgstr "Paketname"
 
 msgid "Padlock"
 msgstr "Padlock"
@@ -1859,7 +1821,7 @@ msgid "Paid amount"
 msgstr "Bezahlter Betrag"
 
 msgid "Paid at"
-msgstr "Bezahlt am:"
+msgstr "Bezahlt am"
 
 #. machine-translated (2026-10), to be reviewed
 msgid "Parent"
@@ -1887,7 +1849,7 @@ msgid "Payment"
 msgstr "Zahlung"
 
 msgid "Payment ID"
-msgstr "Zahlungsmethoden"
+msgstr "Zahlungs-ID"
 
 msgid "Payment Method"
 msgstr "Zahlungsmethode"
@@ -1896,7 +1858,7 @@ msgid "Payment method"
 msgstr "Zahlungsmethode"
 
 msgid "Payments"
-msgstr "Zahlungsmethoden"
+msgstr "Zahlungen"
 
 #. machine-translated (2026-10), to be reviewed
 msgid "Permissions"
@@ -1910,7 +1872,7 @@ msgid "Phone"
 msgstr "Telefon"
 
 msgid "Phone and/or E-mail"
-msgstr "Telefon und/oder E-mail"
+msgstr "Telefon und/oder E-Mail"
 
 msgid "Photos"
 msgstr "Fotos"
@@ -1923,7 +1885,7 @@ msgid "Places"
 msgstr "Orte"
 
 msgid "Plain"
-msgstr "Planen"
+msgstr "Einfach"
 
 msgid "Plans"
 msgstr "Pläne"
@@ -1936,64 +1898,64 @@ msgid "Platform Name"
 msgstr "Plattformname"
 
 msgid "Platform hostname"
-msgstr "Plattform Name"
+msgstr "Plattform-Hostname"
 
 msgid "Player"
 msgstr "Spieler"
 
 msgid "Please create the API keys to enable this feature."
-msgstr "Bitte erstellen des API-keys um diese Funktion zu aktivieren."
+msgstr "Bitte erstellen Sie die API-Schlüssel, um diese Funktion zu aktivieren."
 
 msgid "Please, enter a correct email address."
-msgstr "Bitte geben Sie eine korrekte e-Mail-Adresse."
+msgstr "Bitte geben Sie eine korrekte E-Mail-Adresse ein."
 
 msgid "Please enter a password"
 msgstr "Bitte geben Sie ein Passwort ein"
 
 msgid "Please enter a valid URL."
-msgstr "Bitte geben Sie eine gültige URL."
+msgstr "Bitte geben Sie eine gültige URL ein."
 
 msgid "Please enter a valid credit card number."
-msgstr "Bitte geben Sie eine gültige Kreditkartennummer."
+msgstr "Bitte geben Sie eine gültige Kreditkartennummer ein."
 
 msgid "Please, enter a valid date"
 msgstr "Bitte geben Sie ein gültiges Datum ein."
 
 msgid "Please enter a valid date (ISO)."
-msgstr "Bitte geben Sie ein gültiges Datum (ISO)."
+msgstr "Bitte geben Sie ein gültiges Datum (ISO) ein."
 
 msgid "Please enter a valid email address"
 msgstr "Bitte geben Sie eine gültige E-Mail-Adresse ein."
 
 msgid "Please enter a valid number."
-msgstr "Bitte geben Sie eine gültige Nummer."
+msgstr "Bitte geben Sie eine gültige Zahl ein."
 
 msgid "Please enter a valid url"
 msgstr "Bitte geben Sie eine gültige URL ein"
 
 msgid "Please enter a value between {0} and {1}."
-msgstr "Bitte geben Sie einen Wert zwischen {0} und {1}."
+msgstr "Bitte geben Sie einen Wert zwischen {0} und {1} ein."
 
 msgid "Please enter a value between {0} and {1} characters long."
-msgstr "Bitte geben Sie einen Wert zwischen {0} und {1} Zeichen lang."
+msgstr "Bitte geben Sie einen Wert mit einer Länge zwischen {0} und {1} Zeichen ein."
 
 msgid "Please enter a value greater than or equal to {0}."
-msgstr "Bitte geben Sie einen Wert größer oder gleich {0}."
+msgstr "Bitte geben Sie einen Wert größer oder gleich {0} ein."
 
 msgid "Please enter a value less than or equal to {0}."
-msgstr "Bitte geben Sie einen Wert kleiner oder gleich {0}."
+msgstr "Bitte geben Sie einen Wert kleiner oder gleich {0} ein."
 
 msgid "Please enter at least {0} characters."
-msgstr "Bitte geben Sie mindestens {0} Zeichen."
+msgstr "Bitte geben Sie mindestens {0} Zeichen ein."
 
 msgid "Please enter no more than {0} characters."
-msgstr "Bitte geben Sie nicht mehr als {0} Zeichen."
+msgstr "Bitte geben Sie nicht mehr als {0} Zeichen ein."
 
 msgid "Please enter only digits."
-msgstr "Bitte geben Sie nur Ziffern."
+msgstr "Bitte geben Sie nur Ziffern ein."
 
 msgid "Please enter the same value again."
-msgstr "Bitte geben Sie den gleichen Wert wieder."
+msgstr "Bitte geben Sie denselben Wert erneut ein."
 
 msgid "Please enter your email address"
 msgstr "Bitte geben Sie Ihre E-Mail-Adresse ein."
@@ -2005,30 +1967,26 @@ msgid "Please fill out the following fields"
 msgstr "Bitte füllen Sie die folgenden Felder aus"
 
 msgid "Please fix this field."
-msgstr "Bitte korrigieren Sie in diesem Feld."
+msgstr "Bitte korrigieren Sie dieses Feld."
 
 msgid "Please log in."
-msgstr "Bitte einloggen."
+msgstr "Bitte melden Sie sich an."
 
 msgid ""
 "Please note that this page is currently displaying DEMO data. Real data will "
 "be displayed when the %s applications limit is reached."
-msgstr ""
-"Bitte beachten Sie, dass diese Seite derzeit angezeigt DEMO-Daten. Real-"
-"Daten wird angezeigt, wenn der %s-Anwendungen erreicht ist."
+msgstr "Bitte beachten Sie, dass diese Seite derzeit DEMO-Daten anzeigt. Echte Daten werden angezeigt, sobald das Limit von %s Anwendungen erreicht ist."
 
 msgid ""
 "Please note that this page is currently displaying DEMO data. Real data will "
 "be displayed when your application is published."
-msgstr ""
-"Bitte beachten Sie, dass diese Seite derzeit angezeigt DEMO-Daten. Echte "
-"Daten angezeigt werden, wenn Ihre Anwendung veröffentlicht."
+msgstr "Bitte beachten Sie, dass diese Seite derzeit DEMO-Daten anzeigt. Echte Daten werden angezeigt, sobald Ihre Anwendung veröffentlicht ist."
 
 msgid "Please provide a certificate."
-msgstr "Bitte wählen Sie ein Zertifikat aus."
+msgstr "Bitte geben Sie ein Zertifikat an."
 
 msgid "Please select at least one application."
-msgstr "Bitte wählen Sie mindestens eine Anwendung."
+msgstr "Bitte wählen Sie mindestens eine Anwendung aus."
 
 msgid "Please wait..."
 msgstr "Bitte warten..."
@@ -2037,7 +1995,7 @@ msgid "Podcast"
 msgstr "Podcast"
 
 msgid "Podcast URL"
-msgstr "Podcast Adresse:"
+msgstr "Podcast-URL"
 
 msgid "Podcast URL (iTunes format)"
 msgstr "Podcast-URL (iTunes-Format)"
@@ -2063,7 +2021,7 @@ msgid "Previewer"
 msgstr "Vorschau"
 
 msgid "Previews"
-msgstr "Vorschau"
+msgstr "Vorschauen"
 
 #. machine-translated (2026-10), to be reviewed
 msgid "Privacy"
@@ -2097,7 +2055,7 @@ msgid "Promotion"
 msgstr "Werbung"
 
 msgid "Publication settings"
-msgstr "Standort-Einstellungen"
+msgstr "Veröffentlichungseinstellungen"
 
 msgid "Publish your app"
 msgstr "Veröffentlichen Sie Ihre App"
@@ -2115,7 +2073,7 @@ msgid "Push message"
 msgstr "Push-Nachricht"
 
 msgid "Push message is sent."
-msgstr "Push-Nachricht gesendet wird."
+msgstr "Push-Nachricht wurde gesendet."
 
 msgid "Push notification"
 msgstr "Push-Benachrichtigung"
@@ -2126,9 +2084,7 @@ msgstr "Push-Benachrichtigungen"
 msgid ""
 "Push notifications Your account doesn't exists on editor side. Please create "
 "it before using tour edition."
-msgstr ""
-"Ihrem Konto nicht existiert, auf die editor-Seite. Bitte erstellen Sie vor "
-"der Verwendung von tour edition."
+msgstr "Push-Benachrichtigungen: Ihr Konto existiert auf der Editor-Seite nicht. Bitte erstellen Sie es, bevor Sie die Tour-Edition verwenden."
 
 #. machine-translated (2026-10), to be reviewed
 msgid "QR Code"
@@ -2138,7 +2094,7 @@ msgid "QRCode"
 msgstr "QRCode"
 
 msgid "Qty"
-msgstr "Qty"
+msgstr "Menge"
 
 #. machine-translated (2026-10), to be reviewed
 msgid "Query"
@@ -2155,31 +2111,31 @@ msgid "Redis AUTH KEY"
 msgstr "Redis-AUTH-Schlüssel"
 
 msgid "Registration date"
-msgstr "Ablaufdatum"
+msgstr "Registrierungsdatum"
 
 #. machine-translated (2026-10), to be reviewed
 msgid "Release"
 msgstr "Release"
 
 msgid "Remove"
-msgstr "entfernen"
+msgstr "Entfernen"
 
 msgid "Remove this page from this folder?"
-msgstr "Diese Seite aus dem Ordner löschen ? "
+msgstr "Diese Seite aus diesem Ordner entfernen?"
 
 #. machine-translated (2026-10), to be reviewed
 msgid "Remove this step"
 msgstr "Diesen Schritt entfernen"
 
 msgid "Request & Upload to panel"
-msgstr "Force-Auftrag & Upload zum panel"
+msgstr "Anfordern & auf das Panel hochladen"
 
 #. machine-translated (2026-10), to be reviewed
 msgid "Request APK generation"
 msgstr "APK-Generierung anfordern"
 
 msgid "Request or renew the certificate via Let's Encrypt."
-msgstr "Anfordern oder erneuern Sie das Zertifikat über Let ' s Encrypt."
+msgstr "Fordern Sie das Zertifikat über Let's Encrypt an oder erneuern Sie es."
 
 #. machine-translated (2026-10), to be reviewed
 msgid "Requested by"
@@ -2228,14 +2184,14 @@ msgid "Run Android SDK update"
 msgstr "Android-SDK-Update ausführen"
 
 msgid "SCSS successfully saved"
-msgstr "Store erfolgreich gespeichert"
+msgstr "SCSS erfolgreich gespeichert"
 
 #. machine-translated (2026-10), to be reviewed
 msgid "SELF-ASSIGNABLE"
 msgstr "SELBST ZUWEISBAR"
 
 msgid "SEND"
-msgstr "Senden"
+msgstr "SENDEN"
 
 #. machine-translated (2026-10), to be reviewed
 msgid "SMTP"
@@ -2244,9 +2200,7 @@ msgstr "SMTP"
 msgid ""
 "SMTP - Whitelist: An administrator sent a request for white-listing his "
 "domain."
-msgstr ""
-"SMTP - Whitelist: administrator schickte eine Anfrage für die white-listing "
-"seine Domäne."
+msgstr "SMTP-Whitelist: Ein Administrator hat eine Anfrage zur Freigabe seiner Domain gesendet."
 
 #. machine-translated (2026-10), to be reviewed
 msgid "SMTP Credentials (Affiliated to the White-Label %s)"
@@ -2270,7 +2224,7 @@ msgid "Sample"
 msgstr "Beispiel"
 
 msgid "Save"
-msgstr "sparen"
+msgstr "Speichern"
 
 #. machine-translated (2026-10), to be reviewed
 msgid "Save GCM settings"
@@ -2285,10 +2239,10 @@ msgid "Save sender id & key"
 msgstr "Sender-ID & Schlüssel speichern"
 
 msgid "Scan it."
-msgstr "QR-Code scannen..."
+msgstr "Scannen Sie ihn."
 
 msgid "Scan now to unlock"
-msgstr "Zum Entsperren jetzt Scannen"
+msgstr "Jetzt scannen zum Entsperren"
 
 #. machine-translated (2026-10), to be reviewed
 msgid "Scheduled for"
@@ -2312,29 +2266,29 @@ msgid "Search / Filter"
 msgstr "Suche / Filter"
 
 msgid "Search, filter ..."
-msgstr "Such -, filter - ..."
+msgstr "Suchen, filtern ..."
 
 msgid "Search results"
 msgstr "Suchergebnisse"
 
 msgid "See"
-msgstr "Sehen"
+msgstr "Ansehen"
 
 #. machine-translated (2026-10), to be reviewed
 msgid "Select a Development team"
 msgstr "Development-Team auswählen"
 
 msgid "Select a country"
-msgstr "Wählen Sie ein Land"
+msgstr "Wählen Sie ein Land aus"
 
 msgid "Select a hostname"
-msgstr "Wählen Sie einen Hostnamen"
+msgstr "Wählen Sie einen Hostnamen aus"
 
 msgid "Select a panel type or self-managed"
-msgstr "Wählen Sie ein panel-Typ oder self-managed"
+msgstr "Wählen Sie einen Panel-Typ oder selbstverwaltet"
 
 msgid "Select all"
-msgstr "Wählen Sie alle"
+msgstr "Alle auswählen"
 
 #. machine-translated (2026-10), to be reviewed
 msgid "Select an album"
@@ -2345,38 +2299,38 @@ msgid "Select an iTunes Connect provider"
 msgstr "iTunes-Connect-Provider auswählen"
 
 msgid "Select target applications"
-msgstr "An welche App soll die Nachricht gesendet werden?"
+msgstr "Zielanwendungen auswählen"
 
 msgid "Select your back button appearance"
-msgstr "Symbol für Zurück-Button wählen"
+msgstr "Darstellung der Zurück-Schaltfläche wählen"
 
 msgid "Selected hostname"
-msgstr "Wählen Sie einen Hostnamen"
+msgstr "Ausgewählter Hostname"
 
 msgid "Selected main hostname"
-msgstr "Ausgewählte Haupt-hostname"
+msgstr "Ausgewählter Haupt-Hostname"
 
 msgid "Send"
-msgstr "senden"
+msgstr "Senden"
 
 msgid "Send a cover image"
-msgstr "Bild hinzufügen"
+msgstr "Titelbild senden"
 
 msgid "Send push"
-msgstr "Per push"
+msgstr "Push senden"
 
 #. machine-translated (2026-10), to be reviewed
 msgid "Send report"
 msgstr "Bericht senden"
 
 msgid "Send to all applications."
-msgstr "Senden Sie alle Anwendungen."
+msgstr "An alle Anwendungen senden."
 
 msgid "Send your pictures"
 msgstr "Senden Sie Ihre Bilder"
 
 msgid "Sender ID"
-msgstr "Absender ID"
+msgstr "Absender-ID"
 
 #. machine-translated (2026-10), to be reviewed
 msgid "Sender email"
@@ -2403,7 +2357,7 @@ msgid "Service notes"
 msgstr "Servicehinweise"
 
 msgid "Session settings"
-msgstr "Standort-Einstellungen"
+msgstr "Sitzungseinstellungen"
 
 msgid "Set Meal"
 msgstr "Menü"
@@ -2412,14 +2366,14 @@ msgid "Settings"
 msgstr "Einstellungen "
 
 msgid "Show"
-msgstr "Zeigen"
+msgstr "Anzeigen"
 
 #. machine-translated (2026-10), to be reviewed
 msgid "Show cover"
 msgstr "Titelbild anzeigen"
 
 msgid "Show search field"
-msgstr "Zeige Suchfeld"
+msgstr "Suchfeld anzeigen"
 
 msgid "Show title"
 msgstr "Titel anzeigen"
@@ -2429,10 +2383,10 @@ msgid "Siberian current installation path"
 msgstr "Aktueller Installationspfad von Siberian"
 
 msgid "Siberian domain"
-msgstr "Main sibirischen domain"
+msgstr "Siberian-Hauptdomain"
 
 msgid "Siberian informations"
-msgstr "Hauptinformationen"
+msgstr "Siberian-Informationen"
 
 #. machine-translated (2026-10), to be reviewed
 msgid ""
@@ -2448,13 +2402,13 @@ msgid "Size on disk"
 msgstr "Größe auf dem Datenträger"
 
 msgid "Slack notification settings"
-msgstr "Push Benachrichtigungseinstellungen"
+msgstr "Slack-Benachrichtigungseinstellungen"
 
 msgid "Slider"
-msgstr "Regler"
+msgstr "Slider"
 
 msgid "Social"
-msgstr "Soziale"
+msgstr "Social"
 
 msgid "Socialgaming"
 msgstr "Socialgaming"
@@ -2487,27 +2441,27 @@ msgid "Spinner"
 msgstr "Spinner"
 
 msgid "Split Ad revenue (percent for you)"
-msgstr "Split-Ad-Einnahmen (in Prozent)"
+msgstr "Werbeeinnahmen aufteilen (Prozentsatz für Sie)"
 
 msgid "Start date must be lower than end date."
-msgstr "Start-Datum muss kleiner als end Datum."
+msgstr "Das Startdatum muss vor dem Enddatum liegen."
 
 msgid "State / Province"
-msgstr "Staat/Provinz"
+msgstr "Bundesland/Provinz"
 
 #. machine-translated (2026-10), to be reviewed
 msgid "Step placement (optional)"
 msgstr "Platzierung des Schritts (optional)"
 
 msgid "Step saved successfully."
-msgstr "Daten erfolgreich gespeichert"
+msgstr "Schritt erfolgreich gespeichert."
 
 #. machine-translated (2026-10), to be reviewed
 msgid "Step text"
 msgstr "Text des Schritts"
 
 msgid "Step title"
-msgstr "Titel anzeigen"
+msgstr "Schritttitel"
 
 msgid "Street"
 msgstr "Straße"
@@ -2519,16 +2473,16 @@ msgid "Subtitle"
 msgstr "Untertitel"
 
 msgid "Success"
-msgstr "Erfolg."
+msgstr "Erfolg"
 
 msgid "Support"
-msgstr "Unterstützung"
+msgstr "Support"
 
 msgid "Support Link"
-msgstr "Link Support"
+msgstr "Support-Link"
 
 msgid "Support link"
-msgstr "Support Link"
+msgstr "Support-Link"
 
 #. machine-translated (2026-10), to be reviewed
 msgid "Switch to Ionic design"
@@ -2571,24 +2525,22 @@ msgid "Thank you"
 msgstr "Danke"
 
 msgid "Thank you for your request.<br />We'll answer you as soon as possible."
-msgstr ""
-"Vielen Dank für Ihre Anfrage.<br />Wir werden Antwort Sie so bald wie "
-"möglich."
+msgstr "Vielen Dank für Ihre Anfrage.<br />Wir werden Ihnen so bald wie möglich antworten."
 
 msgid "The account has been successfully saved"
 msgstr "Das Konto wurde erfolgreich gespeichert"
 
 msgid "The address you're looking for does not exists."
-msgstr "Die Adresse, die Sie ist nicht suchen vorhanden."
+msgstr "Die gesuchte Adresse existiert nicht."
 
 msgid "The admin_id is required"
-msgstr "Die AdminID ist erforderlich"
+msgstr "Die admin_id ist erforderlich"
 
 msgid "The admin_id parameter is required"
-msgstr "Die AdminID ist erforderlich"
+msgstr "Der Parameter admin_id ist erforderlich"
 
 msgid "The app_id is required"
-msgstr "Die AppID ist erforderlich"
+msgstr "Die app_id ist erforderlich"
 
 #. machine-translated (2026-10), to be reviewed
 msgid "The app_id parameter is required"
@@ -2602,26 +2554,26 @@ msgid ""
 msgstr "Die Zertifikatsanfrage ist dreimal fehlgeschlagen, bitte prüfen Sie die Zertifikatsinformationen, Ihre Panel-Zugangsdaten und alles Weitere.<br />Wenn Ihr Zertifikat gültig ist, können Sie versuchen, es nur in das Panel hochzuladen."
 
 msgid "The email is required"
-msgstr "Die e-Mail ist erforderlich"
+msgstr "Die E-Mail ist erforderlich"
 
 #. machine-translated (2026-10), to be reviewed
 msgid "The entered text mismatch"
 msgstr "Der eingegebene Text stimmt nicht überein"
 
 msgid "The file '%s' does not exist"
-msgstr "Die Datei '%s' ist nicht vorhanden."
+msgstr "Die Datei '%s' existiert nicht"
 
 msgid "The image '%s' does not exist"
-msgstr "Das Bild '%s' ist nicht vorhanden."
+msgstr "Das Bild '%s' existiert nicht"
 
 msgid "The image size '%s' could not be detected."
-msgstr "Die Bildgröße \"%s\" konnte nicht gefunden werden."
+msgstr "Die Bildgröße \"%s\" konnte nicht erkannt werden."
 
 msgid "The name is required"
 msgstr "Der Name ist erforderlich"
 
 msgid "The old password does not match the entered password."
-msgstr "Das alte Passwort darf nicht dem neu eingegebenen Passwort entsprechen."
+msgstr "Das alte Passwort stimmt nicht mit dem eingegebenen Passwort überein."
 
 msgid "The password is required"
 msgstr "Das Kennwort ist erforderlich"
@@ -2632,18 +2584,16 @@ msgstr "Das Passwort muss mindestens 6 Zeichen lang sein"
 msgid ""
 "The payment has been cancelled, something wrong happened? Feel free to "
 "contact us."
-msgstr ""
-"Abgebrochen die Zahlung wurde, etwas passiert ist? Zögern Sie nicht uns zu "
-"kontaktieren."
+msgstr "Die Zahlung wurde abgebrochen, ist etwas schiefgelaufen? Kontaktieren Sie uns gern."
 
 msgid "The sent request is empty."
 msgstr "Die gesendete Anfrage ist leer."
 
 msgid "The user_id is required"
-msgstr "Die AppID ist erforderlich"
+msgstr "Die user_id ist erforderlich"
 
 msgid "The value_id is required."
-msgstr "Die AppID ist erforderlich"
+msgstr "Die value_id ist erforderlich."
 
 msgid "This URL is already used"
 msgstr "Die URL wird bereits genutzt"
@@ -2653,7 +2603,7 @@ msgid "This admin can generate APK"
 msgstr "Dieser Administrator kann APK generieren"
 
 msgid "This admin does not exist"
-msgstr "Der Admin existiert nicht."
+msgstr "Dieser Administrator existiert nicht"
 
 #. machine-translated (2026-10), to be reviewed
 msgid "This admin gives you the required information to publish applications"
@@ -2663,22 +2613,22 @@ msgid "This administrator does not exist"
 msgstr "Dieser Administrator ist nicht vorhanden."
 
 msgid "This application does not exist"
-msgstr "Die App existiert nicht"
+msgstr "Diese Anwendung existiert nicht"
 
 msgid "This block type doesn't exist"
-msgstr "Dieser block-Typ nicht vorhanden ist."
+msgstr "Dieser Blocktyp existiert nicht."
 
 msgid "This code is unrecognized"
-msgstr "Der Code ist unzulässig"
+msgstr "Dieser Code wird nicht erkannt"
 
 msgid "This email address does not exist"
-msgstr "Diese Emailadresse existiert in unserem System nicht."
+msgstr "Diese E-Mail-Adresse existiert nicht"
 
 msgid "This email address is already used"
-msgstr "Diese e-Mail-Adresse wird bereits verwendet"
+msgstr "Diese E-Mail-Adresse wird bereits verwendet"
 
 msgid "This feature is available from the application only"
-msgstr "Diese Funktion ist verfügbar, von der Anwendung nur"
+msgstr "Diese Funktion ist nur in der Anwendung verfügbar"
 
 #. machine-translated (2026-10), to be reviewed
 msgid ""
@@ -2687,7 +2637,7 @@ msgid ""
 msgstr "Diese Funktion ist seit Update 4.12.24 standardmäßig deaktiviert und zugunsten von Folders v2 veraltet."
 
 msgid "This feature opens the Code Scan camera"
-msgstr "Dieses Feature öffnet die Scan Kamera"
+msgstr "Diese Funktion öffnet die Code-Scan-Kamera"
 
 msgid "This field is required"
 msgstr "Dieses Feld ist erforderlich"
@@ -2697,23 +2647,21 @@ msgid "This layout has no option."
 msgstr "Dieses Layout hat keine Optionen."
 
 msgid "This option doesn't exists."
-msgstr "Dieses Abonnement nicht existiert!"
+msgstr "Diese Option existiert nicht."
 
 msgid ""
 "This option is not compatible with applications using Forms and/or features "
 "with Keyboard."
-msgstr ""
-"Diese Option ist nicht kompatibel mit Anwendungen, die Formulare und / oder "
-"Funktionen mit Tastatur verwenden."
+msgstr "Diese Option ist nicht kompatibel mit Anwendungen, die Formulare und/oder Funktionen mit Tastatur verwenden."
 
 msgid "This plan is an offline plan."
-msgstr "Dieser plan ist ein offline-plan."
+msgstr "Dieser Tarif ist ein Offline-Tarif."
 
 msgid "This section is unlocked for mobile users only"
-msgstr "Dieser Abschnitt ist nur für mobile Nutzer freigeschaltet."
+msgstr "Dieser Bereich ist nur für mobile Benutzer freigeschaltet"
 
 msgid "This will open the code scan camera on your device."
-msgstr "Dies öffnet den code-scan-Kamera auf Ihrem Gerät."
+msgstr "Dies öffnet die Code-Scan-Kamera Ihres Geräts."
 
 msgid "Thumbnail"
 msgstr "Miniatur"
@@ -2722,7 +2670,7 @@ msgid "Time spent in application"
 msgstr "In der Anwendung verbrachte Zeit"
 
 msgid "Timezone"
-msgstr "TimeZone"
+msgstr "Zeitzone"
 
 msgid "Tip"
 msgstr "Tipp"
@@ -2750,56 +2698,56 @@ msgid "Toggle"
 msgstr "Umschalten"
 
 msgid "Toggle off"
-msgstr "Umschalten auf"
+msgstr "Ausschalten"
 
 msgid "Toggle on"
-msgstr "Umschalten auf"
+msgstr "Einschalten"
 
 msgid "Toggle's Handle off"
-msgstr "Knebel - Griff"
+msgstr "Griff des Schalters (aus)"
 
 msgid "Toggle's Handle on"
-msgstr "Knebel - Griff"
+msgstr "Griff des Schalters (ein)"
 
 #. machine-translated (2026-10), to be reviewed
 msgid "Token"
 msgstr "Token"
 
 msgid "Tooltip"
-msgstr "QuickInfo"
+msgstr "Tooltip"
 
 msgid "Top"
 msgstr "Top"
 
 msgid "Top installs"
-msgstr "Top installiert"
+msgstr "Meistinstalliert"
 
 msgid "Top position"
-msgstr "Titel Position"
+msgstr "Position oben"
 
 msgid "Top visits"
-msgstr "Insgesamt Besuche"
+msgstr "Meistbesucht"
 
 msgid "Topic"
 msgstr "Thema"
 
 msgid "Topics"
-msgstr "Überschrift"
+msgstr "Themen"
 
 msgid "Total"
 msgstr "Gesamt"
 
 msgid "Total Excl. Tax"
-msgstr "Total Exkl. Steuer"
+msgstr "Gesamt ohne Steuer"
 
 msgid "Total installs"
-msgstr "Insgesamt installiert"
+msgstr "Installationen insgesamt"
 
 msgid "Total sales"
 msgstr "Gesamtumsatz"
 
 msgid "Total visits"
-msgstr "Insgesamt Besuche"
+msgstr "Besuche insgesamt"
 
 #. machine-translated (2026-10), to be reviewed
 msgid "Tour"
@@ -2812,41 +2760,39 @@ msgid "Translation"
 msgstr "Übersetzung"
 
 msgid "Translations"
-msgstr "Übersetzung"
+msgstr "Übersetzungen"
 
 msgid "URL"
 msgstr "URL"
 
 msgid "Unable to add the contact to your address book"
-msgstr "Nicht in der Lage, den Kontakt zu Ihrem Adressbuch hinzufügen"
+msgstr "Der Kontakt konnte Ihrem Adressbuch nicht hinzugefügt werden"
 
 msgid "Unable to calculate the route."
-msgstr "Nicht in der Lage, die Route zu berechnen."
+msgstr "Die Route kann nicht berechnet werden."
 
 msgid ""
 "Unable to connect in HTTPS or to validate the SSL Certificate.<br />Check if "
 "your are not in `Staging`"
-msgstr ""
-"Keine Verbindung in HTTPS oder überprüfen Sie die SSL-Zertifikat.<br />"
-"Prüfen Sie, ob Ihr nicht in `Inszenierung`"
+msgstr "Es konnte keine HTTPS-Verbindung hergestellt oder das SSL-Zertifikat nicht validiert werden.<br />Prüfen Sie, ob Sie sich nicht im `Staging` befinden"
 
 msgid "Unable to find TC with id %s."
-msgstr "Nicht in der Lage zu finden, TC mit der id %s."
+msgstr "TC mit der ID %s wurde nicht gefunden."
 
 msgid "Unable to save image"
-msgstr "Nicht in der Lage, Bild speichern"
+msgstr "Das Bild kann nicht gespeichert werden"
 
 msgid "Unrecognized image format"
 msgstr "Unbekanntes Bildformat"
 
 msgid "Until:"
-msgstr "Bis"
+msgstr "Bis:"
 
 msgid "Updated at"
 msgstr "Aktualisiert am"
 
 msgid "Upload to panel"
-msgstr "Upload zum panel"
+msgstr "Auf das Panel hochladen"
 
 #. machine-translated (2026-10), to be reviewed
 msgid "Upload your json here"
@@ -2857,10 +2803,10 @@ msgid "Use card design"
 msgstr "Kartendesign verwenden"
 
 msgid "Use the homepage image as background in all features"
-msgstr "Die Verwendung der homepage-Bild als hintergrund in allen Funktionen"
+msgstr "Das Startseitenbild als Hintergrund in allen Funktionen verwenden"
 
 msgid "Use this coupon"
-msgstr "Verwenden Sie diesen coupon"
+msgstr "Diesen Gutschein verwenden"
 
 msgid "User"
 msgstr "Benutzer"
@@ -2888,16 +2834,16 @@ msgid "Valid until"
 msgstr "Gültig bis"
 
 msgid "Validate"
-msgstr "bestätigen"
+msgstr "Bestätigen"
 
 msgid "Validated points"
 msgstr "Validierte Punkte"
 
 msgid "Validated points by Loyalty card Analytics"
-msgstr "Validierte Punkte von Treue-Karte Analytics"
+msgstr "Validierte Punkte laut Treuekarten-Analytics"
 
 msgid "Validations by Discount Analytics"
-msgstr "Validierungen von Rabatt-Analytics"
+msgstr "Validierungen laut Rabatt-Analytics"
 
 msgid "Version %s"
 msgstr "Version %s"
@@ -2906,13 +2852,13 @@ msgid "Video"
 msgstr "Video"
 
 msgid "Video URL"
-msgstr "Video URL:"
+msgstr "Video-URL"
 
 msgid "Videos"
 msgstr "Videos"
 
 msgid "View"
-msgstr "Ansicht"
+msgstr "Ansehen"
 
 msgid "View full article"
 msgstr "Vollständigen Artikel anzeigen"
@@ -2926,22 +2872,22 @@ msgid "Visits"
 msgstr "Besuche"
 
 msgid "Visits by feature (All)"
-msgstr "Besuche Funktion (Alle)"
+msgstr "Besuche nach Funktion (Alle)"
 
 msgid "Visits by feature (Top 5)"
-msgstr "Besuche nach App-Funktion / Modul / Seite (Top 5)"
+msgstr "Besuche nach Funktion (Top 5)"
 
 msgid "Visits by product (TOP 20)"
 msgstr "Besuche nach Produkt (TOP 20)"
 
 msgid "We are sorry but this address is already used."
-msgstr "Es tut uns leid, aber diese Adresse wird bereits verwendet."
+msgstr "Leider wird diese Adresse bereits verwendet."
 
 msgid "We are sorry but this email address already exists."
-msgstr "Es tut uns leid, aber diese e-Mail-Adresse bereits vorhanden ist."
+msgstr "Leider existiert diese E-Mail-Adresse bereits."
 
 msgid "We are sorry but this username already exists."
-msgstr "Es tut uns leid, aber der Benutzername ist bereits vergeben."
+msgstr "Leider existiert dieser Benutzername bereits."
 
 #. machine-translated (2026-10), to be reviewed
 msgid "Web folder Owner"
@@ -2959,7 +2905,7 @@ msgid "Weblink"
 msgstr "Weblink"
 
 msgid "Website"
-msgstr "Webseite"
+msgstr "Website"
 
 #. machine-translated (2026-10), to be reviewed
 msgid "We've sent you an e-mail with your access token."
@@ -2982,10 +2928,10 @@ msgid "Winners list"
 msgstr "Liste der Gewinner"
 
 msgid "WordPress"
-msgstr "Wordpress"
+msgstr "WordPress"
 
 msgid "Wordpress"
-msgstr "Wordpress"
+msgstr "WordPress"
 
 msgid "Year"
 msgstr "Jahr"
@@ -2997,17 +2943,17 @@ msgid "Yes"
 msgstr "Ja"
 
 msgid "You already have this user in your contact"
-msgstr "Sie haben bereits diesen Benutzer in Ihrem Kontakt"
+msgstr "Sie haben diesen Benutzer bereits in Ihren Kontakten"
 
 #. machine-translated (2026-10), to be reviewed
 msgid "You are about to delete this certificate, Are you sure ?"
 msgstr "Sie sind dabei, dieses Zertifikat zu löschen. Sind Sie sicher?"
 
 msgid "You are gone offline"
-msgstr "Sie sind offline gegangen."
+msgstr "Sie sind offline"
 
 msgid "You are not allowed to delete a feature!"
-msgstr "Sie dürfen nicht zum löschen von Anwendungen."
+msgstr "Sie dürfen keine Funktion löschen!"
 
 #. machine-translated (2026-10), to be reviewed
 msgid ""
@@ -3033,25 +2979,25 @@ msgid "You can follow the URL below to access your data report"
 msgstr "Sie können dem untenstehenden Link folgen, um auf Ihren Datenbericht zuzugreifen"
 
 msgid "You can globally disable a feature!"
-msgstr "Können Sie Global eine Funktion deaktivieren!"
+msgstr "Sie können eine Funktion global deaktivieren!"
 
 msgid "You can upload a pem certificate only."
-msgstr "Sie können nur ein Pem-Zertifikat hochladen."
+msgstr "Sie können nur ein PEM-Zertifikat hochladen."
 
 msgid "You can upload a png only (.png)."
-msgstr "Sie dürfen nur .PNG Dateien hochladen"
+msgstr "Sie können nur eine PNG-Datei (.png) hochladen."
 
 msgid "You can upload a zip archive only."
-msgstr "Sie können ein Zip-Archiv nur hochladen."
+msgstr "Sie können nur ein ZIP-Archiv hochladen."
 
 msgid "You can upload an icon only (.ico and .png)."
-msgstr "Sie können ein Symbol nur (ICO und PNG) hochladen."
+msgstr "Sie können nur ein Symbol (.ico und .png) hochladen."
 
 msgid "You can upload an image only (.jpg, .jpeg, .gif and .png)."
-msgstr "Sie können ein Bild nur (.jpg, .jpeg, .gif und .png) hochladen."
+msgstr "Sie können nur ein Bild (.jpg, .jpeg, .gif und .png) hochladen."
 
 msgid "You cannot add this feature"
-msgstr "Sie können dieses feature hinzufügen"
+msgstr "Sie können diese Funktion nicht hinzufügen"
 
 msgid "You can't upload more than one file at a time."
 msgstr "Sie können nicht mehrere Dateien gleichzeitig hochladen."
@@ -3061,58 +3007,55 @@ msgid "You current working environment is"
 msgstr "Ihre aktuelle Arbeitsumgebung ist"
 
 msgid "You don't have any applications yet"
-msgstr "Sie haben noch keine App erstellt. Legen Sie gleich Los. "
+msgstr "Sie haben noch keine App erstellt. Legen Sie gleich los."
 
 msgid "You don't have any invoices yet"
 msgstr "Sie haben aktuell noch keine Rechnungen"
 
 msgid "You have gone offline"
-msgstr "Du bist gerade offline"
+msgstr "Sie sind gerade offline"
 
 msgid "You have to chose a start and an end date."
-msgstr "Wählen Sie ein start-und ein Enddatum."
+msgstr "Sie müssen ein Start- und ein Enddatum wählen."
 
 msgid "You must be logged in to like something!"
-msgstr "Sie müssen eingeloggt sein, um fortzufahren"
+msgstr "Sie müssen angemeldet sein, um etwas zu liken!"
 
 msgid "You must be logged in to post a comment"
-msgstr "Sie müssen eingeloggt sein um einen Kommentar schreiben"
+msgstr "Sie müssen angemeldet sein, um einen Kommentar zu schreiben"
 
 #. machine-translated (2026-10), to be reviewed
 msgid "You must fill ip & port."
 msgstr "Sie müssen IP und Port ausfüllen."
 
 msgid "You must first complete the current category creation process"
-msgstr "Müssen Sie zuerst die aktuelle Kategorie der Prozess der Erstellung"
+msgstr "Sie müssen zuerst den aktuellen Vorgang zur Erstellung einer Kategorie abschließen"
 
 msgid ""
 "You must give the permission to the app to add a contact to your address book"
-msgstr ""
-"Sie müssen die Berechtigung zur app, einen Kontakt in Ihrem Adressbuch "
-"hinzuzufügen geben."
+msgstr "Sie müssen der App die Berechtigung erteilen, einen Kontakt zu Ihrem Adressbuch hinzuzufügen"
 
 msgid "You must share your location to access this page."
-msgstr "Sie müssen Ihren Standort zum Aufrufen dieser Seite teilen."
+msgstr "Sie müssen Ihren Standort freigeben, um auf diese Seite zuzugreifen."
 
 msgid "You will lose all unsaved changes, continue?"
-msgstr "Sie verlieren alle nicht gespeicherten änderungen, weiter?"
+msgstr "Sie verlieren alle nicht gespeicherten Änderungen, fortfahren?"
 
 msgid "Your PHP version is too old, please upgrade to PHP 5.4+."
-msgstr "Ihre PHP version ist zu alt, bitte aktualisieren Sie PHP 5.4+."
+msgstr "Ihre PHP-Version ist zu alt, bitte aktualisieren Sie auf PHP 5.4+."
 
 #. machine-translated (2026-10), to be reviewed
 msgid "Your access token is"
 msgstr "Ihr Zugriffstoken lautet"
 
 msgid "Your analytics will be computed and available soon"
-msgstr "Ihre Analysen berechnet und sind bald verfügbar"
+msgstr "Ihre Analysen werden berechnet und sind bald verfügbar"
 
 msgid "Your are not allowed to assign this role."
-msgstr "Sie sind nicht berechtigt, diese Seite zu betreten"
+msgstr "Sie sind nicht berechtigt, diese Rolle zuzuweisen."
 
 msgid "Your browser is too old to view the content of our website.<br />"
-msgstr ""
-"Ihr Browser ist zu alt, um den Inhalt unserer Website. anzeigen < Br / >"
+msgstr "Ihr Browser ist zu alt, um den Inhalt unserer Website anzuzeigen.<br />"
 
 #. machine-translated (2026-10), to be reviewed
 msgid "Your build should be ready"
@@ -3122,13 +3065,13 @@ msgid "Your comment"
 msgstr "Ihr Kommentar"
 
 msgid "Your email address"
-msgstr "Ihre E-Mail Adresse"
+msgstr "Ihre E-Mail-Adresse"
 
 msgid "Your email address does not exist"
 msgstr "Ihre E-Mail-Adresse existiert nicht"
 
 msgid "Your invoice has been edited successfully."
-msgstr "Ihre Vorschau wurde erfolgreich gelöscht"
+msgstr "Ihre Rechnung wurde erfolgreich bearbeitet."
 
 msgid "Your name"
 msgstr "Ihr Name"
@@ -3137,20 +3080,18 @@ msgid "Your new password has been sent to the entered email address"
 msgstr "Ihr neues Passwort wurde an die eingegebene E-Mail-Adresse gesendet"
 
 msgid "Your password does not match the entered password."
-msgstr "Ihr Passwort darf nicht dem eingegebenen Passwort entsprechen."
+msgstr "Ihr Passwort stimmt nicht mit dem eingegebenen Passwort überein."
 
 msgid ""
 "Your request has been successfully sent, please wait for your administrator "
 "to answer."
-msgstr ""
-"Ihre Anfrage wurde erfolgreich versendet, warten Sie bitte Ihren "
-"administrator zu beantworten."
+msgstr "Ihre Anfrage wurde erfolgreich gesendet, bitte warten Sie auf die Antwort Ihres Administrators."
 
 msgid "Your subscription has been deleted successfully."
 msgstr "Ihr Abonnement wurde erfolgreich gelöscht."
 
 msgid "Your subscription status has been changed successfully."
-msgstr "Ihr Abonnement wurde erfolgreich gelöscht."
+msgstr "Der Status Ihres Abonnements wurde erfolgreich geändert."
 
 msgid "Youtube"
 msgstr "Youtube"
@@ -3188,10 +3129,10 @@ msgid "disabled"
 msgstr "deaktiviert"
 
 msgid "en"
-msgstr "En-US"
+msgstr "en"
 
 msgid "enabled"
-msgstr "Aktiviert?"
+msgstr "Aktiviert"
 
 msgid "form submit, search, validation, confirmation"
 msgstr "Formular Absenden, Suche, Validierung, Bestätigung"
@@ -3222,14 +3163,12 @@ msgid "iOS Spinner"
 msgstr "iOS-Spinner"
 
 msgid "iOS base Bundle ID  must contain only letters, dots & minus."
-msgstr "Android base Package Name darf nur Buchstaben, dots & minus."
+msgstr "Die iOS-Basis-Bundle-ID darf nur Buchstaben, Punkte und Minuszeichen enthalten."
 
 msgid ""
 "iOS base Bundle ID  must contain only letters, dots & minus with at least "
 "two dots.<br />Example: com.mydomain.admin"
-msgstr ""
-"Android base Package Name darf nur Buchstaben, dots & minus mit mindestens "
-"zwei Punkten.<br />Beispiel: com.mydomain.admin"
+msgstr "Die iOS-Basis-Bundle-ID darf nur Buchstaben, Punkte und Minuszeichen mit mindestens zwei Punkten enthalten.<br />Beispiel: com.mydomain.admin"
 
 #. machine-translated (2026-10), to be reviewed
 msgid "iOS base Bundle ID can't be empty."
@@ -3263,7 +3202,7 @@ msgid "is updated once a day"
 msgstr "wird einmal täglich aktualisiert"
 
 msgid "loading"
-msgstr "Laden"
+msgstr "Wird geladen"
 
 #. machine-translated (2026-10), to be reviewed
 msgid "low"
@@ -3274,7 +3213,7 @@ msgid "maintenance"
 msgstr "Wartung"
 
 msgid "minute"
-msgstr "minute"
+msgstr "Minute"
 
 msgid "minutes"
 msgstr "Minuten"
@@ -3308,24 +3247,23 @@ msgid "%s / Month"
 msgstr "%s / Monat"
 
 msgid "%s / Year"
-msgstr "%s / jahr"
+msgstr "%s / Jahr"
 
 msgid "%s An unknown error occurred, please try again later."
-msgstr ""
-"Ein unbekannter Fehler ist aufgetreten, bitte versuchen Sie es später erneut."
+msgstr "%s Ein unbekannter Fehler ist aufgetreten, bitte versuchen Sie es später erneut."
 
 msgid "%s Image"
 msgstr "%s Bild"
 
 msgid "%s Images"
-msgstr "%s Bild"
+msgstr "%s Bilder"
 
 #. machine-translated (2026-10), to be reviewed
 msgid "%s, No params sent."
 msgstr "%s, keine Parameter gesendet."
 
 msgid "%s ago"
-msgstr "%s her"
+msgstr "vor %s"
 
 msgid "second"
 msgstr "Sekunde"
@@ -3334,7 +3272,7 @@ msgid "seconds"
 msgstr "Sekunden"
 
 msgid "this feature is globally disabled!"
-msgstr "diese Funktion ist Global deaktiviert!"
+msgstr "Diese Funktion ist global deaktiviert!"
 
 msgid "title"
 msgstr "Titel"
@@ -3346,7 +3284,7 @@ msgid "to add a folder."
 msgstr "um einen Ordner hinzuzufügen"
 
 msgid "to add a subfolder."
-msgstr "Fügen Sie einen Unterordner."
+msgstr "um einen Unterordner hinzuzufügen."
 
 msgid "twitter"
 msgstr "Twitter"

@@ -15,7 +15,7 @@ msgstr ""
 "X-Generator: Weblate 3.3\n"
 
 msgid "1 loyalty point ="
-msgstr "1忠诚点="
+msgstr "1 个忠诚积分 ="
 
 msgid "1 point"
 msgstr "1点"
@@ -25,20 +25,20 @@ msgid "1 validated point ="
 msgstr "1 个已验证积分 ="
 
 msgid "An error occurred while retrieving QRCode. Please try again later"
-msgstr "有错误上传文件。请稍后再试。"
+msgstr "获取二维码时出错。请稍后再试。"
 
 msgid "An error occurred while saving the password. Please try again later"
-msgstr "有一个错误保存密码。请稍后再试。"
+msgstr "保存密码时出错。请稍后再试。"
 
 msgid "An error occurred while saving your loyalty card."
-msgstr "有一个错误保存您的记分卡"
+msgstr "保存您的会员卡时出错。"
 
 msgid ""
 "An error occurred while saving your loyalty card. Please fill all fields in."
-msgstr "有一个错误保存您的记分卡。请填写所有字段。"
+msgstr "保存您的会员卡时出错。请填写所有字段。"
 
 msgid "An error occurred while validating point. Please try again later."
-msgstr "在验证点时发生错误。请稍后再试。"
+msgstr "验证积分时出错。请稍后再试。"
 
 #. machine-translated (2026-10), to be reviewed
 msgid "An error occurred with your QRCode."
@@ -51,10 +51,10 @@ msgid "Congratulations"
 msgstr "祝贺"
 
 msgid "Current card"
-msgstr "目前卡"
+msgstr "当前卡片"
 
 msgid "Delete this password?"
-msgstr "删除此项？"
+msgstr "删除此密码？"
 
 msgid "Employee's name:"
 msgstr "员工姓名："
@@ -69,17 +69,17 @@ msgid "Enter the password"
 msgstr "输入密码"
 
 msgid "My new loyalty card"
-msgstr "我的新计分卡"
+msgstr "我的新会员卡"
 
 msgid "My passwords"
-msgstr "密码"
+msgstr "我的密码"
 
 #. machine-translated (2026-10), to be reviewed
 msgid "No cards available"
 msgstr "没有可用的卡"
 
 msgid "Number of points"
-msgstr "点数"
+msgstr "积分数"
 
 msgid "Please enter a name"
 msgstr "请输入姓名"
@@ -89,7 +89,7 @@ msgstr "请输入密码"
 
 msgid ""
 "Please show your phone to the store person so that he enters his password"
-msgstr "请出示您的手机店里的人输入密码"
+msgstr "请向店员出示您的手机，以便其输入密码"
 
 #. machine-translated (2026-10), to be reviewed
 msgid "Point active"
@@ -103,7 +103,7 @@ msgid "Point%s successfully validated"
 msgstr "点％ s成功验证"
 
 msgid "Previous cards"
-msgstr "上述卡"
+msgstr "以前的卡片"
 
 msgid "Reward"
 msgstr "奖励"
@@ -131,7 +131,7 @@ msgid "Use only once?"
 msgstr "仅使用一次"
 
 msgid "We are sorry but this card is temporarily blocked"
-msgstr "对不起，此卡被暂时受阻"
+msgstr "很抱歉，此卡已被暂时锁定"
 
 msgid ""
 "Wrong password. Be carefull! %d remaining attempt%s before locking your "
@@ -146,32 +146,32 @@ msgstr "密码不正确。当心！ ％d ％s 锁定您的卡之前已经离开�
 msgid ""
 "You have exceeded the number of attempts to validate points. Your card is "
 "locked for 24h"
-msgstr "您已超过尝试验证点的数量。你的卡已被锁定24小时"
+msgstr "您尝试验证积分的次数已超限。您的卡已被锁定 24 小时"
 
 msgid "You just finished your card"
 msgstr "你刚刚完成你的卡"
 
 msgid "You must be logged in to validate points"
-msgstr "你必须登录验证点"
+msgstr "您必须登录才能验证积分"
 
 msgid "Your loyalty card has been saved successfully"
-msgstr "你的记分卡已成功保存"
+msgstr "您的会员卡已成功保存"
 
 msgid "Your password must be 4 digits"
-msgstr "您的密码必须是4位数"
+msgstr "您的密码必须是 4 位数字"
 
 #. machine-translated (2026-10), to be reviewed
 msgid "is now yours!"
 msgstr "现在是你的了！"
 
 msgid "point"
-msgstr "点"
+msgstr "积分"
 
 msgid "point to validate"
-msgstr "验证点"
+msgstr "个积分待验证"
 
 msgid "points to validate"
-msgstr "点验证"
+msgstr "个积分待验证"
 
 #. machine-translated (2026-10), to be reviewed
 msgid "validated points ="

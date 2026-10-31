@@ -15,13 +15,13 @@ msgstr ""
 "X-Generator: Weblate 3.3\n"
 
 msgid "Action"
-msgstr "行动"
+msgstr "操作"
 
 msgid "Actions"
-msgstr "行动"
+msgstr "操作"
 
 msgid "All of your modules are up to date"
-msgstr "Todos los módulos están al día"
+msgstr "您的所有模块均为最新版本"
 
 #. machine-translated (2026-10), to be reviewed
 msgid "An update is available. Click here to download it."
@@ -36,13 +36,13 @@ msgid "Click here to see the release notes"
 msgstr "点击此处查看发布说明"
 
 msgid "Click here to send your module"
-msgstr "Haga clic aquí para enviar su módulo"
+msgstr "点击此处发送您的模块"
 
 msgid "Details"
 msgstr "详细信息"
 
 msgid "Drop your module here"
-msgstr "Deje su módulo de aquí"
+msgstr "将您的模块拖放到此处"
 
 #. machine-translated (2026-10), to be reviewed
 msgid "Host"
@@ -53,34 +53,34 @@ msgid "Install"
 msgstr "安装"
 
 msgid "Installing"
-msgstr "Instalando"
+msgstr "正在安装"
 
 msgid "Installing your module"
-msgstr "Instalando tu módulo"
+msgstr "正在安装您的模块"
 
 msgid "Module successfully installed"
-msgstr "Módulo instalado con éxito"
+msgstr "模块安装成功"
 
 msgid "Module to upload"
-msgstr "Módulo para cargar"
+msgstr "要上传的模块"
 
 msgid "Modules Installation"
-msgstr "Módulos de instalación"
+msgstr "模块安装"
 
 msgid "Modules successfully installed!"
-msgstr "Módulos instalado con éxito!"
+msgstr "模块安装成功！"
 
 msgid "Name"
 msgstr "名字"
 
 msgid "No directory provided"
-msgstr "No directorio proporcionado"
+msgstr "未提供目录"
 
 msgid "No module to install"
-msgstr "No hay módulo para instalar"
+msgstr "没有要安装的模块"
 
 msgid "No modules uploaded yet"
-msgstr "No hay módulos subidos aún"
+msgstr "尚未上传任何模块"
 
 #. machine-translated (2026-10), to be reviewed
 msgid ""
@@ -101,10 +101,10 @@ msgid "Path to your system"
 msgstr "系统路径"
 
 msgid "Please, enter a name"
-msgstr "Por favor, introduzca un nombre"
+msgstr "请输入姓名"
 
 msgid "Please, fill out all fields"
-msgstr "Por favor, rellene todos los campos"
+msgstr "请填写所有字段"
 
 #. machine-translated (2026-10), to be reviewed
 msgid ""
@@ -117,27 +117,27 @@ msgid ""
 msgstr "安装此更新之前，请先将系统更新到 %s 版本。"
 
 msgid "Please wait, we're installing your module"
-msgstr "Por favor espere, estamos instalando su módulo"
+msgstr "请稍候，我们正在安装您的模块"
 
 #. machine-translated (2026-10), to be reviewed
 msgid "Port"
 msgstr "端口"
 
 msgid "Processing the installation"
-msgstr "Procesamiento de la instalación"
+msgstr "正在处理安装"
 
 #. machine-translated (2026-10), to be reviewed
 msgid "Progress"
 msgstr "进度"
 
 msgid "Retry"
-msgstr "Vuelva a intentarlo"
+msgstr "重试"
 
 msgid "Select a module to upload"
-msgstr "Seleccione un módulo para cargar"
+msgstr "选择要上传的模块"
 
 msgid "Size"
-msgstr "尺寸："
+msgstr "尺寸"
 
 #. machine-translated (2026-10), to be reviewed
 msgid ""
@@ -153,26 +153,20 @@ msgid "Status"
 msgstr "状态"
 
 msgid "The database connection failed. Please, check the entered information."
-msgstr ""
-"La conexión de base de datos falló. Por favor, verifique la información "
-"introducida."
+msgstr "数据库连接失败。请检查输入的信息。"
 
 msgid "The entered password confirmation does not match the entered password."
-msgstr ""
-"La confirmación de la contraseña introducida no coincide con la contraseña "
-"introducida."
+msgstr "输入的确认密码与输入的密码不一致。"
 
 msgid "The file %s does not exist"
-msgstr "El archivo %s no existe"
+msgstr "文件 %s 不存在"
 
 #. machine-translated (2026-10), to be reviewed
 msgid "The file %s is not writable."
 msgstr "文件 %s 不可写。"
 
 msgid "The folder %s is not writable. Please fix this issue and try again."
-msgstr ""
-"La carpeta %s no se puede escribir. Por favor, corrija este problema y "
-"vuelva a intentarlo."
+msgstr "文件夹 %s 不可写。请解决此问题后重试。"
 
 #. machine-translated (2026-10), to be reviewed
 msgid "The following files and folders are not writable:"
@@ -191,8 +185,7 @@ msgid "There is no CMS license key set."
 msgstr "未设置 CMS 许可证密钥。"
 
 msgid "This process may take few minutes, please do not refresh the page"
-msgstr ""
-"Este proceso puede tardar unos minutos, por favor no actualice la página"
+msgstr "此过程可能需要几分钟，请勿刷新页面"
 
 #. machine-translated (2026-10), to be reviewed
 msgid "This update is designed for the %s, you can't install it in your %s."
@@ -212,14 +205,14 @@ msgid ""
 msgstr "无法检测到您的站点，请确保输入的路径正确。"
 
 msgid "Unable to extract the archive."
-msgstr "No se puede extraer el archivo."
+msgstr "无法解压压缩包。"
 
 #. machine-translated (2026-10), to be reviewed
 msgid "Unable to fetch the update. Please, try again later."
 msgstr "无法获取更新，请稍后再试。"
 
 msgid "Unable to open the archive."
-msgstr "No se puede abrir el archivo."
+msgstr "无法打开压缩包。"
 
 #. machine-translated (2026-10), to be reviewed
 msgid ""
@@ -227,10 +220,10 @@ msgid ""
 msgstr "无法打开文件，请确保您发送的是有效的压缩包。"
 
 msgid "Upload a module"
-msgstr "Sube un módulo"
+msgstr "上传模块"
 
 msgid "Upload your modules"
-msgstr "Sube tus módulos"
+msgstr "上传您的模块"
 
 msgid "Username"
 msgstr "用户名"

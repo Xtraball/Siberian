@@ -22,22 +22,22 @@ msgid "1 hour"
 msgstr "1 час"
 
 msgid "1 minute"
-msgstr "минут"
+msgstr "1 минута"
 
 msgid "12 hours"
 msgstr "12 часов"
 
 msgid "15 minutes"
-msgstr "минут"
+msgstr "15 минут"
 
 msgid "3 hours"
-msgstr "часов"
+msgstr "3 часа"
 
 msgid "30 minutes"
-msgstr "минут"
+msgstr "30 минут"
 
 msgid "6 hours"
-msgstr "часов"
+msgstr "6 часов"
 
 msgid "Add a query"
 msgstr "Добавить запрос"
@@ -45,18 +45,16 @@ msgstr "Добавить запрос"
 msgid ""
 "An error occurred while accessing your Wordpress website. Please, verify the "
 "domain name %s"
-msgstr ""
-"Произошла ошибка при доступе к вашему веб-сайту Wordpress. Пожалуйста, "
-"проверьте доменное им %s"
+msgstr "Произошла ошибка при доступе к вашему веб-сайту WordPress. Пожалуйста, проверьте доменное имя %s"
 
 msgid "Ascending"
-msgstr "Возрастанию"
+msgstr "По возрастанию"
 
 msgid "Author"
 msgstr "Автор"
 
 msgid "Cache lifetime (excluding pull to refresh)"
-msgstr "Время жизни кэша (за исключением потяните, чтобы обновить)"
+msgstr "Время жизни кэша (за исключением обновления жестом «потянуть вниз»)"
 
 msgid "Categories successfully saved"
 msgstr "Категории успешно сохранены"
@@ -65,7 +63,7 @@ msgid "Click here to download our Wordpress plugin"
 msgstr "Нажмите здесь, чтобы загрузить наш Wordpress плагин"
 
 msgid "Cover & Thumbnails are only visible when queries are not grouped."
-msgstr "Обложки и эскизы видны только тогда, когда запрос не сгруппированы."
+msgstr "Обложки и эскизы отображаются только тогда, когда запросы не сгруппированы."
 
 msgid "Date"
 msgstr "Дата"
@@ -91,10 +89,10 @@ msgstr ""
 "Сообщений."
 
 msgid "Loading categories"
-msgstr "Загрузка категории"
+msgstr "Загрузка категорий"
 
 msgid "Manage WordPress"
-msgstr "Управление Вордпресс"
+msgstr "Управление WordPress"
 
 msgid "Manage queries"
 msgstr "Управление запросами"
@@ -105,9 +103,7 @@ msgstr "Нет кэша"
 msgid ""
 "Note: cache is automatically refreshed on any user pull to refresh action "
 "whatever the lifetime set."
-msgstr ""
-"Примечание: кэш автоматически обновляется по любому пользователю потяните, "
-"чтобы обновить действие независимо от установленного срока службы."
+msgstr "Примечание: кэш автоматически обновляется при любом действии пользователя «потяните, чтобы обновить», независимо от заданного времени жизни."
 
 msgid "Pages"
 msgstr "Страницы"
@@ -119,9 +115,7 @@ msgid "Show title & subtitle"
 msgstr "Показать заголовок и подзаголовок"
 
 msgid "Sorry, we are unable to fetch any category or post from your WordPress."
-msgstr ""
-"К сожалению, мы не получили какую-либо категорию или пост из вашего "
-"WordPress."
+msgstr "К сожалению, нам не удалось получить ни одной категории или записи из вашего WordPress."
 
 msgid "Sort by"
 msgstr "Сортировать по"
@@ -133,10 +127,10 @@ msgid "Strip shortcodes"
 msgstr "Убрать shortcode"
 
 msgid "Unable to find your WordPress or /wp-json/ endpoint."
-msgstr "Не смогла найти ваш WordPress или папку /WP-json в/ конечной точки."
+msgstr "Не удалось найти ваш WordPress или конечную точку /wp-json/."
 
 msgid "Unlimited (until any pull to refresh)"
-msgstr "Неограниченное (пока потяните, чтобы обновить)"
+msgstr "Без ограничений (до любого «потяните, чтобы обновить»)"
 
 msgid ""
 "We are sorry but no category has been detected on your Wordpress website."
@@ -151,10 +145,10 @@ msgstr ""
 "Пожалуйста, убедитесь, что он правильно установлен и активирован."
 
 msgid "WordPress URL"
-msgstr "URL-Адрес для WordPress "
+msgstr "URL WordPress"
 
 msgid "Wordpress"
-msgstr "Wordpress"
+msgstr "WordPress"
 
 msgid "You can mix posts & pages in the queries if needed."
 msgstr "Вы можете смешивать посты и страницы в запросах, если это необходимо."

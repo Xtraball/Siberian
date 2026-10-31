@@ -16,19 +16,19 @@ msgstr ""
 "X-Generator: Weblate 3.3\n"
 
 msgid "10 seconds"
-msgstr "секунд"
+msgstr "10 секунд"
 
 msgid "15 seconds"
-msgstr "секунд"
+msgstr "15 секунд"
 
 msgid "20 seconds"
-msgstr "секунд"
+msgstr "20 секунд"
 
 msgid "2Checkout"
 msgstr "2Checkout"
 
 msgid "30 seconds"
-msgstr "секунд"
+msgstr "30 секунд"
 
 msgid "404, page not found"
 msgstr "404, страница не найдена"
@@ -37,13 +37,13 @@ msgid "A step requires at least a title and a text."
 msgstr "Шаг требует, как минимум, заголовок и текст."
 
 msgid "API"
-msgstr "APIs"
+msgstr "API"
 
 msgid "APIs"
 msgstr "APIs"
 
 msgid "APK Generator Service"
-msgstr "Сервис генератора АПК"
+msgstr "Сервис генерации APK"
 
 msgid "APK Generator advanced settings"
 msgstr "Дополнительные параметры Генератора APK"
@@ -58,28 +58,28 @@ msgid "Account"
 msgstr "Аккаунт"
 
 msgid "Accounts"
-msgstr "Аккаунт"
+msgstr "Аккаунты"
 
 msgid "Acl"
 msgstr "Управления доступом"
 
 msgid "Actions"
-msgstr "Действие"
+msgstr "Действия"
 
 msgid "Activate"
-msgstr "Активен"
+msgstr "Активировать"
 
 msgid "Activity"
 msgstr "Деятельность"
 
 msgid "AdMob Banner ID"
-msgstr "ID баннера ADmob"
+msgstr "ID баннера AdMob"
 
 msgid "AdMob Interstitial ID"
-msgstr "Admob интерстициальный ИД"
+msgstr "ID межстраничной рекламы AdMob"
 
 msgid "Add"
-msgstr "Добавлять"
+msgstr "Добавить"
 
 msgid "Add Image"
 msgstr "Добавить фото"
@@ -106,13 +106,13 @@ msgid "Add image"
 msgstr "Добавить фото"
 
 msgid "Add new upload extensions."
-msgstr "Добавить новый загрузить расширения."
+msgstr "Добавьте новые расширения для загрузки."
 
 msgid "Address"
 msgstr "Адрес"
 
 msgid "Address (more)"
-msgstr "Адреса (больше)"
+msgstr "Адрес (дополнительно)"
 
 msgid "Addresses"
 msgstr "Адреса"
@@ -124,10 +124,10 @@ msgid "Admin panel type"
 msgstr "Тип панели администратора"
 
 msgid "Admob Banner ID"
-msgstr "ID баннера admob"
+msgstr "ID баннера AdMob"
 
 msgid "Admob Interstitial ID"
-msgstr "интерстициальный ID Admob"
+msgstr "ID межстраничной рекламы AdMob"
 
 msgid "Advanced options"
 msgstr "Продвинутые опции"
@@ -142,16 +142,16 @@ msgstr ""
 "После проверки, вы будете направлены на страницу оформления заказа PayPal."
 
 msgid "Alert: The SSL Certificate %s automatic renewal failed."
-msgstr "Предупреждение: SSL-сертификат %s автоматически не продлился"
+msgstr "Предупреждение: не удалось автоматически продлить SSL-сертификат %s."
 
 msgid "Alignment"
-msgstr "Выравнивание:"
+msgstr "Выравнивание"
 
 msgid "All data"
 msgstr "Все данные"
 
 msgid "All items"
-msgstr "Все детали"
+msgstr "Все элементы"
 
 msgid "All user list"
 msgstr "Список всех пользователей"
@@ -163,7 +163,7 @@ msgid "Allow users to import features"
 msgstr "Разрешить пользователям импортировать функции"
 
 msgid "Allowed upload extensions."
-msgstr "Разрешено загружать расширения."
+msgstr "Разрешённые расширения файлов для загрузки."
 
 msgid "An error occurred during process. Please try again later."
 msgstr ""
@@ -178,7 +178,7 @@ msgstr ""
 "Произошла ошибка во время процесса. Пожалуйста, повторите попытку позже."
 
 msgid "An error occurred while editing your invoice : can't find order"
-msgstr "Ошибка при редактировании счета-фактуры : не могу найти заказ"
+msgstr "Ошибка при редактировании счёта: заказ не найден"
 
 msgid "An error occurred while loading. Please try again later."
 msgstr "Произошла ошибка при загрузке. Пожалуйста, повторите попытку позже."
@@ -187,7 +187,7 @@ msgid "An error occurred while loading places."
 msgstr "Произошла ошибка при загрузке места."
 
 msgid "An error occurred while processing your payment."
-msgstr "Произошла ошибка при удалении события"
+msgstr "Произошла ошибка при обработке вашего платежа."
 
 msgid "An error occurred while saving"
 msgstr "Произошла ошибка при сохранении"
@@ -201,9 +201,7 @@ msgstr ""
 "попытку позже."
 
 msgid "An error occurred while saving your picture. Please try again later."
-msgstr ""
-"Произошла ошибка при сохранении вашего аккаунта. Пожалуйста, повторите "
-"попытку позже."
+msgstr "Произошла ошибка при сохранении вашего изображения. Пожалуйста, повторите попытку позже."
 
 msgid "An error occurred while uploading your file. Please, try again later."
 msgstr ""
@@ -222,7 +220,7 @@ msgid "An unknown error occurred while loading the page."
 msgstr "Произошла неизвестная ошибка во время загрузки страницы."
 
 msgid "Android APK"
-msgstr "Андроид apk "
+msgstr "Android APK"
 
 msgid "Android SDK is not installed"
 msgstr "SDK для Android не установлен"
@@ -237,16 +235,12 @@ msgid "Android base Package Name can't be empty."
 msgstr "Базовое Название пакета для Android не может быть пустым."
 
 msgid "Android base Package Name must contain only letters, dots & minus."
-msgstr ""
-"Базовое Название пакета для Android должно содержать только буквы, точки и "
-"минуса."
+msgstr "Базовое название пакета для Android должно содержать только буквы, точки и дефисы."
 
 msgid ""
 "Android base Package Name must contain only letters, dots & minus with at "
 "least two dots.<br />Example: com.mydomain.admin"
-msgstr ""
-"Базовое название пакета для Android должно содержать только буквы, точки и "
-"минуса как минимум с двумя точками.<br />пример: ком.мойдомен.админ"
+msgstr "Базовое название пакета для Android должно содержать только буквы, точки и дефисы, как минимум с двумя точками.<br />Пример: com.mydomain.admin"
 
 msgid "Android only"
 msgstr "Только для Android"
@@ -264,7 +258,7 @@ msgid "App id"
 msgstr "Идентификатор приложения"
 
 msgid "Appearance"
-msgstr "Логотип"
+msgstr "Внешний вид"
 
 msgid "Apple Development teams"
 msgstr "Команды разработки Apple "
@@ -276,7 +270,7 @@ msgid "Application Name"
 msgstr "Имя приложения"
 
 msgid "Application base Bundle ID (iOS)"
-msgstr "Базовый ID банда приложения (IOS)"
+msgstr "Базовый Bundle ID приложения (iOS)"
 
 msgid "Application base Package Name (Android)"
 msgstr "Базовое имя пакета приложения (Android)"
@@ -285,16 +279,16 @@ msgid "Applications"
 msgstr "Приложения"
 
 msgid "Are you sure you want to delete this admin?"
-msgstr "Вы уверены, что хотите удалить этот альбом?"
+msgstr "Вы уверены, что хотите удалить этого администратора?"
 
 msgid "Are you sure you want to delete this element?"
 msgstr "Вы уверены, что хотите удалить этот элемент?"
 
 msgid "Are you sure you want to delete this invoice?"
-msgstr "Вы уверены, что хотите удалить этот магазин?"
+msgstr "Вы уверены, что хотите удалить этот счёт?"
 
 msgid "Are you sure you want to delete this subscription?"
-msgstr "Вы уверены, что хотите удалить это приложение?"
+msgstr "Вы уверены, что хотите удалить эту подписку?"
 
 msgid "Are you sure you want to remove this account?"
 msgstr "Вы уверены, что хотите удалить этот аккаунт?"
@@ -303,7 +297,7 @@ msgid "Artist"
 msgstr "Исполнитель"
 
 msgid "At least, 1 page in the application"
-msgstr "По крайней мере должны быть 4 страницы в приложении"
+msgstr "Не менее 1 страницы в приложении"
 
 msgid ""
 "At least one <b>published</b> application is required in order to use global "
@@ -322,9 +316,7 @@ msgid "Authentication failed"
 msgstr "Ошибка аутентификации"
 
 msgid "Authentication failed. Please, check the username and/or the password"
-msgstr ""
-"Ошибка аутентификации. Пожалуйста, проверьте свою электронную почту или "
-"пароль"
+msgstr "Ошибка аутентификации. Пожалуйста, проверьте имя пользователя или пароль"
 
 msgid "Authentication failed. Please check your email and/or your password"
 msgstr ""
@@ -347,16 +339,16 @@ msgid "Back"
 msgstr "Назад"
 
 msgid "Back button icon"
-msgstr "Значок кнопки \\\"Назад\\\" "
+msgstr "Значок кнопки «Назад»"
 
 msgid "Background"
 msgstr "Фон"
 
 msgid "Background (landscape)"
-msgstr "Фон (пейзаж)"
+msgstr "Фон (альбомная ориентация)"
 
 msgid "Background (portrait)"
-msgstr "Фон (портрет)"
+msgstr "Фон (книжная ориентация)"
 
 msgid "Backoffice"
 msgstr "Бэк-офис"
@@ -370,7 +362,7 @@ msgid "Banner"
 msgstr "баннер"
 
 msgid "Banner & Interstitial"
-msgstr "Баннер И Интерстициальные"
+msgstr "Баннер и межстраничная реклама"
 
 msgid "Be careful you are working in"
 msgstr "Будьте осторожны, вы работаете в"
@@ -381,9 +373,7 @@ msgstr "Токен Носителя"
 msgid ""
 "Before you can send push notification, you must have at least one of iOS or "
 "Android application in a published state."
-msgstr ""
-"Прежде чем вы сможете отправлять push-уведомления, вы должны иметь по "
-"крайней мере один из iOS или Android приложение в опубликованном состоянии."
+msgstr "Прежде чем вы сможете отправлять push-уведомления, необходимо иметь хотя бы одно приложение iOS или Android в опубликованном состоянии."
 
 msgid "Booking"
 msgstr "Бронь"
@@ -424,7 +414,7 @@ msgid "Button light"
 msgstr "Кнопка светлая"
 
 msgid "Button positive"
-msgstr "Кнопка положительно"
+msgstr "Положительная кнопка"
 
 msgid "Button royal"
 msgstr "Королевская кнопка"
@@ -435,9 +425,7 @@ msgstr "При включении вы получите поле поиска в
 msgid ""
 "By default, popups steps try to use a smart placement. You can force this "
 "placement if needed."
-msgstr ""
-"По умолчанию всплывающие окна, шаги старайтесь использовать смарт-"
-"размещения. Вы можете заставить это размещение, если необходимо."
+msgstr "По умолчанию всплывающие шаги пытаются использовать умное размещение. При необходимости вы можете задать размещение принудительно."
 
 msgid "Cache"
 msgstr "Кэш"
@@ -455,7 +443,7 @@ msgid "Cancel"
 msgstr "Отменить"
 
 msgid "Card"
-msgstr "Корзина"
+msgstr "Карта"
 
 msgid "Card Item"
 msgstr "Пункт карточки"
@@ -479,10 +467,10 @@ msgid "Change password"
 msgstr "Сменить пароль"
 
 msgid "Change your<br /><span class='bold'>picture</span>"
-msgstr "Выберите <br /><span class=\"bold\">картинку</span>"
+msgstr "Измените <br /><span class='bold'>изображение</span>"
 
 msgid "Changing the Application icon requires a rebuild / republication."
-msgstr "Изменение иконки приложений требует перестроения и републикация."
+msgstr "Для изменения значка приложения требуется пересборка и повторная публикация."
 
 msgid "Changing this option requires you to republish your iOS application."
 msgstr ""
@@ -495,13 +483,13 @@ msgid "Checkbox off"
 msgstr "Флажок выкл."
 
 msgid "Checkbox on"
-msgstr "Флажок"
+msgstr "Флажок вкл."
 
 msgid "Checking Permissions"
 msgstr "Проверка Разрешений"
 
 msgid "Choose a file to import:"
-msgstr "Выберbте файл для импорта:"
+msgstr "Выберите файл для импорта:"
 
 msgid "Choose an object to import:"
 msgstr "Выбрать объект для импорта:"
@@ -510,7 +498,7 @@ msgid "City"
 msgstr "Город"
 
 msgid "ClamAV is an optional anti-virus, you can enable it up below."
-msgstr "ClamAV является необязательным анти-вирус, вы можете включить его ниже."
+msgstr "ClamAV является необязательным антивирусом, вы можете включить его ниже."
 
 msgid "ClamAV settings"
 msgstr "Настройки антивируса ClamAV "
@@ -522,16 +510,16 @@ msgid "Click here to log-in"
 msgstr "Нажмите здесь, чтобы войти"
 
 msgid "Click here to open the application"
-msgstr "Щелкните здесь, чтобы открыть приложения"
+msgstr "Щелкните здесь, чтобы открыть приложение"
 
 msgid "Click on"
 msgstr "Нажмите на"
 
 msgid "Click on a feature to add it to the folder"
-msgstr "Нажмите на странице, чтобы добавить его в папку"
+msgstr "Нажмите на функцию, чтобы добавить её в папку"
 
 msgid "Click on a feature to add it to the folder %s"
-msgstr "Нажмите на странице, чтобы добавить его в папку"
+msgstr "Нажмите на функцию, чтобы добавить её в папку %s"
 
 msgid "Click to import your file"
 msgstr "Нажмите, чтобы импортировать файл"
@@ -543,17 +531,14 @@ msgid "Close mobile display"
 msgstr "Закрыть моб. дисплей"
 
 msgid "CloudFlare is not supported, please use a CNAME."
-msgstr ""
-"Cloudflare является не поддерживается, пожалуйста, используйте запись cname."
+msgstr "Cloudflare не поддерживается, пожалуйста, используйте запись CNAME."
 
 msgid ""
 "CloudFlare is not supported, you must use a CNAME targeting your main domain."
-msgstr ""
-"Компания cloudflare не поддерживается, вы должны использовать запись cname "
-"таргетинга вашего основного домена."
+msgstr "Cloudflare не поддерживается; необходимо использовать запись CNAME, указывающую на ваш основной домен."
 
 msgid "Cms"
-msgstr "Coms"
+msgstr "CMS"
 
 msgid "Codescan"
 msgstr "Сканер QR-кода"
@@ -568,7 +553,7 @@ msgid "Commerce"
 msgstr "Коммерция"
 
 msgid "Communication"
-msgstr "Связи"
+msgstr "Коммуникация"
 
 msgid "Company"
 msgstr "Компания"
@@ -595,7 +580,7 @@ msgid "Confirmation"
 msgstr "Подтверждение"
 
 msgid "Confirmation required"
-msgstr "Подтверждение требуется"
+msgstr "Требуется подтверждение"
 
 msgid "Connection type"
 msgstr "Тип подключения "
@@ -604,7 +589,7 @@ msgid "Contact"
 msgstr "Контакты"
 
 msgid "Contact successfully added to your address book"
-msgstr "Обратный адрес успешно добавлен в вашу адресную книгу"
+msgstr "Контакт успешно добавлен в вашу адресную книгу"
 
 msgid "Contact us"
 msgstr "Свяжитесь с нами"
@@ -616,7 +601,7 @@ msgid "Coordinates"
 msgstr "Координаты"
 
 msgid "Copy"
-msgstr "Копия"
+msgstr "Копировать"
 
 msgid "Copying"
 msgstr "Копируем"
@@ -634,7 +619,7 @@ msgid "Create"
 msgstr "Создать"
 
 msgid "Create / Edit a User"
-msgstr "Создавать / редактировать пользователя"
+msgstr "Создание / редактирование пользователя"
 
 msgid "Create a new account"
 msgstr "Создать новую учетную запись"
@@ -646,13 +631,13 @@ msgid "Created at"
 msgstr "Создано "
 
 msgid "Creator Email"
-msgstr "Электронной Почты Творца "
+msgstr "Email создателя"
 
 msgid "Currency"
 msgstr "Валюта"
 
 msgid "Current load is"
-msgstr "Ток нагрузки"
+msgstr "Текущая нагрузка:"
 
 msgid "Current password"
 msgstr "Текущий пароль"
@@ -661,10 +646,10 @@ msgid "Current status is"
 msgstr "Текущее состояние"
 
 msgid "Custom Page"
-msgstr "Свой"
+msgstr "Пользовательская страница"
 
 msgid "Customization"
-msgstr "настройка"
+msgstr "Настройка"
 
 msgid "Customization mode activated"
 msgstr "Режим настройки активирован"
@@ -697,7 +682,7 @@ msgid "Date of birth"
 msgstr "Дата рождения"
 
 msgid "Deactivate"
-msgstr "Не активен"
+msgstr "Деактивировать"
 
 msgid "Debug"
 msgstr "Отладка"
@@ -706,7 +691,7 @@ msgid "Debug output"
 msgstr "Отладочный вывод "
 
 msgid "Default Languages"
-msgstr "Язык по умолчанию"
+msgstr "Языки по умолчанию"
 
 msgid "Default role for all new users"
 msgstr "Роль по умолчанию для всех новых пользователей"
@@ -718,7 +703,7 @@ msgid "Delete"
 msgstr "Удалить"
 
 msgid "Delete a feature"
-msgstr "Удаление функции"
+msgstr "Удалить функцию"
 
 msgid "Delete the Application"
 msgstr "Удалить приложение"
@@ -730,7 +715,7 @@ msgid "Delivered"
 msgstr "Доставлено"
 
 msgid "Delivery Cost"
-msgstr "Стоимость доставки:"
+msgstr "Стоимость доставки"
 
 msgid "Delivery method"
 msgstr "Способ доставки"
@@ -742,7 +727,7 @@ msgid "Details"
 msgstr "Подробности"
 
 msgid "Development"
-msgstr "Развитие"
+msgstr "Разработка"
 
 msgid "Dialog"
 msgstr "Диалог"
@@ -751,7 +736,7 @@ msgid "Dialog background"
 msgstr "Фон диалога"
 
 msgid "Dialog button"
-msgstr "Кнопки диалога"
+msgstr "Кнопка диалога"
 
 msgid "Dialog text"
 msgstr "Текст диалога"
@@ -766,7 +751,7 @@ msgid "Display pictogram instead of image in map"
 msgstr "Показывать пиктограмму вместо изображения на карте"
 
 msgid "Distance unit"
-msgstr "Единица измерения"
+msgstr "Единица измерения расстояния"
 
 msgid "Do not export"
 msgstr "Не экспортировать"
@@ -774,9 +759,7 @@ msgstr "Не экспортировать"
 msgid ""
 "Do you want to download all the contents now to access it when offline? If "
 "you do, we recommend you to use a WiFi connection."
-msgstr ""
-"Вы хотите скачать все содержимое теперь для доступа в автономном режиме? "
-"Если да, то мы рекомендуем использовать WiFi-соединение."
+msgstr "Хотите скачать весь контент сейчас, чтобы он был доступен офлайн? В этом случае рекомендуем использовать подключение по Wi-Fi."
 
 msgid "Do you want to return to the homepage?"
 msgstr "Вы хотите вернуться на главную страницу?"
@@ -789,7 +772,7 @@ msgstr ""
 "Не закрывайте приложение во время загрузки. Это может занять некоторое время."
 
 msgid "Download APK"
-msgstr "Скачать"
+msgstr "Скачать APK"
 
 msgid "Download a copy of my data"
 msgstr "Скачать копию моих данных"
@@ -804,10 +787,10 @@ msgid "Download current search as CSV"
 msgstr "Скачать текущий поиск в CSV"
 
 msgid "Download file is not available in DEMO mode."
-msgstr "Скачать файл недоступен в демо-режиме."
+msgstr "Скачивание файла недоступно в демо-режиме."
 
 msgid "Download latest APK"
-msgstr "Скачать последнюю apk"
+msgstr "Скачать последний APK"
 
 msgid "Download latest sources"
 msgstr "Скачать последние исходники"
@@ -834,7 +817,7 @@ msgid "Downloading..."
 msgstr "Загрузка..."
 
 msgid "Drop your json here"
-msgstr "Оставьте ваш логотип здесь"
+msgstr "Перетащите сюда ваш JSON"
 
 msgid "EDIT"
 msgstr "Редактировать"
@@ -860,18 +843,14 @@ msgstr "Редактор"
 msgid ""
 "Editor note: A user with a given role can only assign Self role (if the role "
 "is SELF-ASSIGNABLE) & Child roles."
-msgstr ""
-"Примечание Редактора : пользователь с данной ролью может назначить только "
-"собственной роли (если роль самостоятельно переназначить) & роли ребенка."
+msgstr "Примечание редактора: пользователь с данной ролью может назначать только свою собственную роль (если роль SELF-ASSIGNABLE) и дочерние роли."
 
 msgid ""
 "Editor note: A user with a given role can only assign self & child roles."
-msgstr ""
-"Редактор Примечание: пользователь с данной ролью может назначить только "
-"самооценки и роли ребенка."
+msgstr "Примечание редактора: пользователь с данной ролью может назначать только свою и дочерние роли."
 
 msgid "Element n°"
-msgstr "Элементом N°"
+msgstr "Элемент n°"
 
 msgid "Email"
 msgstr "Email"
@@ -883,7 +862,7 @@ msgid "Enable search in folders"
 msgstr "Включить поиск в папках"
 
 msgid "Enable test API ?"
-msgstr "Включить тест API ?"
+msgstr "Включить тестовый API?"
 
 msgid "End at"
 msgstr "Окончание действия"
@@ -901,19 +880,19 @@ msgid "Error : <br/>"
 msgstr "Ошибка: <br/>"
 
 msgid "Error on import configuration."
-msgstr "Ошибки в конфигурации импорта."
+msgstr "Ошибка при импорте конфигурации."
 
 msgid "Errors : <br/>"
 msgstr "Ошибки: <br/>"
 
 msgid "European <b>General Data Protection Regulation (GDPR)</b>"
-msgstr "Европейские  <b>основные нормативы по защите данных (GDPR)</b>"
+msgstr "Европейский <b>Общий регламент по защите данных (GDPR)</b>"
 
 msgid "Event"
 msgstr "Событие"
 
 msgid "Events"
-msgstr "Событие"
+msgstr "События"
 
 msgid "Export / Import"
 msgstr "Экспорт / Импорт"
@@ -921,9 +900,7 @@ msgstr "Экспорт / Импорт"
 msgid ""
 "Export / Import of features is currently in beta and available only with "
 "some features."
-msgstr ""
-"В настоящее время экспорт / импорт объектов в бета-версии и доступен только "
-"с некоторыми особенностями."
+msgstr "Экспорт / импорт функций сейчас находится в бета-версии и доступен только для некоторых функций."
 
 msgid "Export your customers"
 msgstr "Экспорт клиентов"
@@ -935,13 +912,13 @@ msgid "Extension can't be empty."
 msgstr "Расширение не может быть пустым."
 
 msgid "Extension not allowed, '%s' only"
-msgstr "Расширение не допускается, '%s' только"
+msgstr "Расширение не допускается, только '%s'"
 
 msgid "Extension %s is strictly forbidden."
 msgstr "Расширение %s строго запрещено."
 
 msgid "Extension: txt, png, jpeg, avi, etc..."
-msgstr "Расширение формат: txt, ПНГ, формате JPEG, AVI и т. д...."
+msgstr "Расширение: txt, png, jpeg, avi и т. д..."
 
 msgid "Facebook"
 msgstr "Facebook"
@@ -980,10 +957,10 @@ msgid "Firstname"
 msgstr "Имя"
 
 msgid "Folder"
-msgstr "Папки"
+msgstr "Папка"
 
 msgid "Folder title is required"
-msgstr "Требуется дать название папки"
+msgstr "Требуется название папки"
 
 msgid "Folders"
 msgstr "Папки"
@@ -992,7 +969,7 @@ msgid "Folders (v2)"
 msgstr "Папки (V2)"
 
 msgid "Forbidden image format"
-msgstr "Запретный формат изображения "
+msgstr "Недопустимый формат изображения"
 
 msgid "Force request & Upload to panel"
 msgstr "Форсировать запрос и загрузки на панель"
@@ -1014,10 +991,10 @@ msgid "Form has the following errors"
 msgstr "Форма содержит следующие ошибки"
 
 msgid "Free until"
-msgstr "Бесплатно пока"
+msgstr "Бесплатно до"
 
 msgid "From:"
-msgstr "Из:"
+msgstr "От:"
 
 msgid "Front"
 msgstr "Передний"
@@ -1029,19 +1006,19 @@ msgid "GRADLE extended options"
 msgstr "Расширенные опции Gradle"
 
 msgid "General"
-msgstr "Главная"
+msgstr "Общие"
 
 msgid "Generate"
 msgstr "Создать"
 
 msgid "Generate an invoice for this offline plan by using the form below."
-msgstr "Создать счет-фактуру на данную автономного плана, используя форму ниже."
+msgstr "Создайте счёт-фактуру для этого офлайн-плана с помощью формы ниже."
 
 msgid "Generate build"
 msgstr "Создать сборку"
 
 msgid "Generate sources"
-msgstr "Генерировать источники"
+msgstr "Генерировать исходники"
 
 msgid "Global push"
 msgstr "Глобальное пуш-сообщение"
@@ -1053,22 +1030,22 @@ msgid "Go back"
 msgstr "Вернуться"
 
 msgid "Google Maps settings"
-msgstr "Настройки Google Карты "
+msgstr "Настройки Google Maps"
 
 msgid "HH:mm a"
 msgstr "чч:мм"
 
 msgid "Hello,"
-msgstr "Привет,"
+msgstr "Здравствуйте,"
 
 msgid "Here is your new password:"
 msgstr "Вот ваш новый пароль:"
 
 msgid "Hi. I just found: $1 in the $2 app."
-msgstr "Привет. Я только что нашел: $1 в приложении 2$."
+msgstr "Привет. Я только что нашёл: $1 в приложении $2."
 
 msgid "Hide"
-msgstr "скрыть"
+msgstr "Скрыть"
 
 msgid "Hide iOS status bar"
 msgstr "Скрыть строку состояния в iOS"
@@ -1077,13 +1054,13 @@ msgid "Hint"
 msgstr "Подсказка"
 
 msgid "Home"
-msgstr "Дом"
+msgstr "Главная"
 
 msgid "Homepage"
 msgstr "Домашняя страница"
 
 msgid "Host"
-msgstr "Хостинг"
+msgstr "Хост"
 
 msgid "Hostnames associated with this Certificate"
 msgstr "Имена хостов, связанные с этим сертификатом"
@@ -1091,61 +1068,58 @@ msgstr "Имена хостов, связанные с этим сертифик
 msgid ""
 "How do you want to access the backoffice if you remove the only user "
 "remaining?"
-msgstr ""
-"Как вы хотите получить доступ к бэк-офис, нужно чтобы остался хотя бы один "
-"пользователь?"
+msgstr "Как вы будете получать доступ к бэк-офису, если удалите единственного оставшегося пользователя?"
 
 msgid "ID"
 msgstr "ID"
 
 msgid "IP"
-msgstr "ИС"
+msgstr "IP"
 
 msgid "IP, example: 127.0.0.1"
-msgstr "ИС, например: 127.0.0.1"
+msgstr "IP, например: 127.0.0.1"
 
 msgid "Icons size"
 msgstr "Размер иконки "
 
 msgid "If user doesn't use AdMob, split revenue will default to 100."
-msgstr ""
-"Если пользователь не используют admob, распределение дохода по умолчанию 100."
+msgstr "Если пользователь не использует AdMob, распределение дохода по умолчанию составит 100."
 
 msgid "I'm listening to $1 from $2 on $3 app."
-msgstr "Я слушаю до $1 из $2 на $3 приложения."
+msgstr "Я слушаю $1 из $2 в приложении $3."
 
 msgid "I'm listening to $1 on $2 app."
-msgstr "Я слушаю 1 $на Приложение $2."
+msgstr "Я слушаю $1 в приложении $2."
 
 msgid "Image"
-msgstr "Изображения"
+msgstr "Изображение"
 
 msgid "Image not high enough, %spx minimum allowed."
-msgstr "Изображение не достаточно высокое, %spx минимально допустимое."
+msgstr "Изображение недостаточно высокое, минимально допустимо %spx."
 
 msgid "Image not large enough, '%s' allowed."
-msgstr "Изображение не достаточно большое, '%s' допускается."
+msgstr "Изображение недостаточно большое, допускается '%s'."
 
 msgid "Image not large enough, %spx minimum allowed."
-msgstr "Изображение не достаточно большое %spx минимально допустимое."
+msgstr "Изображение недостаточно большое, минимально допустимо %spx."
 
 msgid "Image successfully saved"
-msgstr "Страница успешно сохранена"
+msgstr "Изображение успешно сохранено"
 
 msgid "Image too high, %spx maximum allowed."
-msgstr "Изображение слишком высокое, %spx максимально допустимое."
+msgstr "Изображение слишком высокое, максимально допустимо %spx."
 
 msgid "Image too large, '%s' allowed."
-msgstr "Снимок слишком большой, '%s' допускается."
+msgstr "Изображение слишком большое, допускается '%s'."
 
 msgid "Image too large, %spx maximum allowed."
-msgstr "Снимок слишком большой, %spx  максимально допустимое значение."
+msgstr "Изображение слишком большое, максимально допустимо %spx."
 
 msgid "Images"
 msgstr "Изображения"
 
 msgid "Images opacity"
-msgstr "Непрозрачность Изображения"
+msgstr "Непрозрачность изображений"
 
 msgid "Import"
 msgstr "Импорт"
@@ -1157,13 +1131,13 @@ msgid "Import a cover image"
 msgstr "Импортировать изображение обложки"
 
 msgid "Import a single feature."
-msgstr "Импорт одного объекта."
+msgstr "Импорт одной функции."
 
 msgid "Import a thumbnail"
-msgstr "Импорт эскиз"
+msgstr "Импортировать эскиз"
 
 msgid "Import a thumbnail image"
-msgstr "Импорт эскиз"
+msgstr "Импортировать изображение эскиза"
 
 msgid "Import yml"
 msgstr "Импорт в формате yml"
@@ -1176,7 +1150,7 @@ msgstr ""
 "рекомендуем вам использовать по крайней мере :. <br />"
 
 msgid "In order to publish your application, we need:"
-msgstr "Для того, чтобы опубликовать свое приложение, нам понадобится: <br /> -"
+msgstr "Для публикации вашего приложения нам понадобится:"
 
 msgid "In order to use global push notifications your app must be published."
 msgstr ""
@@ -1214,13 +1188,13 @@ msgid "Installer"
 msgstr "Установщик"
 
 msgid "Installs"
-msgstr "Инсталляции"
+msgstr "Установки"
 
 msgid "Integration"
 msgstr "Интеграция"
 
 msgid "Interstitial"
-msgstr "Интерстициальный"
+msgstr "Межстраничная реклама"
 
 msgid "Invalid place"
 msgstr "Неверное место"
@@ -1235,22 +1209,19 @@ msgid "Invoices"
 msgstr "Счета"
 
 msgid "Issuer"
-msgstr "Эмитент"
+msgstr "Издатель"
 
 msgid ""
 "It seems that the renewal of the following SSL Certificate %s is failing, "
 "please check in <b>Settings > Advanced > Configuration</b> for the specified "
 "certificate."
-msgstr ""
-"Похоже, что продление SSL-сертификата следующие %s - ов не удается, "
-"пожалуйста, проверьте в <B>параметры > дополнительно > настройки</B> для "
-"указанного сертификата."
+msgstr "Похоже, что продление следующего SSL-сертификата %s не удаётся; проверьте указанный сертификат в разделе <b>Настройки > Дополнительно > Конфигурация</b>."
 
 msgid "JAVA Extended options"
 msgstr "Расширенные опции JAVA"
 
 msgid "Landscape"
-msgstr "Пейзаж"
+msgstr "Альбомная"
 
 msgid "Last Name"
 msgstr "Фамилия"
@@ -1262,7 +1233,7 @@ msgid "Last error"
 msgstr "Последняя ошибка"
 
 msgid "Last login"
-msgstr "Послед"
+msgstr "Последний вход"
 
 msgid "Last name"
 msgstr "Фамилия"
@@ -1292,13 +1263,13 @@ msgid "Layout #6"
 msgstr "Макет #6"
 
 msgid "Leave blank if your web space is the current domain."
-msgstr "Оставьте пустым, если ваше веб-пространства это текущий домен."
+msgstr "Оставьте пустым, если ваше веб-пространство находится на текущем домене."
 
 msgid "Left"
 msgstr "Левый"
 
 msgid "Let your users know what is locked"
-msgstr "Пусть ваши пользователи знают, что заблокировано"
+msgstr "Дайте вашим пользователям знать, что заблокировано"
 
 msgid "Like"
 msgstr "Нравится"
@@ -1310,10 +1281,10 @@ msgid "Link"
 msgstr "Ссылка"
 
 msgid "Links"
-msgstr "Ссылка"
+msgstr "Ссылки"
 
 msgid "Links are now re-ordered!"
-msgstr "Ссылки сейчас повторно заказал!"
+msgstr "Порядок ссылок обновлён!"
 
 msgid "List"
 msgstr "Список"
@@ -1331,22 +1302,22 @@ msgid "Loading"
 msgstr "Загрузка"
 
 msgid "Loading picture"
-msgstr "Загрузка изображения:"
+msgstr "Загрузка изображения"
 
 msgid "Local APK Generator"
 msgstr "Локальный генератор APK"
 
 msgid "Local APK build"
-msgstr "Местный АПК строить"
+msgstr "Локальная сборка APK"
 
 msgid "Locate"
-msgstr "Навигация по карте"
+msgstr "Определить местоположение"
 
 msgid "Location"
-msgstr "Места"
+msgstr "Местоположение"
 
 msgid "Location: %s"
-msgstr "Места"
+msgstr "Местоположение: %s"
 
 msgid "Log in"
 msgstr "Войти"
@@ -1358,10 +1329,10 @@ msgid "Log-in"
 msgstr "Авторизоваться"
 
 msgid "Login to access your data"
-msgstr "Логин для доступа к вашим данным"
+msgstr "Войдите, чтобы получить доступ к вашим данным"
 
 msgid "Login to your admin interface"
-msgstr "Войдите в свой интерфейс Бэк-офис"
+msgstr "Войдите в интерфейс администратора"
 
 msgid "Log-out"
 msgstr "Выход"
@@ -1370,7 +1341,7 @@ msgid "Loyalty Card"
 msgstr "Карта Лояльности"
 
 msgid "LoyaltyCard"
-msgstr "Бонусная карта"
+msgstr "Карта лояльности"
 
 msgid "MMMM dd y"
 msgstr "MMMM dd y"
@@ -1382,7 +1353,7 @@ msgid "MM.dd.y"
 msgstr "Мм. ДД.г"
 
 msgid "MM.dd.y 'at' HH:mm a"
-msgstr "MM/dd/y 'at' hh:mm a"
+msgstr "MM.dd.y 'at' HH:mm a"
 
 msgid "MM/dd/y 'at' hh:mm a"
 msgstr "MM/dd/y 'at' hh:mm a"
@@ -1412,7 +1383,7 @@ msgid "Main hostname"
 msgstr "Главное имя хоста"
 
 msgid "Make this image colorizable"
-msgstr "Сделать изображение с нормальными цветами"
+msgstr "Сделать изображение перекрашиваемым"
 
 msgid "Manage"
 msgstr "Управлять"
@@ -1466,7 +1437,7 @@ msgid "Migrate sessions to Redis"
 msgstr "Перенос сессий в Redis"
 
 msgid "Misc"
-msgstr "Мисс"
+msgstr "Разное"
 
 msgid "Missing appId"
 msgstr "Отсутствует APPID"
@@ -1529,7 +1500,7 @@ msgid "NSCameraUsageDescription"
 msgstr "NSCameraUsageDescription"
 
 msgid "NSLocationAlwaysAndWhenInUseUsageDescription"
-msgstr "NSLocationAlwaysAndWhenInUseUsagedescription"
+msgstr "NSLocationAlwaysAndWhenInUseUsageDescription"
 
 msgid "NSLocationAlwaysUsageDescription"
 msgstr "NSLocationAlwaysUsageDescription"
@@ -1559,16 +1530,16 @@ msgid "New format"
 msgstr "Новый формат"
 
 msgid "New password"
-msgstr "пароль"
+msgstr "Новый пароль"
 
 msgid "New positions are missing."
-msgstr "Новых позиций не хватает."
+msgstr "Новые позиции отсутствуют."
 
 msgid "New subfolder"
-msgstr "Новая папка"
+msgstr "Новая подпапка"
 
 msgid "Newswall"
-msgstr "Новости"
+msgstr "Стена новостей"
 
 msgid "Next"
 msgstr "Далее"
@@ -1580,34 +1551,34 @@ msgid "No Results"
 msgstr "Нет результатов"
 
 msgid "No address to display on map."
-msgstr "Адрес не будет отображаться на карте."
+msgstr "Нет адреса для отображения на карте."
 
 msgid "No data for this metrics for now."
 msgstr "Нет данных для этой метрики"
 
 msgid "No features"
-msgstr "Нет функции"
+msgstr "Нет функций"
 
 msgid "No invoice for now."
-msgstr "Нет накладной на сейчас."
+msgstr "Пока нет счетов-фактур."
 
 msgid "No items found"
-msgstr "Нет пунктов"
+msgstr "Элементы не найдены"
 
 msgid "No linkable element found on this page."
-msgstr "Ни один связываемый элемент найден на этой странице."
+msgstr "На этой странице не найдено элементов, на которые можно сослаться."
 
 msgid "No logs"
-msgstr "Без логов"
+msgstr "Нет логов"
 
 msgid "No modules"
 msgstr "Нет модулей"
 
 msgid "No place to display on map."
-msgstr "Нет этого места для отображения на карте."
+msgstr "Нет места для отображения на карте."
 
 msgid "No profile found. Please create one in Settings tab."
-msgstr "Профиль не найден. Пожалуйста, создайте в разделе настройки."
+msgstr "Профиль не найден. Пожалуйста, создайте его на вкладке «Настройки»."
 
 msgid "No published applications available."
 msgstr "Нет опубликованных приложений."
@@ -1616,7 +1587,7 @@ msgid "No results for your request."
 msgstr "Нет результатов для вашего запроса."
 
 msgid "No rules"
-msgstr "Нет результатов"
+msgstr "Нет правил"
 
 msgid "No uploaded image"
 msgstr "Нет загруженного изображения"
@@ -1625,7 +1596,7 @@ msgid "Not available offline."
 msgstr "Не доступна в автономном режиме."
 
 msgid "Note"
-msgstr "Ни одной"
+msgstr "Заметка"
 
 msgid ""
 "Note: A disabled feature is not removed from published applications & can "
@@ -1635,11 +1606,10 @@ msgstr ""
 "еще может быть отредактирована, но пользователи больше не могут ее добавить!"
 
 msgid "Note: Let's encrypt X1 is a staging certificate."
-msgstr ""
-"Примечание: Let's encrypt  Х1 представляет собой сертификат, постановка."
+msgstr "Примечание: Let's Encrypt X1 — это тестовый (staging) сертификат."
 
 msgid "Nothing to display."
-msgstr "Ничего не отображать"
+msgstr "Нечего отображать."
 
 msgid "Number"
 msgstr "Количество"
@@ -1651,13 +1621,13 @@ msgid "Number of reward used"
 msgstr "Количество использованных наград"
 
 msgid "OK"
-msgstr "ДА"
+msgstr "ОК"
 
 msgid "OR"
 msgstr "ИЛИ"
 
 msgid "Offline Payment"
-msgstr "Оффлайн Оплаты"
+msgstr "Оплата офлайн"
 
 msgid "Offline content"
 msgstr "Оффлайн контент"
@@ -1666,7 +1636,7 @@ msgid "Old Password"
 msgstr "Старый пароль"
 
 msgid "Only active"
-msgstr "Только активный"
+msgstr "Только активные"
 
 msgid "Only inactive"
 msgstr "Только неактивные"
@@ -1675,8 +1645,7 @@ msgid "Only offline"
 msgstr "Только в автономном режиме"
 
 msgid "Only published application are available for global push notifications."
-msgstr ""
-"Только опубликованные приложения доступны для глобального push-уведомления."
+msgstr "Только опубликованные приложения доступны для глобальных push-уведомлений."
 
 msgid "Open custom URL"
 msgstr "Откройте пользовательский URL"
@@ -1685,7 +1654,7 @@ msgid "Open settings"
 msgstr "Откройте Настройки"
 
 msgid "Options"
-msgstr "Опция"
+msgstr "Опции"
 
 msgid "Or do you want to return to editor?"
 msgstr "Или вы хотите вернуться в редактор?"
@@ -1718,13 +1687,13 @@ msgid "Page settings"
 msgstr "Параметры страницы"
 
 msgid "Paid At"
-msgstr "Оплата по адресу"
+msgstr "Оплачено"
 
 msgid "Paid amount"
-msgstr "Уплаченной суммы"
+msgstr "Уплаченная сумма"
 
 msgid "Paid at"
-msgstr "Оплата по адресу:"
+msgstr "Оплачено"
 
 msgid "Parent"
 msgstr "Родитель"
@@ -1733,7 +1702,7 @@ msgid "Password"
 msgstr "Пароль"
 
 msgid "Password (clear)"
-msgstr "Пароль (очистить)"
+msgstr "Пароль (открытым текстом)"
 
 msgid "Password (hashed)"
 msgstr "Пароль (хешированный)"
@@ -1742,13 +1711,13 @@ msgid "Passwords don't match"
 msgstr "Пароли не совпадают"
 
 msgid "PayPal Express Checkout"
-msgstr "PayPal Экспресс"
+msgstr "PayPal Express Checkout"
 
 msgid "Payment"
 msgstr "Оплата"
 
 msgid "Payment ID"
-msgstr "Платежи"
+msgstr "ID платежа"
 
 msgid "Payment Method"
 msgstr "Способ Оплаты"
@@ -1775,16 +1744,16 @@ msgid "Photos"
 msgstr "Фото"
 
 msgid "Place disabled"
-msgstr "Место отключены"
+msgstr "Место отключено"
 
 msgid "Places"
 msgstr "Места"
 
 msgid "Plain"
-msgstr "Равнина"
+msgstr "Простой"
 
 msgid "Plans"
-msgstr "Тариф"
+msgstr "Тарифы"
 
 msgid "Platform"
 msgstr "Платформа"
@@ -1793,10 +1762,10 @@ msgid "Platform Name"
 msgstr "Имя платформы"
 
 msgid "Platform hostname"
-msgstr "Имя платформы"
+msgstr "Имя хоста платформы"
 
 msgid "Player"
-msgstr "Воспроизвести"
+msgstr "Плеер"
 
 msgid "Please create the API keys to enable this feature."
 msgstr "Пожалуйста, создайте ключи API, чтобы включить эту функцию."
@@ -1808,7 +1777,7 @@ msgid "Please enter a password"
 msgstr "Пожалуйста, введите пароль"
 
 msgid "Please enter a valid URL."
-msgstr "Пожалуйста, введите URL-адрес."
+msgstr "Пожалуйста, введите действительный URL-адрес."
 
 msgid "Please enter a valid credit card number."
 msgstr "Пожалуйста, введите действительный номер кредитной карты."
@@ -1817,22 +1786,22 @@ msgid "Please, enter a valid date"
 msgstr "Пожалуйста, введите правильную дату"
 
 msgid "Please enter a valid date (ISO)."
-msgstr "Пожалуйста, введите дату (ISO)."
+msgstr "Пожалуйста, введите действительную дату (ISO)."
 
 msgid "Please enter a valid email address"
-msgstr "Пожалуйста, введите верный адрес"
+msgstr "Пожалуйста, введите действительный адрес электронной почты"
 
 msgid "Please enter a valid number."
-msgstr "Пожалуйста, введите правильный номер."
+msgstr "Пожалуйста, введите действительное число."
 
 msgid "Please enter a valid url"
 msgstr "Пожалуйста, введите правильный URL"
 
 msgid "Please enter a value between {0} and {1}."
-msgstr "Пожалуйста, введите значение между {0} и {1}."
+msgstr "Пожалуйста, введите значение от {0} до {1}."
 
 msgid "Please enter a value between {0} and {1} characters long."
-msgstr "Пожалуйста, введите значение между {0} и {1} символов."
+msgstr "Пожалуйста, введите значение длиной от {0} до {1} символов."
 
 msgid "Please enter a value greater than or equal to {0}."
 msgstr "Пожалуйста, введите значение, большее или равное {0}."
@@ -1895,10 +1864,10 @@ msgid "Podcast"
 msgstr "Подкаст"
 
 msgid "Podcast URL"
-msgstr "Ссылка на Подкаст:"
+msgstr "URL подкаста"
 
 msgid "Podcast URL (iTunes format)"
-msgstr "Подкаст URL (формат Itunes)"
+msgstr "URL подкаста (формат iTunes)"
 
 msgid "Podcast type is invalid or can't be found"
 msgstr "Этот тип подкаста является недействительным или не может быть найден"
@@ -1910,7 +1879,7 @@ msgid "Port, example: 3310"
 msgstr "Порт, например: 3310"
 
 msgid "Position Menu"
-msgstr "Меню Позиции"
+msgstr "Позиция меню"
 
 msgid "Postcode"
 msgstr "Почтовый индекс"
@@ -1934,13 +1903,13 @@ msgid "Privacy policy section for GDPR"
 msgstr "Политика конфиденциальности для GDPR"
 
 msgid "Privacy policy successfully saved"
-msgstr "Политика конфиденциальности успешно сохранен"
+msgstr "Политика конфиденциальности успешно сохранена"
 
 msgid "Privacy settings"
 msgstr "Настройки конфиденциальности"
 
 msgid "Products"
-msgstr "Продукт"
+msgstr "Продукты"
 
 msgid "Profile"
 msgstr "Профиль"
@@ -1955,32 +1924,30 @@ msgid "Publish your app"
 msgstr "Опубликуйте свое приложение"
 
 msgid "Publishable Key"
-msgstr "Публикуемые Ключ"
+msgstr "Публикуемый ключ"
 
 msgid "Push"
 msgstr "Push"
 
 msgid "Push Notifications"
-msgstr "Push-сообщения"
+msgstr "Push-уведомления"
 
 msgid "Push message"
 msgstr "Push-сообщение"
 
 msgid "Push message is sent."
-msgstr "Пуш сообщения отосланы."
+msgstr "Push-сообщение отправлено."
 
 msgid "Push notification"
-msgstr "Push-сообщения"
+msgstr "Push-уведомление"
 
 msgid "Push notifications"
-msgstr "Push-сообщения"
+msgstr "Push-уведомления"
 
 msgid ""
 "Push notifications Your account doesn't exists on editor side. Please create "
 "it before using tour edition."
-msgstr ""
-"Push-уведомления Ваш аккаунт не существует на стороне редактора. Пожалуйста, "
-"создайте его перед использованием редактора тура ред."
+msgstr "Push-уведомления. Ваш аккаунт не существует на стороне редактора. Пожалуйста, создайте его перед использованием редактирования тура."
 
 msgid "QR Code"
 msgstr "QR код"
@@ -2004,7 +1971,7 @@ msgid "Redis AUTH KEY"
 msgstr "Redis AUTH KEY"
 
 msgid "Registration date"
-msgstr "Дата окончания"
+msgstr "Дата регистрации"
 
 msgid "Release"
 msgstr "Релиз"
@@ -2025,7 +1992,7 @@ msgid "Request APK generation"
 msgstr "Запрос на формирование APK"
 
 msgid "Request or renew the certificate via Let's Encrypt."
-msgstr "Обновление или запрос нового сертификата через Let's Encrypt"
+msgstr "Запросить или продлить сертификат через Let's Encrypt."
 
 msgid "Requested by"
 msgstr "Запрошено"
@@ -2034,13 +2001,13 @@ msgid "Required fields"
 msgstr "Обязательные для заполнения поля"
 
 msgid "Reset to default Privacy Policy."
-msgstr "Сбросить Политику конфиденциальности по умолчанию."
+msgstr "Сбросить до политики конфиденциальности по умолчанию."
 
 msgid "Resize your picture"
 msgstr "Изменение размера изображения"
 
 msgid "Restart"
-msgstr "Перезагрузка"
+msgstr "Перезапуск"
 
 msgid "Restore Apps"
 msgstr "Восстановить Приложения"
@@ -2049,10 +2016,10 @@ msgid "Restore Apps sources"
 msgstr "Восстановление источников приложения"
 
 msgid "Right"
-msgstr "Право"
+msgstr "Справа"
 
 msgid "Roles"
-msgstr "Правила"
+msgstr "Роли"
 
 msgid "Rss"
 msgstr "RSS-канал"
@@ -2061,32 +2028,30 @@ msgid "Rule have been added."
 msgstr "Правило было добавлено."
 
 msgid "Rule have been removed."
-msgstr "Правила были удалены."
+msgstr "Правило удалено."
 
 msgid "Run Android SDK update"
 msgstr "Запустить обновление SDK для Android"
 
 msgid "SCSS successfully saved"
-msgstr "Магазин успешно сохранен"
+msgstr "SCSS успешно сохранён"
 
 msgid "SELF-ASSIGNABLE"
-msgstr "САМОСТОЯТЕЛЬНО ПЕРЕНАЗНАЧИТЬ"
+msgstr "МОЖНО НАЗНАЧИТЬ СЕБЕ"
 
 msgid "SEND"
 msgstr "ОТПРАВИТЬ"
 
 msgid "SMTP"
-msgstr "Протокол SMTP"
+msgstr "SMTP"
 
 msgid ""
 "SMTP - Whitelist: An administrator sent a request for white-listing his "
 "domain."
-msgstr ""
-"Протокол SMTP - Белый список: администратор отправил запрос в белый список "
-"СВОЙ домен."
+msgstr "SMTP - белый список: администратор отправил запрос на добавление своего домена в белый список."
 
 msgid "SMTP Credentials (Affiliated to the White-Label %s)"
-msgstr "Учетные данные SMTP (аффилированных с белой этикеткой %s)"
+msgstr "Учётные данные SMTP (привязаны к White-Label %s)"
 
 msgid "Sales by Categories (TOP 10)"
 msgstr "Продажи по категориям (ТОП-10)"
@@ -2098,7 +2063,7 @@ msgid "Sales by Store"
 msgstr "Продажи по магазинам"
 
 msgid "Sales by product (TOP 20)"
-msgstr "Продажи по видам продукции (ТОП-20)"
+msgstr "Продажи по продуктам (ТОП-20)"
 
 msgid "Sample"
 msgstr "Образец"
@@ -2107,10 +2072,10 @@ msgid "Save"
 msgstr "Сохранить"
 
 msgid "Save GCM settings"
-msgstr "Сохранить настройки ГКМ"
+msgstr "Сохранить настройки GCM"
 
 msgid "Save iTunes credentials"
-msgstr "Сохранить учетные данные в iTunes"
+msgstr "Сохранить учётные данные iTunes"
 
 msgid "Save sender id & key"
 msgstr "Сохранить ID и ключ отправителя"
@@ -2119,10 +2084,10 @@ msgid "Scan it."
 msgstr "Сканировать."
 
 msgid "Scan now to unlock"
-msgstr "Теперь сканируйте, чтобы разблокировать"
+msgstr "Сканируйте сейчас, чтобы разблокировать"
 
 msgid "Scheduled for"
-msgstr "Запланированные для"
+msgstr "Запланировано на"
 
 msgid "Scheduled for <i>%s</i>"
 msgstr "Назначено на <i>%s</i>"
@@ -2158,7 +2123,7 @@ msgid "Select a hostname"
 msgstr "Выберите хост"
 
 msgid "Select a panel type or self-managed"
-msgstr "Выберите Тип панели или самоуправляемые"
+msgstr "Выберите тип панели или самоуправляемую"
 
 msgid "Select all"
 msgstr "Выбрать все"
@@ -2167,22 +2132,22 @@ msgid "Select an album"
 msgstr "Выберите альбом"
 
 msgid "Select an iTunes Connect provider"
-msgstr "Выберите в iTunes подключите провайдера"
+msgstr "Выберите провайдера iTunes Connect"
 
 msgid "Select target applications"
-msgstr "Выбор целевого приложения"
+msgstr "Выберите целевые приложения"
 
 msgid "Select your back button appearance"
-msgstr "Выберите спиной внешний вид кнопки"
+msgstr "Выберите внешний вид кнопки «Назад»"
 
 msgid "Selected hostname"
 msgstr "Выбранный хост"
 
 msgid "Selected main hostname"
-msgstr "Выбранные главные хосты"
+msgstr "Выбранный главный хост"
 
 msgid "Send"
-msgstr "ОТПРАВИТЬ"
+msgstr "Отправить"
 
 msgid "Send a cover image"
 msgstr "Отправить обложку"
@@ -2197,13 +2162,13 @@ msgid "Send to all applications."
 msgstr "Послать всем приложениям."
 
 msgid "Send your pictures"
-msgstr "Вставьте свои фотографии"
+msgstr "Отправьте свои фотографии"
 
 msgid "Sender ID"
 msgstr "ID отправителя"
 
 msgid "Sender email"
-msgstr "E-mail Отправителя"
+msgstr "E-mail отправителя"
 
 msgid "Sender name"
 msgstr "Имя отправителя"
@@ -2212,13 +2177,13 @@ msgid "Server key"
 msgstr "Ключ сервера"
 
 msgid "Service APK Generator"
-msgstr "Сервис Генератора АПК"
+msgstr "Сервис генерации APK"
 
 msgid "Service APK generator"
-msgstr "Генератор АПК сервис"
+msgstr "Сервис генерации APK"
 
 msgid "Service notes"
-msgstr "Сервис Примечания"
+msgstr "Примечания к сервису"
 
 msgid "Session settings"
 msgstr "Параметры сеанса"
@@ -2239,23 +2204,21 @@ msgid "Show search field"
 msgstr "Показать поле поиска"
 
 msgid "Show title"
-msgstr "Показать статью"
+msgstr "Показать заголовок"
 
 msgid "Siberian current installation path"
-msgstr "Сибирский текущий путь установки"
+msgstr "Текущий путь установки Siberian"
 
 msgid "Siberian domain"
-msgstr "Сибирский домен"
+msgstr "Домен Siberian"
 
 msgid "Siberian informations"
-msgstr "Общая информация"
+msgstr "Информация о Siberian"
 
 msgid ""
 "Siberian uses it to scan all uploaded files that have passed the soft "
 "Firewall."
-msgstr ""
-"Сибирский использует его, чтобы сканировать все загруженные файлы, которые "
-"прошли мягких брандмауэра."
+msgstr "Siberian использует это для сканирования всех загруженных файлов, прошедших программный брандмауэр."
 
 msgid "Size:"
 msgstr "Размер:"
@@ -2264,7 +2227,7 @@ msgid "Size on disk"
 msgstr "Размер на диске"
 
 msgid "Slack notification settings"
-msgstr "Настройки Push-сообщения"
+msgstr "Настройки уведомлений Slack"
 
 msgid "Slider"
 msgstr "Слайдер"
@@ -2273,13 +2236,13 @@ msgid "Social"
 msgstr "Социальные"
 
 msgid "Socialgaming"
-msgstr "Социальная игра"
+msgstr "Социальные игры"
 
 msgid "Socket"
-msgstr "Гнездо"
+msgstr "Сокет"
 
 msgid "Soundcloud"
-msgstr "С SoundCloud"
+msgstr "SoundCloud"
 
 msgid "Source code"
 msgstr "Исходный код"
@@ -2304,13 +2267,13 @@ msgid "Split Ad revenue (percent for you)"
 msgstr "Разделение дохода от рекламы (процент для вас)"
 
 msgid "Start date must be lower than end date."
-msgstr "Дата начала должна быть меньше даты окончания."
+msgstr "Дата начала должна быть раньше даты окончания."
 
 msgid "State / Province"
 msgstr "Штат / Провинция"
 
 msgid "Step placement (optional)"
-msgstr "Шаг размещения (необязательно)"
+msgstr "Расположение шага (необязательно)"
 
 msgid "Step saved successfully."
 msgstr "Шаг успешно сохранен."
@@ -2331,7 +2294,7 @@ msgid "Subtitle"
 msgstr "Подзаголовок"
 
 msgid "Success"
-msgstr "Успех"
+msgstr "Успешно"
 
 msgid "Support"
 msgstr "Поддержка"
@@ -2343,13 +2306,13 @@ msgid "Support link"
 msgstr "Ссылка поддержки"
 
 msgid "Switch to Ionic design"
-msgstr "Переключатель для ионной конструкции"
+msgstr "Переключиться на дизайн Ionic"
 
 msgid "System"
 msgstr "Система"
 
 msgid "TLS"
-msgstr "ТЛС"
+msgstr "TLS"
 
 msgid "Target applications"
 msgstr "Целевые приложения"
@@ -2358,7 +2321,7 @@ msgid "Target devices"
 msgstr "Целевые устройства"
 
 msgid "Target specific devices"
-msgstr "Прицел на конкретные устройства"
+msgstr "Выбрать конкретные устройства"
 
 msgid "Tax"
 msgstr "Налог"
@@ -2379,40 +2342,37 @@ msgid "Thank you"
 msgstr "Спасибо!"
 
 msgid "Thank you for your request.<br />We'll answer you as soon as possible."
-msgstr "Спасибо за ваш запрос. Мы ответим вам как можно скорее."
+msgstr "Спасибо за ваш запрос.<br />Мы ответим вам как можно скорее."
 
 msgid "The account has been successfully saved"
 msgstr "Учетная запись была успешно сохранена"
 
 msgid "The address you're looking for does not exists."
-msgstr "Адрес, который вы ищете не существует."
+msgstr "Адрес, который вы ищете, не существует."
 
 msgid "The admin_id is required"
-msgstr "Требуется Email "
+msgstr "Требуется admin_id"
 
 msgid "The admin_id parameter is required"
-msgstr "Требуемый параметр admin_id-это"
+msgstr "Требуется параметр admin_id"
 
 msgid "The app_id is required"
-msgstr "Требуется Email "
+msgstr "Требуется app_id"
 
 msgid "The app_id parameter is required"
-msgstr "Требуемый параметр app_id является"
+msgstr "Требуется параметр app_id"
 
 msgid ""
 "The certificate request failed 3 times, please check the certificate "
 "information, your panel credentials, and everything else.<br />If your "
 "certificate is valid, you can try to upload to panel only."
-msgstr ""
-"Запрос на сертификат неуспешен 3 раза, пожалуйста, проверьте информацию о "
-"сертификате, панель учетные данные, и все остальное<.br />если ваш "
-"сертификат действителен, можно попробовать загрузить только на панель."
+msgstr "Запрос сертификата не удался 3 раза, проверьте информацию о сертификате, учётные данные панели и всё остальное.<br />Если сертификат действителен, можно попробовать только загрузить его на панель."
 
 msgid "The email is required"
-msgstr "Требуется Email "
+msgstr "Требуется email"
 
 msgid "The entered text mismatch"
-msgstr "Введенный текст рассогласования"
+msgstr "Введённый текст не совпадает"
 
 msgid "The file '%s' does not exist"
 msgstr "Файл '%s' не существует"
@@ -2421,10 +2381,10 @@ msgid "The image '%s' does not exist"
 msgstr "Изображение %s не существует"
 
 msgid "The image size '%s' could not be detected."
-msgstr "Размер изображения '%s' не соответствует"
+msgstr "Не удалось определить размер изображения '%s'."
 
 msgid "The name is required"
-msgstr "Требуется Email "
+msgstr "Требуется имя"
 
 msgid "The old password does not match the entered password."
 msgstr "Старый пароль не соответствует введенному паролю."
@@ -2438,24 +2398,22 @@ msgstr "Пароль должен быть не менее 6 символов"
 msgid ""
 "The payment has been cancelled, something wrong happened? Feel free to "
 "contact us."
-msgstr ""
-"Оплата была отменена, что то не так произошло? Не стесняйтесь обращаться к "
-"нам."
+msgstr "Оплата была отменена. Что-то пошло не так? Свяжитесь с нами."
 
 msgid "The sent request is empty."
 msgstr "Отправленный запрос пуст."
 
 msgid "The user_id is required"
-msgstr "Требуется Email "
+msgstr "Требуется user_id"
 
 msgid "The value_id is required."
-msgstr "Требуется пароль"
+msgstr "Требуется value_id."
 
 msgid "This URL is already used"
 msgstr "Этот URL-адрес уже используется"
 
 msgid "This admin can generate APK"
-msgstr "Этот администратор может генерировать АПК"
+msgstr "Этот администратор может генерировать APK"
 
 msgid "This admin does not exist"
 msgstr "Этот администратор не существует"
@@ -2476,7 +2434,7 @@ msgid "This code is unrecognized"
 msgstr "Этот код не распознан"
 
 msgid "This email address does not exist"
-msgstr "Ваш адрес электронной почты не существует"
+msgstr "Этот адрес электронной почты не существует"
 
 msgid "This email address is already used"
 msgstr "Этот адрес электронной почты уже используется"
@@ -2487,9 +2445,7 @@ msgstr "Эта функция доступна только из приложе�
 msgid ""
 "This feature is disabled by default since update 4.12.24 and is deprecated "
 "in favor of Folders v2."
-msgstr ""
-"Эта функция отключена по умолчанию c обновления 4.12.24 и является "
-"устаревшим в пользу папок V2."
+msgstr "Эта функция отключена по умолчанию с обновления 4.12.24 и устарела в пользу Folders v2."
 
 msgid "This feature opens the Code Scan camera"
 msgstr "Эта функция открывает камеру для сканирования QR-кода"
@@ -2511,10 +2467,10 @@ msgstr ""
 "клавиатурой."
 
 msgid "This plan is an offline plan."
-msgstr "Этот план - автономен."
+msgstr "Это тариф с оплатой офлайн."
 
 msgid "This section is unlocked for mobile users only"
-msgstr "Этот раздел разблокирован для мобильных пользователей"
+msgstr "Этот раздел разблокирован только для мобильных пользователей"
 
 msgid "This will open the code scan camera on your device."
 msgstr "Это откроет камеру для сканирования кода на вашем устройстве."
@@ -2526,13 +2482,13 @@ msgid "Time spent in application"
 msgstr "Время, проведенное в приложении"
 
 msgid "Timezone"
-msgstr "Временная зона"
+msgstr "Часовой пояс"
 
 msgid "Tip"
-msgstr "Совет"
+msgstr "Чаевые"
 
 msgid "Title"
-msgstr "название"
+msgstr "Название"
 
 msgid "Title & Message are both required."
 msgstr "Заголовок и сообщение являются обязательными."
@@ -2546,24 +2502,22 @@ msgstr "Заголовок списка"
 msgid ""
 "To be able to use ClamAV you must have it installed on your server and "
 "configured accordingly to our documentation."
-msgstr ""
-"Уметь использовать ClamAV С вы должны установить ее на свой сервер и "
-"настроен соответствующим образом к нашей документации."
+msgstr "Чтобы использовать ClamAV, его необходимо установить на сервер и настроить согласно нашей документации."
 
 msgid "Toggle"
-msgstr "Тумблер"
+msgstr "Переключатель"
 
 msgid "Toggle off"
-msgstr "Выключите"
+msgstr "Переключатель выкл"
 
 msgid "Toggle on"
-msgstr "Тумблер ВКЛ"
+msgstr "Переключатель вкл"
 
 msgid "Toggle's Handle off"
-msgstr "Переключения ручки"
+msgstr "Ручка переключателя (выкл)"
 
 msgid "Toggle's Handle on"
-msgstr "Переключить ручку на"
+msgstr "Ручка переключателя (вкл)"
 
 msgid "Token"
 msgstr "Токен"
@@ -2584,7 +2538,7 @@ msgid "Top visits"
 msgstr "Топ визитов"
 
 msgid "Topic"
-msgstr "тема"
+msgstr "Тема"
 
 msgid "Topics"
 msgstr "Темы"
@@ -2593,7 +2547,7 @@ msgid "Total"
 msgstr "Общий"
 
 msgid "Total Excl. Tax"
-msgstr "Всего без налогов"
+msgstr "Итого без налога"
 
 msgid "Total installs"
 msgstr "Всего установок"
@@ -2602,16 +2556,16 @@ msgid "Total sales"
 msgstr "Общий объем продаж"
 
 msgid "Total visits"
-msgstr "Глобальные посещения"
+msgstr "Всего посещений"
 
 msgid "Tour"
 msgstr "Тур"
 
 msgid "Tour Edition"
-msgstr "Редакция тура"
+msgstr "Редактирование тура"
 
 msgid "Translation"
-msgstr "Переводы"
+msgstr "Перевод"
 
 msgid "Translations"
 msgstr "Переводы"
@@ -2628,12 +2582,10 @@ msgstr "Невозможно рассчитать маршрут."
 msgid ""
 "Unable to connect in HTTPS or to validate the SSL Certificate.<br />Check if "
 "your are not in `Staging`"
-msgstr ""
-"Не удается подключиться по https или для проверки SSL-сертификата.<бр />"
-"проверьте, если вы находитесь не в \\\"промежуточном\\\""
+msgstr "Не удаётся подключиться по HTTPS или проверить SSL-сертификат.<br />Проверьте, не находитесь ли вы в режиме `Staging`"
 
 msgid "Unable to find TC with id %s."
-msgstr "Не удалось найти ТС с идентификатором %s."
+msgstr "Не удалось найти TC с ID %s."
 
 msgid "Unable to save image"
 msgstr "Невозможно сохранить изображение"
@@ -2648,16 +2600,16 @@ msgid "Updated at"
 msgstr "Обновлено"
 
 msgid "Upload to panel"
-msgstr "Загрузите на панель"
+msgstr "Загрузить на панель"
 
 msgid "Upload your json here"
-msgstr "Загрузить JSON здесь"
+msgstr "Загрузите ваш JSON здесь"
 
 msgid "Use card design"
 msgstr "Использовать карточки"
 
 msgid "Use the homepage image as background in all features"
-msgstr "Использование изображения в качестве фона страницы на всех страницах"
+msgstr "Использовать изображение главной страницы как фон во всех функциях"
 
 msgid "Use this coupon"
 msgstr "Используйте этот купон"
@@ -2678,7 +2630,7 @@ msgid "Users activity"
 msgstr "Активность пользователей"
 
 msgid "Users localization"
-msgstr "Локализации пользователей"
+msgstr "Локализация пользователей"
 
 msgid "VAT Number"
 msgstr "ИНН"
@@ -2690,37 +2642,37 @@ msgid "Validate"
 msgstr "Утвердить"
 
 msgid "Validated points"
-msgstr "погашенные метки ="
+msgstr "Подтверждённые баллы"
 
 msgid "Validated points by Loyalty card Analytics"
-msgstr "Баллы, отмеченные аналитиком карт лояльности"
+msgstr "Баллы, подтверждённые в аналитике карты лояльности"
 
 msgid "Validations by Discount Analytics"
-msgstr "аналитика по проверенным скидкам"
+msgstr "Подтверждения в аналитике скидок"
 
 msgid "Version %s"
 msgstr "Версия %s"
 
 msgid "Video"
-msgstr "Vimeo"
+msgstr "Видео"
 
 msgid "Video URL"
-msgstr "Ссылка на видео:"
+msgstr "URL видео"
 
 msgid "Videos"
 msgstr "Видео"
 
 msgid "View"
-msgstr "Вид"
+msgstr "Просмотр"
 
 msgid "View full article"
-msgstr "Просмотр полной статьи"
+msgstr "Читать статью полностью"
 
 msgid "View my actual data"
 msgstr "Посмотреть мои реальные данные"
 
 msgid "Visits"
-msgstr "Визитов"
+msgstr "Посещения"
 
 msgid "Visits by feature (All)"
 msgstr "Визиты по функциям (все)"
@@ -2729,16 +2681,16 @@ msgid "Visits by feature (Top 5)"
 msgstr "Визиты по функциям (Топ-5)"
 
 msgid "Visits by product (TOP 20)"
-msgstr "Визиты по товарам (ТОП-20)"
+msgstr "Визиты по продуктам (ТОП-20)"
 
 msgid "We are sorry but this address is already used."
 msgstr "Мы сожалеем, но этот адрес уже используется."
 
 msgid "We are sorry but this email address already exists."
-msgstr "Мы сожалеем, но этот адрес уже существует."
+msgstr "Мы сожалеем, но этот адрес электронной почты уже существует."
 
 msgid "We are sorry but this username already exists."
-msgstr "Мы сожалеем, но этот адрес уже существует."
+msgstr "Мы сожалеем, но это имя пользователя уже существует."
 
 msgid "Web folder Owner"
 msgstr "Владелец веб-папки"
@@ -2761,9 +2713,7 @@ msgstr "Мы отправили вам e-mail с вашим токеном до�
 msgid ""
 "When selecting 'Enable test API' in a payment method, be sure to create test "
 "credentials, check the documentation of your payment method."
-msgstr ""
-"При выборе Enable test API в методах платежа убедитесь, что имеете тестовые "
-"данные для подключения. Проверьте документацию по вашему методу платежа"
+msgstr "При выборе «Enable test API» в способе оплаты убедитесь, что вы создали тестовые учётные данные, см. документацию вашего способа оплаты."
 
 msgid "White Label Editor"
 msgstr "Редактор White label"
@@ -2775,10 +2725,10 @@ msgid "Winners list"
 msgstr "Список победителей"
 
 msgid "WordPress"
-msgstr "Wordpress"
+msgstr "WordPress"
 
 msgid "Wordpress"
-msgstr "Wordpress"
+msgstr "WordPress"
 
 msgid "Year"
 msgstr "Год"
@@ -2790,49 +2740,41 @@ msgid "Yes"
 msgstr "ДА"
 
 msgid "You already have this user in your contact"
-msgstr "У вас уже есть этот пользователь с таким контактом"
+msgstr "Этот пользователь уже есть в ваших контактах"
 
 msgid "You are about to delete this certificate, Are you sure ?"
-msgstr "Вы собираетесь удалить этот сертификат, вы уверены ?"
+msgstr "Вы собираетесь удалить этот сертификат. Вы уверены ?"
 
 msgid "You are gone offline"
-msgstr "Вы вышли из интернета"
+msgstr "Вы не в сети"
 
 msgid "You are not allowed to delete a feature!"
-msgstr "Вам не разрешается удалять функция!"
+msgstr "Вам не разрешено удалять функцию!"
 
 msgid ""
 "You are using a custom SMTP configuration, and the following white-label "
 "administrator <b>%s</b> is requesting his domain <b>%s</b> to be white-"
 "listed.<br /><br />You can add his domain in your SMTP provider panel and "
 "send him the instructions to configure it for his domain."
-msgstr ""
-"Вы используете пользовательские настройки SMTP, а следующий белый ярлык "
-"администратора <б>%х</B> является просьбой домена <B>%х</B>, чтобы быть в "
-"белый список<.бр /><br />Вы можете добавить СВОЙ домен в панели провайдера "
-"SMTP и отправить его инструкциям, чтобы настроить его для своего домена."
+msgstr "Вы используете собственную конфигурацию SMTP, а администратор white-label <b>%s</b> просит добавить его домен <b>%s</b> в белый список.<br /><br />Вы можете добавить его домен в панели вашего SMTP-провайдера и отправить ему инструкции по настройке для его домена."
 
 msgid ""
 "You can add allowed extensions, please note that .php, .js & .ico are "
 "strictly forbidden and can't be added"
-msgstr ""
-"Вы можете добавить разрешенных расширений, обратите внимание, что .на PHP, "
-".Яш & .Ико строго запрещены и не могут быть добавлены"
+msgstr "Вы можете добавить разрешённые расширения; обратите внимание, что .php, .js и .ico строго запрещены и не могут быть добавлены"
 
 msgid ""
 "You can extend JAVA & GRADLE options to better fit your server hardware."
-msgstr ""
-"Вы можете расширить Java и параметры gradle для лучшей подгонки к вашему "
-"серверу."
+msgstr "Вы можете увеличить параметры JAVA и GRADLE, чтобы лучше соответствовать характеристикам вашего сервера."
 
 msgid "You can follow the URL below to access your data report"
-msgstr "Вы можете следовать ниже URL для доступа к вашим данным отчета"
+msgstr "Вы можете перейти по URL ниже, чтобы получить доступ к отчёту с вашими данными"
 
 msgid "You can globally disable a feature!"
 msgstr "Вы можете глобально отключить функцию!"
 
 msgid "You can upload a pem certificate only."
-msgstr "Вы можете загрузить только сертификат pem"
+msgstr "Вы можете загрузить только сертификат pem."
 
 msgid "You can upload a png only (.png)."
 msgstr "Вы можете загружать только в формате PNG."
@@ -2854,25 +2796,25 @@ msgid "You can't upload more than one file at a time."
 msgstr "Вы не можете загрузить более одного файла одновременно."
 
 msgid "You current working environment is"
-msgstr "Ваше рабочее окружение"
+msgstr "Ваша текущая рабочая среда"
 
 msgid "You don't have any applications yet"
-msgstr "Вы ещё не имеют никаких приложений"
+msgstr "У вас пока нет приложений"
 
 msgid "You don't have any invoices yet"
-msgstr "Вы ещё не имеете никаких счетов. "
+msgstr "У вас пока нет счетов"
 
 msgid "You have gone offline"
-msgstr "Вы вышли из интернета"
+msgstr "Вы не в сети"
 
 msgid "You have to chose a start and an end date."
 msgstr "Вы должны выбрать начальную и конечную дату."
 
 msgid "You must be logged in to like something!"
-msgstr "Вы должны войти в систему для проверки меток"
+msgstr "Вы должны войти в систему, чтобы поставить лайк!"
 
 msgid "You must be logged in to post a comment"
-msgstr "Вы должны быть зарегистрированы, чтобы оставить комментарий."
+msgstr "Вы должны войти в систему, чтобы оставить комментарий"
 
 msgid "You must fill ip & port."
 msgstr "Вы должны заполнить IP и порт."
@@ -2889,10 +2831,10 @@ msgid "You must share your location to access this page."
 msgstr "Вы должны сообщить свое местоположение для доступа к этой странице."
 
 msgid "You will lose all unsaved changes, continue?"
-msgstr "Вы можете потерять все не сохраненные изменения!"
+msgstr "Вы потеряете все несохранённые изменения, продолжить?"
 
 msgid "Your PHP version is too old, please upgrade to PHP 5.4+."
-msgstr "Ваша версия PHP слишком стар, пожалуйста, обновите до версии PHP 5.4+."
+msgstr "Ваша версия PHP слишком старая, пожалуйста, обновитесь до PHP 5.4+."
 
 msgid "Your access token is"
 msgstr "Ваш токен доступа"
@@ -2901,11 +2843,10 @@ msgid "Your analytics will be computed and available soon"
 msgstr "Ваша аналитика будет скоро доступна"
 
 msgid "Your are not allowed to assign this role."
-msgstr "Вы не можете назначать роль"
+msgstr "Вам не разрешено назначать эту роль."
 
 msgid "Your browser is too old to view the content of our website.<br />"
-msgstr ""
-"Ваш браузер слишком стар, чтобы просмотреть содержимое нашего сайта. <br />"
+msgstr "Ваш браузер слишком старый, чтобы отобразить содержимое нашего сайта.<br />"
 
 msgid "Your build should be ready"
 msgstr "Сборка должна быть готова"
@@ -2926,7 +2867,7 @@ msgid "Your name"
 msgstr "Ваше имя"
 
 msgid "Your new password has been sent to the entered email address"
-msgstr "Ваш новый пароль был отправлен к введенному адресу электронной почты"
+msgstr "Ваш новый пароль был отправлен на введённый адрес электронной почты"
 
 msgid "Your password does not match the entered password."
 msgstr "Ваш пароль не соответствует введенному паролю."
@@ -2934,9 +2875,7 @@ msgstr "Ваш пароль не соответствует введенному
 msgid ""
 "Your request has been successfully sent, please wait for your administrator "
 "to answer."
-msgstr ""
-"Ваш запрос был успешно отправлен, пожалуйста, дождитесь администратора "
-"ответа."
+msgstr "Ваш запрос был успешно отправлен, пожалуйста, дождитесь ответа администратора."
 
 msgid "Your subscription has been deleted successfully."
 msgstr "Ваша Подписка была успешно удалена."
@@ -2954,7 +2893,7 @@ msgid "average"
 msgstr "средняя"
 
 msgid "be careful or set it back to"
-msgstr "будьте осторожны при установке обратно в"
+msgstr "будьте осторожны или верните значение обратно на"
 
 msgid "close"
 msgstr "закрытие"
@@ -2981,7 +2920,7 @@ msgid "enabled"
 msgstr "Включен"
 
 msgid "form submit, search, validation, confirmation"
-msgstr "форма представления, поиска, проверки, подтверждения"
+msgstr "отправка формы, поиск, проверка, подтверждение"
 
 msgid "hh:mm a"
 msgstr "чч:мм"
@@ -2999,23 +2938,21 @@ msgid "iOS & Android"
 msgstr "iOS и Android"
 
 msgid "iOS Source"
-msgstr "иос источника"
+msgstr "Исходники iOS"
 
 msgid "iOS Spinner"
 msgstr "iOS Spinner"
 
 msgid "iOS base Bundle ID  must contain only letters, dots & minus."
-msgstr "ID базового пакета IOS должно содержать только буквы, точки и минус."
+msgstr "ID базового пакета iOS должен содержать только буквы, точки и минус."
 
 msgid ""
 "iOS base Bundle ID  must contain only letters, dots & minus with at least "
 "two dots.<br />Example: com.mydomain.admin"
-msgstr ""
-"ID базового пакета IOS должно содержать только буквы, точки и минус, как "
-"минимум с двумя точками.<br />пример: ком.мойдомен.админ"
+msgstr "ID базового пакета iOS должен содержать только буквы, точки и минус, минимум с двумя точками.<br />Пример: com.mydomain.admin"
 
 msgid "iOS base Bundle ID can't be empty."
-msgstr "Базовый ID пакета IOS не может быть пустым."
+msgstr "Базовый ID пакета iOS не может быть пустым."
 
 msgid "iOS only"
 msgstr "только для iOS"
@@ -3027,13 +2964,13 @@ msgid "iTunes"
 msgstr "iTunes"
 
 msgid "iTunes Connect providers"
-msgstr "в iTunes подключите поставщиков"
+msgstr "Провайдеры iTunes Connect"
 
 msgid "idle"
 msgstr "простаивает"
 
 msgid "informative, modal"
-msgstr "познавательно, модально"
+msgstr "информационное, модальное"
 
 msgid "is updated once a day"
 msgstr "обновляется раз в день"
@@ -3045,7 +2982,7 @@ msgid "low"
 msgstr "низкая"
 
 msgid "maintenance"
-msgstr "ремонт"
+msgstr "обслуживание"
 
 msgid "minute"
 msgstr "минут"
@@ -3054,16 +2991,16 @@ msgid "minutes"
 msgstr "минут"
 
 msgid "nd"
-msgstr "НД"
+msgstr "-й"
 
 msgid "never"
-msgstr "Никогда "
+msgstr "никогда"
 
 msgid "online"
 msgstr "онлайн"
 
 msgid "phone, locate, facebook, email, etc.."
-msgstr "телефона, найдите, facebook, Электронная почта и т. д.."
+msgstr "телефон, геолокация, Facebook, электронная почта и т. д."
 
 msgid "picture"
 msgstr "картинку"
@@ -3081,7 +3018,7 @@ msgid "%s / Year"
 msgstr "%s / Год"
 
 msgid "%s An unknown error occurred, please try again later."
-msgstr "Произошла ошибка при сохранении. Пожалуйста, повторите попытку позже."
+msgstr "%s Произошла неизвестная ошибка, пожалуйста, повторите попытку позже."
 
 msgid "%s Image"
 msgstr "%s изображения"

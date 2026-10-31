@@ -36,10 +36,10 @@ msgid "Are you sure you want to delete this plan?"
 msgstr "このプランを削除してもよろしいですか?"
 
 msgid "Be careful: a 2Checkout stopped recurrence can only be reactivated by a 2Checkout representative."
-msgstr "注意してください：2Checkout停止した繰り返しは、2Checkoutの担当者によってのみ再アクティブ化できます。"
+msgstr "ご注意ください：2Checkout で停止した定期課金は、2Checkout の担当者のみが再度有効化できます。"
 
 msgid "Be careful: a Stripe stopped recurrence can only be reactivated manually in your Stripe Admin panel."
-msgstr "Stripeが停止した再発は、Stripe管理パネルで手動で再アクティブ化することしかできません。"
+msgstr "ご注意ください：Stripe で停止した定期課金は、Stripe 管理パネルでのみ手動で再度有効化できます。"
 
 msgid "Be sure to fill in Admob settings in Settings > General section of your back office."
 msgstr "AdMobの設定は、バックオフィスの [設定] > [全般] セクションで必ず記入してください。"
@@ -72,22 +72,22 @@ msgid "Choose your Payment method"
 msgstr "お支払い方法を選択してください"
 
 msgid "City"
-msgstr "シティ"
+msgstr "市区町村"
 
 msgid "Click here"
 msgstr "ここをクリック"
 
 msgid "Confirmation"
-msgstr "[確認]"
+msgstr "確認"
 
 msgid "Create a new subscription"
 msgstr "新しいサブスクリプションを作成する"
 
 msgid "Creation"
-msgstr "「創造」"
+msgstr "作成"
 
 msgid "Describe here this plan. Will be displayed on the front end"
-msgstr "ここでこの計画を説明してください。 フロントエンドに表示されます。"
+msgstr "ここでこのプランを説明してください。フロントエンドに表示されます。"
 
 msgid "Don't forget to configure your message for offline plans in Settings > Sales > Configuration"
 msgstr "「設定」>「販売」>「設定」で、オフラインプランのメッセージを設定することを忘れないでください。"
@@ -105,7 +105,7 @@ msgid "Expiration date"
 msgstr "有効期限"
 
 msgid "Give a name to this plan. Will be displayed on the front end"
-msgstr "この計画に名前をつけてください。 フロントエンドに表示されます。"
+msgstr "このプランに名前を付けてください。フロントエンドに表示されます。"
 
 msgid "If you chose an offline payment, your subscription will be activated by an admin when your payment is received."
 msgstr "オフラインでのお支払いを選択した場合、お支払いを受け取った時点で管理者によってサブスクリプションが有効になります。"
@@ -117,7 +117,7 @@ msgid "List of your plans"
 msgstr "プランのリスト"
 
 msgid "List of your subscriptions"
-msgstr "購読リスト"
+msgstr "サブスクリプション一覧"
 
 msgid "MM"
 msgstr "ミリメートルです"
@@ -147,7 +147,7 @@ msgid "Payment Method:"
 msgstr "お支払い方法:"
 
 msgid "Payment Option"
-msgstr "お支払い方法"
+msgstr "お支払いオプション"
 
 msgid "Please choose a payment method for this plan."
 msgstr "このプランのお支払い方法を選択してください。"
@@ -177,10 +177,10 @@ msgid "Proceed to payment?"
 msgstr "支払いに進みますか？"
 
 msgid "Recurring"
-msgstr "繰り返し"
+msgstr "定期"
 
 msgid "Setup Fee"
-msgstr "設定手数料"
+msgstr "セットアップ料金"
 
 msgid "Setup fee"
 msgstr "セットアップ料金"
@@ -195,16 +195,16 @@ msgid "Subscription"
 msgstr "サブスクリプション"
 
 msgid "Subscription for"
-msgstr "の購読"
+msgstr "サブスクリプション対象:"
 
 msgid "Subscription successfully saved"
-msgstr "購読が正常に保存されました"
+msgstr "サブスクリプションが正常に保存されました"
 
 msgid "Subtotal"
 msgstr "小計"
 
 msgid "Thanks!"
-msgstr "ありがとう！"
+msgstr "ありがとうございます！"
 
 msgid "The monthly price is not a valid price (e.g. 12.34)"
 msgstr "月額価格は有効な価格ではありません（例：12.34）"
@@ -219,10 +219,10 @@ msgid "The yearly price is not a valid price (e.g. 12.34)"
 msgstr "年間価格は有効な価格ではありません（例：12.34）"
 
 msgid "This plan allows offline payments method (manual management)"
-msgstr "この計画では、オフライン支払い方法（手動管理）を可能にします"
+msgstr "このプランではオフライン支払い方法（手動管理）を利用できます"
 
 msgid "This subscription is active"
-msgstr "この購読はアクティブです"
+msgstr "このサブスクリプションはアクティブです"
 
 msgid "Use Owner AdMob"
 msgstr "オーナーの AdMob を使う"
@@ -243,10 +243,10 @@ msgid "Yearly"
 msgstr "年次"
 
 msgid "You already have a subscription for this application"
-msgstr "あなたはすでにこのアプリケーションのサブスクリプションを持っています"
+msgstr "このアプリケーションのサブスクリプションは既にあります"
 
 msgid "You are almost done! After subscribing, your app can be published on both the AppStore and the Google Play."
-msgstr "もうすぐ終わりだ！ 登録後、アプリはアプリストアとGoogle Playの両方で公開できます。"
+msgstr "もうすぐ完了です！登録後、アプリは App Store と Google Play の両方で公開できます。"
 
 msgid "You can choose which feature will be accessible with your plan. By default, all features are allowed."
 msgstr "プランでアクセス可能な機能を選択できます。 デフォルトでは、すべての機能が許可されます。"
@@ -270,7 +270,7 @@ msgid "Your subscription must have at least one price"
 msgstr "サブスクリプションには最低1つの価格が必要です"
 
 msgid "You've made a sale!"
-msgstr "あなたは販売をしました！"
+msgstr "販売が成立しました！"
 
 msgid "Zip Code"
 msgstr "郵便番号"

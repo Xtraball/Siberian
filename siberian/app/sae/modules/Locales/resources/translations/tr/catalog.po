@@ -32,21 +32,20 @@ msgstr "Ürün yüklenirken bir hata oluştu."
 msgid ""
 "An error occurred while saving. One of your categories could not be "
 "identified."
-msgstr ""
-"Kaydedilirken bir hata oluştu. Kategorilerden biri tespit edilememiştir."
+msgstr "Kaydedilirken bir hata oluştu. Kategorilerinizden biri tanımlanamadı."
 
 msgid ""
 "An error occurred while saving. One of your products could not be identified."
-msgstr "Kaydedilirken bir hata oluştu. Ürünlerinizin biri tespit edilememiştir."
+msgstr "Kaydedilirken bir hata oluştu. Ürünlerinizden biri tanımlanamadı."
 
 msgid "An error occurred while saving the category. Please try again later."
-msgstr "Kategori yüklenirken bir hata oluştu tekrar deneyin."
+msgstr "Kategori kaydedilirken bir hata oluştu. Lütfen daha sonra tekrar deneyin."
 
 msgid "An error occurred while saving the product. Please try again later."
-msgstr "Ürün kaydedilirken bir hata oluştu yeniden deneyin."
+msgstr "Ürün kaydedilirken bir hata oluştu. Lütfen daha sonra tekrar deneyin."
 
 msgid "An error occurred while saving the set meal. Please try again later."
-msgstr "Yemek kaydedilirken bir hata oluştu yeniden deneyin."
+msgstr "Hazır menü kaydedilirken bir hata oluştu. Lütfen daha sonra tekrar deneyin."
 
 msgid "Are you sure you want to delete this category?"
 msgstr "Bu kategoriyi silmek istediğinizden emin misiniz?"
@@ -57,7 +56,7 @@ msgstr ""
 "Bu kategoriyi ve tüm alt kategorileri silmek istediğinizden emin misiniz?"
 
 msgid "Are you sure you want to delete this product?"
-msgstr "Bu ürünü silmek istediğinize eminmisiniz?"
+msgstr "Bu ürünü silmek istediğinizden emin misiniz?"
 
 msgid "Categories & Products"
 msgstr "Kategoriler & Ürünler"
@@ -75,10 +74,10 @@ msgid "Click on a category to display sub-categories"
 msgstr "Alt kategorileri görüntülemek için bir kategoriye tıklayın"
 
 msgid "Create a new product"
-msgstr "Yeni bir ürün oluşturun"
+msgstr "Yeni bir ürün oluştur"
 
 msgid "Does this product have many formats?"
-msgstr "Bu ürünün diğer formatları var mı?"
+msgstr "Bu ürünün birden fazla formatı var mı?"
 
 msgid "Edit the"
 msgstr "Düzenle"
@@ -87,10 +86,10 @@ msgid "Edit the product"
 msgstr "Ürünü düzenle"
 
 msgid "Enable product formats?"
-msgstr "Ürün biçimleri etkinleştir?"
+msgstr "Ürün biçimleri etkinleştirilsin mi?"
 
 msgid "Format"
-msgstr "Format"
+msgstr "Biçim"
 
 msgid "Manage Catalog & Products"
 msgstr "Katalog Ve Ürünleri Yönet"
@@ -123,10 +122,10 @@ msgid "Rules"
 msgstr "Kurallar"
 
 msgid "Set meal successfully deleted."
-msgstr "Set yemek başarıyla silindi"
+msgstr "Set yemek başarıyla silindi."
 
 msgid "Set meal successfully saved."
-msgstr "Set yemek basarıyla kaydedildi"
+msgstr "Set yemek başarıyla kaydedildi."
 
 msgid "Sub-category"
 msgstr "Alt -Kategori"

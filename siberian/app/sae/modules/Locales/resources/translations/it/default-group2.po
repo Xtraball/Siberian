@@ -19,7 +19,7 @@ msgid "-"
 msgstr "-"
 
 msgid " \"Remove this page from this folder?\""
-msgstr "Sei sicuro di voler cancellare questa pagina in questa cartella?"
+msgstr " \"Sei sicuro di voler rimuovere questa pagina da questa cartella?\""
 
 msgid "#100: Unable to fetch the update. Please, try again later."
 msgstr ""
@@ -126,7 +126,7 @@ msgstr ""
 "tuo %s."
 
 msgid "#19-004: You already have installed this update."
-msgstr "È già stato installato l'aggiornamento."
+msgstr "Hai già installato questo aggiornamento."
 
 msgid ""
 "#19-005: Please update your system to the %s version before installing this "
@@ -143,7 +143,7 @@ msgstr ""
 "questo aggiornamento."
 
 msgid "#19-008: You already have installed this template."
-msgstr "Avete già installato questo template"
+msgstr "Hai già installato questo template."
 
 msgid ""
 "#19-009: Please update your system to the %s version before installing this "
@@ -182,7 +182,7 @@ msgid "#354-03: SCSS Compilation error, you must input valid SCSS."
 msgstr "#354-03: Errore di compilazione SCSS, devi inserire un SCSS valido."
 
 msgid "#498-01: An error occured while exporting your application."
-msgstr "Siamo spiacenti ma si è verificato un errore durante la duplicazione"
+msgstr "Si è verificato un errore durante l'esportazione dell'applicazione."
 
 msgid "#500-01: This application does not exist"
 msgstr "Questa applicazione non esiste"
@@ -245,13 +245,13 @@ msgid "Action '{$action}' executed for module '{$module}'."
 msgstr "Azione '{$action}' eseguita per il modulo '{$module}'."
 
 msgid "Add an <br /><span class=\"bold\">image</span>"
-msgstr "Aggiungere < br / &gt; <span class=\"bold\"> Immagini</span>"
+msgstr "Aggiungi<br /><span class=\"bold\">immagine</span>"
 
 msgid "Add<br /><span class=\"bold\">Attachment</span>"
-msgstr "Aggiungere < br / &gt; <span class=\"bold\"> Allegato</span>"
+msgstr "Aggiungi<br /><span class=\"bold\">allegato</span>"
 
 msgid "Add<br /><span class=\"bold\">Pictures</span>"
-msgstr "Aggiungere < br / &gt; <span class=\"bold\"> Immagini</span>"
+msgstr "Aggiungi<br /><span class=\"bold\">immagini</span>"
 
 #. machine-translated (2026-10), to be reviewed
 msgid "Addresses blocks can now have a website & a phone number."
@@ -268,7 +268,7 @@ msgid ""
 msgstr "Dopo l'aggiornamento dovrai caricare una nuova home page e una nuova splashscreen; le home page e le splashscreen attuali possono comunque essere scaricate."
 
 msgid "All places"
-msgstr "Aggiungi luogo"
+msgstr "Tutti i luoghi"
 
 #. machine-translated (2026-10), to be reviewed
 msgid "Allow line return?"
@@ -308,14 +308,14 @@ msgid "Android orientation settings"
 msgstr "Impostazioni di orientamento Android"
 
 msgid "Api User"
-msgstr "Api utente"
+msgstr "Utente API"
 
 #. machine-translated (2026-10), to be reviewed
 msgid "Apple"
 msgstr "Apple"
 
 msgid "Application %s"
-msgstr "Applicazioni"
+msgstr "Applicazione %s"
 
 #. machine-translated (2026-10), to be reviewed
 msgid ""
@@ -327,7 +327,7 @@ msgid "Apps efficaces + Prix minime = Des clients heureux"
 msgstr "App efficaci + prezzi minimi = clienti felici"
 
 msgid "Are you sure you want to delete this discount?"
-msgstr "Sei sicuro di voler eliminare questa immagine"
+msgstr "Sei sicuro di voler eliminare questo sconto?"
 
 #. machine-translated (2026-10), to be reviewed
 msgid "Background Color - Active"
@@ -376,10 +376,7 @@ msgstr "Build riuscita!"
 msgid ""
 "By checking this box, you agree <a href=\"%s\" target=\"_blank\" class=\""
 "underline\">to our terms and conditions</a>"
-msgstr ""
-"Selezionando questa casella, tu accetti <a id=\"show_tos\" href=\""
-"javascript:void(0);\" target=\"_blank\" class=\"underline\">i termini e le "
-"condizioni</a>"
+msgstr "Selezionando questa casella, accetti <a href=\"%s\" target=\"_blank\" class=\"underline\">i termini e le condizioni</a>"
 
 #. machine-translated (2026-10), to be reviewed
 msgid "CANCEL"
@@ -437,7 +434,7 @@ msgid "Click here for more information about AdMob"
 msgstr "Clicca qui per maggiori informazioni su AdMob"
 
 msgid "Click here to send your fullchain"
-msgstr "Clicca qui per inviare la tua immagine"
+msgstr "Clicca qui per inviare il tuo fullchain"
 
 msgid ""
 "Click on a page to add it to the folder <span id=\"folder_name\" class=\""
@@ -454,7 +451,7 @@ msgid "Create a new category"
 msgstr "Crea una nuova categoria"
 
 msgid "Custom font"
-msgstr "Icona personalizzata"
+msgstr "Font personalizzato"
 
 #. machine-translated (2026-10), to be reviewed
 msgid "DEACTIVATE"
@@ -481,14 +478,14 @@ msgid "Display"
 msgstr "Visualizzazione"
 
 msgid "Display phone"
-msgstr "Visualizza reddito"
+msgstr "Mostra telefono"
 
 #. machine-translated (2026-10), to be reviewed
 msgid "Display website"
 msgstr "Mostra sito web"
 
 msgid "Download CA"
-msgstr "Scarica"
+msgstr "Scarica CA"
 
 #. machine-translated (2026-10), to be reviewed
 msgid "Download Certificate"
@@ -515,7 +512,7 @@ msgid "E-Mail render preview"
 msgstr "Anteprima di rendering e-mail"
 
 msgid "Editing subscription:"
-msgstr "Modifica l'abbonamento %s"
+msgstr "Modifica abbonamento:"
 
 #. machine-translated (2026-10), to be reviewed
 msgid "Editor access"
@@ -607,7 +604,7 @@ msgid "For more information, please feel free to contact us."
 msgstr "Per maggiori informazioni, non esitare a contattarci."
 
 msgid "Forgot your password ?"
-msgstr "Dimenticato la password?"
+msgstr "Hai dimenticato la password?"
 
 #. machine-translated (2026-10), to be reviewed
 msgid "Full chain"
@@ -621,7 +618,7 @@ msgid "Gallery Name <span class=\"required-entry\">*</span> :"
 msgstr "Nome galleria <span class=\"required-entry\">*</span> :"
 
 msgid "Global notifications"
-msgstr "Il mio notifiche"
+msgstr "Notifiche globali"
 
 #. machine-translated (2026-10), to be reviewed
 msgid "Go back to homepage"
@@ -689,7 +686,7 @@ msgid "Insert a <br /><span class=\"bold\">cover image</span>"
 msgstr "Inserire una <br /><span class=\"bold\">immagine di copertina</span>"
 
 msgid "Insert a <span class=\"bold\">cover image</span>"
-msgstr "Inserire una <br /><span class=\"bold\">immagine di copertina</span>"
+msgstr "Inserire una <span class=\"bold\">immagine di copertina</span>"
 
 msgid "Installing module <em><span id=\"label_module\"></span></em>"
 msgstr "Installazione modulo <em><span id=\"label_module\"></span></em>"
@@ -788,7 +785,7 @@ msgid "Module installed/updated"
 msgstr "Modulo installato/aggiornato"
 
 msgid "Monetize my app using AdMob"
-msgstr "Monetizzo la mia app usando AdMob?"
+msgstr "Monetizzare la mia app con AdMob"
 
 #. machine-translated (2026-10), to be reviewed
 msgid "Monospace"
@@ -899,7 +896,7 @@ msgid "Path to your Fullchain"
 msgstr "Percorso della tua Fullchain"
 
 msgid "PayPal subscription is Active"
-msgstr "Questo abbonamento è attivo"
+msgstr "L'abbonamento PayPal è attivo"
 
 #. machine-translated (2026-10), to be reviewed
 msgid ""
@@ -913,7 +910,7 @@ msgid ""
 msgstr "Aggiornamento Luoghi! Nuova versione con un motore di ricerca migliore, categorie e opzioni di visualizzazione."
 
 msgid "Plan"
-msgstr "Piani"
+msgstr "Piano"
 
 #. machine-translated (2026-10), to be reviewed
 msgid "Platform contact informations"
@@ -924,7 +921,7 @@ msgid "[Plesk] %s"
 msgstr "[Plesk] %s"
 
 msgid "Position"
-msgstr "Posizioni"
+msgstr "Posizione"
 
 #. machine-translated (2026-10), to be reviewed
 msgid "Proceed to full ugrade!"
@@ -943,7 +940,7 @@ msgid "Publication request"
 msgstr "Richiesta di pubblicazione"
 
 msgid "Publication type"
-msgstr "Data di pubblicazione"
+msgstr "Tipo di pubblicazione"
 
 #. machine-translated (2026-10), to be reviewed
 msgid "REDUCE"
@@ -1006,7 +1003,7 @@ msgid "Search, filter ..."
 msgstr "Cerca, filtra ..."
 
 msgid "Secondary category (optional)"
-msgstr "Seconda categoria<br />(Opzionale)"
+msgstr "Categoria secondaria (opzionale)"
 
 #. machine-translated (2026-10), to be reviewed
 msgid "Security logs (last 50 triggers)"
@@ -1081,7 +1078,7 @@ msgid "Subject"
 msgstr "Oggetto"
 
 msgid "Subscription date & time"
-msgstr "Sottoscrizioni"
+msgstr "Data e ora abbonamento"
 
 #. machine-translated (2026-10), to be reviewed
 msgid "Sur quelles plateformes ?"
@@ -1110,7 +1107,7 @@ msgid "Text Color - Hover"
 msgstr "Colore del testo - Hover"
 
 msgid "The Platform name"
-msgstr "Nome piattaforma"
+msgstr "Il nome della piattaforma"
 
 msgid "The category you are trying to edit doesn't exists.."
 msgstr "La categoria che si sta tentando di modificare non esiste."
@@ -1125,9 +1122,7 @@ msgstr "Le seguenti cartelle non sono scrivibili: <br /> - %s"
 msgid ""
 "The installation of the module <span id=\"installation_failed_module_name\""
 "></span> has failed: <span id=\"installation_failed_because\"></span>"
-msgstr ""
-"L'installazione del modulo<span id = \"installation_failed_module_name\"></ "
-"span>non è riuscita:<span id = \"installation_failed_because\"></ span>"
+msgstr "L'installazione del modulo <span id=\"installation_failed_module_name\"></span> non è riuscita: <span id=\"installation_failed_because\"></span>"
 
 #. machine-translated (2026-10), to be reviewed
 msgid ""
@@ -1155,7 +1150,7 @@ msgid "The stripe subscription '%s' is missing!"
 msgstr "L'abbonamento Stripe '%s' è mancante!"
 
 msgid "The subscription '%s' doesn't exists!"
-msgstr "Questa applicazione non esiste"
+msgstr "L'abbonamento '%s' non esiste!"
 
 #. machine-translated (2026-10), to be reviewed
 msgid "The subscription was already inactive or cancelled"
@@ -1393,28 +1388,19 @@ msgid ""
 "You have to create a Google account before publishing your application.<br "
 "/><a href=\"https://play.google.com/apps/publish/signup\" target=\"_blank\">"
 "Click here to create one.</a>"
-msgstr ""
-"È necessario creare un account Google prima di pubblicare l'applicazione. <a "
-"href=\"https://play.google.com/apps/publish/signup\" target=\"_blank\"> "
-"Clicca qui per crearne uno. </a>"
+msgstr "È necessario creare un account Google prima di pubblicare l'applicazione.<br /><a href=\"https://play.google.com/apps/publish/signup\" target=\"_blank\">Clicca qui per crearne uno.</a>"
 
 msgid ""
 "You have to create an Apple account before publishing your application. <a "
 "href=\"https://appleid.apple.com/account#!&page=create\" target=\"_blank\">"
 "Click here to create one.</a>"
-msgstr ""
-"È necessario creare un account Apple prima di pubblicare l'applicazione. <a "
-"href=\"https://developer.apple.com/register/index.action\" target=\"_blank\">"
-" Clicca qui per crearne uno. </a>"
+msgstr "È necessario creare un account Apple prima di pubblicare l'applicazione. <a href=\"https://appleid.apple.com/account#!&page=create\" target=\"_blank\">Clicca qui per crearne uno.</a>"
 
 msgid ""
 "You have to create an Apple account before publishing your application.<br "
 "/><a href=\"https://appleid.apple.com/account#!&page=create\" target=\""
 "_blank\">Click here to create one.</a>"
-msgstr ""
-"È necessario creare un account Apple prima di pubblicare l'applicazione. <a "
-"href=\"https://developer.apple.com/register/index.action\" target=\"_blank\">"
-" Clicca qui per crearne uno. </a>"
+msgstr "È necessario creare un account Apple prima di pubblicare l'applicazione.<br /><a href=\"https://appleid.apple.com/account#!&page=create\" target=\"_blank\">Clicca qui per crearne uno.</a>"
 
 #. machine-translated (2026-10), to be reviewed
 msgid "You just received a publication request:"
@@ -1473,9 +1459,7 @@ msgstr ""
 "AdMob</a>"
 
 msgid "<a href=\"%s\">Click here</a> to go back to your applications list"
-msgstr ""
-"<a href=\"%s\">Clicca qui</a> per<a href=\"%s\">Clicca qui</a> per tornare "
-"alla lista delle tue applicazioni"
+msgstr "<a href=\"%s\">Clicca qui</a> per tornare alla lista delle tue applicazioni"
 
 #. machine-translated (2026-10), to be reviewed
 msgid "<b>File type:</b> %s<br /><b>Recommended size:</b> %s"

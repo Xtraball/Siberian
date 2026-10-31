@@ -20,9 +20,7 @@ msgstr "60000 caractères maximum."
 msgid ""
 "A certificate already exists for the domain %s, if you want to re-generate "
 "it, use 'Force re-generate' to proceed."
-msgstr ""
-"Un certificat existes déjà pour le domaine %s, si vous voulez le remplacer "
-"cliquez sur 'Forcer la génération'."
+msgstr "Un certificat existe déjà pour le domaine %s, si vous voulez le régénérer, cliquez sur 'Forcer la régénération'."
 
 msgid "[APK]"
 msgstr "[APK]"
@@ -34,13 +32,13 @@ msgid "APK Queue status"
 msgstr "Etat de la file d'attente APK"
 
 msgid "APNS Feedback:"
-msgstr "Test APNS:"
+msgstr "Retour APNS :"
 
 msgid "APNS Feedback port 2196 is:"
-msgstr "Test APNS sur le port 2196:"
+msgstr "Port 2196 du retour APNS :"
 
 msgid "APNS Port 2195 is:"
-msgstr "Etat du port 2195 (APNS):"
+msgstr "Port 2195 de l'APNS :"
 
 msgid "Account"
 msgstr "Compte"
@@ -64,7 +62,7 @@ msgid "Add a custom text to the footer of your invoices"
 msgstr "Ajouter un message personnalisé au bas de vos factures"
 
 msgid "Admin panel type"
-msgstr "Nom de votre interface d'administration"
+msgstr "Type d'interface d'administration"
 
 msgid "Advanced"
 msgstr "Avancé"
@@ -72,16 +70,12 @@ msgstr "Avancé"
 msgid ""
 "Alert: The APK build for the Application: %s (%s) is stuck for more than one "
 "hour."
-msgstr ""
-"Alerte: Le fichier APK généré pour l'application:% s (% s) est bloqué "
-"pendant plus d'une heure."
+msgstr "Alerte: La génération de l'APK pour l'application: %s (%s) est bloquée depuis plus d'une heure."
 
 msgid ""
 "Alert: The Source build for the Application: %s (%s) is stuck for more than "
 "one hour."
-msgstr ""
-"Alerte: La source générée pour l'application:% s (% s) est bloquée pendant "
-"plus d'une heure."
+msgstr "Alerte: La génération des sources pour l'application: %s (%s) est bloquée depuis plus d'une heure."
 
 msgid "All the files are required."
 msgstr "Tous les fichiers sont requis."
@@ -121,10 +115,10 @@ msgid "Application successfully queued for generation."
 msgstr "Demande en file d'attente pour la génération."
 
 msgid "Applications/Previewer manifest for automatic updates."
-msgstr "Applications / Previewer manifeste pour les mises à jour automatiques ."
+msgstr "Manifeste Applications/Previewer pour les mises à jour automatiques."
 
 msgid "Are you sure ?"
-msgstr "Etes vous certain?"
+msgstr "Êtes-vous sûr ?"
 
 msgid "Auth type"
 msgstr "Type d'authentification"
@@ -136,16 +130,16 @@ msgid "Average build time in seconds:"
 msgstr "Temps de construction moyen en secondes :"
 
 msgid "Average sources/apk build time:"
-msgstr "Moyen du temps de construction des fichiers source et APK"
+msgstr "Temps moyen de génération des sources/APK :"
 
 msgid "Backoffice options"
 msgstr "Options de backoffice"
 
 msgid "Bearer Token Auth (API)"
-msgstr "Authentification par marque de support (API)"
+msgstr "Authentification par jeton porteur (API)"
 
 msgid "Bearer Token Auth is valid."
-msgstr "Titulaire de la marque d'Authentification est valide."
+msgstr "L'authentification par jeton porteur est valide."
 
 msgid "Beta"
 msgstr "Beta"
@@ -154,15 +148,12 @@ msgid "Build status"
 msgstr "Statut de construction"
 
 msgid "Build time (in seconds)"
-msgstr "Temps de constructions (en secondes)"
+msgstr "Temps de build (en secondes)"
 
 msgid ""
 "By clicking on link below, you will open your editor in tour editing mode. "
 "Please note that your user account must be created on editor side."
-msgstr ""
-"En cliquant sur le lien ci-dessous, vous ouvrez votre éditeur en mode "
-"d'édition. Veuillez noter que votre compte d'utilisateur doit être créé côté "
-"éditeur."
+msgstr "En cliquant sur le lien ci-dessous, vous ouvrirez votre éditeur en mode d'édition de la visite guidée. Veuillez noter que votre compte utilisateur doit être créé côté éditeur."
 
 msgid "CA"
 msgstr "CA"
@@ -171,7 +162,7 @@ msgid "CA certificate"
 msgstr "Certificat CA"
 
 msgid "CA path:"
-msgstr "Accès CA :"
+msgstr "Chemin CA :"
 
 msgid "CRON Scheduler interval"
 msgstr "Intervalle du planificateur CRON"
@@ -180,10 +171,10 @@ msgid "Cache cleared"
 msgstr "Cache effacé"
 
 msgid "Cache (var/cache, system cache)"
-msgstr "Cache (var/cache, system cache)"
+msgstr "Cache (var/cache, cache système)"
 
 msgid "Can generate APK"
-msgstr "Peut générer APK"
+msgstr "Peut générer des APK"
 
 msgid "Cert"
 msgstr "Cert"
@@ -206,12 +197,10 @@ msgstr "Certificat généré avec succès."
 msgid ""
 "Certificate successfully generated. Please wait while %s is reloading "
 "configuration ..."
-msgstr ""
-"Certificat généré avec succès. Veuillez patienter pendant que% s recharge la "
-"configuration ..."
+msgstr "Certificat généré avec succès. Veuillez patienter pendant que %s recharge la configuration ..."
 
 msgid "Certificate successfully re-generated."
-msgstr "Le certificat a été recréé avec succès."
+msgstr "Le certificat a été régénéré avec succès."
 
 msgid "Change the password"
 msgstr "Changer le mot de passe"
@@ -219,21 +208,19 @@ msgstr "Changer le mot de passe"
 msgid ""
 "Check if this cron command is installed under the web user & if you have set "
 "a timezone in Settings > General"
-msgstr ""
-"Vérifiez si cette commande cron est installé sous l'utilisateur web et si "
-"vous avez défini un fuseau horaire dans Réglages> Général"
+msgstr "Vérifiez si cette commande cron est installée sous l'utilisateur web et si vous avez défini un fuseau horaire dans Réglages > Général"
 
 msgid "Clear"
 msgstr "Effacer"
 
 msgid "Clear cache"
-msgstr "Effacer cache"
+msgstr "Effacer le cache"
 
 msgid "Clear logs"
 msgstr "Effacer les journaux"
 
 msgid "Cleared cron errors."
-msgstr "Effacer erreurs cron"
+msgstr "Erreurs cron effacées."
 
 msgid "Click here to send your CA certificate"
 msgstr "Cliquez ici pour envoyer votre certificat CA"
@@ -254,7 +241,7 @@ msgid "Closed"
 msgstr "Fermé"
 
 msgid "Complete build log"
-msgstr "Journal de construction complète"
+msgstr "Journal de génération complet"
 
 msgid "Configuration"
 msgstr "Configuration"
@@ -263,7 +250,7 @@ msgid "Configuration successfully saved"
 msgstr "Configuration enregistrée"
 
 msgid "Core modules"
-msgstr "modules de base"
+msgstr "Modules de base"
 
 msgid "Create a user"
 msgstr "Créer un utilisateur"
@@ -284,10 +271,10 @@ msgid "Cron interval"
 msgstr "Intervalle cron"
 
 msgid "Cron scheduler"
-msgstr "Cron planificateur"
+msgstr "Planificateur cron"
 
 msgid "Cron scheduler help"
-msgstr "Cron ordonnanceur aide"
+msgstr "Aide du planificateur cron"
 
 msgid "Custom SMTP Configuration"
 msgstr "Configuration SMTP personnalisée"
@@ -299,7 +286,7 @@ msgid "Day of week"
 msgstr "Le jour de la semaine"
 
 msgid "Deactivate user"
-msgstr "Désactiver utilisateur"
+msgstr "Désactiver l'utilisateur"
 
 msgid "Default (no)"
 msgstr "Par défaut (aucune)"
@@ -320,10 +307,10 @@ msgid "Disabled"
 msgstr "Désactivé"
 
 msgid "Disk usage & Cache:"
-msgstr "L'utilisation du disque et Cache:"
+msgstr "Utilisation du disque et du cache :"
 
 msgid "Dismiss & install later"
-msgstr "Rejeter et installer ultérieurement"
+msgstr "Ignorer et installer ultérieurement"
 
 msgid "Display"
 msgstr "Afficher"
@@ -338,16 +325,16 @@ msgid "Drop your certificate here"
 msgstr "Glissez votre certificat ici"
 
 msgid "Edit the user"
-msgstr "Editer l'utilisateur"
+msgstr "Modifier l'utilisateur"
 
 msgid "Editor's Design"
-msgstr "L'éditeur de Conception"
+msgstr "Design de l'éditeur"
 
 msgid "Enable custom SMTP configuration"
-msgstr "Activer les messages de configuration SMTP"
+msgstr "Activer la configuration SMTP personnalisée"
 
 msgid "Enter your credentials:"
-msgstr "Entrez vos informations:"
+msgstr "Entrez vos identifiants :"
 
 msgid "Environment"
 msgstr "Environnement"
@@ -374,7 +361,7 @@ msgid "Failed"
 msgstr "Échec"
 
 msgid "File hash is different from manifest."
-msgstr "Fichier Hash est différent du manifeste"
+msgstr "Le hash du fichier est différent de celui du manifeste"
 
 msgid "File is missing."
 msgstr "Le fichier est manquant."
@@ -404,39 +391,36 @@ msgid "Generate source"
 msgstr "Générer la source"
 
 msgid "Generating"
-msgstr "Générateur"
+msgstr "Génération en cours"
 
 msgid "[Global]"
 msgstr "[Global]"
 
 msgid "Grant user"
-msgstr "Autoriser utilisateur"
+msgstr "Autoriser l'utilisateur"
 
 msgid "HTTP Basic Auth (API)"
 msgstr "Authentification HTTP Basic (API)"
 
 msgid "HTTP Basic Auth is valid."
-msgstr "Basic auth HTTP est valide."
+msgstr "L'authentification HTTP Basic est valide."
 
 msgid "HTTPS & SSL Certificates"
-msgstr "HTTPS ET des Certificats SSL"
+msgstr "Certificats HTTPS et SSL"
 
 msgid "HTTPS host is unreachable."
-msgstr "Hôte HTTPS est inaccessible."
+msgstr "L'hôte HTTPS est inaccessible."
 
 msgid "HTTPS is not available on your server."
 msgstr "HTTPS n'est pas disponible sur votre serveur."
 
 msgid "HTTPS not reachable"
-msgstr "HTTPS innaccessible"
+msgstr "HTTPS inaccessible"
 
 msgid ""
 "HTTPS support is in <b>Beta</b>, you should test it on your <b>development "
 "server</b> first & prepare for further migration."
-msgstr ""
-"La prise en charge HTTPS se trouve dans <b> Bêta </ b>, vous devez d'abord "
-"le tester sur votre <b> serveur de développement </ b> et préparer la "
-"migration ultérieure."
+msgstr "La prise en charge HTTPS est en <b>bêta</b>, vous devez d'abord la tester sur votre <b>serveur de développement</b> et préparer la migration ultérieure."
 
 msgid ""
 "HTTPS support is in test, you should only try it on your development server "
@@ -455,13 +439,13 @@ msgid "Hostname"
 msgstr "Nom d'hôte"
 
 msgid "Hostnames associated with this Certificate"
-msgstr "Les noms d'hôtes associée à ce Certificat"
+msgstr "Noms d'hôte associés à ce certificat"
 
 msgid "Hour"
 msgstr "Heure"
 
 msgid "ID"
-msgstr "Id"
+msgstr "ID"
 
 msgid "If inactive, your customer won't see the tour."
 msgstr "En cas d'inactivité, votre client ne verra pas la visite."
@@ -486,7 +470,7 @@ msgid "Installed layouts"
 msgstr "Mises en page installées"
 
 msgid "Installed modules"
-msgstr "Les modules installés"
+msgstr "Modules installés"
 
 msgid "Installed, version"
 msgstr "Installé, version"
@@ -516,19 +500,19 @@ msgid "Last trigger"
 msgstr "Dernier déclencheur"
 
 msgid "Let's Encrypt certificates renewal"
-msgstr "\"Let's Encrypt\" le renouvellement de certificats"
+msgstr "Renouvellement des certificats Let's Encrypt"
 
 msgid "Let's Encrypt environment"
-msgstr "Let's Encrypt environnement"
+msgstr "Environnement Let's Encrypt"
 
 msgid "[Let's Encrypt] renewing certificate."
 msgstr "[Let's Encrypt] renouvellement du certificat."
 
 msgid "[Let's Encrypt] will add %s to SAN."
-msgstr "[Let's Encrypt] s'ajoutera %s à SAN."
+msgstr "[Let's Encrypt] ajoutera %s au SAN."
 
 msgid "Link preview"
-msgstr "Lien de prévisualisation"
+msgstr "Aperçu du lien"
 
 msgid "List of backoffice accounts"
 msgstr "Liste des comptes du backoffice"
@@ -543,13 +527,13 @@ msgid "Log"
 msgstr "Journal"
 
 msgid "Log (var/log, log files)"
-msgstr "Log (var/log, log files)"
+msgstr "Journaux (var/log, fichiers de log)"
 
 msgid "Login to your backoffice interface"
 msgstr "Connectez-vous à votre interface de backoffice"
 
 msgid "Logs cleared."
-msgstr "Logs effacés"
+msgstr "Journaux effacés."
 
 msgid "Mark all as read"
 msgstr "Marquer tout comme lu"
@@ -564,16 +548,16 @@ msgid "Messages"
 msgstr "Messages"
 
 msgid "Minute"
-msgstr "Minutes"
+msgstr "Minute"
 
 msgid "Missing parameters for generation."
-msgstr "Paramètres pour la génération manquante ."
+msgstr "Paramètres de génération manquants."
 
 msgid "Mobile Source Codes & Builds"
-msgstr "Codes Source mobiles et Builds"
+msgstr "Codes sources mobiles et builds"
 
 msgid "Module/User tasks"
-msgstr "Module / tâches Utilisateur"
+msgstr "Tâches module / utilisateur"
 
 msgid "Month"
 msgstr "Mois"
@@ -582,7 +566,7 @@ msgid "My Invoices"
 msgstr "Mes Factures"
 
 msgid "My tour is active"
-msgstr "Mon Tour est active"
+msgstr "Ma visite est active"
 
 msgid "Name"
 msgstr "Nom"
@@ -591,13 +575,13 @@ msgid "New messages"
 msgstr "Nouveaux messages"
 
 msgid "New users"
-msgstr "nouvelle inscription"
+msgstr "Nouveaux utilisateurs"
 
 msgid "No"
 msgstr "Non"
 
 msgid "No file has been sent"
-msgstr "Aucun fichier n'a été envoyée"
+msgstr "Aucun fichier n'a été envoyé"
 
 msgid "No icon packs"
 msgstr "Pas de packs d'icônes"
@@ -609,10 +593,10 @@ msgid "No layouts"
 msgstr "Pas de mises en page"
 
 msgid "No module/user tasks"
-msgstr "Pas de module/tâches utilisateur"
+msgstr "Aucune tâche de module/utilisateur"
 
 msgid "No system tasks"
-msgstr "Pas de système de tâches"
+msgstr "Aucune tâche système"
 
 msgid "None"
 msgstr "Aucun"
@@ -621,7 +605,7 @@ msgid "Not found"
 msgstr "Pas trouvé"
 
 msgid "Not running"
-msgstr "Ne travaille pas"
+msgstr "Non démarré"
 
 msgid "Not yet generated."
 msgstr "Pas encore généré."
@@ -630,13 +614,13 @@ msgid "Note:"
 msgstr "Note:"
 
 msgid "Note: Let's encrypt X1 is a staging certificate."
-msgstr "Remarque: Let's encrypt X1 est un certificat de mise en scène."
+msgstr "Remarque : Let's encrypt X1 est un certificat de test (staging)."
 
 msgid "Number of typed characters:"
 msgstr "Nombre de caractères tapés:"
 
 msgid "OR"
-msgstr "Ou"
+msgstr "OU"
 
 msgid "Ok"
 msgstr "Ok"
@@ -650,18 +634,16 @@ msgstr "Ok , vous pouvez passer à php 5.6"
 msgid ""
 "One of the three given Certificates path is not readable, please make sure "
 "they have the good rights."
-msgstr ""
-"L'un des trois accès de certificats n'est pas lisible, assurez-vous qu'ils "
-"ont les bons droits."
+msgstr "L'un des trois chemins de certificats n'est pas lisible, assurez-vous qu'ils disposent des bons droits."
 
 msgid "Open"
 msgstr "Ouvert"
 
 msgid "Open the tour editing mode"
-msgstr "Ouvrez le mode d'édition tour"
+msgstr "Ouvrir le mode d'édition de la visite"
 
 msgid "Optional binaries"
-msgstr "Bibliothèques optionnelles"
+msgstr "Binaires optionnels"
 
 msgid "Optional libraries"
 msgstr "Bibliothèques optionnelles"
@@ -669,21 +651,19 @@ msgstr "Bibliothèques optionnelles"
 msgid ""
 "Otherwise install it manually, from your panel, or directly from your ssh "
 "access."
-msgstr ""
-"Sinon installer manuellement , à partir de votre panneau , ou directement à "
-"partir de votre accès ssh."
+msgstr "Sinon, installez-le manuellement depuis votre panneau ou directement via votre accès SSH."
 
 msgid "Overview - WebApp (var/apps/browser, overview & webapp cache)"
 msgstr "Aperçu - WebApp (var/apps/browser, overview & webapp cache)"
 
 msgid "Overview cache cleared."
-msgstr "Vue d'ensemble cache effacé."
+msgstr "Cache de l'aperçu vidé."
 
 msgid "PEM test:"
 msgstr "PEM Test:"
 
 msgid "PHP version %s:"
-msgstr "La version de PHP %s:"
+msgstr "Version de PHP %s :"
 
 msgid "Password"
 msgstr "Mot de passe"
@@ -692,32 +672,31 @@ msgid "Path to your CA certificate"
 msgstr "Chemin d'accès à votre certificat CA"
 
 msgid "Path to your Certificate"
-msgstr "Accès vers votre Certificat"
+msgstr "Chemin d'accès à votre certificat"
 
 msgid "Path to your Private certificate"
-msgstr "Accès à votre certificat Privé"
+msgstr "Chemin d'accès à votre certificat privé"
 
 msgid "Path to your Private key"
-msgstr "Accès à votre clé Privée"
+msgstr "Chemin d'accès à votre clé privée"
 
 msgid "Payment received"
 msgstr "Paiement reçu"
 
 msgid "People who are allowed to access the backoffice"
-msgstr "Les comptes qui sont autorisés à accéder au backoffice"
+msgstr "Les personnes autorisées à accéder au backoffice"
 
 msgid "Permission, denied from Plesk, please use the admin account."
-msgstr ""
-"Autorisation refusée à partir du Plesk, veuillez utiliser le compte admin."
+msgstr "Permission refusée par Plesk, veuillez utiliser le compte admin."
 
 msgid "Plesk"
-msgstr "Parallels Plesk panel"
+msgstr "Plesk"
 
 msgid "Plesk 12+"
 msgstr "Plesk 12+"
 
 msgid "[Plesk] Unknown error."
-msgstr "[Plesk] erreur Inconnue."
+msgstr "[Plesk] Erreur inconnue."
 
 msgid "Port"
 msgstr "Port"
@@ -735,25 +714,25 @@ msgid "Private certificate"
 msgstr "Certificat privé"
 
 msgid "Private path:"
-msgstr "Accès privé:"
+msgstr "Chemin privé :"
 
 msgid "Production"
-msgstr "La Production"
+msgstr "Production"
 
 msgid "Progress"
-msgstr "Avancée"
+msgstr "Progression"
 
 msgid "Publication access type"
 msgstr "Type d'accès de publication"
 
 msgid "Push messages:"
-msgstr "Les messages Push:"
+msgstr "Messages push :"
 
 msgid "Queued"
-msgstr "File d'attente"
+msgstr "En file d'attente"
 
 msgid "Queued %s/%s"
-msgstr "File d'attente %s/%s"
+msgstr "En file d'attente %s/%s"
 
 msgid "Read"
 msgstr "Lire"
@@ -765,19 +744,19 @@ msgid "Rebuild manifest"
 msgstr "Reconstruire le manifeste"
 
 msgid "Rebuilding application manifest files."
-msgstr "Reconstruire l'application des fichiers manifestes ."
+msgstr "Reconstruction des fichiers manifestes de l'application."
 
 msgid "Regular updates system"
 msgstr "Système de mises à jour régulières"
 
 msgid "Remove locks"
-msgstr "Déverouiller"
+msgstr "Déverrouiller"
 
 msgid "Remove locks now"
 msgstr "Supprimer les verrous maintenant"
 
 msgid "Removing CRON Scheduler lock files."
-msgstr "Suppression de fichiers de verrouillage CRON Scheduler ."
+msgstr "Suppression des fichiers de verrouillage du planificateur CRON."
 
 msgid "Removing domains: %s"
 msgstr "Suppression de domaines: %s"
@@ -786,7 +765,7 @@ msgid "Request"
 msgstr "Demande"
 
 msgid "Request the certificate via Let's Encrypt."
-msgstr "Demande de certificat via Let's Encrypt."
+msgstr "Demander le certificat via Let's Encrypt."
 
 msgid "Required extensions"
 msgstr "Extensions obligatoires"
@@ -816,7 +795,7 @@ msgid "Select a panel type or self-managed"
 msgstr "Sélectionnez un type de panneau ou autogéré"
 
 msgid "Self-managed"
-msgstr "Auto-géré"
+msgstr "Autogéré"
 
 msgid "Self-managed sync is not available for now."
 msgstr "La synchronisation autogérée n'est pas disponible pour le moment."
@@ -839,15 +818,13 @@ msgid "Show more"
 msgstr "Voir plus"
 
 msgid "Siberian - Backoffice"
-msgstr "Backoffice"
+msgstr "Siberian - Backoffice"
 
 msgid "Siberian CMS"
 msgstr "Siberian CMS"
 
 msgid "[Siberian_Cpanel] Unable to update cPanel SSL Certificate for %s"
-msgstr ""
-"[Siberian_Cpanel] Impossible de mettre à jour le certificat SSL cPanel pour% "
-"s"
+msgstr "[Siberian_Cpanel] Impossible de mettre à jour le certificat SSL cPanel pour %s"
 
 msgid "[Siberian_VestaCP] requires php 5.6+"
 msgstr "[Siberian_VestaCP] nécessite php 5.6+"
@@ -855,9 +832,7 @@ msgstr "[Siberian_VestaCP] nécessite php 5.6+"
 msgid ""
 "Something went wrong with the API Sync to %s, retry or check in your panel "
 "if your SSL certificate is correctly setup."
-msgstr ""
-"Quelque chose s'est mal passé avec l'API Synchronisé avec% s, réessayer ou "
-"archiver votre panel si votre certificat SSL est correctement configuré."
+msgstr "Une erreur s'est produite lors de la synchronisation de l'API avec %s, réessayez ou vérifiez dans votre panneau que votre certificat SSL est correctement configuré."
 
 msgid "Source"
 msgstr "Source"
@@ -866,19 +841,19 @@ msgid "Source Queue empty"
 msgstr "File d'attente source vide"
 
 msgid "Source Queue status"
-msgstr "Source de l'état de la file d'Attente"
+msgstr "État de la file d'attente des sources"
 
 msgid "[Sources]"
 msgstr "[Sources]"
 
 msgid "Sources code"
-msgstr "Source code"
+msgstr "Code des sources"
 
 msgid "Stable"
 msgstr "Stable"
 
 msgid "Staging"
-msgstr "Mise en scène"
+msgstr "Préproduction"
 
 msgid "Start editing your platform tour"
 msgstr "Commencer à éditer votre visite de la plateforme"
@@ -894,12 +869,10 @@ msgstr ""
 "comprendre l'utilisation du générateur d'applications."
 
 msgid "Status"
-msgstr "Status"
+msgstr "Statut"
 
 msgid "Submit a bug report or improvement request for beta/preview"
-msgstr ""
-"Soumettre un rapport de bug ou une demande d'amélioration pour la version bê"
-"ta/Aperçu"
+msgstr "Soumettre un rapport de bug ou une demande d'amélioration pour la version bêta/aperçu"
 
 msgid "Success"
 msgstr "Succès"
@@ -908,13 +881,13 @@ msgid "Successfully cleaned-up old certificate."
 msgstr "Ancien certificat nettoyé avec succès."
 
 msgid "Successfully installed new certificate."
-msgstr "Installation réussi du nouveau certificat."
+msgstr "Nouveau certificat installé avec succès."
 
 msgid "Successfully removed the certificate."
-msgstr "Retirer le certificat avec succès."
+msgstr "Certificat retiré avec succès."
 
 msgid "Successfully saved Certificate to %s"
-msgstr "Enregistrer le certificat avec succès à% s"
+msgstr "Certificat enregistré avec succès dans %s"
 
 msgid "Sync files"
 msgstr "Synchronisation de fichiers"
@@ -926,12 +899,10 @@ msgid "System tasks"
 msgstr "Tâches du système"
 
 msgid "System was unable to validate any Bearer Token Auth call."
-msgstr ""
-"Le système n'a pas pu valider un appel d'authentification de marque de "
-"support."
+msgstr "Le système n'a pu valider aucun appel d'authentification Bearer Token."
 
 msgid "System was unable to validate any HTTP Basic Auth call."
-msgstr "Le système n'a pu valider un appel HTTP Basic Aut."
+msgstr "Le système n'a pu valider aucun appel HTTP Basic Auth."
 
 msgid "Temp (var/tmp, application sources & apk)"
 msgstr "Temp (var/tmp, application sources & apk)"
@@ -943,22 +914,19 @@ msgid "Test SSL/HTTPS"
 msgstr "Test SSL/HTTPS"
 
 msgid "Testing: %s"
-msgstr "Test: %s"
+msgstr "Test : %s"
 
 msgid ""
 "The PHP executable guessed path <b>'%s'</b> may be incorrect, please double "
 "check for it."
-msgstr ""
-"Le chemin de l'exécutable PHP <b> '% s' </ b> peut être incorrect, veuillez "
-"le vérifier."
+msgstr "Le chemin deviné de l'exécutable PHP <b>'%s'</b> est peut-être incorrect, veuillez le vérifier."
 
 msgid "The default setting to run your production server."
 msgstr "Le paramètre par défaut pour exécuter votre serveur de production."
 
 msgid ""
 "The domain %s doesn't belong to you, or is not configured on your server."
-msgstr ""
-"Le domaine ne vous appartient pas ou n'est pas configuré à votre serveur"
+msgstr "Le domaine %s ne vous appartient pas ou n'est pas configuré sur votre serveur."
 
 msgid "The given CA certificate doesn't match the hostname."
 msgstr "Le certificat CA donné ne correspond pas au nom d'hôte."
@@ -967,8 +935,7 @@ msgid "The given certificate doesn't match the hostname."
 msgstr "Le certificat donné ne correspond pas au nom d'hôte."
 
 msgid "The given certificate doesn't match the hostname or wiSibldcard."
-msgstr ""
-"Le certificat ne correspond pas au nom d'hôte ou à la carte wiSibldcard."
+msgstr "Le certificat donné ne correspond pas au nom d'hôte ou au caractère générique (wildcard)."
 
 msgid "This account can't be deleted, it's the only one"
 msgstr "Ce compte ne peut pas être supprimé, il est le seul"
@@ -977,11 +944,7 @@ msgid ""
 "This action mainly serves as a development & support purpose<br />This will "
 "restore App sources 'iOS', 'Android', 'HTML5' & 'Overview' from the latest "
 "Siberian version, then rebuild the manifest to restore installed modules."
-msgstr ""
-"Cette action sert principalement à un but de développement et de soutien <br "
-"/> Cela permettra de restaurer les sources iOS, Android, HTML5 et Overview "
-"de la dernière version, puis de reconstruire le manifeste pour restaurer les "
-"modules installés."
+msgstr "Cette action sert principalement au développement et au support.<br />Elle restaurera les sources d'application 'iOS', 'Android', 'HTML5' et 'Overview' depuis la dernière version de Siberian, puis reconstruira le manifeste pour restaurer les modules installés."
 
 msgid ""
 "This e-mail address must be reachable, as you will receive important e-mails "
@@ -1022,10 +985,10 @@ msgid "Total usage:"
 msgstr "Total d'utilisation:"
 
 msgid "Tour settings"
-msgstr "Paramètres Tour"
+msgstr "Paramètres de la visite"
 
 msgid "Tour status"
-msgstr "Statut du Tour"
+msgstr "Statut de la visite"
 
 msgid "Tour status successfully saved."
 msgstr "Statut de la visite sauvegardée avec succès."
@@ -1036,9 +999,7 @@ msgstr "UID"
 msgid ""
 "Unable to connect in HTTPS or to validate the SSL Certificate.<br />Check if "
 "your are not in `Staging`"
-msgstr ""
-"Impossible de se connecter à HTTPS ou de valider le certificat SSL. <br /> "
-"Vérifiez si vous n'êtes pas dans «Plate-forme\" (Staging)"
+msgstr "Impossible de se connecter en HTTPS ou de valider le certificat SSL.<br />Vérifiez que vous n'êtes pas en `Staging`"
 
 msgid "Unknown"
 msgstr "Inconnu"
@@ -1050,24 +1011,22 @@ msgid "Update"
 msgstr "Mettre à jour"
 
 msgid "Update channel"
-msgstr "Mise à jour de canal"
+msgstr "Canal de mise à jour"
 
 msgid "Updated At"
 msgstr "Mis à Jour à"
 
 msgid "Upload"
-msgstr "Télécharger"
+msgstr "Téléverser"
 
 msgid "Upload files or use existing certificates on my server"
-msgstr ""
-"Télécharger des fichiers ou utiliser des certificats existants sur mon "
-"serveur"
+msgstr "Téléverser des fichiers ou utiliser des certificats existants sur mon serveur"
 
 msgid "Upload my certificates"
-msgstr "Télécharger mes certificats"
+msgstr "Téléverser mes certificats"
 
 msgid "Upload your own certificates"
-msgstr "Téléchargez vos propres certificats"
+msgstr "Téléversez vos propres certificats"
 
 msgid "Use HTTPS"
 msgstr "Utiliser HTTPS"
@@ -1103,17 +1062,13 @@ msgid "WHM cPanel"
 msgstr "WHM cPanel"
 
 msgid "Waiting for %s to reload, this can take a while..."
-msgstr "En attente de% s pour recharger, cela peut prendre un certain temps ..."
+msgstr "En attente du rechargement de %s, cela peut prendre un certain temps..."
 
 msgid ""
 "We recommned using <b>preview</b> on a testing or development server, we "
 "won't provide regular ticket support for these update channels, only bug "
 "reports via the form below."
-msgstr ""
-"Nous vous recommandons d'utiliser <b> preview </ b> sur un serveur de test "
-"ou de développement, nous ne fournirons pas de support de tickets régulier "
-"pour ces canaux de mise à jour, uniquement des rapports de bug via le "
-"formulaire ci-dessous."
+msgstr "Nous vous recommandons d'utiliser <b>preview</b> sur un serveur de test ou de développement, nous ne fournirons pas de support par ticket régulier pour ces canaux de mise à jour, uniquement des rapports de bug via le formulaire ci-dessous."
 
 msgid "Web space"
 msgstr "Espace Web"
@@ -1125,7 +1080,7 @@ msgid "Whitelabel"
 msgstr "Marque Blanche"
 
 msgid "Whitelabel hostnames associated with this Certificate"
-msgstr "noms d'hôte de la Marque Blanche associée à ce Certificat"
+msgstr "Noms d'hôte de la marque blanche associés à ce certificat"
 
 msgid "Whitelabel request"
 msgstr "Demande de marque blanche"
@@ -1142,57 +1097,39 @@ msgstr "Oui, installer la mise à jour ."
 msgid ""
 "You are about to clean all the cron lock files !\n"
 "Are you sure ?"
-msgstr ""
-"Vous êtes sur le point de nettoyer tous les fichiers de verrouillage cron !\\"
-"n"
-" Êtes-vous sûr ?"
+msgstr "Vous êtes sur le point de nettoyer tous les fichiers de verrouillage cron !\nÊtes-vous sûr ?"
 
 msgid ""
 "You are about to clean all your log files !\n"
 "Are you sure ?"
-msgstr ""
-"Vous êtes sur le point de nettoyer tous vos fichiers journaux !\\n"
-" Êtes-vous sûr ?"
+msgstr "Vous êtes sur le point de nettoyer tous vos fichiers journaux !\nÊtes-vous sûr ?"
 
 msgid "You are about to delete this certificate, Are you sure ?"
-msgstr "Vous êtes sur le point de supprimer ce certificat, vous en Êtes sûr ?"
+msgstr "Vous êtes sur le point de supprimer ce certificat, êtes-vous sûr ?"
 
 msgid ""
 "You are about to wipe all your temporary files, this includes the generated "
 "sources & apk builds !\n"
 "Are you sure ?"
-msgstr ""
-"Vous êtes sur le point d' effacer tous vos fichiers temporaires , ce qui "
-"inclut les sources générées et apk construit !\\n"
-" Êtes-vous sûr ?"
+msgstr "Vous êtes sur le point d'effacer tous vos fichiers temporaires, ce qui inclut les sources générées et les builds apk !\nÊtes-vous sûr ?"
 
 msgid "You can use <b>%s</b> as a dynamic variable for your application name."
-msgstr ""
-"Vous pouvez utiliser <b>% s </ b> comme variable dynamique pour le nom de "
-"votre application."
+msgstr "Vous pouvez utiliser <b>%s</b> comme variable dynamique pour le nom de votre application."
 
 msgid ""
 "You have a Source generation stuck for more than 1 hour, please check in <b>"
 "Settings > Advanced > Cron</b> for the stuck build.<br />To unlock further "
 "builds you can remove locks from the button below."
-msgstr ""
-"Vous avez une Source de génération bloquée pendant plus de 1 heure, vérifiez "
-"<b>Paramètres > Avancé > Cron</b> pour la compilation bloquée.<br />Pour "
-"débloquer de nouvelles builds vous pouvez supprimer les verrous à partir du "
-"bouton ci-dessous."
+msgstr "Vous avez une génération de sources bloquée depuis plus d'une heure, vérifiez <b>Paramètres > Avancé > Cron</b> pour le build bloqué.<br />Pour débloquer les builds suivants vous pouvez supprimer les verrous avec le bouton ci-dessous."
 
 msgid ""
 "You have an APK generation stuck for more than 1 hour, please check in <b>"
 "Settings > Advanced > Cron</b> for the stuck build.<br />To unlock further "
 "builds you can remove locks from the button below."
-msgstr ""
-"Vous avez une génération APK bloquée pendant plus d'une heure, veuillez "
-"vérifier <b> Paramètres> Avancé> Cron </ b> pour la compilation bloquée. <br "
-"/> Pour déverrouiller d'autres builds, vous pouvez supprimer les verrous du "
-"bouton ci-dessous."
+msgstr "Vous avez une génération APK bloquée depuis plus d'une heure, veuillez vérifier <b>Paramètres > Avancé > Cron</b> pour le build bloqué.<br />Pour débloquer les builds suivants, vous pouvez supprimer les verrous avec le bouton ci-dessous."
 
 msgid "You have no certificate yet."
-msgstr "Vous n'avez pas de certificat encore."
+msgstr "Vous n'avez pas encore de certificat."
 
 msgid "You have no new messages."
 msgstr "Vous n'avez pas de nouveaux messages."
@@ -1226,44 +1163,35 @@ msgid "Your password"
 msgstr "Votre mot de passe"
 
 msgid "<b>Actual preview version is Siberian 5.0</b>."
-msgstr "<b>La version actuelle est 5.0</b>."
+msgstr "<b>La version actuelle de l'aperçu est Siberian 5.0</b>."
 
 msgid ""
 "<b>Disclaimer:</b> You are using the <b>preview</b> update channel, this "
 "channel is intended for <b>tests & previews</b> of new features, if you are "
 "not sure stay with <b>stable channel</b>."
-msgstr ""
-"<b> Avertissement: </ b> Vous utilisez le <b> aperçu </ b> canal de mise à "
-"jour, ce canal est destiné aux <b> tests et prévisualisations </ b> des "
-"nouvelles fonctionnalités, si vous n'êtes pas sûr <b> canal stable </ b>."
+msgstr "<b>Avertissement:</b> Vous utilisez le canal de mise à jour <b>préversion</b>, ce canal est destiné aux <b>tests & aperçus</b> des nouvelles fonctionnalités, si vous n'êtes pas sûr, restez sur le <b>canal stable</b>."
 
 msgid ""
 "<b>Note for Bug report:</b> give us a maximum of description of how you "
 "reached the bug, and possibly screenshots."
-msgstr ""
-"<b>Note pour le rapport de Bug:</b> nous donne un maximum de description de "
-"la façon dont vous avez atteint le bug, et, éventuellement, des captures "
-"d'écran."
+msgstr "<b>Remarque pour le rapport de bug:</b> donnez-nous un maximum de détails sur la façon dont vous avez rencontré le bug, et si possible des captures d'écran."
 
 msgid ""
 "<b>Note</b>: sources & push will be sent immediately after their creation, "
 "scheduled push will not work & media optimization is disabled."
-msgstr ""
-"<b>Note</b>: sources et push seront envoyés immédiatement après leur "
-"création , push envoi ne fonctionnera pas et optimisation des médias est "
-"désactivé ."
+msgstr "<b>Remarque</b>: les sources & push seront envoyés immédiatement après leur création, les push programmés ne fonctionneront pas & l'optimisation des médias est désactivée."
 
 msgid "customer"
 msgstr "Client"
 
 msgid "%d Unread Message"
-msgstr "%d message non lus"
+msgstr "%d message non lu"
 
 msgid "%d Unread Messages"
 msgstr "%d messages non lus"
 
 msgid "for the bundle id:"
-msgstr "Pour le bundle ID:"
+msgstr "pour le bundle ID :"
 
 msgid "letsencrypt"
 msgstr "letsencrypt"

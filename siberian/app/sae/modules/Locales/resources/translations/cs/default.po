@@ -72,7 +72,7 @@ msgid "Actions"
 msgstr "Akce"
 
 msgid "Activate"
-msgstr "Aktivováno"
+msgstr "Aktivovat"
 
 #. machine-translated (2026-10), to be reviewed
 msgid "Activity"
@@ -165,7 +165,7 @@ msgid "Alert: The SSL Certificate %s automatic renewal failed."
 msgstr "Upozornění: Automatická obnova certifikátu SSL %s selhala."
 
 msgid "Alignment"
-msgstr "Zarovnání:"
+msgstr "Zarovnání"
 
 #. machine-translated (2026-10), to be reviewed
 msgid "All data"
@@ -322,10 +322,10 @@ msgid "Are you sure you want to delete this element?"
 msgstr "Jste si jisti, že chcete smazat tento prvek?"
 
 msgid "Are you sure you want to delete this invoice?"
-msgstr "Opravdu chcete smazat tento obchod/sklad?"
+msgstr "Opravdu chcete smazat tuto fakturu?"
 
 msgid "Are you sure you want to delete this subscription?"
-msgstr "Jste si jisti, že chcete smazat tuto aplikaci?"
+msgstr "Opravdu chcete smazat toto předplatné?"
 
 msgid "Are you sure you want to remove this account?"
 msgstr "Jste si jisti, že chcete odstranit tento účet?"
@@ -334,7 +334,7 @@ msgid "Artist"
 msgstr "Skupina/Interpret"
 
 msgid "At least, 1 page in the application"
-msgstr "Je třeba vytvořit alespoň 4 záložky (stránky)"
+msgstr "Je třeba vytvořit alespoň 1 stránku v aplikaci"
 
 #. machine-translated (2026-10), to be reviewed
 msgid ""
@@ -346,7 +346,7 @@ msgid "Attachment"
 msgstr "Příloha"
 
 msgid "Audio"
-msgstr "Hudba"
+msgstr "Audio"
 
 #. machine-translated (2026-10), to be reviewed
 msgid "Authentication failed"
@@ -503,7 +503,7 @@ msgid "Cancel"
 msgstr "Zrušit"
 
 msgid "Card"
-msgstr "Košík"
+msgstr "Karta"
 
 #. machine-translated (2026-10), to be reviewed
 msgid "Card Item"
@@ -517,7 +517,7 @@ msgid "Cart"
 msgstr "Košík"
 
 msgid "Catalog"
-msgstr "Produkty"
+msgstr "Katalog"
 
 msgid ""
 "Certificate is valid and SSL is reachable, valid until: %s.<br />Issuer: %s%s"
@@ -607,7 +607,7 @@ msgid ""
 msgstr "CloudFlare není podporován, musíte použít CNAME ukazující na vaši hlavní doménu."
 
 msgid "Cms"
-msgstr "?Coms?"
+msgstr "CMS"
 
 #. machine-translated (2026-10), to be reviewed
 msgid "Codescan"
@@ -639,7 +639,7 @@ msgid "Configuration partially saved"
 msgstr "Konfigurace byla částečně uložena"
 
 msgid "Confirm"
-msgstr "Podvrdit"
+msgstr "Potvrdit"
 
 msgid "Confirm Password"
 msgstr "Potvrzení hesla"
@@ -683,7 +683,7 @@ msgid "Copying"
 msgstr "Kopírování"
 
 msgid "Core"
-msgstr "Název"
+msgstr "Jádro"
 
 msgid "Country"
 msgstr "Země"
@@ -727,10 +727,10 @@ msgid "Current status is"
 msgstr "Aktuální stav je"
 
 msgid "Custom Page"
-msgstr "Vlastní"
+msgstr "Vlastní stránka"
 
 msgid "Customization"
-msgstr "Vlastní"
+msgstr "Přizpůsobení"
 
 #. machine-translated (2026-10), to be reviewed
 msgid "Customization mode activated"
@@ -753,7 +753,7 @@ msgid "(DEMO)"
 msgstr "(UKÁZKA)"
 
 msgid "Dashboard"
-msgstr "Aplikace"
+msgstr "Přehled"
 
 msgid "Data saved successfully."
 msgstr "Data byla úspěšně uložena"
@@ -768,7 +768,7 @@ msgid "Date of birth"
 msgstr "Datum narození"
 
 msgid "Deactivate"
-msgstr "Neaktivní"
+msgstr "Deaktivovat"
 
 #. machine-translated (2026-10), to be reviewed
 msgid "Debug"
@@ -808,7 +808,7 @@ msgid "Delivered"
 msgstr "Doručeno"
 
 msgid "Delivery Cost"
-msgstr "Poplatky za doručení:"
+msgstr "Cena doručení"
 
 msgid "Delivery method"
 msgstr "Způsob doručení"
@@ -840,7 +840,7 @@ msgid "Dialog text"
 msgstr "Text dialogu"
 
 msgid "Discount"
-msgstr "Slevy"
+msgstr "Sleva"
 
 msgid "Discounts"
 msgstr "Slevy"
@@ -872,7 +872,7 @@ msgid "Don't close the app while downloading. This may take a while."
 msgstr "Při stahování nezavírejte aplikaci. Může to chvíli trvat"
 
 msgid "Download APK"
-msgstr "Stáhnout"
+msgstr "Stáhnout APK"
 
 #. machine-translated (2026-10), to be reviewed
 msgid "Download a copy of my data"
@@ -930,7 +930,7 @@ msgid "Downloading..."
 msgstr "Stahování..."
 
 msgid "Drop your json here"
-msgstr "Vložte logo"
+msgstr "Vložte soubor JSON"
 
 #. machine-translated (2026-10), to be reviewed
 msgid "EDIT"
@@ -1017,7 +1017,7 @@ msgid "Event"
 msgstr "Událost"
 
 msgid "Events"
-msgstr "Eventy"
+msgstr "Události"
 
 #. machine-translated (2026-10), to be reviewed
 msgid "Export / Import"
@@ -1093,7 +1093,7 @@ msgid "Firstname"
 msgstr "Jméno"
 
 msgid "Folder"
-msgstr "Struktura"
+msgstr "Složka"
 
 msgid "Folder title is required"
 msgstr "Název složky je nutné vyplnit"
@@ -1198,7 +1198,7 @@ msgid "Hi. I just found: $1 in the $2 app."
 msgstr "Ahoj. Právě jsem našel: $1 v aplikaci $2."
 
 msgid "Hide"
-msgstr "skrýt"
+msgstr "Skrýt"
 
 msgid "Hide iOS status bar"
 msgstr "Skrýt stavovou lištu na iOS"
@@ -1225,8 +1225,7 @@ msgstr "Názvy hostitelů přiřazené k tomuto certifikátu"
 msgid ""
 "How do you want to access the backoffice if you remove the only user "
 "remaining?"
-msgstr ""
-"Jak chcete přistupovat do backoffice, pokud odeberete posledního uživatele??"
+msgstr "Jak chcete přistupovat do backoffice, pokud odeberete posledního uživatele?"
 
 msgid "ID"
 msgstr "ID"
@@ -1268,7 +1267,7 @@ msgid "Image not large enough, %spx minimum allowed."
 msgstr "Obrázek není dostatečně široký, musí mít minimálně %spx"
 
 msgid "Image successfully saved"
-msgstr "Stránka byla úspěšně uložena"
+msgstr "Obrázek byl úspěšně uložen"
 
 msgid "Image too high, %spx maximum allowed."
 msgstr "Obrázek je příliš vysoký, může mít maximálně %spx"
@@ -1277,7 +1276,7 @@ msgid "Image too large, '%s' allowed."
 msgstr "Obrázek je příliš velký, '%s' povolen."
 
 msgid "Image too large, %spx maximum allowed."
-msgstr "Obrázek je přílišširoký, může mít maximálně %spx"
+msgstr "Obrázek je příliš široký, může mít maximálně %spx"
 
 msgid "Images"
 msgstr "Obrázky"
@@ -1321,7 +1320,7 @@ msgstr ""
 "br />"
 
 msgid "In order to publish your application, we need:"
-msgstr "Aby bylo možné publikovat Vaši aplikaci, potřebujeme:<br />-"
+msgstr "Aby bylo možné publikovat vaši aplikaci, potřebujeme:"
 
 #. machine-translated (2026-10), to be reviewed
 msgid "In order to use global push notifications your app must be published."
@@ -1365,7 +1364,7 @@ msgid "Installs"
 msgstr "Instalace"
 
 msgid "Integration"
-msgstr "Redirect"
+msgstr "Integrace"
 
 #. machine-translated (2026-10), to be reviewed
 msgid "Interstitial"
@@ -1493,13 +1492,13 @@ msgid "List of your invoices"
 msgstr "Seznam faktur"
 
 msgid "Load More"
-msgstr "Nahrát další"
+msgstr "Načíst další"
 
 msgid "Loading"
-msgstr "Nahrávám"
+msgstr "Načítání"
 
 msgid "Loading picture"
-msgstr "Nahrát obrázek:"
+msgstr "Načítání obrázku"
 
 #. machine-translated (2026-10), to be reviewed
 msgid "Local APK Generator"
@@ -1510,7 +1509,7 @@ msgid "Local APK build"
 msgstr "Místní sestavení APK"
 
 msgid "Locate"
-msgstr "MAPA"
+msgstr "Zobrazit na mapě"
 
 msgid "Location"
 msgstr "Místo"
@@ -1538,7 +1537,7 @@ msgid "Log-out"
 msgstr "Odhlásit se"
 
 msgid "Loyalty Card"
-msgstr "Věrnost"
+msgstr "Věrnostní karta"
 
 #. machine-translated (2026-10), to be reviewed
 msgid "LoyaltyCard"
@@ -1557,7 +1556,7 @@ msgid "MM.dd.y 'at' HH:mm a"
 msgstr "dd.MM.y 'v' HH:mm"
 
 msgid "MM/dd/y 'at' hh:mm a"
-msgstr "dd / MM / y 'at' hh:mm"
+msgstr "dd / MM / y 'v' hh:mm"
 
 msgid "MM/dd/y hh:mm a"
 msgstr "DD / MM / y hh:mm"
@@ -1588,10 +1587,10 @@ msgid "Main hostname"
 msgstr "Hlavní název hostitele"
 
 msgid "Make this image colorizable"
-msgstr "?Obrázek bude obarvitelný?"
+msgstr "Umožnit obarvení tohoto obrázku"
 
 msgid "Manage"
-msgstr "Upravit"
+msgstr "Spravovat"
 
 #. machine-translated (2026-10), to be reviewed
 msgid "Manage Folders"
@@ -1693,7 +1692,7 @@ msgid "Modules"
 msgstr "Moduly"
 
 msgid "Monetization"
-msgstr "Finanční"
+msgstr "Monetizace"
 
 msgid "Month"
 msgstr "Měsíc"
@@ -1796,7 +1795,7 @@ msgid "No features"
 msgstr "Žádné funkce"
 
 msgid "No invoice for now."
-msgstr "Dosud nemáte žádná Témata"
+msgstr "Zatím nemáte žádné faktury."
 
 msgid "No items found"
 msgstr "Nic nenalezeno"
@@ -1829,7 +1828,7 @@ msgid "No results for your request."
 msgstr "Pro váš požadavek nejsou žádné výsledky."
 
 msgid "No rules"
-msgstr "Žádné výsledky"
+msgstr "Žádná pravidla"
 
 msgid "No uploaded image"
 msgstr "Žádné nahrané obrázky"
@@ -1839,7 +1838,7 @@ msgid "Not available offline."
 msgstr "Není dostupné offline."
 
 msgid "Note"
-msgstr "Žádný"
+msgstr "Poznámka"
 
 #. machine-translated (2026-10), to be reviewed
 msgid ""
@@ -1871,7 +1870,7 @@ msgid "OR"
 msgstr "NEBO"
 
 msgid "Offline Payment"
-msgstr "Offline obsah"
+msgstr "Offline platba"
 
 msgid "Offline content"
 msgstr "Offline obsah"
@@ -1940,7 +1939,7 @@ msgid "Padlock"
 msgstr "Zámek"
 
 msgid "Page settings"
-msgstr "Nastavení banneru"
+msgstr "Nastavení stránky"
 
 msgid "Paid At"
 msgstr "Zaplaceno"
@@ -1978,7 +1977,7 @@ msgid "Payment"
 msgstr "Platba"
 
 msgid "Payment ID"
-msgstr "Platby"
+msgstr "ID platby"
 
 msgid "Payment Method"
 msgstr "Způsob platby"
@@ -2029,7 +2028,7 @@ msgid "Platform Name"
 msgstr "Název platformy"
 
 msgid "Platform hostname"
-msgstr "Název platformy"
+msgstr "Hostname platformy"
 
 msgid "Player"
 msgstr "Hráč"
@@ -2069,7 +2068,7 @@ msgid "Please enter a value between {0} and {1}."
 msgstr "Zadejte prosím hodnotu mezi {0} a {1}"
 
 msgid "Please enter a value between {0} and {1} characters long."
-msgstr "Zadejte prosím hodnotu mezi {0} a {1}"
+msgstr "Zadejte prosím hodnotu dlouhou {0} až {1} znaků."
 
 msgid "Please enter a value greater than or equal to {0}."
 msgstr "Zadejte prosím hodnotu větší nebo rovno {0}."
@@ -2093,7 +2092,7 @@ msgid "Please enter your email address"
 msgstr "Prosím, zadejte svou e-mailovou adresu"
 
 msgid "Please fill in the following fields:"
-msgstr "Prosim vyplnte nasledujici udaje:"
+msgstr "Prosím vyplňte následující údaje:"
 
 msgid "Please fill out the following fields"
 msgstr "Vyplňte prosím následující položky:"
@@ -2181,7 +2180,7 @@ msgid "Privacy settings"
 msgstr "Nastavení soukromí"
 
 msgid "Products"
-msgstr "Produkt"
+msgstr "Produkty"
 
 #. machine-translated (2026-10), to be reviewed
 msgid "Profile"
@@ -2207,7 +2206,7 @@ msgid "Push"
 msgstr "Push"
 
 msgid "Push Notifications"
-msgstr "PUSH"
+msgstr "PUSH zprávy"
 
 #. machine-translated (2026-10), to be reviewed
 msgid "Push message"
@@ -2218,10 +2217,10 @@ msgid "Push message is sent."
 msgstr "Push zpráva byla odeslána."
 
 msgid "Push notification"
-msgstr "PUSH"
+msgstr "PUSH zpráva"
 
 msgid "Push notifications"
-msgstr "PUSH"
+msgstr "PUSH zprávy"
 
 #. machine-translated (2026-10), to be reviewed
 msgid ""
@@ -2254,7 +2253,7 @@ msgid "Redis AUTH KEY"
 msgstr "Autorizační klíč Redis"
 
 msgid "Registration date"
-msgstr "Datum vypršení platnosti"
+msgstr "Datum registrace"
 
 #. machine-translated (2026-10), to be reviewed
 msgid "Release"
@@ -2332,7 +2331,7 @@ msgid "Run Android SDK update"
 msgstr "Spustit aktualizaci Android SDK"
 
 msgid "SCSS successfully saved"
-msgstr "Obchod/sklad úspěšně uložen"
+msgstr "SCSS bylo úspěšně uloženo"
 
 #. machine-translated (2026-10), to be reviewed
 msgid "SELF-ASSIGNABLE"
@@ -2391,7 +2390,7 @@ msgid "Save sender id & key"
 msgstr "Uložit ID odesílatele a klíč"
 
 msgid "Scan it."
-msgstr "Skenovat"
+msgstr "Naskenujte to."
 
 msgid "Scan now to unlock"
 msgstr "Naskenujte k odemčení"
@@ -2473,7 +2472,7 @@ msgid "Selected main hostname"
 msgstr "Vybraný hlavní název hostitele"
 
 msgid "Send"
-msgstr "ODESLAT"
+msgstr "Odeslat"
 
 #. machine-translated (2026-10), to be reviewed
 msgid "Send a cover image"
@@ -2544,7 +2543,7 @@ msgid "Show search field"
 msgstr "Zobrazit vyhledávací pole"
 
 msgid "Show title"
-msgstr "Zobrazit článek"
+msgstr "Zobrazit název"
 
 #. machine-translated (2026-10), to be reviewed
 msgid "Siberian current installation path"
@@ -2555,7 +2554,7 @@ msgid "Siberian domain"
 msgstr "Doména Siberian"
 
 msgid "Siberian informations"
-msgstr "Všeobecné informace"
+msgstr "Informace o Siberian"
 
 #. machine-translated (2026-10), to be reviewed
 msgid ""
@@ -2571,13 +2570,13 @@ msgid "Size on disk"
 msgstr "Velikost na disku"
 
 msgid "Slack notification settings"
-msgstr "PUSH zprávy - nastavení"
+msgstr "Nastavení oznámení Slack"
 
 msgid "Slider"
 msgstr "Slider"
 
 msgid "Social"
-msgstr "Komunikace"
+msgstr "Sociální"
 
 #. machine-translated (2026-10), to be reviewed
 msgid "Socialgaming"
@@ -2592,7 +2591,7 @@ msgid "Soundcloud"
 msgstr "Soundcloud"
 
 msgid "Source code"
-msgstr "HTML kód"
+msgstr "Zdrojový kód"
 
 #. machine-translated (2026-10), to be reviewed
 msgid ""
@@ -2621,7 +2620,7 @@ msgid "Start date must be lower than end date."
 msgstr "Datum začátku musí být dřívější než datum konce."
 
 msgid "State / Province"
-msgstr "State/Province"
+msgstr "Stát / kraj"
 
 #. machine-translated (2026-10), to be reviewed
 msgid "Step placement (optional)"
@@ -2645,7 +2644,7 @@ msgid "Subscriptions"
 msgstr "Předplatné"
 
 msgid "Subtitle"
-msgstr "Popis"
+msgstr "Podtitul"
 
 #. machine-translated (2026-10), to be reviewed
 msgid "Success"
@@ -2734,7 +2733,7 @@ msgid ""
 msgstr "Požadavek na certifikát selhal 3krát, zkontrolujte údaje certifikátu, přihlašovací údaje k panelu a vše ostatní.<br />Pokud je váš certifikát platný, můžete zkusit pouze nahrání do panelu."
 
 msgid "The email is required"
-msgstr "Emailová ardesa je vyžadována"
+msgstr "E-mailová adresa je vyžadována"
 
 #. machine-translated (2026-10), to be reviewed
 msgid "The entered text mismatch"
@@ -2747,7 +2746,7 @@ msgid "The image '%s' does not exist"
 msgstr "Obrázek '%s' neexistuje"
 
 msgid "The image size '%s' could not be detected."
-msgstr "Nepodařilo zjistit velikost obrázku '%s'"
+msgstr "Nepodařilo se zjistit velikost obrázku '%s'"
 
 msgid "The name is required"
 msgstr "Jméno je vyžadováno"
@@ -2771,10 +2770,10 @@ msgid "The sent request is empty."
 msgstr "Odeslaný požadavek je prázdný."
 
 msgid "The user_id is required"
-msgstr "Je vyžadováno app_ID"
+msgstr "Je vyžadováno user_ID"
 
 msgid "The value_id is required."
-msgstr "Je vyžadováno app_ID"
+msgstr "Je vyžadováno value_ID."
 
 msgid "This URL is already used"
 msgstr "Tato URL se již používá"
@@ -2809,7 +2808,7 @@ msgid "This email address is already used"
 msgstr "Tato e-mailová adresa je již používána"
 
 msgid "This feature is available from the application only"
-msgstr "Tato funkce bude dostupná až v online aplikaci"
+msgstr "Tato funkce je dostupná pouze v aplikaci"
 
 #. machine-translated (2026-10), to be reviewed
 msgid ""
@@ -2828,7 +2827,7 @@ msgid "This layout has no option."
 msgstr "Toto rozvržení nemá žádné možnosti."
 
 msgid "This option doesn't exists."
-msgstr "Tento administrátor neexistuje"
+msgstr "Tato volba neexistuje."
 
 #. machine-translated (2026-10), to be reviewed
 msgid ""
@@ -2841,7 +2840,7 @@ msgid "This plan is an offline plan."
 msgstr "Tento tarif je offline tarif."
 
 msgid "This section is unlocked for mobile users only"
-msgstr "Tato sekce je přístupná pouze pro mobilní uživatele"
+msgstr "Tato sekce je odemčena pouze pro mobilní uživatele"
 
 #. machine-translated (2026-10), to be reviewed
 msgid "This will open the code scan camera on your device."
@@ -2928,7 +2927,7 @@ msgid "Top visits"
 msgstr "Nejvíce návštěv"
 
 msgid "Topic"
-msgstr "Témata"
+msgstr "Téma"
 
 msgid "Topics"
 msgstr "Témata"
@@ -2959,7 +2958,7 @@ msgid "Tour Edition"
 msgstr "Úprava průvodce"
 
 msgid "Translation"
-msgstr "Překlady"
+msgstr "Překlad"
 
 msgid "Translations"
 msgstr "Překlady"
@@ -2971,7 +2970,7 @@ msgid "Unable to add the contact to your address book"
 msgstr "Nelze vložit kontakt do adresáře"
 
 msgid "Unable to calculate the route."
-msgstr "Trasa nelze naplánovat"
+msgstr "Trasu nelze vypočítat."
 
 #. machine-translated (2026-10), to be reviewed
 msgid ""
@@ -3044,7 +3043,7 @@ msgid "Validate"
 msgstr "Potvrdit"
 
 msgid "Validated points"
-msgstr "x ověřený bod ="
+msgstr "Ověřené body"
 
 #. machine-translated (2026-10), to be reviewed
 msgid "Validated points by Loyalty card Analytics"
@@ -3058,7 +3057,7 @@ msgid "Version %s"
 msgstr "Verze %s"
 
 msgid "Video"
-msgstr "Videa"
+msgstr "Video"
 
 msgid "Video URL"
 msgstr "Video URL:"
@@ -3132,7 +3131,7 @@ msgid ""
 msgstr "Při výběru 'Povolit testovací API' u způsobu platby nezapomeňte vytvořit testovací přihlašovací údaje, viz dokumentace vašeho způsobu platby."
 
 msgid "White Label Editor"
-msgstr "Nastavení vlastních barev"
+msgstr "White Label editor"
 
 #. machine-translated (2026-10), to be reviewed
 msgid "Who is online"
@@ -3214,7 +3213,7 @@ msgid "You can upload an image only (.jpg, .jpeg, .gif and .png)."
 msgstr "Můžete nahrát pouze obrázek (JPG, JPEG, GIF a PNG)."
 
 msgid "You cannot add this feature"
-msgstr "Tato funkce nelze přidat"
+msgstr "Tuto funkci nelze přidat"
 
 msgid "You can't upload more than one file at a time."
 msgstr "Nemůžete nahrát více než jeden soubor najednou."
@@ -3237,7 +3236,7 @@ msgid "You have to chose a start and an end date."
 msgstr "Musíte vybrat datum začátku a konce."
 
 msgid "You must be logged in to like something!"
-msgstr "K potvrzení věrnostních bodů musíte být přihlášeni"
+msgstr "Pro udělení Like musíte být přihlášeni"
 
 msgid "You must be logged in to post a comment"
 msgstr "Pro psaní komentářů musíte být přihlášení"
@@ -3247,7 +3246,7 @@ msgid "You must fill ip & port."
 msgstr "Musíte vyplnit ip a port."
 
 msgid "You must first complete the current category creation process"
-msgstr "Nejdříve musíte dokončit právě vytvářenou složku"
+msgstr "Nejdříve musíte dokončit právě vytvářenou kategorii"
 
 msgid ""
 "You must give the permission to the app to add a contact to your address book"
@@ -3293,7 +3292,7 @@ msgid "Your email address does not exist"
 msgstr "Vaše e-mailová adresa neexistuje"
 
 msgid "Your invoice has been edited successfully."
-msgstr "Vybrané Právo k účtu bylo smazáno"
+msgstr "Vaše faktura byla úspěšně upravena."
 
 msgid "Your name"
 msgstr "Vaše jméno"
@@ -3311,7 +3310,7 @@ msgid ""
 msgstr "Váš požadavek byl úspěšně odeslán, počkejte prosím na odpověď svého správce."
 
 msgid "Your subscription has been deleted successfully."
-msgstr "Info o modulu bylo smazáno"
+msgstr "Vaše předplatné bylo úspěšně smazáno."
 
 #. machine-translated (2026-10), to be reviewed
 msgid "Your subscription status has been changed successfully."
@@ -3431,7 +3430,7 @@ msgid "is updated once a day"
 msgstr "se aktualizuje jednou denně"
 
 msgid "loading"
-msgstr "nahrávám"
+msgstr "načítání"
 
 #. machine-translated (2026-10), to be reviewed
 msgid "low"
@@ -3480,7 +3479,7 @@ msgid "%s / Year"
 msgstr "%s / Rok"
 
 msgid "%s An unknown error occurred, please try again later."
-msgstr "Při ukládání došlo k chybě. Zkuste to prosím později."
+msgstr "%s Došlo k neznámé chybě. Zkuste to prosím později."
 
 msgid "%s Image"
 msgstr "%s Obrázek"
@@ -3493,10 +3492,10 @@ msgid "%s, No params sent."
 msgstr "%s, nebyly odeslány žádné parametry."
 
 msgid "%s ago"
-msgstr "vloženo před: %s"
+msgstr "před %s"
 
 msgid "second"
-msgstr "druhý"
+msgstr "sekunda"
 
 msgid "seconds"
 msgstr "sekundy"
@@ -3515,7 +3514,7 @@ msgid "to add a folder."
 msgstr "k přidání další složky"
 
 msgid "to add a subfolder."
-msgstr "přidat podsložky."
+msgstr "k přidání podsložky."
 
 msgid "twitter"
 msgstr "Twitter"

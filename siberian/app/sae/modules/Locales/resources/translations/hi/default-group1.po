@@ -27,7 +27,7 @@ msgid "2An error occurred while saving. Please try again later."
 msgstr "2 बचत करते समय एक त्रुटि हुई। कृपया बाद में पुन: प्रयास करें।"
 
 msgid "2Checkout subscription is inactive, tray again later."
-msgstr "2Checkout सदस्यता निष्क्रिय है, बाद में फिर से ट्रे."
+msgstr "2Checkout सदस्यता निष्क्रिय है, कृपया बाद में पुनः प्रयास करें।"
 
 msgid "3 An error occurred while saving. Please try again later."
 msgstr "3 बचत करते समय एक त्रुटि हुई। कृपया बाद में पुन: प्रयास करें।"
@@ -39,13 +39,13 @@ msgid "403 Forbidden"
 msgstr "403 निषिद्ध"
 
 msgid "A new user just registered!"
-msgstr "एक नया उपयोगकर्ता अभी पंजीकृत!"
+msgstr "एक नया उपयोगकर्ता अभी पंजीकृत हुआ है!"
 
 msgid "A user just made a new subscription on the Platform <b>%s</b>, for the Application <b>%s</b>."
-msgstr "<b><b>एक उपयोगकर्ता ने एप्लिकेशन%S के लिए प्लेटफार्म%S पर एक नई सदस्यता बनाई है.</b></b>"
+msgstr "एक उपयोगकर्ता ने अभी प्लेटफ़ॉर्म <b>%s</b> पर एप्लिकेशन <b>%s</b> के लिए नई सदस्यता ली है।"
 
 msgid "A user registered on your Platform %s"
-msgstr "आपके प्लेटफ़ॉर्म%S पर पंजीकृत उपयोगकर्ता"
+msgstr "आपके प्लेटफ़ॉर्म %s पर एक उपयोगकर्ता पंजीकृत हुआ"
 
 msgid "APK Generation"
 msgstr "APK जनरेशन"
@@ -57,7 +57,7 @@ msgid "APK build succeed!"
 msgstr "APK निर्माण सफल!"
 
 msgid "APK generation for App: %s"
-msgstr "ऐप के लिए APK पीढ़ी: %s"
+msgstr "ऐप के लिए APK जनरेशन: %s"
 
 msgid "Account Created"
 msgstr "खाता बनाया गया"
@@ -66,7 +66,7 @@ msgid "Activate the user"
 msgstr "उपयोगकर्ता को सक्रिय करें"
 
 msgid "Activating or Deactivating a parent subscription will apply to it's childs."
-msgstr "माता-पिता की सदस्यता को सक्रिय या निष्क्रिय करना इसके बच्चे पर लागू होगा।"
+msgstr "किसी पैरेंट सदस्यता को सक्रिय या निष्क्रिय करने का असर उसकी चाइल्ड सदस्यताओं पर भी पड़ेगा।"
 
 msgid "Activation"
 msgstr "सक्रियण"
@@ -81,13 +81,13 @@ msgid "Add a region"
 msgstr "एक क्षेत्र जोड़ें"
 
 msgid "Adding %s to SAN."
-msgstr "SAN में%S जोड़ना."
+msgstr "%s को SAN में जोड़ा जा रहा है।"
 
 msgid "Admin Cancellation"
 msgstr "व्यवस्थापक रद्दीकरण"
 
 msgid "AdminId is required to save the Application."
-msgstr "AdminID आवेदन को बचाने के लिए आवश्यक है।"
+msgstr "एप्लिकेशन को सहेजने के लिए AdminId आवश्यक है।"
 
 msgid "Album:"
 msgstr "एल्बम:"
@@ -96,13 +96,13 @@ msgid "All sessions are now migrated to Redis."
 msgstr "सभी सत्र अब रेडिस में माइग्रेट किए गए हैं।"
 
 msgid "An administrator of the Platform <b>%s</b>, activated your subscription for the Application <b>%s</b>"
-msgstr "<b><b>प्लेटफार्म%S के व्यवस्थापक ने एप्लिकेशन%S के लिए अपनी सदस्यता को सक्रिय किया</b></b>"
+msgstr "प्लेटफ़ॉर्म <b>%s</b> के एक व्यवस्थापक ने एप्लिकेशन <b>%s</b> के लिए आपकी सदस्यता सक्रिय कर दी है"
 
 msgid "An administrator of the Platform <b>%s</b>, cancelled your subscription for the Application <b>%s</b>"
-msgstr "<b><b>प्लेटफार्म%S के व्यवस्थापक ने एप्लिकेशन%S के लिए आपकी सदस्यता रद्द कर दी</b></b>"
+msgstr "प्लेटफ़ॉर्म <b>%s</b> के एक व्यवस्थापक ने एप्लिकेशन <b>%s</b> के लिए आपकी सदस्यता रद्द कर दी है"
 
 msgid "An administrator of the Platform <b>%s</b>, deactivated your subscription for the Application <b>%s</b>"
-msgstr "<b><b>प्लेटफार्म%S के व्यवस्थापक ने एप्लिकेशन%S के लिए अपनी सदस्यता को निष्क्रिय कर दिया</b></b>"
+msgstr "प्लेटफ़ॉर्म <b>%s</b> के एक व्यवस्थापक ने एप्लिकेशन <b>%s</b> के लिए आपकी सदस्यता निष्क्रिय कर दी है"
 
 msgid "An error occured while adding the block."
 msgstr "ब्लॉक जोड़ने के दौरान एक त्रुटि हुई।"
@@ -120,13 +120,13 @@ msgid "An error occurred when generating the apk"
 msgstr "एपीके उत्पन्न करते समय एक त्रुटि हुई"
 
 msgid "An error occurred while hidding the Android Status Bar."
-msgstr "एंड्रॉइड स्टेटस बार को हिडिंग करते समय एक त्रुटि हुई।"
+msgstr "Android स्टेटस बार को छिपाते समय एक त्रुटि हुई।"
 
 msgid "An error occurred while hidding the iOS Status Bar."
-msgstr "आईओएस स्टेटस बार को हिडिंग करते समय एक त्रुटि हुई।"
+msgstr "iOS स्टेटस बार को छिपाते समय एक त्रुटि हुई।"
 
 msgid "An error occurred while importing line %s : impossible to save the object. Please check your file format."
-msgstr "%s पंक्ति%s आयात करते समय एक त्रुटि हुई: ऑब्जेक्ट को सहेजना असंभव. कृपया अपने फ़ाइल स्वरूप की जाँच करें।"
+msgstr "पंक्ति %s आयात करते समय एक त्रुटि हुई: ऑब्जेक्ट को सहेजना संभव नहीं है। कृपया अपने फ़ाइल प्रारूप की जाँच करें।"
 
 msgid "An error occurred while loading. Please, try again later."
 msgstr "लोड होने पर एक त्रुटि हुई। कृपया, बाद में पुन: प्रयास करें।"
@@ -144,7 +144,7 @@ msgid "An error occurred while saving your page subtitle."
 msgstr "आपके पृष्ठ उपशीर्षक को सहेजते समय एक त्रुटि हुई।"
 
 msgid "An error occurred while saving your picture. Please try againg later."
-msgstr "अपनी तस्वीर को सहेजते समय एक त्रुटि हुई। कृपया बाद में againg का प्रयास करें।"
+msgstr "आपकी तस्वीर को सहेजते समय एक त्रुटि हुई। कृपया बाद में पुनः प्रयास करें।"
 
 msgid "An error occurred while upload the APK. Please try again later."
 msgstr "एपीके अपलोड करते समय एक त्रुटि हुई। कृपया बाद में पुन: प्रयास करें।"
@@ -159,7 +159,7 @@ msgid "An unknown error occurred, please try again later."
 msgstr "एक अज्ञात त्रुटि हुई, कृपया बाद में पुन: प्रयास करें।"
 
 msgid "An unknown error occurred while listing applications."
-msgstr "अनुप्रयोगों को सूचीबद्ध करते समय एक अज्ञात त्रुटि हुई।"
+msgstr "एप्लिकेशन की सूची बनाते समय एक अज्ञात त्रुटि हुई।"
 
 msgid "An user of the Platform <b>%s</b>, cancelled the subscription of the Application <b>%s</b>"
 msgstr "<b><b>प्लेटफार्म%S के एक उपयोगकर्ता ने अनुप्रयोग%S की सदस्यता रद्द कर दी</b></b>"
@@ -174,28 +174,28 @@ msgid "App ID:"
 msgstr "ऐप आईडी:"
 
 msgid "App Id is required!"
-msgstr "अनुप्रयोग आईडी की आवश्यकता है!"
+msgstr "ऐप आईडी आवश्यक है!"
 
 msgid "App name:"
 msgstr "ऐप का नाम:"
 
 msgid "Application id %s not found."
-msgstr "आवेदन आईडी%s नहीं मिला।"
+msgstr "एप्लिकेशन आईडी %s नहीं मिला।"
 
 msgid "Application identifier:"
-msgstr "आवेदन पहचानकर्ता:"
+msgstr "एप्लिकेशन पहचानकर्ता:"
 
 msgid "Application not found!"
-msgstr "आवेदन नहीं मिला!"
+msgstr "एप्लिकेशन नहीं मिला!"
 
 msgid "Application template successfully imported."
 msgstr "अनुप्रयोग टेम्पलेट सफलतापूर्वक आयात किया गया है।"
 
 msgid "Applications tied to this subscription"
-msgstr "इस सदस्यता से जुड़े आवेदन"
+msgstr "इस सदस्यता से जुड़े एप्लिकेशन"
 
 msgid "Apps Qty"
-msgstr "ऐप्स Qty"
+msgstr "ऐप्स की संख्या"
 
 msgid "Authentication failed."
 msgstr "प्रमाणीकरण विफल रहा।"
@@ -204,28 +204,28 @@ msgid "Automatic Cancellation"
 msgstr "स्वचालित रद्दीकरण"
 
 msgid "Back button choice saved!"
-msgstr "वापस बटन पसंद बचाया!"
+msgstr "बैक बटन का चयन सहेजा गया!"
 
 msgid "Background Color"
 msgstr "पृष्ठभूमि का रंग"
 
 msgid "Banner %s price"
-msgstr "बैनर%S की कीमत"
+msgstr "बैनर %s की कीमत"
 
 msgid "Banner %s store label"
-msgstr "बैनर%S स्टोर लेबल"
+msgstr "बैनर %s स्टोर लेबल"
 
 msgid "Be aware that if the code you enter here requires any kind of server interaction it will not work properly in offline mode."
 msgstr "ध्यान रखें कि यदि आपके द्वारा यहां दर्ज कोड को किसी भी प्रकार की सर्वर इंटरैक्शन की आवश्यकता है तो यह ऑफ़लाइन मोड में ठीक से काम नहीं करेगा।"
 
 msgid "Before publishing your Application you must upload a homepage background."
-msgstr "अपने आवेदन को प्रकाशित करने से पहले आपको होमपेज पृष्ठभूमि अपलोड करनी होगी।"
+msgstr "अपने एप्लिकेशन को प्रकाशित करने से पहले आपको होमपेज पृष्ठभूमि अपलोड करनी होगी।"
 
 msgid "Before publishing your Application you must upload a splashscreen."
-msgstr "अपने आवेदन को प्रकाशित करने से पहले आपको एक स्प्लैशस्क्रीन अपलोड करनी होगी।"
+msgstr "अपने एप्लिकेशन को प्रकाशित करने से पहले आपको एक स्प्लैशस्क्रीन अपलोड करनी होगी।"
 
 msgid "Below you'll find important informations required in some services!"
-msgstr "नीचे आपको कुछ सेवाओं में आवश्यक महत्वपूर्ण सूचनाएं मिलेंगी!"
+msgstr "नीचे आपको कुछ सेवाओं के लिए आवश्यक महत्वपूर्ण जानकारी मिलेगी!"
 
 msgid "Bin SQLite3:"
 msgstr "बिन SQLite3:"
@@ -240,13 +240,13 @@ msgid "Border Color"
 msgstr "सीमा रंग"
 
 msgid "Build Mobile Social Gaming"
-msgstr "मोबाइल सामाजिक गेमिंग का निर्माण"
+msgstr "मोबाइल सोशल गेमिंग बनाएँ"
 
 msgid "Build failed"
 msgstr "बिल्ड विफल रहा"
 
 msgid "Build succeed"
-msgstr "सफल निर्माण"
+msgstr "बिल्ड सफल रहा"
 
 msgid "CORE TEMPLATE"
 msgstr "कोर टेम्पलेट"
@@ -264,37 +264,37 @@ msgid "Cancellation of your Subscription!"
 msgstr "अपनी सदस्यता का रद्दीकरण!"
 
 msgid "Cancelling a child subscription will only affect the concerned application."
-msgstr "बाल सदस्यता रद्द करने से संबंधित एप्लिकेशन को केवल प्रभावित किया जाएगा।"
+msgstr "चाइल्ड सदस्यता रद्द करने से केवल संबंधित एप्लिकेशन प्रभावित होगा।"
 
 msgid "Cancelling a paid subscription will mark it as cancelled, and the subscription will automatically expire on it's expiration date."
-msgstr "सशुल्क सदस्यता रद्द करने से उसे रद्द किए जाने के रूप में चिह्नित किया जाएगा, और सदस्यता स्वचालित रूप से इसकी समाप्ति तिथि समाप्त हो जाएगी."
+msgstr "सशुल्क सदस्यता रद्द करने पर वह रद्द के रूप में चिह्नित हो जाएगी, और सदस्यता अपनी समाप्ति तिथि पर स्वचालित रूप से समाप्त हो जाएगी।"
 
 msgid "Cancelling a parent subscription will also cancel it's childs."
-msgstr "माता-पिता की सदस्यता रद्द करने से इसके बच्चे भी रद्द हो जाएंगे।"
+msgstr "पैरेंट सदस्यता रद्द करने से उसकी चाइल्ड सदस्यताएँ भी रद्द हो जाएँगी।"
 
 msgid "Cannot find application from token."
-msgstr "टोकन से आवेदन नहीं मिल सकता है।"
+msgstr "टोकन से एप्लिकेशन नहीं मिल सका।"
 
 msgid "Cannot send APK build to service %s."
-msgstr "एपीके बिल्ड को सेवा%s में नहीं भेज सकता है।"
+msgstr "सेवा %s को APK बिल्ड नहीं भेजा जा सका।"
 
 msgid "Cannot send build to service %s."
-msgstr "सेवा%s को निर्माण नहीं भेज सकता है।"
+msgstr "सेवा %s को बिल्ड नहीं भेजा जा सका।"
 
 msgid "Catalog not found!"
 msgstr "कैटलॉग नहीं मिला!"
 
 msgid "Category has been deleted."
-msgstr "श्रेणी हटा दिया गया है।"
+msgstr "श्रेणी हटा दी गई है।"
 
 msgid "Category not found!"
-msgstr "श्रेणी नहीं मिला!"
+msgstr "श्रेणी नहीं मिली!"
 
 msgid "Category successfully deleted."
-msgstr "श्रेणी सफलतापूर्वक हटा दिया।"
+msgstr "श्रेणी सफलतापूर्वक हटा दी गई।"
 
 msgid "Certificate renewal is disabled until %s due to rate limit hit."
-msgstr "दर सीमा हिट के कारण सर्टिफिकेट नवीनीकरण अक्षम किया गया है%s."
+msgstr "दर सीमा पूरी होने के कारण प्रमाणपत्र का नवीनीकरण %s तक अक्षम किया गया है।"
 
 msgid "Change your homepage"
 msgstr "अपना मुखपृष्ठ बदलें"
@@ -303,13 +303,13 @@ msgid "Change your startup image"
 msgstr "अपनी स्टार्टअप छवि बदलें"
 
 msgid "Check out our support pages:"
-msgstr "हमारे समर्थन पृष्ठों की जाँच करें:"
+msgstr "हमारे सहायता पृष्ठ देखें:"
 
 msgid "Chef de projet"
-msgstr "बावर्ची डे प्रोजेट"
+msgstr "प्रोजेक्ट मैनेजर"
 
 msgid "Child"
-msgstr "बच्चा"
+msgstr "चाइल्ड"
 
 msgid "Choose a"
 msgstr "एक चुनें"
@@ -321,19 +321,19 @@ msgid "ClamAV:"
 msgstr "क्लैमएवी:"
 
 msgid "Code Used"
-msgstr "कोड का इस्तेमाल किया"
+msgstr "प्रयुक्त कोड"
 
 msgid "Coiffeurs"
-msgstr "Coiffeurs"
+msgstr "हेयरड्रेसर"
 
 msgid "Company successfully deleted."
-msgstr "कंपनी सफलतापूर्वक हटा दिया।"
+msgstr "कंपनी सफलतापूर्वक हटा दी गई।"
 
 msgid "Create a new plan"
 msgstr "एक नई योजना बनाएं"
 
 msgid "Created at:"
-msgstr "पर बनाया गया:"
+msgstr "निर्माण समय:"
 
 msgid "Credentials successfully saved!"
 msgstr "क्रेडेंशियल्स सफलतापूर्वक सहेजे गए!"
@@ -345,22 +345,22 @@ msgid "Deactivation"
 msgstr "निष्क्रियता"
 
 msgid "Deactivation of your Subscription!"
-msgstr "अपनी सदस्यता के निष्क्रियकरण!"
+msgstr "आपकी सदस्यता का निष्क्रियकरण!"
 
 msgid "Define how many applications can be activated with this Subscription"
 msgstr "परिभाषित करें कि इस सदस्यता के साथ कितने एप्लिकेशन सक्रिय किए जा सकते हैं"
 
 msgid "Delete my account."
-msgstr "मेरा खाता हटाएँ."
+msgstr "मेरा खाता हटाएँ।"
 
 msgid "Delivery fees:"
-msgstr "डिलिवरी शुल्क:"
+msgstr "डिलीवरी शुल्क:"
 
 msgid "Delivery methods:"
-msgstr "वितरण के तरीके:"
+msgstr "डिलीवरी विधियाँ:"
 
 msgid "Delivery radius:"
-msgstr "डिलिवरी त्रिज्या:"
+msgstr "डिलीवरी त्रिज्या:"
 
 msgid "Delivery time:"
 msgstr "डिलीवरी का समय:"
@@ -372,10 +372,10 @@ msgid "Disable this Subscription!"
 msgstr "इस सदस्यता को अक्षम करें!"
 
 msgid "Disabling cache can have significant performance impacts."
-msgstr "कैश को अक्षम करने में महत्वपूर्ण प्रदर्शन प्रभाव हो सकते हैं।"
+msgstr "कैश को अक्षम करने से प्रदर्शन पर महत्वपूर्ण प्रभाव पड़ सकता है।"
 
 msgid "Distributeur logiciel"
-msgstr "डिस्ट्रीब्यूटर लॉजियल"
+msgstr "सॉफ़्टवेयर वितरक"
 
 msgid "Do not edit the following settings if your APK Generator is working!"
 msgstr "यदि आपका एपीके जेनरेटर काम कर रहा है तो निम्न सेटिंग्स को संपादित न करें!"
@@ -384,7 +384,7 @@ msgid "Download QRCode for employee"
 msgstr "कर्मचारी के लिए QRCode डाउनलोड करें"
 
 msgid "Download images archive"
-msgstr "डाउनलोड छवियों संग्रह"
+msgstr "छवि संग्रह डाउनलोड करें"
 
 msgid "Download template as"
 msgstr "के रूप में टेम्पलेट डाउनलोड करें"
@@ -396,7 +396,7 @@ msgid "Download the source archive !"
 msgstr "स्रोत संग्रह डाउनलोड करें!"
 
 msgid "Downloading your package."
-msgstr "अपने पैकेज को डाउनलोड कर रहा है।"
+msgstr "आपका पैकेज डाउनलोड हो रहा है।"
 
 msgid "Edit the account \"%s\""
 msgstr "खाता “%s” संपादित करें"
@@ -414,34 +414,34 @@ msgid "Enable this Subscription!"
 msgstr "इस सदस्यता को सक्षम करें!"
 
 msgid "Error: unable to write Environment in config.php"
-msgstr "त्रुटि: config.php में पर्यावरण लिखने में असमर्थ"
+msgstr "त्रुटि: config.php में एनवायरनमेंट लिखने में असमर्थ"
 
 msgid "Essayez gratuitement !"
-msgstr "Essayez मुक्त करने के लिए!"
+msgstr "निःशुल्क आज़माएँ!"
 
 msgid "Expired on"
 msgstr "पर समाप्त हो गई"
 
 msgid "Extension not allowed, '%s' only"
-msgstr "एक्सटेंशन की अनुमति नहीं है, केवल '% s'"
+msgstr "एक्सटेंशन की अनुमति नहीं है, केवल '%s'"
 
 msgid "Feature is now %s"
-msgstr "सुविधा अब%s है"
+msgstr "सुविधा अब %s है"
 
 msgid "Feature not found."
-msgstr "फ़ीचर नहीं मिला."
+msgstr "सुविधा नहीं मिली।"
 
 msgid "Feature successfully added inside folder!"
-msgstr "सुविधा सफलतापूर्वक फ़ोल्डर के अंदर जोड़ा!"
+msgstr "सुविधा सफलतापूर्वक फ़ोल्डर के अंदर जोड़ी गई!"
 
 msgid "Feature successfuly imported."
-msgstr "सुविधा सफलतापूर्वक आयात किया।"
+msgstr "सुविधा सफलतापूर्वक आयात की गई।"
 
 msgid "Firebase is not well configured."
 msgstr "फायरबेस अच्छी तरह से कॉन्फ़िगर नहीं किया गया है।"
 
 msgid "Firewall Slack settings have been saved."
-msgstr "फ़ायरवॉल स्लैक सेटिंग्स को सहेजा गया है।"
+msgstr "फ़ायरवॉल Slack सेटिंग्स सहेज ली गई हैं।"
 
 msgid "Firstname:"
 msgstr "प्रथम नाम:"
@@ -453,25 +453,25 @@ msgid "Folder not found!"
 msgstr "फ़ोल्डर नहीं मिला!"
 
 msgid "Free"
-msgstr "नि: शुल्क"
+msgstr "निःशुल्क"
 
 msgid "Free delivery starting from:"
-msgstr "नि: शुल्क वितरण से शुरू:"
+msgstr "निःशुल्क डिलीवरी इससे शुरू:"
 
 msgid "Free plan"
-msgstr "नि: शुल्क योजना"
+msgstr "निःशुल्क योजना"
 
 msgid "Free plans have no expiration date."
-msgstr "नि: शुल्क योजनाओं में कोई समाप्ति तिथि नहीं है।"
+msgstr "निःशुल्क योजनाओं की कोई समाप्ति तिथि नहीं होती।"
 
 msgid "Free trial period duration must be a numeric value."
-msgstr "नि: शुल्क परीक्षण अवधि अवधि एक संख्यात्मक मान होना चाहिए।"
+msgstr "निःशुल्क परीक्षण अवधि की अवधि एक संख्यात्मक मान होनी चाहिए।"
 
 msgid "Galerie photos"
 msgstr "गैलरी फोटो"
 
 msgid "Gallery has been deleted!"
-msgstr "गैलरी हटा दिया गया है!"
+msgstr "गैलरी हटा दी गई है!"
 
 msgid "Google Service file successfully saved!"
 msgstr "Google सेवा फ़ाइल सफलतापूर्वक सहेजी गई!"
@@ -486,16 +486,16 @@ msgid "If your credit card, or subscription expired, you can purchase a new one.
 msgstr "यदि आपका क्रेडिट कार्ड, या सदस्यता समाप्त हो गई है, तो आप एक नया खरीद सकते हैं।"
 
 msgid "Immobilier"
-msgstr "immobilier"
+msgstr "रियल एस्टेट"
 
 msgid "Import success."
-msgstr "सफलता आयात करें."
+msgstr "आयात सफल रहा।"
 
 msgid "Installed templates"
 msgstr "स्थापित टेम्पलेट्स"
 
 msgid "Interface en Marque Blanche"
-msgstr "इंटरफ़ेस एन मार्क ब्लांश"
+msgstr "व्हाइट-लेबल इंटरफ़ेस"
 
 msgid "Invalid QRCode parameters."
 msgstr "अमान्य QRCode पैरामीटर।"
@@ -507,13 +507,13 @@ msgid "Invoice"
 msgstr "चालान"
 
 msgid "Invoice %s"
-msgstr "इनवॉयस%S"
+msgstr "चालान %s"
 
 msgid "Is Active?"
 msgstr "सक्रिय है?"
 
 msgid "JpegOptim:"
-msgstr "जेपीएगोप्टिम:"
+msgstr "JpegOptim:"
 
 msgid "Label:"
 msgstr "लेबल:"
@@ -522,7 +522,7 @@ msgid "Lastname:"
 msgstr "अंतिम नाम:"
 
 msgid "Let your users know what is locked."
-msgstr "अपने उपयोगकर्ताओं को पता है कि क्या बंद कर दिया है करते हैं।"
+msgstr "अपने उपयोगकर्ताओं को बताएँ कि क्या लॉक है।"
 
 msgid "Linked to Subscription"
 msgstr "सदस्यता से जुड़ा हुआ है"
@@ -531,13 +531,13 @@ msgid "List of your taxes"
 msgstr "अपने करों की सूची"
 
 msgid "Listing produits"
-msgstr "लिस्टिंग प्रोड्यूट्स"
+msgstr "उत्पाद सूची"
 
 msgid "Listing produits / tarifs"
-msgstr "लिस्टिंग प्रोड्यूइट्स/टैरिफ़"
+msgstr "उत्पाद सूची / मूल्य"
 
 msgid "Loading your white label editor."
-msgstr "अपने सफेद लेबल संपादक लोड हो रहा है।"
+msgstr "आपका व्हाइट-लेबल संपादक लोड हो रहा है।"
 
 msgid "MM/dd/y"
 msgstr "एमएम/डीडी/वाई"
@@ -546,13 +546,13 @@ msgid "Main domain is required!"
 msgstr "मुख्य डोमेन की आवश्यकता है!"
 
 msgid "Main domain is required, you can set it in <b>Settings > General</b>"
-msgstr "मुख्य डोमेन की आवश्यकता है, आप इसे <b>सेटिंग > सामान्य</b>में सेट कर सकते हैं"
+msgstr "मुख्य डोमेन आवश्यक है, आप इसे <b>सेटिंग्स > सामान्य</b> में सेट कर सकते हैं"
 
 msgid "Major update disclaimer, confirmation required!"
 msgstr "मेजर अपडेट अस्वीकरण, पुष्टि की आवश्यकता है!"
 
 msgid "Manifest rebuilt with succes."
-msgstr "मेनिफेस्ट सफलताओं के साथ पुनर्निर्माण किया।"
+msgstr "मैनिफ़ेस्ट सफलतापूर्वक पुनः बनाया गया।"
 
 msgid "Message:"
 msgstr "संदेश:"
@@ -561,10 +561,10 @@ msgid "Message is required."
 msgstr "संदेश आवश्यक है."
 
 msgid "Migration done!"
-msgstr "प्रवासन किया!"
+msgstr "माइग्रेशन पूरा हुआ!"
 
 msgid "Minimum order:"
-msgstr "न्यूनतम आदेश:"
+msgstr "न्यूनतम ऑर्डर:"
 
 msgid "Missing categories."
 msgstr "गुम श्रेणियां."
@@ -573,7 +573,7 @@ msgid "Missing data."
 msgstr "गुम डेटा।"
 
 msgid "Missing design_id."
-msgstr "गायब डिजाइन_आईडी।"
+msgstr "design_id अनुपलब्ध है।"
 
 msgid "Missing form data!"
 msgstr "लापता फॉर्म डेटा!"
@@ -588,7 +588,7 @@ msgid "Missing parameters, value_id or message."
 msgstr "अनुपलब्ध पैरामीटर, value_id या संदेश।"
 
 msgid "Missing params!"
-msgstr "लापता पैराम!"
+msgstr "पैरामीटर अनुपलब्ध हैं!"
 
 msgid "Missing request."
 msgstr "लापता अनुरोध."
@@ -603,13 +603,13 @@ msgid "Mode"
 msgstr "मोड"
 
 msgid "Mur de news"
-msgstr "मुर डे समाचार"
+msgstr "न्यूज़ वॉल"
 
 msgid "Mur de news mobile"
-msgstr "मुर डे समाचार मोबाइल"
+msgstr "न्यूज़ वॉल मोबाइल"
 
 msgid "My Subscriptions"
-msgstr "मेरे सदस्यताएँ"
+msgstr "मेरी सदस्यताएँ"
 
 msgid "My subscriptions"
 msgstr "मेरी सदस्यता"
@@ -618,16 +618,16 @@ msgid "N.A."
 msgstr "एन.ए."
 
 msgid "Name is required to save the Application."
-msgstr "आवेदन को बचाने के लिए नाम की आवश्यकता है।"
+msgstr "एप्लिकेशन सहेजने के लिए नाम आवश्यक है।"
 
 msgid "National"
 msgstr "राष्ट्रीय"
 
 msgid "New sale"
-msgstr "नया बिक्री"
+msgstr "नई बिक्री"
 
 msgid "New subscription on your Platform %s!"
-msgstr "आपके प्लेटफार्म%S पर नई सब्सक्रिप्शन!"
+msgstr "आपके प्लेटफ़ॉर्म %s पर नई सदस्यता!"
 
 msgid "New user Account"
 msgstr "नया उपयोगकर्ता खाता"
@@ -636,22 +636,22 @@ msgid "Next payment date"
 msgstr "अगले भुगतान की तारीख"
 
 msgid "No build."
-msgstr "कोई निर्माण नहीं।"
+msgstr "कोई बिल्ड नहीं।"
 
 msgid "No credentials found!"
-msgstr "कोई प्रमाण पत्र नहीं मिला!"
+msgstr "कोई क्रेडेंशियल नहीं मिला!"
 
 msgid "No customers available."
 msgstr "कोई ग्राहक उपलब्ध नहीं है।"
 
 msgid "No data sent."
-msgstr "कोई डेटा नहीं भेजा."
+msgstr "कोई डेटा नहीं भेजा गया।"
 
 msgid "No file found."
 msgstr "कोई फाइल नहीं मिली।"
 
 msgid "No, go back!"
-msgstr "नहीं, वापस जाओ!"
+msgstr "नहीं, वापस जाएं!"
 
 msgid "No templates"
 msgstr "कोई टेम्पलेट नहीं"
@@ -660,28 +660,28 @@ msgid "Nobody is online."
 msgstr "कोई भी ऑनलाइन नहीं है।"
 
 msgid "Nos plateformes"
-msgstr "नोस प्लेटफॉर्म्स"
+msgstr "हमारे प्लेटफ़ॉर्म"
 
 msgid "Not a Yahoo weather request, aborting."
 msgstr "याहू मौसम अनुरोध नहीं, निरस्त कर रहा है।"
 
 msgid "Notifications Push"
-msgstr "सूचनाएं पुश करें"
+msgstr "पुश नोटिफ़िकेशन"
 
 msgid "Notifications Push en marque blanche"
-msgstr "सूचनाएं एन मार्क ब्लांश पुश"
+msgstr "व्हाइट-लेबल पुश नोटिफ़िकेशन"
 
 msgid "Nous supportons toutes les plateformes"
-msgstr "Nous समर्थक Toutes लेस plateformes"
+msgstr "हम सभी प्लेटफ़ॉर्म को सपोर्ट करते हैं"
 
 msgid "Number of Applications"
-msgstr "आवेदन की संख्या"
+msgstr "एप्लिकेशन की संख्या"
 
 msgid "Offline"
 msgstr "ऑफलाइन"
 
 msgid "Only cancelled"
-msgstr "केवल रद्द कर दिया"
+msgstr "केवल रद्द किए गए"
 
 msgid "OptiPNG:"
 msgstr "ऑप्टिपीएनजी:"
@@ -690,13 +690,13 @@ msgid "Option name:"
 msgstr "विकल्प का नाम:"
 
 msgid "Or purchase a new subscription"
-msgstr "या एक नई सदस्यता खरीद"
+msgstr "या नई सदस्यता खरीदें"
 
 msgid "Order:"
-msgstr "आदेश:"
+msgstr "ऑर्डर:"
 
 msgid "Order successfully saved saved."
-msgstr "आदेश सफलतापूर्वक बचाया बचाया।"
+msgstr "ऑर्डर सफलतापूर्वक सहेजा गया।"
 
 msgid "Overlay color"
 msgstr "ओवरले रंग"
@@ -720,16 +720,16 @@ msgid "PROTECTED"
 msgstr "संरक्षित"
 
 msgid "Partially saved."
-msgstr "आंशिक रूप से बचाया।"
+msgstr "आंशिक रूप से सहेजा गया।"
 
 msgid "Password:"
 msgstr "पासवर्ड:"
 
 msgid "PayPal is not configured in your Backoffice, recurrencies will not work correctly."
-msgstr "पेपैल आपके बैकऑफिस में कॉन्फ़िगर नहीं किया गया है, पुनरावर्ती सही तरीके से काम नहीं करेंगे।"
+msgstr "PayPal आपके बैकऑफ़िस में कॉन्फ़िगर नहीं है, आवर्ती भुगतान सही ढंग से काम नहीं करेंगे।"
 
 msgid "PayPal subscription is %s."
-msgstr "पेपैल सदस्य%s है."
+msgstr "PayPal सदस्यता %s है।"
 
 msgid "Payment Information:"
 msgstr "भुगतान जानकारी:"
@@ -741,10 +741,10 @@ msgid "Percentage"
 msgstr "प्रतिशत"
 
 msgid "Please correct the following errors <br>"
-msgstr "<br>कृपया निम्नलिखित त्रुटियों को ठीक करें"
+msgstr "कृपया निम्नलिखित त्रुटियों को ठीक करें <br>"
 
 msgid "Please enter a correct version for the %s app"
-msgstr "कृप्त%s अनुप्रयोग के लिए एक सही संस्करण दर्ज करें"
+msgstr "कृपया %s ऐप के लिए सही संस्करण दर्ज करें"
 
 msgid "Please, enter a password."
 msgstr "कृपया, एक पासवर्ड दर्ज करें।"
@@ -756,13 +756,13 @@ msgid "Please fill iTunes Connect Credentials."
 msgstr "कृपया आईट्यून्स कनेक्ट क्रेडेंशियल्स भरें।"
 
 msgid "Please verify the"
-msgstr "कृपया सत्यापित करें कि"
+msgstr "कृपया सत्यापित करें"
 
 msgid "Plesk from 12.0 to 17.0"
 msgstr "12.0 से 17.0 तक Plesk"
 
 msgid "Plus d'infos"
-msgstr "प्लस डी इन्फोस"
+msgstr "अधिक जानकारी"
 
 msgid "Postal code or city:"
 msgstr "डाक कोड या शहर:"
@@ -792,13 +792,13 @@ msgid "Promo successfully deleted"
 msgstr "प्रोमो सफलतापूर्वक हटा दिया गया"
 
 msgid "Promotion successfully deleted."
-msgstr "संवर्धन सफलतापूर्वक हटा दिया।"
+msgstr "प्रमोशन सफलतापूर्वक हटा दिया गया।"
 
 msgid "Provider"
 msgstr "प्रदाता"
 
 msgid "Purchase a new subscription!"
-msgstr "एक नई सदस्यता खरीद!"
+msgstr "नई सदस्यता खरीदें!"
 
 msgid "Query successfully deleted."
 msgstr "क्वेरी सफलतापूर्वक हटा दी गई है।"
@@ -807,7 +807,7 @@ msgid "Question"
 msgstr "प्रश्न"
 
 msgid "RSS application mobile"
-msgstr "आरएसएस आवेदन मोबाइल"
+msgstr "RSS मोबाइल एप्लिकेशन"
 
 msgid "RSS/Atom"
 msgstr "आरएसएस/एटम"
@@ -831,10 +831,10 @@ msgid "Regular fee"
 msgstr "नियमित शुल्क"
 
 msgid "Removing CRON Scheduler generator lock files."
-msgstr "क्रॉन समयबद्धक जनरेटर ताला फ़ाइलों को हटा रहा है."
+msgstr "CRON शेड्यूलर जनरेटर लॉक फ़ाइलें हटाई जा रही हैं।"
 
 msgid "Removing CRON Scheduler source lock files."
-msgstr "क्रॉन समयबद्धक स्रोत ताला फ़ाइलों को हटा रहा है."
+msgstr "CRON शेड्यूलर स्रोत लॉक फ़ाइलें हटाई जा रही हैं।"
 
 msgid "Removing domain %s, domain in dot notation is not supported."
 msgstr "डोमेन %s को हटा रहा है, डॉट नोटेशन में डोमेन समर्थित नहीं है."
@@ -843,19 +843,19 @@ msgid "Render Test"
 msgstr "रेंडर टेस्ट"
 
 msgid "Request a new PEM certificate."
-msgstr "एक नया पीईएम प्रमाण पत्र का अनुरोध करें।"
+msgstr "नए PEM प्रमाणपत्र का अनुरोध करें।"
 
 msgid "Reset to default Privacy Policy GDPR."
-msgstr "गोपनीयता नीति GDPR को डिफ़ॉल्ट रूप से रीसेट करें."
+msgstr "डिफ़ॉल्ट GDPR गोपनीयता नीति पर रीसेट करें।"
 
 msgid "Resize your picture:"
 msgstr "अपनी तस्वीर का आकार बदलें:"
 
 msgid "Safe in landscape"
-msgstr "परिदृश्य में सुरक्षित"
+msgstr "लैंडस्केप में सुरक्षित"
 
 msgid "Safe in portrait"
-msgstr "चित्र में सुरक्षित"
+msgstr "पोर्ट्रेट में सुरक्षित"
 
 msgid "Safe zone overlay"
 msgstr "सुरक्षित क्षेत्र ओवरले"
@@ -870,10 +870,10 @@ msgid "Secret Key:"
 msgstr "गुप्त कुंजी:"
 
 msgid "Seems the appId is empty or invalid, aborting!"
-msgstr "ऐसा लगता है कि ऐपआईडी खाली या अमान्य है, निरस्त कर रहा है!"
+msgstr "ऐसा लगता है कि appId खाली या अमान्य है, रद्द किया जा रहा है!"
 
 msgid "Seems we could delete unwanted files, aborting!"
-msgstr "लगता है कि हम अवांछित फ़ाइलों को हटा सकते हैं, निरस्त कर सकते हैं!"
+msgstr "ऐसा लगता है कि हम अवांछित फ़ाइलें हटा सकते हैं, रद्द किया जा रहा है!"
 
 msgid "Select a connection type:"
 msgstr "एक कनेक्शन प्रकार का चयन करें:"
@@ -891,13 +891,13 @@ msgid "Service status / load"
 msgstr "सेवा की स्थिति/भार"
 
 msgid "Setting successfully saved."
-msgstr "सेटिंग सफलतापूर्वक सहेजा गया।"
+msgstr "सेटिंग सफलतापूर्वक सहेजी गई।"
 
 msgid "Show applications removed from the editor."
 msgstr "संपादक से हटाए गए एप्लिकेशन दिखाएं।"
 
 msgid "Show child subscriptions"
-msgstr "बाल सदस्यता दिखाएं"
+msgstr "चाइल्ड सदस्यता दिखाएं"
 
 msgid "Signature:"
 msgstr "हस्ताक्षर:"
@@ -915,16 +915,16 @@ msgid "Something went wrong while restoring files, process aborted!"
 msgstr "फ़ाइलों को बहाल करते समय कुछ गलत हो गया, प्रक्रिया निरस्त हो गई!"
 
 msgid "Sorry but an error occurred while duplicating your application."
-msgstr "क्षमा करें, लेकिन आपके आवेदन को डुप्लिकेट करते समय एक त्रुटि हुई।"
+msgstr "क्षमा करें, लेकिन आपके एप्लिकेशन को डुप्लिकेट करते समय एक त्रुटि हुई।"
 
 msgid "Source type:"
 msgstr "स्रोत का प्रकार:"
 
 msgid "Sources Generation"
-msgstr "सूत्रों का उत्पादन"
+msgstr "स्रोत जनरेशन"
 
 msgid "Sources are successfully restored."
-msgstr "स्रोत सफलतापूर्वक बहाल किए जाते हैं।"
+msgstr "स्रोत सफलतापूर्वक पुनर्स्थापित कर दिए गए हैं।"
 
 msgid "Subscription:"
 msgstr "सदस्यता:"
@@ -933,10 +933,10 @@ msgid "Subscription date"
 msgstr "सदस्यता तिथि"
 
 msgid "Subscription updated."
-msgstr "सदस्यता अपडेट किया गया।"
+msgstr "सदस्यता अपडेट की गई।"
 
 msgid "Successfully saved default project."
-msgstr "सफलतापूर्वक डिफ़ॉल्ट परियोजना को बचाया।"
+msgstr "डिफ़ॉल्ट प्रोजेक्ट सफलतापूर्वक सहेजा गया।"
 
 msgid "Tax:"
 msgstr "कर:"
@@ -948,13 +948,13 @@ msgid "Tax rate:"
 msgstr "कर की दर:"
 
 msgid "Teams successfully refreshed!"
-msgstr "टीमों ने सफलतापूर्वक ताज़ा किया!"
+msgstr "टीमें सफलतापूर्वक रीफ़्रेश की गईं!"
 
 msgid "Telephone"
 msgstr "टेलीफोन"
 
 msgid "Temp cleared."
-msgstr "अस्थायी मंजूरी दे दी."
+msgstr "अस्थायी फ़ाइलें साफ़ की गईं।"
 
 msgid "Test App"
 msgstr "टेस्ट ऐप"
@@ -972,34 +972,34 @@ msgid "Thanks for your subscription."
 msgstr "आपकी सदस्यता के लिए धन्यवाद।"
 
 msgid "The APK for the application %s has been generated !"
-msgstr "आवेदन%s के लिए एपीके उत्पन्न किया गया है!"
+msgstr "एप्लिकेशन %s के लिए APK जनरेट हो गया है!"
 
 msgid "The APK generation failed !"
-msgstr "एपीके पीढ़ी विफल रही!"
+msgstr "APK जनरेशन विफल रहा!"
 
 msgid "The APK generation is done !"
-msgstr "APK पीढ़ी किया जाता है!"
+msgstr "APK जनरेशन पूरा हो गया!"
 
 msgid "The APK has been generated!"
-msgstr "एपीके उत्पन्न किया गया है!"
+msgstr "APK जनरेट हो गया है!"
 
 msgid "The CNAME for the URL \"%s\" is not properly set"
-msgstr "यूआरएल “% s” के लिए CNAME ठीक से सेट नहीं है"
+msgstr "URL “%s” के लिए CNAME ठीक से सेट नहीं है"
 
 msgid "The CNAME for the domain \"%s\" is not properly set"
 msgstr "डोमेन “%s” के लिए CNAME ठीक से सेट नहीं है"
 
 msgid "The Source code for the application %s has been generated !"
-msgstr "आवेदन%s के लिए स्रोत कोड उत्पन्न किया गया है!"
+msgstr "एप्लिकेशन %s के लिए स्रोत कोड जनरेट हो गया है!"
 
 msgid "The Source code generation failed !"
-msgstr "स्रोत कोड पीढ़ी विफल रही!"
+msgstr "स्रोत कोड जनरेशन विफल रहा!"
 
 msgid "The categories for line %s couldn't be created : no parent category found."
-msgstr "%s के लिए श्रेणियाँ नहीं बनाई जा सकी: कोई पैरेंट श्रेणी नहीं मिली."
+msgstr "पंक्ति %s के लिए श्रेणियाँ नहीं बनाई जा सकीं: कोई पैरेंट श्रेणी नहीं मिली।"
 
 msgid "The categories for line %s couldn't be created : no root category found."
-msgstr "%s के लिए श्रेणियाँ नहीं बनाई जा सकी: कोई रूट श्रेणी नहीं मिली."
+msgstr "पंक्ति %s के लिए श्रेणियाँ नहीं बनाई जा सकीं: कोई रूट श्रेणी नहीं मिली।"
 
 msgid "The categories for line %s couldn't be read."
 msgstr "%s पंक्ति के लिए श्रेणियाँ पढ़ी नहीं जा सकी."
@@ -1017,10 +1017,10 @@ msgid "The formats for line %s couldn't be read."
 msgstr "%s लाइन के लिए स्वरूप पढ़ा नहीं जा सका."
 
 msgid "The given template does not exists."
-msgstr "दिए गए टेम्पलेट मौजूद नहीं है।"
+msgstr "दिया गया टेम्पलेट मौजूद नहीं है।"
 
 msgid "The local APK generator requires %s"
-msgstr "स्थानीय एपीके जनरेटर को% s की आवश्यकता है"
+msgstr "स्थानीय APK जनरेटर को %s की आवश्यकता है"
 
 msgid "The options for line %s couldn't be read."
 msgstr "%s लाइन के लिए विकल्प पढ़ा नहीं जा सका."
@@ -1032,10 +1032,10 @@ msgid "The overlay helps you check if important content and/or text on your home
 msgstr "ओवरले आपको यह जांचने में मदद करता है कि आपके होमपेज छवि पर महत्वपूर्ण सामग्री और/या पाठ सुरक्षित सीमाओं के अंदर है या नहीं।"
 
 msgid "The requested APK generation failed: %s"
-msgstr "अनुरोधित एपीके पीढ़ी विफल रही: %s"
+msgstr "अनुरोधित APK जनरेशन विफल रहा: %s"
 
 msgid "The requested APK/Source generation failed !"
-msgstr "अनुरोधित एपीके/स्रोत पीढ़ी विफल रही!"
+msgstr "अनुरोधित APK/स्रोत जनरेशन विफल रहा!"
 
 msgid "The search request is empty."
 msgstr "खोज अनुरोध खाली है।"
@@ -1044,10 +1044,10 @@ msgid "The selected subscription is not valid."
 msgstr "चयनित सदस्यता मान्य नहीं है।"
 
 msgid "The source generation is done !"
-msgstr "स्रोत पीढ़ी किया जाता है!"
+msgstr "स्रोत जनरेशन पूरा हो गया!"
 
 msgid "The subscription is cancelled!"
-msgstr "सदस्यता रद्द कर दिया गया है!"
+msgstr "सदस्यता रद्द कर दी गई है!"
 
 msgid "The subscription is now active."
 msgstr "सदस्यता अब सक्रिय है।"
@@ -1059,22 +1059,22 @@ msgid "The user doesn't exist."
 msgstr "उपयोगकर्ता मौजूद नहीं है।"
 
 msgid "There is not corresponding release to restore from, process aborted!"
-msgstr "वहाँ से बहाल करने के लिए इसी रिलीज नहीं है, प्रक्रिया निरस्त!"
+msgstr "पुनर्स्थापित करने के लिए कोई संबंधित रिलीज़ नहीं है, प्रक्रिया रद्द की गई!"
 
 msgid "This Application doesn't exists, aborting!"
-msgstr "इस आवेदन निरस्त, मौजूद नहीं है!"
+msgstr "यह एप्लिकेशन मौजूद नहीं है, रद्द किया जा रहा है!"
 
 msgid "This Application has some invoices associated, you can not delete it!"
-msgstr "इस एप्लिकेशन के पास कुछ चालान जुड़े हैं, आप इसे हटा नहीं सकते हैं!"
+msgstr "इस एप्लिकेशन से कुछ चालान जुड़े हैं, आप इसे हटा नहीं सकते!"
 
 msgid "This action is used to migrate all current active session into a Redis server instance, use this only with care if you want to migrate from MySQL session to Redis session storage."
 msgstr "इस क्रिया का उपयोग सभी मौजूदा सक्रिय सत्र को रेडिस सर्वर इंस्टेंस में माइग्रेट करने के लिए किया जाता है, यदि आप MySQL सत्र से रेडिस सत्र संग्रहण में माइग्रेट करना चाहते हैं तो केवल देखभाल के साथ इसका उपयोग करें।"
 
 msgid "This admin can download application sources code."
-msgstr "इस व्यवस्थापक आवेदन स्रोतों कोड डाउनलोड कर सकते हैं।"
+msgstr "यह व्यवस्थापक एप्लिकेशन स्रोत कोड डाउनलोड कर सकता है।"
 
 msgid "This application does not belong to you."
-msgstr "यह आवेदन आप से संबंधित नहीं है।"
+msgstr "यह एप्लिकेशन आपका नहीं है।"
 
 msgid "This block type doesn't exists."
 msgstr "यह ब्लॉक प्रकार मौजूद नहीं है।"
@@ -1089,7 +1089,7 @@ msgid "This icon is not allowed!"
 msgstr "इस आइकन की अनुमति नहीं है!"
 
 msgid "This is a child subscription, it is tied to a parent with 2 or more application slots."
-msgstr "यह एक बच्चे की सदस्यता है, यह 2 या अधिक एप्लिकेशन स्लॉट वाले माता-पिता से जुड़ा हुआ है।"
+msgstr "यह एक चाइल्ड सदस्यता है, यह 2 या अधिक एप्लिकेशन स्लॉट वाली पैरेंट सदस्यता से जुड़ी है।"
 
 msgid "This is a demo version, these changes can't be saved."
 msgstr "यह एक डेमो संस्करण है, इन परिवर्तनों को सहेजा नहीं जा सकता है।"
@@ -1104,13 +1104,13 @@ msgid "This is a demo version, you cannot save these settings."
 msgstr "यह एक डेमो संस्करण है, आप इन सेटिंग्स को सहेज नहीं सकते हैं।"
 
 msgid "This is a demo version, you can't download any source codes / APKs"
-msgstr "यह एक डेमो संस्करण है, आप किसी भी स्रोत कोड/APKS डाउनलोड नहीं कर सकते"
+msgstr "यह एक डेमो संस्करण है, आप कोई भी स्रोत कोड/APK डाउनलोड नहीं कर सकते"
 
 msgid "This is probably %s"
 msgstr "यह शायद%s है"
 
 msgid "This method is deprecated, please update!"
-msgstr "इस विधि को बहिष्कृत किया गया है, कृपया अपडेट करें!"
+msgstr "यह विधि अप्रचलित है, कृपया अपडेट करें!"
 
 msgid "This subscription does not exists!"
 msgstr "यह सदस्यता मौजूद नहीं है!"
@@ -1119,7 +1119,7 @@ msgid "This subscription doesn't exists!"
 msgstr "यह सदस्यता मौजूद नहीं है!"
 
 msgid "This subscription is cancelled, and will expire by <b>%s</b>."
-msgstr "यह सदस्यता रद्द कर दी गई है, और%s से समाप्त हो जाएगी <b>.</b>"
+msgstr "यह सदस्यता रद्द कर दी गई है, और <b>%s</b> को समाप्त हो जाएगी।"
 
 msgid "This template installer is not supported anymore, please refer to the documentation to update your installer."
 msgstr "यह टेम्पलेट इंस्टॉलर अब समर्थित नहीं है, कृपया अपने इंस्टॉलर को अपडेट करने के लिए दस्तावेज़ देखें।"
@@ -1140,16 +1140,16 @@ msgid "Translation in progress ..."
 msgstr "अनुवाद प्रगति में..."
 
 msgid "UPGRADE NOW!"
-msgstr "अब उन्नयन!"
+msgstr "अभी अपग्रेड करें!"
 
 msgid "Unable to cancel 2Checkout subscription, tray again later."
-msgstr "2Checkout सदस्यता रद्द करने में असमर्थ, ट्रे फिर से बाद में."
+msgstr "2Checkout सदस्यता रद्द करने में असमर्थ, बाद में पुनः प्रयास करें।"
 
 msgid "Unable to cancel PayPal subscription, tray again later."
-msgstr "पेपैल सदस्यता रद्द करने में असमर्थ, बाद में फिर से ट्रे."
+msgstr "PayPal सदस्यता रद्द करने में असमर्थ, बाद में पुनः प्रयास करें।"
 
 msgid "Unable to fetch your application background images."
-msgstr "अपने आवेदन पृष्ठभूमि छवियों को लाने में असमर्थ।"
+msgstr "आपके एप्लिकेशन की पृष्ठभूमि छवियां प्राप्त करने में असमर्थ।"
 
 msgid "Unable to find either folder or feature!"
 msgstr "फ़ोल्डर या सुविधा को खोजने में असमर्थ!"
@@ -1158,10 +1158,10 @@ msgid "Unable to find option."
 msgstr "विकल्प खोजने में असमर्थ।"
 
 msgid "Unable to find the corresponding build."
-msgstr "इसी निर्माण को खोजने में असमर्थ।"
+msgstr "संबंधित बिल्ड खोजने में असमर्थ।"
 
 msgid "Unable to find the order id!"
-msgstr "आदेश आईडी खोजने में असमर्थ!"
+msgstr "ऑर्डर ID खोजने में असमर्थ!"
 
 msgid "Unable to load CMS Blocks without value_id."
 msgstr "value_id के बिना सीएमएस ब्लॉक लोड करने में असमर्थ।"
@@ -1170,7 +1170,7 @@ msgid "Unable to parse certificate."
 msgstr "प्रमाण पत्र पार्स करने में असमर्थ।"
 
 msgid "Unable to retrieve 2Checkout subscription, tray again later."
-msgstr "2Checkout सदस्यता प्राप्त करने में असमर्थ, ट्रे फिर से बाद में."
+msgstr "2Checkout सदस्यता प्राप्त करने में असमर्थ, बाद में पुनः प्रयास करें।"
 
 msgid "Unable to update a user from here."
 msgstr "यहां से किसी उपयोगकर्ता को अपडेट करने में असमर्थ।"
@@ -1188,10 +1188,10 @@ msgid "Unknown action for this module."
 msgstr "इस मॉड्यूल के लिए अज्ञात कार्रवाई।"
 
 msgid "Unkown error!"
-msgstr "Unkown त्रुटि!"
+msgstr "अज्ञात त्रुटि!"
 
 msgid "Until %s"
-msgstr "%S"
+msgstr "%s तक"
 
 msgid "Upgrade required"
 msgstr "अपग्रेड करना आवश्यक है"
@@ -1218,28 +1218,28 @@ msgid "Username:"
 msgstr "उपयोगकर्ता नाम:"
 
 msgid "View the Application"
-msgstr "आवेदन देखें"
+msgstr "एप्लिकेशन देखें"
 
 msgid "We are sorry but our Wordpress plugin hasn't been detected on your website. Please be sure it is correctly installed and activated."
-msgstr "हमें खेद है, लेकिन हमारे WordPress प्लगइन अपनी वेबसाइट पर पता नहीं किया गया है। कृपया सुनिश्चित करें कि यह सही ढंग से स्थापित और सक्रिय है।"
+msgstr "हमें खेद है, लेकिन आपकी वेबसाइट पर हमारा WordPress प्लगइन नहीं मिला। कृपया सुनिश्चित करें कि यह सही ढंग से इंस्टॉल और सक्रिय है।"
 
 msgid "We are sorry but this nickname is already used."
 msgstr "हमें खेद है लेकिन यह उपनाम पहले से ही उपयोग किया जाता है।"
 
 msgid "We can't delete the only application from your installation."
-msgstr "हम आपकी स्थापना से केवल एप्लिकेशन को नहीं हटा सकते हैं।"
+msgstr "हम आपके इंस्टॉलेशन से एकमात्र एप्लिकेशन नहीं हटा सकते।"
 
 msgid "We were unable to determine your %s version."
 msgstr "हम आपके%s संस्करण निर्धारित करने में असमर्थ थे."
 
 msgid "We were unable to find your last payment for the subscription of the Application <b>%s</b>"
-msgstr "<b>हम आवेदन%S की सदस्यता के लिए आपका अंतिम भुगतान खोजने में असमर्थ थे</b>"
+msgstr "हम एप्लिकेशन <b>%s</b> की सदस्यता के लिए आपका अंतिम भुगतान खोजने में असमर्थ थे"
 
 msgid "Website:"
 msgstr "वेबसाइट:"
 
 msgid "Welcome on our Platform %s"
-msgstr "हमारे प्लेटफार्म%S पर आपका स्वागत है"
+msgstr "हमारे प्लेटफ़ॉर्म %s पर आपका स्वागत है"
 
 msgid "White"
 msgstr "सफेद"
@@ -1257,25 +1257,25 @@ msgid "You are about to cancel this subscription, the payments will be stopped, 
 msgstr "आप इस सदस्यता को रद्द करने वाले हैं, भुगतान बंद कर दिए जाएंगे, और एप्लिकेशन अक्षम हो जाएगा! <br />आप एप्लिकेशन स्वामी को सूचित करने के लिए नीचे एक ग्राहक संदेश दर्ज कर सकते हैं! <br /><br />"
 
 msgid "You are about to update to version %s, this version introduces breaking changes in the platform,"
-msgstr "आप संस्करण% s में अपडेट करने वाले हैं, यह संस्करण प्लेटफॉर्म में बदलावों को तोड़ने का परिचय देता है,"
+msgstr "आप संस्करण %s में अपडेट करने वाले हैं, इस संस्करण में प्लेटफ़ॉर्म में ब्रेकिंग चेंज (असंगत बदलाव) शामिल हैं,"
 
 msgid "You are going to love it!<br />Thanks to our effective features, you will be able to create great mobile apps in your name, within minutes."
-msgstr "आप इसे प्यार करने जा रहे हैं! हमारी प्रभावी सुविधाओं के लिए<br />धन्यवाद, आप मिनटों के भीतर, अपने नाम में महान मोबाइल एप्लिकेशन बनाने में सक्षम होंगे।"
+msgstr "आपको यह बहुत पसंद आएगा!<br />हमारी प्रभावी सुविधाओं की बदौलत आप कुछ ही मिनटों में अपने नाम से शानदार मोबाइल ऐप बना सकेंगे।"
 
 msgid "You are not allowed to access this page"
 msgstr "आपको इस पृष्ठ तक पहुंचने की अनुमति नहीं है"
 
 msgid "You are not allowed to cancel child subscriptions."
-msgstr "आपको बाल सदस्यता रद्द करने की अनुमति नहीं है।"
+msgstr "आपको चाइल्ड सदस्यता रद्द करने की अनुमति नहीं है।"
 
 msgid "You are not allowed to cancel free subscriptions."
 msgstr "आपको मुफ्त सदस्यता रद्द करने की अनुमति नहीं है।"
 
 msgid "You are not allowed to cancel offline/paid subscriptions."
-msgstr "आप ऑफलाइन रद्द करने की अनुमति नहीं है/सशुल्क सदस्यता."
+msgstr "आपको ऑफ़लाइन/सशुल्क सदस्यता रद्द करने की अनुमति नहीं है।"
 
 msgid "You are not allowed to cancel online/paid subscriptions."
-msgstr "आप ऑनलाइन रद्द करने की अनुमति नहीं है/सशुल्क सदस्यता."
+msgstr "आपको ऑनलाइन/सशुल्क सदस्यता रद्द करने की अनुमति नहीं है।"
 
 msgid "You are not allowed to delete applications."
 msgstr "आपको एप्लिकेशन को हटाने की अनुमति नहीं है।"
@@ -1287,13 +1287,13 @@ msgid "You can contact your Administrator to get more informations."
 msgstr "आप अधिक जानकारी प्राप्त करने के लिए अपने प्रशासक से संपर्क कर सकते हैं।"
 
 msgid "You can disable a template globally!"
-msgstr "आप विश्व स्तर पर एक टेम्पलेट अक्षम कर सकते हैं!"
+msgstr "आप किसी टेम्पलेट को वैश्विक रूप से अक्षम कर सकते हैं!"
 
 msgid "You can only edit offline subscriptions!"
 msgstr "आप केवल ऑफ़लाइन सदस्यता संपादित कर सकते हैं!"
 
 msgid "You can publish <b>up to %s Apps</b>"
-msgstr "<b>आप%s ऐप्स तक</b>प्रकाशित कर सकते हैं"
+msgstr "आप <b>%s ऐप्स तक</b> प्रकाशित कर सकते हैं"
 
 msgid "You cannot add a Folder feature inside a folder!"
 msgstr "आप किसी फ़ोल्डर के अंदर कोई फ़ोल्डर सुविधा नहीं जोड़ सकते!"
@@ -1308,31 +1308,31 @@ msgid "You can't activate an online subscription!"
 msgstr "आप एक ऑनलाइन सदस्यता सक्रिय नहीं कर सकते!"
 
 msgid "You can't assign a role to this child role, this will break the hierarchy!"
-msgstr "आप इस बच्चे की भूमिका में भूमिका नहीं दे सकते हैं, यह पदानुक्रम तोड़ देगा!"
+msgstr "आप इस चाइल्ड भूमिका में कोई भूमिका नहीं दे सकते, इससे पदानुक्रम टूट जाएगा!"
 
 msgid "You can't deactivate an online subscription!"
 msgstr "आप एक ऑनलाइन सदस्यता को निष्क्रिय नहीं कर सकते!"
 
 msgid "You can't go back to Angular."
-msgstr "आप कोणीय पर वापस नहीं जा सकते हैं।"
+msgstr "आप Angular पर वापस नहीं जा सकते।"
 
 msgid "You can't go back with Angular."
-msgstr "आप कोणीय के साथ वापस नहीं जा सकते हैं।"
+msgstr "आप Angular के साथ वापस नहीं जा सकते।"
 
 msgid "You don't have any plans yet"
 msgstr "आपके पास अभी तक कोई योजना नहीं है"
 
 msgid "You don't have created any taxes yet"
-msgstr "आपने अभी तक कोई करों नहीं बनाया है"
+msgstr "आपने अभी तक कोई कर नहीं बनाया है"
 
 msgid "You have exceeded the number of attempts to validate points.<br />Your card is locked for 24h"
-msgstr "आप अंकों को मान्य करने के प्रयासों की संख्या को पार कर चुके हैं। <br />आपका कार्ड 24h के लिए बंद कर दिया गया है"
+msgstr "आपने अंकों को मान्य करने के प्रयासों की सीमा पार कर ली है।<br />आपका कार्ड 24 घंटे के लिए लॉक कर दिया गया है"
 
 msgid "You have no subscription."
 msgstr "आपके पास कोई सदस्यता नहीं है।"
 
 msgid "You have no subscription with free slots, please proceed to a new purchase."
-msgstr "आपके पास मुफ्त स्लॉट के साथ कोई सदस्यता नहीं है, कृपया एक नई खरीद पर जाएं।"
+msgstr "आपके पास खाली स्लॉट वाली कोई सदस्यता नहीं है, कृपया नई खरीदारी करें।"
 
 msgid "You have no users."
 msgstr "आपके पास कोई उपयोगकर्ता नहीं है।"
@@ -1347,13 +1347,13 @@ msgid "You manually handle the payments via check, cash, etc... and activations/
 msgstr "आप मैन्युअल रूप से चेक, नकद, आदि... और सक्रियण/निष्क्रियता के माध्यम से भुगतान को संभालते हैं।"
 
 msgid "You must be connected to create a post!"
-msgstr "आप एक पोस्ट बनाने के लिए जुड़ा होना चाहिए!"
+msgstr "पोस्ट बनाने के लिए आपको लॉग इन होना चाहिए!"
 
 msgid "You must select a subscription!"
-msgstr "आप एक सदस्यता का चयन करना होगा!"
+msgstr "आपको एक सदस्यता चुननी होगी!"
 
 msgid "You must select an existing subscription!"
-msgstr "आप एक मौजूदा सदस्यता का चयन करना होगा!"
+msgstr "आपको मौजूदा सदस्यता चुननी होगी!"
 
 msgid "You must set a Google Maps API Key in <b>Settings > Advanced</b> in order to use this feature."
 msgstr "इस सुविधा का उपयोग करने के लिए आपको <b>सेटिंग्स> उन्नत</b> में एक Google मानचित्र API कुंजी सेट करना होगा।"
@@ -1365,7 +1365,7 @@ msgid "You will disable the current Application subscription!<br />You can enter
 msgstr "आप वर्तमान एप्लिकेशन सदस्यता को अक्षम कर देंगे! <br />आप एप्लिकेशन स्वामी को सूचित करने के लिए नीचे एक ग्राहक संदेश दर्ज कर सकते हैं! <br /><br />"
 
 msgid "You will enable the current Application subscription!<br />You can enter a customer message below to inform the Application owner!<br /><br />"
-msgstr "आप वर्तमान आवेदन सदस्यता सक्षम हो जाएगा! <br />आप एप्लिकेशन स्वामी को सूचित करने के लिए नीचे एक ग्राहक संदेश दर्ज कर सकते हैं! <br /><br />"
+msgstr "आप वर्तमान एप्लिकेशन सदस्यता को सक्षम करने वाले हैं!<br />आप एप्लिकेशन स्वामी को सूचित करने के लिए नीचे एक ग्राहक संदेश दर्ज कर सकते हैं!<br /><br />"
 
 msgid "Your APK is being generated. Please come back in a few minutes."
 msgstr "आपका एपीके उत्पन्न किया जा रहा है। कृपया कुछ ही मिनटों में वापस आएं।"
@@ -1374,13 +1374,13 @@ msgid "Your PHP version %s is not supported, PHP versions from 5.6 to 7.0 are su
 msgstr "आपका PHP संस्करण%s समर्थित नहीं है, 5.6 से 7.0 तक PHP संस्करण समर्थित हैं।"
 
 msgid "Your account doesn't exists on editor side. Please create it before using tour edition."
-msgstr "आपका खाता संपादक पक्ष पर मौजूद नहीं है. दौरे संस्करण का उपयोग करने से पहले इसे बनाने के लिए कृपया।"
+msgstr "आपका खाता एडिटर पर मौजूद नहीं है। टूर संस्करण का उपयोग करने से पहले कृपया इसे बनाएं।"
 
 msgid "Your application has been successfully added to your subscription!"
-msgstr "आपका आवेदन सफलतापूर्वक आपकी सदस्यता में जोड़ दिया गया है!"
+msgstr "आपका एप्लिकेशन सफलतापूर्वक आपकी सदस्यता में जोड़ दिया गया है!"
 
 msgid "Your %s version is %s."
-msgstr "आपके%S संस्करण%s है."
+msgstr "आपका %s संस्करण %s है।"
 
 msgid "Your subscription expired!"
 msgstr "आपकी सदस्यता समाप्त हो गई है!"
@@ -1398,7 +1398,7 @@ msgid "Zone overlay"
 msgstr "जोन ओवरले"
 
 msgid "<b>Danger zone</b>: below you can definitively delete your account."
-msgstr "<b>खतरे क्षेत्र</b>: नीचे आप निश्चित रूप से अपना खाता हटा सकते हैं।"
+msgstr "<b>खतरा क्षेत्र</b>: नीचे आप अपना खाता स्थायी रूप से हटा सकते हैं।"
 
 msgid "<b>Warning:</b> translation API is experimental for the current language and may fail."
 msgstr "<b>चेतावनी:</b> अनुवाद एपीआई वर्तमान भाषा के लिए प्रयोगात्मक है और विफल हो सकता है।"
@@ -1407,25 +1407,25 @@ msgid "before updating we strongly advise you to read the release note and the f
 msgstr "अद्यतन करने से पहले हम आपको रिलीज नोट और निम्न दस्तावेज़ को पढ़ने के लिए दृढ़ता से सलाह देते हैं।"
 
 msgid "<b>%s</b> is not supported with the current currency <b>%s</b>!"
-msgstr "<b>%s</b> वर्तमान मुद्रा%s के साथ समर्थित नहीं है<b>!</b>"
+msgstr "<b>%s</b> वर्तमान मुद्रा <b>%s</b> के साथ समर्थित नहीं है!"
 
 msgid "dismiss"
 msgstr "खारिज"
 
 msgid "home/features/admin_marque_blanche.png"
-msgstr "होम/विशेषताएं/admin_marque_blanche.png"
+msgstr "home/features/admin_marque_blanche.png"
 
 msgid "home/features/appel_en_un_clique.png"
-msgstr "होम/विशेषताएं/अपील_एन_क्लिक.पीएनजी"
+msgstr "home/features/appel_en_un_clique.png"
 
 msgid "home/features/geolocalisation.png"
-msgstr "घर/विशेषताएं/जियोलोकलाइसेशन.png"
+msgstr "home/features/geolocalisation.png"
 
 msgid "home/features/listing_produits.png"
-msgstr "घर/विशेषताएं/सूची_produits.png"
+msgstr "home/features/listing_produits.png"
 
 msgid "iOS Descriptions saved!"
-msgstr "आईओएस विवरण बचाया!"
+msgstr "iOS विवरण सहेजे गए!"
 
 msgid "iPhone X:"
 msgstr "आईफोन एक्स:"
@@ -1437,7 +1437,7 @@ msgid "%s Image%s"
 msgstr "%s छवि%S"
 
 msgid "%s %s"
-msgstr "%s%s"
+msgstr "%s %s"
 
 msgid "you know it!"
 msgstr "आप इसे जानते हैं!"

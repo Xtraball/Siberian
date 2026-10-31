@@ -21,13 +21,13 @@ msgid "An error occurred while deleting you images gallery. Please try again lat
 msgstr "画像ギャラリーの削除中にエラーが発生しました。 後でもう一度お試しください。"
 
 msgid "An error occurred while deleting your album. Thanks for trying later."
-msgstr "アルバムの削除中にエラーが発生しました。 後で試していただきありがとうございます。"
+msgstr "アルバムの削除中にエラーが発生しました。しばらくしてからもう一度お試しください。"
 
 msgid "An error occurred while deleting your playlist. Thanks for trying later."
-msgstr "プレイリストの削除中にエラーが発生しました。 後で試していただきありがとうございます。"
+msgstr "プレイリストの削除中にエラーが発生しました。しばらくしてからもう一度お試しください。"
 
 msgid "An error occurred while deleting your track. Thanks for trying later."
-msgstr "トラックの削除中にエラーが発生しました。 後で試していただきありがとうございます。"
+msgstr "トラックの削除中にエラーが発生しました。しばらくしてからもう一度お試しください。"
 
 msgid "An error occurred while loading pictures. Please try later."
 msgstr "画像の読み込み中にエラーが発生しました。 後でお試しください。"
@@ -36,7 +36,7 @@ msgid "An error occurred while loading the media."
 msgstr "メディアのロード中にエラーが発生しました。"
 
 msgid "An error occurred while loading the radio."
-msgstr "無線のロード中にエラーが発生しました。"
+msgstr "ラジオの読み込み中にエラーが発生しました。"
 
 msgid "An error occurred while loading videos. Please try later."
 msgstr "ビデオの読み込み中にエラーが発生しました。 後でお試しください。"
@@ -48,7 +48,7 @@ msgid "An error occurred while saving your images gallery. Please try again late
 msgstr "画像ギャラリーの保存中にエラーが発生しました。 後でもう一度お試しください。"
 
 msgid "An error occurred while saving your playlist. Thanks for trying later."
-msgstr "プレイリストの保存中にエラーが発生しました。 後で試していただきありがとうございます。"
+msgstr "プレイリストの保存中にエラーが発生しました。しばらくしてからもう一度お試しください。"
 
 msgid "An error occurred while saving your videos gallery. Please try again later."
 msgstr "ビデオギャラリーの保存中にエラーが発生しました。 後でもう一度お試しください。"
@@ -84,25 +84,25 @@ msgid "Choose an album"
 msgstr "アルバムの選択"
 
 msgid "Custom"
-msgstr "[カスタム]"
+msgstr "カスタム"
 
 msgid "Delete this gallery?"
 msgstr "このギャラリーを削除しますか?"
 
 msgid "Facebook page ID"
-msgstr "フェイスブック"
+msgstr "Facebook ページ ID"
 
 msgid "Feed URL"
 msgstr "フィードの URL"
 
 msgid "Flickr"
-msgstr "ちらつき"
+msgstr "Flickr"
 
 msgid "Flickr API settings can't be found."
 msgstr "FlickrのAPI設定が見つかりません。"
 
 msgid "Flickr user"
-msgstr "ちらっき"
+msgstr "Flickr ユーザー"
 
 msgid "Gallery Name"
 msgstr "ギャラリー名"
@@ -114,7 +114,7 @@ msgid "If set, will appear instead of the Facebook page Id in app."
 msgstr "設定されている場合、アプリ内のFacebookのページIDの代わりに表示されます。"
 
 msgid "I'm listening to"
-msgstr "私は耳を傾けて"
+msgstr "私は聴いています"
 
 msgid "I'm listening to $1 from $2 on $3 app."
 msgstr "私は$3アプリで$2から$1を聞いています。"
@@ -126,16 +126,16 @@ msgid "Images gallery has been saved successfully"
 msgstr "画像ギャラリーが正常に保存されました"
 
 msgid "Instagram"
-msgstr "インスタグラム"
+msgstr "Instagram"
 
 msgid "Instagram API settings can't be found."
-msgstr "インスタグラムAPIの設定が見つかりません。"
+msgstr "Instagram API の設定が見つかりません。"
 
 msgid "Last update:"
 msgstr "最終更新日:"
 
 msgid "Login"
-msgstr "ログインします"
+msgstr "ログイン"
 
 msgid "Maximum size : 2000*2000 px - Allowed filetypes : jpg and png"
 msgstr "最大サイズ：2000* 2000ピクセル-許可されたファイルタイプ：JPGとPNG"
@@ -156,7 +156,7 @@ msgid "No track found"
 msgstr "トラックが見つかりません"
 
 msgid "No valid Facebook API key and secret."
-msgstr "有効なFacebookのAPIキーと秘密がありません。"
+msgstr "有効なFacebook APIキーとシークレットがありません。"
 
 msgid "PLAYER"
 msgstr "プレーヤー"
@@ -174,7 +174,7 @@ msgid "Parameter/Feed Url"
 msgstr "パラメータ/フィード URL"
 
 msgid "Picasa"
-msgstr "ピカサ"
+msgstr "Picasa"
 
 msgid "Playlist"
 msgstr "プレイリスト"
@@ -231,7 +231,7 @@ msgid "Videos gallery has been saved successfully"
 msgstr "ビデオギャラリーが正常に保存されました"
 
 msgid "Vimeo"
-msgstr "ヴィメオ"
+msgstr "Vimeo"
 
 msgid "buy"
 msgstr "購入"
@@ -252,25 +252,25 @@ msgid "hide"
 msgstr "隠す"
 
 msgid "loop"
-msgstr "ループで行います"
+msgstr "ループ"
 
 msgid "music"
 msgstr "音楽"
 
 msgid "next"
-msgstr "次へ進みます"
+msgstr "次へ"
 
 msgid "on"
 msgstr "に"
 
 msgid "pause"
-msgstr "一時停止します"
+msgstr "一時停止"
 
 msgid "play"
-msgstr "遊ぶ"
+msgstr "再生"
 
 msgid "previous"
-msgstr "前のバージョンです"
+msgstr "前へ"
 
 msgid "%s by %s"
 msgstr "%s によって%s"
@@ -282,7 +282,7 @@ msgid "shuffle"
 msgstr "シャッフル"
 
 msgid "track"
-msgstr "トラックに追従します"
+msgstr "トラック"
 
 msgid "tracks"
 msgstr "トラック"

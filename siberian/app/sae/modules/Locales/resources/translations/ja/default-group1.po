@@ -27,7 +27,7 @@ msgid "2An error occurred while saving. Please try again later."
 msgstr "2保存中にエラーが発生しました。 後でもう一度お試しください。"
 
 msgid "2Checkout subscription is inactive, tray again later."
-msgstr "2Checkout サブスクリプションは非アクティブです。トレイは後で再度実行してください。"
+msgstr "2Checkout サブスクリプションは無効です。後でもう一度お試しください。"
 
 msgid "3 An error occurred while saving. Please try again later."
 msgstr "3 保存中にエラーが発生しました。 後でもう一度お試しください。"
@@ -42,10 +42,10 @@ msgid "A new user just registered!"
 msgstr "新しいユーザーが登録されました！"
 
 msgid "A user just made a new subscription on the Platform <b>%s</b>, for the Application <b>%s</b>."
-msgstr "<b>ユーザーがプラットフォーム%s で <b>、</b>アプリケーション%s の新しいサブスクリプションを作成しました。</b>"
+msgstr "ユーザーがプラットフォーム <b>%s</b> のアプリケーション <b>%s</b> で新しいサブスクリプションを作成しました。"
 
 msgid "A user registered on your Platform %s"
-msgstr "プラットフォーム%s に登録されているユーザー"
+msgstr "ユーザーがプラットフォーム %s に登録しました"
 
 msgid "APK Generation"
 msgstr "APKジェネレーション"
@@ -96,13 +96,13 @@ msgid "All sessions are now migrated to Redis."
 msgstr "すべてのセッションが Redis に移行されるようになりました。"
 
 msgid "An administrator of the Platform <b>%s</b>, activated your subscription for the Application <b>%s</b>"
-msgstr "<b>プラットフォーム%s の管理者が <b>、</b>アプリケーション%s のサブスクリプションをアクティブ化しました。</b>"
+msgstr "プラットフォーム <b>%s</b> の管理者が、アプリケーション <b>%s</b> のサブスクリプションを有効化しました。"
 
 msgid "An administrator of the Platform <b>%s</b>, cancelled your subscription for the Application <b>%s</b>"
-msgstr "<b>プラットフォーム%s の管理者が <b>、</b>アプリケーション%s のサブスクリプションをキャンセルしました</b>"
+msgstr "プラットフォーム <b>%s</b> の管理者が、アプリケーション <b>%s</b> のサブスクリプションをキャンセルしました。"
 
 msgid "An administrator of the Platform <b>%s</b>, deactivated your subscription for the Application <b>%s</b>"
-msgstr "<b>プラットフォーム%s の管理者が <b>、</b>アプリケーション%s のサブスクリプションを非アクティブ化しました。</b>"
+msgstr "プラットフォーム <b>%s</b> の管理者が、アプリケーション <b>%s</b> のサブスクリプションを無効化しました。"
 
 msgid "An error occured while adding the block."
 msgstr "ブロックの追加中にエラーが発生しました。"
@@ -120,10 +120,10 @@ msgid "An error occurred when generating the apk"
 msgstr "apkを生成中にエラーが発生しました"
 
 msgid "An error occurred while hidding the Android Status Bar."
-msgstr "Androidステータスバーの表示中にエラーが発生しました。"
+msgstr "Android ステータスバーの非表示中にエラーが発生しました。"
 
 msgid "An error occurred while hidding the iOS Status Bar."
-msgstr "iOSステータスバーの表示中にエラーが発生しました。"
+msgstr "iOS ステータスバーの非表示中にエラーが発生しました。"
 
 msgid "An error occurred while importing line %s : impossible to save the object. Please check your file format."
 msgstr "ライン%s の読み込み中にエラーが発生しました:オブジェクトを保存できません。 ファイル形式を確認してください。"
@@ -159,10 +159,10 @@ msgid "An unknown error occurred, please try again later."
 msgstr "不明なエラーが発生しました。後でもう一度お試しください。"
 
 msgid "An unknown error occurred while listing applications."
-msgstr "アプリケーションのリスト中に不明なエラーが発生しました。"
+msgstr "アプリケーションの一覧取得中に不明なエラーが発生しました。"
 
 msgid "An user of the Platform <b>%s</b>, cancelled the subscription of the Application <b>%s</b>"
-msgstr "<b><b>プラットフォーム%s のユーザーがアプリケーション%s のサブスクリプションをキャンセルしました</b></b>"
+msgstr "プラットフォーム <b>%s</b> のユーザーが、アプリケーション <b>%s</b> のサブスクリプションをキャンセルしました。"
 
 msgid "Android SDK is marked for update."
 msgstr "Android SDKはアップデートのためにマークされています。"
@@ -228,7 +228,7 @@ msgid "Below you'll find important informations required in some services!"
 msgstr "以下では、いくつかのサービスで必要な重要な情報を見つけることができます！"
 
 msgid "Bin SQLite3:"
-msgstr "ビン SQLite3:"
+msgstr "SQLite3 のバイナリ:"
 
 msgid "Black"
 msgstr "ブラック"
@@ -255,10 +255,10 @@ msgid "Cache cleared."
 msgstr "キャッシュがクリアされました。"
 
 msgid "Cancel current Subscription"
-msgstr "現在の購読をキャンセルする"
+msgstr "現在のサブスクリプションをキャンセルする"
 
 msgid "Cancel subscription"
-msgstr "購読をキャンセル"
+msgstr "サブスクリプションをキャンセル"
 
 msgid "Cancellation of your Subscription!"
 msgstr "サブスクリプションのキャンセル！"
@@ -306,7 +306,7 @@ msgid "Check out our support pages:"
 msgstr "サポートページをご覧ください："
 
 msgid "Chef de projet"
-msgstr "シェフ・ド・プロジェエ"
+msgstr "プロジェクトマネージャー"
 
 msgid "Child"
 msgstr "子"
@@ -318,13 +318,13 @@ msgid "City:"
 msgstr "市区町村:"
 
 msgid "ClamAV:"
-msgstr "クラマAV:"
+msgstr "ClamAV:"
 
 msgid "Code Used"
 msgstr "使用されているコード"
 
 msgid "Coiffeurs"
-msgstr "コイフアーズ"
+msgstr "美容師"
 
 msgid "Company successfully deleted."
 msgstr "会社が正常に削除されました。"
@@ -375,7 +375,7 @@ msgid "Disabling cache can have significant performance impacts."
 msgstr "キャッシュを無効にすると、パフォーマンスに大きな影響を与える可能性があります。"
 
 msgid "Distributeur logiciel"
-msgstr "流通ロジエル"
+msgstr "ソフトウェア販売業者"
 
 msgid "Do not edit the following settings if your APK Generator is working!"
 msgstr "APKジェネレータが動作している場合は、以下の設定を編集しないでください！"
@@ -417,7 +417,7 @@ msgid "Error: unable to write Environment in config.php"
 msgstr "エラー：config.phpに環境を書き込めません"
 
 msgid "Essayez gratuitement !"
-msgstr "エサエス！"
+msgstr "無料でお試しください！"
 
 msgid "Expired on"
 msgstr "期限切れ"
@@ -426,25 +426,25 @@ msgid "Extension not allowed, '%s' only"
 msgstr "拡張子は許可されていません。'%s' のみ"
 
 msgid "Feature is now %s"
-msgstr "フィーチャは現在%s です"
+msgstr "機能は現在 %s です"
 
 msgid "Feature not found."
-msgstr "フィーチャーが見つかりません。"
+msgstr "機能が見つかりません。"
 
 msgid "Feature successfully added inside folder!"
 msgstr "機能がフォルダ内に正常に追加されました！"
 
 msgid "Feature successfuly imported."
-msgstr "フィーチャが正常にインポートされました。"
+msgstr "機能が正常にインポートされました。"
 
 msgid "Firebase is not well configured."
-msgstr "発射基地が正しく設定されていません。"
+msgstr "Firebase が正しく設定されていません。"
 
 msgid "Firewall Slack settings have been saved."
 msgstr "ファイアウォールの Slack 設定が保存されました。"
 
 msgid "Firstname:"
-msgstr "氏名:"
+msgstr "名:"
 
 msgid "Fixed"
 msgstr "固定"
@@ -456,7 +456,7 @@ msgid "Free"
 msgstr "無料"
 
 msgid "Free delivery starting from:"
-msgstr "無料配送開始日:"
+msgstr "次の金額以上で送料無料:"
 
 msgid "Free plan"
 msgstr "無料プラン"
@@ -486,7 +486,7 @@ msgid "If your credit card, or subscription expired, you can purchase a new one.
 msgstr "クレジットカードまたはサブスクリプションの有効期限が切れている場合は、新しいカードを購入できます。"
 
 msgid "Immobilier"
-msgstr "イモビリア"
+msgstr "不動産"
 
 msgid "Import success."
 msgstr "インポートに成功しました。"
@@ -495,7 +495,7 @@ msgid "Installed templates"
 msgstr "インストールされているテンプレート"
 
 msgid "Interface en Marque Blanche"
-msgstr "インタフェース・エン・マルケ・ブランシュ"
+msgstr "ホワイトラベルインターフェース"
 
 msgid "Invalid QRCode parameters."
 msgstr "QRCode パラメータが無効です。"
@@ -513,7 +513,7 @@ msgid "Is Active?"
 msgstr "アクティブですか？"
 
 msgid "JpegOptim:"
-msgstr "JPGオプティミム:"
+msgstr "JpegOptim:"
 
 msgid "Label:"
 msgstr "ラベル:"
@@ -525,7 +525,7 @@ msgid "Let your users know what is locked."
 msgstr "ロックされているものをユーザーに知らせます。"
 
 msgid "Linked to Subscription"
-msgstr "購読にリンクされています"
+msgstr "サブスクリプションにリンク済み"
 
 msgid "List of your taxes"
 msgstr "税金のリスト"
@@ -534,7 +534,7 @@ msgid "Listing produits"
 msgstr "商品一覧表示"
 
 msgid "Listing produits / tarifs"
-msgstr "商品/関税を出品する"
+msgstr "商品/料金の一覧表示"
 
 msgid "Loading your white label editor."
 msgstr "ホワイトラベルエディタをロードしています。"
@@ -552,7 +552,7 @@ msgid "Major update disclaimer, confirmation required!"
 msgstr "メジャーアップデート免責事項、確認が必要です！"
 
 msgid "Manifest rebuilt with succes."
-msgstr "マニフェストは成功して再構築されました。"
+msgstr "マニフェストが正常に再構築されました。"
 
 msgid "Message:"
 msgstr "メッセージ:"
@@ -603,16 +603,16 @@ msgid "Mode"
 msgstr "モード"
 
 msgid "Mur de news"
-msgstr "ムール・ド・ニュース"
+msgstr "ニュースウォール"
 
 msgid "Mur de news mobile"
-msgstr "ムール・デ・ニュース・モバイル"
+msgstr "ニュースウォール モバイル"
 
 msgid "My Subscriptions"
 msgstr "マイサブスクリプション"
 
 msgid "My subscriptions"
-msgstr "私の購読"
+msgstr "マイサブスクリプション"
 
 msgid "N.A."
 msgstr "N.A."
@@ -621,7 +621,7 @@ msgid "Name is required to save the Application."
 msgstr "アプリケーションの保存には名前が必要です。"
 
 msgid "National"
-msgstr "国民"
+msgstr "全国"
 
 msgid "New sale"
 msgstr "新規セール"
@@ -642,7 +642,7 @@ msgid "No credentials found!"
 msgstr "認証情報が見つかりません。"
 
 msgid "No customers available."
-msgstr "利用可能なカスタマーはありません。"
+msgstr "利用可能な顧客はありません。"
 
 msgid "No data sent."
 msgstr "データは送信されていません。"
@@ -651,7 +651,7 @@ msgid "No file found."
 msgstr "ファイルが見つかりません。"
 
 msgid "No, go back!"
-msgstr "いや、戻れ！"
+msgstr "いいえ、戻る！"
 
 msgid "No templates"
 msgstr "テンプレートなし"
@@ -660,19 +660,19 @@ msgid "Nobody is online."
 msgstr "誰もオンラインではありません。"
 
 msgid "Nos plateformes"
-msgstr "ノス・プラッテフォームス"
+msgstr "当社のプラットフォーム"
 
 msgid "Not a Yahoo weather request, aborting."
-msgstr "Yahooの天気予報ではなく、中止しています。"
+msgstr "Yahoo天気予報のリクエストではないため、中止します。"
 
 msgid "Notifications Push"
-msgstr "通知プッシュ"
+msgstr "プッシュ通知"
 
 msgid "Notifications Push en marque blanche"
-msgstr "通知プッシュエンマルクブランシュ"
+msgstr "ホワイトラベルのプッシュ通知"
 
 msgid "Nous supportons toutes les plateformes"
-msgstr "ヌースサポントン・トゥ・レ・プラテフォルム"
+msgstr "当社はすべてのプラットフォームに対応しています"
 
 msgid "Number of Applications"
 msgstr "アプリケーション数"
@@ -681,10 +681,10 @@ msgid "Offline"
 msgstr "オフライン"
 
 msgid "Only cancelled"
-msgstr "キャンセルされた場合のみ"
+msgstr "キャンセル済みのみ"
 
 msgid "OptiPNG:"
-msgstr "オプション:"
+msgstr "OptiPNG:"
 
 msgid "Option name:"
 msgstr "オプション名:"
@@ -714,7 +714,7 @@ msgid "PHP SQLite3:"
 msgstr "PHP SQLite3:"
 
 msgid "PNGQuant:"
-msgstr "PNGクアント:"
+msgstr "PNGQuant:"
 
 msgid "PROTECTED"
 msgstr "保護されています"
@@ -726,10 +726,10 @@ msgid "Password:"
 msgstr "パスワード:"
 
 msgid "PayPal is not configured in your Backoffice, recurrencies will not work correctly."
-msgstr "PayPal が Backoffice で設定されていません。再送は正しく動作しません。"
+msgstr "PayPal が Backoffice で設定されていないため、定期課金は正しく動作しません。"
 
 msgid "PayPal subscription is %s."
-msgstr "ペイパルの購読は%s です。"
+msgstr "PayPal のサブスクリプションは %s です。"
 
 msgid "Payment Information:"
 msgstr "支払い情報:"
@@ -738,10 +738,10 @@ msgid "Payments are verified through their respective APIs."
 msgstr "支払いは、それぞれの API を通じて検証されます。"
 
 msgid "Percentage"
-msgstr "[パーセンテージ]"
+msgstr "パーセンテージ"
 
 msgid "Please correct the following errors <br>"
-msgstr "<br>次のエラーを修正してください"
+msgstr "次のエラーを修正してください<br>"
 
 msgid "Please enter a correct version for the %s app"
 msgstr "%s アプリの正しいバージョンを入力してください"
@@ -753,16 +753,16 @@ msgid "Please enter a valid date."
 msgstr "有効な日付を入力してください。"
 
 msgid "Please fill iTunes Connect Credentials."
-msgstr "iTunes コネクト認証情報を入力してください。"
+msgstr "iTunes Connect の認証情報を入力してください。"
 
 msgid "Please verify the"
 msgstr "次の内容を確認してください。"
 
 msgid "Plesk from 12.0 to 17.0"
-msgstr "12.0 から 17.0 までの間で"
+msgstr "Plesk 12.0 から 17.0"
 
 msgid "Plus d'infos"
-msgstr "プラス・ディンフォス"
+msgstr "詳細情報"
 
 msgid "Postal code or city:"
 msgstr "郵便番号または市区町村:"
@@ -777,7 +777,7 @@ msgid "Price:"
 msgstr "価格:"
 
 msgid "Product has been deleted."
-msgstr "プロダクトが削除されました。"
+msgstr "製品が削除されました。"
 
 msgid "Product name:"
 msgstr "製品名:"
@@ -804,13 +804,13 @@ msgid "Query successfully deleted."
 msgstr "クエリが正常に削除されました。"
 
 msgid "Question"
-msgstr "質問だ"
+msgstr "質問"
 
 msgid "RSS application mobile"
-msgstr "RSSアプリケーションモバイル"
+msgstr "RSS モバイルアプリケーション"
 
 msgid "RSS/Atom"
-msgstr "原子核分子"
+msgstr "RSS/Atom"
 
 msgid "Rate"
 msgstr "レート"
@@ -822,7 +822,7 @@ msgid "Recipient email:"
 msgstr "受信者のEメール:"
 
 msgid "Recurrent fee"
-msgstr "再発料金"
+msgstr "定期料金"
 
 msgid "Region"
 msgstr "リージョン"
@@ -852,10 +852,10 @@ msgid "Resize your picture:"
 msgstr "画像のサイズを変更する:"
 
 msgid "Safe in landscape"
-msgstr "景観に安全。"
+msgstr "横向きでも安全"
 
 msgid "Safe in portrait"
-msgstr "肖像画で安全"
+msgstr "縦向きでも安全"
 
 msgid "Safe zone overlay"
 msgstr "セーフゾーンオーバーレイ"
@@ -873,7 +873,7 @@ msgid "Seems the appId is empty or invalid, aborting!"
 msgstr "appIdが空か無効であるようです。中止します！"
 
 msgid "Seems we could delete unwanted files, aborting!"
-msgstr "不要なファイルを削除して中止できるようです！"
+msgstr "不要なファイルを削除できるようです。中止します！"
 
 msgid "Select a connection type:"
 msgstr "接続タイプを選択します。"
@@ -888,7 +888,7 @@ msgid "Send your logo"
 msgstr "ロゴを送信"
 
 msgid "Service status / load"
-msgstr "サービスのステータス/ロード"
+msgstr "サービスのステータス/負荷"
 
 msgid "Setting successfully saved."
 msgstr "設定は正常に保存されました。"
@@ -930,10 +930,10 @@ msgid "Subscription:"
 msgstr "サブスクリプション:"
 
 msgid "Subscription date"
-msgstr "購読日"
+msgstr "サブスクリプション日"
 
 msgid "Subscription updated."
-msgstr "購読が更新されました。"
+msgstr "サブスクリプションが更新されました。"
 
 msgid "Successfully saved default project."
 msgstr "既定のプロジェクトが正常に保存されました。"
@@ -951,10 +951,10 @@ msgid "Teams successfully refreshed!"
 msgstr "チームが正常に更新されました。"
 
 msgid "Telephone"
-msgstr "電話だ"
+msgstr "電話"
 
 msgid "Temp cleared."
-msgstr "温度がクリアされました。"
+msgstr "一時ファイルをクリアしました。"
 
 msgid "Test App"
 msgstr "アプリのテスト"
@@ -963,7 +963,7 @@ msgid "Text Color"
 msgstr "文字の色"
 
 msgid "Thanks for working with us!"
-msgstr "私たちと一緒に働いてくれてありがとう！"
+msgstr "ご協力いただきありがとうございます！"
 
 msgid "Thanks for your report."
 msgstr "ご報告ありがとうございます。"
@@ -1011,7 +1011,7 @@ msgid "The entered package name is incorrect, it should be like: com.siberiancms
 msgstr "入力したパッケージ名が間違っています。com.siberiancms.app のようなものでなければなりません。"
 
 msgid "The feature you are trying to edit doesn't exists!"
-msgstr "編集しようとしているフィーチャーは存在しません。"
+msgstr "編集しようとしている機能は存在しません。"
 
 msgid "The formats for line %s couldn't be read."
 msgstr "行%s のフォーマットを読み取ることができませんでした。"
@@ -1047,7 +1047,7 @@ msgid "The source generation is done !"
 msgstr "ソース生成が完了しました！"
 
 msgid "The subscription is cancelled!"
-msgstr "購読はキャンセルされました！"
+msgstr "サブスクリプションはキャンセルされました！"
 
 msgid "The subscription is now active."
 msgstr "サブスクリプションがアクティブになりました。"
@@ -1065,7 +1065,7 @@ msgid "This Application doesn't exists, aborting!"
 msgstr "このアプリケーションは存在しません。中止します。"
 
 msgid "This Application has some invoices associated, you can not delete it!"
-msgstr "このアプリケーションは、関連するいくつかの請求書を持っています, あなたはそれを削除することはできません!"
+msgstr "このアプリケーションには請求書が関連付けられているため、削除できません！"
 
 msgid "This action is used to migrate all current active session into a Redis server instance, use this only with care if you want to migrate from MySQL session to Redis session storage."
 msgstr "このアクションは、現在アクティブなすべてのセッションを Redis サーバーインスタンスに移行するために使用されます。MySQL セッションから Redis セッションストレージに移行する場合にのみ使用してください。"
@@ -1113,13 +1113,13 @@ msgid "This method is deprecated, please update!"
 msgstr "このメソッドは非推奨です。更新してください！"
 
 msgid "This subscription does not exists!"
-msgstr "この購読は存在しません！"
+msgstr "このサブスクリプションは存在しません！"
 
 msgid "This subscription doesn't exists!"
-msgstr "この購読は存在しません。"
+msgstr "このサブスクリプションは存在しません！"
 
 msgid "This subscription is cancelled, and will expire by <b>%s</b>."
-msgstr "この購読はキャンセルされ、%s によって期限切れになります <b>。</b>"
+msgstr "このサブスクリプションはキャンセルされ、<b>%s</b> に期限切れになります。"
 
 msgid "This template installer is not supported anymore, please refer to the documentation to update your installer."
 msgstr "このテンプレートインストーラはもうサポートされていません。インストーラを更新するには、ドキュメントを参照してください。"
@@ -1128,7 +1128,7 @@ msgid "This user does not exist."
 msgstr "このユーザーは存在しません。"
 
 msgid "Tip: %s"
-msgstr "ヒント:%s"
+msgstr "チップ: %s"
 
 msgid "Title:"
 msgstr "タイトル:"
@@ -1143,10 +1143,10 @@ msgid "UPGRADE NOW!"
 msgstr "今すぐアップグレード！"
 
 msgid "Unable to cancel 2Checkout subscription, tray again later."
-msgstr "2Checkout サブスクリプションをキャンセルできません。トレイは後で再度実行してください。"
+msgstr "2Checkout サブスクリプションをキャンセルできません。しばらくしてからもう一度お試しください。"
 
 msgid "Unable to cancel PayPal subscription, tray again later."
-msgstr "PayPal のサブスクリプションをキャンセルできません。トレイは後で再度。"
+msgstr "PayPal のサブスクリプションをキャンセルできません。しばらくしてからもう一度お試しください。"
 
 msgid "Unable to fetch your application background images."
 msgstr "アプリケーションの背景イメージを取得できません。"
@@ -1170,7 +1170,7 @@ msgid "Unable to parse certificate."
 msgstr "証明書を解析できません。"
 
 msgid "Unable to retrieve 2Checkout subscription, tray again later."
-msgstr "2Checkout サブスクリプションを取得できません。トレイは後で再度取得してください。"
+msgstr "2Checkout サブスクリプションを取得できません。しばらくしてからもう一度お試しください。"
 
 msgid "Unable to update a user from here."
 msgstr "ここからユーザーを更新できません。"
@@ -1191,7 +1191,7 @@ msgid "Unkown error!"
 msgstr "不明なエラーです。"
 
 msgid "Until %s"
-msgstr "%s"
+msgstr "%s まで"
 
 msgid "Upgrade required"
 msgstr "アップグレードが必要です"
@@ -1233,7 +1233,7 @@ msgid "We were unable to determine your %s version."
 msgstr "%s のバージョンを確認できませんでした。"
 
 msgid "We were unable to find your last payment for the subscription of the Application <b>%s</b>"
-msgstr "<b>アプリケーション%s のサブスクリプションの最後の支払いが見つかりませんでした</b>"
+msgstr "アプリケーション <b>%s</b> のサブスクリプションの最後の支払いが見つかりませんでした"
 
 msgid "Website:"
 msgstr "ウェブサイト:"
@@ -1245,7 +1245,7 @@ msgid "White"
 msgstr "白"
 
 msgid "Xcode 9.2"
-msgstr "Xcode"
+msgstr "Xcode 9.2"
 
 msgid "Yes, Delete!"
 msgstr "はい、削除してください。"
@@ -1254,28 +1254,28 @@ msgid "Yes, Proceed to update!"
 msgstr "はい、アップデートに進んでください！"
 
 msgid "You are about to cancel this subscription, the payments will be stopped, and the application will be disabled!<br />You can enter a customer message below to inform the Application owner!<br /><br />"
-msgstr "このサブスクリプションをキャンセルしようとしています。支払いは停止され、アプリケーションは無効になります。 以下の顧客メッセージを入力して、アプリケーションの所有者に通知できます。<br /> <br /><br />"
+msgstr "このサブスクリプションをキャンセルしようとしています。支払いは停止され、アプリケーションは無効になります！<br />以下に顧客向けメッセージを入力して、アプリケーションの所有者に通知できます！<br /><br />"
 
 msgid "You are about to update to version %s, this version introduces breaking changes in the platform,"
 msgstr "バージョン%s に更新しようとしています。このバージョンでは、プラットフォームに大幅な変更が加えられています。"
 
 msgid "You are going to love it!<br />Thanks to our effective features, you will be able to create great mobile apps in your name, within minutes."
-msgstr "あなたはそれを愛するでしょう！ 私たちの効果的な機能@@<br />のおかげで、あなたは数分以内にあなたの名前で素晴らしいモバイルアプリを作成することができます。"
+msgstr "きっと気に入っていただけます！<br />効果的な機能により、数分でご自身の名義で優れたモバイルアプリを作成できます。"
 
 msgid "You are not allowed to access this page"
 msgstr "このページへのアクセスは許可されていません"
 
 msgid "You are not allowed to cancel child subscriptions."
-msgstr "子購読のキャンセルは許可されていません。"
+msgstr "子サブスクリプションのキャンセルは許可されていません。"
 
 msgid "You are not allowed to cancel free subscriptions."
-msgstr "無料購読をキャンセルすることはできません。"
+msgstr "無料サブスクリプションをキャンセルすることはできません。"
 
 msgid "You are not allowed to cancel offline/paid subscriptions."
 msgstr "オフライン/有料サブスクリプションをキャンセルすることはできません。"
 
 msgid "You are not allowed to cancel online/paid subscriptions."
-msgstr "オンライン/有料購読をキャンセルすることはできません。"
+msgstr "オンライン/有料サブスクリプションをキャンセルすることはできません。"
 
 msgid "You are not allowed to delete applications."
 msgstr "アプリケーションの削除は許可されていません。"
@@ -1290,10 +1290,10 @@ msgid "You can disable a template globally!"
 msgstr "テンプレートはグローバルに無効にすることができます！"
 
 msgid "You can only edit offline subscriptions!"
-msgstr "オフライン購読のみ編集できます！"
+msgstr "オフラインサブスクリプションのみ編集できます！"
 
 msgid "You can publish <b>up to %s Apps</b>"
-msgstr "<b>最大%sアプリまで</b>公開できます"
+msgstr "<b>最大 %s 個のアプリ</b>を公開できます"
 
 msgid "You cannot add a Folder feature inside a folder!"
 msgstr "フォルダ内にフォルダ機能を追加することはできません。"
@@ -1305,7 +1305,7 @@ msgid "You cannot change translation, it's a demo version."
 msgstr "翻訳を変更することはできません。デモ版です。"
 
 msgid "You can't activate an online subscription!"
-msgstr "オンライン登録はアクティベートできません。"
+msgstr "オンラインサブスクリプションを有効化することはできません！"
 
 msgid "You can't assign a role to this child role, this will break the hierarchy!"
 msgstr "この子ロールにロールを割り当てることはできません。階層が壊れます。"
@@ -1314,13 +1314,13 @@ msgid "You can't deactivate an online subscription!"
 msgstr "オンラインサブスクリプションを無効にすることはできません！"
 
 msgid "You can't go back to Angular."
-msgstr "あなたは角度に戻ることはできません。"
+msgstr "Angular に戻ることはできません。"
 
 msgid "You can't go back with Angular."
-msgstr "あなたはAngularに戻ることはできません。"
+msgstr "Angular に戻ることはできません。"
 
 msgid "You don't have any plans yet"
-msgstr "あなたはまだ計画を持っていません"
+msgstr "プランはまだありません"
 
 msgid "You don't have created any taxes yet"
 msgstr "税金はまだ作成されていません"
@@ -1329,7 +1329,7 @@ msgid "You have exceeded the number of attempts to validate points.<br />Your ca
 msgstr "ポイントの検証試行回数を超過しました。 <br />あなたのカードは24時間ロックされています"
 
 msgid "You have no subscription."
-msgstr "購読がありません。"
+msgstr "サブスクリプションがありません。"
 
 msgid "You have no subscription with free slots, please proceed to a new purchase."
 msgstr "空きスロットのサブスクリプションがありません。新しい購入に進んでください。"
@@ -1341,31 +1341,31 @@ msgid "You have no whitelabel yet."
 msgstr "ホワイトラベルはまだありません。"
 
 msgid "You have received a publication request:"
-msgstr "出版依頼を受け取りました:"
+msgstr "公開リクエストを受信しました:"
 
 msgid "You manually handle the payments via check, cash, etc... and activations/deactivations."
-msgstr "あなたは手動で小切手、現金など... とアクティベーション/非アクティブを介して支払いを処理します。"
+msgstr "小切手、現金などによる支払い処理と、有効化/無効化を手動で行います。"
 
 msgid "You must be connected to create a post!"
 msgstr "投稿を作成するには、接続する必要があります。"
 
 msgid "You must select a subscription!"
-msgstr "あなたはサブスクリプションを選択する必要があります!"
+msgstr "サブスクリプションを選択する必要があります！"
 
 msgid "You must select an existing subscription!"
 msgstr "既存のサブスクリプションを選択する必要があります。"
 
 msgid "You must set a Google Maps API Key in <b>Settings > Advanced</b> in order to use this feature."
-msgstr "この機能を使用するには、 <b>[設定] > [詳細</b> ] で Google Maps API キーを設定する必要があります。"
+msgstr "この機能を使用するには、<b>設定 > 詳細設定</b>で Google Maps API キーを設定する必要があります。"
 
 msgid "You must upgrade Java to 1.8"
 msgstr "Javaを1.8にアップグレードする必要があります"
 
 msgid "You will disable the current Application subscription!<br />You can enter a customer message below to inform the Application owner!<br /><br />"
-msgstr "あなたは、現在のアプリケーションサブスクリプションを無効にします！ 以下の顧客メッセージを入力して、アプリケーションの所有者に通知できます。<br /> <br /><br />"
+msgstr "現在のアプリケーションのサブスクリプションを無効にします！<br />以下に顧客向けメッセージを入力して、アプリケーションの所有者に通知できます！<br /><br />"
 
 msgid "You will enable the current Application subscription!<br />You can enter a customer message below to inform the Application owner!<br /><br />"
-msgstr "あなたは、現在のアプリケーションサブスクリプションを有効にします！ 以下の顧客メッセージを入力して、アプリケーションの所有者に通知できます。<br /> <br /><br />"
+msgstr "現在のアプリケーションのサブスクリプションを有効にします！<br />以下に顧客向けメッセージを入力して、アプリケーションの所有者に通知できます！<br /><br />"
 
 msgid "Your APK is being generated. Please come back in a few minutes."
 msgstr "APKが生成されています。 数分後に戻ってきてください。"
@@ -1377,7 +1377,7 @@ msgid "Your account doesn't exists on editor side. Please create it before using
 msgstr "あなたのアカウントはエディタ側に存在しません。 ツアーエディションを使用する前に作成してください。"
 
 msgid "Your application has been successfully added to your subscription!"
-msgstr "あなたのアプリケーションは購読に正常に追加されました！"
+msgstr "アプリケーションがサブスクリプションに正常に追加されました！"
 
 msgid "Your %s version is %s."
 msgstr "%s のバージョンは%s です。"
@@ -1386,10 +1386,10 @@ msgid "Your subscription expired!"
 msgstr "サブスクリプションの期限が切れています。"
 
 msgid "Your subscription was automatically cancelled."
-msgstr "購読は自動的にキャンセルされました。"
+msgstr "サブスクリプションは自動的にキャンセルされました。"
 
 msgid "Your subscription was manually cancelled."
-msgstr "購読は手動でキャンセルされました。"
+msgstr "サブスクリプションは手動でキャンセルされました。"
 
 msgid "Zip Code:"
 msgstr "郵便番号:"
@@ -1407,31 +1407,31 @@ msgid "before updating we strongly advise you to read the release note and the f
 msgstr "を更新する前に、リリースノートと次のドキュメントを読むことを強くお勧めします。"
 
 msgid "<b>%s</b> is not supported with the current currency <b>%s</b>!"
-msgstr "<b>%s</b> は現在の通貨%s ではサポートされていません<b>!</b>"
+msgstr "<b>%s</b> は現在の通貨 <b>%s</b> ではサポートされていません!"
 
 msgid "dismiss"
 msgstr "却下します"
 
 msgid "home/features/admin_marque_blanche.png"
-msgstr "ホーム/フィーチャー/ブランチ (marque_blanche.png)"
+msgstr "home/features/admin_marque_blanche.png"
 
 msgid "home/features/appel_en_un_clique.png"
-msgstr "ホーム/フィーチャ/クリップ解除.png"
+msgstr "home/features/appel_en_un_clique.png"
 
 msgid "home/features/geolocalisation.png"
-msgstr "ホーム/フィーチャ/ジオローカリゼーション.png"
+msgstr "home/features/geolocalisation.png"
 
 msgid "home/features/listing_produits.png"
-msgstr "ホーム/フィーチャ/出品_produits.png"
+msgstr "home/features/listing_produits.png"
 
 msgid "iOS Descriptions saved!"
 msgstr "iOSの説明が保存されました！"
 
 msgid "iPhone X:"
-msgstr "アイフォン X:"
+msgstr "iPhone X:"
 
 msgid "password"
-msgstr "パスワードを入力します"
+msgstr "パスワード"
 
 msgid "%s Image%s"
 msgstr "%s イメージ%s"

@@ -49,7 +49,7 @@ msgid "APNS Port 2195 is:"
 msgstr "El port 2195 d'APNS és:"
 
 msgid "Account"
-msgstr "compte"
+msgstr "Compte"
 
 msgid "Account Role"
 msgstr "Funció del compte"
@@ -193,7 +193,7 @@ msgid "CA"
 msgstr "CA"
 
 msgid "CA certificate"
-msgstr "Certificat"
+msgstr "Certificat CA"
 
 #. machine-translated (2026-10), to be reviewed
 msgid "CA path:"
@@ -216,7 +216,7 @@ msgid "Can generate APK"
 msgstr "Pot generar l'APK"
 
 msgid "Cert"
-msgstr "Cistella"
+msgstr "Certificat"
 
 msgid "Certificate"
 msgstr "Certificat"
@@ -269,10 +269,10 @@ msgid "Cleared cron errors."
 msgstr "S'han netejat els errors de cron."
 
 msgid "Click here to send your CA certificate"
-msgstr "Feu clic aquí per enviar el seu certificat"
+msgstr "Feu clic aquí per enviar el vostre certificat CA"
 
 msgid "Click here to send your Private certificate"
-msgstr "Feu clic aquí per enviar el seu certificat"
+msgstr "Feu clic aquí per enviar el vostre certificat privat"
 
 msgid "Click here to send your certificate"
 msgstr "Feu clic aquí per enviar el seu certificat"
@@ -284,7 +284,7 @@ msgid "Click to mark as read"
 msgstr "Feu clic per marcar com llegit"
 
 msgid "Closed"
-msgstr "Prop"
+msgstr "Tancat"
 
 #. machine-translated (2026-10), to be reviewed
 msgid "Complete build log"
@@ -295,7 +295,7 @@ msgid "Configuration"
 msgstr "Configuració"
 
 msgid "Configuration successfully saved"
-msgstr "Informació guardat correctament"
+msgstr "Configuració desada correctament"
 
 #. machine-translated (2026-10), to be reviewed
 msgid "Core modules"
@@ -391,7 +391,7 @@ msgid "Download latest source"
 msgstr "Descarrega l'últim codi font"
 
 msgid "Drop your certificate here"
-msgstr "Caiguda del seu certificat aquí"
+msgstr "Arrossegueu aquí el vostre certificat"
 
 msgid "Edit the user"
 msgstr "Editeu l'usuari"
@@ -523,7 +523,7 @@ msgid ""
 msgstr "El suport d'HTTPS és en proves; només l'hauríeu de provar al servidor de desenvolupament abans de preparar una migració posterior."
 
 msgid "Hide"
-msgstr "amagar"
+msgstr "Amagar"
 
 #. machine-translated (2026-10), to be reviewed
 msgid "Host"
@@ -538,10 +538,10 @@ msgid "Hostnames associated with this Certificate"
 msgstr "Noms d'amfitrió associats a aquest certificat"
 
 msgid "Hour"
-msgstr "hora"
+msgstr "Hora"
 
 msgid "ID"
-msgstr "Identificació"
+msgstr "ID"
 
 #. machine-translated (2026-10), to be reviewed
 msgid "If inactive, your customer won't see the tour."
@@ -648,7 +648,7 @@ msgid "Log (var/log, log files)"
 msgstr "Registre (var/log, fitxers de registre)"
 
 msgid "Login to your backoffice interface"
-msgstr "Accedeix al teu interfície de backoffice"
+msgstr "Accediu a la vostra interfície de backoffice"
 
 #. machine-translated (2026-10), to be reviewed
 msgid "Logs cleared."
@@ -670,7 +670,7 @@ msgid "Messages"
 msgstr "Missatges"
 
 msgid "Minute"
-msgstr "minut"
+msgstr "Minut"
 
 #. machine-translated (2026-10), to be reviewed
 msgid "Missing parameters for generation."
@@ -689,7 +689,7 @@ msgid "Month"
 msgstr "Mes"
 
 msgid "My Invoices"
-msgstr "Els meus factures"
+msgstr "Les meves factures"
 
 #. machine-translated (2026-10), to be reviewed
 msgid "My tour is active"
@@ -718,7 +718,7 @@ msgid "No icon packs"
 msgstr "Cap paquet d'icones"
 
 msgid "No informations."
-msgstr "La meva informació"
+msgstr "Cap informació."
 
 #. machine-translated (2026-10), to be reviewed
 msgid "No layouts"
@@ -863,7 +863,7 @@ msgid "[Plesk] Unknown error."
 msgstr "[Plesk] Error desconegut."
 
 msgid "Port"
-msgstr "lloc"
+msgstr "Port"
 
 #. machine-translated (2026-10), to be reviewed
 msgid "Preview 5.0"
@@ -1079,7 +1079,7 @@ msgid ""
 msgstr "Les estadístiques s'utilitzen per millorar la plataforma i ajudar a entendre l'ús del creador d'aplicacions."
 
 msgid "Status"
-msgstr "L'estat"
+msgstr "Estat"
 
 #. machine-translated (2026-10), to be reviewed
 msgid "Submit a bug report or improvement request for beta/preview"
@@ -1222,7 +1222,7 @@ msgid "Tour status"
 msgstr "Estat de la visita"
 
 msgid "Tour status successfully saved."
-msgstr "Dinar del set guardat correctament."
+msgstr "L'estat del tour s'ha desat correctament."
 
 #. machine-translated (2026-10), to be reviewed
 msgid "UID"
@@ -1251,7 +1251,7 @@ msgid "Update channel"
 msgstr "Canal d'actualització"
 
 msgid "Updated At"
-msgstr "imatge actualitzat a"
+msgstr "Actualitzat el"
 
 #. machine-translated (2026-10), to be reviewed
 msgid "Upload"
@@ -1304,7 +1304,7 @@ msgid "VestaCP (php 5.6+ only)"
 msgstr "VestaCP (només php 5.6+)"
 
 msgid "View Details"
-msgstr "veure detalls"
+msgstr "Veure detalls"
 
 #. machine-translated (2026-10), to be reviewed
 msgid "WHM cPanel"
@@ -1425,7 +1425,7 @@ msgid "Your new password"
 msgstr "La seva nova contrasenya"
 
 msgid "Your password"
-msgstr "la seva contrasenya"
+msgstr "La seva contrasenya"
 
 #. machine-translated (2026-10), to be reviewed
 msgid "<b>Actual preview version is Siberian 5.0</b>."
@@ -1451,13 +1451,13 @@ msgid ""
 msgstr "<b>Nota</b>: els codis font i els push s'enviaran immediatament després de crear-se, els push programats no funcionaran i l'optimització de mitjans està desactivada."
 
 msgid "customer"
-msgstr "Atenció al client"
+msgstr "client"
 
 msgid "%d Unread Message"
-msgstr "% D missatge no llegit"
+msgstr "%d missatge no llegit"
 
 msgid "%d Unread Messages"
-msgstr "% D missatges no llegits"
+msgstr "%d missatges no llegits"
 
 #. machine-translated (2026-10), to be reviewed
 msgid "for the bundle id:"

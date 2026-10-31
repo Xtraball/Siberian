@@ -16,50 +16,47 @@ msgstr ""
 "X-Generator: Weblate 3.3\n"
 
 msgid "Add"
-msgstr "Добавлять"
+msgstr "Добавить"
 
 msgid "An error occurred during the process. Please try again later."
 msgstr ""
 "Произошла ошибка во время процесса. Пожалуйста, повторите попытку позже."
 
 msgid "An error occurred while deleting your preview. Please try again later."
-msgstr ""
-"Произошла ошибка при загрузке файла. Пожалуйста, повторите попытку позже."
+msgstr "Произошла ошибка при удалении вашего предпросмотра. Пожалуйста, повторите попытку позже."
 
 msgid "An error occurred while saving your previews. Please try again later."
-msgstr ""
-"Произошла ошибка в процессе сохранения пиктограммы. Пожалуйста, попробуйте "
-"чуть позже."
+msgstr "Произошла ошибка при сохранении ваших предпросмотров. Пожалуйста, повторите попытку позже."
 
 msgid "Click here to send your image"
-msgstr "Нажмите здесь, чтобы загрузить ваш логотип"
+msgstr "Нажмите здесь, чтобы загрузить ваше изображение"
 
 msgid "Create a new preview"
-msgstr "Создать новое событие"
+msgstr "Создать новый предпросмотр"
 
 msgid "Delete image"
-msgstr "Удаление изображения"
+msgstr "Удалить изображение"
 
 msgid "Delete translation"
-msgstr "Перевод текста"
+msgstr "Удалить перевод"
 
 msgid "Description"
 msgstr "Описание"
 
 msgid "Drag and drop images to reorder them."
-msgstr "Перетащите изображение, чтобы изменить их порядок."
+msgstr "Перетащите изображения, чтобы изменить их порядок."
 
 msgid "Drop your image here"
-msgstr "Оставьте ваш логотип здесь"
+msgstr "Перетащите сюда ваше изображение"
 
 msgid "Edit the preview"
-msgstr "Редактирование предварительный просмотр"
+msgstr "Редактирование предпросмотра"
 
 msgid "Existing images :"
 msgstr "Существующие изображения :"
 
 msgid "Feature"
-msgstr "Функции"
+msgstr "Функция"
 
 msgid "Language"
 msgstr "Язык"
@@ -74,7 +71,7 @@ msgid "Preview images"
 msgstr "Предварительный просмотр изображений"
 
 msgid "Preview successfully saved"
-msgstr "Принтер успешно сохранен"
+msgstr "Предпросмотр успешно сохранён"
 
 msgid "Previews"
 msgstr "Предварительный просмотр"
@@ -85,15 +82,13 @@ msgstr "Поиск"
 msgid ""
 "Sorry, but an existing preview for this feature has been found. Please edit "
 "existing one."
-msgstr ""
-"Извините, но существующий предварительный просмотр для этой функции был "
-"найден. Пожалуйста, отредактируйте существующий."
+msgstr "Извините, но для этой функции уже найден существующий предпросмотр. Пожалуйста, отредактируйте его."
 
 msgid "Title"
-msgstr "название"
+msgstr "Название"
 
 msgid "Unable to copy the file."
-msgstr "Не удается открыть архив."
+msgstr "Не удаётся скопировать файл."
 
 msgid "Unable to create the directory."
 msgstr "Не удается создать каталог."
@@ -105,16 +100,16 @@ msgid "Unable to delete the file %s"
 msgstr "Не удается удалить файл %s"
 
 msgid "You don't have any previews yet"
-msgstr "Вы не создали еще ни одного пользователя"
+msgstr "У вас пока нет предпросмотров"
 
 msgid "Your image has been successfully saved"
-msgstr "Изображение было успешно сохранены"
+msgstr "Изображение успешно сохранено"
 
 msgid "Your preview has been deleted successfully."
-msgstr "Ваш просмотр был успешно удален."
+msgstr "Ваш предпросмотр успешно удалён."
 
 msgid "Your preview translation has been deleted successfully."
-msgstr "Перевод превью был успешно удален."
+msgstr "Перевод вашего предпросмотра успешно удалён."
 
 msgid "<b>File types:</b> %s<br />"
-msgstr "<b>Тип файла:</b> %s"
+msgstr "<b>Типы файлов:</b> %s<br />"

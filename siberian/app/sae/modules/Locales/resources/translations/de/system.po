@@ -30,12 +30,10 @@ msgid "App limit for displaying real data"
 msgstr "App-Limit für die Anzeige realer Daten"
 
 msgid "Banner"
-msgstr "Fahne"
+msgstr "Banner"
 
 msgid "Below are variables you can use to be replaced in the extent."
-msgstr ""
-"Nachfolgend finden Sie Variablen, die Sie verwenden können, um im Extent "
-"ersetzt zu werden."
+msgstr "Nachfolgend finden Sie Variablen, die Sie verwenden können und die ersetzt werden."
 
 #. machine-translated (2026-10), to be reviewed
 msgid "Click here to force analytics computing"
@@ -45,16 +43,16 @@ msgid "Click here to send your favicon"
 msgstr "Klicken Sie hier, um Ihr Favicon zu senden"
 
 msgid "Click here to send your logo"
-msgstr "Klicken Sie hier, um Ihr Logo senden"
+msgstr "Klicken Sie hier, um Ihr Logo zu senden"
 
 msgid "Communications"
 msgstr "Kommunikation"
 
 msgid "Current favicon"
-msgstr "Aktuelle favicon"
+msgstr "Aktuelles Favicon"
 
 msgid "Current logo"
-msgstr "Aktuelle logo"
+msgstr "Aktuelles Logo"
 
 #. machine-translated (2026-10), to be reviewed
 msgid "Default privacy policy"
@@ -65,13 +63,13 @@ msgid "Default privacy policy section for GDPR"
 msgstr "Standardabschnitt der Datenschutzerklärung für die DSGVO"
 
 msgid "Display a link to your clients to your support platform"
-msgstr "Zeigt einen Link an Ihre Kunden an Ihre Support-Plattform"
+msgstr "Link zu Ihrer Support-Plattform für Ihre Kunden anzeigen"
 
 msgid "Drop your favicon here"
-msgstr "Ihr Favicon hierher ziehen"
+msgstr "Ziehen Sie Ihr Favicon hierher"
 
 msgid "Drop your logo here"
-msgstr "Ihr Logo hier ablegen"
+msgstr "Ziehen Sie Ihr Logo hierher"
 
 #. machine-translated (2026-10), to be reviewed
 msgid ""
@@ -101,7 +99,7 @@ msgid "Favicon"
 msgstr "Favicon"
 
 msgid "Flat"
-msgstr "Melden"
+msgstr "Flach"
 
 #. machine-translated (2026-10), to be reviewed
 msgid "Force all app to use Owner AdMob"
@@ -148,7 +146,7 @@ msgid "Number of typed characters:"
 msgstr "Anzahl eingegebener Zeichen:"
 
 msgid "Online Chat"
-msgstr "Online chat"
+msgstr "Online-Chat"
 
 #. machine-translated (2026-10), to be reviewed
 msgid "Platform or Whitelabel Company name"
@@ -163,20 +161,19 @@ msgid "Privacy Settings"
 msgstr "Datenschutzeinstellungen"
 
 msgid "Publication access type"
-msgstr "Publikation zugreifen, geben Sie"
+msgstr "Zugriffstyp der Veröffentlichung"
 
 msgid "Sales"
 msgstr "Vertrieb"
 
 msgid "Sales Email Address"
-msgstr "Verkauf E-Mail-Adresse"
+msgstr "E-Mail-Adresse des Vertriebs"
 
 msgid "Sender's email address of the emails sent by the site to your clients"
-msgstr ""
-"E-Mail-Adresse des Absenders der e-Mails, die von der Site an Ihre Kunden"
+msgstr "E-Mail-Adresse des Absenders der E-Mails, die von der Site an Ihre Kunden gesendet werden"
 
 msgid "Sender's name of the emails sent by the site to your clients"
-msgstr "Name des Absenders der e-Mails, die von der Site an Ihre Kunden"
+msgstr "Name des Absenders der E-Mails, die von der Site an Ihre Kunden gesendet werden"
 
 #. machine-translated (2026-10), to be reviewed
 msgid "Siberian"
@@ -191,10 +188,10 @@ msgid "Sign-up mode for your platform."
 msgstr "Registrierungsmodus für Ihre Plattform."
 
 msgid "Support Email Address"
-msgstr "Support-Email-Adresse"
+msgstr "Support-E-Mail-Adresse"
 
 msgid "The Application name"
-msgstr "Der Appname"
+msgstr "Der App-Name"
 
 #. machine-translated (2026-10), to be reviewed
 msgid ""
@@ -203,7 +200,7 @@ msgid ""
 msgstr "Die europäische <b>Datenschutz-Grundverordnung (DSGVO)</b> gilt in Ihrem Land, Sie müssen sie in den Datenschutzeinstellungen unten aktivieren."
 
 msgid "The folder /images/default is not writable."
-msgstr "Die Ordner-/images/default ist nicht schreibbar."
+msgstr "Der Ordner /images/default ist nicht beschreibbar."
 
 #. machine-translated (2026-10), to be reviewed
 msgid ""
@@ -228,7 +225,7 @@ msgid "This text will appear in the checkout page. 65,000 characters max."
 msgstr "Dieser Text erscheint auf der Bestellabschlussseite. Höchstens 65.000 Zeichen."
 
 msgid "Users can download application sources code."
-msgstr "Benutzer können den Quellcode downloaden"
+msgstr "Benutzer können den Quellcode der Anwendung herunterladen."
 
 #. machine-translated (2026-10), to be reviewed
 msgid "Users can generate APK"
@@ -247,7 +244,7 @@ msgid "We cannot get your license information"
 msgstr "Ihre Lizenzinformationen können nicht abgerufen werden"
 
 msgid "You can use <b>%s</b> as a dynamic variable for your application name."
-msgstr "Sie können <b>%s</b> als Variable für Ihren Anwendungsnamen verwenden."
+msgstr "Sie können <b>%s</b> als dynamische Variable für Ihren Anwendungsnamen verwenden."
 
 msgid "Your Applications"
 msgstr "Ihre Apps"
@@ -257,7 +254,7 @@ msgid "Your CMS License Key"
 msgstr "Ihr CMS-Lizenzschlüssel"
 
 msgid "Your Location"
-msgstr "Ihren Standort"
+msgstr "Ihr Standort"
 
 msgid "Your Platform"
 msgstr "Ihre Plattform"
@@ -266,5 +263,5 @@ msgid "Your company"
 msgstr "Ihr Unternehmen"
 
 msgid "<b>File types:</b> %s<br /><b>Recommended size:</b> %s"
-msgstr "<b>Dateitypen:</b> %s < Br / > <b>Größe empfohlen:</b> %s"
+msgstr "<b>Dateitypen:</b> %s<br /><b>Empfohlene Größe:</b> %s"
 

@@ -19,10 +19,10 @@ msgid "Active"
 msgstr "Actiu"
 
 msgid "Address 1"
-msgstr "direcció:"
+msgstr "Adreça 1"
 
 msgid "Address 2"
-msgstr "direcció:"
+msgstr "Adreça 2"
 
 #. machine-translated (2026-10), to be reviewed
 msgid ""
@@ -37,15 +37,13 @@ msgid ""
 msgstr "S'ha produït un error en processar la comanda. Comproveu les credencials de 2Checkout o torneu-ho a provar més tard."
 
 msgid "An error occurred while processing your order. Please, try again later."
-msgstr ""
-"S'ha produït un error en pujar el fitxer. Si us plau, torneu a intentar-ho "
-"més tard."
+msgstr "S'ha produït un error en processar la seva comanda. Intenta-ho de nou més tard."
 
 msgid "An error occurred while saving. Please try again later"
 msgstr "S'ha produït un error en desar. Intenta-ho de nou més tard."
 
 msgid "An error occurred while saving. The selected subscription is not valid."
-msgstr "S'ha produït un error en desar. La icona seleccionat no és vàlid."
+msgstr "S'ha produït un error en desar. La subscripció seleccionada no és vàlida."
 
 #. machine-translated (2026-10), to be reviewed
 msgid ""
@@ -55,7 +53,7 @@ msgid ""
 msgstr "Un mètode de pagament fora de línia <strong>no</strong> s'associarà a cap mètode de pagament en línia. Els usuaris us hauran de pagar per xec, transferència bancària...Haureu d'editar les factures manualment."
 
 msgid "Are you sure you want to delete this plan?"
-msgstr "Segur que vols esborrar aquesta pàgina?"
+msgstr "Segur que vols eliminar aquest pla?"
 
 #. machine-translated (2026-10), to be reviewed
 msgid ""
@@ -84,7 +82,7 @@ msgid "CVC"
 msgstr "CVC"
 
 msgid "Card number"
-msgstr "Nom de la targeta"
+msgstr "Número de targeta"
 
 #. machine-translated (2026-10), to be reviewed
 msgid "Charged to your client every month"
@@ -107,7 +105,7 @@ msgid "Choose the subscription that suits you best:"
 msgstr "Trieu la subscripció que us convingui més:"
 
 msgid "Choose your Payment method"
-msgstr "Triar un mètode de pagament:"
+msgstr "Trieu el vostre mètode de pagament"
 
 msgid "City"
 msgstr "Ciutat"
@@ -121,7 +119,7 @@ msgid "Confirmation"
 msgstr "Confirmació"
 
 msgid "Create a new subscription"
-msgstr "Crear una nova aplicació"
+msgstr "Crear una nova subscripció"
 
 #. machine-translated (2026-10), to be reviewed
 msgid "Creation"
@@ -168,10 +166,10 @@ msgid "I'll pay with an offline payment mode"
 msgstr "Pagaré amb un mode de pagament fora de línia"
 
 msgid "List of your plans"
-msgstr "Llista dels seus usuaris"
+msgstr "Llista dels vostres plans"
 
 msgid "List of your subscriptions"
-msgstr "Llista d'aplicacions"
+msgstr "Llista de les vostres subscripcions"
 
 msgid "MM"
 msgstr ""
@@ -206,7 +204,7 @@ msgid "Payment Method:"
 msgstr "Forma de pagament"
 
 msgid "Payment Option"
-msgstr "Forma de pagament"
+msgstr "Opció de pagament"
 
 #. machine-translated (2026-10), to be reviewed
 msgid "Please choose a payment method for this plan."
@@ -228,7 +226,7 @@ msgid "Please, enter a name."
 msgstr "Introduïu un nom"
 
 msgid "Please, enter an address"
-msgstr "Si us plau introdueixi una adreça vàlida"
+msgstr "Si us plau, introduïu una adreça"
 
 #. machine-translated (2026-10), to be reviewed
 msgid "Please fill in your card information in order to pay with Stripe:"
@@ -263,13 +261,13 @@ msgid "State/Province"
 msgstr "Estat/Província"
 
 msgid "Subscription"
-msgstr "Subscripcions"
+msgstr "Subscripció"
 
 msgid "Subscription for"
-msgstr "Subscripcions"
+msgstr "Subscripció per a"
 
 msgid "Subscription successfully saved"
-msgstr "Informació guardat correctament"
+msgstr "Subscripció desada correctament"
 
 msgid "Subtotal"
 msgstr "Subtotal"
@@ -343,7 +341,7 @@ msgid ""
 msgstr "Podeu triar quines funcionalitats seran accessibles amb el pla. Per defecte, totes les funcionalitats estan permeses."
 
 msgid "You don't have any subscriptions yet"
-msgstr "No té cap aplicació encara"
+msgstr "Encara no teniu cap subscripció"
 
 #. machine-translated (2026-10), to be reviewed
 msgid ""
@@ -376,7 +374,7 @@ msgid "You've made a sale!"
 msgstr "Heu fet una venda!"
 
 msgid "Zip Code"
-msgstr "codi postal"
+msgstr "Codi postal"
 
 msgid "price"
 msgstr "preu"

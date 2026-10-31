@@ -6,10 +6,10 @@ msgstr ""
 "X-Generator: ezgif.com\n"
 
 msgid "60000 maximum allowed."
-msgstr "60000 अधिकतम अनुमति दी."
+msgstr "अधिकतम 60000 की अनुमति है।"
 
 msgid "A certificate already exists for the domain %s, if you want to re-generate it, use 'Force re-generate' to proceed."
-msgstr "डोमेन% s के लिए एक प्रमाण पत्र पहले से मौजूद है, यदि आप इसे फिर से उत्पन्न करना चाहते हैं, तो आगे बढ़ने के लिए 'बल पुन: उत्पन्न करें' का उपयोग करें।"
+msgstr "डोमेन %s के लिए प्रमाणपत्र पहले से मौजूद है; यदि आप इसे दोबारा बनाना चाहते हैं, तो आगे बढ़ने के लिए 'दोबारा बनाने के लिए बाध्य करें' का उपयोग करें।"
 
 msgid "[APK]"
 msgstr "[APK]"
@@ -21,10 +21,10 @@ msgid "APK Queue status"
 msgstr "APK कतार स्थिति"
 
 msgid "APNS Feedback:"
-msgstr "APNS प्रतिक्रिया:"
+msgstr "APNS फ़ीडबैक:"
 
 msgid "APNS Feedback port 2196 is:"
-msgstr "APNS प्रतिक्रिया बंदरगाह 2196 है:"
+msgstr "APNS फ़ीडबैक पोर्ट 2196 है:"
 
 msgid "APNS Port 2195 is:"
 msgstr "APNS पोर्ट 2195 है:"
@@ -39,7 +39,7 @@ msgid "Actions"
 msgstr "कार्रवाई"
 
 msgid "Activate VAT number check with VIES"
-msgstr "VIPS के साथ VAT नंबर चेक सक्रिय करें"
+msgstr "VIES के साथ VAT नंबर जाँच सक्रिय करें"
 
 msgid "Activate user"
 msgstr "उपयोगकर्ता को सक्रिय करें"
@@ -57,7 +57,7 @@ msgid "Advanced"
 msgstr "उन्नत"
 
 msgid "Alert: The APK build for the Application: %s (%s) is stuck for more than one hour."
-msgstr "चेतावनी: एप्लिकेशन के लिए एपीके बिल्ड:% s (% s) एक घंटे से अधिक समय तक फंस गया है।"
+msgstr "चेतावनी: एप्लिकेशन %s (%s) का APK बिल्ड एक घंटे से अधिक समय से अटका हुआ है।"
 
 msgid "Alert: The Source build for the Application: %s (%s) is stuck for more than one hour."
 msgstr "चेतावनी: अनुप्रयोग के लिए स्रोत निर्माण: %s (%s) एक से अधिक घंटे के लिए अटक गया है।"
@@ -72,7 +72,7 @@ msgid "An error occured"
 msgstr "एक त्रुटि हुई"
 
 msgid "An error occured while saving certificate to %s."
-msgstr "प्रमाण पत्र को%s को सहेजते समय एक त्रुटि उत्पन्न हुई।"
+msgstr "प्रमाणपत्र को %s में सहेजते समय एक त्रुटि हुई।"
 
 msgid "An error occurred during the process. Please try again later."
 msgstr "प्रक्रिया के दौरान एक त्रुटि हुई। कृपया बाद में पुन: प्रयास करें।"
@@ -90,13 +90,13 @@ msgid "Application settings"
 msgstr "एप्लिकेशन सेटिंग"
 
 msgid "Application successfully queued for generation."
-msgstr "आवेदन सफलतापूर्वक पीढ़ी के लिए कतारबद्ध।"
+msgstr "एप्लिकेशन को जनरेशन के लिए सफलतापूर्वक कतार में जोड़ दिया गया है।"
 
 msgid "Applications/Previewer manifest for automatic updates."
 msgstr "स्वचालित अपडेट के लिए एप्लिकेशन/प्रीव्यूअर मैनिफेस्ट।"
 
 msgid "Are you sure ?"
-msgstr "क्या आप वाकई हैं?"
+msgstr "क्या आप निश्चित हैं?"
 
 msgid "Auth type"
 msgstr "ऑथ प्रकार"
@@ -114,19 +114,19 @@ msgid "Backoffice options"
 msgstr "बैकऑफिस विकल्प"
 
 msgid "Bearer Token Auth (API)"
-msgstr "बेयरर टोकन एथ (एपीआई)"
+msgstr "बेयरर टोकन ऑथ (API)"
 
 msgid "Bearer Token Auth is valid."
-msgstr "बेयरर टोकन एथ मान्य है।"
+msgstr "बेयरर टोकन ऑथ मान्य है।"
 
 msgid "Beta"
 msgstr "बीटा"
 
 msgid "Build status"
-msgstr "स्थिति बनाएं"
+msgstr "बिल्ड स्थिति"
 
 msgid "Build time (in seconds)"
-msgstr "समय बनाएं (सेकंड में)"
+msgstr "बिल्ड समय (सेकंड में)"
 
 msgid "By clicking on link below, you will open your editor in tour editing mode. Please note that your user account must be created on editor side."
 msgstr "नीचे दिए गए लिंक पर क्लिक करके, आप अपने संपादक को टूर संपादन मोड में खोलेंगे। कृपया ध्यान दें कि आपका उपयोगकर्ता खाता संपादक पक्ष पर बनाया जाना चाहिए।"
@@ -147,7 +147,7 @@ msgid "Cache cleared"
 msgstr "कैश साफ़ हो गया"
 
 msgid "Cache (var/cache, system cache)"
-msgstr "कैश (var/कैश, सिस्टम कैश)"
+msgstr "कैश (var/cache, सिस्टम कैश)"
 
 msgid "Can generate APK"
 msgstr "APK उत्पन्न कर सकते हैं"
@@ -168,7 +168,7 @@ msgid "Certificate successfully generated."
 msgstr "प्रमाणपत्र सफलतापूर्वक जनरेट किया गया।"
 
 msgid "Certificate successfully generated. Please wait while %s is reloading configuration ..."
-msgstr "प्रमाणपत्र सफलतापूर्वक जनरेट किया गया। कृपया प्रतीक्षा करें जब%s कॉन्फ़िगरेशन पुनः लोड कर रहा है..."
+msgstr "प्रमाणपत्र सफलतापूर्वक जनरेट किया गया। कृपया प्रतीक्षा करें, %s कॉन्फ़िगरेशन पुनः लोड कर रहा है..."
 
 msgid "Certificate successfully re-generated."
 msgstr "प्रमाणपत्र सफलतापूर्वक पुन: जनरेट किया गया।"
@@ -189,7 +189,7 @@ msgid "Clear logs"
 msgstr "लॉग साफ़ करें"
 
 msgid "Cleared cron errors."
-msgstr "क्रॉन त्रुटियों को मंजूरी दे दी।"
+msgstr "क्रॉन त्रुटियाँ साफ़ कर दी गईं।"
 
 msgid "Click here to send your CA certificate"
 msgstr "अपना सीए प्रमाणपत्र भेजने के लिए यहां क्लिक करें"
@@ -201,10 +201,10 @@ msgid "Click here to send your certificate"
 msgstr "अपना प्रमाणपत्र भेजने के लिए यहां क्लिक करें"
 
 msgid "Click to mark as not read"
-msgstr "पढ़ने के रूप में चिह्नित करने के लिए क्लिक करें"
+msgstr "अपठित के रूप में चिह्नित करने के लिए क्लिक करें"
 
 msgid "Click to mark as read"
-msgstr "पढ़ने के रूप में चिह्नित करने के लिए क्लिक करें"
+msgstr "पठित के रूप में चिह्नित करने के लिए क्लिक करें"
 
 msgid "Closed"
 msgstr "बंद"
@@ -213,7 +213,7 @@ msgid "Complete build log"
 msgstr "पूर्ण बिल्ड लॉग"
 
 msgid "Configuration"
-msgstr "विन्यास"
+msgstr "कॉन्फ़िगरेशन"
 
 msgid "Configuration successfully saved"
 msgstr "कॉन्फ़िगरेशन सफलतापूर्वक सहेजा गया"
@@ -225,7 +225,7 @@ msgid "Create a user"
 msgstr "एक उपयोगकर्ता बनाएँ"
 
 msgid "Created At"
-msgstr "पर बनाया गया"
+msgstr "निर्माण समय"
 
 msgid "Creation date"
 msgstr "निर्माण तिथि"
@@ -246,7 +246,7 @@ msgid "Cron scheduler help"
 msgstr "क्रॉन शेड्यूलर मदद"
 
 msgid "Custom SMTP Configuration"
-msgstr "कस्टम एसएमटीपी विन्यास"
+msgstr "कस्टम SMTP कॉन्फ़िगरेशन"
 
 msgid "Day of month"
 msgstr "माह का दिन"
@@ -270,7 +270,7 @@ msgid "DirectAdmin (beta)"
 msgstr "डायरेक्टएडमिन (बीटा)"
 
 msgid "Disable cron jobs"
-msgstr "क्रॉन नौकरियों को अक्षम करें"
+msgstr "क्रॉन जॉब अक्षम करें"
 
 msgid "Disabled"
 msgstr "अक्षम"
@@ -279,10 +279,10 @@ msgid "Disk usage & Cache:"
 msgstr "डिस्क उपयोग और कैश:"
 
 msgid "Dismiss & install later"
-msgstr "खारिज और बाद में स्थापित"
+msgstr "खारिज करें और बाद में इंस्टॉल करें"
 
 msgid "Display"
-msgstr "प्रदर्शन"
+msgstr "डिस्प्ले"
 
 msgid "Doesn't meet the requirements"
 msgstr "आवश्यकताओं को पूरा नहीं करता है"
@@ -291,7 +291,7 @@ msgid "Download latest source"
 msgstr "नवीनतम स्रोत डाउनलोड करें"
 
 msgid "Drop your certificate here"
-msgstr "अपने प्रमाणपत्र को यहां छोड़ दें"
+msgstr "अपना प्रमाणपत्र यहाँ ड्रॉप करें"
 
 msgid "Edit the user"
 msgstr "उपयोगकर्ता को संपादित करें"
@@ -306,13 +306,13 @@ msgid "Enter your credentials:"
 msgstr "अपने क्रेडेंशियल दर्ज करें:"
 
 msgid "Environment"
-msgstr "पर्यावरण"
+msgstr "एनवायरनमेंट"
 
 msgid "Error, order already paid."
-msgstr "त्रुटि, आदेश पहले से ही भुगतान किया है।"
+msgstr "त्रुटि, ऑर्डर का भुगतान पहले ही हो चुका है।"
 
 msgid "Errors are displayed on page, outputs are more verbose, this is an option for debug purpose, use with care as it may output some critical informations about your server."
-msgstr "त्रुटियों को पृष्ठ पर प्रदर्शित किया जाता है, आउटपुट अधिक वर्बोज़ होते हैं, यह डीबग उद्देश्य के लिए एक विकल्प है, देखभाल के साथ उपयोग करें क्योंकि यह आपके सर्वर के बारे में कुछ महत्वपूर्ण जानकारी आउटपुट कर सकता है।"
+msgstr "त्रुटियाँ पृष्ठ पर प्रदर्शित की जाती हैं, आउटपुट अधिक विस्तृत होता है। यह डीबग उद्देश्य के लिए एक विकल्प है, इसे सावधानी से उपयोग करें क्योंकि यह आपके सर्वर के बारे में कुछ महत्वपूर्ण जानकारी दिखा सकता है।"
 
 msgid "Exists"
 msgstr "मौजूद है"
@@ -330,7 +330,7 @@ msgid "File is missing."
 msgstr "फ़ाइल गुम है।"
 
 msgid "Force re-generation"
-msgstr "बल फिर से पीढ़ी"
+msgstr "दोबारा जनरेट करने के लिए बाध्य करें"
 
 msgid "Forgot password"
 msgstr "पासवर्ड भूल गए"
@@ -348,25 +348,25 @@ msgid "Generate"
 msgstr "उत्पन्न करें"
 
 msgid "Generate a certificate via Let's Encrypt."
-msgstr "चलो एन्क्रिप्ट के माध्यम से एक प्रमाण पत्र उत्पन्न करें।"
+msgstr "Let's Encrypt के माध्यम से एक प्रमाणपत्र जनरेट करें।"
 
 msgid "Generate source"
 msgstr "स्रोत उत्पन्न करें"
 
 msgid "Generating"
-msgstr "उत्पन्न करना"
+msgstr "जनरेट हो रहा है"
 
 msgid "[Global]"
 msgstr "[ग्लोबल]"
 
 msgid "Grant user"
-msgstr "अनुदान उपयोगकर्ता"
+msgstr "उपयोगकर्ता को अनुमति दें"
 
 msgid "HTTP Basic Auth (API)"
-msgstr "HTTP बेसिक एथ (एपीआई)"
+msgstr "HTTP बेसिक ऑथ (API)"
 
 msgid "HTTP Basic Auth is valid."
-msgstr "HTTP बेसिक एथ मान्य है।"
+msgstr "HTTP बेसिक ऑथ मान्य है।"
 
 msgid "HTTPS & SSL Certificates"
 msgstr "HTTPS और SSL प्रमाणपत्र"
@@ -381,7 +381,7 @@ msgid "HTTPS not reachable"
 msgstr "HTTPS पहुंच योग्य नहीं है"
 
 msgid "HTTPS support is in <b>Beta</b>, you should test it on your <b>development server</b> first & prepare for further migration."
-msgstr "HTTPS समर्थन <b>बीटा</b>में है, आपको इसे पहले अपने <b>विकास सर्वर</b>पर परीक्षण करना चाहिए और आगे माइग्रेशन के लिए तैयार करना चाहिए।"
+msgstr "HTTPS समर्थन <b>बीटा</b> में है, आपको इसे पहले अपने <b>डेवलपमेंट सर्वर</b> पर परीक्षण करना चाहिए और आगे के माइग्रेशन के लिए तैयार रहना चाहिए।"
 
 msgid "HTTPS support is in test, you should only try it on your development server prior to prepare for further migration."
 msgstr "HTTPS समर्थन परीक्षण में है, आपको आगे माइग्रेशन के लिए तैयार करने से पहले केवल अपने विकास सर्वर पर इसे आजमा देना चाहिए।"
@@ -390,7 +390,7 @@ msgid "Hide"
 msgstr "छिपाएँ"
 
 msgid "Host"
-msgstr "मेज़बान"
+msgstr "होस्ट"
 
 msgid "Hostname"
 msgstr "होस्टनाम"
@@ -453,16 +453,16 @@ msgid "Last trigger"
 msgstr "अंतिम ट्रिगर"
 
 msgid "Let's Encrypt certificates renewal"
-msgstr "चलो प्रमाण पत्र नवीकरण एन्क्रिप्ट करें"
+msgstr "Let's Encrypt प्रमाणपत्रों का नवीनीकरण"
 
 msgid "Let's Encrypt environment"
-msgstr "आइए पर्यावरण एन्क्रिप्ट करें"
+msgstr "Let's Encrypt एनवायरनमेंट"
 
 msgid "[Let's Encrypt] renewing certificate."
-msgstr "[चलो एन्क्रिप्ट] प्रमाण पत्र का नवीनीकरण।"
+msgstr "[Let's Encrypt] प्रमाणपत्र का नवीनीकरण किया जा रहा है।"
 
 msgid "[Let's Encrypt] will add %s to SAN."
-msgstr "[चलिए एन्क्रिप्ट करें]% s को SAN में जोड़ देगा।"
+msgstr "[Let's Encrypt] %s को SAN में जोड़ेगा।"
 
 msgid "Link preview"
 msgstr "लिंक पूर्वावलोकन"
@@ -477,7 +477,7 @@ msgid "Loaded"
 msgstr "लोड किया गया"
 
 msgid "Log"
-msgstr "लॉग इन करें"
+msgstr "लॉग"
 
 msgid "Log (var/log, log files)"
 msgstr "लॉग (var/log, लॉग फ़ाइलें)"
@@ -486,7 +486,7 @@ msgid "Login to your backoffice interface"
 msgstr "अपने बैकऑफिस इंटरफ़ेस में लॉग इन करें"
 
 msgid "Logs cleared."
-msgstr "लॉग को मंजूरी दे दी।"
+msgstr "लॉग साफ़ कर दिए गए।"
 
 msgid "Mark all as read"
 msgstr "सभी को पढ़ने के रूप में चिह्नित करें"
@@ -504,7 +504,7 @@ msgid "Minute"
 msgstr "मिनट"
 
 msgid "Missing parameters for generation."
-msgstr "पीढ़ी के लिए अनुपलब्ध पैरामीटर।"
+msgstr "जनरेशन के लिए पैरामीटर अनुपलब्ध हैं।"
 
 msgid "Mobile Source Codes & Builds"
 msgstr "मोबाइल स्रोत कोड और बिल्ड"
@@ -516,10 +516,10 @@ msgid "Month"
 msgstr "महीना"
 
 msgid "My Invoices"
-msgstr "मेरा चालान"
+msgstr "मेरे चालान"
 
 msgid "My tour is active"
-msgstr "मेरा दौरा सक्रिय है"
+msgstr "मेरा टूर सक्रिय है"
 
 msgid "Name"
 msgstr "नाम"
@@ -534,7 +534,7 @@ msgid "No"
 msgstr "नहीं"
 
 msgid "No file has been sent"
-msgstr "कोई फ़ाइल नहीं भेजा गया है"
+msgstr "कोई फ़ाइल नहीं भेजी गई है"
 
 msgid "No icon packs"
 msgstr "कोई आइकन पैक नहीं"
@@ -567,7 +567,7 @@ msgid "Note:"
 msgstr "नोट:"
 
 msgid "Note: Let's encrypt X1 is a staging certificate."
-msgstr "नोट: आइए X1 एन्क्रिप्ट करें एक स्टेजिंग प्रमाणपत्र है।"
+msgstr "नोट: Let's Encrypt X1 एक स्टेजिंग प्रमाणपत्र है।"
 
 msgid "Number of typed characters:"
 msgstr "टाइप किए गए वर्णों की संख्या:"
@@ -585,13 +585,13 @@ msgid "Ok, you may upgrade to php 5.6"
 msgstr "ठीक है, आप php 5.6 में अपग्रेड कर सकते हैं"
 
 msgid "One of the three given Certificates path is not readable, please make sure they have the good rights."
-msgstr "दिए गए तीन सर्टिफिकेट पथ में से एक पठनीय नहीं है, कृपया सुनिश्चित करें कि उनके पास अच्छे अधिकार हैं।"
+msgstr "दिए गए तीन प्रमाणपत्र पथों में से एक पढ़ने योग्य नहीं है, कृपया सुनिश्चित करें कि उनकी अनुमतियाँ सही हैं।"
 
 msgid "Open"
 msgstr "खुला"
 
 msgid "Open the tour editing mode"
-msgstr "दौरे संपादन मोड खोलें"
+msgstr "टूर संपादन मोड खोलें"
 
 msgid "Optional binaries"
 msgstr "वैकल्पिक बायनेरिज़"
@@ -603,16 +603,16 @@ msgid "Otherwise install it manually, from your panel, or directly from your ssh
 msgstr "अन्यथा इसे अपने पैनल से, या सीधे अपने एसएसएच एक्सेस से मैन्युअल रूप से इंस्टॉल करें।"
 
 msgid "Overview - WebApp (var/apps/browser, overview & webapp cache)"
-msgstr "अवलोकन - वेबएप (var/apps/ब्राउज़र, अवलोकन और वेबपैप कैश)"
+msgstr "अवलोकन - वेबऐप (var/apps/browser, अवलोकन और वेबऐप कैश)"
 
 msgid "Overview cache cleared."
-msgstr "अवलोकन कैश को मंजूरी दे दी।"
+msgstr "अवलोकन कैश साफ़ किया गया।"
 
 msgid "PEM test:"
 msgstr "पीईएम परीक्षण:"
 
 msgid "PHP version %s:"
-msgstr "PHP संस्करण% s:"
+msgstr "PHP संस्करण %s:"
 
 msgid "Password"
 msgstr "पासवर्ड"
@@ -633,10 +633,10 @@ msgid "Payment received"
 msgstr "भुगतान प्राप्त हुआ"
 
 msgid "People who are allowed to access the backoffice"
-msgstr "जो लोग backoffice का उपयोग करने की अनुमति है"
+msgstr "वे लोग जिन्हें बैकऑफ़िस तक पहुँचने की अनुमति है"
 
 msgid "Permission, denied from Plesk, please use the admin account."
-msgstr "अनुमति, Plesk से इनकार किया, कृपया व्यवस्थापक खाते का उपयोग करें।"
+msgstr "अनुमति Plesk द्वारा अस्वीकृत की गई, कृपया व्यवस्थापक खाते का उपयोग करें।"
 
 msgid "Plesk"
 msgstr "Plesk"
@@ -648,7 +648,7 @@ msgid "[Plesk] Unknown error."
 msgstr "[Plesk] अज्ञात त्रुटि."
 
 msgid "Port"
-msgstr "बंदरगाह"
+msgstr "पोर्ट"
 
 msgid "Preview 5.0"
 msgstr "पूर्वावलोकन 5.0"
@@ -675,13 +675,13 @@ msgid "Publication access type"
 msgstr "प्रकाशन पहुँच प्रकार"
 
 msgid "Push messages:"
-msgstr "संदेश पुश करें:"
+msgstr "पुश संदेश:"
 
 msgid "Queued"
 msgstr "कतारबद्ध"
 
 msgid "Queued %s/%s"
-msgstr "%S/%S कतारबद्ध"
+msgstr "कतार में %s/%s"
 
 msgid "Read"
 msgstr "पढ़ें"
@@ -693,19 +693,19 @@ msgid "Rebuild manifest"
 msgstr "मैनिफेस्ट पुनर्निर्माण"
 
 msgid "Rebuilding application manifest files."
-msgstr "एप्लिकेशन मैनिफेस्ट फ़ाइलों को पुनर्निर्माण करना।"
+msgstr "एप्लिकेशन मैनिफेस्ट फ़ाइलों का पुनर्निर्माण किया जा रहा है।"
 
 msgid "Regular updates system"
-msgstr "नियमित रूप से अपडेट सिस्टम"
+msgstr "नियमित अपडेट प्रणाली"
 
 msgid "Remove locks"
-msgstr "ताले निकालें"
+msgstr "लॉक हटाएं"
 
 msgid "Remove locks now"
-msgstr "अब ताले निकालें"
+msgstr "अब लॉक हटाएं"
 
 msgid "Removing CRON Scheduler lock files."
-msgstr "क्रॉन समयबद्धक ताला फ़ाइलों को हटा रहा है."
+msgstr "CRON शेड्यूलर लॉक फ़ाइलें हटाई जा रही हैं।"
 
 msgid "Removing domains: %s"
 msgstr "डोमेन निकाल रहा है: %s"
@@ -714,13 +714,13 @@ msgid "Request"
 msgstr "अनुरोध करें"
 
 msgid "Request the certificate via Let's Encrypt."
-msgstr "चलो एन्क्रिप्ट के माध्यम से प्रमाण पत्र का अनुरोध करें।"
+msgstr "Let's Encrypt के माध्यम से प्रमाणपत्र का अनुरोध करें।"
 
 msgid "Required extensions"
 msgstr "आवश्यक एक्सटेंशन"
 
 msgid "Revoke user"
-msgstr "उपयोगकर्ता को रद्द करें"
+msgstr "उपयोगकर्ता की पहुँच रद्द करें"
 
 msgid "Run test"
 msgstr "परीक्षण चलाएं"
@@ -735,7 +735,7 @@ msgid "Sales configuration"
 msgstr "बिक्री विन्यास"
 
 msgid "Save"
-msgstr "बचाना"
+msgstr "सहेजें"
 
 msgid "Select API access"
 msgstr "एपीआई पहुंच का चयन करें"
@@ -750,7 +750,7 @@ msgid "Self-managed sync is not available for now."
 msgstr "स्व-प्रबंधित सिंक्रनाइज़ेशन अभी के लिए उपलब्ध नहीं है।"
 
 msgid "Send anonymous statistics to improve the apps builder."
-msgstr "क्षुधा बिल्डर में सुधार करने के लिए गुमनाम आंकड़े भेजें।"
+msgstr "ऐप्स बिल्डर में सुधार के लिए अनाम आँकड़े भेजें।"
 
 msgid "Server"
 msgstr "सर्वर"
@@ -759,25 +759,25 @@ msgid "Services"
 msgstr "सेवाएं"
 
 msgid "Show All Applications"
-msgstr "सभी अनुप्रयोग दिखाएँ"
+msgstr "सभी एप्लिकेशन दिखाएँ"
 
 msgid "Show more"
 msgstr "और अधिक दिखाएं"
 
 msgid "Siberian - Backoffice"
-msgstr "साइबेरियाई - बैकऑफिस"
+msgstr "Siberian - बैकऑफ़िस"
 
 msgid "Siberian CMS"
-msgstr "साइबेरियाई सीएमएस"
+msgstr "Siberian CMS"
 
 msgid "[Siberian_Cpanel] Unable to update cPanel SSL Certificate for %s"
 msgstr "[Siberian_Cpanel] %s के लिए सीपीएनएल एसएसएल प्रमाणपत्र अपडेट करने में असमर्थ"
 
 msgid "[Siberian_VestaCP] requires php 5.6+"
-msgstr "[Siberian_vestacp] php 5.6+ की आवश्यकता है"
+msgstr "[Siberian_VestaCP] को php 5.6+ की आवश्यकता है"
 
 msgid "Something went wrong with the API Sync to %s, retry or check in your panel if your SSL certificate is correctly setup."
-msgstr "एपीआई सिंक के साथ%s में कुछ गलत हो गया, यदि आपका एसएसएल प्रमाणपत्र सही ढंग से सेटअप है तो अपने पैनल में पुनः प्रयास करें या जांचें।"
+msgstr "%s के साथ API सिंक में कुछ गलत हो गया, पुनः प्रयास करें या अपने पैनल में जांचें कि आपका SSL प्रमाणपत्र सही ढंग से सेटअप है या नहीं।"
 
 msgid "Source"
 msgstr "स्रोत"
@@ -789,7 +789,7 @@ msgid "Source Queue status"
 msgstr "स्रोत कतार स्थिति"
 
 msgid "[Sources]"
-msgstr "[सूत्रों का कहना है]"
+msgstr "[स्रोत]"
 
 msgid "Sources code"
 msgstr "स्रोत कोड"
@@ -798,16 +798,16 @@ msgid "Stable"
 msgstr "स्थिर"
 
 msgid "Staging"
-msgstr "मंचन"
+msgstr "स्टेजिंग"
 
 msgid "Start editing your platform tour"
-msgstr "अपने मंच के दौरे को संपादित करना शुरू करें"
+msgstr "अपने प्लेटफ़ॉर्म के टूर को संपादित करना शुरू करें"
 
 msgid "Statistics"
 msgstr "सांख्यिकी"
 
 msgid "Statistics are used to improve the platform and help understanding usage of the apps builder."
-msgstr "सांख्यिकी मंच में सुधार और क्षुधा बिल्डर के उपयोग को समझने में मदद करने के लिए उपयोग किया जाता है।"
+msgstr "सांख्यिकी का उपयोग प्लेटफ़ॉर्म में सुधार और ऐप्स बिल्डर के उपयोग को समझने में मदद के लिए किया जाता है।"
 
 msgid "Status"
 msgstr "स्थिति"
@@ -819,16 +819,16 @@ msgid "Success"
 msgstr "सफलता"
 
 msgid "Successfully cleaned-up old certificate."
-msgstr "पुराने प्रमाणपत्र को सफलतापूर्वक साफ-साफ किया गया।"
+msgstr "पुराना प्रमाणपत्र सफलतापूर्वक साफ़ किया गया।"
 
 msgid "Successfully installed new certificate."
-msgstr "सफलतापूर्वक नया प्रमाणपत्र स्थापित किया।"
+msgstr "नया प्रमाणपत्र सफलतापूर्वक इंस्टॉल किया गया।"
 
 msgid "Successfully removed the certificate."
-msgstr "प्रमाण पत्र को सफलतापूर्वक हटा दिया।"
+msgstr "प्रमाणपत्र सफलतापूर्वक हटाया गया।"
 
 msgid "Successfully saved Certificate to %s"
-msgstr "सफलतापूर्वक प्रमाणपत्र को%s में सहेजा गया"
+msgstr "प्रमाणपत्र को %s में सफलतापूर्वक सहेजा गया"
 
 msgid "Sync files"
 msgstr "फ़ाइलों को सिंक करें"
@@ -846,7 +846,7 @@ msgid "System was unable to validate any HTTP Basic Auth call."
 msgstr "सिस्टम किसी भी HTTP बेसिक ऑथ कॉल को मान्य करने में असमर्थ था।"
 
 msgid "Temp (var/tmp, application sources & apk)"
-msgstr "अस्थायी (var/tmp, आवेदन स्रोतों और APK)"
+msgstr "अस्थायी (var/tmp, एप्लिकेशन स्रोत और APK)"
 
 msgid "Templates"
 msgstr "टेम्पलेट्स"
@@ -858,10 +858,10 @@ msgid "Testing: %s"
 msgstr "परीक्षण: %s"
 
 msgid "The PHP executable guessed path <b>'%s'</b> may be incorrect, please double check for it."
-msgstr "PHP निष्पादन योग्य अनुमान लगाया गया पथ <b>'% s'</b> गलत हो सकता है, कृपया इसके लिए दोबारा जांच करें।"
+msgstr "PHP निष्पादन योग्य का अनुमानित पथ <b>'%s'</b> गलत हो सकता है, कृपया इसे दोबारा जांचें।"
 
 msgid "The default setting to run your production server."
-msgstr "आपके उत्पादन सर्वर को चलाने के लिए डिफ़ॉल्ट सेटिंग।"
+msgstr "आपके प्रोडक्शन सर्वर को चलाने के लिए डिफ़ॉल्ट सेटिंग।"
 
 msgid "The domain %s doesn't belong to you, or is not configured on your server."
 msgstr "डोमेन %s आप से संबंधित नहीं है, या आपके सर्वर पर कॉन्फ़िगर नहीं किया गया है."
@@ -873,19 +873,19 @@ msgid "The given certificate doesn't match the hostname."
 msgstr "दिया गया प्रमाणपत्र होस्टनाम से मेल नहीं खाता है।"
 
 msgid "The given certificate doesn't match the hostname or wiSibldcard."
-msgstr "दिया गया प्रमाणपत्र होस्टनाम या WisiBLDCard से मेल नहीं खाता है."
+msgstr "दिया गया प्रमाणपत्र होस्टनाम या वाइल्डकार्ड से मेल नहीं खाता है।"
 
 msgid "This account can't be deleted, it's the only one"
-msgstr "यह खाता हटाया नहीं जा सकता है, यह केवल एक ही है"
+msgstr "यह खाता हटाया नहीं जा सकता, यह एकमात्र खाता है"
 
 msgid "This action mainly serves as a development & support purpose<br />This will restore App sources 'iOS', 'Android', 'HTML5' & 'Overview' from the latest Siberian version, then rebuild the manifest to restore installed modules."
-msgstr "यह क्रिया मुख्य रूप से विकास और समर्थन उद्देश्य के रूप में कार्य करती है<br />यह नवीनतम साइबेरियाई संस्करण से ऐप स्रोत 'आईओएस', 'एंड्रॉइड', 'एचटीएमएल 5' और 'अवलोकन' को पुनर्स्थापित करेगी, फिर स्थापित मॉड्यूल को पुनर्स्थापित करने के लिए मैनिफेस्ट का पुनर्निर्माण करेगी।"
+msgstr "यह क्रिया मुख्य रूप से विकास और सहायता उद्देश्य के लिए है<br />यह नवीनतम Siberian संस्करण से ऐप स्रोत 'iOS', 'Android', 'HTML5' और 'अवलोकन' को पुनर्स्थापित करेगी, फिर स्थापित मॉड्यूल को पुनर्स्थापित करने के लिए मैनिफेस्ट का पुनर्निर्माण करेगी।"
 
 msgid "This e-mail address must be reachable, as you will receive important e-mails from the system & user actions."
 msgstr "यह ई-मेल पता पहुंच योग्य होना चाहिए, क्योंकि आपको सिस्टम और उपयोगकर्ता क्रियाओं से महत्वपूर्ण ई-मेल प्राप्त होंगे।"
 
 msgid "This message will be displayed as a waiting message when your users chose an offline payment method"
-msgstr "यह संदेश एक प्रतीक्षा संदेश के रूप में प्रदर्शित किया जाएगा जब आपके उपयोगकर्ताओं को एक ऑफ़लाइन भुगतान विधि चुना"
+msgstr "यह संदेश तब प्रतीक्षा संदेश के रूप में प्रदर्शित किया जाएगा जब आपके उपयोगकर्ता कोई ऑफ़लाइन भुगतान विधि चुनेंगे"
 
 msgid "This message will be displayed as an information message to describe which offline payment method you offer"
 msgstr "यह संदेश आपके द्वारा प्रदान की जाने वाली ऑफ़लाइन भुगतान विधि का वर्णन करने के लिए एक जानकारी संदेश के रूप में प्रदर्शित किया जाएगा"
@@ -906,16 +906,16 @@ msgid "Tour settings"
 msgstr "टूर सेटिंग"
 
 msgid "Tour status"
-msgstr "यात्रा की स्थिति"
+msgstr "टूर की स्थिति"
 
 msgid "Tour status successfully saved."
-msgstr "टूर स्थिति सफलतापूर्वक बचाया."
+msgstr "टूर स्थिति सफलतापूर्वक सहेजी गई।"
 
 msgid "UID"
 msgstr "यूआईडी"
 
 msgid "Unable to connect in HTTPS or to validate the SSL Certificate.<br />Check if your are not in `Staging`"
-msgstr "HTTPS में कनेक्ट करने या SSL प्रमाणपत्र को मान्य करने में असमर्थ। <br />जांचें कि क्या आपके 'स्टेजिंग' में नहीं हैं"
+msgstr "HTTPS में कनेक्ट करने या SSL प्रमाणपत्र को मान्य करने में असमर्थ।<br />जांचें कि आप `Staging` में तो नहीं हैं"
 
 msgid "Unknown"
 msgstr "अज्ञात"
@@ -927,10 +927,10 @@ msgid "Update"
 msgstr "अपडेट करें"
 
 msgid "Update channel"
-msgstr "चैनल अपडेट करें"
+msgstr "अपडेट चैनल"
 
 msgid "Updated At"
-msgstr "पर अपडेट किया गया"
+msgstr "अपडेट का समय"
 
 msgid "Upload"
 msgstr "अपलोड करें"
@@ -951,7 +951,7 @@ msgid "Use existing certificates on my server"
 msgstr "मेरे सर्वर पर मौजूदा प्रमाणपत्रों का उपयोग करें"
 
 msgid "User successfully deleted"
-msgstr "उपयोगकर्ता सफलतापूर्वक हटा दिया"
+msgstr "उपयोगकर्ता सफलतापूर्वक हटा दिया गया"
 
 msgid "Username"
 msgstr "उपयोगकर्ता नाम"
@@ -966,10 +966,10 @@ msgid "Validation"
 msgstr "सत्यापन"
 
 msgid "VestaCP"
-msgstr "vestacp"
+msgstr "VestaCP"
 
 msgid "VestaCP (php 5.6+ only)"
-msgstr "VestCP (php 5.6+ केवल)"
+msgstr "VestaCP (केवल php 5.6+)"
 
 msgid "View Details"
 msgstr "विवरण देखें"
@@ -978,10 +978,10 @@ msgid "WHM cPanel"
 msgstr "डब्ल्यूएचएम सीपीएनएल"
 
 msgid "Waiting for %s to reload, this can take a while..."
-msgstr "पुनः लोड करने के लिए% s की प्रतीक्षा कर रहा है, इसमें कुछ समय लग सकता है..."
+msgstr "%s के पुनः लोड होने की प्रतीक्षा की जा रही है, इसमें कुछ समय लग सकता है..."
 
 msgid "We recommned using <b>preview</b> on a testing or development server, we won't provide regular ticket support for these update channels, only bug reports via the form below."
-msgstr "हम एक परीक्षण या विकास सर्वर पर <b>पूर्वावलोकन</b> का उपयोग कर recommned, हम इन अद्यतन चैनलों के लिए नियमित रूप से टिकट समर्थन, नीचे दिए गए फ़ॉर्म के माध्यम से केवल बग रिपोर्ट प्रदान नहीं करेगा।"
+msgstr "हम <b>पूर्वावलोकन</b> का उपयोग परीक्षण या विकास सर्वर पर करने की सलाह देते हैं; इन अपडेट चैनलों के लिए हम नियमित टिकट सहायता नहीं देंगे, केवल नीचे दिए गए फ़ॉर्म के माध्यम से बग रिपोर्ट स्वीकार करेंगे।"
 
 msgid "Web space"
 msgstr "वेब स्पेस"
@@ -1008,34 +1008,34 @@ msgid "Yes, install the update."
 msgstr "हाँ, अद्यतन स्थापित करें।"
 
 msgid "You are about to clean all the cron lock files !"
-msgstr "आप के बारे में सभी क्रॉन ताला फ़ाइलों को साफ करने के लिए कर रहे हैं!"
+msgstr "आप सभी cron लॉक फ़ाइलें साफ़ करने वाले हैं!"
 
 msgid "Are you sure ?"
-msgstr "क्या आप वाकई हैं?"
+msgstr "क्या आप निश्चित हैं?"
 
 msgid "You are about to clean all your log files !"
-msgstr "आप अपनी सभी लॉग फ़ाइलों को साफ करने के बारे में हैं!"
+msgstr "आप अपनी सभी लॉग फ़ाइलें साफ़ करने वाले हैं!"
 
 msgid "Are you sure ?"
-msgstr "क्या आप वाकई हैं?"
+msgstr "क्या आप निश्चित हैं?"
 
 msgid "You are about to delete this certificate, Are you sure ?"
-msgstr "आप के बारे में इस प्रमाणपत्र को हटाने के लिए कर रहे हैं, क्या आप वाकई हैं?"
+msgstr "आप इस प्रमाणपत्र को हटाने वाले हैं, क्या आप सुनिश्चित हैं?"
 
 msgid "You are about to wipe all your temporary files, this includes the generated sources & apk builds !"
-msgstr "आप अपनी सभी अस्थायी फ़ाइलों को पोंछने वाले हैं, इसमें जेनरेट किए गए स्रोत और एपीके बिल्ड शामिल हैं!"
+msgstr "आप अपनी सभी अस्थायी फ़ाइलें मिटाने वाले हैं, इसमें जनरेट किए गए स्रोत और APK बिल्ड शामिल हैं!"
 
 msgid "Are you sure ?"
-msgstr "क्या आप वाकई हैं?"
+msgstr "क्या आप निश्चित हैं?"
 
 msgid "You can use <b>%s</b> as a dynamic variable for your application name."
-msgstr "आप%s को अपने एप्लिकेशन नाम के लिए गतिशील चर के <b>रूप में</b> उपयोग कर सकते हैं।"
+msgstr "आप <b>%s</b> को अपने एप्लिकेशन के नाम के लिए डायनामिक वेरिएबल के रूप में उपयोग कर सकते हैं।"
 
 msgid "You have a Source generation stuck for more than 1 hour, please check in <b>Settings > Advanced > Cron</b> for the stuck build.<br />To unlock further builds you can remove locks from the button below."
-msgstr "आपके पास 1 घंटे से अधिक समय तक एक स्रोत पीढ़ी फंस गई है, कृपया अटक निर्माण के लिए <b>सेटिंग्स> उन्नत> क्रॉन</b> में जांचें। आगे के निर्माण<br />को अनलॉक करने के लिए आप नीचे दिए गए बटन से ताले हटा सकते हैं।"
+msgstr "आपका एक स्रोत जनरेशन 1 घंटे से अधिक समय से अटका हुआ है, कृपया अटके हुए बिल्ड के लिए <b>सेटिंग्स > उन्नत > क्रॉन</b> में जांचें।<br />आगे के बिल्ड अनलॉक करने के लिए आप नीचे दिए गए बटन से लॉक हटा सकते हैं।"
 
 msgid "You have an APK generation stuck for more than 1 hour, please check in <b>Settings > Advanced > Cron</b> for the stuck build.<br />To unlock further builds you can remove locks from the button below."
-msgstr "आपके पास एक एपीके पीढ़ी 1 घंटे से अधिक समय तक फंस गई है, कृपया अटक निर्माण के लिए <b>सेटिंग्स> उन्नत> क्रॉन</b> में जांचें। आगे के निर्माण<br />को अनलॉक करने के लिए आप नीचे दिए गए बटन से ताले हटा सकते हैं।"
+msgstr "आपका एक APK जनरेशन 1 घंटे से अधिक समय से अटका हुआ है, कृपया अटके हुए बिल्ड के लिए <b>सेटिंग्स > उन्नत > क्रॉन</b> में जांचें।<br />आगे के बिल्ड अनलॉक करने के लिए आप नीचे दिए गए बटन से लॉक हटा सकते हैं।"
 
 msgid "You have no certificate yet."
 msgstr "आपके पास अभी तक कोई प्रमाण पत्र नहीं है।"
@@ -1053,7 +1053,7 @@ msgid "Your certificate is invalid"
 msgstr "आपका प्रमाणपत्र अमान्य है"
 
 msgid "Your certificate is valid until:"
-msgstr "आपका प्रमाणपत्र तब तक मान्य है जब तक:"
+msgstr "आपका प्रमाणपत्र इस तारीख तक मान्य है:"
 
 msgid "Your certificates are saved."
 msgstr "आपके प्रमाणपत्र सहेजे गए हैं।"
@@ -1065,16 +1065,16 @@ msgid "Your password"
 msgstr "आपका पासवर्ड"
 
 msgid "<b>Actual preview version is Siberian 5.0</b>."
-msgstr "<b>वास्तविक पूर्वावलोकन संस्करण साइबेरियाई 5.0 है</b>."
+msgstr "<b>वर्तमान पूर्वावलोकन संस्करण Siberian 5.0 है</b>."
 
 msgid "<b>Disclaimer:</b> You are using the <b>preview</b> update channel, this channel is intended for <b>tests & previews</b> of new features, if you are not sure stay with <b>stable channel</b>."
-msgstr "<b>अस्वीकरण:</b> आप<b>पूर्वावलोकन</b> अद्यतन चैनल का उपयोग कर रहे हैं, इस चैनल<b>परीक्षण और नई सुविधाओं के पूर्वावलोकन</b> के लिए करना है, अगर आप<b>स्थिर चैनल</b> के साथ यकीन है कि रहने नहीं कर रहे हैं।"
+msgstr "<b>अस्वीकरण:</b> आप <b>पूर्वावलोकन</b> अद्यतन चैनल का उपयोग कर रहे हैं। यह चैनल नई सुविधाओं के <b>परीक्षण और पूर्वावलोकन</b> के लिए है; यदि आप निश्चित नहीं हैं, तो <b>स्थिर चैनल</b> पर ही रहें।"
 
 msgid "<b>Note for Bug report:</b> give us a maximum of description of how you reached the bug, and possibly screenshots."
-msgstr "<b>बग रिपोर्ट के लिए नोट:</b> हमें कैसे आप बग, और संभवतः स्क्रीनशॉट पर पहुंच का विवरण की एक अधिकतम दे।"
+msgstr "<b>बग रिपोर्ट के लिए नोट:</b> कृपया हमें अधिकतम विवरण दें कि आप बग तक कैसे पहुँचे, और संभव हो तो स्क्रीनशॉट भी दें।"
 
 msgid "<b>Note</b>: sources & push will be sent immediately after their creation, scheduled push will not work & media optimization is disabled."
-msgstr "<b>नोट</b>: स्रोत और धक्का उनके निर्माण के तुरंत बाद भेजा जाएगा, अनुसूचित धक्का काम नहीं करेगा और मीडिया अनुकूलन अक्षम है।"
+msgstr "<b>नोट</b>: सोर्स और पुश अपने निर्माण के तुरंत बाद भेजे जाएँगे, शेड्यूल किया गया पुश काम नहीं करेगा और मीडिया ऑप्टिमाइज़ेशन अक्षम है।"
 
 msgid "customer"
 msgstr "ग्राहक"
@@ -1089,7 +1089,7 @@ msgid "for the bundle id:"
 msgstr "बंडल आईडी के लिए:"
 
 msgid "letsencrypt"
-msgstr "लेट्सेनक्रिप्ट"
+msgstr "letsencrypt"
 
 msgid "per page"
 msgstr "प्रति पृष्ठ"

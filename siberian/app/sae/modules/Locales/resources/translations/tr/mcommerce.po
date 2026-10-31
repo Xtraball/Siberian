@@ -15,10 +15,10 @@ msgstr ""
 "X-Generator: Weblate 3.3\n"
 
 msgid ": activate to sort column ascending"
-msgstr ": Sütun artan sıralamayı etkinleştir"
+msgstr ": artan sıralama için etkinleştirin"
 
 msgid ": activate to sort column descending"
-msgstr ": Sütun azalan sıralamayı etkinleştir"
+msgstr ": azalan sıralama için etkinleştirin"
 
 msgid "1 points ="
 msgstr "1 puan ="
@@ -33,10 +33,10 @@ msgid "Add a format"
 msgstr "Bir format ekle"
 
 msgid "Add card"
-msgstr "Kart ekleyin"
+msgstr "Kart ekle"
 
 msgid "Add gratuity (Optional)"
-msgstr "(İsteğe bağlı) Hediye Ekle"
+msgstr "Bahşiş ekle (isteğe bağlı)"
 
 msgid "Add options"
 msgstr "Seçenekleri ekleyin"
@@ -48,10 +48,10 @@ msgid "Add to cart"
 msgstr "Sepete ekle"
 
 msgid "All fields with a * are required."
-msgstr "*  Alanlar gereklidir."
+msgstr "* ile işaretli tüm alanlar zorunludur."
 
 msgid "Amount remaining:"
-msgstr "Toplam kalan:"
+msgstr "Kalan tutar:"
 
 msgid "Amount you will pay"
 msgstr "Ödeme tutarınız"
@@ -60,20 +60,19 @@ msgid "An error occurred during the payment process."
 msgstr "Ödeme işlemi sırasında bir hata oluştu."
 
 msgid "An error occurred while cancelling. Please try again later."
-msgstr "Iptal edilirken bir hata oluştu. Lütfen daha sonra tekrar deneyin."
+msgstr "İptal edilirken bir hata oluştu. Lütfen daha sonra tekrar deneyin."
 
 msgid ""
 "An error occurred while proceeding the payment. Please, try again later."
-msgstr "Ödeme devam ederken bir hata oluştu. Daha sonra tekrar deneyin."
+msgstr "Ödeme devam ederken bir hata oluştu. Lütfen daha sonra tekrar deneyin."
 
 msgid "An error occurred while proceeding your order:"
-msgstr "sipariş verilirken bir hata oluştu :"
+msgstr "Siparişiniz işlenirken bir hata oluştu:"
 
 msgid ""
 "An error occurred while proceeding your order. Please, check the following "
 "information:"
-msgstr ""
-"Siparişinizi devam ederken bir hata oluştu. Aşağıdaki bilgileri kontrol edin:"
+msgstr "Siparişiniz işlenirken bir hata oluştu. Lütfen aşağıdaki bilgileri kontrol edin:"
 
 msgid "Are you sure you want to close without saving"
 msgstr "Kaydetmeden kapatmak istediğinizden emin misiniz?"
@@ -87,7 +86,7 @@ msgid "Are you sure you want to delete this store?"
 msgstr "Bu mağazayı silmek istediğinizden emin misiniz?"
 
 msgid "Are you sure you want to delete this tax?"
-msgstr "Bu vergi silmek istediğinizden emin misiniz?"
+msgstr "Bu vergiyi silmek istediğinizden emin misiniz?"
 
 msgid "Are you sure you want to remove this product?"
 msgstr "Bu ürünü kaldırmak istediğinizden emin misiniz?"
@@ -102,10 +101,10 @@ msgid "CVC"
 msgstr "CVC"
 
 msgid "Calculate the change for the client"
-msgstr "Müşteri için hesaplamaları değiştir"
+msgstr "Müşteri için para üstünü hesapla"
 
 msgid "Cancel order"
-msgstr "Sipariş İptal"
+msgstr "Siparişi iptal et"
 
 msgid "Cancelled"
 msgstr "İptal edildi"
@@ -114,7 +113,7 @@ msgid "Card Number"
 msgstr "Kart Numarası"
 
 msgid "Carry Out"
-msgstr "Uygula"
+msgstr "Gel al"
 
 msgid "Cart"
 msgstr "Sepet"
@@ -138,7 +137,7 @@ msgid "Choose a payment method:"
 msgstr "Ödeme şekli seçiniz:"
 
 msgid "Choose a store"
-msgstr "Bir Mağza Seçin"
+msgstr "Bir mağaza seçin"
 
 msgid "City"
 msgstr "Şehir"
@@ -147,13 +146,13 @@ msgid "Client"
 msgstr "Müşteri"
 
 msgid "Client will pay"
-msgstr "Müşteri Ödeyecek"
+msgstr "Müşteri ödeyecek"
 
 msgid "Code"
 msgstr "Kod"
 
 msgid "Code used"
-msgstr "Kod kullanılır"
+msgstr "Kullanılan kod"
 
 msgid "Completed"
 msgstr "Tamamlandı"
@@ -165,13 +164,13 @@ msgid "Connected Printers"
 msgstr "Bağlı yazıcılar"
 
 msgid "Continue shopping"
-msgstr "Alışverişe devam"
+msgstr "Alışverişe devam et"
 
 msgid "Create a new choice list group"
-msgstr "Yeni bir seçim listesi grubu oluşturma"
+msgstr "Yeni bir seçenek listesi grubu oluştur"
 
 msgid "Create a new discount"
-msgstr "Yeni bir indirim oluşturmak"
+msgstr "Yeni bir indirim oluştur"
 
 msgid "Create a new options group"
 msgstr "Yeni seçenekler grubu oluştur"
@@ -183,16 +182,16 @@ msgid "Create a new tax"
 msgstr "Yeni vergi oluştur"
 
 msgid "Create a store"
-msgstr "Mağza oluştur"
+msgstr "Mağaza oluştur"
 
 msgid "Credit Card by phone"
-msgstr "Kredi kartı (Telefonda)"
+msgstr "Kredi kartı (telefonla)"
 
 msgid "Credit card (online payment)"
-msgstr "Kredi Kartı(online ödeme)"
+msgstr "Kredi kartı (çevrimiçi ödeme)"
 
 msgid "Credit card (pay upon pickup or delivery)"
-msgstr "Kredi kartı (Ürün tesliminde)"
+msgstr "Kredi kartı (teslim alırken veya teslimatta ödeme)"
 
 msgid "Credit card payment"
 msgstr "Kredi Kartı Ödemesi"
@@ -201,16 +200,16 @@ msgid "Customer"
 msgstr "Müşteri"
 
 msgid "Customer Service"
-msgstr "Müşteri servisi"
+msgstr "Müşteri hizmetleri"
 
 msgid "Customer can add tip to a command?"
-msgstr "Müşteri bir komut için ipucu ekleyebilirsiniz."
+msgstr "Müşteri siparişe bahşiş ekleyebilir mi?"
 
 msgid "Date of birth"
 msgstr "Doğum tarihi"
 
 msgid "Deductable"
-msgstr "İndirilebilir"
+msgstr "Düşülebilir"
 
 msgid "Deduction"
 msgstr "Kesinti"
@@ -219,22 +218,22 @@ msgid "Delete"
 msgstr "Sil"
 
 msgid "Delivery"
-msgstr "Teslim"
+msgstr "Teslimat"
 
 msgid "Delivery Fees"
-msgstr "Nakliye ücreti"
+msgstr "Teslimat ücretleri"
 
 msgid "Delivery Method"
 msgstr "Teslim şekli"
 
 msgid "Delivery address"
-msgstr "Sipariş Adresi"
+msgstr "Teslimat adresi"
 
 msgid "Delivery area"
 msgstr "Teslim bölgesi"
 
 msgid "Delivery fees"
-msgstr "Nakliye ücreti"
+msgstr "Teslimat ücretleri"
 
 msgid "Delivery methods"
 msgstr "Teslim şekilleri"
@@ -243,7 +242,7 @@ msgid "Delivery radius"
 msgstr "Teslim yarıçapı"
 
 msgid "Delivery time"
-msgstr "Teslim saati"
+msgstr "Teslimat saati"
 
 msgid "Details"
 msgstr "Detaylar"
@@ -261,7 +260,7 @@ msgid "Discount amount"
 msgstr "İndirim miktarı"
 
 msgid "Discount amount si very high"
-msgstr "İndirim miktarı si çok yüksek"
+msgstr "İndirim tutarı çok yüksek"
 
 msgid "Discount code"
 msgstr "İndirim kodu"
@@ -270,25 +269,25 @@ msgid "Discount code already exists"
 msgstr "İndirim kodu zaten var"
 
 msgid "Discount code is missing"
-msgstr "İndirim kodu yok "
+msgstr "İndirim kodu eksik"
 
 msgid "Discount label is missing"
 msgstr "İndirim etiketi eksik "
 
 msgid "Discount minimum amount is missing"
-msgstr "İndirim minimum miktar eksik "
+msgstr "İndirim minimum tutarı eksik"
 
 msgid "Discount no longer available"
-msgstr "İndirim artık kullanılabilir"
+msgstr "İndirim artık geçerli değil"
 
 msgid "Discount only for carts with total more than: "
-msgstr "Sadece daha fazla toplam arabaları için indirim: "
+msgstr "Yalnızca toplamı şundan yüksek sepetler için indirim: "
 
 msgid "Discount settings"
 msgstr "İndirim ayarları"
 
 msgid "Discount total"
-msgstr "İndirim toplam"
+msgstr "İndirim toplamı"
 
 msgid "Discount type"
 msgstr "İndirim türü"
@@ -303,37 +302,37 @@ msgid "Discount validation date"
 msgstr "İndirim geçerlilik tarihi"
 
 msgid "Discounted amount is missing"
-msgstr "İndirimli miktar eksik "
+msgstr "İndirimli tutar eksik"
 
 msgid "Discounted amount should be a positive number"
-msgstr "İndirimli miktarda pozitif bir sayı olmalıdır"
+msgstr "İndirimli tutar pozitif bir sayı olmalıdır"
 
 msgid "Do you confirm you want to remove your card?"
-msgstr "Kartınız kaldırmak istediğinizi onaylamak mı?"
+msgstr "Kartınızı kaldırmak istediğinizi onaylıyor musunuz?"
 
 msgid "Done"
-msgstr "Bitti"
+msgstr "Tamamlandı"
 
 msgid "Duplicate this product"
-msgstr "Ürünü çogalt"
+msgstr "Bu ürünü çoğalt"
 
 msgid "Edit a store"
-msgstr "Bir mağza düzenle"
+msgstr "Bir mağazayı düzenle"
 
 msgid "Edit the choice list group"
 msgstr "Seçim listesi grubunu düzenle"
 
 msgid "Edit the discount %s"
-msgstr "İndirim düzenle %s"
+msgstr "%s indirimini düzenle"
 
 msgid "Edit the options group %s"
-msgstr "Seçenekler grubu düzenleyin %s"
+msgstr "%s seçenekler grubunu düzenle"
 
 msgid "Edit the product %s"
-msgstr "Ürün düzenleyin %s"
+msgstr "%s ürününü düzenle"
 
 msgid "Edit the tax %s"
-msgstr "Vergi düzenleyin %s"
+msgstr "%s vergisini düzenle"
 
 msgid "Email"
 msgstr "E-posta"
@@ -342,7 +341,7 @@ msgid "Enabled"
 msgstr "Etkin"
 
 msgid "Error while using your points"
-msgstr "Puanlarınızı kullanırken hata"
+msgstr "Puanlarınız kullanılırken hata oluştu"
 
 msgid "Estimated discount:"
 msgstr "Tahmini indirim:"
@@ -351,34 +350,34 @@ msgid "First"
 msgstr "İlk"
 
 msgid "First Name"
-msgstr "İsminiz"
+msgstr "Adınız"
 
 msgid "Firstname"
-msgstr "İsim"
+msgstr "Ad"
 
 msgid "Format:"
 msgstr "Biçim:"
 
 msgid "Free delivery starting from"
-msgstr "Başlayarak Ücretsiz teslimat"
+msgstr "Şu tutardan itibaren ücretsiz teslimat"
 
 msgid "Free purchase"
-msgstr "Ücretsiz satınalma"
+msgstr "Ücretsiz satın alma"
 
 msgid "From"
-msgstr "Gönderici"
+msgstr "Başlangıç"
 
 msgid "Gratuity"
-msgstr "Hediye"
+msgstr "Bahşiş"
 
 msgid "Guest Order"
-msgstr "Misafir Sipariş"
+msgstr "Misafir siparişi"
 
 msgid "Here is the detail of the order"
-msgstr "Sipariş detayı"
+msgstr "Siparişin ayrıntıları aşağıdadır"
 
 msgid "Here is the detail of your order"
-msgstr "Siparişlerinizin detayı"
+msgstr "Siparişinizin ayrıntıları aşağıdadır"
 
 msgid "Hidden"
 msgstr "Gizli"
@@ -390,10 +389,10 @@ msgid "I will pay"
 msgstr "Ödeyeceğim"
 
 msgid "In store"
-msgstr "Mağzada"
+msgstr "Mağazada"
 
 msgid "Incl."
-msgstr "Dahil."
+msgstr "Dahil"
 
 msgid "Invalid code"
 msgstr "Geçersiz kod"
@@ -402,7 +401,7 @@ msgid "Invoicing address"
 msgstr "Fatura adresi"
 
 msgid "Keep card information"
-msgstr "Kart bilgileri"
+msgstr "Kart bilgilerini sakla"
 
 msgid "Label"
 msgstr "Etiket"
@@ -411,7 +410,7 @@ msgid "Last"
 msgstr "Son"
 
 msgid "Last Name"
-msgstr "Soy Ad"
+msgstr "Soyadı"
 
 msgid "Lastname"
 msgstr "Soyad"
@@ -435,16 +434,16 @@ msgid "Mandatory"
 msgstr "Zorunlu"
 
 msgid "Meal Voucher"
-msgstr "Yemek Çeki"
+msgstr "Yemek çeki"
 
 msgid "Merchant ID:"
-msgstr "Tüccar Kimliği(ID):"
+msgstr "Satıcı kimliği:"
 
 msgid "Minimum amount"
-msgstr "Minimum miktarda"
+msgstr "Minimum tutar"
 
 msgid "Minimum amount should be a positive number"
-msgstr "Minimum miktarda pozitif bir sayı olmalıdır"
+msgstr "Minimum tutar pozitif bir sayı olmalıdır"
 
 msgid "Minimum order"
 msgstr "Minimum sipariş"
@@ -483,7 +482,7 @@ msgid "My taxes"
 msgstr "Vergilerim"
 
 msgid "Name of the options group:"
-msgstr "Seçenekler grubunun Adı:"
+msgstr "Seçenekler grubunun adı:"
 
 msgid "New order from the application"
 msgstr "Uygulamadan yeni sipariş"
@@ -513,7 +512,7 @@ msgid "Optional"
 msgstr "Opsiyonel"
 
 msgid "Options"
-msgstr "Ayarlar"
+msgstr "Seçenekler"
 
 msgid "Options group successfully deleted"
 msgstr "Seçenekler grubu başarıyla silindi"
@@ -540,7 +539,7 @@ msgid "Order history"
 msgstr "Sipariş geçmişi"
 
 msgid "Order %s cancelled"
-msgstr "sipariş %s tarafından iptal edildi"
+msgstr "%s siparişi iptal edildi"
 
 msgid "Order successfully cancelled"
 msgstr "Sipariş başarıyla iptal edildi"
@@ -561,7 +560,7 @@ msgid "Password"
 msgstr "Şifre"
 
 msgid "Pay"
-msgstr "Ödeme"
+msgstr "Öde"
 
 msgid "Payment"
 msgstr "Ödeme"
@@ -582,13 +581,13 @@ msgid "Pending payment"
 msgstr "Bekleyen ödemeler"
 
 msgid "Percentage is a least 1%, at max 99%"
-msgstr "Yüzdesi en az %1, max 99%"
+msgstr "Yüzde en az 1%, en fazla 99% olmalıdır"
 
 msgid "Percentage must be at least 1 percent, at most 99 percent"
-msgstr "Yüzde 1'ini, en fazla yüzde 99 olmalı"
+msgstr "Yüzde en az yüzde 1, en fazla yüzde 99 olmalıdır"
 
 msgid "Permit unregistered user to make order?"
-msgstr "Sipariş vermek için kayıtlı kullanıcı izni?"
+msgstr "Kayıtlı olmayan kullanıcıların sipariş vermesine izin verilsin mi?"
 
 msgid "Phone"
 msgstr "Telefon"
@@ -606,10 +605,10 @@ msgid "Please choose a payment method"
 msgstr "Bir ödeme yöntemi seçiniz"
 
 msgid "Please, enter an email address for the store %s"
-msgstr "Mağza için bir email adresi seçin %s"
+msgstr "Lütfen %s mağazası için bir e-posta adresi girin"
 
 msgid "Please fill in your card information to process Credit card payment:"
-msgstr "Kredi kartı ödeme işlemek için kartı bilgilerinizi doldurunuz :"
+msgstr "Kredi kartı ödemesini işlemek için kart bilgilerinizi doldurun:"
 
 msgid "Points"
 msgstr "Puanlar"
@@ -636,7 +635,7 @@ msgid "Printer successfully saved"
 msgstr "Yazıcı başarıyla kaydedildi"
 
 msgid "Proceed"
-msgstr "Devamet"
+msgstr "Devam et"
 
 msgid "Processing..."
 msgstr "İşleniyor..."
@@ -666,7 +665,7 @@ msgid "Qty: %s"
 msgstr "Miktar: %s"
 
 msgid "Radius in Km"
-msgstr "Km yarıcap"
+msgstr "Yarıçap (km)"
 
 msgid "Remaining amount due"
 msgstr "Kalan miktar"
@@ -675,10 +674,10 @@ msgid "Remaining due"
 msgstr "Ödeme Sonrası Kalan"
 
 msgid "Remove card"
-msgstr "Kartı çıkarın"
+msgstr "Kartı kaldır"
 
 msgid "Return URL:"
-msgstr "URLye  Dön:"
+msgstr "Dönüş URL'si:"
 
 msgid "Review"
 msgstr "İncele"
@@ -696,16 +695,16 @@ msgid "Settings successfully saved"
 msgstr "Ayarlar başarıyla kaydedildi"
 
 msgid "Show _MENU_ entries"
-msgstr "_MENU_ Girişlerini göster"
+msgstr "_MENU_ kayıt göster"
 
 msgid "Show search fields on product list ?"
 msgstr "Ürün listesinde arama alanlarını göster ?"
 
 msgid "Showing 0 to 0 of 0 entries"
-msgstr "0 0  0 girişler gösteriliyor"
+msgstr "Toplam 0 kayıttan 0 - 0 arası gösteriliyor"
 
 msgid "Showing _START_ to _END_ of _TOTAL_ entries"
-msgstr "_TOTAL_ bu _END_ için _START_  girişleri gösteriliyor"
+msgstr "Toplam _TOTAL_ kayıttan _START_ - _END_ arası gösteriliyor"
 
 msgid "Signature"
 msgstr "İmza"
@@ -717,45 +716,43 @@ msgid "Some mandatory fields are empty."
 msgstr "Bazı zorunlu alanlar boş."
 
 msgid "Sorry we can't proceed to deliver your order. It has been canceled."
-msgstr ""
-"Maalesef siparişinizi teslim edebilmek için  devam edemiyoruz . Bu iptal "
-"edildi."
+msgstr "Üzgünüz, siparişinizin teslimatına devam edemiyoruz. Sipariş iptal edildi."
 
 msgid "Status"
-msgstr "Statü"
+msgstr "Durum"
 
 msgid "Store choice"
-msgstr "Mağza Seçimi"
+msgstr "Mağaza Seçimi"
 
 msgid "Store information"
-msgstr "Mağza Bilgisi"
+msgstr "Mağaza Bilgisi"
 
 msgid "Store name"
-msgstr "Mağza ismi"
+msgstr "Mağaza ismi"
 
 msgid "Store successfully deleted"
-msgstr "Mağza başarıyla silindi"
+msgstr "Mağaza başarıyla silindi"
 
 msgid "Store successfully saved"
-msgstr "Mağza başarıyla kaydedildi"
+msgstr "Mağaza başarıyla kaydedildi"
 
 msgid "Stored card information."
-msgstr "Kart bilgileri sakla."
+msgstr "Kayıtlı kart bilgileri."
 
 msgid "Stores"
-msgstr "Mağzalar"
+msgstr "Mağazalar"
 
 msgid "Street"
 msgstr "Cadde"
 
 msgid "Stripe settings"
-msgstr "Stripe ayarlar"
+msgstr "Stripe ayarları"
 
 msgid "Subtotal"
 msgstr "Alt toplam"
 
 msgid "Subtotal Excl. Tax"
-msgstr "Alt Toplam Hariç. Vergi"
+msgstr "Alt Toplam (Vergi Hariç)"
 
 msgid "Subtotal before deduction"
 msgstr "Kesinti öncesi alt toplam"
@@ -779,7 +776,7 @@ msgid "Thank you!"
 msgstr "Teşekkürler!"
 
 msgid "The clients calculate the change:"
-msgstr "Müşterileri değişikliği hesapla:"
+msgstr "Müşteriler para üstünü hesaplar:"
 
 msgid "The delivery method"
 msgstr "Teslim şekli"
@@ -793,9 +790,7 @@ msgstr "Seçenek %s gerekli"
 msgid ""
 "The payment has been cancelled, something wrong happened? Feel free to "
 "contact us"
-msgstr ""
-"Ödeme iptal edildi, bir şeyler yanlış oldu? Bizimle temas kurmaktan "
-"çekinmeyin"
+msgstr "Ödeme iptal edildi, bir sorun mu oluştu? Bizimle iletişime geçmekten çekinmeyin"
 
 msgid "The payment method"
 msgstr "Ödeme Şekli"
@@ -804,7 +799,7 @@ msgid "Time in minutes"
 msgstr "Zaman(dakika)"
 
 msgid "Tip"
-msgstr "İpucu"
+msgstr "Bahşiş"
 
 msgid "Total"
 msgstr "Toplam"
@@ -819,10 +814,10 @@ msgid "Total: %s"
 msgstr "Toplam: %s"
 
 msgid "Unable to proceed to checkout the minimum order amount is %s"
-msgstr "Minimum sipariş miktarı %s ödeme geçmek için açılamıyor"
+msgstr "Ödemeye geçilemiyor, minimum sipariş tutarı %s"
 
 msgid "Unit Price"
-msgstr "BirimFiiyatı"
+msgstr "Birim Fiyatı"
 
 msgid "Unit price"
 msgstr "Birim fiyatı"
@@ -831,7 +826,7 @@ msgid "Updating price"
 msgstr "Fiyat güncelleme"
 
 msgid "Usable once"
-msgstr "Kullanılabilir bir kez"
+msgstr "Bir kez kullanılabilir"
 
 msgid "Use:"
 msgstr "Kullanım:"
@@ -885,7 +880,7 @@ msgid "You must be logged in to continue"
 msgstr "Devam etmek için giriş yapmalısınız"
 
 msgid "You used the code before"
-msgstr "Bu kodu kullandın"
+msgstr "Bu kodu daha önce kullandınız"
 
 msgid "Your address"
 msgstr "Adresiniz"
@@ -903,10 +898,10 @@ msgid "Your phone number"
 msgstr "Telefon numaranız"
 
 msgid "e.g., Sauces"
-msgstr "örk Salçalar"
+msgstr "ör. Soslar"
 
 msgid "(filtered from _MAX_ total entries)"
-msgstr "( _MAX_ Toplam girdiler filitrelenmiş )"
+msgstr "(toplam _MAX_ kayıt içinden filtrelendi)"
 
 msgid "%s - Customer Service"
 msgstr "%s – Müşteri hizmetleri"

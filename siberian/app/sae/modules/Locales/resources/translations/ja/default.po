@@ -30,7 +30,7 @@ msgid "API"
 msgstr "API"
 
 msgid "APIs"
-msgstr "API を使用します"
+msgstr "API"
 
 msgid "APK Generator Service"
 msgstr "APKジェネレーターサービス"
@@ -51,7 +51,7 @@ msgid "Accounts"
 msgstr "アカウント"
 
 msgid "Acl"
-msgstr "アクロポリス"
+msgstr "ACL"
 
 msgid "Actions"
 msgstr "アクション"
@@ -63,13 +63,13 @@ msgid "Activity"
 msgstr "アクティビティ"
 
 msgid "AdMob Banner ID"
-msgstr "アドモブバナー ID"
+msgstr "AdMob バナー ID"
 
 msgid "AdMob Interstitial ID"
 msgstr "AdMob インタースティシャル ID"
 
 msgid "Add"
-msgstr "[追加]"
+msgstr "追加"
 
 msgid "Add Image"
 msgstr "イメージの追加"
@@ -90,7 +90,7 @@ msgid "Add extension"
 msgstr "拡張子を追加"
 
 msgid "Add feature"
-msgstr "[フィーチャを追加]"
+msgstr "機能を追加"
 
 msgid "Add image"
 msgstr "画像の追加"
@@ -114,10 +114,10 @@ msgid "Admin panel type"
 msgstr "管理パネルの種類"
 
 msgid "Admob Banner ID"
-msgstr "アドモブバナー ID"
+msgstr "AdMob バナー ID"
 
 msgid "Admob Interstitial ID"
-msgstr "アドモブインタースティシャル ID"
+msgstr "AdMob インタースティシャル ID"
 
 msgid "Advanced options"
 msgstr "詳細オプション"
@@ -132,7 +132,7 @@ msgid "Alert: The SSL Certificate %s automatic renewal failed."
 msgstr "警告:SSL 証明書%s の自動更新に失敗しました。"
 
 msgid "Alignment"
-msgstr "[位置合わせ]"
+msgstr "位置合わせ"
 
 msgid "All data"
 msgstr "すべてのデータ"
@@ -144,10 +144,10 @@ msgid "All user list"
 msgstr "すべてのユーザーリスト"
 
 msgid "Allow users to export features"
-msgstr "ユーザによるフィーチャのエクスポートを許可"
+msgstr "ユーザーによる機能のエクスポートを許可"
 
 msgid "Allow users to import features"
-msgstr "ユーザによるフィーチャのインポートを許可"
+msgstr "ユーザーによる機能のインポートを許可"
 
 msgid "Allowed upload extensions."
 msgstr "アップロードできる拡張機能。"
@@ -156,7 +156,7 @@ msgid "An error occurred during process. Please try again later."
 msgstr "処理中にエラーが発生しました。 後でもう一度お試しください。"
 
 msgid "An error occurred during process.<br />Please try again later."
-msgstr "処理中にエラーが発生しました。 後でもう一度@@<br />お試しください。"
+msgstr "処理中にエラーが発生しました。<br />後でもう一度お試しください。"
 
 msgid "An error occurred during the process. Please try again later."
 msgstr "処理中にエラーが発生しました。 後でもう一度お試しください。"
@@ -201,28 +201,28 @@ msgid "An unknown error occurred while loading the page."
 msgstr "ページの読み込み中に不明なエラーが発生しました。"
 
 msgid "Android APK"
-msgstr "アンドロイドAPK"
+msgstr "Android APK"
 
 msgid "Android SDK is not installed"
 msgstr "Android SDKがインストールされていません"
 
 msgid "Android Source"
-msgstr "アンドロイドソース"
+msgstr "Android ソース"
 
 msgid "Android Spinner"
-msgstr "アンドロイドスピナー"
+msgstr "Android スピナー"
 
 msgid "Android base Package Name can't be empty."
 msgstr "Android ベースのパッケージ名を空にすることはできません。"
 
 msgid "Android base Package Name must contain only letters, dots & minus."
-msgstr "Androidベースのパッケージ名には、文字、ドット＆マイナスのみを含める必要があります。"
+msgstr "Android ベースのパッケージ名には、文字、ドット、マイナスのみを使用できます。"
 
 msgid "Android base Package Name must contain only letters, dots & minus with at least two dots.<br />Example: com.mydomain.admin"
-msgstr "Androidベースのパッケージ名には、少なくとも2つのドットを持つ文字、ドット＆マイナスのみを含める必要があります。 <br />例:ドメイン管理"
+msgstr "Android ベースのパッケージ名には、文字、ドット、マイナスのみを使用でき、ドットを 2 つ以上含める必要があります。<br />例: com.mydomain.admin"
 
 msgid "Android only"
-msgstr "アンドロイドのみ"
+msgstr "Android のみ"
 
 msgid "Answers"
 msgstr "回答"
@@ -237,10 +237,10 @@ msgid "App id"
 msgstr "アプリID"
 
 msgid "Appearance"
-msgstr "[外観]"
+msgstr "外観"
 
 msgid "Apple Development teams"
-msgstr "アップル・インコーポレイテッド"
+msgstr "Apple 開発チーム"
 
 msgid "Application"
 msgstr "アプリケーション"
@@ -267,7 +267,7 @@ msgid "Are you sure you want to delete this invoice?"
 msgstr "この請求書を削除してもよろしいですか？"
 
 msgid "Are you sure you want to delete this subscription?"
-msgstr "この購読を削除してもよろしいですか?"
+msgstr "このサブスクリプションを削除してもよろしいですか?"
 
 msgid "Are you sure you want to remove this account?"
 msgstr "このアカウントを削除してもよろしいですか?"
@@ -276,13 +276,13 @@ msgid "Artist"
 msgstr "アーティスト"
 
 msgid "At least, 1 page in the application"
-msgstr "少なくとも、アプリケーション内の1ページ"
+msgstr "アプリケーション内に少なくとも 1 ページ"
 
 msgid "At least one <b>published</b> application is required in order to use global push notifications."
 msgstr "グローバルプッシュ通知を使用するには、少なくとも 1 つの <b>公開</b> アプリケーションが必要です。"
 
 msgid "Attachment"
-msgstr "[アタッチメント]"
+msgstr "添付ファイル"
 
 msgid "Audio"
 msgstr "オーディオ"
@@ -297,7 +297,7 @@ msgid "Authentication failed. Please check your email and/or your password"
 msgstr "認証に失敗しました。 メールアドレス、パスワードをご確認ください。"
 
 msgid "Autocomplete & Suggestions ..."
-msgstr "候補をオートコンプリートする (S)..."
+msgstr "オートコンプリートと候補 ..."
 
 msgid "Average cart"
 msgstr "平均カート"
@@ -309,13 +309,13 @@ msgid "Average for all users"
 msgstr "すべてのユーザーの平均"
 
 msgid "Back"
-msgstr "戻れ"
+msgstr "戻る"
 
 msgid "Back button icon"
 msgstr "戻るボタンアイコン"
 
 msgid "Background"
-msgstr "[背景]"
+msgstr "背景"
 
 msgid "Background (landscape)"
 msgstr "背景 (横)"
@@ -327,7 +327,7 @@ msgid "Backoffice"
 msgstr "バックオフィス"
 
 msgid "Bad settings can break your APK Generator, leave empty to use defaults."
-msgstr "悪い設定はAPKジェネレータを壊す可能性があります。デフォルトを使用するには空のままにしておきます。"
+msgstr "不適切な設定は APK ジェネレーターを壊す可能性があります。デフォルトを使用するには空のままにしてください。"
 
 msgid "Banner"
 msgstr "バナー"
@@ -351,13 +351,13 @@ msgid "Booking details"
 msgstr "予約の詳細"
 
 msgid "Booking::findAction An unknown error occurred, please try again later."
-msgstr "予約中:: findAction 不明なエラーが発生しました。後でもう一度お試しください。"
+msgstr "Booking::findAction 不明なエラーが発生しました。後でもう一度お試しください。"
 
 msgid "Bottom"
 msgstr "下部"
 
 msgid "Browse"
-msgstr "[参照]"
+msgstr "参照"
 
 msgid "Button"
 msgstr "ボタン"
@@ -369,13 +369,13 @@ msgid "Button balanced"
 msgstr "ボタンバランス"
 
 msgid "Button calm"
-msgstr "ボタン冷静さ"
+msgstr "ボタン カーム"
 
 msgid "Button dark"
-msgstr "ボタン暗い"
+msgstr "ボタン ダーク"
 
 msgid "Button energized"
-msgstr "ボタン通電"
+msgstr "ボタン エナジャイズド"
 
 msgid "Button light"
 msgstr "ボタンライト"
@@ -384,7 +384,7 @@ msgid "Button positive"
 msgstr "ボタンポジティブ"
 
 msgid "Button royal"
-msgstr "バトル・ロワイヤル"
+msgstr "ボタン ロイヤル"
 
 msgid "By checking this, a search field will appear in your folder feature"
 msgstr "これをチェックすると、検索フィールドがフォルダ機能に表示されます"
@@ -405,13 +405,13 @@ msgid "Can only be used once"
 msgstr "一度だけ使用可能"
 
 msgid "Cancel"
-msgstr "キャンセルします"
+msgstr "キャンセル"
 
 msgid "Card"
 msgstr "カード"
 
 msgid "Card Item"
-msgstr "名刺アイテム"
+msgstr "カードアイテム"
 
 msgid "Careful, someone else is working on this application."
 msgstr "気をつけて、他の誰かがこのアプリケーションに取り組んでいます。"
@@ -432,7 +432,7 @@ msgid "Change your<br /><span class='bold'>picture</span>"
 msgstr "<br /><span class='bold'>画像</span>を変更する"
 
 msgid "Changing the Application icon requires a rebuild / republication."
-msgstr "アプリケーションのアイコンを変更するには、再構築/再発行が必要です。"
+msgstr "アプリケーションのアイコンを変更するには、再ビルドと再公開が必要です。"
 
 msgid "Changing this option requires you to republish your iOS application."
 msgstr "このオプションを変更するには、iOS アプリケーションを再公開する必要があります。"
@@ -456,7 +456,7 @@ msgid "Choose an object to import:"
 msgstr "インポートするオブジェクトを選択:"
 
 msgid "City"
-msgstr "シティ"
+msgstr "市区町村"
 
 msgid "ClamAV is an optional anti-virus, you can enable it up below."
 msgstr "ClamAVはオプションのアンチウイルスです。以下で有効にできます。"
@@ -477,10 +477,10 @@ msgid "Click on"
 msgstr "画面上部の"
 
 msgid "Click on a feature to add it to the folder"
-msgstr "フィーチャをクリックしてフォルダに追加します"
+msgstr "機能をクリックしてフォルダに追加します"
 
 msgid "Click on a feature to add it to the folder %s"
-msgstr "フィーチャをクリックしてフォルダ%s に追加します"
+msgstr "機能をクリックしてフォルダ %s に追加します"
 
 msgid "Click to import your file"
 msgstr "クリックしてファイルをインポートします"
@@ -498,25 +498,25 @@ msgid "CloudFlare is not supported, you must use a CNAME targeting your main dom
 msgstr "CloudFlareはサポートされていません。メインドメインをターゲットとするCNAMEを使用する必要があります。"
 
 msgid "Cms"
-msgstr "Cミリ秒"
+msgstr "CMS"
 
 msgid "Codescan"
-msgstr "コードスカン"
+msgstr "コードスキャン"
 
 msgid "Comment"
-msgstr "[コメント]"
+msgstr "コメント"
 
 msgid "Comments"
 msgstr "コメント"
 
 msgid "Commerce"
-msgstr "コマースだ"
+msgstr "コマース"
 
 msgid "Communication"
 msgstr "コミュニケーション"
 
 msgid "Company"
-msgstr "会社です"
+msgstr "会社"
 
 msgid "Coms"
 msgstr "コムズ"
@@ -537,7 +537,7 @@ msgid "Confirm new password"
 msgstr "新しいパスワードの確認"
 
 msgid "Confirmation"
-msgstr "[確認]"
+msgstr "確認"
 
 msgid "Confirmation required"
 msgstr "確認が必要です"
@@ -546,7 +546,7 @@ msgid "Connection type"
 msgstr "接続タイプ"
 
 msgid "Contact"
-msgstr "連絡してください"
+msgstr "お問い合わせ"
 
 msgid "Contact successfully added to your address book"
 msgstr "連絡先はアドレス帳に正常に追加されました"
@@ -561,7 +561,7 @@ msgid "Coordinates"
 msgstr "座標"
 
 msgid "Copy"
-msgstr "-了解"
+msgstr "コピー"
 
 msgid "Copying"
 msgstr "コピーしています"
@@ -573,10 +573,10 @@ msgid "Country"
 msgstr "国名"
 
 msgid "Cover"
-msgstr "カバーだ"
+msgstr "カバー"
 
 msgid "Create"
-msgstr "[作成]"
+msgstr "作成"
 
 msgid "Create / Edit a User"
 msgstr "ユーザーの作成/編集"
@@ -606,19 +606,19 @@ msgid "Current status is"
 msgstr "現在のステータスは"
 
 msgid "Custom Page"
-msgstr "ユーザー設定のページ"
+msgstr "カスタムページ"
 
 msgid "Customization"
 msgstr "カスタマイズ"
 
 msgid "Customization mode activated"
-msgstr "カスタマイズモードが活動化されました"
+msgstr "カスタマイズモードが有効になりました"
 
 msgid "Customize your app's colors"
 msgstr "アプリの色をカスタマイズする"
 
 msgid "DEFAULT"
-msgstr "デフォルトです"
+msgstr "デフォルト"
 
 msgid "DELETE"
 msgstr "削除"
@@ -660,10 +660,10 @@ msgid "Default search distance"
 msgstr "デフォルトの検索距離"
 
 msgid "Delete"
-msgstr "[削除]"
+msgstr "削除"
 
 msgid "Delete a feature"
-msgstr "フィーチャを削除する"
+msgstr "機能を削除する"
 
 msgid "Delete the Application"
 msgstr "アプリケーションの削除"
@@ -723,7 +723,7 @@ msgid "Do you want to return to the homepage?"
 msgstr "ホームページに戻りたいですか？"
 
 msgid "Done"
-msgstr "「完了"
+msgstr "完了"
 
 msgid "Don't close the app while downloading. This may take a while."
 msgstr "ダウンロード中はアプリを閉じないでください。 これにはしばらく時間がかかる場合があります。"
@@ -777,10 +777,10 @@ msgid "Drop your json here"
 msgstr "ここにあなたのjsonをドロップする"
 
 msgid "EDIT"
-msgstr "編集します"
+msgstr "編集"
 
 msgid "Edit"
-msgstr "[編集]"
+msgstr "編集"
 
 msgid "Edit an invoice for this plan"
 msgstr "このプランの請求書を編集"
@@ -804,7 +804,7 @@ msgid "Editor note: A user with a given role can only assign self & child roles.
 msgstr "編集者メモ:特定のロールを持つユーザーは、自分と子ロールのみを割り当てることができます。"
 
 msgid "Element n°"
-msgstr "元素n°"
+msgstr "要素 n°"
 
 msgid "Email"
 msgstr "Eメール"
@@ -870,10 +870,10 @@ msgid "Extension %s is strictly forbidden."
 msgstr "拡張子%s は厳密に禁止されています。"
 
 msgid "Extension: txt, png, jpeg, avi, etc..."
-msgstr "拡張子：テキスト、PNG、JPEG、AVIなど..."
+msgstr "拡張子: txt、png、jpeg、avi など..."
 
 msgid "Facebook"
-msgstr "フェイスブック"
+msgstr "Facebook"
 
 msgid "Fan Wall"
 msgstr "ファンウォール"
@@ -885,10 +885,10 @@ msgid "Feature Analytics"
 msgstr "機能分析"
 
 msgid "Feature Top 5 visits"
-msgstr "特集上位 5 回訪問"
+msgstr "機能別訪問数 上位 5 件"
 
 msgid "Features"
-msgstr "特徴"
+msgstr "機能"
 
 msgid "Filter metrics"
 msgstr "メトリックスのフィルタリング"
@@ -930,7 +930,7 @@ msgid "Forgot your password?"
 msgstr "パスワードをお忘れですか？"
 
 msgid "Forgot your password? Don't worry! Simply enter your email address and we'll send you a new one right now."
-msgstr "パスワードをお忘れですか？ 心配するな！ メールアドレスを入力するだけで、今すぐ新しいアドレスをお送りします。"
+msgstr "パスワードをお忘れですか？ご心配なく！メールアドレスを入力していただければ、すぐに新しいパスワードをお送りします。"
 
 msgid "Form"
 msgstr "フォーム"
@@ -954,10 +954,10 @@ msgid "GRADLE extended options"
 msgstr "GRADLE拡張オプション"
 
 msgid "General"
-msgstr "将軍"
+msgstr "一般"
 
 msgid "Generate"
-msgstr "生成します"
+msgstr "生成"
 
 msgid "Generate an invoice for this offline plan by using the form below."
 msgstr "以下のフォームを使用して、このオフラインプランの請求書を生成します。"
@@ -978,7 +978,7 @@ msgid "Go back"
 msgstr "前のページへ戻る"
 
 msgid "Google Maps settings"
-msgstr "グーグルマップの設定"
+msgstr "Google Maps の設定"
 
 msgid "HH:mm a"
 msgstr "ヘルメット:ミリメートル"
@@ -990,7 +990,7 @@ msgid "Here is your new password:"
 msgstr "新しいパスワードは次のとおりです。"
 
 msgid "Hi. I just found: $1 in the $2 app."
-msgstr "-どうも 私はちょうど見つけました：$2アプリで$1。"
+msgstr "こんにちは。$2 アプリで $1 を見つけました。"
 
 msgid "Hide"
 msgstr "隠す"
@@ -1068,7 +1068,7 @@ msgid "Images opacity"
 msgstr "イメージの不透明度"
 
 msgid "Import"
-msgstr "[インポート]"
+msgstr "インポート"
 
 msgid "Import a background image"
 msgstr "背景イメージを読み込む"
@@ -1077,7 +1077,7 @@ msgid "Import a cover image"
 msgstr "表紙画像のインポート"
 
 msgid "Import a single feature."
-msgstr "単一のフィーチャーをインポートします。"
+msgstr "単一の機能をインポートします。"
 
 msgid "Import a thumbnail"
 msgstr "サムネイルを読み込む"
@@ -1086,7 +1086,7 @@ msgid "Import a thumbnail image"
 msgstr "サムネイルイメージを読み込む"
 
 msgid "Import yml"
-msgstr "[yml をインポート]"
+msgstr "yml をインポート"
 
 msgid "In order to fully enjoy our features, we encourage you to use at least:.<br />"
 msgstr "私たちの機能を十分に楽しむために、少なくとも使用することをお勧めします：。 <br />"
@@ -1116,19 +1116,19 @@ msgid "Inherit global layout"
 msgstr "グローバルレイアウトを継承"
 
 msgid "Insert a <br /><span class'bold'>cover image</span>"
-msgstr "アクバー <br /><span class'bold'>画像の</span>挿入"
+msgstr "<br /><span class'bold'>表紙画像</span>を挿入する"
 
 msgid "Insert a cover image"
 msgstr "表紙画像を挿入する"
 
 msgid "Insert a picture"
-msgstr "図を挿入する"
+msgstr "画像を挿入する"
 
 msgid "Installer"
 msgstr "インストーラ"
 
 msgid "Installs"
-msgstr "取り付けます"
+msgstr "インストール数"
 
 msgid "Integration"
 msgstr "統合"
@@ -1158,10 +1158,10 @@ msgid "JAVA Extended options"
 msgstr "JAVA 拡張オプション"
 
 msgid "Landscape"
-msgstr "景観"
+msgstr "横向き"
 
 msgid "Last Name"
-msgstr "お名前（姓）"
+msgstr "姓"
 
 msgid "Last action"
 msgstr "最後のアクション"
@@ -1173,7 +1173,7 @@ msgid "Last login"
 msgstr "最終ログイン"
 
 msgid "Last name"
-msgstr "姓（姓）"
+msgstr "姓"
 
 msgid "Last update date"
 msgstr "最終更新日"
@@ -1203,19 +1203,19 @@ msgid "Leave blank if your web space is the current domain."
 msgstr "Web スペースが現在のドメインである場合は、空白のままにします。"
 
 msgid "Left"
-msgstr "左だ"
+msgstr "左"
 
 msgid "Let your users know what is locked"
 msgstr "ロックされている内容をユーザーに知らせる"
 
 msgid "Like"
-msgstr "-そうね"
+msgstr "いいね"
 
 msgid "Likes"
 msgstr "いいね"
 
 msgid "Link"
-msgstr "[リンク]"
+msgstr "リンク"
 
 msgid "Links"
 msgstr "リンク"
@@ -1224,7 +1224,7 @@ msgid "Links are now re-ordered!"
 msgstr "リンクが並び替わりました。"
 
 msgid "List"
-msgstr "[リスト]"
+msgstr "リスト"
 
 msgid "List Item"
 msgstr "リストアイテム"
@@ -1248,10 +1248,10 @@ msgid "Local APK build"
 msgstr "ローカルAPKビルド"
 
 msgid "Locate"
-msgstr "[検索]"
+msgstr "検索"
 
 msgid "Location"
-msgstr "[場所]"
+msgstr "場所"
 
 msgid "Location: %s"
 msgstr "場所:%s"
@@ -1275,10 +1275,10 @@ msgid "Log-out"
 msgstr "ログアウト"
 
 msgid "Loyalty Card"
-msgstr "ポイントカード"
+msgstr "ロイヤルティカード"
 
 msgid "LoyaltyCard"
-msgstr "ロイヤリティカード"
+msgstr "ロイヤルティカード"
 
 msgid "MMMM dd y"
 msgstr "デベロメタン"
@@ -1290,10 +1290,10 @@ msgid "MM.dd.y"
 msgstr "デイビル・デイ・ビル・デイ"
 
 msgid "MM.dd.y 'at' HH:mm a"
-msgstr "「HH: mm a」でのMM.dd.y '"
+msgstr "MM.dd.y 'at' HH:mm a"
 
 msgid "MM/dd/y 'at' hh:mm a"
-msgstr "月/日/日 '時' hh: mm a"
+msgstr "MM/dd/y 'at' hh:mm a"
 
 msgid "MM/dd/y hh:mm a"
 msgstr "月/日/日 hh: mm a"
@@ -1314,7 +1314,7 @@ msgid "Main domain"
 msgstr "メインドメイン"
 
 msgid "Main domain (without https?://) is required for services, and tools."
-msgstr "メインドメイン（httpsなしですか？ ://) は、サービスとツールに必要です。"
+msgstr "メインドメイン (https?:// を除く) は、サービスとツールに必要です。"
 
 msgid "Main hostname"
 msgstr "メインホスト名"
@@ -1323,7 +1323,7 @@ msgid "Make this image colorizable"
 msgstr "この画像を色付け可能にする"
 
 msgid "Manage"
-msgstr "管理します"
+msgstr "管理"
 
 msgid "Manage Folders"
 msgstr "フォルダの管理"
@@ -1344,7 +1344,7 @@ msgid "Maps"
 msgstr "マップ"
 
 msgid "Mcommerce"
-msgstr "マコマースだ"
+msgstr "Mコマース"
 
 msgid "Media"
 msgstr "メディア"
@@ -1434,31 +1434,31 @@ msgid "MyTemplate"
 msgstr "マイテンプレート"
 
 msgid "NSCameraUsageDescription"
-msgstr "NSカメラ使用説明です"
+msgstr "NSCameraUsageDescription"
 
 msgid "NSLocationAlwaysAndWhenInUseUsageDescription"
-msgstr "NSLocation常に使用時と使用時説明"
+msgstr "NSLocationAlwaysAndWhenInUseUsageDescription"
 
 msgid "NSLocationAlwaysUsageDescription"
-msgstr "NSロケーション常時使用説明"
+msgstr "NSLocationAlwaysUsageDescription"
 
 msgid "NSLocationWhenInUseUsageDescription"
-msgstr "使用時の NSLocation説明"
+msgstr "NSLocationWhenInUseUsageDescription"
 
 msgid "NSMotionUsageDescription"
-msgstr "NSモーション使用説明です"
+msgstr "NSMotionUsageDescription"
 
 msgid "NSPhotoLibraryUsageDescription"
-msgstr "NSフォトライブラリ使用説明です"
+msgstr "NSPhotoLibraryUsageDescription"
 
 msgid "Name"
 msgstr "名前"
 
 msgid "Never"
-msgstr "決して"
+msgstr "しない"
 
 msgid "New"
-msgstr "[新規]"
+msgstr "新規"
 
 msgid "New folder"
 msgstr "新しいフォルダ"
@@ -1479,7 +1479,7 @@ msgid "Newswall"
 msgstr "ニュースウォール"
 
 msgid "Next"
-msgstr "次はね"
+msgstr "次へ"
 
 msgid "No"
 msgstr "いいえ"
@@ -1494,7 +1494,7 @@ msgid "No data for this metrics for now."
 msgstr "現時点では、このメトリックスのデータはありません。"
 
 msgid "No features"
-msgstr "集合体なし"
+msgstr "機能なし"
 
 msgid "No invoice for now."
 msgstr "今のところ、請求書はありません。"
@@ -1539,7 +1539,7 @@ msgid "Note: A disabled feature is not removed from published applications & can
 msgstr "注：無効化された機能は、公開アプリケーションから削除されず、編集することはできますが、ユーザーはもう追加できません！"
 
 msgid "Note: Let's encrypt X1 is a staging certificate."
-msgstr "注：X1はステージング証明書です暗号化してみましょう。"
+msgstr "注：Let's Encrypt X1 はステージング証明書です。"
 
 msgid "Nothing to display."
 msgstr "表示するものがありません。"
@@ -1572,7 +1572,7 @@ msgid "Only active"
 msgstr "アクティブのみ"
 
 msgid "Only inactive"
-msgstr "非アクティブな場合のみ"
+msgstr "非アクティブのみ"
 
 msgid "Only offline"
 msgstr "オフラインのみ"
@@ -1620,22 +1620,22 @@ msgid "Page settings"
 msgstr "ページ設定"
 
 msgid "Paid At"
-msgstr "支払い時"
+msgstr "支払日時"
 
 msgid "Paid amount"
 msgstr "支払済金額"
 
 msgid "Paid at"
-msgstr "支払い時"
+msgstr "支払日時"
 
 msgid "Parent"
-msgstr "[親]"
+msgstr "親"
 
 msgid "Password"
 msgstr "パスワード"
 
 msgid "Password (clear)"
-msgstr "パスワード (クリア)"
+msgstr "パスワード (平文)"
 
 msgid "Password (hashed)"
 msgstr "パスワード (ハッシュ)"
@@ -1644,7 +1644,7 @@ msgid "Passwords don't match"
 msgstr "パスワードが一致しません"
 
 msgid "PayPal Express Checkout"
-msgstr "ペイパルエクスプレスチェックアウト"
+msgstr "PayPal Express Checkout"
 
 msgid "Payment"
 msgstr "支払い"
@@ -1662,7 +1662,7 @@ msgid "Payments"
 msgstr "支払い"
 
 msgid "Permissions"
-msgstr "アクセス許可"
+msgstr "権限"
 
 msgid "Personal data"
 msgstr "個人データ"
@@ -1677,7 +1677,7 @@ msgid "Photos"
 msgstr "写真"
 
 msgid "Place disabled"
-msgstr "プレイスの無効"
+msgstr "場所は無効です"
 
 msgid "Places"
 msgstr "場所"
@@ -1686,7 +1686,7 @@ msgid "Plain"
 msgstr "無地"
 
 msgid "Plans"
-msgstr "計画"
+msgstr "プラン"
 
 msgid "Platform"
 msgstr "プラットフォーム"
@@ -1788,7 +1788,7 @@ msgid "Podcast"
 msgstr "ポッドキャスト"
 
 msgid "Podcast URL"
-msgstr "ポッドキャスト"
+msgstr "ポッドキャスト URL"
 
 msgid "Podcast URL (iTunes format)"
 msgstr "ポッドキャストのURL（iTunesフォーマット）"
@@ -1797,7 +1797,7 @@ msgid "Podcast type is invalid or can't be found"
 msgstr "ポッドキャストの種類が無効であるか、見つかりません"
 
 msgid "Port"
-msgstr "港"
+msgstr "ポート"
 
 msgid "Port, example: 3310"
 msgstr "ポート、例：3310"
@@ -1818,10 +1818,10 @@ msgid "Privacy"
 msgstr "プライバシー"
 
 msgid "Privacy Policy"
-msgstr "個人情報保護方針"
+msgstr "プライバシーポリシー"
 
 msgid "Privacy policy"
-msgstr "個人情報保護方針"
+msgstr "プライバシーポリシー"
 
 msgid "Privacy policy section for GDPR"
 msgstr "GDPRのプライバシーポリシーセクション"
@@ -1848,10 +1848,10 @@ msgid "Publish your app"
 msgstr "アプリを公開する"
 
 msgid "Publishable Key"
-msgstr "発行可能なキー"
+msgstr "公開可能キー"
 
 msgid "Push"
-msgstr "押して"
+msgstr "プッシュ"
 
 msgid "Push Notifications"
 msgstr "プッシュ通知"
@@ -1860,7 +1860,7 @@ msgid "Push message"
 msgstr "プッシュメッセージ"
 
 msgid "Push message is sent."
-msgstr "プッシュメッセージが送信されます。"
+msgstr "プッシュメッセージが送信されました。"
 
 msgid "Push notification"
 msgstr "プッシュ通知"
@@ -1869,7 +1869,7 @@ msgid "Push notifications"
 msgstr "プッシュ通知"
 
 msgid "Push notifications Your account doesn't exists on editor side. Please create it before using tour edition."
-msgstr "プッシュ通知アカウントはエディタ側に存在しません。 ツアーエディションを使用する前に作成してください。"
+msgstr "プッシュ通知：お客様のアカウントはエディタ側に存在しません。ツアーエディションを使用する前に作成してください。"
 
 msgid "QR Code"
 msgstr "QRコード"
@@ -1890,16 +1890,16 @@ msgid "Radio"
 msgstr "ラジオ"
 
 msgid "Redis AUTH KEY"
-msgstr "レディス自動キー"
+msgstr "Redis AUTH KEY"
 
 msgid "Registration date"
 msgstr "登録日"
 
 msgid "Release"
-msgstr "リリースします"
+msgstr "リリース"
 
 msgid "Remove"
-msgstr "[除去]"
+msgstr "削除"
 
 msgid "Remove this page from this folder?"
 msgstr "このページをこのフォルダから削除しますか?"
@@ -1911,7 +1911,7 @@ msgid "Request & Upload to panel"
 msgstr "パネルへのリクエストとアップロード"
 
 msgid "Request APK generation"
-msgstr "リクエストAPK 生成"
+msgstr "APK の生成をリクエスト"
 
 msgid "Request or renew the certificate via Let's Encrypt."
 msgstr "Let's Encrypt経由で証明書を要求または更新する。"
@@ -1929,7 +1929,7 @@ msgid "Resize your picture"
 msgstr "画像のサイズを変更する"
 
 msgid "Restart"
-msgstr "を再起動します"
+msgstr "再起動"
 
 msgid "Restore Apps"
 msgstr "アプリケーションの復元"
@@ -1938,13 +1938,13 @@ msgid "Restore Apps sources"
 msgstr "アプリのソースを復元する"
 
 msgid "Right"
-msgstr "-そうだな"
+msgstr "右"
 
 msgid "Roles"
 msgstr "ロール"
 
 msgid "Rss"
-msgstr "ロシアロシア・ルピー"
+msgstr "RSS"
 
 msgid "Rule have been added."
 msgstr "ルールが追加されました。"
@@ -1953,7 +1953,7 @@ msgid "Rule have been removed."
 msgstr "ルールが削除されました。"
 
 msgid "Run Android SDK update"
-msgstr "アンドロイドSDKアップデートを実行する"
+msgstr "Android SDK の更新を実行"
 
 msgid "SCSS successfully saved"
 msgstr "SCSSが正常に保存されました"
@@ -1998,10 +1998,10 @@ msgid "Save iTunes credentials"
 msgstr "iTunes の認証情報を保存する"
 
 msgid "Save sender id & key"
-msgstr "送信者 ID を保存 (C)"
+msgstr "送信者 ID とキーを保存"
 
 msgid "Scan it."
-msgstr "スキャンしろ"
+msgstr "スキャンしてください。"
 
 msgid "Scan now to unlock"
 msgstr "今すぐスキャンしてロックを解除する"
@@ -2010,7 +2010,7 @@ msgid "Scheduled for"
 msgstr "スケジュール済み"
 
 msgid "Scheduled for <i>%s</i>"
-msgstr "<i>%s のスケジュール設定</i>"
+msgstr "<i>%s</i> にスケジュール済み"
 
 msgid "Scratchcard Users"
 msgstr "スクラッチカードユーザー"
@@ -2031,7 +2031,7 @@ msgid "Search results"
 msgstr "検索結果"
 
 msgid "See"
-msgstr "「」を参照してください"
+msgstr "参照"
 
 msgid "Select a Development team"
 msgstr "開発チームを選択"
@@ -2067,7 +2067,7 @@ msgid "Selected main hostname"
 msgstr "選択されたメインホスト名"
 
 msgid "Send"
-msgstr "送信します"
+msgstr "送信"
 
 msgid "Send a cover image"
 msgstr "表紙画像を送信する"
@@ -2112,10 +2112,10 @@ msgid "Set Meal"
 msgstr "定食"
 
 msgid "Settings"
-msgstr "[設定]"
+msgstr "設定"
 
 msgid "Show"
-msgstr "[表示]"
+msgstr "表示"
 
 msgid "Show cover"
 msgstr "カバーを表示"
@@ -2127,16 +2127,16 @@ msgid "Show title"
 msgstr "タイトルを表示"
 
 msgid "Siberian current installation path"
-msgstr "シベリアの現在のインストールパス"
+msgstr "Siberian の現在のインストールパス"
 
 msgid "Siberian domain"
-msgstr "シベリア人"
+msgstr "Siberian ドメイン"
 
 msgid "Siberian informations"
-msgstr "シベリアの情報"
+msgstr "Siberian の情報"
 
 msgid "Siberian uses it to scan all uploaded files that have passed the soft Firewall."
-msgstr "シベリアは、ソフトファイアウォールを通過したすべてのアップロードされたファイルをスキャンするためにそれを使用します。"
+msgstr "Siberian は、ソフトファイアウォールを通過したアップロード済みのすべてのファイルをスキャンするためにこれを使用します。"
 
 msgid "Size:"
 msgstr "サイズ:"
@@ -2145,7 +2145,7 @@ msgid "Size on disk"
 msgstr "ディスク上のサイズ"
 
 msgid "Slack notification settings"
-msgstr "スラック通知設定"
+msgstr "Slack 通知設定"
 
 msgid "Slider"
 msgstr "スライダ"
@@ -2160,7 +2160,7 @@ msgid "Socket"
 msgstr "ソケット"
 
 msgid "Soundcloud"
-msgstr "サウンドクラウド"
+msgstr "SoundCloud"
 
 msgid "Source code"
 msgstr "ソースコード"
@@ -2172,13 +2172,13 @@ msgid "Sourcecode"
 msgstr "ソースコード"
 
 msgid "Sources"
-msgstr "[ソース]"
+msgstr "ソース"
 
 msgid "Spinner"
 msgstr "スピナー"
 
 msgid "Split Ad revenue (percent for you)"
-msgstr "分割広告収益（パーセント）"
+msgstr "広告収益の分配 (あなたの取り分、パーセント)"
 
 msgid "Start date must be lower than end date."
 msgstr "開始日は終了日より前である必要があります。"
@@ -2199,13 +2199,13 @@ msgid "Step title"
 msgstr "ステップタイトル"
 
 msgid "Street"
-msgstr "通り"
+msgstr "番地"
 
 msgid "Subscriptions"
 msgstr "サブスクリプション"
 
 msgid "Subtitle"
-msgstr "字幕"
+msgstr "サブタイトル"
 
 msgid "Success"
 msgstr "成功しました"
@@ -2220,7 +2220,7 @@ msgid "Support link"
 msgstr "サポートリンク"
 
 msgid "Switch to Ionic design"
-msgstr "イオン設計に切り替え"
+msgstr "Ionic デザインに切り替え"
 
 msgid "System"
 msgstr "システム"
@@ -2253,10 +2253,10 @@ msgid "Text"
 msgstr "テキスト"
 
 msgid "Thank you"
-msgstr "ありがとう"
+msgstr "ありがとうございます"
 
 msgid "Thank you for your request.<br />We'll answer you as soon as possible."
-msgstr "ご依頼ありがとうございます。 できるだけ早く@@<br />お答えします。"
+msgstr "ご依頼ありがとうございます。<br />できるだけ早くお答えします。"
 
 msgid "The account has been successfully saved"
 msgstr "アカウントは正常に保存されました"
@@ -2277,7 +2277,7 @@ msgid "The app_id parameter is required"
 msgstr "app_id パラメータは必須です"
 
 msgid "The certificate request failed 3 times, please check the certificate information, your panel credentials, and everything else.<br />If your certificate is valid, you can try to upload to panel only."
-msgstr "証明書要求が3回失敗しました。証明書情報、パネルの資格情報、その他すべてを確認してください。 証明書が有効な@@<br />場合は、パネルにのみアップロードできます。"
+msgstr "証明書要求が3回失敗しました。証明書情報、パネルの資格情報、その他すべてを確認してください。<br />証明書が有効な場合は、パネルにのみアップロードできます。"
 
 msgid "The email is required"
 msgstr "Eメールは必須です"
@@ -2382,13 +2382,13 @@ msgid "Thumbnail"
 msgstr "サムネイル"
 
 msgid "Time spent in application"
-msgstr "申請にかかった時間"
+msgstr "アプリの利用時間"
 
 msgid "Timezone"
 msgstr "タイムゾーン"
 
 msgid "Tip"
-msgstr "ヒント"
+msgstr "チップ"
 
 msgid "Title"
 msgstr "タイトル"
@@ -2406,7 +2406,7 @@ msgid "To be able to use ClamAV you must have it installed on your server and co
 msgstr "ClamAVを使用できるようにするには、サーバーにインストールし、ドキュメントに応じて設定する必要があります。"
 
 msgid "Toggle"
-msgstr "[切り替え]"
+msgstr "切り替え"
 
 msgid "Toggle off"
 msgstr "オフに切り替え"
@@ -2415,10 +2415,10 @@ msgid "Toggle on"
 msgstr "オンに切り替え"
 
 msgid "Toggle's Handle off"
-msgstr "ハンドルがオフの切り替え"
+msgstr "トグルのハンドル オフ"
 
 msgid "Toggle's Handle on"
-msgstr "[ハンドル] をオンに切り替え"
+msgstr "トグルのハンドル オン"
 
 msgid "Token"
 msgstr "トークン"
@@ -2427,13 +2427,13 @@ msgid "Tooltip"
 msgstr "ツールチップ"
 
 msgid "Top"
-msgstr "[上部"
+msgstr "上部"
 
 msgid "Top installs"
 msgstr "上位インストール"
 
 msgid "Top position"
-msgstr "上位位置"
+msgstr "上部の位置"
 
 msgid "Top visits"
 msgstr "トップの訪問"
@@ -2448,7 +2448,7 @@ msgid "Total"
 msgstr "合計"
 
 msgid "Total Excl. Tax"
-msgstr "合計を除きます。 税金"
+msgstr "税抜合計"
 
 msgid "Total installs"
 msgstr "合計インストール数"
@@ -2481,7 +2481,7 @@ msgid "Unable to calculate the route."
 msgstr "ルートを計算できません。"
 
 msgid "Unable to connect in HTTPS or to validate the SSL Certificate.<br />Check if your are not in `Staging`"
-msgstr "HTTPS で接続できない、または SSL 証明書を検証できない。 あなたが`ステージング`にいない@@<br />かどうかを確認する"
+msgstr "HTTPS で接続できない、または SSL 証明書を検証できません。<br />`Staging` ではないか確認してください"
 
 msgid "Unable to find TC with id %s."
 msgstr "ID%s の TC が見つかりません。"
@@ -2493,16 +2493,16 @@ msgid "Unrecognized image format"
 msgstr "認識できない画像形式"
 
 msgid "Until:"
-msgstr "終了日:"
+msgstr "期限:"
 
 msgid "Updated at"
-msgstr "更新日時:"
+msgstr "更新日時"
 
 msgid "Upload to panel"
 msgstr "パネルにアップロード"
 
 msgid "Upload your json here"
-msgstr "ここにあなたのjsonをアップロード"
+msgstr "ここに json をアップロード"
 
 msgid "Use card design"
 msgstr "カードデザインを使用"
@@ -2538,7 +2538,7 @@ msgid "Valid until"
 msgstr "有効期限"
 
 msgid "Validate"
-msgstr "検証します"
+msgstr "検証"
 
 msgid "Validated points"
 msgstr "検証されたポイント"
@@ -2562,7 +2562,7 @@ msgid "Videos"
 msgstr "ビデオ"
 
 msgid "View"
-msgstr "[表示]"
+msgstr "表示"
 
 msgid "View full article"
 msgstr "記事全文を表示"
@@ -2622,10 +2622,10 @@ msgid "Winners list"
 msgstr "受賞者一覧"
 
 msgid "WordPress"
-msgstr "ワードプレス"
+msgstr "WordPress"
 
 msgid "Wordpress"
-msgstr "ワードプレス"
+msgstr "WordPress"
 
 msgid "Year"
 msgstr "年"
@@ -2637,7 +2637,7 @@ msgid "Yes"
 msgstr "はい"
 
 msgid "You already have this user in your contact"
-msgstr "あなたはすでにあなたの連絡先にこのユーザーを持っています"
+msgstr "このユーザーは既に連絡先に登録されています"
 
 msgid "You are about to delete this certificate, Are you sure ?"
 msgstr "この証明書を削除しようとしています。よろしいですか？"
@@ -2646,10 +2646,10 @@ msgid "You are gone offline"
 msgstr "オフラインになりました"
 
 msgid "You are not allowed to delete a feature!"
-msgstr "フィーチャーの削除は許可されていません!"
+msgstr "機能の削除は許可されていません！"
 
 msgid "You are using a custom SMTP configuration, and the following white-label administrator <b>%s</b> is requesting his domain <b>%s</b> to be white-listed.<br /><br />You can add his domain in your SMTP provider panel and send him the instructions to configure it for his domain."
-msgstr "<b>カスタムSMTP構成を使用していて、次のホワイトラベル管理者%s <b>が</b> ドメイン%sをホワイトリストに登録するよう要求しています。</b> SMTPプロバイダパネルに自分のドメインを追加し、彼のドメインのために設定するための指示を送信することができます。<br /><br />"
+msgstr "カスタム SMTP 設定を使用しており、次のホワイトラベル管理者 <b>%s</b> が、ドメイン <b>%s</b> のホワイトリスト登録を要求しています。<br /><br />SMTP プロバイダのパネルにそのドメインを追加し、ドメインを設定するための手順を管理者に送信してください。"
 
 msgid "You can add allowed extensions, please note that .php, .js & .ico are strictly forbidden and can't be added"
 msgstr "許可された拡張子を追加することができます。.php、.js＆.icoは厳密に禁止されており、追加することはできません"
@@ -2700,16 +2700,16 @@ msgid "You have to chose a start and an end date."
 msgstr "開始日と終了日を選択する必要があります。"
 
 msgid "You must be logged in to like something!"
-msgstr "あなたが何かを好きにするためにログインする必要があります！"
+msgstr "「いいね」するにはログインが必要です！"
 
 msgid "You must be logged in to post a comment"
 msgstr "コメントを投稿するにはログインする必要があります"
 
 msgid "You must fill ip & port."
-msgstr "あなたは、IPを埋める必要があります & ポート."
+msgstr "IP とポートを入力する必要があります。"
 
 msgid "You must first complete the current category creation process"
-msgstr "あなたは必ず"
+msgstr "まず、現在のカテゴリ作成プロセスを完了する必要があります"
 
 msgid "You must give the permission to the app to add a contact to your address book"
 msgstr "連絡先をアドレス帳に追加するには、アプリに許可を与える必要があります"
@@ -2763,13 +2763,13 @@ msgid "Your request has been successfully sent, please wait for your administrat
 msgstr "リクエストは正常に送信されました。管理者が応答するまでお待ちください。"
 
 msgid "Your subscription has been deleted successfully."
-msgstr "購読が正常に削除されました。"
+msgstr "サブスクリプションが正常に削除されました。"
 
 msgid "Your subscription status has been changed successfully."
 msgstr "サブスクリプションのステータスが正常に変更されました。"
 
 msgid "Youtube"
-msgstr "ユーチューブ"
+msgstr "YouTube"
 
 msgid "Zip code"
 msgstr "郵便番号"
@@ -2796,13 +2796,13 @@ msgid "days"
 msgstr "日間"
 
 msgid "disabled"
-msgstr "無効になっています"
+msgstr "無効"
 
 msgid "en"
 msgstr "en"
 
 msgid "enabled"
-msgstr "が有効になっています"
+msgstr "有効"
 
 msgid "form submit, search, validation, confirmation"
 msgstr "フォームの送信、検索、検証、確認"
@@ -2820,7 +2820,7 @@ msgid "hours"
 msgstr "時間"
 
 msgid "iOS & Android"
-msgstr "iOSとアンドロイド"
+msgstr "iOS と Android"
 
 msgid "iOS Source"
 msgstr "iOSのソース"
@@ -2832,7 +2832,7 @@ msgid "iOS base Bundle ID must contain only letters, dots & minus."
 msgstr "iOSベースのバンドルIDには、文字、ドット、マイナスのみを含める必要があります。"
 
 msgid "iOS base Bundle ID must contain only letters, dots & minus with at least two dots.<br />Example: com.mydomain.admin"
-msgstr "iOSベースのバンドルIDには、少なくとも2つのドットを持つ文字、ドット、マイナスのみを含める必要があります。 <br />例:ドメイン管理"
+msgstr "iOS ベースのバンドル ID には、文字、ドット、マイナスのみを使用でき、ドットは少なくとも2つ必要です。<br />例: com.mydomain.admin"
 
 msgid "iOS base Bundle ID can't be empty."
 msgstr "iOS ベースのバンドル ID は空にできません。"
@@ -2847,10 +2847,10 @@ msgid "iTunes"
 msgstr "iTunes"
 
 msgid "iTunes Connect providers"
-msgstr "iTunesコネクトプロバイダ"
+msgstr "iTunes Connect プロバイダ"
 
 msgid "idle"
-msgstr "アイドル状態です"
+msgstr "アイドル"
 
 msgid "informative, modal"
 msgstr "情報、モーダル"
@@ -2859,7 +2859,7 @@ msgid "is updated once a day"
 msgstr "は 1 日に 1 回更新されます。"
 
 msgid "loading"
-msgstr "ロードします"
+msgstr "読み込み中"
 
 msgid "low"
 msgstr "低い"
@@ -2877,19 +2877,19 @@ msgid "nd"
 msgstr "nd"
 
 msgid "never"
-msgstr "決して"
+msgstr "なし"
 
 msgid "online"
 msgstr "オンラインで"
 
 msgid "phone, locate, facebook, email, etc.."
-msgstr "電話, 見つけます, Facebookの, 電子メールなど."
+msgstr "電話、位置情報、Facebook、メールなど。"
 
 msgid "picture"
 msgstr "ピクチャ"
 
 msgid "posts"
-msgstr "投稿します"
+msgstr "投稿"
 
 msgid "remaining characters"
 msgstr "残りの文字"
@@ -2916,16 +2916,16 @@ msgid "%s ago"
 msgstr "%s 前"
 
 msgid "second"
-msgstr "二番目"
+msgstr "秒"
 
 msgid "seconds"
-msgstr "秒です"
+msgstr "秒"
 
 msgid "this feature is globally disabled!"
 msgstr "この機能はグローバルに無効になっています。"
 
 msgid "title"
-msgstr "のタイトルです"
+msgstr "タイトル"
 
 msgid "titles"
 msgstr "タイトル"
@@ -2937,7 +2937,7 @@ msgid "to add a subfolder."
 msgstr "をクリックして、サブフォルダを追加します。"
 
 msgid "twitter"
-msgstr "ツイッター"
+msgstr "Twitter"
 
 msgid "unreachable"
 msgstr "到達不能です"

@@ -16,21 +16,19 @@ msgstr ""
 "X-Generator: Weblate 3.3\n"
 
 msgid "Additionnal Information"
-msgstr "Добавить информацию"
+msgstr "Дополнительная информация"
 
 msgid "An error occurred while deleting the push. Please try again later."
-msgstr ""
-"Произошла ошибка во время удаления этого ответа. Пожалуйста, повторите "
-"попытку позже."
+msgstr "Произошла ошибка при удалении push-сообщения. Пожалуйста, повторите попытку позже."
 
 msgid "And a radius (in Km):"
-msgstr "Задать радиус в км"
+msgstr "И радиус (в км):"
 
 msgid "Android"
 msgstr "Android"
 
 msgid "Creation date"
-msgstr "Дата отправки"
+msgstr "Дата создания"
 
 msgid "Custom URL"
 msgstr "Пользовательский URL"
@@ -54,10 +52,10 @@ msgid "No device found for this user"
 msgstr "Не найдено устройство для данного пользователя"
 
 msgid "No items."
-msgstr "Нечего отправлять."
+msgstr "Нет элементов."
 
 msgid "Open a feature or a custom URL"
-msgstr "Открытые функции или пользовательский URL"
+msgstr "Открыть функцию или пользовательский URL"
 
 msgid "Pending"
 msgstr "В ожидании"
@@ -69,13 +67,13 @@ msgid "Project Number"
 msgstr "Номер Проекта"
 
 msgid "Push Notifications"
-msgstr "Push-сообщения"
+msgstr "Push-уведомления"
 
 msgid "Push Notifications Settings"
-msgstr "Настройки Push-сообщения"
+msgstr "Настройки push-уведомлений"
 
 msgid "Push successfully deleted."
-msgstr "Пользователь успешно удален"
+msgstr "Push-сообщение успешно удалено."
 
 msgid "Radius"
 msgstr "Радиус"
@@ -90,10 +88,10 @@ msgid "Send to all my users"
 msgstr "Послать всем своим пользователям"
 
 msgid "Send to no specific locations"
-msgstr "Отправить в определенное место"
+msgstr "Отправить без привязки к местоположению"
 
 msgid "Send to specific topics"
-msgstr "Отправить в определенное место"
+msgstr "Отправить по определённым темам"
 
 msgid "Send to specific users"
 msgstr "Отправить определенным пользователям"
@@ -102,7 +100,7 @@ msgid "Sending date"
 msgstr "Дата отправки"
 
 msgid "The duration limit must be higher than the sent date"
-msgstr "Время действия должно быть больше, чем указанная дата"
+msgstr "Срок действия должен быть позже даты отправки"
 
 msgid "Topics"
 msgstr "Темы"
@@ -114,16 +112,13 @@ msgid "You must choose a topic before sending your message."
 msgstr "Вы должны выбрать тему перед отправкой сообщения."
 
 msgid "You must choose at least one user before sending your message."
-msgstr ""
-"Вы должны выбрать по крайней мере одного пользователь перед отправкой "
-"сообщения."
+msgstr "Вы должны выбрать хотя бы одного пользователя перед отправкой сообщения."
 
 msgid "Your app must be published to send a push notification."
-msgstr ""
-"Ваше приложение должно быть опубликовано, чтобы отправлять  Push-уведомления."
+msgstr "Ваше приложение должно быть опубликовано, чтобы отправлять push-уведомления."
 
 msgid "Your message has been saved successfully."
-msgstr "Ваша карта лояльности была успешно сохранена"
+msgstr "Ваше сообщение успешно сохранено."
 
 msgid ""
 "Your message has been saved successfully and will be sent at the entered date"

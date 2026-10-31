@@ -28,20 +28,20 @@ msgstr "Albümler"
 
 msgid ""
 "An error occurred while deleting you images gallery. Please try again later."
-msgstr "Resim galeriniz silinirken bir hata oluştu daha sonra deneyiniz."
+msgstr "Resim galeriniz silinirken bir hata oluştu. Lütfen daha sonra tekrar deneyin."
 
 msgid "An error occurred while deleting your album. Thanks for trying later."
-msgstr "Albümünüzü silinirken bir hata oluştu. Daha sonra yeniden deneyin."
+msgstr "Albümünüz silinirken bir hata oluştu. Lütfen daha sonra tekrar deneyin."
 
 msgid ""
 "An error occurred while deleting your playlist. Thanks for trying later."
-msgstr "Çalma listenizi silinirken bir hata oluştu. Daha sonra deneyiniz."
+msgstr "Çalma listeniz silinirken bir hata oluştu. Lütfen daha sonra tekrar deneyin."
 
 msgid "An error occurred while deleting your track. Thanks for trying later."
-msgstr "Şarkınız silinirken bir hata oluştu daha sonra yeniden deneyiniz."
+msgstr "Parçanız silinirken bir hata oluştu. Lütfen daha sonra tekrar deneyin."
 
 msgid "An error occurred while loading pictures. Please try later."
-msgstr "Resminiz yüklenirken bir hata oluştu dah sonra yeniden deneyiniz."
+msgstr "Resimler yüklenirken bir hata oluştu. Lütfen daha sonra tekrar deneyin."
 
 msgid "An error occurred while loading the media."
 msgstr "Medya yüklenirken bir hata oluştu."
@@ -50,39 +50,34 @@ msgid "An error occurred while loading the radio."
 msgstr "Radyo yüklenirken bir hata oluştu."
 
 msgid "An error occurred while loading videos. Please try later."
-msgstr "Video yüklenirken bir hata oluştu. Lütfen daha sonra deneyin."
+msgstr "Videolar yüklenirken bir hata oluştu. Lütfen daha sonra tekrar deneyin."
 
 msgid ""
 "An error occurred while retrieving your page. Please check your page id."
-msgstr "Sayfa alırken bir hata oluştu. Lütfen sayfa kimliğinizi kontrol edin."
+msgstr "Sayfanız alınırken bir hata oluştu. Lütfen sayfa kimliğinizi kontrol edin."
 
 msgid ""
 "An error occurred while saving your images gallery. Please try again later."
-msgstr ""
-"Görüntüler galerisi kaydedilirken bir hata oluştu. Daha sonra tekrar "
-"deneyiniz."
+msgstr "Resim galeriniz kaydedilirken bir hata oluştu. Lütfen daha sonra tekrar deneyin."
 
 msgid "An error occurred while saving your playlist. Thanks for trying later."
-msgstr ""
-"Çalma listenizi kaydedilirken bir hata oluştu. Daha sonra yeniden deneyin."
+msgstr "Çalma listeniz kaydedilirken bir hata oluştu. Lütfen daha sonra tekrar deneyin."
 
 msgid ""
 "An error occurred while saving your videos gallery. Please try again later."
-msgstr ""
-"Videolarınızın galerisi kaydedilirken bir hata oluştu. Daha sonra tekrar "
-"deneyiniz."
+msgstr "Video galeriniz kaydedilirken bir hata oluştu. Lütfen daha sonra tekrar deneyin."
 
 msgid "Are you sure you don't want to create an album for these tracks?"
-msgstr "Bu parçalar için bir albüm oluşturmak istemediğinizden emin misin?"
+msgstr "Bu parçalar için bir albüm oluşturmak istemediğinizden emin misiniz?"
 
 msgid "Are you sure you don't want to create an album for this track?"
-msgstr "Bu parca için bir albüm oluşturmak istemediğinizden eminmisiniz?"
+msgstr "Bu parça için bir albüm oluşturmak istemediğinizden emin misiniz?"
 
 msgid "Are you sure you want to delete this album?"
 msgstr "Bu albümü silmek istediğinizden emin misiniz?"
 
 msgid "Are you sure you want to delete this album (this won't delete tracks)?"
-msgstr "Bu albümü (bu şarkıları silmez) silmek istediğinizden emin misiniz?"
+msgstr "Bu albümü silmek istediğinizden emin misiniz (parçalar silinmez)?"
 
 msgid "Are you sure you want to delete this playlist?"
 msgstr "Bu oynatma listesini silmek istediğinizden emin misiniz?"
@@ -94,7 +89,7 @@ msgid "Artist:"
 msgstr "Sanatçı:"
 
 msgid "Audio"
-msgstr "Audio"
+msgstr "Ses"
 
 msgid "Channel"
 msgstr "Kanal"
@@ -103,13 +98,13 @@ msgid "Choose an album"
 msgstr "Bir albüm seç"
 
 msgid "Custom"
-msgstr "Müşteri"
+msgstr "Özel"
 
 msgid "Delete this gallery?"
 msgstr "Bu galeri silinsin mi?"
 
 msgid "Facebook page ID"
-msgstr "Facebook sayfa KİMLİĞİ(ID)"
+msgstr "Facebook sayfa kimliği"
 
 msgid "Feed URL"
 msgstr "Besleme URL'si"
@@ -121,34 +116,34 @@ msgid "Flickr API settings can't be found."
 msgstr "Flickr API ayarları bulunamadı."
 
 msgid "Flickr user"
-msgstr "Flickr kullanıcı"
+msgstr "Flickr kullanıcısı"
 
 msgid "Gallery Name"
-msgstr "Galeri İsmi"
+msgstr "Galeri adı"
 
 msgid "Group"
 msgstr "Grup"
 
 msgid "If set, will appear instead of the Facebook page Id in app."
-msgstr "Eğer ayarlanırsa, Facebook sayfa Kimliği  uygulamada görünecektir"
+msgstr "Ayarlanırsa uygulamada Facebook sayfa kimliği yerine görüntülenir."
 
 msgid "I'm listening to"
 msgstr "Dinliyorum"
 
 msgid "I'm listening to $1 from $2 on $3 app."
-msgstr "$3 uygulamasında $2 sanatçıdan $1 dinliyorum"
+msgstr "$3 uygulamasında $2 sanatçısından $1 dinliyorum"
 
 msgid "I'm listening to $1 on $2 app."
-msgstr "$2 ugulamasında $1 dinliyorum"
+msgstr "$2 uygulamasında $1 dinliyorum"
 
 msgid "Images gallery has been saved successfully"
-msgstr "Görüntüler galerisi başarıyla kaydedildi"
+msgstr "Resim galerisi başarıyla kaydedildi"
 
 msgid "Instagram"
 msgstr "Instagram"
 
 msgid "Instagram API settings can't be found."
-msgstr "Instagram API ayarları bulunamıyor"
+msgstr "Instagram API ayarları bulunamadı."
 
 msgid "Last update:"
 msgstr "Son güncelleme:"
@@ -167,22 +162,22 @@ msgid "No album found"
 msgstr "Albüm bulunamadı"
 
 msgid "No artist found"
-msgstr "Şarkıcı bulunamadı"
+msgstr "Sanatçı bulunamadı"
 
 msgid "No current stream to play so far."
-msgstr "Hiçbir istasyon oynatmak için bulunamadı."
+msgstr "Şu ana kadar oynatılacak akış yok."
 
 msgid "No track found"
 msgstr "Şarkı bulunamadı"
 
 msgid "No valid Facebook API key and secret."
-msgstr "Anahtar ve gizli geçerli bir Facebook API."
+msgstr "Geçerli Facebook API anahtarı ve gizli anahtarı yok."
 
 msgid "PLAYER"
 msgstr "ÇALAR"
 
 msgid "Page ID"
-msgstr "Sayfa NUMARASI(ID)"
+msgstr "Sayfa ID"
 
 msgid "Page not found"
 msgstr "Sayfa bulunamadı"
@@ -209,7 +204,7 @@ msgid "Playlists"
 msgstr "Şarkı listesi"
 
 msgid "Please specify the page ID"
-msgstr "Lütfen sayfa KİMLİĞİ(ID) belirtin"
+msgstr "Lütfen sayfa ID'sini belirtin"
 
 msgid "Podcast"
 msgstr "Podcast"
@@ -221,7 +216,7 @@ msgid "Read all"
 msgstr "Hepsini oku"
 
 msgid "Reload album list?"
-msgstr "albüm listesi yeniden yükle?"
+msgstr "Albüm listesi yeniden yüklensin mi?"
 
 msgid "Required field"
 msgstr "Gerekli alan"
@@ -236,10 +231,10 @@ msgid "This element is not an album."
 msgstr "Bu eleman bir albüm değil."
 
 msgid "Track"
-msgstr "şarkı"
+msgstr "Şarkı"
 
 msgid "Tracks"
-msgstr "şarkılar"
+msgstr "Şarkılar"
 
 msgid "Type"
 msgstr "Çeşit"
@@ -254,7 +249,7 @@ msgid "Vimeo"
 msgstr "Vimeo"
 
 msgid "buy"
-msgstr "satınal"
+msgstr "satın al"
 
 #. machine-translated (2026-10), to be reviewed
 msgid "by"
@@ -267,7 +262,7 @@ msgid "empty"
 msgstr "boş"
 
 msgid "from"
-msgstr "gönderici"
+msgstr "kimden"
 
 msgid "hide"
 msgstr "gizle"
@@ -285,7 +280,7 @@ msgid "on"
 msgstr "üstünde"
 
 msgid "pause"
-msgstr "durdur"
+msgstr "duraklat"
 
 msgid "play"
 msgstr "çal"

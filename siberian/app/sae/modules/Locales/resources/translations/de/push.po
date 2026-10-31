@@ -18,9 +18,7 @@ msgid "Additionnal Information"
 msgstr "Zusätzliche Informationen"
 
 msgid "An error occurred while deleting the push. Please try again later."
-msgstr ""
-"Ein Fehler beim Speichern der PushNachricht ist aufgetreten. Bitte versuchen "
-"Sie es zu einem späteren Zeitpunkt noch einmal"
+msgstr "Beim Löschen der Push-Nachricht ist ein Fehler aufgetreten. Bitte versuchen Sie es später erneut."
 
 msgid "And a radius (in Km):"
 msgstr "Und ein Radius (in Km):"
@@ -53,16 +51,16 @@ msgid "No device found for this user"
 msgstr "Kein Gerät für diesen Benutzer gefunden"
 
 msgid "No items."
-msgstr "Keine Gegenstände"
+msgstr "Keine Elemente."
 
 msgid "Open a feature or a custom URL"
-msgstr "Ein Modul oder eine Seite öffnen"
+msgstr "Eine Funktion oder eine benutzerdefinierte URL öffnen"
 
 msgid "Pending"
-msgstr "anstehend"
+msgstr "Ausstehend"
 
 msgid "Please enter an expiration date for your message:"
-msgstr "Bitte ein Ablaufdatum für deine Nachricht eingeben:"
+msgstr "Bitte geben Sie ein Ablaufdatum für Ihre Nachricht ein:"
 
 msgid "Project Number"
 msgstr "Projektnummer"
@@ -71,51 +69,49 @@ msgid "Push Notifications"
 msgstr "Push-Benachrichtigungen"
 
 msgid "Push Notifications Settings"
-msgstr "Push-Benachrichtigungen Einstellungen "
+msgstr "Einstellungen für Push-Benachrichtigungen"
 
 msgid "Push successfully deleted."
 msgstr "Push Nachricht erfolgreich gelöscht"
 
 msgid "Radius"
-msgstr "RADIUS"
+msgstr "Radius"
 
 msgid "Send to a specific location"
-msgstr "Senden Sie es an einen bestimmten Ort"
+msgstr "An einen bestimmten Ort senden"
 
 msgid "Send to all applications"
 msgstr "An alle Anwendungen senden"
 
 msgid "Send to all my users"
-msgstr "Senden an alle meine Benutzer"
+msgstr "An alle meine Benutzer senden"
 
 msgid "Send to no specific locations"
-msgstr "Senden an alle"
+msgstr "An keine bestimmten Orte senden"
 
 msgid "Send to specific topics"
-msgstr "zu einem bestimmten Topic öffnen"
+msgstr "An bestimmte Topics senden"
 
 msgid "Send to specific users"
-msgstr "Senden Sie an bestimmte Benutzer"
+msgstr "An bestimmte Benutzer senden"
 
 msgid "Sending date"
 msgstr "Sendedatum"
 
 msgid "The duration limit must be higher than the sent date"
-msgstr "Die Dauer Grenze muss höher als die Sendedatum sein"
+msgstr "Das Ablaufdatum muss nach dem Sendedatum liegen"
 
 msgid "Topics"
-msgstr "Überschrift"
+msgstr "Themen"
 
 msgid "Users"
 msgstr "Benutzer"
 
 msgid "You must choose a topic before sending your message."
-msgstr "Sie müssen eine Überschrift eintragen um fortfahren zu können."
+msgstr "Sie müssen ein Topic wählen, bevor Sie Ihre Nachricht senden."
 
 msgid "You must choose at least one user before sending your message."
-msgstr ""
-"Du musst mindestens einen Benutzer auswählen, bevor du deine Nachricht "
-"senden kannst."
+msgstr "Sie müssen mindestens einen Benutzer auswählen, bevor Sie Ihre Nachricht senden."
 
 msgid "Your app must be published to send a push notification."
 msgstr ""
@@ -127,18 +123,14 @@ msgstr "Ihre Nachricht wurde erfolgreich gespeichert."
 
 msgid ""
 "Your message has been saved successfully and will be sent at the entered date"
-msgstr ""
-"Ihre Nachricht wurde erfolgreich gespeichert und wird am eingegebenen Datum "
-"gesendet werden"
+msgstr "Ihre Nachricht wurde erfolgreich gespeichert und wird am eingegebenen Datum gesendet"
 
 msgid ""
 "Your message has been saved successfully and will be sent in a few minutes"
-msgstr ""
-"Ihre Nachricht wurde erfolgreich gespeichert und wird in wenigen Minuten "
-"gesendet werden"
+msgstr "Ihre Nachricht wurde erfolgreich gespeichert und wird in wenigen Minuten gesendet"
 
 msgid "and users entering the area"
-msgstr "und Anwender im Bereich"
+msgstr "und Benutzer, die den Bereich betreten"
 
 msgid "for a limited period"
 msgstr "für einen begrenzten Zeitraum"

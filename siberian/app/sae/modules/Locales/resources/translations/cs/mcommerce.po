@@ -33,7 +33,7 @@ msgid "Add Discount"
 msgstr "Přidat slevu"
 
 msgid "Add a format"
-msgstr "Přidat"
+msgstr "Přidat formát"
 
 #. machine-translated (2026-10), to be reviewed
 msgid "Add card"
@@ -44,10 +44,10 @@ msgid "Add gratuity (Optional)"
 msgstr "Přidat spropitné (volitelné)"
 
 msgid "Add options"
-msgstr "Přidat formát"
+msgstr "Přidat možnosti"
 
 msgid "Add pictures"
-msgstr "Přidat obrázek"
+msgstr "Přidat obrázky"
 
 msgid "Add to cart"
 msgstr "Přidat do košíku"
@@ -75,12 +75,12 @@ msgid ""
 msgstr "Při platbě došlo k chybě. Zkuste to prosím později"
 
 msgid "An error occurred while proceeding your order:"
-msgstr "Při zpracování Vaší platby došlo k chybě"
+msgstr "Při zpracování objednávky došlo k chybě:"
 
 msgid ""
 "An error occurred while proceeding your order. Please, check the following "
 "information:"
-msgstr "Při objednávce došlo k chybě. Zkuste to prosím později"
+msgstr "Při zpracování objednávky došlo k chybě. Zkontrolujte prosím následující informace:"
 
 msgid "Are you sure you want to close without saving"
 msgstr "Opravdu chcete zavřít bez uložení?"
@@ -99,7 +99,7 @@ msgid "Are you sure you want to remove this product?"
 msgstr "Opravdu chcete smazat tento produkt?"
 
 msgid "At least one option is required:"
-msgstr "Je vyžadován alespoň jeden formát"
+msgstr "Je vyžadována alespoň jedna možnost:"
 
 #. machine-translated (2026-10), to be reviewed
 msgid "Birthday"
@@ -124,7 +124,7 @@ msgid "Card Number"
 msgstr "Číslo karty"
 
 msgid "Carry Out"
-msgstr "?Rozvoz?"
+msgstr "Osobní odběr"
 
 msgid "Cart"
 msgstr "Košík"
@@ -160,7 +160,7 @@ msgid "Client will pay"
 msgstr "Klient zaplatí"
 
 msgid "Code"
-msgstr "Název"
+msgstr "Kód"
 
 #. machine-translated (2026-10), to be reviewed
 msgid "Code used"
@@ -198,7 +198,7 @@ msgid "Create a store"
 msgstr "Vytvořit obchod/sklad"
 
 msgid "Credit Card by phone"
-msgstr "?Credit Card by phone?"
+msgstr "Platba kartou po telefonu"
 
 #. machine-translated (2026-10), to be reviewed
 msgid "Credit card (online payment)"
@@ -245,7 +245,7 @@ msgid "Delivery Method"
 msgstr "Způsob doručení"
 
 msgid "Delivery address"
-msgstr "Oblast pro doručení"
+msgstr "Adresa doručení"
 
 msgid "Delivery area"
 msgstr "Oblast pro doručení"
@@ -254,7 +254,7 @@ msgid "Delivery fees"
 msgstr "Poplatky za doručení"
 
 msgid "Delivery methods"
-msgstr "Způsob doručení"
+msgstr "Způsoby doručení"
 
 msgid "Delivery radius"
 msgstr "Okruh doručení"
@@ -270,7 +270,7 @@ msgid "Discound code"
 msgstr "Slevový kód"
 
 msgid "Discount"
-msgstr "Slevy"
+msgstr "Sleva"
 
 #. machine-translated (2026-10), to be reviewed
 msgid "Discount Settings"
@@ -362,7 +362,7 @@ msgid "Edit the choice list group"
 msgstr "Upravit skupinu seznamu voleb"
 
 msgid "Edit the discount %s"
-msgstr "Upravit účet \"%s\""
+msgstr "Upravit slevu %s"
 
 msgid "Edit the options group %s"
 msgstr "Upravit skupinu formátů %s"
@@ -469,7 +469,7 @@ msgid "Lastname"
 msgstr "Příjmení"
 
 msgid "Loading..."
-msgstr "Nahrávám"
+msgstr "Načítání..."
 
 msgid "Login"
 msgstr "Login"
@@ -478,7 +478,7 @@ msgid "MM"
 msgstr ""
 
 msgid "Manage discounts"
-msgstr "Správce ikon"
+msgstr "Správa slev"
 
 msgid "Manage user fields"
 msgstr "Struktura formuláře"
@@ -636,7 +636,7 @@ msgid "Payment Method"
 msgstr "Způsob platby"
 
 msgid "Payment methods:"
-msgstr "Způsob platby:"
+msgstr "Způsoby platby:"
 
 msgid "Paypal"
 msgstr "Paypal"
@@ -664,7 +664,7 @@ msgid "Phone"
 msgstr "Telefon"
 
 msgid "Phone number"
-msgstr "Telefonní číslo:"
+msgstr "Telefonní číslo"
 
 msgid "Picture"
 msgstr "Obrázek"
@@ -694,7 +694,7 @@ msgid "Postcode"
 msgstr "PSČ"
 
 msgid "Previous"
-msgstr "předchozí"
+msgstr "Předchozí"
 
 msgid "Price"
 msgstr "Cena"
@@ -719,13 +719,13 @@ msgid "Product"
 msgstr "Produkt"
 
 msgid "Product formats"
-msgstr "Specifikace produktů"
+msgstr "Formáty produktu"
 
 msgid "Product name"
 msgstr "Název produktu"
 
 msgid "Product successfully duplicated"
-msgstr "Kopie byla vytvořena"
+msgstr "Produkt byl úspěšně zkopírován"
 
 msgid "Product successfully saved"
 msgstr "Produkt úspěšně uložen"
@@ -760,10 +760,10 @@ msgid "Return URL:"
 msgstr "Návratová URL:"
 
 msgid "Review"
-msgstr "?Shrnutí?"
+msgstr "Shrnutí"
 
 msgid "Search:"
-msgstr "Vyhledat"
+msgstr "Vyhledat:"
 
 msgid "Secret Key"
 msgstr "Secret Key"
@@ -779,7 +779,7 @@ msgid "Show _MENU_ entries"
 msgstr "Zobrazit _MENU_ záznamů"
 
 msgid "Show search fields on product list ?"
-msgstr "Zobrazit vyhledávací okno?"
+msgstr "Zobrazit vyhledávací pole v seznamu produktů?"
 
 #. machine-translated (2026-10), to be reviewed
 msgid "Showing 0 to 0 of 0 entries"
@@ -803,7 +803,7 @@ msgid "Sorry we can't proceed to deliver your order. It has been canceled."
 msgstr "Omlouváme se, ale Vaši objednávku nelze doručit - byla zrušena"
 
 msgid "Status"
-msgstr "Status"
+msgstr "Stav"
 
 #. machine-translated (2026-10), to be reviewed
 msgid "Store choice"
@@ -822,7 +822,7 @@ msgid "Store successfully saved"
 msgstr "Obchod/sklad úspěšně uložen"
 
 msgid "Stored card information."
-msgstr "Informace o obchodu/skladu"
+msgstr "Informace o uložené kartě."
 
 msgid "Stores"
 msgstr "Obchody/sklady"
@@ -838,7 +838,7 @@ msgid "Subtotal"
 msgstr "Mezisoučet"
 
 msgid "Subtotal Excl. Tax"
-msgstr "Celkem bez DPH"
+msgstr "Mezisoučet bez DPH"
 
 #. machine-translated (2026-10), to be reviewed
 msgid "Subtotal before deduction"
@@ -920,10 +920,10 @@ msgid "Usable once"
 msgstr "Použitelné jednou"
 
 msgid "Use:"
-msgstr "Uživatel"
+msgstr "Použít:"
 
 msgid "Use my points?"
-msgstr "Použité body"
+msgstr "Použít mé body?"
 
 msgid "Username"
 msgstr "Uživatelské jméno"
@@ -974,7 +974,7 @@ msgid "You have to choose a delivery method."
 msgstr "Prosím, vyberte způsob doručení"
 
 msgid "You must be logged in to continue"
-msgstr "Pro psaní komentářů musíte být přihlášení"
+msgstr "Pro pokračování musíte být přihlášeni"
 
 #. machine-translated (2026-10), to be reviewed
 msgid "You used the code before"
@@ -996,7 +996,7 @@ msgid "Your phone number"
 msgstr "Vaše telefonní číslo"
 
 msgid "e.g., Sauces"
-msgstr "např. Velikosti"
+msgstr "např. Omáčky"
 
 #. machine-translated (2026-10), to be reviewed
 msgid "(filtered from _MAX_ total entries)"

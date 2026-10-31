@@ -30,19 +30,19 @@ msgid "Details"
 msgstr "विवरण"
 
 msgid "Drop your module here"
-msgstr "अपने मॉड्यूल को यहां छोड़ दें"
+msgstr "अपना मॉड्यूल यहाँ ड्रॉप करें"
 
 msgid "Host"
-msgstr "मेज़बान"
+msgstr "होस्ट"
 
 msgid "Install"
 msgstr "स्थापित करें"
 
 msgid "Installing"
-msgstr "स्थापित कर रहा है"
+msgstr "स्थापित हो रहा है"
 
 msgid "Installing your module"
-msgstr "अपने मॉड्यूल को स्थापित करना"
+msgstr "आपका मॉड्यूल स्थापित किया जा रहा है"
 
 msgid "Module successfully installed"
 msgstr "मॉड्यूल सफलतापूर्वक स्थापित किया गया"
@@ -54,13 +54,13 @@ msgid "Modules Installation"
 msgstr "मॉड्यूल स्थापना"
 
 msgid "Modules successfully installed!"
-msgstr "मॉड्यूल सफलतापूर्वक स्थापित!"
+msgstr "मॉड्यूल सफलतापूर्वक स्थापित किए गए!"
 
 msgid "Name"
 msgstr "नाम"
 
 msgid "No directory provided"
-msgstr "प्रदान की गई कोई निर्देशिका नहीं है"
+msgstr "कोई निर्देशिका प्रदान नहीं की गई"
 
 msgid "No module to install"
 msgstr "स्थापित करने के लिए कोई मॉड्यूल नहीं"
@@ -87,19 +87,19 @@ msgid "Please, fill out all fields"
 msgstr "कृपया, सभी फ़ील्ड भरें"
 
 msgid "Please update the module to the %s version before installing this update."
-msgstr "कृपया इस अद्यतन को स्थापित करने से पहले मॉड्यूल को%s संस्करण में अद्यतन करें।"
+msgstr "कृपया इस अपडेट को इंस्टॉल करने से पहले मॉड्यूल को %s संस्करण में अपडेट करें।"
 
 msgid "Please update your system to the %s version before installing this update."
-msgstr "कृपया इस अद्यतन को स्थापित करने से पहले अपने सिस्टम को%s संस्करण में अद्यतन करें।"
+msgstr "कृपया इस अपडेट को इंस्टॉल करने से पहले अपने सिस्टम को %s संस्करण में अपडेट करें।"
 
 msgid "Please wait, we're installing your module"
 msgstr "कृपया प्रतीक्षा करें, हम आपके मॉड्यूल को स्थापित कर रहे हैं"
 
 msgid "Port"
-msgstr "बंदरगाह"
+msgstr "पोर्ट"
 
 msgid "Processing the installation"
-msgstr "स्थापना के प्रसंस्करण"
+msgstr "इंस्टॉलेशन प्रोसेस हो रहा है"
 
 msgid "Progress"
 msgstr "प्रगति"
@@ -147,7 +147,7 @@ msgid "The package you have uploaded is invalid."
 msgstr "आपके द्वारा अपलोड किया गया पैकेज अमान्य है।"
 
 msgid "There is no CMS license key set."
-msgstr "वहाँ कोई सीएमएस लाइसेंस कुंजी सेट है."
+msgstr "कोई CMS लाइसेंस कुंजी सेट नहीं है।"
 
 msgid "This process may take few minutes, please do not refresh the page"
 msgstr "इस प्रक्रिया में कुछ मिनट लग सकते हैं, कृपया पृष्ठ को ताज़ा न करें"
@@ -162,7 +162,7 @@ msgid "Unable to connect to your FTP. Please check the connection information."
 msgstr "अपने FTP से कनेक्ट करने में असमर्थ। कृपया कनेक्शन जानकारी की जांच करें।"
 
 msgid "Unable to detect your site. Please make sure the entered path is correct."
-msgstr "आपकी साइट का पता लगाने में असमर्थ। कृपया सुनिश्चित करें कि प्रवेश किया गया पथ सही है।"
+msgstr "आपकी साइट का पता लगाने में असमर्थ। कृपया सुनिश्चित करें कि दर्ज किया गया पथ सही है।"
 
 msgid "Unable to extract the archive."
 msgstr "संग्रह को निकालने में असमर्थ।"
@@ -195,10 +195,10 @@ msgid "You already have installed this template."
 msgstr "आपने पहले से ही इस टेम्पलेट को स्थापित किया है।"
 
 msgid "You already have installed this update."
-msgstr "आप पहले से ही इस अद्यतन को स्थापित किया है।"
+msgstr "आपने यह अपडेट पहले ही इंस्टॉल कर लिया है।"
 
 msgid "Your system is up to date."
-msgstr "आपका सिस्टम अद्यतित है।"
+msgstr "आपका सिस्टम अप-टू-डेट है।"
 
 msgid "%s Update"
 msgstr "%s अद्यतन"

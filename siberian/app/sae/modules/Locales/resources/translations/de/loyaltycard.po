@@ -24,8 +24,7 @@ msgid "1 validated point ="
 msgstr "1 validierter Punkt ="
 
 msgid "An error occurred while retrieving QRCode. Please try again later"
-msgstr ""
-"Beim Abrufen von QR-Code ist ein Fehler aufgetreten. Bitte versuche es erneut"
+msgstr "Beim Abrufen des QR-Codes ist ein Fehler aufgetreten. Bitte versuchen Sie es später erneut"
 
 msgid "An error occurred while saving the password. Please try again later"
 msgstr ""
@@ -33,24 +32,20 @@ msgstr ""
 "einmal"
 
 msgid "An error occurred while saving your loyalty card."
-msgstr "Beim Speichern Ihrer Kundenkarte ist ein Fehler aufgetreten."
+msgstr "Beim Speichern Ihrer Treuekarte ist ein Fehler aufgetreten."
 
 msgid ""
 "An error occurred while saving your loyalty card. Please fill all fields in."
-msgstr ""
-"Beim Speichern Ihrer Kundenkarte ist ein Fehler aufgetreten. Bitte füllen "
-"Sie alle Felder aus."
+msgstr "Beim Speichern Ihrer Treuekarte ist ein Fehler aufgetreten. Bitte füllen Sie alle Felder aus."
 
 msgid "An error occurred while validating point. Please try again later."
-msgstr ""
-"Während der verwaltung der Punkte ist ein Fehler aufgetreten. Bitte "
-"versuchen Sie es später noch einmal."
+msgstr "Beim Validieren der Punkte ist ein Fehler aufgetreten. Bitte versuchen Sie es später erneut."
 
 msgid "An error occurred with your QRCode."
 msgstr "Bei Ihrem QR-Code ist ein Fehler aufgetreten."
 
 msgid "Card name"
-msgstr "Kartennamen"
+msgstr "Kartenname"
 
 msgid "Congratulations"
 msgstr "Gratulation"
@@ -71,10 +66,10 @@ msgid "Enter password"
 msgstr "Passwort eingeben"
 
 msgid "Enter the password"
-msgstr "Geben Sie das Kennwort"
+msgstr "Geben Sie das Kennwort ein"
 
 msgid "My new loyalty card"
-msgstr "Meine neue Kundenkarte"
+msgstr "Meine neue Treuekarte"
 
 msgid "My passwords"
 msgstr "Meine Passwörter"
@@ -83,7 +78,7 @@ msgid "No cards available"
 msgstr "Keine Karten verfügbar"
 
 msgid "Number of points"
-msgstr "Punkte"
+msgstr "Anzahl der Punkte"
 
 msgid "Please enter a name"
 msgstr "Bitte geben Sie einen Namen ein"
@@ -93,11 +88,10 @@ msgstr "Bitte geben Sie das Passwort ein"
 
 msgid ""
 "Please show your phone to the store person so that he enters his password"
-msgstr ""
-"Bitte zeigen Sie Ihr Telefon der Store-Person damit er sein Kennwort eingibt"
+msgstr "Bitte zeigen Sie Ihr Telefon dem Ladenpersonal, damit dieses sein Passwort eingibt"
 
 msgid "Point active"
-msgstr "Punkte aktiv"
+msgstr "Punkt aktiv"
 
 msgid "Point inactive"
 msgstr "Punkt inaktiv"
@@ -106,7 +100,7 @@ msgid "Point%s successfully validated"
 msgstr "Punkt %s erfolgreich verwaltet"
 
 msgid "Previous cards"
-msgstr "vorherige Karte"
+msgstr "Vorherige Karten"
 
 msgid "Reward"
 msgstr "Belohnung"
@@ -118,16 +112,16 @@ msgid "Scan QRCode"
 msgstr "QR-Code scannen"
 
 msgid "This card is uniq:"
-msgstr "Diese Karte ist einmalig:"
+msgstr "Diese Karte ist einzigartig:"
 
 msgid "Unlock by QRCode"
 msgstr "Entsperren über QR-Code"
 
 msgid "Unreadable QRCode, sorry."
-msgstr "Unlesbarer QR-Code, sorry."
+msgstr "Der QR-Code ist leider nicht lesbar."
 
 msgid "Use only once?"
-msgstr "Nur einmal benutzen?"
+msgstr "Nur einmal verwenden?"
 
 msgid "We are sorry but this card is temporarily blocked"
 msgstr "Es tut uns leid, aber diese Karte wurde vorübergehend gesperrt"
@@ -151,15 +145,13 @@ msgstr ""
 msgid ""
 "You have exceeded the number of attempts to validate points. Your card is "
 "locked for 24h"
-msgstr ""
-"Sie haben die Anzahl der Versuche, um Punkte zu verwalten überschritten. "
-"Ihre Karte ist für 24 Stunden gesperrt"
+msgstr "Sie haben die Anzahl der Versuche zur Validierung von Punkten überschritten. Ihre Karte ist für 24 Stunden gesperrt"
 
 msgid "You just finished your card"
 msgstr "Sie haben Ihre Karte aufgebraucht"
 
 msgid "You must be logged in to validate points"
-msgstr "Sie müssen angemeldet sein, um Punkte zu verwalten"
+msgstr "Sie müssen angemeldet sein, um Punkte zu validieren"
 
 msgid "Your loyalty card has been saved successfully"
 msgstr "Ihre Treue-Karte wurde erfolgreich gespeichert"
@@ -168,16 +160,16 @@ msgid "Your password must be 4 digits"
 msgstr "Ihr Passwort muss 4-stellig sein"
 
 msgid "is now yours!"
-msgstr "Es gehört nun Ihnen"
+msgstr "gehört jetzt Ihnen!"
 
 msgid "point"
-msgstr "point"
+msgstr "Punkt"
 
 msgid "point to validate"
-msgstr "Punkt überprüfen"
+msgstr "Punkt zu validieren"
 
 msgid "points to validate"
-msgstr "Punkte überprüfen"
+msgstr "Punkte zu validieren"
 
 msgid "validated points ="
 msgstr "validierte Punkte ="

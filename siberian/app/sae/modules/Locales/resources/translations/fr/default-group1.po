@@ -18,49 +18,37 @@ msgid " of the "
 msgstr " sur "
 
 msgid " setting."
-msgstr "réglage."
+msgstr " réglage."
 
 msgid "1 An error occurred while saving. Please try again later."
-msgstr ""
-"1 Une erreur s'est produite pendant la sauvegarde. S'il vous plaît essayer à "
-"nouveau plus tard."
+msgstr "1 Une erreur s'est produite pendant la sauvegarde. Veuillez réessayer plus tard."
 
 msgid "1An error occurred while saving. Please try again later."
-msgstr ""
-"1si erreur s'est produite pendant la sauvegarde. S'il vous plaît essayer à "
-"nouveau plus tard."
+msgstr "1Une erreur s'est produite pendant la sauvegarde. Veuillez réessayer plus tard."
 
 msgid "2 An error occurred while saving. Please try again later."
-msgstr ""
-"2 Une erreur s'est produite pendant la sauvegarde. S'il vous plaît essayer à "
-"nouveau plus tard."
+msgstr "2 Une erreur s'est produite pendant la sauvegarde. Veuillez réessayer plus tard."
 
 msgid "20,00 %"
 msgstr "20,00 %"
 
 msgid "2An error occurred while saving. Please try again later."
-msgstr ""
-"2Une erreur s'est produite pendant la sauvegarde. S'il vous plaît essayer à "
-"nouveau plus tard."
+msgstr "2Une erreur s'est produite pendant la sauvegarde. Veuillez réessayer plus tard."
 
 msgid "2Checkout subscription is inactive, tray again later."
-msgstr "Abonnement 2Checkout inactif, essayer à nouveau plus tard."
+msgstr "Abonnement 2Checkout inactif, veuillez réessayer plus tard."
 
 msgid "3 An error occurred while saving. Please try again later."
-msgstr ""
-"3 Une erreur est survenue pendant la sauvegarde. S'il vous plaît essayer à "
-"nouveau plus tard."
+msgstr "3 Une erreur s'est produite pendant la sauvegarde. Veuillez réessayer plus tard."
 
 msgid "3An error occurred while saving. Please try again later."
-msgstr ""
-"3Une erreur s'est produite pendant la sauvegarde. S'il vous plaît essayer à "
-"nouveau plus tard."
+msgstr "3Une erreur s'est produite pendant la sauvegarde. Veuillez réessayer plus tard."
 
 msgid "403 Forbidden"
-msgstr "403 Forbidden"
+msgstr "403 Accès interdit"
 
 msgid "A new user just registered!"
-msgstr "Un nouvel utilisateur enregistré!"
+msgstr "Un nouvel utilisateur vient de s'inscrire !"
 
 msgid ""
 "A user just made a new subscription on the Platform <b>%s</b>, for the "
@@ -92,9 +80,7 @@ msgstr "Activer l'utilisateur"
 
 msgid ""
 "Activating or Deactivating a parent subscription will apply to it's childs."
-msgstr ""
-"L'activation ou la désactivation d'un abonnement parent s'appliquent à aux "
-"souscriptions attachées."
+msgstr "L'activation ou la désactivation d'un abonnement parent s'applique à ses abonnements enfants."
 
 msgid "Activation"
 msgstr "Activation"
@@ -121,34 +107,28 @@ msgid "Album:"
 msgstr "Album:"
 
 msgid "All sessions are now migrated to Redis."
-msgstr "Les sessions sont désormais transférés vers Redis."
+msgstr "Les sessions sont désormais transférées vers Redis."
 
 msgid ""
 "An administrator of the Platform <b>%s</b>, activated your subscription for "
 "the Application <b>%s</b>"
-msgstr ""
-"Un administrateur de la plate-forme <b>%s</b>, viens d'activer votre "
-"abonnement pour l'application <b>%s</b>"
+msgstr "Un administrateur de la plate-forme <b>%s</b> vient d'activer votre abonnement pour l'application <b>%s</b>"
 
 msgid ""
 "An administrator of the Platform <b>%s</b>, cancelled your subscription for "
 "the Application <b>%s</b>"
-msgstr ""
-"Un administrateur de la plate-forme <b>%s</b>, viens d'annuler votre "
-"abonnement pour l'application <b>%s</b>"
+msgstr "Un administrateur de la plate-forme <b>%s</b> vient d'annuler votre abonnement pour l'application <b>%s</b>"
 
 msgid ""
 "An administrator of the Platform <b>%s</b>, deactivated your subscription "
 "for the Application <b>%s</b>"
-msgstr ""
-"Un administrateur de la plate-forme <b>%s</b>, viens de désactiver votre "
-"abonnement pour l'application <b>%s</b>"
+msgstr "Un administrateur de la plate-forme <b>%s</b> vient de désactiver votre abonnement pour l'application <b>%s</b>"
 
 msgid "An error occured while adding the block."
 msgstr "Une erreur s'est produite lors de l'ajout du bloc."
 
 msgid "An error occurred. Please try again later."
-msgstr "Une erreur inconnue s'est produite, veuillez réessayer plus tard."
+msgstr "Une erreur s'est produite. Veuillez réessayer plus tard."
 
 msgid "An error occurred, backButton is required!"
 msgstr "Une erreur s'est produite, backButton est nécessaire!"
@@ -160,10 +140,10 @@ msgid "An error occurred when generating the apk"
 msgstr "Une erreur s'est produite lors de la génération de l'APK"
 
 msgid "An error occurred while hidding the Android Status Bar."
-msgstr "Une erreur s'est produite lors cachent la Barre de Statut Android."
+msgstr "Une erreur s'est produite lors du masquage de la barre d'état Android."
 
 msgid "An error occurred while hidding the iOS Status Bar."
-msgstr "Une erreur s'est produite alors que cachent les iOS Barre d'État."
+msgstr "Une erreur s'est produite lors du masquage de la barre d'état iOS."
 
 msgid ""
 "An error occurred while importing line %s : impossible to save the object. "
@@ -174,9 +154,7 @@ msgstr ""
 "fichier."
 
 msgid "An error occurred while loading. Please, try again later."
-msgstr ""
-"Une erreur est survenue lors du chargement. Veuillez de réessayer "
-"ultérieurement."
+msgstr "Une erreur est survenue lors du chargement. Veuillez réessayer ultérieurement."
 
 msgid "An error occurred while saving the password. Please try again later."
 msgstr ""
@@ -184,14 +162,10 @@ msgstr ""
 "réessayer ultérieurement."
 
 msgid "An error occurred while saving your APK. Please try again later."
-msgstr ""
-"Une erreur s'est produite pendant la sauvegarde de votre fichier APK. S'il "
-"vous plaît essayer à nouveau plus tard."
+msgstr "Une erreur s'est produite pendant la sauvegarde de votre fichier APK. Veuillez réessayer plus tard."
 
 msgid "An error occurred while saving your Keystore. Please try again later."
-msgstr ""
-"Une erreur s'est produite pendant la sauvegarde de votre fichier de clés. "
-"S'il vous plaît essayer à nouveau plus tard."
+msgstr "Une erreur s'est produite pendant la sauvegarde de votre fichier de clés (Keystore). Veuillez réessayer plus tard."
 
 msgid "An error occurred while saving your page subtitle."
 msgstr ""
@@ -203,14 +177,10 @@ msgstr ""
 "réessayer ultérieurement."
 
 msgid "An error occurred while upload the APK. Please try again later."
-msgstr ""
-"Une erreur est survenue lors du téléchargement de l'APK. S'il vous plaît "
-"essayer à nouveau plus tard."
+msgstr "Une erreur est survenue lors du téléversement de l'APK. Veuillez réessayer plus tard."
 
 msgid "An error occurred while validating point<br />Please try again later."
-msgstr ""
-"Une erreur s'est produite lors de la validation de point<br />s'il vous "
-"Plaît essayer à nouveau plus tard."
+msgstr "Une erreur s'est produite lors de la validation du point<br />Veuillez réessayer plus tard."
 
 msgid "An unknown error occured."
 msgstr "Une erreur inconnue s'est produite."
@@ -219,14 +189,12 @@ msgid "An unknown error occurred, please try again later."
 msgstr "Une erreur inconnue s'est produite, veuillez réessayer plus tard."
 
 msgid "An unknown error occurred while listing applications."
-msgstr "Une erreur inconnue s'est produite tout en listant les applications."
+msgstr "Une erreur inconnue s'est produite lors de l'affichage de la liste des applications."
 
 msgid ""
 "An user of the Platform <b>%s</b>, cancelled the subscription of the "
 "Application <b>%s</b>"
-msgstr ""
-"Un utilisateur de la Plate-forme <b>%s</b> à l'annulation de la souscription "
-"de l'Application <b>%s</b>"
+msgstr "Un utilisateur de la Plate-forme <b>%s</b> a annulé l'abonnement de l'Application <b>%s</b>"
 
 msgid "Android SDK is marked for update."
 msgstr "Android SDK est marqué pour la mise à jour."
@@ -244,47 +212,45 @@ msgid "App name:"
 msgstr "Nom de l'application:"
 
 msgid "Application id %s not found."
-msgstr "Id de l'Application de %s est introuvable."
+msgstr "L'application d'id %s est introuvable."
 
 msgid "Application identifier:"
 msgstr "Identificateur de l'Application:"
 
 msgid "Application not found!"
-msgstr "L'Application ne trouve pas!"
+msgstr "Application introuvable !"
 
 msgid "Application template successfully imported."
-msgstr "Application du modèle importé avec succès."
+msgstr "Modèle d'application importé avec succès."
 
 msgid "Applications tied to this subscription"
 msgstr "Les Applications liées à cet abonnement"
 
 msgid "Apps Qty"
-msgstr "Apps Qté"
+msgstr "Qté d'applications"
 
 msgid "Authentication failed."
 msgstr "Échec de l'authentification."
 
 msgid "Automatic Cancellation"
-msgstr "Annulation Automatique"
+msgstr "Annulation automatique"
 
 msgid "Back button choice saved!"
-msgstr "Bouton de retour choix sauvé!"
+msgstr "Choix du bouton de retour enregistré !"
 
 msgid "Background Color"
 msgstr "Couleur de fond"
 
 msgid "Banner %s price"
-msgstr "Bannière %s prix"
+msgstr "Prix de la bannière %s"
 
 msgid "Banner %s store label"
-msgstr "Bannière %s store étiquette"
+msgstr "Libellé du store de la bannière %s"
 
 msgid ""
 "Be aware that if the code you enter here requires any kind of server "
 "interaction it will not work properly in offline mode."
-msgstr ""
-"Sachez que si le code que vous entrez ici nécessite aucune sorte de serveur "
-"d'interaction, il ne fonctionnera pas correctement en mode hors connexion."
+msgstr "Sachez que si le code que vous entrez ici nécessite une quelconque interaction avec le serveur, il ne fonctionnera pas correctement en mode hors ligne."
 
 msgid ""
 "Before publishing your Application you must upload a homepage background."
@@ -312,16 +278,16 @@ msgid "Booking details:"
 msgstr "Détails de la réservation :"
 
 msgid "Border Color"
-msgstr "Couleur De La Bordure"
+msgstr "Couleur de la bordure"
 
 msgid "Build Mobile Social Gaming"
-msgstr "Construire Mobile De Jeux Sociaux"
+msgstr "Créez des jeux sociaux mobiles"
 
 msgid "Build failed"
-msgstr "Build failed"
+msgstr "Échec du build"
 
 msgid "Build succeed"
-msgstr "Construire réussir"
+msgstr "Build réussi"
 
 msgid "CORE TEMPLATE"
 msgstr "MODÈLE DE BASE"
@@ -333,33 +299,31 @@ msgid "Cancel current Subscription"
 msgstr "Annuler l'Abonnement en cours"
 
 msgid "Cancel subscription"
-msgstr "Annuler L'Abonnement"
+msgstr "Annuler l'abonnement"
 
 msgid "Cancellation of your Subscription!"
-msgstr "L'annulation de votre Abonnement!"
+msgstr "Annulation de votre abonnement !"
 
 msgid ""
 "Cancelling a child subscription will only affect the concerned application."
-msgstr "Annulation d'un enfant d'abonnement n'affecte l'application concernée."
+msgstr "L'annulation d'un abonnement enfant n'affectera que l'application concernée."
 
 msgid ""
 "Cancelling a paid subscription will mark it as cancelled, and the "
 "subscription will automatically expire on it's expiration date."
-msgstr ""
-"L'annulation d'un abonnement sera annulé, et l'abonnement expirera "
-"automatiquement à leur date de péremption."
+msgstr "L'annulation d'un abonnement payant le marquera comme annulé, et l'abonnement expirera automatiquement à sa date d'expiration."
 
 msgid "Cancelling a parent subscription will also cancel it's childs."
-msgstr "Annulation d'un parent abonnement sera également annuler l'enfant."
+msgstr "L'annulation d'un abonnement parent annulera également ses abonnements enfants."
 
 msgid "Cannot find application from token."
-msgstr "Impossible de trouver l'application à partir de jeton."
+msgstr "Impossible de trouver l'application à partir du jeton."
 
 msgid "Cannot send APK build to service %s."
-msgstr "Ne peut pas envoyer APK construire de service de %s."
+msgstr "Impossible d'envoyer la génération de l'APK au service %s."
 
 msgid "Cannot send build to service %s."
-msgstr "Ne peut pas envoyer de construire de service de %s."
+msgstr "Impossible d'envoyer la génération au service %s."
 
 msgid "Catalog not found!"
 msgstr "Catalogue introuvable !"
@@ -371,12 +335,10 @@ msgid "Category not found!"
 msgstr "Catégorie introuvable !"
 
 msgid "Category successfully deleted."
-msgstr "Catégorie supprimé avec succès."
+msgstr "Catégorie supprimée avec succès."
 
 msgid "Certificate renewal is disabled until %s due to rate limit hit."
-msgstr ""
-"Certificat de renouvellement est désactivé jusqu'à ce que %s en raison de la "
-"limite du taux de succès."
+msgstr "Le renouvellement du certificat est désactivé jusqu'au %s en raison d'une limite de débit atteinte."
 
 msgid "Change your homepage"
 msgstr "Changer votre page d'accueil"
@@ -409,7 +371,7 @@ msgid "Coiffeurs"
 msgstr "Coiffeurs"
 
 msgid "Company successfully deleted."
-msgstr "Société supprimé avec succès."
+msgstr "Société supprimée avec succès."
 
 msgid "Create a new plan"
 msgstr "Créer un nouveau plan"
@@ -418,7 +380,7 @@ msgid "Created at:"
 msgstr "Créé à:"
 
 msgid "Credentials successfully saved!"
-msgstr "Les informations d'identification enregistrée avec succès!"
+msgstr "Les informations d'identification ont été enregistrées avec succès !"
 
 msgid "Date and time:"
 msgstr "Date et heure :"
@@ -427,11 +389,10 @@ msgid "Deactivation"
 msgstr "Désactivation"
 
 msgid "Deactivation of your Subscription!"
-msgstr "La désactivation de votre Abonnement!"
+msgstr "Désactivation de votre abonnement !"
 
 msgid "Define how many applications can be activated with this Subscription"
-msgstr ""
-"Définir le nombre d'applications qui peuvent être activés avec cet Abonnement"
+msgstr "Définir le nombre d'applications qui peuvent être activées avec cet abonnement"
 
 msgid "Delete my account."
 msgstr "Supprimer mon compte."
@@ -463,14 +424,13 @@ msgid "Distributeur logiciel"
 msgstr "Distributeur logiciel"
 
 msgid "Do not edit the following settings if your APK Generator is working!"
-msgstr ""
-"Ne modifiez pas les paramètres suivants si votre APK Générateur de travail!"
+msgstr "Ne modifiez pas les paramètres suivants si votre générateur APK fonctionne !"
 
 msgid "Download QRCode for employee"
 msgstr "Télécharger QRCode pour les employés"
 
 msgid "Download images archive"
-msgstr "Télécharger les images précédentes"
+msgstr "Télécharger l'archive des images"
 
 msgid "Download template as"
 msgstr "Télécharger un modèle en"
@@ -482,7 +442,7 @@ msgid "Download the source archive !"
 msgstr "Télécharger l'archive contenant les sources !"
 
 msgid "Downloading your package."
-msgstr "Le téléchargement de votre colis."
+msgstr "Téléchargement de votre package."
 
 msgid "Edit the account \"%s\""
 msgstr "Modifier le compte \"%s\""
@@ -500,34 +460,34 @@ msgid "Enable this Subscription!"
 msgstr "Activer cet Abonnement!"
 
 msgid "Error: unable to write Environment in config.php"
-msgstr "Erreur: impossible d'écrire dans l'Environnement config.php"
+msgstr "Erreur: impossible d'écrire l'environnement dans config.php"
 
 msgid "Essayez gratuitement !"
 msgstr "Essayez gratuitement !"
 
 msgid "Expired on"
-msgstr "Expiré sur"
+msgstr "Expiré le"
 
 msgid "Extension not allowed, '%s' only"
 msgstr "Extension non autorisée, '%s' seulement."
 
 msgid "Feature is now %s"
-msgstr "La fonctionnalité est maintenant de %s"
+msgstr "La fonctionnalité est maintenant %s"
 
 msgid "Feature not found."
-msgstr "Fonctionnalité qui n'est pas trouvé."
+msgstr "Fonctionnalité introuvable."
 
 msgid "Feature successfully added inside folder!"
-msgstr "Fonctionnalité ajouté avec succès à l'intérieur du dossier!"
+msgstr "Fonctionnalité ajoutée avec succès à l'intérieur du dossier!"
 
 msgid "Feature successfuly imported."
-msgstr "Fonction du succès importés."
+msgstr "Fonctionnalité importée avec succès."
 
 msgid "Firebase is not well configured."
-msgstr "Firebase est pas bien configuré."
+msgstr "Firebase n'est pas bien configuré."
 
 msgid "Firewall Slack settings have been saved."
-msgstr "Pare-feu de Mou paramètres ont été enregistrés."
+msgstr "Les paramètres Slack du pare-feu ont été enregistrés."
 
 msgid "Firstname:"
 msgstr "Prénom :"
@@ -548,37 +508,35 @@ msgid "Free plan"
 msgstr "Plan gratuit"
 
 msgid "Free plans have no expiration date."
-msgstr "Gratuit plans ont pas de date d'expiration."
+msgstr "Les forfaits gratuits n'ont pas de date d'expiration."
 
 msgid "Free trial period duration must be a numeric value."
-msgstr "Essai Gratuit (durée de période doit être une valeur numérique)."
+msgstr "La durée de la période d'essai gratuit doit être une valeur numérique."
 
 msgid "Galerie photos"
 msgstr "Galerie photos"
 
 msgid "Gallery has been deleted!"
-msgstr "La galerie a été supprimé!"
+msgstr "La galerie a été supprimée!"
 
 msgid "Google Service file successfully saved!"
-msgstr "Service Google fichier enregistré avec succès!"
+msgstr "Fichier de service Google enregistré avec succès !"
 
 msgid "Hide overlay"
-msgstr "Masquer superposition"
+msgstr "Masquer la superposition"
 
 msgid "IP:Port"
 msgstr "IP:Port"
 
 msgid ""
 "If your credit card, or subscription expired, you can purchase a new one."
-msgstr ""
-"Si votre carte de crédit, ou de l'abonnement expiré, vous pouvez en acheter "
-"un nouveau."
+msgstr "Si votre carte de crédit ou votre abonnement a expiré, vous pouvez en acheter un nouveau."
 
 msgid "Immobilier"
 msgstr "Immobilier"
 
 msgid "Import success."
-msgstr "Importation de succès."
+msgstr "Importation réussie."
 
 msgid "Installed templates"
 msgstr "Modèles installés"
@@ -596,10 +554,10 @@ msgid "Invoice"
 msgstr "Facture"
 
 msgid "Invoice %s"
-msgstr "La facture de %s"
+msgstr "Facture %s"
 
 msgid "Is Active?"
-msgstr "Actif?"
+msgstr "Actif ?"
 
 msgid "JpegOptim:"
 msgstr "JpegOptim:"
@@ -611,13 +569,13 @@ msgid "Lastname:"
 msgstr "Nom de Famille :"
 
 msgid "Let your users know what is locked."
-msgstr "Laissez vos utilisateurs savent ce qu'est verrouillé."
+msgstr "Informez vos utilisateurs de ce qui est verrouillé."
 
 msgid "Linked to Subscription"
 msgstr "Lié à l'Abonnement"
 
 msgid "List of your taxes"
-msgstr "Liste de vos impôts"
+msgstr "Liste de vos taxes"
 
 msgid "Listing produits"
 msgstr "Liste produits"
@@ -626,21 +584,19 @@ msgid "Listing produits / tarifs"
 msgstr "Liste produits / tarifs"
 
 msgid "Loading your white label editor."
-msgstr "Chargement de votre marque blanche de l'éditeur."
+msgstr "Chargement de votre éditeur en marque blanche."
 
 msgid "MM/dd/y"
 msgstr "dd/MM/y"
 
 msgid "Main domain is required!"
-msgstr "Domaine principal est celui qui est nécessaire!"
+msgstr "Le domaine principal est requis !"
 
 msgid "Main domain is required, you can set it in <b>Settings > General</b>"
-msgstr ""
-"Domaine principal est celui qui est requis, vous pouvez le mettre dans <b>"
-"Paramètres > Général</b>"
+msgstr "Le domaine principal est requis, vous pouvez le définir dans <b>Paramètres > Général</b>"
 
 msgid "Major update disclaimer, confirmation required!"
-msgstr "Mise à jour majeure de responsabilité, la demande de confirmation!"
+msgstr "Avertissement de mise à jour majeure, confirmation requise !"
 
 msgid "Manifest rebuilt with succes."
 msgstr "Manifeste reconstruit avec succès."
@@ -652,43 +608,43 @@ msgid "Message is required."
 msgstr "Le Message est requis."
 
 msgid "Migration done!"
-msgstr "La Migration fait!"
+msgstr "Migration terminée !"
 
 msgid "Minimum order:"
-msgstr "Minimum de commande:"
+msgstr "Commande minimum:"
 
 msgid "Missing categories."
-msgstr "Les catégories manquantes."
+msgstr "Catégories manquantes."
 
 msgid "Missing data."
-msgstr "Les données manquantes."
+msgstr "Données manquantes."
 
 msgid "Missing design_id."
-msgstr "Manquant design_id."
+msgstr "design_id manquant."
 
 msgid "Missing form data!"
-msgstr "Manque de données de formulaire!"
+msgstr "Données du formulaire manquantes !"
 
 msgid "Missing parameter value_id."
-msgstr "Paramètre manquant value_id."
+msgstr "Paramètre value_id manquant."
 
 msgid "Missing parameters!"
-msgstr "Les paramètres manquants!"
+msgstr "Paramètres manquants !"
 
 msgid "Missing parameters, value_id or message."
-msgstr "Les paramètres manquants, value_id ou un message."
+msgstr "Paramètres manquants, value_id ou message."
 
 msgid "Missing params!"
-msgstr "Manquant params!"
+msgstr "Paramètres manquants !"
 
 msgid "Missing request."
-msgstr "Manque de demande."
+msgstr "Requête manquante."
 
 msgid "Missing token and/or status."
-msgstr "Manquant de jeton et/ou l'état."
+msgstr "Jeton et/ou statut manquant."
 
 msgid "Missing value_id!"
-msgstr "Manquant value_id!"
+msgstr "value_id manquant !"
 
 msgid "Mode"
 msgstr "Mode"
@@ -706,7 +662,7 @@ msgid "My subscriptions"
 msgstr "Mes Abonnements"
 
 msgid "N.A."
-msgstr "N. A."
+msgstr "N/D"
 
 msgid "Name is required to save the Application."
 msgstr "Le nom est obligatoire pour enregistrer l'Application."
@@ -718,19 +674,19 @@ msgid "New sale"
 msgstr "Nouvelle vente"
 
 msgid "New subscription on your Platform %s!"
-msgstr "Nouvel abonnement sur votre Plate-forme de %s!"
+msgstr "Nouvel abonnement sur votre plate-forme %s !"
 
 msgid "New user Account"
-msgstr "Nouveau Compte d'utilisateur"
+msgstr "Nouveau compte utilisateur"
 
 msgid "Next payment date"
-msgstr "Prochaine date de paiement"
+msgstr "Date du prochain paiement"
 
 msgid "No build."
-msgstr "Pas de construire."
+msgstr "Aucun build."
 
 msgid "No credentials found!"
-msgstr "Aucune information d'identification trouvé!!!"
+msgstr "Aucun identifiant trouvé !"
 
 msgid "No customers available."
 msgstr "Pas de clients disponibles."
@@ -754,7 +710,7 @@ msgid "Nos plateformes"
 msgstr "Nos plateformes"
 
 msgid "Not a Yahoo weather request, aborting."
-msgstr "Pas un Yahoo météo, l'abandon."
+msgstr "Ce n'est pas une requête météo Yahoo, abandon."
 
 msgid "Notifications Push"
 msgstr "Les Notifications Push"
@@ -766,10 +722,10 @@ msgid "Nous supportons toutes les plateformes"
 msgstr "Nous supportons toutes les plateformes"
 
 msgid "Number of Applications"
-msgstr "Nombre de Demandes"
+msgstr "Nombre d'applications"
 
 msgid "Offline"
-msgstr "Offline"
+msgstr "Hors ligne"
 
 msgid "Only cancelled"
 msgstr "Seulement annulé"
@@ -781,13 +737,13 @@ msgid "Option name:"
 msgstr "Nom de l'option:"
 
 msgid "Or purchase a new subscription"
-msgstr "Ou l'achat d'un nouvel abonnement"
+msgstr "Ou acheter un nouvel abonnement"
 
 msgid "Order: "
-msgstr "Ordre: "
+msgstr "Commande : "
 
 msgid "Order successfully saved saved."
-msgstr "Afin enregistré avec succès enregistrés."
+msgstr "Commande enregistrée avec succès."
 
 msgid "Overlay color"
 msgstr "Couleur de superposition"
@@ -796,10 +752,10 @@ msgid "Owner"
 msgstr "Propriétaire"
 
 msgid "Owner Cancellation"
-msgstr "Propriétaire D'Annulation"
+msgstr "Annulation par le propriétaire"
 
 msgid "PEM Request generally takes 1 minute to complete."
-msgstr "PEM Demande prend en général 1 minute."
+msgstr "La requête PEM prend généralement 1 minute."
 
 msgid "PHP SQLite3:"
 msgstr "PHP SQLite3:"
@@ -819,18 +775,16 @@ msgstr "Mot de passe :"
 msgid ""
 "PayPal is not configured in your Backoffice, recurrencies will not work "
 "correctly."
-msgstr ""
-"PayPal n'est pas configuré dans votre Backoffice, recurrencies ne "
-"fonctionnera pas correctement."
+msgstr "PayPal n'est pas configuré dans votre Backoffice, les paiements récurrents ne fonctionneront pas correctement."
 
 msgid "PayPal subscription is %s."
-msgstr "Abonnement PayPal est %s."
+msgstr "L'abonnement PayPal est %s."
 
 msgid "Payment Information:"
-msgstr "Informations Sur Le Paiement:"
+msgstr "Informations de paiement :"
 
 msgid "Payments are verified through their respective APIs."
-msgstr "Les paiements sont vérifiés par l'entremise de leurs Api."
+msgstr "Les paiements sont vérifiés via leurs API respectives."
 
 msgid "Percentage"
 msgstr "Pourcentage"
@@ -839,31 +793,31 @@ msgid "Please correct the following errors <br>"
 msgstr "Veuillez corriger les erreurs suivantes <br>"
 
 msgid "Please enter a correct version for the %s app"
-msgstr "Veuillez entrer une version correcte pour le %s app"
+msgstr "Veuillez entrer une version correcte pour l'application %s"
 
 msgid "Please, enter a password."
-msgstr "Veuillez entrer un mot de passe"
+msgstr "Veuillez entrer un mot de passe."
 
 msgid "Please enter a valid date."
 msgstr "SVP entrer une date valide."
 
 msgid "Please fill iTunes Connect Credentials."
-msgstr "Veuillez remplir iTunes Connect informations d'Identification."
+msgstr "Veuillez renseigner vos identifiants iTunes Connect."
 
 msgid "Please verify the "
 msgstr "Veuillez vérifier l' "
 
 msgid "Plesk from 12.0 to 17.0"
-msgstr "Parallels Plesk panel de 12.0 à 17,0"
+msgstr "Plesk de 12.0 à 17.0"
 
 msgid "Plus d'infos"
 msgstr "Plus d'infos"
 
 msgid "Postal code or city:"
-msgstr "Code postal ou ville"
+msgstr "Code postal ou ville :"
 
 msgid "Previous and/or Expired subscriptions"
-msgstr "Précédente et/ou abonnements Expirés"
+msgstr "Abonnements précédents et/ou expirés"
 
 msgid "Previous version"
 msgstr "Version précédente"
@@ -881,22 +835,22 @@ msgid "Product not found!"
 msgstr "Produit introuvable!"
 
 msgid "Promo not found"
-msgstr "Promo pas trouvé"
+msgstr "Promo introuvable"
 
 msgid "Promo successfully deleted"
 msgstr "Promo supprimée avec succès"
 
 msgid "Promotion successfully deleted."
-msgstr "Promotion supprimé avec succès."
+msgstr "Promotion supprimée avec succès."
 
 msgid "Provider"
 msgstr "Fournisseur"
 
 msgid "Purchase a new subscription!"
-msgstr "L'achat d'un nouvel abonnement!"
+msgstr "Acheter un nouvel abonnement !"
 
 msgid "Query successfully deleted."
-msgstr "Requête supprimé avec succès."
+msgstr "Requête supprimée avec succès."
 
 msgid "Question"
 msgstr "Question"
@@ -908,16 +862,16 @@ msgid "RSS/Atom"
 msgstr "Flux RSS/Atom"
 
 msgid "Rate"
-msgstr "Taux de"
+msgstr "Taux"
 
 msgid "Reason:"
 msgstr "Raison:"
 
 msgid "Recipient email:"
-msgstr "Destinataire E-mail:"
+msgstr "E-mail du destinataire :"
 
 msgid "Recurrent fee"
-msgstr "Récurrente frais de"
+msgstr "Frais récurrents"
 
 msgid "Region"
 msgstr "Région"
@@ -926,32 +880,28 @@ msgid "Regular fee"
 msgstr "Tarif régulier"
 
 msgid "Removing CRON Scheduler generator lock files."
-msgstr ""
-"Retrait de CRON Planificateur de générateur de fichiers de verrouillage."
+msgstr "Suppression des fichiers de verrouillage du générateur du planificateur CRON."
 
 msgid "Removing CRON Scheduler source lock files."
-msgstr "Retrait de CRON Planificateur de la source de verrouillage de fichiers."
+msgstr "Suppression des fichiers de verrouillage de la source du planificateur CRON."
 
 msgid "Removing domain %s, domain in dot notation is not supported."
-msgstr ""
-"Enlever le domaine %s, le domaine en dot notation n'est pas pris en charge."
+msgstr "Suppression du domaine %s, la notation de domaine avec point n'est pas prise en charge."
 
 msgid "Render Test"
-msgstr "Test De Rendu"
+msgstr "Test de rendu"
 
 msgid "Request a new PEM certificate."
-msgstr "La demande d'un nouveau certificat PEM."
+msgstr "Demander un nouveau certificat PEM."
 
 msgid "Reset to default Privacy Policy GDPR."
-msgstr ""
-"Réinitialiser les paramètres par défaut de la Politique de Confidentialité "
-"GDPR."
+msgstr "Réinitialiser à la politique de confidentialité RGPD par défaut."
 
 msgid "Resize your picture:"
 msgstr "Redimensionnez votre image :"
 
 msgid "Safe in landscape"
-msgstr "Sûr en  paysage"
+msgstr "Sûr en paysage"
 
 msgid "Safe in portrait"
 msgstr "Sûr en portrait"
@@ -969,18 +919,16 @@ msgid "Secret Key:"
 msgstr "Clé secrète:"
 
 msgid "Seems the appId is empty or invalid, aborting!"
-msgstr "Semble que le appId est vide ou non valide, l'abandon de l'!"
+msgstr "Il semble que l'appId soit vide ou invalide, abandon !"
 
 msgid "Seems we could delete unwanted files, aborting!"
-msgstr ""
-"Il paraît qu'on pourrait supprimer les fichiers indésirables, l'abandon de "
-"l'!"
+msgstr "Il semble que nous puissions supprimer des fichiers indésirables, abandon !"
 
 msgid "Select a connection type:"
 msgstr "Sélectionnez un type de connexion:"
 
 msgid "Select one of the available subscriptions with remaining slots"
-msgstr "Sélectionnez l'un des abonnements disponibles avec le reste des slots"
+msgstr "Sélectionnez l'un des abonnements disponibles ayant des emplacements restants"
 
 msgid "Send your favicon"
 msgstr "Envoyez votre favicon"
@@ -989,33 +937,31 @@ msgid "Send your logo"
 msgstr "Envoyez votre logo"
 
 msgid "Service status / load"
-msgstr "Service d'état / de la charge"
+msgstr "État / charge du service"
 
 msgid "Setting successfully saved."
 msgstr "Réglage enregistré avec succès."
 
 msgid "Show applications removed from the editor."
-msgstr "Montrer des applications supprimées de l'éditeur."
+msgstr "Afficher les applications supprimées de l'éditeur."
 
 msgid "Show child subscriptions"
-msgstr "Montrer à l'enfant les abonnements"
+msgstr "Afficher les abonnements enfants"
 
 msgid "Signature:"
 msgstr "Signature:"
 
 msgid "Snacking / Restaurants"
-msgstr "Le Grignotage / Restaurants"
+msgstr "Snacking / Restaurants"
 
 msgid "Snacking<br />Restaurants"
-msgstr "Le grignotage<br />Restaurants"
+msgstr "Snacking<br />Restaurants"
 
 msgid "Social Gaming"
-msgstr "Le Social Gaming"
+msgstr "Jeux sociaux"
 
 msgid "Something went wrong while restoring files, process aborted!"
-msgstr ""
-"Quelque chose se passe mal lors de la restauration des fichiers, processus "
-"avorté!"
+msgstr "Une erreur s'est produite lors de la restauration des fichiers, processus interrompu !"
 
 msgid "Sorry but an error occurred while duplicating your application."
 msgstr ""
@@ -1023,13 +969,13 @@ msgstr ""
 "application."
 
 msgid "Source type:"
-msgstr "Type de Source:"
+msgstr "Type de source :"
 
 msgid "Sources Generation"
-msgstr "Les Sources De Génération De"
+msgstr "Génération des sources"
 
 msgid "Sources are successfully restored."
-msgstr "Les Sources sont restaurés avec succès."
+msgstr "Les sources ont été restaurées avec succès."
 
 msgid "Subscription: "
 msgstr "Abonnement: "
@@ -1038,13 +984,13 @@ msgid "Subscription date"
 msgstr "Date de souscription"
 
 msgid "Subscription updated."
-msgstr "Abonnement de mise à jour."
+msgstr "Abonnement mis à jour."
 
 msgid "Successfully saved default project."
-msgstr "Avec succès sauvé par défaut du projet."
+msgstr "Projet par défaut enregistré avec succès."
 
 msgid "Tax:"
-msgstr "De l'impôt:"
+msgstr "Taxe :"
 
 msgid "Tax name:"
 msgstr "Nom de la Taxe:"
@@ -1053,22 +999,22 @@ msgid "Tax rate:"
 msgstr "Taux de la Taxe:"
 
 msgid "Teams successfully refreshed!"
-msgstr "Les équipes avec succès rafraîchi!"
+msgstr "Les équipes ont été actualisées avec succès !"
 
 msgid "Telephone"
 msgstr "Téléphone"
 
 msgid "Temp cleared."
-msgstr "Temp effacé."
+msgstr "Temp vidé."
 
 msgid "Test App"
-msgstr "Application De Test"
+msgstr "Application de test"
 
 msgid "Text Color"
-msgstr "La Couleur Du Texte"
+msgstr "Couleur du texte"
 
 msgid "Thanks for working with us!"
-msgstr "Merci pour le travail avec nous!"
+msgstr "Merci de travailler avec nous !"
 
 msgid "Thanks for your report."
 msgstr "Merci pour votre rapport."
@@ -1077,43 +1023,39 @@ msgid "Thanks for your subscription."
 msgstr "Merci pour votre abonnement."
 
 msgid "The APK for the application %s has been generated !"
-msgstr "L'APK de l'application de %s a été généré !"
+msgstr "L'APK de l'application %s a été généré !"
 
 msgid "The APK generation failed !"
-msgstr "L'APK génération a échoué !"
+msgstr "La génération de l'APK a échoué !"
 
 msgid "The APK generation is done !"
-msgstr "L'APK génération est fait !"
+msgstr "La génération de l'APK est terminée !"
 
 msgid "The APK has been generated!"
 msgstr "L'APK a été généré!"
 
 msgid "The CNAME for the URL \"%s\" is not properly set"
-msgstr "Le CNAME de l'URL \"% s\" n'est pas correctement défini"
+msgstr "Le CNAME de l'URL \"%s\" n'est pas correctement défini"
 
 msgid "The CNAME for the domain \"%s\" is not properly set"
 msgstr "Le CNAME pour le domaine \"%s\" n'est pas correctement configuré"
 
 msgid "The Source code for the application %s has been generated !"
-msgstr "Le code Source de l'application de %s a été généré !"
+msgstr "Le code source de l'application %s a été généré !"
 
 msgid "The Source code generation failed !"
-msgstr "La génération de code Source a échoué !"
+msgstr "La génération du code source a échoué !"
 
 msgid ""
 "The categories for line %s couldn't be created : no parent category found."
-msgstr ""
-"Les catégories de la ligne de %s ne pouvait pas être créé : aucune catégorie "
-"parente trouvé."
+msgstr "Les catégories de la ligne %s n'ont pas pu être créées : aucune catégorie parente trouvée."
 
 msgid ""
 "The categories for line %s couldn't be created : no root category found."
-msgstr ""
-"Les catégories de la ligne de %s ne pouvait pas être créé : pas de racine "
-"catégorie."
+msgstr "Les catégories de la ligne %s n'ont pas pu être créées : aucune catégorie racine trouvée."
 
 msgid "The categories for line %s couldn't be read."
-msgstr "Les catégories de la ligne de %s ne peut pas être lue."
+msgstr "Les catégories de la ligne %s n'ont pas pu être lues."
 
 msgid "The data has been saved successfully"
 msgstr "Les données ont été enregistrées avec succès"
@@ -1127,33 +1069,30 @@ msgid "The feature you are trying to edit doesn't exists!"
 msgstr "La fonctionnalité que vous essayez de modifier n'existe pas!"
 
 msgid "The formats for line %s couldn't be read."
-msgstr "Les formats de la ligne de %s ne peut pas être lue."
+msgstr "Les formats de la ligne %s n'ont pas pu être lus."
 
 msgid "The given template does not exists."
-msgstr "Le modèle n'existe pas."
+msgstr "Le modèle donné n'existe pas."
 
 msgid "The local APK generator requires %s"
-msgstr "Le local APK générateur nécessite de %s"
+msgstr "Le générateur d'APK local nécessite %s"
 
 msgid "The options for line %s couldn't be read."
-msgstr "Les options de ligne de %s ne peut pas être lue."
+msgstr "Les options de la ligne %s n'ont pas pu être lues."
 
 msgid "The options for line %s couldn't be saved."
-msgstr "Les options de ligne de %s ne pouvait pas être sauvé."
+msgstr "Les options de la ligne %s n'ont pas pu être enregistrées."
 
 msgid ""
 "The overlay helps you check if important content and/or text on your "
 "homepage image is inside the safe boundaries."
-msgstr ""
-"La superposition vous permet de vérifier si le contenu important et/ou le "
-"texte de votre page d'accueil, l'image est à l'intérieur des limites de "
-"sécurité."
+msgstr "La superposition vous permet de vérifier si le contenu important et/ou le texte de l'image de votre page d'accueil se trouve à l'intérieur des limites de sécurité."
 
 msgid "The requested APK generation failed: %s"
-msgstr "La demande APK génération a échoué: %s"
+msgstr "La génération de l'APK demandée a échoué : %s"
 
 msgid "The requested APK/Source generation failed !"
-msgstr "La demande APK/Source de génération a échoué !"
+msgstr "La génération de l'APK/des sources demandée a échoué !"
 
 msgid "The search request is empty."
 msgstr "La demande de recherche est vide."
@@ -1162,13 +1101,13 @@ msgid "The selected subscription is not valid."
 msgstr "L'abonnement sélectionné n'est pas valide."
 
 msgid "The source generation is done !"
-msgstr "La source de génération est fait !"
+msgstr "La génération des sources est terminée !"
 
 msgid "The subscription is cancelled!"
 msgstr "L'abonnement est annulé!"
 
 msgid "The subscription is now active."
-msgstr "L'abonnement est maintenant active."
+msgstr "L'abonnement est maintenant actif."
 
 msgid "The subscription is now inactive."
 msgstr "L'abonnement est maintenant inactif."
@@ -1177,29 +1116,22 @@ msgid "The user doesn't exist."
 msgstr "L'utilisateur n'existe pas."
 
 msgid "There is not corresponding release to restore from, process aborted!"
-msgstr ""
-"Il n'y a pas de correspondant de presse à restaurer à partir de, processus "
-"avorté!"
+msgstr "Il n'y a pas de version correspondante à restaurer, processus interrompu !"
 
 msgid "This Application doesn't exists, aborting!"
-msgstr "Cette Application n'existe pas, l'abandon de l'!"
+msgstr "Cette application n'existe pas, abandon !"
 
 msgid "This Application has some invoices associated, you can not delete it!"
-msgstr ""
-"Cette Application a des factures associées, vous ne pouvez pas le supprimer!"
+msgstr "Cette application a des factures associées, vous ne pouvez pas la supprimer !"
 
 msgid ""
 "This action is used to migrate all current active session into a Redis "
 "server instance, use this only with care if you want to migrate from MySQL "
 "session to Redis session storage."
-msgstr ""
-"Cette action est utilisée pour migrer tous les cours de la session active "
-"dans le Redis une instance de serveur, à utiliser seulement avec précaution "
-"si vous souhaitez migrer de MySQL session à Redis stockage de session."
+msgstr "Cette action sert à migrer toutes les sessions actives actuelles vers une instance de serveur Redis, à utiliser avec précaution si vous souhaitez passer du stockage de session MySQL au stockage de session Redis."
 
 msgid "This admin can download application sources code."
-msgstr ""
-"Cet administrateur peut télécharger les sources de l'application du code."
+msgstr "Cet administrateur peut télécharger le code source des applications."
 
 msgid "This application does not belong to you."
 msgstr "Cette application ne vous appartient pas."
@@ -1208,22 +1140,18 @@ msgid "This block type doesn't exists."
 msgstr "Ce type de bloc n'existe pas."
 
 msgid "This feature is not ready yet. Please try again later."
-msgstr ""
-"Cette fonctionnalité n'est pas encore prêt. S'il vous plaît essayer à "
-"nouveau plus tard."
+msgstr "Cette fonctionnalité n'est pas encore prête. Veuillez réessayer plus tard."
 
 msgid "This field is required."
 msgstr "Ce champ est obligatoire."
 
 msgid "This icon is not allowed!"
-msgstr "Cette icône n'est pas autorisé!"
+msgstr "Cette icône n'est pas autorisée !"
 
 msgid ""
 "This is a child subscription, it is tied to a parent with 2 or more "
 "application slots."
-msgstr ""
-"C'est un enfant de l'abonnement, il est lié à un parent avec 2 ou plus de "
-"demande de logements."
+msgstr "Il s'agit d'un abonnement enfant, lié à un abonnement parent disposant de 2 emplacements d'application ou plus."
 
 msgid "This is a demo version, these changes can't be saved."
 msgstr ""
@@ -1244,12 +1172,10 @@ msgstr ""
 "C'est une version de démo, vous ne pouvez pas enregistrer ces paramètres."
 
 msgid "This is a demo version, you can't download any source codes / APKs"
-msgstr ""
-"C'est une version de démo, vous ne pouvez pas télécharger tout les codes "
-"sources / Apk"
+msgstr "Ceci est une version de démo, vous ne pouvez télécharger aucun code source / APK"
 
 msgid "This is probably %s"
-msgstr "C'est probablement de %s"
+msgstr "C'est probablement %s"
 
 msgid "This method is deprecated, please update!"
 msgstr "Cette méthode est obsolète, veuillez mettre à jour!"
@@ -1266,10 +1192,7 @@ msgstr "Cet abonnement est annulé, et s'achèvera le <b>%s</b>."
 msgid ""
 "This template installer is not supported anymore, please refer to the "
 "documentation to update your installer."
-msgstr ""
-"Ce modèle de programme d'installation n'est pas pris en charge plus, "
-"veuillez vous référer à la documentation à mettre à jour votre programme "
-"d'installation."
+msgstr "Ce programme d'installation de modèle n'est plus pris en charge, veuillez consulter la documentation pour mettre à jour votre programme d'installation."
 
 msgid "This user does not exist."
 msgstr "Cet utilisateur n'existe pas."
@@ -1281,7 +1204,7 @@ msgid "Title:"
 msgstr "Titre :"
 
 msgid "Touch To Call"
-msgstr "Le Contact À Appeler"
+msgstr "Appuyer pour appeler"
 
 msgid "Translation in progress ... "
 msgstr "En cours de traduction ... "
@@ -1290,23 +1213,22 @@ msgid "UPGRADE NOW!"
 msgstr "METTRE À NIVEAU MAINTENANT!"
 
 msgid "Unable to cancel 2Checkout subscription, tray again later."
-msgstr "Impossible de l'annuler 2Checkout abonnement, bac de nouveau plus tard."
+msgstr "Impossible d'annuler l'abonnement 2Checkout, veuillez réessayer plus tard."
 
 msgid "Unable to cancel PayPal subscription, tray again later."
-msgstr ""
-"Dans l'impossibilité de résilier abonnement PayPal, bac de nouveau plus tard."
+msgstr "Impossible d'annuler l'abonnement PayPal, veuillez réessayer plus tard."
 
 msgid "Unable to fetch your application background images."
-msgstr "Impossible de récupérer votre application d'images de fond."
+msgstr "Impossible de récupérer les images d'arrière-plan de votre application."
 
 msgid "Unable to find either folder or feature!"
-msgstr "Incapable de trouver l'un dossier ou!"
+msgstr "Impossible de trouver le dossier ou la fonctionnalité !"
 
 msgid "Unable to find option."
 msgstr "Impossible de trouver l'option."
 
 msgid "Unable to find the corresponding build."
-msgstr "Incapable de trouver le correspondant de construire."
+msgstr "Impossible de trouver le build correspondant."
 
 msgid "Unable to find the order id!"
 msgstr "Impossible de trouver l'id de la commande!"
@@ -1315,17 +1237,16 @@ msgid "Unable to load CMS Blocks without value_id."
 msgstr "Impossible de charger des Blocs CMS sans value_id."
 
 msgid "Unable to parse certificate."
-msgstr "Impossible d'analyser certificat."
+msgstr "Impossible d'analyser le certificat."
 
 msgid "Unable to retrieve 2Checkout subscription, tray again later."
-msgstr ""
-"Impossible de récupérer les 2Checkout abonnement, bac de nouveau plus tard."
+msgstr "Impossible de récupérer l'abonnement 2Checkout, veuillez réessayer plus tard."
 
 msgid "Unable to update a user from here."
 msgstr "Impossible de mettre à jour un utilisateur à partir d'ici."
 
 msgid "Unauthorized access to feature."
-msgstr "Les accès non autorisés à la fonction."
+msgstr "Accès non autorisé à la fonctionnalité."
 
 msgid "Unified homepage"
 msgstr "Page d'accueil Unifiée"
@@ -1334,19 +1255,19 @@ msgid "Unified splashscreen"
 msgstr "Image de démarrage Unifiée"
 
 msgid "Unknown action for this module."
-msgstr "Inconnu pour ce module."
+msgstr "Action inconnue pour ce module."
 
 msgid "Unkown error!"
-msgstr "Unkown erreur!"
+msgstr "Erreur inconnue !"
 
 msgid "Until %s"
-msgstr "Jusqu'à ce que %s"
+msgstr "Jusqu'au %s"
 
 msgid "Upgrade required"
-msgstr "Mise à jour requise"
+msgstr "Mise à niveau requise"
 
 msgid "Upload your %s file below."
-msgstr "Téléchargez votre %s fichier ci-dessous."
+msgstr "Téléversez votre fichier %s ci-dessous."
 
 msgid "User: "
 msgstr "Utilisateur:"
@@ -1367,7 +1288,7 @@ msgid "Username:"
 msgstr "Nom d'utilisateur:"
 
 msgid "View the Application"
-msgstr "Vue de l'Application"
+msgstr "Voir l'application"
 
 msgid ""
 "We are sorry but our Wordpress plugin hasn't been detected on your website. "
@@ -1385,20 +1306,18 @@ msgstr ""
 "installation."
 
 msgid "We were unable to determine your %s version."
-msgstr "Nous avons été incapables de déterminer votre %s version."
+msgstr "Nous n'avons pas pu déterminer la version de votre %s."
 
 msgid ""
 "We were unable to find your last payment for the subscription of the "
 "Application <b>%s</b>"
-msgstr ""
-"Nous avons été incapables de trouver votre dernier paiement de l'abonnement "
-"de l'Application <b>%s</b>"
+msgstr "Nous n'avons pas pu trouver votre dernier paiement pour l'abonnement de l'application <b>%s</b>"
 
 msgid "Website:"
 msgstr "Site web:"
 
 msgid "Welcome on our Platform %s"
-msgstr "Bienvenue sur notre Plate-forme de %s"
+msgstr "Bienvenue sur notre plateforme %s"
 
 msgid "White"
 msgstr "Blanc"
@@ -1416,11 +1335,7 @@ msgid ""
 "You are about to cancel this subscription, the payments will be stopped, and "
 "the application will be disabled!<br />You can enter a customer message "
 "below to inform the Application owner!<br /><br />"
-msgstr ""
-"Vous êtes sur le point de résilier cet abonnement, les paiements seront "
-"arrêtés, et l'application sera désactivé!<br />Vous pouvez saisir un client "
-"message ci-dessous pour informer le propriétaire de l'Application!<br /><br "
-"/>"
+msgstr "Vous êtes sur le point de résilier cet abonnement, les paiements seront arrêtés et l'application sera désactivée !<br />Vous pouvez saisir un message client ci-dessous pour en informer le propriétaire de l'application !<br /><br />"
 
 msgid ""
 "You are about to update to version %s, this version introduces breaking "
@@ -1440,16 +1355,16 @@ msgid "You are not allowed to access this page"
 msgstr "Vous n'êtes pas autorisé à accéder à cette page"
 
 msgid "You are not allowed to cancel child subscriptions."
-msgstr "Vous n'êtes pas autorisé à annuler enfant abonnements."
+msgstr "Vous n'êtes pas autorisé à annuler les abonnements enfants."
 
 msgid "You are not allowed to cancel free subscriptions."
-msgstr "Vous n'êtes pas autorisé à annuler l'abonnement est gratuit."
+msgstr "Vous n'êtes pas autorisé à annuler les abonnements gratuits."
 
 msgid "You are not allowed to cancel offline/paid subscriptions."
-msgstr "Vous n'êtes pas autorisé à annuler en ligne/hors abonnements payants."
+msgstr "Vous n'êtes pas autorisé à annuler les abonnements hors ligne/payants."
 
 msgid "You are not allowed to cancel online/paid subscriptions."
-msgstr "Vous n'êtes pas autorisé à annuler en ligne/abonnements payants."
+msgstr "Vous n'êtes pas autorisé à annuler les abonnements en ligne/payants."
 
 msgid "You are not allowed to delete applications."
 msgstr "Vous n'êtes pas autorisé à supprimer des applications."
@@ -1463,13 +1378,13 @@ msgstr ""
 "informations."
 
 msgid "You can disable a template globally!"
-msgstr "Vous pouvez désactiver un modèle à l'échelle mondiale!"
+msgstr "Vous pouvez désactiver un modèle globalement !"
 
 msgid "You can only edit offline subscriptions!"
 msgstr "Vous pouvez modifier uniquement les abonnements hors connexion!"
 
 msgid "You can publish <b>up to %s Apps</b>"
-msgstr "Vous pouvez publier des <b>jusqu'à %s Apps</b>"
+msgstr "Vous pouvez publier <b>jusqu'à %s Apps</b>"
 
 msgid "You cannot add a Folder feature inside a folder!"
 msgstr ""
@@ -1491,18 +1406,16 @@ msgstr "Vous ne pouvez pas activer un abonnement en ligne!"
 
 msgid ""
 "You can't assign a role to this child role, this will break the hierarchy!"
-msgstr ""
-"Vous ne pouvez pas attribuer un rôle à cet enfant, ce sera briser la "
-"hiérarchie!"
+msgstr "Vous ne pouvez pas attribuer un rôle à ce rôle enfant, cela briserait la hiérarchie !"
 
 msgid "You can't deactivate an online subscription!"
 msgstr "Vous ne pouvez pas désactiver un abonnement en ligne!"
 
 msgid "You can't go back to Angular."
-msgstr "Vous ne pouvez pas revenir à Angulaires."
+msgstr "Vous ne pouvez pas revenir à Angular."
 
 msgid "You can't go back with Angular."
-msgstr "Vous ne pouvez pas revenir en arrière Angulaire."
+msgstr "Vous ne pouvez pas revenir en arrière avec Angular."
 
 msgid "You don't have any plans yet"
 msgstr "Vous n'avez pas encore de plan"
@@ -1522,15 +1435,13 @@ msgstr "Vous n'avez pas d'abonnement."
 
 msgid ""
 "You have no subscription with free slots, please proceed to a new purchase."
-msgstr ""
-"Vous n'avez pas d'abonnement avec free slots, veuillez procéder à un nouvel "
-"achat."
+msgstr "Vous n'avez aucun abonnement avec des emplacements libres, veuillez procéder à un nouvel achat."
 
 msgid "You have no users."
-msgstr "Vous n'avez pas les utilisateurs."
+msgstr "Vous n'avez aucun utilisateur."
 
 msgid "You have no whitelabel yet."
-msgstr "Vous n'avez pas de whitelabel encore."
+msgstr "Vous n'avez pas encore de marque blanche."
 
 msgid "You have received a publication request:"
 msgstr "Vous avez reçu une demande de publication:"
@@ -1538,9 +1449,7 @@ msgstr "Vous avez reçu une demande de publication:"
 msgid ""
 "You manually handle the payments via check, cash, etc... and activations/"
 "deactivations."
-msgstr ""
-"Vous manuellement gérer les paiements par chèque, espèces, etc... et les "
-"activations/désactivations."
+msgstr "Vous gérez manuellement les paiements par chèque, espèces, etc... et les activations/désactivations."
 
 msgid "You must be connected to create a post!"
 msgstr "Vous devez être connecté pour créer un post!"
@@ -1554,60 +1463,48 @@ msgstr "Vous devez sélectionner un abonnement existant!"
 msgid ""
 "You must set a Google Maps API Key in <b>Settings > Advanced</b> in order to "
 "use this feature."
-msgstr ""
-"Vous devez définir une API Google Maps Clé dans <b>Paramètres > Avancé</b> "
-"afin d'utiliser cette fonctionnalité."
+msgstr "Vous devez définir une clé d'API Google Maps dans <b>Paramètres > Avancé</b> afin d'utiliser cette fonctionnalité."
 
 msgid "You must upgrade Java to 1.8"
-msgstr "Vous devez mettre à niveau Java à 1,8"
+msgstr "Vous devez mettre à niveau Java vers la version 1.8"
 
 msgid ""
 "You will disable the current Application subscription!<br />You can enter a "
 "customer message below to inform the Application owner!<br /><br />"
-msgstr ""
-"Vous permet de désactiver l'Application en cours d'abonnement!<br />Vous "
-"pouvez saisir un client message ci-dessous pour informer le propriétaire de "
-"l'Application!<br /><br />"
+msgstr "Vous allez désactiver l'abonnement actuel de l'application !<br />Vous pouvez saisir un message client ci-dessous pour en informer le propriétaire de l'application !<br /><br />"
 
 msgid ""
 "You will enable the current Application subscription!<br />You can enter a "
 "customer message below to inform the Application owner!<br /><br />"
-msgstr ""
-"Vous allez activer l'Application en cours d'abonnement!<br />Vous pouvez "
-"saisir un client message ci-dessous pour informer le propriétaire de "
-"l'Application!<br /><br />"
+msgstr "Vous allez activer l'abonnement actuel de l'application !<br />Vous pouvez saisir un message client ci-dessous pour en informer le propriétaire de l'application !<br /><br />"
 
 msgid "Your APK is being generated. Please come back in a few minutes."
-msgstr "Votre APK est généré. Veuillez revenir dans quelques minutes."
+msgstr "Votre APK est en cours de génération. Veuillez revenir dans quelques minutes."
 
 msgid ""
 "Your PHP version %s is not supported, PHP versions from 5.6 to 7.0 are "
 "supported."
-msgstr ""
-"Votre version de PHP %s n'est pas pris en charge, les versions de PHP "
-"antérieures à partir de 5.6 7.0 sont pris en charge."
+msgstr "Votre version de PHP %s n'est pas prise en charge, les versions de PHP de 5.6 à 7.0 sont prises en charge."
 
 msgid ""
 "Your account doesn't exists on editor side. Please create it before using "
 "tour edition."
-msgstr ""
-"Votre compte n'existe pas sur l'éditeur de côté. Veuillez la créer avant "
-"d'utiliser tour edition."
+msgstr "Votre compte n'existe pas côté éditeur. Veuillez le créer avant d'utiliser l'édition de la visite."
 
 msgid "Your application has been successfully added to your subscription!"
-msgstr "Votre candidature a bien été ajouté à votre abonnement!"
+msgstr "Votre application a bien été ajoutée à votre abonnement !"
 
 msgid "Your %s version is %s."
-msgstr "Votre %s version est %s."
+msgstr "Votre version de %s est %s."
 
 msgid "Your subscription expired!"
 msgstr "Votre abonnement a expiré!"
 
 msgid "Your subscription was automatically cancelled."
-msgstr "Votre abonnement est automatiquement annulée."
+msgstr "Votre abonnement a été annulé automatiquement."
 
 msgid "Your subscription was manually cancelled."
-msgstr "Votre abonnement a été annulée manuellement."
+msgstr "Votre abonnement a été annulé manuellement."
 
 msgid "Zip Code:"
 msgstr "Code postal:"
@@ -1616,16 +1513,12 @@ msgid "Zone overlay"
 msgstr "Zone de superposition"
 
 msgid "<b>Danger zone</b>: below you can definitively delete your account."
-msgstr ""
-"<b>zone de Danger</b>: ci-dessous, vous pouvez supprimer définitivement "
-"votre compte."
+msgstr "<b>Zone de danger</b>: ci-dessous, vous pouvez supprimer définitivement votre compte."
 
 msgid ""
 "<b>Warning:</b> translation API is experimental for the current language and "
 "may fail."
-msgstr ""
-"<b>Attention:</b> traduction de l'API est expérimental pour le langage "
-"courant et peut échouer."
+msgstr "<b>Attention:</b> l'API de traduction est expérimentale pour la langue actuelle et peut échouer."
 
 msgid ""
 "before updating we strongly advise you to read the release note and the "
@@ -1641,19 +1534,19 @@ msgid "dismiss"
 msgstr "Rejeter"
 
 msgid "home/features/admin_marque_blanche.png"
-msgstr "home/fonctionnalités/admin_marque_blanche.png"
+msgstr "home/features/admin_marque_blanche.png"
 
 msgid "home/features/appel_en_un_clique.png"
-msgstr "home/fonctionnalités/appel_en_un_clique.png"
+msgstr "home/features/appel_en_un_clique.png"
 
 msgid "home/features/geolocalisation.png"
-msgstr "home/fonctionnalités/géolocalisation.png"
+msgstr "home/features/geolocalisation.png"
 
 msgid "home/features/listing_produits.png"
-msgstr "home/fonctionnalités/listing_produits.png"
+msgstr "home/features/listing_produits.png"
 
 msgid "iOS Descriptions saved!"
-msgstr "iOS Descriptions sauvé!"
+msgstr "Descriptions iOS enregistrées !"
 
 msgid "iPhone X:"
 msgstr "iPhone X:"

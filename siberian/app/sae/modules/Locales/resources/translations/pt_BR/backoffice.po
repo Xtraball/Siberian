@@ -217,7 +217,7 @@ msgid "Can generate APK"
 msgstr "Pode gerar APK"
 
 msgid "Cert"
-msgstr "Carrinho"
+msgstr "Cert."
 
 msgid "Certificate"
 msgstr "Certificado"
@@ -270,10 +270,10 @@ msgid "Cleared cron errors."
 msgstr "Erros do cron limpos."
 
 msgid "Click here to send your CA certificate"
-msgstr "Clique aqui para enviar o seu certificado"
+msgstr "Clique aqui para enviar o seu certificado CA"
 
 msgid "Click here to send your Private certificate"
-msgstr "Clique aqui para enviar o seu certificado"
+msgstr "Clique aqui para enviar o seu certificado privado"
 
 msgid "Click here to send your certificate"
 msgstr "Clique aqui para enviar o seu certificado"
@@ -285,7 +285,7 @@ msgid "Click to mark as read"
 msgstr "Clique aqui para marcar como lida"
 
 msgid "Closed"
-msgstr "Fechar"
+msgstr "Fechado"
 
 #. machine-translated (2026-10), to be reviewed
 msgid "Complete build log"
@@ -296,7 +296,7 @@ msgid "Configuration"
 msgstr "Configuração"
 
 msgid "Configuration successfully saved"
-msgstr "Informações salvas com sucesso"
+msgstr "Configuração salva com sucesso"
 
 #. machine-translated (2026-10), to be reviewed
 msgid "Core modules"
@@ -392,7 +392,7 @@ msgid "Download latest source"
 msgstr "Baixar o código-fonte mais recente"
 
 msgid "Drop your certificate here"
-msgstr "Coloque seu certificado aqui"
+msgstr "Solte seu certificado aqui"
 
 msgid "Edit the user"
 msgstr "Editar o usuário"
@@ -524,7 +524,7 @@ msgid ""
 msgstr "O suporte a HTTPS está em teste; experimente-o apenas no seu servidor de desenvolvimento antes de se preparar para migrações futuras."
 
 msgid "Hide"
-msgstr "ocultar"
+msgstr "Ocultar"
 
 #. machine-translated (2026-10), to be reviewed
 msgid "Host"
@@ -539,7 +539,7 @@ msgid "Hostnames associated with this Certificate"
 msgstr "Hostnames associados a este certificado"
 
 msgid "Hour"
-msgstr "hora"
+msgstr "Hora"
 
 msgid "ID"
 msgstr "ID"
@@ -671,7 +671,7 @@ msgid "Messages"
 msgstr "Mensagens"
 
 msgid "Minute"
-msgstr "minuto"
+msgstr "Minuto"
 
 #. machine-translated (2026-10), to be reviewed
 msgid "Missing parameters for generation."
@@ -719,7 +719,7 @@ msgid "No icon packs"
 msgstr "Nenhum pacote de ícones"
 
 msgid "No informations."
-msgstr "Minhas informações"
+msgstr "Nenhuma informação."
 
 #. machine-translated (2026-10), to be reviewed
 msgid "No layouts"
@@ -1169,7 +1169,7 @@ msgid "The given certificate doesn't match the hostname or wiSibldcard."
 msgstr "O certificado informado não corresponde ao hostname ou wiSibldcard."
 
 msgid "This account can't be deleted, it's the only one"
-msgstr "Esta conta não pode ser excluída, ele é a única"
+msgstr "Esta conta não pode ser excluída, ela é a única"
 
 #. machine-translated (2026-10), to be reviewed
 msgid ""
@@ -1223,7 +1223,7 @@ msgid "Tour status"
 msgstr "Status do tour"
 
 msgid "Tour status successfully saved."
-msgstr "Definição de refeição salva com sucesso."
+msgstr "Status do tour salvo com sucesso."
 
 #. machine-translated (2026-10), to be reviewed
 msgid "UID"
@@ -1452,13 +1452,13 @@ msgid ""
 msgstr "<b>Observação</b>: os códigos-fonte e os pushes serão enviados imediatamente após a criação, pushes agendados não funcionarão e a otimização de mídia está desativada."
 
 msgid "customer"
-msgstr "Cliente"
+msgstr "cliente"
 
 msgid "%d Unread Message"
 msgstr "%d Mensagem não lida"
 
 msgid "%d Unread Messages"
-msgstr "%d Mensagens não-lidas"
+msgstr "%d Mensagens não lidas"
 
 #. machine-translated (2026-10), to be reviewed
 msgid "for the bundle id:"

@@ -21,7 +21,7 @@ msgid "Default text"
 msgstr "Varsayılan metin"
 
 msgid "Edit the language: %s"
-msgstr "Dil düzenleyin:%s"
+msgstr "Dili düzenle: %s"
 
 msgid "Language"
 msgstr "Dil"
@@ -51,20 +51,18 @@ msgid "Translate all"
 msgstr "Tümünü çevir"
 
 msgid "Translate missing entries"
-msgstr "Kayıp kelimeleri çevir"
+msgstr "Eksik girdileri çevir"
 
 msgid "Translate the 'e.g.' between parentheses only."
-msgstr "&#39;Eg&#39; ifadesini yalnızca parantezler arasında çevirin."
+msgstr "Yalnızca parantez içindeki 'ör.' ifadesini çevirin."
 
 msgid "Translation API is not available for the current language."
-msgstr "Mevcut çeviri dili için API geçerli değil"
+msgstr "Mevcut dil için çeviri API'si kullanılamıyor."
 
 msgid ""
 "Warning: translation API is experimental for the current language and may "
 "fail."
-msgstr ""
-"<b> Uyarı: </b> çeviri API'si geçerli dil için deneyseldir ve başarısız "
-"olabilir."
+msgstr "Uyarı: çeviri API'si geçerli dil için deneyseldir ve başarısız olabilir."
 
 msgid "Your translation"
 msgstr "Çeviriniz"

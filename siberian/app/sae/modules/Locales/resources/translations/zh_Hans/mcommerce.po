@@ -23,10 +23,10 @@ msgid ": activate to sort column descending"
 msgstr "：激活以降序排序此列"
 
 msgid "1 points ="
-msgstr "1点"
+msgstr "1 点 ="
 
 msgid "20.00%"
-msgstr "21.00 ％"
+msgstr "20.00%"
 
 #. machine-translated (2026-10), to be reviewed
 msgid "Add Discount"
@@ -71,22 +71,22 @@ msgid "An error occurred during the payment process."
 msgstr "支付过程中发生错误。"
 
 msgid "An error occurred while cancelling. Please try again later."
-msgstr "有一个错误的节省。请稍后再试。"
+msgstr "取消时出错。请稍后再试。"
 
 msgid ""
 "An error occurred while proceeding the payment. Please, try again later."
-msgstr "有在付款错误。请稍后再试。"
+msgstr "处理付款时出错。请稍后再试。"
 
 msgid "An error occurred while proceeding your order:"
-msgstr "有一个错误装载的产品。"
+msgstr "处理订单时出错："
 
 msgid ""
 "An error occurred while proceeding your order. Please, check the following "
 "information:"
-msgstr "而进到结束时发生错误。请查看以下信息："
+msgstr "处理订单时出错。请检查以下信息："
 
 msgid "Are you sure you want to close without saving"
-msgstr "你确定要关闭不保存"
+msgstr "确定要不保存就关闭吗"
 
 msgid ""
 "Are you sure you want to delete this category and all its subcategories?"
@@ -99,7 +99,7 @@ msgid "Are you sure you want to delete this tax?"
 msgstr "你确定你要删除这个税吗？"
 
 msgid "Are you sure you want to remove this product?"
-msgstr "你确定你要删除这个项目吗？"
+msgstr "确定要删除此产品吗？"
 
 msgid "At least one option is required:"
 msgstr "要求至少有一个选项："
@@ -121,7 +121,7 @@ msgid "Cancel order"
 msgstr "取消订单"
 
 msgid "Cancelled"
-msgstr "取消"
+msgstr "已取消"
 
 #. machine-translated (2026-10), to be reviewed
 msgid "Card Number"
@@ -147,13 +147,13 @@ msgid "Check"
 msgstr "检查"
 
 msgid "Choose a delivery method:"
-msgstr "选择投放方式："
+msgstr "选择运输方式："
 
 msgid "Choose a payment method:"
 msgstr "选择付款方式："
 
 msgid "Choose a store"
-msgstr "创建一个存储"
+msgstr "选择一家商店"
 
 msgid "City"
 msgstr "城市"
@@ -181,48 +181,48 @@ msgid "Confirmation"
 msgstr "确认"
 
 msgid "Connected Printers"
-msgstr "连接打印机"
+msgstr "已连接的打印机"
 
 msgid "Continue shopping"
 msgstr "继续购物"
 
 msgid "Create a new choice list group"
-msgstr "创建一个选项组新"
+msgstr "创建新的选项列表组"
 
 msgid "Create a new discount"
-msgstr "创建新帐号"
+msgstr "创建新折扣"
 
 msgid "Create a new options group"
-msgstr "创建一个选项组新"
+msgstr "创建新的选项组"
 
 msgid "Create a new product"
 msgstr "创建一个新的产品"
 
 msgid "Create a new tax"
-msgstr "创建一个新的税收"
+msgstr "创建新税项"
 
 msgid "Create a store"
-msgstr "创建一个存储"
+msgstr "创建一家商店"
 
 msgid "Credit Card by phone"
-msgstr "信用卡电话"
+msgstr "电话支付信用卡"
 
 #. machine-translated (2026-10), to be reviewed
 msgid "Credit card (online payment)"
 msgstr "信用卡（在线支付）"
 
 msgid "Credit card (pay upon pickup or delivery)"
-msgstr "信用卡（工资在收集或交付的时间）"
+msgstr "信用卡（取货或送货时支付）"
 
 #. machine-translated (2026-10), to be reviewed
 msgid "Credit card payment"
 msgstr "信用卡支付"
 
 msgid "Customer"
-msgstr "顾客"
+msgstr "客户"
 
 msgid "Customer Service"
-msgstr "顾客服务"
+msgstr "客户服务"
 
 #. machine-translated (2026-10), to be reviewed
 msgid "Customer can add tip to a command?"
@@ -252,7 +252,7 @@ msgid "Delivery Method"
 msgstr "运输方式"
 
 msgid "Delivery address"
-msgstr "送货范围"
+msgstr "送货地址"
 
 msgid "Delivery area"
 msgstr "送货范围"
@@ -372,7 +372,7 @@ msgid "Edit the choice list group"
 msgstr "编辑选项列表分组"
 
 msgid "Edit the discount %s"
-msgstr "编辑产品％s"
+msgstr "编辑折扣 %s"
 
 msgid "Edit the options group %s"
 msgstr "编辑选项组％s"
@@ -381,7 +381,7 @@ msgid "Edit the product %s"
 msgstr "编辑产品％s"
 
 msgid "Edit the tax %s"
-msgstr "编辑纳税％s"
+msgstr "编辑税项 %s"
 
 msgid "Email"
 msgstr "电子邮件"
@@ -412,7 +412,7 @@ msgid "Format:"
 msgstr "格式"
 
 msgid "Free delivery starting from"
-msgstr "从免费送货"
+msgstr "免运费起始金额"
 
 #. machine-translated (2026-10), to be reviewed
 msgid "Free purchase"
@@ -441,14 +441,14 @@ msgid "Hidden"
 msgstr "隐藏"
 
 msgid "Hours of operation"
-msgstr "小时"
+msgstr "营业时间"
 
 #. machine-translated (2026-10), to be reviewed
 msgid "I will pay"
 msgstr "我将支付"
 
 msgid "In store"
-msgstr "店"
+msgstr "店内"
 
 #. machine-translated (2026-10), to be reviewed
 msgid "Incl."
@@ -483,16 +483,16 @@ msgid "Loading..."
 msgstr "载入中"
 
 msgid "Login"
-msgstr "登录："
+msgstr "登录"
 
 msgid "MM"
 msgstr ""
 
 msgid "Manage discounts"
-msgstr "管理图标"
+msgstr "管理折扣"
 
 msgid "Manage user fields"
-msgstr "管理领域"
+msgstr "管理用户字段"
 
 #. machine-translated (2026-10), to be reviewed
 msgid "Mandatory"
@@ -545,16 +545,16 @@ msgid "My product's options"
 msgstr "我的产品选项"
 
 msgid "My stores"
-msgstr "我的店"
+msgstr "我的商店"
 
 msgid "My taxes"
-msgstr "我的税"
+msgstr "我的税项"
 
 msgid "Name of the options group:"
-msgstr "组名的选项："
+msgstr "选项组名称："
 
 msgid "New order from the application"
-msgstr "应用程序的新秩序"
+msgstr "来自应用程序的新订单"
 
 msgid "Next"
 msgstr "下一个"
@@ -589,10 +589,10 @@ msgid "Options"
 msgstr "选项"
 
 msgid "Options group successfully deleted"
-msgstr "集团成功删除选项"
+msgstr "选项组删除成功"
 
 msgid "Options group successfully saved"
-msgstr "选项​​成功保存组"
+msgstr "选项组保存成功"
 
 #. machine-translated (2026-10), to be reviewed
 msgid "Order Number"
@@ -610,7 +610,7 @@ msgid "Order confirmation"
 msgstr "订单确认"
 
 msgid "Order details"
-msgstr "该命令的细节"
+msgstr "订单详情"
 
 #. machine-translated (2026-10), to be reviewed
 msgid "Order history"
@@ -621,10 +621,10 @@ msgid "Order %s cancelled"
 msgstr "订单 %s 已取消"
 
 msgid "Order successfully cancelled"
-msgstr "为了成功保存"
+msgstr "订单取消成功"
 
 msgid "Order successfully saved"
-msgstr "为了成功保存"
+msgstr "订单保存成功"
 
 msgid "Orders"
 msgstr "订单"
@@ -653,14 +653,14 @@ msgid "Payment methods:"
 msgstr "付款方式："
 
 msgid "Paypal"
-msgstr "贝宝"
+msgstr "PayPal"
 
 #. machine-translated (2026-10), to be reviewed
 msgid "Paypal settings"
 msgstr "PayPal 设置"
 
 msgid "Pending payment"
-msgstr "优秀"
+msgstr "待付款"
 
 #. machine-translated (2026-10), to be reviewed
 msgid "Percentage is a least 1%, at max 99%"
@@ -678,7 +678,7 @@ msgid "Phone"
 msgstr "电话"
 
 msgid "Phone number"
-msgstr "电话号码："
+msgstr "电话号码"
 
 msgid "Picture"
 msgstr "图像"
@@ -690,7 +690,7 @@ msgid "Please choose a payment method"
 msgstr "请选择付款方式"
 
 msgid "Please, enter an email address for the store %s"
-msgstr "请输入电子邮件地址，仓库％s"
+msgstr "请输入商店 %s 的电子邮件地址"
 
 #. machine-translated (2026-10), to be reviewed
 msgid "Please fill in your card information to process Credit card payment:"
@@ -708,7 +708,7 @@ msgid "Postcode"
 msgstr "邮政编码"
 
 msgid "Previous"
-msgstr "前"
+msgstr "上一个"
 
 msgid "Price"
 msgstr "价格"
@@ -739,7 +739,7 @@ msgid "Product name"
 msgstr "产品名称"
 
 msgid "Product successfully duplicated"
-msgstr "产品成功保存"
+msgstr "产品复制成功"
 
 msgid "Product successfully saved"
 msgstr "产品成功保存"
@@ -755,7 +755,7 @@ msgid "Qty: %s"
 msgstr "数量： ％s"
 
 msgid "Radius in Km"
-msgstr "收音机公里。"
+msgstr "半径（公里）"
 
 #. machine-translated (2026-10), to be reviewed
 msgid "Remaining amount due"
@@ -774,7 +774,7 @@ msgid "Return URL:"
 msgstr "返回 URL："
 
 msgid "Review"
-msgstr "回顾"
+msgstr "评价"
 
 msgid "Search:"
 msgstr "搜索"
@@ -787,7 +787,7 @@ msgid "Settings"
 msgstr "设置"
 
 msgid "Settings successfully saved"
-msgstr "券成功保存顿饭。"
+msgstr "设置保存成功"
 
 #. machine-translated (2026-10), to be reviewed
 msgid "Show _MENU_ entries"
@@ -828,25 +828,25 @@ msgid "Store choice"
 msgstr "门店选择"
 
 msgid "Store information"
-msgstr "存储信息"
+msgstr "商店信息"
 
 msgid "Store name"
-msgstr "公司名称"
+msgstr "商店名称"
 
 msgid "Store successfully deleted"
-msgstr "保持成功删除"
+msgstr "商店删除成功"
 
 msgid "Store successfully saved"
-msgstr "保持成功保存"
+msgstr "商店保存成功"
 
 msgid "Stored card information."
-msgstr "存储信息"
+msgstr "已保存的卡片信息。"
 
 msgid "Stores"
-msgstr "店"
+msgstr "商店"
 
 msgid "Street"
-msgstr "街头"
+msgstr "街道"
 
 #. machine-translated (2026-10), to be reviewed
 msgid "Stripe settings"
@@ -866,16 +866,16 @@ msgid "Tax"
 msgstr "税"
 
 msgid "Tax name"
-msgstr "计税"
+msgstr "税项名称"
 
 msgid "Tax rate"
 msgstr "税率"
 
 msgid "Tax successfully deleted"
-msgstr "成功删除税"
+msgstr "税项删除成功"
 
 msgid "Tax successfully saved"
-msgstr "保存成功税"
+msgstr "税项保存成功"
 
 msgid "Thank you!"
 msgstr "谢谢！"
@@ -888,34 +888,34 @@ msgid "The delivery method"
 msgstr "交货方式"
 
 msgid "The following options are required:<br />%s"
-msgstr "下列选项是必需的：<br /> ％s"
+msgstr "以下选项为必填项：<br />%s"
 
 msgid "The option %s is required"
-msgstr "所需的％ s选项"
+msgstr "选项 %s 为必填项"
 
 msgid ""
 "The payment has been cancelled, something wrong happened? Feel free to "
 "contact us"
-msgstr "付款已被取消，坏事发生？不要犹豫与我们联系"
+msgstr "付款已取消，出了什么问题吗？欢迎联系我们"
 
 msgid "The payment method"
-msgstr "支付"
+msgstr "付款方式"
 
 msgid "Time in minutes"
-msgstr "在几分钟时间"
+msgstr "时间（分钟）"
 
 #. machine-translated (2026-10), to be reviewed
 msgid "Tip"
 msgstr "小费"
 
 msgid "Total"
-msgstr "总"
+msgstr "总计"
 
 msgid "Total Excl. Tax"
 msgstr "合计不含税"
 
 msgid "Total Tax"
-msgstr "总税收"
+msgstr "税款总计"
 
 msgid "Total: %s"
 msgstr "总计： ％s"
@@ -939,10 +939,10 @@ msgid "Usable once"
 msgstr "仅可使用一次"
 
 msgid "Use:"
-msgstr "用户"
+msgstr "使用："
 
 msgid "Use my points?"
-msgstr "二手点"
+msgstr "使用我的积分？"
 
 msgid "Username"
 msgstr "用户名"
@@ -964,7 +964,7 @@ msgid "Waiting for payment"
 msgstr "等待付款"
 
 msgid "We apologize but the payment method %s is currently not available"
-msgstr "我们深表歉意，但付款方式％s是不可用"
+msgstr "很抱歉，付款方式 %s 目前不可用"
 
 msgid "We thank you for your order. A confirmation email has been sent"
 msgstr "我们感谢您的订单。确认邮件已发送"
@@ -977,23 +977,23 @@ msgid "You did not login."
 msgstr "您尚未登录。"
 
 msgid "You don't have any categories yet"
-msgstr "你有没有类"
+msgstr "您还没有任何类别"
 
 #. machine-translated (2026-10), to be reviewed
 msgid "You don't have enough points"
 msgstr "您的积分不足"
 
 msgid "You have a connected printer? Enter the email address"
-msgstr "你有一台打印机连接？输入电子邮件地址"
+msgstr "您有联网打印机吗？请输入电子邮件地址"
 
 msgid "You have a connected printer? Enter the email address for each store"
-msgstr "你有一台打印机连接？输入电子邮件地址，每个商店"
+msgstr "您有联网打印机吗？请为每家商店输入电子邮件地址"
 
 msgid "You have to choose a delivery method."
-msgstr "请选择送货方式"
+msgstr "您必须选择运输方式。"
 
 msgid "You must be logged in to continue"
-msgstr "你必须登录验证点"
+msgstr "您必须登录才能继续"
 
 #. machine-translated (2026-10), to be reviewed
 msgid "You used the code before"
@@ -1006,7 +1006,7 @@ msgid "Your email address"
 msgstr "您的电子邮件地址"
 
 msgid "Your firstname"
-msgstr "你的名字"
+msgstr "您的名字"
 
 msgid "Your lastname"
 msgstr "您的姓氏"
@@ -1015,14 +1015,14 @@ msgid "Your phone number"
 msgstr "你的电话号码"
 
 msgid "e.g., Sauces"
-msgstr "如酱"
+msgstr "例如：酱料"
 
 #. machine-translated (2026-10), to be reviewed
 msgid "(filtered from _MAX_ total entries)"
 msgstr "（从 _MAX_ 条记录中筛选）"
 
 msgid "%s - Customer Service"
-msgstr "％s - 客户服务"
+msgstr "%s - 客户服务"
 
 #. machine-translated (2026-10), to be reviewed
 msgid "without taxes"

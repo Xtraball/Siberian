@@ -108,7 +108,7 @@ msgid "Active subscriptions with remaining slots."
 msgstr "Aktivní předplatná se zbývajícími sloty."
 
 msgid "Add a region"
-msgstr "Přidat sekci"
+msgstr "Přidat oblast"
 
 #. machine-translated (2026-10), to be reviewed
 msgid "Adding %s to SAN."
@@ -123,7 +123,7 @@ msgid "AdminId is required to save the Application."
 msgstr "K uložení aplikace je vyžadováno AdminId."
 
 msgid "Album:"
-msgstr "Alba:"
+msgstr "Album:"
 
 #. machine-translated (2026-10), to be reviewed
 msgid "All sessions are now migrated to Redis."
@@ -162,7 +162,7 @@ msgid "An error occurred, please try again."
 msgstr "Došlo k chybě, zkuste to prosím znovu."
 
 msgid "An error occurred when generating the apk"
-msgstr "Při mazání došlo k chybě"
+msgstr "Při generování APK došlo k chybě"
 
 msgid "An error occurred while hidding the Android Status Bar."
 msgstr "Při skrytí stavové lišty došlo k chybě"
@@ -183,19 +183,19 @@ msgid "An error occurred while saving the password. Please try again later."
 msgstr "Při ukládání hesla došlo k chybě. Zkuste to prosím později"
 
 msgid "An error occurred while saving your APK. Please try again later."
-msgstr "Při ukládání ikony došlo k chybě. Zkuste to prosím později"
+msgstr "Při ukládání APK došlo k chybě. Zkuste to prosím později"
 
 msgid "An error occurred while saving your Keystore. Please try again later."
-msgstr "Při ukládání obrázku došlo k chybě. zkuste to prosím znovu"
+msgstr "Při ukládání Keystore došlo k chybě. Zkuste to prosím později"
 
 msgid "An error occurred while saving your page subtitle."
-msgstr "Při ukládání názevu stránky došlo k chybě"
+msgstr "Při ukládání podtitulu stránky došlo k chybě"
 
 msgid "An error occurred while saving your picture. Please try againg later."
-msgstr "Při ukládání obrázku došlo k chybě. Prosím, zkuste to prosím později."
+msgstr "Při ukládání obrázku došlo k chybě. Zkuste to prosím později."
 
 msgid "An error occurred while upload the APK. Please try again later."
-msgstr "Při načítání došlo k chybě. Zkuste to prosím později."
+msgstr "Při nahrávání APK došlo k chybě. Zkuste to prosím později."
 
 msgid "An error occurred while validating point<br />Please try again later."
 msgstr "Při ověřování bodu došlo k chybě. Zkuste to prosím později"
@@ -227,14 +227,14 @@ msgid "Anniversary"
 msgstr "Výročí"
 
 msgid "App ID:"
-msgstr "App ID"
+msgstr "App ID:"
 
 #. machine-translated (2026-10), to be reviewed
 msgid "App Id is required!"
 msgstr "ID aplikace je povinné!"
 
 msgid "App name:"
-msgstr "Název aplikace"
+msgstr "Název aplikace:"
 
 #. machine-translated (2026-10), to be reviewed
 msgid "Application id %s not found."
@@ -280,7 +280,7 @@ msgid "Banner %s price"
 msgstr "Cena banneru pro %s"
 
 msgid "Banner %s store label"
-msgstr "Název tlačítka na banneru"
+msgstr "Název tlačítka obchodu %s na banneru"
 
 #. machine-translated (2026-10), to be reviewed
 msgid ""
@@ -306,7 +306,7 @@ msgid "Bin SQLite3:"
 msgstr "Bin SQLite3:"
 
 msgid "Black"
-msgstr "Zpět"
+msgstr "Černá"
 
 msgid "Booking details:"
 msgstr "Rezervační údaje:"
@@ -387,14 +387,14 @@ msgid "Category not found!"
 msgstr "Kategorie nebyla nalezena!"
 
 msgid "Category successfully deleted."
-msgstr "Kategorie byla úspěšně uložena."
+msgstr "Kategorie byla úspěšně smazána."
 
 #. machine-translated (2026-10), to be reviewed
 msgid "Certificate renewal is disabled until %s due to rate limit hit."
 msgstr "Obnova certifikátu je zakázána do %s kvůli dosažení limitu četnosti."
 
 msgid "Change your homepage"
-msgstr "Změnit šablonu"
+msgstr "Změnit hlavní stránku"
 
 #. machine-translated (2026-10), to be reviewed
 msgid "Change your startup image"
@@ -432,16 +432,16 @@ msgid "Coiffeurs"
 msgstr "Kadeřníci"
 
 msgid "Company successfully deleted."
-msgstr "Správce úspěšně smazán"
+msgstr "Společnost byla úspěšně smazána."
 
 msgid "Create a new plan"
-msgstr "Vytvořit novou daň"
+msgstr "Vytvořit nový plán"
 
 msgid "Created at:"
 msgstr "Vytvořeno:"
 
 msgid "Credentials successfully saved!"
-msgstr "Nastavení bylo uloženo"
+msgstr "Přihlašovací údaje byly úspěšně uloženy!"
 
 msgid "Date and time:"
 msgstr "Datum a čas:"
@@ -466,7 +466,7 @@ msgid "Delivery fees:"
 msgstr "Poplatky za doručení:"
 
 msgid "Delivery methods:"
-msgstr "Způsob doručení:"
+msgstr "Způsoby doručení:"
 
 msgid "Delivery radius:"
 msgstr "Okruh doručení:"
@@ -692,7 +692,7 @@ msgid "Listing produits / tarifs"
 msgstr "Seznam produktů / ceník"
 
 msgid "Loading your white label editor."
-msgstr "Nahrávám editor barev"
+msgstr "Načítání vašeho editoru white label."
 
 msgid "MM/dd/y"
 msgstr "dd/MM/y"
@@ -717,7 +717,7 @@ msgid "Message:"
 msgstr "Zpráva:"
 
 msgid "Message is required."
-msgstr "Jméno je vyžadováno"
+msgstr "Zpráva je vyžadována"
 
 #. machine-translated (2026-10), to be reviewed
 msgid "Migration done!"
@@ -727,7 +727,7 @@ msgid "Minimum order:"
 msgstr "Minimální objednávka:"
 
 msgid "Missing categories."
-msgstr "Načítání kategorie"
+msgstr "Chybí kategorie."
 
 #. machine-translated (2026-10), to be reviewed
 msgid "Missing data."
@@ -770,7 +770,7 @@ msgid "Missing value_id!"
 msgstr "Chybí value_id!"
 
 msgid "Mode"
-msgstr "Více"
+msgstr "Režim"
 
 #. machine-translated (2026-10), to be reviewed
 msgid "Mur de news"
@@ -886,10 +886,10 @@ msgid "Option name:"
 msgstr "Název formátu:"
 
 msgid "Or purchase a new subscription"
-msgstr "Vytvořit nový plán předplatného"
+msgstr "Nebo si zakupte nové předplatné"
 
 msgid "Order: "
-msgstr "Objednávky"
+msgstr "Objednávka: "
 
 msgid "Order successfully saved saved."
 msgstr "Objednávka byla úspěšně uložena"
@@ -956,7 +956,7 @@ msgid "Please correct the following errors <br>"
 msgstr "Opravte prosím následující chyby <br>"
 
 msgid "Please enter a correct version for the %s app"
-msgstr "Prosím, zadejte správné URL pro %s obchod"
+msgstr "Prosím, zadejte správnou verzi aplikace %s"
 
 msgid "Please, enter a password."
 msgstr "Prosím, zadejte heslo."
@@ -993,7 +993,7 @@ msgid "Previous version"
 msgstr "Předchozí verze"
 
 msgid "Price:"
-msgstr "Ceny"
+msgstr "Cena:"
 
 #. machine-translated (2026-10), to be reviewed
 msgid "Product has been deleted."
@@ -1011,20 +1011,20 @@ msgid "Promo not found"
 msgstr "Akce nebyla nalezena"
 
 msgid "Promo successfully deleted"
-msgstr "Stránka byla úspěšně smazána"
+msgstr "Akce byla úspěšně smazána"
 
 msgid "Promotion successfully deleted."
-msgstr "Informace byla úspěšně smazána"
+msgstr "Akce byla úspěšně smazána."
 
 #. machine-translated (2026-10), to be reviewed
 msgid "Provider"
 msgstr "Poskytovatel"
 
 msgid "Purchase a new subscription!"
-msgstr "Vytvořit nový plán předplatného"
+msgstr "Zakupte si nové předplatné!"
 
 msgid "Query successfully deleted."
-msgstr "Uživatel byl smazán"
+msgstr "Dotaz byl úspěšně smazán."
 
 #. machine-translated (2026-10), to be reviewed
 msgid "Question"
@@ -1039,7 +1039,7 @@ msgid "RSS/Atom"
 msgstr "RSS/Atom"
 
 msgid "Rate"
-msgstr "Daňová sazba"
+msgstr "Sazba"
 
 #. machine-translated (2026-10), to be reviewed
 msgid "Reason:"
@@ -1118,7 +1118,7 @@ msgid "Seems we could delete unwanted files, aborting!"
 msgstr "Zdá se, že jsme mohli odstranit nežádoucí soubory, přerušuji!"
 
 msgid "Select a connection type:"
-msgstr "Vyberte typ tlačítka"
+msgstr "Vyberte typ připojení"
 
 #. machine-translated (2026-10), to be reviewed
 msgid "Select one of the available subscriptions with remaining slots"
@@ -1157,7 +1157,7 @@ msgid "Snacking<br />Restaurants"
 msgstr "Rychlé občerstvení<br />Restaurace"
 
 msgid "Social Gaming"
-msgstr "Sdílení"
+msgstr "Sociální hry"
 
 #. machine-translated (2026-10), to be reviewed
 msgid "Something went wrong while restoring files, process aborted!"
@@ -1167,7 +1167,7 @@ msgid "Sorry but an error occurred while duplicating your application."
 msgstr "Při vytváření kopie aplikace došlo k chybě"
 
 msgid "Source type:"
-msgstr "Zdrojový kód"
+msgstr "Typ zdroje:"
 
 #. machine-translated (2026-10), to be reviewed
 msgid "Sources Generation"
@@ -1178,10 +1178,10 @@ msgid "Sources are successfully restored."
 msgstr "Zdrojové kódy byly úspěšně obnoveny."
 
 msgid "Subscription: "
-msgstr "Předplatné"
+msgstr "Předplatné: "
 
 msgid "Subscription date"
-msgstr "Předplatné"
+msgstr "Datum předplatného"
 
 #. machine-translated (2026-10), to be reviewed
 msgid "Subscription updated."
@@ -1276,13 +1276,11 @@ msgid "The categories for line %s couldn't be read."
 msgstr "Kategorie pro řádek %s nebylo možné přečíst."
 
 msgid "The data has been saved successfully"
-msgstr "Formulář byl úspěšně odeslán"
+msgstr "Data byla úspěšně uložena"
 
 msgid ""
 "The entered package name is incorrect, it should be like: com.siberiancms.app"
-msgstr ""
-"Zadaný bundle_ID není správný, měl by mít formát podobný tomuto: "
-"com.siberiancms.app"
+msgstr "Zadaný název balíčku není správný, měl by mít formát podobný tomuto: com.siberiancms.app"
 
 #. machine-translated (2026-10), to be reviewed
 msgid "The feature you are trying to edit doesn't exists!"
@@ -1335,13 +1333,13 @@ msgid "The source generation is done !"
 msgstr "Generování zdrojového kódu je dokončeno!"
 
 msgid "The subscription is cancelled!"
-msgstr "Toto předplatné je aktivní"
+msgstr "Předplatné bylo zrušeno!"
 
 msgid "The subscription is now active."
-msgstr "Toto předplatné je aktivní"
+msgstr "Toto předplatné je nyní aktivní."
 
 msgid "The subscription is now inactive."
-msgstr "Toto předplatné je aktivní"
+msgstr "Toto předplatné je nyní neaktivní."
 
 #. machine-translated (2026-10), to be reviewed
 msgid "The user doesn't exist."
@@ -1370,7 +1368,7 @@ msgid "This admin can download application sources code."
 msgstr "Uživatel si může stáhnout zdrojový kód"
 
 msgid "This application does not belong to you."
-msgstr "Tato aplikace neexistuje"
+msgstr "Tato aplikace vám nepatří."
 
 #. machine-translated (2026-10), to be reviewed
 msgid "This block type doesn't exists."
@@ -1421,7 +1419,7 @@ msgid "This method is deprecated, please update!"
 msgstr "Tato metoda je zastaralá, proveďte aktualizaci!"
 
 msgid "This subscription does not exists!"
-msgstr "Tato aplikace neexistuje"
+msgstr "Toto předplatné neexistuje!"
 
 #. machine-translated (2026-10), to be reviewed
 msgid "This subscription doesn't exists!"
@@ -1438,7 +1436,7 @@ msgid ""
 msgstr "Tento instalátor šablon již není podporován, informace o aktualizaci instalátoru najdete v dokumentaci."
 
 msgid "This user does not exist."
-msgstr "Tento administrátor neexistuje"
+msgstr "Tento uživatel neexistuje."
 
 #. machine-translated (2026-10), to be reviewed
 msgid "Tip: %s"
@@ -1536,7 +1534,7 @@ msgid "Upload your %s file below."
 msgstr "Níže nahrajte svůj soubor %s."
 
 msgid "User: "
-msgstr "Uživatelé"
+msgstr "Uživatel: "
 
 #. machine-translated (2026-10), to be reviewed
 msgid "User ID:"
@@ -1586,7 +1584,7 @@ msgid ""
 msgstr "Nepodařilo se najít vaši poslední platbu za předplatné aplikace <b>%s</b>"
 
 msgid "Website:"
-msgstr "Webová stránka"
+msgstr "Webová stránka:"
 
 #. machine-translated (2026-10), to be reviewed
 msgid "Welcome on our Platform %s"
@@ -1705,7 +1703,7 @@ msgid "You can't go back with Angular."
 msgstr "Nemůžete se vrátit s Angularem."
 
 msgid "You don't have any plans yet"
-msgstr "Zatím nemáte žádné uživatele"
+msgstr "Zatím nemáte žádné plány"
 
 msgid "You don't have created any taxes yet"
 msgstr "Zatím nemáte vytvořeny žádné daňové sazby"
@@ -1865,7 +1863,7 @@ msgid "iOS Descriptions saved!"
 msgstr "Popisy pro iOS byly uloženy!"
 
 msgid "iPhone X:"
-msgstr "iPhone 6:"
+msgstr "iPhone X:"
 
 msgid "password"
 msgstr "Heslo"

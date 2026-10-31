@@ -34,13 +34,13 @@ msgid "Albums"
 msgstr "Альбомы"
 
 msgid "An error occurred while loading the media."
-msgstr "Произошла ошибка при загрузке события"
+msgstr "Произошла ошибка при загрузке медиа."
 
 msgid "An error occurred while loading the radio."
-msgstr "Произошла ошибка при добавлении опции"
+msgstr "Произошла ошибка при загрузке радио."
 
 msgid "An error occurred while reading the code."
-msgstr "Произошла ошибка при удалении события"
+msgstr "Произошла ошибка при чтении кода."
 
 msgid "An unexpected error occurred while calculating the route."
 msgstr "Произошла непредвиденная ошибка при расчете маршрута."
@@ -70,7 +70,7 @@ msgid "Cancel edit"
 msgstr "Отменить редактирование"
 
 msgid "Civility"
-msgstr "Вежливость"
+msgstr "Обращение"
 
 msgid "Clear"
 msgstr "Очистить"
@@ -85,7 +85,7 @@ msgid "Comment"
 msgstr "Комментарий"
 
 msgid "Copy"
-msgstr "Копия"
+msgstr "Копировать"
 
 msgid "Create an account"
 msgstr "Создать аккаунт"
@@ -97,7 +97,7 @@ msgid "Delete"
 msgstr "Удалить"
 
 msgid "Delivery address"
-msgstr "Область доставки"
+msgstr "Адрес доставки"
 
 msgid "Description"
 msgstr "Описание"
@@ -106,7 +106,7 @@ msgid "Discount code"
 msgstr "Код скидки"
 
 msgid "Dismiss"
-msgstr "Отменить"
+msgstr "Закрыть"
 
 msgid "Done"
 msgstr "Готово"
@@ -136,22 +136,22 @@ msgid "Forgot your password?"
 msgstr "Забыли пароль?"
 
 msgid "Hi. I just found: $1 in the $2 app."
-msgstr "Привет. Я только что нашел: $1 в приложении 2$."
+msgstr "Привет. Я только что нашёл: $1 в приложении $2."
 
 msgid "I accept the privacy policy"
-msgstr "Я принимаю <u> политику конфиденциальности </u>"
+msgstr "Я принимаю политику конфиденциальности"
 
 msgid "I just found this discount $1 in $2 app."
-msgstr "Я только что нашел скидку $1 в приложение $2."
+msgstr "Я только что нашёл скидку $1 в приложении $2."
 
 msgid "Identity"
 msgstr "Личность"
 
 msgid "I'm listening to $1 from $2 on $3 app."
-msgstr "Я слушаю до $1 из $2 на $3 приложения."
+msgstr "Я слушаю $1 из $2 в приложении $3."
 
 msgid "I'm listening to $1 on $2 app."
-msgstr "Я слушаю 1 $на Приложение $2."
+msgstr "Я слушаю $1 в приложении $2."
 
 msgid "Info"
 msgstr "Информация"
@@ -172,10 +172,10 @@ msgid "Loading"
 msgstr "Загрузка"
 
 msgid "Locate"
-msgstr "Навигация по карте"
+msgstr "Определить местоположение"
 
 msgid "Location"
-msgstr "Места"
+msgstr "Местоположение"
 
 msgid "Log-in"
 msgstr "Авторизоваться"
@@ -205,7 +205,7 @@ msgid "New Post"
 msgstr "Новый Пост"
 
 msgid "Nickname"
-msgstr "Прозвище"
+msgstr "Псевдоним"
 
 msgid "No comments for now."
 msgstr "Нет комментариев."
@@ -217,7 +217,7 @@ msgid "No images found"
 msgstr "Изображений не найдено"
 
 msgid "No items found"
-msgstr "Нет пунктов"
+msgstr "Элементы не найдены"
 
 msgid "No results for your request."
 msgstr "Нет результатов для вашего запроса."
@@ -232,7 +232,7 @@ msgid "Number of people"
 msgstr "Количество людей"
 
 msgid "OK"
-msgstr "ДА"
+msgstr "ОК"
 
 msgid "Offline mode"
 msgstr "Автономный режим"
@@ -244,7 +244,7 @@ msgid "Open link"
 msgstr "Открыть ссылку"
 
 msgid "Or with your account"
-msgstr "Или с вашего счета"
+msgstr "Или с вашей учётной записью"
 
 msgid "Order Details"
 msgstr "Детали заказа"
@@ -262,13 +262,13 @@ msgid "Photos"
 msgstr "Фото"
 
 msgid "Playlists"
-msgstr "Плейлист"
+msgstr "Плейлисты"
 
 msgid "Please enter a valid email address"
-msgstr "Пожалуйста, введите верный адрес"
+msgstr "Пожалуйста, введите действительный адрес электронной почты"
 
 msgid "Please enter your email address."
-msgstr "Пожалуйста, введите ваш адрес электронной почты"
+msgstr "Пожалуйста, введите ваш адрес электронной почты."
 
 msgid ""
 "Please enter your email address. We'll send you your password right now."
@@ -282,7 +282,7 @@ msgid "Podcast"
 msgstr "Подкаст"
 
 msgid "Prices"
-msgstr "Прайс"
+msgstr "Цены"
 
 msgid "Privacy"
 msgstr "Конфиденциальность"
@@ -294,7 +294,7 @@ msgid "Pull to refresh..."
 msgstr "Потяните, чтобы обновить..."
 
 msgid "RSVP"
-msgstr "Посмотреть подробности"
+msgstr "Подтвердить участие"
 
 msgid "Read all"
 msgstr "Прослушать все треки"
@@ -306,7 +306,7 @@ msgid "See details"
 msgstr "См. подробности"
 
 msgid "Send"
-msgstr "ОТПРАВИТЬ"
+msgstr "Отправить"
 
 msgid "Send contact request"
 msgstr "Отправить запрос контакта"
@@ -315,7 +315,7 @@ msgid "Show me in ranking"
 msgstr "Покажите меня в рейтинге"
 
 msgid "Success"
-msgstr "Успех"
+msgstr "Успешно"
 
 msgid "Tap to download in background"
 msgstr "Нажмите для загрузки в фоновом режиме"
@@ -324,13 +324,13 @@ msgid "Terms & Conditions"
 msgstr "Условия"
 
 msgid "The address you're looking for does not exists."
-msgstr "Адрес, который вы ищете не существует."
+msgstr "Адрес, который вы ищете, не существует."
 
 msgid "The sign in flow was canceled"
-msgstr "Вход в поток был отменен"
+msgstr "Вход был отменён"
 
 msgid "There is no route available with these informations."
-msgstr "Нет трассы доступны с этих информаций."
+msgstr "Для этих данных нет доступного маршрута."
 
 msgid "This application is no longer available"
 msgstr "Это приложение больше не доступно"
@@ -348,10 +348,10 @@ msgid "This will open the code scan camera on your device."
 msgstr "Это откроет камеру для сканирования кода на вашем устройстве."
 
 msgid "Title"
-msgstr "название"
+msgstr "Название"
 
 msgid "Tracks"
-msgstr "треки"
+msgstr "Треки"
 
 msgid "Triple tap to close the preview"
 msgstr "Тройной тап, чтобы закрыть окно предварительного просмотра"
@@ -363,20 +363,18 @@ msgid "Valid Until"
 msgstr "Действует до"
 
 msgid "View"
-msgstr "Вид"
+msgstr "Просмотр"
 
 msgid ""
 "We are sorry but this application has been deactivated and may not be re-"
 "activated."
-msgstr ""
-"Нам очень жаль, но это приложение было отключено и не может быть повторно "
-"активирован."
+msgstr "Нам очень жаль, но это приложение было отключено и не может быть повторно активировано."
 
 msgid "Website"
 msgstr "Сайт"
 
 msgid "We'll send you your password right now."
-msgstr "Мы пришлем вам ваш пароль прямо сейчас."
+msgstr "Мы пришлём вам пароль прямо сейчас."
 
 msgid ""
 "Wrong password.<br />Be careful !<br />%d remaining attempt%s before locking "
@@ -386,7 +384,7 @@ msgstr ""
 "блокировать карту. <br />Попросите в магазине продавца проверить ваши точки"
 
 msgid "XXXX XXXX XXXX"
-msgstr "ХХХХ ХХХХ ХХХХ"
+msgstr "XXXX XXXX XXXX"
 
 msgid "You must fill at least one field!"
 msgstr "Вы должны заполнить хотя бы одно поле!"
@@ -396,15 +394,13 @@ msgstr "Ваш комментарий"
 
 msgid ""
 "Your location could not be found because your application doesn't use SSL."
-msgstr ""
-"Ваше местоположение не может быть найдено, потому что ваше приложение не "
-"использовать SSL."
+msgstr "Ваше местоположение не удалось определить, потому что ваше приложение не использует SSL."
 
 msgid "followers"
-msgstr "последователи"
+msgstr "подписчики"
 
 msgid "following"
-msgstr "следующим"
+msgstr "подписки"
 
 msgid "track"
 msgstr "трек"

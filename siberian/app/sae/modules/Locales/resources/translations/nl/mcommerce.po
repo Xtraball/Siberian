@@ -15,7 +15,7 @@ msgstr ""
 "X-Generator: Weblate 3.3\n"
 
 msgid ": activate to sort column ascending"
-msgstr ": Activeren om kolom oplopend"
+msgstr ": activeer om kolom oplopend te sorteren"
 
 msgid ": activate to sort column descending"
 msgstr ": Activeren om kolom aflopend te sorteren"
@@ -39,7 +39,7 @@ msgid "Add gratuity (Optional)"
 msgstr "Toevoegen fooi (Optioneel)"
 
 msgid "Add options"
-msgstr "Opties toe te voegen"
+msgstr "Opties toevoegen"
 
 msgid "Add pictures"
 msgstr "Afbeeldingen toevoegen"
@@ -73,9 +73,7 @@ msgstr "Er is een fout opgetreden bij het verwerken van uw bestelling:"
 msgid ""
 "An error occurred while proceeding your order. Please, check the following "
 "information:"
-msgstr ""
-"Er is een fout opgetreden bij het bestellen. Controleer de volgende "
-"gegegevens:"
+msgstr "Er is een fout opgetreden bij het verwerken van uw bestelling. Controleer de volgende gegevens:"
 
 msgid "Are you sure you want to close without saving"
 msgstr "Weet u zeker dat u wilt sluiten zonder op te bewaren"
@@ -89,10 +87,10 @@ msgid "Are you sure you want to delete this store?"
 msgstr "Weet u zeker dat u deze winkel wilt verwijderen?"
 
 msgid "Are you sure you want to delete this tax?"
-msgstr "Weett u zeker dat u deze belasting wilt verwijderen?"
+msgstr "Weet u zeker dat u deze belasting wilt verwijderen?"
 
 msgid "Are you sure you want to remove this product?"
-msgstr "Weett u zeker dat u dit product wilt verwijderen?"
+msgstr "Weet u zeker dat u dit product wilt verwijderen?"
 
 msgid "At least one option is required:"
 msgstr "Ten minste één optie is vereist:"
@@ -104,7 +102,7 @@ msgid "CVC"
 msgstr "CVC"
 
 msgid "Calculate the change for the client"
-msgstr "Bereken de verandering voor de klant"
+msgstr "Bereken het wisselgeld voor de klant"
 
 msgid "Cancel order"
 msgstr "Annuleer bestelling"
@@ -113,10 +111,10 @@ msgid "Cancelled"
 msgstr "Geannuleerd"
 
 msgid "Card Number"
-msgstr "Kaart Nummer"
+msgstr "Kaartnummer"
 
 msgid "Carry Out"
-msgstr "Uitvoeren"
+msgstr "Afhalen"
 
 msgid "Cart"
 msgstr "Winkelwagen"
@@ -134,7 +132,7 @@ msgid "Check"
 msgstr "Controleer"
 
 msgid "Choose a delivery method:"
-msgstr "Kies een levering methode:"
+msgstr "Kies een leveringsmethode:"
 
 msgid "Choose a payment method:"
 msgstr "Kies een betaalmethode:"
@@ -176,7 +174,7 @@ msgid "Create a new discount"
 msgstr "Maak een nieuwe korting"
 
 msgid "Create a new options group"
-msgstr "Maak een nieuwe keuze groep"
+msgstr "Maak een nieuwe optiegroep"
 
 msgid "Create a new product"
 msgstr "Maak een nieuw product"
@@ -206,7 +204,7 @@ msgid "Customer Service"
 msgstr "Klantenservice"
 
 msgid "Customer can add tip to a command?"
-msgstr "De klant kan toevoegen tip om een opdracht?"
+msgstr "Kan de klant een fooi toevoegen aan een bestelling?"
 
 msgid "Date of birth"
 msgstr "Geboortedatum"
@@ -227,7 +225,7 @@ msgid "Delivery Fees"
 msgstr "Verzendingskosten"
 
 msgid "Delivery Method"
-msgstr "Levering Wijze"
+msgstr "Leveringswijze"
 
 msgid "Delivery address"
 msgstr "Bezorgadres"
@@ -239,10 +237,10 @@ msgid "Delivery fees"
 msgstr "Verzendingskosten"
 
 msgid "Delivery methods"
-msgstr "Wijze van levering"
+msgstr "Leveringswijzen"
 
 msgid "Delivery radius"
-msgstr "Levering straal"
+msgstr "Leveringsstraal"
 
 msgid "Delivery time"
 msgstr "Levertijd"
@@ -263,28 +261,28 @@ msgid "Discount amount"
 msgstr "Kortings bedrag"
 
 msgid "Discount amount si very high"
-msgstr "Korting bedrag si zeer hoog"
+msgstr "Het kortingsbedrag is zeer hoog"
 
 msgid "Discount code"
 msgstr "Kortingscode"
 
 msgid "Discount code already exists"
-msgstr "Korting code bestaat al"
+msgstr "Kortingscode bestaat al"
 
 msgid "Discount code is missing"
 msgstr "Kortingscode ontbreekt"
 
 msgid "Discount label is missing"
-msgstr "Korting etiket ontbreekt"
+msgstr "Kortingslabel ontbreekt"
 
 msgid "Discount minimum amount is missing"
-msgstr "Korting minimum bedrag ontbreekt"
+msgstr "Minimumbedrag van de korting ontbreekt"
 
 msgid "Discount no longer available"
 msgstr "Korting niet langer beschikbaar"
 
 msgid "Discount only for carts with total more than: "
-msgstr "Korting alleen voor de karren met in totaal meer dan: "
+msgstr "Korting alleen voor winkelwagens met in totaal meer dan: "
 
 msgid "Discount settings"
 msgstr "Korting Instellingen"
@@ -296,22 +294,22 @@ msgid "Discount type"
 msgstr "Type korting"
 
 msgid "Discount type is missing"
-msgstr "Korting soort ontbreekt"
+msgstr "Kortingstype ontbreekt"
 
 msgid "Discount used"
 msgstr "Korting gebruikt"
 
 msgid "Discount validation date"
-msgstr "Korting validatie datum"
+msgstr "Validatiedatum korting"
 
 msgid "Discounted amount is missing"
-msgstr "Korting bedrag ontbreekt"
+msgstr "Kortingsbedrag ontbreekt"
 
 msgid "Discounted amount should be a positive number"
-msgstr "Verdisconteerde waarde moet een positief nummer zijn,"
+msgstr "Het kortingsbedrag moet een positief getal zijn"
 
 msgid "Do you confirm you want to remove your card?"
-msgstr "Heeft u bevestigen dat u wilt verwijderen van je kaart?"
+msgstr "Bevestigt u dat u uw kaart wilt verwijderen?"
 
 msgid "Done"
 msgstr "Klaar"
@@ -326,7 +324,7 @@ msgid "Edit the choice list group"
 msgstr "Bewerk de keuzelijst groep"
 
 msgid "Edit the discount %s"
-msgstr "Bewerk de korting - %s"
+msgstr "Bewerk de korting %s"
 
 msgid "Edit the options group %s"
 msgstr "Bewerk de opties groep %s"
@@ -356,7 +354,7 @@ msgid "First Name"
 msgstr "Voornaam"
 
 msgid "Firstname"
-msgstr "Voornam"
+msgstr "Voornaam"
 
 msgid "Format:"
 msgstr "Formaat:"
@@ -365,7 +363,7 @@ msgid "Free delivery starting from"
 msgstr "Gratis levering vanaf"
 
 msgid "Free purchase"
-msgstr "Gratis koop"
+msgstr "Gratis aankoop"
 
 msgid "From"
 msgstr "Van"
@@ -380,7 +378,7 @@ msgid "Here is the detail of the order"
 msgstr "Hier zijn de details van de bestelling"
 
 msgid "Here is the detail of your order"
-msgstr "Hier zijn de details van je bestelling"
+msgstr "Hier zijn de details van uw bestelling"
 
 msgid "Hidden"
 msgstr "Verborgen"
@@ -392,7 +390,7 @@ msgid "I will pay"
 msgstr "Ik betaal"
 
 msgid "In store"
-msgstr "Op voorraad"
+msgstr "In de winkel"
 
 msgid "Incl."
 msgstr "Incl."
@@ -404,13 +402,13 @@ msgid "Invoicing address"
 msgstr "Factuuradres"
 
 msgid "Keep card information"
-msgstr "Houd de kaart informatie"
+msgstr "Kaartgegevens bewaren"
 
 msgid "Label"
 msgstr "Label"
 
 msgid "Last"
-msgstr "Laaste"
+msgstr "Laatste"
 
 msgid "Last Name"
 msgstr "Achternaam"
@@ -428,10 +426,10 @@ msgid "MM"
 msgstr "MM"
 
 msgid "Manage discounts"
-msgstr "Beheren kortingen"
+msgstr "Kortingen beheren"
 
 msgid "Manage user fields"
-msgstr "Beheren gebruiker velden"
+msgstr "Gebruikersvelden beheren"
 
 msgid "Mandatory"
 msgstr "Verplicht"
@@ -443,13 +441,13 @@ msgid "Merchant ID:"
 msgstr "Handelaar ID:"
 
 msgid "Minimum amount"
-msgstr "Minimum bedrag"
+msgstr "Minimumbedrag"
 
 msgid "Minimum amount should be a positive number"
-msgstr "Minimum bedrag moet een positief nummer zijn,"
+msgstr "Het minimumbedrag moet een positief getal zijn"
 
 msgid "Minimum order"
-msgstr "Minimum order"
+msgstr "Minimumbestelling"
 
 msgid "My Cart"
 msgstr "Mijn winkelwagen"
@@ -473,7 +471,7 @@ msgid "My product's categories"
 msgstr "Mijn product categorieën"
 
 msgid "My product's list choice options"
-msgstr "Mijn product in de lijst van keuze-opties"
+msgstr "Keuzelijstopties van mijn product"
 
 msgid "My product's options"
 msgstr "Mijn product opties"
@@ -488,13 +486,13 @@ msgid "Name of the options group:"
 msgstr "Naam optiegroep:"
 
 msgid "New order from the application"
-msgstr "Nieuwe order van de App"
+msgstr "Nieuwe bestelling vanuit de app"
 
 msgid "Next"
 msgstr "Volgende"
 
 msgid "No data available in table"
-msgstr "Geen data beschikbaar in de tabel"
+msgstr "Geen gegevens beschikbaar in de tabel"
 
 msgid "No matching records found"
 msgstr "Geen records gevonden die overeenstemmen"
@@ -506,10 +504,10 @@ msgid "Number"
 msgstr "Nummer"
 
 msgid "Option $1 is required."
-msgstr "Optie $1 verpligt."
+msgstr "Optie $1 is verplicht."
 
 msgid "Option name"
-msgstr "Opties naam"
+msgstr "Optienaam"
 
 msgid "Optional"
 msgstr "Optioneel"
@@ -521,7 +519,7 @@ msgid "Options group successfully deleted"
 msgstr "Groep opties succesvol verwijderd"
 
 msgid "Options group successfully saved"
-msgstr "Groep opties succesvol bewaard"
+msgstr "Groep opties succesvol opgeslagen"
 
 msgid "Order Number"
 msgstr "Bestelnummer"
@@ -530,25 +528,25 @@ msgid "Order N°"
 msgstr "Bestel N°"
 
 msgid "Order Total"
-msgstr "Totaal Bestelling"
+msgstr "Totaal bestelling"
 
 msgid "Order confirmation"
 msgstr "Bestel bevestiging"
 
 msgid "Order details"
-msgstr "Bestel details"
+msgstr "Bestelgegevens"
 
 msgid "Order history"
-msgstr "Geschiedenis"
+msgstr "Bestelgeschiedenis"
 
 msgid "Order %s cancelled"
-msgstr "Bestelling %s geanuleerd"
+msgstr "Bestelling %s geannuleerd"
 
 msgid "Order successfully cancelled"
 msgstr "Bestelling succesvol geannuleerd"
 
 msgid "Order successfully saved"
-msgstr "Bestelling bewaart"
+msgstr "Bestelling succesvol opgeslagen"
 
 msgid "Orders"
 msgstr "Bestellingen"
@@ -578,19 +576,19 @@ msgid "Paypal"
 msgstr "Paypal"
 
 msgid "Paypal settings"
-msgstr "Paypal instellingen"
+msgstr "PayPal-instellingen"
 
 msgid "Pending payment"
 msgstr "In afwachting van betaling"
 
 msgid "Percentage is a least 1%, at max 99%"
-msgstr "Ligt dat Percentage minstens 1%, max 99%"
+msgstr "Percentage is minimaal 1%, maximaal 99%"
 
 msgid "Percentage must be at least 1 percent, at most 99 percent"
-msgstr "Percentage moet ten minste 1 procent, bij de meeste 99 procent"
+msgstr "Percentage moet minimaal 1 procent en maximaal 99 procent zijn"
 
 msgid "Permit unregistered user to make order?"
-msgstr "Vergunning niet geregistreerde gebruiker te maken van een bestelling?"
+msgstr "Niet-geregistreerde gebruikers toestaan een bestelling te plaatsen?"
 
 msgid "Phone"
 msgstr "Telefoon"
@@ -602,22 +600,22 @@ msgid "Picture"
 msgstr "Afbeelding"
 
 msgid "Please choose a delivery method"
-msgstr "Kies een levering methode"
+msgstr "Kies een leveringsmethode"
 
 msgid "Please choose a payment method"
 msgstr "Kies een betaalmethode"
 
 msgid "Please, enter an email address for the store %s"
-msgstr "Vul een e-mailadres voor de winkel %s"
+msgstr "Vul een e-mailadres in voor de winkel %s"
 
 msgid "Please fill in your card information to process Credit card payment:"
-msgstr "Gelieve uw kaartgegevens in te vullen om uw betaling te verwerken:"
+msgstr "Vul uw kaartgegevens in om de creditcardbetaling te verwerken:"
 
 msgid "Points"
 msgstr "Punten"
 
 msgid "Points available:"
-msgstr "Punten:"
+msgstr "Beschikbare punten:"
 
 msgid "Postcode"
 msgstr "Postcode"
@@ -653,13 +651,13 @@ msgid "Product name"
 msgstr "Productnaam"
 
 msgid "Product successfully duplicated"
-msgstr "Het product is gekopieerd"
+msgstr "Product succesvol gedupliceerd"
 
 msgid "Product successfully saved"
 msgstr "Product succesvol opgeslagen"
 
 msgid "Publishable Key:"
-msgstr "Publiceerbare Key:"
+msgstr "Publishable key:"
 
 msgid "Qty"
 msgstr "Aantal"
@@ -668,22 +666,22 @@ msgid "Qty: %s"
 msgstr "Aantal: %s"
 
 msgid "Radius in Km"
-msgstr "Radius in Km"
+msgstr "Straal in km"
 
 msgid "Remaining amount due"
-msgstr "Resterend bedrag"
+msgstr "Nog te betalen bedrag"
 
 msgid "Remaining due"
-msgstr "Resterend bedrag"
+msgstr "Nog te betalen"
 
 msgid "Remove card"
-msgstr "Verwijder de kaart"
+msgstr "Kaart verwijderen"
 
 msgid "Return URL:"
-msgstr "Terugkeer URL:"
+msgstr "Return-URL:"
 
 msgid "Review"
-msgstr "Recensie"
+msgstr "Beoordeling"
 
 msgid "Search:"
 msgstr "Zoeken:"
@@ -701,13 +699,13 @@ msgid "Show _MENU_ entries"
 msgstr "Toon _MENU_ vermeldingen"
 
 msgid "Show search fields on product list ?"
-msgstr "Toon zoekvelden op deze product lijst?"
+msgstr "Zoekvelden tonen op de productlijst?"
 
 msgid "Showing 0 to 0 of 0 entries"
 msgstr "Resultaat 0-0 van 0 vermeldingen"
 
 msgid "Showing _START_ to _END_ of _TOTAL_ entries"
-msgstr "Resultaat _START_ om _END_ van _TOTAL_ inzendingen"
+msgstr "Resultaat _START_ tot _END_ van _TOTAL_ vermeldingen"
 
 msgid "Signature"
 msgstr "Handtekening"
@@ -719,14 +717,13 @@ msgid "Some mandatory fields are empty."
 msgstr "Sommige verplichte velden zijn leeg."
 
 msgid "Sorry we can't proceed to deliver your order. It has been canceled."
-msgstr ""
-"Helaas kunnen we niet verder met uw bestelling. omdat hij is geannuleerd."
+msgstr "Helaas kunnen we uw bestelling niet leveren. Deze is geannuleerd."
 
 msgid "Status"
 msgstr "Status"
 
 msgid "Store choice"
-msgstr "Winkel keuze"
+msgstr "Winkelkeuze"
 
 msgid "Store information"
 msgstr "Winkelgegevens"
@@ -741,7 +738,7 @@ msgid "Store successfully saved"
 msgstr "Winkel succesvol opgeslagen"
 
 msgid "Stored card information."
-msgstr "Opgeslagen winkelwagen gegevens."
+msgstr "Opgeslagen kaartgegevens."
 
 msgid "Stores"
 msgstr "Winkels"
@@ -750,13 +747,13 @@ msgid "Street"
 msgstr "Straat"
 
 msgid "Stripe settings"
-msgstr "Stripe instellingen"
+msgstr "Stripe-instellingen"
 
 msgid "Subtotal"
 msgstr "Subtotaal"
 
 msgid "Subtotal Excl. Tax"
-msgstr "Subtotaal Excl. Belasting"
+msgstr "Subtotaal excl. belasting"
 
 msgid "Subtotal before deduction"
 msgstr "Subtotaal voor aftrek"
@@ -765,7 +762,7 @@ msgid "Tax"
 msgstr "Belasting"
 
 msgid "Tax name"
-msgstr "Belasting naam"
+msgstr "Belastingnaam"
 
 msgid "Tax rate"
 msgstr "Belastingtarief"
@@ -777,26 +774,24 @@ msgid "Tax successfully saved"
 msgstr "Belasting succesvol opgeslagen"
 
 msgid "Thank you!"
-msgstr "Dankjewel!"
+msgstr "Dank u wel!"
 
 msgid "The clients calculate the change:"
-msgstr "De klanten berekent de wijziging:"
+msgstr "De klant berekent het wisselgeld:"
 
 msgid "The delivery method"
-msgstr "Levering Wijze"
+msgstr "De leveringswijze"
 
 msgid "The following options are required:<br />%s"
 msgstr "De volgende opties zijn verplicht: <br />%s"
 
 msgid "The option %s is required"
-msgstr "Deze optie is %s verplicht"
+msgstr "De optie %s is verplicht"
 
 msgid ""
 "The payment has been cancelled, something wrong happened? Feel free to "
 "contact us"
-msgstr ""
-"De betaling is geannuleerd, er iets mis is er gebeurd? Voel je vrij om ons "
-"te contacteren"
+msgstr "De betaling is geannuleerd. Is er iets misgegaan? Neem gerust contact met ons op"
 
 msgid "The payment method"
 msgstr "De betaalmethode"
@@ -811,17 +806,16 @@ msgid "Total"
 msgstr "Totaal"
 
 msgid "Total Excl. Tax"
-msgstr "Totaal Excl. BTW"
+msgstr "Totaal excl. BTW"
 
 msgid "Total Tax"
-msgstr "Total inclusief BTW"
+msgstr "Totaal BTW"
 
 msgid "Total: %s"
 msgstr "Totaal: %s"
 
 msgid "Unable to proceed to checkout the minimum order amount is %s"
-msgstr ""
-"Niet in staat om verder te gaan naar de kassa. Het minimum orderbedrag is %s"
+msgstr "Kan niet doorgaan naar de kassa, het minimale bestelbedrag is %s"
 
 msgid "Unit Price"
 msgstr "Prijs per stuk"
@@ -830,10 +824,10 @@ msgid "Unit price"
 msgstr "Stukprijs"
 
 msgid "Updating price"
-msgstr "Het bijwerken prijs"
+msgstr "Prijs bijwerken"
 
 msgid "Usable once"
-msgstr "Bruikbaar keer"
+msgstr "Eenmalig bruikbaar"
 
 msgid "Use:"
 msgstr "Gebruik:"
@@ -845,56 +839,55 @@ msgid "Username"
 msgstr "Gebruikersnaam"
 
 msgid "Validity date"
-msgstr "Geldigheid datum"
+msgstr "Geldigheidsdatum"
 
 msgid "Validity date should be a valid date"
-msgstr "Geldigheid datum moet een geldige datum"
+msgstr "Geldigheidsdatum moet een geldige datum zijn"
 
 msgid "Verify Key:"
-msgstr "Verifieer Sleutel:"
+msgstr "Verificatiesleutel:"
 
 msgid "Waiting for payment"
-msgstr "Wachtend op betaling"
+msgstr "Wachten op betaling"
 
 msgid "We apologize but the payment method %s is currently not available"
-msgstr "Onze excuses maar de betaalmethode %s is momenteel niet beschikbaar"
+msgstr "Onze excuses, maar de betaalmethode %s is momenteel niet beschikbaar"
 
 msgid "We thank you for your order. A confirmation email has been sent"
-msgstr "Dank u voor uw bestelling. Een bevestigingsmail is verstuurd"
+msgstr "Bedankt voor uw bestelling. Er is een bevestigingsmail verstuurd"
 
 msgid "YYYY"
 msgstr "YYYY"
 
 msgid "You did not login."
-msgstr "Je bent niet inlogt."
+msgstr "U bent niet ingelogd."
 
 msgid "You don't have any categories yet"
 msgstr "U heeft nog geen categorieën"
 
 msgid "You don't have enough points"
-msgstr "Je hebt niet genoeg punten"
+msgstr "U hebt niet genoeg punten"
 
 msgid "You have a connected printer? Enter the email address"
-msgstr "Je hebt een aangesloten printer? Vul het e-mailadres in"
+msgstr "Hebt u een aangesloten printer? Vul het e-mailadres in"
 
 msgid "You have a connected printer? Enter the email address for each store"
-msgstr ""
-"Je hebt een aangesloten printer? Vul het e-mailadres voor iedere winkel in"
+msgstr "Hebt u een aangesloten printer? Vul het e-mailadres voor elke winkel in"
 
 msgid "You have to choose a delivery method."
-msgstr "Je moet kiezen voor een levering methode."
+msgstr "U moet een leveringsmethode kiezen."
 
 msgid "You must be logged in to continue"
-msgstr "Je moet ingelogd zijn om door te gaan"
+msgstr "U moet ingelogd zijn om door te gaan"
 
 msgid "You used the code before"
-msgstr "Je gebruikt de code voor"
+msgstr "U hebt de code eerder gebruikt"
 
 msgid "Your address"
 msgstr "Uw adres"
 
 msgid "Your email address"
-msgstr "Uw e-mail adres"
+msgstr "Uw e-mailadres"
 
 msgid "Your firstname"
 msgstr "Uw voornaam"
@@ -906,16 +899,16 @@ msgid "Your phone number"
 msgstr "Uw telefoonnummer"
 
 msgid "e.g., Sauces"
-msgstr "bijv, Sauzen"
+msgstr "bijv. sauzen"
 
 msgid "(filtered from _MAX_ total entries)"
-msgstr "(Gefilterd uit _MAX_ totaal inzendingen)"
+msgstr "(gefilterd uit _MAX_ items in totaal)"
 
 msgid "%s - Customer Service"
 msgstr "%s - Klantenservice"
 
 msgid "without taxes"
-msgstr "Zonder BTW"
+msgstr "zonder belasting"
 
 msgid "your choice"
 msgstr "uw keuze"
