@@ -393,175 +393,66 @@ if (version_compare(PHP_VERSION, '8.2.0', '<')) {
                  class="async-loader">
                 <i class="fa fa-circle-o-notch fa-spin fa-2x fa-fw"></i>
             </div>
+            <div class="svc-strip"
+                 ng-if="!isLoading"
+                 ng-init="svc.cronActive = <?php echo Cron_Model_Cron::is_active() ? 'true' : 'false'; ?>">
+                <div class="svc-line">
+                    <button type="button"
+                            class="svc-chip"
+                            ng-click="openServices()">
+                        <i class="dot svc-{{ cronState() }}"></i>
+                        <b><?php echo p__('backoffice', 'Cron') ?></b>
+                        <span ng-if="cronState() === 'off'"><?php echo __("Disabled") ?></span>
+                        <span ng-if="cronState() === 'down'"><?php echo __("Not running") ?></span>
+                        <span ng-if="cronState() === 'ok' || cronState() === 'warn'">
+                            <?php echo p__('backoffice', 'Running') ?><span ng-if="services.cron_last_run">, <?php echo p__('backoffice', 'Last run') ?> {{ services.cron_last_run }}</span>
+                        </span>
+                    </button>
+                    <button type="button"
+                            class="svc-chip svc-chip-warn"
+                            ng-if="services.cron_error.full && svc.cronActive"
+                            ng-click="openServices()">
+                        <i class="dot svc-warn"></i>
+                        <b><?php echo p__('backoffice', 'Cron error') ?></b>
+                        <span>{{ services.cron_error.date }}</span>
+                    </button>
+                    <button type="button"
+                            class="btn btn-xs btn-primary svc-details"
+                            ng-click="openServices()">
+                        <i class="fa fa-list"></i><?php echo p__('backoffice', 'Details') ?>
+                    </button>
+                </div>
+                <div class="svc-line">
+                    <button type="button"
+                            class="svc-chip"
+                            ng-click="openServices()">
+                        <i class="dot svc-ok"></i>
+                        <b>PHP</b>
+                        <span><?php echo explode("-", phpversion())[0] ?></span>
+                    </button>
+                    <button type="button"
+                            class="svc-chip"
+                            ng-click="openServices()">
+                        <i class="dot svc-{{ extensions.php_sqlite3 || extensions.bin_sqlite3 ? 'ok' : 'down' }}"></i>
+                        <b>SQLite3</b>
+                        <i class="fa fa-check" ng-if="extensions.php_sqlite3 || extensions.bin_sqlite3"></i>
+                        <span ng-if="!extensions.php_sqlite3 && !extensions.bin_sqlite3"><?php echo __("Not found") ?></span>
+                    </button>
+                    <button type="button"
+                            class="svc-chip"
+                            ng-click="openServices()">
+                        <i class="dot svc-{{ binaryCount() === 4 ? 'ok' : 'info' }}"></i>
+                        <b><?php echo p__('backoffice', 'Binaries') ?></b>
+                        <span>{{ binaryCount() }} <?php echo p__('backoffice', 'of') ?> 4</span>
+                    </button>
+                </div>
+            </div>
+
             <table ng-if="!isLoading"
                    class="table table dashboard no-wrap">
                 <col width="32px"/>
                 <col width="180px"/>
                 <tbody>
-                <tr>
-                    <td>
-                        <img ng-if="services.cron"
-                             src="/app/sae/design/desktop/backoffice/images/service/running-16.png"/>
-                        <img ng-if="!services.cron"
-                             src="/app/sae/design/desktop/backoffice/images/service/offline-16.png"/>
-                    </td>
-                    <td>
-                        <?php echo __("Cron scheduler") ?>
-                    </td>
-                    <td>
-                        <table ng-show="services.cron"
-                               class="sub-table">
-                            <tbody>
-                            <tr>
-                                <td colspan="3">
-                                    <span ng-if="!services.cron_locks && !services.cron_error.full">
-                                        <i class="fa fa-check"></i>
-                                        <?php echo __("Last run") ?> :
-                                        <strong>{{ services.cron_last_run || "<?php echo __("never") ?>" }}</strong>
-                                        <span ng-if="services.cron_last_run"> : <?php echo __("all good") ?></span>
-                                    </span>
-                                    <button ng-if="services.cron_locks > 0"
-                                            class="btn btn-xs btn-primary"
-                                            ng-click="clear('locks', '<?php echo addcslashes(__("You are about to clean all the cron lock files !\nAre you sure ?"), "'"); ?>');"><?php echo __("Remove locks") ?></button>
-                                </td>
-                            </tr>
-                            <tr ng-show="services.cron_error.full"
-                                ng-class="{ 'no-border-bottom': !cron_error_show }">
-                                <td><i class="fa fa-exclamation-triangle"></i><?php echo __("Last cron error") ?>
-                                    :[<strong>{{ services.cron_error.date }}</strong>] <span
-                                            class="service-red"> {{ services.cron_error.short }}</span>
-                                </td>
-                                <td></td>
-                                <td class="text-right">
-                                    <button class="btn btn-xs btn-primary"
-                                            ng-hide="cron_error_show"
-                                            ng-click="cron_error_show = !cron_error_show;"><?php echo __("Show more") ?></button>
-                                    <button class="btn btn-xs btn-primary"
-                                            ng-hide="!cron_error_show"
-                                            ng-click="cron_error_show = !cron_error_show;"><?php echo __("Hide") ?></button>
-                                    <button class="btn btn-xs btn-primary"
-                                            ng-hide="!services.cron_error.full"
-                                            ng-click="clear('cron_error');"><?php echo __("Clear") ?></button>
-                                </td>
-                            </tr>
-                            <tr ng-show="services.cron_error.date">
-                                <td></td>
-                                <td></td>
-                            </tr>
-                            <tr ng-hide="!cron_error_show">
-                                <td colspan="3"
-                                    style="white-space: initial;"
-                                    ng-bind-html="services.cron_error.full"></td>
-                            </tr>
-                            </tbody>
-                        </table>
-                        <?php if (Cron_Model_Cron::is_active()): ?>
-                            <div ng-if="services.cron_compat.problems > 0"
-                                 class="cron-compat">
-                                <i class="fa fa-exclamation-triangle"></i>
-                                <?php echo p__('backoffice', 'Some cron jobs can not run with this PHP version:') ?>
-                                <span ng-repeat="item in services.cron_compat.items | limitTo:3">
-                                    <strong>{{ item.name }}</strong><span ng-if="!$last">, </span>
-                                </span>
-                                <span ng-if="services.cron_compat.items.length > 3">&hellip;</span>
-                                <a href="<?php echo $this->getUrl("backoffice/advanced_cron") ?>"><?php echo p__('backoffice', 'see the details') ?></a>
-                            </div>
-                            <span ng-show="!services.cron">
-                                <?php echo __("Not running") ?> <a class="btn btn-xs btn-primary"
-                                                                   ng-click="showCronModal();"><?php echo __("How to install the cron scheduler ?") ?></a>
-                            </span>
-                        <?php else: ?>
-                            <span>
-                                <?php echo __("Disabled") ?>, <a
-                                        href="<?php echo $this->getUrl("backoffice/advanced_cron") ?>"><?php echo __("see Settings > Advanced > Configuration > Cron to edit options.") ?></a>
-                            </span>
-                        <?php endif; ?>
-                    </td>
-                </tr>
-                <tr>
-                    <td>
-                        <img ng-if="extensions.php_sqlite3 || extensions.bin_sqlite3"
-                             src="/app/sae/design/desktop/backoffice/images/service/running-16.png"/>
-                        <img ng-if="!extensions.php_sqlite3 && !extensions.bin_sqlite3"
-                             src="/app/sae/design/desktop/backoffice/images/service/offline-16.png"/>
-                    </td>
-                    <td>
-                        <?php echo __("Required extensions") ?>
-                    </td>
-                    <td class="extensions">
-                            <span class="group"
-                                  style="margin-left: 0;">
-                            <?php $phpVersion = phpversion(); ?>
-                                <?php echo __("PHP version") ?>:&nbsp;
-                                <span class="service-green"><b><?php echo explode("-", $phpVersion)[0] ?></b></span>&nbsp;&nbsp;
-                            </span>
-
-                        <span class="group" ng-show="extensions.php_sqlite3">
-                                <?php echo __("PHP SQLite3:") ?>
-                            <span ng-show="extensions.php_sqlite3"><span class="service-green"><i
-                                            class="fa fa-check"></i></span></span>
-                                    <span ng-show="!extensions.php_sqlite3"><span
-                                                class="service-red"><?php echo __("Not found") ?></span></span>
-                                </span>
-                        <span ng-show="!extensions.php_sqlite3">
-                                    <?php echo __("Bin SQLite3:") ?>
-                            <span ng-show="extensions.bin_sqlite3"><span class="service-green"><i
-                                            class="fa fa-check"></i></span></span>
-                                        <span ng-show="!extensions.bin_sqlite3"><span
-                                                    class="service-red"><?php echo __("Not found") ?></span></span>
-                            </span>
-                    </td>
-                </tr>
-                <tr>
-                    <td>
-                        <img src="/app/sae/design/desktop/backoffice/images/service/info-16.png"/>
-                    </td>
-                    <td>
-                        <?php echo __("Optional binaries") ?>
-                    </td>
-                    <td class="extensions">
-                            <span class="group"
-                                  style="margin-left: 0;">
-                                <?php echo __("OptiPNG:") ?>
-                                <span ng-show="libraries.optipng">
-                                    <span class="service-green"><i class="fa fa-check"></i></span>
-                                </span>
-                                <span ng-show="!libraries.optipng">
-                                    <span class="service-blue"><?php echo __("Not found") ?></span>,
-                                </span>
-                            </span>
-
-                        <span class="group">
-                                <?php echo __("JpegOptim:") ?>
-                            <span ng-show="libraries.jpegoptim">
-                                    <span class="service-green"><i class="fa fa-check"></i></span>
-                                </span>
-                                <span ng-show="!libraries.jpegoptim">
-                                    <span class="service-blue"><?php echo __("Not found") ?></span>,
-                                </span>
-                            </span>
-
-                        <span class="group">
-                                <?php echo __("PNGQuant:") ?>
-                            <span ng-show="libraries.pngquant">
-                                    <span class="service-green"><i class="fa fa-check"></i></span>
-                                </span>
-                                <span ng-show="!libraries.pngquant">
-                                    <span class="service-blue"><?php echo __("Not found") ?></span>,
-                                </span>
-                            </span>
-
-                        <span class="group">
-                                <?php echo __("ClamAV:") ?>
-                            <span ng-show="libraries.clamav">
-                                    <span class="service-green"><i class="fa fa-check"></i></span>
-                                </span>
-                                <span ng-show="!libraries.clamav">
-                                    <span class="service-blue"><?php echo __("Not found") ?></span>
-                                </span>
-                            </span>
-                    </td>
-                </tr>
                 <tr ng-show="system_diagnostic.length !== 0">
                     <td>
                         <img src="/app/sae/design/desktop/backoffice/images/service/info-16.png"/>
@@ -602,76 +493,55 @@ if (version_compare(PHP_VERSION, '8.2.0', '<')) {
                             </span>
                     </td>
                 </tr>
-                <tr>
-                    <td>
-                        <img src="/app/sae/design/desktop/backoffice/images/service/info-16.png"/>
-                    </td>
-                    <td>
-                        <?php echo __("Web space") ?>
-                    </td>
-                    <td>
-                        <table class="sub-table">
-                            <tr class="no-border-bottom">
-                                <td colspan="3">
-                                    <div class="alert alert-info" style="padding: 4px; margin: 0;">
-                                        <i class="fa fa-database"></i><?php echo __("Disk usage & Cache:") ?>
-                                        <?php echo __('values are refreshed once a day only!') ?>
-                                    </div>
-                                </td>
-                            </tr>
-                            <tr ng-class="{ 'no-border-bottom': !show_more_size }">
-                                <td>
-                                    <?php echo __("Total usage:") ?>
-                                </td>
-                                <td colspan="2">
-                                    {{ server_usage.total }}
-                                </td>
-                            </tr>
-                            <tr>
-                                <td class="indent"><?php echo __("Log (var/log, log files)") ?></td>
-                                <td>{{ server_usage.log_size }}</td>
-                                <td class="text-right">
-                                    <button class="btn btn-xs btn-primary"
-                                            ng-click="clear('log', '<?php echo addcslashes(__("You are about to clean all your log files !\nAre you sure ?"), "'"); ?>');"><?php echo __("Clear") ?></button>
-                                </td>
-                            </tr>
-                            <tr>
-                                <td class="indent"><?php echo __("Cache (var/cache, system cache)") ?></td>
-                                <td>{{ server_usage.cache_size }}</td>
-                                <td class="text-right">
-                                    <button class="btn btn-xs btn-primary"
-                                            ng-click="clear('cache');"><?php echo __("Clear") ?></button>
-                                </td>
-                            </tr>
-                            <tr>
-                                <td class="indent"><?php echo __("Cache (var/cache_images, images cache)") ?></td>
-                                <td>{{ server_usage.cache_images_size }}</td>
-                                <td class="text-right">
-                                    <button class="btn btn-xs btn-primary"
-                                            ng-click="clear('cache_images');"><?php echo __("Clear") ?></button>
-                                </td>
-                            </tr>
-                            <tr>
-                                <td class="indent"><?php echo __("Temp (var/tmp, application sources)") ?></td>
-                                <td>{{ server_usage.tmp_size }}</td>
-                                <td class="text-right">
-                                    <button class="btn btn-xs btn-primary"
-                                            ng-click="clear('tmp', '<?php echo addcslashes(__("You are about to wipe all your temporary files, this includes the generated sources builds !\nAre you sure ?"), "'"); ?>');"><?php echo __("Clear") ?></button>
-                                </td>
-                            </tr>
-                            <tr>
-                                <td class="indent"><?php echo __("Applications/Previewer manifest for automatic updates.") ?></td>
-                                <td>-</td>
-                                <td class="text-right">
-                                    <button class="btn btn-xs btn-primary"
-                                            ng-click="clear('app_manifest', '<?php echo addcslashes(__("Are you sure ?"), "'"); ?>');"><?php echo __("Rebuild") ?></button>
-                                </td>
-                            </tr>
-                        </table>
-                    </td>
-                </tr>
+                
                 </tbody>
             </table>
+
+            <div class="webspace"
+                 ng-if="!isLoading">
+                <div class="webspace-head">
+                    <span class="webspace-title"><?php echo p__('backoffice', 'Storage') ?></span>
+                    <span class="webspace-total webspace-level-{{ server_usage.quota_level }}"
+                          ng-bind="bytes(server_usage.total_bytes)"></span>
+                    <span class="webspace-of"
+                          ng-if="server_usage.quota_bytes && server_usage.total_bytes !== null">
+                        <?php echo p__('backoffice', 'of') ?> {{ bytes(server_usage.quota_bytes) }} &middot; {{ server_usage.quota_percent }}%
+                        <span class="webspace-gauge webspace-level-{{ server_usage.quota_level }}"><i ng-style="{width: (server_usage.quota_percent > 100 ? 100 : server_usage.quota_percent) + '%'}"></i></span>
+                    </span>
+                    <span class="webspace-of"
+                          ng-if="!server_usage.quota_bytes && server_usage.total_bytes !== null">
+                        <?php echo p__('backoffice', 'No quota set'); ?>
+                    </span>
+                    <span class="webspace-date"
+                          ng-if="server_usage.measured_at">
+                        <?php echo p__('backoffice', 'Measured'); ?> {{ server_usage.measured_at * 1000 | date:'MMM d, HH:mm' }}
+                    </span>
+                    <button class="btn btn-xs btn-primary webspace-manage"
+                            ng-click="openWebSpace()">
+                        <i class="fa fa-sliders"></i><?php echo p__('backoffice', 'Manage'); ?>
+                    </button>
+                </div>
+                <div class="webspace-bar"
+                     ng-if="slices">
+                    <span class="seg seg-log" ng-style="{flexBasis: slices.log + '%'}"></span>
+                    <span class="seg seg-cache" ng-style="{flexBasis: slices.cache + '%'}"></span>
+                    <span class="seg seg-images" ng-style="{flexBasis: slices.images + '%'}"></span>
+                    <span class="seg seg-tmp" ng-style="{flexBasis: slices.tmp + '%'}"></span>
+                    <span class="seg seg-other" ng-style="{flexBasis: slices.other + '%'}"></span>
+                </div>
+                <div class="webspace-legend" ng-if="slices">
+                    <span><i class="dot seg-log"></i><?php echo p__('backoffice', 'Logs'); ?> {{ bytes(server_usage.log_bytes) }}</span>
+                    <span><i class="dot seg-cache"></i><?php echo p__('backoffice', 'System cache'); ?> {{ bytes(server_usage.cache_bytes) }}</span>
+                    <span><i class="dot seg-images"></i><?php echo p__('backoffice', 'Image cache'); ?> {{ bytes(server_usage.cache_images_bytes) }}</span>
+                    <span><i class="dot seg-tmp"></i><?php echo p__('backoffice', 'Temp files'); ?> {{ bytes(server_usage.tmp_bytes) }}</span>
+                    <span><i class="dot seg-other"></i><?php echo p__('backoffice', 'Apps, images and code'); ?> {{ bytes(server_usage.other_bytes) }}</span>
+                </div>
+                <div class="webspace-date"
+                     ng-if="!slices">
+                    <?php echo p__('backoffice', 'Sizes are measured once a day, the first measure is not done yet.'); ?>
+                </div>
+            </div>
+
         </sb-section>
 
         <br/>
@@ -733,6 +603,200 @@ if (version_compare(PHP_VERSION, '8.2.0', '<')) {
         <div class="modal-footer">
             <button type="button" class="btn btn-default"
                     ng-click="show_cron_modal = !show_cron_modal;"><?php echo __("Close"); ?></button>
+        </div>
+    </div>
+</div>
+
+<div class="webspace-backdrop"
+     ng-show="webSpace.open"
+     ng-click="webSpace.open = false"></div>
+<div id="webspace-manage"
+     ng-show="webSpace.open">
+    <div class="modal-content">
+        <div class="modal-header">
+            <h4 class="modal-title"><?php echo p__('backoffice', 'Manage web space'); ?></h4>
+        </div>
+        <div class="modal-body">
+            <p class="webspace-hint">
+                <i class="fa fa-info-circle"></i>
+                <?php echo p__('backoffice', 'Sizes are measured once a day, they show the state of the last measure.'); ?>
+            </p>
+            <div class="webspace-row">
+                <i class="dot seg-log"></i>
+                <div class="webspace-row-text">
+                    <b><?php echo p__('backoffice', 'Logs'); ?></b> <span>var/log, {{ bytes(server_usage.log_bytes) }}</span>
+                    <small><?php echo p__('backoffice', 'Nothing you need to keep.'); ?></small>
+                </div>
+                <button class="btn btn-xs btn-primary"
+                        ng-click="clear('log', '<?php echo addcslashes(__("You are about to clean all your log files !\nAre you sure ?"), "'"); ?>');"><?php echo __("Clear") ?></button>
+            </div>
+            <div class="webspace-row">
+                <i class="dot seg-cache"></i>
+                <div class="webspace-row-text">
+                    <b><?php echo p__('backoffice', 'System cache'); ?></b> <span>var/cache, {{ bytes(server_usage.cache_bytes) }}</span>
+                    <small><?php echo p__('backoffice', 'Rebuilt on the next page.'); ?></small>
+                </div>
+                <button class="btn btn-xs btn-primary"
+                        ng-click="clear('cache');"><?php echo __("Clear") ?></button>
+            </div>
+            <div class="webspace-row">
+                <i class="dot seg-images"></i>
+                <div class="webspace-row-text">
+                    <b><?php echo p__('backoffice', 'Image cache'); ?></b> <span>var/cache_images, {{ bytes(server_usage.cache_images_bytes) }}</span>
+                    <small><?php echo p__('backoffice', 'Resized images, made again on demand.'); ?></small>
+                </div>
+                <button class="btn btn-xs btn-primary"
+                        ng-click="clear('cache_images');"><?php echo __("Clear") ?></button>
+            </div>
+            <div class="webspace-row">
+                <i class="dot seg-tmp"></i>
+                <div class="webspace-row-text">
+                    <b><?php echo p__('backoffice', 'Temp files'); ?></b> <span>var/tmp, {{ bytes(server_usage.tmp_bytes) }}</span>
+                    <small><?php echo p__('backoffice', 'Also removes the generated application sources.'); ?></small>
+                </div>
+                <button class="btn btn-xs btn-primary"
+                        ng-click="clear('tmp', '<?php echo addcslashes(__("You are about to wipe all your temporary files, this includes the generated sources builds !\nAre you sure ?"), "'"); ?>');"><?php echo __("Clear") ?></button>
+            </div>
+            <div class="webspace-row">
+                <i class="dot seg-none"></i>
+                <div class="webspace-row-text">
+                    <b><?php echo p__('backoffice', 'Apps and Previewer manifest'); ?></b>
+                    <small><?php echo p__('backoffice', 'Used by automatic updates, rebuilt by the cron.'); ?></small>
+                </div>
+                <button class="btn btn-xs btn-primary"
+                        ng-click="clear('app_manifest', '<?php echo addcslashes(__("Are you sure ?"), "'"); ?>');"><?php echo __("Rebuild") ?></button>
+            </div>
+            <form class="webspace-row webspace-quota"
+                  ng-submit="saveQuota()">
+                <i class="dot seg-none"></i>
+                <div class="webspace-row-text">
+                    <b><?php echo p__('backoffice', 'Quota'); ?></b>
+                    <small><?php echo p__('backoffice', 'Informative only: the dashboard shows when the web space gets close to it.'); ?></small>
+                </div>
+                <div class="webspace-quota-controls">
+                    <input id="webspace-quota-input"
+                           type="text"
+                           inputmode="decimal"
+                           autocomplete="off"
+                           class="form-control"
+                           aria-label="<?php echo p__('backoffice', 'Quota'); ?> (GB)"
+                           ng-model="webSpace.quota"
+                           placeholder="<?php echo p__('backoffice', 'No quota'); ?>"/>
+                    <span class="webspace-quota-unit">GB</span>
+                    <button type="submit"
+                            class="btn btn-xs btn-primary"
+                            ng-disabled="webSpace.busy"><?php echo __("Save"); ?></button>
+                </div>
+            </form>
+        </div>
+        <div class="modal-footer">
+            <button type="button" class="btn btn-default"
+                    ng-click="webSpace.open = false;"><?php echo __("Close"); ?></button>
+        </div>
+    </div>
+</div>
+
+<div class="webspace-backdrop"
+     ng-show="svc.open"
+     ng-click="svc.open = false"></div>
+<div id="services-details"
+     ng-show="svc.open">
+    <div class="modal-content">
+        <div class="modal-header">
+            <h4 class="modal-title"><?php echo p__('backoffice', 'Services') ?></h4>
+        </div>
+        <div class="modal-body">
+            <div class="webspace-row">
+                <i class="dot svc-{{ cronState() }}"></i>
+                <div class="webspace-row-text">
+                    <b><?php echo __("Cron scheduler") ?></b>
+                    <small ng-if="cronState() === 'off'"><?php echo __("Disabled") ?>,
+                        <a href="<?php echo $this->getUrl("backoffice/advanced_cron") ?>"><?php echo __("see Settings > Advanced > Configuration > Cron to edit options.") ?></a>
+                    </small>
+                    <small ng-if="cronState() === 'down'"><?php echo __("Not running") ?>.
+                        <a href="javascript:void(0);"
+                           ng-click="svc.open = false; showCronModal();"><?php echo __("How to install the cron scheduler ?") ?></a>
+                    </small>
+                    <small ng-if="cronState() === 'ok' || cronState() === 'warn'">
+                        <?php echo p__('backoffice', 'Running') ?>, <?php echo p__('backoffice', 'Last run') ?> :
+                        <strong>{{ services.cron_last_run || "<?php echo __("never") ?>" }}</strong>
+                    </small>
+                    <small ng-if="services.cron_locks > 0">
+                        {{ services.cron_locks }} <?php echo p__('backoffice', 'lock files') ?>
+                    </small>
+                    <small ng-if="services.cron_compat.problems > 0">
+                        <i class="fa fa-exclamation-triangle"></i>
+                        <?php echo p__('backoffice', 'Some cron jobs can not run with this PHP version:') ?>
+                        <span ng-repeat="item in services.cron_compat.items | limitTo:3">
+                            <strong>{{ item.name }}</strong><span ng-if="!$last">, </span>
+                        </span>
+                        <span ng-if="services.cron_compat.items.length > 3">&hellip;</span>
+                        <a href="<?php echo $this->getUrl("backoffice/advanced_cron") ?>"><?php echo p__('backoffice', 'see the details') ?></a>
+                    </small>
+                </div>
+                <button ng-if="services.cron_locks > 0"
+                        class="btn btn-xs btn-primary"
+                        ng-click="clear('locks', '<?php echo addcslashes(__("You are about to clean all the cron lock files !\nAre you sure ?"), "'"); ?>');"><?php echo __("Remove locks") ?></button>
+                <span ng-if="!(services.cron_locks > 0)"></span>
+            </div>
+            <div class="webspace-row" ng-if="svc.cronActive">
+                <i class="dot svc-{{ services.cron_error.full ? 'warn' : 'ok' }}"></i>
+                <div class="webspace-row-text">
+                    <b><?php echo p__('backoffice', 'Cron errors') ?></b>
+                    <small ng-if="!services.cron_error.full"><?php echo p__('backoffice', 'No error recorded.') ?></small>
+                    <small ng-if="services.cron_error.full">
+                        <?php echo p__('backoffice', 'Last error') ?> {{ services.cron_error.date }}. <?php echo p__('backoffice', 'The cron itself keeps its own status above.') ?>
+                    </small>
+                    <small ng-if="services.cron_error.full" class="svc-error-line">
+                        {{ services.cron_error.short }}
+                        <a href="javascript:void(0);"
+                           ng-click="svc.errorShow = !svc.errorShow"><span ng-hide="svc.errorShow"><?php echo __("Show more") ?></span><span ng-show="svc.errorShow"><?php echo __("Hide") ?></span></a>
+                    </small>
+                    <small class="svc-error-full"
+                           ng-if="services.cron_error.full && svc.errorShow"
+                           ng-bind-html="services.cron_error.full"></small>
+                </div>
+                <button class="btn btn-xs btn-primary"
+                        ng-if="services.cron_error.full"
+                        ng-click="clear('cron_error');"><?php echo __("Clear") ?></button>
+                <span ng-if="!services.cron_error.full"></span>
+            </div>
+            <div class="webspace-row">
+                <i class="dot svc-ok"></i>
+                <div class="webspace-row-text">
+                    <b>PHP</b>
+                    <small><?php echo __("PHP version") ?> <?php echo explode("-", phpversion())[0] ?></small>
+                </div>
+                <span></span>
+            </div>
+            <div class="webspace-row">
+                <i class="dot svc-{{ extensions.php_sqlite3 || extensions.bin_sqlite3 ? 'ok' : 'down' }}"></i>
+                <div class="webspace-row-text">
+                    <b>SQLite3</b>
+                    <small ng-if="extensions.php_sqlite3"><?php echo p__('backoffice', 'PHP extension available') ?></small>
+                    <small ng-if="!extensions.php_sqlite3 && extensions.bin_sqlite3"><?php echo __("Bin SQLite3:") ?> <?php echo p__('backoffice', 'available') ?></small>
+                    <small ng-if="!extensions.php_sqlite3 && !extensions.bin_sqlite3"><?php echo __("Not found") ?></small>
+                </div>
+                <i class="fa fa-check svc-check" ng-if="extensions.php_sqlite3 || extensions.bin_sqlite3"></i>
+                <span ng-if="!extensions.php_sqlite3 && !extensions.bin_sqlite3"></span>
+            </div>
+            <div class="webspace-row">
+                <i class="dot svc-{{ binaryCount() === 4 ? 'ok' : 'info' }}"></i>
+                <div class="webspace-row-text">
+                    <b><?php echo __("Optional binaries") ?></b>
+                    <div class="svc-pills">
+                        <span class="svc-pill"><?php echo __("OptiPNG:") ?> <i class="fa fa-check" ng-if="libraries.optipng"></i><em ng-if="!libraries.optipng"><?php echo __("Not found") ?></em></span>
+                        <span class="svc-pill"><?php echo __("JpegOptim:") ?> <i class="fa fa-check" ng-if="libraries.jpegoptim"></i><em ng-if="!libraries.jpegoptim"><?php echo __("Not found") ?></em></span>
+                        <span class="svc-pill"><?php echo __("PNGQuant:") ?> <i class="fa fa-check" ng-if="libraries.pngquant"></i><em ng-if="!libraries.pngquant"><?php echo __("Not found") ?></em></span>
+                        <span class="svc-pill"><?php echo __("ClamAV:") ?> <i class="fa fa-check" ng-if="libraries.clamav"></i><em ng-if="!libraries.clamav"><?php echo __("Not found") ?></em></span>
+                    </div>
+                </div>
+                <span></span>
+            </div>
+        </div>
+        <div class="modal-footer">
+            <button type="button" class="btn btn-default"
+                    ng-click="svc.open = false;"><?php echo __("Close"); ?></button>
         </div>
     </div>
 </div>
