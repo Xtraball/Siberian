@@ -1544,7 +1544,7 @@ i.dot.svc-info {
 }
 
 .seg-other {
-    background: #b4b2a9;
+    background: #378add;
 }
 
 .seg-none {
@@ -1653,21 +1653,26 @@ i.dot {
 }
 
 .webspace-quota {
+    margin: 0;
+}
+
+.webspace-quota-controls {
     display: flex;
-    flex-wrap: wrap;
     align-items: center;
     gap: 8px;
-    padding: 12px 0 0;
-    border-top: 1px solid #ececec;
 }
 
-.webspace-quota .form-control {
-    width: 110px;
+.webspace-quota-controls .form-control {
+    width: 84px;
+    height: 24px;
+    padding: 2px 8px;
+    font-size: 12px;
+    line-height: 20px;
 }
 
-.webspace-quota small {
-    flex: 1 0 100%;
-    color: #606060;
+.webspace-quota-unit {
+    color: #707070;
+    font-size: 12px;
 }
 
 .development-responsive {

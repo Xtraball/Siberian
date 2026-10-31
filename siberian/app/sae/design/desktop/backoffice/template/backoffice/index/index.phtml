@@ -666,20 +666,27 @@ if (version_compare(PHP_VERSION, '8.2.0', '<')) {
                 <button class="btn btn-xs btn-primary"
                         ng-click="clear('app_manifest', '<?php echo addcslashes(__("Are you sure ?"), "'"); ?>');"><?php echo __("Rebuild") ?></button>
             </div>
-            <form class="webspace-quota"
+            <form class="webspace-row webspace-quota"
                   ng-submit="saveQuota()">
-                <label for="webspace-quota-input"><?php echo p__('backoffice', 'Quota'); ?></label>
-                <input id="webspace-quota-input"
-                       type="text"
-                       inputmode="decimal"
-                       class="form-control"
-                       ng-model="webSpace.quota"
-                       placeholder="<?php echo p__('backoffice', 'No quota'); ?>"/>
-                <span>GB</span>
-                <button type="submit"
-                        class="btn btn-xs btn-primary"
-                        ng-disabled="webSpace.busy"><?php echo __("Save"); ?></button>
-                <small><?php echo p__('backoffice', 'Informative only: the dashboard shows when the web space gets close to it.'); ?></small>
+                <i class="dot seg-none"></i>
+                <div class="webspace-row-text">
+                    <b><?php echo p__('backoffice', 'Quota'); ?></b>
+                    <small><?php echo p__('backoffice', 'Informative only: the dashboard shows when the web space gets close to it.'); ?></small>
+                </div>
+                <div class="webspace-quota-controls">
+                    <input id="webspace-quota-input"
+                           type="text"
+                           inputmode="decimal"
+                           autocomplete="off"
+                           class="form-control"
+                           aria-label="<?php echo p__('backoffice', 'Quota'); ?> (GB)"
+                           ng-model="webSpace.quota"
+                           placeholder="<?php echo p__('backoffice', 'No quota'); ?>"/>
+                    <span class="webspace-quota-unit">GB</span>
+                    <button type="submit"
+                            class="btn btn-xs btn-primary"
+                            ng-disabled="webSpace.busy"><?php echo __("Save"); ?></button>
+                </div>
             </form>
         </div>
         <div class="modal-footer">
@@ -743,10 +750,10 @@ if (version_compare(PHP_VERSION, '8.2.0', '<')) {
                     <small ng-if="services.cron_error.full" class="svc-error-line">
                         {{ services.cron_error.short }}
                         <a href="javascript:void(0);"
-                           ng-click="cron_error_show = !cron_error_show;"><span ng-hide="cron_error_show"><?php echo __("Show more") ?></span><span ng-show="cron_error_show"><?php echo __("Hide") ?></span></a>
+                           ng-click="svc.errorShow = !svc.errorShow"><span ng-hide="svc.errorShow"><?php echo __("Show more") ?></span><span ng-show="svc.errorShow"><?php echo __("Hide") ?></span></a>
                     </small>
                     <small class="svc-error-full"
-                           ng-if="services.cron_error.full && cron_error_show"
+                           ng-if="services.cron_error.full && svc.errorShow"
                            ng-bind-html="services.cron_error.full"></small>
                 </div>
                 <button class="btn btn-xs btn-primary"

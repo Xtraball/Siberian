@@ -101,14 +101,25 @@ App.config(function($routeProvider) {
             return;
         }
         var scale = u.total_bytes;
-        var pct = function (b) { return Math.max(0, (b || 0) / scale * 100); };
-        $scope.slices = {
-            log: pct(u.log_bytes),
-            cache: pct(u.cache_bytes),
-            images: pct(u.cache_images_bytes),
-            tmp: pct(u.tmp_bytes),
-            other: pct(u.other_bytes)
+        var raw = {
+            log: (u.log_bytes || 0) / scale * 100,
+            cache: (u.cache_bytes || 0) / scale * 100,
+            images: (u.cache_images_bytes || 0) / scale * 100,
+            tmp: (u.tmp_bytes || 0) / scale * 100,
+            other: (u.other_bytes || 0) / scale * 100
         };
+        // Five colors only: a slice that exists but is under MIN_SLICE percent would not be seen, so it is drawn at
+        // MIN_SLICE and the bigger ones share what is left. The sizes in the legend are the true ones.
+        var MIN_SLICE = 4;
+        var keys = Object.keys(raw);
+        var small = keys.filter(function (k) { return raw[k] > 0 && raw[k] < MIN_SLICE; });
+        var bigSum = keys.reduce(function (sum, k) { return raw[k] >= MIN_SLICE ? sum + raw[k] : sum; }, 0);
+        var room = 100 - small.length * MIN_SLICE;
+        var slices = {};
+        keys.forEach(function (k) {
+            slices[k] = raw[k] <= 0 ? 0 : (raw[k] < MIN_SLICE ? MIN_SLICE : raw[k] / bigSum * room);
+        });
+        $scope.slices = slices;
     }, true);
 
     $scope.openWebSpace = function () {
