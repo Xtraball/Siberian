@@ -153,6 +153,19 @@ class Packs
     }
 
     /**
+     * A pack is stale when it is switched on and the shipped catalog already translates every text the pack translates:
+     * it adds nothing, and it can make the older wording win over the maintained one.
+     *
+     * @param array $comparison result of compare()
+     * @param bool $enabled
+     * @return bool
+     */
+    public static function isStale(array $comparison, $enabled)
+    {
+        return (bool) $enabled && $comparison['shipped'] > 0 && $comparison['only_in_pack'] === 0;
+    }
+
+    /**
      * A languages/<code> folder holding nothing but the empty default.csv written by a pack install.
      *
      * @param string $languageDir
