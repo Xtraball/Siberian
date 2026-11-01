@@ -69,6 +69,7 @@ class Installer_Backoffice_ModuleController extends Backoffice_Controller_Defaul
                 'cancelLicense' => p__('backoffice', 'Go back!'),
                 'replaceLicense' => p__('backoffice', 'The license saved for this module is expired or no longer valid. If you received a new key, enter it here, or keep the current one.'),
                 'keepLicense' => p__('backoffice', 'Keep the current key'),
+                'licenseNeeded' => p__('backoffice', 'A licence key is required to install this module, the installation was not started.'),
                 //
                 'titleMajor' => __('Major update disclaimer, confirmation required!'),
                 'confirmDelete' => __('Yes, Proceed to update!'),
