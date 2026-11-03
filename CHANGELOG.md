@@ -2,7 +2,9 @@
 
 Notable changes to Siberian, newest first. Dates are `YYYY-MM-DD`. Longer notes live in `docs/`.
 
-## [Unreleased]
+## [5.1.12] 2026-11-03
+
+A responsive app preview in the editor, on top of 5.1.11. The update package is built against 5.1.11 (`lastversion`), the last published version. MAE and PE carry the same changes (tags `v5.1.12` on their `master`).
 
 ### Changed
 
