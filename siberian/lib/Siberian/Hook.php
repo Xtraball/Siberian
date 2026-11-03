@@ -80,9 +80,11 @@ class Hook
                 try {
                     // Payload is passed upon ALL listeners, with their respective priorities!
                     $newPayload = $action["callback"]($newPayload);
-                } catch (\Exception $e) {
+                } catch (\Throwable $e) {
+                    // Throwable, not Exception: a PHP 8 incompatibility in a listener raises an Error (TypeError, call to a
+                    // non-static method, undefined function) that must not break the action that triggered the hook (login...).
                     Logger::info("TriggerHook::" . $actionName . "[" . $index . "] > Failed " .
-                        $action["name"] . " > Exception: " . $e->getMessage());
+                        $action["name"] . " > " . get_class($e) . ": " . $e->getMessage());
 
                     // If any error occurred, we restore the payload as per before the try!
                     $newPayload = $payloadBeforeCatch;
