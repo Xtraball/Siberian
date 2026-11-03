@@ -13,7 +13,13 @@ Errors, warnings, notices and deprecations that PHP raises in this installation,
 
 Per report: a random install id and secret (generated on the first push, stored in `system_config`, not derived from the licence, host or IP), the edition (`sae`/`mae`/`pe`), the Siberian version and the PHP version.
 
-Per group: level, a scrubbed message, the file path **relative to the install root**, the line, the counters.
+Per group: level, a scrubbed message, the file path **relative to the install root**, the line, the counters, and where it came from:
+
+- `surface`: `app` (a call of the mobile app or of the web app, see `Quarantine::isAppRequest`), `editor`, `backoffice`, `api` or `cron` (cli, no request). The same error from two surfaces is two groups.
+- `module`: the folder name of the module of `app/local/modules` the file belongs to (`Xdelivery`); left out for core files. Module updates already send the installed module names to the same service.
+- `endpoints`: how many distinct endpoints (the first three path segments, numbers dropped) the group came from, at most 20. Only the number is sent, never the URL.
+
+A group written to the buffer before this version has none of the three and is sent as it was.
 
 Never sent: request data, users, IP addresses, host names, licence keys, SQL values, stack-trace arguments, absolute paths. Messages lose quoted values, numbers, e-mail addresses, URLs, long hex strings and absolute paths before they are stored (`ErrorReporter::normalize()`), and are cut at 300 characters.
 
