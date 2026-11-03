@@ -255,9 +255,9 @@
                         }
                         album_element += '<span class="album_title">'+album_name+'</span>';
                         if(playlist.track_count == 1) {
-                            var tracks = '<?php echo __('title') ?>';
+                            var tracks = '<?php echo __jss('title') ?>';
                         } else {
-                            var tracks = '<?php echo __('titles') ?>';
+                            var tracks = '<?php echo __jss('titles') ?>';
                         }
                         album_element += '<span class="album_artist">'+playlist.user.username+'</span><br/>';
                         album_element += '<span class="album_tracks">'+playlist.track_count+' '+tracks+'</span></br>';

@@ -197,7 +197,7 @@
                 //On la charge
             } else {
                 if($('li#category_dummy').length > 0) {
-                    if(!confirm('<?php echo __("You will lose all unsaved changes, continue?") ?>')) {
+                    if(!confirm('<?php echo __jss("You will lose all unsaved changes, continue?") ?>')) {
                         return false;
                     }
                 }
@@ -301,7 +301,7 @@
                     mobile_dummy += '<p class="header_subtitle"><span class="subtitle"></span></p>';
                     mobile_dummy += '</li></ul></div>';
 
-                    var title = "<?php echo __('New folder') ?>";
+                    var title = "<?php echo __js('New folder') ?>";
                     if(__that.root == '') {
                         title = value;
                     }

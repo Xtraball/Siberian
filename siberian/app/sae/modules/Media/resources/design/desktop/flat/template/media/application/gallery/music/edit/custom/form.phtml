@@ -220,7 +220,7 @@ if($this->getAlbumId()) {
                 track += '<i class="handle fa fa-sort icon-move"></i>';
                 track += '<span class="inner_content">';
                 track += $('#custom_track_title').val();
-                if($('#custom_track_artist').val().length > 0) track += ' <?php echo __('by') ?> '+$('#custom_track_artist').val();
+                if($('#custom_track_artist').val().length > 0) track += ' <?php echo __jss('by') ?> '+$('#custom_track_artist').val();
                 track += '<span class="pull-right">'+duration+'</span>';
                 track += '</span>';
                 track += '<span class="actions pull-right">';
@@ -245,7 +245,7 @@ if($this->getAlbumId()) {
                 $('#tracks_list').slideDown();
 
                 var tracks_count = $('#tracks_list li').length;
-                var tracks = tracks_count+' <?php echo __('title') ?>';
+                var tracks = tracks_count+' <?php echo __jss('title') ?>';
                 if(tracks_count != 1) tracks += 's';
                 $('#track_count').html(tracks);
                 return false;
@@ -287,7 +287,7 @@ if($this->getAlbumId()) {
                         $li.slideUp(function(){
                             $li.remove();
                             var tracks_count = $('#tracks_list li').length;
-                            var tracks = tracks_count+' <?php echo __('title') ?>';
+                            var tracks = tracks_count+' <?php echo __jss('title') ?>';
                             if(tracks_count != 1) tracks += 's';
                             if(album_id.length > 0) {
                                 $('ul#album_edit li[rel="'+album_id+'"] a.edit_album .inner_content i').html('('+tracks+')');
@@ -339,7 +339,7 @@ if($this->getAlbumId()) {
                     $.featherlight.current().close();
                 } else {
                     var tracks_count = $('#tracks_list li').length;
-                    var tracks = tracks_count+' <?php echo __('title') ?>';
+                    var tracks = tracks_count+' <?php echo __jss('title') ?>';
                     if(tracks_count != 1) tracks += 's';
                     $('ul#album_edit li[rel="'+album_id+'"] a.edit_album i').html('('+tracks+')');
                 }

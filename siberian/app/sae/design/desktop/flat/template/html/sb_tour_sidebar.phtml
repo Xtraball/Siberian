@@ -140,7 +140,7 @@
                         } else {
                             step_class = "";
                         }
-                        anchor_list += "<li id='step_item_" + $(item).attr("id") +"' class='list-group-item sb-tour-list-elem " + step_class + "' data-id-label='" + $(item).attr("id") + "'><i class='fa fa-sort handle-step'></i> <?php echo __("Element n°"); ?>" + (index + 1) + "</li>";
+                        anchor_list += "<li id='step_item_" + $(item).attr("id") +"' class='list-group-item sb-tour-list-elem " + step_class + "' data-id-label='" + $(item).attr("id") + "'><i class='fa fa-sort handle-step'></i> <?php echo __js("Element n°"); ?>" + (index + 1) + "</li>";
                     }
                 });
 
@@ -176,7 +176,7 @@
 
                     sbTour.reorderStepList();
                 } else {
-                    $("#tour-anchor-list").append("<li class='list-group-item text-justify'><?php echo __("No linkable element found on this page."); ?></li>");
+                    $("#tour-anchor-list").append("<li class='list-group-item text-justify'><?php echo __js("No linkable element found on this page."); ?></li>");
                 }
 
             }
@@ -241,7 +241,7 @@
                     }
                 });
             } else {
-                alert("<?php echo __("A step requires at least a title and a text."); ?>");
+                alert("<?php echo __js("A step requires at least a title and a text."); ?>");
             }
         },
         removeStep: function() {

@@ -1,6 +1,6 @@
 
 <sb-section-nav>
-    <sb-section-pane icon="fa-life-ring" title="'<?php echo __("Support"); ?>'">
+    <sb-section-pane icon="fa-life-ring" title="'<?php echo __jss("Support"); ?>'">
     <form class="form-horizontal"
           ng-submit="save(['support_name', 'support_email', 'support_link', 'support_chat_code'])">
 
@@ -62,7 +62,7 @@
     </form>
     </sb-section-pane>
 
-    <sb-section-pane icon="fa-envelope" title="'<?php echo __("Custom SMTP Configuration"); ?>'">
+    <sb-section-pane icon="fa-envelope" title="'<?php echo __jss("Custom SMTP Configuration"); ?>'">
     <form class="form-horizontal"
           ng-submit="save(['enable_custom_smtp', 'smtp_credentials'])">
 
