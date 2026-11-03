@@ -272,7 +272,7 @@
                 if(text.length) {
                     var d = text.split("-");
                     var date = new Date(d[0],(d[1]-1),d[2]);
-                    text = $.datepicker.formatDate('<?php echo __('MM,d yy'); ?>', date, {
+                    text = $.datepicker.formatDate('<?php echo __jss('MM,d yy'); ?>', date, {
                         dayNames: $.datepicker.regional['<?php echo Core_Model_Language::getCurrentLanguageDatepicker() ?>'].dayNames,
                         monthNamesShort: $.datepicker.regional['<?php echo Core_Model_Language::getCurrentLanguageDatepicker() ?>'].monthNamesShort,
                         monthNames: $.datepicker.regional['<?php echo Core_Model_Language::getCurrentLanguageDatepicker() ?>'].monthNames
@@ -340,7 +340,7 @@
                 return false;
             });
             $('.del_promotion').click(function() {
-                if(confirm('<?php echo __('Delete this discount?'); ?>')) {
+                if(confirm('<?php echo __jss('Delete this discount?'); ?>')) {
                     reload(this, $(this).attr('href'), true, function(datas) {
                         if(datas.promotion_id) {
                             $('.promotion_actions[rel="'+datas.promotion_id+'"]').slideUp();

@@ -75,9 +75,9 @@
             reload($(this.parentNode), '<?php echo $this->getUrl('media/application_gallery_music/deleteelement'); ?>', true, function(datas) {
                 if(datas.success) {
                     var track_count = $('#track_edit li').length;
-                    var chanson = '<?php echo __("titles") ?>';
+                    var chanson = '<?php echo __jss("titles") ?>';
                     if(track_count == 1) {
-                        chanson = '<?php echo __("title") ?>';
+                        chanson = '<?php echo __jss("title") ?>';
                     }
                     $('.track_count').html(track_count+' '+chanson);
                     $('#album_edit li[rel="'+album_id+'"]').find('.edit_album i').html('('+track_count+' '+chanson+')');

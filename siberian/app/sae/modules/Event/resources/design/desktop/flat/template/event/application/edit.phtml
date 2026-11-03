@@ -261,7 +261,7 @@ $event_type_list = [
             });
 
             $('.delete_event').click(function () {
-                if (confirm('<?php echo __('Delete this calendar?') ?>')) {
+                if (confirm('<?php echo __jss('Delete this calendar?') ?>')) {
                     var td = $(this.parentNode);
                     var tr = $(this.parentNode.parentNode);
                     reload(tr, '<?php echo $this->getUrl('event/application/delete'); ?>', true, function (datas) {

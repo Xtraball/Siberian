@@ -719,7 +719,7 @@ if (version_compare(PHP_VERSION, '8.2.0', '<')) {
                     </small>
                     <small ng-if="cronState() === 'ok' || cronState() === 'warn'">
                         <?php echo p__('backoffice', 'Running') ?>, <?php echo p__('backoffice', 'Last run') ?> :
-                        <strong>{{ services.cron_last_run || "<?php echo __("never") ?>" }}</strong>
+                        <strong>{{ services.cron_last_run || "<?php echo __js("never") ?>" }}</strong>
                     </small>
                     <small ng-if="services.cron_locks > 0">
                         {{ services.cron_locks }} <?php echo p__('backoffice', 'lock files') ?>

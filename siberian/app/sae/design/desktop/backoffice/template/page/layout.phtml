@@ -141,22 +141,22 @@
 
                 factory.loading = {
                     success: "",
-                    error: "<?php echo __("An error occurred while loading. Please, try again later."); ?>"
+                    error: "<?php echo __js("An error occurred while loading. Please, try again later."); ?>"
                 };
 
                 factory.save = {
-                    success: "<?php echo __("Info successfully saved"); ?>",
-                    error: "<?php echo __("An error occurred while saving. Please try again later."); ?>"
+                    success: "<?php echo __js("Info successfully saved"); ?>",
+                    error: "<?php echo __js("An error occurred while saving. Please try again later."); ?>"
                 };
 
                 factory.uploader = {
                     error: {
                         type: {
-                            zip: "<?php echo __("You can upload a zip archive only."); ?>",
-                            pem: "<?php echo __("You can upload a pem certificate only."); ?>",
-                            image: "<?php echo __("You can upload an image only (.jpg, .jpeg, .gif and .png)."); ?>",
-                            icon: "<?php echo __("You can upload an icon only (.ico and .png)."); ?>",
-                            png: "<?php echo __("You can upload a png only (.png)."); ?>"
+                            zip: "<?php echo __js("You can upload a zip archive only."); ?>",
+                            pem: "<?php echo __js("You can upload a pem certificate only."); ?>",
+                            image: "<?php echo __js("You can upload an image only (.jpg, .jpeg, .gif and .png)."); ?>",
+                            icon: "<?php echo __js("You can upload an icon only (.ico and .png)."); ?>",
+                            png: "<?php echo __js("You can upload a png only (.png)."); ?>"
                         },
                         only_one_at_a_time: "<?php echo addslashes(__("You can't upload more than one file at a time.")); ?>",
                         general: "<?php echo addslashes(__("An error occurred while uploading your file. Please, try again later.")); ?>"
@@ -164,11 +164,11 @@
                 };
 
                 factory.android = {
-                    generating_apk: "<?php echo __("Your APK is being generated. Please come back in a few minutes."); ?>"
+                    generating_apk: "<?php echo __js("Your APK is being generated. Please come back in a few minutes."); ?>"
                 };
 
                 factory.admin = {
-                    confirm_deletion: "<?php echo __("Are you sure you want to delete this admin?"); ?>"
+                    confirm_deletion: "<?php echo __js("Are you sure you want to delete this admin?"); ?>"
                 };
 
                 return factory;

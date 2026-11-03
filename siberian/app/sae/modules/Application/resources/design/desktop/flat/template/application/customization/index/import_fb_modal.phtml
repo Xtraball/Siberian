@@ -121,7 +121,7 @@
                 $("#form_page_id").hide();
                 $("#form_load").show();
                 this.toggleLoader();
-                this.setConsoleText("<?php echo __("Fetching data from Facebook and creating your features. It can take a while, be patient!");?>");
+                this.setConsoleText("<?php echo __js("Fetching data from Facebook and creating your features. It can take a while, be patient!");?>");
 
                 var step_import = $.post( "<?php echo $this->getUrl('importer/facebook/parse'); ?>", { page_id: $("#page_id").val()},null,"json")
 
@@ -129,13 +129,13 @@
                     if(data.success) {
                         var messages = data.messages;
                         import_fb.setProgressValue("70");
-                        import_fb.setConsoleText("<?php echo __("Analyzing fetched data...");?>");
+                        import_fb.setConsoleText("<?php echo __js("Analyzing fetched data...");?>");
                         var step_finalize = $.post( "<?php echo $this->getUrl('importer/facebook/finalize'); ?>", { page_id: $("#page_id").val(), real_id: data.real_id},null,"json")
                         step_finalize.done(function(data) {
                             if(data.success) {
                                 import_fb.setProgressValue("100");
                                 import_fb.toggleLoader();
-                                import_fb.setMessageContainer("<?php echo __("All done!");?>", "success");
+                                import_fb.setMessageContainer("<?php echo __js("All done!");?>", "success");
                                 import_fb.setSuccessMessages(messages);
                                 $("#finished").show();
                             } else {
@@ -144,7 +144,7 @@
                                 $("#pb").show();
                             }
                         }).error(function() {
-                            import_fb.setMessageContainer("<?php echo __("An error occurred. Sorry for the inconvenience."); ?>", "danger");
+                            import_fb.setMessageContainer("<?php echo __js("An error occurred. Sorry for the inconvenience."); ?>", "danger");
                             $("#form_page_id").show();
                             $("#pb").show();
                         });
@@ -154,7 +154,7 @@
                         $("#pb").show();
                     }
                 }).error(function() {
-                    import_fb.setMessageContainer("<?php echo __("An error occurred. Sorry for the inconvenience."); ?>", "danger");
+                    import_fb.setMessageContainer("<?php echo __js("An error occurred. Sorry for the inconvenience."); ?>", "danger");
                     $("#form_page_id").show();
                     $("#pb").show();
                 });
@@ -179,15 +179,15 @@
             $("#fb_message").show();
         },
         setSuccessMessages: function(messages) {
-            $("#message_fb").html(messages.facebook ? "OK" : "<?php echo __("No data found");?>");
+            $("#message_fb").html(messages.facebook ? "OK" : "<?php echo __js("No data found");?>");
             $("#message_fb").addClass(messages.facebook ? "message-success" : "message-error");
-            $("#message_calendar").html(messages.calendar ? "OK" : "<?php echo __("No data found");?>");
+            $("#message_calendar").html(messages.calendar ? "OK" : "<?php echo __js("No data found");?>");
             $("#message_calendar").addClass(messages.calendar ? "message-success" : "message-error");
-            $("#message_places").html(messages.places ? "OK" : "<?php echo __("No data found");?>");
+            $("#message_places").html(messages.places ? "OK" : "<?php echo __js("No data found");?>");
             $("#message_places").addClass(messages.places ? "message-success" : "message-error");
-            $("#message_contact").html(messages.contact ? "OK" : "<?php echo __("No data found");?>");
+            $("#message_contact").html(messages.contact ? "OK" : "<?php echo __js("No data found");?>");
             $("#message_contact").addClass(messages.contact ? "message-success" : "message-error");
-            $("#message_image").html(messages.image ? "OK" : "<?php echo __("No data found");?>");
+            $("#message_image").html(messages.image ? "OK" : "<?php echo __js("No data found");?>");
             $("#message_image").addClass(messages.image ? "message-success" : "message-error");
 
             is_success = messages.facebook || messages.calendar || messages.places || messages.contact || messages.image;

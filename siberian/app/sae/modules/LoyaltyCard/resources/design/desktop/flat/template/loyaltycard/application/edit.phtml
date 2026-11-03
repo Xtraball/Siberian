@@ -431,7 +431,7 @@ $application = $this->getApplication();
                 }
             });
             $('#' + id).find('a.delete_password').click(function () {
-                if (confirm('<?php echo __('Delete this password?') ?>')) {
+                if (confirm('<?php echo __jss('Delete this password?') ?>')) {
                     $(this).append('<input type="hidden" name="is_deleted" class="is_deleted" value="1" />');
                     saveEmployee('password_' + $(this).attr('rel'))
                 }

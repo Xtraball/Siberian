@@ -67,10 +67,10 @@
         var podcast_element = '<div id="podcast" class="col-md-12">';
         podcast_element += '<img class="pull-left podcast_illus" width="100px" height="100px" src="'+podcast.image+'" />';
         podcast_element += '<div class="pull-left" style="width:85%">';
-        podcast_element += '<p class="podcast_title"><?php echo __('Title:') ?> '+podcast.title+'</p>';
-        podcast_element += '<p class="podcast_description"><?php echo __('Description:') ?> '+podcast.description+'</p>';
-        var last_update = podcast.last_update ? podcast.last_update : "<?php echo __("Unknown"); ?>";
-        podcast_element += '<p class="podcast_last_update"><?php echo __('Last update:') ?> '+last_update+'</p>';
+        podcast_element += '<p class="podcast_title"><?php echo __jss('Title:') ?> '+podcast.title+'</p>';
+        podcast_element += '<p class="podcast_description"><?php echo __jss('Description:') ?> '+podcast.description+'</p>';
+        var last_update = podcast.last_update ? podcast.last_update : "<?php echo __js("Unknown"); ?>";
+        podcast_element += '<p class="podcast_last_update"><?php echo __jss('Last update:') ?> '+last_update+'</p>';
         podcast_element += '</div>';
         podcast_element += '</div>';
         $('#podcast_results #results').append(podcast_element);
