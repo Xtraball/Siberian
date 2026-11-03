@@ -185,6 +185,36 @@ return [
         t_equal(503, $code, 'no header injection');
     },
 
+    'a fatal error on a mobile or web app call is not recorded, the editor, backoffice and cron still are' => function () {
+        global $_config;
+        $dir = mq_tmp();
+        mq_module($dir, 'Foo');
+        Quarantine::setRoot($dir);
+        $error = ['type' => E_ERROR, 'message' => 'boom', 'file' => $dir . '/app/local/modules/Foo/Model/Foo.php', 'line' => 3];
+
+        foreach (['/xdelivery/mobile_cart/add?x=1', '/front/mobile_home/view', '/application/mobile_customization_colors/find', '/mobile/home'] as $uri) {
+            t_true(Quarantine::isAppRequest(['REQUEST_URI' => $uri]), $uri . ' is an app call');
+            t_equal(null, Quarantine::handleError($error, ['REQUEST_URI' => $uri]), $uri . ' keeps its 5xx');
+        }
+        t_true(!Quarantine::isQuarantined('Foo'), 'nothing recorded for the app');
+
+        foreach (['/application/customization_features/list', '/backoffice/advanced_module/save', '/xdelivery/application/save', '/api/x', '/mobility/x', '/', '/xdelivery/mobilecart/y'] as $uri) {
+            t_true(!Quarantine::isAppRequest(['REQUEST_URI' => $uri]), $uri . ' is not an app call');
+        }
+
+        $handled = Quarantine::handleError($error, ['REQUEST_URI' => '/application/customization_features/list']);
+        t_equal(['Foo', true], $handled, 'the editor still quarantines');
+        Quarantine::release('Foo');
+
+        $previous = $_config ?? null;
+        $_config = ['module_quarantine_app_requests' => true];
+        t_equal(['Foo', true], Quarantine::handleError($error, ['REQUEST_URI' => '/xdelivery/mobile_cart/add']), 'the option brings the old behaviour back');
+        $_config = $previous;
+
+        Quarantine::setRoot(null);
+        mq_rm($dir);
+    },
+
     'a module that needs a newer core is quarantined by the version check' => function () {
         $dir = mq_tmp();
         mq_module($dir, 'Old', '1.0', '4.12.5');

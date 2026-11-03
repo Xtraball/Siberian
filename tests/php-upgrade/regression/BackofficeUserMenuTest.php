@@ -11,8 +11,8 @@ $css = file_get_contents($backoffice . '/css/style.css');
 
 return [
     'the user menu is closed by the click on its entries' => function () use ($header) {
-        t_true(preg_match('/id="backoffice_user"[^>]*ng-class="\{closed: userMenu\.closed\}"/s', $header) === 1, 'class closed follows userMenu.closed');
-        t_true(preg_match('/id="backoffice_user"[^>]*ng-mouseleave="userMenu\.closed = false"/s', $header) === 1, 'it reopens when the pointer leaves');
+        t_true(preg_match('/id="backoffice_user".{0,400}?ng-class="\{closed: userMenu\.closed\}"/s', $header) === 1, 'class closed follows userMenu.closed');
+        t_true(preg_match('/id="backoffice_user".{0,400}?ng-mouseleave="userMenu\.closed = false"/s', $header) === 1, 'it reopens when the pointer leaves');
         t_equal(1, substr_count($header, 'closeUserMenu($event)'), 'the account link closes it');
         t_true(strpos($header, 'ng-click="logout()"') !== false, 'log-out is untouched: the menu goes away with the session');
     },

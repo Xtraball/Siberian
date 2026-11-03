@@ -17,6 +17,12 @@ The quarantine keeps the rest of the application working and tells the administr
 
 Core modules are never quarantined.
 
+Only the editor, the backoffice, the api and the cron can put a module in quarantine. A fatal error on a call of the
+mobile app or of the web app (`<module>/mobile_<controller>/<action>`, `front/mobile_*`, `application/mobile_*`, `mobile/*`)
+is not recorded: the visitor keeps the plain 5xx of the failing call and the module stays enabled, so one broken call
+does not turn every later request of the apps into a 404. A module that is already in quarantine stays disabled for
+everyone. `$_config['module_quarantine_app_requests'] = true;` brings the previous behaviour back.
+
 ## What a quarantined module is
 
 It is treated like a module switched off by hand (`module.disabled`): its controllers, bootstrap, cron jobs and design

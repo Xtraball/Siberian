@@ -397,14 +397,41 @@ class Quarantine
     }
 
     /**
+     * `$_config['module_quarantine_app_requests'] = true;` brings back the quarantine for the mobile and web app calls.
+     */
+    public static function quarantinesAppRequests(): bool
+    {
+        global $_config;
+
+        return is_array($_config) && ($_config['module_quarantine_app_requests'] ?? false) === true;
+    }
+
+    /**
+     * A call of the mobile app or of the web app: `<module>/mobile_<controller>/<action>` (`xdelivery/mobile_cart/...`,
+     * `front/mobile_home/...`, `application/mobile_customization_colors/...`) or the Mobile module itself.
+     * The editor (`application/customization_*`), the backoffice, the api and everything else are not app calls.
+     */
+    public static function isAppRequest(array $server): bool
+    {
+        $path = (string) parse_url((string) ($server['REQUEST_URI'] ?? ''), PHP_URL_PATH);
+
+        return preg_match('#^/(?:mobile(?:_[a-z0-9_]+)?|[a-z0-9_]+/mobile(?:_[a-z0-9_]+)?)(?:/|$)#i', $path) === 1;
+    }
+
+    /**
      * Records the module a fatal error comes from.
      *
      * @param array|null $error error_get_last()
      * @return array|null [module, isNew] or null when the error is not a module one
      */
-    public static function handleError(?array $error): ?array
+    public static function handleError(?array $error, ?array $server = null): ?array
     {
         if (!self::isEnabled() || $error === null || !self::isFatal($error['type'] ?? null)) {
+            return null;
+        }
+
+        // The visitors of the mobile app and of the web app keep the plain 5xx of the failing call, see isAppRequest!
+        if ($server !== null && self::$probing === null && !self::quarantinesAppRequests() && self::isAppRequest($server)) {
             return null;
         }
 
@@ -459,7 +486,7 @@ class Quarantine
     public static function onShutdown(): void
     {
         $error = error_get_last();
-        $handled = self::handleError($error);
+        $handled = self::handleError($error, PHP_SAPI === 'cli' ? null : $_SERVER);
         if ($handled === null) {
             return;
         }
