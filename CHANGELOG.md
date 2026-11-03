@@ -2,6 +2,12 @@
 
 Notable changes to Siberian, newest first. Dates are `YYYY-MM-DD`. Longer notes live in `docs/`.
 
+## [Unreleased]
+
+### Changed
+
+- 2026-11-03 Editor: the preview of the app on the right now fits its column, keeps its proportions and no longer overlaps the content. Below 1200px wide it is replaced by a "Preview" button that opens it over the page.
+
 ## [5.1.11] 2026-11-03
 
 A fix for the mobile login, on top of 5.1.10. The update package is built against 5.1.10 (`lastversion`), the last published version. MAE and PE carry the same change (tags `v5.1.11` on their `master`).
