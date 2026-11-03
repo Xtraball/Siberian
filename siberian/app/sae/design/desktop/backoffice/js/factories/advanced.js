@@ -101,6 +101,25 @@ App.factory('Advanced', function ($http, Url) {
         });
     };
 
+    factory.appErrors = function () {
+        return $http({
+            method: 'GET',
+            url: Url.get('backoffice/advanced_module/apperrors'),
+            cache: false,
+            responseType: 'json'
+        });
+    };
+
+    factory.quarantineNow = function (module) {
+        return $http({
+            method: 'POST',
+            url: Url.get('backoffice/advanced_module/quarantinenow'),
+            data: {module: module},
+            cache: false,
+            responseType: 'json'
+        });
+    };
+
     factory.quarantineScan = function () {
         return $http({
             method: 'POST',

@@ -144,6 +144,7 @@ if (version_compare(PHP_VERSION, '8.2.0', '<')) {
                     <td>
                         <span ng-switch="item.reason">
                             <span ng-switch-when="version"><?php echo p__('backoffice', 'Needs a newer Siberian'); ?></span>
+                            <span ng-switch-when="manual"><?php echo p__('backoffice', 'Put in quarantine by an administrator'); ?></span>
                             <span ng-switch-when="probe"><?php echo p__('backoffice', 'Failed the compatibility check'); ?></span>
                             <span ng-switch-default><?php echo p__('backoffice', 'Fatal error'); ?></span>
                         </span>
@@ -177,6 +178,55 @@ if (version_compare(PHP_VERSION, '8.2.0', '<')) {
                     ng-disabled="quarantineBusy"
                     ng-click="quarantineScan()"><?php echo p__('backoffice', 'Scan all modules'); ?></button>
         </div>
+
+        <div class="alert"
+             id="app-errors"
+             ng-class="appErrorsWarning() ? 'alert-danger' : 'alert-warning'"
+             ng-if="appErrors.enabled && appErrors.modules.length > 0">
+            <p style="font-size: 15px;">
+                <i class="fa fa-bug"></i>
+                <strong><?php echo p__('backoffice', 'Errors on app calls'); ?></strong>
+                <small>(<?php echo p__('backoffice', 'last 24 hours'); ?>)</small>
+            </p>
+            <p><?php echo p__('backoffice', 'Fatal errors and errors that a module raised on the calls of the mobile and web apps. The module stays enabled and the app keeps its error: nothing is put in quarantine unless you do it.'); ?></p>
+            <p ng-if="appErrorsWarning()">
+                <strong><?php echo p__('backoffice', 'Warning: %s fatal errors or more within about 10 minutes.', \Siberian\ErrorReporter::WARN_FATALS); ?></strong>
+            </p>
+            <table class="table" style="background: transparent;">
+                <tr>
+                    <th><?php echo p__('backoffice', 'Module'); ?></th>
+                    <th><?php echo p__('backoffice', 'Fatal errors'); ?></th>
+                    <th><?php echo p__('backoffice', 'Errors'); ?></th>
+                    <th><?php echo p__('backoffice', 'Endpoints'); ?></th>
+                    <th><?php echo p__('backoffice', 'Last seen'); ?></th>
+                    <th></th>
+                </tr>
+                <tr ng-repeat="item in appErrors.modules">
+                    <td style="width: 30%;">
+                        <strong>{{ item.name }}</strong>
+                        <span class="label label-danger" ng-if="item.warning"><?php echo p__('backoffice', 'Warning'); ?></span>
+                        <br />
+                        <small>{{ item.message }}</small>
+                    </td>
+                    <td>{{ item.fatals }}</td>
+                    <td>{{ item.errors }}</td>
+                    <td>{{ item.endpoints }}</td>
+                    <td>{{ item.last * 1000 | date:'medium' }}</td>
+                    <td style="text-align: right; white-space: nowrap;">
+                        <span ng-if="item.quarantined"><?php echo p__('backoffice', 'In quarantine'); ?></span>
+                        <button class="btn btn-xs btn-warning"
+                                ng-if="!item.quarantined"
+                                ng-disabled="quarantineBusy"
+                                ng-click="quarantineNow(item.name, '<?php echo p__js('backoffice', 'Put this module in quarantine? It is disabled for the editor, the apps and the cron until you recheck or enable it.', "'"); ?>')"><i class="fa fa-medkit"></i> <?php echo p__('backoffice', 'Quarantine now'); ?></button>
+                    </td>
+                </tr>
+            </table>
+        </div>
+
+        <p class="text-muted"
+           ng-if="appErrors.enabled === false">
+            <small><?php echo p__('backoffice', 'Error reports are turned off, so the errors on app calls are not recorded. You can turn them on in Settings > Advanced > Configuration.'); ?></small>
+        </p>
 
     </div>
 

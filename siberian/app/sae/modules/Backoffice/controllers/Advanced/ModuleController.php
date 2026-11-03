@@ -226,6 +226,54 @@ class Backoffice_Advanced_ModuleController extends Backoffice_Controller_Default
     }
 
     /**
+     * The errors of the mobile and web app calls by module, for the dashboard (see Siberian\ErrorReporter::appErrors).
+     * Nothing is kept while the error reports are off.
+     */
+    public function apperrorsAction()
+    {
+        $this->_sendJson(Core_Model_ErrorReports::appErrors());
+    }
+
+    /**
+     * An administrator puts a module in quarantine by hand. Never done automatically.
+     */
+    public function quarantinenowAction()
+    {
+        try {
+            $params = $this->_quarantineParams();
+            $module = (string) ($params['module'] ?? '');
+            if ($module === '' || !in_array($module, \Siberian\Module\Quarantine::localModules(), true)) {
+                throw new Siberian_Exception(__("The module you are trying to edit doesn't exists!"));
+            }
+
+            \Siberian\Module\Quarantine::add($module, [
+                'type' => 0,
+                'message' => 'Put in quarantine from the dashboard (errors on app calls).',
+                'file' => '',
+                'line' => 0,
+            ], \Siberian\Module\Quarantine::REASON_MANUAL);
+            if (!\Siberian\Module\Quarantine::isQuarantined($module)) {
+                throw new Siberian_Exception(p__('backoffice', 'The quarantine is switched off or could not be written, check var/quarantine.'));
+            }
+            $this->_quarantineClearCache();
+
+            $payload = [
+                'success' => true,
+                'message' => p__('backoffice', 'The module is in quarantine.'),
+                'summary' => \Siberian\Module\Quarantine::summary(),
+                'app_errors' => Core_Model_ErrorReports::appErrors(),
+            ];
+        } catch (\Exception $e) {
+            $payload = [
+                'error' => true,
+                'message' => $e->getMessage(),
+            ];
+        }
+
+        $this->_sendJson($payload);
+    }
+
+    /**
      * @return array
      */
     private function _quarantineParams(): array
