@@ -419,6 +419,20 @@ class Quarantine
     }
 
     /**
+     * The endpoint of a call: the first three path segments, lower case, the numeric ones dropped, never the query
+     * string (`xdelivery/mobile_cart/add`). The error reports and the circuit breaker group by it.
+     */
+    public static function endpointPath(array $server): string
+    {
+        $path = strtolower((string) parse_url((string) ($server['REQUEST_URI'] ?? ''), PHP_URL_PATH));
+        $segments = array_values(array_filter(explode('/', $path), static function ($segment) {
+            return $segment !== '' && !ctype_digit($segment);
+        }));
+
+        return implode('/', array_slice($segments, 0, 3));
+    }
+
+    /**
      * Records the module a fatal error comes from.
      *
      * @param array|null $error error_get_last()
@@ -486,6 +500,9 @@ class Quarantine
     public static function onShutdown(): void
     {
         $error = error_get_last();
+        // Opt-in circuit breaker for the app calls, see CircuitBreaker (never throws)!
+        require_once __DIR__ . '/CircuitBreaker.php';
+        CircuitBreaker::onShutdown($error, PHP_SAPI === 'cli' ? null : $_SERVER);
         $handled = self::handleError($error, PHP_SAPI === 'cli' ? null : $_SERVER);
         if ($handled === null) {
             return;

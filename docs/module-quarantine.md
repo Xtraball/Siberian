@@ -57,6 +57,31 @@ php cli module:quarantine scan
 A probe loads the files of `Model`, `Form`, `Plugin` and `controllers` of the module, never install scripts. Run the
 scan with the same PHP as the web server (`php -v`).
 
+## Circuit breaker for the app calls (opt-in)
+
+A fatal error on a call of the mobile app or of the web app is not quarantined, so a broken endpoint keeps running its
+broken code on every call. The circuit breaker stops that, for the app calls only. **Off by default**:
+
+```php
+$_config['module_app_circuit_breaker'] = true;
+// optional, these are the defaults
+$_config['module_app_circuit_breaker_threshold'] = 5;         // fatal errors ...
+$_config['module_app_circuit_breaker_window_minutes'] = 10;   // ... within this window open the circuit
+$_config['module_app_circuit_breaker_cooldown_minutes'] = 5;  // how long it stays open
+```
+
+- A fatal error of a module on an app call is counted for its **endpoint** (the first three path segments, numbers
+  dropped: `xdelivery/mobile_cart/add`). At the threshold the circuit of that endpoint opens.
+- While it is open, app calls to that endpoint get `503` with `Retry-After` and `{"error":true,"circuit_open":"<Module>","retry_after":<seconds>}`
+  **before any module code runs**. Other endpoints, the editor, the backoffice, the api and the cron are not touched.
+- After the cool-down one call is let through (half open), the others still get the 503. When it ends without a fatal
+  error the circuit closes; when it dies again the circuit opens for another cool-down. A test call that never ends
+  (killed) frees its place after 30 seconds.
+- The check is in `index.php` right after `config.php`: the configuration is there and no framework or module code has
+  run. The shutdown handler records the fatal errors, before the quarantine decides about them.
+- State: `var/quarantine/breaker.json` (outside the caches that "clear cache" empties), capped at 200 endpoints, quiet
+  endpoints are forgotten. Only fatal errors count; an exception that ends in a 500 does not.
+
 ## Turning it off
 
 ```php
