@@ -7,6 +7,13 @@
         <?php endif; ?>
     </div>
 
+    <button type="button"
+            id="overview-toggle"
+            class="btn color-blue">
+        <i class="fa fa-mobile-phone"></i>
+        <?php echo p__("application", "Preview"); ?>
+    </button>
+
     <div id="overview"
          class="col-lg-4">
         <div>
@@ -16,6 +23,31 @@
 </div>
 
 <script type="text/javascript">
+
+    // Small screens: the preview of the app opens over the page, from a button.
+    $(document).ready(function () {
+        var body = $("body");
+        var loadedOnce = false;
+        $("#overview-toggle").off("click.overview").on("click.overview", function () {
+            body.toggleClass("overview-open");
+            if (body.hasClass("overview-open") && !loadedOnce) {
+                // The app was loaded while hidden, with no size: load it again now that it is visible.
+                loadedOnce = true;
+                $("#reload-overview").trigger("click");
+            }
+        });
+        // A click outside of the phone closes it.
+        $("#overview").off("click.overview").on("click.overview", function (e) {
+            if (e.target === this || $(e.target).is("#overview > div")) {
+                body.removeClass("overview-open");
+            }
+        });
+        $(window).off("resize.overview").on("resize.overview", function () {
+            if ($(window).width() > 1200) {
+                body.removeClass("overview-open");
+            }
+        });
+    });
 
     var iframe = {
         isHomepage: function() {
