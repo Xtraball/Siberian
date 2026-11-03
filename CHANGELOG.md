@@ -8,8 +8,11 @@ Fixes for the fatal errors that installations report, a test suite without false
 
 ### Fixed
 
-- 2026-11-03 Fatal errors of the core that installations report, all PHP 8 strictness: the analytics calls of the mobile apps (`gmmktime()`, the most reported one), the background images of the apps for a device of unknown size (division by zero), the events list, mobile calls without an application, the YouTube channel lookup, a corrupt image, an address given as text to the geocoder, and the sample pages of an app without pages.
-- 2026-11-03 More fatal errors of the core that installations report: the Facebook application token (a call that PHP 8 refuses), the signature check of the module updates on a PHP without the sodium extension (it answers "not verified" instead of failing), a catalog category without products, and the analytics aggregation of a feature it does not know.
+- 2026-11-03 Mobile apps: the analytics calls, the background images on a device of unknown size, the events list, the sample pages of an app without pages, the YouTube channel lookup and calls without an application no longer end in an error.
+- 2026-11-03 Images and maps: a damaged image file and an address given as plain text no longer end in an error.
+- 2026-11-03 Module updates: a server without the sodium extension now says the update is not verified, instead of an error.
+- 2026-11-03 Catalog and analytics: a category without products and an unknown feature in the statistics no longer end in an error.
+- 2026-11-03 Facebook: asking for the application token no longer ends in an error.
 
 ## [5.1.12] 2026-11-03
 
