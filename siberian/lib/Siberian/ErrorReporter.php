@@ -2,8 +2,11 @@
 
 namespace Siberian;
 
+use Siberian\Module\Quarantine;
 use Siberian\ModuleUpdates\Store;
 use Siberian\ModuleUpdates\Transport;
+
+require_once __DIR__ . '/Module/Quarantine.php';
 
 /**
  * Proactive error reporting. Errors, warnings and deprecations are grouped on this server, and the groups are
@@ -32,6 +35,7 @@ class ErrorReporter
     const MAX_GROUPS = 500;
     const MAX_SENT_GROUPS = 200;
     const MAX_MESSAGE = 300;
+    const MAX_ENDPOINTS = 20;
 
     const K_INSTALL_ID = 'error_reports_install_id';
     const K_SECRET = 'error_reports_secret';
@@ -59,6 +63,9 @@ class ErrorReporter
     /** @var callable|null returns whether reporting is on, evaluated when the buffer is written (needs the database) */
     private $enabled;
 
+    /** @var callable|null returns the $_SERVER of the request (tests give their own) */
+    private $server;
+
     /** @var array key => group, what this request saw and has not flushed yet */
     private $pending = [];
 
@@ -80,8 +87,9 @@ class ErrorReporter
      * @param callable|null $clock
      * @param callable|null $enabled
      */
-    public function __construct($file, $root, $clock = null, $enabled = null)
+    public function __construct($file, $root, $clock = null, $enabled = null, $server = null)
     {
+        $this->server = $server;
         $this->file = $file;
         $this->root = rtrim(str_replace('\\', '/', (string) $root), '/');
         $this->clock = $clock ?: 'time';
@@ -201,12 +209,15 @@ class ErrorReporter
         if ($message === '') {
             return;
         }
+        $module = Quarantine::moduleFromFile($file);
         $file = $this->relativePath($file);
-        $key = sha1($level . "\n" . $message . "\n" . $file . ':' . (int) $line);
+        [$surface, $endpoint] = $this->requestContext();
+        $key = sha1($level . "\n" . $message . "\n" . $file . ':' . (int) $line . "\n" . (string) $module . "\n" . $surface);
         $now = call_user_func($this->clock);
         if (isset($this->pending[$key])) {
             ++$this->pending[$key]['count'];
             $this->pending[$key]['last'] = $now;
+            $this->pending[$key]['eps'] = self::mergeEndpoints($this->pending[$key]['eps'], $endpoint === null ? [] : [$endpoint]);
 
             return;
         }
@@ -215,7 +226,87 @@ class ErrorReporter
 
             return;
         }
-        $this->pending[$key] = ['level' => $level, 'message' => $message, 'file' => $file, 'line' => (int) $line, 'count' => 1, 'first' => $now, 'last' => $now];
+        $this->pending[$key] = [
+            'level' => $level, 'message' => $message, 'file' => $file, 'line' => (int) $line, 'count' => 1, 'first' => $now, 'last' => $now,
+            'module' => $module, 'surface' => $surface, 'eps' => $endpoint === null ? [] : [$endpoint],
+        ];
+    }
+
+    /**
+     * Where the request comes from: the surface (app | editor | backoffice | api | cron) and a short number for the
+     * endpoint (module/controller/action, numbers dropped, nothing of the query string), counted per group.
+     *
+     * @return array [surface, endpoint number or null]
+     */
+    private function requestContext()
+    {
+        try {
+            $server = $this->server !== null ? (array) call_user_func($this->server) : (isset($_SERVER) ? $_SERVER : []);
+
+            return [self::surfaceOf($server, $this->server !== null ? 'fpm' : PHP_SAPI), self::endpointOf($server)];
+        } catch (\Throwable $e) {
+            return ['editor', null];
+        }
+    }
+
+    /**
+     * @param array $server
+     * @param string $sapi
+     * @return string app | editor | backoffice | api | cron
+     */
+    public static function surfaceOf(array $server, $sapi = 'fpm')
+    {
+        if ($sapi === 'cli' || !isset($server['REQUEST_URI'])) {
+            return 'cron';
+        }
+        if (Quarantine::isAppRequest($server)) {
+            return 'app';
+        }
+        $segments = self::segments($server);
+        if (isset($segments[0]) && $segments[0] === 'api') {
+            return 'api';
+        }
+        foreach (array_slice($segments, 0, 2) as $segment) {
+            if (strpos($segment, 'backoffice') === 0) {
+                return 'backoffice';
+            }
+        }
+
+        return 'editor';
+    }
+
+    /**
+     * @param array $server
+     * @return int|null crc32 of the first three path segments without the numeric ones
+     */
+    public static function endpointOf(array $server)
+    {
+        $segments = array_slice(self::segments($server), 0, 3);
+
+        return $segments === [] ? null : crc32(implode('/', $segments));
+    }
+
+    /**
+     * @param array $server
+     * @return string[] lower case path segments, numeric ones dropped
+     */
+    private static function segments(array $server)
+    {
+        $path = strtolower((string) parse_url((string) (isset($server['REQUEST_URI']) ? $server['REQUEST_URI'] : ''), PHP_URL_PATH));
+
+        return array_values(array_filter(explode('/', $path), function ($segment) {
+            return $segment !== '' && !ctype_digit($segment);
+        }));
+    }
+
+    /**
+     * @param int[] $a
+     * @param int[] $b
+     * @return int[] the union, at most MAX_ENDPOINTS
+     */
+    private static function mergeEndpoints(array $a, array $b)
+    {
+        return array_slice(array_values(array_unique(array_merge($a, $b))), 0, self::MAX_ENDPOINTS);
     }
 
     /**
@@ -303,6 +394,10 @@ class ErrorReporter
                     $state['groups'][$key]['count'] += $group['count'];
                     $state['groups'][$key]['last'] = max($state['groups'][$key]['last'], $group['last']);
                     $state['groups'][$key]['first'] = min($state['groups'][$key]['first'], $group['first']);
+                    $state['groups'][$key]['eps'] = self::mergeEndpoints(
+                        isset($state['groups'][$key]['eps']) ? (array) $state['groups'][$key]['eps'] : [],
+                        isset($group['eps']) ? (array) $group['eps'] : []
+                    );
                 } elseif (count($state['groups']) < self::MAX_GROUPS) {
                     $state['groups'][$key] = $group;
                 } else {
@@ -388,8 +483,31 @@ class ErrorReporter
                 'php' => (string) $install['php'],
             ],
             'dropped' => $dropped,
-            'groups' => array_slice($groups, 0, self::MAX_SENT_GROUPS),
+            'groups' => array_map([self::class, 'wireGroup'], array_slice($groups, 0, self::MAX_SENT_GROUPS)),
         ];
+    }
+
+    /**
+     * What leaves for one group: the fields of the contract, with module (a module of app/local/modules, by its
+     * folder name, omitted for the others), surface and endpoints (how many distinct endpoints it came from). The
+     * endpoint numbers themselves stay here.
+     *
+     * @param array $group
+     * @return array
+     */
+    private static function wireGroup(array $group)
+    {
+        $wire = $group;
+        unset($wire['eps'], $wire['module'], $wire['surface']);
+        if (!empty($group['module'])) {
+            $wire['module'] = (string) $group['module'];
+        }
+        if (isset($group['surface'])) {
+            $wire['surface'] = (string) $group['surface'];
+            $wire['endpoints'] = isset($group['eps']) ? count((array) $group['eps']) : 0;
+        }
+
+        return $wire;
     }
 
     /**

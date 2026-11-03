@@ -201,7 +201,7 @@ return [
         t_equal(1, $report['v'], 'schema');
         t_equal(['edition' => 'sae', 'siberian' => '5.1.3', 'php' => '8.3.1'], $report['install'], 'install');
         t_equal(4, $report['groups'][0]['count'], 'sorted');
-        t_equal(['level', 'message', 'file', 'line', 'count', 'first', 'last'], array_keys($report['groups'][0]), 'keys');
+        t_equal(['level', 'message', 'file', 'line', 'count', 'first', 'last', 'surface', 'endpoints'], array_keys($report['groups'][0]), 'keys (module only for a local module)');
         t_equal(0, $report['dropped'], 'dropped');
     },
     'a report carries at most 200 groups and counts the rest as dropped' => function () {
@@ -321,5 +321,60 @@ return [
         file_put_contents($file, '{not json');
         er_fill($r, 1);
         t_equal(2, count(json_decode(file_get_contents($file), true)['groups']), 'rebuilt');
+    },
+
+    'the surface of a request: app, editor, backoffice, api or cron' => function () {
+        $get = function ($uri) {
+            return ErrorReporter::surfaceOf(['REQUEST_URI' => $uri]);
+        };
+        t_equal('app', $get('/xdelivery/mobile_cart/add?x=1'), 'mobile call of a module');
+        t_equal('app', $get('/front/mobile_home/view'), 'front');
+        t_equal('editor', $get('/application/customization_features/list'), 'editor');
+        t_equal('backoffice', $get('/backoffice/advanced_module/save'), 'backoffice');
+        t_equal('backoffice', $get('/system/backoffice_config_email'), 'system backoffice page');
+        t_equal('api', $get('/api/backoffice_user_list'), 'api, even with backoffice in the name');
+        t_equal('cron', ErrorReporter::surfaceOf(['REQUEST_URI' => '/x'], 'cli'), 'cli');
+        t_equal('cron', ErrorReporter::surfaceOf([]), 'no request');
+    },
+
+    'a group knows its module and surface, and counts distinct endpoints without sending them' => function () {
+        $now = 1900000000;
+        $uri = '/xdelivery/mobile_cart/add';
+        $reporter = new ErrorReporter(sys_get_temp_dir() . '/er-' . bin2hex(random_bytes(5)) . '/b.json', '/var/www/siberian', function () use (&$now) {
+            return $now;
+        }, null, function () use (&$uri) {
+            return ['REQUEST_URI' => $uri . '?customer=42'];
+        });
+        $file = '/var/www/siberian/app/local/modules/Xdelivery/Model/Store.php';
+        $reporter->record('fatal', 'boom', $file, 7);
+        $reporter->record('fatal', 'boom', $file, 7);
+        $uri = '/xdelivery/mobile_cart/remove/12';
+        $reporter->record('fatal', 'boom', $file, 7);
+        $uri = '/xdelivery/application/save';
+        $reporter->record('fatal', 'boom', $file, 7);
+        $reporter->flush();
+
+        $report = ErrorReporter::buildReport($reporter->take(), er_install());
+        $groups = array_column($report['groups'], null, 'surface');
+        t_equal(['app', 'editor'], array_keys($groups), 'one group per surface');
+        t_equal('Xdelivery', $groups['app']['module']);
+        t_equal(3, $groups['app']['count']);
+        t_equal(2, $groups['app']['endpoints'], 'add and remove, the number is dropped');
+        t_equal(1, $groups['editor']['endpoints']);
+        t_true(!isset($groups['app']['eps']), 'the endpoint numbers stay here');
+        t_true(strpos(json_encode($report), 'customer') === false && strpos(json_encode($report), 'mobile_cart') === false, 'no url in the body');
+    },
+
+    'a file outside the local modules has no module, and an old buffer still goes out' => function () {
+        list($r) = er_env();
+        $r->record('warning', 'w', '/var/www/siberian/app/Foo.php', 3);
+        $r->flush();
+        $groups = ErrorReporter::buildReport($r->take(), er_install())['groups'];
+        t_true(!isset($groups[0]['module']), 'no module key');
+        t_equal('cron', $groups[0]['surface'], 'cli test process');
+
+        $old = ['level' => 'fatal', 'message' => 'm', 'file' => 'a.php', 'line' => 1, 'count' => 2, 'first' => 1, 'last' => 2];
+        $wire = ErrorReporter::buildReport(['groups' => ['k' => $old], 'dropped' => 0], er_install())['groups'][0];
+        t_equal($old, $wire, 'a group written before this version is sent as it was');
     },
 ];
