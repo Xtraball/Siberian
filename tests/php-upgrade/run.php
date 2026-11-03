@@ -8,6 +8,10 @@
  */
 require __DIR__ . '/bootstrap.php';
 
+// Whatever a test prints (and the FAIL lines) stays buffered until the end: output sent early makes headers_sent() true
+// and fails the session tests that run after a failing one (session_set_save_handler returns false).
+ob_start();
+
 $failFast = in_array('--fail-fast', $argv, true);
 $filter = null;
 foreach (array_slice($argv, 1) as $arg) {

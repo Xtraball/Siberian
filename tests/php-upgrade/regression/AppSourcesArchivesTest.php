@@ -59,7 +59,7 @@ return [
             t_true(is_file("$out/SHA256SUMS"), 'checksums');
             // the restore extracts with tar p: the executable bit has to survive
             $run('tar -tvzf ' . escapeshellarg("$out/android.tgz") . ' android/run.sh', $listing);
-            t_true(strpos($listing[0] ?? '', '-rwxr-xr-x') === 0, 'executable bit kept');
+            t_true(preg_match('/^-..x/', $listing[0] ?? '') === 1, 'executable bit kept (listing: ' . ($listing[0] ?? 'none') . ')');
         } finally {
             $rm($repo);
             $rm($out);
