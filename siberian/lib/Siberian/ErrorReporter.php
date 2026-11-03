@@ -281,9 +281,9 @@ class ErrorReporter
      */
     public static function endpointOf(array $server)
     {
-        $segments = array_slice(self::segments($server), 0, 3);
+        $path = Quarantine::endpointPath($server);
 
-        return $segments === [] ? null : crc32(implode('/', $segments));
+        return $path === '' ? null : crc32($path);
     }
 
     /**

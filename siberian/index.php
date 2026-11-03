@@ -53,6 +53,11 @@ if (isset($_config['redirect_https']) &&
     exit;
 }
 
+// Opt-in ($_config['module_app_circuit_breaker']): an app endpoint that keeps failing with a fatal error is answered
+// with a fast 503 before any module code runs, see Siberian\Module\CircuitBreaker! The config is loaded, nothing else is.
+require_once './lib/Siberian/Module/CircuitBreaker.php';
+\Siberian\Module\CircuitBreaker::guard($_SERVER);
+
 set_time_limit(300);
 ini_set('max_execution_time', 300);
 umask(0);
