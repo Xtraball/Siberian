@@ -2,6 +2,14 @@
 
 Notable changes to Siberian, newest first. Dates are `YYYY-MM-DD`. Longer notes live in `docs/`.
 
+## [5.1.11] 2026-11-03
+
+A fix for the mobile login, on top of 5.1.10. The update package is built against 5.1.10 (`lastversion`), the last published version. MAE and PE carry the same change (tags `v5.1.11` on their `master`).
+
+### Fixed
+
+- 2026-11-03 Mobile login: a module listening to a hook (for example `mobile.login`) that fails with a PHP 8 error no longer makes every login answer a 500. Failing listeners are skipped and logged, like the ones that threw an exception already were, so the login, logout and registration go through (#1004).
+
 ## [5.1.10] 2026-11-03
 
 Visible errors on the mobile and web apps, and translations that no longer break the backoffice pages, on top of 5.1.9. The update package is built against 5.1.9 (`lastversion`), the last published version. MAE and PE carry the same changes (tags `v5.1.10` on their `master`).
