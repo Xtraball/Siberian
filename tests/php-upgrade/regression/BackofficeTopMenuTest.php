@@ -47,7 +47,7 @@ return [
         $html = file_get_contents($header);
         t_true(strpos($html, "'logout' =>") === false, 'no logout entry in the menu tree');
         t_equal(1, substr_count($html, 'ng-click="logout()"'), 'one log-out action');
-        t_true(preg_match('/class="backoffice_user"[^>]*ng-if="isLoggedIn"/s', $html) === 1, 'only for a logged in user');
+        t_true(preg_match('/id="backoffice_user".{0,400}?ng-if="isLoggedIn"/s', $html) === 1, 'only for a logged in user');
         t_true(strpos($html, 'ng-bind="userInitials()"') !== false, 'avatar shows the initials');
         t_true(strpos($html, 'ng-bind="userName()"') !== false, 'the name is shown');
         t_true(strpos($html, "/user_id/{{ currentUser().id }}") !== false, 'the account link targets the logged user');

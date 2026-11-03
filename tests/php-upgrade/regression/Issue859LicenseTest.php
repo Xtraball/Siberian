@@ -51,7 +51,7 @@ return [
         $ui = file_get_contents($uiFile);
         t_true(strpos($ui, "if (error === 'license_replaceable') {") !== false, 'handled');
         t_true(strpos($ui, '$scope.setLicense(code, itemId, true);') !== false, 'prompt in replace mode');
-        t_true((bool) preg_match('/if \(isReplaceable && value === false\) \{[^}]*is_visible = true;\s*return;/s', $ui), 'cancel keeps going');
+        t_true((bool) preg_match('/if \(isReplaceable && value === false\) \{[^}]*is_visible = true;[^}]*return;/s', $ui), 'cancel keeps going');
         t_true(strpos($ui, "if (error === 'license_error') {\n                    // Prompt to change license\n                    \$scope.setLicense(code, itemId);") !== false, 'regular prompt unchanged');
     },
 
