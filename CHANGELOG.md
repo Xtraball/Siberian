@@ -2,7 +2,9 @@
 
 Notable changes to Siberian, newest first. Dates are `YYYY-MM-DD`. Longer notes live in `docs/`.
 
-## [Unreleased]
+## [5.1.13] 2026-11-03
+
+Fixes for the fatal errors that installations report, a test suite without false failures, on top of 5.1.12. The update package is built against 5.1.12 (`lastversion`), the last published version. MAE and PE carry the same changes (tags `v5.1.13` on their `master`).
 
 ### Fixed
 
