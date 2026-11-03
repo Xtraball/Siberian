@@ -39,6 +39,15 @@ class Application_Controller_Mobile_Default extends Core_Controller_Default
         // We are in an application
         Siberian::setApplication($this->getApplication());
 
+        // No application for this call (unknown key or domain): answer, do not fatal on null
+        if (!$this->getApplication()) {
+            $this->_sendJson([
+                "error" => true,
+                "message" => __("An error occurred, please try again.")
+            ], true);
+            return;
+        }
+
         // Testing if value_id belongs to the app (or is allowed)
         if (!$this->getApplication()->valueIdBelongsTo($id) && $id) {
             $this->_sendJson(array(
@@ -194,7 +203,7 @@ class Application_Controller_Mobile_Default extends Core_Controller_Default
 
         $response->setHeader("Content-type", "application/json");
 
-        if (array_key_exists("cache", $data) &&
+        if (is_array($data) && array_key_exists("cache", $data) &&
             in_array($data["cache"], ["HIT", "MISS"])) {
             $response->setHeader("X-Cache", $data["cache"]);
         }

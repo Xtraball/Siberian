@@ -15,8 +15,13 @@ class Front_AssetsController extends Front_Controller_App_Default
             $base_url = $request->getBaseUrl();
             $application = $this->getApplication();
             $useBackgroundForAll = $application->getUseHomepageBackgroundImageInSubpages();
-            $device_width = $request->getParam("device_width");
-            $device_height = $request->getParam("device_height");
+            $device_width = (float) $request->getParam("device_width");
+            $device_height = (float) $request->getParam("device_height");
+            if ($device_width <= 0 || $device_height <= 0) {
+                // Unknown size (missing or zero): standard phone proportions, never a division by zero.
+                $device_width = 1080;
+                $device_height = 1920;
+            }
 
             if ($device_height > $device_width) {
                 $ratio = $device_height / $device_width;

@@ -14,6 +14,11 @@ class Siberian_Google_Geocoding
      */
     public static function getLatLng($address, $apiKey = null)
     {
+        // The address is an array (address, or street, postcode, city), or a plain string
+        if (!is_array($address)) {
+            $address = ['address' => (string) $address];
+        }
+
         $refresh = false;
         if (array_key_exists("refresh", $address)) {
             $refresh = true;

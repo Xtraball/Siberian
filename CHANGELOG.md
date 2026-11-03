@@ -2,6 +2,12 @@
 
 Notable changes to Siberian, newest first. Dates are `YYYY-MM-DD`. Longer notes live in `docs/`.
 
+## [Unreleased]
+
+### Fixed
+
+- 2026-11-03 Fatal errors of the core that installations report, all PHP 8 strictness: the analytics calls of the mobile apps (`gmmktime()`, the most reported one), the background images of the apps for a device of unknown size (division by zero), the events list, mobile calls without an application, the YouTube channel lookup, a corrupt image, an address given as text to the geocoder, and the sample pages of an app without pages.
+
 ## [5.1.12] 2026-11-03
 
 A responsive app preview in the editor, on top of 5.1.11. The update package is built against 5.1.11 (`lastversion`), the last published version. MAE and PE carry the same changes (tags `v5.1.12` on their `master`).

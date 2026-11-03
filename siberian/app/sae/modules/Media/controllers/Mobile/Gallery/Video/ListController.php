@@ -127,7 +127,7 @@ class Media_Mobile_Gallery_Video_ListController extends Application_Controller_M
                 ];
                 $response = Request::get($endpoint, $params);
                 $results = Json::decode($response);
-                if (count($results['items']) === 0) {
+                if (empty($results['items'])) {
                     $channelId = $keyword;
                 } else {
                     $channelId = $results['items'][0]['id'];

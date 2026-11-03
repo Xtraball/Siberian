@@ -40,7 +40,7 @@ class Event_Mobile_ListController extends Application_Controller_Mobile_Default 
                         $subtitle2 .= " | ".__("Location: %s", $event->getLocationLabel());
                     }
 
-                    if(!in_array($formatted_start_at, $data['groups'])) {
+                    if (!in_array($formatted_start_at, $data['groups'] ?? [], true)) {
                         $data["groups"][] = $formatted_start_at;
                     }
 

@@ -171,34 +171,17 @@ class Application_Model_Option_Value extends Application_Model_Option
     /**
      * @return Application_Model_Option_Value
      */
-    public function getDummy()
+    public static function getDummy()
     {
-        if ((isset($this) && get_class($this) == __CLASS__)) {
-            $this->getApplication();
-
-            $color = str_replace('#', '', $this->getApplication()->getBlock('tabbar')->getImageColor());
-            $option = new Application_Model_Option();
-            $option->find('newswall', 'code');
-            $dummy = new self();
-
-            $dummy->addData($option->getData())
-                ->setTabbarName(__("Sample"))
-                ->setIsDummy(1)
-                ->setIsActive(1)
-                ->setIconUrl(Core_Model_Url::create("template/block/colorize", ['id' => $dummy->getIconId(), 'color' => $color]))
-                ->setId(0);
-
-        } else {
-            $option = new Application_Model_Option();
-            $option->find('newswall', 'code');
-            $dummy = new self();
-            $dummy->addData($option->getData())
-                ->setTabbarName(__("Sample"))
-                ->setIsDummy(1)
-                ->setIsActive(1)
-                ->setIconUrl(Core_Model_Url::create("template/block/colorize", ['id' => $dummy->getIconId(), 'color' => '000000']))
-                ->setId(0);
-        }
+        $option = new Application_Model_Option();
+        $option->find('newswall', 'code');
+        $dummy = new self();
+        $dummy->addData($option->getData())
+            ->setTabbarName(__("Sample"))
+            ->setIsDummy(1)
+            ->setIsActive(1)
+            ->setIconUrl(Core_Model_Url::create("template/block/colorize", ['id' => $dummy->getIconId(), 'color' => '000000']))
+            ->setId(0);
 
         return $dummy;
     }
