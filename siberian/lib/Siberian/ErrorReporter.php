@@ -37,6 +37,14 @@ class ErrorReporter
     const MAX_MESSAGE = 300;
     const MAX_ENDPOINTS = 20;
 
+    /** Rolling history of the app calls for the dashboard: bucket width and age in seconds, modules kept */
+    const LOCAL_BUCKET = 120;
+    const LOCAL_KEEP = 86400;
+    const LOCAL_MAX_MODULES = 50;
+    /** A module with this many fatal errors on app calls within WARN_WINDOW seconds gets a warning */
+    const WARN_FATALS = 5;
+    const WARN_WINDOW = 600;
+
     const K_INSTALL_ID = 'error_reports_install_id';
     const K_SECRET = 'error_reports_secret';
     const K_BACKOFF_UNTIL = 'error_reports_backoff_until';
@@ -371,6 +379,160 @@ class ErrorReporter
             return;
         }
         $this->merge($pending, $dropped);
+        $this->remember($pending);
+    }
+
+    // --- the local history of the app calls (the dashboard card) ---------------------------------------
+
+    /**
+     * @return string the rolling history, apart from the buffer: the hourly push empties the buffer
+     */
+    public function localFile()
+    {
+        return dirname($this->file) . '/error-reporter-local.json';
+    }
+
+    /**
+     * Nothing is kept while reporting is off: the history goes with the buffer.
+     */
+    public function forgetLocal()
+    {
+        @unlink($this->localFile());
+    }
+
+    /**
+     * Keeps the fatal errors and errors of app calls that belong to a module, in buckets of LOCAL_BUCKET seconds for
+     * LOCAL_KEEP seconds, so the dashboard can say which module breaks the apps. Written under the same switch as
+     * the buffer. Never throws.
+     *
+     * @param array $groups key => group, from flush()
+     */
+    private function remember(array $groups)
+    {
+        try {
+            $rows = array_filter($groups, function ($group) {
+                return isset($group['surface'], $group['module']) && $group['surface'] === 'app' && $group['module'] !== '' &&
+                    in_array($group['level'], ['fatal', 'error', 'exception'], true);
+            });
+            if ($rows === []) {
+                return;
+            }
+            $handle = @fopen($this->localFile(), 'c+');
+            if ($handle === false) {
+                return;
+            }
+            if (flock($handle, LOCK_EX)) {
+                $now = call_user_func($this->clock);
+                $bucket = $now - ($now % self::LOCAL_BUCKET);
+                $state = $this->decodeLocal(stream_get_contents($handle));
+                foreach ($rows as $group) {
+                    $name = (string) $group['module'];
+                    $module = isset($state['modules'][$name]) ? $state['modules'][$name] : ['last' => 0, 'msg' => '', 'b' => []];
+                    $slot = isset($module['b'][$bucket]) ? $module['b'][$bucket] : ['f' => 0, 'e' => 0, 'x' => []];
+                    $slot[$group['level'] === 'fatal' ? 'f' : 'e'] += (int) $group['count'];
+                    $slot['x'] = self::mergeEndpoints($slot['x'], isset($group['eps']) ? (array) $group['eps'] : []);
+                    $module['b'][$bucket] = $slot;
+                    if ($group['last'] >= $module['last']) {
+                        $module['last'] = (int) $group['last'];
+                        if ($group['level'] === 'fatal' || $module['msg'] === '') {
+                            $module['msg'] = (string) $group['message'];
+                        }
+                    }
+                    $state['modules'][$name] = $module;
+                }
+                foreach ($state['modules'] as $name => $module) {
+                    foreach ($module['b'] as $start => $slot) {
+                        if ($start + self::LOCAL_BUCKET <= $now - self::LOCAL_KEEP) {
+                            unset($state['modules'][$name]['b'][$start]);
+                        }
+                    }
+                    if ($state['modules'][$name]['b'] === []) {
+                        unset($state['modules'][$name]);
+                    }
+                }
+                uasort($state['modules'], function ($a, $b) {
+                    return $b['last'] <=> $a['last'];
+                });
+                $state['modules'] = array_slice($state['modules'], 0, self::LOCAL_MAX_MODULES, true);
+                ftruncate($handle, 0);
+                rewind($handle);
+                fwrite($handle, json_encode($state));
+                fflush($handle);
+                flock($handle, LOCK_UN);
+            }
+            fclose($handle);
+        } catch (\Throwable $e) {
+            // never get in the way
+        }
+    }
+
+    /**
+     * @param string|false $raw
+     * @return array {modules: name => {last, msg, b: bucket start => {f, e, x}}}
+     */
+    private function decodeLocal($raw)
+    {
+        $state = json_decode((string) $raw, true);
+        if (!is_array($state) || !isset($state['modules']) || !is_array($state['modules'])) {
+            return ['modules' => []];
+        }
+
+        return ['modules' => array_filter($state['modules'], function ($module) {
+            return is_array($module) && isset($module['b']) && is_array($module['b']);
+        })];
+    }
+
+    /**
+     * What the dashboard shows: the modules with fatal errors or errors on app calls in the last 24 hours, the worst
+     * first, with a warning when a module had WARN_FATALS fatal errors or more in the last WARN_WINDOW seconds. The
+     * buckets are LOCAL_BUCKET wide, one that overlaps the window counts, so the window is 10 to 12 minutes in fact.
+     *
+     * @param int|null $now
+     * @return array {since, threshold, window, modules: [{name, fatals, errors, last, endpoints, message, recent_fatals, warning}]}
+     */
+    public function appErrors($now = null)
+    {
+        $now = $now === null ? call_user_func($this->clock) : (int) $now;
+        $state = $this->decodeLocal(@file_get_contents($this->localFile()));
+        $modules = [];
+        foreach ($state['modules'] as $name => $module) {
+            $fatals = $errors = $recent = 0;
+            $endpoints = [];
+            foreach ($module['b'] as $start => $slot) {
+                if ($start + self::LOCAL_BUCKET <= $now - self::LOCAL_KEEP) {
+                    continue;
+                }
+                $fatals += (int) $slot['f'];
+                $errors += (int) $slot['e'];
+                $endpoints = self::mergeEndpoints($endpoints, isset($slot['x']) ? (array) $slot['x'] : []);
+                if ($start + self::LOCAL_BUCKET > $now - self::WARN_WINDOW) {
+                    $recent += (int) $slot['f'];
+                }
+            }
+            if ($fatals + $errors === 0) {
+                continue;
+            }
+            $modules[] = [
+                'name' => (string) $name,
+                'fatals' => $fatals,
+                'errors' => $errors,
+                'last' => (int) $module['last'],
+                'endpoints' => count($endpoints),
+                'message' => (string) $module['msg'],
+                'recent_fatals' => $recent,
+                'warning' => $recent >= self::WARN_FATALS,
+            ];
+        }
+        usort($modules, function ($a, $b) {
+            return [$b['warning'], $b['fatals'] + $b['errors']] <=> [$a['warning'], $a['fatals'] + $a['errors']];
+        });
+
+        return [
+            'since' => $now - self::LOCAL_KEEP,
+            'threshold' => self::WARN_FATALS,
+            'window' => self::WARN_WINDOW,
+            'modules' => array_slice($modules, 0, 10),
+        ];
     }
 
     /**

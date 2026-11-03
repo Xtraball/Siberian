@@ -42,6 +42,25 @@ class Core_Model_ErrorReports
     }
 
     /**
+     * The dashboard card: the errors of the app calls by module, of the last 24 hours. Nothing is kept while the
+     * reports are off, so then the card only says so.
+     *
+     * @return array {enabled, since, threshold, window, modules}
+     */
+    public static function appErrors()
+    {
+        $enabled = self::isEnabled();
+        $summary = $enabled ? self::reporter()->appErrors() : ['since' => 0, 'threshold' => ErrorReporter::WARN_FATALS, 'window' => ErrorReporter::WARN_WINDOW, 'modules' => []];
+        $quarantined = array_keys(\Siberian\Module\Quarantine::all());
+        foreach ($summary['modules'] as &$module) {
+            $module['quarantined'] = in_array($module['name'], $quarantined, true);
+        }
+        unset($module);
+
+        return ['enabled' => $enabled] + $summary;
+    }
+
+    /**
      * Called from the bootstrap, before the database is available. Never throws.
      */
     public static function boot()
@@ -77,6 +96,7 @@ class Core_Model_ErrorReports
             if (!self::isEnabled()) {
                 // Nothing is kept while it is off.
                 self::reporter()->take();
+                self::reporter()->forgetLocal();
 
                 return;
             }

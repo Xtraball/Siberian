@@ -377,4 +377,123 @@ return [
         $wire = ErrorReporter::buildReport(['groups' => ['k' => $old], 'dropped' => 0], er_install())['groups'][0];
         t_equal($old, $wire, 'a group written before this version is sent as it was');
     },
+
+    'the dashboard history keeps the app calls of a module, apart from the buffer the push empties' => function () {
+        $now = 1900000000;
+        $uri = '/xdelivery/mobile_cart/add';
+        $dir = sys_get_temp_dir() . '/er-' . bin2hex(random_bytes(5));
+        $reporter = new ErrorReporter($dir . '/cache/error-reporter.json', '/var/www/siberian', function () use (&$now) {
+            return $now;
+        }, null, function () use (&$uri) {
+            return ['REQUEST_URI' => $uri];
+        });
+        $file = '/var/www/siberian/app/local/modules/Xdelivery/Model/Store.php';
+        $reporter->record('fatal', 'boom', $file, 7);
+        $reporter->record('fatal', 'boom', $file, 7);
+        $reporter->record('warning', 'w', $file, 9);
+        $reporter->record('error', 'e', $file, 11);
+        $uri = '/application/customization_features/list';
+        $reporter->record('fatal', 'editor', $file, 7);
+        $reporter->record('fatal', 'core', '/var/www/siberian/app/Foo.php', 7);
+        $reporter->flush();
+
+        $reporter->take();
+        $summary = $reporter->appErrors();
+        t_equal(1, count($summary['modules']), 'one module, the editor, warning and core ones are not app errors of a module');
+        $module = $summary['modules'][0];
+        t_equal('Xdelivery', $module['name']);
+        t_equal(2, $module['fatals']);
+        t_equal(1, $module['errors']);
+        t_equal($now, $module['last']);
+        t_equal(1, $module['endpoints']);
+        t_equal('boom', $module['message']);
+        t_true(!$module['warning'], 'two fatal errors are no warning');
+        t_equal($now - 86400, $summary['since']);
+    },
+
+    'a module with 5 fatal errors within about 10 minutes is flagged, older ones are not' => function () {
+        $now = 1900000000;
+        $dir = sys_get_temp_dir() . '/er-' . bin2hex(random_bytes(5));
+        $reporter = new ErrorReporter($dir . '/cache/error-reporter.json', '/var/www/siberian', function () use (&$now) {
+            return $now;
+        }, null, function () {
+            return ['REQUEST_URI' => '/xdelivery/mobile_cart/add'];
+        });
+        $file = '/var/www/siberian/app/local/modules/Xdelivery/Model/Store.php';
+        $hit = function ($times, $line) use ($reporter, $file) {
+            for ($i = 0; $i < $times; $i++) {
+                $reporter->record('fatal', 'boom', $file, $line);
+            }
+            $reporter->flush();
+        };
+
+        $hit(4, 1);
+        t_true(!$reporter->appErrors()['modules'][0]['warning'], '4 is below the threshold');
+        $hit(1, 1);
+        $module = $reporter->appErrors()['modules'][0];
+        t_equal(5, $module['recent_fatals']);
+        t_true($module['warning'], '5 is the threshold');
+
+        $now += 3600;
+        $module = $reporter->appErrors()['modules'][0];
+        t_equal(0, $module['recent_fatals'], 'an hour later they are history');
+        t_true(!$module['warning'], 'no warning');
+        t_equal(5, $module['fatals'], 'but still in the 24 hours');
+
+        $now += 86400;
+        t_equal([], $reporter->appErrors()['modules'], 'after 24 hours there is nothing');
+        $hit(1, 2);
+        $state = json_decode(file_get_contents($reporter->localFile()), true);
+        t_equal(1, count($state['modules']['Xdelivery']['b']), 'old buckets are pruned when the file is written');
+    },
+
+    'nothing is kept in the history while reporting is off, and turning it off forgets it' => function () {
+        $now = 1900000000;
+        $on = true;
+        $dir = sys_get_temp_dir() . '/er-' . bin2hex(random_bytes(5));
+        $reporter = new ErrorReporter($dir . '/cache/error-reporter.json', '/var/www/siberian', function () use (&$now) {
+            return $now;
+        }, function () use (&$on) {
+            return $on;
+        }, function () {
+            return ['REQUEST_URI' => '/xdelivery/mobile_cart/add'];
+        });
+        $file = '/var/www/siberian/app/local/modules/Xdelivery/Model/Store.php';
+        $on = false;
+        $reporter->record('fatal', 'boom', $file, 7);
+        $reporter->flush();
+        t_true(!file_exists($reporter->localFile()), 'off: no file');
+
+        $on = true;
+        $reporter->record('fatal', 'boom', $file, 7);
+        $reporter->flush();
+        t_true(file_exists($reporter->localFile()), 'on: the file is there');
+        $reporter->forgetLocal();
+        t_true(!file_exists($reporter->localFile()), 'forgotten');
+        t_equal([], $reporter->appErrors()['modules'], 'and the card is empty');
+    },
+
+    'the history is capped and a corrupt file is replaced' => function () {
+        $now = 1900000000;
+        $dir = sys_get_temp_dir() . '/er-' . bin2hex(random_bytes(5));
+        $reporter = new ErrorReporter($dir . '/cache/error-reporter.json', '/var/www/siberian', function () use (&$now) {
+            return $now;
+        }, null, function () {
+            return ['REQUEST_URI' => '/m/mobile_x/y'];
+        });
+        for ($i = 0; $i < ErrorReporter::LOCAL_MAX_MODULES + 5; $i++) {
+            $now += 1;
+            $reporter->record('fatal', 'boom', '/var/www/siberian/app/local/modules/Mod' . $i . '/A.php', 1);
+            $reporter->flush();
+        }
+        $state = json_decode(file_get_contents($reporter->localFile()), true);
+        t_equal(ErrorReporter::LOCAL_MAX_MODULES, count($state['modules']), 'at most 50 modules, the oldest go');
+        t_true(isset($state['modules']['Mod' . (ErrorReporter::LOCAL_MAX_MODULES + 4)]), 'the newest stays');
+
+        file_put_contents($reporter->localFile(), '{not json');
+        t_equal([], $reporter->appErrors()['modules'], 'a corrupt file reads as empty');
+        $reporter->record('fatal', 'boom', '/var/www/siberian/app/local/modules/ModX/A.php', 1);
+        $reporter->flush();
+        t_equal(1, count($reporter->appErrors()['modules']), 'and is replaced');
+    },
 ];

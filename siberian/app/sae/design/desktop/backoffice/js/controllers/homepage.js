@@ -32,6 +32,7 @@ App.config(function($routeProvider) {
     $scope.messagesIsLoading = true;
     $scope.quarantine = {};
     $scope.quarantineBusy = false;
+    $scope.appErrors = {enabled: true, modules: []};
 
     $scope.clear = function(type, message) {
         if(typeof message != "undefined") {
@@ -361,8 +362,61 @@ App.config(function($routeProvider) {
         });
     };
 
+    /**
+     * The errors of the mobile and web app calls by module. Quarantine now is always the administrator's choice.
+     */
+    $scope.loadAppErrors = function () {
+        Advanced
+            .appErrors()
+            .success(function (data) {
+                if (angular.isObject(data) && angular.isArray(data.modules)) {
+                    $scope.appErrors = data;
+                }
+            });
+    };
+
+    $scope.appErrorsWarning = function () {
+        return angular.isArray($scope.appErrors.modules) && $scope.appErrors.modules.some(function (item) {
+            return item.warning && !item.quarantined;
+        });
+    };
+
+    $scope.quarantineNow = function (name, confirmMessage) {
+        if (angular.isDefined(confirmMessage) && !window.confirm(confirmMessage)) {
+            return;
+        }
+
+        $scope.quarantineBusy = true;
+        Advanced
+            .quarantineNow(name)
+            .success(function (data) {
+                if (angular.isObject(data)) {
+                    if (angular.isObject(data.summary)) {
+                        $scope.quarantine = data.summary;
+                    }
+                    if (angular.isObject(data.app_errors)) {
+                        $scope.appErrors = data.app_errors;
+                    }
+                    if (angular.isDefined(data.message)) {
+                        $scope.message.setText(data.message)
+                            .isError(!!data.error)
+                            .show();
+                    }
+                }
+            })
+            .error(function (data) {
+                $scope.message.setText(angular.isObject(data) && data.message ? data.message : '')
+                    .isError(true)
+                    .show();
+            })
+            .finally(function () {
+                $scope.quarantineBusy = false;
+            });
+    };
+
     $scope.loadContent();
     $scope.loadQuarantine();
+    $scope.loadAppErrors();
     $scope.loadMessages();
     $scope.loadGraph();
 

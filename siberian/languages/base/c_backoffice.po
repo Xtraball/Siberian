@@ -706,3 +706,71 @@ msgstr "A licence key is required to install this module, the installation was n
 msgctxt "backoffice"
 msgid "Check now"
 msgstr "Check now"
+
+msgctxt "backoffice"
+msgid "The module is in quarantine."
+msgstr ""
+
+msgctxt "backoffice"
+msgid "The quarantine is switched off or could not be written, check var/quarantine."
+msgstr ""
+
+msgctxt "backoffice"
+msgid "Put in quarantine by an administrator"
+msgstr ""
+
+msgctxt "backoffice"
+msgid "Errors on app calls"
+msgstr ""
+
+msgctxt "backoffice"
+msgid "last 24 hours"
+msgstr ""
+
+msgctxt "backoffice"
+msgid "Fatal errors and errors that a module raised on the calls of the mobile and web apps. The module stays enabled and the app keeps its error: nothing is put in quarantine unless you do it."
+msgstr ""
+
+msgctxt "backoffice"
+msgid "Warning: %s fatal errors or more within about 10 minutes."
+msgstr ""
+
+msgctxt "backoffice"
+msgid "Module"
+msgstr ""
+
+msgctxt "backoffice"
+msgid "Fatal errors"
+msgstr ""
+
+msgctxt "backoffice"
+msgid "Errors"
+msgstr ""
+
+msgctxt "backoffice"
+msgid "Endpoints"
+msgstr ""
+
+msgctxt "backoffice"
+msgid "Last seen"
+msgstr ""
+
+msgctxt "backoffice"
+msgid "Warning"
+msgstr ""
+
+msgctxt "backoffice"
+msgid "In quarantine"
+msgstr ""
+
+msgctxt "backoffice"
+msgid "Quarantine now"
+msgstr ""
+
+msgctxt "backoffice"
+msgid "Put this module in quarantine? It is disabled for the editor, the apps and the cron until you recheck or enable it."
+msgstr ""
+
+msgctxt "backoffice"
+msgid "Error reports are turned off, so the errors on app calls are not recorded. You can turn them on in Settings > Advanced > Configuration."
+msgstr ""

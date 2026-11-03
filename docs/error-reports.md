@@ -23,6 +23,17 @@ A group written to the buffer before this version has none of the three and is s
 
 Never sent: request data, users, IP addresses, host names, licence keys, SQL values, stack-trace arguments, absolute paths. Messages lose quoted values, numbers, e-mail addresses, URLs, long hex strings and absolute paths before they are stored (`ErrorReporter::normalize()`), and are cut at 300 characters.
 
+## The local history (dashboard card)
+
+The buffer is emptied by the hourly push, so the dashboard card "Errors on app calls" reads a second file that never
+leaves the server: `var/cache/error-reporter-local.json`. It is written by the same `flush()`, under the same switch
+(`error_reports_enabled`), and keeps only what the card needs: fatal errors and errors (`fatal`, `error`, `exception`)
+of `surface = app` that belong to a module of `app/local/modules`, per module and per bucket of 2 minutes, for 24 hours,
+with the endpoint numbers, the last time and the last (scrubbed) message. At most 50 modules. Turning the reports off
+deletes the file at the next cron run and the card is empty from then on. Read it with `ErrorReporter::appErrors()`
+(`Core_Model_ErrorReports::appErrors()` adds the switch and which modules are in quarantine). Warnings, notices,
+deprecations and core files are not in it.
+
 ## Where the code is
 
 - `siberian/lib/Siberian/ErrorReporter.php`: the service. No framework or database dependency, so it is unit tested with a scripted transport (reuses `ModuleUpdates\Transport` and `Store`).

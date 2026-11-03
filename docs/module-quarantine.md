@@ -15,7 +15,20 @@ The quarantine keeps the rest of the application working and tells the administr
 | `probe` | A compatibility check loaded the classes of the module in a separate process and that process died. |
 | `version` | The module asks for a newer Siberian than the installed one (`dependencies.system.version` in its `package.json`). |
 
+| `manual` | An administrator pressed "Quarantine now" on the dashboard card "Errors on app calls" (see below). Nothing puts a module in quarantine for its errors on app calls by itself. |
+
 Core modules are never quarantined.
+
+### Errors on app calls
+
+Since 5.1.9 a fatal error on a call of the mobile or web app is not recorded in the quarantine. The dashboard shows
+them instead, in the card **Errors on app calls**: per module of `app/local/modules`, the fatal errors and errors of the
+last 24 hours, the number of distinct endpoints, the last time and the last message. A module with 5 or more fatal errors
+within about 10 minutes (the history is kept in buckets of 2 minutes, so the window is 10 to 12 minutes) turns the card
+red with a warning. **Quarantine now** puts the module in quarantine with the reason `manual`, after a confirmation;
+**Recheck** and **Enable** work as for any quarantined module. The card needs the error reports to be on (Settings >
+Advanced > Configuration): nothing is recorded while they are off, and the dashboard says so. Source: the local history of
+`Siberian\ErrorReporter`, see `docs/error-reports.md`.
 
 Only the editor, the backoffice, the api and the cron can put a module in quarantine. A fatal error on a call of the
 mobile app or of the web app (`<module>/mobile_<controller>/<action>`, `front/mobile_*`, `application/mobile_*`, `mobile/*`)

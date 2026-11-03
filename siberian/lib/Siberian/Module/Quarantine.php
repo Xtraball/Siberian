@@ -9,12 +9,13 @@ namespace Siberian\Module;
  * try/catch can stop, for example a method that does not match the core one any more (a compile error since PHP 8).
  * One broken module then breaks every page that touches it, and the editor shows an error page.
  *
- * A module is quarantined for one of three reasons:
+ * A module is quarantined for one of four reasons:
  *  - fatal:   a fatal error came from a file of app/local/modules/<Module>/ while a page was served. The shutdown
  *             handler records it and the request is replayed once, without the module.
  *  - probe:   a compatibility check (`php cli module:quarantine probe|scan|recheck`, or the dashboard) loaded the
  *             module's classes in a separate process and that process died.
  *  - version: the module asks for a newer core than the one installed (package.json, dependencies.system.version).
+ *  - manual:  an administrator put it there from the dashboard card of the errors on app calls.
  *
  * A quarantined module is treated as disabled: controllers, bootstrap, cron, design cache and the backoffice list
  * all ask Installer_Model_Installer_Module::sGetIsEnabled(), and the classes are not autoloaded. A quarantine never
@@ -36,6 +37,7 @@ class Quarantine
     public const REASON_FATAL = 'fatal';
     public const REASON_PROBE = 'probe';
     public const REASON_VERSION = 'version';
+    public const REASON_MANUAL = 'manual';
 
     /**
      * The folders of a module whose classes are loaded by a probe. Install scripts, resources and bootstrap files
