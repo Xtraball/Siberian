@@ -280,7 +280,7 @@ class Analytics_Model_Aggregate {
                 $featureId = $row[0];
 
                 // Skip unknown feature!
-                if (!array_key_exists($featureId, $allFeatures) &&
+                if (!array_key_exists($featureId, $allFeatures) ||
                     !array_key_exists('appId', $allFeatures[$featureId])) {
                     continue;
                 }

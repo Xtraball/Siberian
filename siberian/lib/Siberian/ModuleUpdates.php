@@ -340,6 +340,11 @@ class ModuleUpdates
      */
     public function verify($signatureB64, $publicKeyB64, $sha256, $code, $version)
     {
+        // ext-sodium is not on every PHP build: a signature that cannot be checked is not verified
+        if (!function_exists('sodium_crypto_sign_verify_detached') || !defined('SODIUM_CRYPTO_SIGN_BYTES')) {
+            return false;
+        }
+
         $signature = base64_decode((string) $signatureB64, true);
         $key = base64_decode((string) $publicKeyB64, true);
         if ($signature === false || $key === false
