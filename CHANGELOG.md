@@ -2,6 +2,25 @@
 
 Notable changes to Siberian, newest first. Dates are `YYYY-MM-DD`. Longer notes live in `docs/`.
 
+## [5.1.9] 2026-11-03
+
+A reworked dashboard and module installer page, and a quarantine that leaves the mobile and web apps alone, on top of 5.1.8. The update package is built against 5.1.8 (`lastversion`), the last published version. MAE and PE carry the same changes (tags `v5.1.9` on their `master`).
+
+### Added
+
+- 2026-11-01 Dashboard: compact Web space and Services cards (services as two lines of pills, a readable storage bar), the cron state apart from its errors, and a quota row to set the web space quota (#990).
+- 2026-11-01 Module installer page: one click-or-drop area, a clear "Check for updates" button and feedback where it was silent (#991).
+- 2026-11-01 Backoffice: the language menu sits in the navbar, left of the user menu (#989).
+
+### Changed
+
+- 2026-11-03 Module quarantine: a fatal error on a call of the mobile app or of the web app (`<module>/mobile_*`, `front/mobile_*`, `application/mobile_*`) no longer puts the module in quarantine, the call keeps its plain 5xx instead of a 404 on every later request. The editor, the backoffice, the api and the cron still quarantine. `$_config['module_quarantine_app_requests'] = true` brings the previous behaviour back (#996).
+
+### Fixed
+
+- 2026-11-01 Module install: only `<table>.php` files of `resources/db/schema` are tables (#987).
+- 2026-11-03 Tests: the user menu, log-out and licence prompt checks follow the new markup (#996).
+
 ## [5.1.8] 2026-10-31
 
 Fourteen locales shipped in the application, a safer locale manager, and a store account that survives a cache clear, on top of 5.1.7. The update package is built against 5.1.7 (`lastversion`), the last published version. MAE and PE carry the same changes (tags `v5.1.8`, released from `master`).
