@@ -2,6 +2,20 @@
 
 Notable changes to Siberian, newest first. Dates are `YYYY-MM-DD`. Longer notes live in `docs/`.
 
+## [5.1.10] 2026-11-03
+
+Visible errors on the mobile and web apps, and translations that no longer break the backoffice pages, on top of 5.1.9. The update package is built against 5.1.9 (`lastversion`), the last published version. MAE and PE carry the same changes (tags `v5.1.10` on their `master`).
+
+### Added
+
+- 2026-11-03 Dashboard: the card "Errors on app calls" shows which modules fail on calls of the mobile and web apps in the last 24 hours, warns when one fails repeatedly, and offers "Quarantine now" to disable it by hand (#1001).
+- 2026-11-03 Error reports: each group of errors now says where it came from (mobile or web app, editor, backoffice, api or cron), the module involved and how many different endpoints were affected, so repeated failures of a module are easy to find (#999).
+- 2026-11-03 Optional circuit breaker for the mobile and web apps: a failing endpoint answers quickly with a "try again later" message instead of running the broken code again and again. Off by default, turn it on with `module_app_circuit_breaker` in `config.php` (#1000).
+
+### Fixed
+
+- 2026-11-03 Backoffice and editor pages: a translation containing an apostrophe (for example "dell'utente" in Italian) no longer breaks the page script, so buttons and confirmations keep working in every language (#998).
+
 ## [5.1.9] 2026-11-03
 
 A reworked dashboard and module installer page, and a quarantine that leaves the mobile and web apps alone, on top of 5.1.8. The update package is built against 5.1.8 (`lastversion`), the last published version. MAE and PE carry the same changes (tags `v5.1.9` on their `master`).
