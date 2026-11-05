@@ -2954,7 +2954,7 @@ div#phone-bar {
         right: 0 !important;
         bottom: 0 !important;
         left: 0 !important;
-        width: auto;
+        width: auto !important;
         margin: 0;
         padding: 0;
         background: rgba(0, 0, 0, 0.6);
