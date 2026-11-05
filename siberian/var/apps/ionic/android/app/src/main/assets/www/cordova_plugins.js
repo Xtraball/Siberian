@@ -466,7 +466,7 @@ cordova.define('cordova/plugin_list', function(require, exports, module) {
     "Geolocation": "5.0.0",
     "InAppBrowser": "4.1.0",
     "Keyboard": "2.2.0",
-    "SocialSharing": "5.6.4",
+    "SocialSharing": "6.0.4",
     "StatusBar": "2.4.1",
     "LocalNotification": "0.9.0-beta.4",
     "Insomnia": "4.3.0",
