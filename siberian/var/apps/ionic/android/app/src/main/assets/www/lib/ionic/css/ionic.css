@@ -9635,8 +9635,8 @@ a.button {
 
 .platform-ios.platform-cordova:not(.fullscreen) .has-header.has-subheader.has-tabs-top {
   top: 157px;
-  top: calc(137px + constant(safe-area-inset-right));
-  top: calc(137px + env(safe-area-inset-right)); }
+  top: calc(137px + constant(safe-area-inset-top));
+  top: calc(137px + env(safe-area-inset-top)); }
 
 .platform-ios.platform-cordova .popover .bar-header:not(.bar-subheader) {
   height: 44px; }
