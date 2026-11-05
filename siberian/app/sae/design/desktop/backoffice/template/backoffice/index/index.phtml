@@ -73,18 +73,21 @@ if (array_key_exists(Version::VERSION, $updates)) {
     $statusText = $current['statusText'];
 }
 
-// Check that PHP version is at least 8.2.0
-$mustUpgradePhp = false;
-if (version_compare(PHP_VERSION, '8.2.0', '<')) {
-    $mustUpgradePhp = true;
-}
+// PHP 8.2 is the lowest supported version, PHP 8.5 the recommended one (both carry security fixes)
+$mustUpgradePhp = !\Siberian\PhpSupport::isSupported();
+$shouldUpgradePhp = !$mustUpgradePhp && !\Siberian\PhpSupport::isRecommended();
 
 ?>
 <div class="row">
     <div class="col-md-8 col-md-offset-2 col-sm-12">
         <?php if ($mustUpgradePhp): ?>
         <p class="alert alert-danger">
-            <?php echo __('Your current PHP version will not be supported by <b>Siberian Next</b>, it requires PHP 8.2 (higher versions of PHP are not supported yet), please upgrade as soon as possible.'); ?>
+            <?php echo p__('backoffice', 'Your PHP version %s is no longer supported. Siberian requires PHP 8.2 or higher, which carries the security fixes. PHP 8.5 is recommended, please upgrade as soon as possible.', PHP_VERSION); ?>
+        </p>
+        <?php endif; ?>
+        <?php if ($shouldUpgradePhp): ?>
+        <p class="alert alert-info">
+            <?php echo p__('backoffice', 'Your PHP version is %s. PHP 8.5 is recommended, it carries the latest security fixes.', PHP_VERSION); ?>
         </p>
         <?php endif; ?>
 
