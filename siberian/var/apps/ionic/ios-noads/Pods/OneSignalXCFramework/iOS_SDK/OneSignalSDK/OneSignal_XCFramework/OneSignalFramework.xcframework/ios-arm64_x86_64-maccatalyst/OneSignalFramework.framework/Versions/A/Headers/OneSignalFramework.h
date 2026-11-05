@@ -49,6 +49,11 @@
 #import <OneSignalOSCore/OneSignalOSCore.h>
 #import <OneSignalNotifications/OneSignalNotifications.h>
 
+// Forward declarations for Objective-C++ compatibility
+@protocol OSUser;
+@protocol OSLiveActivities;
+@protocol OSUserJwtInvalidatedListener;
+
 #pragma clang diagnostic push
 #pragma clang diagnostic ignored "-Wstrict-prototypes"
 #pragma clang diagnostic ignored "-Wnullability-completeness"
@@ -62,14 +67,16 @@ typedef void (^OSFailureBlock)(NSError* error);
 // ======= OneSignal Class Interface =========
 @interface OneSignal : NSObject
 
-+ (NSString* _Nonnull)sdkVersionRaw;
-+ (NSString* _Nonnull)sdkSemanticVersion;
-
 #pragma mark User
 + (id<OSUser>)User NS_REFINED_FOR_SWIFT;
 + (void)login:(NSString * _Nonnull)externalId;
 + (void)login:(NSString * _Nonnull)externalId withToken:(NSString * _Nullable)token
 NS_SWIFT_NAME(login(externalId:token:));
+/// The listener is held weakly: keep a strong reference to it, or it is released and never called.
++ (void)addUserJwtInvalidatedListener:(id<OSUserJwtInvalidatedListener> _Nonnull)listener NS_REFINED_FOR_SWIFT;
++ (void)removeUserJwtInvalidatedListener:(id<OSUserJwtInvalidatedListener> _Nonnull)listener NS_REFINED_FOR_SWIFT;
++ (void)updateUserJwt:(NSString * _Nonnull)externalId withToken:(NSString * _Nonnull)token
+NS_SWIFT_NAME(updateUserJwt(externalId:token:));
 + (void)logout;
 
 #pragma mark Notifications
@@ -103,9 +110,8 @@ NS_SWIFT_NAME(login(externalId:token:));
 + (Class<OSSession>)Session NS_REFINED_FOR_SWIFT;
 
 #pragma mark Extension
-// iOS 10 only
-// Process from Notification Service Extension.
-// Used for iOS Media Attachemtns and Action Buttons.
+// Call from a UNNotificationServiceExtension on iOS 10 and later.
+// Processes media attachments and action buttons.
 + (UNMutableNotificationContent*)didReceiveNotificationExtensionRequest:(UNNotificationRequest* _Nonnull)request withMutableNotificationContent:(UNMutableNotificationContent* _Nullable)replacementContent __deprecated_msg("Please use didReceiveNotificationExtensionRequest:withMutableNotificationContent:withContentHandler: instead.");
 + (UNMutableNotificationContent*)didReceiveNotificationExtensionRequest:(UNNotificationRequest* _Nonnull)request withMutableNotificationContent:(UNMutableNotificationContent* _Nullable)replacementContent withContentHandler:(void (^)(UNNotificationContent *_Nonnull))contentHandler;
 + (UNMutableNotificationContent*)serviceExtensionTimeWillExpireRequest:(UNNotificationRequest* _Nonnull)request withMutableNotificationContent:(UNMutableNotificationContent* _Nullable)replacementContent;

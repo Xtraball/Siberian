@@ -46,7 +46,7 @@
 // "*" in comment line ending comment means the string value has not been changed
 // App
 
-#define ONESIGNAL_VERSION                                                   @"050209"
+#define ONESIGNAL_VERSION                                                   @"050800"
 
 #define OSUD_APP_ID                                                         @"GT_APP_ID"                                                        // * OSUD_APP_ID
 #define OSUD_REGISTERED_WITH_APPLE                                          @"GT_REGISTERED_WITH_APPLE"                                         // * OSUD_REGISTERED_WITH_APPLE
@@ -56,7 +56,6 @@
 #define OSUD_PERMISSION_ACCEPTED_FROM                                       @"ONESIGNAL_PERMISSION_ACCEPTED_LAST"                               // * OSUD_PERMISSION_ACCEPTED_FROM
 #define OSUD_WAS_PROMPTED_FOR_NOTIFICATIONS_TO                              @"OSUD_WAS_PROMPTED_FOR_NOTIFICATIONS_TO"                           // OSUD_WAS_PROMPTED_FOR_NOTIFICATIONS_TO
 #define OSUD_WAS_PROMPTED_FOR_NOTIFICATIONS_FROM                            @"OS_HAS_PROMPTED_FOR_NOTIFICATIONS_LAST"                           // * OSUD_WAS_PROMPTED_FOR_NOTIFICATIONS_FROM
-#define OSUD_WAS_NOTIFICATION_PROMPT_ANSWERED_TO                            @"OS_NOTIFICATION_PROMPT_ANSWERED"                                  // * OSUD_WAS_NOTIFICATION_PROMPT_ANSWERED_TO
 #define OSUD_WAS_NOTIFICATION_PROMPT_ANSWERED_FROM                          @"OS_NOTIFICATION_PROMPT_ANSWERED_LAST"                             // * OSUD_WAS_NOTIFICATION_PROMPT_ANSWERED_FROM
 #define OSUD_PROVISIONAL_PUSH_AUTHORIZATION_TO                              @"OSUD_PROVISIONAL_PUSH_AUTHORIZATION_TO"                           // OSUD_PROVISIONAL_PUSH_AUTHORIZATION_TO
 #define OSUD_PROVISIONAL_PUSH_AUTHORIZATION_FROM                            @"ONESIGNAL_PROVISIONAL_AUTHORIZATION_LAST"                         // * OSUD_PROVISIONAL_PUSH_AUTHORIZATION_FROM
@@ -77,6 +76,10 @@
 // Remote Params
 #define OSUD_LOCATION_ENABLED                                               @"OSUD_LOCATION_ENABLED"
 #define OSUD_REQUIRES_USER_PRIVACY_CONSENT                                  @"OSUD_REQUIRES_USER_PRIVACY_CONSENT"
+// Remote SDK feature flags (Turbine GET apps/{app_id}/sdk/features/{platform}/{sdk_version})
+#define OSUD_SDK_REMOTE_FEATURE_FLAGS                                       @"OSUD_SDK_REMOTE_FEATURE_FLAGS"
+#define OSUD_SDK_REMOTE_FEATURE_FLAG_METADATA                               @"OSUD_SDK_REMOTE_FEATURE_FLAG_METADATA"
+#define OSUD_USE_IDENTITY_VERIFICATION                                      @"OSUD_USE_IDENTITY_VERIFICATION"
 // Remote Params - Receive Receipts
 #define OSUD_RECEIVE_RECEIPTS_ENABLED                                       @"OS_ENABLE_RECEIVE_RECEIPTS"                                       // * OSUD_RECEIVE_RECEIPTS_ENABLED
 // Outcomes
@@ -96,17 +99,19 @@
 #define OSUD_CACHED_RECEIVED_IAM_IDS                                        @"OSUD_CACHED_RECEIVED_IAM_IDS"
 #define OSUD_CACHED_UNATTRIBUTED_UNIQUE_OUTCOME_EVENTS_SENT                 @"CACHED_UNATTRIBUTED_UNIQUE_OUTCOME_EVENTS_SENT"                   // * OSUD_CACHED_UNATTRIBUTED_UNIQUE_OUTCOME_EVENTS_SENT
 #define OSUD_CACHED_ATTRIBUTED_UNIQUE_OUTCOME_EVENT_NOTIFICATION_IDS_SENT   @"CACHED_ATTRIBUTED_UNIQUE_OUTCOME_EVENT_NOTIFICATION_IDS_SENT"     // * OSUD_CACHED_ATTRIBUTED_UNIQUE_OUTCOME_EVENT_NOTIFICATION_IDS_SENT
+
 // Migration
-#define OSUD_CACHED_SDK_VERSION                                             @"OSUD_CACHED_SDK_VERSION"
+/// Value used by all modules prior to 5.2.10
+#define OSUD_LEGACY_CACHED_SDK_VERSION_FOR_MIGRATION                @"OSUD_CACHED_SDK_VERSION"
+/// Values added in 5.2.10 for each module to own its own migration
+#define OSUD_CACHED_SDK_VERSION_FOR_CORE                            @"OSUD_CACHED_SDK_VERSION_FOR_CORE"
+#define OSUD_CACHED_SDK_VERSION_FOR_OUTCOMES                        @"OSUD_CACHED_SDK_VERSION_FOR_OUTCOMES"
+#define OSUD_CACHED_SDK_VERSION_FOR_IAM                             @"OSUD_CACHED_SDK_VERSION_FOR_IAM"
+
 // Time Tracking
 #define OSUD_APP_LAST_CLOSED_TIME                                           @"GT_LAST_CLOSED_TIME"                                              // * OSUD_APP_LAST_CLOSED_TIME
 #define OSUD_UNSENT_ACTIVE_TIME                                             @"GT_UNSENT_ACTIVE_TIME"                                            // * OSUD_UNSENT_ACTIVE_TIME
 #define OSUD_UNSENT_ACTIVE_TIME_ATTRIBUTED                                  @"GT_UNSENT_ACTIVE_TIME_ATTRIBUTED"                                 // * OSUD_UNSENT_ACTIVE_TIME_ATTRIBUTED
-
-// Deprecated Selectors
-#define DEPRECATED_SELECTORS @[ @"application:didReceiveLocalNotification:", \
-                                @"application:handleActionWithIdentifier:forLocalNotification:completionHandler:", \
-                                @"application:handleActionWithIdentifier:forLocalNotification:withResponseInfo:completionHandler:" ]
 
 // To avoid undefined symbol compiler errors on older versions of Xcode,
 // instead of using UNAuthorizationOptionProvisional directly, we will use
@@ -128,7 +133,7 @@
 #define IOS_USES_PROVISIONAL_AUTHORIZATION @"uses_provisional_auth"
 #define IOS_REQUIRES_EMAIL_AUTHENTICATION @"require_email_auth"
 #define IOS_REQUIRES_SMS_AUTHENTICATION @"require_sms_auth"
-#define IOS_REQUIRES_USER_ID_AUTHENTICATION @"require_user_id_auth"
+#define IOS_JWT_REQUIRED @"jwt_required"
 #define IOS_RECEIVE_RECEIPTS_ENABLE @"receive_receipts_enable"
 #define IOS_OUTCOMES_V2_SERVICE_ENABLE @"v2_enabled"
 #define IOS_LOCATION_SHARED @"location_shared"
@@ -148,10 +153,15 @@
 #define GDPR_CONSENT_GRANTED @"GDPR_CONSENT_GRANTED"
 #define ONESIGNAL_REQUIRE_PRIVACY_CONSENT @"OneSignal_require_privacy_consent"
 
+// Swizzling
+#define ONESIGNAL_DISABLE_SWIZZLING @"OneSignal_disable_swizzling"
+
 // Badge handling
 #define ONESIGNAL_DISABLE_BADGE_CLEARING @"OneSignal_disable_badge_clearing"
 #define ONESIGNAL_APP_GROUP_NAME_KEY @"OneSignal_app_groups_key"
 #define ONESIGNAL_BADGE_KEY @"onesignalBadgeCount"
+/// Store the previous badge count to read for a cancelled notification display event
+#define PREVIOUS_ONESIGNAL_BADGE_KEY @"previousOnesignalBadgeCount"
 
 // Firebase
 #define ONESIGNAL_FB_ENABLE_FIREBASE @"OS_ENABLE_FIREBASE_ANALYTICS"
@@ -191,11 +201,12 @@ typedef enum {ATTRIBUTED, NOT_ATTRIBUTED} FocusAttributionState;
 #define focusAttributionStateString(enum) [@[@"ATTRIBUTED", @"NOT_ATTRIBUTED"] objectAtIndex:enum]
 
 // OneSignal Background Task Identifiers
-#define ATTRIBUTED_FOCUS_TASK                   @"ATTRIBUTED_FOCUS_TASK"
+#define SESSION_OUTCOMES_TASK                   @"SESSION_OUTCOMES_TASK"
 #define OPERATION_REPO_BACKGROUND_TASK          @"OPERATION_REPO_BACKGROUND_TASK"
 #define IDENTITY_EXECUTOR_BACKGROUND_TASK       @"IDENTITY_EXECUTOR_BACKGROUND_TASK_"
 #define PROPERTIES_EXECUTOR_BACKGROUND_TASK     @"PROPERTIES_EXECUTOR_BACKGROUND_TASK_"
 #define SUBSCRIPTION_EXECUTOR_BACKGROUND_TASK   @"SUBSCRIPTION_EXECUTOR_BACKGROUND_TASK_"
+#define CUSTOM_EVENTS_EXECUTOR_BACKGROUND_TASK  @"CUSTOM_EVENTS_EXECUTOR_BACKGROUND_TASK_"
 
 // OneSignal constants
 #define OS_PUSH @"push"
@@ -311,6 +322,15 @@ typedef enum {GET, POST, HEAD, PUT, DELETE, OPTIONS, CONNECT, TRACE, PATCH} HTTP
 #define OS_SNAPSHOT_ONESIGNAL_ID                                            @"OS_SNAPSHOT_ONESIGNAL_ID"
 #define OS_SNAPSHOT_EXTERNAL_ID                                             @"OS_SNAPSHOT_EXTERNAL_ID"
 
+/* Identity Verification */
+#define OS_JWT_BEARER_TOKEN                                                 @"OS_JWT_BEARER_TOKEN"
+#define OS_JWT_TOKEN_INVALID                                                @"OS_JWT_TOKEN_INVALID"
+
+// Posted when work held for want of an answer can be reattempted: the requirement hydrated, or the app
+// supplied a token. Listeners re-read the current state rather than take anything from the post.
+#define OS_ON_JWT_CONFIG_HYDRATED                                           @"OS_ON_JWT_CONFIG_HYDRATED"
+#define OS_ON_USER_JWT_UPDATED                                              @"OS_ON_USER_JWT_UPDATED"
+
 // Models and Model Stores
 #define OS_IDENTITY_MODEL_KEY                                               @"OS_IDENTITY_MODEL_KEY"
 #define OS_IDENTITY_MODEL_STORE_KEY                                         @"OS_IDENTITY_MODEL_STORE_KEY"
@@ -329,6 +349,8 @@ typedef enum {GET, POST, HEAD, PUT, DELETE, OPTIONS, CONNECT, TRACE, PATCH} HTTP
 #define OS_ADD_SUBSCRIPTION_DELTA                                           @"OS_ADD_SUBSCRIPTION_DELTA"
 #define OS_REMOVE_SUBSCRIPTION_DELTA                                        @"OS_REMOVE_SUBSCRIPTION_DELTA"
 #define OS_UPDATE_SUBSCRIPTION_DELTA                                        @"OS_UPDATE_SUBSCRIPTION_DELTA"
+
+#define OS_CUSTOM_EVENT_DELTA                                               @"OS_CUSTOM_EVENT_DELTA"
 
 // Operation Repo
 #define OS_OPERATION_REPO_DELTA_QUEUE_KEY                                   @"OS_OPERATION_REPO_DELTA_QUEUE_KEY"
@@ -352,8 +374,25 @@ typedef enum {GET, POST, HEAD, PUT, DELETE, OPTIONS, CONNECT, TRACE, PATCH} HTTP
 #define OS_SUBSCRIPTION_EXECUTOR_REMOVE_REQUEST_QUEUE_KEY                   @"OS_SUBSCRIPTION_EXECUTOR_REMOVE_REQUEST_QUEUE_KEY"
 #define OS_SUBSCRIPTION_EXECUTOR_UPDATE_REQUEST_QUEUE_KEY                   @"OS_SUBSCRIPTION_EXECUTOR_UPDATE_REQUEST_QUEUE_KEY"
 
+// Custom Events Executor
+#define OS_CUSTOM_EVENTS_EXECUTOR_DELTA_QUEUE_KEY                           @"OS_CUSTOM_EVENTS_EXECUTOR_DELTA_QUEUE_KEY"
+#define OS_CUSTOM_EVENTS_EXECUTOR_REQUEST_QUEUE_KEY                         @"OS_CUSTOM_EVENTS_EXECUTOR_REQUEST_QUEUE_KEY"
+
+// A codeable value larger than this is not written, and a cached queue blob larger than it is dropped without
+// decoding it. Real queues are a few KB. CFPreferences rejects a value of 4 MB or more on iOS.
+#define OS_USER_DEFAULTS_MAX_VALUE_BYTES                                    1048576
+
+// Written only by the 5.3.0-beta Identity Verification builds. Nothing reads them anymore.
+#define OS_IV_BETA_USER_EXECUTOR_PENDING_QUEUE_KEY                          @"OS_USER_EXECUTOR_PENDING_QUEUE_KEY"
+#define OS_IV_BETA_IDENTITY_EXECUTOR_PENDING_QUEUE_KEY                      @"OS_IDENTITY_EXECUTOR_PENDING_QUEUE_KEY"
+#define OS_IV_BETA_PROPERTIES_EXECUTOR_PENDING_QUEUE_KEY                    @"OS_PROPERTIES_EXECUTOR_PENDING_QUEUE_KEY"
+#define OS_IV_BETA_SUBSCRIPTION_EXECUTOR_PENDING_QUEUE_KEY                  @"OS_SUBSCRIPTION_EXECUTOR_PENDING_QUEUE_KEY"
+#define OS_IV_BETA_CUSTOM_EVENTS_EXECUTOR_PENDING_QUEUE_KEY                 @"OS_CUSTOM_EVENTS_EXECUTOR_PENDING_QUEUE_KEY"
+
 // Live Activies Executor
 #define OS_LIVE_ACTIVITIES_EXECUTOR_UPDATE_TOKENS_KEY                       @"OS_LIVE_ACTIVITIES_EXECUTOR_UPDATE_TOKENS_KEY"
 #define OS_LIVE_ACTIVITIES_EXECUTOR_START_TOKENS_KEY                        @"OS_LIVE_ACTIVITIES_EXECUTOR_START_TOKENS_KEY"
+#define OS_LIVE_ACTIVITIES_EXECUTOR_RECEIVE_RECEIPTS_KEY                    @"OS_LIVE_ACTIVITIES_EXECUTOR_RECEIVE_RECEIPTS_KEY"
+#define OS_LIVE_ACTIVITIES_EXECUTOR_CLICKED_KEY                             @"OS_LIVE_ACTIVITIES_EXECUTOR_CLICKED_KEY"
 
 #endif /* OneSignalCommonDefines_h */

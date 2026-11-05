@@ -301,7 +301,19 @@ typedef unsigned int swift_uint4  __attribute__((__ext_vector_type__(4)));
 
 #if defined(__OBJC__)
 
+
 @class NSString;
+
+/// Requests address a user by one alias or the other depending on Identity Verification: <code>external_id</code>
+/// when it is active, <code>onesignal_id</code> otherwise.
+SWIFT_CLASS("_TtC15OneSignalOSCore11OSAliasPair")
+@interface OSAliasPair : NSObject
+@property (nonatomic, readonly, copy) NSString * _Nonnull label;
+@property (nonatomic, readonly, copy) NSString * _Nonnull id;
+- (nonnull instancetype)init SWIFT_UNAVAILABLE;
++ (nonnull instancetype)new SWIFT_UNAVAILABLE_MSG("-init is unavailable");
+@end
+
 
 SWIFT_PROTOCOL("_TtP15OneSignalOSCore23OSBackgroundTaskHandler_")
 @protocol OSBackgroundTaskHandler
@@ -330,6 +342,10 @@ SWIFT_PROTOCOL("_TtP15OneSignalOSCore11OSCondition_")
 @property (nonatomic, readonly, copy) NSString * _Nonnull conditionId;
 - (BOOL)isMetWithIndexedTokens:(NSDictionary<NSString *, NSDictionary<NSNumber *, OSReadYourWriteData *> *> * _Nonnull)indexedTokens SWIFT_WARN_UNUSED_RESULT;
 - (OSReadYourWriteData * _Nullable)getNewestTokenWithIndexedTokens:(NSDictionary<NSString *, NSDictionary<NSNumber *, OSReadYourWriteData *> *> * _Nonnull)indexedTokens SWIFT_WARN_UNUSED_RESULT;
+@optional
+/// Called once a waiter on this condition has been released, so a condition that raised its own bar
+/// for that wait can lower it again instead of holding every later waiter to it.
+- (void)onConditionSatisfied;
 @end
 
 
@@ -339,8 +355,9 @@ SWIFT_CLASS_PROPERTY(@property (nonatomic, class, readonly, strong) OSConsistenc
 + (OSConsistencyManager * _Nonnull)shared SWIFT_WARN_UNUSED_RESULT;
 - (nonnull instancetype)init SWIFT_UNAVAILABLE;
 + (nonnull instancetype)new SWIFT_UNAVAILABLE_MSG("-init is unavailable");
+/// Blocks the caller until the condition is met or <code>waitTimeout</code> elapses, then returns the newest
+/// token the condition accepts, which is nil when it was released without one.
 - (OSReadYourWriteData * _Nullable)getRywTokenFromAwaitableCondition:(id <OSCondition> _Nonnull)condition forId:(NSString * _Nonnull)id SWIFT_WARN_UNUSED_RESULT;
-- (void)resolveConditionsWithIDWithId:(NSString * _Nonnull)id;
 @end
 
 @class NSCoder;
@@ -355,12 +372,101 @@ SWIFT_CLASS("_TtC15OneSignalOSCore7OSDelta")
 @end
 
 
+/// Detects the test-device gesture: <code>requiredCycles</code> background/foreground cycles within
+/// <code>windowSeconds</code>, then copies the push subscription ID to the general pasteboard, prefixed
+/// <code>os:</code> (see <code>clipText</code>), so the person can paste it into the dashboard. Without a subscription
+/// it copies <code>noSubscriptionClipText</code> instead, so someone following the docs can tell the gesture
+/// worked.
+/// A cycle is a <code>didEnterBackground</code>/<code>didBecomeActive</code> pair whose background phase lasts at
+/// least <code>minBackgroundDwellSeconds</code>. Pairing keeps <code>willResignActive</code>-only blips (Control
+/// Center, Face ID) from counting; the floor matches Android, where rotation emits a
+/// synthetic sub-millisecond pair. The window is the only rate rule; six cycles fit inside it
+/// at round trips of five seconds or faster.
+/// The <code>remoteKillSwitchKey</code> catalog flag turns the gesture off. Absent means enabled, so a device
+/// that has never fetched flags still has it. An app can also opt out for good with the
+/// Info.plist key <code>disableInfoPlistKey</code>; then the detector never starts, so nothing is counted
+/// or recorded.
+/// Every recognised gesture also records <code>OSObservabilityEvent.deviceGesture</code>, with its outcome
+/// and the copied ID, so the gesture’s usage can be measured.
+SWIFT_CLASS_NAMED("OSDeviceGestureDetector")
+@interface OSDeviceGestureDetector : NSObject
+/// Idempotent: registers the lifecycle observers once and keeps counting from there.
++ (void)start;
++ (void)reset;
+- (nonnull instancetype)init SWIFT_UNAVAILABLE;
++ (nonnull instancetype)new SWIFT_UNAVAILABLE_MSG("-init is unavailable");
+@end
+
+
+/// Fetches remote SDK feature flags when the app is in the foreground, immediately on
+/// focus and then every <code>refreshInterval</code> while the session stays in the foreground.
+/// Updates <code>OSFeatureFlagsStore</code> so <code>OSFeatureManager</code> stays in sync.
+/// Polling is keyed on the active appId: once a poll loop is running for a given
+/// appId, redundant triggers are a no-op so we don’t double-fire the Turbine GET
+/// at startup. Genuine appId changes still cancel and restart.
+SWIFT_CLASS_NAMED("OSFeatureFlagsRefreshService")
+@interface OSFeatureFlagsRefreshService : NSObject
+SWIFT_CLASS_PROPERTY(@property (nonatomic, class, readonly, strong) OSFeatureFlagsRefreshService * _Nonnull shared;)
++ (OSFeatureFlagsRefreshService * _Nonnull)shared SWIFT_WARN_UNUSED_RESULT;
+/// Idempotent: safe to call again once the host learns its real foreground state.
+/// \param isInForeground the host’s current foreground state. Passing <code>false</code>
+/// registers the lifecycle observers but leaves polling idle until a focus event.
+///
++ (void)startWithIsInForeground:(BOOL)isInForeground;
++ (void)reset;
+- (nonnull instancetype)init SWIFT_UNAVAILABLE;
++ (nonnull instancetype)new SWIFT_UNAVAILABLE_MSG("-init is unavailable");
+@end
+
+
+/// Resolves backend-driven feature flag state for the current device run.
+/// Catalog and latching live in shared KMP <code>FeatureManager</code>; this host hydrates
+/// from <code>OSFeatureFlagsStore</code> and applies activation-mode rules via <code>refresh</code>.
+SWIFT_CLASS_NAMED("OSFeatureManager")
+@interface OSFeatureManager : NSObject
+/// Constructing this reads persisted flags and builds the KMP latch, so the first
+/// access decides which <code>APP_STARTUP</code> flags are latched for the process. Only touch
+/// it once storage is readable; see <code>enabledFeatureKeysIfInitialized()</code>.
+SWIFT_CLASS_PROPERTY(@property (nonatomic, class, readonly, strong) OSFeatureManager * _Nonnull shared;)
++ (OSFeatureManager * _Nonnull)shared SWIFT_WARN_UNUSED_RESULT;
+/// Enabled keys <em>without</em> forcing construction, for callers that must not trigger
+/// first-touch initialization: a crash handler (initialization takes locks and reads
+/// UserDefaults, neither async-signal-safe) and any pre-unlock caller that would
+/// otherwise latch <code>APP_STARTUP</code> flags from unreadable storage.
+/// Returns empty when the manager has not been built yet. Reading keys from an
+/// already-built manager still takes the KMP latch’s lock.
++ (NSArray<NSString *> * _Nonnull)enabledFeatureKeysIfInitialized SWIFT_WARN_UNUSED_RESULT;
+/// Drops the latch and cached state so the next access re-reads storage. Required on
+/// an app-id change: <code>APP_STARTUP</code> flags never unlatch within a process, so without
+/// this the previous app’s flags would govern the new one.
++ (void)reset;
+/// Drops the latch <em>and</em> discards the persisted keys. Flags are scoped to an app id
+/// but stored unscoped, so on an app-id change the cache has to go too — otherwise
+/// the new app runs on the old app’s flags until its first successful fetch, and
+/// never for <code>APP_STARTUP</code> flags.
++ (void)resetAndClearCachedFlags;
+/// Whether the catalog flag with this Turbine key is enabled after latching.
+- (BOOL)isEnabledForKey:(NSString * _Nonnull)featureKey SWIFT_WARN_UNUSED_RESULT;
+/// Canonical keys enabled for this process after latching, in catalog order.
+- (NSArray<NSString *> * _Nonnull)enabledFeatureKeys SWIFT_WARN_UNUSED_RESULT;
+- (nonnull instancetype)init SWIFT_UNAVAILABLE;
++ (nonnull instancetype)new SWIFT_UNAVAILABLE_MSG("-init is unavailable");
+@end
+
+
 SWIFT_CLASS("_TtC15OneSignalOSCore24OSIamFetchReadyCondition")
 @interface OSIamFetchReadyCondition : NSObject <OSCondition>
+/// One condition per id, so a fetch waits on the same object the subscription listener armed, and a
+/// fetch for a user who just switched in is not answered by the previous user’s tokens.
 + (OSIamFetchReadyCondition * _Nonnull)sharedInstanceWithId:(NSString * _Nonnull)id SWIFT_WARN_UNUSED_RESULT;
+/// Test seam; the instances otherwise live as long as the process.
++ (void)reset;
 SWIFT_CLASS_PROPERTY(@property (nonatomic, class, readonly, copy) NSString * _Nonnull CONDITIONID;)
 + (NSString * _Nonnull)CONDITIONID SWIFT_WARN_UNUSED_RESULT;
 @property (nonatomic, readonly, copy) NSString * _Nonnull conditionId;
+/// The fetch this was raised for has been released, so later fetches stop waiting on a subscription
+/// token that has no update behind it.
+- (void)onConditionSatisfied;
 - (BOOL)isMetWithIndexedTokens:(NSDictionary<NSString *, NSDictionary<NSNumber *, OSReadYourWriteData *> *> * _Nonnull)indexedTokens SWIFT_WARN_UNUSED_RESULT;
 - (OSReadYourWriteData * _Nullable)getNewestTokenWithIndexedTokens:(NSDictionary<NSString *, NSDictionary<NSNumber *, OSReadYourWriteData *> *> * _Nonnull)indexedTokens SWIFT_WARN_UNUSED_RESULT;
 - (nonnull instancetype)init SWIFT_UNAVAILABLE;
@@ -368,77 +474,58 @@ SWIFT_CLASS_PROPERTY(@property (nonatomic, class, readonly, copy) NSString * _No
 @end
 
 
+SWIFT_CLASS_NAMED("OSInputGuard")
+@interface OSInputGuard : NSObject
++ (BOOL)isMissing:(NSString * _Nullable)value api:(NSString * _Nonnull)api SWIFT_WARN_UNUSED_RESULT;
++ (BOOL)isMissingAny:(NSArray * _Nullable)values api:(NSString * _Nonnull)api SWIFT_WARN_UNUSED_RESULT;
+/// <code>allowEmptyValue</code> keeps “” and a value containing a null byte. A null value is still rejected.
++ (BOOL)hasMissingEntries:(NSDictionary * _Nullable)values api:(NSString * _Nonnull)api allowEmptyValue:(BOOL)allowEmptyValue SWIFT_WARN_UNUSED_RESULT;
+- (nonnull instancetype)init OBJC_DESIGNATED_INITIALIZER;
+@end
+
+@class NSURL;
+
 /// Provides access to OneSignal LiveActivities.
 SWIFT_PROTOCOL("_TtP15OneSignalOSCore16OSLiveActivities_")
 @protocol OSLiveActivities
 /// Indicate this device has entered a live activity, identified within OneSignal by the <code>activityId</code>.
-/// <ul>
-///   <li>
-///     Parameters
-///     <ul>
-///       <li>
-///         activityId: The activity identifier the live activity on this device will receive updates for.
-///       </li>
-///       <li>
-///         withToken: The live activity’s update token to receive the updates.
-///       </li>
-///     </ul>
-///   </li>
-/// </ul>
+/// \param activityId The activity identifier the live activity on this device will receive updates for.
+///
+/// \param withToken The live activity’s update token to receive the updates.
+///
 + (void)enter:(NSString * _Nonnull)activityId withToken:(NSString * _Nonnull)withToken;
 /// Indicate this device has entered a live activity, identified within OneSignal by the <code>activityId</code>. This method is deprecated since
 /// the request to enter a live activity will always succeed.
-/// <ul>
-///   <li>
-///     Parameters
-///     <ul>
-///       <li>
-///         activityId: The activity identifier the live activity on this device will receive updates for.
-///       </li>
-///       <li>
-///         withToken: The live activity’s update token to receive the updates.
-///       </li>
-///       <li>
-///         withSuccess: A success callback that will be called when the live activity enter request has been queued.
-///       </li>
-///       <li>
-///         withFailure: A failure callback that will be called when the live activity enter request was not successfully queued.
-///       </li>
-///     </ul>
-///   </li>
-/// </ul>
+/// \param activityId The activity identifier the live activity on this device will receive updates for.
+///
+/// \param withToken The live activity’s update token to receive the updates.
+///
+/// \param withSuccess A success callback that will be called when the live activity enter request has been queued.
+///
+/// \param withFailure A failure callback that will be called when the live activity enter request was not successfully queued.
+///
 + (void)enter:(NSString * _Nonnull)activityId withToken:(NSString * _Nonnull)withToken withSuccess:(OSResultSuccessBlock _Nullable)withSuccess withFailure:(OSFailureBlock _Nullable)withFailure SWIFT_DEPRECATED;
 /// Indicate this device has exited a live activity, identified within OneSignal by the <code>activityId</code>.
-/// <ul>
-///   <li>
-///     Parameters
-///     <ul>
-///       <li>
-///         activityId: The activity identifier the live activity on this device will no longer receive updates for.
-///       </li>
-///     </ul>
-///   </li>
-/// </ul>
+/// \param activityId The activity identifier the live activity on this device will no longer receive updates for.
+///
 + (void)exit:(NSString * _Nonnull)activityId;
 /// Indicate this device has exited a live activity, identified within OneSignal by the <code>activityId</code>. This method is deprecated since
 /// the request to enter a live activity will always succeed.
-/// <ul>
-///   <li>
-///     Parameters
-///     <ul>
-///       <li>
-///         activityId: The activity identifier the live activity on this device will no longer receive updates for.
-///       </li>
-///       <li>
-///         withSuccess: A success callback that will be called when the live activity exit request has been queued.
-///       </li>
-///       <li>
-///         withFailure: A failure callback that will be called when the live activity enter exit was not successfully queued.
-///       </li>
-///     </ul>
-///   </li>
-/// </ul>
+/// \param activityId The activity identifier the live activity on this device will no longer receive updates for.
+///
+/// \param withSuccess A success callback that will be called when the live activity exit request has been queued.
+///
+/// \param withFailure A failure callback that will be called when the live activity enter exit was not successfully queued.
+///
 + (void)exit:(NSString * _Nonnull)activityId withSuccess:(OSResultSuccessBlock _Nullable)withSuccess withFailure:(OSFailureBlock _Nullable)withFailure SWIFT_DEPRECATED;
+/// Use in conjunction with the <code>onesignalWidgetURL</code> modifier. Handle a URL opened in the app to track Live Activity clicks. Call this method from your app’s URL handling code
+/// (e.g., <code>application(_:open:options:)</code> in AppDelegate or <code>onOpenURL</code> in SwiftUI).
+/// \param url The URL that was opened, which may be a OneSignal Live Activity click tracking URL.
+///
+///
+/// returns:
+/// The intended original nullable URL.
++ (NSURL * _Nullable)trackClickAndReturnOriginal:(NSURL * _Nonnull)url SWIFT_WARN_UNUSED_RESULT;
 @end
 
 
@@ -459,12 +546,15 @@ SWIFT_CLASS("_TtC15OneSignalOSCore18OSModelChangedArgs")
 @end
 
 
-/// The OSOperationRepo is a static singleton.
-/// OSDeltas are enqueued when model store observers observe changes to their models, and sorted to their appropriate executors.
+/// Enqueues OSDeltas from model-store observers and routes them to executors.
+/// Also owns Identity Verification decisions for queued work: hold flushes until <code>requirement</code> is known,
+/// and drop anonymous Deltas while IV is active — except push subscription updates, which stay unsigned
+/// and have to keep flowing with or without an identified user.
 SWIFT_CLASS("_TtC15OneSignalOSCore15OSOperationRepo")
 @interface OSOperationRepo : NSObject
 - (void)addFlushDeltaQueueToDispatchQueueInBackground:(BOOL)inBackground;
-- (nonnull instancetype)init OBJC_DESIGNATED_INITIALIZER;
+- (nonnull instancetype)init SWIFT_UNAVAILABLE;
++ (nonnull instancetype)new SWIFT_UNAVAILABLE_MSG("-init is unavailable");
 @end
 
 
@@ -480,6 +570,39 @@ SWIFT_CLASS("_TtC15OneSignalOSCore19OSReadYourWriteData")
 @end
 
 
+/// File-backed mirror of OneSignal SDK identifiers, written with <code>NSFileProtectionNone</code>
+/// so it’s readable before first unlock, when shared <code>UserDefaults</code> reads silently return nil.
+/// Stored in the App Group container, so it’s shared across any targets (main app, NSE, etc.)
+/// configured with the same App Group entitlement. Opaque identifiers only: no PII or credentials.
+/// Accessors are no-ops on Mac Catalyst, where iOS data protection and prewarming do not apply.
+SWIFT_CLASS_NAMED("OSResilientStorage")
+@interface OSResilientStorage : NSObject
+SWIFT_CLASS_PROPERTY(@property (nonatomic, class, readonly, copy) NSString * _Nonnull keyAppId;)
++ (NSString * _Nonnull)keyAppId SWIFT_WARN_UNUSED_RESULT;
+SWIFT_CLASS_PROPERTY(@property (nonatomic, class, readonly, copy) NSString * _Nonnull keySubscriptionId;)
++ (NSString * _Nonnull)keySubscriptionId SWIFT_WARN_UNUSED_RESULT;
+/// Needed because the NSE reads this flag from shared UserDefaults while the device may be locked
+/// and the read silently returns the default (NO). Stored as “1” / “0”.
+SWIFT_CLASS_PROPERTY(@property (nonatomic, class, readonly, copy) NSString * _Nonnull keyReceiveReceiptsEnabled;)
++ (NSString * _Nonnull)keyReceiveReceiptsEnabled SWIFT_WARN_UNUSED_RESULT;
+/// Set to <code>"1"</code> once <code>OneSignalUserManagerImpl.start()</code> has completed at least once on this app
+/// install; cleared on app-id change. Read at startup to distinguish a true fresh install from
+/// a prior session whose UserDefaults isn’t readable yet (ie: during iOS prewarm before first unlock).
+SWIFT_CLASS_PROPERTY(@property (nonatomic, class, readonly, copy) NSString * _Nonnull keyHasPriorSession;)
++ (NSString * _Nonnull)keyHasPriorSession SWIFT_WARN_UNUSED_RESULT;
+/// Returns the full current contents of the cache. Empty dict if absent.
++ (NSDictionary<NSString *, NSString *> * _Nonnull)snapshot SWIFT_WARN_UNUSED_RESULT;
+/// Reads a single value. Returns nil when missing or unreadable.
++ (NSString * _Nullable)stringForKey:(NSString * _Nonnull)key SWIFT_WARN_UNUSED_RESULT;
+/// Atomically updates a single value. Passing nil or an empty string removes the key.
++ (void)setString:(NSString * _Nullable)value forKey:(NSString * _Nonnull)key;
+/// Atomically updates multiple values, preserving keys not in <code>values</code>.
+/// An empty-string value removes the corresponding key.
++ (void)setStrings:(NSDictionary<NSString *, NSString *> * _Nonnull)values;
+- (nonnull instancetype)init OBJC_DESIGNATED_INITIALIZER;
+@end
+
+
 SWIFT_CLASS("_TtC15OneSignalOSCore20OSStubLiveActivities")
 @interface OSStubLiveActivities : NSObject <OSLiveActivities>
 + (Class _Nonnull)liveActivities SWIFT_WARN_UNUSED_RESULT;
@@ -487,6 +610,95 @@ SWIFT_CLASS("_TtC15OneSignalOSCore20OSStubLiveActivities")
 + (void)enter:(NSString * _Nonnull)activityId withToken:(NSString * _Nonnull)withToken withSuccess:(OSResultSuccessBlock _Nullable)withSuccess withFailure:(OSFailureBlock _Nullable)withFailure;
 + (void)exit:(NSString * _Nonnull)activityId;
 + (void)exit:(NSString * _Nonnull)activityId withSuccess:(OSResultSuccessBlock _Nullable)withSuccess withFailure:(OSFailureBlock _Nullable)withFailure;
++ (NSURL * _Nullable)trackClickAndReturnOriginal:(NSURL * _Nonnull)url SWIFT_WARN_UNUSED_RESULT;
+- (nonnull instancetype)init OBJC_DESIGNATED_INITIALIZER;
+@end
+
+
+/// Shared path-segment encoding for Swift and ObjC request builders.
+SWIFT_CLASS_NAMED("OSUrlPath")
+@interface OSUrlPath : NSObject
+/// Returns <code>value</code> percent-encoded for use as one path segment, or nil if it cannot be encoded.
+/// <code>urlUserAllowed</code> rather than <code>urlPathAllowed</code>, which leaves <code>/</code> alone: the values the SDK
+/// interpolates into a path — <code>external_id</code>, alias labels, Live Activity types — come from the app,
+/// and one containing a slash, <code>?</code>, <code>#</code> or <code>%</code> would otherwise reach a different endpoint than intended.
+/// Encode once, where the path is built. A value that has already been through this comes back with its
+/// <code>%</code> escaped again.
++ (NSString * _Nullable)segment:(NSString * _Nonnull)value SWIFT_WARN_UNUSED_RESULT;
+- (nonnull instancetype)init OBJC_DESIGNATED_INITIALIZER;
+@end
+
+
+/// Holds the Identity Verification requirement and caches it across launches.
+/// Deliberately knows nothing about gating: <code>OSIdentityVerificationService</code> makes every such decision
+/// and is the only observer here.
+SWIFT_CLASS_NAMED("OSUserJwtConfig")
+@interface OSUserJwtConfig : NSObject
+/// Remote params hydrate the requirement from <code>OneSignal.m</code>, which runs before the User Manager is
+/// started, and keeps running in sessions where it never starts at all because consent is pending.
+/// Reaching the requirement through a shared instance keeps that path from constructing the User
+/// Manager just to hand over a boolean.
+/// Only <code>OneSignal.m</code> and <code>OneSignalUserManagerImpl</code> should reference this. Everything below them —
+/// the operation repo, the executors, the request layer — is handed the config when it is created,
+/// which keeps the shared instance contained to the two places that cannot avoid it.
+SWIFT_CLASS_PROPERTY(@property (nonatomic, class, readonly, strong) OSUserJwtConfig * _Nonnull shared;)
++ (OSUserJwtConfig * _Nonnull)shared SWIFT_WARN_UNUSED_RESULT;
+- (nonnull instancetype)init OBJC_DESIGNATED_INITIALIZER;
+/// Applies the requirement carried by a successful remote params response. A response that omits
+/// <code>jwt_required</code> means the app has Identity Verification off, so callers pass <code>false</code> for it rather
+/// than leaving the requirement unknown. A response with no body at all answers nothing, so callers
+/// skip this and leave the cached requirement in place.
+- (void)hydrateWithRequiresUserAuth:(BOOL)requiresUserAuth;
+@end
+
+
+/// SDK-level configuration / readiness predicates
+SWIFT_CLASS_NAMED("OneSignalConfig")
+@interface OneSignalConfig : NSObject
+/// Returns whether device-protected storage is currently readable. The main app target sets
+/// this once at <code>+OneSignal.init</code>; the predicate calls it on every gate check from
+/// arbitrary threads, so the closure must be cheap and thread-safe. Left nil in app
+/// extensions (NSE) where <code>UIApplication</code> is unavailable — nil is treated as available,
+/// which is correct for NSE since it reads identifiers through <code>OSResilientStorage</code>.
+SWIFT_CLASS_PROPERTY(@property (nonatomic, class, copy) BOOL (^ _Nullable isProtectedDataAvailableProvider)(void);)
++ (BOOL (^ _Nullable)(void))isProtectedDataAvailableProvider SWIFT_WARN_UNUSED_RESULT;
++ (void)setIsProtectedDataAvailableProvider:(BOOL (^ _Nullable)(void))value;
+/// Returns true when the SDK shouldn’t perform an operation yet because:
+/// <ul>
+///   <li>
+///     <code>app_id</code> hasn’t been set via <code>OneSignal.initialize</code>, or
+///   </li>
+///   <li>
+///     the host app hasn’t granted privacy consent, or
+///   </li>
+///   <li>
+///     device storage isn’t readable yet (iOS prewarm before first unlock).
+///   </li>
+/// </ul>
++ (BOOL)shouldAwaitAppIdAndLogMissingPrivacyConsentForMethod:(NSString * _Nullable)methodName SWIFT_WARN_UNUSED_RESULT;
+- (nonnull instancetype)init OBJC_DESIGNATED_INITIALIZER;
+@end
+
+
+/// Durable accessors for OneSignal identifiers persisted to shared UserDefaults.
+/// Useful when the in-memory source isn’t available, notably the NSE process
+/// Callers with access to the in-memory current value (main-app SDK code)
+/// should continue to use that source
+SWIFT_CLASS_NAMED("OneSignalIdentifiers")
+@interface OneSignalIdentifiers : NSObject
+/// The current in-memory <code>app_id</code>, set by <code>OneSignal.initialize</code>.
+/// nil before <code>initialize</code> has been called (or in a process like the NSE that
+/// never calls <code>initialize</code> — use <code>storedAppId</code> there).
+SWIFT_CLASS_PROPERTY(@property (nonatomic, class, copy) NSString * _Nullable currentAppId;)
++ (NSString * _Nullable)currentAppId SWIFT_WARN_UNUSED_RESULT;
++ (void)setCurrentAppId:(NSString * _Nullable)newValue;
+/// Persisted <code>app_id</code> from shared UserDefaults first, then the unencrypted <code>OSResilientStorage</code> mirror,
+/// covering the prewarm-before-first-unlock window where UserDefaults is locked and silently returns nil.
+SWIFT_CLASS_PROPERTY(@property (nonatomic, class, readonly, copy) NSString * _Nullable storedAppId;)
++ (NSString * _Nullable)storedAppId SWIFT_WARN_UNUSED_RESULT;
+/// Persisted push <code>subscription_id</code> from shared UserDefaults first, then the unencrypted <code>OSResilientStorage</code> mirror.
+SWIFT_CLASS_PROPERTY(@property (nonatomic, class, readonly, copy) NSString * _Nullable subscriptionId;)
++ (NSString * _Nullable)subscriptionId SWIFT_WARN_UNUSED_RESULT;
 - (nonnull instancetype)init OBJC_DESIGNATED_INITIALIZER;
 @end
 
