@@ -457,7 +457,7 @@ cordova.define('cordova/plugin_list', function(require, exports, module) {
     "Promises": "4.2.2",
     "AppVersion": "0.1.8",
     "Badge": "0.8.8",
-    "BarcodeScanner": "7.1.2",
+    "BarcodeScanner": "8.1.0",
     "BrowserTab": "0.2.1",
     "Camera": "8.0.0",
     "Clipboard": "0.1.0",
@@ -476,8 +476,8 @@ cordova.define('cordova/plugin_list', function(require, exports, module) {
     "Onesignal": "5.2.9",
     "Permissions": "1.0.0",
     "CorePlugin": "1.1.0",
-    "Toast": "2.7.2",
-    "IonicWebview": "4.0.1",
+    "Toast": "2.7.3",
+    "IonicWebview": "5.0.1",
     "WebView": "1.0.0"
   };
 });
