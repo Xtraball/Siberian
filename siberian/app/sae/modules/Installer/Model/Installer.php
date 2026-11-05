@@ -57,9 +57,7 @@ class Installer_Model_Installer extends Core_Model_Default
      */
     public static function hasRequiredPhpVersion()
     {
-        $supOrEqual56 = version_compare(PHP_VERSION, '5.6', '>=');
-
-        return $supOrEqual56;
+        return \Siberian\PhpSupport::isSupported();
     }
 
     /**
@@ -240,8 +238,7 @@ class Installer_Model_Installer extends Core_Model_Default
     {
         if (!self::hasRequiredPhpVersion()) {
             self::$_errors[] =
-                __("Your PHP version %s is not supported, PHP versions from 5.6 to 7.0 are supported.",
-                    PHP_VERSION);
+                p__('backoffice', 'Your PHP version %s is no longer supported. Siberian requires PHP 8.2 or higher, which carries the security fixes. PHP 8.5 is recommended, please upgrade as soon as possible.', PHP_VERSION);
         }
     }
 

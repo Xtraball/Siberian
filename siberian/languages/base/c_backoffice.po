@@ -774,3 +774,11 @@ msgstr ""
 msgctxt "backoffice"
 msgid "Error reports are turned off, so the errors on app calls are not recorded. You can turn them on in Settings > Advanced > Configuration."
 msgstr ""
+
+msgctxt "backoffice"
+msgid "Your PHP version %s is no longer supported. Siberian requires PHP 8.2 or higher, which carries the security fixes. PHP 8.5 is recommended, please upgrade as soon as possible."
+msgstr ""
+
+msgctxt "backoffice"
+msgid "Your PHP version is %s. PHP 8.5 is recommended, it carries the latest security fixes."
+msgstr ""
