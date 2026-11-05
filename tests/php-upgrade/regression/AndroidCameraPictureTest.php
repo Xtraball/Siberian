@@ -55,4 +55,12 @@ return [
             t_true(strpos($src, 'toDataUrl') !== false, "$bundle: toDataUrl");
         }
     },
+
+    'the wall post form does not leave a cancelled Picture unhandled' => function () use ($read) {
+        $src = $read('ionic/www/js/controllers/newswall.js');
+        t_true(preg_match('/Picture\s*\.takePicture\(\)\s*\.then\(function \(response\) \{[^}]*\}, function \(\) \{/', $src) === 1, 'newswall.js: rejection handler');
+        foreach (['ionic/www/dist/packed/newswall.bundle.min.js', 'siberian/var/apps/browser/dist/packed/newswall.bundle.min.js', 'siberian/var/apps/overview/dist/packed/newswall.bundle.min.js'] as $bundle) {
+            t_true(strpos($read($bundle), 'preview_src=response.image},function(){})') !== false, "$bundle: rejection handler");
+        }
+    },
 ];

@@ -524,6 +524,8 @@ $scope.loadContent();
         Picture.takePicture()
             .then(function (response) {
                 $scope.preview_src = response.image;
+            }, function () {
+                // Backed out (cancelled) or already reported to the user by the Picture service.
             });
     };
 
