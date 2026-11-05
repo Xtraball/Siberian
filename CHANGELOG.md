@@ -10,6 +10,7 @@ Notable changes to Siberian, newest first. Dates are `YYYY-MM-DD`. Longer notes 
 
 ### Fixed
 
+- 2026-11-05 Editor: the preview of the app keeps the same size when the page is scrolled, it used to grow.
 - 2026-11-05 Advanced settings: the back office now has the option that removes the photos and videos permissions, like the editor. In the editor, the options of the Android advanced settings stay in line with their checkbox when the column is narrow.
 
 ## [5.1.13] 2026-11-03
