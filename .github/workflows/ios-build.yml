@@ -1,0 +1,84 @@
+name: ios-build-experiment
+
+# Experiment: builds the iOS app templates unsigned on a macOS runner (Xcode 26) after `pod install`, and keeps the
+# regenerated Pods and the logs as artifacts. No signing, no upload to any store.
+on:
+  push:
+    branches: [ci/ios-build-experiment]
+
+permissions:
+  contents: read
+
+jobs:
+  build:
+    runs-on: macos-15
+    timeout-minutes: 60
+    strategy:
+      fail-fast: false
+      matrix:
+        template:
+          - siberian/var/apps/ionic/ios-noads
+          - ionic/platforms/ios
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          sparse-checkout: |
+            ${{ matrix.template }}
+          sparse-checkout-cone-mode: true
+
+      - name: Select Xcode 26
+        run: |
+          ls /Applications | grep -i '^Xcode' || true
+          X=$(ls -d /Applications/Xcode_26*.app 2>/dev/null | sort -V | tail -1)
+          [ -n "$X" ] || X=$(ls -d /Applications/Xcode*.app | sort -V | tail -1)
+          echo "using $X"
+          sudo xcode-select -s "$X/Contents/Developer"
+          xcodebuild -version
+          xcrun --sdk iphoneos --show-sdk-version
+          pod --version
+
+      - name: Podfile before
+        working-directory: ${{ matrix.template }}
+        run: cat Podfile
+
+      - name: pod install
+        working-directory: ${{ matrix.template }}
+        run: |
+          set -o pipefail
+          pod install 2>&1 | tee "$RUNNER_TEMP/pod-install.log"
+          grep -n "OneSignal" Podfile.lock | head -5
+
+      - name: Archive unsigned
+        working-directory: ${{ matrix.template }}
+        run: |
+          set -o pipefail
+          xcodebuild -workspace AppsMobileCompany.xcworkspace -scheme AppsMobileCompany \
+            -configuration Release -sdk iphoneos -destination 'generic/platform=iOS' \
+            -archivePath "$RUNNER_TEMP/App.xcarchive" \
+            CODE_SIGNING_ALLOWED=NO CODE_SIGNING_REQUIRED=NO CODE_SIGN_IDENTITY="" \
+            archive 2>&1 | tee "$RUNNER_TEMP/xcodebuild.log" | tail -n 400 | grep -E "error:|warning: .*(deprecated|deployment)|BUILD|ARCHIVE|Compiling|Linking" | tail -n 120
+
+      - name: Make the unsigned IPA
+        if: success()
+        run: |
+          mkdir -p "$RUNNER_TEMP/ipa/Payload"
+          cp -R "$RUNNER_TEMP/App.xcarchive/Products/Applications/"*.app "$RUNNER_TEMP/ipa/Payload/"
+          (cd "$RUNNER_TEMP/ipa" && zip -qry ../App-unsigned.ipa Payload)
+          ls -la "$RUNNER_TEMP/App-unsigned.ipa"
+
+      - name: Collect the regenerated Pods
+        if: always()
+        working-directory: ${{ matrix.template }}
+        run: |
+          mkdir -p "$RUNNER_TEMP/out"
+          tar czf "$RUNNER_TEMP/out/pods-regenerated.tgz" Podfile Podfile.lock Pods/Manifest.lock Pods/Pods.xcodeproj "Pods/Target Support Files" Pods/OneSignalXCFramework 2>/dev/null || true
+          cp "$RUNNER_TEMP"/*.log "$RUNNER_TEMP/out/" 2>/dev/null || true
+          cp "$RUNNER_TEMP/App-unsigned.ipa" "$RUNNER_TEMP/out/" 2>/dev/null || true
+          ls -la "$RUNNER_TEMP/out"
+
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: ios-${{ strategy.job-index }}
+          path: ${{ runner.temp }}/out
+          retention-days: 7
