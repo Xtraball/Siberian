@@ -6,6 +6,7 @@ Notable changes to Siberian, newest first. Dates are `YYYY-MM-DD`. Longer notes 
 
 ### Changed
 
+- 2026-11-05 iOS apps: the camera plugin is now 8.0.0, the same as Android. Taking or importing a picture works as before; the plugin now gives the picture back as a data URI.
 - 2026-11-05 PHP version: PHP 8.2 or higher is now required, it carries the security fixes. The back office advises PHP 8.5 when you run an older supported version.
 
 ### Fixed
