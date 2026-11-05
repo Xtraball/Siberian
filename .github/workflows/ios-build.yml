@@ -19,6 +19,7 @@ jobs:
         template:
           - siberian/var/apps/ionic/ios-noads
           - ionic/platforms/ios
+          - siberian/var/apps/ionic/ios
     steps:
       - uses: actions/checkout@v4
         with:
