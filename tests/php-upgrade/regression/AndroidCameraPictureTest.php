@@ -33,7 +33,13 @@ return [
             foreach (["$tree/app/src/main/AndroidManifest.xml", "$tree/android.json"] as $file) {
                 $src = $read($file);
                 t_equal(0, preg_match('/READ_MEDIA_(IMAGES|VIDEO)/', $src), "$file: READ_MEDIA");
-                t_equal(0, preg_match('/WRITE_EXTERNAL_STORAGE/', $src), "$file: WRITE_EXTERNAL_STORAGE");
+                if (substr($file, -4) === '.xml') {
+                    // Scoped storage replaces it from Android 10 (minimum here is Android 8): kept for Android 8 and 9 only.
+                    t_equal(1, preg_match_all('/android:maxSdkVersion="28" android:name="android.permission.WRITE_EXTERNAL_STORAGE"/', $src), "$file: WRITE_EXTERNAL_STORAGE up to Android 9");
+                    t_equal(1, preg_match_all('/WRITE_EXTERNAL_STORAGE/', $src), "$file: no unbounded WRITE_EXTERNAL_STORAGE");
+                } else {
+                    t_equal(0, preg_match('/WRITE_EXTERNAL_STORAGE/', $src), "$file: WRITE_EXTERNAL_STORAGE");
+                }
                 t_true(strpos($src, 'android.permission.CAMERA') !== false, "$file: CAMERA is kept");
             }
         }
