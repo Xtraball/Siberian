@@ -176,6 +176,7 @@ abstract class Application_Controller_View_Abstract extends Backoffice_Controlle
 
         $data['application']['disable_battery_optimization'] = (bool)$data['application']['disable_battery_optimization'];
         $data['application']['disable_location'] = (bool)$data['application']['disable_location'];
+        $data['application']['disable_media_permissions'] = (bool)($data['application']['disable_media_permissions'] ?? false);
         $data['application']['use_ads'] = (bool)$data['application']['use_ads'];
         $data['application']['test_ads'] = (bool)$data['application']['test_ads'];
         $data['application']['mediation_facebook'] = (bool)$data['application']['mediation_facebook'];
@@ -282,6 +283,13 @@ abstract class Application_Controller_View_Abstract extends Backoffice_Controlle
                 $application->setDisableLocation($val ? 1 : 0);
 
                 unset($data['disable_location']);
+            }
+
+            if (array_key_exists('disable_media_permissions', $data)) {
+                $val = filter_var($data['disable_media_permissions'], FILTER_VALIDATE_BOOLEAN);
+                $application->setDisableMediaPermissions($val ? 1 : 0);
+
+                unset($data['disable_media_permissions']);
             }
 
             if (array_key_exists('disable_updates', $data)) {

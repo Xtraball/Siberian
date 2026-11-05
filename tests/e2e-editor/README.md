@@ -20,3 +20,7 @@ sh rig/run.sh preview            # Playwright 1.63 in the official Docker image,
 The rig paths (`/srv/data/pw-editor`, the checkout under `/srv/data/sib-pr/rel519`) are those of the dev box; adjust them elsewhere.
 
 Known: the app inside the phone does not load in the rig (no built app), so the phone stays on its loader. The tests look at the phone, not at the app.
+
+## Advanced settings of the publication page
+
+`tests/advanced-settings.spec.js`: the Android advanced settings (battery, location, photos & videos) keep checkbox, label and help text in line at 560 to 900px. The test puts the real markup of `Application_Form_Android` (`fixtures/android-form.html`, made again with `php rig/render-android-form.php <checkout> > fixtures/android-form.html`) in the editor page and applies the rules it reads from `sources.phtml`. The publication page itself needs a page, images, a domain and a subscription on the test app, which is why the form is injected. `rig/run.sh` mounts the rig tree as `/siberian` for that.
