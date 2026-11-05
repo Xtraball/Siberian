@@ -6,12 +6,13 @@ Notable changes to Siberian, newest first. Dates are `YYYY-MM-DD`. Longer notes 
 
 ### Changed
 
+- 2026-11-05 Android apps: the camera plugin is now 8.0.0. It asks for no photos or videos permission, so the option that removed them is gone (the setting stored for an app is simply ignored). Backing out of the camera or the library no longer shows an error, and the permission to write to shared storage now only applies to Android 8 and 9.
 - 2026-11-05 PHP version: PHP 8.2 or higher is now required, it carries the security fixes. The back office advises PHP 8.5 when you run an older supported version.
 
 ### Fixed
 
 - 2026-11-05 Editor: the preview of the app keeps the same size when the page is scrolled, it used to grow.
-- 2026-11-05 Advanced settings: the back office now has the option that removes the photos and videos permissions, like the editor. In the editor, the options of the Android advanced settings stay in line with their checkbox when the column is narrow.
+- 2026-11-05 Editor: the options of the Android advanced settings stay in line with their checkbox when the column is narrow.
 
 ## [5.1.13] 2026-11-03
 

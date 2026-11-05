@@ -1,7 +1,7 @@
 <?php
 /**
  * The advanced Android settings of an app can be changed in the editor and in the back office. The back office page
- * had the battery and location options, not the one that removes the photos & videos permissions.
+ * has the same options as the editor.
  */
 $root = dirname(__DIR__, 3) . '/siberian/app/sae/modules/Application';
 $editor = file_get_contents($root . '/Form/Android.php');
@@ -13,8 +13,8 @@ preg_match_all('/addSimpleCheckbox\("([a-z_]+)"/', $editor, $m);
 $options = $m[1];
 
 return [
-    'the editor form has the three options' => function () use ($options) {
-        t_equal(['disable_battery_optimization', 'disable_location', 'disable_media_permissions'], $options, 'editor options');
+    'the editor form has the two options' => function () use ($options) {
+        t_equal(['disable_battery_optimization', 'disable_location'], $options, 'editor options');
     },
 
     'the back office page has a checkbox for every option of the editor' => function () use ($options, $template) {
@@ -34,16 +34,6 @@ return [
         foreach ($options as $name) {
             t_true(strpos($controller, "array_key_exists('$name', \$data)") !== false, "$name is read on save");
             t_true(strpos($controller, "unset(\$data['$name'])") !== false, "$name is not saved as a raw column");
-        }
-        t_true(strpos($controller, 'setDisableMediaPermissions(') !== false, 'the media option is stored');
-    },
-
-    'the editor and the back office use the same texts' => function () use ($template) {
-        foreach ([
-            'Remove the photos & videos permissions (READ_MEDIA_IMAGES, READ_MEDIA_VIDEO).',
-            'Google Play only accepts these permissions for apps whose core purpose is photo or video access, and rejects the others. Picking a photo with the system photo picker keeps working without them.',
-        ] as $text) {
-            t_true(strpos($template, $text) !== false, 'back office text: ' . substr($text, 0, 40));
         }
     },
 
