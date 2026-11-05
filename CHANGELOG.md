@@ -14,6 +14,7 @@ Notable changes to Siberian, newest first. Dates are `YYYY-MM-DD`. Longer notes 
 
 ### Fixed
 
+- 2026-11-06 Mobile apps: content below a header, a subheader and top tabs started too high on iPhones with a notch (the rule used the right safe-area inset instead of the top one). No built-in screen combines the three, custom layouts could.
 - 2026-11-05 Editor: the preview of the app keeps the same size when the page is scrolled, it used to grow.
 - 2026-11-05 Editor: the options of the Android advanced settings stay in line with their checkbox when the column is narrow.
 

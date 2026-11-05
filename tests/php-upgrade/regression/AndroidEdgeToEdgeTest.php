@@ -55,6 +55,28 @@ return [
         }
     },
 
+    'the packed bundles (the CSS the apps really load) carry the same rules, gated the same way' => function () use ($read) {
+        $bundles = [
+            'ionic/www/dist/app.bundle.min.css',
+            'ionic/platforms/android/app/src/main/assets/www/dist/app.bundle.min.css',
+            'ionic/platforms/browser/www/dist/app.bundle.min.css',
+            'ionic/platforms/ios/www/dist/app.bundle.min.css',
+            'siberian/var/apps/browser/dist/app.bundle.min.css',
+            'siberian/var/apps/ionic/android/app/src/main/assets/www/dist/app.bundle.min.css',
+            'siberian/var/apps/ionic/ios-noads/www/dist/app.bundle.min.css',
+            'siberian/var/apps/ionic/ios/www/dist/app.bundle.min.css',
+            'siberian/var/apps/overview/dist/app.bundle.min.css',
+        ];
+        foreach ($bundles as $file) {
+            $css = $read($file);
+            t_true(strpos($css, '--safe-area-extra:10px') !== false, "$file: tunable extra space");
+            t_equal(0, preg_match('/env\(safe-area-inset-(top|right|bottom|left)\) ?\+ ?10px\)/', $css), "$file: no hard-coded 10px left");
+            t_true(strpos($css, 'html.edge-to-edge body.platform-android.platform-cordova:not(.fullscreen) .bar-header:not(.bar-subheader){height:calc(var(--sb-top,0px) + 44px)}') !== false, "$file: header rule");
+            t_true(strpos($css, 'html.edge-to-edge body.platform-android.platform-cordova:not(.fullscreen) .tabs{padding-bottom:var(--sb-bottom,0px);height:calc(var(--sb-bottom,0px) + 55px)}') !== false, "$file: tab bar rule");
+            t_equal(substr_count($css, 'body.platform-android'), substr_count($css, 'html.edge-to-edge body.platform-android'), "$file: ungated android rule");
+        }
+    },
+
     'the CSS applies only under html.edge-to-edge, in every copy' => function () use ($read) {
         $copies = [
             'ionic/www/css/ionic.app.min.css',

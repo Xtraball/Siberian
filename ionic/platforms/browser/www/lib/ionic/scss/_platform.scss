@@ -114,7 +114,7 @@
     .has-header.has-subheader.has-tabs-top {
       top: $bar-height + $bar-subheader-height + $tabs-height + $ios-statusbar-height;
 
-      top: calc(#{$bar-height + $bar-subheader-height + $tabs-height} + var(--safe-area-inset-right));
+      top: calc(#{$bar-height + $bar-subheader-height + $tabs-height} + var(--safe-area-inset-top));
     }
 
     .has-footer {
@@ -206,7 +206,7 @@
     .has-header.has-subheader.has-tabs-top {
       top: $bar-height + $bar-subheader-height + $tabs-height + $ios-statusbar-height;
 
-      top: calc(#{$bar-height + $bar-subheader-height + $tabs-height} + var(--safe-area-inset-right));
+      top: calc(#{$bar-height + $bar-subheader-height + $tabs-height} + var(--safe-area-inset-top));
     }
   }
   .popover {
