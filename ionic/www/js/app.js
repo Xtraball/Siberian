@@ -213,20 +213,24 @@ var App = angular.module('starter', ['ionic', 'lodash', 'ngRoute', 'ngCordova', 
         };
 
         // @note should be used the less possible!
-        $rootScope.isNotAvailableOffline = function () {
+        $rootScope.isNotAvailableOffline = function (withAlert) {
             if ($rootScope.isOffline) {
-                Dialog.alert('Offline mode',
-                    'This feature is not available in offline mode!', 'Dismiss', 2350);
+                if (withAlert !== false) {
+                    Dialog.alert('Offline mode',
+                        'This feature is not available in offline mode!', 'Dismiss', 2350);
+                }
 
                 return true;
             }
             return false;
         };
 
-        $rootScope.isNotAvailableInOverview = function () {
+        $rootScope.isNotAvailableInOverview = function (withAlert) {
             if (isOverview) {
-                Dialog.alert('Overview',
-                    'This feature is disabled in this preview', 'Dismiss', -1);
+                if (withAlert !== false) {
+                    Dialog.alert('Overview',
+                        'This feature is disabled in this preview', 'Dismiss', -1);
+                }
 
                 return true;
             }

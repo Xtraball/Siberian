@@ -6,6 +6,7 @@ Notable changes to Siberian, newest first. Dates are `YYYY-MM-DD`. Longer notes 
 
 ### Changed
 
+- 2026-11-05 Mobile apps: `$rootScope.isNotAvailableOffline(with_alert)` and `$rootScope.isNotAvailableInOverview(with_alert)` now take the argument that the developer documentation describes. `false` only answers, without opening the alert; without an argument nothing changes.
 - 2026-11-05 iOS apps: the camera plugin is now 8.0.0, the same as Android. Taking or importing a picture works as before; the plugin now gives the picture back as a data URI.
 - 2026-11-05 Android apps: the camera plugin is now 8.0.0. It asks for no photos or videos permission, so the option that removed them is gone (the setting stored for an app is simply ignored). Backing out of the camera or the library no longer shows an error, and the permission to write to shared storage now only applies to Android 8 and 9.
 - 2026-11-05 PHP version: PHP 8.2 or higher is now required, it carries the security fixes. The back office advises PHP 8.5 when you run an older supported version.
