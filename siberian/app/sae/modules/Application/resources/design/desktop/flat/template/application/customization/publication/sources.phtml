@@ -556,8 +556,26 @@ if (!empty($appDomain)) {
         margin-bottom: 120px;
     }
 
+    /* The checkbox first, its label next to it, whatever the length of the label (a floated box dropped long labels above it) */
+    #form-general-information-android .form-group-checkbox {
+        display: flex;
+        flex-direction: row-reverse;
+        justify-content: flex-end;
+        align-items: flex-start;
+    }
+
     #form-general-information-android .form-group-checkbox > div {
-        float: left;
+        float: none;
+        flex: 0 0 auto;
         margin: 0 15px;
+    }
+
+    #form-general-information-android .form-group-checkbox > label {
+        float: none;
+        flex: 1 1 0;
+        min-width: 0;
+        margin: 0;
+        padding-top: 2px;
+        text-align: left;
     }
 </style>

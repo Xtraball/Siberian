@@ -1,0 +1,23 @@
+<form id="form-general-information-android" enctype="application/x-www-form-urlencoded" method="post" class="form sb-form feature-form onchange" action="/application/customization_publication_infos/save-android">
+<div class="form-group sb-form-line form-group-checkbox" ><label for="disable_battery_optimization" class="sb-form-line-title  optional">Allows MediaPlayer (Audio & Radio) to ask permission for disabling <b>Android</b> battery optimizations.</label>
+<div class=" ">
+<input type="hidden" name="disable_battery_optimization" value="0"><input type="checkbox" name="disable_battery_optimization" id="disable_battery_optimization" value="1" is_form_horizontal="" color="color-green" label_cols="col-md-3" input_cols="col-md-7" offset_cols="col-md-offset-3" error_cols="col-md-7" class="sb-form-checkbox color-green floating-checkbox"><div class="color-green"></div></div></div>
+<div class="form-group sb-form-line " ><div class="">
+<div name="html_helper_battery" id="html_helper_battery" is_form_horizontal="" color="color-blue" class="sb-form-html"><div class="col-md-12">
+    Please note that Google Play can reject your app if the use case is not strictly required.<br />
+    You can find acceptable use cases for permission <b>REQUEST_IGNORE_BATTERY_OPTIMIZATIONS</b> on Android <a class="link" href="https://developer.android.com/training/monitoring-device-state/doze-standby#whitelisting-cases">here</a>, according to Android developers.
+</div></div></div></div>
+<div class="form-group sb-form-line form-group-checkbox" ><label for="disable_location" class="sb-form-line-title  optional">Disable location service & permissions.</label>
+<div class=" ">
+<input type="hidden" name="disable_location" value="0"><input type="checkbox" name="disable_location" id="disable_location" value="1" is_form_horizontal="" color="color-green" label_cols="col-md-3" input_cols="col-md-7" offset_cols="col-md-offset-3" error_cols="col-md-7" class="sb-form-checkbox color-green floating-checkbox"><div class="color-green"></div></div></div>
+<div class="form-group sb-form-line " ><div class="">
+<div name="html_helper_location" id="html_helper_location" is_form_horizontal="" color="color-blue" class="sb-form-html"><div class="col-md-12">
+    Please note that if you are using a feature that requires location services & disable it here, these features will not work correctly.
+</div></div></div></div>
+<div class="form-group sb-form-line form-group-checkbox" ><label for="disable_media_permissions" class="sb-form-line-title  optional">Remove the photos & videos permissions (READ_MEDIA_IMAGES, READ_MEDIA_VIDEO).</label>
+<div class=" ">
+<input type="hidden" name="disable_media_permissions" value="0"><input type="checkbox" name="disable_media_permissions" id="disable_media_permissions" value="1" is_form_horizontal="" color="color-green" label_cols="col-md-3" input_cols="col-md-7" offset_cols="col-md-offset-3" error_cols="col-md-7" class="sb-form-checkbox color-green floating-checkbox"><div class="color-green"></div></div></div>
+<div class="form-group sb-form-line " ><div class="">
+<div name="html_helper_media" id="html_helper_media" is_form_horizontal="" color="color-blue" class="sb-form-html"><div class="col-md-12">
+    Google Play only accepts these permissions for apps whose core purpose is photo or video access, and rejects the others. Picking a photo with the system photo picker keeps working without them.
+</div></div></div></div></form>
