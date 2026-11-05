@@ -104,6 +104,9 @@
     <icon density="xxxhdpi" src="resources/android/icon/drawable-xxxhdpi-icon.png" />
     <splash density="xxxhdpi" src="resources/android/splash/drawable-xxxhdpi-screen.jpg" />
     <resource-file src="resources/google-services.json" target="app/google-services.json" />
+    <feature name="SiberianInsets">
+        <param name="android-package" onload="true" value="com.siberian.insets.SiberianInsets" />
+    </feature>
     <preference name="loglevel" value="DEBUG" />
     <preference name="webView" value="com.ionicframework.cordova.webview.IonicWebViewEngine" />
     <preference name="webviewbounce" value="false" />

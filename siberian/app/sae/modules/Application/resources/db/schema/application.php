@@ -235,6 +235,11 @@ $schemas['application'] = [
         'is_null' => true,
         'default' => '0',
     ],
+    'android_edge_to_edge' => [
+        'type' => 'tinyint(1)',
+        'is_null' => true,
+        'default' => '0',
+    ],
     'logo' => [
         'type' => 'varchar(255)',
         'is_null' => true,
