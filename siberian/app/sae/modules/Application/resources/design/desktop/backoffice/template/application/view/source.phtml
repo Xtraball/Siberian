@@ -23,8 +23,8 @@ use Siberian\Version;
                             <td>
                                 <label class="control-label"><?php echo __("iOS"); ?></label>
                                 <br/>
-                                <span class="source-hint"><?php echo __('Xcode 16.1 - macOS Sonoma') ?>
-                                    , <?php echo __("iOS 12+") ?></span>
+                                <span class="source-hint"><?php echo __('Xcode 26 - macOS Sequoia or later') ?>
+                                    , <?php echo __("iOS 15+") ?></span>
                             </td>
                             <td colspan="2">
                               <span><?php echo __("Due to major breaking changes with Cordova, Ads are not available for iOS yet.") ?></span>
@@ -35,8 +35,8 @@ use Siberian\Version;
                             <td>
                                 <label class="control-label"><?php echo __("iOS (without AdMob)"); ?>
                                 <br/>
-                                <span  class="source-hint"><?php echo __("Xcode 16.1 - macOS Sonoma") ?>
-                                    , <?php echo __("iOS 12+") ?></span>
+                                <span  class="source-hint"><?php echo __("Xcode 26 - macOS Sequoia or later") ?>
+                                    , <?php echo __("iOS 15+") ?></span>
                             </td>
                             <td>
                                 <a ng-if="application.zip.iosnoads"
@@ -175,24 +175,6 @@ use Siberian\Version;
                             <br />
                             <div>
                                 <?php echo p__("application", "Please note that if you are using a feature that requires location services & disable it here, these features will not work correctly."); ?><br />
-                            </div>
-                        </div>
-                    </div>
-
-                    <div class="col-md-12">
-                        <div class="form-group">
-                            <div class="checkbox">
-                                <label for="disable_media_permissions">
-                                    <input type="checkbox"
-                                           id="disable_media_permissions"
-                                           ng-model="tmp_application.disable_media_permissions"
-                                           ng-checked="tmp_application.disable_media_permissions"/>
-                                    <?php echo p__("application", "Remove the photos & videos permissions (READ_MEDIA_IMAGES, READ_MEDIA_VIDEO)."); ?>
-                                </label>
-                            </div>
-                            <br />
-                            <div>
-                                <?php echo p__("application", "Google Play only accepts these permissions for apps whose core purpose is photo or video access, and rejects the others. Picking a photo with the system photo picker keeps working without them."); ?><br />
                             </div>
                         </div>
                     </div>

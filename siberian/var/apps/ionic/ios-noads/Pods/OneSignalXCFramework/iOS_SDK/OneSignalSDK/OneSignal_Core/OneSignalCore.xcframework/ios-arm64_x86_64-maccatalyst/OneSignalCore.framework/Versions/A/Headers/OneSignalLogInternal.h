@@ -1,7 +1,7 @@
 /*
  Modified MIT License
 
- Copyright 2022 OneSignal
+ Copyright 2026 OneSignal
 
  Permission is hereby granted, free of charge, to any person obtaining a copy
  of this software and associated documentation files (the "Software"), to deal
@@ -25,12 +25,25 @@
  THE SOFTWARE.
  */
 
-#import <Foundation/Foundation.h>
+#import "OneSignalLog.h"
 
-@interface OneSignalConfigManager : NSObject
+NS_ASSUME_NONNULL_BEGIN
 
-+ (void)setAppId:(NSString *)appId;
-+ (NSString *_Nullable)getAppId;
-+ (BOOL)shouldAwaitAppIdAndLogMissingPrivacyConsentForMethod:(NSString *)methodName;
+@protocol OSInternalLogSink <NSObject>
+
+- (void)captureLogWithLevel:(ONE_S_LOG_LEVEL)level
+                    message:(NSString *)message
+              exceptionType:(nullable NSString *)exceptionType
+           exceptionMessage:(nullable NSString *)exceptionMessage
+        exceptionStacktrace:(nullable NSString *)exceptionStacktrace;
 
 @end
+
+@interface OneSignalLog (Internal)
+
++ (void)setInternalLogSink:(NSObject<OSInternalLogSink> *)sink NS_SWIFT_NAME(__setInternalLogSink(_:));
++ (void)removeInternalLogSink:(NSObject<OSInternalLogSink> *)sink NS_SWIFT_NAME(__removeInternalLogSink(_:));
+
+@end
+
+NS_ASSUME_NONNULL_END

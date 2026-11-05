@@ -639,6 +639,7 @@ $schemas['application'] = [
         'type' => 'tinyint(1)',
         'default' => '0',
     ],
+    // No longer used (cordova-plugin-camera 8 declares no media permission); the column stays so no data is dropped.
     'disable_media_permissions' => [
         'type' => 'tinyint(1)',
         'default' => '0',

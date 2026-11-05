@@ -33,6 +33,7 @@
 #import <OneSignalCore/OSNotification+Internal.h>
 #import <OneSignalCore/OSNotificationClasses.h>
 #import <OneSignalCore/OneSignalLog.h>
+#import <OneSignalCore/OneSignalLogInternal.h>
 #import <OneSignalCore/NSURL+OneSignal.h>
 #import <OneSignalCore/NSString+OneSignal.h>
 #import <OneSignalCore/NSDateFormatter+OneSignal.h>
@@ -41,7 +42,6 @@
 #import <OneSignalCore/OneSignalClient.h>
 #import <OneSignalCore/OneSignalCoreHelper.h>
 #import <OneSignalCore/OneSignalTrackFirebaseAnalytics.h>
-#import <OneSignalCore/OSMacros.h>
 #import <OneSignalCore/OSJSONHandling.h>
 #import <OneSignalCore/OSPrivacyConsentController.h>
 #import <OneSignalCore/OSDeviceUtils.h>
@@ -50,7 +50,6 @@
 #import <OneSignalCore/OSDialogInstanceManager.h>
 #import <OneSignalCore/SwizzlingForwarder.h>
 #import <OneSignalCore/OneSignalSelectorHelpers.h>
-#import <OneSignalCore/OneSignalConfigManager.h>
 #import <OneSignalCore/OSRemoteParamController.h>
 #import <OneSignalCore/OneSignalMobileProvision.h>
 #import <OneSignalCore/OneSignalWrapper.h>
@@ -58,10 +57,12 @@
 #import <OneSignalCore/OSLocation.h>
 #import <OneSignalCore/OSBundleUtils.h>
 #import <OneSignalCore/OneSignalClientError.h>
+#import <OneSignalCore/OneSignalBadgeHelpers.h>
 
 // TODO: Testing: Should this class be defined in this file?
 @interface OneSignalCoreImpl : NSObject
 
++ (void)migrate;
 + (void)setSharedClient:(nonnull id<IOneSignalClient>)client;
 + (nonnull id<IOneSignalClient>)sharedClient;
 

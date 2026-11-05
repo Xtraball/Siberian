@@ -53,7 +53,7 @@ Use the labels that exist (`gh label list --repo Xtraball/Siberian`); do not inv
 ## Rules that come from experience
 
 - **Option first.** A change to what existing apps do ships as an option, off by default, modelled on an
-  existing one (`disable_location`, `disable_media_permissions`). A bug fix may change output only where it was broken.
+  existing one (`disable_location`, `disable_battery_optimization`). A bug fix may change output only where it was broken.
 - **Every fix PR carries a test** that fails on trunk and passes with the fix, on every supported PHP version.
   For native files, a source-level test is the floor, and the PR says what was not built or run.
 - **Count before opening.** Keep the number of open PRs within the stated budget; list them first.
