@@ -18,56 +18,64 @@ cordova.define("Geolocation.geolocation", function(require, exports, module) {
  * specific language governing permissions and limitations
  * under the License.
  *
-*/
+ */
 
-var exec = cordova.require('cordova/exec'); // eslint-disable-line no-undef
-var utils = require('cordova/utils');
-var PositionError = require('./PositionError');
+const exec = cordova.require('cordova/exec'); // eslint-disable-line no-undef
+const utils = require('cordova/utils');
+const PositionError = require('./PositionError');
 
 // Native watchPosition method is called async after permissions prompt.
 // So we use additional map and own ids to return watch id synchronously.
-var pluginToNativeWatchMap = {};
+const pluginToNativeWatchMap = {};
 
 module.exports = {
     getCurrentPosition: function (success, error, args) {
-        var win = function () {
-            var geo = cordova.require('cordova/modulemapper').getOriginalSymbol(window, 'navigator.geolocation'); // eslint-disable-line no-undef
+        const win = function (deviceApiLevel) {
+            // Workaround for bug specific to API 31 where requesting `enableHighAccuracy: false` results in TIMEOUT error.
+            if (deviceApiLevel === 31) {
+                if (typeof args === 'undefined') args = {};
+                args.enableHighAccuracy = true;
+            }
+            const geo = cordova.require('cordova/modulemapper').getOriginalSymbol(window, 'navigator.geolocation'); // eslint-disable-line no-undef
             geo.getCurrentPosition(success, error, args);
         };
-        var fail = function () {
+        const fail = function () {
             if (error) {
                 error(new PositionError(PositionError.PERMISSION_DENIED, 'Illegal Access'));
             }
         };
-        exec(win, fail, 'Geolocation', 'getPermission', []);
+        const enableHighAccuracy = typeof args === 'object' && !!args.enableHighAccuracy;
+        exec(win, fail, 'Geolocation', 'getPermission', [enableHighAccuracy]);
     },
 
     watchPosition: function (success, error, args) {
-        var pluginWatchId = utils.createUUID();
+        const pluginWatchId = utils.createUUID();
 
-        var win = function () {
-            var geo = cordova.require('cordova/modulemapper').getOriginalSymbol(window, 'navigator.geolocation'); // eslint-disable-line no-undef
+        const win = function (deviceApiLevel) {
+            // Workaround for bug specific to API 31 where requesting `enableHighAccuracy: false` results in TIMEOUT error.
+            if (deviceApiLevel === 31) {
+                if (typeof args === 'undefined') args = {};
+                args.enableHighAccuracy = true;
+            }
+            const geo = cordova.require('cordova/modulemapper').getOriginalSymbol(window, 'navigator.geolocation'); // eslint-disable-line no-undef
             pluginToNativeWatchMap[pluginWatchId] = geo.watchPosition(success, error, args);
         };
 
-        var fail = function () {
+        const fail = function () {
             if (error) {
                 error(new PositionError(PositionError.PERMISSION_DENIED, 'Illegal Access'));
             }
         };
-        exec(win, fail, 'Geolocation', 'getPermission', []);
+        const enableHighAccuracy = typeof args === 'object' && !!args.enableHighAccuracy;
+        exec(win, fail, 'Geolocation', 'getPermission', [enableHighAccuracy]);
 
         return pluginWatchId;
     },
 
     clearWatch: function (pluginWatchId) {
-        var win = function () {
-            var nativeWatchId = pluginToNativeWatchMap[pluginWatchId];
-            var geo = cordova.require('cordova/modulemapper').getOriginalSymbol(window, 'navigator.geolocation'); // eslint-disable-line no-undef
-            geo.clearWatch(nativeWatchId);
-        };
-
-        exec(win, null, 'Geolocation', 'getPermission', []);
+        const nativeWatchId = pluginToNativeWatchMap[pluginWatchId];
+        const geo = cordova.require('cordova/modulemapper').getOriginalSymbol(window, 'navigator.geolocation'); // eslint-disable-line no-undef
+        geo.clearWatch(nativeWatchId);
     }
 };
 

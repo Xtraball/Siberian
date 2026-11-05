@@ -82,3 +82,19 @@ test('resizing from small to wide closes the overlay and shows the phone in its 
   const editor = await box(page, '.app-features .responsive-part');
   expect(phone.x).toBeGreaterThanOrEqual(editor.x + editor.width - 0.5);
 });
+
+test('the phone keeps the same size when the page is scrolled', async ({ page }, info) => {
+  await openDesign(page, 1300, 900); // the phone is limited by its column here, not by the height
+  const before = await box(page, '#iphone .iphone_content');
+  const columnBefore = await box(page, '#overview');
+  await page.evaluate(() => window.scrollTo(0, 400));
+  await page.waitForTimeout(500);
+  expect(await page.evaluate(() => window.scrollY), 'the page did scroll').toBeGreaterThan(100);
+  await page.screenshot({ path: `results/scrolled-${info.project.name || 'run'}.png` });
+  const after = await box(page, '#iphone .iphone_content');
+  const columnAfter = await box(page, '#overview');
+  expect(after.width, 'same width').toBeCloseTo(before.width, 0);
+  expect(after.height, 'same height').toBeCloseTo(before.height, 0);
+  expect(columnAfter.width, 'same column width').toBeCloseTo(columnBefore.width, 0);
+  expect(after.x + after.width, 'still inside the window').toBeLessThanOrEqual(1300.5);
+});
