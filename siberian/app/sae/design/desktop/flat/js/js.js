@@ -603,7 +603,36 @@ function dateToStandardFormat(date) {
 
 $(document).ready(function () {
     bindScrollOverview();
+    bindOverviewWidth();
 });
+
+/**
+ * The preview column is made fixed by the affix while the page scrolls. A fixed box takes its percentage width from
+ * the window instead of from its column, so the phone grew as soon as the page scrolled. The width the column has
+ * before it becomes fixed is kept, and follows the window when it is resized.
+ */
+function bindOverviewWidth() {
+    var overview = $('#overview');
+    if (!overview.length) {
+        return;
+    }
+    var ratio = null;
+    var fit = function () {
+        if (ratio !== null && overview.hasClass('affix')) {
+            overview.css('width', Math.round(overview.parent().width() * ratio) + 'px');
+        }
+    };
+    overview.on('affix.bs.affix', function () {
+        // Fired before the class changes: the box still has the width of its column.
+        ratio = overview.outerWidth() / overview.parent().width();
+        overview.css('width', overview.outerWidth() + 'px');
+    });
+    overview.on('affix-top.bs.affix affix-bottom.bs.affix', function () {
+        ratio = null;
+        overview.css('width', '');
+    });
+    $(window).on('resize', fit);
+}
 
 function bindScrollOverview() {
     $(window).bind('scroll', function () {
