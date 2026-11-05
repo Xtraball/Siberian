@@ -32,11 +32,20 @@ $files = [
     'siberian/var/apps/ionic/ios/www/lib/ionic/css/ionic.min.css',
     'siberian/var/apps/overview/lib/ionic/css/ionic.min.css',
     'siberian/var/apps/overview/lib/ionic/scss/_platform.scss',
+    'ionic/www/dist/app.bundle.min.css',
+    'ionic/platforms/android/app/src/main/assets/www/dist/app.bundle.min.css',
+    'ionic/platforms/browser/www/dist/app.bundle.min.css',
+    'ionic/platforms/ios/www/dist/app.bundle.min.css',
+    'siberian/var/apps/browser/dist/app.bundle.min.css',
+    'siberian/var/apps/ionic/android/app/src/main/assets/www/dist/app.bundle.min.css',
+    'siberian/var/apps/ionic/ios-noads/www/dist/app.bundle.min.css',
+    'siberian/var/apps/ionic/ios/www/dist/app.bundle.min.css',
+    'siberian/var/apps/overview/dist/app.bundle.min.css',
 ];
 
 return [
     'the has-tabs-top rule with a subheader uses the top inset, in every copy' => function () use ($root, $files) {
-        t_true(count($files) >= 20, 'found the copies (' . count($files) . ')');
+        t_true(count($files) >= 30, 'found the copies (' . count($files) . ')');
         $checked = 0;
         foreach ($files as $file) {
             $src = file_get_contents("$root/$file");
@@ -47,6 +56,6 @@ return [
                 $checked++;
             }
         }
-        t_true($checked >= 20, "the rule exists with the top inset in $checked copies");
+        t_true($checked >= 30, "the rule exists with the top inset in $checked copies");
     },
 ];
