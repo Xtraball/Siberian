@@ -240,6 +240,14 @@ abstract class Application_Model_Device_Ionic_Android_Abstract extends Applicati
             'ca-app-pub-0000000000000000~0000000000' => $this->admobAppIdentifier
         ], "{$this->_dest_source}/app/src/main/res/xml/config.xml");
 
+        // Layout mode: edge-to-edge is an option, classic (system bars outside the app) stays the default.
+        // The native SiberianInsets plugin and the "edge-to-edge" CSS only act when this preference is true.
+        if ((bool) $application->getAndroidEdgeToEdge()) {
+            $this->__replace([
+                "</widget>" => "    <preference name=\"AndroidEdgeToEdge\" value=\"true\" />\n</widget>",
+            ], "{$this->_dest_source}/app/src/main/res/xml/config.xml");
+        }
+
         // FB Mediation
         // Mediation is temporary disabled
         //if ($application->getMediationFacebook() !== '1') {

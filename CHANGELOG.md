@@ -6,6 +6,7 @@ Notable changes to Siberian, newest first. Dates are `YYYY-MM-DD`. Longer notes 
 
 ### Changed
 
+- 2026-11-05 Android apps: new option "Android: draw the app behind the system bars (edge-to-edge)" in Design > Behavior, off by default. When on, the header and the tab bar extend under the status and navigation bars like on iOS, using the real insets read natively (works with Android WebView older than Chromium 140). Off keeps today's behavior. Space kept around the safe area is now the CSS variable `--safe-area-extra` (10px).
 - 2026-11-05 Mobile apps: `$rootScope.isNotAvailableOffline(with_alert)` and `$rootScope.isNotAvailableInOverview(with_alert)` now take the argument that the developer documentation describes. `false` only answers, without opening the alert; without an argument nothing changes.
 - 2026-11-05 iOS apps: the camera plugin is now 8.0.0, the same as Android. Taking or importing a picture works as before; the plugin now gives the picture back as a data URI.
 - 2026-11-05 Android apps: the camera plugin is now 8.0.0. It asks for no photos or videos permission, so the option that removed them is gone (the setting stored for an app is simply ignored). Backing out of the camera or the library no longer shows an error, and the permission to write to shared storage now only applies to Android 8 and 9.

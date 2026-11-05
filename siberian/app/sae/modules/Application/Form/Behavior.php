@@ -49,5 +49,20 @@ class Application_Form_Behavior extends Siberian_Form_Abstract {
                 'style' => 'margin-top: -20px;'
             ]);
 
+        $edgeToEdge = $this->addSimpleCheckbox(
+            "android_edge_to_edge",
+            p__("application", "Android: draw the app behind the system bars (edge-to-edge)"));
+        $edgeToEdge->setCols("col-md-10 col-xs-10", "col-md-1 col-xs-1", "");
+        $edgeToEdge->setNewDesign();
+
+        $edgeToEdgeNote = '<span style="font-style: italic; font-weight: bold; font-size: 11px;">' .
+            p__("application", "The header and the tab bar extend under the Android status and navigation bars, like on iOS. Requires you to republish your Android application.") .
+            '</span>';
+        $this->addSimpleHtml("android_edge_to_edge_note", $edgeToEdgeNote,
+            [
+                "class" => "col-md-10 col-xs-10",
+                "style" => "margin-top: -20px;"
+            ]);
+
     }
 }
