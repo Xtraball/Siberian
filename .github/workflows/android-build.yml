@@ -1,0 +1,51 @@
+name: android-build-experiment
+
+on:
+  push:
+    branches:
+      - ci/android-build-experiment
+  workflow_dispatch:
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    timeout-minutes: 60
+    strategy:
+      fail-fast: false
+      matrix:
+        tree:
+          - siberian/var/apps/ionic/android
+          - ionic/platforms/android
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          sparse-checkout: |
+            siberian/var/apps/ionic/android
+            ionic/platforms/android
+      - uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: '17'
+      - name: Android SDK packages
+        run: |
+          yes | "$ANDROID_HOME/cmdline-tools/latest/bin/sdkmanager" --licenses > /dev/null || true
+          "$ANDROID_HOME/cmdline-tools/latest/bin/sdkmanager" "platforms;android-36" "build-tools;36.0.0"
+      - uses: gradle/actions/setup-gradle@v4
+        with:
+          gradle-version: '8.14.2'
+      - name: assembleDebug
+        working-directory: ${{ matrix.tree }}
+        run: gradle assembleDebug --stacktrace --no-daemon 2>&1 | tee gradle.log
+      - name: Merged manifest minSdk
+        if: always()
+        run: |
+          find ${{ matrix.tree }} -name AndroidManifest.xml -path '*merged_manifests*debug*' | head -1 | xargs -r grep -n -E "minSdkVersion|targetSdkVersion"
+          find ${{ matrix.tree }} -name '*.apk' | head
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: android-${{ strategy.job-index }}
+          path: |
+            ${{ matrix.tree }}/gradle.log
+            ${{ matrix.tree }}/**/*.apk
+          if-no-files-found: warn
