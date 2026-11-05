@@ -44,17 +44,27 @@ public class MusicControls extends CordovaPlugin {
 
     private MediaSessionCallback mMediaSessionCallback = new MediaSessionCallback();
 
+    // Android 14 (target 34+) throws a SecurityException when a receiver is registered without saying if it is exported.
+    // These actions come from our own PendingIntents only, so the receiver is not exported.
+    private void registerNotExported(Context context, BroadcastReceiver receiver, IntentFilter filter) {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
+            context.registerReceiver(receiver, filter, Context.RECEIVER_NOT_EXPORTED);
+        } else {
+            context.registerReceiver(receiver, filter);
+        }
+    }
+
     private void registerBroadcaster(MusicControlsBroadcastReceiver mMessageReceiver) {
         final Context context = this.cordova.getActivity().getApplicationContext();
-        context.registerReceiver((BroadcastReceiver) mMessageReceiver, new IntentFilter("music-controls-previous"));
-        context.registerReceiver((BroadcastReceiver) mMessageReceiver, new IntentFilter("music-controls-pause"));
-        context.registerReceiver((BroadcastReceiver) mMessageReceiver, new IntentFilter("music-controls-play"));
-        context.registerReceiver((BroadcastReceiver) mMessageReceiver, new IntentFilter("music-controls-next"));
-        context.registerReceiver((BroadcastReceiver) mMessageReceiver, new IntentFilter("music-controls-media-button"));
-        context.registerReceiver((BroadcastReceiver) mMessageReceiver, new IntentFilter("music-controls-destroy"));
+        registerNotExported(context, mMessageReceiver, new IntentFilter("music-controls-previous"));
+        registerNotExported(context, mMessageReceiver, new IntentFilter("music-controls-pause"));
+        registerNotExported(context, mMessageReceiver, new IntentFilter("music-controls-play"));
+        registerNotExported(context, mMessageReceiver, new IntentFilter("music-controls-next"));
+        registerNotExported(context, mMessageReceiver, new IntentFilter("music-controls-media-button"));
+        registerNotExported(context, mMessageReceiver, new IntentFilter("music-controls-destroy"));
 
         // Listen for headset plug/unplug
-        context.registerReceiver((BroadcastReceiver) mMessageReceiver, new IntentFilter(Intent.ACTION_HEADSET_PLUG));
+        registerNotExported(context, mMessageReceiver, new IntentFilter(Intent.ACTION_HEADSET_PLUG));
     }
 
     // Register pendingIntent for broacast
@@ -73,7 +83,7 @@ public class MusicControls extends CordovaPlugin {
     @Override
     public void initialize(CordovaInterface cordova, CordovaWebView webView) {
         if (Build.VERSION.SDK_INT >= 31) {
-            PendingIntentFlag = PendingIntent.FLAG_MUTABLE;
+            PendingIntentFlag = PendingIntent.FLAG_IMMUTABLE;
         }
 
         super.initialize(cordova, webView);
@@ -100,6 +110,7 @@ public class MusicControls extends CordovaPlugin {
         try {
             this.mAudioManager = (AudioManager) context.getSystemService(Context.AUDIO_SERVICE);
             Intent headsetIntent = new Intent("music-controls-media-button");
+            headsetIntent.setPackage(context.getPackageName());
             this.mediaButtonPendingIntent = PendingIntent.getBroadcast(context, 0, headsetIntent, PendingIntentFlag | PendingIntent.FLAG_UPDATE_CURRENT);
             this.registerMediaButtonEvent();
         } catch (Exception e) {
