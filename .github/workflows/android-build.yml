@@ -1,0 +1,67 @@
+name: android-build-experiment
+
+on:
+  push:
+    branches:
+      - ci/android-build-experiment-2
+  workflow_dispatch:
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    timeout-minutes: 60
+    strategy:
+      fail-fast: false
+      matrix:
+        tree:
+          - siberian/var/apps/ionic/android
+          - ionic/platforms/android
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          sparse-checkout: |
+            siberian/var/apps/ionic/android
+            ionic/platforms/android
+      - uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: '17'
+      - name: Android SDK packages
+        run: |
+          yes | "$ANDROID_HOME/cmdline-tools/latest/bin/sdkmanager" --licenses > /dev/null || true
+          "$ANDROID_HOME/cmdline-tools/latest/bin/sdkmanager" "platforms;android-36" "build-tools;36.0.0"
+      - uses: gradle/actions/setup-gradle@v4
+        with:
+          gradle-version: '8.14.2'
+      - name: assembleDebug
+        working-directory: ${{ matrix.tree }}
+        run: gradle assembleDebug --stacktrace --no-daemon 2>&1 | tee gradle.log
+      - name: APK checks
+        if: always()
+        working-directory: ${{ matrix.tree }}
+        run: |
+          BT="$ANDROID_HOME/build-tools/36.0.0"
+          APK=app/build/outputs/apk/debug/app-debug.apk
+          echo "== badging"; "$BT/aapt2" dump badging $APK | grep -E "^(package|sdkVersion|targetSdkVersion|native-code)" | tee ../badging.txt || true
+          echo "== permissions"; "$BT/aapt2" dump permissions $APK | sort | tee ../permissions.txt || true
+          echo "== native libs"; unzip -l $APK | grep -E "\.so$" | awk '{print $4}' | tee ../libs.txt || true
+          echo "== 16 KB page size zip alignment"; "$BT/zipalign" -c -P 16 -v 4 $APK | grep -E "\.so|Verification" | tee ../align16k.txt || true
+          echo "== merged manifest services/receivers"; grep -h -E "<(service|receiver|provider|activity)" app/build/intermediates/merged_manifests/debug/*/AndroidManifest.xml 2>/dev/null | grep -o -E 'android:name="[^"]+"|android:exported="[^"]+"|foregroundServiceType="[^"]+"' | paste -sd' ' | fold -w 200 | head -40 || true
+      - name: lintDebug (report only)
+        if: always()
+        continue-on-error: true
+        working-directory: ${{ matrix.tree }}
+        run: gradle lintDebug --no-daemon -q 2>&1 | tail -40
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: android-${{ strategy.job-index }}
+          path: |
+            ${{ matrix.tree }}/gradle.log
+            ${{ matrix.tree }}/../badging.txt
+            ${{ matrix.tree }}/../permissions.txt
+            ${{ matrix.tree }}/../libs.txt
+            ${{ matrix.tree }}/../align16k.txt
+            ${{ matrix.tree }}/app/build/reports/lint-results-debug.txt
+            ${{ matrix.tree }}/app/build/outputs/apk/debug/app-debug.apk
+          if-no-files-found: warn
