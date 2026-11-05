@@ -47,13 +47,13 @@ for (const width of [560, 640, 720, 900]) {
       };
     }));
 
-    expect(rows.map((r) => r.id)).toEqual(['disable_battery_optimization', 'disable_location', 'disable_media_permissions']);
+    expect(rows.map((r) => r.id)).toEqual(['disable_battery_optimization', 'disable_location']);
     for (const r of rows) {
       expect(r.labelLeft, `${r.id}: the label is right of the checkbox`).toBeGreaterThanOrEqual(r.boxRight - 0.5);
       expect(Math.abs(r.labelTop - r.boxTop), `${r.id}: the label starts on the row of the checkbox`).toBeLessThanOrEqual(6);
       expect(Math.abs(r.helpLeft - r.boxLeft), `${r.id}: the help text starts under the checkbox`).toBeLessThanOrEqual(1);
     }
-    // the three options share the same two columns
+    // the options share the same two columns
     expect(new Set(rows.map((r) => Math.round(r.boxLeft))).size, 'one checkbox column').toBe(1);
     expect(new Set(rows.map((r) => Math.round(r.labelLeft))).size, 'one label column').toBe(1);
   });
