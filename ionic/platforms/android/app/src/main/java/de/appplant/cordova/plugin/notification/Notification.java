@@ -100,6 +100,16 @@ public final class Notification {
 
     private int PendingIntentFlag = 0;
 
+    // Android 12+ refuses exact alarms without the SCHEDULE_EXACT_ALARM permission (denied by default since 14).
+    // The notification is then scheduled inexactly instead of being dropped.
+    private void setExactOrInexact(AlarmManager mgr, int type, long time, PendingIntent pi) {
+        if (Build.VERSION.SDK_INT < Build.VERSION_CODES.S || mgr.canScheduleExactAlarms()) {
+            mgr.setExact(type, time, pi);
+        } else {
+            mgr.setAndAllowWhileIdle(type, time, pi);
+        }
+    }
+
     /**
      * Constructor
      *
@@ -238,18 +248,18 @@ public final class Notification {
             try {
                 switch (options.getPrio()) {
                     case PRIORITY_MIN:
-                        mgr.setExact(RTC, time, pi);
+                        setExactOrInexact(mgr, RTC, time, pi);
                         break;
                     case PRIORITY_MAX:
                         if (SDK_INT >= M) {
                             AlarmManager.AlarmClockInfo info = new AlarmManager.AlarmClockInfo(time, pi);
                             mgr.setAlarmClock(info, pi);
                         } else {
-                            mgr.setExact(RTC_WAKEUP, time, pi);
+                            setExactOrInexact(mgr, RTC_WAKEUP, time, pi);
                         }
                         break;
                     default:
-                        mgr.setExact(RTC_WAKEUP, time, pi);
+                        setExactOrInexact(mgr, RTC_WAKEUP, time, pi);
                         break;
                 }
             } catch (Exception ignore) {

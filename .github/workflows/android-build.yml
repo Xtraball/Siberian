@@ -1,0 +1,78 @@
+name: android-build
+
+# Builds the Android app shells (the dev tree and the template that Siberian ships) on a GitHub runner and checks the
+# APK: target and minimum SDK, permissions, native libraries and 16 KB zip alignment. Debug build, no signing, no
+# upload to any store. Manual: Actions > android-build > Run workflow. Or push a branch named ci/build-android-*.
+on:
+  workflow_dispatch:
+  push:
+    branches: ['ci/build-android-**']
+
+permissions:
+  contents: read
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    timeout-minutes: 60
+    strategy:
+      fail-fast: false
+      matrix:
+        tree:
+          - siberian/var/apps/ionic/android
+          - ionic/platforms/android
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          sparse-checkout: |
+            ${{ matrix.tree }}
+
+      - uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: '17'
+
+      - name: Android SDK packages
+        run: |
+          yes | "$ANDROID_HOME/cmdline-tools/latest/bin/sdkmanager" --licenses > /dev/null || true
+          SDK=$(grep -o '"SDK_VERSION": *[0-9]*' "${{ matrix.tree }}/cdv-gradle-config.json" | grep -o '[0-9]*$')
+          BT=$(grep -o '"MIN_BUILD_TOOLS_VERSION": *"[^"]*"' "${{ matrix.tree }}/cdv-gradle-config.json" | cut -d'"' -f4)
+          echo "platform android-$SDK, build-tools $BT"
+          "$ANDROID_HOME/cmdline-tools/latest/bin/sdkmanager" "platforms;android-$SDK" "build-tools;$BT"
+          echo "BUILD_TOOLS=$BT" >> "$GITHUB_ENV"
+
+      - name: Gradle version of the template
+        id: gradle
+        run: |
+          echo "version=$(grep -o '"GRADLE_VERSION": *"[^"]*"' "${{ matrix.tree }}/cdv-gradle-config.json" | cut -d'"' -f4)" >> "$GITHUB_OUTPUT"
+
+      - uses: gradle/actions/setup-gradle@v4
+        with:
+          gradle-version: ${{ steps.gradle.outputs.version }}
+
+      - name: assembleDebug
+        working-directory: ${{ matrix.tree }}
+        run: |
+          set -o pipefail
+          gradle assembleDebug --stacktrace --no-daemon 2>&1 | tee "$RUNNER_TEMP/gradle.log"
+
+      - name: APK checks
+        if: always()
+        working-directory: ${{ matrix.tree }}
+        run: |
+          mkdir -p "$RUNNER_TEMP/out"
+          BT="$ANDROID_HOME/build-tools/$BUILD_TOOLS"
+          APK=app/build/outputs/apk/debug/app-debug.apk
+          "$BT/aapt2" dump badging "$APK" | grep -E "^(package|sdkVersion|targetSdkVersion|native-code)" | tee "$RUNNER_TEMP/out/badging.txt"
+          "$BT/aapt2" dump permissions "$APK" | sort | tee "$RUNNER_TEMP/out/permissions.txt"
+          unzip -l "$APK" | grep -E "\.so$" | awk '{print $4}' | tee "$RUNNER_TEMP/out/native-libs.txt" || echo "no native libraries"
+          "$BT/zipalign" -c -P 16 -v 4 "$APK" | grep -E "\.so|Verification" | tee "$RUNNER_TEMP/out/zipalign-16k.txt"
+          cp "$RUNNER_TEMP/gradle.log" "$RUNNER_TEMP/out/" || true
+          cp "$APK" "$RUNNER_TEMP/out/" || true
+
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: android-${{ strategy.job-index }}
+          path: ${{ runner.temp }}/out
+          retention-days: 7

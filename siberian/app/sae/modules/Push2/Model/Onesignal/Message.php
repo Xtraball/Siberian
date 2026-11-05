@@ -139,8 +139,8 @@ class Message extends BaseModel
     public function getBigPicture()
     {
         $baseUrl = self::sGetBaseUrl();
-        $bigPictureUrl = trim($this->getData('big_picture_url'));
-        $bigPicture = trim($this->getData('big_picture'));
+        $bigPictureUrl = trim((string) $this->getData('big_picture_url'));
+        $bigPicture = trim((string) $this->getData('big_picture'));
 
         if (empty($bigPictureUrl) && empty($bigPicture)) {
             return null;
@@ -164,14 +164,14 @@ class Message extends BaseModel
     public function getActionLink()
     {
         $open_feature = filter_var($this->getData('open_feature'), FILTER_VALIDATE_BOOLEAN);
-        $feature_id = trim($this->getData('feature_id'));
+        $feature_id = trim((string) $this->getData('feature_id'));
 
         if ($open_feature && !empty($feature_id)) {
             return $this->featureIdUrl($feature_id);
         }
 
         $open_url = filter_var($this->getData('open_url'), FILTER_VALIDATE_BOOLEAN);
-        $feature_url = trim($this->getData('feature_url'));
+        $feature_url = trim((string) $this->getData('feature_url'));
 
         if ($open_url && !empty($feature_url)) {
             return $feature_url;

@@ -3,6 +3,7 @@
 namespace Push2\Mobile;
 
 use Push2\Model\Onesignal\Player;
+use Push2\Model\Onesignal\Registration;
 use \Application_Controller_Mobile_Default as MobileController;
 use Push2\Model\Onesignal\Scheduler;
 
@@ -20,15 +21,18 @@ class PlayerController extends MobileController
             $request = $this->getRequest();
             $session = $this->getSession();
             $customerId = $session->getCustomerId();
-            $data = $request->getBodyParams();
+            $registration = Registration::fromBody($request->getBodyParams());
 
-            $player_id = $data['player_id'];
-            $player = (new Player())->find($player_id, 'player_id');
+            if ($registration['player_id'] === '') {
+                throw new \InvalidArgumentException(p__('push2', 'The player id is missing.'));
+            }
+
+            $player = (new Player())->find($registration['player_id'], 'player_id');
             $player->setAppId($application->getId());
             $player->setAppName($application->getName());
-            $player->setPlayerId($data['player_id']);
-            $player->setPushToken($data['push_token']);
-            $player->setExternalUserId($data['external_user_id']);
+            $player->setPlayerId($registration['player_id']);
+            $player->setPushToken($registration['push_token']);
+            $player->setExternalUserId($registration['external_user_id']);
             $player->setCustomerId($customerId);
             $player->save();
 

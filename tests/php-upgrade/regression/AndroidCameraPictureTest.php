@@ -33,7 +33,13 @@ return [
             foreach (["$tree/app/src/main/AndroidManifest.xml", "$tree/android.json"] as $file) {
                 $src = $read($file);
                 t_equal(0, preg_match('/READ_MEDIA_(IMAGES|VIDEO)/', $src), "$file: READ_MEDIA");
-                t_equal(0, preg_match('/WRITE_EXTERNAL_STORAGE/', $src), "$file: WRITE_EXTERNAL_STORAGE");
+                if (substr($file, -4) === '.xml') {
+                    // Scoped storage replaces it from Android 10 (minimum here is Android 8): kept for Android 8 and 9 only.
+                    t_equal(1, preg_match_all('/android:maxSdkVersion="28" android:name="android.permission.WRITE_EXTERNAL_STORAGE"/', $src), "$file: WRITE_EXTERNAL_STORAGE up to Android 9");
+                    t_equal(1, preg_match_all('/WRITE_EXTERNAL_STORAGE/', $src), "$file: no unbounded WRITE_EXTERNAL_STORAGE");
+                } else {
+                    t_equal(0, preg_match('/WRITE_EXTERNAL_STORAGE/', $src), "$file: WRITE_EXTERNAL_STORAGE");
+                }
                 t_true(strpos($src, 'android.permission.CAMERA') !== false, "$file: CAMERA is kept");
             }
         }
@@ -53,6 +59,14 @@ return [
             $src = $read($bundle);
             t_true(strpos($src, 'isCancellation') !== false, "$bundle: isCancellation");
             t_true(strpos($src, 'toDataUrl') !== false, "$bundle: toDataUrl");
+        }
+    },
+
+    'the wall post form does not leave a cancelled Picture unhandled' => function () use ($read) {
+        $src = $read('ionic/www/js/controllers/newswall.js');
+        t_true(preg_match('/Picture\s*\.takePicture\(\)\s*\.then\(function \(response\) \{[^}]*\}, function \(\) \{/', $src) === 1, 'newswall.js: rejection handler');
+        foreach (['ionic/www/dist/packed/newswall.bundle.min.js', 'siberian/var/apps/browser/dist/packed/newswall.bundle.min.js', 'siberian/var/apps/overview/dist/packed/newswall.bundle.min.js'] as $bundle) {
+            t_true(strpos($read($bundle), 'preview_src=response.image},function(){})') !== false, "$bundle: rejection handler");
         }
     },
 ];
