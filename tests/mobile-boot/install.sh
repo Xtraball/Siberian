@@ -32,6 +32,12 @@ ok "$(c -X POST -d 'name=BootTest' "$B/installer/installation_application/create
 ok "$(c "$B/installer/installation/end")" || { echo "installer end failed"; exit 1; }
 echo "installed, app: $(sql 'select app_id, name from application')"
 
+# A fresh checkout has an empty dist/templates.js in every app shell: Siberian compiles the templates (core, modules,
+# features) in its post-install/update step, which `cli app:manifest` runs. Without it the app cannot open any page.
+sql "update system_config set value='${B#http://}' where code='main_domain'"
+(cd "$SIB" && php cli app:manifest 2>&1 | tail -2)
+test "$(wc -c < "$SIB/var/apps/ionic/android/app/src/main/assets/www/dist/templates.js")" -gt 100000 || { echo "templates.js is still empty"; exit 1; }
+
 # SAE serves its single app at /overview (Application_Model_Application::getKey()); Android needs a dotted package.
 sql "update application set package_name='$PKG', bundle_id='$PKG' where app_id=1"
 
