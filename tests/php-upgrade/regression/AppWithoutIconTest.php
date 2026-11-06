@@ -55,4 +55,21 @@ return [
         t_true(strpos($body, 'Application_Model_Application_NoIcon::file(') !== false, 'a file when $base');
         t_true(strpos($body, "inline('png', 100)") !== false, 'inline data for the pages, as before');
     },
+
+    'no startup image: both generators fall back on the placeholder instead of an empty path' => function () use ($module, $modelFile) {
+        $model = file_get_contents($modelFile);
+        $start = strpos($model, 'public static function startupSourcePath(');
+        t_true($start !== false, 'startupSourcePath exists');
+        $body = substr($model, $start, strpos($model, "\n    }\n", $start) - $start);
+        t_true(strpos($body, "return path(\$unified);") !== false, 'the uploaded image when there is one');
+        t_true(strpos($body, "/placeholder/no-image.png'") !== false, 'the placeholder when there is none');
+
+        $android = file_get_contents($module . '/Model/Device/Ionic/Android/Abstract.php');
+        t_true(strpos($android, 'Siberian_Image::open(Application_Model_Application_Abstract::startupSourcePath($_file))') !== false, 'android');
+        t_true(strpos($android, 'Siberian_Image::open(path($_file))') === false, 'android: no empty path left');
+
+        $ios = file_get_contents($module . '/Model/Device/Ionic/Ios/Abstract.php');
+        t_true(strpos($ios, 'Application_Model_Application_Abstract::startupSourcePath($application->getStartupBackgroundUnified())') !== false, 'ios');
+        t_true(strpos($ios, '$universal = path($application->getStartupBackgroundUnified());') === false, 'ios: no empty path left');
+    },
 ];

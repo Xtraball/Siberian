@@ -1616,6 +1616,22 @@ abstract class Application_Model_Application_Abstract extends Core_Model_Default
     }
 
     /**
+     * The image the source generators turn into the startup screen: the unified startup image of the app, or the grey
+     * placeholder when none was uploaded (getStartupBackgroundUnified() is then empty).
+     *
+     * @param string $unified getStartupBackgroundUnified()
+     * @return string a file path
+     */
+    public static function startupSourcePath($unified)
+    {
+        if ($unified !== '' && $unified !== null) {
+            return path($unified);
+        }
+
+        return self::getBaseImagePath() . '/placeholder/no-image.png';
+    }
+
+    /**
      * The grey placeholder of an app without an icon: inline image data for the pages, a file for the source
      * generators (they copy files and skip anything else).
      *
