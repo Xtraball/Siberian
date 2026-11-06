@@ -84,7 +84,7 @@ abstract class Application_Model_Device_Ionic_Android_Abstract extends Applicati
         $_file = $application->getStartupBackgroundUnified();
 
         // Convert to jpeg
-        $jpegStartup = Siberian_Image::open(path($_file));
+        $jpegStartup = Siberian_Image::open(Application_Model_Application_Abstract::startupSourcePath($_file));
         $_tmpStartup = path('/var/tmp/' . uniqid('startup_', true) . '.jpg');
         $jpegStartup->save($_tmpStartup, 'jpg', 70);
 
