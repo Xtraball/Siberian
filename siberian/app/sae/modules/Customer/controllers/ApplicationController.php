@@ -131,7 +131,7 @@ class Customer_ApplicationController extends Application_Controller_Default
             $customer = new Customer_Model_Customer();
             if (!empty($data['customer_id'])) {
                 $customer->find($data['customer_id']);
-                if (!$customer->getId() || $customer->getAppId() !== $appId) {
+                if (!$customer->getId() || (int) $customer->getAppId() !== (int) $appId) {
                     throw new Exception(p__('customer', "This customer doesn't exists."));
                 }
             }
