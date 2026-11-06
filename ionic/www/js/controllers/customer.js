@@ -451,18 +451,38 @@ angular
             if ($scope.myAccount.settings.use_mobile ||
                 $scope.myAccount.settings.extra_mobile) {
                 var iti = Customer.getIti('customer_mobile');
+                var input = document.getElementById('customer_mobile');
+                var raw = String((input && input.value) || $scope.customer.intl_mobile || '').trim();
 
-                if (!iti) { // in case it is not init
+                // Nothing typed: not a wrong number. If the number is required the server answers with the
+                // list of the missing fields.
+                if (raw === '') {
+                    $scope.customer.mobile = '';
                     return true;
                 }
-                // trim spaces
 
-                if (!iti.isValidNumber()) {
+                var dialCode = null;
+                if (iti && typeof iti.getSelectedCountryData === 'function') {
+                    var country = iti.getSelectedCountryData();
+                    dialCode = (country && country.dialCode) ? country.dialCode : null;
+                }
+
+                // null: the library cannot tell (no widget, or its utils.js is not loaded), never a reason to refuse
+                var valid = (iti && window.intlTelInputUtils) ? iti.isValidNumber() : null;
+                if (valid === true) {
+                    // Apply valid formatted number to the customer scope
+                    $scope.customer.mobile = iti.getNumber();
+                    return true;
+                }
+                if (valid === false) {
                     return false;
                 }
 
-                // Apply valid formatted number to the customer scope
-                $scope.customer.mobile = iti.getNumber();
+                var normalized = Customer.normalizeMobile(raw, dialCode);
+                if (normalized === '') {
+                    return false;
+                }
+                $scope.customer.mobile = normalized;
             }
             // in case it's not configured
             return true;
@@ -626,20 +646,30 @@ angular
             if ($scope.myAccount.settings.use_mobile ||
                 $scope.myAccount.settings.extra_mobile) {
 
-                let defaultFallbackLanguage = CURRENT_LANGUAGE;
+                // The input is rendered by ng-if on the next digest, and the country lookup may fail: the widget is
+                // initialized once, whatever happens, with the country of the language as the fallback.
+                var fallbackCountry = Customer.countryFromLanguage(CURRENT_LANGUAGE);
+                var initMobile = function (country) {
+                    $timeout(function () {
+                        try {
+                            Customer.initIti('customer_mobile', country);
+                        } catch (e) {
+                            console.error('Unable to init the mobile input', e);
+                        }
+                    });
+                };
                 Customer
                     .getIpInfo()
                     .then(function (payload) {
-
                         if (payload &&
                             payload.hasOwnProperty('country') &&
                             payload.country.length > 1) {
-                            Customer.initIti('customer_mobile', payload.country);
+                            initMobile(payload.country);
                         } else {
-                            Customer.initIti('customer_mobile', defaultFallbackLanguage);
+                            initMobile(fallbackCountry);
                         }
-                    }, function (error) {
-                        Customer.initIti('customer_mobile', CURRENT_LANGUAGE);
+                    }, function () {
+                        initMobile(fallbackCountry);
                     });
             }
         };
