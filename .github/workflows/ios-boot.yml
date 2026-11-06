@@ -76,6 +76,10 @@ jobs:
           /usr/libexec/PlistBuddy -c "Add :NSAppTransportSecurity dict" -c "Add :NSAppTransportSecurity:NSAllowsArbitraryLoads bool true" "$PLIST"
           /usr/libexec/PlistBuddy -c "Print :CFBundleIdentifier" -c "Print :MinimumOSVersion" "$PLIST" 2>&1 | head -3
           grep -n "PRODUCT_BUNDLE_IDENTIFIER" AppsMobileCompany.xcodeproj/project.pbxproj | sort -u | head -3
+          # The template lists both Entitlements-*.plist in its Compile Sources phase; Xcode 26 then fails a Simulator build
+          # with "Unexpected duplicate tasks". Take them out of the project (they stay referenced as CODE_SIGN_ENTITLEMENTS).
+          perl -ni -e 'print unless /Entitlements-(Debug|Release)\.plist in Sources/' AppsMobileCompany.xcodeproj/project.pbxproj
+          grep -c "in Sources" AppsMobileCompany.xcodeproj/project.pbxproj
 
       - name: Select the latest Xcode
         run: |
