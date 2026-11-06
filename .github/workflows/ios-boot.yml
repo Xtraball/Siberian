@@ -41,11 +41,13 @@ jobs:
 
       - name: MariaDB
         run: |
-          brew install mariadb
-          brew services start mariadb
-          for i in $(seq 1 30); do mariadb -uroot -e 'select 1' >/dev/null 2>&1 && break; sleep 2; done
-          mariadb -uroot -e "ALTER USER 'root'@'localhost' IDENTIFIED VIA mysql_native_password USING PASSWORD('root'); CREATE DATABASE siberian; FLUSH PRIVILEGES"
-          mariadb -h127.0.0.1 -uroot -proot -e 'select version()'
+          brew install mariadb@11.8
+          MB="$(brew --prefix mariadb@11.8)/bin"
+          echo "$MB" >> "$GITHUB_PATH"
+          brew services start mariadb@11.8
+          for i in $(seq 1 30); do sudo "$MB/mariadb" -uroot -e 'select 1' >/dev/null 2>&1 && break; sleep 2; done
+          sudo "$MB/mariadb" -uroot -e "ALTER USER 'root'@'localhost' IDENTIFIED VIA mysql_native_password USING PASSWORD('root'); CREATE DATABASE siberian; FLUSH PRIVILEGES"
+          "$MB/mariadb" -h127.0.0.1 -uroot -proot -e 'select version()'
 
       - name: Start Siberian
         run: |
