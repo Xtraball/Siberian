@@ -1597,10 +1597,7 @@ abstract class Application_Model_Application_Abstract extends Core_Model_Default
 
         $icon = self::getBaseImagePath() . $androidSplashIcon;
         if (!is_readable($icon) || !is_file($icon)) {
-            $icon = self::getBaseImagePath() . '/placeholder/no-image.png';
-            $image = Siberian_Image::open($icon);
-            $image->fillBackground(0xf3f3f3);
-            return $image->inline('png', 100);
+            return self::noIcon($base);
         }
 
         if (empty($name)) {
@@ -1619,6 +1616,25 @@ abstract class Application_Model_Application_Abstract extends Core_Model_Default
     }
 
     /**
+     * The grey placeholder of an app without an icon: inline image data for the pages, a file for the source
+     * generators (they copy files and skip anything else).
+     *
+     * @param bool $base
+     * @return string
+     */
+    protected static function noIcon($base = false)
+    {
+        $placeholder = self::getBaseImagePath() . '/placeholder/no-image.png';
+        if ($base) {
+            return Application_Model_Application_NoIcon::file($placeholder, path('/var/tmp'));
+        }
+
+        $image = Siberian_Image::open($placeholder);
+        $image->fillBackground(0xf3f3f3);
+        return $image->inline('png', 100);
+    }
+
+    /**
      * @param null $size
      * @param null $name
      * @param bool $base
@@ -1632,10 +1648,7 @@ abstract class Application_Model_Application_Abstract extends Core_Model_Default
 
         $icon = self::getBaseImagePath() . $this->getData('icon');
         if (!is_readable($icon) || !is_file($icon)) {
-            $icon = self::getBaseImagePath() . '/placeholder/no-image.png';
-            $image = Siberian_Image::open($icon);
-            $image->fillBackground(0xf3f3f3);
-            return $image->inline('png', 100);
+            return self::noIcon($base);
         }
 
         if (empty($name)) {
