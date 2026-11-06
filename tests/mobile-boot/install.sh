@@ -51,12 +51,13 @@ test "$(wc -c < "$TPL")" -gt 100000 || { echo "$TPL is still empty"; exit 1; }
 # SAE serves its single app at /overview (Application_Model_Application::getKey()); Android and iOS need a dotted package / bundle id.
 sql "update application set package_name='$PKG', bundle_id='$PKG' where app_id=1"
 
-# An app without an uploaded icon makes res/values/themes.xml point at @mipmap/ic_splash, which is then never written
-# (getAndroidSplashIcon() returns inline image data, ionicResources() only copies readable files), so the build fails.
-# Give the test app an icon like a real one has. (Fixed in Siberian by Xtraball/Siberian#1047; drop this once merged.)
+# An app without an uploaded icon or startup image does not generate a source that builds (Android: @mipmap/ic_splash
+# is never written; iOS: the startup image cannot be generated). Fixed in Siberian by Xtraball/Siberian#1047; drop
+# this once merged. Give the test app both, like a real one has.
 mkdir -p "$SIB/images/application/boottest"
 cp "$SIB/images/application/placeholder/no-image.png" "$SIB/images/application/boottest/icon.png"
-sql "update application set icon='/boottest/icon.png' where app_id=1"
+cp "$SIB/images/application/placeholder/no-image.png" "$SIB/images/application/boottest/startup.png"
+sql "update application set icon='/boottest/icon.png', startup_image_unified='/boottest/startup.png' where app_id=1"
 sql "insert into source_queue (name,url,path,app_id,protocol,host,type,design_code,user_id,user_type,status,build_time,build_start_time,is_autopublish,log,created_at,updated_at) values ('BootTest','','',1,'https://','$DEVHOST','$TYPE','ionic',1,'admin','queued',0,0,0,'',now(),now())"
 
 (cd "$SIB" && php cron.php runcommand sources 2>&1 | grep -v sendmail | tail -5)
