@@ -5,10 +5,41 @@
 #
 # Fails (exit 1) on: CRLF in added lines, new __() / p__() texts that are not in a .po catalog (new texts never go
 # in the legacy csv files; a text that already lives in a csv of the base ref can be reused).
+# Also fails on new use of Zend Framework 1 (any Zend_ class name): see "5." below and docs/decisions/0001-remove-zf1.md.
 # Warns on: source changes without a test change, and fragile smells (see AGENTS.md) in added lines.
 # --strict turns the warnings into failures. Only reads git, changes nothing.
+#
+#   tests/php-upgrade/check-pr.sh --zf1-list [ref]    prints the files that use Zend_ today (how zf1-allowlist.txt is made)
 set -eu
 cd "$(dirname "$0")/../.."
+
+ZF1_LIST=tests/php-upgrade/zf1-allowlist.txt
+
+# The source files the ZF1 rule applies to: ours, not the bundled framework, third-party code, data or tests.
+zf1_in_scope() {
+  case $1 in
+    siberian/lib/Zend/*|siberian/lib/vendor/*|siberian/var/*|siberian/languages/*) return 1 ;;
+  esac
+  case $1 in
+    siberian/*.php|siberian/*.phtml|siberian/*.inc) return 0 ;;
+  esac
+  return 1
+}
+
+# Number of lines of a file, at a ref, that name a Zend_ class and are not marked "ZF1-OK: why".
+zf1_count() {
+  git cat-file -e "$1:$2" 2>/dev/null || { echo 0; return; }
+  git show "$1:$2" | grep -E 'Zend_[A-Za-z]' | grep -vc 'ZF1-OK' || true
+}
+
+if [ "${1:-}" = "--zf1-list" ]; then
+  git grep -l -E 'Zend_[A-Za-z]' "${2:-HEAD}" -- 'siberian/*.php' 'siberian/*.phtml' 'siberian/*.inc' | sed 's/^[^:]*://' | sort |
+    while IFS= read -r f; do
+      zf1_in_scope "$f" || continue
+      [ "$(zf1_count "${2:-HEAD}" "$f")" -gt 0 ] && echo "$f"
+    done
+  exit 0
+fi
 
 STRICT=0
 if [ "${1:-}" = "--strict" ]; then STRICT=1; shift; fi
@@ -61,6 +92,38 @@ grep -nE '\|\| *true|^\+ *(usleep|sleep)\(|@\$|error_reporting\(0\)' "$SRC" | gr
 done > /tmp/check-pr.$$ || true
 if [ -s /tmp/check-pr.$$ ]; then cat /tmp/check-pr.$$; WARN=$((WARN + $(wc -l < /tmp/check-pr.$$))); fi
 rm -f /tmp/check-pr.$$
+
+# 5. No new use of Zend Framework 1. It is being removed (docs/decisions/0001-remove-zf1.md), so the number of Zend_
+#    references in a file may go down, never up, and a file that does not use it today may not start.
+#    tests/php-upgrade/zf1-allowlist.txt lists the files that use it today (remake it with --zf1-list on trunk).
+#    A line that must name Zend_ (a facade that wraps it) carries "ZF1-OK: why" and is not counted.
+MERGE_BASE=$(git merge-base "$BASE" HEAD)
+ZOUT=$(mktemp)
+git diff --name-status -M "$MERGE_BASE" HEAD | while IFS="$(printf '\t')" read -r status first second; do
+  case $status in
+    D*) continue ;;
+    R*|C*) old=$first; new=$second ;;
+    *) old=$first; new=$first ;;
+  esac
+  zf1_in_scope "$new" || continue
+  now=$(zf1_count HEAD "$new")
+  before=$(zf1_count "$MERGE_BASE" "$old")
+  listed=0
+  if [ -f "$ZF1_LIST" ] && { grep -qxF "$new" "$ZF1_LIST" || grep -qxF "$old" "$ZF1_LIST"; }; then listed=1; fi
+  if [ "$now" -gt "$before" ]; then
+    echo "FAIL  $new: $((now - before)) new Zend_ reference(s) (ZF1 is being removed: use a class of the Siberian namespace or plain PHP, or mark a facade line 'ZF1-OK: why', see docs/decisions/0001-remove-zf1.md)"
+  elif [ "$now" -gt 0 ] && [ "$listed" -eq 0 ]; then
+    echo "FAIL  $new uses Zend_ and is not in $ZF1_LIST (remake the list with check-pr.sh --zf1-list, see docs/decisions/0001-remove-zf1.md)"
+  elif [ "$now" -eq 0 ] && [ "$listed" -eq 1 ]; then
+    echo "WARN  $new has no Zend_ left: remove it from $ZF1_LIST"
+  fi
+done > "$ZOUT"
+if [ -s "$ZOUT" ]; then
+  cat "$ZOUT"
+  FAIL=$((FAIL + $(grep -c '^FAIL' "$ZOUT" || true)))
+  WARN=$((WARN + $(grep -c '^WARN' "$ZOUT" || true)))
+fi
+rm -f "$ZOUT"
 
 echo "check-pr: $FAIL failure(s), $WARN warning(s) against $BASE"
 [ "$FAIL" -eq 0 ] || exit 1
