@@ -1,0 +1,120 @@
+name: android-boot
+
+# Does a generated Android app start and show its homepage? Installs a throw-away Siberian SAE on the runner (web
+# installer, PHP 8.2, MariaDB), generates the Android source of its app with the same cron task as the back office,
+# builds the debug APK and runs it in an Android emulator that calls the instance on the runner (10.0.2.2).
+#
+# The only changes to the generated source are the two a local http backend needs: the url.js scheme and cleartext
+# traffic in the manifest. Everything else is what Siberian ships. Debug build, no signing, no store, no secrets.
+# Manual: Actions > android-boot > Run workflow. Or push a branch named ci/boot-android-*.
+on:
+  workflow_dispatch:
+  push:
+    branches: ['ci/boot-android-**']
+
+permissions:
+  contents: read
+
+env:
+  PKG: com.example.boottest
+  PORT: '28900'
+
+jobs:
+  boot:
+    runs-on: ubuntu-latest
+    timeout-minutes: 75
+    services:
+      db:
+        image: mariadb:11.8
+        env:
+          MARIADB_ROOT_PASSWORD: root
+          MARIADB_DATABASE: siberian
+        ports: ['3306:3306']
+        options: >-
+          --health-cmd="healthcheck.sh --connect --innodb_initialized"
+          --health-interval=5s --health-timeout=5s --health-retries=20
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: shivammathur/setup-php@v2
+        with:
+          php-version: '8.2'
+          extensions: bcmath, curl, dom, fileinfo, gd, iconv, intl, mbstring, mysqli, pdo_mysql, simplexml, sodium, xml, zip
+          ini-values: memory_limit=1G, max_execution_time=300, upload_max_filesize=64M, post_max_size=64M
+          tools: none
+
+      - name: Start Siberian
+        run: |
+          mkdir -p "$RUNNER_TEMP/out"
+          SIB_ROOT="$PWD/siberian" PHP_CLI_SERVER_WORKERS=4 setsid nohup \
+            php -S 0.0.0.0:$PORT -t siberian tests/mobile-boot/router.php >> "$RUNNER_TEMP/server.log" 2>&1 &
+          for i in $(seq 1 30); do curl -s -o /dev/null "http://127.0.0.1:$PORT/" && break; sleep 1; done
+          curl -s -o /dev/null -w "installer: http %{http_code}\n" "http://127.0.0.1:$PORT/"
+
+      - name: Install Siberian and generate the Android source
+        run: |
+          bash tests/mobile-boot/install.sh "$PWD/siberian" "http://127.0.0.1:$PORT" 127.0.0.1 "$PKG" "10.0.2.2:$PORT" "$RUNNER_TEMP/source.zip"
+          curl -s "http://127.0.0.1:$PORT/overview/front/mobile/loadv3" | head -c 200; echo
+
+      - name: Prepare the generated source for a local http backend
+        run: |
+          mkdir "$RUNNER_TEMP/shell" && unzip -q "$RUNNER_TEMP/source.zip" -d "$RUNNER_TEMP/shell"
+          cd "$RUNNER_TEMP/shell"
+          sed -i "s#PROTOCOL = 'https://'#PROTOCOL = 'http://'#; s#DOMAIN = 'https://#DOMAIN = 'http://#" app/src/main/assets/www/js/utils/url.js
+          sed -i 's#<application #<application android:usesCleartextTraffic="true" #' app/src/main/AndroidManifest.xml
+          grep -n -E "PROTOCOL|DOMAIN|APP_KEY" app/src/main/assets/www/js/utils/url.js
+          grep -c 'usesCleartextTraffic="true"' app/src/main/AndroidManifest.xml
+          grep -o '"PACKAGE_NAMESPACE": *"[^"]*"' cdv-gradle-config.json
+
+      - uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: '17'
+
+      - name: Android SDK packages
+        run: |
+          C="$RUNNER_TEMP/shell/cdv-gradle-config.json"
+          yes | "$ANDROID_HOME/cmdline-tools/latest/bin/sdkmanager" --licenses > /dev/null || true
+          SDK=$(grep -o '"SDK_VERSION": *[0-9]*' "$C" | grep -o '[0-9]*$')
+          BT=$(grep -o '"MIN_BUILD_TOOLS_VERSION": *"[^"]*"' "$C" | cut -d'"' -f4)
+          "$ANDROID_HOME/cmdline-tools/latest/bin/sdkmanager" "platforms;android-$SDK" "build-tools;$BT"
+          echo "GRADLE_VERSION=$(grep -o '"GRADLE_VERSION": *"[^"]*"' "$C" | cut -d'"' -f4)" >> "$GITHUB_ENV"
+
+      - uses: gradle/actions/setup-gradle@v4
+        with:
+          gradle-version: ${{ env.GRADLE_VERSION }}
+
+      - name: assembleDebug
+        working-directory: ${{ runner.temp }}/shell
+        run: |
+          set -o pipefail
+          gradle assembleDebug --stacktrace --no-daemon 2>&1 | tee "$RUNNER_TEMP/out/gradle.log"
+          ls -l app/build/outputs/apk/debug/app-debug.apk
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+
+      - name: Enable KVM
+        run: |
+          echo 'KERNEL=="kvm", GROUP="kvm", MODE="0666", OPTIONS+="static_node=kvm"' | sudo tee /etc/udev/rules.d/99-kvm4all.rules
+          sudo udevadm control --reload-rules
+          sudo udevadm trigger --name-match=kvm
+
+      - name: Start the app in an emulator
+        uses: reactivecircus/android-emulator-runner@v2
+        with:
+          api-level: 34
+          arch: x86_64
+          profile: pixel_6
+          disable-animations: true
+          script: bash tests/mobile-boot/on-emulator.sh ${{ runner.temp }}/shell/app/build/outputs/apk/debug/app-debug.apk ${{ env.PKG }} ${{ runner.temp }}/server.log ${{ runner.temp }}/out/boot
+
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: android-boot
+          path: |
+            ${{ runner.temp }}/out
+            ${{ runner.temp }}/server.log
+          retention-days: 7
