@@ -5,6 +5,10 @@
 $root = rtrim((string) getenv('SIB_ROOT'), '/');
 $path = (string) parse_url($_SERVER['REQUEST_URI'], PHP_URL_PATH);
 $file = $root . $path;
+// php -S prints no access line in worker mode; the boot test reads this file to see what the app asked for.
+if (getenv('SIB_REQLOG')) {
+    file_put_contents(getenv('SIB_REQLOG'), $_SERVER['REQUEST_METHOD'] . ' ' . $_SERVER['REQUEST_URI'] . "\n", FILE_APPEND);
+}
 if ($path !== '/' && is_file($file) && substr($file, -4) !== '.php') {
     return false;
 }

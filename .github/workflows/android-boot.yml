@@ -45,8 +45,8 @@ jobs:
 
       - name: Start Siberian
         run: |
-          mkdir -p "$RUNNER_TEMP/out"
-          SIB_ROOT="$PWD/siberian" PHP_CLI_SERVER_WORKERS=4 setsid nohup \
+          mkdir -p "$RUNNER_TEMP/out"; : > "$RUNNER_TEMP/requests.log"
+          SIB_ROOT="$PWD/siberian" SIB_REQLOG="$RUNNER_TEMP/requests.log" PHP_CLI_SERVER_WORKERS=4 setsid nohup \
             php -S 0.0.0.0:$PORT -t siberian tests/mobile-boot/router.php >> "$RUNNER_TEMP/server.log" 2>&1 &
           for i in $(seq 1 30); do curl -s -o /dev/null "http://127.0.0.1:$PORT/" && break; sleep 1; done
           curl -s -o /dev/null -w "installer: http %{http_code}\n" "http://127.0.0.1:$PORT/"
@@ -108,7 +108,7 @@ jobs:
           arch: x86_64
           profile: pixel_6
           disable-animations: true
-          script: bash tests/mobile-boot/on-emulator.sh ${{ runner.temp }}/shell/app/build/outputs/apk/debug/app-debug.apk ${{ env.PKG }} ${{ runner.temp }}/server.log ${{ runner.temp }}/out/boot
+          script: bash tests/mobile-boot/on-emulator.sh ${{ runner.temp }}/shell/app/build/outputs/apk/debug/app-debug.apk ${{ env.PKG }} ${{ runner.temp }}/requests.log ${{ runner.temp }}/out/boot
 
       - uses: actions/upload-artifact@v4
         if: always()
@@ -117,4 +117,5 @@ jobs:
           path: |
             ${{ runner.temp }}/out
             ${{ runner.temp }}/server.log
+            ${{ runner.temp }}/requests.log
           retention-days: 7
