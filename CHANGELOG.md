@@ -2,6 +2,23 @@
 
 Notable changes to Siberian, newest first. Dates are `YYYY-MM-DD`. Longer notes live in `docs/`.
 
+## [5.1.15] 2026-11-07
+
+Launch fix for iOS 27, Android 15 layout fix, iOS map and link buttons, Google Play warning, on top of 5.1.14. The update package is built against 5.1.14 (`lastversion`), the last published version. MAE and PE carry the same changes (tags `v5.1.15` on their `master`).
+
+### Changed
+
+- 2026-11-07 Android apps: newer system libraries, so Google Play no longer warns that the mutability of some PendingIntents is not specified when you upload an app.
+- 2026-11-07 Development: two manual workflows, `android-boot` and `ios-boot`, install a throw-away Siberian, generate an app and start it in an emulator and in a simulator. `check-pr.sh` now refuses a change that adds new use of Zend Framework 1, and the plan to remove it is recorded in `docs/decisions/`.
+
+### Fixed
+
+- 2026-11-07 iOS apps: apps built with the iOS 27 SDK no longer stop at launch. They now use the scene life cycle that Apple makes mandatory from iOS 27. Links opened in the app keep working.
+- 2026-11-07 iOS apps: the buttons of the navigation chooser work on iOS 18 and later, and the Apple Maps button opens Apple Maps instead of its App Store page.
+- 2026-11-07 iOS apps: the "Settings" button shown when access to photos is denied and the WhatsApp share work on iOS 18 and later (they did nothing).
+- 2026-11-07 Android apps: on Android 15 and later, no more blank strip under the app and no more page squeezed by the keyboard.
+- 2026-11-07 Publication: an app without an icon or a startup image now generates a source that builds (Android failed on the missing launcher icon, iOS on the startup image).
+
 ## [5.1.14] 2026-11-07
 
 Android edge-to-edge option, camera plugin updates, PHP 8.2 required, editor fixes, on top of 5.1.13. The update package is built against 5.1.13 (`lastversion`), the last published version. MAE and PE carry the same changes (tags `v5.1.14` on their `master`).
@@ -16,8 +33,6 @@ Android edge-to-edge option, camera plugin updates, PHP 8.2 required, editor fix
 
 ### Fixed
 
-- 2026-11-07 iOS apps: adopt the UIScene life cycle (a scene manifest and a SceneDelegate that creates the window). Apple makes it mandatory from iOS 27: an app built with the iOS 27 SDK without it stops at launch in UIApplicationMain. Opened URLs and the window used by the plugins keep working.
-- 2026-11-07 iOS apps: the "Settings" button shown when access to photos is denied and the WhatsApp share now open their URL the way iOS 18 and later require (the old call did nothing).
 - 2026-11-06 Mobile apps: content below a header, a subheader and top tabs started too high on iPhones with a notch (the rule used the right safe-area inset instead of the top one). No built-in screen combines the three, custom layouts could.
 - 2026-11-05 Editor: the preview of the app keeps the same size when the page is scrolled, it used to grow.
 - 2026-11-05 Editor: the options of the Android advanced settings stay in line with their checkbox when the column is narrow.
