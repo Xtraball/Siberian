@@ -31,3 +31,15 @@
 @interface AppDelegate : CDVAppDelegate {}
 
 @end
+
+/**
+ * UIScene life cycle (mandatory from iOS 27: an app built with the iOS 27 SDK that does not adopt it fails to launch).
+ * The window is created here, once the scene connects, and handed to the AppDelegate so that everything reading
+ * [[UIApplication sharedApplication] delegate].window keeps working. Declared in this file so the Xcode project does
+ * not need a new source file. Named by UISceneDelegateClassName in AppsMobileCompany-Info.plist.
+ */
+@interface SceneDelegate : UIResponder <UIWindowSceneDelegate>
+
+@property (nonatomic, strong) UIWindow* window;
+
+@end

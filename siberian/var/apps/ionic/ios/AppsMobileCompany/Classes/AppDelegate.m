@@ -52,8 +52,60 @@
         NSLog(@"[WebView] Nothing to do!");
     }
 
+    // UIScene life cycle: the window is created by the SceneDelegate when the scene connects, so the window set up of
+    // [super application:didFinishLaunchingWithOptions:] (CDVAppDelegate, which uses UIScreen and a bare UIWindow) is
+    // deliberately not called.
     self.viewController = [[MainViewController alloc] init];
-    return [super application:application didFinishLaunchingWithOptions:launchOptions];
+    return YES;
+}
+
+@end
+
+@implementation SceneDelegate
+
+- (void)scene:(UIScene*)scene willConnectToSession:(UISceneSession*)session options:(UISceneConnectionOptions*)connectionOptions
+{
+    if (![scene isKindOfClass:[UIWindowScene class]]) {
+        return;
+    }
+
+    AppDelegate* appDelegate = (AppDelegate*)[[UIApplication sharedApplication] delegate];
+    if (appDelegate.viewController == nil) {
+        appDelegate.viewController = [[MainViewController alloc] init];
+    }
+
+    self.window = [[UIWindow alloc] initWithWindowScene:(UIWindowScene*)scene];
+    self.window.autoresizesSubviews = YES;
+    self.window.rootViewController = appDelegate.viewController;
+    // Plugins and the web view delegate read the window through the application delegate.
+    appDelegate.window = self.window;
+    [self.window makeKeyAndVisible];
+
+    // A URL that launched the app is delivered here, not in application:openURL:options:. Forwarded once the view
+    // controller is on screen, so the HandleOpenUrl plugin is loaded and keeps it until the page has loaded.
+    [self forwardURLContexts:connectionOptions.URLContexts];
+}
+
+- (void)scene:(UIScene*)scene openURLContexts:(NSSet<UIOpenURLContext*>*)URLContexts
+{
+    [self forwardURLContexts:URLContexts];
+}
+
+/** Hands opened URLs to CDVAppDelegate, which posts the usual Cordova notifications to the plugins. */
+- (void)forwardURLContexts:(NSSet<UIOpenURLContext*>*)URLContexts
+{
+    AppDelegate* appDelegate = (AppDelegate*)[[UIApplication sharedApplication] delegate];
+
+    for (UIOpenURLContext* context in URLContexts) {
+        NSMutableDictionary* options = [[NSMutableDictionary alloc] init];
+        if (context.options.sourceApplication) {
+            options[UIApplicationOpenURLOptionsSourceApplicationKey] = context.options.sourceApplication;
+        }
+        if (context.options.annotation) {
+            options[UIApplicationOpenURLOptionsAnnotationKey] = context.options.annotation;
+        }
+        [appDelegate application:[UIApplication sharedApplication] openURL:context.URL options:options];
+    }
 }
 
 @end

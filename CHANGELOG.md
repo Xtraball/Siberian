@@ -16,6 +16,7 @@ Android edge-to-edge option, camera plugin updates, PHP 8.2 required, editor fix
 
 ### Fixed
 
+- 2026-11-07 iOS apps: adopt the UIScene life cycle (a scene manifest and a SceneDelegate that creates the window). Apple makes it mandatory from iOS 27: an app built with the iOS 27 SDK without it stops at launch in UIApplicationMain. Opened URLs and the window used by the plugins keep working.
 - 2026-11-07 iOS apps: the "Settings" button shown when access to photos is denied and the WhatsApp share now open their URL the way iOS 18 and later require (the old call did nothing).
 - 2026-11-06 Mobile apps: content below a header, a subheader and top tabs started too high on iPhones with a notch (the rule used the right safe-area inset instead of the top one). No built-in screen combines the three, custom layouts could.
 - 2026-11-05 Editor: the preview of the app keeps the same size when the page is scrolled, it used to grow.
