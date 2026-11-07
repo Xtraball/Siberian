@@ -54,8 +54,9 @@ public class StatusBar extends CordovaPlugin {
         this.cordova.getActivity().runOnUiThread(new Runnable() {
             @Override
             public void run() {
-                // CB-13300: This corrects keyboard behaviour when overlaysWebView is true
-                StatusBarViewHelper.assistActivity(cordova.getActivity());
+                // StatusBarViewHelper.assistActivity() is no longer called (#964). CordovaActivity already applies the
+                // system bar, display cutout and keyboard insets to the WebView; the helper also shrank the root layout
+                // to the visible frame, so the bars (and the keyboard) were subtracted twice and a blank strip appeared.
 
                 // Clear flag FLAG_FORCE_NOT_FULLSCREEN which is set initially
                 // by the Cordova.
