@@ -1,0 +1,123 @@
+name: ios-boot
+
+# Does a generated iOS app start and show its homepage? Installs a throw-away Siberian SAE on a macOS runner (web
+# installer, PHP 8.2, MariaDB), generates the iOS source (no ads) of its app with the same cron task as the back
+# office, builds it for the iOS Simulator and starts it there. The app calls the instance on the runner.
+#
+# Changes to the generated source, all because the backend is plain http on the runner: the url.js scheme, App
+# Transport Security in Info.plist, and a small beacon appended to url.js (tests/mobile-boot/beacon.js) through which
+# the app reports its AngularJS state to the instance. Everything else is what Siberian ships. Debug build for the
+# Simulator, no signing, no store, no secrets.
+# Manual only: Actions > ios-boot > Run workflow. Nothing starts it by itself.
+on:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+env:
+  PKG: com.example.boottest
+  PORT: '28900'
+
+jobs:
+  boot:
+    runs-on: macos-15
+    timeout-minutes: 75
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: shivammathur/setup-php@v2
+        with:
+          php-version: '8.2'
+          extensions: bcmath, curl, dom, fileinfo, gd, iconv, intl, mbstring, mysqli, pdo_mysql, simplexml, sodium, xml, zip
+          ini-values: memory_limit=1G, max_execution_time=300, upload_max_filesize=64M, post_max_size=64M
+          tools: none
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+
+      - name: MariaDB
+        run: |
+          brew install mariadb@11.8
+          MB="$(brew --prefix mariadb@11.8)/bin"
+          echo "$MB" >> "$GITHUB_PATH"
+          brew services start mariadb@11.8
+          for i in $(seq 1 30); do sudo "$MB/mariadb" -uroot -e 'select 1' >/dev/null 2>&1 && break; sleep 2; done
+          sudo "$MB/mariadb" -uroot -e "ALTER USER 'root'@'localhost' IDENTIFIED VIA mysql_native_password USING PASSWORD('root'); CREATE DATABASE siberian; FLUSH PRIVILEGES"
+          "$MB/mariadb" -h127.0.0.1 -uroot -proot -e 'select version()'
+
+      - name: Start Siberian
+        run: |
+          mkdir -p "$RUNNER_TEMP/out"; : > "$RUNNER_TEMP/requests.log"
+          SIB_ROOT="$PWD/siberian" SIB_REQLOG="$RUNNER_TEMP/requests.log" PHP_CLI_SERVER_WORKERS=4 nohup \
+            php -S 127.0.0.1:$PORT -t siberian tests/mobile-boot/router.php >> "$RUNNER_TEMP/server.log" 2>&1 &
+          for i in $(seq 1 30); do curl -s -o /dev/null "http://127.0.0.1:$PORT/" && break; sleep 1; done
+          curl -s -o /dev/null -w "installer: http %{http_code}\n" "http://127.0.0.1:$PORT/"
+
+      - name: Install Siberian and generate the iOS source
+        run: |
+          TYPE=iosnoads MYSQL=mariadb bash tests/mobile-boot/install.sh "$PWD/siberian" "http://127.0.0.1:$PORT" 127.0.0.1 "$PKG" "127.0.0.1:$PORT" "$RUNNER_TEMP/source.zip"
+          curl -s "http://127.0.0.1:$PORT/overview/front/mobile/loadv3" | head -c 200; echo
+
+      - name: Prepare the generated source for a local http backend
+        run: |
+          mkdir "$RUNNER_TEMP/shell" && unzip -q "$RUNNER_TEMP/source.zip" -d "$RUNNER_TEMP/shell"
+          cd "$RUNNER_TEMP/shell"
+          URL=www/js/utils/url.js
+          perl -pi -e "s#PROTOCOL = 'https://'#PROTOCOL = 'http://'#; s#DOMAIN = 'https://#DOMAIN = 'http://#" "$URL"
+          cat "$GITHUB_WORKSPACE/tests/mobile-boot/beacon.js" >> "$URL"
+          grep -n -E "PROTOCOL|DOMAIN =|APP_KEY|DEVICE_TYPE" "$URL"
+          PLIST=$(find . -maxdepth 2 -name "*Info.plist" -not -path "./Pods/*" -not -path "./CordovaLib/*" | head -1)
+          echo "plist: $PLIST"
+          /usr/libexec/PlistBuddy -c "Delete :NSAppTransportSecurity" "$PLIST" 2>/dev/null || true
+          /usr/libexec/PlistBuddy -c "Add :NSAppTransportSecurity dict" -c "Add :NSAppTransportSecurity:NSAllowsArbitraryLoads bool true" "$PLIST"
+          /usr/libexec/PlistBuddy -c "Print :CFBundleIdentifier" -c "Print :MinimumOSVersion" "$PLIST" 2>&1 | head -3
+          grep -n "PRODUCT_BUNDLE_IDENTIFIER" AppsMobileCompany.xcodeproj/project.pbxproj | sort -u | head -3
+          # The template lists both Entitlements-*.plist in its Compile Sources phase; Xcode 26 then fails a Simulator build
+          # with "Unexpected duplicate tasks". Take them out of the project (they stay referenced as CODE_SIGN_ENTITLEMENTS).
+          perl -ni -e 'print unless /Entitlements-(Debug|Release)\.plist in Sources/' AppsMobileCompany.xcodeproj/project.pbxproj
+          grep -c "in Sources" AppsMobileCompany.xcodeproj/project.pbxproj
+
+      - name: Select the latest Xcode
+        run: |
+          X=$(ls -d /Applications/Xcode_26*.app 2>/dev/null | sort -V | tail -1)
+          [ -n "$X" ] || X=$(ls -d /Applications/Xcode*.app | sort -V | tail -1)
+          echo "using $X"
+          sudo xcode-select -s "$X/Contents/Developer"
+          xcodebuild -version
+          xcrun simctl list runtimes | grep -i ios
+
+      - name: pod install
+        working-directory: ${{ runner.temp }}/shell
+        run: |
+          set -o pipefail
+          pod install 2>&1 | tee "$RUNNER_TEMP/out/pod-install.log" | tail -20
+
+      - name: Build for the Simulator
+        working-directory: ${{ runner.temp }}/shell
+        run: |
+          set -o pipefail
+          xcodebuild -workspace AppsMobileCompany.xcworkspace -scheme AppsMobileCompany \
+            -configuration Debug -sdk iphonesimulator -destination 'generic/platform=iOS Simulator' \
+            -derivedDataPath "$RUNNER_TEMP/dd" \
+            CODE_SIGNING_ALLOWED=NO CODE_SIGNING_REQUIRED=NO CODE_SIGN_IDENTITY="" \
+            build 2>&1 | tee "$RUNNER_TEMP/out/xcodebuild.log" | grep -E "error:|BUILD" | tail -30
+          ls -d "$RUNNER_TEMP"/dd/Build/Products/Debug-iphonesimulator/*.app
+
+      - name: Start the app in the Simulator
+        run: |
+          APP=$(ls -d "$RUNNER_TEMP"/dd/Build/Products/Debug-iphonesimulator/*.app | head -1)
+          BID=$(/usr/libexec/PlistBuddy -c "Print :CFBundleIdentifier" "$APP/Info.plist")
+          echo "bundle id: $BID"
+          bash tests/mobile-boot/on-simulator.sh "$APP" "$BID" "$RUNNER_TEMP/requests.log" "$RUNNER_TEMP/out/boot"
+
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: ios-boot
+          path: |
+            ${{ runner.temp }}/out
+            ${{ runner.temp }}/server.log
+            ${{ runner.temp }}/requests.log
+          retention-days: 7
