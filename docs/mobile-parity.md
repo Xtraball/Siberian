@@ -18,6 +18,7 @@ The Android and iOS apps are built from the same app code (`ionic/www`, shared b
 | Minimum OS | Android 8.0 (API 26) | iOS 15 | Google Play and OneSignal 5.7 respectively |
 | Write to shared storage | `WRITE_EXTERNAL_STORAGE` up to Android 9 (`maxSdkVersion` 28) | not applicable | scoped storage from Android 10 |
 | Ads | in the Android shell | separate template (`ios`, AdMob, StartApp, Facebook) | the iOS ads pods are a different build |
+| Scene life cycle | not applicable | `UIApplicationSceneManifest` and a `SceneDelegate` (in `AppDelegate.m`), mandatory from iOS 27 | UIKit concept, Android activities have no scenes |
 | Layout mode (system bars) | option "edge-to-edge" (off by default): `AndroidEdgeToEdge` preference, the `SiberianInsets` plugin writes the real insets as `--sb-*` CSS variables on `<html>` and the header and tab bar clear them | always edge-to-edge: `viewport-fit=cover` and `env(safe-area-inset-*)` | WKWebView already draws under the bars and `env()` is reliable; on Android the WebView older than Chromium 140 returns 0 for `env()` and classic mode (native margins around the web view) must stay the default |
 
 ## Known gaps to close
