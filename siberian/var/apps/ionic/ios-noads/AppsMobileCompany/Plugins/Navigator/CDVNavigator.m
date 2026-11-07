@@ -7,7 +7,12 @@
 @implementation CDVNavigator
 
 - (void)openByUrl:(NSString *)url {
-    [[UIApplication sharedApplication] openURL:[NSURL URLWithString:url]];
+    // The single-argument openURL: is deprecated since iOS 10, and apps built with the iOS 18 SDK get NO from it:
+    // nothing opens and UIKit logs "BUG IN CLIENT OF UIKIT".
+    NSURL *target = [NSURL URLWithString:url];
+    if (target != nil) {
+        [[UIApplication sharedApplication] openURL:target options:@{} completionHandler:nil];
+    }
 }
 
 - (void)navigate:(CDVInvokedUrlCommand *)command {
