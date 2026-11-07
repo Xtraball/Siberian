@@ -683,7 +683,10 @@ static NSString *const kShareOptionIPadCoordinates = @"iPadCoordinates";
     NSString *encodedShareStringForWhatsApp = [NSString stringWithFormat:@"whatsapp://send?%@%@text=%@", abidString, phoneString, encodedShareString];
 
     NSURL *whatsappURL = [NSURL URLWithString:encodedShareStringForWhatsApp];
-    [[UIApplication sharedApplication] openURL: whatsappURL];
+    // openURL: is deprecated since iOS 10 and does nothing with the iOS 18 SDK.
+    if (whatsappURL != nil) {
+      [[UIApplication sharedApplication] openURL:whatsappURL options:@{} completionHandler:nil];
+    }
     CDVPluginResult *pluginResult = [CDVPluginResult resultWithStatus:CDVCommandStatus_OK];
     [self.commandDelegate sendPluginResult:pluginResult callbackId:command.callbackId];
   }
