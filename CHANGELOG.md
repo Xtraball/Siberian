@@ -2,15 +2,17 @@
 
 Notable changes to Siberian, newest first. Dates are `YYYY-MM-DD`. Longer notes live in `docs/`.
 
-## [Unreleased]
+## [5.1.14] 2026-11-07
+
+Android edge-to-edge option, camera plugin updates, PHP 8.2 required, editor fixes, on top of 5.1.13. The update package is built against 5.1.13 (`lastversion`), the last published version. MAE and PE carry the same changes (tags `v5.1.14` on their `master`).
 
 ### Changed
 
-- 2026-11-05 Android apps: new option "Android: draw the app behind the system bars (edge-to-edge)" in Design > Behavior, off by default. When on, the header and the tab bar extend under the status and navigation bars like on iOS, using the real insets read natively (works with Android WebView older than Chromium 140). Off keeps today's behavior. Space kept around the safe area is now the CSS variable `--safe-area-extra` (10px).
-- 2026-11-05 Mobile apps: `$rootScope.isNotAvailableOffline(with_alert)` and `$rootScope.isNotAvailableInOverview(with_alert)` now take the argument that the developer documentation describes. `false` only answers, without opening the alert; without an argument nothing changes.
-- 2026-11-05 iOS apps: the camera plugin is now 8.0.0, the same as Android. Taking or importing a picture works as before; the plugin now gives the picture back as a data URI.
-- 2026-11-05 Android apps: the camera plugin is now 8.0.0. It asks for no photos or videos permission, so the option that removed them is gone (the setting stored for an app is simply ignored). Backing out of the camera or the library no longer shows an error, and the permission to write to shared storage now only applies to Android 8 and 9.
-- 2026-11-05 PHP version: PHP 8.2 or higher is now required, it carries the security fixes. The back office advises PHP 8.5 when you run an older supported version.
+- 2026-11-05 Android apps: a new option "Android: draw the app behind the system bars (edge-to-edge)" in Design > Behavior, off by default. When on, the header and the tab bar extend under the status and navigation bars like on iOS. Off keeps today's behavior.
+- 2026-11-05 Custom code: the checks for an app that is not available offline or in the overview now accept the argument that the developer documentation describes. False only answers, without opening the alert; without an argument nothing changes.
+- 2026-11-05 iOS apps: the camera is updated, like on Android. Taking or importing a picture works as before.
+- 2026-11-05 Android apps: the camera is updated. It asks for no photos or videos permission, so the option that removed them is gone. Backing out of the camera or the library no longer shows an error.
+- 2026-11-05 PHP: Siberian now requires PHP 8.2 or newer, the one with the security fix. The back office advises PHP 8.5.
 
 ### Fixed
 
