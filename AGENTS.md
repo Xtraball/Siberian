@@ -11,6 +11,7 @@ Rules for AI coding agents (and humans) working on this repository. Read [CONTRI
 5. **Fragile code is a defect.** If something works only because an unguaranteed thing happens to be true (a line of a file you do not own is still there, a fixed sleep is long enough, output wording stays the same, a failure is swallowed), say so and use a sturdier way: anchor on a structure that must exist, parse instead of matching text, poll instead of sleeping, fail loudly. If it cannot be avoided, mark it `FRAGILE-OK: why` and add a test that fails when the assumption breaks. Example: add a permission before the closing `</manifest>` tag, never by replacing a neighbouring permission line.
 6. **Other editions override some files, so a fix is not done until they are checked.** MAE and PE are private overlays that replace SAE files of the same path (a design file by its design key), they never merge. Read [docs/editions.md](docs/editions.md). Keep changes additive and local, and for a change to a backoffice, Admin, System, Core, Application or Template file, say in the pull request that the overlays need the same change and ask a maintainer with access to check it against their override map. Never name an overlay-only file in a public issue, pull request or release note.
 7. **Keep Android and iOS at parity, as far as possible.** The app code is shared, the native side is not: a change to a native plugin, a permission, a minimum OS version or a shell setting on one platform is made on the other in the same pull request, or the pull request says why it cannot be and the difference goes in [docs/mobile-parity.md](docs/mobile-parity.md). Shared JavaScript must work with the plugin versions of both shells (accept the old and the new format of what a plugin returns). Build both shells before merging a change to a shell: Actions > android-build and ios-build.
+8. **Do not add Zend Framework 1 (`Zend_*`) to the code.** ZF1 is being removed ([docs/decisions/0001-remove-zf1.md](docs/decisions/0001-remove-zf1.md)). A file may keep the references it has (the files that have some are in `tests/php-upgrade/zf1-allowlist.txt`) and may lose them, never gain one; a new file starts without. Use the classes of the `Siberian\` namespace or plain PHP. A line that has to name `Zend_` (a facade that wraps it) says `ZF1-OK: why`. `tests/php-upgrade/check-pr.sh` fails on a new reference.
 
 ## Repository map
 
@@ -72,7 +73,7 @@ English is the default language. A text missing from every catalog is shown in E
 tests/php-upgrade/check-pr.sh [--strict] [base-ref]
 ```
 
-It reads git only and checks the added lines against this file: it fails on CRLF line endings and on new `__()` / `p__()` texts that are not in a `.po` translation catalog, and warns when source changed without a test, or when fragile smells (`|| true`, `sleep`, `@` suppression) were added. `--strict` turns the warnings into failures.
+It reads git only and checks the added lines against this file: it fails on CRLF line endings, on new `__()` / `p__()` texts that are not in a `.po` translation catalog, and on new `Zend_` references (rule 8; `check-pr.sh --zf1-list` remakes the allowlist), and warns when source changed without a test, or when fragile smells (`|| true`, `sleep`, `@` suppression) were added. `--strict` turns the warnings into failures.
 
 ## Issue triage
 
