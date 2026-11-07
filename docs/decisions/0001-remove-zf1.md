@@ -53,6 +53,31 @@ Cheapest and most mechanical first, the framework core last.
 
 Steps 1 to 3 can run in parallel with each other. Step 4 needs step 1 (exceptions). Step 5 needs steps 3 (session, validate) and 4. A step is done when its allowlist entries are gone and the guard shows no `Zend_` of that area.
 
+## Components or our own code
+
+Recommendation of 2026-11-07, to confirm in each step. The rule: **adopt a maintained component where the problem is generic or security-sensitive, write thin code of our own where the shape is Siberian's.** Either way the code under `siberian/` and the modules name the `Siberian\` facade only, so the choice behind a facade can change without touching them.
+
+We do **not** adopt a framework (Symfony HttpKernel, bundles, the container): that would swap one framework for another and rewrite the application, which is not what this decision is about. We also do not adopt Twig: `.phtml` templates are the module API and stay.
+
+| Area | Choice | Why |
+|---|---|---|
+| Mail | `symfony/mailer` | Security-sensitive, already solved, do not hand-roll |
+| HTTP client | `symfony/http-client` (Guzzle is already in the vendor tree, one of the two, not both) | Same |
+| Cache | `symfony/cache` (PSR-6/16) | Standalone, clean drop-in |
+| Log | `monolog` (PSR-3) | The standard choice |
+| Session | Native PHP sessions behind `Siberian\Session` | `Zend_Session` is mostly a wrapper |
+| Validate | `symfony/validator`, or small validators of our own if the 38 core uses stay simple | Decide in step 3 from the measured uses |
+| Date, Locale, Currency | Native `DateTimeImmutable`, `IntlDateFormatter`, `NumberFormatter` | No library needed; the format tokens need the differential test |
+| Exception, Json, Registry, Uri, Debug, Config, Loader | Native PHP or tiny classes of our own | Search-and-replace sized |
+| `Db` | **Our own** thin `Siberian\Db` over PDO, keeping the `select()` / `fetchRow()` / `insert()` shape | Siberian runs on MariaDB only, so the portability of Doctrine DBAL buys little; DBAL stays possible under the facade later |
+| `Form` | **Our own** | `Siberian_Form_*` is already our Bootstrap layer; Symfony Form is heavy and built around Twig |
+| `View`, `Layout` | **Our own** minimal PHP renderer keeping the phtml helper contract | Protects every module template |
+| `Controller`, bootstrap | **Our own** small router and dispatcher keeping `module/controller/action` | Symfony Routing has no convention routing; the dispatch is a few hundred lines |
+
+The module scan (2026-11-06) shows why the last four rows stay our own: modules reach ZF1 mostly **through our base classes** (`Core_Model_Default`, `Siberian_Form_*`, `*_Controller_*`), 1157 files in 96 modules against 341 files that name `Zend_` directly. Those base classes are the real module API, so their contracts must survive the swap.
+
+If components are adopted, pin the Symfony 7.4 LTS line, which runs on PHP 8.2. Symfony 8 needs PHP 8.4 and would raise the minimum again. The vendor tree is committed, so each component adds to the update package; measure it against the 41 MB removed before adding one (listed under "Update size" in the risks).
+
 ## Facade contracts
 
 A facade is the contract the code **really uses**, not the whole ZF1 API. Before a facade is written:
