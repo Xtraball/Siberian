@@ -83,6 +83,13 @@ class Application_Model_Device_Ionic_Ios extends Application_Model_Device_Ionic_
     public $withAds = false;
 
     /**
+     * DEBUG ONLY (iOS): the shell is stripped of OneSignal after it is generated.
+     *
+     * @var bool
+     */
+    public $debugWithoutOneSignal = false;
+
+    /**
      * @var string
      */
     public $admobAppIdentifier = 'ca-app-pub-0000000000000000~0000000000';
@@ -214,7 +221,31 @@ class Application_Model_Device_Ionic_Ios extends Application_Model_Device_Ionic_
         $this->buildPList();
         $this->ionicResources($this->currentApplication);
 
+        if ($this->debugWithoutOneSignal) {
+            $this->stripOneSignal();
+        }
+
         return $this->zipFolder();
+    }
+
+    /**
+     * DEBUG ONLY: removes OneSignal from the generated iOS source, see bin/strip-onesignal-ios.sh.
+     *
+     * @throws Exception
+     */
+    protected function stripOneSignal()
+    {
+        if (!Application_Model_SourceQueue::isDebugNoOneSignalEnabled()) {
+            throw new Exception('#500-03: The debug build without OneSignal is not enabled on this server');
+        }
+
+        $script = __DIR__ . '/bin/strip-onesignal-ios.sh';
+        $output = [];
+        $code = 0;
+        exec('bash ' . escapeshellarg($script) . ' ' . escapeshellarg($this->_dest_source) . ' 2>&1', $output, $code);
+        if ($code !== 0) {
+            throw new Exception('#500-04: Unable to remove OneSignal: ' . implode("\n", $output));
+        }
     }
 
     /**
@@ -229,6 +260,11 @@ class Application_Model_Device_Ionic_Ios extends Application_Model_Device_Ionic_
         if ($device->getExcludeAds()) {
             $this->withAds = false;
             $_package_ads_suffix = $_source_ads_suffix = "-noads";
+        }
+        // DEBUG ONLY: ios-noads without OneSignal, built in its own folder and clearly named.
+        $this->debugWithoutOneSignal = (bool) $device->getDebugWithoutOneSignal();
+        if ($this->debugWithoutOneSignal) {
+            $_package_ads_suffix = $_source_ads_suffix = "-DEBUG-NO-ONESIGNAL";
         }
         $this->admobAppIdentifier = trim($device->getAdmobAppId());
 
@@ -247,6 +283,9 @@ class Application_Model_Device_Ionic_Ios extends Application_Model_Device_Ionic_
         $this->_dest_source = path(self::DEST_FOLDER);
         if (!$this->withAds) {
             $this->_dest_source = str_replace('/ios', '/ios-noads', $this->_dest_source);
+        }
+        if ($this->debugWithoutOneSignal) {
+            $this->_dest_source = str_replace('/ios-noads', '/ios-noads-debug', $this->_dest_source);
         }
         $this->_dest_source = sprintf($this->_dest_source, $this->_folder_name);
         $this->_dest_source_amc = $this->_dest_source . "/AppsMobileCompany";
