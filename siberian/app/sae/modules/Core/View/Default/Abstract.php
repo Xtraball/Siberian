@@ -332,7 +332,7 @@ abstract class Core_View_Default_Abstract extends Siberian\View
         # Not usable with colorized images
         Siberian_Media::disableTemporary();
 
-        $color = str_replace('#', '', $color);
+        $color = str_replace('#', '', (string) $color);
         $id = md5(implode_polyfill('+', [$image_id, $color]));
         $url = '';
 
