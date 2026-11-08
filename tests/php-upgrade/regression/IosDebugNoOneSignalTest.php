@@ -63,6 +63,8 @@ return [
         $plist = $read("$dir/AppsMobileCompany/AppsMobileCompany-Info.plist");
         t_equal(1, substr_count($plist, '[DEBUG]'), 'the display name says DEBUG once');
         t_true(simplexml_load_string($plist) !== false, 'Info.plist is still well-formed');
+        $engine = $read("$dir/CordovaLib/Classes/Private/Plugins/CDVWebViewEngine/CDVWebViewEngine.m");
+        t_equal(1, substr_count($engine, 'wkWebView.inspectable = YES;'), 'the web view is inspectable once (Safari can read the console)');
         $plugins = $read("$dir/www/cordova_plugins.js");
         t_true(strpos($plugins, 'plugins/CorePlugin') !== false || strpos($plugins, 'CorePlugin') !== false, 'other JavaScript plugins stay registered');
 

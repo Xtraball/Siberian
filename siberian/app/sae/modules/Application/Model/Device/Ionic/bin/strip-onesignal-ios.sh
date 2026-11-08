@@ -54,6 +54,13 @@ rm -rf "$SRC/www/plugins/Onesignal"
 [ -f "$SRC/Podfile" ] && perl -ni -e 'print unless /pod\s+.OneSignal/' "$SRC/Podfile"
 rm -rf "$SRC/Pods" "$SRC/Podfile.lock"
 
+# 4b. Let Safari (Develop > Simulator / device) inspect the web view, to read the JavaScript console of this debug build.
+ENGINE="$SRC/CordovaLib/Classes/Private/Plugins/CDVWebViewEngine/CDVWebViewEngine.m"
+if [ -f "$ENGINE" ] && ! grep -q 'DEBUG build only' "$ENGINE"; then
+    perl -0pi -e 's{(    wkWebView\.UIDelegate = self\.uiDelegate;\n)}{$1    if (\@available(iOS 16.4, *)) {\n        wkWebView.inspectable = YES; // DEBUG build only (strip-onesignal-ios.sh)\n    }\n}' "$ENGINE"
+    grep -q 'DEBUG build only' "$ENGINE" || { echo "could not make the web view inspectable in $ENGINE" >&2; exit 1; }
+fi
+
 # 5. Make the build impossible to mistake for a release build
 if [ -f "$PLIST" ] && ! grep -q '\[DEBUG\]' "$PLIST"; then
     perl -0pi -e 's{(<key>CFBundleDisplayName</key>\s*<string>)(.*?)(</string>)}{$1$2 [DEBUG]$3}s' "$PLIST"
