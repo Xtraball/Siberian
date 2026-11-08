@@ -32,6 +32,9 @@ $rrmdir = function ($dir) {
 return [
     'the script removes OneSignal from a copy of the ios-noads shell and can run twice' => function () use ($script, $copyTemplate, $rrmdir, $read) {
         $dir = $copyTemplate();
+        // A generated app carries the Push2 feature, whose JavaScript names OneSignal (it skips push when the plugin is missing).
+        mkdir("$dir/www/features/push2", 0777, true);
+        file_put_contents("$dir/www/features/push2/push2.js", "if (!\$window.plugins.OneSignal) { return; }\n");
         foreach ([1, 2] as $run) {
             $out = [];
             exec('bash ' . escapeshellarg($script) . ' ' . escapeshellarg($dir) . ' 2>&1', $out, $code);
@@ -45,7 +48,7 @@ return [
 
         // Nothing in the shell names OneSignal any more (the packed web bundles keep their guarded code).
         $left = [];
-        exec('grep -rIil onesignal ' . escapeshellarg($dir) . ' --exclude-dir=dist --exclude=DEBUG-NO-ONESIGNAL.txt', $left);
+        exec('grep -rIil onesignal ' . escapeshellarg($dir) . ' --exclude-dir=dist --exclude-dir=features --exclude=DEBUG-NO-ONESIGNAL.txt', $left);
         t_equal([], $left, 'no file still names OneSignal');
 
         // What must stay.

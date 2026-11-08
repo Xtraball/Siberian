@@ -66,7 +66,7 @@ Before building: run `pod install` once in this folder, then open AppsMobileComp
 EOF
 
 # 6. Self-check: nothing may still name OneSignal in the shell (the packed web bundles keep their guarded JS code).
-LEFT="$(grep -rIil onesignal "$SRC" --exclude-dir=dist --exclude=DEBUG-NO-ONESIGNAL.txt || true)"
+LEFT="$(grep -rIil onesignal "$SRC" --exclude-dir=dist --exclude-dir=features --exclude=DEBUG-NO-ONESIGNAL.txt || true)"
 if [ -n "$LEFT" ]; then
     echo "OneSignal is still referenced in:" >&2
     echo "$LEFT" >&2
