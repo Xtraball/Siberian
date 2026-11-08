@@ -61,6 +61,31 @@ if [ -f "$ENGINE" ] && ! grep -q 'DEBUG build only' "$ENGINE"; then
     grep -q 'DEBUG build only' "$ENGINE" || { echo "could not make the web view inspectable in $ENGINE" >&2; exit 1; }
 fi
 
+# 4c. No push capability: a free Apple developer account cannot sign an app with the push entitlement or capability.
+for f in "$SRC"/AppsMobileCompany/Entitlements-*.plist; do
+    [ -f "$f" ] && perl -0pi -e 's{[ \t]*<key>aps-environment</key>\s*<string>[^<]*</string>\n?}{}g' "$f"
+done
+[ -f "$PBX" ] && perl -0pi -e 's{\s*com\.apple\.Push = \{[^{}]*\};}{}g' "$PBX"
+[ -f "$PLIST" ] && perl -0pi -e 's{[ \t]*<string>remote-notification</string>\n?}{}g' "$PLIST"
+if grep -rq 'aps-environment' "$SRC"/AppsMobileCompany/Entitlements-*.plist 2>/dev/null || grep -q 'com.apple.Push' "$PBX" || grep -q 'remote-notification' "$PLIST"; then
+    echo "a push entitlement or capability is still declared" >&2
+    exit 1
+fi
+
+# 4d. JavaScript: the app code must not start the plugin that is no longer there. The packed files are minified, the edits
+# are exact and idempotent (the Push2 service stops at its start, the three settings-page calls become no-ops).
+for f in "$SRC"/www/features/push2/*.js "$SRC"/www/dist/*.js; do
+    [ -f "$f" ] || continue
+    perl -pi -e '
+        s/service\.init=function\(\)\{if\(!\$window\.plugins\.OneSignal\)\{/service.init=function(){if(true){/g;
+        s/(?<![&\w.])\$window\.plugins\.OneSignal\.(getDeviceState|promptForPushNotificationsWithUserResponse)\(/\$window.plugins.OneSignal&&\$window.plugins.OneSignal.$1(/g;
+    ' "$f"
+    if grep -q 'service\.init=function(){if(!\$window\.plugins\.OneSignal)' "$f"; then
+        echo "the push service of $f was not neutralised" >&2
+        exit 1
+    fi
+done
+
 # 5. Make the build impossible to mistake for a release build
 if [ -f "$PLIST" ] && ! grep -q '\[DEBUG\]' "$PLIST"; then
     perl -0pi -e 's{(<key>CFBundleDisplayName</key>\s*<string>)(.*?)(</string>)}{$1$2 [DEBUG]$3}s' "$PLIST"

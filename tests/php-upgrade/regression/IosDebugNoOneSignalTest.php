@@ -35,6 +35,12 @@ return [
         // A generated app carries the Push2 feature, whose JavaScript names OneSignal (it skips push when the plugin is missing).
         mkdir("$dir/www/features/push2", 0777, true);
         file_put_contents("$dir/www/features/push2/push2.js", "if (!\$window.plugins.OneSignal) { return; }\n");
+        // The packed JavaScript of a generated app: the Push2 service and the settings page of the customer module.
+        $push2Js = 'service.init=function(){if(!$window.plugins.OneSignal){$log.error("x");return}$window.plugins.OneSignal.initialize(service.appId)};';
+        $chunksJs = 'try{$window.plugins.OneSignal.getDeviceState(function(s){})}catch(e){}$scope.sendTestPush=function(){Loader.show("s"),$window.plugins.OneSignal.getDeviceState(function(s){})},$scope.force=function(){$window.plugins.OneSignal.promptForPushNotificationsWithUserResponse(function(a){})};';
+        file_put_contents("$dir/www/features/push2/push2.bundle.min.js", $push2Js);
+        is_dir("$dir/www/dist") || mkdir("$dir/www/dist", 0777, true);
+        file_put_contents("$dir/www/dist/onloadchunks.bundle.min.js", $chunksJs);
         foreach ([1, 2] as $run) {
             $out = [];
             exec('bash ' . escapeshellarg($script) . ' ' . escapeshellarg($dir) . ' 2>&1', $out, $code);
@@ -65,6 +71,22 @@ return [
         t_true(simplexml_load_string($plist) !== false, 'Info.plist is still well-formed');
         $engine = $read("$dir/CordovaLib/Classes/Private/Plugins/CDVWebViewEngine/CDVWebViewEngine.m");
         t_equal(1, substr_count($engine, 'wkWebView.inspectable = YES;'), 'the web view is inspectable once (Safari can read the console)');
+        // No push entitlement or capability (a free Apple account cannot sign them).
+        foreach (['Entitlements-Debug.plist', 'Entitlements-Release.plist'] as $f) {
+            $ent = $read("$dir/AppsMobileCompany/$f");
+            t_true(strpos($ent, 'aps-environment') === false, "$f has no push entitlement");
+            t_true(simplexml_load_string($ent) !== false, "$f is still well-formed");
+        }
+        t_true(strpos($pbx, 'com.apple.Push') === false, 'the push capability is off in the project');
+        t_true(strpos($plist, 'remote-notification') === false, 'no remote-notification background mode');
+        t_true(strpos($plist, '<string>audio</string>') !== false, 'the audio background mode stays');
+
+        // The JavaScript no longer starts the plugin, and the second run changed nothing more.
+        $push2 = $read("$dir/www/features/push2/push2.bundle.min.js");
+        t_true(strpos($push2, 'service.init=function(){if(true){') !== false, 'the Push2 service stops at its start');
+        $chunks = $read("$dir/www/dist/onloadchunks.bundle.min.js");
+        t_equal(2, substr_count($chunks, '$window.plugins.OneSignal&&$window.plugins.OneSignal.getDeviceState('), 'getDeviceState calls are guarded once each');
+        t_equal(1, substr_count($chunks, '$window.plugins.OneSignal&&$window.plugins.OneSignal.promptForPushNotificationsWithUserResponse('), 'the prompt call is guarded once');
         $plugins = $read("$dir/www/cordova_plugins.js");
         t_true(strpos($plugins, 'plugins/CorePlugin') !== false || strpos($plugins, 'CorePlugin') !== false, 'other JavaScript plugins stay registered');
 
