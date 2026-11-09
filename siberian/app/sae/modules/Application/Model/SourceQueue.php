@@ -14,11 +14,24 @@ class Application_Model_SourceQueue extends Core_Model_Default
     const ARCHIVE_FOLDER = "/var/tmp/jobs/";
 
     /**
+     * DEBUG ONLY, iOS only: a source without OneSignal for testing on real hardware (docs/mobile-parity.md, no parity
+     * on purpose). The queue type exists only to be built when the server carries the very specific flag below.
+     */
+    const DEBUG_NO_ONESIGNAL_TYPE = 'iosdebug';
+
+    /**
+     * The environment variable that must hold exactly this value on the server (SAE/MAE/PE of the maintainers).
+     */
+    const DEBUG_NO_ONESIGNAL_ENV = 'SIBERIAN_DEBUG_IOS_WITHOUT_ONESIGNAL';
+    const DEBUG_NO_ONESIGNAL_VALUE = 'yes-this-build-is-not-for-the-store';
+
+    /**
      * @var array
      */
     public $_devices = [
         'ios' => 1,
         'iosnoads' => 1,
+        'iosdebug' => 1,
         'android' => 2,
     ];
 
@@ -30,6 +43,16 @@ class Application_Model_SourceQueue extends Core_Model_Default
     {
         parent::__construct($data);
         $this->_db_table = "Application_Model_Db_Table_SourceQueue";
+    }
+
+    /**
+     * Off unless the server carries the very specific flag. Never reads a setting an editor could reach.
+     *
+     * @return bool
+     */
+    public static function isDebugNoOneSignalEnabled()
+    {
+        return getenv(self::DEBUG_NO_ONESIGNAL_ENV) === self::DEBUG_NO_ONESIGNAL_VALUE;
     }
 
     /**
@@ -74,7 +97,12 @@ class Application_Model_SourceQueue extends Core_Model_Default
         $application->setDesignCode($design_code);
         $device = $application->getDevice($this->_devices[$this->getType()]);
         $device->setApplication($application);
-        $device->setExcludeAds(($this->getType() == "iosnoads"));
+        $isDebugNoOneSignal = ($this->getType() === self::DEBUG_NO_ONESIGNAL_TYPE);
+        if ($isDebugNoOneSignal && !self::isDebugNoOneSignalEnabled()) {
+            throw new Exception(__("#500-03: The debug build without OneSignal is not enabled on this server"));
+        }
+        $device->setExcludeAds(in_array($this->getType(), ["iosnoads", self::DEBUG_NO_ONESIGNAL_TYPE], true));
+        $device->setDebugWithoutOneSignal($isDebugNoOneSignal);
         $device->setDownloadType("zip");
         $device->setHost($this->getHost());
 
@@ -214,6 +242,7 @@ class Application_Model_SourceQueue extends Core_Model_Default
         $data = [
             "ios" => false,
             "iosnoads" => false,
+            "iosdebug" => false,
             "android" => false,
         ];
 

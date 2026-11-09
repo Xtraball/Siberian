@@ -872,6 +872,14 @@ abstract class Application_Controller_View_Abstract extends Backoffice_Controlle
             $type = ($request->getParam('type') == 'apk') ? 'apk' : 'zip';
             $device = ($request->getParam('device_id') == 1) ? 'ios' : 'android';
             $noads = ($request->getParam('no_ads') == 1) ? 'noads' : '';
+            // DEBUG ONLY (iOS): no_ads=2 asks for the build without OneSignal, refused unless the server is flagged.
+            if ($request->getParam('no_ads') == 2 && $device === 'ios' && $type !== 'apk') {
+                if (!Application_Model_SourceQueue::isDebugNoOneSignalEnabled()) {
+                    throw new \Siberian\Exception('#908-03: ' .
+                        __('The debug build without OneSignal is not enabled on this server'));
+                }
+                $noads = 'debug';
+            }
             $isApkService = $request->getParam('apk', false) === 'apk';
             $design_code = $request->getParam('design_code');
             $adminIdCredentials = $request->getParam('admin_id', 0);
@@ -946,6 +954,9 @@ abstract class Application_Controller_View_Abstract extends Backoffice_Controlle
                 $type = ($this->getRequest()->getParam("type") == "apk") ? "apk" : "zip";
                 $device = ($this->getRequest()->getParam("device_id") == 1) ? "ios" : "android";
                 $noads = ($this->getRequest()->getParam("no_ads") == 1) ? "noads" : "";
+                if ($this->getRequest()->getParam("no_ads") == 2 && $device === "ios") {
+                    $noads = "debug";
+                }
 
                 Application_Model_Queue::cancel($application_id, $type, $device . $noads);
 

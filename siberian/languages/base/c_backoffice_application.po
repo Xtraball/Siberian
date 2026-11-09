@@ -2036,3 +2036,18 @@ msgstr "Display test Ads"
 msgctxt "backoffice_application"
 msgid "AdMob app id is required to generate iOS sources."
 msgstr "AdMob app id is required to generate iOS sources."
+
+# GMT 1794412800.0000
+msgctxt "backoffice_application"
+msgid "iOS DEBUG (without OneSignal)"
+msgstr "iOS DEBUG (without OneSignal)"
+
+# GMT 1794412800.0000
+msgctxt "backoffice_application"
+msgid "Development only, never publish"
+msgstr "Development only, never publish"
+
+# GMT 1794412800.0000
+msgctxt "backoffice_application"
+msgid "OneSignal is removed so the app can be tested on real hardware. Push notifications do not work. Run pod install once in the unzipped folder, then open the .xcworkspace. Never submit this build to the App Store."
+msgstr "OneSignal is removed so the app can be tested on real hardware. Push notifications do not work. Run pod install once in the unzipped folder, then open the .xcworkspace. Never submit this build to the App Store."

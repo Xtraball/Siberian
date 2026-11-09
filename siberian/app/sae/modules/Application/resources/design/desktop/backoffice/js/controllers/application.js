@@ -221,6 +221,7 @@ App.config(function($routeProvider) {
                     /** Only for direct download */
                     var device = (device_id == 1) ? "ios" : "android";
                     device = (no_ads == 1) ? device+"noads" : device;
+                    device = (no_ads == 2) ? "iosdebug" : device;
                     var base = data.more["zip"][device]["path"];
                     window.location.href = BASE_URL+"/"+base;
                 } else {

@@ -8,6 +8,7 @@ class Application_Model_Queue extends Core_Model_Default {
     public static $TYPES = [
         'ios',
         'iosnoads',
+        'iosdebug',
         'android',
         'apk',
     ];
