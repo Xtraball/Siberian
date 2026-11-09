@@ -1085,10 +1085,22 @@ abstract class Zend_Db_Table_Row_Abstract implements ArrayAccess, IteratorAggreg
         }
 
         $stmt = $select->query();
+        $data = $stmt->fetchAll(Zend_Db::FETCH_ASSOC);
+        if (!is_array($data)) {
+            // PDOStatement::fetchAll() answers false when the fetch itself failed without an exception (connection
+            // lost or timed out); a rowset built on it dies in count(false). Same guard as Zend_Db_Table_Abstract::_fetch().
+            // ZF1-OK: the ZF1 row class itself, the same exception family as its other failures
+            require_once 'Zend/Db/Table/Row/Exception.php';
+            throw new Zend_Db_Table_Row_Exception(sprintf(
+                'Fetching the many-to-many rows of %s failed (%s)',
+                get_class($matchTable),
+                implode(' ', array_map('strval', (array) $stmt->errorInfo()))
+            ));
+        }
 
         $config = array(
             'table'    => $matchTable,
-            'data'     => $stmt->fetchAll(Zend_Db::FETCH_ASSOC),
+            'data'     => $data,
             'rowClass' => $matchTable->getRowClass(),
             'readOnly' => false,
             'stored'   => true
