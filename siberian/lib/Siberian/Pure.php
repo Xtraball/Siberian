@@ -9,6 +9,13 @@ use \Gettext\Translations;
 use Siberian\File;
 
 /**
+ * A PHP without the iconv extension: the iconv functions Zend and Siberian call are mapped onto mbstring.
+ */
+if (!extension_loaded('iconv')) {
+    require_once __DIR__ . '/IconvPolyfill.php';
+}
+
+/**
  * Polyfill for php <= 7.2
  *
  */
@@ -841,7 +848,9 @@ function rowset_to_options($row_set, $key_value, $key_label)
 function slugify($text)
 {
     $text = preg_replace('~[^\pL\d]+~u', '-', $text); # Replace non letter or digits by -
-    $text = iconv('utf-8', 'us-ascii//TRANSLIT', $text); # Transliterate
+    # Transliterate (without the iconv extension, or when iconv gives up, the mbstring based fallback)
+    $ascii = extension_loaded('iconv') ? iconv('utf-8', 'us-ascii//TRANSLIT', $text) : false;
+    $text = $ascii !== false ? $ascii : \Siberian\IconvFallback::toAscii($text);
     $text = preg_replace('~[^-\w]+~', '', $text); #remove unwanted characters
     $text = trim($text, '-');
     $text = preg_replace('~-+~', '-', $text);
