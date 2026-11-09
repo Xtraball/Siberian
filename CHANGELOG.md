@@ -2,17 +2,19 @@
 
 Notable changes to Siberian, newest first. Dates are `YYYY-MM-DD`. Longer notes live in `docs/`.
 
-## [5.1.15] 2026-11-07
+## [5.1.15] 2026-11-09
 
 Launch fix for iOS 27, Android 15 layout fix, iOS map and link buttons, Google Play warning, on top of 5.1.14. The update package is built against 5.1.14 (`lastversion`), the last published version. MAE and PE carry the same changes (tags `v5.1.15` on their `master`).
 
 ### Changed
 
+- 2026-11-09 Back office (development only): on a server that carries one very specific environment variable, an iOS source can be generated without OneSignal, to test on a device with a free Apple developer account. It is off everywhere else and never shown in the editor.
 - 2026-11-07 Android apps: newer system libraries, so Google Play no longer warns that the mutability of some PendingIntents is not specified when you upload an app.
 - 2026-11-07 Development: two manual workflows, `android-boot` and `ios-boot`, install a throw-away Siberian, generate an app and start it in an emulator and in a simulator. `check-pr.sh` now refuses a change that adds new use of Zend Framework 1, and the plan to remove it is recorded in `docs/decisions/`.
 
 ### Fixed
 
+- 2026-11-09 Development: the colorized images of the app no longer raise a PHP 8.1 deprecation when an image has no color.
 - 2026-11-07 iOS apps: apps built with the iOS 27 SDK no longer stop at launch. They now use the scene life cycle that Apple makes mandatory from iOS 27. Links opened in the app keep working.
 - 2026-11-07 iOS apps: the buttons of the navigation chooser work on iOS 18 and later, and the Apple Maps button opens Apple Maps instead of its App Store page.
 - 2026-11-07 iOS apps: the "Settings" button shown when access to photos is denied and the WhatsApp share work on iOS 18 and later (they did nothing).
