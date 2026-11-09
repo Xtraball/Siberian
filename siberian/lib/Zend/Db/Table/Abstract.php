@@ -1575,6 +1575,17 @@ abstract class Zend_Db_Table_Abstract
     {
         $stmt = $this->_db->query($select);
         $data = $stmt->fetchAll(Zend_Db::FETCH_ASSOC);
+        if (!is_array($data)) {
+            // PDOStatement::fetchAll() answers false when the fetch itself failed without an exception (connection
+            // lost or timed out while reading the result). A rowset built on it died in count(false), a TypeError
+            // that the catch (\Exception) blocks of the callers never see.
+            // ZF1-OK: the ZF1 table class itself, the same exception family as its other failures
+            throw new Zend_Db_Table_Exception(sprintf(
+                'Fetching the rows of %s failed (%s)',
+                get_class($this),
+                implode(' ', array_map('strval', (array) $stmt->errorInfo()))
+            ));
+        }
         return $data;
     }
 
