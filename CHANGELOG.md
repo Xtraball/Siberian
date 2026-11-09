@@ -2,6 +2,15 @@
 
 Notable changes to Siberian, newest first. Dates are `YYYY-MM-DD`. Longer notes live in `docs/`.
 
+## [5.1.16] 2026-11-10
+
+Server stability fixes on top of 5.1.15. The update package is built against 5.1.15 (`lastversion`), the last published version. MAE and PE carry the same changes (tags `v5.1.16` on their `master`).
+
+### Fixed
+
+- 2026-11-09 Servers: a database read that fails halfway (connection lost or timed out) now raises a readable error naming the table, instead of a crash in the middle of the page (`count(): ... false given`). It covers the normal table reads and the many-to-many reads.
+- 2026-11-09 Servers: installations without the PHP iconv extension no longer end in fatal errors (slugs, dates, locales). Siberian falls back on mbstring, and the back office home shows a warning when the extension is missing.
+
 ## [5.1.15] 2026-11-09
 
 Launch fix for iOS 27, Android 15 layout fix, iOS map and link buttons, Google Play warning, on top of 5.1.14. The update package is built against 5.1.14 (`lastversion`), the last published version. MAE and PE carry the same changes (tags `v5.1.15` on their `master`).
