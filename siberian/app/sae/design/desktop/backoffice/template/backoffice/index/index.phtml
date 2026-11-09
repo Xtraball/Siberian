@@ -77,9 +77,17 @@ if (array_key_exists(Version::VERSION, $updates)) {
 $mustUpgradePhp = !\Siberian\PhpSupport::isSupported();
 $shouldUpgradePhp = !$mustUpgradePhp && !\Siberian\PhpSupport::isRecommended();
 
+// iconv is required; Siberian falls back on mbstring without it, but accents and some formats are less exact
+$missingIconv = !extension_loaded('iconv');
+
 ?>
 <div class="row">
     <div class="col-md-8 col-md-offset-2 col-sm-12">
+        <?php if ($missingIconv): ?>
+        <p class="alert alert-warning">
+            <?php echo p__('backoffice', 'The PHP extension iconv is missing on this server. Siberian works around it, but please install it (for example the php-iconv package) and restart PHP.'); ?>
+        </p>
+        <?php endif; ?>
         <?php if ($mustUpgradePhp): ?>
         <p class="alert alert-danger">
             <?php echo p__('backoffice', 'Your PHP version %s is no longer supported. Siberian requires PHP 8.2 or higher, which carries the security fixes. PHP 8.5 is recommended, please upgrade as soon as possible.', PHP_VERSION); ?>

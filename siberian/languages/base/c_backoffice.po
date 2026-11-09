@@ -782,3 +782,7 @@ msgstr ""
 msgctxt "backoffice"
 msgid "Your PHP version is %s. PHP 8.5 is recommended, it carries the latest security fixes."
 msgstr ""
+
+msgctxt "backoffice"
+msgid "The PHP extension iconv is missing on this server. Siberian works around it, but please install it (for example the php-iconv package) and restart PHP."
+msgstr ""
