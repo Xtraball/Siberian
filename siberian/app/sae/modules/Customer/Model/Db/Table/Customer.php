@@ -17,8 +17,7 @@ class Customer_Model_Db_Table_Customer extends Core_Model_Db_Table
      */
     public function clearBySessionUuid($sessionUuid)
     {
-        $this->_db->query("UPDATE customer SET session_uuid = NULL WHERE session_uuid = ':sessionUuid';",
-            [':sessionUuid' => $sessionUuid]);
+        $this->_db->query('UPDATE customer SET session_uuid = NULL WHERE session_uuid = ?', [$sessionUuid]);
     }
 
     /**
