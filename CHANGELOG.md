@@ -2,6 +2,12 @@
 
 Notable changes to Siberian, newest first. Dates are `YYYY-MM-DD`. Longer notes live in `docs/`.
 
+## [Unreleased]
+
+### Fixed
+
+- 2026-11-10 Mobile apps: registering and logging in from an installed app (Android or iOS) failed with `SQLSTATE[HY093]: Invalid parameter number`. The query that frees the session of the customer had its value inside quotes, so the database saw one value for no placeholder. The editor preview was not affected because it skips that query.
+
 ## [5.1.16] 2026-11-10
 
 Server stability fixes on top of 5.1.15. The update package is built against 5.1.15 (`lastversion`), the last published version. MAE and PE carry the same changes (tags `v5.1.16` on their `master`).
