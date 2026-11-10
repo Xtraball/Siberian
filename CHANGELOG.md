@@ -2,6 +2,12 @@
 
 Notable changes to Siberian, newest first. Dates are `YYYY-MM-DD`. Longer notes live in `docs/`.
 
+## [Unreleased]
+
+### Fixed
+
+- 2026-11-10 Mobile apps: a database error no longer reaches the app user (for example `SQLSTATE[HY093]: Invalid parameter number` on the registration form). The app shows "Something went wrong on our side, please try again in a moment." and the technical text goes to the server log. Development mode keeps the full text.
+
 ## [5.1.16] 2026-11-10
 
 Server stability fixes on top of 5.1.15. The update package is built against 5.1.15 (`lastversion`), the last published version. MAE and PE carry the same changes (tags `v5.1.16` on their `master`).
