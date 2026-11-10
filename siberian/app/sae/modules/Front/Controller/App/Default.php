@@ -108,6 +108,16 @@ class Front_Controller_App_Default extends Application_Controller_Mobile_Default
             unset($data['exceptionMessage']);
         }
 
+        // A database error is for the logs, the app user reads a plain sentence (the development answers keep it)!
+        if (is_array($data) && !Siberian_Debug::isDevelopment()) {
+            $data = \Siberian\ClientMessage::clean(
+                $data,
+                p__('application', 'Something went wrong on our side, please try again in a moment.'),
+                function ($message) {
+                    log_err(sprintf('[mobile error hidden from the app] %s', $message));
+                });
+        }
+
         $json = Siberian_Json::encode($data);
         $this->getLayout()->setHtml($json);
 

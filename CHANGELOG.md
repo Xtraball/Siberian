@@ -6,6 +6,7 @@ Notable changes to Siberian, newest first. Dates are `YYYY-MM-DD`. Longer notes 
 
 ### Fixed
 
+- 2026-11-10 Mobile apps: a database error no longer reaches the app user (for example `SQLSTATE[HY093]: Invalid parameter number` on the registration form). The app shows "Something went wrong on our side, please try again in a moment." and the technical text goes to the server log. Development mode keeps the full text.
 - 2026-11-10 Mobile apps: registering and logging in from an installed app (Android or iOS) failed with `SQLSTATE[HY093]: Invalid parameter number`. The query that frees the session of the customer had its value inside quotes, so the database saw one value for no placeholder. The editor preview was not affected because it skips that query.
 
 ## [5.1.16] 2026-11-10
