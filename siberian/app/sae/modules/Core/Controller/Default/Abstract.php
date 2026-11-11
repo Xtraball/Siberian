@@ -340,7 +340,7 @@ abstract class Core_Controller_Default_Abstract extends Zend_Controller_Action i
     public function getSession($type = null)
     {
         if (!$type) {
-            $type = defined('SESSION_TYPE') ? SESSION_TYPE : 'admin';
+            $type = defined('SESSION_TYPE') ? SESSION_TYPE : Core_Model_Session::TYPE_ADMIN;
         }
 
         if (isset(self::$_session[$type])) {
