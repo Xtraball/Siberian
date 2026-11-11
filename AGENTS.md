@@ -12,6 +12,7 @@ Rules for AI coding agents (and humans) working on this repository. Read [CONTRI
 6. **Other editions override some files, so a fix is not done until they are checked.** MAE and PE are private overlays that replace SAE files of the same path (a design file by its design key), they never merge. Read [docs/editions.md](docs/editions.md). Keep changes additive and local, and for a change to a backoffice, Admin, System, Core, Application or Template file, say in the pull request that the overlays need the same change and ask a maintainer with access to check it against their override map. Never name an overlay-only file in a public issue, pull request or release note.
 7. **Keep Android and iOS at parity, as far as possible.** The app code is shared, the native side is not: a change to a native plugin, a permission, a minimum OS version or a shell setting on one platform is made on the other in the same pull request, or the pull request says why it cannot be and the difference goes in [docs/mobile-parity.md](docs/mobile-parity.md). Shared JavaScript must work with the plugin versions of both shells (accept the old and the new format of what a plugin returns). Build both shells before merging a change to a shell: Actions > android-build and ios-build.
 8. **Do not add Zend Framework 1 (`Zend_*`) to the code.** ZF1 is being removed ([docs/decisions/0001-remove-zf1.md](docs/decisions/0001-remove-zf1.md)). A file may keep the references it has (the files that have some are in `tests/php-upgrade/zf1-allowlist.txt`) and may lose them, never gain one; a new file starts without. Use the classes of the `Siberian\` namespace or plain PHP. A line that has to name `Zend_` (a facade that wraps it) says `ZF1-OK: why`. `tests/php-upgrade/check-pr.sh` fails on a new reference.
+9. **A change to a module's schema or data files raises that module's `package.json` version, in the same pull request.** The installer plays `resources/db/schema` and `resources/db/data` of an installation that updates only when the module version in `package.json` is newer than the one recorded in its database (`Installer_Model_Installer_Module::canUpdate()`). Without the bump, fresh installs get the change and every updated installation silently does not: 5.1.14 added `application.android_edge_to_edge` and Application stayed at 5.0.15, so the option saved and its value was dropped (fixed by raising Application to 5.0.16). Bump the version of the module the file is in (a patch bump is enough), and keep the files idempotent. `tests/php-upgrade/check-pr.sh` fails on a changed schema or data file whose module version did not change.
 
 ## Repository map
 
@@ -44,7 +45,7 @@ The documentation lags the code, and it describes only SAE-visible behaviour. **
 
 ## Module installs
 
-Schema sync and data files are upserts by nature, so running them again on the same version is safe. Going forward every new schema and data file must stay idempotent. An installed module is only updated when its `package.json` version is newer than the database; reinstalling the same version is an explicit opt-in in the back-office.
+Schema sync and data files are upserts by nature, so running them again on the same version is safe. Going forward every new schema and data file must stay idempotent. An installed module is only updated when its `package.json` version is newer than the database; reinstalling the same version is an explicit opt-in in the back-office. So every change under `resources/db/schema` or `resources/db/data` comes with a version bump of that module (rule 9), or updated installations never play it.
 
 ## Translations
 
@@ -73,7 +74,7 @@ English is the default language. A text missing from every catalog is shown in E
 tests/php-upgrade/check-pr.sh [--strict] [base-ref]
 ```
 
-It reads git only and checks the added lines against this file: it fails on CRLF line endings, on new `__()` / `p__()` texts that are not in a `.po` translation catalog, and on new `Zend_` references (rule 8; `check-pr.sh --zf1-list` remakes the allowlist), and warns when source changed without a test, or when fragile smells (`|| true`, `sleep`, `@` suppression) were added. `--strict` turns the warnings into failures.
+It reads git only and checks the added lines against this file: it fails on CRLF line endings, on new `__()` / `p__()` texts that are not in a `.po` translation catalog, on new `Zend_` references (rule 8; `check-pr.sh --zf1-list` remakes the allowlist), and on a changed module schema or data file without a version bump of its module (rule 9), and warns when source changed without a test, or when fragile smells (`|| true`, `sleep`, `@` suppression) were added. `--strict` turns the warnings into failures.
 
 ## Issue triage
 
