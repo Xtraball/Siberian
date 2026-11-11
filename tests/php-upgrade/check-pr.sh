@@ -6,6 +6,8 @@
 # Fails (exit 1) on: CRLF in added lines, new __() / p__() texts that are not in a .po catalog (new texts never go
 # in the legacy csv files; a text that already lives in a csv of the base ref can be reused).
 # Also fails on new use of Zend Framework 1 (any Zend_ class name): see "5." below and docs/decisions/0001-remove-zf1.md.
+# Also fails on a change to a module's resources/db/schema or resources/db/data without a new package.json version of
+# that module: see "6." below and AGENTS.md rule 9.
 # Warns on: source changes without a test change, and fragile smells (see AGENTS.md) in added lines.
 # --strict turns the warnings into failures. Only reads git, changes nothing.
 #
@@ -124,6 +126,31 @@ if [ -s "$ZOUT" ]; then
   WARN=$((WARN + $(grep -c '^WARN' "$ZOUT" || true)))
 fi
 rm -f "$ZOUT"
+
+# 6. A module's schema and data files are only played on an installation whose database has an older module version
+#    than the package.json (Installer_Model_Installer_Module::canUpdate()). A change to resources/db/schema or
+#    resources/db/data without a new "version" in the same module's package.json never reaches an installation that
+#    updates (5.1.14 added application.android_edge_to_edge and Application stayed at 5.0.15: updated installs never got
+#    the column). Deleted files do not count, nothing is played for them.
+pkg_version() {
+  git show "$1:$2" 2>/dev/null | grep -m1 -E '^[[:space:]]*"version"' |
+    sed -E 's/.*"version"[[:space:]]*:[[:space:]]*"([^"]*)".*/\1/'
+}
+VOUT=$(mktemp)
+git diff --name-only --diff-filter=ACMR "$MERGE_BASE" HEAD -- \
+  'siberian/app/*/modules/*/resources/db/schema/*.php' 'siberian/app/*/modules/*/resources/db/data/*.php' |
+  sed -E 's#/resources/db/.*##' | sort -u | while IFS= read -r module_dir; do
+    before=$(pkg_version "$MERGE_BASE" "$module_dir/package.json")
+    now=$(pkg_version HEAD "$module_dir/package.json")
+    if [ -z "$now" ] || [ "$now" = "$before" ]; then
+      echo "FAIL  $module_dir: schema/data files changed but package.json \"version\" did not (${now:-none}); raise it, or installations that update never play them (AGENTS.md rule 9)"
+    fi
+  done > "$VOUT"
+if [ -s "$VOUT" ]; then
+  cat "$VOUT"
+  FAIL=$((FAIL + $(grep -c '^FAIL' "$VOUT" || true)))
+fi
+rm -f "$VOUT"
 
 echo "check-pr: $FAIL failure(s), $WARN warning(s) against $BASE"
 [ "$FAIL" -eq 0 ] || exit 1
