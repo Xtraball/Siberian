@@ -74,8 +74,8 @@ class Feature
             ];
 
             $image = (new \Media_Model_Library_Image())->find([
-                'library_id = ?' => $libraryId,
-                'link = ?' => $iconPath,
+                'library_id' => $libraryId,
+                'link' => $iconPath,
             ]);
             if (!$image || !$image->getId()) {
                 $image
