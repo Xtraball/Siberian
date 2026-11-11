@@ -318,7 +318,7 @@ class Admin_Api_AccountController extends Api_Controller_Default
                     throw new Exception(__("The user doesn't exist."));
                 }
 
-                if ($admin->getLoginToken() != $token) {
+                if (!is_string($token) || !hash_equals((string) $admin->getLoginToken(), $token)) {
                     throw new Exception(__("Authentication failed"));
                 }
 

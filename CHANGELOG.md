@@ -6,6 +6,7 @@ Notable changes to Siberian, newest first. Dates are `YYYY-MM-DD`. Longer notes 
 
 ### Fixed
 
+- 2026-11-12 Security: the password checks of the admin, back-office and API users and the autologin token of the admin API compare with `hash_equals()` instead of `==`, which treated two different hashes of the form `0e` plus digits as equal.
 - 2026-11-12 PHP 8 guards: certificates without a chain no longer break the Plesk, cPanel and DirectAdmin upload (`file_get_contents("")`), deleting an SSL certificate in demo mode, the colorize/blank image actions and the JSON bodies that are not objects no longer end in a 500 (TypeError or ValueError).
 - 2026-11-12 Music gallery: a track with a blank or text duration no longer breaks the album and gallery totals on PHP 8 (TypeError); new custom tracks store 0 instead of the text.
 - 2026-11-12 Numbers sent by the app (device size, crop size, latitude/longitude, offsets of lists and galleries) that are empty or text no longer end in a 500 on PHP 8 (TypeError that `catch (Exception)` does not catch).
