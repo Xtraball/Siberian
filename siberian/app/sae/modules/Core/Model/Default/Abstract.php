@@ -170,7 +170,7 @@ abstract class Core_Model_Default_Abstract extends \__polyfill_mixed
     public function getSession($type = null)
     {
 
-        if (is_null($type)) $type = SESSION_TYPE;
+        if (is_null($type)) $type = defined('SESSION_TYPE') ? SESSION_TYPE : Core_Model_Session::TYPE_ADMIN;
 
         if (isset(self::$_session[$type])) {
             return self::$_session[$type];
@@ -188,7 +188,7 @@ abstract class Core_Model_Default_Abstract extends \__polyfill_mixed
      */
     public static function _getSession($type = null)
     {
-        if (is_null($type)) $type = SESSION_TYPE;
+        if (is_null($type)) $type = defined('SESSION_TYPE') ? SESSION_TYPE : Core_Model_Session::TYPE_ADMIN;
 
         if (isset(self::$_session[$type])) {
             return self::$_session[$type];

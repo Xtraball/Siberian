@@ -84,7 +84,7 @@ abstract class Core_View_Default_Abstract extends Siberian\View
     public function getSession($type = null)
     {
 
-        if (is_null($type)) $type = SESSION_TYPE;
+        if (is_null($type)) $type = defined('SESSION_TYPE') ? SESSION_TYPE : Core_Model_Session::TYPE_ADMIN;
 
         if (isset(self::$_session[$type])) {
             return self::$_session[$type];
