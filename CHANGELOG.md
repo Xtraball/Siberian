@@ -6,6 +6,7 @@ Notable changes to Siberian, newest first. Dates are `YYYY-MM-DD`. Longer notes 
 
 ### Fixed
 
+- 2026-11-12 PHP 8 guards: certificates without a chain no longer break the Plesk, cPanel and DirectAdmin upload (`file_get_contents("")`), deleting an SSL certificate in demo mode, the colorize/blank image actions and the JSON bodies that are not objects no longer end in a 500 (TypeError or ValueError).
 - 2026-11-12 Music gallery: a track with a blank or text duration no longer breaks the album and gallery totals on PHP 8 (TypeError); new custom tracks store 0 instead of the text.
 - 2026-11-12 Numbers sent by the app (device size, crop size, latitude/longitude, offsets of lists and galleries) that are empty or text no longer end in a 500 on PHP 8 (TypeError that `catch (Exception)` does not catch).
 - 2026-11-12 Shop on PHP 8: adding a product without options to a cart that holds the same product, an optional choice group left untouched, a discount code on an empty cart, a text amount for Stripe or a text number of loyalty points no longer end in a 500 (TypeError or division by zero that `catch (Exception)` does not catch).

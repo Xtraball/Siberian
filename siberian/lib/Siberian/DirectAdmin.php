@@ -69,9 +69,9 @@ class Siberian_DirectAdmin {
      */
     public function updateCertificate($ssl_certificate) {
 
-        $certificate = file_get_contents($ssl_certificate->getPrivate()).
-            "\n".file_get_contents($ssl_certificate->getCertificate()).
-            "\n".file_get_contents($ssl_certificate->getChain());
+        $certificate = \Siberian\File::readOrEmpty($ssl_certificate->getPrivate()).
+            "\n".\Siberian\File::readOrEmpty($ssl_certificate->getCertificate()).
+            "\n".\Siberian\File::readOrEmpty($ssl_certificate->getChain());
 
         $this->logger->info($certificate);
 

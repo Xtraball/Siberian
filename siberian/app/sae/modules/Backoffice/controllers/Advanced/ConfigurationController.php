@@ -304,7 +304,7 @@ class Backoffice_Advanced_ConfigurationController extends System_Controller_Back
                 $cert = $ssl_certificate_model->find($cert_id);
 
                 // Prevent some certificates from being un-intentionally removed!
-                if (__getConfig('is_demo') && in_array(__getConfig('hostname'), $cert->getHostname())) {
+                if (__getConfig('is_demo') && __getConfig('hostname') === $cert->getHostname()) {
                     throw new Siberian_Exception('This certificate is protected.');
                 }
 
