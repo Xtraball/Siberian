@@ -32,7 +32,7 @@ class Backoffice_Model_User extends Core_Model_Default
      */
     public function isSamePassword($password)
     {
-        return $this->getPassword() == $this->_encrypt($password);
+        return hash_equals((string) $this->getPassword(), (string) $this->_encrypt($password));
     }
 
     /**
@@ -59,7 +59,7 @@ class Backoffice_Model_User extends Core_Model_Default
      */
     private function _checkPassword($password)
     {
-        return $this->getPassword() == $this->_encrypt($password);
+        return hash_equals((string) $this->getPassword(), (string) $this->_encrypt($password));
     }
 
 }

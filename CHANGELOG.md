@@ -6,6 +6,7 @@ Notable changes to Siberian, newest first. Dates are `YYYY-MM-DD`. Longer notes 
 
 ### Fixed
 
+- 2026-11-12 Security: the password checks of the admin, back-office and API users and the autologin token of the admin API compare with `hash_equals()` instead of `==`, which treated two different hashes of the form `0e` plus digits as equal.
 - 2026-11-11 Podcast gallery: track durations are read correctly ("3600" seconds, "12:30" and "1:02:03"), and a feed with a text or empty duration no longer ends in a TypeError on PHP 8.
 - 2026-11-11 RSS feed: "1 day", "1 hour" and "1 minute" are singular again on PHP 8 (the code compared the text "1 day" with the number 1, which PHP 8 does as a string comparison).
 - 2026-11-11 Podcast video block: the feed image is now used as a fallback; the code read it from a variable that had just been reset to `false` (PHP warning, never worked, and a TypeError if it ever held a string).
