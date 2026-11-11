@@ -179,43 +179,9 @@ class Installer_Backoffice_ModuleController extends Backoffice_Controller_Defaul
 
             if (!empty($data['url']) && !empty($data['filename'])) {
 
-                $tmp_path = Core_Model_Directory::getTmpDirectory(true) . '/' . $data['filename'];
-
-                $client = new Zend_Http_Client($data['url'], [
-                    'adapter' => 'Zend_Http_Client_Adapter_Curl',
-                    'curloptions' => [CURLOPT_SSL_VERIFYPEER => false],
-                ]);
-
-                $client->setMethod(Zend_Http_Client::POST);
-
-                if (Siberian_Version::TYPE === 'SAE') {
-                    $client->setParameterPost('sae', 1);
-                } else {
-                    $licenseKey = System_Model_Config::getValueFor('siberiancms_key');
-                    if (!$licenseKey) {
-                        throw new Siberian_Exception(__('There is no CMS license key set.'));
-                    }
-                    $client->setParameterPost('licenseKey', $licenseKey);
-                    $client->setParameterPost('host', $_SERVER['HTTP_HOST']);
-                }
-
-                $response = $client->request();
-
-                if ($response->getStatus() == 200) {
-                    $content = $response->getBody();
-
-                    if (empty($content)) {
-                        throw new Siberian_Exception(__('#100: Unable to fetch the update. Please, try again later.'));
-                    }
-
-                    File::putContents($tmp_path, $content);
-                } else {
-                    throw new Siberian_Exception(__('#101: Unable to fetch the update. Please, try again later.'));
-                }
-
-                if (!file_exists($tmp_path)) {
-                    throw new Siberian_Exception(__('#102: Unable to fetch the update. Please, try again later.'));
-                }
+                // The same download as `php cli update`
+                $tmp_path = Installer_Model_Installer_Update::platform($_SERVER['HTTP_HOST'] ?? null)
+                    ->download($data, Core_Model_Directory::getTmpDirectory(true));
 
                 $payload = $this->_getPackageDetails($tmp_path);
             } else {
@@ -297,32 +263,12 @@ class Installer_Backoffice_ModuleController extends Backoffice_Controller_Defaul
                     throw new \Siberian\Exception(__("The file %s does not exist", $filename));
                 }
 
-                $parser = new Installer_Model_Installer_Module_Parser();
-                $is_ok = $parser->setFile($file)->checkPermissions();
+                // The same check as `php cli update` (web user first, then the saved FTP access)
+                Installer_Model_Installer_Update::checkPermissions($file);
 
-                if (!$is_ok) {
-                    $ftp_host = System_Model_Config::getValueFor("ftp_host");
-                    $ftp_user = System_Model_Config::getValueFor("ftp_username");
-                    $ftp_password = System_Model_Config::getValueFor("ftp_password");
-                    $ftp_port = System_Model_Config::getValueFor("ftp_port");
-                    $ftp_path = System_Model_Config::getValueFor("ftp_path");
-                    $ftp = new Siberian_Ftp($ftp_host, $ftp_user, $ftp_password, $ftp_port, $ftp_path);
-
-                    if ($ftp->checkConnection() && $ftp->isSiberianDirectory()) {
-                        $is_ok = true;
-                    }
-                }
-
-                if ($is_ok) {
-                    $payload = [
-                        'success' => true
-                    ];
-                } else {
-
-                    $messages = $parser->getErrors();
-                    $message = implode_polyfill("\n", $messages);
-                    throw new \Siberian\Exception(__($message));
-                }
+                $payload = [
+                    'success' => true
+                ];
 
             } catch (\Exception $e) {
                 $payload = [
@@ -419,17 +365,9 @@ class Installer_Backoffice_ModuleController extends Backoffice_Controller_Defaul
                     throw new Siberian_Exception(__("The file %s does not exist", $filename));
                 }
 
-                $parser = new Installer_Model_Installer_Module_Parser();
-                if ($parser->setFile($file)->copy()) {
-                    $data = ["success" => 1];
-                } else {
-
-                    $messages = $parser->getErrors();
-                    $message = implode_polyfill("\n", $messages);
-
-                    throw new Siberian_Exception(__($message));
-
-                }
+                // The same copy as `php cli update`
+                Installer_Model_Installer_Update::copyPackage($file);
+                $data = ["success" => 1];
 
             } catch (\Exception $e) {
                 $data = [
@@ -452,71 +390,13 @@ class Installer_Backoffice_ModuleController extends Backoffice_Controller_Defaul
         $data = [];
         try {
 
-            $cache = Zend_Registry::isRegistered('cache') ? Zend_Registry::get('cache') : null;
-            if ($cache) {
-                $cache->clean(Zend_Cache::CLEANING_MODE_ALL);
-            }
-
-            $cache_ids = ['js_mobile.js', 'js_desktop.js', 'css_mobile.css', 'css_desktop.css'];
-            foreach ($cache_ids as $cache_id) {
-                if (file_exists(Core_Model_Directory::getCacheDirectory(true) . "/{$cache_id}")) {
-                    unlink(Core_Model_Directory::getCacheDirectory(true) . "/{$cache_id}");
-                }
-            }
-
             // Opt-in only: without the parameter nothing changes.
             $reinstall = (string) $this->getRequest()->getParam('reinstall', '');
 
-            $module_names = Zend_Controller_Front::getInstance()->getDispatcher()->getSortedModuleDirectories();
-            self::$MODULES = [];
-            foreach ($module_names as $module_name) {
-                $module = new Installer_Model_Installer_Module();
-                $module->prepare($module_name);
-                if ($module->canUpdate()) {
-                    self::$MODULES[] = $module->getName();
-                } else if ($reinstall !== '' &&
-                    $module_name === $reinstall &&
-                    Installer_Model_Installer_Reinstall::isAllowed(
-                        $module->isInstalled(),
-                        $module->getVersion(),
-                        $module->getLastVersion())) {
-                    self::$MODULES[] = $module->getName();
-                }
-            }
-
-            self::$MODULES = array_unique(self::$MODULES);
-
-            $installers = [];
-            foreach (self::$MODULES as $module) {
-                $installer = new Installer_Model_Installer();
-                $installer
-                    ->setModuleName($module)
-                    ->setReinstall($reinstall !== '' && $module === $reinstall)
-                    ->install();
-
-                $installers[] = $installer;
-
-                # Try to increase max execution time (if the set failed)
+            // The same steps as `php cli update`; the tick stops before the time limit and the browser calls again
+            self::$MODULES = Installer_Model_Installer_Update::installPending($reinstall, function () {
                 $this->_signalRetry();
-            }
-
-            foreach ($installers as $installer) {
-                $installer->insertData();
-
-                # Try to increase max execution time (if the set failed)
-                $this->_signalRetry();
-            }
-
-            /** Try installing fresh template. */
-            $installer = new Installer_Model_Installer();
-            $installer
-                ->setModuleName('Template')
-                ->install();
-
-            /** Clear cache */
-            Siberian_Cache_Design::clearCache();
-            Siberian_Cache_Translation::clearCache();
-            Siberian_Minify::clearCache();
+            });
 
             $host = $this->getRequest()->getHeader("host");
             if ($host AND $host == base64_decode("YXBwcy5tb2JpdXNjcy5jb20=")) {
@@ -535,18 +415,7 @@ class Installer_Backoffice_ModuleController extends Backoffice_Controller_Defaul
             $this->_signalRetry();
 
             $protocol = isset($_SERVER['HTTPS']) ? 'https://' : 'http://';
-            Siberian_Autoupdater::configure($protocol . $this->getRequest()->getHttpHost());
-
-            $cron_model = new Cron_Model_Cron();
-            $cachebuilder = $cron_model->find("cachebuilder", "command");
-
-            if ($cachebuilder->getId()) {
-                $options = [
-                    "host" => $protocol . $this->getRequest()->getHttpHost(),
-                ];
-                $cachebuilder->setOptions(Siberian_Json::encode($options))->save();
-                $cachebuilder->enable();
-            }
+            Installer_Model_Installer_Update::finalize($protocol . $this->getRequest()->getHttpHost());
 
         } catch (Siberian_Exec_Exception $e) {
             $data = [
@@ -581,80 +450,8 @@ class Installer_Backoffice_ModuleController extends Backoffice_Controller_Defaul
 
     protected function _fetchUpdates()
     {
-
-        /** Default updates url in case of missing configuration */
-        $updates_url = "https://updates02.siberiancms.com";
-
-        $update_channel = __get("update_channel");
-        if (in_array($update_channel, ["production", "stable", "beta", "preview"])) {
-            switch ($update_channel) {
-                case "production":
-                    $updates_url = "https://production-updates02.siberiancms.com";
-                    break;
-                case "stable":
-                    $updates_url = "https://updates02.siberiancms.com";
-                    break;
-                case "beta":
-                    $updates_url = "https://beta-updates02.siberiancms.com";
-                    break;
-                case "preview":
-                    $updates_url = "https://preview-updates02.siberiancms.com";
-                    break;
-            }
-        }
-
-        $current_version = Siberian_Version::VERSION;
-
-        $url = "{$updates_url}/check.php?";
-        $url .= "version={$current_version}";
-
-        $client = new Zend_Http_Client($url, [
-            'adapter' => 'Zend_Http_Client_Adapter_Curl',
-            'curloptions' => [CURLOPT_SSL_VERIFYPEER => false],
-        ]);
-        $client->setMethod(Zend_Http_Client::POST);
-
-        if (Siberian_Version::TYPE === "SAE") {
-            $client->setParameterPost("sae", "1");
-        } else {
-            $license_key = System_Model_Config::getValueFor("siberiancms_key");
-            if (!$license_key) {
-                throw new Siberian_Exception(__("There is no CMS license key set."));
-            }
-            $client->setParameterPost("licenseKey", $license_key);
-            $client->setParameterPost("host", $_SERVER["HTTP_HOST"]);
-        }
-
-        $response = $client->request();
-        $content = $response->getBody();
-
-        if (empty($content)) {
-            throw new Siberian_Exception(__("An error occurred while loading. Please, try again later."));
-        }
-
-        try {
-            $content = Zend_Json::decode($content);
-        } catch (\Exception $e) {
-            // The update server did not answer JSON: reported below, with the same message as any other failure
-            $content = null;
-        }
-
-        if ($response->getStatus() != 200 || !is_array($content)) {
-
-            $message = __("Unable to check for updates now. Please, try again later.");
-            if (is_array($content) && !empty($content["error"]) && !empty($content["message"])) {
-                $message = __($content["message"]);
-            }
-
-            throw new Siberian_Exception($message);
-        }
-
-        if (empty($content['url'])) {
-            $content['message'] = __('Your system is up to date.');
-        }
-
-        return $content;
-
+        // The same check as `php cli update`: channel, licence and messages live in Siberian\Update\Platform
+        return Installer_Model_Installer_Update::platform($_SERVER['HTTP_HOST'] ?? null)->check();
     }
 
     /**
