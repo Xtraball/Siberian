@@ -2,6 +2,12 @@
 
 Notable changes to Siberian, newest first. Dates are `YYYY-MM-DD`. Longer notes live in `docs/`.
 
+## [Unreleased]
+
+### Fixed
+
+- 2026-11-11 Form2: the e-mail to the owner of a form no longer ends in a fatal error when a geolocation field was left empty (`Cannot access offset of type string on string`). The e-mail shows "not filled" for that field, and the app user no longer gets an error after the answers were saved.
+
 ## [5.1.19] 2026-11-11
 
 Module installs no longer add feature icons to the media library again (#993), and the new `php cli update:check` and `php cli update` commands update the platform like the back office, on top of 5.1.18. The update package is built against 5.1.18 (`lastversion`), the last published version. MAE and PE carry the same changes (tags `v5.1.19` on their `master`).
