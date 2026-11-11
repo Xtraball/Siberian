@@ -2,7 +2,9 @@
 
 Notable changes to Siberian, newest first. Dates are `YYYY-MM-DD`. Longer notes live in `docs/`.
 
-## [Unreleased]
+## [5.1.19] 2026-11-11
+
+Module installs no longer add feature icons to the media library again (#993), and the new `php cli update:check` and `php cli update` commands update the platform like the back office, on top of 5.1.18. The update package is built against 5.1.18 (`lastversion`), the last published version. MAE and PE carry the same changes (tags `v5.1.19` on their `master`).
 
 ### Fixed
 
