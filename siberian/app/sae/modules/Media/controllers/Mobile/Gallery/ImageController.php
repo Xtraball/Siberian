@@ -56,7 +56,7 @@ class Media_Mobile_Gallery_ImageController extends Application_Controller_Mobile
                 if (empty($datas['gallery_id'])) {
                     throw new Exception(__('An error occurred while loading pictures. Please try later.'));
                 }
-                $offset = !empty($datas['offset']) ? $datas['offset'] : 0;
+                $offset = !empty($datas['offset']) ? (int) $datas['offset'] : 0;
 
                 $image = new Media_Model_Gallery_Image();
                 $image->find($datas['gallery_id']);

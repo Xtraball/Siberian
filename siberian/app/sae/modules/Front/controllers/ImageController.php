@@ -25,8 +25,10 @@ class ImageController extends Core_Controller_Default
             if(empty($datas['width']) OR empty($datas['height'])) throw new Exception('');
 
             $image = base64_decode($datas['image']);
-            $expected_width = $datas['width'];
-            $expected_height = $datas['height'];
+            // the size comes from the request: "abc" / $width is a TypeError on PHP 8, which catch (Exception) misses
+            $expected_width = (int) $datas['width'];
+            $expected_height = (int) $datas['height'];
+            if ($expected_width < 1 OR $expected_height < 1) throw new Exception('');
 
             $this->_setFileType($image);
 
@@ -44,6 +46,7 @@ class ImageController extends Core_Controller_Default
                 $this->_saveImage($new_img, $tmp_file);
                 imagedestroy($new_img);
                 list($width, $height) = getimagesize($tmp_file);
+                if (empty($width) OR empty($height)) throw new Exception('');
 
                 $new_width = $width;
                 $new_height = $height;

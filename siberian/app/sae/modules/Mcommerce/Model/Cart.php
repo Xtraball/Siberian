@@ -72,7 +72,7 @@ class Mcommerce_Model_Cart extends Core_Model_Default {
 
             if ($line->getProductId() == $product->getId()) {
 
-                if (count($line->getOptions()) == count($product->getOptions())) {
+                if (count($line->getOptions() ?: []) == count($product->getOptions() ?: [])) {
 
                     foreach ($line->getOptions() as $line_option) {
                         $lines_ids[$line_option->getOptionId()] = $line_option->getQty();
@@ -500,6 +500,10 @@ class Mcommerce_Model_Cart extends Core_Model_Default {
             $promo->find($this->getDiscountCode(),"code");
 
             $ttc = array_sum($this->getTotalsFromLines());
+            if ($ttc == 0) {
+                // nothing to apply the discount ratio to (empty or free cart): PHP 8 throws on a division by zero
+                return $this->getTotalTax();
+            }
             $reductedttc = round($ttc - $promo->getDeduction($this),2);
             $ratio = round(1 - ($reductedttc/$ttc),2);
             return round($this->getTotalTax() - $this->getTotalTax() * $ratio,2);

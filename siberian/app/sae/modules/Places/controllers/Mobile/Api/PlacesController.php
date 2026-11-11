@@ -58,7 +58,7 @@ class Places_Mobile_Api_PlacesController extends Application_Controller_Mobile_D
             $longitude = $this->getRequest()->getParam('longitude');
 
 
-            if ($latitude && $longitude) {
+            if (is_numeric($latitude) && is_numeric($longitude) && $latitude && $longitude) {
                 // order by distance from specified latitude/longitude   
 
                 $rad = pi() / 180;

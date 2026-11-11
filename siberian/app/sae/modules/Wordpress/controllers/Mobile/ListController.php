@@ -10,7 +10,7 @@ class Wordpress_Mobile_ListController extends Application_Controller_Mobile_Defa
             try {
                 $option_value = $this->getCurrentOptionValue();
                 $wordpress = $option_value->getObject();
-                $offset = $this->getRequest()->getParam('offset', 0);
+                $offset = (int) $this->getRequest()->getParam('offset', 0);
 
                 $posts = $wordpress->getRemotePosts($this->isOverview(), null, !$this->isOverview(), $offset);
                 $cover = null;
