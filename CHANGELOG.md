@@ -6,6 +6,7 @@ Notable changes to Siberian, newest first. Dates are `YYYY-MM-DD`. Longer notes 
 
 ### Fixed
 
+- 2026-11-11 Podcast video block: the feed image is now used as a fallback; the code read it from a variable that had just been reset to `false` (PHP warning, never worked, and a TypeError if it ever held a string).
 - 2026-11-11 Form2: the e-mail to the owner of a form no longer ends in a fatal error when a geolocation field was left empty (`Cannot access offset of type string on string`). The e-mail shows "not filled" for that field, and the app user no longer gets an error after the answers were saved.
 
 ## [5.1.19] 2026-11-11
