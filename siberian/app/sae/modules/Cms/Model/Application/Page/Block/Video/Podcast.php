@@ -66,7 +66,7 @@ class Cms_Model_Application_Page_Block_Video_Podcast extends Core_Model_Default
                 $enclosure = $entry->getEnclosure();
                 if (strpos($enclosure->type, "video") !== false) {
 
-                    $image = $feed->getImage();
+                    $feedImage = $feed->getImage();
                     $podcastExt = $entry->getExtension("Podcast");
 
                     $media = $entry->getExtension("Media");
@@ -90,8 +90,8 @@ class Cms_Model_Application_Page_Block_Video_Podcast extends Core_Model_Default
                     if (!$image) {
                         if (is_image($podcastExt->getImage(), true) !== false) {
                             $image = $podcastExt->getImage();
-                        } elseif (is_image($image["uri"], true) !== false) {
-                            $image = $image["uri"];
+                        } elseif (is_array($feedImage) && !empty($feedImage["uri"]) && is_image($feedImage["uri"], true) !== false) {
+                            $image = $feedImage["uri"];
                         } else {
                             # Placeholder
                             $image = "/images/application/placeholder/placeholder-video.png";
