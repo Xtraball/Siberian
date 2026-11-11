@@ -89,7 +89,7 @@ class Media_Model_Gallery_Music_Album extends Core_Model_Default {
         $return = array();
 
         foreach($total_tracks as $track) {
-            $total_duration += $track->getDuration();
+            $total_duration += is_numeric($track->getDuration()) ? (float) $track->getDuration() : 0;
         }
 
         // Seconds

@@ -61,6 +61,9 @@ class Media_Model_Gallery_Music_Track extends Core_Model_Default
             $millis = $track->getDuration();
         }
 
+        // the duration column is a varchar: "" or text is a TypeError in arithmetic on PHP 8
+        $millis = is_numeric($millis) ? $millis : 0;
+
         $shouldPush = false;
         $hasDays = false;
         $hasHours = false;
