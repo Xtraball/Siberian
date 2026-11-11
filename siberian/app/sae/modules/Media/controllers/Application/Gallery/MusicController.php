@@ -905,7 +905,7 @@ class Media_Application_Gallery_MusicController extends Application_Controller_D
                         $new_track->find($id);
                         $new_track
                             ->setName($track['title'])
-                            ->setDuration($track['duration'])
+                            ->setDuration(is_numeric($track['duration'] ?? null) ? $track['duration'] : 0)
                             ->setArtistName($track['artist'])
                             ->setStreamUrl($track['url'])
                             ->setType('custom')
