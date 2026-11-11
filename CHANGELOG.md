@@ -2,7 +2,9 @@
 
 Notable changes to Siberian, newest first. Dates are `YYYY-MM-DD`. Longer notes live in `docs/`.
 
-## [Unreleased]
+## [5.1.18] 2026-11-11
+
+Every core module now carries the release version, so the update plays the database changes and data files of all modules, on top of 5.1.17. The update package is built against 5.1.17 (`lastversion`), the last published version. MAE and PE carry the same changes (tags `v5.1.18` on their `master`).
 
 ### Changed
 
