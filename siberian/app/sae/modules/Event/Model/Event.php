@@ -106,6 +106,7 @@ class Event_Model_Event extends Core_Model_Default
      */
     public function getEvents($offset = 0, $all_event = false)
     {
+        $offset = (int) $offset;
 
         $events = $this->findAll(['value_id' => $this->getValueId()]);
         $this->_list = [];

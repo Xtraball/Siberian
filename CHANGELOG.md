@@ -6,6 +6,7 @@ Notable changes to Siberian, newest first. Dates are `YYYY-MM-DD`. Longer notes 
 
 ### Fixed
 
+- 2026-11-12 Numbers sent by the app (device size, crop size, latitude/longitude, offsets of lists and galleries) that are empty or text no longer end in a 500 on PHP 8 (TypeError that `catch (Exception)` does not catch).
 - 2026-11-12 Shop on PHP 8: adding a product without options to a cart that holds the same product, an optional choice group left untouched, a discount code on an empty cart, a text amount for Stripe or a text number of loyalty points no longer end in a 500 (TypeError or division by zero that `catch (Exception)` does not catch).
 - 2026-11-11 Podcast gallery: track durations are read correctly ("3600" seconds, "12:30" and "1:02:03"), and a feed with a text or empty duration no longer ends in a TypeError on PHP 8.
 - 2026-11-11 RSS feed: "1 day", "1 hour" and "1 minute" are singular again on PHP 8 (the code compared the text "1 day" with the number 1, which PHP 8 does as a string comparison).

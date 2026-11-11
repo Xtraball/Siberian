@@ -123,6 +123,7 @@ class Wordpress_Model_Wordpress extends Core_Model_Default {
      * @return array
      */
     public function getRemotePosts($showAll = false, $url = '', $useCache = false, $offset = 0) {
+        $offset = (int) $offset;
         $cache = Zend_Registry::get('cache');
         $cacheId = 'wordpress_cache_'.sha1($this->getId()).$showAll;
         $showAll = false;
