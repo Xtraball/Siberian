@@ -26,12 +26,15 @@ return [
         t_true(!$allowed(true, '1.0.0', null), 'unknown package version');
     },
 
-    '524 the install action reads reinstall and defaults to nothing' => function () use ($controllerFile) {
+    '524 the install action reads reinstall and defaults to nothing' => function () use ($controllerFile, $installer) {
+        // The module selection moved to Installer_Model_Installer_Update, shared with `php cli update`
         $code = file_get_contents($controllerFile);
+        $steps = file_get_contents($installer . '/Model/Installer/Update.php');
         t_true(strpos($code, "getParam('reinstall', '')") !== false, 'optional parameter, empty by default');
-        t_true(strpos($code, '$reinstall !== \'\' &&') !== false, 'guarded by the parameter');
-        t_true(strpos($code, 'Installer_Model_Installer_Reinstall::isAllowed(') !== false, 'goes through the helper');
-        t_true(strpos($code, "if (\$module->canUpdate()) {\n                    self::\$MODULES[] = \$module->getName();\n                } else if") !== false,
+        t_true(strpos($code, 'Installer_Model_Installer_Update::installPending($reinstall') !== false, 'handed to the shared step');
+        t_true(strpos($steps, '$reinstall !== \'\' &&') !== false, 'guarded by the parameter');
+        t_true(strpos($steps, 'Installer_Model_Installer_Reinstall::isAllowed(') !== false, 'goes through the helper');
+        t_true(strpos($steps, "if (\$module->canUpdate()) {\n                \$modules[] = \$module->getName();\n            } else if") !== false,
             'the regular canUpdate() branch is kept first');
     },
 

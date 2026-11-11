@@ -8,6 +8,10 @@ Notable changes to Siberian, newest first. Dates are `YYYY-MM-DD`. Longer notes 
 
 - 2026-11-11 Modules: installing or updating a module no longer adds its feature icons to the media library again (#993). The lookup of an existing icon never matched, so each install inserted every icon of the module once more, and the editor icon picker showed the same icon many times. Icons that are already duplicated stay as they are; they are not removed by this fix.
 
+### Added
+
+- 2026-11-11 CLI: `php cli update:check` and `php cli update` update the platform like the back office does (licence and channel, download, major update confirmation, permissions, copy, install, rebuilds); the back office now calls the same code. See `docs/platform-update-cli.md`.
+
 ## [5.1.18] 2026-11-11
 
 Every core module now carries the release version, so the update plays the database changes and data files of all modules, on top of 5.1.17. The update package is built against 5.1.17 (`lastversion`), the last published version. MAE and PE carry the same changes (tags `v5.1.18` on their `master`).
