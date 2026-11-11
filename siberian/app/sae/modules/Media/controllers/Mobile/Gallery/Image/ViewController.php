@@ -9,7 +9,7 @@ class Media_Mobile_Gallery_Image_ViewController extends Application_Controller_M
                 throw new Siberian_Exception(__('Missing gallery_id'));
             }
 
-            $offset = $request->getParam('offset', 0);
+            $offset = (int) $request->getParam('offset', 0);
 
             $image = (new Media_Model_Gallery_Image())
                 ->find($gallery_id);

@@ -60,7 +60,7 @@ class Admin_Backoffice_EditController extends Backoffice_Controller_Default
 
             try {
                 // Cleanup empty columns
-                $data = array_filter($data);
+                $data = array_filter(is_array($data) ? $data : []);
 
                 if (!Zend_Validate::is($data["email"], "emailAddress")) {
                     throw new \Siberian\Exception(__("Please, enter a correct email address."));

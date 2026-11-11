@@ -23,6 +23,8 @@ class Front_Controller_App_Default extends Application_Controller_Mobile_Default
         $application = $this->getApplication();
         $params = $request->getParams();
         $rawBody = $request->getBodyParams();
+        // a body that is valid JSON but not an object (5, "x", true) is not an array: array_key_exists() would throw
+        $rawBody = is_array($rawBody) ? $rawBody : [];
 
         // Fallback test for value_id!
         $currentValueId = null;

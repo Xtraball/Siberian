@@ -43,7 +43,7 @@ class Backoffice_Account_ViewController extends Backoffice_Controller_Default
 
             try {
                 // We filter out blank values
-                $data = array_filter($data);
+                $data = array_filter(is_array($data) ? $data : []);
 
                 if (__getConfig('is_demo')) {
                     // Demo version
