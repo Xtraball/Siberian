@@ -177,9 +177,13 @@ class Currency
      */
     public static function getAmountForCurrency ($amount, $currency): int
     {
-        if (in_array(strtoupper($currency), self::$zeroDecimals, true)) {
-            return round($amount, 0, PHP_ROUND_HALF_UP);
+        if (!is_numeric($amount)) {
+            // "" or text from the request: PHP 8 throws a TypeError on "abc" * 100 that "catch (Exception)" misses
+            throw new \InvalidArgumentException("Invalid amount.");
         }
-        return round($amount * 100, 0, PHP_ROUND_HALF_UP);
+        if (in_array(strtoupper((string) $currency), self::$zeroDecimals, true)) {
+            return (int) round((float) $amount, 0, PHP_ROUND_HALF_UP);
+        }
+        return (int) round((float) $amount * 100, 0, PHP_ROUND_HALF_UP);
     }
 }

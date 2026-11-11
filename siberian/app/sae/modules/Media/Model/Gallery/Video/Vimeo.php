@@ -22,6 +22,7 @@ class Media_Model_Gallery_Video_Vimeo extends Media_Model_Gallery_Video_Abstract
     }
 
     public function getVideos($offset) {
+        $offset = (int) $offset;
 
         $offset--;
         if(!($offset%20)) $page = ceil(($offset+1)/20);

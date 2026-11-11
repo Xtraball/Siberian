@@ -35,10 +35,10 @@ class Loyaltycard_MobileController extends Application_Controller_Mobile_Default
 
                 // Déclaration des variables annexes
                 $password_entered = $datas['password'];
-                $nbr = !empty($datas['number_of_points']) ? $datas['number_of_points'] : 1;
+                $nbr = !empty($datas['number_of_points']) && is_scalar($datas['number_of_points']) ? (int) $datas['number_of_points'] : 1;
 
                 // Ou si le mot de passe est vide ou non numérique
-                if($card->getValueId() != $option_value->getId() OR empty($password_entered) OR !preg_match('/[0-9]/', $nbr)) {
+                if($card->getValueId() != $option_value->getId() OR empty($password_entered) OR $nbr < 1) {
                     throw new Exception($this->_('An error occurred while validating point. Please try again later.'));
                 }
 

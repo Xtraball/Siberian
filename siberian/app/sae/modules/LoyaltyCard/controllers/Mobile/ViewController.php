@@ -115,10 +115,10 @@ class Loyaltycard_Mobile_ViewController extends Application_Controller_Mobile_De
 
                 // Déclaration des variables annexes
                 $password_entered = $datas['password'];
-                $nbr = !empty($datas['number_of_points']) ? $datas['number_of_points'] : 1;
+                $nbr = !empty($datas['number_of_points']) && is_scalar($datas['number_of_points']) ? (int) $datas['number_of_points'] : 1;
 
                 // Ou si le mot de passe est vide ou non numérique
-                if ($card->getValueId() != $option_value->getId() OR empty($password_entered) OR !preg_match('/[0-9]/', $nbr)) {
+                if ($card->getValueId() != $option_value->getId() OR empty($password_entered) OR $nbr < 1) {
                     throw new Siberian_Exception(__("An error occurred while validating point<br />Please try again later."));
                 }
 
@@ -258,7 +258,7 @@ class Loyaltycard_Mobile_ViewController extends Application_Controller_Mobile_De
 
                 // Déclaration des variables annexes
                 $password_entered = $data['password'];
-                $nbr = !empty($data['number_of_points']) ? $data['number_of_points'] : 1;
+                $nbr = !empty($data['number_of_points']) && is_scalar($data['number_of_points']) ? max(1, (int) $data['number_of_points']) : 1;
 
                 // Récupération du mot de passe
                 $password = new LoyaltyCard_Model_Password();
