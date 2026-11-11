@@ -6,6 +6,7 @@ Notable changes to Siberian, newest first. Dates are `YYYY-MM-DD`. Longer notes 
 
 ### Fixed
 
+- 2026-11-11 RSS feed: "1 day", "1 hour" and "1 minute" are singular again on PHP 8 (the code compared the text "1 day" with the number 1, which PHP 8 does as a string comparison).
 - 2026-11-11 Form2: the e-mail to the owner of a form no longer ends in a fatal error when a geolocation field was left empty (`Cannot access offset of type string on string`). The e-mail shows "not filled" for that field, and the app user no longer gets an error after the answers were saved.
 
 ## [5.1.19] 2026-11-11

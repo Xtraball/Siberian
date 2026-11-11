@@ -26,31 +26,19 @@ class Rss_View_Mobile_Feed extends Core_View_Mobile_Default
         $seconds = $difference->toValue() % 60; $allMinutes = ($difference->toValue() - $seconds) / 60;
         $minutes = $allMinutes % 60; $allHours = ($allMinutes - $minutes) / 60;
         $hours =  $allHours % 24; $allDays = ($allHours - $hours) / 24;
-        $allDays.= ' ';
-        $hours.= ' ';
-        $minutes.= ' ';
         
         if($allDays > 0) {
-            $allDays .= $this->_('day');
-            if($allDays > 1) {
-                $allDays .= "s";
-            }
+            $allDays = $allDays . ' ' . $this->_('day') . ($allDays > 1 ? "s" : "");
         } else {
             $allDays = '';
         }
         if($hours > 0) {
-            $hours .= $this->_('hour');
-            if($hours > 1) {
-                $hours .= "s";
-            }
+            $hours = $hours . ' ' . $this->_('hour') . ($hours > 1 ? "s" : "");
         } else {
             $hours = '';
         }
         if($minutes > 0) {
-            $minutes .= $this->_('minute');
-            if($minutes > 1) {
-                $minutes .= "s";
-            }
+            $minutes = $minutes . ' ' . $this->_('minute') . ($minutes > 1 ? "s" : "");
         } else {
             $minutes = '';
         }
