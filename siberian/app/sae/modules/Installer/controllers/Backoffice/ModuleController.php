@@ -263,7 +263,7 @@ class Installer_Backoffice_ModuleController extends Backoffice_Controller_Defaul
                     throw new \Siberian\Exception(__("The file %s does not exist", $filename));
                 }
 
-                // The same check as `php cli update` (web user first, then the saved FTP access)
+                // The same check as `php cli update` (web user)
                 Installer_Model_Installer_Update::checkPermissions($file);
 
                 $payload = [
@@ -278,75 +278,6 @@ class Installer_Backoffice_ModuleController extends Backoffice_Controller_Defaul
             }
 
             $this->_sendJson($payload);
-        }
-    }
-
-    public function saveftpAction()
-    {
-
-        if (($data = $this->_jsonBody()) !== null) {
-
-            try {
-
-                $error_code = 0;
-                $ftp_host = !empty($data["host"]) ? $data["host"] : null;
-                $ftp_user = !empty($data["username"]) ? $data["username"] : null;
-                $ftp_password = !empty($data["password"]) ? $data["password"] : null;
-                $ftp_port = !empty($data["port"]) ? $data["port"] : Siberian_Ftp::DEFAULT_PORT;
-                $ftp_path = null;
-
-                if (!empty($data["path"])) {
-                    $ftp_path = rtrim($data["path"], "/");
-                }
-                if (!$ftp_path) {
-                    $ftp_path = Siberian_Ftp::DEFAULT_PATH;
-                }
-
-                $ftp = new Siberian_Ftp($ftp_host, $ftp_user, $ftp_password, $ftp_port, $ftp_path);
-                if (!$ftp->checkConnection()) {
-                    $error_code = 1;
-                    throw new \Siberian\Exception(__("Unable to connect to your FTP. Please check the connection information."));
-                } else if (!$ftp->isSiberianDirectory()) {
-                    $error_code = 2;
-                    throw new \Siberian\Exception(__("Unable to detect your site. Please make sure the entered path is correct."));
-                }
-
-                $fields = [
-                    "ftp_host" => $ftp_host,
-                    "ftp_username" => $ftp_user,
-                    "ftp_password" => $ftp_password,
-                    "ftp_port" => $ftp_port,
-                    "ftp_path" => $ftp_path,
-                ];
-
-                foreach ($fields as $key => $value) {
-                    $config = new System_Model_Config();
-                    $config->find($key, "code");
-
-                    if (!$config->getId()) {
-                        $config->setCode($key)
-                            ->setLabel(ucfirst(implode_polyfill(" ", explode("_", $key))));
-                    }
-
-                    $config->setCode($key)
-                        ->setValue($value)
-                        ->save();
-                }
-
-                $data = [
-                    "success" => 1,
-                    "message" => __("Info successfully saved")
-                ];
-
-            } catch (\Exception $e) {
-                $data = [
-                    "error" => 1,
-                    "code" => $error_code,
-                    "message" => $e->getMessage()
-                ];
-            }
-
-            $this->_sendJson($data);
         }
     }
 

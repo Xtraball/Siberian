@@ -106,7 +106,7 @@ return [
     'only the words of the page changed on the PHP side' => function () use ($controllerPhp) {
         t_true(strpos($controllerPhp, "'licenseNeeded' => p__('backoffice'") !== false, 'new word');
         // The actions the page relies on are all still there.
-        foreach (['load', 'downloadupdate', 'upload', 'checkpermissions', 'saveftp', 'copy', 'install', 'checkModuleLicense', 'setModuleLicense', 'checkupdates', 'terms', 'acceptterms', 'updatemodule'] as $action) {
+        foreach (['load', 'downloadupdate', 'upload', 'checkpermissions', 'copy', 'install', 'checkModuleLicense', 'setModuleLicense', 'checkupdates', 'terms', 'acceptterms', 'updatemodule'] as $action) {
             t_true(strpos($controllerPhp, 'function ' . $action . 'Action()') !== false, 'action ' . $action);
         }
     },

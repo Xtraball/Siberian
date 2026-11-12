@@ -786,3 +786,8 @@ msgstr ""
 msgctxt "backoffice"
 msgid "The PHP extension iconv is missing on this server. Siberian works around it, but please install it (for example the php-iconv package) and restart PHP."
 msgstr ""
+
+# GMT 1794000000.0001
+msgctxt "backoffice"
+msgid "Some files and folders are not writable. Set the correct permissions to the following files and folders and try again:"
+msgstr "Some files and folders are not writable. Set the correct permissions to the following files and folders and try again:"

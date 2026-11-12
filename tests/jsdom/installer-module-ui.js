@@ -14,7 +14,6 @@ const template = read('template/installer/module.phtml')
     .replace(/<\?php echo __title\("([^"]*)"\); \?>/g, '$1')
     .replace(/<\?php echo __\("([^"]*)"\);? ?\?>/g, '$1')
     .replace(/<\?php echo p__\('backoffice', '([^']*)'\); \?>/g, '$1')
-    .replace(/<\?php echo Siberian_Ftp::DEFAULT_PORT \?>/g, '21')
     .replace(/<\?php[\s\S]*?\?>/g, '');
 
 const consoleErrors = [];
