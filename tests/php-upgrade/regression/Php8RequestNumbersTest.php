@@ -48,10 +48,10 @@ return [
     'every offset of the app is an int before it is used' => function () {
         $expected = [
             'app/sae/modules/Media/controllers/Mobile/Gallery/ImageController.php' => "(int) \$datas['offset']",
-            'app/sae/modules/Media/controllers/Mobile/Gallery/Image/ViewController.php' => "(int) \$request->getParam('offset', 0)",
+            'app/sae/modules/Media/controllers/Mobile/Gallery/Image/ViewController.php' => "\\Siberian\\Input::int(\$request->getParam('offset'), 0, 0)",
             'app/sae/modules/Media/controllers/Mobile/Gallery/Video/ViewController.php' => "(int) \$this->getRequest()->getParam('offset', 1)",
-            'app/sae/modules/Wordpress/controllers/Mobile/ListController.php' => "(int) \$this->getRequest()->getParam('offset', 0)",
-            'app/sae/modules/Comment/controllers/Mobile/ListController.php' => "(int) \$this->getRequest()->getParam('offset', 0)",
+            'app/sae/modules/Wordpress/controllers/Mobile/ListController.php' => "\\Siberian\\Input::int(\$this->getRequest()->getParam('offset'), 0, 0)",
+            'app/sae/modules/Comment/controllers/Mobile/ListController.php' => "\\Siberian\\Input::int(\$this->getRequest()->getParam('offset'), 0, 0)",
             'app/sae/modules/Event/Model/Event.php' => '$offset = (int) $offset;',
             'app/sae/modules/Wordpress/Model/Wordpress.php' => '$offset = (int) $offset;',
             'app/sae/modules/Media/Model/Gallery/Video/Vimeo.php' => '$offset = (int) $offset;',

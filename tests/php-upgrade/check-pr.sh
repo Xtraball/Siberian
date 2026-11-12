@@ -8,7 +8,8 @@
 # Also fails on new use of Zend Framework 1 (any Zend_ class name): see "5." below and docs/decisions/0001-remove-zf1.md.
 # Also fails on a change to a module's resources/db/schema or resources/db/data without a new package.json version of
 # that module: see "6." below and AGENTS.md rule 9.
-# Warns on: source changes without a test change, and fragile smells (see AGENTS.md) in added lines.
+# Also fails on growth of a file listed in size-limits.txt, and on a new or longer PHP method over 150 lines (rule 10).
+# Warns on: raw request values in arithmetic or a cast (use Siberian\Input), source changes without a test change, and fragile smells (see AGENTS.md) in added lines.
 # --strict turns the warnings into failures. Only reads git, changes nothing.
 #
 #   tests/php-upgrade/check-pr.sh --zf1-list [ref]    prints the files that use Zend_ today (how zf1-allowlist.txt is made)
@@ -151,6 +152,69 @@ if [ -s "$VOUT" ]; then
   FAIL=$((FAIL + $(grep -c '^FAIL' "$VOUT" || true)))
 fi
 rm -f "$VOUT"
+
+# 7. The biggest files do not grow. They are listed with their line count in tests/php-upgrade/size-limits.txt: a
+#    change may make them smaller (lower the number then), never larger. New behaviour goes in a new class.
+SIZE_LIST=tests/php-upgrade/size-limits.txt
+if [ -f "$SIZE_LIST" ]; then
+  git diff --name-only "$BASE"...HEAD | while IFS= read -r changed; do
+    cap=$(awk -F'\t' -v f="$changed" '$1 == f { print $2 }' "$SIZE_LIST")
+    [ -n "$cap" ] || continue
+    [ -f "$changed" ] || continue
+    now=$(wc -l < "$changed" | tr -d ' ')
+    if [ "$now" -gt "$cap" ]; then
+      echo "FAIL  $changed has $now lines, the limit is $cap (no net growth of the big files: put the new code in a new class, AGENTS.md rule 10)"
+    elif [ "$now" -lt "$cap" ]; then
+      echo "NOTE  $changed shrank to $now lines: lower its limit in $SIZE_LIST (was $cap)"
+    fi
+  done > /tmp/check-pr-size.$$ || true
+  if [ -s /tmp/check-pr-size.$$ ]; then
+    cat /tmp/check-pr-size.$$
+    FAIL=$((FAIL + $(grep -c '^FAIL' /tmp/check-pr-size.$$ || true)))
+  fi
+  rm -f /tmp/check-pr-size.$$
+fi
+
+# 8. No new or longer method over METHOD_MAX lines in the product's PHP. A method that is already longer may stay as it
+#    is or shrink; a new one, or one that grows, fails. Needs php (the CI image has it).
+METHOD_MAX=150
+METHOD_TOOL=tests/php-upgrade/tooling/method-lengths.php
+CHANGED_PHP=$(git diff --name-only --diff-filter=AM "$BASE"...HEAD -- 'siberian/app/*.php' 'siberian/lib/Siberian/*.php' | grep -v -e '^siberian/lib/vendor/' -e '^siberian/var/' || true)
+if [ -n "$CHANGED_PHP" ] && [ -f "$METHOD_TOOL" ]; then
+  if command -v php >/dev/null 2>&1; then
+    MTMP=$(mktemp -d)
+    for f in $CHANGED_PHP; do
+      [ -f "$f" ] || continue
+      php "$METHOD_TOOL" --min=$((METHOD_MAX + 1)) "$f" > "$MTMP/now" || true
+      [ -s "$MTMP/now" ] || continue
+      if git cat-file -e "$BASE:$f" 2>/dev/null; then
+        git show "$BASE:$f" > "$MTMP/before.php"
+        php "$METHOD_TOOL" "$MTMP/before.php" > "$MTMP/before" || true
+      else
+        : > "$MTMP/before"
+      fi
+      while IFS="$(printf '\t')" read -r len name _; do
+        was=$(awk -F'\t' -v n="$name" '$2 == n && $1 > m { m = $1 } END { print m + 0 }' "$MTMP/before")
+        if [ "$was" -eq 0 ]; then
+          fail "$f: method $name is $len lines (new, the limit is $METHOD_MAX): split it (AGENTS.md rule 10)"
+        elif [ "$len" -gt "$was" ]; then
+          fail "$f: method $name grew from $was to $len lines (the limit is $METHOD_MAX): extract what you add (AGENTS.md rule 10)"
+        fi
+      done < "$MTMP/now"
+    done
+    rm -rf "$MTMP"
+  else
+    warn "php not found: the method length check (rule 10) was skipped"
+  fi
+fi
+
+# 9. Input from outside is read through Siberian\Input (advisory): arithmetic or a cast on a raw request parameter is the
+#    PHP 8 TypeError / division by zero that ten fixes patched one call site at a time (AGENTS.md rule 10).
+grep -nE '(getParam|getPost|getQuery)\([^)]*\) *[-+*/%] |[-+*/%] *\$?[A-Za-z_>-]*(getParam|getPost|getQuery)\(|\((int|float|double)\) *\$[A-Za-z_>()-]*(getParam|getPost|getQuery)\(' "$SRC" | grep -v 'Input::' | while IFS= read -r line; do
+  echo "WARN  raw request value in arithmetic or a cast, read it with Siberian\\Input::int/float/string: $line"
+done > /tmp/check-pr-input.$$ || true
+if [ -s /tmp/check-pr-input.$$ ]; then cat /tmp/check-pr-input.$$; WARN=$((WARN + $(wc -l < /tmp/check-pr-input.$$))); fi
+rm -f /tmp/check-pr-input.$$
 
 echo "check-pr: $FAIL failure(s), $WARN warning(s) against $BASE"
 [ "$FAIL" -eq 0 ] || exit 1

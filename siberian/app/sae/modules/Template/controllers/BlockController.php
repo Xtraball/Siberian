@@ -12,7 +12,7 @@ class Template_BlockController extends Core_Controller_Default
     public function blankimageAction()
     {
 
-        $image = imagecreatetruecolor(max(1, (int) $this->getRequest()->getParam('width', 320)), max(1, (int) $this->getRequest()->getParam('height', 75)));
+        $image = imagecreatetruecolor(\Siberian\Input::int($this->getRequest()->getParam('width'), 320, 1), \Siberian\Input::int($this->getRequest()->getParam('height'), 75, 1));
         $color = imagecolorallocate($image, 255, 255, 255);
         imagefill($image, 0, 0, $color);
         header('Content-type: image/png');
