@@ -73,6 +73,14 @@ if (!function_exists('__')) {
     }
 }
 
+if (!function_exists('p__')) {
+    /** Translation is not under test here: the text, sprintf'ed like the real one when arguments follow. */
+    function p__($context, $original, ...$args)
+    {
+        return $args ? vsprintf($original, $args) : $original;
+    }
+}
+
 /**
  * A logger that records instead of writing; the migration classes call ->info() on it.
  */

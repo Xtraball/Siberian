@@ -427,6 +427,11 @@ function cut($string, $length, $suffix = "...", $strip_tags = true)
     $suffix_length = mb_strlen($suffix, 'utf8');
 
     if ($str_length > $length) {
+        // Shorter than the suffix itself: the suffix would not fit, and a negative length counts from the end
+        if ($length < $suffix_length) {
+            return mb_substr($string, 0, max(0, (int) $length), 'utf8');
+        }
+
         $part1 = mb_substr($string, 0, $length - $suffix_length, 'utf8');
 
         $string = "{$part1}{$suffix}";
@@ -449,9 +454,11 @@ function ellipsis($string, $length, $ellipsis = "...")
     $str_length = mb_strlen($string, 'utf8');
 
     if ($str_length > $length) {
-        $half = round($length / 2, PHP_ROUND_HALF_DOWN);
-        $part1 = mb_substr($string, 0, $half, 'utf8');
-        $part2 = mb_substr($string, $str_length - $half, $str_length, 'utf8');
+        // An odd length gives the extra character to the end
+        $head = (int) floor($length / 2);
+        $tail = (int) ceil($length / 2);
+        $part1 = mb_substr($string, 0, $head, 'utf8');
+        $part2 = mb_substr($string, $str_length - $tail, $tail, 'utf8');
 
         $string = "{$part1}{$ellipsis}{$part2}";
     }
@@ -803,7 +810,7 @@ function escape_json_string($value)
 function data_to_jsonsafe($array)
 {
     array_walk_recursive($array, static function (&$item, $key) {
-        $item = escape_json_string($item);
+        $item = escape_json_string($item ?? '');
     });
 
     return $array;
@@ -895,32 +902,39 @@ function generate_strong_password($length = 9, $options = [])
         'special' => true,
     ], $options);
 
-    $set1 = str_split('abcdefghjkmnpqrstuvwxyz');
-    $set2 = $options['uppercase'] ? str_split('ABCDEFGHJKMNPQRSTUVWXYZ') : $set1;
-    $set3 = $options['numeric'] ? str_split('23456789') : $set1;
-    $set4 = $options['special'] ? str_split('!@#$%&*?') : $set1;
-
-    shuffle($set1);
-    shuffle($set2);
-    shuffle($set3);
-    shuffle($set4);
-
-    $gen = array_merge([], array_slice($set1, 0, 3), array_slice($set2, 0, 3), array_slice($set3, 0, 3), array_slice($set4, 0, 3));
-    shuffle($gen);
-    usleep(rand(1, 500));
-    shuffle($gen);
-
-    $password = join("", $gen);
-    $current_length = strlen($password);
-    $loop_breaker = 10;
-    $counter = 0;
-    while ($current_length < $length && $counter < $loop_breaker) {
-        $password .= generate_strong_password(9, $options);
-        $current_length = strlen($password);
-        $counter++;
+    // Without the look-alikes (i l o, I L O, 0 1)
+    $classes = [str_split('abcdefghjkmnpqrstuvwxyz')];
+    if ($options['uppercase']) {
+        $classes[] = str_split('ABCDEFGHJKMNPQRSTUVWXYZ');
+    }
+    if ($options['numeric']) {
+        $classes[] = str_split('23456789');
+    }
+    if ($options['special']) {
+        $classes[] = str_split('!@#$%&*?');
     }
 
-    return substr($password, 0, $length);
+    $pool = array_merge(...$classes);
+    $length = max(0, (int) $length);
+    $chars = [];
+
+    // One of each enabled class first, so the password passes strong_password() from four characters up
+    foreach ($classes as $set) {
+        if (count($chars) < $length) {
+            $chars[] = $set[random_int(0, count($set) - 1)];
+        }
+    }
+    while (count($chars) < $length) {
+        $chars[] = $pool[random_int(0, count($pool) - 1)];
+    }
+
+    // Fisher-Yates with a secure source: shuffle() and rand() are not meant for secrets
+    for ($i = count($chars) - 1; $i > 0; $i--) {
+        $j = random_int(0, $i);
+        [$chars[$i], $chars[$j]] = [$chars[$j], $chars[$i]];
+    }
+
+    return implode('', $chars);
 }
 
 /**
