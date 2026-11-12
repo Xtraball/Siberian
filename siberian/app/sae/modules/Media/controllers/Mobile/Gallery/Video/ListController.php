@@ -189,6 +189,24 @@ class Media_Mobile_Gallery_Video_ListController extends Application_Controller_M
 
                 break;
 
+            case 'playlist':
+                $endpoint = 'https://www.googleapis.com/youtube/v3/playlistItems/';
+                $params = [
+                    'playlistId' => $keyword,
+                    'part' => 'snippet',
+                    'key' => $youtubeKey,
+                    'maxResults' => '5',
+                    'order' => 'date'
+                ];
+                if (!empty($offset)) {
+                    $params['pageToken'] = $offset;
+                }
+                $response = Request::get($endpoint, $params);
+                $results = Json::decode($response);
+                return $this->resultsToCollection($results);
+
+                break;
+
         }
 
         return [
