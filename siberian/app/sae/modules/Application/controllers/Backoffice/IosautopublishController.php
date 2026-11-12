@@ -214,13 +214,13 @@ class Application_Backoffice_IosautopublishController extends Backoffice_Control
                 $destinationAab = '';
 
                 foreach ($files as $file) {
-                    $name = $file['name'];
+                    $name = basename(str_replace('\\', '/', (string) $file['name']));
                     $tmpName = $file['tmp_name'];
                     $ext = pathinfo($file['name'], PATHINFO_EXTENSION);
                     switch ($ext) {
                         case 'apk':
                             $destinationApk = $basePath . $name;
-                            exec("rm -f '{$destinationApk}'");
+                            exec('rm -f ' . escapeshellarg($destinationApk));
                             if (!rename($tmpName, $destinationApk)) {
                                 throw new \Siberian\Exception(
                                     '#565-01: ' .
@@ -229,7 +229,7 @@ class Application_Backoffice_IosautopublishController extends Backoffice_Control
                             break;
                         case 'aab':
                             $destinationAab = $basePath . $name;
-                            exec("rm -f '{$destinationAab}'");
+                            exec('rm -f ' . escapeshellarg($destinationAab));
                             if (!rename($tmpName, $destinationAab)) {
                                 throw new \Siberian\Exception(
                                     '#565-01-1: ' .
