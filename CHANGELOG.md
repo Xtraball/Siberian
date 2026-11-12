@@ -2,6 +2,37 @@
 
 Notable changes to Siberian, newest first. Dates are `YYYY-MM-DD`. Longer notes live in `docs/`.
 
+## [5.1.23] 2026-11-13
+
+A background-audio fix for Android, three feature requests closed from the oldest-issues backlog, and two small
+backoffice/push fixes, on top of 5.1.22. The update package is built against 5.1.22 (`lastversion`), the last
+published version. MAE and PE carry no changes of their own for this release (no new commits since `v5.1.22` on
+their `master`); none of the files touched here are overridden by either, checked against their override map.
+
+### Fixed
+
+- 2026-11-13 Android: Radio/audio playback no longer stops in the background. A new foreground Service of type
+  `mediaPlayback` (`FOREGROUND_SERVICE_MEDIA_PLAYBACK` on API 34+) is started while music controls show
+  "isPlaying" and stopped the moment it does not; apps that never use Radio/Music never start it. iOS already
+  did the platform-correct thing (`AVAudioSessionCategoryPlayback` + `UIBackgroundModes: audio`), recorded in
+  `docs/mobile-parity.md`. First of the 3-PR path agreed on #966; audio focus/resume rules and stop-on-task-removal
+  are separate, later PRs. (#862, #966, #1120)
+- 2026-11-12 Backoffice: "Cache (var/cache_images) -> Clear" now also clears `var/cache`, where app answers are
+  cached for up to 4 days; clearing only the images cache left stale app responses in place. (#1119)
+- 2026-11-12 Push: the in-app push history list can re-open a past notification's link/feature again, same as the
+  live modal shown on arrival; push v2's list endpoint had the code that computes this commented out. (#1118)
+
+### Added
+
+- 2026-11-12 Publication: `downloadsource` is now its own ACL resource, so a role can be granted source/APK/AAB
+  downloads without also granting build triggers and AdMob settings. (#1114)
+- 2026-11-12 PadLock: a select-all control for the app editor's feature checklist, instead of clicking every
+  checkbox by hand. (#1115)
+- 2026-11-12 Video gallery: a YouTube playlist can be used as a source, alongside channel/search/user; the schema
+  already listed `playlist`, it was unused. (#1116)
+- 2026-11-12 Design > Colors: the "Available SCSS Variables" panel can export the current set as JSON, to paste
+  into a custom template definition file or to look up a less common variable's exact name/value. (#1117)
+
 ## [5.1.22] 2026-11-12
 
 A path traversal in the generic file download action, and the typed `Siberian\Input` helper that replaces reading
