@@ -161,4 +161,52 @@ return [
         $n->regularPush(t_message());
         t_true($n->notification !== null, 'the notification built by Siberian was thrown away');
     },
+
+    'silentPush builds a content-available push for the targets, without heading or body' => function () use ($notification) {
+        $n = $notification();
+        $silent = $n->silentPush(t_message(['targets' => [new Player(['p1'])]]), ['cabride' => true, 'page' => 42]);
+        t_equal('app-id-1', $silent->getAppId());
+        t_equal(true, $silent->getContentAvailable());
+        t_equal(['p1'], $silent->getIncludePlayerIds());
+        t_equal(null, $silent->getHeadings());
+        t_equal(null, $silent->getContents());
+        t_equal(['cabride' => true, 'page' => 42], $silent->getData());
+        t_true($n->notification === $silent, 'it is the one sendNotification sends');
+    },
+    'a silent push is really sent as content available' => function () use ($notification, $sent) {
+        $n = $notification();
+        $n->silentPush(t_message(['targets' => [new Segment('VIP')]]), ['k' => 'v']);
+        $result = $n->sendNotification();
+        t_equal('new-notification-id', $result->getId());
+        $body = $sent();
+        t_equal(true, $body['content_available']);
+        t_equal(['VIP'], $body['included_segments']);
+        t_equal(['k' => 'v'], $body['data']);
+    },
+    'setTargets fills the notification it is given, not the current one' => function () use ($notification) {
+        $n = $notification();
+        $n->regularPush(t_message());
+        $other = new onesignal\client\model\Notification();
+        $n->setTargets([new Ios(['i9'])], $other);
+        t_equal(['i9'], $other->getIncludeIosTokens());
+        t_equal(null, $n->notification->getIncludeIosTokens());
+    },
+    'the log is rotated past the limit and keeps one older file' => function () {
+        $dir = sys_get_temp_dir() . '/sib-os-log-' . getmypid();
+        mkdir($dir, 0775, true);
+        $log = $dir . '/onesignal.log';
+        file_put_contents($log, str_repeat('x', 100));
+        Notification::rotateLog($log, 1000);
+        t_true(is_file($log) && !is_file($log . '.1'), 'under the limit: untouched');
+
+        file_put_contents($log, str_repeat('y', 2000));
+        Notification::rotateLog($log, 1000);
+        t_true(!is_file($log), 'over the limit: moved');
+        t_equal(2000, filesize($log . '.1'));
+
+        file_put_contents($log, str_repeat('z', 3000));
+        Notification::rotateLog($log, 1000);
+        t_equal(3000, filesize($log . '.1'), 'the previous .1 is replaced');
+        Notification::rotateLog($dir . '/missing.log', 1000);
+    },
 ];
