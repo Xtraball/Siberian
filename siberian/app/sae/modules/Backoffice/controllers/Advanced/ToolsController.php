@@ -38,8 +38,8 @@ class Backoffice_Advanced_ToolsController extends System_Controller_Backoffice_D
                 Siberian_Tools_Integrity::SCOPE_CORE : Siberian_Tools_Integrity::SCOPE_ALL;
 
             $data = Siberian_Tools_Integrity::check(
-                (int) $request->getParam('offset', 0),
-                (int) $request->getParam('limit', Siberian_Tools_Integrity::SLICE),
+                \Siberian\Input::int($request->getParam('offset'), 0, 0),
+                \Siberian\Input::int($request->getParam('limit'), Siberian_Tools_Integrity::SLICE, 1),
                 $scope);
 
             $data['messageEmpty'] = __('Everything seems ok.');

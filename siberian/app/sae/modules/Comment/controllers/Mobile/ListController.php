@@ -192,7 +192,7 @@ class Comment_Mobile_ListController extends Application_Controller_Mobile_Defaul
     public function findallAction()
     {
         if ($value_id = $this->getRequest()->getParam('value_id')) {
-            $offset = $this->getRequest()->getParam("offset", 0);
+            $offset = \Siberian\Input::int($this->getRequest()->getParam("offset"), 0, 0);
             $comment = new Comment_Model_Comment();
             $comments = $comment->findAll(
                 [

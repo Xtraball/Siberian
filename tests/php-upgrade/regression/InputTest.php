@@ -107,4 +107,21 @@ return [
         }
         t_true(true);
     },
+    // A ratchet, not a behaviour test: the paging parameters of the app are read through Input everywhere.
+    'no controller reads offset, limit or page of the app raw with a numeric default' => function () {
+        $root = dirname(__DIR__, 3) . '/siberian/app';
+        $raw = [];
+        $files = new RecursiveIteratorIterator(new RecursiveDirectoryIterator($root, FilesystemIterator::SKIP_DOTS));
+        foreach ($files as $file) {
+            if ($file->getExtension() !== 'php') {
+                continue;
+            }
+            foreach (file($file->getPathname()) as $n => $line) {
+                if (preg_match('/^\s*\$(offset|limit|page)\s*=\s*\$[\w>()-]*->?getParam\(([\'"])(offset|limit|page)\2,\s*\d+\)\s*;/', $line)) {
+                    $raw[] = substr($file->getPathname(), strlen($root)) . ':' . ($n + 1);
+                }
+            }
+        }
+        t_equal([], $raw, 'read these with Siberian\Input::int(...)');
+    },
 ];

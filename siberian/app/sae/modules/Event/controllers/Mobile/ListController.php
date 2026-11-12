@@ -14,7 +14,7 @@ class Event_Mobile_ListController extends Application_Controller_Mobile_Default 
             try {
 
                 $option = $this->getCurrentOptionValue();
-                $offset = $this->getRequest()->getParam('offset', 0);
+                $offset = \Siberian\Input::int($this->getRequest()->getParam('offset'), 0, 0);
                 $events = $option->getObject()->getEvents($offset);
                 $data = ['collection' => []];
 

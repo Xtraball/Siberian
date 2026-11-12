@@ -15,7 +15,7 @@ class Socialgaming_Mobile_ViewController extends Application_Controller_Mobile_D
             $application = $this->getApplication();
             $appId = $application->getId();
             $option = $this->getCurrentOptionValue();
-            $offset = $request->getParam('offset', 0);
+            $offset = \Siberian\Input::int($request->getParam('offset'), 0, 0);
 
             if (!$option->getId()) {
                 throw new Exception(p__('social_gaming', 'This feture does not exists!'));

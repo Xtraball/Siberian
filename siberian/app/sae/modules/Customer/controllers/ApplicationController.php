@@ -330,7 +330,7 @@ class Customer_ApplicationController extends Application_Controller_Default
         try {
             $request = $this->getRequest();
             $limit = $request->getParam('perPage', 25);
-            $offset = $request->getParam('offset', 0);
+            $offset = \Siberian\Input::int($request->getParam('offset'), 0, 0);
             $sorts = $request->getParam('sorts', []);
             $queries = $request->getParam('queries', []);
 
