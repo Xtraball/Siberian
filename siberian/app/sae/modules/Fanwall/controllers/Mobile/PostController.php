@@ -340,8 +340,8 @@ class Fanwall_Mobile_PostController extends Application_Controller_Mobile_Defaul
             $limit = \Siberian\Input::int($request->getParam('limit'), 20, 0);
             $offset = \Siberian\Input::int($request->getParam('offset'), 0, 0);
             $position = [
-                'latitude' => $request->getParam('latitude', 0),
-                'longitude' => $request->getParam('longitude', 0),
+                'latitude' => \Siberian\Input::latitude($request->getParam('latitude')),
+                'longitude' => \Siberian\Input::longitude($request->getParam('longitude')),
             ];
 
             // Within radius!
@@ -470,8 +470,8 @@ class Fanwall_Mobile_PostController extends Application_Controller_Mobile_Defaul
             $optionValue = $this->getCurrentOptionValue();
             $valueId = $optionValue->getId();
             $position = [
-                'latitude' => $request->getParam('latitude', 0),
-                'longitude' => $request->getParam('longitude', 0),
+                'latitude' => \Siberian\Input::latitude($request->getParam('latitude')),
+                'longitude' => \Siberian\Input::longitude($request->getParam('longitude')),
             ];
 
             // Within radius!

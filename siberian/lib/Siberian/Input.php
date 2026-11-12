@@ -56,6 +56,44 @@ class Input
     }
 
     /**
+     * A latitude in degrees. 0.0 (the "no position" the code tests with a plain if) for anything unreadable or outside
+     * -90 to 90: a clamped 90 would be a wrong position that looks like a real one.
+     *
+     * @param mixed $value
+     * @return float
+     */
+    public static function latitude($value)
+    {
+        return self::degrees($value, 90.0);
+    }
+
+    /**
+     * A longitude in degrees, 0.0 for anything unreadable or outside -180 to 180. See latitude().
+     *
+     * @param mixed $value
+     * @return float
+     */
+    public static function longitude($value)
+    {
+        return self::degrees($value, 180.0);
+    }
+
+    /**
+     * @param mixed $value
+     * @param float $limit
+     * @return float
+     */
+    private static function degrees($value, $limit)
+    {
+        $number = self::number($value);
+        if ($number === null || abs($number) > $limit) {
+            return 0.0;
+        }
+
+        return (float) $number;
+    }
+
+    /**
      * A string, trimmed. Only a scalar is text: an array or an object gives the default.
      *
      * @param mixed $value

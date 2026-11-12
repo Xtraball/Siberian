@@ -107,6 +107,20 @@ return [
         }
         t_true(true);
     },
+    'latitude and longitude are degrees in range, else 0 which the code reads as no position' => function () use ($junk) {
+        t_equal(48.85, Input::latitude('48.85'));
+        t_equal(-33.9, Input::latitude(-33.9));
+        t_equal(90.0, Input::latitude(90));
+        t_equal(0.0, Input::latitude(90.5), 'out of range is not a clamped 90');
+        t_equal(0.0, Input::latitude('-91'));
+        t_equal(2.35, Input::longitude(' 2.35 '));
+        t_equal(-180.0, Input::longitude(-180));
+        t_equal(0.0, Input::longitude(181));
+        foreach ($junk as $i => $value) {
+            t_equal(0.0, Input::latitude($value), "latitude junk $i");
+            t_equal(0.0, Input::longitude($value), "longitude junk $i");
+        }
+    },
     // A ratchet, not a behaviour test: the paging parameters of the app are read through Input everywhere.
     'no controller reads offset, limit or page of the app raw with a numeric default' => function () {
         $root = dirname(__DIR__, 3) . '/siberian/app';
