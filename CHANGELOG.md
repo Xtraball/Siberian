@@ -2,6 +2,33 @@
 
 Notable changes to Siberian, newest first. Dates are `YYYY-MM-DD`. Longer notes live in `docs/`.
 
+## [5.1.22] 2026-11-12
+
+A path traversal in the generic file download action, and the typed `Siberian\Input` helper that replaces reading
+request parameters raw across the app (paging, ids, coordinates, flags), on top of 5.1.21. The update package is
+built against 5.1.21 (`lastversion`), the last published version. MAE and PE carry the same changes: neither
+overrides the files `Siberian\Input`/`SafePath` or this fix touch, checked against their `master`.
+
+### Fixed
+
+- 2026-11-12 Security: the generic file download action resolved the path by its text prefix, so `var/tmp/../../app/configs/app.ini` was served and an unknown path was echoed back as the response body in a caller-chosen content type. It now resolves the real path, keeps it below `var/tmp`/`var/apps`, and only serves a `.zip`, `.apk` or `.aab` (what Jenkins and the apk builder hand off); nothing else changes for them, they do not use this action.
+- 2026-11-12 Security: the Application customization edit action and the Installer module-install actions built a template name and a module name from the request; both are now limited to an identifier (letters, digits, `_`, `-`).
+- 2026-11-12 Installer: the module license check and set actions no longer pass an array to `trim()` (PHP 8 TypeError).
+- 2026-11-12 OneSignal: a push to a device the app no longer has, or a malformed server reply, no longer breaks the rest of the batch; the log rotates instead of growing without limit.
+- 2026-11-12 Scheduler: a crashed job no longer leaves its lock held forever, and old logs are cleaned up again.
+- 2026-11-12 `Cron\Human`: fixed values ("every minute", "at midnight") and `next()`/`previous()` across a DST change are correct again.
+- 2026-11-12 Text helpers: `cut()` and `ellipsis()` on multi-byte text, the password generator's character set, and `data_to_jsonsafe()` on a value PHP 8 cannot json-encode, no longer produce wrong or broken output.
+- 2026-11-12 Color: hex notations other than `#rrggbb`, `rgb()` out of 0-255, a hue of exactly 360 and mismatched word case are read correctly.
+- 2026-11-12 `Translation::extractAll`: a translation catalog with very long or deeply nested text no longer hits the default pcre limits, and the catalog reader uses the PHP 8.5 `fgetcsv()` signature.
+- 2026-11-12 Installer: the FTP fallback for module and platform updates is removed; every environment already supports the primary path.
+- 2026-11-12 Numbers and text the app sends (paging, ids, latitude/longitude, flags like `refresh`/`force`/`show_all_applications`) are now read once, at the point they enter, through the new `Siberian\Input` helper (`int`/`float`/`string`/`bool`/`enum`/`intList`/`latitude`/`longitude`) instead of a cast or a raw value reaching arithmetic; an array, `null` or text where a number is expected now gives the declared default instead of a PHP 8 TypeError or a division by zero.
+
+### Tests
+
+- 2026-11-12 `Request` and `Network` against a local server, `Update\Platform` edge cases, and `OneSignal\Notification` against a fake API.
+- 2026-11-12 A ratchet test fails when a controller reads paging, a numeric id or the flags above raw again, and the file-size/method-length guards of rule 10 (erosion) are enforced by `check-pr.sh`.
+- 2026-11-12 Infection (mutation testing) and pcov are available in the CI image, with a script to measure how well a file's tests would catch a change; first measured: `Color` 69%, `Input` 82%.
+
 ## [5.1.21] 2026-11-12
 
 Security hardening and installer fixes, on top of 5.1.20. The update package is built against 5.1.20 (`lastversion`), the last published version. MAE and PE carry the same changes (tags `v5.1.21` on their `master`).
