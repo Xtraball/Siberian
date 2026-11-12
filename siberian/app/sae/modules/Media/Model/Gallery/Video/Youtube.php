@@ -10,7 +10,7 @@ class Media_Model_Gallery_Video_Youtube extends Media_Model_Gallery_Video_Abstra
         return $this;
     }
 
-    protected $_flux = array("channel", "search", "user");
+    protected $_flux = array("channel", "search", "user", "playlist");
 
     public function getAllTypes()
     {
