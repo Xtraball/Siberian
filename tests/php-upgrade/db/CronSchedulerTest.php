@@ -11,14 +11,6 @@ require_once $siberian . '/lib/Siberian/File.php';
 require_once $siberian . '/lib/Siberian/Cron/Callback.php';
 require_once $siberian . '/lib/Siberian/Cron.php';
 
-if (!function_exists('p__')) {
-    /** Translation is not under test: the text itself. */
-    function p__($context, $original, $flag = null)
-    {
-        return $original;
-    }
-}
-
 /** The jobs the scheduler calls: "Class::method", each one records its call. */
 class CronSchedFixture
 {
