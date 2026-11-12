@@ -128,6 +128,13 @@ class Platform
             throw new \Exception($message);
         }
 
+        // An error answer is an error, whatever its status: it must not read "up to date"
+        if (empty($content['url']) && !empty($content['error'])) {
+            throw new \Exception($this->t(!empty($content['message'])
+                ? (string) $content['message']
+                : 'Unable to check for updates now. Please, try again later.'));
+        }
+
         if (empty($content['url'])) {
             $content['message'] = $this->t('Your system is up to date.');
         }
@@ -165,6 +172,11 @@ class Platform
 
         if (empty($body)) {
             throw new \Exception($this->t('#100: Unable to fetch the update. Please, try again later.'));
+        }
+
+        // A package of an earlier run must never stand in for this one when the write fails
+        if (is_file($path)) {
+            unlink($path);
         }
 
         ($this->write)($path, (string) $body);
