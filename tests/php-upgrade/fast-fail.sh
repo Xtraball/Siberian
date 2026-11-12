@@ -9,6 +9,7 @@
 # 3. syntax       php -l on first-party code: parse/fatal = fail (~10s)
 # 4. ratchet      deprecation count may fall, never rise
 # 5. regression   tests/php-upgrade/regression/*Test.php
+# 6. db           tests/php-upgrade/db/*Test.php against a real MariaDB (skipped when SIB_TEST_DB_HOST is unset)
 # --vendor adds a php -l pass over the committed lib/vendor tree.
 set -u
 cd "$(dirname "$0")/../.."
@@ -60,6 +61,7 @@ errs=$(grep -E '^(PHP )?(Parse|Fatal) error' /tmp/ff-lint.txt)
 ok syntax "$(wc -l < /tmp/ff-files.txt) files compile on PHP $MM"
 
 # 4 -----------------------------------------------------------------------
+skipped ratchet || {
 count=$(grep -c '^Deprecated:' /tmp/ff-lint.txt)
 if [ "$UPDATE" = 1 ]; then
     mkdir -p "$(dirname "$BASELINE")"; echo "$count" > "$BASELINE"
@@ -71,9 +73,17 @@ elif [ -f "$BASELINE" ]; then
     ok ratchet "$count deprecations (baseline $base)"
 else
     ok ratchet "no baseline for $MM yet ($count deprecations); run with --update-baseline"
-fi
+fi; }
 
 # 5 -----------------------------------------------------------------------
 php -d display_errors=0 tests/php-upgrade/run.php --fail-fast || fail regression "see failure above"
 ok regression "suite green on PHP $MM"
+
+# 6 -----------------------------------------------------------------------
+if skipped db; then :; elif [ -z "${SIB_TEST_DB_HOST:-}" ]; then
+    echo "skip [db] SIB_TEST_DB_HOST is not set (tests/php-upgrade/ci.sh starts a server)"
+else
+    php -d display_errors=0 tests/php-upgrade/run.php --suite=db --fail-fast || fail db "see failure above"
+    ok db "tier 1 suite green on PHP $MM"
+fi
 echo "ALL STAGES PASSED on PHP $MM"
