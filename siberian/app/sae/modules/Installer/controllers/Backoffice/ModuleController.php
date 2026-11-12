@@ -526,7 +526,7 @@ class Installer_Backoffice_ModuleController extends Backoffice_Controller_Defaul
     {
         try {
             $updates = Installer_Model_ModuleUpdates::service();
-            $list = $updates->refresh((bool) $this->getRequest()->getParam('force', false));
+            $list = $updates->refresh(\Siberian\Input::bool($this->getRequest()->getParam('force', false)));
             $payload = [
                 'success' => true,
                 'updates' => $updates->pending(Installer_Model_ModuleUpdates::installed(), $list),

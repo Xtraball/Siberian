@@ -138,6 +138,9 @@ return [
                 if (preg_match('/\$\w+\s*=\s*\$(this->getRequest\(\)|request)->getParam\(([\'"])(option_value_id|app_id|category_id|album_id|admin_id|product_id|comment_id|store_id|place_id|page_id|tax_id|section_id|role_id|promotion_id|promo_id|field_id|company_id|block_id|agenda_id|set_meal_id)\2\)(?!\s*[?.\[]|->)/', $line)) {
                     $raw[] = substr($file->getPathname(), strlen($root)) . ':' . ($n + 1) . ' id';
                 }
+                if (preg_match('/(\(bool\)|filter_var\()\s*\$[\w>()-]*->?getParam\(([\'"])(refresh|force|show_all_applications)\2/', $line)) {
+                    $raw[] = substr($file->getPathname(), strlen($root)) . ':' . ($n + 1) . ' flag';
+                }
                 if (preg_match('/^\s*\$(offset|limit|page)\s*=\s*\$[\w>()-]*->?getParam\(([\'"])(offset|limit|page)\2,\s*\d+\)\s*;/', $line)) {
                     $raw[] = substr($file->getPathname(), strlen($root)) . ':' . ($n + 1);
                 }

@@ -79,7 +79,7 @@ class Backoffice_Advanced_StoreController extends Backoffice_Controller_Default
     public function purchasesAction()
     {
         try {
-            $refresh = (bool) $this->getRequest()->getParam('refresh', false);
+            $refresh = \Siberian\Input::bool($this->getRequest()->getParam('refresh', false));
             $this->_sendJson(['success' => true] + $this->service()->purchases($refresh));
         } catch (Exception $e) {
             $this->_sendJson(Backoffice_Model_StoreAccount::errorPayload($e));
