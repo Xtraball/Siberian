@@ -39,7 +39,7 @@ class Installer_Installation_DatabaseController extends Installer_Controller_Ins
     public function installAction() {
         try {
 
-            if($module = $this->getRequest()->getParam('name')) {
+            if ($module = \Siberian\Input::slug($this->getRequest()->getParam('name'))) {
 
                 $installer = new Installer_Model_Installer();
                 $installer->setModuleName($module)
@@ -64,7 +64,7 @@ class Installer_Installation_DatabaseController extends Installer_Controller_Ins
     public function insertdataAction() {
         try {
 
-            if($module = $this->getRequest()->getParam('name')) {
+            if ($module = \Siberian\Input::slug($this->getRequest()->getParam('name'))) {
 
                 $installer = new Installer_Model_Installer();
                 $installer->setModuleName($module)
