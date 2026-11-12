@@ -82,29 +82,18 @@ class ListController extends MobileController
             //        $message->getCover() : null;
             //}
 
-            //$action_value = null;
-            //$url = null;
-//
-//
-            //if (is_numeric($message->getActionValue())) {
-            //    $option_value = new Application_Model_Option_Value();
-            //    $option_value->find($message->getActionValue());
-//
-            //    $mobileUri = $option_value->getMobileUri();
-            //    if (preg_match("/^goto\/feature/", $mobileUri)) {
-            //        $action_value = sprintf("/%s/%s/value_id/%s",
-            //            $application->getKey(),
-            //            $mobileUri,
-            //            $option_value->getId());
-            //    } else {
-            //        $action_value = sprintf("/%s/%sindex/value_id/%s",
-            //            $application->getKey(),
-            //            $option_value->getMobileUri(),
-            //            $option_value->getId());
-            //    }
-            //} else {
-            //    $url = $message->getActionValue();
-            //}
+            // Re-derive the same link the live push modal already opens (Model/Onesignal/Notification.php),
+            // so a past notification in the list can re-open it too, not just the modal shown on arrival.
+            $action_value = null;
+            $url = null;
+            $actionLink = $message->getActionLink();
+            if ($actionLink !== null) {
+                if (stripos($actionLink, 'http') !== false) {
+                    $url = $actionLink;
+                } else {
+                    $action_value = $actionLink;
+                }
+            }
 
             if ($this->getApplication()->getIcon(74)) {
                 $icon = $this->getRequest()->getBaseUrl() . $this->getApplication()->getIcon(74);
@@ -123,8 +112,8 @@ class ListController extends MobileController
                 'details' => $meta,
                 'picture' => $message->getBigPicture(),
                 'icon' => $icon,
-                'action_value' => null,
-                'url' => null
+                'action_value' => $action_value,
+                'url' => $url
             ];
         }
 
