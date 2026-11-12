@@ -132,7 +132,7 @@ class Folder_Model_Folder extends Core_Model_Default
 
             $request = $option_value->getRequest();
 
-            $category_id = $request->getParam("category_id", null);
+            $category_id = \Siberian\Input::int($request->getParam("category_id"), 0, 0);
             $current_category = new Folder_Model_Category();
 
             if ($category_id) {

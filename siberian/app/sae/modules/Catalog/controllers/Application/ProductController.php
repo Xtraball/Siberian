@@ -24,7 +24,7 @@ class Catalog_Application_ProductController extends Application_Controller_Defau
     public function editAction() {
         if($this->getCurrentOptionValue()) {
             $product = new Catalog_Model_Product();
-            if($product_id = $this->getRequest()->getParam('id')) {
+            if ($product_id = \Siberian\Input::int($this->getRequest()->getParam('id'), 0, 0)) {
                 $product->find($product_id);
                 if($product->getId() AND $product->getValueId() != $this->getCurrentOptionValue()->getId()) {
                     throw new Exception(__('An error occurred while loading your product.'));

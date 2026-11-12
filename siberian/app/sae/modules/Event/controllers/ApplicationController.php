@@ -33,7 +33,7 @@ class Event_ApplicationController extends Application_Controller_Default {
 
         try {
             $event = new Event_Model_Event();
-            if($id = $this->getRequest()->getParam("id")) {
+            if ($id = \Siberian\Input::int($this->getRequest()->getParam("id"), 0, 0)) {
                 $event->find($id);
             }
 
@@ -188,7 +188,7 @@ class Event_ApplicationController extends Application_Controller_Default {
     }
 
     public function deleteAction() {
-        $id = $this->getRequest()->getParam("id");
+        $id = \Siberian\Input::int($this->getRequest()->getParam("id"), 0, 0);
         $html = "";
         try {
 

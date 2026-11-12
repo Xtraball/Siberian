@@ -17,7 +17,7 @@ class Places_Mobile_ListController extends Application_Controller_Mobile_Default
     {
         try {
             $request = $this->getRequest();
-            $placeId = $request->getParam("place_id", null);
+            $placeId = \Siberian\Input::int($request->getParam("place_id"), 0, 0);
             $optionValue = $this->getCurrentOptionValue();
 
             $place = (new Places_Model_Place())
