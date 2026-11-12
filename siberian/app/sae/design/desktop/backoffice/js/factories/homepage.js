@@ -28,6 +28,15 @@ App.factory('Backoffice', function ($http, Url) {
         });
     };
 
+    factory.setWebSpaceQuota = function (quota) {
+        return $http({
+            method: 'POST',
+            url: Url.get('backoffice/index/setquota'),
+            data: {quota: quota},
+            responseType: 'json'
+        });
+    };
+
     factory.clearCache = function (cache_type) {
         return $http({
             method: 'GET',

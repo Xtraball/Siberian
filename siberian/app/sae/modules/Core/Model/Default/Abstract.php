@@ -138,7 +138,7 @@ abstract class Core_Model_Default_Abstract extends \__polyfill_mixed
             $key = Core_Model_Lib_String::camelize(substr($method, 12));
             $data = $this->getData($key);
 
-            if (preg_match('/^\s*([0-9]+(\.[0-9]+)?)\s*$/', $data)) {
+            if (preg_match('/^\s*(-?[0-9]+(\.[0-9]+)?)\s*$/', $data)) {
                 return $this->formatPrice($data, !empty($args[0]) ? $args[0] : null);
             }
             if (preg_match('/(\d){2,4}\-(\d){2}\-(\d){2}/', $data)) {
@@ -170,7 +170,7 @@ abstract class Core_Model_Default_Abstract extends \__polyfill_mixed
     public function getSession($type = null)
     {
 
-        if (is_null($type)) $type = SESSION_TYPE;
+        if (is_null($type)) $type = defined('SESSION_TYPE') ? SESSION_TYPE : Core_Model_Session::TYPE_ADMIN;
 
         if (isset(self::$_session[$type])) {
             return self::$_session[$type];
@@ -188,7 +188,7 @@ abstract class Core_Model_Default_Abstract extends \__polyfill_mixed
      */
     public static function _getSession($type = null)
     {
-        if (is_null($type)) $type = SESSION_TYPE;
+        if (is_null($type)) $type = defined('SESSION_TYPE') ? SESSION_TYPE : Core_Model_Session::TYPE_ADMIN;
 
         if (isset(self::$_session[$type])) {
             return self::$_session[$type];
@@ -296,7 +296,7 @@ abstract class Core_Model_Default_Abstract extends \__polyfill_mixed
      */
     public function elementExists($key_values = [])
     {
-        return (boolean)$this->fetchElement($key_values);
+        return (bool)$this->fetchElement($key_values);
     }
 
     /**

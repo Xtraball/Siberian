@@ -10,7 +10,7 @@ class Promotion_ApplicationController extends Application_Controller_Default
      */
     public function loadformAction()
     {
-        $promotion_id = $this->getRequest()->getParam('promotion_id');
+        $promotion_id = \Siberian\Input::int($this->getRequest()->getParam('promotion_id'), 0, 0);
 
         $promotion = new Promotion_Model_Promotion();
         $promotion->find($promotion_id);

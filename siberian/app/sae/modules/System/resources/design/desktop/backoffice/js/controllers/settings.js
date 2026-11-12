@@ -72,10 +72,22 @@ App.config(function ($routeProvider) {
             }
         });
 
-    $scope.save = function () {
+    // save()      : every setting of the page (general, design)
+    // save(codes) : only these settings, for a page made of sections (a section saves what it shows)
+    $scope.save = function (codes) {
+        var values = $scope.configs;
+        if (angular.isArray(codes)) {
+            values = {};
+            angular.forEach(codes, function (code) {
+                if (angular.isDefined($scope.configs[code])) {
+                    values[code] = $scope.configs[code];
+                }
+            });
+        }
+
         $scope.form_loader_is_visible = true;
         Settings
-            .save($scope.configs)
+            .save(values)
             .success(function (data) {
                 var message = Label.save.error;
                 if (angular.isObject(data) && angular.isDefined(data.message)) {
@@ -88,6 +100,11 @@ App.config(function ($routeProvider) {
                     .message
                     .setText(message)
                     .show();
+                // A section stays where it is, there is nothing to reload
+                if (angular.isArray(codes)) {
+                    return;
+                }
+
                 // Lazy reload!
                 if (Settings.type === 'design') {
                     $window.document.querySelector('link[data-style="backoffice_theme"]').setAttribute('media', 'all');

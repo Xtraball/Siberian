@@ -128,7 +128,7 @@ class Siberian_Plesk
                 'emailAddress' => 'mobileappscompany@sample.com'
             ];
 
-            $privkey = openssl_pkey_get_private(file_get_contents($certificate->getPrivate()));
+            $privkey = openssl_pkey_get_private(\Siberian\File::readOrEmpty($certificate->getPrivate()));
             $csr = openssl_csr_new($dn, $privkey, ['digest_alg' => 'sha256']);
             openssl_csr_export($csr, $csrout);
 
@@ -136,9 +136,9 @@ class Siberian_Plesk
                 'name' => $certname,
                 'webspace' => $this->config['webspace'],
                 'csr' => $csrout,
-                'cert' => file_get_contents($certificate->getCertificate()),
-                'pvt' => file_get_contents($certificate->getPrivate()),
-                'ca' => file_get_contents($certificate->getChain()),
+                'cert' => \Siberian\File::readOrEmpty($certificate->getCertificate()),
+                'pvt' => \Siberian\File::readOrEmpty($certificate->getPrivate()),
+                'ca' => \Siberian\File::readOrEmpty($certificate->getChain()),
             ];
 
             // For PE only

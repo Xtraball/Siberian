@@ -33,7 +33,7 @@ class Acl_Model_Resource extends Core_Model_Default {
                     ->find(str_replace('feature_', '', $resource->getCode()), 'code');
                 if ($feature->getId()) {
                     $resource->setIsFeature(true);
-                    $resource->setIsEnabled((boolean)$feature->getIsEnabled());
+                    $resource->setIsEnabled((bool)$feature->getIsEnabled());
                 } else {
                     $resource->setIsFeature(false);
                 }

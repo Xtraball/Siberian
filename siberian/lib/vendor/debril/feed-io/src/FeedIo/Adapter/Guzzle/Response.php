@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 /*
  * This file is part of the feed-io package.
  *
@@ -26,33 +26,65 @@ class Response implements ResponseInterface
     protected $psrResponse;
 
     /**
-     * @param \Psr\Http\Message\ResponseInterface
+     * @var string
      */
-    public function __construct(PsrResponseInterface $psrResponse)
+    protected $body;
+
+    /**
+     * @var int
+     */
+    protected $duration;
+
+    /**
+     * @param PsrResponseInterface $psrResponse
+     * @param int $duration
+     */
+    public function __construct(PsrResponseInterface $psrResponse, int $duration)
     {
         $this->psrResponse = $psrResponse;
+        $this->duration = $duration;
+    }
+
+    /**
+     * @return int
+     */
+    public function getDuration(): int
+    {
+        return $this->duration;
+    }
+
+    /**
+     * @return int
+     */
+    public function getStatusCode(): int
+    {
+        return (int) $this->psrResponse->getStatusCode();
     }
 
     /**
      * @return boolean
      */
-    public function isModified()
+    public function isModified() : bool
     {
-        return $this->psrResponse->getStatusCode() != 304 && $this->psrResponse->getBody()->getSize() > 0;
+        return $this->psrResponse->getStatusCode() != 304 && strlen($this->getBody()) > 0;
     }
 
     /**
-     * @return \Psr\Http\Message\StreamInterface
+     * @return string
      */
-    public function getBody()
+    public function getBody() : ? string
     {
-        return $this->psrResponse->getBody();
+        if (is_null($this->body)) {
+            $this->body = $this->psrResponse->getBody()->getContents();
+        }
+
+        return $this->body;
     }
 
     /**
      * @return \DateTime|null
      */
-    public function getLastModified()
+    public function getLastModified() : ?\DateTime
     {
         if ($this->psrResponse->hasHeader(static::HTTP_LAST_MODIFIED)) {
             $lastModified = \DateTime::createFromFormat(\DateTime::RFC2822, $this->getHeader(static::HTTP_LAST_MODIFIED)[0]);
@@ -60,22 +92,22 @@ class Response implements ResponseInterface
             return false === $lastModified ? null : $lastModified;
         }
 
-        return;
+        return null;
     }
 
     /**
-     * @return array
+     * @return iterable
      */
-    public function getHeaders()
+    public function getHeaders()  : iterable
     {
         return $this->psrResponse->getHeaders();
     }
 
     /**
      * @param  string       $name
-     * @return string[]
+     * @return iterable
      */
-    public function getHeader($name)
+    public function getHeader(string $name) : iterable
     {
         return $this->psrResponse->getHeader($name);
     }

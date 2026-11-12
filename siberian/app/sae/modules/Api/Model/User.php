@@ -57,7 +57,7 @@ class Api_Model_User extends Core_Model_Default {
      * @return bool
      */
     public function isSamePassword($password) {
-        return $this->getPassword() == $this->_encrypt($password);
+        return hash_equals((string) $this->getPassword(), (string) $this->_encrypt($password));
     }
 
     /**
@@ -91,7 +91,7 @@ class Api_Model_User extends Core_Model_Default {
      * @return bool
      */
     private function _checkPassword($password) {
-        return ($this->getPassword() == $this->_encrypt($password));
+        return hash_equals((string) $this->getPassword(), (string) $this->_encrypt($password));
     }
 
 }

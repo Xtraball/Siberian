@@ -4,7 +4,7 @@ class Mcommerce_Mobile_ProductController extends Mcommerce_Controller_Mobile_Def
 
     public function findAction() {
 
-        if($value_id = $this->getRequest()->getParam("value_id") AND $product_id = $this->getRequest()->getParam("product_id")) {
+        if($value_id = \Siberian\Input::int($this->getRequest()->getParam("value_id"), 0, 0) AND $product_id = \Siberian\Input::int($this->getRequest()->getParam("product_id"), 0, 0)) {
 
             $product = new Catalog_Model_Product();
             $product->find($product_id);
@@ -66,10 +66,10 @@ class Mcommerce_Mobile_ProductController extends Mcommerce_Controller_Mobile_Def
                             "id" => $option->getId(),
                             "optionId" => $option->getOptionId(),
                             "name" => $option->getName(),
-                            "price" => (double) $option->getPrice(),
+                            "price" => (float) $option->getPrice(),
                             //"formattedPrice" => $option->getPrice() > 0 ? $option->getFormattedPrice() : null,
                             "formattedPrice" => $option->getPrice() > 0 ? $displayPrice : null,
-                            "priceInclTax" => (double) $priceInclTax,
+                            "priceInclTax" => (float) $priceInclTax,
                             //"formattedPriceInclTax" => $priceInclTax > 0 ? $product->formatPrice($priceInclTax) : null
                             "formattedPriceInclTax" => $priceInclTax > 0 ? $displayPriceInclTax : null
                         ];
@@ -110,7 +110,7 @@ class Mcommerce_Mobile_ProductController extends Mcommerce_Controller_Mobile_Def
                         "price" => (float) $minPrice > 0 ? $minPrice:null,
                         //"formattedPrice" => $minPrice > 0 ? $product->formatPrice($minPrice):null,
                         "formattedPrice" => $minPrice > 0 ? $displayPrice : null,
-                        "priceInclTax" => (double) $priceInclTax,
+                        "priceInclTax" => (float) $priceInclTax,
                         //"formattedPriceInclTax" => $priceInclTax > 0 ? $product->formatPrice($priceInclTax) : null,
                         "formattedPriceInclTax" => $priceInclTax > 0 ? $displayPriceInclTax : null,
                         "minPrice" => (float) $minPrice,
@@ -119,7 +119,7 @@ class Mcommerce_Mobile_ProductController extends Mcommerce_Controller_Mobile_Def
                         "optionsGroups" => $optionsGroups,
                         "choicesGroups" => $choicesGroups,
                         "formatGroups" => $formatGroup,
-                        "social_sharing_active" => (boolean) $option_value->getSocialSharingIsActive()
+                        "social_sharing_active" => (bool) $option_value->getSocialSharingIsActive()
                     ],
                     "page_title" => $product->getName()
                 ];

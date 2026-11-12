@@ -24,7 +24,7 @@ class Analytics_Mobile_StoreController extends Application_Controller_Mobile_Def
         try {
             if ($data = Zend_Json::decode($this->getRequest()->getRawBody())) {
                 $data['appId'] = $this->getApplication()->getId();
-                $data['timestampGMT'] = gmmktime();
+                $data['timestampGMT'] = time();
 
                 $sqlite_request = Analytics_Model_Store::getInstance();
                 if ($result = $sqlite_request->addAppInstallationMetric($data)) {
@@ -44,8 +44,8 @@ class Analytics_Mobile_StoreController extends Application_Controller_Mobile_Def
         try {
             if ($data = Zend_Json::decode($this->getRequest()->getRawBody())) {
                 $data['appId'] = $this->getApplication()->getId();
-                $data['startTimestampGMT'] = gmmktime();
-                $data['endTimestampGMT'] = gmmktime();
+                $data['startTimestampGMT'] = time();
+                $data['endTimestampGMT'] = time();
 
                 $sqliteRequest = Analytics_Model_Store::getInstance();
                 if ($result = $sqliteRequest->addAppLoadedMetric($data)) {
@@ -67,7 +67,7 @@ class Analytics_Mobile_StoreController extends Application_Controller_Mobile_Def
         $payload = self::ERROR;
         try {
             if ($data = Zend_Json::decode($this->getRequest()->getRawBody())) {
-                $metric_data = ["endTimestampGMT = '" . gmmktime() . "'"];
+                $metric_data = ["endTimestampGMT = '" . time() . "'"];
 
                 $sqlite_request = Analytics_Model_Store::getInstance();
                 if ($result = $sqlite_request->addAppLoadedMetric($metric_data, $data['id'])) {
@@ -86,7 +86,7 @@ class Analytics_Mobile_StoreController extends Application_Controller_Mobile_Def
         $payload = self::ERROR;
         try {
             if ($data = Zend_Json::decode($this->getRequest()->getRawBody())) {
-                $data['timestampGMT'] = gmmktime();
+                $data['timestampGMT'] = time();
 
                 $sqlite_request = Analytics_Model_Store::getInstance();
                 if ($result = $sqlite_request->addAppPageNavigationMetric($data)) {
@@ -108,7 +108,7 @@ class Analytics_Mobile_StoreController extends Application_Controller_Mobile_Def
         $payload = self::ERROR;
         try {
             if ($data = Zend_Json::decode($this->getRequest()->getRawBody())) {
-                $data['timestampGMT'] = gmmktime();
+                $data['timestampGMT'] = time();
 
                 $sqlite_request = Analytics_Model_Store::getInstance();
                 if ($result = $sqlite_request->addAppMcommerceProductNavigationMetric($data)) {
@@ -130,7 +130,7 @@ class Analytics_Mobile_StoreController extends Application_Controller_Mobile_Def
         if ($data = Zend_Json::decode($this->getRequest()->getRawBody())) {
             $metric_value = $data;
             unset($metric_value['products']);
-            $metric_value['timestampGMT'] = gmmktime();
+            $metric_value['timestampGMT'] = time();
 
             foreach ($data['products'] as $product) {
                 $metric_value['productId'] = $product['id'];

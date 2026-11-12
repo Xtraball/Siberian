@@ -96,6 +96,25 @@ class Api_Controller_Default extends Core_Controller_Default {
     }
 
     /**
+     * An action that ends without any response (a call without the data it reads) used to fall through to the
+     * "noroute" page, which is a 500 here: answer an error instead.
+     */
+    public function postDispatch() {
+        $request = $this->getRequest();
+        if (!$this->getLayout()->isLoaded() &&
+            $request->isDispatched() &&
+            !$this->getResponse()->isRedirect() &&
+            $request->getActionName() !== 'noroute') {
+            $this->_sendJson([
+                'error' => true,
+                'message' => __('The request contains no data, or data this action does not accept.'),
+            ]);
+        }
+
+        parent::postDispatch();
+    }
+
+    /**
      *
      */
     public function notauthorizedAction() {

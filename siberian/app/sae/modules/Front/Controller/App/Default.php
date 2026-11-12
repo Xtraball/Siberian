@@ -23,6 +23,8 @@ class Front_Controller_App_Default extends Application_Controller_Mobile_Default
         $application = $this->getApplication();
         $params = $request->getParams();
         $rawBody = $request->getBodyParams();
+        // a body that is valid JSON but not an object (5, "x", true) is not an array: array_key_exists() would throw
+        $rawBody = is_array($rawBody) ? $rawBody : [];
 
         // Fallback test for value_id!
         $currentValueId = null;
@@ -106,6 +108,16 @@ class Front_Controller_App_Default extends Application_Controller_Mobile_Default
         // Handle development case, unset exception messages in production!
         if (!Siberian_Debug::isDevelopment() && isset($data['exceptionMessage'])) {
             unset($data['exceptionMessage']);
+        }
+
+        // A database error is for the logs, the app user reads a plain sentence (the development answers keep it)!
+        if (is_array($data) && !Siberian_Debug::isDevelopment()) {
+            $data = \Siberian\ClientMessage::clean(
+                $data,
+                p__('application', 'Something went wrong on our side, please try again in a moment.'),
+                function ($message) {
+                    log_err(sprintf('[mobile error hidden from the app] %s', $message));
+                });
         }
 
         $json = Siberian_Json::encode($data);

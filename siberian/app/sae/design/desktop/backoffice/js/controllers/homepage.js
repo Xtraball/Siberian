@@ -14,7 +14,7 @@ App.config(function($routeProvider) {
         templateUrl: BASE_URL+"/backoffice/index/template"
     });
 
-}).controller("HomepageController", function($scope, $timeout, Header, Backoffice) {
+}).controller("HomepageController", function($scope, $timeout, Header, Backoffice, Advanced) {
 
     $scope.header = new Header();
     $scope.header.button.left.is_visible = false;
@@ -30,6 +30,9 @@ App.config(function($routeProvider) {
     $scope.graphIsLoading = true;
     $scope.servicesIsLoading = true;
     $scope.messagesIsLoading = true;
+    $scope.quarantine = {};
+    $scope.quarantineBusy = false;
+    $scope.appErrors = {enabled: true, modules: []};
 
     $scope.clear = function(type, message) {
         if(typeof message != "undefined") {
@@ -47,6 +50,96 @@ App.config(function($routeProvider) {
             $scope.server_usage = data.server_usage;
             $scope.services = data.services;
             $scope.content_loader_is_visible = false;
+        });
+    };
+
+    // Services: the state of the cron is whether it runs. Errors in its history are information, not a state.
+    $scope.svc = {open: false};
+    $scope.svc.cronActive = true;
+
+    $scope.cronState = function () {
+        var s = $scope.services || {};
+        if (!$scope.svc.cronActive) {
+            return 'off';
+        }
+        if (!s.cron) {
+            return 'down';
+        }
+        if (s.cron_locks > 0 || (s.cron_compat && s.cron_compat.problems > 0)) {
+            return 'warn';
+        }
+        return 'ok';
+    };
+
+    $scope.binaryCount = function () {
+        var l = $scope.libraries || {};
+        return ['optipng', 'jpegoptim', 'pngquant', 'clamav'].filter(function (k) { return !!l[k]; }).length;
+    };
+
+    $scope.openServices = function () {
+        $scope.svc.open = true;
+    };
+
+    // Web space: the bar is the distribution of the total, the quota is shown apart
+    $scope.webSpace = {open: false, quota: '', busy: false};
+    $scope.slices = null;
+
+    $scope.bytes = function (value) {
+        if (value === null || value === undefined) {
+            return '-';
+        }
+        var units = ['B', 'KB', 'MB', 'GB', 'TB'], i = 0;
+        while (value >= 1024 && i < units.length - 1) {
+            value /= 1024;
+            i++;
+        }
+        return (value < 10 && i > 0 ? Math.round(value * 10) / 10 : Math.round(value)) + ' ' + units[i];
+    };
+
+    $scope.$watch('server_usage', function (u) {
+        if (!u || !u.total_bytes) {
+            $scope.slices = null;
+            return;
+        }
+        var scale = u.total_bytes;
+        var raw = {
+            log: (u.log_bytes || 0) / scale * 100,
+            cache: (u.cache_bytes || 0) / scale * 100,
+            images: (u.cache_images_bytes || 0) / scale * 100,
+            tmp: (u.tmp_bytes || 0) / scale * 100,
+            other: (u.other_bytes || 0) / scale * 100
+        };
+        // Five colors only: a slice that exists but is under MIN_SLICE percent would not be seen, so it is drawn at
+        // MIN_SLICE and the bigger ones share what is left. The sizes in the legend are the true ones.
+        var MIN_SLICE = 4;
+        var keys = Object.keys(raw);
+        var small = keys.filter(function (k) { return raw[k] > 0 && raw[k] < MIN_SLICE; });
+        var bigSum = keys.reduce(function (sum, k) { return raw[k] >= MIN_SLICE ? sum + raw[k] : sum; }, 0);
+        var room = 100 - small.length * MIN_SLICE;
+        var slices = {};
+        keys.forEach(function (k) {
+            slices[k] = raw[k] <= 0 ? 0 : (raw[k] < MIN_SLICE ? MIN_SLICE : raw[k] / bigSum * room);
+        });
+        $scope.slices = slices;
+    }, true);
+
+    $scope.openWebSpace = function () {
+        var u = $scope.server_usage || {};
+        $scope.webSpace.quota = u.quota_gb ? String(u.quota_gb) : '';
+        $scope.webSpace.open = true;
+    };
+
+    $scope.saveQuota = function () {
+        $scope.webSpace.busy = true;
+        Backoffice.setWebSpaceQuota($scope.webSpace.quota).success(function (data) {
+            $scope.message.setText(data.message).isError(!!data.error).show();
+            if (data.server_usage) {
+                $scope.server_usage = data.server_usage;
+            }
+        }).error(function (data) {
+            $scope.message.setText((data && data.message) || '').isError(true).show();
+        }).finally(function () {
+            $scope.webSpace.busy = false;
         });
     };
 
@@ -211,7 +304,119 @@ App.config(function($routeProvider) {
         });
     };
 
+    $scope.loadQuarantine = function () {
+        Advanced
+            .quarantine()
+            .success(function (data) {
+                $scope.quarantine = data;
+            });
+    };
+
+    /**
+     * Recheck, re-enable and scan answer with the new summary.
+     */
+    $scope.quarantineAction = function (request, confirmMessage) {
+        if (angular.isDefined(confirmMessage) && !window.confirm(confirmMessage)) {
+            return;
+        }
+
+        $scope.quarantineBusy = true;
+        request()
+            .success(function (data) {
+                if (angular.isObject(data)) {
+                    if (angular.isObject(data.summary)) {
+                        $scope.quarantine = data.summary;
+                    }
+                    if (angular.isDefined(data.message)) {
+                        $scope.message.setText(data.message)
+                            .isError(!!data.error)
+                            .show();
+                    }
+                }
+            })
+            .error(function (data) {
+                $scope.message.setText(angular.isObject(data) && data.message ? data.message : '')
+                    .isError(true)
+                    .show();
+            })
+            .finally(function () {
+                $scope.quarantineBusy = false;
+            });
+    };
+
+    $scope.quarantineRecheck = function (name) {
+        $scope.quarantineAction(function () {
+            return Advanced.quarantineRecheck(name);
+        });
+    };
+
+    $scope.quarantineRelease = function (name, confirmMessage) {
+        $scope.quarantineAction(function () {
+            return Advanced.quarantineRelease(name);
+        }, confirmMessage);
+    };
+
+    $scope.quarantineScan = function () {
+        $scope.quarantineAction(function () {
+            return Advanced.quarantineScan();
+        });
+    };
+
+    /**
+     * The errors of the mobile and web app calls by module. Quarantine now is always the administrator's choice.
+     */
+    $scope.loadAppErrors = function () {
+        Advanced
+            .appErrors()
+            .success(function (data) {
+                if (angular.isObject(data) && angular.isArray(data.modules)) {
+                    $scope.appErrors = data;
+                }
+            });
+    };
+
+    $scope.appErrorsWarning = function () {
+        return angular.isArray($scope.appErrors.modules) && $scope.appErrors.modules.some(function (item) {
+            return item.warning && !item.quarantined;
+        });
+    };
+
+    $scope.quarantineNow = function (name, confirmMessage) {
+        if (angular.isDefined(confirmMessage) && !window.confirm(confirmMessage)) {
+            return;
+        }
+
+        $scope.quarantineBusy = true;
+        Advanced
+            .quarantineNow(name)
+            .success(function (data) {
+                if (angular.isObject(data)) {
+                    if (angular.isObject(data.summary)) {
+                        $scope.quarantine = data.summary;
+                    }
+                    if (angular.isObject(data.app_errors)) {
+                        $scope.appErrors = data.app_errors;
+                    }
+                    if (angular.isDefined(data.message)) {
+                        $scope.message.setText(data.message)
+                            .isError(!!data.error)
+                            .show();
+                    }
+                }
+            })
+            .error(function (data) {
+                $scope.message.setText(angular.isObject(data) && data.message ? data.message : '')
+                    .isError(true)
+                    .show();
+            })
+            .finally(function () {
+                $scope.quarantineBusy = false;
+            });
+    };
+
     $scope.loadContent();
+    $scope.loadQuarantine();
+    $scope.loadAppErrors();
     $scope.loadMessages();
     $scope.loadGraph();
 

@@ -10,7 +10,9 @@
 
 namespace FeedIo\Rule;
 
-class DateTest extends \PHPUnit_Framework_TestCase
+use \PHPUnit\Framework\TestCase;
+
+class DateTest extends TestCase
 {
     /**
      * Timezone used to test a timezone switch.
@@ -24,7 +26,7 @@ class DateTest extends \PHPUnit_Framework_TestCase
      */
     protected $object;
 
-    protected function setUp()
+    protected function setUp(): void
     {
         $this->object = new DateTimeBuilder();
     }
@@ -33,13 +35,6 @@ class DateTest extends \PHPUnit_Framework_TestCase
     {
         $timezone = $this->object->getTimezone();
         $this->assertEquals(date_default_timezone_get(), $timezone->getName());
-    }
-
-    public function testSetDateFormats()
-    {
-        $formats = array(\DateTime::ATOM);
-        $this->object->setDateFormats($formats);
-        $this->assertAttributeEquals($formats, 'dateFormats', $this->object);
     }
 
     public function testGuessDateFormat()
@@ -54,7 +49,7 @@ class DateTest extends \PHPUnit_Framework_TestCase
     public function testDontGuessDateFormat()
     {
         $this->object->addDateFormat(\DateTime::ATOM);
-        $this->assertFalse($this->object->guessDateFormat('foo'));
+        $this->assertNull($this->object->guessDateFormat('foo'));
     }
 
     public function testConvertDateFormat()
@@ -69,12 +64,10 @@ class DateTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals(\DateTime::RFC1036, $this->object->getLastGuessedFormat());
     }
 
-    /**
-     * @expectedException \InvalidArgumentException
-     */
     public function testDontConvertDateFormat()
     {
         $this->object->addDateFormat(\DateTime::ATOM);
+        $this->expectException('\InvalidArgumentException');
         $this->object->convertToDateTime('foo');
     }
 

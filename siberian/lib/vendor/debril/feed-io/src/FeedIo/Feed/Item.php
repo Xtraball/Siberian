@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 /*
  * This file is part of the feed-io package.
  *
@@ -12,8 +12,6 @@ namespace FeedIo\Feed;
 
 use FeedIo\Feed\Item\Media;
 use FeedIo\Feed\Item\MediaInterface;
-use FeedIo\Feed\Item\Author;
-use FeedIo\Feed\Item\AuthorInterface;
 
 class Item extends Node implements ItemInterface
 {
@@ -24,9 +22,14 @@ class Item extends Node implements ItemInterface
     protected $medias;
 
     /**
-     * @var AuthorInterface
+     * @var string
      */
-    protected $author;
+    protected $summary;
+
+    /**
+     * @var string
+     */
+    protected $content;
 
     public function __construct()
     {
@@ -37,9 +40,9 @@ class Item extends Node implements ItemInterface
 
     /**
      * @param  MediaInterface $media
-     * @return $this
+     * @return ItemInterface
      */
-    public function addMedia(MediaInterface $media)
+    public function addMedia(MediaInterface $media) : ItemInterface
     {
         $this->medias->append($media);
 
@@ -47,9 +50,9 @@ class Item extends Node implements ItemInterface
     }
 
     /**
-     * @return \ArrayIterator
+     * @return iterable
      */
-    public function getMedias()
+    public function getMedias() : iterable
     {
         return $this->medias;
     }
@@ -57,7 +60,7 @@ class Item extends Node implements ItemInterface
     /**
      * @return boolean
      */
-    public function hasMedia()
+    public function hasMedia() : bool
     {
         return $this->medias->count() > 0;
     }
@@ -65,35 +68,55 @@ class Item extends Node implements ItemInterface
     /**
      * @return MediaInterface
      */
-    public function newMedia()
+    public function newMedia() : MediaInterface
     {
         return new Media();
     }
 
     /**
-     * @return AuthorInterface
+     * @return string|null
      */
-    public function getAuthor()
+    public function getSummary(): ?string
     {
-        return $this->author;
+        return $this->summary;
     }
 
     /**
-     * @param  AuthorInterface $author
-     * @return $this
+     * @param string|null $summary
+     * @return ItemInterface
      */
-    public function setAuthor(AuthorInterface $author)
+    public function setSummary(string $summary = null): ItemInterface
     {
-        $this->author = $author;
+        $this->summary = $summary;
 
         return $this;
     }
 
-    /**
-     * @return AuthorInterface
-     */
-    public function newAuthor()
+    public function getDescription(): ?string
     {
-        return new Author();
+        error_log('Method getDescription is deprecated and will be removed in feed-io 5.0. Please use getContent() instead', E_USER_DEPRECATED);
+        return parent::getDescription();
+    }
+
+    /**
+     * Returns the 'content' for Atom and JSONFeed formats, 'description' for RSS
+     * @return string|null
+     */
+    public function getContent(): ?string
+    {
+        return $this->content ?? $this->description;
+    }
+
+    /**
+     * @param string|null $content
+     * @return ItemInterface
+     */
+    public function setContent(string $content = null): ItemInterface
+    {
+        $this->content = $content;
+        // Will be removed in 5.0
+        $this->setDescription($content);
+
+        return $this;
     }
 }

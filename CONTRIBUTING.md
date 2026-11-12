@@ -45,3 +45,6 @@ We try to follow the PSR-1 standard as much as possible, and to keep our code cl
 ## License
 
 By contributing your code, you agree to license your contribution under the [OSL license](https://opensource.org/licenses/OSL-3.0).
+## AI agents
+
+Automated coding sessions follow [AGENTS.md](AGENTS.md).

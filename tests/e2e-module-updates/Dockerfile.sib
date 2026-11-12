@@ -1,0 +1,2 @@
+FROM siberian-ci:php8.2
+RUN apt-get update && apt-get install -y --no-install-recommends unzip zip && rm -rf /var/lib/apt/lists/*

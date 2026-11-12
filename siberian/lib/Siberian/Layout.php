@@ -672,7 +672,7 @@ class Siberian_Layout extends Zend_Layout
         ];
 
         $path = '/layout/' . $action . '/addLayout';
-        $datas = $this->_actionLayout->xpath($path);
+        $datas = $this->_actionLayout->xpath($path) ?: [];
         foreach ($datas as $data) {
             $name = (string) $data->attributes()->name;
             if (isset($this->_baseActionLayout->$name)) {
@@ -694,7 +694,7 @@ class Siberian_Layout extends Zend_Layout
         }
 
         $path = '/layout/' . $action . '/removeLayout';
-        $datas = $this->_actionLayout->xpath($path);
+        $datas = $this->_actionLayout->xpath($path) ?: [];
         foreach ($datas as $data) {
             $name = (string) $data->attributes()->name;
             if (isset($nodes['default']->views->$name)) {
@@ -765,7 +765,7 @@ class Siberian_Layout extends Zend_Layout
         $child = $this->_xml->addChild($key);
 
         $path = '/layout/' . $this->_action . '/' . $key;
-        $datas = $this->_actionLayout->xpath($path);
+        $datas = $this->_actionLayout->xpath($path) ?: [];
         foreach ($datas as $data) {
             $this->_mergeXml($data, $child, $forceAddNode);
         }

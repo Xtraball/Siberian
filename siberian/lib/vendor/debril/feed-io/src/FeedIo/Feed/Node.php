@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 /*
  * This file is part of the feed-io package.
  *
@@ -10,12 +10,19 @@
 
 namespace FeedIo\Feed;
 
+use FeedIo\Feed\Item\Author;
+use FeedIo\Feed\Item\AuthorInterface;
 use FeedIo\Feed\Node\Category;
 use FeedIo\Feed\Node\CategoryInterface;
 
-class Node implements NodeInterface, ElementsAwareInterface
+class Node implements NodeInterface, ElementsAwareInterface, ArrayableInterface
 {
     use ElementsAwareTrait;
+
+    /**
+     * @var AuthorInterface
+     */
+    protected $author;
 
     /**
      * @var \ArrayIterator
@@ -47,6 +54,11 @@ class Node implements NodeInterface, ElementsAwareInterface
      */
     protected $link;
 
+    /**
+     * @var string
+     */
+    protected $host;
+
     public function __construct()
     {
         $this->initElements();
@@ -56,9 +68,9 @@ class Node implements NodeInterface, ElementsAwareInterface
     /**
      * @param  string $name  element name
      * @param  string $value element value
-     * @return $this
+     * @return NodeInterface
      */
-    public function set($name, $value)
+    public function set(string $name, string $value = null) : NodeInterface
     {
         $element = $this->newElement();
 
@@ -69,13 +81,40 @@ class Node implements NodeInterface, ElementsAwareInterface
 
         return $this;
     }
-    
+
+    /**
+     * @return AuthorInterface
+     */
+    public function getAuthor() : ? AuthorInterface
+    {
+        return $this->author;
+    }
+
+    /**
+     * @param  AuthorInterface $author
+     * @return ItemInterface
+     */
+    public function setAuthor(AuthorInterface $author = null) : NodeInterface
+    {
+        $this->author = $author;
+
+        return $this;
+    }
+
+    /**
+     * @return AuthorInterface
+     */
+    public function newAuthor() : AuthorInterface
+    {
+        return new Author();
+    }
+
     /**
      * returns node's categories
      *
-     * @return \ArrayIterator
+     * @return iterable
      */
-    public function getCategories()
+    public function getCategories() : iterable
     {
         return $this->categories;
     }
@@ -83,7 +122,7 @@ class Node implements NodeInterface, ElementsAwareInterface
     /**
      * @return \Generator
      */
-    public function getCategoriesGenerator()
+    public function getCategoriesGenerator() : \Generator
     {
         foreach ($this->categories as $category) {
             yield $category->getlabel();
@@ -94,12 +133,12 @@ class Node implements NodeInterface, ElementsAwareInterface
      * adds a category to the node
      *
      * @param \FeedIo\Feed\Node\CategoryInterface $category
-     * @return $this
+     * @return NodeInterface
      */
-    public function addCategory(CategoryInterface $category)
+    public function addCategory(CategoryInterface $category) : NodeInterface
     {
         $this->categories->append($category);
-        
+
         return $this;
     }
 
@@ -108,7 +147,7 @@ class Node implements NodeInterface, ElementsAwareInterface
      *
      * @return \FeedIo\Feed\Node\CategoryInterface
      */
-    public function newCategory()
+    public function newCategory() : CategoryInterface
     {
         return new Category();
     }
@@ -116,16 +155,16 @@ class Node implements NodeInterface, ElementsAwareInterface
     /**
      * @return string
      */
-    public function getTitle()
+    public function getTitle() : ? string
     {
         return $this->title;
     }
 
     /**
      * @param  string $title
-     * @return $this
+     * @return NodeInterface
      */
-    public function setTitle($title)
+    public function setTitle(string $title = null) : NodeInterface
     {
         $this->title = $title;
 
@@ -135,16 +174,16 @@ class Node implements NodeInterface, ElementsAwareInterface
     /**
      * @return string
      */
-    public function getPublicId()
+    public function getPublicId() : ? string
     {
         return $this->publicId;
     }
 
     /**
      * @param  string $publicId
-     * @return $this
+     * @return NodeInterface
      */
-    public function setPublicId($publicId)
+    public function setPublicId(string $publicId = null) : NodeInterface
     {
         $this->publicId = $publicId;
 
@@ -154,16 +193,16 @@ class Node implements NodeInterface, ElementsAwareInterface
     /**
      * @return string
      */
-    public function getDescription()
+    public function getDescription() : ? string
     {
         return $this->description;
     }
 
     /**
      * @param  string $description
-     * @return $this
+     * @return NodeInterface
      */
-    public function setDescription($description)
+    public function setDescription(string $description = null) : NodeInterface
     {
         $this->description = $description;
 
@@ -173,16 +212,16 @@ class Node implements NodeInterface, ElementsAwareInterface
     /**
      * @return \DateTime
      */
-    public function getLastModified()
+    public function getLastModified() : ? \DateTime
     {
         return $this->lastModified;
     }
 
     /**
      * @param  \DateTime $lastModified
-     * @return $this
+     * @return NodeInterface
      */
-    public function setLastModified(\DateTime $lastModified)
+    public function setLastModified(\DateTime $lastModified = null) : NodeInterface
     {
         $this->lastModified = $lastModified;
 
@@ -192,50 +231,78 @@ class Node implements NodeInterface, ElementsAwareInterface
     /**
      * @return string
      */
-    public function getLink()
+    public function getHost(): ? string
+    {
+        return $this->host;
+    }
+
+    /**
+     * @return string
+     */
+    public function getLink() : ? string
     {
         return $this->link;
     }
 
     /**
      * @param  string $link
-     * @return $this
+     * @return NodeInterface
      */
-    public function setLink($link)
+    public function setLink(string $link = null) : NodeInterface
     {
         $this->link = $link;
+        $this->setHost($link);
 
         return $this;
     }
 
     /**
-     * @param  string $name element name
-     * @return mixed
+     * @param string|null $link
      */
-    public function getValue($name)
+    protected function setHost(string $link = null): void
+    {
+        if (!is_null($link)) {
+            $this->host = '//' . parse_url($link, PHP_URL_HOST);
+        }
+    }
+
+    /**
+     * @param string $name element name
+     * @return null|string
+     */
+    public function getValue(string $name) : ? string
     {
         foreach ($this->getElementIterator($name) as $element) {
             return $element->getValue();
         }
 
-        return;
+        return null;
     }
 
     /**
      * @return array
      */
-    public function toArray()
+    public function toArray() : array
     {
         $properties = get_object_vars($this);
+        $properties['elements'] = iterator_to_array($this->getElementsGenerator());
+        $properties['categories'] = iterator_to_array($this->getCategoriesGenerator());
 
         foreach ($properties as $name => $property) {
             if ($property instanceof \DateTime) {
                 $properties[$name] = $property->format(\DateTime::ATOM);
+            } elseif ($property instanceof \ArrayIterator) {
+                $properties[$name] = [];
+                foreach ($property as $entry) {
+                    if ($entry instanceof ArrayableInterface) {
+                        $entry = $entry->toArray();
+                    }
+                    $properties[$name] []= $entry;
+                }
+            } elseif ($property instanceof ArrayableInterface) {
+                $properties[$name] = $property->toArray();
             }
         }
-
-        $properties['elements'] = iterator_to_array($this->getElementsGenerator());
-        $properties['categories'] = iterator_to_array($this->getCategoriesGenerator());
 
         return $properties;
     }

@@ -38,7 +38,7 @@ class Radio_Mobile_RadioController extends Application_Controller_Mobile_Default
      * Find action
      */
     public function findAction() {
-        if ($valueId = $this->getRequest()->getParam('value_id')) {
+        if ($valueId = \Siberian\Input::int($this->getRequest()->getParam('value_id'), 0, 0)) {
             try {
                 $radio = (new Radio_Model_Radio())
                     ->find([

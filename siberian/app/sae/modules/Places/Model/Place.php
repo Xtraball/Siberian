@@ -167,7 +167,7 @@ class Places_Model_Place extends Base
 
             foreach ($categories as $category) {
                 $payload["settings"]["categories"][] = [
-                    'id' => (integer)$category->getId(),
+                    'id' => (int)$category->getId(),
                     'title' => (string)$category->getTitle(),
                     'subtitle' => (string)$category->getSubtitle(),
                     'picture' => (string)$category->getPicture(),
@@ -594,38 +594,38 @@ class Places_Model_Place extends Base
                 "title" => $entity->getTitle(),
                 "subtitle" => $entity->getContent(),
                 "picture" => $entity->getPictureUrl() ? $controller->getRequest()->getBaseUrl() . $entity->getPictureUrl() : null,
-                "show_image" => (boolean)$this->getPage()->getMetadataValue('show_image'),
-                "show_titles" => (boolean)$this->getPage()->getMetadataValue('show_titles'),
+                "show_image" => (bool)$this->getPage()->getMetadataValue('show_image'),
+                "show_titles" => (bool)$this->getPage()->getMetadataValue('show_titles'),
             ],
             "page_title" => $page->getTitle() ? $page->getTitle() : $optionValue->getTabbarName(),
             "picture" => $entity->getPictureUrl() ? $controller->getRequest()->getBaseUrl() . $entity->getPictureUrl() : null,
-            "social_sharing_active" => (boolean)$optionValue->getSocialSharingIsActive(),
+            "social_sharing_active" => (bool)$optionValue->getSocialSharingIsActive(),
         ];
 
         $representation = [
-            "id" => (integer)$entity->getPageId(),
+            "id" => (int)$entity->getPageId(),
             "title" => $entity->getTitle(),
             "subtitle" => $entity->getContent(),
             "picture" => $entity->getPictureUrl() ? $controller->getRequest()->getBaseUrl() . $entity->getPictureUrl() : null,
             "thumbnail" => $entity->getThumbnailUrl() ? $controller->getRequest()->getBaseUrl() . $entity->getThumbnailUrl() : null,
             "url" => $url,
             "address" => [
-                "id" => (integer)$address->getId(),
+                "id" => (int)$address->getId(),
                 "position" => $address->getPosition(),
-                "block_id" => (integer)$address->getBlockId(),
+                "block_id" => (int)$address->getBlockId(),
                 "label" => $address->getLabel(),
                 "address" => $address->getAddress(),
                 "phone" => $address->getPhone(),
                 "website" => $address->getWebsite(),
                 "latitude" => (float)$address->getLatitude(),
                 "longitude" => (float)$address->getLongitude(),
-                "show_phone" => (boolean)$address->getShowPhone(),
-                "show_website" => (boolean)$address->getShowWebsite(),
-                "show_address" => (boolean)$address->getShowAddress(),
-                "show_geolocation_button" => (boolean)$address->getShowGeolocationButton(),
+                "show_phone" => (bool)$address->getShowPhone(),
+                "show_website" => (bool)$address->getShowWebsite(),
+                "show_address" => (bool)$address->getShowAddress(),
+                "show_geolocation_button" => (bool)$address->getShowGeolocationButton(),
             ],
-            "show_image" => (boolean)$this->getPage()->getMetadataValue('show_image'),
-            "show_titles" => (boolean)$this->getPage()->getMetadataValue('show_titles'),
+            "show_image" => (bool)$this->getPage()->getMetadataValue('show_image'),
+            "show_titles" => (bool)$this->getPage()->getMetadataValue('show_titles'),
             "distance" => $distance,
             "distanceUnit" => $distanceUnit,
             "embed_payload" => $embed_payload,
@@ -737,18 +737,18 @@ class Places_Model_Place extends Base
                 "subtitle" => $this->getContent(),
                 "picture" => $picture,
                 "pin" => $pin,
-                "show_image" => (boolean)$this->getMetadataValue('show_image'),
-                "show_titles" => (boolean)$this->getMetadataValue('show_titles'),
-                "show_subtitle" => (boolean)$this->getMetadataValue('show_subtitle'),
+                "show_image" => (bool)$this->getMetadataValue('show_image'),
+                "show_titles" => (bool)$this->getMetadataValue('show_titles'),
+                "show_subtitle" => (bool)$this->getMetadataValue('show_subtitle'),
                 "mapIcon" => $this->getMapIcon(),
             ],
             "page_title" => $this->getTitle(),
             "picture" => $picture,
-            "social_sharing_active" => (boolean)$optionValue->getSocialSharingIsActive(),
+            "social_sharing_active" => (bool)$optionValue->getSocialSharingIsActive(),
         ];
 
         $representation = [
-            "id" => (integer)$this->getId(),
+            "id" => (int)$this->getId(),
             "title" => $this->getTitle(),
             "subtitle" => $this->getContent(),
             "picture" => $picture,
@@ -756,23 +756,23 @@ class Places_Model_Place extends Base
             "pin" => $pin,
             "url" => "/places/mobile_list/index/value_id/{$valueId}/category_id/0",
             "address" => [
-                "id" => (integer)$address->getId(),
+                "id" => (int)$address->getId(),
                 "position" => $address->getPosition(),
-                "block_id" => (integer)$address->getBlockId(),
+                "block_id" => (int)$address->getBlockId(),
                 "label" => $address->getLabel(),
                 "address" => $address->getAddress(),
                 "phone" => $address->getPhone(),
                 "website" => $address->getWebsite(),
                 "latitude" => (float)$address->getLatitude(),
                 "longitude" => (float)$address->getLongitude(),
-                "show_phone" => (boolean)$address->getShowPhone(),
-                "show_website" => (boolean)$address->getShowWebsite(),
-                "show_address" => (boolean)$address->getShowAddress(),
-                "show_geolocation_button" => (boolean)$address->getShowGeolocationButton(),
+                "show_phone" => (bool)$address->getShowPhone(),
+                "show_website" => (bool)$address->getShowWebsite(),
+                "show_address" => (bool)$address->getShowAddress(),
+                "show_geolocation_button" => (bool)$address->getShowGeolocationButton(),
             ],
-            "show_image" => (boolean)$this->getMetadataValue('show_image'),
-            "show_titles" => (boolean)$this->getMetadataValue('show_titles'),
-            "show_subtitle" => (boolean)$this->getMetadataValue('show_subtitle'),
+            "show_image" => (bool)$this->getMetadataValue('show_image'),
+            "show_titles" => (bool)$this->getMetadataValue('show_titles'),
+            "show_subtitle" => (bool)$this->getMetadataValue('show_subtitle'),
             "mapIcon" => $this->getMapIcon(),
             "distance" => $distance,
             "distanceUnit" => $settings["distance_unit"],
@@ -801,7 +801,7 @@ class Places_Model_Place extends Base
 
         # Compress homepage default
         $picture_b64 = null;
-        if (!(boolean)$this->getPage()->getMetadataValue('show_picto')) {
+        if (!(bool)$this->getPage()->getMetadataValue('show_picto')) {
             if ($page->getPictureUrl()) {
                 $picture = Core_Model_Directory::getBasePathTo($page->getPictureUrl());
                 $picture_b64 = Siberian_Image::open($picture)->cropResize(64)->inline();
@@ -809,7 +809,7 @@ class Places_Model_Place extends Base
         }
 
         $payload = [
-            "id" => (integer)$page->getPageId(),
+            "id" => (int)$page->getPageId(),
             "title" => $page->getTitle(),
             "picture" => $picture_b64,
             "address" => [

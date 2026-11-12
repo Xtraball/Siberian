@@ -12,7 +12,7 @@ require_once './lib/System/env.php';
 
 if (array_key_exists('REQUEST_METHOD', $_SERVER) &&
     ($_SERVER['REQUEST_METHOD'] === 'OPTIONS')) {
-    header('Access-Control-Allow-Origin: ' . $_SERVER['HTTP_ORIGIN']);
+    header('Access-Control-Allow-Origin: ' . ($_SERVER['HTTP_ORIGIN'] ?? ''));
     header('Access-Control-Allow-Credentials: true', true);
     header('Access-Control-Allow-Methods: GET,PUT,POST,DELETE,OPTIONS', true);
     header('Access-Control-Allow-Headers: Origin, Xsb-Auth, X-Requested-With, X-HTTP-Method-Override, Content-Type, Accept, Pragma, Set-Cookie', true);
@@ -52,6 +52,11 @@ if (isset($_config['redirect_https']) &&
     header('Location: https://' . $_SERVER['HTTP_HOST'] . $_SERVER['REQUEST_URI']);
     exit;
 }
+
+// Opt-in ($_config['module_app_circuit_breaker']): an app endpoint that keeps failing with a fatal error is answered
+// with a fast 503 before any module code runs, see Siberian\Module\CircuitBreaker! The config is loaded, nothing else is.
+require_once './lib/Siberian/Module/CircuitBreaker.php';
+\Siberian\Module\CircuitBreaker::guard($_SERVER);
 
 set_time_limit(300);
 ini_set('max_execution_time', 300);

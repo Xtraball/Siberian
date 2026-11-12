@@ -111,7 +111,7 @@ class Zend_Validate_File_Extension extends Zend_Validate_Abstract
      */
     public function setCase($case)
     {
-        $this->_case = (boolean) $case;
+        $this->_case = (bool) $case;
         return $this;
     }
 

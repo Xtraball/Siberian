@@ -206,7 +206,7 @@ class System_Controller_Backoffice_Default extends Backoffice_Controller_Default
     {
         try {
             $data = Zend_Json::decode($this->getRequest()->getRawBody());
-            if (count($data) !== 2) {
+            if (!is_array($data) || count($data) !== 2) {
                 throw new Exception("No period sent.");
             }
 

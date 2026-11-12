@@ -4,7 +4,7 @@ class Application_DeviceController extends Core_Controller_Default {
 
     public function checkAction() {
 
-        if($app_id = $this->getRequest()->getParam('app_id')) {
+        if($app_id = \Siberian\Input::int($this->getRequest()->getParam('app_id'), 0, 0)) {
             $mobile = new Mobile_Detect();
             $url = null;
 
@@ -111,7 +111,7 @@ class Application_DeviceController extends Core_Controller_Default {
 
     public function downloadappAction() {
 
-        if($app_id = $this->getRequest()->getParam('app_id')) {
+        if($app_id = \Siberian\Input::int($this->getRequest()->getParam('app_id'), 0, 0)) {
 
             $mobile = new Mobile_Detect();
             $application = new Application_Model_Application();

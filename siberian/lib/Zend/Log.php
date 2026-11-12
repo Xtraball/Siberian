@@ -106,7 +106,7 @@ class Zend_Log
      * @param Zend_Log_Writer_Abstract|null  $writer  default writer
      * @return void
      */
-    public function __construct(Zend_Log_Writer_Abstract $writer = null)
+    public function __construct(?Zend_Log_Writer_Abstract $writer = null)
     {
         $r = new ReflectionClass($this);
         $this->_priorities = array_flip($r->getConstants());

@@ -53,7 +53,7 @@ class Installer_ModuleController extends Backoffice_Controller_Default
 
         try {
             $html = array('success' => 1);
-            if ($module = $this->getRequest()->getParam('name')) {
+            if ($module = \Siberian\Input::slug($this->getRequest()->getParam('name'))) {
 
                 $installer = new Installer_Model_Installer();
                 $installer->setModuleName($module)

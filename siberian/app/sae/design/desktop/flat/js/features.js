@@ -1060,3 +1060,31 @@ window.textStyleFromHex = function (rgb) {
 
     return statusBarStyle;
 };
+
+/**
+ * Password inputs with an eye button (Siberian_Form_Element_RevealPassword): show / hide the value.
+ * Delegated, so it also works on forms loaded later by ajax. The handlers are namespaced and unbound first, so
+ * evaluating this file twice can never bind them twice (two toggles would cancel each other).
+ */
+window.sbSetPasswordRevealed = function (wrapper, show) {
+    var box = $(wrapper);
+    box.find('input[data-reveal-input]').attr('type', show ? 'text' : 'password');
+    box.find('[data-reveal-toggle]').attr('aria-pressed', show ? 'true' : 'false');
+    box.find('[data-eye]').css('display', show ? 'none' : '');
+    box.find('[data-eye-off]').css('display', show ? '' : 'none');
+};
+
+$(document).off('click.sbRevealPassword').on('click.sbRevealPassword', '[data-reveal-toggle]', function (event) {
+    event.preventDefault();
+    var box = $(this).closest('.sb-reveal-password');
+    var input = box.find('input[data-reveal-input]');
+    // The state is read from the input itself, never kept anywhere else.
+    window.sbSetPasswordRevealed(box, input.attr('type') === 'password');
+});
+
+// Hidden again as soon as the form is sent.
+$(document).off('submit.sbRevealPassword').on('submit.sbRevealPassword', 'form', function () {
+    $(this).find('.sb-reveal-password').each(function () {
+        window.sbSetPasswordRevealed(this, false);
+    });
+});

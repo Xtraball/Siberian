@@ -425,7 +425,7 @@ class Application_Model_Device_Ionic_Android extends Application_Model_Device_Io
         }
 
         $appKey = $application->getKey();
-        $disableBatteryOptimization = (boolean) filter_var($application->getDisableBatteryOptimization(), FILTER_VALIDATE_BOOLEAN);
+        $disableBatteryOptimization = (bool) filter_var($application->getDisableBatteryOptimization(), FILTER_VALIDATE_BOOLEAN);
         $_dbo = $disableBatteryOptimization ? "true" : "false";
         $languages = array_keys(Core_Model_Language::getLanguages());
         $version = \Siberian\Version::VERSION;

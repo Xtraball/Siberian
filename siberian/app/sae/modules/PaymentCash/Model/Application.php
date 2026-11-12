@@ -67,7 +67,7 @@ class Application extends Base
     {
         try {
             $settings = self::getSettings($appId);
-            return (boolean) filter_var($settings->getIsEnabled(), FILTER_VALIDATE_BOOLEAN);
+            return (bool) filter_var($settings->getIsEnabled(), FILTER_VALIDATE_BOOLEAN);
         } catch (\Exception $e) {
             return false;
         }

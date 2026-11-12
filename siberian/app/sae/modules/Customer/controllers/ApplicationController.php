@@ -131,7 +131,7 @@ class Customer_ApplicationController extends Application_Controller_Default
             $customer = new Customer_Model_Customer();
             if (!empty($data['customer_id'])) {
                 $customer->find($data['customer_id']);
-                if (!$customer->getId() || $customer->getAppId() !== $appId) {
+                if (!$customer->getId() || (int) $customer->getAppId() !== (int) $appId) {
                     throw new Exception(p__('customer', "This customer doesn't exists."));
                 }
             }
@@ -306,7 +306,7 @@ class Customer_ApplicationController extends Application_Controller_Default
             ];
 
             if ($data["search_value"]) {
-                $search_params["search"] = "(email LIKE '%" . $data["search_value"] . "%' OR firstname LIKE '%" . $data["search_value"] . "%' OR lastname LIKE '%" . $data["search_value"] . "%')";
+                $search_params["search_value"] = $data["search_value"];
             }
 
             $customer_model = new Customer_Model_Customer();
@@ -330,7 +330,7 @@ class Customer_ApplicationController extends Application_Controller_Default
         try {
             $request = $this->getRequest();
             $limit = $request->getParam('perPage', 25);
-            $offset = $request->getParam('offset', 0);
+            $offset = \Siberian\Input::int($request->getParam('offset'), 0, 0);
             $sorts = $request->getParam('sorts', []);
             $queries = $request->getParam('queries', []);
 

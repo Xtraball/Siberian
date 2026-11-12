@@ -130,7 +130,7 @@ class Application_Customization_FeaturesController extends Application_Controlle
     public function editAction()
     {
 
-        if ($type = $this->getRequest()->getParam('type')) {
+        if ($type = \Siberian\Input::slug($this->getRequest()->getParam('type'))) {
             $this->getLayout()->setBaseRender('content', sprintf('application/customization/page/edit/%s.phtml', $type), 'admin_view_default');
             $html = ['html' => $this->getLayout()->render()];
             $this->_sendHtml($html);
@@ -519,7 +519,7 @@ class Application_Customization_FeaturesController extends Application_Controlle
 
             return [
                 'value_id' => $valueId,
-                'icon_id' => (integer) $iconId,
+                'icon_id' => (int) $iconId,
                 'icon_url' => $iconUrl,
                 'icon_url_colorized' => $iconUrlColorized,
                 'icon_url_colorized_app' => $iconUrlColorizedApp,
@@ -823,7 +823,7 @@ class Application_Customization_FeaturesController extends Application_Controlle
                             "success" => true,
                             'file' => '/' . $formated_library_name . '/' . $file,
                             'icon_id' => $icon_lib->getImageId(),
-                            'colorizable' => a,
+                            'colorizable' => $CanBeColorized,
                             'icon_url' => $icon_url,
                             'colored_icon_url' => $this->getUrl('template/block/colorize', ['id' => $icon_lib->getImageId(), 'color' => str_replace('#', '', $icon_color)]),
                             'colored_header_icon_url' => $icon_saved['colored_header_icon_url'],

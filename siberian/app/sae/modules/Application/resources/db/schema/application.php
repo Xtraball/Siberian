@@ -235,6 +235,11 @@ $schemas['application'] = [
         'is_null' => true,
         'default' => '0',
     ],
+    'android_edge_to_edge' => [
+        'type' => 'tinyint(1)',
+        'is_null' => true,
+        'default' => '0',
+    ],
     'logo' => [
         'type' => 'varchar(255)',
         'is_null' => true,
@@ -636,6 +641,11 @@ $schemas['application'] = [
         'default' => '0',
     ],
     'disable_location' => [
+        'type' => 'tinyint(1)',
+        'default' => '0',
+    ],
+    // No longer used (cordova-plugin-camera 8 declares no media permission); the column stays so no data is dropped.
+    'disable_media_permissions' => [
         'type' => 'tinyint(1)',
         'default' => '0',
     ],

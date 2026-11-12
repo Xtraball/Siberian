@@ -32,7 +32,9 @@ class Core_Model_Lib_Facebook extends Core_Model_Default {
 
     public static function getSecretKey() {
         //first check app key, else use global key
-        $app_related_secret_key = self::getApplication()->getFacebookKey();
+        // The application of the current call; none (cron, cli) means the global key
+        $application = Siberian::getApplication();
+        $app_related_secret_key = $application ? $application->getFacebookKey() : null;
         $secret_key = !empty($app_related_secret_key) ?
             $app_related_secret_key :
             Api_Model_Key::findKeysFor('facebook')->getSecretKey() ;

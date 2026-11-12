@@ -82,7 +82,7 @@ class Preview_Backoffice_EditController extends Backoffice_Controller_Default
 
     public function saveAction() {
 
-        if($data = Zend_Json::decode($this->getRequest()->getRawBody())) {
+        if (($data = $this->_jsonBody()) !== null) {
 
             try {
                 $previews = $data["previews"];
@@ -270,7 +270,7 @@ class Preview_Backoffice_EditController extends Backoffice_Controller_Default
     public function deleteAction() {
         try {
 
-            if ($data = Zend_Json::decode($this->getRequest()->getRawBody())) {
+            if (($data = $this->_jsonBody()) !== null) {
                 $preview = new Preview_Model_Preview();
                 $preview->find($data["preview_id"]);
 

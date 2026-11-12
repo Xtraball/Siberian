@@ -229,7 +229,7 @@ class Event_Application_EventController extends Application_Controller_Default
             throw new Exception(__("An error occurred while loading this event"));
         }
 
-        $id = $this->getRequest()->getParam("id");
+        $id = \Siberian\Input::int($this->getRequest()->getParam("id"), 0, 0);
         $html = '';
 
         try {

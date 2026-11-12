@@ -17,6 +17,11 @@ angular.module('starter').service('TelInput', function ($ocLazyLoad, $q) {
     ])
     .then(function () {
         service.loadedPromise.resolve();
+    }, function () {
+        // The scripts could not be loaded: the callers must not wait forever (the login modal waits on this),
+        // the mobile number is then checked without the library, see Customer.normalizeMobile.
+        service.failed = true;
+        service.loadedPromise.resolve();
     });
 
     service.isLoaded = function () {

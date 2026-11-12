@@ -86,7 +86,7 @@ class Form2_ApplicationController extends Application_Controller_Default
     {
         try {
             $request = $this->getRequest();
-            $valueId = $request->getParam('value_id', null);
+            $valueId = \Siberian\Input::int($request->getParam('value_id'), 0, 0);
             $excludeAnonymous = filter_var($request->getParam('excludeAnonymous', false), FILTER_VALIDATE_BOOLEAN);
             $lastUserRecord = filter_var($request->getParam('lastUserRecord', false), FILTER_VALIDATE_BOOLEAN);
 

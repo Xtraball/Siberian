@@ -518,7 +518,7 @@ class Application_Model_Option extends Core_Model_Default
      */
     public function getCustomFields()
     {
-        $custom_fields = json_decode($this->getData('custom_fields'), true);
+        $custom_fields = json_decode((string) $this->getData('custom_fields'), true);
         return is_array($custom_fields) ? $custom_fields : [];
     }
 }

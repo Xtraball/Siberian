@@ -285,7 +285,7 @@ class Zend_Service_Delicious
      * @throws Zend_Service_Delicious_Exception
      * @return Zend_Service_Delicious_PostList
      */
-    public function getPosts($tag = null, Zend_Date $dt = null, $url = null)
+    public function getPosts($tag = null, ?Zend_Date $dt = null, $url = null)
     {
         $parms = array();
         if ($tag) {

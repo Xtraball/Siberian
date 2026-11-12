@@ -11,8 +11,8 @@ class Places_Mobile_Api_PlacesController extends Application_Controller_Mobile_D
     public function findAction()
     {
 
-        if ($value_id = $this->getRequest()->getParam('value_id')
-            && $place_id = $this->getRequest()->getParam('place_id')) {
+        if ($value_id = \Siberian\Input::int($this->getRequest()->getParam('value_id'), 0, 0)
+            && $place_id = \Siberian\Input::int($this->getRequest()->getParam('place_id'), 0, 0)) {
 
             try {
 
@@ -52,13 +52,13 @@ class Places_Mobile_Api_PlacesController extends Application_Controller_Mobile_D
     public function findallAction()
     {
 
-        if ($value_id = $this->getRequest()->getParam('value_id')) {
+        if ($value_id = \Siberian\Input::int($this->getRequest()->getParam('value_id'), 0, 0)) {
 
             $latitude = $this->getRequest()->getParam('latitude');
             $longitude = $this->getRequest()->getParam('longitude');
 
 
-            if ($latitude && $longitude) {
+            if (is_numeric($latitude) && is_numeric($longitude) && $latitude && $longitude) {
                 // order by distance from specified latitude/longitude   
 
                 $rad = pi() / 180;

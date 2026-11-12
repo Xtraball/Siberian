@@ -7,7 +7,7 @@ class Catalog_Mobile_Setmeal_ViewController extends Application_Controller_Mobil
      */
     public function findAction() {
 
-        if($value_id = $this->getRequest()->getParam('value_id') AND $set_meal_id = $this->getRequest()->getParam('set_meal_id')) {
+        if($value_id = \Siberian\Input::int($this->getRequest()->getParam('value_id'), 0, 0) AND $set_meal_id = \Siberian\Input::int($this->getRequest()->getParam('set_meal_id'), 0, 0)) {
 
             $set_meal = new Catalog_Model_Product();
             $set_meal->find($set_meal_id);
@@ -24,7 +24,7 @@ class Catalog_Mobile_Setmeal_ViewController extends Application_Controller_Mobil
                     "description" => $set_meal->getDescription(),
                     "price" => $set_meal->getPrice() > 0 ? $set_meal->getFormattedPrice() : null,
                     "picture" => $set_meal->getPictureUrl() ? $this->getRequest()->getBaseUrl().$set_meal->getPictureUrl() : null,
-                    "social_sharing_active" => (boolean) $option_value->getSocialSharingIsActive()
+                    "social_sharing_active" => (bool) $option_value->getSocialSharingIsActive()
                 );
 
             }

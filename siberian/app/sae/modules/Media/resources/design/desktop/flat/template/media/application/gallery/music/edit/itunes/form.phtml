@@ -290,9 +290,9 @@
                 }
                 album_element += '<span class="album_title">'+album_name+'</span>';
                 if(album.trackCount == 1) {
-                    var tracks = '<?php echo __('title') ?>';
+                    var tracks = '<?php echo __jss('title') ?>';
                 } else {
-                    var tracks = '<?php echo __('titles') ?>';
+                    var tracks = '<?php echo __jss('titles') ?>';
                 }
                 if(album.artistName > 15) {
                     album.artistName = album.artistName(0,15)+'...';

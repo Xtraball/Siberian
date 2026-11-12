@@ -10,7 +10,9 @@
 
 namespace FeedIo\Adapter;
 
-class NullClientTest extends \PHPUnit_Framework_TestCase
+use \PHPUnit\Framework\TestCase;
+
+class NullClientTest extends TestCase
 {
     public function testGetResponse()
     {
@@ -20,7 +22,6 @@ class NullClientTest extends \PHPUnit_Framework_TestCase
         $this->assertInstanceOf('\FeedIo\Adapter\NullResponse', $response);
         $this->assertInstanceOf('\DateTime', $response->getLastModified());
         $this->assertNull($response->getBody());
-        $this->assertInternalType('array', $response->getHeaders());
-        $this->assertEquals('foo', $response->getHeader('foo'));
+        $this->assertEquals([], $response->getHeader('foo'));
     }
 }

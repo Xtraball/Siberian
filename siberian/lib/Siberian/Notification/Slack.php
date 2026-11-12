@@ -9,7 +9,7 @@ namespace Siberian\Notification;
 class Slack
 {
     /**
-     * @var \Maknz\Slack\Client
+     * @var \Siberian\Notification\SlackWebhook
      */
     public $slack;
 
@@ -27,11 +27,11 @@ class Slack
             'channel' => $channel,
             'link_names' => true
         ];
-        $this->slack = new \Maknz\Slack\Client($webhook, $settings);
+        $this->slack = new \Siberian\Notification\SlackWebhook($webhook, $settings);
     }
 
     /**
-     * @return \Maknz\Slack\Client
+     * @return \Siberian\Notification\SlackWebhook
      */
     public function getClient()
     {

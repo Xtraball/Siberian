@@ -17,7 +17,7 @@ class Places_Mobile_ListController extends Application_Controller_Mobile_Default
     {
         try {
             $request = $this->getRequest();
-            $placeId = $request->getParam("place_id", null);
+            $placeId = \Siberian\Input::int($request->getParam("place_id"), 0, 0);
             $optionValue = $this->getCurrentOptionValue();
 
             $place = (new Places_Model_Place())
@@ -31,8 +31,8 @@ class Places_Mobile_ListController extends Application_Controller_Mobile_Default
 
             $payload = [
                 "success" => true,
-                "social_sharing_active" => (boolean) $optionValue->getSocialSharingIsActive(),
-                "notes_are_enabled" => (boolean) $optionValue->getSocialSharingIsActive(),
+                "social_sharing_active" => (bool) $optionValue->getSocialSharingIsActive(),
+                "notes_are_enabled" => (bool) $optionValue->getSocialSharingIsActive(),
                 "page_title" => $place["embed_payload"]["page"]["title"],
                 "place" => $place["embed_payload"],
                 "page" => $place["embed_payload"]["page"],
@@ -93,14 +93,14 @@ class Places_Mobile_ListController extends Application_Controller_Mobile_Default
             $request = $this->getRequest();
 
             $isMaps = $request->getParam("maps", false);
-            $limit = $request->getParam("limit", 20);
-            $offset = $request->getParam("offset", 0);
+            $limit = \Siberian\Input::int($request->getParam("limit"), 20, 0);
+            $offset = \Siberian\Input::int($request->getParam("offset"), 0, 0);
             $fulltext = $request->getParam("fulltext", null);
             $categories = $request->getParam("categories", []);
 
             $position = [
-                "latitude" => $request->getParam("latitude", 0),
-                "longitude" => $request->getParam("longitude", 0)
+                "latitude" => \Siberian\Input::latitude($request->getParam("latitude")),
+                "longitude" => \Siberian\Input::longitude($request->getParam("longitude"))
             ];
 
             $optionValue = $this->getCurrentOptionValue();
@@ -152,7 +152,7 @@ class Places_Mobile_ListController extends Application_Controller_Mobile_Default
                 "sortingType" => $sortingType,
                 "page_title" => $optionValue->getTabbarName(),
                 "displayed_per_page" => sizeof($collection),
-                "social_sharing_active" => (boolean) $optionValue->getSocialSharingIsActive(),
+                "social_sharing_active" => (bool) $optionValue->getSocialSharingIsActive(),
                 "total" => $count->count(),
                 "places" => $collection
             ];
@@ -177,11 +177,11 @@ class Places_Mobile_ListController extends Application_Controller_Mobile_Default
             $customerId = $session->getCustomerId();
 
             $data = $request->getBodyParams();
-            $east = (float) ($data['e'] ?? 0);
-            $north = (float) ($data['n'] ?? 0);
-            $south = (float) ($data['s'] ?? 0);
-            $west = (float) ($data['w'] ?? 0);
-            $zoom = (int) ($data['zoom'] ?? 0);
+            $east = \Siberian\Input::float($data['e'] ?? null);
+            $north = \Siberian\Input::float($data['n'] ?? null);
+            $south = \Siberian\Input::float($data['s'] ?? null);
+            $west = \Siberian\Input::float($data['w'] ?? null);
+            $zoom = \Siberian\Input::int($data['zoom'] ?? null, 0, 0);
 
             $fulltext = $data['fulltext'] ?? null;
             $categories = $data['categories'] ?? [];
@@ -264,7 +264,7 @@ class Places_Mobile_ListController extends Application_Controller_Mobile_Default
 
                 $settings['defaultMapZoom'] = (int) $settings['defaultMapZoom'];
                 $settings['defaultCenterZoom'] = (int) $settings['defaultCenterZoom'];
-                $settings['notesAreEnabled'] = (boolean) $settings['notesAreEnabled'];
+                $settings['notesAreEnabled'] = (bool) $settings['notesAreEnabled'];
 
                 $categories = (new Places_Model_Category())
                     ->findAll(["value_id" => $optionValue->getId()], "position ASC");
@@ -272,7 +272,7 @@ class Places_Mobile_ListController extends Application_Controller_Mobile_Default
                 $settings["categories"] = [];
                 foreach ($categories as $category) {
                     $settings["categories"][] = [
-                        'id' => (integer) $category->getId(),
+                        'id' => (int) $category->getId(),
                         'title' => (string) $category->getTitle(),
                         'subtitle' => (string) $category->getSubtitle(),
                         'picture' => (string) $category->getPicture(),
@@ -299,7 +299,7 @@ class Places_Mobile_ListController extends Application_Controller_Mobile_Default
      */
     public function settingsAction()
     {
-        if ($value_id = $this->getRequest()->getParam("value_id")) {
+        if ($value_id = \Siberian\Input::int($this->getRequest()->getParam("value_id"), 0, 0)) {
             $html = ["tags" => []];
             $option_value = new Application_Model_Option_Value();
             $option_value->find($value_id);

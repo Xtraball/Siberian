@@ -1,0 +1,111 @@
+msgid ""
+msgstr ""
+"Project-Id-Version: Turkish (Siberian)\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2019-01-22 10:34+0000\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: Turkish <http://yvain.xtraball.com/projects/siberian/acl/tr/>"
+"\n"
+"Language: tr\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=n != 1;\n"
+"X-Generator: Weblate 3.3\n"
+
+# GMT 1568884436.6232
+#. machine-translated (2026-10), to be reviewed
+msgctxt "topic"
+msgid "Description"
+msgstr "Açıklama"
+
+# GMT 1568884436.6233
+#. machine-translated (2026-10), to be reviewed
+msgctxt "topic"
+msgid "Topics"
+msgstr "Konular"
+
+# GMT 1568884436.6237
+#. machine-translated (2026-10), to be reviewed
+msgctxt "topic"
+msgid "Design"
+msgstr "Tasarım"
+
+# GMT 1568884436.6238
+#. machine-translated (2026-10), to be reviewed
+msgctxt "topic"
+msgid "Manage topics"
+msgstr "Konuları yönet"
+
+# GMT 1568884436.624
+#. machine-translated (2026-10), to be reviewed
+msgctxt "topic"
+msgid "Import topics"
+msgstr "Konuları içe aktar"
+
+# GMT 1568885308.6752
+#. machine-translated (2026-10), to be reviewed
+msgctxt "topic"
+msgid "Import success."
+msgstr "İçe aktarma başarılı."
+
+# GMT 1568885433.0521
+#. machine-translated (2026-10), to be reviewed
+msgctxt "topic"
+msgid "The imported JSON file is invalid."
+msgstr "İçe aktarılan JSON dosyası geçersiz."
+
+# GMT 1568887519.5898
+#. machine-translated (2026-10), to be reviewed
+msgctxt "topic"
+msgid "Download file examples: "
+msgstr "Örnek dosyaları indirin: "
+
+# GMT 1568887519.5899
+#. machine-translated (2026-10), to be reviewed
+msgctxt "topic"
+msgid "Please note that only JSON & YAML supports nested topics."
+msgstr "Yalnızca JSON ve YAML'ın iç içe konuları desteklediğini unutmayın."
+
+# GMT 1568887724.1144
+#. machine-translated (2026-10), to be reviewed
+msgctxt "topic"
+msgid "Import"
+msgstr "İçe aktar"
+
+# GMT 1568887864.8146
+#. machine-translated (2026-10), to be reviewed
+msgctxt "topic"
+msgid "Please note that only JSON & YAML supports nested topics, CSV works only with single level imports."
+msgstr "Yalnızca JSON ve YAML'ın iç içe konuları desteklediğini, CSV'nin ise yalnızca tek düzeyli içe aktarmalarla çalıştığını unutmayın."
+
+# GMT 1569246412.4798
+#. machine-translated (2026-10), to be reviewed
+msgctxt "topic"
+msgid "Download file examples"
+msgstr "Örnek dosyaları indir"
+
+# GMT 1569246468.7113
+#. machine-translated (2026-10), to be reviewed
+msgctxt "topic"
+msgid "Import CSV, JSON, YAML"
+msgstr "CSV, JSON, YAML içe aktar"
+
+# GMT 1576070941.4663
+#. machine-translated (2026-10), to be reviewed
+msgctxt "topic"
+msgid "The imported CSV file is invalid '%s'."
+msgstr "İçe aktarılan CSV dosyası geçersiz '%s'."
+
+# GMT 1576070941.4664
+#. machine-translated (2026-10), to be reviewed
+msgctxt "topic"
+msgid "'Parent topic `%s` doesn\\'t exists.'"
+msgstr "'Üst konu `%s` mevcut değil.'"
+
+# GMT 1576070941.4665
+#. machine-translated (2026-10), to be reviewed
+msgctxt "topic"
+msgid "Parent topic `%s` has a parent, you can nest topics only at one level."
+msgstr "Üst konu `%s` zaten bir üst konuya sahip, konuları yalnızca tek düzeyde iç içe yerleştirebilirsiniz."

@@ -38,6 +38,10 @@ $schemas['radio'] = [
         'type' => 'tinyint(1) unsigned',
         'default' => 1,
     ],
+    'keep_url' => [
+        'type' => 'tinyint(1) unsigned',
+        'default' => 0,
+    ],
     'created_at' => [
         'type' => 'datetime',
     ],

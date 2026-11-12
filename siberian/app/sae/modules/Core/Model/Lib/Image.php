@@ -259,8 +259,13 @@ class Core_Model_Lib_Image
     {
 
         if ($this->_isValid() AND !$this->_resources) {
-            $this->_resources = imagecreatefromstring(file_get_contents(Core_Model_Directory::getBasePathTo($this->getImagePath())));
-            imagesavealpha($this->_resources, true);
+            $content = @file_get_contents(Core_Model_Directory::getBasePathTo($this->getImagePath()));
+            $resources = $content ? @imagecreatefromstring($content) : false;
+            // A file that is not a readable image gives false: keep the resources empty, callers test for it.
+            if ($resources) {
+                imagesavealpha($resources, true);
+                $this->_resources = $resources;
+            }
         }
         return $this->_resources;
     }

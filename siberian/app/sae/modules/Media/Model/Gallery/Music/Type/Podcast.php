@@ -42,19 +42,30 @@ class Media_Model_Gallery_Music_Type_Podcast extends Core_Model_Default {
 
     }
 
-    protected function _calcDuration($duration) {
-
-        $hours = 0;
-        $minutes = 0;
-        $seconds = 0;
-
-        try {
-            list($hours, $minutes, $seconds) = explode(":", $duration);
-        } catch(Exception $e) {
-
+    /**
+     * Duration in milliseconds from an iTunes duration: "h:m:s", "m:s" or plain seconds (decimals allowed).
+     * Anything that is not numeric gives null: PHP 8 throws a TypeError on "abc" * 60.
+     *
+     * @param mixed $duration
+     * @return int|null
+     */
+    protected function _calcDuration($duration)
+    {
+        $parts = array_reverse(explode(":", trim((string) $duration)));
+        if (count($parts) > 3) {
+            return null;
         }
 
-        return (($hours * 3600) + ($minutes * 60) + $seconds) * 1000;
+        $seconds = 0;
+        foreach ($parts as $index => $part) {
+            $part = trim($part);
+            if (!is_numeric($part) || $part < 0) {
+                return null;
+            }
+            $seconds += $part * (60 ** $index);
+        }
+
+        return (int) round($seconds * 1000);
     }
 
 }

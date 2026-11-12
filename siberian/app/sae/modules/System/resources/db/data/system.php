@@ -199,6 +199,11 @@ $configs = [
         'value' => 'staging'
     ],
     [
+        'code' => 'error_reports_enabled',
+        'label' => 'Send grouped error reports to improve Siberian.',
+        'value' => '1'
+    ],
+    [
         'code' => 'send_statistics',
         'label' => 'Send anonymous statistics to improve the apps builder.',
         'value' => '1'
@@ -252,6 +257,11 @@ $configs = [
         'code' => 'apk_build_type',
         'label' => 'APK Build type',
         'value' => 'release',
+    ],
+    [
+        'code' => 'web_space_quota_gb',
+        'label' => 'Web space quota (GB), informative',
+        'value' => '',
     ],
     [
         'code' => 'is_gdpr_enabled',

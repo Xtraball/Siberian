@@ -6,7 +6,7 @@ class Catalog_Mobile_ProductController extends Application_Controller_Mobile_Def
 
         try {
             $product = new Catalog_Model_Product();
-            $product->find($this->getRequest()->getParam('product_id'));
+            $product->find(\Siberian\Input::int($this->getRequest()->getParam('product_id'), 0, 0));
             if(!$product->getId() OR $product->getValueId() != $this->getCurrentOptionValue()->getId()) {
                 throw new Exception($this->_('An error occurred while loading your product.'));
             }

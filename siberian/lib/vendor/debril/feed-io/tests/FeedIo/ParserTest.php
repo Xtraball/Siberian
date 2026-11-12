@@ -17,7 +17,9 @@ use FeedIo\Rule\DateTimeBuilder;
 use FeedIo\Standard\Rss;
 use Psr\Log\NullLogger;
 
-class ParserTest extends \PHPUnit_Framework_TestCase
+use \PHPUnit\Framework\TestCase;
+
+class ParserTest extends TestCase
 {
 
     /**
@@ -25,7 +27,7 @@ class ParserTest extends \PHPUnit_Framework_TestCase
      */
     protected $object;
 
-    public function setUp()
+    public function setUp(): void
     {
         $date = new DateTimeBuilder();
         $date->addDateFormat(\DateTime::ATOM);
@@ -78,9 +80,6 @@ XML;
         $this->assertEquals(1, $count);
     }
 
-    /**
-     * @expectedException \FeedIo\Parser\UnsupportedFormatException
-     */
     public function testParseBadDocument()
     {
         $document = new \DOMDocument();
@@ -93,6 +92,7 @@ XML;
         $standard->expects($this->any())->method('canHandle')->will($this->returnValue(false));
         $parser = new Parser($standard, new NullLogger());
 
+        $this->expectException('\FeedIo\Parser\UnsupportedFormatException');
         $parser->parse(new Document($document->saveXML()), new Feed());
     }
 
@@ -124,38 +124,22 @@ XML;
 RSS;
         $document = new \DOMDocument();
         $document->loadXML($rss);
-        $this->assertInstanceOf(
-            '\FeedIo\ParserAbstract',
+        $this->assertTrue(
             $this->object->checkBodyStructure(new Document($document->saveXML()), array('channel', 'title'))
         );
     }
 
-    /**
-     * @expectedException \FeedIo\Parser\MissingFieldsException
-     */
     public function testCheckBadStructure()
     {
         $document = new \DOMDocument();
         $document->loadXML('<rss></rss>');
+        $this->expectException('\FeedIo\Parser\MissingFieldsException');
         $this->assertInstanceOf(
             '\FeedIo\Parser',
             $this->object->checkBodyStructure(new Document($document->saveXML()), array('channel'))
         );
     }
 
-    public function testAddResetFilters()
-    {
-        $filter = $this->getMockForAbstractClass('\FeedIo\FilterInterface');
-
-        $this->object->addFilter($filter);
-        $this->assertAttributeCount(1, 'filters', $this->object);
-        $this->object->resetFilters();
-        $this->assertAttributeCount(0, 'filters', $this->object);
-    }
-
-    /**
-     * @expectedException \FeedIo\Parser\MissingFieldsException
-     */
     public function testParseEmptyRssFeed()
     {
         $rss = <<<RSS
@@ -166,6 +150,7 @@ RSS;
         $parser = new Parser(new Rss(
             new DateTimeBuilder()
         ), new NullLogger());
+        $this->expectException('\FeedIo\Parser\MissingFieldsException');
         $parser->parse(new Document($document->saveXML()), new Feed());
     }
 

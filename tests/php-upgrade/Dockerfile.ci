@@ -1,0 +1,29 @@
+ARG PHP_VERSION=8.5
+FROM php:${PHP_VERSION}-cli
+
+# Extensions required by siberian/composer.json that the stock image lacks.
+RUN apt-get update \
+ && apt-get install -y --no-install-recommends git libfreetype6-dev libjpeg-dev libpng-dev libicu-dev libzip-dev libxml2-dev \
+ && docker-php-ext-configure gd --with-freetype --with-jpeg \
+ && docker-php-ext-install -j"$(nproc)" gd pdo_mysql mysqli intl bcmath zip \
+ && rm -rf /var/lib/apt/lists/* \
+ && git config --global --add safe.directory /src
+
+# Test tooling (docs/testing-plan.md: quality gates). Pinned through the image, not the product's composer.json.
+#  - pcov: line coverage, which Infection needs to know which tests cover a line.
+#  - phpunit: for new tests (data providers, expected exceptions); the custom runner stays for the existing files.
+#  - infection: mutation testing, `infection` on the PATH. It needs PHP 8.3+, so the 8.2 image goes without it.
+RUN apt-get update \
+ && apt-get install -y --no-install-recommends autoconf build-essential curl ca-certificates \
+ && pecl install pcov \
+ && docker-php-ext-enable pcov \
+ && curl -fsSL -o /usr/local/bin/phpunit https://phar.phpunit.de/phpunit-11.5.phar \
+ && echo "c704fdd37c6c6ab7adb386f31b4e186cd51156801fa9028b5ea8099a2cd7f106  /usr/local/bin/phpunit" | sha256sum -c - \
+ && chmod +x /usr/local/bin/phpunit \
+ && if php -r 'exit(PHP_VERSION_ID >= 80300 ? 0 : 1);'; then \
+      curl -fsSL -o /usr/local/bin/infection https://github.com/infection/infection/releases/download/0.35.10/infection.phar \
+      && echo "aa8ac8aeb3d7b96d4e66119908c1654c6bbf29472ef8bf1d1e84900fd01d6b31  /usr/local/bin/infection" | sha256sum -c - \
+      && chmod +x /usr/local/bin/infection; \
+    fi \
+ && apt-get purge -y --auto-remove autoconf build-essential \
+ && rm -rf /var/lib/apt/lists/* /tmp/pear

@@ -447,7 +447,7 @@ $deleteCategoryForm->setValueId($optionValue->getId());
 
         $("table.sb-pager.table-places").sbpager({
             with_search: true,
-            search_placeholder: "<?php echo __("Search ...") ?>",
+            search_placeholder: "<?php echo __js("Search ...") ?>",
             callback_goto_page: function() {
                 $("table.sb-pager tr.edit-form[data-id]").hide()
             }
@@ -456,7 +456,7 @@ $deleteCategoryForm->setValueId($optionValue->getId());
         $("table.sb-pager.table-categories").sbpager({
             with_search: true,
             items_per_page: 1000,
-            search_placeholder: "<?php echo __("Search ...") ?>",
+            search_placeholder: "<?php echo __js("Search ...") ?>",
             callback_goto_page: function() {
                 $("table.sb-pager tr.edit-form[data-id]").hide()
             }

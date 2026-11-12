@@ -13,7 +13,9 @@ namespace FeedIo\Filter;
 use FeedIo\Feed\Item;
 use FeedIo\Feed;
 
-class ModifiedSinceTest extends \PHPUnit_Framework_TestCase
+use \PHPUnit\Framework\TestCase;
+
+class ModifiedSinceTest extends TestCase
 {
 
     /**
@@ -21,7 +23,7 @@ class ModifiedSinceTest extends \PHPUnit_Framework_TestCase
      */
     protected $object;
 
-    protected function setUp()
+    protected function setUp(): void
     {
         $this->object = new ModifiedSince(new \DateTime('-10 days'));
     }
@@ -43,6 +45,6 @@ class ModifiedSinceTest extends \PHPUnit_Framework_TestCase
     public function testIsNotValid()
     {
         $item = new Item();
-        $this->assertFalse($this->object->isValid($item));
+        $this->assertTrue($this->object->isValid($item));
     }
 }

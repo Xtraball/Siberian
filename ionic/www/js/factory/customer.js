@@ -313,11 +313,12 @@ angular
             try {
                 localCountry = country.toLowerCase();
             } catch (e) {
-                localCountry = CURRENT_LANGUAGE;
+                localCountry = factory.countryFromLanguage(CURRENT_LANGUAGE);
             }
 
-            if (intlTelInput_countries.indexOf(localCountry) === -1) {
-                localCountry = "gb";
+            if (factory.knownCountries().indexOf(localCountry) === -1) {
+                // A language code ("en", "sv", "ja") is not a country code ("sv" is El Salvador).
+                localCountry = factory.countryFromLanguage(localCountry);
             }
 
             var localOptions = (typeof options === 'undefined') ? {} : options;
@@ -338,7 +339,80 @@ angular
                 delete factory.itis[selector];
             }
 
+            // No input yet, or the library is not there: the number is then handled by normalizeMobile
+            if (!input || typeof window.intlTelInput !== 'function') {
+                return null;
+            }
+
             factory.itis[selector] = window.intlTelInput(input, itiOptions);
+            return factory.itis[selector];
+        };
+
+        /**
+         * The global comes with the lazy loaded phone library, which may have failed to load.
+         */
+        factory.knownCountries = function () {
+            return (typeof window.intlTelInput_countries !== 'undefined') ? window.intlTelInput_countries : [];
+        };
+
+        /**
+         * Languages whose code is not the code of their main country, or is the code of another country.
+         */
+        factory.languageCountries = {
+            en: 'gb', sv: 'se', da: 'dk', ja: 'jp', el: 'gr', cs: 'cz', uk: 'ua', ko: 'kr', zh: 'cn', he: 'il',
+            nb: 'no', nn: 'no', sl: 'si', et: 'ee', ca: 'es', eu: 'es', gl: 'es', hi: 'in', ar: 'sa', fa: 'ir',
+            vi: 'vn', ms: 'my', sq: 'al', hy: 'am', ka: 'ge', be: 'by', kk: 'kz', bn: 'bd', ur: 'pk'
+        };
+
+        /**
+         * @param language "fr", "pt_BR", "en-US" ...
+         * @returns {string} an iso2 country code known by the phone input, "gb" as the last resort
+         */
+        factory.countryFromLanguage = function (language) {
+            var lang = String(language || '').toLowerCase().replace('-', '_');
+            var parts = lang.split('_');
+
+            // "pt_br": the region is the country
+            if (parts.length > 1 && factory.knownCountries().indexOf(parts[1]) !== -1) {
+                return parts[1];
+            }
+
+            var code = parts[0];
+            if (factory.languageCountries.hasOwnProperty(code)) {
+                return factory.languageCountries[code];
+            }
+
+            // de, fr, it, es, nl, pt, pl ... are also the code of their country
+            return (factory.knownCountries().indexOf(code) !== -1) ? code : 'gb';
+        };
+
+        /**
+         * Checks and normalizes a mobile number without the phone library (utils.js missing or failed to load),
+         * and as the fallback when there is no widget.
+         *
+         * @param raw what the user typed
+         * @param dialCode dial code of the selected country, "33", optional
+         * @returns {string} "+33612345678", or an empty string if it cannot be a phone number (6 to 15 digits)
+         */
+        factory.normalizeMobile = function (raw, dialCode) {
+            var value = String(raw || '').trim();
+            var digits = value.replace(/\D/g, '');
+            if (digits.length === 0) {
+                return '';
+            }
+
+            var number;
+            if (value.charAt(0) === '+') {
+                number = digits;
+            } else if (value.indexOf('00') === 0) {
+                number = digits.replace(/^00/, '');
+            } else if (dialCode) {
+                number = String(dialCode) + digits.replace(/^0+/, '');
+            } else {
+                return '';
+            }
+
+            return (number.length >= 6 && number.length <= 15) ? '+' + number : '';
         };
 
         factory.getIti = function (selector) {
@@ -359,7 +433,13 @@ angular
         factory.getIpInfo = function () {
             var defer = $q.defer();
             function ipSsuccess () {
-                defer.resolve(JSON.parse(this.responseText));
+                // A rate limit (429), a proxy or a blocker answers with something that is not the expected JSON:
+                // an exception here would leave the promise pending forever, and the phone input never initialized.
+                try {
+                    defer.resolve(JSON.parse(this.responseText));
+                } catch (e) {
+                    defer.reject(e);
+                }
             }
             function ipFail () {
                 defer.reject();
@@ -371,6 +451,8 @@ angular
             var oReq = new XMLHttpRequest();
             oReq.onload = ipSsuccess;
             oReq.onerror = ipFail;
+            oReq.ontimeout = ipFail;
+            oReq.timeout = 4000;
             oReq.open('get', 'https://ipinfo.io/json' + token, true);
             oReq.send();
 

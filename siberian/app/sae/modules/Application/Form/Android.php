@@ -50,6 +50,7 @@ RAW;
 </div>
 RAW;
         $this->addSimpleHtml("html_helper_location", $locationHelper);
+
     }
 
     /**
@@ -60,11 +61,11 @@ RAW;
     {
         $this
             ->getElement("disable_battery_optimization")
-            ->setValue((boolean) $application->getDisableBatteryOptimization());
+            ->setValue((bool) $application->getDisableBatteryOptimization());
 
         $this
             ->getElement("disable_location")
-            ->setValue((boolean) $application->getDisableLocation());
+            ->setValue((bool) $application->getDisableLocation());
 
         return $this;
     }

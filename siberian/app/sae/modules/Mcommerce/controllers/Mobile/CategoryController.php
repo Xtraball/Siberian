@@ -4,14 +4,14 @@ class Mcommerce_Mobile_CategoryController extends Mcommerce_Controller_Mobile_De
 
     public function findallAction() {
 
-        if($value_id = $this->getRequest()->getParam('value_id')) {
+        if($value_id = \Siberian\Input::int($this->getRequest()->getParam('value_id'), 0, 0)) {
 
             try {
 
-                $category_id = $this->getRequest()->getParam('category_id');
+                $category_id = \Siberian\Input::int($this->getRequest()->getParam('category_id'), 0, 0);
                 $current_category = new Folder_Model_Category();
 
-                $offset = $this->getRequest()->getParam('offset', 0);
+                $offset = \Siberian\Input::int($this->getRequest()->getParam('offset'), 0, 0);
 
                 if($category_id) {
                     $current_category->find($category_id, 'category_id');

@@ -16,7 +16,7 @@ class Media_Mobile_Gallery_Video_ListController extends Application_Controller_M
     public function findallAction()
     {
 
-        if ($value_id = $this->getRequest()->getParam('value_id')) {
+        if ($value_id = \Siberian\Input::int($this->getRequest()->getParam('value_id'), 0, 0)) {
 
             try {
 
@@ -127,7 +127,7 @@ class Media_Mobile_Gallery_Video_ListController extends Application_Controller_M
                 ];
                 $response = Request::get($endpoint, $params);
                 $results = Json::decode($response);
-                if (count($results['items']) === 0) {
+                if (empty($results['items'])) {
                     $channelId = $keyword;
                 } else {
                     $channelId = $results['items'][0]['id'];

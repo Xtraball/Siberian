@@ -15,7 +15,7 @@ class Rss_Mobile_Feed_ViewController extends Application_Controller_Mobile_Defau
      */
     public function findAction() {
 
-        if($value_id = $this->getRequest()->getParam('value_id') AND $feed_id = $this->getRequest()->getParam('feed_id')) {
+        if($value_id = \Siberian\Input::int($this->getRequest()->getParam('value_id'), 0, 0) AND $feed_id = $this->getRequest()->getParam('feed_id')) {
 
             $rss_feed = new Rss_Model_Feed();
             $rss_feeds = $rss_feed->findAll(array('value_id' => $value_id), 'position ASC');
@@ -38,7 +38,7 @@ class Rss_Mobile_Feed_ViewController extends Application_Controller_Mobile_Defau
                             "description" => $entry->getContent(),
                             "picture" => $entry->getPicture(),
                             "date" => $entry->getUpdatedAt(),
-                            "social_sharing_active" => (boolean) $option->getSocialSharingIsActive()
+                            "social_sharing_active" => (bool) $option->getSocialSharingIsActive()
                         );
 
                     }

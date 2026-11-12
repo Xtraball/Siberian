@@ -95,7 +95,8 @@
                     <span ng-if="!tpl.can_toggle"
                           class="label label-danger"><?php echo __('PROTECTED') ?></span>
                 </div>
-                <img src="{{ tpl.overview }}"
+                <img ng-if="tpl.overview"
+                     ng-src="{{ tpl.overview }}"
                      class="tpl-overview" />
                 <div class="overview-grid-toggler">
                     <label ng-if="tpl.can_toggle"

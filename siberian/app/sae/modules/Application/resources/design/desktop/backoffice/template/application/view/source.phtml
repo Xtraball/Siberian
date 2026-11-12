@@ -23,8 +23,8 @@ use Siberian\Version;
                             <td>
                                 <label class="control-label"><?php echo __("iOS"); ?></label>
                                 <br/>
-                                <span class="source-hint"><?php echo __('Xcode 16.1 - macOS Sonoma') ?>
-                                    , <?php echo __("iOS 12+") ?></span>
+                                <span class="source-hint"><?php echo __('Xcode 26 - macOS Sequoia or later') ?>
+                                    , <?php echo __("iOS 15+") ?></span>
                             </td>
                             <td colspan="2">
                               <span><?php echo __("Due to major breaking changes with Cordova, Ads are not available for iOS yet.") ?></span>
@@ -35,8 +35,8 @@ use Siberian\Version;
                             <td>
                                 <label class="control-label"><?php echo __("iOS (without AdMob)"); ?>
                                 <br/>
-                                <span  class="source-hint"><?php echo __("Xcode 16.1 - macOS Sonoma") ?>
-                                    , <?php echo __("iOS 12+") ?></span>
+                                <span  class="source-hint"><?php echo __("Xcode 26 - macOS Sequoia or later") ?>
+                                    , <?php echo __("iOS 15+") ?></span>
                             </td>
                             <td>
                                 <a ng-if="application.zip.iosnoads"
@@ -79,12 +79,58 @@ use Siberian\Version;
                             </td>
                         </tr>
 
+                        <?php if (Application_Model_SourceQueue::isDebugNoOneSignalEnabled()): ?>
+                        <tr class="bg-warning">
+                            <td>
+                                <label class="control-label"><?php echo p__("backoffice_application", "iOS DEBUG (without OneSignal)"); ?></label>
+                                <br/>
+                                <span class="source-hint"><?php echo p__("backoffice_application", "Development only, never publish") ?></span>
+                            </td>
+                            <td>
+                                <a ng-if="application.zip.iosdebug"
+                                   href="<?php echo $this->getUrl("") ?>{{ application.zip.iosdebug.path }}"
+                                   class="help-block"
+                                   target="_self">
+                                    <i class="fa fa-cloud-download"></i> <?php echo __("Download latest sources"); ?> {{
+                                    application.zip.iosdebug.date }}
+                                </a>
+
+                                <span ng-if="!application.zip.iosdebug"><?php echo __("Not yet generated.") ?></span>
+
+                                <div>
+                                    <p class="help-block"><?php echo p__("backoffice_application", "OneSignal is removed so the app can be tested on real hardware. Push notifications do not work. Run pod install once in the unzipped folder, then open the .xcworkspace. Never submit this build to the App Store."); ?></p>
+                                </div>
+                            </td>
+                            <td class="text-right">
+                                <a ng-if="application.queued.positions.iosdebug == 0"
+                                   ng-click="generateSource(1, 2)"
+                                   href="javascript:void(0)"
+                                   class="block"
+                                   target="_self">
+                                    <i class="fa fa-gears"></i> <?php echo __("Generate sources"); ?>
+                                </a>
+                                <span ng-show="application.queued.positions.iosdebug == 1">
+                                        <img class="gear-loader"
+                                             src="/app/sae/design/desktop/backoffice/images/loader/gears.gif"/><?php echo __("Generating") ?>
+                                    </span>
+                                <span ng-show="application.queued.positions.iosdebug > 1">
+                                        <i class="fa fa-random"></i> <?php echo __("Queued") ?>: {{ application.queued.positions.iosdebug }}/{{ application.queued.total }}
+                                    </span>
+                                <a ng-show="application.queued.positions.iosdebug > 1"
+                                   ng-click="cancelQueue(1, 2)"
+                                   href="javascript:void(0)">
+                                    <i class="fa fa-times"></i> <?php echo __("Cancel") ?>
+                                </a>
+                            </td>
+                        </tr>
+                        <?php endif; ?>
+
                         <tr>
                             <td>
                                 <label class="control-label"><?php echo __("Android"); ?></label>
                                 <br/>
-                                <span class="source-hint"><?php echo __('Android Studio Koala') ?>
-                                    , <?php echo __('Android 7.0+') ?></span>
+                                <span class="source-hint"><?php echo __('Android Studio Meerkat Feature Drop') ?>
+                                    , <?php echo __('Android 8.0+') ?></span>
                             </td>
                             <td>
                                 <a ng-if="application.zip.android"

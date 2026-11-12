@@ -91,8 +91,8 @@ class Zend_Controller_Router_Route_Module extends Zend_Controller_Router_Route_A
      * @param Zend_Controller_Request_Abstract $request Request object
      */
     public function __construct(array $defaults = array(),
-                Zend_Controller_Dispatcher_Interface $dispatcher = null,
-                Zend_Controller_Request_Abstract $request = null)
+                ?Zend_Controller_Dispatcher_Interface $dispatcher = null,
+                ?Zend_Controller_Request_Abstract $request = null)
     {
         $this->_defaults = $defaults;
 

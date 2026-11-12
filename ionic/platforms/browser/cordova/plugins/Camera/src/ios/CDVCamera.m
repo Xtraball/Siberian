@@ -223,7 +223,7 @@ static NSString* toBase64(NSData* data) {
 #pragma clang diagnostic push
 #pragma clang diagnostic ignored "-Wtautological-pointer-compare"
         if (&UIApplicationOpenSettingsURLString != NULL) {
-            [[UIApplication sharedApplication] openURL:[NSURL URLWithString:UIApplicationOpenSettingsURLString]];
+            [[UIApplication sharedApplication] openURL:[NSURL URLWithString:UIApplicationOpenSettingsURLString] options:@{} completionHandler:nil];
         }
 #pragma clang diagnostic pop
     }

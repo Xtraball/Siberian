@@ -126,11 +126,11 @@ class Folder2_Model_Folder extends Core_Model_Default {
                 $element = [
                     'title' => (string) $category->getTitle(),
                     'subtitle' => (string) $category->getSubtitle(),
-                    'showCover' => (boolean) $category->getShowCover(),
-                    'showTitle' => (boolean) $category->getShowTitle(),
-                    'layout_id' => (integer) $category->getLayoutId(),
-                    'category_id' => (integer) $category->getCategoryId(),
-                    'parent_id' => is_null($category->getParentId()) ? null : (integer) $category->getParentId(),
+                    'showCover' => (bool) $category->getShowCover(),
+                    'showTitle' => (bool) $category->getShowTitle(),
+                    'layout_id' => (int) $category->getLayoutId(),
+                    'category_id' => (int) $category->getCategoryId(),
+                    'parent_id' => is_null($category->getParentId()) ? null : (int) $category->getParentId(),
                     'type_id' => (string) $category->getTypeId(),
                     'picture' => (string) '/images/application' . $category->getPicture(),
                     'thumbnail' => (string) '/images/application' . $category->getThumbnail(),
@@ -142,13 +142,13 @@ class Folder2_Model_Folder extends Core_Model_Default {
                     'is_active' => true,
                     'is_visible' => true,
                     'is_locked' => false,
-                    'is_subfolder' => (boolean) $category->getParentId(),
+                    'is_subfolder' => (bool) $category->getParentId(),
                     'is_feature' => false
                 ];
 
                 $collection[] = $element;
 
-                $categoryId = (integer) $category->getCategoryId();
+                $categoryId = (int) $category->getCategoryId();
                 $indexCategories[$categoryId] = $element;
             }
 
@@ -196,29 +196,29 @@ class Folder2_Model_Folder extends Core_Model_Default {
                 $folderBlock = [
                     'title' => (string) $feature->getTabbarName(),
                     'subtitle' => (string) $feature->getTabbarSubtitle(),
-                    'layout_id' => (integer) $feature->getLayoutId(),
+                    'layout_id' => (int) $feature->getLayoutId(),
                     'category_id' => null,
-                    'parent_id' => (integer) $feature->getFolderCategoryId(),
+                    'parent_id' => (int) $feature->getFolderCategoryId(),
                     'type_id' => 'feature',
                     'picture' => null,
                     'thumbnail' => $pictureFile,
-                    'icon_is_colorable' => (boolean) $feature->getImage()->getCanBeColorized(),
+                    'icon_is_colorable' => (bool) $feature->getImage()->getCanBeColorized(),
                     'url' => $uris['featureUrl'],
                     'path' => $uris['featurePath'],
                     'code' => $feature->getCode(),
-                    'offline_mode' => (boolean) $feature->getObject()->isCacheable(),
-                    'hide_navbar' => (boolean) $hideNavbar,
-                    'use_external_app'  => (boolean) $useExternalApp,
-                    'is_link' => !(boolean) $feature->getIsAjax(),
+                    'offline_mode' => (bool) $feature->getObject()->isCacheable(),
+                    'hide_navbar' => (bool) $hideNavbar,
+                    'use_external_app'  => (bool) $useExternalApp,
+                    'is_link' => !(bool) $feature->getIsAjax(),
                     'has_parent_folder' => true,
                     'is_feature' => true,
                     'settings' => $settings,
                     'lazy_load' => $feature->getLazyLoad(),
                     'open_callback_class' => $feature->getOpenCallbackClass(),
-                    'is_active' => (boolean) $feature->isActive(),
+                    'is_active' => (bool) $feature->isActive(),
                     'is_visible' => true,
-                    'is_locked' => (boolean) $feature->isLocked(),
-                    'value_id' => (integer) $feature->getId(),
+                    'is_locked' => (bool) $feature->isLocked(),
+                    'value_id' => (int) $feature->getId(),
                 ];
 
                 // 4.18.3 link special options!
@@ -230,7 +230,7 @@ class Folder2_Model_Folder extends Core_Model_Default {
 
                     // post 4.18.3 options
                     $folderBlock['link_url'] = (string)$objectLink->getData('url');
-                    $folderBlock['external_browser'] = (boolean)$objectLink->getExternalBrowser();
+                    $folderBlock['external_browser'] = (bool)$objectLink->getExternalBrowser();
                     $folderBlock['options'] = $objectLink->getOptions();
                 }
 
@@ -278,9 +278,9 @@ class Folder2_Model_Folder extends Core_Model_Default {
             }
 
             return [
-                'showSearch' => (boolean) $this->getShowSearch(),
-                'allowLineReturn' => (boolean) $this->getAllowLineReturn(),
-                'cardDesign' => (boolean) $this->getCardDesign(),
+                'showSearch' => (bool) $this->getShowSearch(),
+                'allowLineReturn' => (bool) $this->getAllowLineReturn(),
+                'cardDesign' => (bool) $this->getCardDesign(),
                 'collection' => $collection,
                 'searchIndex' => $searchIndex
             ];

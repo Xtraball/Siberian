@@ -253,7 +253,7 @@ if (version_compare(PHP_VERSION, '8.0', '<')) {
          *
          * @return string
          */
-        public function output(Compiler $compiler = null)
+        public function output(?Compiler $compiler = null)
         {
             $dimension = round($this->dimension, static::$precision);
 
@@ -556,7 +556,7 @@ if (version_compare(PHP_VERSION, '8.0', '<')) {
          *
          * @return string
          */
-        public function output(Compiler $compiler = null)
+        public function output(?Compiler $compiler = null)
         {
             $dimension = round($this->dimension, static::$precision);
 

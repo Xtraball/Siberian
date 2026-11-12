@@ -5,6 +5,7 @@ namespace Siberian\Cache;
 use Siberian\Cache as Cache;
 use Siberian\Version as Version;
 use Gettext\Translations;
+use Siberian\Locale\Catalogs;
 
 use \DirectoryIterator;
 
@@ -38,6 +39,7 @@ class Translation extends Cache implements CacheInterface
      */
     public static function fetch($version, $cache = null)
     {
+        $isCore = ($version === self::SAE_PATH);
         $version = path("{$version}modules/");
 
         $module_folders = new DirectoryIterator("$version");
@@ -46,48 +48,12 @@ class Translation extends Cache implements CacheInterface
 
         /** Translations */
         foreach ($module_folders as $module_folder) {
-            if ($module_folder->isDir() &&
-                !$module_folder->isDot() &&
-                is_readable("{$module_folder->getPathname()}/resources/translations/")) {
-
-                $modules_translations = new DirectoryIterator("{$module_folder->getPathname()}/resources/translations/");
-
-                foreach ($modules_translations as $modules_translation) {
-                    if ($modules_translation->isDir() && !$modules_translation->isDot()) {
-                        /** Init the array if not. */
-                        $language = $modules_translation->getFilename();
-                        if (!isset($cache[$language])) {
-                            $cache[$language] = [];
-                        }
-
-                        /** Looping trough files */
-                        $files = new DirectoryIterator($modules_translation->getPathname());
-                        foreach ($files as $file) {
-
-                            // @todo deprecate this!
-                            // Fallback for old modules still using it!
-                            if ($file->getExtension() === "csv") {
-                                $basename = $file->getFilename();
-                                if (!isset($cache[$language][$basename])) {
-                                    $cache[$language][$basename] = $file->getPathname();
-                                }
-                            }
-
-                            if ($file->getExtension() === "po") {
-                                $basename = $file->getFilename();
-                                if (!isset($cache[$language][$basename])) {
-                                    $cache[$language][$basename] = $file->getPathname();
-                                }
-                            }
-
-                            // @todo deprecate this!
-                            // Fallback for old modules still using it!
-                            if ($file->getExtension() === "list") {
-                                $cache["mobile_list"][] = $file->getPathname();
-                            }
-                        }
-                    }
-                }
+            // the locales shipped in the core are added last, see fetchShipped()
+            if ($isCore && $module_folder->getFilename() === Catalogs::SHIPPED_MODULE) {
+                continue;
+            }
+            if ($module_folder->isDir() && !$module_folder->isDot()) {
+                $cache = Catalogs::indexModule($module_folder->getPathname(), $cache);
             }
         }
 
@@ -167,6 +133,22 @@ class Translation extends Cache implements CacheInterface
                 break;
         }
         static::fetch(self::LOCAL_PATH);
+        static::fetchShipped();
+    }
+
+    /**
+     * The locales shipped in the core go last, first registered wins: they only fill what no installed module or pack
+     * provides for the same language, they never replace it.
+     */
+    public static function fetchShipped()
+    {
+        $cache = static::getCache();
+        foreach (new DirectoryIterator(path(self::SAE_PATH . 'modules/')) as $module_folder) {
+            if ($module_folder->isDir() && $module_folder->getFilename() === Catalogs::SHIPPED_MODULE) {
+                $cache = Catalogs::indexModule($module_folder->getPathname(), $cache);
+            }
+        }
+        static::setCache($cache);
     }
 
     /**

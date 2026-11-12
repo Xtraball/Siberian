@@ -2,7 +2,8 @@
 
 namespace Siberian;
 
-use \phpseclib\Crypt\RSA as RSA;
+use phpseclib3\Crypt\PublicKeyLoader;
+use phpseclib3\Crypt\RSA;
 
 /**
  * Class Cypher
@@ -24,9 +25,8 @@ class Cypher
     {
         $publicKey = file_get_contents($publicKeyPath);
 
-        $rsa = new RSA();
-        $rsa->loadKey($publicKey);
-        $rsa->setEncryptionMode(RSA::ENCRYPTION_PKCS1);
+        // phpseclib 3 defaults to OAEP; PKCS#1 v1.5 is what the receiving end expects.
+        $rsa = PublicKeyLoader::load($publicKey)->withPadding(RSA::ENCRYPTION_PKCS1);
         $base64cypher = base64_encode($rsa->encrypt($clear));
 
         return $base64cypher;
@@ -40,12 +40,10 @@ class Cypher
      */
     public static function decypher ($privateKeyPath, $cyphered, $passphrase = null)
     {
-        $privateKey = new RSA();
-        if ($passphrase !== null) {
-            $privateKey->setPassword($passphrase);
-        }
-        $privateKey->loadKey(file_get_contents($privateKeyPath));
-        $privateKey->setEncryptionMode(RSA::ENCRYPTION_PKCS1);
+        $privateKey = PublicKeyLoader::load(
+            file_get_contents($privateKeyPath),
+            $passphrase !== null ? $passphrase : false
+        )->withPadding(RSA::ENCRYPTION_PKCS1);
 
         return $privateKey->decrypt(base64_decode($cyphered));
     }
@@ -73,7 +71,17 @@ class Cypher
     public static function dcRun ($file, $module): string
     {
         $xt = pathinfo($file, PATHINFO_EXTENSION);
-        $fc = file_get_contents(str_replace('.' . $xt, '.ec.' . $xt, $file));
+        $er = p__('application', 'This feature is not available, please contact your administrator.');
+        // Display the module name for support purposes*
+        if (isDev()) {
+            $er .= ' #' . $module;
+        }
+        // A module without its encrypted counterpart is not available: same answer as a file that does not decrypt
+        $ecFile = str_replace('.' . $xt, '.ec.' . $xt, $file);
+        $fc = is_file($ecFile) ? file_get_contents($ecFile) : false;
+        if ($fc === false) {
+            throw new \Siberian\Exception($er);
+        }
         $sk = __get('siberiancms_key');
         $lk = __get($module . '_key');
         $dp = openssl_digest($sk . $lk, 'sha256');
@@ -81,11 +89,6 @@ class Cypher
         $nf = substr($fc, $il);
         $iv = substr($fc, 0, $il);
         $dc = openssl_decrypt($nf, 'aes-256-cbc', $dp, OPENSSL_RAW_DATA, $iv);
-        $er = p__('application', 'This feature is not available, please contact your administrator.');
-        // Display the module name for support purposes*
-        if (isDev()) {
-            $er .= ' #' . $module;
-        }
         if ($dc === false) {
             throw new \Siberian\Exception($er);
         }

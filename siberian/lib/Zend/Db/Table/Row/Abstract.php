@@ -333,7 +333,7 @@ abstract class Zend_Db_Table_Row_Abstract implements ArrayAccess, IteratorAggreg
      * @return boolean
      * @throws Zend_Db_Table_Row_Exception
      */
-    public function setTable(Zend_Db_Table_Abstract $table = null)
+    public function setTable(?Zend_Db_Table_Abstract $table = null)
     {
         if ($table == null) {
             $this->_table = null;
@@ -876,7 +876,7 @@ abstract class Zend_Db_Table_Row_Abstract implements ArrayAccess, IteratorAggreg
      * @return Zend_Db_Table_Rowset_Abstract Query result from $dependentTable
      * @throws Zend_Db_Table_Row_Exception If $dependentTable is not a table or is not loadable.
      */
-    public function findDependentRowset($dependentTable, $ruleKey = null, Zend_Db_Table_Select $select = null)
+    public function findDependentRowset($dependentTable, $ruleKey = null, ?Zend_Db_Table_Select $select = null)
     {
         $db = $this->_getTable()->getAdapter();
 
@@ -932,7 +932,7 @@ abstract class Zend_Db_Table_Row_Abstract implements ArrayAccess, IteratorAggreg
      * @return Zend_Db_Table_Row_Abstract   Query result from $parentTable
      * @throws Zend_Db_Table_Row_Exception If $parentTable is not a table or is not loadable.
      */
-    public function findParentRow($parentTable, $ruleKey = null, Zend_Db_Table_Select $select = null)
+    public function findParentRow($parentTable, $ruleKey = null, ?Zend_Db_Table_Select $select = null)
     {
         $db = $this->_getTable()->getAdapter();
 
@@ -1000,7 +1000,7 @@ abstract class Zend_Db_Table_Row_Abstract implements ArrayAccess, IteratorAggreg
      * @throws Zend_Db_Table_Row_Exception If $matchTable or $intersectionTable is not a table class or is not loadable.
      */
     public function findManyToManyRowset($matchTable, $intersectionTable, $callerRefRule = null,
-                                         $matchRefRule = null, Zend_Db_Table_Select $select = null)
+                                         $matchRefRule = null, ?Zend_Db_Table_Select $select = null)
     {
         $db = $this->_getTable()->getAdapter();
 
@@ -1085,10 +1085,22 @@ abstract class Zend_Db_Table_Row_Abstract implements ArrayAccess, IteratorAggreg
         }
 
         $stmt = $select->query();
+        $data = $stmt->fetchAll(Zend_Db::FETCH_ASSOC);
+        if (!is_array($data)) {
+            // PDOStatement::fetchAll() answers false when the fetch itself failed without an exception (connection
+            // lost or timed out); a rowset built on it dies in count(false). Same guard as Zend_Db_Table_Abstract::_fetch().
+            // ZF1-OK: the ZF1 row class itself, the same exception family as its other failures
+            require_once 'Zend/Db/Table/Row/Exception.php';
+            throw new Zend_Db_Table_Row_Exception(sprintf(
+                'Fetching the many-to-many rows of %s failed (%s)',
+                get_class($matchTable),
+                implode(' ', array_map('strval', (array) $stmt->errorInfo()))
+            ));
+        }
 
         $config = array(
             'table'    => $matchTable,
-            'data'     => $stmt->fetchAll(Zend_Db::FETCH_ASSOC),
+            'data'     => $data,
             'rowClass' => $matchTable->getRowClass(),
             'readOnly' => false,
             'stored'   => true

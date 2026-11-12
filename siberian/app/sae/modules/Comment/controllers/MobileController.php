@@ -34,7 +34,7 @@ class Comment_MobileController extends Application_Controller_Mobile_Default {
 
     public function findallAction() {
 
-        if($value_id = $this->getRequest()->getParam("value_id")) {
+        if($value_id = \Siberian\Input::int($this->getRequest()->getParam("value_id"), 0, 0)) {
 
             $application    = $this->getApplication();
             $comment        = new Comment_Model_Comment();

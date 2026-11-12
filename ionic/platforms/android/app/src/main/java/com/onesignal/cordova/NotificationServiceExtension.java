@@ -29,6 +29,6 @@ public class NotificationServiceExtension implements INotificationServiceExtensi
 
         //If you need to perform an async action or stop the payload from being shown automatically,
         //use event.preventDefault(). Using event.notification.display() will show this message again.
-        event.preventDefault();
+        // event.preventDefault(); // Test removing to see how it handles 5.0.17
     }
 }

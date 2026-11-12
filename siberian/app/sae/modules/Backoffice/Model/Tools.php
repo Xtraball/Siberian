@@ -25,7 +25,7 @@ class Tools
      * @return string
      * @throws \Zend_Exception
      */
-    public static function rebuildManifest (Cron $cron = null): string
+    public static function rebuildManifest (?Cron $cron = null): string
     {
         try {
             if ($cron !== null) {
@@ -71,7 +71,7 @@ class Tools
      * @return array|string
      * @throws \Zend_Exception
      */
-    public static function watch (Cron $cron = null)
+    public static function watch (?Cron $cron = null)
     {
         try {
             if ($cron !== null) {

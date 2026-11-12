@@ -86,13 +86,13 @@ class Comment extends Base
     public function forJson()
     {
         return [
-            "id" => (integer) $this->getId(),
-            "customerId" => (integer) $this->getCustomerId(),
-            "postId" => (integer) $this->getPostId(),
+            "id" => (int) $this->getId(),
+            "customerId" => (int) $this->getCustomerId(),
+            "postId" => (int) $this->getPostId(),
             "text" => (string) Xss::sanitize(base64_decode($this->getText())),
-            "isFlagged" => (boolean) $this->getFlag(),
-            "isBlocked" => (boolean) false,
-            "date" => (integer) $this->getDate(),
+            "isFlagged" => (bool) $this->getFlag(),
+            "isBlocked" => (bool) false,
+            "date" => (int) $this->getDate(),
             "image" => (string) $this->getPicture(),
             "history" => $this->getHistoryJson(),
             "author" => [

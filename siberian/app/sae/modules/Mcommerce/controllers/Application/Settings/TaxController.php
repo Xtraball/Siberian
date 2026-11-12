@@ -6,7 +6,7 @@ class Mcommerce_Application_Settings_TaxController extends Application_Controlle
 
         $tax = new Mcommerce_Model_Tax();
         $mcommerce = $this->getCurrentOptionValue()->getObject();
-        if($id = $this->getRequest()->getParam('tax_id')) {
+        if($id = \Siberian\Input::int($this->getRequest()->getParam('tax_id'), 0, 0)) {
             $tax->find($id);
             if($tax->getId() AND $mcommerce->getId() != $tax->getMcommerceId()) {
                 throw new Exception($this->_('An error occurred during the process. Please try again later.'));
@@ -96,7 +96,7 @@ class Mcommerce_Application_Settings_TaxController extends Application_Controlle
         $tax = new Mcommerce_Model_Tax();
 
         try {
-            if($id = $this->getRequest()->getParam('tax_id')) {
+            if($id = \Siberian\Input::int($this->getRequest()->getParam('tax_id'), 0, 0)) {
 
                 $mcommerce = $this->getCurrentOptionValue()->getObject();
                 $tax->find($id);

@@ -23,6 +23,24 @@ class File
     }
 
     /**
+     * The content of a file, or an empty string when the path is empty, null or not a file. An empty path is a
+     * ValueError in file_get_contents() on PHP 8 (a warning on PHP 7): a certificate without a chain has no path.
+     *
+     * @param $filename
+     * @return string
+     */
+    public static function readOrEmpty ($filename): string
+    {
+        if (!is_string($filename) || $filename === '' || !is_file($filename)) {
+            return '';
+        }
+
+        $content = file_get_contents($filename);
+
+        return $content === false ? '' : $content;
+    }
+
+    /**
      * @param $filename
      * @param $data
      * @param int $flags

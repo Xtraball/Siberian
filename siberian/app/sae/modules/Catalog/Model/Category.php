@@ -179,7 +179,7 @@ class Catalog_Model_Category extends Core_Model_Default
         if(is_null($this->_products)) {
             if($this->getId() AND $this->getCategoryId()) {
                 $this->loadProducts();
-                if(count($this->_products) == 0) $this->_products = array();
+                if (is_null($this->_products) || count($this->_products) == 0) $this->_products = array();
             }
         }
 

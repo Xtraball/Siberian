@@ -15,7 +15,7 @@ class Folder_Mobile_ListController extends Application_Controller_Mobile_Default
         try {
             $request = $this->getRequest();
 
-            if ($value_id = $request->getParam("value_id")) {
+            if ($value_id = \Siberian\Input::int($request->getParam("value_id"), 0, 0)) {
 
                 $option = $this->getCurrentOptionValue();
                 if ($option) {
@@ -48,11 +48,11 @@ class Folder_Mobile_ListController extends Application_Controller_Mobile_Default
     {
 
         $linkCodes = ['weblink_mono', 'prestashop', 'magento', 'volusion', 'woocommerce', 'shopify'];
-        if ($value_id = $this->getRequest()->getParam('value_id')) {
+        if ($value_id = \Siberian\Input::int($this->getRequest()->getParam('value_id'), 0, 0)) {
 
             try {
 
-                $category_id = $this->getRequest()->getParam('category_id');
+                $category_id = \Siberian\Input::int($this->getRequest()->getParam('category_id'), 0, 0);
                 $current_category = new Folder_Model_Category();
 
                 if ($category_id) {
@@ -119,7 +119,7 @@ class Folder_Mobile_ListController extends Application_Controller_Mobile_Default
                             "name" => $feature->getTabbarName(),
                             "father_name" => $folder->getTitle(),
                             "url" => $feature->getPath(null, ['value_id' => $feature->getId()], 'mobile'),
-                            "is_link" => (boolean)!$feature->getIsAjax(),
+                            "is_link" => (bool)!$feature->getIsAjax(),
                             "hide_navbar" => $hide_navbar,
                             "use_external_app" => $use_external_app,
                             "picture" => $feature->getIconId() ? $this->getRequest()->getBaseUrl() . $this->_getColorizedImage($feature->getIconId(), $color) : null,
@@ -174,7 +174,7 @@ class Folder_Mobile_ListController extends Application_Controller_Mobile_Default
                         "picture" => $page->getIconId() ? $this->getRequest()->getBaseUrl() . $this->_getColorizedImage($page->getIconId(), $color) : null,
                         "hide_navbar" => $hide_navbar,
                         "use_external_app" => $use_external_app,
-                        "is_link" => (boolean)!$page->getIsAjax(),
+                        "is_link" => (bool)!$page->getIsAjax(),
                         "url" => $page->getPath(null, ['value_id' => $page->getId()], 'mobile'),
                         "code" => $page->getCode(),
                         "offline_mode" => $page->getObject()->isCacheable(),
@@ -190,7 +190,7 @@ class Folder_Mobile_ListController extends Application_Controller_Mobile_Default
 
                         // post 4.18.3 options
                         $folderBlock['link_url'] = (string)$objectLink->getData('url');
-                        $folderBlock['external_browser'] = (boolean)$objectLink->getExternalBrowser();
+                        $folderBlock['external_browser'] = (bool)$objectLink->getExternalBrowser();
                         $folderBlock['options'] = $objectLink->getOptions();
                     }
 

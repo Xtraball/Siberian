@@ -5,6 +5,9 @@ App.factory('Installer', function($http, Url) {
 
     factory.filename = null;
 
+    // Name of the module the user agreed to reinstall (same version), null otherwise.
+    factory.reinstall = null;
+
     factory.loadData = function() {
         return $http({
             method: 'GET',
@@ -63,17 +66,6 @@ App.factory('Installer', function($http, Url) {
 
     };
 
-    factory.saveFtp = function(ftp) {
-
-        return $http({
-            method: 'POST',
-            data: ftp,
-            url: Url.get("installer/backoffice_module/saveftp"),
-            responseType:'json'
-        });
-
-    };
-
     factory.copy = function() {
 
         return $http({
@@ -86,9 +78,54 @@ App.factory('Installer', function($http, Url) {
 
     factory.install = function() {
 
+        var params = {};
+        if (factory.reinstall) {
+            params.reinstall = factory.reinstall;
+        }
+
         return $http({
             method: 'GET',
-            url: Url.get("installer/backoffice_module/install"),
+            url: Url.get("installer/backoffice_module/install", params),
+            cache: false,
+            responseType:'json'
+        });
+    };
+
+    /** Module updates (served by the downloader, see Siberian\ModuleUpdates). */
+    factory.checkModuleUpdates = function (force) {
+        return $http({
+            method: 'GET',
+            url: Url.get("installer/backoffice_module/checkupdates", {force: force ? 1 : 0}),
+            cache: false,
+            responseType:'json'
+        });
+    };
+
+    factory.moduleUpdatesTerms = function () {
+        return $http({
+            method: 'GET',
+            url: Url.get("installer/backoffice_module/terms"),
+            cache: false,
+            responseType:'json'
+        });
+    };
+
+    factory.acceptModuleUpdatesTerms = function (hash) {
+        return $http({
+            method: 'POST',
+            url: Url.get("installer/backoffice_module/acceptterms", {hash: hash}),
+            cache: false,
+            responseType:'json'
+        });
+    };
+
+    factory.updateModule = function (code, license) {
+        // The licence key travels in the POST body, so it never ends up in an access log.
+        return $http({
+            method: 'POST',
+            url: Url.get("installer/backoffice_module/updatemodule"),
+            data: $.param({code: code, license: license || ''}),
+            headers: {'Content-Type': 'application/x-www-form-urlencoded'},
             cache: false,
             responseType:'json'
         });

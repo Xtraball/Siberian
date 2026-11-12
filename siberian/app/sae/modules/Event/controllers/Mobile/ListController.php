@@ -9,12 +9,12 @@ class Event_Mobile_ListController extends Application_Controller_Mobile_Default 
 
     public function findallAction() {
 
-        if ($value_id = $this->getRequest()->getParam('value_id')) {
+        if ($value_id = \Siberian\Input::int($this->getRequest()->getParam('value_id'), 0, 0)) {
 
             try {
 
                 $option = $this->getCurrentOptionValue();
-                $offset = $this->getRequest()->getParam('offset', 0);
+                $offset = \Siberian\Input::int($this->getRequest()->getParam('offset'), 0, 0);
                 $events = $option->getObject()->getEvents($offset);
                 $data = ['collection' => []];
 
@@ -40,7 +40,7 @@ class Event_Mobile_ListController extends Application_Controller_Mobile_Default 
                         $subtitle2 .= " | ".__("Location: %s", $event->getLocationLabel());
                     }
 
-                    if(!in_array($formatted_start_at, $data['groups'])) {
+                    if (!in_array($formatted_start_at, $data['groups'] ?? [], true)) {
                         $data["groups"][] = $formatted_start_at;
                     }
 
@@ -107,7 +107,7 @@ class Event_Mobile_ListController extends Application_Controller_Mobile_Default 
                                 "rsvp" => $event->getRsvp(),
                                 "websites" => $event->getWebsites(),
                                 "in_app_page_path" => $in_app_page_path,
-                                "social_sharing_active" => (boolean) $option->getSocialSharingIsActive()
+                                "social_sharing_active" => (bool) $option->getSocialSharingIsActive()
                             ],
                             "cover" => [
                                 "title" => $event->getName(),

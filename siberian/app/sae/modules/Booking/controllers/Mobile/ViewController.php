@@ -20,7 +20,7 @@ class Booking_Mobile_ViewController extends Application_Controller_Mobile_Defaul
 
         try {
 
-            if ($value_id = $this->getRequest()->getParam('value_id')) {
+            if ($value_id = \Siberian\Input::int($this->getRequest()->getParam('value_id'), 0, 0)) {
 
                 $optionValue = $this->getCurrentOptionValue();
 

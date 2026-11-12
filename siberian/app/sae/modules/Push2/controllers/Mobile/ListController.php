@@ -4,6 +4,7 @@ namespace Push2\Mobile;
 
 use Push2\Model\Onesignal\Message;
 use Push2\Model\Onesignal\Player;
+use Push2\Model\Onesignal\Schedule;
 use Siberian\Image;
 use Siberian\Json;
 use \Application_Controller_Mobile_Default as MobileController;
@@ -45,23 +46,21 @@ class ListController extends MobileController
 
             // Checking send_after
             // Feb 13 2023 00:00:00 +01:00
-            $sendAfter = $message->getSendAfter();
-            if (!empty($sendAfter)) {
-                $sendAfterDate = date_create_from_format('M d Y H:i:s O', $message->getSendAfter());
-                list($hour, $minute) = explode(':', $message->getDeliveryTimeOfDay());
-                $sendAfterDate->setTime($hour, $minute);
+            $scheduledAt = Schedule::timestamp($message->getSendAfter(), $message->getDeliveryTimeOfDay());
 
-                // Skip scheduled push messages!
-                if ($sendAfterDate->getTimestamp() > $now) {
-                    continue;
-                }
+            // Skip scheduled push messages!
+            if ($scheduledAt !== null && $scheduledAt > $now) {
+                continue;
             }
+
+            // A scheduled push shows the date it was sent, the others keep their creation date
+            $displayDate = Schedule::displayDate($message->getCreatedAt(), $message->getSendAfter(), $message->getDeliveryTimeOfDay());
 
             $meta = [
                 'date' => [
                     'picto' => $icon_pencil,
-                    'text' => datetime_to_format($message->getCreatedAt()),
-                    'mt_text' => $message->getCreatedAt()
+                    'text' => datetime_to_format($displayDate),
+                    'mt_text' => $displayDate
                 ]
             ];
 
@@ -114,8 +113,8 @@ class ListController extends MobileController
             }
 
             $payload['collection'][] = [
-                'id' => (integer)$message->getId(),
-                'deliver_id' => (integer)$message->getExternalId(),
+                'id' => (int)$message->getId(),
+                'deliver_id' => (int)$message->getExternalId(),
                 'author' => $message->getTitle(),
                 'message' => $message->getBody(),
                 'is_individual' => $message->getIsIndividual(),
@@ -166,7 +165,7 @@ class ListController extends MobileController
             }
             $date = date($year . '-' . $month . '-d H:i:s');
             $collection[] = [
-                'id' => (integer)$i,
+                'id' => (int)$i,
                 'deliver_id' => 'sample',
                 'author' => ($i % 2 === 0) ? p__('push', 'John DOE') : p__('push', 'Jane DOE'),
                 'message' => p__('push2', 'This a sample push message, this sample is only available from the application overview. Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.'),

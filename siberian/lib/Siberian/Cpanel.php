@@ -63,9 +63,9 @@ class Cpanel
         $response = $cpanel->uapi->SSL->install_ssl(
             [
                 "domain" => $webspace,
-                "cert" => file_get_contents($ssl_certificate->getCertificate()),
-                "key" => file_get_contents($ssl_certificate->getPrivate()),
-                "cabundle" => file_get_contents($ssl_certificate->getChain()),
+                "cert" => \Siberian\File::readOrEmpty($ssl_certificate->getCertificate()),
+                "key" => \Siberian\File::readOrEmpty($ssl_certificate->getPrivate()),
+                "cabundle" => \Siberian\File::readOrEmpty($ssl_certificate->getChain()),
             ]
         );
 

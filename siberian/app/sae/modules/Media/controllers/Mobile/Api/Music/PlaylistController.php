@@ -36,7 +36,7 @@ class Media_Mobile_Api_Music_PlaylistController extends Application_Controller_M
     public function findAction()
     {
 
-        if ($value_id = $this->getRequest()->getParam('value_id')
+        if ($value_id = \Siberian\Input::int($this->getRequest()->getParam('value_id'), 0, 0)
             && $playlist_id = $this->getRequest()->getParam('playlist_id')) {
 
             try {
@@ -64,7 +64,7 @@ class Media_Mobile_Api_Music_PlaylistController extends Application_Controller_M
     public function findallAction()
     {
 
-        if ($value_id = $this->getRequest()->getParam('value_id')) {
+        if ($value_id = \Siberian\Input::int($this->getRequest()->getParam('value_id'), 0, 0)) {
 
             try {
 
@@ -115,7 +115,7 @@ class Media_Mobile_Api_Music_PlaylistController extends Application_Controller_M
 
         try {
             /** Do your stuff here. */
-            if ($value_id = $request->getParam("value_id")) {
+            if ($value_id = \Siberian\Input::int($request->getParam("value_id"), 0, 0)) {
 
                 $playlist_model = new Media_Model_Gallery_Music();
                 $playlists = $playlist_model->findAll(array(

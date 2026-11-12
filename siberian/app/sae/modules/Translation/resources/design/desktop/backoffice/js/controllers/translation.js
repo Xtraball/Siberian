@@ -37,6 +37,102 @@ App.config(function($routeProvider) {
         $scope.content_loader_is_visible = false;
     });
 
+    $scope.toggleLanguage = function(language) {
+        language.saving = true;
+        Translations.toggle(language.code, !language.enabled).success(function(data) {
+            if (angular.isObject(data) && data.success) {
+                language.enabled = !language.enabled;
+                $scope.message.setText(data.message).isError(false).show();
+            } else {
+                $scope.message.setText(angular.isObject(data) && data.message ? data.message : Label.save.error)
+                    .isError(true).show();
+            }
+        }).error(function(data) {
+            $scope.message.setText(angular.isObject(data) && data.message ? data.message : Label.save.error)
+                .isError(true).show();
+        }).finally(function() {
+            language.saving = false;
+        });
+    };
+
+    $scope.packs = [];
+    $scope.backups = [];
+
+    $scope.loadPacks = function() {
+        Translations.packs().success(function(data) {
+            $scope.packs = data.packs || [];
+            $scope.backups = data.backups || [];
+        });
+    };
+    $scope.loadPacks();
+
+    $scope.stalePacks = function() {
+        return $scope.packs.filter(function(pack) {
+            return pack.stale;
+        });
+    };
+
+    $scope.confirmed = function(text) {
+        return window.confirm(text);
+    };
+
+    $scope.formatSize = function(bytes) {
+        return bytes >= 1048576 ? (bytes / 1048576).toFixed(1) + " MB" : Math.max(1, Math.round(bytes / 1024)) + " KB";
+    };
+
+    $scope.packCall = function(item, request, done) {
+        item.busy = true;
+        request.success(function(data) {
+            var ok = angular.isObject(data) && data.success;
+            $scope.message.setText(angular.isObject(data) && data.message ? data.message : Label.save.error)
+                .isError(!ok).show();
+            done(data, ok);
+        }).error(function(data) {
+            $scope.message.setText(angular.isObject(data) && data.message ? data.message : Label.save.error)
+                .isError(true).show();
+        }).finally(function() {
+            item.busy = false;
+        });
+    };
+
+    $scope.comparePack = function(pack) {
+        $scope.packCall(pack, Translations.comparePack(pack.code), function(data, ok) {
+            if (ok) {
+                pack.report = data.message + " (" + data.only_in_pack + " / " + data.pack + ")";
+            }
+        });
+    };
+
+    $scope.switchPack = function(pack, mode) {
+        $scope.packCall(pack, Translations.switchPack(pack.code, mode), function(data, ok) {
+            if (ok) {
+                $scope.loadPacks();
+                Translations.findAll().success(function(languages) {
+                    $scope.languages = languages;
+                });
+            }
+        });
+    };
+
+    $scope.restoreBackup = function(backup) {
+        $scope.packCall(backup, Translations.restoreBackup(backup.id), function(data, ok) {
+            if (ok) {
+                $scope.loadPacks();
+                Translations.findAll().success(function(languages) {
+                    $scope.languages = languages;
+                });
+            }
+        });
+    };
+
+    $scope.deleteBackup = function(backup) {
+        $scope.packCall(backup, Translations.deleteBackup(backup.id), function(data, ok) {
+            if (ok) {
+                $scope.loadPacks();
+            }
+        });
+    };
+
 }).controller("TranslationEditController", function($http, $rootScope, $scope, $location, $routeParams, $queue, Header, Label,
                                                     SectionButton, $timeout, Translations, Url) {
 
@@ -169,35 +265,6 @@ App.config(function($routeProvider) {
         });
     };
 
-    $scope.suggest = function (item) {
-        $scope.form_loader_is_visible = true;
-
-        item.langId = $routeParams.lang_id;
-        item.file = $scope.translation.file;
-
-        Translations
-        .suggest(item)
-        .success(function(data) {
-            var message = Label.save.error;
-            if(angular.isObject(data) && angular.isDefined(data.message)) {
-                message = data.message;
-                $scope.message.isError(false);
-            } else {
-                $scope.message.isError(true);
-            }
-            $scope.message.setText(message).show();
-        }).error(function(data) {
-            var message = Label.save.error;
-            if(angular.isObject(data) && angular.isDefined(data.message)) {
-                message = data.message;
-            }
-
-            $scope.message.setText(message).isError(true).show();
-        }).finally(function() {
-            $scope.form_loader_is_visible = false;
-        });
-    };
-
     $scope.available_target = [
         "be", "ca", "cs", "da", "de", "el", "es", "et",
         "fi", "fr", "hu", "it", "lt", "lv", "mk", "nl",
@@ -223,8 +290,13 @@ App.config(function($routeProvider) {
             if(!breakOnError) {
                 $scope.translate(key, $scope.translation.country_code.split("_")[0])
                     .then(function(response) {
+                        if (response.data && response.data.error) {
+                            $scope.message.setText(response.data.message).isError(true).show();
+                            breakOnError = true;
+                            return;
+                        }
                         if(response.data && response.data.result && response.data.result.text) {
-                            $scope.translation.collection[key] = response.data.result.text[0];
+                            $scope.translation.collection[key].user = response.data.result.text[0];
                         }
                         $scope.updateClass(key);
                         $scope.yandexTranslation.progress = Math.round((size - remain) / size * 100);
@@ -257,9 +329,10 @@ App.config(function($routeProvider) {
             translateQueue.add(key);
         });
 
+        size = translateQueue.size();
+        remain = size;
+
         if (size > 0) {
-            size = translateQueue.size();
-            remain = size;
             translateQueue.start();
             $scope.yandexTranslation.showProgress = true;
         }
@@ -274,6 +347,11 @@ App.config(function($routeProvider) {
                 $scope
                     .translate(key, $scope.translation.country_code.split("_")[0])
                     .then(function(response) {
+                        if (response.data && response.data.error) {
+                            $scope.message.setText(response.data.message).isError(true).show();
+                            breakOnError = true;
+                            return;
+                        }
                         if(response.data && response.data.result && response.data.result.text) {
                             $scope.translation.collection[key].user = response.data.result.text[0];
                         }

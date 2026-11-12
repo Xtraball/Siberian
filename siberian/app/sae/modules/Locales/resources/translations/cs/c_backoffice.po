@@ -1,0 +1,512 @@
+msgid ""
+msgstr ""
+"Project-Id-Version: Czech (Siberian)\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2019-01-22 10:30+0000\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: Czech <http://yvain.xtraball.com/projects/siberian/acl/cs/>\n"
+"Language: cs\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=3; plural=(n==1) ? 0 : (n>=2 && n<=4) ? 1 : 2;\n"
+"X-Generator: Weblate 3.3\n"
+
+# GMT 1569404790.5248
+#. machine-translated (2026-10), to be reviewed
+msgctxt "backoffice"
+msgid "Free trial"
+msgstr "Zkušební verze zdarma"
+
+# GMT 1580206845.3922
+#. machine-translated (2026-10), to be reviewed
+msgctxt "backoffice"
+msgid "Value must be at least %s"
+msgstr "Hodnota musí být alespoň %s"
+
+# GMT 1580206905.4941
+#. machine-translated (2026-10), to be reviewed
+msgctxt "backoffice"
+msgid "Must be %s / %s"
+msgstr "Musí být %s / %s"
+
+# GMT 1580206905.4943
+#. machine-translated (2026-10), to be reviewed
+msgctxt "backoffice"
+msgid "Must be at least %s"
+msgstr "Musí být alespoň %s"
+
+# GMT 1580209278.3441
+#. machine-translated (2026-10), to be reviewed
+msgctxt "backoffice"
+msgid "exec is enabled"
+msgstr "exec je povoleno"
+
+# GMT 1580209278.3443
+#. machine-translated (2026-10), to be reviewed
+msgctxt "backoffice"
+msgid "Must be enabled"
+msgstr "Musí být povoleno"
+
+# GMT 1580209313.1679
+#. machine-translated (2026-10), to be reviewed
+msgctxt "backoffice"
+msgid "Enabled"
+msgstr "Povoleno"
+
+# GMT 1580297094.4952
+#. machine-translated (2026-10), to be reviewed
+msgctxt "backoffice"
+msgid "We have detected incorrect settings on your server, below are all the recommended settings, the ones in red are incorrect and can lead to issue while running the editor & applications."
+msgstr "Na vašem serveru jsme zjistili nesprávná nastavení. Níže jsou všechna doporučená nastavení, ta červená jsou nesprávná a mohou způsobit potíže při provozu editoru a aplikací."
+
+# GMT 1580306120.9375
+#. machine-translated (2026-10), to be reviewed
+msgctxt "backoffice"
+msgid "Unable to write"
+msgstr "Nelze zapisovat"
+
+# GMT 1580306120.9379
+#. machine-translated (2026-10), to be reviewed
+msgctxt "backoffice"
+msgid "Must be writeable"
+msgstr "Musí být zapisovatelné"
+
+# GMT 1580306387.4344
+#. machine-translated (2026-10), to be reviewed
+msgctxt "backoffice"
+msgid "Writeable"
+msgstr "Zapisovatelné"
+
+# GMT 1580382615.6827
+#. machine-translated (2026-10), to be reviewed
+msgctxt "backoffice"
+msgid "Incorrect settings have been detected on your server, below are all the recommended settings, the ones in red are incorrect and can lead to issue while running the editor & applications."
+msgstr "Na vašem serveru byla zjištěna nesprávná nastavení. Níže jsou všechna doporučená nastavení, ta červená jsou nesprávná a mohou způsobit potíže při provozu editoru a aplikací."
+
+# GMT 1580382615.6828
+#. machine-translated (2026-10), to be reviewed
+msgctxt "backoffice"
+msgid "iOS with AdMob can't be used for newly created applications because of the presence of the UIWebView inside the AdMob SDK<br />Please use iOS (without AdMob)"
+msgstr "iOS s AdMob nelze použít pro nově vytvořené aplikace kvůli přítomnosti UIWebView v AdMob SDK<br />Použijte prosím iOS (bez AdMob)"
+
+# GMT 1580382615.6829
+#. machine-translated (2026-10), to be reviewed
+msgctxt "backoffice"
+msgid "Extra fields"
+msgstr "Další pole"
+
+# GMT 1580382615.6830
+#. machine-translated (2026-10), to be reviewed
+msgctxt "backoffice"
+msgid "Service APK/AAB Generator (enforced)"
+msgstr "Služba generátoru APK/AAB (vynuceno)"
+
+# GMT 1580382615.6831
+#. machine-translated (2026-10), to be reviewed
+msgctxt "backoffice"
+msgid "Users can not generate APK/AAB."
+msgstr "Uživatelé nemohou generovat APK/AAB."
+
+# GMT 1580382615.6832
+#. machine-translated (2026-10), to be reviewed
+msgctxt "backoffice"
+msgid "APK/AAB Settings"
+msgstr "Nastavení APK/AAB"
+
+# GMT 1580382615.6833
+#. machine-translated (2026-10), to be reviewed
+msgctxt "backoffice"
+msgid "Users can generate APK/AAB"
+msgstr "Uživatelé mohou generovat APK/AAB"
+
+# GMT 1580382615.6834
+#. machine-translated (2026-10), to be reviewed
+msgctxt "backoffice"
+msgid "Restore app sources have been scheduled to be processed imminently!"
+msgstr "Obnovení zdrojových kódů aplikace bylo naplánováno k okamžitému zpracování!"
+
+# GMT 1580382615.6835
+#. machine-translated (2026-10), to be reviewed
+msgctxt "backoffice"
+msgid "App manifest rebuild have been scheduled to be processed imminently!"
+msgstr "Opětovné sestavení manifestu aplikace bylo naplánováno k okamžitému zpracování!"
+
+# GMT 1580382615.6836
+#. machine-translated (2026-10), to be reviewed
+msgctxt "backoffice"
+msgid "The password must be at least 9 characters"
+msgstr "Heslo musí mít alespoň 9 znaků"
+
+# GMT 1580382615.6837
+#. machine-translated (2026-10), to be reviewed
+msgctxt "backoffice"
+msgid "Password should be at least %s characters in length and should include at least one upper case letter, one number, and one special character."
+msgstr "Heslo by mělo mít alespoň %s znaků a obsahovat alespoň jedno velké písmeno, jednu číslici a jeden speciální znak."
+
+# GMT 1793000000.0001
+#. machine-translated (2026-10), to be reviewed
+msgctxt "backoffice"
+msgid "This version is already installed"
+msgstr "Tato verze je již nainstalována"
+
+# GMT 1793000000.0002
+#. machine-translated (2026-10), to be reviewed
+msgctxt "backoffice"
+msgid "Would you like to reinstall it? Files are copied again and the module schema and data are synchronized again."
+msgstr "Chcete ji nainstalovat znovu? Soubory se zkopírují znovu a schéma a data modulu se znovu synchronizují."
+
+# GMT 1793000000.0003
+#. machine-translated (2026-10), to be reviewed
+msgctxt "backoffice"
+msgid "Yes, reinstall"
+msgstr "Ano, přeinstalovat"
+
+# GMT 1793000000.0004
+#. machine-translated (2026-10), to be reviewed
+msgctxt "backoffice"
+msgid "No, cancel"
+msgstr "Ne, zrušit"
+
+# GMT 1793100000.0001
+#. machine-translated (2026-10), to be reviewed
+msgctxt "backoffice"
+msgid "The license saved for this module is expired or no longer valid. If you received a new key, enter it here, or keep the current one."
+msgstr "Licence uložená pro tento modul vypršela nebo již není platná. Pokud jste obdrželi nový klíč, zadejte jej zde, nebo ponechte stávající."
+
+# GMT 1793100000.0002
+#. machine-translated (2026-10), to be reviewed
+msgctxt "backoffice"
+msgid "Keep the current key"
+msgstr "Ponechat stávající klíč"
+
+# GMT 1793100001.0001
+#. machine-translated (2026-10), to be reviewed
+msgctxt "backoffice"
+msgid "Core"
+msgstr "Jádro"
+
+# GMT 1793100001.0002
+#. machine-translated (2026-10), to be reviewed
+msgctxt "backoffice"
+msgid "App sources"
+msgstr "Zdroje aplikace"
+
+# GMT 1793100001.0003
+#. machine-translated (2026-10), to be reviewed
+msgctxt "backoffice"
+msgid "Modified"
+msgstr "Změněno"
+
+# GMT 1793100001.0004
+#. machine-translated (2026-10), to be reviewed
+msgctxt "backoffice"
+msgid "Missing"
+msgstr "Chybí"
+
+# GMT 1793100001.0005
+#. machine-translated (2026-10), to be reviewed
+msgctxt "backoffice"
+msgid "Unreadable"
+msgstr "Nečitelné"
+
+# GMT 1793100001.0006
+#. machine-translated (2026-10), to be reviewed
+msgctxt "backoffice"
+msgid "File"
+msgstr "Soubor"
+
+# GMT 1793100001.0007
+#. machine-translated (2026-10), to be reviewed
+msgctxt "backoffice"
+msgid "Status"
+msgstr "Stav"
+
+# GMT 1793100001.0008
+#. machine-translated (2026-10), to be reviewed
+msgctxt "backoffice"
+msgid "Area"
+msgstr "Oblast"
+
+# GMT 1793100001.0009
+#. machine-translated (2026-10), to be reviewed
+msgctxt "backoffice"
+msgid "Files checked"
+msgstr "Zkontrolované soubory"
+
+# GMT 1793100001.0010
+#. machine-translated (2026-10), to be reviewed
+msgctxt "backoffice"
+msgid "Core files only, skip the app sources (faster)"
+msgstr "Pouze soubory jádra, přeskočit zdroje aplikace (rychlejší)"
+
+# GMT 1793100001.0011
+#. machine-translated (2026-10), to be reviewed
+msgctxt "backoffice"
+msgid "Module installations and generated apps also write in the app sources, differences there are not necessarily a problem."
+msgstr "Instalace modulů a vygenerované aplikace také zapisují do zdrojů aplikace, rozdíly tam nejsou nutně problémem."
+
+# GMT 1793100001.0012
+#. machine-translated (2026-10), to be reviewed
+msgctxt "backoffice"
+msgid "The file manifest.json is missing, the integrity cannot be checked."
+msgstr "Soubor manifest.json chybí, integritu nelze zkontrolovat."
+
+# GMT 1793100001.0013
+#. machine-translated (2026-10), to be reviewed
+msgctxt "backoffice"
+msgid "The file manifest.json is not valid, the integrity cannot be checked."
+msgstr "Soubor manifest.json není platný, integritu nelze zkontrolovat."
+
+# GMT 1793100001.0014
+#. machine-translated (2026-10), to be reviewed
+msgctxt "backoffice"
+msgid "Edit my account"
+msgstr "Upravit můj účet"
+
+# GMT 1793100001.0015
+#. machine-translated (2026-10), to be reviewed
+msgctxt "backoffice"
+msgid "Show / hide"
+msgstr "Zobrazit / skrýt"
+
+# GMT 1793100001.0030
+#. machine-translated (2026-10), to be reviewed
+msgctxt "backoffice"
+msgid "This job has no command."
+msgstr "Tato úloha nemá žádný příkaz."
+
+# GMT 1793100001.0031
+#. machine-translated (2026-10), to be reviewed
+msgctxt "backoffice"
+msgid "The class %s does not exist, the module providing this job is probably disabled or removed."
+msgstr "Třída %s neexistuje, modul poskytující tuto úlohu je pravděpodobně zakázán nebo odebrán."
+
+# GMT 1793100001.0032
+#. machine-translated (2026-10), to be reviewed
+msgctxt "backoffice"
+msgid "The class %s can not be loaded: %s"
+msgstr "Třídu %s nelze načíst: %s"
+
+# GMT 1793100001.0033
+#. machine-translated (2026-10), to be reviewed
+msgctxt "backoffice"
+msgid "The method %s does not exist."
+msgstr "Metoda %s neexistuje."
+
+# GMT 1793100001.0034
+#. machine-translated (2026-10), to be reviewed
+msgctxt "backoffice"
+msgid "The method %s is not public."
+msgstr "Metoda %s není veřejná."
+
+# GMT 1793100001.0035
+#. machine-translated (2026-10), to be reviewed
+msgctxt "backoffice"
+msgid "The method %s is abstract."
+msgstr "Metoda %s je abstraktní."
+
+# GMT 1793100001.0036
+#. machine-translated (2026-10), to be reviewed
+msgctxt "backoffice"
+msgid "The method %s requires %d arguments, a job is given %d."
+msgstr "Metoda %s vyžaduje %d argumentů, úloha jich má zadáno %d."
+
+# GMT 1793100001.0037
+#. machine-translated (2026-10), to be reviewed
+msgctxt "backoffice"
+msgid "The class %s can not be instantiated, declare the method %s static."
+msgstr "Třídu %s nelze instancovat, deklarujte metodu %s jako statickou."
+
+# GMT 1793100001.0038
+#. machine-translated (2026-10), to be reviewed
+msgctxt "backoffice"
+msgid "The method %s is not static and the constructor of %s requires arguments, declare the method static."
+msgstr "Metoda %s není statická a konstruktor %s vyžaduje argumenty, deklarujte metodu jako statickou."
+
+# GMT 1793100001.0039
+#. machine-translated (2026-10), to be reviewed
+msgctxt "backoffice"
+msgid "The method %s is not static. PHP 8 can not call it statically, the scheduler runs it on a new instance instead; declare it static."
+msgstr "Metoda %s není statická. PHP 8 ji nemůže volat staticky, plánovač ji místo toho spustí na nové instanci; deklarujte ji jako statickou."
+
+# GMT 1793100001.0040
+#. machine-translated (2026-10), to be reviewed
+msgctxt "backoffice"
+msgid "This job can run."
+msgstr "Tato úloha může běžet."
+
+# GMT 1793100001.0041
+#. machine-translated (2026-10), to be reviewed
+msgctxt "backoffice"
+msgid "Compatibility with PHP"
+msgstr "Kompatibilita s PHP"
+
+# GMT 1793100001.0042
+#. machine-translated (2026-10), to be reviewed
+msgctxt "backoffice"
+msgid "Every job is checked against the PHP version that runs the scheduler, without running it."
+msgstr "Každá úloha je zkontrolována vůči verzi PHP, která plánovač spouští, bez jejího spuštění."
+
+# GMT 1793100001.0043
+#. machine-translated (2026-10), to be reviewed
+msgctxt "backoffice"
+msgid "PHP version"
+msgstr "Verze PHP"
+
+# GMT 1793100001.0044
+#. machine-translated (2026-10), to be reviewed
+msgctxt "backoffice"
+msgid "Active jobs checked"
+msgstr "Zkontrolované aktivní úlohy"
+
+# GMT 1793100001.0045
+#. machine-translated (2026-10), to be reviewed
+msgctxt "backoffice"
+msgid "All the active jobs can be run by the scheduler."
+msgstr "Plánovač může spustit všechny aktivní úlohy."
+
+# GMT 1793100001.0046
+#. machine-translated (2026-10), to be reviewed
+msgctxt "backoffice"
+msgid "A job that can not run is skipped and reported, it never stops the other jobs."
+msgstr "Úloha, která nemůže běžet, je přeskočena a nahlášena, nikdy nezastaví ostatní úlohy."
+
+# GMT 1793100001.0047
+#. machine-translated (2026-10), to be reviewed
+msgctxt "backoffice"
+msgid "Job"
+msgstr "Pracovní pozice"
+
+# GMT 1793100001.0048
+#. machine-translated (2026-10), to be reviewed
+msgctxt "backoffice"
+msgid "Problem"
+msgstr "Problém"
+
+# GMT 1793100001.0049
+#. machine-translated (2026-10), to be reviewed
+msgctxt "backoffice"
+msgid "Last error"
+msgstr "Poslední chyba"
+
+# GMT 1793100001.0050
+#. machine-translated (2026-10), to be reviewed
+msgctxt "backoffice"
+msgid "Compatibility"
+msgstr "Kompatibilita"
+
+# GMT 1793100001.0051
+#. machine-translated (2026-10), to be reviewed
+msgctxt "backoffice"
+msgid "Some cron jobs can not run with this PHP version:"
+msgstr "Některé úlohy cron nelze s touto verzí PHP spustit:"
+
+# GMT 1793100001.0052
+#. machine-translated (2026-10), to be reviewed
+msgctxt "backoffice"
+msgid "see the details"
+msgstr "zobrazit podrobnosti"
+
+# GMT 1793100001.0060
+#. machine-translated (2026-10), to be reviewed
+msgctxt "backoffice"
+msgid "Modules in quarantine"
+msgstr "Moduly v karanténě"
+
+# GMT 1793100001.0061
+#. machine-translated (2026-10), to be reviewed
+msgctxt "backoffice"
+msgid "A module stopped the application with a fatal error, or is not compatible with this version of Siberian or PHP. It is disabled until it is rechecked, the rest of the application keeps working."
+msgstr "Modul zastavil aplikaci kvůli fatální chybě nebo není kompatibilní s touto verzí Siberian či PHP. Je zakázán, dokud nebude znovu zkontrolován, zbytek aplikace funguje dál."
+
+# GMT 1793100001.0062
+#. machine-translated (2026-10), to be reviewed
+msgctxt "backoffice"
+msgid "Needs a newer Siberian"
+msgstr "Vyžaduje novější Siberian"
+
+# GMT 1793100001.0063
+#. machine-translated (2026-10), to be reviewed
+msgctxt "backoffice"
+msgid "Failed the compatibility check"
+msgstr "Nevyhověl kontrole kompatibility"
+
+# GMT 1793100001.0064
+#. machine-translated (2026-10), to be reviewed
+msgctxt "backoffice"
+msgid "Fatal error"
+msgstr "Fatální chyba"
+
+# GMT 1793100001.0065
+#. machine-translated (2026-10), to be reviewed
+msgctxt "backoffice"
+msgid "Updated since, recheck it to enable it again."
+msgstr "Od té doby aktualizováno, zkontrolujte jej znovu, abyste jej mohli znovu povolit."
+
+# GMT 1793100001.0066
+#. machine-translated (2026-10), to be reviewed
+msgctxt "backoffice"
+msgid "Recheck"
+msgstr "Zkontrolovat znovu"
+
+# GMT 1793100001.0067
+#. machine-translated (2026-10), to be reviewed
+msgctxt "backoffice"
+msgid "Re-enable"
+msgstr "Znovu povolit"
+
+# GMT 1793100001.0068
+#. machine-translated (2026-10), to be reviewed
+msgctxt "backoffice"
+msgid "Enable this module anyway? If it breaks the application again it goes back to quarantine."
+msgstr "Povolit tento modul přesto? Pokud znovu pokazí aplikaci, vrátí se do karantény."
+
+# GMT 1793100001.0069
+#. machine-translated (2026-10), to be reviewed
+msgctxt "backoffice"
+msgid "Recheck all"
+msgstr "Zkontrolovat vše znovu"
+
+# GMT 1793100001.0070
+#. machine-translated (2026-10), to be reviewed
+msgctxt "backoffice"
+msgid "Scan all modules"
+msgstr "Prohledat všechny moduly"
+
+# GMT 1793100001.0071
+#. machine-translated (2026-10), to be reviewed
+msgctxt "backoffice"
+msgid "PHP or Siberian changed since the last compatibility scan of your modules."
+msgstr "PHP nebo Siberian se změnily od posledního skenování kompatibility vašich modulů."
+
+# GMT 1793100001.0072
+#. machine-translated (2026-10), to be reviewed
+msgctxt "backoffice"
+msgid "Quarantine"
+msgstr "Karanténa"
+
+# GMT 1793100001.0073
+#. machine-translated (2026-10), to be reviewed
+msgctxt "backoffice"
+msgid "Recheck done, %s released."
+msgstr "Opětovná kontrola dokončena, uvolněno: %s."
+
+# GMT 1793100001.0074
+#. machine-translated (2026-10), to be reviewed
+msgctxt "backoffice"
+msgid "The module is enabled again."
+msgstr "Modul je opět povolen."
+
+# GMT 1793100001.0075
+#. machine-translated (2026-10), to be reviewed
+msgctxt "backoffice"
+msgid "The scan started, it can take a few minutes, reload this page to see the result."
+msgstr "Skenování bylo spuštěno, může trvat několik minut, načtěte stránku znovu, abyste viděli výsledek."
+
+# GMT 1793100001.0076
+#. machine-translated (2026-10), to be reviewed
+msgctxt "backoffice"
+msgid "The scan could not be started, run \"php cli module:quarantine scan\" instead."
+msgstr "Skenování se nepodařilo spustit, spusťte místo toho \"php cli module:quarantine scan\"."

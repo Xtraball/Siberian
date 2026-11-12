@@ -150,7 +150,7 @@ abstract class Application_Model_Device_Ionic_Ios_Abstract extends Application_M
         array_map('unlink', glob("{$this->_dest_source_res}/Images.xcassets/LaunchImage.launchimage/*.png"));
 
         // Startup Images!
-        $universal = path($application->getStartupBackgroundUnified());
+        $universal = Application_Model_Application_Abstract::startupSourcePath($application->getStartupBackgroundUnified());
 
         $tmpDest = $this->_dest_source_res;
 

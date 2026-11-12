@@ -12,7 +12,7 @@ class Template_BlockController extends Core_Controller_Default
     public function blankimageAction()
     {
 
-        $image = imagecreatetruecolor($this->getRequest()->getParam('width', 320), $this->getRequest()->getParam('height', 75));
+        $image = imagecreatetruecolor(\Siberian\Input::int($this->getRequest()->getParam('width'), 320, 1), \Siberian\Input::int($this->getRequest()->getParam('height'), 75, 1));
         $color = imagecolorallocate($image, 255, 255, 255);
         imagefill($image, 0, 0, $color);
         header('Content-type: image/png');
@@ -60,11 +60,17 @@ class Template_BlockController extends Core_Controller_Default
                 ->setColor($color)
                 ->colorize();
 
+            $resources = $image->getResources();
+            if (empty($resources)) {
+                // not a readable image: imagepng(null) is a TypeError on PHP 8
+                die;
+            }
+
             ob_start();
-            imagepng($image->getResources());
+            imagepng($resources);
             $contents = ob_get_contents();
             ob_end_clean();
-            imagedestroy($image->getResources());
+            imagedestroy($resources);
 
             $this->getResponse()->setHeader('Content-Type', 'image/png');
             $this->getLayout()->setHtml($contents);

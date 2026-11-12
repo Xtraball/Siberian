@@ -119,6 +119,26 @@
 
                             <div ng-if="device.type_id=='2'">
                                 <div class="row">
+                                    <div class="col-md-12">
+                                        <div class="form-group">
+                                            <label for="{{ device.id }}_google_signing">
+                                                <input type="checkbox"
+                                                       ng-model="device.google_signing"
+                                                       ng-true-value="'1'"
+                                                       ng-false-value="'0'"
+                                                       id="{{ device.id }}_google_signing"/>
+                                                <?php echo p__('application', 'Google Play App Signing'); ?>
+                                            </label>
+                                            <p class="help-block">
+                                                <?php echo p__('application', 'Enable it if your app uses Play App Signing: Google keeps the app signing key, and the keystore of this app is only the upload key you sign your bundles with.'); ?>
+                                                <a href="https://support.google.com/googleplay/android-developer/answer/9842756"
+                                                   target="_blank"
+                                                   rel="noopener"><?php echo p__('application', 'How Play App Signing works'); ?></a>
+                                            </p>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row">
 
                                     <div class="col-md-12 upload_area">
                                         <br>

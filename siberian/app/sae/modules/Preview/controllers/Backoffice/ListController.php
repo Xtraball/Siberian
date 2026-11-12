@@ -45,7 +45,7 @@ class Preview_Backoffice_ListController extends Backoffice_Controller_Default
 
         try {
 
-            if ($data = Zend_Json::decode($this->getRequest()->getRawBody())) {
+            if (($data = $this->_jsonBody()) !== null) {
                 $preview = new Preview_Model_Preview();
                 $preview->find($data["preview_id"]);
 
@@ -81,6 +81,10 @@ class Preview_Backoffice_ListController extends Backoffice_Controller_Default
         try {
             $request = $this->getRequest();
             $params = $request->getBodyParams();
+
+            if (!isset($params['split_preview_actions'])) {
+                throw new \Siberian\Exception(p__('preview', 'Missing params!'));
+            }
 
             __set('split_preview_actions', filter_var($params['split_preview_actions'], FILTER_VALIDATE_BOOLEAN));
 

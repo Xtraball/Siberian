@@ -8,7 +8,7 @@ class Promotion_Mobile_ViewController extends Application_Controller_Mobile_Defa
     public function findAction() {
 
         try {
-            if($value_id = $this->getRequest()->getParam('value_id') AND $promotion_id = $this->getRequest()->getParam('promotion_id')) {
+            if($value_id = \Siberian\Input::int($this->getRequest()->getParam('value_id'), 0, 0) AND $promotion_id = \Siberian\Input::int($this->getRequest()->getParam('promotion_id'), 0, 0)) {
 
                 $option = $this->getCurrentOptionValue();
                 $promotion = new Promotion_Model_Promotion();
@@ -30,11 +30,11 @@ class Promotion_Mobile_ViewController extends Application_Controller_Mobile_Defa
                 );
 
                 $payload['confirm_message'] = __('Do you want to use this coupon?');
-                $payload['social_sharing_is_active'] = (boolean) $option->getSocialSharingIsActive();
+                $payload['social_sharing_is_active'] = (bool) $option->getSocialSharingIsActive();
                 $payload['page_title'] = $promotion->getTitle();
 
                 $payload['promotion']['confirm_message'] = __('Do you want to use this coupon?');
-                $payload['promotion']['social_sharing_is_active'] = (boolean) $option->getSocialSharingIsActive();
+                $payload['promotion']['social_sharing_is_active'] = (bool) $option->getSocialSharingIsActive();
                 $payload['promotion']['page_title'] = $promotion->getTitle();
 
                 $tc = new Application_Model_Tc();

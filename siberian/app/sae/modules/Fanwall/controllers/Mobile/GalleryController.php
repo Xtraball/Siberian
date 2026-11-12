@@ -29,8 +29,8 @@ class Fanwall_Mobile_GalleryController extends Application_Controller_Mobile_Def
 
             $optionValue = $this->getCurrentOptionValue();
             $valueId = $optionValue->getId();
-            $limit = $request->getParam('limit', 20);
-            $offset = $request->getParam('offset', 0);
+            $limit = \Siberian\Input::int($request->getParam('limit'), 20, 0);
+            $offset = \Siberian\Input::int($request->getParam('offset'), 0, 0);
 
             $query = [
                 'fanwall_post.value_id = ?' => $optionValue->getId(),
@@ -59,7 +59,7 @@ class Fanwall_Mobile_GalleryController extends Application_Controller_Mobile_Def
                 $i = 0;
                 foreach ($_images as $_image) {
                     $collection[] = [
-                        'id' => (integer) $post->getId() . '.' . $i++,
+                        'id' => (int) $post->getId() . '.' . $i++,
                         'image' => (string) $_image
                     ];
                 }

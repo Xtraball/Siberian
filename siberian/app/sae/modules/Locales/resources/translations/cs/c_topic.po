@@ -1,0 +1,110 @@
+msgid ""
+msgstr ""
+"Project-Id-Version: Czech (Siberian)\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2019-01-22 10:30+0000\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: Czech <http://yvain.xtraball.com/projects/siberian/acl/cs/>\n"
+"Language: cs\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=3; plural=(n==1) ? 0 : (n>=2 && n<=4) ? 1 : 2;\n"
+"X-Generator: Weblate 3.3\n"
+
+# GMT 1568884436.6232
+#. machine-translated (2026-10), to be reviewed
+msgctxt "topic"
+msgid "Description"
+msgstr "Popis"
+
+# GMT 1568884436.6233
+#. machine-translated (2026-10), to be reviewed
+msgctxt "topic"
+msgid "Topics"
+msgstr "Témata"
+
+# GMT 1568884436.6237
+#. machine-translated (2026-10), to be reviewed
+msgctxt "topic"
+msgid "Design"
+msgstr "Vzhled"
+
+# GMT 1568884436.6238
+#. machine-translated (2026-10), to be reviewed
+msgctxt "topic"
+msgid "Manage topics"
+msgstr "Spravovat témata"
+
+# GMT 1568884436.624
+#. machine-translated (2026-10), to be reviewed
+msgctxt "topic"
+msgid "Import topics"
+msgstr "Importovat témata"
+
+# GMT 1568885308.6752
+#. machine-translated (2026-10), to be reviewed
+msgctxt "topic"
+msgid "Import success."
+msgstr "Import byl úspěšný."
+
+# GMT 1568885433.0521
+#. machine-translated (2026-10), to be reviewed
+msgctxt "topic"
+msgid "The imported JSON file is invalid."
+msgstr "Importovaný soubor JSON je neplatný."
+
+# GMT 1568887519.5898
+#. machine-translated (2026-10), to be reviewed
+msgctxt "topic"
+msgid "Download file examples: "
+msgstr "Stáhnout ukázkové soubory: "
+
+# GMT 1568887519.5899
+#. machine-translated (2026-10), to be reviewed
+msgctxt "topic"
+msgid "Please note that only JSON & YAML supports nested topics."
+msgstr "Upozorňujeme, že vnořená témata podporují pouze JSON a YAML."
+
+# GMT 1568887724.1144
+#. machine-translated (2026-10), to be reviewed
+msgctxt "topic"
+msgid "Import"
+msgstr "Importovat"
+
+# GMT 1568887864.8146
+#. machine-translated (2026-10), to be reviewed
+msgctxt "topic"
+msgid "Please note that only JSON & YAML supports nested topics, CSV works only with single level imports."
+msgstr "Upozorňujeme, že vnořená témata podporují pouze JSON a YAML, CSV funguje pouze s importy na jedné úrovni."
+
+# GMT 1569246412.4798
+#. machine-translated (2026-10), to be reviewed
+msgctxt "topic"
+msgid "Download file examples"
+msgstr "Stáhnout ukázkové soubory"
+
+# GMT 1569246468.7113
+#. machine-translated (2026-10), to be reviewed
+msgctxt "topic"
+msgid "Import CSV, JSON, YAML"
+msgstr "Importovat CSV, JSON, YAML"
+
+# GMT 1576070941.4663
+#. machine-translated (2026-10), to be reviewed
+msgctxt "topic"
+msgid "The imported CSV file is invalid '%s'."
+msgstr "Importovaný soubor CSV je neplatný '%s'."
+
+# GMT 1576070941.4664
+#. machine-translated (2026-10), to be reviewed
+msgctxt "topic"
+msgid "'Parent topic `%s` doesn\\'t exists.'"
+msgstr "'Nadřazené téma `%s` neexistuje.'"
+
+# GMT 1576070941.4665
+#. machine-translated (2026-10), to be reviewed
+msgctxt "topic"
+msgid "Parent topic `%s` has a parent, you can nest topics only at one level."
+msgstr "Nadřazené téma `%s` má svého nadřazeného, témata lze vnořovat pouze o jednu úroveň."

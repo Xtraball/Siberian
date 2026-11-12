@@ -65,7 +65,7 @@ class Human
     /**
      * @var bool
      */
-    private $_lang = FALSE;
+    private $_lang = [];
 
     /**
      * @var int
@@ -140,7 +140,7 @@ class Human
     {
 
         if ((!is_string($specification)) && (!(is_int($specification)))) {
-            throw new Exception('Invalid specification.');
+            throw new \Exception('Invalid specification.');
         }
 
         $specs = [];
@@ -244,7 +244,8 @@ class Human
 
         foreach ($cronInterpreted['elements'] as $elem) {
             if (!$elem['hasInterval']) {
-                // Nothing to do!
+                // A fixed value (20 in '20 4 * * *') is the one member of the set
+                $items[$elem['number1']] = TRUE;
             } else {
                 for ($number = $elem['number1']; $number <= $elem['number2']; $number += $elem['interval']) {
                     $items[$number] = TRUE;
@@ -284,9 +285,7 @@ class Human
         if ($arrDt === false) {
             return false;
         }
-        return $arrDt[4] . '-' . (strlen($arrDt[3]) == 1 ? '0' : '') . $arrDt[3] . '-' .
-            (strlen($arrDt[2]) == 1 ? '0' : '') . $arrDt[2] . ' ' . (strlen($arrDt[1]) == 1 ? '0' : '') .
-            $arrDt[1] . ':' . (strlen($arrDt[0]) == 1 ? '0' : '') . $arrDt[0] . ':00';
+        return sprintf('%04d-%02d-%02d %02d:%02d:00', $arrDt[4], $arrDt[3], $arrDt[2], $arrDt[1], $arrDt[0]);
     }
 
     /**
@@ -330,69 +329,61 @@ class Human
     }
 
     /**
-     * @param bool $time
-     * @return array|bool
+     * The first minute after (or, going back, before) the given time that the specification matches.
+     *
+     * @param bool|int|string|array $time
+     * @return array|bool [minute, hour, day, month, year], or false when there is none in the supported years
      */
     public function next($time = false)
     {
-        // Convert parameters to array datetime
+        return $this->search($time, 1);
+    }
+
+    /**
+     * @param bool|int|string|array $time
+     * @return array|bool [minute, hour, day, month, year], or false when there is none in the supported years
+     */
+    public function previous($time = false)
+    {
+        return $this->search($time, -1);
+    }
+
+    /**
+     * Walks the calendar from the time, one unit at a time, and skips a whole year, month, day or hour as soon as it
+     * cannot match, so a far away date is found in a few hundred steps. The time itself never matches.
+     *
+     * @param bool|int|string|array $time
+     * @param int $direction 1 forward, -1 backward
+     * @return array|bool
+     */
+    private function search($time, $direction)
+    {
         $arrDT = $this->dtFromParameters($time);
+        $stamp = mktime((int) $arrDT[1], (int) $arrDT[0], 0, (int) $arrDT[3], (int) $arrDT[2], (int) $arrDT[4]) + $direction * 60;
 
-        while (1) {
-            // Verify the current date is in range. If not, move into range and consider this the next position
-            if (!array_key_exists($arrDT[4], $this->_years)) {
-                if (($arrDT[4] = $this->getEarliestItem($this->_years, $arrDT[4], false)) === false) {
-                    return FALSE;
-                }
-                $arrDT[3] = $this->getEarliestItem($this->_months);
-                $arrDT[2] = $this->getEarliestItem($this->_daysOfMonth);
-                $arrDT[1] = $this->getEarliestItem($this->_hours);
-                $arrDT[0] = $this->getEarliestItem($this->_minutes);
-                break;
-            } else if (!array_key_exists($arrDT[3], $this->_months)) {
-                $arrDT[3] = $this->getEarliestItem($this->_months, $arrDT[3]);
-                $arrDT[2] = $this->getEarliestItem($this->_daysOfMonth);
-                $arrDT[1] = $this->getEarliestItem($this->_hours);
-                $arrDT[0] = $this->getEarliestItem($this->_minutes);
-                break;
-            } else if (!array_key_exists($arrDT[2], $this->_daysOfMonth)) {
-                $arrDT[2] = $this->getEarliestItem($this->_daysOfMonth, $arrDT[2]);
-                $arrDT[1] = $this->getEarliestItem($this->_hours);
-                $arrDT[0] = $this->getEarliestItem($this->_minutes);
-                break;
-            } else if (!array_key_exists($arrDT[1], $this->_hours)) {
-                $arrDT[1] = $this->getEarliestItem($this->_hours, $arrDT[1]);
-                $arrDT[0] = $this->getEarliestItem($this->_minutes);
-                break;
-            } else if (!array_key_exists($arrDT[1], $this->_hours)) {
-                $arrDT[0] = $this->getEarliestItem($this->_minutes, $arrDT[0]);
-                break;
+        for ($guard = 0; $guard < 200000; $guard++) {
+            [$y, $m, $d, $h, $i, $w] = array_map('intval', explode(' ', date('Y n j G i w', $stamp)));
+
+            if ($y > $this->RANGE_YEARS_MAX || $y < $this->RANGE_YEARS_MIN) {
+                return false;
             }
 
-            // Advance minute, hour, date, month and year while overflowing.
-            $daysInThisMonth = date('t', strtotime($arrDT[4] . '-' . $arrDT[3]));
-            if ($this->advanceItem($this->_minutes, 0, 59, $arrDT[0])) {
-                if ($this->advanceItem($this->_hours, 0, 23, $arrDT[1])) {
-                    if ($this->advanceItem($this->_daysOfMonth, 0, $daysInThisMonth, $arrDT[2])) {
-                        if ($this->advanceItem($this->_months, 1, 12, $arrDT[3])) {
-                            if ($this->advanceItem($this->_years, $this->RANGE_YEARS_MIN, $this->RANGE_YEARS_MAX, $arrDT[4])) {
-                                return false;
-                            }
-                        }
-                    }
-                }
+            if (!array_key_exists($y, $this->_years)) {
+                $stamp = $direction > 0 ? mktime(0, 0, 0, 1, 1, $y + 1) : mktime(23, 59, 0, 12, 31, $y - 1);
+            } elseif (!array_key_exists($m, $this->_months)) {
+                $stamp = $direction > 0 ? mktime(0, 0, 0, $m + 1, 1, $y) : mktime(23, 59, 0, $m, 0, $y);
+            } elseif (!array_key_exists($d, $this->_daysOfMonth) || !array_key_exists($w, $this->_daysOfWeek)) {
+                $stamp = $direction > 0 ? mktime(0, 0, 0, $m, $d + 1, $y) : mktime(23, 59, 0, $m, $d - 1, $y);
+            } elseif (!array_key_exists($h, $this->_hours)) {
+                $stamp = $direction > 0 ? mktime($h + 1, 0, 0, $m, $d, $y) : mktime($h, 0, 0, $m, $d, $y) - 60;
+            } elseif (!array_key_exists($i, $this->_minutes)) {
+                $stamp += $direction * 60;
+            } else {
+                return [$i, $h, $d, $m, $y];
             }
-            break;
         }
 
-        // If Datetime now points to a day that is schedule then return.
-        $dayOfWeek = date('w', strtotime($this->dtAsString($arrDT)));
-        if (array_key_exists($dayOfWeek, $this->_daysOfWeek)) {
-            return $arrDT;
-        }
-
-        // Otherwise move to next scheduled date
-        return $this->next($arrDT);
+        return false;
     }
 
     /**
@@ -414,133 +405,6 @@ class Human
     }
 
     /**
-     * @param $arrItems
-     * @param $rangeMin
-     * @param $rangeMax
-     * @param $current
-     * @return bool
-     */
-    private function advanceItem($arrItems, $rangeMin, $rangeMax, & $current)
-    {
-        // Advance pointer
-        $current++;
-
-        // If still before start, move to earliest
-        if ($current < $rangeMin) {
-            $current = $this->getEarliestItem($arrItems);
-        }
-
-        // Parse items until found or overflow
-        for (; $current <= $rangeMax; $current++) {
-            if (array_key_exists($current, $arrItems)) {
-                return false; // We did not overflow
-            }
-        }
-
-        // Or overflow
-        $current = $this->getEarliestItem($arrItems);
-
-        return true;
-    }
-
-    /**
-     * @param $arrItems
-     * @param bool $afterItem
-     * @param bool $allowOverflow
-     * @return bool|int|null|string
-     */
-    private function getEarliestItem($arrItems, $afterItem = false, $allowOverflow = true)
-    {
-        // If no filter is specified, return the earliest listed item.
-        if ($afterItem === false) {
-            reset($arrItems);
-            return key($arrItems);
-        }
-
-        // Or parse until we passed $afterItem
-        foreach ($arrItems as $key => $value) {
-            if ($key > $afterItem) {
-                return $key;
-            }
-        }
-
-        // If still nothing found, we may have exhausted our options.
-        if (!$allowOverflow) {
-            return false;
-        }
-
-        reset($arrItems);
-
-        return key($arrItems);
-    }
-
-    /**
-     * @param bool $time
-     * @return array|bool
-     */
-    public function previous($time = false)
-    {
-        // Convert parameters to array datetime
-        $arrDT = $this->dtFromParameters($time);
-
-        while (1) {
-            // Verify the current date is in range. If not, move into range and consider this the previous position
-            if (!array_key_exists($arrDT[4], $this->_years)) {
-                if (($arrDT[4] = $this->getLatestItem($this->_years, $arrDT[4], false)) === false) {
-                    return false;
-                }
-                $arrDT[3] = $this->getLatestItem($this->_months);
-                $arrDT[2] = $this->getLatestItem($this->_daysOfMonth);
-                $arrDT[1] = $this->getLatestItem($this->_hours);
-                $arrDT[0] = $this->getLatestItem($this->_minutes);
-                break;
-            } else if (!array_key_exists($arrDT[3], $this->_months)) {
-                $arrDT[3] = $this->getLatestItem($this->_months, $arrDT[3]);
-                $arrDT[2] = $this->getLatestItem($this->_daysOfMonth);
-                $arrDT[1] = $this->getLatestItem($this->_hours);
-                $arrDT[0] = $this->getLatestItem($this->_minutes);
-                break;
-            } else if (!array_key_exists($arrDT[2], $this->_daysOfMonth)) {
-                $arrDT[2] = $this->getLatestItem($this->_daysOfMonth, $arrDT[2]);
-                $arrDT[1] = $this->getLatestItem($this->_hours);
-                $arrDT[0] = $this->getLatestItem($this->_minutes);
-                break;
-            } else if (!array_key_exists($arrDT[1], $this->_hours)) {
-                $arrDT[1] = $this->getLatestItem($this->_hours, $arrDT[1]);
-                $arrDT[0] = $this->getLatestItem($this->_minutes);
-                break;
-            } else if (!array_key_exists($arrDT[1], $this->_hours)) {
-                $arrDT[0] = $this->getLatestItem($this->_minutes, $arrDT[0]);
-                break;
-            }
-
-            // Recede minute, hour, date, month and year while overflowing.
-            $daysInPreviousMonth = date('t', strtotime('-1 month', strtotime($arrDT[4] . '-' . $arrDT[3])));
-            if ($this->recedeItem($this->_minutes, 0, 59, $arrDT[0])) {
-                if ($this->recedeItem($this->_hours, 0, 23, $arrDT[1])) {
-                    if ($this->recedeItem($this->_daysOfMonth, 0, $daysInPreviousMonth, $arrDT[2])) {
-                        if ($this->recedeItem($this->_months, 1, 12, $arrDT[3])) {
-                            if ($this->recedeItem($this->_years, $this->RANGE_YEARS_MIN, $this->RANGE_YEARS_MAX, $arrDT[4])) {
-                                return false;
-                            }
-                        }
-                    }
-                }
-            }
-            break;
-        }
-
-        // If Datetime now points to a day that is schedule then return.
-        $dayOfWeek = date('w', strtotime($this->dtAsString($arrDT)));
-        if (array_key_exists($dayOfWeek, $this->_daysOfWeek)) {
-            return $arrDT;
-        }
-
-        // Otherwise move to next scheduled date
-        return $this->previous($arrDT);
-    }
-
-    /**
      * @param bool $time
      * @return bool|string
      */
@@ -556,66 +420,6 @@ class Human
     public function previousAsTime($time = false)
     {
         return strtotime($this->dtAsString($this->previous($time)));
-    }
-
-    /**
-     * @param $arrItems
-     * @param $rangeMin
-     * @param $rangeMax
-     * @param $current
-     * @return bool
-     */
-    private function recedeItem($arrItems, $rangeMin, $rangeMax, & $current)
-    {
-        // Recede pointer
-        $current--;
-
-        // If still above highest, move to highest
-        if ($current > $rangeMax) {
-            $current = $this->getLatestItem($arrItems, $rangeMax + 1);
-        }
-
-        // Parse items until found or overflow
-        for (; $current >= $rangeMin; $current--) {
-            if (array_key_exists($current, $arrItems)) {
-                return false; // We did not overflow
-            }
-        }
-
-        // Or overflow
-        $current = $this->getLatestItem($arrItems, $rangeMax + 1);
-        return true;
-    }
-
-    /**
-     * @param $arrItems
-     * @param bool $beforeItem
-     * @param bool $allowOverflow
-     * @return bool|int|null|string
-     */
-    private function getLatestItem($arrItems, $beforeItem = false, $allowOverflow = true)
-    {
-        // If no filter is specified, return the latestlisted item.
-        if ($beforeItem === false) {
-            end($arrItems);
-            return key($arrItems);
-        }
-
-        // Or parse until we passed $beforeItem
-        end($arrItems);
-        do {
-            if (($key = key($arrItems)) < $beforeItem) {
-                return $key;
-            }
-        } while (prev($arrItems));
-
-        // If still nothing found, we may have exhausted our options.
-        if (!$allowOverflow) {
-            return false;
-        }
-
-        end($arrItems);
-        return key($arrItems);
     }
 
     /**

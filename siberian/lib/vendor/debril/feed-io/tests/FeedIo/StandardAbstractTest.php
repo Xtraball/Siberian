@@ -12,7 +12,9 @@ namespace FeedIo;
 
 use FeedIo\Rule\DateTimeBuilder;
 
-class StandardAbstractTest extends \PHPUnit_Framework_TestCase
+use \PHPUnit\Framework\TestCase;
+
+class StandardAbstractTest extends TestCase
 {
 
     /**
@@ -20,7 +22,7 @@ class StandardAbstractTest extends \PHPUnit_Framework_TestCase
      */
     protected $object;
 
-    public function setUp()
+    public function setUp(): void
     {
         $date = new DateTimeBuilder();
         $date->addDateFormat(\DateTime::ATOM);
@@ -36,12 +38,12 @@ class StandardAbstractTest extends \PHPUnit_Framework_TestCase
 
     public function testGetItemNodeName()
     {
-        $this->assertInternalType('string', $this->object->getItemNodeName());
+        $this->assertIsString($this->object->getItemNodeName());
     }
 
     public function testGetMandatoryFields()
     {
-        $this->assertInternalType('array', $this->object->getMandatoryFields());
+        $this->assertIsArray($this->object->getMandatoryFields());
     }
 
     public function testGetFeedRuleSet()

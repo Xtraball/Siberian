@@ -19,7 +19,7 @@
  under the License.
 */
 ;(function() {
-var PLATFORM_VERSION_BUILD_LABEL = '14.0.1';
+var PLATFORM_VERSION_BUILD_LABEL = '15.1.0';
 // file: src/scripts/require.js
 var require;
 var define;
@@ -330,7 +330,7 @@ module.exports = cordova;
 
 });
 
-// file: ../../platforms/Android/cordova-js-src/android/nativeapiprovider.js
+// file: ../../cordova-js-src/android/nativeapiprovider.js
 define("cordova/android/nativeapiprovider", function(require, exports, module) {
 
 /**
@@ -353,7 +353,7 @@ module.exports = {
 
 });
 
-// file: ../../platforms/Android/cordova-js-src/android/promptbasednativeapi.js
+// file: ../../cordova-js-src/android/promptbasednativeapi.js
 define("cordova/android/promptbasednativeapi", function(require, exports, module) {
 
 /**
@@ -911,7 +911,7 @@ module.exports = channel;
 
 });
 
-// file: ../../platforms/Android/cordova-js-src/exec.js
+// file: ../../cordova-js-src/exec.js
 define("cordova/exec", function(require, exports, module) {
 
 /**
@@ -986,7 +986,7 @@ function androidExec (success, fail, service, action, args) {
     var callbackId = service + cordova.callbackId++;
     var argsJson = JSON.stringify(args);
     if (success || fail) {
-        cordova.callbacks[callbackId] = { success: success, fail: fail };
+        cordova.callbacks[callbackId] = { success, fail };
     }
 
     var msgs = nativeApiProvider.get().exec(bridgeSecret, service, action, callbackId, argsJson);
@@ -1025,6 +1025,8 @@ function pollOnce (opt_fromOnlineEvent) {
         processMessages();
     }
 }
+
+androidExec.pollOnce = pollOnce;
 
 function pollingTimerFunc () {
     if (pollEnabled) {
@@ -1406,7 +1408,7 @@ exports.reset();
 
 });
 
-// file: ../../platforms/Android/cordova-js-src/platform.js
+// file: ../../cordova-js-src/platform.js
 define("cordova/platform", function(require, exports, module) {
 
 // The last resume event that was received that had the result of a plugin call.
@@ -1428,6 +1430,10 @@ module.exports = {
 
         // Core Splash Screen
         modulemapper.clobbers('cordova/plugin/android/splashscreen', 'navigator.splashscreen');
+
+        // Attach the internal statusBar utility to window.statusbar
+        // see the file under plugin/android/statusbar.js
+        modulemapper.clobbers('cordova/plugin/android/statusbar', 'window.statusbar');
 
         var APP_PLUGIN_NAME = Number(cordova.platformVersion.split('.')[0]) >= 4 ? 'CoreAndroid' : 'App';
 
@@ -1516,7 +1522,7 @@ function onMessageFromNative (msg) {
 
 });
 
-// file: ../../platforms/Android/cordova-js-src/plugin/android/app.js
+// file: ../../cordova-js-src/plugin/android/app.js
 define("cordova/plugin/android/app", function(require, exports, module) {
 
 var exec = require('cordova/exec');
@@ -1609,7 +1615,7 @@ module.exports = {
 
 });
 
-// file: ../../platforms/Android/cordova-js-src/plugin/android/splashscreen.js
+// file: ../../cordova-js-src/plugin/android/splashscreen.js
 define("cordova/plugin/android/splashscreen", function(require, exports, module) {
 
 var exec = require('cordova/exec');
@@ -1624,6 +1630,99 @@ var splashscreen = {
 };
 
 module.exports = splashscreen;
+
+});
+
+// file: ../../cordova-js-src/plugin/android/statusbar.js
+define("cordova/plugin/android/statusbar", function(require, exports, module) {
+
+var exec = require('cordova/exec');
+
+var statusBarVisible = true;
+var statusBar = {};
+
+// This <script> element is explicitly used by Cordova's statusbar for computing color. (Do not use this element)
+const statusBarScript = document.createElement('script');
+document.head.appendChild(statusBarScript);
+
+/**
+ * Sets the visibility of the status bar, which will only work if Android EdgeToEdge is disabled.
+ * If cordova-plugin-statusbar is used, the call will be forwarded to `window.StatusBar.show` or
+ * `window.StatusBar.hide` of the plugin.
+ */
+Object.defineProperty(statusBar, 'visible', {
+    configurable: false,
+    enumerable: true,
+    get: function () {
+        if (window.StatusBar) {
+            // try to let the StatusBar plugin handle it
+            return window.StatusBar.isVisible;
+        }
+
+        return statusBarVisible;
+    },
+    set: function (value) {
+        if (window.StatusBar) {
+            // try to let the StatusBar plugin handle it
+            if (value) {
+                window.StatusBar.show();
+            } else {
+                window.StatusBar.hide();
+            }
+        } else {
+            statusBarVisible = value;
+            exec(null, null, 'SystemBarPlugin', 'setStatusBarVisible', [!!value]);
+        }
+    }
+});
+
+/**
+ * Sets the background color of the visible status bar.
+ * Supports valid CSS color values, e.g. `rebeccapurple`, `#RRGGBBAA`, `rgb(255 0 153)`.
+ *
+ * If cordova-plugin-statusbar is installed, calls are forwarded to the plugin API:
+ * `window.StatusBar.backgroundColorByHexString`
+ * See {@link https://s.apache.org/cdv-plugin-statusbar} for cordova-plugin-statusbar details.
+ */
+Object.defineProperty(statusBar, 'setBackgroundColor', {
+    configurable: false,
+    enumerable: false,
+    writable: false,
+    value: function (value) {
+        statusBarScript.style.color = value;
+        var rgbStr = window.getComputedStyle(statusBarScript).getPropertyValue('color');
+
+        if (!rgbStr.match(/^rgb/)) {
+            return;
+        }
+
+        var rgbVals = rgbStr.match(/[\d.]+/g).map(function (v, i) { return (i < 3) ? parseInt(v, 10) : parseFloat(v); });
+        if (rgbVals.length < 3) {
+            return;
+        }
+
+        if (window.StatusBar) {
+            // try to let the StatusBar plugin handle it
+            // TODO: Use `padStart(2, '0')` once SDK 24 is dropped.
+            const padRgb = (val) => {
+                const hex = val.toString(16);
+                return hex.length === 1 ? '0' + hex : hex;
+            };
+
+            const r = padRgb(rgbVals[0]);
+            const g = padRgb(rgbVals[1]);
+            const b = padRgb(rgbVals[2]);
+            const a = padRgb(255 * (rgbVals[3] !== undefined ? rgbVals[3] : 1.0));
+
+            const hexStr = '#' + a + r + g + b;
+            window.StatusBar.backgroundColorByHexString(hexStr);
+        } else {
+            exec(null, null, 'SystemBarPlugin', 'setStatusBarBackgroundColor', rgbVals);
+        }
+    }
+});
+
+module.exports = statusBar;
 
 });
 

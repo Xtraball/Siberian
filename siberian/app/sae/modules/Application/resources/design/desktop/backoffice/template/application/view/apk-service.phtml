@@ -49,7 +49,7 @@
             <div class="col-md-12 form-group">
                 <label ng-if="showApkServiceMessage.length"
                        class="control-label"><?php echo __('Service notes'); ?></label>
-                <div ng-repeat="message in showApkServiceMessage"
+                <div ng-repeat="message in showApkServiceMessage track by $index"
                      ng-class="message.colors">
                     <b>{{ message.title }}</b>
                     <br/>

@@ -270,16 +270,16 @@ class Zend_Session extends Zend_Session_Abstract
             return;
         }
 
-        $result = session_set_save_handler(
-            array(&$saveHandler, 'open'),
-            array(&$saveHandler, 'close'),
-            array(&$saveHandler, 'read'),
-            array(&$saveHandler, 'write'),
-            array(&$saveHandler, 'destroy'),
-            array(&$saveHandler, 'gc')
-        );
+        // PHP refuses to change the handler of a session that is already active (with a warning, and the session
+        // goes on with the handler it has): remember the handler for getSaveHandler() and leave PHP alone.
+        if (session_status() === PHP_SESSION_ACTIVE) {
+            return;
+        }
 
-        if (!$result && (session_status() !== PHP_SESSION_ACTIVE)) {
+        // An object, not six callbacks: session_set_save_handler() with callbacks is deprecated since PHP 8.4.
+        $result = session_set_save_handler(new Zend_Session_SaveHandler_Adapter($saveHandler));
+
+        if (!$result) {
             throw new Zend_Session_Exception('Unable to set session handler');
         }
     }

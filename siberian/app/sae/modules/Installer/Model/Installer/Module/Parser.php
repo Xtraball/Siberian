@@ -33,11 +33,6 @@ class Installer_Model_Installer_Module_Parser extends Core_Model_Default
     protected $_files;
 
     /**
-     * @var
-     */
-    protected $__ftp;
-
-    /**
      * @var array
      */
     protected $_files_to_delete = [];
@@ -104,7 +99,7 @@ class Installer_Model_Installer_Module_Parser extends Core_Model_Default
             $sanitizedTmpFile = str_replace(['|', "'", '`'], '', $this->_tmp_file);
 
             # Extract to TMP Directory
-            exec("unzip '{$sanitizedTmpFile}' -d '{$this->_tmp_directory}' 2>&1", $output);
+            exec('unzip ' . escapeshellarg($this->_tmp_file) . ' -d ' . escapeshellarg($this->_tmp_directory) . ' 2>&1', $output);
 
 
             if (count(glob($this->_tmp_directory . "/*")) <= 0) {
@@ -562,11 +557,7 @@ class Installer_Model_Installer_Module_Parser extends Core_Model_Default
             $info = pathinfo($file['destination']);
             if (!is_dir($info['dirname'])) {
                 if (!mkdir($info['dirname'], 0775, true)) {
-                    if ($this->__getFtp()) {
-                        if (!$this->__getFtp()->createDirectory($file)) {
-                            $errors[] = $info['dirname'];
-                        }
-                    }
+                    $errors[] = $info['dirname'];
                 }
             }
         }
@@ -599,38 +590,11 @@ class Installer_Model_Installer_Module_Parser extends Core_Model_Default
             }
 
             if (!$isCopied) {
-                $src = $file['source'];
-                $dst = str_replace(path(""), "", $file['destination']);
-                if ($this->__getFtp()) {
-                    $this->__getFtp()->addFile($src, $dst);
-                }
+                // Same outcome as before the FTP fallback was removed (the copy goes on), but no longer silent.
+                log_warn('[installer] unable to write ' . $file['destination']);
             }
-        }
-
-        if ($this->__getFtp()) {
-            $this->__getFtp()->send();
         }
 
         return true;
-    }
-
-    /**
-     * @return Siberian_Ftp
-     */
-    private function __getFtp()
-    {
-
-        if (!$this->__ftp) {
-            $host = System_Model_Config::getValueFor("ftp_host");
-            if ($host) {
-                $user = System_Model_Config::getValueFor("ftp_username");
-                $password = System_Model_Config::getValueFor("ftp_password");
-                $port = System_Model_Config::getValueFor("ftp_port");
-                $path = System_Model_Config::getValueFor("ftp_path");
-                $this->__ftp = new Siberian_Ftp($host, $user, $password, $port, $path);
-            }
-        }
-
-        return $this->__ftp;
     }
 }

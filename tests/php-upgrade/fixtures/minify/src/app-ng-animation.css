@@ -1,0 +1,172 @@
+/* ------------------------------------------- */
+/* Slide Top
+/* ------------------------------------------- */
+/* line 109, ../sass/ng-animation.scss */
+.slide-top {
+    -webkit-transition: all 0 cubic-bezier(0.25, 0.46, 0.45, 0.94);
+    -moz-transition: all 0 cubic-bezier(0.25, 0.46, 0.45, 0.94);
+    -ms-transition: all 0 cubic-bezier(0.25, 0.46, 0.45, 0.94);
+    -o-transition: all 0 cubic-bezier(0.25, 0.46, 0.45, 0.94);
+    transition: all 0 cubic-bezier(0.25, 0.46, 0.45, 0.94);
+    /* easeOutQuad */
+    -webkit-transition-timing-function: cubic-bezier(0.25, 0.46, 0.45, 0.94);
+    -moz-transition-timing-function: cubic-bezier(0.25, 0.46, 0.45, 0.94);
+    -ms-transition-timing-function: cubic-bezier(0.25, 0.46, 0.45, 0.94);
+    -o-transition-timing-function: cubic-bezier(0.25, 0.46, 0.45, 0.94);
+    transition-timing-function: cubic-bezier(0.25, 0.46, 0.45, 0.94);
+    /* easeOutQuad */
+}
+/* line 111, ../sass/ng-animation.scss */
+.slide-top.ng-enter {
+    transform: translateY(60px);
+    -ms-transform: translateY(60px);
+    -webkit-transform: translateY(60px);
+    transition-duration: 250ms;
+    -webkit-transition-duration: 250ms;
+    opacity: 0;
+}
+/* line 117, ../sass/ng-animation.scss */
+.slide-top.ng-enter-active {
+    transform: translateY(0);
+    -ms-transform: translateY(0);
+    -webkit-transform: translateY(0);
+    opacity: 1;
+}
+/* line 122, ../sass/ng-animation.scss */
+.slide-top.ng-leave {
+    transform: translateY(0);
+    -ms-transform: translateY(0);
+    -webkit-transform: translateY(0);
+    transition-duration: 250ms;
+    -webkit-transition-duration: 250ms;
+    opacity: 1;
+}
+/* line 128, ../sass/ng-animation.scss */
+.slide-top.ng-leave-active {
+    transform: translateY(60px);
+    -ms-transform: translateY(60px);
+    -webkit-transform: translateY(60px);
+    opacity: 0;
+}
+/* line 134, ../sass/ng-animation.scss */
+.slide-top.ng-hide-add {
+    transform: translateY(0);
+    -ms-transform: translateY(0);
+    -webkit-transform: translateY(0);
+    transition-duration: 250ms;
+    -webkit-transition-duration: 250ms;
+    opacity: 1;
+}
+/* line 139, ../sass/ng-animation.scss */
+.slide-top.ng-hide-add.ng-hide-add-active {
+    transform: translateY(100%);
+    -ms-transform: translateY(100%);
+    -webkit-transform: translateY(100%);
+    opacity: 0;
+}
+/* line 145, ../sass/ng-animation.scss */
+.slide-top.ng-hide-remove {
+    transform: translateY(100%);
+    -ms-transform: translateY(100%);
+    -webkit-transform: translateY(100%);
+    transition-duration: 250ms;
+    -webkit-transition-duration: 250ms;
+    display: block !important;
+    opacity: 0;
+}
+/* line 151, ../sass/ng-animation.scss */
+.slide-top.ng-hide-remove.ng-hide-remove-active {
+    transform: translateY(0);
+    -ms-transform: translateY(0);
+    -webkit-transform: translateY(0);
+    opacity: 1;
+}
+
+
+/* ------------------------------------------- */
+/* Rotate In
+/* ------------------------------------------- */
+/* line 817, ../sass/ng-animation.scss */
+.rotate-in {
+    -webkit-transition: all 0 cubic-bezier(0.175, 0.885, 0.32, 1);
+    /* older webkit */
+    -webkit-transition: all 0 cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    -moz-transition: all 0 cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    -ms-transition: all 0 cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    -o-transition: all 0 cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    transition: all 0 cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    /* easeOutBack */
+    -webkit-transition-timing-function: cubic-bezier(0.175, 0.885, 0.45, 1);
+    /* older webkit */
+    -webkit-transition-timing-function: cubic-bezier(0.175, 0.885, 0.45, 1.595);
+    -moz-transition-timing-function: cubic-bezier(0.175, 0.885, 0.45, 1.595);
+    -ms-transition-timing-function: cubic-bezier(0.175, 0.885, 0.45, 1.595);
+    -o-transition-timing-function: cubic-bezier(0.175, 0.885, 0.45, 1.595);
+    transition-timing-function: cubic-bezier(0.175, 0.885, 0.45, 1.595);
+    /* custom */
+}
+/* line 820, ../sass/ng-animation.scss */
+.rotate-in.ng-enter {
+    transform: perspective(300px) rotateY(40deg);
+    -ms-transform: perspective(300px) rotateY(40deg);
+    -webkit-transform: perspective(300px) rotateY(40deg);
+    transition-duration: 550ms;
+    -webkit-transition-duration: 550ms;
+    opacity: 0.7;
+}
+/* line 826, ../sass/ng-animation.scss */
+.rotate-in.ng-enter-active {
+    transform: perspective(300px) rotateY(0deg);
+    -ms-transform: perspective(300px) rotateY(0deg);
+    -webkit-transform: perspective(300px) rotateY(0deg);
+    opacity: 1;
+}
+/* line 831, ../sass/ng-animation.scss */
+.rotate-in.ng-leave {
+    transform: perspective(300px) rotateY(0deg);
+    -ms-transform: perspective(300px) rotateY(0deg);
+    -webkit-transform: perspective(300px) rotateY(0deg);
+    transition-duration: 550ms;
+    -webkit-transition-duration: 550ms;
+    opacity: 1;
+}
+/* line 837, ../sass/ng-animation.scss */
+.rotate-in.ng-leave-active {
+    transform: perspective(300px) rotateY(-40deg);
+    -ms-transform: perspective(300px) rotateY(-40deg);
+    -webkit-transform: perspective(300px) rotateY(-40deg);
+    opacity: 0.7;
+}
+/* line 843, ../sass/ng-animation.scss */
+.rotate-in.ng-hide-add {
+    transform: perspective(300px) rotateY(0deg);
+    -ms-transform: perspective(300px) rotateY(0deg);
+    -webkit-transform: perspective(300px) rotateY(0deg);
+    transition-duration: 550ms;
+    -webkit-transition-duration: 550ms;
+    opacity: 1;
+}
+/* line 848, ../sass/ng-animation.scss */
+.rotate-in.ng-hide-add.ng-hide-add-active {
+    transform: perspective(300px) rotateY(-40deg);
+    -ms-transform: perspective(300px) rotateY(-40deg);
+    -webkit-transform: perspective(300px) rotateY(-40deg);
+    opacity: 0;
+}
+/* line 854, ../sass/ng-animation.scss */
+.rotate-in.ng-hide-remove {
+    transform: perspective(300px) rotateY(40deg);
+    -ms-transform: perspective(300px) rotateY(40deg);
+    -webkit-transform: perspective(300px) rotateY(40deg);
+    transition-duration: 550ms;
+    -webkit-transition-duration: 550ms;
+    display: block !important;
+    opacity: 0;
+}
+/* line 860, ../sass/ng-animation.scss */
+.rotate-in.ng-hide-remove.ng-hide-remove-active {
+    transform: perspective(300px) rotateY(0deg);
+    -ms-transform: perspective(300px) rotateY(0deg);
+    -webkit-transform: perspective(300px) rotateY(0deg);
+    opacity: 1;
+}

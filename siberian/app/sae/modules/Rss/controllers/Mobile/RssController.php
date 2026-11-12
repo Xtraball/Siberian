@@ -28,9 +28,9 @@ class Rss_Mobile_RssController extends Application_Controller_Mobile_Default
     {
         try {
             $request = $this->getRequest();
-            $valueId = $request->getParam("value_id", null);
+            $valueId = \Siberian\Input::int($request->getParam("value_id"), 0, 0);
             $optionValue = $this->getCurrentOptionValue();
-            $refresh = filter_var($request->getParam("refresh", false), FILTER_VALIDATE_BOOLEAN);
+            $refresh = \Siberian\Input::bool($request->getParam("refresh", false));
 
             if (!$optionValue->getId()) {
                 throw new Exception(p__("rss", "This feature doesn't exists."));
@@ -38,8 +38,8 @@ class Rss_Mobile_RssController extends Application_Controller_Mobile_Default
 
             try {
                 $settings = Json::decode($optionValue->getSettings());
-                $settings["displayThumbnail"] = (boolean) filter_var($settings["displayThumbnail"], FILTER_VALIDATE_BOOLEAN);
-                $settings["displayCover"] = (boolean) filter_var($settings["displayCover"], FILTER_VALIDATE_BOOLEAN);
+                $settings["displayThumbnail"] = (bool) filter_var($settings["displayThumbnail"], FILTER_VALIDATE_BOOLEAN);
+                $settings["displayCover"] = (bool) filter_var($settings["displayCover"], FILTER_VALIDATE_BOOLEAN);
             } catch (\Exception $e) {
                 // Do nothing!
                 $settings = [];
@@ -96,7 +96,7 @@ class Rss_Mobile_RssController extends Application_Controller_Mobile_Default
                         }
 
                         $collection[]= [
-                            "id" => (integer) $feed->getId(),
+                            "id" => (int) $feed->getId(),
                             "title" => (string) $title,
                             "subtitle" => (string) $subtitle,
                             "thumbnail" => (string) $thumbnail,
@@ -149,14 +149,14 @@ class Rss_Mobile_RssController extends Application_Controller_Mobile_Default
     {
         try {
             $request = $this->getRequest();
-            $valueId = $request->getParam("value_id", null);
+            $valueId = \Siberian\Input::int($request->getParam("value_id"), 0, 0);
             $optionValue = $this->getCurrentOptionValue();
-            $refresh = filter_var($request->getParam("refresh", false), FILTER_VALIDATE_BOOLEAN);
+            $refresh = \Siberian\Input::bool($request->getParam("refresh", false));
 
             try {
                 $settings = Json::decode($optionValue->getSettings());
-                $settings["displayThumbnail"] = (boolean) filter_var($settings["displayThumbnail"], FILTER_VALIDATE_BOOLEAN);
-                $settings["displayCover"] = (boolean) filter_var($settings["displayCover"], FILTER_VALIDATE_BOOLEAN);
+                $settings["displayThumbnail"] = (bool) filter_var($settings["displayThumbnail"], FILTER_VALIDATE_BOOLEAN);
+                $settings["displayCover"] = (bool) filter_var($settings["displayCover"], FILTER_VALIDATE_BOOLEAN);
             } catch (\Exception $e) {
                 // Do nothing!
                 $settings = [];
@@ -274,12 +274,12 @@ class Rss_Mobile_RssController extends Application_Controller_Mobile_Default
             $request = $this->getRequest();
             $feedId = $request->getParam("feedId", null);
             $optionValue = $this->getCurrentOptionValue();
-            $refresh = filter_var($request->getParam("refresh", false), FILTER_VALIDATE_BOOLEAN);
+            $refresh = \Siberian\Input::bool($request->getParam("refresh", false));
 
             try {
                 $settings = Json::decode($optionValue->getSettings());
-                $settings["displayThumbnail"] = (boolean) filter_var($settings["displayThumbnail"], FILTER_VALIDATE_BOOLEAN);
-                $settings["displayCover"] = (boolean) filter_var($settings["displayCover"], FILTER_VALIDATE_BOOLEAN);
+                $settings["displayThumbnail"] = (bool) filter_var($settings["displayThumbnail"], FILTER_VALIDATE_BOOLEAN);
+                $settings["displayCover"] = (bool) filter_var($settings["displayCover"], FILTER_VALIDATE_BOOLEAN);
             } catch (\Exception $e) {
                 // Do nothing!
                 $settings = [];

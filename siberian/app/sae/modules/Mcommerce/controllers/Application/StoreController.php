@@ -10,7 +10,7 @@ class Mcommerce_Application_StoreController extends Application_Controller_Defau
 
         $store = new Mcommerce_Model_Store();
         $mcommerce = $this->getCurrentOptionValue()->getObject();
-        if ($id = $this->getRequest()->getParam('store_id')) {
+        if ($id = \Siberian\Input::int($this->getRequest()->getParam('store_id'), 0, 0)) {
             $store->find($id);
             if ($store->getId() AND $mcommerce->getId() != $store->getMcommerceId()) {
                 throw new Exception(__('An error occurred during the process. Please try again later.'));
@@ -123,7 +123,7 @@ class Mcommerce_Application_StoreController extends Application_Controller_Defau
         $store = new Mcommerce_Model_Store();
 
         try {
-            if($id = $this->getRequest()->getParam('store_id')) {
+            if($id = \Siberian\Input::int($this->getRequest()->getParam('store_id'), 0, 0)) {
 
                 $mcommerce = $this->getCurrentOptionValue()->getObject();
                 $store->find($id);

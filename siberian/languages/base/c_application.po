@@ -534,3 +534,81 @@ msgstr "Disable location service & permissions."
 msgctxt "application"
 msgid "Please note that if you are using a feature that requires location services & disable it here, these features will not work correctly."
 msgstr "Please note that if you are using a feature that requires location services & disable it here, these features will not work correctly."
+
+# GMT 1793300000.0001
+msgctxt "application"
+msgid "Show / hide the password"
+msgstr "Show / hide the password"
+
+# GMT 1793400000.0001
+msgctxt "application"
+msgid "Google Play App Signing"
+msgstr "Google Play App Signing"
+
+# GMT 1793400000.0002
+msgctxt "application"
+msgid "Enable it if your app uses Play App Signing: Google keeps the app signing key, and the keystore of this app is only the upload key you sign your bundles with."
+msgstr "Enable it if your app uses Play App Signing: Google keeps the app signing key, and the keystore of this app is only the upload key you sign your bundles with."
+
+# GMT 1793400000.0003
+msgctxt "application"
+msgid "How Play App Signing works"
+msgstr "How Play App Signing works"
+
+# GMT 1793400000.0004
+msgctxt "application"
+msgid "Google Play App Signing: the current keystore will be kept as a backup and a new upload key will be generated at the next build. Its certificate must be registered in the Play Console (upload key reset). Are you sure?"
+msgstr "Google Play App Signing: the current keystore will be kept as a backup and a new upload key will be generated at the next build. Its certificate must be registered in the Play Console (upload key reset). Are you sure?"
+
+# GMT 1793400000.0005
+msgctxt "application"
+msgid "Please confirm to save."
+msgstr "Please confirm to save."
+
+# GMT 1793400000.0006
+msgctxt "application"
+msgid "The previous keystore was kept as %s"
+msgstr "The previous keystore was kept as %s"
+
+# GMT 1793400000.00065
+msgctxt "application"
+msgid "Its alias is %s, its store password %s and its key password %s."
+msgstr "Its alias is %s, its store password %s and its key password %s."
+
+# GMT 1793400000.0007
+msgctxt "application"
+msgid "Unknown application."
+msgstr "Unknown application."
+
+# GMT 1793400000.0008
+msgctxt "application"
+msgid "The keystore cannot be saved."
+msgstr "The keystore cannot be saved."
+
+# GMT 1793400000.0009
+msgctxt "application"
+msgid "The keystore has been replaced."
+msgstr "The keystore has been replaced."
+
+# GMT 1793400000.0010
+msgctxt "application"
+msgid "You are about to downgrade the version, after that you may not be able to update your Android application, please confirm if you are sure!"
+msgstr "You are about to downgrade the version, after that you may not be able to update your Android application, please confirm if you are sure!"
+
+msgctxt "application"
+msgid "Preview"
+msgstr "Preview"
+
+
+# GMT 1793400100.0010
+msgctxt "application"
+msgid "Android: draw the app behind the system bars (edge-to-edge)"
+msgstr "Android: draw the app behind the system bars (edge-to-edge)"
+
+msgctxt "application"
+msgid "The header and the tab bar extend under the Android status and navigation bars, like on iOS. Requires you to republish your Android application."
+msgstr "The header and the tab bar extend under the Android status and navigation bars, like on iOS. Requires you to republish your Android application."
+
+msgctxt "application"
+msgid "Something went wrong on our side, please try again in a moment."
+msgstr "Something went wrong on our side, please try again in a moment."

@@ -90,11 +90,11 @@ class Acl_Backoffice_Role_ListController extends Backoffice_Controller_Default
         }
 
         $roleData = [
-            'id' => (integer) $role->getId(),
+            'id' => (int) $role->getId(),
             'code' => (string) $role->getCode(),
             'label' => (string) $role->getLabel(),
-            'is_self_assignable' => (boolean) $role->getIsSelfAssignable(),
-            'default' => (boolean) $isDefaultRole
+            'is_self_assignable' => (bool) $role->getIsSelfAssignable(),
+            'default' => (bool) $isDefaultRole
         ];
 
         return $roleData;

@@ -420,6 +420,127 @@ label.error {
     padding-bottom: 4px;
 }
 
+.backoffice_menu_toggle {
+    display: none;
+    flex: 0 0 auto;
+    width: 40px;
+    height: 32px;
+    margin: 0 8px 0 0;
+    padding: 0;
+    border: 0;
+    background: transparent;
+    color: white;
+    font-size: 18px;
+    line-height: 32px;
+    cursor: pointer;
+}
+
+/* Below 1280px the menus do not fit next to the logo and the user menu: they fold under the toggle button.
+   The #backoffice_menu id wins over the theme stylesheets, which load after this one. */
+@media (max-width: 1279px) {
+    .top .content {
+        display: flex;
+        align-items: center;
+    }
+
+    .top .content .clear {
+        display: none;
+    }
+
+    .top .content .logo {
+        float: none;
+        flex: 0 0 auto;
+    }
+
+    .top .content .backoffice_menu_toggle {
+        display: block;
+        height: var(--sb-header-height, 32px);
+        line-height: var(--sb-header-height, 32px);
+    }
+
+    .top .content .backoffice_user {
+        float: none;
+        margin-left: auto;
+        order: 2;
+    }
+
+    /* the language menu comes after the user menu in the markup (it floats right above 1280px) */
+    .top .content .backoffice_user.has_language {
+        margin-left: 0;
+    }
+
+    .top .content .backoffice_language {
+        order: 1;
+        margin-left: auto;
+    }
+
+    .top #backoffice_menu {
+        display: none;
+        position: absolute;
+        top: 100%;
+        left: 0;
+        right: 0;
+        float: none;
+        flex: none;
+        margin: 0;
+        max-height: calc(100vh - var(--sb-header-height, 32px));
+        overflow-y: auto;
+        background-color: inherit;
+        box-shadow: 0 6px 12px rgba(0, 0, 0, .15);
+        z-index: 3;
+    }
+
+    .top #backoffice_menu.open {
+        display: block;
+    }
+
+    .top #backoffice_menu ul.l1 {
+        height: auto;
+    }
+
+    .top #backoffice_menu ul.l1 li {
+        float: none;
+        text-align: left;
+    }
+
+    .top #backoffice_menu ul.l1 li a {
+        height: auto;
+        margin: 0;
+        padding: 10px 16px;
+        line-height: 20px;
+        border-radius: 0;
+    }
+
+    .top #backoffice_menu ul.l1 li ul.l2,
+    .top #backoffice_menu ul.l1 li ul.l2 li ul.l3 {
+        position: static;
+        width: auto;
+        left: auto;
+        top: auto;
+        opacity: 1;
+        visibility: visible;
+        background: transparent;
+        border: 0;
+        border-radius: 0;
+        box-shadow: none;
+        transition: none;
+    }
+
+    .top #backoffice_menu ul.l1 li ul.l2 li a {
+        padding-left: 40px;
+    }
+
+    .top #backoffice_menu ul.l1 li ul.l2 li ul.l3 li a {
+        padding-left: 64px;
+    }
+}
+
+@media (max-width: 575px) {
+    .top .content .backoffice_user_name {
+        display: none;
+    }
+}
+
 /** /MENU **/
 
 /** LIST **/
@@ -638,9 +759,11 @@ a.link, button.as-link {
 
 .top .content {
     position: relative;
-    width: 99%;
-    min-width: 1250px;
+    width: 100%;
+    min-width: 0;
     height: 32px;
+    padding: 0 16px;
+    box-sizing: border-box;
     margin: 0 auto auto;
     background-color: #404040;
     z-index: 2;
@@ -674,6 +797,17 @@ a.link, button.as-link {
 
 .top div.message.error p {
     background: #C41313;
+    color: white;
+}
+
+.top div.message p i.fa {
+    margin-right: 10px;
+    font-size: 18px;
+    vertical-align: -2px;
+}
+
+.top div.message.message-warning p {
+    background: #d98200;
     color: white;
 }
 
@@ -1098,6 +1232,11 @@ tr.color-stuck {
     font-weight: bold;
 }
 
+.cron-compat {
+    margin: 4px 0;
+    white-space: normal;
+}
+
 .service-red {
     color: #ef3831;
     font-weight: bold;
@@ -1110,6 +1249,11 @@ tr.color-stuck {
 
 table.dashboard tr:first-of-type td {
     border-top: 0;
+}
+
+/* the no-wrap rule gives cells overflow:auto, which draws a tiny scrollbar under each icon of the dashboard lists */
+table.table.no-wrap.dashboard td {
+    overflow: visible;
 }
 
 table.sub-table {
@@ -1151,6 +1295,384 @@ table.sub-table tr.no-border-bottom td {
 #cron-help .modal-title {
     font-size: 18px;
     font-weight: bold;
+}
+
+/** SERVICES **/
+.svc-strip {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    padding: 14px 20px 16px;
+}
+
+.svc-line {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 8px;
+}
+
+.svc-chip {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    padding: 5px 12px;
+    border: 1px solid #dcdcdc;
+    border-radius: 16px;
+    background: #fff;
+    color: #404040;
+    font-size: 13px;
+    line-height: 18px;
+    cursor: pointer;
+}
+
+.svc-chip b {
+    font-weight: 600;
+}
+
+.svc-chip span {
+    color: #707070;
+}
+
+.svc-chip:hover,
+.svc-chip:focus {
+    border-color: #b4b2a9;
+    outline: 0;
+}
+
+.svc-chip i.dot {
+    margin-right: 0;
+}
+
+.svc-chip-warn {
+    border-color: #efc47a;
+    background: #fdf3df;
+}
+
+.svc-chip-warn,
+.svc-chip-warn span {
+    color: #854f0b;
+}
+
+.svc-details {
+    margin-left: auto;
+}
+
+i.dot.svc-ok {
+    background: #1d9e75;
+}
+
+i.dot.svc-warn {
+    background: #ba7517;
+}
+
+i.dot.svc-down {
+    background: #d46a6a;
+}
+
+i.dot.svc-off,
+i.dot.svc-info {
+    background: #b4b2a9;
+}
+
+#services-details {
+    position: fixed;
+    top: 80px;
+    width: 600px;
+    max-width: calc(100% - 32px);
+    left: 50%;
+    margin-left: -300px;
+    z-index: 25000;
+}
+
+#services-details .modal-title {
+    font-size: 18px;
+    font-weight: bold;
+}
+
+@media (max-width: 640px) {
+    #services-details {
+        left: 16px;
+        margin-left: 0;
+    }
+}
+
+.svc-pills {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 6px;
+    margin-top: 6px;
+}
+
+.svc-pill {
+    padding: 2px 10px;
+    border: 1px solid #dcdcdc;
+    border-radius: 12px;
+    color: #404040;
+    font-size: 12px;
+}
+
+.svc-pill em {
+    color: #378add;
+    font-style: normal;
+}
+
+.svc-check {
+    color: #1d9e75;
+    margin-top: 4px;
+}
+
+.svc-error-full {
+    white-space: normal;
+    word-break: break-word;
+    max-height: 160px;
+    overflow: auto;
+}
+
+/** WEB SPACE **/
+.webspace {
+    width: 100%;
+    box-sizing: border-box;
+    padding: 16px 20px 18px;
+    border-top: 1px solid #ececec;
+}
+
+.webspace-title {
+    min-width: 64px;
+    color: #707070;
+    font-size: 13px;
+}
+
+.webspace-gauge {
+    display: inline-block;
+    width: 70px;
+    height: 4px;
+    margin-left: 6px;
+    border-radius: 2px;
+    vertical-align: middle;
+    background: #ececec;
+    overflow: hidden;
+}
+
+.webspace-gauge i {
+    display: block;
+    height: 100%;
+    background: #1d9e75;
+}
+
+.webspace-gauge.webspace-level-warn i {
+    background: #ba7517;
+}
+
+.webspace-gauge.webspace-level-danger i {
+    background: #d46a6a;
+}
+
+.webspace-head {
+    display: flex;
+    align-items: baseline;
+    flex-wrap: wrap;
+    gap: 4px 12px;
+}
+
+.webspace-total {
+    font-size: 20px;
+    font-weight: 600;
+}
+
+.webspace-of,
+.webspace-date {
+    color: #808080;
+    font-size: 12px;
+}
+
+.webspace-head .webspace-manage {
+    margin-left: auto;
+}
+
+.webspace-level-warn.webspace-total {
+    color: #854f0b;
+}
+
+.webspace-level-danger.webspace-total {
+    color: #a32d2d;
+}
+
+.webspace-bar {
+    display: flex;
+    height: 10px;
+    margin: 10px 0 8px;
+    border-radius: 5px;
+    overflow: hidden;
+    background: #ececec;
+}
+
+.webspace-bar .seg {
+    flex: 0 0 0;
+    min-width: 0;
+}
+
+.webspace-bar .seg-log,
+.webspace-bar .seg-cache,
+.webspace-bar .seg-images,
+.webspace-bar .seg-tmp {
+    min-width: 3px;
+}
+
+.webspace-bar.webspace-level-warn .seg-other {
+    background: #d9a24a;
+}
+
+.webspace-bar.webspace-level-danger .seg-other {
+    background: #d46a6a;
+}
+
+.seg-log {
+    background: #d85a30;
+}
+
+.seg-cache {
+    background: #7f77dd;
+}
+
+.seg-images {
+    background: #1d9e75;
+}
+
+.seg-tmp {
+    background: #ba7517;
+}
+
+.seg-other {
+    background: #378add;
+}
+
+.seg-none {
+    background: transparent;
+    border: 1px solid #b4b2a9;
+}
+
+.webspace-legend {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 4px 16px;
+    color: #606060;
+    font-size: 12px;
+}
+
+i.dot {
+    display: inline-block;
+    flex: 0 0 8px;
+    width: 8px;
+    height: 8px;
+    margin-right: 5px;
+    border-radius: 50%;
+}
+
+.webspace-backdrop {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 24999;
+    background: rgba(0, 0, 0, 0.35);
+}
+
+#webspace-manage {
+    position: fixed;
+    top: 80px;
+    width: 560px;
+    max-width: calc(100% - 32px);
+    left: 50%;
+    margin-left: -280px;
+    z-index: 25000;
+}
+
+@media (max-width: 600px) {
+    #webspace-manage {
+        left: 16px;
+        margin-left: 0;
+    }
+}
+
+#webspace-manage .modal-title {
+    font-size: 18px;
+    font-weight: bold;
+}
+
+.webspace-hint {
+    margin: 0 0 8px;
+    color: #606060;
+    font-size: 12px;
+}
+
+.webspace-row {
+    display: grid;
+    grid-template-columns: 12px 1fr auto;
+    column-gap: 12px;
+    align-items: start;
+    padding: 12px 0;
+    border-top: 1px solid #ececec;
+}
+
+.webspace-row > i.dot {
+    margin: 5px 0 0;
+}
+
+.webspace-row .webspace-row-text {
+    min-width: 0;
+}
+
+.webspace-row .webspace-row-text b {
+    display: block;
+    font-size: 14px;
+    font-weight: 600;
+    line-height: 1.4;
+}
+
+.webspace-row .webspace-row-text span,
+.webspace-row .webspace-row-text small {
+    display: block;
+    margin: 2px 0 0;
+    color: #707070;
+    font-size: 13px;
+    line-height: 1.5;
+}
+
+.webspace-row .webspace-row-text .svc-pills span {
+    display: inline-block;
+    margin: 0;
+    color: #404040;
+    font-size: 12px;
+}
+
+.webspace-row .webspace-row-text small span {
+    display: inline;
+    margin: 0;
+}
+
+.webspace-quota {
+    margin: 0;
+}
+
+.webspace-quota-controls {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.webspace-quota-controls .form-control {
+    width: 84px;
+    height: 24px;
+    padding: 2px 8px;
+    font-size: 12px;
+    line-height: 20px;
+}
+
+.webspace-quota-unit {
+    color: #707070;
+    font-size: 12px;
 }
 
 .development-responsive {
@@ -1488,3 +2010,217 @@ a.ui-datepicker-prev:after {
 .alert {
     padding: 6px 10px !important;
 }
+
+/* ---------- Sections with a side navigation (sb-section-nav) ---------- */
+
+.sb-section-nav {
+    display: flex;
+    align-items: flex-start;
+}
+
+.sb-section-nav-list {
+    flex: 0 0 auto;
+    min-width: 200px;
+    max-width: 320px;
+    margin: 0 20px 0 0;
+    padding: 8px;
+    list-style: none;
+    position: sticky;
+    top: 16px;
+}
+
+/* One line per item: the list is as wide as its longest label (up to max-width), longer ones are cut with an ellipsis. */
+.sb-section-nav-list > li > a {
+    display: block;
+    padding: 10px 14px;
+    cursor: pointer;
+    text-decoration: none;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+/* A page with a side navigation gets more room: the menu takes some of the width, the panes keep the rest. */
+.wrapper:has(.sb-section-nav) {
+    width: 1760px;
+}
+
+.sb-section-nav-list > li.active > a {
+    font-weight: 600;
+}
+
+.sb-section-nav-panes {
+    flex: 1 1 auto;
+    min-width: 0;
+}
+
+@media (max-width: 767px) {
+    .sb-section-nav {
+        display: block;
+    }
+
+    .sb-section-nav-list {
+        display: flex;
+        margin: 0 0 16px 0;
+        overflow-x: auto;
+        position: static;
+    }
+
+    .sb-section-nav-list {
+        max-width: none;
+    }
+}
+
+/** PASSWORD FIELD WITH AN EYE **/
+.sb-password {
+    position: relative;
+}
+
+.sb-password input.form-control {
+    padding-right: 40px;
+}
+
+.sb-password .sb-password-toggle {
+    position: absolute;
+    top: 0;
+    right: 0;
+    width: 40px;
+    height: 100%;
+    padding: 0;
+    border: 0;
+    background: transparent;
+    color: #808080;
+    cursor: pointer;
+}
+
+.sb-password .sb-password-toggle:hover,
+.sb-password .sb-password-toggle:focus {
+    color: #404040;
+    outline: 0;
+}
+
+/** TOP / USER MENU **/
+.backoffice_user {
+    position: relative;
+    float: right;
+    height: 32px;
+}
+
+.backoffice_user a.backoffice_user_toggle {
+    display: block;
+    padding: 6px 10px;
+    color: white;
+    font-size: 14px;
+    line-height: 20px;
+}
+
+.backoffice_user_avatar {
+    display: inline-block;
+    width: 20px;
+    height: 20px;
+    margin-right: 6px;
+    border-radius: 50%;
+    background-color: #1a1a1a;
+    color: white;
+    font-size: 10px;
+    line-height: 20px;
+    text-align: center;
+    vertical-align: middle;
+}
+
+.backoffice_user_name {
+    display: inline-block;
+    max-width: 180px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    vertical-align: middle;
+}
+
+.backoffice_user ul.backoffice_user_dropdown {
+    display: none;
+    position: absolute;
+    top: 32px;
+    right: 0;
+    z-index: 40;
+    min-width: 200px;
+    margin: 0;
+    padding: 0;
+    list-style: none;
+    background-color: #404040;
+}
+
+.backoffice_user:hover ul.backoffice_user_dropdown,
+.backoffice_user:focus-within ul.backoffice_user_dropdown {
+    display: block;
+}
+
+.backoffice_user.closed ul.backoffice_user_dropdown {
+    display: none;
+}
+
+.backoffice_user ul.backoffice_user_dropdown li a {
+    display: block;
+    padding: 6px 12px;
+    color: white;
+    font-size: 14px;
+    white-space: nowrap;
+}
+
+.backoffice_user ul.backoffice_user_dropdown li a i {
+    margin-right: 8px;
+}
+
+/** MODULE INSTALLER: one click-or-drop area, a prominent update button **/
+.upload_area input[type="file"].module-file-input {
+    display: none;
+}
+
+.upload_area .well.module-zone {
+    width: 100%;
+    min-height: 100px;
+    cursor: pointer;
+    text-align: center;
+    padding: 18px 12px;
+}
+
+.upload_area .well.module-zone:focus {
+    outline: 2px solid #404040;
+    outline-offset: 2px;
+}
+
+.upload_area .well.module-zone.is-sending,
+.upload_area .well.module-zone.is-checking {
+    cursor: progress;
+}
+
+.upload_area .module-zone-icon {
+    display: block;
+    font-size: 26px;
+    margin-bottom: 6px;
+}
+
+.upload_area .module-zone-file {
+    margin-top: 4px;
+    font-weight: bold;
+    word-break: break-all;
+}
+
+.upload_area .module-zone-progress {
+    margin: 8px auto 0;
+    max-width: 320px;
+    height: 8px;
+}
+
+.upload_area .well.module-zone.is-error .module-zone-icon,
+.upload_area .well.module-zone.is-license .module-zone-icon {
+    color: #C41313;
+}
+
+.upload_area .check-updates-button {
+    min-width: 220px;
+}
+
+.upload_area .check-updates-result {
+    margin-top: 10px;
+}
+/** /MODULE INSTALLER **/

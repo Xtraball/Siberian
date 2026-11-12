@@ -96,11 +96,17 @@ class Cron
                     "id" => $task->getCommand(),
                     "command" => $task->getCommand(),
                 ];
-                $this->execute($task);
+
+                // One broken job must not stop the following ones
+                try {
+                    $this->execute($task);
+                } catch (\Throwable $e) {
+                    $this->log(sprintf('[%s::ERROR]: %s', $task->getCommand(), $e->getMessage()));
+                }
             }
 
             return $actions;
-        } catch (\Exception $e) {
+        } catch (\Throwable $e) {
             if (APPLICATION_ENV === 'development') {
                 \Zend_Debug::dump($e);
             }
@@ -122,7 +128,7 @@ class Cron
                 }
                 $this->execute($task);
             }
-        } catch (Exception $e) {
+        } catch (\Throwable $e) {
             $this->log('[runTaskByCommand::ERROR]: ' . $e->getMessage());
         }
     }
@@ -139,31 +145,23 @@ class Cron
         if (!$this->isLocked($task->getId())) {
             $this->log("Executing task: " . $task->getName());
 
-            /** Non blocking tasks */
+            /**
+             * Non blocking tasks: whatever a job throws (an Error as well as an Exception, a module written for
+             * another version of PHP), it is recorded on the job and the following ones still run.
+             */
             try {
                 $command = $task->getCommand();
-                if (strpos($command, "::") !== false) {
-                    $this->log("Class method to run {$command}");
-
-                    # Split Class::method
-                    $parts = explode("::", $command);
-                    $class = $parts[0];
-                    $method = $parts[1];
-
-                    # Tests.
-                    if (method_exists($class, $method)) {
-                        $this->log("Method exists {$command}");
-                        call_user_func($command, $this, $task);
-                    }
-
-                } else {
-                    # Local method
-                    if (method_exists($this, $command)) {
-                        $this->$command($task);
-                    }
+                $callback = Cron\Callback::prepare($command, $this, $task);
+                if ($callback['call'] === null) {
+                    throw new \RuntimeException(sprintf('%s: %s', $command, $callback['message']));
                 }
 
-            } catch (Exception $e) {
+                if (strpos($command, "::") !== false) {
+                    $this->log("Class method to run {$command}");
+                }
+
+                $callback['call']();
+            } catch (\Throwable $e) {
                 $this->log($e->getMessage());
 
                 // Unlock task in case of Exception!
@@ -305,54 +303,42 @@ class Cron
      */
     public function logrotate($task)
     {
-        $log_files = new \DirectoryIterator("{$this->root_path}/var/log/");
-        foreach ($log_files as $file) {
-            $filename = $file->getFilename();
-            $pathname = $file->getPathname();
-
-            # Clean up info_* logs
-            if (strpos($filename, "info_") !== false) {
-                unlink($pathname);
+        // The names are read first: deleting from a folder while it is being read can make the reader skip entries
+        $logDirectory = "{$this->root_path}/var/log/";
+        $patterns = ['info_', 'migration_', 'error_', 'output.log', 'cron-output.log', 'cron.log'];
+        foreach (self::listFiles($logDirectory) as $filename) {
+            foreach ($patterns as $pattern) {
+                if (strpos($filename, $pattern) !== false) {
+                    unlink($logDirectory . $filename);
+                    break;
+                }
             }
-
-            # Clean up migration_* logs
-            if (strpos($filename, "migration_") !== false) {
-                unlink($pathname);
-            }
-
-            # Clean up error_* logs
-            if (strpos($filename, "error_") !== false) {
-                unlink($pathname);
-            }
-
-            # Clean up output_* logs
-            if (strpos($filename, "output.log") !== false) {
-                unlink($pathname);
-            }
-
-            # Clean up output_* logs
-            if (strpos($filename, "cron-output.log") !== false) {
-                unlink($pathname);
-            }
-
-            # Clean up output_* logs
-            if (strpos($filename, "cron.log") !== false) {
-                unlink($pathname);
-            }
-
         }
 
         # This folder is not always present +4.9.1.
-        if (is_readable("{$this->root_path}/var/log/modules/")) {
-            $module_log_files = new \DirectoryIterator("{$this->root_path}/var/log/modules/");
-            foreach ($module_log_files as $file) {
-                $pathname = $file->getPathname();
+        $moduleDirectory = "{$this->root_path}/var/log/modules/";
+        if (is_readable($moduleDirectory)) {
+            # Clean up all logs
+            foreach (self::listFiles($moduleDirectory) as $filename) {
+                unlink($moduleDirectory . $filename);
+            }
+        }
+    }
 
-                # Clean up all logs
-                unlink($pathname);
+    /**
+     * @param string $directory
+     * @return string[] the names of the files (not the folders) it holds
+     */
+    private static function listFiles($directory)
+    {
+        $files = [];
+        foreach (scandir($directory) ?: [] as $name) {
+            if (is_file($directory . $name)) {
+                $files[] = $name;
             }
         }
 
+        return $files;
     }
 
     /** NOTE: APK & Sources queues shares the same lock, as one may break the other */
@@ -368,45 +354,48 @@ class Cron
         if (!$this->isLocked("generator")) {
             $this->lock("generator");
 
-            # Generate the APK
-            $queue = \Application_Model_ApkQueue::getQueue();
-            foreach ($queue as $apk) {
-                # Keep APK Queue id
-                $apk_id = $apk->getId();
+            try {
+                # Generate the APK
+                $queue = \Application_Model_ApkQueue::getQueue();
+                foreach ($queue as $apk) {
+                    # Keep APK Queue id
+                    $apk_id = $apk->getId();
 
-                try {
-                    $this->log(sprintf("Generating App: ID[%s], Name[%s], Target[APK]", $apk->getAppId(), $apk->getName()));
-                    $apk->changeStatus("building");
+                    try {
+                        $this->log(sprintf("Generating App: ID[%s], Name[%s], Target[APK]", $apk->getAppId(), $apk->getName()));
+                        $apk->changeStatus("building");
 
-                    # Trying to clean-up old related processes
-                    exec("pkill -9 -U $(id -u) aapt; pkill -9 -U $(id -u) java");
+                        # Trying to clean-up old related processes
+                        exec("pkill -9 -U $(id -u) aapt; pkill -9 -U $(id -u) java");
 
-                    $apk->generate();
+                        $apk->generate();
 
-                    # +After generation**
-                    exec("pkill -9 -U $(id -u) aapt; pkill -9 -U $(id -u) java");
+                        # +After generation**
+                        exec("pkill -9 -U $(id -u) aapt; pkill -9 -U $(id -u) java");
 
-                    # Chmod things
-                    $baseApps = \Core_Model_Directory::getBasePathTo("/var/tmp/applications/ionic/android");
-                    exec("chmod -R 777 '{$baseApps}/*-{$apk->getAppId()}'");
+                        # Chmod things
+                        $baseApps = \Core_Model_Directory::getBasePathTo("/var/tmp/applications/ionic/android");
+                        exec("chmod -R 777 '{$baseApps}/*-{$apk->getAppId()}'");
 
-                } catch (Exception $e) {
-                    $this->log($e->getMessage());
-                    # Trying to fetch APK
-                    $refetch_apk = new \Application_Model_ApkQueue();
-                    $refetch_apk = $refetch_apk->find($apk_id);
-                    if (!$refetch_apk->getId()) {
-                        $task->saveLastError("APK Generation was cancelled during the build phase, unable to continue.");
-                    } else {
-                        $refetch_apk->changeStatus("failed");
-                        $task->saveLastError($e->getMessage());
+                    } catch (\Throwable $e) {
+                        $this->log($e->getMessage());
+                        # Trying to fetch APK
+                        $refetch_apk = new \Application_Model_ApkQueue();
+                        $refetch_apk = $refetch_apk->find($apk_id);
+                        if (!$refetch_apk->getId()) {
+                            $task->saveLastError("APK Generation was cancelled during the build phase, unable to continue.");
+                        } else {
+                            $refetch_apk->changeStatus("failed");
+                            $task->saveLastError($e->getMessage());
+                        }
                     }
+
                 }
 
+            } finally {
+                # Releasing, even when the queue itself fails: a lock left behind blocks every later build
+                $this->unlock("generator");
             }
-
-            # Releasing
-            $this->unlock("generator");
         } else {
             $this->log("Locked task: {$task->getName()} / generator, skipping...");
         }
@@ -424,34 +413,37 @@ class Cron
         if (!$this->isLocked("generator")) {
             $this->lock("generator");
 
-            # Generate the Source ZIP
-            $queue = \Application_Model_SourceQueue::getQueue();
-            foreach ($queue as $source) {
-                # Keep Source Queue id
-                $source_id = $source->getId();
+            try {
+                # Generate the Source ZIP
+                $queue = \Application_Model_SourceQueue::getQueue();
+                foreach ($queue as $source) {
+                    # Keep Source Queue id
+                    $source_id = $source->getId();
 
-                try {
-                    $this->log(sprintf("Generating App sources: ID[%s], Name[%s], Target[%s]", $source->getAppId(), $source->getName(), $source->getType()));
-                    $source->changeStatus("building");
-                    $source->generate($this);
-                } catch (Exception $e) {
-                    $this->log($e->getMessage());
+                    try {
+                        $this->log(sprintf("Generating App sources: ID[%s], Name[%s], Target[%s]", $source->getAppId(), $source->getName(), $source->getType()));
+                        $source->changeStatus("building");
+                        $source->generate($this);
+                    } catch (\Throwable $e) {
+                        $this->log($e->getMessage());
 
-                    # Trying to fetch Source
-                    $refetch_source = new \Application_Model_SourceQueue();
-                    $refetch_source = $refetch_source->find($source_id);
-                    if (!$refetch_source->getId()) {
-                        $task->saveLastError("Source Generation was cancelled during the build phase, unable to continue.");
-                    } else {
-                        $refetch_source->changeStatus("failed");
-                        $task->saveLastError($e->getMessage());
+                        # Trying to fetch Source
+                        $refetch_source = new \Application_Model_SourceQueue();
+                        $refetch_source = $refetch_source->find($source_id);
+                        if (!$refetch_source->getId()) {
+                            $task->saveLastError("Source Generation was cancelled during the build phase, unable to continue.");
+                        } else {
+                            $refetch_source->changeStatus("failed");
+                            $task->saveLastError($e->getMessage());
+                        }
                     }
+
                 }
 
+            } finally {
+                # Releasing, even when the queue itself fails: a lock left behind blocks every later build
+                $this->unlock('generator');
             }
-
-            # Releasing
-            $this->unlock('generator');
         } else {
             $this->log("Locked task: {$task->getName()} / generator, skipping...");
         }
@@ -730,7 +722,7 @@ class Cron
                     }
                 }
 
-            } catch (Exception $e) {
+            } catch (\Exception $e) {
                 $this->log($e->getMessage());
                 $task->saveLastError($e->getMessage());
             }
@@ -797,7 +789,7 @@ class Cron
             $this->log('[Fetching current disk usage]');
             \Siberian_Cache::getDiskUsage(true);
 
-        } catch (Exception $e) {
+        } catch (\Exception $e) {
             $this->log($e->getMessage());
             $task->saveLastError($e->getMessage());
         }
@@ -870,7 +862,7 @@ class Cron
 
             # More alerts to come.
 
-        } catch (Exception $e) {
+        } catch (\Exception $e) {
             $this->log($e->getMessage());
             $task->saveLastError($e->getMessage());
         }

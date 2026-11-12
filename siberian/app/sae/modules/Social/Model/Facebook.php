@@ -89,6 +89,7 @@ class Social_Model_Facebook extends Core_Model_Default {
      * @return array
      */
     public function getPosts($offset = 1) {
+        $offset = (int) $offset;
         $offset--;
 
         if(!($offset%20)) {

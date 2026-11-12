@@ -22,7 +22,7 @@ class Form_Application_FieldController extends Application_Controller_Default {
      * Affichage de la boxe
      */
     public function editAction() {
-        $field_id = $this->getRequest()->getParam('field_id');
+        $field_id = \Siberian\Input::int($this->getRequest()->getParam('field_id'), 0, 0);
 
         if ($field_id) {
             $field = new Form_Model_Field();

@@ -45,7 +45,7 @@ class Zend_EventManager_GlobalEventManager
      * @param  null|Zend_EventManager_EventCollection $events 
      * @return void
      */
-    public static function setEventCollection(Zend_EventManager_EventCollection $events = null)
+    public static function setEventCollection(?Zend_EventManager_EventCollection $events = null)
     {
         self::$events = $events;
     }

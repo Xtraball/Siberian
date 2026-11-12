@@ -53,7 +53,7 @@ class PaymentCash_Mobile_CashController extends Application_Controller_Mobile_De
 
             $payload = [
                 'success' => true,
-                'paymentId' => (integer) $payment->getId()
+                'paymentId' => (int) $payment->getId()
             ];
         } catch (\Exception $e) {
             $payload = [

@@ -31,7 +31,7 @@ class Tokenizer
     /**
      * @var Handler\HandlerInterface[]
      */
-    private $handlers;
+    private array $handlers;
 
     public function __construct()
     {
@@ -50,10 +50,8 @@ class Tokenizer
 
     /**
      * Tokenize selector source code.
-     *
-     * @return TokenStream
      */
-    public function tokenize(Reader $reader)
+    public function tokenize(Reader $reader): TokenStream
     {
         $stream = new TokenStream();
 

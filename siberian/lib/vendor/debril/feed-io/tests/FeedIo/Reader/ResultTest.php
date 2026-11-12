@@ -13,7 +13,9 @@ namespace FeedIo\Reader;
 use FeedIo\Feed;
 use FeedIo\Reader\Document;
 
-class ResultTest extends \PHPUnit_Framework_TestCase
+use \PHPUnit\Framework\TestCase;
+
+class ResultTest extends TestCase
 {
     /**
      * @var \FeedIo\Reader\Result
@@ -24,7 +26,7 @@ class ResultTest extends \PHPUnit_Framework_TestCase
 
     protected $resultDate;
 
-    protected function setUp()
+    protected function setUp(): void
     {
         $this->modifiedSince = new \DateTime('-10 days');
         $this->resultDate = new \DateTime();

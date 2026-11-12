@@ -9,7 +9,7 @@ class Layouts_Form_Layout3Options extends Siberian_Form_Options_Abstract {
         /** Bind as a create form */
         self::addClass("create", $this);
         self::addClass("form-layout-options", $this);
-        -
+
         $title = $this->addSimpleRadio("title", __("Titles"), [
             "titlevisible" => __("Visible"),
             "titlehidden" => __("Hidden"),

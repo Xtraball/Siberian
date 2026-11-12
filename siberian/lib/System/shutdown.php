@@ -56,3 +56,8 @@ if (isset($_config['handle_fatal_errors']) &&
         }
     });
 }
+
+
+// A fatal error from a module of app/local/modules puts that module in quarantine, see Siberian\Module\Quarantine!
+require_once __DIR__ . '/../Siberian/Module/Quarantine.php';
+\Siberian\Module\Quarantine::register();

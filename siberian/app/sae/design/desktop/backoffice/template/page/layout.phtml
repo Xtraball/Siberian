@@ -6,6 +6,7 @@
         <meta <?php echo $meta->getTag() ?>="<?php echo $meta->getKey(); ?>"
               content="<?php echo $meta->getContent(); ?>" />
         <?php endforeach ?>
+        <meta name="viewport" content="width=device-width, initial-scale=1" />
 
         <?php foreach (Core_Model_Language::getLanguages() as $language) : ?>
         <?php if(Core_Model_Language::getCurrentLanguage() == $language->getCode()) continue;?>
@@ -67,10 +68,12 @@
             }
         ?>
 
+        <?php if (is_file(Core_Model_Directory::getBasePathTo('/app/local/design/desktop/backoffice/css/user-style.css'))): ?>
         <link href="/app/local/design/desktop/backoffice/css/user-style.css?t=<?php echo $currentRelease ?>"
               media="all"
               rel="stylesheet"
               type="text/css" />
+        <?php endif; ?>
 
         <?php echo Siberian_Debug::renderHead(); ?>
     </head>
@@ -93,10 +96,13 @@
 
             <div class="top">
                 <?php echo $this->getPartialHtml('header') ?>
-                <div class="message slide-down"
+                <div class="message slide-down message-{{ message.type }}"
                      ng-show="message.is_visible"
                      ng-class="{error: message.is_error}">
-                    <p ng-bind-html="message.text"></p>
+                    <p>
+                        <i class="fa" ng-class="message.getIcon()"></i>
+                        <span ng-bind-html="message.text"></span>
+                    </p>
                 </div>
             </div>
             <?php echo $this->getPartialHtml('messages') ?>
@@ -135,22 +141,22 @@
 
                 factory.loading = {
                     success: "",
-                    error: "<?php echo __("An error occurred while loading. Please, try again later."); ?>"
+                    error: "<?php echo __js("An error occurred while loading. Please, try again later."); ?>"
                 };
 
                 factory.save = {
-                    success: "<?php echo __("Info successfully saved"); ?>",
-                    error: "<?php echo __("An error occurred while saving. Please try again later."); ?>"
+                    success: "<?php echo __js("Info successfully saved"); ?>",
+                    error: "<?php echo __js("An error occurred while saving. Please try again later."); ?>"
                 };
 
                 factory.uploader = {
                     error: {
                         type: {
-                            zip: "<?php echo __("You can upload a zip archive only."); ?>",
-                            pem: "<?php echo __("You can upload a pem certificate only."); ?>",
-                            image: "<?php echo __("You can upload an image only (.jpg, .jpeg, .gif and .png)."); ?>",
-                            icon: "<?php echo __("You can upload an icon only (.ico and .png)."); ?>",
-                            png: "<?php echo __("You can upload a png only (.png)."); ?>"
+                            zip: "<?php echo __js("You can upload a zip archive only."); ?>",
+                            pem: "<?php echo __js("You can upload a pem certificate only."); ?>",
+                            image: "<?php echo __js("You can upload an image only (.jpg, .jpeg, .gif and .png)."); ?>",
+                            icon: "<?php echo __js("You can upload an icon only (.ico and .png)."); ?>",
+                            png: "<?php echo __js("You can upload a png only (.png)."); ?>"
                         },
                         only_one_at_a_time: "<?php echo addslashes(__("You can't upload more than one file at a time.")); ?>",
                         general: "<?php echo addslashes(__("An error occurred while uploading your file. Please, try again later.")); ?>"
@@ -158,11 +164,11 @@
                 };
 
                 factory.android = {
-                    generating_apk: "<?php echo __("Your APK is being generated. Please come back in a few minutes."); ?>"
+                    generating_apk: "<?php echo __js("Your APK is being generated. Please come back in a few minutes."); ?>"
                 };
 
                 factory.admin = {
-                    confirm_deletion: "<?php echo __("Are you sure you want to delete this admin?"); ?>"
+                    confirm_deletion: "<?php echo __js("Are you sure you want to delete this admin?"); ?>"
                 };
 
                 return factory;
@@ -170,7 +176,16 @@
 
             App.run(function($rootScope, AUTH_EVENTS, Auth) {
                 Auth.user.id = "<?php echo $this->getSession()->getBackofficeUserId(); ?>";
-                $rootScope.$broadcast(AUTH_EVENTS.loginSuccess);
+                Auth.user.email = <?php
+                    $backofficeUserId = $this->getSession()->getBackofficeUserId();
+                    $backofficeUserEmail = $backofficeUserId ?
+                        (string) (new Backoffice_Model_User())->find($backofficeUserId)->getEmail() : '';
+                    echo json_encode($backofficeUserEmail, JSON_HEX_TAG | JSON_HEX_AMP | JSON_HEX_APOS | JSON_HEX_QUOT);
+                ?>;
+                // only a session that exists is logged in (else the menu and an empty view flash before the login form)
+                if (Auth.user.id) {
+                    $rootScope.$broadcast(AUTH_EVENTS.loginSuccess);
+                }
             })
         </script>
     </body>

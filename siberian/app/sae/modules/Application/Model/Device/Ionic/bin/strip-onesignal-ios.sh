@@ -1,0 +1,118 @@
+#!/bin/bash
+# DEBUG ONLY. Removes OneSignal from a generated iOS shell (the "ios-noads" template or a downloaded copy of it), so
+# an app can be tested on real hardware without the push SDK. Never publish what this produces.
+#
+# Usage: strip-onesignal-ios.sh <ios-source-dir>
+#
+# <ios-source-dir> is the folder that holds AppsMobileCompany/, AppsMobileCompany.xcodeproj, Podfile, ios.json, www/.
+# The script is idempotent. After it, run `pod install` once on the Mac (the Pods folder and Podfile.lock are
+# removed because they are the OneSignal binaries), then build as usual.
+#
+# What it removes: the native plugin (OneSignalPush.m/.h and its project entries), the config.xml feature, the
+# cordova plugin registration (ios.json, www/cordova_plugins.js) and the JavaScript plugin that defines
+# window.plugins.OneSignal, so the app code sees "no OneSignal plugin" and skips push (Push2Service already does).
+set -euo pipefail
+
+SRC="${1:-}"
+if [ -z "$SRC" ] || [ ! -d "$SRC/AppsMobileCompany.xcodeproj" ] || [ ! -d "$SRC/AppsMobileCompany" ]; then
+    echo "usage: $0 <ios-source-dir> (a folder holding AppsMobileCompany.xcodeproj)" >&2
+    exit 2
+fi
+SRC="$(cd "$SRC" && pwd)"
+
+PBX="$SRC/AppsMobileCompany.xcodeproj/project.pbxproj"
+CONFIG="$SRC/AppsMobileCompany/config.xml"
+PLIST="$SRC/AppsMobileCompany/AppsMobileCompany-Info.plist"
+
+# 1. Native plugin
+rm -rf "$SRC/AppsMobileCompany/Plugins/Onesignal"
+# Every project entry for the plugin (build file, two file references, group children, sources phase) names OneSignalPush.
+[ -f "$PBX" ] && perl -ni -e 'print unless /OneSignalPush/' "$PBX"
+
+# 2. Cordova registration
+for f in "$CONFIG" "$SRC/config.bck.xml"; do
+    [ -f "$f" ] && perl -0pi -e 's{[ \t]*<feature name="OneSignalPush">.*?</feature>[ \t]*\n?}{}s' "$f"
+done
+if [ -f "$SRC/ios.json" ]; then
+    perl -0pi -e '
+        s/,\s*\{\s*"xml":\s*"<feature name=\\"OneSignalPush\\">[^{}"]*(?:\\"[^{}"]*)*"[^{}]*\}//g;
+        s/,\s*"Onesignal":\s*\{[^{}]*\}//g;
+        s/,\s*\{\s*"id":\s*"Onesignal\.[^{}]*\}//g;
+        s/^[ \t]*"Onesignal":\s*"[^"]*",?[ \t]*\n//mg;
+    ' "$SRC/ios.json"
+fi
+[ -f "$SRC/www/cordova_plugins.js" ] && perl -0pi -e '
+    s/,\s*\{\s*"id":\s*"Onesignal\.[^{}]*\}//g;
+    s/^[ \t]*"Onesignal":\s*"[^"]*",?[ \t]*\n//mg;
+' "$SRC/www/cordova_plugins.js"
+[ -f "$SRC/pods.json" ] && perl -0pi -e 's/\s*"OneSignalXCFramework":\s*\{[^{}]*\}//g' "$SRC/pods.json"
+
+# 3. JavaScript plugin (defines window.plugins.OneSignal)
+rm -rf "$SRC/www/plugins/Onesignal"
+
+# 4. CocoaPods: the only pod is OneSignal. Drop the pod line and the committed binaries.
+[ -f "$SRC/Podfile" ] && perl -ni -e 'print unless /pod\s+.OneSignal/' "$SRC/Podfile"
+rm -rf "$SRC/Pods" "$SRC/Podfile.lock"
+
+# 4b. Let Safari (Develop > Simulator / device) inspect the web view, to read the JavaScript console of this debug build.
+ENGINE="$SRC/CordovaLib/Classes/Private/Plugins/CDVWebViewEngine/CDVWebViewEngine.m"
+if [ -f "$ENGINE" ] && ! grep -q 'DEBUG build only' "$ENGINE"; then
+    perl -0pi -e 's{(    wkWebView\.UIDelegate = self\.uiDelegate;\n)}{$1    if (\@available(iOS 16.4, *)) {\n        wkWebView.inspectable = YES; // DEBUG build only\n    }\n}' "$ENGINE"
+    grep -q 'DEBUG build only' "$ENGINE" || { echo "could not make the web view inspectable in $ENGINE" >&2; exit 1; }
+fi
+
+# 4c. No push capability: a free Apple developer account cannot sign an app with the push entitlement or capability.
+for f in "$SRC"/AppsMobileCompany/Entitlements-*.plist; do
+    [ -f "$f" ] && perl -0pi -e 's{[ \t]*<key>aps-environment</key>\s*<string>[^<]*</string>\n?}{}g' "$f"
+done
+[ -f "$PBX" ] && perl -0pi -e 's{\s*com\.apple\.Push = \{[^{}]*\};}{}g' "$PBX"
+[ -f "$PLIST" ] && perl -0pi -e 's{[ \t]*<string>remote-notification</string>\n?}{}g' "$PLIST"
+if grep -rq 'aps-environment' "$SRC"/AppsMobileCompany/Entitlements-*.plist 2>/dev/null || grep -q 'com.apple.Push' "$PBX" || grep -q 'remote-notification' "$PLIST"; then
+    echo "a push entitlement or capability is still declared" >&2
+    exit 1
+fi
+
+# 4d. JavaScript: the app code must not start the plugin that is no longer there. The packed files are minified, the edits
+# are exact and idempotent (the Push2 service stops at its start, the three settings-page calls become no-ops).
+for f in "$SRC"/www/features/push2/*.js "$SRC"/www/dist/*.js; do
+    [ -f "$f" ] || continue
+    perl -pi -e '
+        s/service\.init=function\(\)\{if\(!\$window\.plugins\.OneSignal\)\{/service.init=function(){if(true){/g;
+        s/(?<![&\w.])\$window\.plugins\.OneSignal\.(getDeviceState|promptForPushNotificationsWithUserResponse)\(/\$window.plugins.OneSignal&&\$window.plugins.OneSignal.$1(/g;
+    ' "$f"
+    if grep -q 'service\.init=function(){if(!\$window\.plugins\.OneSignal)' "$f"; then
+        echo "the push service of $f was not neutralised" >&2
+        exit 1
+    fi
+done
+
+# 5. Make the build impossible to mistake for a release build
+if [ -f "$PLIST" ] && ! grep -q '\[DEBUG\]' "$PLIST"; then
+    perl -0pi -e 's{(<key>CFBundleDisplayName</key>\s*<string>)(.*?)(</string>)}{$1$2 [DEBUG]$3}s' "$PLIST"
+fi
+cat > "$SRC/DEBUG-NO-ONESIGNAL.txt" <<'EOF'
+DEBUG BUILD: OneSignal has been removed from this iOS source (push notifications do not work).
+For development on real hardware only. Never submit this to the App Store or TestFlight.
+
+Before building: run `pod install` once in this folder, then open AppsMobileCompany.xcworkspace.
+EOF
+
+# 6. Self-check: nothing may still name OneSignal in the shell (the packed web bundles keep their guarded JS code).
+LEFT="$(grep -rIil onesignal "$SRC" --exclude-dir=dist --exclude-dir=features --exclude=DEBUG-NO-ONESIGNAL.txt || true)"
+if [ -n "$LEFT" ]; then
+    echo "OneSignal is still referenced in:" >&2
+    echo "$LEFT" >&2
+    exit 1
+fi
+
+# 7. The edited JSON must still parse
+for f in "$SRC/ios.json"; do
+    [ -f "$f" ] || continue
+    if command -v python3 >/dev/null 2>&1; then
+        python3 -c 'import json,sys; json.load(open(sys.argv[1]))' "$f"
+    elif command -v node >/dev/null 2>&1; then
+        node -e 'JSON.parse(require("fs").readFileSync(process.argv[1],"utf8"))' "$f"
+    fi
+done
+
+echo "OneSignal removed from $SRC"

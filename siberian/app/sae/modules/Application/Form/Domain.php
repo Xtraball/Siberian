@@ -65,7 +65,7 @@ RAW;
 
         $smtp_server = $this->addSimpleText("server", __("Server"));
         $smtp_username = $this->addSimpleText("username", __("Username"));
-        $smtp_password = $this->addSimpleText("password", __("Password"));
+        $smtp_password = $this->addSimpleRevealPassword("password", __("Password"));
         $smtp_ssl = $this->addSimpleSelect("ssl", __("SSL"), array(
             "" => __("Default (none)"),
             "tls" => __("TLS"),

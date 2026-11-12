@@ -12,14 +12,16 @@ namespace FeedIo;
 
 use FeedIo\Rule\OptionalField;
 
-class RuleSetTest extends \PHPUnit_Framework_TestCase
+use \PHPUnit\Framework\TestCase;
+
+class RuleSetTest extends TestCase
 {
     /**
      * @var RuleSet
      */
     protected $object;
 
-    protected function setUp()
+    protected function setUp(): void
     {
         $this->object = new RuleSet();
     }

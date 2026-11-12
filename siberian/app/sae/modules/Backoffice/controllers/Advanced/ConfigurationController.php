@@ -23,6 +23,7 @@ class Backoffice_Advanced_ConfigurationController extends System_Controller_Back
         'cpanel_type',
         'letsencrypt_env',
         'send_statistics',
+        'error_reports_enabled',
         'apk_build_type',
         'java_home',
         'java_options',
@@ -189,7 +190,7 @@ class Backoffice_Advanced_ConfigurationController extends System_Controller_Back
      */
     public function saveAction()
     {
-        if ($data = Zend_Json::decode($this->getRequest()->getRawBody())) {
+        if (($data = $this->_jsonBody()) !== null) {
 
             try {
                 if (__getConfig('is_demo')) {
@@ -303,7 +304,7 @@ class Backoffice_Advanced_ConfigurationController extends System_Controller_Back
                 $cert = $ssl_certificate_model->find($cert_id);
 
                 // Prevent some certificates from being un-intentionally removed!
-                if (__getConfig('is_demo') && in_array(__getConfig('hostname'), $cert->getHostname())) {
+                if (__getConfig('is_demo') && __getConfig('hostname') === $cert->getHostname()) {
                     throw new Siberian_Exception('This certificate is protected.');
                 }
 
@@ -353,7 +354,7 @@ class Backoffice_Advanced_ConfigurationController extends System_Controller_Back
     public function createcertificateAction()
     {
 
-        if ($data = Zend_Json::decode($this->getRequest()->getRawBody())) {
+        if (($data = $this->_jsonBody()) !== null) {
 
             try {
                 if (empty($data['hostname']) ||
@@ -547,7 +548,7 @@ class Backoffice_Advanced_ConfigurationController extends System_Controller_Back
             $rawData = $result['rawData'];
             $remain = $rawData['validTo_time_t'] - time();
             $remainInDays = floor($remain / 86400);
-            $showWarning = (boolean)($remainInDays <= 15);
+            $showWarning = (bool)($remainInDays <= 15);
             $validUntil = datetime_to_format(date("Y-m-d H:i:s", $rawData['validTo_time_t']));
             $message = __("Your HTTPS/SSL Certificate is about to expire in <b>%s day%s</b>, don't forget to renew it on the following page <a href=\"%s\">configuration</a>.",
                 $remainInDays,
@@ -631,6 +632,9 @@ class Backoffice_Advanced_ConfigurationController extends System_Controller_Back
 
         // Sync cPanel - Plesk - VestaCP (beta) - DirectAdmin (beta)
         try {
+            if (!isset($uiPanels[(string) $panelType])) {
+                throw new \Siberian\Exception(__('No control panel is configured, there is nothing to send the certificate to.'));
+            }
             $message = __('Successfully saved Certificate to %s', $uiPanels[(string) $panelType]);
             switch ($panelType) {
                 case 'plesk':

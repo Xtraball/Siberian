@@ -5,12 +5,12 @@ class Wordpress_Mobile_ListController extends Application_Controller_Mobile_Defa
 
     public function findallAction() {
 
-        if($value_id = $this->getRequest()->getParam('value_id')) {
+        if($value_id = \Siberian\Input::int($this->getRequest()->getParam('value_id'), 0, 0)) {
 
             try {
                 $option_value = $this->getCurrentOptionValue();
                 $wordpress = $option_value->getObject();
-                $offset = $this->getRequest()->getParam('offset', 0);
+                $offset = \Siberian\Input::int($this->getRequest()->getParam('offset'), 0, 0);
 
                 $posts = $wordpress->getRemotePosts($this->isOverview(), null, !$this->isOverview(), $offset);
                 $cover = null;
@@ -36,22 +36,22 @@ class Wordpress_Mobile_ListController extends Application_Controller_Mobile_Defa
                 foreach($posts as $post) {
 
                     $data["collection"][] = array(
-                        "id"                        => (integer) $post->getId(),
+                        "id"                        => (int) $post->getId(),
                         "title"                     => $post->getTitle(),
                         "subtitle"                  => html_entity_decode($post->getShortDescription(), ENT_NOQUOTES, "UTF-8"),
                         "description"               => $post->getDescription(),
                         "picture"                   => $post->getPicture(),
                         "date"                      => $post->getFormattedDate(),
-                        "is_hidden"                 => (boolean) $post->getIsHidden(),
+                        "is_hidden"                 => (bool) $post->getIsHidden(),
                         "url"                       => $this->getPath("wordpress/mobile_view", array("value_id" => $value_id, "post_id" => $post->getId())),
-                        "social_sharing_active"     => (boolean) $option_value->getSocialSharingIsActive()
+                        "social_sharing_active"     => (bool) $option_value->getSocialSharingIsActive()
                     );
 
                 }
 
                 if($cover) {
                     $data["cover"] = array(
-                        "id"            => (integer) $cover->getId(),
+                        "id"            => (int) $cover->getId(),
                         "title"         => $cover->getTitle(),
                         "subtitle"      => html_entity_decode($cover->getShortDescription(), ENT_NOQUOTES, "UTF-8"),
                         "description"   => html_entity_decode($cover->getDescription(), ENT_NOQUOTES, "UTF-8"),

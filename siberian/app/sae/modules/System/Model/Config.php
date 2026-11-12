@@ -133,9 +133,9 @@ class System_Model_Config extends Rss_Model_Feed_Abstract
     {
         $whitelabel = Siberian::getWhitelabel();
         if ($whitelabel !== false) {
-            return (boolean)$whitelabel->getIsGdprEnabled();
+            return (bool)$whitelabel->getIsGdprEnabled();
         }
-        return (boolean)self::getValueFor('is_gdpr_enabled');
+        return (bool)self::getValueFor('is_gdpr_enabled');
     }
 
     /**

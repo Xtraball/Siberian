@@ -37,6 +37,16 @@ class Bootstrap extends Zend_Application_Bootstrap_Bootstrap
         $loader->registerNamespace('Plesk');
         $loader->registerNamespace('PListEditor');
 
+        // The classes of a quarantined module are never autoloaded, see Siberian\Module\Quarantine!
+        require_once __DIR__ . '/../lib/Siberian/Module/Quarantine.php';
+        $loader->setDefaultAutoloader(static function ($class) {
+            if (\Siberian\Module\Quarantine::blocksClass($class)) {
+                return false;
+            }
+
+            return \Zend_Loader::loadClass($class);
+        });
+
         $includePaths = [get_include_path()];
         $includePaths[] = realpath(APPLICATION_PATH . '/local/modules');
         switch (\Siberian\Version::TYPE) {
@@ -101,6 +111,11 @@ class Bootstrap extends Zend_Application_Bootstrap_Bootstrap
             error_reporting(E_ALL);
             Siberian_Error::init();
         }
+
+        // Proactive error reporting, on unless turned off in the backoffice. Chains the handlers above, and in
+        // production keeps what is shown and logged unchanged (see Siberian\ErrorReporter).
+        require_once __DIR__ . '/../lib/Siberian/ErrorReporter.php';
+        Core_Model_ErrorReports::boot();
     }
 
     /**
@@ -307,6 +322,10 @@ class Bootstrap extends Zend_Application_Bootstrap_Bootstrap
             if (is_readable($pathInit)) {
                 try {
                     global $init;
+                    // $init is a global: a module whose init.php does not define it (or was already loaded) would
+                    // otherwise run the closure of the previous module a second time.
+                    $init = null;
+                    $obLevel = ob_get_level();
                     ob_start();
                     require_once $pathInit;
                     if (is_callable($init)) {
@@ -314,8 +333,13 @@ class Bootstrap extends Zend_Application_Bootstrap_Bootstrap
                     }
                     ob_end_clean();
                 } catch (Exception $e) {
+                    // An init that throws leaves its output buffer open, and what it printed would reach the page
+                    // when the request ends: close it, whatever the init printed is discarded as on success.
+                    while (isset($obLevel) && ob_get_level() > $obLevel) {
+                        ob_end_clean();
+                    }
                     // Silently catch & log malformed init module!
-                    trigger_error($e->getMessage());
+                    trigger_error(sprintf('Module %s init: %s', $module, $e->getMessage()));
                 }
             } else if (is_readable($path)) {
                 try {

@@ -1597,10 +1597,7 @@ abstract class Application_Model_Application_Abstract extends Core_Model_Default
 
         $icon = self::getBaseImagePath() . $androidSplashIcon;
         if (!is_readable($icon) || !is_file($icon)) {
-            $icon = self::getBaseImagePath() . '/placeholder/no-image.png';
-            $image = Siberian_Image::open($icon);
-            $image->fillBackground(0xf3f3f3);
-            return $image->inline('png', 100);
+            return self::noIcon($base);
         }
 
         if (empty($name)) {
@@ -1619,6 +1616,41 @@ abstract class Application_Model_Application_Abstract extends Core_Model_Default
     }
 
     /**
+     * The image the source generators turn into the startup screen: the unified startup image of the app, or the grey
+     * placeholder when none was uploaded (getStartupBackgroundUnified() is then empty).
+     *
+     * @param string $unified getStartupBackgroundUnified()
+     * @return string a file path
+     */
+    public static function startupSourcePath($unified)
+    {
+        if ($unified !== '' && $unified !== null) {
+            return path($unified);
+        }
+
+        return self::getBaseImagePath() . '/placeholder/no-image.png';
+    }
+
+    /**
+     * The grey placeholder of an app without an icon: inline image data for the pages, a file for the source
+     * generators (they copy files and skip anything else).
+     *
+     * @param bool $base
+     * @return string
+     */
+    protected static function noIcon($base = false)
+    {
+        $placeholder = self::getBaseImagePath() . '/placeholder/no-image.png';
+        if ($base) {
+            return Application_Model_Application_NoIcon::file($placeholder, path('/var/tmp'));
+        }
+
+        $image = Siberian_Image::open($placeholder);
+        $image->fillBackground(0xf3f3f3);
+        return $image->inline('png', 100);
+    }
+
+    /**
      * @param null $size
      * @param null $name
      * @param bool $base
@@ -1632,10 +1664,7 @@ abstract class Application_Model_Application_Abstract extends Core_Model_Default
 
         $icon = self::getBaseImagePath() . $this->getData('icon');
         if (!is_readable($icon) || !is_file($icon)) {
-            $icon = self::getBaseImagePath() . '/placeholder/no-image.png';
-            $image = Siberian_Image::open($icon);
-            $image->fillBackground(0xf3f3f3);
-            return $image->inline('png', 100);
+            return self::noIcon($base);
         }
 
         if (empty($name)) {
@@ -2524,7 +2553,7 @@ abstract class Application_Model_Application_Abstract extends Core_Model_Default
                 '<b>' . $platformName . '</b>',
                 '<b>' . nl2br($contactFull) . '</b>'
             ],
-            $this->getData('privacy_policy_gdpr')
+            (string) $this->getData('privacy_policy_gdpr')
         );
 
         return $privacyPolicyGdpr;
@@ -2602,7 +2631,7 @@ abstract class Application_Model_Application_Abstract extends Core_Model_Default
 
             if (!empty($pathToImagesSafe)) {
                 // 2.2. Then the folder itself
-                exec('rm -rf "' . $pathToImagesSafe . '"');
+                exec('rm -rf ' . escapeshellarg($pathToImagesSafe));
             }
         }
 

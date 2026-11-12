@@ -1,0 +1,214 @@
+msgid ""
+msgstr ""
+"Project-Id-Version: Russian (Siberian)\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2019-01-22 10:34+0000\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: Russian <http://yvain.xtraball.com/projects/siberian/acl/ru/>"
+"\n"
+"Language: ru\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=3; plural=n%10==1 && n%100!=11 ? 0 : n%10>=2 && n%10<="
+"4 && (n%100<10 || n%100>=20) ? 1 : 2;\n"
+"X-Generator: Weblate 3.3\n"
+
+# GMT 1559644701.618
+#. machine-translated (2026-10), to be reviewed
+msgctxt "whitelabel"
+msgid "Your whitelabel domain must be a CNAME pointing to %s"
+msgstr "Ваш домен White Label должен быть записью CNAME, указывающей на %s"
+
+# GMT 1559644701.6223
+#. machine-translated (2026-10), to be reviewed
+msgctxt "whitelabel"
+msgid "The CNAME for the domain %s is not properly set"
+msgstr "Запись CNAME для домена %s настроена неверно"
+
+# GMT 1559644701.6267
+#. machine-translated (2026-10), to be reviewed
+msgctxt "whitelabel"
+msgid "Your domain must point to the following domain name %s"
+msgstr "Ваш домен должен указывать на следующее доменное имя: %s"
+
+# GMT 1559644701.631
+#. machine-translated (2026-10), to be reviewed
+msgctxt "whitelabel"
+msgid "Debug output"
+msgstr "Вывод отладки"
+
+# GMT 1559644701.632
+#. machine-translated (2026-10), to be reviewed
+msgctxt "whitelabel"
+msgid "You have no active whitelabel."
+msgstr "У вас нет активных White Label-аккаунтов."
+
+# GMT 1559644701.633
+#. machine-translated (2026-10), to be reviewed
+msgctxt "whitelabel"
+msgid "You have %s active whitelabel."
+msgstr "Активных White Label-аккаунтов: %s."
+
+# GMT 1559644701.634
+#. machine-translated (2026-10), to be reviewed
+msgctxt "whitelabel"
+msgid "You have %s actives whitelabels."
+msgstr "Активных White Label-аккаунтов: %s."
+
+# GMT 1559644701.635
+#. machine-translated (2026-10), to be reviewed
+msgctxt "whitelabel"
+msgid "ENABLE"
+msgstr "ВКЛЮЧИТЬ"
+
+# GMT 1559644701.636
+#. machine-translated (2026-10), to be reviewed
+msgctxt "whitelabel"
+msgid "DISABLE"
+msgstr "ОТКЛЮЧИТЬ"
+
+# GMT 1559644701.637
+#. machine-translated (2026-10), to be reviewed
+msgctxt "whitelabel"
+msgid "Status changed."
+msgstr "Статус изменен."
+
+# GMT 1559644701.638
+#. machine-translated (2026-10), to be reviewed
+msgctxt "whitelabel"
+msgid "Missing param whitelabelId."
+msgstr "Отсутствует параметр whitelabelId."
+
+# GMT 1559644701.639
+#. machine-translated (2026-10), to be reviewed
+msgctxt "whitelabel"
+msgid "This whitelabel doesn't exists."
+msgstr "Такого White Label-аккаунта не существует."
+
+# GMT 1559644701.640
+#. machine-translated (2026-10), to be reviewed
+msgctxt "whitelabel"
+msgid "SAVE & CLOSE"
+msgstr "СОХРАНИТЬ И ЗАКРЫТЬ"
+
+# GMT 1559644701.641
+#. machine-translated (2026-10), to be reviewed
+msgctxt "whitelabel"
+msgid "Feature icons"
+msgstr "Значки функций"
+
+# GMT 1559644701.642
+#. machine-translated (2026-10), to be reviewed
+msgctxt "whitelabel"
+msgid "Image"
+msgstr "Изображение"
+
+# GMT 1559644701.643
+#. machine-translated (2026-10), to be reviewed
+msgctxt "whitelabel"
+msgid "Text - active"
+msgstr "Текст - активный"
+
+# GMT 1559644701.644
+#. machine-translated (2026-10), to be reviewed
+msgctxt "whitelabel"
+msgid "Background - active"
+msgstr "Фон - активный"
+
+# GMT 1559644701.645
+#. machine-translated (2026-10), to be reviewed
+msgctxt "whitelabel"
+msgid "Text - hover"
+msgstr "Текст - при наведении"
+
+# GMT 1559644701.646
+#. machine-translated (2026-10), to be reviewed
+msgctxt "whitelabel"
+msgid "Background - hover"
+msgstr "Фон - при наведении"
+
+# GMT 1559644701.647
+#. machine-translated (2026-10), to be reviewed
+msgctxt "whitelabel"
+msgid "Border"
+msgstr "Граница"
+
+# GMT 1559644701.648
+#. machine-translated (2026-10), to be reviewed
+msgctxt "whitelabel"
+msgid "Text"
+msgstr "Текст"
+
+# GMT 1559644701.649
+#. machine-translated (2026-10), to be reviewed
+msgctxt "whitelabel"
+msgid "Background"
+msgstr "Фон"
+
+# GMT 1559644701.650
+#. machine-translated (2026-10), to be reviewed
+msgctxt "whitelabel"
+msgid "Send your favicon"
+msgstr "Отправьте свой favicon"
+
+# GMT 1559644701.651
+#. machine-translated (2026-10), to be reviewed
+msgctxt "whitelabel"
+msgid "Favicon"
+msgstr "Favicon"
+
+# GMT 1559644701.652
+#. machine-translated (2026-10), to be reviewed
+msgctxt "whitelabel"
+msgid "Send your logo"
+msgstr "Отправьте свой логотип"
+
+# GMT 1559644701.653
+#. machine-translated (2026-10), to be reviewed
+msgctxt "whitelabel"
+msgid "Logo"
+msgstr "Логотип"
+
+# GMT 1559644701.654
+#. machine-translated (2026-10), to be reviewed
+msgctxt "whitelabel"
+msgid "Customize my editor"
+msgstr "Настроить мой редактор"
+
+# GMT 1559644701.655
+#. machine-translated (2026-10), to be reviewed
+msgctxt "whitelabel"
+msgid "CLOSE"
+msgstr "ЗАКРЫТЬ"
+
+# GMT 1559644701.656
+#. machine-translated (2026-10), to be reviewed
+msgctxt "whitelabel"
+msgid "SAVE"
+msgstr "СОХРАНИТЬ"
+
+# GMT 1559644701.661
+#. machine-translated (2026-10), to be reviewed
+msgctxt "whitelabel"
+msgid "Close whitelabel editor"
+msgstr "Закрыть редактор White Label"
+
+# GMT 1559644701.662
+#. machine-translated (2026-10), to be reviewed
+msgctxt "whitelabel"
+msgid "You are about to close the editor with unsaved changes!"
+msgstr "Вы собираетесь закрыть редактор с несохраненными изменениями!"
+
+# GMT 1559644701.663
+#. machine-translated (2026-10), to be reviewed
+msgctxt "whitelabel"
+msgid "Close"
+msgstr "Закрыть"
+
+# GMT 1559644701.664
+#. machine-translated (2026-10), to be reviewed
+msgctxt "whitelabel"
+msgid "Save & close"
+msgstr "Сохранить и закрыть"

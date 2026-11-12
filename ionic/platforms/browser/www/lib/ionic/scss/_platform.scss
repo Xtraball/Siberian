@@ -9,7 +9,7 @@
   --safe-area-inset-right: 0;
   --safe-area-inset-bottom: 0;
   --safe-area-inset-left: 0;
-  --app-height: 100vh;
+  --app-height: 100vh;--safe-area-extra: 10px;
 }
 
 // iOS 11.0-11.2
@@ -114,7 +114,7 @@
     .has-header.has-subheader.has-tabs-top {
       top: $bar-height + $bar-subheader-height + $tabs-height + $ios-statusbar-height;
 
-      top: calc(#{$bar-height + $bar-subheader-height + $tabs-height} + var(--safe-area-inset-right));
+      top: calc(#{$bar-height + $bar-subheader-height + $tabs-height} + var(--safe-area-inset-top));
     }
 
     .has-footer {
@@ -206,7 +206,7 @@
     .has-header.has-subheader.has-tabs-top {
       top: $bar-height + $bar-subheader-height + $tabs-height + $ios-statusbar-height;
 
-      top: calc(#{$bar-height + $bar-subheader-height + $tabs-height} + var(--safe-area-inset-right));
+      top: calc(#{$bar-height + $bar-subheader-height + $tabs-height} + var(--safe-area-inset-top));
     }
   }
   .popover {
@@ -300,3 +300,43 @@
   -webkit-transition: none !important;
   transition: none !important;
 }
+
+/* Android edge-to-edge layout mode (application option "Layout mode").
+ * The native SiberianInsets plugin sets --sb-top/right/bottom/left (CSS px) on <html> and adds the
+ * "edge-to-edge" class. Without the class nothing here applies (classic mode, unchanged).
+ * Mirrors the iOS rules above, driven by the native values instead of env(). */
+html.edge-to-edge {
+  --safe-area-inset-top: calc(var(--sb-top, 0px) + var(--safe-area-extra, 10px));
+  --safe-area-inset-right: calc(var(--sb-right, 0px) + var(--safe-area-extra, 10px));
+  --safe-area-inset-bottom: calc(var(--sb-bottom, 0px) + var(--safe-area-extra, 10px));
+  --safe-area-inset-left: calc(var(--sb-left, 0px) + var(--safe-area-extra, 10px));
+}
+html.edge-to-edge body.platform-android.platform-cordova:not(.fullscreen) .bar-header:not(.bar-subheader) {
+  height: calc(var(--sb-top, 0px) + 44px); }
+html.edge-to-edge body.platform-android.platform-cordova:not(.fullscreen) .bar-header:not(.bar-subheader) > * {
+  margin-top: var(--sb-top, 0px); }
+html.edge-to-edge body.platform-android.platform-cordova:not(.fullscreen) .bar-header {
+  padding-left: calc(var(--sb-left, 0px) + 5px);
+  padding-right: calc(var(--sb-right, 0px) + 5px); }
+html.edge-to-edge body.platform-android.platform-cordova:not(.fullscreen) .bar-header .buttons:last-child {
+  right: calc(var(--sb-right, 0px) + 5px); }
+html.edge-to-edge body.platform-android.platform-cordova:not(.fullscreen) .has-tabs,
+html.edge-to-edge body.platform-android.platform-cordova:not(.fullscreen) .bar-footer.has-tabs {
+  bottom: calc(var(--sb-bottom, 0px) + 55px); }
+html.edge-to-edge body.platform-android.platform-cordova:not(.fullscreen) .tabs-top > .tabs,
+html.edge-to-edge body.platform-android.platform-cordova:not(.fullscreen) .tabs.tabs-top {
+  top: calc(var(--sb-top, 0px) + 44px); }
+html.edge-to-edge body.platform-android.platform-cordova:not(.fullscreen) .tabs {
+  padding-bottom: var(--sb-bottom, 0px);
+  height: calc(var(--sb-bottom, 0px) + 55px); }
+html.edge-to-edge body.platform-android.platform-cordova:not(.fullscreen) .has-header,
+html.edge-to-edge body.platform-android.platform-cordova:not(.fullscreen) .bar-subheader {
+  top: calc(var(--sb-top, 0px) + 44px); }
+html.edge-to-edge body.platform-android.platform-cordova:not(.fullscreen) .has-subheader {
+  top: calc(var(--sb-top, 0px) + 88px); }
+html.edge-to-edge body.platform-android.platform-cordova:not(.fullscreen) .has-header.has-tabs-top {
+  top: calc(var(--sb-top, 0px) + 93px); }
+html.edge-to-edge body.platform-android.platform-cordova:not(.fullscreen) .has-header.has-subheader.has-tabs-top {
+  top: calc(var(--sb-top, 0px) + 137px); }
+html.edge-to-edge body.platform-android.platform-cordova:not(.fullscreen) .has-footer {
+  bottom: calc(var(--sb-bottom, 0px) + 44px); }

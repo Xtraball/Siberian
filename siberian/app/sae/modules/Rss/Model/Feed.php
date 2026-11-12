@@ -53,7 +53,7 @@ class Rss_Model_Feed extends Rss_Model_Feed_Abstract
         $row = $this->getTable()->getLastPosition($valueId);
         if (is_array($row) &&
             array_key_exists("position", $row)) {
-            return (integer) $row["position"];
+            return (int) $row["position"];
         }
         return 1;
     }

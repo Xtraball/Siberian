@@ -13,14 +13,16 @@ namespace FeedIo\Rule;
 use FeedIo\RuleSet;
 use FeedIo\Feed\Item;
 
-class StructureTest extends \PHPUnit_Framework_TestCase
+use \PHPUnit\Framework\TestCase;
+
+class StructureTest extends TestCase
 {
     /**
      * @var Structure
      */
     protected $object;
 
-    protected function setUp()
+    protected function setUp(): void
     {
         $ruleSet = new RuleSet();
         $ruleSet->add(new Title());
@@ -30,15 +32,6 @@ class StructureTest extends \PHPUnit_Framework_TestCase
     public function testGetNodeName()
     {
         $this->assertEquals('foo', $this->object->getNodeName());
-    }
-
-    public function testConstruct()
-    {
-        $ruleSet = new RuleSet();
-        $ruleSet->add(new Title());
-        $structure = new Structure('foo', $ruleSet);
-
-        $this->assertAttributeEquals($ruleSet, 'ruleSet', $structure);
     }
 
     public function testSet()
@@ -60,10 +53,20 @@ class StructureTest extends \PHPUnit_Framework_TestCase
         $item->setTitle('foo-bar');
 
         $document = new \DomDocument();
+        $rootElement = $document->createElement('feed');
 
-        $element = $this->object->createElement($document, $item);
+        $this->object->apply($document, $rootElement, $item);
+        $addedElement = $rootElement->firstChild;
 
-        $node = '<foo><title>foo-bar</title></foo>';
-        $this->assertEquals($node, $document->saveXML($element));
+        $this->assertEquals('foo', $addedElement ->nodeName);
+
+        $subElement = $addedElement->firstChild;
+
+        $this->assertEquals('foo-bar', $subElement ->nodeValue);
+        $this->assertEquals('title', $subElement ->nodeName);
+
+        $document->appendChild($rootElement);
+        $node = '<feed><foo><title>foo-bar</title></foo></feed>';
+        $this->assertXmlStringEqualsXmlString($node, $document->saveXML());
     }
 }

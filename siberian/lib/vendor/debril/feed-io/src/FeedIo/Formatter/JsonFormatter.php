@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 /*
  * This file is part of the feed-io package.
  *
@@ -21,7 +21,7 @@ class JsonFormatter implements FormatterInterface
      * @param FeedInterface $feed
      * @return string
      */
-    public function toString(FeedInterface $feed)
+    public function toString(FeedInterface $feed) : string
     {
         return json_encode($this->toArray($feed));
     }
@@ -30,24 +30,28 @@ class JsonFormatter implements FormatterInterface
      * @param FeedInterface $feed
      * @return array
      */
-    public function toArray(FeedInterface $feed)
+    public function toArray(FeedInterface $feed) : array
     {
-        return array_filter([
+        $out =  array_filter([
             'version' => 'https://jsonfeed.org/version/1',
             'title' => $feed->getTitle(),
             'description' => $feed->getDescription(),
             'home_page_url' => $feed->getLink(),
             'feed_url' => $feed->getUrl(),
             'id' => $feed->getPublicId(),
+            'icon' => $feed->getLogo(),
             'items' => iterator_to_array($this->itemsToArray($feed)),
         ]);
+        $this->handleAuthor($feed, $out);
+
+        return $out;
     }
 
     /**
      * @param FeedInterface $feed
-     * @return \Generator
+     * @return iterable
      */
-    public function itemsToArray(FeedInterface $feed)
+    public function itemsToArray(FeedInterface $feed) : iterable
     {
         foreach ($feed as $item) {
             yield $this->itemToArray($item);
@@ -58,7 +62,7 @@ class JsonFormatter implements FormatterInterface
      * @param Feed\ItemInterface $item
      * @return array
      */
-    public function itemToArray(Feed\ItemInterface $item)
+    public function itemToArray(Feed\ItemInterface $item) : array
     {
         $array = $this->itemToBaseArray($item);
         $this->handleAuthor($item, $array);
@@ -72,13 +76,13 @@ class JsonFormatter implements FormatterInterface
      * @param Feed\ItemInterface $item
      * @return array
      */
-    public function itemToBaseArray(Feed\ItemInterface $item)
+    public function itemToBaseArray(Feed\ItemInterface $item) : array
     {
-        $offset = $this->isHtml($item->getDescription()) ? 'content_html':'content_txt';
+        $offset = $this->isHtml($item->getContent()) ? 'content_html':'content_text';
         return [
             'id' => $item->getPublicId(),
             'title' => $item->getTitle(),
-            $offset => $item->getDescription(),
+            $offset => $item->getContent(),
             'url' => $item->getLink(),
         ];
     }
@@ -87,23 +91,18 @@ class JsonFormatter implements FormatterInterface
      * @param $string
      * @return bool
      */
-    public function isHtml($string)
+    public function isHtml(?string $string) : bool
     {
-        return $string !== strip_tags($string);
+        return !! $string && $string !== strip_tags($string);
     }
 
-    /**
-     * @param Feed\ItemInterface $item
-     * @param array $array
-     * @return array
-     */
-    public function handleAuthor(Feed\ItemInterface $item, array &$array)
+    public function handleAuthor(Feed\NodeInterface $node, array &$array) : array
     {
-        if (! is_null($item->getAuthor())) {
-            $array['author'] = array_filter([
-                'name' => $item->getAuthor()->getName(),
-                'url' => $item->getAuthor()->getUri(),
-            ]);
+        if (! is_null($node->getAuthor())) {
+            $array['authors'] = [array_filter([
+                'name' => $node->getAuthor()->getName(),
+                'url' => $node->getAuthor()->getUri(),
+            ])];
         }
 
         return $array;
@@ -114,12 +113,21 @@ class JsonFormatter implements FormatterInterface
      * @param array $array
      * @return array
      */
-    public function handleMedia(Feed\ItemInterface $item, array &$array)
+    public function handleMedia(Feed\ItemInterface $item, array &$array) : array
     {
         if ($item->hasMedia()) {
-            $array['image'] = $item->getMedias()->current()->getUrl();
+            $attachments = [];
+            /** @var Feed\Item\MediaInterface $media */
+            foreach ($item->getMedias() as $media) {
+                $attachments[] = array_filter([
+                    'url' => $media->getUrl(),
+                    'mime_type' => $media->getType(),
+                    'title' => $media->getTitle(),
+                    'size_in_bytes' => $media->getLength(),
+                ]);
+            }
+            $array['attachments'] = $attachments;
         }
-
         return $array;
     }
 
@@ -128,7 +136,7 @@ class JsonFormatter implements FormatterInterface
      * @param array $array
      * @return array
      */
-    public function handleDate(Feed\ItemInterface $item, array &$array)
+    public function handleDate(Feed\ItemInterface $item, array &$array) : array
     {
         if (! is_null($item->getLastModified())) {
             $array['date_published'] = $item->getLastModified()->format(\DateTime::RFC3339);

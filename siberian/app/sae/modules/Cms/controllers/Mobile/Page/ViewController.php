@@ -10,8 +10,8 @@ class Cms_Mobile_Page_ViewController extends Application_Controller_Mobile_Defau
      */
     public function findAction()
     {
-        if ($value_id = $this->getRequest()->getParam('value_id') &&
-            $page_id = $this->getRequest()->getParam('page_id')) {
+        if ($value_id = \Siberian\Input::int($this->getRequest()->getParam('value_id'), 0, 0) &&
+            $page_id = \Siberian\Input::int($this->getRequest()->getParam('page_id'), 0, 0)) {
 
             try {
 
@@ -33,7 +33,7 @@ class Cms_Mobile_Page_ViewController extends Application_Controller_Mobile_Defau
                     "blocks" => $json,
                     "page_title" => $page->getTitle() ? $page->getTitle() : $option_value->getTabbarName(),
                     "picture" => $page->getPictureUrl(),
-                    "social_sharing_active" => (boolean) $option_value->getSocialSharingIsActive()
+                    "social_sharing_active" => (bool) $option_value->getSocialSharingIsActive()
                 ];
 
             } catch (Exception $e) {
@@ -53,13 +53,13 @@ class Cms_Mobile_Page_ViewController extends Application_Controller_Mobile_Defau
     public function findallAction()
     {
 
-        if ($value_id = $this->getRequest()->getParam('value_id')) {
+        if ($value_id = \Siberian\Input::int($this->getRequest()->getParam('value_id'), 0, 0)) {
 
             try {
 
                 $option = $this->getCurrentOptionValue();
 
-                $page_id = $this->getRequest()->getParam('page_id');
+                $page_id = \Siberian\Input::int($this->getRequest()->getParam('page_id'), 0, 0);
                 $page = new Cms_Model_Application_Page();
 
                 if ($page_id) {
@@ -88,7 +88,7 @@ class Cms_Mobile_Page_ViewController extends Application_Controller_Mobile_Defau
                 }
 
                 $data["page_title"] = $page->getTitle() ? $page->getTitle() : $option->getTabbarName();
-                $data["social_sharing_active"] = (boolean) $option->getSocialSharingIsActive();
+                $data["social_sharing_active"] = (bool) $option->getSocialSharingIsActive();
 
             } catch (Exception $e) {
                 $data = [
@@ -108,15 +108,15 @@ class Cms_Mobile_Page_ViewController extends Application_Controller_Mobile_Defau
     public function findblockAction()
     {
 
-        if ($value_id = $this->getRequest()->getParam('value_id') AND
-            $block_id = $this->getRequest()->getParam('block_id')) {
+        if ($value_id = \Siberian\Input::int($this->getRequest()->getParam('value_id'), 0, 0) AND
+            $block_id = \Siberian\Input::int($this->getRequest()->getParam('block_id'), 0, 0)) {
 
             try {
 
-                $page_id = $this->getRequest()->getParam("page_id");
+                $page_id = \Siberian\Input::int($this->getRequest()->getParam("page_id"), 0, 0);
                 $option = $this->getCurrentOptionValue();
 
-                $page_id = $this->getRequest()->getParam('page_id');
+                $page_id = \Siberian\Input::int($this->getRequest()->getParam('page_id'), 0, 0);
                 $page = new Cms_Model_Application_Page();
 
                 if ($page_id) {

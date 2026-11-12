@@ -41,7 +41,7 @@ class Template_Backoffice_Icons_ListController extends Backoffice_Controller_Def
                 }
 
                 $icons[] = [
-                    'image_id' => (integer)$icon->getId(),
+                    'image_id' => (int)$icon->getId(),
                     'path' => $icon->getUrl(),
                     'link' => $icon->getLink(),
                     'filename' => basename($icon->getUrl()),

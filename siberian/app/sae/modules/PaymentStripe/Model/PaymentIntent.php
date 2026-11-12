@@ -69,7 +69,7 @@ class PaymentIntent extends Base
     public function toJson($optionValue = null, $baseUrl = "")
     {
         $payload = [
-            'id' => (integer) $this->getId(),
+            'id' => (int) $this->getId(),
             'token' => (string) $this->getToken(),
             'status' => (string) $this->getStatus(),
         ];

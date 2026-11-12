@@ -21,7 +21,7 @@ class Application_Controller_Mobile_Default extends Core_Controller_Default
         $this->_layout_id = 1;
 
         // Test si un id de value est passé en paramètre
-        $id = $this->getRequest()->getParam('option_value_id');
+        $id = \Siberian\Input::int($this->getRequest()->getParam('option_value_id'), 0, 0);
         if (!$id) {
             $id = $this->getRequest()->getParam('value_id');
         }
@@ -38,6 +38,15 @@ class Application_Controller_Mobile_Default extends Core_Controller_Default
 
         // We are in an application
         Siberian::setApplication($this->getApplication());
+
+        // No application for this call (unknown key or domain): answer, do not fatal on null
+        if (!$this->getApplication()) {
+            $this->_sendJson([
+                "error" => true,
+                "message" => __("An error occurred, please try again.")
+            ], true);
+            return;
+        }
 
         // Testing if value_id belongs to the app (or is allowed)
         if (!$this->getApplication()->valueIdBelongsTo($id) && $id) {
@@ -194,7 +203,7 @@ class Application_Controller_Mobile_Default extends Core_Controller_Default
 
         $response->setHeader("Content-type", "application/json");
 
-        if (array_key_exists("cache", $data) &&
+        if (is_array($data) && array_key_exists("cache", $data) &&
             in_array($data["cache"], ["HIT", "MISS"])) {
             $response->setHeader("X-Cache", $data["cache"]);
         }
@@ -213,6 +222,16 @@ class Application_Controller_Mobile_Default extends Core_Controller_Default
         /** Handle development case, unset exception messages in production. */
         if (!Siberian_Debug::isDevelopment() && isset($data["exceptionMessage"])) {
             unset($data["exceptionMessage"]);
+        }
+
+        /** A database error is for the logs, the app user reads a plain sentence (the development answers keep it). */
+        if (is_array($data) && !Siberian_Debug::isDevelopment()) {
+            $data = \Siberian\ClientMessage::clean(
+                $data,
+                p__('application', 'Something went wrong on our side, please try again in a moment.'),
+                function ($message) {
+                    log_err(sprintf('[mobile error hidden from the app] %s', $message));
+                });
         }
 
         $json = Siberian_Json::encode($data);

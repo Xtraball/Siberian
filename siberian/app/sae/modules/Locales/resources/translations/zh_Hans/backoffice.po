@@ -1,0 +1,1556 @@
+msgid ""
+msgstr ""
+"Project-Id-Version: Chinese (Simplified) (Siberian)\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2019-01-22 10:35+0000\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: Chinese (Simplified) <http://yvain.xtraball.com/projects/"
+"siberian/backoffice/zh_Hans/>\n"
+"Language: zh_Hans\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=1; plural=0;\n"
+"X-Generator: Weblate 3.3\n"
+
+#. machine-translated (2026-10), to be reviewed
+msgid "60000 maximum allowed."
+msgstr "最大允许 60000。"
+
+#. machine-translated (2026-10), to be reviewed
+msgid ""
+"A certificate already exists for the domain %s, if you want to re-generate "
+"it, use 'Force re-generate' to proceed."
+msgstr "域名 %s 的证书已存在，如需重新生成，请使用“强制重新生成”继续。"
+
+#. machine-translated (2026-10), to be reviewed
+msgid "[APK]"
+msgstr "[APK]"
+
+#. machine-translated (2026-10), to be reviewed
+msgid "APK Queue empty"
+msgstr "APK 队列为空"
+
+#. machine-translated (2026-10), to be reviewed
+msgid "APK Queue status"
+msgstr "APK 队列状态"
+
+#. machine-translated (2026-10), to be reviewed
+msgid "APNS Feedback:"
+msgstr "APNS 反馈："
+
+#. machine-translated (2026-10), to be reviewed
+msgid "APNS Feedback port 2196 is:"
+msgstr "APNS 反馈端口 2196："
+
+#. machine-translated (2026-10), to be reviewed
+msgid "APNS Port 2195 is:"
+msgstr "APNS 端口 2195："
+
+msgid "Account"
+msgstr "帐户"
+
+#. machine-translated (2026-10), to be reviewed
+msgid "Account Role"
+msgstr "账户角色"
+
+msgid "Actions"
+msgstr "操作"
+
+#. machine-translated (2026-10), to be reviewed
+msgid "Activate VAT number check with VIES"
+msgstr "启用通过 VIES 检查增值税号"
+
+#. machine-translated (2026-10), to be reviewed
+msgid "Activate user"
+msgstr "激活用户"
+
+#. machine-translated (2026-10), to be reviewed
+msgid "Active ?"
+msgstr "是否启用？"
+
+#. machine-translated (2026-10), to be reviewed
+msgid "Add a custom text to the footer of your invoices"
+msgstr "在发票页脚添加自定义文本"
+
+#. machine-translated (2026-10), to be reviewed
+msgid "Admin panel type"
+msgstr "管理面板类型"
+
+#. machine-translated (2026-10), to be reviewed
+msgid "Advanced"
+msgstr "高级"
+
+#. machine-translated (2026-10), to be reviewed
+msgid ""
+"Alert: The APK build for the Application: %s (%s) is stuck for more than one "
+"hour."
+msgstr "警告：应用 %s (%s) 的 APK 构建已卡住超过一小时。"
+
+#. machine-translated (2026-10), to be reviewed
+msgid ""
+"Alert: The Source build for the Application: %s (%s) is stuck for more than "
+"one hour."
+msgstr "警告：应用 %s (%s) 的源代码构建已卡住超过一小时。"
+
+#. machine-translated (2026-10), to be reviewed
+msgid "All the files are required."
+msgstr "所有文件均为必填项。"
+
+#. machine-translated (2026-10), to be reviewed
+msgid ""
+"An entry already exists for this hostname, remove it first if you need to "
+"change your certificates."
+msgstr "此主机名的条目已存在，如需更改证书，请先将其删除。"
+
+#. machine-translated (2026-10), to be reviewed
+msgid "An error occured"
+msgstr "发生错误"
+
+#. machine-translated (2026-10), to be reviewed
+msgid "An error occured while saving certificate to %s."
+msgstr "将证书保存到 %s 时出错。"
+
+msgid "An error occurred during the process. Please try again later."
+msgstr "处理过程中发生错误。请稍后再试。"
+
+#. machine-translated (2026-10), to be reviewed
+msgid "An unknown error occured while issueing your certificate."
+msgstr "签发证书时发生未知错误。"
+
+#. machine-translated (2026-10), to be reviewed
+msgid "Android SDK:"
+msgstr "Android SDK："
+
+#. machine-translated (2026-10), to be reviewed
+msgid "App name"
+msgstr "应用名称"
+
+#. machine-translated (2026-10), to be reviewed
+msgid "Application settings"
+msgstr "应用设置"
+
+#. machine-translated (2026-10), to be reviewed
+msgid "Application successfully queued for generation."
+msgstr "应用已成功加入生成队列。"
+
+#. machine-translated (2026-10), to be reviewed
+msgid "Applications/Previewer manifest for automatic updates."
+msgstr "用于自动更新的应用/预览器清单。"
+
+#. machine-translated (2026-10), to be reviewed
+msgid "Are you sure ?"
+msgstr "确定吗？"
+
+#. machine-translated (2026-10), to be reviewed
+msgid "Auth type"
+msgstr "认证类型"
+
+#. machine-translated (2026-10), to be reviewed
+msgid "Authenticate"
+msgstr "验证"
+
+#. machine-translated (2026-10), to be reviewed
+msgid "Average build time in seconds:"
+msgstr "平均构建时间（秒）："
+
+#. machine-translated (2026-10), to be reviewed
+msgid "Average sources/apk build time:"
+msgstr "平均源代码/APK 构建时间："
+
+#. machine-translated (2026-10), to be reviewed
+msgid "Backoffice options"
+msgstr "后台选项"
+
+#. machine-translated (2026-10), to be reviewed
+msgid "Bearer Token Auth (API)"
+msgstr "Bearer 令牌认证 (API)"
+
+#. machine-translated (2026-10), to be reviewed
+msgid "Bearer Token Auth is valid."
+msgstr "Bearer 令牌认证有效。"
+
+#. machine-translated (2026-10), to be reviewed
+msgid "Beta"
+msgstr "测试版"
+
+#. machine-translated (2026-10), to be reviewed
+msgid "Build status"
+msgstr "构建状态"
+
+#. machine-translated (2026-10), to be reviewed
+msgid "Build time (in seconds)"
+msgstr "构建时间（秒）"
+
+#. machine-translated (2026-10), to be reviewed
+msgid ""
+"By clicking on link below, you will open your editor in tour editing mode. "
+"Please note that your user account must be created on editor side."
+msgstr "点击下方链接将以导览编辑模式打开编辑器。请注意，您的用户账户必须已在编辑器端创建。"
+
+#. machine-translated (2026-10), to be reviewed
+msgid "CA"
+msgstr "CA"
+
+msgid "CA certificate"
+msgstr "CA 证书"
+
+#. machine-translated (2026-10), to be reviewed
+msgid "CA path:"
+msgstr "CA 路径："
+
+#. machine-translated (2026-10), to be reviewed
+msgid "CRON Scheduler interval"
+msgstr "CRON 调度器间隔"
+
+#. machine-translated (2026-10), to be reviewed
+msgid "Cache cleared"
+msgstr "缓存已清除"
+
+#. machine-translated (2026-10), to be reviewed
+msgid "Cache (var/cache, system cache)"
+msgstr "缓存（var/cache，系统缓存）"
+
+#. machine-translated (2026-10), to be reviewed
+msgid "Can generate APK"
+msgstr "可以生成 APK"
+
+msgid "Cert"
+msgstr "证书"
+
+msgid "Certificate"
+msgstr "证书"
+
+msgid ""
+"Certificate is valid and SSL is reachable, valid until: %s.<br />Issuer: %s%s"
+msgstr ""
+
+#. machine-translated (2026-10), to be reviewed
+msgid "Certificate path:"
+msgstr "证书路径："
+
+#. machine-translated (2026-10), to be reviewed
+msgid "Certificate successfully generated."
+msgstr "证书已成功生成。"
+
+#. machine-translated (2026-10), to be reviewed
+msgid ""
+"Certificate successfully generated. Please wait while %s is reloading "
+"configuration ..."
+msgstr "证书已成功生成。请等待 %s 重新加载配置 ..."
+
+#. machine-translated (2026-10), to be reviewed
+msgid "Certificate successfully re-generated."
+msgstr "证书已成功重新生成。"
+
+msgid "Change the password"
+msgstr "更改密码"
+
+#. machine-translated (2026-10), to be reviewed
+msgid ""
+"Check if this cron command is installed under the web user & if you have set "
+"a timezone in Settings > General"
+msgstr "请检查此 cron 命令是否已安装在 Web 用户下，以及是否已在“设置 > 常规”中设置时区"
+
+#. machine-translated (2026-10), to be reviewed
+msgid "Clear"
+msgstr "清除"
+
+#. machine-translated (2026-10), to be reviewed
+msgid "Clear cache"
+msgstr "清除缓存"
+
+#. machine-translated (2026-10), to be reviewed
+msgid "Clear logs"
+msgstr "清除日志"
+
+#. machine-translated (2026-10), to be reviewed
+msgid "Cleared cron errors."
+msgstr "已清除 cron 错误。"
+
+msgid "Click here to send your CA certificate"
+msgstr "点击此处发送您的 CA 证书"
+
+msgid "Click here to send your Private certificate"
+msgstr "点击此处发送您的私有证书"
+
+msgid "Click here to send your certificate"
+msgstr "点击此处发送您的证书"
+
+msgid "Click to mark as not read"
+msgstr "点击标记为未读"
+
+msgid "Click to mark as read"
+msgstr "点击标记为已读"
+
+msgid "Closed"
+msgstr "关闭"
+
+#. machine-translated (2026-10), to be reviewed
+msgid "Complete build log"
+msgstr "完整构建日志"
+
+#. machine-translated (2026-10), to be reviewed
+msgid "Configuration"
+msgstr "配置"
+
+msgid "Configuration successfully saved"
+msgstr "配置保存成功"
+
+#. machine-translated (2026-10), to be reviewed
+msgid "Core modules"
+msgstr "核心模块"
+
+msgid "Create a user"
+msgstr "创建用户"
+
+msgid "Created At"
+msgstr "创建于"
+
+msgid "Creation date"
+msgstr "创建日期"
+
+#. machine-translated (2026-10), to be reviewed
+msgid "Cron"
+msgstr "Cron"
+
+#. machine-translated (2026-10), to be reviewed
+msgid "Cron alerts"
+msgstr "Cron 警报"
+
+#. machine-translated (2026-10), to be reviewed
+msgid "Cron interval"
+msgstr "Cron 间隔"
+
+#. machine-translated (2026-10), to be reviewed
+msgid "Cron scheduler"
+msgstr "Cron 调度器"
+
+#. machine-translated (2026-10), to be reviewed
+msgid "Cron scheduler help"
+msgstr "Cron 调度器帮助"
+
+#. machine-translated (2026-10), to be reviewed
+msgid "Custom SMTP Configuration"
+msgstr "自定义 SMTP 配置"
+
+#. machine-translated (2026-10), to be reviewed
+msgid "Day of month"
+msgstr "每月日期"
+
+#. machine-translated (2026-10), to be reviewed
+msgid "Day of week"
+msgstr "每周日期"
+
+#. machine-translated (2026-10), to be reviewed
+msgid "Deactivate user"
+msgstr "停用用户"
+
+#. machine-translated (2026-10), to be reviewed
+msgid "Default (no)"
+msgstr "默认（否）"
+
+#. machine-translated (2026-10), to be reviewed
+msgid "Development"
+msgstr "开发"
+
+#. machine-translated (2026-10), to be reviewed
+msgid "DirectAdmin"
+msgstr "DirectAdmin"
+
+#. machine-translated (2026-10), to be reviewed
+msgid "DirectAdmin (beta)"
+msgstr "DirectAdmin（测试版）"
+
+#. machine-translated (2026-10), to be reviewed
+msgid "Disable cron jobs"
+msgstr "禁用 cron 任务"
+
+#. machine-translated (2026-10), to be reviewed
+msgid "Disabled"
+msgstr "已禁用"
+
+#. machine-translated (2026-10), to be reviewed
+msgid "Disk usage & Cache:"
+msgstr "磁盘使用量和缓存："
+
+#. machine-translated (2026-10), to be reviewed
+msgid "Dismiss & install later"
+msgstr "忽略，稍后安装"
+
+#. machine-translated (2026-10), to be reviewed
+msgid "Display"
+msgstr "显示"
+
+#. machine-translated (2026-10), to be reviewed
+msgid "Doesn't meet the requirements"
+msgstr "不满足要求"
+
+#. machine-translated (2026-10), to be reviewed
+msgid "Download latest source"
+msgstr "下载最新源代码"
+
+msgid "Drop your certificate here"
+msgstr "将您的证书拖放到此处"
+
+msgid "Edit the user"
+msgstr "编辑用户"
+
+#. machine-translated (2026-10), to be reviewed
+msgid "Editor's Design"
+msgstr "编辑器设计"
+
+#. machine-translated (2026-10), to be reviewed
+msgid "Enable custom SMTP configuration"
+msgstr "启用自定义 SMTP 配置"
+
+msgid "Enter your credentials:"
+msgstr "输入您的凭证："
+
+#. machine-translated (2026-10), to be reviewed
+msgid "Environment"
+msgstr "环境"
+
+#. machine-translated (2026-10), to be reviewed
+msgid "Error, order already paid."
+msgstr "错误，订单已支付。"
+
+#. machine-translated (2026-10), to be reviewed
+msgid ""
+"Errors are displayed on page, outputs are more verbose, this is an option "
+"for debug purpose, use with care as it may output some critical informations "
+"about your server."
+msgstr "错误将显示在页面上，输出更详细。这是用于调试的选项，请谨慎使用，因为它可能输出有关服务器的关键信息。"
+
+#. machine-translated (2026-10), to be reviewed
+msgid "Exists"
+msgstr "存在"
+
+#. machine-translated (2026-10), to be reviewed
+msgid "External extensions"
+msgstr "外部扩展"
+
+#. machine-translated (2026-10), to be reviewed
+msgid "Failed"
+msgstr "失败"
+
+#. machine-translated (2026-10), to be reviewed
+msgid "File hash is different from manifest."
+msgstr "文件哈希与清单不一致。"
+
+#. machine-translated (2026-10), to be reviewed
+msgid "File is missing."
+msgstr "文件缺失。"
+
+#. machine-translated (2026-10), to be reviewed
+msgid "Force re-generation"
+msgstr "强制重新生成"
+
+msgid "Forgot password"
+msgstr "忘记密码了吗？"
+
+#. machine-translated (2026-10), to be reviewed
+msgid "Full"
+msgstr "完整"
+
+#. machine-translated (2026-10), to be reviewed
+msgid "Full path to use within your webserver."
+msgstr "在您的 Web 服务器中使用的完整路径。"
+
+#. machine-translated (2026-10), to be reviewed
+msgid "General settings"
+msgstr "常规设置"
+
+#. machine-translated (2026-10), to be reviewed
+msgid "Generate"
+msgstr "生成"
+
+#. machine-translated (2026-10), to be reviewed
+msgid "Generate a certificate via Let's Encrypt."
+msgstr "通过 Let's Encrypt 生成证书。"
+
+#. machine-translated (2026-10), to be reviewed
+msgid "Generate source"
+msgstr "生成源代码"
+
+#. machine-translated (2026-10), to be reviewed
+msgid "Generating"
+msgstr "生成中"
+
+#. machine-translated (2026-10), to be reviewed
+msgid "[Global]"
+msgstr "[全局]"
+
+#. machine-translated (2026-10), to be reviewed
+msgid "Grant user"
+msgstr "授权用户"
+
+#. machine-translated (2026-10), to be reviewed
+msgid "HTTP Basic Auth (API)"
+msgstr "HTTP 基本认证 (API)"
+
+#. machine-translated (2026-10), to be reviewed
+msgid "HTTP Basic Auth is valid."
+msgstr "HTTP 基本认证有效。"
+
+#. machine-translated (2026-10), to be reviewed
+msgid "HTTPS & SSL Certificates"
+msgstr "HTTPS 和 SSL 证书"
+
+#. machine-translated (2026-10), to be reviewed
+msgid "HTTPS host is unreachable."
+msgstr "HTTPS 主机无法访问。"
+
+#. machine-translated (2026-10), to be reviewed
+msgid "HTTPS is not available on your server."
+msgstr "您的服务器不支持 HTTPS。"
+
+#. machine-translated (2026-10), to be reviewed
+msgid "HTTPS not reachable"
+msgstr "HTTPS 无法访问"
+
+#. machine-translated (2026-10), to be reviewed
+msgid ""
+"HTTPS support is in <b>Beta</b>, you should test it on your <b>development "
+"server</b> first & prepare for further migration."
+msgstr "HTTPS 支持处于<b>测试版</b>阶段，您应先在<b>开发服务器</b>上进行测试，并为后续迁移做好准备。"
+
+#. machine-translated (2026-10), to be reviewed
+msgid ""
+"HTTPS support is in test, you should only try it on your development server "
+"prior to prepare for further migration."
+msgstr "HTTPS 支持尚在测试中，您应仅在开发服务器上尝试，并为后续迁移做好准备。"
+
+msgid "Hide"
+msgstr "隐藏"
+
+#. machine-translated (2026-10), to be reviewed
+msgid "Host"
+msgstr "主机"
+
+#. machine-translated (2026-10), to be reviewed
+msgid "Hostname"
+msgstr "主机名"
+
+#. machine-translated (2026-10), to be reviewed
+msgid "Hostnames associated with this Certificate"
+msgstr "与此证书关联的主机名"
+
+msgid "Hour"
+msgstr "小时"
+
+msgid "ID"
+msgstr "ID"
+
+#. machine-translated (2026-10), to be reviewed
+msgid "If inactive, your customer won't see the tour."
+msgstr "如果未启用，您的客户将看不到导览。"
+
+#. machine-translated (2026-10), to be reviewed
+msgid ""
+"If you are unable to install or run the cronjob on your hosting/server you "
+"can disable it."
+msgstr "如果您无法在主机/服务器上安装或运行 cron 任务，可以将其禁用。"
+
+#. machine-translated (2026-10), to be reviewed
+msgid "Info"
+msgstr "信息"
+
+#. machine-translated (2026-10), to be reviewed
+msgid "Installed"
+msgstr "已安装"
+
+#. machine-translated (2026-10), to be reviewed
+msgid "Installed icon packs"
+msgstr "已安装的图标包"
+
+#. machine-translated (2026-10), to be reviewed
+msgid "Installed layouts"
+msgstr "已安装的布局"
+
+#. machine-translated (2026-10), to be reviewed
+msgid "Installed modules"
+msgstr "已安装的模块"
+
+#. machine-translated (2026-10), to be reviewed
+msgid "Installed, version"
+msgstr "已安装，版本"
+
+#. machine-translated (2026-10), to be reviewed
+msgid "Integrity check"
+msgstr "完整性检查"
+
+#. machine-translated (2026-10), to be reviewed
+msgid "Invoice options"
+msgstr "发票选项"
+
+#. machine-translated (2026-10), to be reviewed
+msgid "Issued certificates"
+msgstr "已签发的证书"
+
+#. machine-translated (2026-10), to be reviewed
+msgid "JAVA:"
+msgstr "JAVA："
+
+#. machine-translated (2026-10), to be reviewed
+msgid "Last cron error"
+msgstr "最近一次 cron 错误"
+
+#. machine-translated (2026-10), to be reviewed
+msgid "Last failure"
+msgstr "最近一次失败"
+
+#. machine-translated (2026-10), to be reviewed
+msgid "Last success"
+msgstr "最近一次成功"
+
+#. machine-translated (2026-10), to be reviewed
+msgid "Last trigger"
+msgstr "最近一次触发"
+
+#. machine-translated (2026-10), to be reviewed
+msgid "Let's Encrypt certificates renewal"
+msgstr "Let's Encrypt 证书续期"
+
+#. machine-translated (2026-10), to be reviewed
+msgid "Let's Encrypt environment"
+msgstr "Let's Encrypt 环境"
+
+#. machine-translated (2026-10), to be reviewed
+msgid "[Let's Encrypt] renewing certificate."
+msgstr "[Let's Encrypt] 正在续期证书。"
+
+#. machine-translated (2026-10), to be reviewed
+msgid "[Let's Encrypt] will add %s to SAN."
+msgstr "[Let's Encrypt] 将把 %s 添加到 SAN。"
+
+#. machine-translated (2026-10), to be reviewed
+msgid "Link preview"
+msgstr "链接预览"
+
+msgid "List of backoffice accounts"
+msgstr "后台帐户列表"
+
+msgid "List of the messages"
+msgstr "消息列表"
+
+#. machine-translated (2026-10), to be reviewed
+msgid "Loaded"
+msgstr "已加载"
+
+#. machine-translated (2026-10), to be reviewed
+msgid "Log"
+msgstr "日志"
+
+#. machine-translated (2026-10), to be reviewed
+msgid "Log (var/log, log files)"
+msgstr "日志（var/log，日志文件）"
+
+msgid "Login to your backoffice interface"
+msgstr "登录您的后台界面"
+
+#. machine-translated (2026-10), to be reviewed
+msgid "Logs cleared."
+msgstr "日志已清除。"
+
+#. machine-translated (2026-10), to be reviewed
+msgid "Mark all as read"
+msgstr "全部标为已读"
+
+#. machine-translated (2026-10), to be reviewed
+msgid "Mark as new"
+msgstr "标为新"
+
+#. machine-translated (2026-10), to be reviewed
+msgid "Mark as read"
+msgstr "标为已读"
+
+msgid "Messages"
+msgstr "消息"
+
+msgid "Minute"
+msgstr "分钟"
+
+#. machine-translated (2026-10), to be reviewed
+msgid "Missing parameters for generation."
+msgstr "生成所需的参数缺失。"
+
+#. machine-translated (2026-10), to be reviewed
+msgid "Mobile Source Codes & Builds"
+msgstr "移动端源代码和构建"
+
+#. machine-translated (2026-10), to be reviewed
+msgid "Module/User tasks"
+msgstr "模块/用户任务"
+
+#. machine-translated (2026-10), to be reviewed
+msgid "Month"
+msgstr "月"
+
+msgid "My Invoices"
+msgstr "我的发票"
+
+#. machine-translated (2026-10), to be reviewed
+msgid "My tour is active"
+msgstr "我的导览已启用"
+
+msgid "Name"
+msgstr "名字"
+
+#. machine-translated (2026-10), to be reviewed
+msgid "New messages"
+msgstr "新消息"
+
+#. machine-translated (2026-10), to be reviewed
+msgid "New users"
+msgstr "新用户"
+
+msgid "No"
+msgstr "否"
+
+#. machine-translated (2026-10), to be reviewed
+msgid "No file has been sent"
+msgstr "未发送任何文件"
+
+#. machine-translated (2026-10), to be reviewed
+msgid "No icon packs"
+msgstr "没有图标包"
+
+msgid "No informations."
+msgstr "没有信息。"
+
+#. machine-translated (2026-10), to be reviewed
+msgid "No layouts"
+msgstr "没有布局"
+
+#. machine-translated (2026-10), to be reviewed
+msgid "No module/user tasks"
+msgstr "没有模块/用户任务"
+
+#. machine-translated (2026-10), to be reviewed
+msgid "No system tasks"
+msgstr "没有系统任务"
+
+#. machine-translated (2026-10), to be reviewed
+msgid "None"
+msgstr "无"
+
+#. machine-translated (2026-10), to be reviewed
+msgid "Not found"
+msgstr "未找到"
+
+#. machine-translated (2026-10), to be reviewed
+msgid "Not running"
+msgstr "未运行"
+
+#. machine-translated (2026-10), to be reviewed
+msgid "Not yet generated."
+msgstr "尚未生成。"
+
+#. machine-translated (2026-10), to be reviewed
+msgid "Note:"
+msgstr "注意："
+
+#. machine-translated (2026-10), to be reviewed
+msgid "Note: Let's encrypt X1 is a staging certificate."
+msgstr "注意：Let's Encrypt X1 是测试环境证书。"
+
+#. machine-translated (2026-10), to be reviewed
+msgid "Number of typed characters:"
+msgstr "已输入字符数："
+
+#. machine-translated (2026-10), to be reviewed
+msgid "OR"
+msgstr "或"
+
+#. machine-translated (2026-10), to be reviewed
+msgid "Ok"
+msgstr "确定"
+
+#. machine-translated (2026-10), to be reviewed
+msgid "Ok, you may consider upgrade to >=5.4"
+msgstr "正常，您可以考虑升级到 5.4 及以上版本"
+
+#. machine-translated (2026-10), to be reviewed
+msgid "Ok, you may upgrade to php 5.6"
+msgstr "正常，您可以升级到 php 5.6"
+
+#. machine-translated (2026-10), to be reviewed
+msgid ""
+"One of the three given Certificates path is not readable, please make sure "
+"they have the good rights."
+msgstr "所给的三个证书路径之一不可读，请确保它们具有正确的权限。"
+
+#. machine-translated (2026-10), to be reviewed
+msgid "Open"
+msgstr "打开"
+
+#. machine-translated (2026-10), to be reviewed
+msgid "Open the tour editing mode"
+msgstr "打开导览编辑模式"
+
+#. machine-translated (2026-10), to be reviewed
+msgid "Optional binaries"
+msgstr "可选二进制文件"
+
+#. machine-translated (2026-10), to be reviewed
+msgid "Optional libraries"
+msgstr "可选库"
+
+#. machine-translated (2026-10), to be reviewed
+msgid ""
+"Otherwise install it manually, from your panel, or directly from your ssh "
+"access."
+msgstr "否则请通过控制面板或直接通过 ssh 手动安装。"
+
+#. machine-translated (2026-10), to be reviewed
+msgid "Overview - WebApp (var/apps/browser, overview & webapp cache)"
+msgstr "概览 - WebApp（var/apps/browser，概览和 WebApp 缓存）"
+
+#. machine-translated (2026-10), to be reviewed
+msgid "Overview cache cleared."
+msgstr "概览缓存已清除。"
+
+#. machine-translated (2026-10), to be reviewed
+msgid "PEM test:"
+msgstr "PEM 测试："
+
+#. machine-translated (2026-10), to be reviewed
+msgid "PHP version %s:"
+msgstr "PHP 版本 %s："
+
+msgid "Password"
+msgstr "密码"
+
+#. machine-translated (2026-10), to be reviewed
+msgid "Path to your CA certificate"
+msgstr "您的 CA 证书路径"
+
+#. machine-translated (2026-10), to be reviewed
+msgid "Path to your Certificate"
+msgstr "您的证书路径"
+
+#. machine-translated (2026-10), to be reviewed
+msgid "Path to your Private certificate"
+msgstr "您的私有证书路径"
+
+#. machine-translated (2026-10), to be reviewed
+msgid "Path to your Private key"
+msgstr "您的私钥路径"
+
+#. machine-translated (2026-10), to be reviewed
+msgid "Payment received"
+msgstr "已收到付款"
+
+msgid "People who are allowed to access the backoffice"
+msgstr "允许访问后台的人员"
+
+#. machine-translated (2026-10), to be reviewed
+msgid "Permission, denied from Plesk, please use the admin account."
+msgstr "Plesk 拒绝了权限，请使用管理员账户。"
+
+#. machine-translated (2026-10), to be reviewed
+msgid "Plesk"
+msgstr "Plesk"
+
+#. machine-translated (2026-10), to be reviewed
+msgid "Plesk 12+"
+msgstr "Plesk 12+"
+
+#. machine-translated (2026-10), to be reviewed
+msgid "[Plesk] Unknown error."
+msgstr "[Plesk] 未知错误。"
+
+#. machine-translated (2026-10), to be reviewed
+msgid "Port"
+msgstr "端口"
+
+#. machine-translated (2026-10), to be reviewed
+msgid "Preview 5.0"
+msgstr "预览版 5.0"
+
+msgid "Privacy policy URL"
+msgstr "隐私政策网址"
+
+#. machine-translated (2026-10), to be reviewed
+msgid "Private"
+msgstr "私有"
+
+#. machine-translated (2026-10), to be reviewed
+msgid "Private certificate"
+msgstr "私有证书"
+
+#. machine-translated (2026-10), to be reviewed
+msgid "Private path:"
+msgstr "私有路径："
+
+#. machine-translated (2026-10), to be reviewed
+msgid "Production"
+msgstr "生产"
+
+#. machine-translated (2026-10), to be reviewed
+msgid "Progress"
+msgstr "进度"
+
+#. machine-translated (2026-10), to be reviewed
+msgid "Publication access type"
+msgstr "发布访问类型"
+
+#. machine-translated (2026-10), to be reviewed
+msgid "Push messages:"
+msgstr "推送消息："
+
+#. machine-translated (2026-10), to be reviewed
+msgid "Queued"
+msgstr "已排队"
+
+#. machine-translated (2026-10), to be reviewed
+msgid "Queued %s/%s"
+msgstr "已排队 %s/%s"
+
+#. machine-translated (2026-10), to be reviewed
+msgid "Read"
+msgstr "已读"
+
+#. machine-translated (2026-10), to be reviewed
+msgid "Rebuild"
+msgstr "重新构建"
+
+#. machine-translated (2026-10), to be reviewed
+msgid "Rebuild manifest"
+msgstr "重建清单"
+
+#. machine-translated (2026-10), to be reviewed
+msgid "Rebuilding application manifest files."
+msgstr "正在重新构建应用清单文件。"
+
+#. machine-translated (2026-10), to be reviewed
+msgid "Regular updates system"
+msgstr "常规更新系统"
+
+#. machine-translated (2026-10), to be reviewed
+msgid "Remove locks"
+msgstr "移除锁"
+
+#. machine-translated (2026-10), to be reviewed
+msgid "Remove locks now"
+msgstr "立即移除锁"
+
+#. machine-translated (2026-10), to be reviewed
+msgid "Removing CRON Scheduler lock files."
+msgstr "正在移除 CRON 调度器锁文件。"
+
+#. machine-translated (2026-10), to be reviewed
+msgid "Removing domains: %s"
+msgstr "正在移除域名：%s"
+
+#. machine-translated (2026-10), to be reviewed
+msgid "Request"
+msgstr "请求"
+
+#. machine-translated (2026-10), to be reviewed
+msgid "Request the certificate via Let's Encrypt."
+msgstr "通过 Let's Encrypt 申请证书。"
+
+#. machine-translated (2026-10), to be reviewed
+msgid "Required extensions"
+msgstr "必需的扩展"
+
+#. machine-translated (2026-10), to be reviewed
+msgid "Revoke user"
+msgstr "撤销用户"
+
+#. machine-translated (2026-10), to be reviewed
+msgid "Run test"
+msgstr "运行测试"
+
+#. machine-translated (2026-10), to be reviewed
+msgid "SSL"
+msgstr "SSL"
+
+msgid "Sales"
+msgstr "销售"
+
+#. machine-translated (2026-10), to be reviewed
+msgid "Sales configuration"
+msgstr "销售配置"
+
+msgid "Save"
+msgstr "保存"
+
+#. machine-translated (2026-10), to be reviewed
+msgid "Select API access"
+msgstr "选择 API 访问权限"
+
+#. machine-translated (2026-10), to be reviewed
+msgid "Select a panel type or self-managed"
+msgstr "选择面板类型或自行管理"
+
+#. machine-translated (2026-10), to be reviewed
+msgid "Self-managed"
+msgstr "自行管理"
+
+#. machine-translated (2026-10), to be reviewed
+msgid "Self-managed sync is not available for now."
+msgstr "自行管理的同步暂不可用。"
+
+#. machine-translated (2026-10), to be reviewed
+msgid "Send anonymous statistics to improve the apps builder."
+msgstr "发送匿名统计数据以改进应用构建器。"
+
+#. machine-translated (2026-10), to be reviewed
+msgid "Server"
+msgstr "服务器"
+
+#. machine-translated (2026-10), to be reviewed
+msgid "Services"
+msgstr "服务"
+
+#. machine-translated (2026-10), to be reviewed
+msgid "Show All Applications"
+msgstr "显示所有应用"
+
+#. machine-translated (2026-10), to be reviewed
+msgid "Show more"
+msgstr "显示更多"
+
+#. machine-translated (2026-10), to be reviewed
+msgid "Siberian - Backoffice"
+msgstr "Siberian - 后台"
+
+msgid "Siberian CMS"
+msgstr "Siberian CMS"
+
+#. machine-translated (2026-10), to be reviewed
+msgid "[Siberian_Cpanel] Unable to update cPanel SSL Certificate for %s"
+msgstr "[Siberian_Cpanel] 无法更新 %s 的 cPanel SSL 证书"
+
+#. machine-translated (2026-10), to be reviewed
+msgid "[Siberian_VestaCP] requires php 5.6+"
+msgstr "[Siberian_VestaCP] 需要 php 5.6+"
+
+#. machine-translated (2026-10), to be reviewed
+msgid ""
+"Something went wrong with the API Sync to %s, retry or check in your panel "
+"if your SSL certificate is correctly setup."
+msgstr "与 %s 的 API 同步出错，请重试，或在您的面板中检查 SSL 证书是否设置正确。"
+
+#. machine-translated (2026-10), to be reviewed
+msgid "Source"
+msgstr "源代码"
+
+#. machine-translated (2026-10), to be reviewed
+msgid "Source Queue empty"
+msgstr "源代码队列为空"
+
+#. machine-translated (2026-10), to be reviewed
+msgid "Source Queue status"
+msgstr "源代码队列状态"
+
+#. machine-translated (2026-10), to be reviewed
+msgid "[Sources]"
+msgstr "[源代码]"
+
+msgid "Sources code"
+msgstr "源代码"
+
+#. machine-translated (2026-10), to be reviewed
+msgid "Stable"
+msgstr "稳定版"
+
+#. machine-translated (2026-10), to be reviewed
+msgid "Staging"
+msgstr "测试环境"
+
+#. machine-translated (2026-10), to be reviewed
+msgid "Start editing your platform tour"
+msgstr "开始编辑您的平台导览"
+
+#. machine-translated (2026-10), to be reviewed
+msgid "Statistics"
+msgstr "统计"
+
+#. machine-translated (2026-10), to be reviewed
+msgid ""
+"Statistics are used to improve the platform and help understanding usage of "
+"the apps builder."
+msgstr "统计数据用于改进平台，并帮助了解应用构建器的使用情况。"
+
+msgid "Status"
+msgstr "状态"
+
+#. machine-translated (2026-10), to be reviewed
+msgid "Submit a bug report or improvement request for beta/preview"
+msgstr "提交测试版/预览版的错误报告或改进建议"
+
+#. machine-translated (2026-10), to be reviewed
+msgid "Success"
+msgstr "成功"
+
+#. machine-translated (2026-10), to be reviewed
+msgid "Successfully cleaned-up old certificate."
+msgstr "已成功清理旧证书。"
+
+#. machine-translated (2026-10), to be reviewed
+msgid "Successfully installed new certificate."
+msgstr "已成功安装新证书。"
+
+#. machine-translated (2026-10), to be reviewed
+msgid "Successfully removed the certificate."
+msgstr "已成功移除证书。"
+
+#. machine-translated (2026-10), to be reviewed
+msgid "Successfully saved Certificate to %s"
+msgstr "已成功将证书保存到 %s"
+
+#. machine-translated (2026-10), to be reviewed
+msgid "Sync files"
+msgstr "同步文件"
+
+#. machine-translated (2026-10), to be reviewed
+msgid "System Diagnostic"
+msgstr "系统诊断"
+
+#. machine-translated (2026-10), to be reviewed
+msgid "System tasks"
+msgstr "系统任务"
+
+#. machine-translated (2026-10), to be reviewed
+msgid "System was unable to validate any Bearer Token Auth call."
+msgstr "系统无法验证任何 Bearer 令牌认证调用。"
+
+#. machine-translated (2026-10), to be reviewed
+msgid "System was unable to validate any HTTP Basic Auth call."
+msgstr "系统无法验证任何 HTTP 基本认证调用。"
+
+msgid "Temp (var/tmp, application sources & apk)"
+msgstr ""
+
+#. machine-translated (2026-10), to be reviewed
+msgid "Templates"
+msgstr "模板"
+
+#. machine-translated (2026-10), to be reviewed
+msgid "Test SSL/HTTPS"
+msgstr "测试 SSL/HTTPS"
+
+#. machine-translated (2026-10), to be reviewed
+msgid "Testing: %s"
+msgstr "测试：%s"
+
+#. machine-translated (2026-10), to be reviewed
+msgid ""
+"The PHP executable guessed path <b>'%s'</b> may be incorrect, please double "
+"check for it."
+msgstr "推测的 PHP 可执行文件路径 <b>'%s'</b> 可能不正确，请仔细检查。"
+
+#. machine-translated (2026-10), to be reviewed
+msgid "The default setting to run your production server."
+msgstr "运行生产服务器的默认设置。"
+
+#. machine-translated (2026-10), to be reviewed
+msgid ""
+"The domain %s doesn't belong to you, or is not configured on your server."
+msgstr "域名 %s 不属于您，或未在您的服务器上配置。"
+
+#. machine-translated (2026-10), to be reviewed
+msgid "The given CA certificate doesn't match the hostname."
+msgstr "所给的 CA 证书与主机名不匹配。"
+
+#. machine-translated (2026-10), to be reviewed
+msgid "The given certificate doesn't match the hostname."
+msgstr "所给的证书与主机名不匹配。"
+
+#. machine-translated (2026-10), to be reviewed
+msgid "The given certificate doesn't match the hostname or wiSibldcard."
+msgstr "所给的证书与主机名或通配符不匹配。"
+
+msgid "This account can't be deleted, it's the only one"
+msgstr "此账户无法删除，它是唯一的账户"
+
+#. machine-translated (2026-10), to be reviewed
+msgid ""
+"This action mainly serves as a development & support purpose<br />This will "
+"restore App sources 'iOS', 'Android', 'HTML5' & 'Overview' from the latest "
+"Siberian version, then rebuild the manifest to restore installed modules."
+msgstr "此操作主要用于开发和支持目的<br />它将从最新的 Siberian 版本恢复应用源代码“iOS”、“Android”、“HTML5”和“Overview”，然后重建清单以恢复已安装的模块。"
+
+#. machine-translated (2026-10), to be reviewed
+msgid ""
+"This e-mail address must be reachable, as you will receive important e-mails "
+"from the system & user actions."
+msgstr "此电子邮件地址必须可以联系到，因为您将通过它接收系统和用户操作的重要邮件。"
+
+#. machine-translated (2026-10), to be reviewed
+msgid ""
+"This message will be displayed as a waiting message when your users chose an "
+"offline payment method"
+msgstr "当用户选择线下支付方式时，此消息将作为等待提示显示"
+
+#. machine-translated (2026-10), to be reviewed
+msgid ""
+"This message will be displayed as an information message to describe which "
+"offline payment method you offer"
+msgstr "此消息将作为信息提示显示，用于说明您提供的线下支付方式"
+
+#. machine-translated (2026-10), to be reviewed
+msgid ""
+"This test is for development & support usage, this only highlights potential "
+"missing and/or modified files, results need to be interpreted."
+msgstr "此测试用于开发和支持，仅突出显示可能缺失和/或被修改的文件，结果需要自行解读。"
+
+#. machine-translated (2026-10), to be reviewed
+msgid "Tools"
+msgstr "工具"
+
+#. machine-translated (2026-10), to be reviewed
+msgid "Total sales"
+msgstr "总销售额"
+
+#. machine-translated (2026-10), to be reviewed
+msgid "Total usage:"
+msgstr "总使用量："
+
+#. machine-translated (2026-10), to be reviewed
+msgid "Tour settings"
+msgstr "导览设置"
+
+#. machine-translated (2026-10), to be reviewed
+msgid "Tour status"
+msgstr "导览状态"
+
+msgid "Tour status successfully saved."
+msgstr "游览状态保存成功。"
+
+#. machine-translated (2026-10), to be reviewed
+msgid "UID"
+msgstr "UID"
+
+#. machine-translated (2026-10), to be reviewed
+msgid ""
+"Unable to connect in HTTPS or to validate the SSL Certificate.<br />Check if "
+"your are not in `Staging`"
+msgstr "无法通过 HTTPS 连接或验证 SSL 证书。<br />请检查您是否处于 `Staging` 环境"
+
+#. machine-translated (2026-10), to be reviewed
+msgid "Unknown"
+msgstr "未知"
+
+#. machine-translated (2026-10), to be reviewed
+msgid "Unknown - Self-managed"
+msgstr "未知 - 自行管理"
+
+#. machine-translated (2026-10), to be reviewed
+msgid "Update"
+msgstr "更新"
+
+#. machine-translated (2026-10), to be reviewed
+msgid "Update channel"
+msgstr "更新渠道"
+
+msgid "Updated At"
+msgstr "更新于"
+
+#. machine-translated (2026-10), to be reviewed
+msgid "Upload"
+msgstr "上传"
+
+#. machine-translated (2026-10), to be reviewed
+msgid "Upload files or use existing certificates on my server"
+msgstr "上传文件或使用我服务器上的现有证书"
+
+#. machine-translated (2026-10), to be reviewed
+msgid "Upload my certificates"
+msgstr "上传我的证书"
+
+#. machine-translated (2026-10), to be reviewed
+msgid "Upload your own certificates"
+msgstr "上传您自己的证书"
+
+#. machine-translated (2026-10), to be reviewed
+msgid "Use HTTPS"
+msgstr "使用 HTTPS"
+
+#. machine-translated (2026-10), to be reviewed
+msgid "Use existing certificates on my server"
+msgstr "使用我服务器上的现有证书"
+
+msgid "User successfully deleted"
+msgstr "用户成功删除"
+
+msgid "Username"
+msgstr "用户名"
+
+#. machine-translated (2026-10), to be reviewed
+msgid "User's status successfully edited"
+msgstr "用户状态已成功修改"
+
+#. machine-translated (2026-10), to be reviewed
+msgid "VAT check options"
+msgstr "增值税检查选项"
+
+#. machine-translated (2026-10), to be reviewed
+msgid "Validation"
+msgstr "验证"
+
+#. machine-translated (2026-10), to be reviewed
+msgid "VestaCP"
+msgstr "VestaCP"
+
+#. machine-translated (2026-10), to be reviewed
+msgid "VestaCP (php 5.6+ only)"
+msgstr "VestaCP（仅限 php 5.6+）"
+
+msgid "View Details"
+msgstr "查看详情"
+
+#. machine-translated (2026-10), to be reviewed
+msgid "WHM cPanel"
+msgstr "WHM cPanel"
+
+#. machine-translated (2026-10), to be reviewed
+msgid "Waiting for %s to reload, this can take a while..."
+msgstr "正在等待 %s 重新加载，这可能需要一些时间..."
+
+#. machine-translated (2026-10), to be reviewed
+msgid ""
+"We recommned using <b>preview</b> on a testing or development server, we "
+"won't provide regular ticket support for these update channels, only bug "
+"reports via the form below."
+msgstr "我们建议在测试或开发服务器上使用<b>预览版</b>，对这些更新渠道我们不提供常规工单支持，仅接受通过下方表单提交的错误报告。"
+
+#. machine-translated (2026-10), to be reviewed
+msgid "Web space"
+msgstr "网站空间"
+
+#. machine-translated (2026-10), to be reviewed
+msgid "White Label"
+msgstr "白标"
+
+#. machine-translated (2026-10), to be reviewed
+msgid "Whitelabel"
+msgstr "白标"
+
+#. machine-translated (2026-10), to be reviewed
+msgid "Whitelabel hostnames associated with this Certificate"
+msgstr "与此证书关联的白标主机名"
+
+#. machine-translated (2026-10), to be reviewed
+msgid "Whitelabel request"
+msgstr "白标申请"
+
+#. machine-translated (2026-10), to be reviewed
+msgid "Whitelabels"
+msgstr "白标"
+
+msgid "Yes"
+msgstr "是"
+
+#. machine-translated (2026-10), to be reviewed
+msgid "Yes, install the update."
+msgstr "是，安装更新。"
+
+#. machine-translated (2026-10), to be reviewed
+msgid ""
+"You are about to clean all the cron lock files !\n"
+"Are you sure ?"
+msgstr "您即将清除所有 cron 锁文件！\n确定吗？"
+
+#. machine-translated (2026-10), to be reviewed
+msgid ""
+"You are about to clean all your log files !\n"
+"Are you sure ?"
+msgstr "您即将清除所有日志文件！\n确定吗？"
+
+#. machine-translated (2026-10), to be reviewed
+msgid "You are about to delete this certificate, Are you sure ?"
+msgstr "您即将删除此证书，确定吗？"
+
+msgid ""
+"You are about to wipe all your temporary files, this includes the generated "
+"sources & apk builds !\n"
+"Are you sure ?"
+msgstr ""
+
+#. machine-translated (2026-10), to be reviewed
+msgid "You can use <b>%s</b> as a dynamic variable for your application name."
+msgstr "您可以使用 <b>%s</b> 作为应用名称的动态变量。"
+
+#. machine-translated (2026-10), to be reviewed
+msgid ""
+"You have a Source generation stuck for more than 1 hour, please check in <b>"
+"Settings > Advanced > Cron</b> for the stuck build.<br />To unlock further "
+"builds you can remove locks from the button below."
+msgstr "有源代码生成任务卡住超过 1 小时，请在<b>设置 > 高级 > Cron</b> 中查看卡住的构建。<br />如需解除后续构建的锁定，可使用下方按钮移除锁。"
+
+#. machine-translated (2026-10), to be reviewed
+msgid ""
+"You have an APK generation stuck for more than 1 hour, please check in <b>"
+"Settings > Advanced > Cron</b> for the stuck build.<br />To unlock further "
+"builds you can remove locks from the button below."
+msgstr "有 APK 生成任务卡住超过 1 小时，请在<b>设置 > 高级 > Cron</b> 中查看卡住的构建。<br />如需解除后续构建的锁定，可使用下方按钮移除锁。"
+
+#. machine-translated (2026-10), to be reviewed
+msgid "You have no certificate yet."
+msgstr "您还没有证书。"
+
+#. machine-translated (2026-10), to be reviewed
+msgid "You have no new messages."
+msgstr "您没有新消息。"
+
+#. machine-translated (2026-10), to be reviewed
+msgid "You must select an Admin panel type before requesting a Certificate."
+msgstr "申请证书前，您必须选择管理面板类型。"
+
+msgid ""
+"Your HTTPS/SSL Certificate is about to expire in <b>%s day%s</b>, don't "
+"forget to renew it on the following page <a href=\"%s\">configuration</a>."
+msgstr ""
+
+#. machine-translated (2026-10), to be reviewed
+msgid "Your certificate is invalid"
+msgstr "您的证书无效"
+
+#. machine-translated (2026-10), to be reviewed
+msgid "Your certificate is valid until:"
+msgstr "您的证书有效期至："
+
+#. machine-translated (2026-10), to be reviewed
+msgid "Your certificates are saved."
+msgstr "您的证书已保存。"
+
+msgid "Your new password"
+msgstr "您的新密码"
+
+msgid "Your password"
+msgstr "您的密码"
+
+#. machine-translated (2026-10), to be reviewed
+msgid "<b>Actual preview version is Siberian 5.0</b>."
+msgstr "<b>当前预览版本为 Siberian 5.0</b>。"
+
+#. machine-translated (2026-10), to be reviewed
+msgid ""
+"<b>Disclaimer:</b> You are using the <b>preview</b> update channel, this "
+"channel is intended for <b>tests & previews</b> of new features, if you are "
+"not sure stay with <b>stable channel</b>."
+msgstr "<b>免责声明：</b>您正在使用<b>预览</b>更新渠道，该渠道用于新功能的<b>测试和预览</b>，如果不确定，请使用<b>稳定渠道</b>。"
+
+#. machine-translated (2026-10), to be reviewed
+msgid ""
+"<b>Note for Bug report:</b> give us a maximum of description of how you "
+"reached the bug, and possibly screenshots."
+msgstr "<b>错误报告说明：</b>请尽可能详细地描述您是如何遇到该错误的，如有可能请附上截图。"
+
+#. machine-translated (2026-10), to be reviewed
+msgid ""
+"<b>Note</b>: sources & push will be sent immediately after their creation, "
+"scheduled push will not work & media optimization is disabled."
+msgstr "<b>注意</b>：源代码和推送将在创建后立即发送，定时推送将不起作用，且媒体优化已禁用。"
+
+msgid "customer"
+msgstr "客户"
+
+msgid "%d Unread Message"
+msgstr "%d 条未读消息"
+
+msgid "%d Unread Messages"
+msgstr "%d 条未读消息"
+
+#. machine-translated (2026-10), to be reviewed
+msgid "for the bundle id:"
+msgstr "针对 Bundle ID："
+
+#. machine-translated (2026-10), to be reviewed
+msgid "letsencrypt"
+msgstr "letsencrypt"
+
+#. machine-translated (2026-10), to be reviewed
+msgid "per page"
+msgstr "每页"
+
+#. machine-translated (2026-10), to be reviewed
+msgid "see Settings > Advanced > Configuration > Cron to edit options."
+msgstr "请参阅“设置 > 高级 > 配置 > Cron”以编辑选项。"
+
+#. machine-translated (2026-10), to be reviewed
+msgid "values are refreshed once a day only!"
+msgstr "数值每天仅刷新一次！"
+
+# GMT 1559644696.6294
+#. machine-translated (2026-10), to be reviewed
+msgid "Temp (var/tmp, application sources)"
+msgstr "临时文件（var/tmp，应用源代码）"
+
+# GMT 1559644696.8734
+#. machine-translated (2026-10), to be reviewed
+msgid ""
+"You are about to wipe all your temporary files, this includes the generated sources builds !\n"
+"Are you sure ?"
+msgstr "您即将清空所有临时文件，其中包括已生成的源代码构建！\n确定吗？"
+
+# GMT 1559644696.9767
+#. machine-translated (2026-10), to be reviewed
+msgid "Free trial"
+msgstr "免费试用"
+
+# GMT 1559644696.9768
+#. machine-translated (2026-10), to be reviewed
+msgid "Trial duration in days"
+msgstr "试用天数"
+
+# GMT 1559644696.9769
+#. machine-translated (2026-10), to be reviewed
+msgid "Allow access to editor regardless the free trial or subscription"
+msgstr "无论是否处于免费试用或订阅期，都允许访问编辑器"
+
+# GMT 1559644696.9770
+#. machine-translated (2026-10), to be reviewed
+msgid "Enable free trial"
+msgstr "启用免费试用"
+
+# GMT 1559644696.9771
+#. machine-translated (2026-10), to be reviewed
+msgid "Session lifetime can't be below 300 seconds / 5 minutes."
+msgstr "会话有效期不能低于 300 秒 / 5 分钟。"
+
+# GMT 1559644696.9772
+#. machine-translated (2026-10), to be reviewed
+msgid "Sessions without activity for that time will be automatically cleaned-up."
+msgstr "在此时间内无活动的会话将被自动清理。"
+
+# GMT 1559644696.9773
+#. machine-translated (2026-10), to be reviewed
+msgid "Default is 604800 which is 7 days."
+msgstr "默认值为 604800，即 7 天。"
+
+# GMT 1559644696.9774
+#. machine-translated (2026-10), to be reviewed
+msgid "Session lifetime in seconds"
+msgstr "会话有效期（秒）"
+
+# GMT 1559644696.9775
+#. machine-translated (2026-10), to be reviewed
+msgid "Mobile sessions are however unlimited, they are removed only when the user manually logs out of the application."
+msgstr "但移动端会话不受限制，仅在用户手动退出应用登录时才会被移除。"
+
+# GMT 1567897564.5000
+#. machine-translated (2026-10), to be reviewed
+msgid "Website"
+msgstr "网站"
+
+# GMT 1567897564.5001
+#. machine-translated (2026-10), to be reviewed
+msgid "Phone number"
+msgstr "电话号码"
+
+# GMT 1567897564.5002
+#. machine-translated (2026-10), to be reviewed
+msgid "Company / Brand"
+msgstr "公司 / 品牌"
+
+# GMT 1567897564.5003
+#. machine-translated (2026-10), to be reviewed
+msgid "Firstname / Lastname"
+msgstr "名 / 姓"

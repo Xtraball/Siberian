@@ -100,8 +100,11 @@ class Image extends GregwarImage
             if (isset($format) && isset(self::$formats[$format])) {
                 $max_width = self::$formats[$format];
             } else if (isset($device_width) && isset($device_height)) {
-                $max_width = ($device_width * 1 > $device_height * 1) ?
-                    $device_width * 1 : $device_height * 1;
+                // device sizes come from the request: "" or text would be a TypeError in arithmetic on PHP 8
+                $max_width = max((float) $device_width, (float) $device_height);
+                if ($max_width <= 0) {
+                    $max_width = 1024;
+                }
             } else {
                 $max_width = 1024;
             }
@@ -172,8 +175,11 @@ class Image extends GregwarImage
             if (isset($format) && isset(self::$formats[$format])) {
                 $max_width = self::$formats[$format];
             } else if (isset($device_width) && isset($device_height)) {
-                $max_width = ($device_width * 1 > $device_height * 1) ?
-                    $device_width * 1 : $device_height * 1;
+                // device sizes come from the request: "" or text would be a TypeError in arithmetic on PHP 8
+                $max_width = max((float) $device_width, (float) $device_height);
+                if ($max_width <= 0) {
+                    $max_width = 2732;
+                }
             } else {
                 $max_width = 2732;
             }

@@ -17,7 +17,7 @@ class Weather_Mobile_ViewController extends Application_Controller_Mobile_Defaul
     {
         try {
             $request = $this->getRequest();
-            $valueId = $request->getParam("value_id", null);
+            $valueId = \Siberian\Input::int($request->getParam("value_id"), 0, 0);
 
             if (!$valueId) {
                 throw new \Siberian\Exception(__("An error occurred during process. Please try again later."));

@@ -101,8 +101,13 @@ class Core_Model_Url extends Core_Model_Default
         }
 
         # Sanitize data, prevents XSS injection, Siberian 5.0
-        foreach($params as &$param) {
-            $param = filter_sanitize_string_polyfill((string) $param);
+        // Array/object params (a[]=1, ArrayObject) cannot be cast to a string since PHP 8, they are dropped
+        foreach ($params as $paramKey => $param) {
+            if (is_scalar($param) || $param === null) {
+                $params[$paramKey] = filter_sanitize_string_polyfill((string) $param);
+            } else {
+                unset($params[$paramKey]);
+            }
         }
 
         return self::create($url, $params, $locale);

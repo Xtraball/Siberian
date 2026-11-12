@@ -27,17 +27,40 @@ class Service
             $services = [
                 "cron" => Cron_Model_Cron::isRunning(),
                 "cron_error" => Cron_Model_Cron::getLastError(),
+                "cron_last_run" => Cron_Model_Cron::getLastRun(),
+                "cron_locks" => \Siberian_Cache::__countLocks(),
+                "cron_compat" => self::getCronCompatibility(),
                 "average_build_time" => Application_Model_Queue::getBuildTime(),
             ];
         } catch (\Exception $e) {
             $services = [
                 "cron" => false,
                 "cron_error" => false,
+                "cron_last_run" => null,
+                "cron_locks" => 0,
+                "cron_compat" => null,
                 "average_build_time" => 0,
             ];
         }
 
         return $services;
+    }
+
+    /**
+     * The jobs the scheduler can not run with this version of PHP, for the dashboard. Never breaks the dashboard.
+     *
+     * @return array|null
+     */
+    public static function getCronCompatibility()
+    {
+        try {
+            $compat = Cron_Model_Cron::compatibility();
+            unset($compat['results']);
+
+            return $compat;
+        } catch (\Throwable $e) {
+            return null;
+        }
     }
 
     /**

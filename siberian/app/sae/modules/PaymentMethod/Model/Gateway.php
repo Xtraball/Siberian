@@ -43,7 +43,12 @@ class Gateway extends Base
      */
     public static function register ($code, $options = [])
     {
+        // Registering the same gateway class under the same code again changes nothing
         if (array_key_exists($code, self::$gateways)) {
+            if (($options['class'] ?? null) === (self::$gateways[$code]['class'] ?? null)) {
+                return;
+            }
+
             throw new Exception(
                 p__("payment_method", "This code is already used, '%s'.", null, $code));
         }

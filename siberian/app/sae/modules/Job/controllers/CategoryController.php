@@ -11,7 +11,7 @@ class Job_CategoryController extends Application_Controller_Default
      */
     public function loadformAction()
     {
-        $category_id = $this->getRequest()->getParam("category_id");
+        $category_id = \Siberian\Input::int($this->getRequest()->getParam("category_id"), 0, 0);
 
         $category = new Job_Model_Category();
         $category->find($category_id);

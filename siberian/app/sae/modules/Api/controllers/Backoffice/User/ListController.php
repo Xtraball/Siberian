@@ -46,7 +46,7 @@ class Api_Backoffice_User_ListController extends Backoffice_Controller_Default
 
     public function deleteAction()
     {
-        if ($data = Zend_Json::decode($this->getRequest()->getRawBody())) {
+        if (($data = $this->_jsonBody()) !== null) {
 
             try {
 

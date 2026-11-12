@@ -115,8 +115,8 @@ class System_Backoffice_Config_GeneralController extends System_Controller_Backo
             $data["languages"] = $languages;
         }
 
-        $data["application_android_owner_admob_weight"]["value"] = (integer)$data["application_android_owner_admob_weight"]["value"];
-        $data["application_ios_owner_admob_weight"]["value"] = (integer)$data["application_ios_owner_admob_weight"]["value"];
+        $data["application_android_owner_admob_weight"]["value"] = (int)$data["application_android_owner_admob_weight"]["value"];
+        $data["application_ios_owner_admob_weight"]["value"] = (int)$data["application_ios_owner_admob_weight"]["value"];
 
         $data['gdpr_countries'] = System_Model_Config::gdprCountries();
 

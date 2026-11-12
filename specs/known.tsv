@@ -1,0 +1,39 @@
+/admin/backoffice/new	invalid	legacy server-rendered page: its layout partials no longer exist (the backoffice is Angular), the page cannot render
+/admin/backoffice/edit	invalid	same legacy page as /admin/backoffice/new
+/admin/backoffice_export/findall	valid	empty action body, the endpoint does nothing (dead stub, the real data comes from other actions)
+/customer/backoffice_export/findall	valid	empty action body, the endpoint does nothing (dead stub, the real data comes from other actions)
+/customer/backoffice_list/findall	valid	empty action body, the endpoint does nothing (dead stub, the real data comes from other actions)
+/customer/backoffice_view/find	valid	empty action body, the endpoint does nothing (dead stub, the real data comes from other actions)
+/backoffice/account/new	invalid	legacy server-rendered page: its layout partials no longer exist (the backoffice is Angular)
+/backoffice/account/edit	invalid	same legacy page as /backoffice/account/new
+/installer/module/install	invalid	legacy server-rendered page of the old web updater
+/installer/backoffice_module/checkupdates	invalid	read-only check sent as POST: success is its normal answer
+/installer/backoffice_module/downloadupdate	invalid	read-only check sent as POST: 'Your system is up to date.' is its normal answer
+/installer/backoffice_module/checkpermissions	unauth	scans the whole file tree, takes longer than the request timeout on the rig
+/application/customization_publication_infos/save-admob	invalid	a settings form whose fields are all optional: an empty save stores the defaults and reports success
+/application/customization_publication_infos/save-android	invalid	a settings form whose fields are all optional: an empty save stores the defaults and reports success
+/application/customization_publication_infos/save-apple-google	invalid	a settings form whose fields are all optional: an empty save stores the defaults and reports success
+/application/settings_advanced/savensdescription	invalid	a settings form whose fields are all optional: an empty save stores the defaults and reports success
+/application/customization_publication_app/iconspost	invalid	a settings form whose fields are all optional: an empty save stores the defaults and reports success
+/application/customization_publication_app/save-buttons	invalid	a settings form whose fields are all optional: an empty save stores the defaults and reports success
+/paymentcash/settings/save	invalid	a settings form whose fields are all optional: an empty save stores the defaults and reports success
+/application/customization_features/export	invalid	every export option is optional: an empty request exports the whole application
+/media/application_gallery_image/sort	invalid	sorting an empty list is a valid no-op
+/places/application/delete-category	invalid	deleting an unknown category is a no-op that reports success
+/catalog/application_product/create	invalid	needs the Catalog feature, which the fixture application does not have: answers 500 while rendering its template, no cause logged
+/mcommerce/application_catalog_product/edit	invalid	same as catalog/application_product/create, needs the Commerce feature
+/application/customization/index	valid	answers a 302 to the design editor, the normal way in
+/application/customization_publication_app/index	valid	needs a feature (value_id): answers a clean 400 without one
+/application/customization_design_style/edit	invalid	renders the whole design editor, about 30 s on the rig
+/installer/installation/end	unauth	installer page, public by design: it reports the end of the installation to anyone
+/installer/installation_database/cronscheduler	unauth	installer step, public by design: it only reads the cron setting
+/admin/api_application/list	valid	empty action body, the endpoint does nothing (dead stub)
+/front/index/index	unauth	legacy front page of the old web front: answers HTTP 500, cause not isolated
+/front/index/index	invalid	legacy front page of the old web front: answers HTTP 500, cause not isolated
+/front/index/index	valid	legacy front page of the old web front: answers HTTP 500, cause not isolated
+/front/error/error	unauth	legacy front page of the old web front: answers HTTP 500, cause not isolated
+/front/error/error	invalid	legacy front page of the old web front: answers HTTP 500, cause not isolated
+/front/error/error	valid	legacy front page of the old web front: answers HTTP 500, cause not isolated
+/front/image/crop	unauth	legacy front page of the old web front: answers HTTP 500, cause not isolated
+/front/image/crop	invalid	legacy front page of the old web front: answers HTTP 500, cause not isolated
+/front/image/crop	valid	legacy front page of the old web front: answers HTTP 500, cause not isolated

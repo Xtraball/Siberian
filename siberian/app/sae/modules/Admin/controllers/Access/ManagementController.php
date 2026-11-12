@@ -189,7 +189,7 @@ class Admin_Access_ManagementController extends Admin_Controller_Default
     public function deleteAction()
     {
 
-        if ($admin_id = $this->getRequest()->getParam('admin_id')) {
+        if ($admin_id = \Siberian\Input::int($this->getRequest()->getParam('admin_id'), 0, 0)) {
 
             try {
 

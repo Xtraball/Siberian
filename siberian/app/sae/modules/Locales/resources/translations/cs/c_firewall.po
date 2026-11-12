@@ -1,0 +1,50 @@
+msgid ""
+msgstr ""
+"Project-Id-Version: Czech (Siberian)\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2019-01-22 10:30+0000\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: Czech <http://yvain.xtraball.com/projects/siberian/acl/cs/>\n"
+"Language: cs\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=3; plural=(n==1) ? 0 : (n>=2 && n<=4) ? 1 : 2;\n"
+"X-Generator: Weblate 3.3\n"
+
+# GMT 1569242020.7858
+#. machine-translated (2026-10), to be reviewed
+msgctxt "firewall"
+msgid "Firewall"
+msgstr "Firewall"
+
+# GMT 1569242020.786
+#. machine-translated (2026-10), to be reviewed
+msgctxt "firewall"
+msgid "Enabled"
+msgstr "Povoleno"
+
+# GMT 1569242020.7869
+#. machine-translated (2026-10), to be reviewed
+msgctxt "firewall"
+msgid "Disabled"
+msgstr "Zakázáno"
+
+# GMT 1569242020.7871
+#. machine-translated (2026-10), to be reviewed
+msgctxt "firewall"
+msgid "WAF Disabled"
+msgstr "WAF zakázán"
+
+# GMT 1569242020.7874
+#. machine-translated (2026-10), to be reviewed
+msgctxt "firewall"
+msgid "Disabling the Web Application Firewall can open your Siberian to potential XSS, Injection & various security issues, the WAF is not a guarantee your Siberian is attack proof, but highly helps filtering the most common web attacks."
+msgstr "Zakázání webového aplikačního firewallu může vystavit váš Siberian potenciálním útokům XSS, injektáži a dalším bezpečnostním problémům. WAF nezaručuje, že je váš Siberian odolný proti útokům, ale výrazně pomáhá filtrovat nejběžnější webové útoky."
+
+# GMT 1569242020.7875
+#. machine-translated (2026-10), to be reviewed
+msgctxt "firewall"
+msgid "This request was blocked for security reasons, please try again later."
+msgstr "Tento požadavek byl z bezpečnostních důvodů zablokován, zkuste to prosím později."

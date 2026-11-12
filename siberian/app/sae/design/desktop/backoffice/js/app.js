@@ -2,7 +2,7 @@ var App = angular.module("Siberian-Backoffice", ['ngRoute', 'ngAnimate', 'ngSani
     'angular-sortable-view', 'ng.ckeditor', 'chart.js', 'bgf.paginateAnything', 'ng-phpdebugbar', 'ngQueue', 'textAngular']);
 var meta;
 
-App.run(function($rootScope, $window, $route, $location, Message, AUTH_EVENTS, Auth) {
+App.run(function($rootScope, $window, $route, $location, $http, Message, AUTH_EVENTS, Auth, Url) {
 
     $rootScope.message = new Message();
 
@@ -12,6 +12,56 @@ App.run(function($rootScope, $window, $route, $location, Message, AUTH_EVENTS, A
             $rootScope.$broadcast(AUTH_EVENTS.logoutSuccess);
             $location.path("/backoffice");
         });
+    };
+
+    // the backoffice user has an email only: the name is its local part, the avatar its initials
+    $rootScope.currentUser = function () {
+        return Auth.user;
+    };
+    $rootScope.userName = function () {
+        var email = (Auth.user && Auth.user.email) || '';
+        return email.split('@')[0] || email;
+    };
+    // The dropdown is CSS only (hover, focus-within) and the pages change without a reload: after a click on one of its
+    // entries it would stay open, the link keeps the focus and the pointer is still over it. It is closed until the pointer leaves.
+    $rootScope.userMenu = {closed: false};
+    $rootScope.closeUserMenu = function ($event) {
+        if ($event && $event.currentTarget && $event.currentTarget.blur) {
+            $event.currentTarget.blur();
+        }
+        $rootScope.userMenu.closed = true;
+    };
+    // The language of the backoffice is kept in the session: it is saved, then the page is reloaded to be rendered in it.
+    $rootScope.langMenu = {closed: false};
+    $rootScope.setLanguage = function (code, $event) {
+        if ($event && $event.currentTarget && $event.currentTarget.blur) {
+            $event.currentTarget.blur();
+        }
+        $rootScope.langMenu.closed = true;
+        $http({
+            method: 'POST',
+            url: Url.get('backoffice/language/set'),
+            data: {code: code},
+            responseType: 'json'
+        }).success(function (data) {
+            if (data && data.success) {
+                $window.location.reload();
+            } else {
+                $rootScope.message.setText((data && data.message) || '').isError(true).show();
+            }
+        }).error(function (data) {
+            $rootScope.message.setText((data && data.message) || '').isError(true).show();
+        });
+    };
+    // Below 1280px the main menu is folded under a toggle button (MENU section of style.css)
+    $rootScope.mainMenu = {open: false};
+    $rootScope.toggleMainMenu = function () {
+        $rootScope.mainMenu.open = !$rootScope.mainMenu.open;
+    };
+    $rootScope.userInitials = function () {
+        var parts = $rootScope.userName().split(/[._\-\s]+/).filter(Boolean);
+        var initials = parts.length > 1 ? parts[0].charAt(0) + parts[1].charAt(0) : (parts[0] || '?').substr(0, 2);
+        return initials.toUpperCase();
     };
 
     $rootScope.$on(AUTH_EVENTS.notAuthenticated, function() { $rootScope.isLoggedIn = false; });
@@ -41,6 +91,7 @@ App.run(function($rootScope, $window, $route, $location, Message, AUTH_EVENTS, A
 
     $rootScope.$on('$routeChangeSuccess', function(event, current) {
         $rootScope.code = current.code;
+        $rootScope.mainMenu.open = false;
     });
 
 }).config(function($locationProvider, $compileProvider, $httpProvider) {

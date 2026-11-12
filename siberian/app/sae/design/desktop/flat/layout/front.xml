@@ -101,6 +101,7 @@
                     <jcrop link="js/jquery.Jcrop.min.js"/>
                     <nested_sortable link="js/jquery.mjs.nestedSortable.js" />
                     <datas_table link="js/jquery.dataTables.min.js" />
+                    <datas_table_defaults link="js/dataTables.defaults.js" />
                 </js>
                 <css>
                     <colorpicker link="css/colorpicker.css" />

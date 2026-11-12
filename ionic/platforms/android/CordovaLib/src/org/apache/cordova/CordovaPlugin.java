@@ -1,20 +1,20 @@
 /*
-       Licensed to the Apache Software Foundation (ASF) under one
-       or more contributor license agreements.  See the NOTICE file
-       distributed with this work for additional information
-       regarding copyright ownership.  The ASF licenses this file
-       to you under the Apache License, Version 2.0 (the
-       "License"); you may not use this file except in compliance
-       with the License.  You may obtain a copy of the License at
+    Licensed to the Apache Software Foundation (ASF) under one
+    or more contributor license agreements.  See the NOTICE file
+    distributed with this work for additional information
+    regarding copyright ownership.  The ASF licenses this file
+    to you under the Apache License, Version 2.0 (the
+    "License"); you may not use this file except in compliance
+    with the License.  You may obtain a copy of the License at
 
-         http://www.apache.org/licenses/LICENSE-2.0
+        http://www.apache.org/licenses/LICENSE-2.0
 
-       Unless required by applicable law or agreed to in writing,
-       software distributed under the License is distributed on an
-       "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
-       KIND, either express or implied.  See the License for the
-       specific language governing permissions and limitations
-       under the License.
+    Unless required by applicable law or agreed to in writing,
+    software distributed under the License is distributed on an
+    "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
+    KIND, either express or implied.  See the License for the
+    specific language governing permissions and limitations
+    under the License.
 */
 package org.apache.cordova;
 
@@ -416,7 +416,14 @@ public class CordovaPlugin {
     }
 
     /**
-     * Called by the system when the user grants permissions
+     * Forwarded system call to the plugin when the user grants permissions,
+     * denies them or the request was interrupted.
+     * This is a legacy method and should not be used anymore.
+     * Instead {@link #onRequestPermissionsResult} should be used.
+     * 
+     * Note: The system calls {@link CordovaActivity#onRequestPermissionsResult(int, String[], int[])},
+     * which calls {@link CordovaInterfaceImpl#onRequestPermissionsResult(int, String[], int[])},
+     * and finally this method.
      *
      * @param requestCode
      * @param permissions
@@ -431,11 +438,17 @@ public class CordovaPlugin {
     }
 
     /**
-     * Called by the system when the user grants permissions
+     * Forwarded system call to the plugin when the user grants permissions,
+     * denies them or the request was interrupted.
+     * 
+     * Note: The system calls {@link CordovaActivity#onRequestPermissionsResult(int, String[], int[])},
+     * which calls {@link CordovaInterfaceImpl#onRequestPermissionsResult(int, String[], int[])},
+     * and finally this method.
      *
      * @param requestCode
      * @param permissions
      * @param grantResults
+     * @see https://developer.android.com/reference/android/app/Activity#onRequestPermissionsResult(int,%20java.lang.String[],%20int[])
      */
     public void onRequestPermissionsResult(int requestCode, String[] permissions,
                                           int[] grantResults) throws JSONException {

@@ -101,7 +101,7 @@ class Zend_Markup_Token
         $type,
         $name = '',
         array $attributes = array(),
-        Zend_Markup_Token $parent = null
+        ?Zend_Markup_Token $parent = null
     ) {
         $this->_tag        = $tag;
         $this->_type       = $type;

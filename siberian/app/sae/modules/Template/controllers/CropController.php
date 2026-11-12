@@ -70,7 +70,7 @@ class Template_CropController extends Admin_Controller_Default
         $option_value_id = '';
         $is_colorizable = false;
         if ($this->getRequest()->getParam('option_value_id')) {
-            $option_value_id = $this->getRequest()->getParam('option_value_id');
+            $option_value_id = \Siberian\Input::int($this->getRequest()->getParam('option_value_id'), 0, 0);
         }
         if ($this->getRequest()->getParam('is_colorizable')) {
             $is_colorizable = $this->getRequest()->getParam('is_colorizable');
@@ -85,7 +85,7 @@ class Template_CropController extends Admin_Controller_Default
             ->setQuality($this->getRequest()->getParam('quality'))
             ->setUploader($this->getRequest()->getParam('uploader'))
             ->setOptionId($option_value_id)
-            ->setIsColorizable((boolean) filter_var($is_colorizable, FILTER_VALIDATE_BOOLEAN))
+            ->setIsColorizable((bool) filter_var($is_colorizable, FILTER_VALIDATE_BOOLEAN))
             ->setForceColor($this->getRequest()->getParam('force_color'))
             ->setImageColor($this->getRequest()->getParam('image_color'))
             ->toHtml();
@@ -100,7 +100,7 @@ class Template_CropController extends Admin_Controller_Default
         $option_value_id = '';
         $is_colorizable = false;
         if ($this->getRequest()->getParam('option_value_id')) {
-            $option_value_id = $this->getRequest()->getParam('option_value_id');
+            $option_value_id = \Siberian\Input::int($this->getRequest()->getParam('option_value_id'), 0, 0);
         }
         if ($this->getRequest()->getParam('is_colorizable')) {
             $is_colorizable = $this->getRequest()->getParam('is_colorizable');
@@ -115,7 +115,7 @@ class Template_CropController extends Admin_Controller_Default
             ->setQuality($this->getRequest()->getParam('quality'))
             ->setUploader($this->getRequest()->getParam('uploader'))
             ->setOptionId($option_value_id)
-            ->setIsColorizable((boolean) filter_var($is_colorizable, FILTER_VALIDATE_BOOLEAN))
+            ->setIsColorizable((bool) filter_var($is_colorizable, FILTER_VALIDATE_BOOLEAN))
             ->setForceColor($this->getRequest()->getParam('force_color'))
             ->setImageColor($this->getRequest()->getParam('image_color'))
             ->toHtml();

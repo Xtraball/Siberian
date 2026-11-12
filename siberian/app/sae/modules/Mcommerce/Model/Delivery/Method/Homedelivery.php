@@ -11,7 +11,7 @@ class Mcommerce_Model_Delivery_Method_Homedelivery extends Mcommerce_Model_Deliv
     /**
      * @return bool
      */
-    public function isAvailable($application)
+    public function isAvailable($application = null)
     {
         $store = $this->getMethod()->getStore();
         $cart = $this->getMethod()->getCart();

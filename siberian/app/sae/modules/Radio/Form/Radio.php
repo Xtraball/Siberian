@@ -25,6 +25,9 @@ class Radio_Form_Radio extends Siberian_Form_Abstract {
             ->setRequired(true)
         ;
 
+        $keepUrl = $this->addSimpleCheckbox("keep_url", __("Use the link exactly as typed (do not append /; to Shoutcast streams)."));
+        $keepUrl->addClass("floating-checkbox");
+
         $background = $this->addSimpleImage("background", __("Background"), __("Import a background image"), array("width" => 1080, "height" => 1920), array(), true);
         $background
             ->addClass("default_button")

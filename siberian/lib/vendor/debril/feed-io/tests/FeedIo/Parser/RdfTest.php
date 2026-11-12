@@ -14,6 +14,8 @@ use FeedIo\Feed;
 use FeedIo\Rule\DateTimeBuilder;
 use FeedIo\Standard\Rdf;
 
+use \PHPUnit\Framework\TestCase;
+
 class RdfTest extends ParserTestAbstract
 {
     const SAMPLE_FILE = 'sample-rdf.xml';
@@ -41,7 +43,7 @@ class RdfTest extends ParserTestAbstract
         $this->assertInstanceOf('\FeedIo\Feed\ItemInterface', $item);
         if ($item instanceof \FeedIo\Feed\ItemInterface) {
             $this->assertNotEmpty($item->getTitle());
-            $this->assertNotEmpty($item->getDescription());
+            $this->assertNotEmpty($item->getContent());
             $this->assertNotEmpty($item->getLastModified());
             $this->assertNotEmpty($item->getLink());
         }

@@ -4,4 +4,19 @@ phpseclib ongoing development is made possible by [Tidelift](https://tidelift.co
 
 ## Backers
 
+- [HeroDevs](https://www.herodevs.com/sustainability-fund)
+- Allan Simon
+- [ChargeOver](https://chargeover.com/)
+- Raghu Veer Dendukuri
 - Zane Hooper
+- [Setasign](https://www.setasign.com/)
+- [Charles Severance](https://github.com/csev)
+- [Rachel Fish](https://github.com/itsrachelfish)
+- Tharyrok
+- [cjhaas](https://github.com/cjhaas)
+- [istiak-tridip](https://github.com/istiak-tridip)
+- [Anna Filina](https://github.com/afilina)
+- [blakemckeeby](https://github.com/blakemckeeby)
+- [ssddanbrown](https://github.com/ssddanbrown)
+- Stefan Beck
+- [Greg Mayes](https://github.com/GregMayes)

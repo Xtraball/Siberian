@@ -1,0 +1,112 @@
+msgid ""
+msgstr ""
+"Project-Id-Version: Russian (Siberian)\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2019-01-22 10:34+0000\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: Russian <http://yvain.xtraball.com/projects/siberian/acl/ru/>"
+"\n"
+"Language: ru\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=3; plural=n%10==1 && n%100!=11 ? 0 : n%10>=2 && n%10<="
+"4 && (n%100<10 || n%100>=20) ? 1 : 2;\n"
+"X-Generator: Weblate 3.3\n"
+
+# GMT 1568884436.6232
+#. machine-translated (2026-10), to be reviewed
+msgctxt "topic"
+msgid "Description"
+msgstr "Описание"
+
+# GMT 1568884436.6233
+#. machine-translated (2026-10), to be reviewed
+msgctxt "topic"
+msgid "Topics"
+msgstr "Темы"
+
+# GMT 1568884436.6237
+#. machine-translated (2026-10), to be reviewed
+msgctxt "topic"
+msgid "Design"
+msgstr "Дизайн"
+
+# GMT 1568884436.6238
+#. machine-translated (2026-10), to be reviewed
+msgctxt "topic"
+msgid "Manage topics"
+msgstr "Управление темами"
+
+# GMT 1568884436.624
+#. machine-translated (2026-10), to be reviewed
+msgctxt "topic"
+msgid "Import topics"
+msgstr "Импорт тем"
+
+# GMT 1568885308.6752
+#. machine-translated (2026-10), to be reviewed
+msgctxt "topic"
+msgid "Import success."
+msgstr "Импорт выполнен успешно."
+
+# GMT 1568885433.0521
+#. machine-translated (2026-10), to be reviewed
+msgctxt "topic"
+msgid "The imported JSON file is invalid."
+msgstr "Импортируемый файл JSON недействителен."
+
+# GMT 1568887519.5898
+#. machine-translated (2026-10), to be reviewed
+msgctxt "topic"
+msgid "Download file examples: "
+msgstr "Скачать примеры файлов: "
+
+# GMT 1568887519.5899
+#. machine-translated (2026-10), to be reviewed
+msgctxt "topic"
+msgid "Please note that only JSON & YAML supports nested topics."
+msgstr "Обратите внимание: вложенные темы поддерживают только JSON и YAML."
+
+# GMT 1568887724.1144
+#. machine-translated (2026-10), to be reviewed
+msgctxt "topic"
+msgid "Import"
+msgstr "Импорт"
+
+# GMT 1568887864.8146
+#. machine-translated (2026-10), to be reviewed
+msgctxt "topic"
+msgid "Please note that only JSON & YAML supports nested topics, CSV works only with single level imports."
+msgstr "Обратите внимание: вложенные темы поддерживают только JSON и YAML, CSV работает только с импортом одного уровня."
+
+# GMT 1569246412.4798
+#. machine-translated (2026-10), to be reviewed
+msgctxt "topic"
+msgid "Download file examples"
+msgstr "Скачать примеры файлов"
+
+# GMT 1569246468.7113
+#. machine-translated (2026-10), to be reviewed
+msgctxt "topic"
+msgid "Import CSV, JSON, YAML"
+msgstr "Импорт CSV, JSON, YAML"
+
+# GMT 1576070941.4663
+#. machine-translated (2026-10), to be reviewed
+msgctxt "topic"
+msgid "The imported CSV file is invalid '%s'."
+msgstr "Импортируемый файл CSV недействителен '%s'."
+
+# GMT 1576070941.4664
+#. machine-translated (2026-10), to be reviewed
+msgctxt "topic"
+msgid "'Parent topic `%s` doesn\\'t exists.'"
+msgstr "'Родительская тема `%s` не существует.'"
+
+# GMT 1576070941.4665
+#. machine-translated (2026-10), to be reviewed
+msgctxt "topic"
+msgid "Parent topic `%s` has a parent, you can nest topics only at one level."
+msgstr "У родительской темы `%s` есть родитель, темы можно вкладывать только на один уровень."

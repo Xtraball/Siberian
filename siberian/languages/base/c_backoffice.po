@@ -121,3 +121,673 @@ msgctxt "backoffice"
 msgid "Password should be at least %s characters in length and should include at least one upper case letter, one number, and one special character."
 msgstr "Password should be at least %s characters in length and should include at least one upper case letter, one number, and one special character."
 
+
+# GMT 1793000000.0001
+msgctxt "backoffice"
+msgid "This version is already installed"
+msgstr "This version is already installed"
+
+# GMT 1793000000.0002
+msgctxt "backoffice"
+msgid "Would you like to reinstall it? Files are copied again and the module schema and data are synchronized again."
+msgstr "Would you like to reinstall it? Files are copied again and the module schema and data are synchronized again."
+
+# GMT 1793000000.0003
+msgctxt "backoffice"
+msgid "Yes, reinstall"
+msgstr "Yes, reinstall"
+
+# GMT 1793000000.0004
+msgctxt "backoffice"
+msgid "No, cancel"
+msgstr "No, cancel"
+
+# GMT 1793100000.0001
+msgctxt "backoffice"
+msgid "The license saved for this module is expired or no longer valid. If you received a new key, enter it here, or keep the current one."
+msgstr "The license saved for this module is expired or no longer valid. If you received a new key, enter it here, or keep the current one."
+
+# GMT 1793100000.0002
+msgctxt "backoffice"
+msgid "Keep the current key"
+msgstr "Keep the current key"
+
+# GMT 1793100001.0001
+msgctxt "backoffice"
+msgid "Core"
+msgstr "Core"
+
+# GMT 1793100001.0002
+msgctxt "backoffice"
+msgid "App sources"
+msgstr "App sources"
+
+# GMT 1793100001.0003
+msgctxt "backoffice"
+msgid "Modified"
+msgstr "Modified"
+
+# GMT 1793100001.0004
+msgctxt "backoffice"
+msgid "Missing"
+msgstr "Missing"
+
+# GMT 1793100001.0005
+msgctxt "backoffice"
+msgid "Unreadable"
+msgstr "Unreadable"
+
+# GMT 1793100001.0006
+msgctxt "backoffice"
+msgid "File"
+msgstr "File"
+
+# GMT 1793100001.0007
+msgctxt "backoffice"
+msgid "Status"
+msgstr "Status"
+
+# GMT 1793100001.0008
+msgctxt "backoffice"
+msgid "Area"
+msgstr "Area"
+
+# GMT 1793100001.0009
+msgctxt "backoffice"
+msgid "Files checked"
+msgstr "Files checked"
+
+# GMT 1793100001.0010
+msgctxt "backoffice"
+msgid "Core files only, skip the app sources (faster)"
+msgstr "Core files only, skip the app sources (faster)"
+
+# GMT 1793100001.0011
+msgctxt "backoffice"
+msgid "Module installations and generated apps also write in the app sources, differences there are not necessarily a problem."
+msgstr "Module installations and generated apps also write in the app sources, differences there are not necessarily a problem."
+
+# GMT 1793100001.0012
+msgctxt "backoffice"
+msgid "The file manifest.json is missing, the integrity cannot be checked."
+msgstr "The file manifest.json is missing, the integrity cannot be checked."
+
+# GMT 1793100001.0013
+msgctxt "backoffice"
+msgid "The file manifest.json is not valid, the integrity cannot be checked."
+msgstr "The file manifest.json is not valid, the integrity cannot be checked."
+
+# GMT 1793100001.0014
+msgctxt "backoffice"
+msgid "Edit my account"
+msgstr "Edit my account"
+
+# GMT 1793100001.0015
+msgctxt "backoffice"
+msgid "Show / hide"
+msgstr "Show / hide"
+
+# GMT 1793100001.0030
+msgctxt "backoffice"
+msgid "This job has no command."
+msgstr "This job has no command."
+
+# GMT 1793100001.0031
+msgctxt "backoffice"
+msgid "The class %s does not exist, the module providing this job is probably disabled or removed."
+msgstr "The class %s does not exist, the module providing this job is probably disabled or removed."
+
+# GMT 1793100001.0032
+msgctxt "backoffice"
+msgid "The class %s can not be loaded: %s"
+msgstr "The class %s can not be loaded: %s"
+
+# GMT 1793100001.0033
+msgctxt "backoffice"
+msgid "The method %s does not exist."
+msgstr "The method %s does not exist."
+
+# GMT 1793100001.0034
+msgctxt "backoffice"
+msgid "The method %s is not public."
+msgstr "The method %s is not public."
+
+# GMT 1793100001.0035
+msgctxt "backoffice"
+msgid "The method %s is abstract."
+msgstr "The method %s is abstract."
+
+# GMT 1793100001.0036
+msgctxt "backoffice"
+msgid "The method %s requires %d arguments, a job is given %d."
+msgstr "The method %s requires %d arguments, a job is given %d."
+
+# GMT 1793100001.0037
+msgctxt "backoffice"
+msgid "The class %s can not be instantiated, declare the method %s static."
+msgstr "The class %s can not be instantiated, declare the method %s static."
+
+# GMT 1793100001.0038
+msgctxt "backoffice"
+msgid "The method %s is not static and the constructor of %s requires arguments, declare the method static."
+msgstr "The method %s is not static and the constructor of %s requires arguments, declare the method static."
+
+# GMT 1793100001.0039
+msgctxt "backoffice"
+msgid "The method %s is not static. PHP 8 can not call it statically, the scheduler runs it on a new instance instead; declare it static."
+msgstr "The method %s is not static. PHP 8 can not call it statically, the scheduler runs it on a new instance instead; declare it static."
+
+# GMT 1793100001.0040
+msgctxt "backoffice"
+msgid "This job can run."
+msgstr "This job can run."
+
+# GMT 1793100001.0041
+msgctxt "backoffice"
+msgid "Compatibility with PHP"
+msgstr "Compatibility with PHP"
+
+# GMT 1793100001.0042
+msgctxt "backoffice"
+msgid "Every job is checked against the PHP version that runs the scheduler, without running it."
+msgstr "Every job is checked against the PHP version that runs the scheduler, without running it."
+
+# GMT 1793100001.0043
+msgctxt "backoffice"
+msgid "PHP version"
+msgstr "PHP version"
+
+# GMT 1793100001.0044
+msgctxt "backoffice"
+msgid "Active jobs checked"
+msgstr "Active jobs checked"
+
+# GMT 1793100001.0045
+msgctxt "backoffice"
+msgid "All the active jobs can be run by the scheduler."
+msgstr "All the active jobs can be run by the scheduler."
+
+# GMT 1793100001.0046
+msgctxt "backoffice"
+msgid "A job that can not run is skipped and reported, it never stops the other jobs."
+msgstr "A job that can not run is skipped and reported, it never stops the other jobs."
+
+# GMT 1793100001.0047
+msgctxt "backoffice"
+msgid "Job"
+msgstr "Job"
+
+# GMT 1793100001.0048
+msgctxt "backoffice"
+msgid "Problem"
+msgstr "Problem"
+
+# GMT 1793100001.0049
+msgctxt "backoffice"
+msgid "Last error"
+msgstr "Last error"
+
+# GMT 1793100001.0050
+msgctxt "backoffice"
+msgid "Compatibility"
+msgstr "Compatibility"
+
+# GMT 1793100001.0051
+msgctxt "backoffice"
+msgid "Some cron jobs can not run with this PHP version:"
+msgstr "Some cron jobs can not run with this PHP version:"
+
+# GMT 1793100001.0052
+msgctxt "backoffice"
+msgid "see the details"
+msgstr "see the details"
+
+# GMT 1793100001.0060
+msgctxt "backoffice"
+msgid "Modules in quarantine"
+msgstr "Modules in quarantine"
+
+# GMT 1793100001.0061
+msgctxt "backoffice"
+msgid "A module stopped the application with a fatal error, or is not compatible with this version of Siberian or PHP. It is disabled until it is rechecked, the rest of the application keeps working."
+msgstr "A module stopped the application with a fatal error, or is not compatible with this version of Siberian or PHP. It is disabled until it is rechecked, the rest of the application keeps working."
+
+# GMT 1793100001.0062
+msgctxt "backoffice"
+msgid "Needs a newer Siberian"
+msgstr "Needs a newer Siberian"
+
+# GMT 1793100001.0063
+msgctxt "backoffice"
+msgid "Failed the compatibility check"
+msgstr "Failed the compatibility check"
+
+# GMT 1793100001.0064
+msgctxt "backoffice"
+msgid "Fatal error"
+msgstr "Fatal error"
+
+# GMT 1793100001.0065
+msgctxt "backoffice"
+msgid "Updated since, recheck it to enable it again."
+msgstr "Updated since, recheck it to enable it again."
+
+# GMT 1793100001.0066
+msgctxt "backoffice"
+msgid "Recheck"
+msgstr "Recheck"
+
+# GMT 1793100001.0067
+msgctxt "backoffice"
+msgid "Re-enable"
+msgstr "Re-enable"
+
+# GMT 1793100001.0068
+msgctxt "backoffice"
+msgid "Enable this module anyway? If it breaks the application again it goes back to quarantine."
+msgstr "Enable this module anyway? If it breaks the application again it goes back to quarantine."
+
+# GMT 1793100001.0069
+msgctxt "backoffice"
+msgid "Recheck all"
+msgstr "Recheck all"
+
+# GMT 1793100001.0070
+msgctxt "backoffice"
+msgid "Scan all modules"
+msgstr "Scan all modules"
+
+# GMT 1793100001.0071
+msgctxt "backoffice"
+msgid "PHP or Siberian changed since the last compatibility scan of your modules."
+msgstr "PHP or Siberian changed since the last compatibility scan of your modules."
+
+# GMT 1793100001.0072
+msgctxt "backoffice"
+msgid "Quarantine"
+msgstr "Quarantine"
+
+# GMT 1793100001.0073
+msgctxt "backoffice"
+msgid "Recheck done, %s released."
+msgstr "Recheck done, %s released."
+
+# GMT 1793100001.0074
+msgctxt "backoffice"
+msgid "The module is enabled again."
+msgstr "The module is enabled again."
+
+# GMT 1793100001.0075
+msgctxt "backoffice"
+msgid "The scan started, it can take a few minutes, reload this page to see the result."
+msgstr "The scan started, it can take a few minutes, reload this page to see the result."
+
+# GMT 1793100001.0076
+msgctxt "backoffice"
+msgid "The scan could not be started, run \"php cli module:quarantine scan\" instead."
+msgstr "The scan could not be started, run \"php cli module:quarantine scan\" instead."
+
+# GMT 1793200001.0001
+msgctxt "backoffice"
+msgid "This language is not available."
+msgstr "This language is not available."
+
+# GMT 1793200001.0002
+msgctxt "backoffice"
+msgid "Language"
+msgstr "Language"
+
+# GMT 1793300001.0001
+msgctxt "backoffice"
+msgid "of"
+msgstr "of"
+
+# GMT 1793300001.0002
+msgctxt "backoffice"
+msgid "No quota set"
+msgstr "No quota set"
+
+# GMT 1793300001.0003
+msgctxt "backoffice"
+msgid "Measured"
+msgstr "Measured"
+
+# GMT 1793300001.0004
+msgctxt "backoffice"
+msgid "Manage"
+msgstr "Manage"
+
+# GMT 1793300001.0005
+msgctxt "backoffice"
+msgid "Logs"
+msgstr "Logs"
+
+# GMT 1793300001.0006
+msgctxt "backoffice"
+msgid "System cache"
+msgstr "System cache"
+
+# GMT 1793300001.0007
+msgctxt "backoffice"
+msgid "Image cache"
+msgstr "Image cache"
+
+# GMT 1793300001.0008
+msgctxt "backoffice"
+msgid "Temp files"
+msgstr "Temp files"
+
+# GMT 1793300001.0009
+msgctxt "backoffice"
+msgid "Apps, images and code"
+msgstr "Apps, images and code"
+
+# GMT 1793300001.0010
+msgctxt "backoffice"
+msgid "Sizes are measured once a day, the first measure is not done yet."
+msgstr "Sizes are measured once a day, the first measure is not done yet."
+
+# GMT 1793300001.0011
+msgctxt "backoffice"
+msgid "Manage web space"
+msgstr "Manage web space"
+
+# GMT 1793300001.0012
+msgctxt "backoffice"
+msgid "Sizes are measured once a day, they show the state of the last measure."
+msgstr "Sizes are measured once a day, they show the state of the last measure."
+
+# GMT 1793300001.0013
+msgctxt "backoffice"
+msgid "Nothing you need to keep."
+msgstr "Nothing you need to keep."
+
+# GMT 1793300001.0014
+msgctxt "backoffice"
+msgid "Rebuilt on the next page."
+msgstr "Rebuilt on the next page."
+
+# GMT 1793300001.0015
+msgctxt "backoffice"
+msgid "Resized images, made again on demand."
+msgstr "Resized images, made again on demand."
+
+# GMT 1793300001.0016
+msgctxt "backoffice"
+msgid "Also removes the generated application sources."
+msgstr "Also removes the generated application sources."
+
+# GMT 1793300001.0017
+msgctxt "backoffice"
+msgid "Apps and Previewer manifest"
+msgstr "Apps and Previewer manifest"
+
+# GMT 1793300001.0018
+msgctxt "backoffice"
+msgid "Used by automatic updates, rebuilt by the cron."
+msgstr "Used by automatic updates, rebuilt by the cron."
+
+# GMT 1793300001.0019
+msgctxt "backoffice"
+msgid "Quota"
+msgstr "Quota"
+
+# GMT 1793300001.0020
+msgctxt "backoffice"
+msgid "No quota"
+msgstr "No quota"
+
+# GMT 1793300001.0021
+msgctxt "backoffice"
+msgid "Informative only: the dashboard shows when the web space gets close to it."
+msgstr "Informative only: the dashboard shows when the web space gets close to it."
+
+# GMT 1793300001.0022
+msgctxt "backoffice"
+msgid "Enter a size in GB, or leave it empty for no quota."
+msgstr "Enter a size in GB, or leave it empty for no quota."
+
+# GMT 1793300001.0023
+msgctxt "backoffice"
+msgid "Quota saved."
+msgstr "Quota saved."
+
+# GMT 1793300001.0024
+msgctxt "backoffice"
+msgid "Quota removed."
+msgstr "Quota removed."
+
+# GMT 1793400001.0001
+msgctxt "backoffice"
+msgid "Running"
+msgstr "Running"
+
+# GMT 1793400001.0002
+msgctxt "backoffice"
+msgid "last error"
+msgstr "last error"
+
+# GMT 1793400001.0003
+msgctxt "backoffice"
+msgid "Details"
+msgstr "Details"
+
+# GMT 1793400001.0004
+msgctxt "backoffice"
+msgid "Services"
+msgstr "Services"
+
+# GMT 1793400001.0005
+msgctxt "backoffice"
+msgid "Cron errors"
+msgstr "Cron errors"
+
+# GMT 1793400001.0006
+msgctxt "backoffice"
+msgid "No error recorded."
+msgstr "No error recorded."
+
+# GMT 1793400001.0007
+msgctxt "backoffice"
+msgid "An error in the history does not mean the cron stopped: the status above is the one that counts."
+msgstr "An error in the history does not mean the cron stopped: the status above is the one that counts."
+
+# GMT 1793500001.0001
+msgctxt "backoffice"
+msgid "Cron"
+msgstr "Cron"
+
+# GMT 1793500001.0002
+msgctxt "backoffice"
+msgid "Cron error"
+msgstr "Cron error"
+
+# GMT 1793500001.0003
+msgctxt "backoffice"
+msgid "Binaries"
+msgstr "Binaries"
+
+# GMT 1793500001.0004
+msgctxt "backoffice"
+msgid "Storage"
+msgstr "Storage"
+
+# GMT 1793500001.0005
+msgctxt "backoffice"
+msgid "lock files"
+msgstr "lock files"
+
+# GMT 1793500001.0006
+msgctxt "backoffice"
+msgid "The cron itself keeps its own status above."
+msgstr "The cron itself keeps its own status above."
+
+# GMT 1793500001.0007
+msgctxt "backoffice"
+msgid "PHP extension available"
+msgstr "PHP extension available"
+
+# GMT 1793500001.0008
+msgctxt "backoffice"
+msgid "available"
+msgstr "available"
+
+# GMT 1793600001.0001
+msgctxt "backoffice"
+msgid "Last run"
+msgstr "Last run"
+
+# GMT 1793700001.0001
+msgctxt "backoffice"
+msgid "Send your module"
+msgstr "Send your module"
+
+# GMT 1793700001.0002
+msgctxt "backoffice"
+msgid "Click to choose your module, or drop it here"
+msgstr "Click to choose your module, or drop it here"
+
+# GMT 1793700001.0003
+msgctxt "backoffice"
+msgid "Sending your module, please do not close the page."
+msgstr "Sending your module, please do not close the page."
+
+# GMT 1793700001.0004
+msgctxt "backoffice"
+msgid "Checking the module licence..."
+msgstr "Checking the module licence..."
+
+# GMT 1793700001.0005
+msgctxt "backoffice"
+msgid "Module sent, review the package details below."
+msgstr "Module sent, review the package details below."
+
+# GMT 1793700001.0006
+msgctxt "backoffice"
+msgid "A licence key is needed to install this module. Click to choose another file."
+msgstr "A licence key is needed to install this module. Click to choose another file."
+
+# GMT 1793700001.0007
+msgctxt "backoffice"
+msgid "The module could not be sent. Click to choose another file."
+msgstr "The module could not be sent. Click to choose another file."
+
+# GMT 1793700001.0008
+msgctxt "backoffice"
+msgid "Siberian updates"
+msgstr "Siberian updates"
+
+# GMT 1793700001.0009
+msgctxt "backoffice"
+msgid "Checking for updates..."
+msgstr "Checking for updates..."
+
+# GMT 1793700001.0010
+msgctxt "backoffice"
+msgid "Update downloaded, review the package details below."
+msgstr "Update downloaded, review the package details below."
+
+# GMT 1793700001.0011
+msgctxt "backoffice"
+msgid "Downloading the update. Please, do not refresh the page."
+msgstr "Downloading the update. Please, do not refresh the page."
+
+# GMT 1793700001.0012
+msgctxt "backoffice"
+msgid "Checking for module updates..."
+msgstr "Checking for module updates..."
+
+# GMT 1793700001.0013
+msgctxt "backoffice"
+msgid "A licence key is required to install this module, the installation was not started."
+msgstr "A licence key is required to install this module, the installation was not started."
+
+# GMT 1793700001.0014
+msgctxt "backoffice"
+msgid "Check now"
+msgstr "Check now"
+
+msgctxt "backoffice"
+msgid "The module is in quarantine."
+msgstr ""
+
+msgctxt "backoffice"
+msgid "The quarantine is switched off or could not be written, check var/quarantine."
+msgstr ""
+
+msgctxt "backoffice"
+msgid "Put in quarantine by an administrator"
+msgstr ""
+
+msgctxt "backoffice"
+msgid "Errors on app calls"
+msgstr ""
+
+msgctxt "backoffice"
+msgid "last 24 hours"
+msgstr ""
+
+msgctxt "backoffice"
+msgid "Fatal errors and errors that a module raised on the calls of the mobile and web apps. The module stays enabled and the app keeps its error: nothing is put in quarantine unless you do it."
+msgstr ""
+
+msgctxt "backoffice"
+msgid "Warning: %s fatal errors or more within about 10 minutes."
+msgstr ""
+
+msgctxt "backoffice"
+msgid "Module"
+msgstr ""
+
+msgctxt "backoffice"
+msgid "Fatal errors"
+msgstr ""
+
+msgctxt "backoffice"
+msgid "Errors"
+msgstr ""
+
+msgctxt "backoffice"
+msgid "Endpoints"
+msgstr ""
+
+msgctxt "backoffice"
+msgid "Last seen"
+msgstr ""
+
+msgctxt "backoffice"
+msgid "Warning"
+msgstr ""
+
+msgctxt "backoffice"
+msgid "In quarantine"
+msgstr ""
+
+msgctxt "backoffice"
+msgid "Quarantine now"
+msgstr ""
+
+msgctxt "backoffice"
+msgid "Put this module in quarantine? It is disabled for the editor, the apps and the cron until you recheck or enable it."
+msgstr ""
+
+msgctxt "backoffice"
+msgid "Error reports are turned off, so the errors on app calls are not recorded. You can turn them on in Settings > Advanced > Configuration."
+msgstr ""
+
+msgctxt "backoffice"
+msgid "Your PHP version %s is no longer supported. Siberian requires PHP 8.2 or higher, which carries the security fixes. PHP 8.5 is recommended, please upgrade as soon as possible."
+msgstr ""
+
+msgctxt "backoffice"
+msgid "Your PHP version is %s. PHP 8.5 is recommended, it carries the latest security fixes."
+msgstr ""
+
+msgctxt "backoffice"
+msgid "The PHP extension iconv is missing on this server. Siberian works around it, but please install it (for example the php-iconv package) and restart PHP."
+msgstr ""
+
+# GMT 1794000000.0001
+msgctxt "backoffice"
+msgid "Some files and folders are not writable. Set the correct permissions to the following files and folders and try again:"
+msgstr "Some files and folders are not writable. Set the correct permissions to the following files and folders and try again:"

@@ -5,7 +5,7 @@ class Mcommerce_Application_Settings_DiscountController extends Application_Cont
     public function editAction() {
         $promo = new Mcommerce_Model_Promo();
         $mcommerce = $this->getCurrentOptionValue()->getObject();
-        if ($id = $this->getRequest()->getParam('promo_id')) {
+        if ($id = \Siberian\Input::int($this->getRequest()->getParam('promo_id'), 0, 0)) {
             $promo->find($id);
             if ($promo->getId() AND $mcommerce->getId() != $promo->getMcommerceId()) {
                 throw new Exception($this->_('An error occurred during the process. Please try again later.'));
@@ -125,7 +125,7 @@ class Mcommerce_Application_Settings_DiscountController extends Application_Cont
         $promo = new Mcommerce_Model_Promo();
 
         try {
-            if ($id = $this->getRequest()->getParam('promo_id')) {
+            if ($id = \Siberian\Input::int($this->getRequest()->getParam('promo_id'), 0, 0)) {
 
                 $mcommerce = $this->getCurrentOptionValue()->getObject();
                 $promo->find(['promo_id' => $id, 'mcommerce_id' => $mcommerce->getMcommerceId()]);

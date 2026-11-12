@@ -31,8 +31,15 @@ class Installer_Backoffice_ModuleController extends Backoffice_Controller_Defaul
 
         function _return_bytes($val)
         {
-            $val = trim($val);
+            $val = trim((string) $val);
+            if ($val === '') {
+                return 0;
+            }
             $last = strtolower($val[strlen($val) - 1]);
+            // "128M" is multiplied below: take the number first, a suffixed string is not numeric
+            if (in_array($last, ['g', 'm', 'k'], true)) {
+                $val = (int) $val;
+            }
             switch ($last) {
                 // Le modifieur 'G' est disponible depuis PHP 5.1.0
                 case 'g':
@@ -60,10 +67,17 @@ class Installer_Backoffice_ModuleController extends Backoffice_Controller_Defaul
                 'setLicense' => p__('backoffice', 'Please enter your module license before installing!'),
                 'confirmLicense' => p__('backoffice', 'Validate'),
                 'cancelLicense' => p__('backoffice', 'Go back!'),
+                'replaceLicense' => p__('backoffice', 'The license saved for this module is expired or no longer valid. If you received a new key, enter it here, or keep the current one.'),
+                'keepLicense' => p__('backoffice', 'Keep the current key'),
+                'licenseNeeded' => p__('backoffice', 'A licence key is required to install this module, the installation was not started.'),
                 //
                 'titleMajor' => __('Major update disclaimer, confirmation required!'),
                 'confirmDelete' => __('Yes, Proceed to update!'),
                 'cancelDelete' => __('No, go back!'),
+                'reinstallTitle' => p__('backoffice', 'This version is already installed'),
+                'reinstallText' => p__('backoffice', 'Would you like to reinstall it? Files are copied again and the module schema and data are synchronized again.'),
+                'reinstallConfirm' => p__('backoffice', 'Yes, reinstall'),
+                'reinstallCancel' => p__('backoffice', 'No, cancel'),
                 'mismatch' => __('The entered text mismatch'),
                 'confirmKey' => 'yes-proceed-to-update-#VERSION#',
                 'maxSize' => p__('backoffice', 'The file you are trying to send is larger than `post_max_size` or `upload_max_filesize`, please check your PHP settings.'),
@@ -132,7 +146,7 @@ class Installer_Backoffice_ModuleController extends Backoffice_Controller_Defaul
                             //$fatalErrors = true;
                         }
                     }
-                } catch (Exception $e) {
+                } catch (\Exception $e) {
                     $_errors[] = 'Please enable/add binary: zip';
                     $fatalErrors = true;
                 } finally {
@@ -165,43 +179,9 @@ class Installer_Backoffice_ModuleController extends Backoffice_Controller_Defaul
 
             if (!empty($data['url']) && !empty($data['filename'])) {
 
-                $tmp_path = Core_Model_Directory::getTmpDirectory(true) . '/' . $data['filename'];
-
-                $client = new Zend_Http_Client($data['url'], [
-                    'adapter' => 'Zend_Http_Client_Adapter_Curl',
-                    'curloptions' => [CURLOPT_SSL_VERIFYPEER => false],
-                ]);
-
-                $client->setMethod(Zend_Http_Client::POST);
-
-                if (Siberian_Version::TYPE === 'SAE') {
-                    $client->setParameterPost('sae', 1);
-                } else {
-                    $licenseKey = System_Model_Config::getValueFor('siberiancms_key');
-                    if (!$licenseKey) {
-                        throw new Siberian_Exception(__('There is no CMS license key set.'));
-                    }
-                    $client->setParameterPost('licenseKey', $licenseKey);
-                    $client->setParameterPost('host', $_SERVER['HTTP_HOST']);
-                }
-
-                $response = $client->request();
-
-                if ($response->getStatus() == 200) {
-                    $content = $response->getBody();
-
-                    if (empty($content)) {
-                        throw new Siberian_Exception(__('#100: Unable to fetch the update. Please, try again later.'));
-                    }
-
-                    File::putContents($tmp_path, $content);
-                } else {
-                    throw new Siberian_Exception(__('#101: Unable to fetch the update. Please, try again later.'));
-                }
-
-                if (!file_exists($tmp_path)) {
-                    throw new Siberian_Exception(__('#102: Unable to fetch the update. Please, try again later.'));
-                }
+                // The same download as `php cli update`
+                $tmp_path = Installer_Model_Installer_Update::platform($_SERVER['HTTP_HOST'] ?? null)
+                    ->download($data, Core_Model_Directory::getTmpDirectory(true));
 
                 $payload = $this->_getPackageDetails($tmp_path);
             } else {
@@ -210,7 +190,7 @@ class Installer_Backoffice_ModuleController extends Backoffice_Controller_Defaul
                     'message' => __($data['message'])
                 ];
             }
-        } catch (Exception $e) {
+        } catch (\Exception $e) {
             $payload = [
                 'error' => true,
                 'message' => $e->getMessage()
@@ -283,34 +263,14 @@ class Installer_Backoffice_ModuleController extends Backoffice_Controller_Defaul
                     throw new \Siberian\Exception(__("The file %s does not exist", $filename));
                 }
 
-                $parser = new Installer_Model_Installer_Module_Parser();
-                $is_ok = $parser->setFile($file)->checkPermissions();
+                // The same check as `php cli update` (web user)
+                Installer_Model_Installer_Update::checkPermissions($file);
 
-                if (!$is_ok) {
-                    $ftp_host = System_Model_Config::getValueFor("ftp_host");
-                    $ftp_user = System_Model_Config::getValueFor("ftp_username");
-                    $ftp_password = System_Model_Config::getValueFor("ftp_password");
-                    $ftp_port = System_Model_Config::getValueFor("ftp_port");
-                    $ftp_path = System_Model_Config::getValueFor("ftp_path");
-                    $ftp = new Siberian_Ftp($ftp_host, $ftp_user, $ftp_password, $ftp_port, $ftp_path);
+                $payload = [
+                    'success' => true
+                ];
 
-                    if ($ftp->checkConnection() && $ftp->isSiberianDirectory()) {
-                        $is_ok = true;
-                    }
-                }
-
-                if ($is_ok) {
-                    $payload = [
-                        'success' => true
-                    ];
-                } else {
-
-                    $messages = $parser->getErrors();
-                    $message = implode_polyfill("\n", $messages);
-                    throw new \Siberian\Exception(__($message));
-                }
-
-            } catch (Exception $e) {
+            } catch (\Exception $e) {
                 $payload = [
                     'error' => true,
                     'message' => $e->getMessage()
@@ -318,75 +278,6 @@ class Installer_Backoffice_ModuleController extends Backoffice_Controller_Defaul
             }
 
             $this->_sendJson($payload);
-        }
-    }
-
-    public function saveftpAction()
-    {
-
-        if ($data = Zend_Json::decode($this->getRequest()->getRawBody())) {
-
-            try {
-
-                $error_code = 0;
-                $ftp_host = !empty($data["host"]) ? $data["host"] : null;
-                $ftp_user = !empty($data["username"]) ? $data["username"] : null;
-                $ftp_password = !empty($data["password"]) ? $data["password"] : null;
-                $ftp_port = !empty($data["port"]) ? $data["port"] : Siberian_Ftp::DEFAULT_PORT;
-                $ftp_path = null;
-
-                if (!empty($data["path"])) {
-                    $ftp_path = rtrim($data["path"], "/");
-                }
-                if (!$ftp_path) {
-                    $ftp_path = Siberian_Ftp::DEFAULT_PATH;
-                }
-
-                $ftp = new Siberian_Ftp($ftp_host, $ftp_user, $ftp_password, $ftp_port, $ftp_path);
-                if (!$ftp->checkConnection()) {
-                    $error_code = 1;
-                    throw new \Siberian\Exception(__("Unable to connect to your FTP. Please check the connection information."));
-                } else if (!$ftp->isSiberianDirectory()) {
-                    $error_code = 2;
-                    throw new \Siberian\Exception(__("Unable to detect your site. Please make sure the entered path is correct."));
-                }
-
-                $fields = [
-                    "ftp_host" => $ftp_host,
-                    "ftp_username" => $ftp_user,
-                    "ftp_password" => $ftp_password,
-                    "ftp_port" => $ftp_port,
-                    "ftp_path" => $ftp_path,
-                ];
-
-                foreach ($fields as $key => $value) {
-                    $config = new System_Model_Config();
-                    $config->find($key, "code");
-
-                    if (!$config->getId()) {
-                        $config->setCode($key)
-                            ->setLabel(ucfirst(implode_polyfill(" ", explode("_", $key))));
-                    }
-
-                    $config->setCode($key)
-                        ->setValue($value)
-                        ->save();
-                }
-
-                $data = [
-                    "success" => 1,
-                    "message" => __("Info successfully saved")
-                ];
-
-            } catch (Exception $e) {
-                $data = [
-                    "error" => 1,
-                    "code" => $error_code,
-                    "message" => $e->getMessage()
-                ];
-            }
-
-            $this->_sendJson($data);
         }
     }
 
@@ -405,19 +296,11 @@ class Installer_Backoffice_ModuleController extends Backoffice_Controller_Defaul
                     throw new Siberian_Exception(__("The file %s does not exist", $filename));
                 }
 
-                $parser = new Installer_Model_Installer_Module_Parser();
-                if ($parser->setFile($file)->copy()) {
-                    $data = ["success" => 1];
-                } else {
+                // The same copy as `php cli update`
+                Installer_Model_Installer_Update::copyPackage($file);
+                $data = ["success" => 1];
 
-                    $messages = $parser->getErrors();
-                    $message = implode_polyfill("\n", $messages);
-
-                    throw new Siberian_Exception(__($message));
-
-                }
-
-            } catch (Exception $e) {
+            } catch (\Exception $e) {
                 $data = [
                     "error" => 1,
                     "message" => $e->getMessage()
@@ -438,60 +321,13 @@ class Installer_Backoffice_ModuleController extends Backoffice_Controller_Defaul
         $data = [];
         try {
 
-            $cache = Zend_Registry::isRegistered('cache') ? Zend_Registry::get('cache') : null;
-            if ($cache) {
-                $cache->clean(Zend_Cache::CLEANING_MODE_ALL);
-            }
+            // Opt-in only: without the parameter nothing changes.
+            $reinstall = (string) $this->getRequest()->getParam('reinstall', '');
 
-            $cache_ids = ['js_mobile.js', 'js_desktop.js', 'css_mobile.css', 'css_desktop.css'];
-            foreach ($cache_ids as $cache_id) {
-                if (file_exists(Core_Model_Directory::getCacheDirectory(true) . "/{$cache_id}")) {
-                    unlink(Core_Model_Directory::getCacheDirectory(true) . "/{$cache_id}");
-                }
-            }
-
-            $module_names = Zend_Controller_Front::getInstance()->getDispatcher()->getSortedModuleDirectories();
-            self::$MODULES = [];
-            foreach ($module_names as $module_name) {
-                $module = new Installer_Model_Installer_Module();
-                $module->prepare($module_name);
-                if ($module->canUpdate()) {
-                    self::$MODULES[] = $module->getName();
-                }
-            }
-
-            self::$MODULES = array_unique(self::$MODULES);
-
-            $installers = [];
-            foreach (self::$MODULES as $module) {
-                $installer = new Installer_Model_Installer();
-                $installer
-                    ->setModuleName($module)
-                    ->install();
-
-                $installers[] = $installer;
-
-                # Try to increase max execution time (if the set failed)
+            // The same steps as `php cli update`; the tick stops before the time limit and the browser calls again
+            self::$MODULES = Installer_Model_Installer_Update::installPending($reinstall, function () {
                 $this->_signalRetry();
-            }
-
-            foreach ($installers as $installer) {
-                $installer->insertData();
-
-                # Try to increase max execution time (if the set failed)
-                $this->_signalRetry();
-            }
-
-            /** Try installing fresh template. */
-            $installer = new Installer_Model_Installer();
-            $installer
-                ->setModuleName('Template')
-                ->install();
-
-            /** Clear cache */
-            Siberian_Cache_Design::clearCache();
-            Siberian_Cache_Translation::clearCache();
-            Siberian_Minify::clearCache();
+            });
 
             $host = $this->getRequest()->getHeader("host");
             if ($host AND $host == base64_decode("YXBwcy5tb2JpdXNjcy5jb20=")) {
@@ -510,18 +346,7 @@ class Installer_Backoffice_ModuleController extends Backoffice_Controller_Defaul
             $this->_signalRetry();
 
             $protocol = isset($_SERVER['HTTPS']) ? 'https://' : 'http://';
-            Siberian_Autoupdater::configure($protocol . $this->getRequest()->getHttpHost());
-
-            $cron_model = new Cron_Model_Cron();
-            $cachebuilder = $cron_model->find("cachebuilder", "command");
-
-            if ($cachebuilder->getId()) {
-                $options = [
-                    "host" => $protocol . $this->getRequest()->getHttpHost(),
-                ];
-                $cachebuilder->setOptions(Siberian_Json::encode($options))->save();
-                $cachebuilder->enable();
-            }
+            Installer_Model_Installer_Update::finalize($protocol . $this->getRequest()->getHttpHost());
 
         } catch (Siberian_Exec_Exception $e) {
             $data = [
@@ -529,7 +354,7 @@ class Installer_Backoffice_ModuleController extends Backoffice_Controller_Defaul
                 "reached_timeout" => true,
                 "message" => $e->getMessage()
             ];
-        } catch (Exception $e) {
+        } catch (\Exception $e) {
             $data = [
                 "error" => 1,
                 "message" => $e->getMessage()
@@ -556,74 +381,8 @@ class Installer_Backoffice_ModuleController extends Backoffice_Controller_Defaul
 
     protected function _fetchUpdates()
     {
-
-        /** Default updates url in case of missing configuration */
-        $updates_url = "https://updates02.siberiancms.com";
-
-        $update_channel = __get("update_channel");
-        if (in_array($update_channel, ["production", "stable", "beta", "preview"])) {
-            switch ($update_channel) {
-                case "production":
-                    $updates_url = "https://production-updates02.siberiancms.com";
-                    break;
-                case "stable":
-                    $updates_url = "https://updates02.siberiancms.com";
-                    break;
-                case "beta":
-                    $updates_url = "https://beta-updates02.siberiancms.com";
-                    break;
-                case "preview":
-                    $updates_url = "https://preview-updates02.siberiancms.com";
-                    break;
-            }
-        }
-
-        $current_version = Siberian_Version::VERSION;
-
-        $url = "{$updates_url}/check.php?";
-        $url .= "version={$current_version}";
-
-        $client = new Zend_Http_Client($url, [
-            'adapter' => 'Zend_Http_Client_Adapter_Curl',
-            'curloptions' => [CURLOPT_SSL_VERIFYPEER => false],
-        ]);
-        $client->setMethod(Zend_Http_Client::POST);
-
-        if (Siberian_Version::TYPE === "SAE") {
-            $client->setParameterPost("sae", "1");
-        } else {
-            $license_key = System_Model_Config::getValueFor("siberiancms_key");
-            if (!$license_key) {
-                throw new Siberian_Exception(__("There is no CMS license key set."));
-            }
-            $client->setParameterPost("licenseKey", $license_key);
-            $client->setParameterPost("host", $_SERVER["HTTP_HOST"]);
-        }
-
-        $response = $client->request();
-        $content = $response->getBody();
-
-        if (empty($content)) {
-            throw new Siberian_Exception(__("An error occurred while loading. Please, try again later."));
-        }
-
-        $content = Zend_Json::decode($content);
-        if ($response->getStatus() != 200) {
-
-            $message = __("Unable to check for updates now. Please, try again later.");
-            if (!empty($content["error"]) && !empty($content["message"])) {
-                $message = __($content["message"]);
-            }
-
-            throw new Siberian_Exception($message);
-        }
-
-        if (empty($content['url'])) {
-            $content['message'] = __('Your system is up to date.');
-        }
-
-        return $content;
-
+        // The same check as `php cli update`: channel, licence and messages live in Siberian\Update\Platform
+        return Installer_Model_Installer_Update::platform($_SERVER['HTTP_HOST'] ?? null)->check();
     }
 
     /**
@@ -660,6 +419,20 @@ class Installer_Backoffice_ModuleController extends Backoffice_Controller_Defaul
                 'url' => false,
                 'show' => false,
             ];
+        $data['package_details']['installed_version'] = false;
+        $data['package_details']['can_reinstall'] = false;
+        try {
+            $installed = (new Installer_Model_Installer_Module())->prepare($package->getName(), false);
+            if ($installed->isInstalled()) {
+                $data['package_details']['installed_version'] = $installed->getVersion();
+                $data['package_details']['can_reinstall'] = Installer_Model_Installer_Reinstall::isAllowed(
+                    true,
+                    $installed->getVersion(),
+                    $package->getVersion());
+            }
+        } catch (\Exception $e) {
+            // Best effort, the regular install flow does not depend on it.
+        }
         $data['package_details']['restore_apps'] = $package->getRestoreApps() ?? false;
         $data['package_details']['cleanup_files'] = $package->getCleanupFiles() ?? false;
 
@@ -672,10 +445,10 @@ class Installer_Backoffice_ModuleController extends Backoffice_Controller_Defaul
         try {
 
             $request = $this->getRequest();
-            $code = $request->getParam('code', false);
-            $itemId = $request->getParam('itemId', false);
+            $code = \Siberian\Input::string($request->getParam('code'), '');
+            $itemId = \Siberian\Input::string($request->getParam('itemId'), '');
 
-            if ($code === false || $itemId === false) {
+            if ($code === '' || $itemId === '') {
                 throw new \Siberian\Exception(p__('backoffice', 'Params code & itemId are required.'));
             }
 
@@ -688,6 +461,9 @@ class Installer_Backoffice_ModuleController extends Backoffice_Controller_Defaul
 
             try {
                 \Siberian\License::checkModuleLicense($code, $itemId);
+            } catch (\Siberian\License\ReplaceableException $e) {
+                $code = 'license_replaceable';
+                throw $e;
             } catch (\Exception $e) {
                 $code = 'license_error';
                 throw $e;
@@ -713,11 +489,11 @@ class Installer_Backoffice_ModuleController extends Backoffice_Controller_Defaul
         try {
 
             $request = $this->getRequest();
-            $code = $request->getParam('code', false);
-            $itemId = $request->getParam('itemId', false);
-            $license = trim($request->getParam('license', false));
+            $code = \Siberian\Input::string($request->getParam('code'), '');
+            $itemId = \Siberian\Input::string($request->getParam('itemId'), '');
+            $license = \Siberian\Input::string($request->getParam('license'), '');
 
-            if ($code === false || $itemId === false || $license === false) {
+            if ($code === '' || $itemId === '') {
                 throw new \Siberian\Exception(p__('backoffice', 'Params code, itemId & license are required.'));
             }
 
@@ -738,6 +514,95 @@ class Installer_Backoffice_ModuleController extends Backoffice_Controller_Defaul
                 'code' => $code,
                 'message' => $e->getMessage(),
             ];
+        }
+
+        $this->_sendJson($payload);
+    }
+
+    /**
+     * Module updates, list. `force=1` asks the downloader again (the cache is served if it is down).
+     */
+    public function checkupdatesAction()
+    {
+        try {
+            $updates = Installer_Model_ModuleUpdates::service();
+            $list = $updates->refresh(\Siberian\Input::bool($this->getRequest()->getParam('force', false)));
+            $payload = [
+                'success' => true,
+                'updates' => $updates->pending(Installer_Model_ModuleUpdates::installed(), $list),
+                'stale' => $list['stale'],
+                'fetched_at' => $list['fetched_at'],
+                'terms_accepted' => $updates->termsAccepted($list),
+                'terms_hash' => $list['manifest']['terms']['hash'],
+            ];
+        } catch (\Siberian\ModuleUpdates\Exception $e) {
+            $payload = Installer_Model_ModuleUpdates::errorPayload($e);
+        }
+
+        $this->_sendJson($payload);
+    }
+
+    /**
+     * The live terms of download, served by the downloader.
+     */
+    public function termsAction()
+    {
+        try {
+            $payload = ['success' => true, 'terms' => Installer_Model_ModuleUpdates::service()->fetchTerms()];
+        } catch (\Siberian\ModuleUpdates\Exception $e) {
+            $payload = Installer_Model_ModuleUpdates::errorPayload($e);
+        }
+
+        $this->_sendJson($payload);
+    }
+
+    /**
+     * Records that this administrator accepted the terms identified by `hash`.
+     */
+    public function accepttermsAction()
+    {
+        try {
+            if (!$this->getRequest()->isPost()) {
+                throw new \Siberian\ModuleUpdates\Exception('bad_request', p__('backoffice', 'This action requires a POST request.'));
+            }
+            $session = $this->getSession(Core_Model_Session::TYPE_BACKOFFICE);
+            Installer_Model_ModuleUpdates::service()->acceptTerms(
+                (string) $this->getRequest()->getParam('hash', ''),
+                $session->getBackofficeUserId() ?: 'backoffice'
+            );
+            $payload = ['success' => true];
+        } catch (\Siberian\ModuleUpdates\Exception $e) {
+            $payload = Installer_Model_ModuleUpdates::errorPayload($e);
+        }
+
+        $this->_sendJson($payload);
+    }
+
+    /**
+     * Downloads the update of one module, then answers exactly like downloadupdateAction: the
+     * backoffice continues with the usual permissions, copy and install steps.
+     */
+    public function updatemoduleAction()
+    {
+        try {
+            if (!$this->getRequest()->isPost()) {
+                throw new \Siberian\ModuleUpdates\Exception('bad_request', p__('backoffice', 'This action requires a POST request.'));
+            }
+            if (__getConfig('is_demo')) {
+                throw new \Siberian\ModuleUpdates\Exception('demo', p__('backoffice', 'This is a demo version, no modules can be updated.'));
+            }
+
+            set_time_limit(600);
+            $code = (string) $this->getRequest()->getParam('code', '');
+            // Only for a module without a saved key (or to replace a refused one); POST body, never the URL.
+            $license = (string) $this->getRequest()->getPost('license', '');
+            $path = Installer_Model_ModuleUpdates::download($code, $license);
+
+            $payload = $this->_getPackageDetails($path);
+        } catch (\Siberian\ModuleUpdates\Exception $e) {
+            $payload = Installer_Model_ModuleUpdates::errorPayload($e);
+        } catch (\Exception $e) {
+            $payload = ['error' => true, 'code' => 'install', 'message' => $e->getMessage()];
         }
 
         $this->_sendJson($payload);

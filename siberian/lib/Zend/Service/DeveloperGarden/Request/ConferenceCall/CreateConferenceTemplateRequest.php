@@ -67,7 +67,7 @@ class Zend_Service_DeveloperGarden_Request_ConferenceCall_CreateConferenceTempla
      */
     public function __construct($environment, $ownerId,
         Zend_Service_DeveloperGarden_ConferenceCall_ConferenceDetail $conferenceDetails,
-        array $conferenceParticipants = null
+        ?array $conferenceParticipants = null
     ) {
         parent::__construct($environment);
         $this->setOwnerId($ownerId)
@@ -81,7 +81,7 @@ class Zend_Service_DeveloperGarden_Request_ConferenceCall_CreateConferenceTempla
      * @param array $participants
      * @return Zend_Service_DeveloperGarden_Request_ConferenceCall_CreateConferenceTemplateRequest
      */
-    public function setParticipants(array $participants = null)
+    public function setParticipants(?array $participants = null)
     {
         $this->participants = $participants;
         return $this;

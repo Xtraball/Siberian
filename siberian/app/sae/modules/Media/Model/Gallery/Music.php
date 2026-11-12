@@ -180,7 +180,7 @@ class Media_Model_Gallery_Music extends Core_Model_Default
         $total_tracks = $this->getAllTracks(true);
         $total_duration = 0;
         foreach ($total_tracks as $track) {
-            $total_duration += $track->getDuration();
+            $total_duration += is_numeric($track->getDuration()) ? (float) $track->getDuration() : 0;
         }
 
         $total_duration = floor($total_duration / 1000);

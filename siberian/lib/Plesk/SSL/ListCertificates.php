@@ -40,7 +40,7 @@ EOT;
      * @param HttpRequestContract $http
      * @throws ApiRequestException
      */
-    public function __construct(array $config, array $params = array(), HttpRequestContract $http = null)
+    public function __construct(array $config, array $params = array(), ?HttpRequestContract $http = null)
     {
         if (!isset($params['domain-id']) && !isset($params['domain-name'])) {
             throw new ApiRequestException('domain-id or domain-name parameter is required');

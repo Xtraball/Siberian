@@ -25,7 +25,7 @@ class Event_ApplicationController extends Application_Controller_Default {
         $option_value = new Application_Model_Option_Value();
 
         if($this->getRequest()->getParam("option_value_id")) {
-            $value_id = $this->getRequest()->getParam("option_value_id");
+            $value_id = \Siberian\Input::int($this->getRequest()->getParam("option_value_id"), 0, 0);
             $name = $this->getRequest()->getParam("name");
             $event_type = strtolower($this->getRequest()->getParam("event_type"));
             $option_value->find($value_id);
@@ -33,7 +33,7 @@ class Event_ApplicationController extends Application_Controller_Default {
 
         try {
             $event = new Event_Model_Event();
-            if($id = $this->getRequest()->getParam("id")) {
+            if ($id = \Siberian\Input::int($this->getRequest()->getParam("id"), 0, 0)) {
                 $event->find($id);
             }
 
@@ -188,7 +188,7 @@ class Event_ApplicationController extends Application_Controller_Default {
     }
 
     public function deleteAction() {
-        $id = $this->getRequest()->getParam("id");
+        $id = \Siberian\Input::int($this->getRequest()->getParam("id"), 0, 0);
         $html = "";
         try {
 

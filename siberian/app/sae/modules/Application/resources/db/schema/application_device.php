@@ -116,7 +116,7 @@ $schemas['application_device'] = [
         'collation' => 'utf8_unicode_ci',
     ],
     'store_pass' => [
-        'type' => 'varchar(10)',
+        'type' => 'varchar(255)',
         'is_null' => true,
         'charset' => 'utf8',
         'collation' => 'utf8_unicode_ci',
@@ -140,10 +140,14 @@ $schemas['application_device'] = [
         'collation' => 'utf8_unicode_ci',
     ],
     'key_pass' => [
-        'type' => 'varchar(10)',
+        'type' => 'varchar(255)',
         'is_null' => true,
         'charset' => 'utf8',
         'collation' => 'utf8_unicode_ci',
+    ],
+    'google_signing' => [
+        'type' => 'tinyint(1) unsigned',
+        'default' => '0',
     ],
     'alias' => [
         'type' => 'varchar(50)',

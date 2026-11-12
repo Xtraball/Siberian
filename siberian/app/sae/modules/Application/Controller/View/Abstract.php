@@ -1,6 +1,7 @@
 <?php
 
 use Siberian\AdNetwork;
+use Siberian\Android\Keystore;
 use Siberian\Exception;
 use Siberian\Version;
 
@@ -104,7 +105,7 @@ abstract class Application_Controller_View_Abstract extends Backoffice_Controlle
                 $keystore_path = \Core_Model_Directory::getBasePathTo("var/apps/android/keystore/$appId.pks");
                 $data['Keystore'] = is_file($keystore_path);
             }
-            $data['owner_admob_weight'] = (integer)$data['owner_admob_weight'];
+            $data['owner_admob_weight'] = (int)$data['owner_admob_weight'];
 
             if ((int)$device->getTypeId() === 2) {
                 try {
@@ -144,11 +145,11 @@ abstract class Application_Controller_View_Abstract extends Backoffice_Controlle
         $data['package_name'] = $application->getPackageName();
         $data['is_active'] = $application->isActive();
         $data['is_locked'] = $application->isLocked();
-        $data['pre_init'] = (boolean)$application->getPreInit();
-        $data['disable_updates'] = (boolean)$application->getDisableUpdates();
+        $data['pre_init'] = (bool)$application->getPreInit();
+        $data['disable_updates'] = (bool)$application->getDisableUpdates();
         $data['can_be_published'] = $application->canBePublished();
-        $data['owner_use_ads'] = (boolean)$application->getOwnerUseAds();
-        $data['request_tracking_authorization'] = (boolean)$application->getRequestTrackingAuthorization();
+        $data['owner_use_ads'] = (bool)$application->getOwnerUseAds();
+        $data['request_tracking_authorization'] = (bool)$application->getRequestTrackingAuthorization();
 
         if ($application->getFreeUntil()) {
             $data['free_until'] = datetime_to_format($application->getFreeUntil(), Zend_Date::DATE_SHORT);
@@ -173,12 +174,12 @@ abstract class Application_Controller_View_Abstract extends Backoffice_Controlle
             'design_codes' => Application_Model_Application::getDesignCodes()
         ];
 
-        $data['application']['disable_battery_optimization'] = (boolean)$data['application']['disable_battery_optimization'];
-        $data['application']['disable_location'] = (boolean)$data['application']['disable_location'];
-        $data['application']['use_ads'] = (boolean)$data['application']['use_ads'];
-        $data['application']['test_ads'] = (boolean)$data['application']['test_ads'];
-        $data['application']['mediation_facebook'] = (boolean)$data['application']['mediation_facebook'];
-        $data['application']['mediation_startapp'] = (boolean)$data['application']['mediation_startapp'];
+        $data['application']['disable_battery_optimization'] = (bool)$data['application']['disable_battery_optimization'];
+        $data['application']['disable_location'] = (bool)$data['application']['disable_location'];
+        $data['application']['use_ads'] = (bool)$data['application']['use_ads'];
+        $data['application']['test_ads'] = (bool)$data['application']['test_ads'];
+        $data['application']['mediation_facebook'] = (bool)$data['application']['mediation_facebook'];
+        $data['application']['mediation_startapp'] = (bool)$data['application']['mediation_startapp'];
 
         $data["application"]["list_of_admins"] = [];
 
@@ -397,7 +398,11 @@ abstract class Application_Controller_View_Abstract extends Backoffice_Controlle
             }
 
             $rVersionCode = null;
+            $keystoreBackup = null;
+            $confirmMessage = p__('application', 'Please confirm to save.');
+            $confirmTexts = [];
             foreach ($values['devices'] as $deviceData) {
+                $enablesGoogleSigning = false;
                 if (!empty($deviceData['store_url'])) {
                     if (stripos($deviceData['store_url'], 'https://') === false) {
                         $deviceData['store_url'] = 'https://' . $deviceData['store_url'];
@@ -424,21 +429,51 @@ abstract class Application_Controller_View_Abstract extends Backoffice_Controlle
                     // Ask user to confirm intent!
                     if (($newVersion < $currentVersion) &&
                         !array_key_exists('confirm', $values)) {
-                        throw new Exception(p__('application', 'The new version must be greater than the current one, please confirm if you really want to downgrade it.'), 100);
+                        $confirmMessage = p__('application', 'The new version must be greater than the current one, please confirm if you really want to downgrade it.');
+                        $confirmTexts[] = p__('application', 'You are about to downgrade the version, after that you may not be able to update your Android application, please confirm if you are sure!');
+                    }
+
+                    // Google Play App Signing: the keystore becomes the upload key, the current one is replaced
+                    $enablesGoogleSigning = !empty($deviceData['google_signing']) &&
+                        !(int) $device->getGoogleSigning();
+                    if ($enablesGoogleSigning && !array_key_exists('confirm', $values)) {
+                        $confirmTexts[] = p__('application', 'Google Play App Signing: the current keystore will be kept as a backup and a new upload key will be generated at the next build. Its certificate must be registered in the Play Console (upload key reset). Are you sure?');
+                    }
+                    if (!empty($confirmTexts)) {
+                        throw new Exception($confirmMessage, 100);
                     }
 
                     $rVersionCode = $newVersion;
                 }
 
-                $device
-                    ->addData($deviceData)
-                    ->save();
+                // Nothing is lost: the previous keystore is renamed, and put back if the save fails
+                $keystorePath = null;
+                if (!empty($enablesGoogleSigning) && (int) $deviceData['type_id'] === 2) {
+                    $keystorePath = path('/var/apps/android/keystore/' . (int) $application->getId() . '.pks');
+                    $keystoreBackup = Keystore::backup($keystorePath);
+                }
+
+                try {
+                    $device
+                        ->addData($deviceData)
+                        ->save();
+                } catch (\Exception $e) {
+                    if ($keystoreBackup !== null) {
+                        rename($keystoreBackup, $keystorePath);
+                    }
+                    throw $e;
+                }
             }
 
 
+            $message = __('Info successfully saved');
+            if ($keystoreBackup !== null) {
+                $message .= ' ' . p__('application', 'The previous keystore was kept as %s', basename($keystoreBackup));
+            }
+
             $payload = [
                 'success' => true,
-                'message' => __('Info successfully saved'),
+                'message' => $message,
                 'versionCode' => Application_Model_Device_Abstract::formatVersionCode($rVersionCode),
             ];
 
@@ -450,8 +485,99 @@ abstract class Application_Controller_View_Abstract extends Backoffice_Controlle
 
             if ($e->getCode() === 100) {
                 $payload['confirm'] = true;
-                $payload['confirmText'] = p__('application', 'You are about to downgrade the version, after that you may not be able to update your Android application, please confirm if you are sure!');
+                $payload['confirmText'] = implode("\n\n", $confirmTexts);
             }
+        }
+
+        $this->_sendJson($payload);
+    }
+
+
+    /**
+     * Replaces the keystore of the application by the one of a zip (keystore.pks + passwords.txt, see
+     * var/apps/android/keystore_example.zip). With Google Play App Signing this is the upload key.
+     * The current keystore is never deleted, it is renamed to <appId>-backup-<date>.pks.
+     */
+    public function uploadkeystoreAction()
+    {
+        $tmpName = null;
+        $backup = null;
+        $path = null;
+
+        try {
+            $request = $this->getRequest();
+            $appId = \Siberian\Input::int($request->getParam('appId'), 0, 0);
+
+            $application = (new Application_Model_Application())->find($appId);
+            if (!$application || !$application->getId()) {
+                throw new Exception('#855-01: ' . p__('application', 'Unknown application.'));
+            }
+
+            if (empty($_FILES) || empty($_FILES['file']['name'])) {
+                throw new Exception('#855-02: ' . __('No file has been sent'));
+            }
+
+            $adapter = new Zend_File_Transfer_Adapter_Http();
+            $adapter->setDestination(Core_Model_Directory::getTmpDirectory(true));
+            if (!$adapter->receive()) {
+                throw new Exception('#855-03: ' . implode(' ', $adapter->getMessages()));
+            }
+            $files = $adapter->getFileInfo();
+            $file = reset($files);
+            $tmpName = $file['tmp_name'];
+
+            try {
+                $keystore = Keystore::readArchive($tmpName);
+            } catch (\InvalidArgumentException $e) {
+                throw new Exception('#855-04: ' . $e->getMessage());
+            }
+
+            $device = $application->getDevice(2);
+            $path = path('/var/apps/android/keystore/' . $appId . '.pks');
+            if (!is_dir(dirname($path))) {
+                mkdir(dirname($path), 0777, true);
+            }
+
+            // The backup is only usable with its own passwords: they are given in the answer, and not written next
+            // to the keystore because var/apps is served by the web server
+            $previous = [$device->getAlias(), $device->getStorePass(), $device->getKeyPass()];
+            $backup = Keystore::backup($path);
+            if (file_put_contents($path, $keystore['pks']) === false) {
+                throw new Exception('#855-05: ' . p__('application', 'The keystore cannot be saved.'));
+            }
+
+            $device
+                ->setAlias($keystore['alias'])
+                ->setStorePass($keystore['store_pass'])
+                ->setKeyPass($keystore['key_pass'])
+                ->save();
+
+            $message = p__('application', 'The keystore has been replaced.');
+            if ($backup !== null) {
+                $message .= ' ' . p__('application', 'The previous keystore was kept as %s', basename($backup));
+                if (!empty($previous[0])) {
+                    $message .= ' ' . p__('application', 'Its alias is %s, its store password %s and its key password %s.', ...$previous);
+                }
+            }
+
+            $payload = [
+                'success' => true,
+                'message' => $message,
+            ];
+        } catch (\Exception $e) {
+            // Put the previous keystore back, the passwords of the device were not changed
+            if ($backup !== null && $path !== null) {
+                @rename($backup, $path);
+            }
+
+            $payload = [
+                'error' => true,
+                'message' => $e->getMessage(),
+            ];
+        }
+
+        if ($tmpName !== null && is_file($tmpName)) {
+            unlink($tmpName);
         }
 
         $this->_sendJson($payload);
@@ -746,6 +872,14 @@ abstract class Application_Controller_View_Abstract extends Backoffice_Controlle
             $type = ($request->getParam('type') == 'apk') ? 'apk' : 'zip';
             $device = ($request->getParam('device_id') == 1) ? 'ios' : 'android';
             $noads = ($request->getParam('no_ads') == 1) ? 'noads' : '';
+            // DEBUG ONLY (iOS): no_ads=2 asks for the build without OneSignal, refused unless the server is flagged.
+            if ($request->getParam('no_ads') == 2 && $device === 'ios' && $type !== 'apk') {
+                if (!Application_Model_SourceQueue::isDebugNoOneSignalEnabled()) {
+                    throw new \Siberian\Exception('#908-03: ' .
+                        __('The debug build without OneSignal is not enabled on this server'));
+                }
+                $noads = 'debug';
+            }
             $isApkService = $request->getParam('apk', false) === 'apk';
             $design_code = $request->getParam('design_code');
             $adminIdCredentials = $request->getParam('admin_id', 0);
@@ -820,6 +954,9 @@ abstract class Application_Controller_View_Abstract extends Backoffice_Controlle
                 $type = ($this->getRequest()->getParam("type") == "apk") ? "apk" : "zip";
                 $device = ($this->getRequest()->getParam("device_id") == 1) ? "ios" : "android";
                 $noads = ($this->getRequest()->getParam("no_ads") == 1) ? "noads" : "";
+                if ($this->getRequest()->getParam("no_ads") == 2 && $device === "ios") {
+                    $noads = "debug";
+                }
 
                 Application_Model_Queue::cancel($application_id, $type, $device . $noads);
 

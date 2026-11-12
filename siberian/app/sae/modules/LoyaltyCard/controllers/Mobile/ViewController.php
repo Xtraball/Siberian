@@ -42,15 +42,15 @@ class Loyaltycard_Mobile_ViewController extends Application_Controller_Mobile_De
             if ($current_card->getCardId()) {
 
                 $payload['card'] = [
-                    'id' => (integer)$current_card->getCustomerCardId(),
-                    'is_visible' => (boolean)$current_card->getCardId(),
+                    'id' => (int)$current_card->getCustomerCardId(),
+                    'is_visible' => (bool)$current_card->getCardId(),
                     'name' => $current_card->getName(),
                     'advantage' => $current_card->getAdvantage(),
                     'conditions' => $current_card->getConditions(),
-                    'number_of_points' => (integer)$current_card->getNumberOfPoints(),
-                    'number_of_points_to_validate' => (integer) (($current_card->getNumberOfPointsToValidate() > 0) ?
+                    'number_of_points' => (int)$current_card->getNumberOfPoints(),
+                    'number_of_points_to_validate' => (int) (($current_card->getNumberOfPointsToValidate() > 0) ?
                         $current_card->getNumberOfPointsToValidate() : $current_card->getMaxNumberOfPoints()),
-                    'max_number_of_points' => (integer)$current_card->getMaxNumberOfPoints()
+                    'max_number_of_points' => (int)$current_card->getMaxNumberOfPoints()
                 ];
 
                 $payload['points'] = $this->_getPoints($current_card);
@@ -115,10 +115,10 @@ class Loyaltycard_Mobile_ViewController extends Application_Controller_Mobile_De
 
                 // Déclaration des variables annexes
                 $password_entered = $datas['password'];
-                $nbr = !empty($datas['number_of_points']) ? $datas['number_of_points'] : 1;
+                $nbr = !empty($datas['number_of_points']) && is_scalar($datas['number_of_points']) ? (int) $datas['number_of_points'] : 1;
 
                 // Ou si le mot de passe est vide ou non numérique
-                if ($card->getValueId() != $option_value->getId() OR empty($password_entered) OR !preg_match('/[0-9]/', $nbr)) {
+                if ($card->getValueId() != $option_value->getId() OR empty($password_entered) OR $nbr < 1) {
                     throw new Siberian_Exception(__("An error occurred while validating point<br />Please try again later."));
                 }
 
@@ -258,12 +258,23 @@ class Loyaltycard_Mobile_ViewController extends Application_Controller_Mobile_De
 
                 // Déclaration des variables annexes
                 $password_entered = $data['password'];
-                $nbr = !empty($data['number_of_points']) ? $data['number_of_points'] : 1;
+                $nbr = !empty($data['number_of_points']) && is_scalar($data['number_of_points']) ? max(1, (int) $data['number_of_points']) : 1;
 
                 // Récupération du mot de passe
                 $password = new LoyaltyCard_Model_Password();
 
-                $password->findByUnlockCode($password_entered, $option_value->getId());
+                // A one-time QRCode (#851) is consumed by its first scan; the fixed code of the employee is
+                // refused when the install asks for one-time QRCodes only (config loyalty_card_one_time_qr_only)
+                $oneTimePasswordId = \Siberian\LoyaltyCard\QrToken::consume(
+                    Zend_Db_Table_Abstract::getDefaultAdapter(),
+                    $password_entered,
+                    (int) $option_value->getId()
+                );
+                if ($oneTimePasswordId !== null) {
+                    $password->find($oneTimePasswordId);
+                } else if (__getConfig('loyalty_card_one_time_qr_only') !== true) {
+                    $password->findByUnlockCode($password_entered, $option_value->getId());
+                }
 
                 // Test si le mot de passe a été trouvé
                 if (!$password->getId()) {

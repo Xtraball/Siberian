@@ -177,6 +177,9 @@ class Backoffice_Model_Notification extends Core_Model_Default
 
         $lastId = $this->findLastId();
         $urlNotifs = Provider::getBackofficeNotification();
+        if (empty($urlNotifs)) {
+            return;
+        }
         $url = sprintf("%s/type/%s/last_id/%s", $urlNotifs, $type, $lastId);
         try {
             if ($datas = Request::get($url, [], null, null, null, ['timeout' => 10])) {
@@ -214,7 +217,7 @@ class Backoffice_Model_Notification extends Core_Model_Default
             $unread_messages = [];
             foreach ($messages as $message) {
                 $link = $message->getLink();
-                if (strpos($link, "updates.siberiancms.com") !== false) {
+                if (strpos((string) $link, "updates.siberiancms.com") !== false) {
                     $link = str_replace("http://", "https://", $link);
                 }
 

@@ -23,10 +23,10 @@ class Catalog_Application_MenuController extends Application_Controller_Default
 
     public function formAction() {
         if($this->getRequest()->getParam("id")) {
-            $id = $this->getRequest()->getParam("id");
+            $id = \Siberian\Input::int($this->getRequest()->getParam("id"), 0, 0);
         }
         if($this->getRequest()->getParam("option_value_id")) {
-            $value_id = $this->getRequest()->getParam("option_value_id");
+            $value_id = \Siberian\Input::int($this->getRequest()->getParam("option_value_id"), 0, 0);
         }
         try {
             $menu = new Catalog_Model_Product();
@@ -60,7 +60,7 @@ class Catalog_Application_MenuController extends Application_Controller_Default
 
                     $product = new Catalog_Model_Product();
 
-                    if($id = $this->getRequest()->getParam('id')) {
+                    if ($id = \Siberian\Input::int($this->getRequest()->getParam('id'), 0, 0)) {
                         $product->find($id);
                         if($product->getValueId() != $option_value->getId()) {
                             throw new Exception($this->_('An error occurred while saving. Please try again later.'));
@@ -125,7 +125,7 @@ class Catalog_Application_MenuController extends Application_Controller_Default
     }
 
     public function deletepostAction() {
-        $id = $this->getRequest()->getParam("id");
+        $id = \Siberian\Input::int($this->getRequest()->getParam("id"), 0, 0);
         $html = '';
         try {
             $menu = new Catalog_Model_Product();

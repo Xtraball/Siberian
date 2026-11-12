@@ -88,10 +88,10 @@ class Notification
         $additionalData = false;
 
         $title = new \onesignal\client\model\StringMap();
-        $title->setEn($message->getTitle());
+        $title->setEn(Text::plain($message->getTitle()));
 
         $body = new \onesignal\client\model\StringMap();
-        $body->setEn($message->getBody());
+        $body->setEn(Text::plain($message->getBody()));
 
         $newUuid = \Siberian\UUID::v4();
 
@@ -164,26 +164,33 @@ class Notification
                 'application' => $this->application
             ]);
 
-        $this->notification = $result['notification'];
+        // A listener that answers without a notification must not throw away the one built above
+        if (is_array($result) && ($result['notification'] ?? null) instanceof \onesignal\client\model\Notification) {
+            $this->notification = $result['notification'];
+        }
     }
 
     /**
-     * @param \Push2\Model\Message $message
+     * A push the app receives without showing anything (content available, no heading, no body), for the apps
+     * that react to it themselves. It becomes the notification sendNotification() sends.
+     *
+     * @param Message $message only its targets are used
+     * @param array $data what the app receives
      * @return \onesignal\client\model\Notification
      */
-    public function silentPush(\Push2\Model\Message $message): \onesignal\client\model\Notification
+    public function silentPush(\Push2\Model\Onesignal\Message $message, array $data = []): \onesignal\client\model\Notification
     {
         $notification = new \onesignal\client\model\Notification();
+        $notification->setExternalId(\Siberian\UUID::v4());
         $notification->setAppId($this->APP_ID);
+        $notification->setContentAvailable(true);
+        if (!empty($data)) {
+            $notification->setData($data);
+        }
 
-        $this->setTargets($notification, $message->getTargets());
+        $this->setTargets($message->getTargets() ?? [], $notification);
 
-        //$notification->setContentAvailable(true);
-        //$notification->setData([
-        //    'cabride' => true,
-        //    'page' => 42,
-        //    'action' => 'show'
-        //]);
+        $this->notification = $notification;
 
         return $notification;
     }
@@ -192,29 +199,31 @@ class Notification
      * Agnostic method to correctly set the users/devices/segments depending on the object type
      *
      * @param AbstractTarget[] $targets
+     * @param \onesignal\client\model\Notification|null $notification the one to fill, the current one by default
      */
-    public function setTargets(array $targets = [])
+    public function setTargets(array $targets = [], $notification = null)
     {
+        $notification = $notification ?? $this->notification;
         foreach ($targets as $target) {
             switch (get_class($target)) {
                 case Android::class:
-                    $this->notification->setIncludeAndroidRegIds($target->getTargets());
+                    $notification->setIncludeAndroidRegIds($target->getTargets());
                     break;
 
                 case Ios::class:
-                    $this->notification->setIncludeIosTokens($target->getTargets());
+                    $notification->setIncludeIosTokens($target->getTargets());
                     break;
 
                 case Web::class:
-                    $this->notification->setIncludeChromeRegIds($target->getTargets());
+                    $notification->setIncludeChromeRegIds($target->getTargets());
                     break;
 
                 case Segment::class:
-                    $this->notification->setIncludedSegments($target->getTargets());
+                    $notification->setIncludedSegments($target->getTargets());
                     break;
 
                 case Player::class:
-                    $this->notification->setIncludePlayerIds($target->getTargets());
+                    $notification->setIncludePlayerIds($target->getTargets());
                     break;
             }
         }
@@ -279,7 +288,29 @@ class Notification
     public function sendNotification()
     {
         $result = $this->apiInstance->createNotification($this->notification);
-        file_put_contents(path("/var/log/onesignal.log"), print_r($result, true), FILE_APPEND);
+
+        // The push is already sent: a log that cannot be written must not make the caller believe it failed
+        $logFile = path("/var/log/onesignal.log");
+        if (is_dir(dirname($logFile)) && is_writable(dirname($logFile))) {
+            self::rotateLog($logFile);
+            file_put_contents($logFile, print_r($result, true), FILE_APPEND);
+        }
+
         return $result;
+    }
+
+    /**
+     * Keeps the log from growing for ever: past the limit the file becomes `.1` (the previous `.1` is replaced), so
+     * the log never holds more than about twice the limit.
+     *
+     * @param string $logFile
+     * @param int $maxBytes
+     */
+    public static function rotateLog($logFile, $maxBytes = 2097152)
+    {
+        clearstatcache(true, $logFile);
+        if (is_file($logFile) && filesize($logFile) > $maxBytes) {
+            rename($logFile, $logFile . '.1');
+        }
     }
 }

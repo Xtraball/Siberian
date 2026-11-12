@@ -227,7 +227,7 @@ class Mcommerce_Mobile_CartController extends Mcommerce_Controller_Mobile_Defaul
                     $invalid_option = $group->isRequired() &&
                         (
                             (!$group->getAsCheckbox() && empty($form['options'][$group->getId()])) ||
-                            ($group->getAsCheckbox() && sizeof($form['choices'][''.$group->getGroupId()]['selected_options']) == 0)
+                            ($group->getAsCheckbox() && sizeof((array) ($form['choices'][''.$group->getGroupId()]['selected_options'] ?? [])) == 0)
                         );
                     if ($invalid_option) {
                         $errors[] = $group->getTitle();
@@ -281,7 +281,7 @@ class Mcommerce_Mobile_CartController extends Mcommerce_Controller_Mobile_Defaul
                         foreach ($product->getChoices() as $group) {
                             $choices["" . $group->getId()] = [];
                             foreach ($group->getOptions() as $choice) {
-                                if (in_array("" . $choice->getId(), $form['choices']["" . $group->getId()]['selected_options']))
+                                if (in_array("" . $choice->getId(), (array) ($form['choices']["" . $group->getId()]['selected_options'] ?? [])))
                                     $choices["" . $group->getId()] = $choice;
                             }
                         }
@@ -445,7 +445,7 @@ class Mcommerce_Mobile_CartController extends Mcommerce_Controller_Mobile_Defaul
     public function addtipAction() {
         if ($data = Zend_Json::decode($this->getRequest()->getRawBody())) {
             $tip = $data["tip"];
-            $value_id = $this->getRequest()->getParam("value_id");
+            $value_id = \Siberian\Input::int($this->getRequest()->getParam("value_id"), 0, 0);
 
             try {
                 $cart = $this->getCart();
@@ -566,7 +566,7 @@ class Mcommerce_Mobile_CartController extends Mcommerce_Controller_Mobile_Defaul
                     "type" => "fixed",
                     "minimum_amount" => 1,
                     "points" => $data["points"],
-                    "discount" => round($data["points"] * $application->getFidelityRate(), 2, PHP_ROUND_HALF_DOWN),
+                    "discount" => round((float) ($data["points"] ?? 0) * $application->getFidelityRate(), 2, PHP_ROUND_HALF_DOWN),
                     "label" => __("Points"),
                     "code" => "points".uniqid(),
                     "enabled" => 1,

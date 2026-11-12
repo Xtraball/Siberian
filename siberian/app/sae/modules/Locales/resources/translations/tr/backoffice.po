@@ -1,0 +1,1331 @@
+msgid ""
+msgstr ""
+"Project-Id-Version: Turkish (Siberian)\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2019-01-22 10:34+0000\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: Turkish <http://yvain.xtraball.com/projects/siberian/"
+"backoffice/tr/>\n"
+"Language: tr\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=n != 1;\n"
+"X-Generator: Weblate 3.3\n"
+
+msgid "60000 maximum allowed."
+msgstr "İzin verilen en yüksek değer 60000."
+
+msgid ""
+"A certificate already exists for the domain %s, if you want to re-generate "
+"it, use 'Force re-generate' to proceed."
+msgstr "%s alan adı için zaten bir sertifika var; yeniden oluşturmak istiyorsanız devam etmek için 'Yeniden oluşturmaya zorla' seçeneğini kullanın."
+
+msgid "[APK]"
+msgstr "[APK]"
+
+msgid "APK Queue empty"
+msgstr "APK kuyruğu boş"
+
+msgid "APK Queue status"
+msgstr "APK kuyruğu durumu"
+
+msgid "APNS Feedback:"
+msgstr "APN Geribildirim:"
+
+msgid "APNS Feedback port 2196 is:"
+msgstr "2196 APN Geribildirim bağlantı noktası:"
+
+msgid "APNS Port 2195 is:"
+msgstr "2195 APN bağlantı noktası:"
+
+msgid "Account"
+msgstr "Hesap"
+
+msgid "Account Role"
+msgstr "Hesap Rolü"
+
+msgid "Actions"
+msgstr "Eylemler"
+
+msgid "Activate VAT number check with VIES"
+msgstr "VIES ile KDV numarası kontrolünü etkinleştir"
+
+msgid "Activate user"
+msgstr "Kullanıcıyı etkinleştir"
+
+msgid "Active ?"
+msgstr "Aktif ?"
+
+msgid "Add a custom text to the footer of your invoices"
+msgstr "Faturalarınıza altbilgi için özel bir metin ekle"
+
+msgid "Admin panel type"
+msgstr "Yönetim paneli türü"
+
+msgid "Advanced"
+msgstr "Gelişmiş"
+
+msgid ""
+"Alert: The APK build for the Application: %s (%s) is stuck for more than one "
+"hour."
+msgstr "Uyarı: %s (%s) uygulaması için APK derlemesi bir saatten fazladır takılı kaldı."
+
+msgid ""
+"Alert: The Source build for the Application: %s (%s) is stuck for more than "
+"one hour."
+msgstr "Uyarı: %s (%s) uygulaması için kaynak derlemesi bir saatten fazladır takılı kaldı."
+
+msgid "All the files are required."
+msgstr "Tüm dosyalar gereklidir."
+
+msgid ""
+"An entry already exists for this hostname, remove it first if you need to "
+"change your certificates."
+msgstr ""
+"Bu ana bilgisayar adı için zaten bir giriş var, sertifikalarınızı "
+"değiştirmeniz gerekirse önce onu kaldırın."
+
+msgid "An error occured"
+msgstr "Bir hata oluştu."
+
+msgid "An error occured while saving certificate to %s."
+msgstr "Sertifika %s konumuna kaydedilirken bir hata oluştu."
+
+msgid "An error occurred during the process. Please try again later."
+msgstr "İşlem sırasında bir hata oluştu. Lütfen daha sonra tekrar deneyin."
+
+msgid "An unknown error occured while issueing your certificate."
+msgstr "Sertifikanız düzenlenirken bilinmeyen bir hata oluştu."
+
+msgid "Android SDK:"
+msgstr "Android SDK:"
+
+msgid "App name"
+msgstr "Uygulama adı"
+
+msgid "Application settings"
+msgstr "Uygulama ayarları"
+
+msgid "Application successfully queued for generation."
+msgstr "Uygulama oluşturulmak üzere başarıyla sıraya alındı."
+
+msgid "Applications/Previewer manifest for automatic updates."
+msgstr "Otomatik güncellemeler için Uygulamalar/Önizleyici manifesti."
+
+msgid "Are you sure ?"
+msgstr "Emin misiniz?"
+
+msgid "Auth type"
+msgstr "Kimlik doğrulama türü"
+
+msgid "Authenticate"
+msgstr "Kimlik doğrulaması"
+
+msgid "Average build time in seconds:"
+msgstr "Saniye cinsinden ortalama derleme süresi:"
+
+msgid "Average sources/apk build time:"
+msgstr "Ortalama kaynak/apk derleme süresi:"
+
+msgid "Backoffice options"
+msgstr "Yönetim paneli seçenekleri"
+
+msgid "Bearer Token Auth (API)"
+msgstr "Taşıyıcı Simgesi Yetkilendirme (API)"
+
+msgid "Bearer Token Auth is valid."
+msgstr "Bearer Token Yetkilendirmesi geçerli."
+
+msgid "Beta"
+msgstr "Beta"
+
+msgid "Build status"
+msgstr "Derleme durumu"
+
+msgid "Build time (in seconds)"
+msgstr "Derleme süresi (saniye)"
+
+msgid ""
+"By clicking on link below, you will open your editor in tour editing mode. "
+"Please note that your user account must be created on editor side."
+msgstr "Aşağıdaki bağlantıya tıklayarak editörünüzü tur düzenleme modunda açacaksınız. Kullanıcı hesabınızın editör tarafında oluşturulmuş olması gerektiğini unutmayın."
+
+msgid "CA"
+msgstr "CA"
+
+msgid "CA certificate"
+msgstr "CA sertifikası"
+
+msgid "CA path:"
+msgstr "CA yolu:"
+
+msgid "CRON Scheduler interval"
+msgstr "CRON Zamanlayıcı aralığı"
+
+msgid "Cache cleared"
+msgstr "Önbellek temizlendi"
+
+msgid "Cache (var/cache, system cache)"
+msgstr "Önbellek (var/cache, sistem önbelleği)"
+
+msgid "Can generate APK"
+msgstr "APK oluşturabilir"
+
+msgid "Cert"
+msgstr "Sertifika"
+
+msgid "Certificate"
+msgstr "Sertifika"
+
+msgid ""
+"Certificate is valid and SSL is reachable, valid until: %s.<br />Issuer: %s%s"
+msgstr "Sertifika geçerli ve SSL  %s kadar kullanılabilir: Issuer: %s%s"
+
+msgid "Certificate path:"
+msgstr "Sertifika yolu:"
+
+msgid "Certificate successfully generated."
+msgstr "Sertifika başarıyla oluşturuldu."
+
+#. machine-translated (2026-10), to be reviewed
+msgid ""
+"Certificate successfully generated. Please wait while %s is reloading "
+"configuration ..."
+msgstr "Sertifika başarıyla oluşturuldu. Lütfen %s yapılandırmayı yeniden yüklerken bekleyin ..."
+
+msgid "Certificate successfully re-generated."
+msgstr "Sertifika başarıyla yeniden oluşturuldu."
+
+msgid "Change the password"
+msgstr "Şifreyi değiştir"
+
+msgid ""
+"Check if this cron command is installed under the web user & if you have set "
+"a timezone in Settings > General"
+msgstr "Bu cron komutunun web kullanıcısı altında kurulu olup olmadığını ve Ayarlar > Genel bölümünde bir saat dilimi ayarlayıp ayarlamadığınızı kontrol edin"
+
+msgid "Clear"
+msgstr "Temizle"
+
+msgid "Clear cache"
+msgstr "Önbelleği Temizle"
+
+msgid "Clear logs"
+msgstr "Günlükleri temizle"
+
+msgid "Cleared cron errors."
+msgstr "Cron hataları temizlendi."
+
+msgid "Click here to send your CA certificate"
+msgstr "CA sertifikanızı göndermek için buraya tıklayın"
+
+msgid "Click here to send your Private certificate"
+msgstr "Özel sertifikanızı göndermek için buraya tıklayın"
+
+msgid "Click here to send your certificate"
+msgstr "Sertifikanızı göndermek için buraya tıklayın"
+
+msgid "Click to mark as not read"
+msgstr "Okunmamış olarak işaretle"
+
+msgid "Click to mark as read"
+msgstr "Okunmuş olarak işaretle"
+
+msgid "Closed"
+msgstr "Kapalı"
+
+msgid "Complete build log"
+msgstr "Tam derleme günlüğü"
+
+msgid "Configuration"
+msgstr "Yapılandırma"
+
+msgid "Configuration successfully saved"
+msgstr "Yapılandırma başarıyla kaydedildi"
+
+msgid "Core modules"
+msgstr "Çekirdek modülleri"
+
+msgid "Create a user"
+msgstr "Yeni kullanıcı oluştur"
+
+msgid "Created At"
+msgstr "Oluşturulma zamanı"
+
+msgid "Creation date"
+msgstr "Oluşturulma tarihi"
+
+msgid "Cron"
+msgstr "Cron"
+
+#. machine-translated (2026-10), to be reviewed
+msgid "Cron alerts"
+msgstr "Cron uyarıları"
+
+msgid "Cron interval"
+msgstr "Cron aralığı"
+
+msgid "Cron scheduler"
+msgstr "Cron zamanlayıcı"
+
+msgid "Cron scheduler help"
+msgstr "Cron zamanlayıcı yardım"
+
+msgid "Custom SMTP Configuration"
+msgstr "Özel SMTP Yapılandırması"
+
+msgid "Day of month"
+msgstr "Ayın günü"
+
+msgid "Day of week"
+msgstr "Haftanın günü"
+
+msgid "Deactivate user"
+msgstr "Kullanıcıyı devre dışı bırak"
+
+msgid "Default (no)"
+msgstr "Varsayılan (Yok)"
+
+msgid "Development"
+msgstr "Geliştirme"
+
+#. machine-translated (2026-10), to be reviewed
+msgid "DirectAdmin"
+msgstr "DirectAdmin"
+
+#. machine-translated (2026-10), to be reviewed
+msgid "DirectAdmin (beta)"
+msgstr "DirectAdmin (beta)"
+
+msgid "Disable cron jobs"
+msgstr "Cron işlerini devre dışı bırak"
+
+msgid "Disabled"
+msgstr "Devre dışı"
+
+msgid "Disk usage & Cache:"
+msgstr "Disk kullanımı ve önbellek:"
+
+msgid "Dismiss & install later"
+msgstr "Kapat ve daha sonra yükle"
+
+msgid "Display"
+msgstr "Görüntüleme"
+
+msgid "Doesn't meet the requirements"
+msgstr "Gereksinimleri karşılamıyor"
+
+msgid "Download latest source"
+msgstr "Son kaynağı indir"
+
+msgid "Drop your certificate here"
+msgstr "Sertifikanızı buraya bırakın"
+
+msgid "Edit the user"
+msgstr "Kullanıcı düzenle"
+
+msgid "Editor's Design"
+msgstr "Editör tasarımı"
+
+msgid "Enable custom SMTP configuration"
+msgstr "Özel SMTP yapılandırmasını etkinleştir"
+
+msgid "Enter your credentials:"
+msgstr "Kimlik bilgilerinizi girin:"
+
+msgid "Environment"
+msgstr "Ortam"
+
+#. machine-translated (2026-10), to be reviewed
+msgid "Error, order already paid."
+msgstr "Hata, sipariş zaten ödenmiş."
+
+#. machine-translated (2026-10), to be reviewed
+msgid ""
+"Errors are displayed on page, outputs are more verbose, this is an option "
+"for debug purpose, use with care as it may output some critical informations "
+"about your server."
+msgstr "Hatalar sayfada gösterilir, çıktılar daha ayrıntılıdır. Bu, hata ayıklama amaçlı bir seçenektir; sunucunuz hakkında kritik bilgiler gösterebileceğinden dikkatli kullanın."
+
+msgid "Exists"
+msgstr "Mevcut olanlar"
+
+msgid "External extensions"
+msgstr "Harici uzantılar"
+
+msgid "Failed"
+msgstr "Başarısız"
+
+msgid "File hash is different from manifest."
+msgstr "Dosya karması manifestodakinden farklı."
+
+msgid "File is missing."
+msgstr "Dosya eksik."
+
+msgid "Force re-generation"
+msgstr "Yeniden oluşturmaya zorla"
+
+msgid "Forgot password"
+msgstr "Şifremi unuttum"
+
+msgid "Full"
+msgstr "Tam"
+
+#. machine-translated (2026-10), to be reviewed
+msgid "Full path to use within your webserver."
+msgstr "Web sunucunuzda kullanılacak tam yol."
+
+msgid "General settings"
+msgstr "Genel Ayarlar"
+
+msgid "Generate"
+msgstr "Oluştur"
+
+msgid "Generate a certificate via Let's Encrypt."
+msgstr "Let's Encrypt ile sertifika oluşturun."
+
+msgid "Generate source"
+msgstr "Kaynak oluştur"
+
+msgid "Generating"
+msgstr "Oluşturuluyor"
+
+msgid "[Global]"
+msgstr "[Küresel]"
+
+msgid "Grant user"
+msgstr "Kullanıcıya yetki ver"
+
+#. machine-translated (2026-10), to be reviewed
+msgid "HTTP Basic Auth (API)"
+msgstr "HTTP Basic Auth (API)"
+
+#. machine-translated (2026-10), to be reviewed
+msgid "HTTP Basic Auth is valid."
+msgstr "HTTP Basic Auth geçerli."
+
+#. machine-translated (2026-10), to be reviewed
+msgid "HTTPS & SSL Certificates"
+msgstr "HTTPS ve SSL Sertifikaları"
+
+#. machine-translated (2026-10), to be reviewed
+msgid "HTTPS host is unreachable."
+msgstr "HTTPS ana bilgisayarına ulaşılamıyor."
+
+#. machine-translated (2026-10), to be reviewed
+msgid "HTTPS is not available on your server."
+msgstr "HTTPS sunucunuzda kullanılamıyor."
+
+#. machine-translated (2026-10), to be reviewed
+msgid "HTTPS not reachable"
+msgstr "HTTPS erişilemiyor"
+
+msgid ""
+"HTTPS support is in <b>Beta</b>, you should test it on your <b>development "
+"server</b> first & prepare for further migration."
+msgstr "HTTPS desteği <b>Beta</b> aşamasındadır; önce <b>geliştirme sunucunuzda</b> test etmeli ve ileriki geçiş için hazırlık yapmalısınız."
+
+msgid ""
+"HTTPS support is in test, you should only try it on your development server "
+"prior to prepare for further migration."
+msgstr "HTTPS desteği test aşamasındadır; ileriki geçişe hazırlanmadan önce yalnızca geliştirme sunucunuzda denemelisiniz."
+
+msgid "Hide"
+msgstr "Gizle"
+
+msgid "Host"
+msgstr "Sunucu"
+
+msgid "Hostname"
+msgstr "Sunucu adı"
+
+msgid "Hostnames associated with this Certificate"
+msgstr "Bu sertifikayla ilişkili sunucu adları"
+
+msgid "Hour"
+msgstr "Saat"
+
+msgid "ID"
+msgstr "KİMLİK"
+
+#. machine-translated (2026-10), to be reviewed
+msgid "If inactive, your customer won't see the tour."
+msgstr "Devre dışıysa müşteriniz turu görmeyecektir."
+
+msgid ""
+"If you are unable to install or run the cronjob on your hosting/server you "
+"can disable it."
+msgstr "Barındırma/sunucunuzda cron görevini kuramıyor veya çalıştıramıyorsanız devre dışı bırakabilirsiniz."
+
+msgid "Info"
+msgstr "Bilgi"
+
+msgid "Installed"
+msgstr "Yüklü"
+
+msgid "Installed icon packs"
+msgstr "Yüklü simge paketleri"
+
+msgid "Installed layouts"
+msgstr "Yüklü düzenler"
+
+msgid "Installed modules"
+msgstr "Yüklü modüller"
+
+msgid "Installed, version"
+msgstr "Yüklü sürüm"
+
+msgid "Integrity check"
+msgstr "Bütünlük denetimi"
+
+msgid "Invoice options"
+msgstr "Fatura seçenekleri"
+
+#. machine-translated (2026-10), to be reviewed
+msgid "Issued certificates"
+msgstr "Verilen sertifikalar"
+
+msgid "JAVA:"
+msgstr "JAVA:"
+
+msgid "Last cron error"
+msgstr "Son cron hatası"
+
+msgid "Last failure"
+msgstr "Son başarısızlık"
+
+msgid "Last success"
+msgstr "Son başarılı çalışma"
+
+msgid "Last trigger"
+msgstr "Son tetikleme"
+
+#. machine-translated (2026-10), to be reviewed
+msgid "Let's Encrypt certificates renewal"
+msgstr "Let's Encrypt sertifikalarının yenilenmesi"
+
+#. machine-translated (2026-10), to be reviewed
+msgid "Let's Encrypt environment"
+msgstr "Let's Encrypt ortamı"
+
+msgid "[Let's Encrypt] renewing certificate."
+msgstr "[Let's Encrypt] sertifika yenileniyor."
+
+#. machine-translated (2026-10), to be reviewed
+msgid "[Let's Encrypt] will add %s to SAN."
+msgstr "[Let's Encrypt] %s adresini SAN'a ekleyecek."
+
+#. machine-translated (2026-10), to be reviewed
+msgid "Link preview"
+msgstr "Bağlantı önizlemesi"
+
+msgid "List of backoffice accounts"
+msgstr "Yönetim paneli hesapları listesi"
+
+msgid "List of the messages"
+msgstr "Mesajlar listesi"
+
+msgid "Loaded"
+msgstr "Yüklendi"
+
+msgid "Log"
+msgstr "Günlük"
+
+msgid "Log (var/log, log files)"
+msgstr "Günlük (var/log, log dosyaları)"
+
+msgid "Login to your backoffice interface"
+msgstr "Yönetim paneli arayüzünüze giriş yapın"
+
+msgid "Logs cleared."
+msgstr "Günlükler temizlendi."
+
+msgid "Mark all as read"
+msgstr "Hepsini okundu işaretle"
+
+msgid "Mark as new"
+msgstr "Yeni olarak işaretle"
+
+msgid "Mark as read"
+msgstr "Okundu olarak işaretle"
+
+msgid "Messages"
+msgstr "Mesajlar"
+
+msgid "Minute"
+msgstr "Dakika"
+
+msgid "Missing parameters for generation."
+msgstr "Oluşturma için parametreler eksik."
+
+msgid "Mobile Source Codes & Builds"
+msgstr "Mobil kaynak kodları ve derlemeler"
+
+msgid "Module/User tasks"
+msgstr "Modül/Kullanıcı görevleri"
+
+msgid "Month"
+msgstr "Ay"
+
+msgid "My Invoices"
+msgstr "Faturalarım"
+
+#. machine-translated (2026-10), to be reviewed
+msgid "My tour is active"
+msgstr "Turum etkin"
+
+msgid "Name"
+msgstr "İsim"
+
+msgid "New messages"
+msgstr "Yeni mesajlar"
+
+msgid "New users"
+msgstr "Yeni kullanıcılar"
+
+msgid "No"
+msgstr "Hayır"
+
+msgid "No file has been sent"
+msgstr "Hiçbir dosya gönderilmedi"
+
+msgid "No icon packs"
+msgstr "Simge paketi yok"
+
+msgid "No informations."
+msgstr "Bilgi yok."
+
+msgid "No layouts"
+msgstr "Düzen yok"
+
+msgid "No module/user tasks"
+msgstr "Modül/kullanıcı görevi yok"
+
+msgid "No system tasks"
+msgstr "Sistem görevi yok"
+
+msgid "None"
+msgstr "Yok"
+
+msgid "Not found"
+msgstr "Bulunamadı"
+
+msgid "Not running"
+msgstr "Çalışmıyor"
+
+msgid "Not yet generated."
+msgstr "Henüz oluşturulmuş değil."
+
+msgid "Note:"
+msgstr "Not:"
+
+msgid "Note: Let's encrypt X1 is a staging certificate."
+msgstr "Not: Let's Encrypt X1 bir hazırlık (staging) sertifikasıdır."
+
+msgid "Number of typed characters:"
+msgstr "Girilen karakter sayısı:"
+
+msgid "OR"
+msgstr "VEYA"
+
+msgid "Ok"
+msgstr "Tamam"
+
+msgid "Ok, you may consider upgrade to >=5.4"
+msgstr "Tamam, >=5.4 sürümüne yükseltmeyi düşünebilirsiniz"
+
+msgid "Ok, you may upgrade to php 5.6"
+msgstr "Tamam, PHP 5.6 sürümüne yükseltebilirsiniz"
+
+#. machine-translated (2026-10), to be reviewed
+msgid ""
+"One of the three given Certificates path is not readable, please make sure "
+"they have the good rights."
+msgstr "Verilen üç sertifika yolundan biri okunamıyor, lütfen doğru izinlere sahip olduklarından emin olun."
+
+msgid "Open"
+msgstr "Aç"
+
+#. machine-translated (2026-10), to be reviewed
+msgid "Open the tour editing mode"
+msgstr "Tur düzenleme modunu aç"
+
+msgid "Optional binaries"
+msgstr "İsteğe bağlı ikili dosyalar"
+
+msgid "Optional libraries"
+msgstr "İsteğe bağlı kütüphaneler"
+
+msgid ""
+"Otherwise install it manually, from your panel, or directly from your ssh "
+"access."
+msgstr "Aksi takdirde panelinizden ya da doğrudan ssh erişiminizle elle yükleyin."
+
+msgid "Overview - WebApp (var/apps/browser, overview & webapp cache)"
+msgstr "Genel Bakış - WebApp (var/apps/browser, genel bakış ve webapp önbelleği)"
+
+msgid "Overview cache cleared."
+msgstr "Genel bakış önbelleği temizlendi."
+
+msgid "PEM test:"
+msgstr "PEM test:"
+
+msgid "PHP version %s:"
+msgstr "PHP sürüm %s:"
+
+msgid "Password"
+msgstr "Şifre"
+
+msgid "Path to your CA certificate"
+msgstr "CA sertifikanızın yolu"
+
+#. machine-translated (2026-10), to be reviewed
+msgid "Path to your Certificate"
+msgstr "Sertifikanızın yolu"
+
+#. machine-translated (2026-10), to be reviewed
+msgid "Path to your Private certificate"
+msgstr "Özel sertifikanızın yolu"
+
+msgid "Path to your Private key"
+msgstr "Özel anahtarınızın yolu"
+
+msgid "Payment received"
+msgstr "Ödeme alındı"
+
+msgid "People who are allowed to access the backoffice"
+msgstr "Arka ofise erişmesine izin verilen kişiler"
+
+#. machine-translated (2026-10), to be reviewed
+msgid "Permission, denied from Plesk, please use the admin account."
+msgstr "İzin Plesk tarafından reddedildi, lütfen yönetici hesabını kullanın."
+
+#. machine-translated (2026-10), to be reviewed
+msgid "Plesk"
+msgstr "Plesk"
+
+#. machine-translated (2026-10), to be reviewed
+msgid "Plesk 12+"
+msgstr "Plesk 12+"
+
+#. machine-translated (2026-10), to be reviewed
+msgid "[Plesk] Unknown error."
+msgstr "[Plesk] Bilinmeyen hata."
+
+msgid "Port"
+msgstr "Port"
+
+msgid "Preview 5.0"
+msgstr "Önizleme 5.0"
+
+msgid "Privacy policy URL"
+msgstr "Gizlilik Politikası URL"
+
+msgid "Private"
+msgstr "Özel"
+
+msgid "Private certificate"
+msgstr "Özel sertifika"
+
+#. machine-translated (2026-10), to be reviewed
+msgid "Private path:"
+msgstr "Özel yol:"
+
+msgid "Production"
+msgstr "Üretim"
+
+msgid "Progress"
+msgstr "İlerleme"
+
+msgid "Publication access type"
+msgstr "Yayın erişim tipi"
+
+msgid "Push messages:"
+msgstr "Anlık bildirim mesajları:"
+
+msgid "Queued"
+msgstr "Sırada"
+
+msgid "Queued %s/%s"
+msgstr "Sırada %s/%s"
+
+msgid "Read"
+msgstr "Oku"
+
+msgid "Rebuild"
+msgstr "Yeniden oluştur"
+
+msgid "Rebuild manifest"
+msgstr "Manifes Yeniden Oluştur"
+
+msgid "Rebuilding application manifest files."
+msgstr "Uygulama manifest dosyaları yeniden oluşturuluyor."
+
+#. machine-translated (2026-10), to be reviewed
+msgid "Regular updates system"
+msgstr "Düzenli güncelleme sistemi"
+
+msgid "Remove locks"
+msgstr "Kilitleri kaldırın"
+
+msgid "Remove locks now"
+msgstr "Kilitleri kaldırın"
+
+msgid "Removing CRON Scheduler lock files."
+msgstr "CRON Zamanlayıcı kilidi dosyaları kaldırma."
+
+#. machine-translated (2026-10), to be reviewed
+msgid "Removing domains: %s"
+msgstr "Alan adları kaldırılıyor: %s"
+
+msgid "Request"
+msgstr "İstek"
+
+msgid "Request the certificate via Let's Encrypt."
+msgstr "Let's Encrypt ile sertifika isteyin."
+
+msgid "Required extensions"
+msgstr "Gerekli uzantılar"
+
+msgid "Revoke user"
+msgstr "Kullanıcı erişimini iptal et"
+
+msgid "Run test"
+msgstr "Testi çalıştır"
+
+msgid "SSL"
+msgstr "SSL"
+
+msgid "Sales"
+msgstr "Satışlar"
+
+msgid "Sales configuration"
+msgstr "Satış yapılandırma"
+
+msgid "Save"
+msgstr "Kaydet"
+
+msgid "Select API access"
+msgstr "API erişimi seçin"
+
+msgid "Select a panel type or self-managed"
+msgstr "Bir panel türü seçin veya kendi yönetiminiz"
+
+#. machine-translated (2026-10), to be reviewed
+msgid "Self-managed"
+msgstr "Kendi yönetimim"
+
+#. machine-translated (2026-10), to be reviewed
+msgid "Self-managed sync is not available for now."
+msgstr "Kendi yönetimli senkronizasyon şu an kullanılamıyor."
+
+#. machine-translated (2026-10), to be reviewed
+msgid "Send anonymous statistics to improve the apps builder."
+msgstr "Uygulama oluşturucuyu geliştirmek için anonim istatistikler gönder."
+
+msgid "Server"
+msgstr "Sunucu"
+
+msgid "Services"
+msgstr "Hizmetler"
+
+msgid "Show All Applications"
+msgstr "Tüm Uygulamaları Göster"
+
+msgid "Show more"
+msgstr "Daha fazla göster"
+
+msgid "Siberian - Backoffice"
+msgstr "Siberian - Arka Ofis"
+
+msgid "Siberian CMS"
+msgstr "Siberian CMS"
+
+#. machine-translated (2026-10), to be reviewed
+msgid "[Siberian_Cpanel] Unable to update cPanel SSL Certificate for %s"
+msgstr "[Siberian_Cpanel] %s için cPanel SSL Sertifikası güncellenemedi"
+
+#. machine-translated (2026-10), to be reviewed
+msgid "[Siberian_VestaCP] requires php 5.6+"
+msgstr "[Siberian_VestaCP] php 5.6+ gerektirir"
+
+#. machine-translated (2026-10), to be reviewed
+msgid ""
+"Something went wrong with the API Sync to %s, retry or check in your panel "
+"if your SSL certificate is correctly setup."
+msgstr "%s ile API senkronizasyonunda bir sorun oluştu, yeniden deneyin veya SSL sertifikanızın doğru kurulduğunu panelinizden kontrol edin."
+
+msgid "Source"
+msgstr "Kaynak"
+
+msgid "Source Queue empty"
+msgstr "Kaynak Sırası boş"
+
+msgid "Source Queue status"
+msgstr "Kaynak Sırası durumu"
+
+msgid "[Sources]"
+msgstr "[Kaynaklar]"
+
+msgid "Sources code"
+msgstr "Kaynak kodu"
+
+msgid "Stable"
+msgstr "Kararlı"
+
+msgid "Staging"
+msgstr "Hazırlık (staging)"
+
+#. machine-translated (2026-10), to be reviewed
+msgid "Start editing your platform tour"
+msgstr "Platform turunuzu düzenlemeye başlayın"
+
+msgid "Statistics"
+msgstr "İstatistikler"
+
+#. machine-translated (2026-10), to be reviewed
+msgid ""
+"Statistics are used to improve the platform and help understanding usage of "
+"the apps builder."
+msgstr "İstatistikler platformu geliştirmek ve uygulama oluşturucunun kullanımını anlamaya yardımcı olmak için kullanılır."
+
+msgid "Status"
+msgstr "Durum"
+
+#. machine-translated (2026-10), to be reviewed
+msgid "Submit a bug report or improvement request for beta/preview"
+msgstr "Beta/önizleme için hata bildirimi veya iyileştirme isteği gönderin"
+
+msgid "Success"
+msgstr "Başarılı"
+
+#. machine-translated (2026-10), to be reviewed
+msgid "Successfully cleaned-up old certificate."
+msgstr "Eski sertifika başarıyla temizlendi."
+
+#. machine-translated (2026-10), to be reviewed
+msgid "Successfully installed new certificate."
+msgstr "Yeni sertifika başarıyla yüklendi."
+
+#. machine-translated (2026-10), to be reviewed
+msgid "Successfully removed the certificate."
+msgstr "Sertifika başarıyla kaldırıldı."
+
+#. machine-translated (2026-10), to be reviewed
+msgid "Successfully saved Certificate to %s"
+msgstr "Sertifika %s konumuna başarıyla kaydedildi"
+
+msgid "Sync files"
+msgstr "Dosyaları senkronize et"
+
+#. machine-translated (2026-10), to be reviewed
+msgid "System Diagnostic"
+msgstr "Sistem Tanılaması"
+
+msgid "System tasks"
+msgstr "Sistem görevleri"
+
+#. machine-translated (2026-10), to be reviewed
+msgid "System was unable to validate any Bearer Token Auth call."
+msgstr "Sistem hiçbir Bearer Token Auth çağrısını doğrulayamadı."
+
+#. machine-translated (2026-10), to be reviewed
+msgid "System was unable to validate any HTTP Basic Auth call."
+msgstr "Sistem hiçbir HTTP Basic Auth çağrısını doğrulayamadı."
+
+msgid "Temp (var/tmp, application sources & apk)"
+msgstr "Temp (var/tmp, uygulama kaynakları ve apk)"
+
+msgid "Templates"
+msgstr "Şablonlar"
+
+#. machine-translated (2026-10), to be reviewed
+msgid "Test SSL/HTTPS"
+msgstr "SSL/HTTPS testi"
+
+#. machine-translated (2026-10), to be reviewed
+msgid "Testing: %s"
+msgstr "Test ediliyor: %s"
+
+#. machine-translated (2026-10), to be reviewed
+msgid ""
+"The PHP executable guessed path <b>'%s'</b> may be incorrect, please double "
+"check for it."
+msgstr "Tahmin edilen PHP çalıştırılabilir dosya yolu <b>'%s'</b> yanlış olabilir, lütfen kontrol edin."
+
+#. machine-translated (2026-10), to be reviewed
+msgid "The default setting to run your production server."
+msgstr "Üretim sunucunuzu çalıştırmak için varsayılan ayar."
+
+#. machine-translated (2026-10), to be reviewed
+msgid ""
+"The domain %s doesn't belong to you, or is not configured on your server."
+msgstr "%s alan adı size ait değil veya sunucunuzda yapılandırılmamış."
+
+#. machine-translated (2026-10), to be reviewed
+msgid "The given CA certificate doesn't match the hostname."
+msgstr "Verilen CA sertifikası ana bilgisayar adıyla eşleşmiyor."
+
+#. machine-translated (2026-10), to be reviewed
+msgid "The given certificate doesn't match the hostname."
+msgstr "Verilen sertifika ana bilgisayar adıyla eşleşmiyor."
+
+#. machine-translated (2026-10), to be reviewed
+msgid "The given certificate doesn't match the hostname or wiSibldcard."
+msgstr "Verilen sertifika ana bilgisayar adıyla veya wiSibldcard ile eşleşmiyor."
+
+msgid "This account can't be deleted, it's the only one"
+msgstr "Bu hesap silinemez, tek hesap bu"
+
+#. machine-translated (2026-10), to be reviewed
+msgid ""
+"This action mainly serves as a development & support purpose<br />This will "
+"restore App sources 'iOS', 'Android', 'HTML5' & 'Overview' from the latest "
+"Siberian version, then rebuild the manifest to restore installed modules."
+msgstr "Bu işlem esas olarak geliştirme ve destek amaçlıdır<br />Bu işlem, 'iOS', 'Android', 'HTML5' ve 'Overview' uygulama kaynaklarını en son Siberian sürümünden geri yükler, ardından yüklü modülleri geri yüklemek için manifesti yeniden oluşturur."
+
+#. machine-translated (2026-10), to be reviewed
+msgid ""
+"This e-mail address must be reachable, as you will receive important e-mails "
+"from the system & user actions."
+msgstr "Bu e-posta adresine ulaşılabilir olmalıdır; sistemden ve kullanıcı eylemlerinden önemli e-postalar alacaksınız."
+
+msgid ""
+"This message will be displayed as a waiting message when your users chose an "
+"offline payment method"
+msgstr "Bu mesaj, kullanıcılarınız çevrimdışı ödeme yöntemi seçtiğinde bekleme mesajı olarak gösterilecektir"
+
+msgid ""
+"This message will be displayed as an information message to describe which "
+"offline payment method you offer"
+msgstr "Bu mesaj, hangi çevrimdışı ödeme yöntemini sunduğunuzu açıklayan bilgi mesajı olarak gösterilecektir"
+
+#. machine-translated (2026-10), to be reviewed
+msgid ""
+"This test is for development & support usage, this only highlights potential "
+"missing and/or modified files, results need to be interpreted."
+msgstr "Bu test geliştirme ve destek amaçlıdır, yalnızca eksik ve/veya değiştirilmiş olabilecek dosyaları vurgular; sonuçların yorumlanması gerekir."
+
+msgid "Tools"
+msgstr "Araçlar"
+
+msgid "Total sales"
+msgstr "Toplam satış"
+
+msgid "Total usage:"
+msgstr "Toplam kullanım:"
+
+msgid "Tour settings"
+msgstr "Tur ayarları"
+
+msgid "Tour status"
+msgstr "Tur durumu"
+
+msgid "Tour status successfully saved."
+msgstr "Tur durumu başarıyla kaydedildi."
+
+msgid "UID"
+msgstr "UID"
+
+msgid ""
+"Unable to connect in HTTPS or to validate the SSL Certificate.<br />Check if "
+"your are not in `Staging`"
+msgstr "HTTPS ile bağlanılamadı veya SSL sertifikası doğrulanamadı.<br />`Staging` modunda olmadığınızdan emin olun"
+
+msgid "Unknown"
+msgstr "Bilinmiyor"
+
+#. machine-translated (2026-10), to be reviewed
+msgid "Unknown - Self-managed"
+msgstr "Bilinmiyor - Kendi yönetimim"
+
+msgid "Update"
+msgstr "Güncelleme"
+
+msgid "Update channel"
+msgstr "Güncelleme kanalı"
+
+msgid "Updated At"
+msgstr "Güncellenme tarihi"
+
+msgid "Upload"
+msgstr "Yükle"
+
+#. machine-translated (2026-10), to be reviewed
+msgid "Upload files or use existing certificates on my server"
+msgstr "Dosya yükle veya sunucumdaki mevcut sertifikaları kullan"
+
+#. machine-translated (2026-10), to be reviewed
+msgid "Upload my certificates"
+msgstr "Sertifikalarımı yükle"
+
+msgid "Upload your own certificates"
+msgstr "Kendi sertifikalarınızı yükleyin"
+
+msgid "Use HTTPS"
+msgstr "HTTPS kullan"
+
+#. machine-translated (2026-10), to be reviewed
+msgid "Use existing certificates on my server"
+msgstr "Sunucumdaki mevcut sertifikaları kullan"
+
+msgid "User successfully deleted"
+msgstr "Kullanıcı başarıyla silindi"
+
+msgid "Username"
+msgstr "Kullanıcı adı"
+
+msgid "User's status successfully edited"
+msgstr "Kullanıcı durumu başarıyla düzenlendi"
+
+msgid "VAT check options"
+msgstr "KDV kontrol seçenekleri"
+
+msgid "Validation"
+msgstr "Doğrulama"
+
+#. machine-translated (2026-10), to be reviewed
+msgid "VestaCP"
+msgstr "VestaCP"
+
+#. machine-translated (2026-10), to be reviewed
+msgid "VestaCP (php 5.6+ only)"
+msgstr "VestaCP (yalnızca php 5.6+)"
+
+msgid "View Details"
+msgstr "Ayrıntıları görüntüle"
+
+#. machine-translated (2026-10), to be reviewed
+msgid "WHM cPanel"
+msgstr "WHM cPanel"
+
+#. machine-translated (2026-10), to be reviewed
+msgid "Waiting for %s to reload, this can take a while..."
+msgstr "%s yeniden yüklenmesi bekleniyor, bu biraz zaman alabilir..."
+
+#. machine-translated (2026-10), to be reviewed
+msgid ""
+"We recommned using <b>preview</b> on a testing or development server, we "
+"won't provide regular ticket support for these update channels, only bug "
+"reports via the form below."
+msgstr "<b>Önizleme</b> kanalını bir test veya geliştirme sunucusunda kullanmanızı öneririz; bu güncelleme kanalları için düzenli destek talebi desteği vermeyeceğiz, yalnızca aşağıdaki form üzerinden hata bildirimlerini kabul ederiz."
+
+msgid "Web space"
+msgstr "Web alanı"
+
+msgid "White Label"
+msgstr "Beyaz etiket"
+
+msgid "Whitelabel"
+msgstr "Beyaz etiket"
+
+msgid "Whitelabel hostnames associated with this Certificate"
+msgstr "Bu sertifika ile ilişkili Whitelabel ana bilgisayar adları"
+
+msgid "Whitelabel request"
+msgstr "Whitelabel isteği"
+
+#. machine-translated (2026-10), to be reviewed
+msgid "Whitelabels"
+msgstr "Beyaz etiketler"
+
+msgid "Yes"
+msgstr "Evet"
+
+msgid "Yes, install the update."
+msgstr "Evet, güncelleştirmeyi yükleyin."
+
+msgid ""
+"You are about to clean all the cron lock files !\n"
+"Are you sure ?"
+msgstr "Tüm cron kilit dosyalarını temizlemek üzeresiniz!\nEmin misiniz?"
+
+msgid ""
+"You are about to clean all your log files !\n"
+"Are you sure ?"
+msgstr "Tüm günlük (log) dosyalarınızı temizlemek üzeresiniz!\nEmin misiniz?"
+
+msgid "You are about to delete this certificate, Are you sure ?"
+msgstr "Bu sertifikayı silmek üzeresiniz, emin misiniz ?"
+
+msgid ""
+"You are about to wipe all your temporary files, this includes the generated "
+"sources & apk builds !\n"
+"Are you sure ?"
+msgstr "Oluşturulan kaynaklar ve apk derlemeleri dahil tüm geçici dosyalarınızı silmek üzeresiniz!\nEmin misiniz?"
+
+msgid "You can use <b>%s</b> as a dynamic variable for your application name."
+msgstr ""
+"<b>%s</b> değerini uygulama adınız için dinamik bir değişken olarak "
+"kullanabilirsiniz"
+
+#. machine-translated (2026-10), to be reviewed
+msgid ""
+"You have a Source generation stuck for more than 1 hour, please check in <b>"
+"Settings > Advanced > Cron</b> for the stuck build.<br />To unlock further "
+"builds you can remove locks from the button below."
+msgstr "1 saatten uzun süredir takılı kalmış bir Kaynak oluşturma işleminiz var, takılan derleme için lütfen <b>Ayarlar > Gelişmiş > Cron</b> bölümünü kontrol edin.<br />Sonraki derlemelerin kilidini açmak için aşağıdaki düğmeden kilitleri kaldırabilirsiniz."
+
+#. machine-translated (2026-10), to be reviewed
+msgid ""
+"You have an APK generation stuck for more than 1 hour, please check in <b>"
+"Settings > Advanced > Cron</b> for the stuck build.<br />To unlock further "
+"builds you can remove locks from the button below."
+msgstr "1 saatten uzun süredir takılı kalmış bir APK oluşturma işleminiz var, takılan derleme için lütfen <b>Ayarlar > Gelişmiş > Cron</b> bölümünü kontrol edin.<br />Sonraki derlemelerin kilidini açmak için aşağıdaki düğmeden kilitleri kaldırabilirsiniz."
+
+msgid "You have no certificate yet."
+msgstr "Henüz bir sertifikanız yok."
+
+msgid "You have no new messages."
+msgstr "Yeni mesajınız yok."
+
+#. machine-translated (2026-10), to be reviewed
+msgid "You must select an Admin panel type before requesting a Certificate."
+msgstr "Sertifika istemeden önce bir Yönetim paneli türü seçmelisiniz."
+
+msgid ""
+"Your HTTPS/SSL Certificate is about to expire in <b>%s day%s</b>, don't "
+"forget to renew it on the following page <a href=\"%s\">configuration</a>."
+msgstr ""
+
+msgid "Your certificate is invalid"
+msgstr "Sertifikanız geçersiz"
+
+msgid "Your certificate is valid until:"
+msgstr "Sertifikanız şu tarihe kadar geçerlidir:"
+
+msgid "Your certificates are saved."
+msgstr "Sertifikalarınız kaydedildi."
+
+msgid "Your new password"
+msgstr "Yeni şifreniz"
+
+msgid "Your password"
+msgstr "Şifreniz"
+
+#. machine-translated (2026-10), to be reviewed
+msgid "<b>Actual preview version is Siberian 5.0</b>."
+msgstr "<b>Şu anki önizleme sürümü Siberian 5.0'dır</b>."
+
+#. machine-translated (2026-10), to be reviewed
+msgid ""
+"<b>Disclaimer:</b> You are using the <b>preview</b> update channel, this "
+"channel is intended for <b>tests & previews</b> of new features, if you are "
+"not sure stay with <b>stable channel</b>."
+msgstr "<b>Sorumluluk reddi:</b> <b>Önizleme</b> güncelleme kanalını kullanıyorsunuz. Bu kanal yeni özelliklerin <b>testleri ve önizlemeleri</b> içindir; emin değilseniz <b>kararlı kanalda</b> kalın."
+
+#. machine-translated (2026-10), to be reviewed
+msgid ""
+"<b>Note for Bug report:</b> give us a maximum of description of how you "
+"reached the bug, and possibly screenshots."
+msgstr "<b>Hata bildirimi için not:</b> hataya nasıl ulaştığınızı olabildiğince ayrıntılı anlatın ve mümkünse ekran görüntüleri ekleyin."
+
+msgid ""
+"<b>Note</b>: sources & push will be sent immediately after their creation, "
+"scheduled push will not work & media optimization is disabled."
+msgstr "<b>Not</b>: kaynaklar ve bildirimler oluşturulduktan hemen sonra gönderilir, zamanlanmış bildirimler çalışmaz ve medya optimizasyonu devre dışıdır."
+
+msgid "customer"
+msgstr "Müşteri"
+
+msgid "%d Unread Message"
+msgstr "%d Okunmamış mesaj"
+
+msgid "%d Unread Messages"
+msgstr "%d okunmamış mesaj"
+
+msgid "for the bundle id:"
+msgstr "paket kimliği için:"
+
+#. machine-translated (2026-10), to be reviewed
+msgid "letsencrypt"
+msgstr "letsencrypt"
+
+msgid "per page"
+msgstr "sayfa başına"
+
+msgid "see Settings > Advanced > Configuration > Cron to edit options."
+msgstr "Seçenekleri düzenlemek için Ayarlar > Gelişmiş > Yapılandırma > Cron bölümüne bakın."
+
+#. machine-translated (2026-10), to be reviewed
+msgid "values are refreshed once a day only!"
+msgstr "değerler günde yalnızca bir kez yenilenir!"
+
+# GMT 1559644696.6294
+#. machine-translated (2026-10), to be reviewed
+msgid "Temp (var/tmp, application sources)"
+msgstr "Geçici (var/tmp, uygulama kaynakları)"
+
+# GMT 1559644696.8734
+#. machine-translated (2026-10), to be reviewed
+msgid ""
+"You are about to wipe all your temporary files, this includes the generated sources builds !\n"
+"Are you sure ?"
+msgstr "Tüm geçici dosyalarınızı silmek üzeresiniz, buna oluşturulan kaynak derlemeleri de dahildir!\nEmin misiniz?"
+
+# GMT 1559644696.9767
+#. machine-translated (2026-10), to be reviewed
+msgid "Free trial"
+msgstr "Ücretsiz deneme"
+
+# GMT 1559644696.9768
+#. machine-translated (2026-10), to be reviewed
+msgid "Trial duration in days"
+msgstr "Deneme süresi (gün)"
+
+# GMT 1559644696.9769
+#. machine-translated (2026-10), to be reviewed
+msgid "Allow access to editor regardless the free trial or subscription"
+msgstr "Ücretsiz deneme veya abonelikten bağımsız olarak editöre erişime izin ver"
+
+# GMT 1559644696.9770
+#. machine-translated (2026-10), to be reviewed
+msgid "Enable free trial"
+msgstr "Ücretsiz denemeyi etkinleştir"
+
+# GMT 1559644696.9771
+#. machine-translated (2026-10), to be reviewed
+msgid "Session lifetime can't be below 300 seconds / 5 minutes."
+msgstr "Oturum ömrü 300 saniyenin / 5 dakikanın altında olamaz."
+
+# GMT 1559644696.9772
+#. machine-translated (2026-10), to be reviewed
+msgid "Sessions without activity for that time will be automatically cleaned-up."
+msgstr "Bu süre boyunca etkinlik olmayan oturumlar otomatik olarak temizlenir."
+
+# GMT 1559644696.9773
+#. machine-translated (2026-10), to be reviewed
+msgid "Default is 604800 which is 7 days."
+msgstr "Varsayılan değer 7 gün olan 604800'dür."
+
+# GMT 1559644696.9774
+#. machine-translated (2026-10), to be reviewed
+msgid "Session lifetime in seconds"
+msgstr "Oturum ömrü (saniye)"
+
+# GMT 1559644696.9775
+#. machine-translated (2026-10), to be reviewed
+msgid "Mobile sessions are however unlimited, they are removed only when the user manually logs out of the application."
+msgstr "Mobil oturumlar ise sınırsızdır, yalnızca kullanıcı uygulamadan elle çıkış yaptığında kaldırılır."
+
+# GMT 1567897564.5000
+#. machine-translated (2026-10), to be reviewed
+msgid "Website"
+msgstr "Web sitesi"
+
+# GMT 1567897564.5001
+#. machine-translated (2026-10), to be reviewed
+msgid "Phone number"
+msgstr "Telefon numarası"
+
+# GMT 1567897564.5002
+#. machine-translated (2026-10), to be reviewed
+msgid "Company / Brand"
+msgstr "Şirket / Marka"
+
+# GMT 1567897564.5003
+#. machine-translated (2026-10), to be reviewed
+msgid "Firstname / Lastname"
+msgstr "Ad / Soyad"

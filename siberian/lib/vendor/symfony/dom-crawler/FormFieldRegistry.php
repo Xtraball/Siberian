@@ -20,14 +20,13 @@ use Symfony\Component\DomCrawler\Field\FormField;
  */
 class FormFieldRegistry
 {
-    private $fields = [];
-
-    private $base;
+    private array $fields = [];
+    private string $base = '';
 
     /**
      * Adds a field to the registry.
      */
-    public function add(FormField $field)
+    public function add(FormField $field): void
     {
         $segments = $this->getSegments($field->getName());
 
@@ -47,11 +46,9 @@ class FormFieldRegistry
     }
 
     /**
-     * Removes a field and its children from the registry.
-     *
-     * @param string $name The fully qualified name of the base field
+     * Removes a field based on the fully qualified name and its children from the registry.
      */
-    public function remove($name)
+    public function remove(string $name): void
     {
         $segments = $this->getSegments($name);
         $target = &$this->fields;
@@ -66,22 +63,20 @@ class FormFieldRegistry
     }
 
     /**
-     * Returns the value of the field and its children.
+     * Returns the value of the field based on the fully qualified name and its children.
      *
-     * @param string $name The fully qualified name of the field
-     *
-     * @return mixed The value of the field
+     * @return FormField|FormField[]|FormField[][]
      *
      * @throws \InvalidArgumentException if the field does not exist
      */
-    public function &get($name)
+    public function &get(string $name): FormField|array
     {
         $segments = $this->getSegments($name);
         $target = &$this->fields;
         while ($segments) {
             $path = array_shift($segments);
             if (!\is_array($target) || !\array_key_exists($path, $target)) {
-                throw new \InvalidArgumentException(sprintf('Unreachable field "%s"', $path));
+                throw new \InvalidArgumentException(\sprintf('Unreachable field "%s".', $path));
             }
             $target = &$target[$path];
         }
@@ -90,35 +85,28 @@ class FormFieldRegistry
     }
 
     /**
-     * Tests whether the form has the given field.
-     *
-     * @param string $name The fully qualified name of the field
-     *
-     * @return bool Whether the form has the given field
+     * Tests whether the form has the given field based on the fully qualified name.
      */
-    public function has($name)
+    public function has(string $name): bool
     {
         try {
             $this->get($name);
 
             return true;
-        } catch (\InvalidArgumentException $e) {
+        } catch (\InvalidArgumentException) {
             return false;
         }
     }
 
     /**
-     * Set the value of a field and its children.
-     *
-     * @param string $name  The fully qualified name of the field
-     * @param mixed  $value The value
+     * Set the value of a field based on the fully qualified name and its children.
      *
      * @throws \InvalidArgumentException if the field does not exist
      */
-    public function set($name, $value)
+    public function set(string $name, mixed $value): void
     {
         $target = &$this->get($name);
-        if ((!\is_array($value) && $target instanceof Field\FormField) || $target instanceof Field\ChoiceFormField) {
+        if ((!\is_array($value) && $target instanceof FormField) || $target instanceof Field\ChoiceFormField) {
             $target->setValue($value);
         } elseif (\is_array($value)) {
             $registry = new static();
@@ -128,7 +116,7 @@ class FormFieldRegistry
                 $this->set($k, $v);
             }
         } else {
-            throw new \InvalidArgumentException(sprintf('Cannot set value on a compound field "%s".', $name));
+            throw new \InvalidArgumentException(\sprintf('Cannot set value on a compound field "%s".', $name));
         }
     }
 
@@ -137,24 +125,18 @@ class FormFieldRegistry
      *
      * @return FormField[] The list of fields as [string] Fully qualified name => (mixed) value)
      */
-    public function all()
+    public function all(): array
     {
         return $this->walk($this->fields, $this->base);
     }
 
     /**
      * Transforms a PHP array in a list of fully qualified name / value.
-     *
-     * @param array  $array  The PHP array
-     * @param string $base   The name of the base field
-     * @param array  $output The initial values
-     *
-     * @return array The list of fields as [string] Fully qualified name => (mixed) value)
      */
-    private function walk(array $array, $base = '', array &$output = [])
+    private function walk(array $array, ?string $base = '', array &$output = []): array
     {
         foreach ($array as $k => $v) {
-            $path = empty($base) ? $k : sprintf('%s[%s]', $base, $k);
+            $path = empty($base) ? $k : \sprintf('%s[%s]', $base, $k);
             if (\is_array($v)) {
                 $this->walk($v, $path, $output);
             } else {
@@ -170,11 +152,9 @@ class FormFieldRegistry
      *
      *     getSegments('base[foo][3][]') = ['base', 'foo, '3', ''];
      *
-     * @param string $name The name of the field
-     *
-     * @return string[] The list of segments
+     * @return string[]
      */
-    private function getSegments($name)
+    private function getSegments(string $name): array
     {
         if (preg_match('/^(?P<base>[^[]+)(?P<extra>(\[.*)|$)/', $name, $m)) {
             $segments = [$m['base']];

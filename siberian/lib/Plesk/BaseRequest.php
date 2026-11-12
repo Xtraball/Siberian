@@ -83,7 +83,7 @@ EOT;
      * @param HttpRequestContract|null $http
      * @throws ApiRequestException
      */
-    public function __construct(array $config, array $params = array(), HttpRequestContract $http = null)
+    public function __construct(array $config, array $params = array(), ?HttpRequestContract $http = null)
     {
         $this->config = $config;
         $this->params = $params;

@@ -57,7 +57,7 @@ class Mcommerce_Model_Payment_Method_Paypal extends Mcommerce_Model_Payment_Meth
      *
      * @todo rename to avoid inhreitance conflicts
      */
-    public function getUrl() {
+    public function getUrl($url = '', $params = [], $locale = null) {
         $cart = $this->getMethod()->getCart();
         $paypal = $this->_getPaypalObject();
         $paypal->setCart($cart);

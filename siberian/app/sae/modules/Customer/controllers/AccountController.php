@@ -50,7 +50,7 @@ class Customer_AccountController extends Application_Controller_Default
             ->find($customer->getAppId());
 
         $baseData = [
-            'download' => (boolean) $download,
+            'download' => (bool) $download,
             'base_url' => $request->getBaseUrl(),
             'application' => $application,
             'customer' => $customer,

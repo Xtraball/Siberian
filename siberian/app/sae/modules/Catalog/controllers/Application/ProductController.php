@@ -24,13 +24,13 @@ class Catalog_Application_ProductController extends Application_Controller_Defau
     public function editAction() {
         if($this->getCurrentOptionValue()) {
             $product = new Catalog_Model_Product();
-            if($product_id = $this->getRequest()->getParam('id')) {
+            if ($product_id = \Siberian\Input::int($this->getRequest()->getParam('id'), 0, 0)) {
                 $product->find($product_id);
                 if($product->getId() AND $product->getValueId() != $this->getCurrentOptionValue()->getId()) {
                     throw new Exception(__('An error occurred while loading your product.'));
                 }
             }
-            else if($category_id = $this->getRequest()->getParam('category_id')) {
+            else if($category_id = \Siberian\Input::int($this->getRequest()->getParam('category_id'), 0, 0)) {
                 $category = new Catalog_Model_Category();
                 $category->find($category_id);
                 if($category->getValueId() != $this->getCurrentOptionValue()->getId()) {

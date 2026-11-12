@@ -9,12 +9,14 @@ class Core_Model_Directory
 
     public static function getPathTo($path = '')
     {
+        $path = (string) $path;
         if (substr($path, 0, 1) !== '/') $path = '/' . $path;
         return self::$_path . $path;
     }
 
     public static function getBasePathTo($path = '')
     {
+        $path = (string) $path;
         if (substr($path, 0, 1) !== '/') $path = '/' . $path;
         if (stripos($path, self::$_base_path) === false) {
             $path = self::$_base_path . $path;

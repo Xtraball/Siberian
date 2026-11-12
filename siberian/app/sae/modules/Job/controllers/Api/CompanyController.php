@@ -3,7 +3,7 @@
 /**
  * Class Job_Api_PlaceController
  */
-class Job_Api_PlaceController extends Api_Controller_Default
+class Job_Api_CompanyController extends Api_Controller_Default
 {
 
     /**

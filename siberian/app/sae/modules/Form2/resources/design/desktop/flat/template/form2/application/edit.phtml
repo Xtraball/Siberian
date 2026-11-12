@@ -395,7 +395,7 @@ $results = (new Result())->findAll(
         $("table.sb-pager.table-fields").sbpager({
             with_search: true,
             items_per_page: 1000,
-            search_placeholder: "<?php echo p__('form2', 'Search ...') ?>",
+            search_placeholder: "<?php echo p__js('form2', 'Search ...') ?>",
             callback_goto_page: function() {
                 $("table.sb-pager tr.edit-form[data-id]").hide()
             }

@@ -75,7 +75,14 @@ App.config(function($routeProvider) {
                 response.result.isAllowed
             ) {
                 $scope.showApkService = true;
-                $scope.showApkServiceMessage = response.result.message;
+                // The service may answer a plain string, a single note or a list of notes: always repeat over a list of notes.
+                var notes = response.result.message;
+                if (typeof notes === 'string') {
+                    notes = notes.length ? [{title: '', message: notes}] : [];
+                } else if (notes && !angular.isArray(notes)) {
+                    notes = [notes];
+                }
+                $scope.showApkServiceMessage = notes || [];
                 $scope.licenseType = response.result.type;
             }
         });
@@ -214,6 +221,7 @@ App.config(function($routeProvider) {
                     /** Only for direct download */
                     var device = (device_id == 1) ? "ios" : "android";
                     device = (no_ads == 1) ? device+"noads" : device;
+                    device = (no_ads == 2) ? "iosdebug" : device;
                     var base = data.more["zip"][device]["path"];
                     window.location.href = BASE_URL+"/"+base;
                 } else {

@@ -5,7 +5,7 @@ class Backoffice_Account_LoginController extends Backoffice_Controller_Default
 
     public function postAction() {
 
-        if($data = Zend_Json::decode($this->getRequest()->getRawBody())) {
+        if (($data = $this->_jsonBody()) !== null) {
             $this->getSession()->resetInstance();
 
             try {
@@ -56,7 +56,8 @@ class Backoffice_Account_LoginController extends Backoffice_Controller_Default
 
     public function forgottenpasswordAction() {
 
-        if($data = Zend_Json::decode($this->getRequest()->getRawBody())) {
+        $data = $this->_jsonBody();
+        if ($data !== null) {
 
             try {
 
@@ -106,9 +107,9 @@ class Backoffice_Account_LoginController extends Backoffice_Controller_Default
                     "message" => $e->getMessage()
                 );
             }
-        }
 
-        $this->_sendHtml($data);
+            $this->_sendHtml($data);
+        }
 
     }
 

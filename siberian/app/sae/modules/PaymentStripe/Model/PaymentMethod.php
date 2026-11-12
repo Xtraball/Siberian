@@ -127,14 +127,14 @@ class PaymentMethod extends Base
     public function toJson($optionValue = null, $baseUrl = "")
     {
         $payload = [
-            'id' => (integer) $this->getId(),
+            'id' => (int) $this->getId(),
             'token' => (string) $this->getToken(),
             'type' => (string) $this->getType(),
             'brand' => (string) $this->getBrand(),
             'exp' => (string) $this->getExp(),
             'last' => (string) $this->getLast(),
-            'is_last_used' => (boolean) $this->getIsLastUsed(),
-            'is_favorite' => (boolean) $this->getIsFavorite(),
+            'is_last_used' => (bool) $this->getIsLastUsed(),
+            'is_favorite' => (bool) $this->getIsFavorite(),
         ];
 
         return $payload;

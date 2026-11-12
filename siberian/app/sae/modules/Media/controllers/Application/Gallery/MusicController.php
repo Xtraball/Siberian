@@ -11,7 +11,7 @@ class Media_Application_Gallery_MusicController extends Application_Controller_D
         $gallery_id = $this->getRequest()->getParam('gallery_id');
         $album_id = null;
         if ($this->getRequest()->getParam('album_id')) {
-            $album_id = $this->getRequest()->getParam('album_id');
+            $album_id = \Siberian\Input::int($this->getRequest()->getParam('album_id'), 0, 0);
         }
         $html = $this->getLayout()
             ->addPartial('event_custom', 'admin_view_default', 'media/application/gallery/music/edit/' . $type . '/form.phtml')
@@ -314,8 +314,8 @@ class Media_Application_Gallery_MusicController extends Application_Controller_D
 
     public function editalbumAction()
     {
-        $option_value_id = $this->getRequest()->getParam('option_value_id');
-        $album_id = $this->getRequest()->getParam('album_id');
+        $option_value_id = \Siberian\Input::int($this->getRequest()->getParam('option_value_id'), 0, 0);
+        $album_id = \Siberian\Input::int($this->getRequest()->getParam('album_id'), 0, 0);
         $html = $this->getLayout()
             ->addPartial('event_custom', 'admin_view_default', 'media/application/gallery/music/edit/album.phtml')
             ->setOptionValueId($option_value_id)
@@ -905,7 +905,7 @@ class Media_Application_Gallery_MusicController extends Application_Controller_D
                         $new_track->find($id);
                         $new_track
                             ->setName($track['title'])
-                            ->setDuration($track['duration'])
+                            ->setDuration(is_numeric($track['duration'] ?? null) ? $track['duration'] : 0)
                             ->setArtistName($track['artist'])
                             ->setStreamUrl($track['url'])
                             ->setType('custom')

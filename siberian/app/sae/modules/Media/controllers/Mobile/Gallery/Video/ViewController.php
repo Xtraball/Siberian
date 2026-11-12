@@ -4,7 +4,7 @@ class Media_Mobile_Gallery_Video_ViewController extends Application_Controller_M
 
     public function findAction() {
 
-        if ($gallery_id = $this->getRequest()->getParam("gallery_id") AND $offset = $this->getRequest()->getParam('offset', 1)) {
+        if ($gallery_id = $this->getRequest()->getParam("gallery_id") AND $offset = (int) $this->getRequest()->getParam('offset', 1)) {
 
             try {
 

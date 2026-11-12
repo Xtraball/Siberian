@@ -76,7 +76,7 @@ class Provider
      */
     public static function getApkAabBuilder ()
     {
-        return self::getServices()['apk_aab_builder_35']['url'];
+        return self::getServices()['apk_aab_builder_36']['url'];
     }
 
     /**
@@ -84,7 +84,8 @@ class Provider
      */
     public static function getBackofficeNotification ()
     {
-        return self::getServices()['backoffice_notification']['url'];
+        // null when the services registry is unreachable or has no such entry
+        return self::getServices()['backoffice_notification']['url'] ?? null;
     }
 
     /**

@@ -16,17 +16,18 @@ import android.net.Uri;
 import java.lang.String;
 
 /**
- *
+ * Navigator plugin for handling map navigation intents
  */
 public class Navigator extends CordovaPlugin {
 
     /**
-     *
+     * Class name for logging
      */
     String CLASS_NAME = this.getClass().getName();
 
     /**
-     * @param urlToIntent
+     * Opens a URL in an external app
+     * @param urlToIntent URL to open
      */
     private void openIntent(String urlToIntent) {
         Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse(urlToIntent));
@@ -35,7 +36,7 @@ public class Navigator extends CordovaPlugin {
 
     @Override
     /**
-     *
+     * Executes the requested action
      */
     public boolean execute(String action, JSONArray data, CallbackContext callbackContext) throws JSONException {
         if (action.equals("navigate")) {
@@ -51,8 +52,9 @@ public class Navigator extends CordovaPlugin {
     }
 
     /**
-     * @param toLat
-     * @param toLng
+     * Opens navigation to the specified coordinates using available map applications
+     * @param toLat Destination latitude
+     * @param toLng Destination longitude
      */
     private void openUrlIntentByApplication(String toLat, String toLng) {
         String wazePackage = "com.waze";
@@ -62,38 +64,56 @@ public class Navigator extends CordovaPlugin {
         boolean isWazeInstalled = isPackageInstalled(wazePackage, packageManager);
         boolean isMapsInstalled = isPackageInstalled(mapsPackage, packageManager);
 
-        Intent intentWaze = new Intent(Intent.ACTION_VIEW, Uri.parse("waze://?ll=" + toLat + "," + toLng + "&navigate=yes"));
-        intentWaze.setPackage(wazePackage);
+        if (isWazeInstalled || isMapsInstalled) {
+            // At least one map app is installed
+            Intent intentWaze = null;
+            if (isWazeInstalled) {
+                intentWaze = new Intent(Intent.ACTION_VIEW, Uri.parse("waze://?ll=" + toLat + "," + toLng + "&navigate=yes"));
+                intentWaze.setPackage(wazePackage);
+            }
 
-        Intent intentGoogleNav = new Intent(Intent.ACTION_VIEW, Uri.parse("google.navigation:q=" + toLat + "," + toLng));
-        intentGoogleNav.setPackage(mapsPackage);
+            Intent intentGoogleNav = null;
+            if (isMapsInstalled) {
+                intentGoogleNav = new Intent(Intent.ACTION_VIEW, Uri.parse("google.navigation:q=" + toLat + "," + toLng));
+                intentGoogleNav.setPackage(mapsPackage);
+            }
 
-        Intent chooserIntent;
-
-        if (isWazeInstalled && isMapsInstalled) {
-            chooserIntent = Intent.createChooser(intentGoogleNav, null);
-            chooserIntent.putExtra(Intent.EXTRA_INITIAL_INTENTS, new Intent[]{intentWaze});
-        } else if (isWazeInstalled) {
-            chooserIntent = Intent.createChooser(intentWaze, null);
-
-            Intent installMapsIntent = new Intent(Intent.ACTION_VIEW, Uri.parse("market://details?id=" + mapsPackage));
-            chooserIntent.putExtra(Intent.EXTRA_INITIAL_INTENTS, new Intent[]{installMapsIntent});
-        } else if (isMapsInstalled) {
-            chooserIntent = Intent.createChooser(intentGoogleNav, null);
-
-            Intent installWazeIntent = new Intent(Intent.ACTION_VIEW, Uri.parse("market://details?id=" + wazePackage));
-            chooserIntent.putExtra(Intent.EXTRA_INITIAL_INTENTS, new Intent[]{installWazeIntent});
+            Intent chooserIntent;
+            
+            if (isWazeInstalled && isMapsInstalled) {
+                // Both apps installed, create chooser
+                chooserIntent = Intent.createChooser(intentGoogleNav, null);
+                chooserIntent.putExtra(Intent.EXTRA_INITIAL_INTENTS, new Intent[]{intentWaze});
+            } else if (isWazeInstalled) {
+                // Only Waze installed, use it directly
+                chooserIntent = intentWaze;
+            } else {
+                // Only Google Maps installed, use it directly
+                chooserIntent = intentGoogleNav;
+            }
+            
+            cordova.getActivity().startActivity(chooserIntent);
         } else {
-            Intent installWazeIntent = new Intent(Intent.ACTION_VIEW, Uri.parse("market://details?id=" + wazePackage));
-            Intent installMapsIntent = new Intent(Intent.ACTION_VIEW, Uri.parse("market://details?id=" + mapsPackage));
-
-            chooserIntent = Intent.createChooser(installWazeIntent, "Install Maps App");
-            chooserIntent.putExtra(Intent.EXTRA_INITIAL_INTENTS, new Intent[]{installMapsIntent});
+            // No map apps installed, try generic geo intent first
+            try {
+                Intent geoIntent = new Intent(Intent.ACTION_VIEW, 
+                    Uri.parse("geo:" + toLat + "," + toLng + "?q=" + toLat + "," + toLng));
+                cordova.getActivity().startActivity(geoIntent);
+            } catch (Exception e) {
+                // If geo intent fails, offer to install Google Maps
+                Intent installMapsIntent = new Intent(Intent.ACTION_VIEW, 
+                    Uri.parse("market://details?id=" + mapsPackage));
+                cordova.getActivity().startActivity(installMapsIntent);
+            }
         }
-
-        cordova.getActivity().startActivity(chooserIntent);
     }
 
+    /**
+     * Checks if a package is installed on the device
+     * @param packageName Package name to check
+     * @param packageManager PackageManager instance
+     * @return true if the package is installed, false otherwise
+     */
     private boolean isPackageInstalled(String packageName, PackageManager packageManager) {
         try {
             packageManager.getPackageInfo(packageName, 0);
@@ -102,5 +122,4 @@ public class Navigator extends CordovaPlugin {
             return false;
         }
     }
-
 }

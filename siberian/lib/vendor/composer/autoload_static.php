@@ -7,14 +7,18 @@ namespace Composer\Autoload;
 class ComposerStaticInitc45135ea47c87544c5381729474d0166
 {
     public static $files = array (
-        '320cde22f66dd4f5d3fd621d3e88b98f' => __DIR__ . '/..' . '/symfony/polyfill-ctype/bootstrap.php',
+        '6e3fae29631ef280660b3cdad06f25a8' => __DIR__ . '/..' . '/symfony/deprecation-contracts/function.php',
         '0e6d7bf4a5811bfa5cf40c5ccd6fae6a' => __DIR__ . '/..' . '/symfony/polyfill-mbstring/bootstrap.php',
+        '320cde22f66dd4f5d3fd621d3e88b98f' => __DIR__ . '/..' . '/symfony/polyfill-ctype/bootstrap.php',
+        'a4a119a56e50fbb293281d9a48007e0e' => __DIR__ . '/..' . '/symfony/polyfill-php80/bootstrap.php',
+        'e69f7f6ee287b969198c3c9d6777bd38' => __DIR__ . '/..' . '/symfony/polyfill-intl-normalizer/bootstrap.php',
         '7b11c4dc42b3b3023073cb14e519683c' => __DIR__ . '/..' . '/ralouphie/getallheaders/src/getallheaders.php',
-        'c964ee0ededf28c96ebd9db5099ef910' => __DIR__ . '/..' . '/guzzlehttp/promises/src/functions_include.php',
-        'a0edc8309cc5e1d60e3047b5df6b7052' => __DIR__ . '/..' . '/guzzlehttp/psr7/src/functions_include.php',
-        '37a3dc5111fe8f707ab4c132ef1dbc62' => __DIR__ . '/..' . '/guzzlehttp/guzzle/src/functions_include.php',
         '0a68d60a5e4dce3adf20d45be4cf37c2' => __DIR__ . '/..' . '/romeoz/rock-base/src/polyfills.php',
-        '25072dd6e2470089de65ae7bf11d3109' => __DIR__ . '/..' . '/symfony/polyfill-php72/bootstrap.php',
+        '8825ede83f2f289127722d4e842cf7e8' => __DIR__ . '/..' . '/symfony/polyfill-intl-grapheme/bootstrap.php',
+        'f598d06aa772fa33d905e87be6398fb1' => __DIR__ . '/..' . '/symfony/polyfill-intl-idn/bootstrap.php',
+        '662a729f963d39afe703c9d9b7ab4a8c' => __DIR__ . '/..' . '/symfony/polyfill-php83/bootstrap.php',
+        'b6b991a57620e2fb6b2f66f03fe9ddc2' => __DIR__ . '/..' . '/symfony/string/Resources/functions.php',
+        '37a3dc5111fe8f707ab4c132ef1dbc62' => __DIR__ . '/..' . '/guzzlehttp/guzzle/src/functions_include.php',
         '626dcc41390ebdaa619faa02d99943b0' => __DIR__ . '/..' . '/khanamiryan/qrcode-detector-decoder/lib/common/customFunctions.php',
         'e39a8b23c42d4e1452234d762b03835a' => __DIR__ . '/..' . '/ramsey/uuid/src/functions.php',
         '667aeda72477189d0494fecd327c3641' => __DIR__ . '/..' . '/symfony/var-dumper/Resources/functions/dump.php',
@@ -23,57 +27,70 @@ class ComposerStaticInitc45135ea47c87544c5381729474d0166
     );
 
     public static $prefixLengthsPsr4 = array (
-        'r' => 
+        'r' =>
         array (
             'rock\\sanitize\\' => 14,
             'rock\\helpers\\' => 13,
             'rock\\base\\' => 10,
         ),
-        'p' => 
+        'p' =>
         array (
-            'phpseclib\\' => 10,
+            'phpseclib3\\' => 11,
         ),
-        'V' => 
+        'V' =>
         array (
             'Vnn\\WpApiClient\\' => 16,
         ),
-        'S' => 
+        'S' =>
         array (
-            'Symfony\\Polyfill\\Php72\\' => 23,
+            'Symfony\\Polyfill\\Php83\\' => 23,
+            'Symfony\\Polyfill\\Php80\\' => 23,
             'Symfony\\Polyfill\\Mbstring\\' => 26,
+            'Symfony\\Polyfill\\Intl\\Normalizer\\' => 33,
+            'Symfony\\Polyfill\\Intl\\Idn\\' => 26,
+            'Symfony\\Polyfill\\Intl\\Grapheme\\' => 31,
             'Symfony\\Polyfill\\Ctype\\' => 23,
+            'Symfony\\Contracts\\Service\\' => 26,
+            'Symfony\\Contracts\\HttpClient\\' => 29,
             'Symfony\\Component\\VarDumper\\' => 28,
+            'Symfony\\Component\\String\\' => 25,
             'Symfony\\Component\\PropertyAccess\\' => 33,
             'Symfony\\Component\\OptionsResolver\\' => 34,
+            'Symfony\\Component\\Mime\\' => 23,
+            'Symfony\\Component\\HttpClient\\' => 29,
             'Symfony\\Component\\Finder\\' => 25,
             'Symfony\\Component\\DomCrawler\\' => 29,
             'Symfony\\Component\\CssSelector\\' => 30,
+            'Symfony\\Component\\Console\\' => 26,
             'Symfony\\Component\\BrowserKit\\' => 29,
             'Stripe\\' => 7,
         ),
-        'R' => 
+        'R' =>
         array (
             'React\\Stream\\' => 13,
             'React\\EventLoop\\' => 16,
             'React\\ChildProcess\\' => 19,
             'Ramsey\\Uuid\\' => 12,
         ),
-        'P' => 
+        'P' =>
         array (
             'Psr\\Log\\' => 8,
             'Psr\\Http\\Message\\' => 17,
+            'Psr\\Http\\Client\\' => 16,
+            'Psr\\Container\\' => 14,
             'Psr\\Cache\\' => 10,
             'Phulp\\AngularTemplateCache\\' => 27,
             'Phulp\\' => 6,
+            'ParagonIE\\ConstantTime\\' => 23,
         ),
-        'M' => 
+        'M' =>
         array (
             'MyCLabs\\Enum\\' => 13,
             'MatthiasMullie\\PathConverter\\' => 29,
             'MatthiasMullie\\Minify\\' => 22,
-            'Maknz\\Slack\\' => 12,
+            'Masterminds\\' => 12,
         ),
-        'G' => 
+        'G' =>
         array (
             'GuzzleHttp\\Psr7\\' => 16,
             'GuzzleHttp\\Promise\\' => 19,
@@ -82,244 +99,285 @@ class ComposerStaticInitc45135ea47c87544c5381729474d0166
             'Gettext\\Languages\\' => 18,
             'Gettext\\' => 8,
         ),
-        'F' => 
+        'F' =>
         array (
             'FeedIo\\' => 7,
         ),
-        'E' => 
+        'E' =>
         array (
             'Endroid\\QrCode\\' => 15,
         ),
-        'D' => 
+        'D' =>
         array (
             'Doctrine\\Common\\Collections\\' => 28,
             'DebugBar\\' => 9,
             'Dashi\\Apns2\\' => 12,
         ),
-        'B' => 
-        array (
-            'Braintree\\' => 10,
-        ),
     );
 
     public static $prefixDirsPsr4 = array (
-        'rock\\sanitize\\' => 
+        'rock\\sanitize\\' =>
         array (
             0 => __DIR__ . '/..' . '/romeoz/rock-sanitize/src',
         ),
-        'rock\\helpers\\' => 
+        'rock\\helpers\\' =>
         array (
             0 => __DIR__ . '/..' . '/romeoz/rock-helpers/src',
         ),
-        'rock\\base\\' => 
+        'rock\\base\\' =>
         array (
             0 => __DIR__ . '/..' . '/romeoz/rock-base/src',
         ),
-        'phpseclib\\' => 
+        'phpseclib3\\' =>
         array (
             0 => __DIR__ . '/..' . '/phpseclib/phpseclib/phpseclib',
         ),
-        'Vnn\\WpApiClient\\' => 
+        'Vnn\\WpApiClient\\' =>
         array (
             0 => __DIR__ . '/..' . '/vnn/wordpress-rest-api-client/src',
         ),
-        'Symfony\\Polyfill\\Php72\\' => 
+        'Symfony\\Polyfill\\Php83\\' =>
         array (
-            0 => __DIR__ . '/..' . '/symfony/polyfill-php72',
+            0 => __DIR__ . '/..' . '/symfony/polyfill-php83',
         ),
-        'Symfony\\Polyfill\\Mbstring\\' => 
+        'Symfony\\Polyfill\\Php80\\' =>
+        array (
+            0 => __DIR__ . '/..' . '/symfony/polyfill-php80',
+        ),
+        'Symfony\\Polyfill\\Mbstring\\' =>
         array (
             0 => __DIR__ . '/..' . '/symfony/polyfill-mbstring',
         ),
-        'Symfony\\Polyfill\\Ctype\\' => 
+        'Symfony\\Polyfill\\Intl\\Normalizer\\' =>
+        array (
+            0 => __DIR__ . '/..' . '/symfony/polyfill-intl-normalizer',
+        ),
+        'Symfony\\Polyfill\\Intl\\Idn\\' =>
+        array (
+            0 => __DIR__ . '/..' . '/symfony/polyfill-intl-idn',
+        ),
+        'Symfony\\Polyfill\\Intl\\Grapheme\\' =>
+        array (
+            0 => __DIR__ . '/..' . '/symfony/polyfill-intl-grapheme',
+        ),
+        'Symfony\\Polyfill\\Ctype\\' =>
         array (
             0 => __DIR__ . '/..' . '/symfony/polyfill-ctype',
         ),
-        'Symfony\\Component\\VarDumper\\' => 
+        'Symfony\\Contracts\\Service\\' =>
+        array (
+            0 => __DIR__ . '/..' . '/symfony/service-contracts',
+        ),
+        'Symfony\\Contracts\\HttpClient\\' =>
+        array (
+            0 => __DIR__ . '/..' . '/symfony/http-client-contracts',
+        ),
+        'Symfony\\Component\\VarDumper\\' =>
         array (
             0 => __DIR__ . '/..' . '/symfony/var-dumper',
         ),
-        'Symfony\\Component\\PropertyAccess\\' => 
+        'Symfony\\Component\\String\\' =>
+        array (
+            0 => __DIR__ . '/..' . '/symfony/string',
+        ),
+        'Symfony\\Component\\PropertyAccess\\' =>
         array (
             0 => __DIR__ . '/..' . '/symfony/property-access',
         ),
-        'Symfony\\Component\\OptionsResolver\\' => 
+        'Symfony\\Component\\OptionsResolver\\' =>
         array (
             0 => __DIR__ . '/..' . '/symfony/options-resolver',
         ),
-        'Symfony\\Component\\Finder\\' => 
+        'Symfony\\Component\\Mime\\' =>
+        array (
+            0 => __DIR__ . '/..' . '/symfony/mime',
+        ),
+        'Symfony\\Component\\HttpClient\\' =>
+        array (
+            0 => __DIR__ . '/..' . '/symfony/http-client',
+        ),
+        'Symfony\\Component\\Finder\\' =>
         array (
             0 => __DIR__ . '/..' . '/symfony/finder',
         ),
-        'Symfony\\Component\\DomCrawler\\' => 
+        'Symfony\\Component\\DomCrawler\\' =>
         array (
             0 => __DIR__ . '/..' . '/symfony/dom-crawler',
         ),
-        'Symfony\\Component\\CssSelector\\' => 
+        'Symfony\\Component\\CssSelector\\' =>
         array (
             0 => __DIR__ . '/..' . '/symfony/css-selector',
         ),
-        'Symfony\\Component\\BrowserKit\\' => 
+        'Symfony\\Component\\Console\\' =>
+        array (
+            0 => __DIR__ . '/..' . '/symfony/console',
+        ),
+        'Symfony\\Component\\BrowserKit\\' =>
         array (
             0 => __DIR__ . '/..' . '/symfony/browser-kit',
         ),
-        'Stripe\\' => 
+        'Stripe\\' =>
         array (
             0 => __DIR__ . '/..' . '/stripe/stripe-php/lib',
         ),
-        'React\\Stream\\' => 
+        'React\\Stream\\' =>
         array (
             0 => __DIR__ . '/..' . '/react/stream/src',
         ),
-        'React\\EventLoop\\' => 
+        'React\\EventLoop\\' =>
         array (
             0 => __DIR__ . '/..' . '/react/event-loop/src',
         ),
-        'React\\ChildProcess\\' => 
+        'React\\ChildProcess\\' =>
         array (
             0 => __DIR__ . '/..' . '/react/child-process/src',
         ),
-        'Ramsey\\Uuid\\' => 
+        'Ramsey\\Uuid\\' =>
         array (
             0 => __DIR__ . '/..' . '/ramsey/uuid/src',
         ),
-        'Psr\\Log\\' => 
+        'Psr\\Log\\' =>
         array (
             0 => __DIR__ . '/..' . '/psr/log/Psr/Log',
         ),
-        'Psr\\Http\\Message\\' => 
+        'Psr\\Http\\Message\\' =>
         array (
-            0 => __DIR__ . '/..' . '/psr/http-message/src',
+            0 => __DIR__ . '/..' . '/psr/http-factory/src',
+            1 => __DIR__ . '/..' . '/psr/http-message/src',
         ),
-        'Psr\\Cache\\' => 
+        'Psr\\Http\\Client\\' =>
+        array (
+            0 => __DIR__ . '/..' . '/psr/http-client/src',
+        ),
+        'Psr\\Container\\' =>
+        array (
+            0 => __DIR__ . '/..' . '/psr/container/src',
+        ),
+        'Psr\\Cache\\' =>
         array (
             0 => __DIR__ . '/..' . '/psr/cache/src',
         ),
-        'Phulp\\AngularTemplateCache\\' => 
+        'Phulp\\AngularTemplateCache\\' =>
         array (
             0 => __DIR__ . '/..' . '/reisraff/phulp-angular-template-cache/src',
         ),
-        'Phulp\\' => 
+        'Phulp\\' =>
         array (
             0 => __DIR__ . '/..' . '/reisraff/phulp/src',
         ),
-        'MyCLabs\\Enum\\' => 
+        'ParagonIE\\ConstantTime\\' =>
+        array (
+            0 => __DIR__ . '/..' . '/paragonie/constant_time_encoding/src',
+        ),
+        'MyCLabs\\Enum\\' =>
         array (
             0 => __DIR__ . '/..' . '/myclabs/php-enum/src',
         ),
-        'MatthiasMullie\\PathConverter\\' => 
+        'MatthiasMullie\\PathConverter\\' =>
         array (
             0 => __DIR__ . '/..' . '/matthiasmullie/path-converter/src',
         ),
-        'MatthiasMullie\\Minify\\' => 
+        'MatthiasMullie\\Minify\\' =>
         array (
             0 => __DIR__ . '/..' . '/matthiasmullie/minify/src',
         ),
-        'Maknz\\Slack\\' => 
+        'Masterminds\\' =>
         array (
-            0 => __DIR__ . '/..' . '/maknz/slack/src',
+            0 => __DIR__ . '/..' . '/masterminds/html5/src',
         ),
-        'GuzzleHttp\\Psr7\\' => 
+        'GuzzleHttp\\Psr7\\' =>
         array (
             0 => __DIR__ . '/..' . '/guzzlehttp/psr7/src',
         ),
-        'GuzzleHttp\\Promise\\' => 
+        'GuzzleHttp\\Promise\\' =>
         array (
             0 => __DIR__ . '/..' . '/guzzlehttp/promises/src',
         ),
-        'GuzzleHttp\\' => 
+        'GuzzleHttp\\' =>
         array (
             0 => __DIR__ . '/..' . '/guzzlehttp/guzzle/src',
         ),
-        'Goutte\\' => 
+        'Goutte\\' =>
         array (
             0 => __DIR__ . '/..' . '/fabpot/goutte/Goutte',
         ),
-        'Gettext\\Languages\\' => 
+        'Gettext\\Languages\\' =>
         array (
             0 => __DIR__ . '/..' . '/gettext/languages/src',
         ),
-        'Gettext\\' => 
+        'Gettext\\' =>
         array (
             0 => __DIR__ . '/..' . '/gettext/gettext/src',
         ),
-        'FeedIo\\' => 
+        'FeedIo\\' =>
         array (
             0 => __DIR__ . '/..' . '/debril/feed-io/src/FeedIo',
         ),
-        'Endroid\\QrCode\\' => 
+        'Endroid\\QrCode\\' =>
         array (
             0 => __DIR__ . '/..' . '/endroid/qrcode/src',
         ),
-        'Doctrine\\Common\\Collections\\' => 
+        'Doctrine\\Common\\Collections\\' =>
         array (
             0 => __DIR__ . '/..' . '/doctrine/collections/lib/Doctrine/Common/Collections',
         ),
-        'DebugBar\\' => 
+        'DebugBar\\' =>
         array (
             0 => __DIR__ . '/..' . '/maximebf/debugbar/src/DebugBar',
         ),
-        'Dashi\\Apns2\\' => 
+        'Dashi\\Apns2\\' =>
         array (
             0 => __DIR__ . '/..' . '/dashi/apns2/src',
-        ),
-        'Braintree\\' => 
-        array (
-            0 => __DIR__ . '/..' . '/braintree/braintree_php/lib/Braintree',
         ),
     );
 
     public static $prefixesPsr0 = array (
-        'T' => 
+        'T' =>
         array (
-            'Twocheckout' => 
+            'Twocheckout' =>
             array (
                 0 => __DIR__ . '/..' . '/2checkout/2checkout-php/lib',
             ),
         ),
-        'M' => 
+        'M' =>
         array (
-            'MomentPHP' => 
+            'MomentPHP' =>
             array (
                 0 => __DIR__ . '/..' . '/lawondyss/moment-php/src',
             ),
         ),
-        'H' => 
+        'H' =>
         array (
-            'HTMLPurifier' => 
+            'HTMLPurifier' =>
             array (
                 0 => __DIR__ . '/..' . '/ezyang/htmlpurifier/library',
             ),
         ),
-        'G' => 
+        'G' =>
         array (
-            'Gregwar\\Image' => 
+            'Gregwar\\Image' =>
             array (
                 0 => __DIR__ . '/..' . '/gregwar/image',
             ),
-            'Gregwar\\Cache' => 
+            'Gregwar\\Cache' =>
             array (
                 0 => __DIR__ . '/..' . '/gregwar/cache',
             ),
         ),
-        'E' => 
+        'E' =>
         array (
-            'Evenement' => 
+            'Evenement' =>
             array (
                 0 => __DIR__ . '/..' . '/evenement/evenement/src',
             ),
         ),
-        'B' => 
+        'B' =>
         array (
-            'Braintree' => 
-            array (
-                0 => __DIR__ . '/..' . '/braintree/braintree_php/lib',
-            ),
-            'Behat\\Transliterator' => 
+            'Behat\\Transliterator' =>
             array (
                 0 => __DIR__ . '/..' . '/behat/transliterator/src',
             ),
-            'BaconQrCode' => 
+            'BaconQrCode' =>
             array (
                 0 => __DIR__ . '/..' . '/bacon/bacon-qr-code/src',
             ),
@@ -327,8 +385,25 @@ class ComposerStaticInitc45135ea47c87544c5381729474d0166
     );
 
     public static $classMap = array (
+        'Attribute' => __DIR__ . '/..' . '/symfony/polyfill-php80/Resources/stubs/Attribute.php',
         'Composer\\InstalledVersions' => __DIR__ . '/..' . '/composer/InstalledVersions.php',
+        'DateError' => __DIR__ . '/..' . '/symfony/polyfill-php83/Resources/stubs/DateError.php',
+        'DateException' => __DIR__ . '/..' . '/symfony/polyfill-php83/Resources/stubs/DateException.php',
+        'DateInvalidOperationException' => __DIR__ . '/..' . '/symfony/polyfill-php83/Resources/stubs/DateInvalidOperationException.php',
+        'DateInvalidTimeZoneException' => __DIR__ . '/..' . '/symfony/polyfill-php83/Resources/stubs/DateInvalidTimeZoneException.php',
+        'DateMalformedIntervalStringException' => __DIR__ . '/..' . '/symfony/polyfill-php83/Resources/stubs/DateMalformedIntervalStringException.php',
+        'DateMalformedPeriodStringException' => __DIR__ . '/..' . '/symfony/polyfill-php83/Resources/stubs/DateMalformedPeriodStringException.php',
+        'DateMalformedStringException' => __DIR__ . '/..' . '/symfony/polyfill-php83/Resources/stubs/DateMalformedStringException.php',
+        'DateObjectError' => __DIR__ . '/..' . '/symfony/polyfill-php83/Resources/stubs/DateObjectError.php',
+        'DateRangeError' => __DIR__ . '/..' . '/symfony/polyfill-php83/Resources/stubs/DateRangeError.php',
+        'Normalizer' => __DIR__ . '/..' . '/symfony/polyfill-intl-normalizer/Resources/stubs/Normalizer.php',
+        'Override' => __DIR__ . '/..' . '/symfony/polyfill-php83/Resources/stubs/Override.php',
+        'PhpToken' => __DIR__ . '/..' . '/symfony/polyfill-php80/Resources/stubs/PhpToken.php',
         'QrReader' => __DIR__ . '/..' . '/khanamiryan/qrcode-detector-decoder/lib/QrReader.php',
+        'SQLite3Exception' => __DIR__ . '/..' . '/symfony/polyfill-php83/Resources/stubs/SQLite3Exception.php',
+        'Stringable' => __DIR__ . '/..' . '/symfony/polyfill-php80/Resources/stubs/Stringable.php',
+        'UnhandledMatchError' => __DIR__ . '/..' . '/symfony/polyfill-php80/Resources/stubs/UnhandledMatchError.php',
+        'ValueError' => __DIR__ . '/..' . '/symfony/polyfill-php80/Resources/stubs/ValueError.php',
         'Zebra_Image' => __DIR__ . '/..' . '/stefangabos/zebra_image/Zebra_Image.php',
         'Zxing\\Binarizer' => __DIR__ . '/..' . '/khanamiryan/qrcode-detector-decoder/lib/Binarizer.php',
         'Zxing\\BinaryBitmap' => __DIR__ . '/..' . '/khanamiryan/qrcode-detector-decoder/lib/BinaryBitmap.php',

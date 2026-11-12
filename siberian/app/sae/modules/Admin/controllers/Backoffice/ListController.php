@@ -99,7 +99,7 @@ class Admin_Backoffice_ListController extends Backoffice_Controller_Default
     public function deleteAction()
     {
 
-        if ($data = Zend_Json::decode($this->getRequest()->getRawBody())) {
+        if (($data = $this->_jsonBody()) !== null) {
 
             try {
 
@@ -142,7 +142,7 @@ class Admin_Backoffice_ListController extends Backoffice_Controller_Default
     public function loginasAction()
     {
 
-        if ($admin_id = $this->getRequest()->getParam("admin_id")) {
+        if ($admin_id = \Siberian\Input::int($this->getRequest()->getParam("admin_id"), 0, 0)) {
 
             $admin = new Admin_Model_Admin();
             $admin->find($admin_id);

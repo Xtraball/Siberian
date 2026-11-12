@@ -76,7 +76,7 @@ class Api_Service_ImageController extends Core_Controller_Default {
 
         if (strpos($infos['data'], 'base64') !== false) {
             $contentType = 'image/jpeg';
-            switch ($data['type']) {
+            switch ($infos['type'] ?? 'png') {
                 case 'png':
                         $contentType = 'image/png';
                     break;

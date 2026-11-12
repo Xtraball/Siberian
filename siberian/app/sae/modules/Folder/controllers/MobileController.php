@@ -4,7 +4,7 @@ class Folder_MobileController extends Application_Controller_Mobile_Default {
 
     public function findchildrenAction() {
 
-        if($category_id = $this->getRequest()->getParam('category_id')) {
+        if($category_id = \Siberian\Input::int($this->getRequest()->getParam('category_id'), 0, 0)) {
 
             try {
 

@@ -21,17 +21,16 @@ class TextareaFormField extends FormField
     /**
      * Initializes the form field.
      *
+     * @return void
+     *
      * @throws \LogicException When node type is incorrect
      */
     protected function initialize()
     {
         if ('textarea' !== $this->node->nodeName) {
-            throw new \LogicException(sprintf('A TextareaFormField can only be created from a textarea tag (%s given).', $this->node->nodeName));
+            throw new \LogicException(\sprintf('A TextareaFormField can only be created from a textarea tag (%s given).', $this->node->nodeName));
         }
 
-        $this->value = '';
-        foreach ($this->node->childNodes as $node) {
-            $this->value .= $node->wholeText;
-        }
+        $this->value = $this->node->textContent;
     }
 }

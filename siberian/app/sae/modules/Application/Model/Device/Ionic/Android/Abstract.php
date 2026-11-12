@@ -84,7 +84,7 @@ abstract class Application_Model_Device_Ionic_Android_Abstract extends Applicati
         $_file = $application->getStartupBackgroundUnified();
 
         // Convert to jpeg
-        $jpegStartup = Siberian_Image::open(path($_file));
+        $jpegStartup = Siberian_Image::open(Application_Model_Application_Abstract::startupSourcePath($_file));
         $_tmpStartup = path('/var/tmp/' . uniqid('startup_', true) . '.jpg');
         $jpegStartup->save($_tmpStartup, 'jpg', 70);
 
@@ -173,7 +173,7 @@ abstract class Application_Model_Device_Ionic_Android_Abstract extends Applicati
         ]);
 
         // Battery optimization
-        $disableBatteryOptimization = (boolean) filter_var($application->getDisableBatteryOptimization(), FILTER_VALIDATE_BOOLEAN);
+        $disableBatteryOptimization = (bool) filter_var($application->getDisableBatteryOptimization(), FILTER_VALIDATE_BOOLEAN);
         if (!$disableBatteryOptimization) {
             $replacements = array_merge($replacements, [
                 "<uses-permission android:name=\"android.permission.REQUEST_IGNORE_BATTERY_OPTIMIZATIONS\" />" => ""
@@ -181,7 +181,7 @@ abstract class Application_Model_Device_Ionic_Android_Abstract extends Applicati
         }
 
         // Disable *_location
-        $disableLocation = (boolean) filter_var($application->getDisableLocation(), FILTER_VALIDATE_BOOLEAN);
+        $disableLocation = (bool) filter_var($application->getDisableLocation(), FILTER_VALIDATE_BOOLEAN);
         //<uses-permission.*ACCESS_.*_LOCATION" \/>
         if ($disableLocation) {
             $replacements = array_merge($replacements, [
@@ -200,6 +200,24 @@ abstract class Application_Model_Device_Ionic_Android_Abstract extends Applicati
                 $hasRadio = true;
                 break;
             }
+        }
+
+        // Android 13+ needs POST_NOTIFICATIONS to show notifications, only added for apps with the Push feature
+        $push = (new Application_Model_Option())->find('push2', 'code');
+        $hasPush = false;
+        foreach ($features as $feature) {
+            if ($feature->getOptionId() === $push->getId()) {
+                $hasPush = true;
+                break;
+            }
+        }
+
+        // Appended before the closing tag, so it does not depend on any other permission being there
+        $manifestFile = "{$this->_dest_source}/app/src/main/AndroidManifest.xml";
+        if ($hasPush && stripos(file_get_contents($manifestFile), 'POST_NOTIFICATIONS') === false) {
+            $replacements = array_merge($replacements, [
+                "</manifest>" => "    <uses-permission android:name=\"android.permission.POST_NOTIFICATIONS\" />\n</manifest>",
+            ]);
         }
 
         // Ensure the clearText is not already applied by someone else before!
@@ -221,6 +239,14 @@ abstract class Application_Model_Device_Ionic_Android_Abstract extends Applicati
             '${applicationId}' => $tmp_application_id,
             'ca-app-pub-0000000000000000~0000000000' => $this->admobAppIdentifier
         ], "{$this->_dest_source}/app/src/main/res/xml/config.xml");
+
+        // Layout mode: edge-to-edge is an option, classic (system bars outside the app) stays the default.
+        // The native SiberianInsets plugin and the "edge-to-edge" CSS only act when this preference is true.
+        if ((bool) $application->getAndroidEdgeToEdge()) {
+            $this->__replace([
+                "</widget>" => "    <preference name=\"AndroidEdgeToEdge\" value=\"true\" />\n</widget>",
+            ], "{$this->_dest_source}/app/src/main/res/xml/config.xml");
+        }
 
         // FB Mediation
         // Mediation is temporary disabled
@@ -255,6 +281,10 @@ abstract class Application_Model_Device_Ionic_Android_Abstract extends Applicati
         $this->__replace([
             '#FFFFFF' => $splash_color,
         ], "{$this->_dest_source_res}/values/colors.xml");
+
+        // The startup screen shows the Splash icon (Android) of the app, sharper than the 288px app icon.
+        // Without a Splash icon it is the app icon, see Application_Model_Application_Abstract::getAndroidSplashIcon()
+        $this->__replace(Application_Model_Device_Ionic_Android_Splash::themeReplacements(), "{$this->_dest_source_res}/values/themes.xml");
     }
 
     /**

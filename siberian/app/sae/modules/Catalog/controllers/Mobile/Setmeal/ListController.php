@@ -8,7 +8,7 @@ class Catalog_Mobile_Setmeal_ListController extends Application_Controller_Mobil
 
             $request = $this->getRequest();
 
-            if($value_id = $request->getParam("value_id")) {
+            if($value_id = \Siberian\Input::int($request->getParam("value_id"), 0, 0)) {
 
                 $baseUrl = '';
                 if ($this->getRequest()) {
@@ -20,7 +20,7 @@ class Catalog_Mobile_Setmeal_ListController extends Application_Controller_Mobil
                 $collection = array();
 
                 $menu = new Catalog_Model_Product();
-                $offset = $request->getParam("offset", 0);
+                $offset = \Siberian\Input::int($request->getParam("offset"), 0, 0);
                 $menus = $menu->findAll(array(
                         "value_id" => $value_id,
                         "type" => "menu"
@@ -59,7 +59,7 @@ class Catalog_Mobile_Setmeal_ListController extends Application_Controller_Mobil
                             "description"   => $menu->getDescription(),
                             "price"         => $menu->getPrice() > 0 ? $menu->getFormattedPrice() : null,
                             "picture"       => $picture_b64,
-                            "social_sharing_active" => (boolean) $option_value->getSocialSharingIsActive()
+                            "social_sharing_active" => (bool) $option_value->getSocialSharingIsActive()
                         )
                     );
                 }

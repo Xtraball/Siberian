@@ -1,7 +1,7 @@
 PODS:
-  - OneSignalXCFramework (5.2.9):
-    - OneSignalXCFramework/OneSignalComplete (= 5.2.9)
-  - OneSignalXCFramework/OneSignal (5.2.9):
+  - OneSignalXCFramework (5.8.0):
+    - OneSignalXCFramework/OneSignalComplete (= 5.8.0)
+  - OneSignalXCFramework/OneSignal (5.8.0):
     - OneSignalXCFramework/OneSignalCore
     - OneSignalXCFramework/OneSignalExtension
     - OneSignalXCFramework/OneSignalLiveActivities
@@ -9,53 +9,56 @@ PODS:
     - OneSignalXCFramework/OneSignalOSCore
     - OneSignalXCFramework/OneSignalOutcomes
     - OneSignalXCFramework/OneSignalUser
-  - OneSignalXCFramework/OneSignalComplete (5.2.9):
+  - OneSignalXCFramework/OneSignalComplete (5.8.0):
     - OneSignalXCFramework/OneSignal
     - OneSignalXCFramework/OneSignalInAppMessages
     - OneSignalXCFramework/OneSignalLocation
-  - OneSignalXCFramework/OneSignalCore (5.2.9)
-  - OneSignalXCFramework/OneSignalExtension (5.2.9):
+  - OneSignalXCFramework/OneSignalCore (5.8.0)
+  - OneSignalXCFramework/OneSignalExtension (5.8.0):
     - OneSignalXCFramework/OneSignalCore
+    - OneSignalXCFramework/OneSignalOSCore
     - OneSignalXCFramework/OneSignalOutcomes
-  - OneSignalXCFramework/OneSignalInAppMessages (5.2.9):
+  - OneSignalXCFramework/OneSignalInAppMessages (5.8.0):
     - OneSignalXCFramework/OneSignalCore
     - OneSignalXCFramework/OneSignalNotifications
     - OneSignalXCFramework/OneSignalOSCore
     - OneSignalXCFramework/OneSignalOutcomes
     - OneSignalXCFramework/OneSignalUser
-  - OneSignalXCFramework/OneSignalLiveActivities (5.2.9):
+  - OneSignalXCFramework/OneSignalLiveActivities (5.8.0):
     - OneSignalXCFramework/OneSignalCore
     - OneSignalXCFramework/OneSignalOSCore
     - OneSignalXCFramework/OneSignalUser
-  - OneSignalXCFramework/OneSignalLocation (5.2.9):
+  - OneSignalXCFramework/OneSignalLocation (5.8.0):
     - OneSignalXCFramework/OneSignalCore
     - OneSignalXCFramework/OneSignalNotifications
     - OneSignalXCFramework/OneSignalOSCore
     - OneSignalXCFramework/OneSignalUser
-  - OneSignalXCFramework/OneSignalNotifications (5.2.9):
+  - OneSignalXCFramework/OneSignalNotifications (5.8.0):
     - OneSignalXCFramework/OneSignalCore
     - OneSignalXCFramework/OneSignalExtension
+    - OneSignalXCFramework/OneSignalOSCore
     - OneSignalXCFramework/OneSignalOutcomes
-  - OneSignalXCFramework/OneSignalOSCore (5.2.9):
+  - OneSignalXCFramework/OneSignalOSCore (5.8.0):
     - OneSignalXCFramework/OneSignalCore
-  - OneSignalXCFramework/OneSignalOutcomes (5.2.9):
+  - OneSignalXCFramework/OneSignalOutcomes (5.8.0):
     - OneSignalXCFramework/OneSignalCore
-  - OneSignalXCFramework/OneSignalUser (5.2.9):
+    - OneSignalXCFramework/OneSignalOSCore
+  - OneSignalXCFramework/OneSignalUser (5.8.0):
     - OneSignalXCFramework/OneSignalCore
     - OneSignalXCFramework/OneSignalNotifications
     - OneSignalXCFramework/OneSignalOSCore
     - OneSignalXCFramework/OneSignalOutcomes
 
 DEPENDENCIES:
-  - OneSignalXCFramework (= 5.2.9)
+  - OneSignalXCFramework (= 5.8.0)
 
 SPEC REPOS:
   trunk:
     - OneSignalXCFramework
 
 SPEC CHECKSUMS:
-  OneSignalXCFramework: f5b2a3c4f130e4c910ead7bb25bed7455e976fbf
+  OneSignalXCFramework: e916e0283c51b737524cab28f340eeb821b45826
 
-PODFILE CHECKSUM: 18e0a43d03a5aa9fe8165be7ddf9e158d1e0beae
+PODFILE CHECKSUM: 89d5646b45e6ac7187081d36f5586ef17ca8ae0f
 
-COCOAPODS: 1.14.3
+COCOAPODS: 1.17.0

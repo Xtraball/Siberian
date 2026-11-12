@@ -17,8 +17,7 @@ class Customer_Model_Db_Table_Customer extends Core_Model_Db_Table
      */
     public function clearBySessionUuid($sessionUuid)
     {
-        $this->_db->query("UPDATE customer SET session_uuid = NULL WHERE session_uuid = ':sessionUuid';",
-            [':sessionUuid' => $sessionUuid]);
+        $this->_db->query('UPDATE customer SET session_uuid = NULL WHERE session_uuid = ?', [$sessionUuid]);
     }
 
     /**
@@ -44,50 +43,42 @@ class Customer_Model_Db_Table_Customer extends Core_Model_Db_Table
         return $this->_db->fetchAssoc($select);
     }
 
+    /**
+     * The customers of an application, with the size of the (searched) list in `nb_customer`.
+     *
+     * The search text is bound as a LIKE parameter and limit/offset are cast to numbers: nothing the admin types
+     * is ever part of the SQL.
+     *
+     * @param array $values `app_id`, optional `search_value` (text looked for in email, first and last name)
+     * @param array|null $params optional `limit` and `offset`
+     * @return Customer_Model_Customer[]
+     */
     public function findAllCustomersByApp($values, $params)
     {
+        $appId = (int) ($values['app_id'] ?? 0);
+        $search = trim((string) ($values['search_value'] ?? ''));
 
-        $where = "";
-        $subrequest = "(SELECT COUNT(customer_id) as nb_customers FROM customer WHERE app_id = " . $values["app_id"] . ") as nb_customer";
-        if ($values AND is_array($values)) {
-            $where = " WHERE ";
-            $start = true;
-            foreach ($values as $quote => $value) {
-                if (!$start) {
-                    $where .= " AND";
-                }
-                if ($quote != "search") {
-                    $where .= " " . $quote . " = " . $value . " ";
-                } else {
-                    if ($value <> "") {
-                        $where .= $value . " ";
-                        $subrequest = "(SELECT COUNT(customer_id) as nb_customers FROM customer WHERE app_id = " . $values["app_id"] . " AND " . $value . ") as nb_customer";
-                    }
-                }
+        $bind = [$appId];
+        $where = 'app_id = ?';
+        if ($search !== '') {
+            $like = '%' . addcslashes($search, '\\%_') . '%';
+            $where .= ' AND (email LIKE ? OR firstname LIKE ? OR lastname LIKE ?)';
+            array_push($bind, $like, $like, $like);
+        }
 
-                $start = false;
+        $sql = "SELECT customer_id, email, firstname, lastname, created_at,
+                (SELECT COUNT(customer_id) FROM customer WHERE {$where}) AS nb_customer
+            FROM customer WHERE {$where} ORDER BY customer_id";
+        $bind = array_merge($bind, $bind);
+
+        if (is_array($params) && array_key_exists('limit', $params)) {
+            $sql .= ' LIMIT ' . max(0, (int) $params['limit']);
+            if (array_key_exists('offset', $params)) {
+                $sql .= ' OFFSET ' . max(0, (int) $params['offset']);
             }
         }
 
-        $select = "
-              SELECT
-              customer_id,
-              email,
-              firstname,
-              lastname,
-              created_at," . $subrequest . "
-              FROM customer" . $where . " ORDER BY customer_id ";
-
-        $params_string = "";
-        if ($params AND is_array($params)) {
-            foreach ($params as $quote => $value) {
-                $params_string .= $quote . " " . $value . " ";
-            }
-        }
-
-        $select .= $params_string;
-
-        return $this->toModelClass($this->_db->fetchAll($select));
+        return $this->toModelClass($this->_db->fetchAll($sql, $bind));
     }
 
     /**

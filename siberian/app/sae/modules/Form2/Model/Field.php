@@ -190,7 +190,7 @@ class Field extends Base
     {
         $fieldType = $this->getFieldType();
         $field = [
-            'field_id' => (integer) $this->getFieldId(),
+            'field_id' => (int) $this->getFieldId(),
             'label' => (string) $this->getLabel(),
             'type' => (string) $fieldType,
             'richtext' => (string) $this->getRichtext(),
@@ -201,7 +201,7 @@ class Field extends Base
             'image_addpicture' => (string) $this->getImageAddpicture(),
             'image_addanotherpicture' => (string) $this->getImageAddanotherpicture(),
             'options' => (array) array_values($this->getFieldOptions()),
-            'limit' => (integer) $this->getLimit(),
+            'limit' => (int) $this->getLimit(),
             'min' => (float) $this->getNumberMin(),
             'max' => (float) $this->getNumberMax(),
             'step' => (float) $this->getNumberStep(),
@@ -210,7 +210,7 @@ class Field extends Base
             'datetime_format' => (string) $this->getDatetimeFormat(),
             'datetime_skipdays' => $this->getDatetimeSkipDays(),
             'is_checked' => false,
-            'is_required' => (boolean) $this->getIsRequired(),
+            'is_required' => (bool) $this->getIsRequired(),
         ];
         $defaultValue = (string) $this->getDefaultValue();
         if (!empty($defaultValue)) {
@@ -219,7 +219,7 @@ class Field extends Base
                     $defaultValue = (float) $defaultValue;
                     break;
                 case 'checkbox':
-                    $defaultValue = (boolean) $defaultValue;
+                    $defaultValue = (bool) $defaultValue;
                     break;
                 case 'date':
                 case 'datetime':

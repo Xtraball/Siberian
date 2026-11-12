@@ -21,7 +21,7 @@ class Application_SecurityController extends Core_Controller_Default_Abstract
 
         /* !!! Note: In this controller is_editor is always true !!! */
         $is_editor = true;
-        $app_id = $this->getRequest()->getParam('app_id');
+        $app_id = \Siberian\Input::int($this->getRequest()->getParam('app_id'), 0, 0);
         $is_ajax = $this->getRequest()->isXmlHttpRequest();
         $old_tab = $app_id != $this->getSession()->getApplication()->getAppId();
 

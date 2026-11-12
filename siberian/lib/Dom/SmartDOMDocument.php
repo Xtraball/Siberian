@@ -30,6 +30,10 @@ class Dom_SmartDOMDocument extends DOMDocument {
      * @param string $encoding
      */
     public function loadHTML($html, $encoding = "UTF-8") {
+        // PHP 8 throws a ValueError on an empty source, an empty feature must still load
+        if ($html === null || trim((string) $html) === '') {
+            $html = '<div></div>';
+        }
         $html = mb_convert_encoding($html, 'HTML-ENTITIES', $encoding);
         parent::loadHTML($html); // suppress warnings
     }

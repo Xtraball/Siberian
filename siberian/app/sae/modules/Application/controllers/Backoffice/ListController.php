@@ -106,7 +106,7 @@ class Application_Backoffice_ListController extends Backoffice_Controller_Defaul
                 'bundle_id' => $application->getBundleId(),
                 'package_name' => $application->getPackageName(),
                 'icon' => $application->getIcon(128),
-                'is_active' => (boolean) $application->getIsActive(),
+                'is_active' => (bool) $application->getIsActive(),
                 'size_on_disk' => formatBytes($application->getData('size_on_disk'))
             ];
         }
@@ -124,7 +124,7 @@ class Application_Backoffice_ListController extends Backoffice_Controller_Defaul
             $limit = ($parts[1] - $parts[0]) + 1;
         }
 
-        $admin_id = $this->getRequest()->getParam("admin_id");
+        $admin_id = \Siberian\Input::int($this->getRequest()->getParam("admin_id"), 0, 0);
 
         $filters = [];
         if ($_filter = $this->getRequest()->getParam("filter", false)) {
@@ -140,7 +140,7 @@ class Application_Backoffice_ListController extends Backoffice_Controller_Defaul
 
         $application = new Application_Model_Application();
         if (!Siberian_Version::is("sae")) {
-            $show_all = filter_var($this->getRequest()->getParam("show_all_applications", false), FILTER_VALIDATE_BOOLEAN);
+            $show_all = \Siberian\Input::bool($this->getRequest()->getParam("show_all_applications", false));
             $_admin_id = ($show_all) ? null : $admin_id;
 
             $applications = $application->findAllByAdmin($_admin_id, $filters, $order, $limit, $offset);

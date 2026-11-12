@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 /*
  * This file is part of the feed-io package.
  *
@@ -11,6 +11,7 @@
 namespace FeedIo\Formatter;
 
 use FeedIo\Feed\NodeInterface;
+use FeedIo\Feed\StyleSheet;
 use FeedIo\FeedInterface;
 use FeedIo\Rule\OptionalField;
 use FeedIo\RuleSet;
@@ -43,15 +44,13 @@ class XmlFormatter implements FormatterInterface
     /**
      * @param  \DOMDocument  $document
      * @param  FeedInterface $feed
-     * @return $this
+     * @return XmlFormatter
      */
-    public function setHeaders(\DOMDocument $document, FeedInterface $feed)
+    public function setHeaders(\DOMDocument $document, FeedInterface $feed) : XmlFormatter
     {
         $rules = $this->standard->getFeedRuleSet();
-        $elements = $this->buildElements($rules, $document, $feed);
-        foreach ($elements as $element) {
-            $this->standard->getMainElement($document)->appendChild($element);
-        }
+        $mainElement = $this->standard->getMainElement($document);
+        $this->buildElements($rules, $document, $mainElement, $feed);
 
         return $this;
     }
@@ -59,17 +58,13 @@ class XmlFormatter implements FormatterInterface
     /**
      * @param  \DOMDocument  $document
      * @param  NodeInterface $node
-     * @return $this
+     * @return XmlFormatter
      */
-    public function addItem(\DOMDocument $document, NodeInterface $node)
+    public function addItem(\DOMDocument $document, NodeInterface $node) : XmlFormatter
     {
         $domItem = $document->createElement($this->standard->getItemNodeName());
         $rules = $this->standard->getItemRuleSet();
-        $elements = $this->buildElements($rules, $document, $node);
-
-        foreach ($elements as $element) {
-            $domItem->appendChild($element);
-        }
+        $this->buildElements($rules, $document, $domItem, $node);
 
         $this->standard->getMainElement($document)->appendChild($domItem);
 
@@ -77,38 +72,31 @@ class XmlFormatter implements FormatterInterface
     }
 
     /**
-     * @param  RuleSet       $ruleSet
-     * @param  \DOMDocument  $document
-     * @param  NodeInterface $node
-     * @return array
+     * @param RuleSet $ruleSet
+     * @param \DOMDocument $document
+     * @param \DOMElement $rootElement
+     * @param NodeInterface $node
      */
-    public function buildElements(RuleSet $ruleSet, \DOMDocument $document, NodeInterface $node)
+    public function buildElements(RuleSet $ruleSet, \DOMDocument $document, \DOMElement $rootElement, NodeInterface $node) : void
     {
         $rules = $this->getAllRules($ruleSet, $node);
-        $elements = array();
-        foreach ($rules as $rule) {
-            $element = $rule->createElement($document, $node);
-            if ($element instanceof \Traversable) {
-                $elements = array_merge($elements, iterator_to_array($element));
-            } else {
-                $elements[] = $element;
-            }
-        }
 
-        return array_filter($elements);
+        foreach ($rules as $rule) {
+            $rule->apply($document, $rootElement, $node);
+        }
     }
 
     /**
      * @param  RuleSet              $ruleSet
      * @param  NodeInterface        $node
-     * @return array|\ArrayIterator
+     * @return iterable
      */
-    public function getAllRules(RuleSet $ruleSet, NodeInterface $node)
+    public function getAllRules(RuleSet $ruleSet, NodeInterface $node) : iterable
     {
         $rules = $ruleSet->getRules();
         $optionalFields = $node->listElements();
         foreach ($optionalFields as $optionalField) {
-            $rules[] = new OptionalField($optionalField);
+            $rules[$optionalField] = new OptionalField($optionalField);
         }
 
         return $rules;
@@ -117,7 +105,7 @@ class XmlFormatter implements FormatterInterface
     /**
      * @return \DOMDocument
      */
-    public function getEmptyDocument()
+    public function getEmptyDocument() : \DOMDocument
     {
         return new \DOMDocument('1.0', 'utf-8');
     }
@@ -125,7 +113,7 @@ class XmlFormatter implements FormatterInterface
     /**
      * @return \DOMDocument
      */
-    public function getDocument()
+    public function getDocument() : \DOMDocument
     {
         $document = $this->getEmptyDocument();
 
@@ -136,7 +124,7 @@ class XmlFormatter implements FormatterInterface
      * @param  FeedInterface $feed
      * @return string
      */
-    public function toString(FeedInterface $feed)
+    public function toString(FeedInterface $feed) : string
     {
         $document = $this->toDom($feed);
 
@@ -147,25 +135,51 @@ class XmlFormatter implements FormatterInterface
      * @param  FeedInterface $feed
      * @return \DomDocument
      */
-    public function toDom(FeedInterface $feed)
+    public function toDom(FeedInterface $feed) : \DOMDocument
     {
         $document = $this->getDocument();
 
         $this->setHeaders($document, $feed);
         $this->setItems($document, $feed);
+        $this->setNS($document, $feed);
+        $this->setStyleSheet($document, $feed);
 
         return $document;
+    }
+
+    public function setNS(\DOMDocument $document, FeedInterface $feed)
+    {
+        $firstChild = $document->firstChild;
+        foreach ($feed->getNS() as $namespace => $dtd) {
+            $firstChild->setAttributeNS(
+                'http://www.w3.org/2000/xmlns/', // xmlns namespace URI
+                'xmlns:'.$namespace,
+                $dtd
+            );
+        }
     }
 
     /**
      * @param  \DOMDocument  $document
      * @param  FeedInterface $feed
-     * @return $this
+     * @return XmlFormatter
      */
-    public function setItems(\DOMDocument $document, FeedInterface $feed)
+    public function setItems(\DOMDocument $document, FeedInterface $feed) : XmlFormatter
     {
         foreach ($feed as $item) {
             $this->addItem($document, $item);
+        }
+
+        return $this;
+    }
+
+    public function setStyleSheet(\DOMDocument $document, FeedInterface $feed): XmlFormatter
+    {
+        $styleSheet = $feed->getStyleSheet();
+        if ($styleSheet instanceof StyleSheet) {
+            $attributes = sprintf('type="%s" href="%s"', $styleSheet->getType(), $styleSheet->getHref());
+            $xsl = $document->createProcessingInstruction('xml-stylesheet', $attributes);
+            $document->insertBefore($xsl, $document->firstChild);
         }
 
         return $this;

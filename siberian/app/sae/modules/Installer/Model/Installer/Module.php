@@ -65,6 +65,13 @@ class Installer_Model_Installer_Module extends Core_Model_Default
     protected $_features = null;
 
     /**
+     * Opt-in: run the install of a module whose version is already installed.
+     *
+     * @var bool
+     */
+    protected $_forceReinstall = false;
+
+    /**
      * @param $name
      * @param bool $fetch
      * @return $this
@@ -114,8 +121,13 @@ class Installer_Model_Installer_Module extends Core_Model_Default
     {
         // Finding module path
         $moduleLockPath = path('/app/local/modules/' . $this->getData('name') . '/module.disabled');
-        if ($isEnabled && is_file($moduleLockPath)) {
-            unlink($moduleLockPath);
+        if ($isEnabled) {
+            // Enabling a quarantined module releases it, it goes back to quarantine if it breaks again!
+            require_once path('/lib/Siberian/Module/Quarantine.php');
+            \Siberian\Module\Quarantine::release((string) $this->getData('name'));
+            if (is_file($moduleLockPath)) {
+                unlink($moduleLockPath);
+            }
         } else {
             File::putContents($moduleLockPath, 1);
         }
@@ -131,7 +143,11 @@ class Installer_Model_Installer_Module extends Core_Model_Default
     {
         $moduleLockPath = path('/app/local/modules/' . $module . '/module.disabled');
 
-        return (!is_readable($moduleLockPath));
+        // A quarantined module is disabled until it is rechecked or enabled again!
+        require_once path('/lib/Siberian/Module/Quarantine.php');
+
+        return !is_readable($moduleLockPath) &&
+            !\Siberian\Module\Quarantine::isQuarantined($module);
     }
 
     /**
@@ -171,7 +187,28 @@ class Installer_Model_Installer_Module extends Core_Model_Default
      */
     public function canUpdate()
     {
-        return version_compare($this->_lastVersion, $this->getVersion(), '>');
+        return $this->_forceReinstall ||
+            version_compare((string) $this->_lastVersion, (string) $this->getVersion(), '>');
+    }
+
+    /**
+     * @return string|null
+     */
+    public function getLastVersion()
+    {
+        return $this->_lastVersion;
+    }
+
+    /**
+     * Schema sync and data files are upserts, running them again on the same version is safe.
+     *
+     * @param bool $force
+     * @return $this
+     */
+    public function forceReinstall(bool $force = true): self
+    {
+        $this->_forceReinstall = $force;
+        return $this;
     }
 
     /**
@@ -373,18 +410,11 @@ class Installer_Model_Installer_Module extends Core_Model_Default
         /** Get the schema for installation/sync */
         foreach ($editions as $edition) {
             $folder = str_replace("/sae/", "/$edition/", $basePath);
-            if (is_readable($folder . "/resources/db/schema")) {
-                $files = new DirectoryIterator($folder . "/resources/db/schema");
-                foreach ($files as $file) {
-                    if (!$file->isDot()) {
-                        $table_name = str_replace(".php", "", basename($file->getFilename()));
-                        # Higher schema should override, and skip *.ec.php
-                        if (!preg_match("/\.ec\.php$/", $file->getFilename())) {
-                            $this->_schemaFiles[$table_name] = $folder . "/resources/db/schema/" . $file->getFilename();
-                        }
-                    }
-                }
-            }
+            # Higher schema should override
+            $this->_schemaFiles = array_merge(
+                $this->_schemaFiles,
+                self::schemaFilesIn($folder . "/resources/db/schema")
+            );
         }
 
         foreach ($editions as $edition) {
@@ -401,6 +431,35 @@ class Installer_Model_Installer_Module extends Core_Model_Default
         }
 
         $this->_lastVersion = $package_info["version"];
+    }
+
+    /**
+     * Table name => file of the schema definitions of a folder.
+     *
+     * Only `<table>.php` files are schemas: a stray install.sql, .DS_Store, .gitkeep, backup or sub folder
+     * would otherwise be created as a table of that name with no column ("Unable to create table 'install.sql'").
+     * `*.ec.php` files are skipped.
+     *
+     * @param string $schemaFolder
+     * @return array
+     */
+    public static function schemaFilesIn($schemaFolder)
+    {
+        $schemas = [];
+        if (!is_readable($schemaFolder)) {
+            return $schemas;
+        }
+
+        foreach (new DirectoryIterator($schemaFolder) as $file) {
+            $filename = $file->getFilename();
+            if ($file->isFile() &&
+                preg_match('/^(.+)\.php$/', $filename, $matches) &&
+                !preg_match('/\.ec\.php$/', $filename)) {
+                $schemas[$matches[1]] = $schemaFolder . "/" . $filename;
+            }
+        }
+
+        return $schemas;
     }
 
     /**
