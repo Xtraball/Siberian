@@ -188,7 +188,7 @@ class Installer_Model_Installer_Module extends Core_Model_Default
     public function canUpdate()
     {
         return $this->_forceReinstall ||
-            version_compare($this->_lastVersion, $this->getVersion(), '>');
+            version_compare((string) $this->_lastVersion, (string) $this->getVersion(), '>');
     }
 
     /**

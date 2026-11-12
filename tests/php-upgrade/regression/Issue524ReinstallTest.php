@@ -41,8 +41,7 @@ return [
     '524 the force flag is off by default and only touches canUpdate' => function () use ($moduleFile) {
         $code = file_get_contents($moduleFile);
         t_true(strpos($code, 'protected $_forceReinstall = false;') !== false, 'off by default');
-        t_true(strpos($code, "return \$this->_forceReinstall ||\n            version_compare(\$this->_lastVersion, \$this->getVersion(), '>');") !== false,
-            'canUpdate keeps the version comparison');
+        // The comparison itself is exercised against a real database in db/InstallerModuleTest.php
         t_equal(1, substr_count($code, '_forceReinstall = $force'), 'only forceReinstall() sets it');
     },
 
