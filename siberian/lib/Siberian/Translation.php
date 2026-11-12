@@ -30,7 +30,7 @@ class Translation
             $extension = pathinfo($file->getFilename(), PATHINFO_EXTENSION);
             if ($extension === 'csv') {
                 if (($handle = fopen($file->getPathname(), 'r')) !== false) {
-                    while (($data = fgetcsv($handle, 1000, ",")) !== false) {
+                    while (($data = fgetcsv($handle, 1000, ",", "\"", "\\")) !== false) {
                         $num = count($data);
                         for ($c=0; $c < $num; $c++) {
                             if (!in_array($data[$c], $allKeys)) {
@@ -56,7 +56,7 @@ class Translation
             if ($extension === 'csv' &&
                 strpos($file->getPathname(), '/default/') !== false) {
                 if (($handle = fopen($file->getPathname(), 'r')) !== false) {
-                    while (($data = fgetcsv($handle, 1000, ",")) !== false) {
+                    while (($data = fgetcsv($handle, 1000, ",", "\"", "\\")) !== false) {
                         $num = count($data);
                         for ($c=0; $c < $num; $c++) {
                             if (!in_array($data[$c], $allKeys)) {
@@ -69,8 +69,9 @@ class Translation
             }
         }
 
-        ini_set('pcre.backtrack_limit', 10000000000000000000);
-        ini_set('pcre.recursion_limit', 10000000000000000000);
+        // 1e19 is not an integer: ini_set() warned and the limit became 1, so every preg_match_all failed
+        $backtrackLimit = ini_set('pcre.backtrack_limit', '100000000');
+        $recursionLimit = ini_set('pcre.recursion_limit', '100000000');
 
         $extractTranslate = [];
 
@@ -118,6 +119,9 @@ class Translation
                 }
             }
         }
+
+        ini_set('pcre.backtrack_limit', (string) $backtrackLimit);
+        ini_set('pcre.recursion_limit', (string) $recursionLimit);
 
         foreach ($extractTranslate as $extract) {
             if (!in_array(addcslashes($extract, '"'), $allKeys)) {
