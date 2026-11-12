@@ -2,6 +2,20 @@
 
 Notable changes to Siberian, newest first. Dates are `YYYY-MM-DD`. Longer notes live in `docs/`.
 
+## [5.1.21] 2026-11-12
+
+Security hardening and installer fixes, on top of 5.1.20. The update package is built against 5.1.20 (`lastversion`), the last published version. MAE and PE carry the same changes (tags `v5.1.21` on their `master`).
+
+### Fixed
+
+- 2026-11-12 Security: the search of the admin customer list is parameterized instead of being built into the SQL.
+- 2026-11-12 Security: shell arguments are escaped with `escapeshellarg()` at several `exec()` sites (uploaded file names, module archive extraction, the sqlite3 CLI query, application image folder removal). `exec()` and the commands are unchanged.
+- 2026-11-12 Installer: `canUpdate()` no longer passes a null version to `version_compare()` (PHP 8.5).
+
+### Tests
+
+- 2026-11-12 A tier 1 test harness on a real MariaDB (schema sync, installer module updates, customer sessions and passwords) and a controller access matrix that fails when an unauthenticated door appears.
+
 ## [5.1.20] 2026-11-12
 
 Security and PHP 8 fixes: password and autologin token comparisons use `hash_equals()`, and a series of guards against TypeErrors and divisions by zero (shop, galleries, podcast and RSS, forms, numbers sent by the app, certificate upload), on top of 5.1.19. The update package is built against 5.1.19 (`lastversion`), the last published version. MAE and PE carry the same changes (tags `v5.1.20` on their `master`).
