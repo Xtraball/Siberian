@@ -28,7 +28,7 @@ class Rss_Mobile_Feed_ListController extends Application_Controller_Mobile_Defau
     public function findallAction()
     {
 
-        if ($value_id = $this->getRequest()->getParam('value_id')) {
+        if ($value_id = \Siberian\Input::int($this->getRequest()->getParam('value_id'), 0, 0)) {
 
             $rss_feed = new Rss_Model_Feed();
             $rss_feeds = $rss_feed->findAll(['value_id' => $value_id], 'position ASC');

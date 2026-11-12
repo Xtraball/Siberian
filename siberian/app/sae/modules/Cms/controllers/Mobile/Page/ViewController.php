@@ -10,7 +10,7 @@ class Cms_Mobile_Page_ViewController extends Application_Controller_Mobile_Defau
      */
     public function findAction()
     {
-        if ($value_id = $this->getRequest()->getParam('value_id') &&
+        if ($value_id = \Siberian\Input::int($this->getRequest()->getParam('value_id'), 0, 0) &&
             $page_id = $this->getRequest()->getParam('page_id')) {
 
             try {
@@ -53,7 +53,7 @@ class Cms_Mobile_Page_ViewController extends Application_Controller_Mobile_Defau
     public function findallAction()
     {
 
-        if ($value_id = $this->getRequest()->getParam('value_id')) {
+        if ($value_id = \Siberian\Input::int($this->getRequest()->getParam('value_id'), 0, 0)) {
 
             try {
 
@@ -108,7 +108,7 @@ class Cms_Mobile_Page_ViewController extends Application_Controller_Mobile_Defau
     public function findblockAction()
     {
 
-        if ($value_id = $this->getRequest()->getParam('value_id') AND
+        if ($value_id = \Siberian\Input::int($this->getRequest()->getParam('value_id'), 0, 0) AND
             $block_id = $this->getRequest()->getParam('block_id')) {
 
             try {

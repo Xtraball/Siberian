@@ -12,7 +12,7 @@ class Folder2_Mobile_ListController extends Application_Controller_Mobile_Defaul
     {
         try {
             $request = $this->getRequest();
-            if ($valueId = $request->getParam('value_id')) {
+            if ($valueId = \Siberian\Input::int($request->getParam('value_id'), 0, 0)) {
                 $option = $this->getCurrentOptionValue();
                 if ($option) {
                     $option->setRequest($request);

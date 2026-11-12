@@ -15,7 +15,7 @@ class Folder_Mobile_ListController extends Application_Controller_Mobile_Default
         try {
             $request = $this->getRequest();
 
-            if ($value_id = $request->getParam("value_id")) {
+            if ($value_id = \Siberian\Input::int($request->getParam("value_id"), 0, 0)) {
 
                 $option = $this->getCurrentOptionValue();
                 if ($option) {
@@ -48,7 +48,7 @@ class Folder_Mobile_ListController extends Application_Controller_Mobile_Default
     {
 
         $linkCodes = ['weblink_mono', 'prestashop', 'magento', 'volusion', 'woocommerce', 'shopify'];
-        if ($value_id = $this->getRequest()->getParam('value_id')) {
+        if ($value_id = \Siberian\Input::int($this->getRequest()->getParam('value_id'), 0, 0)) {
 
             try {
 

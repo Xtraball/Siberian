@@ -39,7 +39,7 @@ class Comment_Mobile_ViewController extends Application_Controller_Mobile_Defaul
 
     public function findAction() {
 
-        if($value_id = $this->getRequest()->getParam('value_id') AND $comment_id = $this->getRequest()->getParam('comment_id')) {
+        if($value_id = \Siberian\Input::int($this->getRequest()->getParam('value_id'), 0, 0) AND $comment_id = $this->getRequest()->getParam('comment_id')) {
             $application = $this->getApplication();
             $comment = new Comment_Model_Comment();
             $comment->find($comment_id);
@@ -160,7 +160,7 @@ class Comment_Mobile_ViewController extends Application_Controller_Mobile_Defaul
 
     public function flagpostAction() {
 
-        if($value_id = $this->getRequest()->getParam('value_id') AND $comment_id = $this->getRequest()->getParam('comment_id')) {
+        if($value_id = \Siberian\Input::int($this->getRequest()->getParam('value_id'), 0, 0) AND $comment_id = $this->getRequest()->getParam('comment_id')) {
             $application = $this->getApplication();
             $comment = new Comment_Model_Comment();
             $comment->find($comment_id);
@@ -180,7 +180,7 @@ class Comment_Mobile_ViewController extends Application_Controller_Mobile_Defaul
 
     public function flagcommentAction() {
 
-        if($value_id = $this->getRequest()->getParam('value_id') AND $answer_id = $this->getRequest()->getParam('answer_id')) {
+        if($value_id = \Siberian\Input::int($this->getRequest()->getParam('value_id'), 0, 0) AND $answer_id = $this->getRequest()->getParam('answer_id')) {
             $application = $this->getApplication();
             $answer = new Comment_Model_Answer();
             $answer->find($answer_id);

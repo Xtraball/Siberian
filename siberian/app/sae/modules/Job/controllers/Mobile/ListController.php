@@ -118,7 +118,7 @@ class Job_Mobile_ListController extends Application_Controller_Mobile_Default
         if ($data = $this->getRequest()->getParams()) {
             try {
 
-                if (($place_id = $this->getRequest()->getParam('place_id')) && ($value_id = $this->getRequest()->getParam('value_id'))) {
+                if (($place_id = $this->getRequest()->getParam('place_id')) && ($value_id = \Siberian\Input::int($this->getRequest()->getParam('value_id'), 0, 0))) {
                     $place = new Job_Model_Place();
                     $place = $place->find([
                         "place_id" => $place_id,

@@ -5,7 +5,7 @@ class Wordpress_Mobile_ListController extends Application_Controller_Mobile_Defa
 
     public function findallAction() {
 
-        if($value_id = $this->getRequest()->getParam('value_id')) {
+        if($value_id = \Siberian\Input::int($this->getRequest()->getParam('value_id'), 0, 0)) {
 
             try {
                 $option_value = $this->getCurrentOptionValue();

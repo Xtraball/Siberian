@@ -28,7 +28,7 @@ class Rss_Mobile_RssController extends Application_Controller_Mobile_Default
     {
         try {
             $request = $this->getRequest();
-            $valueId = $request->getParam("value_id", null);
+            $valueId = \Siberian\Input::int($request->getParam("value_id"), 0, 0);
             $optionValue = $this->getCurrentOptionValue();
             $refresh = filter_var($request->getParam("refresh", false), FILTER_VALIDATE_BOOLEAN);
 
@@ -149,7 +149,7 @@ class Rss_Mobile_RssController extends Application_Controller_Mobile_Default
     {
         try {
             $request = $this->getRequest();
-            $valueId = $request->getParam("value_id", null);
+            $valueId = \Siberian\Input::int($request->getParam("value_id"), 0, 0);
             $optionValue = $this->getCurrentOptionValue();
             $refresh = filter_var($request->getParam("refresh", false), FILTER_VALIDATE_BOOLEAN);
 
