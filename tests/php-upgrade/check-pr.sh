@@ -180,7 +180,7 @@ fi
 METHOD_MAX=150
 METHOD_TOOL=tests/php-upgrade/tooling/method-lengths.php
 CHANGED_PHP=$(git diff --name-only --diff-filter=AM "$BASE"...HEAD -- 'siberian/app/*.php' 'siberian/lib/Siberian/*.php' | grep -v -e '^siberian/lib/vendor/' -e '^siberian/var/' || true)
-if [ -n "$CHANGED_PHP" ]; then
+if [ -n "$CHANGED_PHP" ] && [ -f "$METHOD_TOOL" ]; then
   if command -v php >/dev/null 2>&1; then
     MTMP=$(mktemp -d)
     for f in $CHANGED_PHP; do

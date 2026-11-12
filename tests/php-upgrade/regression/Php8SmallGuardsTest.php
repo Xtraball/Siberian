@@ -45,8 +45,8 @@ return [
         $source = guard_source('app/sae/modules/Template/controllers/BlockController.php');
 
         t_true(strpos($source, 'if (empty($resources))') !== false, 'no imagepng(null)');
-        t_true(strpos($source, "max(1, (int) \$this->getRequest()->getParam('width', 320))") !== false, 'width');
-        t_true(strpos($source, "max(1, (int) \$this->getRequest()->getParam('height', 75))") !== false, 'height');
+        t_true(strpos($source, "\\Siberian\\Input::int(\$this->getRequest()->getParam('width'), 320, 1)") !== false, 'width');
+        t_true(strpos($source, "\\Siberian\\Input::int(\$this->getRequest()->getParam('height'), 75, 1)") !== false, 'height');
     },
 
     'a JSON body that is not an array is treated as empty' => function () {
