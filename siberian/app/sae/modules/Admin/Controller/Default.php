@@ -120,7 +120,7 @@ class Admin_Controller_Default extends Core_Controller_Default
         if ($request->getParam("option_value_id", false) !== false) {
             $valueId = $request->getParam("option_value_id", false);
         } else if ($request->getParam("value_id", false) !== false) {
-            $valueId = $request->getParam("value_id", false);
+            $valueId = \Siberian\Input::int($request->getParam("value_id"), 0, 0);
         }
 
         if ($valueId !== null) {

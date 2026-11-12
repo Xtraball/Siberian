@@ -7,7 +7,7 @@ class Comment_Mobile_GalleryController extends Application_Controller_Mobile_Def
         // Functionality shared with NewsWall, but only available for FanWall
         if ($this->getCurrentOptionValue()->getCode() != "fanwall") return;
 
-        if($value_id = $this->getRequest()->getParam('value_id')) {
+        if($value_id = \Siberian\Input::int($this->getRequest()->getParam('value_id'), 0, 0)) {
 
             $comment = new Comment_Model_Comment();
             $comments = $comment->findAllWithPhoto($value_id);

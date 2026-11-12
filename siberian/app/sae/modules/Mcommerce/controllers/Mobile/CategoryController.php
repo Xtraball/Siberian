@@ -4,7 +4,7 @@ class Mcommerce_Mobile_CategoryController extends Mcommerce_Controller_Mobile_De
 
     public function findallAction() {
 
-        if($value_id = $this->getRequest()->getParam('value_id')) {
+        if($value_id = \Siberian\Input::int($this->getRequest()->getParam('value_id'), 0, 0)) {
 
             try {
 

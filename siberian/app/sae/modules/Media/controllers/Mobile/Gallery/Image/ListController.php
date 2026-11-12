@@ -4,7 +4,7 @@ class Media_Mobile_Gallery_Image_ListController extends Application_Controller_M
 
     public function findallAction() {
         try {
-            if ($value_id = $this->getRequest()->getParam('value_id')) {
+            if ($value_id = \Siberian\Input::int($this->getRequest()->getParam('value_id'), 0, 0)) {
                 try {
                     $dbGalleries = (new Media_Model_Gallery_Image())
                         ->findAll([

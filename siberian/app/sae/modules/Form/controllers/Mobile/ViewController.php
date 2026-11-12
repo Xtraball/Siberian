@@ -15,7 +15,7 @@ class Form_Mobile_ViewController extends Application_Controller_Mobile_Default
     {
         try {
             $request = $this->getRequest();
-            $valueId = $request->getParam("value_id", null);
+            $valueId = \Siberian\Input::int($request->getParam("value_id"), 0, 0);
 
             if (!$valueId) {
                 throw new Exception(__("Invalid value_id!"));

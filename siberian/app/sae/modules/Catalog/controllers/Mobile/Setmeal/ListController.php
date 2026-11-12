@@ -8,7 +8,7 @@ class Catalog_Mobile_Setmeal_ListController extends Application_Controller_Mobil
 
             $request = $this->getRequest();
 
-            if($value_id = $request->getParam("value_id")) {
+            if($value_id = \Siberian\Input::int($request->getParam("value_id"), 0, 0)) {
 
                 $baseUrl = '';
                 if ($this->getRequest()) {

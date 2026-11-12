@@ -4,7 +4,7 @@ class Catalog_Mobile_Category_Product_ViewController extends Application_Control
 
     public function findAction() {
 
-        if($value_id = $this->getRequest()->getParam('value_id') AND $product_id = $this->getRequest()->getParam('product_id')) {
+        if($value_id = \Siberian\Input::int($this->getRequest()->getParam('value_id'), 0, 0) AND $product_id = $this->getRequest()->getParam('product_id')) {
 
             $product = new Catalog_Model_Product();
             $product->find($product_id);

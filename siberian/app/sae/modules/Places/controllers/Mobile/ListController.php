@@ -299,7 +299,7 @@ class Places_Mobile_ListController extends Application_Controller_Mobile_Default
      */
     public function settingsAction()
     {
-        if ($value_id = $this->getRequest()->getParam("value_id")) {
+        if ($value_id = \Siberian\Input::int($this->getRequest()->getParam("value_id"), 0, 0)) {
             $html = ["tags" => []];
             $option_value = new Application_Model_Option_Value();
             $option_value->find($value_id);

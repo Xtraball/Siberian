@@ -445,7 +445,7 @@ class Mcommerce_Mobile_CartController extends Mcommerce_Controller_Mobile_Defaul
     public function addtipAction() {
         if ($data = Zend_Json::decode($this->getRequest()->getRawBody())) {
             $tip = $data["tip"];
-            $value_id = $this->getRequest()->getParam("value_id");
+            $value_id = \Siberian\Input::int($this->getRequest()->getParam("value_id"), 0, 0);
 
             try {
                 $cart = $this->getCart();

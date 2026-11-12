@@ -4,7 +4,7 @@ class Places_Mobile_ViewController extends Application_Controller_Mobile_Default
 
     public function findAction() {
 
-        if($value_id = $this->getRequest()->getParam('value_id')
+        if($value_id = \Siberian\Input::int($this->getRequest()->getParam('value_id'), 0, 0)
            && $place_id = $this->getRequest()->getParam('place_id')) {
 
             try {

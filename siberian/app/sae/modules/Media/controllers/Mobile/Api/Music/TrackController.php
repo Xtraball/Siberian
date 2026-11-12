@@ -51,7 +51,7 @@ class Media_Mobile_Api_Music_TrackController extends Application_Controller_Mobi
     public function findbyalbumAction()
     {
 
-        if ($value_id = $this->getRequest()->getParam('value_id')
+        if ($value_id = \Siberian\Input::int($this->getRequest()->getParam('value_id'), 0, 0)
             && ($album_id = $this->getRequest()->getParam('album_id') OR $track_id = $this->getRequest()->getParam('track_id'))) {
 
             try {
