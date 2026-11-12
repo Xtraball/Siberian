@@ -100,7 +100,7 @@ class Siberian_Network
      * @param $domain
      * @return string
      */
-    public function getBaseHost($domain)
+    public static function getBaseHost($domain)
     {
         $parts = explode(".", $domain);
 

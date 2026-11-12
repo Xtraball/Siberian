@@ -59,6 +59,7 @@ class Request
         curl_setopt($request, CURLOPT_SSL_VERIFYHOST, false);
         curl_setopt($request, CURLOPT_SSL_VERIFYPEER, false);
 
+        $authHeaders = [];
         if ($auth !== null && is_array($auth)) {
             switch ($auth['type']) {
                 case 'basic':
@@ -66,9 +67,7 @@ class Request
                     curl_setopt($request, CURLOPT_USERPWD, $auth['username'] . ':' . $auth['password']);
                     break;
                 case 'bearer':
-                    curl_setopt($request, CURLOPT_HTTPHEADER, [
-                        'Api-Auth-Bearer: Bearer ' . $auth['bearer']
-                    ]);
+                    $authHeaders[] = 'Api-Auth-Bearer: Bearer ' . $auth['bearer'];
                     break;
             }
         }
@@ -78,8 +77,9 @@ class Request
             curl_setopt($request, CURLOPT_COOKIEFILE, $cookie_path);
         }
 
-        if ($headers !== null) {
-            curl_setopt($request, CURLOPT_HTTPHEADER, $headers);
+        // The bearer header and the caller headers are sent together (the second CURLOPT_HTTPHEADER replaces the first)
+        if ($headers !== null || !empty($authHeaders)) {
+            curl_setopt($request, CURLOPT_HTTPHEADER, array_merge($authHeaders, (array) $headers));
         }
 
         # Query string
@@ -149,6 +149,7 @@ class Request
         curl_setopt($request, CURLOPT_SSL_VERIFYHOST, false);
         curl_setopt($request, CURLOPT_SSL_VERIFYPEER, false);
 
+        $authHeaders = [];
         if ($auth !== null && is_array($auth)) {
             switch ($auth['type']) {
                 case 'basic':
@@ -156,9 +157,7 @@ class Request
                     curl_setopt($request, CURLOPT_USERPWD, $auth['username'] . ':' . $auth['password']);
                     break;
                 case 'bearer':
-                    curl_setopt($request, CURLOPT_HTTPHEADER, [
-                        'Api-Auth-Bearer: Bearer ' . $auth['bearer']
-                    ]);
+                    $authHeaders[] = 'Api-Auth-Bearer: Bearer ' . $auth['bearer'];
                     break;
             }
         }
@@ -168,8 +167,9 @@ class Request
             curl_setopt($request, CURLOPT_COOKIEFILE, $cookie_path);
         }
 
-        if ($headers !== null) {
-            curl_setopt($request, CURLOPT_HTTPHEADER, $headers);
+        // The bearer header and the caller headers are sent together (the second CURLOPT_HTTPHEADER replaces the first)
+        if ($headers !== null || !empty($authHeaders)) {
+            curl_setopt($request, CURLOPT_HTTPHEADER, array_merge($authHeaders, (array) $headers));
         }
 
         // Adds/Replace custom opts if needed
