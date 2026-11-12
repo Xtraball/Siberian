@@ -9,7 +9,7 @@ class Application_BackofficeController extends Backoffice_Controller_Default
 
     public function editAction() {
 
-        if($app_id = $this->getRequest()->getParam('app_id')) {
+        if($app_id = \Siberian\Input::int($this->getRequest()->getParam('app_id'), 0, 0)) {
             $application = new Application_Model_Application();
             $application->find($app_id);
             if(!$application->getId()) {
@@ -64,7 +64,7 @@ class Application_BackofficeController extends Backoffice_Controller_Default
 
     public function deleteAction() {
 
-        if($app_id = $this->getRequest()->getParam('app_id')) {
+        if($app_id = \Siberian\Input::int($this->getRequest()->getParam('app_id'), 0, 0)) {
 
             try {
 

@@ -131,7 +131,7 @@ class Media_Mobile_Gallery_MusicController extends Application_Controller_Mobile
 
     public function albumAction() {
 
-        if($album_id = $this->getRequest()->getParam('album_id')) {
+        if($album_id = \Siberian\Input::int($this->getRequest()->getParam('album_id'), 0, 0)) {
             try {
 
                 $album = new Media_Model_Gallery_Music_Album();

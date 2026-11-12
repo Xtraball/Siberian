@@ -5,7 +5,7 @@ class Mcommerce_Application_Catalog_ProductController extends Application_Contro
     public function editAction() {
 
         $product = new Catalog_Model_Product();
-        if($id = $this->getRequest()->getParam('product_id')) {
+        if($id = \Siberian\Input::int($this->getRequest()->getParam('product_id'), 0, 0)) {
             $product->find($id);
             if($product->getId() AND $this->getCurrentOptionValue()->getId() != $product->getValueId()) {
                 throw new Exception($this->_('An error occurred during the process. Please try again later.'));
@@ -170,7 +170,7 @@ class Mcommerce_Application_Catalog_ProductController extends Application_Contro
     }
 
     public function duplicateAction() {
-        if($id = $this->getRequest()->getParam('product_id')) {
+        if($id = \Siberian\Input::int($this->getRequest()->getParam('product_id'), 0, 0)) {
             $product = new Catalog_Model_Product();
             $product->find($id);
 

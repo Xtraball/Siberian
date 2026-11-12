@@ -15,7 +15,7 @@ class Admin_BackofficeController extends Backoffice_Controller_Default
 
         $admin = new Admin_Model_Admin();
 
-        if($admin_id = $this->getRequest()->getParam('admin_id')) {
+        if($admin_id = \Siberian\Input::int($this->getRequest()->getParam('admin_id'), 0, 0)) {
             $admin->find($admin_id);
         }
 
@@ -87,7 +87,7 @@ class Admin_BackofficeController extends Backoffice_Controller_Default
 
     public function deleteAction() {
 
-        if($admin_id = $this->getRequest()->getParam('admin_id')) {
+        if($admin_id = \Siberian\Input::int($this->getRequest()->getParam('admin_id'), 0, 0)) {
 
             try {
 

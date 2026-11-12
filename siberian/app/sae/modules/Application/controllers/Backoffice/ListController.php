@@ -124,7 +124,7 @@ class Application_Backoffice_ListController extends Backoffice_Controller_Defaul
             $limit = ($parts[1] - $parts[0]) + 1;
         }
 
-        $admin_id = $this->getRequest()->getParam("admin_id");
+        $admin_id = \Siberian\Input::int($this->getRequest()->getParam("admin_id"), 0, 0);
 
         $filters = [];
         if ($_filter = $this->getRequest()->getParam("filter", false)) {

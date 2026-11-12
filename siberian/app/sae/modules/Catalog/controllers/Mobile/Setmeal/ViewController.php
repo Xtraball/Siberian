@@ -7,7 +7,7 @@ class Catalog_Mobile_Setmeal_ViewController extends Application_Controller_Mobil
      */
     public function findAction() {
 
-        if($value_id = \Siberian\Input::int($this->getRequest()->getParam('value_id'), 0, 0) AND $set_meal_id = $this->getRequest()->getParam('set_meal_id')) {
+        if($value_id = \Siberian\Input::int($this->getRequest()->getParam('value_id'), 0, 0) AND $set_meal_id = \Siberian\Input::int($this->getRequest()->getParam('set_meal_id'), 0, 0)) {
 
             $set_meal = new Catalog_Model_Product();
             $set_meal->find($set_meal_id);

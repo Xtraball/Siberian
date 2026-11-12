@@ -21,7 +21,7 @@ class Application_Controller_Mobile_Default extends Core_Controller_Default
         $this->_layout_id = 1;
 
         // Test si un id de value est passé en paramètre
-        $id = $this->getRequest()->getParam('option_value_id');
+        $id = \Siberian\Input::int($this->getRequest()->getParam('option_value_id'), 0, 0);
         if (!$id) {
             $id = $this->getRequest()->getParam('value_id');
         }

@@ -122,7 +122,7 @@ return [
         }
     },
     // A ratchet, not a behaviour test: the paging parameters of the app are read through Input everywhere.
-    'no controller reads offset, limit, page or value_id of the app raw' => function () {
+    'no controller reads offset, limit, page, value_id or a numeric id of the app raw' => function () {
         $root = dirname(__DIR__, 3) . '/siberian/app';
         $raw = [];
         $files = new RecursiveIteratorIterator(new RecursiveDirectoryIterator($root, FilesystemIterator::SKIP_DOTS));
@@ -133,6 +133,10 @@ return [
             foreach (file($file->getPathname()) as $n => $line) {
                 if (preg_match('/\$(value_id|valueId)\s*=\s*\$(this->getRequest\(\)|request)->getParam\(([\'"])value_id\3(,\s*(null|false))?\)/', $line)) {
                     $raw[] = substr($file->getPathname(), strlen($root)) . ':' . ($n + 1) . ' value_id';
+                }
+                // element_id and the other ids that can be a list or a word are not in this list on purpose
+                if (preg_match('/\$\w+\s*=\s*\$(this->getRequest\(\)|request)->getParam\(([\'"])(option_value_id|app_id|category_id|album_id|admin_id|product_id|comment_id|store_id|place_id|page_id|tax_id|section_id|role_id|promotion_id|promo_id|field_id|company_id|block_id|agenda_id|set_meal_id)\2\)(?!\s*[?.\[]|->)/', $line)) {
+                    $raw[] = substr($file->getPathname(), strlen($root)) . ':' . ($n + 1) . ' id';
                 }
                 if (preg_match('/^\s*\$(offset|limit|page)\s*=\s*\$[\w>()-]*->?getParam\(([\'"])(offset|limit|page)\2,\s*\d+\)\s*;/', $line)) {
                     $raw[] = substr($file->getPathname(), strlen($root)) . ':' . ($n + 1);

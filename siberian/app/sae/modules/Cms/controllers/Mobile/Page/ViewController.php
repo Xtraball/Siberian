@@ -11,7 +11,7 @@ class Cms_Mobile_Page_ViewController extends Application_Controller_Mobile_Defau
     public function findAction()
     {
         if ($value_id = \Siberian\Input::int($this->getRequest()->getParam('value_id'), 0, 0) &&
-            $page_id = $this->getRequest()->getParam('page_id')) {
+            $page_id = \Siberian\Input::int($this->getRequest()->getParam('page_id'), 0, 0)) {
 
             try {
 
@@ -59,7 +59,7 @@ class Cms_Mobile_Page_ViewController extends Application_Controller_Mobile_Defau
 
                 $option = $this->getCurrentOptionValue();
 
-                $page_id = $this->getRequest()->getParam('page_id');
+                $page_id = \Siberian\Input::int($this->getRequest()->getParam('page_id'), 0, 0);
                 $page = new Cms_Model_Application_Page();
 
                 if ($page_id) {
@@ -109,14 +109,14 @@ class Cms_Mobile_Page_ViewController extends Application_Controller_Mobile_Defau
     {
 
         if ($value_id = \Siberian\Input::int($this->getRequest()->getParam('value_id'), 0, 0) AND
-            $block_id = $this->getRequest()->getParam('block_id')) {
+            $block_id = \Siberian\Input::int($this->getRequest()->getParam('block_id'), 0, 0)) {
 
             try {
 
-                $page_id = $this->getRequest()->getParam("page_id");
+                $page_id = \Siberian\Input::int($this->getRequest()->getParam("page_id"), 0, 0);
                 $option = $this->getCurrentOptionValue();
 
-                $page_id = $this->getRequest()->getParam('page_id');
+                $page_id = \Siberian\Input::int($this->getRequest()->getParam('page_id'), 0, 0);
                 $page = new Cms_Model_Application_Page();
 
                 if ($page_id) {

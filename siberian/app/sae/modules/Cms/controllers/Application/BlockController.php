@@ -12,7 +12,7 @@ class Cms_Application_BlockController extends Application_Controller_Default
     public function getblockAction()
     {
         $value_id = $this->getCurrentOptionValue()->getId();
-        $block_id = $this->getRequest()->getParam('block_id');
+        $block_id = \Siberian\Input::int($this->getRequest()->getParam('block_id'), 0, 0);
 
         try {
 

@@ -4,7 +4,7 @@ class Mcommerce_Mobile_ProductController extends Mcommerce_Controller_Mobile_Def
 
     public function findAction() {
 
-        if($value_id = \Siberian\Input::int($this->getRequest()->getParam("value_id"), 0, 0) AND $product_id = $this->getRequest()->getParam("product_id")) {
+        if($value_id = \Siberian\Input::int($this->getRequest()->getParam("value_id"), 0, 0) AND $product_id = \Siberian\Input::int($this->getRequest()->getParam("product_id"), 0, 0)) {
 
             $product = new Catalog_Model_Product();
             $product->find($product_id);

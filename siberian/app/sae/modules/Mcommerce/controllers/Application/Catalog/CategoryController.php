@@ -11,7 +11,7 @@ class Mcommerce_Application_Catalog_CategoryController extends Application_Contr
     public function editAction()
     {
         $category = new Folder_Model_Category ();
-        if ($id = $this->getRequest()->getParam('category_id')) {
+        if ($id = \Siberian\Input::int($this->getRequest()->getParam('category_id'), 0, 0)) {
             $category->find($id);
             if ($category->getId() AND $this->getCurrentOptionValue()->getObject()->getRootCategoryId() != $category->getRootCategoryId()) {
                 throw new Exception(__('An error occurred during the process. Please try again later.'));

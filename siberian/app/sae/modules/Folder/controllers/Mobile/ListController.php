@@ -52,7 +52,7 @@ class Folder_Mobile_ListController extends Application_Controller_Mobile_Default
 
             try {
 
-                $category_id = $this->getRequest()->getParam('category_id');
+                $category_id = \Siberian\Input::int($this->getRequest()->getParam('category_id'), 0, 0);
                 $current_category = new Folder_Model_Category();
 
                 if ($category_id) {

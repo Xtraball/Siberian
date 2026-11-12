@@ -30,7 +30,7 @@ class Catalog_Application_ProductController extends Application_Controller_Defau
                     throw new Exception(__('An error occurred while loading your product.'));
                 }
             }
-            else if($category_id = $this->getRequest()->getParam('category_id')) {
+            else if($category_id = \Siberian\Input::int($this->getRequest()->getParam('category_id'), 0, 0)) {
                 $category = new Catalog_Model_Category();
                 $category->find($category_id);
                 if($category->getValueId() != $this->getCurrentOptionValue()->getId()) {

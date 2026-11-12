@@ -118,7 +118,7 @@ class Job_Mobile_ListController extends Application_Controller_Mobile_Default
         if ($data = $this->getRequest()->getParams()) {
             try {
 
-                if (($place_id = $this->getRequest()->getParam('place_id')) && ($value_id = \Siberian\Input::int($this->getRequest()->getParam('value_id'), 0, 0))) {
+                if (($place_id = \Siberian\Input::int($this->getRequest()->getParam('place_id'), 0, 0)) && ($value_id = \Siberian\Input::int($this->getRequest()->getParam('value_id'), 0, 0))) {
                     $place = new Job_Model_Place();
                     $place = $place->find([
                         "place_id" => $place_id,
@@ -210,7 +210,7 @@ class Job_Mobile_ListController extends Application_Controller_Mobile_Default
         if ($data = $this->getRequest()->getParams()) {
             try {
 
-                if (($company_id = $this->getRequest()->getParam('company_id')) && ($value_id = $this->getRequest()->getParam('company_id'))) {
+                if (($company_id = \Siberian\Input::int($this->getRequest()->getParam('company_id'), 0, 0)) && ($value_id = \Siberian\Input::int($this->getRequest()->getParam('company_id'), 0, 0))) {
                     $company = new Job_Model_Company();
                     $company = $company->find([
                         "company_id" => $company_id,

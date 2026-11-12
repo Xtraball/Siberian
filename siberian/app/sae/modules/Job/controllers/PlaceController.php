@@ -6,7 +6,7 @@ class Job_PlaceController extends Application_Controller_Default {
      *
      */
     public function loadformAction() {
-        $place_id = $this->getRequest()->getParam("place_id");
+        $place_id = \Siberian\Input::int($this->getRequest()->getParam("place_id"), 0, 0);
 
         $place = new Job_Model_Place();
         $place->find($place_id);
