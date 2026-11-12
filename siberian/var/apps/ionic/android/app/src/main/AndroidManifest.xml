@@ -38,6 +38,14 @@
             </intent-filter>
         </receiver>
         <service android:name="com.xtraball.musiccontrols.MusicControlsNotificationKiller" />
+        <!--
+            Keeps streaming playback (Radio) alive once the app is backgrounded: without a foreground
+            Service of this type, Android throttles or kills network I/O for a backgrounded process,
+            which stops a streaming MediaPlayer even though it was never told to stop (#862, #966).
+            Only started while MusicControlsNotification is showing an "isPlaying" notification, so an
+            app that never uses that (no Radio/Music feature) never starts it.
+        -->
+        <service android:name="com.xtraball.musiccontrols.MusicControlsForegroundService" android:exported="false" android:foregroundServiceType="mediaPlayback" />
         <meta-data android:name="com.onesignal.NotificationServiceExtension" android:value="com.onesignal.cordova.NotificationServiceExtension" />
         <activity android:configChanges="orientation|keyboardHidden|keyboard|screenSize|locale" android:exported="true" android:label="@string/activity_name" android:launchMode="standard" android:name="com.webview.WebViewActivity" android:theme="@style/AppTheme" android:windowSoftInputMode="adjustResize" />
     </application>
@@ -70,6 +78,8 @@
     <uses-permission android:name="android.permission.WAKE_LOCK" />
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.FOREGROUND_SERVICE" />
+    <!-- Required on API 34+ to call startForeground() with FOREGROUND_SERVICE_TYPE_MEDIA_PLAYBACK. -->
+    <uses-permission android:name="android.permission.FOREGROUND_SERVICE_MEDIA_PLAYBACK" />
     <uses-permission android:name="android.permission.REQUEST_IGNORE_BATTERY_OPTIMIZATIONS" />
     <uses-permission android:name="android.permission.RECORD_AUDIO" />
     <uses-permission android:name="android.permission.MODIFY_AUDIO_SETTINGS" />
