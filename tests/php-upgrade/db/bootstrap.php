@@ -21,6 +21,9 @@ register_shutdown_function(static function () use ($sandbox) {
     exec('rm -rf ' . escapeshellarg($sandbox));
 });
 defined('APPLICATION_PATH') || define('APPLICATION_PATH', $sandbox . '/app');
+// Production behaviour: a failing data file throws instead of dumping and dying
+defined('APPLICATION_ENV') || define('APPLICATION_ENV', 'production');
+define('SIB_TEST_SANDBOX', $sandbox);
 spl_autoload_register(static function ($class) use ($siberianRoot) {
     if (strpos($class, 'Siberian\\') === 0) {
         $file = $siberianRoot . '/lib/' . str_replace('\\', '/', $class) . '.php';
@@ -30,7 +33,26 @@ spl_autoload_register(static function ($class) use ($siberianRoot) {
     }
 });
 
+// Application classes are Module_Model_Name => app/sae/modules/Module/Model/Name.php (Zend's module autoloading)
+spl_autoload_register(static function ($class) use ($siberianRoot) {
+    if (preg_match('/^([A-Z][A-Za-z0-9]*)_((?:Model|Form|Controller)_.+)$/', $class, $m)) {
+        $file = $siberianRoot . '/app/sae/modules/' . $m[1] . '/' . str_replace('_', '/', $m[2]) . '.php';
+        if (is_file($file)) {
+            require_once $file;
+        }
+    }
+});
+spl_autoload_register(static function ($class) use ($siberianRoot) {
+    if (strpos($class, 'Core\\') === 0) {
+        $file = $siberianRoot . '/app/sae/modules/' . str_replace('\\', '/', $class) . '.php';
+        if (is_file($file)) {
+            require_once $file;
+        }
+    }
+});
 require_once $siberianRoot . '/lib/Siberian/Pure.php';
+// What Stubs::loadAliases() does for the base model, without loading the whole library
+class_alias(\Core\Model\Base::class, 'Core_Model_Default');
 // Stubs::loadAliases() would load the whole library; the classes under test only need these two legacy names
 class_alias(\Siberian\Exception::class, 'Siberian_Exception');
 // Version.php is written at install time; the repository only carries the sample
@@ -38,6 +60,7 @@ if (!class_exists(\Siberian\Version::class, false)) {
     require_once $siberianRoot . '/lib/Siberian/Version.sample.php';
 }
 class_alias(\Siberian\Version::class, 'Siberian_Version');
+class_alias(\Siberian\Cache\Design::class, 'Siberian_Cache_Design');
 
 // The helpers the application defines before anything else runs (__(), implode_polyfill(), ...)
 require_once $siberianRoot . '/lib/System/polyfills.php';
@@ -127,6 +150,8 @@ function t_db_fresh(): Zend_Db_Adapter_Abstract
         'dbname' => $name,
         'charset' => 'utf8',
     ]);
+    // As app/Bootstrap.php does for every request
+    $adapter->query("SET sql_mode = ''");
     Zend_Db_Table_Abstract::setDefaultAdapter($adapter);
 
     $logger = new T_Db_Logger();
@@ -183,4 +208,65 @@ function t_schema_file(string $table, array $columns): string
     file_put_contents($path, '<?php $schemas = $schemas ?? []; $schemas[' . var_export($table, true) . '] = ' . var_export($columns, true) . ';');
 
     return $path;
+}
+
+/**
+ * Makes the installer see the sandbox as the application root and gives it the module table, as a real install has.
+ *
+ * @return Zend_Db_Adapter_Abstract
+ */
+function t_installer_fresh(): Zend_Db_Adapter_Abstract
+{
+    $db = t_db_fresh();
+    Zend_Registry::set('db', $db);
+    // A new root per test: the installer plays data files with require_once, so a path must not repeat
+    static $n = 0;
+    $root = SIB_TEST_SANDBOX . '/inst' . ++$n;
+    mkdir($root . '/app/sae/modules', 0777, true);
+    \Core_Model_Directory::setBasePath($root);
+    t_db_sync('module', dirname(__DIR__, 3) . '/siberian/app/sae/modules/Core/resources/db/schema/module.php');
+
+    return $db;
+}
+
+/**
+ * Writes a module folder under the sandbox, the way a module ships: package.json, resources/db/schema, resources/db/data.
+ *
+ * @param string $name
+ * @param string $version
+ * @param array $tables table => columns ($schemas[table] definition)
+ * @param array $dataFiles file name => PHP code, run with $this = the installer table (as the real data files are)
+ * @param array $package extra package.json keys (dependencies, type, code)
+ */
+function t_module_write(string $name, string $version, array $tables = [], array $dataFiles = [], array $package = []): void
+{
+    $dir = \Core_Model_Directory::getBasePathTo('app/sae/modules/' . $name);
+    exec('rm -rf ' . escapeshellarg($dir));
+    mkdir($dir . '/resources/db/schema', 0777, true);
+    mkdir($dir . '/resources/db/data', 0777, true);
+    file_put_contents($dir . '/package.json', json_encode(array_merge(['name' => $name, 'version' => $version], $package)));
+    foreach ($tables as $table => $columns) {
+        file_put_contents($dir . '/resources/db/schema/' . $table . '.php',
+            '<?php $schemas = $schemas ?? []; $schemas[' . var_export($table, true) . '] = ' . var_export($columns, true) . ';');
+    }
+    foreach ($dataFiles as $file => $code) {
+        file_put_contents($dir . '/resources/db/data/' . $file, "<?php\n" . $code);
+    }
+}
+
+/**
+ * What an update does for one module: prepare, then install (schema) and insertData if the version is newer.
+ * Returns the installer model so the test can look at its state.
+ */
+function t_module_update(string $name, bool $force = false): Installer_Model_Installer_Module
+{
+    $module = new Installer_Model_Installer_Module();
+    $module->prepare($name);
+    $module->forceReinstall($force);
+    if ($module->canUpdate()) {
+        $module->install();
+        $module->insertData();
+    }
+
+    return $module;
 }
