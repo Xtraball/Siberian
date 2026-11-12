@@ -210,6 +210,12 @@ $tabbarBlock = $this->getApplication()->getBlock('tabbar');
                              style="display: none;">
                             <h4>
                                 <?php echo __("Available SCSS Variables corresponding to previously set colors"); ?>
+                                <a href="<?php echo $this->getUrl('application/customization_design_colors/export-json'); ?>"
+                                   class="button btn btn-xs color-blue"
+                                   style="margin-left: 10px;"
+                                   id="export_colors_json">
+                                    <?php echo p__('application', 'Export as JSON') ?>
+                                </a>
                             </h4>
                             <div class="row">
                                 <?php $variables = Template_Model_Design::getVariables($this->getApplication()); ?>
@@ -220,6 +226,8 @@ $tabbarBlock = $this->getApplication()->getBlock('tabbar');
                                              style="background-color: <?php echo $value; ?>">
                                         </div>
                                         <span><?php echo $name ?></span>
+                                        <br/>
+                                        <span class="color-value"><?php echo $value ?></span>
                                     </div>
                                 <?php endforeach; ?>
                             </div>

@@ -130,6 +130,35 @@ class Application_Customization_Design_ColorsController extends Application_Cont
         $this->_sendJson($payload);
     }
 
+    /**
+     * Export the currently applied SCSS color variables (name => rgba/hex) as JSON, so an app owner can
+     * paste them into a custom template definition file without reading each swatch's background-color
+     * one at a time.
+     */
+    public function exportJsonAction ()
+    {
+        try {
+            $application = $this->getApplication();
+            $appId = $application->getId();
+
+            $variables = Template_Model_Design::getVariables($application);
+
+            $json = Json::encode($variables, JSON_PRETTY_PRINT);
+            $filename = 'colors-app-' . $appId . '-' . date('Y-m-d_H_i_s') . '.json';
+            $exportPath = path('var/tmp/' . $filename);
+            File::putContents($exportPath, $json);
+
+            $this->_download($exportPath, $filename, 'application/json');
+
+        } catch (\Exception $e) {
+            $payload = [
+                'error' => true,
+                'message' => $e->getMessage(),
+            ];
+            $this->_sendJson($payload);
+        }
+    }
+
     public function exportAction ()
     {
         try {
