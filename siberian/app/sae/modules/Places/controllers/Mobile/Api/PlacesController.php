@@ -12,7 +12,7 @@ class Places_Mobile_Api_PlacesController extends Application_Controller_Mobile_D
     {
 
         if ($value_id = \Siberian\Input::int($this->getRequest()->getParam('value_id'), 0, 0)
-            && $place_id = $this->getRequest()->getParam('place_id')) {
+            && $place_id = \Siberian\Input::int($this->getRequest()->getParam('place_id'), 0, 0)) {
 
             try {
 

@@ -578,7 +578,7 @@ class Places_ApplicationController extends Application_Controller_Default
     {
         try {
             $request = $this->getRequest();
-            $categoryId = $request->getParam('category_id');
+            $categoryId = \Siberian\Input::int($request->getParam('category_id'), 0, 0);
 
             $category = (new Places_Model_Category())
                 ->find($categoryId);
@@ -675,7 +675,7 @@ class Places_ApplicationController extends Application_Controller_Default
             $request = $this->getRequest();
 
             $optionValue = $this->getCurrentOptionValue();
-            $placeId = $request->getParam("place_id");
+            $placeId = \Siberian\Input::int($request->getParam("place_id"), 0, 0);
 
             $page = (new Cms_Model_Application_Page())
                 ->find($placeId);

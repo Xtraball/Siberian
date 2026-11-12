@@ -104,7 +104,7 @@ class Mcommerce_Application_Catalog_Product_GroupController extends Application_
         $store = new Mcommerce_Model_Store();
 
         try {
-            if($id = $this->getRequest()->getParam('store_id')) {
+            if($id = \Siberian\Input::int($this->getRequest()->getParam('store_id'), 0, 0)) {
 
                 $mcommerce = $this->getCurrentOptionValue()->getObject();
                 $store->find($id);

@@ -8,7 +8,7 @@ class Mcommerce_Mobile_CategoryController extends Mcommerce_Controller_Mobile_De
 
             try {
 
-                $category_id = $this->getRequest()->getParam('category_id');
+                $category_id = \Siberian\Input::int($this->getRequest()->getParam('category_id'), 0, 0);
                 $current_category = new Folder_Model_Category();
 
                 $offset = \Siberian\Input::int($this->getRequest()->getParam('offset'), 0, 0);

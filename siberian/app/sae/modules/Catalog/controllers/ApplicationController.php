@@ -84,7 +84,7 @@ class Catalog_ApplicationController extends Application_Controller_Default {
     public function editproductAction() {
         try {
             $request = $this->getRequest();
-            $productId = $request->getParam('product_id');
+            $productId = \Siberian\Input::int($request->getParam('product_id'), 0, 0);
             $optionValue = $this->getCurrentOptionValue();
             $values = $request->getPost();
 

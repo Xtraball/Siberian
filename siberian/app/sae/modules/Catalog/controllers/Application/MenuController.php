@@ -26,7 +26,7 @@ class Catalog_Application_MenuController extends Application_Controller_Default
             $id = $this->getRequest()->getParam("id");
         }
         if($this->getRequest()->getParam("option_value_id")) {
-            $value_id = $this->getRequest()->getParam("option_value_id");
+            $value_id = \Siberian\Input::int($this->getRequest()->getParam("option_value_id"), 0, 0);
         }
         try {
             $menu = new Catalog_Model_Product();

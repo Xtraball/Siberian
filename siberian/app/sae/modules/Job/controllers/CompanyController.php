@@ -6,7 +6,7 @@ class Job_CompanyController extends Application_Controller_Default {
      * Load form edit
      */
     public function loadformAction() {
-        $company_id = $this->getRequest()->getParam("company_id");
+        $company_id = \Siberian\Input::int($this->getRequest()->getParam("company_id"), 0, 0);
         $application = $this->getApplication();
 
         $company = new Job_Model_Company();

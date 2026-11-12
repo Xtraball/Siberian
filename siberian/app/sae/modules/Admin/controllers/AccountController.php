@@ -166,7 +166,7 @@ class Admin_AccountController extends Admin_Controller_Default
     public function deleteAction()
     {
 
-        if ($admin_id = $this->getRequest()->getParam('admin_id') AND !$this->getSession()->getAdmin()->getParentId()) {
+        if ($admin_id = \Siberian\Input::int($this->getRequest()->getParam('admin_id'), 0, 0) AND !$this->getSession()->getAdmin()->getParentId()) {
 
             try {
 
