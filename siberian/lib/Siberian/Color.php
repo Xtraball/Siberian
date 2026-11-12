@@ -423,8 +423,9 @@ class Color {
         }
         // Perhaps we're using a word like "orange"?
         $wordcolors = $this->get_word_colors();
-        if ( array_key_exists( $color, $wordcolors ) ) {
-            $this->color = '#' . $wordcolors[ $color ];
+        $word       = strtolower( trim( (string) $color ) );
+        if ( array_key_exists( $word, $wordcolors ) ) {
+            $this->color = '#' . $wordcolors[ $word ];
             return 'hex';
         }
         // Fallback to hex.
@@ -444,13 +445,28 @@ class Color {
 
         // Is this perhaps a word-color?
         $word_colors = $this->get_word_colors();
-        if ( array_key_exists( $this->color, $word_colors ) ) {
-            $this->color = '#' . $word_colors[ $this->color ];
-        } else {
-            $this->hex = $this->color;
+        $word = strtolower( trim( (string) $this->color ) );
+        if ( array_key_exists( $word, $word_colors ) ) {
+            $this->color = '#' . $word_colors[ $word ];
         }
+        $this->hex = $this->color;
         // Sanitize color.
-        $hex = ltrim( $this->hex, '#' );
+        $hex = ltrim( (string) $this->hex, '#' );
+
+        // Not hex digits: the callers ask for "hex" whatever the stored value is, so a value written as
+        // rgb(), rgba(), hsl() or hsla() is read as such, and anything else falls back (hexdec() would make
+        // a wrong color out of it, with a deprecation).
+        if ( '' !== $hex && ! ctype_xdigit( $hex ) ) {
+            $mode = $this->get_mode( $this->color );
+            if ( 'hex' !== $mode && method_exists( $this, 'from_' . $mode ) ) {
+                $this->mode = $mode;
+                $method     = 'from_' . $mode;
+                $this->$method();
+                return;
+            }
+            $this->from_fallback();
+            return;
+        }
 
         // Fallback if needed.
         if ( ! $hex || 3 > strlen( $hex ) ) {
@@ -489,6 +505,10 @@ class Color {
         $this->green = ( isset( $value[1] ) ) ? intval( $value[1] ) : 255;
         $this->blue  = ( isset( $value[2] ) ) ? intval( $value[2] ) : 255;
         $this->alpha = 1;
+        // Limit values in the range of 0 - 255.
+        $this->red   = max( 0, min( 255, $this->red ) );
+        $this->green = max( 0, min( 255, $this->green ) );
+        $this->blue  = max( 0, min( 255, $this->blue ) );
         // Set the hex.
         $this->hex = $this->rgb_to_hex( $this->red, $this->green, $this->blue );
         // Set other color properties.
@@ -535,8 +555,8 @@ class Color {
     protected function from_hsl() {
         $value = explode( ',', str_replace( array( ' ', 'hsl', '(', ')', '%' ), '', $this->color ) );
         $this->hue        = $value[0];
-        $this->saturation = $value[1];
-        $this->lightness  = $value[2];
+        $this->saturation = $value[1] ?? 0;
+        $this->lightness  = $value[2] ?? 0;
         $this->from_hsl_array();
     }
 
@@ -550,9 +570,9 @@ class Color {
     protected function from_hsla() {
         $value = explode( ',', str_replace( array( ' ', 'hsla', '(', ')', '%' ), '', $this->color ) );
         $this->hue        = $value[0];
-        $this->saturation = $value[1];
-        $this->lightness  = $value[2];
-        $this->alpha      = $value[3];
+        $this->saturation = $value[1] ?? 0;
+        $this->lightness  = $value[2] ?? 0;
+        $this->alpha      = $value[3] ?? 1;
         $this->from_hsl_array();
     }
 
@@ -599,6 +619,7 @@ class Color {
      */
     protected function from_hsl_array() {
         $h = $this->hue / 360;
+        $h -= floor( $h ); // 360 degrees is 0 degrees: without this the sextant is 6 and no case matches
         $s = $this->saturation / 100;
         $l = $this->lightness / 100;
 
@@ -653,6 +674,7 @@ class Color {
         $this->blue  = round( $b * 255, 0 );
 
         $this->hex = $this->rgb_to_hex( $this->red, $this->green, $this->blue );
+        $this->set_brightness();
         $this->set_luminance();
     }
 
@@ -950,6 +972,7 @@ class Color {
         $this->saturation = $this->fallback_obj->saturation;
         $this->lightness  = $this->fallback_obj->lightness;
         $this->luminance  = $this->fallback_obj->luminance;
+        $this->brightness = $this->fallback_obj->brightness;
         $this->hex        = $this->fallback_obj->hex;
     }
 
