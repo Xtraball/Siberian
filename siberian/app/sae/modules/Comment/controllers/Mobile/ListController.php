@@ -234,7 +234,7 @@ class Comment_Mobile_ListController extends Application_Controller_Mobile_Defaul
     {
         if ($value_id = $this->getRequest()->getParam('value_id')) {
 
-            $offset = (int) $this->getRequest()->getParam('offset', 0);
+            $offset = \Siberian\Input::int($this->getRequest()->getParam('offset'), 0, 0);
             $latitude = $this->getRequest()->getParam('latitude');
             $longitude = $this->getRequest()->getParam('longitude');
 
