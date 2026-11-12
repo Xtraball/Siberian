@@ -20,7 +20,7 @@ class Catalog_Mobile_Setmeal_ListController extends Application_Controller_Mobil
                 $collection = array();
 
                 $menu = new Catalog_Model_Product();
-                $offset = $request->getParam("offset", 0);
+                $offset = \Siberian\Input::int($request->getParam("offset"), 0, 0);
                 $menus = $menu->findAll(array(
                         "value_id" => $value_id,
                         "type" => "menu"

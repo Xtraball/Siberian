@@ -506,7 +506,7 @@ abstract class Application_Controller_View_Abstract extends Backoffice_Controlle
 
         try {
             $request = $this->getRequest();
-            $appId = (int) $request->getParam('appId', 0);
+            $appId = \Siberian\Input::int($request->getParam('appId'), 0, 0);
 
             $application = (new Application_Model_Application())->find($appId);
             if (!$application || !$application->getId()) {

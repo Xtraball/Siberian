@@ -39,8 +39,8 @@ class Fanwall_Mobile_PostController extends Application_Controller_Mobile_Defaul
 
             $optionValue = $this->getCurrentOptionValue();
             $valueId = $optionValue->getId();
-            $limit = $request->getParam('limit', 20);
-            $offset = $request->getParam('offset', 0);
+            $limit = \Siberian\Input::int($request->getParam('limit'), 20, 0);
+            $offset = \Siberian\Input::int($request->getParam('offset'), 0, 0);
 
             $query = [
                 'fanwall_post.value_id = ?' => $optionValue->getId(),
@@ -232,8 +232,8 @@ class Fanwall_Mobile_PostController extends Application_Controller_Mobile_Defaul
 
             $optionValue = $this->getCurrentOptionValue();
             $valueId = $optionValue->getId();
-            $limit = $request->getParam('limit', 20);
-            $offset = $request->getParam('offset', 0);
+            $limit = \Siberian\Input::int($request->getParam('limit'), 20, 0);
+            $offset = \Siberian\Input::int($request->getParam('offset'), 0, 0);
 
             $query = [
                 'fanwall_post.value_id = ?' => $optionValue->getId(),
@@ -337,8 +337,8 @@ class Fanwall_Mobile_PostController extends Application_Controller_Mobile_Defaul
 
             $optionValue = $this->getCurrentOptionValue();
             $valueId = $optionValue->getId();
-            $limit = $request->getParam('limit', 20);
-            $offset = $request->getParam('offset', 0);
+            $limit = \Siberian\Input::int($request->getParam('limit'), 20, 0);
+            $offset = \Siberian\Input::int($request->getParam('offset'), 0, 0);
             $position = [
                 'latitude' => $request->getParam('latitude', 0),
                 'longitude' => $request->getParam('longitude', 0),
