@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<phpunit bootstrap="../bootstrap.php" colors="false" failOnWarning="false" failOnDeprecation="false" cacheDirectory="/tmp/phpunit-cache">
+    <testsuites>
+        <testsuite name="runner-bridge">
+            <file>RunnerBridgeTest.php</file>
+        </testsuite>
+    </testsuites>
+    <source>
+        <include>
+            <directory>../../../siberian/lib/Siberian</directory>
+        </include>
+    </source>
+</phpunit>

@@ -96,7 +96,7 @@ Do not backfill tests for the 100+ low-risk modules (layout, template, display-o
 
 ## Decisions to take
 
-1. PHPUnit and Infection in the CI image for new tests (recommended), or keep the custom runner only.
+1. PHPUnit and Infection in the CI image for new tests (recommended), or keep the custom runner only. **Done**: image carries both and pcov; `tests/php-upgrade/mutation/run.sh` scores a file through the existing tests.
 2. Tier 1 needs a MariaDB container in `bin/ci`; the CI image already needs Docker, so the cost is run time (about a
    minute).
 3. Whether the tier 3 rehearsal blocks `release-flow.sh` (recommended: yes, as a dry-run stage) or stays advisory.
