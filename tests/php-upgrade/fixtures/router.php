@@ -29,6 +29,20 @@ switch (true) {
             'agent' => $_SERVER['HTTP_USER_AGENT'] ?? null,
         ]);
 
+    case $path === '/headers':
+        respond(['headers' => getallheaders(), 'cookie' => $_COOKIE, 'body' => $body]);
+
+    case $path === '/slow':
+        sleep(3);
+        respond(['slow' => true]);
+
+    case $path === '/set-cookie':
+        setcookie('sib', 'jar1');
+        respond(['set' => true]);
+
+    case $path === '/stream':
+        respond('x', 200, 'audio/mpeg');
+
     case $path === '/redirect':
         header('Location: /echo?from=redirect', true, 302);
         exit;
