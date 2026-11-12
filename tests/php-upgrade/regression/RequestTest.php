@@ -7,12 +7,6 @@
 
 use Siberian\Request;
 
-if (!function_exists('path')) {
-    function path($p = '')
-    {
-        return sys_get_temp_dir() . '/' . ltrim($p, '/');
-    }
-}
 require_once dirname(__DIR__, 3) . '/siberian/lib/Siberian/Request.php';
 
 function t_hdr($json, $name)

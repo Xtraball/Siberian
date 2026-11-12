@@ -164,7 +164,10 @@ class Notification
                 'application' => $this->application
             ]);
 
-        $this->notification = $result['notification'];
+        // A listener that answers without a notification must not throw away the one built above
+        if (is_array($result) && ($result['notification'] ?? null) instanceof \onesignal\client\model\Notification) {
+            $this->notification = $result['notification'];
+        }
     }
 
     /**
@@ -279,7 +282,13 @@ class Notification
     public function sendNotification()
     {
         $result = $this->apiInstance->createNotification($this->notification);
-        file_put_contents(path("/var/log/onesignal.log"), print_r($result, true), FILE_APPEND);
+
+        // The push is already sent: a log that cannot be written must not make the caller believe it failed
+        $logFile = path("/var/log/onesignal.log");
+        if (is_dir(dirname($logFile)) && is_writable(dirname($logFile))) {
+            file_put_contents($logFile, print_r($result, true), FILE_APPEND);
+        }
+
         return $result;
     }
 }

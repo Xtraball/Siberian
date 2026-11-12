@@ -86,6 +86,21 @@ switch (true) {
         parse_str($body, $f);
         respond('<html><body><h1 id="who">Welcome ' . htmlspecialchars($f['user'] ?? '?') . '</h1></body></html>', 200, 'text/html');
 
+    case $path === '/api/v1/notifications' && $_SERVER['REQUEST_METHOD'] === 'POST':
+        file_put_contents(sys_get_temp_dir() . '/upgrade-onesignal-notification.json', $body);
+        if (strpos($body, 'reject-me') !== false) {
+            respond(['errors' => ['All included players are not subscribed']], 400);
+        }
+        respond(['id' => 'new-notification-id', 'recipients' => 3, 'external_id' => json_decode($body, true)['external_id'] ?? null]);
+
+    case $path === '/api/v1/players' && $_SERVER['REQUEST_METHOD'] === 'POST':
+        $player = json_decode($body, true);
+        if (($player['identifier'] ?? '') === 'bad-token') {
+            respond(['errors' => ['invalid identifier']], 400);
+        }
+        file_put_contents(sys_get_temp_dir() . '/upgrade-onesignal-players.log', $body . "\n", FILE_APPEND);
+        respond(['success' => true, 'id' => 'player-' . substr(md5($body), 0, 6)]);
+
     case $path === '/api/v1/notifications':
         respond(['total_count' => 1, 'offset' => 0, 'limit' => 50, 'notifications' => [[
             'id' => 'abc-123', 'successful' => 5, 'failed' => 0, 'converted' => 0, 'remaining' => 0,
