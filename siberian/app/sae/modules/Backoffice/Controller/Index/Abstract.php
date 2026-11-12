@@ -172,7 +172,14 @@ class Backoffice_Controller_Index_Abstract extends Backoffice_Controller_Default
                         Siberian_Cache_Design::clearCache();
                         break;
                     case 'cache_images':
+                        /**
+                         * App answers cached in var/cache (front_mobile_home_findall, etc.) carry URLs to the
+                         * resized/colorized copies in var/cache_images; clearing the images alone leaves those
+                         * cached answers pointing at files that no longer exist, so icons 404 until the answer
+                         * cache expires on its own (up to 4 days). Clear both together.
+                         */
                         Siberian_Cache::__clearCacheImages();
+                        Siberian_Cache::__clearCache();
                         break;
                     case 'tmp':
                         /** When clearing TPM out we need to clear APK/Source queue links, file doesn't exists anymore */
