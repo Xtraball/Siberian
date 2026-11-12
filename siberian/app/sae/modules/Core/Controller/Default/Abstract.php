@@ -555,15 +555,19 @@ abstract class Core_Controller_Default_Abstract extends Zend_Controller_Action i
      */
     public function downloadAction()
     {
-        // Only a file below var/tmp or var/apps, found by its real path (a "../" does not leave it), and never the text
-        // of the request echoed back: an unknown file is an error, not a body in a content type the caller chose.
+        // Only an existing zip, apk or aab below var/tmp or var/apps, found by its real path (a "../" does not leave
+        // it), and never the text of the request echoed back: an unknown file is an error, not a body in a content
+        // type the caller chose. This is how Jenkins and the apk generator fetch and hand off a build today; a token
+        // between them and the app replaces this whole open-by-path design later, this only keeps today's callers
+        // working while closing the traversal. Widen the extension list with a reviewed reason, not by removing it.
         $request = $this->getRequest();
         $path = \Siberian\SafePath::file(
             base64_decode(\Siberian\Input::string($request->getParam('path')), true),
             [
                 Core_Model_Directory::getBasePathTo('/var/tmp'),
                 Core_Model_Directory::getBasePathTo('/var/apps'),
-            ]
+            ],
+            ['zip', 'apk', 'aab']
         );
         if ($path === null) {
             throw new \Siberian\Exception('Forbidden path');

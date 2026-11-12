@@ -17,6 +17,8 @@ $safePathFixture = function () {
     mkdir($base . '/var/tmpevil', 0777, true);
     file_put_contents($base . '/var/tmp/sub/export.zip', 'zip');
     file_put_contents($base . '/var/apps/app.apk', 'apk');
+    file_put_contents($base . '/var/apps/app.aab', 'aab');
+    file_put_contents($base . '/var/tmp/sub/app.ini', 'secret, but under an allowed root');
     file_put_contents($base . '/app/configs/app.ini', 'secret');
     file_put_contents($base . '/var/tmpevil/x.txt', 'sibling');
     @symlink($base . '/app/configs/app.ini', $base . '/var/tmp/link.ini');
@@ -55,6 +57,18 @@ return [
         t_equal(null, SafePath::file($base . '/var/tmp/sub/export.zip', [$base . '/no/such/root']), 'a missing root allows nothing');
         t_equal(null, SafePath::file($base . '/var/tmp/sub/export.zip', []), 'no root allows nothing');
     },
+    'an extension allowlist keeps zip, apk and aab, and still refuses whatever else is under the allowed roots' => function () use ($safePathFixture) {
+        $base = $safePathFixture();
+        $roots = [$base . '/var/tmp', $base . '/var/apps'];
+        $ext = ['zip', 'apk', 'aab'];
+        t_equal(realpath($base . '/var/tmp/sub/export.zip'), SafePath::file($base . '/var/tmp/sub/export.zip', $roots, $ext));
+        t_equal(realpath($base . '/var/apps/app.apk'), SafePath::file($base . '/var/apps/app.apk', $roots, $ext));
+        t_equal(realpath($base . '/var/apps/app.aab'), SafePath::file($base . '/var/apps/app.aab', $roots, $ext));
+        t_equal(null, SafePath::file($base . '/var/tmp/sub/app.ini', $roots, $ext), 'an .ini under an allowed root is still refused');
+        t_equal(null, SafePath::file($base . '/var/apps/app.apk', $roots, ['zip']), 'a narrower list refuses apk');
+        t_equal(null, SafePath::file($base . '/var/tmp/sub/export.zip', $roots, []), 'an empty list allows nothing');
+        t_equal(realpath($base . '/var/tmp/sub/app.ini'), SafePath::file($base . '/var/tmp/sub/app.ini', $roots, null), 'null keeps the old no-extension-check behaviour');
+    },
     'the download name has no directory, quote or line break' => function () {
         t_equal('export.zip', SafePath::downloadName('export.zip'));
         t_equal('passwd', SafePath::downloadName('../../etc/passwd'));
@@ -79,6 +93,7 @@ return [
         preg_match('/public function downloadAction\(\)\s*\{(.*?)\n    \}/s', $core, $m);
         t_true(isset($m[1]) && strpos($m[1], 'SafePath::file(') !== false, 'downloadAction resolves the path');
         t_true(strpos($m[1], 'content_type') === false, 'the content type is not the caller\'s');
+        t_true(strpos($m[1], "['zip', 'apk', 'aab']") !== false, 'the extension is limited to what Jenkins and the apk generator hand off');
         $features = file_get_contents($root . '/Application/controllers/Customization/FeaturesController.php');
         t_true(strpos($features, 'Input::slug($this->getRequest()->getParam(\'type\'))') !== false, 'the edit type is an identifier');
         foreach (['ModuleController.php', 'Installation/DatabaseController.php', 'Installation/ModuleController.php'] as $file) {

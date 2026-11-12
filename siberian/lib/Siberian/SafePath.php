@@ -13,9 +13,11 @@ class SafePath
     /**
      * @param mixed $path as received
      * @param string[] $roots the directories it may be in (a root that does not exist allows nothing)
+     * @param string[]|null $extensions lowercase, without the dot; null allows any (the caller already limits where
+     *     the file can be, so this is only needed when the roots alone are wider than what should be served)
      * @return string|null the real path of an existing file below one of the roots, null otherwise
      */
-    public static function file($path, array $roots)
+    public static function file($path, array $roots, $extensions = null)
     {
         if (!is_string($path) || $path === '' || strpos($path, "\0") !== false) {
             return null;
@@ -24,6 +26,13 @@ class SafePath
         $real = realpath($path);
         if ($real === false || !is_file($real)) {
             return null;
+        }
+
+        if ($extensions !== null) {
+            $extension = strtolower(pathinfo($real, PATHINFO_EXTENSION));
+            if (!in_array($extension, $extensions, true)) {
+                return null;
+            }
         }
 
         foreach ($roots as $root) {
