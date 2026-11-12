@@ -306,7 +306,7 @@ class Customer_ApplicationController extends Application_Controller_Default
             ];
 
             if ($data["search_value"]) {
-                $search_params["search"] = "(email LIKE '%" . $data["search_value"] . "%' OR firstname LIKE '%" . $data["search_value"] . "%' OR lastname LIKE '%" . $data["search_value"] . "%')";
+                $search_params["search_value"] = $data["search_value"];
             }
 
             $customer_model = new Customer_Model_Customer();
