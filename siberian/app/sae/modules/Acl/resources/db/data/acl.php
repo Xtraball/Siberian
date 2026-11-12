@@ -76,6 +76,11 @@ $resource_data = [
                         "code" => "editor_publication_admob",
                         "label" => "Access AdMob settings",
                         "url" => "application/customization_publication_infos/save-admob",
+                    ],
+                    [
+                        "code" => "editor_publication_download_source",
+                        "label" => "Download the source code, the APK and the AAB",
+                        "url" => "application/customization_publication_infos/downloadsource",
                     ]
                 ]
             ],
