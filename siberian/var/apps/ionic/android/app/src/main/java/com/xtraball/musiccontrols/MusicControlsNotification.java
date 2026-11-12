@@ -66,24 +66,35 @@ public class MusicControlsNotification {
         }
         this.infos = newInfos;
         this.createBuilder();
-        Notification noti = this.notificationBuilder.build();
-        this.notificationManager.notify(this.notificationID, noti);
+        this.publish(this.notificationBuilder.build());
     }
 
     // Toggle the play/pause button
     public void updateIsPlaying(boolean isPlaying) {
         this.infos.isPlaying = isPlaying;
         this.createBuilder();
-        Notification noti = this.notificationBuilder.build();
-        this.notificationManager.notify(this.notificationID, noti);
+        this.publish(this.notificationBuilder.build());
     }
 
     // Toggle the dismissable status
     public void updateDismissable(boolean dismissable) {
         this.infos.dismissable = dismissable;
         this.createBuilder();
-        Notification noti = this.notificationBuilder.build();
+        this.publish(this.notificationBuilder.build());
+    }
+
+    /**
+     * Shows the notification, and keeps a foreground Service running for as long as something is
+     * actually playing so the OS does not throttle/kill the process in the background (#862, #966).
+     * The Service only republishes this same Notification: no second notification is created.
+     */
+    private void publish(Notification noti) {
         this.notificationManager.notify(this.notificationID, noti);
+        if (this.infos.isPlaying) {
+            MusicControlsForegroundService.start(this.cordovaActivity, this.notificationID, noti);
+        } else {
+            MusicControlsForegroundService.stop(this.cordovaActivity);
+        }
     }
 
     // Get image from url
@@ -277,5 +288,6 @@ public class MusicControlsNotification {
 
     public void destroy() {
         this.notificationManager.cancel(this.notificationID);
+        MusicControlsForegroundService.stop(this.cordovaActivity);
     }
 }
