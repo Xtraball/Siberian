@@ -117,6 +117,14 @@ function _canLock ($feature) {
                                 <div id="select_features_to_lock"
                                      <?php if ($application->requireToBeLoggedIn()) : ?>style="display:none"<?php endif; ?>>
                                     <div><p><?php echo __('Choose the features to lock:'); ?></p></div>
+                                    <label for="select_all_features_to_lock"
+                                           id="label_select_all_features_to_lock"
+                                           class="label_select_option_value checkbox left no-padding">
+                                        <input type="checkbox"
+                                               class="color-blue shift-checkbox"
+                                               id="select_all_features_to_lock">
+                                        <?php echo p__('padlock', 'Select all') ?>
+                                    </label>
                                     <div class="row"
                                          style="margin: 5px;">
                                         <?php foreach ($features as $feature): ?>
@@ -190,6 +198,10 @@ function _canLock ($feature) {
             });
 
 
+            $("#select_all_features_to_lock").change(function () {
+                $("#select_features_to_lock .select_option_value").prop("checked", $(this).is(":checked"));
+            });
+
             $("#select_unlock_type_account").click(function () {
                 if ($(this).is(":checked")) {
                     $("#allow_all_the_users").removeClass("hide");
@@ -232,6 +244,7 @@ function _canLock ($feature) {
         page.setCallback('willdisappear', function () {
             $('#padlock').unbind('change');
             $('#padlockForm').unbind('submit');
+            $('#select_all_features_to_lock').unbind('change');
         });
 
     </script>
