@@ -171,7 +171,7 @@ class Sqlite
             $cmd = implode_polyfill(" ", [
                 $this->_binPath,
                 $this->_dbPath,
-                '"' . $query . '"',
+                escapeshellarg($query),
                 "2>&1"
             ]);
 

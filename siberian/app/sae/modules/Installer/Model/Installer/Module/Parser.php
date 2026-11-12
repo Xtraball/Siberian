@@ -104,7 +104,7 @@ class Installer_Model_Installer_Module_Parser extends Core_Model_Default
             $sanitizedTmpFile = str_replace(['|', "'", '`'], '', $this->_tmp_file);
 
             # Extract to TMP Directory
-            exec("unzip '{$sanitizedTmpFile}' -d '{$this->_tmp_directory}' 2>&1", $output);
+            exec('unzip ' . escapeshellarg($this->_tmp_file) . ' -d ' . escapeshellarg($this->_tmp_directory) . ' 2>&1', $output);
 
 
             if (count(glob($this->_tmp_directory . "/*")) <= 0) {

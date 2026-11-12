@@ -2631,7 +2631,7 @@ abstract class Application_Model_Application_Abstract extends Core_Model_Default
 
             if (!empty($pathToImagesSafe)) {
                 // 2.2. Then the folder itself
-                exec('rm -rf "' . $pathToImagesSafe . '"');
+                exec('rm -rf ' . escapeshellarg($pathToImagesSafe));
             }
         }
 
