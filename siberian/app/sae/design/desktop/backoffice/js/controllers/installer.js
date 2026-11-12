@@ -38,20 +38,6 @@ App.config(function ($routeProvider) {
         error: false,
         error_message: null
     };
-    $scope.ftp = {
-        credentials: {
-            host: null,
-            username: null,
-            password: null,
-            path: null,
-            port: null
-        },
-        error: false,
-        error_message: '',
-        error_from_info: false,
-        error_from_path: false,
-        loader_is_visible: false
-    };
     $scope.installation = {
 
         copy: {
@@ -722,40 +708,6 @@ App.config(function ($routeProvider) {
             $interval.cancel($scope.permissions.interval_id);
             $scope.permissions.running = false;
             $scope.permissions.progress = 100;
-        });
-    };
-
-    $scope.saveFtp = function () {
-        if ($scope.ftp.loader_is_visible) {
-            return;
-        }
-
-        $scope.ftp.error_message = '';
-        $scope.ftp.error = false;
-        $scope.ftp.loader_is_visible = true;
-        $scope.ftp.error_from_info = false;
-        $scope.ftp.error_from_path = false;
-
-        Installer.saveFtp($scope.ftp.credentials).success(function () {
-            $scope.permissions.error = false;
-            $scope.permissions.error_message = '';
-            $scope.showModuleInstallation();
-            $scope.copyModule();
-        }).error(function (data) {
-            var message = 'An error occurred while trying to install the module. Please, reload the page and try again.';
-            if (angular.isObject(data) && angular.isDefined(data.message)) {
-                message = data.message;
-            }
-
-            $scope.ftp.error = true;
-            $scope.ftp.error_message = message;
-            if (data.code == 1) {
-                $scope.ftp.error_from_info = true;
-            } else if (data.code == 2) {
-                $scope.ftp.error_from_path = true;
-            }
-        }).finally(function () {
-            $scope.ftp.loader_is_visible = false;
         });
     };
 

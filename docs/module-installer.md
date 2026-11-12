@@ -24,7 +24,7 @@ Every action answers JSON; an answer with `error: true` is sent with HTTP 400 (`
 choose / drop a file ──► upload ──► package details ──► (licence) ──► Install
 check for updates ─────► downloadupdate ─┘                              │
 Module updates > Update ► updatemodule ──┘                              ▼
-                                         checkpermissions ► (FTP form) ► copy ► install ► reload
+                                         checkpermissions ► copy ► install ► reload
 ```
 
 All three entries end in the same steps: package details, permissions, copy, install.
@@ -152,17 +152,15 @@ Feature: Install
     And on success the copy starts at once
 
   Scenario: Some files or folders are not writable
-    Then the check also tries the saved FTP settings (connection and Siberian directory)
-    And if that does not work the page shows the FTP form and the list of paths to fix, with a Retry button
-    And saving the form checks the connection ("Unable to connect to your FTP ...") and the path ("Unable to detect your site ...")
-    And a valid form is saved in the configuration and the copy starts
+    Then the page shows the list of paths to fix, with a Retry button
+    And the FTP access that older versions asked for is gone (sunset in 5.1.22): fix the permissions of the web user, then Retry
 
   Scenario: The permission check fails without a message (server error)
     Then the page clears the app_manifest cache and reloads itself after 1.5 seconds     # caveat 8
 
   Scenario: Copy
     Then files to delete are removed, the module folder is emptied when the package says replace_module
-    And missing folders are created (mkdir, or FTP), files are copied (or sent by FTP)
+    And missing folders are created (mkdir), files are copied
     And an unwritable folder answers "#19-013 The folder X is not writable." (several: a list)
     And on success the extracted folder is deleted
 
@@ -259,7 +257,7 @@ Ranked. "Fixed" means fixed by this pull request, the others are left on purpose
 
 - `tests/php-upgrade/regression/InstallerModuleUiTest.php`: the page structure, the texts and their catalog, that the actions the page uses still exist, and the known dead URL.
 - `tests/jsdom/installer-module-ui.js`: the real controller, template and angular-file-upload in jsdom, checking the console on every action (picker, keyboard, drop, upload success, refusal, non JSON error, too large, licence checking and cancel, check for updates in all four outcomes, double click, copy error). `NODE_PATH=<dir with jsdom> node tests/jsdom/installer-module-ui.js`.
-- Not tested: a real upload against a real instance, the browser's native file dialog, a real licence service, the FTP path.
+- Not tested: a real upload against a real instance, the browser's native file dialog, a real licence service, the FTP path (removed).
 
 ## Other editions
 

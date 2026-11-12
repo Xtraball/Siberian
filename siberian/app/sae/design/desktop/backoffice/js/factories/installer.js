@@ -66,17 +66,6 @@ App.factory('Installer', function($http, Url) {
 
     };
 
-    factory.saveFtp = function(ftp) {
-
-        return $http({
-            method: 'POST',
-            data: ftp,
-            url: Url.get("installer/backoffice_module/saveftp"),
-            responseType:'json'
-        });
-
-    };
-
     factory.copy = function() {
 
         return $http({

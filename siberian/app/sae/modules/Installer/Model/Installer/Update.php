@@ -44,8 +44,7 @@ class Installer_Model_Installer_Update
     }
 
     /**
-     * Can the files of the package be written? When the web user cannot, the saved FTP access is tried, as the back
-     * office always did.
+     * Can the files of the package be written by the web user?
      *
      * @param string $file the package (a path inside var/tmp)
      * @throws \Siberian\Exception with the list of the files that are not writable
@@ -54,19 +53,6 @@ class Installer_Model_Installer_Update
     {
         $parser = new Installer_Model_Installer_Module_Parser();
         $isOk = $parser->setFile($file)->checkPermissions();
-
-        if (!$isOk) {
-            $ftp = new Siberian_Ftp(
-                System_Model_Config::getValueFor('ftp_host'),
-                System_Model_Config::getValueFor('ftp_username'),
-                System_Model_Config::getValueFor('ftp_password'),
-                System_Model_Config::getValueFor('ftp_port'),
-                System_Model_Config::getValueFor('ftp_path'));
-
-            if ($ftp->checkConnection() && $ftp->isSiberianDirectory()) {
-                $isOk = true;
-            }
-        }
 
         if (!$isOk) {
             throw new \Siberian\Exception(__(implode_polyfill("\n", $parser->getErrors())));

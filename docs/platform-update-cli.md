@@ -22,7 +22,7 @@ php cli update --reinstall      # install again the version that is already ther
 | Read the package | version, release note, restore apps | same | `Installer_Model_Installer::parse()` |
 | Major update | the typed phrase `yes-proceed-to-update-<version>` | `--confirm=<phrase>`, or typed when a terminal is attached; `--yes` never replaces it | `Cli::confirmPhrase()` |
 | Same version | "Reinstall?" | `--reinstall`, or asked on a terminal; off by default | `Installer_Model_Installer_Reinstall` |
-| Permissions | web user, then the saved FTP access | same | `Installer_Model_Installer_Update::checkPermissions()` |
+| Permissions | web user | same | `Installer_Model_Installer_Update::checkPermissions()` |
 | Copy | files copied over the installation | same | `Installer_Model_Installer_Update::copyPackage()` |
 | Install | modules, data, template, caches | same, in a **new process** (`update:install`) | `Installer_Model_Installer_Update::installPending()` |
 | Finalize | autoupdater marker, cache builder cron host | same, with `use_https` + `main_domain` | `Installer_Model_Installer_Update::finalize()` |
