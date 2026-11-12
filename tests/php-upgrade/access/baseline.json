@@ -1,0 +1,1049 @@
+{
+    "guestRoutes": [
+        "application_backoffice_iosautopublish_apkservicestatus",
+        "application_backoffice_iosautopublish_updatejobstatus",
+        "application_backoffice_iosautopublish_uploadapk",
+        "application_backoffice_iosautopublish_uploadcertificate",
+        "backoffice_account_login_forgottenpassword",
+        "backoffice_account_login_index",
+        "backoffice_account_login_post",
+        "backoffice_advanced_tools_testbasicauth",
+        "backoffice_advanced_tools_testbearerauth",
+        "backoffice_index_index",
+        "installer_module_getfeature"
+    ],
+    "openActions": [
+        "Customer_AccountController => customer/account/mydata"
+    ],
+    "withoutLogin": {
+        "Analytics_Mobile_PoolController": {
+            "family": "Application_Controller_Mobile_Default",
+            "actions": [
+                "submitAction"
+            ]
+        },
+        "Analytics_Mobile_StoreController": {
+            "family": "Application_Controller_Mobile_Default",
+            "actions": [
+                "closingAction",
+                "installationAction",
+                "openingAction",
+                "pageopeningAction",
+                "productopeningAction",
+                "productsoldAction"
+            ]
+        },
+        "Api_Service_ImageController": {
+            "family": "public",
+            "actions": [
+                "proxyAction",
+                "thumbnailAction"
+            ]
+        },
+        "Application_Controller_Mobile_Default": {
+            "family": "Application_Controller_Mobile_Default",
+            "actions": [
+                "backgroundimageAction",
+                "indexAction",
+                "templateAction",
+                "viewAction"
+            ]
+        },
+        "Application_DeviceController": {
+            "family": "public",
+            "actions": [
+                "apkisgeneratedAction",
+                "checkAction",
+                "downloadappAction"
+            ]
+        },
+        "Application_MobileController": {
+            "family": "Application_Controller_Mobile_Default",
+            "actions": [
+                "defaultAction",
+                "generatewebappconfigAction",
+                "languagesAction"
+            ]
+        },
+        "Application_Mobile_CountryController": {
+            "family": "Application_Controller_Mobile_Default",
+            "actions": [
+                "findallAction"
+            ]
+        },
+        "Application_Mobile_CustomizationController": {
+            "family": "Application_Controller_Mobile_Default",
+            "actions": [
+                "colorsAction"
+            ]
+        },
+        "Application_Mobile_Customization_ColorsController": {
+            "family": "Application_Controller_Mobile_Default",
+            "actions": [
+                "indexAction"
+            ]
+        },
+        "Application_Mobile_DataController": {
+            "family": "Application_Controller_Mobile_Default",
+            "actions": [
+                "findallAction"
+            ]
+        },
+        "Application_Mobile_Tc_ViewController": {
+            "family": "Application_Controller_Mobile_Default",
+            "actions": [
+                "findAction"
+            ]
+        },
+        "Application_Mobile_TemplateController": {
+            "family": "Application_Controller_Mobile_Default",
+            "actions": [
+                "findallAction"
+            ]
+        },
+        "Application_Mobile_TranslationController": {
+            "family": "Application_Controller_Mobile_Default",
+            "actions": [
+                "findallAction",
+                "localeAction"
+            ]
+        },
+        "Application_SecurityController": {
+            "family": "public",
+            "actions": [
+                "checkAction"
+            ]
+        },
+        "Application_Webservice_PreviewController": {
+            "family": "public",
+            "actions": [
+                "loginAction"
+            ]
+        },
+        "Booking_Mobile_ViewController": {
+            "family": "Application_Controller_Mobile_Default",
+            "actions": [
+                "findAction",
+                "postAction"
+            ]
+        },
+        "Catalog_Mobile_CategoryController": {
+            "family": "Application_Controller_Mobile_Default",
+            "actions": [
+                "viewAction"
+            ]
+        },
+        "Catalog_Mobile_Category_ListController": {
+            "family": "Application_Controller_Mobile_Default",
+            "actions": [
+                "findallAction"
+            ]
+        },
+        "Catalog_Mobile_Category_Product_ListController": {
+            "family": "Application_Controller_Mobile_Default",
+            "actions": []
+        },
+        "Catalog_Mobile_Category_Product_ViewController": {
+            "family": "Application_Controller_Mobile_Default",
+            "actions": [
+                "findAction"
+            ]
+        },
+        "Catalog_Mobile_MenuController": {
+            "family": "Application_Controller_Mobile_Default",
+            "actions": []
+        },
+        "Catalog_Mobile_ProductController": {
+            "family": "Application_Controller_Mobile_Default",
+            "actions": [
+                "viewAction"
+            ]
+        },
+        "Catalog_Mobile_Setmeal_ListController": {
+            "family": "Application_Controller_Mobile_Default",
+            "actions": [
+                "findallAction"
+            ]
+        },
+        "Catalog_Mobile_Setmeal_ViewController": {
+            "family": "Application_Controller_Mobile_Default",
+            "actions": [
+                "findAction"
+            ]
+        },
+        "Cms_Mobile_PageController": {
+            "family": "Application_Controller_Mobile_Default",
+            "actions": [
+                "viewAction"
+            ]
+        },
+        "Cms_Mobile_Page_ViewController": {
+            "family": "Application_Controller_Mobile_Default",
+            "actions": [
+                "findAction",
+                "findallAction",
+                "findblockAction"
+            ]
+        },
+        "Cms_Mobile_PrivacypolicyController": {
+            "family": "Application_Controller_Mobile_Default",
+            "actions": [
+                "findAction"
+            ]
+        },
+        "Comment_CustomerController": {
+            "family": "public",
+            "actions": [
+                "addAction",
+                "listAction"
+            ]
+        },
+        "Comment_MobileController": {
+            "family": "Application_Controller_Mobile_Default",
+            "actions": [
+                "addAction",
+                "addlikeAction",
+                "detailsAction",
+                "findallAction",
+                "listAction",
+                "pullmoreAction",
+                "templateAction",
+                "viewAction"
+            ]
+        },
+        "Comment_Mobile_AnswerController": {
+            "family": "Application_Controller_Mobile_Default",
+            "actions": [
+                "addAction",
+                "addlikeAction",
+                "findallAction"
+            ]
+        },
+        "Comment_Mobile_CommentController": {
+            "family": "Application_Controller_Mobile_Default",
+            "actions": [
+                "addAction",
+                "findallAction"
+            ]
+        },
+        "Comment_Mobile_EditController": {
+            "family": "Application_Controller_Mobile_Default",
+            "actions": [
+                "createAction",
+                "createv2Action"
+            ]
+        },
+        "Comment_Mobile_GalleryController": {
+            "family": "Application_Controller_Mobile_Default",
+            "actions": [
+                "findallAction"
+            ]
+        },
+        "Comment_Mobile_ListController": {
+            "family": "Application_Controller_Mobile_Default",
+            "actions": [
+                "addAction",
+                "detailsAction",
+                "findallAction",
+                "findnearAction",
+                "pullmoreAction"
+            ]
+        },
+        "Comment_Mobile_MapController": {
+            "family": "Application_Controller_Mobile_Default",
+            "actions": [
+                "findallAction"
+            ]
+        },
+        "Comment_Mobile_ViewController": {
+            "family": "Application_Controller_Mobile_Default",
+            "actions": [
+                "addlikeAction",
+                "findAction",
+                "flagcommentAction",
+                "flagpostAction",
+                "indexAction",
+                "templateAction"
+            ]
+        },
+        "Contact_Mobile_FormController": {
+            "family": "Application_Controller_Mobile_Default",
+            "actions": [
+                "indexAction",
+                "postAction",
+                "templateAction"
+            ]
+        },
+        "Contact_Mobile_ViewController": {
+            "family": "Application_Controller_Mobile_Default",
+            "actions": [
+                "findAction",
+                "indexAction",
+                "templateAction"
+            ]
+        },
+        "Core_Controller_Default": {
+            "family": "public",
+            "actions": []
+        },
+        "Customer_Mobile_AccountController": {
+            "family": "Application_Controller_Mobile_Default",
+            "actions": [
+                "avatarAction",
+                "editAction",
+                "forgotpasswordAction",
+                "forgotpasswordpostAction",
+                "loginpostAction",
+                "logoutAction",
+                "requestTokenAction",
+                "savepostAction",
+                "viewAction"
+            ]
+        },
+        "Customer_Mobile_Account_EditController": {
+            "family": "Application_Controller_Mobile_Default",
+            "actions": [
+                "findAction",
+                "postAction",
+                "postMcommerceAction",
+                "saveSettingsAction",
+                "sendTestPushAction"
+            ]
+        },
+        "Customer_Mobile_Account_ForgottenpasswordController": {
+            "family": "Application_Controller_Mobile_Default",
+            "actions": [
+                "postAction"
+            ]
+        },
+        "Customer_Mobile_Account_LoginController": {
+            "family": "Application_Controller_Mobile_Default",
+            "actions": [
+                "deleteAccountAction",
+                "indexAction",
+                "logoutAction",
+                "postAction",
+                "postv2Action"
+            ]
+        },
+        "Customer_Mobile_Account_RegisterController": {
+            "family": "Application_Controller_Mobile_Default",
+            "actions": [
+                "postAction",
+                "postMcommerceAction"
+            ]
+        },
+        "Customer_Mobile_VerifmailController": {
+            "family": "Application_Controller_Mobile_Default",
+            "actions": [
+                "liveCheckAction",
+                "sendAction",
+                "verifyAction"
+            ]
+        },
+        "ErrorController": {
+            "family": "public",
+            "actions": [
+                "errorAction"
+            ]
+        },
+        "Event_Mobile_ListController": {
+            "family": "Application_Controller_Mobile_Default",
+            "actions": [
+                "findallAction"
+            ]
+        },
+        "Event_Mobile_ViewController": {
+            "family": "Application_Controller_Mobile_Default",
+            "actions": [
+                "findAction"
+            ]
+        },
+        "Fanwall_Mobile_GalleryController": {
+            "family": "Application_Controller_Mobile_Default",
+            "actions": [
+                "findAllAction"
+            ]
+        },
+        "Fanwall_Mobile_HomeController": {
+            "family": "Application_Controller_Mobile_Default",
+            "actions": [
+                "loadSettingsAction"
+            ]
+        },
+        "Fanwall_Mobile_PostController": {
+            "family": "Application_Controller_Mobile_Default",
+            "actions": [
+                "blockUserAction",
+                "deleteCommentAction",
+                "deletePostAction",
+                "findAllAction",
+                "findAllBlockedAction",
+                "findAllMapAction",
+                "findAllNearbyAction",
+                "findAllProfileAction",
+                "findOneAction",
+                "likePostAction",
+                "loadSettingsAction",
+                "sendCommentAction",
+                "sendPostAction",
+                "unblockUserAction",
+                "unlikePostAction"
+            ]
+        },
+        "Fanwall_Mobile_ReportController": {
+            "family": "Application_Controller_Mobile_Default",
+            "actions": [
+                "commentAckAction",
+                "postAckAction",
+                "reportCommentAction",
+                "reportPostAction"
+            ]
+        },
+        "Folder2_Mobile_ListController": {
+            "family": "Application_Controller_Mobile_Default",
+            "actions": [
+                "findallAction"
+            ]
+        },
+        "Folder_MobileController": {
+            "family": "Application_Controller_Mobile_Default",
+            "actions": [
+                "findchildrenAction"
+            ]
+        },
+        "Folder_Mobile_ListController": {
+            "family": "Application_Controller_Mobile_Default",
+            "actions": [
+                "findallAction",
+                "findallv2Action"
+            ]
+        },
+        "Form2_MobileController": {
+            "family": "Application_Controller_Mobile_Default",
+            "actions": [
+                "findAction",
+                "submitAction"
+            ]
+        },
+        "Form_MobileController": {
+            "family": "Application_Controller_Mobile_Default",
+            "actions": [
+                "postAction",
+                "viewAction"
+            ]
+        },
+        "Form_Mobile_ViewController": {
+            "family": "Application_Controller_Mobile_Default",
+            "actions": [
+                "findAction",
+                "postAction"
+            ]
+        },
+        "Front_AppController": {
+            "family": "Application_Controller_Mobile_Default",
+            "actions": []
+        },
+        "Front_AssetsController": {
+            "family": "Application_Controller_Mobile_Default",
+            "actions": [
+                "backgroundimagesAction"
+            ]
+        },
+        "Front_Controller_Api_Base": {
+            "family": "Application_Controller_Mobile_Default",
+            "actions": [
+                "initAction",
+                "translationsAction"
+            ]
+        },
+        "Front_Controller_Api_V4": {
+            "family": "Application_Controller_Mobile_Default",
+            "actions": []
+        },
+        "Front_Controller_App_Default": {
+            "family": "Application_Controller_Mobile_Default",
+            "actions": []
+        },
+        "Front_MobileController": {
+            "family": "Application_Controller_Mobile_Default",
+            "actions": [
+                "backgroundimageAction",
+                "backgroundimagesAction",
+                "loadAction",
+                "loadv2Action",
+                "loadv3Action",
+                "pagesv2Action",
+                "styleAction",
+                "touchedAction"
+            ]
+        },
+        "ImageController": {
+            "family": "public",
+            "actions": [
+                "cropAction"
+            ]
+        },
+        "InAppPurchase_Mobile_ProductController": {
+            "family": "Application_Controller_Mobile_Default",
+            "actions": [
+                "allAction"
+            ]
+        },
+        "IndexController": {
+            "family": "public",
+            "actions": [
+                "indexAction"
+            ]
+        },
+        "Installer_Controller_Installation_Default": {
+            "family": "Installer_Controller_Installation_Default",
+            "actions": []
+        },
+        "Installer_InstallationController": {
+            "family": "Installer_Controller_Installation_Default",
+            "actions": [
+                "endAction",
+                "indexAction",
+                "savelicenseAction"
+            ]
+        },
+        "Installer_Installation_ApplicationController": {
+            "family": "Installer_Controller_Installation_Default",
+            "actions": [
+                "createAction"
+            ]
+        },
+        "Installer_Installation_DatabaseController": {
+            "family": "Installer_Controller_Installation_Default",
+            "actions": [
+                "checkAction",
+                "cronschedulerAction",
+                "insertdataAction",
+                "installAction"
+            ]
+        },
+        "Installer_Installation_ModuleController": {
+            "family": "Installer_Controller_Installation_Default",
+            "actions": [
+                "installAction"
+            ]
+        },
+        "Installer_Installation_UserController": {
+            "family": "Installer_Controller_Installation_Default",
+            "actions": [
+                "createAction"
+            ]
+        },
+        "Job_Mobile_ListController": {
+            "family": "Application_Controller_Mobile_Default",
+            "actions": [
+                "contactformAction",
+                "createplaceAction",
+                "editcompanyAction",
+                "editplaceAction",
+                "fetchSettingsAction",
+                "findAction",
+                "findallAction",
+                "findcompanyAction"
+            ]
+        },
+        "Loyaltycard_MobileController": {
+            "family": "Application_Controller_Mobile_Default",
+            "actions": [
+                "validateAction"
+            ]
+        },
+        "Loyaltycard_Mobile_ViewController": {
+            "family": "Application_Controller_Mobile_Default",
+            "actions": [
+                "findallAction",
+                "unlockbyqrcodeAction",
+                "validateAction"
+            ]
+        },
+        "Maps_Mobile_ViewController": {
+            "family": "Application_Controller_Mobile_Default",
+            "actions": [
+                "findAction"
+            ]
+        },
+        "Mcommerce_Controller_Mobile_Default": {
+            "family": "Application_Controller_Mobile_Default",
+            "actions": []
+        },
+        "Mcommerce_Mobile_CartController": {
+            "family": "Application_Controller_Mobile_Default",
+            "actions": [
+                "addAction",
+                "adddiscountAction",
+                "addtipAction",
+                "computeAction",
+                "deleteAction",
+                "findAction",
+                "modifyAction",
+                "removealldiscountAction",
+                "usefidelitypointsforcartAction"
+            ]
+        },
+        "Mcommerce_Mobile_CategoryController": {
+            "family": "Application_Controller_Mobile_Default",
+            "actions": [
+                "findallAction"
+            ]
+        },
+        "Mcommerce_Mobile_ProductController": {
+            "family": "Application_Controller_Mobile_Default",
+            "actions": [
+                "findAction"
+            ]
+        },
+        "Mcommerce_Mobile_Sales_ConfirmationController": {
+            "family": "Application_Controller_Mobile_Default",
+            "actions": [
+                "cancelAction",
+                "confirmAction"
+            ]
+        },
+        "Mcommerce_Mobile_Sales_CustomerController": {
+            "family": "Application_Controller_Mobile_Default",
+            "actions": [
+                "findAction",
+                "getorderdetailsAction",
+                "getordersAction",
+                "hasguestmodeAction",
+                "updateAction"
+            ]
+        },
+        "Mcommerce_Mobile_Sales_DeliveryController": {
+            "family": "Application_Controller_Mobile_Default",
+            "actions": [
+                "findstoreAction",
+                "updateAction"
+            ]
+        },
+        "Mcommerce_Mobile_Sales_ErrorController": {
+            "family": "Application_Controller_Mobile_Default",
+            "actions": [
+                "templateAction"
+            ]
+        },
+        "Mcommerce_Mobile_Sales_PaymentController": {
+            "family": "Application_Controller_Mobile_Default",
+            "actions": [
+                "findonlinepaymenturlAction",
+                "findpaymentmethodsAction",
+                "updateAction",
+                "validatepaymentAction"
+            ]
+        },
+        "Mcommerce_Mobile_Sales_StorechoiceController": {
+            "family": "Application_Controller_Mobile_Default",
+            "actions": [
+                "findAction",
+                "updateAction"
+            ]
+        },
+        "Mcommerce_Mobile_Sales_SuccessController": {
+            "family": "Application_Controller_Mobile_Default",
+            "actions": []
+        },
+        "Media_Mobile_Api_Music_AlbumController": {
+            "family": "Application_Controller_Mobile_Default",
+            "actions": [
+                "findAction",
+                "findallAction",
+                "findallv2Action",
+                "findbyplaylistAction"
+            ]
+        },
+        "Media_Mobile_Api_Music_PlaylistController": {
+            "family": "Application_Controller_Mobile_Default",
+            "actions": [
+                "findAction",
+                "findallAction",
+                "findallv2Action",
+                "getpagetitleAction"
+            ]
+        },
+        "Media_Mobile_Api_Music_TrackController": {
+            "family": "Application_Controller_Mobile_Default",
+            "actions": [
+                "findbyalbumAction"
+            ]
+        },
+        "Media_Mobile_Gallery_ImageController": {
+            "family": "Application_Controller_Mobile_Default",
+            "actions": [
+                "listAction",
+                "loadmoreAction"
+            ]
+        },
+        "Media_Mobile_Gallery_Image_ListController": {
+            "family": "Application_Controller_Mobile_Default",
+            "actions": [
+                "findallAction"
+            ]
+        },
+        "Media_Mobile_Gallery_Image_ViewController": {
+            "family": "Application_Controller_Mobile_Default",
+            "actions": [
+                "findAction"
+            ]
+        },
+        "Media_Mobile_Gallery_MusicController": {
+            "family": "Application_Controller_Mobile_Default",
+            "actions": [
+                "albumAction",
+                "listAction",
+                "listalbumAction",
+                "listplaylistAction",
+                "playlistAction",
+                "playlistalbumsAction",
+                "playlistallAction"
+            ]
+        },
+        "Media_Mobile_Gallery_Music_AlbumController": {
+            "family": "Application_Controller_Mobile_Default",
+            "actions": []
+        },
+        "Media_Mobile_Gallery_Music_AlbumsController": {
+            "family": "Application_Controller_Mobile_Default",
+            "actions": []
+        },
+        "Media_Mobile_Gallery_Music_AlbumsboxesController": {
+            "family": "Application_Controller_Mobile_Default",
+            "actions": []
+        },
+        "Media_Mobile_Gallery_Music_PlayerController": {
+            "family": "Application_Controller_Mobile_Default",
+            "actions": []
+        },
+        "Media_Mobile_Gallery_Music_PlayerlinkController": {
+            "family": "Application_Controller_Mobile_Default",
+            "actions": []
+        },
+        "Media_Mobile_Gallery_Music_PlaylistalbumsController": {
+            "family": "Application_Controller_Mobile_Default",
+            "actions": []
+        },
+        "Media_Mobile_Gallery_Music_PlaylistsController": {
+            "family": "Application_Controller_Mobile_Default",
+            "actions": []
+        },
+        "Media_Mobile_Gallery_Music_PlaylisttracksController": {
+            "family": "Application_Controller_Mobile_Default",
+            "actions": []
+        },
+        "Media_Mobile_Gallery_VideoController": {
+            "family": "Application_Controller_Mobile_Default",
+            "actions": [
+                "listAction",
+                "loadmoreAction"
+            ]
+        },
+        "Media_Mobile_Gallery_Video_ListController": {
+            "family": "Application_Controller_Mobile_Default",
+            "actions": [
+                "findallAction",
+                "proxyYoutubeAction"
+            ]
+        },
+        "Media_Mobile_Gallery_Video_ViewController": {
+            "family": "Application_Controller_Mobile_Default",
+            "actions": [
+                "findAction"
+            ]
+        },
+        "Padlock_Mobile_ViewController": {
+            "family": "Application_Controller_Mobile_Default",
+            "actions": [
+                "findAction",
+                "findunlocktypesAction",
+                "isQrCodeAction",
+                "unlockbyqrcodeAction"
+            ]
+        },
+        "PaymentCash_Mobile_CashController": {
+            "family": "Application_Controller_Mobile_Default",
+            "actions": [
+                "fetchPaymentAction"
+            ]
+        },
+        "PaymentCash_Mobile_HandlerController": {
+            "family": "Application_Controller_Mobile_Default",
+            "actions": [
+                "authorizationErrorAction",
+                "authorizationSuccessAction",
+                "captureErrorAction",
+                "captureSuccessAction",
+                "paymentErrorAction",
+                "paymentSuccessAction",
+                "setupErrorAction",
+                "setupSuccessAction"
+            ]
+        },
+        "PaymentMethod_Mobile_GatewayController": {
+            "family": "Application_Controller_Mobile_Default",
+            "actions": [
+                "fetchAllAction"
+            ]
+        },
+        "PaymentStripe_Mobile_CardsController": {
+            "family": "Application_Controller_Mobile_Default",
+            "actions": [
+                "deletePaymentMethodAction",
+                "fetchPaymentIntentAction",
+                "fetchSettingsAction",
+                "fetchSetupIntentAction",
+                "fetchVaultsAction",
+                "savePaymentMethodAction"
+            ]
+        },
+        "PaymentStripe_Mobile_HandlerController": {
+            "family": "Application_Controller_Mobile_Default",
+            "actions": [
+                "authorizationErrorAction",
+                "authorizationSuccessAction",
+                "captureErrorAction",
+                "captureSuccessAction",
+                "paymentErrorAction",
+                "paymentSuccessAction",
+                "setupErrorAction",
+                "setupSuccessAction"
+            ]
+        },
+        "Payment_PaypalController": {
+            "family": "Application_Controller_Mobile_Default",
+            "actions": [
+                "cancelAction",
+                "checkrecurrencesAction",
+                "confirmAction"
+            ]
+        },
+        "Places_Mobile_Api_PlacesController": {
+            "family": "Application_Controller_Mobile_Default",
+            "actions": [
+                "findAction",
+                "findallAction"
+            ]
+        },
+        "Places_Mobile_DetailsController": {
+            "family": "Application_Controller_Mobile_Default",
+            "actions": []
+        },
+        "Places_Mobile_DetailsmapController": {
+            "family": "Application_Controller_Mobile_Default",
+            "actions": []
+        },
+        "Places_Mobile_ListController": {
+            "family": "Application_Controller_Mobile_Default",
+            "actions": [
+                "fetchSettingsAction",
+                "findAllMapsAction",
+                "findNotesAction",
+                "findOneAction",
+                "findallAction",
+                "settingsAction"
+            ]
+        },
+        "Places_Mobile_MapController": {
+            "family": "Application_Controller_Mobile_Default",
+            "actions": []
+        },
+        "Places_Mobile_ViewController": {
+            "family": "Application_Controller_Mobile_Default",
+            "actions": [
+                "deleteNoteAction",
+                "findAction",
+                "saveNoteAction"
+            ]
+        },
+        "Promotion_Mobile_ListController": {
+            "family": "Application_Controller_Mobile_Default",
+            "actions": [
+                "findallAction",
+                "isQrCodeAction",
+                "unlockbyqrcodeAction",
+                "useAction"
+            ]
+        },
+        "Promotion_Mobile_ViewController": {
+            "family": "Application_Controller_Mobile_Default",
+            "actions": [
+                "findAction"
+            ]
+        },
+        "Push2\\Mobile\\ListController": {
+            "family": "Application_Controller_Mobile_Default",
+            "actions": [
+                "findAllAction",
+                "getSampleAction"
+            ]
+        },
+        "Push2\\Mobile\\PlayerController": {
+            "family": "Application_Controller_Mobile_Default",
+            "actions": [
+                "registerAction",
+                "testPushAction"
+            ]
+        },
+        "Radio_MobileController": {
+            "family": "Application_Controller_Mobile_Default",
+            "actions": [
+                "viewAction"
+            ]
+        },
+        "Radio_Mobile_RadioController": {
+            "family": "Application_Controller_Mobile_Default",
+            "actions": [
+                "findAction"
+            ]
+        },
+        "Rss_Mobile_Feed_ListController": {
+            "family": "Application_Controller_Mobile_Default",
+            "actions": [
+                "findallAction",
+                "indexAction",
+                "templateAction"
+            ]
+        },
+        "Rss_Mobile_Feed_ViewController": {
+            "family": "Application_Controller_Mobile_Default",
+            "actions": [
+                "findAction",
+                "indexAction",
+                "templateAction"
+            ]
+        },
+        "Rss_Mobile_RssController": {
+            "family": "Application_Controller_Mobile_Default",
+            "actions": [
+                "feedsAction",
+                "groupedFeedsAction",
+                "singleFeedAction"
+            ]
+        },
+        "Social_Mobile_FacebookController": {
+            "family": "Application_Controller_Mobile_Default",
+            "actions": [
+                "detailsAction",
+                "loadmoreAction"
+            ]
+        },
+        "Social_Mobile_Facebook_ListController": {
+            "family": "Application_Controller_Mobile_Default",
+            "actions": [
+                "findAction"
+            ]
+        },
+        "Social_Mobile_Facebook_ViewController": {
+            "family": "Application_Controller_Mobile_Default",
+            "actions": []
+        },
+        "Socialgaming_MobileController": {
+            "family": "Application_Controller_Mobile_Default",
+            "actions": [
+                "viewAction"
+            ]
+        },
+        "Socialgaming_Mobile_ViewController": {
+            "family": "Application_Controller_Mobile_Default",
+            "actions": [
+                "findallAction"
+            ]
+        },
+        "Socialgaming_SidebarController": {
+            "family": "public",
+            "actions": [
+                "loadchallengersAction"
+            ]
+        },
+        "Sourcecode_MobileController": {
+            "family": "Application_Controller_Mobile_Default",
+            "actions": []
+        },
+        "Sourcecode_Mobile_ViewController": {
+            "family": "Application_Controller_Mobile_Default",
+            "actions": [
+                "findAction"
+            ]
+        },
+        "Template_BlockController": {
+            "family": "public",
+            "actions": [
+                "blankimageAction",
+                "colorizeAction"
+            ]
+        },
+        "Tip_Mobile_ViewController": {
+            "family": "Application_Controller_Mobile_Default",
+            "actions": [
+                "findallAction"
+            ]
+        },
+        "Topic_Mobile_ListController": {
+            "family": "Application_Controller_Mobile_Default",
+            "actions": [
+                "findallAction",
+                "subscribeAction"
+            ]
+        },
+        "Translation_ExtractController": {
+            "family": "Application_Controller_Mobile_Default",
+            "actions": [
+                "indexAction"
+            ]
+        },
+        "Translation_JsController": {
+            "family": "public",
+            "actions": [
+                "validateAction"
+            ]
+        },
+        "Twitter_Mobile_TwitterController": {
+            "family": "Application_Controller_Mobile_Default",
+            "actions": [
+                "infoAction",
+                "listAction"
+            ]
+        },
+        "Weather_Mobile_ViewController": {
+            "family": "Application_Controller_Mobile_Default",
+            "actions": [
+                "findAction",
+                "getweatherAction"
+            ]
+        },
+        "Weblink_Mobile_MultiController": {
+            "family": "Application_Controller_Mobile_Default",
+            "actions": [
+                "findAction"
+            ]
+        },
+        "Wordpress2_Mobile_ListController": {
+            "family": "Application_Controller_Mobile_Default",
+            "actions": [
+                "findAction",
+                "loadpostsAction"
+            ]
+        },
+        "Wordpress_MobileController": {
+            "family": "Application_Controller_Mobile_Default",
+            "actions": [
+                "loadpostsAction",
+                "viewAction"
+            ]
+        },
+        "Wordpress_Mobile_ListController": {
+            "family": "Application_Controller_Mobile_Default",
+            "actions": [
+                "findallAction"
+            ]
+        },
+        "Wordpress_Mobile_ViewController": {
+            "family": "Application_Controller_Mobile_Default",
+            "actions": []
+        }
+    }
+}
