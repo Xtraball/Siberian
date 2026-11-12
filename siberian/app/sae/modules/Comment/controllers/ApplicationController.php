@@ -150,7 +150,7 @@ class Comment_ApplicationController extends Application_Controller_Default {
 
     public function deleteAction() {
         $html = '';
-        if ($id = $this->getRequest()->getParam('id')) {
+        if ($id = \Siberian\Input::int($this->getRequest()->getParam('id'), 0, 0)) {
             try {
                 $comment = new Comment_Model_Comment();
                 $comment->find($id)->delete();
@@ -173,7 +173,7 @@ class Comment_ApplicationController extends Application_Controller_Default {
 
     public function hideAction() {
         $html = '';
-        if ($id = $this->getRequest()->getParam('id')) {
+        if ($id = \Siberian\Input::int($this->getRequest()->getParam('id'), 0, 0)) {
             try {
                 $comment = new Comment_Model_Comment();
                 $comment->find($id)->setisVisible(0)->save();
@@ -196,7 +196,7 @@ class Comment_ApplicationController extends Application_Controller_Default {
 
     public function showAction() {
         $html = '';
-        if ($id = $this->getRequest()->getParam('id')) {
+        if ($id = \Siberian\Input::int($this->getRequest()->getParam('id'), 0, 0)) {
             try {
                 $comment = new Comment_Model_Comment();
                 $comment->find($id)->setisVisible(1)->save();

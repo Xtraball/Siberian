@@ -117,7 +117,7 @@ class Mcommerce_Mobile_Sales_CustomerController extends Mcommerce_Controller_Mob
     public function getordersAction()
     {
 
-        $offset = $this->getRequest()->getParam("offset") ? $this->getRequest()->getParam("offset") : 0;
+        $offset = \Siberian\Input::int($this->getRequest()->getParam("offset"), 0, 0);
 
         $customer = $this->getSession()->getCustomer();
         $option = $this->getCurrentOptionValue();
