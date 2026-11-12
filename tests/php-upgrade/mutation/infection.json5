@@ -1,0 +1,17 @@
+{
+    "$schema": "https://raw.githubusercontent.com/infection/infection/0.35.10/resources/schema.json",
+    "source": {
+        "directories": ["../../../siberian/lib/Siberian"]
+    },
+    "phpUnit": {
+        "configDir": "."
+    },
+    "logs": {
+        "text": "/tmp/infection.log"
+    },
+    "tmpDir": "/tmp/infection",
+    "minMsi": 0,
+    "mutators": {
+        "@default": true
+    }
+}
