@@ -99,8 +99,8 @@ class Places_Mobile_ListController extends Application_Controller_Mobile_Default
             $categories = $request->getParam("categories", []);
 
             $position = [
-                "latitude" => $request->getParam("latitude", 0),
-                "longitude" => $request->getParam("longitude", 0)
+                "latitude" => \Siberian\Input::latitude($request->getParam("latitude")),
+                "longitude" => \Siberian\Input::longitude($request->getParam("longitude"))
             ];
 
             $optionValue = $this->getCurrentOptionValue();
@@ -177,11 +177,11 @@ class Places_Mobile_ListController extends Application_Controller_Mobile_Default
             $customerId = $session->getCustomerId();
 
             $data = $request->getBodyParams();
-            $east = (float) ($data['e'] ?? 0);
-            $north = (float) ($data['n'] ?? 0);
-            $south = (float) ($data['s'] ?? 0);
-            $west = (float) ($data['w'] ?? 0);
-            $zoom = (int) ($data['zoom'] ?? 0);
+            $east = \Siberian\Input::float($data['e'] ?? null);
+            $north = \Siberian\Input::float($data['n'] ?? null);
+            $south = \Siberian\Input::float($data['s'] ?? null);
+            $west = \Siberian\Input::float($data['w'] ?? null);
+            $zoom = \Siberian\Input::int($data['zoom'] ?? null, 0, 0);
 
             $fulltext = $data['fulltext'] ?? null;
             $categories = $data['categories'] ?? [];
