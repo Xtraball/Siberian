@@ -555,17 +555,26 @@ abstract class Core_Controller_Default_Abstract extends Zend_Controller_Action i
      */
     public function downloadAction()
     {
+        // Only a file below var/tmp or var/apps, found by its real path (a "../" does not leave it), and never the text
+        // of the request echoed back: an unknown file is an error, not a body in a content type the caller chose.
+        $request = $this->getRequest();
+        $path = \Siberian\SafePath::file(
+            base64_decode(\Siberian\Input::string($request->getParam('path')), true),
+            [
+                Core_Model_Directory::getBasePathTo('/var/tmp'),
+                Core_Model_Directory::getBasePathTo('/var/apps'),
+            ]
+        );
+        if ($path === null) {
+            throw new \Siberian\Exception('Forbidden path');
+        }
 
-        $path = $this->getRequest()->getParam('path');
-        $path = base64_decode($path);
+        $name = \Siberian\SafePath::downloadName(
+            base64_decode(\Siberian\Input::string($request->getParam('name')), true),
+            basename($path)
+        );
 
-        $name = $this->getRequest()->getParam('name');
-        $name = base64_decode($name);
-
-        $content_type = $this->getRequest()->getParam('content_type');
-
-        $this->_download($path, $name, $content_type);
-
+        $this->_download($path, $name, 'application/octet-stream');
     }
 
     /**

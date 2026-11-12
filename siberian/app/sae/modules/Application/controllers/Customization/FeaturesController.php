@@ -130,7 +130,7 @@ class Application_Customization_FeaturesController extends Application_Controlle
     public function editAction()
     {
 
-        if ($type = $this->getRequest()->getParam('type')) {
+        if ($type = \Siberian\Input::slug($this->getRequest()->getParam('type'))) {
             $this->getLayout()->setBaseRender('content', sprintf('application/customization/page/edit/%s.phtml', $type), 'admin_view_default');
             $html = ['html' => $this->getLayout()->render()];
             $this->_sendHtml($html);

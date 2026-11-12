@@ -116,6 +116,21 @@ class Input
     }
 
     /**
+     * An identifier: letters, digits, underscore and dash, nothing else (no dot, no slash). Anything else gives the
+     * default. For what becomes part of a file name, a template name or a class name.
+     *
+     * @param mixed $value
+     * @param string $default
+     * @return string
+     */
+    public static function slug($value, $default = '')
+    {
+        $text = self::string($value);
+
+        return preg_match('/^[A-Za-z0-9_-]+$/D', $text) ? $text : (string) $default;
+    }
+
+    /**
      * 1, "1", true, "true", "on", "yes" are true; 0, "0", false, "false", "off", "no", "" are false (any case).
      * Anything else gives the default.
      *

@@ -445,10 +445,10 @@ class Installer_Backoffice_ModuleController extends Backoffice_Controller_Defaul
         try {
 
             $request = $this->getRequest();
-            $code = $request->getParam('code', false);
-            $itemId = $request->getParam('itemId', false);
+            $code = \Siberian\Input::string($request->getParam('code'), '');
+            $itemId = \Siberian\Input::string($request->getParam('itemId'), '');
 
-            if ($code === false || $itemId === false) {
+            if ($code === '' || $itemId === '') {
                 throw new \Siberian\Exception(p__('backoffice', 'Params code & itemId are required.'));
             }
 
@@ -489,11 +489,11 @@ class Installer_Backoffice_ModuleController extends Backoffice_Controller_Defaul
         try {
 
             $request = $this->getRequest();
-            $code = $request->getParam('code', false);
-            $itemId = $request->getParam('itemId', false);
-            $license = trim($request->getParam('license', false));
+            $code = \Siberian\Input::string($request->getParam('code'), '');
+            $itemId = \Siberian\Input::string($request->getParam('itemId'), '');
+            $license = \Siberian\Input::string($request->getParam('license'), '');
 
-            if ($code === false || $itemId === false || $license === false) {
+            if ($code === '' || $itemId === '') {
                 throw new \Siberian\Exception(p__('backoffice', 'Params code, itemId & license are required.'));
             }
 
