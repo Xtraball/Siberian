@@ -15,7 +15,7 @@ class Wordpress2_Mobile_ListController extends Application_Controller_Mobile_Def
             $valueId = $optionValue->getId();
             $request = $this->getRequest();
             $page = \Siberian\Input::int($request->getParam('page'), 1, 1);
-            $refresh = filter_var($request->getParam('refresh', false), FILTER_VALIDATE_BOOLEAN);
+            $refresh = \Siberian\Input::bool($request->getParam('refresh', false));
 
             $wordpress = (new Wordpress2_Model_Wordpress())
                 ->find($valueId, 'value_id');
@@ -184,7 +184,7 @@ class Wordpress2_Mobile_ListController extends Application_Controller_Mobile_Def
             $valueId = $optionValue->getId();
             $request = $this->getRequest();
             $page = \Siberian\Input::int($request->getParam('page'), 1, 1);
-            $refresh = filter_var($request->getParam('refresh', false), FILTER_VALIDATE_BOOLEAN);
+            $refresh = \Siberian\Input::bool($request->getParam('refresh', false));
             $queryId = $request->getParam('queryId', null);
 
             $wordpress = (new Wordpress2_Model_Wordpress())

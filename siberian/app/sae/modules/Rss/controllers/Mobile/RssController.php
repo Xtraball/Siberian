@@ -30,7 +30,7 @@ class Rss_Mobile_RssController extends Application_Controller_Mobile_Default
             $request = $this->getRequest();
             $valueId = \Siberian\Input::int($request->getParam("value_id"), 0, 0);
             $optionValue = $this->getCurrentOptionValue();
-            $refresh = filter_var($request->getParam("refresh", false), FILTER_VALIDATE_BOOLEAN);
+            $refresh = \Siberian\Input::bool($request->getParam("refresh", false));
 
             if (!$optionValue->getId()) {
                 throw new Exception(p__("rss", "This feature doesn't exists."));
@@ -151,7 +151,7 @@ class Rss_Mobile_RssController extends Application_Controller_Mobile_Default
             $request = $this->getRequest();
             $valueId = \Siberian\Input::int($request->getParam("value_id"), 0, 0);
             $optionValue = $this->getCurrentOptionValue();
-            $refresh = filter_var($request->getParam("refresh", false), FILTER_VALIDATE_BOOLEAN);
+            $refresh = \Siberian\Input::bool($request->getParam("refresh", false));
 
             try {
                 $settings = Json::decode($optionValue->getSettings());
@@ -274,7 +274,7 @@ class Rss_Mobile_RssController extends Application_Controller_Mobile_Default
             $request = $this->getRequest();
             $feedId = $request->getParam("feedId", null);
             $optionValue = $this->getCurrentOptionValue();
-            $refresh = filter_var($request->getParam("refresh", false), FILTER_VALIDATE_BOOLEAN);
+            $refresh = \Siberian\Input::bool($request->getParam("refresh", false));
 
             try {
                 $settings = Json::decode($optionValue->getSettings());

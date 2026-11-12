@@ -140,7 +140,7 @@ class Application_Backoffice_ListController extends Backoffice_Controller_Defaul
 
         $application = new Application_Model_Application();
         if (!Siberian_Version::is("sae")) {
-            $show_all = filter_var($this->getRequest()->getParam("show_all_applications", false), FILTER_VALIDATE_BOOLEAN);
+            $show_all = \Siberian\Input::bool($this->getRequest()->getParam("show_all_applications", false));
             $_admin_id = ($show_all) ? null : $admin_id;
 
             $applications = $application->findAllByAdmin($_admin_id, $filters, $order, $limit, $offset);
