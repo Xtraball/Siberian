@@ -158,7 +158,7 @@ angular
         $scope.is_loading = true;
         if (Location.isEnabled) {
             Location
-                .getLocation({timeout: 10000}, true)
+                .getLocation({timeout: 10000})
                 .then(function (position) {
                     $scope.filters.latitude = position.coords.latitude;
                     $scope.filters.longitude = position.coords.longitude;
@@ -273,7 +273,7 @@ angular
 
             // To ensure a fast loading even when GPS is off, we need to decrease the GPS timeout!
             if (Location.isEnabled) {
-                Location.getLocation({timeout: 10000}, true)
+                Location.getLocation({timeout: 10000})
                     .then(function (position) {
                         $scope.filters.latitude = position.coords.latitude;
                         $scope.filters.longitude = position.coords.longitude;
