@@ -465,6 +465,26 @@ class Siberian_Migration_Db_Table extends Zend_Db_Table_Abstract
                 if (preg_match("/^(created|updated)_at_utc$/", $column_name)) {
                     $fix_utc_dates = true;
                 }
+            } elseif (array_key_exists('index', $options) && !isset($this->indexes[$column_name])) {
+                /**
+                 * Existing column, declared index missing from the live table (#1122): createTable() used to be
+                 * the only place a declared index ever reached the database, so an already-synced installation
+                 * never got it. Each missing index is added on its own and never blocks the rest of the sync.
+                 */
+                $key_name = !empty($options['index']['key_name'])
+                    ? strtoupper($options['index']['key_name'])
+                    : 'INDEX_' . strtoupper($column_name);
+                $this->addMissingIndex($column_name, $key_name, !empty($options['index']['is_unique']));
+            } elseif (!array_key_exists('index', $options)
+                && !empty($options['unique'])
+                && !isset($this->indexes[$column_name])
+            ) {
+                /**
+                 * Existing column, bare 'unique' flag that never reached the database either: $this->uniqueKeys
+                 * (populated by parseColumn()) was written but never read by createTable(), so this is the same
+                 * root cause as #1122, just on the handful of columns that declare 'unique' without 'index'.
+                 */
+                $this->addMissingIndex($column_name, 'UNIQUE_' . strtoupper($column_name), true);
             }
         }
 
@@ -571,6 +591,57 @@ class Siberian_Migration_Db_Table extends Zend_Db_Table_Abstract
     }
 
     /**
+     * Adds one declared index (or bare 'unique' flag) to an existing column that does not have it in the live
+     * database yet (#1122). A UNIQUE index is skipped, logged, and left for a manual data cleanup when the
+     * column already holds duplicate values, instead of failing the whole schema sync.
+     *
+     * @param string $column_name
+     * @param string $key_name
+     * @param bool $is_unique
+     */
+    public function addMissingIndex($column_name, $key_name, $is_unique)
+    {
+        if ($is_unique && $this->hasDuplicateValues($column_name)) {
+            $this->logger->info(
+                "[Table::addMissingIndex] Skipped UNIQUE INDEX `{$key_name}` on "
+                . "`{$this->tableName}`.`{$column_name}`: existing duplicate values would make it invalid, "
+                . "needs a data cleanup before it can be added.",
+                sprintf($this->log_error, Siberian_Version::VERSION),
+                false
+            );
+
+            return;
+        }
+
+        $kind = $is_unique ? 'UNIQUE INDEX' : 'INDEX';
+        $request = "ALTER TABLE `{$this->tableName}` ADD {$kind} `{$key_name}` (`{$column_name}`);";
+
+        try {
+            $this->execSafe($request);
+        } catch (Exception $e) {
+            // One missing index must never block the rest of the schema sync (#1122).
+            $this->logger->info(
+                "[Table::addMissingIndex] Could not add {$kind} `{$key_name}` on "
+                . "`{$this->tableName}`.`{$column_name}`: {$e->getMessage()}",
+                sprintf($this->log_error, Siberian_Version::VERSION),
+                false
+            );
+        }
+    }
+
+    /**
+     * @param string $column_name
+     * @return bool
+     */
+    public function hasDuplicateValues($column_name)
+    {
+        $request = "SELECT `{$column_name}` FROM `{$this->tableName}` WHERE `{$column_name}` IS NOT NULL "
+            . "GROUP BY `{$column_name}` HAVING COUNT(*) > 1 LIMIT 1;";
+
+        return count($this->query($request)->fetchAll()) > 0;
+    }
+
+    /**
      * Parsing MySQL foreign key line
      *
      * @param $column_name
@@ -662,6 +733,58 @@ class Siberian_Migration_Db_Table extends Zend_Db_Table_Abstract
     }
 
     /**
+     * UNIQUE KEY line(s) for the columns parseColumn() collected into $this->uniqueKeys from a bare
+     * 'unique' => true (no 'index' sub-array): the one thing those columns need that parseIndexes() does not
+     * give them. A column that also declares 'index' gets its UNIQUE KEY from there instead, so it is skipped
+     * here to avoid declaring the same uniqueness twice.
+     *
+     * @return string
+     */
+    public function parseUniqueKeys()
+    {
+        $lines = [];
+        foreach ($this->uniqueKeys as $column_name) {
+            if (array_key_exists('index', $this->schemaFields[$column_name] ?? [])) {
+                continue;
+            }
+
+            $lines[] = "\tUNIQUE KEY `UNIQUE_" . strtoupper($column_name) . "` (`{$column_name}`)";
+        }
+
+        return implode_polyfill(",\n", $lines);
+    }
+
+    /**
+     * Builds the $this->indexes structure straight from the declared schema, in the shape parseIndexes()
+     * expects (grouped by index/key name). createTable() never reads the live database, so without this
+     * $this->indexes is always empty there and every brand-new table is missing every declared index (#1122).
+     *
+     * @return array
+     */
+    public function buildDeclaredIndexes()
+    {
+        $indexes = [];
+        foreach ($this->schemaFields as $column_name => $col) {
+            if (!array_key_exists('index', $col)) {
+                continue;
+            }
+
+            $key_name = !empty($col['index']['key_name'])
+                ? strtoupper($col['index']['key_name'])
+                : 'INDEX_' . strtoupper($column_name);
+
+            $indexes[$key_name][] = [
+                'column_name' => $column_name,
+                'index_type' => $col['index']['index_type'] ?? 'BTREE',
+                'is_null' => !empty($col['index']['is_null']),
+                'is_unique' => !empty($col['index']['is_unique']),
+            ];
+        }
+
+        return $indexes;
+    }
+
+    /**
      * @return array
      */
     public function parseIndexes()
@@ -721,7 +844,11 @@ class Siberian_Migration_Db_Table extends Zend_Db_Table_Abstract
         /** Parse PRIMARY key(s) */
         $lines[] = $this->parsePrimaryKeys();
 
-        /** Parse INDEXES */
+        /** Parse UNIQUE key(s) declared without their own 'index' (#1122) */
+        $lines[] = $this->parseUniqueKeys();
+
+        /** Parse declared INDEXES (#1122: built from the schema, createTable() has no live database to read) */
+        $this->indexes = $this->buildDeclaredIndexes();
         $lines = array_merge($lines, $this->parseIndexes());
 
         $create .= implode_polyfill(",\n", array_filter($lines));
