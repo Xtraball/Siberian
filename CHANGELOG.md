@@ -2,6 +2,27 @@
 
 Notable changes to Siberian, newest first. Dates are `YYYY-MM-DD`. Longer notes live in `docs/`.
 
+## [5.1.24] 2026-11-14
+
+A fix for declared indexes that never reached the database, and a Places list fix that reuses a recent GPS fix
+instead of forcing a new one, on top of 5.1.23. Every SAE module's `package.json` was bumped in this release so the
+index fix retrofits already-installed sites, not only fresh installs (schema sync is an upsert, gated per module
+version). The update package is built against 5.1.23 (`lastversion`), the last published version. MAE and PE carry
+no changes of their own for this release (no new commits since `v5.1.23` on their `master`); none of the files
+touched here are overridden by either, checked against their override map.
+
+### Fixed
+
+- 2026-11-14 Database: a column's declared `'index'` (or bare `'unique'` flag) now actually becomes a real index,
+  both on a fresh install (`createTable()` never read it before) and on an existing column whose schema gains one
+  later (`updateTable()` only ever added new columns, never a missing index on one that already existed). A
+  `UNIQUE` index whose column already has duplicate values is skipped and logged instead of failing the sync.
+  Measured impact on an affected install: the Places list query went from 13.1s to 0.31s, the Places map query from
+  84.6s to 1.1s. (#1122, #1124)
+- 2026-11-13 Places: the list view reuses a GPS fix from the last 42 seconds instead of always forcing a new one,
+  same as the map view already did; call sites that genuinely need a fresh fix on open (Fanwall, Job) are
+  unaffected. (#1123)
+
 ## [5.1.23] 2026-11-13
 
 A background-audio fix for Android, three feature requests closed from the oldest-issues backlog, and two small
