@@ -41,14 +41,16 @@ class GetTableModelWithRealClass extends Core_Model_Default_Abstract
 }
 
 return [
-    'a missing table class throws, naming the model and the missing class, instead of an opaque fatal' => function () {
+    'a missing table class throws an Error naming the model and the missing class, instead of an opaque fatal' => function () {
         $model = new GetTableModelWithMissingClass();
         try {
             $model->getTable();
             t_true(false, 'getTable() was expected to throw');
         } catch (\Error $e) {
-            t_true(false, 'must not be the raw "Class not found" fatal: ' . $e->getMessage());
-        } catch (\Exception $e) {
+            // Still an \Error, like the raw fatal this replaces: Application_Controller_Default::dispatch() (and
+            // others) branch on instanceof \Error to decide whether a non-AJAX request gets a clean JSON response
+            // instead of propagating, so the type must not change. Only the message does: PHP's own raw message
+            // ("Class \"GetTableClassThatDoesNotExist\" not found") never named the model class.
             t_true(strpos($e->getMessage(), 'GetTableModelWithMissingClass') !== false, 'names the model');
             t_true(strpos($e->getMessage(), 'GetTableClassThatDoesNotExist') !== false, 'names the missing class');
         }
