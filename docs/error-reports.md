@@ -18,8 +18,9 @@ Per group: level, a scrubbed message, the file path **relative to the install ro
 - `surface`: `app` (a call of the mobile app or of the web app, see `Quarantine::isAppRequest`), `editor`, `backoffice`, `api` or `cron` (cli, no request). The same error from two surfaces is two groups.
 - `module`: the folder name of the module of `app/local/modules` the file belongs to (`Xdelivery`); left out for core files. Module updates already send the installed module names to the same service.
 - `endpoints`: how many distinct endpoints (the first three path segments, numbers dropped) the group came from, at most 20. Only the number is sent, never the URL.
+- `version`: the Siberian version running when the group was first seen, stamped once by `record()` and never updated by a later occurrence. The buffer can sit for up to an hour before the cron sends it, so without this an error from just before an update could be relabelled with the version the site only just started running. Absent for a group that has none (written before this field existed, or a caller that gives none): the report's own `install.siberian` is then the only version information, as it always was.
 
-A group written to the buffer before this version has none of the three and is sent as it was.
+A group written to the buffer before this version has none of the four and is sent as it was.
 
 Never sent: request data, users, IP addresses, host names, licence keys, SQL values, stack-trace arguments, absolute paths. Messages lose quoted values, numbers, e-mail addresses, URLs, long hex strings and absolute paths before they are stored (`ErrorReporter::normalize()`), and are cut at 300 characters.
 

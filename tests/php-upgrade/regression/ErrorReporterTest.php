@@ -204,6 +204,31 @@ return [
         t_equal(['level', 'message', 'file', 'line', 'count', 'first', 'last', 'surface', 'endpoints'], array_keys($report['groups'][0]), 'keys (module only for a local module)');
         t_equal(0, $report['dropped'], 'dropped');
     },
+    'a group keeps the version it first happened on, not the version at the hourly send' => function () {
+        // Without this, an error buffered just before an update and only sent by the cron afterwards is reported
+        // under the new version, even though it never ran on it: the install's own version used to be read fresh
+        // at push() time, for the whole batch, with nothing recorded per group.
+        $now = 1900000000;
+        $clock = function () use (&$now) {
+            return $now;
+        };
+        $file = sys_get_temp_dir() . '/er-' . bin2hex(random_bytes(5)) . '/cache/error-reporter.json';
+
+        $old = new ErrorReporter($file, '/var/www/siberian', $clock, null, null, '5.1.23');
+        $old->record('fatal', 'Class "Foo" not found', '/var/www/siberian/app/Bar.php', 5);
+        $old->flush();
+
+        $now += 1800; // the site updates, then the hourly cron (a fresh ErrorReporter) sees the same error again
+        $new = new ErrorReporter($file, '/var/www/siberian', $clock, null, null, '5.1.24');
+        $new->record('fatal', 'Class "Foo" not found', '/var/www/siberian/app/Bar.php', 5);
+        $new->flush();
+
+        $report = ErrorReporter::buildReport($new->take(), ['edition' => 'SAE', 'siberian' => '5.1.24', 'php' => '8.3.1']);
+        t_equal(1, count($report['groups']), 'one group, same level/message/file/line');
+        t_equal(2, $report['groups'][0]['count'], 'both occurrences counted');
+        t_equal('5.1.23', $report['groups'][0]['version'], 'stamped when it first happened, not when it was finally sent');
+        t_equal('5.1.24', $report['install']['siberian'], 'the batch-level version is still whatever install() reports now');
+    },
     'a report carries at most 200 groups and counts the rest as dropped' => function () {
         $groups = [];
         for ($i = 0; $i < 230; $i++) {

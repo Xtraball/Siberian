@@ -21,7 +21,9 @@ class Core_Model_ErrorReports
             Core_Model_Directory::getBasePathTo('var/cache/error-reporter.json'),
             Core_Model_Directory::getBasePathTo(''),
             null,
-            [self::class, 'isEnabled']
+            [self::class, 'isEnabled'],
+            null,
+            \Siberian\Version::VERSION
         );
     }
 
