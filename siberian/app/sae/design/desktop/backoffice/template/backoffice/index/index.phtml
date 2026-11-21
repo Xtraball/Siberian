@@ -82,6 +82,53 @@ $missingIconv = !extension_loaded('iconv');
 
 ?>
 <div class="row">
+    <div class="col-xs-12 col-md-12">
+        <sb-section title="'<?php echo __title('Error / Take Care'); ?>'"
+                    klass="alertCenter.counts.danger > 0 ? 'critical' : ''"
+                    button="button">
+            <div ng-if="alertCenterIsLoading"
+                 class="async-loader">
+                <i class="fa fa-circle-o-notch fa-spin fa-2x fa-fw"></i>
+            </div>
+            <div ng-if="!alertCenterIsLoading">
+                <div class="alert alert-success"
+                     style="margin-bottom: 0;"
+                     ng-if="alertCenter.items.length === 0">
+                    <i class="fa fa-check"></i>
+                    <?php echo p__('backoffice', 'Nothing needs your attention right now.'); ?>
+                </div>
+                <div class="svc-strip"
+                     ng-if="alertCenter.items.length > 0">
+                    <div class="svc-line">
+                        <span class="svc-chip"
+                              ng-if="alertCenter.counts.danger > 0">
+                            <i class="dot svc-down"></i>
+                            {{ alertCenter.counts.danger }} <?php echo p__('backoffice', 'critical'); ?>
+                        </span>
+                        <span class="svc-chip"
+                              ng-if="alertCenter.counts.warning > 0">
+                            <i class="dot svc-warn"></i>
+                            {{ alertCenter.counts.warning }} <?php echo p__('backoffice', 'to review'); ?>
+                        </span>
+                        <span class="svc-chip"
+                              ng-if="alertCenter.counts.info > 0">
+                            <i class="dot svc-info"></i>
+                            {{ alertCenter.counts.info }} <?php echo p__('backoffice', 'informational'); ?>
+                        </span>
+                        <button type="button"
+                                class="btn btn-xs btn-primary svc-details"
+                                ng-click="alertCenterOpen = true">
+                            <i class="fa fa-list"></i><?php echo p__('backoffice', 'View all'); ?>
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </sb-section>
+        <br/>
+    </div>
+</div>
+
+<div class="row">
     <div class="col-md-8 col-md-offset-2 col-sm-12">
         <?php if ($missingIconv): ?>
         <p class="alert alert-warning">
@@ -753,6 +800,98 @@ $missingIconv = !extension_loaded('iconv');
         <div class="modal-footer">
             <button type="button" class="btn btn-default"
                     ng-click="webSpace.open = false;"><?php echo __("Close"); ?></button>
+        </div>
+    </div>
+</div>
+
+<div class="webspace-backdrop"
+     ng-show="alertCenterOpen"
+     ng-click="alertCenterOpen = false"></div>
+<div id="alert-center-details"
+     ng-show="alertCenterOpen">
+    <div class="modal-content">
+        <div class="modal-header">
+            <h4 class="modal-title"><?php echo p__('backoffice', 'Error / Take Care'); ?></h4>
+        </div>
+        <div class="modal-body">
+            <div class="alert alert-success"
+                 ng-if="alertCenter.items.length === 0">
+                <?php echo p__('backoffice', 'Nothing needs your attention right now.'); ?>
+            </div>
+            <div class="webspace-row"
+                 ng-repeat="item in alertCenter.items">
+                <i class="dot svc-{{ item.severity === 'danger' ? 'down' : (item.severity === 'warning' ? 'warn' : 'info') }}"></i>
+                <div class="webspace-row-text"
+                     ng-switch="item.id">
+
+                    <span ng-switch-when="iconv">
+                        <b><?php echo p__('backoffice', 'iconv is missing'); ?></b>
+                        <small><?php echo p__('backoffice', 'The PHP extension iconv is missing on this server. Siberian works around it, but please install it (for example the php-iconv package) and restart PHP.'); ?></small>
+                    </span>
+
+                    <span ng-switch-when="php_support">
+                        <b ng-if="item.severity === 'danger'"><?php echo p__('backoffice', 'PHP version is no longer supported'); ?></b>
+                        <b ng-if="item.severity !== 'danger'"><?php echo p__('backoffice', 'A newer PHP version is recommended'); ?></b>
+                        <br/>
+                        <small ng-if="item.severity === 'danger'"><?php echo p__('backoffice', 'Your PHP version %s is no longer supported. Siberian requires PHP 8.2 or higher, which carries the security fixes. PHP 8.5 is recommended, please upgrade as soon as possible.'); ?></small>
+                        <small ng-if="item.severity !== 'danger'"><?php echo p__('backoffice', 'Your PHP version is %s. PHP 8.5 is recommended, it carries the latest security fixes.'); ?></small>
+                        <small>({{ item.version }})</small>
+                    </span>
+
+                    <span ng-switch-when="mobilcart">
+                        <b><?php echo p__('backoffice', 'A known problem module is installed'); ?></b>
+                        <br/>
+                        <small><?php echo p__('backoffice', 'Mmobilcart is known to cause side-effects in emails, templates and pages, in the editor, backoffice and applications. Removing it is recommended.'); ?></small>
+                    </span>
+
+                    <span ng-switch-when="quarantine">
+                        <b><?php echo p__('backoffice', 'Modules in quarantine'); ?>: {{ item.count }}/{{ item.total }}</b>
+                        <br/>
+                        <small><?php echo p__('backoffice', 'A module stopped the application with a fatal error, or is not compatible with this version of Siberian or PHP. It is disabled until it is rechecked, the rest of the application keeps working.'); ?></small>
+                        <br/>
+                        <a href="javascript:void(0);"
+                           ng-click="item.detailsOpen = !item.detailsOpen">
+                            <span ng-hide="item.detailsOpen"><?php echo __('Show more'); ?></span>
+                            <span ng-show="item.detailsOpen"><?php echo __('Hide'); ?></span>
+                        </a>
+                        <div ng-show="item.detailsOpen">
+                            <div ng-repeat="m in item.modules">
+                                <strong>{{ m.name }}</strong> <small>{{ m.message }}</small>
+                            </div>
+                        </div>
+                    </span>
+
+                    <span ng-switch-when="quarantine_scan">
+                        <b><?php echo p__('backoffice', 'Modules were not rechecked since the last update'); ?></b>
+                        <br/>
+                        <small><?php echo p__('backoffice', 'PHP or Siberian changed since the last compatibility scan of your modules.'); ?></small>
+                    </span>
+
+                    <span ng-switch-when="app_errors">
+                        <b><?php echo p__('backoffice', 'Errors on app calls'); ?>: {{ item.count }}
+                            <small>(<?php echo p__('backoffice', 'last 24 hours'); ?>)</small>
+                        </b>
+                        <br/>
+                        <small><?php echo p__('backoffice', 'Fatal errors and errors that a module raised on the calls of the mobile and web apps. The module stays enabled and the app keeps its error: nothing is put in quarantine unless you do it.'); ?></small>
+                        <br/>
+                        <a href="javascript:void(0);"
+                           ng-click="item.detailsOpen = !item.detailsOpen">
+                            <span ng-hide="item.detailsOpen"><?php echo __('Show more'); ?></span>
+                            <span ng-show="item.detailsOpen"><?php echo __('Hide'); ?></span>
+                        </a>
+                        <div ng-show="item.detailsOpen">
+                            <div ng-repeat="m in item.modules">
+                                <strong>{{ m.name }}</strong> <small>{{ m.message }}</small>
+                            </div>
+                        </div>
+                    </span>
+
+                </div>
+            </div>
+        </div>
+        <div class="modal-footer">
+            <button type="button" class="btn btn-default"
+                    ng-click="alertCenterOpen = false;"><?php echo __("Close"); ?></button>
         </div>
     </div>
 </div>
