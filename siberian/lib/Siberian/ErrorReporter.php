@@ -23,6 +23,10 @@ require_once __DIR__ . '/Module/Quarantine.php';
  * request data, no stack-trace arguments, no SQL values, no user, no absolute path. Messages are scrubbed
  * (quoted values, numbers, e-mail addresses, long hex strings and URLs query strings go).
  *
+ * A group also carries the Siberian version of the install when it was first seen (`record()`'s caller gives it),
+ * not the version at the hourly `push()`: the buffer can sit for up to an hour, and a site that updates in between
+ * must not have its old errors relabelled with the new version it only just started running.
+ *
  * The reporter must never get in the way of the application: every entry point swallows its own failures.
  * It can be turned off in Backoffice > Settings > Advanced > Configuration (error_reports_enabled).
  */
@@ -74,6 +78,11 @@ class ErrorReporter
     /** @var callable|null returns the $_SERVER of the request (tests give their own) */
     private $server;
 
+    /** @var string|null the Siberian version at the moment a group is first seen; null keeps the old, batch-level
+     *  behaviour. Stamped once per group (not updated on later occurrences) so a buffered error is not relabelled
+     *  with whatever version the cron that finally sends it happens to run on. */
+    private $version;
+
     /** @var array key => group, what this request saw and has not flushed yet */
     private $pending = [];
 
@@ -94,14 +103,17 @@ class ErrorReporter
      * @param string $root Install root, used to make paths relative
      * @param callable|null $clock
      * @param callable|null $enabled
+     * @param callable|null $server
+     * @param string|null $version the Siberian version to stamp new groups with (null: no per-group version)
      */
-    public function __construct($file, $root, $clock = null, $enabled = null, $server = null)
+    public function __construct($file, $root, $clock = null, $enabled = null, $server = null, $version = null)
     {
         $this->server = $server;
         $this->file = $file;
         $this->root = rtrim(str_replace('\\', '/', (string) $root), '/');
         $this->clock = $clock ?: 'time';
         $this->enabled = $enabled;
+        $this->version = $version !== null ? (string) $version : null;
     }
 
     // --- registration ---------------------------------------------------------------------------------
@@ -238,6 +250,9 @@ class ErrorReporter
             'level' => $level, 'message' => $message, 'file' => $file, 'line' => (int) $line, 'count' => 1, 'first' => $now, 'last' => $now,
             'module' => $module, 'surface' => $surface, 'eps' => $endpoint === null ? [] : [$endpoint],
         ];
+        if ($this->version !== null) {
+            $this->pending[$key]['version'] = $this->version;
+        }
     }
 
     /**
@@ -667,6 +682,11 @@ class ErrorReporter
         if (isset($group['surface'])) {
             $wire['surface'] = (string) $group['surface'];
             $wire['endpoints'] = isset($group['eps']) ? count((array) $group['eps']) : 0;
+        }
+        // Absent for a group written before this version, or when the caller gave none: the report's own
+        // `install.siberian` is then the only version information, as it always was.
+        if (isset($group['version'])) {
+            $wire['version'] = (string) $group['version'];
         }
 
         return $wire;
