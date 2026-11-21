@@ -71,8 +71,12 @@ return [
     },
 
     'the back office warns when the extension is missing' => function () use ($root, $read) {
+        // Since the Error / Take Care control center (P3), the check moved from the dashboard template itself to
+        // Core_Model_AlertCenter, the glue class that gathers it (and the other dashboard signals) for
+        // Siberian\AlertCenter; the card still shows the same wording, now via the "iconv" item.
+        $glue = $read("$root/siberian/app/sae/modules/Core/Model/AlertCenter.php");
+        t_true(strpos($glue, "!extension_loaded('iconv')") !== false, 'tested');
         $index = $read("$root/siberian/app/sae/design/desktop/backoffice/template/backoffice/index/index.phtml");
-        t_true(strpos($index, "!extension_loaded('iconv')") !== false, 'tested');
         t_true(strpos($index, 'The PHP extension iconv is missing') !== false, 'worded');
         $po = $read("$root/siberian/languages/base/c_backoffice.po");
         t_true(strpos($po, 'msgid "The PHP extension iconv is missing') !== false, 'in the catalog');

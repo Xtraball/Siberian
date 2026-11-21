@@ -329,6 +329,8 @@ App.config(function($routeProvider) {
                 if (angular.isObject(data)) {
                     if (angular.isObject(data.summary)) {
                         $scope.quarantine = data.summary;
+                        // Keep the Error / Take Care card's own counts/chip in step with the action just taken.
+                        $scope.loadAlertCenter();
                     }
                     if (angular.isDefined(data.message)) {
                         $scope.message.setText(data.message)
@@ -396,6 +398,8 @@ App.config(function($routeProvider) {
                 if (angular.isObject(data)) {
                     if (angular.isObject(data.summary)) {
                         $scope.quarantine = data.summary;
+                        // Keep the Error / Take Care card's own counts/chip in step with the action just taken.
+                        $scope.loadAlertCenter();
                     }
                     if (angular.isObject(data.app_errors)) {
                         $scope.appErrors = data.app_errors;
@@ -419,10 +423,10 @@ App.config(function($routeProvider) {
 
     /**
      * The Error / Take Care control center (P3, phase 1): the dashboard's scattered "needs attention" signals,
-     * as one card. Only the signals with no live network cost of their own are in it so far (iconv, PHP support,
-     * the known-bad-module warning, module quarantine, errors on app calls); the SSL certificate check and the
-     * "unstable version" notice stay in their own existing spots until a later pass removes the duplicates and
-     * folds them in too, see Siberian\AlertCenter.
+     * as one card. The quarantine and app-errors actions (recheck, re-enable, scan, quarantine now) call this
+     * again on success, so the card's own counts/chip stay in step with what was just done from its modal. The
+     * SSL certificate check and the "unstable version" notice stay in their own existing spots for now, see
+     * Siberian\AlertCenter for why.
      */
     $scope.loadAlertCenter = function () {
         $scope.alertCenterIsLoading = true;

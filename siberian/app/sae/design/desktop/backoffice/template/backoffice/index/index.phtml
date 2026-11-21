@@ -73,13 +73,6 @@ if (array_key_exists(Version::VERSION, $updates)) {
     $statusText = $current['statusText'];
 }
 
-// PHP 8.2 is the lowest supported version, PHP 8.5 the recommended one (both carry security fixes)
-$mustUpgradePhp = !\Siberian\PhpSupport::isSupported();
-$shouldUpgradePhp = !$mustUpgradePhp && !\Siberian\PhpSupport::isRecommended();
-
-// iconv is required; Siberian falls back on mbstring without it, but accents and some formats are less exact
-$missingIconv = !extension_loaded('iconv');
-
 ?>
 <div class="row">
     <div class="col-xs-12 col-md-12">
@@ -130,22 +123,6 @@ $missingIconv = !extension_loaded('iconv');
 
 <div class="row">
     <div class="col-md-8 col-md-offset-2 col-sm-12">
-        <?php if ($missingIconv): ?>
-        <p class="alert alert-warning">
-            <?php echo p__('backoffice', 'The PHP extension iconv is missing on this server. Siberian works around it, but please install it (for example the php-iconv package) and restart PHP.'); ?>
-        </p>
-        <?php endif; ?>
-        <?php if ($mustUpgradePhp): ?>
-        <p class="alert alert-danger">
-            <?php echo p__('backoffice', 'Your PHP version %s is no longer supported. Siberian requires PHP 8.2 or higher, which carries the security fixes. PHP 8.5 is recommended, please upgrade as soon as possible.', PHP_VERSION); ?>
-        </p>
-        <?php endif; ?>
-        <?php if ($shouldUpgradePhp): ?>
-        <p class="alert alert-info">
-            <?php echo p__('backoffice', 'Your PHP version is %s. PHP 8.5 is recommended, it carries the latest security fixes.', PHP_VERSION); ?>
-        </p>
-        <?php endif; ?>
-
         <span ng-if="!sslLoading">
             <p class="alert"
                ng-class="{
@@ -158,18 +135,6 @@ $missingIconv = !extension_loaded('iconv');
                ng-show="!sslWarning">
                 <?php echo __('HTTPS is not available on your server.') ?></p>
         </span>
-
-        <?php
-        $mobilcartFlag = __get('mobilcart_warning');
-        ?>
-        <?php if ($mobilcartFlag === 'show'): ?>
-            <div class="alert alert-warning">
-                <?php echo __('You have Mmobilcart installed, this module is known to cause a lot of side-effects and it is recommended to remove it'); ?>
-                <br/>
-                <?php echo __('Please note it affects: emails, templates & pages behavior in editor, backoffice & applications.') ?>
-                <br/>
-            </div>
-        <?php endif; ?>
 
         <?php if ($isUnstable && !isDev()): ?>
             <div class="alert alert-danger">
@@ -184,102 +149,6 @@ $missingIconv = !extension_loaded('iconv');
                    target="_blank"><?php echo p__('backoffice', 'Release notes'); ?></a>
             </div>
         <?php endif; ?>
-
-        <div class="alert alert-danger"
-             ng-if="quarantine.quarantined > 0">
-            <p style="font-size: 15px;">
-                <i class="fa fa-medkit"></i>
-                <strong><?php echo p__('backoffice', 'Modules in quarantine'); ?>:
-                    {{ quarantine.quarantined }}/{{ quarantine.total }}</strong>
-            </p>
-            <p><?php echo p__('backoffice', 'A module stopped the application with a fatal error, or is not compatible with this version of Siberian or PHP. It is disabled until it is rechecked, the rest of the application keeps working.'); ?></p>
-            <table class="table" style="background: transparent;">
-                <tr ng-repeat="item in quarantine.items">
-                    <td style="width: 20%;">
-                        <strong>{{ item.name }}</strong>
-                        <small>{{ item.version }}</small>
-                    </td>
-                    <td>
-                        <span ng-switch="item.reason">
-                            <span ng-switch-when="version"><?php echo p__('backoffice', 'Needs a newer Siberian'); ?></span>
-                            <span ng-switch-when="manual"><?php echo p__('backoffice', 'Put in quarantine by an administrator'); ?></span>
-                            <span ng-switch-when="probe"><?php echo p__('backoffice', 'Failed the compatibility check'); ?></span>
-                            <span ng-switch-default><?php echo p__('backoffice', 'Fatal error'); ?></span>
-                        </span>
-                        <br />
-                        <small>{{ item.message }}</small>
-                        <br />
-                        <strong ng-if="item.stale"><?php echo p__('backoffice', 'Updated since, recheck it to enable it again.'); ?></strong>
-                    </td>
-                    <td style="text-align: right; white-space: nowrap;">
-                        <button class="btn btn-xs btn-info"
-                                ng-disabled="quarantineBusy"
-                                ng-click="quarantineRecheck(item.name)"><?php echo p__('backoffice', 'Recheck'); ?></button>
-                        <button class="btn btn-xs btn-warning"
-                                ng-disabled="quarantineBusy"
-                                ng-click="quarantineRelease(item.name, '<?php echo addcslashes(p__('backoffice', 'Enable this module anyway? If it breaks the application again it goes back to quarantine.'), "'"); ?>')"><?php echo p__('backoffice', 'Re-enable'); ?></button>
-                    </td>
-                </tr>
-            </table>
-            <button class="btn btn-sm btn-info"
-                    ng-disabled="quarantineBusy"
-                    ng-click="quarantineRecheck()"><?php echo p__('backoffice', 'Recheck all'); ?></button>
-            <button class="btn btn-sm btn-default"
-                    ng-disabled="quarantineBusy"
-                    ng-click="quarantineScan()"><?php echo p__('backoffice', 'Scan all modules'); ?></button>
-        </div>
-
-        <div class="alert alert-info"
-             ng-if="quarantine.quarantined == 0 && quarantine.scan_outdated">
-            <?php echo p__('backoffice', 'PHP or Siberian changed since the last compatibility scan of your modules.'); ?>
-            <button class="btn btn-xs btn-info"
-                    ng-disabled="quarantineBusy"
-                    ng-click="quarantineScan()"><?php echo p__('backoffice', 'Scan all modules'); ?></button>
-        </div>
-
-        <div class="alert"
-             id="app-errors"
-             ng-class="appErrorsWarning() ? 'alert-danger' : 'alert-warning'"
-             ng-if="appErrors.enabled && appErrors.modules.length > 0">
-            <p style="font-size: 15px;">
-                <i class="fa fa-bug"></i>
-                <strong><?php echo p__('backoffice', 'Errors on app calls'); ?></strong>
-                <small>(<?php echo p__('backoffice', 'last 24 hours'); ?>)</small>
-            </p>
-            <p><?php echo p__('backoffice', 'Fatal errors and errors that a module raised on the calls of the mobile and web apps. The module stays enabled and the app keeps its error: nothing is put in quarantine unless you do it.'); ?></p>
-            <p ng-if="appErrorsWarning()">
-                <strong><?php echo p__('backoffice', 'Warning: %s fatal errors or more within about 10 minutes.', \Siberian\ErrorReporter::WARN_FATALS); ?></strong>
-            </p>
-            <table class="table" style="background: transparent;">
-                <tr>
-                    <th><?php echo p__('backoffice', 'Module'); ?></th>
-                    <th><?php echo p__('backoffice', 'Fatal errors'); ?></th>
-                    <th><?php echo p__('backoffice', 'Errors'); ?></th>
-                    <th><?php echo p__('backoffice', 'Endpoints'); ?></th>
-                    <th><?php echo p__('backoffice', 'Last seen'); ?></th>
-                    <th></th>
-                </tr>
-                <tr ng-repeat="item in appErrors.modules">
-                    <td style="width: 30%;">
-                        <strong>{{ item.name }}</strong>
-                        <span class="label label-danger" ng-if="item.warning"><?php echo p__('backoffice', 'Warning'); ?></span>
-                        <br />
-                        <small>{{ item.message }}</small>
-                    </td>
-                    <td>{{ item.fatals }}</td>
-                    <td>{{ item.errors }}</td>
-                    <td>{{ item.endpoints }}</td>
-                    <td>{{ item.last * 1000 | date:'medium' }}</td>
-                    <td style="text-align: right; white-space: nowrap;">
-                        <span ng-if="item.quarantined"><?php echo p__('backoffice', 'In quarantine'); ?></span>
-                        <button class="btn btn-xs btn-warning"
-                                ng-if="!item.quarantined"
-                                ng-disabled="quarantineBusy"
-                                ng-click="quarantineNow(item.name, '<?php echo p__js('backoffice', 'Put this module in quarantine? It is disabled for the editor, the apps and the cron until you recheck or enable it.', "'"); ?>')"><i class="fa fa-medkit"></i> <?php echo p__('backoffice', 'Quarantine now'); ?></button>
-                    </td>
-                </tr>
-            </table>
-        </div>
 
         <p class="text-muted"
            ng-if="appErrors.enabled === false">
@@ -819,7 +688,8 @@ $missingIconv = !extension_loaded('iconv');
                 <?php echo p__('backoffice', 'Nothing needs your attention right now.'); ?>
             </div>
             <div class="webspace-row"
-                 ng-repeat="item in alertCenter.items">
+                 ng-repeat="item in alertCenter.items"
+                 ng-if="item.id !== 'quarantine' && item.id !== 'quarantine_scan' && item.id !== 'app_errors'">
                 <i class="dot svc-{{ item.severity === 'danger' ? 'down' : (item.severity === 'warning' ? 'warn' : 'info') }}"></i>
                 <div class="webspace-row-text"
                      ng-switch="item.id">
@@ -844,49 +714,110 @@ $missingIconv = !extension_loaded('iconv');
                         <small><?php echo p__('backoffice', 'Mmobilcart is known to cause side-effects in emails, templates and pages, in the editor, backoffice and applications. Removing it is recommended.'); ?></small>
                     </span>
 
-                    <span ng-switch-when="quarantine">
-                        <b><?php echo p__('backoffice', 'Modules in quarantine'); ?>: {{ item.count }}/{{ item.total }}</b>
-                        <br/>
-                        <small><?php echo p__('backoffice', 'A module stopped the application with a fatal error, or is not compatible with this version of Siberian or PHP. It is disabled until it is rechecked, the rest of the application keeps working.'); ?></small>
-                        <br/>
-                        <a href="javascript:void(0);"
-                           ng-click="item.detailsOpen = !item.detailsOpen">
-                            <span ng-hide="item.detailsOpen"><?php echo __('Show more'); ?></span>
-                            <span ng-show="item.detailsOpen"><?php echo __('Hide'); ?></span>
-                        </a>
-                        <div ng-show="item.detailsOpen">
-                            <div ng-repeat="m in item.modules">
-                                <strong>{{ m.name }}</strong> <small>{{ m.message }}</small>
-                            </div>
-                        </div>
-                    </span>
-
-                    <span ng-switch-when="quarantine_scan">
-                        <b><?php echo p__('backoffice', 'Modules were not rechecked since the last update'); ?></b>
-                        <br/>
-                        <small><?php echo p__('backoffice', 'PHP or Siberian changed since the last compatibility scan of your modules.'); ?></small>
-                    </span>
-
-                    <span ng-switch-when="app_errors">
-                        <b><?php echo p__('backoffice', 'Errors on app calls'); ?>: {{ item.count }}
-                            <small>(<?php echo p__('backoffice', 'last 24 hours'); ?>)</small>
-                        </b>
-                        <br/>
-                        <small><?php echo p__('backoffice', 'Fatal errors and errors that a module raised on the calls of the mobile and web apps. The module stays enabled and the app keeps its error: nothing is put in quarantine unless you do it.'); ?></small>
-                        <br/>
-                        <a href="javascript:void(0);"
-                           ng-click="item.detailsOpen = !item.detailsOpen">
-                            <span ng-hide="item.detailsOpen"><?php echo __('Show more'); ?></span>
-                            <span ng-show="item.detailsOpen"><?php echo __('Hide'); ?></span>
-                        </a>
-                        <div ng-show="item.detailsOpen">
-                            <div ng-repeat="m in item.modules">
-                                <strong>{{ m.name }}</strong> <small>{{ m.message }}</small>
-                            </div>
-                        </div>
-                    </span>
-
                 </div>
+            </div>
+
+            <!--
+            Module quarantine and app-call errors are more than a notice: they carry their own actions (recheck,
+            re-enable, scan, quarantine now), so they stay bound to the live $scope.quarantine / $scope.appErrors
+            data the actions already update, same as before this card existed, instead of the read-only snapshot
+            the card's own items carry. The two matching alertCenter items above are hidden (not duplicated) and
+            only drive the card's summary chip and counts.
+            -->
+            <div class="alert alert-danger"
+                 ng-if="quarantine.quarantined > 0">
+                <p style="font-size: 15px;">
+                    <i class="fa fa-medkit"></i>
+                    <strong><?php echo p__('backoffice', 'Modules in quarantine'); ?>:
+                        {{ quarantine.quarantined }}/{{ quarantine.total }}</strong>
+                </p>
+                <p><?php echo p__('backoffice', 'A module stopped the application with a fatal error, or is not compatible with this version of Siberian or PHP. It is disabled until it is rechecked, the rest of the application keeps working.'); ?></p>
+                <table class="table" style="background: transparent;">
+                    <tr ng-repeat="item in quarantine.items">
+                        <td style="width: 20%;">
+                            <strong>{{ item.name }}</strong>
+                            <small>{{ item.version }}</small>
+                        </td>
+                        <td>
+                            <span ng-switch="item.reason">
+                                <span ng-switch-when="version"><?php echo p__('backoffice', 'Needs a newer Siberian'); ?></span>
+                                <span ng-switch-when="manual"><?php echo p__('backoffice', 'Put in quarantine by an administrator'); ?></span>
+                                <span ng-switch-when="probe"><?php echo p__('backoffice', 'Failed the compatibility check'); ?></span>
+                                <span ng-switch-default><?php echo p__('backoffice', 'Fatal error'); ?></span>
+                            </span>
+                            <br />
+                            <small>{{ item.message }}</small>
+                            <br />
+                            <strong ng-if="item.stale"><?php echo p__('backoffice', 'Updated since, recheck it to enable it again.'); ?></strong>
+                        </td>
+                        <td style="text-align: right; white-space: nowrap;">
+                            <button class="btn btn-xs btn-info"
+                                    ng-disabled="quarantineBusy"
+                                    ng-click="quarantineRecheck(item.name)"><?php echo p__('backoffice', 'Recheck'); ?></button>
+                            <button class="btn btn-xs btn-warning"
+                                    ng-disabled="quarantineBusy"
+                                    ng-click="quarantineRelease(item.name, '<?php echo addcslashes(p__('backoffice', 'Enable this module anyway? If it breaks the application again it goes back to quarantine.'), "'"); ?>')"><?php echo p__('backoffice', 'Re-enable'); ?></button>
+                        </td>
+                    </tr>
+                </table>
+                <button class="btn btn-sm btn-info"
+                        ng-disabled="quarantineBusy"
+                        ng-click="quarantineRecheck()"><?php echo p__('backoffice', 'Recheck all'); ?></button>
+                <button class="btn btn-sm btn-default"
+                        ng-disabled="quarantineBusy"
+                        ng-click="quarantineScan()"><?php echo p__('backoffice', 'Scan all modules'); ?></button>
+            </div>
+
+            <div class="alert alert-info"
+                 ng-if="quarantine.quarantined == 0 && quarantine.scan_outdated">
+                <?php echo p__('backoffice', 'PHP or Siberian changed since the last compatibility scan of your modules.'); ?>
+                <button class="btn btn-xs btn-info"
+                        ng-disabled="quarantineBusy"
+                        ng-click="quarantineScan()"><?php echo p__('backoffice', 'Scan all modules'); ?></button>
+            </div>
+
+            <div class="alert"
+                 id="app-errors"
+                 ng-class="appErrorsWarning() ? 'alert-danger' : 'alert-warning'"
+                 ng-if="appErrors.enabled && appErrors.modules.length > 0">
+                <p style="font-size: 15px;">
+                    <i class="fa fa-bug"></i>
+                    <strong><?php echo p__('backoffice', 'Errors on app calls'); ?></strong>
+                    <small>(<?php echo p__('backoffice', 'last 24 hours'); ?>)</small>
+                </p>
+                <p><?php echo p__('backoffice', 'Fatal errors and errors that a module raised on the calls of the mobile and web apps. The module stays enabled and the app keeps its error: nothing is put in quarantine unless you do it.'); ?></p>
+                <p ng-if="appErrorsWarning()">
+                    <strong><?php echo p__('backoffice', 'Warning: %s fatal errors or more within about 10 minutes.', \Siberian\ErrorReporter::WARN_FATALS); ?></strong>
+                </p>
+                <table class="table" style="background: transparent;">
+                    <tr>
+                        <th><?php echo p__('backoffice', 'Module'); ?></th>
+                        <th><?php echo p__('backoffice', 'Fatal errors'); ?></th>
+                        <th><?php echo p__('backoffice', 'Errors'); ?></th>
+                        <th><?php echo p__('backoffice', 'Endpoints'); ?></th>
+                        <th><?php echo p__('backoffice', 'Last seen'); ?></th>
+                        <th></th>
+                    </tr>
+                    <tr ng-repeat="item in appErrors.modules">
+                        <td style="width: 30%;">
+                            <strong>{{ item.name }}</strong>
+                            <span class="label label-danger" ng-if="item.warning"><?php echo p__('backoffice', 'Warning'); ?></span>
+                            <br />
+                            <small>{{ item.message }}</small>
+                        </td>
+                        <td>{{ item.fatals }}</td>
+                        <td>{{ item.errors }}</td>
+                        <td>{{ item.endpoints }}</td>
+                        <td>{{ item.last * 1000 | date:'medium' }}</td>
+                        <td style="text-align: right; white-space: nowrap;">
+                            <span ng-if="item.quarantined"><?php echo p__('backoffice', 'In quarantine'); ?></span>
+                            <button class="btn btn-xs btn-warning"
+                                    ng-if="!item.quarantined"
+                                    ng-disabled="quarantineBusy"
+                                    ng-click="quarantineNow(item.name, '<?php echo p__js('backoffice', 'Put this module in quarantine? It is disabled for the editor, the apps and the cron until you recheck or enable it.', "'"); ?>')"><i class="fa fa-medkit"></i> <?php echo p__('backoffice', 'Quarantine now'); ?></button>
+                        </td>
+                    </tr>
+                </table>
             </div>
         </div>
         <div class="modal-footer">
