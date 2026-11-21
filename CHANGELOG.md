@@ -2,6 +2,33 @@
 
 Notable changes to Siberian, newest first. Dates are `YYYY-MM-DD`. Longer notes live in `docs/`.
 
+## [5.1.25] 2026-11-21
+
+Three small fixes (a dead class reference, an unhelpful fatal, and an error-reporting gap) plus the Error / Take
+Care control center: the dashboard's scattered "needs attention" signals (iconv, PHP support, the known-bad
+module, quarantine, app-call errors) as one card, replacing their old standalone banners; quarantine and app-call
+errors keep their recheck/re-enable/scan/quarantine-now actions, now in the card's own details modal. On top of
+5.1.24. The update package is built against 5.1.24 (`lastversion`), the last published version. MAE needs no
+changes (no file touched here is overridden, checked against its override map). PE overrides
+`design/desktop/backoffice/js/controllers/homepage.js` for its own dashboard graph, so the card's controller code
+needed porting there too (its template is inherited, unchanged) - done in `Xtraball/siberian-pe#23`.
+
+### Fixed
+
+- 2026-11-21 System: `Info::fetch()` no longer calls a class deleted three years before it was added, which broke
+  it for every caller once that code path ran. (#1128)
+- 2026-11-21 Core: `Core_Model_Default_Abstract::getTable()` now names the actual missing class in its error
+  instead of a bare, unhelpful fatal. (#1129)
+- 2026-11-21 Error reporting: `ErrorReporter` stamps a group's version when it is first seen, instead of leaving
+  it unset until a later event happened to carry one. (#1130)
+
+### Added
+
+- 2026-11-21 Backoffice: the Error / Take Care control center card (phase 1 of 2) - a chip summary and a details
+  modal gathering the dashboard's "needs attention" signals in one place, with the quarantine and app-call-errors
+  management actions moved into it; the iconv/PHP-support/known-bad-module banners and the old quarantine/app-errors
+  panels are retired, the signals they covered now live in the card. (#1131, #1132)
+
 ## [5.1.24] 2026-11-14
 
 A fix for declared indexes that never reached the database, and a Places list fix that reuses a recent GPS fix
