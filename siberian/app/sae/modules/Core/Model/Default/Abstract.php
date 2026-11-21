@@ -214,10 +214,24 @@ abstract class Core_Model_Default_Abstract extends \__polyfill_mixed
     public function getTable()
     {
         if (!is_null($this->_db_table)) {
-            if (is_string($this->_db_table))
+            if (is_string($this->_db_table)) {
+                if (!class_exists($this->_db_table)) {
+                    // Kept as an \Error, like the fatal this replaces: Application_Controller_Default::dispatch()
+                    // (and others) branch on instanceof \Error to decide whether a non-AJAX request still gets a
+                    // clean JSON response instead of propagating; an \Exception here would skip that branch and
+                    // silently change what a page shows for an unrelated reason. Only the message changes: it
+                    // used to be PHP's own "Class ? not found", naming neither the model nor the real cause.
+                    throw new Error(sprintf(
+                        '%s: table class "%s" does not exist (a module update, reinstall or a missing file may be the cause)',
+                        get_class($this),
+                        $this->_db_table
+                    ));
+                }
+
                 return new $this->_db_table(['modelClass' => get_class($this)]);
-            else
+            } else {
                 return $this->_db_table;
+            }
         }
 
         return null;
