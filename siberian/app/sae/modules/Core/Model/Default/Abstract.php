@@ -214,10 +214,19 @@ abstract class Core_Model_Default_Abstract extends \__polyfill_mixed
     public function getTable()
     {
         if (!is_null($this->_db_table)) {
-            if (is_string($this->_db_table))
+            if (is_string($this->_db_table)) {
+                if (!class_exists($this->_db_table)) {
+                    throw new Exception(sprintf(
+                        '%s: table class "%s" does not exist (a module update, reinstall or a missing file may be the cause)',
+                        get_class($this),
+                        $this->_db_table
+                    ));
+                }
+
                 return new $this->_db_table(['modelClass' => get_class($this)]);
-            else
+            } else {
                 return $this->_db_table;
+            }
         }
 
         return null;
