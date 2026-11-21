@@ -55,6 +55,15 @@ App.factory('Backoffice', function ($http, Url) {
         });
     };
 
+    factory.alertCenter = function () {
+        return $http({
+            method: 'GET',
+            url: Url.get('backoffice/index/alertcenter'),
+            cache: false,
+            responseType: 'json'
+        });
+    };
+
     factory.sslWarning = function () {
         return $http({
             method: 'POST',

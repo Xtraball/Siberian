@@ -41,6 +41,15 @@ class Backoffice_Controller_Index_Abstract extends Backoffice_Controller_Default
     }
 
     /**
+     * The Error / Take Care control center: the dashboard's scattered "needs attention" signals, as one list.
+     * See Siberian\AlertCenter for what is and is not in it yet.
+     */
+    public function alertcenterAction()
+    {
+        $this->_sendJson(Core_Model_AlertCenter::collect());
+    }
+
+    /**
      * @throws Exception
      * @throws Zend_Exception
      */

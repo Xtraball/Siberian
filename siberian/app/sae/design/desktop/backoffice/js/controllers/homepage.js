@@ -33,6 +33,9 @@ App.config(function($routeProvider) {
     $scope.quarantine = {};
     $scope.quarantineBusy = false;
     $scope.appErrors = {enabled: true, modules: []};
+    $scope.alertCenterIsLoading = true;
+    $scope.alertCenter = {counts: {danger: 0, warning: 0, info: 0}, items: []};
+    $scope.alertCenterOpen = false;
 
     $scope.clear = function(type, message) {
         if(typeof message != "undefined") {
@@ -414,7 +417,29 @@ App.config(function($routeProvider) {
             });
     };
 
+    /**
+     * The Error / Take Care control center (P3, phase 1): the dashboard's scattered "needs attention" signals,
+     * as one card. Only the signals with no live network cost of their own are in it so far (iconv, PHP support,
+     * the known-bad-module warning, module quarantine, errors on app calls); the SSL certificate check and the
+     * "unstable version" notice stay in their own existing spots until a later pass removes the duplicates and
+     * folds them in too, see Siberian\AlertCenter.
+     */
+    $scope.loadAlertCenter = function () {
+        $scope.alertCenterIsLoading = true;
+        Backoffice
+            .alertCenter()
+            .success(function (data) {
+                if (angular.isObject(data) && angular.isArray(data.items)) {
+                    $scope.alertCenter = data;
+                }
+            })
+            .finally(function () {
+                $scope.alertCenterIsLoading = false;
+            });
+    };
+
     $scope.loadContent();
+    $scope.loadAlertCenter();
     $scope.loadQuarantine();
     $scope.loadAppErrors();
     $scope.loadMessages();
