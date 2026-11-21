@@ -15,15 +15,18 @@ namespace Siberian;
  * pre-translated prose from the model. Core_Model_AlertCenter (app/sae/modules/Core/Model/AlertCenter.php) is the
  * glue that gathers the signals from the framework and calls build().
  *
- * This is phase 1 of 2: building the card first, without removing the equivalent banners from the top of the
- * dashboard yet (that migration is a small follow-up once the card has been seen live). Signals with a per-request
- * network cost of their own are deliberately left out of this phase, so the new card never doubles an existing
- * live call:
- *  - the SSL certificate expiry check (a live TLS handshake against the current host), today a separate async
- *    call from the dashboard already, kept that way;
- *  - the "unstable version" notice (a call to the update provider), today computed inline once per dashboard load;
- *    folding it in here would make it run a second time until the inline copy is removed.
- * Both are natural additions to make in that follow-up, once there is only one place left asking for them.
+ * This is phase 1 of 2. The old standalone banners for the signals this class already covers (iconv, PHP support,
+ * the known-bad module, module quarantine, app-call errors) are gone from the top of the dashboard: quarantine and
+ * app-call errors moved into the center's own details modal with their management actions (recheck, re-enable,
+ * scan, quarantine now) intact, bound to the same live data those actions already update; iconv/PHP/mobilcart were
+ * pure read-only notices and are simply gone, replaced by the card.
+ *
+ * Two signals with a per-request network cost of their own are still deliberately left out, so the card never
+ * doubles an existing live call:
+ *  - the SSL certificate expiry check (a live TLS handshake against the current host), still a separate async
+ *    call from the dashboard;
+ *  - the "unstable version" notice (a call to the update provider), still computed inline once per dashboard load.
+ * Both are natural additions once their own standalone spot is retired the same way.
  */
 class AlertCenter
 {
