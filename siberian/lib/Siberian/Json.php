@@ -94,4 +94,21 @@ class Json extends Zend_Json
 
         return $result;
     }
+
+    /**
+     * True when $payload is array-shaped and explicitly flags itself as an error response.
+     *
+     * Callers like Core_Controller_Default_Abstract::_sendJson() used to do
+     * `array_key_exists("error", $payload) && $payload["error"] == true` directly, assuming
+     * $payload is always an array. It is not always one: _sendHtml() forwards a raw string
+     * into _sendJson() as $payload, and PHP 8 turns array_key_exists() on a non-array into an
+     * uncaught TypeError instead of the old "always false" behaviour.
+     *
+     * @param mixed $payload
+     * @return bool
+     */
+    public static function isErrorResponse($payload)
+    {
+        return is_array($payload) && array_key_exists('error', $payload) && $payload['error'] == true;
+    }
 }
