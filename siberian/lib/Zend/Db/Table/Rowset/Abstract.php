@@ -116,7 +116,13 @@ abstract class Zend_Db_Table_Rowset_Abstract implements SeekableIterator, Counta
             Zend_Loader::loadClass($this->_rowClass);
         }
         if (isset($config['data'])) {
-            $this->_data       = $config['data'];
+            // A failed fetch upstream (bad FK, corrupt row, a query that errored) can hand this `false`
+            // instead of rows. count() on that used to just warn and return 0; PHP 8 makes it an uncaught
+            // TypeError instead (production error group "count(): Argument #1 ($value) must be of type
+            // Countable|array, false given" at this file's old count() line). Every other use of $_data
+            // below (count, isset, array access, iteration) assumes an array, so the fallback belongs here,
+            // not just around the count() call.
+            $this->_data = is_array($config['data']) ? $config['data'] : array();
         }
         if (isset($config['readOnly'])) {
             $this->_readOnly   = $config['readOnly'];
