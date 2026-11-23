@@ -340,6 +340,17 @@ class Minify extends AbstractMinify
         $dest = str_replace("index", "index-prod", $index_path);
         $css_file = str_replace("index.html", "dist/app.bundle-min.css", $index_path);
 
+        // build() calls this for every platform on every run, including ones whose source was
+        // never generated (a platform the install doesn't use, e.g. ios/android without that app
+        // built). _minify() below already skips with the same is_readable() check; this one didn't,
+        // so it warned on file_get_contents($source) and then again on the doomed
+        // File::putContents($dest, ...) into a directory that doesn't exist either, every single
+        // call, forever (production error groups at Minify.php:343/368 and File.php:77 — up to
+        // ~920k occurrences each across 9 installs on 5.1.25).
+        if (!is_readable($source)) {
+            return;
+        }
+
         $content = file_get_contents($source);
 
         $app_files = '';
