@@ -1040,8 +1040,7 @@ abstract class Core_Controller_Default_Abstract extends Zend_Controller_Action i
      */
     public function _sendJson($payload, $options = JSON_PRETTY_PRINT)
     {
-        if (array_key_exists("error", $payload) &&
-            $payload["error"] == true) {
+        if (Json::isErrorResponse($payload)) {
             try {
                 $this->getResponse()->setHttpResponseCode(400);
             } catch (Exception $e) {
